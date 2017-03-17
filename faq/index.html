@@ -1,0 +1,146 @@
+---
+layout: default
+group: 'navigation'
+title: FAQ
+bodyclass: faq
+headline: 'Frequently Asked Questions'
+---
+<div class="container">
+    <div class="row">
+        <div class="col-md-11 nofloat center-block">
+      <!-- Constrain readable sections to 9 unit wide columns for improved readability. -->
+            <div class="col-md-9 faq-container">
+                <p class="lead">Here are some frequently asked questions. Hope you find your answer in here :-)</p>
+                <h5 class="faq-title">Frequently Asked Questions</h5>
+                <ul class="list-unstyled">
+                    <li class="submenu">
+                        <h6 class="arrow-r">What is gRPC?</h6>
+                        <div class="submenu-content">
+                            <p>gRPC is a modern, open source remote procedure call (RPC) framework that can run anywhere. It enables client and server applications to communicate transparently, and makes it easier to build connected systems.</p>
+                            <p> Read the longer <a href="{{ site.baseurl }}/blog/principles">Motivation &amp; Design Principles</a> post for background on why we created gRPC.</p>
+                        </div>
+                    </li>
+                    <li class="submenu">
+                        <h6 class="arrow-r">What does gRPC stand for?</h6>
+                        <div class="submenu-content">
+                            <p><b>g</b>RPC <b>R</b>emote <b>P</b>rocedure <b>C</b>alls, of course!</p>
+                        </div>
+                    </li>
+
+                    <li class="submenu">
+                        <h6 class="arrow-r">Why would I want to use gRPC?</h6>
+                        <div class="submenu-content">
+                            <p>
+                            The main usage scenarios:
+                                <ul>
+                                    <li>Low latency, highly scalable, distributed systems.</li>
+                                    <li>Developing mobile clients which are communicating to a cloud server.</li>
+                                    <li>Designing a new protocol that needs to be accurate, efficient and language independent.</li>
+                                    <li>Layered design to enable extension eg. authentication, load balancing, logging and monitoring etc.</li>
+                                </ul>
+                            </p>
+                        </div>
+                    </li>
+
+                    <li class="submenu">
+                        <h6 class="arrow-r">Who’s using this and why?</h6>
+                        <div class="submenu-content">
+                            <p>Google has been using a lot of the underlying technologies and concepts in gRPC for a long time. The current implementation is being used in several of Google’s cloud products and Google externally facing APIs. It is also being used by <a href="http://corner.squareup.com/2015/02/grpc.html">Square</a>,  <a href="https://github.com/Netflix/ribbon">Netflix</a>, <a href="https://blog.gopheracademy.com/advent-2015/etcd-distributed-key-value-store-with-grpc-http2/">CoreOS</a>, <a href="https://blog.docker.com/2015/12/containerd-daemon-to-control-runc/">Docker</a>, <a href="https://github.com/cockroachdb/cockroach">Cockroachdb</a>, <a href="https://github.com/CiscoDevNet/grpc-getting-started">Cisco</a>, <a href="https://github.com/Juniper/open-nti">Juniper Networks</a> and many other organizations and individuals.</p>
+                        </div>
+                    </li>
+
+
+                    <li class="submenu">
+                        <h6 class="arrow-r">What programming languages are supported?</h6>
+                        <div class="submenu-content">
+                            <p>C++, Java, Objective-C, Python, Ruby, Go, C#, Node.js.
+                            All of the above mentioned languages are now in GA and follow semantic versioning.</p>
+                            <p>Java implementation supports Android and Objective-C is targeted at iOS and are also at 1.0 now.</p>
+                        </div>
+                    </li>
+                    <li class="submenu">
+                        <h6 class="arrow-r">How do I get started using gRPC?</h6>
+                        <div class="submenu-content">
+                            <p>You can start with installation of gRPC by following instructions from <a href="{{site.baseurl}}/docs/quickstart">here</a>. Or head over to the <a href="http://github.com/grpc">gRPC GitHub org page</a>, pick the runtime or language you are interested in and follow the README instructions.</p>
+                        </div>
+                    </li>
+                    <li class="submenu">
+                        <h6 class="arrow-r">What is the license?</h6>
+                        <div class="submenu-content">
+                            <p>All implementations are 3-clause BSD.</p>
+                        </div>
+                    </li>
+
+                    <li class="submenu">
+                        <h6 class="arrow-r">How can I contribute?</h6>
+                        <div class="submenu-content">
+                            <p><a href="/contribute/">Contributors</a> are highly welcome and the repositories are hosted on GitHub. We look forward to community feedback, additions and bugs. Both individual contributors and corporate contributors need to sign our CLA. If you have ideas for a project around gRPC, please read guidelines and submit <a href="https://github.com/grpc/grpc-contrib/blob/master/CONTRIBUTING.md">here</a>. We have a growing list of projects under <a href="https://github.com/grpc-ecosystem">gRPC Ecosystem</a></p>
+                        </div>
+                    </li>
+
+                    <li class="submenu">
+                        <h6 class="arrow-r">Where is the documentation?</h6>
+                        <div class="submenu-content">
+                            <p>Check out the  <a href="/docs/">documentation</a> right here on grpc.io.</p>
+                        </div>
+                    </li>
+                    <li class="submenu">
+                        <h6 class="arrow-r">What is the roadmap?</h6>
+                        <div class="submenu-content">
+                            <p>The roadmap is being tracked in GitHub <a target="_blank" href="{{ site.data.config.milestones_link }}">milestones</a>. Please refer to the respective milestones in the gRPC, gRPC-java and gRPC-go repositories under the GitHub gRPC org.</p>
+                        </div>
+                    </li>
+
+                    <li class="submenu">
+                        <h6 class="arrow-r">Can I use it in the browser?</h6>
+                        <div class="submenu-content">
+                            <p>Not yet. This is an area that's being actively explored and we welcome feedback and contributions. We are collecting names of people interested in early access program <a href="https://docs.google.com/forms/u/0/d/15iRDHoP-VBenc4hWgKn7bk7IirJLgs0uh88nw1vi_Hc">here</a>. There is node.js support for server side JavaScript.</p>
+                        </div>
+                    </li>
+
+
+                    <li class="submenu">
+                        <h6 class="arrow-r">Can I use gRPC with my favorite data format (JSON, Protobuf, Thrift, XML) ?</h6>
+                        <div class="submenu-content">
+                            <p>Yes. gRPC is designed to be extensible to support multiple content types. The initial release contains support for Protobuf and we welcome contributions to add support for others.</p>
+                        </div>
+                    </li>
+
+                    <li class="submenu">
+                        <h6 class="arrow-r">How does gRPC help in mobile application development?</h6>
+                        <div class="submenu-content">
+                            <p>gRPC and Protobuf provide an easy way to precisely define a service and auto generate reliable client libraries for iOS, Android and the servers providing the back end. The clients can take advantage of advanced streaming and connection features which help save bandwidth, do more over fewer TCP connections and save CPU usage and battery life.</p>
+                        </div>
+                    </li>
+
+                    <li class="submenu">
+                        <h6 class="arrow-r">Why is gRPC better than any binary blob over HTTP/2?</h6>
+                        <div class="submenu-content">
+                            <p>This is largely what gRPC is on the wire. However gRPC is also a set of libraries that will provide higher-level features consistently across platforms that common HTTP libraries typically do not. Examples of such features include:
+                                <ul>
+                                    <li>interaction with flow-control at the application layer</li>
+                                    <li>cascading call-cancellation</li>
+                                    <li>load balancing &amp; failover</li>
+                                </ul>
+                            </p>
+                        </div>
+                    </li>
+
+                    <li class="submenu">
+                        <h6 class="arrow-r">Why is gRPC better/worse than REST?</h6>
+                        <div class="submenu-content">
+                            <p>gRPC largely follows HTTP semantics over HTTP/2 but we explicitly allow for full-duplex streaming. We diverge from typical REST conventions as we use static paths for performance reasons during call dispatch as parsing call parameters from paths, query parameters and payload body adds latency and complexity. We have also formalized a set of errors that we believe are more directly applicable to API use cases than the HTTP status codes.</p>
+                        </div>
+                    </li>
+
+                    <li class="submenu">
+                        <h6 class="arrow-r">How do you pronounce gRPC?</h6>
+                        <div class="submenu-content">
+                            <p>Jee-Arr-Pee-See.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

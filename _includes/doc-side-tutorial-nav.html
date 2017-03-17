@@ -1,0 +1,31 @@
+<ul class="doc-side-nav doc-side-nav-tutorial">
+	{% assign current = page.url | downcase | split: '/' %}
+	<h5 class="doc-side-nav-title">Tutorial</h5>
+    <li class="submenu">
+        <h6 class="arrow-r">Asynchronous</h6>
+        <div class="submenu-content">
+            <a class="submenu-link {% if current[4] == 'helloasync-cpp.html' %}active{% endif %}" href="{{ site.baseurl }}/docs/tutorials/async/helloasync-cpp.html">C++</a>
+        </div>
+    </li>
+    <li class="submenu">
+        <h6 class="arrow-r">Authentication</h6>
+        <div class="submenu-content">
+            <a class="submenu-link {% if current[4] == 'oauth2-objective-c.html' %}active{% endif %}" href="{{ site.baseurl }}/docs/tutorials/auth/oauth2-objective-c.html">Objective C</a>
+        </div>
+    </li>
+    <li class="submenu">
+        <h6 class="arrow-r">Basic</h6>
+        <div class="submenu-content">
+            <a class="submenu-link {% if current[4] == 'c.html' %}active{% endif %}" href="{{ site.baseurl }}/docs/tutorials/basic/c.html">C++</a>
+            <a class="submenu-link {% if current[4] == 'csharp.html' %}active{% endif %}" href="{{ site.baseurl }}/docs/tutorials/basic/csharp.html">C#</a>
+            <a class="submenu-link {% if current[4] == 'go.html' %}active{% endif %}" href="{{ site.baseurl }}/docs/tutorials/basic/go.html">Go</a>
+            <a class="submenu-link {% if current[4] == 'java.html' %}active{% endif %}" href="{{ site.baseurl }}/docs/tutorials/basic/java.html">Java</a>
+            <a class="submenu-link {% if current[4] == 'android.html' %}active{% endif %}" href="{{ site.baseurl }}/docs/tutorials/basic/android.html">Android Java</a>
+            <a class="submenu-link {% if current[4] == 'node.html' %}active{% endif %}" href="{{ site.baseurl }}/docs/tutorials/basic/node.html">Node</a>
+            <a class="submenu-link {% if current[4] == 'objective-c.html' %}active{% endif %}" href="{{ site.baseurl }}/docs/tutorials/basic/objective-c.html">Objective-C</a>
+            <a class="submenu-link {% if current[4] == 'php.html' %}active{% endif %}" href="{{ site.baseurl }}/docs/tutorials/basic/php.html">PHP</a>
+            <a class="submenu-link {% if current[4] == 'python.html' %}active{% endif %}" href="{{ site.baseurl }}/docs/tutorials/basic/python.html">Python</a>
+            <a class="submenu-link {% if current[4] == 'ruby.html' %}active{% endif %}" href="{{ site.baseurl }}/docs/tutorials/basic/ruby.html">Ruby</a>
+        </div>
+    </li>
+ </ul>

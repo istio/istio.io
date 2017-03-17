@@ -1,0 +1,68 @@
+---
+layout: landing
+title: istio
+---
+<div id="landing-content" class="container landing-content-container">
+    <div class="row" >
+        <div class="col-md-11 nofloat center-block landing-row">
+            <h3 class="landing-row-title">What Is Istio?</h3>
+            <p>Istio is a content and version-based routing fabric for
+            integrating polyglot microservices. Its control plane APIs can
+            be used to dynamically program rules for routing and manipulating
+            requests across microservices in a running application.
+            </p>
+        </div>
+    </div>
+
+    <div class="row" >
+        <div class="col-md-11 nofloat center-block landing-row">
+            <h3 class="landing-row-title">Why Use Istio?</h3>
+
+            <div class="section__row">
+            <div>
+                <p>The ability to route requests in a content/version-aware manner simplifies DevOps tasks such as canary and
+                red/black deployments, A/B testing, and systematically testing resilience of microservices.</p>
+            </div>
+            <div>
+                <p>You can use the Istio platform with popular container runtimes like Docker, Kubernetes, Marathon/ Mesos, or your favorite cloud provider such as IBM Bluemix, Google Cloud Platform, or Amazon AWS.</p>
+            </div>
+            </div>
+
+            <div class="diagram">
+            <img src="/assets/conductor-illo.svg" alt="Image of a lightbulb being connect to a battery by circuits">
+            </div>
+        </div>
+    </div>
+
+    <div class="row" >
+        <div class="col-md-11 nofloat center-block landing-row">
+            <h3 class="landing-row-title">How It Works</h3>
+            <p>Istio is composed of these three components:</p>
+
+            <div>
+                <h3>Registry</h3>
+                <p>A high performance multi-tenant service registry that provides a centralized view of all the microservices in an application regardless of where they are all actually running.</p>
+            </div>
+            <div>
+                <h3>Controller</h3>
+                <p>A multi-tenant controller that provides APIs to the developer
+                for configuring rules for request routing, fault injection,
+                etc. These rules are then translated and sent to the sidecars
+                attached to various microservices.</p>
+            </div>
+            <div>
+                <h3>Sidecar</h3>
+                <p>Applications run as tenants of the Istio Control Plane. A sidecar
+                process automatically registers the microservice with the registry.
+                It receives instance information from the registry and routing rules from the controller. The sidecar configures the nginx proxy based on the routing rules.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" >
+        <div class="col-md-11 nofloat center-block landing-row">
+        </div>
+    </div>
+
+    <button class="btn btn-floating waves-effect down-caret down-caret" data-target="doc-call"><div class="icon-caret"></div></button>
+</div>

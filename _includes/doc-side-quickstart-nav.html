@@ -1,0 +1,15 @@
+<ul class="doc-side-nav">
+	{% assign current = page.url | downcase | split: '/' %}
+	<li><h5 class="doc-side-nav-title">Quick Start</h5></li>
+	<li class="doc-side-nav-list-item"><a href="{{ site.baseurl }}/docs/quickstart/cpp.html" {% if current[3] == 'cpp.html' %}class='current'{% endif %}>C++</a></li>
+	<li class="doc-side-nav-list-item"><a href="{{ site.baseurl }}/docs/quickstart/java.html" {% if current[3] == 'java.html' %}class='current'{% endif %}>Java</a></li>
+	<li class="doc-side-nav-list-item"><a href="{{ site.baseurl }}/docs/quickstart/python.html" {% if current[3] == 'python.html' %}class='current'{% endif %}>Python</a></li>
+	<li class="doc-side-nav-list-item"><a href="{{ site.baseurl }}/docs/quickstart/go.html" {% if current[3] == 'go.html' %}class='current'{% endif %}>Go</a></li>
+	<li class="doc-side-nav-list-item"><a href="{{ site.baseurl }}/docs/quickstart/ruby.html" {% if current[3] == 'ruby.html' %}class='current'{% endif %}>Ruby</a></li>
+	<li class="doc-side-nav-list-item"><a href="{{ site.baseurl }}/docs/quickstart/node.html" {% if current[3] == 'node.html' %}class='current'{% endif %}>Node.js</a></li>
+	<li class="doc-side-nav-list-item"><a href="{{ site.baseurl }}/docs/quickstart/csharp.html" {% if current[3] == 'csharp.html' %}class='current'{% endif %}>C#</a></li>
+	<li class="doc-side-nav-list-item"><a href="{{ site.baseurl }}/docs/quickstart/objective-c.html" {% if current[3] == 'objective-c.html' %}class='current'{% endif %}>Objective-C</a></li>
+	<li class="doc-side-nav-list-item"><a href="{{ site.baseurl }}/docs/quickstart/android.html" {% if current[3] == 'android.html' %}class='current'{% endif %}>Android Java</a></li>
+
+ 	<li class="doc-side-nav-list-item"><a href="{{ site.baseurl }}/docs/quickstart/php.html" {% if current[3] == 'php.html' %}class='current'{% endif %}>PHP</a></li>
+ </ul>

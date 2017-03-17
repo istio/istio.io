@@ -1,0 +1,29 @@
+---
+layout: post
+title: gRPC releases Beta, opening door for use in production environments.
+published: true
+permalink: blog/beta_release
+attribution: Mugur Marculescu, gRPC
+---
+
+<p>
+    The gRPC team is excited to announce the immediate availability of gRPC Beta. This release marks an important point in API stability and going forward most API changes are expected to be additive in nature. This milestone opens the door for gRPC use in production environments.
+</p>
+
+<!--more-->
+
+<p>
+    We’re also taking a big step forward in improving the installation process. Over the past few weeks we’ve rolled out gRPC packages to <a href="https://packages.debian.org/jessie-backports/libgrpc0">Debian Stable/Backports</a>. Installation in most cases is now a two line install using the Debian package and available language specific package managers (<a href="http://search.maven.org/#artifactdetails%7Cio.grpc%7Cgrpc-core%7C0.9.0%7Cjar">maven</a>, <a href="https://pypi.python.org/pypi/grpcio">pip</a>, <a href="https://rubygems.org/gems/grpc">gem</a>, <a href="https://packagist.org/packages/grpc/grpc">composer</a>, <a href="http://pecl.php.net/package/gRPC">pecl</a>, <a href="https://www.npmjs.com/package/grpc">npm</a>, <a href="https://www.nuget.org/packages/Grpc/">nuget</a>, <a href="https://cocoapods.org/pods/gRPC">pod</a>). In addition <a href="https://hub.docker.com/r/grpc/">gRPC docker images</a> are now available on Docker Hub.
+</p>
+<p>
+    We’ve updated the <a href="/docs/">documentation</a> on grpc.io to reflect the latest changes and released additional language-specific <a href="http://www.grpc.io/docs/reference/">reference docs</a>. See what’s changed with the Beta release in the release notes on Github for <a href="https://github.com/grpc/grpc-java/releases/tag/v0.9.0">Java</a>, <a href="https://godoc.org/google.golang.org/grpc">Go</a> and <a href="https://github.com/grpc/grpc/releases/tag/release-0_11_0">all other</a> languages.
+</p>
+<p>
+    In keeping in line with our <a href="{{ site.baseurl }}/posts/principles">principles</a> and goal to enable highly performant and scalable APIs and microservices on top of HTTP/2, in the coming months, the focus of the gRPC project will be to keep improving performance and stability and adding carefully chosen features for production use cases. Documentation will also be clarified and will continue to improve with new examples and guides.
+</p>
+<p>
+    We’ve been very excited to see the community response to gRPC and the various projects starting to use it (<a href="https://coreos.com/blog/etcd-2.2/">etcd v3 experimental api</a>, <a href="https://github.com/gengo/grpc-gateway">grpc-gateway</a> for RESTful APIs and others).
+</p>
+<p>
+    We really want to thank everyone who contributed code, gave presentations, adopted the technology and engaged in the community. With your help support we look forward to the 1.0!
+</p>
