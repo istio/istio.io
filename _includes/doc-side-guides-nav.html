@@ -1,0 +1,14 @@
+<ul class="doc-side-nav">
+	{% assign current = page.url | downcase | split: '/' %}
+	<li><h5 class="doc-side-nav-title">Guides</h5></li>
+	<li class="doc-side-nav-list-item"><a href="{{ site.baseurl }}/docs/guides/index.html" {% if current[3] == 'index.html' %}class='current'{% endif %}>What is gRPC?</a></li>
+	<!-- <li class="doc-side-nav-list-item"><a href="{{ site.baseurl }}/docs/guides/hello.html" {% if current[3] == 'hello.html' %}class='current'{% endif %}>Hello gRPC!</a></li> --> 
+	<li class="doc-side-nav-list-item"><a href="{{ site.baseurl }}/docs/guides/concepts.html" {% if current[3] == 'concepts.html' %}class='current'{% endif %}>gRPC Concepts</a></li>
+	<li class="doc-side-nav-list-item"><a href="{{ site.baseurl }}/docs/guides/auth.html" {% if current[3] == 'auth.html' %}class='current'{% endif %}>Authentication</a></li>
+	<li class="doc-side-nav-list-item"><a href="{{ site.baseurl }}/docs/guides/wire.html" {% if current[3] == 'wire.html' %}class='current'{% endif %}>Wire format</a></li>
+	<li class="doc-side-nav-list-item"><a href="{{ site.baseurl }}/docs/guides/error.html" {% if current[3] == 'error.html' %}class='current'{% endif %}>Error handling and debugging</a></li>
+ 	<li class="doc-side-nav-list-item"><a href="{{ site.baseurl }}/docs/guides/benchmarking.html" {% if current[3] == 'benchmarking.html' %}class='current'{% endif %}>Benchmarking</a></li>
+
+    <li><h6 class="doc-side-nav-title">Related Guides</h6></li>
+    <li class="doc-side-nav-list-item"><a href="https://developers.google.com/protocol-buffers/docs/overview">Protocol Buffers</a></li>
+ </ul>

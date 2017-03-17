@@ -1,0 +1,94 @@
+---
+layout: docs
+title: Overview
+headline: 'Documentation'
+bodyclass: docs
+---
+<div class="container">
+  <div class="row">
+    <div class="col-md-11 nofloat center-block">
+      <p class="lead col-sm-8">Welcome to the developer documentation for istio.
+      Here you can learn about key istio concepts, find quick starts, reference
+      material, and tutorials for all our supported languages, and more. If you’re new to istio we recommend that you read <a href="guides/"><b>What is
+      istio?</b></a> to find out more about our system and how it works. Or, if you want to see istio in action first, visit the <a href="quickstart/">QuickStart</a>. </p>
+
+      <h2 class="col-sm-8 doc-header">istio Quickstart</h2>
+      <div class="lang-card-selector col-xs-12">
+        <div class="lang-card">
+          <div class="lang-card-title">PHP</div>
+          <a class="lang-card-link" href="quickstart/">Quick Start Guide</a>
+          <a class="lang-card-link" href="tutorials/basic/">gRPC Basics Tutorial</a>
+          <a class="lang-card-link" href="#">API Reference</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <hr class="section-divider"/>
+<div class="container">
+  <div class="row">
+    <div class="col-md-11 nofloat center-block">
+      <h2 class="col-sm-8 doc-header">gRPC by Use Cases</h2>
+      <div class="col-sm-10 use-description">
+        <p>gRPC is used in last mile of computing in mobile and web client since
+        it can generate libraries for iOS and Android and uses standards based
+        HTTP/2 as transport allowing it to easily traverse proxies and
+        firewalls. There is also work underway to develop a JS library for use
+        in browsers. Beyond that, it is ideal as a microservices interconnect,
+        not just because the core protocol is very efficient but also because
+        the framework has pluggable authentication, load balancing etc. Google
+        itself is also transitioning to use it to connect microservices. </p>
+      </div>
+      <div class="lang-card-selector col-sm-10">
+        <div class="lang-card">
+          <div class="lang-card-title">Last Mile of Computing</div>
+          <a class="lang-card-link" href="{{ site.baseurl }}/docs/tutorials/basic/objective-c.html">Mobile: Example RouteGuide Client on iOS</a>
+          <a class="lang-card-link" href="{{ site.baseurl }}/docs/tutorials/basic/android.html">Mobile: Example RouteGuide Client on Android</a>
+          <a class="lang-card-link" href="https://docs.google.com/forms/u/0/d/15iRDHoP-VBenc4hWgKn7bk7IirJLgs0uh88nw1vi_Hc/edit">Web *(Coming soon) - Early Access Sign Up</a>
+         <!--  <a class="lang-card-link" href="{{site.baseurl}}/blog/mobile-benchmarks/">Benchmarks on mobile</a> -->
+
+        </div>
+        <div class="lang-card">
+          <div class="lang-card-title">APIs</div>
+          <a class="lang-card-link" href="https://github.com/GoogleCloudPlatform/cloud-bigtable-client">Google Cloud BigTable Client APIs</a>
+          <a class="lang-card-link" href="https://cloud.google.com/blog/big-data/2016/03/announcing-grpc-alpha-for-google-cloud-pubsub">Google Cloud PubSub APIs</a>
+          <a class="lang-card-link" href="https://cloud.google.com/speech/reference/rpc/">Google Cloud Speech APIs</a>
+
+        </div>
+        <div class="lang-card">
+          <div class="lang-card-title">Microservices</div>
+          <a class="lang-card-link" href="https://nghttp2.org/blog/2015/03/24/proxying-grpc-with-nghttpx/">How to use gRPC with nghttp2</a>
+          <a class="lang-card-link" href="https://github.com/openzipkin/brave/tree/master/brave-grpc">Tracing gRPC services using Zipkin in Java</a>
+          <a class="lang-card-link" href="https://github.com/dinowernli/java-grpc-prometheus">Monitoring gRPC services using Prometheus in Java </a>
+          <a class="lang-card-link" href="https://github.com/mwitkow/go-grpc-prometheus">Monitoring gRPC services using Prometheus in Go </a>
+          <a class="lang-card-link" href="https://github.com/grpc/grpc/blob/master/doc/load-balancing.md">Load Balancing in gRPC</a>
+
+        </div>
+      </div>
+      <hr class="section-divider"/>
+  
+  <div class="row">
+    <div class="col-md-11 nofloat center-block">
+       <h2 class="col-sm-8 doc-header">gRPC in Other Projects</h2>
+      <div class="row col-sm-10 use-description">
+        <p>gRPC now has a vibrant community of companies, projects, developers
+        who are extending and building around it. Here are some popular
+        projects. </p>
+      </div>
+      <div class="lang-card-selector col-sm-10">
+        <div class="lang-card">
+          <div class="lang-card-title">Popular Projects</div>
+          <a class="lang-card-link" href="https://github.com/grpc-ecosystem/grpc-gateway">gRPC Gateway</a>
+          <a class="lang-card-link" href="https://github.com/grpc-ecosystem/polyglot">Polyglot: gRPC command line client</a>
+          <a class="lang-card-link" href="https://github.com/google/flatbuffers/tree/master/grpc">FlatBuffer for gRPC</a>
+           <a class="lang-card-link" href="https://github.com/go-kit/kit/tree/master/transport/grpc">Go kit with gRPC transport</a>
+            <a class="lang-card-link" href="https://github.com/coreos/etcd">CoreOS etcd</a>
+            <a class="lang-card-link" href="https://github.com/cockroachdb/cockroach">cockroachdb</a>
+            <a class="lang-card-link" href="https://github.com/openzipkin/brave/tree/master/brave-grpc">Zipkin for gRPC</a>
+
+        </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>

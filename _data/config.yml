@@ -1,0 +1,3 @@
+grpc_release_branch: v1.0.0
+grpc_java_release_tag: v1.0.3
+milestones_link: https://github.com/grpc/grpc/milestones
