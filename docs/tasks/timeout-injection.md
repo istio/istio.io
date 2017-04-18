@@ -1,43 +1,51 @@
+---
+title: Timeout Injection
+headline: 'Timeout Injection walkthrough'
+sidenav: doc-side-tasks-nav.html
+bodyclass: docs
+layout: docs
+type: markdown
+---
 # Injecting Timeouts
 
-![Timeout Injection](timeout-injection.png)
+![Timeout Injection](../../img/timeout-injection.svg)
 
 Slow or unresponsive microservices can reveal defects in other system components.  Unhandled timeout
 exceptions can cascade and affect user experience.
 
-In this tutorial we will show advanced features of the Istio command line to inject timeouts into
+This task shows advanced features of the Istio command line to inject timeouts into
 a running system.
 
-The Kubernetes-based implementation of Istio used in this tutorial works by injecting behavior
-into Pods.  All Pods that participate in the service mesh are enabled by the addition of a proxy.
-The _istioctl kube-inject_ subcommand can be used to apply the changes to a running Deployment.
-Later we will show how to modify the YAML files used to deploy your application so that it comes
-up immediately with the Istio mesh connection.
+The Kubernetes-based implementation of Istio used in this task works by injecting behavior
+into pods.  All pods that participate in the service mesh are enabled by the addition of a proxy.
+We will inject HTTP timeout behavior by giving a new rule to the Istio Manager.  The proxy will
+implement the timeout.
 
 ## Before you begin
 
-This tutorial assumes you have deployed Istio on Kubernetes.  If you have not done so, please first
-follow [the installation instructions](../INSTALL.md).
+This task assumes you have deployed Istio on Kubernetes.  If you have not done so, please first
+follow [the installation instructions](../TBD.md).  You should also have installed
+the [istioctl](../reference/istioctl.md) CLI
 
 ## Connecting microservices with Istio
 
-This guide shows how to set up Istio and manipulate the proxy mesh to achieve useful behavior.
-In this example we use *[httpbin](https://httpbin.org)* and *NGINX* as and demonstrate how to manipulate them:
+This guide shows how to set up Istio and manipulate the service mesh to achieve useful behavior.
+In this example we use *[httpbin](https://httpbin.org)* and *NGINX* and demonstrate how to manipulate them:
 
-* [citizenstig/httpbin](https://hub.docker.com/r/citizenstig/httpbin/) is a popular Docker image for httpbin
-* NGINX is the offical NGINX Docker image.  We will configure it to redirect all calls to httpbin
+* [citizenstig/httpbin](https://hub.docker.com/r/citizenstig/httpbin/) is a popular Docker image for httpbin.
+* NGINX is the offical NGINX Docker image.  We will configure it to redirect all calls to httpbin.
 
 First, let's start httpbin and have it join the Istio service mesh
 
 ```
-# Start the citizenstig/httpbin image the container in a Kubernetes Pod.  8000 is the httpbin port.
+# Start the citizenstig/httpbin image in a Kubernetes Pod.  8000 is the httpbin port.
 source ../istio.VERSION
 kubectl create -f <(istioctl kube-inject -f httpbin.yaml)
 ```
 
 The _istioctl kube-inject_ subcommand creates a machine readable description of a service including Istio components.  By sending the kube-inject output to _kubectl create_ we add Istio capabilities to our service.
 
-For this tutorial an NGINX front-end will talk to httpbin.
+For this talk an NGINX front-end will talk to httpbin.
 
 Because the httpbin service we created is not exposed to the outside world for security reasons
 we cannot test it from outside the cluster.  To verify that it is working correctly, we can run
@@ -96,7 +104,7 @@ three seconds.  Although _httpbin_ was waiting 5 seconds, Istio cut off the requ
 
 ## Cleanup
 
-To remove the rules, deployments and services used in this tutorial:
+To remove the rules, deployments and services used in this task:
 
 ```
 istioctl delete route-rule httpbin-3s-rule
@@ -107,10 +115,6 @@ kubectl delete -f nginx-httpbin.yaml
 
 ## Discussion
 
-We have seen two web services, httpbin and NGINX, connected via an Istio proxy mesh.  We have
-used the proxy mesh to introduce a maximum delay using a timeout in all communications to httpbin.
+We have seen two microservices, httpbin and NGINX, connected via an Istio service mesh.  We have
+used the service mesh to introduce a maximum delay using a timeout in all communications to httpbin.
 
-## Next Steps
-
-For a more detailed example, showing version upgrades and custom routing based on HTTP headers, try the
-[bookinfo demo](../demos/apps/bookinfo/README.md).
