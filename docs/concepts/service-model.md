@@ -76,7 +76,7 @@ The actual choice of the service version is determined dynamically by the
 Istio Proxy based on the routing rules set forth by the operator. This
 model enables the application code to decouple itself from the
 evolution of its dependent services, while providing other benefits as well
-(see [mixer](mixer.md)). Routing rules allow the proxy to select a version based on
+(see [mixer](mixer.md)). Routing rules allow Envoy to select a version based on
 criterion such as (headers, url, etc.), tags associated with
 source/destination and/or by weights assigned to each version.
 

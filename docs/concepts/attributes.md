@@ -27,7 +27,7 @@ original IP address of a TCP connection. Here are a few examples of attributes:
 
 A given Istio deployment has a fixed vocabulary of attributes that it understands. The specific vocabulary is
 determined by the set of attribute producers being used in the deployment. The primary attribute producer in Istio
-is the proxy, although specialized mixer adapters and services can also introduce attributes.
+is Envoy, although specialized Mixer adapters and services can also introduce attributes.
 
 The common baseline set of attributes available in most Istio deployments is defined
 [here]({{site.baseurl}}/docs/reference/attribute-vocabulary.html). 
