@@ -199,7 +199,8 @@
 // Sticky Nav
 #sticky-nav{
     @extend #common-nav;
-    background: url('../img/hero-bg.png') no-repeat center/cover;
+    //background: url('../img/hero-bg.png') no-repeat center/cover;
+    background:  $mainBrandColor no-repeat center/cover;
     position: fixed;    
     width: 100%;
     z-index: 9000;
