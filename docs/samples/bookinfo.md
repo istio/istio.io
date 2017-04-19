@@ -35,56 +35,7 @@ This application is polyglot, i.e., the microservices are written in different l
 {% endcapture %}
 
 {% capture prerequisites %}
-_Note: The following instructions assume that you have access to a kubernetes cluster. To install kubernetes locally, checkout [minikube](https://github.com/kubernetes/minikube)_
-
-1. Clone the istio GitHub repository and start the core Istio services (the istio-manager, the istio-mixer, and the istio ingress controller).
-
-```bash  
-git clone https://github.com/istio/istio
-cd istio
-kubectl apply -f ./kubernetes/istio-install
-```
-
-   _Note: the current version of the bookinfo application MUST use the `default` Kubernetes namespace._
-   
-2. If you would like to view the metrics collected by Istio proxies, you need to install the Prometheus addon and start a Grafana service as well.
-   
-```bash
-kubectl apply -f ./kubernetes/addons/
-```
-   
-   The Grafana image provided as part of this sample contains a built-in Istio-dashboard that you can access from:
-
-```
-http://<grafana-svc-external-IP>:3000/dashboard/db/istio-dashboard
-```
-
-   > The addons yaml files contain services configured as type LoadBalancer. If services are deployed with type NodePort,
-   > start kubectl proxy, and edit Grafana's Istio-dashboard to use the proxy. Access Grafana via kubectl proxy:*
-
-   ```
-   http://127.0.0.1:8001/api/v1/proxy/namespaces/<ns>/services/grafana:3000/dashboard/db/istio-dashboard
-   ```
-
-2. Install the [istioctl](../reference/istioctl.md) CLI, which provides a
-   convenient way to apply routing rules and policies for upstreams. The
-   [istio.VERSION](https://github.com/istio/istio/blob/master/istio.VERSION) file includes the download location of 
-   three OS-specific binaries: `istioctl-osx`, `istioctl-win.exe`,
-   `istioctl-linux` targeted at Mac, Windows and Linux users
-   respectively. Download the tool appropriate to your platform. For
-   example, when running istioctl on a Mac, run the following commands:
-
-   ```bash
-   source ./istio.VERSION # set ISTIOCTL env variable
-   curl ${ISTIOCTL_URL}/istioctl-osx > /usr/local/bin/istioctl
-   chmod +x /usr/local/bin/istioctl
-   ```
-
-   > Note: If you already have a previously installed version of `istioctl`, make sure that
-   > it is compatible with the manager image used in `demos/kubernetes/istio-manager.yaml`.
-   > If in doubt, download again or add the `--tag` option when running `istioctl kube-inject`.
-   > Invoke `istioctl kube-inject --help` for more details.
-
+1. Follow the Istio installation steps described in [Getting Started](../tasks/getting-started.md)
 {% endcapture %}
 
 {% capture discussion %}
