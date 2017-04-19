@@ -18,7 +18,7 @@ This page describes the Istio mixer's configuration model.
 ## Background
 
 Istio is a sophisticated system with hundreds of independent features. An Istio deployment can be a sprawling
-affair potentially involving dozens of microservices, with a swarm of Istio proxy and mixer instances to
+affair potentially involving dozens of microservices, with a swarm of Envoy proxies and Mixer instances to
 support them. In large deployments, many different operators, each with different scope and areas of responsibility,
 may be involved in managing the overall deployment.
 
@@ -312,20 +312,33 @@ metrics:
       source: STRING
       target: STRING
       service: STRING
-      method: STRING
       response_code: INT64
 ```
 
 The above is declaring that the system can produce metrics called `request_count`.
 Such metrics will hold 64-bit integer values and be managed as absolute counters. Each
-metric reported will have five labels, two specifying the source and
-target names, one being the service name, one being the name of an API method and
-the other being the response code for the request. Given this descriptor, Mixer
+metric reported will have four labels, two specifying the source and
+target names, one being the service name, the other being the response code for the request.
+Given this descriptor, Mixer
 can ensure that generated metrics are always properly formed, can arrange for efficient
 storage for these metrics, and can ensure backend systems are ready to accept
 these metrics. The `display_name` and `description` fields are optional and 
 are communicated to backend systems which can use the text to enhance their
 metric visualization interfaces.
+
+Explicitly defining descriptors and creating adapter parameters using them is akin to types and objects in a traditional
+programming language. Doing so enables a few important scenarios:
+
+- Having the set of descriptors explicitly defined enables Istio to program backend systems to accept traffic produced
+by Mixer. For example, a metric descriptor provides all the information needed to program a backend system to accept metrics
+that conform to the descriptor's shape (it's value type and its set of labels).
+
+- It enables type checking of the deployment's configuration. Since attributes have strong types, and so do descriptors,
+Istio can provide a number of strong correctness guarantees of the system's configuration. Basically, if a chunk of
+configuration is accepted into the Istio system, it means the configuration passes a minimum correctness bar. Again, this
+plays the same role as types in a programming language.
+
+- It enables Istio to provide a strongly-typed scripting environment as discussed [here](./mixer.md#scripting)
 
 The different descriptor types are detailed in *TBD*
 
