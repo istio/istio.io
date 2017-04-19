@@ -12,12 +12,12 @@ and what they are used for [here]({{site.baseurl}}/docs/concepts/attributes.html
 
 A given Istio deployment has a fixed vocabulary of attributes that it understands. The specific vocabulary is
 determined by the set of attribute producers being used in the deployment. The primary attribute producer in Istio
-is the proxy, although the mixer and services can also introduce attributes.
+is Envoy, although Mixer and services can also introduce attributes.
 
 ## Standard Istio attribute vocabulary
 
 The table below shows the set of canonical attributes and their respective types. Most Istio
-deployments will have agents (proxy or mixer adapters) that produce these attributes.
+deployments will have agents (Envoy or Mixer adapters) that produce these attributes.
 
 | Name | Type | Description | Kubernetes Example |
 |------|------|-------------|--------------------|

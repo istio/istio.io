@@ -18,8 +18,8 @@ This task shows advanced features of the Istio command line to inject timeouts i
 a running system.
 
 The Kubernetes-based implementation of Istio used in this task works by injecting behavior
-into pods.  All pods that participate in the service mesh are enabled by the addition of a proxy.
-We will inject HTTP timeout behavior by giving a new rule to the Istio Manager.  The proxy will
+into pods.  All pods that participate in the service mesh are enabled by the addition of an Envoy proxy.
+We will inject HTTP timeout behavior by giving a new rule to the Istio Manager.  Envoy will
 implement the timeout.
 
 {% endcapture %}

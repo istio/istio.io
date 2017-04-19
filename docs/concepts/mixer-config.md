@@ -22,13 +22,13 @@ affair potentially involving dozens of microservices, with a swarm of Istio prox
 support them. In large deployments, many different operators, each with different scope and areas of responsibility,
 may be involved in managing the overall deployment.
 
-The mixer's configuration model makes it possible to exploit all of the mixer's capabilities and flexibility, while
+Mixer's configuration model makes it possible to exploit all of its capabilities and flexibility, while
 remaining relatively simple to use. The model's scoping features enable large
 support organizations to collectively manage complex deployments with ease. Some of the model's key
 features include:
 
 - **Designed for Operators**. Service operators control all operational and policy
-aspects of a mixer deployment by manipulating configuration records.
+aspects of a Mixer deployment by manipulating configuration records.
 
 - **Scoped**. Configuration is described hierarchically, enabling both coarse global control as well
 as fine-grained local control.
@@ -45,14 +45,14 @@ can be added to Istio and be fully manipulated using the same general mechanisms
 
 ## Concepts
 
-The mixer is an attribute processing machine. Requests arrive at the mixer with a set of [*attributes*]({{site.baseurl}}/docs/attributes.html),
-and based on these attributes, the mixer generates calls to a variety of backend systems. The set of
-attributes determines which backend systems the mixer calls for a given request and what parameters
-they are given. In order to hide the details of individual backend systems, the mixer uses modules
+Mixer is an attribute processing machine. Requests arrive at Mixer with a set of [*attributes*]({{site.baseurl}}/docs/attributes.html),
+and based on these attributes, Mixer generates calls to a variety of backend systems. The set of
+attributes determines which backend systems Mixer calls for a given request and what parameters
+they are given. In order to hide the details of individual backend systems, Mixer uses modules
 known as [*adapters*]({{site.baseurl}}/docs/concepts/mixer.html#adapters) which you can think of as
 *device drivers* for backend systems.
 
-The mixer's configuration has two central responsibilities:
+Mixer's configuration has two central responsibilities:
 
 - Describe which adapters are being used and how they operate.
 - Describe how to map request attributes into adapter parameters.
@@ -73,11 +73,11 @@ The following sections explain these concepts in detail.
 ### Adapters
 
 [Adapters]({{site.baseurl}}/docs/concepts/mixer.html#adapters) are the foundational work horses that the Istio mixer is built around. Adapters
-encapsulate the logic necessary to interface the mixer with specific external backend systems such as Prometheus or NewRelic. Individual adapters
+encapsulate the logic necessary to interface Mixer with specific external backend systems such as Prometheus or NewRelic. Individual adapters
 generally need to be provided some basic operational parameters in order to do their work. For example, a logging adapter may need
 to know the IP address and port where it's log data should be pumped.
 
-The mixer can use a suite of adapters, and each requires separate configuration parameters.
+Mixer can use a suite of adapters, and each requires separate configuration parameters.
 Here's an example showing how to configure an adapter:
 
 ```yaml
@@ -210,7 +210,7 @@ aspect configuration formats can be found in *TBD*.
     
 #### Attribute Expressions
 
-The mixer features a number of independent [request processing phases]({{site.baseurl}}/docs/concepts/mixer#request-phases).
+Mixer features a number of independent [request processing phases]({{site.baseurl}}/docs/concepts/mixer#request-phases).
 The *Attribute Processing* phase is responsible for ingesting a set of attributes and producing the adapter parameters 
 necessary to invoke individual adapters. The phase operates by evaluating a series of *attribute expressions*.
 
@@ -285,8 +285,8 @@ was not defined.
 
 ### Descriptors
 
-Descriptors are used to prepare the mixer, its adapters, and its backend systems to receive
-particular types of data. For example, declaring a set of metric descriptors tells the mixer
+Descriptors are used to prepare Mixer, its adapters, and its backend systems to receive
+particular types of data. For example, declaring a set of metric descriptors tells Mixer
 the type of data different metrics will carry and the set of labels used to identity different
 instances of these metric.
 
@@ -320,7 +320,7 @@ The above is declaring that the system can produce metrics called `request_count
 Such metrics will hold 64-bit integer values and be managed as absolute counters. Each
 metric reported will have five labels, two specifying the source and
 target names, one being the service name, one being the name of an API method and
-the other being the response code for the request. Given this descriptor, the mixer
+the other being the response code for the request. Given this descriptor, Mixer
 can ensure that generated metrics are always properly formed, can arrange for efficient
 storage for these metrics, and can ensure backend systems are ready to accept
 these metrics. The `display_name` and `description` fields are optional and 

@@ -60,7 +60,7 @@ http://<grafana-svc-external-IP>:3000/dashboard/db/istio-dashboard
 ```
 
    > The addons yaml files contain services configured as type LoadBalancer. If services are deployed with type NodePort,
-   > start kubectl proxy, and edit Grafana's Istio-dashboard to use the proxy. Access Grafana via kubectl proxy:*
+   > start kubectl proxy, and edit Grafana's Istio-dashboard to use the Envoy proxy. Access Grafana via kubectl proxy:*
 
    ```
    http://127.0.0.1:8001/api/v1/proxy/namespaces/<ns>/services/grafana:3000/dashboard/db/istio-dashboard
