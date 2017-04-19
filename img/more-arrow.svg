@@ -4,7 +4,7 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="24px" height="23.5px" viewBox="0 0 24 23.5" enable-background="new 0 0 24 23.5" xml:space="preserve">
 <g>
-	<circle fill="#27949F" cx="12" cy="11.75" r="12"/>
+	<circle fill="#286AC7" cx="12" cy="11.75" r="12"/>
 	<g>
 		<polyline fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" points="9.922,16.886 
 			15.5,11.443 9.75,6 		"/>
