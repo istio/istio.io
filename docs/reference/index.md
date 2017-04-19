@@ -22,7 +22,7 @@ configure Istio's Layer 4 & 7 routing logic.
 - [Attribute Vocabulary](./attribute-vocabulary.md). Describes the base attribute
 vocabulary used for policy and control.
 
-- [Glossary](./glossary.md). A glossary of common Istio term.s
+- [Glossary](./glossary.md). A glossary of common Istio terms.
 
 - [Release Notes](./release-notes.md). What's been happening with Istio.
 
