@@ -1,14 +1,14 @@
 ---
-title: Getting Started
-headline: Getting Started with Istio
+title: Task X
+headline: Task X
 sidenav: doc-side-tasks-nav.html
 bodyclass: docs
 layout: docs
 type: markdown
 ---
 {% capture overview %}
-This page shows how to get started using Istio in a Kubernetes cluster. You'll learn
-how to install Istio and get it initially configured and running.
+This task shows how to do X in a Kubernetes cluster. You'll learn
+how to ...
 {% endcapture %}
 
 {% capture prerequisites %}
