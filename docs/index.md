@@ -1,11 +1,13 @@
 ---
 title: Docs
-headline: Documentation Home
+headline: Welcome
 sidenav: doc-side-home-nav.html
 bodyclass: docs
 layout: docs
 type: markdown
 ---
+
+# Welcome
 
 Welcome to Istio's documentation home page. From here you can learn all about Istio by following
 the links below:

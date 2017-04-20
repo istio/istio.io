@@ -12,19 +12,28 @@ type: markdown
 Concepts help you learn about the different parts
 of the Istio system and the abstractions it uses.
 
-- [What is Istio?](./what-is-istio.html). Provides a broad overview of what
-problems Istio is designed to solve as well as presenting its high-level
-architecture,
+- What Is Istio?
+
+    - [Context and Overview](./context-and-overview). Provides a broad overview of what
+problems Istio is designed to solve.
+
+    - [Design Goals](./design-goals.html). Describes the core principles that
+    Istio's design adheres to.
+
+    - [High-Level Architecture](./high-level-architecture.html). Highlights Istio's core
+    architectural structure and components.
 
 - [Service Model](./service-model.html). Describes how services are modeled
 within the Istio mesh.
 
-- [Attributes](./attributes.html). Explains the important notion of attributes, which
-is a central mechanism for how policies and control are applied to services within the
-mesh.
+- Policies and Control
 
-- [Mixer](./mixer.html). Architectural deep-dive into the design of Mixer, which provides
-the policy and control mechanisms within the service mesh.
+    - [Attributes](./attributes.html). Explains the important notion of attributes, which
+    is a central mechanism for how policies and control are applied to services within the
+    mesh.
 
-- [Mixer Configuration](./mixer-config.html). An overview of the key concepts used to configure
-Mixer.
+    - [Mixer](./mixer.html). Architectural deep-dive into the design of Mixer, which provides
+    the policy and control mechanisms within the service mesh.
+
+    - [Mixer Configuration](./mixer-config.html). An overview of the key concepts used to configure
+    Mixer.
