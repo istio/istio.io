@@ -10,7 +10,14 @@
 		</div>
 	</li>
 
-	<li class="doc-side-nav-list-item"><a href="{{ site.baseurl }}/docs/concepts/service-model.html" {% if current[3] == 'service-model.html' %}class='current'{% endif %}>Service Model</a></li>
+	<li class="submenu">
+		<h6 class="arrow-r">Traffic Management</h6>
+		<div class="submenu-content">
+			<a class="submenu-link {% if current[3] == 'service-model.html' %}active{% endif %}" href="{{ site.baseurl }}/docs/concepts/service-model.html">Service Model</a>
+			<a class="submenu-link {% if current[3] == 'request-routing.html' %}active{% endif %}" href="{{ site.baseurl }}/docs/concepts/request-routing.html">Request Routing</a>
+			<a class="submenu-link {% if current[3] == 'resiliency.html' %}active{% endif %}" href="{{ site.baseurl }}/docs/concepts/resiliency.html">Resiliency</a>
+		</div>
+	</li>
 
 	<li class="submenu">
 		<h6 class="arrow-r">Network and Auth</h6>
