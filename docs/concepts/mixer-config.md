@@ -19,7 +19,7 @@ This page describes Mixer's configuration model.
 
 Istio is a sophisticated system with hundreds of independent features. An Istio deployment can be a sprawling
 affair potentially involving dozens of microservices, with a swarm of Envoy proxies and Mixer instances to
-support them. In large deployments, many different operators, each with different scope and areas of responsibility,
+support them. In large deployments, many different operators, each with different scopes and areas of responsibility,
 may be involved in managing the overall deployment.
 
 Mixer's configuration model makes it possible to exploit all of its capabilities and flexibility, while
@@ -40,15 +40,15 @@ enabling operators unprecedented control over the policies used and telemetry pr
 the potential for bad configuration changes leading to service outages.
 
 - **Extensible**. The model is designed to support Istio's overall extensibility story. New or custom
-[adapters]({{site.baseurl}}/docs/concepts/mixer.html#adapters)
-can be added to Istio and be fully manipulated using the same general mechanisms as any other adapter.
+[adapters](./mixer.html#adapters)
+can be added to Istio and be fully manipulated using the same general mechanisms as existing adapters.
 
 ## Concepts
 
 Mixer is an attribute processing machine. Requests arrive at Mixer with a set of [*attributes*]({{site.baseurl}}/docs/attributes.html),
 and based on these attributes, Mixer generates calls to a variety of backend systems. The set of
 attributes determines which backend systems Mixer calls for a given request and what parameters
-they are given. In order to hide the details of individual backend systems, Mixer uses modules
+each is given. In order to hide the details of individual backend systems, Mixer uses modules
 known as [*adapters*]({{site.baseurl}}/docs/concepts/mixer.html#adapters) which you can think of as
 *device drivers* for backend systems.
 
@@ -57,7 +57,7 @@ Mixer's configuration has two central responsibilities:
 - Describe which adapters are being used and how they operate.
 - Describe how to map request attributes into adapter parameters.
 
-Configuration is expressed using a YAML format. It is built on top of five core
+Configuration is expressed using a YAML format built around five core
 abstractions:
 
 |Concept                     |Description
@@ -98,12 +98,18 @@ adapter should use in its queries and defines the interval at which it should re
 
 For each available adapter, you can define any number of blocks of independent configuration state. This allows the same adapter
 to be used multiple times within a single deployment. Depending on the situation, such as which microservice is involved, one
-block of configuration will be used versus another. For example, here's another block of configuration that can coexist
+block of configuration will be used versus another. For example, here are two more blocks of configuration that can coexist
 with the previous one:
 
 ```yaml
 adapters:
   - name: mySecondaryListChecker
+    kind: lists
+    impl: ipListChecker
+    params:
+      publisher_url: https://mysecondlistserver:912
+      refresh_interval: 3600s
+  - name: myTernaryListChecker
     kind: lists
     impl: genericListChecker
     params:
@@ -113,7 +119,7 @@ adapters:
         "402"
 ```
 
-Here's another example adapter block:
+And yet one more:
 
 ```yaml
 adapters:
