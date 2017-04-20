@@ -1,5 +1,18 @@
 <ul class="doc-side-nav doc-side-nav-concepts">
 	{% assign current = page.url | downcase | split: '/' %}
+	<li><h5 class="doc-side-nav-title">{{page.category}}</h5></li>
+	{% assign cats = site.docs | where:"category",page.category | sort:"order" %}
+	{% for cat in cats %}
+		{% assign cat_name = cat.title | default: "EMPTY" %}
+		{% unless cat.url contains "index" && cat_name != "EMPTY" %}
+		<li class="doc-side-nav-list-item">
+			<a href="{{ site.baseurl }}{{cat.url}}" {% if page.url == cat.url %}class='current'{% endif %}>{{cat_name}}</a>
+		</li>
+		{% endunless %}
+	{% endfor %}
+
+
+	<!--
 	<li><h5 class="doc-side-nav-title">Concepts</h5></li>
 	<li class="doc-side-nav-list-item"><a href="{{ site.baseurl }}/docs/concepts/what-is-istio.html" {% if current[3] == 'what-is-istio.html' %}class='current'{% endif %}>What is Istio?</a></li>
 	<li class="doc-side-nav-list-item"><a href="{{ site.baseurl }}/docs/concepts/service-model.html" {% if current[3] == 'service-model.html' %}class='current'{% endif %}>Service Model</a></li>
@@ -16,4 +29,5 @@
 			<a class="submenu-link {% if current[3] == 'mixer-config.html' %}active{% endif %}" href="{{ site.baseurl }}/docs/concepts/mixer-config.html">Mixer Configuration</a>
 		</div>
 	</li>
+	-->
  </ul>
