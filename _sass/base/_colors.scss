@@ -1,7 +1,7 @@
 // Brand Colors
 $mainBrandColor: #466BB0; //#2DA6B0;
 $secondBrandColor: #286AC7; //#01959f;
-$thirdBrandColor: #719FDD;
+$thirdBrandColor: #98B2E0; //#E7F3F4;
 $inverseBrandColor: #FFFFFF;
 
 // Use as an accent color in small quantities to balance out the main theme.
@@ -22,8 +22,7 @@ $linkHoverColor: darken($linkColor, 10%);
 $linkColorSecondary: $white;
 $linkColorTertiary: $gray;
 $codeColor: darken($linkColor, 20%);
-//$codeBkColor: #ebfaf8;
-$codeBkColor: $thirdBrandColor;
+$codeBkColor: $thirdBrandColor; //#ebfaf8;
 $wellColor: #F9F9F9;
 $textColor: #535f61;
 $titleColor: #555555;
