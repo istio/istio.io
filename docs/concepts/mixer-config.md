@@ -90,13 +90,13 @@ adapters:
       refresh_interval: 60s
 ```
 
-The `name` field gives a name to the chunk of adapter configuration so it can be referenced from elsewhere. The
+The `name` field gives a name to the block of adapter configuration so it can be referenced from elsewhere. The
 `kind` field indicates the [aspect kind](#aspects) that this configuration applies to.
 The `impl` field gives the name of the adapter being configured. Finally, the `params` section is where the
 actual adapter-specific configuration parameters are specified. In this case, this is configuring the URL the 
 adapter should use in its queries and defines the interval at which it should refresh its local caches.
 
-For each available adapter, you can define any number of blocks of independent configuration state. This allows the same adapter
+For each available adapter implementation, you can define any number of blocks of independent configuration state. This allows the same adapter
 to be used multiple times within a single deployment. Depending on the situation, such as which microservice is involved, one
 block of configuration will be used versus another. For example, here are two more blocks of configuration that can coexist
 with the previous one:
@@ -200,15 +200,14 @@ aspects:
         source: source.name
         target: target.name
         service: api.name
-        method: api.method
         response_code: response.code
 ```
 
 This defines an aspect that produces metrics which are sent to the myMetricsCollector adapter,
 which was defined previously. The `metrics` stanza defines the set of metrics that are 
 generated during request processing for this aspect. The `descriptor_name` field specifies
-the name of a *descriptor* which is a separate chunk of configuration, described [below](#descriptors) which declares
-the kind of metric this is. The `value` field and he five label fields describe which attributes to use
+the name of a *descriptor* which is a separate block of configuration, described [below](#descriptors), which declares
+the kind of metric this is. The `value` field and the four label fields describe which attributes to use
 at request time in order to produce the metric.
 
 Each aspect kind defines its own particular format of configuration data. The exhaustive set of
@@ -226,7 +225,6 @@ We've already seen a few simple attribute expressions in the previous examples. 
   source: source.name
   target: target.name
   service: api.name
-  method: api.method
   response_code: response.code
 ```
 
@@ -236,24 +234,24 @@ of the `source.name` attribute.
 
 The attributes that can be used in attribute expressions must be defined in an 
 [*attribute manifest*](#manifests) for the deployment. Within the manifest, each attribute has
-a type which represents the kind of data that this attribute carries. In the
+a type which represents the kind of data that the attribute carries. In the
 same way, attribute expressions are also typed, and their type is derived from
 the attributes in the expression and the operators applied to these attributes.
 
 The type of an attribute expression is used to ensure consistency in which attributes
 are used in what situation. For example, if a metric descriptor specifies that
 a particular label is of type INT64, then only attribute expressions that produce a
-64-bit integers can be used to fill-in that label. This is the case for the `response_code`
+64-bit integer can be used to fill-in that label. This is the case for the `response_code`
 label above.
 
 Attribute expressions include the following features:
 
-1. Check variables for equality against constants
-2. Check string variables for wildcard matches
+1. Check attributes for equality against constants
+2. Check string attributes for wildcard matches
 3. Logical AND/OR/NOT operators
 4. Grouping semantics
 5. String Concatenation
-6. Substring
+6. Substring Production
 7. Comparison (<, <=, ==, >=, >)
 
 Refer to *TBD* for the full attribute expression syntax.
@@ -280,7 +278,6 @@ aspects:
         source: source.name
         target: target.name
         service: api.name
-        method: api.method
         response_code: response.code
 ```
 
@@ -340,7 +337,7 @@ by Mixer. For example, a metric descriptor provides all the information needed t
 that conform to the descriptor's shape (it's value type and its set of labels).
 
 - It enables type checking of the deployment's configuration. Since attributes have strong types, and so do descriptors,
-Istio can provide a number of strong correctness guarantees of the system's configuration. Basically, if a chunk of
+Istio can provide a number of strong correctness guarantees of the system's configuration. Basically, if a block of
 configuration is accepted into the Istio system, it means the configuration passes a minimum correctness bar. Again, this
 plays the same role as types in a programming language.
 
@@ -352,29 +349,29 @@ The different descriptor types are detailed in *TBD*
 
 An Istio deployment can be responsible for managing a large number of services. Organizations
 often have dozens or hundreds of interacting services, and Istio's mission is to make it easy to
-manage them all. Mixer's configuration model is designed to support different operators to
-manage different parts of an Istio deployment without stepping on each other's feet, and allowing
+manage them all. Mixer's configuration model is designed to support different operators that
+manage different parts of an Istio deployment without stepping on each other's feet, while allowing
 them to have control over their areas, but not other's.
 
 Here's how this all works:
 
-- The various chunks of configuration described in the previous sections (adapters, aspects, and descriptors) are always declared 
+- The various blocks of configuration described in the previous sections (adapters, aspects, and descriptors) are always defined
 within the context of a hierarchy.
  
 - The hierarchy is represented by DNS-style dotted names. Like DNS, the hierarchy starts with the rightmost element in
 the dotted name.
  
-- Each chunk of configuration is associated with a *scope* and a *subject* which are both dotted names 
+- Each block of configuration is associated with a *scope* and a *subject* which are both dotted names 
 representing locations within the hierarchy:
 
-  - A scope represents the authority that created the chunk of configuration. Authorities
-  higher up in the hierarchy are more powerful than those lower in the tree.
+  - A scope represents the authority that created the block of configuration. Authorities
+  higher up in the hierarchy are more powerful than those lower in it.
   
-  - The subject represents the location of the chunk of state within the hierarchy. The subject
+  - The subject represents the location of the block of state within the hierarchy. The subject
   is necessarily always at or below the level of the scope within the hierarchy.
 
-- If multiple chunks of config have the same subject, within the matching set, chunks which are associated with a higher 
-scope higher in the hierarchy always take precedence.
+- If multiple blocks of config have the same subject, the blocks associated with the highest scope 
+in the hierarchy always take precedence.
 
 The individual elements that make up the hierarchy depend on the specifics of the Istio deployment.
 A Kubernetes deployment likely uses Kubernetes namespaces as the hierarchy against which Istio configuration
@@ -382,15 +379,15 @@ state is deployed. For example, a valid scope might be `svc.cluster.local` while
 `myservice.ns.svc.cluster.local`
 
 The scoping model is designed to pair up with an access control model to constrain which human is allowed to
-create chunks of configuration for particular scopes. Operators which have the authority to create
-chunks at a scope higher in the hierarchy can impact all configuration associated with lower scopes. Although this is the design
+create blocks of configuration for particular scopes. Operators which have the authority to create
+blocks at a scope higher in the hierarchy can impact all configuration associated with lower scopes. Although this is the design
 intent, Mixer configuration doesn't yet support access control on its configuration so there are no actual constraints on which
 operator can manipulate which scope.
 
 #### Resolution
 
 When a request arrives, Mixer goes through a number of [request processing phases](./mixer.md#request-phases).
-The Resolution phase is concerned with identifying the exact chunks of configuration to use in order to
+The Resolution phase is concerned with identifying the exact blocks of configuration to use in order to
 process the incoming request. For example, a request arriving at Mixer for service A likely has some configuration differences
 with requests arriving for service B. Resolution is about deciding which config to use for a request.
 
@@ -400,17 +397,17 @@ hierarchy for blocks of configuration to use for the request.
 
 Here's how it all works:
 
-1. A request arrives and Mixer extracts the value of the identity attribute and produces the current
+1. A request arrives and Mixer extracts the value of the identity attribute to produce the current
 lookup value.
 
-2. Mixer looks for all chunks of configuration whose subject matches the lookup value.
+2. Mixer looks for all blocks of configuration whose subject matches the lookup value.
 
-3. If Mixer finds multiple chunks that match, it keeps only the chunk that has the highest scope.
+3. If Mixer finds multiple blocks that match, it keeps only the block that has the highest scope.
 
 4. Mixer truncates the lowest element from the lookup value's dotted name. If the lookup value is
 not empty, then Mixer goes back to step 2 above.
 
-All the configs found in this process are combined together to form the final total set of configuration that is used to
+All the configs found in this process are combined together to form the final effective configuration that is used to
 evaluate the current request.
 
 ### Manifests
