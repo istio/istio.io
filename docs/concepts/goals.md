@@ -8,7 +8,7 @@ type: markdown
 ---
 
 {% capture overview %}
-This page the core principles that guide Istio's design
+This page the core principles that guide Istio's design.
 {% endcapture %}
 
 {% capture body %}
