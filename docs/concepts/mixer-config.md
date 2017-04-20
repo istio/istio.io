@@ -422,7 +422,7 @@ evaluate the current request.
 
 ### Manifests
 
-Manifests are used to capture invariants about the components involved in a particular Istio deployment. The only
+Manifests capture invariants about the components involved in a particular Istio deployment. The only
 kind of manifest supported at the moment are *attribute manifests* which are used to define the exact
 set of attributes produced by individual components. Manifests are supplied by component producers
 and inserted into a deployment's configuration.
