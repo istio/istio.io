@@ -34,7 +34,7 @@ issues.
 - **Policy Enforcement**. Apply organizational policy to the interaction between services, ensure access policies are enforced and resources are fairly 
 distributed among consumers. Policy changes are made by configuring the mesh, not by changing application code.
 
-- **Service Identity and Security**. Provide services in the mesh with a verifiable identity [link] and provide the ability to protect [link] service traffic
+- **Service Identity and Security**. Provide services in the mesh with a verifiable identity and provide the ability to protect service traffic
 as it flows over networks of varying degrees of trustability.
 
 In addition to these behaviors, Istio is designed for extensibility to meet diverse deployment needs:
@@ -42,14 +42,14 @@ In addition to these behaviors, Istio is designed for extensibility to meet dive
 - **Platform Support**. Istio is designed to run in a variety of environments including ones that span Cloud, on-premise, Kubernetes, Mesos etc. We’re 
 initially focused on Kubernetes but are working to support other environments soon.
 
-- **Integration and Customization**. The policy enforcement component can be extended [link] and customized [link] to integrate with existing solutions for 
+- **Integration and Customization**. The policy enforcement component can be extended and customized to integrate with existing solutions for 
 ACLs, logging, monitoring, quotas, auditing and more.
 
 These capabilities greatly decrease the coupling between application code, the underlying platform and policy. This decreased coupling not only makes 
 services easier to implement but also makes it simpler for operators to move application deployments between environments or to new policy schemes. 
 Applications become inherently more portable as a result.
 
-Istio’s service mesh is logically split into a *data plane* and a *control plane*. The data plane is composed of a set of intelligent (http|grpc|tcp|udp) 
+Istio’s service mesh is logically split into a *data plane* and a *control plane*. The data plane is composed of a set of intelligent (HTTP, HTTP/2, gRPC, TCP or UDP) 
 proxies deployed as sidecars that mediate and control all network communication between microservices. The control plane is responsible for managing and 
 configuring proxies to route traffic, as well as enforce policies at runtime. 
 
@@ -69,7 +69,7 @@ functionality being provided. Components and APIs must all be designed with perf
 
 - **Incrementality**.
 As operators and developers become more dependent on the functionality that Istio provides, the system must grow with their needs. While we expect to 
-continue adding new features ourselves, we expect the greatest need will be the ability to extend the policy system, to integrate with other sources of policy and control and to propagate signals about mesh behavior to other systems for analysis. The policy runtime supports a standard extension mechanism for plugging in other services. In addition it allows for the extension of its vocabulary [[link]] to allow policies to be enforced based on new signals that the mesh produces. 
+continue adding new features ourselves, we expect the greatest need will be the ability to extend the policy system, to integrate with other sources of policy and control and to propagate signals about mesh behavior to other systems for analysis. The policy runtime supports a standard extension mechanism for plugging in other services. In addition it allows for the extension of its vocabulary to allow policies to be enforced based on new signals that the mesh produces. 
 
 - **Portability**.
 The ecosystem in which Istio will be used varies along many dimensions. Istio must run on any cloud or on-prem environment with minimal effort. The task of 
@@ -80,11 +80,11 @@ environments (on multiple clouds for redundancy for example) using Istio.
 The application of policy to API calls between services provides a great deal of control over mesh behavior but it can be equally important to apply 
 policies to resources which are not necessarily expressed at the API level. For example applying quota to the amount of CPU consumed by an ML training task 
 is more useful than applying quota to the call which initiated the work. To this end the policy system is maintained as a distinct service with its own API 
-rather than being baked into the proxy, allowing services to directly integrate with it as needed.
+rather than being baked into the proxy/sidecar, allowing services to directly integrate with it as needed.
 
 ## High-level architecture
 
-<img src="./arch.svg" alt="The overall architecture of an Istio-based service." />
+<img src="./arch.svg" alt="The overall architecture of an Istio-based application." />
 
 ### The sidecar model
 
@@ -122,19 +122,19 @@ enable policy enforcement and to report telemetry.
 Mixer is responsible for enforcing access control and usage policies across the service mesh and collects telemetry data from the Envoy proxy and other 
 services. The proxy extracts request level attributes which are sent to Mixer for evaluation. More information on the attribute extraction and policy 
 evaluation can be found here. Mixer includes a flexible plugin model enabling it to interface with a variety of host environments and backends, abstracting 
-the proxy and Istio-managed services from these details.
+the Envoy proxy and Istio-managed services from these details.
 
-### Istio Manager
+### Istio-Manager
 
-The Manager serves as an interface between the user and Istio, collecting and validating configuration and propagating it to the various Istio components. 
-It abstracts environment-specific implementation details from the Mixer and Proxy, providing them with an abstract representation of the user’s services 
+Istio-Manager serves as an interface between the user and Istio, collecting and validating configuration and propagating it to the various Istio components. 
+It abstracts environment-specific implementation details from the Mixer and Envoy, providing them with an abstract representation of the user’s services 
 that is independent of the underlying platform. In addition, traffic management rules (i.e. generic layer-4 rules and layer-7 HTTP/gRPC routing rules) can 
-be programmed at runtime via the Istio Manager.
+be programmed at runtime via Istio-Manager.
 
-### Istio Auth
+### Istio-Auth
 
-Istio supports strong service-to-service and end-user authentication using mutual TLS, with built-in identity and credential management.
-Istio Auth can be used to upgrade unencrypted traffic in the service mesh, and provides operators the ability to enforce policy based
+Istio-Auth provides strong service-to-service and end-user authentication using mutual TLS, with built-in identity and credential management.
+It can be used to upgrade unencrypted traffic in the service mesh, and provides operators the ability to enforce policy based
 on service identity rather than network controls. Future releases of Istio will add fine-grained access control and auditing to control
 and monitor who accesses your service, API, or resource, using a variety of access control mechanisms, including attribute and
 role-based access control as well as authorization hooks.
