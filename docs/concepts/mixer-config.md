@@ -49,8 +49,7 @@ Mixer is an attribute processing machine. Requests arrive at Mixer with a set of
 and based on these attributes, Mixer generates calls to a variety of backend systems. The set of
 attributes determines which backend systems Mixer calls for a given request and what parameters
 each is given. In order to hide the details of individual backend systems, Mixer uses modules
-known as [*adapters*]({{site.baseurl}}/docs/concepts/mixer.html#adapters) which you can think of as
-*device drivers* for backend systems.
+known as [*adapters*]({{site.baseurl}}/docs/concepts/mixer.html#adapters).
 
 Mixer's configuration has two central responsibilities:
 
@@ -62,8 +61,8 @@ abstractions:
 
 |Concept                     |Description
 |----------------------------|-----------
-|[Adapters](#adapters)       | Low-level operationally-focused configuration state for individual mixer adapters.
-|[Aspects](#aspects)         | High-level intent-focused configuration state for individual mixer adapters.
+|[Adapters](#adapters)       | Low-level operationally-focused configuration for individual mixer adapters.
+|[Aspects](#aspects)         | High-level intent-focused configuration for individual mixer adapters.
 |[Descriptors](#descriptors) | Description of parameters used with individual aspects.
 |[Scopes](#scopes)           | Mechanism to select which aspects and descriptors to use based on a request's attributes.
 |[Manifests](#manifests)     | Description of various static characteristics of an Istio deployment.
@@ -73,7 +72,8 @@ The following sections explain these concepts in detail.
 ### Adapters
 
 [Adapters]({{site.baseurl}}/docs/concepts/mixer.html#adapters) are the foundational work horses that the Istio mixer is built around. Adapters
-encapsulate the logic necessary to interface Mixer with specific external backend systems such as Prometheus or NewRelic. Individual adapters
+encapsulate the logic necessary to interface Mixer with specific external backend systems such as [Prometheus](https://prometheus.io),
+[New Relic](https://newrelic.com), or [Stackdriver](https://cloud.google.com/logging). Individual adapters
 generally need to be provided some basic operational parameters in order to do their work. For example, a logging adapter may need
 to know the IP address and port where it's log data should be pumped.
 
@@ -96,9 +96,10 @@ The `impl` field gives the name of the adapter being configured. Finally, the `p
 actual adapter-specific configuration parameters are specified. In this case, this is configuring the URL the 
 adapter should use in its queries and defines the interval at which it should refresh its local caches.
 
-For each available adapter implementation, you can define any number of blocks of independent configuration state. This allows the same adapter
+For each available adapter implementation, you can define any number of independent configuration blocks. This allows the 
+same adapter
 to be used multiple times within a single deployment. Depending on the situation, such as which microservice is involved, one
-block of configuration will be used versus another. For example, here are two more blocks of configuration that can coexist
+configuration block will be used versus another. For example, here are two more configuration blocks that can coexist
 with the previous one:
 
 ```yaml
@@ -136,7 +137,7 @@ adapters and their specific configuration format can be found in *TBD*.
 
 ### Aspects
 
-Aspects define high-level configuration state (what is sometimes called intent-based configuration),
+Aspects define high-level configuration (what is sometimes called intent-based configuration),
 independent of the particular implementation details of a specific adapter type. Whereas adapters focus
 on *how* to do something, aspects focus on *what* to do.
 
@@ -156,13 +157,13 @@ of aspects are shown in the following table.
 
 |Kind             |Description
 |-----------------|-----------
+|quotas           |Enforce quotas and rate limits.
+|metrics          |Produce metrics.
+|lists            |Enforce simple whitelist- or blacklist-based access control.
 |access-logs      |Produces fixed-format access logs for every request.
 |application-logs |Produces flexible application logs for every request.
 |attributes       |Produces supplementary attributes for every request.
 |denials          |Systematically produces a predictable error code.
-|lists            |Verifies a symbol against a list.
-|metrics          |Produces a metric that measures some runtime property.
-|quotas           |Tracks a quota value.
 
 In the example above, the aspect declaration specifies the `lists` kind which indicates
 we're configuring an aspect whose purpose is to enable the use of whitelists or
@@ -206,7 +207,7 @@ aspects:
 This defines an aspect that produces metrics which are sent to the myMetricsCollector adapter,
 which was defined previously. The `metrics` stanza defines the set of metrics that are 
 generated during request processing for this aspect. The `descriptor_name` field specifies
-the name of a *descriptor* which is a separate block of configuration, described [below](#descriptors), which declares
+the name of a *descriptor* which is a separate configuration block, described [below](#descriptors), which declares
 the kind of metric this is. The `value` field and the four label fields describe which attributes to use
 at request time in order to produce the metric.
 
@@ -230,7 +231,14 @@ We've already seen a few simple attribute expressions in the previous examples. 
 
 The sequences on the right-hand side of the colons are the simplest forms of attribute expressions.
 They only consist of attribute names. In the above, the `source` label will be assigned the value
-of the `source.name` attribute.
+of the `source.name` attribute. Here's an example of a conditional expression:
+
+```yaml
+  service: api.name | target.name 
+```
+
+With the above, the service label will be assigned the value of the api.name attribute, or if that attribute
+is not defined, it will be assigned the value of the target.name attribute.
 
 The attributes that can be used in attribute expressions must be defined in an 
 [*attribute manifest*](#manifests) for the deployment. Within the manifest, each attribute has
@@ -336,6 +344,8 @@ programming language. Doing so enables a few important scenarios:
 by Mixer. For example, a metric descriptor provides all the information needed to program a backend system to accept metrics
 that conform to the descriptor's shape (it's value type and its set of labels).
 
+- Descriptors can be referenced and reused from multiple aspects.
+
 - It enables type checking of the deployment's configuration. Since attributes have strong types, and so do descriptors,
 Istio can provide a number of strong correctness guarantees of the system's configuration. Basically, if a block of
 configuration is accepted into the Istio system, it means the configuration passes a minimum correctness bar. Again, this
@@ -355,16 +365,16 @@ them to have control over their areas, but not other's.
 
 Here's how this all works:
 
-- The various blocks of configuration described in the previous sections (adapters, aspects, and descriptors) are always defined
+- The various configuration blocks described in the previous sections (adapters, aspects, and descriptors) are always defined
 within the context of a hierarchy.
  
 - The hierarchy is represented by DNS-style dotted names. Like DNS, the hierarchy starts with the rightmost element in
 the dotted name.
  
-- Each block of configuration is associated with a *scope* and a *subject* which are both dotted names 
+- Each configuration block is associated with a *scope* and a *subject* which are both dotted names 
 representing locations within the hierarchy:
 
-  - A scope represents the authority that created the block of configuration. Authorities
+  - A scope represents the authority that created the configuration block. Authorities
   higher up in the hierarchy are more powerful than those lower in it.
   
   - The subject represents the location of the block of state within the hierarchy. The subject
@@ -379,7 +389,7 @@ state is deployed. For example, a valid scope might be `svc.cluster.local` while
 `myservice.ns.svc.cluster.local`
 
 The scoping model is designed to pair up with an access control model to constrain which human is allowed to
-create blocks of configuration for particular scopes. Operators which have the authority to create
+create configuration blocks for particular scopes. Operators which have the authority to create
 blocks at a scope higher in the hierarchy can impact all configuration associated with lower scopes. Although this is the design
 intent, Mixer configuration doesn't yet support access control on its configuration so there are no actual constraints on which
 operator can manipulate which scope.
@@ -387,20 +397,20 @@ operator can manipulate which scope.
 #### Resolution
 
 When a request arrives, Mixer goes through a number of [request processing phases](./mixer.md#request-phases).
-The Resolution phase is concerned with identifying the exact blocks of configuration to use in order to
+The Resolution phase is concerned with identifying the exact configuration blocks to use in order to
 process the incoming request. For example, a request arriving at Mixer for service A likely has some configuration differences
 with requests arriving for service B. Resolution is about deciding which config to use for a request.
 
 Resolution depends on a well-known attribute to guide its choice, a so-called *identity attribute*.
 The value of this attribute is a dotted name which determines where the mixer begins to look in the
-hierarchy for blocks of configuration to use for the request.
+hierarchy for configuration blocks to use for the request.
 
 Here's how it all works:
 
 1. A request arrives and Mixer extracts the value of the identity attribute to produce the current
 lookup value.
 
-2. Mixer looks for all blocks of configuration whose subject matches the lookup value.
+2. Mixer looks for all configuration blocks whose subject matches the lookup value.
 
 3. If Mixer finds multiple blocks that match, it keeps only the block that has the highest scope.
 
@@ -442,6 +452,11 @@ manifests:
       response.code:
         value_type: INT64
 ```
+
+## Examples
+
+You can find fully formed examples of Mixer configuration by visiting the [Samples]({{site.baseurl}}/docs/samples). As
+a specific example, here is the [BookInfo configuration](https://raw.githubusercontent.com/istio/istio/master/demos/mixer-config-quota-bookinfo.yaml).
 
 ## Configuration API
 

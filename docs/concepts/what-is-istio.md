@@ -84,7 +84,7 @@ rather than being baked into the proxy, allowing services to directly integrate 
 
 ## High-level architecture
 
-<img src="{{site.baseurl}}/img/arch.svg" alt="The overall architecture of an Istio-based service." />
+<img src="./arch.svg" alt="The overall architecture of an Istio-based service." />
 
 ### The sidecar model
 
