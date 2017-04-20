@@ -9,7 +9,7 @@ type: markdown
 
 {% capture overview %}
 
-This page describes the Istio mixer's configuration model.
+This page describes Mixer's configuration model.
  
 {% endcapture %}
 
@@ -346,9 +346,66 @@ The different descriptor types are detailed in *TBD*
 
 An Istio deployment can be responsible for managing a large number of services. Organizations
 often have dozens or hundreds of interacting services, and Istio's mission is to make it easy to
-manage them all.
+manage them all. Mixer's configuration model is designed to support different operators to
+manage different parts of an Istio deployment without stepping on each other's feet, and allowing
+them to have control over their areas, but not other's.
 
-*TBD*
+Here's how this all works:
+
+- The various chunks of configuration described in the previous sections (adapters, aspects, and descriptors) are always declared 
+within the context of a hierarchy.
+ 
+- The hierarchy is represented by DNS-style dotted names. Like DNS, the hierarchy starts with the rightmost element in
+the dotted name.
+ 
+- Each chunk of configuration is associated with a *scope* and a *subject* which are both dotted names 
+representing locations within the hierarchy:
+
+  - A scope represents the authority that created the chunk of configuration. Authorities
+  higher up in the hierarchy are more powerful than those lower in the tree.
+  
+  - The subject represents the location of the chunk of state within the hierarchy. The subject
+  is necessarily always at or below the level of the scope within the hierarchy.
+
+- If multiple chunks of config have the same subject, within the matching set, chunks which are associated with a higher 
+scope higher in the hierarchy always take precedence.
+
+The individual elements that make up the hierarchy depend on the specifics of the Istio deployment.
+A Kubernetes deployment likely uses Kubernetes namespaces as the hierarchy against which Istio configuration
+state is deployed. For example, a valid scope might be `svc.cluster.local` while a subject might be
+`myservice.ns.svc.cluster.local`
+
+The scoping model is designed to pair up with an access control model to constrain which human is allowed to
+create chunks of configuration for particular scopes. Operators which have the authority to create
+chunks at a scope higher in the hierarchy can impact all configuration associated with lower scopes. Although this is the design
+intent, Mixer configuration doesn't yet support access control on its configuration so there are no actual constraints on which
+operator can manipulate which scope.
+
+#### Resolution
+
+When a request arrives, Mixer goes through a number of [request processing phases](./mixer.md#request-phases).
+The Resolution phase is concerned with identifying the exact chunks of configuration to use in order to
+process the incoming request. For example, a request arriving at Mixer for service A likely has some configuration differences
+with requests arriving for service B. Resolution is about deciding which config to use for a request.
+
+Resolution depends on a well-known attribute to guide its choice, a so-called *identity attribute*.
+The value of this attribute is a dotted name which determines where the mixer begins to look in the
+hierarchy for blocks of configuration to use for the request.
+
+Here's how it all works:
+
+1. A request arrives and Mixer extracts the value of the identity attribute and produces the current
+lookup value.
+
+2. Mixer looks for all chunks of configuration whose subject matches the lookup value.
+
+3. If Mixer finds multiple chunks that match, it keeps only the chunk that has the highest scope.
+
+4. Mixer truncates the lowest element from the lookup value's dotted name. If the lookup value is
+not empty, then Mixer goes back to step 2 above.
+
+All the configs found in this process are combined together to form the final total set of configuration that is used to
+evaluate the current request.
 
 ### Manifests
 
@@ -381,10 +438,6 @@ manifests:
         value_type: STRING
       response.code:
         value_type: INT64
-      api.method:
-        value_type: STRING
-      api.name:
-        value_type: STRING
 ```
 
 ## Configuration API
