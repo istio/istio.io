@@ -14,7 +14,6 @@ how to install Istio and get it initially configured and running.
 {% capture prerequisites %}
 * The following instructions assume you have access to a Kubernetes cluster. To install Kubernetes locally, try [minikube](https://github.com/kubernetes/minikube).
 * If you are using GKE, please make sure you are using static client certificates before fetching cluster credentials:
-
 ```bash
 gcloud config set container/use_client_certificate True
 gcloud container clusters get-credentials cluster-2 --zone us-central1-a --project istio-demo
@@ -85,7 +84,6 @@ istio-ingress-controller-594763772-j7jbz   1/1       Running   0          49m
 istio-manager-373576132-p2t9k              1/1       Running   0          49m
 istio-mixer-1154414227-56q3z               1/1       Running   0          49m
 ```
-{% endcapture %}
 
 ## Uninstall
 1. Uninstall Istio:
@@ -96,6 +94,8 @@ kubectl delete -f https://raw.githubusercontent.com/istio/istio/master/kubernete
 ```bash
 rm /usr/local/bin/istioctl
 ```
+
+{% endcapture %}
 
 {% capture whatsnext %}
 * Learn more about how to enable [authentication](./istio-auth.md).
