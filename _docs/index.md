@@ -1,5 +1,5 @@
 ---
-title: Docs
+title: Welcome
 headline: Documentation Home
 sidenav: doc-side-home-nav.html
 bodyclass: docs
@@ -7,6 +7,7 @@ layout: docs
 type: markdown
 
 index: true
+category: Welcome
 order: 0
 ---
 
