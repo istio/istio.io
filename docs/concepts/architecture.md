@@ -15,7 +15,7 @@ This page presents an architectural overview for the Istio service mesh.
 
 ## High-level architecture
 
-<img src="./arch.svg" alt="The overall architecture of an Istio-based application." />
+<img src="./img/architecture/arch.svg" alt="The overall architecture of an Istio-based application." />
 
 ### The sidecar model
 
