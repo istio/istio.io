@@ -28,7 +28,7 @@ There are 3 versions of the reviews microservice:
 
 The end-to-end architecture of the application is shown below.
 
-![Bookinfo app_noistio](../../img/example-app-bookinfo-noistio.svg)
+![Bookinfo app_noistio](./img/bookinfo/noistio.svg)
 
 This application is polyglot, i.e., the microservices are written in different languages.
 
@@ -116,7 +116,7 @@ _Note: The following instructions assume that you have access to a kubernetes cl
    that manages incoming and outgoing calls for the service. The updated diagram looks
    like this:
 
-   ![Bookinfo app](../../img/example-app-bookinfo.svg)
+   ![Bookinfo app](./img/bookinfo/withistio.svg)
 
 
 1. Confirm that all services and pods are correctly defined and running:
