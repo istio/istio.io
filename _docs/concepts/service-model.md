@@ -9,11 +9,11 @@ bodyclass: docs
 layout: docs
 type: markdown
 ---
-{% capture overview %}
-The page explains Istio's overall service model.
-{% endcapture %}
 
-{% capture body %}
+The page explains Istio's overall service model.
+
+
+
 The Istio manager serves as an interface between the user and Istio,
 collecting configuration, validating it and propagating it to various
 components. It abstracts platform-specific implementation details from the
@@ -85,6 +85,6 @@ source/destination and/or by weights assigned to each version.
 Note that Istio does not provide a DNS. Applications can try to resolve the
 FQDN using the DNS service present in the underlying platform (kube-dns,
 mesos-dns, etc.).
-{% endcapture %}
 
-{% include templates/concept.md %}
+
+

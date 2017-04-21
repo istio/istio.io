@@ -10,13 +10,13 @@ layout: docs
 type: markdown
 ---
 
-{% capture overview %}
+
 
 This page describes Mixer's configuration model.
  
-{% endcapture %}
 
-{% capture body %}
+
+
 
 ## Background
 
@@ -469,6 +469,6 @@ a specific example, here is the [BookInfo configuration](https://raw.githubuserc
 
 *TBD*
 
-{% endcapture %}
 
-{% include templates/concept.md %}
+
+

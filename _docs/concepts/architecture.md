@@ -10,17 +10,12 @@ layout: docs
 type: markdown
 ---
 
-{% capture overview %}
+
 This page presents an architectural overview for the Istio service mesh.
-{% endcapture %}
-
-{% capture body %}
-
-## High-level architecture
 
 <img src="./img/architecture/arch.svg" alt="The overall architecture of an Istio-based application." />
 
-### The sidecar model
+## The sidecar model
 
 As monolithic applications are decomposed into a distributed system of microservices that scale dynamically, classic distributed system problems such as 
 service discovery, load balancing, and failure recovery become increasingly import to solve uniformly. As the application gains more agility, it transitions
@@ -44,35 +39,31 @@ different services (edge & middle-tier) with minimal effort on behalf of the app
 middle-tier router, middle-tier services can also take advantage of the continuous delivery and policy enforcement features provided. By offloading all 
 aspects of communication, failure recovery, and policy enforcement to the proxy, the application logic is dramatically simplified.
 
-### Envoy
+## Envoy
 
 Istio uses the Envoy proxy, a high-performance proxy developed in C++, to mediate all inbound and outbound traffic for all services in the service mesh. 
 Istio leverages Envoy’s many built-in features such as dynamic service discovery, load balancing, TLS termination, HTTP/2 & gRPC proxying, circuit breakers,
 health checks, staged rollouts with %-based traffic split, fault injection, and rich metrics. In addition, Istio extends Envoy to interact with Mixer to 
 enable policy enforcement and to report telemetry.
 
-### Mixer
+## Mixer
 
 Mixer is responsible for enforcing access control and usage policies across the service mesh and collects telemetry data from the Envoy proxy and other 
 services. The proxy extracts request level attributes which are sent to Mixer for evaluation. More information on the attribute extraction and policy 
 evaluation can be found here. Mixer includes a flexible plugin model enabling it to interface with a variety of host environments and backends, abstracting 
 the Envoy proxy and Istio-managed services from these details.
 
-### Istio-Manager
+## Istio-Manager
 
 Istio-Manager serves as an interface between the user and Istio, collecting and validating configuration and propagating it to the various Istio components. 
 It abstracts environment-specific implementation details from the Mixer and Envoy, providing them with an abstract representation of the user’s services 
 that is independent of the underlying platform. In addition, traffic management rules (i.e. generic layer-4 rules and layer-7 HTTP/gRPC routing rules) can 
 be programmed at runtime via Istio-Manager.
 
-### Istio-Auth
+## Istio-Auth
 
 Istio-Auth provides strong service-to-service and end-user authentication using mutual TLS, with built-in identity and credential management.
 It can be used to upgrade unencrypted traffic in the service mesh, and provides operators the ability to enforce policy based
 on service identity rather than network controls. Future releases of Istio will add fine-grained access control and auditing to control
 and monitor who accesses your service, API, or resource, using a variety of access control mechanisms, including attribute and
 role-based access control as well as authorization hooks.
-
-{% endcapture %}
-
-{% include templates/concept.md %}

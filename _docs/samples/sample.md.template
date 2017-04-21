@@ -1,0 +1,26 @@
+// Before use, remove this line and uncomment the next line
+// ---
+category: Samples
+title: My Sample
+
+order: 42
+
+bodyclass: docs
+layout: docs
+type: markdown
+---
+
+Provide a simple one sentence overview of this page's content.
+
+## Before you begin
+
+List action prerequisites and knowledge prerequisites.
+
+## <Your Topic Headlines>
+
+<Your Topic Content>
+
+## What's next
+
+It's good to close with a 'what's next' section to point people to
+other related material.

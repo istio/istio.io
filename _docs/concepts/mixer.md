@@ -9,15 +9,15 @@ bodyclass: docs
 layout: docs
 type: markdown
 ---
-{% capture overview %}
-The page explains Mixer's role and general architecture.
-{% endcapture %}
 
-{% capture body %}
+The page explains Mixer's role and general architecture.
+
+
+
 ## Background
 
 Mixer provides the control-plane abstractions necessary to support most real-world multi-tenant services,
-such as precondition checks, telemetry reporting, and quota management. Envoy delegates precondition
+such as precondition checks, telemetry harvesting, and quota management. Envoy delegates precondition
 checking (permissions, whitelist, etc) to Mixer and dispatches its telemetry data 
 to Mixer, which proceeds to repackage and redirect the data towards configured backends.
 
@@ -35,7 +35,7 @@ Mixer provides three core features:
 - **Precondition Checking**. Enables callers to verify a number of preconditions before responding to an incoming request from a service consumer. 
 Preconditions can include whether the service consumer is properly authenticated, is on the service's whitelist, passes ACL checks, and more.
 
-- **Telemetry Reporting**. Enables services to produce logging and monitoring. In the future, it will also enable tracing and billing
+- **Telemetry Harvesting**. Enables services to report logging and monitoring. In the future, it will also enable tracing and billing
 streams intended for both the service operator as well as for service consumers.
 
 - **Quota Management**. Enables services to allocate and free quota on a number of dimensions, Quotas are used as a relatively simple resource
@@ -121,6 +121,6 @@ of accessing the request's incoming attributes and producing the requisite adapt
 For advanced uses, the operator can bypass the declarative format and author directly in the scripting
 language. This is more complex, but provides ultimate flexibility.
 
-{% endcapture %}
 
-{% include templates/concept.md %}
+
+

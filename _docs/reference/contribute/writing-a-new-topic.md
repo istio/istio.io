@@ -32,6 +32,21 @@ is the best fit for your content:
   </tr>
 
   <tr>
+    <td>Reference</td>
+    <td>A reference page provides exhaustive lists of things like API parameters,
+     command-line options, configuration settings, and procedures.
+    </td>
+  </tr>
+
+  <tr>
+    <td>Sample</td>
+    <td>A sample page describes a fully working stand-alone example highlighting a particular set of features. Samples
+    must have easy to follow setup and usage instructions so users can quickly run the sample
+    themselves and experiment with changing the sample to explore the system.
+    </td>
+  </tr>
+
+  <tr>
     <td>Task</td>
     <td>A task page shows how to do a single thing, typically by giving a short sequence of steps. Task pages have minimal
     explanation, but often provide links to conceptual topics that provide related background and knowledge.</td>
@@ -43,18 +58,11 @@ is the best fit for your content:
     page has several sections, each of which has a sequence of steps. Tutorials can include surface-level explanations,
     but should link to related conceptual topics for deep explanations.</td>
   </tr>
-
-  <tr>
-    <td>Sample</td>
-    <td>A sample page describes a fully working stand-alone example highlighting a particular set of features. Samples
-    must have easy to follow setup and usage instructions so users can quickly run the sample
-    themselves and experiment with changing the sample to explore the system.
-    </td>
-  </tr>
 </table>
 
-Each page type has a [template]({{site.baseurl}}/docs/reference/contribute/using-page-templates.html)
-that you can use as you write your topic. Using templates helps ensure consistency among topics of a given type.
+Each page type has a template file located in the corresponding directory which shows
+you the basic structure expected for topics of that type. Please start new documents by
+copying the template.
 
 ## Naming a topic
 
@@ -107,10 +115,11 @@ front such that browser tabs work best, whereas the headlines can be longer and 
 
 Depending on your page type, put your new file in a subdirectory of one of these:
 
-* /_docs/concepts/
-* /_docs/tasks/
-* /_docs/tutorials/
-* /_docs/samples/
+* _docs/concepts/
+* _docs/reference/
+* _docs/samples/
+* _docs/tasks/
+* _docs/tutorials/
 
 You can put your file in an existing subdirectory, or you can create a new
 subdirectory.

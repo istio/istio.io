@@ -10,12 +10,12 @@ layout: docs
 type: markdown
 ---
 
-{% capture overview %}
+
 This page introduces the idea of application layer routing rules, that can
 be used to manipulate how API calls are routed to different versions of a service.
-{% endcapture %}
 
-{% capture body %}
+
+
 ## Overview
 
 Istio provides a simple Domain-specific language (DSL) to
@@ -295,6 +295,6 @@ rules are going to be needed.
 Therefore, setting a default rule for every microservice, right from the
 start, is generally considered a best practice in Istio.
 
-{% endcapture %}
 
-{% include templates/concept.md %}
+
+
