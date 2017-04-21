@@ -6,7 +6,7 @@ bodyclass: docs
 layout: docs
 type: markdown
 
-index: true
+#index: true
 order: 6
 
 category: Tutorials
