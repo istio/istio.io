@@ -35,23 +35,18 @@ This application is polyglot, i.e., the microservices are written in different l
 {% endcapture %}
 
 {% capture prerequisites %}
-1. Follow the Istio installation steps described in [Getting Started](../tasks/getting-started.md)
+1. Follow Istio [Installation guide](../tasks/istio-installation.md)
 {% endcapture %}
 
 {% capture discussion %}
 ## Start the Application
 
-1. Change your current working directory to the bookinfo application directory:
-
-   ```bash
-   cd demos/apps/bookinfo
-   ```
-
 1. Bring up the application containers:
 
-   ```bash
-   kubectl create -f <(istioctl kube-inject -f bookinfo.yaml)
-   ```
+```bash
+kubectl apply -f <(istioctl kube-inject -f <(\
+    curl -s https://raw.githubusercontent.com/istio/istio/master/demos/apps/bookinfo/bookinfo.yaml))
+```
 
    The above command creates the gateway ingress resource and launches
    the 4 microservices as described in the diagram above. The reviews
@@ -61,8 +56,7 @@ This application is polyglot, i.e., the microservices are written in different l
    simultaneously.
 
    Notice that the `istioctl kube-inject` command is used to modify the `bookinfo.yaml`
-   file before creating the deployments. This injects the istio runtime proxy
-   into kubernetes resources as documented [here](../reference/istioctl.md#kube-inject).
+   file before creating the deployments. This injects Envoy into kubernetes resources as documented [here](../reference/istioctl.md#kube-inject).
    Consequently, all of the microservices are now packaged with an Istio sidecar
    that manages incoming and outgoing calls for the service. The updated diagram looks
    like this:
@@ -70,45 +64,62 @@ This application is polyglot, i.e., the microservices are written in different l
    ![Bookinfo app](../../img/example-app-bookinfo.svg)
 
 
-1. Confirm that all services and pods are correctly defined and running:
+1. Confirm all services and pods are correctly defined and running:
 
-   ```bash
-   $ kubectl get services
-   NAME                       CLUSTER-IP   EXTERNAL-IP   PORT(S)              AGE
-   details                    10.0.0.31    <none>        9080/TCP             6m
-   istio-ingress-controller   10.0.0.122   <pending>     80:32000/TCP         8m
-   istio-manager              10.0.0.189   <none>        8080/TCP             8m
-   istio-mixer                10.0.0.132   <none>        9091/TCP,42422/TCP   8m
-   kubernetes                 10.0.0.1     <none>        443/TCP              14d
-   productpage                10.0.0.120   <none>        9080/TCP             6m
-   ratings                    10.0.0.15    <none>        9080/TCP             6m
-   reviews                    10.0.0.170   <none>        9080/TCP             6m
-   ```
+```bash
+$ kubectl get services
+NAME                       CLUSTER-IP   EXTERNAL-IP   PORT(S)              AGE
+details                    10.0.0.31    <none>        9080/TCP             6m
+istio-ingress-controller   10.0.0.122   <pending>     80:32000/TCP         8m
+istio-manager              10.0.0.189   <none>        8080/TCP             8m
+istio-mixer                10.0.0.132   <none>        9091/TCP,42422/TCP   8m
+kubernetes                 10.0.0.1     <none>        443/TCP              14d
+productpage                10.0.0.120   <none>        9080/TCP             6m
+ratings                    10.0.0.15    <none>        9080/TCP             6m
+reviews                    10.0.0.170   <none>        9080/TCP             6m
+```
 
    and
 
-   ```bash
-   $ kubectl get pods
-   NAME                                        READY     STATUS    RESTARTS   AGE
-   details-v1-1520924117-48z17                 2/2       Running   0          6m
-   istio-ingress-controller-3181829929-xrrk5   1/1       Running   0          8m
-   istio-manager-175173354-d6jm7               2/2       Running   0          8m
-   istio-mixer-3883863574-jt09j                2/2       Running   0          8m
-   productpage-v1-560495357-jk1lz              2/2       Running   0          6m
-   ratings-v1-734492171-rnr5l                  2/2       Running   0          6m
-   reviews-v1-874083890-f0qf0                  2/2       Running   0          6m
-   reviews-v2-1343845940-b34q5                 2/2       Running   0          6m
-   reviews-v3-1813607990-8ch52                 2/2       Running   0          6m
-   ```
+```bash
+$ kubectl get pods
+NAME                                        READY     STATUS    RESTARTS   AGE
+details-v1-1520924117-48z17                 2/2       Running   0          6m
+istio-ingress-controller-3181829929-xrrk5   1/1       Running   0          8m
+istio-manager-175173354-d6jm7               2/2       Running   0          8m
+istio-mixer-3883863574-jt09j                2/2       Running   0          8m
+productpage-v1-560495357-jk1lz              2/2       Running   0          6m
+ratings-v1-734492171-rnr5l                  2/2       Running   0          6m
+reviews-v1-874083890-f0qf0                  2/2       Running   0          6m
+reviews-v2-1343845940-b34q5                 2/2       Running   0          6m
+reviews-v3-1813607990-8ch52                 2/2       Running   0          6m
+```
 
 1. Determine the Gateway ingress URL
 
-   ```bash
-   $ export GATEWAY_URL=$(kubectl get po -l infra=istio-ingress-controller -o jsonpath={.items[0].status.hostIP}):$(kubectl get svc istio-ingress-controller -o jsonpath={.spec.ports[0].nodePort})
-   $ echo $GATEWAY_URL
-   192.168.99.100:32567
-   ```
+```bash
+export GATEWAY_URL=$(kubectl get po -l infra=istio-ingress-controller -o jsonpath={.items[0].status.hostIP}):$(kubectl get svc istio-ingress-controller -o jsonpath={.spec.ports[0].nodePort})
+```
 1. If you open the Bookinfo URL (http://$GATEWAY_URL/productpage) in your browser, you should see the bookinfo application productpage displayed.
+```bash
+curl -v http://$GATEWAY_URL/productpage
+* Hostname was NOT found in DNS cache
+*   Trying 104.197.226.87...
+* Connected to 104.197.226.87 (104.197.226.87) port 80 (#0)
+> GET /productpage HTTP/1.1
+> User-Agent: curl/7.35.0
+> Host: 104.197.226.87
+> Accept: */*
+>
+< HTTP/1.1 500 Internal Server Error
+< content-length: 43
+< content-type: text/plain
+< date: Wed, 19 Apr 2017 23:56:38 GMT
+* Server envoy is not blacklisted
+< server: envoy
+< x-envoy-upstream-service-time: 3
+<
+```
 
 ## Traffic Management
 
@@ -121,97 +132,97 @@ route requests to all available versions of a service in a random fashion.
 
 1. Set the default version for all microservices to v1.
 
-   ```bash
-   $ istioctl create -f route-rule-all-v1.yaml
-   ```
+```bash
+istioctl create -f \
+    https://raw.githubusercontent.com/istio/istio/master/demos/apps/bookinfo/route-rule-all-v1.yaml
+```
 
-   You can display the routes that are defined with the following command:
+You can display the routes that are defined with the following command:
 
-   ```bash
-   $ istioctl get route-rules -o yaml
-   kind: route-rule
-   name: ratings-default
-   namespace: default
-   spec:
-     destination: ratings.default.svc.cluster.local
-     precedence: 1
-     route:
-     - tags:
-         version: v1
-       weight: 100
-   ---
-   kind: route-rule
-   name: reviews-default
-   namespace: default
-   spec:
-     destination: reviews.default.svc.cluster.local
-     precedence: 1
-     route:
-     - tags:
-         version: v1
-       weight: 100
-   ---
-   kind: route-rule
-   name: details-default
-   namespace: default
-   spec:
-     destination: details.default.svc.cluster.local
-     precedence: 1
-     route:
-     - tags:
-         version: v1
-       weight: 100
-   ---
-   kind: route-rule
-   name: productpage-default
-   namespace: default
-   spec:
-     destination: productpage.default.svc.cluster.local
-     precedence: 1
-     route:
-     - tags:
-         version: v1
-       weight: 100
-   ---
-   ```
+```bash
+$ istioctl get route-rules -o yaml
+kind: route-rule
+name: ratings-default
+namespace: default
+spec:
+ destination: ratings.default.svc.cluster.local
+ precedence: 1
+ route:
+ - tags:
+     version: v1
+   weight: 100
+---
+kind: route-rule
+name: reviews-default
+namespace: default
+spec:
+ destination: reviews.default.svc.cluster.local
+ precedence: 1
+ route:
+ - tags:
+     version: v1
+   weight: 100
+---
+kind: route-rule
+name: details-default
+namespace: default
+spec:
+ destination: details.default.svc.cluster.local
+ precedence: 1
+ route:
+ - tags:
+     version: v1
+   weight: 100
+---
+kind: route-rule
+name: productpage-default
+namespace: default
+spec:
+ destination: productpage.default.svc.cluster.local
+ precedence: 1
+ route:
+ - tags:
+     version: v1
+   weight: 100
+---
+```
 
-   > Note: In the current Kubernetes implemention of Istio, the rules are stored in ThirdPartyResources.
-   > You can look directly at the stored rules in Kubernetes using the `kubectl` command. For example,
-   > the following command will display all defined rules:
-   > ```bash
-   > $ kubectl get istioconfig -o yaml
-   > ```
+> Note: In the current Kubernetes implemention of Istio, the rules are stored in ThirdPartyResources.
+> You can look directly at the stored rules in Kubernetes using the `kubectl` command. For example,
+> the following command will display all defined rules:
+> ```bash
+>kubectl get istioconfig -o yaml
+> ```
 
    Since rule propagation to the proxies is asynchronous, you should wait a few seconds for the rules
    to propagate to all pods before attempting to access the application.
 
-   If you open the Bookinfo URL (`http://$GATEWAY_URL/productpage`) in your browser,
-   you should see the bookinfo application `productpage` displayed. Notice that the `productpage`
-   is displayed with no rating stars since `reviews:v1` does not access the ratings service.
+   Notice that the `productpage` is displayed with no rating stars since `reviews:v1` does not access the ratings service.
 
 1. Route a specific user to `reviews:v2`
 
    Lets enable the ratings service for test user "jason" by routing productpage traffic to
    `reviews:v2` instances.
 
-   ```bash
-   $ istioctl create -f route-rule-reviews-test-v2.yaml
-   ```
+```bash
+istioctl create -f \
+    https://raw.githubusercontent.com/istio/istio/master/demos/apps/bookinfo/route-rule-reviews-test-v2.yaml
+```
 
    Confirm the rule is created:
 
-   ```bash
-   $ istioctl get route-rule reviews-test-v2
-   destination: reviews.default.svc.cluster.local
-   match:
-     httpHeaders:
-       Cookie:
-         regex: ^(.*?;)?(user=jason)(;.*)?$
-   precedence: 2
-   route:
-   - tags:
-       version: v2
-   ```
+```bash
+$ istioctl get route-rule reviews-test-v2
+destination: reviews.default.svc.cluster.local
+match:
+ httpHeaders:
+   Cookie:
+     regex: ^(.*?;)?(user=jason)(;.*)?$
+precedence: 2
+route:
+- tags:
+   version: v2
+```
 
    Log in as user "jason" at the `productpage` web page. You should now see ratings (1-5 stars) next
    to each review.
@@ -224,36 +235,30 @@ route requests to all available versions of a service in a random fashion.
    continue without any errors.
 
 1. Inject the delay
-
    Create a fault injection rule, to delay traffic coming from user "jason" (our test user).
-
-   ```bash
-   $ istioctl create -f destination-ratings-test-delay.yaml
-   ```
-
+```bash
+istioctl create -f \
+    https://raw.githubusercontent.com/istio/istio/master/demos/apps/bookinfo/destination-ratings-test-delay.yaml
+```
    Confirm the rule is created:
-
-   ```bash
-   $ istioctl get route-rule ratings-test-delay
-   destination: ratings.default.svc.cluster.local
-   httpFault:
-     delay:
-       fixedDelaySeconds: 7
-       percent: 100
-   match:
-     httpHeaders:
-       Cookie:
-         regex: "^(.*?;)?(user=jason)(;.*)?$"
-   precedence: 2
-   route:
-   - tags:
-       version: v1
-   ```
-
+```bash
+$ istioctl get route-rule ratings-test-delay
+destination: ratings.default.svc.cluster.local
+httpFault:
+ delay:
+   fixedDelaySeconds: 7
+   percent: 100
+match:
+ httpHeaders:
+   Cookie:
+     regex: "^(.*?;)?(user=jason)(;.*)?$"
+precedence: 2
+route:
+- tags:
+   version: v1
+```
    Allow several seconds to account for rule propagation delay to all pods.
-
 1. Observe application behavior
-
    If the application's front page was set to correctly handle delays, we expect it
    to load within approximately 7 seconds. To see the web page response times, open the
    *Developer Tools* menu in IE, Chrome or Firefox (typically, key combination _Ctrl+Shift+I_
@@ -291,7 +296,8 @@ to `reviews:v3` in two steps.
 First, transfer 50% of traffic from `reviews:v1` to `reviews:v3` with the following command:
 
 ```bash
-   $ istioctl replace -f route-rule-reviews-50-v3.yaml
+istioctl replace -f \
+    https://raw.githubusercontent.com/istio/istio/master/demos/apps/bookinfo/route-rule-reviews-50-v3.yaml
 ```
 
 > Notice that we are using `istioctl replace` instead of `create`.
@@ -300,8 +306,8 @@ To see the new version you need to either Log out as test user "jason" or delete
 that we created exclusively for him:
 
 ```bash
-   $ istioctl delete route-rule reviews-test-v2
-   $ istioctl delete route-rule ratings-test-delay
+istioctl delete route-rule reviews-test-v2
+istioctl delete route-rule ratings-test-delay
 ```
 
 You should now see *red* colored star ratings approximately 50% of the time when you refresh
@@ -313,7 +319,8 @@ the `productpage`.
 When we are confident that our Bookinfo app is stable, we route 100% of the traffic to `reviews:v3`:
 
 ```bash
-   $ istioctl replace -f route-rule-reviews-v3.yaml
+istioctl replace -f \
+    https://raw.githubusercontent.com/istio/istio/master/demos/apps/bookinfo/route-rule-reviews-v3.yaml
 ```
 
 You can now log in to the `productpage` as any user and you should always see book reviews
@@ -327,14 +334,14 @@ Now we'll pretend that `ratings` is an external service for which we are paying 
 so we will set a rate limit on the service such that the load remains under the Free quota (5q/s):
 
 ```bash
-   $ # (TODO) istioctl create -f mixer-rule-ratings-ratelimit.yaml
-   $ kubectl apply -f ../../mixer-config-quota-bookinfo.yaml
+# (TODO) istioctl create -f mixer-rule-ratings-ratelimit.yaml
+kubectl apply -f ../../mixer-config-quota-bookinfo.yaml
 ```
 
 We now generate load on the `productpage` with the following command:
 
 ```bash
-   $ while true; do curl -s -o /dev/null http://$GATEWAY_URL/productpage; done
+while true; do curl -s -o /dev/null http://$GATEWAY_URL/productpage; done
 ```
 
 If you now refresh the `productpage` you'll see that while the load generator is running
@@ -342,26 +349,15 @@ If you now refresh the `productpage` you'll see that while the load generator is
 
 ## Cleanup
 
-1. Delete the routing rules and terminate the application and control plane pods
-
-   ```bash
-   $ ./cleanup.sh
-   ```
-
-1. Optionally shut down the control plane services
-
-   ```bash
-   $ kubectl delete -f ./kubernetes/istio-install
-   $ kubectl delete -f ./kubernetes/addons
-   ```
-
+1. Delete the routing rules and terminate the application pods:
+```bash
+./cleanup.sh
+```
 1. Confirm shutdown
-
-   ```bash
-   $ istioctl get route-rules   #-- there should be no more routing rules
-   $ kubectl get pods           #-- the bookinfo, and (optionally) control plane services, should be deleted
-   No resources found.
-   ```
+```bash
+istioctl get route-rules   #-- there should be no more routing rules
+kubectl get pods           #-- the bookinfo pods should be deleted
+```
 {% endcapture %}
 
 {% include templates/sample.md %}
