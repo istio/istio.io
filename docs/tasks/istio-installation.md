@@ -17,20 +17,29 @@ This page shows how to install and configure Istio in a Kubernetes cluster.
 gcloud config set container/use_client_certificate True
 gcloud container clusters get-credentials cluster-2 --zone us-central1-a --project istio-demo
 ```
-* Ensure the curl command is present, or clone the github [istio](https://github.com/istio/istio) repository to access the files locally.
+* Ensure the curl command is present, or
 {% endcapture %}
 
 {% capture steps %}
 ## Installing on an existing cluster
 For the Alpha release, Istio must be installed in the same Kubernetes namespace as the applications. Instructions below will deploy Istio in the "default" namespace. They can be modified for deployment in a separate namespace.
 
-1. Source the Istio configuration file:
+1. a. Download and extract the [istio installation files](https://raw.githubusercontent.com/istio/istio/master/releases/istio-alpha.tar.gz), or\
+b. Clone the github [istio](https://github.com/istio/istio) repository:
 ```bash
-source <(curl https://raw.githubusercontent.com/istio/istio/change_install/istio.VERSION)
+git clone https://github.com/istio/istio
+```
+1. Change directory to istio:
+```bash
+cd istio
 ```
 2. Install the Istio core components (Istio-Manager, Mixer, and Ingress-Controller):
 ```bash
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/kubernetes/istio.yaml
+kubectl apply -f ./kubernetes/istio.yaml
+```
+1. Source the Istio configuration file:
+```bash
+source istio.VERSION
 ```
 3. Download one of the [`istioctl`]({{site.bareurl}}/docs/reference/istioctl.html) client binaries corresponding to your OS: `istioctl-osx`, `istioctl-win.exe`,
 `istioctl-linux`, targeted at Mac, Windows or Linux users respectively. For example, run the following commands on a Mac system:
@@ -48,9 +57,9 @@ Alternatively, deploy one of the samples applications, for instance [bookinfo]({
 
 5. Optionally: to view metrics collected by Mixer, install [Prometheus](https://prometheus.io), [Grafana](http://staging.grafana.org) and ServiceGraph addons:
 ```bash
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/kubernetes/addons/grafana.yaml
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/kubernetes/addons/prometheus.yaml
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/kubernetes/addons/servicegraph.yaml
+kubectl apply -f ./kubernetes/addons/grafana.yaml
+kubectl apply -f ./kubernetes/addons/prometheus.yaml
+kubectl apply -f ./kubernetes/addons/servicegraph.yaml
 ```
 The Grafana image provided as part of this sample contains a built-in Istio dashboard that you can access from:
 ```bash
@@ -86,7 +95,7 @@ istio-mixer-1154414227-56q3z               1/1       Running   0          49m
 ## Uninstall
 1. Uninstall Istio:
 ```bash
-kubectl delete -f https://raw.githubusercontent.com/istio/istio/master/kubernetes/istio.yaml
+kubectl delete -f ./kubernetes/istio.yaml
 ```
 2. Delete the istioctl client:
 ```bash

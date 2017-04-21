@@ -40,14 +40,14 @@ This application is polyglot, i.e., the microservices are written in different l
 
 {% capture discussion %}
 ## Start the Application
-
-1. Bring up the application containers:
-
+1. Change your current working directory to the bookinfo application directory:
 ```bash
-kubectl apply -f <(istioctl kube-inject -f <(\
-    curl -s https://raw.githubusercontent.com/istio/istio/master/demos/apps/bookinfo/bookinfo.yaml))
+cd demos/apps/bookinfo
 ```
-
+1. Bring up the application containers:
+```bash
+kubectl apply -f <(istioctl kube-inject -f bookinfo.yaml)
+```
    The above command creates the gateway ingress resource and launches
    four microservices as illustrated in the diagram above. The reviews
    microservice has 3 versions: v1, v2, and v3.  Note that in a
@@ -62,10 +62,7 @@ kubectl apply -f <(istioctl kube-inject -f <(\
    like this:
 
    ![Bookinfo app]({{site.bareurl}}/docs/samples/img/bookinfo/withistio.svg)
-
-
 1. Confirm all services and pods are correctly defined and running:
-
 ```bash
 $ kubectl get services
 NAME                       CLUSTER-IP   EXTERNAL-IP   PORT(S)              AGE
@@ -78,9 +75,7 @@ productpage                10.0.0.120   <none>        9080/TCP             6m
 ratings                    10.0.0.15    <none>        9080/TCP             6m
 reviews                    10.0.0.170   <none>        9080/TCP             6m
 ```
-
    and
-
 ```bash
 $ kubectl get pods
 NAME                                        READY     STATUS    RESTARTS   AGE
@@ -94,9 +89,7 @@ reviews-v1-874083890-f0qf0                  2/2       Running   0          6m
 reviews-v2-1343845940-b34q5                 2/2       Running   0          6m
 reviews-v3-1813607990-8ch52                 2/2       Running   0          6m
 ```
-
 1. Determine the Gateway ingress URL
-
 ```bash
 export GATEWAY_URL=$(kubectl get po -l infra=istio-ingress-controller -o jsonpath={.items[0].status.hostIP}):$(kubectl get svc istio-ingress-controller -o jsonpath={.spec.ports[0].nodePort})
 ```
@@ -117,8 +110,7 @@ route requests to all available versions of a service in a random fashion.
 1. Set the default version for all microservices to v1.
 
 ```bash
-istioctl create -f \
-    https://raw.githubusercontent.com/istio/istio/master/demos/apps/bookinfo/route-rule-all-v1.yaml
+istioctl create -f route-rule-all-v1.yaml
 ```
 
 You can display the routes that are defined with the following command:
@@ -182,8 +174,7 @@ spec:
    `reviews:v2` instances.
 
 ```bash
-istioctl create -f \
-    https://raw.githubusercontent.com/istio/istio/master/demos/apps/bookinfo/route-rule-reviews-test-v2.yaml
+istioctl create -f route-rule-reviews-test-v2.yaml
 ```
 
    Confirm the rule is created:
@@ -214,8 +205,7 @@ route:
 1. Inject the delay
    Create a fault injection rule, to delay traffic coming from user "jason" (our test user).
 ```bash
-istioctl create -f \
-    https://raw.githubusercontent.com/istio/istio/master/demos/apps/bookinfo/destination-ratings-test-delay.yaml
+istioctl create -f destination-ratings-test-delay.yaml
 ```
    Confirm the rule is created:
 ```bash
@@ -273,8 +263,7 @@ to `reviews:v3` in two steps.
 First, transfer 50% of traffic from `reviews:v1` to `reviews:v3` with the following command:
 
 ```bash
-istioctl replace -f \
-    https://raw.githubusercontent.com/istio/istio/master/demos/apps/bookinfo/route-rule-reviews-50-v3.yaml
+istioctl replace -f route-rule-reviews-50-v3.yaml
 ```
 
 > Notice that we are using `istioctl replace` instead of `create`.
@@ -296,8 +285,7 @@ the `productpage`.
 When we are confident that our Bookinfo app is stable, we route 100% of the traffic to `reviews:v3`:
 
 ```bash
-istioctl replace -f \
-    https://raw.githubusercontent.com/istio/istio/master/demos/apps/bookinfo/route-rule-reviews-v3.yaml
+istioctl replace -f route-rule-reviews-v3.yaml
 ```
 
 You can now log in to the `productpage` as any user and you should always see book reviews
