@@ -7,7 +7,7 @@ layout: docs
 type: markdown
 
 category: Tasks
-
+order: 70
 ---
 {% capture overview %}
 This task shows how to install Istio in a Kubernetes cluster. You'll learn

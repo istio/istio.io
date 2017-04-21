@@ -1,5 +1,5 @@
 ---
-title: Doc Templates
+title: Using Page Templates
 headline: Using Page Templates
 sidenav: doc-side-reference-nav.html
 bodyclass: docs
@@ -8,6 +8,8 @@ type: markdown
 
 category: Reference
 parent: Contributing
+order: 150
+
 ---
 
 Individual topics are built using page templates which provide some consistent

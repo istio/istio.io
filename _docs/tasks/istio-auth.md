@@ -1,5 +1,5 @@
 ---
-title: Task X
+title: Istio Auth
 headline: Task X
 sidenav: doc-side-tasks-nav.html
 bodyclass: docs
@@ -7,7 +7,7 @@ layout: docs
 type: markdown
 
 category: Tasks
-
+order: 100
 ---
 {% capture overview %}
 This task shows how to do X in a Kubernetes cluster. You'll learn

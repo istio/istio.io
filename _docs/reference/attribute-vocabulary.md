@@ -7,6 +7,7 @@ layout: docs
 type: markdown
 
 category: Reference
+order: 30
 ---
 
 Attributes are a central concept used throughout Istio. You can find a description of what attributes are

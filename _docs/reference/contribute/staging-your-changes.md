@@ -1,5 +1,5 @@
 ---
-title: Staging Docs
+title: Staging Your Changes
 headline: Staging Doc Changes
 sidenav: doc-side-reference-nav.html
 bodyclass: docs
@@ -8,6 +8,8 @@ type: markdown
 
 category: Reference
 parent: Contributing
+order: 140
+
 ---
 
 This page shows how to stage content that you want to contribute

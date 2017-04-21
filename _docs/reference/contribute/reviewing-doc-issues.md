@@ -8,6 +8,7 @@ type: markdown
 
 category: Reference
 parent: Contributing
+order: 160
 ---
 
 This page explains how documentation issues are reviewed and prioritized for the

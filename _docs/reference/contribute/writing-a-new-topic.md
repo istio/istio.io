@@ -1,5 +1,5 @@
 ---
-title: New Doc Topic
+title: Writing a New Topic
 headline: Writing a New Topic
 sidenav: doc-side-reference-nav.html
 bodyclass: docs
@@ -8,6 +8,7 @@ type: markdown
 
 category: Reference
 parent: Contributing
+order: 130
 ---
 
 This page shows how to create a new Istio documentation topic.

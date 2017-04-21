@@ -7,6 +7,7 @@ layout: docs
 type: markdown
 
 category: Reference
+order: 10
 ---
 
 `istioctl` is a command line interface for managing an Istio service mesh.  This overview covers
