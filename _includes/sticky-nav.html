@@ -4,6 +4,7 @@
       <div class="col-md-11 nofloat center-block">
         <a class="col-xs-2" href="{{ site.baseurl }}/">
           <img class="nav-logo" src="{{ site.baseurl }}/img/logo.png" alt="Istio">
+          <span class="page-headline">Istio</span>
         </a>
 
         <div class="col-xs-2 col-xs-offset-8">
@@ -30,17 +31,19 @@
 
   <div class="top-nav right">
     {% assign current = page.url | downcase | split: '/' %}
-    <li class="nav-item"><a href="{{ site.baseurl }}/"><p>Home</p></a><div class="nav-toggle icon-close"></div></li>
+    <li class="nav-item"><a href="{{ site.baseurl }}/"><p>Welcome</p></a><div class="nav-toggle icon-close"></div></li>
     <hr>
     <li class="nav-item"><a href="{{ site.baseurl }}/about/" {% if current[1] == 'about' %}class='current'{% endif %}><p>About</p></a></li>
     <hr>
     <li class="nav-item"><a href="{{ site.baseurl }}/docs/" {% if current[1] == 'docs' %}class='current'{% endif %}><p>Docs</p></a>
       <div class="nav-doc-toggle icon-caret"></div>
       <ul class="doc-list">
-        <a href="{{ site.baseurl }}/docs" {% if page.path == 'docs/index.html' %}class='current'{% endif %}><li class="nav-doc-tab">Home</li></a>
+        <a href="{{ site.baseurl }}/docs" {% if page.path == 'docs/index.html' %}class='current'{% endif %}><li class="nav-doc-tab">Welcome</li></a>
         <a href="{{ site.baseurl }}/docs/concepts" {% if current[2] == 'concepts' %}class='current'{% endif %}><li class="nav-doc-tab">Concepts</li></a>
         <a href="{{ site.baseurl }}/docs/tasks" {% if current[2] == 'tasks' %}class='current'{% endif %}><li class="nav-doc-tab">Tasks</li></a>
+<!--
         <a href="{{ site.baseurl }}/docs/tutorials" {% if current[2] == 'tutorials' %}class='current'{% endif %}><li class="nav-doc-tab">Tutorials</li></a>
+-->
         <a href="{{ site.baseurl }}/docs/samples" {% if current[2] == 'samples' %}class='current'{% endif %}><li class="nav-doc-tab">Samples</li></a>
         <a href="{{ site.baseurl }}/docs/reference" {% if current[2] == 'reference' %}class='current'{% endif %}><li class="nav-doc-tab">Reference</li></a>
       </ul>

@@ -28,7 +28,7 @@ There are 3 versions of the reviews microservice:
 
 The end-to-end architecture of the application is shown below.
 
-![Bookinfo app_noistio](../../img/example-app-bookinfo-noistio.svg)
+![Bookinfo app_noistio](./img/bookinfo/noistio.svg)
 
 This application is polyglot, i.e., the microservices are written in different languages.
 
@@ -61,7 +61,7 @@ kubectl apply -f <(istioctl kube-inject -f <(\
    that manages incoming and outgoing calls for the service. The updated diagram looks
    like this:
 
-   ![Bookinfo app](../../img/example-app-bookinfo.svg)
+   ![Bookinfo app](./img/bookinfo/withistio.svg)
 
 
 1. Confirm all services and pods are correctly defined and running:

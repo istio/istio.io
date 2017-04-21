@@ -1,73 +1,247 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Generator: Adobe Illustrator 19.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 140.4 140.4" enable-background="new 0 0 140.4 140.4" xml:space="preserve">
-<g>
-	<circle fill="#FFF4EA" cx="70.4" cy="69.6" r="37"/>
-	<polygon fill="#E95F6A" points="55.3,58.8 70.2,48.3 86.2,59.2 70.6,70.2 	"/>
-	<polygon fill="#FC7B4D" points="69.3,88.3 53.8,81.1 53.6,61.4 68.6,71.9 	"/>
-	<g>
-		<g>
-			<path fill="none" stroke="#452845" stroke-width="4" stroke-miterlimit="10" d="M70.2,91.1c0,0.3-0.2,0.5-0.5,0.3L53.1,79.6
-				c-0.3-0.2-0.5-0.6-0.5-1V59.4c0-0.3,0.2-0.5,0.5-0.3L69.7,71c0.3,0.2,0.5,0.6,0.5,1V91.1z"/>
-		</g>
-		<g>
-			<path fill="none" stroke="#452845" stroke-width="4" stroke-miterlimit="10" d="M70.6,91.1c0,0.3,0.2,0.5,0.5,0.3l16.6-11.8
-				c0.3-0.2,0.5-0.6,0.5-1V59.4c0-0.3-0.2-0.5-0.5-0.3L71.1,71c-0.3,0.2-0.5,0.6-0.5,1V91.1z"/>
-		</g>
-		<g>
-			<path fill="none" stroke="#452845" stroke-width="4" stroke-miterlimit="10" d="M52.9,59l16-11.9c0.3-0.2,0.7-0.2,1,0l18,12"/>
-		</g>
-	</g>
-</g>
-<g>
-	<g>
-		<polyline fill="none" stroke="#FFF4EA" stroke-width="4.291" stroke-linecap="round" stroke-miterlimit="10" points="101.2,22.7 
-			117.7,22.7 117.7,39.2 		"/>
-		
-			<line fill="none" stroke="#FFF4EA" stroke-width="4.291" stroke-linecap="round" stroke-miterlimit="10" x1="117.7" y1="22.7" x2="102.3" y2="38.1"/>
-	</g>
-	<g>
-		<polyline fill="none" stroke="#FFF4EA" stroke-width="4.291" stroke-linecap="round" stroke-miterlimit="10" points="39.2,117.7 
-			22.7,117.7 22.7,101.2 		"/>
-		
-			<line fill="none" stroke="#FFF4EA" stroke-width="4.291" stroke-linecap="round" stroke-miterlimit="10" x1="22.7" y1="117.7" x2="38.1" y2="102.3"/>
-	</g>
-	<g>
-		<polyline fill="none" stroke="#FFF4EA" stroke-width="4.291" stroke-linecap="round" stroke-miterlimit="10" points="58.6,14.7 
-			70.2,3 81.8,14.7 		"/>
-		
-			<line fill="none" stroke="#FFF4EA" stroke-width="4.291" stroke-linecap="round" stroke-miterlimit="10" x1="70.2" y1="3" x2="70.2" y2="24.8"/>
-	</g>
-	<g>
-		<polyline fill="none" stroke="#FFF4EA" stroke-width="4.291" stroke-linecap="round" stroke-miterlimit="10" points="81.8,125.7 
-			70.2,137.3 58.6,125.7 		"/>
-		
-			<line fill="none" stroke="#FFF4EA" stroke-width="4.291" stroke-linecap="round" stroke-miterlimit="10" x1="70.2" y1="137.3" x2="70.2" y2="115.6"/>
-	</g>
-	<g>
-		<polyline fill="none" stroke="#FFF4EA" stroke-width="4.291" stroke-linecap="round" stroke-miterlimit="10" points="22.7,39.2 
-			22.7,22.7 39.2,22.7 		"/>
-		
-			<line fill="none" stroke="#FFF4EA" stroke-width="4.291" stroke-linecap="round" stroke-miterlimit="10" x1="22.7" y1="22.7" x2="38.1" y2="38.1"/>
-	</g>
-	<g>
-		<polyline fill="none" stroke="#FFF4EA" stroke-width="4.291" stroke-linecap="round" stroke-miterlimit="10" points="117.7,101.2 
-			117.7,117.7 101.2,117.7 		"/>
-		
-			<line fill="none" stroke="#FFF4EA" stroke-width="4.291" stroke-linecap="round" stroke-miterlimit="10" x1="117.7" y1="117.7" x2="102.3" y2="102.3"/>
-	</g>
-	<g>
-		<polyline fill="none" stroke="#FFF4EA" stroke-width="4.291" stroke-linecap="round" stroke-miterlimit="10" points="14.7,81.8 
-			3,70.2 14.7,58.6 		"/>
-		
-			<line fill="none" stroke="#FFF4EA" stroke-width="4.291" stroke-linecap="round" stroke-miterlimit="10" x1="3" y1="70.2" x2="24.8" y2="70.2"/>
-	</g>
-	<g>
-		<polyline fill="none" stroke="#FFF4EA" stroke-width="4.291" stroke-linecap="round" stroke-miterlimit="10" points="125.7,58.6 
-			137.3,70.2 125.7,81.8 		"/>
-		
-			<line fill="none" stroke="#FFF4EA" stroke-width="4.291" stroke-linecap="round" stroke-miterlimit="10" x1="137.3" y1="70.2" x2="115.6" y2="70.2"/>
-	</g>
-</g>
-</svg>
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="Layer_1"
+   x="0px"
+   y="0px"
+   viewBox="0 0 140.4 140.4"
+   enable-background="new 0 0 140.4 140.4"
+   xml:space="preserve"
+   sodipodi:docname="monitoring.svg"
+   inkscape:version="0.92.1 r"><metadata
+     id="metadata4735"><rdf:RDF><cc:Work
+         rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /></cc:Work></rdf:RDF></metadata><defs
+     id="defs4733" /><sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1280"
+     inkscape:window-height="756"
+     id="namedview4731"
+     showgrid="false"
+     inkscape:zoom="4.294872"
+     inkscape:cx="80.603757"
+     inkscape:cy="70.199997"
+     inkscape:window-x="0"
+     inkscape:window-y="22"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="g4678" /><g
+     id="g4678"><circle
+       fill="#FFF4EA"
+       cx="70.4"
+       cy="69.6"
+       r="37"
+       id="circle4658"
+       style="fill:#466bb0;fill-opacity:0.29411766;opacity:1" /><polygon
+       fill="#E95F6A"
+       points="55.3,58.8 70.2,48.3 86.2,59.2 70.6,70.2  "
+       id="polygon4660"
+       style="fill:#5fade9;fill-opacity:1" /><polygon
+       fill="#FC7B4D"
+       points="69.3,88.3 53.8,81.1 53.6,61.4 68.6,71.9  "
+       id="polygon4662"
+       style="fill:#4d93fc;fill-opacity:1" /><g
+       id="g4676"><g
+         id="g4666"><path
+           fill="none"
+           stroke="#452845"
+           stroke-width="4"
+           stroke-miterlimit="10"
+           d="M70.2,91.1c0,0.3-0.2,0.5-0.5,0.3L53.1,79.6     c-0.3-0.2-0.5-0.6-0.5-1V59.4c0-0.3,0.2-0.5,0.5-0.3L69.7,71c0.3,0.2,0.5,0.6,0.5,1V91.1z"
+           id="path4664"
+           style="stroke:#466bb0;stroke-opacity:1" /></g><g
+         id="g4670"><path
+           fill="none"
+           stroke="#452845"
+           stroke-width="4"
+           stroke-miterlimit="10"
+           d="M70.6,91.1c0,0.3,0.2,0.5,0.5,0.3l16.6-11.8     c0.3-0.2,0.5-0.6,0.5-1V59.4c0-0.3-0.2-0.5-0.5-0.3L71.1,71c-0.3,0.2-0.5,0.6-0.5,1V91.1z"
+           id="path4668"
+           style="stroke:#466bb0;stroke-opacity:1" /></g><g
+         id="g4674"><path
+           fill="none"
+           stroke="#452845"
+           stroke-width="4"
+           stroke-miterlimit="10"
+           d="M52.9,59l16-11.9c0.3-0.2,0.7-0.2,1,0l18,12"
+           id="path4672"
+           style="stroke:#466bb0;stroke-opacity:1" /><g
+           transform="translate(138.20372,10.522079)"
+           id="g12572"
+           style="fill:#466bb0;fill-opacity:1" /></g></g></g><g
+     id="g4728"><g
+       id="g4684"><polyline
+         fill="none"
+         stroke="#FFF4EA"
+         stroke-width="4.291"
+         stroke-linecap="round"
+         stroke-miterlimit="10"
+         points="101.2,22.7     117.7,22.7 117.7,39.2   "
+         id="polyline4680"
+         style="stroke:#c8d3e7;stroke-opacity:1" /><line
+         fill="none"
+         stroke="#FFF4EA"
+         stroke-width="4.291"
+         stroke-linecap="round"
+         stroke-miterlimit="10"
+         x1="117.7"
+         y1="22.7"
+         x2="102.3"
+         y2="38.1"
+         id="line4682"
+         style="stroke:#c8d3e7;stroke-opacity:1" /></g><g
+       id="g4690"><polyline
+         fill="none"
+         stroke="#FFF4EA"
+         stroke-width="4.291"
+         stroke-linecap="round"
+         stroke-miterlimit="10"
+         points="39.2,117.7     22.7,117.7 22.7,101.2   "
+         id="polyline4686"
+         style="stroke:#c8d3e7;stroke-opacity:1" /><line
+         fill="none"
+         stroke="#FFF4EA"
+         stroke-width="4.291"
+         stroke-linecap="round"
+         stroke-miterlimit="10"
+         x1="22.7"
+         y1="117.7"
+         x2="38.1"
+         y2="102.3"
+         id="line4688"
+         style="stroke:#c8d3e7;stroke-opacity:1" /></g><g
+       id="g4696"><polyline
+         fill="none"
+         stroke="#FFF4EA"
+         stroke-width="4.291"
+         stroke-linecap="round"
+         stroke-miterlimit="10"
+         points="58.6,14.7     70.2,3 81.8,14.7   "
+         id="polyline4692"
+         style="stroke:#c8d3e7;stroke-opacity:1" /><line
+         fill="none"
+         stroke="#FFF4EA"
+         stroke-width="4.291"
+         stroke-linecap="round"
+         stroke-miterlimit="10"
+         x1="70.2"
+         y1="3"
+         x2="70.2"
+         y2="24.8"
+         id="line4694"
+         style="stroke:#c8d3e7;stroke-opacity:1" /></g><g
+       id="g4702"><polyline
+         fill="none"
+         stroke="#FFF4EA"
+         stroke-width="4.291"
+         stroke-linecap="round"
+         stroke-miterlimit="10"
+         points="81.8,125.7     70.2,137.3 58.6,125.7   "
+         id="polyline4698"
+         style="stroke:#c8d3e7;stroke-opacity:1" /><line
+         fill="none"
+         stroke="#FFF4EA"
+         stroke-width="4.291"
+         stroke-linecap="round"
+         stroke-miterlimit="10"
+         x1="70.2"
+         y1="137.3"
+         x2="70.2"
+         y2="115.6"
+         id="line4700"
+         style="stroke:#c8d3e7;stroke-opacity:1" /></g><g
+       id="g4708"><polyline
+         fill="none"
+         stroke="#FFF4EA"
+         stroke-width="4.291"
+         stroke-linecap="round"
+         stroke-miterlimit="10"
+         points="22.7,39.2     22.7,22.7 39.2,22.7   "
+         id="polyline4704"
+         style="stroke:#c8d3e7;stroke-opacity:1" /><line
+         fill="none"
+         stroke="#FFF4EA"
+         stroke-width="4.291"
+         stroke-linecap="round"
+         stroke-miterlimit="10"
+         x1="22.7"
+         y1="22.7"
+         x2="38.1"
+         y2="38.1"
+         id="line4706"
+         style="stroke:#c8d3e7;stroke-opacity:1" /></g><g
+       id="g4714"><polyline
+         fill="none"
+         stroke="#FFF4EA"
+         stroke-width="4.291"
+         stroke-linecap="round"
+         stroke-miterlimit="10"
+         points="117.7,101.2     117.7,117.7 101.2,117.7   "
+         id="polyline4710"
+         style="stroke:#c8d3e7;stroke-opacity:1" /><line
+         fill="none"
+         stroke="#FFF4EA"
+         stroke-width="4.291"
+         stroke-linecap="round"
+         stroke-miterlimit="10"
+         x1="117.7"
+         y1="117.7"
+         x2="102.3"
+         y2="102.3"
+         id="line4712"
+         style="stroke:#c8d3e7;stroke-opacity:1" /></g><g
+       id="g4720"><polyline
+         fill="none"
+         stroke="#FFF4EA"
+         stroke-width="4.291"
+         stroke-linecap="round"
+         stroke-miterlimit="10"
+         points="14.7,81.8     3,70.2 14.7,58.6   "
+         id="polyline4716"
+         style="stroke:#c8d3e7;stroke-opacity:1" /><line
+         fill="none"
+         stroke="#FFF4EA"
+         stroke-width="4.291"
+         stroke-linecap="round"
+         stroke-miterlimit="10"
+         x1="3"
+         y1="70.2"
+         x2="24.8"
+         y2="70.2"
+         id="line4718"
+         style="stroke:#c8d3e7;stroke-opacity:1" /></g><g
+       id="g4726"><polyline
+         fill="none"
+         stroke="#FFF4EA"
+         stroke-width="4.291"
+         stroke-linecap="round"
+         stroke-miterlimit="10"
+         points="125.7,58.6     137.3,70.2 125.7,81.8   "
+         id="polyline4722"
+         style="stroke:#c8d3e7;stroke-opacity:1" /><line
+         fill="none"
+         stroke="#FFF4EA"
+         stroke-width="4.291"
+         stroke-linecap="round"
+         stroke-miterlimit="10"
+         x1="137.3"
+         y1="70.2"
+         x2="115.6"
+         y2="70.2"
+         id="line4724"
+         style="stroke:#c8d3e7;stroke-opacity:1" /></g></g></svg>

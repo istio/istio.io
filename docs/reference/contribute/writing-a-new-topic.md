@@ -23,7 +23,7 @@ is the best fit for your content:
   <tr>
     <td>Concept</td>
     <td>A concept page explains some significant aspect of Istio. For example, a concept page might describe the 
-    mixer's configuration model and explain some of its subtleties.
+    Mixer's configuration model and explain some of its subtleties.
     Typically, concept pages don't include sequences of steps, but instead provide links to
     tasks or tutorials that do.</td>
   </tr>
