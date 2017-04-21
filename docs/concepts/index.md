@@ -23,8 +23,19 @@ problems Istio is designed to solve.
     - [High-Level Architecture](./high-level-architecture.html). Highlights Istio's core
     architectural structure and components.
 
-- [Service Model](./service-model.html). Describes how services are modeled
-within the Istio mesh.
+- Traffic Management
+
+    - [Service Model](./service-model.html). Describes how services are
+    modeled within the Istio mesh, the notion of multiple versions of a
+    service, and the communiction model between services.
+
+    - [Request Routing](./request-routing.html). Introduces the idea of
+      application layer routing rules, that can be used to manipulate
+      how API calls are routed to different versions of a service.
+      
+    - [Resiliency](./resiliency.html). An overview of failure recovery
+      capabilities in Envoy that can be leveraged by unmodified
+      applications to improve robustness and prevent cascading failures.
 
 - Policies and Control
 
