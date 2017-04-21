@@ -28,14 +28,14 @@ There are 3 versions of the reviews microservice:
 
 The end-to-end architecture of the application is shown below.
 
-![Bookinfo app_noistio](./img/bookinfo/noistio.svg)
+![Bookinfo app_noistio]({{site.bareurl}}/docs/samples/img/bookinfo/noistio.svg)
 
 This application is polyglot, i.e., the microservices are written in different languages.
 
 {% endcapture %}
 
 {% capture prerequisites %}
-1. Follow Istio [Installation guide](../tasks/istio-installation.md)
+1. Follow [Installing Istio guide]({{site.bareurl}}/docs/tasks/istio-installation.html)
 {% endcapture %}
 
 {% capture discussion %}
@@ -49,19 +49,19 @@ kubectl apply -f <(istioctl kube-inject -f <(\
 ```
 
    The above command creates the gateway ingress resource and launches
-   the 4 microservices as described in the diagram above. The reviews
+   four microservices as illustrated in the diagram above. The reviews
    microservice has 3 versions: v1, v2, and v3.  Note that in a
    realistic deployment, new versions of a microservice are deployed
    over time instead of deploying all versions
    simultaneously.
 
    Notice that the `istioctl kube-inject` command is used to modify the `bookinfo.yaml`
-   file before creating the deployments. This injects Envoy into kubernetes resources as documented [here](../reference/istioctl.md#kube-inject).
+   file before creating the deployments. This injects Envoy into kubernetes resources as documented [here]({{site.bareurl}}/docs/reference/istioctl.html#kube-inject).
    Consequently, all of the microservices are now packaged with an Istio sidecar
    that manages incoming and outgoing calls for the service. The updated diagram looks
    like this:
 
-   ![Bookinfo app](./img/bookinfo/withistio.svg)
+   ![Bookinfo app]({{site.bareurl}}/docs/samples/img/bookinfo/withistio.svg)
 
 
 1. Confirm all services and pods are correctly defined and running:
