@@ -4,6 +4,10 @@ kramdown:
 
 markdown:
   kramdown
+kramdown:
+    input: GFM
+    hard_wrap: false
+    syntax_highlighter: rouge
 
 baseurl: ""
 
@@ -17,3 +21,22 @@ paginate: 2
 paginate_path: "/blog/page:num/"
 
 excerpt_separator: <!--more-->
+
+collections:
+  docs:
+    output: true
+
+gems:
+  - jekyll-redirect-from
+  - jekyll-sitemap
+
+exclude:
+  - README.md
+  - LICENSE
+  - Gemfile
+  - Gemfile.lock
+  - CNAME
+  - CONTRIBUTING.md
+  - .gitignore
+  - Vagrantfile
+  - .vagrant

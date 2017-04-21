@@ -2,6 +2,7 @@
 #common-nav{
   background-color: transparent;
   padding-top: $spacing--xs;
+  padding-bottom: $spacing--xs;
 
   .nav {
     display: none;
@@ -204,7 +205,7 @@
     width: 100%;
     z-index: 9000;
     top: -61px;
-    padding-bottom: 10px;
+    padding-bottom: $spacing--xs;
     transition: $transition--secondary;
     &.on-page {
       top: 0;
