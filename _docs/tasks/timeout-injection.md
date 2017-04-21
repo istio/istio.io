@@ -9,7 +9,7 @@ layout: docs
 type: markdown
 ---
 
-{% capture overview %}
+
 
 ![Timeout Injection](../../img/timeout-injection.svg)
 
@@ -24,9 +24,9 @@ into pods.  All pods that participate in the service mesh are enabled by the add
 We will inject HTTP timeout behavior by giving a new rule to the Istio Manager.  Envoy will
 implement the timeout.
 
-{% endcapture %}
 
-{% capture prerequisites %}
+
+## Before you begin
 
 This task assumes you have deployed Istio on Kubernetes.  If you have not done so, please first
 clone the istio GitHub repository and start the core Istio services (the istio-manager, the istio-mixer, and the istio ingress controller).
@@ -39,9 +39,9 @@ kubectl apply -f ./kubernetes/istio-install
 
 You should also have installed the [istioctl]({{site.baseurl}}/reference/istioctl.html) CLI.
 
-{% endcapture %}
 
-{% capture discussion %}
+
+
 ## Connecting microservices with Istio
 
 This guide shows how to set up Istio and manipulate the service mesh to achieve useful behavior.
@@ -133,6 +133,6 @@ kubectl delete -f {{site.baseurl}}/docs/tasks/nginx-httpbin.yaml
 We have seen two microservices, httpbin and NGINX, connected via an Istio service mesh.  We have
 used the service mesh to introduce a maximum delay using a timeout in all communications to httpbin.
 
-{% endcapture %}
 
-{% include templates/sample.md %}
+
+

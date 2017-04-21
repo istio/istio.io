@@ -1,0 +1,22 @@
+// Before use, remove this line and uncomment the next line
+// ---
+category: Concepts
+title: My Concept
+
+order: 42
+
+bodyclass: docs
+layout: docs
+type: markdown
+---
+
+Provide a simple one sentence overview of this page's content.
+
+## <Your Topic Headlines>
+
+<Your Topic Content>
+
+## What's next
+
+It's good to close with a 'what's next' section to point people to
+other related material.

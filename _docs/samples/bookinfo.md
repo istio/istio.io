@@ -9,7 +9,7 @@ layout: docs
 type: markdown
 ---
 
-{% capture overview %}
+
 In this sample, we will deploy a simple app that displays information about a
 book, similar to a single catalog entry of an online book store. Displayed
 on the page is a description of the book, book details (ISBN, number of
@@ -34,9 +34,9 @@ The end-to-end architecture of the application is shown below.
 
 This application is polyglot, i.e., the microservices are written in different languages.
 
-{% endcapture %}
 
-{% capture prerequisites %}
+
+## Before you begin
 _Note: The following instructions assume that you have access to a kubernetes cluster. To install kubernetes locally, checkout [minikube](https://github.com/kubernetes/minikube)_
 
 1. Clone the istio GitHub repository and start the core Istio services (the istio-manager, the [Mixer](https://istio.io/docs/concepts/mixer.html), and the istio ingress controller).
@@ -87,9 +87,9 @@ _Note: The following instructions assume that you have access to a kubernetes cl
    > If in doubt, download again or add the `--tag` option when running `istioctl kube-inject`.
    > Invoke `istioctl kube-inject --help` for more details.
 
-{% endcapture %}
 
-{% capture discussion %}
+
+
 ## Start the Application
 
 1. Change your current working directory to the bookinfo application directory:
@@ -413,6 +413,6 @@ If you now refresh the `productpage` you'll see that while the load generator is
    $ kubectl get pods           #-- the bookinfo, and (optionally) control plane services, should be deleted
    No resources found.
    ```
-{% endcapture %}
 
-{% include templates/sample.md %}
+
+

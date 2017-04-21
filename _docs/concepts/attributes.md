@@ -9,11 +9,11 @@ bodyclass: docs
 layout: docs
 type: markdown
 ---
-{% capture overview %}
-The page describes Istio attributes, what they are and how they are used.
-{% endcapture %}
 
-{% capture body %}
+The page describes Istio attributes, what they are and how they are used.
+
+
+
 
 ## Background
 
@@ -35,6 +35,6 @@ is Envoy, although specialized Mixer adapters and services can also introduce at
 The common baseline set of attributes available in most Istio deployments is defined
 [here]({{site.baseurl}}/docs/reference/attribute-vocabulary.html). 
 
-{% endcapture %}
 
-{% include templates/concept.md %}
+
+
