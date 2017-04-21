@@ -7,8 +7,7 @@ layout: docs
 type: markdown
 ---
 {% capture overview %}
-This page shows how to get started using Istio in a Kubernetes cluster. You'll learn
-how to install Istio and get it initially configured and running.
+This page shows how to install and configure Istio in a Kubernetes cluster.
 {% endcapture %}
 
 {% capture prerequisites %}
@@ -29,7 +28,7 @@ For the Alpha release, Istio must be installed in the same Kubernetes namespace 
 ```bash
 source <(curl https://raw.githubusercontent.com/istio/istio/change_install/istio.VERSION)
 ```
-2. Install the Istio core components (Istio-Manager, Mixer, Ingress-Controller, and Istio-CA):
+2. Install the Istio core components (Istio-Manager, Mixer, and Ingress-Controller):
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/kubernetes/istio.yaml
 ```
@@ -75,11 +74,10 @@ istio-ingress-controller   10.83.241.84   35.184.70.168   80:30583/TCP         3
 istio-manager              10.83.251.26   <none>          8080/TCP             39m
 istio-mixer                10.83.242.1    <none>          9091/TCP,42422/TCP   39m
 ```
-2. Check the corresponding Kubernetes pods were deployed: "istio-manager-\*", "istio-mixer-\*", "istio-ingress-controller-\*", "istio-ca-\*".
+2. Check the corresponding Kubernetes pods were deployed: "istio-manager-\*", "istio-mixer-\*", "istio-ingress-controller-\*".
 ```bash
 kubectl get pods
 NAME                                       READY     STATUS    RESTARTS   AGE
-istio-ca-2343704264-s8p4w                  1/1       Running   0          49m
 istio-ingress-controller-594763772-j7jbz   1/1       Running   0          49m
 istio-manager-373576132-p2t9k              1/1       Running   0          49m
 istio-mixer-1154414227-56q3z               1/1       Running   0          49m

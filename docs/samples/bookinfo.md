@@ -103,22 +103,6 @@ export GATEWAY_URL=$(kubectl get po -l infra=istio-ingress-controller -o jsonpat
 1. If you open the Bookinfo URL (http://$GATEWAY_URL/productpage) in your browser, you should see the bookinfo application productpage displayed.
 ```bash
 curl -v http://$GATEWAY_URL/productpage
-* Hostname was NOT found in DNS cache
-*   Trying 104.197.226.87...
-* Connected to 104.197.226.87 (104.197.226.87) port 80 (#0)
-> GET /productpage HTTP/1.1
-> User-Agent: curl/7.35.0
-> Host: 104.197.226.87
-> Accept: */*
->
-< HTTP/1.1 500 Internal Server Error
-< content-length: 43
-< content-type: text/plain
-< date: Wed, 19 Apr 2017 23:56:38 GMT
-* Server envoy is not blacklisted
-< server: envoy
-< x-envoy-upstream-service-time: 3
-<
 ```
 
 ## Traffic Management
@@ -186,13 +170,6 @@ spec:
    weight: 100
 ---
 ```
-
-> Note: In the current Kubernetes implemention of Istio, the rules are stored in ThirdPartyResources.
-> You can look directly at the stored rules in Kubernetes using the `kubectl` command. For example,
-> the following command will display all defined rules:
-> ```bash
->kubectl get istioconfig -o yaml
-> ```
 
    Since rule propagation to the proxies is asynchronous, you should wait a few seconds for the rules
    to propagate to all pods before attempting to access the application.
