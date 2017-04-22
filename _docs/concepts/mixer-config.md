@@ -10,13 +10,7 @@ layout: docs
 type: markdown
 ---
 
-
-
 This page describes Mixer's configuration model.
- 
-
-
-
 
 ## Background
 
@@ -49,10 +43,12 @@ can be added to Istio and be fully manipulated using the same general mechanisms
 ## Concepts
 
 Mixer is an attribute processing machine. Requests arrive at Mixer with a set of [*attributes*]({{site.baseurl}}/docs/concepts/attributes.html),
-and based on these attributes, Mixer generates calls to a variety of backend systems. The set of
-attributes determines which backend systems Mixer calls for a given request and what parameters
-each is given. In order to hide the details of individual backend systems, Mixer uses modules
+and based on these attributes, Mixer generates calls to a variety of infrastructure backends. The set of
+attributes determines which backend Mixer calls for a given request and what parameters
+each is given. In order to hide the details of individual backends, Mixer uses modules
 known as [*adapters*]({{site.baseurl}}/docs/concepts/mixer.html#adapters).
+
+![Attribute Machine](./img/mixer-config/machine.svg)
 
 Mixer's configuration has two central responsibilities:
 
@@ -75,7 +71,7 @@ The following sections explain these concepts in detail.
 ### Adapters
 
 [Adapters]({{site.baseurl}}/docs/concepts/mixer.html#adapters) are the foundational work horses that the Istio mixer is built around. Adapters
-encapsulate the logic necessary to interface Mixer with specific external backend systems such as [Prometheus](https://prometheus.io),
+encapsulate the logic necessary to interface Mixer with specific external infrastructure backends such as [Prometheus](https://prometheus.io),
 [New Relic](https://newrelic.com), or [Stackdriver](https://cloud.google.com/logging). Individual adapters
 generally need to be provided some basic operational parameters in order to do their work. For example, a logging adapter may need
 to know the IP address and port where it's log data should be pumped.
@@ -89,8 +85,8 @@ adapters:
     kind: lists             # kind of aspect this adapter can be used with
     impl: ipListChecker     # name of the particular adapter component to use
     params:
-      publisher_url: https://mylistserver:912
-      refresh_interval: 60s
+      publisherUrl: https://mylistserver:912
+      refreshInterval: 60s
 ```
 
 The `name` field gives a name to the block of adapter configuration so it can be referenced from elsewhere. The
@@ -111,13 +107,13 @@ adapters:
     kind: lists
     impl: ipListChecker
     params:
-      publisher_url: https://mysecondlistserver:912
-      refresh_interval: 3600s
+      publisherUrl: https://mysecondlistserver:912
+      refreshInterval: 3600s
   - name: myTernaryListChecker
     kind: lists
     impl: genericListChecker
     params:
-      list_entries:
+      listEntries:
         "400"
         "401"
         "402"
@@ -152,7 +148,7 @@ aspects:
   adapter: myListChecker    # the adapter to use to implement this aspect 
   params:
     blacklist: true
-    check_expression: source.ip
+    checkExpression: source.ip
 ```
 
 The `kind` field distinguishes the behavior of the aspect being defined. The supported kinds
@@ -186,7 +182,7 @@ configuration.
 The `params` stanza is where you enter kind-specific configuration parameters. In
 the case of the `lists` kind, the configuration parameters specify whether the list
 is a blacklist (entries on the list lead to denials) as opposed to a whitelist
-(entries not on the list lead to denials). The `check_expression` field indicates the
+(entries not on the list lead to denials). The `checkExpression` field indicates the
 attribute to use at request time to get the symbol to check against the associated
 adapter's list
 
@@ -198,18 +194,18 @@ aspects:
   adapter: myMetricsCollector
   params:
     metrics:
-    - descriptor_name: request_count
+    - descriptorName: request_count
       value: "1"
       labels:
         source: source.name
         target: target.name
         service: api.name
-        response_code: response.code
+        responseCode: response.code
 ```
 
 This defines an aspect that produces metrics which are sent to the myMetricsCollector adapter,
 which was defined previously. The `metrics` stanza defines the set of metrics that are 
-generated during request processing for this aspect. The `descriptor_name` field specifies
+generated during request processing for this aspect. The `descriptorName` field specifies
 the name of a *descriptor* which is a separate configuration block, described [below](#descriptors), which declares
 the kind of metric this is. The `value` field and the four label fields describe which attributes to use
 at request time in order to produce the metric.
@@ -229,7 +225,7 @@ We've already seen a few simple attribute expressions in the previous examples. 
   source: source.name
   target: target.name
   service: api.name
-  response_code: response.code
+  responseCode: response.code
 ```
 
 The sequences on the right-hand side of the colons are the simplest forms of attribute expressions.
@@ -252,7 +248,7 @@ the attributes in the expression and the operators applied to these attributes.
 The type of an attribute expression is used to ensure consistency in which attributes
 are used in what situation. For example, if a metric descriptor specifies that
 a particular label is of type INT64, then only attribute expressions that produce a
-64-bit integer can be used to fill-in that label. This is the case for the `response_code`
+64-bit integer can be used to fill-in that label. This is the case for the `responseCode`
 label above.
 
 Attribute expressions include the following features:
@@ -283,13 +279,13 @@ aspects:
   adapter: myMetricsCollector
   params:
     metrics:
-    - descriptor_name: request_count
+    - descriptorName: request_count
       value: "1"
       labels:
         source: source.name
         target: target.name
         service: api.name
-        response_code: response.code
+        responseCode: response.code
 ```
 
 The `selector` field above defines an expression that returns `true` if the
@@ -299,7 +295,7 @@ was not defined.
 
 ### Descriptors
 
-Descriptors are used to prepare Mixer, its adapters, and its backend systems to receive
+Descriptors are used to prepare Mixer, its adapters, and its infrastructure backends to receive
 particular types of data. For example, declaring a set of metric descriptors tells Mixer
 the type of data different metrics will carry and the set of labels used to identity different
 instances of these metric.
@@ -320,13 +316,13 @@ metrics:
   - name: request_count
     kind: COUNTER
     value: INT64
-    display_name: "Request Count"
+    displayName: "Request Count"
     description: Request count by source, target, service, and code
     labels:
       source: STRING
       target: STRING
       service: STRING
-      response_code: INT64
+      responseCode: INT64
 ```
 
 The above is declaring that the system can produce metrics called `request_count`.
@@ -335,16 +331,16 @@ metric reported will have four labels, two specifying the source and
 target names, one being the service name, the other being the response code for the request.
 Given this descriptor, Mixer
 can ensure that generated metrics are always properly formed, can arrange for efficient
-storage for these metrics, and can ensure backend systems are ready to accept
-these metrics. The `display_name` and `description` fields are optional and 
-are communicated to backend systems which can use the text to enhance their
+storage for these metrics, and can ensure infrastructure backends are ready to accept
+these metrics. The `displayName` and `description` fields are optional and 
+are communicated to infrastructure backends which can use the text to enhance their
 metric visualization interfaces.
 
 Explicitly defining descriptors and creating adapter parameters using them is akin to types and objects in a traditional
 programming language. Doing so enables a few important scenarios:
 
-- Having the set of descriptors explicitly defined enables Istio to program backend systems to accept traffic produced
-by Mixer. For example, a metric descriptor provides all the information needed to program a backend system to accept metrics
+- Having the set of descriptors explicitly defined enables Istio to program infrastructure backends to accept traffic produced
+by Mixer. For example, a metric descriptor provides all the information needed to program an infrastructure backend to accept metrics
 that conform to the descriptor's shape (it's value type and its set of labels).
 
 - Descriptors can be referenced and reused from multiple aspects.
@@ -438,22 +434,22 @@ manifests:
     revision: "1"
     attributes:
       source.name:
-        value_type: STRING
+        valueType: STRING
         description: The name of the source.
       target.name:
-        value_type: STRING
+        valueType: STRING
         description: The name of the target
       source.ip:
-        value_type: IP_ADDRESS
+        valueType: IP_ADDRESS
         description: Did you know that descriptions are optional?
       origin.user:
-        value_type: STRING
+        valueType: STRING
       request.time:
-        value_type: TIMESTAMP
+        valueType: TIMESTAMP
       request.method:
-        value_type: STRING
+        valueType: STRING
       response.code:
-        value_type: INT64
+        valueType: INT64
 ```
 
 ## Examples
@@ -468,7 +464,3 @@ a specific example, here is the [BookInfo configuration](https://raw.githubuserc
 ## Configuration CLI
 
 *TBD*
-
-
-
-

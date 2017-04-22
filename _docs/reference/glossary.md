@@ -93,6 +93,12 @@ SDS Service Discovery Service -- See https://lyft.github.io/envoy/docs/intro/arc
 
 RDS Route Discovery Service -- See https://lyft.github.io/envoy/docs/configuration/http_conn_man/rds.html#route-discovery-service
 
+Service
+Microservice
+Service Consumer
+Service Producer
+Service Operator / Cluster Operator
+
 -->
                 </ul>
             </div>
