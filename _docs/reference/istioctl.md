@@ -1,13 +1,12 @@
 ---
+category: Reference
 title: The istioctl Command
-headline: 'The istioctl Command'
-sidenav: doc-side-reference-nav.html
+
+order: 10
+
 bodyclass: docs
 layout: docs
 type: markdown
-
-category: Reference
-order: 10
 ---
 
 `istioctl` is a command line interface for managing an Istio service mesh.  This overview covers

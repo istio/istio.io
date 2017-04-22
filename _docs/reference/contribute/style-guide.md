@@ -1,14 +1,13 @@
 ---
+category: Reference
 title: Style Guide
-headline: Istio Documentation Style Guide
-sidenav: doc-side-reference-nav.html
+
+parent: Contributing to the Docs
+order: 70
+
 bodyclass: docs
 layout: docs
 type: markdown
-
-category: Reference
-parent: Contributing to the Docs
-order: 70
 ---
 
 TBD: This needs to be updated with Istio examples instead of Kubernetes examples.

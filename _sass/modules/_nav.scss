@@ -201,7 +201,7 @@
 #sticky-nav{
     @extend #common-nav;
     background: $mainBrandColor no-repeat center/cover;
-    position: fixed;    
+    position: fixed;
     width: 100%;
     z-index: 9000;
     top: -61px;

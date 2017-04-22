@@ -1,14 +1,13 @@
 ---
+category: Reference
 title: Staging Your Changes
-headline: Staging Doc Changes
-sidenav: doc-side-reference-nav.html
+
+parent: Contributing to the Docs
+order: 40
+
 bodyclass: docs
 layout: docs
 type: markdown
-
-category: Reference
-parent: Contributing to the Docs
-order: 40
 ---
 
 This page shows how to stage content that you want to contribute

@@ -1,13 +1,12 @@
 ---
+category: Reference
 title: Glossary
-headline: Glossary
-sidenav: doc-side-reference-nav.html
+
+order: 40
+
 bodyclass: docs
 layout: docs
 type: markdown
-
-category: Reference
-order: 40
 ---
 <div class="container">
     <div class="row">

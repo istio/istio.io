@@ -1,12 +1,12 @@
 ---
+category: Tasks
 title: Integrating Services into the Mesh
-headline: Task X
-sidenav: doc-side-nav.html
+
+order: 20
+
 bodyclass: docs
 layout: docs
 type: markdown
-category: Tasks
-order: 20
 ---
 {% capture overview %}
 This task shows how to do X in a Kubernetes cluster. You'll learn

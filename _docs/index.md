@@ -1,13 +1,12 @@
 ---
 title: Welcome
-headline: Welcome
-sidenav: doc-side-home-nav.html
+index: true
+
+order: 0
+
 bodyclass: docs
 layout: docs
 type: markdown
-
-index: true
-order: 0
 ---
 
 # Welcome
@@ -15,20 +14,20 @@ order: 0
 Welcome to Istio's documentation home page. From here you can learn all about Istio by following
 the links below:
 
-- [Concepts]({{site.bareurl}}/docs/concepts). Concepts explain some significant aspect of Istio. This
+- [Concepts]({{site.baseurl}}/docs/concepts). Concepts explain some significant aspect of Istio. This
 is where you can learn about what Istio does and how it does it.
 
-- [Tasks]({{site.bareurl}}/docs/tasks). Tasks show you how to do a single directed activity with Istio.
+- [Tasks]({{site.baseurl}}/docs/tasks). Tasks show you how to do a single directed activity with Istio.
 
 <!--
-- [Tutorials]({{site.bareurl}}/docs/tutorials). Tutorials are more involved, composing many individual tasks together
+- [Tutorials]({{site.baseurl}}/docs/tutorials). Tutorials are more involved, composing many individual tasks together
 to show you how to perform more complex activities.
 -->
 
-- [Samples]({{site.bareurl}}/docs/samples). Samples are fully working stand-alone examples
+- [Samples]({{site.baseurl}}/docs/samples). Samples are fully working stand-alone examples
 intended to highlight a particular set of Istio's features.
 
-- [Reference]({{site.bareurl}}/docs/reference). Detailed exhaustive list of
+- [Reference]({{site.baseurl}}/docs/reference). Detailed exhaustive list of
 command-line options, configuration options, and API definitions.
 
 We're always looking for help improving our documentation, so please don't hesitate to

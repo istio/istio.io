@@ -1,13 +1,12 @@
 ---
+category: Tasks
 title: Adding Resilience Features
-headline: Task X
-sidenav: doc-side-nav.html
+
+order: 40
+
 bodyclass: docs
 layout: docs
 type: markdown
-
-category: Tasks
-order: 40
 ---
 {% capture overview %}
 This task shows how to do X in a Kubernetes cluster. You'll learn

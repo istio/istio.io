@@ -1,14 +1,14 @@
 ---
+category: Concepts
 title: Concepts
-headline: Concepts
-sidenav: doc-side-nav.html
+index: true
+
+order: 10
+
 bodyclass: docs
 layout: docs
 type: markdown
 
-index: true
-category: Concepts
-order: 10
 ---
 
 # Concepts
@@ -18,13 +18,13 @@ of the Istio system and the abstractions it uses.
 
 - What Is Istio?
 
-    - [Context and Overview](./context-and-overview). Provides a broad overview of what
+    - [Overview](./overview.html). Provides a broad overview of what
 problems Istio is designed to solve.
 
-    - [Design Goals](./design-goals.html). Describes the core principles that
+    - [Design Goals](./goals.html). Describes the core principles that
     Istio's design adheres to.
 
-    - [High-Level Architecture](./high-level-architecture.html). Highlights Istio's core
+    - [Architecture](./architecture.html). Highlights Istio's core
     architectural structure and components.
 
 - Traffic Management

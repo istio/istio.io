@@ -1,14 +1,13 @@
 ---
+category: Concepts
 title: Mixer
-headline: Mixer
-sidenav: doc-side-nav.html
+
+parent: Policies and Control
+order: 20
+
 bodyclass: docs
 layout: docs
 type: markdown
-
-category: Concepts
-parent: Policies and Control
-order: 20
 ---
 {% capture overview %}
 The page explains Mixer's role and general architecture.
@@ -81,7 +80,7 @@ specific set of aspects and adapter parameters.
 The above configuration state is required to have Mixer know what to do with incoming attributes
 and dispatch to the appropriate backend systems.
 
-Refer [here](./mixer-config.md) for detailed information on Mixer's configuration model.
+Refer [here](./mixer-config.html) for detailed information on Mixer's configuration model.
 
 ## Request phases
 

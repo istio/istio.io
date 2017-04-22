@@ -1,15 +1,13 @@
 ---
-title: Creating a Pull Request
-headline: Creating a Doc Pull Request
-sidenav: doc-side-reference-nav.html
-bodyclass: docs
-layout: docs
-type: markdown
-
 category: Reference
+title: Creating a Pull Request
+
 parent: Contributing to the Docs
 order: 20
 
+bodyclass: docs
+layout: docs
+type: markdown
 ---
 
 To contribute to Istio documentation, create a pull request against the

@@ -1,14 +1,13 @@
 ---
+category: Concepts
 title: Architecture
-headline: Architecture
-sidenav: doc-side-nav.html
+
+parent: What is Istio?
+order: 30
+
 bodyclass: docs
 layout: docs
 type: markdown
-
-category: Concepts
-parent: What is Istio?
-order: 30
 ---
 
 {% capture overview %}

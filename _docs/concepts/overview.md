@@ -1,14 +1,13 @@
 ---
+category: Concepts
 title: Overview
-headline: Overview
-sidenav: doc-side-nav.html
+
+parent: What is Istio?
+order: 15
+
 bodyclass: docs
 layout: docs
 type: markdown
-
-category: Concepts
-parent: What is Istio?
-order: 15
 ---
 
 {% capture overview %}

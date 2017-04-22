@@ -1,14 +1,13 @@
 ---
+category: Concepts
 title: Design Goals
-headline: Design Goals
-sidenav: doc-side-nav.html
+
+parent: What is Istio?
+order: 20
+
 bodyclass: docs
 layout: docs
 type: markdown
-
-category: Concepts
-parent: What is Istio?
-order: 20
 ---
 
 {% capture overview %}
