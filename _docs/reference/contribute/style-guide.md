@@ -18,7 +18,7 @@ propose changes to this document in a pull request.
 
 For additional information on creating new content for the Istio
 docs, follow the instructions on
-[Creating a Doc Pull Request]({{site.baseurl}}/docs/reference/contribute/creating-a-pull-request.html).
+[Creating a Doc Pull Request](/docs/reference/contribute/creating-a-pull-request.html).
 
 ## Formatting standards
 

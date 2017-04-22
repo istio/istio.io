@@ -16,9 +16,26 @@ to the Istio documentation.
 ## Before you begin
 
 Create a fork of the Istio documentation repository as described in
-[Creating a Doc Pull Request]({{site.baseurl}}/docs/reference/contribute/creating-a-pull-request.html).
+[Creating a Doc Pull Request](/docs/reference/contribute/creating-a-pull-request.html).
+
+## Staging locally
+
+To stage your changes, go to the top of your documentation repo and start Jekyll via the following
+docker command-line:
+
+```bash
+docker run --rm --label=jekyll --volume=$(pwd):/srv/jekyll  -it -p 127.0.0.1:4000:4000 jekyll/jekyll jekyll serve
+```
+
+If you don't have docker installed, get that first and the above should then just work.
+
+Once the docker command is running, you can open a web browser and go to `http://localhost:4000` to see your
+changes. You can make further changes to the content in your repo and just refresh your browser page to see
+the results, no need to restart Jekyll all the time.
 
 ## Staging from your GitHub account
+
+> Hey, you know, you're much better off staging locally using the above procedure. Just sayin'...
 
 GitHub provides staging of content in your master branch. Note that you
 might not want to merge your changes into your master branch. If that is
@@ -35,35 +52,3 @@ the master branch.
 1. View your staged content at this URL:
 
         https://<your-username>.github.io
-
-## Staging locally
-
-1. [Install Ruby 2.2 or later](https://www.ruby-lang.org){: target="_blank"}.
-
-1. [Install RubyGems](https://rubygems.org){: target="_blank"}.
-
-1. Verify that Ruby and RubyGems are installed:
-
-        gem --version
-
-1. Install the GitHub Pages package, which includes Jekyll:
-
-        gem install github-pages
-
-1. Clone your fork to your local development machine.
-
-1. In the root of your cloned repository, enter this command to start a local
-web server:
-
-        jekyll serve
-
-1. View your staged content at
-[http://localhost:4000](http://localhost:4000){: target="_blank"}.
-
-<i>NOTE: If you do not want Jekyll to interfere with your other globally installed gems, you can use `bundler`:</i> 
- 
- 	gem install bundler
- 	bundle install
- 	bundler exec jekyll serve
-
-<i> Regardless of whether you use `bundler` or not, your copy of the site will then be viewable at: [http://localhost:4000](http://localhost:4000)</i>

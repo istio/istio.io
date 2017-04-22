@@ -15,7 +15,7 @@ This page shows how to create a new Istio documentation topic.
 ## Before you begin
 
 You first need to create a fork of the Istio documentation repository as described in
-[Creating a Doc Pull Request]({{site.baseurl}}/docs/reference/contribute/creating-a-pull-request.html).
+[Creating a Doc Pull Request](/docs/reference/contribute/creating-a-pull-request.html).
 
 ## Choosing a page type
 
@@ -70,7 +70,7 @@ Choose a title for your topic that has the keywords you want search engines to f
 Create a filename for your topic that uses the words in your title, separated by hyphens,
 all in lower case.
 
-For example, the topic with title [TBD]({{site.baseurl}}/docs/tasks/tbd.html)
+For example, the topic with title [TBD](/docs/tasks/tbd.html)
 has filename `tbd.md`. You don't need to put
 "Istio" in the filename, because "Istio" is already in the
 URL for the topic, for example:
@@ -99,17 +99,16 @@ chunk of front matter you should start with:
     ---
 
 Copy the above at the start of your new markdown file and update
-the TBD fields for your particular file.
+the TBD fields for your particular file. The available front
+matter fields are:
 
-`CATEGORY_TBD` represents the type of documents this is and is one of Concepts, Tasks, Tutorials, Samples or Reference
-
-`TITLE_TBD` is displayed in browser title bars and tabs. `HEADLINE_TBD` is displayed in large
-font in the banner at the top of the page. Make titles fairly succinct with critical words up
-front such that browser tabs work best, whereas the headlines can be longer and more descriptive.
-
-`PARENT_TBD` is the name of the parent within the left-hand navigation bar. Leave this out if this is a top-level item.
-
-`ORDER_TBD` specifies the position of this item in the left-hand navigation bar relative to other entries.
+|Field      | Description
+|-----------|------------
+|`category` | this must be there in order for the page to show up
+|`index`    | indicates whether the page should appear in the doc's top nav tabs
+|`order`    | integer used for sort order
+|`marker`   | boolean to indicate a section separator in sidenav but NOT a page with content that is ever shown
+|`parent`   | indicates that this page should be shown under another page hierarchically, basically this is a subcategory
 
 ## Choosing a directory
 
