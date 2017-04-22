@@ -48,7 +48,7 @@ can be added to Istio and be fully manipulated using the same general mechanisms
 
 ## Concepts
 
-Mixer is an attribute processing machine. Requests arrive at Mixer with a set of [*attributes*]({{site.baseurl}}/docs/attributes.html),
+Mixer is an attribute processing machine. Requests arrive at Mixer with a set of [*attributes*]({{site.baseurl}}/docs/concepts/attributes.html),
 and based on these attributes, Mixer generates calls to a variety of backend systems. The set of
 attributes determines which backend systems Mixer calls for a given request and what parameters
 each is given. In order to hide the details of individual backend systems, Mixer uses modules
@@ -354,7 +354,7 @@ Istio can provide a number of strong correctness guarantees of the system's conf
 configuration is accepted into the Istio system, it means the configuration passes a minimum correctness bar. Again, this
 plays the same role as types in a programming language.
 
-- It enables Istio to provide a strongly-typed scripting environment as discussed [here](./mixer.md#scripting)
+- It enables Istio to provide a strongly-typed scripting environment as discussed [here](./mixer.html#scripting)
 
 The different descriptor types are detailed in *TBD*
 
@@ -399,7 +399,7 @@ operator can manipulate which scope.
 
 #### Resolution
 
-When a request arrives, Mixer goes through a number of [request processing phases](./mixer.md#request-phases).
+When a request arrives, Mixer goes through a number of [request processing phases](./mixer.html#request-phases).
 The Resolution phase is concerned with identifying the exact configuration blocks to use in order to
 process the incoming request. For example, a request arriving at Mixer for service A likely has some configuration differences
 with requests arriving for service B. Resolution is about deciding which config to use for a request.

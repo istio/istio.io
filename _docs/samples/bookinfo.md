@@ -113,7 +113,7 @@ _Note: The following instructions assume that you have access to a kubernetes cl
 
    Notice that the `istioctl kube-inject` command is used to modify the `bookinfo.yaml`
    file before creating the deployments. This injects the istio runtime proxy
-   into kubernetes resources as documented [here](../reference/istioctl.md#kube-inject).
+   into kubernetes resources as documented [here](../reference/istioctl.html#kube-inject).
    Consequently, all of the microservices are now packaged with an Istio sidecar
    that manages incoming and outgoing calls for the service. The updated diagram looks
    like this:
