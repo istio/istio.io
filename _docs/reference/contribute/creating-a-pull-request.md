@@ -7,8 +7,6 @@ layout: docs
 type: markdown
 
 category: Reference
-parent: Contributing
-order: 120category: Reference
 parent: Contributing to the Docs
 order: 20
 
