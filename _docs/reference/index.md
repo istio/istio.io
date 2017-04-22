@@ -35,20 +35,20 @@ vocabulary used for policy and control.
 
 - Contributing to the Docs
 
-    - [Editing Docs](./editing.html). Lets you start editing this
+    - [Editing Docs](./contribute/editing.html). Lets you start editing this
     site's documentation.
     
-    - [Creating a Pull Request](./creating-a-pull-request.html). Shows you
+    - [Creating a Pull Request](./contribute/creating-a-pull-request.html). Shows you
     how to create a GitHub pull request in order to submit your docs for approval.
     
-    - [Writing a New Topic](./writing-a-new-topic.html). Explains the
+    - [Writing a New Topic](./contribute/writing-a-new-topic.html). Explains the
     mechanics of creating new documentation pages.
     
-    - [Staging Your Changes](./staging-your-changes.html). Explains how
+    - [Staging Your Changes](./contribute/staging-your-changes.html). Explains how
     to test out your changes locally before submitting them.
     
-    - [Reviewing Doc Issues](./reviewing-doc-issues.html). Explains
+    - [Reviewing Doc Issues](./contribute/reviewing-doc-issues.html). Explains
     the process involved in accepting documentation updates.
     
-    - [Style Guide](./style-guide.html). Explains the dos and donts
+    - [Style Guide](./contribute/style-guide.html). Explains the dos and donts
     of writing Istio docs.

@@ -42,7 +42,7 @@ streams intended for both the service operator as well as for service consumers.
 management tool to provide some fairness between service consumers when contending for limited resources. Rate limits are
 examples of quotas.
 
-These mechanisms are applied based on a set of [attributes]({{site.baseurl}}/docs/concepts/attributes.html) that are
+These mechanisms are applied based on a set of [attributes](/docs/concepts/attributes.html) that are
 materialized for every request into Mixer. Within Istio, Envoy depends heavily on Mixer. Services running within the mesh
 can also use Mixer to report telemetry or manage quotas. (Note: as of Istio Alpha, only Envoy can call Mixer.)
 
@@ -91,7 +91,7 @@ set of adapters that are responsible for introducing new attributes. These attri
 from the request to form the total set of attributes for the operation.
 
 - **Resolution**. The second phase is to evaluate the set of attributes to determine the effective 
-configuration to apply for the request. See *TBD* for information on how resolution works. The effective
+configuration to apply for the request. See [here](./mixer-config.html#resolution) for information on how resolution works. The effective
 configuration determines the set of aspects and descriptors available to handle the request in the
 subsequent phases.
 
