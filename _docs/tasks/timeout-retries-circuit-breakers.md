@@ -1,6 +1,6 @@
 ---
 category: Tasks
-title: Adding Resilience Features
+title: Timeouts, Retries, and Circuit Breakers
 
 order: 40
 
@@ -9,8 +9,8 @@ layout: docs
 type: markdown
 ---
 
-This task shows how to do X in a Kubernetes cluster. You'll learn
-how to ...
+This task shows you how to setup timeouts, retries, and circuit breakers in
+Envoy using Istio.
 
 
 ## Before you begin
