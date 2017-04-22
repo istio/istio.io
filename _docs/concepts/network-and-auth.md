@@ -1,6 +1,6 @@
 ---
-title: Policies and Control
+title: Network and Auth
 category: Concepts
 marker: true
-order: 40
+order: 30
 ---

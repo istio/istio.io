@@ -1,13 +1,13 @@
 ---
 title: Attributes
 headline: Attributes
-sidenav: doc-side-concepts-nav.html
+sidenav: doc-side-nav.html
 bodyclass: docs
 layout: docs
 type: markdown
 
 category: Concepts
-parent: Policy & Control
+parent: Policies and Control
 order: 10
 ---
 {% capture overview %}

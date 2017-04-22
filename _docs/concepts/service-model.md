@@ -2,12 +2,13 @@
 bodyclass: docs
 headline: Service Model
 layout: docs
-sidenav: doc-side-concepts-nav.html
+sidenav: doc-side-nav.html
 title: Service Model
 type: markdown
 
 category: Concepts
-order: 11
+parent: Traffic Management
+order: 0
 ---
 {% capture overview %}
 The page explains Istio's overall service model.

@@ -6,12 +6,12 @@
 		{% assign cat_name = cat.title | default: "EMPTY" %}
 		{% assign cat_parent = cat.parent | default: "EMPTY" %}
 		{% unless cat.url contains "index" %}
-			{% if cat_name != "EMPTY" and cat_parent == "EMPTY" %}
-				{% if cat.has_children == true %}
+			{% if cat_name != "EMPTY" %}
+				{% if cat.marker == true %}
 				<li class="doc-side-nav-list-item">
 					<label class="tree-toggle">
 						<i class="fa fa-lg fa-caret-down"></i>
-						<a href="{{ cat.url }}">{{ cat_name }}</a>
+						{{ cat_name }}
 					</label>
 					<ul class="list-unstyled tree">
 						{% assign children = site.docs | where:"parent",cat.title | sort:"order" %}
@@ -20,7 +20,8 @@
 						{% endfor %}
 					</ul>
 				</li>
-				{% else %}
+				{% endif %}
+				{% if cat.parent == "EMPTY" %}
 				<li class="doc-side-nav-list-item">
 					<a href="{{ cat.url }}">{{ cat_name }}</a>
 				</li>

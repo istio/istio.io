@@ -1,14 +1,14 @@
 ---
 title: Mixer
 headline: Mixer
-sidenav: doc-side-concepts-nav.html
+sidenav: doc-side-nav.html
 bodyclass: docs
 layout: docs
 type: markdown
 
 category: Concepts
-parent: Policy & Control
-order: 11
+parent: Policies and Control
+order: 20
 ---
 {% capture overview %}
 The page explains Mixer's role and general architecture.

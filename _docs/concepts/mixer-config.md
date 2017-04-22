@@ -1,14 +1,14 @@
 ---
 title: Mixer Configuration
 headline: Mixer Configuration Model
-sidenav: doc-side-concepts-nav.html
+sidenav: doc-side-nav.html
 bodyclass: docs
 layout: docs
 type: markdown
 
 category: Concepts
-parent: Policy & Control
-order: 12
+parent: Policies and Control
+order: 30
 ---
 
 {% capture overview %}
@@ -426,7 +426,7 @@ evaluate the current request.
 
 ### Manifests
 
-Manifests are used to capture invariants about the components involved in a particular Istio deployment. The only
+Manifests capture invariants about the components involved in a particular Istio deployment. The only
 kind of manifest supported at the moment are *attribute manifests* which are used to define the exact
 set of attributes produced by individual components. Manifests are supplied by component producers
 and inserted into a deployment's configuration.
