@@ -76,7 +76,7 @@
 	// Add caret to current page
 	.current:before{
 		content: '> ';
-		background-color: $gray;
+		//background-color: $gray;
 	}
 
 	.doc-side-nav-title {
