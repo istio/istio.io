@@ -15,7 +15,7 @@ This page shows how to create a new Istio documentation topic.
 ## Before you begin
 
 You first need to create a fork of the Istio documentation repository as described in
-[Creating a Doc Pull Request]({{site.baseurl}}/docs/home/contribute/creating-a-pull-request.html).
+[Creating a Doc Pull Request]({{site.baseurl}}/docs/reference/contribute/creating-a-pull-request.html).
 
 ## Choosing a page type
 
@@ -53,7 +53,7 @@ is the best fit for your content:
   </tr>
 </table>
 
-Each page type has a [template]({{site.baseurl}}/docs/home/contribute/using-page-templates.html)
+Each page type has a [template]({{site.baseurl}}/docs/reference/contribute/using-page-templates.html)
 that you can use as you write your topic. Using templates helps ensure consistency among topics of a given type.
 
 ## Naming a topic

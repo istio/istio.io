@@ -16,7 +16,7 @@ to the Istio documentation.
 ## Before you begin
 
 Create a fork of the Istio documentation repository as described in
-[Creating a Doc Pull Request]({{site.baseurl}}/docs/home/contribute/creating-a-pull-request.html).
+[Creating a Doc Pull Request]({{site.baseurl}}/docs/reference/contribute/creating-a-pull-request.html).
 
 ## Staging from your GitHub account
 

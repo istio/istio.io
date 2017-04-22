@@ -1,17 +1,13 @@
 ---
 category: Reference
-title: Overview
-index: true
-
-parent: Contributing to the Docs
-order: 0
+title: Contributing to the Docs
 
 bodyclass: docs
 layout: docs
 type: markdown
 ---
 
-# Contributing
+# Contributing to the Istio Docs
 
 This section teaches you how to contribute to the Istio documentation effort.
 
