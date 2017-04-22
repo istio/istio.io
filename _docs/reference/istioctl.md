@@ -1,5 +1,5 @@
 ---
-title: istioctl
+title: The istioctl Command
 headline: 'The istioctl Command'
 sidenav: doc-side-reference-nav.html
 bodyclass: docs

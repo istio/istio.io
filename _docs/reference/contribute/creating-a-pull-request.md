@@ -8,7 +8,10 @@ type: markdown
 
 category: Reference
 parent: Contributing
-order: 120
+order: 120category: Reference
+parent: Contributing to the Docs
+order: 20
+
 ---
 
 To contribute to Istio documentation, create a pull request against the

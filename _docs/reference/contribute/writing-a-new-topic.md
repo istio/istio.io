@@ -7,8 +7,9 @@ layout: docs
 type: markdown
 
 category: Reference
-parent: Contributing
-order: 130
+parent: Contributing to the Docs
+order: 30
+
 ---
 
 This page shows how to create a new Istio documentation topic.

@@ -7,9 +7,8 @@ layout: docs
 type: markdown
 
 category: Reference
-parent: Contributing
-order: 140
-
+parent: Contributing to the Docs
+order: 40
 ---
 
 This page shows how to stage content that you want to contribute

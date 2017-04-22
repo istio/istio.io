@@ -7,8 +7,8 @@ layout: docs
 type: markdown
 
 category: Reference
-parent: Contributing
-order: 110
+parent: Contributing to the Docs
+order: 10
 ---
 
 <script language="JavaScript">

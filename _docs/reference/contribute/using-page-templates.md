@@ -7,9 +7,8 @@ layout: docs
 type: markdown
 
 category: Reference
-parent: Contributing
-order: 150
-
+parent: Contributing to the Docs
+order: 50
 ---
 
 Individual topics are built using page templates which provide some consistent
