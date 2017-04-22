@@ -1,7 +1,7 @@
 ---
-title: Metrics & Logs
+title: Collecting Metrics and Logs
 headline: Task X
-sidenav: doc-side-tasks-nav.html
+sidenav: doc-side-nav.html
 bodyclass: docs
 layout: docs
 type: markdown

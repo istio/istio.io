@@ -1,13 +1,13 @@
 ---
-title: Ingres - Egress With Envoy
+title: Configuring Ingress/Egress with Envoy
 headline: Task X
-sidenav: doc-side-tasks-nav.html
+sidenav: doc-side-nav.html
 bodyclass: docs
 layout: docs
 type: markdown
 category: Tasks
 
-order: 40
+order: 30
 ---
 {% capture overview %}
 This task shows how to do X in a Kubernetes cluster. You'll learn

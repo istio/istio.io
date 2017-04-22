@@ -1,12 +1,12 @@
 ---
-title: Integrating Services Into Istio
+title: Integrating Services into the Mesh
 headline: Task X
-sidenav: doc-side-tasks-nav.html
+sidenav: doc-side-nav.html
 bodyclass: docs
 layout: docs
 type: markdown
 category: Tasks
-order: 50
+order: 20
 ---
 {% capture overview %}
 This task shows how to do X in a Kubernetes cluster. You'll learn

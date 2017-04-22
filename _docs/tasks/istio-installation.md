@@ -1,13 +1,13 @@
 ---
-title: Installing Istio
+title: Installation
 headline: Installing Istio
-sidenav: doc-side-tasks-nav.html
+sidenav: doc-side-nav.html
 bodyclass: docs
 layout: docs
 type: markdown
 
 category: Tasks
-order: 70
+order: 10
 ---
 {% capture overview %}
 This task shows how to install Istio in a Kubernetes cluster. You'll learn

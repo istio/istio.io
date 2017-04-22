@@ -1,13 +1,13 @@
 ---
 title: Configuring Mixer
 headline: Task X
-sidenav: doc-side-tasks-nav.html
+sidenav: doc-side-nav.html
 bodyclass: docs
 layout: docs
 type: markdown
 
 category: Tasks
-order: 10
+order: 110
 
 ---
 {% capture overview %}

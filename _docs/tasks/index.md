@@ -1,13 +1,13 @@
 ---
 title: Tasks
 headline: Tasks
-sidenav: doc-side-tasks-nav.html
+sidenav: doc-side-nav.html
 bodyclass: docs
 layout: docs
 type: markdown
 
 index: true
-order: 2
+order: 20
 
 category: Tasks
 ---
