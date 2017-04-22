@@ -16,14 +16,14 @@
 					<ul class="list-unstyled tree">
 						{% assign children = site.docs | where:"parent",cat.title | sort:"order" %}
 						{% for child in children %}
-							<li><a href="{{site.baseurl}}/{{child.url}}">{{ child.title }}</a></li>
+							<li><a href="{{child.url}}">{{ child.title }}</a></li>
 						{% endfor %}
 					</ul>
 				</li>
 				{% endif %}
 				{% if cat.marker != true and cat_parent == "EMPTY" %}
 				<li class="doc-side-nav-list-item">
-					<a href="{{site.baseurl}}/{{ cat.url }}">{{ cat_name }}</a>
+					<a href="{{ cat.url }}">{{ cat_name }}</a>
 				</li>
 				{% endif %}
 			{% endif %}
