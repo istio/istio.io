@@ -1,13 +1,12 @@
 ---
+category: Samples
 title: BookInfo
-headline: 'BookInfo - A Polyglot Microservice App'
-sidenav: doc-side-nav.html
+
+order: 10
+
 bodyclass: docs
 layout: docs
 type: markdown
-
-category: Samples
-order: 10
 ---
 
 {% capture overview %}
@@ -69,7 +68,7 @@ _Note: The following instructions assume that you have access to a kubernetes cl
    http://127.0.0.1:8001/api/v1/proxy/namespaces/<ns>/services/grafana:3000/dashboard/db/istio-dashboard
    ```
    
-1. Install the [istioctl](../reference/istioctl.md) CLI, which provides a
+1. Install the [istioctl](../reference/istioctl.html) CLI, which provides a
    convenient way to apply routing rules and policies for upstreams. The
    [istio.VERSION](https://github.com/istio/istio/blob/master/istio.VERSION) file includes the download location of 
    three OS-specific binaries: `istioctl-osx`, `istioctl-win.exe`,

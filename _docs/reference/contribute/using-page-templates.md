@@ -1,14 +1,13 @@
 ---
+category: Reference
 title: Using Page Templates
-headline: Using Page Templates
-sidenav: doc-side-reference-nav.html
+
+parent: Contributing to the Docs
+order: 50
+
 bodyclass: docs
 layout: docs
 type: markdown
-
-category: Reference
-parent: Contributing to the Docs
-order: 50
 ---
 
 Individual topics are built using page templates which provide some consistent
@@ -46,8 +45,6 @@ Here's an example of a page that uses the concept template:
 {% raw %}
 <pre>---
 title: Understanding this Thing
-headline: Understanding a Thing
-sidenav: doc-side-concepts-nav.html
 bodyclass: docs
 layout: docs
 type: markdown
@@ -103,8 +100,6 @@ Here's an example of a Markdown file that uses the task template:
 {% raw %}
 <pre>---
 title: Configuring This Thing
-headline: Configuring This Thing
-sidenav: doc-side-tasks-nav.html
 bodyclass: docs
 layout: docs
 type: markdown
@@ -171,8 +166,6 @@ Here's an example of a Markdown file that uses the tutorial template:
 {% raw %}
 <pre>---
 title: Running a Thing
-headline: Running a Thing
-sidenav: doc-side-tutorials-nav.html
 bodyclass: docs
 layout: docs
 type: markdown
@@ -247,8 +240,6 @@ Here's an example of a page that uses the concept template:
 {% raw %}
 <pre>---
 title: Running a Thing
-headline: Running a Thing
-sidenav: doc-side-samples-nav.html
 bodyclass: docs
 layout: docs
 type: markdown

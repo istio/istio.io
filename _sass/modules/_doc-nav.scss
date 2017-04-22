@@ -76,7 +76,6 @@
 	// Add caret to current page
 	.current:before{
 		content: '> ';
-		//background-color: $gray;
 	}
 
 	.doc-side-nav-title {
@@ -96,7 +95,7 @@
 
     h6 {
         color: $mainBrandColor;
-        font-size: 100%; // hack
+        font-size: 100%;
         font-weight: 400;
         line-height: 22px;
     }

@@ -1,14 +1,13 @@
 ---
+category: Concepts
 title: Attributes
-headline: Attributes
-sidenav: doc-side-nav.html
+
+parent: Policies and Control
+order: 10
+
 bodyclass: docs
 layout: docs
 type: markdown
-
-category: Concepts
-parent: Policies and Control
-order: 10
 ---
 {% capture overview %}
 The page describes Istio attributes, what they are and how they are used.

@@ -1,14 +1,13 @@
 ---
+category: Tutorials
 title: Tutorials
-headline: Tutorials
-sidenav: doc-side-nav.html
+#index: true
+
+#order: 6
+
 bodyclass: docs
 layout: docs
 type: markdown
-
-#index: true
-#order: 6
-category: Tutorials
 ---
 
 # Tutorials

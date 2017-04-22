@@ -1,14 +1,13 @@
 ---
-bodyclass: docs
-headline: Service Model
-layout: docs
-sidenav: doc-side-nav.html
-title: Service Model
-type: markdown
-
 category: Concepts
+title: Service Model
+
 parent: Traffic Management
 order: 0
+
+bodyclass: docs
+layout: docs
+type: markdown
 ---
 {% capture overview %}
 The page explains Istio's overall service model.
@@ -42,7 +41,7 @@ way to subdivide service instances by versions (`v1`, `v2`) or environment
 versions: they could be iterative changes to the same service, deployed in
 different environments (prod, staging, dev, etc.). Common scenarios where
 this occurs include A/B testing, canary rollouts, etc. Istio
-[routing rules](../reference/rule-dsl.md) can refer to the service versions, to provide
+[routing rules](../reference/routing-and-traffic-management.html) can refer to the service versions, to provide
 additional control over traffic between services.
 
 **Tags** Each version of a service can be differentiated by a unique set of
@@ -79,7 +78,7 @@ The actual choice of the service version is determined dynamically by the
 Istio Proxy based on the routing rules set forth by the operator. This
 model enables the application code to decouple itself from the
 evolution of its dependent services, while providing other benefits as well
-(see [mixer](mixer.md)). Routing rules allow Envoy to select a version based on
+(see [Mixer](./mixer.html)). Routing rules allow Envoy to select a version based on
 criterion such as (headers, url, etc.), tags associated with
 source/destination and/or by weights assigned to each version.
 

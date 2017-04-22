@@ -1,13 +1,12 @@
 ---
+category: Tasks
 title: Timeout Injection
-headline: 'Timeout Injection'
-sidenav: doc-side-tasks-nav.html
+
+order: 65
+
 bodyclass: docs
 layout: docs
 type: markdown
-
-category: Tasks
-order: 65
 ---
 
 {% capture overview %}

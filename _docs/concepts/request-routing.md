@@ -1,14 +1,13 @@
 ---
-bodyclass: docs
-headline: Request Routing
-layout: docs
-sidenav: doc-side-nav.html
-title: Request Routing
-type: markdown
-
 category: Concepts
+title: Request Routing
+
 parent: Traffic Management
 order: 20
+
+bodyclass: docs
+layout: docs
+type: markdown
 ---
 
 {% capture overview %}
@@ -44,7 +43,7 @@ routed. In a Kubernetes deployment of Istio, the route *tag* "version: v1"
 corresponds to a Kubernetes *label* "version: v1".  The rule ensures that
 only Kubernetes pods containing the label "version: v1" will receive
 traffic. Rules can be configured using the
-[istioctl CLI](../reference/istioctl.md). See
+[istioctl CLI](../reference/istioctl.html). See
 [configuring request routing](../tasks/request-routing.html) section for
 more information and examples.
 

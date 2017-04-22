@@ -1,12 +1,11 @@
 ---
+category: Reference
 title: Contributing to the Docs
-headline: Contributing to the Docs
-sidenav: doc-side-reference-nav.html
+
+marker: true
+order: 100
+
 bodyclass: docs
 layout: docs
 type: markdown
-
-category: Reference
-marker: true
-order: 100
 ---

@@ -1,14 +1,13 @@
 ---
-bodyclass: docs
-headline: Resiliency
-layout: docs
-sidenav: doc-side-concepts-nav.html
-title: Resiliency
-type: markdown
-
 category: Concepts
+title: Resiliency
+
 parent: Traffic Management
 order: 30
+
+bodyclass: docs
+layout: docs
+type: markdown
 ---
 
 {% capture overview %} 

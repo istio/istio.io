@@ -1,16 +1,15 @@
 ---
+category: Tasks
 title: Tasks
-headline: Tasks
-sidenav: doc-side-nav.html
+index: true
+
+order: 20
+
 bodyclass: docs
 layout: docs
 type: markdown
-
-index: true
-order: 20
-
-category: Tasks
 ---
+
 # Tasks
 
 Tasks show you how to do a single specific targeted

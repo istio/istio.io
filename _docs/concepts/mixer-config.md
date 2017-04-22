@@ -1,14 +1,13 @@
 ---
+category: Concepts
 title: Mixer Configuration
-headline: Mixer Configuration Model
-sidenav: doc-side-nav.html
+
+parent: Policies and Control
+order: 30
+
 bodyclass: docs
 layout: docs
 type: markdown
-
-category: Concepts
-parent: Policies and Control
-order: 30
 ---
 
 {% capture overview %}

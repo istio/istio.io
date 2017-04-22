@@ -1,13 +1,12 @@
 ---
+category: Tasks
 title: Fault Injection
-headline: Task X
-sidenav: doc-side-nav.html
+
+order: 60
+
 bodyclass: docs
 layout: docs
 type: markdown
-
-category: Tasks
-order: 60
 ---
 {% capture overview %}
 This task shows how to do X in a Kubernetes cluster. You'll learn

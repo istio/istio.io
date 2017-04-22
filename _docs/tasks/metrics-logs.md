@@ -1,13 +1,12 @@
 ---
+category: Tasks
 title: Collecting Metrics and Logs
-headline: Task X
-sidenav: doc-side-nav.html
+
+order: 80
+
 bodyclass: docs
 layout: docs
 type: markdown
-
-category: Tasks
-order: 80
 ---
 {% capture overview %}
 This task shows how to do X in a Kubernetes cluster. You'll learn

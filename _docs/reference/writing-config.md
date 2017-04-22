@@ -1,13 +1,12 @@
 ---
+category: Reference
 title: Writing Configuration
-headline: Writing Configuration
-sidenav: doc-side-reference-nav.html
+
+order: 70
+
 bodyclass: docs
 layout: docs
 type: markdown
-
-category: Reference
-order: 70
 ---
 
 {% capture overview %}

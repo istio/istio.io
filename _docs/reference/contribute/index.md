@@ -1,14 +1,14 @@
 ---
+category: Reference
 title: Overview
-headline: Contributing to the Docs
-sidenav: doc-side-reference-nav.html
+index: true
+
+parent: Contributing to the Docs
+order: 0
+
 bodyclass: docs
 layout: docs
 type: markdown
-
-category: Reference
-order: 0
-parent: Contributing to the Docs
 ---
 
 # Contributing

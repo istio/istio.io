@@ -1,13 +1,12 @@
 ---
+category: Tasks
 title: Enabling Istio Auth
-headline: Task X
-sidenav: doc-side-nav.html
+
+order: 70
+
 bodyclass: docs
 layout: docs
 type: markdown
-
-category: Tasks
-order: 70
 ---
 {% capture overview %}
 This task shows how to do X in a Kubernetes cluster. You'll learn
