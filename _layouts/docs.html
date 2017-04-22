@@ -4,15 +4,15 @@ layout: default
 bodyclass: docs
 ---
 
-{% include doc-nav.html %}
+{% include doc-top-nav.html %}
 
 {% assign current = page.url | downcase | split: '/' %}
-        {% if current[1] == 'docs' and page.sidenav != null %}
+        {% if current[1] == 'docs' %}
         <div class="container">
             <div class="row">
                 <div class="col-md-11 nofloat center-block ">
                     <div class="col-sm-3">
-                        {% include {{page.sidenav}} %}
+                        {% include doc-side-nav.html %}
                     </div>
                     <div class="col-sm-7 {{ page.type }}">
                         {{ content }}

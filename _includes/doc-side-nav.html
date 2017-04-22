@@ -1,0 +1,53 @@
+<ul class="doc-side-nav doc-side-nav-concepts">
+	{% assign current = page.url | downcase | split: '/' %}
+	<li><h5 class="doc-side-nav-title">{{page.category}}</h5></li>
+	{% assign cats = site.docs | where:"category",page.category | sort:"order" %}
+	{% for cat in cats %}
+		{% assign cat_name = cat.title | default: "EMPTY" %}
+		{% assign cat_parent = cat.parent | default: "EMPTY" %}
+		{% unless cat.url contains "index" %}
+			{% if cat_name != "EMPTY" %}
+				{% if cat.marker == true %}
+				<li class="doc-side-nav-list-item">
+					<label class="tree-toggle">
+						<i class="fa fa-lg fa-caret-down"></i>
+						{{ cat_name }}
+					</label>
+					<ul class="list-unstyled tree">
+						{% assign children = site.docs | where:"parent",cat.title | sort:"order" %}
+						{% for child in children %}
+							<li><a href="{{child.url}}">{{ child.title }}</a></li>
+						{% endfor %}
+					</ul>
+				</li>
+				{% endif %}
+				{% if cat.marker != true and cat_parent == "EMPTY" %}
+				<li class="doc-side-nav-list-item">
+					<a href="{{ cat.url }}">{{ cat_name }}</a>
+				</li>
+				{% endif %}
+			{% endif %}
+		{% endunless %}
+	{% endfor %}
+ </ul>
+
+<style>
+    .tree li { padding-left: 20px; }
+    .tree-toggle {
+        cursor: pointer;
+		margin-left: -1em;
+    }
+</style>
+
+<script type="text/javascript">
+(function($) {
+	$(document).ready(function() {
+		/* toggle category tree */
+		$(document).on('click', '.tree-toggle', function () {
+			$(this).children('i.fa').toggleClass('fa-caret-right');
+			$(this).children('i.fa').toggleClass('fa-caret-down');
+			$(this).parent().children('ul.tree').toggle(200);
+		});
+	});
+}(jQuery));
+</script>
