@@ -33,4 +33,22 @@ vocabulary used for policy and control.
 
 - [Writing Configuration](./writing-config.html). How to write Istio config YAML content.
 
-- [Contributing to the Docs](./contribute/index.html). See how you can help make these docs better.
+- Contributing to the Docs
+
+    - [Editing Docs](./editing.html). Lets you start editing this
+    site's documentation.
+    
+    - [Creating a Pull Request](./creating-a-pull-request.html). Shows you
+    how to create a GitHub pull request in order to submit your docs for approval.
+    
+    - [Writing a New Topic](./writing-a-new-topic.html). Explains the
+    mechanics of creating new documentation pages.
+    
+    - [Staging Your Changes](./staging-your-changes.html). Explains how
+    to test out your changes locally before submitting them.
+    
+    - [Reviewing Doc Issues](./reviewing-doc-issues.html). Explains
+    the process involved in accepting documentation updates.
+    
+    - [Style Guide](./style-guide.html). Explains the dos and donts
+    of writing Istio docs.
