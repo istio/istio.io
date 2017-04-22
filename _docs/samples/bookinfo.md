@@ -1,12 +1,13 @@
 ---
 title: BookInfo
 headline: 'BookInfo - A Polyglot Microservice App'
-sidenav: doc-side-samples-nav.html
+sidenav: doc-side-nav.html
 bodyclass: docs
 layout: docs
 type: markdown
 
 category: Samples
+order: 10
 ---
 
 {% capture overview %}
@@ -30,7 +31,7 @@ There are 3 versions of the reviews microservice:
 
 The end-to-end architecture of the application is shown below.
 
-![Bookinfo app_noistio](../../img/example-app-bookinfo-noistio.svg)
+![Bookinfo app_noistio](./img/bookinfo/noistio.svg)
 
 This application is polyglot, i.e., the microservices are written in different languages.
 
@@ -39,27 +40,27 @@ This application is polyglot, i.e., the microservices are written in different l
 {% capture prerequisites %}
 _Note: The following instructions assume that you have access to a kubernetes cluster. To install kubernetes locally, checkout [minikube](https://github.com/kubernetes/minikube)_
 
-1. Clone the istio GitHub repository and start the core Istio services (the istio-manager, the istio-mixer, and the istio ingress controller).
+1. Clone the istio GitHub repository and start the core Istio services (the istio-manager, the [Mixer](https://istio.io/docs/concepts/mixer.html), and the istio ingress controller).
+   
+   ```bash
+   git clone https://github.com/istio/istio
+   cd istio
+   kubectl apply -f ./kubernetes/istio-install
+   ```
+   
+   _Note: the current version of the bookinfo application MUST use the `default` Kubernetes namespace._ 
+   
+1. If you would like to view the metrics collected by Istio proxies, you need to install the [Prometheus](https://prometheus.io/) addon and start a [Grafana](https://grafana.com/) service as well.
+   
+   ```bash
+   kubectl apply -f ./kubernetes/addons/
+   ```
 
-```bash  
-git clone https://github.com/istio/istio
-cd istio
-kubectl apply -f ./kubernetes/istio-install
-```
-
-   _Note: the current version of the bookinfo application MUST use the `default` Kubernetes namespace._
-   
-2. If you would like to view the metrics collected by Istio proxies, you need to install the Prometheus addon and start a Grafana service as well.
-   
-```bash
-kubectl apply -f ./kubernetes/addons/
-```
-   
    The Grafana image provided as part of this sample contains a built-in Istio-dashboard that you can access from:
 
-```
-http://<grafana-svc-external-IP>:3000/dashboard/db/istio-dashboard
-```
+   ```
+   http://<grafana-svc-external-IP>:3000/dashboard/db/istio-dashboard
+   ```
 
    > The addons yaml files contain services configured as type LoadBalancer. If services are deployed with type NodePort,
    > start kubectl proxy, and edit Grafana's Istio-dashboard to use the Envoy proxy. Access Grafana via kubectl proxy:*
@@ -67,8 +68,8 @@ http://<grafana-svc-external-IP>:3000/dashboard/db/istio-dashboard
    ```
    http://127.0.0.1:8001/api/v1/proxy/namespaces/<ns>/services/grafana:3000/dashboard/db/istio-dashboard
    ```
-
-2. Install the [istioctl](../reference/istioctl.md) CLI, which provides a
+   
+1. Install the [istioctl](../reference/istioctl.md) CLI, which provides a
    convenient way to apply routing rules and policies for upstreams. The
    [istio.VERSION](https://github.com/istio/istio/blob/master/istio.VERSION) file includes the download location of 
    three OS-specific binaries: `istioctl-osx`, `istioctl-win.exe`,
@@ -118,7 +119,7 @@ http://<grafana-svc-external-IP>:3000/dashboard/db/istio-dashboard
    that manages incoming and outgoing calls for the service. The updated diagram looks
    like this:
 
-   ![Bookinfo app](../../img/example-app-bookinfo.svg)
+   ![Bookinfo app](./img/bookinfo/withistio.svg)
 
 
 1. Confirm that all services and pods are correctly defined and running:

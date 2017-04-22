@@ -21,7 +21,7 @@
 					</ul>
 				</li>
 				{% endif %}
-				{% if cat.parent == "EMPTY" %}
+				{% if cat.marker != true and cat_parent == "EMPTY" %}
 				<li class="doc-side-nav-list-item">
 					<a href="{{ cat.url }}">{{ cat_name }}</a>
 				</li>

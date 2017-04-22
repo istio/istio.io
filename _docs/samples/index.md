@@ -1,13 +1,13 @@
 ---
 title: Samples
 headline: Samples
-sidenav: doc-side-samples-nav.html
+sidenav: doc-side-nav.html
 bodyclass: docs
 layout: docs
 type: markdown
 
 index: true
-order: 3
+order: 30
 category: Samples
 ---
 # Samples
