@@ -1,14 +1,13 @@
 ---
+category: Reference
 title: Staging Your Changes
-headline: Staging Doc Changes
-sidenav: doc-side-reference-nav.html
+
+parent: Contributing to the Docs
+order: 40
+
 bodyclass: docs
 layout: docs
 type: markdown
-
-category: Reference
-parent: Contributing to the Docs
-order: 40
 ---
 
 This page shows how to stage content that you want to contribute
@@ -17,7 +16,7 @@ to the Istio documentation.
 ## Before you begin
 
 Create a fork of the Istio documentation repository as described in
-[Creating a Doc Pull Request]({{site.baseurl}}/docs/home/contribute/creating-a-pull-request.html).
+[Creating a Doc Pull Request]({{site.baseurl}}/docs/reference/contribute/creating-a-pull-request.html).
 
 ## Staging from your GitHub account
 

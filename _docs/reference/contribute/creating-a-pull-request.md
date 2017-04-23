@@ -1,15 +1,13 @@
 ---
-title: Creating a Pull Request
-headline: Creating a Doc Pull Request
-sidenav: doc-side-reference-nav.html
-bodyclass: docs
-layout: docs
-type: markdown
-
 category: Reference
+title: Creating a Pull Request
+
 parent: Contributing to the Docs
 order: 20
 
+bodyclass: docs
+layout: docs
+type: markdown
 ---
 
 To contribute to Istio documentation, create a pull request against the
@@ -41,9 +39,8 @@ documentation repository in your GitHub account. The copy is called a *fork*.
 a new branch to use for your contribution.
 
 1. In your new branch, make your changes and commit them. If you want to
-[write a new topic]({{site.baseurl}}/docs/home/contribute/writing-a-new-topic.html),
-choose the
-[page type]({{ site.baseurl }}/docs/home/contribute/using-page-templates.html)
+[write a new topic]({{site.baseurl}}/docs/reference/contribute/writing-a-new-topic.html),
+choose the [page-type](writing-a-new-topic.html#choosing-a-page-type)
 that is the best fit for your content.
 
 ## Submitting a pull request

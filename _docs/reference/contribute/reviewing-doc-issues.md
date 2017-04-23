@@ -1,7 +1,10 @@
 ---
+category: Reference
 title: Doc Issues
-headline: Reviewing Doc Issues
-sidenav: doc-side-reference-nav.html
+
+parent: Contributing to the Docs
+order: 60
+
 bodyclass: docs
 layout: docs
 type: markdown

@@ -1,23 +1,16 @@
 ---
+category: Concepts
 title: Overview
-headline: Overview
-sidenav: doc-side-nav.html
+
+parent: What is Istio?
+order: 15
+
 bodyclass: docs
 layout: docs
 type: markdown
-
-category: Concepts
-parent: What is Istio?
-order: 15
 ---
 
-{% capture overview %}
 This page introduces Istio, a polyglot service mesh.
-{% endcapture %}
-
-{% capture body %}
-
-## Context and overview
 
 As monolithic applications transition towards a distributed microservice architecture they become more difficult to manage and understand. These 
 architectures need basic necessities such as discovery, load balancing, failure recovery, metrics and monitoring, and more complex operational requirements 
@@ -58,6 +51,6 @@ proxies deployed as sidecars that mediate and control all network communication 
 configuring proxies to route traffic, as well as enforce policies at runtime. 
 
 
-{% endcapture %}
 
-{% include templates/concept.md %}
+
+

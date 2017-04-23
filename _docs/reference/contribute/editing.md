@@ -1,7 +1,10 @@
 ---
+category: Reference
 title: Editing Docs
-headline: Editing Istio Docs
-sidenav: doc-side-reference-nav.html
+
+parent: Contributing to the Docs
+order: 10
+
 bodyclass: docs
 layout: docs
 type: markdown

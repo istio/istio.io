@@ -1,16 +1,15 @@
 ---
+category: Samples
 title: BookInfo
-headline: 'BookInfo - A Polyglot Microservice App'
-sidenav: doc-side-nav.html
+
+order: 10
+
 bodyclass: docs
 layout: docs
 type: markdown
-
-category: Samples
-order: 10
 ---
 
-{% capture overview %}
+
 In this sample, we will deploy a simple app that displays information about a
 book, similar to a single catalog entry of an online book store. Displayed
 on the page is a description of the book, book details (ISBN, number of
@@ -35,9 +34,9 @@ The end-to-end architecture of the application is shown below.
 
 This application is polyglot, i.e., the microservices are written in different languages.
 
-{% endcapture %}
 
-{% capture prerequisites %}
+
+## Before you begin
 _Note: The following instructions assume that you have access to a kubernetes cluster. To install kubernetes locally, checkout [minikube](https://github.com/kubernetes/minikube)_
 
 1. Clone the istio GitHub repository and start the core Istio services (the istio-manager, the [Mixer](https://istio.io/docs/concepts/mixer.html), and the istio ingress controller).
@@ -69,7 +68,7 @@ _Note: The following instructions assume that you have access to a kubernetes cl
    http://127.0.0.1:8001/api/v1/proxy/namespaces/<ns>/services/grafana:3000/dashboard/db/istio-dashboard
    ```
    
-1. Install the [istioctl](../reference/istioctl.md) CLI, which provides a
+1. Install the [istioctl](../reference/istioctl.html) CLI, which provides a
    convenient way to apply routing rules and policies for upstreams. The
    [istio.VERSION](https://github.com/istio/istio/blob/master/istio.VERSION) file includes the download location of 
    three OS-specific binaries: `istioctl-osx`, `istioctl-win.exe`,
@@ -88,9 +87,9 @@ _Note: The following instructions assume that you have access to a kubernetes cl
    > If in doubt, download again or add the `--tag` option when running `istioctl kube-inject`.
    > Invoke `istioctl kube-inject --help` for more details.
 
-{% endcapture %}
 
-{% capture discussion %}
+
+
 ## Start the Application
 
 1. Change your current working directory to the bookinfo application directory:
@@ -114,7 +113,7 @@ _Note: The following instructions assume that you have access to a kubernetes cl
 
    Notice that the `istioctl kube-inject` command is used to modify the `bookinfo.yaml`
    file before creating the deployments. This injects the istio runtime proxy
-   into kubernetes resources as documented [here](../reference/istioctl.md#kube-inject).
+   into kubernetes resources as documented [here](../reference/istioctl.html#kube-inject).
    Consequently, all of the microservices are now packaged with an Istio sidecar
    that manages incoming and outgoing calls for the service. The updated diagram looks
    like this:
@@ -414,6 +413,6 @@ If you now refresh the `productpage` you'll see that while the load generator is
    $ kubectl get pods           #-- the bookinfo, and (optionally) control plane services, should be deleted
    No resources found.
    ```
-{% endcapture %}
 
-{% include templates/sample.md %}
+
+

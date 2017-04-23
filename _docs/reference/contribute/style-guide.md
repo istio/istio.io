@@ -1,7 +1,10 @@
 ---
+category: Reference
 title: Style Guide
-headline: Istio Documentation Style Guide
-sidenav: doc-side-reference-nav.html
+
+parent: Contributing to the Docs
+order: 70
+
 bodyclass: docs
 layout: docs
 type: markdown
@@ -19,8 +22,7 @@ propose changes to this document in a pull request.
 
 For additional information on creating new content for the Istio
 docs, follow the instructions on
-[Using Page Templates]({{site.baseurl}}/docs/home/contribute/using-page-templates.html) and
-[Creating a Doc Pull Request]({{site.baseurl}}/docs/home/contribute/creating-a-pull-request.html).
+[Creating a Doc Pull Request]({{site.baseurl}}/docs/reference/contribute/creating-a-pull-request.html).
 
 ## Formatting standards
 

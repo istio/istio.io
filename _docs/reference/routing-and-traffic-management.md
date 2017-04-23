@@ -1,13 +1,12 @@
 ---
-bodyclass: docs
-headline: 'Routing & Traffic Management'
-layout: docs
-title: Routing & Traffic Management
-type: markdown
-sidenav: doc-side-reference-nav.html
-
 category: Reference
+title: Routing & Traffic Management
+
 order: 20
+
+bodyclass: docs
+layout: docs
+type: markdown
 ---
 
 ## Overview
@@ -15,7 +14,7 @@ order: 20
 Istio provides a simple Domain-specific language (DSL) to
 control how API calls and layer-4 traffic flow across various
 microservices in the application deployment. The DSL is a
-[YAML mapping](../reference/writing-config.md) of a
+[YAML mapping](../reference/writing-config.html) of a
 [protobuf](https://developers.google.com/protocol-buffers/docs/proto3)
 schema documented [here](https://github.com/istio/api/blob/master/proxy/v1/config/cfg.md).
 The DSL allows the operator to
@@ -46,7 +45,7 @@ There are two types of rules in Istio, **Route Rules**,
 which control request routing, and **Destination Policies**,
 which specify policies, for example, circuit breakers, that control requests for a destination service.
 
-Istio rules can be set and displayed using the [istioctl CLI](istioctl.md).
+Istio rules can be set and displayed using the [istioctl CLI](./istioctl.html).
 For example, the above rule can be set using the following command:
 ```bash
 $ cat <<EOF | istioctl create

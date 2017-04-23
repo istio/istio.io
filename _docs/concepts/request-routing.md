@@ -1,22 +1,21 @@
 ---
-bodyclass: docs
-headline: Request Routing
-layout: docs
-sidenav: doc-side-nav.html
-title: Request Routing
-type: markdown
-
 category: Concepts
+title: Request Routing
+
 parent: Traffic Management
 order: 20
+
+bodyclass: docs
+layout: docs
+type: markdown
 ---
 
-{% capture overview %}
+
 This page introduces the idea of application layer routing rules, that can
 be used to manipulate how API calls are routed to different versions of a service.
-{% endcapture %}
 
-{% capture body %}
+
+
 ## Overview
 
 Istio provides a simple Domain-specific language (DSL) to
@@ -44,7 +43,7 @@ routed. In a Kubernetes deployment of Istio, the route *tag* "version: v1"
 corresponds to a Kubernetes *label* "version: v1".  The rule ensures that
 only Kubernetes pods containing the label "version: v1" will receive
 traffic. Rules can be configured using the
-[istioctl CLI](../reference/istioctl.md). See
+[istioctl CLI](../reference/istioctl.html). See
 [configuring request routing](../tasks/request-routing.html) section for
 more information and examples.
 
@@ -296,6 +295,6 @@ rules are going to be needed.
 Therefore, setting a default rule for every microservice, right from the
 start, is generally considered a best practice in Istio.
 
-{% endcapture %}
 
-{% include templates/concept.md %}
+
+

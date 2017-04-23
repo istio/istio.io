@@ -1,7 +1,9 @@
 ---
+category: Reference
 title: Release Notes
-headline: Release Notes
-sidenav: doc-side-reference-nav.html
+
+order: 50
+
 bodyclass: docs
 layout: docs
 type: markdown
@@ -11,4 +13,3 @@ order: 50
 ---
 
 TBD
-

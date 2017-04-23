@@ -1,7 +1,9 @@
 ---
+category: Reference
 title: Writing Configuration
-headline: Writing Configuration
-sidenav: doc-side-reference-nav.html
+
+order: 70
+
 bodyclass: docs
 layout: docs
 type: markdown
@@ -10,11 +12,11 @@ category: Reference
 order: 70
 ---
 
-{% capture overview %}
-This document describes how to write configuration that conforms to Istio's schemas. All configuration schemas in Istio are defined as [protobuf messages](https://developers.google.com/protocol-buffers/docs/proto3). When in doubt, search for the protos.
-{% endcapture %}
 
-{% capture body %}
+This document describes how to write configuration that conforms to Istio's schemas. All configuration schemas in Istio are defined as [protobuf messages](https://developers.google.com/protocol-buffers/docs/proto3). When in doubt, search for the protos.
+
+
+
 
 ## Translating to YAML
 There is no canonical mapping between protobufs and YAML; instead [protobuf defines a canonical mapping to JSON](https://developers.google.com/protocol-buffers/docs/proto3#json), and [YAML defines a canonical mapping to JSON](http://yaml.org/spec/1.2/spec.html#id2759572). To ingest YAML as a proto we convert it to JSON then to  protobuf.
@@ -232,10 +234,9 @@ Specifically, the [protobuf spec declares](https://developers.google.com/protoco
 | int64, fixed64, uint64 | string | "1", "-10" | JSON value will be a decimal string. Either numbers or strings are accepted.|
 
 
-{% endcapture %}
 
-{% capture whatsnext %}
+
+## What's next
 * TODO: link to overall mixer config concept guide (how the config pieces fit together)
-{% endcapture %}
 
-{% include templates/concept.md %}
+

@@ -1,7 +1,9 @@
 ---
+category: Reference
 title: Attribute Vocabulary
-headline: 'Attribute Vocabulary'
-sidenav: doc-side-reference-nav.html
+
+order: 30
+
 bodyclass: docs
 layout: docs
 type: markdown

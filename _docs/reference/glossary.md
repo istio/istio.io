@@ -1,13 +1,12 @@
 ---
+category: Reference
 title: Glossary
-headline: Glossary
-sidenav: doc-side-reference-nav.html
+
+order: 40
+
 bodyclass: docs
 layout: docs
 type: markdown
-
-category: Reference
-order: 40
 ---
 <div class="container">
     <div class="row">
@@ -93,6 +92,12 @@ CDS Cluster Discovery Service -- See https://lyft.github.io/envoy/docs/configura
 SDS Service Discovery Service -- See https://lyft.github.io/envoy/docs/intro/arch_overview/service_discovery.html#arch-overview-service-discovery-sds
 
 RDS Route Discovery Service -- See https://lyft.github.io/envoy/docs/configuration/http_conn_man/rds.html#route-discovery-service
+
+Service
+Microservice
+Service Consumer
+Service Producer
+Service Operator / Cluster Operator
 
 -->
                 </ul>

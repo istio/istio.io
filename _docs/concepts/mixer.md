@@ -1,26 +1,25 @@
 ---
+category: Concepts
 title: Mixer
-headline: Mixer
-sidenav: doc-side-nav.html
+
+parent: Policies and Control
+order: 20
+
 bodyclass: docs
 layout: docs
 type: markdown
-
-category: Concepts
-parent: Policies and Control
-order: 20
 ---
-{% capture overview %}
-The page explains Mixer's role and general architecture.
-{% endcapture %}
 
-{% capture body %}
+The page explains Mixer's role and general architecture.
+
+
+
 ## Background
 
-Mixer provides the control-plane abstractions necessary to support most real-world multi-tenant services,
+Mixer provides the control plane abstractions necessary to support most real-world multi-tenant services,
 such as precondition checks, telemetry reporting, and quota management. Envoy delegates precondition
 checking (permissions, whitelist, etc) to Mixer and dispatches its telemetry data 
-to Mixer, which proceeds to repackage and redirect the data towards configured backends.
+to Mixer, which proceeds to repackage and redirect the data towards configured infrastructure backends.
 
 Services within the Istio mesh can also directly integrate with Mixer. For example, services may wish to provide rich telemetry
 for particular operations beyond what Envoy automatically collects. Or services may use Mixer for resource-oriented quota
@@ -36,7 +35,7 @@ Mixer provides three core features:
 - **Precondition Checking**. Enables callers to verify a number of preconditions before responding to an incoming request from a service consumer. 
 Preconditions can include whether the service consumer is properly authenticated, is on the service's whitelist, passes ACL checks, and more.
 
-- **Telemetry Reporting**. Enables services to produce logging and monitoring. In the future, it will also enable tracing and billing
+- **Telemetry Reporting**. Enables services to report logging and monitoring. In the future, it will also enable tracing and billing
 streams intended for both the service operator as well as for service consumers.
 
 - **Quota Management**. Enables services to allocate and free quota on a number of dimensions, Quotas are used as a relatively simple resource
@@ -53,14 +52,14 @@ Mixer is a highly modular and extensible component. One of it's key functions is
 away the details of different policy and telemetry backend systems, allowing Envoy and Istio-based
 services to be agnostic of those backends, which keeps them portable.
 
-Mixer's flexibility in dealing with different backend systems is achieved by having a general-purpose
+Mixer's flexibility in dealing with different infrastructure backends is achieved by having a general-purpose
 plug-in model. Individual plug-ins are known as *adapters* and they allow
-Mixer to interface to different backend systems that deliver core functionality, such as logging, monitoring, quotas, ACL
+Mixer to interface to different infrastructure backends that deliver core functionality, such as logging, monitoring, quotas, ACL
 checking, and more. Adapters enable Mixer to expose a single consistent API, independent of the backends in use.
 The exact set of adapters used at runtime is determined through configuration and can easily be extended
-to target new or custom backend systems.
+to target new or custom infrastructure backends.
 
-<img style="width:65%;display:block;margin:auto;" src="./img/mixer/adapters.svg" alt="Mixer and its adapters." />
+<img style="width:35%;display:block;margin:auto;" src="./img/mixer/adapters.svg" alt="Mixer and its adapters." />
 
 ## Configuration state
 
@@ -73,15 +72,15 @@ for:
 state that configures an adapter (adapters being binary plugins as described [below](#adapters)).
 
 - Establishing the types of adapter parameters that Mixer can manipulate. These
-types are described in configuration through a set of *descriptors* (as described [here](./mixer-config/#descriptors))
+types are described in configuration through a set of *descriptors* (as described [here](./mixer-config#descriptors))
 
 - Creating rules to map the attributes of every incoming request into a 
 specific set of aspects and adapter parameters.
 
 The above configuration state is required to have Mixer know what to do with incoming attributes
-and dispatch to the appropriate backend systems.
+and dispatch to the appropriate infrastructure backends.
 
-Refer [here](./mixer-config.md) for detailed information on Mixer's configuration model.
+Refer [here](./mixer-config.html) for detailed information on Mixer's configuration model.
 
 ## Request phases
 
@@ -98,7 +97,7 @@ subsequent phases.
 
 - **Attribute Processing**. The third phase takes the total set of attributes
 and produces a set of *adapter parameters*. Attribute processing is initially
-configured through a simple declarative form as described [here]({{site.baseurl}}/docs/mixer-config.html).
+configured through a simple declarative form as described [here](./mixer-config.html).
 
 - **Adapter Dispatching**. The Resolution phase establishes the set of available aspects and the Attribute
 Processing phase creates a set of adapter parameters. The Adapter Dispatching phase invokes the adapters
@@ -122,6 +121,6 @@ of accessing the request's incoming attributes and producing the requisite adapt
 For advanced uses, the operator can bypass the declarative format and author directly in the scripting
 language. This is more complex, but provides ultimate flexibility.
 
-{% endcapture %}
 
-{% include templates/concept.md %}
+
+
