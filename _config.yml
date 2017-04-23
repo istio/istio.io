@@ -40,3 +40,8 @@ exclude:
   - .gitignore
   - Vagrantfile
   - .vagrant
+  - _docs/concepts/concept.md.template
+  - _docs/tasks/task.md.template
+  - _docs/tutorials/tutorial.md.template
+  - _docs/samples/sample.md.template
+  - _docs/reference/reference.md.template
