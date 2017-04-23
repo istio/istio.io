@@ -30,7 +30,7 @@ aspects of a Mixer deployment by manipulating configuration records.
 - **Scoped**. Configuration is described hierarchically, enabling both coarse global control as well
 as fine-grained local control.
 
-- **Flexible**. The configuration model is built around Istio's [attributes]({{site.baseurl}}/docs/concepts/attributes.html),
+- **Flexible**. The configuration model is built around Istio's [attributes](/docs/concepts/attributes.html),
 enabling operators unprecedented control over the policies used and telemetry produced within a deployment.
 
 - **Robust**. The configuration model is designed to provide maximum static correctness guarantees to help reduce
@@ -42,11 +42,11 @@ can be added to Istio and be fully manipulated using the same general mechanisms
 
 ## Concepts
 
-Mixer is an attribute processing machine. Requests arrive at Mixer with a set of [*attributes*]({{site.baseurl}}/docs/concepts/attributes.html),
+Mixer is an attribute processing machine. Requests arrive at Mixer with a set of [*attributes*](./attributes.html),
 and based on these attributes, Mixer generates calls to a variety of infrastructure backends. The set of
 attributes determines which backend Mixer calls for a given request and what parameters
 each is given. In order to hide the details of individual backends, Mixer uses modules
-known as [*adapters*]({{site.baseurl}}/docs/concepts/mixer.html#adapters).
+known as [*adapters*](./mixer.html#adapters).
 
 ![Attribute Machine](./img/mixer-config/machine.svg)
 
@@ -70,7 +70,7 @@ The following sections explain these concepts in detail.
 
 ### Adapters
 
-[Adapters]({{site.baseurl}}/docs/concepts/mixer.html#adapters) are the foundational work horses that the Istio mixer is built around. Adapters
+[Adapters](/docs/concepts/mixer.html#adapters) are the foundational work horses that the Istio mixer is built around. Adapters
 encapsulate the logic necessary to interface Mixer with specific external infrastructure backends such as [Prometheus](https://prometheus.io),
 [New Relic](https://newrelic.com), or [Stackdriver](https://cloud.google.com/logging). Individual adapters
 generally need to be provided some basic operational parameters in order to do their work. For example, a logging adapter may need
@@ -215,7 +215,7 @@ aspect configuration formats can be found in *TBD*.
     
 #### Attribute Expressions
 
-Mixer features a number of independent [request processing phases]({{site.baseurl}}/docs/concepts/mixer#request-phases).
+Mixer features a number of independent [request processing phases](/docs/concepts/mixer#request-phases).
 The *Attribute Processing* phase is responsible for ingesting a set of attributes and producing the adapter parameters 
 necessary to invoke individual adapters. The phase operates by evaluating a series of *attribute expressions*.
 
@@ -345,11 +345,6 @@ that conform to the descriptor's shape (it's value type and its set of labels).
 
 - Descriptors can be referenced and reused from multiple aspects.
 
-- It enables type checking of the deployment's configuration. Since attributes have strong types, and so do descriptors,
-Istio can provide a number of strong correctness guarantees of the system's configuration. Basically, if a block of
-configuration is accepted into the Istio system, it means the configuration passes a minimum correctness bar. Again, this
-plays the same role as types in a programming language.
-
 - It enables Istio to provide a strongly-typed scripting environment as discussed [here](./mixer.html#scripting)
 
 The different descriptor types are detailed in *TBD*
@@ -454,7 +449,7 @@ manifests:
 
 ## Examples
 
-You can find fully formed examples of Mixer configuration by visiting the [Samples]({{site.baseurl}}/docs/samples). As
+You can find fully formed examples of Mixer configuration by visiting the [Samples](/docs/samples). As
 a specific example, here is the [BookInfo configuration](https://raw.githubusercontent.com/istio/istio/master/demos/mixer-config-quota-bookinfo.yaml).
 
 ## Configuration API
