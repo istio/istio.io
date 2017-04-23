@@ -354,7 +354,7 @@ The different descriptor types are detailed in *TBD*
 An Istio deployment can be responsible for managing a large number of services. Organizations
 often have dozens or hundreds of interacting services, and Istio's mission is to make it easy to
 manage them all. Mixer's configuration model is designed to support different operators that
-manage different parts of an Istio deployment without stepping on each other's feet, while allowing
+manage different parts of an Istio deployment without stepping on each other's toes, while allowing
 them to have control over their areas, but not other's.
 
 Here's how this all works:
@@ -411,7 +411,7 @@ lookup value.
 4. Mixer truncates the lowest element from the lookup value's dotted name. If the lookup value is
 not empty, then Mixer goes back to step 2 above.
 
-All the configs found in this process are combined together to form the final effective configuration that is used to
+All the blocks found in this process are combined together to form the final effective configuration that is used to
 evaluate the current request.
 
 ### Manifests

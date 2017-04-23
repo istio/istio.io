@@ -25,7 +25,7 @@ Services within the Istio mesh can also directly integrate with Mixer. For examp
 for particular operations beyond what Envoy automatically collects. Or services may use Mixer for resource-oriented quota
 management. Services that leverage Mixer in this way are abstracted from environment-specific control plane details, greatly
 easing the process of hosting the code in different environments (different clouds and on-prem). (Please note that 
-as of the Alpha release of Istio, only Envoy can calls Mixer directly.)
+as of the Alpha release of Istio, only Envoy can call Mixer directly.)
 
 <img style="display:block;width:60%;margin:auto;" src="./img/mixer/traffic.svg" alt="Flow of traffic." />
 <p style="text-align:center;">Mixer Traffic Flow</p>
