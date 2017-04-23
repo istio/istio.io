@@ -14,8 +14,11 @@
    version="1.1"
    height="455.60806"
    width="771.08099"
-   sodipodi:docname="example-app-bookinfo.svg"
-   inkscape:version="0.92.1 r">
+   sodipodi:docname="withistio.svg"
+   inkscape:version="0.92.1 r"
+   inkscape:export-filename="/Users/shriram/istio.io/istio.github.io/_docs/samples/img/bookinfo/withistio.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
   <sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
@@ -31,10 +34,10 @@
      showgrid="false"
      inkscape:snap-global="false"
      inkscape:zoom="1.0193482"
-     inkscape:cx="297.29749"
+     inkscape:cx="389.25339"
      inkscape:cy="228.78505"
-     inkscape:window-x="1879"
-     inkscape:window-y="201"
+     inkscape:window-x="49"
+     inkscape:window-y="52"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg4481" />
   <title
@@ -945,11 +948,11 @@
      d="m 253.32,126.1051 c 0,0.805 -3.41701,1.467 -7.56799,1.467 -4.151,0 -7.56801,-0.66201 -7.56801,-1.467 0,-0.80501 3.41701,-1.468 7.56801,-1.468 4.15098,0 7.56799,0.66299 7.56799,1.468 z" />
   <text
      style="font-weight:300;font-size:14px;font-family:Helvetica-Light, Helvetica, sans-serif;fill:#000000"
-     x="78.978661"
+     x="66.978661"
      y="245.42696"
      font-size="14px"
      font-weight="300"
-     id="svg_16">Istio Proxy</text>
+     id="svg_16">Ingress Envoy</text>
   <path
      d="m 580.21319,235.43329 c 0,-4.43764 -2.05057,-8.04044 -4.57625,-8.04044 h -79.80926 c -2.52569,0 -4.57561,3.6028 -4.57561,8.04044 v 67.94632 c 0,4.43765 2.04992,8.04045 4.57561,8.04045 h 79.80926 c 2.52568,0 4.57625,-3.6028 4.57625,-8.04045 z"
      id="Container3"
@@ -1344,8 +1347,8 @@
      font-weight="300"
      font-size="12px"
      y="74.753304"
-     x="160.80469"
-     style="font-weight:300;font-size:13.51469803px;font-family:Helvetica-Light, Helvetica, sans-serif;fill:#000000;stroke-width:1">Istio Proxy</text>
+     x="169.18933"
+     style="font-weight:300;font-size:13.51469803px;font-family:Helvetica-Light, Helvetica, sans-serif;fill:#000000;stroke-width:1">Envoy</text>
   <path
      id="svg_64-4-3"
      d="m 535.05873,76.585885 -0.41986,-19.90378"
