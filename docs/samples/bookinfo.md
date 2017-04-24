@@ -35,7 +35,7 @@ This application is polyglot, i.e., the microservices are written in different l
 {% endcapture %}
 
 {% capture prerequisites %}
-1. Follow [Installing Istio guide]({{site.bareurl}}/docs/tasks/istio-installation.html)
+1. Follow the Istio [Installation]({{site.bareurl}}/docs/tasks/istio-installation.html) guide.
 {% endcapture %}
 
 {% capture discussion %}
@@ -48,16 +48,17 @@ cd demos/apps/bookinfo
 ```bash
 kubectl apply -f <(istioctl kube-inject -f bookinfo.yaml)
 ```
-   The above command creates the gateway ingress resource and launches
-   four microservices as illustrated in the diagram above. The reviews
-   microservice has 3 versions: v1, v2, and v3.  Note that in a
+   The above command launches four microservices and creates the gateway
+   ingress resource and as illustrated in the diagram above.
+   The reviews microservice has 3 versions: v1, v2, and v3.  Note that in a
    realistic deployment, new versions of a microservice are deployed
    over time instead of deploying all versions
    simultaneously.
 
    Notice that the `istioctl kube-inject` command is used to modify the `bookinfo.yaml`
-   file before creating the deployments. This injects Envoy into kubernetes resources as documented [here]({{site.bareurl}}/docs/reference/istioctl.html#kube-inject).
-   Consequently, all of the microservices are now packaged with an Istio sidecar
+   file before creating the deployments. This injects Envoy into kubernetes resources
+   as documented [here]({{site.bareurl}}/docs/reference/istioctl.html#kube-inject).
+   Consequently, all of the microservices are now packaged with an Envoy sidecar
    that manages incoming and outgoing calls for the service. The updated diagram looks
    like this:
 
@@ -89,14 +90,14 @@ reviews-v1-874083890-f0qf0                  2/2       Running   0          6m
 reviews-v2-1343845940-b34q5                 2/2       Running   0          6m
 reviews-v3-1813607990-8ch52                 2/2       Running   0          6m
 ```
-1. Determine the Gateway ingress URL
+1. Determine the ingress' URL:
 ```bash
-export GATEWAY_URL=$(kubectl get po -l infra=istio-ingress-controller -o jsonpath={.items[0].status.hostIP}):$(kubectl get svc istio-ingress-controller -o jsonpath={.spec.ports[0].nodePort})
+$ kubectl get ingress
+NAME      HOSTS     ADDRESS                 PORTS     AGE
+gateway   *         130.211.10.121          80        1d
+$export GATEWAY_URL=130.211.10.121:80
 ```
-1. If you open the Bookinfo URL (http://$GATEWAY_URL/productpage) in your browser, you should see the bookinfo application productpage displayed.
-```bash
-curl -v http://$GATEWAY_URL/productpage
-```
+If you open your browser and point to the URL http://$GATEWAY_URL/productpage, you should see the bookinfo application productpage displayed.
 
 ## Traffic Management
 
@@ -108,14 +109,11 @@ star ratings. This is because without an explicit default version set, Istio wil
 route requests to all available versions of a service in a random fashion.
 
 1. Set the default version for all microservices to v1.
-
 ```bash
 istioctl create -f route-rule-all-v1.yaml
 ```
-
 You can display the routes that are defined with the following command:
-
-```bash
+```yaml
 $ istioctl get route-rules -o yaml
 kind: route-rule
 name: ratings-default
@@ -162,24 +160,17 @@ spec:
    weight: 100
 ---
 ```
-
    Since rule propagation to the proxies is asynchronous, you should wait a few seconds for the rules
    to propagate to all pods before attempting to access the application.
-
    Notice that the `productpage` is displayed with no rating stars since `reviews:v1` does not access the ratings service.
-
 1. Route a specific user to `reviews:v2`
-
    Lets enable the ratings service for test user "jason" by routing productpage traffic to
    `reviews:v2` instances.
-
 ```bash
 istioctl create -f route-rule-reviews-test-v2.yaml
 ```
-
    Confirm the rule is created:
-
-```bash
+```yaml
 $ istioctl get route-rule reviews-test-v2
 destination: reviews.default.svc.cluster.local
 match:
@@ -191,7 +182,6 @@ route:
 - tags:
    version: v2
 ```
-
    Log in as user "jason" at the `productpage` web page. You should now see ratings (1-5 stars) next
    to each review.
 
@@ -208,7 +198,7 @@ route:
 istioctl create -f destination-ratings-test-delay.yaml
 ```
    Confirm the rule is created:
-```bash
+```yaml
 $ istioctl get route-rule ratings-test-delay
 destination: ratings.default.svc.cluster.local
 httpFault:
@@ -260,34 +250,25 @@ Now that we have tested the reviews service, fixed the bug and deployed a
 new version (`reviews:v3`), lets route all user traffic from `reviews:v1`
 to `reviews:v3` in two steps.
 
-First, transfer 50% of traffic from `reviews:v1` to `reviews:v3` with the following command:
-
+1. First, transfer 50% of traffic from `reviews:v1` to `reviews:v3` with the following command:
 ```bash
 istioctl replace -f route-rule-reviews-50-v3.yaml
 ```
-
-> Notice that we are using `istioctl replace` instead of `create`.
-
-To see the new version you need to either Log out as test user "jason" or delete the test rules
+Notice that we are using `istioctl replace` instead of `create`.
+2. To see the new version you need to either Log out as test user "jason" or delete the test rules
 that we created exclusively for him:
-
 ```bash
 istioctl delete route-rule reviews-test-v2
 istioctl delete route-rule ratings-test-delay
 ```
-
 You should now see *red* colored star ratings approximately 50% of the time when you refresh
 the `productpage`.
-
-> Note: With the Envoy sidecar implementation, you may need to refresh the `productpage` 100 times
-> to see the proper distribution.
-
-When we are confident that our Bookinfo app is stable, we route 100% of the traffic to `reviews:v3`:
-
+Note: With the Envoy sidecar implementation, you may need to refresh the `productpage` multiple times
+to see the proper distribution. You can modify the rules to route 90% of the traffic to v3 to see red stars more often.
+3. When version v3 of the reviews microservice is stable, route 100% of the traffic to `reviews:v3`:
 ```bash
 istioctl replace -f route-rule-reviews-v3.yaml
 ```
-
 You can now log in to the `productpage` as any user and you should always see book reviews
 with *red* colored star ratings for each review.
 
@@ -295,20 +276,16 @@ with *red* colored star ratings for each review.
 
 ### Rate Limiting [WIP]
 
-Now we'll pretend that `ratings` is an external service for which we are paying (like going to rotten tomatoes),
+1. Now we'll pretend that `ratings` is an external service for which we are paying (like going to rotten tomatoes),
 so we will set a rate limit on the service such that the load remains under the Free quota (5q/s):
-
 ```bash
 # (TODO) istioctl create -f mixer-rule-ratings-ratelimit.yaml
 kubectl apply -f ../../mixer-config-quota-bookinfo.yaml
 ```
-
-We now generate load on the `productpage` with the following command:
-
+2. We now generate load on the `productpage` with the following command:
 ```bash
 while true; do curl -s -o /dev/null http://$GATEWAY_URL/productpage; done
 ```
-
 If you now refresh the `productpage` you'll see that while the load generator is running
 (i.e., generating more than 5 req/s), we stop seeing stars.
 

@@ -15,17 +15,17 @@ This page shows how to install and configure Istio in a Kubernetes cluster.
 * If you are using [Google Container Engine](https://cloud.google.com/container-engine), please make sure you are using static client certificates before fetching cluster credentials:
 ```bash
 gcloud config set container/use_client_certificate True
-gcloud container clusters get-credentials cluster-2 --zone us-central1-a --project istio-demo
+gcloud container clusters get-credentials <cluster-name> --zone <zone> --project <project-name>
 ```
-* Ensure the curl command is present, or
+* Ensure the curl command is present.
 {% endcapture %}
 
 {% capture steps %}
 ## Installing on an existing cluster
-For the Alpha release, Istio must be installed in the same Kubernetes namespace as the applications. Instructions below will deploy Istio in the "default" namespace. They can be modified for deployment in a separate namespace.
+For the Alpha release, Istio must be installed in the same Kubernetes namespace as the applications. Instructions below will deploy Istio in the default namespace. They can be modified for deployment in a different namespace.
 
-1. a. Download and extract the [istio installation files](https://raw.githubusercontent.com/istio/istio/master/releases/istio-alpha.tar.gz), or\
-b. Clone the github [istio](https://github.com/istio/istio) repository:
+1. Download and extract the [istio installation files](https://raw.githubusercontent.com/istio/istio/master/releases/istio-alpha.tar.gz), or
+clone the github [istio](https://github.com/istio/istio) repository:
 ```bash
 git clone https://github.com/istio/istio
 ```
@@ -48,13 +48,12 @@ curl ${ISTIOCTL_URL}/istioctl-osx > /usr/local/bin/istioctl
 chmod +x /usr/local/bin/istioctl
 ```
 Istioctl is needed to inject Envoy as a sidecar proxy. It also provides a convenient CLI for creating routing rules and policies.
-4. Deploy your application:
+4. Deploy your application with Envoy:
 ```bash
 kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 ```
 The [kube-inject]({{site.bareurl}}/docs/reference/istioctl.html##kube-inject) tool will automatically inject an Envoy container in the pod running the application.
 Alternatively, deploy one of the samples applications, for instance [bookinfo]({{site.bareurl}}/docs/samples/bookinfo.html).
-
 5. Optionally: to view metrics collected by Mixer, install [Prometheus](https://prometheus.io), [Grafana](http://staging.grafana.org) and ServiceGraph addons:
 ```bash
 kubectl apply -f ./kubernetes/addons/grafana.yaml
