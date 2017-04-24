@@ -1,22 +1,15 @@
 ---
 category: Concepts
-title: Request Routing
+title: Configuration
 
 parent: Traffic Management
-order: 20
+order: 50
 
 bodyclass: docs
 layout: docs
 type: markdown
 ---
 
-
-This page introduces the idea of application layer routing rules, that can
-be used to manipulate how API calls are routed to different versions of a service.
-
-
-
-## Overview
 
 Istio provides a simple Domain-specific language (DSL) to
 control how API calls and layer-4 traffic flow across various

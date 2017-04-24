@@ -1,6 +1,6 @@
 ---
 category: Concepts
-title: Resiliency
+title: Handling Failures
 
 parent: Traffic Management
 order: 30
