@@ -15,7 +15,7 @@ This page describes Mixer's configuration model.
 ## Background
 
 Istio is a sophisticated system with hundreds of independent features. An Istio deployment can be a sprawling
-affair potentially involving dozens of microservices, with a swarm of Envoy proxies and Mixer instances to
+affair potentially involving dozens of services, with a swarm of Envoy proxies and Mixer instances to
 support them. In large deployments, many different operators, each with different scopes and areas of responsibility,
 may be involved in managing the overall deployment.
 
@@ -97,7 +97,7 @@ adapter should use in its queries and defines the interval at which it should re
 
 For each available adapter implementation, you can define any number of independent configuration blocks. This allows the 
 same adapter
-to be used multiple times within a single deployment. Depending on the situation, such as which microservice is involved, one
+to be used multiple times within a single deployment. Depending on the situation, such as which service is involved, one
 configuration block will be used versus another. For example, here are two more configuration blocks that can coexist
 with the previous one:
 
