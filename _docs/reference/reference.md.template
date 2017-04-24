@@ -1,0 +1,22 @@
+// Before use, remove this line and uncomment the next line
+// ---
+category: Reference
+title: My Component
+
+order: 42
+
+bodyclass: docs
+layout: docs
+type: markdown
+---
+
+Provide a simple one sentence overview of this page's content.
+
+## <Your Topic Headlines>
+
+<Your Topic Content>
+
+## See also
+
+It's good to close with pointers back to the concepts or tasks
+that relate to this reference material.
