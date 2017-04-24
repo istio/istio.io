@@ -15,7 +15,7 @@ type: markdown
 Tasks show you how to do a single specific targeted
 activity with the Istio system.
 
-- [Installation](./istio-installation.html). This task shows you how to
+- [Installing Istio](./installing-istio.html). This task shows you how to
   setup the Istio service mesh.
 
 - [Integrating Services into the Mesh](./integrating-services-into-istio.html). This task shows you how to

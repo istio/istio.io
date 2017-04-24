@@ -39,6 +39,7 @@ policies to resources which are not necessarily expressed at the API level. For 
 is more useful than applying quota to the call which initiated the work. To this end the policy system is maintained as a distinct service with its own API 
 rather than being baked into the proxy/sidecar, allowing services to directly integrate with it as needed.
 
+## What's next
 
-
-
+* Read Istio's [overview](./overview.html).
+* Explore Istio's [high-level architecture](./architecture.html).

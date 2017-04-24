@@ -57,7 +57,7 @@ services, operators can conduct A/B testing, deploy canary services,
 etc. for user-facing services. Similarly, by routing traffic to external
 web services (e.g., accessing Maps API, or a video service API) via Envoy,
 operators can add failure recovery features such as circuit breakers,
-impose rate limits via the Mixer, and provide authentication using
+impose rate limits via Mixer, and provide authentication using
 Istio-Auth service.
 
 <img src="./img/manager/ServiceModel_RequestFlow.svg" alt="Istio service model - ingress and egress Envoy." />

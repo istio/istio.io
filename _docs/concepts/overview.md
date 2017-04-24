@@ -50,7 +50,9 @@ Istio’s service mesh is logically split into a *data plane* and a *control pla
 proxies deployed as sidecars that mediate and control all network communication between microservices. The control plane is responsible for managing and 
 configuring proxies to route traffic, as well as enforce policies at runtime. 
 
+## What's next
 
-
+* Learn about Istio's [design goals](./goals.html).
+* Explore Istio's [high-level architecture](./architecture.html).
 
 
