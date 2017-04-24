@@ -68,7 +68,7 @@ kubectl apply -f <(istioctl kube-inject -f bookinfo.yaml)
 $ kubectl get services
 NAME                       CLUSTER-IP   EXTERNAL-IP   PORT(S)              AGE
 details                    10.0.0.31    <none>        9080/TCP             6m
-istio-ingress-controller   10.0.0.122   <pending>     80:32000/TCP         8m
+istio-ingress              10.0.0.122   <pending>     80:32000/TCP         8m
 istio-manager              10.0.0.189   <none>        8080/TCP             8m
 istio-mixer                10.0.0.132   <none>        9091/TCP,42422/TCP   8m
 kubernetes                 10.0.0.1     <none>        443/TCP              14d
@@ -81,7 +81,7 @@ reviews                    10.0.0.170   <none>        9080/TCP             6m
 $ kubectl get pods
 NAME                                        READY     STATUS    RESTARTS   AGE
 details-v1-1520924117-48z17                 2/2       Running   0          6m
-istio-ingress-controller-3181829929-xrrk5   1/1       Running   0          8m
+istio-ingress-3181829929-xrrk5              1/1       Running   0          8m
 istio-manager-175173354-d6jm7               2/2       Running   0          8m
 istio-mixer-3883863574-jt09j                2/2       Running   0          8m
 productpage-v1-560495357-jk1lz              2/2       Running   0          6m

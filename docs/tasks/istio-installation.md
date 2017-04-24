@@ -48,6 +48,10 @@ curl ${ISTIOCTL_URL}/istioctl-osx > /usr/local/bin/istioctl
 chmod +x /usr/local/bin/istioctl
 ```
 Istioctl is needed to inject Envoy as a sidecar proxy. It also provides a convenient CLI for creating routing rules and policies.
+Note: If you already have a previously installed version of `istioctl`, make sure that
+it is compatible with the manager image used in `istio.yaml`.
+If in doubt, download again or add the `--tag` option when running `istioctl kube-inject`.
+Invoke `istioctl kube-inject --help` for more details.
 4. Deploy your application with Envoy:
 ```bash
 kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
@@ -74,19 +78,19 @@ http://127.0.0.1:8001/api/v1/proxy/namespaces/default/services/grafana:3000/dash
 {% capture discussion %}
 ## Verify the installation
 
-1. Ensure the following Kubernetes services were deployed: "istio-manager", "istio-mixer", and "istio-ingress-controller".
+1. Ensure the following Kubernetes services were deployed: "istio-manager", "istio-mixer", and "istio-ingress".
 ```bash
 kubectl get svc
 NAME                       CLUSTER-IP     EXTERNAL-IP     PORT(S)              AGE
-istio-ingress-controller   10.83.241.84   35.184.70.168   80:30583/TCP         39m
+istio-ingress              10.83.241.84   35.184.70.168   80:30583/TCP         39m
 istio-manager              10.83.251.26   <none>          8080/TCP             39m
 istio-mixer                10.83.242.1    <none>          9091/TCP,42422/TCP   39m
 ```
-2. Check the corresponding Kubernetes pods were deployed: "istio-manager-\*", "istio-mixer-\*", "istio-ingress-controller-\*".
+2. Check the corresponding Kubernetes pods were deployed: "istio-manager-\*", "istio-mixer-\*", "istio-ingress-\*".
 ```bash
 kubectl get pods
 NAME                                       READY     STATUS    RESTARTS   AGE
-istio-ingress-controller-594763772-j7jbz   1/1       Running   0          49m
+istio-ingress-594763772-j7jbz              1/1       Running   0          49m
 istio-manager-373576132-p2t9k              1/1       Running   0          49m
 istio-mixer-1154414227-56q3z               1/1       Running   0          49m
 ```
