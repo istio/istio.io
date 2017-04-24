@@ -30,9 +30,9 @@ before beginning a canary deployment.
 Decoupling traffic flow from infrastructure scaling allows Istio to provide
 a variety of traffic management features that reside outside the
 application code. Features include dynamic
-[request routing](./request-routing.html) for A/B testing, canary releases,
-gradual rollouts, etc., [failure recovery (TBD)](./handling-failures.html)
+[request routing](../tasks/request-routing.html) for A/B testing, canary releases,
+gradual rollouts, etc., [failure recovery](./handling-failures.html)
 using timeouts, retries, circuit breakers, and finally
-[fault injection (TBD)](./fault-injection.html) to test compatibility of
+[fault injection](./fault-injection.html) to test compatibility of
 failure recovery policies across services. These capabilities are realized
 through the Envoy sidecars/proxies deployed across the service mesh.

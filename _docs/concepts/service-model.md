@@ -24,7 +24,7 @@ way to subdivide service instances by versions (`v1`, `v2`) or environment
 versions: they could be iterative changes to the same service, deployed in
 different environments (prod, staging, dev, etc.). Common scenarios where
 this occurs include A/B testing, canary rollouts, etc. Istio's [traffic
-management rules - TBD]() can refer to the service versions, to provide
+management rules](./rules-configuration.html) can refer to the service versions, to provide
 additional control over traffic between services.
 
 ## Communication between services
