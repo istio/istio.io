@@ -19,7 +19,7 @@ gcloud container clusters get-credentials <cluster-name> --zone <zone> --project
 ```
 * Ensure the curl command is present.
 
-## Installing on an existing cluster
+## Install on an existing cluster
 For the Alpha release, Istio must be installed in the same Kubernetes namespace as the applications. Instructions below will deploy Istio in the default namespace. They can be modified for deployment in a different namespace.
 
 1. Download and extract the [istio installation files](https://raw.githubusercontent.com/istio/istio/master/releases/istio-alpha.tar.gz), or
