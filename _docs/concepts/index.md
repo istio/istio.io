@@ -29,18 +29,30 @@ problems Istio is designed to solve.
 
 - Traffic Management
 
+    - [Overview](./traffic-management-overview.html). Provides a conceptual overview of
+      traffic management principles in Istio and the kind of features
+      enabled by these principles.
+      
+    - [Istio-Manager](./manager.html). Introduces the Istio-Manager, the
+    component responsible for managing a distributed deployment of Envoy
+    proxies in the service mesh.
+
     - [Service Model](./service-model.html). Describes how services are
     modeled within the Istio mesh, the notion of multiple versions of a
     service, and the communiction model between services.
 
-    - [Request Routing](./request-routing.html). Introduces the idea of
-      application layer routing rules, that can be used to manipulate
-      how API calls are routed to different versions of a service.
-      
-    - [Resiliency](./resiliency.html). An overview of failure recovery
-      capabilities in Envoy that can be leveraged by unmodified
+    - [Handling Failures](./handling-failures.html). An overview of failure
+      recovery capabilities in Envoy that can be leveraged by unmodified
       applications to improve robustness and prevent cascading failures.
 
+    - [Fault Injection](./fault-injection.html). Introduces the idea of
+      systematic fault injection that can be used to unconver conflicting
+      failure recovery policies across services.
+      
+    - [Rules Configuration](./rules-configuration.html). Provides a high-level
+      overview of the domain-specific language used by Istio to configure
+      traffic management rules in the service mesh.
+      
 - Policies and Control
 
     - [Attributes](./attributes.html). Explains the important notion of attributes, which

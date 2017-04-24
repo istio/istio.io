@@ -1,9 +1,9 @@
 ---
 category: Concepts
-title: Request Routing
+title: Rules Configuration
 
 parent: Traffic Management
-order: 20
+order: 50
 
 bodyclass: docs
 layout: docs
@@ -11,23 +11,16 @@ type: markdown
 ---
 
 
-This page introduces the idea of application layer routing rules, that can
-be used to manipulate how API calls are routed to different versions of a service.
-
-
-
-## Overview
-
 Istio provides a simple Domain-specific language (DSL) to
 control how API calls and layer-4 traffic flow across various
-microservices in the application deployment. The DSL allows the operator to
+services in the application deployment. The DSL allows the operator to
 configure service-level properties such as circuit breakers, timeouts,
 retries, as well as set up common continuous deployment tasks such as
 canary rollouts, A/B testing, staged rollouts with %-based traffic splits,
 etc. See routing rules reference for detailed information. _link TBD_
 
 For example, a simple rule to send 100% of incoming traffic for a "reviews"
-microservice to version "v1" can be described using the Rules DSL as
+service to version "v1" can be described using the Rules DSL as
 follows:
 
 ```yaml
@@ -60,9 +53,9 @@ following important aspects must be keep in mind while writing route rules:
 
 ### Qualify rules by destination
 
-Every rule corresponds to some destination microservice identified by a
+Every rule corresponds to some destination service identified by a
 *destination* field in the rule. For example, all rules that apply to calls
-to the "reviews" microservice will include the following field.
+to the "reviews" service will include the following field.
 
 ```yaml
 destination: reviews.default.svc.cluster.local
@@ -79,7 +72,7 @@ Rules can optionally be qualified to only apply to requests that match some
 specific criteria such as the following:
 
 _1. Restrict to a specific caller_.  For example, the following rule only
-apply to calls from the "reviews" microservice.
+apply to calls from the "reviews" service.
 
 ```yaml
 destination: ratings.default.svc.cluster.local
@@ -91,7 +84,7 @@ The *source* value, just like *destination*, MUST be a FQDN of a service.
 
 _2. Restrict to specific versions of the caller_. For example, the following
 rule refines the previous example to only apply to calls from version "v2"
-of the "reviews" microservice.
+of the "reviews" service.
 
 ```yaml
 destination: ratings.default.svc.cluster.local
@@ -174,7 +167,7 @@ one rule with the same precedence value the order of evaluation is
 undefined._
 
 **When is precedence useful?** Whenever the routing story for a particular
-microservice is purely weight based, it can be specified in a single rule,
+service is purely weight based, it can be specified in a single rule,
 as shown in the earlier example.  When, on the other hand, other crieria
 (e.g., requests from a specific user) are being used to route traffic, more
 than one rule will be needed to specify the routing.  This is where the
@@ -256,7 +249,7 @@ determine if they apply.
 that are defined for specific tagged destinations will only be applied if
 the corresponding tagged instances are explicity routed to. For example,
 consider the following rule, as the one and only rule defined for the
-"reviews" microservice.
+"reviews" service.
 
 ```yaml
 destination: reviews.default.svc.cluster.local
@@ -268,7 +261,7 @@ circuitBreaker:
 ```
 
 Since there is no specific route rule defined for the "reviews"
-microservice, default round-robin routing behavior will apply, which will
+service, default round-robin routing behavior will apply, which will
 persumably call "v1" instances on occasion, maybe even always if "v1" is
 the only running version. Nevertheless, the above policy will never be
 invoked since the default routing is done at a lower level. The rule
@@ -292,7 +285,7 @@ versions of a source service to all versions of a destination service
 without any rules being set, as soon as version discrimination is desired
 rules are going to be needed.
 
-Therefore, setting a default rule for every microservice, right from the
+Therefore, setting a default rule for every service, right from the
 start, is generally considered a best practice in Istio.
 
 
