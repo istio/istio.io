@@ -16,7 +16,7 @@ scaling. While platforms allow operators to control when a particular set
 of pods should receive traffic (e.g., by adding/removing specific labels),
 Istio allows operators to control what percentage of traffic should be
 routed to these pods or which requests (e.g., those containing specific
-set of headers) should be routed. These capabilities are available for both
+headers) should be routed. These capabilities are available for both
 edge and mid-tier services, benefiting all development teams (not just those
 working on user-facing services).
 

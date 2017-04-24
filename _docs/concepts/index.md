@@ -49,7 +49,7 @@ problems Istio is designed to solve.
       systematic fault injection that can be used to unconver conflicting
       failure recovery policies across services.
       
-    - [Configuration](./rules-overview.html). Provides a high-level
+    - [Rules Configuration](./rules-configuration.html). Provides a high-level
       overview of the domain-specific language used by Istio to configure
       traffic management rules in the service mesh.
       

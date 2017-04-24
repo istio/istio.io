@@ -10,7 +10,7 @@ layout: docs
 type: markdown
 ---
 
-The Istio model of a microservice is independent of how it is represented
+The Istio model of a service is independent of how it is represented
 in the underlying platform (Kubernetes, Mesos, CloudFoundry,
 etc.). Platform-specific adapters are responsible for populating the
 internal model representation with various fields, from the metadata found

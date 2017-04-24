@@ -13,7 +13,7 @@ type: markdown
 The Istio-Manager service is responsible for managing the lifecycle of
 Envoy instances deployed across the Istio service mesh. It acts as a
 discovery service for Envoy, providing service discovery, dynamic route
-updates, etc. The intermediate discovery API decouples Envoy from
+updates, etc. The discovery API decouples Envoy from
 platform-specific nuances, simplifying the design and increasing
 portability across platforms.
 
