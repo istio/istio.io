@@ -132,7 +132,7 @@ Each backend corresponds to a specific version of the destination service,
 where versions can be expressed using _tags_.
 
 If there are multiple registered instances with the specified tag(s),
-they will be routed to based on the [load balancing policy](#loadBalancing) configured for the service,
+they will be routed to based on the load balancing policy configured for the service,
 or round-robin by default.
 
 For example, the following rule will route 25% of traffic for the "reviews" service to instances with
