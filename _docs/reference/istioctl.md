@@ -22,7 +22,7 @@ istioctl <command> [targets] [flags]
 
 where *command*, *targets* and *flags* are:
 
-* **command**: the operation to perform, such as `create`, `delete`, `replace`, or `list`.
+* **command**: the operation to perform, such as `create`, `delete`, `replace`, or `get`.
 * **targets**: targets for commands such as delete
 * **flags**: Optional flags.  For example specify `--file FILENAME` to specify a configuration file to create from.
 
