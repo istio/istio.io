@@ -1,6 +1,7 @@
 ---
 category: Tasks
 title: Collecting Metrics and Logs
+overview: This task shows you how to configure Mixer to collect metrics and logs from Envoy instances in every pod.
 
 order: 80
 

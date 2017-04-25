@@ -1,7 +1,8 @@
 ---
 category: Concepts
 title: Design Goals
-
+overview: Describes the core principles that Istio's design adheres to.
+              
 parent: What is Istio?
 order: 20
 

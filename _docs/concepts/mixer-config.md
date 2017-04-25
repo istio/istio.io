@@ -1,7 +1,8 @@
 ---
 category: Concepts
 title: Mixer Configuration
-
+overview: An overview of the key concepts used to configure Mixer.
+              
 parent: Policies and Control
 order: 30
 
