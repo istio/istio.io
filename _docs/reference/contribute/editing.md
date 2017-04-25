@@ -8,6 +8,10 @@ order: 10
 bodyclass: docs
 layout: docs
 type: markdown
+
+category: Reference
+parent: Contributing to the Docs
+order: 10
 ---
 
 <script language="JavaScript">

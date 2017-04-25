@@ -8,7 +8,6 @@ order: 10
 bodyclass: docs
 layout: docs
 type: markdown
-
 ---
 
 # Concepts

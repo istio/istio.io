@@ -1,13 +1,15 @@
 ---
-category: Reference
 title: Reference
-index: true
-
-order: 40
-
+headline: Reference
+sidenav: doc-side-reference-nav.html
 bodyclass: docs
 layout: docs
 type: markdown
+
+index: true
+order: 40
+
+category: Reference
 ---
 
 # Reference
@@ -16,13 +18,13 @@ The Reference section contains detailed authoritative reference
 material such as command-line options, configuration options,
 and API calling parameters.
 
-- [istioctl](./istioctl.html). Describes the usage and option of the `istioctl` command-line
+- [istioctl](./istioctl.md). Describes the usage and option of the `istioctl` command-line
 tool.
 
-- [Routing and Traffic Management](./routing-and-traffic-management.html). Describes how to 
+- [Routing and Traffic Management](./routing-and-traffic-management.md). Describes how to 
 configure Istio's Layer 4 & 7 routing logic.
 
-- [Attribute Vocabulary](./attribute-vocabulary.html). Describes the base attribute
+- [Attribute Vocabulary](./attribute-vocabulary.md). Describes the base attribute
 vocabulary used for policy and control.
 
 - [Glossary](./glossary.html). A glossary of common Istio terms.
@@ -52,3 +54,4 @@ vocabulary used for policy and control.
     
     - [Style Guide](./contribute/style-guide.html). Explains the dos and donts
     of writing Istio docs.
+    
