@@ -52,12 +52,12 @@ Mixer is responsible for enforcing access control and usage policies across the 
 services. The proxy extracts request level attributes which are sent to Mixer for evaluation. More information on the attribute extraction and policy 
 evaluation can be found here. Mixer includes a flexible plugin model enabling it to interface with a variety of host environments and 
 infrastructure backends, abstracting 
-the Envoy proxy and Istio-managed services from these details.
+the Envoy proxy and Istio-managed services from these details. More on Mixer [here](./mixer.html)
 
 ## Istio-Manager
 
 Istio-Manager serves as an interface between the user and Istio, collecting and validating configuration and propagating it to the various Istio components. 
-It abstracts environment-specific implementation details from the Mixer and Envoy, providing them with an abstract representation of the user’s services 
+It abstracts environment-specific implementation details from Mixer and Envoy, providing them with an abstract representation of the user’s services 
 that is independent of the underlying platform. In addition, traffic management rules (i.e. generic layer-4 rules and layer-7 HTTP/gRPC routing rules) can 
 be programmed at runtime via Istio-Manager.
 
@@ -68,3 +68,8 @@ It can be used to upgrade unencrypted traffic in the service mesh, and provides 
 on service identity rather than network controls. Future releases of Istio will add fine-grained access control and auditing to control
 and monitor who accesses your service, API, or resource, using a variety of access control mechanisms, including attribute and
 role-based access control as well as authorization hooks.
+
+## What's next
+
+* Read Istio's [overview](./overview.html).
+* Review Istio's [design goals](./goals.html).
