@@ -9,27 +9,31 @@ bodyclass: about
         <div class="col-md-11 nofloat center-block">
             <div class="col-sm-12">
                 <section class="about-sections intro">
-                    <p class="about-max lead">
-                    As enterprises migrate from traditional VM infrastructures to more agile
-                    microservice-based deployments on container platforms, there is a need for
-                    a simplifying technology that can take care of common cross-cutting
-                    capabilities around service communication and management such as secure
-                    interconnect, service discovery & load balancing, staged rollouts, A/B
-                    testing, intelligent rate limiting, authentication, access control,
-                    monitoring, logging, etc.
-                    </p>
-
-                    <p class="about-max lead">
-                    Towards this goal, we are designing Istio, an <i>open
-                    platform-independent service mesh</i> that takes care of traffic management,
-                    policy enforcement, rate limiting, and telemetry collection.
-                    It allows application developers to focus on the
-                    business logic and iterate quickly on new features by managing how traffic
-                    flows across their services. And it simplifies the operators' job of enforcing
-                    various policies and monitor the mesh from a central control point,
-                    independent of the evolution of the application ensuring continuous
-                    compliance with policies of the organization/business unit.
-                    </p>
+                  <p class="about-max lead">
+		    Istio is an open platform that provides a uniform way to connect, manage,
+		    and secure microservices. Istio supports managing traffic flows between
+		    microservices, enforcing access policies, and aggregating telemetry data,
+		    all without requiring changes to the microservice code.
+		  </p>
+		  <p class="about-max lead">
+		    Istio gives you:
+		    <ul>
+		      <li>Automatic metrics, logs, and traces for all traffic within a cluster,
+			including cluster ingress and egress.</li>
+		      <li>Fine-grained control of traffic behavior with rich routing rules,
+			retries, failovers, and fault injection.</li>
+		      <li>Automatic service discovery and load balancing for HTTP, GRPC, and
+			TCP traffic.</li>
+		      <li>Secure service-to-service authentication with strong identity assertions
+			between services in a cluster.</li>
+		      <li>A pluggable policy layer and configuration API supporting access controls,
+			rate limits and quotas.</li>
+		    </ul>
+		  </p>
+		  <p class="about-max lead">
+		    Istio currently only supports the Kubernetes platform, although we plan support
+		    for additional platforms such as CloudFoundry, Mesos, and bare metal in the near future.
+		  </p>
                 </section>
             </div>
         </div>
