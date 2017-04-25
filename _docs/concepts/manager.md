@@ -10,10 +10,10 @@ layout: docs
 type: markdown
 ---
 
-The Istio-Manager service is responsible for managing the lifecycle of
-Envoy instances deployed across the Istio service mesh. It acts as a
-discovery service for Envoy, providing service discovery, dynamic route
-updates, etc. The discovery API decouples Envoy from
+Istio-Manager service is responsible for the lifecycle of
+Envoy instances deployed across the Istio service mesh. It exposes
+APIs for [service discovery](https://lyft.github.io/envoy/docs/configuration/cluster_manager/sds_api.html), dynamic updates to [load balancing pools](https://lyft.github.io/envoy/docs/configuration/cluster_manager/cds.html) and
+[routing tables](https://lyft.github.io/envoy/docs/configuration/http_conn_man/rds.html). These API decouple Envoy from
 platform-specific nuances, simplifying the design and increasing
 portability across platforms.
 
@@ -22,7 +22,7 @@ on the platform (e.g., Kubernetes, Mesos, CloudFoundry, etc.) to
 automatically register pods/containers to their respective services, as
 they come online.
 
-The Istio-Manager maintains a canonical representation of services in the
+Istio-Manager maintains a canonical representation of services in the
 mesh that is independent of the underlying platform. Platform-specific
 adapters in the manager are responsible for populating this canonical model
 appropriately. For example, the Kubernetes adapter in the Istio-Manager
