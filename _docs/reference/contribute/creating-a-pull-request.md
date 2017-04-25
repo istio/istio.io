@@ -1,7 +1,8 @@
 ---
 category: Reference
 title: Creating a Pull Request
-
+overview: Shows you how to create a GitHub pull request in order to submit your docs for approval.
+              
 parent: Contributing to the Docs
 order: 20
 
