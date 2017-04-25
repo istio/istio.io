@@ -19,7 +19,8 @@ gcloud container clusters get-credentials <cluster-name> --zone <zone> --project
 ```
 * Ensure the curl command is present.
 
-## Installing on an existing cluster
+## Install on an existing cluster
+
 For the Alpha release, Istio must be installed in the same Kubernetes namespace as the applications. Instructions below will deploy Istio in the default namespace. They can be modified for deployment in a different namespace.
 
 1. Download and extract the [istio installation files](https://raw.githubusercontent.com/istio/istio/master/releases/istio-alpha.tar.gz), or
@@ -92,6 +93,7 @@ istio-mixer-1154414227-56q3z               1/1       Running   0          49m
 ```
 
 ## Uninstall
+
 1. Uninstall Istio:
 ```bash
 kubectl delete -f ./kubernetes/istio.yaml
@@ -101,7 +103,7 @@ kubectl delete -f ./kubernetes/istio.yaml
 rm /usr/local/bin/istioctl
 ```
 
-
 ## What's next
+
 * Learn more about how to enable [authentication]({{site.bareurl}}/docs/tasks/istio-auth.html).
 * See the sample [bookinfo]({{site.bareurl}}/docs/samples/bookinfo.html) application.
