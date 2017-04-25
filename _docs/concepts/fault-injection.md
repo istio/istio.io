@@ -20,17 +20,12 @@ incompatible/restrictive timeouts across service calls) could result in
 continued unavailability of critical services in the application, resulting
 in poor user experience.
 
-**Systematic fault injection:** Istio advocates a systematic approach to
-testing the failure recovery of the application as a whole as opposed to a
-chaotic model. Specifically, Istio enables protocol-specific fault
-injection into the network, instead of killing pods, delaying or corrupting
-packets at TCP layer. Our rationale is that the failures observed by the
-application layer are the same regardless of network level failures, and
-that more meaningful failures can be injected at the application layer
-(e.g., HTTP error codes) to exercise the resilience of an
-application. Secondly, a systematic approach to fault injection allows
-developers to quickly triage the root cause of failures as opposed to a
-chaotic fault injection model.
+Istio enables protocol-specific fault injection into the network, instead
+of killing pods, delaying or corrupting packets at TCP layer. Our rationale
+is that the failures observed by the application layer are the same
+regardless of network level failures, and that more meaningful failures can
+be injected at the application layer (e.g., HTTP error codes) to exercise
+the resilience of an application.
 
 Operators can configure faults to be injected into requests that match 
 specific criteria. Operators can further restrict the percentage of
