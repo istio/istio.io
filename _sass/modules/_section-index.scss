@@ -6,17 +6,21 @@
         padding: $spacing--xs 0 $spacing--xl;
     }
 
-	.section-index-list-item {
+	.area {
 		display: inline-block;
 		padding: 2px;
 		width: 100%;
+		font-size: 120%;
+	}
 
-		a {
-			font-weight: 400;
-		}
+	.item {
+		display: inline-block;
+		padding: 2px;
+		width: 100%;
 	}
 
 	.child-link {
-	    font-size: 110%;
+	    font-size: 120%;
+	    font-weight: 400;
 	}
 }
