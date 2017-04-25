@@ -22,43 +22,6 @@ This task also assumes you have a publicly accessible service to call from withi
 
 ### Setup the environment
 
-Create the Egress Envoy.
-
-```yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: istio-egress
-spec:
-  ports:
-  - port: 80
-  selector:
-    app: istio-egress
----
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: istio-egress
-spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: istio-egress
-    spec:
-      containers:
-      - name: proxy
-        image: docker.io/istio/proxy:2017-04-13-01.05.21
-        imagePullPolicy: Always
-        args: ["proxy", "egress", "-v", "2"]
-        env:
-        - name: POD_NAMESPACE
-          valueFrom:
-            fieldRef:
-              apiVersion: v1
-              fieldPath: metadata.namespace
-```
-
 Create the external service definition for your external service or use one of the samples below.  The `metadata.name` 
 field is the url your internal apps will use when calling the external service.  The `spec.externalName` should be the 
 DNS name for the external service.  Egress Envoy expects external services to be listening on either port `80` for 
