@@ -1,7 +1,8 @@
 ---
 category: Concepts
 title: Istio-Manager
-
+overview: Introduces the Istio-Manager, the component responsible for managing a distributed deployment of Envoy proxies in the service mesh.
+              
 parent: Traffic Management
 order: 10
 

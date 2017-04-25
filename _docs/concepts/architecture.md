@@ -1,7 +1,8 @@
 ---
 category: Concepts
 title: Architecture
-
+overview: Highlights Istio's core architectural structure and components.
+              
 parent: What is Istio?
 order: 30
 

@@ -1,7 +1,8 @@
 ---
 category: Concepts
 title: Service Model
-
+overview: Describes how services are modeled within the Istio mesh, the notion of multiple versions of a service, and the communication model between services.
+              
 parent: Traffic Management
 order: 20
 
