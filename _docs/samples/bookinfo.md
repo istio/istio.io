@@ -66,7 +66,7 @@ kubectl apply -f <(istioctl kube-inject -f bookinfo.yaml)
 $ kubectl get services
 NAME                       CLUSTER-IP   EXTERNAL-IP   PORT(S)              AGE
 details                    10.0.0.31    <none>        9080/TCP             6m
-istio-ingress              10.0.0.122   <pending>     80:32000/TCP         8m
+istio-ingress              10.0.0.122   <pending>     80:31565/TCP         8m
 istio-manager              10.0.0.189   <none>        8080/TCP             8m
 istio-mixer                10.0.0.132   <none>        9091/TCP,42422/TCP   8m
 kubernetes                 10.0.0.1     <none>        443/TCP              14d
@@ -88,14 +88,26 @@ reviews-v1-874083890-f0qf0                  2/2       Running   0          6m
 reviews-v2-1343845940-b34q5                 2/2       Running   0          6m
 reviews-v3-1813607990-8ch52                 2/2       Running   0          6m
 ```
-1. Determine the ingress' URL:
+1. Determine the gateway ingress URL:
+
+  If your cluster is running in an environment that supports external loadbalancers,
+use the ingress' external address:
 ```bash
 $ kubectl get ingress
 NAME      HOSTS     ADDRESS                 PORTS     AGE
 gateway   *         130.211.10.121          80        1d
-$export GATEWAY_URL=130.211.10.121:80
+$ export GATEWAY_URL=130.211.10.121:80
 ```
-If you open your browser and point to the URL http://$GATEWAY_URL/productpage, you should see the bookinfo application productpage displayed.
+
+  If loadbalancers are not supported, use the service NodePort instead:
+```bash
+$ export GATEWAY_URL=$(kubectl get po -l infra=istio-ingress-controller -o jsonpath={.items[0].status.hostIP}):$(kubectl get svc istio-ingress-controller -o jsonpath={.spec.ports[0].nodePort})
+```
+1. Confirm that the bookinfo application is running with the following `curl` command:
+```bash
+$ curl -o /dev/null -s -w "%{http_code}\n" http://$GATEWAY_URL/productpage
+200
+```
 
 ## Traffic Management
 
@@ -159,7 +171,10 @@ spec:
 ---
 ```
    Since rule propagation to the proxies is asynchronous, you should wait a few seconds for the rules
-   to propagate to all pods before attempting to access the application.
+   to propagate to all pods before attempting to access the application.  
+1. Open the Bookinfo URL (http://$GATEWAY_URL/productpage) in your browser
+
+   You should see the bookinfo application productpage displayed.
    Notice that the `productpage` is displayed with no rating stars since `reviews:v1` does not access the ratings service.
 1. Route a specific user to `reviews:v2`
    Lets enable the ratings service for test user "jason" by routing productpage traffic to
@@ -185,10 +200,10 @@ route:
 
 ### Fault Injection
 
-   To test our bookinfo application microservices for resiliency, we will _inject a 7s delay_
-   between the reviews:v2 and ratings microservices. Since the _reviews:v2_ service has a
-   10s timeout for its calls to the ratings service, we expect the end-to-end flow to
-   continue without any errors.
+To test our bookinfo application microservices for resiliency, we will _inject a 7s delay_
+between the reviews:v2 and ratings microservices. Since the _reviews:v2_ service has a
+10s timeout for its calls to the ratings service, we expect the end-to-end flow to
+continue without any errors.
 
 1. Inject the delay
    Create a fault injection rule, to delay traffic coming from user "jason" (our test user).

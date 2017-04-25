@@ -45,7 +45,13 @@ clone Istio's [GitHub](https://github.com/istio/istio) repository:
 3. Install Istio's core components (Istio-Manager, Mixer, and Ingress-Controller):
 
     ```bash
-    kubectl apply -f ./kubernetes/istio.yaml
+    kubectl apply -f ./kubernetes/istio-15.yaml # for Kubernetes 1.5
+    ```
+    
+    or
+    
+    ```bash
+    kubectl apply -f ./kubernetes/istio-16.yaml # for Kubernetes 1.6 or later
     ```
 
 4. Source the Istio configuration file:
@@ -68,16 +74,7 @@ clone Istio's [GitHub](https://github.com/istio/istio) repository:
     If in doubt, download again or add the `--tag` option when running `istioctl kube-inject`.
     Invoke `istioctl kube-inject --help` for more details.
 
-4. Deploy your application with Envoy:
-
-    ```bash
-    kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
-    ```
-
-    The [kube-inject](/docs/reference/istioctl.html##kube-inject) tool will automatically inject an Envoy container in the pod running the application.
-    Alternatively, deploy one of the sample applications, for instance [bookinfo](/docs/samples/bookinfo.html).
-
-6. Optionally: to view metrics collected by Mixer, install [Prometheus](https://prometheus.io), [Grafana](http://staging.grafana.org) or
+6. Optional: to view metrics collected by Mixer, install [Prometheus](https://prometheus.io), [Grafana](http://staging.grafana.org) or
 ServiceGraph addons:
 
     ```bash
@@ -111,6 +108,10 @@ ServiceGraph addons:
     istio-mixer                10.83.242.1    <none>          9091/TCP,42422/TCP   39m
     ```
 
+    Note that if your cluster is running in an environment that does not support an external loadbalancer
+    (e.g., minikube), the `EXTERNAL-IP` will say `<pending>` and you will need to access the
+    application using the service NodePort instead.
+
 2. Check the corresponding Kubernetes pods were deployed: "istio-manager-\*", "istio-mixer-\*", "istio-ingress-\*".
 
     ```bash
@@ -121,12 +122,24 @@ ServiceGraph addons:
     istio-mixer-1154414227-56q3z               1/1       Running   0          49m
     ```
 
+## Deploy your application
+
+You can now deploy your own application or one of the Istio sample applications,
+for example [bookinfo](/docs/samples/bookinfo.html).
+
+When deploying the application,
+use [kube-inject](/docs/reference/istioctl.html##kube-inject) to automatically inject
+Envoy containers in the pods running the services:
+```bash
+kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
+```
+
 ## Uninstalling
 
 1. Uninstall Istio:
 
     ```bash
-    kubectl delete -f ./kubernetes/istio.yaml
+    kubectl delete -f ./kubernetes/istio-16.yaml
     ```
 
 2. Delete the istioctl client:
