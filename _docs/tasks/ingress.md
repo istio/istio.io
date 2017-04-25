@@ -1,27 +1,21 @@
 ---
-title: Exposing a Service with Ingress
-headline: Exposing a Service with Ingress
-sidenav: doc-side-tasks-nav.html
-bodyclass: docs
-layout: docs
-type: markdown
----
-{% capture overview %}
+category: Tasks
+title: Configuring Ingress with Envoy
+overview: This task describes how to configure Ingress in Kubernetes with Envoy
+
 ... overview of ingress as a concept ...
 
 This task describes how to configure Istio to expose a service in a Kubernetes cluster. You'll learn how to create an Ingress controller, define a Ingress Resource and make requests to the service.
 
 In a Kubernetes environment, Istio uses [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/services-networking/ingress/) to configure ingress behavior.   
 
-{% endcapture %}
 
-{% capture prerequisites %}
+## Before you begin
 
-* `kubectl` and access to a Kubernetes cluster with Istio deployed in it. See (xxx)[].
-{% endcapture %}
+This task assumes you have deployed Istio on Kubernetes.  If you have not done so, please first complete
+the [Installation Steps]({{site.bareurl}}/docs/tasks/istio-installation.html).
 
-{% capture steps %}
-## Doing ...
+## Configuring Ingress
 
 ### Setup the environment
 Create an example service.
@@ -89,17 +83,11 @@ Make a request to the HelloWorld service using the Ingress controller IP and the
 $ curl http://192.168.99.100:80/hello
 .. response ..
 ```
-{% endcapture %}
 
-{% capture discussion %}
 ## Understanding ...
 
 Here's an interesting thing to know about the steps you just did.
-{% endcapture %}
 
-{% capture whatsnext %}
+## What's next
 * Learn more about [this](...).
 * See this [related task](...).
-{% endcapture %}
-
-{% include templates/task.md %}
