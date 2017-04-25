@@ -1,0 +1,22 @@
+.section-index {
+    margin-bottom: 20px;
+
+    @media (min-width: $tablet) {
+        margin-bottom: 0;
+        padding: $spacing--xs 0 $spacing--xl;
+    }
+
+	.section-index-list-item {
+		display: inline-block;
+		padding: 2px;
+		width: 100%;
+
+		a {
+			font-weight: 400;
+		}
+	}
+
+	.child-link {
+	    font-size: 110%;
+	}
+}
