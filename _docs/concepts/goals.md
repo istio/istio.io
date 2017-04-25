@@ -35,7 +35,7 @@ environments (on multiple clouds for redundancy for example) using Istio.
 
 - **Policy Uniformity**.
 The application of policy to API calls between services provides a great deal of control over mesh behavior but it can be equally important to apply 
-policies to resources which are not necessarily expressed at the API level. For example applying quota to the amount of CPU consumed by an ML training task 
+policies to resources which are not necessarily expressed at the API level. For example applying quota to the amount of CPU consumed by a ML training task 
 is more useful than applying quota to the call which initiated the work. To this end the policy system is maintained as a distinct service with its own API 
 rather than being baked into the proxy/sidecar, allowing services to directly integrate with it as needed.
 

@@ -18,7 +18,7 @@ such as A/B testing, canary releases, rate limiting, access control, and end-to-
 microservices that make up applications and the interactions between them. As the service mesh grows in size and complexity, it becomes harder to understand
 and manage.
 
-Istio provides a complete solution to satisfying these diverse requirements of microservice applications, by providing developers and operators with 
+Istio provides a complete solution to satisfy these diverse requirements of microservice applications, by providing developers and operators with 
 behavioral insights and operational control over the service mesh as a whole. Istio does this by providing a number of key capabilities uniformly across the
 network of services:
 
