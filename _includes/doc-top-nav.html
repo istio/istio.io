@@ -1,0 +1,17 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md-11 nofloat center-block" style="margin-top: 3px;">
+			<ul class="col-sm-10 nav nav-tabs">
+				{% assign cats = site.docs | where:"index","true" | sort:"order" %}
+				{% for cat in cats %}
+					{% assign active = cat.url | downcase | split: '/' %}
+					{% assign cat_name = cat.title | default: "EMPTY" %}
+					{% if cat.url contains "index" && cat_name != "EMPTY" %}
+					<li role="presentation" {% if page.url == cat.url %}class='active'{% endif %}><a href="{{ site.baseurl }}{{ cat.url }}">{{ cat_name }}</a></li>
+					{% endif %}
+				{% endfor %}
+			 </ul>
+			 {% include contribute-links.html %}
+		</div>
+	</div>
+</div>

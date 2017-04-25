@@ -19,19 +19,8 @@
     -ms-user-select: none;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
-    // white-space: nowrap;
-    // outline: 0;
 
     vertical-align: middle;
-    // cursor: pointer;
-    // border: none;
-    // outline: none;
-    // color: inherit;
-    // background-color: rgba(0, 0, 0, 0);
-    // font-size: 1em;
-    // line-height:1em;
-    // text-align: center;
-    // text-decoration: none;
     z-index: 1;
     will-change: opacity, transform;
     transition: all .3s ease-out;
@@ -46,11 +35,6 @@
         opacity: 0;
 
         background: rgba(0,0,0,0.2);
-        // $gradient: rgba(0,0,0,0.2) 0,rgba(0,0,0,.3) 40%,rgba(0,0,0,.4) 50%,rgba(0,0,0,.5) 60%,rgba(255,255,255,0) 70%;
-        // background: -webkit-radial-gradient($gradient);
-        // background: -o-radial-gradient($gradient);
-        // background: -moz-radial-gradient($gradient);
-        // background: radial-gradient($gradient);
         transition: all 0.7s ease-out;
         transition-property: transform, opacity;
         transform: scale(0);
@@ -101,41 +85,9 @@
     -webkit-mask-image: -webkit-radial-gradient(circle, white 100%, black 100%);
 }
 
-// .waves-button,
-// .waves-button:hover,
-// .waves-button:visited,
-// .waves-button-input {
-//     white-space: nowrap;
-//     vertical-align: middle;
-//     cursor: pointer;
-//     border: none;
-//     outline: none;
-//     color: inherit;
-//     background-color: rgba(0, 0, 0, 0);
-//     font-size: 1em;
-//     line-height:1em;
-//     text-align: center;
-//     text-decoration: none;
-//     z-index: 1;
-// }
-
-// .waves-button {
-//     padding: 0.85em 1.1em;
-//     border-radius: 0.2em;
-// }
-
-// .waves-button-input {
-//     margin: 0;
-//     padding: 0.85em 1.1em;
-// }
-
 .waves-input-wrapper {
     border-radius: 0.2em;
     vertical-align: bottom;
-
-    // &.waves-button {
-    //     padding: 0;
-    // }
 
     .waves-button-input {
         position: relative;
@@ -153,15 +105,6 @@
     border-radius: 50%;
     -webkit-mask-image: none;
 }
-
-// .waves-float {
-    // -webkit-mask-image: none;
-    // @include box-shadow(0px 1px 1.5px 1px rgba(0, 0, 0, 0.12));
-
-    // &:active {
-        // @include box-shadow(0px 8px 20px 1px rgba(0, 0, 0, 0.30));
-//     }
-// }
 
 .waves-block {
     display: block;
