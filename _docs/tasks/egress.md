@@ -1,6 +1,6 @@
 ---
-title: Accessing a Service with Egress
-headline: Accessing a Service with Egress
+title: Accessing a Service with Egress Envoy
+headline: Accessing a Service with Egress Envoy
 sidenav: doc-side-tasks-nav.html
 bodyclass: docs
 layout: docs
@@ -9,10 +9,8 @@ type: markdown
 
 
 This task describes how to configure Istio to expose an external service to a Kubernetes cluster. You'll learn how 
-to create an Egress proxy, define an external service and make requests to the service from within the cluster.
+to create an Egress Envoy, define an external service and make requests to the service from within the cluster.
 
-
-## Doing ...
 
 ## Before you begin
 
@@ -24,7 +22,7 @@ This task also assumes you have a publicly accessible service to call from withi
 
 ### Setup the environment
 
-Create the Istio Egress proxy.
+Create the Egress Envoy.
 
 ```yaml
 apiVersion: v1
@@ -34,7 +32,6 @@ metadata:
 spec:
   ports:
   - port: 80
-    name: "80"
   selector:
     app: istio-egress
 ---
@@ -62,9 +59,9 @@ spec:
               fieldPath: metadata.namespace
 ```
 
-Create the external service definition for you external service or use one of the samples below.  The `metadata.name` 
-field is the url your internal apps will use when calling the external service.  The `spec.ExternalName` should be the 
-DNS name for the external service.  Egress proxy expects external services to be listening on either port `80` for 
+Create the external service definition for your external service or use one of the samples below.  The `metadata.name` 
+field is the url your internal apps will use when calling the external service.  The `spec.externalName` should be the 
+DNS name for the external service.  Egress Envoy expects external services to be listening on either port `80` for 
 HTTP or port `443` for HTTPS.
 
 HTTP Example: 
@@ -79,7 +76,6 @@ spec:
   externalName: httpbin.org
   ports:
   - port: 80
-    name: http
 ```
 
 HTTPS Example:
@@ -88,13 +84,12 @@ HTTPS Example:
 apiVersion: v1
 kind: Service
 metadata:
-  name: httpsgoogle
+  name: securegoogle
 spec:
   type: ExternalName
   externalName: www.google.com
   ports:
   - port: 443
-    name: https
 ```
 
 Deploy your app(s) using the [istioctl kube-inject]({{site.bareurl}}/docs/reference/istioctl.html#kube-inject) command.
@@ -112,14 +107,15 @@ Make a request to the external service using the `name` from the Service spec ab
 desired API endpoint.
 
 ```bash
-$ kubectl exec -it {APP_POD_NAME} curl httpbin/headers
+$ kubectl exec -it {APP_POD_NAME} curl http://httpbin/headers
 .. response ..
 ```
 
-For external services of type HTTPS, the port must be specified in the request:
+For external services of type HTTPS, the port must be specified in the request.  App clients should make the request
+over HTTP since the Egress Envoy will initiate HTTPS with the external service:
 
 ```bash
-$ kubectl exec -it {APP_POD_NAME} curl httpsgoogle:443
+$ kubectl exec -it {APP_POD_NAME} curl http://securegoogle:443
 .. response ..
 ```
 
