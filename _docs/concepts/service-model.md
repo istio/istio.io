@@ -29,7 +29,7 @@ additional control over traffic between services.
 
 ## Communication between services
 
-<img class="col-sm-5 landing-image-small" src="./img/manager/ServiceModel_Versions.svg" alt="Istio service model - service versions." />
+<img class="doc-image-medium" src="./img/manager/ServiceModel_Versions.svg" alt="Istio service model - service versions." />
 
 As illustrated in the figure above, clients of a service have no knowledge
 of different versions of the service. They can continue to access the
