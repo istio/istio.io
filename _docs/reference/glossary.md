@@ -1,6 +1,7 @@
 ---
 category: Reference
 title: Glossary
+overview: A glossary of common Istio terms.
 
 order: 40
 

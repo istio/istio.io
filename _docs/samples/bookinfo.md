@@ -1,7 +1,8 @@
 ---
 category: Samples
 title: BookInfo
-
+overview: This sample deploys a simple app that displays information about a book, similar to a single catalog entry of an online book store.
+          
 order: 10
 
 bodyclass: docs
