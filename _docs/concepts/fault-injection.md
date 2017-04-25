@@ -22,19 +22,17 @@ in poor user experience.
 
 **Systematic fault injection:** Istio advocates a systematic approach to
 testing the failure recovery of the application as a whole as opposed to a
-chaotic model. Specifically, Istio implements fault injection at the Envoy
-proxy/sidecar layer, instead of killing pods, delaying or corrupting
+chaotic model. Specifically, Istio enables protocol-specific fault
+injection into the network, instead of killing pods, delaying or corrupting
 packets at TCP layer. Our rationale is that the failures observed by the
 application layer are the same regardless of network level failures, and
 that more meaningful failures can be injected at the application layer
 (e.g., HTTP error codes) to exercise the resilience of an
 application. Secondly, a systematic approach to fault injection allows
 developers to quickly triage the root cause of failures as opposed to a
-chaotic fault injection model. Our approach is similar to the
-[Failure Injection Testing](http://techblog.netflix.com/2014/10/fit-failure-injection-testing.html)
-approach that Netflix uses.
+chaotic fault injection model.
 
-Operators can configure faults to be injected into requests that match a
+Operators can configure faults to be injected into requests that match 
 specific criteria. Operators can further restrict the percentage of
 requests that should be subjected to faults. Two types of faults can be
 injected: delays and aborts. Delays are timing failures, mimicking
