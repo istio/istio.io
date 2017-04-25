@@ -66,7 +66,7 @@ Follow the [instructions](https://github.com/istio/istio/blob/master/CONTRIBUTIN
 
 Additionally, we provide [Reference Guides](https://istio.io/docs/reference/) for all of the Istio components. These can be helpful when troubleshooting issues with configuration, etc.
 
-#### Why Alpha? And what does the Alpha release cover?
+#### What does the Alpha release cover?
 
 The Alpha release of Istio provides an early preview of the intended functionality and user experience of our service mesh. We are hoping to solicit early feedback on direction and design decisions.
 
@@ -83,15 +83,13 @@ The Alpha release includes the following features:
 *   Secure service-to-service authentication with strong identity
 *   Pluggable policy layer and configuration API
 
-#### Does Istio support authn/authz based on attributes in addition to service account (e.g. [Kubernetes Network Policy](https://kubernetes.io/docs/concepts/services-networking/networkpolicies/) based on labels)?
+#### Does Istio Auth support authorization?
 
-Currently we only support the service account as the principal identity in Istio Auth. We are looking into using [JWT](https://jwt.io/) together with mutual TLS to carry extra attributes for authn/authz.
+Not currently - but we are working on it. At the moment, we only support the kubernetes service account as the principal identity in Istio Auth. We are investigating using [JWT](https://jwt.io/) together with mutual TLS to support enhanced authentication and authorization.
 
-Mutual TLS provides strong security defense and presents a strong identity - service account which won't change during the lifetime of the service. Putting dynamically-changed attributes like arbitrary labels in the certificate will complicate the key management system, and potentially weaken its security and cause performance issues when updating certificates for existing connections. As a result, we plan to use JWT to carry the dynamic attributes.
+#### Does Istio Auth use kubernetes secrets?
 
-#### Does Istio use kubernetes secrets?
-
-Yes. The key and certificate distribution in Istio auth is based on [kubernetes secrets](https://kubernetes.io/docs/concepts/configuration/secret/).
+Yes. The key and certificate distribution in Istio Auth is based on [kubernetes secrets](https://kubernetes.io/docs/concepts/configuration/secret/).
 
 Secrets have known [security risks](https://kubernetes.io/docs/concepts/configuration/secret/#risks). The kubernetes team is working on [several features](https://docs.google.com/document/d/1T2y-9geg9EfHHtCDYTXptCa-F4kQ0RyiH-c_M1SyD0s) to improve kubernetes secret security, from secret encryption to node-level access control. And as of version 1.6, kubernetes introduces [RBAC authorization](https://kubernetes.io/docs/admin/authorization/rbac/), which can provide fine-grained secrets management.
 
