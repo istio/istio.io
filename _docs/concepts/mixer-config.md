@@ -1,7 +1,8 @@
 ---
 category: Concepts
 title: Mixer Configuration
-
+overview: An overview of the key concepts used to configure Mixer.
+              
 parent: Policies and Control
 order: 30
 
@@ -396,7 +397,7 @@ process the incoming request. For example, a request arriving at Mixer for servi
 with requests arriving for service B. Resolution is about deciding which config to use for a request.
 
 Resolution depends on a well-known attribute to guide its choice, a so-called *identity attribute*.
-The value of this attribute is a dotted name which determines where the mixer begins to look in the
+The value of this attribute is a dotted name which determines where Mixer begins to look in the
 hierarchy for configuration blocks to use for the request.
 
 Here's how it all works:

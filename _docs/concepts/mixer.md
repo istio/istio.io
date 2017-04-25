@@ -1,7 +1,8 @@
 ---
 category: Concepts
 title: Mixer
-
+overview: Architectural deep-dive into the design of Mixer, which provides the policy and control mechanisms within the service mesh.
+              
 parent: Policies and Control
 order: 20
 
