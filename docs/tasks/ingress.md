@@ -16,6 +16,7 @@ In a Kubernetes environment, Istio uses [Kubernetes Ingress Resources](https://k
 {% endcapture %}
 
 {% capture prerequisites %}
+
 * `kubectl` and access to a Kubernetes cluster with Istio deployed in it. See (xxx)[].
 {% endcapture %}
 
@@ -23,32 +24,7 @@ In a Kubernetes environment, Istio uses [Kubernetes Ingress Resources](https://k
 ## Doing ...
 
 ### Setup the environment
-Create an Istio Ingress controller.
-```yaml
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: istio-ingress-controller
-spec:
-  replicas: 1
-  template:
-    spec:
-      containers:
-      - name: proxy
-        image: <image name>
-        args: ["proxy", "ingress"]
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 80
-        env:
-        - name: POD_NAMESPACE
-          valueFrom:
-            fieldRef:
-              apiVersion: v1
-              fieldPath: metadata.namespace
-```
-
-Create the HelloWorld example service.
+Create an example service.
 
 ```yaml
 apiVersion: v1
@@ -93,7 +69,7 @@ spec:
       paths:
       - path: /hello
         backend:
-          serviceName: a
+          serviceName: helloworld
           servicePort: 80
 ```
 
