@@ -1,7 +1,8 @@
 ---
 category: Reference
 title: Attribute Vocabulary
-
+overview: Describes the base attribute vocabulary used for policy and control.
+          
 order: 30
 
 bodyclass: docs

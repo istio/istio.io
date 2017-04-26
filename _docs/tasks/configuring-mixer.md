@@ -1,7 +1,8 @@
 ---
 category: Tasks
 title: Configuring Mixer
-
+overview: This task shows you how to configure Mixer.
+            
 order: 110
 
 bodyclass: docs

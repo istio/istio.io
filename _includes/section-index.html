@@ -8,20 +8,20 @@
 		{% unless cat.url contains "index" %}
 			{% if cat_name != "EMPTY" %}
 				{% if cat.marker == true %}
-				<li class="section-index-list-item">
+				<li class="area">
 						{{ cat_name }}
-					<ul class="list-unstyled tree">
+					<ul>
 						{% assign children = site.docs | where:"parent",cat.title | sort:"order" %}
 						{% for child in children %}
-						<p><li><a class="child-link" href="{{child.url}}">{{ child.title }}</a>. {{ child.overview }}</li></p>
+						<p><li class="item"><a class="child-link" href="{{child.url}}">{{ child.title }}</a>. {{ child.overview }}</li></p>
 						{% endfor %}
 					</ul>
 				</li>
 				{% endif %}
 				{% if cat.marker != true and cat_parent == "EMPTY" %}
-				<li class="section-index-list-item">
-					<a href="{{ cat.url }}">{{ cat_name }}</a>
-				</li>
+	            <p><li class="item">
+					<a class="child-link" href="{{ cat.url }}">{{ cat_name }}</a>. {{cat.overview}}
+                </li></p>
 				{% endif %}
 			{% endif %}
 		{% endunless %}

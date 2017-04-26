@@ -1,7 +1,8 @@
 ---
 category: Reference
 title: Style Guide
-
+overview: Explains the dos and donts of writing Istio docs.
+              
 parent: Contributing to the Docs
 order: 70
 
