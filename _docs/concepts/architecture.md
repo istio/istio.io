@@ -70,6 +70,8 @@ on service identity rather than network controls. Future releases of Istio will 
 and monitor who accesses your service, API, or resource, using a variety of access control mechanisms, including attribute and
 role-based access control as well as authorization hooks.
 
+> PLEASE NOTE: THIS IS IMPORTANT!
+
 ## What's next
 
 * Read Istio's [overview](./overview.html).
