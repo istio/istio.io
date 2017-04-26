@@ -1,7 +1,7 @@
 ---
 category: Reference
-title: Envoy Configuration Schema
-overview: Generated documentation for Envoy's Configuration Schema
+title: Proxy Configuration Schema
+overview: Generated documentation for the Istio Proxy's Configuration Schema
               
 parent: API and Configuration Schemas
 order: 60
