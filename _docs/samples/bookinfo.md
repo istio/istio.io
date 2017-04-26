@@ -15,8 +15,8 @@ to demonstrate various features of the Istio service mesh.
           
 ## Before you begin
 
-Setup the Istio controlplane services by following the instructions in the
-Istio [Installation guide](/docs/tasks/installing-istio.html).
+Setup Istio by following the instructions in the
+[Installation guide](/docs/tasks/installing-istio.html).
 
 ## Overview
 
@@ -44,7 +44,7 @@ The end-to-end architecture of the application is shown below.
 
 This application is polyglot, i.e., the microservices are written in different languages.
 
-## Start the Application
+## Start the application
 
 1. Change your current working directory to the bookinfo application directory:
 

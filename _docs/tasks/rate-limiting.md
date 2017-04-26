@@ -14,8 +14,8 @@ This task shows you how to use Istio to dynamically limit the traffic to a servi
 
 ## Before you begin
 
-* Setup the Istio controlplane services by following the instructions in the
-  Istio [Installation guide](/docs/tasks/installing-istio.html).
+* Setup Istio by following the instructions in the
+  [Installation guide](/docs/tasks/installing-istio.html).
 
 * Deploy the [bookinfo](/docs/samples/bookinfo.html) sample application.
 
