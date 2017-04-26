@@ -22,7 +22,7 @@ applications.
 **Service Discovery:** Istio-Manager consumes information from the service
 registry and provides a platform-agnostic service discovery
 interface. Envoy instances in the mesh perform service discovery and 
-dynamically update their load-balancing pools accordingly.
+dynamically update their load balancing pools accordingly.
 
 <img class="center-image-75" src="./img/manager/LoadBalancing.svg" alt="Istio - Discovery & Load Balancing." />
 
