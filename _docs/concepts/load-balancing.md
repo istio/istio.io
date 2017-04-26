@@ -11,9 +11,18 @@ layout: docs
 type: markdown
 ---
 
-Istio relies on the platform to automatically register pods/containers to
-their respective services, as they come online. Envoy performs service
-discovery and refreshes its load balancing pools accordingly.
+**Service registration:** Istio assumes the presence of a service registry
+to keep track of the pods/VMs of a service in the application. It also
+assumes that new instances of a service are automatically registered with
+the service registry and unhealthy instances are automatically removed.
+Platforms such as Kubernetes, Mesos already provide such functionality for
+container-based applications. A plethora of solutions exist for VM-based
+applications.
+
+**Service Discovery:** Istio-Manager consumes information from the service
+registry and provides a platform-agnostic service discovery
+interface. Envoy instances in the mesh perform service discovery and 
+dynamically update their load-balancing pools accordingly.
 
 <img class="center-image-75" src="./img/manager/LoadBalancing.svg" alt="Istio - Discovery & Load Balancing." />
 
@@ -28,6 +37,12 @@ round robin, random, and weighted least request.
 In addition to load balancing, Envoy periodically checks the health of each
 instance in the pool. Envoy follows a circuit breaker style pattern to
 classify instances as unhealthy or healthy based on their failure rates for
-the the health check API call. In other words, when the number of health
+the health check API call. In other words, when the number of health
 check failures for a given instance exceeds a pre-specified threshold, it
-will be ejected from the load balancing pool.
+will be ejected from the load balancing pool. Similarly, when the number of
+health checks that pass exceed a pre-specified threshold, the instance will
+be added back into the load balancing pool.
+
+Services can actively shed load by responding with a HTTP 503 to a health
+check. In such an event, the service instance will be immediately removed
+from the caller's load balancing pool.
