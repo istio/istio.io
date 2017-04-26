@@ -23,7 +23,9 @@ on the platform (e.g., Kubernetes, Mesos, CloudFoundry, etc.) to
 automatically register pods/containers to their respective services, as
 they come online.
 
-Istio-Manager maintains a canonical representation of services in the
+<img class="center-image-75" src="./img/manager/ManagerAdapters.svg" alt="Istio-Manager - architecture." />
+
+As illustrated in the figure above, Istio-Manager maintains a canonical representation of services in the
 mesh that is independent of the underlying platform. Platform-specific
 adapters in the manager are responsible for populating this canonical model
 appropriately. For example, the Kubernetes adapter in the Istio-Manager
@@ -36,5 +38,3 @@ is generated based on the canonical representation.
 Operators can specify high-level traffic management rules through the
 [Istio-Manager's API (TBD)](). These rules are translated into low-level
 configurations and distributed to Envoy instances via the discovery API.
-
-Diagram showing adapters. TBD
