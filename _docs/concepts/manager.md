@@ -18,11 +18,6 @@ APIs for [service discovery](https://lyft.github.io/envoy/docs/configuration/clu
 platform-specific nuances, simplifying the design and increasing
 portability across platforms.
 
-_Note that Istio does not provide service registration_. Instead, it relies
-on the platform (e.g., Kubernetes, Mesos, CloudFoundry, etc.) to
-automatically register pods/containers to their respective services, as
-they come online.
-
 <img class="center-image-75" src="./img/manager/ManagerAdapters.svg" alt="Istio-Manager - architecture." />
 
 As illustrated in the figure above, Istio-Manager maintains a canonical representation of services in the
@@ -36,5 +31,5 @@ translated into the canonical representation. Envoy-specific configuration
 is generated based on the canonical representation.
 
 Operators can specify high-level traffic management rules through the
-[Istio-Manager's API (TBD)](). These rules are translated into low-level
+[Istio-Manager's Rules API (TBD)](). These rules are translated into low-level
 configurations and distributed to Envoy instances via the discovery API.
