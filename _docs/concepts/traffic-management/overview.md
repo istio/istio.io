@@ -1,9 +1,7 @@
 ---
-category: Concepts
 title: Overview
 overview: Provides a conceptual overview of traffic management principles in Istio and the kind of features enabled by these principles.
                 
-parent: Traffic Management
 order: 0
 
 bodyclass: docs

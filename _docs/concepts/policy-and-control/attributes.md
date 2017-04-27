@@ -1,9 +1,7 @@
 ---
-category: Concepts
 title: Attributes
 overview: Explains the important notion of attributes, which is a central mechanism for how policies and control are applied to services within the mesh.
               
-parent: Policies and Control
 order: 10
 
 bodyclass: docs

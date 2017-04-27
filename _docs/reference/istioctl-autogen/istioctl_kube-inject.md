@@ -1,8 +1,9 @@
 ---
-category: Reference
 title: Inject istio sidecar proxy into kubernetes resources
 overview: Inject istio sidecar proxy into kubernetes resources
-parent: Istioctl
+
+order: 10
+
 bodyclass: docs
 layout: docs
 type: markdown

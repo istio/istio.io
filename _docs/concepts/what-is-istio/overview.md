@@ -1,9 +1,7 @@
 ---
-category: Concepts
 title: Overview
 overview: Provides a broad overview of what problems Istio is designed to solve.
           
-parent: What is Istio?
 order: 15
 
 bodyclass: docs

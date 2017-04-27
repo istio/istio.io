@@ -1,9 +1,7 @@
 ---
-category: Reference
 title: Doc Issues
 overview: Explains the process involved in accepting documentation updates.
               
-parent: Contributing to the Docs
 order: 60
 
 bodyclass: docs

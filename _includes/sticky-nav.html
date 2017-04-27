@@ -2,8 +2,8 @@
   <div class="nav-container container">
     <div class="row">
       <div class="col-md-11 nofloat center-block">
-        <a class="col-xs-2" href="{{ site.baseurl }}/">
-          <img class="nav-logo" src="{{ site.baseurl }}/img/logo.png" alt="Istio">
+        <a class="col-xs-2" href="{{home}}/">
+          <img class="nav-logo" src="{{home}}/img/logo.png" alt="Istio">
           <span class="page-headline">Istio</span>
         </a>
 
@@ -18,11 +18,11 @@
 
         <ul class="nav col-xs-10">
           {% assign current = page.url | downcase | split: '/' %}
-          <li><a href="{{ site.baseurl }}/about/" {% if current[1] == 'about' %}class='current'{% endif %}>About</a></li>
-          <li><a href="{{ site.baseurl }}/docs/" {% if current[1] == 'docs' %}class='current'{% endif %}>Docs</a></li>
-          <li><a href="{{ site.baseurl }}/blog/" {% if current[1] == 'blog' %}class='current'{% endif %}>Blog</a></li>
-          <li><a href="{{ site.baseurl }}/community/" {% if current[1] == 'community' %}class='current'{% endif %}>Community</a></li>
-          <li><a href="{{ site.baseurl }}/faq/" {% if current[1] == 'faq' %}class='current'{% endif %}>FAQ</a></li>
+          <li><a href="{{home}}/about/" {% if current[1] == 'about' %}class='current'{% endif %}>About</a></li>
+          <li><a href="{{home}}/docs/" {% if current[1] == 'docs' %}class='current'{% endif %}>Docs</a></li>
+          <li><a href="{{home}}/blog/" {% if current[1] == 'blog' %}class='current'{% endif %}>Blog</a></li>
+          <li><a href="{{home}}/community/" {% if current[1] == 'community' %}class='current'{% endif %}>Community</a></li>
+          <li><a href="{{home}}/faq/" {% if current[1] == 'faq' %}class='current'{% endif %}>FAQ</a></li>
         </ul>
 
       </div>
@@ -31,28 +31,28 @@
 
   <div class="top-nav right">
     {% assign current = page.url | downcase | split: '/' %}
-    <li class="nav-item"><a href="{{ site.baseurl }}/"><p>Welcome</p></a><div class="nav-toggle icon-close"></div></li>
+    <li class="nav-item"><a href="{{home}}/"><p>Welcome</p></a><div class="nav-toggle icon-close"></div></li>
     <hr>
-    <li class="nav-item"><a href="{{ site.baseurl }}/about/" {% if current[1] == 'about' %}class='current'{% endif %}><p>About</p></a></li>
+    <li class="nav-item"><a href="{{home}}/about/" {% if current[1] == 'about' %}class='current'{% endif %}><p>About</p></a></li>
     <hr>
-    <li class="nav-item"><a href="{{ site.baseurl }}/docs/" {% if current[1] == 'docs' %}class='current'{% endif %}><p>Docs</p></a>
+    <li class="nav-item"><a href="{{home}}/docs/" {% if current[1] == 'docs' %}class='current'{% endif %}><p>Docs</p></a>
       <div class="nav-doc-toggle icon-caret"></div>
       <ul class="doc-list">
-        <a href="{{ site.baseurl }}/docs" {% if page.path == 'docs/index.html' %}class='current'{% endif %}><li class="nav-doc-tab">Welcome</li></a>
-        <a href="{{ site.baseurl }}/docs/concepts" {% if current[2] == 'concepts' %}class='current'{% endif %}><li class="nav-doc-tab">Concepts</li></a>
-        <a href="{{ site.baseurl }}/docs/tasks" {% if current[2] == 'tasks' %}class='current'{% endif %}><li class="nav-doc-tab">Tasks</li></a>
+        <a href="{{home}}/docs" {% if page.path == 'docs/index.html' %}class='current'{% endif %}><li class="nav-doc-tab">Welcome</li></a>
+        <a href="{{home}}/docs/concepts" {% if current[2] == 'concepts' %}class='current'{% endif %}><li class="nav-doc-tab">Concepts</li></a>
+        <a href="{{home}}/docs/tasks" {% if current[2] == 'tasks' %}class='current'{% endif %}><li class="nav-doc-tab">Tasks</li></a>
 <!--
-        <a href="{{ site.baseurl }}/docs/tutorials" {% if current[2] == 'tutorials' %}class='current'{% endif %}><li class="nav-doc-tab">Tutorials</li></a>
+        <a href="{{home}}/docs/tutorials" {% if current[2] == 'tutorials' %}class='current'{% endif %}><li class="nav-doc-tab">Tutorials</li></a>
 -->
-        <a href="{{ site.baseurl }}/docs/samples" {% if current[2] == 'samples' %}class='current'{% endif %}><li class="nav-doc-tab">Samples</li></a>
-        <a href="{{ site.baseurl }}/docs/reference" {% if current[2] == 'reference' %}class='current'{% endif %}><li class="nav-doc-tab">Reference</li></a>
+        <a href="{{home}}/docs/samples" {% if current[2] == 'samples' %}class='current'{% endif %}><li class="nav-doc-tab">Samples</li></a>
+        <a href="{{home}}/docs/reference" {% if current[2] == 'reference' %}class='current'{% endif %}><li class="nav-doc-tab">Reference</li></a>
       </ul>
     </li>
     <hr>
-    <li class="nav-item"><a href="{{ site.baseurl }}/blog/" {% if current[1] == 'blog' %}class='current'{% endif %}><p>Blog</p></a></li>
+    <li class="nav-item"><a href="{{home}}/blog/" {% if current[1] == 'blog' %}class='current'{% endif %}><p>Blog</p></a></li>
     <hr>
-    <li class="nav-item"><a href="{{ site.baseurl }}/community/" {% if current[1] == 'community' %}class='current'{% endif %}><p>Community</p></a></li>
+    <li class="nav-item"><a href="{{home}}/community/" {% if current[1] == 'community' %}class='current'{% endif %}><p>Community</p></a></li>
     <hr>
-    <li class="nav-item"><a href="{{ site.baseurl }}/faq/" {% if current[1] == 'faq' %}class='current'{% endif %}><p>FAQ</p></a></li>
+    <li class="nav-item"><a href="{{home}}/faq/" {% if current[1] == 'faq' %}class='current'{% endif %}><p>FAQ</p></a></li>
   </div>
 </nav>

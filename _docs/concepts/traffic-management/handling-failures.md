@@ -1,9 +1,7 @@
 ---
-category: Concepts
 title: Handling Failures
 overview: An overview of failure recovery capabilities in Envoy that can be leveraged by unmodified applications to improve robustness and prevent cascading failures.
-                
-parent: Traffic Management
+
 order: 30
 
 bodyclass: docs

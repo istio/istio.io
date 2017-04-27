@@ -1,6 +1,6 @@
 ---
-category: Tasks
 title: Timeout Injection
+overview: Discusses injecting timeouts.
 
 order: 65
 

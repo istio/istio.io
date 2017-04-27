@@ -1,5 +1,4 @@
 ---
-category: Reference
 title: Routing & Traffic Management
 overview: Describes how to configure Istio's Layer 4 & 7 routing logic.
           
