@@ -1,7 +1,8 @@
 ---
 category: Reference
 title: Writing a New Topic
-
+overview: Explains the mechanics of creating new documentation pages.
+              
 parent: Contributing to the Docs
 order: 30
 
@@ -89,6 +90,7 @@ chunk of front matter you should start with:
     ---
     category: CATEGORY_TBD
     title: TITLE_TBD
+    overview: OVERVIEW_TBD
 
     parent: PARENT_TBD
     order: ORDER_TBD
@@ -109,6 +111,7 @@ matter fields are:
 |`order`    | integer used for sort order
 |`marker`   | boolean to indicate a section separator in sidenav but NOT a page with content that is ever shown
 |`parent`   | indicates that this page should be shown under another page hierarchically, basically this is a subcategory
+|`overview` | a one-line description of what the topic is about
 
 ## Choosing a directory
 

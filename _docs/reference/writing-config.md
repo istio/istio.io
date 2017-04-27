@@ -1,6 +1,7 @@
 ---
 category: Reference
 title: Writing Configuration
+overview: How to write Istio config YAML content.
 
 order: 70
 
