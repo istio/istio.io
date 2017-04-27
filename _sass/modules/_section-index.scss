@@ -1,0 +1,26 @@
+.section-index {
+    margin-bottom: 20px;
+
+    @media (min-width: $tablet) {
+        margin-bottom: 0;
+        padding: $spacing--xs 0 $spacing--xl;
+    }
+
+	.area {
+		display: inline-block;
+		padding: 2px;
+		width: 100%;
+		font-size: 120%;
+	}
+
+	.item {
+		display: inline-block;
+		padding: 2px;
+		width: 100%;
+	}
+
+	.child-link {
+	    font-size: 120%;
+	    font-weight: 400;
+	}
+}
