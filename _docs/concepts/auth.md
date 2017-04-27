@@ -1,33 +1,18 @@
-<!----- Conversion time: 5.4 seconds.
+---
+category: Concepts
+title: Auth
+overview: Architectural deep-dive into the design of Auth, which provides the
+secure communication channel and strong identity for Istio.
+              
+parent: Network and Auth
+order: 20
 
+bodyclass: docs
+layout: docs
+type: markdown
+---
 
-Using this Markdown file:
-
-1. Cut and paste this output into your source file.
-2. See the notes and action items below regarding this conversion run.
-3. Check the rendered output (headings, lists, code blocks, tables) for proper
-   formatting and use a linkchecker before you publish this page.
-
-Conversion notes:
-
-* GDC version 1.1.19 r1
-* Thu Apr 27 2017 09:43:43 GMT-0700 (PDT)
-* Source doc: https://docs.google.com/a/google.com/open?id=1SzoKl048g0q7tMI5kC3SKvabmm5HUby6N9cxG6Uqd6U
-* images stored in My Drive/Istio_Auth_images.zip
-* imageZip url: https://drive.google.com/a/google.com/file/d/0BzcxwobsNewEb2pycGVMTUl2bm8/view?usp=drivesdk
-* This document has images: check for >>>>  inline image link in generated source and store images to your server.
------>
-
-
-<p style="color: red; font-weight: bold">>>>>  ERRORs: 0; WARNINGs: 0; ALERTS: 1.</p>
-<ul style="color: red; font-weight: bold"><li>See top comment block for details. <li>In the converted Markdown or HTML, search for red text that starts with >>>>  for specific instances that need your attention.</ul>
-
-<p style="color: red; font-weight: bold">Links to alert messages:</p><a href="#gdcalert1">alert1</a>
-
-<p style="color: red; font-weight: bold">>>>> PLEASE check and correct alert issues and delete this message and the inline alerts.<hr></p>
-
-
-<p style="color: red; font-weight: bold">>>>> Images stored in <a href="https://drive.google.com/a/google.com/file/d/0BzcxwobsNewEb2pycGVMTUl2bm8/view?usp=drivesdk">My Drive/Istio_Auth_images.zip</a></p>
+The page explains Auth's role and general architecture.
 
 
 ## Istio Auth Concept
