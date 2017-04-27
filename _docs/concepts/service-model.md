@@ -12,7 +12,7 @@ type: markdown
 ---
 
 The Istio model of a service is independent of how it is represented
-in the underlying platform (Kubernetes, Mesos, CloudFoundry,
+in the underlying platform (Kubernetes, Mesos, Cloud Foundry,
 etc.). Platform-specific adapters are responsible for populating the
 internal model representation with various fields, from the metadata found
 in the platform.
