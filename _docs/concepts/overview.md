@@ -1,7 +1,8 @@
 ---
 category: Concepts
 title: Overview
-
+overview: Provides a broad overview of what problems Istio is designed to solve.
+          
 parent: What is Istio?
 order: 15
 
@@ -18,7 +19,7 @@ such as A/B testing, canary releases, rate limiting, access control, and end-to-
 microservices that make up applications and the interactions between them. As the service mesh grows in size and complexity, it becomes harder to understand
 and manage.
 
-Istio provides a complete solution to satisfying these diverse requirements of microservice applications, by providing developers and operators with 
+Istio provides a complete solution to satisfy these diverse requirements of microservice applications, by providing developers and operators with 
 behavioral insights and operational control over the service mesh as a whole. Istio does this by providing a number of key capabilities uniformly across the
 network of services:
 
@@ -50,7 +51,9 @@ Istio’s service mesh is logically split into a *data plane* and a *control pla
 proxies deployed as sidecars that mediate and control all network communication between microservices. The control plane is responsible for managing and 
 configuring proxies to route traffic, as well as enforce policies at runtime. 
 
+## What's next
 
-
+* Learn about Istio's [design goals](./goals.html).
+* Explore Istio's [high-level architecture](./architecture.html).
 
 

@@ -1,7 +1,8 @@
 ---
 category: Concepts
 title: Service Model
-
+overview: Describes how services are modeled within the Istio mesh, the notion of multiple versions of a service, and the communication model between services.
+              
 parent: Traffic Management
 order: 20
 
@@ -11,7 +12,7 @@ type: markdown
 ---
 
 The Istio model of a service is independent of how it is represented
-in the underlying platform (Kubernetes, Mesos, CloudFoundry,
+in the underlying platform (Kubernetes, Mesos, Cloud Foundry,
 etc.). Platform-specific adapters are responsible for populating the
 internal model representation with various fields, from the metadata found
 in the platform.
@@ -29,10 +30,13 @@ additional control over traffic between services.
 
 ## Communication between services
 
-Clients of a service have no knowledge of different versions of the
-service. They can continue to access the services using the hostname/IP
-address of the service. Envoy sidecar/proxy intercepts and forwards all
-requests/responses between the client and the service.
+<img class="center-image-75" src="./img/manager/ServiceModel_Versions.svg" alt="Istio service model - service versions." />
+
+As illustrated in the figure above, clients of a service have no knowledge
+of different versions of the service. They can continue to access the
+services using the hostname/IP address of the service. Envoy sidecar/proxy
+intercepts and forwards all requests/responses between the client and the
+service.
 
 The actual choice of the service version is determined dynamically by Envoy
 based on the routing rules set forth by the operator. This model enables
@@ -46,5 +50,15 @@ Note that Istio does not provide a DNS. Applications can try to resolve the
 FQDN using the DNS service present in the underlying platform (kube-dns,
 mesos-dns, etc.).
 
+## Ingress and Egress Envoys
 
+Istio assumes that all traffic entering and leaving the istio service mesh
+transits through Envoy proxies. By deploying the Envoy proxy in front of
+services, operators can conduct A/B testing, deploy canary services,
+etc. for user-facing services. Similarly, by routing traffic to external
+web services (e.g., accessing Maps API, or a video service API) via Envoy,
+operators can add failure recovery features such as circuit breakers,
+impose rate limits via Mixer, and provide authentication using
+Istio-Auth service.
 
+<img src="./img/manager/ServiceModel_RequestFlow.svg" alt="Istio service model - ingress and egress Envoy." />

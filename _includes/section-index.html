@@ -1,0 +1,29 @@
+<ul class="section-index">
+	{% assign current = page.url | downcase | split: '/' %}
+
+	{% assign cats = site.docs | where:"category",page.category | sort:"order" %}
+	{% for cat in cats %}
+		{% assign cat_name = cat.title | default: "EMPTY" %}
+		{% assign cat_parent = cat.parent | default: "EMPTY" %}
+		{% unless cat.url contains "index" %}
+			{% if cat_name != "EMPTY" %}
+				{% if cat.marker == true %}
+				<li class="area">
+						{{ cat_name }}
+					<ul>
+						{% assign children = site.docs | where:"parent",cat.title | sort:"order" %}
+						{% for child in children %}
+						<p><li class="item"><a class="child-link" href="{{child.url}}">{{ child.title }}</a>. {{ child.overview }}</li></p>
+						{% endfor %}
+					</ul>
+				</li>
+				{% endif %}
+				{% if cat.marker != true and cat_parent == "EMPTY" %}
+	            <p><li class="item">
+					<a class="child-link" href="{{ cat.url }}">{{ cat_name }}</a>. {{cat.overview}}
+                </li></p>
+				{% endif %}
+			{% endif %}
+		{% endunless %}
+	{% endfor %}
+ </ul>
