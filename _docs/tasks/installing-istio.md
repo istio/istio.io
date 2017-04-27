@@ -155,13 +155,13 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 
 1. Uninstall Istio:
 
-    **If Istio has auth enabled:**
+    **If Istio has auth disabled:**
 
     ```bash
     kubectl delete -f ./kubernetes/istio-16.yaml
     ```
 
-    **If Istio has auth disabled:**
+    **If Istio has auth enabled:**
 
     ```bash
     kubectl delete -f ./kubernetes/istio-auth-16.yaml
