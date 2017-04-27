@@ -1,5 +1,4 @@
 ---
-category: Reference
 title: The istioctl Command
 overview: Describes the usage and options of the istioctl command-line tool.
           

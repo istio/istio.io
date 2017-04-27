@@ -1,5 +1,4 @@
 ---
-category: Reference
 title: Writing Configuration
 overview: How to write Istio config YAML content.
 
@@ -10,13 +9,11 @@ layout: docs
 type: markdown
 ---
 
-
-This document describes how to write configuration that conforms to Istio's schemas. All configuration schemas in Istio are defined as [protobuf messages](https://developers.google.com/protocol-buffers/docs/proto3). When in doubt, search for the protos.
-
-
-
+This page describes how to write configuration that conforms to Istio's schemas. All configuration schemas in Istio are defined as [protobuf messages]
+(https://developers.google.com/protocol-buffers/docs/proto3). When in doubt, search for the protos.
 
 ## Translating to YAML
+
 There is no canonical mapping between protobufs and YAML; instead [protobuf defines a canonical mapping to JSON](https://developers.google.com/protocol-buffers/docs/proto3#json), and [YAML defines a canonical mapping to JSON](http://yaml.org/spec/1.2/spec.html#id2759572). To ingest YAML as a proto we convert it to JSON then to  protobuf.
 
 **Important things to note:**

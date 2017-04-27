@@ -1,8 +1,9 @@
 ---
-category: Reference
 title: Replace policies and rules
 overview: Replace policies and rules
-parent: Istioctl
+
+order: 10
+
 bodyclass: docs
 layout: docs
 type: markdown

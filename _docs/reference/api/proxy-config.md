@@ -1,9 +1,7 @@
 ---
-category: Reference
 title: Proxy Configuration Schema
 overview: Generated documentation for the Istio Proxy's Configuration Schema
               
-parent: API and Configuration Schemas
 order: 60
 
 bodyclass: docs

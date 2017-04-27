@@ -1,8 +1,9 @@
 ---
-category: Reference
 title: Retrieve a policy or rule
 overview: Retrieve a policy or rule
-parent: Istioctl
+
+order: 10
+
 bodyclass: docs
 layout: docs
 type: markdown

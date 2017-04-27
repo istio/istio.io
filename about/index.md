@@ -30,5 +30,5 @@ including cluster ingress and egress.
 - Secure service-to-service authentication with strong identity assertions
 between services in a cluster.
 
-Istio currently only supports the Kubernetes platform, although we plan support
-for additional platforms such as CloudFoundry, Mesos, and bare metal in the near future.
+Istio currently only supports the [Kubernetes](https://kubernetes.io) platform, although we plan support
+for additional platforms such as Cloud Foundry, Mesos, and bare metal in the near future.

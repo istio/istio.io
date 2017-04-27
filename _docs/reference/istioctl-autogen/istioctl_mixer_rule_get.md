@@ -1,8 +1,9 @@
 ---
-category: Reference
 title: Get Istio Mixer rules
 overview: Get Istio Mixer rules
-parent: Istioctl
+
+order: 10
+
 bodyclass: docs
 layout: docs
 type: markdown

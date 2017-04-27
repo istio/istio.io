@@ -1,8 +1,9 @@
 ---
-category: Reference
 title: Generate bash completion for Istioctl
 overview: Generate bash completion for Istioctl
-parent: Istioctl
+
+order: 10
+
 bodyclass: docs
 layout: docs
 type: markdown
