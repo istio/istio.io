@@ -1,8 +1,9 @@
 ---
-category: Reference
 title: Create policies and rules
 overview: Create policies and rules
-parent: Istioctl
+
+order: 10
+
 bodyclass: docs
 layout: docs
 type: markdown

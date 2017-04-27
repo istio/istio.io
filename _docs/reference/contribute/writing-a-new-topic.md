@@ -1,9 +1,7 @@
 ---
-category: Reference
 title: Writing a New Topic
 overview: Explains the mechanics of creating new documentation pages.
               
-parent: Contributing to the Docs
 order: 30
 
 bodyclass: docs
@@ -88,11 +86,9 @@ triple-dashed lines at the top of each file. Here's the
 chunk of front matter you should start with:
 
     ---
-    category: CATEGORY_TBD
     title: TITLE_TBD
     overview: OVERVIEW_TBD
 
-    parent: PARENT_TBD
     order: ORDER_TBD
 
     bodyclass: docs
@@ -106,11 +102,8 @@ matter fields are:
 
 |Field      | Description
 |-----------|------------
-|`category` | this must be there in order for the page to show up
 |`index`    | indicates whether the page should appear in the doc's top nav tabs
 |`order`    | integer used for sort order
-|`marker`   | boolean to indicate a section separator in sidenav but NOT a page with content that is ever shown
-|`parent`   | indicates that this page should be shown under another page hierarchically, basically this is a subcategory
 |`overview` | a one-line description of what the topic is about
 
 ## Choosing a directory

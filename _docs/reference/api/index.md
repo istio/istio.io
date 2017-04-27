@@ -1,8 +1,7 @@
 ---
-category: Reference
 title: API and Configuration Schemas
+overview: Detailed information on API parameters and configuration options.
 
-marker: true
 order: 100
 
 bodyclass: docs

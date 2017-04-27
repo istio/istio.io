@@ -1,9 +1,7 @@
 ---
-category: Reference
 title: Editing Docs
 overview: Lets you start editing this site's documentation.
               
-parent: Contributing to the Docs
 order: 10
 
 bodyclass: docs
