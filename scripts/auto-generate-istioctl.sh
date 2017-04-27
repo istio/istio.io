@@ -13,6 +13,7 @@ function mainPageHeader() {
 ---
 category: Reference
 title: Istioctl
+overview: ${title}
 bodyclass: docs
 layout: docs
 type: markdown
@@ -26,6 +27,7 @@ function commandHeader() {
 ---
 category: Reference
 title: ${title}
+overview: ${title}
 parent: Istioctl
 bodyclass: docs
 layout: docs
@@ -36,7 +38,8 @@ EOF
 
 # Generate markdown files with istioctl.
 mkdir -p ${ISTIOCTL_DIR}
-${ISTIOCTL} collateral markdown --dir ${ISTIOCTL_DIR}
+rm ${ISTIOCTL_DIR}/*
+${ISTIOCTL} markdown --dir ${ISTIOCTL_DIR}
 
 # Patch markdown up with the proper formatting.
 for file in ${ISTIOCTL_DIR}/*.md; do
