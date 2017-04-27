@@ -61,93 +61,41 @@ RDS Route Discovery Service -- See https://lyft.github.io/envoy/docs/configurati
 
 -->
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-11 nofloat center-block">
-      <!-- Constrain readable sections to 9 unit wide columns for improved readability. -->
-            <div class="col-md-9 glossary-container">
-                <h5 class="glossary-title">Glossary</h5>
-                <ul class="list-unstyled">
+# Glossary
 
-<li class="submenu">
-    <h6 class="arrow-r">Envoy</h6>
-    <div id="envoy" class="submenu-content">
-        Envoy is the high-performance proxy that Istio uses to mediate all inbound and outbound traffic for all services in the service mesh. 
-        Learn more about Envoy <a href="https://lyft.github.io/envoy/">here</a>.
-    </div>
-</li>
+- **Envoy**.
+Envoy is the high-performance proxy that Istio uses to mediate all inbound and outbound traffic for all services in the service mesh. 
+Learn more about Envoy [here](https://lyft.github.io/envoy/).
 
-<li class="submenu">
-    <h6 class="arrow-r">Istio-Auth</h6>
-    <div class="submenu-content">
-        Istio-Auth provides strong service-to-service and end-user authentication using mutual TLS, with built-in identity and
-        credential management. Learn more about Istio-Auth *TBD*.
-    </div>
-</li>
+- **Istio-Auth**.
+Istio-Auth provides strong service-to-service and end-user authentication using mutual TLS, with built-in identity and
+credential management. Learn more about Istio-Auth *TBD*.
                     
-<li class="submenu">
-    <h6 class="arrow-r">Istio-Manager</h6>
-    <div class="submenu-content">
-        Istio-Manager serves as an interface between the user and Istio, collecting and validating configuration and propagating it to the
-        various Istio components. It abstracts environment-specific implementation details from Mixer and Envoy, providing them with an
-        abstract representation of the user’s services 
-        that is independent of the underlying platform.
-    </div>
-</li>
+- **Istio-Manager**.
+Istio-Manager serves as an interface between the user and Istio, collecting and validating configuration and propagating it to the
+various Istio components. It abstracts environment-specific implementation details from Mixer and Envoy, providing them with an
+abstract representation of the user’s services 
+that is independent of the underlying platform.
                     
-<li class="submenu">
-    <h6 class="arrow-r">Microservice</h6>
-    <div class="submenu-content">
-        A lightweight service.
-    </div>
-</li>
+- **Microservice**.
+A lightweight service.
                     
-<li class="submenu">
-    <h6 class="arrow-r">Mixer</h6>
-    <div class="submenu-content">
-        Mixer is an Istio component responsible for enforcing access control and usage policies across the service mesh and collecting telemetry data
-        from the Envoy proxy and other services. Learn more about Mixer <a href="/docs/concepts/mixer.html">here</a>.
-    </div>
-</li>
+- **Mixer**.
+Mixer is an Istio component responsible for enforcing access control and usage policies across the service mesh and collecting telemetry data
+from the Envoy proxy and other services. Learn more about Mixer [here](/docs/concepts/mixer.html).
 
-<li class="submenu">
-    <h6 class="arrow-r">Service</h6>
-    <div class="submenu-content">
-        A well-known IP endpoint and port that implements a specific protocol.
-    </div>
-</li>
+- **Service**.
+A well-known IP endpoint and port that implements a specific protocol.
 
-<li class="submenu">
-    <h6 class="arrow-r">Service Consumer</h6>
-    <div class="submenu-content">
-        The agent that is using a service.
-    </div>
-</li>
+- **Service Consumer**.
+The agent that is using a service.
 
-<li class="submenu">
-    <h6 class="arrow-r">Service Mesh</h6>
-    <div class="submenu-content">
-        A collection of services interconnected through Istio's fleet of proxies.
-    </div>
-</li>
+- **Service Mesh**.
+A collection of services interconnected through Istio's fleet of proxies.
 
-<li class="submenu">
-    <h6 class="arrow-r">Service Operator</h6>
-    <div class="submenu-content">
-        The agent that deploys and manages a service by manipulating configuration state and
-        monitoring health via a variety of dashboards.
-    </div>
-</li>
+- **Service Operator**.
+The agent that deploys and manages a service by manipulating configuration state and
+monitoring health via a variety of dashboards.
 
-<li class="submenu">
-    <h6 class="arrow-r">Service Producer</h6>
-    <div class="submenu-content">
-        The agent that creates a service by writing source code.
-    </div>
-</li>
-
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
+- **Service Producer**.
+The agent that creates a service by writing source code.
