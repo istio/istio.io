@@ -15,6 +15,7 @@ Create Istio Mixer rules
 
 
 Example usage:
+
     # Create a new Mixer rule for the given scope and subject.
     istioctl mixer rule create global myservice.ns.svc.cluster.local -f mixer-rule.yml
 

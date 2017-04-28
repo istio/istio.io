@@ -15,6 +15,7 @@ Retrieve policies and rules
 
 
 Example usage:
+
 	# List all route rules
 	istioctl get route-rules
 

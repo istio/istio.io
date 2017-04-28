@@ -21,6 +21,7 @@ See https://istio.io/docs/concepts/policy-and-control/mixer-config.html
 for a description of Mixer configuration's scope, subject, and rules.
 
 Example usage:
+
 	# The Mixer config server can be accessed from outside the
     # Kubernetes cluster using port forwarding.
     CONFIG_PORT=$(kubectl get pod -l istio=mixer \

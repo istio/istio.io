@@ -15,6 +15,7 @@ Delete policies or rules
 
 
 Example usage:
+
 	# Delete a rule using the definition in example-routing.yaml.
 	$ istioctl delete -f example-routing.yaml
 

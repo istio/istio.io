@@ -14,8 +14,10 @@ Get Istio Mixer rules
 
 
 
-Get a Mixer rule for a given scope and subject. The output
+Get a Mixer rule for a given scope and subject.
+
 Example usage:
+
 	# Get the Mixer rule with scope='global' and subject='myservice.ns.svc.cluster.local'
     istioctl mixer rule get global myservice.ns.svc.cluster.local
 
