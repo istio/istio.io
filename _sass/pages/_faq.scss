@@ -1,37 +1,21 @@
-// FAQ page
-.faq-container {
-  padding-bottom: 150px;
+.faq {
+    h1 {
+        color: $mainBrandColor;
+    }
 
-  .submenu-content p,li,ul{
-    font-size: 12px;
-    font-weight: 400;
-  }
+    h4 {
+        font-size: 110%;
+    }
 
-  .lead,
-  .faq-title {
-    color: $titleColor;
-  }
+    p {
+        padding-left: 20px;
+    }
 
-  .lead {
-    margin: 50px 0 40px 0;
-  }
+    ul {
+        padding-left: 30px;
+    }
 
-  .faq-title {
-    margin: 40px 0 0 0;
-  }
-
-  h6 {
-    font-size: .95rem;
-    letter-spacing: 1px;
-  }
-
-  h6.arrow-d,
-  h6.arrow-r {
-    margin: 30px 0 5px 0;
-    color: $black;
-  }
-
-  h6.arrow-d {
-    color: $black;
-  }
+    ul p {
+        padding-left: 0px;
+    }
 }

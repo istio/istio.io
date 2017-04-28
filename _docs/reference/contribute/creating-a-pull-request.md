@@ -1,8 +1,7 @@
 ---
-category: Reference
 title: Creating a Pull Request
-
-parent: Contributing to the Docs
+overview: Shows you how to create a GitHub pull request in order to submit your docs for approval.
+              
 order: 20
 
 bodyclass: docs

@@ -1,35 +1,42 @@
 <ul class="doc-side-nav">
-	{% assign current = page.url | downcase | split: '/' %}
-	<li><h5 class="doc-side-nav-title">{{page.category}}</h5></li>
-	{% assign cats = site.docs | where:"category",page.category | sort:"order" %}
-	{% for cat in cats %}
-		{% assign cat_name = cat.title | default: "EMPTY" %}
-		{% assign cat_parent = cat.parent | default: "EMPTY" %}
-		{% unless cat.url contains "index" %}
-			{% if cat_name != "EMPTY" %}
-				{% if cat.marker == true %}
-				<li class="doc-side-nav-list-item">
-					<label class="tree-toggle">
-						<i class="fa fa-lg fa-caret-down"></i>
-						{{ cat_name }}
-					</label>
-					<ul class="list-unstyled tree">
-						{% assign children = site.docs | where:"parent",cat.title | sort:"order" %}
-						{% for child in children %}
-							<li><a href="{{child.url}}">{{ child.title }}</a></li>
-						{% endfor %}
-					</ul>
-				</li>
-				{% endif %}
-				{% if cat.marker != true and cat_parent == "EMPTY" %}
-				<li class="doc-side-nav-list-item">
-					<a href="{{ cat.url }}">{{ cat_name }}</a>
-				</li>
-				{% endif %}
+
+	{% assign components = page.path | downcase | split: '/' %}
+	{% assign section = components[1] %}
+	{% assign foundSection = false %}
+
+	{% assign docs = site.docs %}
+	{% for d in docs %}
+		{% assign components = d.path | downcase | split: '/' %}
+		{% if components[1] == section %}
+			{% if components[2] == 'index.md' %}
+	            {% assign foundSection = true %}
+				<li><h5 class='doc-side-nav-title'>{{d.title}}</h5></li>
 			{% endif %}
-		{% endunless %}
+		{% endif %}
 	{% endfor %}
- </ul>
+
+	{% if foundSection == true %}
+	<li><h5 class='doc-side-nav-title'>{{d.title}}</h5></li>
+
+	<script type="text/javascript">
+        var docs = [];
+        {% for d in docs %}
+	        {% assign components = d.path | downcase | split: '/' %}
+			{% if components[1] == section %}
+		        docs.push({path: [
+		        {% for comp in components %}
+        			{% if forloop.index > 2 %}
+        				"{{ comp }}",
+        			{% endif %}
+        		{% endfor %}
+        		], url: "{{d.url}}", title: "{{d.title}}", order: {{d.order}}, overview: "{{d.overview}}"});
+			{% endif %}
+        {% endfor %}
+
+		genNavBarTree(docs)
+	</script>
+	{% endif %}
+</ul>
 
 <style>
     .tree li { padding-left: 20px; }

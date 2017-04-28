@@ -1,6 +1,6 @@
 ---
-category: Reference
 title: Glossary
+overview: A glossary of common Istio terms.
 
 order: 40
 
@@ -8,45 +8,10 @@ bodyclass: docs
 layout: docs
 type: markdown
 ---
-<div class="container">
-    <div class="row">
-        <div class="col-md-11 nofloat center-block">
-      <!-- Constrain readable sections to 9 unit wide columns for improved readability. -->
-            <div class="col-md-9 glossary-container">
-                <h5 class="glossary-title">Glossary</h5>
-                <ul class="list-unstyled">
-                    <li class="submenu">
-                        <h6 class="arrow-r">Mixer</h6>
-                        <div class="submenu-content">
-                            <p>TBD</p>
-                        </div>
-                    </li>
 
-                    <li class="submenu">
-                        <h6 class="arrow-r">Service Mesh</h6>
-                        <div class="submenu-content">
-                            <p>TBD</p>
-                        </div>
-                    </li>
-
-                    <li class="submenu">
-                        <h6 class="arrow-r">Microservice</h6>
-                        <div class="submenu-content">
-                            <p>TBD</p>
-                        </div>
-                    </li>
-                    
-<!-- Words to add to the glossary
+<!-- Ideas for words to add to the glossary
 
 Service instance
-
-Service version
-
-Source - ?
-
-Destination -- a fully-qualified hostname, some tags, a Load balancing policy, a Circuit breaker policy,
-a Timeout policy, a Retry policy, a L7 fault injection policy, a L4 fault injection policy, and
-"Custom policy implementations"
 
 RouteRule - destination, MatchCondition, 0..N DestinationWeights, precedence
 
@@ -77,14 +42,6 @@ Delay fault -- fixed or exponential delay. Fixed has a duration plus a % of requ
 
 Abort fault -- A type plus % of requests to abort. The types are only HTTP, HTTP/2, gRPC. No TCP resets or TLS (?!?)
 
-Istio Manager
-
-Istio Mixer
-
-Istio Proxy
-
-Proxy Mesh
-
 Upstream
 
 CDS Cluster Discovery Service -- See https://lyft.github.io/envoy/docs/configuration/cluster_manager/cds.html?highlight=cds#cluster-discovery-service
@@ -93,15 +50,66 @@ SDS Service Discovery Service -- See https://lyft.github.io/envoy/docs/intro/arc
 
 RDS Route Discovery Service -- See https://lyft.github.io/envoy/docs/configuration/http_conn_man/rds.html#route-discovery-service
 
-Service
-Microservice
-Service Consumer
-Service Producer
-Service Operator / Cluster Operator
-
 -->
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
+
+# Glossary
+
+- **Destination**.
+The remote upstream service to which the proxy/sidecar is
+talking to, on behalf of the source service. There can be one or more
+service versions for a given service and
+the proxy would choose the version based on routing rules.
+
+- **Envoy**.
+Envoy is the high-performance proxy that Istio uses to mediate all inbound and outbound traffic for all services in the service mesh. 
+Learn more about Envoy [here](https://lyft.github.io/envoy/).
+
+- **Istio-Auth**.
+Istio-Auth provides strong service-to-service and end-user authentication using mutual TLS, with built-in identity and
+credential management. Learn more about Istio-Auth *TBD*.
+                    
+- **Istio-Manager**.
+Istio-Manager serves as an interface between the user and Istio, collecting and validating configuration and propagating it to the
+various Istio components. It abstracts environment-specific implementation details from Mixer and Envoy, providing them with an
+abstract representation of the user’s services 
+that is independent of the underlying platform.
+                    
+- **Microservice**.
+A lightweight service.
+                    
+- **Mixer**.
+Mixer is an Istio component responsible for enforcing access control and usage policies across the service mesh and collecting telemetry data
+from the Envoy proxy and other services. Learn more about Mixer [here](/docs/concepts/policy-and-control/mixer.html).
+
+- **Service**.
+A unit of an application with a unique name that other services
+use to refer to the functionality being called. Service instances are
+pods/VMs/containers that implement the service.
+
+- **Service Consumer**.
+The agent that is using a service.
+
+- **Service Mesh**.
+A collection of services interconnected through Istio's fleet of proxies.
+
+- **Service Operator**.
+The agent that deploys and manages a service by manipulating configuration state and
+monitoring health via a variety of dashboards.
+
+- **Service Producer**.
+The agent that creates a service by writing source code.
+
+- **Service Versions**.
+In a continuous deployment scenario, for a given service,
+there can be multiple sets of instances running potentially different
+variants of the application binary or config. These variants are not necessarily
+different API versions. They could be iterative changes to the same service,
+deployed in different environments (prod, staging, dev, etc.). Common
+scenarios where this occurs include A/B testing, canary rollouts, etc. The
+choice of a particular version can be decided based on various criterion
+(headers, url, etc.) and/or by weights assigned to each version.  Each
+service has a default version consisting of all its instances.
+
+- **Source**.
+Downstream client (browser or another service) calling the
+proxy/sidecar (typically to reach another service).

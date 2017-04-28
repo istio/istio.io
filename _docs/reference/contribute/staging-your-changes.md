@@ -1,8 +1,7 @@
 ---
-category: Reference
 title: Staging Your Changes
-
-parent: Contributing to the Docs
+overview: Explains how to test your changes locally before submitting them.
+              
 order: 40
 
 bodyclass: docs

@@ -1,0 +1,46 @@
+{% assign components = page.path | downcase | split: '/' %}
+
+<div class="section-index">
+<h1 class="title">{{page.title}}</h1>
+<p>{{page.overview}}</p>
+
+<script type="text/javascript">
+	var docs = [];
+
+	{% assign docs = site.docs %}
+	{% for d in docs %}
+		{% assign doc_components = d.path | downcase | split: '/' %}
+		{% assign family = true %}
+
+		{% for comp in components %}
+			{% if forloop.last %}
+				{% continue %}
+			{% endif %}
+
+			{% assign dc = doc_components[forloop.index0] %}
+
+			{% if dc != comp %}
+				{% assign family = false %}
+				{% break %}
+			{% endif %}
+		{% endfor %}
+
+		{% if family == false %}
+			{% continue %}
+		{% endif %}
+
+		docs.push({path: [
+		{% for comp in doc_components %}
+			{% if forloop.index < components.size %}
+				{% continue %}
+			{% endif %}
+
+			"{{ comp }}",
+		{% endfor %}
+		], url: "{{d.url}}", title: "{{d.title}}", order: {{d.order}}, overview: "{{d.overview}}"});
+	{% endfor %}
+
+	genSectionNavTree(docs)
+</script>
+
+</div>

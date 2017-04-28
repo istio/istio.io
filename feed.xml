@@ -5,7 +5,7 @@ layout: null
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>istio -</title>
-    <description>A service mesh for polyglot microservices.</description>
+    <description>An open platform to connect, manage, and secure microservices.</description>
     <link>{{ site.baseurl }}</link>
     {% for post in site.posts %}
       {% unless post.draft %}
