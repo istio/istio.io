@@ -48,7 +48,7 @@ Contributions are highly welcome. We look forward to community feedback, additio
 
 The code repositories are hosted on [GitHub](https://github.com/istio). Please see our [Contribution Guidelines](https://github.com/istio/istio/blob/master/CONTRIBUTING.md) to learn how to contribute.
 
-In addition to the code, there are other ways to contribute to the Istio [community](https://istio.io/community/), including on [Stack Overflow](https://stackoverflow.com/questions/tagged/istio), the [mailing list](https://groups.google.com/forum/#!forum/istio-users), and our [Slack channel](https://istio-dev.slack.com/).
+In addition to the code, there are other ways to contribute to the Istio [community](/community/), including on [Stack Overflow](https://stackoverflow.com/questions/tagged/istio), the [mailing list](https://groups.google.com/forum/#!forum/istio-users), and our [Slack channel](https://istio-dev.slack.com/).
 
 #### Where is the documentation?
 
