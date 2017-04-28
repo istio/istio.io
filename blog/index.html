@@ -9,7 +9,7 @@ bodyclass: blog
 		<div class="col-md-11 nofloat center-block">
 			<div class="col-sm-8 col-md-9 ">
 				{% for post in paginator.posts %}
-						<a href="{{ site.baseurl }}{{ post.url }}"><h4  id="{{post.id}}" class="post-title">{{ post.title }}</h4></a>
+						<a href="{{home}}{{ post.url }}"><h4  id="{{post.id}}" class="post-title">{{ post.title }}</h4></a>
 
 						<div class="post-date">
 							{{ post.date | date: '%B %d, %Y' }}
@@ -40,21 +40,21 @@ bodyclass: blog
 							{{ post.excerpt }}
 						</div>
 						<div class="read-more">
-							<a href="{{ site.baseurl }}{{ post.url }}"><span class="read-more-text">Read More</span></a>
+							<a href="{{home}}{{ post.url }}"><span class="read-more-text">Read More</span></a>
 						</div>
 						<hr>
 				{% endfor %}
 				<div class="pagination">
 				  {% if paginator.previous_page %}
 				  	<div class="previous col-xs-6">
-				    	<a href="{{ site.baseurl }}{{ paginator.previous_page_path }}"><span class="caret-left"></span>Newer</a>
+				    	<a href="{{home}}{{ paginator.previous_page_path }}"><span class="caret-left"></span>Newer</a>
 				   	</div>
 				  {% else %}
 				    <span class="col-xs-6"></span>
 				  {% endif %}
 				  {% if paginator.next_page %}
 				    <div class="next col-xs-6 text-right">
-				    	<a href="{{ site.baseurl }}{{ paginator.next_page_path }}" >Older<span class="caret-right"></span></a>
+				    	<a href="{{home}}{{ paginator.next_page_path }}" >Older<span class="caret-right"></span></a>
 				    </div>
 				  {% else %}
 				    <span class="col-xs-6"></span>

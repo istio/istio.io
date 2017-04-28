@@ -1,5 +1,4 @@
 ---
-category: Tasks
 title: Integrating Services into the Mesh
 overview: This task shows you how to integrate your applications with the Istio service mesh.
             
