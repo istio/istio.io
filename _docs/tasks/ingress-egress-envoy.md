@@ -1,7 +1,7 @@
 ---
 category: Tasks
 title: Configuring Ingress/Egress with Envoy
-overview: This task shows you how to setup Envoy as the kubernetes ingress controller and the egress proxy to external services.
+overview: This task shows you how to setup Envoy as the Kubernetes ingress controller and the egress proxy to external services.
             
 order: 30
 

@@ -15,7 +15,7 @@ githuburl: https://github.com/istio/istio.github.io/
 
 sass:
   style: compressed
-  
+
 paginate: 2
 
 paginate_path: "/blog/page:num/"
@@ -45,3 +45,4 @@ exclude:
   - _docs/tutorials/tutorial.md.template
   - _docs/samples/sample.md.template
   - _docs/reference/reference.md.template
+  - scripts/
