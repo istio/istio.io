@@ -2,9 +2,9 @@
 layout: default
 ---
 {% assign home = "" %}
-{% if site.github.environment == "dotcom" %}
-    {% assign home = site.github.url %}
-{% endif %}
+<!-- {% if site.github.environment == "dotcom" %} -->
+    {% assign home = site.github.url | replace: 'http://', //' %}
+<!-- {% endif %} -->
 
 <!DOCTYPE html>
 <html lang="en" itemscope itemtype="https://schema.org/WebPage">
@@ -58,7 +58,7 @@ layout: default
 
     <!-- metadata -->
     <meta name="og:title" content="istio / {{page.title}}"/>
-    <meta name="og:image" content="http://istio.io/img/logo.png"/>
+    <meta name="og:image" content="https://istio.io/img/logo.png"/>
     <meta name="og:description" content="An open platform to connect, manage, and secure microservices."/>
   </head>
   <body class={{page.bodyclass}}>
@@ -82,9 +82,9 @@ layout: default
     {% if page.path == 'blog/index.html' %}
       <script src="{{ home }}/js/mc-validate.js"></script>
     {% endif %}
-    
+
     <!-- insert custom GA code here -->
-    
+
     {% if page.customjs %}
       <script  async="" defer="" type="text/javascript" src="{{ page.customjs }}"></script>
     {% endif %}
