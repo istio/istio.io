@@ -57,7 +57,9 @@ Check out the [documentation](/docs/) right here on istio.io. The docs include [
 Detailed developer-level documentation is maintained for each component in github, alongside the code. Please visit each repository for those docs:
 
 *   [Envoy](https://lyft.github.io/envoy/docs/)
+
 *   [Manager](https://github.com/istio/manager/tree/master/doc)
+
 *   [Mixer](https://github.com/istio/mixer/tree/master/doc)
 
 #### Istio doesn't work - what do I do?
@@ -70,7 +72,8 @@ Additionally, we provide [Reference Guides](/docs/reference/) for all of the Ist
 
 #### What does the Alpha release cover?
 
-The Alpha release of Istio provides an early preview of the intended functionality and user experience of our service mesh. We are hoping to solicit early feedback on direction and design decisions.
+Istio's Alpha release provides an early preview of the intended functionality and user experience of our service mesh. We are hoping to solicit 
+early feedback on direction and design decisions.
 
 The Alpha release includes the following features:
 
