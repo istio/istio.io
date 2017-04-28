@@ -47,7 +47,7 @@ continue without any errors.
    destination: ratings.default.svc.cluster.local
    httpFault:
      delay:
-       fixedDelaySeconds: 7
+       fixedDelay: 7s
        percent: 100
    match:
      httpHeaders:
