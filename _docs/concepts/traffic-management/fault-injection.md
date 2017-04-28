@@ -33,3 +33,5 @@ injected: delays and aborts. Delays are timing failures, mimicking
 increased network latency, or an overloaded upstream service. Aborts are
 crash failures that mimick failures in upstream services. Aborts usually
 manifest in the form of HTTP error codes, or TCP connection failures.
+
+Refer to [Istio's traffic management rules](./rules-configuration.html) for more details.

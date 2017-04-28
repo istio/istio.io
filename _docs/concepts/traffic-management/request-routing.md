@@ -1,5 +1,5 @@
 ---
-title: Service Model
+title: Request Routing
 overview: Describes how services are modeled within the Istio mesh, the notion of multiple versions of a service, and the communication model between services.
               
 order: 20
