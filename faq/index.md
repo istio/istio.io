@@ -2,6 +2,7 @@
 title: FAQ
 group: 'navigation'
 
+layout: faq
 bodyclass: faq
 type: markdown
 ---
