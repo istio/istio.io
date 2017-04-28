@@ -2,7 +2,7 @@
 title: Auth
 overview: Architectural deep-dive into the design of Auth, which provides the secure communication channel and strong identity for Istio.
               
-order: 20
+order: 30
 
 bodyclass: docs
 layout: docs
