@@ -1,37 +1,33 @@
 ---
-title: Generate bash completion for Istioctl
-overview: Generate bash completion for Istioctl
-
-order: 200
-
+title: istioctl create
+overview: Create policies and rules
+order: 2
 bodyclass: docs
 layout: docs
 type: markdown
 ---
-## istioctl completion
+## istioctl create
 
-Generate bash completion for Istioctl
+Create policies and rules
 
 ### Synopsis
 
 
 
-Output shell completion code for the bash shell. The shell output must
-be evaluated for to provide interactive completion of istioctl
-commands.
+Example usage:
 
-Examples:
-
-    # Add the following to .bash_profile.
-    source <(istioctl completion)
-
-    # Create a separate completion file and source that from .bash_profile
-    istioctl completion > ~/.istioctl-complete.bash
-    echo "source ~/.istioctl-complete.bash" >> ~/.bash_profile
+	# Create a rule using the definition in example-routing.yaml.
+	$ istioctl create -f example-routing.yaml
 
 
 ```
-istioctl completion
+istioctl create
+```
+
+### Options
+
+```
+  -f, --file string   Input file with the content of the configuration objects (if not set, command reads from the standard input)
 ```
 
 ### Options inherited from parent commands

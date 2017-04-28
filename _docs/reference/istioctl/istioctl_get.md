@@ -1,24 +1,39 @@
 ---
-title: Display version information and exit
-overview: Display version information and exit.
-
-order: 200
-
+title: istioctl get
+overview: Retrieve policies and rules
+order: 4
 bodyclass: docs
 layout: docs
 type: markdown
 ---
-## istioctl version
+## istioctl get
 
-Display version information and exit
+Retrieve policies and rules
 
 ### Synopsis
 
 
-Display version information and exit
+
+Example usage:
+
+	# List all route rules
+	istioctl get route-rules
+
+	# List all destination policies
+	istioctl get destination-policies
+
+	# Get a specific rule named productpage-default
+	istioctl get route-rule productpage-default
+
 
 ```
-istioctl version
+istioctl get
+```
+
+### Options
+
+```
+  -o, --output string   Output format. One of:yaml|short (default "short")
 ```
 
 ### Options inherited from parent commands

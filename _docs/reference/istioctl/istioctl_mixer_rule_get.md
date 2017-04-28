@@ -1,30 +1,29 @@
 ---
-title: Replace policies and rules
-overview: Replace policies and rules
-
-order: 50
-
+title: istioctl mixer rule get
+overview: Get Istio Mixer rules
+order: 9
 bodyclass: docs
 layout: docs
 type: markdown
 ---
-## istioctl replace
+## istioctl mixer rule get
 
-Replace policies and rules
+Get Istio Mixer rules
 
 ### Synopsis
 
 
-Replace policies and rules
+
+Get a Mixer rule for a given scope and subject.
+
+Example usage:
+
+	# Get the Mixer rule with scope='global' and subject='myservice.ns.svc.cluster.local'
+    istioctl mixer rule get global myservice.ns.svc.cluster.local
+
 
 ```
-istioctl replace
-```
-
-### Options
-
-```
-  -f, --file string   Input file with the content of the configuration objects (if not set, command reads from the standard input)
+istioctl mixer rule get
 ```
 
 ### Options inherited from parent commands
@@ -32,11 +31,12 @@ istioctl replace
 ```
   -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
+  -m, --mixer string                     Address of the Mixer configuration server as <host>:<port>
   -n, --namespace string                 Select a Kubernetes namespace (default "default")
   -v, --v Level                          log level for V logs
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
 ```
 
 ### SEE ALSO
-* [istioctl](istioctl.html)	 - Istio control interface
+* [istioctl mixer rule](istioctl_mixer_rule.html)	 - Istio Mixer Rule configuration
 

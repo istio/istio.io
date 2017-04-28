@@ -1,9 +1,7 @@
 ---
-title: Istioctl Control
+title: istioctl
 overview: Istio control interface
-
-order: 200
-
+order: 6
 bodyclass: docs
 layout: docs
 type: markdown
@@ -15,7 +13,18 @@ Istio control interface
 ### Synopsis
 
 
-Istio configuration command line utility. Available configuration types: [destination-policy ingress-rule route-rule]
+
+Istio configuration command line utility.
+
+Create, list, modify, and delete configuration resources in the Istio system.
+
+Available routing and traffic management configuration types: [destination-policy ingress-rule route-rule]. See
+https://istio.io/docs/reference/routing-and-traffic-management.html
+for an overview of the routing and traffic DSL.
+
+More information on the mixer API configuration can be found under the
+istioctl mixer command documentation.
+
 
 ### Options
 
@@ -31,8 +40,9 @@ Istio configuration command line utility. Available configuration types: [destin
 * [istioctl completion](istioctl_completion.html)	 - Generate bash completion for Istioctl
 * [istioctl create](istioctl_create.html)	 - Create policies and rules
 * [istioctl delete](istioctl_delete.html)	 - Delete policies or rules
-* [istioctl get](istioctl_get.html)	 - Retrieve a policy or rule
-* [istioctl kube-inject](istioctl_kube-inject.html)	 - Inject istio sidecar proxy into kubernetes resources
+* [istioctl get](istioctl_get.html)	 - Retrieve policies and rules
+* [istioctl kube-inject](istioctl_kube-inject.html)	 - Inject Envoy sidecar into Kubernetes pod resources
 * [istioctl mixer](istioctl_mixer.html)	 - Istio Mixer configuration
-* [istioctl replace](istioctl_replace.html)	 - Replace policies and rules
+* [istioctl replace](istioctl_replace.html)	 - Replace existing policies and rules
 * [istioctl version](istioctl_version.html)	 - Display version information and exit
+
