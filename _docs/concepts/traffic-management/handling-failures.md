@@ -46,6 +46,8 @@ service/version. However, consumers of a service can also override
 and
 [retry](/docs/reference/api/proxy-config.html#istio.proxy.v1alpha.config.HTTPRetry.SimpleRetryPolicy)
 defaults by providing request-level overrides through special HTTP headers.
+With the Envoy proxy implmentation, the headers are "x-envoy-upstream-rq-timeout-ms" and
+"x-envoy-max-retries", respectively.
  
 
 ## FAQ

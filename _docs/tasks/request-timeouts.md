@@ -61,7 +61,7 @@ to the `ratings` service.
      httpFault:
        delay:
          percent: 100
-         fixedDelaySeconds: 2
+         fixedDelaySeconds: 2.0
    EOF
    ```
 
@@ -83,7 +83,7 @@ to the `ratings` service.
          version: v2
      httpReqTimeout:
        simpleTimeout:
-         timeoutSeconds: 1
+         timeoutSeconds: 1.0
    EOF
    ```
 
@@ -112,6 +112,11 @@ Notice that in this task we used an Istio route rule to set the timeout to 1 sec
 Had we instead set the timeout to something greater than 3 seconds (e.g., 4 seconds) the timeout
 would have had no effect since the more restrictive of the two will take precedence.
 More details can be found [here](/docs/concepts/traffic-management/handling-failures.html#faq).
+
+One more thing to note about timeouts in Istio is that in addition to overriding them in route rules,
+as we did in this task, they can also be overridden on a per-request basis if the application adds
+an "x-envoy-upstream-rq-timeout-ms" header on outbound requests. In the header
+the timeout is specified in millisecond (instead of second) units. 
 
 ## What's next
 
