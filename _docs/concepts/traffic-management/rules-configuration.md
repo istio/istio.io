@@ -16,7 +16,7 @@ services in the application deployment. The DSL allows the operator to
 configure service-level properties such as circuit breakers, timeouts,
 retries, as well as set up common continuous deployment tasks such as
 canary rollouts, A/B testing, staged rollouts with %-based traffic splits,
-etc. See routing rules reference for detailed information. _link TBD_
+etc. See [routing rules reference](/docs/reference/api/proxy-config.html) for detailed information.
 
 For example, a simple rule to send 100% of incoming traffic for a "reviews"
 service to version "v1" can be described using the Rules DSL as
@@ -35,9 +35,9 @@ routed. In a Kubernetes deployment of Istio, the route *tag* "version: v1"
 corresponds to a Kubernetes *label* "version: v1".  The rule ensures that
 only Kubernetes pods containing the label "version: v1" will receive
 traffic. Rules can be configured using the
-[istioctl CLI](../reference/istioctl.html). See
-[configuring request routing](../tasks/request-routing.html) section for
-more information and examples.
+[istioctl CLI](/docs/reference/istioctl.html). See the
+[configuring request routing task](/docs/tasks/request-routing.html) for
+examples.
 
 There are two types of rules in Istio, **Routes** and **Destination
 Policies** (these are not the same as Mixer policies). Both types of rules
@@ -148,6 +148,99 @@ route:
   weight: 75
 ```
 
+### Timeouts and Retries
+
+By default, the timeout for http requests is 15 seconds,
+but this can be overridden in a route rule as follows:
+
+```yaml
+destination: "ratings.default.svc.cluster.local"
+route:
+- tags:
+    version: v1
+httpReqTimeout:
+  simpleTimeout:
+    timeoutSeconds: 10
+```
+
+The number of retries for a given http request can also be specified in a route rule.
+The maximum number of attempts, or as many as possible within the default or overriden timeout period,
+can be set as follows:
+
+```yaml
+destination: "ratings.default.svc.cluster.local"
+route:
+- tags:
+    version: v1
+httpReqRetries:
+  simpleRetry:
+    attempts: 3
+```
+
+Note that request timeouts and retries can also be
+[overridden on a per-request basis](https://istio.io/docs/concepts/traffic-management/handling-failures.html#fine-tuning).
+
+See the [request timeouts task](/docs/tasks/request-timeouts.html) for a demonstration of timeout control.
+
+### Injecting faults in the request path
+
+A route rule can specify one or more faults to inject
+while forwarding http requests to the rule's corresponding request destination.
+The faults can be either delays or aborts.
+
+The following example will introduce a 5 second delay in 10% of the requests to the "v1" version of the "reviews" microservice.
+
+```yaml
+destination: reviews.default.svc.cluster.local
+route:
+- tags:
+    version: v1
+httpFault:
+  delay:
+    percent: 10
+    fixedDelaySeconds: 5
+```
+
+The other kind of fault, abort, can be used to prematurely terminate a request,
+for example, to simulate a failure. 
+
+The following example will return an HTTP 400 error code for 10%
+of the requests to the "ratings" service "v1".
+
+```yaml
+destination: "ratings.default.svc.cluster.local"
+route:
+- tags:
+    version: v1
+httpFault:
+  abort:
+    percent: 10
+    httpStatus: 400
+```
+
+Sometimes delays and abort faults are used together. For example, the following rule will delay
+by 5 seconds all requests from the "reviews" service "v2" to the "ratings" service "v1" and 
+then abort 10 percent of them:
+
+```yaml
+destination: ratings.default.svc.cluster.local
+match:
+  source: reviews.default.svc.cluster.local
+  sourceTags:
+    version: v2
+route:
+- tags:
+    version: v1
+httpFault:
+  delay:
+    fixedDelaySeconds: 5
+  abort:
+    percent: 10
+    httpStatus: 400
+```
+
+To see fault injection in action, see the [fault injection task](/docs/tasks/fault-injection.html).
+
 ### Rules have precedence
 
 Multiple route rules could be applied to the same destination. The order of
@@ -231,6 +324,25 @@ tags:
   version: v1
 loadBalancing: RANDOM
 ```
+
+### Circuit Breakers
+
+A simple circuit breaker can be set based on a number of criteria such as connection and request limits.
+
+For example, the following destination policy
+sets a limit of 100 connections to "reviews" service version "v1" backends.
+
+```yaml
+destination: reviews.default.svc.cluster.local
+tags:
+  version: v1
+circuitBreaker:
+  simpleCb:
+    maxConnections: 100
+```
+
+The complete set of simple circuit breaker fields can be found
+[here](/docs/reference/api/proxy-config.html#istio.proxy.v1alpha.config.CircuitBreaker.SimpleCircuitBreakerPolicy).
 
 ### Destination Policy evaluation
 
