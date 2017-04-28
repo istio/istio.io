@@ -1,7 +1,7 @@
 ---
 title: Enabling Istio Auth
 overview: This task shows you how to setup Istio-Auth to provide mutual TLS authentication between services.
-  
+
 order: 70
 
 bodyclass: docs
@@ -11,7 +11,6 @@ type: markdown
 
 This task shows how to set up Istio auth in a Kubernetes cluster. You'll learn
 how to:
-* Set up and Deploy Istio CA
 * Enable Istio auth
 * Disable Istio auth
 * Verify Istio auth setups
@@ -19,114 +18,110 @@ how to:
 
 ## Before you begin
 The tutorial assumes you have:
-* Cloned https://github.com/istio/istio to your local machine
-* Installed **istioctl** CLI.
-* Sourced istio.VERSION for setting up **istioctl** env variables.
+* Read the Istio auth concepts.
+* Cloned https://github.com/istio/istio to your local machine.
 
 If you haven’t done so, please refer to
-[the general Istio installation guide](http://istio.github.io/docs/tasks/istio-installation.html).
+[the general Istio installation guide](https://istio.io/docs/tasks/installing-istio.html).
 
-
-## Creating Namespace For Istio CA
-
-Only a single Istio CA should be deployed for your Kubernetes cluster, in a dedicated namespace. Doing this offers the following benefits:
-* Services in the same cluster but different namespaces are able to talk to each other through Istio auth without extra
-trust set up.
-* Eventually, the dedicated namespace will always be access-restricted, with
-[Kubernetes RBAC](https://kubernetes.io/docs/admin/authorization/rbac/) (beta in Kubernetes V1.6) providing security boundary.
-
-In this tutorial, we use the name *istio-admin* for the dedicated namespace.
-The following command creates the namespace:
-
-```bash
-kubectl create ns istio-admin
-```
-
-## <a name="istioca"></a>Deploying Istio CA
-
-The Istio CA issues certificates and keys for the service accounts, which are mounted into the pods.
-In the cluster, a single CA is used for issuing certificates and keys for all namespaces.
-
-The following command deploys Istio CA to the *istio-admin* namespace:
-
-```bash
-kubectl apply -f kubernetes/istio-auth/istio-cluster-ca.yaml -n istio-admin
-```
-
-
-## <a name="configmap"></a>Adding AuthPolicy to ConfigMap
-Currently Istio auth only supports enabling/disabling mutual TLS for the entire cluster
-(service-level istio auth enabling/disabling will be supported in the future releases).
-To enable/disable it, uncomment/comment line *authPolicy: MUTUAL_TLS* in the file *kubernetes/istio-X.yaml*.
-*X* corresponds to the Kubernetes server version, choose "15" or "16". In the following, we use *vim* to edit the file.
-
-```bash
-vi ./kubernetes/istio-X.yaml
-# Uncomment the line "authPolicy: MUTUAL_TLS" to enable Istio auth.
-```
+In the real world systems, Istio CA should always be deployed in a dedicated namespace, and it issues certificates/keys to
+all pods in the Kubernetes cluster. This offers strong security and automatic trusts between namespaces in the same cluster.
+However, this tutorial also instructs how to deploy a namespace-scoped Istio CA, for easy setup and clean up during the
+experiments.
 
 ## Enabling Istio Auth
 
-After [deploying Istio CA](#istioca) and [adding AuthPolicy to ConfigMap](#configmap), the Istio manager and services
-need to be deployed/redeployed to reflect the new configuration with Istio auth. 
-This section covers enabling Istio auth for non-Istio clusters and Istio clusters. 
+### Option 1: Using Per-Namespace CA
 
-### Deploying Services in Non-Istio Cluster
+Per namespace CA is convenient for doing experiments.
+Because each Istio CA is scoped within a namespace, Istio CAs in different namespaces will not interfere with each other
+and they are easy to clean up.
 
-After [deploying Istio CA](#istioca) and [adding AuthPolicy to ConfigMap](#configmap),
-follow the [general guide](http://istio.github.io/docs/tasks/istio-installation.html) to install Istio and deploy
-services.
+We have one-off scripts *istio-auth-X.yaml* for deploying all Istio components including Istio CA into the namespace.
+Follow the general instructions on [Installing Istio](https://istio.io/docs/tasks/installing-istio.html),
+and **follow "With Istio auth Enabled" steps**.
 
-### <a name="istiocluster"></a>Redeploying Services in Istio Cluster
+### Option 2: (Recommended) Using Per-Cluster CA
 
-After [deploying Istio CA](#istioca) and [adding AuthPolicy to ConfigMap](#configmap), services need to be redeployed
-with the new configuration.
-Instructions below assume the applications are deployed in the "default" namespace. They can be modified for deployments
-in a separate namespace.
+Only a single Istio CA is deployed for the Kubernetes cluster, in a dedicated namespace.
+Doing this offers the following benefits:
+* In the near future, the dedicated namespace will use
+[Kubernetes RBAC](https://kubernetes.io/docs/admin/authorization/rbac/) (beta in Kubernetes V1.6) to provide security
+boundary. This will offer strong security for Istio CA.
+* Services in the same Kubernetes cluster but different namespaces are able to talk to each other through Istio auth
+without extra trust setup.
 
-Run the following command to redeploy ConfigMap for Kubernetes version *X*:
+#### Deplying CA
 
-```bash
-kubectl replace -f kubernetes/istio-X.yaml
-```
-
-Istio Manager needs to be restarted to reload the ConfigMap.
-Run the following command to find and restart the Istio Manager:
+The following command creates  namespace *istio-system* and deploys CA into the namespace:
 
 ```bash
-kubectl get po | grep istio-manager
-# Get the pod Istio manager is running on.
-kubectl delete po <istio-manager-pod>
-# Istio manager pod is restarted.
+kubectl apply -f ./kubernetes/istio-auth/istio-cluster-ca.yaml
 ```
 
-Each of the existing Istio-enabled deployement need to be reconfigured and redeployed.
-For example, to enable auth on pod deployed by kubeconfig *\<app-kubeconfig\>.yaml*,
-run the following command:
+#### <a name="istioconfig"></a>Enable Istio Auth in Istio Config
+
+The following command uncomments the line *authPolicy: MUTUAL_TLS* in the file *kubernetes/istio-X.yaml*,
+and backs up the original file as *istio-X.yaml.bak*
+(*X* corresponds to the Kubernetes server version, choose "15" or "16").
 
 ```bash
-kubectl replace -f <(istioctl kube-inject -f <app-kubeconfig>.yaml)
+sed -i.bak "s/# authPolicy: MUTUAL_TLS/authPolicy: MUTUAL_TLS/" ./kubernetes/istio-X.yaml
 ```
+
+#### <a name="otherservices"></a>Deploying Other Services
+
+Follow [the general Istio installation guide](https://istio.io/docs/tasks/installing-istio.html),
+and **follow "With Istio auth Disabled" steps**.
 
 ## Disabling Istio Auth
 
-### Removing Istio CA
+Disabling Istio auth requires all Istio services and applications to be reconfigured and restarted without auth config.
 
-Suppose Istio CA runs in dedicated namespace *istio-admin*, the following command removes Istio CA and the namespace.
+### For Per-Namespace CA Istio Auth
+
+Run the following command to uninstall Istio, and redeploy Istio without auth:
+
 ```bash
-kubectl delete ns istio-admin
+kubectl delete -f ./kubernetes/istio-auth-X.yaml
+kubectl apply -f ./kubernetes/istio-X.yaml
 ```
 
-### Removing AuthPolicy from ConfigMap
-
-Refer to [Adding AuthPolicy to ConfigMap](#configmap) to comment out the following line in *kubernetes/istio-X.yaml*.
-```yaml
-authPolicy: MUTUAL_TLS
+Also, redeploy your applications by running:
+```bash
+kubectl replace -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 ```
 
-### Redeploying Services without Istio Auth
+### For Per-Cluster CA Istio Auth
 
-This is the same as [Redeploying Services in Istio Cluster](#istiocluster).
+#### Removing Per-Cluster Istio CA
+
+The following command removes Istio CA and its namespace *istio-system*.
+```bash
+kubectl delete -f ./kubernetes/istio-auth/istio-cluster-ca.yaml
+```
+
+#### Recovering the Original Non-Auth ConfigMap
+
+The following command will recover the original *istio-X.yaml* file using the backup file created in
+[previous steps](<a name="istioconfig"></a>).
+```bash
+mv ./kubernetes/istio-X.yaml.bak ./kubernetes/istio-X.yaml
+```
+
+#### Redeploying Istio And Applications
+
+Run the following command to uninstall Istio, and redeploy Istio without auth:
+
+```bash
+kubectl delete -f ./kubernetes/istio-X.yaml
+kubectl apply -f ./kubernetes/istio-X.yaml
+```
+
+Also, redeploy your applications by running:
+```bash
+kubectl replace -f <(istioctl kube-inject -f <your-app-spec>.yaml)
+```
 
 ## Verifying Istio Auth Setup
 
