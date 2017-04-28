@@ -1,8 +1,7 @@
 ---
 category: Concepts
 title: Auth
-overview: Architectural deep-dive into the design of Auth, which provides the
-secure communication channel and strong identity for Istio.
+overview: Architectural deep-dive into the design of Auth, which provides the secure communication channel and strong identity for Istio.
               
 parent: Network and Auth
 order: 20
