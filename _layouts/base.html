@@ -13,7 +13,15 @@ layout: compress
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="title" content="{{page.title}}">
+    <meta name="og:title" content="{{page.title}}">
+
+    {% if page.overview == %}
+    <meta name="description" content="An open platform to connect, manage, and secure microservices.">
+    <meta name="og:description" content="An open platform to connect, manage, and secure microservices.">
+    {% else %}
     <meta name="description" content="{{page.overview}}">
+    <meta name="og:description" content="{{page.overview}}">
+    {% endif %}
     <title>Istio / {{ page.title }}</title>
 
     <!-- Webfont -->
