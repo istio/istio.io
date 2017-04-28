@@ -15,17 +15,17 @@ Istio Auth's aim is to enhance the security of microservices and their communica
 
 
 
-*   Providing each service with a strong identity that represents its role to enable interoperability across clusters and clouds.
+*   Providing each service with a strong identity that represents its role to enable interoperability across clusters and clouds
 
-*   Securing both service to service communication and end-user to service communication.
+*   Securing both service to service communication and end-user to service communication
 
-*   Providing a key management system to automate key/cert generation, distribution, rotation, and revocation.
+*   Providing a key management system to automate key/cert generation, distribution, rotation, and revocation
 
 In future versions it will also provide:
 
-*   Fine-grained authorization and auditing to control and monitor who accesses your services, apis, or resources, 
+*   Fine-grained authorization and auditing to control and monitor who accesses your services, apis, or resources
 
-*   Powerful authorization mechanisms: [ABAC](https://en.wikipedia.org/wiki/Attribute-Based_Access_Control), [RBAC](https://en.wikipedia.org/wiki/Role-based_access_control), Authorization hooks.
+*   Powerful authorization mechanisms: [ABAC](https://en.wikipedia.org/wiki/Attribute-Based_Access_Control), [RBAC](https://en.wikipedia.org/wiki/Role-based_access_control), Authorization hooks
 
 ## Architecture
 
