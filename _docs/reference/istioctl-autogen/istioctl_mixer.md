@@ -2,7 +2,7 @@
 title: Istio Mixer configuration
 overview: Istio Mixer configuration
 
-order: 10
+order: 100
 
 bodyclass: docs
 layout: docs

@@ -2,7 +2,7 @@
 title: Replace policies and rules
 overview: Replace policies and rules
 
-order: 10
+order: 50
 
 bodyclass: docs
 layout: docs

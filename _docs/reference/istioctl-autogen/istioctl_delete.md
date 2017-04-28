@@ -2,7 +2,7 @@
 title: Delete policies or rules
 overview: Delete policies or rules
 
-order: 10
+order: 30
 
 bodyclass: docs
 layout: docs

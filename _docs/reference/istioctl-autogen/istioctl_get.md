@@ -2,7 +2,7 @@
 title: Retrieve a policy or rule
 overview: Retrieve a policy or rule
 
-order: 10
+order: 40
 
 bodyclass: docs
 layout: docs

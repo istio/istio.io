@@ -2,7 +2,7 @@
 title: Create policies and rules
 overview: Create policies and rules
 
-order: 10
+order: 20
 
 bodyclass: docs
 layout: docs

@@ -2,7 +2,7 @@
 title: Inject istio sidecar proxy into kubernetes resources
 overview: Inject istio sidecar proxy into kubernetes resources
 
-order: 10
+order: 60
 
 bodyclass: docs
 layout: docs
