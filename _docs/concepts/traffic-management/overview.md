@@ -33,7 +33,7 @@ before beginning a canary deployment.
 Decoupling traffic flow from infrastructure scaling allows Istio to provide
 a variety of traffic management features that reside outside the
 application code. Features include dynamic
-[request routing](../tasks/request-routing.html) for A/B testing, canary releases,
+[request routing](./request-routing.html) for A/B testing, canary releases,
 gradual rollouts, etc., [failure recovery](./handling-failures.html)
 using timeouts, retries, circuit breakers, and finally
 [fault injection](./fault-injection.html) to test compatibility of
