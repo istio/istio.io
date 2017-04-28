@@ -2,7 +2,7 @@
 title: Generate bash completion for Istioctl
 overview: Generate bash completion for Istioctl
 
-order: 10
+order: 200
 
 bodyclass: docs
 layout: docs

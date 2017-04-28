@@ -2,7 +2,7 @@
 title: Create Istio Mixer rules
 overview: Create Istio Mixer rules
 
-order: 10
+order: 120
 
 bodyclass: docs
 layout: docs

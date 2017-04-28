@@ -1,8 +1,8 @@
 ---
-title: Istioctl
+title: Istioctl Control
 overview: Istio control interface
 
-order: 10
+order: 200
 
 bodyclass: docs
 layout: docs

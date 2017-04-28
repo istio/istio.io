@@ -2,7 +2,7 @@
 title: Get Istio Mixer rules
 overview: Get Istio Mixer rules
 
-order: 10
+order: 130
 
 bodyclass: docs
 layout: docs

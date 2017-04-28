@@ -1,8 +1,8 @@
 ---
-title: Istioctl-autogen
-overview: Options showing how to use the istioctl command.
+title: The Istioctl Command - Take 2
+overview: Explains the various features and options of the istioctl command.
 
-order: 40
+order: 11
 
 bodyclass: docs
 layout: docs
