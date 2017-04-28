@@ -1,9 +1,7 @@
 ---
-category: Concepts
 title: Discovery & Load Balancing
 overview: Describes how traffic is load balanced across instances of a service in the mesh.
               
-parent: Traffic Management
 order: 25
 
 bodyclass: docs

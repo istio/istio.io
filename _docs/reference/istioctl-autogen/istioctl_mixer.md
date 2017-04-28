@@ -1,8 +1,9 @@
 ---
-category: Reference
 title: Istio Mixer configuration
 overview: Istio Mixer configuration
-parent: Istioctl
+
+order: 100
+
 bodyclass: docs
 layout: docs
 type: markdown

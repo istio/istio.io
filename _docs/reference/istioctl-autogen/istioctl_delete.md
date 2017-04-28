@@ -1,8 +1,9 @@
 ---
-category: Reference
 title: Delete policies or rules
 overview: Delete policies or rules
-parent: Istioctl
+
+order: 30
+
 bodyclass: docs
 layout: docs
 type: markdown

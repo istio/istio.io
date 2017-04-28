@@ -1,8 +1,9 @@
 ---
-category: Reference
-title: Istioctl
+title: Istioctl Control
 overview: Istio control interface
-index: true
+
+order: 200
+
 bodyclass: docs
 layout: docs
 type: markdown

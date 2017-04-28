@@ -1,8 +1,9 @@
 ---
-category: Reference
 title: Display version information and exit
-overview: Display version information and exit
-parent: Istioctl
+overview: Display version information and exit.
+
+order: 200
+
 bodyclass: docs
 layout: docs
 type: markdown

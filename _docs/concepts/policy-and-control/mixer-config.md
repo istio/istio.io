@@ -1,9 +1,7 @@
 ---
-category: Concepts
 title: Mixer Configuration
 overview: An overview of the key concepts used to configure Mixer.
               
-parent: Policies and Control
 order: 30
 
 bodyclass: docs
@@ -31,7 +29,7 @@ aspects of a Mixer deployment by manipulating configuration records.
 - **Scoped**. Configuration is described hierarchically, enabling both coarse global control as well
 as fine-grained local control.
 
-- **Flexible**. The configuration model is built around Istio's [attributes](/docs/concepts/attributes.html),
+- **Flexible**. The configuration model is built around Istio's [attributes](/docs/concepts/policy-and-control/attributes.html),
 enabling operators unprecedented control over the policies used and telemetry produced within a deployment.
 
 - **Robust**. The configuration model is designed to provide maximum static correctness guarantees to help reduce
@@ -71,7 +69,7 @@ The following sections explain these concepts in detail.
 
 ### Adapters
 
-[Adapters](/docs/concepts/mixer.html#adapters) are the foundational work horses that the Istio mixer is built around. Adapters
+[Adapters](./mixer.html#adapters) are the foundational work horses that the Istio mixer is built around. Adapters
 encapsulate the logic necessary to interface Mixer with specific external infrastructure backends such as [Prometheus](https://prometheus.io),
 [New Relic](https://newrelic.com), or [Stackdriver](https://cloud.google.com/logging). Individual adapters
 generally need to be provided some basic operational parameters in order to do their work. For example, a logging adapter may need
@@ -216,7 +214,7 @@ aspect configuration formats can be found in *TBD*.
     
 #### Attribute Expressions
 
-Mixer features a number of independent [request processing phases](/docs/concepts/mixer#request-phases).
+Mixer features a number of independent [request processing phases](/docs/concepts/policy-and-control/mixer.html#request-phases).
 The *Attribute Processing* phase is responsible for ingesting a set of attributes and producing the adapter parameters 
 necessary to invoke individual adapters. The phase operates by evaluating a series of *attribute expressions*.
 

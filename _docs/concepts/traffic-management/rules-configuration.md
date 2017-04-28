@@ -1,9 +1,7 @@
 ---
-category: Concepts
 title: Rules Configuration
 overview: Provides a high-level overview of the domain-specific language used by Istio to configure traffic management rules in the service mesh.
                 
-parent: Traffic Management
 order: 50
 
 bodyclass: docs

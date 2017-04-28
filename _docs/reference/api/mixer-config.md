@@ -1,9 +1,7 @@
 ---
-category: Reference
 title: Mixer Configuration Schema
 overview: Generated documentation for Mixer's Configuration Schema
               
-parent: API and Configuration Schemas
 order: 40
 
 bodyclass: docs

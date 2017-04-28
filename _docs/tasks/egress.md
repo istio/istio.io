@@ -1,7 +1,9 @@
 ---
 title: Accessing a Service with Egress Envoy
 headline: Accessing a Service with Egress Envoy
-sidenav: doc-side-tasks-nav.html
+
+order: 10
+
 bodyclass: docs
 layout: docs
 type: markdown

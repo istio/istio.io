@@ -1,8 +1,9 @@
 ---
-category: Reference
 title: Create Istio Mixer rules
 overview: Create Istio Mixer rules
-parent: Istioctl
+
+order: 120
+
 bodyclass: docs
 layout: docs
 type: markdown

@@ -1,5 +1,4 @@
 ---
-category: Tasks
 title: Fault Injection
 overview: This task shows how to inject delays and test the resiliency of your application.
             
@@ -98,6 +97,6 @@ continue without any errors.
 
 ## What's next
 
-* Learn more about [fault injection](/docs/concepts/fault-injection.html).
+* Learn more about [fault injection](/docs/concepts/traffic-management/fault-injection.html).
 
 * Limit requests to the bookinfo `ratings` service with Istio [rate limiting](/docs/tasks/rate-limiting.html).

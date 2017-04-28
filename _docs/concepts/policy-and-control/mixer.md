@@ -1,9 +1,7 @@
 ---
-category: Concepts
 title: Mixer
 overview: Architectural deep-dive into the design of Mixer, which provides the policy and control mechanisms within the service mesh.
               
-parent: Policies and Control
 order: 20
 
 bodyclass: docs
@@ -43,7 +41,7 @@ streams intended for both the service operator as well as for service consumers.
 management tool to provide some fairness between service consumers when contending for limited resources. Rate limits are
 examples of quotas.
 
-These mechanisms are applied based on a set of [attributes](/docs/concepts/attributes.html) that are
+These mechanisms are applied based on a set of [attributes](/docs/concepts/policy-and-control/attributes.html) that are
 materialized for every request into Mixer. Within Istio, Envoy depends heavily on Mixer. Services running within the mesh
 can also use Mixer to report telemetry or manage quotas. (Note: as of Istio Alpha, only Envoy can call Mixer.)
 

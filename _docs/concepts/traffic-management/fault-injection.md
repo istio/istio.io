@@ -1,9 +1,7 @@
 ---
-category: Concepts
 title: Fault Injection
 overview: Introduces the idea of systematic fault injection that can be used to unconver conflicting failure recovery policies across services.
                 
-parent: Traffic Management
 order: 40
 
 bodyclass: docs

@@ -17,4 +17,12 @@ sitemap_exclude: y
     </url>
     {% endif %}
     {% endfor %}
+
+    {% for page in site.docs %}
+    {% if page.sitemap_exclude != 'y' %}
+    <url>
+        <loc>{{site.baseurl}}{{ page.url | remove: 'index.html' }}</loc>
+    </url>
+    {% endif %}
+    {% endfor %}
 </urlset>

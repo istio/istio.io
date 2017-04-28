@@ -9,9 +9,7 @@ kramdown:
     hard_wrap: false
     syntax_highlighter: rouge
 
-baseurl: ""
-
-githuburl: https://github.com/istio/istio.github.io/
+baseurl:
 
 sass:
   style: compressed
