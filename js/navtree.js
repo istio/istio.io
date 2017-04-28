@@ -5,7 +5,7 @@ sitemap_exclude: y
 /*
 {% assign home = "" %}
 {% if site.github.environment == "dotcom" %}
-    {% assign home = site.github.url %}
+ {% assign home = site.github.url | replace: 'http://', //' %}
 {% endif %}
 */
 
