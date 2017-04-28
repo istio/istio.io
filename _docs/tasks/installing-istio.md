@@ -44,7 +44,7 @@ clone Istio's [GitHub](https://github.com/istio/istio) repository:
 3. Install Istio's core components
    (Istio-Manager, Mixer, Ingress-Controller, and Istio CA if auth is enabled):
 
-   **With Istio auth Disabled:**
+   **If you would like to disable Istio auth**:
 
     ```bash
     kubectl apply -f ./kubernetes/istio-15.yaml # for Kubernetes 1.5
@@ -56,7 +56,9 @@ clone Istio's [GitHub](https://github.com/istio/istio) repository:
     kubectl apply -f ./kubernetes/istio-16.yaml # for Kubernetes 1.6 or later
     ```
 
-   **With Istio auth Enabled:**
+   **If you would like to enable Istio auth** (For more information, please see
+   [Istio auth installation
+   guide](https://istio.io/docs/tasks/istio-auth.html)):
 
     ```bash
     kubectl apply -f ./kubernetes/istio-auth-15.yaml # for Kubernetes 1.5
