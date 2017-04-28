@@ -1,9 +1,7 @@
 ---
-title: Istio Mixer configuration
+title: istioctl mixer
 overview: Istio Mixer configuration
-
-order: 100
-
+order: 7
 bodyclass: docs
 layout: docs
 type: markdown
@@ -15,12 +13,28 @@ Istio Mixer configuration
 ### Synopsis
 
 
-Istio Mixer configuration
+
+The Mixer configuration API allows users to configure all facets of the
+Mixer.
+
+See https://istio.io/docs/concepts/policy-and-control/mixer-config.html
+for a description of Mixer configuration's scope, subject, and rules.
+
+Example usage:
+
+	# The Mixer config server can be accessed from outside the
+    # Kubernetes cluster using port forwarding.
+    CONFIG_PORT=$(kubectl get pod -l istio=mixer \
+		-o jsonpath='{.items[0].spec.containers[0].ports[1].containerPort}')
+    export ISTIO_MIXER_API_SERVER=localhost:${CONFIG_PORT}
+    kubectl port-forward $(kubectl get pod -l istio=mixer \
+		-o jsonpath='{.items[0].metadata.name}') ${CONFIG_PORT}:${CONFIG_PORT} &
+
 
 ### Options
 
 ```
-  -m, --mixer string   Address of the mixer API server as <host>:<port>
+  -m, --mixer string   Address of the Mixer configuration server as <host>:<port>
 ```
 
 ### Options inherited from parent commands

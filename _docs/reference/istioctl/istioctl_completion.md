@@ -1,30 +1,35 @@
 ---
-title: Retrieve a policy or rule
-overview: Retrieve a policy or rule
-
-order: 40
-
+title: istioctl completion
+overview: Generate bash completion for Istioctl
+order: 1
 bodyclass: docs
 layout: docs
 type: markdown
 ---
-## istioctl get
+## istioctl completion
 
-Retrieve a policy or rule
+Generate bash completion for Istioctl
 
 ### Synopsis
 
 
-Retrieve a policy or rule
+
+Output shell completion code for the bash shell. The shell output must
+be evaluated to provide interactive completion of istioctl
+commands.
+
+Examples:
+
+    # Add the following to .bash_profile.
+    source <(istioctl completion)
+
+    # Create a separate completion file and source that from .bash_profile
+    istioctl completion > ~/.istioctl-complete.bash
+    echo "source ~/.istioctl-complete.bash" >> ~/.bash_profile
+
 
 ```
-istioctl get <type> <name>
-```
-
-### Options
-
-```
-  -o, --output string   Output format. One of:yaml|short (default "short")
+istioctl completion
 ```
 
 ### Options inherited from parent commands
