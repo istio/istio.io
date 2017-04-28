@@ -1,24 +1,26 @@
 ---
-title: Replace policies and rules
-overview: Replace policies and rules
-
-order: 50
-
+title: istioctl create
+overview: Create policies and rules
+order: 2
 bodyclass: docs
 layout: docs
 type: markdown
 ---
-## istioctl replace
+## istioctl create
 
-Replace policies and rules
+Create policies and rules
 
 ### Synopsis
 
 
-Replace policies and rules
+
+Example usage:
+	# Create a rule using the definition in example-routing.yaml.
+	$ istioctl create -f example-routing.yaml
+
 
 ```
-istioctl replace
+istioctl create
 ```
 
 ### Options

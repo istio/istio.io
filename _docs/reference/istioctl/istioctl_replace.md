@@ -1,24 +1,26 @@
 ---
-title: Delete policies or rules
-overview: Delete policies or rules
-
-order: 30
-
+title: istioctl replace
+overview: Replace existing policies and rules
+order: 11
 bodyclass: docs
 layout: docs
 type: markdown
 ---
-## istioctl delete
+## istioctl replace
 
-Delete policies or rules
+Replace existing policies and rules
 
 ### Synopsis
 
 
-Delete policies or rules
+
+Example usage:
+	# Create a rule using the definition in example-routing.yaml.
+	$ istioctl replace -f example-routing.yaml
+
 
 ```
-istioctl delete <type> <name> [<name2> ... <nameN>]
+istioctl replace
 ```
 
 ### Options
