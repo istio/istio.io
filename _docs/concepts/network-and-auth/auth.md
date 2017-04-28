@@ -29,7 +29,7 @@ In future versions it will also provide:
 
 ## Architecture
 
-The figure below shows the Istio Auth architecture, which includes three important components: identity, key management, and communication security. This diagram describes how Istio Auth is used to secure the service-to-service communication between service A, running as the service account "foo", and service B, running as the service account "bar".
+The figure below shows the Istio Auth architecture, which includes three important components: identity, key management, and communication security. It describes how Istio Auth is used to secure the service-to-service communication between service A, running as the service account "foo", and service B, running as the service account "bar".
 
 <img style="display:block;margin:auto" src="./img/auth/auth.svg" alt="Istio Auth Architecture." />
 
@@ -118,7 +118,7 @@ Let's consider a 3-tier application with three services: photo-frontend, photo-b
 
 In this scenario, a cluster admin can creates 3 namespaces: istio-ca-ns, photo-ns, and datastore-ns. Admin has access to all namespaces, and each team only has access to its own namespace. The photo SRE team creates 2 service accounts to run photo-frontend and photo-backend respectively in namespace photo-ns. The datastore SRE team creates 1 service account to run the datastore service in namespace datastore-ns. Moreover, we need to enforce the service access control in [Istio Mixer](https://istio.io/docs/concepts/policy-and-control/mixer.html) such that photo-frontend cannot access datastore.
 
-In this setup, Istio CA is able to provide key/cert management for all namespaces, and we successfully prevent any team from messing up services run by other teams.
+In this setup, Istio CA is able to provide key/cert management for all namespaces, and successfully prevent any team from messing up services run by other teams.
 
 ## Future Work
 
