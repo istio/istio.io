@@ -1,29 +1,46 @@
-<ul class="section-index">
-	{% assign current = page.url | downcase | split: '/' %}
+{% assign components = page.path | downcase | split: '/' %}
 
-	{% assign cats = site.docs | where:"category",page.category | sort:"order" %}
-	{% for cat in cats %}
-		{% assign cat_name = cat.title | default: "EMPTY" %}
-		{% assign cat_parent = cat.parent | default: "EMPTY" %}
-		{% unless cat.url contains "index" %}
-			{% if cat_name != "EMPTY" %}
-				{% if cat.marker == true %}
-				<li class="area">
-						{{ cat_name }}
-					<ul>
-						{% assign children = site.docs | where:"parent",cat.title | sort:"order" %}
-						{% for child in children %}
-						<p><li class="item"><a class="child-link" href="{{child.url}}">{{ child.title }}</a>. {{ child.overview }}</li></p>
-						{% endfor %}
-					</ul>
-				</li>
-				{% endif %}
-				{% if cat.marker != true and cat_parent == "EMPTY" %}
-	            <p><li class="item">
-					<a class="child-link" href="{{ cat.url }}">{{ cat_name }}</a>. {{cat.overview}}
-                </li></p>
-				{% endif %}
+<div class="section-index">
+<h1 class="title">{{page.title}}</h1>
+<p>{{page.overview}}</p>
+
+<script type="text/javascript">
+	var docs = [];
+
+	{% assign docs = site.docs %}
+	{% for d in docs %}
+		{% assign doc_components = d.path | downcase | split: '/' %}
+		{% assign family = true %}
+
+		{% for comp in components %}
+			{% if forloop.last %}
+				{% continue %}
 			{% endif %}
-		{% endunless %}
+
+			{% assign dc = doc_components[forloop.index0] %}
+
+			{% if dc != comp %}
+				{% assign family = false %}
+				{% break %}
+			{% endif %}
+		{% endfor %}
+
+		{% if family == false %}
+			{% continue %}
+		{% endif %}
+
+		docs.push({path: [
+		{% for comp in doc_components %}
+			{% if forloop.index < components.size %}
+				{% continue %}
+			{% endif %}
+
+			"{{ comp }}",
+		{% endfor %}
+		], url: "{{d.url}}", title: "{{d.title}}", order: {{d.order}}, overview: "{{d.overview}}"});
 	{% endfor %}
- </ul>
+
+	genSectionNavTree(docs)
+</script>
+
+</div>

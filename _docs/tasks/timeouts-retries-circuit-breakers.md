@@ -1,5 +1,4 @@
 ---
-category: Tasks
 title: Timeouts, Retries, and Circuit Breakers
 overview: This task shows you how to setup timeouts, retries, and circuit breakers in Envoy using Istio.
             

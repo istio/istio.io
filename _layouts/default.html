@@ -1,6 +1,10 @@
 ---
 layout: base
 ---
+{% assign home = "" %}
+{% if site.github.environment == "dotcom" %}
+{% assign home = site.baseurl %}
+{% endif %}
 
 {% include sticky-nav.html %}
 
