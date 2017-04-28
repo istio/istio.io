@@ -1,15 +1,21 @@
 .faq {
     h1 {
         color: $mainBrandColor;
-        padding-left: 20px;
     }
 
     h4 {
         font-size: 110%;
-        padding-left: 20px;
     }
 
     p {
+        padding-left: 20px;
+    }
+
+    ul {
         padding-left: 30px;
+    }
+
+    ul p {
+        padding-left: 0px;
     }
 }
