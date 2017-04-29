@@ -1,5 +1,5 @@
 ---
-layout: compress
+#layout: compress
 ---
 {% assign home = "" %}
 {% if site.github.environment == "dotcom" %}
@@ -14,6 +14,7 @@ layout: compress
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="title" content="{{page.title}}">
     <meta name="og:title" content="{{page.title}}">
+    <meta name="og:image" content="{{home}}/img/logo.png"/>
 
     {% if page.overview == nil %}
     <meta name="description" content="An open platform to connect, manage, and secure microservices.">
@@ -26,7 +27,6 @@ layout: compress
 
     <!-- Webfont -->
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
-
 
     <link rel="alternate" type="application/rss+xml" title="istio Blog RSS" href="/feed.xml">
 
@@ -63,11 +63,6 @@ layout: compress
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-
-    <!-- metadata -->
-    <meta name="og:title" content="istio / {{page.title}}"/>
-    <meta name="og:image" content="{{home}}/img/logo.png"/>
-    <meta name="og:description" content="An open platform to connect, manage, and secure microservices."/>
   </head>
   <body class={{page.bodyclass}}>
     <script src="{{home}}/js/navtree.js"></script>
@@ -91,11 +86,8 @@ layout: compress
       <script src="{{home}}/js/mc-validate.js"></script>
     {% endif %}
     
-    <!-- insert custom GA code here -->
-    
     {% if page.customjs %}
       <script  async="" defer="" type="text/javascript" src="{{ page.customjs }}"></script>
     {% endif %}
-
   </body>
 </html>
