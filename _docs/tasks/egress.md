@@ -1,6 +1,7 @@
 ---
 title: Accessing a Service with Egress Envoy
 headline: Accessing a Service with Egress Envoy
+overview: Describes how to configure Istio to expose an external service to a Kubernetes cluster.
 
 order: 10
 
@@ -89,4 +90,5 @@ $ kubectl exec -it {APP_POD_NAME} curl http://securegoogle:443
 Here's an interesting thing to know about the steps you just did.
 
 ## What's next
-* See how to make requests to services inside a cluster by using the [Ingress Controller]({{site.bareurl}}/docs/tasks/ingress.html).
+
+* See how to make requests to services inside a cluster by using the [Ingress Controller](/docs/tasks/ingress.html).

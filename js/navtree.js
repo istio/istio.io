@@ -70,6 +70,20 @@ function makeNavTree(parent, docs, depth) {
 
 function outputNavBarTree(items) {
     document.writeln("<ul class='list-unstyled tree'>");
+
+    for (var i = 0; i < items.length; i++) {
+        var item = items[i];
+
+        if (item.children.length == 0) {
+            document.write("<li class='doc-side-nav-list-item'><a href='");
+            document.write("{{home}}");
+            document.write(item.doc.url);
+            document.write("'>");
+            document.write(item.doc.title);
+            document.writeln("</a></li>");
+        }
+    }
+
     for (var i = 0; i < items.length; i++) {
         var item = items[i];
 
@@ -86,15 +100,9 @@ function outputNavBarTree(items) {
 
             outputNavBarTree(item.children);
             document.writeln("</li>");
-        } else {
-            document.write("<li class='doc-side-nav-list-item'><a href='");
-            document.write("{{home}}");
-            document.write(item.doc.url);
-            document.write("'>");
-            document.write(item.doc.title);
-            document.writeln("</a></li>");
         }
     }
+
     document.writeln("</ul>");
 }
 
@@ -106,12 +114,27 @@ function genNavBarTree(docs) {
 
 
 function outputSectionNavTree(items) {
-    document.writeln("<ul class='section-index'>");
+    document.writeln("<ul>");
+    for (var i = 0; i < items.length; i++) {
+        var item = items[i];
+
+        if (item.children.length == 0) {
+            document.write("<li class='section-index-file'>");
+            document.write("<a href='{{home}}");
+            document.write(item.doc.url);
+            document.write("'>");
+            document.write(item.doc.title);
+            document.write("</a>. " + item.doc.overview);
+            document.writeln("</li>");
+        }
+    }
+
     for (var i = 0; i < items.length; i++) {
         var item = items[i];
 
         if (item.children.length > 0) {
-            document.writeln("<li class='area'>");
+            document.write("<li class='section-index-directory'>");
+
             if (item.doc == null) {
                 document.writeln(item.name);
             } else {
@@ -121,19 +144,14 @@ function outputSectionNavTree(items) {
                 document.write("'>");
                 document.write(item.doc.title);
                 document.write("</a>");
+                document.writeln("");
             }
 
             outputSectionNavTree(item.children);
             document.writeln("</li>");
-        } else {
-            document.write("<li class='item'><a class='child-link' href='");
-            document.write("{{home}}");
-            document.write(item.doc.url);
-            document.write("'>");
-            document.write(item.doc.title);
-            document.writeln("</a>. " + item.doc.overview + "</li>");
         }
     }
+
     document.writeln("</ul>");
 }
 
