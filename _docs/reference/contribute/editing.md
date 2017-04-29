@@ -9,7 +9,7 @@ layout: docs
 type: markdown
 ---
 
-<script language="JavaScript">
+<script type="text/javascript">
 var forwarding=window.location.hash.replace("#","");
 $( document ).ready(function() {
     if(forwarding) {

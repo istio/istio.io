@@ -10,8 +10,9 @@
 					<li role="presentation" {% if page.url == cat.url %}class='active'{% endif %}><a href="{{home}}{{ cat.url }}">{{ cat_name }}</a></li>
 					{% endif %}
 				{% endfor %}
-			 </ul>
-			 {% include contribute-links.html %}
+			</ul>
+			{% include search-box.html %}
+			{% include contribute-links.html %}
 		</div>
 	</div>
 </div>

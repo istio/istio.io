@@ -18,6 +18,7 @@ sitemap_exclude: y
 @import "modules/_hero";
 @import "modules/_nav";
 @import "modules/_contribute-links";
+@import "modules/_search-box";
 @import "modules/_section-index";
 @import "modules/_subscribe-form";
 
@@ -28,4 +29,6 @@ sitemap_exclude: y
 @import "pages/_about";
 @import "pages/_community";
 @import "pages/_contribute";
+@import "pages/_search-results";
+
 @import "materialize/materialize.scss";
