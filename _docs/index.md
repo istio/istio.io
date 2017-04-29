@@ -19,11 +19,6 @@ is where you can learn about what Istio does and how it does it.
 
 - [Tasks](/docs/tasks). Tasks show you how to do a single directed activity with Istio.
 
-<!--
-- [Tutorials](/docs/tutorials). Tutorials are more involved, composing many individual tasks together
-to show you how to perform more complex activities.
--->
-
 - [Samples](/docs/samples). Samples are fully working stand-alone examples
 intended to highlight a particular set of Istio's features.
 
