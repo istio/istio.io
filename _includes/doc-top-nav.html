@@ -6,7 +6,7 @@
 				{% for cat in cats %}
 					{% assign active = cat.url | downcase | split: '/' %}
 					{% assign cat_name = cat.title | default: "EMPTY" %}
-					{% if cat.url contains "index" && cat_name != "EMPTY" %}
+					{% if cat.url contains "index" and cat_name != "EMPTY" %}
 					<li role="presentation" {% if page.url == cat.url %}class='active'{% endif %}><a href="{{home}}{{ cat.url }}">{{ cat_name }}</a></li>
 					{% endif %}
 				{% endfor %}
