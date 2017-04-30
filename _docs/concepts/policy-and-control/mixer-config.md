@@ -4,7 +4,6 @@ overview: An overview of the key concepts used to configure Mixer.
               
 order: 30
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

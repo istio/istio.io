@@ -4,7 +4,6 @@ overview: Describes how traffic is load balanced across instances of a service i
               
 order: 25
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

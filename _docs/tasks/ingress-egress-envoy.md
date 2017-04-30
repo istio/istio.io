@@ -4,7 +4,6 @@ overview: This task shows you how to setup Envoy as the Kubernetes ingress contr
             
 order: 30
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

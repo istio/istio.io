@@ -17,7 +17,6 @@ function commandHeader() {
 title: ${title}
 overview: ${overview}
 order: ${order}
-bodyclass: docs
 layout: docs
 type: markdown
 ---
@@ -31,7 +30,6 @@ function generateIndex() {
 title: The Istioctl Command
 overview: Options showing how to use the istioctl command.
 order: ${order}
-bodyclass: docs
 layout: docs
 type: markdown
 ---

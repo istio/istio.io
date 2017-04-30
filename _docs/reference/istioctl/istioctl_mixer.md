@@ -2,7 +2,6 @@
 title: istioctl mixer
 overview: Istio Mixer configuration
 order: 7
-bodyclass: docs
 layout: docs
 type: markdown
 ---

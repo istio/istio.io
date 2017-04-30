@@ -4,7 +4,6 @@ overview: Explains the dos and donts of writing Istio docs.
               
 order: 70
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

@@ -4,11 +4,9 @@ overview: Introduces the idea of systematic fault injection that can be used to 
                 
 order: 40
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---
-
  
 While Envoy sidecar/proxy provides a host of
 [failure recovery mechanisms](./handling-failures.html) to services running

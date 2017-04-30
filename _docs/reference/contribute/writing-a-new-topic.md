@@ -4,7 +4,6 @@ overview: Explains the mechanics of creating new documentation pages.
               
 order: 30
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---
@@ -91,7 +90,6 @@ chunk of front matter you should start with:
 
     order: ORDER_TBD
 
-    bodyclass: docs
     layout: docs
     type: markdown
     ---
@@ -102,9 +100,11 @@ matter fields are:
 
 |Field      | Description
 |-----------|------------
-|`index`    | indicates whether the page should appear in the doc's top nav tabs
-|`order`    | integer used for sort order
+|`title`    | The short title of the page
 |`overview` | a one-line description of what the topic is about
+|`order`    | integer used for sort order
+|`layout'   | indicates which of the Jekyll layouts this page uses
+|`index`    | indicates whether the page should appear in the doc's top nav tabs
 
 ## Choosing a directory
 

@@ -2,7 +2,6 @@
 title: istioctl completion
 overview: Generate bash completion for Istioctl
 order: 1
-bodyclass: docs
 layout: docs
 type: markdown
 ---

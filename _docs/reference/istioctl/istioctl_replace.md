@@ -2,7 +2,6 @@
 title: istioctl replace
 overview: Replace existing policies and rules
 order: 11
-bodyclass: docs
 layout: docs
 type: markdown
 ---

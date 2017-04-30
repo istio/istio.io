@@ -1,10 +1,10 @@
 ---
 title: Welcome
+overview: Istio documentation home page.
 index: true
 
 order: 0
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

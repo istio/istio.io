@@ -4,7 +4,6 @@ overview: Highlights Istio's core architectural structure and components.
               
 order: 30
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

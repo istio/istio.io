@@ -1,7 +1,6 @@
 ---
 title: Search Results
 layout: search-results
-bodyclass: search-results
 ---
 <script>
     (function() {

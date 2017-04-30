@@ -1,11 +1,9 @@
 ---
 title: Accessing a Service with Egress Envoy
-headline: Accessing a Service with Egress Envoy
 overview: Describes how to configure Istio to expose an external service to a Kubernetes cluster.
 
 order: 10
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

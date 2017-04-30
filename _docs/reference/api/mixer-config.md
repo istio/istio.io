@@ -4,7 +4,6 @@ overview: Generated documentation for Mixer's Configuration Schema
               
 order: 40
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

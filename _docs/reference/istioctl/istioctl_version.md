@@ -2,7 +2,6 @@
 title: istioctl version
 overview: Display version information and exit
 order: 12
-bodyclass: docs
 layout: docs
 type: markdown
 ---
