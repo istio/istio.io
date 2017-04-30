@@ -5,7 +5,6 @@ index: true
 
 order: 30
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

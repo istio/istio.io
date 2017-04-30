@@ -4,7 +4,6 @@ overview: This task shows you how to configure dynamic request routing based on 
             
 order: 50
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

@@ -2,7 +2,6 @@
 title: istioctl mixer rule get
 overview: Get Istio Mixer rules
 order: 9
-bodyclass: docs
 layout: docs
 type: markdown
 ---

@@ -4,7 +4,6 @@ overview: This task shows you how to configure Mixer to collect metrics and logs
 
 order: 80
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

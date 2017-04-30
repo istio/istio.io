@@ -4,7 +4,6 @@ overview: A broad overview of the Istio system.
 
 order: 10
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

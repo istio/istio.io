@@ -4,7 +4,6 @@ overview: An overview of failure recovery capabilities in Envoy that can be leve
 
 order: 30
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

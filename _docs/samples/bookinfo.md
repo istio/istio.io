@@ -4,7 +4,6 @@ overview: This sample deploys a simple application composed of four separate mic
           
 order: 10
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

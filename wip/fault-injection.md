@@ -4,12 +4,9 @@ overview: Discusses injecting timeouts.
 
 order: 65
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---
-
-
 
 ![Timeout Injection](../../img/timeout-injection.svg)
 

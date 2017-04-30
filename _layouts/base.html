@@ -1,5 +1,5 @@
 ---
-#layout: compress
+layout: compress
 ---
 {% assign home = "" %}
 {% if site.github.environment == "dotcom" %}
@@ -57,7 +57,12 @@
     <![endif]-->
   </head>
 
-  <body class={{page.bodyclass}}>
+  {% if page.bodyclass == nil %}
+  <body class="{{page.layout}}">
+  {% else %}
+  <body class="{{page.bodyclass}}">
+  {% endif %}
+
   <script src="{{home}}/js/navtree.js"></script>
 
   	{{ content }}

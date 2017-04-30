@@ -4,7 +4,6 @@ overview: Architectural deep-dive into the design of Mixer, which provides the p
               
 order: 20
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---
