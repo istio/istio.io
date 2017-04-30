@@ -119,7 +119,7 @@ function outputSectionNavTree(items) {
         var item = items[i];
 
         if (item.children.length == 0) {
-            document.write("<li class='section-index-file'>");
+            document.write("<li class='file'>");
             document.write("<a href='{{home}}");
             document.write(item.doc.url);
             document.write("'>");
@@ -133,7 +133,7 @@ function outputSectionNavTree(items) {
         var item = items[i];
 
         if (item.children.length > 0) {
-            document.write("<li class='section-index-directory'>");
+            document.write("<li class='directory'>");
 
             if (item.doc == null) {
                 document.writeln(item.name);
@@ -158,6 +158,7 @@ function outputSectionNavTree(items) {
 // Given an array of documents, generate a section index tree
 function genSectionNavTree(docs) {
     var items = makeNavTree(null, docs, 0);
+    document.writeln("<div class='section-index'>");
     outputSectionNavTree(items);
+    document.writeln("</div>");
 }
-

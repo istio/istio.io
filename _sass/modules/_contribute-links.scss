@@ -1,18 +1,7 @@
-// Contribute links for Docs page
-.docs .contribute-links {
-  top: 3px;
-}
-
-// Contribute links for other pages
-.contribute .contribute-links {
-  top: 0;
-}
-
-// Contribute links
 .contribute-links {
   position: absolute;
-  right: 245px;
-  top: 0;
+  right: 10px;
+  top: 3px;
   display: none;
   font-weight: 300;
 
@@ -21,43 +10,25 @@
   }
 
   a {
-    font-size: .85rem;
-    display: inline-block;
-    color: $gray;
-
     &::after {
       content: none;
       display: none;
     }
 
-    &:hover {
-      color: $black;
-    }
-  }
-
-  p {
-    font-size: .85rem;
-  }
-
-  .file-name {
-    font-weight: 500;
-  }
-
-  .github {
-    margin-left: 20px;
-
     &:before {
       content: '';
       display: inline-block;
-      background: url('../img/github.svg') no-repeat center/cover;
-      width: 32px;
-      height: 32px;
+      background: url('../img/pencil.png') no-repeat center/cover;
+      background-color: $mainBrandColor;
+      width: 30px;
+      height: 30px;
       vertical-align: middle;
+      border-radius: 4px;
     }
 
     &:hover {
       &:before {
-         background: url('../img/github-dark.svg') no-repeat center/cover;
+         background-color: $thirdBrandColor;
       }
     }
   }
