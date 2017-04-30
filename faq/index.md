@@ -1,6 +1,5 @@
 ---
 title: FAQ
-group: 'navigation'
 
 layout: faq
 bodyclass: faq

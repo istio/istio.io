@@ -1,8 +1,3 @@
----
-# Front matter comment to ensure Jekyll properly reads file.
-sitemap_exclude: y
----
-@import url("https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.css");
 
 @import "base/_config";
 @import "base/_reset";
@@ -21,14 +16,5 @@ sitemap_exclude: y
 @import "modules/_search-box";
 @import "modules/_section-index";
 @import "modules/_subscribe-form";
-
-@import "pages/_blog";
-@import "pages/_docs";
-@import "pages/_faq";
-@import "pages/_landing";
-@import "pages/_about";
-@import "pages/_community";
-@import "pages/_contribute";
-@import "pages/_search-results";
 
 @import "materialize/materialize.scss";

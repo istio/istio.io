@@ -3,3 +3,21 @@ title: blog
 layout: default
 bodyclass: blog
 ---
+{% assign home = "" %}
+{% if site.github.environment == "dotcom" %}
+{% assign home = site.baseurl %}
+{% endif %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-11 nofloat center-block">
+      <div class="col-sm-8 col-md-9 ">
+        {{ content }}
+
+        <div id="toc" class="toc col-sm-3"/>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="{{home}}/js/mc-validate.js"></script>
