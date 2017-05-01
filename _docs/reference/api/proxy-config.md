@@ -111,9 +111,9 @@ Circuit breaker configuration.
   <td>int32</td>
   <td>Maximum number of requests to a backend.</td>
  </tr>
-<a name="istio.proxy.v1alpha.config.CircuitBreaker.SimpleCircuitBreakerPolicy.sleep_window_seconds"></a>
+<a name="istio.proxy.v1alpha.config.CircuitBreaker.SimpleCircuitBreakerPolicy.sleep_window"></a>
  <tr>
-  <td><code>sleep_window_seconds</code></td>
+  <td><code>sleep_window</code></td>
   <td>double</td>
   <td>Minimum time the circuit will be closed. In floating point seconds format.</td>
  </tr>
@@ -123,9 +123,9 @@ Circuit breaker configuration.
   <td>int32</td>
   <td>Number of 5XX errors before circuit is opened.</td>
  </tr>
-<a name="istio.proxy.v1alpha.config.CircuitBreaker.SimpleCircuitBreakerPolicy.http_detection_interval_seconds"></a>
+<a name="istio.proxy.v1alpha.config.CircuitBreaker.SimpleCircuitBreakerPolicy.http_detection_interval"></a>
  <tr>
-  <td><code>http_detection_interval_seconds</code></td>
+  <td><code>http_detection_interval</code></td>
   <td>double</td>
   <td>Interval for checking state of hystrix circuit.</td>
  </tr>
@@ -317,15 +317,15 @@ delay is unsupported at the moment.
   <td>string</td>
   <td>Specify delay duration as part of Http request.</td>
  </tr>
-<a name="istio.proxy.v1alpha.config.HTTPFaultInjection.Delay.fixed_delay_seconds"></a>
+<a name="istio.proxy.v1alpha.config.HTTPFaultInjection.Delay.fixed_delay"></a>
  <tr>
-  <td><code>fixed_delay_seconds</code></td>
+  <td><code>fixed_delay</code></td>
   <td>double (oneof )</td>
   <td>Add a fixed delay before forwarding the request. Delay duration in seconds.nanoseconds</td>
  </tr>
-<a name="istio.proxy.v1alpha.config.HTTPFaultInjection.Delay.exponential_delay_seconds"></a>
+<a name="istio.proxy.v1alpha.config.HTTPFaultInjection.Delay.exponential_delay"></a>
  <tr>
-  <td><code>exponential_delay_seconds</code></td>
+  <td><code>exponential_delay</code></td>
   <td>double (oneof )</td>
   <td>Add a delay (based on an exponential function) before forwarding the request. mean delay needed to derive the exponential delay values</td>
  </tr>
@@ -370,9 +370,9 @@ Retry policy to use when a request fails.
   <td>int32</td>
   <td>Number of retries for a given request. The interval between retries will be determined automatically (25ms+). Actual number of retries attempted depends on the http_timeout</td>
  </tr>
-<a name="istio.proxy.v1alpha.config.HTTPRetry.SimpleRetryPolicy.per_try_timeout_seconds"></a>
+<a name="istio.proxy.v1alpha.config.HTTPRetry.SimpleRetryPolicy.per_try_timeout"></a>
  <tr>
-  <td><code>per_try_timeout_seconds</code></td>
+  <td><code>per_try_timeout</code></td>
   <td>double</td>
   <td>Timeout per retry attempt for a given request. Specified in seconds.nanoseconds format.</td>
  </tr>
@@ -418,9 +418,9 @@ indicate the time for the entire response to arrive.
   <th>Type</th>
   <th>Description</th>
  </tr>
-<a name="istio.proxy.v1alpha.config.HTTPTimeout.SimpleTimeoutPolicy.timeout_seconds"></a>
+<a name="istio.proxy.v1alpha.config.HTTPTimeout.SimpleTimeoutPolicy.timeout"></a>
  <tr>
-  <td><code>timeout_seconds</code></td>
+  <td><code>timeout</code></td>
   <td>double</td>
   <td>Timeout for a HTTP request. Includes retries as well. Unit is in floating point seconds. Default 15 seconds. Specified in seconds.nanoseconds format</td>
  </tr>
@@ -484,9 +484,9 @@ established, emulating remote server crash or link failure.
   <td>float</td>
   <td>percentage of established Tcp connections to be terminated/reset</td>
  </tr>
-<a name="istio.proxy.v1alpha.config.L4FaultInjection.Terminate.terminate_after_seconds"></a>
+<a name="istio.proxy.v1alpha.config.L4FaultInjection.Terminate.terminate_after_period"></a>
  <tr>
-  <td><code>terminate_after_seconds</code></td>
+  <td><code>terminate_after_period</code></td>
   <td>double</td>
   <td></td>
  </tr>
@@ -520,15 +520,15 @@ Bandwidth throttling for Tcp and Udp connections
   <td>int64</td>
   <td>bandwidth limits in "bits" per second between proxy and upstream</td>
  </tr>
-<a name="istio.proxy.v1alpha.config.L4FaultInjection.Throttle.throttle_for_seconds"></a>
+<a name="istio.proxy.v1alpha.config.L4FaultInjection.Throttle.throttle_for_period"></a>
  <tr>
-  <td><code>throttle_for_seconds</code></td>
+  <td><code>throttle_for_period</code></td>
   <td><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#doublevalue">DoubleValue</a></td>
   <td>Stop throttling after the given duration. If not set, the connection will be throttled for its lifetime.</td>
  </tr>
-<a name="istio.proxy.v1alpha.config.L4FaultInjection.Throttle.throttle_after_seconds"></a>
+<a name="istio.proxy.v1alpha.config.L4FaultInjection.Throttle.throttle_after_period"></a>
  <tr>
-  <td><code>throttle_after_seconds</code></td>
+  <td><code>throttle_after_period</code></td>
   <td>double (oneof )</td>
   <td>Wait for X seconds after the connection is established, before starting bandwidth throttling. This would allow us to inject fault after the application protocol (e.g., MySQL) has had time to establish sessions/whatever handshake necessary.</td>
  </tr>

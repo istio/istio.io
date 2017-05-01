@@ -239,7 +239,7 @@ route:
     version: v1
 httpReqTimeout:
   simpleTimeout:
-    timeoutSeconds: 10
+    timeout: 10s
 ```
 
 ### httpReqRetries
@@ -270,11 +270,11 @@ The faults injected depend on the following nested fields:
 #### httpFault.delay
 
 The *delay* field is used to delay a request by a specified amount of time. Nested fields
-*percent* and one of either *fixedDelaySeconds* or *exponentialDelaySeconds* are used to specify the delay.
+*percent* and one of either *fixedDelay* or *exponentialDelay* are used to specify the delay.
 
-The *fixedDelaySeconds* field is used to indicate the amount of delay in seconds.
+The *fixedDelay* field is used to indicate the amount of delay in seconds.
 
-Alternatively, the *exponentialDelaySeconds* field can be used to specify the mean delay
+Alternatively, the *exponentialDelay* field can be used to specify the mean delay
 for values derived according to an exponential function.
 
 An optional *percent* field, a value between 0 and 100, can be used to only delay a certain percentage of requests.
@@ -290,7 +290,7 @@ route:
 httpFault:
   delay:
     percent: 10
-    fixedDelaySeconds: 5
+    fixedDelay: 5s
 ```
 
 #### httpFault.abort
@@ -335,7 +335,7 @@ route:
     version: v1
 httpFault:
   delay:
-    fixedDelaySeconds: 5
+    fixedDelay: 5s
   abort:
     percent: 10
     httpStatus: 400
