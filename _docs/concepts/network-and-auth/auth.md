@@ -50,7 +50,7 @@ When running on Kubernetes, Istio Auth uses [Kubernetes service accounts](https:
 
 *   Service account uniqueness can be ensured with domain name constraint
 
-### Communication Security
+### Communication security
 
 Service-to-service communication is tunneled through the client side [Envoy](https://lyft.github.io/envoy/) and the server side Envoy. End-to-end communication is secured by:
 
@@ -62,7 +62,7 @@ Service-to-service communication is tunneled through the client side [Envoy](htt
 
 *   Secure Naming: during the handshake process, the client side Envoy checks that the service account provided by the server side certificate is allowed to run the target service
 
-### Key Management
+### Key management
 
 Istio Auth provides a per-cluster CA (Certificate Authority) to automate key and certificate management. It performs four key operations:
 
