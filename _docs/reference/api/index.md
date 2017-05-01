@@ -4,7 +4,6 @@ overview: Detailed information on API parameters and configuration options.
 
 order: 21
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

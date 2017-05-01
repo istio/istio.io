@@ -4,7 +4,6 @@ overview: Generated documentation for the Istio Proxy's Configuration Schema
               
 order: 60
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

@@ -4,7 +4,6 @@ overview: This task shows you how to setup request timeouts in Envoy using Istio
             
 order: 40
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

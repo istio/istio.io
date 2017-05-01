@@ -1,30 +1,21 @@
 ---
-title: Retrieve a policy or rule
-overview: Retrieve a policy or rule
-
-order: 40
-
-bodyclass: docs
+title: istioctl version
+overview: Display version information and exit
+order: 12
 layout: docs
 type: markdown
 ---
-## istioctl get
+## istioctl version
 
-Retrieve a policy or rule
+Display version information and exit
 
 ### Synopsis
 
 
-Retrieve a policy or rule
+Display version information and exit
 
 ```
-istioctl get <type> <name>
-```
-
-### Options
-
-```
-  -o, --output string   Output format. One of:yaml|short (default "short")
+istioctl version
 ```
 
 ### Options inherited from parent commands

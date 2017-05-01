@@ -1,3 +1,7 @@
+---
+sitemap_exclude: y
+---
+@import "common";
 .blog {
 
   hr {
@@ -131,19 +135,5 @@
         background: url("../img/caret-dark.svg") no-repeat center/contain;
       }
     }
-  }
-}
-
-.post {
-
-  .post-wrapper {
-    padding-top: $spacing--xxxl;
-  }
-
-  .content-attribution {
-    color: $dark-gray;
-    font-size: 15px;
-    font-style: italic;
-    margin: $spacing--xxxl 0 $spacing--xl;
   }
 }

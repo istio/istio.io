@@ -4,7 +4,6 @@ overview: Explains how to test your changes locally before submitting them.
               
 order: 40
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

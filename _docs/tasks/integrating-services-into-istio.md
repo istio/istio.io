@@ -4,7 +4,6 @@ overview: This task shows you how to integrate your applications with the Istio 
             
 order: 20
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

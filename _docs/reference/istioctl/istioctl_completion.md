@@ -1,26 +1,34 @@
 ---
-title: Istio Mixer configuration
-overview: Istio Mixer configuration
-
-order: 100
-
-bodyclass: docs
+title: istioctl completion
+overview: Generate bash completion for Istioctl
+order: 1
 layout: docs
 type: markdown
 ---
-## istioctl mixer
+## istioctl completion
 
-Istio Mixer configuration
+Generate bash completion for Istioctl
 
 ### Synopsis
 
 
-Istio Mixer configuration
 
-### Options
+Output shell completion code for the bash shell. The shell output must
+be evaluated to provide interactive completion of istioctl
+commands.
+
+Examples:
+
+    # Add the following to .bash_profile.
+    source <(istioctl completion)
+
+    # Create a separate completion file and source that from .bash_profile
+    istioctl completion > ~/.istioctl-complete.bash
+    echo "source ~/.istioctl-complete.bash" >> ~/.bash_profile
+
 
 ```
-  -m, --mixer string   Address of the mixer API server as <host>:<port>
+istioctl completion
 ```
 
 ### Options inherited from parent commands
@@ -35,5 +43,4 @@ Istio Mixer configuration
 
 ### SEE ALSO
 * [istioctl](istioctl.html)	 - Istio control interface
-* [istioctl mixer rule](istioctl_mixer_rule.html)	 - Istio Mixer Rule configuration
 

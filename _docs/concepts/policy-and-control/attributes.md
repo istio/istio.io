@@ -4,7 +4,6 @@ overview: Explains the important notion of attributes, which is a central mechan
               
 order: 10
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

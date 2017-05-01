@@ -1,15 +1,15 @@
+markdown:
+  kramdown
+
 kramdown:
   input: GFM
   hard_wrap: false
-
-markdown:
-  kramdown
-kramdown:
-    input: GFM
-    hard_wrap: false
-    syntax_highlighter: rouge
+  syntax_highlighter: rouge
 
 baseurl:
+
+liquid:
+  error_mode: strict
 
 sass:
   style: compressed

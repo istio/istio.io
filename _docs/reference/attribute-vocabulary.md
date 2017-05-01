@@ -4,7 +4,6 @@ overview: Describes the base attribute vocabulary used for policy and control.
           
 order: 30
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

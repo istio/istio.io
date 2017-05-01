@@ -4,7 +4,6 @@ overview: Explains the process involved in accepting documentation updates.
               
 order: 60
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

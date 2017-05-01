@@ -4,7 +4,6 @@ overview: This task shows how to inject delays and test the resiliency of your a
             
 order: 60
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

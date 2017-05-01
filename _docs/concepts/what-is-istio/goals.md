@@ -4,7 +4,6 @@ overview: Describes the core principles that Istio's design adheres to.
               
 order: 20
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---
