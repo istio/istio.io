@@ -100,7 +100,7 @@ Istio Auth workflow consists of two phases, deployment and runtime. This section
 
 1.  The traffic is forwarded to the server side Envoy after mTLS connection is established, which is then forwarded to the server service through local TCP connections.
 
-## Best practices for service-to-service auth 
+## Best practices
 
 In this section, we provide a few deployment guidelines and then discuss a real-world scenario. 
 
