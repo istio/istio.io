@@ -159,7 +159,7 @@ route:
     version: v1
 httpReqTimeout:
   simpleTimeout:
-    timeoutSeconds: 10
+    timeout: 10s
 ```
 
 The number of retries for a given http request can also be specified in a route rule.
@@ -197,7 +197,7 @@ route:
 httpFault:
   delay:
     percent: 10
-    fixedDelaySeconds: 5
+    fixedDelay: 5s
 ```
 
 The other kind of fault, abort, can be used to prematurely terminate a request,
@@ -232,7 +232,7 @@ route:
     version: v1
 httpFault:
   delay:
-    fixedDelaySeconds: 5
+    fixedDelay: 5s
   abort:
     percent: 10
     httpStatus: 400

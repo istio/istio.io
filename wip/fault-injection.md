@@ -104,7 +104,7 @@ spec:
   destination: httpbin.default.svc.cluster.local
   http_req_timeout:
     simple_timeout:
-      timeout_seconds: 3
+      timeout: 3s
 EOF
 
 # Give the file to istioctl

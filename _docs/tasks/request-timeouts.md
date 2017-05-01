@@ -60,7 +60,7 @@ to the `ratings` service.
      httpFault:
        delay:
          percent: 100
-         fixedDelaySeconds: 2.0
+         fixedDelay: 2s
    EOF
    ```
 
@@ -82,7 +82,7 @@ to the `ratings` service.
          version: v2
      httpReqTimeout:
        simpleTimeout:
-         timeoutSeconds: 1.0
+         timeout: 1s
    EOF
    ```
 
