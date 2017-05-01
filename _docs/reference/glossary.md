@@ -4,7 +4,6 @@ overview: A glossary of common Istio terms.
 
 order: 40
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

@@ -1,8 +1,7 @@
 ---
 title: FAQ
-group: 'navigation'
-
-bodyclass: faq
+overview: Frequently Asked Questions about Istio.
+layout: faq
 type: markdown
 ---
 

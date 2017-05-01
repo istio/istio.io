@@ -4,7 +4,6 @@ overview: Introduces the policy control mechanisms.
 
 order: 40
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

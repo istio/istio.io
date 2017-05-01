@@ -4,7 +4,6 @@ overview: This task shows how to inject delays and test the resiliency of your a
             
 order: 60
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---
@@ -47,7 +46,7 @@ continue without any errors.
    destination: ratings.default.svc.cluster.local
    httpFault:
      delay:
-       fixedDelaySeconds: 7
+       fixedDelay: 7s
        percent: 100
    match:
      httpHeaders:
