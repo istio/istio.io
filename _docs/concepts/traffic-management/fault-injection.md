@@ -4,11 +4,9 @@ overview: Introduces the idea of systematic fault injection that can be used to 
                 
 order: 40
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---
-
  
 While Envoy sidecar/proxy provides a host of
 [failure recovery mechanisms](./handling-failures.html) to services running
@@ -33,3 +31,5 @@ injected: delays and aborts. Delays are timing failures, mimicking
 increased network latency, or an overloaded upstream service. Aborts are
 crash failures that mimick failures in upstream services. Aborts usually
 manifest in the form of HTTP error codes, or TCP connection failures.
+
+Refer to [Istio's traffic management rules](./rules-configuration.html) for more details.

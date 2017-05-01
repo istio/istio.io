@@ -5,7 +5,6 @@ overview: Tutorials shows you how to accomplish specific reasonably significant 
 
 order: 6
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

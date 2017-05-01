@@ -4,7 +4,6 @@ overview: How to write Istio config YAML content.
 
 order: 70
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

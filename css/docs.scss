@@ -1,0 +1,21 @@
+---
+sitemap_exclude: y
+---
+@import "common";
+.docs {
+    *[id]:before {
+        display: block;
+        content: " ";
+        margin-top: -1em;
+        height: 1em;
+        visibility: hidden;
+    }
+
+    .center-image-75 {
+        height: 75%;
+        width: 75%;
+        display: block;
+        margin: 0 auto;
+        float: none;
+    }
+}

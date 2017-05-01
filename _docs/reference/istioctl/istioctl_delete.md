@@ -1,37 +1,35 @@
 ---
-title: Generate bash completion for Istioctl
-overview: Generate bash completion for Istioctl
-
-order: 200
-
-bodyclass: docs
+title: istioctl delete
+overview: Delete policies or rules
+order: 3
 layout: docs
 type: markdown
 ---
-## istioctl completion
+## istioctl delete
 
-Generate bash completion for Istioctl
+Delete policies or rules
 
 ### Synopsis
 
 
 
-Output shell completion code for the bash shell. The shell output must
-be evaluated for to provide interactive completion of istioctl
-commands.
+Example usage:
 
-Examples:
+	# Delete a rule using the definition in example-routing.yaml.
+	$ istioctl delete -f example-routing.yaml
 
-    # Add the following to .bash_profile.
-    source <(istioctl completion)
-
-    # Create a separate completion file and source that from .bash_profile
-    istioctl completion > ~/.istioctl-complete.bash
-    echo "source ~/.istioctl-complete.bash" >> ~/.bash_profile
+	# Delete the rule productpage-default
+	$ istioctl delete route-rule productpage-default
 
 
 ```
-istioctl completion
+istioctl delete
+```
+
+### Options
+
+```
+  -f, --file string   Input file with the content of the configuration objects (if not set, command reads from the standard input)
 ```
 
 ### Options inherited from parent commands

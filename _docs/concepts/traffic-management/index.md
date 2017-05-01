@@ -4,7 +4,6 @@ overview: Describes the various Istio features focused on traffic routing and co
 
 order: 20
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---
