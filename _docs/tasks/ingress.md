@@ -1,11 +1,15 @@
 ---
-category: Tasks
 title: Configuring Ingress with Envoy
 overview: This task describes how to configure Ingress in Kubernetes with Envoy
 
-... overview of ingress as a concept ...
+order: 30
 
-This task describes how to configure Istio to expose a service in a Kubernetes cluster. You'll learn how to create an Ingress controller, define a Ingress Resource and make requests to the service.
+layout: docs
+type: markdown
+---
+
+This task describes how to configure Istio to expose a service in a Kubernetes cluster.
+You'll learn how to create an Ingress controller, define a Ingress Resource and make requests to the service.
 
 In a Kubernetes environment, Istio uses [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/services-networking/ingress/) to configure ingress behavior.   
 
