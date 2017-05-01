@@ -4,7 +4,6 @@ overview: Provides a high-level overview of the domain-specific language used by
                 
 order: 50
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

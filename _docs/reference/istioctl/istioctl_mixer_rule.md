@@ -2,7 +2,6 @@
 title: istioctl mixer rule
 overview: Istio Mixer Rule configuration
 order: 10
-bodyclass: docs
 layout: docs
 type: markdown
 ---

@@ -4,7 +4,6 @@ overview: Describes how services are modeled within the Istio mesh, the notion o
               
 order: 20
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

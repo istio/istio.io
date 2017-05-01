@@ -2,7 +2,6 @@
 title: istioctl delete
 overview: Delete policies or rules
 order: 3
-bodyclass: docs
 layout: docs
 type: markdown
 ---

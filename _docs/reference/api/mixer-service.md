@@ -4,7 +4,6 @@ overview: Generated documentation for Mixer's API Surface
               
 order: 20
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

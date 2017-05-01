@@ -4,7 +4,6 @@ overview: Introduces the Istio-Manager, the component responsible for managing a
               
 order: 10
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

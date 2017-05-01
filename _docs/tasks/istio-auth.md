@@ -4,7 +4,6 @@ overview: This task shows you how to setup Istio-Auth to provide mutual TLS auth
   
 order: 70
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

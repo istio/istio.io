@@ -2,7 +2,6 @@
 title: istioctl get
 overview: Retrieve policies and rules
 order: 4
-bodyclass: docs
 layout: docs
 type: markdown
 ---

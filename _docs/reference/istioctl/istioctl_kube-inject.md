@@ -2,7 +2,6 @@
 title: istioctl kube-inject
 overview: Inject Envoy sidecar into Kubernetes pod resources
 order: 5
-bodyclass: docs
 layout: docs
 type: markdown
 ---

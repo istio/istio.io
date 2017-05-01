@@ -4,7 +4,6 @@ overview: Provides a conceptual overview of traffic management principles in Ist
                 
 order: 0
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

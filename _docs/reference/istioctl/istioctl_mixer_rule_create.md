@@ -2,7 +2,6 @@
 title: istioctl mixer rule create
 overview: Create Istio Mixer rules
 order: 8
-bodyclass: docs
 layout: docs
 type: markdown
 ---

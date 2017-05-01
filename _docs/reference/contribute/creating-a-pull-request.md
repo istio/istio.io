@@ -4,7 +4,6 @@ overview: Shows you how to create a GitHub pull request in order to submit your 
               
 order: 20
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

@@ -2,7 +2,6 @@
 title: istioctl create
 overview: Create policies and rules
 order: 2
-bodyclass: docs
 layout: docs
 type: markdown
 ---
