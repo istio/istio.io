@@ -72,20 +72,19 @@ spec:
 ```
 
 [Kubernetes Services](https://kubernetes.io/docs/concepts/services-networking/service/)
-are required for Istio service discovery to function properly.
-Service ports must be named and these names must begin with _http_ or
-_grpc_ prefix to take advantage of Istio's L7 routing features,
-e.g. `name: httpFoo` is good. Services with non-named ports or with
-ports that do not have a _http_ or _grpc_ prefix will be routed as L4
-traffic.
+are required for properly functioning Istio service. Service ports
+must be named and these names must begin with _http_ or _grpc_ prefix
+to take advantage of Istio's L7 routing features, e.g. `name: httpFoo`
+is good. Services with non-named ports or with ports that do not have
+a _http_ or _grpc_ prefix will be routed as L4 traffic.
 
 Submit a YAML resource to API server with injected Envoy sidecar. Any
 one of the following methods will work.
 
 ```bash
-# Update resources on the fly before applying.
 kubectl apply -f <(istioctl kube-inject -f echo.yaml)
 ```
+
 Make a request from the client (busybox) to the server (echo).
 
 ```bash
@@ -98,7 +97,8 @@ x-request-id=a641eff7-eb82-4a4f-b67b-53cd3a03c399
 
 Verify traffic is intercepted by the Envoy sidecar. Compare
 `x-request-id` in the HTTP response with the sidecar's access
-logs.
+logs. `x-request-id` is random. The IP in the inbound request logs is
+the echo pod's IP.
 
 Outbound request on client pod's proxy.
 
@@ -114,9 +114,6 @@ $ kubectl logs ${SERVER} proxy | grep a641eff7-eb82-4a4f-b67b-53cd3a03c399
 [2017-05-01T22:08:39.310Z] "GET / HTTP/1.1" 200 - 0 398 3 3 "-" "curl/7.47.0" "a641eff7-eb82-4a4f-b67b-53cd3a03c399" "echo" "10.4.180.7:8080"
 ```
 
-_NOTE_: `x-request-id` is random and will vary from
-request-to-request. The IP of the inbound request is the echo pod's
-IP.
 
 The Envoy sidecar does _not_ intercept container-to-container traffic
 within the same pod when traffic is routed via localhost. This is by
@@ -218,10 +215,10 @@ pod.beta.kubernetes.io/init-containers: '[
 
 The `enable-core-dump` init-container is also added to enable GDB core
 dumps for the Envoy proxy. This can be disabled by passing
-`--coreDump=False"` to `istioctl kube-inject`.
+`--coreDump=False` to `istioctl kube-inject`.
 
 ## What's next
 
 * Review full documentation for [istioctl kube-inject]({{site.bareurl}}/docs/reference/istioctl/istioctl_kube-inject.html)
 
-* See the [bookinfo sample]({{site.bareurl}}/doc/samples/bookinfo.html) for a more complete example of applications integrated on Kubernetes with Istio.
+* See the [bookinfo sample]({{site.bareurl}}/docs/samples/bookinfo.html) for a more complete example of applications integrated on Kubernetes with Istio.
