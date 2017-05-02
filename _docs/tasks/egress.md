@@ -16,7 +16,7 @@ to create an Egress Envoy, define an external service and make requests to the s
 ## Before you begin
 
 This task assumes you have deployed Istio on Kubernetes.  If you have not done so, please first complete
-the [Installation Steps]({{site.bareurl}}/docs/tasks/istio-installation.html).
+the [Installation Steps](/docs/tasks/installing-istio.html).
 
 This task also assumes you have a publicly accessible service to call from within the cluster 
 (or [httpbin.org](http://httpbin.org) can be used as an example). 
@@ -56,7 +56,7 @@ spec:
   - port: 443
 ```
 
-Deploy your app(s) using the [istioctl kube-inject]({{site.bareurl}}/docs/reference/istioctl.html#kube-inject) command.
+Deploy your app(s) using the [istioctl kube-inject](/docs/reference/istioctl.html#kube-inject) command.
 You can use your own app, or try one of the example apps from [demos](https://github.com/istio/istio/tree/master/demos) 
 directory. Each app directory contains an associated README.md providing more details.
 
