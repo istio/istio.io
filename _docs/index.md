@@ -7,6 +7,9 @@ order: 0
 
 layout: docs
 type: markdown
+
+index: true
+order: 0
 ---
 
 # Welcome

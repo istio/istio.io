@@ -6,6 +6,9 @@ order: 70
 
 layout: docs
 type: markdown
+
+category: Reference
+order: 70
 ---
 
 This page describes how to write configuration that conforms to Istio's schemas. All configuration schemas in Istio are defined as [protobuf messages]

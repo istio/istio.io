@@ -6,6 +6,10 @@ order: 10
 
 layout: docs
 type: markdown
+
+category: Reference
+parent: Contributing to the Docs
+order: 10
 ---
 
 Click the button below to visit the GitHub repository for this whole web site. You can then click the

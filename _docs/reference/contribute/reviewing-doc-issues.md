@@ -6,6 +6,10 @@ order: 60
 
 layout: docs
 type: markdown
+
+category: Reference
+parent: Contributing to the Docs
+order: 60
 ---
 
 This page explains how documentation issues are reviewed and prioritized for the

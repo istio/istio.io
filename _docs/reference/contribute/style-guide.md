@@ -6,6 +6,10 @@ order: 70
 
 layout: docs
 type: markdown
+
+category: Reference
+parent: Contributing to the Docs
+order: 70
 ---
 
 TBD: This needs to be updated with Istio examples instead of Kubernetes examples.
