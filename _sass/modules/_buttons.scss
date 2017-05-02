@@ -90,22 +90,6 @@
   }
 }
 
-.fork-btn {
-  position: absolute;
-  display: block;
-  top: -39px;
-  right: -15px;
-  width: 150px;
-  overflow: hidden;
-  height: 200px;
-  z-index: 9011;
-  background: url('../img/github-ribbon.svg') no-repeat center/contain;
-
-  @media (max-width: 830px) {
-    display: none;
-  }
-}
-
 // Link Button
 .btn-link {
   display: inline-block;
