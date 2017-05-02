@@ -8,18 +8,18 @@ layout: default
 {% endif %}
 
 {% include doc-top-nav.html %}
-
 <div class="container">
   <div class="row">
     <div class="col-md-11 nofloat center-block ">
-      <div class="col-sm-3">
-        {% include doc-side-nav.html %}
+      <div class="row">
+          <div class="col-sm-3">
+            {% include doc-side-nav.html %}
+          </div>
+          <div class="col-sm-9 {{ page.type }}">
+            <div id="toc" class=""></div>
+            {{ content }}
+          </div>
       </div>
-      <div class="col-sm-7 {{ page.type }}">
-        {{ content }}
-      </div>
-
-      <div id="toc" class="toc"></div>
     </div>
   </div>
 </div>
