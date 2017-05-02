@@ -4,7 +4,6 @@ overview: This task shows you how to use Istio to dynamically limit the traffic 
           
 order: 40
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

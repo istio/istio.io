@@ -4,7 +4,6 @@ overview: A glossary of common Istio terms.
 
 order: 40
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---
@@ -73,9 +72,6 @@ Istio-Manager serves as an interface between the user and Istio, collecting and 
 various Istio components. It abstracts environment-specific implementation details from Mixer and Envoy, providing them with an
 abstract representation of the user’s services 
 that is independent of the underlying platform.
-                    
-- **Microservice**.
-A lightweight service.
                     
 - **Mixer**.
 Mixer is an Istio component responsible for enforcing access control and usage policies across the service mesh and collecting telemetry data

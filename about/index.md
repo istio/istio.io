@@ -1,10 +1,9 @@
 ---
 title: About
-index: true
+overview: About Istio.
 
 order: 0
 
-bodyclass: about
 layout: about
 type: markdown
 ---

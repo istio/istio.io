@@ -4,7 +4,6 @@ overview: This sample deploys a simple application composed of four separate mic
           
 order: 10
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---
@@ -39,7 +38,7 @@ There are 3 versions of the reviews microservice:
 
 The end-to-end architecture of the application is shown below.
 
-![Bookinfo app_noistio]({{site.bareurl}}/docs/samples/img/bookinfo/noistio.svg)
+![Bookinfo app_noistio](/docs/samples/img/bookinfo/noistio.svg)
 
 This application is polyglot, i.e., the microservices are written in different languages.
 
@@ -66,12 +65,12 @@ This application is polyglot, i.e., the microservices are written in different l
 
    Notice that the `istioctl kube-inject` command is used to modify the `bookinfo.yaml`
    file before creating the deployments. This injects Envoy into Kubernetes resources
-   as documented [here]({{site.bareurl}}/docs/reference/istioctl.html#kube-inject).
+   as documented [here](/docs/reference/istioctl.html#kube-inject).
    Consequently, all of the microservices are now packaged with an Envoy sidecar
    that manages incoming and outgoing calls for the service. The updated diagram looks
    like this:
 
-   ![Bookinfo app]({{site.bareurl}}/docs/samples/img/bookinfo/withistio.svg)
+   ![Bookinfo app](/docs/samples/img/bookinfo/withistio.svg)
 
 1. Confirm all services and pods are correctly defined and running:
 
@@ -110,7 +109,7 @@ This application is polyglot, i.e., the microservices are written in different l
    use the ingress' external address:
 
    ```bash
-   $ kubectl get ingress
+   $ kubectl get ingress -o wide
    NAME      HOSTS     ADDRESS                 PORTS     AGE
    gateway   *         130.211.10.121          80        1d
    $ export GATEWAY_URL=130.211.10.121:80
@@ -118,7 +117,7 @@ This application is polyglot, i.e., the microservices are written in different l
 
    If loadbalancers are not supported, use the service NodePort instead:
    ```bash
-   $ export GATEWAY_URL=$(kubectl get po -l infra=istio-ingress-controller -o jsonpath={.items[0].status.hostIP}):$(kubectl get svc istio-ingress-controller -o jsonpath={.spec.ports[0].nodePort})
+   $ export GATEWAY_URL=$(kubectl get po -l istio=ingress -o jsonpath={.items[0].status.hostIP}):$(kubectl get svc istio-ingress -o jsonpath={.spec.ports[0].nodePort})
    ```
 
 1. Confirm that the bookinfo application is running with the following `curl` command:

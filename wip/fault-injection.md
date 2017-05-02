@@ -4,12 +4,9 @@ overview: Discusses injecting timeouts.
 
 order: 65
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---
-
-
 
 ![Timeout Injection](../../img/timeout-injection.svg)
 
@@ -37,7 +34,7 @@ cd istio
 kubectl apply -f ./kubernetes/istio-install
 ```
 
-You should also have installed the [istioctl]({{site.baseurl}}/reference/istioctl.html) CLI.
+You should also have installed the [istioctl](/docs/reference/istioctl.html) CLI.
 
 
 
@@ -84,7 +81,7 @@ as the exposed NodePort port on that node.
 
 ```bash
 # Get the IP address of the Kubernetes node
-IP=$(kubectl get po -l infra=istio-ingress-controller -o jsonpath={.items[0].status.hostIP})
+IP=$(kubectl get po -l istio=ingress -o jsonpath={.items[0].status.hostIP})
 NGINX_NODEPORT=$(kubectl get service nginx --output jsonpath='{.spec.ports[0].nodePort}')
 curl -i $IP:$NGINX_NODEPORT/html
 curl -i $IP:$NGINX_NODEPORT/status/500
@@ -107,7 +104,7 @@ spec:
   destination: httpbin.default.svc.cluster.local
   http_req_timeout:
     simple_timeout:
-      timeout_seconds: 3
+      timeout: 3s
 EOF
 
 # Give the file to istioctl
