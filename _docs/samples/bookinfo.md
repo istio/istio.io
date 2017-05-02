@@ -38,7 +38,7 @@ There are 3 versions of the reviews microservice:
 
 The end-to-end architecture of the application is shown below.
 
-![Bookinfo app_noistio]({{site.bareurl}}/docs/samples/img/bookinfo/noistio.svg)
+![Bookinfo app_noistio](/docs/samples/img/bookinfo/noistio.svg)
 
 This application is polyglot, i.e., the microservices are written in different languages.
 
@@ -65,12 +65,12 @@ This application is polyglot, i.e., the microservices are written in different l
 
    Notice that the `istioctl kube-inject` command is used to modify the `bookinfo.yaml`
    file before creating the deployments. This injects Envoy into Kubernetes resources
-   as documented [here]({{site.bareurl}}/docs/reference/istioctl.html#kube-inject).
+   as documented [here](/docs/reference/istioctl.html#kube-inject).
    Consequently, all of the microservices are now packaged with an Envoy sidecar
    that manages incoming and outgoing calls for the service. The updated diagram looks
    like this:
 
-   ![Bookinfo app]({{site.bareurl}}/docs/samples/img/bookinfo/withistio.svg)
+   ![Bookinfo app](/docs/samples/img/bookinfo/withistio.svg)
 
 1. Confirm all services and pods are correctly defined and running:
 

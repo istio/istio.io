@@ -177,7 +177,7 @@ httpReqRetries:
 ```
 
 Note that request timeouts and retries can also be
-[overridden on a per-request basis](https://istio.io/docs/concepts/traffic-management/handling-failures.html#fine-tuning).
+[overridden on a per-request basis](/docs/concepts/traffic-management/handling-failures.html#fine-tuning).
 
 See the [request timeouts task](/docs/tasks/request-timeouts.html) for a demonstration of timeout control.
 
