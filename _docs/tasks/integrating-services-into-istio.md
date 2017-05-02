@@ -137,10 +137,9 @@ inspect the modified deployment and look for the following:
 * An [init-container](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
   to program [iptables](https://en.wikipedia.org/wiki/Iptables).
 
-The proxy container includes the Envoy proxy and corresponding agent
-to manage the proxy configuration. The sidecar runs with a specific
-UID so that the iptables can differentiate outbound traffic from the
-proxy itself from the applications which are redirected to proxy.
+The proxy container runs with a specific UID so that the iptables can
+differentiate outbound traffic from the proxy itself from the
+applications which are redirected to proxy.
 
 ```yaml
 - args:
@@ -186,36 +185,20 @@ after pod creation. The proxy container is responsible for dynamically
 routing traffic.
 
 ```json
-pod.beta.kubernetes.io/init-containers: '[
-  {
-    "name":"init",
-    "image":"docker.io/istio/init:<..tag...>",
-    "args":[ "-p", "15001", "-u", "1337" ],
-    "imagePullPolicy":"Always",
-    "securityContext":{
-      "capabilities":{
-        "add":[
-          "NET_ADMIN"
-        ]
-      }
-    }
-  },
-  {
-    "name":"enable-core-dump",
-    "image":"alpine",
-    "command":[ "/bin/sh"],
-    "args":[ "-c", "sysctl -w kernel.core_pattern=/tmp/core.%e.%p.%t \u0026\u0026 ulimit -c unlimited" ],
-    "imagePullPolicy":"Always",
-    "securityContext":{
-      "privileged":true
+{
+  "name":"init",
+  "image":"docker.io/istio/init:<..tag...>",
+  "args":[ "-p", "15001", "-u", "1337" ],
+  "imagePullPolicy":"Always",
+  "securityContext":{
+    "capabilities":{
+      "add":[
+        "NET_ADMIN"
+      ]
     }
   }
-]'
+},
 ```
-
-The `enable-core-dump` init-container is also added to enable GDB core
-dumps for the Envoy proxy. This can be disabled by passing
-`--coreDump=False` to `istioctl kube-inject`.
 
 ## What's next
 
