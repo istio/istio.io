@@ -14,9 +14,9 @@ using [istioctl kube-inject]({{site.bareurl}}/docs/reference/istioctl/istioctl_k
 
 ## Before you begin
 
-This task assumes you have deployed Istio control plane on Kubernetes.
-If you have not done so, please first complete the [Installation
-Steps]({{site.bareurl}}/docs/tasks/istio-installation.html).
+This task assumes you have deployed Istio on Kubernetes.
+If you have not done so, please first complete the
+[Installation Steps]({{site.bareurl}}/docs/tasks/istio-installation.html).
 
 ## Injecting Envoy sidecar into a deployment
 
@@ -55,6 +55,21 @@ spec:
         ports:
         - containerPort: 8080
 ```
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: busybox
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: busybox
+    spec:
+      containers:
+      - name: busybox
+        image: radial/busyboxplus:curl
+```
 
 [Kubernetes
 Services](https://kubernetes.io/docs/concepts/services-networking/service/)
@@ -79,19 +94,28 @@ outbound side traffic. It will also serve to show how to bypass the
 proxy for container-to-container traffic in the same pod.
 
 ```bash
-$ PODNAME=$(kubectl get pod -l app=echo -o jsonpath='{.items[0].metadata.name}')
-$ kubectl exec -it ${PODNAME} -c echo -- curl echo:80 | grep x-request-id
+$ CLIENT=$(kubectl get pod -l app=busybox -o jsonpath='{.items[0].metadata.name}')
+$ SERVER=$(kubectl get pod -l app=echo -o jsonpath='{.items[0].metadata.name}')
+
+$ kubectl exec -it ${CLIENT} -c echo -- curl echo:80 | grep x-request-id
 x-request-id=a641eff7-eb82-4a4f-b67b-53cd3a03c399
 ```
 
 Verify traffic is intercepted by the Envoy sidecar. Compare
 `x-request-id` in the HTTP response with the sidecar's access
-logs. `127.0.0.1:8080` is the outbound request and `10.4.180.7:8080`
-is the inbound request.
+logs.
+
+Outbound request on client pod's proxy.
 
 ```
-$ kubectl logs ${PODNAME} proxy | grep a641eff7-eb82-4a4f-b67b-53cd3a03c399
+$ kubectl logs ${CLIENT} proxy | grep a641eff7-eb82-4a4f-b67b-53cd3a03c399
 [2017-05-01T22:08:39.310Z] "GET / HTTP/1.1" 200 - 0 398 2 0 "-" "curl/7.47.0" "a641eff7-eb82-4a4f-b67b-53cd3a03c399" "echo" "127.0.0.1:8080"
+```
+
+Inbound request on server pod's proxy.
+
+```
+$ kubectl logs ${SERVER} proxy | grep a641eff7-eb82-4a4f-b67b-53cd3a03c399
 [2017-05-01T22:08:39.310Z] "GET / HTTP/1.1" 200 - 0 398 3 3 "-" "curl/7.47.0" "a641eff7-eb82-4a4f-b67b-53cd3a03c399" "echo" "10.4.180.7:8080"
 ```
 
@@ -104,7 +128,7 @@ within the same pod when traffic is routed via localhost. This is by
 design.
 
 ```bash
-$ kubectl exec -it ${PODNAME} -c echo -- curl localhost:8080 | grep x-request-id
+$ kubectl exec -it ${SERVER} -c echo -- curl localhost:8080 | grep x-request-id
 ```
 
 ## Understanding what happened
