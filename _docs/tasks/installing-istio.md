@@ -123,7 +123,8 @@ ServiceGraph addons:
 ## Deploy your application
 
 You can now deploy your own application or one of the Istio sample applications,
-for example [bookinfo](/docs/samples/bookinfo.html).
+for example [bookinfo](/docs/samples/bookinfo.html). Note that the application should use HTTP/1.1
+or HTTP/2.0 protocol for all its HTTP traffic.
 
 When deploying the application,
 use [kube-inject](/docs/reference/istioctl.html##kube-inject) to automatically inject
