@@ -54,7 +54,7 @@ spec:
         image: gcr.io/google_containers/echoserver:1.4
         ports:
         - containerPort: 8080
-```
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -71,8 +71,7 @@ spec:
         image: radial/busyboxplus:curl
 ```
 
-[Kubernetes
-Services](https://kubernetes.io/docs/concepts/services-networking/service/)
+[Kubernetes Services](https://kubernetes.io/docs/concepts/services-networking/service/)
 are required for Istio service discovery to function properly.
 Service ports must be named and these names must begin with _http_ or
 _grpc_ prefix to take advantage of Istio's L7 routing features,
@@ -87,11 +86,7 @@ one of the following methods will work.
 # Update resources on the fly before applying.
 kubectl apply -f <(istioctl kube-inject -f echo.yaml)
 ```
-
-Make a request to the echo server from the echo pod itself. This is a
-bit contrived but shows sidecar traffic interception of inbound and
-outbound side traffic. It will also serve to show how to bypass the
-proxy for container-to-container traffic in the same pod.
+Make a request from the client (busybox) to the server (echo).
 
 ```bash
 $ CLIENT=$(kubectl get pod -l app=busybox -o jsonpath='{.items[0].metadata.name}')
@@ -228,3 +223,5 @@ dumps for the Envoy proxy. This can be disabled by passing
 ## What's next
 
 * Review full documentation for [istioctl kube-inject]({{site.bareurl}}/docs/reference/istioctl/istioctl_kube-inject.html)
+
+* See the [bookinfo sample]({{site.bareurl}}/doc/samples/bookinfo.html) for a more complete example of applications integrated on Kubernetes with Istio.
