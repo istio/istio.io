@@ -16,7 +16,7 @@ Mixer provides control plane functionality to the Istio proxy and services
 
 Mixer provides control plane functionality to the Istio proxy and services
 
-### SEE ALSO
+### See Also
 * [mixs inventory](#mixs_inventory)	 - Inventory of available adapters and aspects in Mixer
 * [mixs server](#mixs_server)	 - Starts Mixer as a server
 * [mixs version](#mixs_version)	 - Prints out build version information
@@ -35,7 +35,7 @@ List available adapter builders
 mixs inventory adapter
 ```
 
-### SEE ALSO
+### See Also
 * [mixs inventory](#mixs_inventory)	 - Inventory of available adapters and aspects in Mixer
 
 <a name="mixs_inventory_aspect"></a>
@@ -52,7 +52,7 @@ List available aspects
 mixs inventory aspect
 ```
 
-### SEE ALSO
+### See Also
 * [mixs inventory](#mixs_inventory)	 - Inventory of available adapters and aspects in Mixer
 
 <a name="mixs_inventory"></a>
@@ -65,7 +65,7 @@ Inventory of available adapters and aspects in Mixer
 
 Inventory of available adapters and aspects in Mixer
 
-### SEE ALSO
+### See Also
 * [mixs](#mixs)	 - Mixer provides control plane functionality to the Istio proxy and services
 * [mixs inventory adapter](#mixs_inventory_adapter)	 - List available adapter builders
 * [mixs inventory aspect](#mixs_inventory_aspect)	 - List available aspects
@@ -105,7 +105,7 @@ mixs server
       --trace                       Whether to trace rpc executions
 ```
 
-### SEE ALSO
+### See Also
 * [mixs](#mixs)	 - Mixer provides control plane functionality to the Istio proxy and services
 
 <a name="mixs_version"></a>
@@ -122,6 +122,6 @@ Prints out build version information
 mixs version
 ```
 
-### SEE ALSO
+### See Also
 * [mixs](#mixs)	 - Mixer provides control plane functionality to the Istio proxy and services
 

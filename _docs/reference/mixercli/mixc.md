@@ -42,7 +42,7 @@ API in order to use this command.
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
 ```
 
-### SEE ALSO
+### See Also
 * [mixc check](#mixc_check)	 - Invokes Mixer's Check API to perform precondition checks.
 * [mixc quota](#mixc_quota)	 - Invokes Mixer's Quota API in order to perform quota management.
 * [mixc report](#mixc_report)	 - Invokes Mixer's Report API to generate telemetry.
@@ -89,7 +89,7 @@ mixc check
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
 ```
 
-### SEE ALSO
+### See Also
 * [mixc](#mixc)	 - Utility to trigger direct calls to Mixer's API
 
 <a name="mixc_quota"></a>
@@ -141,7 +141,7 @@ mixc quota
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
 ```
 
-### SEE ALSO
+### See Also
 * [mixc](#mixc)	 - Utility to trigger direct calls to Mixer's API
 
 <a name="mixc_report"></a>
@@ -185,7 +185,7 @@ mixc report
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
 ```
 
-### SEE ALSO
+### See Also
 * [mixc](#mixc)	 - Utility to trigger direct calls to Mixer's API
 
 <a name="mixc_version"></a>
@@ -226,6 +226,6 @@ mixc version
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
 ```
 
-### SEE ALSO
+### See Also
 * [mixc](#mixc)	 - Utility to trigger direct calls to Mixer's API
 

@@ -82,7 +82,7 @@ function processPerBinaryFiles() {
         sed -i "s,${fullFileName},#${noext},g" ${out};
     done
     # final pass updating the subcommand's "SEE ALSO" links to the command itself
-    sed "s,${commandName}.md,#${commandName},g" ${out};
+    sed "s,${commandName}.md,#${commandName},g;s/SEE ALSO/See Also/g" ${out};
 }
 
 # Generate markdown files with mixcol. We create a subdirectory so we can grab
