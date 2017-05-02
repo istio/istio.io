@@ -1,11 +1,9 @@
 ---
-category: Tasks
 title: Rate Limiting
 overview: This task shows you how to use Istio to dynamically limit the traffic to a service.
           
 order: 40
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

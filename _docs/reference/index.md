@@ -1,21 +1,12 @@
 ---
 title: Reference
-headline: Reference
-sidenav: doc-side-reference-nav.html
-bodyclass: docs
-layout: docs
-type: markdown
-
+overview: The Reference section contains detailed authoritative reference material such as command-line options, configuration options, and API calling parameters.
 index: true
+
 order: 40
 
-category: Reference
+layout: docs
+type: markdown
 ---
-
-# Reference
-
-The Reference section contains detailed authoritative reference
-material such as command-line options, configuration options,
-and API calling parameters.
 
 {% include section-index.html %}

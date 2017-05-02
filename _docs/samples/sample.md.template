@@ -1,12 +1,10 @@
 // Before use, remove this line and uncomment the next line
 // ---
-category: Samples
 title: My Sample
 overview: My overview
 
 order: 42
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

@@ -1,11 +1,9 @@
 ---
-category: Samples
 title: BookInfo
 overview: This sample deploys a simple application composed of four separate microservices which will be used to demonstrate various features of the Istio service mesh.
           
 order: 10
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---
@@ -119,7 +117,7 @@ This application is polyglot, i.e., the microservices are written in different l
 
    If loadbalancers are not supported, use the service NodePort instead:
    ```bash
-   $ export GATEWAY_URL=$(kubectl get po -l infra=istio-ingress-controller -o jsonpath={.items[0].status.hostIP}):$(kubectl get svc istio-ingress-controller -o jsonpath={.spec.ports[0].nodePort})
+   $ export GATEWAY_URL=$(kubectl get po -l istio=ingress -o jsonpath={.items[0].status.hostIP}):$(kubectl get svc istio-ingress -o jsonpath={.spec.ports[0].nodePort})
    ```
 
 1. Confirm that the bookinfo application is running with the following `curl` command:

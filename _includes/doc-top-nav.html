@@ -7,11 +7,12 @@
 					{% assign active = cat.url | downcase | split: '/' %}
 					{% assign cat_name = cat.title | default: "EMPTY" %}
 					{% if cat.url contains "index" and cat_name != "EMPTY" %}
-					<li role="presentation" {% if page.category == cat_name %}class='active'{% endif %}><a href="{{ site.baseurl }}{{ cat.url }}">{{ cat_name }}</a></li>
+					<li role="presentation" {% if page.url == cat.url %}class='active'{% endif %}><a href="{{home}}{{ cat.url }}">{{ cat_name }}</a></li>
 					{% endif %}
 				{% endfor %}
-			 </ul>
-			 {% include contribute-links.html %}
+			</ul>
+			{% include search-box.html %}
+			{% include contribute-links.html %}
 		</div>
 	</div>
 </div>

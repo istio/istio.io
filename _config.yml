@@ -1,17 +1,15 @@
+markdown:
+  kramdown
+
 kramdown:
   input: GFM
   hard_wrap: false
+  syntax_highlighter: rouge
 
-markdown:
-  kramdown
-kramdown:
-    input: GFM
-    hard_wrap: false
-    syntax_highlighter: rouge
+baseurl:
 
-baseurl: ""
-
-githuburl: https://github.com/istio/istio.github.io/
+liquid:
+  error_mode: strict
 
 sass:
   style: compressed

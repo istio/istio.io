@@ -1,12 +1,9 @@
 ---
-category: Reference
 title: Mixer Service
 overview: Generated documentation for Mixer's API Surface 
               
-parent: API and Configuration Schemas
 order: 20
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

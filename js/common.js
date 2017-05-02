@@ -1,4 +1,5 @@
 ---
+sitemap_exclude: y
 ---
 
 // Youtube Player API
