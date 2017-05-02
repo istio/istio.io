@@ -1,6 +1,6 @@
 ---
-title: Proxy Configuration Schema
-overview: Generated documentation for the Istio Proxy's Configuration Schema
+title: Traffic Rules Configuration Schema
+overview: Generated documentation for the Istio Traffic Rules Configuration Schema
               
 order: 60
 
