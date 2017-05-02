@@ -4,7 +4,6 @@ overview: This task shows you how to setup the Istio service mesh.
             
 order: 10
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---
@@ -57,8 +56,7 @@ clone Istio's [GitHub](https://github.com/istio/istio) repository:
     ```
 
    **If you would like to enable Istio auth** (For more information, please see
-   [Istio auth installation
-   guide](https://istio.io/docs/tasks/istio-auth.html)):
+   [Istio auth installation guide](/docs/tasks/istio-auth.html)):
 
     ```bash
     kubectl apply -f ./kubernetes/istio-auth-15.yaml # for Kubernetes 1.5
@@ -177,4 +175,5 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 ## What's next
 
 * Learn more about how to enable [authentication](/docs/tasks/istio-auth.html).
+
 * See the sample [bookinfo](/docs/samples/bookinfo.html) application.
