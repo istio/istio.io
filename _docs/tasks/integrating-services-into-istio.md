@@ -8,15 +8,14 @@ layout: docs
 type: markdown
 ---
 
-This task shows how to integrate applications with Istio into a
-Kubernetes cluster. You'll learn how to manually inject the Envoy side
-into deployments using [istioctl
-kube-inject]({{site.bareurl}}/docs/reference/istioctl/istioctl_kube-inject.html)
+This task shows how to integrate applications on Kubernetes with
+Istio. You'll learn how to inject the Envoy sidecar into deployments
+using [istioctl kube-inject]({{site.bareurl}}/docs/reference/istioctl/istioctl_kube-inject.html)
 
 ## Before you begin
 
-This task assumes you have deployed Istio on Kubernetes.  If you have
-not done so, please first complete the [Installation
+This task assumes you have deployed Istio control plane on Kubernetes.
+If you have not done so, please first complete the [Installation
 Steps]({{site.bareurl}}/docs/tasks/istio-installation.html).
 
 ## Injecting Envoy sidecar into a deployment
