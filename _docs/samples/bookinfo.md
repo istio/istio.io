@@ -143,7 +143,7 @@ This application is polyglot, i.e., the microservices are written in different l
    
    To view the graphical visualization, visit `http://EXTERNAL-IP:PORT/dotviz` (here: 
    http://104.196.248.114:8088/dotviz). After the single `curl` request from an earlier step, 
-   teh resulting image will look something like:
+   the resulting image will look something like:
    
    ![Bookinfo servicegraph](/docs/samples/img/bookinfo/servicegraph.png)
    
