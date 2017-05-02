@@ -10,13 +10,13 @@ type: markdown
 
 This task shows how to integrate applications on Kubernetes with
 Istio. You'll learn how to inject the Envoy sidecar into deployments
-using [istioctl kube-inject]({{site.bareurl}}/docs/reference/istioctl/istioctl_kube-inject.html)
+using [istioctl kube-inject](/docs/reference/istioctl/istioctl_kube-inject.html)
 
 ## Before you begin
 
 This task assumes you have deployed Istio on Kubernetes.
 If you have not done so, please first complete the
-[Installation Steps]({{site.bareurl}}/docs/tasks/istio-installation.html).
+[Installation Steps](/docs/tasks/installing-istio.html).
 
 ## Injecting Envoy sidecar into a deployment
 
@@ -202,6 +202,6 @@ routing traffic.
 
 ## What's next
 
-* Review full documentation for [istioctl kube-inject]({{site.bareurl}}/docs/reference/istioctl/istioctl_kube-inject.html)
+* Review full documentation for [istioctl kube-inject](/docs/reference/istioctl/istioctl_kube-inject.html)
 
-* See the [bookinfo sample]({{site.bareurl}}/docs/samples/bookinfo.html) for a more complete example of applications integrated on Kubernetes with Istio.
+* See the [bookinfo sample](/docs/samples/bookinfo.html) for a more complete example of applications integrated on Kubernetes with Istio.
