@@ -75,7 +75,12 @@ function outputNavBarTree(items) {
         var item = items[i];
 
         if (item.children.length == 0) {
-            document.write("<li class='doc-side-nav-list-item'><a href='");
+            if (item.doc.url == location.pathname) {
+                document.write("<li class='doc-side-nav-list-item'><a class='current' href='");
+            }
+            else {
+                document.write("<li class='doc-side-nav-list-item'><a href='");
+            }
             document.write("{{home}}");
             document.write(item.doc.url);
             document.write("'>");
