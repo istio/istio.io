@@ -109,7 +109,7 @@ This application is polyglot, i.e., the microservices are written in different l
    use the ingress' external address:
 
    ```bash
-   $ kubectl get ingress
+   $ kubectl get ingress -o wide
    NAME      HOSTS     ADDRESS                 PORTS     AGE
    gateway   *         130.211.10.121          80        1d
    $ export GATEWAY_URL=130.211.10.121:80

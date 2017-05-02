@@ -1,7 +1,7 @@
 ---
 title: istioctl
 overview: Istio control interface
-order: 6
+order: 1
 layout: docs
 type: markdown
 ---

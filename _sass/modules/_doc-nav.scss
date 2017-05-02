@@ -73,13 +73,12 @@
         padding: $spacing--xs 0 $spacing--xl;
     }
 
-	// Add caret to current page
-	.current:before{
-		content: '> ';
-		color: $popBrandColor;
-	}
+	.current {
+  		color: $popBrandColor;
+ 		font-weight: bold;
+  	}
 
-	.doc-side-nav-title {
+  	.doc-side-nav-title {
 		padding: $spacing--s;
 		font-weight: bold;
 	}
