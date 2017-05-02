@@ -1,7 +1,11 @@
 <div class="search-box">
-	<input type="text" class="search-input" placeholder="Search istio.io" onkeydown="if (event.keyCode==13) window.location.replace('/docs/search/?q=' + this.value)" autofocus="autofocus">
+	<form name="cse" id="searchbox_demo">
+		<input type="hidden" name="cx" value="013699703217164175118:veyyqmfmpj4" />
 
-	<!--
-	<gcse:searchbox-only resultsUrl="/docs/search/index.html"></gcse:searchbox-only>
-	-->
+		<input type="hidden" name="ie" value="utf-8" />
+		<input type="hidden" name="hl" value="en" />
+		<input name="q" type="text" size="30" />
+		<input class="formbutton" value="Search" type="submit" name="sa" />
+	</form>
+	<script type="text/javascript" src="http://www.google.com/cse/brand?form=searchbox_demo"></script>
 </div>

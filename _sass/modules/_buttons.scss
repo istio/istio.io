@@ -44,6 +44,10 @@
       }
     }
 
+    &.btn-grpc:hover {
+        background-color: $popBrandColor;
+    }
+
     // Hero Button
     &.btn-hero {
       background-color: $white;

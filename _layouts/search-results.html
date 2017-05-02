@@ -2,16 +2,32 @@
 layout: default
 ---
 
-** WARNING ** The formatting on this page is under construction ** WARNING **
+<style>
+  .gsc-table-cell-snippet-close, .gsc-table-cell-snippet-open {
+    padding: 6px;
+  }
+
+  .gsc-input-box {
+    height: 35px;
+  }
+</style>
+
+{% include doc-top-nav.html %}
 
 <div class="container">
-  <div class="row">
-    <div class="col-md-11 nofloat center-block ">
-      <div class="col-sm-7 {{page.type }}">
-        <div class="search-results">
-          {{ content }}
-        </div>
-      </div>
-    </div>
-  </div>
+  {{ content }}
 </div>
+
+<script>
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+    var q = getParameterByName('q', window.location.href);
+    document.getElementsByName('q')[0].value = q;
+</script>
