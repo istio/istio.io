@@ -65,7 +65,7 @@ This application is polyglot, i.e., the microservices are written in different l
 
    Notice that the `istioctl kube-inject` command is used to modify the `bookinfo.yaml`
    file before creating the deployments. This injects Envoy into Kubernetes resources
-   as documented [here](/docs/reference/istioctl/istioctl_kube-inject.html).
+   as documented [here](/docs/reference/commands/istioctl/istioctl_kube-inject.html).
    Consequently, all of the microservices are now packaged with an Envoy sidecar
    that manages incoming and outgoing calls for the service. The updated diagram looks
    like this:

@@ -74,7 +74,7 @@ clone Istio's [GitHub](https://github.com/istio/istio) repository:
     source istio.VERSION
     ```
 
-5. Download one of the [`istioctl`](/docs/reference/istioctl/istioctl.html) client binaries corresponding to your OS: `istioctl-osx`, `istioctl-win.exe`,
+5. Download one of the [`istioctl`](/docs/reference/commands/istioctl/istioctl.html) client binaries corresponding to your OS: `istioctl-osx`, `istioctl-win.exe`,
 `istioctl-linux`, targeted at Mac, Windows or Linux users respectively. For example, run the following commands on a Mac system:
 
     ```bash
@@ -145,7 +145,7 @@ for example [bookinfo](/docs/samples/bookinfo.html). Note that the application s
 or HTTP/2.0 protocol for all its HTTP traffic.
 
 When deploying the application,
-use [kube-inject](/docs/reference/istioctl/istioctl_kube-inject.html) to automatically inject
+use [kube-inject](/docs/reference/commands/istioctl/istioctl_kube-inject.html) to automatically inject
 Envoy containers in the pods running the services:
 ```bash
 kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
