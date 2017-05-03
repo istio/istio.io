@@ -101,10 +101,58 @@ The following configuration applies a `5qps` rate limit only to version `v3` of 
    Since the `reviews-v3` service is unable to access `ratings` we stop seeing `red` stars on the UI.
 
 
-## Dimensioned rate limits [WIP]
+## Understanding rate limits
+In the preceding examples we saw how Mixer applies rate limits to requests that match certain conditions.
+
+Every distinct rate limit configuration represents a counter. When a request arrives, Mixer increments the counter that applies
+to the request. If the counter exceeds the limit specified by the `maxAmount` key, Mixer returns a `RESOURCE_EXHAUSTED` message 
+to the proxy which in turn returns status `HTTP 429` to the caller. The counter is periodically reset to 0 as specified 
+by the `expiration` duration. Multiple rate limits may apply to the same request. 
+
+Consider the following example
+```yaml
+descriptorName: RequestCount
+maxAmount: 5000
+expiration: 5s
+labels:
+  label1: target.service
+```
+This defines a counter with a limit of `5000` that resets every `5 seconds`.
+Mixer maintains many rate limit counters that are identified by unique keys. A key is formed on the request path by using all parameters
+of the configuration. Here we introduce the notion of labels that enable creation of more granular counter keys.
+When a request arrives at Mixer with `target.service=ratings` it forms the following counter key.
+
+``` RequestCount;maxAmount=5000;expiration=5s;label1=ratings ```
+
+Using `target.service` in the counter key enables independent rate limits for every service. 
+In absence of `target.service` as part of the key, the same counter location is used by all services resulting in 
+combined rate limit of `5000` requests per `5 seconds`
+
+Mixer supports arbitrary number of labels by defining `QuotaDescriptors`.
+```yaml
+name: RequestCount
+rate_limit: true
+labels:
+   label1: 1 # STRING
+```
+Here we define `RequestCount` Quota descriptor that takes 1 string label. We recommend using meaningful label names 
+even though label names are arbitrary.
+
+```yaml
+name: RequestCount_byService_byUser
+rate_limit: true
+labels:
+   service: 1 # STRING
+   user: 1 # STRING
+```
+Mixer expects `user,service` labels when the `RequestCount_byService_byUser` descriptor is used and produces 
+the following config validation error if any labels are missing.
+```bash
+* quotas: aspect validation failed: 1 error occurred:
+* quotas[RequestCount_byService_byUser].labels: wrong dimensions: descriptor expects 2 labels, found 0 labels
+```
 
 ## What's next
 * Learn more about [Mixer](/docs/concepts/policy-and-control/mixer.html) and [Mixer Config](/docs/concepts/policy-and-control/mixer-config.html).
 * Discover the full [Attribute Vocabulary](/docs/reference/attribute-vocabulary.html).
 * Read the reference guide to [Writing Config](/docs/reference/writing-config.html).
-
