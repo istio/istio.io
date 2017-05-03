@@ -28,8 +28,14 @@
 
     &:hover {
       &:before {
-         background-color: $thirdBrandColor;
+         background-color: $popBrandColor;
       }
+    }
+
+    &.inverse {
+      background-color: transparent;
+      border: 2px solid $mainBrandColor;
+      color: $mainBrandColor;
     }
   }
 }

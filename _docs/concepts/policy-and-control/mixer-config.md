@@ -211,7 +211,7 @@ at request time in order to produce the metric.
 Each aspect kind defines its own particular format of configuration data. The exhaustive set of
 aspect configuration formats can be found in *TBD*.
     
-#### Attribute Expressions
+#### Attribute expressions
 
 Mixer features a number of independent [request processing phases](/docs/concepts/policy-and-control/mixer.html#request-phases).
 The *Attribute Processing* phase is responsible for ingesting a set of attributes and producing the adapter parameters 

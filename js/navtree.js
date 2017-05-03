@@ -85,7 +85,12 @@ function outputNavBarTree(items) {
             document.write(item.doc.url);
             document.write("'>");
             document.write(item.doc.title);
-            document.writeln("</a></li>");
+            document.writeln("</a>");
+
+            if (item.doc.order == 9999) {
+                document.writeln('(please set order: front matter for this document)')
+            }
+            document.writeln("</li>");
         }
     }
 
@@ -102,6 +107,10 @@ function outputNavBarTree(items) {
                 document.writeln(item.doc.title);
             }
             document.writeln("</label>");
+
+            if (item.doc.order == 9999) {
+                document.writeln('(please set order: front matter for this document)')
+            }
 
             outputNavBarTree(item.children);
             document.writeln("</li>");
