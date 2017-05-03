@@ -1,7 +1,7 @@
 ---
 title: BookInfo
 overview: This sample deploys a simple application composed of four separate microservices which will be used to demonstrate various features of the Istio service mesh.
-          
+
 order: 10
 
 layout: docs
@@ -10,7 +10,7 @@ type: markdown
 
 This sample deploys a simple application composed of four separate microservices which will be used
 to demonstrate various features of the Istio service mesh.
-          
+
 ## Before you begin
 
 Setup Istio by following the instructions in the
@@ -55,17 +55,17 @@ This application is polyglot, i.e., the microservices are written in different l
    ```bash
    kubectl apply -f <(istioctl kube-inject -f bookinfo.yaml)
    ```
-   
+
    The above command launches four microservices and creates the gateway
    ingress resource as illustrated in the diagram above.
    The reviews microservice has 3 versions: v1, v2, and v3.
-     
+
    > Note that in a realistic deployment, new versions of a microservice are deployed
    over time instead of deploying all versions simultaneously.
 
    Notice that the `istioctl kube-inject` command is used to modify the `bookinfo.yaml`
    file before creating the deployments. This injects Envoy into Kubernetes resources
-   as documented [here](/docs/reference/istioctl.html#kube-inject).
+   as documented [here](/docs/reference/istioctl/istioctl_kube-inject.html).
    Consequently, all of the microservices are now packaged with an Envoy sidecar
    that manages incoming and outgoing calls for the service. The updated diagram looks
    like this:
@@ -86,7 +86,7 @@ This application is polyglot, i.e., the microservices are written in different l
    ratings                    10.0.0.15    <none>        9080/TCP             6m
    reviews                    10.0.0.170   <none>        9080/TCP             6m
    ```
-   
+
    and
 
    ```bash
@@ -121,7 +121,7 @@ This application is polyglot, i.e., the microservices are written in different l
    ```
 
 1. Confirm that the bookinfo application is running with the following `curl` command:
-   
+
    ```bash
    $ curl -o /dev/null -s -w "%{http_code}\n" http://$GATEWAY_URL/productpage
    200
