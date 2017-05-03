@@ -26,7 +26,7 @@ This task shows how to inject delays and test the resiliency of your application
   $ istioctl create -f route-rule-reviews-test-v2.yaml
   ```
 
-### Fault injection
+## Fault injection
 
 To test our bookinfo application microservices for resiliency, we will _inject a 7s delay_
 between the reviews:v2 and ratings microservices. Since the _reviews:v2_ service has a
