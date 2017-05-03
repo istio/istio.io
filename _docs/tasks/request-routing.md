@@ -35,7 +35,7 @@ route requests to all available versions of a service in a random fashion.
    You can display the routes that are defined with the following command:
 
    ```yaml
-   $ istioctl get route-rules -o yaml
+   istioctl get route-rules -o yaml
    kind: route-rule
    name: ratings-default
    namespace: default
@@ -102,7 +102,7 @@ route requests to all available versions of a service in a random fashion.
    Confirm the rule is created:
 
    ```yaml
-   $ istioctl get route-rule reviews-test-v2
+   istioctl get route-rule reviews-test-v2
    destination: reviews.default.svc.cluster.local
    match:
      httpHeaders:

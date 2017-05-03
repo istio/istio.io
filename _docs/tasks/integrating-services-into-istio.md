@@ -88,10 +88,10 @@ kubectl apply -f <(istioctl kube-inject -f echo.yaml)
 Make a request from the client (busybox) to the server (echo).
 
 ```bash
-$ CLIENT=$(kubectl get pod -l app=busybox -o jsonpath='{.items[0].metadata.name}')
-$ SERVER=$(kubectl get pod -l app=echo -o jsonpath='{.items[0].metadata.name}')
+CLIENT=$(kubectl get pod -l app=busybox -o jsonpath='{.items[0].metadata.name}')
+SERVER=$(kubectl get pod -l app=echo -o jsonpath='{.items[0].metadata.name}')
 
-$ kubectl exec -it ${CLIENT} -c echo -- curl echo:80 | grep x-request-id
+kubectl exec -it ${CLIENT} -c echo -- curl echo:80 | grep x-request-id
 x-request-id=a641eff7-eb82-4a4f-b67b-53cd3a03c399
 ```
 
@@ -103,14 +103,14 @@ the echo pod's IP.
 Outbound request on client pod's proxy.
 
 ```
-$ kubectl logs ${CLIENT} proxy | grep a641eff7-eb82-4a4f-b67b-53cd3a03c399
+kubectl logs ${CLIENT} proxy | grep a641eff7-eb82-4a4f-b67b-53cd3a03c399
 [2017-05-01T22:08:39.310Z] "GET / HTTP/1.1" 200 - 0 398 2 0 "-" "curl/7.47.0" "a641eff7-eb82-4a4f-b67b-53cd3a03c399" "echo" "127.0.0.1:8080"
 ```
 
 Inbound request on server pod's proxy.
 
 ```
-$ kubectl logs ${SERVER} proxy | grep a641eff7-eb82-4a4f-b67b-53cd3a03c399
+kubectl logs ${SERVER} proxy | grep a641eff7-eb82-4a4f-b67b-53cd3a03c399
 [2017-05-01T22:08:39.310Z] "GET / HTTP/1.1" 200 - 0 398 3 3 "-" "curl/7.47.0" "a641eff7-eb82-4a4f-b67b-53cd3a03c399" "echo" "10.4.180.7:8080"
 ```
 
@@ -120,7 +120,7 @@ within the same pod when traffic is routed via localhost. This is by
 design.
 
 ```bash
-$ kubectl exec -it ${SERVER} -c echo -- curl localhost:8080 | grep x-request-id
+kubectl exec -it ${SERVER} -c echo -- curl localhost:8080 | grep x-request-id
 ```
 
 ## Understanding what happened

@@ -16,7 +16,7 @@ Replace existing policies and rules
 Example usage:
 
 	# Create a rule using the definition in example-routing.yaml.
-	$ istioctl replace -f example-routing.yaml
+	istioctl replace -f example-routing.yaml
 
 
 ```
