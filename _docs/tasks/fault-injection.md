@@ -22,11 +22,11 @@ This task shows how to inject delays and test the resiliency of your application
   commands:
   
   ```bash
-  $ istioctl create -f route-rule-all-v1.yaml
-  $ istioctl create -f route-rule-reviews-test-v2.yaml
+  istioctl create -f route-rule-all-v1.yaml
+  istioctl create -f route-rule-reviews-test-v2.yaml
   ```
 
-### Fault Injection
+## Fault injection
 
 To test our bookinfo application microservices for resiliency, we will _inject a 7s delay_
 between the reviews:v2 and ratings microservices. Since the _reviews:v2_ service has a
@@ -42,7 +42,7 @@ continue without any errors.
    Confirm the rule is created:
    
    ```yaml
-   $ istioctl get route-rule ratings-test-delay
+   istioctl get route-rule ratings-test-delay
    destination: ratings.default.svc.cluster.local
    httpFault:
      delay:

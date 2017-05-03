@@ -17,9 +17,11 @@ In a Kubernetes environment, Istio uses [Kubernetes Ingress Resources](https://k
 ## Before you begin
 
 This task assumes you have deployed Istio on Kubernetes.  If you have not done so, please first complete
-the [Installation Steps]({{site.bareurl}}/docs/tasks/istio-installation.html).
+the [Installation Steps](/docs/tasks/installing-istio.html).
 
 ## Configuring Ingress
+
+The following sections describe how to create 
 
 ### Setup the environment
 Create an example service.
@@ -46,13 +48,26 @@ spec:
     spec:
       containers:
       - name: app
-        image: <image name>
+        image: <echo server image name>
         imagePullPolicy: Always
         ports:
         - containerPort: 80
 ```
 
-Create an Ingress Resource. See [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/services-networking/ingress/) for more information.
+### Generate keys
+If necessary, a private key and certificate can be created for testing using [OpenSSL](https://www.openssl.org/).
+```
+openssl req -newkey rsa:2048 -nodes -keyout cert.key -x509 -days -out='cert.crt' -subj '/C=US/ST=Seattle/O=Example/CN=secure.example.io'
+```
+
+### Create the secret
+Create the secret using `kubectl`.
+```bash
+kubectl create secret generic ingress-secret --from-file=tls.key=cert.key --from-file=tls.crt=cert.crt
+```
+
+### Create Ingress Resources
+See [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/services-networking/ingress/) for more information.
 
 ```yaml
 apiVersion: extensions/v1beta1
@@ -60,8 +75,25 @@ kind: Ingress
 metadata:
   name: istio-ingress
   annotations:
-    kubernetes.io/ingress.class: "istio"
+    kubernetes.io/ingress.class: istio
 spec:
+  rules:
+  - http:
+      paths:
+      - path: /hello
+        backend:
+          serviceName: helloworld
+          servicePort: 80
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: secured-ingress
+  annotations:
+    kubernetes.io/ingress.class: istio
+spec:
+  tls:
+    - secretName: ingress-secret
   rules:
   - http:
       paths:
@@ -71,20 +103,22 @@ spec:
           servicePort: 80
 ```
 
-### Make a request to the service
+### Make requests to the services
 
 Get the Ingress controller IP.
 
 ```bash
-$ kubectl get ingress istio-ingress
+kubectl get ingress istio-ingress
 NAME      HOSTS     ADDRESS          PORTS     AGE
 ingress   *         192.168.99.100   80        2m
 ```
 
-Make a request to the HelloWorld service using the Ingress controller IP and the path configured in the Ingress Resource.
+Make a requests to the HelloWorld service using the Ingress controller IP and the path configured in the Ingress Resources.
 
 ```bash
-$ curl http://192.168.99.100:80/hello
+curl http://192.168.99.100:80/hello
+.. response ..
+$ curl -k https://192.168.99.100:80/hello
 .. response ..
 ```
 

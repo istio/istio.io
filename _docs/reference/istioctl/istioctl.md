@@ -18,7 +18,7 @@ Istio configuration command line utility.
 Create, list, modify, and delete configuration resources in the Istio system.
 
 Available routing and traffic management configuration types: [destination-policy ingress-rule route-rule]. See
-https://istio.io/docs/reference/routing-and-traffic-management.html
+[here](/docs/reference/traffic-management/routing-and-traffic-management.html)
 for an overview of the routing and traffic DSL.
 
 More information on the mixer API configuration can be found under the

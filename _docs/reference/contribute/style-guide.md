@@ -20,12 +20,12 @@ docs, follow the instructions on
 
 ## Formatting standards
 
-### Use camel case for API objects
+### Use camelCase for API objects
 
 When you refer to an API object, use the same uppercase and lowercase letters
 that are used in the actual object name. Typically, the names of API
 objects use
-[camel case](https://en.wikipedia.org/wiki/Camel_case).
+[camelCase](https://en.wikipedia.org/wiki/Camel_case).
 
 Don't split the API object name into separate words. For example, use
 PodTemplateList, not Pod Template List.
@@ -33,14 +33,13 @@ PodTemplateList, not Pod Template List.
 Refer to API objects without saying "object," unless omitting "object"
 leads to an awkward construction.
 
-<table>
-  <tr><th>Do</th><th>Don't</th></tr>
-  <tr><td>The Pod has two Containers.</td><td>The pod has two containers.</td></tr>
-  <tr><td>The Deployment is responsible for ...</td><td>The Deployment object is responsible for ...</td></tr>
-  <tr><td>A PodList is a list of Pods.</td><td>A Pod List is a list of pods.</td></tr>
-  <tr><td>The two ContainerPorts ...</td><td>The two ContainerPort objects ...</td></tr>
-  <tr><td>The two ContainerStateTerminated objects ...</td><td>The two ContainerStateTerminateds ...</td></tr>
-</table>
+|Do                                          |Don't
+|--------------------------------------------|------
+|The Pod has two Containers.                 |The pod has two containers.
+|The Deployment is responsible for ...       |The Deployment object is responsible for ...
+|A PodList is a list of Pods.                |A Pod List is a list of pods.
+|The two ContainerPorts ...                  |The two ContainerPort objects ...
+|The two ContainerStateTerminated objects ...|The two ContainerStateTerminateds ...
 
 ### Use angle brackets for placeholders
 
@@ -53,93 +52,126 @@ represents.
 
     where `<pod-name>` is the name of one of your pods.
 
-### Use bold for user interface elements
+### Use **bold** for user interface elements
 
-<table>
-  <tr><th>Do</th><th>Don't</th></tr>
-  <tr><td>Click <b>Fork</b>.</td><td>Click "Fork".</td></tr>
-  <tr><td>Select <b>Other</b>.</td><td>Select 'Other'.</td></tr>
-</table>
+|Do               |Don't
+|-----------------|------
+|Click **Fork**.  |Click "Fork".
+|Select **Other**.|Select 'Other'.
 
-### Use italics to define or introduce new terms
+### Use _italics_ to define or introduce new terms
 
-<table>
-  <tr><th>Do</th><th>Don't</th></tr>
-  <tr><td>A <i>cluster</i> is a set of nodes ...</td><td>A "cluster" is a set of nodes ...</td></tr>
-  <tr><td>These components form the <i>control plane.</i></td><td>These components form the <b>control plane.</b></td></tr>
-</table>
+|Do                                         |Don't
+|-------------------------------------------|---
+|A _cluster_ is a set of nodes ...          |A "cluster" is a set of nodes ...
+|These components form the _control plane_. |These components form the **control plane**.
 
-### Use code style for filenames, directories, and paths
+### Use `code` style for filenames, directories, and paths
 
-<table>
-  <tr><th>Do</th><th>Don't</th></tr>
-  <tr><td>Open the <code>envars.yaml</code> file.</td><td>Open the envars.yaml file.</td></tr>
-  <tr><td>Go to the <code>/docs/tutorials</code> directory.</td><td>Go to the /docs/tutorials directory.</td></tr>
-  <tr><td>Open the <code>/_data/concepts.yaml</code> file.</td><td>Open the /_data/concepts.yaml file.</td></tr>
-</table>
+|Do                                   | Don't
+|-------------------------------------|------
+|Open the `envars.yaml` file.         | Open the envars.yaml file.
+|Go to the `/_docs/tasks` directory.  | Go to the /docs/tasks directory.
+|Open the `_data/concepts.yaml` file. | Open the /_data/concepts.yaml file.
 
-## Inline code formatting
+### Use `code` style for inline code and commands
 
-### Use code style for inline code and commands
+|Do                          | Don't
+|----------------------------|------
+|The `kubectl run` command creates a Deployment.|The "kubectl run" command creates a Deployment.
+|For declarative management, use `kubectl apply`.|For declarative management, use "kubectl apply".
 
-For inline code in an HTML document, use the `<code>` tag. In a Markdown
-document, use the backtick (`).
+### Use `code` style for object field names
 
-<table>
-  <tr><th>Do</th><th>Don't</th></tr>
-  <tr><td>The <code>kubectl run</code> command creates a Deployment.</td><td>The "kubectl run" command creates a Deployment.</td></tr>
-  <tr><td>For declarative management, use <code>kubectl apply</code>.</td><td>For declarative management, use "kubectl apply".</td></tr>
-</table>
-
-### Use code style for object field names
-
-<table>
-  <tr><th>Do</th><th>Don't</th></tr>
-  <tr><td>Set the value of the <code>replicas</code> field in the configuration file.</td><td>Set the value of the "replicas" field in the configuration file.</td></tr>
-  <tr><td>The value of the <code>exec</code> field is an ExecAction object.</td><td>The value of the "exec" field is an ExecAction object.</td></tr>
-</table>
+|Do                                                               | Don't
+|-----------------------------------------------------------------|------
+|Set the value of the `replicas` field in the configuration file. | Set the value of the "replicas" field in the configuration file.
+|The value of the `exec` field is an ExecAction object.           | The value of the "exec" field is an ExecAction object.
 
 ### Use normal style for string and integer field values
 
 For field values of type string or integer, use normal style without quotation marks.
 
-<table>
-  <tr><th>Do</th><th>Don't</th></tr>
-  <tr><td>Set the value of <code>imagePullPolicy</code> to Always.</td><td>Set the value of <code>imagePullPolicy</code> to "Always".</td></tr>
-  <tr><td>Set the value of <code>image</code> to nginx:1.8.</td><td>Set the value of <code>image</code> to <code>nginx:1.8</code>.</td></tr>
-  <tr><td>Set the value of the <code>replicas</code> field to 2.</td><td>Set the value of the <code>replicas</code> field to <code>2</code>.</td></tr>
-</table>
+|Do                                            | Don't
+|----------------------------------------------|------
+|Set the value of `imagePullPolicy` to Always. | Set the value of `imagePullPolicy` to "Always".|Set the value of `image` to nginx:1.8.        | Set the value of `image` to `nginx:1.8`.
+|Set the value of the `replicas` field to 2.   | Set the value of the `replicas` field to `2`.
+
+### Only capitalize the first letter of headings
+
+For any headings, only apply an uppercase letter to the first word of the heading,
+except is a word is a proper noun or an acronym.
+
+|Do                      | Don't
+|------------------------|-----
+|Configuring rate limits | Configuring Rate Limits
+|Using Envoy for ingress | Using envoy for ingress
+|Using HTTPS             | Using https 
 
 ## Code snippet formatting
 
 ### Don't include the command prompt
 
-<table>
-  <tr><th>Do</th><th>Don't</th></tr>
-  <tr><td>kubectl get pods</td><td>$ kubectl get pods</td></tr>
-</table>
+|Do               | Don't
+|-----------------|------
+|kubectl get pods | $ kubectl get pods
 
 ### Separate commands from output
 
 Verify that the pod is running on your chosen node:
 
-    kubectl get pods --output=wide
-
+```bash
+kubectl get pods --output=wide
+```
 The output is similar to this:
 
-    NAME     READY     STATUS    RESTARTS   AGE    IP           NODE
-    nginx    1/1       Running   0          13s    10.200.0.4   worker0
+```bash
+NAME     READY     STATUS    RESTARTS   AGE    IP           NODE
+nginx    1/1       Running   0          13s    10.200.0.4   worker0
+```
 
+## Terminology standards
 
-{% comment %}## istio.io word list
+Some standard terms we want to use consistently within the documentation for clarity.
 
-A list of Istio-specific terms and words to be used consistently across the site.
+### Envoy
 
-<table>
-  <tr><th>Term</th><th>Useage</th></tr>
-  <tr><td>TBD</td><td>TBD</td></tr>
-</table>{% endcomment %}
+We prefer to use “Envoy” as it’s a more concrete term than "proxy" and will resonate if used
+consistently throughout the docs.
 
+Synonyms:
+
+- “Envoy sidecar” - ok
+- “Envoy proxy” - ok
+- “The Istio proxy” -- best to avoid unless you’re talking about advanced scenarios where another proxy might be used.
+- “Sidecar”  -- mostly restricted to conceptual docs
+- “Proxy -- only if context is obvious
+
+Related Terms
+
+- Proxy agent  - This is a minor infrastructural component and should only show up in low-level detail documentation.
+It is not a proper noun.
+
+### Mixer
+
+Mixer is a proper noun and should be used as such:
+
+- “You configure Mixer by ….”
+- “Mixer provides a standard vehicle for implementing organizational wide policy”
+
+### Attributes
+
+Not a proper noun but we should attempt to consistently use the term to describe inputs to Mixer and NOT use the term when talking about other
+forms of configuration.
+
+### Service mesh 
+
+Not a proper noun. Use in place of service fabric.
+
+### Service version
+
+Use in the context of routing and multiple finer-grained versions of a service. Avoid using “service tags” or “service labels”
+which are the mechanism to identify the service versions, not the thing itself.
 
 ## Content best practices
 
@@ -147,21 +179,19 @@ This section contains suggested best practices for clear, concise, and consisten
 
 ### Use present tense
 
-<table>
-  <tr><th>Do</th><th>Don't</th></tr>
-  <tr><td>This command starts a proxy.</td><td>This command will start a proxy.</td></tr>
-</table>
+|Do                           | Don't
+|-----------------------------|------
+|This command starts a proxy. | This command will start a proxy.
 
 Exception: Use future or past tense if it is required to convey the correct
 meaning.
 
 ### Use active voice
 
-<table>
-  <tr><th>Do</th><th>Don't</th></tr>
-  <tr><td>You can explore the API using a browser.</td><td>The API can be explored using a browser.</td></tr>
-  <tr><td>The YAML file specifies the replica count.</td><td>The replica count is specified in the YAML file.</td></tr>
-</table>
+|Do                                         | Don't
+|-------------------------------------------|------
+|You can explore the API using a browser.   | The API can be explored using a browser.
+|The YAML file specifies the replica count. | The replica count is specified in the YAML file.
 
 Exception: Use passive voice if active voice leads to an awkward construction.
 
@@ -169,21 +199,18 @@ Exception: Use passive voice if active voice leads to an awkward construction.
 
 Use simple and direct language. Avoid using unnecessary phrases, such as saying "please."
 
-<table>
-  <tr><th>Do</th><th>Don't</th></tr>
-  <tr><td>To create a ReplicaSet, ...</td><td>In order to create a ReplicaSet, ...</td></tr>
-  <tr><td>See the configuration file.</td><td>Please see the configuration file.</td></tr>
-  <tr><td>View the Pods.</td><td>With this next command, we'll view the Pods.</td></tr>
-
-</table>
+|Do                          | Don't
+|----------------------------|------
+|To create a ReplicaSet, ... | In order to create a ReplicaSet, ...
+|See the configuration file. | Please see the configuration file.
+|View the Pods.              | With this next command, we'll view the Pods.
 
 ### Address the reader as "you"
 
-<table>
-  <tr><th>Do</th><th>Don't</th></tr>
-  <tr><td>You can create a Deployment by ...</td><td>We'll create a Deployment by ...</td></tr>
-    <tr><td>In the preceding output, you can see...</td><td>In the preceding output, we can see ...</td></tr>
-</table>
+|Do                                     | Don't
+|---------------------------------------|------
+|You can create a Deployment by ...     | We'll create a Deployment by ...
+|In the preceding output, you can see...| In the preceding output, we can see ...
 
 ## Patterns to avoid
 
@@ -192,22 +219,20 @@ Use simple and direct language. Avoid using unnecessary phrases, such as saying 
 Using "we" in a sentence can be confusing, because the reader might not know
 whether they're part of the "we" you're describing.
 
-<table>
-  <tr><th>Do</th><th>Don't</th></tr>
-  <tr><td>Version 1.4 includes ...</td><td>In version 1.4, we have added ...</td></tr>
-  <tr><td>Kubernetes provides a new feature for ...</td><td>We provide a new feature ...</td></tr>
-  <tr><td>This page teaches you how to use pods.</td><td>In this page, we are going to learn about pods.</td></tr>
-</table>
+|Do                                        | Don't
+|------------------------------------------|------
+|Version 1.4 includes ...                  | In version 1.4, we have added ...
+|Kubernetes provides a new feature for ... | We provide a new feature ...
+|This page teaches you how to use pods.    | In this page, we are going to learn about pods.
 
 ### Avoid jargon and idioms
 
 Some readers speak English as a second language. Avoid jargon and idioms to help make their understanding easier.
 
-<table>
-  <tr><th>Do</th><th>Don't</th></tr>
-  <tr><td>Internally, ...</td><td>Under the hood, ...</td></tr>
-    <tr><td>Create a new cluster.</td><td>Turn up a new cluster.</td></tr>
-</table>
+|Do                    | Don't
+|----------------------|------
+|Internally, ...       | Under the hood, ...
+|Create a new cluster. | Turn up a new cluster.
 
 ### Avoid statements about the future
 
@@ -220,8 +245,7 @@ information.
 Avoid words like "currently" and "new." A feature that is new today might not be
 considered new in a few months.
 
-<table>
-  <tr><th>Do</th><th>Don't</th></tr>
-  <tr><td>In version 1.4, ...</td><td>In the current version, ...</td></tr>
-    <tr><td>The Federation feature provides ...</td><td>The new Federation feature provides ...</td></tr>
-</table>
+|Do                                  | Don't
+|------------------------------------|------
+|In version 1.4, ...                 | In the current version, ...
+|The Federation feature provides ... | The new Federation feature provides ...

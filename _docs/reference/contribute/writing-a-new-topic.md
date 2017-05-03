@@ -49,13 +49,6 @@ is the best fit for your content:
     <td>A task page shows how to do a single thing, typically by giving a short sequence of steps. Task pages have minimal
     explanation, but often provide links to conceptual topics that provide related background and knowledge.</td>
   </tr>
-
-  <tr>
-    <td>Tutorial</td>
-    <td>A tutorial page shows how to accomplish a goal that is larger than a single task. Typically a tutorial
-    page has several sections, each of which has a sequence of steps. Tutorials can include surface-level explanations,
-    but should link to related conceptual topics for deep explanations.</td>
-  </tr>
 </table>
 
 Each page type has a template file located in the corresponding directory which shows
@@ -84,18 +77,19 @@ The front matter is a block of YAML that is between the
 triple-dashed lines at the top of each file. Here's the
 chunk of front matter you should start with:
 
-    ---
-    title: TITLE_TBD
-    overview: OVERVIEW_TBD
+```
+---
+title: <title>
+overview: <overview>
 
-    order: ORDER_TBD
+order: <order>
 
-    layout: docs
-    type: markdown
-    ---
+layout: docs
+type: markdown
+```
 
 Copy the above at the start of your new markdown file and update
-the TBD fields for your particular file. The available front
+the `<title>`, `<overview>` and `<order>` fields for your particular file. The available front
 matter fields are:
 
 |Field      | Description
@@ -103,7 +97,7 @@ matter fields are:
 |`title`    | The short title of the page
 |`overview` | a one-line description of what the topic is about
 |`order`    | integer used for sort order
-|`layout'   | indicates which of the Jekyll layouts this page uses
+|`layout`   | indicates which of the Jekyll layouts this page uses
 |`index`    | indicates whether the page should appear in the doc's top nav tabs
 
 ## Choosing a directory
@@ -114,7 +108,6 @@ Depending on your page type, put your new file in a subdirectory of one of these
 * _docs/reference/
 * _docs/samples/
 * _docs/tasks/
-* _docs/tutorials/
 
 You can put your file in an existing subdirectory, or you can create a new
 subdirectory.
