@@ -104,10 +104,13 @@ The following configuration applies a `5qps` rate limit only to version `v3` of 
 ## Understanding rate limits
 In the preceding examples we saw how Mixer applies rate limits to requests that match certain conditions.
 
-Every distinct rate limit configuration represents a counter. When a request arrives, Mixer increments the counter that applies
-to the request. If the counter exceeds the limit specified by the `maxAmount` key, Mixer returns a `RESOURCE_EXHAUSTED` message 
-to the proxy which in turn returns status `HTTP 429` to the caller. The counter is periodically reset to 0 as specified 
-by the `expiration` duration. Multiple rate limits may apply to the same request. 
+Every distinct rate limit configuration represents a counter. If the number
+of requests in the last `expiration` duration exceed `maxAmount`,  Mixer returns a `RESOURCE_EXHAUSTED`
+message to the proxy. The proxy in turn returns status `HTTP 429` to the caller. 
+
+Multiple rate limits may apply to the same request. 
+
+Mixer `MemQuota` adapter uses a sliding window of sub second resolution to enforce rate limits. 
 
 Consider the following example
 ```yaml
@@ -117,25 +120,25 @@ expiration: 5s
 labels:
   label1: target.service
 ```
-This defines a counter with a limit of `5000` that resets every `5 seconds`.
-Mixer maintains many rate limit counters that are identified by unique keys. A key is formed on the request path by using all parameters
+This defines a set of counters with a limit of `5000` per every `5 seconds`. 
+Individual counters within the set are identified by unique keys. A key is formed on the request path by using all parameters
 of the configuration. Here we introduce the notion of labels that enable creation of more granular counter keys.
 When a request arrives at Mixer with `target.service=ratings` it forms the following counter key.
 
-``` RequestCount;maxAmount=5000;expiration=5s;label1=ratings ```
+```$aspect_id;RequestCount;maxAmount=5000;expiration=5s;label1=ratings ```
 
 Using `target.service` in the counter key enables independent rate limits for every service. 
 In absence of `target.service` as part of the key, the same counter location is used by all services resulting in 
 combined rate limit of `5000` requests per `5 seconds`
 
-Mixer supports arbitrary number of labels by defining `QuotaDescriptors`.
+Mixer supports an arbitrary number of labels by defining `QuotaDescriptors`.
 ```yaml
 name: RequestCount
 rate_limit: true
 labels:
    label1: 1 # STRING
 ```
-Here we define `RequestCount` Quota descriptor that takes 1 string label. We recommend using meaningful label names 
+Here we define `RequestCount` quota descriptor that takes 1 string label. We recommend using meaningful label names 
 even though label names are arbitrary.
 
 ```yaml
