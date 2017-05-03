@@ -12,16 +12,10 @@
         font-size: 16px;
         vertical-align: top;
         background: #fff;
-        text-indent: 18px;
 
         border-color: $mainBrandColor;
         border-radius: 4px;
         border-width: 1px;
-
-        background-image: url(/img/search-icon.svg);
-        background-repeat: no-repeat;
-        background-size: 16px 16px;
-        background-position: 4px 6px;
     }
 
     input::placeholder {
