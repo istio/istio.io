@@ -16,11 +16,13 @@ Istio Auth's aim is to enhance the security of microservices and their communica
 
 *   Providing each service with a strong identity that represents its role to enable interoperability across clusters and clouds
 
-*   Securing both service to service communication and end-user to service communication
+*   Securing both service to service communication
 
 *   Providing a key management system to automate key and certificate generation, distribution, rotation, and revocation
 
 In future versions it will also provide:
+
+*   Securing end-user to service communication
 
 *   Fine-grained authorization and auditing to control and monitor who accesses your services, apis, or resources
 
