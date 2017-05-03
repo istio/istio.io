@@ -29,7 +29,11 @@
         				"{{ comp }}",
         			{% endif %}
         		{% endfor %}
-        		], url: "{{d.url}}", title: "{{d.title}}", order: {{d.order}}, overview: "{{d.overview}}"});
+				{% assign order = d.order %}
+				{% if d.order == nil %}
+				{% assign order = 9999 %}
+				{% endif %}
+        		], url: "{{d.url}}", title: "{{d.title}}", order: {{order}}, overview: "{{d.overview}}"});
 			{% endif %}
         {% endfor %}
 

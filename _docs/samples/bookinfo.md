@@ -1,7 +1,7 @@
 ---
 title: BookInfo
 overview: This sample deploys a simple application composed of four separate microservices which will be used to demonstrate various features of the Istio service mesh.
-          
+
 order: 10
 
 layout: docs
@@ -10,7 +10,7 @@ type: markdown
 
 This sample deploys a simple application composed of four separate microservices which will be used
 to demonstrate various features of the Istio service mesh.
-          
+
 ## Before you begin
 
 Setup Istio by following the instructions in the
@@ -55,17 +55,17 @@ This application is polyglot, i.e., the microservices are written in different l
    ```bash
    kubectl apply -f <(istioctl kube-inject -f bookinfo.yaml)
    ```
-   
+
    The above command launches four microservices and creates the gateway
    ingress resource as illustrated in the diagram above.
    The reviews microservice has 3 versions: v1, v2, and v3.
-     
+
    > Note that in a realistic deployment, new versions of a microservice are deployed
    over time instead of deploying all versions simultaneously.
 
    Notice that the `istioctl kube-inject` command is used to modify the `bookinfo.yaml`
    file before creating the deployments. This injects Envoy into Kubernetes resources
-   as documented [here](/docs/reference/istioctl.html#kube-inject).
+   as documented [here](/docs/reference/istioctl/istioctl_kube-inject.html).
    Consequently, all of the microservices are now packaged with an Envoy sidecar
    that manages incoming and outgoing calls for the service. The updated diagram looks
    like this:
@@ -86,7 +86,7 @@ This application is polyglot, i.e., the microservices are written in different l
    ratings                    10.0.0.15    <none>        9080/TCP             6m
    reviews                    10.0.0.170   <none>        9080/TCP             6m
    ```
-   
+
    and
 
    ```bash
@@ -121,11 +121,37 @@ This application is polyglot, i.e., the microservices are written in different l
    ```
 
 1. Confirm that the bookinfo application is running with the following `curl` command:
-   
+
    ```bash
    $ curl -o /dev/null -s -w "%{http_code}\n" http://$GATEWAY_URL/productpage
    200
    ```
+
+1. If you have installed the Istio addons, in particular the servicegraph addon, from the
+   [Installation guide](/docs/tasks/installing-istio.html), a generated servicegraph
+   of the cluster is available.
+   
+   Get the external IP Address (and port) of the servicegraph service:
+   ```bash
+   $ kubectl get svc servicegraph 
+   NAME           CLUSTER-IP      EXTERNAL-IP       PORT(S)          AGE
+   servicegraph   10.75.240.195   104.196.248.114   8088:32556/TCP   23m
+   ```
+
+   The servicegraph service provides both a textual (JSON) representation (via `/graph`)
+   and a graphical visualization (via `/dotviz`) of the underlying servicegraph.
+   
+   To view the graphical visualization, visit `http://EXTERNAL-IP:PORT/dotviz` (here: 
+   http://104.196.248.114:8088/dotviz). After the single `curl` request from an earlier step, 
+   the resulting image will look something like:
+   
+   ![Bookinfo servicegraph](/docs/samples/img/bookinfo/servicegraph.png)
+   
+   The servicegraph should show very low (or zero) QPS values, as only a single request has been sent. The
+   service uses a default time window of 5 minutes for calculating moving QPS averages. Send a consistent 
+   flow of traffic through the example application and refresh the servicegraph to view updated QPS values 
+   that match the generated level of traffic.
+
 
 ## What's next
 

@@ -8,21 +8,25 @@ order: 0
 layout: docs
 type: markdown
 ---
+{% assign home = "" %}
+{% if site.github.environment == "dotcom" %}
+{% assign home = site.baseurl %}
+{% endif %}
 
 # Welcome
 
 Welcome to Istio's documentation home page. From here you can learn all about Istio by following
 the links below:
 
-- [Concepts](/docs/concepts). Concepts explain some significant aspect of Istio. This
+- [Concepts]({{home}}/docs/concepts/). Concepts explain some significant aspect of Istio. This
 is where you can learn about what Istio does and how it does it.
 
-- [Tasks](/docs/tasks). Tasks show you how to do a single directed activity with Istio.
+- [Tasks]({{home}}/docs/tasks/). Tasks show you how to do a single directed activity with Istio.
 
-- [Samples](/docs/samples). Samples are fully working stand-alone examples
+- [Samples]({{home}}/docs/samples/). Samples are fully working stand-alone examples
 intended to highlight a particular set of Istio's features.
 
-- [Reference](/docs/reference). Detailed exhaustive lists of
+- [Reference]({{home}}/docs/reference/). Detailed exhaustive lists of
 command-line options, configuration options, API definitions, and procedures.
 
 We're always looking for help improving our documentation, so please don't hesitate to

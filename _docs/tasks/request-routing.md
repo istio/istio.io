@@ -17,7 +17,7 @@ This task shows you how to configure dynamic request routing based on weights an
 
 * Deploy the [bookinfo](/docs/samples/bookinfo.html) sample application.
 
-## Content Based Routing
+## Content-based routing
 
 Because the bookinfo sample deploys 3 versions of the reviews microservice,
 we need to set a default route.
