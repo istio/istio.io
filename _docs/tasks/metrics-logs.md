@@ -29,7 +29,7 @@ as the example application throughout this task.
    subject. These rules apply to all requests within the Istio cluster.
 
    ```bash
-   $ istioctl mixer rule get global global
+   istioctl mixer rule get global global
    revision: "2022"
    rules:
    - aspects:
@@ -110,15 +110,15 @@ as the example application throughout this task.
    setting up port-forwarding to the Mixer Config API port (typically, 9094).
 
    ```bash
-   $ kubectl port-forward $(kubectl get pod -l istio=mixer -o jsonpath='{.items[0].metadata.name}') 9094:9094 &
-   $ export ISTIO_MIXER_API_SERVER=localhost:9094
+   kubectl port-forward $(kubectl get pod -l istio=mixer -o jsonpath='{.items[0].metadata.name}') 9094:9094 &
+   export ISTIO_MIXER_API_SERVER=localhost:9094
    ```
 
 1. Create a new YAML file (`new_rule.yml`) to hold configuration for
    the new metrics that Istio will collect automatically.
 
    ```bash
-   $ cat <<EOF >new_rule.yml
+   cat <<EOF >new_rule.yml
    revision: "1"
    rules:
    - aspects:
@@ -182,7 +182,7 @@ as the example application throughout this task.
    already applied with `istioctl`.
 
    ```bash
-   $ istioctl mixer rule get global reviews.default.svc.cluster.local
+   istioctl mixer rule get global reviews.default.svc.cluster.local
    Error: Not Found
    ```
 
@@ -195,7 +195,7 @@ as the example application throughout this task.
    `istioctl`.
 
    ```bash
-   $ istioctl mixer rule create global reviews.default.svc.cluster.local -f new_rule.yml
+   istioctl mixer rule create global reviews.default.svc.cluster.local -f new_rule.yml
    ```
 
 1. Send traffic to that service.
@@ -209,7 +209,7 @@ as the example application throughout this task.
    The simplest way to do that is to port-forward and visit via `localhost`.
 
    ```bash
-   $ kubectl port-forward $(kubectl get pod -l istio=mixer -o jsonpath='{.items[0].metadata.name}') 42422:42422 &
+   kubectl port-forward $(kubectl get pod -l istio=mixer -o jsonpath='{.items[0].metadata.name}') 42422:42422 &
    ```
 
    Browse to `localhost:42422/metrics`. Search for `request_size`. You
@@ -253,7 +253,7 @@ as the example application throughout this task.
    Find the pod for Mixer as follows:
 
    ```bash
-   $ kubectl get pods
+   kubectl get pods
    NAME                                        READY     STATUS    RESTARTS   AGE
    ...
    istio-mixer-88439463-xnllx                  1/1       Running   0          14m
@@ -263,7 +263,7 @@ as the example application throughout this task.
    Then, look through the logs for the pod as follows:
 
    ```bash
-   $ kubectl logs istio-mixer-88439463-xnllx | grep \"combined_log\"
+   kubectl logs istio-mixer-88439463-xnllx | grep \"combined_log\"
    {"logName":"combined_log","labels":{"referer":"","responseSize":871,"timestamp":"2017-04-29T02:11:54.989466058Z","url":"/reviews","userAgent":"python-requests/2.11.1"},"textPayload":"- - - [29/Apr/2017:02:11:54 +0000] \"- /reviews -\" - 871 - python-requests/2.11.1"}
    ```
 
@@ -367,4 +367,3 @@ Config API to add support for creating new descriptors.
 * Learn more about [Mixer](/docs/concepts/policy-and-control/mixer.html) and [Mixer Config](/docs/concepts/policy-and-control/mixer-config.html).
 * Discover the full [Attribute Vocabulary](/docs/reference/attribute-vocabulary.html).
 * Read the reference guide to [Writing Config](/docs/reference/writing-config.html).
-* See the [Configuring Mixer](/docs/tasks/configuring-mixer.html) task.

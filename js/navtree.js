@@ -75,12 +75,22 @@ function outputNavBarTree(items) {
         var item = items[i];
 
         if (item.children.length == 0) {
-            document.write("<li class='doc-side-nav-list-item'><a href='");
+            if (item.doc.url == location.pathname) {
+                document.write("<li class='doc-side-nav-list-item'><a class='current' href='");
+            }
+            else {
+                document.write("<li class='doc-side-nav-list-item'><a href='");
+            }
             document.write("{{home}}");
             document.write(item.doc.url);
             document.write("'>");
             document.write(item.doc.title);
-            document.writeln("</a></li>");
+            document.writeln("</a>");
+
+            if (item.doc.order == 9999) {
+                document.writeln('(please set order: front matter for this document)')
+            }
+            document.writeln("</li>");
         }
     }
 
@@ -97,6 +107,10 @@ function outputNavBarTree(items) {
                 document.writeln(item.doc.title);
             }
             document.writeln("</label>");
+
+            if (item.doc.order == 9999) {
+                document.writeln('(please set order: front matter for this document)')
+            }
 
             outputNavBarTree(item.children);
             document.writeln("</li>");

@@ -17,7 +17,7 @@ In a Kubernetes environment, Istio uses [Kubernetes Ingress Resources](https://k
 ## Before you begin
 
 This task assumes you have deployed Istio on Kubernetes.  If you have not done so, please first complete
-the [Installation Steps]({{site.bareurl}}/docs/tasks/istio-installation.html).
+the [Installation Steps](/docs/tasks/installing-istio.html).
 
 ## Configuring Ingress
 
@@ -108,7 +108,7 @@ spec:
 Get the Ingress controller IP.
 
 ```bash
-$ kubectl get ingress istio-ingress
+kubectl get ingress istio-ingress
 NAME      HOSTS     ADDRESS          PORTS     AGE
 ingress   *         192.168.99.100   80        2m
 ```
@@ -116,7 +116,7 @@ ingress   *         192.168.99.100   80        2m
 Make a requests to the HelloWorld service using the Ingress controller IP and the path configured in the Ingress Resources.
 
 ```bash
-$ curl http://192.168.99.100:80/hello
+curl http://192.168.99.100:80/hello
 .. response ..
 $ curl -k https://192.168.99.100:80/hello
 .. response ..

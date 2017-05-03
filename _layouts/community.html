@@ -1,6 +1,11 @@
 ---
 layout: default
 ---
+{% assign home = "" %}
+{% if site.github.environment == "dotcom" %}
+{% assign home = site.baseurl %}
+{% endif %}
+
 <div class="container">
   <div class="row">
     <div class="col-md-11 nofloat center-block">

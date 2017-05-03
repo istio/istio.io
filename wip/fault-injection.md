@@ -34,7 +34,7 @@ cd istio
 kubectl apply -f ./kubernetes/istio-install
 ```
 
-You should also have installed the [istioctl]({{site.baseurl}}/reference/istioctl.html) CLI.
+You should also have installed the [istioctl](/docs/reference/istioctl/istioctl.html) CLI.
 
 
 
@@ -129,7 +129,3 @@ kubectl delete -f {{site.baseurl}}/docs/tasks/nginx-httpbin.yaml
 
 We have seen two microservices, httpbin and NGINX, connected via an Istio service mesh.  We have
 used the service mesh to introduce a maximum delay using a timeout in all communications to httpbin.
-
-
-
-

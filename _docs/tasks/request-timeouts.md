@@ -21,7 +21,7 @@ This task shows you how to setup request timeouts in Envoy using Istio.
 * Initialize the application version routing by running the following command:
   
   ```bash
-  $ istioctl create -f route-rule-all-v1.yaml
+  istioctl create -f route-rule-all-v1.yaml
   ```
 
 ## Request timeouts
@@ -35,7 +35,7 @@ to the `ratings` service.
 1. Route requests to v2 of the `reviews` service, i.e., a version that calls the `ratings` service
 
    ```bash
-   $ cat <<EOF | istioctl replace
+   cat <<EOF | istioctl replace
    type: route-rule
    name: reviews-default
    spec:
@@ -49,7 +49,7 @@ to the `ratings` service.
 1. Add a 2 second delay to calls to the `ratings` service:
 
    ```bash
-   $ cat <<EOF | istioctl replace
+   cat <<EOF | istioctl replace
    type: route-rule
    name: ratings-default
    spec:
@@ -72,7 +72,7 @@ to the `ratings` service.
 1. Now add a 1 second request timeout for calls to the `reviews` service
    
    ```bash
-   $ cat <<EOF | istioctl replace
+   cat <<EOF | istioctl replace
    type: route-rule
    name: reviews-default
    spec:
