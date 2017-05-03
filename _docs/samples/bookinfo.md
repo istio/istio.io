@@ -127,6 +127,32 @@ This application is polyglot, i.e., the microservices are written in different l
    200
    ```
 
+1. If you have installed the Istio addons, in particular the servicegraph addon, from the
+   [Installation guide](/docs/tasks/installing-istio.html), a generated servicegraph
+   of the cluster is available.
+   
+   Get the external IP Address (and port) of the servicegraph service:
+   ```bash
+   $ kubectl get svc servicegraph 
+   NAME           CLUSTER-IP      EXTERNAL-IP       PORT(S)          AGE
+   servicegraph   10.75.240.195   104.196.248.114   8088:32556/TCP   23m
+   ```
+
+   The servicegraph service provides both a textual (JSON) representation (via `/graph`)
+   and a graphical visualization (via `/dotviz`) of the underlying servicegraph.
+   
+   To view the graphical visualization, visit `http://EXTERNAL-IP:PORT/dotviz` (here: 
+   http://104.196.248.114:8088/dotviz). After the single `curl` request from an earlier step, 
+   the resulting image will look something like:
+   
+   ![Bookinfo servicegraph](/docs/samples/img/bookinfo/servicegraph.png)
+   
+   The servicegraph should show very low (or zero) QPS values, as only a single request has been sent. The
+   service uses a default time window of 5 minutes for calculating moving QPS averages. Send a consistent 
+   flow of traffic through the example application and refresh the servicegraph to view updated QPS values 
+   that match the generated level of traffic.
+
+
 ## What's next
 
 Now that you have the bookinfo sample up and running, you can use Istio to control traffic routing,
