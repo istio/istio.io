@@ -43,7 +43,7 @@ clone Istio's [GitHub](https://github.com/istio/istio) repository:
 3. Install Istio's core components
    (Istio-Manager, Mixer, Ingress-Controller, and Istio CA if auth is enabled):
 
-   **If you would like to disable Istio auth**:
+   **If you would like to disable Istio Auth**:
 
     ```bash
     kubectl apply -f ./kubernetes/istio-15.yaml # for Kubernetes 1.5
@@ -55,8 +55,8 @@ clone Istio's [GitHub](https://github.com/istio/istio) repository:
     kubectl apply -f ./kubernetes/istio-16.yaml # for Kubernetes 1.6 or later
     ```
 
-   **If you would like to enable Istio auth** (For more information, please see
-   [Istio auth installation guide](/docs/tasks/istio-auth.html)):
+   **If you would like to enable Istio Auth** (For more information, please see
+   [Istio Auth installation guide](/docs/tasks/istio-auth.html)):
 
     ```bash
     kubectl apply -f ./kubernetes/istio-auth-15.yaml # for Kubernetes 1.5
@@ -127,7 +127,7 @@ ServiceGraph addons:
     application using the service NodePort instead.
 
 2. Check the corresponding Kubernetes pods were deployed: "istio-manager-\*", "istio-mixer-\*", "istio-ingress-\*" and
-   "istio-ca-\*" (if Istio auth is enabled).
+   "istio-ca-\*" (if Istio Auth is enabled).
 
     ```bash
     kubectl get pods
