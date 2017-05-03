@@ -196,7 +196,7 @@ $(document).ready(function() {
       $('.slick-prev').addClass('active');
     });
 
-    $('.toc').toc({ listType: 'ul' });
+    $('#toc').toc({ listType: 'ul' });
 
     $('.nav-toggle, .hamburger').on('click', function(){
       $('.top-nav').toggleClass('right');
@@ -253,7 +253,7 @@ $.getScript("{{ site.baseurl }}/js/jquery.collapsible.js", function(){
   $.fn.toc = function(options) {
     var defaults = {
       noBackToTopLinks: false,
-      title: '',
+      title: 'On this page...',
       minimumHeaders: 2,
       headers: 'h1, h2, h3, h4, h5, h6',
       listType: 'ol', // values: [ol|ul]
@@ -285,7 +285,10 @@ $.getScript("{{ site.baseurl }}/js/jquery.collapsible.js", function(){
     }
 
     var render = {
-      show: function() { output.hide().html(html).show(settings.showSpeed); },
+      show: function() {
+        $('#toc').addClass('toc');
+        output.hide().html(html).show(settings.showSpeed); 
+      },
       slideDown: function() { output.hide().html(html).slideDown(settings.showSpeed); },
       fadeIn: function() { output.hide().html(html).fadeIn(settings.showSpeed); },
       none: function() { output.html(html); }

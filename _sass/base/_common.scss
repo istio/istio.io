@@ -30,12 +30,15 @@
 }
 
 .toc {
-  border-left: 2px solid $light-gray;
+  background-color: $light-gray;
+  border: 1px solid $gray;
+  border-radius: 6px;
   display: none !important;
-  padding: 0;
-  position: absolute;
+  padding: 15px;
+  float: right;
+  //position: absolute;
   right: 45px;
-  margin-top: 10px;
+  margin-top: 15px;
 
   @media (min-width: 768px) {
       display: block !important;
@@ -44,11 +47,12 @@
 
   ul {
     list-style-type: none !important;
-    padding-left: 10px;
+    //padding-left: 10px;
     font-size: 90%;
 
     ul {
         font-size: 90%;
+        padding-left: 10px;
     }
 
     a {

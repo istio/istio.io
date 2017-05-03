@@ -31,7 +31,8 @@ Traditionally, much of the logic handled by Istio has been built directly into a
 
 We recommend starting with the [BookInfo sample](/docs/samples/bookinfo.html). The BookInfo example walks through setting up a cluster with four distinct microservices managed by Istio. It exercises some basic features, including content-based routing, fault injection, and rate-limiting.
 
-After you have mastered the BookInfo sample, you are ready to begin using Istio for your own services. To start using Istio on your existing Kubernetes cluster, please refer to our [Installation](/docs/tasks/istio-installation.html) task guide.
+After you have mastered the BookInfo sample, you are ready to begin using Istio for your own services. To start using Istio on your existing Kubernetes 
+cluster, please refer to our [Installation](/docs/tasks/installing-istio.html) task guide.
 
 #### What is the license?
 

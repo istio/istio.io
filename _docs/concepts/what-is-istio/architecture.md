@@ -50,7 +50,7 @@ Mixer is responsible for enforcing access control and usage policies across the 
 services. The proxy extracts request level attributes which are sent to Mixer for evaluation. More information on the attribute extraction and policy 
 evaluation can be found here. Mixer includes a flexible plugin model enabling it to interface with a variety of host environments and 
 infrastructure backends, abstracting 
-the Envoy proxy and Istio-managed services from these details. More on Mixer [here](./mixer.html)
+the Envoy proxy and Istio-managed services from these details. More on Mixer [here](/docs/concepts/policy-and-control/mixer.html).
 
 ## Istio-Manager
 
