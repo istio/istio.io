@@ -1,7 +1,7 @@
 ---
 title: Rules Configuration
 overview: Provides a high-level overview of the domain-specific language used by Istio to configure traffic management rules in the service mesh.
-                
+
 order: 50
 
 layout: docs
@@ -34,7 +34,7 @@ routed. In a Kubernetes deployment of Istio, the route *tag* "version: v1"
 corresponds to a Kubernetes *label* "version: v1".  The rule ensures that
 only Kubernetes pods containing the label "version: v1" will receive
 traffic. Rules can be configured using the
-[istioctl CLI](/docs/reference/istioctl.html). See the
+[istioctl CLI](/docs/reference/istioctl/istioctl.html). See the
 [configuring request routing task](/docs/tasks/request-routing.html) for
 examples.
 
@@ -62,7 +62,7 @@ destination: reviews.default.svc.cluster.local
 The *destination* value SHOULD be a fully qualified domain name (FQDN). It
 is used by Istio-Manager for matching rules to services. For example,
 in Kubernetes, a fully qualified domain name for a service can be
-constructed using the following format: *serviceName.namespace.dnsSuffix*. 
+constructed using the following format: *serviceName.namespace.dnsSuffix*.
 
 ### Qualify rules by source/headers
 
@@ -201,7 +201,7 @@ httpFault:
 ```
 
 The other kind of fault, abort, can be used to prematurely terminate a request,
-for example, to simulate a failure. 
+for example, to simulate a failure.
 
 The following example will return an HTTP 400 error code for 10%
 of the requests to the "ratings" service "v1".
@@ -218,7 +218,7 @@ httpFault:
 ```
 
 Sometimes delays and abort faults are used together. For example, the following rule will delay
-by 5 seconds all requests from the "reviews" service "v2" to the "ratings" service "v1" and 
+by 5 seconds all requests from the "reviews" service "v2" to the "ratings" service "v1" and
 then abort 10 percent of them:
 
 ```yaml
@@ -397,7 +397,3 @@ rules are going to be needed.
 
 Therefore, setting a default rule for every service, right from the
 start, is generally considered a best practice in Istio.
-
-
-
-

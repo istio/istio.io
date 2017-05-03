@@ -9,7 +9,7 @@ type: markdown
 ---
 
 
-This task describes how to configure Istio to expose an external service to a Kubernetes cluster. You'll learn how 
+This task describes how to configure Istio to expose an external service to a Kubernetes cluster. You'll learn how
 to create an Egress Envoy, define an external service and make requests to the service from within the cluster.
 
 
@@ -18,17 +18,17 @@ to create an Egress Envoy, define an external service and make requests to the s
 This task assumes you have deployed Istio on Kubernetes.  If you have not done so, please first complete
 the [Installation Steps](/docs/tasks/installing-istio.html).
 
-This task also assumes you have a publicly accessible service to call from within the cluster 
-(or [httpbin.org](http://httpbin.org) can be used as an example). 
+This task also assumes you have a publicly accessible service to call from within the cluster
+(or [httpbin.org](http://httpbin.org) can be used as an example).
 
 ### Setup the environment
 
-Create the external service definition for your external service or use one of the samples below.  The `metadata.name` 
-field is the url your internal apps will use when calling the external service.  The `spec.externalName` should be the 
-DNS name for the external service.  Egress Envoy expects external services to be listening on either port `80` for 
+Create the external service definition for your external service or use one of the samples below.  The `metadata.name`
+field is the url your internal apps will use when calling the external service.  The `spec.externalName` should be the
+DNS name for the external service.  Egress Envoy expects external services to be listening on either port `80` for
 HTTP or port `443` for HTTPS.
 
-HTTP Example: 
+HTTP Example:
 
 ```yaml
 apiVersion: v1
@@ -56,8 +56,8 @@ spec:
   - port: 443
 ```
 
-Deploy your app(s) using the [istioctl kube-inject](/docs/reference/istioctl.html#kube-inject) command.
-You can use your own app, or try one of the example apps from [demos](https://github.com/istio/istio/tree/master/demos) 
+Deploy your app(s) using the [istioctl kube-inject](/docs/reference/istioctl/istioctl_kube-inject.html) command.
+You can use your own app, or try one of the example apps from [demos](https://github.com/istio/istio/tree/master/demos)
 directory. Each app directory contains an associated README.md providing more details.
 
 ```bash
@@ -67,7 +67,7 @@ kubectl apply -f <(istioctl kube-inject -f {resource.yaml})
 
 ### Make a request to the external service
 
-Make a request to the external service using the `name` from the Service spec above followed by the path to the 
+Make a request to the external service using the `name` from the Service spec above followed by the path to the
 desired API endpoint.
 
 ```bash
