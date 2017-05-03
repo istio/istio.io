@@ -34,7 +34,7 @@ routed. In a Kubernetes deployment of Istio, the route *tag* "version: v1"
 corresponds to a Kubernetes *label* "version: v1".  The rule ensures that
 only Kubernetes pods containing the label "version: v1" will receive
 traffic. Rules can be configured using the
-[istioctl CLI](/docs/reference/istioctl/istioctl.html). See the
+[istioctl CLI](/docs/reference/commands/istioctl/istioctl.html). See the
 [configuring request routing task](/docs/tasks/request-routing.html) for
 examples.
 

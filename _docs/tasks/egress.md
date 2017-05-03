@@ -56,7 +56,7 @@ spec:
   - port: 443
 ```
 
-Deploy your app(s) using the [istioctl kube-inject](/docs/reference/istioctl/istioctl_kube-inject.html) command.
+Deploy your app(s) using the [istioctl kube-inject](/docs/reference/commands/istioctl/istioctl_kube-inject.html) command.
 You can use your own app, or try one of the example apps from [demos](https://github.com/istio/istio/tree/master/demos)
 directory. Each app directory contains an associated README.md providing more details.
 
