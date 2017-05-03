@@ -75,7 +75,7 @@ This application is polyglot, i.e., the microservices are written in different l
 1. Confirm all services and pods are correctly defined and running:
 
    ```bash
-   $ kubectl get services
+   kubectl get services
    NAME                       CLUSTER-IP   EXTERNAL-IP   PORT(S)              AGE
    details                    10.0.0.31    <none>        9080/TCP             6m
    istio-ingress              10.0.0.122   <pending>     80:31565/TCP         8m
@@ -90,7 +90,7 @@ This application is polyglot, i.e., the microservices are written in different l
    and
 
    ```bash
-   $ kubectl get pods
+   kubectl get pods
    NAME                                        READY     STATUS    RESTARTS   AGE
    details-v1-1520924117-48z17                 2/2       Running   0          6m
    istio-ingress-3181829929-xrrk5              1/1       Running   0          8m
@@ -109,21 +109,21 @@ This application is polyglot, i.e., the microservices are written in different l
    use the ingress' external address:
 
    ```bash
-   $ kubectl get ingress -o wide
+   kubectl get ingress -o wide
    NAME      HOSTS     ADDRESS                 PORTS     AGE
    gateway   *         130.211.10.121          80        1d
-   $ export GATEWAY_URL=130.211.10.121:80
+   export GATEWAY_URL=130.211.10.121:80
    ```
 
    If loadbalancers are not supported, use the service NodePort instead:
    ```bash
-   $ export GATEWAY_URL=$(kubectl get po -l istio=ingress -o jsonpath={.items[0].status.hostIP}):$(kubectl get svc istio-ingress -o jsonpath={.spec.ports[0].nodePort})
+   export GATEWAY_URL=$(kubectl get po -l istio=ingress -o jsonpath={.items[0].status.hostIP}):$(kubectl get svc istio-ingress -o jsonpath={.spec.ports[0].nodePort})
    ```
 
 1. Confirm that the bookinfo application is running with the following `curl` command:
 
    ```bash
-   $ curl -o /dev/null -s -w "%{http_code}\n" http://$GATEWAY_URL/productpage
+   curl -o /dev/null -s -w "%{http_code}\n" http://$GATEWAY_URL/productpage
    200
    ```
 

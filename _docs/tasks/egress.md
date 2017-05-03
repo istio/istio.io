@@ -71,7 +71,7 @@ Make a request to the external service using the `name` from the Service spec ab
 desired API endpoint.
 
 ```bash
-$ kubectl exec -it {APP_POD_NAME} curl http://httpbin/headers
+kubectl exec -it {APP_POD_NAME} curl http://httpbin/headers
 .. response ..
 ```
 
@@ -79,13 +79,13 @@ For external services of type HTTPS, the port must be specified in the request. 
 over HTTP since the Egress Envoy will initiate HTTPS with the external service:
 
 ```bash
-$ kubectl exec -it {APP_POD_NAME} curl http://securegoogle:443
+kubectl exec -it {APP_POD_NAME} curl http://securegoogle:443
 .. response ..
 ```
 
 ## Understanding ...
 
-Here's an interesting thing to know about the steps you just did.
+/Here's an interesting thing to know about the steps you just did.
 
 ## What's next
 

@@ -16,7 +16,7 @@ Create policies and rules
 Example usage:
 
 	# Create a rule using the definition in example-routing.yaml.
-	$ istioctl create -f example-routing.yaml
+	istioctl create -f example-routing.yaml
 
 
 ```

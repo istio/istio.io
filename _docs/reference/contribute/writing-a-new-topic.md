@@ -77,18 +77,19 @@ The front matter is a block of YAML that is between the
 triple-dashed lines at the top of each file. Here's the
 chunk of front matter you should start with:
 
-    ---
-    title: TITLE_TBD
-    overview: OVERVIEW_TBD
+```
+---
+title: <title>
+overview: <overview>
 
-    order: ORDER_TBD
+order: <order>
 
-    layout: docs
-    type: markdown
-    ---
+layout: docs
+type: markdown
+```
 
 Copy the above at the start of your new markdown file and update
-the TBD fields for your particular file. The available front
+the `<title>`, `<overview>` and `<order>` fields for your particular file. The available front
 matter fields are:
 
 |Field      | Description

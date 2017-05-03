@@ -76,7 +76,7 @@ spec:
 Get the Ingress controller IP.
 
 ```bash
-$ kubectl get ingress istio-ingress
+kubectl get ingress istio-ingress
 NAME      HOSTS     ADDRESS          PORTS     AGE
 ingress   *         192.168.99.100   80        2m
 ```
@@ -84,7 +84,7 @@ ingress   *         192.168.99.100   80        2m
 Make a request to the HelloWorld service using the Ingress controller IP and the path configured in the Ingress Resource.
 
 ```bash
-$ curl http://192.168.99.100:80/hello
+curl http://192.168.99.100:80/hello
 .. response ..
 ```
 

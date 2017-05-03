@@ -22,8 +22,8 @@ This task shows you how to use Istio to dynamically limit the traffic to a servi
   commands:
   
   ```bash
-  $ istioctl create -f route-rule-all-v1.yaml
-  $ istioctl replace -f route-rule-reviews-v2-v3.yaml
+  istioctl create -f route-rule-all-v1.yaml
+  istioctl replace -f route-rule-reviews-v2-v3.yaml
   ```
 * Ensure that you can use [istioctl mixer](/docs/reference/istioctl/istioctl_mixer.html#synopsis) by setting up port forwading if needed.
 
