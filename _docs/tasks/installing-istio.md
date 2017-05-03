@@ -40,7 +40,10 @@ clone Istio's [GitHub](https://github.com/istio/istio) repository:
     cd istio
     ```
 
-3. Install Istio's core components (Istio-Manager, Mixer, and Ingress-Controller):
+3. Install Istio's core components
+   (Istio-Manager, Mixer, Ingress-Controller, and Istio CA if auth is enabled):
+
+   **If you would like to disable Istio Auth**:
 
     ```bash
     kubectl apply -f ./kubernetes/istio-15.yaml # for Kubernetes 1.5
@@ -50,6 +53,19 @@ clone Istio's [GitHub](https://github.com/istio/istio) repository:
 
     ```bash
     kubectl apply -f ./kubernetes/istio-16.yaml # for Kubernetes 1.6 or later
+    ```
+
+   **If you would like to enable Istio Auth** (For more information, please see
+   [Istio Auth installation guide](/docs/tasks/istio-auth.html)):
+
+    ```bash
+    kubectl apply -f ./kubernetes/istio-auth-15.yaml # for Kubernetes 1.5
+    ```
+
+    or
+
+    ```bash
+    kubectl apply -f ./kubernetes/istio-auth-16.yaml # for Kubernetes 1.6 or later
     ```
 
 4. Source the Istio configuration file:
@@ -110,7 +126,8 @@ ServiceGraph addons:
     (e.g., minikube), the `EXTERNAL-IP` will say `<pending>` and you will need to access the
     application using the service NodePort instead.
 
-2. Check the corresponding Kubernetes pods were deployed: "istio-manager-\*", "istio-mixer-\*", "istio-ingress-\*".
+2. Check the corresponding Kubernetes pods were deployed: "istio-manager-\*", "istio-mixer-\*", "istio-ingress-\*" and
+   "istio-ca-\*" (if Istio Auth is enabled).
 
     ```bash
     kubectl get pods
@@ -118,6 +135,7 @@ ServiceGraph addons:
     istio-ingress-594763772-j7jbz              1/1       Running   0          49m
     istio-manager-373576132-p2t9k              1/1       Running   0          49m
     istio-mixer-1154414227-56q3z               1/1       Running   0          49m
+    istio-ca-1726969296-9srv2                  1/1       Running   0          49m
     ```
 
 ## Deploy your application
@@ -137,8 +155,16 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 
 1. Uninstall Istio:
 
+    **If Istio has auth disabled:**
+
     ```bash
     kubectl delete -f ./kubernetes/istio-16.yaml
+    ```
+
+    **If Istio has auth enabled:**
+
+    ```bash
+    kubectl delete -f ./kubernetes/istio-auth-16.yaml
     ```
 
 2. Delete the istioctl client:
@@ -150,4 +176,5 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 ## What's next
 
 * Learn more about how to enable [authentication](/docs/tasks/istio-auth.html).
+
 * See the sample [bookinfo](/docs/samples/bookinfo.html) application.
