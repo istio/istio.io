@@ -25,7 +25,7 @@ This task shows you how to use Istio to dynamically limit the traffic to a servi
   istioctl create -f route-rule-all-v1.yaml
   istioctl replace -f route-rule-reviews-v2-v3.yaml
   ```
-* Ensure that you can use [istioctl mixer](/docs/reference/istioctl/istioctl_mixer.html#synopsis) by setting up port forwading if needed.
+* Ensure that you can use [istioctl mixer](/docs/reference/commands/istioctl/istioctl_mixer.html#synopsis) by setting up port forwading if needed.
 
 ## Rate limits
 

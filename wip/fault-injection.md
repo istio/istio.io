@@ -34,7 +34,7 @@ cd istio
 kubectl apply -f ./kubernetes/istio-install
 ```
 
-You should also have installed the [istioctl](/docs/reference/istioctl/istioctl.html) CLI.
+You should also have installed the [istioctl](/docs/reference/commands/istioctl/istioctl.html) CLI.
 
 
 
