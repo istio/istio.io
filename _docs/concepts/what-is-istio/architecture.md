@@ -11,7 +11,7 @@ type: markdown
 
 This page presents an architectural overview for the Istio service mesh.
 
-<img src="./img/architecture/arch.svg" alt="The overall architecture of an Istio-based application." />
+<img src="./img/architecture/arch.svg" title="The overall architecture of an Istio-based application." />
 
 ## The sidecar model
 
