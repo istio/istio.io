@@ -4,13 +4,15 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
+# TODO(REVIEWER): how do we want to handle finding the two binaries? set a default and try, or abort?
+ISTIOCTL=${ISTIOCTL:-istioctl}
 if [[ -z "${MIXCOL_CLI}" ]]; then
     echo "No mixcol command defined via the environment variable MIXCOL_CLI"
     exit 1
 fi
 
 ISTIO_BASE=$(cd "$(dirname "$0")" ; pwd -P)/..
-MIXER_CLI_DIR=$(readlink -f ${ISTIO_BASE}/_docs/reference/mixercli/)
+OUTPUT_DIR=$(readlink -f ${ISTIO_BASE}/_docs/reference/commands/)
 WORKING_DIR=$(mktemp -d)
 
 function pageHeader() {
@@ -32,8 +34,8 @@ EOF
 function generateIndex() {
     cat <<EOF
 ---
-title: The Mixer CLI
-overview: Options showing how to use the Mixer's CLIs.
+title: Commands
+overview: Describes usage and options of the Istio CLI.
 order: 30
 layout: docs
 type: markdown
@@ -63,7 +65,7 @@ function processPerBinaryFiles() {
     # insert an anchor and remove the last line of the file, which is a note
     # that its auto generated
     echo "<a name=\"${commandName}\"></a>" >> ${out}
-    head -n -1 ${primaryFile} >> ${out}
+    sed '/SEE ALSO/,$d' ${primaryFile} >> ${out}
     # this pattern matches only subcommands of ${commandName}, and not
     # ${commandName}'s output file itself
     for file in ${WORKING_DIR}/${commandName}_*.md; do
@@ -71,7 +73,8 @@ function processPerBinaryFiles() {
         noext=${fullFileName%%.*}
         # synthesize an anchor to replace the generated links to separate pages
         echo "<a name=\"${noext}\"></a>" >> ${out}
-        head -n -1 ${file} >> ${out}
+        # delete everything in the file from SEE ALSO till the end
+        sed '/SEE ALSO/,$d' ${file} >> ${out}
     done
     # We can't rely on ordering, so we need to iterate over the files twice to be sure
     # we update all links.
@@ -82,21 +85,20 @@ function processPerBinaryFiles() {
         sed -i "s,${fullFileName},#${noext},g" ${out};
     done
     # final pass updating the subcommand's "SEE ALSO" links to the command itself
-    sed "s,${commandName}.md,#${commandName},g;s/SEE ALSO/See Also/g" ${out};
+    sed "s,${commandName}.md,#${commandName},g" ${out};
 }
 
-# Generate markdown files with mixcol. We create a subdirectory so we can grab
-# all *.md files out of it without having to worry about random *.md files
-# added to the root of the mixer git repo.
-mkdir -p ${WORKING_DIR}
+# Generate our output
 ${MIXCOL_CLI} -o ${WORKING_DIR}
+${ISTIOCTL} markdown --dir ${WORKING_DIR}
 
 # Clean up the target directory
-mkdir -p ${MIXER_CLI_DIR}
-rm -f ${MIXER_CLI_DIR}/*
+mkdir -p ${OUTPUT_DIR}
+rm -f ${OUTPUT_DIR}/*
 
-generateIndex > ${MIXER_CLI_DIR}/index.md
-processPerBinaryFiles "mixc" 1 >  ${MIXER_CLI_DIR}/mixc.md
-processPerBinaryFiles "mixs" 2 >  ${MIXER_CLI_DIR}/mixs.md
+generateIndex > ${OUTPUT_DIR}/index.md
+processPerBinaryFiles "istioctl" 1 > ${OUTPUT_DIR}/istioctl.md
+processPerBinaryFiles "mixc" 101 >  ${OUTPUT_DIR}/mixc.md
+processPerBinaryFiles "mixs" 201 >  ${OUTPUT_DIR}/mixs.md
 
 rm -rfd ${WORKING_DIR}
