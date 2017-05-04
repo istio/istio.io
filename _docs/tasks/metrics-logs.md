@@ -93,13 +93,17 @@ as the example application throughout this task.
 
    ```bash
    istioctl mixer rule get global reviews.default.svc.cluster.local
+   ```
+
+   The expected output is:
+
+   ```
    Error: Not Found
    ```
 
    If your selected service has service-specific rules, update `new_rule.yml`
-   to include the existing rules appropriately. This should be as simple
-   as appending the rule from `new_rule.yml` to the existing `rules`
-   block and then saving the updated content back over `new_rule.yml`.
+   to include the existing rules appropriately. Append the rule from `new_rule.yml`
+   to the existing `rules` block and save the updated content back over `new_rule.yml`.
 
 1. Push the new configuration to Mixer for a specific service.
 
@@ -109,12 +113,11 @@ as the example application throughout this task.
 
 1. Send traffic to that service.
 
-   For the BookInfo sample, this can be achieved by simply visiting the
-   `/productpage` application page in your browser or by issuing the following 
-   command:
+   For the BookInfo sample, visit `http://$GATEWAY_URL/productpage` in your web browser or
+   issue the following command:
 
    ```bash
-   $ curl http://$GATEWAY_URL/productpage
+   curl http://$GATEWAY_URL/productpage
    ```
 
    For purposes of this task, please refresh the page several times or issue the curl
@@ -129,33 +132,28 @@ as the example application throughout this task.
    * `http://<GRAFANA-IP>:3000/dashboard/db/istio-dashboard`, where GRAFANA-IP is taken from the EXTERNAL IP returned by:
    
      ```bash
-     $ kubectl get service grafana
+     kubectl get service grafana
      ```
 
-   At the bottom of the dashboard, there will be a row of graphs with titles containing the words "Response Size".
+   At the bottom of the dashboard, there is a row of graphs with titles containing the words "Response Size".
    These graphs display percentile breakdowns of the distribution of Response Sizes.
 
-   The request from the previous step should be reflected in the graphs. This will look something like:
+   The request from the previous step is reflected in the graphs. This looks similar to:
 
    ![Istio Dashboard with Response Size data](/docs/tasks/img/dashboard_response_size.png)
 
 1. Verify that the logs stream has been created and is being populated
    for requests.
 
-   Find the pod for Mixer as follows:
+   Grep through the logs for the Mixer pod as follows:
 
    ```bash
-   kubectl get pods
-   NAME                                        READY     STATUS    RESTARTS   AGE
-   ...
-   istio-mixer-88439463-xnllx                  1/1       Running   0          14m
-   ...
+   kubectl logs $(kubectl get pods -l istio=mixer -o jsonpath='{.items[0].metadata.name}') | grep \"combined_log\"
    ```
 
-   Then, look through the logs for the pod as follows:
+   The expected output is similar to:
 
-   ```bash
-   kubectl logs istio-mixer-88439463-xnllx | grep \"combined_log\"
+   ```
    {"logName":"combined_log","labels":{"referer":"","responseSize":871,"timestamp":"2017-04-29T02:11:54.989466058Z","url":"/reviews","userAgent":"python-requests/2.11.1"},"textPayload":"- - - [29/Apr/2017:02:11:54 +0000] \"- /reviews -\" - 871 - python-requests/2.11.1"}
    ```
 
@@ -217,13 +215,13 @@ adapter. The adapter `params` tell Mixer _how_ to generate the access
 logs for incoming requests based on attributes reported by Envoy.
 
 The `logName` parameter is used by Mixer to identify a logs stream. In
-this task, we used the log name (`combined_log`) to identify the log
+this task, the log name `combined_log` was used to identify the log
 stream amidst the rest of the Mixer logging output. This name should be
 used to uniquely identify log streams to various logging backends.
 
 The `log` section of the rule describes the shape of the access log that
-Mixer will generate when the rule is applied. In this task, we used the
-pre-configured definition for an access log named `accesslog.combined`. It
+Mixer will generate when the rule is applied. In this task, the pre-configured 
+definition for an access log named `accesslog.combined` was used. It
 is based on the well-known [Combined Log Format](https://httpd.apache.org/docs/1.3/logs.html#combined).
 
 Access logs use a template to generate a plaintext log from a set of
@@ -238,16 +236,14 @@ value for `userAgent` is to be derived directly from the value for the
 attribute `request.headers["user-agent"]`.
 
 Mixer supports structured log generation in addition to plaintext logs. In
-this task, we configured a set of `labels` to populate for structured
-log generation. These `labels` are populated from attribute values
+this task, a set of `labels` to populate for structured
+log generation was configured. These `labels` are populated from attribute values
 according to attribute expresssions, in exactly the same manner as the
 `template_expressions`.
 
 While it is common practice to include the same set of arguments in the
 `labels` as in the `template_expressions`, this is not required. Mixer
 will generate the `labels` completely independently of the `template_expressions`.
-Operators should feel free to add additional `labels` or remove unwanted
-labels to meet their needs.
 
 As with metric descriptors, it is not currently possible to programmatically
 generate new access logs descriptors. Work is ongoing to extend the Mixer
