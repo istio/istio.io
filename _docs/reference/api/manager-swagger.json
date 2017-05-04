@@ -1,0 +1,202 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "ISTIO Manager REST API",
+    "description": "The manager provides APIs to the developer for configuring rules for request routing, fault injection, etc.",
+    "version": "alpha"
+  },
+  "basePath": "/",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/health": {
+      "parameters": [],
+      "get": {
+        "summary": "Status of the manager API",
+        "description": "Returns status of the manager API.",
+        "responses": {
+          "200": {
+            "description": "Manager API is healthy."
+          },
+          "503": {
+            "description": "Manager API is unhealthy."
+          }
+        }
+      }
+    },
+    "/v1alpha1/config/{type}/{namespace}/{name}": {
+      "parameters": [
+        {
+          "name": "type",
+          "in": "path",
+          "description": "The type of config (route-rule, destination policy or ingress-rule)",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "namespace",
+          "in": "path",
+          "description": "The namespace for which you want the config to apply",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "name",
+          "in": "path",
+          "description": "The name of the config",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "post": {
+        "summary": "Add configs to the manager.",
+        "description": "Transactionally add a config to the manager. All configs are validated\nagainst the config schema.\n",
+        "parameters": [
+          {
+            "name": "config",
+            "in": "body",
+            "description": "Config to add.",
+            "schema": {
+              "$ref": "#/definitions/config"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successfully added config",
+            "schema": {
+              "$ref": "#/definitions/config"
+            }
+          },
+          "400": {
+            "description": "Invalid input (malformed JSON, invalid rule, etc.)",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          },
+          "409": {
+            "description": "Conflict (one of the configs you are putting already exists)",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          },
+          "500": {
+            "description": "Request failed due to an internal server error.",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Get configs from the manager.",
+        "description": "Query for configs that pass the specified filters.",
+        "responses": {
+          "200": {
+            "description": "Query was successful.",
+            "schema": {
+              "$ref": "#/definitions/config"
+            }
+          },
+          "404": {
+            "description": "Could not find rule(s).",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          },
+          "500": {
+            "description": "Request failed due to an internal server error.",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update configs in the manager.",
+        "description": "Transactionally update the specified config.",
+        "parameters": [
+          {
+            "name": "config",
+            "in": "body",
+            "description": "Config to update",
+            "schema": {
+              "$ref": "#/definitions/config"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Config has been updated successfully."
+          },
+          "404": {
+            "description": "Could not find all the rules.",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          },
+          "500": {
+            "description": "Request failed due to an internal server error.",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove configs from the controller.",
+        "description": "Remove configs that pass the query criteria.",
+        "responses": {
+          "200": {
+            "description": "Config was deleted successfully."
+          },
+          "404": {
+            "description": "Specified rules do not exist.",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          },
+          "500": {
+            "description": "Request failed due to an internal server error.",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "config": {
+      "title": "Config",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "spec": {
+          "type": "object",
+          "description": "Route-Rule or Destination Policy spec schemas can be found here: https://istio.io/docs/reference/api/proxy-config.html"
+        }
+      }
+    },
+    "error": {
+      "title": "Error",
+      "description": "Error description",
+      "type": "string"
+    }
+  }
+}
