@@ -97,18 +97,29 @@ ServiceGraph addons:
     kubectl apply -f ./kubernetes/addons/servicegraph.yaml
     ```
 
-    The Grafana image provided as part of this sample contains a built-in Istio dashboard that you can access from:
+    The grafana addon provides a dashboard visualization of the metrics by Mixer to a Prometheus instance. Please install both the prometheus.yaml and grafana.yaml addons to configure the Istio dashboard for use.
+
+    The simplest way to access the Istio dashboard is to configure port-forwarding for the grafana service, as follows:
 
     ```bash
-    http://<grafana-svc-external-IP>:3000/dashboard/db/istio-dashboard
+    kubectl port-forward $(kubectl get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000
     ```
 
-    The addons yaml files contain services configured as type LoadBalancer. If services are deployed with type NodePort,
-    start kubectl proxy, and edit Grafana's Istio-dashboard to use the proxy. Access Grafana via kubectl proxy:
+    Then open a web browser to `http://localhost:3000/dashboard/db/istio-dashboard`.
+
+    The dashboard at that location should look something like the following:
+
+    ![Grafana Istio Dashboard](/docs/tasks/img/grafana_dashboard.png)
+
+    NOTE: In some deployment environments, it will be possible to access the dashboard directly (without the `kubectl port-forward` command). This is because the default addon configuration requests an external IP address for the grafana service.
+
+    When applicable, the external IP address for the grafana service can be retrieved via:
 
     ```bash
-    http://127.0.0.1:8001/api/v1/proxy/namespaces/default/services/grafana:3000/dashboard/db/istio-dashboard
+    kubectl get services grafana
     ```
+
+    With the EXTERNAL-IP returned from that command, the Istio dashboard can be reached at `http://<EXTERNAL-IP>:3000/dashboard/db/istio-dashboard`.
 
 ## Verifying the installation
 
