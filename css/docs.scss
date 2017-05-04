@@ -10,12 +10,36 @@ sitemap_exclude: y
         height: 1em;
         visibility: hidden;
     }
+}
 
-    .center-image-75 {
-        height: 75%;
-        width: 75%;
-        display: block;
-        margin: 0 auto;
-        float: none;
-    }
+.copy-button {
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 0px 6px 0px 6px;
+    color: #795548;
+    background-color: transparent;
+    position: absolute;
+    right: 62px;
+    margin-top: 3px;
+}
+
+.copy-button:hover {
+    outline: 0;
+    background-color: $popBrandColor;
+}
+
+.copy-button:before {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 3px;
+    background-size: contain;
+    background-image: url(../img/clipboard.svg);
+    background-repeat: no-repeat;
+    position: relative;
+    top: 3px
 }
