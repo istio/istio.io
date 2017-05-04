@@ -1,6 +1,12 @@
 ---
 sitemap_exclude: y
 ---
+
+{% assign home = "" %}
+{% if site.github.environment == "dotcom" %}
+{% assign home = site.baseurl %}
+{% endif %}
+
 @import "common";
 .docs {
     *[id]:before {
@@ -38,7 +44,7 @@ sitemap_exclude: y
     height: 16px;
     margin-right: 3px;
     background-size: contain;
-    background-image: url(../img/clipboard.svg);
+    background-image: url({{home}}/img/clipboard.svg);
     background-repeat: no-repeat;
     position: relative;
     top: 3px
