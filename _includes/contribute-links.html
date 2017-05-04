@@ -1,3 +1,11 @@
-<div class="contribute-links">
-	<a href="https://github.com/istio/istio.github.io/edit/master/{{page.path}}"></a>
+<div class="contribute-links pull-right">
+	<a href="https://github.com/istio/istio.github.io/edit/master/{{page.path}}" data-toggle="tooltip" data-placement="left" title="Edit this page on GitHub">
+		<i class="fa fa-lg fa-pencil"></i>
+	</a>
 </div>
+
+<script>
+	$(document).ready(function() {
+		$('[data-toggle="tooltip"]').tooltip()
+	});
+</script>
