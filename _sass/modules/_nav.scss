@@ -68,7 +68,20 @@
   .nav .current{
     @include underline();
   }
+
+  .navbar-header {
+    margin-top: 15px;
+    margin-left: 15px;
+  }
 }
+
+// override
+.navbar {
+  margin-bottom: 0;
+  border: none;
+  border-radius: 0;
+}
+
 
 .arrow-d,
 .arrow-r {
