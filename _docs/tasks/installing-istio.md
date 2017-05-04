@@ -115,8 +115,8 @@ ServiceGraph addons:
 
     When applicable, the external IP address for the grafana service can be retrieved via:
 
-    ```console
-    kubectl get services grafana -o wide
+    ```bash
+    kubectl get services grafana
     ```
 
     With the EXTERNAL-IP returned from that command, the Istio dashboard can be reached at `http://<EXTERNAL-IP>:3000/dashboard/db/istio-dashboard`.
