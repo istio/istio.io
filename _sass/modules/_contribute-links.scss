@@ -1,9 +1,10 @@
 .contribute-links {
-  position: absolute;
-  right: 10px;
-  top: 3px;
-  display: none;
   font-weight: 300;
+  padding-top: 15px;
+
+  i {
+    padding-right: 5px;
+  }
 
   @media (min-width: $tablet) {
     display: initial;
@@ -15,27 +16,8 @@
       display: none;
     }
 
-    &:before {
-      content: '';
-      display: inline-block;
-      background: url('../img/pencil.png') no-repeat center/cover;
-      background-color: $mainBrandColor;
-      width: 30px;
-      height: 30px;
-      vertical-align: middle;
-      border-radius: 4px;
-    }
-
     &:hover {
-      &:before {
-         background-color: $popBrandColor;
-      }
-    }
-
-    &.inverse {
-      background-color: transparent;
-      border: 2px solid $mainBrandColor;
-      color: $mainBrandColor;
+      color: $popBrandColor;
     }
   }
 }
