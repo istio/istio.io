@@ -1,15 +1,15 @@
 ---
 title: mixc
-overview: Utility to trigger direct calls to Mixer's API
+overview: Utility to trigger direct calls to Mixer's API.
 layout: docs
-order: 1
+order: 101
 type: markdown
 ---
 
 <a name="mixc"></a>
 ## mixc
 
-Utility to trigger direct calls to Mixer's API
+Utility to trigger direct calls to Mixer's API.
 
 ### Synopsis
 
@@ -41,12 +41,6 @@ API in order to use this command.
   -v, --v Level                          log level for V logs
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
 ```
-
-### See Also
-* [mixc check](#mixc_check)	 - Invokes Mixer's Check API to perform precondition checks.
-* [mixc quota](#mixc_quota)	 - Invokes Mixer's Quota API in order to perform quota management.
-* [mixc report](#mixc_report)	 - Invokes Mixer's Report API to generate telemetry.
-* [mixc version](#mixc_version)	 - Prints out build version information
 
 <a name="mixc_check"></a>
 ## mixc check
@@ -88,9 +82,6 @@ mixc check
   -v, --v Level                          log level for V logs
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
 ```
-
-### See Also
-* [mixc](#mixc)	 - Utility to trigger direct calls to Mixer's API
 
 <a name="mixc_quota"></a>
 ## mixc quota
@@ -141,9 +132,6 @@ mixc quota
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
 ```
 
-### See Also
-* [mixc](#mixc)	 - Utility to trigger direct calls to Mixer's API
-
 <a name="mixc_report"></a>
 ## mixc report
 
@@ -185,9 +173,6 @@ mixc report
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
 ```
 
-### See Also
-* [mixc](#mixc)	 - Utility to trigger direct calls to Mixer's API
-
 <a name="mixc_version"></a>
 ## mixc version
 
@@ -225,7 +210,4 @@ mixc version
   -v, --v Level                          log level for V logs
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
 ```
-
-### See Also
-* [mixc](#mixc)	 - Utility to trigger direct calls to Mixer's API
 
