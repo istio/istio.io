@@ -48,7 +48,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | request.scheme | string | URI Scheme of the request | |
 | request.size | int64 | Size of the request in bytes. For HTTP requests this is equivalent to the Content-Length header. | |
 | request.time | timestamp | The timestamp when the target receives the request. This should be equivalent to Firebase "now". | |
-| request.user-agent | string | The HTTP User-Agent header. | |
+| request.useragent | string | The HTTP User-Agent header. | |
 | response.headers | map | A map of HTTP headers attached to the response. | |
 | response.size | int64 | Size of the response body in bytes | |
 | response.time | timestamp | The timestamp when the target produced the response. | |
