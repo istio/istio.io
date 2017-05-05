@@ -16,7 +16,7 @@ This task shows how to inject delays and test the resiliency of your application
 * Setup Istio by following the instructions in the
   [Installation guide](./installing-istio.html).
 
-* Deploy the [bookinfo]({{home}}/docs/samples/bookinfo.html) sample application.
+* Deploy the [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application.
 
 * Initialize the application version routing by either first doing the
   [request routing](./request-routing.html) task or by running following
@@ -29,7 +29,7 @@ This task shows how to inject delays and test the resiliency of your application
 
 ## Fault injection
 
-To test our bookinfo application microservices for resiliency, we will _inject a 7s delay_
+To test our BookInfo application microservices for resiliency, we will _inject a 7s delay_
 between the reviews:v2 and ratings microservices. Since the _reviews:v2_ service has a
 10s timeout for its calls to the ratings service, we expect the end-to-end flow to
 continue without any errors.
@@ -73,7 +73,7 @@ continue without any errors.
 
 ## Understanding what happened
 
-   The reason that the entire reviews service has failed is because our bookinfo application
+   The reason that the entire reviews service has failed is because our BookInfo application
    has a bug. The timeout between the productpage and reviews service is less (3s + 1 retry = 6s total)
    than the timeout between the reviews and ratings service (10s). These kinds of bugs can occur in
    typical enterprise applications where different teams develop different microservices
@@ -99,4 +99,4 @@ continue without any errors.
 
 * Learn more about [fault injection]({{home}}/docs/concepts/traffic-management/fault-injection.html).
 
-* Limit requests to the bookinfo `ratings` service with Istio [rate limiting](./rate-limiting.html).
+* Limit requests to the BookInfo `ratings` service with Istio [rate limiting](./rate-limiting.html).

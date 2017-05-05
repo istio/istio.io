@@ -16,7 +16,7 @@ This task shows you how to use Istio to dynamically limit the traffic to a servi
 * Setup Istio by following the instructions in the
   [Installation guide](./installing-istio.html).
 
-* Deploy the [bookinfo]({{home}}/docs/samples/bookinfo.html) sample application.
+* Deploy the [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application.
 
 * Initialize the application version routing by either first doing the
   [request routing](./request-routing.html) task or by running following

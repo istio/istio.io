@@ -154,7 +154,7 @@ ServiceGraph addons:
 ## Deploy your application
 
 You can now deploy your own application or one of the Istio sample applications,
-for example [bookinfo]({{home}}/docs/samples/bookinfo.html). Note that the application should use HTTP/1.1
+for example [BookInfo]({{home}}/docs/samples/bookinfo.html). Note that the application should use HTTP/1.1
 or HTTP/2.0 protocol for all its HTTP traffic.
 
 When deploying the application,
@@ -190,4 +190,4 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 
 * Learn more about how to enable [authentication](./istio-auth.html).
 
-* See the sample [bookinfo]({{home}}/docs/samples/bookinfo.html) application.
+* See the sample [BookInfo]({{home}}/docs/samples/bookinfo.html) application.

@@ -14,7 +14,7 @@ for a service within a cluster. At the end of this task, a new metric and
 a new log stream will be enabled for calls to a specific service within your
 cluster.
 
-The [BookInfo sample application]({{home}}/docs/samples/bookinfo.html) is used
+The [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application is used
 as the example application throughout this task.
 
 ## Before you begin
