@@ -13,7 +13,6 @@ This task describes how to configure Istio to expose external services to Istio 
 You'll learn how to configure an external service and make requests to it via the Istio egress
 service or, alternatively, to simply enable direct calls to an external service.
 
-
 ## Before you begin
 
 * Setup Istio by following the instructions in the
@@ -34,24 +33,24 @@ from within your Istio cluster. In this task we will use
 
 1. Register an external HTTP service:
 
-   ```bash
-   $ cat <<EOF | kubectl create -f -
-   apiVersion: v1
-   kind: Service
-   metadata:
+    ```bash
+    cat <<EOF | kubectl create -f -
+    apiVersion: v1
+    kind: Service
+    metadata:
      name: httpbin
-   spec:
+    spec:
      type: ExternalName
      externalName: httpbin.org
      ports:
      - port: 80
-   EOF
-   ```
+    EOF
+```
 
 2. Register an external HTTPS service:
 
    ```bash
-   $ cat <<EOF | kubectl create -f -
+   cat <<EOF | kubectl create -f -
    apiVersion: v1
    kind: Service
    metadata:
@@ -75,15 +74,15 @@ HTTP or port `443` for HTTPS.
    if you are using the sleep service, run the following commands:
    
    ```bash
-   $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
-   $ kubectl exec -it $SOURCE_POD -c sleep bash
+   export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+   kubectl exec -it $SOURCE_POD -c sleep bash
    ```
 
 2. Make a request to an external service using the `name` from the Service spec
    above followed by the path to the desired API endpoint:
 
    ```bash
-   $ curl http://httpbin/headers
+   curl http://httpbin/headers
    .. response ..
    ```
 
@@ -92,7 +91,7 @@ HTTP or port `443` for HTTPS.
    with the external service:
 
    ```bash
-   $ curl http://securegoogle:443
+   curl http://securegoogle:443
    .. response ..
    ```
 
@@ -113,24 +112,24 @@ to the sidecar proxy.
 The values used for internal IP range(s), however, depends on where your cluster is running. 
 For example, with Minikube the range is 10.0.0.1/24, so you would start the sleep service like this:
 
-```
-$ kubectl apply -f <(istioctl kube-inject -f sleep.yaml --includeIPRanges=10.0.0.1/24)
+```bash
+kubectl apply -f <(istioctl kube-inject -f sleep.yaml --includeIPRanges=10.0.0.1/24)
 ```
 
 On IBM Bluemix, use:
 
-```
-$ kubectl apply -f <(istioctl kube-inject -f sleep.yaml --includeIPRanges=172.30.0.0/16,172.20.0.0/16)
+```bash
+kubectl apply -f <(istioctl kube-inject -f sleep.yaml --includeIPRanges=172.30.0.0/16,172.20.0.0/16)
 ```
 
 On Google Container Engine (GKE) the ranges are not fixed, so you will
 need to run the `gcloud container clusters describe` command to determine the ranges to use. For example:
 
-```
-$ gcloud container clusters describe benchmark-alpha --zone=us-central1-a | grep -e clusterIpv4Cidr -e servicesIpv4Cidr
+```bash
+gcloud container clusters describe benchmark-alpha --zone=us-central1-a | grep -e clusterIpv4Cidr -e servicesIpv4Cidr
 clusterIpv4Cidr: 10.4.0.0/14
 servicesIpv4Cidr: 10.7.240.0/20
-$ kubectl apply -f <(istioctl kube-inject -f sleep.yaml --includeIPRanges=10.4.0.0/14,10.7.240.0/20)
+kubectl apply -f <(istioctl kube-inject -f sleep.yaml --includeIPRanges=10.4.0.0/14,10.7.240.0/20)
 ```
 
 After starting your service this way, the Istio sidecar will only intercept and manage internal requests
@@ -138,11 +137,10 @@ within the cluster. Any external request will simply bypass the sidecar and go s
 destination.
 
 ```bash
-$ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
-$ kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
+export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
 .. response ..
 ```
-
 
 ## Understanding what happened
 
@@ -159,7 +157,6 @@ of the cluster.
 The second approach bypasses the Istio sidecar proxy, giving your services direct access to any
 external URL. However, configuring the proxy this way does require
 cloud provider specific knowledge and configuration.
-
 
 ## What's next
 
