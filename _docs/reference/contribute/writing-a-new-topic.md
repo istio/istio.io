@@ -122,3 +122,41 @@ was generated from an original SVG file, please include the
 SVG file in the repository even if it isn't used in the web
 site itself. This is so we can update the imagery over time 
 if needed.
+
+## Linking to other pages
+
+There are three types of links that can be included in documentation. Each uses a different
+way to indicate the link target:
+
+- **Internet Link**. You use classic URL syntax, preferably with the HTTPS protocol, to reference
+files on the Internet:
+
+```markdown
+[see here](https://mysite/myfile.html)
+```
+
+- **Relative Link**. You use relative links that start with a period to
+reference any content that is at the same level as the current file, or below within
+the hierarchy of the site:
+
+```markdown
+[see here](./adir/anotherfile.html)
+```
+
+- **Absolute Link**. You use absolute links with the special \{\{home\}\} notation to reference content outside of the
+current hierarchy:
+
+```markdown
+{% raw %}[see here]({{home}}/docs/adir/afile.html){% endraw %}
+```
+
+In order to use \{\{home\}\} in a file, 
+you need to make sure that the file contains the following
+line of boilerplate right after the block of front matter:
+
+```markdown
+---
+{% raw %}{% include home.html %}{% endraw %}
+```
+
+Adding this include statement is what defines the `home` variable that is used in the link target.
