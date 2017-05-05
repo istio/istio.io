@@ -80,7 +80,7 @@ rules:
   - kind: lists
     adapter: versionList
     params:
-      blackList: false
+      blacklist: false
       checkExpression: source.labels["version"] 
 ``` 
 `checkExpression` is evaluated and checked against the list `[v1, v2]`. The check behavior can be changed to a blacklist by specifying
