@@ -2,7 +2,10 @@
     <div class="container">
         <div class="left-links">
             <p class="description">Copyright &copy; 2017 Istio Authors</p>
-            <p class="description">This site was built on {{site.time | date_to_string}}</p>
+            <p class="description">This site was built on {{site.time | date_to_string | split: ' ' | join: '-'}}</p>
+            <p class="description">Found something inaccurate or missing?
+                <a href="https://github.com/istio/istio.github.io/issues/new?title=Issue with {{page.path}}">File an issue</a>
+                and we'll get right on it.</p>
         </div>
         <div class="right-links">
             <div class="col-md-3 col-sm-3 col-xs-12 footer-documentation">
