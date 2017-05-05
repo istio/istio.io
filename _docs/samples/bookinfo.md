@@ -24,7 +24,7 @@ book, similar to a single catalog entry of an online book store. Displayed
 on the page is a description of the book, book details (ISBN, number of
 pages, and so on), and a few book reviews.
 
-The bookinfo application is broken into four separate microservices:
+The BookInfo application is broken into four separate microservices:
 
 * *productpage*. The productpage microservice calls the *details* and *reviews* microservices to populate the page.
 * *details*. The details microservice contains book information.
@@ -39,13 +39,13 @@ There are 3 versions of the reviews microservice:
 
 The end-to-end architecture of the application is shown below.
 
-![Bookinfo app_noistio](./img/bookinfo/noistio.svg)
+![Bookinfo application without Istio](./img/bookinfo/noistio.svg)
 
 This application is polyglot, i.e., the microservices are written in different languages.
 
 ## Start the application
 
-1. Change your current working directory to the bookinfo application directory:
+1. Change your current working directory to the `bookinfo` application directory:
 
    ```bash
    cd demos/apps/bookinfo
@@ -71,12 +71,17 @@ This application is polyglot, i.e., the microservices are written in different l
    that manages incoming and outgoing calls for the service. The updated diagram looks
    like this:
 
-   ![Bookinfo app](./img/bookinfo/withistio.svg)
+   ![BookInfo application](./img/bookinfo/withistio.svg)
 
 1. Confirm all services and pods are correctly defined and running:
 
    ```bash
    kubectl get services
+   ```
+
+   which produces the following output:
+   
+   ```bash
    NAME                       CLUSTER-IP   EXTERNAL-IP   PORT(S)              AGE
    details                    10.0.0.31    <none>        9080/TCP             6m
    istio-ingress              10.0.0.122   <pending>     80:31565/TCP         8m
@@ -92,6 +97,11 @@ This application is polyglot, i.e., the microservices are written in different l
 
    ```bash
    kubectl get pods
+   ```
+   
+   which produces
+   
+   ```bash
    NAME                                        READY     STATUS    RESTARTS   AGE
    details-v1-1520924117-48z17                 2/2       Running   0          6m
    istio-ingress-3181829929-xrrk5              1/1       Running   0          8m
@@ -121,7 +131,7 @@ This application is polyglot, i.e., the microservices are written in different l
    export GATEWAY_URL=$(kubectl get po -l istio=ingress -o jsonpath={.items[0].status.hostIP}):$(kubectl get svc istio-ingress -o jsonpath={.spec.ports[0].nodePort})
    ```
 
-1. Confirm that the bookinfo application is running with the following `curl` command:
+1. Confirm that the BookInfo application is running with the following `curl` command:
 
    ```bash
    curl -o /dev/null -s -w "%{http_code}\n" http://$GATEWAY_URL/productpage
@@ -134,7 +144,7 @@ This application is polyglot, i.e., the microservices are written in different l
    
    Get the external IP Address (and port) of the servicegraph service:
    ```bash
-   $ kubectl get svc servicegraph 
+   kubectl get svc servicegraph 
    NAME           CLUSTER-IP      EXTERNAL-IP       PORT(S)          AGE
    servicegraph   10.75.240.195   104.196.248.114   8088:32556/TCP   23m
    ```
@@ -146,7 +156,7 @@ This application is polyglot, i.e., the microservices are written in different l
    http://104.196.248.114:8088/dotviz). After the single `curl` request from an earlier step, 
    the resulting image will look something like:
    
-   ![Bookinfo servicegraph](./img/bookinfo/servicegraph.png)
+   ![Bookinfo service graph](./img/bookinfo/servicegraph.png)
    
    The servicegraph should show very low (or zero) QPS values, as only a single request has been sent. The
    service uses a default time window of 5 minutes for calculating moving QPS averages. Send a consistent 
@@ -156,12 +166,12 @@ This application is polyglot, i.e., the microservices are written in different l
 
 ## What's next
 
-Now that you have the bookinfo sample up and running, you can use Istio to control traffic routing,
+Now that you have the BookInfo sample up and running, you can use Istio to control traffic routing,
 inject faults, rate limit services, etc..
 
 * To get started, check out the [request routing task]({{home}}/docs/tasks/request-routing.html)
 
-* When you're finished experimenting with the bookinfo sample, you can uninstall it as follows:
+* When you're finished experimenting with the BookInfo sample, you can uninstall it as follows:
 
 1. Delete the routing rules and terminate the application pods
 
@@ -173,5 +183,5 @@ inject faults, rate limit services, etc..
 
    ```bash
    istioctl get route-rules   #-- there should be no more routing rules
-   kubectl get pods           #-- the bookinfo pods should be deleted
+   kubectl get pods           #-- the BookInfo pods should be deleted
    ```
