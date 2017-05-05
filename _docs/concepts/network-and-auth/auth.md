@@ -88,7 +88,7 @@ Istio Auth workflow consists of two phases, deployment and runtime. This section
 
 1.  Istio CA watches Kubernetes API Server, creates a key and certificate pair for each of the existing and new service accounts, and sends them to API Server. 
 
-1.  When a pod is created, API Server mounts the key and certificate pair according to the service account using [kubernetes secrets](https://kubernetes.io/docs/concepts/configuration/secret/).
+1.  When a pod is created, API Server mounts the key and certificate pair according to the service account using [Kubernetes secrets](https://kubernetes.io/docs/concepts/configuration/secret/).
 
 1.  [Istio Manager](docs/concepts/traffic-management/manager.html) generates the config with proper key and certificate and secure naming information, which defines what service account(s) can run a certain service, and passes it to Envoy. 
 

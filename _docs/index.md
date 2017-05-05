@@ -8,10 +8,7 @@ order: 0
 layout: docs
 type: markdown
 ---
-{% assign home = "" %}
-{% if site.github.environment == "dotcom" %}
-{% assign home = site.baseurl %}
-{% endif %}
+{% include home.html %}
 
 # Welcome
 
@@ -31,5 +28,5 @@ command-line options, configuration options, API definitions, and procedures.
 
 We're always looking for help improving our documentation, so please don't hesitate to
 [file an issue](https://github.com/istio/istio.github.io/issues/new) if you see some problem.
-Or better yet, submit your own [contributions](/docs/reference/contribute/editing.html) to help
+Or better yet, submit your own [contributions]({{home}}/docs/reference/contribute/editing.html) to help
 make our docs better.

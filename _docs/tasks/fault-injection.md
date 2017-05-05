@@ -7,18 +7,19 @@ order: 60
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 This task shows how to inject delays and test the resiliency of your application.
 
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](/docs/tasks/installing-istio.html).
+  [Installation guide](./installing-istio.html).
 
-* Deploy the [bookinfo](/docs/samples/bookinfo.html) sample application.
+* Deploy the [bookinfo]({{home}}/docs/samples/bookinfo.html) sample application.
 
 * Initialize the application version routing by either first doing the
-  [request routing](/docs/tasks/request-routing.html) task or by running following
+  [request routing](./request-routing.html) task or by running following
   commands:
   
   ```bash
@@ -89,13 +90,13 @@ continue without any errors.
   
   However, we already have this fix running in v3 of the reviews service, so we can simply
   fix the problem by migrating all
-  traffic to `reviews:v3` as described in the [request routing task](/docs/tasks/request-routing.html).
+  traffic to `reviews:v3` as described in the [request routing task](./request-routing.html).
          
   (Left as an exercise for the reader - change the delay rule to
   use a 2.8 second delay and then run it against the v3 version of reviews.)
 
 ## What's next
 
-* Learn more about [fault injection](/docs/concepts/traffic-management/fault-injection.html).
+* Learn more about [fault injection]({{home}}/docs/concepts/traffic-management/fault-injection.html).
 
-* Limit requests to the bookinfo `ratings` service with Istio [rate limiting](/docs/tasks/rate-limiting.html).
+* Limit requests to the bookinfo `ratings` service with Istio [rate limiting](./rate-limiting.html).

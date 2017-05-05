@@ -7,6 +7,7 @@ order: 30
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 This page describes Mixer's configuration model.
 
@@ -28,7 +29,7 @@ aspects of a Mixer deployment by manipulating configuration records.
 - **Scoped**. Configuration is described hierarchically, enabling both coarse global control as well
 as fine-grained local control.
 
-- **Flexible**. The configuration model is built around Istio's [attributes](/docs/concepts/policy-and-control/attributes.html),
+- **Flexible**. The configuration model is built around Istio's [attributes](./attributes.html),
 enabling operators unprecedented control over the policies used and telemetry produced within a deployment.
 
 - **Robust**. The configuration model is designed to provide maximum static correctness guarantees to help reduce
@@ -213,7 +214,7 @@ aspect configuration formats can be found in *TBD*.
     
 #### Attribute expressions
 
-Mixer features a number of independent [request processing phases](/docs/concepts/policy-and-control/mixer.html#request-phases).
+Mixer features a number of independent [request processing phases](./mixer.html#request-phases).
 The *Attribute Processing* phase is responsible for ingesting a set of attributes and producing the adapter parameters 
 necessary to invoke individual adapters. The phase operates by evaluating a series of *attribute expressions*.
 
@@ -447,7 +448,7 @@ manifests:
 
 ## Examples
 
-You can find fully formed examples of Mixer configuration by visiting the [Samples](/docs/samples). As
+You can find fully formed examples of Mixer configuration by visiting the [Samples]({{home}}/docs/samples). As
 a specific example, here is the [BookInfo configuration](https://raw.githubusercontent.com/istio/istio/master/demos/mixer-config-quota-bookinfo.yaml).
 
 ## Configuration API

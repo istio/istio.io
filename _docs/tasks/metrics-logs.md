@@ -7,25 +7,26 @@ order: 80
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 This task shows how to configure Mixer to automatically gather telemetry
 for a service within a cluster. At the end of this task, a new metric and
 a new log stream will be enabled for calls to a specific service within your
 cluster.
 
-The [BookInfo sample application](/docs/samples/bookinfo.html) is used
+The [BookInfo sample application]({{home}}/docs/samples/bookinfo.html) is used
 as the example application throughout this task.
 
 ## Before you begin
-* [Install Istio](/docs/tasks/installing-istio.html) in your kubernetes
+* [Install Istio](./installing-istio.html) in your kubernetes
   cluster and deploy an application.
 
 * Configure your environment to support calling `istioctl mixer`.
   This may require setting up port-forwarding for the Mixer Config API as described in the
-  [reference docs](/docs/reference/commands/istioctl/istioctl_mixer.html#synopsis) for `istioctl mixer`.
+  [reference docs]({{home}}/docs/reference/commands/istioctl.html#istioctl-mixer) for `istioctl mixer`.
 
 * Configure your environment to support accessing the Istio dashboard, as described in the 
-  [Installation Guide](/docs/tasks/installing-istio.html). This requires installing the optional add-ons
+  [Installation Guide](./installing-istio.html). This requires installing the optional add-ons
   ([Prometheus](https://prometheus.io) and [Grafana](https://grafana.com/)), as well as verifying access to
   the dashboard. The Istio dashboard will be used to verify task success.
 
@@ -140,7 +141,7 @@ as the example application throughout this task.
 
    The request from the previous step is reflected in the graphs. This looks similar to:
 
-   ![Istio Dashboard with Response Size data](/docs/tasks/img/dashboard_response_size.png)
+   ![Istio Dashboard with Response Size data](./img/dashboard_response_size.png)
 
 1. Verify that the logs stream has been created and is being populated
    for requests.
@@ -250,6 +251,9 @@ generate new access logs descriptors. Work is ongoing to extend the Mixer
 Config API to add support for creating new descriptors.
 
 ## What's next
-* Learn more about [Mixer](/docs/concepts/policy-and-control/mixer.html) and [Mixer Config](/docs/concepts/policy-and-control/mixer-config.html).
-* Discover the full [Attribute Vocabulary](/docs/reference/attribute-vocabulary.html).
-* Read the reference guide to [Writing Config](/docs/reference/writing-config.html).
+
+* Learn more about [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html) and [Mixer Config]({{home}}/docs/concepts/policy-and-control/mixer-config.html).
+
+* Discover the full [Attribute Vocabulary]({{home}}/docs/reference/attribute-vocabulary.html).
+
+* Read the reference guide to [Writing Config]({{home}}/docs/reference/writing-config.html).
