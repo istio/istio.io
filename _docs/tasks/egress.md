@@ -138,7 +138,7 @@ within the cluster. Any external request will simply bypass the sidecar and go s
 destination.
 
 
-## Understanding ...
+## Understanding what happened
 
 In this task we looked at two ways to call external services from within an Istio cluster:
 
