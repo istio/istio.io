@@ -7,6 +7,8 @@ order: 10
 layout: docs
 type: markdown
 ---
+{% include home.html %}
+
 This page shows how to install and configure Istio in a Kubernetes cluster.
 
 ## Prerequisites
@@ -56,7 +58,7 @@ clone Istio's [GitHub](https://github.com/istio/istio) repository:
     ```
 
    **If you would like to enable Istio Auth** (For more information, please see
-   [Istio Auth installation guide](/docs/tasks/istio-auth.html)):
+   [Istio Auth installation guide](./istio-auth.html)):
 
     ```bash
     kubectl apply -f ./kubernetes/istio-auth-15.yaml # for Kubernetes 1.5
@@ -74,7 +76,7 @@ clone Istio's [GitHub](https://github.com/istio/istio) repository:
     source istio.VERSION
     ```
 
-5. Download one of the [`istioctl`](/docs/reference/commands/istioctl/istioctl.html) client binaries corresponding to your OS: `istioctl-osx`, `istioctl-win.exe`,
+5. Download one of the [`istioctl`]({{home}}/docs/reference/commands/istioctl.html) client binaries corresponding to your OS: `istioctl-osx`, `istioctl-win.exe`,
 `istioctl-linux`, targeted at Mac, Windows or Linux users respectively. For example, run the following commands on a Mac system:
 
     ```bash
@@ -109,7 +111,7 @@ ServiceGraph addons:
 
     The dashboard at that location should look something like the following:
 
-    ![Grafana Istio Dashboard](/docs/tasks/img/grafana_dashboard.png)
+    ![Grafana Istio Dashboard](./img/grafana_dashboard.png)
 
     NOTE: In some deployment environments, it will be possible to access the dashboard directly (without the `kubectl port-forward` command). This is because the default addon configuration requests an external IP address for the grafana service.
 
@@ -152,11 +154,11 @@ ServiceGraph addons:
 ## Deploy your application
 
 You can now deploy your own application or one of the Istio sample applications,
-for example [bookinfo](/docs/samples/bookinfo.html). Note that the application should use HTTP/1.1
+for example [bookinfo]({{home}}/docs/samples/bookinfo.html). Note that the application should use HTTP/1.1
 or HTTP/2.0 protocol for all its HTTP traffic.
 
 When deploying the application,
-use [kube-inject](/docs/reference/commands/istioctl/istioctl_kube-inject.html) to automatically inject
+use [kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject.html) to automatically inject
 Envoy containers in the pods running the services:
 ```bash
 kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
@@ -186,6 +188,6 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 
 ## What's next
 
-* Learn more about how to enable [authentication](/docs/tasks/istio-auth.html).
+* Learn more about how to enable [authentication](./istio-auth.html).
 
-* See the sample [bookinfo](/docs/samples/bookinfo.html) application.
+* See the sample [bookinfo]({{home}}/docs/samples/bookinfo.html) application.

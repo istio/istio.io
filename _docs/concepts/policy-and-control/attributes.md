@@ -7,11 +7,9 @@ order: 10
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 The page describes Istio attributes, what they are and how they are used.
-
-
-
 
 ## Background
 
@@ -31,7 +29,7 @@ determined by the set of attribute producers being used in the deployment. The p
 is Envoy, although specialized Mixer adapters and services can also introduce attributes.
 
 The common baseline set of attributes available in most Istio deployments is defined
-[here](/docs/reference/api/attribute-vocabulary.html). 
+[here]({{home}}/docs/reference/api/attribute-vocabulary.html). 
 
 
 

@@ -7,6 +7,7 @@ order: 40
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 This task shows you how to setup request timeouts in Envoy using Istio.
 
@@ -14,9 +15,9 @@ This task shows you how to setup request timeouts in Envoy using Istio.
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](/docs/tasks/installing-istio.html).
+  [Installation guide](./installing-istio.html).
 
-* Deploy the [bookinfo](/docs/samples/bookinfo.html) sample application.
+* Deploy the [bookinfo]({{home}}/docs/samples/bookinfo.html) sample application.
 
 * Initialize the application version routing by running the following command:
   
@@ -110,7 +111,7 @@ microservice also has its own application-level timeout (3 seconds) for calls to
 Notice that in this task we used an Istio route rule to set the timeout to 1 second.
 Had we instead set the timeout to something greater than 3 seconds (e.g., 4 seconds) the timeout
 would have had no effect since the more restrictive of the two will take precedence.
-More details can be found [here](/docs/concepts/traffic-management/handling-failures.html#faq).
+More details can be found [here]({{home}}/docs/concepts/traffic-management/handling-failures.html#faq).
 
 One more thing to note about timeouts in Istio is that in addition to overriding them in route rules,
 as we did in this task, they can also be overridden on a per-request basis if the application adds
@@ -119,6 +120,6 @@ the timeout is specified in millisecond (instead of second) units.
 
 ## What's next
 
-* Learn more about [failure handling](/docs/concepts/traffic-management/handling-failures.html).
+* Learn more about [failure handling]({{home}}/docs/concepts/traffic-management/handling-failures.html).
 
-* Learn more about [routing rules](/docs/concepts/traffic-management/rules-configuration.html).
+* Learn more about [routing rules]({{home}}/docs/concepts/traffic-management/rules-configuration.html).

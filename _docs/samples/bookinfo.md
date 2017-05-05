@@ -7,6 +7,7 @@ order: 10
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 This sample deploys a simple application composed of four separate microservices which will be used
 to demonstrate various features of the Istio service mesh.
@@ -14,7 +15,7 @@ to demonstrate various features of the Istio service mesh.
 ## Before you begin
 
 Setup Istio by following the instructions in the
-[Installation guide](/docs/tasks/installing-istio.html).
+[Installation guide]({{home}}/docs/tasks/installing-istio.html).
 
 ## Overview
 
@@ -38,7 +39,7 @@ There are 3 versions of the reviews microservice:
 
 The end-to-end architecture of the application is shown below.
 
-![Bookinfo app_noistio](/docs/samples/img/bookinfo/noistio.svg)
+![Bookinfo app_noistio](./img/bookinfo/noistio.svg)
 
 This application is polyglot, i.e., the microservices are written in different languages.
 
@@ -65,12 +66,12 @@ This application is polyglot, i.e., the microservices are written in different l
 
    Notice that the `istioctl kube-inject` command is used to modify the `bookinfo.yaml`
    file before creating the deployments. This injects Envoy into Kubernetes resources
-   as documented [here](/docs/reference/commands/istioctl/istioctl_kube-inject.html).
+   as documented [here]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject).
    Consequently, all of the microservices are now packaged with an Envoy sidecar
    that manages incoming and outgoing calls for the service. The updated diagram looks
    like this:
 
-   ![Bookinfo app](/docs/samples/img/bookinfo/withistio.svg)
+   ![Bookinfo app](./img/bookinfo/withistio.svg)
 
 1. Confirm all services and pods are correctly defined and running:
 
@@ -128,7 +129,7 @@ This application is polyglot, i.e., the microservices are written in different l
    ```
 
 1. If you have installed the Istio addons, in particular the servicegraph addon, from the
-   [Installation guide](/docs/tasks/installing-istio.html), a generated servicegraph
+   [Installation guide]({{home}}/docs/tasks/installing-istio.html), a generated servicegraph
    of the cluster is available.
    
    Get the external IP Address (and port) of the servicegraph service:
@@ -145,7 +146,7 @@ This application is polyglot, i.e., the microservices are written in different l
    http://104.196.248.114:8088/dotviz). After the single `curl` request from an earlier step, 
    the resulting image will look something like:
    
-   ![Bookinfo servicegraph](/docs/samples/img/bookinfo/servicegraph.png)
+   ![Bookinfo servicegraph](./img/bookinfo/servicegraph.png)
    
    The servicegraph should show very low (or zero) QPS values, as only a single request has been sent. The
    service uses a default time window of 5 minutes for calculating moving QPS averages. Send a consistent 
@@ -158,7 +159,7 @@ This application is polyglot, i.e., the microservices are written in different l
 Now that you have the bookinfo sample up and running, you can use Istio to control traffic routing,
 inject faults, rate limit services, etc..
 
-* To get started, check out the [request routing task](/docs/tasks/request-routing.html)
+* To get started, check out the [request routing task]({{home}}/docs/tasks/request-routing.html)
 
 * When you're finished experimenting with the bookinfo sample, you can uninstall it as follows:
 

@@ -7,15 +7,16 @@ order: 50
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 This task shows you how to configure dynamic request routing based on weights and HTTP headers.
 
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](/docs/tasks/installing-istio.html).
+  [Installation guide](./installing-istio.html).
 
-* Deploy the [bookinfo](/docs/samples/bookinfo.html) sample application.
+* Deploy the [bookinfo]({{home}}/docs/samples/bookinfo.html) sample application.
 
 ## Content-based routing
 
@@ -129,7 +130,7 @@ Once the v2 version has been tested to our satisfaction, we could use Istio to s
 all users to v2, optionally in a gradual fashion by using a sequence of rules with weights less
 than 100 to migrate traffic in steps, for example 10, 20, 30, ... 100%.
 
-If you now proceed to the [fault injection task](/docs/tasks/fault-injection.html), you will see
+If you now proceed to the [fault injection task](./fault-injection.html), you will see
 that with simple testing, the v2 version of the reviews service has a bug, which is fixed in v3.
 So after exploring that task, you can route all user traffic from `reviews:v1`
 to `reviews:v3` in two steps as follows:
@@ -167,6 +168,6 @@ that we created exclusively for him:
 
 ## What's next
 
-* Learn more about [request routing](/docs/concepts/traffic-management/rules-configuration.html).
+* Learn more about [request routing]({{home}}/docs/concepts/traffic-management/rules-configuration.html).
 
-* Test the bookinfo application resiliency by [injecting faults](/docs/tasks/fault-injection.html).
+* Test the bookinfo application resiliency by [injecting faults](./fault-injection.html).

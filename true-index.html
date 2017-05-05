@@ -2,10 +2,7 @@
 layout: landing
 title: istio.io
 ---
-{% assign home = "" %}
-{% if site.github.environment == "dotcom" %}
-{% assign home = site.baseurl %}
-{% endif %}
+{% include home.html %}
 
 <div id="landing-content" class="container landing-content-container">
     <div class="row" >

@@ -7,6 +7,7 @@ order: 40
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 <!-- Ideas for words to add to the glossary
 
@@ -75,7 +76,7 @@ that is independent of the underlying platform.
                     
 - **Mixer**.
 Mixer is an Istio component responsible for enforcing access control and usage policies across the service mesh and collecting telemetry data
-from the Envoy proxy and other services. Learn more about Mixer [here](/docs/concepts/policy-and-control/mixer.html).
+from the Envoy proxy and other services. Learn more about Mixer [here]({{home}}/docs/concepts/policy-and-control/mixer.html).
 
 - **Service**.
 A unit of an application with a unique name that other services

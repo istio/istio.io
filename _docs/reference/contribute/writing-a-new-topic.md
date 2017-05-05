@@ -13,7 +13,7 @@ This page shows how to create a new Istio documentation topic.
 ## Before you begin
 
 You first need to create a fork of the Istio documentation repository as described in
-[Creating a Doc Pull Request](/docs/reference/contribute/creating-a-pull-request.html).
+[Creating a Doc Pull Request](./creating-a-pull-request.html).
 
 ## Choosing a page type
 

@@ -7,6 +7,7 @@ order: 70
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 This task shows how to set up Istio Auth in a Kubernetes cluster. You'll learn
 how to:
@@ -21,10 +22,10 @@ how to:
 ## Before you begin
 This task assumes you have:
 
-* Read the [Istio Auth concepts](/docs/concepts/network-and-auth/index.html).
+* Read the [Istio Auth concepts]({{home}}/docs/concepts/network-and-auth/index.html).
 
 * Cloned https://github.com/istio/istio to your local machine
-  (Step 1 in [the Istio installation guide](/docs/tasks/installing-istio.html#installing-on-an-existing-cluster)).
+  (Step 1 in [the Istio installation guide](./installing-istio.html#installing-on-an-existing-cluster)).
 
 In real world systems, only a single Istio CA should be present in a Kubernetes cluster,
 which is always deployed in a dedicated namespace. The Istio CA issues certificates/keys to
@@ -41,7 +42,7 @@ Because each Istio CA is scoped within a namespace, Istio CAs in different names
 and they are easy to clean up through a single command.
 
 We have the YAML files *istio-auth-X.yaml* for deploying all Istio components including Istio CA into the namespace.
-Follow [the Istio installation guide](/docs/tasks/installing-istio.html),
+Follow [the Istio installation guide](./installing-istio.html),
 and **choose "If you would like to enable Istio Auth" in step 3**.
 
 ### Option 2: (recommended) using per-cluster CA
@@ -76,7 +77,7 @@ sed "s/# authPolicy: MUTUAL_TLS/authPolicy: MUTUAL_TLS/" ./kubernetes/istio-X.ya
 
 #### Deploying other services
 
-Follow [the general Istio installation guide](/docs/tasks/installing-istio.html),
+Follow [the general Istio installation guide](./installing-istio.html),
 and **choose "If you would like to enable Istio Auth" in step 3**.
 
 ## Disabling Istio Auth

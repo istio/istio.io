@@ -7,9 +7,10 @@ order: 10
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 Attributes are a central concept used throughout Istio. You can find a description of what attributes are
-and what they are used for [here](/docs/concepts/policy-and-control/attributes.html).
+and what they are used for [here]({{home}}/docs/concepts/policy-and-control/attributes.html).
 
 A given Istio deployment has a fixed vocabulary of attributes that it understands. The specific vocabulary is
 determined by the set of attribute producers being used in the deployment. The primary attribute producer in Istio
