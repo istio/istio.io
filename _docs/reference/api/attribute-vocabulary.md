@@ -39,11 +39,11 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | target.labels | map | A map of key-value pairs attached to the target. | |
 | target.user | string | The user running the target application. | service-account |
 | request.headers | map | A map of HTTP headers attached to the request. | |
-| request.id | string | A unique ID for the request, which can be propagated to downstream systems. This should be a guid or a psuedo-guid with a low probability of collision in a temporal window measured in days or weeks. | |
+| request.id | string | A unique ID for the request, which should be propagated to downstream systems. It should have a low probability of collision within a service in a temporal window measured in days. | |
 | request.path | string | The HTTP URL path including query string | |
 | request.host | string | The HTTP Host header. | |
 | request.method | string | The HTTP method. | |
-| request.reason | string | The system parameter for auditing reason. It is required for cloud audit logging and GIN logging | |
+| request.reason | string | The request reason used for auditing system. | |
 | request.referer | string | The HTTP referer header. | |
 | request.scheme | string | URI Scheme of the request | |
 | request.size | int64 | Size of the request in bytes. For HTTP requests this is equivalent to the Content-Length header. | |
