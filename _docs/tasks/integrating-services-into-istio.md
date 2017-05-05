@@ -70,6 +70,7 @@ spec:
       containers:
       - name: busybox
         image: radial/busyboxplus:curl
+        command: ["sh", "-c", "tail -f /dev/null"]
 ```
 
 [Kubernetes Services](https://kubernetes.io/docs/concepts/services-networking/service/)
