@@ -39,7 +39,7 @@ There are 3 versions of the reviews microservice:
 
 The end-to-end architecture of the application is shown below.
 
-![Bookinfo application without Istio](./img/bookinfo/noistio.svg)
+![BookInfo application without Istio](./img/bookinfo/noistio.svg)
 
 This application is polyglot, i.e., the microservices are written in different languages.
 
@@ -156,7 +156,7 @@ This application is polyglot, i.e., the microservices are written in different l
    http://104.196.248.114:8088/dotviz). After the single `curl` request from an earlier step, 
    the resulting image will look something like:
    
-   ![Bookinfo service graph](./img/bookinfo/servicegraph.png)
+   ![BookInfo service graph](./img/bookinfo/servicegraph.png)
    
    The servicegraph should show very low (or zero) QPS values, as only a single request has been sent. The
    service uses a default time window of 5 minutes for calculating moving QPS averages. Send a consistent 
