@@ -37,8 +37,8 @@ documentation repository in your GitHub account. The copy is called a *fork*.
 a new branch to use for your contribution.
 
 1. In your new branch, make your changes and commit them. If you want to
-[write a new topic](/docs/reference/contribute/writing-a-new-topic.html),
-choose the [page-type](writing-a-new-topic.html#choosing-a-page-type)
+[write a new topic](./writing-a-new-topic.html),
+choose the [page-type](./writing-a-new-topic.html#choosing-a-page-type)
 that is the best fit for your content.
 
 ## Submitting a pull request

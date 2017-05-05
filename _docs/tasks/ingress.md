@@ -17,7 +17,7 @@ In a Kubernetes environment, Istio uses [Kubernetes Ingress Resources](https://k
 ## Before you begin
 
 This task assumes you have deployed Istio on Kubernetes.  If you have not done so, please first complete
-the [Installation Steps](/docs/tasks/installing-istio.html).
+the [Installation Steps](./installing-istio.html).
 
 ## Configuring Ingress
 

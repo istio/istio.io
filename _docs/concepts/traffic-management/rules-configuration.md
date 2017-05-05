@@ -7,7 +7,7 @@ order: 50
 layout: docs
 type: markdown
 ---
-
+{% include home.html %}
 
 Istio provides a simple Domain-specific language (DSL) to
 control how API calls and layer-4 traffic flow across various
@@ -15,7 +15,7 @@ services in the application deployment. The DSL allows the operator to
 configure service-level properties such as circuit breakers, timeouts,
 retries, as well as set up common continuous deployment tasks such as
 canary rollouts, A/B testing, staged rollouts with %-based traffic splits,
-etc. See [routing rules reference](/docs/reference/api/proxy-config.html) for detailed information.
+etc. See [routing rules reference]({{home}}/docs/reference/api/proxy-config.html) for detailed information.
 
 For example, a simple rule to send 100% of incoming traffic for a "reviews"
 service to version "v1" can be described using the Rules DSL as
@@ -34,8 +34,8 @@ routed. In a Kubernetes deployment of Istio, the route *tag* "version: v1"
 corresponds to a Kubernetes *label* "version: v1".  The rule ensures that
 only Kubernetes pods containing the label "version: v1" will receive
 traffic. Rules can be configured using the
-[istioctl CLI](/docs/reference/commands/istioctl/istioctl.html). See the
-[configuring request routing task](/docs/tasks/request-routing.html) for
+[istioctl CLI]({{home}}/docs/reference/commands/istioctl.html). See the
+[configuring request routing task]({{home}}/docs/tasks/request-routing.html) for
 examples.
 
 There are two types of rules in Istio, **Routes** and **Destination
@@ -177,9 +177,9 @@ httpReqRetries:
 ```
 
 Note that request timeouts and retries can also be
-[overridden on a per-request basis](/docs/concepts/traffic-management/handling-failures.html#fine-tuning).
+[overridden on a per-request basis](./handling-failures.html#fine-tuning).
 
-See the [request timeouts task](/docs/tasks/request-timeouts.html) for a demonstration of timeout control.
+See the [request timeouts task]({{home}}/docs/tasks/request-timeouts.html) for a demonstration of timeout control.
 
 ### Injecting faults in the request path
 
@@ -238,7 +238,7 @@ httpFault:
     httpStatus: 400
 ```
 
-To see fault injection in action, see the [fault injection task](/docs/tasks/fault-injection.html).
+To see fault injection in action, see the [fault injection task]({{home}}/docs/tasks/fault-injection.html).
 
 ### Rules have precedence
 
@@ -341,7 +341,7 @@ circuitBreaker:
 ```
 
 The complete set of simple circuit breaker fields can be found
-[here](/docs/reference/api/proxy-config.html#istio.proxy.v1alpha.config.CircuitBreaker.SimpleCircuitBreakerPolicy).
+[here]({{home}}/docs/reference/api/proxy-config.html#istio.proxy.v1alpha.config.CircuitBreaker.SimpleCircuitBreakerPolicy).
 
 ### Destination Policy evaluation
 

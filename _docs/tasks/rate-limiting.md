@@ -7,25 +7,26 @@ order: 40
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 This task shows you how to use Istio to dynamically limit the traffic to a service.
 
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](/docs/tasks/installing-istio.html).
+  [Installation guide](./installing-istio.html).
 
-* Deploy the [bookinfo](/docs/samples/bookinfo.html) sample application.
+* Deploy the [bookinfo]({{home}}/docs/samples/bookinfo.html) sample application.
 
 * Initialize the application version routing by either first doing the
-  [request routing](/docs/tasks/request-routing.html) task or by running following
+  [request routing](./request-routing.html) task or by running following
   commands:
   
   ```bash
   istioctl create -f route-rule-all-v1.yaml
   istioctl replace -f route-rule-reviews-v2-v3.yaml
   ```
-* Ensure that you can use [istioctl mixer](/docs/reference/commands/istioctl/istioctl_mixer.html#synopsis) by setting up port forwading if needed.
+* Ensure that you can use [istioctl mixer]({{home}}/docs/reference/commands/istioctl.html#istioctl-mixer) by setting up port forwading if needed.
 
 ## Rate limits
 
@@ -156,6 +157,9 @@ the following config validation error if any labels are missing.
 ```
 
 ## What's next
-* Learn more about [Mixer](/docs/concepts/policy-and-control/mixer.html) and [Mixer Config](/docs/concepts/policy-and-control/mixer-config.html).
-* Discover the full [Attribute Vocabulary](/docs/reference/attribute-vocabulary.html).
-* Read the reference guide to [Writing Config](/docs/reference/writing-config.html).
+
+* Learn more about [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html) and [Mixer Config]({{home}}/docs/concepts/policy-and-control/mixer-config.html).
+
+* Discover the full [Attribute Vocabulary]({{home}}/docs/reference/attribute-vocabulary.html).
+
+* Read the reference guide to [Writing Config]({{home}}/docs/reference/writing-config.html).

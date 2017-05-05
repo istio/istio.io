@@ -1,10 +1,7 @@
 ---
 layout: compress
 ---
-{% assign home = "" %}
-{% if site.github.environment == "dotcom" %}
-    {% assign home = site.baseurl %}
-{% endif %}
+{% include home.html %}
 
 <!DOCTYPE html>
 <html lang="en" itemscope itemtype="https://schema.org/WebPage">

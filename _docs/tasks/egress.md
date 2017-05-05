@@ -7,7 +7,7 @@ order: 35
 layout: docs
 type: markdown
 ---
-
+{% include home.html %}
 
 This task describes how to configure Istio to expose external services to Istio enabled clients.
 You'll learn how to configure an external service and make requests to it via the Istio egress
@@ -17,7 +17,7 @@ service or, alternatively, to simply enable direct calls to an external service.
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](/docs/tasks/installing-istio.html).
+  [Installation guide](./installing-istio.html).
 
 * Start a service pod that you can use as a test source for external calls.
   Any pod that you can `exec` and `curl` from will do, for example,
@@ -102,9 +102,9 @@ The Istio Egress service currently only supports HTTP/HTTPS requests.
 If you want to access services with other protocols (e.g., mongodb://host/database), 
 or if you simply don't want to use the
 Egress proxy, you will need to configure the source service's Envoy sidecar to prevent it from 
-[intercepting](/docs/concepts/traffic-management/request-routing.html#communication-between-services)
+[intercepting]({{home}}/docs/concepts/traffic-management/request-routing.html#communication-between-services)
 the external requests. This can be done using the `--includeIPRanges` option of
-[istioctl kube-inject](/docs/reference/commands/istioctl.html#istioctl-kube-inject)
+[istioctl kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject)
 when starting the service.
 
 The simplest way to use the `--includeIPRanges` option is to pass it the IP range(s)
@@ -137,6 +137,12 @@ After starting your service this way, the Istio sidecar will only intercept and 
 within the cluster. Any external request will simply bypass the sidecar and go straight to its intended
 destination.
 
+```bash
+export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
+.. response ..
+```
+
 
 ## Understanding what happened
 
@@ -157,5 +163,4 @@ cloud provider specific knowledge and configuration.
 
 ## What's next
 
-* See how to make requests to services inside a cluster by using 
-  the Istio [Ingress Controller](/docs/tasks/ingress.html).
+* See how to make requests to services inside a cluster by using the [Ingress Controller](./ingress.html).
