@@ -1,5 +1,0 @@
----
-permalink: /release
----
-
-{{ site.data.config.istio_release_branch }}
