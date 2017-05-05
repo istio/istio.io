@@ -17,7 +17,7 @@ This task shows you how to setup request timeouts in Envoy using Istio.
 * Setup Istio by following the instructions in the
   [Installation guide](./installing-istio.html).
 
-* Deploy the [bookinfo]({{home}}/docs/samples/bookinfo.html) sample application.
+* Deploy the [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application.
 
 * Initialize the application version routing by running the following command:
   
@@ -65,9 +65,9 @@ to the `ratings` service.
    EOF
    ```
 
-1. Open the Bookinfo URL (http://$GATEWAY_URL/productpage) in your browser
+1. Open the BookInfo URL (http://$GATEWAY_URL/productpage) in your browser
 
-   You should see the bookinfo application working normally (with ratings stars displayed),
+   You should see the BookInfo application working normally (with ratings stars displayed),
    but there is a 2 second delay whenever you refresh the page.
 
 1. Now add a 1 second request timeout for calls to the `reviews` service
@@ -87,7 +87,7 @@ to the `ratings` service.
    EOF
    ```
 
-1. Refresh the Bookinfo web page
+1. Refresh the BookInfo web page
 
    You should now see that it returns in 1 second (instead of 2), but the reviews are unavailable.
 
@@ -101,7 +101,7 @@ we used Istio to inject a 2 second delay in call to `ratings`, so that we would 
 `reviews` service to take longer than 1 second to complete and consequently we coud see the
 timeout in action. 
 
-We observed that the Bookinfo productpage (which calls the `reviews` service to populate the page),
+We observed that the BookInfo productpage (which calls the `reviews` service to populate the page),
 instead of displaying reviews, displayed
 the message: Sorry, product reviews are currently unavailable for this book.
 This was the result of it recieving the timeout error from the `reviews` service.
