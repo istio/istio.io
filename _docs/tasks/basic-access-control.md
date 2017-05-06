@@ -28,7 +28,7 @@ This task shows how to use Istio to control access to a service.
   ```
 * Ensure that you can use [istioctl mixer]({{home}}/docs/reference/commands/istioctl/istioctl_mixer.html#synopsis) by setting up port forwarding if needed.
 
-## Access control using `denials` 
+## Access control using _denials_ 
 
 Using Istio you can control access to a service based on any attributes that are available within Mixer.
 This simple form of access control is based on conditionally denying requests using Mixer selectors.
@@ -58,33 +58,34 @@ of the `reviews` service. We would like to cut off access to version `v3` of thi
   The status code and the message is specified in the [DenyChecker]({{home}}/docs/reference/api/adapters/denyChecker.html)
   adapter configuration.
 
-## Access control using `whitelists` 
+## Access control using _whitelists_ 
 
 Istio also supports attribute-based white and blacklists.
 Using a whitelist is a two step process.
 
-1 Add an adapter definition for the [`genericListChecker`]({{home}}/docs/reference/api/adapters/genericListChecker.html)) adapter that lists versions `v1, v2`:
+1. Add an adapter definition for the [`genericListChecker`]({{home}}/docs/reference/api/adapters/genericListChecker.html) adapter that lists versions `v1, v2`:
 
-```yaml
-- name: versionList
-  impl: genericListChecker
-  params:
-    listEntries: ["v1", "v2"]
-```
+    ```yaml
+    - name: versionList
+      impl: genericListChecker
+      params:
+        listEntries: ["v1", "v2"]
+    ```
 
-2 Enable whitelist checking by using the [`lists`]({{home}}/docs/reference/api/mixer-aspects.html#lists) aspect:
+2. Enable `whitelist` checking by using the [`lists`]({{home}}/docs/reference/api/mixer-aspects.html#lists) aspect:
 
-```yaml
-rules:
-  aspects:
-  - kind: lists
-    adapter: versionList
-    params:
-      blacklist: false
-      checkExpression: source.labels["version"] 
-``` 
+    ```yaml
+    rules:
+      aspects:
+      - kind: lists
+        adapter: versionList
+        params:
+          blacklist: false
+          checkExpression: source.labels["version"] 
+    ``` 
+
 `checkExpression` is evaluated and checked against the list `[v1, v2]`. The check behavior can be changed to a blacklist by specifying
-`blacklist: true`. The expression evaluator returns the value of the `version` label as specified by the `checkExpression`.
+`blacklist: true`. The expression evaluator returns the value of the `version` label as specified by the `checkExpression` key.
 
 
 ## What's next
