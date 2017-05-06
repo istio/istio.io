@@ -1,6 +1,6 @@
 ---
-title: CLI
-overview: Describes usage and options of the Istio CLI and other utilities.
+title: Commands
+overview: Describes usage and options of the Istio CLI.
 order: 30
 layout: docs
 type: markdown

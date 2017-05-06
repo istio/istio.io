@@ -1,5 +1,5 @@
 ---
-title: Configuration
+title: API and Configuration Schemas
 overview: Detailed information on API parameters and configuration options.
 
 order: 21
