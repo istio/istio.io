@@ -1,8 +1,8 @@
 ---
-title: Manager
-overview: Generated documentation for the Istio's Configuration Schemas
+title: Service Mesh Configuration
+overview: Generated documentation for the Service Mesh global configuration.
 
-order: 1020
+order: 5
 
 layout: docs
 type: markdown
