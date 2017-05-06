@@ -1,7 +1,7 @@
 ---
-title: Mixer Configuration Schema
-overview: Generated documentation for Mixer's Configuration Schema
-              
+title: Mixer: Configuration Schema
+overview: Generated documentation for Mixer's configuration schema
+
 order: 40
 
 layout: docs
