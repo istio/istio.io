@@ -1,6 +1,6 @@
 ---
-title: Rules: Fault Injection
-overview: Generated documentation for the Istio's traffic management rules.
+title: Fault Injection
+overview: Generated documentation for the Istio's Configuration Schemas
 
 order: 1010
 
