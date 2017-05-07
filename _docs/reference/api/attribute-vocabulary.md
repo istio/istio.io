@@ -1,7 +1,7 @@
 ---
-title: Attribute Vocabulary
+title: Mixer - Attribute Vocabulary
 overview: Describes the base attribute vocabulary used for policy and control.
-          
+
 order: 10
 
 layout: docs

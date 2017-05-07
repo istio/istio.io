@@ -2,11 +2,9 @@
     <div class="container">
         <div class="left-links">
             <p class="description">Copyright &copy; 2017 Istio Authors</p>
-            <p class="description">This site was built on {{site.time | date_to_string | split: ' ' | join: '-'}}</p>
-            <p class="description">Found something inaccurate or missing?
-                <a href="https://github.com/istio/istio.github.io/issues/new?title=Issue with {{page.path}}">File an issue</a>
-                and we'll get right on it.</p>
+            <p class="description">This site was last built on {{site.time | date_to_string | split: ' ' | join: '-'}}</p>
         </div>
+
         <div class="right-links">
             <div class="col-md-3 col-sm-3 col-xs-12 footer-documentation">
                 <ul class="toggle">
@@ -18,16 +16,21 @@
                     <li><a href="{{home}}/docs/reference"><p>Reference</p></a></li>
                 </ul>
             </div>
+
             <hr class="footer-sections" />
+
             <div class="col-md-3 col-sm-3 col-xs-12 footer-resources">
                 <ul class="toggle">
                     <p class="right-link-headers">Resources</p>
-                    <li><a href="{{home}}/about"><p>About Istio</p></a></li>
-                    <li><a href="{{home}}/blog"><p>The Istio Blog</p></a></li>
                     <li><a href="{{home}}/faq"><p>Frequently Asked Questions</p></a></li>
+                    <li><a href="{{home}}/troubleshooting"><p>Troubleshooting Guide</p></a></li>
+                    <li><a href="{{home}}/bugs"><p>Report a Bug</p></a></li>
+                    <li><a href="https://github.com/istio/istio.github.io/issues/new?title=Issue with {{page.path}}"><p>Report a Doc Issue</p></a></li>
                 </ul>
             </div>
+
             <hr class="footer-sections" />
+
             <div class="col-md-3 col-sm-3 col-xs-12 footer-community">
                 <ul class="toggle">
                     <p class="right-link-headers">User Community</p>
@@ -35,7 +38,9 @@
                     <li><a href="https://groups.google.com/forum/#!forum/istio-users" target="_blank"><p class="group community-links">User Mailing List</p></a></li>
                 </ul>
             </div>
+
             <hr class="footer-sections" />
+
             <div class="col-md-3 col-sm-3 col-xs-12 footer-community">
                 <ul class="toggle">
                     <p class="right-link-headers">Dev Community</p>
