@@ -43,7 +43,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | request.path | string | The HTTP URL path including query string | |
 | request.host | string | The HTTP Host header. | |
 | request.method | string | The HTTP method. | |
-| request.reason | string | The request reason used for auditing system. | |
+| request.reason | string | The request reason used by auditing systems. | |
 | request.referer | string | The HTTP referer header. | |
 | request.scheme | string | URI Scheme of the request | |
 | request.size | int64 | Size of the request in bytes. For HTTP requests this is equivalent to the Content-Length header. | |
