@@ -13,7 +13,7 @@ This page shows how to create a new Istio documentation topic.
 ## Before you begin
 
 You first need to create a fork of the Istio documentation repository as described in
-[Creating a Doc Pull Request](/docs/reference/contribute/creating-a-pull-request.html).
+[Creating a Doc Pull Request](./creating-a-pull-request.html).
 
 ## Choosing a page type
 
@@ -49,13 +49,6 @@ is the best fit for your content:
     <td>A task page shows how to do a single thing, typically by giving a short sequence of steps. Task pages have minimal
     explanation, but often provide links to conceptual topics that provide related background and knowledge.</td>
   </tr>
-
-  <tr>
-    <td>Tutorial</td>
-    <td>A tutorial page shows how to accomplish a goal that is larger than a single task. Typically a tutorial
-    page has several sections, each of which has a sequence of steps. Tutorials can include surface-level explanations,
-    but should link to related conceptual topics for deep explanations.</td>
-  </tr>
 </table>
 
 Each page type has a template file located in the corresponding directory which shows
@@ -84,18 +77,19 @@ The front matter is a block of YAML that is between the
 triple-dashed lines at the top of each file. Here's the
 chunk of front matter you should start with:
 
-    ---
-    title: TITLE_TBD
-    overview: OVERVIEW_TBD
+```
+---
+title: <title>
+overview: <overview>
 
-    order: ORDER_TBD
+order: <order>
 
-    layout: docs
-    type: markdown
-    ---
+layout: docs
+type: markdown
+```
 
 Copy the above at the start of your new markdown file and update
-the TBD fields for your particular file. The available front
+the `<title>`, `<overview>` and `<order>` fields for your particular file. The available front
 matter fields are:
 
 |Field      | Description
@@ -103,7 +97,7 @@ matter fields are:
 |`title`    | The short title of the page
 |`overview` | a one-line description of what the topic is about
 |`order`    | integer used for sort order
-|`layout'   | indicates which of the Jekyll layouts this page uses
+|`layout`   | indicates which of the Jekyll layouts this page uses
 |`index`    | indicates whether the page should appear in the doc's top nav tabs
 
 ## Choosing a directory
@@ -114,7 +108,6 @@ Depending on your page type, put your new file in a subdirectory of one of these
 * _docs/reference/
 * _docs/samples/
 * _docs/tasks/
-* _docs/tutorials/
 
 You can put your file in an existing subdirectory, or you can create a new
 subdirectory.
@@ -129,3 +122,41 @@ was generated from an original SVG file, please include the
 SVG file in the repository even if it isn't used in the web
 site itself. This is so we can update the imagery over time 
 if needed.
+
+## Linking to other pages
+
+There are three types of links that can be included in documentation. Each uses a different
+way to indicate the link target:
+
+- **Internet Link**. You use classic URL syntax, preferably with the HTTPS protocol, to reference
+files on the Internet:
+
+    ```markdown
+    [see here](https://mysite/myfile.html)
+    ```
+
+- **Relative Link**. You use relative links that start with a period to
+reference any content that is at the same level as the current file, or below within
+the hierarchy of the site:
+
+    ```markdown
+    [see here](./adir/anotherfile.html)
+    ```
+
+- **Absolute Link**. You use absolute links with the special \{\{home\}\} notation to reference content outside of the
+current hierarchy:
+
+    ```markdown
+    {% raw %}[see here]({{home}}/docs/adir/afile.html){% endraw %}
+    ```
+
+    In order to use \{\{home\}\} in a file, 
+    you need to make sure that the file contains the following
+    line of boilerplate right after the block of front matter:
+    
+    ```markdown
+    ---
+    {% raw %}{% include home.html %}{% endraw %}
+    ```
+
+    Adding this include statement is what defines the `home` variable that is used in the link target.

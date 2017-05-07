@@ -1,15 +1,16 @@
 ---
-title: Attribute Vocabulary
+title: Mixer - Attribute Vocabulary
 overview: Describes the base attribute vocabulary used for policy and control.
-          
+
 order: 10
 
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 Attributes are a central concept used throughout Istio. You can find a description of what attributes are
-and what they are used for [here](/docs/concepts/policy-and-control/attributes.html).
+and what they are used for [here]({{home}}/docs/concepts/policy-and-control/attributes.html).
 
 A given Istio deployment has a fixed vocabulary of attributes that it understands. The specific vocabulary is
 determined by the set of attribute producers being used in the deployment. The primary attribute producer in Istio
@@ -38,16 +39,16 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | target.labels | map | A map of key-value pairs attached to the target. | |
 | target.user | string | The user running the target application. | service-account |
 | request.headers | map | A map of HTTP headers attached to the request. | |
-| request.id | string | A unique ID for the request, which can be propagated to downstream systems. This should be a guid or a psuedo-guid with a low probability of collision in a temporal window measured in days or weeks. | |
+| request.id | string | A unique ID for the request, which should be propagated to downstream systems. It should have a low probability of collision within a service in a temporal window measured in days. | |
 | request.path | string | The HTTP URL path including query string | |
 | request.host | string | The HTTP Host header. | |
 | request.method | string | The HTTP method. | |
-| request.reason | string | The system parameter for auditing reason. It is required for cloud audit logging and GIN logging | |
+| request.reason | string | The request reason used by auditing systems. | |
 | request.referer | string | The HTTP referer header. | |
 | request.scheme | string | URI Scheme of the request | |
 | request.size | int64 | Size of the request in bytes. For HTTP requests this is equivalent to the Content-Length header. | |
 | request.time | timestamp | The timestamp when the target receives the request. This should be equivalent to Firebase "now". | |
-| request.user-agent | string | The HTTP User-Agent header. | |
+| request.useragent | string | The HTTP User-Agent header. | |
 | response.headers | map | A map of HTTP headers attached to the response. | |
 | response.size | int64 | Size of the response body in bytes | |
 | response.time | timestamp | The timestamp when the target produced the response. | |

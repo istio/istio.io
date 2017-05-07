@@ -1,12 +1,7 @@
 ---
 layout: default
 ---
-
-{% assign home = "" %}
-{% if site.github.environment == "dotcom" %}
-{% assign home = site.baseurl %}
-{% endif %}
-
+{% include home.html %}
 {% include doc-top-nav.html %}
 <div class="container">
   <div class="row">
@@ -23,3 +18,5 @@ layout: default
     </div>
   </div>
 </div>
+
+<script src="{{home}}/js/copyToClipboard.js"></script>

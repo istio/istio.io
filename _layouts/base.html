@@ -1,10 +1,7 @@
 ---
 layout: compress
 ---
-{% assign home = "" %}
-{% if site.github.environment == "dotcom" %}
-    {% assign home = site.baseurl %}
-{% endif %}
+{% include home.html %}
 
 <!DOCTYPE html>
 <html lang="en" itemscope itemtype="https://schema.org/WebPage">
@@ -28,7 +25,7 @@ layout: compress
     <!-- Webfont -->
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
 
-    <link rel="alternate" type="application/rss+xml" title="Istio Blog RSS" href="/feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="Istio Blog RSS" href="{{home}}/feed.xml">
 
     <!-- Favicons -->
     <link rel="apple-touch-icon" href="{{home}}/favicons/apple-touch-icon.png" sizes="180x180">
@@ -48,6 +45,8 @@ layout: compress
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.4.2/clipboard.min.js"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -78,6 +77,7 @@ layout: compress
     <script src="{{home}}/js/waves.js"></script>
     <script src="{{home}}/js/buttons.js"></script>
     <script src="{{home}}/js/search.js"></script>
+    <script src="{{home}}/js/fixMarkdownImages.js"></script>
 
     {% if page.customjs %}
       <script async="" defer="" type="text/javascript" src="{{ page.customjs }}"></script>

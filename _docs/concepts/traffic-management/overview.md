@@ -14,7 +14,7 @@ set of pods/VMs should receive traffic (e.g., by adding/removing specific
 labels). Unlike existing techniques, Istio decouples traffic flow and infrastructure
 scaling. 
 
-<img src="./img/manager/TrafficManagementOverview.svg" alt="Traffic Management with Istio." />
+<img src="./img/manager/TrafficManagementOverview.svg" title="Traffic Management with Istio." />
 
 As illustrated in the figure above, Istio allows operators to control what
 percentage of traffic should be routed to these pods or which requests

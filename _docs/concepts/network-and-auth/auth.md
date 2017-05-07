@@ -16,11 +16,13 @@ Istio Auth's aim is to enhance the security of microservices and their communica
 
 *   Providing each service with a strong identity that represents its role to enable interoperability across clusters and clouds
 
-*   Securing both service to service communication and end-user to service communication
+*   Securing service to service communication
 
 *   Providing a key management system to automate key and certificate generation, distribution, rotation, and revocation
 
 In future versions it will also provide:
+
+*   Securing end-user to service communication
 
 *   Fine-grained authorization and auditing to control and monitor who accesses your services, apis, or resources
 
@@ -30,7 +32,7 @@ In future versions it will also provide:
 
 The figure below shows the Istio Auth architecture, which includes three components: identity, key management, and communication security. It describes how Istio Auth is used to secure service-to-service communication between service A, running as service account "foo", and service B, running as service account "bar".
 
-<img style="display:block;margin:auto" src="./img/auth/auth.svg" alt="Istio Auth Architecture." />
+<img style="display:block;margin:auto" src="./img/auth/auth.svg" title="Istio Auth Architecture." />
 
 ## Components
 
@@ -86,7 +88,7 @@ Istio Auth workflow consists of two phases, deployment and runtime. This section
 
 1.  Istio CA watches Kubernetes API Server, creates a key and certificate pair for each of the existing and new service accounts, and sends them to API Server. 
 
-1.  When a pod is created, API Server mounts the key and certificate pair according to the service account using [kubernetes secrets](https://kubernetes.io/docs/concepts/configuration/secret/).
+1.  When a pod is created, API Server mounts the key and certificate pair according to the service account using [Kubernetes secrets](https://kubernetes.io/docs/concepts/configuration/secret/).
 
 1.  [Istio Manager](docs/concepts/traffic-management/manager.html) generates the config with proper key and certificate and secure naming information, which defines what service account(s) can run a certain service, and passes it to Envoy. 
 

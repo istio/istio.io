@@ -7,19 +7,20 @@ order: 50
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 This task shows you how to configure dynamic request routing based on weights and HTTP headers.
 
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](/docs/tasks/installing-istio.html).
+  [Installation guide](./installing-istio.html).
 
-* Deploy the [bookinfo](/docs/samples/bookinfo.html) sample application.
+* Deploy the [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application.
 
-## Content Based Routing
+## Content-based routing
 
-Because the bookinfo sample deploys 3 versions of the reviews microservice,
+Because the BookInfo sample deploys 3 versions of the reviews microservice,
 we need to set a default route.
 Otherwise if you access the application several times, you would notice that sometimes the output contains
 star ratings.
@@ -35,7 +36,7 @@ route requests to all available versions of a service in a random fashion.
    You can display the routes that are defined with the following command:
 
    ```yaml
-   $ istioctl get route-rules -o yaml
+   istioctl get route-rules -o yaml
    kind: route-rule
    name: ratings-default
    namespace: default
@@ -85,9 +86,9 @@ route requests to all available versions of a service in a random fashion.
    Since rule propagation to the proxies is asynchronous, you should wait a few seconds for the rules
    to propagate to all pods before attempting to access the application.  
 
-1. Open the Bookinfo URL (http://$GATEWAY_URL/productpage) in your browser
+1. Open the BookInfo URL (http://$GATEWAY_URL/productpage) in your browser
 
-   You should see the bookinfo application productpage displayed.
+   You should see the BookInfo application productpage displayed.
    Notice that the `productpage` is displayed with no rating stars since `reviews:v1` does not access the ratings service.
 
 1. Route a specific user to `reviews:v2`
@@ -102,7 +103,7 @@ route requests to all available versions of a service in a random fashion.
    Confirm the rule is created:
 
    ```yaml
-   $ istioctl get route-rule reviews-test-v2
+   istioctl get route-rule reviews-test-v2
    destination: reviews.default.svc.cluster.local
    match:
      httpHeaders:
@@ -121,7 +122,7 @@ route requests to all available versions of a service in a random fashion.
 
 ## Understanding what happened
 
-In this task, you used Istio to send 100% of the traffic to the v1 version of each of the bookinfo
+In this task, you used Istio to send 100% of the traffic to the v1 version of each of the BookInfo
 services. You then set a rule to selectively send traffic to version v2 of the reviews service based
 a header (i.e., a user cookie) in a request.
 
@@ -129,7 +130,7 @@ Once the v2 version has been tested to our satisfaction, we could use Istio to s
 all users to v2, optionally in a gradual fashion by using a sequence of rules with weights less
 than 100 to migrate traffic in steps, for example 10, 20, 30, ... 100%.
 
-If you now proceed to the [fault injection task](/docs/tasks/fault-injection.html), you will see
+If you now proceed to the [fault injection task](./fault-injection.html), you will see
 that with simple testing, the v2 version of the reviews service has a bug, which is fixed in v3.
 So after exploring that task, you can route all user traffic from `reviews:v1`
 to `reviews:v3` in two steps as follows:
@@ -167,6 +168,6 @@ that we created exclusively for him:
 
 ## What's next
 
-* Learn more about [request routing](/docs/concepts/traffic-management/rules-configuration.html).
+* Learn more about [request routing]({{home}}/docs/concepts/traffic-management/rules-configuration.html).
 
-* Test the bookinfo application resiliency by [injecting faults](/docs/tasks/fault-injection.html).
+* Test the BookInfo application resiliency by [injecting faults](./fault-injection.html).
