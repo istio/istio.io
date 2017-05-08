@@ -1,8 +1,8 @@
 ---
-title: Configuring Egress with Envoy
-overview: Describes how to configure Istio to expose external services to Istio enabled clients.
+title: Allowing Traffic to External Services using Egress
+overview: Describes how to configure Istio to route traffic from services in the mesh to external services.
 
-order: 35
+order: 40
 
 layout: docs
 type: markdown

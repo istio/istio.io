@@ -1,8 +1,8 @@
 ---
-title: Request Timeouts
+title: Setting Request Timeouts
 overview: This task shows you how to setup request timeouts in Envoy using Istio.
             
-order: 40
+order: 70
 
 layout: docs
 type: markdown
