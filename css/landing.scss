@@ -17,6 +17,7 @@ sitemap_exclude: y
 
   @media (min-width: $desktop-small) {
     max-width: 55%;
+    max-height: 500px;
     padding-right: 20px;
     padding-left: 20px;
   }
