@@ -12,7 +12,7 @@ type: markdown
 <a name="rpcGoogle.rpcIndex"></a>
 ### Index
 
-* [Status](#google.rpc.Status)
+* [Status](/docs/reference/api/status.html)
 (message)
 
 <a name="google.rpc.Status"></a>
@@ -92,7 +92,7 @@ Example uses of this error model include:
  <tr>
   <td><code>message</code></td>
   <td>string</td>
-  <td>A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the <a href="#google.rpc.Status.details">google.rpc.Status.details</a> field, or localized by the client.</td>
+  <td>A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the <a href="/docs/reference/api/status.html.details">google.rpc.Status.details</a> field, or localized by the client.</td>
  </tr>
 <a name="google.rpc.Status.details"></a>
  <tr>
@@ -337,7 +337,7 @@ Used to verify preconditions before performing an action.
 <a name="istio.mixer.v1.CheckResponse.result"></a>
  <tr>
   <td><code>result</code></td>
-  <td><a href="#google.rpc.Status">Status</a></td>
+  <td><a href="/docs/reference/api/status.html">Status</a></td>
   <td>Indicates whether or not the preconditions succeeded</td>
  </tr>
 <a name="istio.mixer.v1.CheckResponse.expiration"></a>
@@ -419,7 +419,7 @@ Used to verify preconditions before performing an action.
 <a name="istio.mixer.v1.QuotaResponse.result"></a>
  <tr>
   <td><code>result</code></td>
-  <td><a href="#google.rpc.Status">Status</a></td>
+  <td><a href="/docs/reference/api/status.html">Status</a></td>
   <td>Indicates whether the quota request was successfully processed.</td>
  </tr>
 <a name="istio.mixer.v1.QuotaResponse.expiration"></a>
@@ -484,7 +484,7 @@ Used to report telemetry after performing an action.
 <a name="istio.mixer.v1.ReportResponse.result"></a>
  <tr>
   <td><code>result</code></td>
-  <td><a href="#google.rpc.Status">Status</a></td>
+  <td><a href="/docs/reference/api/status.html">Status</a></td>
   <td>Indicates whether the report was processed or not</td>
  </tr>
 </table>

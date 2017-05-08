@@ -59,7 +59,7 @@ the form of a metric:
 ```yaml
 metric:
   descriptorName: "responseCode" # must match metricDescriptor.name
-  value: $requestCount # Istio expression syntax for the attribute named "requestCount"
+  value: $requestCount        # Istio expression syntax for the attribute named "requestCount"
   labels:
     # either the attribute named 'apiMethod' or the literal string 'unknown'; must eval to a string
     apiMethod: $apiMethod | "unknown"
