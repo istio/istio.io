@@ -1,6 +1,6 @@
 ---
-title: Allowing Traffic into the Mesh with Ingress
-overview: Describes how to configure Istio to expose a service outside of the service mesh
+title: Enabling Ingress Traffic
+overview: Describes how to configure Istio to expose a service outside of the service mesh.
 
 order: 30
 
