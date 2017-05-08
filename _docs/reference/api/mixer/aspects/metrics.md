@@ -40,28 +40,32 @@ Configures a metric aspect.
 Describes how attributes must be evaluated to produce values for the named metric. Suppose the following
 MetricDescriptor exists in the global configuration:
 
-   metricDescriptor:
-     name: "responseCode"
-     kind: COUNTER
-     value: I64
-     labels:
-       name: apiMethod
-       valueType: STRING
-     labels:
-       name: responseCode
-       valueType: I64
+```yaml
+metricDescriptor:
+  name: "responseCode"
+  kind: COUNTER
+  value: I64
+  labels:
+    name: apiMethod
+    valueType: STRING
+  labels:
+    name: responseCode
+    valueType: I64
+```
 
 To actually report metrics at run time a mapping from attributes to a metric's labels must be provided in
 the form of a metric:
 
-   metric:
-     descriptorName: "responseCode" # must match metricDescriptor.name
-     value: $requestCount        # Istio expression syntax for the attribute named "requestCount"
-     labels:
-       # either the attribute named 'apiMethod' or the literal string 'unknown'; must eval to a string
-       apiMethod: $apiMethod | "unknown"
-       # either the attribute named 'responseCode' or the literal int64 500; must eval to an int64
-       responseCode: $responseCode | 500
+```yaml
+metric:
+  descriptorName: "responseCode" # must match metricDescriptor.name
+  value: $requestCount # Istio expression syntax for the attribute named "requestCount"
+  labels:
+    # either the attribute named 'apiMethod' or the literal string 'unknown'; must eval to a string
+    apiMethod: $apiMethod | "unknown"
+    # either the attribute named 'responseCode' or the literal int64 500; must eval to an int64
+    responseCode: $responseCode | 500
+```
 
 <table>
  <tr>
