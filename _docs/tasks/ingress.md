@@ -22,29 +22,8 @@ to configure ingress behavior.
 * Start the [httpbin](https://github.com/istio/istio/tree/master/demos/apps/httpbin) sample,
   which will be used as the destination service to be exposed externally.
   
-* Determine the ingress URL:
 
-   If your cluster is running in an environment that supports external load balancers,
-   use the ingress' external address:
-
-   ```bash
-   kubectl get ingress -o wide
-   ```
-   
-   ```
-   NAME      HOSTS     ADDRESS                 PORTS     AGE
-   gateway   *         130.211.10.121          80        1d
-   export INGRESS_URL=130.211.10.121:80
-   ```
-
-   If load balancers are not supported, use the service NodePort instead:
-   
-   ```bash
-   export INGRESS_URL=$(kubectl get po -l istio=ingress -o jsonpath={.items[0].status.hostIP}):$(kubectl get svc istio-ingress -o jsonpath={.spec.ports[0].nodePort})
-   ```
-
-
-### Configuring ingress (HTTP)
+## Configuring ingress (HTTP)
 
 1. Create the Ingress Resource for the httpbin service
 
@@ -73,6 +52,27 @@ to configure ingress behavior.
    
    Notice that in this example we are only exposing httpbin's `/headers` and `/delay` endpoints.
    
+1. Determine the ingress URL:
+
+   If your cluster is running in an environment that supports external load balancers,
+   use the ingress' external address:
+
+   ```bash
+   kubectl get ingress -o wide
+   ```
+   
+   ```
+   NAME      HOSTS     ADDRESS                 PORTS     AGE
+   gateway   *         130.211.10.121          80        1d
+   export INGRESS_URL=130.211.10.121:80
+   ```
+
+   If load balancers are not supported, use the service NodePort instead:
+   
+   ```bash
+   export INGRESS_URL=$(kubectl get po -l istio=ingress -o jsonpath={.items[0].status.hostIP}):$(kubectl get svc istio-ingress -o jsonpath={.spec.ports[0].nodePort})
+   ```
+
 1. Access the httpbin service using _curl_:
 
    ```bash
@@ -90,13 +90,13 @@ to configure ingress behavior.
    A private key and certificate can be created for testing using [OpenSSL](https://www.openssl.org/).
 
    ```bash
-   openssl req -newkey rsa:2048 -nodes -keyout cert.key -x509 -days -out='cert.crt' -subj '/C=US/ST=Seattle/O=Example/CN=secure.example.io'
+   openssl req -newkey rsa:2048 -nodes -keyout /tmp/cert.key -subj '/C=US/ST=Seattle/O=Example/CN=secure.example.io' > /tmp/cert.crt
    ```
 
 1. Create the secret using `kubectl`
 
    ```bash
-   kubectl create secret generic ingress-secret --from-file=tls.key=cert.key --from-file=tls.crt=cert.crt
+   kubectl create secret generic ingress-secret --from-file=tls.key=/tmp/cert.key --from-file=tls.crt=/tmp/cert.crt
    ```
 
 1. Create the Ingress Resource for the httpbin service
@@ -127,7 +127,7 @@ to configure ingress behavior.
 1. Access the secured httpbin service using _curl_:
 
    ```bash
-   curl -k https://$INGRESS_URL/html
+   curl -k https://<TODO>/html
    ```
    
    ```
@@ -135,7 +135,7 @@ to configure ingress behavior.
    ```
 
 
-### Setting Istio rules on an edge service
+## Setting Istio rules on an edge service
 
 Similar to inter-cluster requests, Istio 
 [routing rules]({{home}}/docs/concepts/traffic-management/rules-configuration.html)
