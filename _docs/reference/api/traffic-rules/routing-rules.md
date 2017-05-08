@@ -1,8 +1,8 @@
 ---
-title: Rules - Routing
-overview: Generated documentation for the Istio's traffic management rules
+title: Routing Rules
+overview: Generated documentation for Istio's traffic routing rules
 
-order: 990
+order: 20
 
 layout: docs
 type: markdown

@@ -1,5 +1,5 @@
 ---
-title: Mixer - Southbound API
+title: API
 overview: Generated documentation for Mixer's API that is used by Envoy.
 
 order: 20
