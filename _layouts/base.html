@@ -1,5 +1,5 @@
 ---
-layout: compress
+#layout: compress
 ---
 {% include home.html %}
 
@@ -20,7 +20,12 @@ layout: compress
     <meta name="description" content="{{page.overview}}">
     <meta name="og:description" content="{{page.overview}}">
     {% endif %}
+
+    {% if page.title == 'Istio' %}
+    <title>Istio</title>
+    {% else %}
     <title>Istio / {{ page.title }}</title>
+    {% endif %}
 
     <!-- Webfont -->
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
@@ -74,7 +79,6 @@ layout: compress
     <script src="{{home}}/js/jquery.visible.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/2.1.2/jquery.scrollTo.min.js"></script>
     <script src="{{home}}/js/common.js" type="text/javascript" charset="utf-8"></script>
-    <script src="{{home}}/js/waves.js"></script>
     <script src="{{home}}/js/buttons.js"></script>
     <script src="{{home}}/js/search.js"></script>
     <script src="{{home}}/js/fixMarkdownImages.js"></script>
