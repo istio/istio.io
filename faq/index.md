@@ -8,6 +8,9 @@ type: markdown
 
 # Frequently Asked Questions
 
+Here are some frequently asked questions about Istio. If you don't find your question answered here, be sure
+to check [Stack Overflow](https://stackoverflow.com/questions/tagged/istio) for more Q&A.
+
 #### What is Istio?
 
 Istio is an open platform-independent service mesh that provides traffic management, policy enforcement, and telemetry collection.
