@@ -4,8 +4,7 @@
     outline: 0 !important;
   }
 
-  // GRPC Specific Buttons
-  &.btn-grpc {
+  &.btn-istio {
     background-color: $secondBrandColor;
     color: $white;
     font-weight: 300;
@@ -28,24 +27,7 @@
       padding: 4px 27px;
     }
 
-    // Landing Page Language Select Button
-    &.lang-select {
-      font-size: 14px;
-      font-weight: 500;
-      margin: 3px;
-      padding-left: 6px;
-      padding-right: 6px;
-      text-align: center;
-      text-transform: none;
-      width: 33%;
-
-      @media (min-width: $tablet) {
-        max-width: 160px;
-        margin: 10px;
-      }
-    }
-
-    &.btn-grpc:hover {
+    &.btn-istio:hover {
         background-color: $popBrandColor;
     }
 
