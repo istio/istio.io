@@ -42,13 +42,12 @@ clone Istio's [GitHub](https://github.com/istio/istio) repository:
     cd install/kubernetes
     ```
 
-3. Determine if your cluster has [RBAC enabled][https://kubernetes.io/docs/admin/authorization/rbac/] by running this command:
+3. Determine if your cluster has [RBAC enabled](https://kubernetes.io/docs/admin/authorization/rbac/) by running this command:
 
     ```bash
     kubectl get clusterrole
     ```
-If the message printed says 'the server doesn't have a resource type "clusterrole"', go to the next step. Otherwise, apply the RBAC configuration file.
-
+    If the message printed says 'the server doesn't have a resource type "clusterrole"', go to the next step. Otherwise, apply the RBAC configuration file:
     ```bash
     kubectl apply -f istio-rbac.yaml
     ```
