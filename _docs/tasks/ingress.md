@@ -1,6 +1,6 @@
 ---
 title: Allowing Traffic into the Mesh with Ingress
-overview: This task describes how to configure Istio to expose a service outside of the service mesh cluster
+overview: Describes how to configure Istio to expose a service outside of the service mesh
 
 order: 30
 
@@ -19,22 +19,25 @@ to configure ingress behavior.
 * Setup Istio by following the instructions in the
   [Installation guide](./installing-istio.html).
 
-* Start the [httpbin sample](https://github.com/istio/istio/tree/master/demos/apps/httpbin),
+* Start the [httpbin](https://github.com/istio/istio/tree/master/demos/apps/httpbin) sample,
   which will be used as the destination service to be exposed externally.
   
 * Determine the ingress URL:
 
-   If your cluster is running in an environment that supports external loadbalancers,
+   If your cluster is running in an environment that supports external load balancers,
    use the ingress' external address:
 
    ```bash
    kubectl get ingress -o wide
+   ```
+   
+   ```
    NAME      HOSTS     ADDRESS                 PORTS     AGE
    gateway   *         130.211.10.121          80        1d
    export INGRESS_URL=130.211.10.121:80
    ```
 
-   If loadbalancers are not supported, use the service NodePort instead:
+   If load balancers are not supported, use the service NodePort instead:
    
    ```bash
    export INGRESS_URL=$(kubectl get po -l istio=ingress -o jsonpath={.items[0].status.hostIP}):$(kubectl get svc istio-ingress -o jsonpath={.spec.ports[0].nodePort})
@@ -68,12 +71,15 @@ to configure ingress behavior.
    EOF
    ```
    
-   Notice that in this example we are only exposing the `/headers` and `/delay` endpoints of httpbin.
+   Notice that in this example we are only exposing httpbin's `/headers` and `/delay` endpoints.
    
 1. Access the httpbin service using _curl_:
 
    ```bash
    curl http://$INGRESS_URL/headers
+   ```
+
+   ```
    .. response ..
    ```
 
@@ -83,7 +89,7 @@ to configure ingress behavior.
 
    A private key and certificate can be created for testing using [OpenSSL](https://www.openssl.org/).
 
-   ```
+   ```bash
    openssl req -newkey rsa:2048 -nodes -keyout cert.key -x509 -days -out='cert.crt' -subj '/C=US/ST=Seattle/O=Example/CN=secure.example.io'
    ```
 
@@ -116,17 +122,20 @@ to configure ingress behavior.
    EOF
    ```
    
-   Notice that in this example we are only exposing the `/html` endpoints of httpbin.
+   Notice that in this example we are only exposing httpbin's `/html` endpoint.
    
 1. Access the secured httpbin service using _curl_:
 
    ```bash
    curl -k https://$INGRESS_URL/html
+   ```
+   
+   ```
    .. response ..
    ```
 
 
-### Setting istio rules on an edge service
+### Setting Istio rules on an edge service
 
 Similar to inter-cluster requests, Istio 
 [routing rules]({{home}}/docs/concepts/traffic-management/rules-configuration.html)
@@ -135,19 +144,22 @@ that are called from outside the cluster.
 To illustrate we will use [istioctl]({{home}}/docs/reference/commands/istioctl.html)
 to set a timeout rule on calls to the httpbin service.
 
-1. Invoke that httpbin `/delay` endpoint:
+1. Invoke the httpbin `/delay` endpoint you exposed previously:
 
    ```bash
    time curl http://$INGRESS_URL/delay/5
+   ```
+   
+   ```
    ...
    real    0m5.024s
    user    0m0.003s
    sys     0m0.003s
    ```
 
-   As expected the request should return in approximately 5 seconds.
+   The request should return in approximately 5 seconds.
 
-1. Use istioctl to set a 3s timeout on calls to the httpbin service
+1. Use `istioctl` to set a 3s timeout on calls to the httpbin service
 
    ```bash
    cat <<EOF | istioctl create
@@ -165,6 +177,9 @@ to set a timeout rule on calls to the httpbin service.
  
    ```bash
    time curl http://$INGRESS_URL/delay/5
+   ```
+
+   ```
    ...
    real    0m3.022s
    user    0m0.004s
@@ -172,7 +187,7 @@ to set a timeout rule on calls to the httpbin service.
    ```
    
    This time the response appears after
-   three seconds.  Although _httpbin_ was waiting 5 seconds, Istio cut off the request at 3 seconds.
+   3 seconds.  Although _httpbin_ was waiting 5 seconds, Istio cut off the request at 3 seconds.
 
 
 ## Understanding ...
