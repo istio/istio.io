@@ -47,7 +47,7 @@ clone Istio's [GitHub](https://github.com/istio/istio) repository:
     ```bash
     kubectl get clusterrole
     ```
-If the message printed says "the server doesn't have a resource type "clusterrole"", go to the next step. Otherwise, apply the RBAC configuration file.
+If the message printed says 'the server doesn't have a resource type "clusterrole"', go to the next step. Otherwise, apply the RBAC configuration file.
 
     ```bash
     kubectl apply -f istio-rbac.yaml
@@ -93,9 +93,9 @@ If the message printed says "the server doesn't have a resource type "clusterrol
 ServiceGraph addons:
 
     ```bash
-    kubectl apply -f ./kubernetes/addons/grafana.yaml
-    kubectl apply -f ./kubernetes/addons/prometheus.yaml
-    kubectl apply -f ./kubernetes/addons/servicegraph.yaml
+    kubectl apply -f addons/grafana.yaml
+    kubectl apply -f addons/prometheus.yaml
+    kubectl apply -f addons/servicegraph.yaml
     ```
 
     The grafana addon provides a dashboard visualization of the metrics by Mixer to a Prometheus instance. Please install both the prometheus.yaml and grafana.yaml addons to configure the Istio dashboard for use.
@@ -165,18 +165,28 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 
 ## Uninstalling
 
+1. Change directory to install/kubernetes:
+
+    ```bash
+    cd install/kubernetes
+    ```
+
 1. Uninstall Istio:
 
     **If Istio has auth disabled:**
 
     ```bash
-    kubectl delete -f ./kubernetes/istio-16.yaml
+    kubectl delete -f istio.yaml
     ```
 
     **If Istio has auth enabled:**
 
     ```bash
-    kubectl delete -f ./kubernetes/istio-auth-16.yaml
+    kubectl delete -f istio-auth.yaml
+    ```
+2. If RBAC was installed, please uninstall it:
+    ```bash
+    kubectl delete -f istio-rbac.yaml
     ```
 
 2. Delete the istioctl client:
