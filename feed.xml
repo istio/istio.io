@@ -1,19 +1,26 @@
 ---
 layout: null
 ---
-<?xml version="1.0" encoding="utf-8"?>
+{% include home.html %}
+
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>istio -</title>
+    <title>Istio</title>
     <description>An open platform to connect, manage, and secure microservices.</description>
-    <link>{{ site.baseurl }}</link>
+    <pubDate>{{ site.time | date_to_xmlschema }}</pubDate>
+    <link>{{home}}/index.html</link>
+    <image>
+      <url>img/android-chrome-96x96.png</url>
+      <link>{{home}}/index.html</link>
+    </image>
     {% for post in site.posts %}
       {% unless post.draft %}
         <item>
           <title>{{ post.title | xml_escape }}</title>
-          <description>{{ post.content | xml_escape }}</description>
+          <description>{{ post.overview | xml_escape }}</description>
           <pubDate>{{ post.date | date_to_xmlschema }}</pubDate>
           <link>{{ post.url | prepend: site.baseurl }}</link>
+          <author>{{ post.attribution }}</author>
           <guid isPermaLink="true">{{ post.url | prepend: site.baseurl }}</guid>
         </item>
       {% endunless %}

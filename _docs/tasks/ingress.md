@@ -1,5 +1,5 @@
 ---
-title: Configuring Ingress with Envoy
+title: Allowing Traffic into the Mesh with Ingress
 overview: This task describes how to configure Istio to expose a service outside of the service mesh cluster
 
 order: 30

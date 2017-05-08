@@ -2,7 +2,7 @@
 title: Enabling Istio Auth
 overview: This task shows you how to setup Istio-Auth to provide mutual TLS authentication between services.
 
-order: 70
+order: 100
 
 layout: docs
 type: markdown
