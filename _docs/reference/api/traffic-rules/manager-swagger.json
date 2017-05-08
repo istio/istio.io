@@ -189,7 +189,7 @@
         },
         "spec": {
           "type": "object",
-          "description": "Route-Rule or Destination Policy spec schemas can be found here: https://istio.io/docs/reference/api/proxy-config.html"
+          "description": "Route-Rule or Destination Policy spec schemas can be found here: https://istio.io/docs/reference/api/traffic-rules/"
         }
       }
     },
