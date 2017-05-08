@@ -1,5 +1,5 @@
 ---
-title: Allowing Traffic to External Services using Egress
+title: Enabling Egress Traffic
 overview: Describes how to configure Istio to route traffic from services in the mesh to external services.
 
 order: 40
