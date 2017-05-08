@@ -29,7 +29,7 @@ determined by the set of attribute producers being used in the deployment. The p
 is Envoy, although specialized Mixer adapters and services can also introduce attributes.
 
 The common baseline set of attributes available in most Istio deployments is defined
-[here]({{home}}/docs/reference/api/attribute-vocabulary.html). 
+[here]({{home}}/docs/reference/api/mixer/attribute-vocabulary.html). 
 
 
 
