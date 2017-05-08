@@ -1,6 +1,6 @@
 // Footer
 footer {
-  background: linear-gradient(to left, $mainBrandColor, $secondBrandColor);
+  background: linear-gradient(to right, $mainBrandColor, $secondBrandColor);
   box-shadow: 0px 500px 0px 500px $footerColor;
   color: $white;
   overflow: hidden;
@@ -8,7 +8,7 @@ footer {
   position: relative;
 
   @media (max-width: 767px) {
-    padding: 35px 0 120px;
+    padding: 35px 0 35px;
 
     ul {
       li {
@@ -78,13 +78,11 @@ footer {
       width: 35%;
       margin-left: 5%;
     }
+  }
 
-    .description {
-      @media (min-width: 768px) {
-        padding-top: 9px;
-      }
-    }
-
+  .description {
+    padding-top: 40px;
+    color: $light-gray;
   }
 
   .right-links {
