@@ -5,7 +5,6 @@ overview: My overview
 
 order: 42
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

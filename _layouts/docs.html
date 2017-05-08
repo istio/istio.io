@@ -1,47 +1,22 @@
 ---
-title: docs
 layout: default
-bodyclass: docs
 ---
-
-{% assign home = "" %}
-{% if site.github.environment == "dotcom" %}
-{% assign home = site.baseurl %}
-{% endif %}
-
+{% include home.html %}
 {% include doc-top-nav.html %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-11 nofloat center-block ">
+      <div class="row">
+          <div class="col-sm-3">
+            {% include doc-side-nav.html %}
+          </div>
+          <div class="col-sm-9 {{ page.type }}">
+            <div id="toc" class=""></div>
+            {{ content }}
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-{% assign current = page.url | downcase | split: '/' %}
-        {% if current[1] == 'docs' %}
-        <div class="container">
-            <div class="row">
-                <div class="col-md-11 nofloat center-block ">
-                    <div class="col-sm-3">
-                        {% include doc-side-nav.html %}
-                    </div>
-                    <div class="col-sm-7 {{ page.type }}">
-                        {{ content }}
-                    </div>
-
-                    <div id="toc" class="toc">
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% else %}
-            {% if page.type == 'markdown' %}
-            <div class="container {{ page.type }}">
-                <div class="row">
-                    <div class="col-md-11 nofloat center-block ">
-                        <div class="col-sm-12">
-                            {{ content }}  
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% else %}
-                {{ content }}
-            {% endif %}
-        {% endif %}
-
-
+<script src="{{home}}/js/copyToClipboard.js"></script>

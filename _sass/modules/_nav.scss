@@ -68,7 +68,20 @@
   .nav .current{
     @include underline();
   }
+
+  .navbar-header {
+    margin-top: 15px;
+    margin-left: 15px;
+  }
 }
+
+// override
+.navbar {
+  margin-bottom: 0;
+  border: none;
+  border-radius: 0;
+}
+
 
 .arrow-d,
 .arrow-r {
@@ -99,7 +112,7 @@
 
 // Mobile Navigation
 .top-nav {
-  background-color: #4f4f4f;
+  background-color: $inverseBrandColor;
   border-image: linear-gradient(to right, $black, rgba(0, 0, 0, 0)) 1 100%; 
   border-style: solid;
   border-width: 5px 0 5px 5px;
@@ -109,7 +122,7 @@
   right: 0;
   top: 0;
   transition: $transition--secondary;
-  width: 300px;
+  width: 220px;
   z-index: $z-above-top;
 
   @media (min-width: $tablet) {
@@ -136,7 +149,6 @@
     position: relative;
 
     &:hover {
-
       a:first-child p {
         text-decoration: underline;
       }
@@ -148,7 +160,6 @@
   }
 
   .doc-list {
-    
     li {
       display: none;
     }
@@ -162,7 +173,6 @@
     }
 
     .nav-doc-tab {
-      color: $white;
       font-size: 13px;
       font-weight: 300;
       letter-spacing: 1px;
@@ -174,6 +184,7 @@
       }
     }
   }
+
   .icon-close {
     background: url('../img/x.svg') no-repeat center/cover;  
     cursor: pointer;
@@ -186,29 +197,14 @@
 
   hr {
     margin: 0;
-    border-top: 2px solid #565454;
+    border-top: 1px solid $light-gray;
   }
 
   a {
-    color: $white;
+    color: $linkColor;
   }
+
   a.current {
     text-decoration: underline;
   }
 }
-
-// Sticky Nav
-#sticky-nav{
-    @extend #common-nav;
-    background: $mainBrandColor no-repeat center/cover;
-    position: fixed;
-    width: 100%;
-    z-index: 9000;
-    top: -61px;
-    padding-bottom: $spacing--xs;
-    transition: $transition--secondary;
-    &.on-page {
-      top: 0;
-    }
-}
-

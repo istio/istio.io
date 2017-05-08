@@ -1,16 +1,13 @@
 ---
 layout: base
 ---
-{% assign home = "" %}
-{% if site.github.environment == "dotcom" %}
-{% assign home = site.baseurl %}
-{% endif %}
-
-{% include sticky-nav.html %}
+{% include home.html %}
 
 <div class="nav-hero-container">
 	{% include nav.html %}
 </div>
+
+{% include contribute-links.html %}
 
 {{ content }}
 

@@ -1,13 +1,14 @@
 ---
 title: Installing Istio
 overview: This task shows you how to setup the Istio service mesh.
-            
+
 order: 10
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---
+{% include home.html %}
+
 This page shows how to install and configure Istio in a Kubernetes cluster.
 
 ## Prerequisites
@@ -41,16 +42,32 @@ clone Istio's [GitHub](https://github.com/istio/istio) repository:
     cd istio
     ```
 
-3. Install Istio's core components (Istio-Manager, Mixer, and Ingress-Controller):
+3. Install Istio's core components
+   (Istio-Manager, Mixer, Ingress-Controller, and Istio CA if auth is enabled):
+
+   **If you would like to disable Istio Auth**:
 
     ```bash
     kubectl apply -f ./kubernetes/istio-15.yaml # for Kubernetes 1.5
     ```
-    
+
     or
-    
+
     ```bash
     kubectl apply -f ./kubernetes/istio-16.yaml # for Kubernetes 1.6 or later
+    ```
+
+   **If you would like to enable Istio Auth** (For more information, please see
+   [Istio Auth installation guide](./istio-auth.html)):
+
+    ```bash
+    kubectl apply -f ./kubernetes/istio-auth-15.yaml # for Kubernetes 1.5
+    ```
+
+    or
+
+    ```bash
+    kubectl apply -f ./kubernetes/istio-auth-16.yaml # for Kubernetes 1.6 or later
     ```
 
 4. Source the Istio configuration file:
@@ -59,7 +76,7 @@ clone Istio's [GitHub](https://github.com/istio/istio) repository:
     source istio.VERSION
     ```
 
-5. Download one of the [`istioctl`](/docs/reference/istioctl.html) client binaries corresponding to your OS: `istioctl-osx`, `istioctl-win.exe`,
+5. Download one of the [`istioctl`]({{home}}/docs/reference/commands/istioctl.html) client binaries corresponding to your OS: `istioctl-osx`, `istioctl-win.exe`,
 `istioctl-linux`, targeted at Mac, Windows or Linux users respectively. For example, run the following commands on a Mac system:
 
     ```bash
@@ -82,18 +99,29 @@ ServiceGraph addons:
     kubectl apply -f ./kubernetes/addons/servicegraph.yaml
     ```
 
-    The Grafana image provided as part of this sample contains a built-in Istio dashboard that you can access from:
+    The grafana addon provides a dashboard visualization of the metrics by Mixer to a Prometheus instance. Please install both the prometheus.yaml and grafana.yaml addons to configure the Istio dashboard for use.
+
+    The simplest way to access the Istio dashboard is to configure port-forwarding for the grafana service, as follows:
 
     ```bash
-    http://<grafana-svc-external-IP>:3000/dashboard/db/istio-dashboard
+    kubectl port-forward $(kubectl get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000
     ```
 
-    The addons yaml files contain services configured as type LoadBalancer. If services are deployed with type NodePort,
-    start kubectl proxy, and edit Grafana's Istio-dashboard to use the proxy. Access Grafana via kubectl proxy:
+    Then open a web browser to `http://localhost:3000/dashboard/db/istio-dashboard`.
+
+    The dashboard at that location should look something like the following:
+
+    ![Grafana Istio Dashboard](./img/grafana_dashboard.png)
+
+    NOTE: In some deployment environments, it will be possible to access the dashboard directly (without the `kubectl port-forward` command). This is because the default addon configuration requests an external IP address for the grafana service.
+
+    When applicable, the external IP address for the grafana service can be retrieved via:
 
     ```bash
-    http://127.0.0.1:8001/api/v1/proxy/namespaces/default/services/grafana:3000/dashboard/db/istio-dashboard
+    kubectl get services grafana
     ```
+
+    With the EXTERNAL-IP returned from that command, the Istio dashboard can be reached at `http://<EXTERNAL-IP>:3000/dashboard/db/istio-dashboard`.
 
 ## Verifying the installation
 
@@ -111,7 +139,8 @@ ServiceGraph addons:
     (e.g., minikube), the `EXTERNAL-IP` will say `<pending>` and you will need to access the
     application using the service NodePort instead.
 
-2. Check the corresponding Kubernetes pods were deployed: "istio-manager-\*", "istio-mixer-\*", "istio-ingress-\*".
+2. Check the corresponding Kubernetes pods were deployed: "istio-manager-\*", "istio-mixer-\*", "istio-ingress-\*" and
+   "istio-ca-\*" (if Istio Auth is enabled).
 
     ```bash
     kubectl get pods
@@ -119,15 +148,17 @@ ServiceGraph addons:
     istio-ingress-594763772-j7jbz              1/1       Running   0          49m
     istio-manager-373576132-p2t9k              1/1       Running   0          49m
     istio-mixer-1154414227-56q3z               1/1       Running   0          49m
+    istio-ca-1726969296-9srv2                  1/1       Running   0          49m
     ```
 
 ## Deploy your application
 
 You can now deploy your own application or one of the Istio sample applications,
-for example [bookinfo](/docs/samples/bookinfo.html).
+for example [BookInfo]({{home}}/docs/samples/bookinfo.html). Note that the application should use HTTP/1.1
+or HTTP/2.0 protocol for all its HTTP traffic.
 
 When deploying the application,
-use [kube-inject](/docs/reference/istioctl.html##kube-inject) to automatically inject
+use [kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject.html) to automatically inject
 Envoy containers in the pods running the services:
 ```bash
 kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
@@ -137,8 +168,16 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 
 1. Uninstall Istio:
 
+    **If Istio has auth disabled:**
+
     ```bash
     kubectl delete -f ./kubernetes/istio-16.yaml
+    ```
+
+    **If Istio has auth enabled:**
+
+    ```bash
+    kubectl delete -f ./kubernetes/istio-auth-16.yaml
     ```
 
 2. Delete the istioctl client:
@@ -149,5 +188,6 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 
 ## What's next
 
-* Learn more about how to enable [authentication](/docs/tasks/istio-auth.html).
-* See the sample [bookinfo](/docs/samples/bookinfo.html) application.
+* Learn more about how to enable [authentication](./istio-auth.html).
+
+* See the sample [BookInfo]({{home}}/docs/samples/bookinfo.html) application.

@@ -4,7 +4,6 @@ overview: Explains how to test your changes locally before submitting them.
               
 order: 40
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---
@@ -15,7 +14,7 @@ to the Istio documentation.
 ## Before you begin
 
 Create a fork of the Istio documentation repository as described in
-[Creating a Doc Pull Request](/docs/reference/contribute/creating-a-pull-request.html).
+[Creating a Doc Pull Request](./creating-a-pull-request.html).
 
 ## Staging locally
 

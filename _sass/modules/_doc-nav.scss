@@ -73,13 +73,12 @@
         padding: $spacing--xs 0 $spacing--xl;
     }
 
-	// Add caret to current page
-	.current:before{
-		content: '> ';
-		color: $popBrandColor;
-	}
+	.current {
+  		color: $popBrandColor;
+ 		font-weight: bold;
+  	}
 
-	.doc-side-nav-title {
+  	.doc-side-nav-title {
 		padding: $spacing--s;
 		font-weight: bold;
 	}
@@ -88,37 +87,5 @@
 		display: inline-block;
 		padding: 2px $spacing--s;
 		width: 100%;
-
-		a {
-			font-weight: 400;
-		}
 	}
-
-    h6 {
-        color: $mainBrandColor;
-        font-size: 100%;
-        font-weight: 400;
-        line-height: 22px;
-    }
-
-    .submenu {
-        padding: 2px 15px;
-    }
-
-    .submenu-link {
-        display: block;
-        font-size: 100%;
-        font-weight: 400;
-        line-height: 22px;
-        color: $mainBrandColor;
-
-        &.active:before {
-			margin-left: -0.80em;
-            content: '> ';
-        }
-
-		&.active {
-			line-height: 30px;
-		}
-    }
 }

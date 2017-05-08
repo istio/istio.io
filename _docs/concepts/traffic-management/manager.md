@@ -4,7 +4,6 @@ overview: Introduces the Istio-Manager, the component responsible for managing a
               
 order: 10
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---
@@ -16,7 +15,7 @@ APIs for [service discovery](https://lyft.github.io/envoy/docs/configuration/clu
 platform-specific nuances, simplifying the design and increasing
 portability across platforms.
 
-<img class="center-image-75" src="./img/manager/ManagerAdapters.svg" alt="Istio-Manager - architecture." />
+<img class="center-image-75" src="./img/manager/ManagerAdapters.svg" title="Istio-Manager - architecture." />
 
 As illustrated in the figure above, Istio-Manager maintains a canonical representation of services in the
 mesh that is independent of the underlying platform. Platform-specific

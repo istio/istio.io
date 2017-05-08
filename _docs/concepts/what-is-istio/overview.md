@@ -4,7 +4,6 @@ overview: Provides a broad overview of what problems Istio is designed to solve.
           
 order: 15
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---

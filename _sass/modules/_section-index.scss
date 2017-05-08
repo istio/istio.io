@@ -1,40 +1,22 @@
 .section-index {
-    margin-bottom: 0px;
-    margin-left: 0px;
 
-    @media (min-width: $tablet) {
-        margin-bottom: 0;
-        padding: $spacing--xs 0 $spacing--xl;
+    li.directory {
+        margin: 0px;
+        padding: 0px;
+        margin-top: 15px;
+        margin-left: 0px;
+        font-size: 15px;
     }
 
-    .title {
-        margin-bottom: 20px;
-    }
-
-    ul {
+    li.file {
         margin: 0px;
         padding: 0px;
         margin-top: 10px;
+        list-style: none;
+        font-size: 14px;
     }
 
-	.area {
-		display: inline-block;
-		width: 100%;
-		font-size: 120%;
-		margin-left: 0px;
-		margin-top: 20px;
-	}
-
-	.item {
-		display: inline-block;
-		padding: 2px;
-		width: 100%;
-		margin-bottom: 5px;
-		margin-left: 25px;
-	}
-
-	.child-link {
-	    font-size: 120%;
-	    font-weight: 400;
-	}
+    a {
+        font-weight: 400;
+    }
 }

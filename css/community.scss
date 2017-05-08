@@ -1,0 +1,38 @@
+---
+sitemap_exclude: y
+---
+@import "common";
+.community {
+  margin: 0;
+
+  @media (max-width: $tablet) {
+    margin: 0;
+  }
+
+  .lead {
+    margin: 50px 0 40px 0;
+  }
+
+  .community-section {
+    margin: 45px 0;
+
+    .external-link-icon {
+      margin: -5px 0 0;
+    }
+
+    a::after {
+      display: none;
+    }
+
+    .external-link-icon {
+      display: inline-block;
+      margin-left: 5px;
+    }
+  }
+
+  table, th, td {
+    border: 0px;
+    margin: 0px;
+    padding-left: 30px;
+  }
+}

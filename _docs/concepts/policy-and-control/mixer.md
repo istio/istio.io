@@ -4,7 +4,6 @@ overview: Architectural deep-dive into the design of Mixer, which provides the p
               
 order: 20
 
-bodyclass: docs
 layout: docs
 type: markdown
 ---
@@ -26,7 +25,7 @@ management. Services that leverage Mixer in this way are abstracted from environ
 easing the process of hosting the code in different environments (different clouds and on-prem). (Please note that 
 as of the Alpha release of Istio, only Envoy can call Mixer directly.)
 
-<img style="display:block;width:60%;margin:auto;" src="./img/mixer/traffic.svg" alt="Flow of traffic." />
+<img style="display:block;width:60%;margin:auto;" src="./img/mixer/traffic.svg" title="Flow of traffic." />
 <p style="text-align:center;">Mixer Traffic Flow</p>
 
 Mixer provides three core features:
@@ -41,7 +40,7 @@ streams intended for both the service operator as well as for service consumers.
 management tool to provide some fairness between service consumers when contending for limited resources. Rate limits are
 examples of quotas.
 
-These mechanisms are applied based on a set of [attributes](/docs/concepts/policy-and-control/attributes.html) that are
+These mechanisms are applied based on a set of [attributes](./attributes.html) that are
 materialized for every request into Mixer. Within Istio, Envoy depends heavily on Mixer. Services running within the mesh
 can also use Mixer to report telemetry or manage quotas. (Note: as of Istio Alpha, only Envoy can call Mixer.)
 
@@ -58,7 +57,7 @@ checking, and more. Adapters enable Mixer to expose a single consistent API, ind
 The exact set of adapters used at runtime is determined through configuration and can easily be extended
 to target new or custom infrastructure backends.
 
-<img style="width:35%;display:block;margin:auto;" src="./img/mixer/adapters.svg" alt="Mixer and its adapters." />
+<img style="width:35%;display:block;margin:auto;" src="./img/mixer/adapters.svg" title="Mixer and its adapters." />
 
 ## Configuration state
 
@@ -102,7 +101,7 @@ configured through a simple declarative form as described [here](./mixer-config.
 Processing phase creates a set of adapter parameters. The Adapter Dispatching phase invokes the adapters
 associated with each aspect and passes them those parameters.
 
-<img style="display:block;width:50%;margin:auto;" src="./img/mixer/phases.svg" alt="Phases of mixer request processing" />
+<img style="display:block;width:50%;margin:auto;" src="./img/mixer/phases.svg" title="Phases of mixer request processing" />
 <p style="text-align:center;">Request Phases</p>
 
 ## Scripting
