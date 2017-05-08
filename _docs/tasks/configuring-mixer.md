@@ -1,6 +1,6 @@
 ---
 title: Configuring Mixer
-overview: This task shows how to configure Mixer.
+overview: Shows how to configure Mixer.
           
 order: 38
 
@@ -17,7 +17,7 @@ This task shows how to configure Mixer.
 
 * Deploy the [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application.
 
-* Initialize the application version routing by the running following
+* Initialize the application version routing by running the following
   commands:
   
   ```bash
@@ -30,16 +30,17 @@ This task shows how to configure Mixer.
 Mixer allows the operator to express complex behavior by specifying three 
 key pieces of information: **what** action to take, **how** to take that action, and **when** to take that action.
 
-* **What action to take:** Aspect configuration defines _what_ actions to take. These actions include
+* **What action to take:** _Aspect_ configuration defines _what_ actions to take. These actions include
       logging, metrics collection, list checks, quota enforcement and others. 
-      Aspect configurtion defines _intent-focussed_ parameters of these actions.
-      `Descriptors` are externalization of common configuration needed by aspects.
-      For example the `metrics` aspect defines the [`MetricDescriptor`]({{home}}/docs/reference/api/mixer-config.html#istio.mixer.v1.config.descriptor.MetricDescriptor).  
-* **How to take that action:** Adapter configuration defines _how_ to take an action.
-      In case of metrics, the adapter configuration includes details of the backend servers.
+      _Descriptors_ are named and re-usable parts of the aspect configuration.
+      For example the `metrics` aspect defines the [`MetricDescriptor`]({{home}}/docs/reference/api/mixer-config.html#istio.mixer.v1.config.descriptor.MetricDescriptor). 
+ 
+* **How to take that action:** _Adapter_ configuration defines _how_ to take an action.
+      In case of metrics, the adapter configuration includes details of the infrastructure backends.
+
 * **When to take that action:** `Selectors` and `subjects` define _when_ to take an action.
       Selectors are attribute-based expressions like `response.code == 200` and Subjects
-      are heirarchical resource names like `myservice.namespace.svc.cluster.local`.
+      are hierarchical resource names like `myservice.namespace.svc.cluster.local`.
 
 
 ## Configuration steps
@@ -106,7 +107,7 @@ The following example shows how to use a `selector` to apply rate limits selecti
 ```
 
 ## Aspect associations 
-The steps outlined in the previous section apply to all `aspects`  of Mixer.
+The steps outlined in the previous section apply to all of Mixer's aspects.
 Each aspect requires specific `desciptors` and `adapters`.
 The following table enumerates valid combinations of the `aspects`, the `descriptors` and the `adapters`.
 
@@ -124,13 +125,13 @@ Istio uses [`protobufs`](https://developers.google.com/protocol-buffers/) to def
 
 
 ## Organization of configuration
-Aspect configuration applies to a `subject`. `Subject` is a hierarchical resource.
-Typically `subject` is the fully qualified name of a service, namespace or a cluster. An aspect may apply
+Aspect configuration applies to a `subject`. A `Subject` is a resource in a hierarchy.
+Typically `subject` is the fully qualified name of a service, namespace or a cluster. An aspect configuration may apply
 to the `subject` resource and its sub-resources.
 
 ## Pushing configuration
 `istioctl` pushes configuration changes to the API server.
-As of the `alpha` release, the API server supports pushing only `aspect rules`. 
+As of the alpha release, the API server supports pushing only `aspect rules`. 
 
 A temporary workaround allows you to push `adapters.yml` and `descriptors.yml` as follows.
 1. Find the mixer pod
