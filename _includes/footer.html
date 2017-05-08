@@ -1,12 +1,7 @@
 <footer>
     <div class="container">
-        <div class="left-links">
-            <p class="description">Copyright &copy; 2017 Istio Authors</p>
-            <p class="description">This site was last built on {{site.time | date_to_string | split: ' ' | join: '-'}}</p>
-        </div>
-
-        <div class="right-links">
-            <div class="col-md-4 col-sm-4 col-xs-12 footer-documentation">
+        <div class="row">
+            <div class="col-md-3 col-sm-3 col-xs-12 footer-documentation">
                 <ul class="toggle">
                     <p class="right-link-headers">Docs</p>
                     <li><a href="{{home}}/docs/"><p>Welcome</p></a></li>
@@ -47,6 +42,14 @@
                     <li><a href="https://github.com/istio/" target="_blank"><p class="github community-links">GitHub</p></a></li>
                 </ul>
             </div>
+        </div>
+        <div class="row">
+            <p class="description small text-center">
+                Copyright &copy; 2017 Istio Authors<br>
+                This site was built on {{site.time | date_to_string | split: ' ' | join: '-'}}<br>
+                Found something inaccurate or missing? <a href="https://github.com/istio/istio.github.io/issues/new?title=Issue with {{page.path}}">File an issue</a>
+                and we'll get right on it.
+            </p>
         </div>
     </div>
 </footer>

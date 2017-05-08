@@ -3,8 +3,34 @@ layout: base
 ---
 {% include home.html %}
 
+<style>
+	.breadcrumb {
+		background-color: white;
+	}
+</style>
+
 <div class="nav-hero-container">
 	{% include nav.html %}
+</div>
+<div class="container">
+	<ul class="breadcrumb">
+		<li><a href="/"><i class="fa fa-home"></i></a></li>
+
+		{% assign parts = page.url | split: '/' %}
+		{% if parts.size > 2 %}
+			<li><a href="/{{ parts[1] }}/">{{ parts[1] | replace: '-', ' '| capitalize }}</a></li>
+			{% if parts.size > 3 %}
+				<li><a href="/{{ parts[1] }}/{{ parts[2] }}/">{{ parts[2] | replace: '-', ' '| capitalize }}</a></li>
+				{% if parts.size > 4 %}
+					<li><a href="/{{ parts[1] }}/{{ parts[2] }}/{{ parts[3] }}/">{{ parts[3] | replace: '-', ' '| capitalize }}</a></li>
+				{% endif %}
+			{% endif %}
+		{% endif %}
+
+		{% unless page.url contains "index" %}
+		<li>{{ page.title}}</li>
+		{% endunless %}
+	</ul>
 </div>
 
 {% include contribute-links.html %}

@@ -4,50 +4,58 @@ title: Istio
 ---
 {% include home.html %}
 
-<div id="landing-content" class="container landing-content-container">
-    <div class="row" >
-        <div class="col-md-11 nofloat center-block landing-row">
-            <h3 class="col-sm-7 landing-row-title">Rich Layer-7 Routing & Traffic Management</h3>
-            <p class="col-sm-7">Control the flow of traffic and API calls between services using dynamic route configuration.</p>
-            <div class="col-sm-7">
-                <a href="{{home}}/docs/concepts/what-is-istio/architecture.html"><button class="btn btn-istio btn-read-more">READ MORE</button></a>
-            </div>
-            <img class="col-sm-5 nofloat landing-image" src="{{home}}/img/routing.svg" alt="Traffic Management">
+<section class="hero-wrapper">
+    <div class="jumbotron traffic">
+        <div class="container-fluid">
+            <img class="landing-image pull-left" src="{{home}}/img/routing.svg" alt="Traffic Management"> 
+            <div class="section-content">
+                <h2>Rich Layer-7 Routing &amp; Traffic Management</h2>
+                <p>Control the flow of traffic and API calls between services using dynamic route configuration.</p>
+                <a href="{{home}}/docs/concepts/what-is-istio/architecture.html"><button class="btn btn-grpc waves-effect waves-light btn-read-more">READ MORE</button></a>
+            </div>       
         </div>
     </div>
+</section>
 
-    <div class="row" >
-        <div class="col-md-11 nofloat center-block landing-row">
-            <img class="col-sm-5 landing-image" src="{{home}}/img/resilience.svg" alt="Timeouts, Retries, Circuit Breakers">
-            <h3 class="col-sm-7 landing-row-title">Resilience across languages and platforms</h3>
-            <p class="col-sm-7">Increase reliability by shielding applications from flaky networks and cascading failures in adverse conditions.</p>
-            <div class="col-sm-7">
-                <a href="{{home}}/about"><button class="btn btn-istio btn-read-more">READ MORE</button></a>
-            </div>
-        </div>
-    </div>
-
-    <div class="row" >
-        <div class="col-md-11 nofloat center-block landing-row">
-            <h3 class="col-sm-7 landing-row-title">Fleet-wide Policy Enforcement</h3>
-            <p class="col-sm-7">Apply organizational policy to the interaction between services, ensure access policies are enforced and resources are fairly distributed among consumers.</p>
-            <div class="col-sm-7">
-                <a href="{{home}}/docs/concepts/policy-and-control/mixer.html"><button class="btn btn-istio btn-read-more">READ MORE</button></a>
-            </div>
-            <img class="col-sm-5 nofloat landing-image" src="{{home}}/img/policy.svg" alt="Policy Enforcement">
-        </div>
-    </div>
-
-    <div class="row" >
-        <div class="col-md-11 nofloat center-block landing-row">
-            <img class="col-sm-5 landing-image" src="{{home}}/img/monitoring.svg" alt="Distributed tracing and telemetry">
-            <h3 class="col-sm-7 landing-row-title">In-depth Telemetry and Reporting</h3>
-            <p class="col-sm-7">Understand the dependencies between services, the nature and flow of traffic between them and quickly identify issues with distributed tracing.</p>
-            <div class="col-sm-7 col-sm-offset-5 col-sm-offset-0">
-                <a href="{{home}}/docs/concepts/what-is-istio/architecture.html"><button class="btn btn-istio btn-read-more">READ MORE</button></a>
+<section class="hero-wrapper">
+    <div class="jumbotron resilience">
+        <div class="container-fluid">
+            <img class="landing-image pull-right" src="{{home}}/img/resilience.svg" alt="Timeouts, Retries, Circuit Breakers">
+            <div class="section-content">
+                <h2>Resilience across languages and platforms</h2>
+                <p>Increase reliability by shielding applications from flaky networks and cascading failures in adverse conditions.</p>
+                <a href="{{home}}/about"><button class="btn btn-grpc waves-effect waves-light btn-read-more">READ MORE</button></a>
             </div>
         </div>
     </div>
+</section>
 
-    <button class="btn btn-floating down-caret down-caret" data-target="doc-call"><div class="icon-caret"></div></button>
+<section class="hero-wrapper">
+    <div class="jumbotron policy">
+        <div class="container-fluid">
+            <img class="landing-image pull-left" src="{{home}}/img/policy.svg" alt="Policy Enforcement">
+            <div class="section-content">
+                <h2>Fleet-wide Policy Enforcement</h2>
+                <p>Apply organizational policy to the interaction between services, ensure access policies are enforced and resources are fairly distributed among consumers.</p>
+                <a href="{{home}}/docs/concepts/policy-and-control/mixer.html"><button class="btn btn-grpc waves-effect waves-light btn-read-more">READ MORE</button></a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="hero-wrapper">
+    <div class="jumbotron reporting">
+        <div class="container-fluid">
+            <img class="landing-image pull-right" src="{{home}}/img/monitoring.svg" alt="Distributed tracing and telemetry">
+            <div class="section-content">
+                <h2>In-depth Telemetry and Reporting</h2>
+                <p>Understand the dependencies between services, the nature and flow of traffic between them and quickly identify issues with distributed tracing.</p>
+                <a href="{{home}}/docs/concepts/what-is-istio/architecture.html"><button class="btn btn-grpc waves-effect waves-light btn-read-more">READ MORE</button></a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div>
+    <button class="btn btn-floating waves-effect down-caret" data-target="doc-call"><div class="icon-caret"></div></button>
 </div>
