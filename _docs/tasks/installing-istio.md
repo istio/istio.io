@@ -71,7 +71,7 @@ clone Istio's [GitHub](https://github.com/istio/istio) repository:
 5. Source the Istio configuration file:
 
     ```bash
-    source istio.VERSION
+    source ../../istio.VERSION
     ```
 
 6. Download one of the [`istioctl`]({{home}}/docs/reference/commands/istioctl.html) client binaries corresponding to your OS: `istioctl-osx`, `istioctl-win.exe`,
