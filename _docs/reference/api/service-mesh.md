@@ -1,8 +1,8 @@
 ---
-title: Service Mesh Configuration
+title: Service Mesh
 overview: Generated documentation for the Service Mesh global configuration.
 
-order: 5
+order: 30
 
 layout: docs
 type: markdown

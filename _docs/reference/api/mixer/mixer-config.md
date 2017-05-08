@@ -1,5 +1,5 @@
 ---
-title: Mixer - Configuration Schema
+title: Configuration Schema
 overview: Generated documentation for Mixer's configuration schema
 
 order: 40

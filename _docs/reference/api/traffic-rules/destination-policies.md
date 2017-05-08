@@ -1,8 +1,8 @@
 ---
-title: Rules - Destination Policies
-overview: Generated documentation for the Istio's traffic management rules.
+title: Destination Policies
+overview: Generated documentation for Istio's client-side traffic management policies.
 
-order: 1000
+order: 30
 
 layout: docs
 type: markdown
