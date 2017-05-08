@@ -2,7 +2,7 @@
 title: Enabling Simple Access Control
 overview: This task shows how to use Istio to control access to a service.
           
-order: 41
+order: 90
 
 layout: docs
 type: markdown

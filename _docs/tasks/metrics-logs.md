@@ -2,7 +2,7 @@
 title: Collecting Metrics and Logs
 overview: This task shows you how to configure Mixer to collect metrics and logs from Envoy instances.
 
-order: 80
+order: 110
 
 layout: docs
 type: markdown

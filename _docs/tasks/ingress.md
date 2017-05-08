@@ -1,5 +1,5 @@
 ---
-title: Configuring Ingress with Envoy
+title: Allowing Traffic into the Mesh with Ingress
 overview: This task describes how to configure Ingress in Kubernetes with Envoy
 
 order: 30
