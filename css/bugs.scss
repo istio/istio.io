@@ -3,13 +3,19 @@ sitemap_exclude: y
 ---
 @import "common";
 .bugs {
-  margin: 0;
+    h1 {
+        color: $mainBrandColor;
+    }
 
-  @media (max-width: $tablet) {
-    margin: 0;
-  }
+    p {
+        padding-left: 20px;
+    }
 
-  .lead {
-    margin: 50px 0 40px 0;
-  }
+    ul {
+        padding-left: 30px;
+    }
+
+    ul p {
+        padding-left: 0px;
+    }
 }
