@@ -45,9 +45,15 @@ cluster, please refer to our [Installation]({{home}}/docs/tasks/installing-istio
 
 Istio uses the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0.html).
 
+#### How was Istio started?
+
+The Istio project was started by teams from Google and IBM in partnership with the Envoy team from Lyft. It's been
+developed fully in the open on GitHub.
+
 #### What deployment environments are supported?
 
-Istio is designed and built to be platform-independent. For our initial Alpha release, however, Istio only supports environments running Kubernetes v1.5 or 
+Istio is designed and built to be platform-independent. For our {{ site.data.istio.version }} release, however, Istio only supports environments running 
+Kubernetes v1.5 or 
 greater. 
 
 #### How can I contribute?
@@ -78,20 +84,15 @@ Detailed developer-level documentation is maintained for each component in GitHu
 
 #### Istio doesn't work - what do I do?
 
-Follow the [instructions](https://github.com/istio/istio/blob/master/CONTRIBUTING.md#issues) to open an issue [here](https://github.com/istio/istio/issues/new) or ask questions
-on [slack](https://istio.slack.com/messages/C524NCGR1/).
+Check out our [bug reporting]({{home}}/bugs) page for information of finding solutions and filing bugs.
 
-Our [user mailing list](https://groups.google.com/forum/#!forum/istio-users) is another great way to get help and answers. We also monitor [Stack Overflow](https://stackoverflow.com/questions/tagged/istio) for questions tagged with "istio".
+#### What does the {{ site.data.istio.version }} release cover?
 
-Additionally, we provide [Reference Guides]({{home}}/docs/reference/) for all of the Istio components. These can be helpful when troubleshooting issues with 
-configuration, etc.
-
-#### What does the Alpha release cover?
-
-Istio's Alpha release provides an early preview of the intended functionality and user experience of our service mesh. We are hoping to solicit 
+Istio's {{ site.data.istio.version }} release provides an early preview of the intended functionality and user experience of our service mesh. We are hoping to 
+solicit 
 early feedback on direction and design decisions.
 
-The Alpha release includes the following features:
+The {{ site.data.istio.version }} release includes the following features:
 
 *   Simple command-line installation into a Kubernetes cluster
 
@@ -127,11 +128,13 @@ Kubernetes secret security, from secret encryption to node-level access control.
 
 #### What kind of traffic does Istio Auth support?
 
-For Alpha, we only support HTTP traffic. And we are actively working on supporting more kinds of traffic like SQL, etc.
+For {{ site.data.istio.version }}, we only support HTTP traffic. And we are actively working on supporting more kinds of traffic like SQL, etc.
 
 #### What is Istio's roadmap?
 
-Istio's initial Alpha release will be in May of 2017. The Alpha release is to get early feedback and provide a glimpse into what we're planning.
+Istio's initial {{ site.data.istio.version }} release will be in May of 2017. The {{ site.data.istio.version }} release is to get early feedback and provide a glimpse into 
+what we're 
+planning.
 
 We are planning a Beta release later in 2017 which will be suitable for use in production environments.
 
