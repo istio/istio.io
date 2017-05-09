@@ -10,20 +10,22 @@ type: markdown
 
 The page explains Mixer's role and general architecture.
 
-
-
 ## Background
 
-Mixer provides the control plane abstractions necessary to support most real-world multi-tenant services,
-such as precondition checks, telemetry reporting, and quota management. Envoy delegates precondition
-checking (permissions, whitelist, etc) to Mixer and dispatches its telemetry data 
-to Mixer, which proceeds to repackage and redirect the data towards configured infrastructure backends.
+Infrastructure backends are designed to provide support functionality that is used to build services.
+They include such things as access control systems, telemetry capturing systems, quota enforcement
+systems, billing systems, and so forth. Services traditionally directly integrate with these
+backend systems, creating a hard coupling and baking-in specific semantics and usage options.
 
-Services within the Istio mesh can also directly integrate with Mixer. For example, services may wish to provide rich telemetry
-for particular operations beyond what Envoy automatically collects. Or services may use Mixer for resource-oriented quota
-management. Services that leverage Mixer in this way are abstracted from environment-specific control plane details, greatly
-easing the process of hosting the code in different environments (different clouds and on-prem). (Please note that 
-as of the Alpha release of Istio, only Envoy can call Mixer directly.)
+Mixer provides a generic intermediation layer between application code and infrastructure backends. 
+Its design moves policy decisions out of the app layer and into configuration instead, under operator control.
+Instead of having application code integrate with specific backends, the app code instead does a fairly simple
+integration with Mixer, and Mixer takes responsibility for interfacing with the backend systems.
+
+Mixer is *not* designed to create a _portability layer_ on top of infrastructure backends. It's not about trying to
+just define a universal logging API, universal metric API, universal billing API, and so forth. Instead, Mixer is designed to
+change the boundaries between layers in order to reduce systemic complexity, eliminating policy logic from service code and giving control
+to operators instead.
 
 <img style="display:block;width:60%;margin:auto;" src="./img/mixer/traffic.svg" title="Flow of traffic." />
 <p style="text-align:center;">Mixer Traffic Flow</p>
