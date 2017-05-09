@@ -93,14 +93,14 @@ match:
 ```
 
 _3. Select rule based on HTTP headers_. For example, the following rule will
-only apply to an incoming request if it includes a "Cookie" header that
+only apply to an incoming request if it includes a "cookie" header that
 contains the substring "user=jason".
 
 ```yaml
 destination: reviews.default.svc.cluster.local
 match:
   httpHeaders:
-    Cookie:
+    cookie:
       regex: "^(.*?;)?(user=jason)(;.*)?$"
 ```
 
@@ -109,7 +109,7 @@ corresponding headers must match for the rule to apply.
 
 Multiple criteria can be set simultaneously. In such a case, AND semantics
 apply. For example, the following rule only applies if the source of the
-request is "reviews:v2" AND the "Cookie" header containing "user=jason" is
+request is "reviews:v2" AND the "cookie" header containing "user=jason" is
 present.
 
 ```yaml
@@ -119,7 +119,7 @@ match:
   sourceTags:
     version: v2
   httpHeaders:
-    Cookie:
+    cookie:
       regex: "^(.*?;)?(user=jason)(;.*)?$"
 ```
 
