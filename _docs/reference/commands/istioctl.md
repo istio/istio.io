@@ -24,8 +24,11 @@ Available routing and traffic management configuration types:
 
 	[destination-policy ingress-rule route-rule]
 
-See [routing-and-traffic-management]({{home}}/docs/reference/routing-and-traffic-management.html)
-for an overview of the routing and traffic DSL.
+See
+[routing-rules]({{home}}/docs/reference/api/traffic-rules/routing-rules.html)
+and
+[destination-policies]({{home}}/docs/reference/api/traffic-rules/destination-policies.html)
+for an overview of routing rules and destination policies.
 
 More information on the mixer API configuration can be found under the
 istioctl mixer command documentation.
