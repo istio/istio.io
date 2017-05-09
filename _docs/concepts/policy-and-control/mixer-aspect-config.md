@@ -1,6 +1,6 @@
 ---
-title: Configuring Mixer
-overview: Shows how to configure Mixer.
+title: Mixer Aspect Configuration
+overview: Explains how to configure a Mixer Aspect and its dependencies.
           
 order: 38
 
@@ -11,45 +11,31 @@ type: markdown
 {% capture aspectConfig %}{{home}}/docs/reference/api/mixer/aspects{% endcapture %}
 {% capture adapterConfig %}{{home}}/docs/reference/api/mixer/adapters{% endcapture %}
 {% capture mixerConfig %}{{home}}/docs/reference/api/mixer/mixer-config.html{% endcapture %}
+{% capture tasks %}{{home}}/docs/tasks{% endcapture %}
 
-This task shows how to configure Mixer.
-
-## Before you begin
-
-* [Install Istio](./installing-istio.html) in your kubernetes
-  cluster.
-
-* Deploy the [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application.
-
-* Initialize the application version routing by running the following
-  commands:
-  
-  ```bash
-  istioctl create -f route-rule-all-v1.yaml
-  istioctl replace -f route-rule-reviews-v2-v3.yaml
-  ```
+Explains how to configure a Mixer _Aspect_ and its dependencies. 
 
 ## Overview
 
 Mixer configuration expresses system behavior by specifying three 
 key pieces of information: **what** action to take, **how** to take that action, and **when** to take that action.
 
-* **What action to take:** _Aspect_ configuration defines _what_ action to take. These actions include
+* **What action to take:** [_Aspect_](./mixer-config.html#Aspects) configuration defines _what_ action to take. These actions include
       logging, metrics collection, list checks, quota enforcement and others. 
-      _Descriptors_ are named and re-usable parts of the aspect configuration.
+      [_Descriptors_](./mixer-config.html#Descriptors) are named and re-usable parts of the aspect configuration.
       For example the `metrics` aspect defines the [`MetricDescriptor`]({{mixerConfig}}#istio.mixer.v1.config.descriptor.MetricDescriptor) and refers to the MetricDescriptor instances by name.
 
-* **How to take that action:** _Adapter_ configuration defines _how_ to take an action.
+* **How to take that action:** [_Adapter_](./mixer-config.html#Adapters) configuration defines _how_ to take an action.
       The metrics adapter configuration includes details of the infrastructure backends.
 
-* **When to take that action:** `Selectors` and `subjects` define _when_ to take an action.
+* **When to take that action:** [_Selectors_](./mixer-config.html#Selectors) and `subjects` define _when_ to take an action.
       Selectors are attribute-based expressions like `response.code == 200` and Subjects
       are hierarchical resource names like `myservice.namespace.svc.cluster.local`.
 
 
 ## Configuration steps
 
-Consider the following aspect configuration that [enables rate limits](./rate-limiting.md).
+Consider the following aspect configuration that [enables rate limits]({{tasks}}/rate-limiting.html).
 ```yaml
 - aspects:
   - kind: quotas
@@ -73,7 +59,7 @@ In this example, `rate_limit` is `true`, hence the `aspect` must specify an `exp
 Similarly, the `aspect` must supply one label of type `string`.
  
 Mixer delegates the work of applying rate limits to an `adapter` that implements the `quotas` kind. 
-`Adapters.yml` defines this configuration.
+[adapters.yml](https://github.com/istio/mixer/blob/master/testdata/configroot/scopes/global/adapters.yml) defines this configuration.
 
 ```yaml
 - name: default
@@ -95,7 +81,7 @@ The `memQuota` adapter in the above example takes one parameter. An operator may
     minDeduplicationDuration: 2s
 ```
 
-The following example shows how to use a `selector` to apply rate limits selectively.
+The following example shows how to use a [_selector_](./mixer-config.html#Selectors) to apply rate limits selectively.
 
 ```yaml
 - selector: source.labels["app"]=="reviews" && source.labels["version"] == "v3"  
@@ -109,6 +95,7 @@ The following example shows how to use a `selector` to apply rate limits selecti
         labels:
           label1: target.service
 ```
+
 
 ## Aspect associations 
 The steps outlined in the previous section apply to all of Mixer's aspects.
@@ -163,5 +150,5 @@ Mixer provides default definitions for commonly used
 
 ## What's next
 
-* Learn more about [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html) and [Mixer Config]({{home}}/docs/concepts/policy-and-control/mixer-config.html).
+* Learn more about [Mixer](./mixer.html) and [Mixer Config](./mixer-config.html).
 * Discover the full [Attribute Vocabulary]({{home}}/docs/reference/api/mixer/attribute-vocabulary.html).
