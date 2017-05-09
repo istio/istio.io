@@ -128,7 +128,7 @@ This application is polyglot, i.e., the microservices are written in different l
 
    If loadbalancers are not supported, use the service NodePort instead:
    ```bash
-   export GATEWAY_URL=$(kubectl get po -l istio=ingress -o jsonpath={.items[0].status.hostIP}):$(kubectl get svc istio-ingress -o jsonpath={.spec.ports[0].nodePort})
+   export GATEWAY_URL=$(kubectl get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -o jsonpath='{.spec.ports[0].nodePort}')
    ```
 
 1. Confirm that the BookInfo application is running with the following `curl` command:
