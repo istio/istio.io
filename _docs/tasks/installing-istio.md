@@ -49,7 +49,7 @@ clone Istio's [GitHub](https://github.com/istio/istio) repository:
     ```bash
     kubectl get clusterrole -o yaml | grep apiVersion
     ```
-    * If the command displays an error, it means the cluster does not support RBAC, and you can proceed to step 4.
+    * If the command displays an error, or does not display anything, it means the cluster does not support RBAC, and you can proceed to step 4.
 
     * If the command displays 'alpha' version, please apply istio-rbac-alpha.yaml configuration:
     ```bash
