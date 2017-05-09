@@ -22,7 +22,7 @@ This page shows how to install and configure Istio in a Kubernetes cluster.
     gcloud container clusters get-credentials <cluster-name> --zone <zone> --project <project-name>
     ```
 
-* Please update kubectl to the latest version supported by your cluster
+* Please update kubectl to the latest version supported by your cluster.
 
 * Ensure the `curl` command is present.
 
