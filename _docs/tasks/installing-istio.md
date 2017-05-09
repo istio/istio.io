@@ -15,13 +15,6 @@ This page shows how to install and configure Istio in a Kubernetes cluster.
 
 * The following instructions assume you have access to a Kubernetes cluster. To install Kubernetes locally, try [minikube](https://kubernetes.io/docs/getting-started-guides/minikube/).
 
-* If you are using [Google Container Engine](https://cloud.google.com/container-engine), please make sure you are using static client certificates before fetching cluster credentials:
-
-  ```bash
-  gcloud config set container/use_client_certificate True
-  gcloud container clusters get-credentials <cluster-name> --zone <zone> --project <project-name>
-  ```
-
 * Ensure the `curl` command is present.
 
 ## Installing on an existing cluster
@@ -127,13 +120,14 @@ ServiceGraph addons:
 
 ## Verifying the installation
 
-1. Ensure the following Kubernetes services were deployed: "istio-manager", "istio-mixer", and "istio-ingress".
+1. Ensure the following Kubernetes services were deployed: "istio-manager", "istio-mixer", "istio-ingress", and "istio-egress".
 
    ```bash
    kubectl get svc
    ```
    ```bash
    NAME                       CLUSTER-IP     EXTERNAL-IP     PORT(S)              AGE
+   istio-egress               10.7.241.106   <none>          80/TCP               39m
    istio-ingress              10.83.241.84   35.184.70.168   80:30583/TCP         39m
    istio-manager              10.83.251.26   <none>          8080/TCP             39m
    istio-mixer                10.83.242.1    <none>          9091/TCP,42422/TCP   39m
@@ -143,14 +137,14 @@ ServiceGraph addons:
    (e.g., minikube), the `EXTERNAL-IP` will say `<pending>` and you will need to access the
    application using the service NodePort instead.
 
-2. Check the corresponding Kubernetes pods were deployed: "istio-manager-\*", "istio-mixer-\*", "istio-ingress-\*" and
-   "istio-ca-\*" (if Istio Auth is enabled).
+2. Check the corresponding Kubernetes pods were deployed: "istio-manager-\*", "istio-mixer-\*", "istio-ingress-\*", "istio-egress-\*", and "istio-ca-\*" (if Istio Auth is enabled).
 
    ```bash
    kubectl get pods
    ```
    ```bash
    NAME                                       READY     STATUS    RESTARTS   AGE
+   istio-egress-597320923-0szj8               1/1       Running   0          49m
    istio-ingress-594763772-j7jbz              1/1       Running   0          49m
    istio-manager-373576132-p2t9k              1/1       Running   0          49m
    istio-mixer-1154414227-56q3z               1/1       Running   0          49m
