@@ -26,7 +26,7 @@ This page shows how to install and configure Istio in a Kubernetes cluster.
 
 ## Installing on an existing cluster
 
-For the Alpha release, Istio must be installed in the same Kubernetes namespace as the applications. Instructions below will deploy Istio in the
+For the {{ site.data.istio.version }} release, Istio must be installed in the same Kubernetes namespace as the applications. Instructions below will deploy Istio in the
 default namespace. They can be modified for deployment in a different namespace.
 
 1. Download and extract the [istio installation files](https://raw.githubusercontent.com/istio/istio/master/releases/istio-0.1.tar.gz), or
@@ -40,6 +40,7 @@ clone Istio's [GitHub](https://github.com/istio/istio) repository:
 
    ```bash
    cd install/kubernetes
+   ```
    ```
 
 3. Determine if your cluster has [RBAC enabled](https://kubernetes.io/docs/admin/authorization/rbac/) by running this command:
