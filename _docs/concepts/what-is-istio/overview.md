@@ -8,7 +8,7 @@ layout: docs
 type: markdown
 ---
 
-This page introduces Istio, a polyglot service mesh.
+This page introduces Istio: an open platform to connect, manage, and secure microservices.
 
 As monolithic applications transition towards a distributed microservice architecture they become more difficult to manage and understand. These 
 architectures need basic necessities such as discovery, load balancing, failure recovery, metrics and monitoring, and more complex operational requirements 
