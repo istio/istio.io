@@ -29,7 +29,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | source.uid | string | A unique identifier for the particular instance of the application that sent the request. | kubernetes://redis-master-2353460263-1ecey.my-namespace |
 | source.namespace | string | The namespace of the sender of the request. | my-namespace |
 | source.labels | map | A map of key-value pairs attached to the source. | |
-| source.user | string | The user running the target application. | service-account |
+| source.user | string | The user running the source application. | service-account |
 | target.ip | ip_address | The IP address the request was sent to. | 10.0.0.104 |
 | target.port | int64 | The port the request was sent to. | 8080 |
 | target.service | dns_name | The hostname that was the target of the request. | my-svc.my-namespace.svc.cluster.local |
