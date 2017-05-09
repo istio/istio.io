@@ -34,8 +34,8 @@ EOF
 function generateIndex() {
     cat <<EOF
 ---
-title: Commands
-overview: Describes usage and options of the Istio CLI.
+title: CLI
+overview: Describes usage and options of the Istio CLI and other utilities.
 order: 30
 layout: docs
 type: markdown
@@ -84,6 +84,13 @@ function processPerBinaryFiles() {
         # change links to refer to anchors
         sed -i "s,${fullFileName},#${noext},g" ${out};
     done
+
+    # Command line help text output must use full path but
+    # pre-processed istio.io pages should use relative paths.
+    sed -i ${out} \
+        -e "s,https://istio.io/\(.*/\)\(.*\).html,[\2]({{home}}/\1\2.html),g" \
+        -e "s,http://istio.io/\(.*/\)\(.*\).html,[\2]({{home}}/\1\2.html),g"
+
     # final pass updating the subcommand's "SEE ALSO" links to the command itself
     sed "s,${commandName}.md,#${commandName},g" ${out};
 }

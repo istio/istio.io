@@ -17,11 +17,15 @@ Istio control interface
 
 Istio configuration command line utility.
 
-Create, list, modify, and delete configuration resources in the Istio system.
+Create, list, modify, and delete configuration resources in the Istio
+system.
 
-Available routing and traffic management configuration types: [destination-policy ingress-rule route-rule]. See
-https://istio.io/docs/reference/routing-and-traffic-management.html
-for an overview of the routing and traffic DSL.
+Available routing and traffic management configuration types:
+
+	[destination-policy ingress-rule route-rule]
+
+See http://istio.io/docs/reference for an overview of routing rules
+and destination policies.
 
 More information on the mixer API configuration can be found under the
 istioctl mixer command documentation.
@@ -30,9 +34,10 @@ istioctl mixer command documentation.
 ### Options
 
 ```
+      --kube                             Use Kubernetes client to send API requests to manager service (default true)
   -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
-  -m, --managerAddr string               Set your Istio manager address
+      --managerAPIService string         Name of istio-manager service. When --kube=false this sets the address of the manager service (default "istio-manager:8081")
   -n, --namespace string                 Select a Kubernetes namespace (default "default")
   -v, --v Level                          log level for V logs
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
@@ -51,26 +56,30 @@ Output shell completion code for the bash shell. The shell output must
 be evaluated to provide interactive completion of istioctl
 commands.
 
-Examples:
-
-    # Add the following to .bash_profile.
-    source <(istioctl completion)
-
-    # Create a separate completion file and source that from .bash_profile
-    istioctl completion > ~/.istioctl-complete.bash
-    echo "source ~/.istioctl-complete.bash" >> ~/.bash_profile
-
-
 ```
 istioctl completion
+```
+
+### Examples
+
+```
+
+# Add the following to .bash_profile.
+source <(istioctl completion)
+
+# Create a separate completion file and source that from .bash_profile
+istioctl completion > ~/.istioctl-complete.bash
+echo "source ~/.istioctl-complete.bash" >> ~/.bash_profile
+
 ```
 
 ### Options inherited from parent commands
 
 ```
+      --kube                             Use Kubernetes client to send API requests to manager service (default true)
   -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
-  -m, --managerAddr string               Set your Istio manager address
+      --managerAPIService string         Name of istio-manager service. When --kube=false this sets the address of the manager service (default "istio-manager:8081")
   -n, --namespace string                 Select a Kubernetes namespace (default "default")
   -v, --v Level                          log level for V logs
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
@@ -84,15 +93,18 @@ Create policies and rules
 ### Synopsis
 
 
-
-Example usage:
-
-	# Create a rule using the definition in example-routing.yaml.
-	$ istioctl create -f example-routing.yaml
-
+Create policies and rules
 
 ```
 istioctl create
+```
+
+### Examples
+
+```
+
+istioctl create -f example-routing.yaml
+
 ```
 
 ### Options
@@ -104,9 +116,10 @@ istioctl create
 ### Options inherited from parent commands
 
 ```
+      --kube                             Use Kubernetes client to send API requests to manager service (default true)
   -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
-  -m, --managerAddr string               Set your Istio manager address
+      --managerAPIService string         Name of istio-manager service. When --kube=false this sets the address of the manager service (default "istio-manager:8081")
   -n, --namespace string                 Select a Kubernetes namespace (default "default")
   -v, --v Level                          log level for V logs
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
@@ -120,18 +133,22 @@ Delete policies or rules
 ### Synopsis
 
 
-
-Example usage:
-
-	# Delete a rule using the definition in example-routing.yaml.
-	$ istioctl delete -f example-routing.yaml
-
-	# Delete the rule productpage-default
-	$ istioctl delete route-rule productpage-default
-
+Delete policies or rules
 
 ```
 istioctl delete
+```
+
+### Examples
+
+```
+
+# Delete a rule using the definition in example-routing.yaml.
+istioctl delete -f example-routing.yaml
+
+# Delete the rule productpage-default
+istioctl delete route-rule productpage-default
+
 ```
 
 ### Options
@@ -143,9 +160,10 @@ istioctl delete
 ### Options inherited from parent commands
 
 ```
+      --kube                             Use Kubernetes client to send API requests to manager service (default true)
   -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
-  -m, --managerAddr string               Set your Istio manager address
+      --managerAPIService string         Name of istio-manager service. When --kube=false this sets the address of the manager service (default "istio-manager:8081")
   -n, --namespace string                 Select a Kubernetes namespace (default "default")
   -v, --v Level                          log level for V logs
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
@@ -159,21 +177,25 @@ Retrieve policies and rules
 ### Synopsis
 
 
-
-Example usage:
-
-	# List all route rules
-	istioctl get route-rules
-
-	# List all destination policies
-	istioctl get destination-policies
-
-	# Get a specific rule named productpage-default
-	istioctl get route-rule productpage-default
-
+Retrieve policies and rules
 
 ```
 istioctl get
+```
+
+### Examples
+
+```
+
+# List all route rules
+istioctl get route-rules
+
+# List all destination policies
+istioctl get destination-policies
+
+# Get a specific rule named productpage-default
+istioctl get route-rule productpage-default
+
 ```
 
 ### Options
@@ -185,9 +207,10 @@ istioctl get
 ### Options inherited from parent commands
 
 ```
+      --kube                             Use Kubernetes client to send API requests to manager service (default true)
   -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
-  -m, --managerAddr string               Set your Istio manager address
+      --managerAPIService string         Name of istio-manager service. When --kube=false this sets the address of the manager service (default "istio-manager:8081")
   -n, --namespace string                 Select a Kubernetes namespace (default "default")
   -v, --v Level                          log level for V logs
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
@@ -220,23 +243,26 @@ The Istio project is continually evolving so the Istio sidecar
 configuration may change unannounced. When in doubt re-run istioctl
 kube-inject on deployments to get the most up-to-date changes.
 
-Example usage:
-
-	# Update resources on the fly before applying.
-	kubectl apply -f <(istioctl kube-inject -f <resource.yaml>)
-
-	# Create a persistent version of the deployment with Envoy sidecar
-	# injected. This is particularly useful to understand what is
-	# being injected before committing to Kubernetes API server.
-	istioctl kube-inject -f deployment.yaml -o deployment-with-istio.yaml
-
-	# Update an existing deployment.
-	kubectl get deployment -o yaml | istioctl kube-inject -f - | kubectl apply -f -
-
-
 
 ```
 istioctl kube-inject
+```
+
+### Examples
+
+```
+
+# Update resources on the fly before applying.
+kubectl apply -f <(istioctl kube-inject -f <resource.yaml>)
+
+# Create a persistent version of the deployment with Envoy sidecar
+# injected. This is particularly useful to understand what is
+# being injected before committing to Kubernetes API server.
+istioctl kube-inject -f deployment.yaml -o deployment-with-istio.yaml
+
+# Update an existing deployment.
+kubectl get deployment -o yaml | istioctl kube-inject -f - | kubectl apply -f -
+
 ```
 
 ### Options
@@ -244,22 +270,23 @@ istioctl kube-inject
 ```
       --coreDump                  Enable/Disable core dumps in injected Envoy sidecar (--coreDump=true affects all pods in a node and should only be used the cluster admin) (default true)
   -f, --filename string           Input Kubernetes resource filename
-      --hub string                Docker hub (default "docker.io/istio")
+      --hub string                Docker hub
       --includeIPRanges string    Comma separated list of IP ranges in CIDR form. If set, only redirect outbound traffic to Envoy for IP ranges. Otherwise all outbound traffic is redirected
       --meshConfig string         ConfigMap name for Istio mesh configuration, key should be "mesh" (default "istio")
   -o, --output string             Modified output Kubernetes resource filename
       --setVersionString string   Override version info injected into resource
       --sidecarProxyUID int       Envoy sidecar UID (default 1337)
-      --tag string                Docker tag (default "2017-05-01-19.24.52")
+      --tag string                Docker tag
       --verbosity int             Runtime verbosity (default 2)
 ```
 
 ### Options inherited from parent commands
 
 ```
+      --kube                             Use Kubernetes client to send API requests to manager service (default true)
   -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
-  -m, --managerAddr string               Set your Istio manager address
+      --managerAPIService string         Name of istio-manager service. When --kube=false this sets the address of the manager service (default "istio-manager:8081")
   -n, --namespace string                 Select a Kubernetes namespace (default "default")
   -v, --v Level                          log level for V logs
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
@@ -277,32 +304,24 @@ Istio Mixer configuration
 The Mixer configuration API allows users to configure all facets of the
 Mixer.
 
-See https://istio.io/docs/concepts/policy-and-control/mixer-config.html
+See [mixer-config]({{home}}/docs/concepts/policy-and-control/mixer-config.html)
 for a description of Mixer configuration's scope, subject, and rules.
-
-Example usage:
-
-	# The Mixer config server can be accessed from outside the
-    # Kubernetes cluster using port forwarding.
-    CONFIG_PORT=$(kubectl get pod -l istio=mixer \
-		-o jsonpath='{.items[0].spec.containers[0].ports[1].containerPort}')
-    export ISTIO_MIXER_API_SERVER=localhost:${CONFIG_PORT}
-    kubectl port-forward $(kubectl get pod -l istio=mixer \
-		-o jsonpath='{.items[0].metadata.name}') ${CONFIG_PORT}:${CONFIG_PORT} &
 
 
 ### Options
 
 ```
-      --mixer string   Address of the Mixer configuration server as <host>:<port>
+      --mixer string             (deprecated) Address of the Mixer configuration server as <host>:<port>
+      --mixerAPIService string   Name of istio-mixer service. When --kube=false this sets the address of the mixer service (default "istio-mixer:9094")
 ```
 
 ### Options inherited from parent commands
 
 ```
+      --kube                             Use Kubernetes client to send API requests to manager service (default true)
   -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
-  -m, --managerAddr string               Set your Istio manager address
+      --managerAPIService string         Name of istio-manager service. When --kube=false this sets the address of the manager service (default "istio-manager:8081")
   -n, --namespace string                 Select a Kubernetes namespace (default "default")
   -v, --v Level                          log level for V logs
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
@@ -316,15 +335,19 @@ Create Istio Mixer rules
 ### Synopsis
 
 
-
-Example usage:
-
-    # Create a new Mixer rule for the given scope and subject.
-    istioctl mixer rule create global myservice.ns.svc.cluster.local -f mixer-rule.yml
-
+Create Istio Mixer rules
 
 ```
 istioctl mixer rule create
+```
+
+### Examples
+
+```
+
+# Create a new Mixer rule for the given scope and subject.
+istioctl mixer rule create global myservice.ns.svc.cluster.local -f mixer-rule.yml
+
 ```
 
 ### Options
@@ -336,10 +359,12 @@ istioctl mixer rule create
 ### Options inherited from parent commands
 
 ```
+      --kube                             Use Kubernetes client to send API requests to manager service (default true)
   -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
-  -m, --managerAddr string               Set your Istio manager address
-      --mixer string                     Address of the Mixer configuration server as <host>:<port>
+      --managerAPIService string         Name of istio-manager service. When --kube=false this sets the address of the manager service (default "istio-manager:8081")
+      --mixer string                     (deprecated) Address of the Mixer configuration server as <host>:<port>
+      --mixerAPIService string           Name of istio-mixer service. When --kube=false this sets the address of the mixer service (default "istio-mixer:9094")
   -n, --namespace string                 Select a Kubernetes namespace (default "default")
   -v, --v Level                          log level for V logs
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
@@ -356,23 +381,29 @@ Get Istio Mixer rules
 
 Get a Mixer rule for a given scope and subject.
 
-Example usage:
-
-	# Get the Mixer rule with scope='global' and subject='myservice.ns.svc.cluster.local'
-    istioctl mixer rule get global myservice.ns.svc.cluster.local
-
 
 ```
 istioctl mixer rule get
 ```
 
+### Examples
+
+```
+
+# Get the Mixer rule with scope='global' and subject='myservice.ns.svc.cluster.local'
+istioctl mixer rule get global myservice.ns.svc.cluster.local
+
+```
+
 ### Options inherited from parent commands
 
 ```
+      --kube                             Use Kubernetes client to send API requests to manager service (default true)
   -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
-  -m, --managerAddr string               Set your Istio manager address
-      --mixer string                     Address of the Mixer configuration server as <host>:<port>
+      --managerAPIService string         Name of istio-manager service. When --kube=false this sets the address of the manager service (default "istio-manager:8081")
+      --mixer string                     (deprecated) Address of the Mixer configuration server as <host>:<port>
+      --mixerAPIService string           Name of istio-mixer service. When --kube=false this sets the address of the mixer service (default "istio-mixer:9094")
   -n, --namespace string                 Select a Kubernetes namespace (default "default")
   -v, --v Level                          log level for V logs
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
@@ -393,10 +424,12 @@ Create and list Mixer rules in the configuration server.
 ### Options inherited from parent commands
 
 ```
+      --kube                             Use Kubernetes client to send API requests to manager service (default true)
   -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
-  -m, --managerAddr string               Set your Istio manager address
-      --mixer string                     Address of the Mixer configuration server as <host>:<port>
+      --managerAPIService string         Name of istio-manager service. When --kube=false this sets the address of the manager service (default "istio-manager:8081")
+      --mixer string                     (deprecated) Address of the Mixer configuration server as <host>:<port>
+      --mixerAPIService string           Name of istio-mixer service. When --kube=false this sets the address of the mixer service (default "istio-mixer:9094")
   -n, --namespace string                 Select a Kubernetes namespace (default "default")
   -v, --v Level                          log level for V logs
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
@@ -410,15 +443,18 @@ Replace existing policies and rules
 ### Synopsis
 
 
-
-Example usage:
-
-	# Create a rule using the definition in example-routing.yaml.
-	$ istioctl replace -f example-routing.yaml
-
+Replace existing policies and rules
 
 ```
 istioctl replace
+```
+
+### Examples
+
+```
+
+istioctl replace -f example-routing.yaml
+
 ```
 
 ### Options
@@ -430,9 +466,10 @@ istioctl replace
 ### Options inherited from parent commands
 
 ```
+      --kube                             Use Kubernetes client to send API requests to manager service (default true)
   -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
-  -m, --managerAddr string               Set your Istio manager address
+      --managerAPIService string         Name of istio-manager service. When --kube=false this sets the address of the manager service (default "istio-manager:8081")
   -n, --namespace string                 Select a Kubernetes namespace (default "default")
   -v, --v Level                          log level for V logs
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
@@ -455,9 +492,10 @@ istioctl version
 ### Options inherited from parent commands
 
 ```
+      --kube                             Use Kubernetes client to send API requests to manager service (default true)
   -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
-  -m, --managerAddr string               Set your Istio manager address
+      --managerAPIService string         Name of istio-manager service. When --kube=false this sets the address of the manager service (default "istio-manager:8081")
   -n, --namespace string                 Select a Kubernetes namespace (default "default")
   -v, --v Level                          log level for V logs
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
