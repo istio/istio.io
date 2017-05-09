@@ -12,11 +12,16 @@ layout: base
 <div class="nav-hero-container">
 	{% include nav.html %}
 </div>
+
 <div class="container">
 	<ul class="breadcrumb">
 		<li><a href="/"><i class="fa fa-home"></i></a></li>
 
 		{% assign parts = page.url | split: '/' %}
+		{% if page.url contains "index.html" %}
+			{% assign parts = page.url | remove: "/index.html" | split: '/' %}
+		{% endif %}
+
 		{% if parts.size > 2 %}
 			<li><a href="/{{ parts[1] }}/">{{ parts[1] | replace: '-', ' '| capitalize }}</a></li>
 			{% if parts.size > 3 %}
@@ -27,9 +32,7 @@ layout: base
 			{% endif %}
 		{% endif %}
 
-		{% unless page.url contains "index" %}
 		<li>{{ page.title}}</li>
-		{% endunless %}
 	</ul>
 </div>
 
