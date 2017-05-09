@@ -6,5 +6,7 @@ type: markdown
 ---
 {% include home.html %}
 
+# Troubleshooting Guide
+
 Oh no! You have some problems? Let us help.
 

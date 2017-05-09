@@ -3,19 +3,4 @@ sitemap_exclude: y
 ---
 @import "common";
 .bugs {
-    h1 {
-        color: $mainBrandColor;
-    }
-
-    p {
-        padding-left: 20px;
-    }
-
-    ul {
-        padding-left: 30px;
-    }
-
-    ul p {
-        padding-left: 0px;
-    }
 }
