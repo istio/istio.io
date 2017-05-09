@@ -24,11 +24,8 @@ Available routing and traffic management configuration types:
 
 	[destination-policy ingress-rule route-rule]
 
-See
-[routing-rules]({{home}}/docs/reference/api/traffic-rules/routing-rules.html)
-and
-[destination-policies]({{home}}/docs/reference/api/traffic-rules/destination-policies.html)
-for an overview of routing rules and destination policies.
+See http://istio.io/docs/reference for an overview of routing rules
+and destination policies.
 
 More information on the mixer API configuration can be found under the
 istioctl mixer command documentation.
@@ -37,7 +34,6 @@ istioctl mixer command documentation.
 ### Options
 
 ```
-      --istioNamespace string            Namespace where Istio system resides
       --kube                             Use Kubernetes client to send API requests to manager service (default true)
   -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
@@ -80,7 +76,6 @@ echo "source ~/.istioctl-complete.bash" >> ~/.bash_profile
 ### Options inherited from parent commands
 
 ```
-      --istioNamespace string            Namespace where Istio system resides
       --kube                             Use Kubernetes client to send API requests to manager service (default true)
   -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
@@ -121,7 +116,6 @@ istioctl create -f example-routing.yaml
 ### Options inherited from parent commands
 
 ```
-      --istioNamespace string            Namespace where Istio system resides
       --kube                             Use Kubernetes client to send API requests to manager service (default true)
   -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
@@ -166,7 +160,6 @@ istioctl delete route-rule productpage-default
 ### Options inherited from parent commands
 
 ```
-      --istioNamespace string            Namespace where Istio system resides
       --kube                             Use Kubernetes client to send API requests to manager service (default true)
   -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
@@ -214,7 +207,6 @@ istioctl get route-rule productpage-default
 ### Options inherited from parent commands
 
 ```
-      --istioNamespace string            Namespace where Istio system resides
       --kube                             Use Kubernetes client to send API requests to manager service (default true)
   -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
@@ -291,7 +283,6 @@ kubectl get deployment -o yaml | istioctl kube-inject -f - | kubectl apply -f -
 ### Options inherited from parent commands
 
 ```
-      --istioNamespace string            Namespace where Istio system resides
       --kube                             Use Kubernetes client to send API requests to manager service (default true)
   -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
@@ -327,7 +318,6 @@ for a description of Mixer configuration's scope, subject, and rules.
 ### Options inherited from parent commands
 
 ```
-      --istioNamespace string            Namespace where Istio system resides
       --kube                             Use Kubernetes client to send API requests to manager service (default true)
   -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
@@ -369,7 +359,6 @@ istioctl mixer rule create global myservice.ns.svc.cluster.local -f mixer-rule.y
 ### Options inherited from parent commands
 
 ```
-      --istioNamespace string            Namespace where Istio system resides
       --kube                             Use Kubernetes client to send API requests to manager service (default true)
   -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
@@ -409,7 +398,6 @@ istioctl mixer rule get global myservice.ns.svc.cluster.local
 ### Options inherited from parent commands
 
 ```
-      --istioNamespace string            Namespace where Istio system resides
       --kube                             Use Kubernetes client to send API requests to manager service (default true)
   -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
@@ -436,7 +424,6 @@ Create and list Mixer rules in the configuration server.
 ### Options inherited from parent commands
 
 ```
-      --istioNamespace string            Namespace where Istio system resides
       --kube                             Use Kubernetes client to send API requests to manager service (default true)
   -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
@@ -479,7 +466,6 @@ istioctl replace -f example-routing.yaml
 ### Options inherited from parent commands
 
 ```
-      --istioNamespace string            Namespace where Istio system resides
       --kube                             Use Kubernetes client to send API requests to manager service (default true)
   -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
@@ -506,7 +492,6 @@ istioctl version
 ### Options inherited from parent commands
 
 ```
-      --istioNamespace string            Namespace where Istio system resides
       --kube                             Use Kubernetes client to send API requests to manager service (default true)
   -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
