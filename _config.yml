@@ -23,6 +23,8 @@ excerpt_separator: <!--more-->
 collections:
   docs:
     output: true
+  faq:
+    output: false
 
 gems:
   - jekyll-redirect-from
