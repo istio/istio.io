@@ -35,22 +35,23 @@ Mixer provides three core features:
 - **Precondition Checking**. Enables callers to verify a number of preconditions before responding to an incoming request from a service consumer. 
 Preconditions can include whether the service consumer is properly authenticated, is on the service's whitelist, passes ACL checks, and more.
 
-- **Telemetry Reporting**. Enables services to report logging and monitoring. In the future, it will also enable tracing and billing
-streams intended for both the service operator as well as for service consumers.
-
 - **Quota Management**. Enables services to allocate and free quota on a number of dimensions, Quotas are used as a relatively simple resource
 management tool to provide some fairness between service consumers when contending for limited resources. Rate limits are
 examples of quotas.
 
+- **Telemetry Reporting**. Enables services to report logging and monitoring. In the future, it will also enable tracing and billing
+streams intended for both the service operator as well as for service consumers.
+
 These mechanisms are applied based on a set of [attributes](./attributes.html) that are
 materialized for every request into Mixer. Within Istio, Envoy depends heavily on Mixer. Services running within the mesh
-can also use Mixer to report telemetry or manage quotas. (Note: as of Istio Alpha, only Envoy can call Mixer.)
+can also use Mixer to report telemetry or manage quotas. (Note: as of Istio {{ site.data.istio.version }}, only Envoy can call Mixer.)
 
 ## Adapters
 
 Mixer is a highly modular and extensible component. One of it's key functions is to abstract
 away the details of different policy and telemetry backend systems, allowing Envoy and Istio-based
 services to be agnostic of those backends, which keeps them portable.
+
 
 Mixer's flexibility in dealing with different infrastructure backends is achieved by having a general-purpose
 plug-in model. Individual plug-ins are known as *adapters* and they allow
