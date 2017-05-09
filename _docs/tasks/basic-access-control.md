@@ -26,6 +26,7 @@ This task shows how to use Istio to control access to a service.
   istioctl create -f route-rule-all-v1.yaml
   istioctl replace -f route-rule-reviews-v2-v3.yaml
   ```
+
 * Ensure that you can use [istioctl mixer]({{home}}/docs/reference/commands/istioctl/istioctl_mixer.html#synopsis) by setting up port forwarding if needed.
 
 ## Access control using _denials_ 
@@ -42,17 +43,18 @@ of the `reviews` service. We would like to cut off access to version `v3` of thi
 
 2. Explicitly deny access to version `v3` of the `reviews` service. 
 
-  ```bash
-  istioctl mixer rule create global ratings.default.svc.cluster.local -f deny-reviews.yml
-  ```
-  where deny-reviews.yml is 
+   ```bash
+   istioctl mixer rule create global ratings.default.svc.cluster.local -f deny-reviews.yml
+   ```
+  where `deny-reviews.yml` is 
    
-  ```yaml
-  rules:
-  - selector: source.labels["app"]=="reviews" && source.labels["version"] == "v3"  
-    aspects:
-    - kind: denials
-  ```
+   ```yaml
+   rules:
+   - selector: source.labels["app"]=="reviews" && source.labels["version"] == "v3"  
+   aspects:
+   - kind: denials
+   ```
+
   This rule uses the `denials` aspect to deny requests coming from version `v3` of the reviews service.
   The `denials` aspect always denies requests with a pre-configured status code and message.
   The status code and the message is specified in the [DenyChecker]({{home}}/docs/reference/api/adapters/denyChecker.html)
@@ -65,31 +67,33 @@ Using a whitelist is a two step process.
 
 1. Add an adapter definition for the [`genericListChecker`]({{home}}/docs/reference/api/adapters/genericListChecker.html) adapter that lists versions `v1, v2`:
 
-    ```yaml
-    - name: versionList
-      impl: genericListChecker
-      params:
-        listEntries: ["v1", "v2"]
-    ```
+   ```yaml
+   - name: versionList
+     impl: genericListChecker
+     params:
+       listEntries: ["v1", "v2"]
+   ```
 
 2. Enable `whitelist` checking by using the [`lists`]({{home}}/docs/reference/api/mixer-aspects.html#lists) aspect:
 
-    ```yaml
-    rules:
-      aspects:
-      - kind: lists
-        adapter: versionList
-        params:
-          blacklist: false
-          checkExpression: source.labels["version"] 
-    ``` 
+   ```yaml
+   rules:
+     aspects:
+     - kind: lists
+       adapter: versionList
+       params:
+         blacklist: false
+         checkExpression: source.labels["version"] 
+   ``` 
 
-`checkExpression` is evaluated and checked against the list `[v1, v2]`. The check behavior can be changed to a blacklist by specifying
-`blacklist: true`. The expression evaluator returns the value of the `version` label as specified by the `checkExpression` key.
+   `checkExpression` is evaluated and checked against the list `[v1, v2]`. The check behavior can be changed to a blacklist by specifying
+   `blacklist: true`. The expression evaluator returns the value of the `version` label as specified by the `checkExpression` key.
 
 
 ## What's next
 
 * Learn more about [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html) and [Mixer Config]({{home}}/docs/concepts/policy-and-control/mixer-config.html).
+
 * Discover the full [Attribute Vocabulary]({{home}}/docs/reference/api/mixer/attribute-vocabulary.html).
+
 * Read the reference guide to [Writing Config]({{home}}/docs/reference/writing-config.html).

@@ -13,15 +13,13 @@ In a Kubernetes environment,
 Istio uses [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/services-networking/ingress/)
 to configure ingress behavior.
 
-
 ## Before you begin
 
 * Setup Istio by following the instructions in the
   [Installation guide](./installing-istio.html).
 
 * Start the [httpbin](https://github.com/istio/istio/tree/master/demos/apps/httpbin) sample,
-  which will be used as the destination service to be exposed externally.
-  
+  which will be used as the destination service to be exposed externally.  
 
 ## Configuring ingress (HTTP)
 
@@ -197,4 +195,5 @@ Here's an interesting thing to know about the steps you just did.
 ## What's next
 
 * Learn more about [this](...).
+
 * See this [related task](...).

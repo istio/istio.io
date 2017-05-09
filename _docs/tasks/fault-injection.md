@@ -42,8 +42,10 @@ continue without any errors.
 
    Confirm the rule is created:
 
-   ```yaml
+   ```bash
    istioctl get route-rule ratings-test-delay
+   ```
+   ```yaml
    destination: ratings.default.svc.cluster.local
    httpFault:
      delay:
