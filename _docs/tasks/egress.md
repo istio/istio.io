@@ -33,19 +33,19 @@ from within your Istio cluster. In this task we will use
 
 1. Register an external HTTP service:
 
-    ```bash
-    cat <<EOF | kubectl create -f -
-    apiVersion: v1
-    kind: Service
-    metadata:
-     name: httpbin
-    spec:
-     type: ExternalName
-     externalName: httpbin.org
-     ports:
-     - port: 80
-    EOF
-```
+   ```bash
+   cat <<EOF | kubectl create -f -
+   apiVersion: v1
+   kind: Service
+   metadata:
+    name: httpbin
+   spec:
+    type: ExternalName
+    externalName: httpbin.org
+    ports:
+    - port: 80
+   EOF
+   ```
 
 2. Register an external HTTPS service:
 
@@ -54,15 +54,15 @@ from within your Istio cluster. In this task we will use
    apiVersion: v1
    kind: Service
    metadata:
-     name: securegoogle
+    name: securegoogle
    spec:
-     type: ExternalName
-     externalName: www.google.com
-     ports:
-     - port: 443
+    type: ExternalName
+    externalName: www.google.com
+    ports:
+    - port: 443
    EOF
    ```
-
+   
 The `metadata.name` field is the url your internal apps will use when calling the external service.
 The `spec.externalName` is the DNS name of the external service.
 Egress Envoy expects external services to be listening on either port `80` for
@@ -83,6 +83,8 @@ HTTP or port `443` for HTTPS.
 
    ```bash
    curl http://httpbin/headers
+   ```
+   ```bash
    .. response ..
    ```
 
@@ -92,6 +94,8 @@ HTTP or port `443` for HTTPS.
 
    ```bash
    curl http://securegoogle:443
+   ```
+   ```bash
    .. response ..
    ```
 
@@ -139,6 +143,8 @@ destination.
 ```bash
 export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
 kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
+```
+```bash
 .. response ..
 ```
 

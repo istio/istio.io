@@ -146,7 +146,7 @@ as the example application throughout this task.
 1. Verify that the logs stream has been created and is being populated
    for requests.
 
-   Grep through the logs for the Mixer pod as follows:
+   Search through the logs for the Mixer pod as follows:
 
    ```bash
    kubectl logs $(kubectl get pods -l istio=mixer -o jsonpath='{.items[0].metadata.name}') | grep \"combined_log\"

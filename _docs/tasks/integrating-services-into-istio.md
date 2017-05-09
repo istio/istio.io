@@ -200,21 +200,21 @@ traffic to the proxy. An init-container is used for two reasons:
 after pod creation. The proxy container is responsible for dynamically
 routing traffic.
 
-```json
-{
-  "name":"init",
-  "image":"docker.io/istio/init:<..tag...>",
-  "args":[ "-p", "15001", "-u", "1337" ],
-  "imagePullPolicy":"Always",
-  "securityContext":{
-    "capabilities":{
-      "add":[
-        "NET_ADMIN"
-      ]
-    }
-  }
-},
-```
+   ```json
+   {
+     "name":"init",
+     "image":"docker.io/istio/init:<..tag...>",
+     "args":[ "-p", "15001", "-u", "1337" ],
+     "imagePullPolicy":"Always",
+     "securityContext":{
+       "capabilities":{
+         "add":[
+           "NET_ADMIN"
+         ]
+       }
+     }
+   },
+   ```
 
 ## What's next
 
