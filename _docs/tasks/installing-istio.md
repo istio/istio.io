@@ -29,54 +29,52 @@ This page shows how to install and configure Istio in a Kubernetes cluster.
 For the Alpha release, Istio must be installed in the same Kubernetes namespace as the applications. Instructions below will deploy Istio in the
 default namespace. They can be modified for deployment in a different namespace.
 
-1. Download and extract the [istio installation files](https://raw.githubusercontent.com/istio/istio/master/releases/istio-alpha.tar.gz), or
+1. Download and extract the [istio installation files](https://raw.githubusercontent.com/istio/istio/master/releases/istio-0.1.tar.gz), or
 clone Istio's [GitHub](https://github.com/istio/istio) repository:
 
     ```bash
     git clone https://github.com/istio/istio
     ```
 
-2. Change directory to istio:
+2. Change directory to install/kubernetes:
 
     ```bash
-    cd istio
+    cd install/kubernetes
     ```
 
-3. Install Istio's core components
+3. Determine if your cluster has [RBAC enabled](https://kubernetes.io/docs/admin/authorization/rbac/) by running this command:
+
+    ```bash
+    kubectl get clusterrole
+    ```
+    If the message printed says 'the server doesn't have a resource type "clusterrole"', go to the next step. Otherwise, apply the RBAC configuration file:
+    ```bash
+    kubectl apply -f istio-rbac.yaml
+    ```
+
+4. Install Istio's core components
    (Istio-Manager, Mixer, Ingress-Controller, and Istio CA if auth is enabled):
 
    **If you would like to disable Istio Auth**:
 
     ```bash
-    kubectl apply -f ./kubernetes/istio-15.yaml # for Kubernetes 1.5
-    ```
-
-    or
-
-    ```bash
-    kubectl apply -f ./kubernetes/istio-16.yaml # for Kubernetes 1.6 or later
+    kubectl apply -f istio.yaml
     ```
 
    **If you would like to enable Istio Auth** (For more information, please see
    [Istio Auth installation guide](./istio-auth.html)):
 
     ```bash
-    kubectl apply -f ./kubernetes/istio-auth-15.yaml # for Kubernetes 1.5
+    kubectl apply -f istio-auth.yaml
     ```
 
-    or
+5. Source the Istio configuration file:
 
     ```bash
-    kubectl apply -f ./kubernetes/istio-auth-16.yaml # for Kubernetes 1.6 or later
+    source ../../istio.VERSION
     ```
 
-4. Source the Istio configuration file:
-
-    ```bash
-    source istio.VERSION
-    ```
-
-5. Download one of the [`istioctl`]({{home}}/docs/reference/commands/istioctl.html) client binaries corresponding to your OS: `istioctl-osx`, `istioctl-win.exe`,
+6. Download one of the [`istioctl`]({{home}}/docs/reference/commands/istioctl.html) client binaries corresponding to your OS: `istioctl-osx`, `istioctl-win.exe`,
 `istioctl-linux`, targeted at Mac, Windows or Linux users respectively. For example, run the following commands on a Mac system:
 
     ```bash
@@ -90,13 +88,13 @@ clone Istio's [GitHub](https://github.com/istio/istio) repository:
     If in doubt, download again or add the `--tag` option when running `istioctl kube-inject`.
     Invoke `istioctl kube-inject --help` for more details.
 
-6. Optional: to view metrics collected by Mixer, install [Prometheus](https://prometheus.io), [Grafana](http://staging.grafana.org) or
+7. Optional: to view metrics collected by Mixer, install [Prometheus](https://prometheus.io), [Grafana](http://staging.grafana.org) or
 ServiceGraph addons:
 
     ```bash
-    kubectl apply -f ./kubernetes/addons/grafana.yaml
-    kubectl apply -f ./kubernetes/addons/prometheus.yaml
-    kubectl apply -f ./kubernetes/addons/servicegraph.yaml
+    kubectl apply -f addons/grafana.yaml
+    kubectl apply -f addons/prometheus.yaml
+    kubectl apply -f addons/servicegraph.yaml
     ```
 
     The grafana addon provides a dashboard visualization of the metrics by Mixer to a Prometheus instance. Please install both the prometheus.yaml and grafana.yaml addons to configure the Istio dashboard for use.
@@ -166,18 +164,28 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 
 ## Uninstalling
 
+1. Change directory to install/kubernetes:
+
+    ```bash
+    cd install/kubernetes
+    ```
+
 1. Uninstall Istio:
 
     **If Istio has auth disabled:**
 
     ```bash
-    kubectl delete -f ./kubernetes/istio-16.yaml
+    kubectl delete -f istio.yaml
     ```
 
     **If Istio has auth enabled:**
 
     ```bash
-    kubectl delete -f ./kubernetes/istio-auth-16.yaml
+    kubectl delete -f istio-auth.yaml
+    ```
+2. If RBAC was installed, please uninstall it:
+    ```bash
+    kubectl delete -f istio-rbac.yaml
     ```
 
 2. Delete the istioctl client:
