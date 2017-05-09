@@ -107,7 +107,7 @@ route requests to all available versions of a service in a random fashion.
    destination: reviews.default.svc.cluster.local
    match:
      httpHeaders:
-       Cookie:
+       cookie:
          regex: ^(.*?;)?(user=jason)(;.*)?$
    precedence: 2
    route:

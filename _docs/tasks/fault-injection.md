@@ -1,7 +1,7 @@
 ---
 title: Fault Injection
 overview: This task shows how to inject delays and test the resiliency of your application.
-            
+
 order: 60
 
 layout: docs
@@ -21,7 +21,7 @@ This task shows how to inject delays and test the resiliency of your application
 * Initialize the application version routing by either first doing the
   [request routing](./request-routing.html) task or by running following
   commands:
-  
+
   ```bash
   istioctl create -f route-rule-all-v1.yaml
   istioctl create -f route-rule-reviews-test-v2.yaml
@@ -39,9 +39,9 @@ continue without any errors.
    ```bash
    istioctl create -f destination-ratings-test-delay.yaml
    ```
-   
+
    Confirm the rule is created:
-   
+
    ```yaml
    istioctl get route-rule ratings-test-delay
    destination: ratings.default.svc.cluster.local
@@ -51,14 +51,14 @@ continue without any errors.
        percent: 100
    match:
      httpHeaders:
-       Cookie:
+       cookie:
          regex: "^(.*?;)?(user=jason)(;.*)?$"
    precedence: 2
    route:
    - tags:
        version: v1
    ```
-   
+
    Allow several seconds to account for rule propagation delay to all pods.
 
 1. Observe application behavior
@@ -87,11 +87,11 @@ continue without any errors.
   productpage timeout or decreasing the reviews to ratings service timeout,
   terminate and restart the fixed microservice, and then confirm that the `productpage`
   returns its response without any errors.
-  
+
   However, we already have this fix running in v3 of the reviews service, so we can simply
   fix the problem by migrating all
   traffic to `reviews:v3` as described in the [request routing task](./request-routing.html).
-         
+
   (Left as an exercise for the reader - change the delay rule to
   use a 2.8 second delay and then run it against the v3 version of reviews.)
 
