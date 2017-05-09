@@ -52,8 +52,6 @@ RDS Route Discovery Service -- See https://lyft.github.io/envoy/docs/configurati
 
 -->
 
-# Glossary
-
 - **Destination**.
 The remote upstream service to which the proxy/sidecar is
 talking to, on behalf of the source service. There can be one or more

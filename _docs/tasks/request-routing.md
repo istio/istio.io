@@ -1,7 +1,7 @@
 ---
 title: Configuring Request Routing
 overview: This task shows you how to configure dynamic request routing based on weights and HTTP headers.
-            
+
 order: 50
 
 layout: docs
@@ -37,7 +37,7 @@ route requests to all available versions of a service in a random fashion.
 
    ```yaml
    istioctl get route-rules -o yaml
-   kind: route-rule
+   type: route-rule
    name: ratings-default
    namespace: default
    spec:
@@ -48,7 +48,7 @@ route requests to all available versions of a service in a random fashion.
          version: v1
        weight: 100
    ---
-   kind: route-rule
+   type: route-rule
    name: reviews-default
    namespace: default
    spec:
@@ -59,7 +59,7 @@ route requests to all available versions of a service in a random fashion.
          version: v1
        weight: 100
    ---
-   kind: route-rule
+   type: route-rule
    name: details-default
    namespace: default
    spec:
@@ -70,7 +70,7 @@ route requests to all available versions of a service in a random fashion.
          version: v1
        weight: 100
    ---
-   kind: route-rule
+   type: route-rule
    name: productpage-default
    namespace: default
    spec:
@@ -82,9 +82,9 @@ route requests to all available versions of a service in a random fashion.
        weight: 100
    ---
    ```
-   
+
    Since rule propagation to the proxies is asynchronous, you should wait a few seconds for the rules
-   to propagate to all pods before attempting to access the application.  
+   to propagate to all pods before attempting to access the application.
 
 1. Open the BookInfo URL (http://$GATEWAY_URL/productpage) in your browser
 
@@ -99,7 +99,7 @@ route requests to all available versions of a service in a random fashion.
    ```bash
    istioctl create -f route-rule-reviews-test-v2.yaml
    ```
-   
+
    Confirm the rule is created:
 
    ```yaml
@@ -107,15 +107,15 @@ route requests to all available versions of a service in a random fashion.
    destination: reviews.default.svc.cluster.local
    match:
      httpHeaders:
-       Cookie:
+       cookie:
          regex: ^(.*?;)?(user=jason)(;.*)?$
    precedence: 2
    route:
    - tags:
        version: v2
    ```
-   
-1. Log in as user "jason" at the `productpage` web page. 
+
+1. Log in as user "jason" at the `productpage` web page.
 
    You should now see ratings (1-5 stars) next to each review. Notice that if you log in as
    any other user, you will continue to see `reviews:v1`.
@@ -140,7 +140,7 @@ to `reviews:v3` in two steps as follows:
    ```bash
    istioctl replace -f route-rule-reviews-50-v3.yaml
    ```
-   
+
    Notice that we are using `istioctl replace` instead of `create`.
 
 2. To see the new version you need to either Log out as test user "jason" or delete the test rules
@@ -150,10 +150,10 @@ that we created exclusively for him:
    istioctl delete route-rule reviews-test-v2
    istioctl delete route-rule ratings-test-delay
    ```
-   
+
    You should now see *red* colored star ratings approximately 50% of the time when you refresh
    the `productpage`.
-   
+
    > Note: With the Envoy sidecar implementation, you may need to refresh the `productpage` multiple times
    > to see the proper distribution. You can modify the rules to route 90% of the traffic to v3 to see red stars more often.
 

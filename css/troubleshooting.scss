@@ -2,14 +2,5 @@
 sitemap_exclude: y
 ---
 @import "common";
-.bugs {
-  margin: 0;
-
-  @media (max-width: $tablet) {
-    margin: 0;
-  }
-
-  .lead {
-    margin: 50px 0 40px 0;
-  }
+.troubleshooting {
 }
