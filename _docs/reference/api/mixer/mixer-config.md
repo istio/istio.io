@@ -1,17 +1,15 @@
 ---
-title: Configuration Schema
-overview: Generated documentation for Mixer's configuration schema
+title: Mixer
+overview: Generated documentation for Mixer's Configuration Schema
 
-order: 40
+order: 1190
 
 layout: docs
 type: markdown
 ---
 
-<a name="rpc_istio.mixer.v1_config"></a>
-## Package istio.mixer.v1.config
 
-<a name="rpc_istio.mixer.v1_config_index"></a>
+<a name="rpcIstio.mixer.v1.configIndex"></a>
 ### Index
 
 * [Adapter](#istio.mixer.v1.config.Adapter)
@@ -22,29 +20,40 @@ type: markdown
 (message)
 * [AttributeManifest](#istio.mixer.v1.config.AttributeManifest)
 (message)
+* [AttributeManifest.AttributeInfo](#istio.mixer.v1.config.AttributeManifest.AttributeInfo)
+(message)
 * [DnsName](#istio.mixer.v1.config.DnsName)
 (message)
 * [EmailAddress](#istio.mixer.v1.config.EmailAddress)
 (message)
 * [GlobalConfig](#istio.mixer.v1.config.GlobalConfig)
 (message)
+<b>(deprecated)</b>
 * [IpAddress](#istio.mixer.v1.config.IpAddress)
 (message)
 * [ServiceConfig](#istio.mixer.v1.config.ServiceConfig)
 (message)
+<b>(deprecated)</b>
 * [Uri](#istio.mixer.v1.config.Uri)
 (message)
 
 <a name="istio.mixer.v1.config.Adapter"></a>
 ### Adapter
-Adapter config defines specifics of adapter implementations
-We define an adapter that provides "metrics" aspect
-kind: istio/metrics
-name: metrics-statsd
-impl: “istio.io/adapters/statsd”
+Adapter allows the operator to configure a specific adapter implementation.
+Each adapter implementation defines its own `params` proto. Note that unlike
+[Aspect](#istio.mixer.v1.config.Aspect), the type of `params` varies with `impl`
+and not with `kind`.
+
+In the following example we define a `metrics` adapter using the Mixer's prepackaged
+prometheus adapter. This adapter doesn't require any parameters.
+
+
+```yaml
+kind: metrics
+name: prometheus-adapter
+impl: prometheus
 params:
-   Host: statd.svc.cluster
-   Port: 8125
+```
 
 <table>
  <tr>
@@ -56,49 +65,52 @@ params:
  <tr>
   <td><code>name</code></td>
   <td>string</td>
-  <td>statsd-slow</td>
+  <td>Required, must be unique per <code>kind</code>. Used by <a href="#istio.mixer.v1.config.Aspect">Aspect</a> to refer to this adapter. The name "default" is special: when an Aspect does not specify a name, the Adapter named "default" of the same <code>kind</code> is used to execute the intention described by the <a href="#istio.mixer.v1.config.AspectRule">AspectRule</a>s.</td>
  </tr>
 <a name="istio.mixer.v1.config.Adapter.kind"></a>
  <tr>
   <td><code>kind</code></td>
   <td>string</td>
-  <td>metrics</td>
+  <td>Required. The aspect this implementation with these params will implement; a single adapter implementation may implement many aspects, but an <code>Adapter</code> entry is required per kind.</td>
  </tr>
 <a name="istio.mixer.v1.config.Adapter.impl"></a>
  <tr>
   <td><code>impl</code></td>
   <td>string</td>
-  <td>istio.statsd</td>
+  <td>Required. The name of a specific adapter implementation. An adapter's implementation name is typically a constant in its code.</td>
  </tr>
 <a name="istio.mixer.v1.config.Adapter.params"></a>
  <tr>
   <td><code>params</code></td>
   <td><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">Struct</a></td>
-  <td>Struct representation of a proto defined by the implementation based on impl {}</td>
+  <td>Optional, depends on adapter implementation. Struct representation of a proto defined by the implementation; this varies depending on <code>impl</code>.</td>
  </tr>
 </table>
 
 <a name="istio.mixer.v1.config.Aspect"></a>
 ### Aspect
-Aspect is intent based. It specifies the intent "kind"
-following example specifies that the user would like to collect
-response_time with 3 labels (src_consumer_id, target_response_status_code,
-target_service_name)
+Aspect describes how an adapter is intended to operate in the context of the
+rule it's embedded in. The value for `params` depends on the `kind` of this
+aspect: each kind of aspect defines its own `params` proto.
 
-The Input section tells if target_service_name is not available it can be
-computed using the given expression
+The following example instructs Mixer to populate a metric named "responseTime"
+that was declared to have three labels: srcConsumerId, targetResponseStatusCode,
+and targetServiceName. For each label and the metric's `value` we provide
+an expression over Istio's attributes. Mixer evaluates these expressions for
+each request.
 
 
-     kind: istio/metrics
-     params:
-       metrics:
-       - name: response_time     # What to call this metric outbound.
-         value: metric_response_time  # from wellknown vocabulary
-         metric_kind: DELTA
-         labels:
-         - key: src_consumer_id
-         - key: target_response_status_code
-         - key: target_service_name
+```yaml
+kind: metrics
+params:
+  metrics:
+  - descriptorName: responseTime # tie this metric to a descriptor of the same name
+    value: response.time  # from the set of canonical attributes
+    labels:
+      srcConsumerId: source.user | source.uid
+      targetResponseStatusCode: response.code
+      targetServiceName: target.service
+```
 
 <table>
  <tr>
@@ -110,25 +122,27 @@ computed using the given expression
  <tr>
   <td><code>kind</code></td>
   <td>string</td>
-  <td></td>
+  <td>Required. The kind of aspect this intent is targeting.</td>
  </tr>
 <a name="istio.mixer.v1.config.Aspect.adapter"></a>
  <tr>
   <td><code>adapter</code></td>
   <td>string</td>
-  <td>optional, allows specifying an adapter</td>
+  <td>Optional. The name of the adapter this Aspect targets. If no name is provided, Mixer will use the adapter of the target kind named "default".</td>
  </tr>
 <a name="istio.mixer.v1.config.Aspect.params"></a>
  <tr>
   <td><code>params</code></td>
   <td><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">Struct</a></td>
-  <td>Struct representation of a proto defined by the aspect</td>
+  <td>Required. Struct representation of a proto defined by each aspect kind.</td>
  </tr>
 </table>
 
 <a name="istio.mixer.v1.config.AspectRule"></a>
 ### AspectRule
-AspectRules are intent based
+An AspectRule is a selector and a set of intentions to be executed when the
+selector is `true`. The selectors of the this rule's child AspectRules are only
+evaluated if this rule's selector is true.
 
 <table>
  <tr>
@@ -140,25 +154,32 @@ AspectRules are intent based
  <tr>
   <td><code>selector</code></td>
   <td>string</td>
-  <td>selector is an attributes based predicate. attr1 == "20" &amp;&amp; attr2 == "30"</td>
+  <td><p>Required. Selector is an attribute based predicate. When Mixer receives a request it evaluates all selectors in scope and executes the rules for all selectors that evaluated to true.</p><p>A few example selectors:</p>
+<ul>
+  <li>an empty selector evaluates to <code>true</code></li>
+  <li><code>true</code>, a boolean literal; a rule with this selector will always be executed</li>
+  <li><code>target.service == ratings*</code> selects any request targeting a service whose name starts with "ratings"</li>
+  <li><code>attr1 == &quot;20&quot; &amp;&amp; attr2 == &quot;30&quot;</code> logical AND, OR, and NOT are also available</li>
+</ul></td>
  </tr>
 <a name="istio.mixer.v1.config.AspectRule.aspects"></a>
  <tr>
   <td><code>aspects[]</code></td>
   <td>repeated <a href="#istio.mixer.v1.config.Aspect">Aspect</a></td>
-  <td>The following aspects apply when the selector predicate evaluates to True</td>
+  <td>The aspects that apply when selector evaluates to <code>true</code>.</td>
  </tr>
 <a name="istio.mixer.v1.config.AspectRule.rules"></a>
  <tr>
   <td><code>rules[]</code></td>
   <td>repeated <a href="#istio.mixer.v1.config.AspectRule">AspectRule</a></td>
-  <td>Nested aspect Rule is evaluated if selector predicate evaluates to True</td>
+  <td>Nested aspect rules; their selectors are evaluated if this selector predicate evaluates to <code>true</code>.</td>
  </tr>
 </table>
 
 <a name="istio.mixer.v1.config.AttributeManifest"></a>
 ### AttributeManifest
-AttributeManifest describes a set of Attributes produced by some component of an Istio deployment.
+AttributeManifest describes a set of Attributes produced by some component
+of an Istio deployment.
 
 <table>
  <tr>
@@ -170,19 +191,91 @@ AttributeManifest describes a set of Attributes produced by some component of an
  <tr>
   <td><code>revision</code></td>
   <td>string</td>
-  <td></td>
+  <td>Optional. The revision of this document. Assigned by server.</td>
  </tr>
 <a name="istio.mixer.v1.config.AttributeManifest.name"></a>
  <tr>
   <td><code>name</code></td>
   <td>string</td>
-  <td>Name of the component producing these attributes. This can be the proxy (with the canonical name "istio-proxy") or the name of an attribute producing adapter in the mixer itself.</td>
+  <td>Required. Name of the component producing these attributes. This can be the proxy (with the canonical name "istio-proxy") or the name of an <code>attributes</code> kind adapter in Mixer.</td>
  </tr>
 <a name="istio.mixer.v1.config.AttributeManifest.attributes"></a>
  <tr>
-  <td><code>attributes[]</code></td>
-  <td>repeated <a href="#istio.mixer.v1.config.descriptor.AttributeDescriptor">AttributeDescriptor</a></td>
-  <td>The set of attributes this Istio component will be responsible for producing at runtime.</td>
+  <td><code>attributes</code></td>
+  <td>repeated map&lt;string, <a href="#istio.mixer.v1.config.AttributeManifest.AttributeInfo">AttributeInfo</a>&gt;</td>
+  <td><p>The set of attributes this Istio component will be responsible for producing at runtime. We map from attribute name to the attribute's specification. The name of an attribute, which is how attributes are referred to in aspect configuration, must conform to:</p>
+<pre><code>Name = IDENT { SEPARATOR IDENT };
+</code></pre><p>Where <code>IDENT</code> must match the regular expression <code>a-z+</code> and <code>SEPARATOR</code> must match the regular expression <code>[\.-]</code>.</p><p>Attribute names must be unique within a single Istio deployment. The set of canonical attributes are described at <a href="https://istio.io/docs/reference/attribute-vocabulary.html">https://istio.io/docs/reference/attribute-vocabulary.html</a>. Attributes not in that list should be named with a component-specific suffix such as request.count-my.component</p></td>
+ </tr>
+</table>
+
+<a name="istio.mixer.v1.config.AttributeManifest.AttributeInfo"></a>
+### AttributeInfo
+AttributeInfo describes the schema of an Istio `Attribute`.
+
+
+
+<a name="rpcIstio.mixer.v1.configIstio.mixer.v1.config.AttributeManifest.AttributeInfoDescriptionSubsectionSubsection"></a>
+#### Istio Attributes
+Istio uses `attributes` to describe runtime activities of Istio services.
+An Istio attribute carries a specific piece of information about an activity,
+such as the error code of an API request, the latency of an API request, or the
+original IP address of a TCP connection. The attributes are often generated
+and consumed by different services. For example, a frontend service can
+generate an authenticated user attribute and pass it to a backend service for
+access control purpose.
+
+To simplify the system and improve developer experience, Istio uses
+shared attribute definitions across all components. For example, the same
+authenticated user attribute will be used for logging, monitoring, analytics,
+billing, access control, auditing. Many Istio components provide their
+functionality by collecting, generating, and operating on attributes.
+For example, the proxy collects the error code attribute, and the logging
+stores it into a log.
+
+
+
+<a name="rpcIstio.mixer.v1.configIstio.mixer.v1.config.AttributeManifest.AttributeInfoDescriptionSubsectionSubsection_1"></a>
+#### Design
+Each Istio attribute must conform to an `AttributeInfo` in an
+`AttributeManifest` in the current Istio deployment at runtime. An
+`AttributeInfo` is used to define an attribute's
+metadata: the type of its value and a detailed description that explains
+the semantics of the attribute type. Each attribute's name is globally unique;
+in other words an attribute name can only appear once across all manifests.
+
+The runtime presentation of an attribute is intentionally left out of this
+specification, because passing attribute using JSON, XML, or Protocol Buffers
+does not change the semantics of the attribute. Different implementations
+can choose different representations based on their needs.
+
+
+
+<a name="rpcIstio.mixer.v1.configIstio.mixer.v1.config.AttributeManifest.AttributeInfoDescriptionSubsectionSubsection_2"></a>
+#### HTTP Mapping
+Because many systems already have REST APIs, it makes sense to define a
+standard HTTP mapping for Istio attributes that are compatible with typical
+REST APIs. The design is to map one attribute to one HTTP header, the
+attribute name and value becomes the HTTP header name and value. The actual
+encoding scheme will be decided later.
+
+<table>
+ <tr>
+  <th>Field</th>
+  <th>Type</th>
+  <th>Description</th>
+ </tr>
+<a name="istio.mixer.v1.config.AttributeManifest.AttributeInfo.description"></a>
+ <tr>
+  <td><code>description</code></td>
+  <td>string</td>
+  <td>Optional. A human-readable description of the attribute's purpose.</td>
+ </tr>
+<a name="istio.mixer.v1.config.AttributeManifest.AttributeInfo.valueType"></a>
+ <tr>
+  <td><code>valueType</code></td>
+  <td><a href="#istio.mixer.v1.config.descriptor.ValueType">ValueType</a></td>
+  <td>Required. The type of data carried by this attribute.</td>
  </tr>
 </table>
 
@@ -224,9 +317,13 @@ EmailAddress holds a properly formatted email address.
 
 <a name="istio.mixer.v1.config.GlobalConfig"></a>
 ### GlobalConfig
-GlobalConfig defines configuration elements that are available
-for the rest of the config
-It is used to configure adapters and make them available in AspectRules
+
+WARNING: GlobalConfig is deprecated, see the Config API's
+swagger spec.
+
+GlobalConfig defines configuration elements that are available for the rest
+of the config. It is used to configure adapters and make them available in
+AspectRules.
 
 <table>
  <tr>
@@ -238,7 +335,7 @@ It is used to configure adapters and make them available in AspectRules
  <tr>
   <td><code>revision</code></td>
   <td>string</td>
-  <td></td>
+  <td>Optional.</td>
  </tr>
 <a name="istio.mixer.v1.config.GlobalConfig.adapters"></a>
  <tr>
@@ -264,9 +361,9 @@ It is used to configure adapters and make them available in AspectRules
   <td>repeated <a href="#istio.mixer.v1.config.descriptor.MetricDescriptor">MetricDescriptor</a></td>
   <td></td>
  </tr>
-<a name="istio.mixer.v1.config.GlobalConfig.monitored_resources"></a>
+<a name="istio.mixer.v1.config.GlobalConfig.monitoredResources"></a>
  <tr>
-  <td><code>monitored_resources[]</code></td>
+  <td><code>monitoredResources[]</code></td>
   <td>repeated <a href="#istio.mixer.v1.config.descriptor.MonitoredResourceDescriptor">MonitoredResourceDescriptor</a></td>
   <td></td>
  </tr>
@@ -304,36 +401,29 @@ IpAddress holds an IPv4 or IPv6 address.
 
 <a name="istio.mixer.v1.config.ServiceConfig"></a>
 ### ServiceConfig
-Configures a set of services
-following example configures metrics collection and ratelimit for
-all services
+
+WARNING: ServiceConfig is deprecated, see the Config API's
+swagger spec.
+
+Configures a set of services.
+
+The following example configures a metric that will be recorded for all services:
 
 
-<a name="rpc_istio.mixer.v1_config_istio.mixer.v1.config.ServiceConfig_description_subsection"></a>
-#### service config
+```yaml
 subject: "namespace:ns1"
 revision: "1011"
 rules:
-- selector: target_name == "*"
- aspects:
- - kind: metrics
-   params:
-     metrics:   # defines metric collection across the board.
-     - name: response_time_by_status_code
-       value: metric.response_time     # certain attributes are metrics
-       metric_kind: DELTA
-       labels:
-       - key: response.status_code
- - kind: ratelimiter
-   params:
-     limits:  # imposes 2 limits, 100/s per source and destination
-     - limit: "100/s"
-       labels:
-         - key: src.service_id
-         - key: target.service_id
-      - limit: "1000/s"  # every destination service gets 1000/s
-       labels:
-         - key: target.service_id
+- selector: target.service == "*"
+  aspects:
+  - kind: metrics
+    params:
+      metrics: # defines metric collection across the board.
+      - descriptorName: responseTimeByStatusCode
+        value: response.time
+        labels:
+          statusCode: response.code
+```
 
 <table>
  <tr>
@@ -345,13 +435,13 @@ rules:
  <tr>
   <td><code>subject</code></td>
   <td>string</td>
-  <td>subject is unique for a config type 2 config with the same subject will overwrite each other</td>
+  <td>Optional. Subject is unique for a config type. 2 config with the same subject will overwrite each other</td>
  </tr>
 <a name="istio.mixer.v1.config.ServiceConfig.revision"></a>
  <tr>
   <td><code>revision</code></td>
   <td>string</td>
-  <td>revision of this config. This is assigned by the server</td>
+  <td>Optional. revision of this config. This is assigned by the server</td>
  </tr>
 <a name="istio.mixer.v1.config.ServiceConfig.rules"></a>
  <tr>
@@ -379,14 +469,12 @@ Uri represents a properly formed URI.
  </tr>
 </table>
 
-<a name="rpc_istio.mixer.v1_config_descriptor"></a>
+<a name="rpcIstio.mixer.v1.configDescriptor"></a>
 ## Package istio.mixer.v1.config.descriptor
 
-<a name="rpc_istio.mixer.v1_config_descriptor_index"></a>
+<a name="rpcIstio.mixer.v1.configDescriptorIndex"></a>
 ### Index
 
-* [AttributeDescriptor](#istio.mixer.v1.config.descriptor.AttributeDescriptor)
-(message)
 * [LogEntryDescriptor](#istio.mixer.v1.config.descriptor.LogEntryDescriptor)
 (message)
 * [LogEntryDescriptor.PayloadFormat](#istio.mixer.v1.config.descriptor.LogEntryDescriptor.PayloadFormat)
@@ -412,82 +500,6 @@ Uri represents a properly formed URI.
 * [ValueType](#istio.mixer.v1.config.descriptor.ValueType)
 (enum)
 
-<a name="istio.mixer.v1.config.descriptor.AttributeDescriptor"></a>
-### AttributeDescriptor
-An `AttributeDescriptor` describes the schema of an Istio attribute type.
-
-
-
-<a name="rpc_istio.mixer.v1_config_descriptor_istio.mixer.v1.config.descriptor.AttributeDescriptor_description_subsection_subsection"></a>
-#### Istio Attributes
-Istio uses `attributes` to describe runtime activities of Istio services.
-An Istio attribute carries a specific piece of information about an activity,
-such as the error code of an API request, the latency of an API request, the
-original IP address of a TCP connection. The attributes are often generated
-and consumed by different services. For example, a frontend service can
-generate an authenticated user attribute and pass it to a backend service for
-access control purpose.
-
-To simplify the system and improve developer experience, Istio uses
-shared attribute definitions across all components. For example, the same
-authenticated user attribute will be used for logging, monitoring, analytics,
-billing, access control, auditing. Many Istio components provide their
-functionality by collecting, generating, and operating on attributes.
-For example, the proxy collects the error code attribute, and the logging
-stores it into a log.
-
-
-
-<a name="rpc_istio.mixer.v1_config_descriptor_istio.mixer.v1.config.descriptor.AttributeDescriptor_description_subsection_subsection_1"></a>
-#### Design
-Each Istio attribute must conform to an Istio attribute type. The
-`AttributeDescriptor` is used to define attribute types. Each type has a
-globally unique type name, the type of the value, and a detailed description
-that explains the semantics of the attribute type.
-
-The runtime presentation of an attribute is intentionally left out of this
-specification, because passing attribute using JSON, XML, or Protocol Buffers
-does not change the semantics of the attribute. Different implementations
-can choose different representations based on their needs.
-
-
-
-<a name="rpc_istio.mixer.v1_config_descriptor_istio.mixer.v1.config.descriptor.AttributeDescriptor_description_subsection_subsection_2"></a>
-#### HTTP Mapping
-Because many systems already have REST APIs, it makes sense to define a
-standard HTTP mapping for Istio attributes that are compatible with typical
-REST APIs. The design is to map one attribute to one HTTP header, the
-attribute name and value becomes the HTTP header name and value. The actual
-encoding scheme will be decided later.
-
-<table>
- <tr>
-  <th>Field</th>
-  <th>Type</th>
-  <th>Description</th>
- </tr>
-<a name="istio.mixer.v1.config.descriptor.AttributeDescriptor.name"></a>
- <tr>
-  <td><code>name</code></td>
-  <td>string</td>
-  <td><p>The name of this descriptor, referenced from individual attribute instances and other descriptors.</p><p>The format of this name is:</p>
-<pre><code>Name = IDENT { &quot;.&quot; IDENT } ;
-</code></pre><p>Where <code>IDENT</code> must match the regular expression <code>a-z+</code>.</p><p>Attribute descriptor names must be unique within a single Istio deployment. There is a well- known set of attributes which have succinct names. Attributes not on this list should be named with a component-specific suffix such as request.count-my.component</p></td>
- </tr>
-<a name="istio.mixer.v1.config.descriptor.AttributeDescriptor.description"></a>
- <tr>
-  <td><code>description</code></td>
-  <td>string</td>
-  <td>An optional human-readable description of the attribute's purpose.</td>
- </tr>
-<a name="istio.mixer.v1.config.descriptor.AttributeDescriptor.value_type"></a>
- <tr>
-  <td><code>value_type</code></td>
-  <td><a href="#istio.mixer.v1.config.descriptor.ValueType">ValueType</a></td>
-  <td>The type of data carried by attributes</td>
- </tr>
-</table>
-
 <a name="istio.mixer.v1.config.descriptor.LogEntryDescriptor"></a>
 ### LogEntryDescriptor
 Defines the format of a single log entry.
@@ -502,31 +514,31 @@ Defines the format of a single log entry.
  <tr>
   <td><code>name</code></td>
   <td>string</td>
-  <td>The name of this descriptor.</td>
+  <td>Required. The name of this descriptor.</td>
  </tr>
-<a name="istio.mixer.v1.config.descriptor.LogEntryDescriptor.display_name"></a>
+<a name="istio.mixer.v1.config.descriptor.LogEntryDescriptor.displayName"></a>
  <tr>
-  <td><code>display_name</code></td>
+  <td><code>displayName</code></td>
   <td>string</td>
-  <td>An optional concise name for the log entry type, which can be displayed in user interfaces. Use sentence case without an ending period, for example "Request count".</td>
+  <td>Optional. A concise name for the log entry type, which can be displayed in user interfaces. Use sentence case without an ending period, for example "Request count".</td>
  </tr>
 <a name="istio.mixer.v1.config.descriptor.LogEntryDescriptor.description"></a>
  <tr>
   <td><code>description</code></td>
   <td>string</td>
-  <td>An optional description of the log entry type, which can be used in documentation.</td>
+  <td>Optional. A description of the log entry type, which can be used in documentation.</td>
  </tr>
-<a name="istio.mixer.v1.config.descriptor.LogEntryDescriptor.payload_format"></a>
+<a name="istio.mixer.v1.config.descriptor.LogEntryDescriptor.payloadFormat"></a>
  <tr>
-  <td><code>payload_format</code></td>
+  <td><code>payloadFormat</code></td>
   <td><a href="#istio.mixer.v1.config.descriptor.LogEntryDescriptor.PayloadFormat">PayloadFormat</a></td>
-  <td>Format of the value of the payload attribute.</td>
+  <td>Required. Format of the value of the payload attribute.</td>
  </tr>
-<a name="istio.mixer.v1.config.descriptor.LogEntryDescriptor.log_template"></a>
+<a name="istio.mixer.v1.config.descriptor.LogEntryDescriptor.logTemplate"></a>
  <tr>
-  <td><code>log_template</code></td>
+  <td><code>logTemplate</code></td>
   <td>string</td>
-  <td><p>The template that will be populated with labels at runtime to generate a log message; the labels describe the parameters for this template.</p><p>The template strings must conform to go's text/template syntax.</p></td>
+  <td><p>Required. The template that will be populated with labels at runtime to generate a log message; the labels describe the parameters for this template.</p><p>The template strings must conform to go's text/template syntax.</p></td>
  </tr>
 <a name="istio.mixer.v1.config.descriptor.LogEntryDescriptor.labels"></a>
  <tr>
@@ -547,9 +559,9 @@ TEXT is the default payload format.
   <th>Value</th>
   <th>Description</th>
  </tr>
-<a name="istio.mixer.v1.config.descriptor.LogEntryDescriptor.PayloadFormat.PAYLOAD_FORMAT_UNSPECIFIED"></a>
+<a name="istio.mixer.v1.config.descriptor.LogEntryDescriptor.PayloadFormat.PAYLOADFORMATUNSPECIFIED"></a>
  <tr>
-  <td>PAYLOAD_FORMAT_UNSPECIFIED</td>
+  <td>PAYLOADFORMATUNSPECIFIED</td>
   <td>Invalid, default value.</td>
  </tr>
 <a name="istio.mixer.v1.config.descriptor.LogEntryDescriptor.PayloadFormat.TEXT"></a>
@@ -568,34 +580,41 @@ TEXT is the default payload format.
 ### MetricDescriptor
 Defines a metric type and its schema.
 
-A metric is dimensioned by a set of labels whose values are derived at runtime from attributes.
-A given metric holds a unique value for potentially any combination of these dimensions.
+A metric is dimensioned by a set of labels whose values are derived at runtime
+from attributes. A given metric holds a unique value for potentially any
+combination of these dimensions.
 
-The following is an example descriptor for a metric capturing the number of RPCs served, dimensioned
-by the method being called and response code returned by the server:
+The following is an example descriptor for a metric capturing the number of
+RPCs served, dimensioned by the method being called and response code returned
+by the server:
 
-   metric_descriptor:
-     name: "response_code"
-     kind: COUNTER
-     value: I64
-     labels:
-       name: api_method
-       value_type: STRING
-     labels:
-       name: response_code
-       value_type: INT64
 
-To actually report metrics at run time a mapping from attributes to a metric's labels must be provided.
-This is provided in the aspect config; using our above descriptor we might describe the metric as:
+```yaml
+metrics:
+  name: "responseCode"
+  kind: COUNTER
+  value: INT64
+  labels:
+    apiMethod: STRING
+    responseCode: INT64
+```
 
-   metric:
-     descriptor: "response_code" # must match metric_descriptor.name
-     value: $requestCount        # Istio expression syntax for the attribute named "request_count"
-     labels:
-       # either the attribute named 'apiMethod' or the literal string 'unknown'; must eval to a string
-       api_method: $apiMethod | "unknown"
-       # either the attribute named 'responseCode' or the literal int64 500; must eval to an int64
-       response_code: $responseCode | 500
+
+To actually report metrics at run time a mapping from attributes to a metric's
+labels must be provided. This is provided in the aspect config; using our above
+descriptor we might describe the metric as:
+
+
+```yaml
+metric:
+  descriptor: "responseCode" # must match metricDescriptor.name
+  value: request.count # expression syntax for the attribute named "request.count"
+  labels:
+    # either the attribute named 'api.method' or the literal string 'unknown'; must eval to a string
+    apiMethod: api.method | "unknown"
+    # either the attribute named 'response.code' or the literal int64 500; must eval to an int64
+    responseCode: response.code | 500
+```
 
 <table>
  <tr>
@@ -607,31 +626,31 @@ This is provided in the aspect config; using our above descriptor we might descr
  <tr>
   <td><code>name</code></td>
   <td>string</td>
-  <td>The name of this descriptor. This is used to refer to this descriptor in other contexts.</td>
+  <td>Required. The name of this descriptor. This is used to refer to this descriptor in other contexts.</td>
  </tr>
-<a name="istio.mixer.v1.config.descriptor.MetricDescriptor.display_name"></a>
+<a name="istio.mixer.v1.config.descriptor.MetricDescriptor.displayName"></a>
  <tr>
-  <td><code>display_name</code></td>
+  <td><code>displayName</code></td>
   <td>string</td>
-  <td>An optional concise name for the metric, which can be displayed in user interfaces. Use sentence case without an ending period, for example "Request count".</td>
+  <td>Optional. A concise name for the metric, which can be displayed in user interfaces. Use sentence case without an ending period, for example "Request count".</td>
  </tr>
 <a name="istio.mixer.v1.config.descriptor.MetricDescriptor.description"></a>
  <tr>
   <td><code>description</code></td>
   <td>string</td>
-  <td>An optional description of the metric, which should be used as the documentation for the metric.</td>
+  <td>Optional. A description of the metric, which should be used as the documentation for the metric.</td>
  </tr>
 <a name="istio.mixer.v1.config.descriptor.MetricDescriptor.kind"></a>
  <tr>
   <td><code>kind</code></td>
   <td><a href="#istio.mixer.v1.config.descriptor.MetricDescriptor.MetricKind">MetricKind</a></td>
-  <td>Whether the metric records instantaneous values, changes to a value, etc.</td>
+  <td>Required. Whether the metric records instantaneous values, changes to a value, etc.</td>
  </tr>
 <a name="istio.mixer.v1.config.descriptor.MetricDescriptor.value"></a>
  <tr>
   <td><code>value</code></td>
   <td><a href="#istio.mixer.v1.config.descriptor.ValueType">ValueType</a></td>
-  <td>The type of data this metric records.</td>
+  <td>Required. The type of data this metric records.</td>
  </tr>
 <a name="istio.mixer.v1.config.descriptor.MetricDescriptor.labels"></a>
  <tr>
@@ -656,21 +675,21 @@ This is provided in the aspect config; using our above descriptor we might descr
   <th>Type</th>
   <th>Description</th>
  </tr>
-<a name="istio.mixer.v1.config.descriptor.MetricDescriptor.BucketsDefinition.linear_buckets"></a>
+<a name="istio.mixer.v1.config.descriptor.MetricDescriptor.BucketsDefinition.linearBuckets"></a>
  <tr>
-  <td><code>linear_buckets</code></td>
+  <td><code>linearBuckets</code></td>
   <td><a href="#istio.mixer.v1.config.descriptor.MetricDescriptor.BucketsDefinition.Linear">Linear</a> (oneof )</td>
   <td>The linear buckets.</td>
  </tr>
-<a name="istio.mixer.v1.config.descriptor.MetricDescriptor.BucketsDefinition.exponential_buckets"></a>
+<a name="istio.mixer.v1.config.descriptor.MetricDescriptor.BucketsDefinition.exponentialBuckets"></a>
  <tr>
-  <td><code>exponential_buckets</code></td>
+  <td><code>exponentialBuckets</code></td>
   <td><a href="#istio.mixer.v1.config.descriptor.MetricDescriptor.BucketsDefinition.Exponential">Exponential</a> (oneof )</td>
   <td>The exponential buckets.</td>
  </tr>
-<a name="istio.mixer.v1.config.descriptor.MetricDescriptor.BucketsDefinition.explicit_buckets"></a>
+<a name="istio.mixer.v1.config.descriptor.MetricDescriptor.BucketsDefinition.explicitBuckets"></a>
  <tr>
-  <td><code>explicit_buckets</code></td>
+  <td><code>explicitBuckets</code></td>
   <td><a href="#istio.mixer.v1.config.descriptor.MetricDescriptor.BucketsDefinition.Explicit">Explicit</a> (oneof )</td>
   <td>The explicit buckets.</td>
  </tr>
@@ -680,11 +699,11 @@ This is provided in the aspect config; using our above descriptor we might descr
 ### Explicit
 Specifies a set of buckets with arbitrary widths.
 
-There are `size(bounds) + 1` (= N) buckets. Bucket `i` has the following
+There are `size(bounds) + 1` (= `N`) buckets. Bucket `i` has the following
 boundaries:
 
-   Upper bound (0 <= i < N-1):     bounds[i]
-   Lower bound (1 <= i < N);       bounds[i - 1]
+* Upper bound (`0 <= i < N-1`): `bounds[i]`
+* Lower bound (`1 <= i < N`): `bounds[i - 1]`
 
 The `bounds` field must contain at least one element. If `bounds` has
 only one element, then there are no finite buckets, and that single
@@ -710,13 +729,13 @@ Specifies an exponential sequence of buckets that have a width that is
 proportional to the value of the lower bound. Each bucket represents a
 constant relative uncertainty on a specific value in the bucket.
 
-There are `num_finite_buckets + 2` (= N) buckets. The two additional
+There are `numFiniteBuckets + 2` (= `N`) buckets. The two additional
 buckets are the underflow and overflow buckets.
 
 Bucket `i` has the following boundaries:
 
-   Upper bound (0 <= i < N-1):     scale * (growth_factor ^ i).
-   Lower bound (1 <= i < N):       scale * (growth_factor ^ (i - 1)).
+* Upper bound (0 <= i < N-1): `scale * (growthFactor ^ i)`
+* Lower bound (1 <= i < N): `scale * (growthFactor ^ (i - 1))`
 
 <table>
  <tr>
@@ -724,15 +743,15 @@ Bucket `i` has the following boundaries:
   <th>Type</th>
   <th>Description</th>
  </tr>
-<a name="istio.mixer.v1.config.descriptor.MetricDescriptor.BucketsDefinition.Exponential.num_finite_buckets"></a>
+<a name="istio.mixer.v1.config.descriptor.MetricDescriptor.BucketsDefinition.Exponential.numFiniteBuckets"></a>
  <tr>
-  <td><code>num_finite_buckets</code></td>
+  <td><code>numFiniteBuckets</code></td>
   <td>int32</td>
   <td>Must be greater than 0.</td>
  </tr>
-<a name="istio.mixer.v1.config.descriptor.MetricDescriptor.BucketsDefinition.Exponential.growth_factor"></a>
+<a name="istio.mixer.v1.config.descriptor.MetricDescriptor.BucketsDefinition.Exponential.growthFactor"></a>
  <tr>
-  <td><code>growth_factor</code></td>
+  <td><code>growthFactor</code></td>
   <td>double</td>
   <td>Must be greater than 1.</td>
  </tr>
@@ -750,13 +769,13 @@ Specifies a linear sequence of buckets that all have the same width
 (except overflow and underflow). Each bucket represents a constant
 absolute uncertainty on the specific value in the bucket.
 
-There are `num_finite_buckets + 2` (= N) buckets. The two additional
+There are `numFiniteBuckets + 2` (= `N`) buckets. The two additional
 buckets are the underflow and overflow buckets.
 
 Bucket `i` has the following boundaries:
 
-   Upper bound (0 <= i < N-1):     offset + (width * i).
-   Lower bound (1 <= i < N):       offset + (width * (i - 1)).
+* Upper bound (`0 <= i < N-1`): `offset + (width * i)`
+* Lower bound (`1 <= i < N`): `offset + (width * (i - 1))`
 
 <table>
  <tr>
@@ -764,9 +783,9 @@ Bucket `i` has the following boundaries:
   <th>Type</th>
   <th>Description</th>
  </tr>
-<a name="istio.mixer.v1.config.descriptor.MetricDescriptor.BucketsDefinition.Linear.num_finite_buckets"></a>
+<a name="istio.mixer.v1.config.descriptor.MetricDescriptor.BucketsDefinition.Linear.numFiniteBuckets"></a>
  <tr>
-  <td><code>num_finite_buckets</code></td>
+  <td><code>numFiniteBuckets</code></td>
   <td>int32</td>
   <td>Must be greater than 0.</td>
  </tr>
@@ -794,9 +813,9 @@ The kind of measurement. It describes how the data is recorded.
   <th>Value</th>
   <th>Description</th>
  </tr>
-<a name="istio.mixer.v1.config.descriptor.MetricDescriptor.MetricKind.METRIC_KIND_UNSPECIFIED"></a>
+<a name="istio.mixer.v1.config.descriptor.MetricDescriptor.MetricKind.METRICKINDUNSPECIFIED"></a>
  <tr>
-  <td>METRIC_KIND_UNSPECIFIED</td>
+  <td>METRICKINDUNSPECIFIED</td>
   <td>Do not use this default value.</td>
  </tr>
 <a name="istio.mixer.v1.config.descriptor.MetricDescriptor.MetricKind.GAUGE"></a>
@@ -837,13 +856,13 @@ such as memory usage of a VM.
  <tr>
   <td><code>name</code></td>
   <td>string</td>
-  <td>The name of this descriptor</td>
+  <td>Required. The name of this descriptor.</td>
  </tr>
 <a name="istio.mixer.v1.config.descriptor.MonitoredResourceDescriptor.description"></a>
  <tr>
   <td><code>description</code></td>
   <td>string</td>
-  <td>An optional detailed description of the monitored resource descriptor that might be used in documentation.</td>
+  <td>Optional. A detailed description of the monitored resource descriptor that might be used in documentation.</td>
  </tr>
 <a name="istio.mixer.v1.config.descriptor.MonitoredResourceDescriptor.labels"></a>
  <tr>
@@ -869,7 +888,7 @@ A principal is described by a set of attributes.
  <tr>
   <td><code>name</code></td>
   <td>string</td>
-  <td>The name of this descriptor.</td>
+  <td>Required. The name of this descriptor.</td>
  </tr>
 <a name="istio.mixer.v1.config.descriptor.PrincipalDescriptor.labels"></a>
  <tr>
@@ -902,19 +921,19 @@ unique value for potentially any combination of these attributes.
  <tr>
   <td><code>name</code></td>
   <td>string</td>
-  <td>The name of this descriptor.</td>
+  <td>Required. The name of this descriptor.</td>
  </tr>
-<a name="istio.mixer.v1.config.descriptor.QuotaDescriptor.display_name"></a>
+<a name="istio.mixer.v1.config.descriptor.QuotaDescriptor.displayName"></a>
  <tr>
-  <td><code>display_name</code></td>
+  <td><code>displayName</code></td>
   <td>string</td>
-  <td>An optional concise name for the quota which can be displayed in user interfaces.</td>
+  <td>Optional. A concise name for the quota which can be displayed in user interfaces.</td>
  </tr>
 <a name="istio.mixer.v1.config.descriptor.QuotaDescriptor.description"></a>
  <tr>
   <td><code>description</code></td>
   <td>string</td>
-  <td>An optional description of the quota which can be used in documentation.</td>
+  <td>Optional. A description of the quota which can be used in documentation.</td>
  </tr>
 <a name="istio.mixer.v1.config.descriptor.QuotaDescriptor.labels"></a>
  <tr>
@@ -922,9 +941,9 @@ unique value for potentially any combination of these attributes.
   <td>repeated map&lt;string, <a href="#istio.mixer.v1.config.descriptor.ValueType">ValueType</a>&gt;</td>
   <td>The set of labels that are necessary to describe a specific value cell for a quota of this type.</td>
  </tr>
-<a name="istio.mixer.v1.config.descriptor.QuotaDescriptor.rate_limit"></a>
+<a name="istio.mixer.v1.config.descriptor.QuotaDescriptor.rateLimit"></a>
  <tr>
-  <td><code>rate_limit</code></td>
+  <td><code>rateLimit</code></td>
   <td>bool</td>
   <td>Indicates whether the quota represents a rate limit or represents a resource quota.</td>
  </tr>
@@ -932,9 +951,10 @@ unique value for potentially any combination of these attributes.
 
 <a name="istio.mixer.v1.config.descriptor.ValueType"></a>
 ### ValueType
-ValueType describes the types that values in the Istio system can take. These are used to describe the type of
-Attributes at run time, describe the type of the result of evaluating an expression, and to describe the runtime
-type of fields of other descriptors.
+ValueType describes the types that values in the Istio system can take. These
+are used to describe the type of Attributes at run time, describe the type of
+the result of evaluating an expression, and to describe the runtime type of
+fields of other descriptors.
 
 
 <table>
@@ -942,9 +962,9 @@ type of fields of other descriptors.
   <th>Value</th>
   <th>Description</th>
  </tr>
-<a name="istio.mixer.v1.config.descriptor.ValueType.VALUE_TYPE_UNSPECIFIED"></a>
+<a name="istio.mixer.v1.config.descriptor.ValueType.VALUETYPEUNSPECIFIED"></a>
  <tr>
-  <td>VALUE_TYPE_UNSPECIFIED</td>
+  <td>VALUETYPEUNSPECIFIED</td>
   <td>Invalid, default value.</td>
  </tr>
 <a name="istio.mixer.v1.config.descriptor.ValueType.STRING"></a>
@@ -972,14 +992,14 @@ type of fields of other descriptors.
   <td>TIMESTAMP</td>
   <td>A point in time.</td>
  </tr>
-<a name="istio.mixer.v1.config.descriptor.ValueType.IP_ADDRESS"></a>
+<a name="istio.mixer.v1.config.descriptor.ValueType.IPADDRESS"></a>
  <tr>
-  <td>IP_ADDRESS</td>
+  <td>IPADDRESS</td>
   <td>An IP address.</td>
  </tr>
-<a name="istio.mixer.v1.config.descriptor.ValueType.EMAIL_ADDRESS"></a>
+<a name="istio.mixer.v1.config.descriptor.ValueType.EMAILADDRESS"></a>
  <tr>
-  <td>EMAIL_ADDRESS</td>
+  <td>EMAILADDRESS</td>
   <td>An email address.</td>
  </tr>
 <a name="istio.mixer.v1.config.descriptor.ValueType.URI"></a>
@@ -987,9 +1007,9 @@ type of fields of other descriptors.
   <td>URI</td>
   <td>A URI.</td>
  </tr>
-<a name="istio.mixer.v1.config.descriptor.ValueType.DNS_NAME"></a>
+<a name="istio.mixer.v1.config.descriptor.ValueType.DNSNAME"></a>
  <tr>
-  <td>DNS_NAME</td>
+  <td>DNSNAME</td>
   <td>A DNS name.</td>
  </tr>
 <a name="istio.mixer.v1.config.descriptor.ValueType.DURATION"></a>
@@ -997,9 +1017,9 @@ type of fields of other descriptors.
   <td>DURATION</td>
   <td>A span between two points in time.</td>
  </tr>
-<a name="istio.mixer.v1.config.descriptor.ValueType.STRING_MAP"></a>
+<a name="istio.mixer.v1.config.descriptor.ValueType.STRINGMAP"></a>
  <tr>
-  <td>STRING_MAP</td>
+  <td>STRINGMAP</td>
   <td>A map string -&gt; string, typically used by headers.</td>
  </tr>
 </table>
