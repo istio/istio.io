@@ -25,9 +25,9 @@ default namespace. They can be modified for deployment in a different namespace.
 1. Download and extract the [istio installation files](https://raw.githubusercontent.com/istio/istio/master/releases/istio-0.1.tar.gz), or
 clone Istio's [GitHub](https://github.com/istio/istio) repository:
 
-   ```bash
-   git clone https://github.com/istio/istio
-   ```
+    ```bash
+    git clone --depth=1 https://github.com/istio/istio
+    ```
 
 2. Change directory to install/kubernetes:
 
