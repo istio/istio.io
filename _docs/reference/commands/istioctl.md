@@ -24,7 +24,7 @@ Available routing and traffic management configuration types:
 
 	[destination-policy ingress-rule route-rule]
 
-See https://istio.io/docs/reference/routing-and-traffic-management.html
+See [routing-and-traffic-management]({{home}}/docs/reference/routing-and-traffic-management.html)
 for an overview of the routing and traffic DSL.
 
 More information on the mixer API configuration can be found under the
@@ -310,7 +310,7 @@ Istio Mixer configuration
 The Mixer configuration API allows users to configure all facets of the
 Mixer.
 
-See https://istio.io/docs/concepts/policy-and-control/mixer-config.html
+See [mixer-config]({{home}}/docs/concepts/policy-and-control/mixer-config.html)
 for a description of Mixer configuration's scope, subject, and rules.
 
 

@@ -87,8 +87,9 @@ function processPerBinaryFiles() {
 
     # Command line help text output must use full path but
     # pre-processed istio.io pages should use relative paths.
-    #
-    # sed -i "s,https://istio.io/\(.*/\)\(.*\).html,[\2]({{home}}/\1\2.html),g" ${out};
+    sed -i ${out} \
+	-e "s,https://istio.io/\(.*/\)\(.*\).html,[\2]({{home}}/\1\2.html),g" \
+	-e "s,http://istio.io/\(.*/\)\(.*\).html,[\2]({{home}}/\1\2.html),g"
 
     # final pass updating the subcommand's "SEE ALSO" links to the command itself
     sed "s,${commandName}.md,#${commandName},g" ${out};
