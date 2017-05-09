@@ -20,6 +20,7 @@ how to:
 
 
 ## Before you begin
+
 This task assumes you have:
 
 * Read the [Istio Auth concepts]({{home}}/docs/concepts/network-and-auth/index.html).

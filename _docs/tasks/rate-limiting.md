@@ -101,8 +101,8 @@ The following configuration applies a `5qps` rate limit only to version `v3` of 
 
    Since the `reviews-v3` service is unable to access `ratings` we stop seeing `red` stars on the UI.
 
-
 ## Understanding rate limits
+
 In the preceding examples we saw how Mixer applies rate limits to requests that match certain conditions.
 
 Every distinct rate limit configuration represents a counter. If the number
@@ -114,6 +114,7 @@ Multiple rate limits may apply to the same request.
 Mixer `MemQuota` adapter uses a sliding window of sub second resolution to enforce rate limits. 
 
 Consider the following example
+
 ```yaml
 descriptorName: RequestCount
 maxAmount: 5000
