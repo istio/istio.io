@@ -1,4 +1,6 @@
-
+---
+sitemap_exclude: y
+---
 @import "base/_config";
 @import "base/_reset";
 @import "base/_colors";
@@ -15,3 +17,14 @@
 @import "modules/_contribute-links";
 @import "modules/_search-box";
 @import "modules/_section-index";
+
+@import "layouts/_about";
+@import "layouts/_blog";
+@import "layouts/_bugs";
+@import "layouts/_community";
+@import "layouts/_docs";
+@import "layouts/_faq";
+@import "layouts/_landing";
+@import "layouts/_post";
+@import "layouts/_search-results";
+@import "layouts/_troubleshooting";
