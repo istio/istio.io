@@ -1,6 +1,6 @@
 ---
-title: Mixer Aspects
-overview: Generated documentation for Mixer's aspects.
+title: Adapters
+overview: Generated documentation for Mixer's adapters.
 
 order: 2000
 
