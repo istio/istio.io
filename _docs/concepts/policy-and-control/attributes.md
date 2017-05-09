@@ -33,7 +33,7 @@ in the deployment. The primary attribute producer in Istio is Envoy, although
 specialized Mixer adapters and services can also generate attributes.
 
 The common baseline set of attributes available in most Istio deployments is defined
-[here]({{home}}/docs/reference/api/mixer/attribute-vocabulary.html).
+[here]({{home}}/docs/reference/config/mixer/attribute-vocabulary.html).
 
 ## Attribute Names
 
