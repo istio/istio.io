@@ -2,111 +2,51 @@
 sitemap_exclude: y
 ---
 @import "common";
-.landing-content-container {
-  padding-bottom: 60px;
-  padding-top: 30px;
-  position: relative;
 
-  @media (min-width: 767px) {
-    padding-bottom: 90px;
-    padding-top: 90px;
-  }
+.section-content {
+  padding: 20px 20px 20px 20px;
 
-  .landing-row {
-    padding-top: 60px;
-
-    .landing-row-title {
-      margin-bottom: 15px;
-    }
-
-    p {
-      font-size: 1.2rem;
-      font-weight: 300;
-      line-height: 1.5rem;
-      padding-bottom: 1.5rem;
-    }
-
-    @media (max-width: 767px) {
-      display: flex;
-      flex-direction: column;
-      text-align: center;
-
-      .landing-row-title {
-        margin: 0 auto 30px;
-        order: 1;
-      }
-
-      .landing-image {
-        margin: 0 auto 30px;
-        order: 2;
-      }
-
-      p {
-        margin: 0 auto;
-        order: 3;
-      }
-
-      div {
-        margin: 0 auto;
-        order: 4;
-      }
-    }
-  }
-  .landing-image {
-    height: auto;
-    max-width: 500px;
-    object-fit: contain;
-    object-position: top;
-
-    @media (min-width: $tablet) {
-      padding-bottom: 50px;
-    }
-  }
-
-  .landing-image-small {
-    height: auto;
-    max-width: 250px;
-    object-fit: contain;
-    object-position: top;
-
-    @media (min-width: $tablet) {
-      padding-bottom: 50px;
-    }    
-  }
-
-  .btn-read-more {
-    margin: 30px 0 40px;
+  @media (min-width: $desktop-small) {
+    padding: 10% 0;
   }
 }
 
-//Documentation call to action
-.doc-call-container {
-  background-color: lighten($thirdBrandColor, 4%);
-  padding-bottom: 70px;
-  padding-top: 70px;
+.landing-image {
+  padding-top: 10px;
+  padding-bottom: 20px;
 
-  .doc-call-title {
-    margin: 0 auto;
+  @media (min-width: $desktop-small) {
+    max-width: 55%;
+    max-height: 500px;
+    padding-right: 20px;
+    padding-left: 20px;
   }
+}
 
-  .doc-call-text {
-    margin: 0 auto;
-    padding-top: 5px;
-  }
+.jumbotron {
+    padding: 0;
+    margin: 0;
+}
 
-  .btn-doc-call {
-    font-size: 14px;
-    margin: 25px auto 45px;
-  }
+.traffic, .policy {
+    background-color: white;
+}
 
-  .lang-select-row {
-    display: flex;
-    justify-content: center;
-  }
+.resilience, .reporting, .resilience h2, .reporting h2 {
+    background-color: #0EC6DC;
+    color: white;
+}
 
-  .lang-selector-text {
-    margin: 0 auto;
-    padding-bottom: 10px;
-    width: 75%;
+.btn.btn-floating.down-caret {
+    position: relative;
+    transform: none;
+    bottom: 15px;
+    left: 49%;
+}
+
+#doc-call {
+  margin-top: 0;
+  padding-bottom: 20px;
+  @media (min-width: $tablet) {
   }
 }
