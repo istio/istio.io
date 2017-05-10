@@ -77,10 +77,6 @@ to configure ingress behavior.
    curl http://$INGRESS_URL/headers
    ```
 
-   ```
-   .. response ..
-   ```
-
 ## Configuring secure ingress (HTTPS)
 
 1. Generate keys if necessary

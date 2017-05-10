@@ -88,9 +88,6 @@ HTTP or port `443` for HTTPS.
    ```bash
    curl http://httpbin/headers
    ```
-   ```bash
-   .. response ..
-   ```
 
 3. For external services of type HTTPS, the port must be specified in the request.
    App clients should make the request over HTTP since the Egress Envoy will initiate HTTPS 
@@ -98,9 +95,6 @@ HTTP or port `443` for HTTPS.
 
    ```bash
    curl http://securegoogle:443
-   ```
-   ```bash
-   .. response ..
    ```
 
 ## Calling external services directly
@@ -147,9 +141,6 @@ destination.
 ```bash
 export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
 kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
-```
-```bash
-.. response ..
 ```
 
 ## Understanding what happened
