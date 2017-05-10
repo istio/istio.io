@@ -70,11 +70,11 @@ kubectl apply -f templates/istio-auth/istio-cluster-ca.yaml
 
 #### Enabling Istio Auth in Istio config
 
-The following command uncomments the line *authPolicy: MUTUAL_TLS* in the file *istio.yaml*,
-and backs up the original file as *istio.yaml.bak*
+The following commands back up the file *istio-auth.yaml* as *istio-auth.yaml.bak*,
+and generates a new *istio-auth.yaml* by uncommenting the line *authPolicy: MUTUAL_TLS* in *istio.yaml*.
 
 ```bash
-mv istio.yaml istio.yaml.bak
+mv istio-auth.yaml istio-auth.yaml.bak
 sed "s/# authPolicy: MUTUAL_TLS/authPolicy: MUTUAL_TLS/" istio.yaml > istio-auth.yaml
 ```
 
@@ -118,7 +118,7 @@ Run the following command to uninstall Istio, and redeploy Istio without auth:
 
 ```bash
 kubectl delete -f istio-auth.yaml
-kubectl apply -f templates/istio.yaml
+kubectl apply -f istio.yaml
 ```
 
 Also, redeploy your application by running:
