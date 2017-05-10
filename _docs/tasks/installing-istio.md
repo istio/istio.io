@@ -84,7 +84,7 @@ default namespace. They can be modified for deployment in a different namespace.
    ```bash
    curl -L https://github.com/istio/istio/releases/download/0.1.0/istioctl.tar.gz > istioctl-0.1.0.tar.gz
    tar xvfz istioctl-0.1.0.tar.gz
-   cp istioctl/istioctl-osx  /usr/local/bin/ # or anywhere in your $PATH
+   cp osx/istioctl  /usr/local/bin/ # or anywhere in your $PATH
    ```
 
    `istioctl` is needed to inject Envoy as a sidecar proxy. It also provides a convenient CLI for creating routing rules and policies.
