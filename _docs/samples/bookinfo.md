@@ -13,8 +13,9 @@ This sample deploys a simple application composed of four separate microservices
 to demonstrate various features of the Istio service mesh.
 
 ## Before you begin
+* If you use GKE, please ensure your cluster has at least 4 standard GKE nodes.
 
-Setup Istio by following the instructions in the
+* Setup Istio by following the instructions in the
 [Installation guide]({{home}}/docs/tasks/installing-istio.html).
 
 ## Overview
