@@ -122,6 +122,8 @@ to configure ingress behavior.
    
    Notice that in this example we are only exposing httpbin's `/html` endpoint.
    
+   _Remark:_ Envoy currently only allows a single TLS secret in the ingress since SNI is not yet supported.
+   
 1. Access the secured httpbin service using _curl_:
 
    ```bash
@@ -172,6 +174,8 @@ to set a timeout rule on calls to the httpbin service.
          timeout: 3s
    EOF
    ```
+   
+   Note that you may need to change `default` namespace to the namespace of `httpbin` application.
 
 1. Wait a few seconds, then issue the _curl_ request again:
  
