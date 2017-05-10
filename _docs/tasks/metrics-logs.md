@@ -2,7 +2,7 @@
 title: Collecting Metrics and Logs
 overview: This task shows you how to configure Mixer to collect metrics and logs from Envoy instances.
 
-order: 80
+order: 110
 
 layout: docs
 type: markdown
@@ -48,12 +48,12 @@ as the example application throughout this task.
          - descriptor_name: response_size
            value: response.size | 0
            labels:
-             source: source.service | "unknown"
+             source: source.labels["app"] | "unknown"
              target: target.service | "unknown"
              service: target.labels["app"] | "unknown"
              method: request.path | "unknown"
              response_code: response.code | 200
-     - adapter: stdioLogger
+     - adapter: default
        kind: access-logs
        params:
          logName: combined_log
@@ -93,13 +93,13 @@ as the example application throughout this task.
    already applied.
 
    ```bash
-   istioctl mixer rule get global reviews.default.svc.cluster.local
+   istioctl mixer rule get reviews.default.svc.cluster.local reviews.default.svc.cluster.local
    ```
 
    The expected output is:
 
    ```
-   Error: Not Found
+   Error: the server could not find the requested resource
    ```
 
    If your selected service has service-specific rules, update `new_rule.yml`
@@ -109,7 +109,7 @@ as the example application throughout this task.
 1. Push the new configuration to Mixer for a specific service.
 
    ```bash
-   istioctl mixer rule create global reviews.default.svc.cluster.local -f new_rule.yml
+   istioctl mixer rule create reviews.default.svc.cluster.local reviews.default.svc.cluster.local -f new_rule.yml
    ```
 
 1. Send traffic to that service.
@@ -146,7 +146,7 @@ as the example application throughout this task.
 1. Verify that the logs stream has been created and is being populated
    for requests.
 
-   Grep through the logs for the Mixer pod as follows:
+   Search through the logs for the Mixer pod as follows:
 
    ```bash
    kubectl logs $(kubectl get pods -l istio=mixer -o jsonpath='{.items[0].metadata.name}') | grep \"combined_log\"
@@ -211,9 +211,10 @@ new descriptors.
 
 ### Understanding the rule's access_logs aspect
 
-The `access-logs` aspect directs Mixer to send access logs to the `stdioLogger`
-adapter. The adapter `params` tell Mixer _how_ to generate the access
-logs for incoming requests based on attributes reported by Envoy.
+The `access-logs` aspect directs Mixer to send access logs to the `default`
+adapter (typically, `stdioLogger`). The adapter `params` tell Mixer _how_ 
+to generate the access logs for incoming requests based on attributes reported
+by Envoy.
 
 The `logName` parameter is used by Mixer to identify a logs stream. In
 this task, the log name `combined_log` was used to identify the log
@@ -254,6 +255,6 @@ Config API to add support for creating new descriptors.
 
 * Learn more about [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html) and [Mixer Config]({{home}}/docs/concepts/policy-and-control/mixer-config.html).
 
-* Discover the full [Attribute Vocabulary]({{home}}/docs/reference/attribute-vocabulary.html).
+* Discover the full [Attribute Vocabulary]({{home}}/docs/reference/config/mixer/attribute-vocabulary.html).
 
 * Read the reference guide to [Writing Config]({{home}}/docs/reference/writing-config.html).

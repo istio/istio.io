@@ -1,6 +1,6 @@
 ---
-title: Configuration & API
-overview: Detailed information on API parameters and configuration options.
+title: API
+overview: Detailed information on API parameters.
 
 order: 21
 

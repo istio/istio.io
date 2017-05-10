@@ -22,106 +22,127 @@ If you have not done so, please first complete the
 ## Injecting Envoy sidecar into a deployment
 
 Example deployment and service to demonstrate this task. Save this as
-echo.yaml.
+apps.yaml.
 
 ```yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: echo
+  name: service-one
   labels:
-    app: echo
+    app: service-one
 spec:
   ports:
   - port: 80
     targetPort: 8080
     name: http
   selector:
-    app: echo
+    app: service-one
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: echo
+  name: service-one
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: echo
+        app: service-one
     spec:
       containers:
-      - name: echo
+      - name: app
         image: gcr.io/google_containers/echoserver:1.4
         ports:
         - containerPort: 8080
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-two
+  labels:
+    app: service-two
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+    name: http-status
+  selector:
+    app: service-two
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: busybox
+  name: service-two
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: busybox
+        app: service-two
     spec:
       containers:
-      - name: busybox
-        image: radial/busyboxplus:curl
+      - name: app
+        image: gcr.io/google_containers/echoserver:1.4
+        ports:
+        - containerPort: 8080
 ```
 
 [Kubernetes Services](https://kubernetes.io/docs/concepts/services-networking/service/)
 are required for properly functioning Istio service. Service ports
 must be named and these names must begin with _http_ or _grpc_ prefix
-to take advantage of Istio's L7 routing features, e.g. `name: httpFoo`
-is good. Services with non-named ports or with ports that do not have
-a _http_ or _grpc_ prefix will be routed as L4 traffic.
+to take advantage of Istio's L7 routing features, e.g. `name: http-foo` or `name: http`
+is good. <em>Services with non-named ports or with ports that do not have
+a _http_ or _grpc_ prefix will be routed as L4 traffic.</em>
 
 Submit a YAML resource to API server with injected Envoy sidecar. Any
 one of the following methods will work.
 
 ```bash
-kubectl apply -f <(istioctl kube-inject -f echo.yaml)
+kubectl apply -f <(istioctl kube-inject -f apps.yaml)
 ```
 
-Make a request from the client (busybox) to the server (echo).
+Make a request from the client (service-one) to the server (service-two).
 
 ```bash
-CLIENT=$(kubectl get pod -l app=busybox -o jsonpath='{.items[0].metadata.name}')
-SERVER=$(kubectl get pod -l app=echo -o jsonpath='{.items[0].metadata.name}')
+CLIENT=$(kubectl get pod -l app=service-one -o jsonpath='{.items[0].metadata.name}')
+SERVER=$(kubectl get pod -l app=service-two -o jsonpath='{.items[0].metadata.name}')
 
-kubectl exec -it ${CLIENT} -c echo -- curl echo:80 | grep x-request-id
+kubectl exec -it ${CLIENT} -c app -- curl service-two:80 | grep x-request-id
+```
+```
 x-request-id=a641eff7-eb82-4a4f-b67b-53cd3a03c399
 ```
 
 Verify traffic is intercepted by the Envoy sidecar. Compare
 `x-request-id` in the HTTP response with the sidecar's access
-logs. `x-request-id` is random. The IP in the inbound request logs is
-the echo pod's IP.
+logs. `x-request-id` is random. The IP in the outbound request logs is
+service-two pod's IP.
 
 Outbound request on client pod's proxy.
 
-```
+```bash
 kubectl logs ${CLIENT} proxy | grep a641eff7-eb82-4a4f-b67b-53cd3a03c399
-[2017-05-01T22:08:39.310Z] "GET / HTTP/1.1" 200 - 0 398 2 0 "-" "curl/7.47.0" "a641eff7-eb82-4a4f-b67b-53cd3a03c399" "echo" "127.0.0.1:8080"
+```
+```
+[2017-05-01T22:08:39.310Z] "GET / HTTP/1.1" 200 - 0 398 3 3 "-" "curl/7.47.0" "a641eff7-eb82-4a4f-b67b-53cd3a03c399" "service-two" "10.4.180.7:8080"
 ```
 
 Inbound request on server pod's proxy.
 
-```
+```bash
 kubectl logs ${SERVER} proxy | grep a641eff7-eb82-4a4f-b67b-53cd3a03c399
-[2017-05-01T22:08:39.310Z] "GET / HTTP/1.1" 200 - 0 398 3 3 "-" "curl/7.47.0" "a641eff7-eb82-4a4f-b67b-53cd3a03c399" "echo" "10.4.180.7:8080"
 ```
-
+```bash
+[2017-05-01T22:08:39.310Z] "GET / HTTP/1.1" 200 - 0 398 2 0 "-" "curl/7.47.0" "a641eff7-eb82-4a4f-b67b-53cd3a03c399" "service-two" "127.0.0.1:8080"
+```
 
 The Envoy sidecar does _not_ intercept container-to-container traffic
 within the same pod when traffic is routed via localhost. This is by
 design.
 
 ```bash
-kubectl exec -it ${SERVER} -c echo -- curl localhost:8080 | grep x-request-id
+kubectl exec -it ${SERVER} -c app -- curl localhost:8080 | grep x-request-id
 ```
 
 ## Understanding what happened
@@ -129,7 +150,7 @@ kubectl exec -it ${SERVER} -c echo -- curl localhost:8080 | grep x-request-id
 `istioctl kube-inject` injects additional containers into YAML
 resource on the client _before_ submitting to the Kubernetes API
 server. This will eventually be replaced by server-side injection via
-admission controller. Use `kubectl get deployment echo -o yaml` to
+admission controller. Use `kubectl get deployment service-one -o yaml` to
 inspect the modified deployment and look for the following:
 
 * A proxy container which includes the Envoy proxy and agent to manage
@@ -185,24 +206,24 @@ traffic to the proxy. An init-container is used for two reasons:
 after pod creation. The proxy container is responsible for dynamically
 routing traffic.
 
-```json
-{
-  "name":"init",
-  "image":"docker.io/istio/init:<..tag...>",
-  "args":[ "-p", "15001", "-u", "1337" ],
-  "imagePullPolicy":"Always",
-  "securityContext":{
-    "capabilities":{
-      "add":[
-        "NET_ADMIN"
-      ]
-    }
-  }
-},
-```
+   ```json
+   {
+     "name":"init",
+     "image":"docker.io/istio/init:<..tag...>",
+     "args":[ "-p", "15001", "-u", "1337" ],
+     "imagePullPolicy":"Always",
+     "securityContext":{
+       "capabilities":{
+         "add":[
+           "NET_ADMIN"
+         ]
+       }
+     }
+   },
+   ```
 
 ## What's next
 
-* Review full documentation for [istioctl kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject.html)
+* Review full documentation for [istioctl kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject)
 
 * See the [BookInfo]({{home}}/docs/samples/bookinfo.html) sample for a more complete example of applications integrated on Kubernetes with Istio.

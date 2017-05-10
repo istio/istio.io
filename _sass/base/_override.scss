@@ -7,27 +7,12 @@ body {
 
 a {
   color: $mainBrandColor;
-  font-weight: 350;
+  font-weight: 500;
 }
 
 a:hover,
 a:focus {
   color: $linkHoverColor;
-}
-
-a.external {
-  &:after {
-    @extend .external-link-icon;
-    content: "";
-    margin-left: 5px;
-    display: inline-block;
-  }
-
-  &:hover {
-    &:after {
-      background: url('../img/external-link-dark.svg') no-repeat center/cover;
-    }
-  }
 }
 
 a.disabled {
@@ -49,7 +34,7 @@ p.note code {
 code {
   color: $codeColor;
   background-color: $inverseBrandColor;
-  font-size: 14px;
+  font-size: $font-size--primary;
 }
 
 pre, pre.prettyprint {
@@ -97,7 +82,3 @@ pre code {
 .navbar-toggle .icon-bar {
   background-color: $inverseBrandColor;
 }
-
-
-
-

@@ -15,7 +15,7 @@ services in the application deployment. The DSL allows the operator to
 configure service-level properties such as circuit breakers, timeouts,
 retries, as well as set up common continuous deployment tasks such as
 canary rollouts, A/B testing, staged rollouts with %-based traffic splits,
-etc. See [routing rules reference]({{home}}/docs/reference/api/proxy-config.html) for detailed information.
+etc. See [routing rules reference]({{home}}/docs/reference/config/traffic-rules/index.html) for detailed information.
 
 For example, a simple rule to send 100% of incoming traffic for a "reviews"
 service to version "v1" can be described using the Rules DSL as
@@ -93,14 +93,14 @@ match:
 ```
 
 _3. Select rule based on HTTP headers_. For example, the following rule will
-only apply to an incoming request if it includes a "Cookie" header that
+only apply to an incoming request if it includes a "cookie" header that
 contains the substring "user=jason".
 
 ```yaml
 destination: reviews.default.svc.cluster.local
 match:
   httpHeaders:
-    Cookie:
+    cookie:
       regex: "^(.*?;)?(user=jason)(;.*)?$"
 ```
 
@@ -109,7 +109,7 @@ corresponding headers must match for the rule to apply.
 
 Multiple criteria can be set simultaneously. In such a case, AND semantics
 apply. For example, the following rule only applies if the source of the
-request is "reviews:v2" AND the "Cookie" header containing "user=jason" is
+request is "reviews:v2" AND the "cookie" header containing "user=jason" is
 present.
 
 ```yaml
@@ -119,7 +119,7 @@ match:
   sourceTags:
     version: v2
   httpHeaders:
-    Cookie:
+    cookie:
       regex: "^(.*?;)?(user=jason)(;.*)?$"
 ```
 
@@ -341,7 +341,7 @@ circuitBreaker:
 ```
 
 The complete set of simple circuit breaker fields can be found
-[here]({{home}}/docs/reference/api/proxy-config.html#istio.proxy.v1alpha.config.CircuitBreaker.SimpleCircuitBreakerPolicy).
+[here]({{home}}/docs/reference/config/traffic-rules/destination-policies.html#istio.proxy.v1.config.CircuitBreaker).
 
 ### Destination Policy evaluation
 

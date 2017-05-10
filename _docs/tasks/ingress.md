@@ -1,6 +1,6 @@
 ---
-title: Configuring Ingress with Envoy
-overview: This task describes how to configure Ingress in Kubernetes with Envoy
+title: Enabling Ingress Traffic
+overview: Describes how to configure Istio to expose a service outside of the service mesh.
 
 order: 30
 
@@ -8,124 +8,210 @@ layout: docs
 type: markdown
 ---
 
-This task describes how to configure Istio to expose a service in a Kubernetes cluster.
-You'll learn how to create an Ingress controller, define a Ingress Resource and make requests to the service.
-
-In a Kubernetes environment, Istio uses [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/services-networking/ingress/) to configure ingress behavior.   
-
+This task describes how to configure Istio to expose a service outside of the service mesh cluster.
+In a Kubernetes environment,
+Istio uses [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/services-networking/ingress/)
+to configure ingress behavior.
 
 ## Before you begin
 
-This task assumes you have deployed Istio on Kubernetes.  If you have not done so, please first complete
-the [Installation Steps](./installing-istio.html).
+* Setup Istio by following the instructions in the
+  [Installation guide](./installing-istio.html).
 
-## Configuring Ingress
+* Start the [httpbin](https://github.com/istio/istio/tree/master/demos/apps/httpbin) sample,
+  which will be used as the destination service to be exposed externally.  
 
-The following sections describe how to create 
+## Configuring ingress (HTTP)
 
-### Setup the environment
-Create an example service.
+1. Create the Ingress Resource for the httpbin service
 
-```yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: HelloWorld
-  labels:
-    app: HelloWorld
-spec:
-  ports:
-  - port: 80
-    name: http
-  selector:
-    app: HelloWorld
----
-apiVersion: extensions/v1beta1
-kind: Deployment
-spec:
-  replicas: 1
-  template:
-    spec:
-      containers:
-      - name: app
-        image: <echo server image name>
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 80
-```
+   ```bash
+   cat <<EOF | kubectl create -f -
+   apiVersion: extensions/v1beta1
+   kind: Ingress
+   metadata:
+     name: istio-ingress
+     annotations:
+       kubernetes.io/ingress.class: istio
+   spec:
+     rules:
+     - http:
+         paths:
+         - path: /headers
+           backend:
+             serviceName: httpbin
+             servicePort: 8000
+         - path: /delay/.*
+           backend:
+             serviceName: httpbin
+             servicePort: 8000
+   EOF
+   ```
+   
+   Notice that in this example we are only exposing httpbin's `/headers` and `/delay` endpoints.
+   
+1. Determine the ingress URL:
 
-### Generate keys
-If necessary, a private key and certificate can be created for testing using [OpenSSL](https://www.openssl.org/).
-```
-openssl req -newkey rsa:2048 -nodes -keyout cert.key -x509 -days -out='cert.crt' -subj '/C=US/ST=Seattle/O=Example/CN=secure.example.io'
-```
+   If your cluster is running in an environment that supports external load balancers,
+   use the ingress' external address:
 
-### Create the secret
-Create the secret using `kubectl`.
-```bash
-kubectl create secret generic ingress-secret --from-file=tls.key=cert.key --from-file=tls.crt=cert.crt
-```
+   ```bash
+   kubectl get ingress -o wide
+   ```
+   
+   ```
+   NAME      HOSTS     ADDRESS                 PORTS     AGE
+   gateway   *         130.211.10.121          80        1d
+   export INGRESS_URL=130.211.10.121:80
+   ```
 
-### Create Ingress Resources
-See [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/services-networking/ingress/) for more information.
+   If load balancers are not supported, use the service NodePort instead:
+   
+   ```bash
+   export INGRESS_URL=$(kubectl get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -o jsonpath='{.spec.ports[0].nodePort}')
+   ```
 
-```yaml
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: istio-ingress
-  annotations:
-    kubernetes.io/ingress.class: istio
-spec:
-  rules:
-  - http:
-      paths:
-      - path: /hello
-        backend:
-          serviceName: helloworld
-          servicePort: 80
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: secured-ingress
-  annotations:
-    kubernetes.io/ingress.class: istio
-spec:
-  tls:
-    - secretName: ingress-secret
-  rules:
-  - http:
-      paths:
-      - path: /hello
-        backend:
-          serviceName: helloworld
-          servicePort: 80
-```
+1. Access the httpbin service using _curl_:
 
-### Make requests to the services
+   ```bash
+   curl http://$INGRESS_URL/headers
+   ```
 
-Get the Ingress controller IP.
+   ```json
+   {
+     "headers": {
+       "Accept": "*/*", 
+       "Content-Length": "0", 
+       "Host": "httpbin.default.svc.cluster.local:8000", 
+       "User-Agent": "curl/7.35.0", 
+       "X-Envoy-Expected-Rq-Timeout-Ms": "15000", 
+       "X-Request-Id": "59cf4fce-72e0-4470-ade5-f59149705944"
+     }
+   }
+   ```
 
-```bash
-kubectl get ingress istio-ingress
-NAME      HOSTS     ADDRESS          PORTS     AGE
-ingress   *         192.168.99.100   80        2m
-```
 
-Make a requests to the HelloWorld service using the Ingress controller IP and the path configured in the Ingress Resources.
+## Configuring secure ingress (HTTPS)
 
-```bash
-curl http://192.168.99.100:80/hello
-.. response ..
-$ curl -k https://192.168.99.100:80/hello
-.. response ..
-```
+1. Generate keys if necessary
 
-## Understanding ...
+   A private key and certificate can be created for testing using [OpenSSL](https://www.openssl.org/).
 
-Here's an interesting thing to know about the steps you just did.
+   ```bash
+   openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /tmp/tls.key -out /tmp/tls.crt -subj "/CN=foo.bar.com"
+   ```
+
+1. Create the secret using `kubectl`
+
+   ```bash
+   kubectl create secret tls ingress-secret --key /tmp/tls.key --cert /tmp/tls.crt
+   ```
+
+1. Create the Ingress Resource for the httpbin service
+
+   ```bash
+   cat <<EOF | kubectl create -f -
+   apiVersion: extensions/v1beta1
+   kind: Ingress
+   metadata:
+     name: secured-ingress
+     annotations:
+       kubernetes.io/ingress.class: istio
+   spec:
+     tls:
+       - secretName: ingress-secret
+     rules:
+     - http:
+         paths:
+         - path: /html
+           backend:
+             serviceName: httpbin
+             servicePort: 8000
+   EOF
+   ```
+   
+   Notice that in this example we are only exposing httpbin's `/html` endpoint.
+   
+   _Remark:_ Envoy currently only allows a single TLS secret in the ingress since SNI is not yet supported.
+   
+1. Access the secured httpbin service using _curl_:
+
+   ```bash
+   curl -k https://$INGRESS_URL/html
+   ```
+   
+   ```
+   <!DOCTYPE html>
+   <html>
+   ...
+   ```
+
+
+## Setting Istio rules on an edge service
+
+Similar to inter-cluster requests, Istio 
+[routing rules]({{home}}/docs/concepts/traffic-management/rules-configuration.html)
+can also be set for edge services
+that are called from outside the cluster.
+To illustrate we will use [istioctl]({{home}}/docs/reference/commands/istioctl.html)
+to set a timeout rule on calls to the httpbin service.
+
+1. Invoke the httpbin `/delay` endpoint you exposed previously:
+
+   ```bash
+   time curl http://$INGRESS_URL/delay/5
+   ```
+   
+   ```
+   ...
+   real    0m5.024s
+   user    0m0.003s
+   sys     0m0.003s
+   ```
+
+   The request should return in approximately 5 seconds.
+
+1. Use `istioctl` to set a 3s timeout on calls to the httpbin service
+
+   ```bash
+   cat <<EOF | istioctl create
+   type: route-rule
+   name: httpbin-3s-rule
+   spec:
+     destination: httpbin.default.svc.cluster.local
+     http_req_timeout:
+       simple_timeout:
+         timeout: 3s
+   EOF
+   ```
+   
+   Note that you may need to change `default` namespace to the namespace of `httpbin` application.
+
+1. Wait a few seconds, then issue the _curl_ request again:
+ 
+   ```bash
+   time curl http://$INGRESS_URL/delay/5
+   ```
+
+   ```
+   ...
+   real    0m3.022s
+   user    0m0.004s
+   sys     0m0.003s
+   ```
+   
+   This time the response appears after
+   3 seconds.  Although _httpbin_ was waiting 5 seconds, Istio cut off the request at 3 seconds.
+
+
+## Understanding ingress
+
+In the preceding steps we created a service inside the Istio network mesh and exposed it to external traffic through
+  ingresses.
 
 ## What's next
-* Learn more about [this](...).
-* See this [related task](...).
+
+* Learn how to expose external services by [enabling egress traffic](./egress.html).
+
+* Learn more about [routing rules]({{home}}/docs/concepts/traffic-management/rules-configuration.html).
+

@@ -57,6 +57,7 @@
 
     a {
         color: $dark-gray;
+        font-weight: normal;
     }
   }
 }
@@ -89,7 +90,7 @@ th {
 
 // Tabs are tabby
 .ui-widget-content {
-  font-size:14px !important;
+  font-size: $font-size--primary !important;
   font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
   color: $textColor !important;
 }

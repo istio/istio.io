@@ -1,210 +1,73 @@
-// Top Static Nav
-#common-nav{
-  background-color: transparent;
-  padding-top: $spacing--xs;
-  padding-bottom: $spacing--xs;
+#header-nav {
+  background: $mainBrandColor linear-gradient(to right, $mainBrandColor, $secondBrandColor) no-repeat center/cover;
 
-  .nav {
-    display: none;
-    font-size: 13px;
-    letter-spacing: 1px;
-    text-align: right;
-    position: relative;
-    z-index: 9012;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
 
-    li {
-      display: inline-block;
-    }
-
-    a {
-      color: $white;
-    }
-
-    @media (min-width: $tablet) {
-      display: initial;
-    }
-
-  }
-
-  @mixin underline() {
-    &:after{
-      background: $white;
-      bottom: 8px;
-      content: "";
-      height: 2px;
-      left: $spacing--xs;
-      margin: auto;
-      position: absolute;
-      right: $spacing--xs;
-    }
-  }
-  
-  .nav li a:active, .nav li a:focus, .nav li a:hover {
-    background: initial;
-    border-bottom: 0;
-    color: $white;
-    @include underline();
-  }
-
-  .page-headline {
-    color: $white;
-    font-weight: 300;
-  }
-
-  span.page-headline {
-    font-size: 1.7em;
-    vertical-align: bottom;    
-  }
-
-  .nav-logo {
-    height: 3em;
-  }
-
-
-  .navbar-toggle {
-    margin-right: -6px;
-  }
-
-  .nav .current{
-    @include underline();
-  }
-
-  .navbar-header {
-    margin-top: 15px;
-    margin-left: 15px;
+@mixin underline() {
+  &:after{
+    background: $white;
+    bottom: 8px;
+    content: "";
+    height: 2px;
+    left: $spacing--xs;
+    margin: auto;
+    position: absolute;
+    right: $spacing--xs;
   }
 }
 
-// override
+.brand-name {
+  color: $white;
+  font-weight: 300;
+  font-size: 1.7em;
+  vertical-align: bottom;
+}
+
+.navbar-brand {
+  padding: inherit;
+  line-height: inherit;
+  height: inherit;
+
+  img {
+    height: 3em;
+  }
+}  
+
+.navbar-header {
+  margin-top: 15px;
+  margin-left: 15px;
+}
+
+.nav li a:active, .nav li a:focus, .nav li a:hover {
+  border-bottom: 0;
+  color: $white;
+}
+
 .navbar {
   margin-bottom: 0;
   border: none;
   border-radius: 0;
 }
 
-
-.arrow-d,
-.arrow-r {
-  cursor: pointer;
-
-  &::before{
-    font-family: monospace;
-    font-size: 1.25em;
-    font-weight: bold;
-  }
+.navbar-inverse .navbar-nav>li>a {
+    color: $white;
 }
 
-// Expandy nav items
-.arrow-r::before {
-  content: "+";
-  margin-right: 8px;
+.navbar-inverse .navbar-nav>li>a:hover {
+    @include underline();
 }
 
-.arrow-d::before {
-  content: "-";
-  margin-right: 8px;
+.main-nav-dropdown>li>a:hover {
+  background-color: $white;
+  color: $secondBrandColor;
+  font-weight: bold;
 }
 
-.submenu-content {
-  display: none;
-  margin-left: $spacing--xl;
-}
-
-// Mobile Navigation
-.top-nav {
-  background-color: $inverseBrandColor;
-  border-image: linear-gradient(to right, $black, rgba(0, 0, 0, 0)) 1 100%; 
-  border-style: solid;
-  border-width: 5px 0 5px 5px;
-  display: initial;
-  height: 100vh;
-  position: fixed;
-  right: 0;
-  top: 0;
-  transition: $transition--secondary;
-  width: 220px;
-  z-index: $z-above-top;
-
-  @media (min-width: $tablet) {
-    display: none;
-  }
-  
-  &.right {
-    right: -300px;
-  }
-
-  .icon-caret {
-    background: url('../img/caret.svg') no-repeat center/cover;  
-    cursor: pointer;
-    height: 20px;
-    position: absolute;
-    right: $spacing--s;
-    top: 15px;
-    width: 45px;
-  }
-
-  .nav-item {
-    list-style: none;
-    padding-left: $spacing--s;
-    position: relative;
-
-    &:hover {
-      a:first-child p {
-        text-decoration: underline;
-      }
-    }
-
-    p {
-      line-height: 50px;
-    }
-  }
-
-  .doc-list {
-    li {
-      display: none;
-    }
-
-    &.active {
-      padding-bottom: 15px;
-
-      li {
-        display: block;
-      }
-    }
-
-    .nav-doc-tab {
-      font-size: 13px;
-      font-weight: 300;
-      letter-spacing: 1px;
-      line-height: 35px;
-      padding-left: $spacing--s;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
-
-  .icon-close {
-    background: url('../img/x.svg') no-repeat center/cover;  
-    cursor: pointer;
-    height: 20px;
-    position: absolute;
-    right: $spacing--s;
-    top: 15px;
-    width: 45px;
-  }
-
-  hr {
-    margin: 0;
-    border-top: 1px solid $light-gray;
-  }
-
-  a {
-    color: $linkColor;
-  }
-
-  a.current {
-    text-decoration: underline;
-  }
+.navbar-inverse .navbar-nav>.open>a, 
+.navbar-inverse .navbar-nav>.open>a:hover, 
+.navbar-inverse .navbar-nav>.open>a:focus {
+  color: #fff !important;
+  background-color: $thirdBrandColor;
 }

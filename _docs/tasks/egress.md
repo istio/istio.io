@@ -1,8 +1,8 @@
 ---
-title: Configuring Egress with Envoy
-overview: Describes how to configure Istio to expose external services to Istio enabled clients.
+title: Enabling Egress Traffic
+overview: Describes how to configure Istio to route traffic from services in the mesh to external services.
 
-order: 35
+order: 40
 
 layout: docs
 type: markdown
@@ -33,19 +33,21 @@ from within your Istio cluster. In this task we will use
 
 1. Register an external HTTP service:
 
-    ```bash
-    cat <<EOF | kubectl create -f -
-    apiVersion: v1
-    kind: Service
-    metadata:
-     name: httpbin
-    spec:
-     type: ExternalName
-     externalName: httpbin.org
-     ports:
-     - port: 80
-    EOF
-```
+   ```bash
+   cat <<EOF | kubectl create -f -
+   apiVersion: v1
+   kind: Service
+   metadata:
+    name: httpbin
+   spec:
+    type: ExternalName
+    externalName: httpbin.org
+    ports:
+    - port: 80
+      # important to set protocol name
+      name: http
+   EOF
+   ```
 
 2. Register an external HTTPS service:
 
@@ -54,15 +56,17 @@ from within your Istio cluster. In this task we will use
    apiVersion: v1
    kind: Service
    metadata:
-     name: securegoogle
+    name: securegoogle
    spec:
-     type: ExternalName
-     externalName: www.google.com
-     ports:
-     - port: 443
+    type: ExternalName
+    externalName: www.google.com
+    ports:
+    - port: 443
+      # important to set protocol name
+      name: https
    EOF
    ```
-
+   
 The `metadata.name` field is the url your internal apps will use when calling the external service.
 The `spec.externalName` is the DNS name of the external service.
 Egress Envoy expects external services to be listening on either port `80` for
@@ -83,7 +87,6 @@ HTTP or port `443` for HTTPS.
 
    ```bash
    curl http://httpbin/headers
-   .. response ..
    ```
 
 3. For external services of type HTTPS, the port must be specified in the request.
@@ -92,7 +95,6 @@ HTTP or port `443` for HTTPS.
 
    ```bash
    curl http://securegoogle:443
-   .. response ..
    ```
 
 ## Calling external services directly
@@ -139,7 +141,6 @@ destination.
 ```bash
 export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
 kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
-.. response ..
 ```
 
 ## Understanding what happened

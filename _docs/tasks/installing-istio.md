@@ -17,139 +17,152 @@ This page shows how to install and configure Istio in a Kubernetes cluster.
 
 * If you are using [Google Container Engine](https://cloud.google.com/container-engine), please make sure you are using static client certificates before fetching cluster credentials:
 
-    ```bash
-    gcloud config set container/use_client_certificate True
-    gcloud container clusters get-credentials <cluster-name> --zone <zone> --project <project-name>
-    ```
+  ```bash
+  gcloud config set container/use_client_certificate True
+  gcloud container clusters get-credentials <cluster-name> --zone <zone> --project <project-name>
+  ```
+
+* Please install [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) or upgrade to the latest version supported by your cluster.
 
 * Ensure the `curl` command is present.
 
 ## Installing on an existing cluster
 
-For the Alpha release, Istio must be installed in the same Kubernetes namespace as the applications. Instructions below will deploy Istio in the
+For the {{ site.data.istio.version }} release, Istio must be installed in the same Kubernetes namespace as the applications. Instructions below will deploy Istio in the
 default namespace. They can be modified for deployment in a different namespace.
 
-1. Download and extract the [istio installation files](https://raw.githubusercontent.com/istio/istio/master/releases/istio-alpha.tar.gz), or
-clone Istio's [GitHub](https://github.com/istio/istio) repository:
+1. Go to [istio release page](https://github.com/istio/istio/releases), and download and extract the installation files istioctl.tar.gz and the source code.
 
-    ```bash
-    git clone https://github.com/istio/istio
-    ```
+2. Change directory to install/kubernetes:
 
-2. Change directory to istio:
+   ```bash
+   cd install/kubernetes
+   ```
 
-    ```bash
-    cd istio
-    ```
+3. Determine if your cluster has [RBAC enabled](https://kubernetes.io/docs/admin/authorization/rbac/) and find out the RBAC api version by running this command:
 
-3. Install Istio's core components
+   ```bash
+   kubectl api-versions | grep rbac
+   ```
+   * If the command displays an error, or does not display anything, it means the cluster does not support RBAC, and you can proceed to step 4.
+
+   * If the command displays 'alpha' version, please apply istio-rbac-alpha.yaml configuration:
+   ```bash
+   kubectl apply -f istio-rbac-alpha.yaml
+   ```
+    
+   * If the command displays 'beta' version, please apply istio-rbac-beta.yaml configuration:
+   ```bash
+   kubectl apply -f istio-rbac-beta.yaml
+   ```
+
+4. Install Istio's core components
    (Istio-Manager, Mixer, Ingress-Controller, and Istio CA if auth is enabled):
 
-   **If you would like to disable Istio Auth**:
-
-    ```bash
-    kubectl apply -f ./kubernetes/istio-15.yaml # for Kubernetes 1.5
-    ```
-
-    or
-
-    ```bash
-    kubectl apply -f ./kubernetes/istio-16.yaml # for Kubernetes 1.6 or later
-    ```
-
-   **If you would like to enable Istio Auth** (This enables mTLS between pods, and by default deploys
+   **If you would like to disable [Istio Auth](https://istio.io/docs/concepts/network-and-auth/auth.html)**
+   (This enables mTLS between pods, and by default deploys
    per-namespace CA. For more information, please see [Istio Auth installation guide](./istio-auth.html)):
 
-    ```bash
-    kubectl apply -f ./kubernetes/istio-auth-15.yaml # for Kubernetes 1.5
-    ```
+   ```bash
+   kubectl apply -f istio.yaml
+   ```
 
-    or
+   **If you would like to enable [Istio Auth](https://istio.io/docs/concepts/network-and-auth/auth.html)**
+   (For more information, please see [Istio Auth installation guide](./istio-auth.html)):
 
-    ```bash
-    kubectl apply -f ./kubernetes/istio-auth-16.yaml # for Kubernetes 1.6 or later
-    ```
+   ```bash
+   kubectl apply -f istio-auth.yaml
+   ```
 
-4. Source the Istio configuration file:
+5. Source the Istio configuration file:
 
-    ```bash
-    source istio.VERSION
-    ```
+   ```bash
+   source ../../istio.VERSION
+   ```
 
-5. Download one of the [`istioctl`]({{home}}/docs/reference/commands/istioctl.html) client binaries corresponding to your OS: `istioctl-osx`, `istioctl-win.exe`,
+6. Use one of the [`istioctl`]({{home}}/docs/reference/commands/istioctl.html) client binaries corresponding to your OS: `istioctl-osx`, `istioctl-win.exe`,
 `istioctl-linux`, targeted at Mac, Windows or Linux users respectively. For example, run the following commands on a Mac system:
 
-    ```bash
-    curl ${ISTIOCTL_URL}/istioctl-osx > /usr/local/bin/istioctl
-    chmod +x /usr/local/bin/istioctl
-    ```
+   ```bash
+   curl -L https://github.com/istio/istio/releases/download/0.1.0/istioctl.tar.gz > istioctl-0.1.0.tar.gz
+   tar xvfz istioctl-0.1.0.tar.gz
+   cp osx/istioctl  /usr/local/bin/ # or anywhere in your $PATH
+   ```
 
-    `istioctl` is needed to inject Envoy as a sidecar proxy. It also provides a convenient CLI for creating routing rules and policies.
-    Note: If you already have a previously installed version of `istioctl`, make sure that
-    it is compatible with the manager image used in `istio.yaml`.
-    If in doubt, download again or add the `--tag` option when running `istioctl kube-inject`.
-    Invoke `istioctl kube-inject --help` for more details.
+   `istioctl` is needed to inject Envoy as a sidecar proxy. It also provides a convenient CLI for creating routing rules and policies.
+   Note: If you already have a previously installed version of `istioctl`, make sure that
+   it is compatible with the manager image used in `istio.yaml`.
+   If in doubt, download again or add the `--tag` option when running `istioctl kube-inject`.
+   Invoke `istioctl kube-inject --help` for more details.
 
-6. Optional: to view metrics collected by Mixer, install [Prometheus](https://prometheus.io), [Grafana](http://staging.grafana.org) or
-ServiceGraph addons:
+7. Optional: to view metrics collected by Mixer, install [Prometheus](https://prometheus.io), [Grafana](http://staging.grafana.org) or
+ServiceGraph addons.
 
-    ```bash
-    kubectl apply -f ./kubernetes/addons/grafana.yaml
-    kubectl apply -f ./kubernetes/addons/prometheus.yaml
-    kubectl apply -f ./kubernetes/addons/servicegraph.yaml
-    ```
+   Note: The Prometheus addon is *required* for both Grafana and the ServiceGraph example. Install `prometheus.yaml` as well as either or both of the other addons.
 
-    The grafana addon provides a dashboard visualization of the metrics by Mixer to a Prometheus instance. Please install both the prometheus.yaml and grafana.yaml addons to configure the Istio dashboard for use.
+   ```bash
+   kubectl apply -f addons/grafana.yaml
+   kubectl apply -f addons/prometheus.yaml
+   kubectl apply -f addons/servicegraph.yaml
+   ```
 
-    The simplest way to access the Istio dashboard is to configure port-forwarding for the grafana service, as follows:
+   The Grafana addon provides a dashboard visualization of the metrics by Mixer to a Prometheus instance.
 
-    ```bash
-    kubectl port-forward $(kubectl get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000
-    ```
+   The simplest way to access the Istio dashboard is to configure port-forwarding for the grafana service, as follows:
 
-    Then open a web browser to `http://localhost:3000/dashboard/db/istio-dashboard`.
+   ```bash
+   kubectl port-forward $(kubectl get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000
+   ```
 
-    The dashboard at that location should look something like the following:
+   Then open a web browser to `http://localhost:3000/dashboard/db/istio-dashboard`.
 
-    ![Grafana Istio Dashboard](./img/grafana_dashboard.png)
+   The dashboard at that location should look something like the following:
 
-    NOTE: In some deployment environments, it will be possible to access the dashboard directly (without the `kubectl port-forward` command). This is because the default addon configuration requests an external IP address for the grafana service.
+   ![Grafana Istio Dashboard](./img/grafana_dashboard.png)
 
-    When applicable, the external IP address for the grafana service can be retrieved via:
+   NOTE: In some deployment environments, it will be possible to access the dashboard directly (without the `kubectl port-forward` command). This is because 
+   the default addon configuration requests an external IP address for the grafana service.
 
-    ```bash
-    kubectl get services grafana
-    ```
+   When applicable, the external IP address for the grafana service can be retrieved via:
 
-    With the EXTERNAL-IP returned from that command, the Istio dashboard can be reached at `http://<EXTERNAL-IP>:3000/dashboard/db/istio-dashboard`.
+   ```bash
+   kubectl get services grafana
+   ```
+
+   With the EXTERNAL-IP returned from that command, the Istio dashboard can be reached at `http://<EXTERNAL-IP>:3000/dashboard/db/istio-dashboard`.
 
 ## Verifying the installation
 
-1. Ensure the following Kubernetes services were deployed: "istio-manager", "istio-mixer", and "istio-ingress".
+1. Ensure the following Kubernetes services were deployed: "istio-manager", "istio-mixer", "istio-ingress", and "istio-egress".
 
-    ```bash
-    kubectl get svc
-    NAME                       CLUSTER-IP     EXTERNAL-IP     PORT(S)              AGE
-    istio-ingress              10.83.241.84   35.184.70.168   80:30583/TCP         39m
-    istio-manager              10.83.251.26   <none>          8080/TCP             39m
-    istio-mixer                10.83.242.1    <none>          9091/TCP,42422/TCP   39m
-    ```
+   ```bash
+   kubectl get svc
+   ```
+   ```bash
+   NAME                       CLUSTER-IP     EXTERNAL-IP     PORT(S)              AGE
+   istio-egress               10.7.241.106   <none>          80/TCP               39m
+   istio-ingress              10.83.241.84   35.184.70.168   80:30583/TCP         39m
+   istio-manager              10.83.251.26   <none>          8080/TCP             39m
+   istio-mixer                10.83.242.1    <none>          9091/TCP,42422/TCP   39m
+   ```
 
-    Note that if your cluster is running in an environment that does not support an external loadbalancer
-    (e.g., minikube), the `EXTERNAL-IP` will say `<pending>` and you will need to access the
-    application using the service NodePort instead.
+   Note that if your cluster is running in an environment that does not support an external loadbalancer
+   (e.g., minikube), the `EXTERNAL-IP` will say `<pending>` and you will need to access the
+   application using the service NodePort instead.
 
-2. Check the corresponding Kubernetes pods were deployed: "istio-manager-\*", "istio-mixer-\*", "istio-ingress-\*" and
-   "istio-ca-\*" (if Istio Auth is enabled).
+2. Check the corresponding Kubernetes pods were deployed: "istio-manager-\*", "istio-mixer-\*", "istio-ingress-\*", "istio-egress-\*", and "istio-ca-\*" (if Istio Auth is enabled).
 
-    ```bash
-    kubectl get pods
-    NAME                                       READY     STATUS    RESTARTS   AGE
-    istio-ingress-594763772-j7jbz              1/1       Running   0          49m
-    istio-manager-373576132-p2t9k              1/1       Running   0          49m
-    istio-mixer-1154414227-56q3z               1/1       Running   0          49m
-    istio-ca-1726969296-9srv2                  1/1       Running   0          49m
-    ```
+   ```bash
+   kubectl get pods
+   ```
+   ```bash
+   NAME                                       READY     STATUS    RESTARTS   AGE
+   istio-egress-597320923-0szj8               1/1       Running   0          49m
+   istio-ingress-594763772-j7jbz              1/1       Running   0          49m
+   istio-manager-373576132-p2t9k              1/1       Running   0          49m
+   istio-mixer-1154414227-56q3z               1/1       Running   0          49m
+   istio-ca-1726969296-9srv2                  1/1       Running   0          49m
+   ```
 
 ## Deploy your application
 
@@ -160,31 +173,48 @@ or HTTP/2.0 protocol for all its HTTP traffic.
 When deploying the application,
 use [kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject.html) to automatically inject
 Envoy containers in the pods running the services:
+
 ```bash
 kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 ```
 
 ## Uninstalling
 
-1. Uninstall Istio:
+1. Change directory to install/kubernetes:
 
-    **If Istio has auth disabled:**
+   ```bash
+   cd install/kubernetes
+   ```
 
-    ```bash
-    kubectl delete -f ./kubernetes/istio-16.yaml
-    ```
+2. Uninstall Istio:
 
-    **If Istio has auth enabled:**
+   **If Istio has auth disabled:**
 
-    ```bash
-    kubectl delete -f ./kubernetes/istio-auth-16.yaml
-    ```
+   ```bash
+   kubectl delete -f istio.yaml
+   ```
+
+   **If Istio has auth enabled:**
+
+   ```bash
+   kubectl delete -f istio-auth.yaml
+   ```
+2. If RBAC was installed, please uninstall it:
+   
+   ```bash
+   kubectl delete -f istio-rbac-beta.yaml
+   ```
+   or
+
+   ```bash
+   kubectl delete -f istio-rbac-alpha.yaml
+   ```
 
 2. Delete the istioctl client:
 
-    ```bash
-    rm /usr/local/bin/istioctl
-    ```
+   ```bash
+   rm /usr/local/bin/istioctl
+   ```
 
 ## What's next
 

@@ -1,0 +1,11 @@
+.search-results {
+    .panel {
+        margin-top: 30px;
+    }
+
+    .gsc-search-box, .gsc-above-wrapper-area, .gsc-resultsbox-visible {
+        table, th, td {
+            border: 0;
+        }
+    }
+}

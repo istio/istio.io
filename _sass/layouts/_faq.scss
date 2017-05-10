@@ -1,0 +1,25 @@
+.faq {
+    h4 {
+        margin: 0px;
+
+        a {
+            font-weight: 400;
+        }
+    }
+
+    .panel-body {
+        padding: 0px;
+    }
+
+    p {
+        padding-left: 20px;
+    }
+
+    ul {
+        padding-left: 30px;
+    }
+
+    ul p {
+        padding-left: 0px;
+    }
+}
