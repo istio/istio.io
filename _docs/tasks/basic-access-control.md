@@ -51,13 +51,13 @@ of the `reviews` service. We would like to cut off access to version `v3` of thi
    ```yaml
    rules:
    - selector: source.labels["app"]=="reviews" && source.labels["version"] == "v3"  
-   aspects:
-   - kind: denials
+     aspects:
+     - kind: denials
    ```
 
   This rule uses the `denials` aspect to deny requests coming from version `v3` of the reviews service.
   The `denials` aspect always denies requests with a pre-configured status code and message.
-  The status code and the message is specified in the [DenyChecker]({{home}}/docs/reference/api/adapters/denyChecker.html)
+  The status code and the message is specified in the [DenyChecker]({{home}}/docs/reference/config/mixer/adapters/denyChecker.html)
   adapter configuration.
 
 ## Access control using _whitelists_ 
@@ -65,7 +65,7 @@ of the `reviews` service. We would like to cut off access to version `v3` of thi
 Istio also supports attribute-based white and blacklists.
 Using a whitelist is a two step process.
 
-1. Add an adapter definition for the [`genericListChecker`]({{home}}/docs/reference/api/adapters/genericListChecker.html) adapter that lists versions `v1, v2`:
+1. Add an adapter definition for the [`genericListChecker`]({{home}}/docs/reference/config/mixer/adapters/genericListChecker.html) adapter that lists versions `v1, v2`:
 
    ```yaml
    - name: versionList
@@ -74,7 +74,7 @@ Using a whitelist is a two step process.
        listEntries: ["v1", "v2"]
    ```
 
-2. Enable `whitelist` checking by using the [`lists`]({{home}}/docs/reference/api/mixer-aspects.html#lists) aspect:
+2. Enable `whitelist` checking by using the [`lists`]({{home}}/docs/reference/config/mixer/aspects/lists.html) aspect:
 
    ```yaml
    rules:
