@@ -116,22 +116,31 @@ This application is polyglot, i.e., the microservices are written in different l
 
 1. Determine the gateway ingress URL:
 
-   If your cluster is running in an environment that supports external loadbalancers,
-   use the ingress' external address:
-
    ```bash
    kubectl get ingress -o wide
+
    NAME      HOSTS     ADDRESS                 PORTS     AGE
    gateway   *         130.211.10.121          80        1d
+
    export GATEWAY_URL=130.211.10.121:80
    ```
 
-   If loadbalancers are not supported, use the service NodePort instead:
+   If your Kubernetes cluster is running in an environment that supports external load balancers, like for instance GKE, and the Istio ingress service was able
+   to obtain an External IP, the ingress' resource IP Address will be equal to the ingress' service External IP.
+   You can directly use that IP Address in your browser to access the http://$GATEWAY_URL/productpage.
+
+   If the service did not obtain an External IP, or if ingress service was defined as NodePort in the yaml specification, the ingress' IP Address will display
+   a list of NodePort addresses. You can use any of these addresses to access the ingress, but if the cluster has a firewall,
+   you will also need to create a firewall rule to allow TCP traffic to the NodePort. For instance, in GKE, create a firewall rule with these commands:
    ```bash
-   export GATEWAY_URL=$(kubectl get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -o jsonpath='{.spec.ports[0].nodePort}')
+      kubectl get svc istio-ingress -o jsonpath={.spec.ports[0].nodePort}
+
+      31201
+
+      gcloud compute firewall-rules create allow-book --allow tcp:31201
    ```
 
-1. Confirm that the BookInfo application is running with the following `curl` command:
+1. Confirm that the BookInfo application is running by opening in your browser http://$GATEWAY_URL/productpage , or with the following `curl` command:
 
    ```bash
    curl -o /dev/null -s -w "%{http_code}\n" http://$GATEWAY_URL/productpage
