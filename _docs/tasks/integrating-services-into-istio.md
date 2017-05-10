@@ -66,7 +66,7 @@ spec:
   ports:
   - port: 80
     targetPort: 8080
-    name: http
+    name: http-status
   selector:
     app: service-two
 ---
@@ -91,9 +91,9 @@ spec:
 [Kubernetes Services](https://kubernetes.io/docs/concepts/services-networking/service/)
 are required for properly functioning Istio service. Service ports
 must be named and these names must begin with _http_ or _grpc_ prefix
-to take advantage of Istio's L7 routing features, e.g. `name: httpFoo`
-is good. Services with non-named ports or with ports that do not have
-a _http_ or _grpc_ prefix will be routed as L4 traffic.
+to take advantage of Istio's L7 routing features, e.g. `name: http-foo` or `name: http`
+is good. <em>Services with non-named ports or with ports that do not have
+a _http_ or _grpc_ prefix will be routed as L4 traffic.</em>
 
 Submit a YAML resource to API server with injected Envoy sidecar. Any
 one of the following methods will work.
