@@ -1,5 +1,5 @@
 ---
-title: accessLogs Config
+title: accessLogs
 overview: Generated documentation for Mixer's Aspect Configuration Schema
 
 order: 1120
@@ -9,15 +9,15 @@ type: markdown
 ---
 
 
-<a name="rpcAspect.configIndex"></a>
+<a name="rpcAspect.Index"></a>
 ### Index
 
-* [AccessLogsParams](#aspect.config.AccessLogsParams)
+* [AccessLogsParams](#aspect.AccessLogsParams)
 (message)
-* [AccessLogsParams.AccessLog](#aspect.config.AccessLogsParams.AccessLog)
+* [AccessLogsParams.AccessLog](#aspect.AccessLogsParams.AccessLog)
 (message)
 
-<a name="aspect.config.AccessLogsParams"></a>
+<a name="aspect.AccessLogsParams"></a>
 ### AccessLogsParams
 Example usage:
     kind: access-logs
@@ -50,21 +50,21 @@ Example usage:
   <th>Type</th>
   <th>Description</th>
  </tr>
-<a name="aspect.config.AccessLogsParams.logName"></a>
+<a name="aspect.AccessLogsParams.logName"></a>
  <tr>
   <td><code>logName</code></td>
   <td>string</td>
   <td>Identifies a collection of related log entries.</td>
  </tr>
-<a name="aspect.config.AccessLogsParams.log"></a>
+<a name="aspect.AccessLogsParams.log"></a>
  <tr>
   <td><code>log</code></td>
-  <td><a href="#aspect.config.AccessLogsParams.AccessLog">AccessLog</a></td>
+  <td><a href="#aspect.AccessLogsParams.AccessLog">AccessLog</a></td>
   <td>The log that will be constructed and handed to the aspect at runtime.</td>
  </tr>
 </table>
 
-<a name="aspect.config.AccessLogsParams.AccessLog"></a>
+<a name="aspect.AccessLogsParams.AccessLog"></a>
 ### AccessLog
 Describes how attributes must be evaluated to produce values for a log message.
 
@@ -74,19 +74,19 @@ Describes how attributes must be evaluated to produce values for a log message.
   <th>Type</th>
   <th>Description</th>
  </tr>
-<a name="aspect.config.AccessLogsParams.AccessLog.descriptorName"></a>
+<a name="aspect.AccessLogsParams.AccessLog.descriptorName"></a>
  <tr>
   <td><code>descriptorName</code></td>
   <td>string</td>
   <td>Only used if logFormat is CUSTOM. Links this AccessLog to a LogEntryDescriptor that describes the log's template.</td>
  </tr>
-<a name="aspect.config.AccessLogsParams.AccessLog.templateExpressions"></a>
+<a name="aspect.AccessLogsParams.AccessLog.templateExpressions"></a>
  <tr>
   <td><code>templateExpressions</code></td>
   <td>repeated map&lt;string, string&gt;</td>
   <td>Map of template variable name to expression for the descriptor's logTemplate. At run time each expression will be evaluated, and together they will provide values for the log's template string. Labels and template expressions do not mix: if the result of some expression is needed for both constructing the payload and for dimensioning the log entry, it must be included both in these expressions and in the <code>labels</code> expressions.</td>
  </tr>
-<a name="aspect.config.AccessLogsParams.AccessLog.labels"></a>
+<a name="aspect.AccessLogsParams.AccessLog.labels"></a>
  <tr>
   <td><code>labels</code></td>
   <td>repeated map&lt;string, string&gt;</td>

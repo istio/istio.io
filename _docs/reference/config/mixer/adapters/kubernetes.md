@@ -1,5 +1,5 @@
 ---
-title: kubernetes Config
+title: kubernetes
 overview: Generated documentation for Mixer's kubernetes Adapter Configuration Schema
 
 order: 30
@@ -9,13 +9,13 @@ type: markdown
 ---
 
 
-<a name="rpcAdapter.kubernetes.configIndex"></a>
+<a name="rpcAdapter.kubernetes.Index"></a>
 ### Index
 
-* [Params](#adapter.kubernetes.config.Params)
+* [Params](#adapter.kubernetes.Params)
 (message)
 
-<a name="adapter.kubernetes.config.Params"></a>
+<a name="adapter.kubernetes.Params"></a>
 ### Params
 Configuration parameters for the kubernetes adapter. These params
 control the manner in which the kubernetes adapter discovers and
@@ -40,109 +40,109 @@ next field id: 19
   <th>Type</th>
   <th>Description</th>
  </tr>
-<a name="adapter.kubernetes.config.Params.kubeconfigPath"></a>
+<a name="adapter.kubernetes.Params.kubeconfigPath"></a>
  <tr>
   <td><code>kubeconfigPath</code></td>
   <td>string</td>
   <td><p>File path to discover kubeconfig. For in-cluster configuration, this should be left unset. For local configuration, this should be set to the path of a kubeconfig file that can be used to reach a kubernetes API server.</p><p>Default: "" (unset)</p></td>
  </tr>
-<a name="adapter.kubernetes.config.Params.cacheRefreshDuration"></a>
+<a name="adapter.kubernetes.Params.cacheRefreshDuration"></a>
  <tr>
   <td><code>cacheRefreshDuration</code></td>
   <td><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></td>
   <td><p>Controls the resync period of the kubernetes cluster info cache. The cache will watch for events and every so often completely resync. This controls how frequently the complete resync occurs.</p><p>Default: 5 minutes</p></td>
  </tr>
-<a name="adapter.kubernetes.config.Params.sourceUidInputName"></a>
+<a name="adapter.kubernetes.Params.sourceUidInputName"></a>
  <tr>
   <td><code>sourceUidInputName</code></td>
   <td>string</td>
   <td><p>Configures how the UID for the source pod for traffic is identified in the input map.</p><p>Default: sourceUID</p></td>
  </tr>
-<a name="adapter.kubernetes.config.Params.targetUidInputName"></a>
+<a name="adapter.kubernetes.Params.targetUidInputName"></a>
  <tr>
   <td><code>targetUidInputName</code></td>
   <td>string</td>
   <td><p>Configures how the UID for the target pod for traffic is identified in the input map.</p><p>Default: targetUID</p></td>
  </tr>
-<a name="adapter.kubernetes.config.Params.originUidInputName"></a>
+<a name="adapter.kubernetes.Params.originUidInputName"></a>
  <tr>
   <td><code>originUidInputName</code></td>
   <td>string</td>
   <td><p>Configures how the UID for the origin pod for traffic is identified in the input map.</p><p>Default: originUID</p></td>
  </tr>
-<a name="adapter.kubernetes.config.Params.targetServiceInputName"></a>
+<a name="adapter.kubernetes.Params.targetServiceInputName"></a>
  <tr>
   <td><code>targetServiceInputName</code></td>
   <td>string</td>
   <td><p>Configures how the identifier for the target service is populated in the input map (if at all). When supplied, this value will be used (after successful normalization) in place of the value derived from the pod cache for the target pod in the generated map of output values.</p><p>Default: targetService</p></td>
  </tr>
-<a name="adapter.kubernetes.config.Params.clusterDomainName"></a>
+<a name="adapter.kubernetes.Params.clusterDomainName"></a>
  <tr>
   <td><code>clusterDomainName</code></td>
   <td>string</td>
   <td><p>Configures the cluster domain name to use for service name normalization.</p><p>Default: svc.cluster.local</p></td>
  </tr>
-<a name="adapter.kubernetes.config.Params.podLabelForService"></a>
+<a name="adapter.kubernetes.Params.podLabelForService"></a>
  <tr>
   <td><code>podLabelForService</code></td>
   <td>string</td>
   <td><p>In order to extract the service associated with a source, target, or origin, this adapter relies on pod labels. In particular, it looks for the value of a specific label, as specified by this parameter.</p><p>Default: app</p></td>
  </tr>
-<a name="adapter.kubernetes.config.Params.sourcePrefix"></a>
+<a name="adapter.kubernetes.Params.sourcePrefix"></a>
  <tr>
   <td><code>sourcePrefix</code></td>
   <td>string</td>
   <td><p>The prefix used for source pod output value names.</p><p>Default: source</p></td>
  </tr>
-<a name="adapter.kubernetes.config.Params.targetPrefix"></a>
+<a name="adapter.kubernetes.Params.targetPrefix"></a>
  <tr>
   <td><code>targetPrefix</code></td>
   <td>string</td>
   <td><p>The prefix used for target pod output value names.</p><p>Default: target</p></td>
  </tr>
-<a name="adapter.kubernetes.config.Params.originPrefix"></a>
+<a name="adapter.kubernetes.Params.originPrefix"></a>
  <tr>
   <td><code>originPrefix</code></td>
   <td>string</td>
   <td><p>The prefix used for origin pod output value names.</p><p>Default: origin</p></td>
  </tr>
-<a name="adapter.kubernetes.config.Params.labelsValueName"></a>
+<a name="adapter.kubernetes.Params.labelsValueName"></a>
  <tr>
   <td><code>labelsValueName</code></td>
   <td>string</td>
   <td><p>The value name for the pod labels output value.</p><p>Default: Labels</p></td>
  </tr>
-<a name="adapter.kubernetes.config.Params.podNameValueName"></a>
+<a name="adapter.kubernetes.Params.podNameValueName"></a>
  <tr>
   <td><code>podNameValueName</code></td>
   <td>string</td>
   <td><p>The value name for the pod name output value.</p><p>Default: PodName</p></td>
  </tr>
-<a name="adapter.kubernetes.config.Params.podIpValueName"></a>
+<a name="adapter.kubernetes.Params.podIpValueName"></a>
  <tr>
   <td><code>podIpValueName</code></td>
   <td>string</td>
   <td><p>The value name for the pod ip address output value.</p><p>Default: PodIP</p></td>
  </tr>
-<a name="adapter.kubernetes.config.Params.hostIpValueName"></a>
+<a name="adapter.kubernetes.Params.hostIpValueName"></a>
  <tr>
   <td><code>hostIpValueName</code></td>
   <td>string</td>
   <td><p>The value name for the pod host ip address output value.</p><p>Default: HostIP</p></td>
  </tr>
-<a name="adapter.kubernetes.config.Params.namespaceValueName"></a>
+<a name="adapter.kubernetes.Params.namespaceValueName"></a>
  <tr>
   <td><code>namespaceValueName</code></td>
   <td>string</td>
   <td><p>The value name for the pod namespace output value.</p><p>Default: Namespace</p></td>
  </tr>
-<a name="adapter.kubernetes.config.Params.serviceAccountValueName"></a>
+<a name="adapter.kubernetes.Params.serviceAccountValueName"></a>
  <tr>
   <td><code>serviceAccountValueName</code></td>
   <td>string</td>
   <td><p>The value name for the pod service account name output value.</p><p>Default: ServiceAccountName</p></td>
  </tr>
-<a name="adapter.kubernetes.config.Params.serviceValueName"></a>
+<a name="adapter.kubernetes.Params.serviceValueName"></a>
  <tr>
   <td><code>serviceValueName</code></td>
   <td>string</td>

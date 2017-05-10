@@ -1,5 +1,5 @@
 ---
-title: ipListChecker Config
+title: ipListChecker
 overview: Generated documentation for Mixer's ipListChecker Adapter Configuration Schema
 
 order: 20
@@ -9,13 +9,13 @@ type: markdown
 ---
 
 
-<a name="rpcAdapter.ipListChecker.configIndex"></a>
+<a name="rpcAdapter.ipListChecker.Index"></a>
 ### Index
 
-* [Params](#adapter.ipListChecker.config.Params)
+* [Params](#adapter.ipListChecker.Params)
 (message)
 
-<a name="adapter.ipListChecker.config.Params"></a>
+<a name="adapter.ipListChecker.Params"></a>
 ### Params
 
 <table>
@@ -24,19 +24,19 @@ type: markdown
   <th>Type</th>
   <th>Description</th>
  </tr>
-<a name="adapter.ipListChecker.config.Params.providerUrl"></a>
+<a name="adapter.ipListChecker.Params.providerUrl"></a>
  <tr>
   <td><code>providerUrl</code></td>
   <td>string</td>
   <td>Where to find the list to check against</td>
  </tr>
-<a name="adapter.ipListChecker.config.Params.refreshInterval"></a>
+<a name="adapter.ipListChecker.Params.refreshInterval"></a>
  <tr>
   <td><code>refreshInterval</code></td>
   <td><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></td>
   <td>Determines how often the provider is polled for an updated list</td>
  </tr>
-<a name="adapter.ipListChecker.config.Params.ttl"></a>
+<a name="adapter.ipListChecker.Params.ttl"></a>
  <tr>
   <td><code>ttl</code></td>
   <td><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></td>
