@@ -57,8 +57,8 @@ clone Istio's [GitHub](https://github.com/istio/istio) repository:
     kubectl apply -f ./kubernetes/istio-16.yaml # for Kubernetes 1.6 or later
     ```
 
-   **If you would like to enable Istio Auth** (For more information, please see
-   [Istio Auth installation guide](./istio-auth.html)):
+   **If you would like to enable Istio Auth** (This enables mTLS between pods, and by default deploys
+   per-namespace CA. For more information, please see [Istio Auth installation guide](./istio-auth.html)):
 
     ```bash
     kubectl apply -f ./kubernetes/istio-auth-15.yaml # for Kubernetes 1.5

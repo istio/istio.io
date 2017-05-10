@@ -22,10 +22,9 @@ how to:
 ## Before you begin
 This task assumes you have:
 
-* Read the [Istio Auth concepts]({{home}}/docs/concepts/network-and-auth/index.html).
+* Read the [Istio Auth concepts]({{home}}/docs/concepts/network-and-auth/auth.html).
 
-* Cloned https://github.com/istio/istio to your local machine
-  (Step 1 in [the Istio installation guide](./installing-istio.html#installing-on-an-existing-cluster)).
+* Completed steps 1 - 3 in [the Istio installation guide](./installing-istio.html#installing-on-an-existing-cluster).
 
 In real world systems, only a single Istio CA should be present in a Kubernetes cluster,
 which is always deployed in a dedicated namespace. The Istio CA issues certificates/keys to
@@ -41,11 +40,14 @@ Per namespace CA is convenient for doing experiments.
 Because each Istio CA is scoped within a namespace, Istio CAs in different namespaces will not interfere with each other
 and they are easy to clean up through a single command.
 
-We have the YAML files *istio-auth-X.yaml* for deploying all Istio components including Istio CA into the namespace.
+We have the YAML file *istio-auth.yaml* for deploying all Istio components including Istio CA into the namespace.
 Follow [the Istio installation guide](./installing-istio.html),
-and **choose "If you would like to enable Istio Auth" in step 3**.
+and **choose "If you would like to enable Istio Auth" in step 4**.
 
 ### Option 2: (recommended) using per-cluster CA
+
+Note: if you have already enabled Istio auth for any namespace in the cluster, this process will deploy a CA that conflicts with
+existing CAs. Please follow [Disabling Istio Auth](#disableauth) section to disable auth first.
 
 Only a single Istio CA is deployed for the Kubernetes cluster, in a dedicated namespace.
 Doing this offers the following benefits:
@@ -57,30 +59,30 @@ boundary. This will offer strong security for Istio CA.
 * Services in the same Kubernetes cluster but different namespaces are able to talk to each other through Istio Auth
 without extra trust setup.
 
-#### Deplying CA
+#### Deploying CA
 
 The following command creates  namespace *istio-system* and deploys CA into the namespace:
 
 ```bash
-kubectl apply -f ./kubernetes/istio-auth/istio-cluster-ca.yaml
+kubectl apply -f templates/istio-auth/istio-cluster-ca.yaml
 ```
 
-#### <a name="istioconfig"></a>Enabling Istio Auth in Istio config
+#### Enabling Istio Auth in Istio config
 
-The following command uncomments the line *authPolicy: MUTUAL_TLS* in the file *kubernetes/istio-X.yaml*,
-and backs up the original file as *istio-X.yaml.bak*
-(*X* corresponds to the Kubernetes server version, choose "15" or "16").
+The following command uncomments the line *authPolicy: MUTUAL_TLS* in the file *istio.yaml*,
+and backs up the original file as *istio.yaml.bak*
 
 ```bash
-sed "s/# authPolicy: MUTUAL_TLS/authPolicy: MUTUAL_TLS/" ./kubernetes/istio-X.yaml > ./kubernetes/istio-auth-X.yaml
+mv templates/istio.yaml templates/istio.yaml.bak
+sed "s/# authPolicy: MUTUAL_TLS/authPolicy: MUTUAL_TLS/" templates/istio.yaml > templates/istio-auth.yaml
 ```
 
 #### Deploying other services
 
 Follow [the general Istio installation guide](./installing-istio.html),
-and **choose "If you would like to enable Istio Auth" in step 3**.
+and **choose "If you would like to enable Istio Auth" in step 4**.
 
-## Disabling Istio Auth
+## <a name="disableauth"></a>Disabling Istio Auth
 
 Disabling Istio Auth requires all Istio services and applications to be reconfigured and restarted without auth config.
 
@@ -89,8 +91,8 @@ Disabling Istio Auth requires all Istio services and applications to be reconfig
 Run the following command to uninstall Istio, and redeploy Istio without auth:
 
 ```bash
-kubectl delete -f ./kubernetes/istio-auth-X.yaml
-kubectl apply -f ./kubernetes/istio-X.yaml
+kubectl delete -f templates/istio-auth.yaml
+kubectl apply -f templates/istio.yaml
 ```
 
 Also, redeploy your application by running:
@@ -106,7 +108,7 @@ kubectl replace -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 The following command removes Istio CA and its namespace *istio-system*.
 
 ```bash
-kubectl delete -f ./kubernetes/istio-auth/istio-cluster-ca.yaml
+kubectl delete -f templates/istio-auth/istio-cluster-ca.yaml
 ```
 
 #### Redeploying Istio and applications
@@ -114,8 +116,8 @@ kubectl delete -f ./kubernetes/istio-auth/istio-cluster-ca.yaml
 Run the following command to uninstall Istio, and redeploy Istio without auth:
 
 ```bash
-kubectl delete -f ./kubernetes/istio-auth-X.yaml
-kubectl apply -f ./kubernetes/istio-X.yaml
+kubectl delete -f templates/istio-auth.yaml
+kubectl apply -f templates/istio.yaml
 ```
 
 Also, redeploy your application by running:
@@ -126,10 +128,10 @@ kubectl replace -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 
 #### Recovering the original config files
 
-The following command will recover the original *istio-auth-X.yaml* file.
+The following command will recover the original *istio-auth.yaml* file.
 
 ```bash
-git checkout ./kubernetes/istio-auth-X.yaml
+mv templates/istio-auth.yaml.bak templates/istio-auth.yaml
 ```
 
 ## Verifying Istio Auth setup
