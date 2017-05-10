@@ -42,7 +42,7 @@ default namespace. They can be modified for deployment in a different namespace.
 3. Determine if your cluster has [RBAC enabled](https://kubernetes.io/docs/admin/authorization/rbac/) and find out the RBAC api version by running this command:
 
    ```bash
-   kubectl get clusterrole -o yaml | grep apiVersion
+   kubectl api-versions | grep rbac
    ```
    * If the command displays an error, or does not display anything, it means the cluster does not support RBAC, and you can proceed to step 4.
 
