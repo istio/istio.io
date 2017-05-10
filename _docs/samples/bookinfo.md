@@ -45,6 +45,12 @@ This application is polyglot, i.e., the microservices are written in different l
 
 ## Start the application
 
+1. Source the Istio configuration file from the root of the installation directory:
+
+   ```bash
+   source istio.VERSION
+   ```
+
 1. Change your current working directory to the `bookinfo` application directory:
 
    ```bash
