@@ -34,7 +34,6 @@ clone Istio's [GitHub](https://github.com/istio/istio) repository:
    ```bash
    cd install/kubernetes
    ```
-   ```
 
 3. Determine if your cluster has [RBAC enabled](https://kubernetes.io/docs/admin/authorization/rbac/) by running this command:
 
