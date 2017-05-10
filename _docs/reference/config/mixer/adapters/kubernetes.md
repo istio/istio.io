@@ -1,6 +1,6 @@
 ---
 title: kubernetes
-overview: Generated documentation for Mixer's kubernetes Adapter Configuration Schema
+overview: kubernetes adapter configuration schema
 
 order: 30
 

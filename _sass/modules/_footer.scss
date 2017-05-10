@@ -20,8 +20,17 @@ footer {
     }
   }
 
+  li {
+    line-height: 1.1em;
+  }
+
   a {
     color: $white;
+    font-weight: 200;
+    font-size: .8em;
+    padding: 0px;
+    letter-spacing: .5px;
+    line-height: 1.1em;
 
     &:hover {
       text-decoration: underline;
@@ -33,10 +42,6 @@ footer {
     }
   }
 
-  a.external:after {
-    display: none;
-  }
-
   .active {
     display: initial;
   }
@@ -44,14 +49,8 @@ footer {
   .description {
     padding-top: 40px;
     color: $light-gray;
-  }
-
-  p {
-    font-weight: 200;
-    font-size: .8em;
-    padding: 0px;
-    letter-spacing: .5px;
-    line-height: 16px;
+    line-height: 1.6em;
+    font-size: 0.7em;
   }
 
   p.header {
@@ -86,14 +85,6 @@ footer {
 
     @media (min-width: 768px) {
       display: none;
-    }
-  }
-
-  .footer-community p {
-    padding: 7px 0;
-
-    @media(min-width: 990px) {
-      padding: 1px 0;
     }
   }
 

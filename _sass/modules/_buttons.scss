@@ -38,7 +38,7 @@
       border-radius: 4px;
       color: $secondBrandColor;
       font-weight: 500;
-      font-size: 14px;
+      font-size: $font-size--primary;
     }
   }
 
@@ -89,10 +89,4 @@
     height: 45px;
     width: 45px;
   }
-}
-
-.external-link-icon {
-  background: url('../img/external-link.svg') no-repeat center/cover;
-  width: 15px;
-  height: 15px;
 }

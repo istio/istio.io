@@ -44,6 +44,8 @@ from within your Istio cluster. In this task we will use
     externalName: httpbin.org
     ports:
     - port: 80
+      # important to set protocol name
+      name: http
    EOF
    ```
 
@@ -60,6 +62,8 @@ from within your Istio cluster. In this task we will use
     externalName: www.google.com
     ports:
     - port: 443
+      # important to set protocol name
+      name: http
    EOF
    ```
    
@@ -93,7 +97,7 @@ HTTP or port `443` for HTTPS.
    with the external service:
 
    ```bash
-   curl http://securegoogle:443
+   curl https://securegoogle:443
    ```
    ```bash
    .. response ..

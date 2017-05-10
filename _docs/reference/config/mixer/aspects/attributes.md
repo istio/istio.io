@@ -1,6 +1,6 @@
 ---
 title: attributes
-overview: Generated documentation for Mixer's Aspect Configuration Schema
+overview: attributes aspect configuration schema
 
 order: 1140
 

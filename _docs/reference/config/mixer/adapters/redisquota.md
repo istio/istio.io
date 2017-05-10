@@ -1,6 +1,6 @@
 ---
 title: redisquota
-overview: Generated documentation for Mixer's redisquota Adapter Configuration Schema
+overview: redisquota adapter configuration schema
 
 order: 60
 

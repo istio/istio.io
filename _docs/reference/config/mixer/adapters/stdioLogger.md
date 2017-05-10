@@ -1,6 +1,6 @@
 ---
 title: stdioLogger
-overview: Generated documentation for Mixer's stdioLogger Adapter Configuration Schema
+overview: stdioLogger adapter configuration schema
 
 order: 80
 

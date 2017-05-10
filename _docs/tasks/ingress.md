@@ -68,7 +68,7 @@ to configure ingress behavior.
    If load balancers are not supported, use the service NodePort instead:
    
    ```bash
-   export INGRESS_URL=$(kubectl get po -l istio=ingress -o jsonpath={.items[0].status.hostIP}):$(kubectl get svc istio-ingress -o jsonpath={.spec.ports[0].nodePort})
+   export INGRESS_URL=$(kubectl get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -o jsonpath='{.spec.ports[0].nodePort}')
    ```
 
 1. Access the httpbin service using _curl_:
@@ -88,13 +88,13 @@ to configure ingress behavior.
    A private key and certificate can be created for testing using [OpenSSL](https://www.openssl.org/).
 
    ```bash
-   openssl req -newkey rsa:2048 -nodes -keyout /tmp/cert.key -subj '/C=US/ST=Seattle/O=Example/CN=secure.example.io' > /tmp/cert.crt
+   openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /tmp/tls.key -out /tmp/tls.crt -subj "/CN=foo.bar.com"
    ```
 
 1. Create the secret using `kubectl`
 
    ```bash
-   kubectl create secret generic ingress-secret --from-file=tls.key=/tmp/cert.key --from-file=tls.crt=/tmp/cert.crt
+   kubectl create secret tls ingress-secret --key /tmp/tls.key --cert /tmp/tls.crt
    ```
 
 1. Create the Ingress Resource for the httpbin service
@@ -122,14 +122,18 @@ to configure ingress behavior.
    
    Notice that in this example we are only exposing httpbin's `/html` endpoint.
    
+   _Remark:_ Envoy currently only allows a single TLS secret in the ingress since SNI is not yet supported.
+   
 1. Access the secured httpbin service using _curl_:
 
    ```bash
-   curl -k https://<TODO>/html
+   curl -k https://$INGRESS_URL/html
    ```
    
    ```
-   .. response ..
+   <!DOCTYPE html>
+   <html>
+   ...
    ```
 
 
@@ -170,6 +174,8 @@ to set a timeout rule on calls to the httpbin service.
          timeout: 3s
    EOF
    ```
+   
+   Note that you may need to change `default` namespace to the namespace of `httpbin` application.
 
 1. Wait a few seconds, then issue the _curl_ request again:
  

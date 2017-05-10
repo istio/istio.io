@@ -1,6 +1,6 @@
 ---
 title: applicationLogs
-overview: Generated documentation for Mixer's Aspect Configuration Schema
+overview: applicationLogs aspect configuration schema
 
 order: 1130
 

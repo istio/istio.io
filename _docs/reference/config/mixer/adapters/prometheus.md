@@ -1,6 +1,6 @@
 ---
 title: prometheus
-overview: Generated documentation for Mixer's prometheus Adapter Configuration Schema
+overview: prometheus adapter configuration schema
 
 order: 50
 

@@ -1,6 +1,6 @@
 ---
 title: Mixer
-overview: Generated documentation for Mixer's Configuration Schema
+overview: Mixer's configuration schema
 
 order: 1190
 
