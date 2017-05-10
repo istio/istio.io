@@ -36,6 +36,7 @@ clone Istio's [GitHub](https://github.com/istio/istio) repository:
 
    ```bash
    git clone --depth=1 https://github.com/istio/istio
+   cd istio
    ```
 
 2. Change directory to install/kubernetes:
