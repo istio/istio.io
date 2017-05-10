@@ -53,7 +53,8 @@ as the example application throughout this task.
              service: target.labels["app"] | "unknown"
              method: request.path | "unknown"
              response_code: response.code | 200
-     - kind: access-logs
+     - adapter: default
+       kind: access-logs
        params:
          logName: combined_log
          log:
@@ -210,7 +211,7 @@ new descriptors.
 
 ### Understanding the rule's access_logs aspect
 
-The `access-logs` aspect directs Mixer to send access logs to the default
+The `access-logs` aspect directs Mixer to send access logs to the `default`
 adapter (typically, `stdioLogger`). The adapter `params` tell Mixer _how_ 
 to generate the access logs for incoming requests based on attributes reported
 by Envoy.
