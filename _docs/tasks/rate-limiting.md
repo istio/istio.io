@@ -49,7 +49,7 @@ Using Istio we can ensure that `5qps` is not breached.
          quotas:
          - descriptorName: RequestCount
            maxAmount: 5
-           expiration: 1s
+           expiration: 5s
    ```
    `istioctl` sets configuration for `subject=ratings.default.svc.cluster.local`
 
@@ -87,7 +87,7 @@ The following configuration applies a `5qps` rate limit only to version `v3` of 
          quotas:
          - descriptorName: RequestCount
            maxAmount: 5
-           expiration: 1s
+           expiration: 5s
    ```
 2. Generate load on the `productpage` with the following command:
 
