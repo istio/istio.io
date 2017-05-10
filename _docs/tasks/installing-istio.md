@@ -192,9 +192,9 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 
    **If Istio has auth enabled:**
 
-    ```bash
-    kubectl delete -f istio-auth.yaml
-    ```
+   ```bash
+   kubectl delete -f istio-auth.yaml
+   ```
 2. If RBAC was installed, please uninstall it:
    
    ```bash
