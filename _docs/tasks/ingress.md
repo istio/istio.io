@@ -58,13 +58,20 @@ to configure ingress behavior.
    ```bash
    kubectl get ingress -o wide
    ```
-   
    ```
    NAME      HOSTS     ADDRESS                 PORTS     AGE
    gateway   *         130.211.10.121          80        1d
-   export INGRESS_URL=130.211.10.121:80
    ```
-
+   In this example we would want to `export INGRESS_URL=130.211.10.121:80`, so:
+   ```bash
+   export INGRESS_URL=`kubectl get ingress -o wide | tail -1 | awk '{printf("%s:%s", $3,$4)}'`
+   echo INGRESS_URL=$INGRESS_URL
+   ```
+   which outputs
+   ```
+   INGRESS_URL=130.211.10.121:80
+   ```
+   
    If load balancers are not supported, use the service NodePort instead:
    
    ```bash
