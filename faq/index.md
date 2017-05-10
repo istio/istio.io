@@ -8,12 +8,27 @@ type: markdown
 
 # Frequently Asked Questions
 
-Here are some frequently asked questions about Istio. If you don't find your question answered here, be sure
+Here are some frequently asked questions about Istio. If you don't find your questions answered here, be sure
 to check [Stack Overflow](https://stackoverflow.com/questions/tagged/istio) for more Q&A.
 
 {% assign faqs = site.faq | sort: "order" %}
-{% for q in faqs %}
-### {{q.title}}
+<div class="panel-group" id="accordion">
 
-{{q.content}}
-{% endfor %}
+  {% for q in faqs %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{forloop.index}}">
+          {{q.title}}
+        </a>
+      </h4>
+    </div>
+
+    <div id="collapse{{forloop.index}}" class="panel-collapse collapse">
+      <div class="panel-body">
+        {{q.content}}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
