@@ -129,9 +129,9 @@ This application is polyglot, i.e., the microservices are written in different l
    to obtain an External IP, the ingress' resource IP Address will be equal to the ingress' service External IP.
    You can directly use that IP Address in your browser to access the http://$GATEWAY_URL/productpage.
 
-   If the service did not obtain an External IP, or if ingress service was defined as NodePort in the yaml specification, the ingress' IP Address will display
-   a list of NodePort addresses. You can use any of these addresses to access the ingress, but if the cluster has a firewall,
-   you will also need to create a firewall rule to allow TCP traffic to the NodePort. For instance, in GKE, create a firewall rule with these commands:
+   If the service did not obtain an External IP, the ingress' IP Address will display a list of NodePort addresses.
+   You can use any of these addresses to access the ingress, but if the cluster has a firewall, you will also need to create a firewall rule
+   to allow TCP traffic to the NodePort. For instance, in GKE, create a firewall rule with these commands:
    ```bash
       kubectl get svc istio-ingress -o jsonpath={.spec.ports[0].nodePort}
 
