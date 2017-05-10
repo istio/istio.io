@@ -78,12 +78,13 @@ default namespace. They can be modified for deployment in a different namespace.
    source ../../istio.VERSION
    ```
 
-6. Download one of the [`istioctl`]({{home}}/docs/reference/commands/istioctl.html) client binaries corresponding to your OS: `istioctl-osx`, `istioctl-win.exe`,
+6. Use one of the [`istioctl`]({{home}}/docs/reference/commands/istioctl.html) client binaries corresponding to your OS: `istioctl-osx`, `istioctl-win.exe`,
 `istioctl-linux`, targeted at Mac, Windows or Linux users respectively. For example, run the following commands on a Mac system:
 
    ```bash
-   curl ${ISTIOCTL_URL}/istioctl-osx > /usr/local/bin/istioctl
-   chmod +x /usr/local/bin/istioctl
+   curl -L https://github.com/istio/istio/releases/download/0.1.0/istioctl.tar.gz > istioctl-0.1.0.tar.gz
+   tar xvfz istioctl-0.1.0.tar.gz
+   cp istioctl/istioctl-osx  /usr/local/bin/ # or anywhere in your $PATH
    ```
 
    `istioctl` is needed to inject Envoy as a sidecar proxy. It also provides a convenient CLI for creating routing rules and policies.
