@@ -1,6 +1,6 @@
 ---
 title: statsd
-overview: Generated documentation for Mixer's statsd Adapter Configuration Schema
+overview: statsd adapter configuration schema
 
 order: 70
 

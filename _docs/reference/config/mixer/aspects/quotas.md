@@ -1,6 +1,6 @@
 ---
 title: quotas
-overview: Generated documentation for Mixer's Aspect Configuration Schema
+overview: quotas aspect configuration schema
 
 order: 1180
 

@@ -1,6 +1,6 @@
 ---
 title: Routing Rules
-overview: Generated documentation for Istio's traffic routing rules
+overview: Traffic routing rule configuration schema
 
 order: 20
 

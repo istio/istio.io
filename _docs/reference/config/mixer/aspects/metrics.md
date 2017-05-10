@@ -1,6 +1,6 @@
 ---
 title: metrics
-overview: Generated documentation for Mixer's Aspect Configuration Schema
+overview: metrics aspect configuration schema
 
 order: 1170
 

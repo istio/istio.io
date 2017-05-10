@@ -1,6 +1,6 @@
 ---
 title: accessLogs
-overview: Generated documentation for Mixer's Aspect Configuration Schema
+overview: accessLogs aspect configuration schema
 
 order: 1120
 

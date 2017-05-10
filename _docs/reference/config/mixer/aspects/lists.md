@@ -1,6 +1,6 @@
 ---
 title: lists
-overview: Generated documentation for Mixer's Aspect Configuration Schema
+overview: lists aspect configuration schema
 
 order: 1160
 

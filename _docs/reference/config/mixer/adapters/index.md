@@ -1,6 +1,6 @@
 ---
 title: Adapters
-overview: Generated documentation for Mixer's adapters.
+overview: Mixer's adapter configuration schemas.
 
 order: 2000
 
