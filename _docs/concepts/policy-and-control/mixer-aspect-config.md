@@ -125,22 +125,29 @@ to the `subject` resource and its sub-resources.
 As of the alpha release, the API server supports pushing only aspect rules. 
 
 A temporary workaround allows you to push `adapters.yml` and `descriptors.yml` as follows.
-1. Find the mixer pod
-    ```
-    kubectl get pods -l istio=mixer
-    NAME                           READY     STATUS    RESTARTS   AGE
-    istio-mixer-2657627433-3r0nn   1/1       Running   0          2d
-    ```
+
+1. Find the Mixer pod  FIXME
+   ```bash
+   kubectl get pods -l istio=mixer
+   ```
+   The output is similar to this:
+   ```
+   NAME                           READY     STATUS    RESTARTS   AGE
+   istio-mixer-2657627433-3r0nn   1/1       Running   0          2d
+   ```
+
 2. Fetch adapters.yml from Mixer
-    ```
-    kubectl cp istio-mixer-2657627433-3r0nn:/etc/opt/mixer/configroot/scopes/global/adapters.yml  adapters.yml
-    ```
+   ``` bash
+   kubectl cp istio-mixer-2657627433-3r0nn:/etc/opt/mixer/configroot/scopes/global/adapters.yml  adapters.yml
+   ```
 
 3. Edit the file and push it back.
-    ```
-    kubectl cp adapters.yml istio-mixer-2657627433-3r0nn:/etc/opt/mixer/configroot/scopes/global/adapters.yml 
-    ```
+   ```bash
+   kubectl cp adapters.yml istio-mixer-2657627433-3r0nn:/etc/opt/mixer/configroot/scopes/global/adapters.yml 
+   ```
+
 4. `/etc/opt/mixer/configroot/scopes/global/descriptors.yml` is similarly updated.
+
 5. View Mixer logs to see validation errors since the above operation bypasses the API server.
 
 ## Default configuration
@@ -151,4 +158,5 @@ Mixer provides default definitions for commonly used
 ## What's next
 
 * Learn more about [Mixer](./mixer.html) and [Mixer Config](./mixer-config.html).
+
 * Discover the full [Attribute Vocabulary]({{home}}/docs/reference/api/mixer/attribute-vocabulary.html).
