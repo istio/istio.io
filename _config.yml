@@ -25,6 +25,8 @@ collections:
     output: true
   faq:
     output: false
+  glossary:
+    output: false
 
 gems:
   - jekyll-redirect-from
