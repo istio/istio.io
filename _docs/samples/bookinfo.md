@@ -125,10 +125,13 @@ This application is polyglot, i.e., the microservices are written in different l
 
    ```bash
    kubectl get ingress -o wide
-
+   ```
+   
+   ```bash
    NAME      HOSTS     ADDRESS                 PORTS     AGE
    gateway   *         130.211.10.121          80        1d
-
+   ```
+   ```bash
    export GATEWAY_URL=130.211.10.121:80
    ```
 
@@ -140,17 +143,21 @@ This application is polyglot, i.e., the microservices are written in different l
    You can use any of these addresses to access the ingress, but if the cluster has a firewall, you will also need to create a firewall rule
    to allow TCP traffic to the NodePort. For instance, in GKE, create a firewall rule with these commands:
    ```bash
-      kubectl get svc istio-ingress -o jsonpath={.spec.ports[0].nodePort}
-
-      31201
-
-      gcloud compute firewall-rules create allow-book --allow tcp:31201
+   kubectl get svc istio-ingress -o jsonpath={.spec.ports[0].nodePort}
+   ```
+   ```bash
+   31201
+   ```
+   ```bash
+   gcloud compute firewall-rules create allow-book --allow tcp:31201
    ```
 
 1. Confirm that the BookInfo application is running by opening in your browser http://$GATEWAY_URL/productpage , or with the following `curl` command:
 
    ```bash
    curl -o /dev/null -s -w "%{http_code}\n" http://$GATEWAY_URL/productpage
+   ```
+   ```bash
    200
    ```
 
@@ -161,6 +168,8 @@ This application is polyglot, i.e., the microservices are written in different l
    Get the external IP Address (and port) of the servicegraph service:
    ```bash
    kubectl get svc servicegraph 
+   ```
+   ```bash
    NAME           CLUSTER-IP      EXTERNAL-IP       PORT(S)          AGE
    servicegraph   10.75.240.195   104.196.248.114   8088:32556/TCP   23m
    ```
