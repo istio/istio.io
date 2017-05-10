@@ -77,6 +77,20 @@ to configure ingress behavior.
    curl http://$INGRESS_URL/headers
    ```
 
+   ```json
+   {
+     "headers": {
+       "Accept": "*/*", 
+       "Content-Length": "0", 
+       "Host": "httpbin.default.svc.cluster.local:8000", 
+       "User-Agent": "curl/7.35.0", 
+       "X-Envoy-Expected-Rq-Timeout-Ms": "15000", 
+       "X-Request-Id": "59cf4fce-72e0-4470-ade5-f59149705944"
+     }
+   }
+   ```
+
+
 ## Configuring secure ingress (HTTPS)
 
 1. Generate keys if necessary
@@ -190,12 +204,14 @@ to set a timeout rule on calls to the httpbin service.
    3 seconds.  Although _httpbin_ was waiting 5 seconds, Istio cut off the request at 3 seconds.
 
 
-## Understanding ...
+## Understanding ingress
 
-Here's an interesting thing to know about the steps you just did.
+In the preceding steps we created a service inside the Istio network mesh and exposed it to external traffic through
+  ingresses.
 
 ## What's next
 
-* Learn more about [this](...).
+* Learn how to expose external services by [enabling egress traffic](./egress.html).
 
-* See this [related task](...).
+* Learn more about [routing rules]({{home}}/docs/concepts/traffic-management/rules-configuration.html).
+
