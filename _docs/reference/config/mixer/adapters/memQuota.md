@@ -1,5 +1,5 @@
 ---
-title: memQuota Config
+title: memQuota
 overview: Generated documentation for Mixer's memQuota Adapter Configuration Schema
 
 order: 40
@@ -9,13 +9,13 @@ type: markdown
 ---
 
 
-<a name="rpcAdapter.memQuota.configIndex"></a>
+<a name="rpcAdapter.memQuota.Index"></a>
 ### Index
 
-* [Params](#adapter.memQuota.config.Params)
+* [Params](#adapter.memQuota.Params)
 (message)
 
-<a name="adapter.memQuota.config.Params"></a>
+<a name="adapter.memQuota.Params"></a>
 ### Params
 
 <table>
@@ -24,7 +24,7 @@ type: markdown
   <th>Type</th>
   <th>Description</th>
  </tr>
-<a name="adapter.memQuota.config.Params.minDeduplicationDuration"></a>
+<a name="adapter.memQuota.Params.minDeduplicationDuration"></a>
  <tr>
   <td><code>minDeduplicationDuration</code></td>
   <td><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></td>

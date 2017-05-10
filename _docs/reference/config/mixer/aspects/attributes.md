@@ -1,5 +1,5 @@
 ---
-title: attrgen Config
+title: attributes
 overview: Generated documentation for Mixer's Aspect Configuration Schema
 
 order: 1140
@@ -9,13 +9,13 @@ type: markdown
 ---
 
 
-<a name="rpcAspect.configIndex"></a>
+<a name="rpcAspect.Index"></a>
 ### Index
 
-* [AttributesGeneratorParams](#aspect.config.AttributesGeneratorParams)
+* [AttributesGeneratorParams](#aspect.AttributesGeneratorParams)
 (message)
 
-<a name="aspect.config.AttributesGeneratorParams"></a>
+<a name="aspect.AttributesGeneratorParams"></a>
 ### AttributesGeneratorParams
 Configures an AttributesGenerator aspect.
 
@@ -56,13 +56,13 @@ mixer attributes (sourceName and targetName) by the attributeBindings.
   <th>Type</th>
   <th>Description</th>
  </tr>
-<a name="aspect.config.AttributesGeneratorParams.inputExpressions"></a>
+<a name="aspect.AttributesGeneratorParams.inputExpressions"></a>
  <tr>
   <td><code>inputExpressions</code></td>
   <td>repeated map&lt;string, string&gt;</td>
   <td>Map of input params name to attribute expressions. At runtime, each expression will be evaluated to determine the input value provided to the aspect.</td>
  </tr>
-<a name="aspect.config.AttributesGeneratorParams.attributeBindings"></a>
+<a name="aspect.AttributesGeneratorParams.attributeBindings"></a>
  <tr>
   <td><code>attributeBindings</code></td>
   <td>repeated map&lt;string, string&gt;</td>

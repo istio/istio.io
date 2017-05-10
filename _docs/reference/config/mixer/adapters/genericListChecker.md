@@ -1,5 +1,5 @@
 ---
-title: genericListChecker Config
+title: genericListChecker
 overview: Generated documentation for Mixer's genericListChecker Adapter Configuration Schema
 
 order: 10
@@ -9,13 +9,13 @@ type: markdown
 ---
 
 
-<a name="rpcAdapter.genericListChecker.configIndex"></a>
+<a name="rpcAdapter.genericListChecker.Index"></a>
 ### Index
 
-* [Params](#adapter.genericListChecker.config.Params)
+* [Params](#adapter.genericListChecker.Params)
 (message)
 
-<a name="adapter.genericListChecker.config.Params"></a>
+<a name="adapter.genericListChecker.Params"></a>
 ### Params
 
 <table>
@@ -24,7 +24,7 @@ type: markdown
   <th>Type</th>
   <th>Description</th>
  </tr>
-<a name="adapter.genericListChecker.config.Params.listEntries"></a>
+<a name="adapter.genericListChecker.Params.listEntries"></a>
  <tr>
   <td><code>listEntries[]</code></td>
   <td>repeated string</td>
