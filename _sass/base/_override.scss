@@ -15,21 +15,6 @@ a:focus {
   color: $linkHoverColor;
 }
 
-a.external {
-  &:after {
-    @extend .external-link-icon;
-    content: "";
-    margin-left: 5px;
-    display: inline-block;
-  }
-
-  &:hover {
-    &:after {
-      background: url('../img/external-link-dark.svg') no-repeat center/cover;
-    }
-  }
-}
-
 a.disabled {
     color: #CCCCCC;
 }
