@@ -1,5 +1,5 @@
 ---
-title: denials Config
+title: denials
 overview: Generated documentation for Mixer's Aspect Configuration Schema
 
 order: 1150
@@ -9,13 +9,13 @@ type: markdown
 ---
 
 
-<a name="rpcAspect.configIndex"></a>
+<a name="rpcAspect.Index"></a>
 ### Index
 
-* [DenialsParams](#aspect.config.DenialsParams)
+* [DenialsParams](#aspect.DenialsParams)
 (message)
 
-<a name="aspect.config.DenialsParams"></a>
+<a name="aspect.DenialsParams"></a>
 ### DenialsParams
 Configures a denials aspect.
 

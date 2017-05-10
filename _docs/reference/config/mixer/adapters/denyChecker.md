@@ -1,5 +1,5 @@
 ---
-title: denyChecker Config
+title: denyChecker
 overview: Generated documentation for Mixer's denyChecker Adapter Configuration Schema
 
 order: 0
@@ -9,13 +9,13 @@ type: markdown
 ---
 
 
-<a name="rpcAdapter.denyChecker.configIndex"></a>
+<a name="rpcAdapter.denyChecker.Index"></a>
 ### Index
 
-* [Params](#adapter.denyChecker.config.Params)
+* [Params](#adapter.denyChecker.Params)
 (message)
 
-<a name="adapter.denyChecker.config.Params"></a>
+<a name="adapter.denyChecker.Params"></a>
 ### Params
 
 <table>
@@ -24,7 +24,7 @@ type: markdown
   <th>Type</th>
   <th>Description</th>
  </tr>
-<a name="adapter.denyChecker.config.Params.error"></a>
+<a name="adapter.denyChecker.Params.error"></a>
  <tr>
   <td><code>error</code></td>
   <td><a href="/docs/reference/api/status.html">Status</a></td>

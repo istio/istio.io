@@ -1,5 +1,5 @@
 ---
-title: lists Config
+title: lists
 overview: Generated documentation for Mixer's Aspect Configuration Schema
 
 order: 1160
@@ -9,13 +9,13 @@ type: markdown
 ---
 
 
-<a name="rpcAspect.configIndex"></a>
+<a name="rpcAspect.Index"></a>
 ### Index
 
-* [ListsParams](#aspect.config.ListsParams)
+* [ListsParams](#aspect.ListsParams)
 (message)
 
-<a name="aspect.config.ListsParams"></a>
+<a name="aspect.ListsParams"></a>
 ### ListsParams
 Configures a lists aspect.
 
@@ -31,13 +31,13 @@ Example:
   <th>Type</th>
   <th>Description</th>
  </tr>
-<a name="aspect.config.ListsParams.blacklist"></a>
+<a name="aspect.ListsParams.blacklist"></a>
  <tr>
   <td><code>blacklist</code></td>
   <td>bool</td>
   <td>blacklist determines if this behaves like a blacklist default is whitelist</td>
  </tr>
-<a name="aspect.config.ListsParams.checkExpression"></a>
+<a name="aspect.ListsParams.checkExpression"></a>
  <tr>
   <td><code>checkExpression</code></td>
   <td>string</td>
