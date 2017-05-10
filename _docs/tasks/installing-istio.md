@@ -31,12 +31,7 @@ This page shows how to install and configure Istio in a Kubernetes cluster.
 For the {{ site.data.istio.version }} release, Istio must be installed in the same Kubernetes namespace as the applications. Instructions below will deploy Istio in the
 default namespace. They can be modified for deployment in a different namespace.
 
-1. Download and extract the [istio installation files](https://raw.githubusercontent.com/istio/istio/master/releases/istio-0.1.tar.gz), or
-clone Istio's [GitHub](https://github.com/istio/istio) repository:
-
-   ```bash
-   git clone --depth=1 https://github.com/istio/istio
-   ```
+1. Download and extract the [istio installation files](https://github.com/istio/istio/releases).
 
 2. Change directory to install/kubernetes:
 
