@@ -18,7 +18,6 @@ how to:
 
 * Verify Istio Auth setup
 
-
 ## Before you begin
 
 This task assumes you have:
@@ -145,18 +144,16 @@ Verify AuthPolicy setting in ConfigMap:
 ```bash
 kubectl get configmap istio -o yaml | grep authPolicy
 ```
-```bash
-# Istio Auth is enabled if the line "authPolicy: MUTUAL_TLS" is uncommented.
-```
+
+Istio Auth is enabled if "authPolicy: MUTUAL\_TLS" is uncommented.
 
 Check the certificate and key files are mounted onto the application pod *app-pod*:
 
 ```bash
 kubectl exec <app-pod> -c proxy -- ls /etc/certs
 ```
-```bash
-# Expected files: cert-chain.pem, key.pem and root-cert.pem.
-```
+
+Expected files: cert-chain.pem, key.pem and root-cert.pem.
 
 When Istio Auth is enabled for a pod, *ssl_context* stanzas should be in the pod's proxy config.
 The following commands verifies the proxy config on *app-pod* has *ssl_context* configured:
@@ -164,13 +161,11 @@ The following commands verifies the proxy config on *app-pod* has *ssl_context* 
 ```bash
 kubectl exec <app-pod> -c proxy -- ls /etc/envoy
 ```
-```bash
-# Get the config file named "envoy-revX.json".
-```
+
+Get the config file named "envoy-revX.json", and use the file name in the following command:
+
 ```bash
 kubectl exec <app-pod> -c proxy -- cat /etc/envoy/envoy-revX.json | grep ssl_context
 ```
-```bash
-# Expect ssl_context in the output.
-```
 
+You should see ssl\_context lines in the output.
