@@ -97,7 +97,7 @@ HTTP or port `443` for HTTPS.
    with the external service:
 
    ```bash
-   curl https://securegoogle:443
+   curl http://securegoogle:443
    ```
    ```bash
    .. response ..
