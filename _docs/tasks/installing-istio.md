@@ -22,7 +22,7 @@ This page shows how to install and configure Istio in a Kubernetes cluster.
   gcloud container clusters get-credentials <cluster-name> --zone <zone> --project <project-name>
   ```
 
-* Please update `kubectl` to the latest version supported by your cluster.
+* Please install [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) or upgrade to the latest version supported by your cluster.
 
 * Ensure the `curl` command is present.
 
@@ -31,7 +31,7 @@ This page shows how to install and configure Istio in a Kubernetes cluster.
 For the {{ site.data.istio.version }} release, Istio must be installed in the same Kubernetes namespace as the applications. Instructions below will deploy Istio in the
 default namespace. They can be modified for deployment in a different namespace.
 
-1. Download and extract the [istio installation files](https://github.com/istio/istio/releases).
+1. Go to [istio release page](https://github.com/istio/istio/releases), and download and extract the installation files istioctl.tar.gz and the source code.
 
 2. Change directory to install/kubernetes:
 
@@ -59,14 +59,14 @@ default namespace. They can be modified for deployment in a different namespace.
 4. Install Istio's core components
    (Istio-Manager, Mixer, Ingress-Controller, and Istio CA if auth is enabled):
 
-   **If you would like to disable Istio Auth**:
+   **If you would like to disable [Istio Auth](https://istio.io/docs/concepts/network-and-auth/auth.html)**:
 
    ```bash
    kubectl apply -f istio.yaml
    ```
 
-   **If you would like to enable Istio Auth** (For more information, please see
-   [Istio Auth installation guide](./istio-auth.html)):
+   **If you would like to enable [Istio Auth](https://istio.io/docs/concepts/network-and-auth/auth.html)**
+   (For more information, please see [Istio Auth installation guide](./istio-auth.html)):
 
    ```bash
    kubectl apply -f istio-auth.yaml
