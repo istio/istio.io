@@ -196,7 +196,7 @@ to configure ingress behavior.
  
     ```
     
-. Access the secured httpbin service using _curl_:
+1. Access the secured httpbin service using _curl_:
 
    ```bash
    curl -k https://$SECURE_INGRESS_URL/html
