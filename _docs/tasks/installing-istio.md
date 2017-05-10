@@ -94,7 +94,9 @@ default namespace. They can be modified for deployment in a different namespace.
    Invoke `istioctl kube-inject --help` for more details.
 
 7. Optional: to view metrics collected by Mixer, install [Prometheus](https://prometheus.io), [Grafana](http://staging.grafana.org) or
-ServiceGraph addons:
+ServiceGraph addons.
+
+   Note: The Prometheus addon is *required* for both Grafana and the ServiceGraph example. Install `prometheus.yaml` as well as either or both of the other addons.
 
    ```bash
    kubectl apply -f addons/grafana.yaml
@@ -102,8 +104,7 @@ ServiceGraph addons:
    kubectl apply -f addons/servicegraph.yaml
    ```
 
-   The Grafana addon provides a dashboard visualization of the metrics by Mixer to a Prometheus instance. Please install both the `prometheus.yaml` and 
-   `grafana.yaml` addons to configure the Istio dashboard for use.
+   The Grafana addon provides a dashboard visualization of the metrics by Mixer to a Prometheus instance.
 
    The simplest way to access the Istio dashboard is to configure port-forwarding for the grafana service, as follows:
 
