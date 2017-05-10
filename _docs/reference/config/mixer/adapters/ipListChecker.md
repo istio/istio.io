@@ -1,6 +1,6 @@
 ---
 title: ipListChecker
-overview: Generated documentation for Mixer's ipListChecker Adapter Configuration Schema
+overview: ipListChecker adapter configuration schema
 
 order: 20
 

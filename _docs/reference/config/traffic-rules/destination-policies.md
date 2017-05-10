@@ -1,6 +1,6 @@
 ---
 title: Destination Policies
-overview: Generated documentation for Istio's client-side traffic management policies.
+overview: Client-side traffic management policies configuration schema
 
 order: 30
 

@@ -1,6 +1,6 @@
 ---
 title: denials
-overview: Generated documentation for Mixer's Aspect Configuration Schema
+overview: denials aspect configuration schema
 
 order: 1150
 

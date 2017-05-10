@@ -1,6 +1,6 @@
 ---
 title: Status RPC
-overview: Generated documentation for Google's rpc.Status proto
+overview: Google's rpc.Status proto
 
 order: 40
 

@@ -1,6 +1,6 @@
 ---
 title: Service Mesh
-overview: Generated documentation for the Service Mesh global configuration.
+overview: Global configuration schema
 
 order: 30
 

@@ -1,6 +1,6 @@
 ---
 title: denyChecker
-overview: Generated documentation for Mixer's denyChecker Adapter Configuration Schema
+overview: denyChecker adapter configuration schema
 
 order: 0
 

@@ -1,6 +1,6 @@
 ---
 title: memQuota
-overview: Generated documentation for Mixer's memQuota Adapter Configuration Schema
+overview: memQuota adapter configuration schema
 
 order: 40
 

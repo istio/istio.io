@@ -1,6 +1,6 @@
 ---
 title: Mixer Service
-overview: Generated documentation for Mixer's API Surface
+overview: Mixer's API Surface
 
 order: 1200
 

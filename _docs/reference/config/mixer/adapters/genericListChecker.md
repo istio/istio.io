@@ -1,6 +1,6 @@
 ---
 title: genericListChecker
-overview: Generated documentation for Mixer's genericListChecker Adapter Configuration Schema
+overview: genericListChecker adapter configuration schema
 
 order: 10
 
