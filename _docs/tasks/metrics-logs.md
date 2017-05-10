@@ -210,9 +210,10 @@ new descriptors.
 
 ### Understanding the rule's access_logs aspect
 
-The `access-logs` aspect directs Mixer to send access logs to the `stdioLogger`
-adapter. The adapter `params` tell Mixer _how_ to generate the access
-logs for incoming requests based on attributes reported by Envoy.
+The `access-logs` aspect directs Mixer to send access logs to the default
+adapter (typically, `stdioLogger`). The adapter `params` tell Mixer _how_ 
+to generate the access logs for incoming requests based on attributes reported
+by Envoy.
 
 The `logName` parameter is used by Mixer to identify a logs stream. In
 this task, the log name `combined_log` was used to identify the log
