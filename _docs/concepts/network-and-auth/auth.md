@@ -90,7 +90,9 @@ Istio Auth workflow consists of two phases, deployment and runtime. This section
 
 1.  When a pod is created, API Server mounts the key and certificate pair according to the service account using [Kubernetes secrets](https://kubernetes.io/docs/concepts/configuration/secret/).
 
-1.  [Istio Manager](docs/concepts/traffic-management/manager.html) generates the config with proper key and certificate and secure naming information, which defines what service account(s) can run a certain service, and passes it to Envoy. 
+1.  [Istio Manager]({{home}}/docs/concepts/traffic-management/manager.html) generates the config with proper key and certificate and secure naming information, 
+which
+ defines what service account(s) can run a certain service, and passes it to Envoy. 
 
 ### Runtime phase
 
@@ -118,7 +120,10 @@ In this section, we provide a few deployment guidelines and then discuss a real-
 
 Let's consider a 3-tier application with three services: photo-frontend, photo-backend, and datastore. Photo-frontend and photo-backend services are managed by the photo SRE team while the datastore service is managed by the datastore SRE team. Photo-frontend can access photo-backend, and photo-backend can access datastore. However, photo-frontend cannot access datastore.
 
-In this scenario, a cluster admin creates 3 namespaces: istio-ca-ns, photo-ns, and datastore-ns. Admin has access to all namespaces, and each team only has access to its own namespace. The photo SRE team creates 2 service accounts to run photo-frontend and photo-backend respectively in namespace photo-ns. The datastore SRE team creates 1 service account to run the datastore service in namespace datastore-ns. Moreover, we need to enforce the service access control in [Istio Mixer](docs/concepts/policy-and-control/mixer.html) such that photo-frontend cannot access datastore.
+In this scenario, a cluster admin creates 3 namespaces: istio-ca-ns, photo-ns, and datastore-ns. Admin has access to all namespaces, and each team only has 
+access to its own namespace. The photo SRE team creates 2 service accounts to run photo-frontend and photo-backend respectively in namespace photo-ns. The 
+datastore SRE team creates 1 service account to run the datastore service in namespace datastore-ns. Moreover, we need to enforce the service access control 
+in [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html) such that photo-frontend cannot access datastore.
 
 In this setup, Istio CA is able to provide keys and certificates management for all namespaces, and isolate microservice deployments from each other.
 
