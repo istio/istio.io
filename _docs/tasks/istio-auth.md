@@ -40,7 +40,8 @@ Per namespace CA is convenient for doing experiments.
 Because each Istio CA is scoped within a namespace, Istio CAs in different namespaces will not interfere with each other
 and they are easy to clean up through a single command.
 
-We have the YAML file *istio-auth.yaml* for deploying all Istio components including Istio CA into the namespace.
+We have the YAML file [istio-auth.yaml](https://github.com/istio/istio/blob/master/install/kubernetes/istio-auth.yaml)
+for deploying all Istio components including Istio CA into the namespace.
 Follow [the Istio installation guide](./installing-istio.html),
 and **choose "If you would like to enable Istio Auth" in step 4**.
 

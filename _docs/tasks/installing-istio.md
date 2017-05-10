@@ -59,9 +59,7 @@ default namespace. They can be modified for deployment in a different namespace.
 4. Install Istio's core components
    (Istio-Manager, Mixer, Ingress-Controller, and Istio CA if auth is enabled):
 
-   **If you would like to disable [Istio Auth](https://istio.io/docs/concepts/network-and-auth/auth.html)**
-   (This enables mTLS between pods, and by default deploys
-   per-namespace CA. For more information, please see [Istio Auth installation guide](./istio-auth.html)):
+   **If you would like to disable [Istio Auth](https://istio.io/docs/concepts/network-and-auth/auth.html)**:
 
    ```bash
    kubectl apply -f istio.yaml
