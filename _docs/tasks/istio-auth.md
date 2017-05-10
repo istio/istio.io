@@ -142,6 +142,8 @@ Verify AuthPolicy setting in ConfigMap:
 
 ```bash
 kubectl get configmap istio -o yaml | grep authPolicy
+```
+```bash
 # Istio Auth is enabled if the line "authPolicy: MUTUAL_TLS" is uncommented.
 ```
 
@@ -149,6 +151,8 @@ Check the certificate and key files are mounted onto the application pod *app-po
 
 ```bash
 kubectl exec <app-pod> -c proxy -- ls /etc/certs
+```
+```bash
 # Expected files: cert-chain.pem, key.pem and root-cert.pem.
 ```
 
@@ -157,8 +161,14 @@ The following commands verifies the proxy config on *app-pod* has *ssl_context* 
 
 ```bash
 kubectl exec <app-pod> -c proxy -- ls /etc/envoy
+```
+```bash
 # Get the config file named "envoy-revX.json".
+```
+```bash
 kubectl exec <app-pod> -c proxy -- cat /etc/envoy/envoy-revX.json | grep ssl_context
+```
+```bash
 # Expect ssl_context in the output.
 ```
 
