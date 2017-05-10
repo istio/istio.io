@@ -90,6 +90,12 @@ clone Istio's [GitHub](https://github.com/istio/istio) repository:
    curl ${ISTIOCTL_URL}/istioctl-osx > /usr/local/bin/istioctl
    chmod +x /usr/local/bin/istioctl
    ```
+   
+   If your need to use `sudo`:
+   ```bash
+   sudo sh -c "curl ${ISTIOCTL_URL}/istioctl-osx > /usr/local/bin/istioctl"
+   sudo chmod +x /usr/local/bin/istioctl
+   ```
 
    `istioctl` is needed to inject Envoy as a sidecar proxy. It also provides a convenient CLI for creating routing rules and policies.
    Note: If you already have a previously installed version of `istioctl`, make sure that
