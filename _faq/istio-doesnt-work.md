@@ -5,4 +5,4 @@ type: markdown
 ---
 {% include home.html %}
 
-Check out our [bug reporting]({{home}}/bugs) page for information of finding solutions and filing bugs.
+Check out our [bug reporting]({{home}}/bugs) page for finding solutions and filing bugs.
