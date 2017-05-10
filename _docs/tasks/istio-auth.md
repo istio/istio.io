@@ -74,8 +74,8 @@ The following command uncomments the line *authPolicy: MUTUAL_TLS* in the file *
 and backs up the original file as *istio.yaml.bak*
 
 ```bash
-mv templates/istio.yaml templates/istio.yaml.bak
-sed "s/# authPolicy: MUTUAL_TLS/authPolicy: MUTUAL_TLS/" templates/istio.yaml > templates/istio-auth.yaml
+mv istio.yaml istio.yaml.bak
+sed "s/# authPolicy: MUTUAL_TLS/authPolicy: MUTUAL_TLS/" istio.yaml > istio-auth.yaml
 ```
 
 #### Deploying other services
@@ -92,8 +92,8 @@ Disabling Istio Auth requires all Istio services and applications to be reconfig
 Run the following command to uninstall Istio, and redeploy Istio without auth:
 
 ```bash
-kubectl delete -f templates/istio-auth.yaml
-kubectl apply -f templates/istio.yaml
+kubectl delete -f istio-auth.yaml
+kubectl apply -f istio.yaml
 ```
 
 Also, redeploy your application by running:
@@ -117,7 +117,7 @@ kubectl delete -f templates/istio-auth/istio-cluster-ca.yaml
 Run the following command to uninstall Istio, and redeploy Istio without auth:
 
 ```bash
-kubectl delete -f templates/istio-auth.yaml
+kubectl delete -f istio-auth.yaml
 kubectl apply -f templates/istio.yaml
 ```
 
@@ -132,7 +132,7 @@ kubectl replace -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 The following command will recover the original *istio-auth.yaml* file.
 
 ```bash
-mv templates/istio-auth.yaml.bak templates/istio-auth.yaml
+mv istio-auth.yaml.bak istio-auth.yaml
 ```
 
 ## Verifying Istio Auth setup
