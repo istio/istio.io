@@ -15,6 +15,15 @@ This page shows how to install and configure Istio in a Kubernetes cluster.
 
 * The following instructions assume you have access to a Kubernetes cluster. To install Kubernetes locally, try [minikube](https://kubernetes.io/docs/getting-started-guides/minikube/).
 
+* If you are using [Google Container Engine](https://cloud.google.com/container-engine), please make sure you are using static client certificates before fetching cluster credentials:
+
+    ```bash
+    gcloud config set container/use_client_certificate True
+    gcloud container clusters get-credentials <cluster-name> --zone <zone> --project <project-name>
+    ```
+
+* Please update `kubectl` to the latest version supported by your cluster.
+
 * Ensure the `curl` command is present.
 
 ## Installing on an existing cluster
@@ -35,17 +44,22 @@ clone Istio's [GitHub](https://github.com/istio/istio) repository:
    cd install/kubernetes
    ```
 
-3. Determine if your cluster has [RBAC enabled](https://kubernetes.io/docs/admin/authorization/rbac/) by running this command:
+3. Determine if your cluster has [RBAC enabled](https://kubernetes.io/docs/admin/authorization/rbac/) and find out the RBAC api version by running this command:
 
-   ```bash
-   kubectl get clusterrole
-   ```
+    ```bash
+    kubectl get clusterrole -o yaml | grep apiVersion
+    ```
+    * If the command displays an error, or does not display anything, it means the cluster does not support RBAC, and you can proceed to step 4.
 
-   If the message printed says 'the server doesn't have a resource type "clusterrole"', go to the next step. Otherwise, apply the RBAC configuration file:
-
-   ```bash
-   kubectl apply -f istio-rbac.yaml
-   ```
+    * If the command displays 'alpha' version, please apply istio-rbac-alpha.yaml configuration:
+    ```bash
+    kubectl apply -f istio-rbac-alpha.yaml
+    ```
+    
+    * If the command displays 'beta' version, please apply istio-rbac-beta.yaml configuration:
+    ```bash
+    kubectl apply -f istio-rbac-beta.yaml
+     ```
 
 4. Install Istio's core components
    (Istio-Manager, Mixer, Ingress-Controller, and Istio CA if auth is enabled):
@@ -182,15 +196,18 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 
    **If Istio has auth enabled:**
 
-   ```bash
-   kubectl delete -f istio-auth.yaml
-   ```
-  
-3. If RBAC was installed, please uninstall it:
-    
-   ```bash
-   kubectl delete -f istio-rbac.yaml
-   ```
+    ```bash
+    kubectl delete -f istio-auth.yaml
+    ```
+2. If RBAC was installed, please uninstall it:
+    ```bash
+    kubectl delete -f istio-rbac-beta.yaml
+    ```
+    or
+
+    ```bash
+        kubectl delete -f istio-rbac-alpha.yaml
+    ```
 
 2. Delete the istioctl client:
 
