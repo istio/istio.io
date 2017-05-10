@@ -63,7 +63,7 @@ from within your Istio cluster. In this task we will use
     ports:
     - port: 443
       # important to set protocol name
-      name: http
+      name: https
    EOF
    ```
    
