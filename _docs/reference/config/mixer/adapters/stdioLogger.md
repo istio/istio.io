@@ -1,5 +1,5 @@
 ---
-title: stdioLogger Config
+title: stdioLogger
 overview: Generated documentation for Mixer's stdioLogger Adapter Configuration Schema
 
 order: 80
@@ -9,15 +9,15 @@ type: markdown
 ---
 
 
-<a name="rpcAdapter.stdioLogger.configIndex"></a>
+<a name="rpcAdapter.stdioLogger.Index"></a>
 ### Index
 
-* [Params](#adapter.stdioLogger.config.Params)
+* [Params](#adapter.stdioLogger.Params)
 (message)
-* [Params.Stream](#adapter.stdioLogger.config.Params.Stream)
+* [Params.Stream](#adapter.stdioLogger.Params.Stream)
 (enum)
 
-<a name="adapter.stdioLogger.config.Params"></a>
+<a name="adapter.stdioLogger.Params"></a>
 ### Params
 
 <table>
@@ -26,15 +26,15 @@ type: markdown
   <th>Type</th>
   <th>Description</th>
  </tr>
-<a name="adapter.stdioLogger.config.Params.logStream"></a>
+<a name="adapter.stdioLogger.Params.logStream"></a>
  <tr>
   <td><code>logStream</code></td>
-  <td><a href="#adapter.stdioLogger.config.Params.Stream">Stream</a></td>
+  <td><a href="#adapter.stdioLogger.Params.Stream">Stream</a></td>
   <td>Selects which standard stream to write to for log entries. STDERR is the default Stream.</td>
  </tr>
 </table>
 
-<a name="adapter.stdioLogger.config.Params.Stream"></a>
+<a name="adapter.stdioLogger.Params.Stream"></a>
 ### Stream
 Stream is used to select between different logs output sinks.
 
@@ -44,12 +44,12 @@ Stream is used to select between different logs output sinks.
   <th>Value</th>
   <th>Description</th>
  </tr>
-<a name="adapter.stdioLogger.config.Params.Stream.STDERR"></a>
+<a name="adapter.stdioLogger.Params.Stream.STDERR"></a>
  <tr>
   <td>STDERR</td>
   <td>STDERR refers to os.Stderr.</td>
  </tr>
-<a name="adapter.stdioLogger.config.Params.Stream.STDOUT"></a>
+<a name="adapter.stdioLogger.Params.Stream.STDOUT"></a>
  <tr>
   <td>STDOUT</td>
   <td>STDOUT refers to os.Stdout.</td>

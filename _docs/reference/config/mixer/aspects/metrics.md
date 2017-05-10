@@ -1,5 +1,5 @@
 ---
-title: metrics Config
+title: metrics
 overview: Generated documentation for Mixer's Aspect Configuration Schema
 
 order: 1170
@@ -9,15 +9,15 @@ type: markdown
 ---
 
 
-<a name="rpcAspect.configIndex"></a>
+<a name="rpcAspect.Index"></a>
 ### Index
 
-* [MetricsParams](#aspect.config.MetricsParams)
+* [MetricsParams](#aspect.MetricsParams)
 (message)
-* [MetricsParams.Metric](#aspect.config.MetricsParams.Metric)
+* [MetricsParams.Metric](#aspect.MetricsParams.Metric)
 (message)
 
-<a name="aspect.config.MetricsParams"></a>
+<a name="aspect.MetricsParams"></a>
 ### MetricsParams
 Configures a metric aspect.
 
@@ -27,15 +27,15 @@ Configures a metric aspect.
   <th>Type</th>
   <th>Description</th>
  </tr>
-<a name="aspect.config.MetricsParams.metrics"></a>
+<a name="aspect.MetricsParams.metrics"></a>
  <tr>
   <td><code>metrics[]</code></td>
-  <td>repeated <a href="#aspect.config.MetricsParams.Metric">Metric</a></td>
+  <td>repeated <a href="#aspect.MetricsParams.Metric">Metric</a></td>
   <td>The set of metrics that will be populated and handed to aspects at run time.</td>
  </tr>
 </table>
 
-<a name="aspect.config.MetricsParams.Metric"></a>
+<a name="aspect.MetricsParams.Metric"></a>
 ### Metric
 Describes how attributes must be evaluated to produce values for the named metric. Suppose the following
 MetricDescriptor exists in the global configuration:
@@ -73,19 +73,19 @@ metric:
   <th>Type</th>
   <th>Description</th>
  </tr>
-<a name="aspect.config.MetricsParams.Metric.descriptorName"></a>
+<a name="aspect.MetricsParams.Metric.descriptorName"></a>
  <tr>
   <td><code>descriptorName</code></td>
   <td>string</td>
   <td>Must match the name of some metricDescriptor in the global config.</td>
  </tr>
-<a name="aspect.config.MetricsParams.Metric.value"></a>
+<a name="aspect.MetricsParams.Metric.value"></a>
  <tr>
   <td><code>value</code></td>
   <td>string</td>
   <td>Attribute expression to evaluate to determine the value for this metric; the result of the evaluation must match the value ValueType of the metricDescriptor.</td>
  </tr>
-<a name="aspect.config.MetricsParams.Metric.labels"></a>
+<a name="aspect.MetricsParams.Metric.labels"></a>
  <tr>
   <td><code>labels</code></td>
   <td>repeated map&lt;string, string&gt;</td>
