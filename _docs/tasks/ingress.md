@@ -125,11 +125,13 @@ to configure ingress behavior.
 1. Access the secured httpbin service using _curl_:
 
    ```bash
-   curl -k https://<TODO>/html
+   curl -k https://$INGRESS_URL/html
    ```
    
    ```
-   .. response ..
+   <!DOCTYPE html>
+   <html>
+   ...
    ```
 
 
