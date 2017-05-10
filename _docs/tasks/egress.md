@@ -129,8 +129,12 @@ need to run the `gcloud container clusters describe` command to determine the ra
 
 ```bash
 gcloud container clusters describe benchmark-alpha --zone=us-central1-a | grep -e clusterIpv4Cidr -e servicesIpv4Cidr
+```
+```
 clusterIpv4Cidr: 10.4.0.0/14
 servicesIpv4Cidr: 10.7.240.0/20
+```
+```bash
 kubectl apply -f <(istioctl kube-inject -f sleep.yaml --includeIPRanges=10.4.0.0/14,10.7.240.0/20)
 ```
 
