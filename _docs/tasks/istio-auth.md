@@ -68,7 +68,7 @@ The following command creates  namespace *istio-system* and deploys CA into the 
 kubectl apply -f templates/istio-auth/istio-cluster-ca.yaml
 ```
 
-#### Enabling Istio Auth in Istio config
+#### Deploying other Istio components
 
 The following command will enable mTLS, and the services will use the per-cluster CA deployed in the last step.
 
@@ -82,7 +82,8 @@ Follow [the general Istio installation guide](./installing-istio.html) from step
 
 ## <a name="disableauth"></a>Disabling Istio Auth
 
-Disabling Istio Auth requires all Istio services and applications to be reconfigured and restarted without auth config.
+This section shows how to disable Istio Auth in an Istio cluster.
+Disabling Istio Auth requires all Istio services and applications to be reconfigured and restarted with auth disabled.
 
 ### For per-namespace CA Istio Auth
 
@@ -122,14 +123,6 @@ Also, redeploy your application by running:
 
 ```bash
 kubectl replace -f <(istioctl kube-inject -f <your-app-spec>.yaml)
-```
-
-#### Recovering the original config files
-
-The following command will recover the original *istio-auth.yaml* file.
-
-```bash
-mv istio-auth.yaml.bak istio-auth.yaml
 ```
 
 ## Verifying Istio Auth setup
