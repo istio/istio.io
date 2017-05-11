@@ -73,7 +73,7 @@ default namespace. They can be modified for deployment in a different namespace.
    kubectl apply -f istio-auth.yaml
    ```
 
-5. Source the Istio configuration file:
+5. Source the Istio configuration file to set Istio environment variables:
 
    ```bash
    source ../../istio.VERSION
