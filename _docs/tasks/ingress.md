@@ -131,7 +131,7 @@ to configure ingress behavior.
    apiVersion: extensions/v1beta1
    kind: Ingress
    metadata:
-     name: secured-ingress
+     name: istio-secured-ingress
      annotations:
        kubernetes.io/ingress.class: istio
    spec:
@@ -161,8 +161,8 @@ to configure ingress behavior.
     ```
     
     ```
-    NAME              HOSTS     ADDRESS                 PORTS     AGE
-    secured-ingress   *         130.211.10.121          80, 443   1d
+    NAME                    HOSTS     ADDRESS                 PORTS     AGE
+    istio-secured-ingress   *         130.211.10.121          80, 443   1d
     ```
  
     ```bash
@@ -265,11 +265,17 @@ to set a timeout rule on calls to the httpbin service.
    This time the response appears after
    3 seconds.  Although _httpbin_ was waiting 5 seconds, Istio cut off the request at 3 seconds.
 
+## Cleanup
 
-## Understanding ingress
+1. Follow the steps to remove [httpbin](https://github.com/istio/istio/tree/master/demos/apps/httpbin).
 
-In the preceding steps we created a service inside the Istio network mesh and exposed it to
-external traffic through ingresses.
+2. Remove the secret, Ingress Resource definitions and Istio rule.
+    
+    ```bash
+    kubectl delete secret ingress-secret
+    kubectl delete ingress istio-ingress istio-secured-ingress 
+    istioctl delete route-rule httpbin-3s-rule 
+    ```
 
 ## What's next
 
