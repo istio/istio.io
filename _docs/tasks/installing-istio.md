@@ -28,8 +28,6 @@ This page shows how to install and configure Istio in a Kubernetes cluster.
 
 * Install the Kubernetes client [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/), or upgrade to the latest version supported by your cluster.
 
-* Ensure the `curl` command is present.
-
 * If you previously installed Istio on this cluster, please uninstall first by following the [uninstalling]({{home}}/docs/tasks/installing-istio.html#uninstalling) steps at the end of this page.
 
 ## Installation steps
