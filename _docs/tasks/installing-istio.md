@@ -30,7 +30,7 @@ This page shows how to install and configure Istio in a Kubernetes cluster.
 
 * Ensure the `curl` command is present.
 
-* If you previously installed Istio on this cluster, please uninstall first by following the uninstall steps at the end of this page.
+* If you previously installed Istio on this cluster, please uninstall first by following the [uninstall](({{home}}/docs/tasks/installing-istio.html#uninstalling) steps at the end of this page.
 
 ## Installation steps
 
@@ -159,7 +159,7 @@ for example [BookInfo]({{home}}/docs/samples/bookinfo.html). Note that the appli
 or HTTP/2.0 protocol for all its HTTP traffic. HTTP/1.0 is not supported.
 
 When deploying the application, you must
-use [istio kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject.html) to automatically inject
+use [istio kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject) to automatically inject
 Envoy containers in your application pods:
 
 ```bash
