@@ -38,9 +38,9 @@ Using Istio we can ensure that `1qps` is not breached.
 1. Configure mixer with the rate limit:
 
    ```bash
-   istioctl mixer rule create global ratings.default.svc.cluster.local -f ratelimit.yml
+   istioctl mixer rule create global ratings.default.svc.cluster.local -f ratelimit.yaml
    ```
-   where ratelimit.yml is 
+   where ratelimit.yaml is 
    ```yaml
    rules:
    - aspects:
@@ -75,9 +75,9 @@ The following configuration applies a `5qps` rate limit only to version `v3` of 
 1. Configure mixer with the conditional rate limit:
 
    ```bash
-   istioctl mixer rule create global ratings.default.svc.cluster.local -f ratelimit-conditional.yml
+   istioctl mixer rule create global ratings.default.svc.cluster.local -f ratelimit-conditional.yaml
    ```
-   where ratelimit-conditional.yml is 
+   where ratelimit-conditional.yaml is 
    ```yaml
    rules:
    - selector: source.labels["app"]=="reviews" && source.labels["version"] == "v3"  

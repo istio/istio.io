@@ -150,8 +150,12 @@ kubectl exec -it ${SERVER} -c app -- curl localhost:8080 | grep x-request-id
 `istioctl kube-inject` injects additional containers into YAML
 resource on the client _before_ submitting to the Kubernetes API
 server. This will eventually be replaced by server-side injection via
-admission controller. Use `kubectl get deployment service-one -o yaml` to
-inspect the modified deployment and look for the following:
+admission controller. Use 
+
+```bash
+kubectl get deployment service-one -o yaml
+```
+to inspect the modified deployment and look for the following:
 
 * A proxy container which includes the Envoy proxy and agent to manage
   local proxy configuration.
