@@ -45,7 +45,7 @@ default namespace. They can be modified for deployment in a different namespace.
     * a text file containing the Istio version.
 
 3. Run the following command to determine if your cluster has [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/)
-enabled,and to find out the RBAC api version:
+enabled:
 
    ```bash
    kubectl api-versions | grep rbac
