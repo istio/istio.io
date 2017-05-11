@@ -68,7 +68,7 @@ enabled:
        ```bash
        kubectl apply -f install/kubernetes/istio.yaml
        ```
-        This command will install Istio-Manager, Mixer, Ingress-Controller, and Egress-Controller core components.
+        This command will install Istio-Manager, Mixer, Ingress-Controller, Egress-Controller core components.
 
    * Install Istio and enable [Istio Auth](https://istio.io/docs/concepts/network-and-auth/auth.html) feature:
 
