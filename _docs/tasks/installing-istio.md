@@ -66,7 +66,7 @@ default namespace. They can be modified for deployment in a different namespace.
    ```
 
    **If you would like to enable [Istio Auth](https://istio.io/docs/concepts/network-and-auth/auth.html)**
-   (This enables mTLS between services, and by default deploys a per-namespace CA.
+   (This deploys a CA in the namespace and enables mTLS between services.
    For more information, please see [Istio Auth installation guide](./istio-auth.html)):
 
    ```bash

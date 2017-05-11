@@ -42,8 +42,8 @@ and they are easy to clean up through a single command.
 
 We have the YAML file [istio-auth.yaml](https://github.com/istio/istio/blob/master/install/kubernetes/istio-auth.yaml)
 for deploying all Istio components including Istio CA into the namespace.
-Follow [the Istio installation guide](./installing-istio.html),
-and **choose "If you would like to enable Istio Auth" in step 4**.
+Follow [the Istio installation guide](./installing-istio.html) from step 4,
+and **choose "If you would like to enable Istio Auth"**.
 
 ### Option 2: (recommended) using per-cluster CA
 
@@ -70,18 +70,15 @@ kubectl apply -f templates/istio-auth/istio-cluster-ca.yaml
 
 #### Enabling Istio Auth in Istio config
 
-The following commands back up the file *istio-auth.yaml* as *istio-auth.yaml.bak*,
-and generates a new *istio-auth.yaml* by uncommenting the line *authPolicy: MUTUAL_TLS* in *istio.yaml*.
+The following command will enable mTLS, and the services will use the per-cluster CA deployed in the last step.
 
 ```bash
-mv istio-auth.yaml istio-auth.yaml.bak
-sed "s/# authPolicy: MUTUAL_TLS/authPolicy: MUTUAL_TLS/" istio.yaml > istio-auth.yaml
+kubectl apply -f templates/istio-auth/isio-auth-per-cluster-ca.yaml
 ```
 
 #### Deploying other services
 
-Follow [the general Istio installation guide](./installing-istio.html),
-and **choose "If you would like to enable Istio Auth" in step 4**.
+Follow [the general Istio installation guide](./installing-istio.html) from step 5.
 
 ## <a name="disableauth"></a>Disabling Istio Auth
 
@@ -117,7 +114,7 @@ kubectl delete -f templates/istio-auth/istio-cluster-ca.yaml
 Run the following command to uninstall Istio, and redeploy Istio without auth:
 
 ```bash
-kubectl delete -f istio-auth.yaml
+kubectl delete -f templates/istio-auth/istio-auth-per-cluster-ca.yaml
 kubectl apply -f istio.yaml
 ```
 
