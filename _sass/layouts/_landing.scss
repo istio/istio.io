@@ -7,21 +7,57 @@
       }
     }
 
+    #myCarousel {
+      @media (min-width: $tablet) {
+        margin: 50px;
+      }
+    }
+
+    .carousel-control {
+        z-index: 10;
+        top: 2%;
+        width: 30px;
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    .carousel-control.left,
+    .carousel-control.right { background: none }
+    .carousel-control.left { left: -10px; }
+    .carousel-control.right { right: -10px; }
+
+    .carousel-indicators li {
+        display: inline-block;
+        margin: 10px;
+        text-indent: 0;
+        cursor: pointer;
+        border: none;
+        border-radius: 50%;
+        background-color: $mainBrandColor;
+        box-shadow: inset 1px 1px 1px 1px rgba(0,0,0,0.5);
+    }
+
+    .carousel-indicators .active {
+        margin: 10px;
+        background-color: $popBrandColor;
+    }
+
     .landing-image {
       padding-top: 10px;
       padding-bottom: 20px;
 
       @media (min-width: $desktop-small) {
         max-width: 55%;
-        max-height: 500px;
+        min-height: 400px;
+        max-height: 400px;
         padding-right: 20px;
         padding-left: 20px;
       }
     }
 
     .jumbotron {
-        padding: 0;
         margin: 0;
+        padding-left: 200px;
+        padding-right: 200px;
     }
 
     .traffic, .policy {

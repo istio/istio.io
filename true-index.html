@@ -4,58 +4,98 @@ title: Istio
 ---
 {% include home.html %}
 
-<section class="hero-wrapper">
-    <div class="jumbotron traffic">
-        <div class="container-fluid">
-            <img class="landing-image pull-left" src="{{home}}/img/routing.svg" alt="Traffic Management"> 
-            <div class="section-content">
-                <h2>Rich Layer-7 Routing &amp; Traffic Management</h2>
-                <p>Control the flow of traffic and API calls between services using dynamic route configuration.</p>
-                <a href="{{home}}/docs/concepts/what-is-istio/architecture.html"><button class="btn btn-grpc waves-effect waves-light btn-read-more">READ MORE</button></a>
-            </div>       
+<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="5000">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+        <li data-target="#myCarousel" data-slide-to="3"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner">
+        <div class="item active">
+            <section class="hero-wrapper">
+                <div class="jumbotron traffic">
+                    <div class="container-fluid">
+                        <img class="landing-image pull-left" src="{{home}}/img/routing.svg" alt="Traffic Management">
+                        <div class="section-content">
+                            <h2>Rich Layer-7 Routing &amp; Traffic Management</h2>
+                            <p>Control the flow of traffic and API calls between services using dynamic route configuration.</p>
+                            <a href="{{home}}/docs/concepts/what-is-istio/architecture.html"><button class="btn btn-istio btn-read-more">READ MORE</button></a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="item">
+            <section class="hero-wrapper">
+                <div class="jumbotron resilience">
+                    <div class="container-fluid">
+                        <img class="landing-image pull-right" src="{{home}}/img/resilience.svg" alt="Timeouts, Retries, Circuit Breakers">
+                        <div class="section-content">
+                            <h2>Resilience Across Languages and Platforms</h2>
+                            <p>Increase reliability by shielding applications from flaky networks and cascading failures in adverse conditions.</p>
+                            <a href="{{home}}/about"><button class="btn btn-istio btn-read-more">READ MORE</button></a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="item">
+            <section class="hero-wrapper">
+                <div class="jumbotron policy">
+                    <div class="container-fluid">
+                        <img class="landing-image pull-left" src="{{home}}/img/policy.svg" alt="Policy Enforcement">
+                        <div class="section-content">
+                            <h2>Fleet-wide Policy Enforcement</h2>
+                            <p>Apply organizational policy to the interaction between services, ensure access policies are enforced and resources are fairly distributed among consumers.</p>
+                            <a href="{{home}}/docs/concepts/policy-and-control/mixer.html"><button class="btn btn-istio btn-read-more">READ MORE</button></a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="item">
+            <section class="hero-wrapper">
+                <div class="jumbotron reporting">
+                    <div class="container-fluid">
+                        <img class="landing-image pull-right" src="{{home}}/img/monitoring.svg" alt="Distributed tracing and telemetry">
+                        <div class="section-content">
+                            <h2>In-depth Telemetry and Reporting</h2>
+                            <p>Understand the dependencies between services, the nature and flow of traffic between them and quickly identify issues with distributed tracing.</p>
+                            <a href="{{home}}/docs/concepts/what-is-istio/architecture.html"><button class="btn btn-istio btn-read-more">READ MORE</button></a>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
-</section>
 
-<section class="hero-wrapper">
-    <div class="jumbotron resilience">
-        <div class="container-fluid">
-            <img class="landing-image pull-right" src="{{home}}/img/resilience.svg" alt="Timeouts, Retries, Circuit Breakers">
-            <div class="section-content">
-                <h2>Resilience across languages and platforms</h2>
-                <p>Increase reliability by shielding applications from flaky networks and cascading failures in adverse conditions.</p>
-                <a href="{{home}}/about"><button class="btn btn-grpc waves-effect waves-light btn-read-more">READ MORE</button></a>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="hero-wrapper">
-    <div class="jumbotron policy">
-        <div class="container-fluid">
-            <img class="landing-image pull-left" src="{{home}}/img/policy.svg" alt="Policy Enforcement">
-            <div class="section-content">
-                <h2>Fleet-wide Policy Enforcement</h2>
-                <p>Apply organizational policy to the interaction between services, ensure access policies are enforced and resources are fairly distributed among consumers.</p>
-                <a href="{{home}}/docs/concepts/policy-and-control/mixer.html"><button class="btn btn-grpc waves-effect waves-light btn-read-more">READ MORE</button></a>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="hero-wrapper">
-    <div class="jumbotron reporting">
-        <div class="container-fluid">
-            <img class="landing-image pull-right" src="{{home}}/img/monitoring.svg" alt="Distributed tracing and telemetry">
-            <div class="section-content">
-                <h2>In-depth Telemetry and Reporting</h2>
-                <p>Understand the dependencies between services, the nature and flow of traffic between them and quickly identify issues with distributed tracing.</p>
-                <a href="{{home}}/docs/concepts/what-is-istio/architecture.html"><button class="btn btn-grpc waves-effect waves-light btn-read-more">READ MORE</button></a>
-            </div>
-        </div>
-    </div>
-</section>
-
-<div>
-    <button class="btn btn-floating waves-effect down-caret" data-target="doc-call"><div class="icon-caret"></div></button>
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+        <span class="sr-only">Next</span>
+    </a>
 </div>
+
+<div id="doc-call" class="container-fluid doc-call-container ">
+    <div class="row doc-call-row">
+        <div class="col-md-10 nofloat center-block">
+            <div class="col-sm-9 text-center nofloat center-block">
+                <h2 class="doc-call-title">Want to learn more?</h2>
+                <p class="doc-call-text"> Get started by learning Istio concepts and doing our BookInfo sample.</p>
+                <a href="{{home}}/docs"><button class="btn btn-istio btn-doc-call">GET STARTED</button></a>
+            </div>
+        </div>
+    </div>
+</div>
+
