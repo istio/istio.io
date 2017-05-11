@@ -79,7 +79,7 @@ default namespace. They can be modified for deployment in a different namespace.
    source ../../istio.VERSION
    ```
 
-6. Install istioctl CLI. Use one of the [`istioctl`]({{home}}/docs/reference/commands/istioctl.html) client binaries corresponding to your OS: `istioctct/osx/istioctl`, `istioctct/windows/istioctl.exe`, `istioctl/linux/istioctl`, targeted at Mac, Windows or Linux users respectively. For example, run the following commands on a Mac system:
+6. Install istioctl CLI. Use one of the [`istioctl`]({{home}}/docs/reference/commands/istioctl.html) client binaries corresponding to your OS: `istioctl/osx/istioctl`, `istioctl/windows/istioctl.exe`, `istioctl/linux/istioctl`, targeted at Mac, Windows or Linux users respectively. For example, run the following commands on a Mac system:
 
    ```bash
    cp ../../istioctl/osx/istioctl  /usr/local/bin/ # or anywhere in your $PATH
