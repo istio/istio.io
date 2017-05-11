@@ -60,34 +60,51 @@ to configure ingress behavior.
    ```
    
    ```
-   NAME      HOSTS     ADDRESS                 PORTS     AGE
-   gateway   *         130.211.10.121          80        1d
-   export INGRESS_URL=130.211.10.121:80
+   NAME            HOSTS     ADDRESS                 PORTS     AGE
+   istio-ingress   *         130.211.10.121          80        1d
    ```
 
-   If load balancers are not supported, use the service NodePort instead:
+   ```bash
+   export INGRESS_URL=130.211.10.121
+   ```
+
+   If load balancers are not supported, use the ingress controller's hostIP:
    
    ```bash
-   export INGRESS_URL=$(kubectl get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -o jsonpath='{.spec.ports[0].nodePort}')
+   kubectl get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
    ```
 
+   ```
+   169.47.243.100
+   ```
+
+   along with the istio-ingress service's nodePort for port 80:
+   
+   ```bash
+   kubectl get svc istio-ingress
+   ```
+   
+   ```
+   NAME            CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
+   istio-ingress   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
+
+   ```
+   
+   ```bash
+   export INGRESS_URL=169.47.243.100:31486
+
+   ```
+   
 1. Access the httpbin service using _curl_:
 
    ```bash
    curl http://$INGRESS_URL/headers
    ```
 
-   ```json
+   ```
    {
      "headers": {
-       "Accept": "*/*", 
-       "Content-Length": "0", 
-       "Host": "httpbin.default.svc.cluster.local:8000", 
-       "User-Agent": "curl/7.35.0", 
-       "X-Envoy-Expected-Rq-Timeout-Ms": "15000", 
-       "X-Request-Id": "59cf4fce-72e0-4470-ade5-f59149705944"
-     }
-   }
+   ...
    ```
 
 
@@ -134,10 +151,55 @@ to configure ingress behavior.
    
    _Remark:_ Envoy currently only allows a single TLS secret in the ingress since SNI is not yet supported.
    
+1. Determine the secure ingress URL:
+ 
+    If your cluster is running in an environment that supports external load balancers,
+    use the ingress' external address:
+ 
+    ```bash
+    kubectl get ingress secured-ingress -o wide
+    ```
+    
+    ```
+    NAME              HOSTS     ADDRESS                 PORTS     AGE
+    secured-ingress   *         130.211.10.121          80, 443   1d
+    ```
+ 
+    ```bash
+    export SECURE_INGRESS_URL=130.211.10.121
+    ```
+ 
+    If load balancers are not supported, use the ingress controller's hostIP:
+    
+    ```bash
+    kubectl get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
+    ```
+ 
+    ```
+    169.47.243.100
+    ```
+ 
+    along with the istio-ingress service's nodePort for port 443:
+    
+    ```bash
+    kubectl get svc istio-ingress
+    ```
+    
+    ```
+    NAME            CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
+    istio-ingress   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
+ 
+    ```
+    
+    ```bash
+    export SECURE_INGRESS_URL=169.47.243.100:32254
+ 
+    ```
+    
 1. Access the secured httpbin service using _curl_:
 
    ```bash
-   curl -k https://$INGRESS_URL/html
+   curl -k https://$SECURE_INGRESS_URL/html
    ```
    
    ```
@@ -206,8 +268,8 @@ to set a timeout rule on calls to the httpbin service.
 
 ## Understanding ingress
 
-In the preceding steps we created a service inside the Istio network mesh and exposed it to external traffic through
-  ingresses.
+In the preceding steps we created a service inside the Istio network mesh and exposed it to
+external traffic through ingresses.
 
 ## What's next
 
