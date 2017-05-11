@@ -7,13 +7,8 @@
 
 // Landing page hero
 .hero {
-  padding-bottom: 60px;
   position: relative;
   text-align: center;
-
-  @media (min-width: $tablet) {
-    padding-bottom: 75px;
-  }
 
   .logo {
     margin-bottom: $spacing--l;
