@@ -162,6 +162,49 @@ This application is polyglot, i.e., the microservices are written in different l
    200
    ```
 
+1. If you enabled auth and want to play with it, you can use curl from one envoy to send request to other services. For example, you want to ssh into the envoy container of details service, and send request to other services by curl. There are several steps:
+   
+   Step 1: get the details pod name
+   ```bash
+   kubectl get pods | grep details 
+   ```
+   ```bash
+   details-v1-4184313719-5mxjc       2/2       Running   0          18h
+   ```
+
+   Make sure the pod is "Running".
+
+   Step 2: ssh into the envoy container 
+   ```bash
+   kubectl exec -it details-v1-4184313719-5mxjc -c proxy /bin/bash 
+   ```
+
+   Step 3: make sure the key/cert is in /etc/certs/ directory
+   ```bash
+   ls /etc/certs/ 
+   ````
+   ```bash
+   cert-chain.pem   key.pem 
+   ```` 
+   
+   Step 4: send requests to another service, for example, productpage.
+   ```bash
+   curl https://productpage:9080 -v --key /etc/certs/key.pem --cert /etc/certs/cert-chain.pem -k
+   ````
+   ```bash
+   ...
+   < HTTP/1.1 200 OK
+   < content-type: text/html; charset=utf-8
+   < content-length: 1867
+   < server: envoy
+   < date: Thu, 11 May 2017 18:59:42 GMT
+   < x-envoy-upstream-service-time: 2
+   ...
+   ````
+   The service name and port are defined [here](https://github.com/istio/istio/blob/master/demos/apps/bookinfo/bookinfo.yaml).
+   
+   Note that '-k' option above is to disable service cert verification. Otherwise the curl command will not work. The reason is that in Istio cert, there is no service name, which is the information curl needs to verify service identity. To verify service identity, Istio uses service account, please refer to [here](https://istio.io/docs/concepts/network-and-auth/auth.html) for more information.
+
 1. If you have installed the Istio addons, in particular the servicegraph addon, from the
    [Installation guide]({{home}}/docs/tasks/installing-istio.html), a generated servicegraph
    of the cluster is available.
