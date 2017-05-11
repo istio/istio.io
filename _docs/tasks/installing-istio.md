@@ -26,77 +26,67 @@ This page shows how to install and configure Istio in a Kubernetes cluster.
 
 * Ensure the `curl` command is present.
 
-## Installing on an existing cluster
+* If you installed Istio previously on this cluster, please follow the uninstall steps at the end of this page.
+
+## Installation steps
 
 For the {{ site.data.istio.version }} release, Istio must be installed in the same Kubernetes namespace as the applications. Instructions below will deploy Istio in the
 default namespace. They can be modified for deployment in a different namespace.
 
-1. Go to [istio release page](https://github.com/istio/istio/releases), and download and extract the installation files `istio.tar.gz`.
+1. Go to [istio release page](https://github.com/istio/istio/releases), and download and extract the installation files `istio.tar.gz` or `istio.zip`.
 
-2. Change directory to install/kubernetes:
+2. Change directory to the location where the Istio installation files were extracted. All instructions are relative to this path.
+   The installation directory contains:
+    * Kubernetes yaml installation files
+    * demos
+    * the `istioctl` binary. The `istioctl` client is needed to inject Envoy as a sidecar proxy. It also provides a convenient CLI for creating routing rules and policies.
+    * version file.
 
-   ```bash
-   cd install/kubernetes
-   ```
-
-3. Determine if your cluster has [RBAC enabled](https://kubernetes.io/docs/admin/authorization/rbac/) and find out the RBAC api version by running this command:
+3. Run the following command to determine if your cluster has [RBAC enabled (Role-Based Access Control](https://kubernetes.io/docs/admin/authorization/rbac/)
+   and to find out the RBAC api version:
 
    ```bash
    kubectl api-versions | grep rbac
    ```
    * If the command displays an error, or does not display anything, it means the cluster does not support RBAC, and you can proceed to step 4.
 
-   * If the command displays 'alpha' version, please apply istio-rbac-alpha.yaml configuration:
+   * If the command displays 'beta' version, or both 'alpha' and 'beta', please apply istio-rbac-beta.yaml configuration:
    ```bash
-   kubectl apply -f istio-rbac-alpha.yaml
-   ```
-    
-   * If the command displays 'beta' version, please apply istio-rbac-beta.yaml configuration:
-   ```bash
-   kubectl apply -f istio-rbac-beta.yaml
+   kubectl apply -f install/kubernetes/istio-rbac-beta.yaml
    ```
 
-4. Install Istio's core components
-   (Istio-Manager, Mixer, Ingress-Controller, and optionally Istio CA for
-   authentication). There are two options at this stage:
-
-   **Without Istio Auth**:
-
+   * If the command displays only 'alpha' version, please apply istio-rbac-alpha.yaml configuration:
    ```bash
-   kubectl apply -f istio.yaml
+   kubectl apply -f install/kubernetes/istio-rbac-alpha.yaml
    ```
 
-   **With [Istio Auth](https://istio.io/docs/concepts/network-and-auth/auth.html)**
-   (For more information, please see [Istio Auth installation guide](./istio-auth.html)):
+4. Install Istio's core components (Istio-Manager, Mixer, Ingress-Controller, Egress-Controller).
+   There are two options at this stage:
 
-   ```bash
-   kubectl apply -f istio-auth.yaml
-   ```
+    * Without [Istio Auth](https://istio.io/docs/concepts/network-and-auth/auth.html) feature:
 
-5. Source the Istio configuration file to set Istio environment variables:
+       ```bash
+       kubectl apply -f install/kubernetes/istio.yaml
+       ```
 
-   ```bash
-   source ../../istio.VERSION
-   ```
+   * With the [Istio Auth](https://istio.io/docs/concepts/network-and-auth/auth.html) feature:
 
-6. Install istioctl CLI. Use one of the [`istioctl`]({{home}}/docs/reference/commands/istioctl.html) client binaries corresponding to your OS: `istioctl/osx/istioctl`, `istioctl/windows/istioctl.exe`, `istioctl/linux/istioctl`, targeted at Mac, Windows or Linux users respectively. For example, run the following commands on a Mac system:
+       ```bash
+       kubectl apply -f install/kubernetes/istio-auth.yaml
+       ```
 
-   ```bash
-   cp ../../istioctl/osx/istioctl  /usr/local/bin/ # or anywhere in your $PATH
-   ```
-
-   `istioctl` is needed to inject Envoy as a sidecar proxy. It also provides a convenient CLI for creating routing rules and policies.
+        This command will also install an additional component, the Istio CA (Certificate Authority).
 
 
-7. *Optional:* To view metrics collected by Mixer, install [Prometheus](https://prometheus.io), [Grafana](http://staging.grafana.org) or
+5. *Optional:* To view metrics collected by Mixer, install [Prometheus](https://prometheus.io), [Grafana](http://staging.grafana.org) or
 ServiceGraph addons.
 
    *Note 1*: The Prometheus addon is *required* as a prerequisite for Grafana and the ServiceGraph addons.
 
    ```bash
-   kubectl apply -f addons/prometheus.yaml
-   kubectl apply -f addons/grafana.yaml
-   kubectl apply -f addons/servicegraph.yaml
+   kubectl apply -f install/kubernetes/addons/prometheus.yaml
+   kubectl apply -f install/kubernetes/addons/grafana.yaml
+   kubectl apply -f install/kubernetes/addons/servicegraph.yaml
    ```
 
    The Grafana addon provides a dashboard visualization of the metrics by Mixer to a Prometheus instance.
@@ -159,9 +149,9 @@ ServiceGraph addons.
 
 ## Deploy your application
 
-You can now deploy your own application or one of the Istio sample applications,
+You can now deploy your own application, or one of the Istio sample applications,
 for example [BookInfo]({{home}}/docs/samples/bookinfo.html). Note that the application should use HTTP/1.1
-or HTTP/2.0 protocol for all its HTTP traffic.
+or HTTP/2.0 protocol for all its HTTP traffic. HTTP/1.0 is not supported.
 
 When deploying the application,
 use [kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject.html) to automatically inject
@@ -173,24 +163,18 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 
 ## Uninstalling
 
-1. Change directory to install/kubernetes:
+1. Uninstall Istio:
+
+   **If Istio was installed without Istio auth feature:**
 
    ```bash
-   cd install/kubernetes
+   kubectl delete -f install/kubernetes/istio.yaml
    ```
 
-2. Uninstall Istio:
-
-   **If Istio has auth disabled:**
+   **If Istio was installed with auth feature enabled:**
 
    ```bash
-   kubectl delete -f istio.yaml
-   ```
-
-   **If Istio has auth enabled:**
-
-   ```bash
-   kubectl delete -f istio-auth.yaml
+   kubectl delete -f install/kubernetes/istio-auth.yaml
    ```
 2. If RBAC was installed, please uninstall it:
    
@@ -203,14 +187,7 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
    kubectl delete -f istio-rbac-alpha.yaml
    ```
 
-2. Delete the istioctl client:
-
-   ```bash
-   rm /usr/local/bin/istioctl
-   ```
 
 ## What's next
-
-* Learn more about how to enable [authentication](./istio-auth.html).
 
 * See the sample [BookInfo]({{home}}/docs/samples/bookinfo.html) application.
