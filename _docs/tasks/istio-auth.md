@@ -42,8 +42,7 @@ and they are easy to clean up through a single command.
 
 We have the YAML file [istio-auth.yaml](https://github.com/istio/istio/blob/master/install/kubernetes/istio-auth.yaml)
 for deploying all Istio components including Istio CA into the namespace.
-Follow [the Istio installation guide](./installing-istio.html) from step 4,
-and **choose "If you would like to enable Istio Auth"**.
+Follow [the Istio installation guide](./installing-istio.html) from step 4, and **choose "With Istio Auth"**.
 
 ### Option 2: (recommended) using per-cluster CA
 
