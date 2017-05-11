@@ -9,7 +9,11 @@ type: markdown
 ---
 {% include home.html %}
 
-This task describes how to configure Istio to expose external services to Istio enabled clients.
+By default, Istio-enabled services are unable to access URLs outside of the cluster because
+iptables is used in the pod to transparently redirect all outbound traffic to the sidecar proxy,
+which only handles intra-cluster destinations.
+  
+This task describes how to configure Istio to expose external services to Istio-enabled clients.
 You'll learn how to configure an external service and make requests to it via the Istio egress
 service or, alternatively, to simply enable direct calls to an external service.
 
@@ -88,9 +92,6 @@ HTTP or port `443` for HTTPS.
    ```bash
    curl http://httpbin/headers
    ```
-   ```bash
-   .. response ..
-   ```
 
 3. For external services of type HTTPS, the port must be specified in the request.
    App clients should make the request over HTTP since the Egress Envoy will initiate HTTPS 
@@ -98,9 +99,6 @@ HTTP or port `443` for HTTPS.
 
    ```bash
    curl http://securegoogle:443
-   ```
-   ```bash
-   .. response ..
    ```
 
 ## Calling external services directly
@@ -135,8 +133,12 @@ need to run the `gcloud container clusters describe` command to determine the ra
 
 ```bash
 gcloud container clusters describe benchmark-alpha --zone=us-central1-a | grep -e clusterIpv4Cidr -e servicesIpv4Cidr
+```
+```
 clusterIpv4Cidr: 10.4.0.0/14
 servicesIpv4Cidr: 10.7.240.0/20
+```
+```bash
 kubectl apply -f <(istioctl kube-inject -f sleep.yaml --includeIPRanges=10.4.0.0/14,10.7.240.0/20)
 ```
 
@@ -147,9 +149,6 @@ destination.
 ```bash
 export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
 kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
-```
-```bash
-.. response ..
 ```
 
 ## Understanding what happened
@@ -170,4 +169,6 @@ cloud provider specific knowledge and configuration.
 
 ## What's next
 
-* See how to make requests to services inside a cluster by using the [Ingress Controller](./ingress.html).
+* Read more about the [egress service]({{home}}/docs/concepts/traffic-management/request-routing.html#ingress-and-egress-envoys).
+
+* Learn how to use Istio's [request routing](./request-routing.html) features.

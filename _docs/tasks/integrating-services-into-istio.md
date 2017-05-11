@@ -66,7 +66,7 @@ spec:
   ports:
   - port: 80
     targetPort: 8080
-    name: http
+    name: http-status
   selector:
     app: service-two
 ---
@@ -91,9 +91,9 @@ spec:
 [Kubernetes Services](https://kubernetes.io/docs/concepts/services-networking/service/)
 are required for properly functioning Istio service. Service ports
 must be named and these names must begin with _http_ or _grpc_ prefix
-to take advantage of Istio's L7 routing features, e.g. `name: httpFoo`
-is good. Services with non-named ports or with ports that do not have
-a _http_ or _grpc_ prefix will be routed as L4 traffic.
+to take advantage of Istio's L7 routing features, e.g. `name: http-foo` or `name: http`
+is good. <em>Services with non-named ports or with ports that do not have
+a _http_ or _grpc_ prefix will be routed as L4 traffic.</em>
 
 Submit a YAML resource to API server with injected Envoy sidecar. Any
 one of the following methods will work.
@@ -133,7 +133,7 @@ Inbound request on server pod's proxy.
 ```bash
 kubectl logs ${SERVER} proxy | grep a641eff7-eb82-4a4f-b67b-53cd3a03c399
 ```
-```
+```bash
 [2017-05-01T22:08:39.310Z] "GET / HTTP/1.1" 200 - 0 398 2 0 "-" "curl/7.47.0" "a641eff7-eb82-4a4f-b67b-53cd3a03c399" "service-two" "127.0.0.1:8080"
 ```
 
@@ -150,8 +150,12 @@ kubectl exec -it ${SERVER} -c app -- curl localhost:8080 | grep x-request-id
 `istioctl kube-inject` injects additional containers into YAML
 resource on the client _before_ submitting to the Kubernetes API
 server. This will eventually be replaced by server-side injection via
-admission controller. Use `kubectl get deployment service-one -o yaml` to
-inspect the modified deployment and look for the following:
+admission controller. Use 
+
+```bash
+kubectl get deployment service-one -o yaml
+```
+to inspect the modified deployment and look for the following:
 
 * A proxy container which includes the Envoy proxy and agent to manage
   local proxy configuration.
