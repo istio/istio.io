@@ -48,7 +48,7 @@ to configure ingress behavior.
    EOF
    ```
    
-   Notice that in this example we are only exposing httpbin's `/headers` and `/delay` endpoints.
+   Notice that in this example we are only exposing httpbin's two endpoints: `/headers` as an exact URI path and `/delay/` using an URI prefix.
    
 1. Determine the ingress URL:
 

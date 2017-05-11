@@ -143,7 +143,7 @@ This application is polyglot, i.e., the microservices are written in different l
    You can use any of these addresses to access the ingress, but if the cluster has a firewall, you will also need to create a firewall rule
    to allow TCP traffic to the NodePort. For instance, in GKE, create a firewall rule with these commands:
    ```bash
-   kubectl get svc istio-ingress -o jsonpath={.spec.ports[0].nodePort}
+   kubectl get svc istio-ingress -o jsonpath='{.spec.ports[0].nodePort}'
    ```
    ```bash
    31201
