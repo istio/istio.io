@@ -22,7 +22,7 @@ how to:
 
 This task assumes you have:
 
-* Read the [Istio Auth concepts]({{home}}/docs/concepts/network-and-auth/auth.html).
+* Read the Istio Auth [concepts]({{home}}/docs/concepts/network-and-auth/auth.html).
 
 * Completed steps 1 - 3 in [the Istio installation guide](./installing-istio.html#installing-on-an-existing-cluster).
 
@@ -48,7 +48,7 @@ and **choose "If you would like to enable Istio Auth"**.
 ### Option 2: (recommended) using per-cluster CA
 
 Note: if you have already enabled Istio auth for any namespace in the cluster, this process will deploy a CA that conflicts with
-existing CAs. Please follow [Disabling Istio Auth](#disableauth) section to disable auth first.
+existing CAs. Please follow [Disabling Istio Auth](#disabling-istio-auth) section to disable auth first.
 
 Only a single Istio CA is deployed for the Kubernetes cluster, in a dedicated namespace.
 Doing this offers the following benefits:
@@ -80,7 +80,7 @@ kubectl apply -f templates/istio-auth/isio-auth-per-cluster-ca.yaml
 
 Follow [the general Istio installation guide](./installing-istio.html) from step 5.
 
-## <a name="disableauth"></a>Disabling Istio Auth
+## Disabling Istio Auth
 
 This section shows how to disable Istio Auth in an Istio cluster.
 Disabling Istio Auth requires all Istio services and applications to be reconfigured and restarted with auth disabled.
