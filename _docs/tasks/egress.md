@@ -9,7 +9,11 @@ type: markdown
 ---
 {% include home.html %}
 
-This task describes how to configure Istio to expose external services to Istio enabled clients.
+By default, Istio-enabled services are unable to access URLs outside of the cluster because
+iptables is used in the pod to transparently redirect all outbound traffic to the sidecar proxy,
+which only handles intra-cluster destinations.
+  
+This task describes how to configure Istio to expose external services to Istio-enabled clients.
 You'll learn how to configure an external service and make requests to it via the Istio egress
 service or, alternatively, to simply enable direct calls to an external service.
 
@@ -165,4 +169,6 @@ cloud provider specific knowledge and configuration.
 
 ## What's next
 
-* See how to make requests to services inside a cluster by using the [Ingress Controller](./ingress.html).
+* Read more about the [egress service]({{home}}/docs/concepts/traffic-management/request-routing.html#ingress-and-egress-envoys).
+
+* Learn how to use Istio's [request routing](./request-routing.html) features.
