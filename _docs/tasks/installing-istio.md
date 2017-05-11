@@ -94,7 +94,7 @@ default namespace. They can be modified for deployment in a different namespace.
 7. *Optional:* To view metrics collected by Mixer, install [Prometheus](https://prometheus.io), [Grafana](http://staging.grafana.org) or
 ServiceGraph addons.
 
-   *Note 1*: The Prometheus addon is *required* is a prerequisite for Grafana and the ServiceGraph addons.
+   *Note 1*: The Prometheus addon is *required* as a prerequisite for Grafana and the ServiceGraph addons.
 
    ```bash
    kubectl apply -f addons/prometheus.yaml
