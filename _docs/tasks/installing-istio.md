@@ -21,33 +21,33 @@ This page shows how to install and configure Istio in a Kubernetes cluster.
   gcloud config set container/use_client_certificate True
   ```
 
-  Find out your cluster name and the zone, and fetch credentials:
+  Find out your cluster name and zone, and fetch credentials:
   ```bash
   gcloud container clusters get-credentials <cluster-name> --zone <zone> --project <project-name>
   ```
 
-* Please install the Kubernetes client [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/), or upgrade to the latest version supported by your cluster.
+* Install the Kubernetes client [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/), or upgrade to the latest version supported by your cluster.
 
 * Ensure the `curl` command is present.
 
-* If you previously installed Istio on this cluster, please uninstall first by following the [uninstall](({{home}}/docs/tasks/installing-istio.html#uninstalling) steps at the end of this page.
+* If you previously installed Istio on this cluster, please uninstall first by following the [uninstalling]({{home}}/docs/tasks/installing-istio.html#uninstalling) steps at the end of this page.
 
 ## Installation steps
 
 For the {{ site.data.istio.version }} release, Istio must be installed in the same Kubernetes namespace as the applications. Instructions below will deploy Istio in the
 default namespace. They can be modified for deployment in a different namespace.
 
-1. Go to [istio release page](https://github.com/istio/istio/releases), and download and extract the installation files `istio.tar.gz` or `istio.zip`.
+1. Go to the [istio release page](https://github.com/istio/istio/releases), to download the installation file corresponding to your OS.
 
-2. Change directory to the location where the Istio installation files were extracted. All instructions are relative to this path.
+2. Extract the installation file, and change directory to the location where the files were extracted. All instructions on this website are relative to this installation directory.
    The installation directory contains:
-    * yaml installation files
-    * demos
-    * the `istioctl` binary. The `istioctl` client is needed to inject Envoy as a sidecar proxy. It also provides a convenient CLI for creating routing rules and policies.
-    * version file.
+    * yaml installation files for Kubernetes
+    * sample apps
+    * the `istioctl` client binary, needed to inject Envoy as a sidecar proxy, and useful for creating routing rules and policies.
+    * a text file containing the Istio version.
 
-3. Run the following command to determine if your cluster has [RBAC enabled (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/)
-   , and to find out the RBAC api version:
+3. Run the following command to determine if your cluster has [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/)
+enabled,and to find out the RBAC api version:
 
    ```bash
    kubectl api-versions | grep rbac
@@ -59,22 +59,23 @@ default namespace. They can be modified for deployment in a different namespace.
    kubectl apply -f install/kubernetes/istio-rbac-beta.yaml
    ```
 
+
    * If the command displays only 'alpha' version, please apply istio-rbac-alpha.yaml configuration:
    ```bash
    kubectl apply -f install/kubernetes/istio-rbac-alpha.yaml
    ```
 
 4. Install Istio's core components .
-   There are two options at this stage:
+   There are two mutually exclusive options at this stage:
 
-    * Without [Istio Auth](https://istio.io/docs/concepts/network-and-auth/auth.html) feature:
+    * Install Istio without enabling [Istio Auth](https://istio.io/docs/concepts/network-and-auth/auth.html) feature:
 
        ```bash
        kubectl apply -f install/kubernetes/istio.yaml
        ```
         This command will install Istio-Manager, Mixer, Ingress-Controller, and Egress-Controller core components.
 
-   * With the [Istio Auth](https://istio.io/docs/concepts/network-and-auth/auth.html) feature:
+   * Install Istio and enable [Istio Auth](https://istio.io/docs/concepts/network-and-auth/auth.html) feature:
 
        ```bash
        kubectl apply -f install/kubernetes/istio-auth.yaml
@@ -156,10 +157,10 @@ ServiceGraph addons.
 
 You can now deploy your own application, or one of the sample applications provided with the installation,
 for example [BookInfo]({{home}}/docs/samples/bookinfo.html). Note that the application should use HTTP/1.1
-or HTTP/2.0 protocol for all its HTTP traffic. HTTP/1.0 is not supported.
+or HTTP/2.0 protocol for all its HTTP traffic; HTTP/1.0 is not supported.
 
 When deploying the application, you must
-use [istio kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject) to automatically inject
+use [istioctl kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject) to automatically inject
 Envoy containers in your application pods:
 
 ```bash
@@ -168,7 +169,7 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 
 ## Uninstalling
 
-1. Uninstall Istio:
+1. Uninstall Istio core components:
 
    * If Istio was installed without Istio auth feature:
 
@@ -181,7 +182,7 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
        ```bash
        kubectl delete -f install/kubernetes/istio-auth.yaml
        ```
-2. If RBAC was installed, please uninstall it:
+2. Uninstall RBAC Istio roles:
    * If beta version was installed:
        ```bash
        kubectl delete -f istio-rbac-beta.yaml
