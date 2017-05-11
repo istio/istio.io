@@ -31,12 +31,12 @@ This page shows how to install and configure Istio in a Kubernetes cluster.
 For the {{ site.data.istio.version }} release, Istio must be installed in the same Kubernetes namespace as the applications. Instructions below will deploy Istio in the
 default namespace. They can be modified for deployment in a different namespace.
 
-1. Go to [istio release page](https://github.com/istio/istio/releases), and download and extract the installation files istioctl.tar.gz and the source code.
+1. Go to [istio release page](https://github.com/istio/istio/releases), and download and extract the installation files `istio.tar.gz`.
 
 2. Change directory to install/kubernetes:
 
    ```bash
-   cd istio/install/kubernetes
+   cd install/kubernetes
    ```
 
 3. Determine if your cluster has [RBAC enabled](https://kubernetes.io/docs/admin/authorization/rbac/) and find out the RBAC api version by running this command:
@@ -79,13 +79,10 @@ default namespace. They can be modified for deployment in a different namespace.
    source ../../istio.VERSION
    ```
 
-6. Install istioctl CLI. Use one of the [`istioctl`]({{home}}/docs/reference/commands/istioctl.html) client binaries corresponding to your OS: `istioctl-osx`, `istioctl-win.exe`,
-`istioctl-linux`, targeted at Mac, Windows or Linux users respectively. For example, run the following commands on a Mac system:
+6. Install istioctl CLI. Use one of the [`istioctl`]({{home}}/docs/reference/commands/istioctl.html) client binaries corresponding to your OS: `istioctl/osx/istioctl`, `istioctl/windows/istioctl.exe`, `istioctl/linux/istioctl`, targeted at Mac, Windows or Linux users respectively. For example, run the following commands on a Mac system:
 
    ```bash
-   curl -L https://github.com/istio/istio/releases/download/0.1.1/istioctl.tar.gz > istioctl-0.1.1.tar.gz
-   tar xvfz istioctl-0.1.1.tar.gz
-   cp osx/istioctl  /usr/local/bin/ # or anywhere in your $PATH
+   cp ../../istioctl/osx/istioctl  /usr/local/bin/ # or anywhere in your $PATH
    ```
 
    `istioctl` is needed to inject Envoy as a sidecar proxy. It also provides a convenient CLI for creating routing rules and policies.
