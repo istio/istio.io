@@ -36,7 +36,7 @@ default namespace. They can be modified for deployment in a different namespace.
 2. Change directory to install/kubernetes:
 
    ```bash
-   cd install/kubernetes
+   cd istio/install/kubernetes
    ```
 
 3. Determine if your cluster has [RBAC enabled](https://kubernetes.io/docs/admin/authorization/rbac/) and find out the RBAC api version by running this command:
@@ -57,15 +57,16 @@ default namespace. They can be modified for deployment in a different namespace.
    ```
 
 4. Install Istio's core components
-   (Istio-Manager, Mixer, Ingress-Controller, and Istio CA if auth is enabled):
+   (Istio-Manager, Mixer, Ingress-Controller, and optionally Istio CA for
+   authentication). There are two options at this stage:
 
-   **If you would like to disable [Istio Auth](https://istio.io/docs/concepts/network-and-auth/auth.html)**:
+   **Without Istio Auth**:
 
    ```bash
    kubectl apply -f istio.yaml
    ```
 
-   **If you would like to enable [Istio Auth](https://istio.io/docs/concepts/network-and-auth/auth.html)**
+   **With [Istio Auth](https://istio.io/docs/concepts/network-and-auth/auth.html)**
    (For more information, please see [Istio Auth installation guide](./istio-auth.html)):
 
    ```bash
@@ -78,29 +79,26 @@ default namespace. They can be modified for deployment in a different namespace.
    source ../../istio.VERSION
    ```
 
-6. Use one of the [`istioctl`]({{home}}/docs/reference/commands/istioctl.html) client binaries corresponding to your OS: `istioctl-osx`, `istioctl-win.exe`,
+6. Install istioctl CLI. Use one of the [`istioctl`]({{home}}/docs/reference/commands/istioctl.html) client binaries corresponding to your OS: `istioctl-osx`, `istioctl-win.exe`,
 `istioctl-linux`, targeted at Mac, Windows or Linux users respectively. For example, run the following commands on a Mac system:
 
    ```bash
-   curl -L https://github.com/istio/istio/releases/download/0.1.0/istioctl.tar.gz > istioctl-0.1.0.tar.gz
-   tar xvfz istioctl-0.1.0.tar.gz
+   curl -L https://github.com/istio/istio/releases/download/0.1.1/istioctl.tar.gz > istioctl-0.1.1.tar.gz
+   tar xvfz istioctl-0.1.1.tar.gz
    cp osx/istioctl  /usr/local/bin/ # or anywhere in your $PATH
    ```
 
    `istioctl` is needed to inject Envoy as a sidecar proxy. It also provides a convenient CLI for creating routing rules and policies.
-   Note: If you already have a previously installed version of `istioctl`, make sure that
-   it is compatible with the manager image used in `istio.yaml`.
-   If in doubt, download again or add the `--tag` option when running `istioctl kube-inject`.
-   Invoke `istioctl kube-inject --help` for more details.
 
-7. Optional: to view metrics collected by Mixer, install [Prometheus](https://prometheus.io), [Grafana](http://staging.grafana.org) or
+
+7. *Optional:* To view metrics collected by Mixer, install [Prometheus](https://prometheus.io), [Grafana](http://staging.grafana.org) or
 ServiceGraph addons.
 
-   Note: The Prometheus addon is *required* for both Grafana and the ServiceGraph example. Install `prometheus.yaml` as well as either or both of the other addons.
+   *Note 1*: The Prometheus addon is *required* as a prerequisite for Grafana and the ServiceGraph addons.
 
    ```bash
-   kubectl apply -f addons/grafana.yaml
    kubectl apply -f addons/prometheus.yaml
+   kubectl apply -f addons/grafana.yaml
    kubectl apply -f addons/servicegraph.yaml
    ```
 
@@ -118,7 +116,7 @@ ServiceGraph addons.
 
    ![Grafana Istio Dashboard](./img/grafana_dashboard.png)
 
-   NOTE: In some deployment environments, it will be possible to access the dashboard directly (without the `kubectl port-forward` command). This is because 
+   *Note 2*: In some deployment environments, it will be possible to access the dashboard directly (without the `kubectl port-forward` command). This is because 
    the default addon configuration requests an external IP address for the grafana service.
 
    When applicable, the external IP address for the grafana service can be retrieved via:

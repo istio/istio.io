@@ -49,6 +49,7 @@ This application is polyglot, i.e., the microservices are written in different l
 1. Source the Istio configuration file from the root of the installation directory:
 
    ```bash
+   cd istio
    source istio.VERSION
    ```
 
