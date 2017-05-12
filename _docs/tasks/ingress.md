@@ -286,8 +286,13 @@ to set a timeout rule on calls to the httpbin service.
 
 ## Understanding ingress
 
-In the preceding steps we created a service inside the Istio network mesh and exposed it to
-external traffic through ingresses.
+Ingresses provide gateways for external traffic to enter the Istio service mesh
+and make the traffic management and policy features of Istio available for edge services.
+
+In the preceding steps we created a service inside the Istio service mesh and showed how
+to expose both HTTP and HTTPS endpoints of the service to external traffic.
+We also showed how to control the ingress traffic using an Istio route rule.
+
 
 ## What's next
 
