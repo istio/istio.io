@@ -1,6 +1,6 @@
 ---
 title: Overview
-overview: Provides a conceptual introduction to Istio, including the problems it can solve and its high-level architecture.
+overview: Provides a conceptual introduction to Istio, including the problems it solves and its high-level architecture.
           
 order: 15
 
@@ -8,7 +8,7 @@ layout: docs
 type: markdown
 ---
 
-This document introduces Istio: an open platform to connect, manage, and secure microservices. Istio provides an easy way to create a network of deployed services with load balancing, service-to-service authentication, monitoring, and more, without requiring any changes in service code. You add Istio support to services by deploying a special sidecar proxy with your service that proxies all network communication between microservices, configured and managed using Istio's control plane functionality.
+This document introduces Istio: an open platform to connect, manage, and secure microservices. Istio provides an easy way to create a network of deployed services with load balancing, service-to-service authentication, monitoring, and more, without requiring any changes in service code. You add Istio support to services by deploying a special sidecar proxy throughout your environment that intercepts all network communication between microservices, configured and managed using Istio's control plane functionality.
 
 Istio currently only supports service deployment on Kubernetes, though other environments will be supported in future versions.
 
@@ -28,8 +28,7 @@ network of services:
 - **Traffic Management**. Control the flow of traffic and API calls between services, make calls more reliable, and make the network more robust in the face
 of adverse conditions.
  
-- **Observability**. Gain understanding of the dependencies between services, the nature and flow of traffic between them, and the ability to quickly identify 
-issues.
+- **Observability**. Gain understanding of the dependencies between services and the nature and flow of traffic between them, providing the ability to quickly identify issues.
 
 - **Policy Enforcement**. Apply organizational policy to the interaction between services, ensure access policies are enforced and resources are fairly 
 distributed among consumers. Policy changes are made by configuring the mesh, not by changing application code.
@@ -64,11 +63,11 @@ The following diagram shows the different components that make up each plane:
 
 ### Envoy
 
-Istio uses an extended version of the Envoy proxy, a high-performance proxy developed in C++, to mediate all inbound and outbound traffic for all services in the service mesh. 
+Istio uses an extended version of the [Envoy](https://lyft.github.io/envoy/) proxy, a high-performance proxy developed in C++, to mediate all inbound and outbound traffic for all services in the service mesh. 
 Istio leverages Envoy’s many built-in features such as dynamic service discovery, load balancing, TLS termination, HTTP/2 & gRPC proxying, circuit breakers,
 health checks, staged rollouts with %-based traffic split, fault injection, and rich metrics.
 
-Envoy is deployed as a **sidecar** to the relevant service in the same Kubernetes pod. This allows Istio to extract a wealth of signals about traffic behavior as [attributes]({{home}}/docs/concepts/policy-and-control/attributes.html), which in turn it can use in Mixer to enforce policy decisions, and be sent to monitoring systems to provide information about the behavior of the entire mesh. The sidecar proxy model also allows you to add Istio capabilities to an existing deployment with no need to rearchitect or rewrite code. You can read more about why we chose this approach in our [Design Goals]({{home}}/docs/concepts/goals.html).
+Envoy is deployed as a **sidecar** to the relevant service in the same Kubernetes pod. This allows Istio to extract a wealth of signals about traffic behavior as [attributes]({{home}}/docs/concepts/policy-and-control/attributes.html), which in turn it can use in [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html) to enforce policy decisions, and be sent to monitoring systems to provide information about the behavior of the entire mesh. The sidecar proxy model also allows you to add Istio capabilities to an existing deployment with no need to rearchitect or rewrite code. You can read more about why we chose this approach in our [Design Goals]({{home}}/docs/concepts/goals.html).
 
 ### Mixer
 
@@ -96,7 +95,7 @@ role-based access control as well as authorization hooks.
 ## What's next
 
 * Learn about Istio's [design goals](./goals.html).
-* Explore and try deploying our [sample application]().
+* Explore and try deploying our [sample application]({{home}}/docs/samples/bookinfo.html).
 * Read about Istio components in detail in our other [Concepts]({{home}}/docs/concepts/) guides.
 * Learn how to deploy Istio with your own services using our [Tasks]({{home}}/docs/tasks/) guides.
 
