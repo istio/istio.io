@@ -37,14 +37,20 @@ default namespace. They can be modified for deployment in a different namespace.
 
 1. Go to the [Istio release](https://github.com/istio/istio/releases) page, to download the installation file corresponding to your OS.
 
-2. Extract the installation file, and change directory to the location where the files were extracted. Following instructions are relative to this installation directory.
+1. Extract the installation file, and change directory to the location where the files were extracted. Following instructions are relative to this installation directory.
    The installation directory contains:
     * yaml installation files for Kubernetes
     * sample apps
     * the `istioctl` client binary, needed to inject Envoy as a sidecar proxy, and useful for creating routing rules and policies.
-    * a text file containing the Istio version.
+    * the istio.VERSION configuration file.
 
-3. Run the following command to determine if your cluster has [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/)
+1. Add the `istioctl` client to your PATH. For example, run the following commands on a Mac system:
+
+   ```bash
+   sudo ln -s $PWD/istioctl /usr/local/bin/
+   ```
+
+1. Run the following command to determine if your cluster has [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/)
 enabled:
 
    ```bash
@@ -60,7 +66,7 @@ enabled:
    kubectl apply -f install/kubernetes/istio-rbac-alpha.yaml
    ```
 
-4. Install Istio's core components .
+1. Install Istio's core components .
    There are two mutually exclusive options at this stage:
 
     * Install Istio without enabling [Istio Auth](https://istio.io/docs/concepts/network-and-auth/auth.html) feature:
@@ -79,7 +85,7 @@ enabled:
    This command will install Istio-Manager, Mixer, Ingress-Controller, and Egress-Controller, and the Istio CA (Certificate Authority).
 
 
-5. *Optional:* To view metrics collected by Mixer, install [Prometheus](https://prometheus.io), [Grafana](http://staging.grafana.org) or
+1. *Optional:* To view metrics collected by Mixer, install [Prometheus](https://prometheus.io), [Grafana](http://staging.grafana.org) or
 ServiceGraph addons.
 
    *Note 1*: The Prometheus addon is *required* as a prerequisite for Grafana and the ServiceGraph addons.

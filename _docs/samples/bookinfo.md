@@ -46,25 +46,18 @@ This application is polyglot, i.e., the microservices are written in different l
 
 ## Start the application
 
-1. Source the Istio configuration file from the root of the installation directory:
+1. Change directory to the root of the Istio installation directory.
 
-   ```bash
-   cd istio
-   ```
+1. Source the Istio configuration file:
+
    ```bash
    source istio.VERSION
-   ```
-
-1. Change your current working directory to the `bookinfo` application directory:
-
-   ```bash
-   cd demos/apps/bookinfo
    ```
 
 1. Bring up the application containers:
 
    ```bash
-   kubectl apply -f <(istioctl kube-inject -f bookinfo.yaml)
+   kubectl apply -f <(istioctl kube-inject -f samples/apps/bookinfo/bookinfo.yaml)
    ```
 
    The above command launches four microservices and creates the gateway
@@ -153,6 +146,11 @@ This application is polyglot, i.e., the microservices are written in different l
    ```
    ```bash
    gcloud compute firewall-rules create allow-book --allow tcp:31201
+   ```
+
+   If loadbalancers are not supported, or the ADDRESS field remains empty, use the service NodePort instead:
+   ```bash
+   export GATEWAY_URL=$(kubectl get po -l istio=ingress -o jsonpath={.items[0].status.hostIP}):$(kubectl get svc istio-ingress -o jsonpath={.spec.ports[0].nodePort})
    ```
 
 1. Confirm that the BookInfo application is running by opening in your browser http://$GATEWAY_URL/productpage , or with the following `curl` command:
@@ -248,7 +246,7 @@ inject faults, rate limit services, etc..
 1. Delete the routing rules and terminate the application pods
 
    ```bash
-   ./cleanup.sh
+   samples/apps/bookinfo/cleanup.sh
    ```
 
 1. Confirm shutdown
