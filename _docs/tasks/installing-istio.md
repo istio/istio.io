@@ -72,7 +72,7 @@ enabled:
 
    * Install Istio and enable [Istio Auth](https://istio.io/docs/concepts/network-and-auth/auth.html) feature
    (This deploys a CA in the namespace and enables mTLS between services.
-   For more information, please see [Istio Auth installation guide](./istio-auth.html)):
+   For more information, please see [Istio Auth installation guide]({{home}}/docs/tasks/istio-auth.html)):
 
    ```bash
    kubectl apply -f install/kubernetes/istio-auth.yaml
