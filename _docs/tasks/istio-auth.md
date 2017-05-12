@@ -10,7 +10,7 @@ type: markdown
 {% include home.html %}
 
 Through this task,
-you will learn how to do the following for Istio Auth with the **cluster-level Istio CA**:
+you will learn how to do the following for Istio Auth with the **cluster-level Istio CA (Certificate Authority)**:
 
 * Install Istio with Auth
 
@@ -167,9 +167,9 @@ The following command removes Istio CA and its namespace *istio-system*.
 kubectl delete -f install/kubernetes/templates/istio-auth/istio-cluster-ca.yaml
 ```
 
-### Uninstalling Istio
+### Uninstalling other Istio components
 
-Run the following command to uninstall auth-enabled Istio.
+Run the following command to uninstall the Istio components other than the Istio CA.
 Use the parameter *-n yournamespace* to specify a namespace other than the default one.
 
 ```bash
