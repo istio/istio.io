@@ -17,9 +17,15 @@ to configure ingress behavior.
 
 * Setup Istio by following the instructions in the
   [Installation guide](./installing-istio.html).
-
+  
+* Make sure your current directory is the `istio` root directory.
+  
 * Start the [httpbin](https://github.com/istio/istio/tree/master/demos/apps/httpbin) sample,
-  which will be used as the destination service to be exposed externally.  
+  which will be used as the destination service to be exposed externally.
+
+  ```bash
+  kubectl apply -f <(istioctl kube-inject -f demos/apps/httpbin/httpbin.yaml)
+  ```
 
 ## Configuring ingress (HTTP)
 
@@ -30,7 +36,7 @@ to configure ingress behavior.
    apiVersion: extensions/v1beta1
    kind: Ingress
    metadata:
-     name: istio-ingress
+     name: simple-ingress
      annotations:
        kubernetes.io/ingress.class: istio
    spec:
@@ -52,48 +58,48 @@ to configure ingress behavior.
    
 1. Determine the ingress URL:
 
-   If your cluster is running in an environment that supports external load balancers,
-   use the ingress' external address:
+   * If your cluster is running in an environment that supports external load balancers,
+     use the ingress' external address:
 
-   ```bash
-   kubectl get ingress -o wide
-   ```
+     ```bash
+     kubectl get ingress simple-ingress -o wide
+     ```
    
-   ```
-   NAME            HOSTS     ADDRESS                 PORTS     AGE
-   istio-ingress   *         130.211.10.121          80        1d
-   ```
+     ```
+     NAME             HOSTS     ADDRESS                 PORTS     AGE
+     simple-ingress   *         130.211.10.121          80        1d
+     ```
 
-   ```bash
-   export INGRESS_URL=130.211.10.121
-   ```
+     ```bash
+     export INGRESS_URL=130.211.10.121
+     ```
 
-   If load balancers are not supported, use the ingress controller's hostIP:
+   * If load balancers are not supported, use the ingress controller pod's hostIP:
    
-   ```bash
-   kubectl get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
-   ```
+     ```bash
+     kubectl get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
+     ```
 
-   ```
-   169.47.243.100
-   ```
+     ```
+     169.47.243.100
+     ```
 
-   along with the istio-ingress service's nodePort for port 80:
+     along with the istio-ingress service's nodePort for port 80:
    
-   ```bash
-   kubectl get svc istio-ingress
-   ```
+     ```bash
+     kubectl get svc istio-ingress
+     ```
    
-   ```
-   NAME            CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
-   istio-ingress   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
+     ```
+     NAME            CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
+     istio-ingress   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
 
-   ```
+     ```
    
-   ```bash
-   export INGRESS_URL=169.47.243.100:31486
+     ```bash
+     export INGRESS_URL=169.47.243.100:31486
 
-   ```
+     ```
    
 1. Access the httpbin service using _curl_:
 
@@ -104,7 +110,14 @@ to configure ingress behavior.
    ```
    {
      "headers": {
-   ...
+       "Accept": "*/*", 
+       "Content-Length": "0", 
+       "Host": "httpbin.default.svc.cluster.local:8000", 
+       "User-Agent": "curl/7.51.0", 
+       "X-Envoy-Expected-Rq-Timeout-Ms": "15000", 
+       "X-Request-Id": "3dd59054-6e26-4af5-87cf-a247bc634bab"
+     }
+   }
    ```
 
 
@@ -153,48 +166,50 @@ to configure ingress behavior.
    
 1. Determine the secure ingress URL:
  
-    If your cluster is running in an environment that supports external load balancers,
-    use the ingress' external address:
+   * If your cluster is running in an environment that supports external load balancers,
+     use the ingress' external address:
  
-    ```bash
-    kubectl get ingress secured-ingress -o wide
-    ```
+     ```bash
+     kubectl get ingress secured-ingress -o wide
+     ```
     
-    ```
-    NAME              HOSTS     ADDRESS                 PORTS     AGE
-    secured-ingress   *         130.211.10.121          80, 443   1d
-    ```
+     ```
+     NAME              HOSTS     ADDRESS                 PORTS     AGE
+     secured-ingress   *         130.211.10.121          80, 443   1d
+     ```
  
-    ```bash
-    export SECURE_INGRESS_URL=130.211.10.121
-    ```
+     ```bash
+     export SECURE_INGRESS_URL=130.211.10.121
+     ```
  
-    If load balancers are not supported, use the ingress controller's hostIP:
+     > Note that in this case SECURE_INGRESS_URL should be the same as INGRESS_URL that you set previously.
     
-    ```bash
-    kubectl get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
-    ```
- 
-    ```
-    169.47.243.100
-    ```
- 
-    along with the istio-ingress service's nodePort for port 443:
+   * If load balancers are not supported, use the ingress controller pod's hostIP:
     
-    ```bash
-    kubectl get svc istio-ingress
-    ```
-    
-    ```
-    NAME            CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
-    istio-ingress   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
+     ```bash
+     kubectl get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
+     ```
  
-    ```
-    
-    ```bash
-    export SECURE_INGRESS_URL=169.47.243.100:32254
+     ```
+     169.47.243.100
+     ```
  
-    ```
+     along with the istio-ingress service's nodePort for port 443:
+    
+     ```bash
+     kubectl get svc istio-ingress
+     ```
+    
+     ```
+     NAME            CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
+     istio-ingress   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
+ 
+     ```
+    
+     ```bash
+     export SECURE_INGRESS_URL=169.47.243.100:32254
+ 
+     ```
     
 1. Access the secured httpbin service using _curl_:
 
@@ -221,17 +236,19 @@ to set a timeout rule on calls to the httpbin service.
 1. Invoke the httpbin `/delay` endpoint you exposed previously:
 
    ```bash
-   time curl http://$INGRESS_URL/delay/5
+   time curl -o /dev/null -s -w "%{http_code}\n" http://$INGRESS_URL/delay/5
+
    ```
    
    ```
-   ...
+   200
+   
    real    0m5.024s
    user    0m0.003s
    sys     0m0.003s
    ```
 
-   The request should return in approximately 5 seconds.
+   The request should return 200 (OK) in approximately 5 seconds.
 
 1. Use `istioctl` to set a 3s timeout on calls to the httpbin service
 
@@ -247,23 +264,24 @@ to set a timeout rule on calls to the httpbin service.
    EOF
    ```
    
-   Note that you may need to change `default` namespace to the namespace of `httpbin` application.
+   Note that you may need to change the `default` namespace to the namespace of the `httpbin` application.
 
 1. Wait a few seconds, then issue the _curl_ request again:
  
    ```bash
-   time curl http://$INGRESS_URL/delay/5
+   time curl -o /dev/null -s -w "%{http_code}\n" http://$INGRESS_URL/delay/5
    ```
 
    ```
-   ...
-   real    0m3.022s
+   504
+   
+   real    0m3.149s
    user    0m0.004s
-   sys     0m0.003s
+   sys     0m0.004s
    ```
    
-   This time the response appears after
-   3 seconds.  Although _httpbin_ was waiting 5 seconds, Istio cut off the request at 3 seconds.
+   This time a 504 (Gateway Timeout) appears after 3 seconds.
+   Although httpbin was waiting 5 seconds, Istio cut off the request at 3 seconds.
 
 
 ## Understanding ingress
@@ -273,7 +291,15 @@ external traffic through ingresses.
 
 ## What's next
 
-* Learn how to expose external services by [enabling egress traffic](./egress.html).
+* Cleanup the resources created in this task.
+
+  ```bash
+  istioctl delete route-rule httpbin-3s-rule
+  kubectl delete ingress secure-ingress
+  kubectl delete ingress simple-ingress
+  kubectl delete -f demos/apps/httpbin/httpbin.yaml
+  ``` 
 
 * Learn more about [routing rules]({{home}}/docs/concepts/traffic-management/rules-configuration.html).
 
+* Learn how to expose external services by [enabling egress traffic](./egress.html).
