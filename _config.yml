@@ -14,11 +14,10 @@ liquid:
 sass:
   style: compressed
 
-paginate: 2
-
+paginate: 5
 paginate_path: "/blog/page:num/"
 
-excerpt_separator: <!--more-->
+excerpt_separator: <!--end_excerpt-->
 
 collections:
   docs:

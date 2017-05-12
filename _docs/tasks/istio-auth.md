@@ -40,7 +40,7 @@ without extra trust setup.
 **Per-namespace CA**:
 
 [The Istio installation guide]({{home}}/docs/tasks/installing-istio.html#installing-on-an-existing-cluster)
-with "With Istio Auth" in step 4 instructs enabling Istio Auth with per-namespace CA.
+with "Install Istio and enable Istio Auth feature" in step 4 instructs enabling Istio Auth with per-namespace CA.
 
 An Istio CA is deployed in each Kubernetes namespace that enables Istio Auth.
 This CA issues certificates and keys to all pods in the same namespace.
