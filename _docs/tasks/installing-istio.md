@@ -42,7 +42,7 @@ default namespace. They can be modified for deployment in a different namespace.
     * yaml installation files for Kubernetes
     * sample apps
     * the `istioctl` client binary, needed to inject Envoy as a sidecar proxy, and useful for creating routing rules and policies.
-    * a text file containing the Istio version.
+    * the istio.VERSION configuration file.
 
 3. Run the following command to determine if your cluster has [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/)
 enabled:

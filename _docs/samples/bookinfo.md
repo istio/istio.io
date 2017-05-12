@@ -46,7 +46,9 @@ This application is polyglot, i.e., the microservices are written in different l
 
 ## Start the application
 
-1. Source the Istio configuration file from the root of the installation directory:
+1. Change directory to the root of the Istio installation directory.
+
+2. Source the Istio configuration file:
 
    ```bash
    cd istio
@@ -55,16 +57,10 @@ This application is polyglot, i.e., the microservices are written in different l
    source istio.VERSION
    ```
 
-1. Change your current working directory to the `bookinfo` application directory:
-
-   ```bash
-   cd samples/apps/bookinfo
-   ```
-
 1. Bring up the application containers:
 
    ```bash
-   kubectl apply -f <(istioctl kube-inject -f bookinfo.yaml)
+   kubectl apply -f <(istioctl kube-inject -f samples/apps/bookinfo/bookinfo.yaml)
    ```
 
    The above command launches four microservices and creates the gateway
@@ -248,7 +244,7 @@ inject faults, rate limit services, etc..
 1. Delete the routing rules and terminate the application pods
 
    ```bash
-   ./cleanup.sh
+   samples/apps/bookinfo/cleanup.sh
    ```
 
 1. Confirm shutdown
