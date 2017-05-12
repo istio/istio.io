@@ -8,9 +8,7 @@ layout: docs
 type: markdown
 ---
 
-This page outlines the core principles that guide Istio's design and explains some key design decisions based on these goals.
-
-## Design goals
+This page outlines the core principles that guide Istio's design.
 
 Istio’s architecture is informed by a few key design goals that are essential to making the system capable of dealing with services at scale and with high 
 performance.
