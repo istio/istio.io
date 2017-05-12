@@ -40,7 +40,7 @@ without extra trust setup.
 
 **Namespace-level CA**:
 
-[The Istio installation guide]({{home}}/docs/tasks/installing-istio.html#installing-on-an-existing-cluster)
+[The Istio installation task]({{home}}/docs/tasks/installing-istio.html#installing-on-an-existing-cluster)
 with "Install Istio and enable Istio Auth feature" in step 5 instructs enabling Istio Auth with the namespace-level CA.
 
 An Istio CA is deployed in each Kubernetes namespace that enables Istio Auth.
@@ -59,7 +59,8 @@ To uninstall Istio, please follow the [uninstall instructions]({{home}}/docs/tas
 * Disabled Istio Auth for all namespaces in the Kubernetes cluster.
 Otherwise, this process will deploy a CA that conflicts with existing CAs.
 
-* Completed steps 1 - 4 in [the Istio installation guide]({{home}}/docs/tasks/installing-istio.html#installing-on-an-existing-cluster).
+* Completed [the Istio installation task]({{home}}/docs/tasks/installing-istio.html)
+"Prerequisites" and "Installation steps" until step 4.
 
 ## Installing Istio Auth
 
@@ -72,8 +73,9 @@ The following command creates a namespace *istio-system* and deploys the cluster
 kubectl apply -f install/kubernetes/templates/istio-auth/istio-cluster-ca.yaml
 ```
 
-### Deploying other services
+### Deploying other Istio components
 
+Other Istio components should be deployed in the same namespace with your application.
 The following command will enable
 [mTLS](https://en.wikipedia.org/wiki/Mutual_authentication)
 for the services in the "default" namespace,
@@ -81,10 +83,20 @@ and the services are able to use the cluster-level CA deployed in the last step.
 Use the parameter *-n yournamespace* to specify a namespace other than the default one.
 
 ```bash
-kubectl apply -f install/kubernetes/templates/istio-auth/isio-auth-with-cluster-ca.yaml
+kubectl apply -f install/kubernetes/templates/istio-auth/istio-auth-with-cluster-ca.yaml
 ```
 
-Follow [the general Istio installation guide]({{home}}/docs/tasks/installing-istio.html) from step 5.
+### Deploying your applicaiton
+
+You can now deploy your own application, or one of the sample applications provided with the installation,
+for example [BookInfo]({{home}}/docs/samples/bookinfo.html).
+
+To deploy the application, use [istioctl kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject)
+to automatically inject Envoy containers in your application pods:
+
+```bash
+kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
+```
 
 ## Verifying Istio Auth setup
 
