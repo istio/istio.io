@@ -3,17 +3,14 @@ title: Blog
 overview: The Istio blog.
 layout: blog
 ---
+# The Istio Blog
+
 {% for post in paginator.posts %}
-	<a href="{{home}}{{ post.url }}"><h4  id="{{post.id}}" class="post-title">{{ post.title }}</h4></a>
+	<a href="{{home}}{{ post.url }}"><h4 id="{{post.id}}" class="post-title">{{ post.title }}</h4></a>
 
 	<div class="post-date">
 		{{ post.date | date: '%B %d, %Y' }}
 	</div>
-
-	{% if post.thumbnail %}
-	<div class="post-thumbnail" style="background-image: url({{post.thumbnail}})">
-	</div>
-	{% endif %}
 
 	<div class="post-author-company">
 		{% if post.author %}
@@ -21,19 +18,12 @@ layout: blog
 			{{ post.author}}
 		</div>
 		{% endif %}
-
-		{% if post.company %}
-		<div class="post-company">
-			<a href={{post.company-link}} target="_blank">
-				{{ post.company}}
-			</a>
-		</div>
-		{% endif %}
 	</div>
 
 	<div class="post-excerpt">
 		{{ post.excerpt }}
 	</div>
+
 	<div class="read-more">
 		<a href="{{home}}{{ post.url }}"><span class="read-more-text">Read More</span></a>
 	</div>

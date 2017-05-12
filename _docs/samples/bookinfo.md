@@ -50,6 +50,8 @@ This application is polyglot, i.e., the microservices are written in different l
 
    ```bash
    cd istio
+   ```
+   ```bash
    source istio.VERSION
    ```
 
@@ -166,10 +168,11 @@ This application is polyglot, i.e., the microservices are written in different l
    
    Step 1: get the details pod name
    ```bash
-   kubectl get pods | grep details 
+   kubectl get pods -l app=details 
    ```
    ```bash
-   details-v1-4184313719-5mxjc       2/2       Running   0          18h
+   NAME                          READY     STATUS    RESTARTS   AGE
+   details-v1-4184313719-5mxjc   2/2       Running   0          23h
    ```
 
    Make sure the pod is "Running".
@@ -182,15 +185,15 @@ This application is polyglot, i.e., the microservices are written in different l
    Step 3: make sure the key/cert is in /etc/certs/ directory
    ```bash
    ls /etc/certs/ 
-   ````
+   ```
    ```bash
    cert-chain.pem   key.pem 
-   ```` 
+   ``` 
    
    Step 4: send requests to another service, for example, productpage.
    ```bash
    curl https://productpage:9080 -v --key /etc/certs/key.pem --cert /etc/certs/cert-chain.pem -k
-   ````
+   ```
    ```bash
    ...
    < HTTP/1.1 200 OK
@@ -200,8 +203,8 @@ This application is polyglot, i.e., the microservices are written in different l
    < date: Thu, 11 May 2017 18:59:42 GMT
    < x-envoy-upstream-service-time: 2
    ...
-   ````
-   The service name and port are defined [here](https://github.com/istio/istio/blob/master/demos/apps/bookinfo/bookinfo.yaml).
+   ```
+   The service name and port are defined [here](https://github.com/istio/istio/blob/master/samples/apps/bookinfo/bookinfo.yaml).
    
    Note that '-k' option above is to disable service cert verification. Otherwise the curl command will not work. The reason is that in Istio cert, there is no service name, which is the information curl needs to verify service identity. To verify service identity, Istio uses service account, please refer to [here](https://istio.io/docs/concepts/network-and-auth/auth.html) for more information.
 
