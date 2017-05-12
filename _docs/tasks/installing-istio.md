@@ -84,6 +84,12 @@ default namespace. They can be modified for deployment in a different namespace.
    ```bash
    cp ../../istioctl/osx/istioctl  /usr/local/bin/ # or anywhere in your $PATH
    ```
+   
+   If your need to use `sudo`:
+   ```bash
+   sudo sh -c "curl ${ISTIOCTL_URL}/istioctl-osx > /usr/local/bin/istioctl"
+   sudo chmod +x /usr/local/bin/istioctl
+   ```
 
    `istioctl` is needed to inject Envoy as a sidecar proxy. It also provides a convenient CLI for creating routing rules and policies.
 
