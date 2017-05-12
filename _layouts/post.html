@@ -1,32 +1,26 @@
 ---
-layout: base
+layout: default
 ---
-<div class="nav-hero-container">
-  {% include nav.html %}
-</div>
+{% include home.html %}
 
-<div class="container markdown">
+<div class="container">
   <div class="row">
-    <div class="col-md-11 nofloat center-block">
-      <div class="col-sm-12">
-        <article class="post-wrapper">
-          <h1>{{ page.title }}</h1>
-          <div class="postdate">
-            Posted on {{ page.date | date: "%A, %B %d %Y" }}.
-          </div>
-          <div class="content">
-            {{ content }}
-          </div>
+    <div class="col-sm-12 col-md-10 col-lg-7 nofloat center-block {{page.type}}">
+      <article class="post-wrapper">
+        <h1>{{ page.title }}</h1>
+        <div class="postdate">
+          Posted on {{ page.date | date: "%A, %B %d %Y" }}.
+        </div>
+        <div class="content">
+          {{ content }}
+        </div>
 
-          {% if page.attribution %}
-          <div class="content-attribution">
-             {{ page.attribution }}
-          </div>
-          {% endif %}
-        </article>
-      </div>
+        {% if page.attribution %}
+        <div class="content-attribution">
+           {{ page.attribution }}
+        </div>
+        {% endif %}
+      </article>
     </div>
   </div>
 </div>
-
-{% include footer.html %}
