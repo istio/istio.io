@@ -202,7 +202,7 @@ This application is polyglot, i.e., the microservices are written in different l
    < x-envoy-upstream-service-time: 2
    ...
    ```
-   The service name and port are defined [here](https://github.com/istio/istio/blob/master/demos/apps/bookinfo/bookinfo.yaml).
+   The service name and port are defined [here](https://github.com/istio/istio/blob/master/samples/apps/bookinfo/bookinfo.yaml).
    
    Note that '-k' option above is to disable service cert verification. Otherwise the curl command will not work. The reason is that in Istio cert, there is no service name, which is the information curl needs to verify service identity. To verify service identity, Istio uses service account, please refer to [here](https://istio.io/docs/concepts/network-and-auth/auth.html) for more information.
 
