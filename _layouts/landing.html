@@ -1,31 +1,6 @@
 ---
-layout: base
+layout: default
 ---
 {% include home.html %}
 
-<div class="nav-hero-container">
-	{% include nav.html %}
-
-	<div class="hero">
-		<div class="container">
-			<img class="logo" src="{{home}}/img/logo.png" alt="Istio">
-			<h1 class="hero-lead">An open platform to connect, manage, and secure microservices</h1>
-		</div>
-	</div>
-</div>
-
 {{ content }}
-
-<div id="doc-call" class="container-fluid doc-call-container ">
-	<div class="row doc-call-row">
-		<div class="col-md-10 nofloat center-block">
-			<div class="col-sm-9 text-center nofloat center-block">
-				<h2 class="doc-call-title">Want to learn more?</h2>
-				<p class="doc-call-text"> Get started by learning Istio concepts and doing our BookInfo sample.</p>
-				<a href="{{home}}/docs"><button class="btn btn-istio btn-doc-call">GET STARTED</button></a>
-			</div>
-		</div>
-	</div>
-</div>
-
-{% include footer.html %}
