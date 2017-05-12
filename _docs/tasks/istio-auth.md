@@ -39,14 +39,14 @@ without extra trust setup.
 
 **Per-namespace CA**:
 
-[The Istio installation guide](./installing-istio.html#installing-on-an-existing-cluster)
+[The Istio installation guide]({{home}}/docs/tasks/installing-istio.html#installing-on-an-existing-cluster)
 with "With Istio Auth" in step 4 instructs enabling Istio Auth with per-namespace CA.
 
 An Istio CA is deployed in each Kubernetes namespace that enables Istio Auth.
 This CA issues certificates and keys to all pods in the same namespace.
 This approach is convenient for doing experiments.
 Because each Istio CA is scoped within a namespace, Istio CAs in different namespaces will not interfere with each other
-and they are easy to [uninstall](./installing-istio.html#uninstalling).
+and they are easy to [uninstall]({{home}}/docs/tasks/installing-istio.html#uninstalling).
 
 ## Before you begin
 
@@ -55,7 +55,7 @@ This task assumes you have:
 * Disabled Istio Auth (if you enabled it) for all namespaces in the Kubernetes cluster.
 Otherwise, this process will deploy a CA that conflicts with existing CAs.
 
-* Completed steps 1 - 3 in [the Istio installation guide](./installing-istio.html#installing-on-an-existing-cluster).
+* Completed steps 1 - 3 in [the Istio installation guide]({{home}}/docs/tasks/installing-istio.html#installing-on-an-existing-cluster).
 
 ## Enabling Istio Auth
 
@@ -78,7 +78,7 @@ Use the parameter *-n yournamespace* to specify a namespace other than the defau
 kubectl apply -f templates/istio-auth/isio-auth-per-cluster-ca.yaml
 ```
 
-Follow [the general Istio installation guide](./installing-istio.html) from step 5.
+Follow [the general Istio installation guide]({{home}}/docs/tasks/installing-istio.html) from step 5.
 
 ## Disabling Istio Auth
 
