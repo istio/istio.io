@@ -24,7 +24,7 @@ service or, alternatively, to simply enable direct calls to an external service.
 
 * Start a service pod that you can use as a test source for external calls.
   Any pod that you can `exec` and `curl` from will do, for example,
-  the [sleep sample](https://github.com/istio/istio/tree/master/demos/apps/sleep) 
+  the [sleep sample](https://github.com/istio/istio/tree/master/samples/apps/sleep)
   is a good choice.
 
 ## Using the Istio Egress service

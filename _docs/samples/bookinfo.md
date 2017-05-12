@@ -58,7 +58,7 @@ This application is polyglot, i.e., the microservices are written in different l
 1. Change your current working directory to the `bookinfo` application directory:
 
    ```bash
-   cd demos/apps/bookinfo
+   cd samples/apps/bookinfo
    ```
 
 1. Bring up the application containers:
