@@ -9,8 +9,8 @@ type: markdown
 ---
 {% include home.html %}
 
-This task shows how to configure Istio Auth with **per-cluster Istio CA**.
-You'll learn how to do the following for Istio Auth with per-cluster Istio CA:
+Through this task,
+you will learn how to do the following for Istio Auth with **per-cluster Istio CA**:
 
 * Enable Istio Auth
 
@@ -18,9 +18,10 @@ You'll learn how to do the following for Istio Auth with per-cluster Istio CA:
 
 * Verify Istio Auth setup
 
-## Per-cluster CA VS. per-namespace CA
+## Per-cluster CA vs. per-namespace CA
 
-You need to learn the difference between per-cluster CA and per-namespace CA:
+There are two deployment modes for Istio CA, per-cluster and per-namespace.
+The following describes the differences between them.
 
 **Per-cluster CA**:
 
@@ -30,7 +31,7 @@ Only a single Istio CA is present in a Kubernetes cluster,
 which is always deployed in a dedicated namespace. The Istio CA issues certificates and keys to
 all pods in the Kubernetes cluster. It offers the following benefits:
 
-* In the near future, the dedicated namespace will use
+* In the near future, Istio will enforce the dedicated namespace to use
 [Kubernetes RBAC](https://kubernetes.io/docs/admin/authorization/rbac/) (beta in Kubernetes V1.6) to provide security
 boundary. This will offer strong security for Istio CA.
 
@@ -150,7 +151,7 @@ Use the parameter *-n yournamespace* to specify a namespace other than the defau
 
 3. Check Istio Auth is enabled on Envoy proxies.
 
-   When Istio Auth is enabled for a pod, *ssl_context* stanzas should be in the pod's proxy config.
+   When Istio Auth is enabled for a pod, the *ssl_context* stanzas should be in the pod's proxy config.
    The following commands verifies the proxy config on *app-pod* has *ssl_context* configured:
 
    ```bash
@@ -163,4 +164,4 @@ Use the parameter *-n yournamespace* to specify a namespace other than the defau
    kubectl exec <app-pod> -c proxy -- cat /etc/envoy/envoy-revX.json | grep ssl_context
    ```
 
-   If you see *ssl_context* lines in the output, the proxy has configured Isio auth.
+   If you see *ssl_context* lines in the output, the proxy has enabled Istio Auth.
