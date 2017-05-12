@@ -56,13 +56,13 @@ This task assumes you have:
 * Uninstalled Istio for the namespaces you plan to enable Istio Auth.
 To uninstall Istio, please follow the [uninstall instructions]({{home}}/docs/tasks/installing-istio.html#uninstalling).
 
-* Disabled Istio Auth for all namespaces in the Kubernetes cluster.
+* Not enabled Istio Auth for any namespace in the Kubernetes cluster.
 Otherwise, this process will deploy a CA that conflicts with existing CAs.
 
-* Completed [the Istio installation task]({{home}}/docs/tasks/installing-istio.html)
-"Prerequisites" and "Installation steps" until step 4.
+* Completed "Prerequisites" and "Installation steps" until step 4
+in [the Istio installation task]({{home}}/docs/tasks/installing-istio.html)
 
-## Installing Istio Auth
+## Installing Istio with Auth
 
 ### Deploying CA
 
@@ -153,7 +153,7 @@ Use the parameter *-n yournamespace* to specify a namespace other than the defau
 
    If you see *ssl_context* lines in the output, the proxy has enabled Istio Auth.
 
-## Uninstalling Istio Auth
+## Uninstalling Istio with Auth
 
 This section shows how to uninstall the cluster-level Istio CA and Istio that
 uses the cluster-level Istio CA.
