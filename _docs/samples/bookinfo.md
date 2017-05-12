@@ -148,6 +148,11 @@ This application is polyglot, i.e., the microservices are written in different l
    gcloud compute firewall-rules create allow-book --allow tcp:31201
    ```
 
+   If loadbalancers are not supported, or the ADDRESS field remains empty, use the service NodePort instead:
+   ```bash
+   export GATEWAY_URL=$(kubectl get po -l istio=ingress -o jsonpath={.items[0].status.hostIP}):$(kubectl get svc istio-ingress -o jsonpath={.spec.ports[0].nodePort})
+   ```
+
 1. Confirm that the BookInfo application is running by opening in your browser http://$GATEWAY_URL/productpage , or with the following `curl` command:
 
    ```bash
