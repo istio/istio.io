@@ -17,14 +17,14 @@ This page shows how to install and configure Istio in a Kubernetes cluster.
 
 * If you are using [Google Container Engine](https://cloud.google.com/container-engine), please make sure you are using static client certificates before fetching cluster credentials:
 
-  ```bash
-  gcloud config set container/use_client_certificate True
-  ```
+   ```bash
+   gcloud config set container/use_client_certificate True
+   ```
 
   Find out your cluster name and zone, and fetch credentials:
-  ```bash
-  gcloud container clusters get-credentials <cluster-name> --zone <zone> --project <project-name>
-  ```
+   ```bash
+   gcloud container clusters get-credentials <cluster-name> --zone <zone> --project <project-name>
+   ```
 
 * Install the Kubernetes client [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/), or upgrade to the latest version supported by your cluster.
 
@@ -35,9 +35,9 @@ This page shows how to install and configure Istio in a Kubernetes cluster.
 For the {{ site.data.istio.version }} release, Istio must be installed in the same Kubernetes namespace as the applications. Instructions below will deploy Istio in the
 default namespace. They can be modified for deployment in a different namespace.
 
-1. Go to the [istio release page](https://github.com/istio/istio/releases), to download the installation file corresponding to your OS.
+1. Go to the [Istio release](https://github.com/istio/istio/releases) page, to download the installation file corresponding to your OS.
 
-2. Extract the installation file, and change directory to the location where the files were extracted. All instructions on this website are relative to this installation directory.
+2. Extract the installation file, and change directory to the location where the files were extracted. Following instructions are relative to this installation directory.
    The installation directory contains:
     * yaml installation files for Kubernetes
     * sample apps
@@ -65,18 +65,18 @@ enabled:
 
     * Install Istio without enabling [Istio Auth](https://istio.io/docs/concepts/network-and-auth/auth.html) feature:
 
-       ```bash
-       kubectl apply -f install/kubernetes/istio.yaml
-       ```
-        This command will install Istio-Manager, Mixer, Ingress-Controller, Egress-Controller core components.
+   ```bash
+   kubectl apply -f install/kubernetes/istio.yaml
+   ```
+   This command will install Istio-Manager, Mixer, Ingress-Controller, Egress-Controller core components.
 
    * Install Istio and enable [Istio Auth](https://istio.io/docs/concepts/network-and-auth/auth.html) feature:
 
-       ```bash
-       kubectl apply -f install/kubernetes/istio-auth.yaml
-       ```
+   ```bash
+   kubectl apply -f install/kubernetes/istio-auth.yaml
+   ```
 
-        This command will install Istio-Manager, Mixer, Ingress-Controller, and Egress-Controller, and the Istio CA (Certificate Authority).
+   This command will install Istio-Manager, Mixer, Ingress-Controller, and Egress-Controller, and the Istio CA (Certificate Authority).
 
 
 5. *Optional:* To view metrics collected by Mixer, install [Prometheus](https://prometheus.io), [Grafana](http://staging.grafana.org) or
@@ -158,9 +158,9 @@ When deploying the application, you must
 use [istioctl kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject) to automatically inject
 Envoy containers in your application pods:
 
-```bash
-kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
-```
+   ```bash
+   kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
+   ```
 
 ## Uninstalling
 
@@ -168,25 +168,24 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 
    * If Istio was installed without Istio auth feature:
 
-       ```bash
-       kubectl delete -f install/kubernetes/istio.yaml
-       ```
+   ```bash
+   kubectl delete -f install/kubernetes/istio.yaml
+   ```
 
    * If Istio was installed with auth feature enabled:
 
-       ```bash
-       kubectl delete -f install/kubernetes/istio-auth.yaml
-       ```
+   ```bash
+   kubectl delete -f install/kubernetes/istio-auth.yaml
+   ```
 2. Uninstall RBAC Istio roles:
    * If beta version was installed:
-       ```bash
-       kubectl delete -f istio-rbac-beta.yaml
-       ```
+   ```bash
+   kubectl delete -f istio-rbac-beta.yaml
+   ```
    * If alpha version was installed:
-       ```bash
-       kubectl delete -f istio-rbac-alpha.yaml
-       ```
-
+   ```bash
+   kubectl delete -f istio-rbac-alpha.yaml
+   ```
 
 ## What's next
 
