@@ -49,20 +49,20 @@ This application is polyglot, i.e., the microservices are written in different l
 1. Source the Istio configuration file from the root of the installation directory:
 
    ```bash
-   cd istio
-   source istio.VERSION
+   $ cd istio
+   $ source istio.VERSION
    ```
 
 1. Change your current working directory to the `bookinfo` application directory:
 
    ```bash
-   cd demos/apps/bookinfo
+   $ cd demos/apps/bookinfo
    ```
 
 1. Bring up the application containers:
 
    ```bash
-   kubectl apply -f <(istioctl kube-inject -f bookinfo.yaml)
+   $ kubectl apply -f <(istioctl kube-inject -f bookinfo.yaml)
    ```
 
    The above command launches four microservices and creates the gateway
@@ -84,7 +84,7 @@ This application is polyglot, i.e., the microservices are written in different l
 1. Confirm all services and pods are correctly defined and running:
 
    ```bash
-   kubectl get services
+   $ kubectl get services
    ```
 
    which produces the following output:
@@ -104,7 +104,7 @@ This application is polyglot, i.e., the microservices are written in different l
    and
 
    ```bash
-   kubectl get pods
+   $ kubectl get pods
    ```
    
    which produces
@@ -125,7 +125,7 @@ This application is polyglot, i.e., the microservices are written in different l
 1. Determine the gateway ingress URL:
 
    ```bash
-   kubectl get ingress -o wide
+   $ kubectl get ingress -o wide
    ```
    
    ```bash
@@ -133,7 +133,7 @@ This application is polyglot, i.e., the microservices are written in different l
    gateway   *         130.211.10.121          80        1d
    ```
    ```bash
-   export GATEWAY_URL=130.211.10.121:80
+   $ export GATEWAY_URL=130.211.10.121:80
    ```
 
    If your Kubernetes cluster is running in an environment that supports external load balancers, like for instance GKE, and the Istio ingress service was able
@@ -144,19 +144,19 @@ This application is polyglot, i.e., the microservices are written in different l
    You can use any of these addresses to access the ingress, but if the cluster has a firewall, you will also need to create a firewall rule
    to allow TCP traffic to the NodePort. For instance, in GKE, create a firewall rule with these commands:
    ```bash
-   kubectl get svc istio-ingress -o jsonpath='{.spec.ports[0].nodePort}'
+   $ kubectl get svc istio-ingress -o jsonpath='{.spec.ports[0].nodePort}'
    ```
    ```bash
    31201
    ```
    ```bash
-   gcloud compute firewall-rules create allow-book --allow tcp:31201
+   $ gcloud compute firewall-rules create allow-book --allow tcp:31201
    ```
 
 1. Confirm that the BookInfo application is running by opening in your browser http://$GATEWAY_URL/productpage , or with the following `curl` command:
 
    ```bash
-   curl -o /dev/null -s -w "%{http_code}\n" http://$GATEWAY_URL/productpage
+   $ curl -o /dev/null -s -w "%{http_code}\n" http://$GATEWAY_URL/productpage
    ```
    ```bash
    200
@@ -166,31 +166,32 @@ This application is polyglot, i.e., the microservices are written in different l
    
    Step 1: get the details pod name
    ```bash
-   kubectl get pods | grep details 
+   $ kubectl get pods -l app=details 
    ```
    ```bash
-   details-v1-4184313719-5mxjc       2/2       Running   0          18h
+   NAME                          READY     STATUS    RESTARTS   AGE
+   details-v1-4184313719-5mxjc   2/2       Running   0          23h
    ```
 
    Make sure the pod is "Running".
 
    Step 2: ssh into the envoy container 
    ```bash
-   kubectl exec -it details-v1-4184313719-5mxjc -c proxy /bin/bash 
+   $ kubectl exec -it details-v1-4184313719-5mxjc -c proxy /bin/bash 
    ```
 
    Step 3: make sure the key/cert is in /etc/certs/ directory
    ```bash
-   ls /etc/certs/ 
-   ````
+   $ ls /etc/certs/ 
+   ```
    ```bash
    cert-chain.pem   key.pem 
-   ```` 
+   ``` 
    
    Step 4: send requests to another service, for example, productpage.
    ```bash
-   curl https://productpage:9080 -v --key /etc/certs/key.pem --cert /etc/certs/cert-chain.pem -k
-   ````
+   $ curl https://productpage:9080 -v --key /etc/certs/key.pem --cert /etc/certs/cert-chain.pem -k
+   ```
    ```bash
    ...
    < HTTP/1.1 200 OK
@@ -200,8 +201,8 @@ This application is polyglot, i.e., the microservices are written in different l
    < date: Thu, 11 May 2017 18:59:42 GMT
    < x-envoy-upstream-service-time: 2
    ...
-   ````
-   The service name and port are defined [here](https://github.com/istio/istio/blob/master/demos/apps/bookinfo/bookinfo.yaml).
+   ```
+   The service name and port are defined [here](https://github.com/istio/istio/blob/master/samples/apps/bookinfo/bookinfo.yaml).
    
    Note that '-k' option above is to disable service cert verification. Otherwise the curl command will not work. The reason is that in Istio cert, there is no service name, which is the information curl needs to verify service identity. To verify service identity, Istio uses service account, please refer to [here](https://istio.io/docs/concepts/network-and-auth/auth.html) for more information.
 
@@ -211,7 +212,7 @@ This application is polyglot, i.e., the microservices are written in different l
    
    Get the external IP Address (and port) of the servicegraph service:
    ```bash
-   kubectl get svc servicegraph 
+   $ kubectl get svc servicegraph 
    ```
    ```bash
    NAME           CLUSTER-IP      EXTERNAL-IP       PORT(S)          AGE
@@ -245,12 +246,12 @@ inject faults, rate limit services, etc..
 1. Delete the routing rules and terminate the application pods
 
    ```bash
-   ./cleanup.sh
+   $ ./cleanup.sh
    ```
 
 1. Confirm shutdown
 
    ```bash
-   istioctl get route-rules   #-- there should be no more routing rules
-   kubectl get pods           #-- the BookInfo pods should be deleted
+   $ istioctl get route-rules   #-- there should be no more routing rules
+   $ kubectl get pods           #-- the BookInfo pods should be deleted
    ```
