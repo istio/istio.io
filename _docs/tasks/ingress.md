@@ -140,14 +140,14 @@ to configure ingress behavior.
      rules:
      - http:
          paths:
-         - path: /html
+         - path: /ip
            backend:
              serviceName: httpbin
              servicePort: 8000
    EOF
    ```
    
-   Notice that in this example we are only exposing httpbin's `/html` endpoint.
+   Notice that in this example we are only exposing httpbin's `/ip` endpoint.
    
    _Remark:_ Envoy currently only allows a single TLS secret in the ingress since SNI is not yet supported.
    
@@ -199,13 +199,10 @@ to configure ingress behavior.
 1. Access the secured httpbin service using _curl_:
 
    ```bash
-   curl -k https://$SECURE_INGRESS_URL/html
-   ```
-   
-   ```
-   <!DOCTYPE html>
-   <html>
-   ...
+   curl -k https://$SECURE_INGRESS_URL/ip
+   {
+     "origin": "129.42.161.35"
+   }
    ```
 
 
