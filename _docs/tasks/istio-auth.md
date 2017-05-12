@@ -24,6 +24,8 @@ You need to learn the difference between per-cluster CA and per-namespace CA:
 
 **Per-cluster CA**:
 
+This task focuses on Istio Auth with per-cluster CA.
+
 Only a single Istio CA is present in a Kubernetes cluster,
 which is always deployed in a dedicated namespace. The Istio CA issues certificates and keys to
 all pods in the Kubernetes cluster. It offers the following benefits:
@@ -35,18 +37,16 @@ boundary. This will offer strong security for Istio CA.
 * Services in the same Kubernetes cluster but different namespaces are able to talk to each other through Istio Auth
 without extra trust setup.
 
-This task focuses on Istio Auth with per-cluster CA.
-
 **Per-namespace CA**:
+
+[The Istio installation guide](./installing-istio.html#installing-on-an-existing-cluster)
+with "With Istio Auth" in step 4 instructs enabling Istio Auth with per-namespace CA.
 
 An Istio CA is deployed in each Kubernetes namespace that enables Istio Auth.
 This CA issues certificates and keys to all pods in the same namespace.
 This approach is convenient for doing experiments.
 Because each Istio CA is scoped within a namespace, Istio CAs in different namespaces will not interfere with each other
 and they are easy to [uninstall](./installing-istio.html#uninstalling).
-
-[The Istio installation guide](./installing-istio.html#installing-on-an-existing-cluster)
-with "With Istio Auth" in step 4 instructs enabling Istio Auth with per-namespace CA.
 
 ## Before you begin
 
@@ -112,7 +112,9 @@ kubectl replace -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 
 ## Verifying Istio Auth setup
 
-To verify the per-cluster CA is running in namespace *istio-system*:
+### Verifying Istio CA
+
+Verify the per-cluster CA is running in namespace *istio-system*:
 
 ```bash
 kubectl get pods -n istio-system
@@ -123,35 +125,42 @@ NAME                      READY     STATUS    RESTARTS   AGE
 istio-ca-11513534-q3dz1   1/1       Running   0          45s
 ```
 
-Verify AuthPolicy setting in ConfigMap in the default namespace:
+### Verifying service configuration
 
-```bash
-kubectl get configmap istio -o yaml | grep authPolicy
-```
+The following commands assume the services are deployed in the default namespace.
+Use the parameter *-n yournamespace* to specify a namespace other than the default one.
 
-Istio Auth is enabled if the line "authPolicy: MUTUAL\_TLS" is uncommented.
+1. Verify AuthPolicy setting in ConfigMap.
 
-Check the certificate and key files are mounted onto the application pod *app-pod*:
+   ```bash
+   kubectl get configmap istio -o yaml | grep authPolicy
+   ```
 
-```bash
-kubectl exec <app-pod> -c proxy -- ls /etc/certs
-```
+   Istio Auth is enabled if the line "authPolicy: MUTUAL\_TLS" is uncommented.
 
-```bash
-cert-chain.pem key.pem root-cert.pem
-```
+2. Check the certificate and key files are mounted onto the application pod *app-pod*.
 
-When Istio Auth is enabled for a pod, *ssl_context* stanzas should be in the pod's proxy config.
-The following commands verifies the proxy config on *app-pod* has *ssl_context* configured:
+   ```bash
+   kubectl exec <app-pod> -c proxy -- ls /etc/certs
+   ```
 
-```bash
-kubectl exec <app-pod> -c proxy -- ls /etc/envoy
-```
+   ```bash
+   cert-chain.pem key.pem root-cert.pem
+   ```
 
-Get the config file named "envoy-revX.json", and use the file name in the following command:
+3. Check Istio Auth is enabled on Envoy proxies.
 
-```bash
-kubectl exec <app-pod> -c proxy -- cat /etc/envoy/envoy-revX.json | grep ssl_context
-```
+   When Istio Auth is enabled for a pod, *ssl_context* stanzas should be in the pod's proxy config.
+   The following commands verifies the proxy config on *app-pod* has *ssl_context* configured:
 
-You should see ssl\_context lines in the output.
+   ```bash
+   kubectl exec <app-pod> -c proxy -- ls /etc/envoy
+   ```
+
+   The output should contain the config file "envoy-revX.json". Use the file name in the following command:
+
+   ```bash
+   kubectl exec <app-pod> -c proxy -- cat /etc/envoy/envoy-revX.json | grep ssl_context
+   ```
+
+   If you see *ssl_context* lines in the output, the proxy has configured Isio auth.
