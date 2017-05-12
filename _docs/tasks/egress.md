@@ -42,7 +42,7 @@ from within your Istio cluster. In this task we will use
    apiVersion: v1
    kind: Service
    metadata:
-    name: httpbin
+    name: externalbin
    spec:
     type: ExternalName
     externalName: httpbin.org
@@ -90,7 +90,7 @@ HTTP or port `443` for HTTPS.
    above followed by the path to the desired API endpoint:
 
    ```bash
-   curl http://httpbin/headers
+   curl http://externalbin/headers
    ```
 
 3. For external services of type HTTPS, the port must be specified in the request.
@@ -132,7 +132,7 @@ On Google Container Engine (GKE) the ranges are not fixed, so you will
 need to run the `gcloud container clusters describe` command to determine the ranges to use. For example:
 
 ```bash
-gcloud container clusters describe benchmark-alpha --zone=us-central1-a | grep -e clusterIpv4Cidr -e servicesIpv4Cidr
+gcloud container clusters describe XXXXXXX --zone=XXXXXX | grep -e clusterIpv4Cidr -e servicesIpv4Cidr
 ```
 ```
 clusterIpv4Cidr: 10.4.0.0/14
