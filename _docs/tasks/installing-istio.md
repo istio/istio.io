@@ -77,8 +77,8 @@ enabled:
    This command will install Istio-Manager, Mixer, Ingress-Controller, Egress-Controller core components.
 
    * Install Istio and enable [Istio Auth]({{home}}/docs/concepts/network-and-auth/auth.html) feature
-   (This deploys a CA in the namespace and enables mTLS between services.
-   For more information, please see [Istio Auth installation guide]({{home}}/docs/tasks/istio-auth.html)):
+   (This deploys a CA in the namespace and enables
+   [mTLS](https://en.wikipedia.org/wiki/Mutual_authentication) between the services):
 
    ```bash
    kubectl apply -f install/kubernetes/istio-auth.yaml
@@ -198,3 +198,5 @@ Envoy containers in your application pods:
 ## What's next
 
 * See the sample [BookInfo]({{home}}/docs/samples/bookinfo.html) application.
+
+* See [alternative Istio Auth installation]({{home}}/docs/tasks/istio-auth.html) with cluster-level CA.
