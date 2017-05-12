@@ -63,14 +63,14 @@ enabled:
 4. Install Istio's core components .
    There are two mutually exclusive options at this stage:
 
-    * Install Istio without enabling [Istio Auth](https://istio.io/docs/concepts/network-and-auth/auth.html) feature:
+    * Install Istio without enabling [Istio Auth]({{home}}/docs/concepts/network-and-auth/auth.html) feature:
 
    ```bash
    kubectl apply -f install/kubernetes/istio.yaml
    ```
    This command will install Istio-Manager, Mixer, Ingress-Controller, Egress-Controller core components.
 
-   * Install Istio and enable [Istio Auth](https://istio.io/docs/concepts/network-and-auth/auth.html) feature
+   * Install Istio and enable [Istio Auth]({{home}}/docs/concepts/network-and-auth/auth.html) feature
    (This deploys a CA in the namespace and enables mTLS between services.
    For more information, please see [Istio Auth installation guide]({{home}}/docs/tasks/istio-auth.html)):
 
