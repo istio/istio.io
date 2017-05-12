@@ -155,8 +155,7 @@ Use the parameter *-n yournamespace* to specify a namespace other than the defau
 
 ## Uninstalling Istio with Auth
 
-This section shows how to uninstall the cluster-level Istio CA and Istio that
-uses the cluster-level Istio CA.
+This section shows how to uninstall the cluster-level Istio CA and other Istio components.
 
 ### Uninstalling the cluster-level Istio CA
 
