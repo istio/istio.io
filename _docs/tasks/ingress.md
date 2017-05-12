@@ -13,18 +13,19 @@ In a Kubernetes environment,
 Istio uses [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/services-networking/ingress/)
 to configure ingress behavior.
 
+
 ## Before you begin
 
 * Setup Istio by following the instructions in the
   [Installation guide](./installing-istio.html).
   
-* Make sure your current directory is the `istio` root directory.
+* Make sure your current directory is the `istio` directory.
   
-* Start the [httpbin](https://github.com/istio/istio/tree/master/demos/apps/httpbin) sample,
+* Start the [httpbin](https://github.com/istio/istio/tree/master/samples/apps/httpbin) sample,
   which will be used as the destination service to be exposed externally.
 
   ```bash
-  kubectl apply -f <(istioctl kube-inject -f demos/apps/httpbin/httpbin.yaml)
+  kubectl apply -f <(istioctl kube-inject -f samples/apps/httpbin/httpbin.yaml)
   ```
 
 ## Configuring ingress (HTTP)
@@ -153,14 +154,14 @@ to configure ingress behavior.
      rules:
      - http:
          paths:
-         - path: /html
+         - path: /ip
            backend:
              serviceName: httpbin
              servicePort: 8000
    EOF
    ```
    
-   Notice that in this example we are only exposing httpbin's `/html` endpoint.
+   Notice that in this example we are only exposing httpbin's `/ip` endpoint.
    
    _Remark:_ Envoy currently only allows a single TLS secret in the ingress since SNI is not yet supported.
    
@@ -214,13 +215,13 @@ to configure ingress behavior.
 1. Access the secured httpbin service using _curl_:
 
    ```bash
-   curl -k https://$SECURE_INGRESS_URL/html
+   curl -k https://$SECURE_INGRESS_URL/ip
    ```
    
    ```
-   <!DOCTYPE html>
-   <html>
-   ...
+   {
+     "origin": "129.42.161.35"
+   }
    ```
 
 
@@ -284,7 +285,7 @@ to set a timeout rule on calls to the httpbin service.
    Although httpbin was waiting 5 seconds, Istio cut off the request at 3 seconds.
 
 
-## Understanding ingress
+## Understanding ingresses
 
 Ingresses provide gateways for external traffic to enter the Istio service mesh
 and make the traffic management and policy features of Istio available for edge services.
@@ -294,16 +295,23 @@ to expose both HTTP and HTTPS endpoints of the service to external traffic.
 We also showed how to control the ingress traffic using an Istio route rule.
 
 
+## Cleanup
+
+1. Remove the secret, Ingress Resource definitions and Istio rule.
+    
+   ```bash
+   istioctl delete route-rule httpbin-3s-rule 
+   kubectl delete ingress istio-ingress secured-ingress 
+   kubectl delete secret ingress-secret
+   ```
+
+1. Shutdown the [httpbin](https://github.com/istio/istio/tree/master/samples/apps/httpbin) service.
+
+   ```
+   kubectl delete -f samples/apps/httpbin/httpbin.yaml
+   ```
+
 ## What's next
-
-* Cleanup the resources created in this task.
-
-  ```bash
-  istioctl delete route-rule httpbin-3s-rule
-  kubectl delete ingress secure-ingress
-  kubectl delete ingress simple-ingress
-  kubectl delete -f demos/apps/httpbin/httpbin.yaml
-  ``` 
 
 * Learn more about [routing rules]({{home}}/docs/concepts/traffic-management/rules-configuration.html).
 
