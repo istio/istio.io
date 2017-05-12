@@ -23,8 +23,8 @@ This task shows how to use Istio to control access to a service.
   commands:
   
   ```bash
-  istioctl create -f route-rule-all-v1.yaml
-  istioctl replace -f route-rule-reviews-v2-v3.yaml
+  istioctl create -f samples/apps/bookinfo/route-rule-all-v1.yaml
+  istioctl replace -f samples/apps/bookinfo/route-rule-reviews-v2-v3.yaml
   ```
 
 * Ensure that you can use [istioctl mixer]({{home}}/docs/reference/commands/istioctl/istioctl_mixer.html#synopsis) by setting up port forwarding if needed.
