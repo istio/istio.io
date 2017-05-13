@@ -35,8 +35,10 @@ route requests to all available versions of a service in a random fashion.
 
    You can display the routes that are defined with the following command:
 
-   ```yaml
+   ```bash
    istioctl get route-rules -o yaml
+   ```
+   ```yaml
    type: route-rule
    name: ratings-default
    namespace: default
