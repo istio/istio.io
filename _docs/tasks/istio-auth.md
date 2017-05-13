@@ -66,7 +66,7 @@ The following command creates  namespace *istio-system* and deploys CA into the 
 kubectl apply -f ./kubernetes/istio-auth/istio-cluster-ca.yaml
 ```
 
-#### <a name="istioconfig"></a>Enabling Istio Auth in Istio config
+#### Enabling Istio Auth in Istio config
 
 The following command uncomments the line *authPolicy: MUTUAL_TLS* in the file *kubernetes/istio-X.yaml*,
 and backs up the original file as *istio-X.yaml.bak*
