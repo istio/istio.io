@@ -17,14 +17,13 @@ This page shows how to install and configure Istio in a Kubernetes cluster.
 
 * If you are using [Google Container Engine](https://cloud.google.com/container-engine), please make sure you are using static client certificates before fetching cluster credentials:
 
-   ```bash
-   gcloud config set container/use_client_certificate True
-   ```
-
+  ```bash
+  gcloud config set container/use_client_certificate True
+  ```
   Find out your cluster name and zone, and fetch credentials:
-   ```bash
-   gcloud container clusters get-credentials <cluster-name> --zone <zone> --project <project-name>
-   ```
+  ```bash
+  gcloud container clusters get-credentials <cluster-name> --zone <zone> --project <project-name>
+  ```
 
 * Install the Kubernetes client [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/), or upgrade to the latest version supported by your cluster.
 
@@ -164,9 +163,9 @@ When deploying the application, you must
 use [istioctl kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject) to automatically inject
 Envoy containers in your application pods:
 
-   ```bash
-   kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
-   ```
+```bash
+kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
+```
 
 ## Uninstalling
 

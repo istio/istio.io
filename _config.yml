@@ -6,6 +6,8 @@ kramdown:
   hard_wrap: false
   syntax_highlighter: rouge
 
+highlighter: rouge
+
 baseurl:
 
 liquid:
