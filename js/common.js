@@ -58,55 +58,6 @@ $(document).ready(function() {
       $('html, body').scrollTo(('#' +($(this).data("target"))), 350);
     })
 
-    // Invoke slick JS carousel 
-    // Detailed documentation: http://kenwheeler.github.io/slick/
-    $('.pt-container').slick({
-      arrows: true,
-      dots: false,
-      autoplay: false,
-      infinite: true,
-      slidesToShow: 4,
-      slidesToScroll: 1, 
-      responsive: [
-        {
-          breakpoint: 1024,
-          settings: {
-            slidesToShow: 3,
-            dots: false,
-            arrows: true 
-          }
-        },
-        {
-          breakpoint: 800,
-          settings: {
-            slidesToShow: 3,
-            dots: true,
-            arrows: false
-          }
-        },
-        {
-          breakpoint: 600,
-          settings: {
-            slidesToShow: 2,
-            dots: true,
-            arrows: false
-          }
-        },
-        {
-          breakpoint: 480,
-          settings: {
-            slidesToShow: 1,
-            dots: true,
-            arrows: false
-          }
-        }
-      ]
-    });                
-
-    $('.slick-next').on('click', function() {
-      $('.slick-prev').addClass('active');
-    });
-
     $('#toc').toc({ listType: 'ul' });
 
     $('.nav-toggle, .hamburger').on('click', function(){
@@ -118,14 +69,6 @@ $(document).ready(function() {
     });
 
     $(window).on('resize',function(){
-       //send resize event to slick after it's been destroyed
-      $('.pt-container').slick('resize');
-
-      //reset event listener on resize
-      $('.slick-next').on('click', function() {
-        $('.slick-prev').addClass('active');
-      });
-
       if ($(window).width() >= 768 && !($('.top-nav').hasClass('right'))) {
         $('.top-nav').addClass('right');
       }
