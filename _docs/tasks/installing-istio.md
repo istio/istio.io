@@ -55,11 +55,13 @@ enabled:
    ```bash
    kubectl api-versions | grep rbac
    ```
-   * If the command displays an error, or does not display anything, it means the cluster does not support RBAC, and you can proceed to step 4.
+   * If the command displays an error, or does not display anything, it means the cluster does not support RBAC, and you can proceed to step 5 below.
+   
    * If the command displays 'beta' version, or both 'alpha' and 'beta', please apply istio-rbac-beta.yaml configuration:
    ```bash
    kubectl apply -f install/kubernetes/istio-rbac-beta.yaml
    ```
+   
    * If the command displays only 'alpha' version, please apply istio-rbac-alpha.yaml configuration:
    ```bash
    kubectl apply -f install/kubernetes/istio-rbac-alpha.yaml
@@ -73,6 +75,7 @@ enabled:
    ```bash
    kubectl apply -f install/kubernetes/istio.yaml
    ```
+   
    This command will install Istio-Manager, Mixer, Ingress-Controller, Egress-Controller core components.
 
    * Install Istio and enable [Istio Auth](https://istio.io/docs/concepts/network-and-auth/auth.html) feature:
