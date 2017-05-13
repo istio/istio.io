@@ -1,6 +1,6 @@
 ---
-title: Collecting Zipkin Trace Spans
-overview: How to configure the proxies to send tracing spans to Zipkin
+title: Distributed Request Tracing
+overview: How to configure the proxies to send tracing requests to Zipkin
 
 order: 120
 
@@ -9,22 +9,20 @@ type: markdown
 ---
 {% include home.html %}
 
-This task shows you how to use [pre-merge builds](https://github.com/lyft/envoy/pull/905) (ie, not in the master yet, and not released) of [Istio proxy](https://github.com/lyft/envoy/pull/905) to collect trace spans using [Zipkin](http://zipkin.io). The intent is for this functionality to eventually be in official releases and not have to "hack" this into our deployments. After completing this task, you should have a working example of application proxies sending span information to a sample Zipkin service.
+This task shows you how to configure [Istio proxy](https://github.com/istio/proxy) and related components to collect trace spans using [Zipkin](http://zipkin.io). After completing this task, you should understand all of the assumptions about your application and how to have it participate in tracing, regardless of what language/framework/platform you use to build your application.
 
 
-The [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application is used as the example application throughout this task.
+The [BooiInfo]({{home}}/docs/samples/bookinfo.html) sample application is used as the example application throughout this task.
 
 ## Before you begin
 
 To use the Zipkin implementation, we'll need to do the following pre-work:
 
 * Install the Zipkin service
-* Configure the core Istio components to use un-released builds that contain pre-merge PR work for Zipkin 
-
-Again, the fact that we're using pre-released builds is just temporary; we'll update this task when the appropriate implementations have been released.
+* Configure Istio components to use Zipkin 
 
 
-These steps are intended to be run when you install Istio's components. Please see the [task for installing Istio]({{home}}/docs/tasks/installing-istio.html)
+These steps are intended to be run when you install Istio's core components. Please see the [task for installing Istio]({{home}}/docs/tasks/installing-istio.html)
 
 #### Install the Zipkin service
 
@@ -44,19 +42,30 @@ First, let's install the Zipkin service so that our components/proxies can send 
     
 You can contine to install the `addons` as instructed in the [task for installing Istio]({{home}}/docs/tasks/installing-istio.html)
 
-#### Configure Istio installation for Zipkin
+#### Configure Istio components to use Zipkin 
 
-In Step 4 of [Installing Istio]({{home}}/docs/tasks/installing-istio.html), we try to apply the `istio.yaml` file which contains the core components of Istio.
+In step 4 of [Installing Istio]({{home}}/docs/tasks/installing-istio.html), we try to apply the `istio.yaml` file which contains the core components of Istio.
 
 Note: When we install the components for using Zipkin, we will not treat the RBAC scenarios; these steps work when RBAC is NOT enabled for your Kubernetes cluster.
 
-Instead of `kubectl apply -f istio.yaml`, we're going to use a version of Istio configured to use Zipkin and use components that have been built with Zipkin support. You can either edit the `istio.yaml` file directly, apply [this patch](https://gist.github.com/christian-posta/d6192ada85ed65a8a99047e38f2779e0) or just use this command which uses the patched `istio.yaml` file directly:
+Observe that when we are installing the core Istio components, that we're configuring the manager's discovery service to find Zipkin running at `zipkin:9411`. That means when the manager configures proxies, they'll know to send spans to that configured location:
 
-```bash
-curl -sL https://gist.github.com/christian-posta/6674463d77e4ee11c5a8067380960b60/raw | kubectl apply -f -
+```yaml
+# Manager service for discovery
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: istio
+data:
+  mesh: |-
+    mixerAddress: istio-mixer:9091
+    discoveryAddress: istio-manager:8080
+    ingressService: istio-ingress
+    zipkinAddress: zipkin:9411
 ```
 
-After running these steps, your Istio components should be Zipkin-aware and you should be able to open the Zipkin console. The easiest way to get access to the Zipkin console is by first port-forwarding the Zipkin pod's http port to your machine and viewing it on localhost:
+When you've completed installing the Zipkin service (from above) and step 4 of [Installing Istio]({{home}}/docs/tasks/installing-istio.html), you should be ready to test out the Zipkin dashboard. First, locate the URL (if using an public IP) or try doing a port-forward with the `kubectl` client:
+
 
 ```bash
 kubectl port-forward $(kubectl get pod -l app=zipkin -o jsonpath='{.items[0].metadata.name}') 9411:9411
@@ -65,26 +74,9 @@ kubectl port-forward $(kubectl get pod -l app=zipkin -o jsonpath='{.items[0].met
 Then open your browser at [http://localhost:9411](http://localhost:9411)
 
 
+## Setting up the Bookinfo Sample
 
-## Setting up the Bookinfo sample
-
-Now that the Istio components are Zipkin aware, we need to [install the Bookinfo sample]({{home}}/docs/samples/bookinfo.html) with Istio proxies that have a Zipkin implementation. Pleaes review the [installation steps for Bookinfo]({{home}}/docs/samples/bookinfo.html). 
-
-For step 3 in the instructions, where we try to `kube-inject` the `bookinfo.yaml` resource, we're going to alter that slightly to inject proxies that are Zipkin aware. Instead of:
-
-```bash
-kubectl apply -f <(istioctl kube-inject -f bookinfo.yaml)
-```
-
-We're going to run this command:
-
-```bash
-kubectl apply -f <(istioctl kube-inject --hub docker.io/ijsnellf --tag zipkin -f bookinfo.yaml) | sed s/proxy_debug/proxy/g)
-```
-
-That command switches out the repo that we use to find the proxy, switches to the zipkin tag, and the massages out the proxy_debug references because there are no proxy_debug:zipkin images. 
-
-At this point, you should have the components for the Bookinfo demo installed and injected with proxies capable of sending Zipkin spans. Feel free to continue on with the demo, invoking the productpage website, and observe the span information in the Zipkin console. You should see something similar to this output:
+Now that Zipkin is running and the Istio components are configured to make the proxies Zipkin-aware, we need to [install the Bookinfo sample]({{home}}/docs/samples/bookinfo.html) demo. Please review the [installation steps for Bookinfo]({{home}}/docs/samples/bookinfo.html). Feel free to continue on with the demo, invoking the productpage website, and observe the span information in the Zipkin console. You should see something similar to this output:
 
 ![Zipkin Istio Dashboard](./img/zipkin_dashboard.png)
 
@@ -92,7 +84,70 @@ If you click into a trace you should see the following:
 
 ![Zipkin Istio Dashboard](./img/zipkin_span.png)
 
-Do note that the service names are not populated correctly... yet.
+## Understanding What Happened
+
+Although the proxies are able to automatically send spans to Zipkin, they'll need some hints to tie together the entire trace. We'll need to propogate the appropriate HTTP headers so that when the proxies send span information to Zipkin, the spans can be correlated correctly into a single trace.
+
+To do this, our application needs to collect and propogate the following headers from the incoming request to any outgoing requests:
+
+* `x-request-id`
+* `x-b3-traceid`
+* `x-b3-spanid`
+* `x-b3-parentspanid`
+* `x-b3-sampled`
+* `x-b3-flags`
+* `x-ot-span-context`
+
+If you look in the sample applications, you can see that the product-age application (Python) extracts the required headers from an HTTP request:
+
+```python
+def getForwardHeaders(request):
+    headers = {}
+
+    user_cookie = request.cookies.get("user")
+    if user_cookie:
+        headers['Cookie'] = 'user=' + user_cookie
+
+    incoming_headers = [ 'x-request-id',
+                         'x-b3-traceid',
+                         'x-b3-spanid',
+                         'x-b3-parentspanid',
+                         'x-b3-sampled',
+                         'x-b3-flags',
+                         'x-ot-span-context'
+    ]
+
+    for ihdr in incoming_headers:
+        val = request.headers.get(ihdr)
+        if val is not None:
+            headers[ihdr] = val
+            #print "incoming: "+ihdr+":"+val
+
+    return headers
+```
+
+The reviews application (Java) does something similar:
+ 
+```java
+    @GET
+    @Path("/reviews")
+    public Response bookReviews(@CookieParam("user") Cookie user,
+                                @HeaderParam("x-request-id") String xreq,
+                                @HeaderParam("x-b3-traceid") String xtraceid,
+                                @HeaderParam("x-b3-spanid") String xspanid,
+                                @HeaderParam("x-b3-parentspanid") String xparentspanid,
+                                @HeaderParam("x-b3-sampled") String xsampled,
+                                @HeaderParam("x-b3-flags") String xflags,
+                                @HeaderParam("x-ot-span-context") String xotspan) {
+      String r1 = "";
+      String r2 = "";
+
+      if(ratings_enabled){
+        JsonObject ratings = getRatings(user, xreq, xtraceid, xspanid, xparentspanid, xsampled, xflags, xotspan);
+``` 
+
+
+When you make downstream calls, make sure to include those headers.
 
 ## What's next
 
