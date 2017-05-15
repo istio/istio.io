@@ -301,7 +301,7 @@ We also showed how to control the ingress traffic using an Istio route rule.
     
    ```bash
    istioctl delete route-rule httpbin-3s-rule 
-   kubectl delete ingress istio-ingress secured-ingress 
+   kubectl delete ingress simple-ingress secured-ingress 
    kubectl delete secret ingress-secret
    ```
 
@@ -310,6 +310,7 @@ We also showed how to control the ingress traffic using an Istio route rule.
    ```
    kubectl delete -f samples/apps/httpbin/httpbin.yaml
    ```
+
 
 ## What's next
 
