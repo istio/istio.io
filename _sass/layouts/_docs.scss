@@ -1,12 +1,4 @@
 .docs {
-    *[id]:before {
-        display: block;
-        content: " ";
-        margin-top: -1em;
-        height: 1em;
-        visibility: hidden;
-    }
-
     .copy-button {
         cursor: pointer;
         border: none;

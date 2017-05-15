@@ -10,10 +10,6 @@ footer {
     padding: 15px 0 35px;
 
     ul {
-      li {
-        display: none;
-      }
-
       &.active li {
         display: initial;
       }

@@ -24,7 +24,7 @@ service or, alternatively, to simply enable direct calls to an external service.
 
 * Start a service pod that you can use as a test source for external calls.
   Any pod that you can `exec` and `curl` from will do, for example,
-  the [sleep sample](https://github.com/istio/istio/tree/master/demos/apps/sleep) 
+  the [sleep sample](https://github.com/istio/istio/tree/master/samples/apps/sleep)
   is a good choice.
 
 ## Using the Istio Egress service
@@ -42,7 +42,7 @@ from within your Istio cluster. In this task we will use
    apiVersion: v1
    kind: Service
    metadata:
-    name: httpbin
+    name: externalbin
    spec:
     type: ExternalName
     externalName: httpbin.org
@@ -90,7 +90,7 @@ HTTP or port `443` for HTTPS.
    above followed by the path to the desired API endpoint:
 
    ```bash
-   curl http://httpbin/headers
+   curl http://externalbin/headers
    ```
 
 3. For external services of type HTTPS, the port must be specified in the request.
@@ -119,27 +119,27 @@ The values used for internal IP range(s), however, depends on where your cluster
 For example, with Minikube the range is 10.0.0.1/24, so you would start the sleep service like this:
 
 ```bash
-kubectl apply -f <(istioctl kube-inject -f sleep.yaml --includeIPRanges=10.0.0.1/24)
+kubectl apply -f <(istioctl kube-inject -f samples/apps/sleep/sleep.yaml --includeIPRanges=10.0.0.1/24)
 ```
 
 On IBM Bluemix, use:
 
 ```bash
-kubectl apply -f <(istioctl kube-inject -f sleep.yaml --includeIPRanges=172.30.0.0/16,172.20.0.0/16)
+kubectl apply -f <(istioctl kube-inject -f samples/apps/sleep/sleep.yaml --includeIPRanges=172.30.0.0/16,172.20.0.0/16)
 ```
 
 On Google Container Engine (GKE) the ranges are not fixed, so you will
 need to run the `gcloud container clusters describe` command to determine the ranges to use. For example:
 
 ```bash
-gcloud container clusters describe benchmark-alpha --zone=us-central1-a | grep -e clusterIpv4Cidr -e servicesIpv4Cidr
+gcloud container clusters describe XXXXXXX --zone=XXXXXX | grep -e clusterIpv4Cidr -e servicesIpv4Cidr
 ```
 ```
 clusterIpv4Cidr: 10.4.0.0/14
 servicesIpv4Cidr: 10.7.240.0/20
 ```
 ```bash
-kubectl apply -f <(istioctl kube-inject -f sleep.yaml --includeIPRanges=10.4.0.0/14,10.7.240.0/20)
+kubectl apply -f <(istioctl kube-inject -f samples/apps/sleep/sleep.yaml --includeIPRanges=10.4.0.0/14,10.7.240.0/20)
 ```
 
 After starting your service this way, the Istio sidecar will only intercept and manage internal requests
