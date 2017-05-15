@@ -1,5 +1,14 @@
 // Background for nav and hero
 .nav-hero-container {
+    *[id]:before {
+      display: block;
+      content: " ";
+      margin-top: -1em;
+      height: 1em;
+      visibility: hidden;
+    }
+
+
   background: $mainBrandColor linear-gradient(to right, $mainBrandColor, $secondBrandColor) no-repeat center/cover;
   z-index: 9010;
   position: relative;
