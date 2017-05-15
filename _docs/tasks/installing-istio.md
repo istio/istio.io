@@ -38,7 +38,7 @@ default namespace. They can be modified for deployment in a different namespace.
    ```bash
    curl -L https://git.io/getIstio | sh -
    ``` 
-   to get the latest automatically downloaded and extracted (on MacOS and Ubuntu).
+   to download and extract the latest release automatically (on MacOS and Ubuntu).
 
 1. Extract the installation file, and change directory to the location where the files were extracted. Following instructions are relative to this installation directory.
    The installation directory contains:
