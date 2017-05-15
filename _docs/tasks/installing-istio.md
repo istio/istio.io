@@ -43,7 +43,7 @@ default namespace. They can be modified for deployment in a different namespace.
     * the `istioctl` client binary, needed to inject Envoy as a sidecar proxy, and useful for creating routing rules and policies.
     * the istio.VERSION configuration file.
 
-1. Add the `istioctl` client to your PATH. For example, run the following commands on a Unix or Mac system:
+1. Add the `istioctl` client to your PATH. For example, run the following commands on a Linux or MacOS system:
 
    ```bash
    export PATH=$PWD/bin:$PATH
