@@ -258,3 +258,7 @@ Config API to add support for creating new descriptors.
 * Discover the full [Attribute Vocabulary]({{home}}/docs/reference/config/mixer/attribute-vocabulary.html).
 
 * Read the reference guide to [Writing Config]({{home}}/docs/reference/writing-config.html).
+
+* If you are not planning to explore any follow-on tasks, refer to the
+  [BookInfo cleanup]({{home}}/docs/samples/bookinfo.html#cleanup) instructions
+  to shutdown the application and cleanup the associated rules.
