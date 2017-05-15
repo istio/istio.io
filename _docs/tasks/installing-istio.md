@@ -201,7 +201,7 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 
 3. Delete Istio Kubernetes [TPRs](https://kubernetes.io/docs/tasks/access-kubernetes-api/extend-api-third-party-resource):
        ```bash
-       kubectl delete -f istioconfigs --all-namespaces
+       kubectl delete -f istioconfigs --all
        ```
 
 ## What's next
