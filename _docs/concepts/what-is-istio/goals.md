@@ -8,7 +8,7 @@ layout: docs
 type: markdown
 ---
 
-This page the core principles that guide Istio's design.
+This page outlines the core principles that guide Istio's design.
 
 Istio’s architecture is informed by a few key design goals that are essential to making the system capable of dealing with services at scale and with high 
 performance.
@@ -36,8 +36,3 @@ The application of policy to API calls between services provides a great deal of
 policies to resources which are not necessarily expressed at the API level. For example applying quota to the amount of CPU consumed by a ML training task 
 is more useful than applying quota to the call which initiated the work. To this end the policy system is maintained as a distinct service with its own API 
 rather than being baked into the proxy/sidecar, allowing services to directly integrate with it as needed.
-
-## What's next
-
-* Read Istio's [overview](./overview.html).
-* Explore Istio's [high-level architecture](./architecture.html).
