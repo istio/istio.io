@@ -16,7 +16,7 @@ the links below:
 - [Concepts]({{home}}/docs/concepts/). Concepts explain some significant aspect of Istio. This
 is where you can learn about what Istio does and how it does it.
 
-- [Tasks]({{home}}/docs/tasks/). Tasks show you how to do a single directed activity with Istio.
+- [Tasks]({{home}}/docs/tasks/). Tasks show you how to do a single directed activity with Istio. Starting with [downloading and installing]({{home}}/docs/tasks/installing-istio.html) Istio.
 
 - [Samples]({{home}}/docs/samples/). Samples are fully working stand-alone examples
 intended to highlight a particular set of Istio's features.
