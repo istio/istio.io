@@ -239,9 +239,12 @@ This application is polyglot, i.e., the microservices are written in different l
 Now that you have the BookInfo sample up and running, you can use Istio to control traffic routing,
 inject faults, rate limit services, etc..
 
-* To get started, check out the [request routing task]({{home}}/docs/tasks/request-routing.html)
+To get started, check out the [request routing task]({{home}}/docs/tasks/request-routing.html)
 
-* When you're finished experimenting with the BookInfo sample, you can uninstall it as follows:
+
+## Cleanup
+
+When you're finished experimenting with the BookInfo sample, you can uninstall it as follows:
 
 1. Delete the routing rules and terminate the application pods
 
