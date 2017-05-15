@@ -202,10 +202,10 @@ This application is polyglot, i.e., the microservices are written in different l
    < x-envoy-upstream-service-time: 2
    ...
    ```
-   The service name and port are defined [here](https://github.com/istio/istio/blob/master/samples/apps/bookinfo/bookinfo.yaml).
+   The service name and port are defined[here](https://github.com/istio/istio/blob/master/samples/apps/bookinfo/bookinfo.yaml).
    
-   Note that '-k' option above is to disable service cert verification. Otherwise the curl command will not work. The reason is that in Istio cert, there is no service name, which is the information curl needs to verify service identity. To verify service identity, Istio uses service account, please refer to [here](https://istio.io/docs/concepts/network-and-auth/auth.html) for more information.
-
+    Note that the '-k' option above is to disable server cert verification. In this way, curl (i.e., the client) will not verify productpage's (i.e., the server) cert. Otherwise curl will not work. The reason is that Istio auth uses different server cert verification mechanism than curl. For more information, please refer to the[secure naming](https://istio.io/docs/concepts/network-and-auth/auth.html#communication-security).
+   
 1. If you have installed the Istio addons, in particular the servicegraph addon, from the
    [Installation guide]({{home}}/docs/tasks/installing-istio.html), a generated servicegraph
    of the cluster is available.
