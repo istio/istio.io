@@ -47,10 +47,10 @@ default namespace. They can be modified for deployment in a different namespace.
     * the `istioctl` client binary, needed to inject Envoy as a sidecar proxy, and useful for creating routing rules and policies.
     * the istio.VERSION configuration file.
 
-1. Add the `istioctl` client to your PATH. For example, run the following commands on a Mac system:
+1. Add the `istioctl` client to your PATH. For example, run the following commands on a Linux or MacOS system:
 
    ```bash
-   sudo ln -s $PWD/istioctl /usr/local/bin/
+   export PATH=$PWD/bin:$PATH
    ```
 
 1. Run the following command to determine if your cluster has [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/)
