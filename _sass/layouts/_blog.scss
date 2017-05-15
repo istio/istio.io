@@ -72,27 +72,28 @@
   }
 
   .read-more {
-    font-size: 14px;
-    margin: $spacing--xl 0;
+      font-size: 14px;
+      margin: $spacing--xl 0;
 
-    .read-more-text::after {
-      background: url('../img/more-arrow.svg') no-repeat center/contain;
-      content: '';
-      display: inline-block;
-      height: 24px;
-      margin: 0 0 0 10px;
-      vertical-align: middle;
-      width: 24px;
-    }
+      .read-more-text::after {
+        background: url('../img/more-arrow.svg') no-repeat center/contain;
+        content: '';
+        display: inline-block;
+        height: 24px;
+        margin: 0 0 0 10px;
+        vertical-align: middle;
+        width: 24px;
+      }
 
-    .read-more-text {
-      &:hover {
-        &:after {
-          background: url('../img/more-arrow-dark.svg') no-repeat center/contain;
+      .read-more-text {
+        &:hover {
+          &:after {
+            background: url('../img/more-arrow-dark.svg') no-repeat center/contain;
+          }
         }
       }
-    }
   }
+
   .pagination {
     padding-bottom: $spacing--xxl;
     width: 100%;
