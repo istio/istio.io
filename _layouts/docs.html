@@ -14,6 +14,8 @@ layout: default
   margin-left: -15px;
   margin-top: -2px;
   margin-right: 10px;
+  font-size: 1rem;
+  color: black;
 }
 
 #sidebar-container {
@@ -31,9 +33,11 @@ layout: default
           <div id="sidebar-container" class="col-sm-3">
             {% include doc-side-nav.html %}
           </div>
+          <div class="col-xs-1">
+            <span id="sidebar-tab" class="pull-left glyphicon glyphicon-chevron-left"></span>
+          </div>
           <div id="content-container" class="col-sm-9 {{ page.type }}">
             <div id="toc" class=""></div>
-            <span id="sidebar-tab" class="pull-left glyphicon glyphicon-chevron-left"></span>
             <h1>{{page.title}}</h1>
             {{ content }}
           </div>
