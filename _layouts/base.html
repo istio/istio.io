@@ -61,12 +61,7 @@ layout: compress
     <![endif]-->
   </head>
 
-  {% if page.bodyclass == nil %}
-  <body class="{{page.layout}}">
-  {% else %}
-  <body class="{{page.bodyclass}}">
-  {% endif %}
-
+  <body>
   <script src="{{home}}/js/navtree.js"></script>
 
   	{{ content }}
