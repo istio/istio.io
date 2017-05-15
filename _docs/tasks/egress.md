@@ -22,10 +22,14 @@ service or, alternatively, to simply enable direct calls to an external service.
 * Setup Istio by following the instructions in the
   [Installation guide](./installing-istio.html).
 
-* Start a service pod that you can use as a test source for external calls.
-  Any pod that you can `exec` and `curl` from will do, for example,
-  the [sleep sample](https://github.com/istio/istio/tree/master/samples/apps/sleep)
-  is a good choice.
+* Start the [sleep](https://github.com/istio/istio/tree/master/samples/apps/sleep) sample
+  which will be used as a test source for external calls.
+  
+  ```bash
+  kubectl apply -f <(istioctl kube-inject -f samples/apps/sleep/sleep.yaml)
+  ```
+
+  Note that any pod that you can `exec` and `curl` from would do.
 
 ## Using the Istio Egress service
 
@@ -166,6 +170,22 @@ of the cluster.
 The second approach bypasses the Istio sidecar proxy, giving your services direct access to any
 external URL. However, configuring the proxy this way does require
 cloud provider specific knowledge and configuration.
+
+
+## Cleanup
+
+1. Remove the external services.
+    
+   ```bash
+   kubectl delete service externalbin securegoogle 
+   ```
+
+1. Shutdown the [sleep](https://github.com/istio/istio/tree/master/samples/apps/sleep) service.
+
+   ```
+   kubectl delete -f samples/apps/sleep/sleep.yaml
+   ```
+
 
 ## What's next
 
