@@ -92,7 +92,8 @@ enabled:
 
 
 1. *Optional:* To view metrics collected by Mixer, install [Prometheus](https://prometheus.io), [Grafana](http://staging.grafana.org) or
-ServiceGraph addons.
+ServiceGraph addons. To enable distributed request tracing, install
+[Zipkin](https://zipkin.io) addon.
 
    *Note 1*: The Prometheus addon is *required* as a prerequisite for Grafana and the ServiceGraph addons.
 
@@ -100,11 +101,12 @@ ServiceGraph addons.
    kubectl apply -f install/kubernetes/addons/prometheus.yaml
    kubectl apply -f install/kubernetes/addons/grafana.yaml
    kubectl apply -f install/kubernetes/addons/servicegraph.yaml
+   kubectl apply -f install/kubernetes/addons/zipkin.yaml
    ```
 
    The Grafana addon provides a dashboard visualization of the metrics by Mixer to a Prometheus instance.
 
-   The simplest way to access the Istio dashboard is to configure port-forwarding for the grafana service, as follows:
+   The simplest way to access the Istio dashboard in Grafana is to configure port-forwarding for the grafana service, as follows:
 
    ```bash
    kubectl port-forward $(kubectl get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000
@@ -116,8 +118,9 @@ ServiceGraph addons.
 
    ![Grafana Istio Dashboard](./img/grafana_dashboard.png)
 
-   *Note 2*: In some deployment environments, it will be possible to access the dashboard directly (without the `kubectl port-forward` command). This is because 
-   the default addon configuration requests an external IP address for the grafana service.
+   *Note 2*: In some deployment environments, it will be possible to access
+   the dashboard directly (without the `kubectl port-forward` command). 
+   This is because the default addon configuration requests an external IP address for the grafana service.
 
    When applicable, the external IP address for the grafana service can be retrieved via:
 
@@ -126,6 +129,15 @@ ServiceGraph addons.
    ```
 
    With the EXTERNAL-IP returned from that command, the Istio dashboard can be reached at `http://<EXTERNAL-IP>:3000/dashboard/db/istio-dashboard`.
+
+   *Note 3*: To access the Zipkin UI, configure port-forwarding for the zipkin service as follows:
+
+   ```bash
+   kubectl port-forward $(kubectl get pod -l app=zipkin -o jsonpath='{.items[0].metadata.name}') 9411:9411
+   ```
+
+   Then point your web browser at
+   [http://localhost:9411](http://localhost:9411) to access the Zipkin UI. You won't see any traces until you send requests to the application.
 
 ## Verifying the installation
 
