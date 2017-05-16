@@ -387,7 +387,7 @@ Used to report telemetry after performing an action.
 <a name="istio.mixer.v1.ReportResponse.result"></a>
  <tr>
   <td><code>result</code></td>
-  <td><a href="./status.status.html">Status</a></td>
+  <td><a href="./status.html">Status</a></td>
   <td>Indicates whether the report was processed or not</td>
  </tr>
 </table>

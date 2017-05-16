@@ -86,7 +86,7 @@ default namespace. They can be modified for deployment in a different namespace.
 1. Install Istio's core components .
    There are two mutually exclusive options at this stage:
 
-    * Install Istio without enabling [Istio Auth](https://istio.io/docs/concepts/network-and-auth/auth.html) feature:
+    * Install Istio without enabling [Istio Auth]({{home}}/docs/concepts/network-and-auth/auth.html) feature:
 
    ```bash
    kubectl apply -f install/kubernetes/istio.yaml
@@ -94,7 +94,9 @@ default namespace. They can be modified for deployment in a different namespace.
    
    This command will install Istio-Manager, Mixer, Ingress-Controller, Egress-Controller core components.
 
-   * Install Istio and enable [Istio Auth](https://istio.io/docs/concepts/network-and-auth/auth.html) feature:
+   * Install Istio and enable [Istio Auth]({{home}}/docs/concepts/network-and-auth/auth.html) feature
+   (This deploys a CA in the namespace and enables
+   [mTLS](https://en.wikipedia.org/wiki/Mutual_authentication) between the services):
 
    ```bash
    kubectl apply -f install/kubernetes/istio-auth.yaml
@@ -275,3 +277,5 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 ## What's next
 
 * See the sample [BookInfo]({{home}}/docs/samples/bookinfo.html) application.
+
+* See how to [test Istio Auth]({{home}}/docs/tasks/istio-auth.html).
