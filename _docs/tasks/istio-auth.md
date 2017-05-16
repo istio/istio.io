@@ -210,7 +210,7 @@ There are several steps:
    
 1. send requests to another service, for example, details.
    ```bash
-   curl https://details:9080 -v --key /etc/certs/key.pem --cert /etc/certs/cert-chain.pem -k
+   curl https://details:9080 -v --key /etc/certs/key.pem --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem -k
    ```
    ```bash
    ...
