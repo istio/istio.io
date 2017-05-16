@@ -71,7 +71,7 @@ istio-ca-11513534-q3dz1   1/1       Running   0          45s
 
 ## Testing Istio Auth
 
-When running Istio-enabled services, you can use curl in one service's
+When running Istio auth-enabled services, you can use curl in one service's
 envoy to send request to other services.
 For example, after starting the [BookInfo]({{home}}/docs/samples/bookinfo.html) 
 sample application you can ssh into the envoy container of `productpage` service, 
@@ -100,12 +100,14 @@ There are several steps:
    ls /etc/certs/ 
    ```
    ```bash
-   cert-chain.pem key.pem root-cert.pem
+   cert-chain.pem   key.pem   root-cert.pem
    ``` 
+   
+   Note that cert-chain.pem is envoy's cert that needs to present to the other side. key.pem is envoy's private key paired with cert-chain.pem. root-cert.pem is the root cert to verify the other side's cert. Currently we only have one CA, so all envoys have the same root-cert.pem.  
    
 1. send requests to another service, for example, details.
    ```bash
-   curl https://details:9080 -v --key /etc/certs/key.pem --cert /etc/certs/cert-chain.pem -k
+   curl https://details:9080 -v --key /etc/certs/key.pem --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem -k
    ```
    ```bash
    ...

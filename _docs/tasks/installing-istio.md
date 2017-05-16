@@ -22,11 +22,17 @@ This page shows how to install and configure Istio in a Kubernetes cluster.
   ```bash
   gcloud config set container/use_client_certificate True
   ```
-  Find out your cluster name and zone, and fetch credentials:
+  Find out your cluster name and zone, and fetch credentials for kubectl:
   ```bash
   gcloud container clusters get-credentials <cluster-name> --zone <zone> --project <project-name>
   ```
 
+* If you are using [IBM Bluemix Container Service](https://www.ibm.com/cloud-computing/bluemix/containers), find out your cluster name, and fetch credentials for kubectl:
+
+  ```bash
+  $(bx cs cluster-config <cluster-name>|grep "export KUBECONFIG")
+  ```
+  
 * Install the Kubernetes client [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/), or upgrade to the latest
   version supported by your cluster.
 
@@ -123,8 +129,12 @@ default namespace. They can be modified for deployment in a different namespace.
 
      The dashboard should look something like this:
 
-     ![Grafana Istio Dashboard](./img/grafana_dashboard.png)
-
+     {% include figure.html
+        file="./img/grafana_dashboard.png"
+        max-width="100%"
+        alt="Grafana Istio Dashboard"
+     %}
+     
      If your deployment environment provides external load balancers, you can simply access the dashboard directly
      (without the `kubectl port-forward` command) using the external IP address of the grafana service:
    
@@ -155,8 +165,11 @@ default namespace. They can be modified for deployment in a different namespace.
      sample application and executing the `curl` request to confirm it's working, the resulting service graph
      would look something like:
    
-     ![BookInfo service graph](./img/servicegraph.png)
-   
+     {% include figure.html
+        file="./img/servicegraph.png"
+        alt="BookInfo Service Graph"
+     %}
+     
      At that point the servicegraph would show very low (or zero) QPS values, as only a single request
      has been sent. The service uses a default time window of 5 minutes for calculating moving QPS averages.
      You can later send a more consistent flow of traffic through the example application and refresh the servicegraph
