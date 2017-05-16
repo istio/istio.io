@@ -8,6 +8,8 @@ layout: docs
 type: markdown
 ---
 
+This page describes how Istio load-balances traffic across instances of a service in a service mesh.
+
 **Service registration:** Istio assumes the presence of a service registry
 to keep track of the pods/VMs of a service in the application. It also
 assumes that new instances of a service are automatically registered with
