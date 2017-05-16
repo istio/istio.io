@@ -159,4 +159,4 @@ Mixer provides default definitions for commonly used
 
 * Learn more about [Mixer](./mixer.html) and [Mixer Config](./mixer-config.html).
 
-* Discover the full [Attribute Vocabulary]({{home}}/docs/reference/api/mixer/attribute-vocabulary.html).
+* Discover the full [Attribute Vocabulary]({{home}}/docs/reference/config/mixer/attribute-vocabulary.html).
