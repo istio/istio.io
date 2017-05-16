@@ -127,33 +127,31 @@ This application is polyglot, i.e., the microservices are written in different l
    NAME      HOSTS     ADDRESS                 PORTS     AGE
    gateway   *         130.211.10.121          80        1d
    ```
+
+   If your Kubernetes cluster is running in an environment that supports external load balancers,
+   and the Istio ingress service was able to obtain an External IP, the ingress resource ADDRESS will be equal to the
+   ingress service external IP.
+
    ```bash
    export GATEWAY_URL=130.211.10.121:80
    ```
+   
+   > Sometimes when the service is unable to obtain an external IP, the ingress ADDRESS may display a list
+   > of NodePort addresses. In this case, you can use any of the addresses, along with the NodePort, to access the ingress. 
+   > If, however, the cluster has a firewall, you will also need to create a firewall rule to allow TCP traffic to the NodePort.
+   > In GKE, for instance, you can create a firewall rule using the following command:
+   > ```bash
+   > gcloud compute firewall-rules create allow-book --allow tcp:$(kubectl get svc istio-ingress -o jsonpath='{.spec.ports[0].nodePort}')
+   > ```
 
-   If your Kubernetes cluster is running in an environment that supports external load balancers, like for instance GKE, and the Istio ingress service was able
-   to obtain an External IP, the ingress' resource IP Address will be equal to the ingress' service External IP.
-   You can directly use that IP Address in your browser to access the http://$GATEWAY_URL/productpage.
-
-   If the service did not obtain an External IP, the ingress' IP Address will display a list of NodePort addresses.
-   You can use any of these addresses to access the ingress, but if the cluster has a firewall, you will also need to create a firewall rule
-   to allow TCP traffic to the NodePort. For instance, in GKE, create a firewall rule with these commands:
-   ```bash
-   kubectl get svc istio-ingress -o jsonpath='{.spec.ports[0].nodePort}'
-   ```
-   ```bash
-   31201
-   ```
-   ```bash
-   gcloud compute firewall-rules create allow-book --allow tcp:31201
-   ```
-
-   If loadbalancers are not supported, or the ADDRESS field remains empty, use the service NodePort instead:
+   If your deployment environment does not support external load balancers (e.g., minikube), the ADDRESS field will be empty.
+   In this case you can use the service NodePort instead:
+   
    ```bash
    export GATEWAY_URL=$(kubectl get po -l istio=ingress -o jsonpath={.items[0].status.hostIP}):$(kubectl get svc istio-ingress -o jsonpath={.spec.ports[0].nodePort})
    ```
 
-1. Confirm that the BookInfo application is running by opening in your browser http://$GATEWAY_URL/productpage , or with the following `curl` command:
+1. Confirm that the BookInfo application is running with the following `curl` command:
 
    ```bash
    curl -o /dev/null -s -w "%{http_code}\n" http://$GATEWAY_URL/productpage
@@ -161,86 +159,13 @@ This application is polyglot, i.e., the microservices are written in different l
    ```bash
    200
    ```
-
-1. If you enabled auth and want to play with it, you can use curl from one envoy to send request to other services. For example, you want to ssh into the envoy container of details service, and send request to other services by curl. There are several steps:
    
-   Step 1: get the details pod name
-   ```bash
-   kubectl get pods -l app=details 
-   ```
-   ```bash
-   NAME                          READY     STATUS    RESTARTS   AGE
-   details-v1-4184313719-5mxjc   2/2       Running   0          23h
-   ```
-
-   Make sure the pod is "Running".
-
-   Step 2: ssh into the envoy container 
-   ```bash
-   kubectl exec -it details-v1-4184313719-5mxjc -c proxy /bin/bash 
-   ```
-
-   Step 3: make sure the key/cert is in /etc/certs/ directory
-   ```bash
-   ls /etc/certs/ 
-   ```
-   ```bash
-   cert-chain.pem   key.pem 
-   ``` 
-   
-   Step 4: send requests to another service, for example, productpage.
-   ```bash
-   curl https://productpage:9080 -v --key /etc/certs/key.pem --cert /etc/certs/cert-chain.pem -k
-   ```
-   ```bash
-   ...
-   < HTTP/1.1 200 OK
-   < content-type: text/html; charset=utf-8
-   < content-length: 1867
-   < server: envoy
-   < date: Thu, 11 May 2017 18:59:42 GMT
-   < x-envoy-upstream-service-time: 2
-   ...
-   ```
-   The service name and port are defined [here](https://github.com/istio/istio/blob/master/samples/apps/bookinfo/bookinfo.yaml).
-   
-   Note that Istio uses [Kubernetes service account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account) as service identity, which offers stronger security than service name (refer [here](https://istio.io/docs/concepts/network-and-auth/auth.html#identity) for more information). Thus the certificates used in Istio do not have service name, which is the information that curl needs to verify server identity. As a result, we use curl option '-k' to prevent the curl client from verifying service identity in server's (i.e., productpage) certificate. Please check secure naming [here](https://istio.io/docs/concepts/network-and-auth/auth.html#workflow) for more information about how the client verifies the server's identity in Istio.
-
-1. If you have installed the Istio addons, in particular the servicegraph addon, from the
-   [Installation guide]({{home}}/docs/tasks/installing-istio.html), a generated servicegraph
-   of the cluster is available.
-   
-   Get the external IP Address (and port) of the servicegraph service:
-   ```bash
-   kubectl get svc servicegraph 
-   ```
-   ```bash
-   NAME           CLUSTER-IP      EXTERNAL-IP       PORT(S)          AGE
-   servicegraph   10.75.240.195   104.196.248.114   8088:32556/TCP   23m
-   ```
-
-   The servicegraph service provides both a textual (JSON) representation (via `/graph`)
-   and a graphical visualization (via `/dotviz`) of the underlying servicegraph.
-   
-   To view the graphical visualization, visit `http://EXTERNAL-IP:PORT/dotviz` (here: 
-   http://104.196.248.114:8088/dotviz). After the single `curl` request from an earlier step, 
-   the resulting image will look something like:
-   
-   ![BookInfo service graph](./img/bookinfo/servicegraph.png)
-   
-   The servicegraph should show very low (or zero) QPS values, as only a single request has been sent. The
-   service uses a default time window of 5 minutes for calculating moving QPS averages. Send a consistent 
-   flow of traffic through the example application and refresh the servicegraph to view updated QPS values 
-   that match the generated level of traffic.
-
-
 ## What's next
 
-Now that you have the BookInfo sample up and running, you can use Istio to control traffic routing,
-inject faults, rate limit services, etc..
+Now that you have the BookInfo sample up and running, you can you can point your browser to `http://$GATEWAY_URL/productpage`
+to see the running application and use Istio to control traffic routing, inject faults, rate limit services, etc..
 
-To get started, check out the [request routing task]({{home}}/docs/tasks/request-routing.html)
-
+To get started, check out the [request routing task]({{home}}/docs/tasks/request-routing.html).
 
 ## Cleanup
 
