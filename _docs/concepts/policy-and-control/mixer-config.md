@@ -452,12 +452,4 @@ manifests:
 ## Examples
 
 You can find fully formed examples of Mixer configuration by visiting the [Samples]({{home}}/docs/samples). As
-a specific example, here is the [BookInfo configuration](https://github.com/istio/istio/tree/master/samples/apps/bookinfo).
-
-## Configuration API
-
-*TBD*
-
-## Configuration CLI
-
-*TBD*
+a specific example, here is the [Default configuration](https://github.com/istio/mixer/blob/master/testdata/configroot/scopes/global/subjects/global/rules.yml).
