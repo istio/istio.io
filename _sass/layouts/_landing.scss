@@ -26,8 +26,11 @@
 
     .jumbotron {
         margin: 0;
-        padding-left: 200px;
-        padding-right: 200px;
+
+        @media (min-width: $desktop-large) {
+          padding-left: 200px;
+          padding-right: 200px;
+        }
     }
 
     .traffic, .policy {

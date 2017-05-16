@@ -35,8 +35,10 @@ route requests to all available versions of a service in a random fashion.
 
    You can display the routes that are defined with the following command:
 
-   ```yaml
+   ```bash
    istioctl get route-rules -o yaml
+   ```
+   ```yaml
    type: route-rule
    name: ratings-default
    namespace: default
@@ -173,3 +175,7 @@ that we created exclusively for him:
 * Learn more about [request routing]({{home}}/docs/concepts/traffic-management/rules-configuration.html).
 
 * Test the BookInfo application resiliency by [injecting faults](./fault-injection.html).
+
+* If you are not planning to explore any follow-on tasks, refer to the
+  [BookInfo cleanup]({{home}}/docs/samples/bookinfo.html#cleanup) instructions
+  to shutdown the application and cleanup the associated rules.

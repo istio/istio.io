@@ -123,3 +123,7 @@ the timeout is specified in millisecond (instead of second) units.
 * Learn more about [failure handling]({{home}}/docs/concepts/traffic-management/handling-failures.html).
 
 * Learn more about [routing rules]({{home}}/docs/concepts/traffic-management/rules-configuration.html).
+
+* If you are not planning to explore any follow-on tasks, refer to the
+  [BookInfo cleanup]({{home}}/docs/samples/bookinfo.html#cleanup) instructions
+  to shutdown the application and cleanup the associated rules.
