@@ -141,7 +141,11 @@ as the example application throughout this task.
 
    The request from the previous step is reflected in the graphs. This looks similar to:
 
-   ![Istio Dashboard with Response Size data](./img/dashboard_response_size.png)
+   {% include figure.html
+       file="./img/dashboard_response_size.png"
+       max-width="100%"
+       alt="Istio Dashboard with Response Size Data"
+   %}
 
 1. Verify that the logs stream has been created and is being populated
    for requests.

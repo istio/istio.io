@@ -54,12 +54,17 @@ An Istio service mesh is logically split into a **data plane** and a **control p
 
 - The **data plane** is composed of a set of intelligent
 proxies (Envoy) deployed as sidecars that mediate and control all network communication between microservices.
+
 - The **control plane** is responsible for managing and 
 configuring proxies to route traffic, as well as enforcing policies at runtime.
 
 The following diagram shows the different components that make up each plane:
 
-<img src="./img/architecture/arch.svg" title="The overall architecture of an Istio-based application." />
+{% include figure.html
+    file="./img/architecture/arch.svg"
+    title="Istio Architecture"
+    alt="The overall architecture of an Istio-based application."
+%}
 
 ### Envoy
 
@@ -94,13 +99,12 @@ on service identity rather than network controls. Future releases of Istio will 
 and monitor who accesses your service, API, or resource, using a variety of access control mechanisms, including attribute and
 role-based access control as well as authorization hooks.
 
-
-
 ## What's next
 
 * Learn about Istio's [design goals](./goals.html).
+
 * Explore and try deploying our [sample application]({{home}}/docs/samples/bookinfo.html).
+
 * Read about Istio components in detail in our other [Concepts]({{home}}/docs/concepts/) guides.
+
 * Learn how to deploy Istio with your own services using our [Tasks]({{home}}/docs/tasks/) guides.
-
-
