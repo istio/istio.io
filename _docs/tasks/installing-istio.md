@@ -265,4 +265,4 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 
 * See the sample [BookInfo]({{home}}/docs/samples/bookinfo.html) application.
 
-* See [alternative Istio Auth installation]({{home}}/docs/tasks/istio-auth.html) with cluster-level CA.
+* See how to [test Istio Auth]({{home}}/docs/tasks/istio-auth.html).
