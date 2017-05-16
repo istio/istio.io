@@ -6,7 +6,7 @@ order: 201
 type: markdown
 ---
 
-<a name="mixs"></a>
+<a name="mixs_cmd"></a>
 ## mixs
 
 Mixer is Istio's abstraction on top of infrastructure backends.
