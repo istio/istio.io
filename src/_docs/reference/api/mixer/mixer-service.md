@@ -240,7 +240,7 @@ Used to verify preconditions before performing an action.
 <a name="istio.mixer.v1.CheckResponse.result"></a>
  <tr>
   <td><code>result</code></td>
-  <td><a href="/docs/reference/api/status.html">Status</a></td>
+  <td><a href="./status.html">Status</a></td>
   <td>Indicates whether or not the preconditions succeeded</td>
  </tr>
 <a name="istio.mixer.v1.CheckResponse.expiration"></a>
@@ -322,7 +322,7 @@ Used to verify preconditions before performing an action.
 <a name="istio.mixer.v1.QuotaResponse.result"></a>
  <tr>
   <td><code>result</code></td>
-  <td><a href="/docs/reference/api/status.html">Status</a></td>
+  <td><a href="./status.html">Status</a></td>
   <td>Indicates whether the quota request was successfully processed.</td>
  </tr>
 <a name="istio.mixer.v1.QuotaResponse.expiration"></a>
@@ -387,7 +387,7 @@ Used to report telemetry after performing an action.
 <a name="istio.mixer.v1.ReportResponse.result"></a>
  <tr>
   <td><code>result</code></td>
-  <td><a href="/docs/reference/api/status.html">Status</a></td>
+  <td><a href="./status.status.html">Status</a></td>
   <td>Indicates whether the report was processed or not</td>
  </tr>
 </table>

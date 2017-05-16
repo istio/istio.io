@@ -35,7 +35,7 @@ service or, alternatively, to simply enable direct calls to an external service.
 
 Using the Istio Egress service, you can access any publicly accessible service
 from within your Istio cluster. In this task we will use 
-[httpbin.org](http://httpbin.org) and [www.google.com](www.google.com) as examples.
+[httpbin.org](http://httpbin.org) and [www.google.com](http://www.google.com) as examples.
 
 ### Configuring the external services
 
