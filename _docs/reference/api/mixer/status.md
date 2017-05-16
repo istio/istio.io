@@ -29,7 +29,7 @@ programming environments, including REST APIs and RPC APIs. It is used by
 #### Overview
 The `Status` message contains three pieces of data: error code, error message,
 and error details. The error code should be an enum value of
-[google.rpc.Code](#google.rpc.Code), but it may accept additional error codes if needed.  The
+`google.rpc.Code`, but it may accept additional error codes if needed.  The
 error message should be a developer-facing English message that helps
 developers *understand* and *resolve* the error. If a localized user-facing
 error message is needed, put the localized message in the error details or
@@ -85,7 +85,7 @@ Example uses of this error model include:
  <tr>
   <td><code>code</code></td>
   <td>int32</td>
-  <td>The status code, which should be an enum value of <a href="#google.rpc.Code">google.rpc.Code</a>.</td>
+  <td>The status code, which should be an enum value of `google.rpc.Code`.</td>
  </tr>
 <a name="google.rpc.Status.message"></a>
  <tr>
