@@ -54,12 +54,17 @@ An Istio service mesh is logically split into a **data plane** and a **control p
 
 - The **data plane** is composed of a set of intelligent
 proxies (Envoy) deployed as sidecars that mediate and control all network communication between microservices.
+
 - The **control plane** is responsible for managing and 
 configuring proxies to route traffic, as well as enforcing policies at runtime.
 
 The following diagram shows the different components that make up each plane:
 
-<img src="./img/architecture/arch.svg" title="The overall architecture of an Istio-based application." />
+{% include figure.html
+    file="./img/architecture/arch.svg"
+    title="Istio Architecture"
+    alt="The overall architecture of an Istio-based application."
+%}
 
 ### Envoy
 
@@ -67,7 +72,11 @@ Istio uses an extended version of the [Envoy](https://lyft.github.io/envoy/) pro
 Istio leverages Envoy’s many built-in features such as dynamic service discovery, load balancing, TLS termination, HTTP/2 & gRPC proxying, circuit breakers,
 health checks, staged rollouts with %-based traffic split, fault injection, and rich metrics.
 
-Envoy is deployed as a **sidecar** to the relevant service in the same Kubernetes pod. This allows Istio to extract a wealth of signals about traffic behavior as [attributes]({{home}}/docs/concepts/policy-and-control/attributes.html), which in turn it can use in [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html) to enforce policy decisions, and be sent to monitoring systems to provide information about the behavior of the entire mesh. The sidecar proxy model also allows you to add Istio capabilities to an existing deployment with no need to rearchitect or rewrite code. You can read more about why we chose this approach in our [Design Goals]({{home}}/docs/concepts/goals.html).
+Envoy is deployed as a **sidecar** to the relevant service in the same Kubernetes pod. This allows Istio to extract a wealth of signals about traffic 
+behavior as [attributes]({{home}}/docs/concepts/policy-and-control/attributes.html), which in turn it can use in
+[Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html) to enforce policy decisions, and be sent to monitoring systems to
+provide information about the behavior of the entire mesh. The sidecar proxy model also allows you to add Istio capabilities to
+an existing deployment with no need to rearchitect or rewrite code. You can read more about why we chose this approach in our [Design Goals](./goals.html).
 
 ### Mixer
 
@@ -90,13 +99,12 @@ on service identity rather than network controls. Future releases of Istio will 
 and monitor who accesses your service, API, or resource, using a variety of access control mechanisms, including attribute and
 role-based access control as well as authorization hooks.
 
-
-
 ## What's next
 
 * Learn about Istio's [design goals](./goals.html).
+
 * Explore and try deploying our [sample application]({{home}}/docs/samples/bookinfo.html).
+
 * Read about Istio components in detail in our other [Concepts]({{home}}/docs/concepts/) guides.
+
 * Learn how to deploy Istio with your own services using our [Tasks]({{home}}/docs/tasks/) guides.
-
-

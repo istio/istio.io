@@ -16,6 +16,6 @@ best approach for different cases. See [here](/bugs/) if you're trying to figure
 a bug in Istio.
 
 |![Stack Overflow]({{home}}/img/stackoverflow.png)|[Stack Overflow](https://stackoverflow.com/questions/tagged/istio) is for practical questions and curated answers on deploying, configuring, and using Istio.
-|![Mailing Lists]({{home}}/img/group.png)|Join the [istio-users](https://groups.google.com/forum/#!forum/istio-users) mailing list to get announcements, participate in discussions, and get help troubleshooting problems using Istio. The [istio-dev](https://groups.google.com/forum/#!forum/istio-dev) mailing lists is there for help developers hacking on Istio's code.
+|![Mailing Lists]({{home}}/img/group.png)|Join the [istio-users](https://groups.google.com/forum/#!forum/istio-users) mailing list to participate in discussions, and get help troubleshooting problems using Istio. The [istio-announce](https://groups.google.com/forum/#!forum/istio-announce) mailing list is where you can get announcements regarding Istio. And finally, the [istio-dev](https://groups.google.com/forum/#!forum/istio-dev) mailing list is there to  help developers hacking on Istio's code.
 |![Slack]({{home}}/img/slack.png)|[Slack](https://istio.slack.com) is where to go if you have something urgent you need help with. You can have interactive conversations with members of the community and development team.
 |![GitHub]({{home}}/img/github.png)|[GitHub](https://github.com/istio) is where development takes place on Istio code.

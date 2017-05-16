@@ -27,7 +27,11 @@ additional control over traffic between services.
 
 ## Communication between services
 
-<img class="center-image-75" src="img/manager/ServiceModel_Versions.svg" title="Istio service model - service versions." />
+{% include figure.html
+    file="./img/manager/ServiceModel_Versions.svg"
+    title="Service Versions"
+    alt="Showing how service versions are handled."
+%}
 
 As illustrated in the figure above, clients of a service have no knowledge
 of different versions of the service. They can continue to access the
@@ -39,7 +43,7 @@ The actual choice of the service version is determined dynamically by Envoy
 based on the routing rules set forth by the operator. This model enables
 the application code to decouple itself from the evolution of its dependent
 services, while providing other benefits as well (see
-[Mixer](./mixer.html)). Routing rules allow Envoy to select a version based
+[Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html)). Routing rules allow Envoy to select a version based
 on criterion such as (headers, url, etc.), tags associated with
 source/destination and/or by weights assigned to each version.
 
@@ -58,4 +62,8 @@ operators can add failure recovery features such as circuit breakers,
 impose rate limits via Mixer, and provide authentication using
 Istio-Auth service.
 
-<img src="img/manager/ServiceModel_RequestFlow.svg" title="Istio service model - ingress and egress Envoy." />
+{% include figure.html
+    file="./img/manager/ServiceModel_RequestFlow.svg"
+    title="Request Flow"
+    alt="Ingress and Egress Envoy"
+%}

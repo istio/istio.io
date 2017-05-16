@@ -15,7 +15,11 @@ APIs for [service discovery](https://lyft.github.io/envoy/docs/configuration/clu
 platform-specific nuances, simplifying the design and increasing
 portability across platforms.
 
-<img class="center-image-75" src="./img/manager/ManagerAdapters.svg" title="Istio-Manager - architecture." />
+{% include figure.html
+    file="./img/manager/ManagerAdapters.svg"
+    title="Istio-Manager Architecture"
+    alt="Istio-Manager's overall architecture."
+%}
 
 As illustrated in the figure above, Istio-Manager maintains a canonical representation of services in the
 mesh that is independent of the underlying platform. Platform-specific

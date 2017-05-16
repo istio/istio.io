@@ -30,7 +30,8 @@ look as follows:
 
     destination: reviews.default.svc.cluster.local
     policy:
-    - loadBalancing: RANDOM
+    - loadBalancing: 
+        name: RANDOM
       simpleCb:
         maxConnections: 1000
 
@@ -73,7 +74,8 @@ environment:
     - tags:
         env: prod
         version: v1
-      loadBalancing: RANDOM
+      loadBalancing: 
+        name: RANDOM
 
 
 If tags are omitted, the policy applies for all versions of the
@@ -113,13 +115,14 @@ service version indicated in the destination policy.
 ### LoadBalancing
 Load balancing policy to use when forwarding traffic. These policies
 directly correlate to [load balancer
-types](https://lyft.github.io/envoy/docs/intro/archOverview/loadBalancing.html)
+types](https://lyft.github.io/envoy/docs/intro/arch_overview/load_balancing.html)
 supported by Envoy. Example,
 
 
     destination: reviews.default.svc.cluster.local
     policy:
-    - loadBalancing: RANDOM
+    - loadBalancing: 
+        name: RANDOM
 
 <table>
  <tr>
@@ -169,7 +172,7 @@ implementation is fine-grained in that it tracks the success/failure
 rates of individual hosts in the load balancing pool. Hosts that
 continually return errors for API calls are ejected from the pool for a
 pre-defined period of time. See Envoy's [outlier
-detection](https://lyft.github.io/envoy/docs/intro/archOverview/outlier.html)
+detection](https://lyft.github.io/envoy/docs/intro/arch_overview/outlier.html)
 for more details.
 
 <table>

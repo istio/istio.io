@@ -47,7 +47,10 @@ attributes determines which backend Mixer calls for a given request and what par
 each is given. In order to hide the details of individual backends, Mixer uses modules
 known as [*adapters*](./mixer.html#adapters).
 
-![Attribute Machine](./img/mixer-config/machine.svg)
+{% include figure.html
+   file="./img/mixer-config/machine.svg"
+   alt="Attribute Machine"
+%}
 
 Mixer's configuration has two central responsibilities:
 
@@ -449,12 +452,4 @@ manifests:
 ## Examples
 
 You can find fully formed examples of Mixer configuration by visiting the [Samples]({{home}}/docs/samples). As
-a specific example, here is the [BookInfo configuration](https://raw.githubusercontent.com/istio/istio/master/samples/mixer-config-quota-bookinfo.yaml).
-
-## Configuration API
-
-*TBD*
-
-## Configuration CLI
-
-*TBD*
+a specific example, here is the [Default configuration](https://github.com/istio/mixer/blob/master/testdata/configroot/scopes/global/subjects/global/rules.yml).

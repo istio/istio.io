@@ -21,7 +21,10 @@ registry and provides a platform-agnostic service discovery
 interface. Envoy instances in the mesh perform service discovery and 
 dynamically update their load balancing pools accordingly.
 
-<img class="center-image-75" src="./img/manager/LoadBalancing.svg" title="Istio - Discovery & Load Balancing." />
+{% include figure.html
+    file="./img/manager/LoadBalancing.svg"
+    alt="Discovery and Load Balancing"
+%}
 
 As illustrated in the figure above, services in the mesh access each other
 using their DNS names. All HTTP traffic bound to a service is automatically
