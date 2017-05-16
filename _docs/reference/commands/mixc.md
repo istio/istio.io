@@ -6,7 +6,7 @@ order: 101
 type: markdown
 ---
 
-<a name="mixc"></a>
+<a name="mixc_cmd"></a>
 ## mixc
 
 Utility to trigger direct calls to Mixer's API.
