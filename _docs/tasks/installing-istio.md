@@ -103,7 +103,6 @@ default namespace. They can be modified for deployment in a different namespace.
    kubectl apply -f install/kubernetes/addons/prometheus.yaml
    kubectl apply -f install/kubernetes/addons/grafana.yaml
    kubectl apply -f install/kubernetes/addons/servicegraph.yaml
-   kubectl apply -f install/kubernetes/addons/zipkin.yaml
    ```
 
    * The Grafana addon provides an Istio dashboard visualization of the metrics (request rates, success/failure rates)
@@ -167,7 +166,7 @@ default namespace. They can be modified for deployment in a different namespace.
    kubectl apply -f install/kubernetes/addons/zipkin.yaml
    ```
    
-   Zipkin is very useful for understanding the request flow of an application and to help identify bottlenecks.
+   Zipkin can be used to analyize the request flow and timing of an Istio application and to help identify bottlenecks.
    
    Just like any external URL, use your favorite platform-specific technique (port-forwarding, service nodePort,
    external LB) to access the Zipkin dashboard. For example, you can use port-forwarding to access Zipkin like this:
@@ -177,17 +176,9 @@ default namespace. They can be modified for deployment in a different namespace.
    ```
     
    and then veiw the dashboard at [http://localhost:9411](http://localhost:9411). 
+   You won't see any traces until you send requests to the application.
+   
    Check out the [Tracing]({{home}}/docs/tasks/zipkin-tracing.html) task for details.
-
-
-   *Note 3*: To access the Zipkin UI, configure port-forwarding for the zipkin service as follows:
-
-   ```bash
-   kubectl port-forward $(kubectl get pod -l app=zipkin -o jsonpath='{.items[0].metadata.name}') 9411:9411
-   ```
-
-   Then point your web browser at
-   [http://localhost:9411](http://localhost:9411) to access the Zipkin UI. You won't see any traces until you send requests to the application.
 
 ## Verifying the installation
 
