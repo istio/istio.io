@@ -52,13 +52,21 @@ With the Bookinfo application up and running, generate trace information by acce
 
 If you now look at the Zipkin dashboard, you should see something similar to the following:
 
-![Zipkin Istio Dashboard](./img/zipkin_dashboard.png)
+{% include figure.html
+   file="./img/zipkin_dashboard.png"
+   max-width="100%"
+   alt="Zipkin Istio Dashboard"
+%}
 
 If you click on the top (most recent) trace, you should see the details corresponding to your
 latest refresh of the `/productpage`.
 The page should look something like this:
 
-![Zipkin Istio Dashboard](./img/zipkin_span.png)
+{% include figure.html
+   file="./img/zipkin_span.png"
+   max-width="100%"
+   alt="Zipkin Istio Dashboard"
+%}
 
 As you can see, there are 4 spans (only 3, if version v1 of the `reviews` service was used),
 where each span corresponds to a Bookinfo service invoked during the execution of a `/productpage` request.
@@ -71,7 +79,6 @@ value used for the external request (i.e., $GATEWAY_URL). As you can see in the 
 the request took a total of roughly 290ms to complete. During its execution, the `productpage` called the `details` service,
 which took about 24ms, and then called the `reviews` service.
 The `reviews` service took about 243ms to execute, including a 15ms call to `ratings`.
-
 
 ## Understanding what happened
 
@@ -138,7 +145,6 @@ The reviews application (Java) does something similar:
 ``` 
 
 When you make downstream calls in your applications, make sure to include these headers.
-
 
 ## What's next
 

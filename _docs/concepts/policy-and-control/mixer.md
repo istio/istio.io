@@ -27,8 +27,12 @@ just define a universal logging API, universal metric API, universal billing API
 change the boundaries between layers in order to reduce systemic complexity, eliminating policy logic from service code and giving control
 to operators instead.
 
-<img style="display:block;width:60%;margin:auto;" src="./img/mixer/traffic.svg" title="Flow of traffic." />
-<p style="text-align:center;">Mixer Traffic Flow</p>
+{% include figure.html
+    file="./img/mixer/traffic.svg"
+    max-width="60%"
+    title="Mixer Traffic Flow"
+    alt="Showing the flow of traffic through Mixer."
+%}
 
 Mixer provides three core features:
 
@@ -52,7 +56,6 @@ Mixer is a highly modular and extensible component. One of it's key functions is
 away the details of different policy and telemetry backend systems, allowing Envoy and Istio-based
 services to be agnostic of those backends, which keeps them portable.
 
-
 Mixer's flexibility in dealing with different infrastructure backends is achieved by having a general-purpose
 plug-in model. Individual plug-ins are known as *adapters* and they allow
 Mixer to interface to different infrastructure backends that deliver core functionality, such as logging, monitoring, quotas, ACL
@@ -60,7 +63,13 @@ checking, and more. Adapters enable Mixer to expose a single consistent API, ind
 The exact set of adapters used at runtime is determined through configuration and can easily be extended
 to target new or custom infrastructure backends.
 
-<img style="width:35%;display:block;margin:auto;" src="./img/mixer/adapters.svg" title="Mixer and its adapters." />
+{% include figure.html
+    file="./img/mixer/adapters.svg"
+    max-width="35%"
+    title="Mixer and its Adapters"
+    alt="Showing Mixer with adapters."
+    caption=""
+%}
 
 ## Configuration state
 
@@ -104,8 +113,12 @@ configured through a simple declarative form as described [here](./mixer-config.
 Processing phase creates a set of adapter parameters. The Adapter Dispatching phase invokes the adapters
 associated with each aspect and passes them those parameters.
 
-<img style="display:block;width:50%;margin:auto;" src="./img/mixer/phases.svg" title="Phases of mixer request processing" />
-<p style="text-align:center;">Request Phases</p>
+{% include figure.html
+    file="./img/mixer/phases.svg"
+    max-width="50%"
+    title="Request Phases"
+    alt="Phases of Mixer request processing."
+%}
 
 ## Scripting
 
@@ -121,7 +134,3 @@ of accessing the request's incoming attributes and producing the requisite adapt
 
 For advanced uses, the operator can bypass the declarative format and author directly in the scripting
 language. This is more complex, but provides ultimate flexibility.
-
-
-
-
