@@ -168,7 +168,7 @@ This application is polyglot, i.e., the microservices are written in different l
    
 ## What's next
 
-Now that you have the BookInfo sample up and running, you can you can point your browser to `http://$GATEWAY_URL/productpage`
+Now that you have the BookInfo sample up and running, you can point your browser to `http://$GATEWAY_URL/productpage`
 to see the running application and use Istio to control traffic routing, inject faults, rate limit services, etc..
 
 To get started, check out the [request routing task]({{home}}/docs/tasks/request-routing.html).
