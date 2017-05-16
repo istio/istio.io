@@ -16,6 +16,6 @@ mainFlow(utils) {
   }
   defaultNode(gitUtils) {
     sh('docker run --rm --label=jekyll --volume=\$(pwd):/srv/jekyll ' +
-        '-it jekyll/jekyll sh -c "bundle install && rake test"')
+        'jekyll/jekyll sh -c "bundle install && rake test"')
   }
 }
