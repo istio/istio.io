@@ -4,14 +4,38 @@ layout: default
 {% include home.html %}
 {% include doc-top-nav.html %}
 
+<style>
+#sidebar-tab {
+  border: 1px solid rgba(0,0,0,0.10);
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  background-color: rgba(0,0,0,0.05);
+  padding: 10px 5px 10px 5px;
+  margin-left: -15px;
+  margin-top: -2px;
+  margin-right: 10px;
+  font-size: 1rem;
+  color: black;
+}
+
+#sidebar-container {
+  float: left;
+  padding:0px;
+  background-color: #fff;
+  border-right: 1px solid rgba(0, 0, 0, .15);
+}
+</style>
 <div class="container docs">
   <div class="row">
     <div class="col-md-11 nofloat center-block">
       <div class="row">
-          <div class="col-sm-3">
+          <div id="sidebar-container" class="col-sm-3">
             {% include doc-side-nav.html %}
           </div>
-          <div class="col-sm-9 {{ page.type }}">
+          <div class="col-xs-1">
+            <span id="sidebar-tab" class="pull-left glyphicon glyphicon-chevron-left"></span>
+          </div>
+          <div id="content-container" class="col-sm-9 {{ page.type }}">
             <div id="toc" class=""></div>
             <h1>{{page.title}}</h1>
             {{ content }}
@@ -22,3 +46,4 @@ layout: default
 </div>
 
 <script src="{{home}}/js/copyToClipboard.js"></script>
+<script src="{{home}}/js/sidemenu.js"></script>

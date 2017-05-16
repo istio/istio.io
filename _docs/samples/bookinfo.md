@@ -204,7 +204,7 @@ This application is polyglot, i.e., the microservices are written in different l
    ```
    The service name and port are defined [here](https://github.com/istio/istio/blob/master/samples/apps/bookinfo/bookinfo.yaml).
    
-   Note that '-k' option above is to disable service cert verification. Otherwise the curl command will not work. The reason is that in Istio cert, there is no service name, which is the information curl needs to verify service identity. To verify service identity, Istio uses service account, please refer to [here](https://istio.io/docs/concepts/network-and-auth/auth.html) for more information.
+   Note that Istio uses [Kubernetes service account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account) as service identity, which offers stronger security than service name (refer [here](https://istio.io/docs/concepts/network-and-auth/auth.html#identity) for more information). Thus the certificates used in Istio do not have service name, which is the information that curl needs to verify server identity. As a result, we use curl option '-k' to prevent the curl client from verifying service identity in server's (i.e., productpage) certificate. Please check secure naming [here](https://istio.io/docs/concepts/network-and-auth/auth.html#workflow) for more information about how the client verifies the server's identity in Istio.
 
 1. If you have installed the Istio addons, in particular the servicegraph addon, from the
    [Installation guide]({{home}}/docs/tasks/installing-istio.html), a generated servicegraph
