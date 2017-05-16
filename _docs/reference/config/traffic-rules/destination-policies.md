@@ -30,7 +30,8 @@ look as follows:
 
     destination: reviews.default.svc.cluster.local
     policy:
-    - loadBalancing: RANDOM
+    - loadBalancing: 
+        name: RANDOM
       simpleCb:
         maxConnections: 1000
 
@@ -73,7 +74,8 @@ environment:
     - tags:
         env: prod
         version: v1
-      loadBalancing: RANDOM
+      loadBalancing: 
+        name: RANDOM
 
 
 If tags are omitted, the policy applies for all versions of the
@@ -119,7 +121,8 @@ supported by Envoy. Example,
 
     destination: reviews.default.svc.cluster.local
     policy:
-    - loadBalancing: RANDOM
+    - loadBalancing: 
+        name: RANDOM
 
 <table>
  <tr>
