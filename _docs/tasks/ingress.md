@@ -284,6 +284,7 @@ to set a timeout rule on calls to the httpbin service.
    This time a 504 (Gateway Timeout) appears after 3 seconds.
    Although httpbin was waiting 5 seconds, Istio cut off the request at 3 seconds.
 
+_Note:_ HTTP fault injection (abort and delay) is not currently supported by ingress proxies.
 
 ## Understanding ingresses
 
