@@ -27,7 +27,7 @@ This task shows how to use Istio to control access to a service.
   istioctl replace -f samples/apps/bookinfo/route-rule-reviews-v2-v3.yaml
   ```
 
-* Ensure that you can use [istioctl mixer]({{home}}/docs/reference/commands/istioctl/istioctl_mixer.html#synopsis) by setting up port forwarding if needed.
+* Ensure that you can use [istioctl mixer]({{home}}/docs/reference/commands/istioctl.html#istioctl_mixer) by setting up port forwarding if needed.
 
 ## Access control using _denials_ 
 

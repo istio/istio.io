@@ -8,9 +8,9 @@ layout: docs
 type: markdown
 ---
 {% include home.html %}
-{% capture aspectConfig %}{{home}}/docs/reference/api/mixer/aspects{% endcapture %}
-{% capture adapterConfig %}{{home}}/docs/reference/api/mixer/adapters{% endcapture %}
-{% capture mixerConfig %}{{home}}/docs/reference/api/mixer/mixer-config.html{% endcapture %}
+{% capture aspectConfig %}{{home}}/docs/reference/config/mixer/aspects{% endcapture %}
+{% capture adapterConfig %}{{home}}/docs/reference/config/mixer/adapters{% endcapture %}
+{% capture mixerConfig %}{{home}}/docs/reference/config/mixer/mixer-config.html{% endcapture %}
 {% capture tasks %}{{home}}/docs/tasks{% endcapture %}
 
 Explains how to configure a Mixer _Aspect_ and its dependencies. 
