@@ -90,11 +90,8 @@ enabled:
 
    This command will install Istio-Manager, Mixer, Ingress-Controller, and Egress-Controller, and the Istio CA (Certificate Authority).
 
-
-1. *Optional:* To view metrics collected by Mixer, install [Prometheus](https://prometheus.io), [Grafana](http://staging.grafana.org) or
-ServiceGraph addons.
-
-   *Note 1*: The Prometheus addon is *required* as a prerequisite for Grafana and the ServiceGraph addons.
+1. *Optional:* To collect and view metrics provided by Mixer, install [Prometheus](https://prometheus.io),
+   as well as the [Grafana](http://staging.grafana.org) and/or ServiceGraph addons.
 
    ```bash
    kubectl apply -f install/kubernetes/addons/prometheus.yaml
@@ -102,30 +99,79 @@ ServiceGraph addons.
    kubectl apply -f install/kubernetes/addons/servicegraph.yaml
    ```
 
-   The Grafana addon provides a dashboard visualization of the metrics by Mixer to a Prometheus instance.
+   * The Grafana addon provides an Istio dashboard visualization of the metrics (request rates, success/failure rates)
+     in the cluseter.
 
-   The simplest way to access the Istio dashboard is to configure port-forwarding for the grafana service, as follows:
+     You can access the Grafana dashboard using port-forwarding, the service nodePort, or External IP (if your deployment
+     envorinment provides external load balancers).
+      
+     The simplest way to access the Grafana dashboard is to configure port-forwarding for the grafana service, as follows:
+
+     ```bash
+     kubectl port-forward $(kubectl get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000
+     ```
+
+     Then point your web browser to [http://localhost:3000/dashboard/db/istio-dashboard](http://localhost:3000/dashboard/db/istio-dashboard).
+
+     The dashboard should look something like this:
+
+     ![Grafana Istio Dashboard](./img/grafana_dashboard.png)
+
+     If your deployment environment provides external load balancers, you can simply access the dashboard directly
+     (without the `kubectl port-forward` command) using the external IP address of the grafana service:
+   
+     ```bash
+     kubectl get services grafana
+     ```
+   
+     Using the EXTERNAL-IP returned from that command, the Istio dashboard can be reached
+     at `http://<EXTERNAL-IP>:3000/dashboard/db/istio-dashboard`.
+
+   * The ServiceGraph addon provides a textual (JSON) represenation and a graphical visualization of the service
+     interaction graph for the cluster.
+
+     Similar to Grafana, you can access the servicegraph service using port-forwarding, service nodePort, or External IP.
+     In this case the service name is `servicegraph` and the port to access is 8088:
+     
+     ```bash
+     kubectl port-forward $(kubectl get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088
+     ```
+     
+     The ServiceGraph service provides both a textual (JSON) representation (via `/graph`)
+     and a graphical visualization (via `/dotviz`) of the underlying service graph.
+   
+     To view the graphical visualization, you could (using port-forwarding) open your browser at:
+     [http://localhost:8088/dotviz](http://localhost:8088/dotviz). 
+   
+     After running some services, for example, after installing the [BookInfo]({{home}}/docs/samples/bookinfo.html) 
+     sample application and executing the `curl` request to confirm it's working, the resulting service graph
+     would look something like:
+   
+     ![BookInfo service graph](./img/servicegraph.png)
+   
+     At that point the servicegraph would show very low (or zero) QPS values, as only a single request
+     has been sent. The service uses a default time window of 5 minutes for calculating moving QPS averages.
+     You can later send a more consistent flow of traffic through the example application and refresh the servicegraph
+     to view updated QPS values that match the generated level of traffic.
+
+1. *Optional:* To enable and view distributed request tracing, install the [Zipkin](http://zipkin.io) addon:
 
    ```bash
-   kubectl port-forward $(kubectl get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000
+   kubectl apply -f install/kubernetes/addons/zipkin.yaml
    ```
-
-   Then open a web browser to [http://localhost:3000/dashboard/db/istio-dashboard](http://localhost:3000/dashboard/db/istio-dashboard).
-
-   The dashboard at that location should look something like the following:
-
-   ![Grafana Istio Dashboard](./img/grafana_dashboard.png)
-
-   *Note 2*: In some deployment environments, it will be possible to access the dashboard directly (without the `kubectl port-forward` command). This is because 
-   the default addon configuration requests an external IP address for the grafana service.
-
-   When applicable, the external IP address for the grafana service can be retrieved via:
-
+   
+   Zipkin is very useful for understanding the request flow of an application and to help identify bottlenecks.
+   
+   Just like any external URL, use your favorite platform-specific technique (port-forwarding, service nodePort,
+   external LB) to access the Zipkin dashboard. For example, you can use port-forwarding to access Zipkin like this:
+   
    ```bash
-   kubectl get services grafana
+   kubectl port-forward $(kubectl get pod -l app=zipkin -o jsonpath='{.items[0].metadata.name}') 9411:9411
    ```
+    
+   and then veiw the dashboard at [http://localhost:9411](http://localhost:9411). 
+   Check out the [Tracing]({{home}}/docs/tasks/zipkin-tracing.html) task for details.
 
-   With the EXTERNAL-IP returned from that command, the Istio dashboard can be reached at `http://<EXTERNAL-IP>:3000/dashboard/db/istio-dashboard`.
 
 ## Verifying the installation
 
@@ -142,9 +188,9 @@ ServiceGraph addons.
    istio-mixer                10.83.242.1    <none>          9091/TCP,42422/TCP   39m
    ```
 
-   Note that if your cluster is running in an environment that does not support an external loadbalancer
-   (e.g., minikube), the `EXTERNAL-IP` will say `<pending>` and you will need to access the
-   application using the service NodePort instead.
+   Note that if your cluster is running in an environment that does not support an external load balancer
+   (e.g., minikube), the `EXTERNAL-IP` of `istio-ingress` will say `<pending>` and you will need to access the
+   application using the service NodePort or port-forwarding instead.
 
 2. Check the corresponding Kubernetes pods were deployed: "istio-manager-\*", "istio-mixer-\*", "istio-ingress-\*", "istio-egress-\*", and "istio-ca-\*" (if Istio Auth is enabled).
 

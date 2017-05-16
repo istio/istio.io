@@ -172,3 +172,57 @@ kubectl exec <app-pod> -c proxy -- cat /etc/envoy/envoy-revX.json | grep ssl_con
 # Expect ssl_context in the output.
 ```
 
+## Playing with auth 
+
+When running Istio-enabled services, you can use curl in one service's
+envoy to send request to other services.
+For example, after starting the [BookInfo]({{home}}/docs/samples/bookinfo.html) 
+sample application you can ssh into the envoy container of `productpage` service, 
+and send request to other services by curl. 
+
+There are several steps:
+   
+1. get the productpage pod name
+   ```bash
+   kubectl get pods -l app=productpage 
+   ```
+   ```bash
+   NAME                              READY     STATUS    RESTARTS   AGE
+   productpage-v1-4184313719-5mxjc   2/2       Running   0          23h
+   ```
+
+   Make sure the pod is "Running".
+
+1. ssh into the envoy container 
+   ```bash
+   kubectl exec -it productpage-v1-4184313719-5mxjc -c proxy /bin/bash 
+   ```
+
+1. make sure the key/cert is in /etc/certs/ directory
+   ```bash
+   ls /etc/certs/ 
+   ```
+   ```bash
+   cert-chain.pem   key.pem 
+   ``` 
+   
+1. send requests to another service, for example, details.
+   ```bash
+   curl https://details:9080 -v --key /etc/certs/key.pem --cert /etc/certs/cert-chain.pem -k
+   ```
+   ```bash
+   ...
+   < HTTP/1.1 200 OK
+   < content-type: text/html; charset=utf-8
+   < content-length: 1867
+   < server: envoy
+   < date: Thu, 11 May 2017 18:59:42 GMT
+   < x-envoy-upstream-service-time: 2
+   ...
+   ```
+   The service name and port are defined [here](https://github.com/istio/istio/blob/master/samples/apps/bookinfo/bookinfo.yaml).
+   
+   Note that '-k' option above is to disable service cert verification. Otherwise the curl command will not work. 
+   The reason is that in Istio cert, there is no service name, which is the information curl needs to verify service identity.
+   To verify service identity, Istio uses service account, please refer to
+   [here](https://istio.io/docs/concepts/network-and-auth/auth.html) for more information.
