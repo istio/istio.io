@@ -452,7 +452,7 @@ manifests:
 ## Examples
 
 You can find fully formed examples of Mixer configuration by visiting the [Samples]({{home}}/docs/samples). As
-a specific example, here is the [BookInfo configuration](https://raw.githubusercontent.com/istio/istio/master/samples/mixer-config-quota-bookinfo.yaml).
+a specific example, here is the [BookInfo configuration](https://github.com/istio/istio/tree/master/samples/apps/bookinfo).
 
 ## Configuration API
 

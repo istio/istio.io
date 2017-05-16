@@ -25,8 +25,7 @@ This task assumes you have:
 
 * Read the [Istio Auth concepts]({{home}}/docs/concepts/network-and-auth/index.html).
 
-* Cloned https://github.com/istio/istio to your local machine
-  (Step 1 in [the Istio installation guide](./installing-istio.html#installing-on-an-existing-cluster)).
+* [Installed Istio](./installing-istio.html#installation-steps).
 
 In real world systems, only a single Istio CA should be present in a Kubernetes cluster,
 which is always deployed in a dedicated namespace. The Istio CA issues certificates/keys to
