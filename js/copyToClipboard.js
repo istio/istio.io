@@ -1,12 +1,8 @@
 (function(){
+    var template = document.getElementById('copy-button');
     var pre = document.getElementsByClassName('highlight');
     for (var i = 0; i < pre.length; i++) {
-        var button         = document.createElement('button');
-        button.className   = 'copy-button';
-        button.textContent = 'Copy';
-
-        var div = pre[i].parentElement;
-        div.insertBefore(button, div.firstChild);
+        pre[i].insertAdjacentHTML('beforebegin', template.innerHTML);
     };
 
     var copyCode = new Clipboard('.copy-button', {
