@@ -164,6 +164,10 @@ Mixer is a proper noun and should be used as such:
 Not a proper noun but we should attempt to consistently use the term to describe inputs to Mixer and NOT use the term when talking about other
 forms of configuration.
 
+### Load balancing
+
+No dash, it's *load balancing* not *load-balancing*.
+
 ### Service mesh 
 
 Not a proper noun. Use in place of service fabric.
