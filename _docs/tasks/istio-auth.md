@@ -42,7 +42,7 @@ NAME       DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 istio-ca   1         1         1            1           1m
 ```
 
-Istio CA is up if "AVAILABLE" column is 1.
+Istio CA is up if the "AVAILABLE" column is 1.
 
 ### Verifying service configuration
 
