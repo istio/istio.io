@@ -103,7 +103,7 @@ Using a whitelist is a two step process.
 
 The alpha version of `istioctl` does not yet support
 pushing adapter configurations, although there is a
-[workaround](https://istio.io/docs/concepts/policy-and-control/mixer-aspect-config.html#pushing-configuration)
+[workaround]({{home}}/docs/concepts/policy-and-control/mixer-aspect-config.html#pushing-configuration)
 if you want to try it.
 
 ## Cleanup
