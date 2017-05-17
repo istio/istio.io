@@ -11,11 +11,52 @@ type: markdown
 Istio is an open source project with an active community that supports its use and on-going development. We'd love for you
 to join us and get involved!
 
-There are quite a few ways to get in touch with the community, see below to learn the
-best approach for different cases. See [here](/bugs/) if you're trying to figure out how to report
-a bug in Istio.
+There are quite a few ways to get plugged in with the Istio community. See below to learn the
+best approach for different cases. See [here]({{home}}/bugs/) if you're trying to figure out how to report
+bugs.
 
-|![Stack Overflow]({{home}}/img/stackoverflow.png)|[Stack Overflow](https://stackoverflow.com/questions/tagged/istio) is for practical questions and curated answers on deploying, configuring, and using Istio.
-|![Mailing Lists]({{home}}/img/group.png)|Join the [istio-users](https://groups.google.com/forum/#!forum/istio-users) mailing list to participate in discussions, and get help troubleshooting problems using Istio. The [istio-announce](https://groups.google.com/forum/#!forum/istio-announce) mailing list is where you can get announcements regarding Istio. And finally, the [istio-dev](https://groups.google.com/forum/#!forum/istio-dev) mailing list is there to  help developers hacking on Istio's code.
-|![Slack]({{home}}/img/slack.png)|[Slack](https://istio.slack.com) is where to go if you have something urgent you need help with. You can have interactive conversations with members of the community and development team.
-|![GitHub]({{home}}/img/github.png)|[GitHub](https://github.com/istio) is where development takes place on Istio code.
+<table>
+  <tbody>
+    <tr>
+      <td><img src="{{home}}/img/stackoverflow.png" alt="Stack Overflow" /></td>
+      <td>
+        <a href="https://stackoverflow.com/questions/tagged/istio">Stack Overflow</a> is for practical questions and curated answers
+        on deploying, configuring, and using Istio.
+      </td>
+    </tr>
+
+    <tr>
+      <td><img src="{{home}}/img/group.png" alt="Mailing Lists" /></td>
+      <td>
+        Join the <a href="https://groups.google.com/forum/#!forum/istio-users">istio-users</a> mailing list to participate in discussions
+        and get help troubleshooting problems using Istio.
+        The <a href="https://groups.google.com/forum/#!forum/istio-announce">istio-announce</a> mailing list is where you can get announcements
+        regarding Istio.
+        And finally, the <a href="https://groups.google.com/forum/#!forum/istio-dev">istio-dev</a> mailing list is there to 
+        help developers hacking on Istio’s code.
+      </td>
+    </tr>
+
+    <tr>
+      <td><img src="{{home}}/img/twitter.png" alt="Twitter" /></td>
+      <td>
+        Follow us on <a href="https://twitter.com/istio2">Twitter</a> to get the latest news.
+      </td>
+    </tr>
+
+    <tr>
+      <td><img src="{{home}}/img/slack.png" alt="Slack" /></td>
+      <td>
+        Head to <a href="https://istio.slack.com">Slack</a> if you’re a developer working on Istio or Istio adapters and you want to chat with
+        the core Istio engineering team.
+      </td>
+    </tr>
+
+    <tr>
+      <td><img src="{{home}}/img/github.png" alt="GitHub" /></td>
+      <td>
+        <a href="https://github.com/istio">GitHub</a> is where development takes place on Istio code.
+      </td>
+    </tr>
+  </tbody>
+</table>
