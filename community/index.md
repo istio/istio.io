@@ -40,7 +40,7 @@ bugs.
     <tr>
       <td><img src="{{home}}/img/twitter.png" alt="Twitter" /></td>
       <td>
-        Follow us on <a href="https://twitter.com/istio2">Twitter</a> to get the latest news.
+        Follow us on <a href="https://twitter.com/IstioMesh">Twitter</a> to get the latest news.
       </td>
     </tr>
 
