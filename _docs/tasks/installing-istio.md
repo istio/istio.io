@@ -181,7 +181,7 @@ default namespace. They can be modified for deployment in a different namespace.
    kubectl apply -f install/kubernetes/addons/zipkin.yaml
    ```
    
-   Zipkin can be used to analyize the request flow and timing of an Istio application and to help identify bottlenecks.
+   Zipkin can be used to analyze the request flow and timing of an Istio application and to help identify bottlenecks.
    
    Just like any external URL, use your favorite platform-specific technique (port-forwarding, service nodePort,
    external LB) to access the Zipkin dashboard. For example, you can use port-forwarding to access Zipkin like this:
@@ -190,7 +190,7 @@ default namespace. They can be modified for deployment in a different namespace.
    kubectl port-forward $(kubectl get pod -l app=zipkin -o jsonpath='{.items[0].metadata.name}') 9411:9411
    ```
     
-   and then veiw the dashboard at [http://localhost:9411](http://localhost:9411). 
+   and then view the dashboard at [http://localhost:9411](http://localhost:9411). 
    You won't see any traces until you send requests to the application.
    
    Check out the [Tracing]({{home}}/docs/tasks/zipkin-tracing.html) task for details.
