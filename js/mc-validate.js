@@ -29,8 +29,10 @@ $(document).ready(function() {
          */
 		getAjaxSubmitUrl: function() {
 			var url = $("form#mc-embedded-subscribe-form").attr("action");
-			url = url.replace("/post?u=", "/post-json?u=");
-			url += "&c=?";
+			if (url) {
+				url = url.replace("/post?u=", "/post-json?u=");
+				url += "&c=?";
+			}
 			return url;
 		},
 		/**

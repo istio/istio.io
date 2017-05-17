@@ -141,7 +141,11 @@ as the example application throughout this task.
 
    The request from the previous step is reflected in the graphs. This looks similar to:
 
-   ![Istio Dashboard with Response Size data](./img/dashboard_response_size.png)
+   {% include figure.html
+       file="./img/dashboard_response_size.png"
+       max-width="100%"
+       alt="Istio Dashboard with Response Size Data"
+   %}
 
 1. Verify that the logs stream has been created and is being populated
    for requests.
@@ -258,3 +262,7 @@ Config API to add support for creating new descriptors.
 * Discover the full [Attribute Vocabulary]({{home}}/docs/reference/config/mixer/attribute-vocabulary.html).
 
 * Read the reference guide to [Writing Config]({{home}}/docs/reference/writing-config.html).
+
+* If you are not planning to explore any follow-on tasks, refer to the
+  [BookInfo cleanup]({{home}}/docs/samples/bookinfo.html#cleanup) instructions
+  to shutdown the application and cleanup the associated rules.

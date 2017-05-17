@@ -61,7 +61,7 @@ Choose a title for your topic that has the keywords you want search engines to f
 Create a filename for your topic that uses the words in your title, separated by hyphens,
 all in lower case.
 
-For example, the topic with title [TBD](/docs/tasks/tbd.html)
+For example, the topic with title TBD (`[TBD](/docs/tasks/tbd.html)`)
 has filename `tbd.md`. You don't need to put
 "Istio" in the filename, because "Istio" is already in the
 URL for the topic, for example:

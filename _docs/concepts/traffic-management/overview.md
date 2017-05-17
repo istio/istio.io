@@ -20,7 +20,11 @@ Each Envoy instance maintains [load balancing information]({{home}}/docs/concept
 
 Using this model essentially decouples traffic flow and infrastructure scaling, letting operators specify via Istio-Manager what rules they want service traffic to follow rather than which specific pods/VMs should receive traffic - Istio-Manager and intelligent Envoy proxies look after the rest. So, for example, you can specify via Istio-Manager that you want 5% of traffic for a particular service to go to a canary version irrespective of the size of the canary deployment, or send traffic to a particular version depending on the content of the request.
 
-<img src="./img/manager/TrafficManagementOverview.svg" title="Traffic Management with Istio." />
+{% include figure.html
+    file="./img/manager/TrafficManagementOverview.svg"
+    max-width="85%"
+    alt="Traffic Management with Istio"
+%}
 
 Decoupling traffic flow from infrastructure scaling like this allows Istio to provide
 a variety of traffic management features that reside outside the
