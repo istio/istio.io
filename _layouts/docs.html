@@ -5,13 +5,20 @@ layout: default
 {% include doc-top-nav.html %}
 
 <style>
+.thin-left-border {
+  border-left: 1px solid rgba(0, 0, 0, .15);
+}
+
+.tab-neg-margin {
+  margin-left: -15px;
+}
+
 #sidebar-tab {
   border: 1px solid rgba(0,0,0,0.10);
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
   background-color: rgba(0,0,0,0.05);
   padding: 10px 5px 10px 5px;
-  margin-left: -15px;
   margin-top: -2px;
   margin-right: 10px;
   font-size: 1rem;
@@ -22,8 +29,8 @@ layout: default
   float: left;
   padding:0px;
   background-color: #fff;
-  border-right: 1px solid rgba(0, 0, 0, .15);
 }
+
 </style>
 <div class="container docs">
   <div class="row">
@@ -32,10 +39,10 @@ layout: default
           <div id="sidebar-container" class="col-sm-3">
             {% include doc-side-nav.html %}
           </div>
-          <div class="col-xs-1">
-            <span id="sidebar-tab" class="pull-left glyphicon glyphicon-chevron-left"></span>
+          <div id="tab-container" class="col-xs-1 tab-neg-margin pull-left">
+            <span id="sidebar-tab" class="glyphicon glyphicon-chevron-left"></span>
           </div>
-          <div id="content-container" class="col-sm-9 {{ page.type }}">
+          <div id="content-container" class="thin-left-border col-sm-9 {{ page.type }}">
             <div id="toc" class=""></div>
             <h1>{{page.title}}</h1>
             {{ content }}
@@ -44,6 +51,12 @@ layout: default
     </div>
   </div>
 </div>
+
+<template id="copy-button">
+  <div class="container-fluid">
+    <button class="copy-button pull-right">Copy</button>
+  </div>
+</template>
 
 <script src="{{home}}/js/copyToClipboard.js"></script>
 <script src="{{home}}/js/sidemenu.js"></script>

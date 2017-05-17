@@ -111,4 +111,8 @@ footer {
   .slack {
     @include social-icon('../img/slack.png');
   }
+
+  .twitter {
+    @include social-icon('../img/icon_twitter.svg');
+  }
 }
