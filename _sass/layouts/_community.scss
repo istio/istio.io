@@ -2,4 +2,9 @@
   table, th, td {
     border-color: $light-gray;
   }
+
+  td {
+    line-height: 1.15em;
+    vertical-align: middle;
+  }
 }
