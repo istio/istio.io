@@ -38,7 +38,8 @@ code {
 }
 
 pre {
-  background-color: $codeBkColor;
+  // disable dark background for code snippets
+  //  background-color: $codeBkColor;
   color: #000000;
   border: none !important;
   padding: 9.5px !important;
