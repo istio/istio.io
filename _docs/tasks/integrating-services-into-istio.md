@@ -22,7 +22,7 @@ If you have not done so, please first complete the
 ## Injecting Envoy sidecar into a deployment
 
 Example deployment and service to demonstrate this task. Save this as
-apps.yaml.
+`apps.yaml`.
 
 ```yaml
 apiVersion: v1
@@ -225,6 +225,14 @@ routing traffic.
      }
    },
    ```
+
+## Cleanup
+
+Delete the example services and deployment.
+
+```bash
+kubectl delete -f apps.yaml
+```
 
 ## What's next
 
