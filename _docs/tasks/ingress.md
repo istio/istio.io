@@ -163,7 +163,7 @@ to configure ingress behavior.
    
    Notice that in this example we are only exposing httpbin's `/ip` endpoint.
    
-   _Remark:_ Envoy currently only allows a single TLS secret in the ingress since SNI is not yet supported.
+   > Note: Envoy currently only allows a single TLS secret in the ingress since SNI is not yet supported.
    
 1. Determine the secure ingress URL:
  
@@ -284,6 +284,7 @@ to set a timeout rule on calls to the httpbin service.
    This time a 504 (Gateway Timeout) appears after 3 seconds.
    Although httpbin was waiting 5 seconds, Istio cut off the request at 3 seconds.
 
+> Note: HTTP fault injection (abort and delay) is not currently supported by ingress proxies.
 
 ## Understanding ingresses
 
