@@ -5,7 +5,7 @@ $thirdBrandColor: #98B2E0;
 $inverseBrandColor: #FFFFFF;
 
 // Use as an accent color in small quantities to balance out the main theme.
-$popBrandColor: hsl(3, 90%, 75%);
+$popBrandColor: #b05464; // split complementary to main brand color
 $lightPopBrandColor: lighten($popBrandColor, 15%);
 
 // General Colors
