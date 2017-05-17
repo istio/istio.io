@@ -117,7 +117,7 @@ default namespace. They can be modified for deployment in a different namespace.
      in the cluseter.
 
      You can access the Grafana dashboard using port-forwarding, the service nodePort, or External IP (if your deployment
-     envorinment provides external load balancers).
+     environment provides external load balancers).
       
      The simplest way to access the Grafana dashboard is to configure port-forwarding for the grafana service, as follows:
 
