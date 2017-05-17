@@ -16,13 +16,9 @@ This page shows how to install and configure Istio in a Kubernetes cluster.
 * The following instructions assume you have access to a Kubernetes cluster. To install Kubernetes locally,
   try [minikube](https://kubernetes.io/docs/getting-started-guides/minikube/).
 
-* If you are using [Google Container Engine](https://cloud.google.com/container-engine), please make sure you are using static 
-  client certificates before fetching cluster credentials:
-
-  ```bash
-  gcloud config set container/use_client_certificate True
-  ```
-  Find out your cluster name and zone, and fetch credentials for kubectl:
+* If you are using [Google Container Engine](https://cloud.google.com/container-engine), find out your cluster
+  name and zone, and fetch credentials for kubectl:
+  
   ```bash
   gcloud container clusters get-credentials <cluster-name> --zone <zone> --project <project-name>
   ```
