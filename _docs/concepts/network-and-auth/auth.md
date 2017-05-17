@@ -32,11 +32,8 @@ In future versions it will also provide:
 
 The figure below shows the Istio Auth architecture, which includes three components: identity, key management, and communication security. It describes how Istio Auth is used to secure service-to-service communication between service A, running as service account "foo", and service B, running as service account "bar".
 
-{% include figure.html
-    file="./img/auth/auth.svg"
-    title="Istio Auth Architecture"
-    alt="Components making up the Istio auth model."
-%}
+<figure><img src="./img/auth/auth.svg" alt="Components making up the Istio auth model." title="Istio Auth Architecture" />
+<figcaption>Istio Auth Architecture</figcaption></figure>
 
 ## Components
 
