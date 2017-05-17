@@ -270,6 +270,13 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
    kubectl delete -f istio-rbac-alpha.yaml
    ```
 
+3. Delete Istio Kubernetes [TPRs](https://kubernetes.io/docs/tasks/access-kubernetes-api/extend-api-third-party-resource):
+
+   ```bash
+   kubectl delete istioconfigs --all
+   kubectl delete thirdpartyresource istio-config.istio.io
+   ```
+
 ## What's next
 
 * See the sample [BookInfo]({{home}}/docs/samples/bookinfo.html) application.
