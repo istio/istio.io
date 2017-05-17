@@ -27,11 +27,8 @@ additional control over traffic between services.
 
 ## Communication between services
 
-{% include figure.html
-    file="./img/manager/ServiceModel_Versions.svg"
-    title="Service Versions"
-    alt="Showing how service versions are handled."
-%}
+<figure><img src="./img/manager/ServiceModel_Versions.svg" alt="Showing how service versions are handled." title="Service Versions" />
+<figcaption>Service Versions</figcaption></figure>
 
 As illustrated in the figure above, clients of a service have no knowledge
 of different versions of the service. They can continue to access the
@@ -62,8 +59,5 @@ operators can add failure recovery features such as circuit breakers,
 impose rate limits via Mixer, and provide authentication using
 Istio-Auth service.
 
-{% include figure.html
-    file="./img/manager/ServiceModel_RequestFlow.svg"
-    title="Request Flow"
-    alt="Ingress and Egress Envoy"
-%}
+<figure><img src="./img/manager/ServiceModel_RequestFlow.svg" alt="Ingress and Egress Envoy." title="Request Flow" />
+<figcaption>Request Flow</figcaption></figure>

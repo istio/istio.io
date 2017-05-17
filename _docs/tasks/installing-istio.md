@@ -125,12 +125,9 @@ default namespace. They can be modified for deployment in a different namespace.
 
      The dashboard should look something like this:
 
-     {% include figure.html
-        file="./img/grafana_dashboard.png"
-        max-width="100%"
-        alt="Grafana Istio Dashboard"
-     %}
-     
+     <figure><img style="max-width:100%" src="./img/grafana_dashboard.png" alt="Grafana Istio Dashboard" title="Grafana Istio Dashboard" />
+     <figcaption>Grafana Istio Dashboard</figcaption></figure>
+
      If your deployment environment provides external load balancers, you can simply access the dashboard directly
      (without the `kubectl port-forward` command) using the external IP address of the grafana service:
    
@@ -161,10 +158,8 @@ default namespace. They can be modified for deployment in a different namespace.
      sample application and executing the `curl` request to confirm it's working, the resulting service graph
      would look something like:
    
-     {% include figure.html
-        file="./img/servicegraph.png"
-        alt="BookInfo Service Graph"
-     %}
+     <figure><img src="./img/servicegraph.png" alt="BookInfo Service Graph" title="BookInfo Service Graph" />
+     <figcaption>BookInfo Service Graph</figcaption></figure>
      
      At that point the servicegraph would show very low (or zero) QPS values, as only a single request
      has been sent. The service uses a default time window of 5 minutes for calculating moving QPS averages.
