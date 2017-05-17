@@ -40,6 +40,10 @@
   margin-left: 15px;
 }
 
+.nav>li>a.current {
+  @include underline()
+}
+
 .nav li a:active, .nav li a:focus, .nav li a:hover {
   border-bottom: 0;
 }
