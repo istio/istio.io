@@ -7,7 +7,7 @@
 
     var copyCode = new Clipboard('.copy-button', {
         target: function(trigger) {
-            return trigger.nextElementSibling;
+            return trigger.parentElement.nextElementSibling;
         }
     });
 
