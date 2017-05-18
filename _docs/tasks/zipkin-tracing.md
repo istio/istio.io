@@ -15,7 +15,7 @@ After completing this task, you should understand all of the assumptions about y
 application and how to have it participate in tracing, regardless of what
 language/framework/platform you use to build your application.
 
-The [BooiInfo]({{home}}/docs/samples/bookinfo.html) sample is used as the
+The [BookInfo]({{home}}/docs/samples/bookinfo.html) sample is used as the
 example application for this task.
 
 
