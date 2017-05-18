@@ -1,6 +1,6 @@
 ---
 title: Request Routing
-overview: Describes how requests are routed between services in an Istio service mesh, including the Istio service model and service versions.
+overview: Describes how requests are routed between services in an Istio service mesh.
               
 order: 20
 
@@ -12,10 +12,14 @@ This page describes how requests are routed between services in an Istio service
 
 ## Service model and service versions.
 
-As described in [Istio-Manager](./manager.html), the canonical representation of services in a particular mesh is maintained by the Istio-Manager service. The Istio model of a service is independent of how it is represented in the underlying platform (Kubernetes, Mesos, Cloud Foundry,
+As described in [Istio-Manager](./manager.html), the canonical representation
+of services in a particular mesh is maintained by Istio-Manager. The Istio
+model of a service is independent of how it is represented in the underlying
+platform (Kubernetes, Mesos, Cloud Foundry,
 etc.). Platform-specific adapters are responsible for populating the
 internal model representation with various fields from the metadata found
 in the platform.
+
 
 Istio introduces the concept of a service version, which is a finer-grained
 way to subdivide service instances by versions (`v1`, `v2`) or environment
@@ -41,14 +45,17 @@ intercepts and forwards all requests/responses between the client and the
 service.
 
 Envoy determines its actual choice of service version dynamically
-based on the routing rules specified by the operator using Istio-Manager. This model enables
-the application code to decouple itself from the evolution of its dependent
+based on the routing rules specified by the operator using Istio-Manager. This
+model enables the application code to decouple itself from the evolution of its dependent
 services, while providing other benefits as well (see
-[Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html)). Routing rules allow Envoy to select a version based
+[Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html)). Routing
+rules allow Envoy to select a version based
 on criterion such as headers, tags associated with
 source/destination, and/or by weights assigned to each version.
 
-Istio also provides load-balancing for traffic to multiple instances of the same service version. You can find out more about this in [Discovery and Load-Balancing](./load-balancing.html).
+Istio also provides load balancing for traffic to multiple instances of
+the same service version. You can find out more about this in [Discovery
+and Load-Balancing](./load-balancing.html).
 
 Istio does not provide a DNS. Applications can try to resolve the
 FQDN using the DNS service present in the underlying platform (kube-dns,
@@ -56,14 +63,13 @@ mesos-dns, etc.).
 
 ## Ingress and Egress Envoys
 
-Istio assumes that all traffic entering and leaving the Istio service mesh
+Istio assumes that all traffic entering and leaving the service mesh
 transits through Envoy proxies. By deploying the Envoy proxy in front of
 services, operators can conduct A/B testing, deploy canary services,
 etc. for user-facing services. Similarly, by routing traffic to external
 web services (for instance, accessing the Maps API, or a video service API) via Envoy,
 operators can add failure recovery features such as circuit breakers,
-impose rate limits via Mixer, and provide authentication using the
-Istio-Auth service.
+impose rate limits via Mixer, and provide authentication using Istio-Auth.
 
 {% include figure.html
     file="./img/manager/ServiceModel_RequestFlow.svg"
