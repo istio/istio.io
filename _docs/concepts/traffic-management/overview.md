@@ -1,6 +1,6 @@
 ---
 title: Overview
-overview: Provides a conceptual overview of traffic management in Istio and the features enabled by its traffic management principles.
+overview: Provides a conceptual overview of traffic management in Istio and the features it enables.
                 
 order: 0
 
@@ -8,26 +8,51 @@ layout: docs
 type: markdown
 ---
 
-This page provides an overview of how traffic management works in Istio, including the benefits of its traffic management principles. It assumes that you've already read [What Is Istio?]({{home}}/docs/concepts/what-is-istio/overview.html) and are familiar with Istio's high-level architecture. You can find out more about individual traffic management services and features in the other guides in this section.
+This page provides an overview of how traffic management works
+in Istio, including the benefits of its traffic management
+principles. It assumes that you've already read [What Is
+Istio?]({{home}}/docs/concepts/what-is-istio/overview.html) and are familiar
+with Istio's high-level architecture. You can find out more about individual
+traffic management features in the other guides in this section.
 
 ## Istio-Manager and Envoy
 
-The core component used for traffic management in Istio is [Istio-Manager](manager.html), which manages and configures all the Envoy proxy instances deployed in a particular Istio service mesh. It lets you specify what rules you want to use to route traffic between Envoy proxies and configure failure recovery features such as timeouts. It also maintains a canonical model of all the services in the mesh and uses this to let Envoys know about the other instances in the mesh via its discovery service.
+The core component used for traffic management in Istio is
+[Istio-Manager](manager.html), which manages and configures all the Envoy
+proxy instances deployed in a particular Istio service mesh. It lets you
+specify what rules you want to use to route traffic between Envoy proxies
+and configure failure recovery features such as timeouts. It also maintains
+a canonical model of all the services in the mesh and uses this to let Envoys
+know about the other instances in the mesh via its discovery service.
 
-Each Envoy instance maintains [load balancing information](load-balancing.html) based on the information it gets from Istio-Manager and periodic health-checks of other instances in its load-balancing pool, allowing it to intelligently distribute traffic between destination instances while following its specified routing rules.
+Each Envoy instance maintains [load balancing information](load-balancing.html)
+based on the information it gets from Istio-Manager and periodic health-checks
+of other instances in its load-balancing pool, allowing it to intelligently
+distribute traffic between destination instances while following its specified
+routing rules.
 
 ## Traffic management benefits
 
-Using Istio's traffice management model essentially decouples traffic flow and infrastructure scaling, letting operators specify via Istio-Manager what rules they want traffic to follow rather than which specific pods/VMs should receive traffic - Istio-Manager and intelligent Envoy proxies look after the rest. So, for example, you can specify via Istio-Manager that you want 5% of traffic for a particular service to go to a canary version irrespective of the size of the canary deployment, or send traffic to a particular version depending on the content of the request.
+Using Istio's traffice management model essentially decouples traffic flow
+and infrastructure scaling, letting operators specify via Istio-Manager what
+rules they want traffic to follow rather than which specific pods/VMs should
+receive traffic - Istio-Manager and intelligent Envoy proxies look after the
+rest. So, for example, you can specify via Istio-Manager that you want 5%
+of traffic for a particular service to go to a canary version irrespective
+of the size of the canary deployment, or send traffic to a particular version
+depending on the content of the request.
+
 
 <figure><img style="max-width:85%;" src="./img/manager/TrafficManagementOverview.svg" alt="Traffic Management with Istio" title="Traffic Management with Istio" />
 <figcaption>Traffic Management with Istio</figcaption></figure>
 
-Decoupling traffic flow from infrastructure scaling like this allows Istio to provide
-a variety of traffic management features that live outside the
-application code. As well as dynamic
-[request routing](request-routing.html) for A/B testing, gradual rollouts, and canary releases, it also handles [failure recovery](handling-failures.html)
-using timeouts, retries, and circuit breakers, and finally
-[fault injection](fault-injection.html) to test the compatibility of
-failure recovery policies across services. These capabilities are all realized
-through the Envoy sidecars/proxies deployed across the service mesh.
+Decoupling traffic flow from infrastructure scaling like this allows Istio
+to provide a variety of traffic management features that live outside the
+application code. As well as dynamic [request routing](request-routing.html)
+for A/B testing, gradual rollouts, and canary releases, it also handles
+[failure recovery](handling-failures.html) using timeouts, retries, and
+circuit breakers, and finally [fault injection](fault-injection.html) to
+test the compatibility of failure recovery policies across services. These
+capabilities are all realized through the Envoy sidecars/proxies deployed
+across the service mesh.
+
