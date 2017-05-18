@@ -59,7 +59,7 @@ mesh. However, **applications need to handle the failure (errors)
 and take appropriate fallback actions**. For example, when all instances in
 a load balancing pool have failed, Envoy will return HTTP 503. It is the
 responsibility of the application to implement any fallback logic that is
-needed to handle the a HTTP 503 error code from an upstream service.
+needed to handle the HTTP 503 error code from an upstream service.
 
 _2. Will Envoy's failure recovery features break applications that already
 use fault tolerance libraries (e.g., [Hystrix](https://github.com/Netflix/Hystrix))?_
