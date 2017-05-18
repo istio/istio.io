@@ -1,5 +1,5 @@
 ---
-title: Test Istio Auth
+title: Testing Istio Auth
 overview: This task shows you how to verify and test Istio-Auth.
 
 order: 100
@@ -21,7 +21,8 @@ This task assumes you have:
 
 * Installed Istio with Auth by following
 [the Istio installation task]({{home}}/docs/tasks/installing-istio.html).
-Note to choose "enable Istio Auth feature" at step 5 in "Installation steps".
+Note to choose "enable Istio Auth feature" at step 5 in
+"[Installation steps]({{home}}/docs/tasks/installing-istio.html#installation-steps)".
 
 ## Verifying Istio Auth setup
 
@@ -33,14 +34,15 @@ Use the parameter *-n yournamespace* to specify a namespace other than the defau
 Verify the cluster-level CA is running:
 
 ```bash
-kubectl get pods
+kubectl get deploy -l istio=istio-ca
 ```
 
 ```bash
-NAME                      READY     STATUS    RESTARTS   AGE
-istio-ca-11513534-q3dz1   1/1       Running   0          45s
-...
+NAME       DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+istio-ca   1         1         1            1           1m
 ```
+
+Istio CA is up if the "AVAILABLE" column is 1.
 
 ### Verifying service configuration
 
