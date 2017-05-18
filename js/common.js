@@ -1,7 +1,3 @@
----
-sitemap_exclude: y
----
-
 // Jquery UI for tabbed panes
 $.getScript("https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js", function(){
   setupTabs();
@@ -14,7 +10,7 @@ function setupTabs(rootElement) {
       if(tabs.length > 0) {
         tabs.tabs();
       }
-};
+}
 
 // Make the table of contents
 $(document).ready(function() {
