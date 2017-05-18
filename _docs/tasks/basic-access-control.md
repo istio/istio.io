@@ -48,15 +48,23 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
 1. Explicitly deny access to version `v3` of the `reviews` service. 
 
    ```bash
-   istioctl mixer rule create global ratings.default.svc.cluster.local -f deny-reviews.yaml
+   istioctl mixer rule create global ratings.default.svc.cluster.local -f samples/apps/bookinfo/mixer-rule-ratings-denial.yaml
    ```
-   where `deny-reviews.yaml` is 
-   
+
+   This command sets configuration for `subject=ratings.default.svc.cluster.local`. 
+   You can display the current configuration with the following command:
+
+   ```
+   istioctl mixer rule get global ratings.default.svc.cluster.local
+   ```
+
+   which should produce:
+
    ```yaml
    rules:
-   - selector: source.labels["app"]=="reviews" && source.labels["version"] == "v3"
-     aspects:
+   - aspects:
      - kind: denials
+     selector: source.labels["app"]=="reviews" && source.labels["version"] == "v3"
    ```
 
    This rule uses the `denials` aspect to deny requests coming from version `v3` of the reviews service.
@@ -101,10 +109,10 @@ Using a whitelist is a two step process.
    `checkExpression` is evaluated and checked against the list `[v1, v2]`. The check behavior can be changed to a blacklist by specifying
    `blacklist: true`. The expression evaluator returns the value of the `version` label as specified by the `checkExpression` key.
 
-The alpha version of `istioctl` does not yet support
-pushing adapter configurations, although there is a
-[workaround]({{home}}/docs/concepts/policy-and-control/mixer-aspect-config.html#pushing-configuration)
-if you want to try it.
+The current version of `istioctl` does not yet support
+pushing adapter configurations like the one in step 1.
+There is, however, a [workaround]({{home}}/docs/concepts/policy-and-control/mixer-aspect-config.html#pushing-configuration)
+that you can use if you want to try it out anyway.
 
 ## Cleanup
 
@@ -113,6 +121,9 @@ if you want to try it.
   ```bash
   istioctl mixer rule create global ratings.default.svc.cluster.local -f samples/apps/bookinfo/mixer-rule-empty-rule.yaml
   ```
+
+  > Note: removing a rule by setting an empty rule list is a temporary workaround because `istioctl delete` does not
+    yet support mixer rules.
 
 * Remove the application routing rules:
 

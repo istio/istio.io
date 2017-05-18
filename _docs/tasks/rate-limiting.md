@@ -44,12 +44,10 @@ Using Istio we can ensure that `1qps` is not breached.
    If you log in as any other user (or logout) you should see red ratings stars with each review,
    indicating that the `ratings` service is being called by the "v3" version of the `reviews` service.
 
-1. Configure mixer with the rate limit:
+1. Configure mixer with the rate limit. 
 
-   ```bash
-   istioctl mixer rule create global ratings.default.svc.cluster.local -f ratelimit.yaml
-   ```
-   where ratelimit.yaml is 
+   Save this as ratelimit.yaml: 
+
    ```yaml
    rules:
    - aspects:
@@ -60,6 +58,13 @@ Using Istio we can ensure that `1qps` is not breached.
            maxAmount: 1
            expiration: 1s
    ```
+
+   and then run the following command:
+
+   ```bash
+   istioctl mixer rule create global ratings.default.svc.cluster.local -f ratelimit.yaml
+   ```
+
    `istioctl` sets configuration for `subject=ratings.default.svc.cluster.local`
 
 1. Generate load on the `productpage` with the following command:
@@ -83,12 +88,10 @@ attributes like the source of the traffic.
 
 The following configuration applies a `1qps` rate limit only to version `v3` of `reviews`.
 
-1. Configure mixer with the conditional rate limit:
+1. Configure mixer with the conditional rate limit.
 
-   ```bash
-   istioctl mixer rule create global ratings.default.svc.cluster.local -f ratelimit-conditional.yaml
-   ```
-   where ratelimit-conditional.yaml is 
+   Save this as ratelimit-conditional.yaml:
+
    ```yaml
    rules:
    - selector: source.labels["app"]=="reviews" && source.labels["version"] == "v3"  
@@ -99,6 +102,12 @@ The following configuration applies a `1qps` rate limit only to version `v3` of 
          - descriptorName: RequestCount
            maxAmount: 1
            expiration: 1s
+   ```
+
+   and then run the following command:
+
+   ```bash
+   istioctl mixer rule create global ratings.default.svc.cluster.local -f ratelimit-conditional.yaml
    ```
 
    Notice the rule is the same as the previous example, only this one uses a `selector` to
@@ -182,6 +191,9 @@ the following config validation error if any labels are missing.
   ```bash
   istioctl mixer rule create global ratings.default.svc.cluster.local -f samples/apps/bookinfo/mixer-rule-empty-rule.yaml
   ```
+
+  > Note: removing a rule by setting an empty rule list is a temporary workaround because `istioctl delete` does not
+    yet support mixer rules.
 
 * Remove the application routing rules:
 
