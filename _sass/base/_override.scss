@@ -37,7 +37,7 @@ code {
   font-size: $font-size--primary;
 }
 
-pre {
+pre, pre.prettyprint {
   background-color: $codeBkColor;
   color: #000000;
   border: none !important;
