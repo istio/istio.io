@@ -21,9 +21,10 @@ The core component used for traffic management in Istio is
 [Istio-Manager](manager.html), which manages and configures all the Envoy
 proxy instances deployed in a particular Istio service mesh. It lets you
 specify what rules you want to use to route traffic between Envoy proxies
-and configure failure recovery features such as timeouts. It also maintains
-a canonical model of all the services in the mesh and uses this to let Envoys
-know about the other instances in the mesh via its discovery service.
+and configure failure recovery features such as timeouts, retries, and
+circuit breakers. It also maintains a canonical model of all the services
+in the mesh and uses this to let Envoys know about the other instances in
+the mesh via its discovery service.
 
 Each Envoy instance maintains [load balancing information](load-balancing.html)
 based on the information it gets from Istio-Manager and periodic health-checks
