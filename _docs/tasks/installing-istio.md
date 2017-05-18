@@ -189,36 +189,45 @@ default namespace. They can be modified for deployment in a different namespace.
 ## Verifying the installation
 
 1. Ensure the following Kubernetes services were deployed: "istio-manager", "istio-mixer", "istio-ingress", "istio-egress",
-   and "istio-ca" (if Istio Auth is enabled).
+   "istio-ca" (if Istio Auth is enabled), and, optionally, "grafana", "prometheus', "servicegraph" and "zipkin".
 
    ```bash
    kubectl get svc
    ```
    ```bash
-   NAME                       CLUSTER-IP     EXTERNAL-IP     PORT(S)              AGE
-   istio-egress               10.7.241.106   <none>          80/TCP               39m
-   istio-ingress              10.83.241.84   35.184.70.168   80:30583/TCP         39m
-   istio-manager              10.83.251.26   <none>          8080/TCP             39m
-   istio-mixer                10.83.242.1    <none>          9091/TCP,42422/TCP   39m
+   NAME            CLUSTER-IP      EXTERNAL-IP       PORT(S)                       AGE
+   grafana         10.83.252.16    104.198.134.40    3000:30432/TCP                5h
+   istio-egress    10.83.247.89    <none>            80/TCP                        5h
+   istio-ingress   10.83.245.171   35.184.245.62     80:32730/TCP,443:30574/TCP    5h
+   istio-manager   10.83.251.173   <none>            8080/TCP,8081/TCP             5h
+   istio-mixer     10.83.244.253   <none>            9091/TCP,9094/TCP,42422/TCP   5h
+   kubernetes      10.83.240.1     <none>            443/TCP                       36d
+   prometheus      10.83.247.221   <pending>         9090:30398/TCP                5h
+   servicegraph    10.83.242.48    104.154.244.227   8088:31928/TCP                5h
+   zipkin          10.83.241.77    35.188.18.50      9411:30243/TCP                5h
    ```
 
    Note that if your cluster is running in an environment that does not support an external load balancer
    (e.g., minikube), the `EXTERNAL-IP` of `istio-ingress` will say `<pending>` and you will need to access the
    application using the service NodePort or port-forwarding instead.
 
-2. Check the corresponding Kubernetes pods were deployed: "istio-manager-\*", "istio-mixer-\*", "istio-ingress-\*", "istio-egress-\*",
-   and "istio-ca-\*" (if Istio Auth is enabled).
+2. Check the corresponding Kubernetes pods were deployed and all containers are up and running:
+   "istio-manager-\*", "istio-mixer-\*", "istio-ingress-\*", "istio-egress-\*", "istio-ca-\*" (if Istio Auth is enabled),
+   and, optionally, "grafana-\*", "prometheus-\*', "servicegraph-\*" and "zipkin-\*".
 
    ```bash
    kubectl get pods
    ```
    ```bash
-   NAME                                       READY     STATUS    RESTARTS   AGE
-   istio-egress-597320923-0szj8               1/1       Running   0          49m
-   istio-ingress-594763772-j7jbz              1/1       Running   0          49m
-   istio-manager-373576132-p2t9k              1/1       Running   0          49m
-   istio-mixer-1154414227-56q3z               1/1       Running   0          49m
-   istio-ca-1726969296-9srv2                  1/1       Running   0          49m
+   grafana-3836448452-vhc1v         1/1       Running   0          5h
+   istio-ca-3657790228-j21b9        1/1       Running   0          5h
+   istio-egress-1684034556-fhw89    1/1       Running   0          5h
+   istio-ingress-1842462111-j3vcs   1/1       Running   0          5h
+   istio-manager-2275554717-93c43   2/2       Running   0          5h
+   istio-mixer-2104784889-20rm8     1/1       Running   0          5h
+   prometheus-3067433533-wlmt2      1/1       Running   0          5h
+   servicegraph-3127588006-pc5z3    1/1       Running   0          5h
+   zipkin-4057566570-k9m42          1/1       Running   0          5h
    ```
 
 ## Deploy your application
