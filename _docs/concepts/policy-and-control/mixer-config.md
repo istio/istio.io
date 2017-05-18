@@ -47,10 +47,8 @@ attributes determines which backend Mixer calls for a given request and what par
 each is given. In order to hide the details of individual backends, Mixer uses modules
 known as [*adapters*](./mixer.html#adapters).
 
-{% include figure.html
-   file="./img/mixer-config/machine.svg"
-   alt="Attribute Machine"
-%}
+<figure><img src="./img/mixer-config/machine.svg" alt="Attribute Machine" title="Attribute Machine" />
+<figcaption>Attribute Machine</figcaption></figure>
 
 Mixer's configuration has two central responsibilities:
 

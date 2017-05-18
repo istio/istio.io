@@ -37,7 +37,7 @@ code {
   font-size: $font-size--primary;
 }
 
-pre {
+pre, pre.prettyprint {
   background-color: $codeBkColor;
   color: #000000;
   border: none !important;
@@ -81,4 +81,19 @@ pre code {
 // Fix Bootstrap mobile menu colors on inverse navbar.
 .navbar-toggle .icon-bar {
   background-color: $inverseBrandColor;
+}
+
+figure {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+    img {
+        max-width: 75%;
+    }
+
+    figcaption {
+        margin-top: 10px;
+        text-align: center;
+    }
 }

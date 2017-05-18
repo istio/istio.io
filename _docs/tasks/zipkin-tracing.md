@@ -52,21 +52,15 @@ With the Bookinfo application up and running, generate trace information by acce
 
 If you now look at the Zipkin dashboard, you should see something similar to the following:
 
-{% include figure.html
-   file="./img/zipkin_dashboard.png"
-   max-width="100%"
-   alt="Zipkin Istio Dashboard"
-%}
+<figure><img style="max-width:100%" src="./img/zipkin_dashboard.png" alt="Zipkin Istio Dashboard" title="Zipkin Istio Dashboard" />
+<figcaption>Zipkin Istio Dashboard</figcaption></figure>
 
 If you click on the top (most recent) trace, you should see the details corresponding to your
 latest refresh of the `/productpage`.
 The page should look something like this:
 
-{% include figure.html
-   file="./img/zipkin_span.png"
-   max-width="100%"
-   alt="Zipkin Istio Dashboard"
-%}
+<figure><img style="max-width:100%" src="./img/zipkin_span.png" alt="Zipkin Istio Dashboard" title="Zipkin Istio Dashboard" />
+<figcaption>Zipkin Istio Dashboard</figcaption></figure>
 
 As you can see, there are 4 spans (only 3, if version v1 of the `reviews` service was used),
 where each span corresponds to a Bookinfo service invoked during the execution of a `/productpage` request.

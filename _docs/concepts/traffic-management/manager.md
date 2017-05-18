@@ -11,11 +11,8 @@ type: markdown
 The Istio-Manager service is responsible for the lifecycle of
 Envoy instances deployed across the Istio service mesh.
 
-{% include figure.html
-    file="./img/manager/ManagerAdapters.svg"
-    title="Istio-Manager Architecture"
-    alt="Istio-Manager's overall architecture."
-%}
+<figure><img src="./img/manager/ManagerAdapters.svg" alt="Istio-Manager's overall architecture." title="Istio-Manager Architecture" />
+<figcaption>Istio-Manager Architecture</figcaption></figure>
 
 As illustrated in the figure above, Istio-Manager maintains a canonical representation of services in the
 mesh that is independent of the underlying platform. Platform-specific
