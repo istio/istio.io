@@ -22,7 +22,7 @@ If you have not done so, please first complete the
 ## Injecting Envoy sidecar into a deployment
 
 Example deployment and service to demonstrate this task. Save this as
-apps.yaml.
+`apps.yaml`.
 
 ```yaml
 apiVersion: v1
@@ -110,7 +110,7 @@ SERVER=$(kubectl get pod -l app=service-two -o jsonpath='{.items[0].metadata.nam
 
 kubectl exec -it ${CLIENT} -c app -- curl service-two:80 | grep x-request-id
 ```
-```
+```bash
 x-request-id=a641eff7-eb82-4a4f-b67b-53cd3a03c399
 ```
 
@@ -124,7 +124,7 @@ Outbound request on client pod's proxy.
 ```bash
 kubectl logs ${CLIENT} proxy | grep a641eff7-eb82-4a4f-b67b-53cd3a03c399
 ```
-```
+```bash
 [2017-05-01T22:08:39.310Z] "GET / HTTP/1.1" 200 - 0 398 3 3 "-" "curl/7.47.0" "a641eff7-eb82-4a4f-b67b-53cd3a03c399" "service-two" "10.4.180.7:8080"
 ```
 
@@ -225,6 +225,14 @@ routing traffic.
      }
    },
    ```
+
+## Cleanup
+
+Delete the example services and deployment.
+
+```bash
+kubectl delete -f apps.yaml
+```
 
 ## What's next
 
