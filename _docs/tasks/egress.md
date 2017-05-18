@@ -182,7 +182,7 @@ cloud provider specific knowledge and configuration.
 
 1. Shutdown the [sleep](https://github.com/istio/istio/tree/master/samples/apps/sleep) service.
 
-   ```
+   ```bash
    kubectl delete -f samples/apps/sleep/sleep.yaml
    ```
 

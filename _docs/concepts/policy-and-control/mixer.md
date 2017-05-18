@@ -27,12 +27,8 @@ just define a universal logging API, universal metric API, universal billing API
 change the boundaries between layers in order to reduce systemic complexity, eliminating policy logic from service code and giving control
 to operators instead.
 
-{% include figure.html
-    file="./img/mixer/traffic.svg"
-    max-width="60%"
-    title="Mixer Traffic Flow"
-    alt="Showing the flow of traffic through Mixer."
-%}
+<figure><img style="max-width:60%;" src="./img/mixer/traffic.svg" alt="Showing the flow of traffic through Mixer." title="Mixer Traffic Flow" />
+<figcaption>Mixer Traffic Flow</figcaption></figure>
 
 Mixer provides three core features:
 
@@ -63,13 +59,7 @@ checking, and more. Adapters enable Mixer to expose a single consistent API, ind
 The exact set of adapters used at runtime is determined through configuration and can easily be extended
 to target new or custom infrastructure backends.
 
-{% include figure.html
-    file="./img/mixer/adapters.svg"
-    max-width="35%"
-    title="Mixer and its Adapters"
-    alt="Showing Mixer with adapters."
-    caption=""
-%}
+<figure><img style="max-width:35%;" src="./img/mixer/adapters.svg" alt="Showing Mixer with adapters." title="Mixer and its Adapters" /></figure>
 
 ## Configuration state
 
@@ -113,12 +103,8 @@ configured through a simple declarative form as described [here](./mixer-config.
 Processing phase creates a set of adapter parameters. The Adapter Dispatching phase invokes the adapters
 associated with each aspect and passes them those parameters.
 
-{% include figure.html
-    file="./img/mixer/phases.svg"
-    max-width="50%"
-    title="Request Phases"
-    alt="Phases of Mixer request processing."
-%}
+<figure><img style="max-width:50%;" src="./img/mixer/phases.svg" alt="Phases of Mixer request processing." title="Request Phases" />
+<figcaption>Request Phases</figcaption></figure>
 
 ## Scripting
 

@@ -86,6 +86,7 @@ order: <order>
 
 layout: docs
 type: markdown
+---
 ```
 
 Copy the above at the start of your new markdown file and update
@@ -114,14 +115,32 @@ subdirectory.
 
 ## Adding images to a topic
 
-Put image files in a `img/NAME` subdirectory of where you put your markdown file, where NAME corresponds to the name of your
-markdown file. The preferred image format is SVG.
+Put image files in an `img` subdirectory of where you put your markdown file. The preferred image format is SVG.
 
 If you must use a PNG or JPEG file instead, and the file
 was generated from an original SVG file, please include the
 SVG file in the repository even if it isn't used in the web
 site itself. This is so we can update the imagery over time 
 if needed.
+
+Within markdown, use the `figure` element to add the image:
+
+```html
+{% raw %}<figure>
+<img src="./img/myfile.svg" alt="Some description for accessibility" titla="A title displayed as a tooltip"/>
+<figcaption>A caption displayed under the image</figcaption>
+</figure>{% endraw %}
+```
+
+This will insert the image centered with a width of 75% and the given caption under it. You can
+adjust the width using a style element such as:
+ 
+```html
+{% raw %}<figure>
+<img style="max-width: 32%;" src="./img/myfile.svg" alt="Some description for accessibility" titla="A title displayed as a tooltip"/>
+<figcaption>A caption displayed under the image</figcaption>
+</figure>{% endraw %}
+```
 
 ## Linking to other pages
 
@@ -155,6 +174,7 @@ current hierarchy:
   line of boilerplate right after the block of front matter:
     
   ```markdown
+  ...
   ---
   {% raw %}{% include home.html %}{% endraw %}
   ```

@@ -98,7 +98,7 @@ as the example application throughout this task.
 
    The expected output is:
 
-   ```
+   ```bash
    Error: the server could not find the requested resource
    ```
 
@@ -140,12 +140,8 @@ as the example application throughout this task.
    These graphs display percentile breakdowns of the distribution of Response Sizes.
 
    The request from the previous step is reflected in the graphs. This looks similar to:
-
-   {% include figure.html
-       file="./img/dashboard_response_size.png"
-       max-width="100%"
-       alt="Istio Dashboard with Response Size Data"
-   %}
+   <figure><img style="max-width: 100%;" src="./img/dashboard_response_size.png" alt="Istio Dashboard with Response Size Data" title="Istio Dashboard with Response Size Data" />
+   <figcaption>Istio Dashboard with Response Size Data</figcaption></figure>
 
 1. Verify that the logs stream has been created and is being populated
    for requests.
@@ -158,7 +154,7 @@ as the example application throughout this task.
 
    The expected output is similar to:
 
-   ```
+   ```json
    {"logName":"combined_log","labels":{"referer":"","responseSize":871,"timestamp":"2017-04-29T02:11:54.989466058Z","url":"/reviews","userAgent":"python-requests/2.11.1"},"textPayload":"- - - [29/Apr/2017:02:11:54 +0000] \"- /reviews -\" - 871 - python-requests/2.11.1"}
    ```
 

@@ -40,10 +40,8 @@ There are 3 versions of the reviews microservice:
 
 The end-to-end architecture of the application is shown below.
 
-{% include figure.html
-   file="./img/bookinfo/noistio.svg"
-   alt="BookInfo Application without Istio"
-%}
+<figure><img src="./img/bookinfo/noistio.svg" alt="BookInfo Application without Istio" title="BookInfo Application without Istio" />
+<figcaption>BookInfo Application without Istio</figcaption></figure>
 
 This application is polyglot, i.e., the microservices are written in different languages.
 
@@ -77,10 +75,8 @@ This application is polyglot, i.e., the microservices are written in different l
    that manages incoming and outgoing calls for the service. The updated diagram looks
    like this:
 
-   {% include figure.html
-      file="./img/bookinfo/withistio.svg"
-      alt="BookInfo Application"
-   %}
+   <figure><img src="./img/bookinfo/withistio.svg" alt="BookInfo Application" title="BookInfo Application" />
+   <figcaption>BookInfo Application</figcaption></figure>
 
 1. Confirm all services and pods are correctly defined and running:
 
