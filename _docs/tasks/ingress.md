@@ -66,7 +66,7 @@ to configure ingress behavior.
      kubectl get ingress simple-ingress -o wide
      ```
    
-     ```
+     ```bash
      NAME             HOSTS     ADDRESS                 PORTS     AGE
      simple-ingress   *         130.211.10.121          80        1d
      ```
@@ -81,7 +81,7 @@ to configure ingress behavior.
      kubectl get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
      ```
 
-     ```
+     ```bash
      169.47.243.100
      ```
 
@@ -91,15 +91,13 @@ to configure ingress behavior.
      kubectl get svc istio-ingress
      ```
    
-     ```
+     ```bash
      NAME            CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
      istio-ingress   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
-
      ```
    
      ```bash
      export INGRESS_URL=169.47.243.100:31486
-
      ```
    
 1. Access the httpbin service using _curl_:
@@ -108,7 +106,7 @@ to configure ingress behavior.
    curl http://$INGRESS_URL/headers
    ```
 
-   ```
+   ```json
    {
      "headers": {
        "Accept": "*/*", 
@@ -174,7 +172,7 @@ to configure ingress behavior.
      kubectl get ingress secured-ingress -o wide
      ```
     
-     ```
+     ```bash
      NAME              HOSTS     ADDRESS                 PORTS     AGE
      secured-ingress   *         130.211.10.121          80, 443   1d
      ```
@@ -191,7 +189,7 @@ to configure ingress behavior.
      kubectl get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
      ```
  
-     ```
+     ```bash
      169.47.243.100
      ```
  
@@ -201,15 +199,13 @@ to configure ingress behavior.
      kubectl get svc istio-ingress
      ```
     
-     ```
+     ```bash
      NAME            CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
      istio-ingress   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
- 
      ```
     
      ```bash
      export SECURE_INGRESS_URL=169.47.243.100:32254
- 
      ```
     
 1. Access the secured httpbin service using _curl_:
@@ -218,7 +214,7 @@ to configure ingress behavior.
    curl -k https://$SECURE_INGRESS_URL/ip
    ```
    
-   ```
+   ```json
    {
      "origin": "129.42.161.35"
    }
@@ -238,10 +234,9 @@ to set a timeout rule on calls to the httpbin service.
 
    ```bash
    time curl -o /dev/null -s -w "%{http_code}\n" http://$INGRESS_URL/delay/5
-
    ```
    
-   ```
+   ```bash
    200
    
    real    0m5.024s
@@ -273,7 +268,7 @@ to set a timeout rule on calls to the httpbin service.
    time curl -o /dev/null -s -w "%{http_code}\n" http://$INGRESS_URL/delay/5
    ```
 
-   ```
+   ```bash
    504
    
    real    0m3.149s
@@ -308,7 +303,7 @@ We also showed how to control the ingress traffic using an Istio route rule.
 
 1. Shutdown the [httpbin](https://github.com/istio/istio/tree/master/samples/apps/httpbin) service.
 
-   ```
+   ```bash
    kubectl delete -f samples/apps/httpbin/httpbin.yaml
    ```
 
