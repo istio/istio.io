@@ -14,7 +14,7 @@ function setupTabs(rootElement) {
       if(tabs.length > 0) {
         tabs.tabs();
       }
-};
+}
 
 // Make the table of contents
 $(document).ready(function() {
