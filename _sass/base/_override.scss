@@ -31,25 +31,8 @@ p.note code {
   background-color: $thirdBrandColor !important;
 }
 
-code {
-  color: $codeColor;
-  background-color: $inverseBrandColor;
-  font-size: $font-size--primary;
-}
-
 pre {
-  background-color: $codeBkColor;
-  color: #000000;
-  border: none !important;
-  padding: 9.5px !important;
-}
-
-pre code {
-  white-space: pre;
-
-  @media print {
-    white-space: pre-wrap;
-  }
+  max-height: 500px;
 }
 
 .inverse {
