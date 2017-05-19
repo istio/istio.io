@@ -47,16 +47,3 @@
 		margin-left: -1em;
     }
 </style>
-
-<script type="text/javascript">
-(function($) {
-	$(document).ready(function() {
-		/* toggle category tree */
-		$(document).on('click', '.tree-toggle', function () {
-			$(this).children('i.fa').toggleClass('fa-caret-right');
-			$(this).children('i.fa').toggleClass('fa-caret-down');
-			$(this).parent().children('ul.tree').toggle(200);
-		});
-	});
-}(jQuery));
-</script>
