@@ -44,7 +44,7 @@ check failures for a given instance exceeds a pre-specified threshold, it
 will be ejected from the load balancing pool. Similarly, when the number of
 health checks that pass exceed a pre-specified threshold, the instance will
 be added back into the load balancing pool. You can find out more about Envoy's
-failure-handling features in [Handling Failures](handling-failures.html).
+failure-handling features in [Handling Failures](./handling-failures.html).
 
 Services can actively shed load by responding with a HTTP 503 to a health
 check. In such an event, the service instance will be immediately removed
