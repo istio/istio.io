@@ -102,3 +102,10 @@ th {
 .ui-widget-content a:hover, a:focus {
   color: $linkHoverColor !important;
 }
+
+#content-container{
+  /* overrides overflow:visible, which overlays on top of floating elements, i.e. the toc on /docs/reference/commands/istioctl.html */
+  code[class*="language-"], pre[class*="language-"]{
+    overflow:scroll;
+  }
+}
