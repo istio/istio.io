@@ -26,13 +26,19 @@
   // List Items
   li {
     line-height: 24px;
+    margin: 5px;
+  }
+
+  // Paragraphs inside list items whether you want them or not (thanks, Markdown)
+  li p {
+    margin: 5px;
   }
 
   // Lists
   ol,
   ul {
     list-style: initial;
-    font-size: 15px;
+    font-size: $font-size--primary;
     font-weight: 300;
     margin: 0 20px;
 
