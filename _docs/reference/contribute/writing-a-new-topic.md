@@ -279,3 +279,7 @@ This is a test
 This is a test
 This is a test
 </code></pre>
+
+See [here](http://prismjs.com/plugins/line-numbers/) for information on how to control some line numbering
+options.
+
