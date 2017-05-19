@@ -128,7 +128,7 @@ route requests to all available versions of a service in a random fashion.
 
 In this task, you used Istio to send 100% of the traffic to the v1 version of each of the BookInfo
 services. You then set a rule to selectively send traffic to version v2 of the reviews service based
-a header (i.e., a user cookie) in a request.
+on a header (i.e., a user cookie) in a request.
 
 Once the v2 version has been tested to our satisfaction, we could use Istio to send traffic from
 all users to v2, optionally in a gradual fashion by using a sequence of rules with weights less
