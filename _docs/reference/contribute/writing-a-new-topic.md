@@ -180,3 +180,102 @@ current hierarchy:
   ```
 
   Adding this include statement is what defines the `home` variable that is used in the link target.
+
+## Embedding preformatted blocks
+
+You can embed blocks of preformatted content using the normal markdown technique:
+
+<pre class="language-markdown"><code>```
+func HelloWorld() {
+  fmt.Println("Hello World")
+}
+```
+</code></pre>
+
+The above produces this kind of output:
+
+```
+func HelloWorld() {
+  fmt.Println("Hello World")
+}
+```
+
+In general, you should indicate the nature of the content in the preformatted block. You do this
+by appending a name after the initial set of tick marks
+
+<pre class="language-markdown"><code>```go
+func HelloWorld() {
+  fmt.Println("Hello World")
+}
+```
+</code></pre>
+
+The above indicates the content is Go source code, which will lead to appropriate syntax coloring as shown here:
+
+```go
+func HelloWorld() {
+  fmt.Println("Hello World")
+}
+```
+
+You can use `markdown`, `yaml`, `json`, `java`, `javascript`, `c`, `cpp`, `csharp`, `go`, `html`, `protobuf`, and `bash`.
+
+### Displaying file content
+
+You can pull in an external file and display its content as a preformatted block. This is handy to
+display a config file or a test file. To do so, you can use normal markup and instead you need to
+use direct HTML. For example:
+
+```
+<pre data-src="/repos/istio/BUILD"></pre>
+```
+
+which produces the following result:
+
+<pre data-src="/repos/istio/BUILD"></pre>
+
+The `data-src` attribute specifies the path to the file to display. This has to be a file within the
+current site, it cannot come from a different site.
+
+### Highlighting lines
+
+You can highlight specific lines in a preformatted block using the `data-line` attribute:
+
+```
+<pre data-line="3"><code>This is a test
+This is a test
+This is a test
+This is a test
+</code></pre>
+```
+
+which produces the following result:
+
+<pre data-line="3"><code>This is a test
+This is a test
+This is a test
+This is a test
+</code></pre>
+
+See [here](http://prismjs.com/plugins/line-highlight/) for information on how to highlight multiple
+lines and ranges.
+
+### Displaying line numbers
+
+You can display line numbers for all lines in a preformatted block using the `line-numbers` class:
+
+```
+<pre class="line-numbers"><code>This is a test
+This is a test
+This is a test
+This is a test
+</code></pre>
+```
+
+which produces the following result:
+
+<pre class="line-numbers"><code>This is a test
+This is a test
+This is a test
+This is a test
+</code></pre>
