@@ -10,15 +10,15 @@ type: markdown
 
 This page provides an overview of how traffic management works
 in Istio, including the benefits of its traffic management
-principles. It assumes that you've already read [What Is
-Istio?]({{home}}/docs/concepts/what-is-istio/overview.html) and are familiar
-with Istio's high-level architecture. You can find out more about individual
-traffic management features in the other guides in this section.
+principles. It assumes that you've already read [What Is Istio?]({{home}}/docs/concepts/what-is-istio/overview.html)
+and are familiar with Istio's high-level architecture. You can
+find out more about individual traffic management features in the other
+guides in this section.
 
 ## Istio-Manager and Envoy
 
 The core component used for traffic management in Istio is
-[Istio-Manager](manager.html), which manages and configures all the Envoy
+[Istio-Manager](./manager.html), which manages and configures all the Envoy
 proxy instances deployed in a particular Istio service mesh. It lets you
 specify what rules you want to use to route traffic between Envoy proxies
 and configure failure recovery features such as timeouts, retries, and
@@ -26,7 +26,7 @@ circuit breakers. It also maintains a canonical model of all the services
 in the mesh and uses this to let Envoys know about the other instances in
 the mesh via its discovery service.
 
-Each Envoy instance maintains [load balancing information](load-balancing.html)
+Each Envoy instance maintains [load balancing information](./load-balancing.html)
 based on the information it gets from Istio-Manager and periodic health-checks
 of other instances in its load-balancing pool, allowing it to intelligently
 distribute traffic between destination instances while following its specified
@@ -34,7 +34,7 @@ routing rules.
 
 ## Traffic management benefits
 
-Using Istio's traffice management model essentially decouples traffic flow
+Using Istio's traffic management model essentially decouples traffic flow
 and infrastructure scaling, letting operators specify via Istio-Manager what
 rules they want traffic to follow rather than which specific pods/VMs should
 receive traffic - Istio-Manager and intelligent Envoy proxies look after the
