@@ -4,6 +4,13 @@ layout: default
 {% include home.html %}
 {% include doc-top-nav.html %}
 
+{% assign components = page.path | downcase | split: '/' %}
+{% assign section = components[1] %}
+{% assign hasNoChildPages = false %}
+{% if components[1] == "index.md" %}
+{%   assign hasNoChildPages = true %}
+{% endif %}
+
 <style>
 .thin-left-border {
   border-left: 1px solid rgba(0, 0, 0, .15);
@@ -36,12 +43,15 @@ layout: default
   <div class="row">
     <div class="col-md-11 nofloat center-block">
       <div class="row">
+          {% unless hasNoChildPages %}
           <div id="sidebar-container" class="col-sm-3">
             {% include doc-side-nav.html %}
           </div>
           <div id="tab-container" class="col-xs-1 tab-neg-margin pull-left">
             <span id="sidebar-tab" class="glyphicon glyphicon-chevron-left"></span>
           </div>
+          {% endunless %}
+
           <div id="content-container" class="thin-left-border col-sm-9 {{ page.type }}">
             <div id="toc" class=""></div>
             <h1>{{page.title}}</h1>
