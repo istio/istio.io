@@ -4,8 +4,12 @@ markdown:
 kramdown:
   input: GFM
   hard_wrap: false
+  syntax_highlighter_opts:
+    disable : true
 
 baseurl:
+
+highlighter: none
 
 liquid:
   error_mode: strict
