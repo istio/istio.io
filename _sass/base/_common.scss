@@ -29,6 +29,21 @@
   width: 100%; 
 }
 
+div.toc {
+  padding: 0px;
+}
+
+#toc {
+  ul {
+    margin: 10px;
+
+    ul {
+      margin-top: 0px;
+      margin-bottom: 0px;
+    }
+  }
+}
+
 .toc {
   background-color: $light-gray;
   border: 1px solid $gray;
@@ -36,7 +51,6 @@
   display: none !important;
   padding: 15px;
   float: right;
-  //position: absolute;
   right: 45px;
   margin-top: 15px;
 
@@ -47,7 +61,6 @@
 
   ul {
     list-style-type: none !important;
-    //padding-left: 10px;
     font-size: 90%;
 
     ul {
@@ -101,4 +114,19 @@ th {
 
 .ui-widget-content a:hover, a:focus {
   color: $linkHoverColor !important;
+}
+
+
+#content-container{
+  /* overrides overflow:visible, which overlays on top of floating elements, i.e. the toc on /docs/reference/commands/istioctl.html */
+  code[class*="language-"], pre[class*="language-"]{
+//    z-index: -1;
+  }
+
+  .toolbar-item {
+    a {
+       background-color: $mainBrandColor;
+       color: $white
+    }
+  }
 }
