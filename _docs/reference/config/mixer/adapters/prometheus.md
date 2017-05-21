@@ -9,12 +9,6 @@ type: markdown
 ---
 
 
-<a name="rpcAdapter.prometheus.Index"></a>
-### Index
-
-* [Params](#adapter.prometheus.Params)
-(message)
-
 <a name="adapter.prometheus.Params"></a>
 ### Params
 

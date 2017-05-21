@@ -37,7 +37,7 @@ This simple form of access control is based on conditionally denying requests us
 Consider the [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application where the `ratings` service is accessed by multiple versions
 of the `reviews` service. We would like to cut off access to version `v3` of the `reviews` service.
 
-1. Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage). 
+1. Point your browser at the BookInfo `productpage` (http://$GATEWAY_URL/productpage). 
 
    If you log in as user "jason", you should see black ratings stars with each review,
    indicating that the `ratings` service is being called by the "v2" version of the `reviews` service.

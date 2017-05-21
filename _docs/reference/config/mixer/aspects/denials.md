@@ -9,12 +9,6 @@ type: markdown
 ---
 
 
-<a name="rpcAspect.Index"></a>
-### Index
-
-* [DenialsParams](#aspect.DenialsParams)
-(message)
-
 <a name="aspect.DenialsParams"></a>
 ### DenialsParams
 Configures a denials aspect.

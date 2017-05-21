@@ -9,14 +9,6 @@ type: markdown
 ---
 
 
-<a name="rpcAspect.Index"></a>
-### Index
-
-* [ApplicationLogsParams](#aspect.ApplicationLogsParams)
-(message)
-* [ApplicationLogsParams.ApplicationLog](#aspect.ApplicationLogsParams.ApplicationLog)
-(message)
-
 <a name="aspect.ApplicationLogsParams"></a>
 ### ApplicationLogsParams
 Configures an individual application-logs aspect.

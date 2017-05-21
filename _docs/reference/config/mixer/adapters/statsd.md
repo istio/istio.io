@@ -9,12 +9,6 @@ type: markdown
 ---
 
 
-<a name="rpcAdapter.statsd.Index"></a>
-### Index
-
-* [Params](#adapter.statsd.Params)
-(message)
-
 <a name="adapter.statsd.Params"></a>
 ### Params
 

@@ -9,12 +9,6 @@ type: markdown
 ---
 
 
-<a name="rpcAspect.Index"></a>
-### Index
-
-* [ListsParams](#aspect.ListsParams)
-(message)
-
 <a name="aspect.ListsParams"></a>
 ### ListsParams
 Configures a lists aspect.
