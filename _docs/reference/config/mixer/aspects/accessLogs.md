@@ -9,14 +9,6 @@ type: markdown
 ---
 
 
-<a name="rpcAspect.Index"></a>
-### Index
-
-* [AccessLogsParams](#aspect.AccessLogsParams)
-(message)
-* [AccessLogsParams.AccessLog](#aspect.AccessLogsParams.AccessLog)
-(message)
-
 <a name="aspect.AccessLogsParams"></a>
 ### AccessLogsParams
 Example usage:

@@ -9,13 +9,6 @@ type: markdown
 ---
 
 
-<a name="rpcAdapter.genericListChecker.Index"></a>
-### Index
-
-* [Params](#adapter.genericListChecker.Params)
-(message)
-
-<a name="adapter.genericListChecker.Params"></a>
 ### Params
 
 <table>

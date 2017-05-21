@@ -9,14 +9,6 @@ type: markdown
 ---
 
 
-<a name="rpcAspect.Index"></a>
-### Index
-
-* [MetricsParams](#aspect.MetricsParams)
-(message)
-* [MetricsParams.Metric](#aspect.MetricsParams.Metric)
-(message)
-
 <a name="aspect.MetricsParams"></a>
 ### MetricsParams
 Configures a metric aspect.

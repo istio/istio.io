@@ -9,12 +9,6 @@ type: markdown
 ---
 
 
-<a name="rpcAdapter.memQuota.Index"></a>
-### Index
-
-* [Params](#adapter.memQuota.Params)
-(message)
-
 <a name="adapter.memQuota.Params"></a>
 ### Params
 

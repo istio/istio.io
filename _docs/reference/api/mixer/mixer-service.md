@@ -8,26 +8,6 @@ layout: docs
 type: markdown
 ---
 
-<a name="rpcIstio.mixer.v1Index"></a>
-### Index
-* [Mixer](#istio.mixer.v1.Mixer) (interface)
-* [Attributes](#istio.mixer.v1.Attributes)
-(message)
-* [CheckRequest](#istio.mixer.v1.CheckRequest)
-(message)
-* [CheckResponse](#istio.mixer.v1.CheckResponse)
-(message)
-* [QuotaRequest](#istio.mixer.v1.QuotaRequest)
-(message)
-* [QuotaResponse](#istio.mixer.v1.QuotaResponse)
-(message)
-* [ReportRequest](#istio.mixer.v1.ReportRequest)
-(message)
-* [ReportResponse](#istio.mixer.v1.ReportResponse)
-(message)
-* [StringMap](#istio.mixer.v1.StringMap)
-(message)
-
 <a name="istio.mixer.v1.Mixer"></a>
 ### Mixer
 Mixer provides three core features:

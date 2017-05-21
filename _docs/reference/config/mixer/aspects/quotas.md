@@ -9,14 +9,6 @@ type: markdown
 ---
 
 
-<a name="rpcAspect.Index"></a>
-### Index
-
-* [QuotasParams](#aspect.QuotasParams)
-(message)
-* [QuotasParams.Quota](#aspect.QuotasParams.Quota)
-(message)
-
 <a name="aspect.QuotasParams"></a>
 ### QuotasParams
 Configures a quotas aspect.

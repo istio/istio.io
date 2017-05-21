@@ -36,7 +36,7 @@ Istio enables users to rate limit traffic to a service.
 Consider `ratings` as an external paid service like Rotten Tomatoes® with `1qps` free quota.
 Using Istio we can ensure that `1qps` is not breached.  
 
-1. Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage). 
+1. Point your browser at the BookInfo `productpage` (http://$GATEWAY_URL/productpage). 
 
    If you log in as user "jason", you should see black ratings stars with each review,
    indicating that the `ratings` service is being called by the "v2" version of the `reviews` service.

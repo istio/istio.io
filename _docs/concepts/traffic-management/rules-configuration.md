@@ -46,7 +46,7 @@ control how requests are routed to a destination service.
 
 Routes control how requests are routed to different versions of a
 service. Requests can be routed based on the source and destination, HTTP
-header fields, and weights associated with individal service versions. The
+header fields, and weights associated with individual service versions. The
 following important aspects must be keep in mind while writing route rules:
 
 ### Qualify rules by destination
@@ -147,7 +147,7 @@ route:
   weight: 75
 ```
 
-### Timeouts and Retries
+### Timeouts and retries
 
 By default, the timeout for http requests is 15 seconds,
 but this can be overridden in a route rule as follows:
@@ -163,7 +163,7 @@ httpReqTimeout:
 ```
 
 The number of retries for a given http request can also be specified in a route rule.
-The maximum number of attempts, or as many as possible within the default or overriden timeout period,
+The maximum number of attempts, or as many as possible within the default or overridden timeout period,
 can be set as follows:
 
 ```yaml
@@ -259,7 +259,7 @@ undefined._
 
 **When is precedence useful?** Whenever the routing story for a particular
 service is purely weight based, it can be specified in a single rule,
-as shown in the earlier example.  When, on the other hand, other crieria
+as shown in the earlier example.  When, on the other hand, other criteria
 (e.g., requests from a specific user) are being used to route traffic, more
 than one rule will be needed to specify the routing.  This is where the
 rule *precedence* field must be set to make sure that the rules are
@@ -304,7 +304,7 @@ request, it will be executed and the rule-evaluation process will
 terminate. That's why it's very important to carefully consider the
 priorities of each rule when there is more than one.
 
-## Destination Policies
+## Destination policies
 
 Destination policies describe various routing related policies associated
 with a particular service version, such as the load balancing algorithm,
@@ -314,8 +314,8 @@ request such as the calling service or HTTP request headers.
 
 However, the policies can be restricted to apply to requests that are
 routed to backends with specific tags. For example, the following load
-balancing policy will only apply to requests targetting the "v1" version of
-the "reviews" microserivice.
+balancing policy will only apply to requests targeting the "v1" version of
+the "reviews" microservice.
 
 ```yaml
 destination: reviews.default.svc.cluster.local
@@ -324,7 +324,7 @@ tags:
 loadBalancing: RANDOM
 ```
 
-### Circuit Breakers
+### Circuit breakers
 
 A simple circuit breaker can be set based on a number of criteria such as connection and request limits.
 
@@ -343,7 +343,7 @@ circuitBreaker:
 The complete set of simple circuit breaker fields can be found
 [here]({{home}}/docs/reference/config/traffic-rules/destination-policies.html#istio.proxy.v1.config.CircuitBreaker).
 
-### Destination Policy evaluation
+### Destination policy evaluation
 
 Similar to route rules, destination policies are associated with a
 particular *destination* however if they also include *tags* their
@@ -357,7 +357,7 @@ determine if they apply.
 
 **NOTE:** One subtlety of the algorithm to keep in mind is that policies
 that are defined for specific tagged destinations will only be applied if
-the corresponding tagged instances are explicity routed to. For example,
+the corresponding tagged instances are explicitly routed to. For example,
 consider the following rule, as the one and only rule defined for the
 "reviews" service.
 
@@ -372,7 +372,7 @@ circuitBreaker:
 
 Since there is no specific route rule defined for the "reviews"
 service, default round-robin routing behavior will apply, which will
-persumably call "v1" instances on occasion, maybe even always if "v1" is
+presumably call "v1" instances on occasion, maybe even always if "v1" is
 the only running version. Nevertheless, the above policy will never be
 invoked since the default routing is done at a lower level. The rule
 evaluation engine will be unaware of the final destination and therefore

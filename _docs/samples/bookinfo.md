@@ -162,13 +162,6 @@ This application is polyglot, i.e., the microservices are written in different l
    200
    ```
    
-## What's next
-
-Now that you have the BookInfo sample up and running, you can point your browser to `http://$GATEWAY_URL/productpage`
-to see the running application and use Istio to control traffic routing, inject faults, rate limit services, etc..
-
-To get started, check out the [request routing task]({{home}}/docs/tasks/request-routing.html).
-
 ## Cleanup
 
 When you're finished experimenting with the BookInfo sample, you can uninstall it as follows:
@@ -185,3 +178,10 @@ When you're finished experimenting with the BookInfo sample, you can uninstall i
    istioctl get route-rules   #-- there should be no more routing rules
    kubectl get pods           #-- the BookInfo pods should be deleted
    ```
+
+## What's next
+
+Now that you have the BookInfo sample up and running, you can point your browser to `http://$GATEWAY_URL/productpage`
+to see the running application and use Istio to control traffic routing, inject faults, rate limit services, etc..
+
+To get started, check out the [request routing task]({{home}}/docs/tasks/request-routing.html).
