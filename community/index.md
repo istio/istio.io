@@ -38,7 +38,7 @@ bugs.
     </tr>
 
     <tr>
-      <td><img src="../img/icon_twitter.svg" alt="Twitter" /></td>
+      <td><img src="../img/twitter.png" alt="Twitter" /></td>
       <td>
         Follow us on <a href="https://twitter.com/IstioMesh">Twitter</a> to get the latest news.
       </td>
@@ -53,7 +53,7 @@ bugs.
     </tr>
 
     <tr>
-      <td><img src="../img/icon_github.svg" alt="GitHub" /></td>
+      <td><img src="../img/github.png" alt="GitHub" /></td>
       <td>
         <a href="https://github.com/istio">GitHub</a> is where development takes place on Istio code.
       </td>

@@ -29,62 +29,6 @@
   width: 100%; 
 }
 
-div.toc {
-  padding: 0px;
-}
-
-#toc {
-  ul {
-    margin: 10px;
-
-    ul {
-      margin-top: 0px;
-      margin-bottom: 0px;
-    }
-  }
-}
-
-.toc {
-  background-color: $light-gray;
-  border: 1px solid $gray;
-  border-radius: 6px;
-  display: none !important;
-  padding: 15px;
-  float: right;
-  right: 45px;
-  margin-top: 15px;
-
-  @media (min-width: 1024px) {
-      display: block !important;
-      margin-left: 20px;
-  }
-
-  ul {
-    list-style-type: none !important;
-    font-size: 90%;
-
-    ul {
-        font-size: 90%;
-        padding-left: 10px;
-    }
-
-    a {
-        color: $dark-gray;
-        font-weight: normal;
-    }
-  }
-}
-
-.toc.mobile-toc{
-  display: none !important;
-
-  @media (max-width: 768px) {
-    margin-top: 30px;
-    display: block !important;
-    border-left: 4px solid $light-gray;
-  }
-}
-
 // Tables are table-y
 table,
 th,
