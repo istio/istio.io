@@ -67,10 +67,14 @@ th {
 //    z-index: -1;
   }
 
+  div.toolbar {
+    top: -2px;
+  }
+
   .toolbar-item {
     a {
        background-color: $mainBrandColor;
-       color: $white
+       color: $white;
     }
   }
 }
