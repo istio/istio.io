@@ -13,12 +13,12 @@ This page describes how to write configuration that conforms to Istio's schemas.
 
 ## Translating to YAML
 
-There is no canonical mapping between protobufs and YAML; instead [protobuf defines a canonical mapping to JSON](https://developers.google.com/protocol-buffers/docs/proto3#json), and [YAML defines a canonical mapping to JSON](http://yaml.org/spec/1.2/spec.html#id2759572). To ingest YAML as a proto we convert it to JSON then to  protobuf.
+There's an implicit mapping from protobuf to YAML using [protobuf's mapping to JSON](https://developers.google.com/protocol-buffers/docs/proto3#json). Below are a few examples showing common mappings you'll encounter writing configuration in Istio.
 
 **Important things to note:**
 - YAML fields are implicitly strings
 - Proto `repeated` fields map to YAML lists; each element in a YAML list is prefixed by a dash (`-`)
-- Proto `message`s map to JSON objects; in YAML objects are field names all at the same indentation level
+- Proto `message`s map to objects; in YAML objects are field names all at the same indentation level
 - YAML is whitespace sensitive and must use spaces; tabs are never allowed
 
 ### `map` and `message` fields
