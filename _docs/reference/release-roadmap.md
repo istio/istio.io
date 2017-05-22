@@ -10,7 +10,7 @@ type: markdown
 
 ## Istio 0.2
 
-Istio 0.2 will be our second release, and will work across multiple Kubernetes clusters and some basic hybrid deployments. Istio 0.2 is focused on expanding the coverage of Istio to more places, and making it easier to for users and vendors to integrate into the system. Istio 0.2 will include the following features:
+Istio 0.2 will be our second release, and will work across multiple Kubernetes clusters and some basic hybrid deployments. Istio 0.2 is focused on expanding the coverage of Istio to more places, and making it easier for users and vendors to integrate into the system. Istio 0.2 will include the following features:
 - TCP telemetry collection and policy enforcement.
 - Hybrid deployments (multiple clusters, VMs).
 - Fully-automated injection of Envoy proxies into Kubernetes pods.
@@ -19,9 +19,9 @@ Istio 0.2 will be our second release, and will work across multiple Kubernetes c
 - Mixer request tracing with Zipkin.
 - Additional logging and analysis plugins.
 - Cluster-wide rate limiting.
-- Basic API management features
+- Basic API management features.
 - Configuration rollout and management.
-- Stable configuration and policy enforcement APIs.
+- Configuration and policy enforcement APIs.
 - Improved system stability and performance.
 
 ## Istio 0.3
