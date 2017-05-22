@@ -15,7 +15,7 @@ Istio 0.1 is the initial release of Istio. It works in a single Kubernetes clust
 - Semi-automated injection of Envoy proxies into Kubernetes pods.
 - Automatic traffic capture for Kubernetes pods using iptables.
 - In-cluster load balancing for HTTP, gRPC, and TCP traffic.
-- Support for timeouts, retry with budgets, and circuit breaks
+- Support for timeouts, retry with budgets, and circuit breakers.
 - Istio-integrated Kubernetes Ingress support (Istio acts as an Ingress Controller).
 - Fine-grained traffic routing controls, including A/B testing, canarying, red/black deployments.
 - Flexible in-memory rate limiting.
