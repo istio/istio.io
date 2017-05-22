@@ -101,11 +101,13 @@ function outputNavBarTree(items) {
             document.writeln("<li class='doc-side-nav-list-item'>");
             document.writeln("<label class='tree-toggle'>");
             document.writeln("<i class='fa fa-lg fa-caret-down'></i>");
+            document.writeln("<a class='tree-toggle-link' href='javascript:void 0;'>");
             if (item.doc == null) {
                 document.writeln(item.name);
             } else {
                 document.writeln(item.doc.title);
             }
+            document.writeln("</a>");
             document.writeln("</label>");
 
             if (item.doc.order == 9999) {
