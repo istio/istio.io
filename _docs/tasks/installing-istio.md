@@ -7,6 +7,7 @@ order: 10
 layout: docs
 type: markdown
 ---
+
 {% include home.html %}
 
 This page shows how to install and configure Istio in a Kubernetes cluster.
@@ -112,7 +113,7 @@ as well as the [Grafana](http://staging.grafana.org) and/or ServiceGraph addons.
    kubectl apply -f install/kubernetes/addons/grafana.yaml
    kubectl apply -f install/kubernetes/addons/servicegraph.yaml
 ```
-You can find out more about how to use these tools in [Collecting Metrics and Logs](./metrics-logs.md).
+You can find out more about how to use these tools in [Collecting Metrics and Logs](./metrics-logs.html).
 
 #### Verifying the Grafana dashboard
 
