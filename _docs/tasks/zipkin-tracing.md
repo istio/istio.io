@@ -77,7 +77,7 @@ The `reviews` service took about 243ms to execute, including a 15ms call to `rat
 ## Understanding what happened
 
 Although Istio proxies are able to automatically send spans to Zipkin, they need some hints to tie together the entire trace.
-Applications need to propogate the appropriate HTTP headers so that when the proxies send span information to Zipkin,
+Applications need to propagate the appropriate HTTP headers so that when the proxies send span information to Zipkin,
 the spans can be correlated correctly into a single trace.
 
 To do this, an application needs to collect and propagate the following headers from the incoming request to any outgoing requests:
