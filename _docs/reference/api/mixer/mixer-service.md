@@ -28,25 +28,25 @@ resources. Rate limits are examples of quotas.
 
 <a name="istio.mixer.v1.Mixer.Check"></a>
 #### Check
-<code>
-  rpc Check([CheckRequest](#istio.mixer.v1.CheckRequest)) returns ([CheckResponse](#istio.mixer.v1.CheckResponse))
-</code>
+<pre>
+  rpc Check(<a href="#istio.mixer.v1.CheckRequest">CheckRequest</a>) returns (<a href="#istio.mixer.v1.CheckResponse">CheckResponse</a>)
+</pre>
 Checks preconditions before performing an operation.
 The preconditions enforced depend on the set of supplied attributes and
 the active configuration.
 
 <a name="istio.mixer.v1.Mixer.Quota"></a>
 #### Quota
-<code>
-  rpc Quota([QuotaRequest](#istio.mixer.v1.QuotaRequest)) returns ([QuotaResponse](#istio.mixer.v1.QuotaResponse))
-</code>
+<pre>
+  rpc Quota(<a href="#istio.mixer.v1.QuotaRequest">QuotaRequest</a>) returns (<a href="#istio.mixer.v1.QuotaResponse">QuotaResponse</a>)
+</pre>
 Quota allocates and releases quota.
 
 <a name="istio.mixer.v1.Mixer.Report"></a>
 #### Report
-<code>
-  rpc Report([ReportRequest](#istio.mixer.v1.ReportRequest)) returns ([ReportResponse](#istio.mixer.v1.ReportResponse))
-</code>
+<pre>
+  rpc Report(<a href="#istio.mixer.v1.ReportRequest">ReportRequest</a>) returns (<a href="#istio.mixer.v1.ReportResponse">ReportResponse</a>)
+</pre>
 Reports telemetry, such as logs and metrics.
 The reported information depends on the set of supplied attributes and the
 active configuration.
