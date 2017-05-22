@@ -48,13 +48,13 @@ Istio service mesh.
  <tr>
   <td><code>proxyListenPort</code></td>
   <td>int32</td>
-  <td>Port on which egress envoy should listen for incoming connections from other services.</td>
+  <td>Port on which envoy should listen for incoming connections from other services.</td>
  </tr>
 <a name="istio.proxy.v1.config.ProxyMeshConfig.proxyAdminPort"></a>
  <tr>
   <td><code>proxyAdminPort</code></td>
   <td>int32</td>
-  <td>Port on which egress envoy should listen for administrative commands.</td>
+  <td>Port on which envoy should listen for administrative commands.</td>
  </tr>
 <a name="istio.proxy.v1.config.ProxyMeshConfig.drainDuration"></a>
  <tr>
