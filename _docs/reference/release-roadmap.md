@@ -10,7 +10,7 @@ type: markdown
 
 ## Istio 0.2
 
-Istio 0.2 will be our second release, and will work across multiple Kubernetes clusters and some basic hybrid deployments. Istio 0.2 will support the following features:
+Istio 0.2 will be our second release, and will work across multiple Kubernetes clusters and some basic hybrid deployments. Istio 0.2 is focused on expanding the coverage of Istio to more places, and making it easier to for users and vendors to integrate into the system. Istio 0.2 will include the following features:
 - TCP telemetry collection and policy enforcement.
 - Hybrid deployments (multiple clusters, VMs).
 - Fully-automated injection of Envoy proxies into Kubernetes pods.
@@ -26,7 +26,7 @@ Istio 0.2 will be our second release, and will work across multiple Kubernetes c
 
 ## Istio 0.3
 
-Istio 0.3 feature set is is TBD, based on feedback from the community. Some of the features we are considering include:
+Istio 0.3 will be our third release, focused on performance, scale, and stability. The full feature set for 0.3 is still TBD, based on feedback from the community. Some of the additional features we are considering include:
 - Client-oriented telemetry collection and distribution.
 - Global load balancing with autoscaling.
 - Support for the Open Service Broker APIs.
