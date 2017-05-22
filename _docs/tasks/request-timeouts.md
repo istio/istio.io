@@ -94,27 +94,27 @@ to the `ratings` service.
 
 ## Understanding what happened
 
-In this task, we used Istio to set the request timeout for calls to the `reviews`
+In this task, you used Istio to set the request timeout for calls to the `reviews`
 microservice to 1 second (instead of the default 15 seconds). 
 Since the `reviews` service subsequently calls the `ratings` service when handling requests,
-we used Istio to inject a 2 second delay in call to `ratings`, so that we would cause the
-`reviews` service to take longer than 1 second to complete and consequently we coud see the
+you used Istio to inject a 2 second delay in calls to `ratings`, so that you would cause the
+`reviews` service to take longer than 1 second to complete and consequently you could see the
 timeout in action. 
 
-We observed that the BookInfo productpage (which calls the `reviews` service to populate the page),
+You observed that the BookInfo productpage (which calls the `reviews` service to populate the page),
 instead of displaying reviews, displayed
 the message: Sorry, product reviews are currently unavailable for this book.
-This was the result of it recieving the timeout error from the `reviews` service.
+This was the result of it receiving the timeout error from the `reviews` service.
 
 If you check out the [fault injection task](./fault-injection.html), you'll find out that the `productpage`
 microservice also has its own application-level timeout (3 seconds) for calls to the `reviews` microservice.
 Notice that in this task we used an Istio route rule to set the timeout to 1 second.
-Had we instead set the timeout to something greater than 3 seconds (e.g., 4 seconds) the timeout
+Had you instead set the timeout to something greater than 3 seconds (e.g., 4 seconds) the timeout
 would have had no effect since the more restrictive of the two will take precedence.
 More details can be found [here]({{home}}/docs/concepts/traffic-management/handling-failures.html#faq).
 
 One more thing to note about timeouts in Istio is that in addition to overriding them in route rules,
-as we did in this task, they can also be overridden on a per-request basis if the application adds
+as you did in this task, they can also be overridden on a per-request basis if the application adds
 an "x-envoy-upstream-rq-timeout-ms" header on outbound requests. In the header
 the timeout is specified in millisecond (instead of second) units. 
 

@@ -1,3 +1,10 @@
+.navbar-inverse .navbar-toggle,
+.navbar-inverse .navbar-toggle:hover,
+.navbar-inverse .navbar-toggle:focus {
+  background-color: transparent;
+  border-color: transparent !important;
+}
+
 #header-nav {
   background: $mainBrandColor linear-gradient(to right, $mainBrandColor, $secondBrandColor) no-repeat center/cover;
 

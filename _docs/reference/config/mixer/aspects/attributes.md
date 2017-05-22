@@ -9,12 +9,6 @@ type: markdown
 ---
 
 
-<a name="rpcAspect.Index"></a>
-### Index
-
-* [AttributesGeneratorParams](#aspect.AttributesGeneratorParams)
-(message)
-
 <a name="aspect.AttributesGeneratorParams"></a>
 ### AttributesGeneratorParams
 Configures an AttributesGenerator aspect.

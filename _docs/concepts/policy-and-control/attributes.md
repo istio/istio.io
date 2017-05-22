@@ -25,7 +25,7 @@ original IP address of a TCP connection. For example:
 	source.ip: 192.168.0.1
 	target.service: example
 
-## Attribute Vocabulary
+## Attribute vocabulary
 
 A given Istio deployment has a fixed vocabulary of attributes that it understands.
 The specific vocabulary is determined by the set of attribute producers being used
@@ -35,13 +35,13 @@ specialized Mixer adapters and services can also generate attributes.
 The common baseline set of attributes available in most Istio deployments is defined
 [here]({{home}}/docs/reference/config/mixer/attribute-vocabulary.html).
 
-## Attribute Names
+## Attribute names
 
-Istio attributes use Java-like fully qualified identiers as attribute names. The
+Istio attributes use Java-like fully qualified identifiers as attribute names. The
 allowed characters are `[_.a-z0-9]`. The character `"."` is used as namespace
 separator. For example, `request.size` and `source.ip`.
 
-## Attribute Types
+## Attribute types
 
 Istio attributes are strongly typed. The supported attribute types are defined by
 [ValueType](https://github.com/istio/api/blob/master/mixer/v1/config/descriptor/value_type.proto).

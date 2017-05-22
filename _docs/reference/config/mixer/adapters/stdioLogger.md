@@ -9,14 +9,6 @@ type: markdown
 ---
 
 
-<a name="rpcAdapter.stdioLogger.Index"></a>
-### Index
-
-* [Params](#adapter.stdioLogger.Params)
-(message)
-* [Params.Stream](#adapter.stdioLogger.Params.Stream)
-(enum)
-
 <a name="adapter.stdioLogger.Params"></a>
 ### Params
 

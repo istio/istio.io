@@ -9,16 +9,6 @@ type: markdown
 ---
 
 
-<a name="rpcIstio.proxy.v1.configIndex"></a>
-### Index
-
-* [DestinationPolicy](#istio.proxy.v1.config.DestinationPolicy)
-(message)
-* [LoadBalancing](#istio.proxy.v1.config.LoadBalancing)
-(message)
-* [CircuitBreaker](#istio.proxy.v1.config.CircuitBreaker)
-(message)
-
 <a name="istio.proxy.v1.config.DestinationPolicy"></a>
 ### DestinationPolicy
 DestinationPolicy defines client/caller-side policies that determine how
@@ -81,8 +71,8 @@ environment:
 If tags are omitted, the policy applies for all versions of the
 service. Policy CANNOT BE empty.
 *Note:* Destination policies will be applied only if the corresponding
-tagged instances are explicity routed to. In other words, for every
-destination policy defined, atleast one route rule must refer to the
+tagged instances are explicitly routed to. In other words, for every
+destination policy defined, at least one route rule must refer to the
 service version indicated in the destination policy.
 
 <table>
@@ -210,7 +200,7 @@ policy sets a limit of 100 connections to "reviews" service version
 The following destination policy sets a limit of 100 connections and
 1000 concurrent requests, with no more than 10 req/connection to
 "reviews" service version "v1" backends. In addition, it configures
-hosts to be scanned every 5 mins, such that any host that fails 7
+hosts to be scanned every 5 minutes, such that any host that fails 7
 consecutive times with 5XX error code will be ejected for 15 minutes.
 
 

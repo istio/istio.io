@@ -97,7 +97,7 @@ footer {
   }
 
   .github {
-    @include social-icon('../img/icon_github.svg');
+    @include social-icon('../img/github.png');
   }
 
   .group {
@@ -106,10 +106,6 @@ footer {
 
   .stack-overflow {
     @include social-icon('../img/stackoverflow.png');
-  }
-
-  .slack {
-    @include social-icon('../img/slack.png');
   }
 
   .twitter {
