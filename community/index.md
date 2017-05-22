@@ -18,7 +18,7 @@ bugs.
 <table>
   <tbody>
     <tr>
-      <td><img src="{{home}}/img/stackoverflow.png" alt="Stack Overflow" /></td>
+      <td><img src="{{home}}/img/stackoverflow.png" alt="Stack Overflow" width="50px" height="49px"/></td>
       <td>
         <a href="https://stackoverflow.com/questions/tagged/istio">Stack Overflow</a> is for practical questions and curated answers
         on deploying, configuring, and using Istio.
@@ -26,7 +26,7 @@ bugs.
     </tr>
 
     <tr>
-      <td><img src="{{home}}/img/group.png" alt="Mailing Lists" /></td>
+      <td><img src="{{home}}/img/group.png" alt="Mailing Lists" width="42px" height="42px" /></td>
       <td>
         Join the <a href="https://groups.google.com/forum/#!forum/istio-users">istio-users</a> mailing list to participate in discussions
         and get help troubleshooting problems using Istio.
@@ -38,14 +38,14 @@ bugs.
     </tr>
 
     <tr>
-      <td><img src="../img/twitter.png" alt="Twitter" /></td>
+      <td><img src="../img/twitter.png" alt="Twitter" width="42px" height="34px" /></td>
       <td>
         Follow us on <a href="https://twitter.com/IstioMesh">Twitter</a> to get the latest news.
       </td>
     </tr>
 
     <tr>
-      <td><img src="{{home}}/img/slack.png" alt="Slack" /></td>
+      <td><img src="{{home}}/img/slack.png" alt="Slack" width="42px" height="41px" /></td>
       <td>
         Head to <a href="https://istio.slack.com">Slack</a> if you’re a developer working on Istio or Istio adapters and you want to chat with
         the core Istio engineering team.
@@ -53,7 +53,7 @@ bugs.
     </tr>
 
     <tr>
-      <td><img src="../img/github.png" alt="GitHub" /></td>
+      <td><img src="../img/github.png" alt="GitHub" width="42px" height="35px" /></td>
       <td>
         <a href="https://github.com/istio">GitHub</a> is where development takes place on Istio code.
       </td>
