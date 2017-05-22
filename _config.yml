@@ -52,4 +52,6 @@ exclude:
   - scripts/
   - Rakefile
   - Jenkinsfile
+  - repos/*.html
+  - repos/*.md
 
