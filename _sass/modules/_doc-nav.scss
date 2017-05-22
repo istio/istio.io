@@ -101,4 +101,11 @@
 .tree-toggle {
     cursor: pointer;
     margin-left: -1em;
+
+	.tree-toggle-link{
+		&, &:focus, &:hover{
+			color:#535f61 !important;
+			text-decoration: none;
+		}
+	}
 }
