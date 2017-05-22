@@ -13,7 +13,7 @@
    viewBox="0 0 661.63458 453.37048"
    style="clip-rule:evenodd">
   <title
-     id="title6911">Istio Bookinfo Sample Application</title>
+     id="title6911">Istio BookInfo Sample Application</title>
   <metadata
      id="metadata4485">
     <rdf:RDF>
@@ -22,7 +22,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title>Istio Bookinfo Sample Application</dc:title>
+        <dc:title>Istio BookInfo Sample Application</dc:title>
         <cc:license
            rdf:resource="http://creativecommons.org/licenses/by-sa/4.0/" />
         <dc:creator>

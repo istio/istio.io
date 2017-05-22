@@ -29,49 +29,6 @@
   width: 100%; 
 }
 
-.toc {
-  background-color: $light-gray;
-  border: 1px solid $gray;
-  border-radius: 6px;
-  display: none !important;
-  padding: 15px;
-  float: right;
-  //position: absolute;
-  right: 45px;
-  margin-top: 15px;
-
-  @media (min-width: 1024px) {
-      display: block !important;
-      margin-left: 20px;
-  }
-
-  ul {
-    list-style-type: none !important;
-    //padding-left: 10px;
-    font-size: 90%;
-
-    ul {
-        font-size: 90%;
-        padding-left: 10px;
-    }
-
-    a {
-        color: $dark-gray;
-        font-weight: normal;
-    }
-  }
-}
-
-.toc.mobile-toc{
-  display: none !important;
-
-  @media (max-width: 768px) {
-    margin-top: 30px;
-    display: block !important;
-    border-left: 4px solid $light-gray;
-  }
-}
-
 // Tables are table-y
 table,
 th,
@@ -103,9 +60,21 @@ th {
   color: $linkHoverColor !important;
 }
 
+
 #content-container{
   /* overrides overflow:visible, which overlays on top of floating elements, i.e. the toc on /docs/reference/commands/istioctl.html */
   code[class*="language-"], pre[class*="language-"]{
-    overflow:scroll;
+//    z-index: -1;
+  }
+
+  div.toolbar {
+    top: -2px;
+  }
+
+  .toolbar-item {
+    a {
+       background-color: $mainBrandColor;
+       color: $white;
+    }
   }
 }

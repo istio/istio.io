@@ -223,7 +223,7 @@ You can use `markdown`, `yaml`, `json`, `java`, `javascript`, `c`, `cpp`, `cshar
 ### Displaying file content
 
 You can pull in an external file and display its content as a preformatted block. This is handy to
-display a config file or a test file. To do so, you can use normal markup and instead you need to
+display a config file or a test file. To do so, you can't use normal markup and instead you need to
 use direct HTML. For example:
 
 ```

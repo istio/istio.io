@@ -8,13 +8,6 @@ layout: docs
 type: markdown
 ---
 
-<a name="rpcGoogle.rpcIndex"></a>
-### Index
-
-* [Status](#google.rpc.Status)
-(message)
-
-<a name="google.rpc.Status"></a>
 ### Status
 The `Status` type defines a logical error model that is suitable for different
 programming environments, including REST APIs and RPC APIs. It is used by

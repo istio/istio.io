@@ -10,7 +10,7 @@ type: markdown
 
 This page describes how requests are routed between services in an Istio service mesh.
 
-## Service model and service versions.
+## Service model and service versions
 
 As described in [Istio-Manager](./manager.html), the canonical representation
 of services in a particular mesh is maintained by Istio-Manager. The Istio

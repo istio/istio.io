@@ -5,10 +5,12 @@ index: true
 
 order: 0
 
-layout: docs
+layout: welcome
 type: markdown
 ---
 {% include home.html %}
+
+# Welcome
 
 Welcome to Istio's documentation home page. From here you can learn all about Istio by following
 the links below:
