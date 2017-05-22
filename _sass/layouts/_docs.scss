@@ -17,11 +17,26 @@
     margin-right: 10px;
     font-size: 1rem;
     color: $black;
+
+    &, &:focus, &:hover, &:active{
+      color:black !important;
+      text-decoration: none !important;
+    }
+  }
+
+  #tab-container{
+    z-index:1000;
   }
 
   #sidebar-container {
     float: left;
     padding:0px;
     background-color: #fff;
+  }
+
+  @media (max-width: 768px) {
+    #content-container{
+      clear:both;
+    }
   }
 }
