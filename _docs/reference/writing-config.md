@@ -8,8 +8,7 @@ layout: docs
 type: markdown
 ---
 
-This page describes how to write configuration that conforms to Istio's schemas. All configuration schemas in Istio are defined as [protobuf messages]
-(https://developers.google.com/protocol-buffers/docs/proto3). When in doubt, search for the protos.
+This page describes how to write configuration that conforms to Istio's schemas. All configuration schemas in Istio are defined as [protobuf messages](https://developers.google.com/protocol-buffers/docs/proto3). When in doubt, search for the protos.
 
 ## Translating to YAML
 
