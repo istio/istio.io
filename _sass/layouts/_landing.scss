@@ -1,58 +1,84 @@
 .landing {
-    .section-content {
-      padding: 20px 20px 20px 20px;
+  /* default styles */
+  .section-content {
+    padding: 20px 20px 20px 20px;
 
-      @media (min-width: $desktop-small) {
-        padding: 10% 0;
-      }
-
-      p {
-        font-weight: 300;
-        font-size: 100%;
-      }
+    p {
+      font-weight: 300;
+      font-size: 100%;
     }
+  }
 
+  .landing-image {
+    padding-top: 10px;
+    padding-bottom: 20px;
+    max-height: 400px;
+  }
+
+  .jumbotron {
+    margin: 0;
+  }
+
+  .traffic, .policy {
+    background-color: white;
+  }
+
+  .resilience, .reporting, .resilience h2, .reporting h2 {
+    background-color: #0EC6DC;
+    color: white;
+  }
+
+  .btn.btn-floating.down-caret {
+    position: relative;
+    transform: none;
+    bottom: 15px;
+    left: 49%;
+  }
+
+  #doc-call {
+    margin-top: 10px;
+    padding-bottom: 20px;
+  }
+
+  /* screens 1024px or larger */
+  @media (min-width: $desktop-small) {
+    .container-fluid {
+      height: 400px;
+      clear:both;
+    }
     .landing-image {
-      padding-top: 10px;
-      padding-bottom: 20px;
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+      max-width: 55%;
+      padding-right: 20px;
+      padding-left: 20px;
+    }
+    .section-content {
+      padding: 10% 0;
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+      float: right;
+      width: 45%;
 
-      @media (min-width: $desktop-small) {
-        max-width: 55%;
-        max-height: 400px;
-        padding-right: 20px;
-        padding-left: 20px;
+      h2 {
+        font-size: 3rem;
+        background: transparent !important;
+      }
+      p {
+        padding-top: 10px;
+        font-size: 1.2rem;
+        line-height: 1.5;
       }
     }
+  }
 
+  /* screens 1440px or larger */
+  @media (min-width: $desktop-large) {
     .jumbotron {
-        margin: 0;
-
-        @media (min-width: $desktop-large) {
-          padding-left: 200px;
-          padding-right: 200px;
-        }
+      padding-left: 200px;
+      padding-right: 200px;
     }
-
-    .traffic, .policy {
-        background-color: white;
-    }
-
-    .resilience, .reporting, .resilience h2, .reporting h2 {
-        background-color: #0EC6DC;
-        color: white;
-    }
-
-    .btn.btn-floating.down-caret {
-        position: relative;
-        transform: none;
-        bottom: 15px;
-        left: 49%;
-    }
-
-    #doc-call {
-      margin-top: 10px;
-      padding-bottom: 20px;
-      @media (min-width: $tablet) {
-      }
-    }
+  }
 }

@@ -4,8 +4,12 @@ markdown:
 kramdown:
   input: GFM
   hard_wrap: false
+  syntax_highlighter_opts:
+    disable : true
 
 baseurl:
+
+highlighter: rouge
 
 liquid:
   error_mode: strict
@@ -48,4 +52,6 @@ exclude:
   - scripts/
   - Rakefile
   - Jenkinsfile
+  - repos/*.html
+  - repos/*.md
 

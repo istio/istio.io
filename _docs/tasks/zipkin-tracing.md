@@ -45,9 +45,9 @@ kubectl port-forward $(kubectl get pod -l app=zipkin -o jsonpath='{.items[0].met
 Then open your browser at [http://localhost:9411](http://localhost:9411)
 
 
-## Generating traces using the Bookinfo sample
+## Generating traces using the BookInfo sample
 
-With the Bookinfo application up and running, generate trace information by accessing
+With the BookInfo application up and running, generate trace information by accessing
 `http://$GATEWAY_URL/productpage` one or more times.
 
 If you now look at the Zipkin dashboard, you should see something similar to the following:
@@ -63,7 +63,7 @@ The page should look something like this:
 <figcaption>Zipkin Istio Dashboard</figcaption></figure>
 
 As you can see, there are 4 spans (only 3, if version v1 of the `reviews` service was used),
-where each span corresponds to a Bookinfo service invoked during the execution of a `/productpage` request.
+where each span corresponds to a BookInfo service invoked during the execution of a `/productpage` request.
 Although every service has the same label, `istio-proxy`, because the tracing is being done by
 the Istio sidecar (Envoy proxy) which wraps the call to the actual service,
 the label of the destination (to the right) identifies the service for which the time is represented by each line.
@@ -80,7 +80,7 @@ Although Istio proxies are able to automatically send spans to Zipkin, they need
 Applications need to propogate the appropriate HTTP headers so that when the proxies send span information to Zipkin,
 the spans can be correlated correctly into a single trace.
 
-To do this, an application needs to collect and propogate the following headers from the incoming request to any outgoing requests:
+To do this, an application needs to collect and propagate the following headers from the incoming request to any outgoing requests:
 
 * `x-request-id`
 * `x-b3-traceid`

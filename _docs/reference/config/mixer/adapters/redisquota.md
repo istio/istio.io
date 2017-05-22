@@ -9,12 +9,6 @@ type: markdown
 ---
 
 
-<a name="rpcAdapter.redisquota.Index"></a>
-### Index
-
-* [Params](#adapter.redisquota.Params)
-(message)
-
 <a name="adapter.redisquota.Params"></a>
 ### Params
 

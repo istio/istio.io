@@ -9,16 +9,6 @@ type: markdown
 ---
 
 
-<a name="rpcIstio.proxy.v1.configIndex"></a>
-### Index
-
-* [ProxyMeshConfig](#istio.proxy.v1.config.ProxyMeshConfig)
-(message)
-* [ProxyMeshConfig.AuthPolicy](#istio.proxy.v1.config.ProxyMeshConfig.AuthPolicy)
-(enum)
-* [ProxyMeshConfig.IngressControllerMode](#istio.proxy.v1.config.ProxyMeshConfig.IngressControllerMode)
-(enum)
-
 <a name="istio.proxy.v1.config.ProxyMeshConfig"></a>
 ### ProxyMeshConfig
 ProxyMeshConfig defines variables shared by all Envoy instances in the
@@ -58,13 +48,13 @@ Istio service mesh.
  <tr>
   <td><code>proxyListenPort</code></td>
   <td>int32</td>
-  <td>Port on which egress envoy should listen for incoming connections from other services.</td>
+  <td>Port on which envoy should listen for incoming connections from other services.</td>
  </tr>
 <a name="istio.proxy.v1.config.ProxyMeshConfig.proxyAdminPort"></a>
  <tr>
   <td><code>proxyAdminPort</code></td>
   <td>int32</td>
-  <td>Port on which egress envoy should listen for administrative commands.</td>
+  <td>Port on which envoy should listen for administrative commands.</td>
  </tr>
 <a name="istio.proxy.v1.config.ProxyMeshConfig.drainDuration"></a>
  <tr>
@@ -106,7 +96,7 @@ Istio service mesh.
  <tr>
   <td><code>ingressService</code></td>
   <td>string</td>
-  <td>Name of the kubernetes service used for the istio ingress controller.</td>
+  <td>Name of the Kubernetes service used for the istio ingress controller.</td>
  </tr>
 <a name="istio.proxy.v1.config.ProxyMeshConfig.ingressControllerMode"></a>
  <tr>

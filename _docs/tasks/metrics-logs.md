@@ -240,7 +240,7 @@ attribute `request.headers["user-agent"]`.
 Mixer supports structured log generation in addition to plaintext logs. In
 this task, a set of `labels` to populate for structured
 log generation was configured. These `labels` are populated from attribute values
-according to attribute expresssions, in exactly the same manner as the
+according to attribute expressions, in exactly the same manner as the
 `template_expressions`.
 
 While it is common practice to include the same set of arguments in the

@@ -110,7 +110,7 @@ default namespace. They can be modified for deployment in a different namespace.
    ```
 
    * The Grafana addon provides an Istio dashboard visualization of the metrics (request rates, success/failure rates)
-     in the cluseter.
+     in the cluster.
 
      You can access the Grafana dashboard using port-forwarding, the service nodePort, or External IP (if your deployment
      environment provides external load balancers).
@@ -138,7 +138,7 @@ default namespace. They can be modified for deployment in a different namespace.
      Using the EXTERNAL-IP returned from that command, the Istio dashboard can be reached
      at `http://<EXTERNAL-IP>:3000/dashboard/db/istio-dashboard`.
 
-   * The ServiceGraph addon provides a textual (JSON) represenation and a graphical visualization of the service
+   * The ServiceGraph addon provides a textual (JSON) representation and a graphical visualization of the service
      interaction graph for the cluster.
 
      Similar to Grafana, you can access the servicegraph service using port-forwarding, service nodePort, or External IP.

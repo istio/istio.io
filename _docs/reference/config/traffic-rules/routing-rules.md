@@ -9,26 +9,6 @@ type: markdown
 ---
 
 
-<a name="rpcIstio.proxy.v1.configIndex"></a>
-### Index
-
-* [RouteRule](#istio.proxy.v1.config.RouteRule)
-(message)
-  * [MatchCondition](#istio.proxy.v1.config.MatchCondition)
-(message)
-  * [DestinationWeight](#istio.proxy.v1.config.DestinationWeight)
-(message)
-  * [HTTPRedirect](#istio.proxy.v1.config.HTTPRedirect)
-(message)
-  * [HTTPRewrite](#istio.proxy.v1.config.HTTPRewrite)
-(message)
-  * [HTTPTimeout](#istio.proxy.v1.config.HTTPTimeout)
-(message)
-  * [HTTPRetry](#istio.proxy.v1.config.HTTPRetry)
-(message)
-  * [HTTPFaultInjection](#istio.proxy.v1.config.HTTPFaultInjection)
-(message)
-
 <a name="istio.proxy.v1.config.RouteRule"></a>
 ### RouteRule
 
@@ -138,7 +118,7 @@ contains a "cookie" with value "user=jason",
           prefix: "/ratings/v2/"
 
 
-MatchCondition CANNOT BE empty. Atleast one of source, sourceTags or
+MatchCondition CANNOT BE empty. At least one of source, sourceTags or
 httpHeaders must be specified.
 
 <table>
