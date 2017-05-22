@@ -21,8 +21,9 @@ div.toc {
   display: none !important;
   padding: 15px;
   float: right;
-  right: 45px;
   margin-top: 15px;
+  z-index:1001;
+  position:relative;
 
   @media (min-width: 1024px) {
       display: block !important;
@@ -53,4 +54,9 @@ div.toc {
     display: block !important;
     border-left: 4px solid $light-gray;
   }
+}
+
+#doc-content{
+  z-index:1000;
+  position:relative;
 }
