@@ -116,7 +116,7 @@ You can find out more about how to use these tools in [Collecting Metrics and Lo
 
 #### Verifying the Grafana dashboard
 
-The Grafana addon provides an Istio dashboard visualization of the metrics (request rates, success/failure rates) in the cluster. Once you've installed Grafana, check that you can access the dashboard. There are three possibly ways to do this: 
+The Grafana addon provides an Istio dashboard visualization of the metrics (request rates, success/failure rates) in the cluster. Once you've installed Grafana, check that you can access the dashboard. There are three possible ways to do this: 
 
 * The simplest way to do this is to configure port-forwarding for the `grafana` service, as follows:
 
