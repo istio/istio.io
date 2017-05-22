@@ -12,9 +12,10 @@
       //  sidebar.height($('footer').position().top + 50);
     
       // 992 is the default breakpoint set in Bootstrap 3 for col-md
+      var width = $(document).width();
       if (width < 992) {
-        sidebar.toggle();
-        sidebarOpen = !sidebarOpen;
+        sidebar.hide();
+        sidebarOpen = false;
       }
     }
 
