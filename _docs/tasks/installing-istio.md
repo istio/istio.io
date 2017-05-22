@@ -265,16 +265,22 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
    * If beta version was installed:
 
    ```bash
-   kubectl delete -f istio-rbac-beta.yaml
+   kubectl delete -f install/kubernetes/istio-rbac-beta.yaml
    ```
 
    * If alpha version was installed:
 
    ```bash
-   kubectl delete -f istio-rbac-alpha.yaml
+   kubectl delete -f install/kubernetes/istio-rbac-alpha.yaml
    ```
 
-3. Delete Istio Kubernetes [TPRs](https://kubernetes.io/docs/tasks/access-kubernetes-api/extend-api-third-party-resource):
+3. If you installed Istio addons, uninstall them:
+
+   ```bash
+   kubectl delete -f install/kubernetes/addons/
+   ```
+
+4. Delete Istio Kubernetes [TPRs](https://kubernetes.io/docs/tasks/access-kubernetes-api/extend-api-third-party-resource):
 
    ```bash
    kubectl delete istioconfigs --all
