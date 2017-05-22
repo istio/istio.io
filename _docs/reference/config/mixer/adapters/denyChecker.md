@@ -9,13 +9,6 @@ type: markdown
 ---
 
 
-<a name="rpcAdapter.denyChecker.Index"></a>
-### Index
-
-* [Params](#adapter.denyChecker.Params)
-(message)
-
-<a name="adapter.denyChecker.Params"></a>
 ### Params
 
 <table>

@@ -9,12 +9,6 @@ type: markdown
 ---
 
 
-<a name="rpcAdapter.ipListChecker.Index"></a>
-### Index
-
-* [Params](#adapter.ipListChecker.Params)
-(message)
-
 <a name="adapter.ipListChecker.Params"></a>
 ### Params
 

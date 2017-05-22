@@ -9,16 +9,6 @@ type: markdown
 ---
 
 
-<a name="rpcIstio.proxy.v1.configIndex"></a>
-### Index
-
-* [ProxyMeshConfig](#istio.proxy.v1.config.ProxyMeshConfig)
-(message)
-* [ProxyMeshConfig.AuthPolicy](#istio.proxy.v1.config.ProxyMeshConfig.AuthPolicy)
-(enum)
-* [ProxyMeshConfig.IngressControllerMode](#istio.proxy.v1.config.ProxyMeshConfig.IngressControllerMode)
-(enum)
-
 <a name="istio.proxy.v1.config.ProxyMeshConfig"></a>
 ### ProxyMeshConfig
 ProxyMeshConfig defines variables shared by all Envoy instances in the
@@ -106,7 +96,7 @@ Istio service mesh.
  <tr>
   <td><code>ingressService</code></td>
   <td>string</td>
-  <td>Name of the kubernetes service used for the istio ingress controller.</td>
+  <td>Name of the Kubernetes service used for the istio ingress controller.</td>
  </tr>
 <a name="istio.proxy.v1.config.ProxyMeshConfig.ingressControllerMode"></a>
  <tr>

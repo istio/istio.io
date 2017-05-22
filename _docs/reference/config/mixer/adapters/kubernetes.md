@@ -9,12 +9,6 @@ type: markdown
 ---
 
 
-<a name="rpcAdapter.kubernetes.Index"></a>
-### Index
-
-* [Params](#adapter.kubernetes.Params)
-(message)
-
 <a name="adapter.kubernetes.Params"></a>
 ### Params
 Configuration parameters for the kubernetes adapter. These params

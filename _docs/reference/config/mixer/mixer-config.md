@@ -9,34 +9,6 @@ type: markdown
 ---
 
 
-<a name="rpcIstio.mixer.v1.configIndex"></a>
-### Index
-
-* [Adapter](#istio.mixer.v1.config.Adapter)
-(message)
-* [Aspect](#istio.mixer.v1.config.Aspect)
-(message)
-* [AspectRule](#istio.mixer.v1.config.AspectRule)
-(message)
-* [AttributeManifest](#istio.mixer.v1.config.AttributeManifest)
-(message)
-* [AttributeManifest.AttributeInfo](#istio.mixer.v1.config.AttributeManifest.AttributeInfo)
-(message)
-* [DnsName](#istio.mixer.v1.config.DnsName)
-(message)
-* [EmailAddress](#istio.mixer.v1.config.EmailAddress)
-(message)
-* [GlobalConfig](#istio.mixer.v1.config.GlobalConfig)
-(message)
-<b>(deprecated)</b>
-* [IpAddress](#istio.mixer.v1.config.IpAddress)
-(message)
-* [ServiceConfig](#istio.mixer.v1.config.ServiceConfig)
-(message)
-<b>(deprecated)</b>
-* [Uri](#istio.mixer.v1.config.Uri)
-(message)
-
 <a name="istio.mixer.v1.config.Adapter"></a>
 ### Adapter
 Adapter allows the operator to configure a specific adapter implementation.
@@ -473,34 +445,6 @@ Uri represents a properly formed URI.
 
 <a name="rpcIstio.mixer.v1.configDescriptor"></a>
 ## Package istio.mixer.v1.config.descriptor
-
-<a name="rpcIstio.mixer.v1.configDescriptorIndex"></a>
-### Index
-
-* [LogEntryDescriptor](#istio.mixer.v1.config.descriptor.LogEntryDescriptor)
-(message)
-* [LogEntryDescriptor.PayloadFormat](#istio.mixer.v1.config.descriptor.LogEntryDescriptor.PayloadFormat)
-(enum)
-* [MetricDescriptor](#istio.mixer.v1.config.descriptor.MetricDescriptor)
-(message)
-* [MetricDescriptor.BucketsDefinition](#istio.mixer.v1.config.descriptor.MetricDescriptor.BucketsDefinition)
-(message)
-* [MetricDescriptor.BucketsDefinition.Explicit](#istio.mixer.v1.config.descriptor.MetricDescriptor.BucketsDefinition.Explicit)
-(message)
-* [MetricDescriptor.BucketsDefinition.Exponential](#istio.mixer.v1.config.descriptor.MetricDescriptor.BucketsDefinition.Exponential)
-(message)
-* [MetricDescriptor.BucketsDefinition.Linear](#istio.mixer.v1.config.descriptor.MetricDescriptor.BucketsDefinition.Linear)
-(message)
-* [MetricDescriptor.MetricKind](#istio.mixer.v1.config.descriptor.MetricDescriptor.MetricKind)
-(enum)
-* [MonitoredResourceDescriptor](#istio.mixer.v1.config.descriptor.MonitoredResourceDescriptor)
-(message)
-* [PrincipalDescriptor](#istio.mixer.v1.config.descriptor.PrincipalDescriptor)
-(message)
-* [QuotaDescriptor](#istio.mixer.v1.config.descriptor.QuotaDescriptor)
-(message)
-* [ValueType](#istio.mixer.v1.config.descriptor.ValueType)
-(enum)
 
 <a name="istio.mixer.v1.config.descriptor.LogEntryDescriptor"></a>
 ### LogEntryDescriptor
