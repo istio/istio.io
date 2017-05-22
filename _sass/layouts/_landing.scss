@@ -1,4 +1,28 @@
 .landing {
+  .nav-hero-container{
+    color:white;
+
+    .hero-title{
+      color:white;
+      margin:80px 0 0 0;
+      padding:0;
+    }
+    .hero-logo{
+      height:180px;
+      margin:98px 0 0 0;
+      padding:0;
+    }
+    .hero-lead{
+      margin:102px 0 0 0;
+      padding:0px;
+    }
+    .hero-down-arrow{
+      display:block;
+      margin:65px 0 24px 0;
+    }
+  }
+
+
   /* default styles */
   .section-content {
     padding: 20px 20px 20px 20px;
@@ -24,8 +48,7 @@
   }
 
   .resilience, .reporting, .resilience h2, .reporting h2 {
-    background-color: #0EC6DC;
-    color: white;
+    background-color: #f5f5f5;
   }
 
   .btn.btn-floating.down-caret {
@@ -36,8 +59,18 @@
   }
 
   #doc-call {
-    margin-top: 10px;
-    padding-bottom: 20px;
+    margin: 80px 0;
+    padding:0;
+    height:auto;
+
+    .doc-call-title{
+      margin:0;
+      padding:0;
+    }
+    .doc-call-text{
+      margin:20px 0 30px 0;
+      padding:0;
+    }
   }
 
   /* screens 1024px or larger */
@@ -65,9 +98,12 @@
       h2 {
         font-size: 3rem;
         background: transparent !important;
+        margin:0;
+        padding:0;
       }
       p {
-        padding-top: 10px;
+        padding:0;
+        margin:15px 0 30px 0;
         font-size: 1.2rem;
         line-height: 1.5;
       }
