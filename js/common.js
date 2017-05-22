@@ -77,6 +77,11 @@ $(document).ready(function() {
     $('.toggle').on('click',function(){
       $(this).toggleClass('active');
     });
+
+    $('.hero-down-arrow').on('click', function(){
+      var scrollToY = $('.hero-wrapper:eq(0)').position().top;
+      $('html,body').animate({scrollTop:scrollToY}, 300);
+    });
 });
 
 // Collapsible navbar menu, using https://github.com/jordnkr/collapsible
