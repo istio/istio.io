@@ -71,9 +71,7 @@ layout: compress
 
   <body class="language-unknown">
     <!-- this is a trick to avoid content shifting as the page loads. See https://stackoverflow.com/questions/1417934/how-to-prevent-scrollbar-from-repositioning-web-page -->
-    <div style="padding-left: calc(100vw - 100%);">
-  	  {{ content }}
-    </div>
+    {{ content }}
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script>
     <script src="{{home}}/js/jquery.form.min.js"></script>
