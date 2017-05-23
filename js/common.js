@@ -82,6 +82,14 @@ $(document).ready(function() {
       var scrollToY = $('.hero-wrapper:eq(0)').position().top;
       $('html,body').animate({scrollTop:scrollToY}, 300);
     });
+
+    if(window.Prism){
+      window.Prism.hooks.add('complete', function(env){
+        var $el = $(env.element).closest('pre');
+        var $container = $('<div class="code-block">');
+        $el.wrap($container);
+      });
+    }
 });
 
 // Collapsible navbar menu, using https://github.com/jordnkr/collapsible
