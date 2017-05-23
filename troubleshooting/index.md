@@ -43,7 +43,7 @@ Running multiple replicas of Mixer will lead to issues with configuration update
 
 ## The Mixer pod was restarted and I lost my configuration updates
 
-For the {{site.data.istio.version}} release, Mixer configuration is stored in a local file system-based store. By default, Mixer is not configured to use a kubernetes persistent volume.
+For the {{site.data.istio.version}} release, Mixer configuration is stored in a local file system-based store. By default, Mixer is not configured to use a Kubernetes persistent volume.
 
 There are a few possible workarounds:
 
@@ -54,7 +54,7 @@ Work is ongoing to provide a highly-available, persistent configuration store fo
 
 ### Configuring a persistent volume for Mixer config
 
-A Mixer deployment can be modified to use kubernetes [`ConfigMaps`](https://kubernetes.io/docs/tasks/configure-pod-container/configmap/) to provide persistent access to Mixer config. Kubernetes `ConfigMaps` are preserved across restarts and allow running multiple replicas of Mixer.
+A Mixer deployment can be modified to use Kubernetes [`ConfigMaps`](https://kubernetes.io/docs/tasks/configure-pod-container/configmap/) to provide persistent access to Mixer config. Kubernetes `ConfigMaps` are preserved across restarts and allow running multiple replicas of Mixer.
 
 Note: `istioctl` is not usable for runtime updates to Mixer configuration when this approach is used (the updates will not persist).
 
