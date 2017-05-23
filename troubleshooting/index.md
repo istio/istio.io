@@ -54,7 +54,7 @@ Work is ongoing to provide a highly-available, persistent configuration store fo
 
 ### Configuring a persistent volume for Mixer config
 
-A Mixer deployment can be modified to use kubernetes [`ConfigMaps`](https://kubernetes.io/docs/tasks/configure-pod-container/configmap/) to provide persistent access to Mixer config. Kubernetes `ConfigMaps` are preserved across restarts and allow running multiple replicas of the mixer.
+A Mixer deployment can be modified to use kubernetes [`ConfigMaps`](https://kubernetes.io/docs/tasks/configure-pod-container/configmap/) to provide persistent access to Mixer config. Kubernetes `ConfigMaps` are preserved across restarts and allow running multiple replicas of Mixer.
 
 Note: `istioctl` is not usable for runtime updates to Mixer configuration when this approach is used (the updates will not persist).
 
