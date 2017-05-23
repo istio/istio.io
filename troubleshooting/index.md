@@ -37,26 +37,26 @@ server {
 
 ## Running multiple replicas of Mixer does not work as expected 
 
-For the alpha release, Mixer **must** be configured to run as a single instance within a cluster. We are working on improvements at the protocol, configuration, and deployment levels to support multiple instance and high-availability deployments. We expect to remove this limitation shortly after the initial alpha release.
+For the {{site.data.istio.version}} release, Mixer **must** be configured to run as a single instance within a cluster. We are working on improvements at the protocol, configuration, and deployment levels to support multiple instance and high-availability deployments. We expect to remove this limitation shortly after the initial {{site.data.istio.version}} release.
 
 Running multiple replicas of Mixer will lead to issues with configuration updates not propagating properly and improperly-enforced quotas (for the memQuota adapter).
 
 ## The Mixer pod was restarted and I lost my configuration updates
 
-For the alpha release, Mixer configuration is stored in a local file system-based store. By default, Mixer is not configured to use a kubernetes persistent volume.
+For the {{site.data.istio.version}} release, Mixer configuration is stored in a local file system-based store. By default, Mixer is not configured to use a kubernetes persistent volume.
 
 There are a few possible workarounds:
 
 1.  Save configuration updates to a common location and script the application of these updates via istioctl.
 1.  Configure a persistent volume and update the Mixer deployment specs to use that volume for the file system store.
 
-Work is ongoing to provide a highly-available, persistent configuration store for Mixer config. We expect this to work to land immediately following the initial alpha release.
+Work is ongoing to provide a highly-available, persistent configuration store for Mixer. We expect this to work to land immediately following the initial {{site.data.istio.version}} release.
 
 ### Configuring a persistent volume for Mixer config
 
-A Mixer deployment can be modified to use [kubernetes ConfigMaps](https://kubernetes.io/docs/tasks/configure-pod-container/configmap/) to provide persistent access to Mixer config. Kubernetes ConfigMaps are preserved across restarts and allow running multiple replicas of the mixer.
+A Mixer deployment can be modified to use kubernetes [`ConfigMaps`](https://kubernetes.io/docs/tasks/configure-pod-container/configmap/) to provide persistent access to Mixer config. Kubernetes `ConfigMaps` are preserved across restarts and allow running multiple replicas of the mixer.
 
-Note: `istioctl` is not useable for runtime updates to Mixer configuration when this approach is used (the updates will not persist).
+Note: `istioctl` is not usable for runtime updates to Mixer configuration when this approach is used (the updates will not persist).
 
 Here is an example ConfigMap:
 
@@ -124,7 +124,7 @@ Communication between Envoy and the app happens on 127.0.0.1, and is not encrypt
 
 ## Envoy is crashing under load
 
-Check your `ulimit -a`. Many system have a 1024 open file descriptor limit by default which will cause envoy to assert and crash with:
+Check your `ulimit -a`. Many systems have a 1024 open file descriptor limit by default which will cause Envoy to assert and crash with:
 
 ```bash
 [2017-05-17 03:00:52.735][14236][critical][assert] assert failure: fd_ != -1: external/envoy/source/common/network/connection_impl.cc:58
