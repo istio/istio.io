@@ -1,28 +1,98 @@
 .landing {
-  .nav-hero-container{
-    color:white;
 
-    .hero-title{
-      color:white;
-      margin:80px 0 0 0;
-      padding:0;
+  /* base styles and > 770px height */
+  .nav-hero-container {
+    color: white;
+
+    .hero-title {
+      color: white;
+      margin: 80px 0 0 0;
+      padding: 0;
     }
-    .hero-logo{
-      height:180px;
-      margin:98px 0 0 0;
-      padding:0;
+    .hero-logo {
+      height: 180px;
+      margin: 98px 0 0 0;
+      padding: 0;
     }
-    .hero-lead{
-      margin:102px 0 0 0;
-      padding:0px;
+    .hero-lead {
+      margin: 102px 0 0 0;
+      padding: 0px;
     }
-    .hero-down-arrow{
-      display:inline-block;
-      margin:60px 0 20px 0;
-      padding:5px;
-      cursor:pointer;
+    .hero-down-arrow {
+      display: inline-block;
+      margin: 60px 0 20px 0;
+      padding: 5px;
+      cursor: pointer;
     }
   }
+
+  /* < 550px height */
+  @media (max-height: 550px){
+    .nav-hero-container {
+      .hero-title {
+        margin: 30px 0 0 0;
+      }
+      .hero-logo {
+        margin: 28px 0 0 0;
+      }
+      .hero-lead {
+        margin: 32px 0 0 0;
+      }
+      .hero-down-arrow {
+        margin: 20px 0 20px 0;
+      }
+    }
+  }
+
+  /* 550 - 770px height */
+  @media (min-height: 550px) and (max-height: 770px) {
+    .hero {
+      height: calc(100vh - 70px);
+
+      .container {
+        height: 100%;
+        position: relative;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+      }
+    }
+
+    .nav-hero-container {
+      height: calc(100vh - 70px);
+      min-height: 600px;
+
+      .hero-title {
+        position: absolute;
+        top: calc(10% - 70px);
+        transform: translate(0, -50%);
+        text-align: center;
+        width: 100%;
+      }
+      .hero-logo {
+        position: absolute;
+        left: 50%;
+        top: calc(55% - 70px);
+        transform: translate(-50%, -50%);
+        margin:0;
+      }
+      .hero-lead {
+        position: absolute;
+        top: 75%;
+        width: 100%;
+        text-align: center;
+        transform: translate(0, -50%);
+        margin:0;
+      }
+      .hero-down-arrow {
+        position: absolute;
+        bottom: 25px;
+        left: 50%;
+        transform: translate(-50%, 0);
+      }
+    }
+  }
+
 
 
   /* default styles */
