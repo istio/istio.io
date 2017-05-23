@@ -71,7 +71,7 @@ Istio Auth provides a per-cluster CA (Certificate Authority) to automate key and
 
 
 
-*   Generate a key and certificate pair for each service account
+*   Generate a [SPIFFE](https://spiffe.github.io/docs/svid) key and certificate pair for each service account
 
 *   Distribute a key and certificate pair to each pod according to the service account
 
@@ -87,7 +87,7 @@ Istio Auth workflow consists of two phases, deployment and runtime. This section
 
 
 
-1.  Istio CA watches Kubernetes API Server, creates a key and certificate pair for each of the existing and new service accounts, and sends them to API Server. 
+1.  Istio CA watches Kubernetes API Server, creates a [SPIFFE](https://spiffe.github.io/docs/svid) key and certificate pair for each of the existing and new service accounts, and sends them to API Server. 
 
 1.  When a pod is created, API Server mounts the key and certificate pair according to the service account using [Kubernetes secrets](https://kubernetes.io/docs/concepts/configuration/secret/).
 
