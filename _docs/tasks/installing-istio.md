@@ -127,7 +127,7 @@ The Grafana addon provides an Istio dashboard visualization of the metrics (requ
 
     Then point your web browser to [http://localhost:3000/dashboard/db/istio-dashboard](http://localhost:3000/dashboard/db/istio-dashboard). The dashboard should look something like this:
 
-    <figure><img style="max-width:100%" src="./img/grafana_dashboard.png" alt="Grafana Istio Dashboard" title="Grafana Istio Dashboard" />
+    <figure><img style="max-width:80%" src="./img/grafana_dashboard.png" alt="Grafana Istio Dashboard" title="Grafana Istio Dashboard" />
     <figcaption>Grafana Istio Dashboard</figcaption></figure>
 
 * If your deployment environment provides external load balancers, you can access the dashboard directly (without the `kubectl port-forward` command) using the external IP address of the `grafana` service:

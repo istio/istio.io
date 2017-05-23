@@ -142,8 +142,8 @@ as the example application throughout this task.
    by the "reviews" service.
 
    The request from the previous step is reflected in the graphs. This looks similar to:
-   <figure><img style="max-width: 100%;" src="./img/dashboard_response_size.png" alt="Istio Dashboard with Response Size Data" title="Istio Dashboard with Response Size Data" />
-   <figcaption>Istio Dashboard with Response Size Data</figcaption></figure>
+   <figure><img style="max-width: 100%;" src="./img/dashboard_response_size.png" alt="Istio Dashboard for Reviews Service" title="Istio Dashboard for Reviews Service" />
+   <figcaption>Istio Dashboard for Reviews Service</figcaption></figure>
 
 1. Verify that the logs stream has been created and is being populated
    for requests.
@@ -190,7 +190,7 @@ was added, in case Envoy does not report the values as expected.
 
 A set of dimensions were also configured for the metric value, via the
 `labels` chunks of configuration. For the new metric, the dimensions
-were `source`, `target`, `service`, `method`, and `response_code`.
+were `source`, `target`, `service`, `version`, `method`, and `response_code`.
 
 Dimensions provide a way to slice, aggregate, and analyze metric data
 according to different needs and directions of inquiry. For instance, it
