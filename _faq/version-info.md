@@ -6,8 +6,7 @@ type: markdown
 {% include home.html %}
 
 Istio's {{ site.data.istio.version }} release provides an early preview of the intended functionality and user experience of our service mesh. We are hoping to 
-solicit 
-early feedback on direction and design decisions.
+solicit early feedback on direction and design decisions.
 
 The {{ site.data.istio.version }} release includes the following features:
 
@@ -30,3 +29,5 @@ The {{ site.data.istio.version }} release includes the following features:
 *   Secure service-to-service authentication with strong identity
 
 *   Pluggable policy layer and configuration API
+
+See our [release notes]({{home}}/docs/reference/release-notes.html) for more details.
