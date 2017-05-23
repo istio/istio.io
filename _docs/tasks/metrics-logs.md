@@ -51,6 +51,7 @@ as the example application throughout this task.
              source: source.labels["app"] | "unknown"
              target: target.service | "unknown"
              service: target.labels["app"] | "unknown"
+             version: target.labels["version"] | "unknown"
              method: request.path | "unknown"
              response_code: response.code | 200
      - adapter: default
@@ -136,12 +137,13 @@ as the example application throughout this task.
      kubectl get service grafana
      ```
 
-   At the bottom of the dashboard, there is a row of graphs with titles containing the words "Response Size".
-   These graphs display percentile breakdowns of the distribution of Response Sizes.
+   One of the rows in the dashboard will be named "reviews". If that row is not visible, please refresh the dashboard page. The "reviews" row
+   contains a graph entitled "Response Size by Source And Version". The graph displays a breakdown of the distribution of Response Sizes returned
+   by the "reviews" service.
 
    The request from the previous step is reflected in the graphs. This looks similar to:
-   <figure><img style="max-width: 100%;" src="./img/dashboard_response_size.png" alt="Istio Dashboard with Response Size Data" title="Istio Dashboard with Response Size Data" />
-   <figcaption>Istio Dashboard with Response Size Data</figcaption></figure>
+   <figure><img style="max-width: 100%;" src="./img/dashboard_response_size.png" alt="Istio Dashboard for Reviews Service" title="Istio Dashboard for Reviews Service" />
+   <figcaption>Istio Dashboard for Reviews Service</figcaption></figure>
 
 1. Verify that the logs stream has been created and is being populated
    for requests.
@@ -188,7 +190,7 @@ was added, in case Envoy does not report the values as expected.
 
 A set of dimensions were also configured for the metric value, via the
 `labels` chunks of configuration. For the new metric, the dimensions
-were `source`, `target`, `service`, `method`, and `response_code`.
+were `source`, `target`, `service`, `version`, `method`, and `response_code`.
 
 Dimensions provide a way to slice, aggregate, and analyze metric data
 according to different needs and directions of inquiry. For instance, it
