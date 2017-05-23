@@ -4,6 +4,7 @@
     var sidebar = $("#sidebar-container");
     var content = $("#content-container");
     var tab = $("#tab-container");
+    var sidebarTab = $("#sidebar-tab");
     var hasExpandedNavOnSmallScreen = false;
 
     function setSidebar() {
@@ -15,6 +16,8 @@
       var width = $(document).width();
       if (width < 992 && !hasExpandedNavOnSmallScreen) {
         sidebar.hide();
+        sidebarTab.removeClass('glyphicon-chevron-left');
+        sidebarTab.addClass('glyphicon-chevron-right');
         sidebarOpen = false;
       }
     }
