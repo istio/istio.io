@@ -38,7 +38,7 @@ route requests to all available versions of a service in a random fashion.
    ```bash
    istioctl get route-rules -o yaml
    ```
-   ```yaml
+   ```ruby
    type: route-rule
    name: ratings-default
    namespace: default
@@ -107,7 +107,7 @@ route requests to all available versions of a service in a random fashion.
    ```bash
    istioctl get route-rule reviews-test-v2
    ```
-   ```yaml
+   ```ruby
    destination: reviews.default.svc.cluster.local
    match:
      httpHeaders:
