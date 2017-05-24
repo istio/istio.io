@@ -85,21 +85,20 @@ default namespace. They can be modified for deployment in a different namespace.
 
     * Install Istio without enabling [Istio Auth]({{home}}/docs/concepts/network-and-auth/auth.html) feature:
 
-   ```bash
-   kubectl apply -f install/kubernetes/istio.yaml
-   ```
+      ```bash
+      kubectl apply -f install/kubernetes/istio.yaml
+      ```
    
-   This command will install Istio-Manager, Mixer, Ingress-Controller, Egress-Controller core components.
+      This command will install Istio-Manager, Mixer, Ingress-Controller, Egress-Controller core components.
 
    * Install Istio and enable [Istio Auth]({{home}}/docs/concepts/network-and-auth/auth.html) feature
    (This deploys a CA in the namespace and enables
    [mTLS](https://en.wikipedia.org/wiki/Mutual_authentication) between the services):
 
-   ```bash
-   kubectl apply -f install/kubernetes/istio-auth.yaml
-   ```
-
-   This command will install Istio-Manager, Mixer, Ingress-Controller, and Egress-Controller, and the Istio CA (Certificate Authority).
+     ```bash
+     kubectl apply -f install/kubernetes/istio-auth.yaml
+     ```
+     This command will install Istio-Manager, Mixer, Ingress-Controller, and Egress-Controller, and the Istio CA (Certificate Authority).
 
 1. *Optional:* Install addons for metric collection and/or request tracing as described in the following sections.
 
@@ -109,9 +108,9 @@ To collect and view metrics provided by Mixer, install [Prometheus](https://prom
 as well as the [Grafana](http://staging.grafana.org) and/or ServiceGraph addons.
 
 ```bash
-   kubectl apply -f install/kubernetes/addons/prometheus.yaml
-   kubectl apply -f install/kubernetes/addons/grafana.yaml
-   kubectl apply -f install/kubernetes/addons/servicegraph.yaml
+kubectl apply -f install/kubernetes/addons/prometheus.yaml
+kubectl apply -f install/kubernetes/addons/grafana.yaml
+kubectl apply -f install/kubernetes/addons/servicegraph.yaml
 ```
 You can find out more about how to use these tools in [Collecting Metrics and Logs](./metrics-logs.html).
 
@@ -124,7 +123,6 @@ The Grafana addon provides an Istio dashboard visualization of the metrics (requ
     ```bash
     kubectl get services grafana
     ```
-
     Using the EXTERNAL-IP returned by that command, the Istio dashboard can be reached at `http://<EXTERNAL-IP>:3000/dashboard/db/istio-dashboard`.
 
 * Configure port-forwarding for the `grafana` service, as follows:
@@ -133,15 +131,17 @@ The Grafana addon provides an Istio dashboard visualization of the metrics (requ
     kubectl port-forward $(kubectl get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000
     ```
 
-    Then point your web browser to [http://localhost:3000/dashboard/db/istio-dashboard](http://localhost:3000/dashboard/db/istio-dashboard). The dashboard should look something like this:
-
-    <figure><img style="max-width:80%" src="./img/grafana_dashboard.png" alt="Grafana Istio Dashboard" title="Grafana Istio Dashboard" />
-    <figcaption>Grafana Istio Dashboard</figcaption></figure>
+    Then point your web browser to [http://localhost:3000/dashboard/db/istio-dashboard](http://localhost:3000/dashboard/db/istio-dashboard). 
 
 * Via service nodePort.
    ```bash
    export GRAFANA_URL=$(kubectl get po -l app=grafana -o jsonpath={.items[0].status.hostIP}):$(kubectl get svc grafana -o jsonpath={.spec.ports[0].nodePort})
    ```
+
+The dashboard should look something like this:
+
+    <figure><img style="max-width:80%" src="./img/grafana_dashboard.png" alt="Grafana Istio Dashboard" title="Grafana Istio Dashboard" />
+    <figcaption>Grafana Istio Dashboard</figcaption></figure>
 
 #### Verifying the ServiceGraph service
 
@@ -163,9 +163,9 @@ After running some services -- for example, after installing the [BookInfo]({{ho
 
 To enable and view distributed request tracing, install the [Zipkin](http://zipkin.io) addon:
 
-   ```bash
-   kubectl apply -f install/kubernetes/addons/zipkin.yaml
-   ```
+```bash
+kubectl apply -f install/kubernetes/addons/zipkin.yaml
+```
 
 Zipkin can be used to analyze the request flow and timing of an Istio application and to help identify bottlenecks. You can find out more about how to access the Zipkin dashboard and use Zipkin in [Distributed Request Tracing]({{home}}/docs/tasks/zipkin-tracing.html).
 
@@ -233,29 +233,29 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 
    * If Istio was installed without Istio auth feature:
 
-   ```bash
-   kubectl delete -f install/kubernetes/istio.yaml
-   ```
+     ```bash
+     kubectl delete -f install/kubernetes/istio.yaml
+     ```
 
    * If Istio was installed with auth feature enabled:
 
-   ```bash
-   kubectl delete -f install/kubernetes/istio-auth.yaml
-   ```
+     ```bash
+     kubectl delete -f install/kubernetes/istio-auth.yaml
+     ```
 
 2. Uninstall RBAC Istio roles:
 
    * If beta version was installed:
 
-   ```bash
-   kubectl delete -f install/kubernetes/istio-rbac-beta.yaml
-   ```
+     ```bash
+     kubectl delete -f install/kubernetes/istio-rbac-beta.yaml
+     ```
 
    * If alpha version was installed:
 
-   ```bash
-   kubectl delete -f install/kubernetes/istio-rbac-alpha.yaml
-   ```
+     ```bash
+     kubectl delete -f install/kubernetes/istio-rbac-alpha.yaml
+     ```
 
 3. If you installed Istio addons, uninstall them:
 
