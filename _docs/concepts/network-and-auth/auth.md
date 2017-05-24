@@ -152,4 +152,3 @@ In this setup, Istio CA is able to provide keys and certificates management for 
 *   Middle proxy support
 
 *   Pluggable key management component
-
