@@ -53,19 +53,19 @@ active configuration.
 
 <a name="istio.mixer.v1.Attributes"></a>
 ### Attributes
-An instance of this message is delivered to the mixer with every
+An instance of this message is delivered to Mixer with every
 API call.
 
 The general idea is to leverage the stateful gRPC streams from the
-proxy to the mixer to keep to a minimum the 'attribute chatter'.
+Envoy to Mixer to keep to a minimum the 'attribute chatter'.
 Only delta attributes are sent over, multiple concurrent attribute
 contexts can be used to avoid thrashing, and attribute indices are used to
 keep the wire protocol maximally efficient.
 
-Producing this message is the responsibility of the mixer's client
+Producing this message is the responsibility of Mixer's client
 library which is linked into different proxy implementations.
 
-The processing order for this state in the mixer is:
+The processing order for this state in Mixer is:
 
   * Any new dictionary is applied
 
