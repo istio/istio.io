@@ -128,3 +128,27 @@ in [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html) such that photo
 
 In this setup, Istio CA is able to provide keys and certificates management for all namespaces, and isolate microservice deployments from each other.
 
+## Future work
+
+*   Fine-grained authorization and auditing
+
+*   Key and certificate rotation and revocation
+
+*   Secure Istio components (mixer, discovery service, etc.)
+
+*   Inter-cluster service-to-service authentication
+
+*   End-user to service authentication
+
+*   Support GCP service account and AWS service account
+
+*   None-http traffic (MySql, Redis, etc.) support
+
+*   Auth info propagation from Envoy to the service (issue)
+
+*   Unix domain socket for local communication between service and Envoy
+
+*   Middle proxy support
+
+*   Pluggable key management component
+
