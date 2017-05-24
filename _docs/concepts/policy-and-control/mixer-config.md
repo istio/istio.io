@@ -251,15 +251,7 @@ a particular label is of type INT64, then only attribute expressions that produc
 64-bit integer can be used to fill-in that label. This is the case for the `responseCode`
 label above.
 
-Attribute expressions include the following features:
-
-1. Check attributes for equality against constants
-2. Check string attributes for wildcard matches
-3. Logical AND/OR/NOT operators
-4. Grouping semantics
-5. String Concatenation
-6. Substring Production
-7. Comparison (<, <=, ==, >=, >)
+Refer to the [attribute expression reference]({{home}}/docs/reference/config/mixer/expression-language.html) for details.
 
 #### Selectors
 
