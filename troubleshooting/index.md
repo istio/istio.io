@@ -35,13 +35,13 @@ server {
 }
 ```
 
-## Running multiple replicas of Mixer does not work as expected 
+## Running multiple replicas of Mixer does not work 
 
 For the {{site.data.istio.version}} release, Mixer **must** be configured to run as a single instance within a cluster. We are working on improvements at the protocol, configuration, and deployment levels to support multiple instance and high-availability deployments. We expect to remove this limitation shortly after the initial {{site.data.istio.version}} release.
 
 Running multiple replicas of Mixer will lead to issues with configuration updates not propagating properly and improperly-enforced quotas (for the memQuota adapter).
 
-## The Mixer pod was restarted and I lost my configuration updates
+## Mixer's pod was restarted and I lost my config updates
 
 For the {{site.data.istio.version}} release, Mixer configuration is stored in a local file system-based store. By default, Mixer is not configured to use a Kubernetes persistent volume.
 
@@ -104,7 +104,7 @@ data:
             name: mixer-configsubjects
 ```
 
-## I need to debug an issue with the service mesh. How do I debug?
+## How can I debug issues with the service mesh?
 
 ### With [GDB](https://www.gnu.org/software/gdb/)
 
