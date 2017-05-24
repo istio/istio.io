@@ -136,14 +136,11 @@ In this setup, Istio CA is able to provide keys and certificates management for 
 
 *   Inter-cluster service-to-service authentication
 
-*   End-user to service authentication
+*   End-user to service authentication using JWT/OAuth2/OpenID_Connect
 
 *   Support GCP service account and AWS service account
 
 *   None-http traffic (MySql, Redis, etc.) support
-
-*   Auth information propagation from Envoy to the service
-    ([issue](https://github.com/lyft/envoy/issues/794))
 
 *   Unix domain socket for local communication between service and Envoy
 
