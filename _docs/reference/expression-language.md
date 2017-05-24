@@ -49,7 +49,7 @@ CEXL variables are attributes from the typed [attribute vocabulary]({{home}}/doc
 Mixer validates a CEXL expression and resolves it to a type during config validation.
 Selectors must resolve to a boolean value and mapping expressions must resolve to the type they are mapping into. Config validation fails if a selector fails to resolve to a boolean or if a mapping expression resolves to an incorrect type. 
 
-If an operator specifies a *string* label as `request.size | 200`, validation fails because the expression resolves to an int.  
+If an operator specifies a *string* label as `request.size | 200`, validation fails because the expression resolves to an integer.
 
 ## Missing attributes
 
