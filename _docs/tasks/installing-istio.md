@@ -127,7 +127,7 @@ The Grafana addon provides an Istio dashboard visualization of the metrics (requ
 
     Then point your web browser to [http://localhost:3000/dashboard/db/istio-dashboard](http://localhost:3000/dashboard/db/istio-dashboard). The dashboard should look something like this:
 
-    <figure><img style="max-width:100%" src="./img/grafana_dashboard.png" alt="Grafana Istio Dashboard" title="Grafana Istio Dashboard" />
+    <figure><img style="max-width:80%" src="./img/grafana_dashboard.png" alt="Grafana Istio Dashboard" title="Grafana Istio Dashboard" />
     <figcaption>Grafana Istio Dashboard</figcaption></figure>
 
 * If your deployment environment provides external load balancers, you can access the dashboard directly (without the `kubectl port-forward` command) using the external IP address of the `grafana` service:
@@ -150,7 +150,7 @@ kubectl port-forward $(kubectl get pod -l app=servicegraph -o jsonpath='{.items[
 
 The ServiceGraph service provides both a textual (JSON) representation (via `/graph`) and a graphical visualization (via `/dotviz`) of the underlying service graph. To view the graphical visualization (assuming that you have configured port forwarding as per the previous snippet), open your browser at: [http://localhost:8088/dotviz](http://localhost:8088/dotviz). 
 
-After running some services -- for example, after installing the [BookInfo]({{home}}/docs/samples/bookinfo.html)  sample application and executing the `curl` request to confirm it's working -- the resulting service graph should look something like this:
+After running some services -- for example, after installing the [BookInfo]({{home}}/docs/samples/bookinfo.html)  sample application and generating some load on the application (e.g., executing `curl` requests in a `while` loop) -- the resulting service graph should look something like this:
 
 <figure><img src="./img/servicegraph.png" alt="BookInfo Service Graph" title="BookInfo Service Graph" />
 <figcaption>BookInfo Service Graph</figcaption></figure>
