@@ -132,8 +132,6 @@ In this setup, Istio CA is able to provide keys and certificates management for 
 
 *   Fine-grained authorization and auditing
 
-*   Key and certificate rotation and revocation
-
 *   Secure Istio components (mixer, discovery service, etc.)
 
 *   Inter-cluster service-to-service authentication
