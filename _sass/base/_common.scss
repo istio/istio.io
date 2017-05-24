@@ -79,7 +79,11 @@ th {
   }
 }
 
-.code-block{
+.code-block {
   overflow:auto;
   margin-bottom:-10px;
+
+  pre[class*="language-"] {
+    border-left-width: 4px;
+  }
 }
