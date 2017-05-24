@@ -27,7 +27,7 @@ Available routing and traffic management configuration types:
 See http://istio.io/docs/reference for an overview of routing rules
 and destination policies.
 
-More information on the mixer API configuration can be found under the
+More information on Mixer's API configuration can be found under the
 istioctl mixer command documentation.
 
 
@@ -312,7 +312,7 @@ for a description of Mixer configuration's scope, subject, and rules.
 
 ```
       --mixer string             (deprecated) Address of the Mixer configuration server as <host>:<port>
-      --mixerAPIService string   Name of istio-mixer service. When --kube=false this sets the address of the mixer service (default "istio-mixer:9094")
+      --mixerAPIService string   Name of istio-mixer service. When --kube=false this sets Mixer's address (default "istio-mixer:9094")
 ```
 
 ### Options inherited from parent commands
@@ -364,7 +364,8 @@ istioctl mixer rule create global myservice.ns.svc.cluster.local -f mixer-rule.y
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
       --managerAPIService string         Name of istio-manager service. When --kube=false this sets the address of the manager service (default "istio-manager:8081")
       --mixer string                     (deprecated) Address of the Mixer configuration server as <host>:<port>
-      --mixerAPIService string           Name of istio-mixer service. When --kube=false this sets the address of the mixer service (default "istio-mixer:9094")
+      --mixerAPIService string           Name of istio-mixer service. When --kube=false this sets the Mixer's address (default 
+      "istio-mixer:9094")
   -n, --namespace string                 Select a Kubernetes namespace (default "default")
   -v, --v Level                          log level for V logs
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
@@ -403,7 +404,8 @@ istioctl mixer rule get global myservice.ns.svc.cluster.local
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
       --managerAPIService string         Name of istio-manager service. When --kube=false this sets the address of the manager service (default "istio-manager:8081")
       --mixer string                     (deprecated) Address of the Mixer configuration server as <host>:<port>
-      --mixerAPIService string           Name of istio-mixer service. When --kube=false this sets the address of the mixer service (default "istio-mixer:9094")
+      --mixerAPIService string           Name of istio-mixer service. When --kube=false this sets Mixer's address (default 
+      "istio-mixer:9094")
   -n, --namespace string                 Select a Kubernetes namespace (default "default")
   -v, --v Level                          log level for V logs
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
@@ -429,7 +431,7 @@ Create and list Mixer rules in the configuration server.
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
       --managerAPIService string         Name of istio-manager service. When --kube=false this sets the address of the manager service (default "istio-manager:8081")
       --mixer string                     (deprecated) Address of the Mixer configuration server as <host>:<port>
-      --mixerAPIService string           Name of istio-mixer service. When --kube=false this sets the address of the mixer service (default "istio-mixer:9094")
+      --mixerAPIService string           Name of istio-mixer service. When --kube=false this sets Mixer's address (default "istio-mixer:9094")
   -n, --namespace string                 Select a Kubernetes namespace (default "default")
   -v, --v Level                          log level for V logs
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
