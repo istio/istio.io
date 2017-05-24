@@ -10,7 +10,7 @@ type: markdown
 
 ## Istio 0.1
 
-Istio 0.1 is the initial release of Istio. It works in a single Kubernetes cluster and supports the following features:
+Istio 0.1 is the initial [release](https://github.com/istio/istio/releases) of Istio. It works in a single Kubernetes cluster and supports the following features:
 - Installation of Istio into a Kubernetes namespace with a single command.
 - Semi-automated injection of Envoy proxies into Kubernetes pods.
 - Automatic traffic capture for Kubernetes pods using iptables.
