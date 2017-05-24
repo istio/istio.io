@@ -1,5 +1,5 @@
 ---
-title: Mixer Config Expression Language
+title: Expression Language
 overview: Mixer config expression language reference.
 
 order: 43
