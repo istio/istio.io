@@ -36,7 +36,7 @@ Istio service mesh.
  <tr>
   <td><code>mixerAddress</code></td>
   <td>string</td>
-  <td>Address of the mixer service (e.g. <em>istio-mixer:9090</em>).</td>
+  <td>Mixer's address (e.g. <em>istio-mixer:9090</em>).</td>
  </tr>
 <a name="istio.proxy.v1.config.ProxyMeshConfig.zipkinAddress"></a>
  <tr>

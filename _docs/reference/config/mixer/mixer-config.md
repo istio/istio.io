@@ -777,7 +777,8 @@ The kind of measurement. It describes how the data is recorded.
 <a name="istio.mixer.v1.config.descriptor.MetricDescriptor.MetricKind.DISTRIBUTION"></a>
  <tr>
   <td>DISTRIBUTION</td>
-  <td><p>Summary statistics for a population of values. At the moment, only histograms representing the distribution of those values across a set of buckets are supported (configured via the buckets field).</p><p>Values for DISTRIBUTIONs will be reported in singular form. It will be up to the mixer adapters and backend systems to transform single reported values into the distribution form as needed (and as supported).</p></td>
+  <td><p>Summary statistics for a population of values. At the moment, only histograms representing the distribution of those values across a set of buckets 
+  are supported (configured via the buckets field).</p><p>Values for DISTRIBUTIONs will be reported in singular form. It will be up to Mixer adapters and backend systems to transform single reported values into the distribution form as needed (and as supported).</p></td>
  </tr>
 </table>
 
