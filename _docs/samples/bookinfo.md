@@ -49,12 +49,6 @@ This application is polyglot, i.e., the microservices are written in different l
 
 1. Change directory to the root of the Istio installation directory.
 
-1. Source the Istio configuration file:
-
-   ```bash
-   source istio.VERSION
-   ```
-
 1. Bring up the application containers:
 
    ```bash
