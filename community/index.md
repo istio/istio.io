@@ -55,7 +55,7 @@ bugs.
     <tr>
       <td class="logo"><img src="../img/github.png" alt="GitHub"/></td>
       <td>
-        <a href="https://github.com/istio">GitHub</a> is where development takes place on Istio code.
+        <a href="https://github.com/istio/istio">GitHub</a> is where development takes place on Istio code.
       </td>
     </tr>
   </tbody>
