@@ -144,7 +144,8 @@ In this setup, Istio CA is able to provide keys and certificates management for 
 
 *   None-http traffic (MySql, Redis, etc.) support
 
-*   Auth info propagation from Envoy to the service (issue)
+*   Auth information propagation from Envoy to the service
+    ([issue](https://github.com/lyft/envoy/issues/794))
 
 *   Unix domain socket for local communication between service and Envoy
 
