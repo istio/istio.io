@@ -18,7 +18,7 @@ Mixer configuration uses an expression language (CEXL) to specify [selectors]({{
   
 ## Syntax
 
-CEXL accepts a subset of the **[Go expressions](https://golang.org/ref/spec#Expressions)**, which defines the syntax. CEXL implements a subset of the Go operators that constrains the set of accepted Go expressions. CEXL also supports arbitrary parenthesization. 
+CEXL accepts a subset of **[Go expressions](https://golang.org/ref/spec#Expressions)**, which defines the syntax. CEXL implements a subset of the Go operators that constrains the set of accepted Go expressions. CEXL also supports arbitrary parenthesization.
 
 ## Functions
 
@@ -59,5 +59,3 @@ For example, the expression `request.user == "user1"` fails evaluation if the re
 |`(request.header["x-user-group"] == "admin") || (request.user == "admin")`| **boolean**| True if the user is admin or in the admin group.
 |`(request.user | "nobody" ) == "user1"` | **boolean** | True if request.user is "user1", The expression will not error out if request.user is missing.
 |`source.labels["app"]=="reviews" && source.labels["version"]=="v3"`| **boolean** | True if app label is reviews and version label is v3, false otherwise.
-
-A comprehensive list of examples is in the [expression tests](https://github.com/istio/mixer/blob/master/pkg/expr/eval_test.go#L33).

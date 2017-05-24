@@ -251,7 +251,7 @@ a particular label is of type INT64, then only attribute expressions that produc
 64-bit integer can be used to fill-in that label. This is the case for the `responseCode`
 label above.
 
-Refer to the [attribute expression reference]({{home}}/docs/reference/expression-language.html) for details.
+Refer to the [attribute expression reference]({{home}}/docs/reference/config/mixer/expression-language.html) for details.
 
 #### Selectors
 
