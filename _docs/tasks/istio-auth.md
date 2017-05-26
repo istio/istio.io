@@ -49,10 +49,10 @@ Istio CA is up if the "AVAILABLE" column is 1.
 1. Verify AuthPolicy setting in ConfigMap.
 
    ```bash
-   kubectl get configmap istio -o yaml | grep authPolicy
+   kubectl get configmap istio -o yaml | grep authPolicy | head -1
    ```
 
-   Istio Auth is enabled if the line "authPolicy: MUTUAL\_TLS" is uncommented.
+   Istio Auth is enabled if the line `    authPolicy: MUTUAL_TLS` is uncommented.
 
 1. Check Istio Auth is enabled on Envoy proxies.
 
