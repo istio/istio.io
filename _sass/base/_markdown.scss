@@ -4,7 +4,6 @@
   // Text Blocks
   p {
     margin: 10px 0;
-    font-weight: 300;
     line-height: 1.5;
     @media (min-width: $tablet) {
       margin: 20px 0;
@@ -39,7 +38,6 @@
   ul {
     list-style: initial;
     font-size: $font-size--primary;
-    font-weight: 300;
     margin: 0 20px;
 
     @media (max-width: 768px) {
