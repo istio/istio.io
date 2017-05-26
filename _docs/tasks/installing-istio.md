@@ -54,7 +54,7 @@ default namespace. They can be modified for deployment in a different namespace.
     * yaml installation files for Kubernetes
     * sample apps
     * the `istioctl` client binary, needed to inject Envoy as a sidecar proxy, and useful for creating routing rules and policies.
-    * the istio.VERSION configuration file.
+    * the istio.VERSION file, containing the current version.
 
 1. Add the `istioctl` client to your PATH. For example, run the following commands on a Linux or MacOS system:
 
@@ -118,25 +118,30 @@ You can find out more about how to use these tools in [Collecting Metrics and Lo
 
 The Grafana addon provides an Istio dashboard visualization of the metrics (request rates, success/failure rates) in the cluster. Once you've installed Grafana, check that you can access the dashboard. There are three possible ways to do this: 
 
-* The simplest way to do this is to configure port-forwarding for the `grafana` service, as follows:
+* If your deployment environment provides external load balancers, you can access the dashboard directly (without the `kubectl port-forward` command) using the external IP address of the `grafana` service:
 
-  ```bash
-  kubectl port-forward $(kubectl get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000
-  ```
+    ```bash
+    kubectl get services grafana
+    ```
+    Using the EXTERNAL-IP returned by that command, the Istio dashboard can be reached at `http://<EXTERNAL-IP>:3000/dashboard/db/istio-dashboard`.
 
-    Then point your web browser to [http://localhost:3000/dashboard/db/istio-dashboard](http://localhost:3000/dashboard/db/istio-dashboard). The dashboard should look something like this:
+* Configure port-forwarding for the `grafana` service, as follows:
+
+    ```bash
+    kubectl port-forward $(kubectl get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000
+    ```
+
+    Then point your web browser to [http://localhost:3000/dashboard/db/istio-dashboard](http://localhost:3000/dashboard/db/istio-dashboard). 
+
+* Via service nodePort.
+   ```bash
+   export GRAFANA_URL=$(kubectl get po -l app=grafana -o jsonpath={.items[0].status.hostIP}):$(kubectl get svc grafana -o jsonpath={.spec.ports[0].nodePort})
+   ```
+
+The dashboard should look something like this:
 
     <figure><img style="max-width:80%" src="./img/grafana_dashboard.png" alt="Grafana Istio Dashboard" title="Grafana Istio Dashboard" />
     <figcaption>Grafana Istio Dashboard</figcaption></figure>
-
-* If your deployment environment provides external load balancers, you can access the dashboard directly (without the `kubectl port-forward` command) using the external IP address of the `grafana` service:
-
-  ```bash
-  kubectl get services grafana
-  ```
-  Using the EXTERNAL-IP returned from that command, the Istio dashboard can be reached at `http://<EXTERNAL-IP>:3000/dashboard/db/istio-dashboard`.
-
-* Via service nodePort.
 
 #### Verifying the ServiceGraph service
 
