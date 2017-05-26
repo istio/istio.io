@@ -21,7 +21,7 @@ This page shows how to install and configure Istio in a Kubernetes cluster.
   name and zone, and fetch credentials for kubectl:
   
   ```bash
-  gcloud container clusters get-credentials <cluster-name> --zone <zone> --project <project-name>
+  CLOUDSDK_CONTAINER_USE_CLIENT_CERTIFICATE=True gcloud container clusters get-credentials <cluster-name> --zone <zone> --project <project-name>
   ```
 
 * If you are using [IBM Bluemix Container Service](https://www.ibm.com/cloud-computing/bluemix/containers), find out your cluster name, and fetch credentials for kubectl:
