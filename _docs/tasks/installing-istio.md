@@ -74,6 +74,14 @@ default namespace. They can be modified for deployment in a different namespace.
    ```bash
    kubectl apply -f install/kubernetes/istio-rbac-beta.yaml
    ```
+   If you get an error
+   ```
+   Error from server (Forbidden): error when creating "install/kubernetes/istio-rbac-beta.yaml": clusterroles.rbac.authorization.k8s.io "istio-manager" is forbidden: attempt to grant extra privileges: [{[*] [istio.io] [istioconfigs] [] []} {[*] [istio.io] [istioconfigs.istio.io] [] []} {[*] [extensions] [thirdpartyresources] [] []} {[*] [extensions] [thirdpartyresources.extensions] [] []} {[*] [extensions] [ingresses] [] []} {[*] [] [configmaps] [] []} {[*] [] [endpoints] [] []} {[*] [] [pods] [] []} {[*] [] [services] [] []}] user=&{user@example.org [...]
+   ```
+   You need to add the following: (replace the name with your own)
+   ```
+   kubectl create clusterrolebinding myname-cluster-admin-binding --clusterrole=cluster-admin --user=myname@example.org
+   ```
    
    * If the command displays only 'alpha' version, please apply istio-rbac-alpha.yaml configuration:
    ```bash
@@ -121,7 +129,7 @@ The Grafana addon provides an Istio dashboard visualization of the metrics (requ
 * The simplest way to do this is to configure port-forwarding for the `grafana` service, as follows:
 
   ```bash
-  kubectl port-forward $(kubectl get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000
+  kubectl port-forward $(kubectl get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
   ```
 
     Then point your web browser to [http://localhost:3000/dashboard/db/istio-dashboard](http://localhost:3000/dashboard/db/istio-dashboard). The dashboard should look something like this:
@@ -143,7 +151,7 @@ The Grafana addon provides an Istio dashboard visualization of the metrics (requ
 The ServiceGraph addon provides a textual (JSON) representation and a graphical visualization of the service interaction graph for the cluster. Like Grafana, you can access the servicegraph service using port-forwarding, service nodePort, or (if external load balancing is available) external IP. In this case the service name is `servicegraph` and the port to access is 8088:
 
 ```bash
-kubectl port-forward $(kubectl get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088
+kubectl port-forward $(kubectl get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
 ```
 
 The ServiceGraph service provides both a textual (JSON) representation (via `/graph`) and a graphical visualization (via `/dotviz`) of the underlying service graph. To view the graphical visualization (assuming that you have configured port forwarding as per the previous snippet), open your browser at: [http://localhost:8088/dotviz](http://localhost:8088/dotviz). 
