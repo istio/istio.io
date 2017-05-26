@@ -1,3 +1,26 @@
+body {
+  font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: normal;
+}
+
+p, ul, td, ol {
+  font-weight: normal;
+}
+
+a {
+  font-weight: 500;
+}
+
+p {
+  font-size: $font-size--xs;
+  line-height: 1rem;
+}
+
+p.lead {
+  font-size: $font-size--m;
+  font-weight: 500;
+}
+
 h1 {
   font-size: $font-size--xxl;
   color: $secondBrandColor;
@@ -6,7 +29,6 @@ h1 {
 
 h2 {
   font-size: $font-size--xl;
-  font-weight: 300;
   color: $black;
 }
 
@@ -19,12 +41,13 @@ h3 {
 
 h4 {
   font-size: $font-size--l;
+  font-weight: 500;
   margin: $spacing--m 0;
 }
 
 h5 {
   font-size: $font-size--s;
-  font-weight: 300;
+  font-weight: 500;
   color: $black;
 }
 
@@ -34,17 +57,7 @@ h6 {
   color: $black;
 }
 
-p {
-  font-size: $font-size--xs;
-  font-weight: 300;
-  line-height: 1rem;
-}
-
-p.lead {
+figcaption {
   font-size: $font-size--m;
-  font-weight: 400;
-}
-
-td {
-  font-weight: 300;
+  font-weight: 500;
 }

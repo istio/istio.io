@@ -3,7 +3,7 @@
   padding-top: $vpad;
 }
 
-.page-title-bar{
+.page-title-bar {
   background-color: $thirdBrandColor;
   border-top: 3px solid $lightPopBrandColor;
   padding-top: 20px;
@@ -60,13 +60,7 @@ th {
   color: $linkHoverColor !important;
 }
 
-
-#content-container{
-  /* overrides overflow:visible, which overlays on top of floating elements, i.e. the toc on /docs/reference/commands/istioctl.html */
-  code[class*="language-"], pre[class*="language-"]{
-//    z-index: -1;
-  }
-
+#content-container {
   div.toolbar {
     top: -2px;
   }
@@ -80,8 +74,8 @@ th {
 }
 
 .code-block {
-  overflow:auto;
-  margin-bottom:-10px;
+  overflow: auto;
+  margin-bottom: -10px;
 
   pre[class*="language-"] {
     border-left-width: 4px;
