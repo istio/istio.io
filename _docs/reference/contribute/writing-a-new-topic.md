@@ -7,6 +7,7 @@ order: 30
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 This page shows how to create a new Istio documentation topic.
 
@@ -227,12 +228,12 @@ display a config file or a test file. To do so, you can't use normal markup and 
 use direct HTML. For example:
 
 ```
-<pre data-src="/repos/istio/BUILD"></pre>
+{% raw %}<pre data-src="{{home}}/repos/istio/BUILD"></pre>{% endraw %}
 ```
 
 which produces the following result:
 
-<pre data-src="/repos/istio/BUILD"></pre>
+<pre data-src="{{home}}/repos/istio/BUILD"></pre>
 
 The `data-src` attribute specifies the path to the file to display. This has to be a file within the
 current site, it cannot come from a different site.
