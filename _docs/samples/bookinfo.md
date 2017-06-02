@@ -56,7 +56,7 @@ This application is polyglot, i.e., the microservices are written in different l
    ```
 
    The above command launches four microservices and creates the gateway
-   ingress resource as illustrated in the diagram above.
+   ingress resource as illustrated in the diagram below.
    The reviews microservice has 3 versions: v1, v2, and v3.
 
    > Note that in a realistic deployment, new versions of a microservice are deployed
