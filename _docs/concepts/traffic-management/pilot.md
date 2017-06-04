@@ -16,7 +16,7 @@ across the Istio service mesh.
 
 As illustrated in the figure above, Pilot maintains a canonical
 representation of services in the mesh that is independent of the underlying
-platform. Platform-specific adapters in the manager are responsible for
+platform. Platform-specific adapters in Pilot are responsible for
 populating this canonical model appropriately. For example, the Kubernetes
 adapter in the Pilot implements the necessary controllers to watch the
 Kubernetes API server for changes to the pod registration information, ingress
