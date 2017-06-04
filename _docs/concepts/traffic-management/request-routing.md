@@ -12,7 +12,7 @@ This page describes how requests are routed between services in an Istio service
 
 ## Service model and service versions
 
-As described in [Istio-Manager](./manager.html), the canonical representation
+As described in [Istio-Manager](./pilot.html), the canonical representation
 of services in a particular mesh is maintained by Istio-Manager. The Istio
 model of a service is independent of how it is represented in the underlying
 platform (Kubernetes, Mesos, Cloud Foundry,
@@ -32,7 +32,7 @@ additional control over traffic between services.
 
 ## Communication between services
 
-<figure><img src="./img/manager/ServiceModel_Versions.svg" alt="Showing how service versions are handled." title="Service Versions" />
+<figure><img src="./img/pilot/ServiceModel_Versions.svg" alt="Showing how service versions are handled." title="Service Versions" />
 <figcaption>Service Versions</figcaption></figure>
 
 As illustrated in the figure above, clients of a service have no knowledge
@@ -68,5 +68,5 @@ web services (for instance, accessing the Maps API, or a video service API) via 
 operators can add failure recovery features such as circuit breakers,
 impose rate limits via Mixer, and provide authentication using Istio-Auth.
 
-<figure><img src="./img/manager/ServiceModel_RequestFlow.svg" alt="Ingress and Egress Envoy." title="Request Flow" />
+<figure><img src="./img/pilot/ServiceModel_RequestFlow.svg" alt="Ingress and Egress Envoy." title="Request Flow" />
 <figcaption>Request Flow</figcaption></figure>

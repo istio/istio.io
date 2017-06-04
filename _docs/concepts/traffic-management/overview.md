@@ -18,7 +18,7 @@ guides in this section.
 ## Istio-Manager and Envoy
 
 The core component used for traffic management in Istio is
-[Istio-Manager](./manager.html), which manages and configures all the Envoy
+[Istio-Manager](./pilot.html), which manages and configures all the Envoy
 proxy instances deployed in a particular Istio service mesh. It lets you
 specify what rules you want to use to route traffic between Envoy proxies
 and configure failure recovery features such as timeouts, retries, and
@@ -44,7 +44,7 @@ of the size of the canary deployment, or send traffic to a particular version
 depending on the content of the request.
 
 
-<figure><img style="max-width:85%;" src="./img/manager/TrafficManagementOverview.svg" alt="Traffic Management with Istio" title="Traffic Management with Istio" />
+<figure><img style="max-width:85%;" src="./img/pilot/TrafficManagementOverview.svg" alt="Traffic Management with Istio" title="Traffic Management with Istio" />
 <figcaption>Traffic Management with Istio</figcaption></figure>
 
 Decoupling traffic flow from infrastructure scaling like this allows Istio
