@@ -12,8 +12,8 @@ This page describes how requests are routed between services in an Istio service
 
 ## Service model and service versions
 
-As described in [Istio-Manager](./pilot.html), the canonical representation
-of services in a particular mesh is maintained by Istio-Manager. The Istio
+As described in [Pilot](./pilot.html), the canonical representation
+of services in a particular mesh is maintained by Pilot. The Istio
 model of a service is independent of how it is represented in the underlying
 platform (Kubernetes, Mesos, Cloud Foundry,
 etc.). Platform-specific adapters are responsible for populating the
@@ -42,7 +42,7 @@ intercepts and forwards all requests/responses between the client and the
 service.
 
 Envoy determines its actual choice of service version dynamically
-based on the routing rules specified by the operator using Istio-Manager. This
+based on the routing rules specified by the operator using Pilot. This
 model enables the application code to decouple itself from the evolution of its dependent
 services, while providing other benefits as well (see
 [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html)). Routing
