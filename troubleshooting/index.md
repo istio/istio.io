@@ -108,9 +108,9 @@ data:
 
 ### With [GDB](https://www.gnu.org/software/gdb/)
 
-To debug Istio with `gdb`, you will need to run the debug images of Envoy / Mixer / Manager. A recent `gdb` and the golang extensions (for Mixer/Manager or other golang components) is required.
+To debug Istio with `gdb`, you will need to run the debug images of Envoy / Mixer / Pilot. A recent `gdb` and the golang extensions (for Mixer/Pilot or other golang components) is required.
 
-1.  `kubectl exec -it PODNAME -c [proxy | mixer | manager]`
+1.  `kubectl exec -it PODNAME -c [proxy | mixer | pilot]`
 1.  Find process ID: ps ax 
 1.  gdb -p PID binary
 1.  For go: info goroutines, goroutine x bt

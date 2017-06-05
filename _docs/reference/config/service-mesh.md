@@ -30,7 +30,7 @@ Istio service mesh.
  <tr>
   <td><code>discoveryAddress</code></td>
   <td>string</td>
-  <td>Address of the discovery service exposing SDS, CDS, RDS (e.g. <em>istio-manager:8080</em>).</td>
+  <td>Address of the discovery service exposing SDS, CDS, RDS (e.g. <em>istio-pilot:8080</em>).</td>
  </tr>
 <a name="istio.proxy.v1.config.ProxyMeshConfig.mixerAddress"></a>
  <tr>
