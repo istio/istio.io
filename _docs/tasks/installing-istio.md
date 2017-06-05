@@ -97,7 +97,7 @@ default namespace. They can be modified for deployment in a different namespace.
       kubectl apply -f install/kubernetes/istio.yaml
       ```
    
-      This command will install Istio-Manager, Mixer, Ingress-Controller, Egress-Controller core components.
+      This command will install Pilot, Mixer, Ingress-Controller, Egress-Controller core components.
 
    * Install Istio and enable [Istio Auth]({{home}}/docs/concepts/network-and-auth/auth.html) feature
    (This deploys a CA in the namespace and enables
@@ -106,7 +106,7 @@ default namespace. They can be modified for deployment in a different namespace.
      ```bash
      kubectl apply -f install/kubernetes/istio-auth.yaml
      ```
-     This command will install Istio-Manager, Mixer, Ingress-Controller, and Egress-Controller, and the Istio CA (Certificate Authority).
+     This command will install Pilot, Mixer, Ingress-Controller, and Egress-Controller, and the Istio CA (Certificate Authority).
 
 1. *Optional:* Install addons for metric collection and/or request tracing as described in the following sections.
 
