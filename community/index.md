@@ -45,14 +45,6 @@ bugs.
     </tr>
 
     <tr>
-      <td class="logo"><img src="{{home}}/img/slack.png" alt="Slack"/></td>
-      <td>
-        Head to <a href="https://istio.slack.com">Slack</a> if you’re a developer working on Istio or Istio adapters and you want to chat with
-        the core Istio engineering team.
-      </td>
-    </tr>
-
-    <tr>
       <td class="logo"><img src="../img/github.png" alt="GitHub"/></td>
       <td>
         <a href="https://github.com/istio/istio">GitHub</a> is where development takes place on Istio code.
