@@ -20,7 +20,7 @@ best approach for different cases.
     <tr>
       <td class="logo"><img src="{{home}}/img/troubleshooting.svg" alt="Troubleshooting"/></td>
       <td>
-        If you are having troubles or are trying to <a href="{{home}}/bugs/">report bugs</a>.
+        If you are having trouble or are trying to <a href="{{home}}/bugs/">report bugs</a>.
       </td>
     </tr>
 

@@ -8,7 +8,7 @@ type: markdown
 
 # Bugs! Issues ?
 
-Oh no! You are having troubles or found a bug? Here's what you need to do:
+Oh no! You are having trouble or found a bug? Here's what you need to do:
 
 1. Check out the [troubleshooting guide]({{home}}/troubleshooting) for solutions to common problems.
 
