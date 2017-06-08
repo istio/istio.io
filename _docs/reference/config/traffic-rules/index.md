@@ -1,6 +1,6 @@
 ---
 title: Traffic Management Rules
-overview: Detailed information on rules configuration and API exposed by Istio-Manager for managing them.
+overview: Detailed information on rules configuration and API exposed by Pilot for managing them.
 
 order: 10
 

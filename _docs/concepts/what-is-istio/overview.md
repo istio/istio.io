@@ -77,12 +77,12 @@ Envoy is deployed as a **sidecar** to the relevant service in the same Kubernete
 services. The proxy extracts request level [attributes]({{home}}/docs/concepts/policy-and-control/attributes.html), which are sent to Mixer for evaluation. More information on this attribute extraction and policy 
 evaluation can be found in [Mixer Configuration]({{home}}/docs/concepts/policy-and-control/mixer-config.html). Mixer includes a flexible plugin model enabling it to interface with a variety of host environments and infrastructure backends, abstracting the Envoy proxy and Istio-managed services from these details.
 
-### Istio-Manager
+### Pilot
 
-[Istio-Manager]({{home}}/docs/concepts/traffic-management/manager.html) serves as an interface between the user and Istio, collecting and validating configuration and propagating it to the various Istio components.
+[Pilot]({{home}}/docs/concepts/traffic-management/pilot.html) serves as an interface between the user and Istio, collecting and validating configuration and propagating it to the various Istio components.
 It abstracts environment-specific implementation details from Mixer and Envoy, providing them with an abstract representation of the user’s services 
 that is independent of the underlying platform. In addition, traffic management rules (i.e. generic layer-4 rules and layer-7 HTTP/gRPC routing rules) can 
-be programmed at runtime via Istio-Manager.
+be programmed at runtime via Pilot.
 
 ### Istio-Auth
 

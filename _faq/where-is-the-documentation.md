@@ -15,7 +15,7 @@ Detailed developer-level documentation is maintained for each component in GitHu
 
 *   [Envoy](https://lyft.github.io/envoy/docs/)
 
-*   [Manager](https://github.com/istio/manager/tree/master/doc)
+*   [Pilot](https://github.com/istio/pilot/tree/master/doc)
 
 *   [Mixer](https://github.com/istio/mixer/tree/master/doc)
 
