@@ -2,12 +2,7 @@
 sitemap_exclude: y
 ---
 
-/*
-{% assign home = "" %}
-{% if site.github.environment == "dotcom" %}
 {% assign home = site.baseurl %}
-{% endif %}
-*/
 
 // Given an array of documents, constructs a tree of items
 //
