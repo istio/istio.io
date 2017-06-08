@@ -228,15 +228,14 @@ display a config file or a test file. To do so, you can't use normal markup and 
 use direct HTML. For example:
 
 ```
-{% raw %}<pre data-src="{{home}}/repos/istio/BUILD"></pre>{% endraw %}
+{% raw %}<pre data-src="https://raw.githubusercontent.com/istio/istio/master/BUILD"></pre>{% endraw %}
 ```
 
 which produces the following result:
 
-<pre data-src="{{home}}/repos/istio/BUILD"></pre>
+<pre data-src="https://raw.githubusercontent.com/istio/istio/master/BUILD"></pre>
 
-The `data-src` attribute specifies the path to the file to display. This has to be a file within the
-current site, it cannot come from a different site.
+The `data-src` attribute specifies the path to the file to display.
 
 ### Highlighting lines
 

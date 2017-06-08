@@ -37,7 +37,7 @@ as the example application throughout this task.
    automatically.
 
    Save the following as `new_rule.yaml`:
-   <pre data-src="{{home}}/repos/istio/samples/apps/bookinfo/mixer-rule-additional-telemetry.yaml"></pre>
+   <pre data-src="https://raw.githubusercontent.com/istio/istio/release-0.1/samples/apps/bookinfo/mixer-rule-additional-telemetry.yaml"></pre>
 
 1. Pick a target service for the new rule.
 
