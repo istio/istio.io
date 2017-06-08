@@ -19,12 +19,12 @@ Platforms such as Kubernetes, Mesos already provide such functionality for
 container-based applications. A plethora of solutions exist for VM-based
 applications.
 
-**Service Discovery:** Istio-Manager consumes information from the service
+**Service Discovery:** Pilot consumes information from the service
 registry and provides a platform-agnostic service discovery
 interface. Envoy instances in the mesh perform service discovery and 
 dynamically update their load balancing pools accordingly.
 
-<figure><img src="./img/manager/LoadBalancing.svg" alt="Discovery and Load Balancing" title="Discovery and Load Balancing" />
+<figure><img src="./img/pilot/LoadBalancing.svg" alt="Discovery and Load Balancing" title="Discovery and Load Balancing" />
 <figcaption>Discovery and Load Balancing</figcaption></figure>
 
 As illustrated in the figure above, services in the mesh access each other

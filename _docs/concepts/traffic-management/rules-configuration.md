@@ -60,7 +60,7 @@ destination: reviews.default.svc.cluster.local
 ```
 
 The *destination* value SHOULD be a fully qualified domain name (FQDN). It
-is used by Istio-Manager for matching rules to services. For example,
+is used by Pilot for matching rules to services. For example,
 in Kubernetes, a fully qualified domain name for a service can be
 constructed using the following format: *serviceName.namespace.dnsSuffix*.
 

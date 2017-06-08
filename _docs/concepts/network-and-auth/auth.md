@@ -91,7 +91,7 @@ Istio Auth workflow consists of two phases, deployment and runtime. This section
 
 1.  When a pod is created, API Server mounts the key and certificate pair according to the service account using [Kubernetes secrets](https://kubernetes.io/docs/concepts/configuration/secret/).
 
-1.  [Istio Manager](https://istio.io/docs/concepts/traffic-management/manager.html) generates the config with proper key and certificate and secure naming information, 
+1.  [Pilot]({{home}}/docs/concepts/traffic-management/pilot.html) generates the config with proper key and certificate and secure naming information, 
 which
  defines what service account(s) can run a certain service, and passes it to Envoy. 
 
@@ -132,7 +132,7 @@ In this setup, Istio CA is able to provide keys and certificates management for 
 
 *   Fine-grained authorization and auditing
 
-*   Secure Istio components (Istio Mixer, Istio Manager, etc.)
+*   Secure Istio components (Mixer, Pilot, etc.)
 
 *   Inter-cluster service-to-service authentication
 
