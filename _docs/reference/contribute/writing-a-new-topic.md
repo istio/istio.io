@@ -235,7 +235,9 @@ which produces the following result:
 
 <pre data-src="https://raw.githubusercontent.com/istio/istio/master/BUILD"></pre>
 
-The `data-src` attribute specifies the path to the file to display.
+The `data-src` attribute specifies the path to the file to display. [PrismJS](http://prismjs.com/) fetches 
+ the file using XMLHttpRequest. If the file is from a different origin site, CORS should be enabled on that site.
+Note that the github raw content site (`raw.githubusercontent.com`) is CORS enabled so it may be used here.
 
 ### Highlighting lines
 
