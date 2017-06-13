@@ -22,7 +22,7 @@ This task shows how to inject delays and test the resiliency of your application
   [request routing](./request-routing.html) task or by running following
   commands:
   
-  > Note: This assumes you don't have any default routes set yet. If you've already created default route rules for the sample, you'll need to use `replace` rather than `create` in the following commands.
+  > Note: This assumes you don't have any routes set yet. If you've already created default route rules for the sample, you'll need to use `replace` rather than `create` in one or both of the following commands.
 
 
   ```bash
