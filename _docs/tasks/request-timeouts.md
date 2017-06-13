@@ -20,6 +20,8 @@ This task shows you how to setup request timeouts in Envoy using Istio.
 * Deploy the [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application.
 
 * Initialize the application version routing by running the following command:
+
+> Note: This assumes you don't have any routes set yet. If you've already created route rules for the sample, you'll need to use `replace` rather than `create` in the following command.
   
   ```bash
   istioctl create -f samples/apps/bookinfo/route-rule-all-v1.yaml
