@@ -21,12 +21,15 @@ This task shows how to inject delays and test the resiliency of your application
 * Initialize the application version routing by either first doing the
   [request routing](./request-routing.html) task or by running following
   commands:
+  
+  > Note: This assumes you don't have any routes set yet. If you've already created conflicting route rules for the sample, you'll need to use `replace` rather than `create` in one or both of the following commands.
+
 
   ```bash
   istioctl create -f samples/apps/bookinfo/route-rule-all-v1.yaml
   istioctl create -f samples/apps/bookinfo/route-rule-reviews-test-v2.yaml
   ```
-
+  
 ## Fault injection
 
 To test our BookInfo application microservices for resiliency, we will _inject a 7s delay_
