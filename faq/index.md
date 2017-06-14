@@ -15,7 +15,9 @@ to check [Stack Overflow](https://stackoverflow.com/questions/tagged/istio) for 
 <div class="panel-group" id="accordion">
 
   {% for q in faqs %}
-  <div class="panel panel-default">
+	  {% assign name = q.path | downcase | split: '/' | last | remove: ".md" %}
+
+  <div id="{{name}}" class="panel panel-default">
     <div class="panel-heading">
       <h4 class="panel-title">
         <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{forloop.index}}">

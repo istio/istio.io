@@ -22,10 +22,12 @@ This task shows you how to configure dynamic request routing based on weights an
 
 Because the BookInfo sample deploys 3 versions of the reviews microservice,
 we need to set a default route.
-Otherwise if you access the application several times, you would notice that sometimes the output contains
+Otherwise if you access the application several times, you'll notice that sometimes the output contains
 star ratings.
 This is because without an explicit default version set, Istio will
 route requests to all available versions of a service in a random fashion.
+
+> Note: This task assumes you don't have any routes set yet. If you've already created conflicting route rules for the sample, you'll need to use `replace` rather than `create` in one or both of the following commands.
 
 1. Set the default version for all microservices to v1.
 
