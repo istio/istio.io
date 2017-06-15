@@ -6,4 +6,4 @@ User-agent: *
 {% for node in site.pages %}{% if node.noindex %}{% assign isset = true %}Disallow: {{ node.url }}
 {% endif %}{% endfor %}{% if isset != true %}Disallow:
 {% endif %}
-Sitemap: {{ site.baseurl }}/sitemap.xml
+Sitemap: https://istio.io/sitemap.xml
