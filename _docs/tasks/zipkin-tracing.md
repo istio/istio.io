@@ -35,8 +35,7 @@ example application for this task.
 
 ## Accessing the Zipkin dashboard
 
-Locate the Zipkin dashboard URL (external IP, nodePort, or port-forwarding).
-For example, using port-forwarding:
+Setup access to the Zipkin dashboard URL using port-forwarding:
 
 ```bash
 kubectl port-forward $(kubectl get pod -l app=zipkin -o jsonpath='{.items[0].metadata.name}') 9411:9411 &
