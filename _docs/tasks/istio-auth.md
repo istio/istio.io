@@ -126,9 +126,9 @@ The service name and port are defined [here](https://github.com/istio/istio/blob
    
 Note that Istio uses [Kubernetes service account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account) 
 as service identity, which offers stronger security than service name 
-(refer [here](https://istio.io/docs/concepts/network-and-auth/auth.html#identity) for more information). 
+(refer [here]({{home}}/docs/concepts/network-and-auth/auth.html#identity) for more information). 
 Thus the certificates used in Istio do not have service name, which is the information that curl needs to verify
 server identity. As a result, we use curl option '-k' to prevent the curl client from verifying service identity
 in server's (i.e., productpage) certificate. 
-Please check secure naming [here](https://istio.io/docs/concepts/network-and-auth/auth.html#workflow) for more information
+Please check secure naming [here]({{home}}/docs/concepts/network-and-auth/auth.html#workflow) for more information
 about how the client verifies the server's identity in Istio.
