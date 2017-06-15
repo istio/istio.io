@@ -138,14 +138,14 @@ Load balancing algorithms supported by Envoy proxy.
   <th>Value</th>
   <th>Description</th>
  </tr>
-<a name="istio.proxy.v1.config.LoadBalancing.SimpleLBPolicy.ROUNDROBIN"></a>
+<a name="istio.proxy.v1.config.LoadBalancing.SimpleLBPolicy.ROUND_ROBIN"></a>
  <tr>
-  <td>ROUNDROBIN</td>
+  <td>ROUND_ROBIN</td>
   <td>Simple round robin policy.</td>
  </tr>
-<a name="istio.proxy.v1.config.LoadBalancing.SimpleLBPolicy.LEASTCONN"></a>
+<a name="istio.proxy.v1.config.LoadBalancing.SimpleLBPolicy.LEAST_CONN"></a>
  <tr>
-  <td>LEASTCONN</td>
+  <td>LEAST_CONN</td>
   <td>The least request load balancer uses an O(1) algorithm which selects two random healthy hosts and picks the host which has fewer active requests.</td>
  </tr>
 <a name="istio.proxy.v1.config.LoadBalancing.SimpleLBPolicy.RANDOM"></a>
