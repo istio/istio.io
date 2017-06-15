@@ -39,7 +39,7 @@ Locate the Zipkin dashboard URL (external IP, nodePort, or port-forwarding).
 For example, using port-forwarding:
 
 ```bash
-kubectl port-forward $(kubectl get pod -l app=zipkin -o jsonpath='{.items[0].metadata.name}') 9411:9411
+kubectl port-forward $(kubectl get pod -l app=zipkin -o jsonpath='{.items[0].metadata.name}') 9411:9411 &
 ```
 
 Then open your browser at [http://localhost:9411](http://localhost:9411)
