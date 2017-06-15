@@ -81,7 +81,7 @@ as the example application throughout this task.
 
 1. Verify that the new metric is being collected.
    
-   Setup port-forwarding for grafana:
+   Setup port-forwarding for Grafana:
    
    ```bash
    kubectl port-forward $(kubectl get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
