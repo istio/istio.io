@@ -2,10 +2,8 @@
 title : "Sitemap"
 sitemap_exclude: y
 ---
-
-{% assign istio = "https://istio.io" %}
-
 <?xml version="1.0" encoding="UTF-8"?>
+{% assign istio = "https://istio.io" %}
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     {% for post in site.posts %}
     <url>
