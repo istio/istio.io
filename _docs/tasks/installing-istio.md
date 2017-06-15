@@ -124,27 +124,18 @@ You can find out more about how to use these tools in [Collecting Metrics and Lo
 
 #### Verifying the Grafana dashboard
 
-The Grafana addon provides an Istio dashboard visualization of the metrics (request rates, success/failure rates) in the cluster. Once you've installed Grafana, check that you can access the dashboard. There are three possible ways to do this: 
+The Grafana addon provides an Istio dashboard visualization of the metrics (request rates, success/failure rates) in the cluster. Once you've installed Grafana, check that you can access the dashboard.
 
-* The simplest way to do this is to configure port-forwarding for the `grafana` service, as follows:
+Configure port-forwarding for the `grafana` service, as follows:
 
   ```bash
   kubectl port-forward $(kubectl get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
   ```
 
-    Then point your web browser to [http://localhost:3000/dashboard/db/istio-dashboard](http://localhost:3000/dashboard/db/istio-dashboard). The dashboard should look something like this:
+Then point your web browser to [http://localhost:3000/dashboard/db/istio-dashboard](http://localhost:3000/dashboard/db/istio-dashboard). The dashboard should look something like this:
 
-    <figure><img style="max-width:80%" src="./img/grafana_dashboard.png" alt="Grafana Istio Dashboard" title="Grafana Istio Dashboard" />
-    <figcaption>Grafana Istio Dashboard</figcaption></figure>
-
-* If your deployment environment provides external load balancers, you can access the dashboard directly (without the `kubectl port-forward` command) using the external IP address of the `grafana` service:
-
-  ```bash
-  kubectl get services grafana
-  ```
-  Using the EXTERNAL-IP returned from that command, the Istio dashboard can be reached at `http://<EXTERNAL-IP>:3000/dashboard/db/istio-dashboard`.
-
-* Via service nodePort.
+<figure><img style="max-width:80%" src="./img/grafana_dashboard.png" alt="Grafana Istio Dashboard" title="Grafana Istio Dashboard" />
+<figcaption>Grafana Istio Dashboard</figcaption></figure>
 
 #### Verifying the ServiceGraph service
 
@@ -182,15 +173,15 @@ Zipkin can be used to analyze the request flow and timing of an Istio applicatio
    ```
    ```bash
    NAME            CLUSTER-IP      EXTERNAL-IP       PORT(S)                       AGE
-   grafana         10.83.252.16    104.198.134.40    3000:30432/TCP                5h
+   grafana         10.83.252.16    <none>            3000:30432/TCP                5h
    istio-egress    10.83.247.89    <none>            80/TCP                        5h
    istio-ingress   10.83.245.171   35.184.245.62     80:32730/TCP,443:30574/TCP    5h
    istio-pilot     10.83.251.173   <none>            8080/TCP,8081/TCP             5h
    istio-mixer     10.83.244.253   <none>            9091/TCP,9094/TCP,42422/TCP   5h
    kubernetes      10.83.240.1     <none>            443/TCP                       36d
-   prometheus      10.83.247.221   <pending>         9090:30398/TCP                5h
-   servicegraph    10.83.242.48    104.154.244.227   8088:31928/TCP                5h
-   zipkin          10.83.241.77    35.188.18.50      9411:30243/TCP                5h
+   prometheus      10.83.247.221   <none>            9090:30398/TCP                5h
+   servicegraph    10.83.242.48    <none>            8088:31928/TCP                5h
+   zipkin          10.83.241.77    <none>            9411:30243/TCP                5h
    ```
 
    Note that if your cluster is running in an environment that does not support an external load balancer
