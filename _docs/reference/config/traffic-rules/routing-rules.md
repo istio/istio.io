@@ -277,8 +277,8 @@ ratings service before making the actual API call.
     rewrite:
       uri: /v1/bookRatings
     route:
-      - tags:
-          version: v1
+    - tags:
+        version: v1
 
 <table>
  <tr>
@@ -310,9 +310,9 @@ Describes HTTP request timeout. For example, the following rule sets a
     route:
     - tags:
         version: v1
-      httpReqTimeout:
-        simpleTimeout:
-          timeout: 10s
+    httpReqTimeout:
+      simpleTimeout:
+        timeout: 10s
 
 <table>
  <tr>
@@ -356,10 +356,10 @@ calling ratings:v1 service, with a 2s timeout per retry attempt.
     route:
     - tags:
         version: v1
-      httpReqRetries:
-        simpleRetry:
-          attempts: 3
-          perTryTimeout: 2s
+    httpReqRetries:
+      simpleRetry:
+        attempts: 3
+        perTryTimeout: 2s
 
 <table>
  <tr>
