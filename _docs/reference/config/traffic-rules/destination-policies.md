@@ -162,7 +162,7 @@ implementation is fine-grained in that it tracks the success/failure
 rates of individual hosts in the load balancing pool. Hosts that
 continually return errors for API calls are ejected from the pool for a
 pre-defined period of time. See Envoy's [outlier
-detection](https://lyft.github.io/envoy/docs/intro/arch_overview/outlier.html)
+detection](https://lyft.github.io/envoy/docs/intro/arch_overview/circuit_breaking.html)
 for more details.
 
 <table>
