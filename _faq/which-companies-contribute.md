@@ -5,5 +5,4 @@ type: markdown
 ---
 {% include home.html %}
 
-<pre data-src="https://raw.githubusercontent.com/istio/istio/fe1a3b7dd62f97e053f94d8de750fdc2ece5955d/devel/Contributions.txt"></pre>
-
+Istio is actively contributed to by dozens of engineers from Google, Ibm, Redhat and others
