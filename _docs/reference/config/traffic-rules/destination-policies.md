@@ -22,8 +22,6 @@ look as follows:
     policy:
     - loadBalancing: 
         name: RANDOM
-      simpleCb:
-        maxConnections: 1000
 
 
 Policies are applicable per individual service versions. ONLY
