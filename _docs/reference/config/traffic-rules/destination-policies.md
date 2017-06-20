@@ -181,7 +181,7 @@ for more details.
 
 <a name="istio.proxy.v1.config.CircuitBreaker.SimpleCircuitBreakerPolicy"></a>
 #### SimpleCircuitBreakerPolicy
-Parameters to tune Envoy's circuit breaker configuration. A simple
+Parameters to tune Envoy's [circuit breaker configuration](https://lyft.github.io/envoy/docs/intro/arch_overview/circuit_breaking.html). A simple
 circuit breaker can be set based on a number of criteria such as
 connection and request limits. For example, the following destination
 policy sets a limit of 100 connections to "reviews" service version
