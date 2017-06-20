@@ -5,4 +5,4 @@ type: markdown
 ---
 {% include home.html %}
 
-Istio is actively contributed to by dozens of engineers from Google, Ibm, Redhat and others
+Istio is actively contributed to by dozens of engineers from Google, Ibm, Redhat and others. It also includes Lyft's Envoy.
