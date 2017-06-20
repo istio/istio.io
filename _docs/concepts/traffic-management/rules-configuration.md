@@ -319,9 +319,11 @@ the "reviews" microservice.
 
 ```yaml
 destination: reviews.default.svc.cluster.local
-tags:
-  version: v1
-loadBalancing: RANDOM
+policy:
+- tags:
+    version: v1
+  loadBalancing:
+    name: RANDOM
 ```
 
 ### Circuit breakers
@@ -333,11 +335,12 @@ sets a limit of 100 connections to "reviews" service version "v1" backends.
 
 ```yaml
 destination: reviews.default.svc.cluster.local
-tags:
-  version: v1
-circuitBreaker:
-  simpleCb:
-    maxConnections: 100
+policy:
+- tags:
+    version: v1
+  circuitBreaker:
+    simpleCb:
+      maxConnections: 100
 ```
 
 The complete set of simple circuit breaker fields can be found
@@ -363,11 +366,12 @@ consider the following rule, as the one and only rule defined for the
 
 ```yaml
 destination: reviews.default.svc.cluster.local
-tags:
-  version: v1
-circuitBreaker:
-  simpleCb:
-    maxConnections: 100
+policy:
+- tags:
+    version: v1
+  circuitBreaker:
+    simpleCb:
+      maxConnections: 100
 ```
 
 Since there is no specific route rule defined for the "reviews"
@@ -394,6 +398,5 @@ Although the default Istio behavior conveniently sends traffic from all
 versions of a source service to all versions of a destination service
 without any rules being set, as soon as version discrimination is desired
 rules are going to be needed.
-
 Therefore, setting a default rule for every service, right from the
 start, is generally considered a best practice in Istio.
