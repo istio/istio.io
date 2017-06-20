@@ -119,11 +119,8 @@ that you can use if you want to try it out anyway.
 * Remove the mixer configuration rule:
 
   ```bash
-  istioctl mixer rule create global ratings.default.svc.cluster.local -f samples/apps/bookinfo/mixer-rule-empty-rule.yaml
+  istioctl mixer rule delete global ratings.default.svc.cluster.local
   ```
-
-  > Note: removing a rule by setting an empty rule list is a temporary workaround because `istioctl delete` does not
-    yet support mixer rules.
 
 * Remove the application routing rules:
 
