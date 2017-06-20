@@ -47,7 +47,7 @@ control how requests are routed to a destination service.
 Routes control how requests are routed to different versions of a
 service. Requests can be routed based on the source and destination, HTTP
 header fields, and weights associated with individual service versions. The
-following important aspects must be keep in mind while writing route rules:
+following important aspects must be kept in mind while writing route rules:
 
 ### Qualify rules by destination
 
