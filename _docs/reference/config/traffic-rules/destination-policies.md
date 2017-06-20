@@ -159,8 +159,9 @@ Circuit breaker configuration for Envoy. The circuit breaker
 implementation is fine-grained in that it tracks the success/failure
 rates of individual hosts in the load balancing pool. Hosts that
 continually return errors for API calls are ejected from the pool for a
-pre-defined period of time. See Envoy's [outlier
-detection](https://lyft.github.io/envoy/docs/intro/arch_overview/outlier.html)
+pre-defined period of time. See Envoy's 
+[circuit breaker](https://lyft.github.io/envoy/docs/intro/arch_overview/circuit_breaking.html) 
+and [outlier detection](https://lyft.github.io/envoy/docs/intro/arch_overview/outlier.html)
 for more details.
 
 <table>
@@ -179,8 +180,7 @@ for more details.
 
 <a name="istio.proxy.v1.config.CircuitBreaker.SimpleCircuitBreakerPolicy"></a>
 #### SimpleCircuitBreakerPolicy
-Parameters to tune Envoy's [circuit breaker configuration](https://lyft.github.io/envoy/docs/intro/arch_overview/circuit_breaking.html). A simple
-circuit breaker can be set based on a number of criteria such as
+A simple circuit breaker can be set based on a number of criteria such as
 connection and request limits. For example, the following destination
 policy sets a limit of 100 connections to "reviews" service version
 "v1" backends. 
