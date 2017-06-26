@@ -140,7 +140,7 @@ In this setup, Istio CA is able to provide keys and certificates management for 
 
 *   Support GCP service account and AWS service account
 
-*   None-http traffic (MySql, Redis, etc.) support
+*   Non-http traffic (MySql, Redis, etc.) support
 
 *   Unix domain socket for local communication between service and Envoy
 
