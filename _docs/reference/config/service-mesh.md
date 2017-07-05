@@ -132,9 +132,9 @@ Istio service mesh.
   <td>NONE</td>
   <td>Do not encrypt Envoy to Envoy traffic.</td>
  </tr>
-<a name="istio.proxy.v1.config.ProxyMeshConfig.AuthPolicy.MUTUALTLS"></a>
+<a name="istio.proxy.v1.config.ProxyMeshConfig.AuthPolicy.MUTUAL_TLS"></a>
  <tr>
-  <td>MUTUALTLS</td>
+  <td>MUTUAL_TLS</td>
   <td>Envoy to Envoy traffic is wrapped into mutual TLS connections.</td>
  </tr>
 </table>
