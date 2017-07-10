@@ -146,6 +146,13 @@ servicesIpv4Cidr: 10.7.240.0/20
 kubectl apply -f <(istioctl kube-inject -f samples/apps/sleep/sleep.yaml --includeIPRanges=10.4.0.0/14,10.7.240.0/20)
 ```
 
+On Azure Container Service(ACS), use:
+
+```bash
+kubectl apply -f <(istioctl kube-inject -f samples/apps/sleep/sleep.yaml --includeIPRanges=10.244.0.0/16,10.240.0.0/16)
+```
+
+
 After starting your service this way, the Istio sidecar will only intercept and manage internal requests
 within the cluster. Any external request will simply bypass the sidecar and go straight to its intended
 destination.
