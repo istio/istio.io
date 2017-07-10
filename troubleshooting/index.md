@@ -16,7 +16,7 @@ Istio is installed and everything seems to be working except there are no traces
 should be.
 
 This may be caused by a known [Docker issue](https://github.com/docker/for-mac/issues/1260) where the time inside
-containers may skew significantly from the time on the host machine. If this is the case, 
+containers may skew significantly from the time on the host machine. If this is the case,
 when you select a very long date range in Zipin you will see the traces appearing as much as several days too early.
 
 You can also confirm this problem by comparing the date inside a docker container to outside:
@@ -34,7 +34,7 @@ To fix the problem, you'll need to shutdown and then restart Docker before reins
 
 Envoy requires HTTP/1.1 or HTTP/2 traffic for upstream services. For example, when using [NGINX](https://www.nginx.com/) for serving traffic behind Envoy, you will need to set the [proxy_http_version](http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_http_version) directive in your NGINX config to be "1.1", since the NGINX default is 1.0
 
-Example config:	
+Example config:
 
 ```
 upstream http_backend {
@@ -55,22 +55,22 @@ server {
 }
 ```
 
-## Running multiple replicas of Mixer does not work 
+## Running multiple replicas of Mixer does not work
 
-For the {{site.data.istio.version}} release, Mixer **must** be configured to run as a single instance within a cluster. We are working on improvements at the protocol, configuration, and deployment levels to support multiple instance and high-availability deployments. We expect to remove this limitation shortly after the initial {{site.data.istio.version}} release.
+For the 0.1 release, Mixer **must** be configured to run as a single instance within a cluster. We are working on improvements at the protocol, configuration, and deployment levels to support multiple instance and high-availability deployments. We expect to remove this limitation shortly after the initial release.
 
 Running multiple replicas of Mixer will lead to issues with configuration updates not propagating properly and improperly-enforced quotas (for the memQuota adapter).
 
 ## Mixer's pod was restarted and I lost my config updates
 
-For the {{site.data.istio.version}} release, Mixer configuration is stored in a local file system-based store. By default, Mixer is not configured to use a Kubernetes persistent volume.
+For the 0.1 release, Mixer configuration is stored in a local file system-based store. By default, Mixer is not configured to use a Kubernetes persistent volume.
 
 There are a few possible workarounds:
 
 1.  Save configuration updates to a common location and script the application of these updates via istioctl.
 1.  Configure a persistent volume and update the Mixer deployment specs to use that volume for the file system store.
 
-Work is ongoing to provide a highly-available, persistent configuration store for Mixer. We expect this to work to land immediately following the initial {{site.data.istio.version}} release.
+Work is ongoing to provide a highly-available, persistent configuration store for Mixer. We expect this to work to land immediately following the initial release.
 
 ### Configuring a persistent volume for Mixer config
 
@@ -109,7 +109,7 @@ data:
             postStart:
               exec:
                 command: ["/bin/sh", "-c", "cp /etc/opt/mixer2/configroot/scopes/global/adapters.yml /etc/opt/mixer/configroot/scopes/global/adapters.yml; cp /etc/opt/mixer2/configroot/scopes/global/descriptors.yml /etc/opt/mixer/configroot/scopes/global/descriptors.yml; cp /etc/opt/mixer2/configroot/scopes/subjects/rules.yml /etc/opt/mixer/configroot/scopes/global/subjects/global/rules.yml" ]
- 
+
       volumeMounts:
           - mountPath: /etc/opt/mixer2/configroot/scopes/subjects
             name: configsubjects
@@ -131,15 +131,15 @@ data:
 To debug Istio with `gdb`, you will need to run the debug images of Envoy / Mixer / Pilot. A recent `gdb` and the golang extensions (for Mixer/Pilot or other golang components) is required.
 
 1.  `kubectl exec -it PODNAME -c [proxy | mixer | pilot]`
-1.  Find process ID: ps ax 
+1.  Find process ID: ps ax
 1.  gdb -p PID binary
 1.  For go: info goroutines, goroutine x bt
 
 ### With [Tcpdump](http://www.tcpdump.org/tcpdump_man.html)
 
-Tcpdump doesn't work in the sidecar pod - the container doesn't run as root. However any other container in the same pod will see all the packets, since the network namespace is shared. `iptables` will also see the pod-wide config. 
+Tcpdump doesn't work in the sidecar pod - the container doesn't run as root. However any other container in the same pod will see all the packets, since the network namespace is shared. `iptables` will also see the pod-wide config.
 
-Communication between Envoy and the app happens on 127.0.0.1, and is not encrypted. 
+Communication between Envoy and the app happens on 127.0.0.1, and is not encrypted.
 
 ## Envoy is crashing under load
 

@@ -12,6 +12,8 @@ type: markdown
 
 # Welcome
 
+Here you will find the latest ({{site.data.istio.version}}) documentation, follow this link for the [documentation for the latest stable release (0.1)](https://istio.io/v-0.1/docs/)
+
 Welcome to Istio's documentation home page. From here you can learn all about Istio by following
 the links below:
 
