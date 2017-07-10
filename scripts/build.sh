@@ -26,8 +26,8 @@ else
 	rm -Rf ${PUBLIC}
 	mkdir -p ${PUBLIC}
 	mv _site "${PUBLIC}/v-${RELEASE}"
-	echo "baseurl: /v-${RELEASE}" > config_verride.yml
-	jekyll build --config _config.yml,config_verride.yml
+	echo "baseurl: /v-${RELEASE}" > config_override.yml
+	jekyll build --config _config.yml,config_override.yml
 	npm install -g firebase-tools
 	firebase use $PROJECT_ID --non-interactive --token $FIREBASE_TOKEN
 	firebase deploy --public ${PUBLIC} --non-interactive --token $FIREBASE_TOKEN

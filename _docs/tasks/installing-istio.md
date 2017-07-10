@@ -113,7 +113,7 @@ default namespace. They can be modified for deployment in a different namespace.
 ### Enabling metrics collection
 
 To collect and view metrics provided by Mixer, install [Prometheus](https://prometheus.io),
-as well as the [Grafana](http://staging.grafana.org) and/or ServiceGraph addons.
+as well as the [Grafana](https://grafana.com/grafana/download) and/or ServiceGraph addons.
 
 ```bash
 kubectl apply -f install/kubernetes/addons/prometheus.yaml
