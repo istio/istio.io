@@ -1,5 +1,7 @@
 _site
+_static_site
 .bundle
+config_override.yml
 
 # Eclipse artifacts
 .project
