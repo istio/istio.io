@@ -22,8 +22,6 @@ look as follows:
     policy:
     - loadBalancing: 
         name: RANDOM
-      simpleCb:
-        maxConnections: 1000
 
 
 Policies are applicable per individual service versions. ONLY
@@ -138,14 +136,14 @@ Load balancing algorithms supported by Envoy proxy.
   <th>Value</th>
   <th>Description</th>
  </tr>
-<a name="istio.proxy.v1.config.LoadBalancing.SimpleLBPolicy.ROUNDROBIN"></a>
+<a name="istio.proxy.v1.config.LoadBalancing.SimpleLBPolicy.ROUND_ROBIN"></a>
  <tr>
-  <td>ROUNDROBIN</td>
+  <td>ROUND_ROBIN</td>
   <td>Simple round robin policy.</td>
  </tr>
-<a name="istio.proxy.v1.config.LoadBalancing.SimpleLBPolicy.LEASTCONN"></a>
+<a name="istio.proxy.v1.config.LoadBalancing.SimpleLBPolicy.LEAST_CONN"></a>
  <tr>
-  <td>LEASTCONN</td>
+  <td>LEAST_CONN</td>
   <td>The least request load balancer uses an O(1) algorithm which selects two random healthy hosts and picks the host which has fewer active requests.</td>
  </tr>
 <a name="istio.proxy.v1.config.LoadBalancing.SimpleLBPolicy.RANDOM"></a>
@@ -161,8 +159,9 @@ Circuit breaker configuration for Envoy. The circuit breaker
 implementation is fine-grained in that it tracks the success/failure
 rates of individual hosts in the load balancing pool. Hosts that
 continually return errors for API calls are ejected from the pool for a
-pre-defined period of time. See Envoy's [outlier
-detection](https://lyft.github.io/envoy/docs/intro/arch_overview/outlier.html)
+pre-defined period of time. See Envoy's 
+[circuit breaker](https://lyft.github.io/envoy/docs/intro/arch_overview/circuit_breaking.html) 
+and [outlier detection](https://lyft.github.io/envoy/docs/intro/arch_overview/outlier.html)
 for more details.
 
 <table>
@@ -181,8 +180,7 @@ for more details.
 
 <a name="istio.proxy.v1.config.CircuitBreaker.SimpleCircuitBreakerPolicy"></a>
 #### SimpleCircuitBreakerPolicy
-Parameters to tune Envoy's circuit breaker configuration. A simple
-circuit breaker can be set based on a number of criteria such as
+A simple circuit breaker can be set based on a number of criteria such as
 connection and request limits. For example, the following destination
 policy sets a limit of 100 connections to "reviews" service version
 "v1" backends. 

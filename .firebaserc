@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "istio-io",
+    "v01": "istiodocs-v01"
+  }
+}

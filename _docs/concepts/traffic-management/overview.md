@@ -15,10 +15,10 @@ and are familiar with Istio's high-level architecture. You can
 find out more about individual traffic management features in the other
 guides in this section.
 
-## Istio-Manager and Envoy
+## Pilot and Envoy
 
 The core component used for traffic management in Istio is
-[Istio-Manager](./manager.html), which manages and configures all the Envoy
+[Pilot](./pilot.html), which manages and configures all the Envoy
 proxy instances deployed in a particular Istio service mesh. It lets you
 specify what rules you want to use to route traffic between Envoy proxies
 and configure failure recovery features such as timeouts, retries, and
@@ -27,7 +27,7 @@ in the mesh and uses this to let Envoys know about the other instances in
 the mesh via its discovery service.
 
 Each Envoy instance maintains [load balancing information](./load-balancing.html)
-based on the information it gets from Istio-Manager and periodic health-checks
+based on the information it gets from Pilot and periodic health-checks
 of other instances in its load-balancing pool, allowing it to intelligently
 distribute traffic between destination instances while following its specified
 routing rules.
@@ -35,16 +35,16 @@ routing rules.
 ## Traffic management benefits
 
 Using Istio's traffic management model essentially decouples traffic flow
-and infrastructure scaling, letting operators specify via Istio-Manager what
+and infrastructure scaling, letting operators specify via Pilot what
 rules they want traffic to follow rather than which specific pods/VMs should
-receive traffic - Istio-Manager and intelligent Envoy proxies look after the
-rest. So, for example, you can specify via Istio-Manager that you want 5%
+receive traffic - Pilot and intelligent Envoy proxies look after the
+rest. So, for example, you can specify via Pilot that you want 5%
 of traffic for a particular service to go to a canary version irrespective
 of the size of the canary deployment, or send traffic to a particular version
 depending on the content of the request.
 
 
-<figure><img style="max-width:85%;" src="./img/manager/TrafficManagementOverview.svg" alt="Traffic Management with Istio" title="Traffic Management with Istio" />
+<figure><img style="max-width:85%;" src="./img/pilot/TrafficManagementOverview.svg" alt="Traffic Management with Istio" title="Traffic Management with Istio" />
 <figcaption>Traffic Management with Istio</figcaption></figure>
 
 Decoupling traffic flow from infrastructure scaling like this allows Istio

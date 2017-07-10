@@ -30,7 +30,7 @@ Istio service mesh.
  <tr>
   <td><code>discoveryAddress</code></td>
   <td>string</td>
-  <td>Address of the discovery service exposing SDS, CDS, RDS (e.g. <em>istio-manager:8080</em>).</td>
+  <td>Address of the discovery service exposing SDS, CDS, RDS (e.g. <em>istio-pilot:8080</em>).</td>
  </tr>
 <a name="istio.proxy.v1.config.ProxyMeshConfig.mixerAddress"></a>
  <tr>
@@ -132,9 +132,9 @@ Istio service mesh.
   <td>NONE</td>
   <td>Do not encrypt Envoy to Envoy traffic.</td>
  </tr>
-<a name="istio.proxy.v1.config.ProxyMeshConfig.AuthPolicy.MUTUALTLS"></a>
+<a name="istio.proxy.v1.config.ProxyMeshConfig.AuthPolicy.MUTUAL_TLS"></a>
  <tr>
-  <td>MUTUALTLS</td>
+  <td>MUTUAL_TLS</td>
   <td>Envoy to Envoy traffic is wrapped into mutual TLS connections.</td>
  </tr>
 </table>

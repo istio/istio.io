@@ -37,7 +37,7 @@ as the example application throughout this task.
    automatically.
 
    Save the following as `new_rule.yaml`:
-   <pre data-src="{{home}}/repos/istio/samples/apps/bookinfo/mixer-rule-additional-telemetry.yaml"></pre>
+   <pre data-src="https://raw.githubusercontent.com/istio/istio/release-0.1/samples/apps/bookinfo/mixer-rule-additional-telemetry.yaml"></pre>
 
 1. Pick a target service for the new rule.
 
@@ -80,17 +80,15 @@ as the example application throughout this task.
    command a few times to generate traffic.
 
 1. Verify that the new metric is being collected.
-
-   Open the Istio dashboard in a web browser:
-
-   * `http://localhost:3000/dashboard/db/istio-dashboard`, if you have configured port-forwarding, or
    
-   * `http://<GRAFANA-IP>:3000/dashboard/db/istio-dashboard`, where GRAFANA-IP is taken from the EXTERNAL IP returned by:
+   Setup port-forwarding for Grafana:
    
-     ```bash
-     kubectl get service grafana
-     ```
+   ```bash
+   kubectl port-forward $(kubectl get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
+   ```
 
+   Then open the Istio dashboard in a web browser: [http://localhost:3000/dashboard/db/istio-dashboard](http://localhost:3000/dashboard/db/istio-dashboard)
+   
    One of the rows in the dashboard will be named "reviews". If that row is not visible, please refresh the dashboard page. The "reviews" row
    contains a graph entitled "Response Size by Source And Version". The graph displays a breakdown of the distribution of Response Sizes returned
    by the "reviews" service.

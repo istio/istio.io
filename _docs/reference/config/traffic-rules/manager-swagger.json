@@ -1,8 +1,8 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "ISTIO Manager REST API",
-    "description": "The manager provides APIs to the developer for configuring rules for request routing, fault injection, etc.",
+    "title": "Pilot REST API",
+    "description": "Pilot provides APIs to the developer for configuring rules for request routing, fault injection, etc.",
     "version": "alpha"
   },
   "basePath": "/",
@@ -20,14 +20,14 @@
     "/health": {
       "parameters": [],
       "get": {
-        "summary": "Status of the manager API",
-        "description": "Returns status of the manager API.",
+        "summary": "Status of the Pilot API server",
+        "description": "Returns status of the Pilot API server.",
         "responses": {
           "200": {
-            "description": "Manager API is healthy."
+            "description": "Pilot API server is healthy."
           },
           "503": {
-            "description": "Manager API is unhealthy."
+            "description": "Pilot API server is unhealthy."
           }
         }
       }
@@ -57,8 +57,8 @@
         }
       ],
       "post": {
-        "summary": "Add configs to the manager.",
-        "description": "Transactionally add a config to the manager. All configs are validated\nagainst the config schema.\n",
+        "summary": "Add configs to Pilot.",
+        "description": "Transactionally add a config to Pilot. All configs are validated\nagainst the config schema.\n",
         "parameters": [
           {
             "name": "config",
@@ -98,7 +98,7 @@
         }
       },
       "get": {
-        "summary": "Get configs from the manager.",
+        "summary": "Get configs from Pilot.",
         "description": "Query for configs that pass the specified filters.",
         "responses": {
           "200": {
@@ -122,7 +122,7 @@
         }
       },
       "put": {
-        "summary": "Update configs in the manager.",
+        "summary": "Update configs in Pilot.",
         "description": "Transactionally update the specified config.",
         "parameters": [
           {

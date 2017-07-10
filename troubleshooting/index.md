@@ -10,6 +10,26 @@ type: markdown
 
 Oh no! You have some problems? Let us help.
 
+## No traces appearing in Zipkin when running Istio locally on Mac
+
+Istio is installed and everything seems to be working except there are no traces showing up in Zipkin when there
+should be.
+
+This may be caused by a known [Docker issue](https://github.com/docker/for-mac/issues/1260) where the time inside
+containers may skew significantly from the time on the host machine. If this is the case, 
+when you select a very long date range in Zipin you will see the traces appearing as much as several days too early.
+
+You can also confirm this problem by comparing the date inside a docker container to outside:
+
+```bash
+$ docker run --entrypoint date gcr.io/istio-testing/ubuntu-16-04-slave:latest
+Sun Jun 11 11:44:18 UTC 2017
+$ date -u
+Thu Jun 15 02:25:42 UTC 2017
+```
+
+To fix the problem, you'll need to shutdown and then restart Docker before reinstalling Istio.
+
 ## Envoy won't connect to my HTTP/1.0 service
 
 Envoy requires HTTP/1.1 or HTTP/2 traffic for upstream services. For example, when using [NGINX](https://www.nginx.com/) for serving traffic behind Envoy, you will need to set the [proxy_http_version](http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_http_version) directive in your NGINX config to be "1.1", since the NGINX default is 1.0
@@ -108,9 +128,9 @@ data:
 
 ### With [GDB](https://www.gnu.org/software/gdb/)
 
-To debug Istio with `gdb`, you will need to run the debug images of Envoy / Mixer / Manager. A recent `gdb` and the golang extensions (for Mixer/Manager or other golang components) is required.
+To debug Istio with `gdb`, you will need to run the debug images of Envoy / Mixer / Pilot. A recent `gdb` and the golang extensions (for Mixer/Pilot or other golang components) is required.
 
-1.  `kubectl exec -it PODNAME -c [proxy | mixer | manager]`
+1.  `kubectl exec -it PODNAME -c [proxy | mixer | pilot]`
 1.  Find process ID: ps ax 
 1.  gdb -p PID binary
 1.  For go: info goroutines, goroutine x bt

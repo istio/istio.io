@@ -12,16 +12,15 @@ Istio is an open source project with an active community that supports its use a
 to join us and get involved!
 
 There are quite a few ways to get plugged in with the Istio community. See below to learn the
-best approach for different cases. See [here]({{home}}/bugs/) if you're trying to figure out how to report
-bugs.
+best approach for different cases.
 
 <table>
   <tbody>
+    
     <tr>
-      <td class="logo"><img src="{{home}}/img/stackoverflow.png" alt="Stack Overflow"/></td>
+      <td class="logo"><img src="{{home}}/img/troubleshooting.svg" alt="Troubleshooting"/></td>
       <td>
-        <a href="https://stackoverflow.com/questions/tagged/istio">Stack Overflow</a> is for practical questions and curated answers
-        on deploying, configuring, and using Istio.
+        If you are having trouble or are trying to <a href="{{home}}/bugs/">report bugs</a>.
       </td>
     </tr>
 
@@ -45,17 +44,17 @@ bugs.
     </tr>
 
     <tr>
-      <td class="logo"><img src="{{home}}/img/slack.png" alt="Slack"/></td>
+      <td class="logo"><img src="../img/github.png" alt="GitHub"/></td>
       <td>
-        Head to <a href="https://istio.slack.com">Slack</a> if you’re a developer working on Istio or Istio adapters and you want to chat with
-        the core Istio engineering team.
+        <a href="https://github.com/istio/istio">GitHub</a> is where development takes place on Istio code.
       </td>
     </tr>
 
     <tr>
-      <td class="logo"><img src="../img/github.png" alt="GitHub"/></td>
+      <td class="logo"><img src="{{home}}/img/stackoverflow.png" alt="Stack Overflow"/></td>
       <td>
-        <a href="https://github.com/istio/istio">GitHub</a> is where development takes place on Istio code.
+        <a href="https://stackoverflow.com/questions/tagged/istio">Stack Overflow</a> is for practical questions and curated answers
+        on deploying, configuring, and using Istio.
       </td>
     </tr>
   </tbody>

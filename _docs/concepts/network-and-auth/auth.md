@@ -91,7 +91,7 @@ Istio Auth workflow consists of two phases, deployment and runtime. This section
 
 1.  When a pod is created, API Server mounts the key and certificate pair according to the service account using [Kubernetes secrets](https://kubernetes.io/docs/concepts/configuration/secret/).
 
-1.  [Istio Manager](https://istio.io/docs/concepts/traffic-management/manager.html) generates the config with proper key and certificate and secure naming information, 
+1.  [Pilot]({{home}}/docs/concepts/traffic-management/pilot.html) generates the config with proper key and certificate and secure naming information, 
 which
  defines what service account(s) can run a certain service, and passes it to Envoy. 
 
@@ -124,7 +124,7 @@ Let's consider a 3-tier application with three services: photo-frontend, photo-b
 In this scenario, a cluster admin creates 3 namespaces: istio-ca-ns, photo-ns, and datastore-ns. Admin has access to all namespaces, and each team only has 
 access to its own namespace. The photo SRE team creates 2 service accounts to run photo-frontend and photo-backend respectively in namespace photo-ns. The 
 datastore SRE team creates 1 service account to run the datastore service in namespace datastore-ns. Moreover, we need to enforce the service access control 
-in [Istio Mixer](https://istio.io/docs/concepts/policy-and-control/mixer.html) such that photo-frontend cannot access datastore.
+in [Istio Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html) such that photo-frontend cannot access datastore.
 
 In this setup, Istio CA is able to provide keys and certificates management for all namespaces, and isolate microservice deployments from each other.
 
@@ -132,7 +132,7 @@ In this setup, Istio CA is able to provide keys and certificates management for 
 
 *   Fine-grained authorization and auditing
 
-*   Secure Istio components (Istio Mixer, Istio Manager, etc.)
+*   Secure Istio components (Mixer, Pilot, etc.)
 
 *   Inter-cluster service-to-service authentication
 
@@ -140,7 +140,7 @@ In this setup, Istio CA is able to provide keys and certificates management for 
 
 *   Support GCP service account and AWS service account
 
-*   None-http traffic (MySql, Redis, etc.) support
+*   Non-http traffic (MySql, Redis, etc.) support
 
 *   Unix domain socket for local communication between service and Envoy
 

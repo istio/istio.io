@@ -76,7 +76,7 @@ default namespace. They can be modified for deployment in a different namespace.
    ```
    If you get an error
    ```
-   Error from server (Forbidden): error when creating "install/kubernetes/istio-rbac-beta.yaml": clusterroles.rbac.authorization.k8s.io "istio-manager" is forbidden: attempt to grant extra privileges: [{[*] [istio.io] [istioconfigs] [] []} {[*] [istio.io] [istioconfigs.istio.io] [] []} {[*] [extensions] [thirdpartyresources] [] []} {[*] [extensions] [thirdpartyresources.extensions] [] []} {[*] [extensions] [ingresses] [] []} {[*] [] [configmaps] [] []} {[*] [] [endpoints] [] []} {[*] [] [pods] [] []} {[*] [] [services] [] []}] user=&{user@example.org [...]
+   Error from server (Forbidden): error when creating "install/kubernetes/istio-rbac-beta.yaml": clusterroles.rbac.authorization.k8s.io "istio-pilot" is forbidden: attempt to grant extra privileges: [{[*] [istio.io] [istioconfigs] [] []} {[*] [istio.io] [istioconfigs.istio.io] [] []} {[*] [extensions] [thirdpartyresources] [] []} {[*] [extensions] [thirdpartyresources.extensions] [] []} {[*] [extensions] [ingresses] [] []} {[*] [] [configmaps] [] []} {[*] [] [endpoints] [] []} {[*] [] [pods] [] []} {[*] [] [services] [] []}] user=&{user@example.org [...]
    ```
    You need to add the following: (replace the name with your own)
    ```
@@ -97,7 +97,7 @@ default namespace. They can be modified for deployment in a different namespace.
       kubectl apply -f install/kubernetes/istio.yaml
       ```
    
-      This command will install Istio-Manager, Mixer, Ingress-Controller, Egress-Controller core components.
+      This command will install Pilot, Mixer, Ingress-Controller, Egress-Controller core components.
 
    * Install Istio and enable [Istio Auth]({{home}}/docs/concepts/network-and-auth/auth.html) feature
    (This deploys a CA in the namespace and enables
@@ -106,7 +106,7 @@ default namespace. They can be modified for deployment in a different namespace.
      ```bash
      kubectl apply -f install/kubernetes/istio-auth.yaml
      ```
-     This command will install Istio-Manager, Mixer, Ingress-Controller, and Egress-Controller, and the Istio CA (Certificate Authority).
+     This command will install Pilot, Mixer, Ingress-Controller, and Egress-Controller, and the Istio CA (Certificate Authority).
 
 1. *Optional:* Install addons for metric collection and/or request tracing as described in the following sections.
 
@@ -124,27 +124,18 @@ You can find out more about how to use these tools in [Collecting Metrics and Lo
 
 #### Verifying the Grafana dashboard
 
-The Grafana addon provides an Istio dashboard visualization of the metrics (request rates, success/failure rates) in the cluster. Once you've installed Grafana, check that you can access the dashboard. There are three possible ways to do this: 
+The Grafana addon provides an Istio dashboard visualization of the metrics (request rates, success/failure rates) in the cluster. Once you've installed Grafana, check that you can access the dashboard.
 
-* The simplest way to do this is to configure port-forwarding for the `grafana` service, as follows:
+Configure port-forwarding for the `grafana` service, as follows:
 
   ```bash
   kubectl port-forward $(kubectl get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
   ```
 
-    Then point your web browser to [http://localhost:3000/dashboard/db/istio-dashboard](http://localhost:3000/dashboard/db/istio-dashboard). The dashboard should look something like this:
+Then point your web browser to [http://localhost:3000/dashboard/db/istio-dashboard](http://localhost:3000/dashboard/db/istio-dashboard). The dashboard should look something like this:
 
-    <figure><img style="max-width:80%" src="./img/grafana_dashboard.png" alt="Grafana Istio Dashboard" title="Grafana Istio Dashboard" />
-    <figcaption>Grafana Istio Dashboard</figcaption></figure>
-
-* If your deployment environment provides external load balancers, you can access the dashboard directly (without the `kubectl port-forward` command) using the external IP address of the `grafana` service:
-
-  ```bash
-  kubectl get services grafana
-  ```
-  Using the EXTERNAL-IP returned from that command, the Istio dashboard can be reached at `http://<EXTERNAL-IP>:3000/dashboard/db/istio-dashboard`.
-
-* Via service nodePort.
+<figure><img style="max-width:80%" src="./img/grafana_dashboard.png" alt="Grafana Istio Dashboard" title="Grafana Istio Dashboard" />
+<figcaption>Grafana Istio Dashboard</figcaption></figure>
 
 #### Verifying the ServiceGraph service
 
@@ -174,7 +165,7 @@ Zipkin can be used to analyze the request flow and timing of an Istio applicatio
 
 ## Verifying the installation
 
-1. Ensure the following Kubernetes services were deployed: "istio-manager", "istio-mixer", "istio-ingress", "istio-egress",
+1. Ensure the following Kubernetes services were deployed: "istio-pilot", "istio-mixer", "istio-ingress", "istio-egress",
    "istio-ca" (if Istio Auth is enabled), and, optionally, "grafana", "prometheus', "servicegraph" and "zipkin".
 
    ```bash
@@ -182,15 +173,15 @@ Zipkin can be used to analyze the request flow and timing of an Istio applicatio
    ```
    ```bash
    NAME            CLUSTER-IP      EXTERNAL-IP       PORT(S)                       AGE
-   grafana         10.83.252.16    104.198.134.40    3000:30432/TCP                5h
+   grafana         10.83.252.16    <none>            3000:30432/TCP                5h
    istio-egress    10.83.247.89    <none>            80/TCP                        5h
    istio-ingress   10.83.245.171   35.184.245.62     80:32730/TCP,443:30574/TCP    5h
-   istio-manager   10.83.251.173   <none>            8080/TCP,8081/TCP             5h
+   istio-pilot     10.83.251.173   <none>            8080/TCP,8081/TCP             5h
    istio-mixer     10.83.244.253   <none>            9091/TCP,9094/TCP,42422/TCP   5h
    kubernetes      10.83.240.1     <none>            443/TCP                       36d
-   prometheus      10.83.247.221   <pending>         9090:30398/TCP                5h
-   servicegraph    10.83.242.48    104.154.244.227   8088:31928/TCP                5h
-   zipkin          10.83.241.77    35.188.18.50      9411:30243/TCP                5h
+   prometheus      10.83.247.221   <none>            9090:30398/TCP                5h
+   servicegraph    10.83.242.48    <none>            8088:31928/TCP                5h
+   zipkin          10.83.241.77    <none>            9411:30243/TCP                5h
    ```
 
    Note that if your cluster is running in an environment that does not support an external load balancer
@@ -198,7 +189,7 @@ Zipkin can be used to analyze the request flow and timing of an Istio applicatio
    application using the service NodePort or port-forwarding instead.
 
 2. Check the corresponding Kubernetes pods were deployed and all containers are up and running:
-   "istio-manager-\*", "istio-mixer-\*", "istio-ingress-\*", "istio-egress-\*", "istio-ca-\*" (if Istio Auth is enabled),
+   "istio-pilot-\*", "istio-mixer-\*", "istio-ingress-\*", "istio-egress-\*", "istio-ca-\*" (if Istio Auth is enabled),
    and, optionally, "grafana-\*", "prometheus-\*', "servicegraph-\*" and "zipkin-\*".
 
    ```bash
@@ -209,7 +200,7 @@ Zipkin can be used to analyze the request flow and timing of an Istio applicatio
    istio-ca-3657790228-j21b9        1/1       Running   0          5h
    istio-egress-1684034556-fhw89    1/1       Running   0          5h
    istio-ingress-1842462111-j3vcs   1/1       Running   0          5h
-   istio-manager-2275554717-93c43   2/2       Running   0          5h
+   istio-pilot-2275554717-93c43     2/2       Running   0          5h
    istio-mixer-2104784889-20rm8     1/1       Running   0          5h
    prometheus-3067433533-wlmt2      1/1       Running   0          5h
    servicegraph-3127588006-pc5z3    1/1       Running   0          5h
