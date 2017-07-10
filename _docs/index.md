@@ -12,7 +12,9 @@ type: markdown
 
 # Welcome
 
-Welcome to Istio's documentation home page. From here you can learn all about Istio by following
+Welcome to Istio's documentation archive for the 0.1 release.
+Follow [this link for the most current documentation](https://istio.io/docs/).
+Otherwise, you can learn all about Istio as of 0.1 by following
 the links below:
 
 - [Concepts]({{home}}/docs/concepts/). Concepts explain some significant aspect of Istio. This
