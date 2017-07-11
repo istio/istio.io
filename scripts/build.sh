@@ -22,14 +22,12 @@ else
 	set -e
 	# The directory now is /srv/jekyll inside the container
 	# TODO bake a new docker image with correct versions from bundler
-        PUBLIC=_static_site	
-	rm -Rf ${PUBLIC}
-	mkdir -p ${PUBLIC}
-	mv _site "${PUBLIC}/v-${RELEASE}"
+	PUBLIC=_static_site
+	rm -Rf ${PUBLIC} ; mkdir ${PUBLIC}
 	echo "baseurl: /v-${RELEASE}" > config_override.yml
 	jekyll build --config _config.yml,config_override.yml
+	mv _site "${PUBLIC}/v-${RELEASE}"
 	npm install -g firebase-tools
 	firebase use $PROJECT_ID --non-interactive --token $FIREBASE_TOKEN
 	firebase deploy --public ${PUBLIC} --non-interactive --token $FIREBASE_TOKEN
 fi
-
