@@ -10,7 +10,7 @@ type: markdown
 ---
 {% include home.html %}
 
-# Istio's documentation for version 0.1
+# Welcome - Istio 0.1
 
 Welcome to Istio's documentation archive for the 0.1 release.
 Follow [this link for the most current documentation](https://istio.io/docs/).
