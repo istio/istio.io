@@ -27,7 +27,8 @@ Istio 0.2 will be our second release, and will work across multiple Kubernetes c
 ## Istio 0.3
 
 Istio 0.3 will be our third release, focused on performance, scale, and stability. The full feature set for 0.3 is still TBD, based on feedback from the community. Some of the additional features we are considering include:
-- Support for multiple clusters in a single mesh and Istio meshes without Kubernetes.
+- Support for multiple clusters in a single mesh.
+- Support for Istio meshes without Kubernetes.
 - Client-oriented telemetry collection and distribution.
 - Global load balancing with autoscaling.
 - Support for the Open Service Broker APIs.
