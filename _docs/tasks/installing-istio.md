@@ -73,7 +73,7 @@ default namespace. They can be modified for deployment in a different namespace.
    
    * If the command displays 'beta' version, or both 'alpha' and 'beta', please apply istio-rbac-beta.yaml configuration as show below:
    
-   *(Note: If you deploy Istio in another namespace than the "default" namespace, replace the "namespace: default" line 
+   *(Note: If you deploy Istio in another namespace than the `default` namespace, replace the `namespace: default` line 
    in all ClusterRoleBinding resources with the actual namespace.)*
    
    ```bash
