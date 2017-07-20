@@ -90,7 +90,7 @@ default namespace. They can be modified for deployment in a different namespace.
    
    * If the command displays only 'alpha' version, please apply istio-rbac-alpha.yaml configuration:
    
-   *(Note: If you deploy Istio in another namespace than the "default" namespace, replace the "namespace: default" line 
+   *(Note: If you deploy Istio in another namespace than the `default` namespace, replace the `namespace: default` line 
       in all ClusterRoleBinding resources with the actual namespace.)*
       
    ```bash
