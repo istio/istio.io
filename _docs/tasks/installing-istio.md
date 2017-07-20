@@ -71,7 +71,11 @@ default namespace. They can be modified for deployment in a different namespace.
    ```
    * If the command displays an error, or does not display anything, it means the cluster does not support RBAC, and you can proceed to step 5 below.
    
-   * If the command displays 'beta' version, or both 'alpha' and 'beta', please apply istio-rbac-beta.yaml configuration:
+   * If the command displays 'beta' version, or both 'alpha' and 'beta', please apply istio-rbac-beta.yaml configuration as show below:
+   
+   *(Note: If you deploy Istio in another namespace than the `default` namespace, replace the `namespace: default` line 
+   in all ClusterRoleBinding resources with the actual namespace.)*
+   
    ```bash
    kubectl apply -f install/kubernetes/istio-rbac-beta.yaml
    ```
@@ -85,6 +89,10 @@ default namespace. They can be modified for deployment in a different namespace.
    ```
    
    * If the command displays only 'alpha' version, please apply istio-rbac-alpha.yaml configuration:
+   
+   *(Note: If you deploy Istio in another namespace than the "default" namespace, replace the "namespace: default" line 
+      in all ClusterRoleBinding resources with the actual namespace.)*
+      
    ```bash
    kubectl apply -f install/kubernetes/istio-rbac-alpha.yaml
    ```
