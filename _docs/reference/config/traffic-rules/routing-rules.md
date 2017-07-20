@@ -96,7 +96,7 @@ For example, a simple rule to send 100% of incoming traffic for a
 
 <a name="istio.proxy.v1.config.MatchCondition"></a>
 ### MatchCondition
-Match condition specifies a set of criterion to be met in order for the
+Match condition specifies a set of criteria to be met in order for the
 route rule to be applied to the connection or HTTP request.  The
 condition provides distinct set of conditions for each protocol with the
 intention that conditions apply only to the service ports that match the

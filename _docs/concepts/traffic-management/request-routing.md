@@ -47,7 +47,7 @@ model enables the application code to decouple itself from the evolution of its 
 services, while providing other benefits as well (see
 [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html)). Routing
 rules allow Envoy to select a version based
-on criterion such as headers, tags associated with
+on criteria such as headers, tags associated with
 source/destination, and/or by weights assigned to each version.
 
 Istio also provides load balancing for traffic to multiple instances of
