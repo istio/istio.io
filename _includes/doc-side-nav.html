@@ -31,7 +31,8 @@
 				{% if d.order == nil %}
 				{% assign order = 9999 %}
 				{% endif %}
-        		], url: "{{d.url}}", title: "{{d.title}}", order: {{order}}, overview: "{{d.overview}}"});
+                {% assign url = d.url | remove: "index.html" %}
+        		], url: "{{url}}", title: "{{d.title}}", order: {{order}}, overview: "{{d.overview}}"});
 			{% endif %}
         {% endfor %}
 
