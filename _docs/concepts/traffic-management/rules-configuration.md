@@ -15,7 +15,7 @@ services in the application deployment. The DSL allows the operator to
 configure service-level properties such as circuit breakers, timeouts,
 retries, as well as set up common continuous deployment tasks such as
 canary rollouts, A/B testing, staged rollouts with %-based traffic splits,
-etc. See [routing rules reference]({{home}}/docs/reference/config/traffic-rules/index.html) for detailed information.
+etc. See [routing rules reference]({{home}}/docs/reference/config/traffic-rules/) for detailed information.
 
 For example, a simple rule to send 100% of incoming traffic for a "reviews"
 service to version "v1" can be described using the Rules DSL as

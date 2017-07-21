@@ -132,7 +132,7 @@ This configures an adapter that reports data to the Prometheus system. This adap
 require any custom parameters and so doesn't have a `params` stanza.
 
 Each adapter defines its own particular format of configuration data. The exhaustive set of
-adapters and their specific configuration formats can be found [here]({{home}}/docs/reference/config/mixer/adapters/index.html).
+adapters and their specific configuration formats can be found [here]({{home}}/docs/reference/config/mixer/adapters/).
 
 ### Aspects
 
@@ -211,7 +211,7 @@ the kind of metric this is. The `value` field and the four label fields describe
 at request time in order to produce the metric.
 
 Each aspect kind defines its own particular format of configuration data. The exhaustive set of
-aspect configuration formats can be found [here]({{home}}/docs/reference/config/mixer/aspects/index.html)..
+aspect configuration formats can be found [here]({{home}}/docs/reference/config/mixer/aspects/).
     
 #### Attribute expressions
 

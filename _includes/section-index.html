@@ -35,7 +35,8 @@
 
 			"{{ comp }}",
 		{% endfor %}
-		], url: "{{d.url}}", title: "{{d.title}}", order: {{d.order}}, overview: "{{d.overview}}"});
+        {% assign url = d.url | remove: "index.html" %}
+		], url: "{{url}}", title: "{{d.title}}", order: {{d.order}}, overview: "{{d.overview}}"});
 	{% endfor %}
 
 	genSectionNavTree(docs)
