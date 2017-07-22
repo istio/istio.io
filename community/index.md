@@ -18,21 +18,15 @@ best approach for different cases.
   <tbody>
     
     <tr>
-      <td class="logo"><img src="{{home}}/img/troubleshooting.svg" alt="Troubleshooting"/></td>
-      <td>
-        If you are having trouble or are trying to <a href="{{home}}/bugs/">report bugs</a>.
-      </td>
-    </tr>
-
-    <tr>
       <td class="logo"><img src="{{home}}/img/group.png" alt="Mailing Lists"/></td>
       <td>
-        Join the <a href="https://groups.google.com/forum/#!forum/istio-users">istio-users</a> mailing list to participate in discussions
-        and get help troubleshooting problems using Istio.
-        The <a href="https://groups.google.com/forum/#!forum/istio-announce">istio-announce</a> mailing list is where you can get announcements
-        regarding Istio.
-        And finally, the <a href="https://groups.google.com/forum/#!forum/istio-dev">istio-dev</a> mailing list is there to 
-        help developers hacking on Istio’s code.
+        Join the <a href="https://groups.google.com/forum/#!forum/istio-users">istio-users@</a> mailing list to participate in discussions
+        and get help troubleshooting problems.
+        Join <a href="https://groups.google.com/forum/#!forum/istio-announce">istio-announce@</a> to hear about the latest
+        releases, events, and other happenings.
+        Join <a href="https://groups.google.com/forum/#!forum/istio-dev">istio-dev@</a> and
+        our various <a href="https://github.com/istio/istio/blob/master/GROUPS.md#working-groups">working groups</a>
+        if you want to hack on Istio.
       </td>
     </tr>
 
@@ -59,3 +53,9 @@ best approach for different cases.
     </tr>
   </tbody>
 </table>
+
+<br />
+
+> <img src="{{home}}/img/troubleshooting.svg" style="width: 32px; display:inline" />
+Hint: If you came to this page because you're looking for help with a problem, check out 
+our [troubleshooting guide]({{home}}/troubleshooting).

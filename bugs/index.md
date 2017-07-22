@@ -6,16 +6,17 @@ type: markdown
 ---
 {% include home.html %}
 
-# Bugs! Issues ?
+# Bugs! Issues?
 
-Oh no! You are having trouble or found a bug? Here's what you need to do:
+Oh no! You found a bug? 
 
-1. Check out the [troubleshooting guide]({{home}}/troubleshooting) for solutions to common problems.
+Search our [issue database](https://github.com/istio/issues/issues/) to see if we already know about
+your problem and learn about when
+we think we can fix it. If you don't find your problem in the database, please open a [new issue](https://github.com/istio/issues/issues/new)
+and let us know what's
+going on.
 
-2. Check out the [istio-users](https://groups.google.com/forum/#!forum/istio-users) group mailing list. You can easily search to
-see if someone else has already encountered the problem. Maybe there's a simple workaround you can use until the bug has been fixed.
-
-3. If you didn't find any info on istio-users about your problem, look for existing
-[open issues](https://github.com/istio/issues/issues/) on GitHub and 
-file a [new one](https://github.com/istio/issues/issues/new)
-as needed so the development team is made aware of the problem and can get it fixed.
+> <img src="{{home}}/img/troubleshooting.svg" style="width: 32px; display:inline" />
+Hint: Look for a solution to your problem in the [troubleshooting 
+guide]({{home}}/troubleshooting)
+or on the [istio-users@](https://groups.google.com/forum/#!forum/istio-users) mailing list.
