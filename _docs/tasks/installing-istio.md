@@ -36,7 +36,7 @@ This page shows how to install and configure Istio in a Kubernetes cluster.
 * If you previously installed Istio on this cluster, please uninstall first by following the
   [uninstalling]({{home}}/docs/tasks/installing-istio.html#uninstalling) steps at the end of this page.
 
-You can use the [Istio Helm chart](https://github.com/kubernetes/charts/tree/master/incubator/istio) to install, or follow the steps below for manual install:
+You can use the [Istio Helm chart](https://github.com/kubernetes/charts/tree/master/incubator/istio) to install, or follow the steps below for manual installation:
 
 ## Manual installation steps
 
