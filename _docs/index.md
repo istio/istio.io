@@ -10,7 +10,7 @@ type: markdown
 ---
 {% include home.html %}
 
-# Welcome to Istio {{site.data.istio.version}}.
+# Welcome to Istio {{site.data.istio.version}}
 
 Welcome to Istio's latest documentation home page. From here you can learn all about Istio by following
 the links below:
@@ -30,6 +30,5 @@ We're always looking for help improving our documentation, so please don't hesit
 [file an issue](https://github.com/istio/istio.github.io/issues/new) if you see some problem.
 Or better yet, submit your own [contributions]({{home}}/docs/reference/contribute/editing.html) to help
 make our docs better.
-
 
 Follow this link for the archive of [most recent stable release (0.1) documentation](https://istio.io/v-0.1/docs/).
