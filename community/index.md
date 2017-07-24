@@ -56,6 +56,6 @@ best approach for different cases.
 
 <br />
 
-> <img src="{{home}}/img/troubleshooting.svg" style="width: 32px; display:inline" />
+> <img src="{{home}}/img/troubleshooting.svg" alt="Troubleshooting" title="Troubleshooting" style="width: 32px; display:inline" />
 Hint: If you came to this page because you're looking for help with a problem, check out 
 our [troubleshooting guide]({{home}}/troubleshooting).

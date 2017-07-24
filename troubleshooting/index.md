@@ -10,7 +10,7 @@ type: markdown
 
 Oh no! You're having trouble? Below is a list of solutions to common problems.
  
-> <img src="{{home}}/img/troubleshooting.svg" style="width: 32px; display:inline" />
+> <img src="{{home}}/img/troubleshooting.svg" alt="Troubleshooting" title="Troubleshooting" style="width: 32px; display:inline" />
 Hint: If you don't find what you need here, be sure to check out the
 [istio-users@](https://groups.google.com/forum/#!forum/istio-users) mailing list to
 see if someone else has already found a solution. If after that you're still stuck, consider [reporting a bug]({{home}}/bugs/).
