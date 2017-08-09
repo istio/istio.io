@@ -33,7 +33,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | source.user | string | The user running the source application. | service-account |
 | target.ip | ip_address | Server IP address. | 10.0.0.104 |
 | target.port | int64 | The recipient port on the server IP address. | 8080 |
-| target.service | dns_name | The fully qualified name of the service that the server belongs to. | my-svc.my-namespace.svc.cluster.local |
+| target.service | string | The fully qualified name of the service that the server belongs to. | my-svc.my-namespace.svc.cluster.local |
 | target.name | string | The short name part of the target service. | my-svc |
 | target.namespace | string | The namespace part of the target service. | my-namespace |
 | target.domain | string | The domain suffix part of the target service, excluding the name and the namespace. | svc.cluster.local |
@@ -43,7 +43,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | request.headers | map[string, string] | HTTP request headers. | |
 | request.id | string | An ID for the request with statistically low probability of collision. | |
 | request.path | string | The HTTP URL path including query string | |
-| request.authority | string | HTTP authority header. | redis-master:3337 |
+| request.host | string | HTTP/1.x host header or HTTP/2 authority header. | redis-master:3337 |
 | request.method | string | The HTTP method. | |
 | request.reason | string | The request reason used by auditing systems. | |
 | request.referer | string | The HTTP referer header. | |
