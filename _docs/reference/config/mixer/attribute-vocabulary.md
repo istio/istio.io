@@ -23,25 +23,27 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 
 | Name | Type | Description | Kubernetes Example |
 |------|------|-------------|--------------------|
-| source.ip | ip_address | The IP address of the client that sent the request. | 10.0.0.117 |
-| source.port | int64 | The port on the client that sent the request. | 9284 |
-| source.name | string | The fully qualified name of the application that sent the request. | redis-master.my-namespace.svc.cluster.local |
-| source.uid | string | A unique identifier for the particular instance of the application that sent the request. | kubernetes://redis-master-2353460263-1ecey.my-namespace |
-| source.namespace | string | The namespace of the sender of the request. | my-namespace |
-| source.labels | map | A map of key-value pairs attached to the source. | |
+| source.ip | ip_address | Client IP address. | 10.0.0.117 |
+| source.service | string | The fully qualified name of the service that the client belongs to. | redis-master.my-namespace.svc.cluster.local |
+| source.name | string | The short name part of the source service. | redis-master |
+| source.namespace | string | The namespace part of the source service. | my-namespace |
+| source.domain | string | The domain suffix part of the source service, excluding the name and the namespace. | svc.cluster.local |
+| source.uid | string | Platform-specific unique identifier for the client instance of the source service. | kubernetes://redis-master-2353460263-1ecey.my-namespace |
+| source.labels | map[string, string] | A map of key-value pairs attached to the client instance. | version => v1 |
 | source.user | string | The user running the source application. | service-account |
-| target.ip | ip_address | The IP address the request was sent to. | 10.0.0.104 |
-| target.port | int64 | The port the request was sent to. | 8080 |
-| target.service | dns_name | The hostname that was the target of the request. | my-svc.my-namespace.svc.cluster.local |
-| target.name | string | The fully qualified name of the application that was the target of the request. | |
-| target.uid | string | A unique identifier for the particular instance of the application that received the request. | |
-| target.namespace | string | The namespace of the receiver of the request. | |
-| target.labels | map | A map of key-value pairs attached to the target. | |
+| target.ip | ip_address | Server IP address. | 10.0.0.104 |
+| target.port | int64 | The recipient port on the server IP address. | 8080 |
+| target.service | string | The fully qualified name of the service that the server belongs to. | my-svc.my-namespace.svc.cluster.local |
+| target.name | string | The short name part of the target service. | my-svc |
+| target.namespace | string | The namespace part of the target service. | my-namespace |
+| target.domain | string | The domain suffix part of the target service, excluding the name and the namespace. | svc.cluster.local |
+| target.uid | string | Platform-specific unique identifier for the server instance of the target service. | kubernetes://my-svc-234443-5sffe.my-namespace |
+| target.labels | map[string, string] | A map of key-value pairs attached to the server instance. | version => v2 |
 | target.user | string | The user running the target application. | service-account |
-| request.headers | map | A map of HTTP headers attached to the request. | |
-| request.id | string | A unique ID for the request, which should be propagated to downstream systems. It should have a low probability of collision within a service in a temporal window measured in days. | |
+| request.headers | map[string, string] | HTTP request headers. | |
+| request.id | string | An ID for the request with statistically low probability of collision. | |
 | request.path | string | The HTTP URL path including query string | |
-| request.host | string | The HTTP Host header. | |
+| request.host | string | HTTP/1.x host header or HTTP/2 authority header. | redis-master:3337 |
 | request.method | string | The HTTP method. | |
 | request.reason | string | The request reason used by auditing systems. | |
 | request.referer | string | The HTTP referer header. | |
@@ -49,7 +51,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | request.size | int64 | Size of the request in bytes. For HTTP requests this is equivalent to the Content-Length header. | |
 | request.time | timestamp | The timestamp when the target receives the request. This should be equivalent to Firebase "now". | |
 | request.useragent | string | The HTTP User-Agent header. | |
-| response.headers | map | A map of HTTP headers attached to the response. | |
+| response.headers | map[string, string] | HTTP response headers. | |
 | response.size | int64 | Size of the response body in bytes | |
 | response.time | timestamp | The timestamp when the target produced the response. | |
 | response.duration | duration | The amount of time the response took to generate. | |
