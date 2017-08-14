@@ -15,6 +15,7 @@ Istio 0.2 will be our second release, and will work across multiple Kubernetes c
 - Support for VMs joining an Istio Mesh.
 - Fully-automated injection of Envoy proxies into Kubernetes pods.
 - Standard extension points for addons and plugins.
+- Expanded service-to-service authentication for VMs.
 - Expanded authorization with callouts to external services.
 - Mixer request tracing with Zipkin.
 - Additional logging and analysis plugins.
@@ -32,6 +33,8 @@ Istio 0.3 will be our third release, focused on performance, scale, and stabilit
 - Client-oriented telemetry collection and distribution.
 - Global load balancing with autoscaling.
 - Support for the Open Service Broker APIs.
+- Extended authentication support including pluggable CA, Kubernetes container
+  identity, etc.
 - Additional API Management functionality.
 
 Please get in touch if there are additional features you'd like to see in our future releases!
