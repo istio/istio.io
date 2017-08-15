@@ -54,23 +54,6 @@ Istio CA is up if the "AVAILABLE" column is 1.
 
    Istio Auth is enabled if the line `    authPolicy: MUTUAL_TLS` is uncommented.
 
-1. Check Istio Auth is enabled on Envoy proxies.
-
-   When Istio Auth is enabled for a pod, the *ssl_context* stanzas should be in the pod's proxy config.
-   The following commands verifies the proxy config on *app-pod* has *ssl_context* configured:
-
-   ```bash
-   kubectl exec <app-pod> -c proxy -- ls /etc/envoy
-   ```
-
-   The output should contain the config file "envoy-rev<X>.json". Use the file name in the following command:
-
-   ```bash
-   kubectl exec <app-pod> -c proxy -- cat /etc/envoy/envoy-rev<X>.json | grep ssl_context
-   ```
-
-   If you see *ssl_context* lines in the output, the proxy has enabled Istio Auth.
-
 ## Testing Istio Auth
 
 When running Istio auth-enabled services, you can use curl in one service's
@@ -94,7 +77,7 @@ There are several steps:
 
 1. ssh into the envoy container 
    ```bash
-   kubectl exec -it productpage-v1-4184313719-5mxjc -c proxy /bin/bash 
+   kubectl exec -it productpage-v1-4184313719-5mxjc -c istio-proxy /bin/bash 
    ```
 
 1. make sure the key/cert is in /etc/certs/ directory
