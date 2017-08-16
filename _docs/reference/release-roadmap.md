@@ -32,6 +32,7 @@ Istio 0.3 will be our third release, focused on performance, scale, and stabilit
 - Client-oriented telemetry collection and distribution.
 - Global load balancing with autoscaling.
 - Support for the Open Service Broker APIs.
+- Pluggable identity provisioning system to support custom CA (Vault) and custom-defined identity.
 - Additional API Management functionality.
 
 Please get in touch if there are additional features you'd like to see in our future releases!
