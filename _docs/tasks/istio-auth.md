@@ -77,7 +77,7 @@ There are several steps:
 
 1. ssh into the envoy container 
    ```bash
-   kubectl exec -it productpage-v1-4184313719-5mxjc -c istio-proxy /bin/bash 
+   kubectl exec -it productpage-v1-4184313719-5mxjc -c proxy /bin/bash 
    ```
 
 1. make sure the key/cert is in /etc/certs/ directory
