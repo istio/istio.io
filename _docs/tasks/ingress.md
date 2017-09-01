@@ -130,10 +130,10 @@ to configure ingress behavior.
    openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /tmp/tls.key -out /tmp/tls.crt -subj "/CN=foo.bar.com"
    ```
 
-1. Create the secret using `kubectl`
+1. Update the secret using `kubectl`
 
    ```bash
-   kubectl create secret tls ingress-secret --key /tmp/tls.key --cert /tmp/tls.crt
+   kubectl delete secret istio-ingress-certs; kubectl create secret tls ingress-secret --key /tmp/tls.key --cert /tmp/tls.crt
    ```
 
 1. Create the Ingress Resource for the httpbin service
