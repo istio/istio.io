@@ -154,7 +154,6 @@ that we created exclusively for him:
 
    ```bash
    istioctl delete route-rule reviews-test-v2
-   istioctl delete route-rule ratings-test-delay
    ```
 
    You should now see *red* colored star ratings approximately 50% of the time when you refresh
