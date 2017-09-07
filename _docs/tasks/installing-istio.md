@@ -164,20 +164,33 @@ After running some services -- for example, after installing the [BookInfo]({{ho
 <figcaption>BookInfo Service Graph</figcaption></figure>
 
 
-### Enabling request tracing with Zipkin
+### Enabling distributed tracing
 
-To enable and view distributed request tracing, install the [Zipkin](http://zipkin.io) addon:
+Distributed tracing can be used to analyze the request flow and timing of an Istio application and to help identify bottlenecks.
+
+Istio supports the following distributed tracing systems. You can find out more about how to access the dashboards and use these tracing systems in [Distributed Tracing]({{home}}/docs/tasks/distributed-tracing.html).
+
+#### Zipkin
+
+To enable and view distributed request tracing using the [Zipkin](http://zipkin.io) addon:
 
 ```bash
 kubectl apply -f install/kubernetes/addons/zipkin.yaml
 ```
 
-Zipkin can be used to analyze the request flow and timing of an Istio application and to help identify bottlenecks. You can find out more about how to access the Zipkin dashboard and use Zipkin in [Distributed Request Tracing]({{home}}/docs/tasks/zipkin-tracing.html).
+#### Jaeger
+
+To enable and view distributed request tracing using the [Jaeger](https://uber.github.io/jaeger/) addon:
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/jaegertracing/jaeger-kubernetes/master/all-in-one/jaeger-all-in-one-template.yml
+```
+
 
 ## Verifying the installation
 
 1. Ensure the following Kubernetes services were deployed: "istio-pilot", "istio-mixer", "istio-ingress", "istio-egress",
-   "istio-ca" (if Istio Auth is enabled), and, optionally, "grafana", "prometheus', "servicegraph" and "zipkin".
+   "istio-ca" (if Istio Auth is enabled), and, optionally, "grafana", "prometheus', "servicegraph" and "zipkin" (or "jaeger-*").
 
    ```bash
    kubectl get svc
@@ -192,7 +205,21 @@ Zipkin can be used to analyze the request flow and timing of an Istio applicatio
    kubernetes      10.83.240.1     <none>            443/TCP                       36d
    prometheus      10.83.247.221   <none>            9090:30398/TCP                5h
    servicegraph    10.83.242.48    <none>            8088:31928/TCP                5h
+   ```
+
+   If zipkin is installed as an addon,
+
+   ```bash
    zipkin          10.83.241.77    <none>            9411:30243/TCP                5h
+   ```
+
+   If jaeger is installed as an addon,
+
+   ```bash
+   jaeger-agent       None         <none>            5775/UDP,6831/UDP,6832/UDP    5h
+   jaeger-collector   10.0.0.104   <none>            14267/TCP,14268/TCP,9411/TCP  5h
+   jaeger-query       10.0.0.199   <pending>         80:32328/TCP                  5h
+   zipkin             None         <none>            9411/TCP                      5h
    ```
 
    Note that if your cluster is running in an environment that does not support an external load balancer
@@ -201,7 +228,7 @@ Zipkin can be used to analyze the request flow and timing of an Istio applicatio
 
 2. Check the corresponding Kubernetes pods were deployed and all containers are up and running:
    "istio-pilot-\*", "istio-mixer-\*", "istio-ingress-\*", "istio-egress-\*", "istio-ca-\*" (if Istio Auth is enabled),
-   and, optionally, "grafana-\*", "prometheus-\*', "servicegraph-\*" and "zipkin-\*".
+   and, optionally, "grafana-\*", "prometheus-\*', "servicegraph-\*" and "zipkin-\*"/"jaeger-\*".
 
    ```bash
    kubectl get pods
@@ -215,7 +242,18 @@ Zipkin can be used to analyze the request flow and timing of an Istio applicatio
    istio-mixer-2104784889-20rm8     1/1       Running   0          5h
    prometheus-3067433533-wlmt2      1/1       Running   0          5h
    servicegraph-3127588006-pc5z3    1/1       Running   0          5h
+   ```
+
+   If zipkin is installed as an addon,
+
+   ```bash
    zipkin-4057566570-k9m42          1/1       Running   0          5h
+   ```
+
+   If jaeger is installed as an addon,
+
+   ```bash
+   jaeger-deployment-1058555976-w6fw8   1/1   Running   0          5h
    ```
 
 ## Deploy your application
@@ -269,6 +307,11 @@ You can use the [Istio Helm chart](https://github.com/kubernetes/charts/tree/mas
    ```bash
    kubectl delete -f install/kubernetes/addons/
    ```
+   and, if Jaeger was installed,
+   ```bash
+   kubectl delete -f https://raw.githubusercontent.com/jaegertracing/jaeger-kubernetes/master/all-in-one/jaeger-all-in-one-template.yml
+   ```
+
 
 4. Delete Istio Kubernetes [TPRs](https://kubernetes.io/docs/tasks/access-kubernetes-api/extend-api-third-party-resource):
 
