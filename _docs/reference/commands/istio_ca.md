@@ -6,7 +6,7 @@ order: 301
 type: markdown
 ---
 
-<a name="istio_ca"></a>
+<a name="istio_ca_cmd"></a>
 ## istio_ca
 
 Istio Certificate Authority (CA)
