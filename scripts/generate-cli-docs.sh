@@ -6,6 +6,10 @@ set -o pipefail
 
 # TODO(REVIEWER): how do we want to handle finding the two binaries? set a default and try, or abort?
 ISTIOCTL=${ISTIOCTL:-istioctl}
+if [[ -z "${ISTIO_CA_CLI}" ]]; then
+    echo "No istio_ca command defined via the environment variable ISTIO_CA_CLI"
+    exit 1
+fi
 if [[ -z "${MIXCOL_CLI}" ]]; then
     echo "No mixcol command defined via the environment variable MIXCOL_CLI"
     exit 1
@@ -98,6 +102,7 @@ function processPerBinaryFiles() {
 # Generate our output
 ${MIXCOL_CLI} -o ${WORKING_DIR}
 ${ISTIOCTL} markdown --dir ${WORKING_DIR}
+${ISTIO_CA_CLI} markdown --dir ${WORKING_DIR}
 
 # Clean up the target directory
 mkdir -p ${OUTPUT_DIR}
@@ -107,5 +112,6 @@ generateIndex > ${OUTPUT_DIR}/index.md
 processPerBinaryFiles "istioctl" 1 > ${OUTPUT_DIR}/istioctl.md
 processPerBinaryFiles "mixc" 101 >  ${OUTPUT_DIR}/mixc.md
 processPerBinaryFiles "mixs" 201 >  ${OUTPUT_DIR}/mixs.md
+processPerBinaryFiles "istio_ca" 301 >  ${OUTPUT_DIR}/istio_ca.md
 
 rm -rfd ${WORKING_DIR}
