@@ -99,7 +99,3 @@ Remove all docker containers:
   ```bash
   docker-compose -f samples/apps/bookinfo/consul/docker-compose.yaml down
   ```
-
-## What's next
-
-Check out [Eureka](./eureka.html) to see another Istio Service Registry adapter in action.
