@@ -32,59 +32,76 @@ route requests to all available versions of a service in a random fashion.
 1. Set the default version for all microservices to v1.
 
    ```bash
-   istioctl create -f samples/apps/bookinfo/route-rule-all-v1.yaml
+   istioctl create -f samples/apps/bookinfo/rules/route-rule-all-v1.yaml
    ```
+
+   > Note: In a Kubernetes deployment of Istio, you can replace `istioctl`
+   > with `kubectl` in the above, and for all other CLI commands.
 
    You can display the routes that are defined with the following command:
 
    ```bash
-   istioctl get route-rules -o yaml
+   istioctl get routerules -o yaml
    ```
    ```yaml
-   type: route-rule
-   name: ratings-default
-   namespace: default
-   spec:
-     destination: ratings.default.svc.cluster.local
-     precedence: 1
-     route:
-     - tags:
-         version: v1
-       weight: 100
-   ---
-   type: route-rule
-   name: reviews-default
-   namespace: default
-   spec:
-     destination: reviews.default.svc.cluster.local
-     precedence: 1
-     route:
-     - tags:
-         version: v1
-       weight: 100
-   ---
-   type: route-rule
-   name: details-default
-   namespace: default
-   spec:
-     destination: details.default.svc.cluster.local
-     precedence: 1
-     route:
-     - tags:
-         version: v1
-       weight: 100
-   ---
-   type: route-rule
-   name: productpage-default
-   namespace: default
-   spec:
-     destination: productpage.default.svc.cluster.local
-     precedence: 1
-     route:
-     - tags:
-         version: v1
-       weight: 100
-   ---
+   apiVersion: v1
+   items:
+   - apiVersion: config.istio.io/v1alpha2
+     kind: RouteRule
+     metadata:
+       name: details-default
+       namespace: default
+       ...
+     spec:
+       destination:
+         name: details
+       precedence: 1
+       route:
+       - labels:
+           version: v1
+   - apiVersion: config.istio.io/v1alpha2
+     kind: RouteRule
+     metadata:
+       name: productpage-default
+       namespace: default
+       ...
+     spec:
+       destination:
+         name: productpage
+       precedence: 1
+       route:
+       - labels:
+           version: v1
+   - apiVersion: config.istio.io/v1alpha2
+     kind: RouteRule
+     metadata:
+       name: ratings-default
+       namespace: default
+       ...
+     spec:
+       destination:
+         name: ratings
+       precedence: 1
+       route:
+       - labels:
+           version: v1
+   - apiVersion: config.istio.io/v1alpha2
+     kind: RouteRule
+     metadata:
+       name: reviews-default
+       namespace: default
+       ...
+     spec:
+       destination:
+         name: reviews
+       precedence: 1
+       route:
+       - labels:
+           version: v1
+   kind: List
+   metadata:
+     resourceVersion: ""
+     selfLink: ""
    ```
 
    Since rule propagation to the proxies is asynchronous, you should wait a few seconds for the rules
@@ -101,24 +118,33 @@ route requests to all available versions of a service in a random fashion.
    `reviews:v2` instances.
 
    ```bash
-   istioctl create -f samples/apps/bookinfo/route-rule-reviews-test-v2.yaml
+   istioctl create -f samples/apps/bookinfo/rules/route-rule-reviews-test-v2.yaml
    ```
 
    Confirm the rule is created:
 
    ```bash
-   istioctl get route-rule reviews-test-v2
+   istioctl get routerule reviews-test-v2 -o yaml
    ```
    ```yaml
-   destination: reviews.default.svc.cluster.local
-   match:
-     httpHeaders:
-       cookie:
-         regex: ^(.*?;)?(user=jason)(;.*)?$
-   precedence: 2
-   route:
-   - tags:
-       version: v2
+   apiVersion: config.istio.io/v1alpha2
+   kind: RouteRule
+   metadata:
+     name: reviews-test-v2
+     namespace: default
+     ...
+   spec:
+     destination:
+       name: reviews
+     match:
+       request:
+         headers:
+           cookie:
+             regex: ^(.*?;)?(user=jason)(;.*)?$
+     precedence: 2
+     route:
+     - labels:
+         version: v2
    ```
 
 1. Log in as user "jason" at the `productpage` web page.
@@ -144,7 +170,7 @@ to `reviews:v3` in two steps as follows:
 1. First, transfer 50% of traffic from `reviews:v1` to `reviews:v3` with the following command:
 
    ```bash
-   istioctl replace -f samples/apps/bookinfo/route-rule-reviews-50-v3.yaml
+   istioctl replace -f samples/apps/bookinfo/rules/route-rule-reviews-50-v3.yaml
    ```
 
    Notice that we are using `istioctl replace` instead of `create`.
@@ -153,7 +179,7 @@ to `reviews:v3` in two steps as follows:
 that we created exclusively for him:
 
    ```bash
-   istioctl delete route-rule reviews-test-v2
+   istioctl delete routerule reviews-test-v2
    ```
 
    You should now see *red* colored star ratings approximately 50% of the time when you refresh
@@ -165,7 +191,7 @@ that we created exclusively for him:
 3. When version v3 of the reviews microservice is stable, route 100% of the traffic to `reviews:v3`:
 
    ```bash
-   istioctl replace -f samples/apps/bookinfo/route-rule-reviews-v3.yaml
+   istioctl replace -f samples/apps/bookinfo/rules/route-rule-reviews-v3.yaml
    ```
 
    You can now log in to the `productpage` as any user and you should always see book reviews
