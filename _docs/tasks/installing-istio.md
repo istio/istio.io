@@ -167,7 +167,7 @@ After running some services -- for example, after installing the [BookInfo]({{ho
 ## Verifying the installation
 
 1. Ensure the following Kubernetes services were deployed: "istio-pilot", "istio-mixer", "istio-ingress", "istio-egress",
-   "istio-ca" (if Istio Auth is enabled), and, optionally, "grafana", "prometheus', "servicegraph" and "zipkin" (or "jaeger-*").
+   "istio-ca" (if Istio Auth is enabled), and, optionally, "grafana", "prometheus' and "servicegraph").
 
    ```bash
    kubectl get svc
@@ -190,7 +190,7 @@ After running some services -- for example, after installing the [BookInfo]({{ho
 
 2. Check the corresponding Kubernetes pods were deployed and all containers are up and running:
    "istio-pilot-\*", "istio-mixer-\*", "istio-ingress-\*", "istio-egress-\*", "istio-ca-\*" (if Istio Auth is enabled),
-   and, optionally, "grafana-\*", "prometheus-\*', "servicegraph-\*" and "zipkin-\*"/"jaeger-\*".
+   and, optionally, "grafana-\*", "prometheus-\*' and "servicegraph-\*".
 
    ```bash
    kubectl get pods
