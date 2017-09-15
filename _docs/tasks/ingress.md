@@ -249,11 +249,14 @@ to set a timeout rule on calls to the httpbin service.
 1. Use `istioctl` to set a 3s timeout on calls to the httpbin service
 
    ```bash
-   cat <<EOF | istioctl create
-   type: route-rule
-   name: httpbin-3s-rule
+   cat <<EOF | istioctl create -f -
+   apiVersion: config.istio.io/v1alpha2
+   kind: RouteRule
+   metadata:
+     name: httpbin-3s-rule
    spec:
-     destination: httpbin.default.svc.cluster.local
+     destination:
+       name: httpbin
      http_req_timeout:
        simple_timeout:
          timeout: 3s
@@ -296,7 +299,7 @@ We also showed how to control the ingress traffic using an Istio route rule.
 1. Remove the secret, Ingress Resource definitions and Istio rule.
     
    ```bash
-   istioctl delete route-rule httpbin-3s-rule 
+   istioctl delete routerule httpbin-3s-rule
    kubectl delete ingress simple-ingress secured-ingress 
    kubectl delete secret ingress-secret
    ```
