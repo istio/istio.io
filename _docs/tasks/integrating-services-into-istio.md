@@ -17,7 +17,7 @@ using [istioctl kube-inject]({{home}}/docs/reference/commands/istioctl.html#isti
 
 This task assumes you have deployed Istio on Kubernetes.
 If you have not done so, please first complete the
-[Installation Steps](./installing-istio.html).
+[Installation Steps](./installing-istio-in-kubernetes.html).
 
 ## Injecting Envoy sidecar into a deployment
 
