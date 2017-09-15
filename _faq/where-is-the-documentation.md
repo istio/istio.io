@@ -13,7 +13,7 @@ and the [complete reference documentation]({{home}}/docs/reference/).
 
 Detailed developer-level documentation is maintained for each component in GitHub, alongside the code. Please visit each repository for those docs:
 
-*   [Envoy](https://lyft.github.io/envoy/docs/)
+*   [Envoy](https://envoyproxy.github.io/envoy/)
 
 *   [Pilot](https://github.com/istio/pilot/tree/master/doc)
 
