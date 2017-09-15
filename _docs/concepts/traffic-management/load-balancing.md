@@ -31,7 +31,7 @@ As illustrated in the figure above, services in the mesh access each other
 using their DNS names. All HTTP traffic bound to a service is automatically
 re-routed through Envoy. Envoy distributes the traffic across instances in
 the load balancing pool. While Envoy supports several
-[sophisticated load balancing algorithms](https://lyft.github.io/envoy/docs/intro/arch_overview/load_balancing.html),
+[sophisticated load balancing algorithms](https://envoyproxy.github.io/envoy/intro/arch_overview/load_balancing.html),
 Istio currently allows three load balancing modes:
 round robin, random, and weighted least request.
 

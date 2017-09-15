@@ -65,7 +65,7 @@ The following diagram shows the different components that make up each plane:
 
 ### Envoy
 
-Istio uses an extended version of the [Envoy](https://lyft.github.io/envoy/) proxy, a high-performance proxy developed in C++, to mediate all inbound and outbound traffic for all services in the service mesh. 
+Istio uses an extended version of the [Envoy](https://envoyproxy.github.io/envoy/) proxy, a high-performance proxy developed in C++, to mediate all inbound and outbound traffic for all services in the service mesh. 
 Istio leverages Envoy’s many built-in features such as dynamic service discovery, load balancing, TLS termination, HTTP/2 & gRPC proxying, circuit breakers,
 health checks, staged rollouts with %-based traffic split, fault injection, and rich metrics.
 
