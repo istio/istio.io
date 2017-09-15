@@ -8,7 +8,7 @@ layout: docs
 type: markdown
 ---
 
-Configure Istio to run in docker environment by integrating Consul as a service registry.
+Configure Istio to run in Docker environment by integrating Consul as a service registry.
 
 ## Before you begin
 
@@ -25,7 +25,7 @@ adapter uses Consul Server to help Istio monitor service instances running in th
 When a service instance is brought up in docker, the [Registrator](http://gliderlabs.github.io/registrator/latest/) 
 automatically registers the service in Consul.
 
-Note that Istio pilot is running inside each app container so as to coordinate Envoy and the service mesh.
+Note that Istio pilot agent is running inside each app container so as to coordinate Envoy and the service mesh.
 
 ## Start the Application
 
