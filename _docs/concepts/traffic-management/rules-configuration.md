@@ -22,29 +22,38 @@ service to version "v1" can be described using the Rules DSL as
 follows:
 
 ```yaml
-destination: reviews.default.svc.cluster.local
-route:
-- tags:
-    version: v1
-  weight: 100
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: reviews-default
+spec:
+  destination:
+    name: reviews
+  route:
+  - labels:
+      version: v1
+    weight: 100
 ```
 
 The destination is the name of the service to which the traffic is being
-routed. In a Kubernetes deployment of Istio, the route *tag* "version: v1"
-corresponds to a Kubernetes *label* "version: v1".  The rule ensures that
-only Kubernetes pods containing the label "version: v1" will receive
-traffic. Rules can be configured using the
-[istioctl CLI]({{home}}/docs/reference/commands/istioctl.html). See the
+routed. The route *labels* identify the specific service instances that will
+recieve traffic. For example, in a Kubernetes deployment of Istio, the route
+*label* "version: v1" indicates that only pods containing the label "version: v1"
+will receive traffic.
+
+Rules can be configured using the
+[istioctl CLI]({{home}}/docs/reference/commands/istioctl.html), or in a Kubernetes
+deployment using the `kubectl` command instead. See the
 [configuring request routing task]({{home}}/docs/tasks/request-routing.html) for
 examples.
 
-There are two types of rules in Istio, **Routes** and **Destination
+There are two types of rules in Istio, **Route Rules** and **Destination
 Policies** (these are not the same as Mixer policies). Both types of rules
 control how requests are routed to a destination service.
 
-## Routes
+## Route Rules
 
-Routes control how requests are routed to different versions of a
+Route rules control how requests are routed to different versions of a
 service. Requests can be routed based on the source and destination, HTTP
 header fields, and weights associated with individual service versions. The
 following important aspects must be kept in mind while writing route rules:
@@ -53,16 +62,42 @@ following important aspects must be kept in mind while writing route rules:
 
 Every rule corresponds to some destination service identified by a
 *destination* field in the rule. For example, all rules that apply to calls
-to the "reviews" service will include the following field.
+to the "reviews" service will include at least the following.
 
 ```yaml
-destination: reviews.default.svc.cluster.local
+destination:
+  name: reviews
 ```
 
-The *destination* value SHOULD be a fully qualified domain name (FQDN). It
-is used by Pilot for matching rules to services. For example,
-in Kubernetes, a fully qualified domain name for a service can be
-constructed using the following format: *serviceName.namespace.dnsSuffix*.
+The *destination* value specifies, implicitly or explicitly, a fully qualified
+domain name (FQDN). It is used by Pilot for matching rules to services.
+
+The FQDN of the service is composed from three components: *name*,
+*namespace*, and *domain*:
+
+```
+FQDN = name + "." + namespace + "." + domain
+```
+
+These fields can be explicitly specified as follows.
+
+```yaml
+destination:
+  name: reviews
+  namespace: default
+  domain: svc.cluster.local
+```
+
+More commonly, to simplify and maximize reuse of the rule (for example, to use
+the same rule in more than one namespace or domain), the rule destination
+specifies only the *name* field, relying on defaults for the other
+two.
+
+The default value for the *namespace* is the namespace of the rule
+itself, which can be specified in the *metadata* field of the rule, or
+at config time using the `-n` option of the CLI. The default value of
+the *domain* field is implementation specific. In Kubernates, for example,
+the default value is `svc.cluster.local`.
 
 ### Qualify rules by source/headers
 
@@ -70,26 +105,31 @@ Rules can optionally be qualified to only apply to requests that match some
 specific criteria such as the following:
 
 _1. Restrict to a specific caller_.  For example, the following rule only
-apply to calls from the "reviews" service.
+applies to calls from the "reviews" service.
 
 ```yaml
-destination: ratings.default.svc.cluster.local
+destination:
+  name: ratings
 match:
-  source: reviews.default.svc.cluster.local
+  source:
+    name: reviews
 ```
 
-The *source* value, just like *destination*, MUST be a FQDN of a service.
+The *source* value, just like *destination*, specifies a FQDN of a service,
+either implicitly or explicitly.
 
 _2. Restrict to specific versions of the caller_. For example, the following
 rule refines the previous example to only apply to calls from version "v2"
 of the "reviews" service.
 
 ```yaml
-destination: ratings.default.svc.cluster.local
+destination:
+  name: ratings
 match:
-  source: reviews.default.svc.cluster.local
-  sourceTags:
-    version: v2
+  source:
+    name: reviews
+    labels:
+      version: v2
 ```
 
 _3. Select rule based on HTTP headers_. For example, the following rule will
@@ -97,14 +137,16 @@ only apply to an incoming request if it includes a "cookie" header that
 contains the substring "user=jason".
 
 ```yaml
-destination: reviews.default.svc.cluster.local
+destination:
+  name: reviews
 match:
-  httpHeaders:
-    cookie:
-      regex: "^(.*?;)?(user=jason)(;.*)?$"
+  request:
+    headers:
+      cookie:
+        regex: "^(.*?;)?(user=jason)(;.*)?$"
 ```
 
-If more than one property-value pair is provided, then all of the
+If more than one header is provided, then all of the
 corresponding headers must match for the rule to apply.
 
 Multiple criteria can be set simultaneously. In such a case, AND semantics
@@ -113,21 +155,24 @@ request is "reviews:v2" AND the "cookie" header containing "user=jason" is
 present.
 
 ```yaml
-destination: ratings.default.svc.cluster.local
+destination:
+  name: ratings
 match:
-  source: reviews.default.svc.cluster.local
-  sourceTags:
-    version: v2
-  httpHeaders:
-    cookie:
-      regex: "^(.*?;)?(user=jason)(;.*)?$"
+  source:
+    name: reviews
+    labels:
+      version: v2
+  request:
+    headers:
+      cookie:
+        regex: "^(.*?;)?(user=jason)(;.*)?$"
 ```
 
 ### Split traffic between service versions
 
-Each *route rule* identifies one or more weighted backends to call when the rule is activated.
+Each route rule identifies one or more weighted backends to call when the rule is activated.
 Each backend corresponds to a specific version of the destination service,
-where versions can be expressed using _tags_.
+where versions can be expressed using _labels_.
 
 If there are multiple registered instances with the specified tag(s),
 they will be routed to based on the load balancing policy configured for the service,
@@ -137,12 +182,13 @@ For example, the following rule will route 25% of traffic for the "reviews" serv
 the "v2" tag and the remaining traffic (i.e., 75%) to "v1".
 
 ```yaml
-destination: reviews.default.svc.cluster.local
+destination:
+  name: reviews
 route:
-- tags:
+- labels:
     version: v2
   weight: 25
-- tags:
+- labels:
     version: v1
   weight: 75
 ```
@@ -153,9 +199,10 @@ By default, the timeout for http requests is 15 seconds,
 but this can be overridden in a route rule as follows:
 
 ```yaml
-destination: "ratings.default.svc.cluster.local"
+destination:
+  name: ratings
 route:
-- tags:
+- labels:
     version: v1
 httpReqTimeout:
   simpleTimeout:
@@ -167,9 +214,10 @@ The maximum number of attempts, or as many as possible within the default or ove
 can be set as follows:
 
 ```yaml
-destination: "ratings.default.svc.cluster.local"
+destination:
+  name: ratings
 route:
-- tags:
+- labels:
     version: v1
 httpReqRetries:
   simpleRetry:
@@ -190,9 +238,10 @@ The faults can be either delays or aborts.
 The following example will introduce a 5 second delay in 10% of the requests to the "v1" version of the "reviews" microservice.
 
 ```yaml
-destination: reviews.default.svc.cluster.local
+destination:
+  name: reviews
 route:
-- tags:
+- labels:
     version: v1
 httpFault:
   delay:
@@ -207,9 +256,10 @@ The following example will return an HTTP 400 error code for 10%
 of the requests to the "ratings" service "v1".
 
 ```yaml
-destination: "ratings.default.svc.cluster.local"
+destination:
+  name: ratings
 route:
-- tags:
+- labels:
     version: v1
 httpFault:
   abort:
@@ -222,13 +272,15 @@ by 5 seconds all requests from the "reviews" service "v2" to the "ratings" servi
 then abort 10 percent of them:
 
 ```yaml
-destination: ratings.default.svc.cluster.local
+destination:
+  name: ratings
 match:
-  source: reviews.default.svc.cluster.local
-  sourceTags:
-    version: v2
+  source:
+    name: reviews
+    labels:
+      version: v2
 route:
-- tags:
+- labels:
     version: v1
 httpFault:
   delay:
@@ -248,7 +300,8 @@ more than one, can be specified by setting the *precedence* field of the
 rule.
 
 ```yaml
-destination: reviews.default.svc.cluster.local
+destination:
+  name: reviews
 precedence: 1
 ```
 
@@ -277,20 +330,22 @@ the "reviews" service that includes a header named "Foo" with the value
 sent to "v1".
 
 ```yaml
-destination: reviews.default.svc.cluster.local
+destination:
+  name: reviews
 precedence: 2
 match:
-  httpHeaders:
-    Foo:
-      exact: bar
+  request:
+    headers:
+      Foo: bar
 route:
-- tags:
+- labels:
     version: v2
 ---
-destination: reviews.default.svc.cluster.local
+destination:
+  name: reviews
 precedence: 1
 route:
-- tags:
+- labels:
     version: v1
   weight: 100
 ```
@@ -313,17 +368,22 @@ rules, destination policies cannot be qualified based on attributes of a
 request such as the calling service or HTTP request headers.
 
 However, the policies can be restricted to apply to requests that are
-routed to backends with specific tags. For example, the following load
+routed to backends with specific labels. For example, the following load
 balancing policy will only apply to requests targeting the "v1" version of
 the "reviews" microservice.
 
 ```yaml
-destination: reviews.default.svc.cluster.local
-policy:
-- tags:
-    version: v1
+apiVersion: config.istio.io/v1alpha2
+kind: DestinationPolicy
+metadata:
+  name: reviews-roundrobin
+spec:
+  destination:
+    name: reviews
+    labels:
+      version: v1
   loadBalancing:
-    name: RANDOM
+    name: ROUND_ROBIN
 ```
 
 ### Circuit breakers
@@ -334,9 +394,9 @@ For example, the following destination policy
 sets a limit of 100 connections to "reviews" service version "v1" backends.
 
 ```yaml
-destination: reviews.default.svc.cluster.local
-policy:
-- tags:
+destination:
+  name: reviews
+  labels:
     version: v1
   circuitBreaker:
     simpleCb:
@@ -349,11 +409,11 @@ The complete set of simple circuit breaker fields can be found
 ### Destination policy evaluation
 
 Similar to route rules, destination policies are associated with a
-particular *destination* however if they also include *tags* their
+particular *destination* however if they also include *labels* their
 activation depends on route rule evaluation results.
 
 The first step in the rule evaluation process evaluates the route rules for
-a *destination*, if any are defined, to determine the tags (i.e., specific
+a *destination*, if any are defined, to determine the labels (i.e., specific
 version) of the destination service that the current request will be routed
 to. Next, the set of destination policies, if any, are evaluated to
 determine if they apply.
@@ -365,9 +425,9 @@ consider the following rule, as the one and only rule defined for the
 "reviews" service.
 
 ```yaml
-destination: reviews.default.svc.cluster.local
-policy:
-- tags:
+destination:
+  name: reviews
+  labels:
     version: v1
   circuitBreaker:
     simpleCb:
@@ -383,14 +443,15 @@ evaluation engine will be unaware of the final destination and therefore
 unable to match the destination policy to the request.
 
 You can fix the above example in one of two ways. You can either remove the
-`tags:` from the rule, if "v1" is the only instance anyway, or, better yet,
+`labels:` from the rule, if "v1" is the only instance anyway, or, better yet,
 define proper route rules for the service. For example, you can add a
 simple route rule for "reviews:v1".
 
 ```yaml
-destination: reviews.default.svc.cluster.local
+destination:
+  name: reviews
 route:
-- tags:
+- labels:
     version: v1
 ```
 

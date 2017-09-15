@@ -26,8 +26,8 @@ This task shows how to inject delays and test the resiliency of your application
 
 
   ```bash
-  istioctl create -f samples/apps/bookinfo/route-rule-all-v1.yaml
-  istioctl create -f samples/apps/bookinfo/route-rule-reviews-test-v2.yaml
+  istioctl create -f samples/apps/bookinfo/rules/route-rule-all-v1.yaml
+  istioctl create -f samples/apps/bookinfo/rules/route-rule-reviews-test-v2.yaml
   ```
   
 ## Fault injection
@@ -40,28 +40,37 @@ continue without any errors.
 1. Create a fault injection rule to delay traffic coming from user "jason" (our test user)
 
    ```bash
-   istioctl create -f samples/apps/bookinfo/destination-ratings-test-delay.yaml
+   istioctl create -f samples/apps/bookinfo/rules/route-rule-ratings-test-delay.yaml
    ```
 
    Confirm the rule is created:
 
    ```bash
-   istioctl get route-rule ratings-test-delay
+   istioctl get routerule ratings-test-delay -o yaml
    ```
    ```yaml
-   destination: ratings.default.svc.cluster.local
-   httpFault:
-     delay:
-       fixedDelay: 7s
-       percent: 100
-   match:
-     httpHeaders:
-       cookie:
-         regex: "^(.*?;)?(user=jason)(;.*)?$"
-   precedence: 2
-   route:
-   - tags:
-       version: v1
+   apiVersion: config.istio.io/v1alpha2
+   kind: RouteRule
+   metadata:
+     name: ratings-test-delay
+     namespace: default
+     ...
+   spec:
+     destination:
+       name: ratings
+     httpFault:
+       delay:
+         fixedDelay: 7.000s
+         percent: 100
+     match:
+       request:
+         headers:
+           cookie:
+             regex: ^(.*?;)?(user=jason)(;.*)?$
+     precedence: 2
+     route:
+     - labels:
+         version: v1
    ```
 
    Allow several seconds to account for rule propagation delay to all pods.

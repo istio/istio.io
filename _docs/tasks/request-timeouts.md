@@ -24,7 +24,7 @@ This task shows you how to setup request timeouts in Envoy using Istio.
 > Note: This assumes you don't have any routes set yet. If you've already created route rules for the sample, you'll need to use `replace` rather than `create` in the following command.
   
   ```bash
-  istioctl create -f samples/apps/bookinfo/route-rule-all-v1.yaml
+  istioctl create -f samples/apps/bookinfo/rules/route-rule-all-v1.yaml
   ```
 
 ## Request timeouts
@@ -38,13 +38,16 @@ to the `ratings` service.
 1. Route requests to v2 of the `reviews` service, i.e., a version that calls the `ratings` service
 
    ```bash
-   cat <<EOF | istioctl replace
-   type: route-rule
-   name: reviews-default
+   cat <<EOF | istioctl replace -f -
+   apiVersion: config.istio.io/v1alpha2
+   kind: RouteRule
+   metadata:
+     name: reviews-default
    spec:
-     destination: reviews.default.svc.cluster.local
+     destination:
+       name: reviews
      route:
-     - tags:
+     - labels:
          version: v2
    EOF
    ```
@@ -52,13 +55,16 @@ to the `ratings` service.
 1. Add a 2 second delay to calls to the `ratings` service:
 
    ```bash
-   cat <<EOF | istioctl replace
-   type: route-rule
-   name: ratings-default
+   cat <<EOF | istioctl replace -f -
+   apiVersion: config.istio.io/v1alpha2
+   kind: RouteRule
+   metadata:
+     name: ratings-default
    spec:
-     destination: ratings.default.svc.cluster.local
+     destination:
+       name: ratings
      route:
-     - tags:
+     - labels:
          version: v1
      httpFault:
        delay:
@@ -75,13 +81,16 @@ to the `ratings` service.
 1. Now add a 1 second request timeout for calls to the `reviews` service
    
    ```bash
-   cat <<EOF | istioctl replace
-   type: route-rule
-   name: reviews-default
+   cat <<EOF | istioctl replace -f -
+   apiVersion: config.istio.io/v1alpha2
+   kind: RouteRule
+   metadata:
+     name: reviews-default
    spec:
-     destination: reviews.default.svc.cluster.local
+     destination:
+       name: reviews
      route:
-     - tags:
+     - labels:
          version: v2
      httpReqTimeout:
        simpleTimeout:
