@@ -222,7 +222,7 @@ the "v2" tag and the remaining traffic (i.e., 75%) to "v1".
 apiVersion: config.istio.io/v1alpha2
 kind: RouteRule
 metadata:
-  name: reviews-bluegreen
+  name: reviews-v2-rollout
 spec:
   destination:
     name: reviews
