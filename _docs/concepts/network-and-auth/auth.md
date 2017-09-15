@@ -55,7 +55,7 @@ When running on Kubernetes, Istio Auth uses [Kubernetes service accounts](https:
 
 ### Communication security
 
-Service-to-service communication is tunneled through the client side [Envoy](https://lyft.github.io/envoy/) and the server side Envoy. End-to-end communication is secured by:
+Service-to-service communication is tunneled through the client side [Envoy](https://envoyproxy.github.io/envoy/) and the server side Envoy. End-to-end communication is secured by:
 
 
 
