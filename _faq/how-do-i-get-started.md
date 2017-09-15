@@ -10,4 +10,4 @@ four distinct
 microservices managed by Istio. It exercises some basic features, including content-based routing, fault injection, and rate-limiting.
 
 After you have mastered the BookInfo sample, you are ready to begin using Istio for your own services. To start using Istio on your existing Kubernetes 
-cluster, please refer to our [Installation]({{home}}/docs/tasks/installing-istio.html) task guide.
+cluster, please refer to our [Installation]({{home}}/docs/tasks/installing-istio-in-kubernetes.html) task guide.
