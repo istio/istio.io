@@ -171,33 +171,10 @@ After running some services -- for example, after installing the [BookInfo]({{ho
 <figcaption>BookInfo Service Graph</figcaption></figure>
 
 
-### Enabling distributed tracing
-
-Distributed tracing can be used to analyze the request flow and timing of an Istio application and to help identify bottlenecks.
-
-Istio supports the following distributed tracing systems. You can find out more about how to access the dashboards and use these tracing systems in [Distributed Tracing]({{home}}/docs/tasks/distributed-tracing.html).
-
-#### Zipkin
-
-To enable and view distributed request tracing using the [Zipkin](http://zipkin.io) addon:
-
-```bash
-kubectl apply -f install/kubernetes/addons/zipkin.yaml
-```
-
-#### Jaeger
-
-To enable and view distributed request tracing using the [Jaeger](https://uber.github.io/jaeger/) addon:
-
-```bash
-kubectl apply -f https://raw.githubusercontent.com/jaegertracing/jaeger-kubernetes/master/all-in-one/jaeger-all-in-one-template.yml
-```
-
-
 ## Verifying the installation
 
 1. Ensure the following Kubernetes services were deployed: "istio-pilot", "istio-mixer", "istio-ingress", "istio-egress",
-   "istio-ca" (if Istio Auth is enabled), and, optionally, "grafana", "prometheus', "servicegraph" and "zipkin" (or "jaeger-*").
+   "istio-ca" (if Istio Auth is enabled), and, optionally, "grafana", "prometheus' and "servicegraph").
 
    ```bash
    kubectl get svc
@@ -214,28 +191,13 @@ kubectl apply -f https://raw.githubusercontent.com/jaegertracing/jaeger-kubernet
    servicegraph    10.83.242.48    <none>            8088:31928/TCP                5h
    ```
 
-   If zipkin is installed as an addon,
-
-   ```bash
-   zipkin          10.83.241.77    <none>            9411:30243/TCP                5h
-   ```
-
-   If jaeger is installed as an addon,
-
-   ```bash
-   jaeger-agent       None         <none>            5775/UDP,6831/UDP,6832/UDP    5h
-   jaeger-collector   10.0.0.104   <none>            14267/TCP,14268/TCP,9411/TCP  5h
-   jaeger-query       10.0.0.199   <pending>         80:32328/TCP                  5h
-   zipkin             None         <none>            9411/TCP                      5h
-   ```
-
    Note that if your cluster is running in an environment that does not support an external load balancer
    (e.g., minikube), the `EXTERNAL-IP` of `istio-ingress` will say `<pending>` and you will need to access the
    application using the service NodePort or port-forwarding instead.
 
 2. Check the corresponding Kubernetes pods were deployed and all containers are up and running:
    "istio-pilot-\*", "istio-mixer-\*", "istio-ingress-\*", "istio-egress-\*", "istio-ca-\*" (if Istio Auth is enabled),
-   and, optionally, "grafana-\*", "prometheus-\*', "servicegraph-\*" and "zipkin-\*"/"jaeger-\*".
+   and, optionally, "grafana-\*", "prometheus-\*' and "servicegraph-\*".
 
    ```bash
    kubectl get pods
@@ -251,17 +213,6 @@ kubectl apply -f https://raw.githubusercontent.com/jaegertracing/jaeger-kubernet
    servicegraph-3127588006-pc5z3    1/1       Running   0          5h
    ```
 
-   If zipkin is installed as an addon,
-
-   ```bash
-   zipkin-4057566570-k9m42          1/1       Running   0          5h
-   ```
-
-   If jaeger is installed as an addon,
-
-   ```bash
-   jaeger-deployment-1058555976-w6fw8   1/1   Running   0          5h
-   ```
 
 ## Deploy your application
 
