@@ -29,7 +29,7 @@ This page shows how to install and configure Istio in a Kubernetes cluster.
   ```bash
   $(bx cs cluster-config <cluster-name>|grep "export KUBECONFIG")
   ```
-* If you are using [Openshift Origin](https://www.openshift.org) version 3.7 or later, Openshift by default does not allow containers running with uid 0, you can enable this to istio service accounts as follows:
+* If you are using [Openshift Origin](https://www.openshift.org) version 3.7 or later, Openshift by default does not allow containers running with uid 0, you can enable this for Istio's service accounts for ingress and egress as follows:
 
   ```bash
  oc adm policy add-scc-to-user anyuid -z istio-ingress-service-account -n istio-system
