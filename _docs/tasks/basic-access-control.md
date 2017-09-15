@@ -112,7 +112,7 @@ Istio also supports attribute-based whitelists and blacklists.
    adapter that lists versions `v1, v2`:
 
    ```yaml
-   apiVersion: "config.istio.io/v1alpha2"
+   apiVersion: config.istio.io/v1alpha2
    kind: listchecker
    metadata:
      name: staticversion
@@ -127,7 +127,7 @@ Istio also supports attribute-based whitelists and blacklists.
 2. Extract the version label by creating an instance of the [`listentry`]({{home}}/docs/reference/config/mixer/template/listentry.html) template:
 
    ```yaml
-   apiVersion: "config.istio.io/v1alpha2"
+   apiVersion: config.istio.io/v1alpha2
    kind: listentry
    metadata:
      name: appversion
@@ -139,7 +139,7 @@ Istio also supports attribute-based whitelists and blacklists.
 3. Enable `whitelist` checking for the ratings service:
 
    ```yaml
-   apiVersion: "config.istio.io/v1alpha2"
+   apiVersion: config.istio.io/v1alpha2
    kind: rule
    metadata:
      name: checkversion
