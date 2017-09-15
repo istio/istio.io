@@ -1,5 +1,5 @@
 ---
-title: Running Istio in Docker with Consul
+title: Installing Istio in Docker Swarm with Consul
 overview: Make Istio run in docker environment by integrating Consul as a service registry.
 
 order: 42
@@ -12,8 +12,8 @@ Configure Istio to run in Docker environment by integrating Consul as a service 
 
 ## Before you begin
 
-* Setup Istio by following the instructions in the [Installation guide](./installing-istio.html).  You will
-  need `kubectl` and Steps 1-4 from `Installation step` only for this Task.
+* Setup Istio by following the instructions in the [Installation guide](./installing-istio-in-kubernetes.html).
+  You will need `kubectl` and Steps 1-4 from `Installation step` only for this Task.
 
 * Install [Docker](https://docs.docker.com/engine/installation/#cloud) and 
   [Docker-Compose](https://docs.docker.com/compose/install/)

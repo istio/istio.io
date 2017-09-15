@@ -17,7 +17,7 @@ to configure ingress behavior.
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](./installing-istio.html).
+  [Installation guide](./installing-istio-in-kubernetes.html).
   
 * Make sure your current directory is the `istio` directory.
   

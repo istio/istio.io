@@ -18,7 +18,7 @@ The [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application is used
 as the example application throughout this task.
 
 ## Before you begin
-* [Install Istio](./installing-istio.html) in your kubernetes
+* [Install Istio](./installing-istio-in-kubernetes.html) in your kubernetes
   cluster and deploy an application.
 
 * Configure your environment to support calling `istioctl mixer`.
@@ -26,7 +26,7 @@ as the example application throughout this task.
   [reference docs]({{home}}/docs/reference/commands/istioctl.html#istioctl-mixer) for `istioctl mixer`.
 
 * Configure your environment to support accessing the Istio dashboard, as described in the 
-  [Installation Guide](./installing-istio.html). This requires installing the optional add-ons
+  [Installation Guide](./installing-istio-in-kubernetes.html). This requires installing the optional add-ons
   ([Prometheus](https://prometheus.io) and [Grafana](https://grafana.com/)), as well as verifying access to
   the dashboard. The Istio dashboard will be used to verify task success.
 
