@@ -61,18 +61,18 @@ following important aspects must be kept in mind while writing route rules:
 ### Qualify rules by destination
 
 Every rule corresponds to some destination service identified by a
-*destination* field in the rule. For example, all rules that apply to calls
-to the "reviews" service will include at least the following.
+*destination* field in the rule. For example, rules that apply to calls
+to the "reviews" service will typically include at least the following.
 
 ```yaml
-destination:
-  name: reviews
+  destination:
+    name: reviews
 ```
 
 The *destination* value specifies, implicitly or explicitly, a fully qualified
-domain name (FQDN). It is used by Pilot for matching rules to services.
+domain name (FQDN). It is used by Istio Pilot for matching rules to services.
 
-The FQDN of the service is composed from three components: *name*,
+Normally, the FQDN of the service is composed from three components: *name*,
 *namespace*, and *domain*:
 
 ```
@@ -82,10 +82,10 @@ FQDN = name + "." + namespace + "." + domain
 These fields can be explicitly specified as follows.
 
 ```yaml
-destination:
-  name: reviews
-  namespace: default
-  domain: svc.cluster.local
+  destination:
+    name: reviews
+    namespace: default
+    domain: svc.cluster.local
 ```
 
 More commonly, to simplify and maximize reuse of the rule (for example, to use
@@ -94,10 +94,23 @@ specifies only the *name* field, relying on defaults for the other
 two.
 
 The default value for the *namespace* is the namespace of the rule
-itself, which can be specified in the *metadata* field of the rule, or
-at config time using the `-n` option of the CLI. The default value of
+itself, which can be specified in the *metadata* field of the rule,
+or during rule install using the `istioctl -n <namespace> create`
+or `kubectl -n <namesapce> create` command.  The default value of
 the *domain* field is implementation specific. In Kubernates, for example,
 the default value is `svc.cluster.local`.
+
+In some cases, such as when referring to external services in egress rules or
+on platforms where *namespace* and *domain* are not meaningful, an alternative
+*service* field can be used to explicitly specify the destination:
+
+```yaml
+  destination:
+    service: my-service.com
+```
+
+When the *service* field is specified, all other implicit or explicit values of the
+other fields are ignored.
 
 ### Qualify rules by source/headers
 
@@ -108,11 +121,17 @@ _1. Restrict to a specific caller_.  For example, the following rule only
 applies to calls from the "reviews" service.
 
 ```yaml
-destination:
-  name: ratings
-match:
-  source:
-    name: reviews
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: reviews-to-ratings
+spec:
+  destination:
+    name: ratings
+  match:
+    source:
+      name: reviews
+  ...
 ```
 
 The *source* value, just like *destination*, specifies a FQDN of a service,
@@ -123,13 +142,19 @@ rule refines the previous example to only apply to calls from version "v2"
 of the "reviews" service.
 
 ```yaml
-destination:
-  name: ratings
-match:
-  source:
-    name: reviews
-    labels:
-      version: v2
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: reviews-v2-to-ratings
+spec:
+  destination:
+    name: ratings
+  match:
+    source:
+      name: reviews
+      labels:
+        version: v2
+  ...
 ```
 
 _3. Select rule based on HTTP headers_. For example, the following rule will
@@ -137,13 +162,19 @@ only apply to an incoming request if it includes a "cookie" header that
 contains the substring "user=jason".
 
 ```yaml
-destination:
-  name: reviews
-match:
-  request:
-    headers:
-      cookie:
-        regex: "^(.*?;)?(user=jason)(;.*)?$"
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: ratings-jason
+spec:
+  destination:
+    name: reviews
+  match:
+    request:
+      headers:
+        cookie:
+          regex: "^(.*?;)?(user=jason)(;.*)?$"
+  ...
 ```
 
 If more than one header is provided, then all of the
@@ -155,17 +186,23 @@ request is "reviews:v2" AND the "cookie" header containing "user=jason" is
 present.
 
 ```yaml
-destination:
-  name: ratings
-match:
-  source:
-    name: reviews
-    labels:
-      version: v2
-  request:
-    headers:
-      cookie:
-        regex: "^(.*?;)?(user=jason)(;.*)?$"
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: ratings-reviews-jason
+spec:
+  destination:
+    name: ratings
+  match:
+    source:
+      name: reviews
+      labels:
+        version: v2
+    request:
+      headers:
+        cookie:
+          regex: "^(.*?;)?(user=jason)(;.*)?$"
+  ...
 ```
 
 ### Split traffic between service versions
@@ -182,15 +219,20 @@ For example, the following rule will route 25% of traffic for the "reviews" serv
 the "v2" tag and the remaining traffic (i.e., 75%) to "v1".
 
 ```yaml
-destination:
-  name: reviews
-route:
-- labels:
-    version: v2
-  weight: 25
-- labels:
-    version: v1
-  weight: 75
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: reviews-v2-rollout
+spec:
+  destination:
+    name: reviews
+  route:
+  - labels:
+      version: v2
+    weight: 25
+  - labels:
+      version: v1
+    weight: 75
 ```
 
 ### Timeouts and retries
@@ -199,14 +241,19 @@ By default, the timeout for http requests is 15 seconds,
 but this can be overridden in a route rule as follows:
 
 ```yaml
-destination:
-  name: ratings
-route:
-- labels:
-    version: v1
-httpReqTimeout:
-  simpleTimeout:
-    timeout: 10s
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: ratings-timeout
+spec:
+  destination:
+    name: ratings
+  route:
+  - labels:
+      version: v1
+  httpReqTimeout:
+    simpleTimeout:
+      timeout: 10s
 ```
 
 The number of retries for a given http request can also be specified in a route rule.
@@ -214,14 +261,19 @@ The maximum number of attempts, or as many as possible within the default or ove
 can be set as follows:
 
 ```yaml
-destination:
-  name: ratings
-route:
-- labels:
-    version: v1
-httpReqRetries:
-  simpleRetry:
-    attempts: 3
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: ratings-retry
+spec:
+  destination:
+    name: ratings
+  route:
+  - labels:
+      version: v1
+  httpReqRetries:
+    simpleRetry:
+      attempts: 3
 ```
 
 Note that request timeouts and retries can also be
@@ -238,15 +290,20 @@ The faults can be either delays or aborts.
 The following example will introduce a 5 second delay in 10% of the requests to the "v1" version of the "reviews" microservice.
 
 ```yaml
-destination:
-  name: reviews
-route:
-- labels:
-    version: v1
-httpFault:
-  delay:
-    percent: 10
-    fixedDelay: 5s
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: ratings-delay
+spec:
+  destination:
+    name: reviews
+  route:
+  - labels:
+      version: v1
+  httpFault:
+    delay:
+      percent: 10
+      fixedDelay: 5s
 ```
 
 The other kind of fault, abort, can be used to prematurely terminate a request,
@@ -256,15 +313,20 @@ The following example will return an HTTP 400 error code for 10%
 of the requests to the "ratings" service "v1".
 
 ```yaml
-destination:
-  name: ratings
-route:
-- labels:
-    version: v1
-httpFault:
-  abort:
-    percent: 10
-    httpStatus: 400
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: ratings-abort
+spec:
+   destination:
+     name: ratings
+   route:
+   - labels:
+       version: v1
+   httpFault:
+     abort:
+       percent: 10
+       httpStatus: 400
 ```
 
 Sometimes delays and abort faults are used together. For example, the following rule will delay
@@ -272,22 +334,27 @@ by 5 seconds all requests from the "reviews" service "v2" to the "ratings" servi
 then abort 10 percent of them:
 
 ```yaml
-destination:
-  name: ratings
-match:
-  source:
-    name: reviews
-    labels:
-      version: v2
-route:
-- labels:
-    version: v1
-httpFault:
-  delay:
-    fixedDelay: 5s
-  abort:
-    percent: 10
-    httpStatus: 400
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: ratings-delay-abort
+spec:
+  destination:
+    name: ratings
+  match:
+    source:
+      name: reviews
+      labels:
+        version: v2
+  route:
+  - labels:
+      version: v1
+  httpFault:
+    delay:
+      fixedDelay: 5s
+    abort:
+      percent: 10
+      httpStatus: 400
 ```
 
 To see fault injection in action, see the [fault injection task]({{home}}/docs/tasks/fault-injection.html).
@@ -300,9 +367,9 @@ more than one, can be specified by setting the *precedence* field of the
 rule.
 
 ```yaml
-destination:
-  name: reviews
-precedence: 1
+  destination:
+    name: reviews
+  precedence: 1
 ```
 
 The precedence field is an optional integer value, 0 by default.  Rules
@@ -330,24 +397,34 @@ the "reviews" service that includes a header named "Foo" with the value
 sent to "v1".
 
 ```yaml
-destination:
-  name: reviews
-precedence: 2
-match:
-  request:
-    headers:
-      Foo: bar
-route:
-- labels:
-    version: v2
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: reviews-foo-bar
+spec:
+  destination:
+    name: reviews
+  precedence: 2
+  match:
+    request:
+      headers:
+        Foo: bar
+  route:
+  - labels:
+      version: v2
 ---
-destination:
-  name: reviews
-precedence: 1
-route:
-- labels:
-    version: v1
-  weight: 100
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: reviews-default
+spec:
+  destination:
+    name: reviews
+  precedence: 1
+  route:
+  - labels:
+      version: v1
+    weight: 100
 ```
 
 Notice that the header-based rule has the higher precedence (2 vs. 1). If
@@ -362,24 +439,27 @@ priorities of each rule when there is more than one.
 ## Destination policies
 
 Destination policies describe various routing related policies associated
-with a particular service version, such as the load balancing algorithm,
-the configuration of circuit breakers, health checks, etc. Unlike route
-rules, destination policies cannot be qualified based on attributes of a
-request such as the calling service or HTTP request headers.
+with a particular service or version, such as the load balancing algorithm,
+the configuration of circuit breakers, health checks, etc.
 
-However, the policies can be restricted to apply to requests that are
-routed to backends with specific labels. For example, the following load
-balancing policy will only apply to requests targeting the "v1" version of
-the "reviews" microservice.
+Unlike route rules, destination policies cannot be qualified based on attributes
+of a request other than the calling service, but they can be restricted to
+apply to requests that are routed to destination backends with specific labels.
+For example, the following load balancing policy will only apply to requests
+targeting the "v1" version of the "ratings" microservice that are called
+from version "v2" of the "reviews" service.
 
 ```yaml
 apiVersion: config.istio.io/v1alpha2
-kind: DestinationPolicy
 metadata:
-  name: reviews-roundrobin
+  name: ratings-lb-policy
 spec:
-  destination:
+  source:
     name: reviews
+    labels:
+      version: v2
+  destination:
+    name: ratings
     labels:
       version: v1
   loadBalancing:
@@ -394,13 +474,17 @@ For example, the following destination policy
 sets a limit of 100 connections to "reviews" service version "v1" backends.
 
 ```yaml
-destination:
-  name: reviews
-  labels:
-    version: v1
+apiVersion: config.istio.io/v1alpha2
+metadata:
+  name: reviews-v1-cb
+spec:
+  destination:
+    name: reviews
+    labels:
+      version: v1
   circuitBreaker:
     simpleCb:
-      maxConnections: 100
+       maxConnections: 100
 ```
 
 The complete set of simple circuit breaker fields can be found
@@ -425,10 +509,14 @@ consider the following rule, as the one and only rule defined for the
 "reviews" service.
 
 ```yaml
-destination:
-  name: reviews
-  labels:
-    version: v1
+apiVersion: config.istio.io/v1alpha2
+metadata:
+  name: reviews-v1-cb
+spec:
+  destination:
+    name: reviews
+    labels:
+      version: v1
   circuitBreaker:
     simpleCb:
       maxConnections: 100
@@ -448,11 +536,16 @@ define proper route rules for the service. For example, you can add a
 simple route rule for "reviews:v1".
 
 ```yaml
-destination:
-  name: reviews
-route:
-- labels:
-    version: v1
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: reviews-default
+spec:
+  destination:
+    name: reviews
+  route:
+  - labels:
+      version: v1
 ```
 
 Although the default Istio behavior conveniently sends traffic from all
