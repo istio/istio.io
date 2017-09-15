@@ -52,7 +52,7 @@ Istio CA is up if the "AVAILABLE" column is 1.
    kubectl get configmap istio -o yaml | grep authPolicy | head -1
    ```
 
-   Istio Auth is enabled if the line `    authPolicy: MUTUAL_TLS` is uncommented.
+   Istio Auth is enabled if the line `authPolicy: MUTUAL_TLS` is uncommented (doesn't have a `#`).
 
 ## Testing Istio Auth
 
