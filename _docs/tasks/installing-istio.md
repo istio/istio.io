@@ -12,6 +12,7 @@ type: markdown
 
 This page shows how to install and configure Istio in a Kubernetes cluster.
 
+
 ## Prerequisites
 
 * The following instructions assume you have access to a Kubernetes cluster. To install Kubernetes locally,
