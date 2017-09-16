@@ -21,7 +21,7 @@ example application for this task.
 
 ## Before you begin
 
-* Setup Istio by following the instructions in the [Installation guide](./installing-istio-in-kubernetes.html).
+* Setup Istio by following the instructions in the [Installation guide](./installing-istio.html).
 
   If you didn't start the Zipkin or Jaeger addon during installation,
   you can run the following command to start it now:

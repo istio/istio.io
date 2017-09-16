@@ -20,7 +20,7 @@ service or, alternatively, to simply enable direct calls to an external service.
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](./installing-istio-in-kubernetes.html).
+  [Installation guide](./installing-istio.html).
 
 * Start the [sleep](https://github.com/istio/istio/tree/master/samples/apps/sleep) sample
   which will be used as a test source for external calls.

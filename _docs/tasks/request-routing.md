@@ -14,7 +14,7 @@ This task shows you how to configure dynamic request routing based on weights an
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](./installing-istio-in-kubernetes.html).
+  [Installation guide](./installing-istio.html).
 
 * Deploy the [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application.
 
