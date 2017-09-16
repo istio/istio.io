@@ -1,5 +1,5 @@
 ---
-title: Installing Istio in Kubernetes
+title: Installing Istio
 overview: This task shows you how to setup the Istio service mesh.
 
 order: 10
@@ -41,7 +41,7 @@ You can expose services either via istio ingress or using default openshift rout
   version supported by your cluster.
 
 * If you previously installed Istio on this cluster, please uninstall first by following the
-  [uninstalling]({{home}}/docs/tasks/installing-istio-in-kubernetes.html#uninstalling) steps at the end of this page.
+  [uninstalling]({{home}}/docs/tasks/installing-istio.html#uninstalling) steps at the end of this page.
 
 ## Installation steps
 

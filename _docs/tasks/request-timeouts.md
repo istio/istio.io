@@ -15,7 +15,7 @@ This task shows you how to setup request timeouts in Envoy using Istio.
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](./installing-istio-in-kubernetes.html).
+  [Installation guide](./installing-istio.html).
 
 * Deploy the [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application.
 
