@@ -26,8 +26,11 @@ This task shows how to use Istio to control access to a service.
   istioctl create -f samples/apps/bookinfo/route-rule-reviews-v3.yaml
   ```
   
-  > Note: if you have conflicting rule that you set in previous tasks,
+  > Note: if you have conflicting rules that you set in previous tasks,
     use `istioctl replace` instead of `istioctl create`.
+
+  > Note: if you are using a namespace other than `default`,
+    use `istioctl -n namespace ...` to specify the namespace.
 
 ## Access control using _denials_ 
 
@@ -48,19 +51,18 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
 1. Explicitly deny access to version `v3` of the `reviews` service.
 
    Before setting up the deny rule, we must create a handler and an instance definition that can be used in the deny rule.
-   Replace `metadata.namespace` with the appropriate value.
    ```yaml
-   apiVersion: "config.istio.io/v1alpha2"
+   apiVersion: config.istio.io/v1alpha2
    kind: denier
    metadata:
      name: handler
      namespace: default
    spec:
      status:
-       code: 7
+       code: 7 # https://github.com/googleapis/googleapis/blob/master/google/rpc/code.proto
        message: Not allowed  # This message is sent back the client
    ---
-   apiVersion: "config.istio.io/v1alpha2"
+   apiVersion: config.istio.io/v1alpha2
    kind: checknothing
    metadata:
      name: denyrequest
@@ -70,7 +72,7 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
    ```
    Save the file as mixer-rule-ratings-denial.yaml and run
    ```bash
-   kubectl apply -f istioctl mixer-rule-ratings-denial.yaml
+   istioctl create -f istioctl mixer-rule-ratings-denial.yaml
    ```
    You can expect to see the following output
    ```bash
@@ -80,7 +82,7 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
 
    Now create the following rule using the above method
    ```yaml
-   apiVersion: "config.istio.io/v1alpha2"
+   apiVersion: config.istio.io/v1alpha2
    kind: rule
    metadata:
      name: denyreviewsv3
@@ -89,7 +91,8 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
      match: destination.labels["app"] == "ratings" && source.labels["app"]=="reviews" && source.labels["version"] == "v3"
      actions:
      - handler: denyall.denier
-       instances: [ denyrequest.checknothing ]
+       instances:
+       - denyrequest.checknothing
    ```
 
    This rule uses the `denier` adapter to deny requests coming from version `v3` of the reviews service.
@@ -143,12 +146,13 @@ Istio also supports attribute-based whitelists and blacklists.
    kind: rule
    metadata:
      name: checkversion
-     namespace: istio-config-default
+     namespace: default
    spec:
      match: destination.labels["app"] == "ratings"
      actions:
      - handler: staticversion.listchecker
-       instances: [ appversion.listentry ]
+       instances:
+       - appversion.listentry
    ```
 
 ## Cleanup
@@ -156,7 +160,7 @@ Istio also supports attribute-based whitelists and blacklists.
 * Remove the mixer configuration:
 
   ```bash
-  kubectl delete -f /path/to/file.yaml
+  istioctl delete -f /path/to/file.yaml
   ```
 
 * Remove the application routing rules:
