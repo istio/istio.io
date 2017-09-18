@@ -129,7 +129,7 @@ kubectl apply -f <(istioctl kube-inject -f samples/apps/sleep/sleep.yaml --inclu
 On IBM Bluemix, use:
 
 ```bash
-kubectl apply -f <(istioctl kube-inject -f samples/apps/sleep/sleep.yaml --includeIPRanges=172.30.0.0/16,172.20.0.0/16)
+kubectl apply -f <(istioctl kube-inject -f samples/apps/sleep/sleep.yaml --includeIPRanges=172.30.0.0/16,172.20.0.0/16,10.10.10.0/24)
 ```
 
 On Google Container Engine (GKE) the ranges are not fixed, so you will
