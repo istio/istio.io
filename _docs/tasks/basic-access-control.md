@@ -26,8 +26,11 @@ This task shows how to use Istio to control access to a service.
   istioctl create -f samples/apps/bookinfo/route-rule-reviews-v3.yaml
   ```
   
-  > Note: if you have conflicting rule that you set in previous tasks,
+  > Note: if you have conflicting rules that you set in previous tasks,
     use `istioctl replace` instead of `istioctl create`.
+
+  > Note: if you are using a namespace other than `default`,
+    use `istioctl -n namespace ...` to specify the namespace.
 
 ## Access control using _denials_ 
 
@@ -45,31 +48,56 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
    If you log in as any other user (or logout) you should see red ratings stars with each review,
    indicating that the `ratings` service is being called by the "v3" version of the `reviews` service.
 
-1. Explicitly deny access to version `v3` of the `reviews` service. 
+1. Explicitly deny access to version `v3` of the `reviews` service.
 
-   ```bash
-   istioctl mixer rule create global ratings.default.svc.cluster.local -f samples/apps/bookinfo/mixer-rule-ratings-denial.yaml
-   ```
-
-   This command sets configuration for `subject=ratings.default.svc.cluster.local`. 
-   You can display the current configuration with the following command:
-
-   ```
-   istioctl mixer rule get global ratings.default.svc.cluster.local
-   ```
-
-   which should produce:
-
+   Before setting up the deny rule, we must create a handler and an instance definition that can be used in the deny rule.
    ```yaml
-   rules:
-   - aspects:
-     - kind: denials
-     selector: source.labels["app"]=="reviews" && source.labels["version"] == "v3"
+   apiVersion: config.istio.io/v1alpha2
+   kind: denier
+   metadata:
+     name: handler
+     namespace: default
+   spec:
+     status:
+       code: 7 # https://github.com/googleapis/googleapis/blob/master/google/rpc/code.proto
+       message: Not allowed  # This message is sent back the client
+   ---
+   apiVersion: config.istio.io/v1alpha2
+   kind: checknothing
+   metadata:
+     name: denyrequest
+     namespace: default
+   spec:
+   ---
+   ```
+   Save the file as mixer-rule-ratings-denial.yaml and run
+   ```bash
+   istioctl create -f istioctl mixer-rule-ratings-denial.yaml
+   ```
+   You can expect to see the following output
+   ```bash
+   denier "denyall" created
+   checknothing "denyrequest" created
    ```
 
-   This rule uses the `denials` aspect to deny requests coming from version `v3` of the reviews service.
-   The `denials` aspect always denies requests with a pre-configured status code and message.
-   The status code and the message is specified in the [DenyChecker]({{home}}/docs/reference/config/mixer/adapters/denyChecker.html)
+   Now create the following rule using the above method
+   ```yaml
+   apiVersion: config.istio.io/v1alpha2
+   kind: rule
+   metadata:
+     name: denyreviewsv3
+     namespace: default
+   spec:
+     match: destination.labels["app"] == "ratings" && source.labels["app"]=="reviews" && source.labels["version"] == "v3"
+     actions:
+     - handler: denyall.denier
+       instances:
+       - denyrequest.checknothing
+   ```
+
+   This rule uses the `denier` adapter to deny requests coming from version `v3` of the reviews service.
+   The adapter always denies requests with a pre-configured status code and message.
+   The status code and the message is specified in the [denier]({{home}}/docs/reference/config/mixer/adapters/denier.html)
    adapter configuration.
   
 1. Refresh the `productpage` in your browser.
@@ -81,45 +109,58 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
 
 ## Access control using _whitelists_ 
 
-Istio also supports attribute-based white and blacklists.
-Using a whitelist is a two step process.
+Istio also supports attribute-based whitelists and blacklists.
 
-1. Add an adapter definition for the [`genericListChecker`]({{home}}/docs/reference/config/mixer/adapters/genericListChecker.html) 
+1. Add an adapter definition for the [`listchecker`]({{home}}/docs/reference/config/mixer/adapters/list.html)
    adapter that lists versions `v1, v2`:
 
    ```yaml
-   - name: versionList
-     impl: genericListChecker
-     params:
-       listEntries: ["v1", "v2"]
+   apiVersion: config.istio.io/v1alpha2
+   kind: listchecker
+   metadata:
+     name: staticversion
+     namespace: default
+   spec:
+     # providerUrl: ordinarily black and white lists are maintained
+     # externally and fetched asynchronously using the providerUrl.
+     overrides: ["v1", "v2"]  # overrides provide a static list
+     blacklist: false
    ```
 
-2. Enable `whitelist` checking by using the [`lists`]({{home}}/docs/reference/config/mixer/aspects/lists.html) aspect:
+2. Extract the version label by creating an instance of the [`listentry`]({{home}}/docs/reference/config/mixer/template/listentry.html) template:
 
    ```yaml
-   rules:
-     aspects:
-     - kind: lists
-       adapter: versionList
-       params:
-         blacklist: false
-         checkExpression: source.labels["version"] 
-   ``` 
+   apiVersion: config.istio.io/v1alpha2
+   kind: listentry
+   metadata:
+     name: appversion
+     namespace: default
+   spec:
+     value: source.labels["version"]
+   ```
 
-   `checkExpression` is evaluated and checked against the list `[v1, v2]`. The check behavior can be changed to a blacklist by specifying
-   `blacklist: true`. The expression evaluator returns the value of the `version` label as specified by the `checkExpression` key.
+3. Enable `whitelist` checking for the ratings service:
 
-The current version of `istioctl` does not yet support
-pushing adapter configurations like the one in step 1.
-There is, however, a [workaround]({{home}}/docs/concepts/policy-and-control/mixer-aspect-config.html#pushing-configuration)
-that you can use if you want to try it out anyway.
+   ```yaml
+   apiVersion: config.istio.io/v1alpha2
+   kind: rule
+   metadata:
+     name: checkversion
+     namespace: default
+   spec:
+     match: destination.labels["app"] == "ratings"
+     actions:
+     - handler: staticversion.listchecker
+       instances:
+       - appversion.listentry
+   ```
 
 ## Cleanup
 
-* Remove the mixer configuration rule:
+* Remove the mixer configuration:
 
   ```bash
-  istioctl mixer rule delete global ratings.default.svc.cluster.local
+  istioctl delete -f /path/to/file.yaml
   ```
 
 * Remove the application routing rules:
