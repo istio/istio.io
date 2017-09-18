@@ -1,6 +1,6 @@
 ---
-title: denyChecker
-overview: denyChecker adapter configuration schema
+title: denier
+overview: denier adapter configuration schema
 
 order: 0
 
@@ -17,9 +17,9 @@ type: markdown
   <th>Type</th>
   <th>Description</th>
  </tr>
-<a name="adapter.denyChecker.Params.error"></a>
+<a name="adapter.denier.Params.status"></a>
  <tr>
-  <td><code>error</code></td>
+  <td><code>status</code></td>
   <td><a href="/docs/reference/api/mixer/status.html">Status</a></td>
   <td>The error to return when denying a request.</td>
  </tr>
