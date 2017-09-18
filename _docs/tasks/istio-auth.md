@@ -17,12 +17,12 @@ Through this task, you will learn how to:
 
 ## Before you begin
 
-This task assumes you have:
+This task assumes you have a Kubernetes cluster:
 
 * Installed Istio with Auth by following
-[the Istio installation task]({{home}}/docs/tasks/installing-istio.html).
+[the Istio installation task]({{home}}/docs/tasks/install-kubernetes.html).
 Note to choose "enable Istio Auth feature" at step 5 in
-"[Installation steps]({{home}}/docs/tasks/installing-istio.html#installation-steps)".
+"[Installation steps]({{home}}/docs/tasks/install-kubernetes.html#installation-steps)".
 
 ## Verifying Istio Auth setup
 
