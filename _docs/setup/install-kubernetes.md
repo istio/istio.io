@@ -162,6 +162,19 @@ default namespace. They can be modified for deployment in a different namespace.
    istio-mixer-2104784889-20rm8     1/1       Running   0          5h
    ```
 
+## Deploy your application
+
+You can now deploy your own application, or one of the sample applications provided with the installation,
+for example [BookInfo]({{home}}/docs/samples/bookinfo.html). Note that the application should use HTTP/1.1
+or HTTP/2.0 protocol for all its HTTP traffic; HTTP/1.0 is not supported.
+
+When deploying the application, you must
+use [istioctl kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject) to automatically inject
+Envoy containers in your application pods:
+
+```bash
+kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
+```
 
 ## Uninstalling
 
