@@ -127,21 +127,69 @@ default namespace. They can be modified for deployment in a different namespace.
      ```
      This command will install Pilot, Mixer, Ingress-Controller, and Egress-Controller, and the Istio CA (Certificate Authority).
 
+1. *Optional:* Install addons for metric collection and/or request tracing as described in the following sections.
+
+### Enabling metrics collection
+
+To collect and view metrics provided by Mixer, install [Prometheus](https://prometheus.io),
+as well as the [Grafana](https://grafana.com/grafana/download) and/or ServiceGraph addons.
+
+```bash
+kubectl apply -f install/kubernetes/addons/prometheus.yaml
+kubectl apply -f install/kubernetes/addons/grafana.yaml
+kubectl apply -f install/kubernetes/addons/servicegraph.yaml
+```
+You can find out more about how to use these tools in [Collecting Metrics and Logs](./metrics-logs.html).
+
+#### Verifying the Grafana dashboard
+
+The Grafana addon provides an Istio dashboard visualization of the metrics (request rates, success/failure rates) in the cluster. Once you've installed Grafana, check that you can access the dashboard.
+
+Configure port-forwarding for the `grafana` service, as follows:
+
+  ```bash
+  kubectl port-forward $(kubectl get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
+  ```
+
+Then point your web browser to [http://localhost:3000/dashboard/db/istio-dashboard](http://localhost:3000/dashboard/db/istio-dashboard). The dashboard should look something like this:
+
+<figure><img style="max-width:80%" src="./img/grafana_dashboard.png" alt="Grafana Istio Dashboard" title="Grafana Istio Dashboard" />
+<figcaption>Grafana Istio Dashboard</figcaption></figure>
+
+#### Verifying the ServiceGraph service
+
+The ServiceGraph addon provides a textual (JSON) representation and a graphical visualization of the service interaction graph for the cluster. Like Grafana, you can access the servicegraph service using port-forwarding, service nodePort, or (if external load balancing is available) external IP. In this case the service name is `servicegraph` and the port to access is 8088:
+
+```bash
+kubectl port-forward $(kubectl get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
+```
+
+The ServiceGraph service provides both a textual (JSON) representation (via `/graph`) and a graphical visualization (via `/dotviz`) of the underlying service graph. To view the graphical visualization (assuming that you have configured port forwarding as per the previous snippet), open your browser at: [http://localhost:8088/dotviz](http://localhost:8088/dotviz). 
+
+After running some services -- for example, after installing the [BookInfo]({{home}}/docs/samples/bookinfo.html)  sample application and generating some load on the application (e.g., executing `curl` requests in a `while` loop) -- the resulting service graph should look something like this:
+
+<figure><img src="./img/servicegraph.png" alt="BookInfo Service Graph" title="BookInfo Service Graph" />
+<figcaption>BookInfo Service Graph</figcaption></figure>
+
+
 ## Verifying the installation
 
 1. Ensure the following Kubernetes services were deployed: "istio-pilot", "istio-mixer", "istio-ingress", "istio-egress",
-   "istio-ca" (if Istio Auth is enabled).
+   "istio-ca" (if Istio Auth is enabled), and, optionally, "grafana", "prometheus' and "servicegraph").
 
    ```bash
    kubectl get svc
    ```
    ```bash
    NAME            CLUSTER-IP      EXTERNAL-IP       PORT(S)                       AGE
+   grafana         10.83.252.16    <none>            3000:30432/TCP                5h
    istio-egress    10.83.247.89    <none>            80/TCP                        5h
    istio-ingress   10.83.245.171   35.184.245.62     80:32730/TCP,443:30574/TCP    5h
    istio-pilot     10.83.251.173   <none>            8080/TCP,8081/TCP             5h
    istio-mixer     10.83.244.253   <none>            9091/TCP,9094/TCP,42422/TCP   5h
    kubernetes      10.83.240.1     <none>            443/TCP                       36d
+   prometheus      10.83.247.221   <none>            9090:30398/TCP                5h
+   servicegraph    10.83.242.48    <none>            8088:31928/TCP                5h
    ```
 
    Note that if your cluster is running in an environment that does not support an external load balancer
@@ -149,18 +197,23 @@ default namespace. They can be modified for deployment in a different namespace.
    application using the service NodePort or port-forwarding instead.
 
 2. Check the corresponding Kubernetes pods were deployed and all containers are up and running:
-   "istio-pilot-\*", "istio-mixer-\*", "istio-ingress-\*", "istio-egress-\*", "istio-ca-\*" (if Istio Auth is enabled).
+   "istio-pilot-\*", "istio-mixer-\*", "istio-ingress-\*", "istio-egress-\*", "istio-ca-\*" (if Istio Auth is enabled),
+   and, optionally, "grafana-\*", "prometheus-\*' and "servicegraph-\*".
 
    ```bash
    kubectl get pods
    ```
    ```bash
+   grafana-3836448452-vhc1v         1/1       Running   0          5h
    istio-ca-3657790228-j21b9        1/1       Running   0          5h
    istio-egress-1684034556-fhw89    1/1       Running   0          5h
    istio-ingress-1842462111-j3vcs   1/1       Running   0          5h
    istio-pilot-2275554717-93c43     2/2       Running   0          5h
    istio-mixer-2104784889-20rm8     1/1       Running   0          5h
+   prometheus-3067433533-wlmt2      1/1       Running   0          5h
+   servicegraph-3127588006-pc5z3    1/1       Running   0          5h
    ```
+
 
 ## Deploy your application
 
