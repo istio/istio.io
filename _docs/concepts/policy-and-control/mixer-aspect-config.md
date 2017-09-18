@@ -107,10 +107,10 @@ The following table enumerates valid combinations of the `aspects`, the `descrip
 |-----------------------------------------------
 |[Quota enforcement]({{aspectConfig}}/quotas.html ) | [QuotaDescriptor]({{mixerConfig}}#istio.mixer.v1.config.descriptor.QuotaDescriptor) |  [memQuota]({{adapterConfig}}/memQuota.html), [redisQuota]({{adapterConfig}}/redisquota.html)
 |[Metrics collection]({{aspectConfig}}/metrics.html)| [MetricDescriptor]({{mixerConfig}}#metricdescriptor) |[prometheus]({{adapterConfig}}/prometheus.html),[statsd]({{adapterConfig}}/statsd.html)
-|[Whitelist/Blacklist]({{aspectConfig}}/lists.html)| None |[genericListChecker]({{adapterConfig}}/genericListChecker.html),[ipListChecker]({{adapterConfig}}/ipListChecker.html)
+|[Whitelist/Blacklist]({{aspectConfig}}/lists.html)| None |[genericListChecker]({{adapterConfig}}/genericListChecker.html),[listchecker]({{adapterConfig}}/list.html)
 |[Access logs]({{aspectConfig}}/accessLogs.html)|[LogEntryDescriptor]({{mixerConfig}}#logentrydescriptor)  |[stdioLogger]({{adapterConfig}}/stdioLogger.html)
 |[Application logs]({{aspectConfig}}/applicationLogs.html)|[LogEntryDescriptor]({{mixerConfig}}#logentrydescriptor)  |[stdioLogger]({{adapterConfig}}/stdioLogger.html)
-|[Deny Request]({{aspectConfig}}/denials.html)| None |[denyChecker]({{adapterConfig}}/denyChecker.html)
+|[Deny Request]({{aspectConfig}}/denials.html)| None |[denyChecker]({{adapterConfig}}/denier.html)
 
 Istio uses [`protobufs`](https://developers.google.com/protocol-buffers/) to define configuration schemas. The [Writing Configuration]({{home}}/docs/reference/writing-config.html) document explains how to express `proto` definitions as `yaml`.
 
