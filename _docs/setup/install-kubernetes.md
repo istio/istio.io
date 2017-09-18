@@ -139,7 +139,7 @@ kubectl apply -f install/kubernetes/addons/prometheus.yaml
 kubectl apply -f install/kubernetes/addons/grafana.yaml
 kubectl apply -f install/kubernetes/addons/servicegraph.yaml
 ```
-You can find out more about how to use these tools in [Collecting Metrics and Logs](./metrics-logs.html).
+You can find out more about how to use these tools in [Collecting Metrics and Logs]({{home}}/docs/tasks/metrics-logs.html).
 
 #### Verifying the Grafana dashboard
 
