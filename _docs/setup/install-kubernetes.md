@@ -42,7 +42,7 @@ You can expose services either via istio ingress or using default openshift rout
   version supported by your cluster.
 
 * If you previously installed Istio on this cluster, please uninstall first by following the
-  [uninstalling]({{home}}/docs/tasks/install-kubernetes.html#uninstalling) steps at the end of this page.
+  [uninstalling]({{home}}/docs/setup/install-kubernetes.html#uninstalling) steps at the end of this page.
 
 ## Installation steps
 
