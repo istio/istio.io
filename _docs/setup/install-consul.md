@@ -1,8 +1,8 @@
 ---
-title: Installing Istio in a Consul cluster
-overview: This task shows you how to setup the Istio service mesh on Consul-based platforms
+title: Istio Quick Start - Consul
+overview: Quick Start instructions to setup the Istio service mesh in Consul-based infrastructure.
 
-order: 12
+order: 30
 
 layout: docs
 type: markdown

@@ -1,8 +1,8 @@
 ---
-title: Installing Istio in a Kubernetes cluster
-overview: This task shows you how to setup the Istio service mesh on Kubernetes platforms
+title: Istio Quick Start - Kubernetes
+overview: Quick Start instructions to setup the Istio service mesh in a Kubernetes cluster.
 
-order: 11
+order: 20
 
 layout: docs
 type: markdown
@@ -10,7 +10,7 @@ type: markdown
 
 {% include home.html %}
 
-This task shows how to install and configure Istio in a Kubernetes cluster.
+Quick Start instructions to install and configure Istio in a Kubernetes cluster.
 
 
 ## Prerequisites
@@ -42,7 +42,7 @@ You can expose services either via istio ingress or using default openshift rout
   version supported by your cluster.
 
 * If you previously installed Istio on this cluster, please uninstall first by following the
-  [uninstalling]({{home}}/docs/tasks/install-kubernetes.html#uninstalling) steps at the end of this page.
+  [uninstalling]({{home}}/docs/setup/install-kubernetes.html#uninstalling) steps at the end of this page.
 
 ## Installation steps
 
@@ -139,7 +139,7 @@ kubectl apply -f install/kubernetes/addons/prometheus.yaml
 kubectl apply -f install/kubernetes/addons/grafana.yaml
 kubectl apply -f install/kubernetes/addons/servicegraph.yaml
 ```
-You can find out more about how to use these tools in [Collecting Metrics and Logs](./metrics-logs.html).
+You can find out more about how to use these tools in [Collecting Metrics and Logs]({{home}}/docs/tasks/metrics-logs.html).
 
 #### Verifying the Grafana dashboard
 
