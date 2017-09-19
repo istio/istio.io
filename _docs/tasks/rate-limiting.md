@@ -147,17 +147,17 @@ descriptorName: RequestCount
 maxAmount: 5000
 expiration: 5s
 labels:
-  label1: target.service
+  label1: destination.service
 ```
 This defines a set of counters with a limit of `5000` per every `5 seconds`. 
 Individual counters within the set are identified by unique keys. A key is formed on the request path by using all parameters
 of the configuration. Here we introduce the notion of labels that enable creation of more granular counter keys.
-When a request arrives at Mixer with `target.service=ratings` it forms the following counter key.
+When a request arrives at Mixer with `destination.service=ratings` it forms the following counter key.
 
 ```$aspect_id;RequestCount;maxAmount=5000;expiration=5s;label1=ratings ```
 
-Using `target.service` in the counter key enables independent rate limits for every service. 
-In absence of `target.service` as part of the key, the same counter location is used by all services resulting in 
+Using `destination.service` in the counter key enables independent rate limits for every service. 
+In absence of `destination.service` as part of the key, the same counter location is used by all services resulting in 
 combined rate limit of `5000` requests per `5 seconds`
 
 Mixer supports an arbitrary number of labels by defining `QuotaDescriptors`.
