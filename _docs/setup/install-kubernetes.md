@@ -20,7 +20,7 @@ Quick Start instructions to install and configure Istio in a Kubernetes cluster.
 
 * If you are using [Google Container Engine](https://cloud.google.com/container-engine), find out your cluster
   name and zone, and fetch credentials for kubectl:
-  
+
   ```bash
   gcloud container clusters get-credentials <cluster-name> --zone <zone> --project <project-name>
   ```
@@ -37,7 +37,7 @@ Quick Start instructions to install and configure Istio in a Kubernetes cluster.
  oc adm policy add-scc-to-user anyuid -z istio-egress-service-account -n istio-system
   ```  
 You can expose services either via istio ingress or using default openshift router.
-  
+
 * Install the Kubernetes client [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/), or upgrade to the latest
   version supported by your cluster.
 
@@ -48,17 +48,17 @@ You can expose services either via istio ingress or using default openshift rout
 
 You can use the [Istio Helm chart](https://github.com/kubernetes/charts/tree/master/incubator/istio#installing-the-chart) to install, or follow the steps below.
 
-For the {{ site.data.istio.version }} release, Istio must be installed in the same Kubernetes namespace as the applications. 
+For the {{ site.data.istio.version }} release, Istio must be installed in the same Kubernetes namespace as the applications.
 Instructions below will deploy Istio in the
 default namespace. They can be modified for deployment in a different namespace.
 
-1. Go to the [Istio release](https://github.com/istio/istio/releases) page, to download the installation file corresponding to your OS or run 
+1. Go to the [Istio release](https://github.com/istio/istio/releases) page, to download the installation file corresponding to your OS or run
    ```bash
    curl -L https://git.io/getIstio | sh -
-   ``` 
+   ```
    to download and extract the latest release automatically (on MacOS and Ubuntu).
 
-1. Extract the installation file, and change directory to the location where the files were extracted. The following instructions 
+1. Extract the installation file, and change directory to the location where the files were extracted. The following instructions
    are relative to this installation directory.
    The installation directory contains:
     * yaml installation files for Kubernetes
@@ -73,19 +73,19 @@ default namespace. They can be modified for deployment in a different namespace.
    export PATH=$PWD/bin:$PATH
    ```
 
-1. Run the following command to determine if your cluster has 
+1. Run the following command to determine if your cluster has
    [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/) enabled:
 
    ```bash
    kubectl api-versions | grep rbac
    ```
    * If the command displays an error, or does not display anything, it means the cluster does not support RBAC, and you can proceed to step 5 below.
-   
+
    * If the command displays 'beta' version, or both 'alpha' and 'beta', please apply istio-rbac-beta.yaml configuration as show below:
-   
-   *(Note: If you deploy Istio in another namespace than the `default` namespace, replace the `namespace: default` line 
+
+   *(Note: If you deploy Istio in another namespace than the `default` namespace, replace the `namespace: default` line
    in all ClusterRoleBinding resources with the actual namespace.)*
-   
+
    ```bash
    kubectl apply -f install/kubernetes/istio-rbac-beta.yaml
    ```
@@ -97,12 +97,12 @@ default namespace. They can be modified for deployment in a different namespace.
    ```
    kubectl create clusterrolebinding myname-cluster-admin-binding --clusterrole=cluster-admin --user=myname@example.org
    ```
-   
+
    * If the command displays only 'alpha' version, please apply istio-rbac-alpha.yaml configuration:
-   
-   *(Note: If you deploy Istio in another namespace than the `default` namespace, replace the `namespace: default` line 
+
+   *(Note: If you deploy Istio in another namespace than the `default` namespace, replace the `namespace: default` line
       in all ClusterRoleBinding resources with the actual namespace.)*
-      
+
    ```bash
    kubectl apply -f install/kubernetes/istio-rbac-alpha.yaml
    ```
@@ -115,7 +115,7 @@ default namespace. They can be modified for deployment in a different namespace.
       ```bash
       kubectl apply -f install/kubernetes/istio.yaml
       ```
-   
+
       This command will install Pilot, Mixer, Ingress-Controller, Egress-Controller core components.
 
    * Install Istio and enable [Istio Auth]({{home}}/docs/concepts/network-and-auth/auth.html) feature
@@ -126,6 +126,8 @@ default namespace. They can be modified for deployment in a different namespace.
      kubectl apply -f install/kubernetes/istio-auth.yaml
      ```
      This command will install Pilot, Mixer, Ingress-Controller, and Egress-Controller, and the Istio CA (Certificate Authority).
+
+1. *Optional:* Setup for [Cluster Extension](cluster-extension.html).
 
 1. *Optional:* Install addons for metric collection and/or request tracing as described in the following sections.
 
@@ -164,7 +166,7 @@ The ServiceGraph addon provides a textual (JSON) representation and a graphical 
 kubectl port-forward $(kubectl get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
 ```
 
-The ServiceGraph service provides both a textual (JSON) representation (via `/graph`) and a graphical visualization (via `/dotviz`) of the underlying service graph. To view the graphical visualization (assuming that you have configured port forwarding as per the previous snippet), open your browser at: [http://localhost:8088/dotviz](http://localhost:8088/dotviz). 
+The ServiceGraph service provides both a textual (JSON) representation (via `/graph`) and a graphical visualization (via `/dotviz`) of the underlying service graph. To view the graphical visualization (assuming that you have configured port forwarding as per the previous snippet), open your browser at: [http://localhost:8088/dotviz](http://localhost:8088/dotviz).
 
 After running some services -- for example, after installing the [BookInfo]({{home}}/docs/samples/bookinfo.html)  sample application and generating some load on the application (e.g., executing `curl` requests in a `while` loop) -- the resulting service graph should look something like this:
 
