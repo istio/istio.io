@@ -45,7 +45,7 @@ Consider the following aspect configuration that [enables rate limits]({{tasks}}
         maxAmount: 5
         expiration: 1s
         labels:
-          label1: target.service
+          label1: destination.service
 ```
 It _uses_ `RequestCount` to describe the quota. 
 The following is an example of the `RequestCount` descriptor.
@@ -93,7 +93,7 @@ The following example shows how to use a [_selector_](./mixer-config.html#Select
         maxAmount: 5
         expiration: 1s
         labels:
-          label1: target.service
+          label1: destination.service
 ```
 
 
