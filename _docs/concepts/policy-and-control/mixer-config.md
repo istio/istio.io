@@ -198,7 +198,7 @@ aspects:
       value: "1"
       labels:
         source: source.name
-        target: target.name
+        destination: destination.name
         service: api.name
         responseCode: response.code
 ```
@@ -223,7 +223,7 @@ We've already seen a few simple attribute expressions in the previous examples. 
 
 ```yaml
   source: source.name
-  target: target.name
+  destination: destination.name
   service: api.name
   responseCode: response.code
 ```
@@ -233,11 +233,11 @@ They only consist of attribute names. In the above, the `source` label will be a
 of the `source.name` attribute. Here's an example of a conditional expression:
 
 ```yaml
-  service: api.name | target.name 
+  service: api.name | destination.name 
 ```
 
 With the above, the service label will be assigned the value of the api.name attribute, or if that attribute
-is not defined, it will be assigned the value of the target.name attribute.
+is not defined, it will be assigned the value of the destination.name attribute.
 
 The attributes that can be used in attribute expressions must be defined in an 
 [*attribute manifest*](#manifests) for the deployment. Within the manifest, each attribute has
@@ -264,7 +264,7 @@ Let's add a selector to the previous aspect example:
 
 ```yaml
 aspects:
-- selector: target.service == "MyService"
+- selector: destination.service == "MyService"
   kind: metrics
   adapter: myMetricsCollector
   params:
@@ -273,13 +273,13 @@ aspects:
       value: "1"
       labels:
         source: source.name
-        target: target.name
+        destination: destination.name
         service: api.name
         responseCode: response.code
 ```
 
 The `selector` field above defines an expression that returns `true` if the
-`target.service` attributes equals "MyService". If the expression returns `true`, then
+`destination.service` attributes equals "MyService". If the expression returns `true`, then
 the aspect definition takes effect for the given request, otherwise it's like the aspect
 was not defined.
 
@@ -307,10 +307,10 @@ metrics:
     kind: COUNTER
     value: INT64
     displayName: "Request Count"
-    description: Request count by source, target, service, and code
+    description: Request count by source, destination, service, and code
     labels:
       source: STRING
-      target: STRING
+      destination: STRING
       service: STRING
       responseCode: INT64
 ```
@@ -318,7 +318,7 @@ metrics:
 The above is declaring that the system can produce metrics called `request_count`.
 Such metrics will hold 64-bit integer values and be managed as absolute counters. Each
 metric reported will have four labels, two specifying the source and
-target names, one being the service name, the other being the response code for the request.
+destination names, one being the service name, the other being the response code for the request.
 Given this descriptor, Mixer
 can ensure that generated metrics are always properly formed, can arrange for efficient
 storage for these metrics, and can ensure infrastructure backends are ready to accept
@@ -421,9 +421,9 @@ manifests:
       source.name:
         valueType: STRING
         description: The name of the source.
-      target.name:
+      destination.name:
         valueType: STRING
-        description: The name of the target
+        description: The name of the destination
       source.ip:
         valueType: IP_ADDRESS
         description: Did you know that descriptions are optional?

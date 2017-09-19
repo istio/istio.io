@@ -39,7 +39,7 @@ as the example application throughout this task.
    Save the following as `new_rule.yaml`:
    <pre data-src="https://raw.githubusercontent.com/istio/istio/release-0.1/samples/apps/bookinfo/mixer-rule-additional-telemetry.yaml"></pre>
 
-1. Pick a target service for the new rule.
+1. Pick a destination service for the new rule.
 
    If using the BookInfo sample, select `reviews.default.svc.cluster.local`. 
    A fully-qualified domain name for the service is required in the following steps.
@@ -142,7 +142,7 @@ was added, in case Envoy does not report the values as expected.
 
 A set of dimensions were also configured for the metric value, via the
 `labels` chunks of configuration. For the new metric, the dimensions
-were `source`, `target`, `service`, `version`, `method`, and `response_code`.
+were `source`, `destination`, `service`, `version`, `method`, and `response_code`.
 
 Dimensions provide a way to slice, aggregate, and analyze metric data
 according to different needs and directions of inquiry. For instance, it
@@ -151,7 +151,7 @@ when troubleshooting the rollout of a new application version.
 
 The new rule instructs Mixer to populate values for these dimensions
 based on attribute values. For instance, for the `service` dimension, the
-new rule requests that the value be taken from the `target.labels["app"]` 
+new rule requests that the value be taken from the `destination.labels["app"]` 
 attribute. If that attribute value is not populated, the rule instructs
  Mixer to use a default value of `"unknown"`.
 
