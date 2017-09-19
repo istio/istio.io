@@ -30,4 +30,4 @@ including cluster ingress and egress.
 between services in a cluster.
 
 Istio currently only supports the [Kubernetes](https://kubernetes.io) platform, although we plan support
-for additional platforms such as Cloud Foundry, Mesos, and bare metal in the near future.
+for additional platforms such as [Cloud Foundry](https://www.cloudfoundry.org/), [Apache Mesos](http://mesos.apache.org/), and bare metal in the near future.
