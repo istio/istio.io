@@ -35,7 +35,7 @@ Mixer provides three core features:
 - **Precondition Checking**. Enables callers to verify a number of preconditions before responding to an incoming request from a service consumer. 
 Preconditions can include whether the service consumer is properly authenticated, is on the service's whitelist, passes ACL checks, and more.
 
-- **Quota Management**. Enables services to allocate and free quota on a number of dimensions, Quotas are used as a relatively simple resource
+- **Quota Management**. Enables services to allocate and free quota on a number of dimensions. Quotas are used as a relatively simple resource
 management tool to provide some fairness between service consumers when contending for limited resources. Rate limits are
 examples of quotas.
 
@@ -44,7 +44,7 @@ streams intended for both the service operator as well as for service consumers.
 
 These mechanisms are applied based on a set of [attributes](./attributes.html) that are
 materialized for every request into Mixer. Within Istio, Envoy depends heavily on Mixer. Services running within the mesh
-can also use Mixer to report telemetry or manage quotas. (Note: as of Istio {{ site.data.istio.version }}, only Envoy can call Mixer.)
+can also use Mixer to report telemetry or manage quotas. (Note: as of Istio {{ site.data.istio.version }}, Mixer's API is meant solely for proxy (example: Envoy) use.)
 
 ## Adapters
 
@@ -63,19 +63,13 @@ to target new or custom infrastructure backends.
 
 ## Configuration state
 
-Mixer's core runtime methods (`Check`, `Report`, and `Quota`) all accept a set of attributes on input and
-produce a set of attributes on output. The work that the individual methods perform is dictated by the set of input
-attributes, as well as by Mixer's current configuration. To that end, the service operator is responsible
-for:
+Mixer's core runtime methods ([Check](https://github.com/istio/api/blob/master/mixer/v1/service.proto#L43) and [Report](https://github.com/istio/api/blob/master/mixer/v1/service.proto#L48)) accept a set of attributes on input. Mixer's current configuration dictates the work that the individual methods perform with the set of input attributes. To that end, the service operator is responsible for:
 
-- Configuring the set of *aspects* that the deployment uses. An aspect is essentially a chunk of configuration
-state that configures an adapter (adapters being binary plugins as described [below](#adapters)).
+- Configuring a set of *handlers* for Mixer-generated data. Handlers are configured adapters (adapters being binary plugins as described [below](#adapters)). An example of handler configuration would be providing a statsd adapter with an IP address for a statsd backend.
 
-- Establishing the types of adapter parameters that Mixer can manipulate. These
-types are described in configuration through a set of *descriptors* (as described [here](./mixer-config#descriptors))
+- Configuring a set of *instances* for Mixer to generate based on attributes and literal values. Example of instances are _metric values_ and _log entries_. They represent a chunk of data that adapter code will operate on. For instance, an operator may configure Mixer to generate `request_count` metric values from attributes such as `destination.service` and `response.code`.
 
-- Creating rules to map the attributes of every incoming request into a 
-specific set of aspects and adapter parameters.
+- Configuring a set of *actions* that provide Mixer with the when, what, how, and where of instance handling. Actions dictate under what conditions instances should be generated, what instances to generated for those conditions and how they should be generated, and which handler should be sent the generated instances. These actions are grouped into *rules*. For instance, an action might tell Mixer to send generated `request_count` metric values to a statsd handler for all Report calls.
 
 The above configuration state is required to have Mixer know what to do with incoming attributes
 and dispatch to the appropriate infrastructure backends.
@@ -86,9 +80,7 @@ Refer [here](./mixer-config.html) for detailed information on Mixer's configurat
 
 When a request comes in to Mixer, it goes through a number of distinct handling phases:
 
-- **Supplementary Attribute Production**. The first thing that happens in Mixer is to run a globally configured
-set of adapters that are responsible for introducing new attributes. These attributes are combined with the attributes
-from the request to form the total set of attributes for the operation.
+- **Supplementary Attribute Production**. The first thing that happens in Mixer is to run a globally configured set of adapters that are responsible for introducing new attributes. These attributes are combined with the attributes from the request to form the total set of attributes for the operation.
 
 - **Resolution**. The second phase is to evaluate the set of attributes to determine the effective 
 configuration to apply for the request. See [here](./mixer-config.html#resolution) for information on how resolution works. The effective
@@ -105,18 +97,3 @@ associated with each aspect and passes them those parameters.
 
 <figure><img style="max-width:50%;" src="./img/mixer/phases.svg" alt="Phases of Mixer request processing." title="Request Phases" />
 <figcaption>Request Phases</figcaption></figure>
-
-## Scripting
-
-> This section is preliminary and subject to change. We're still experimenting with the concept of scripting in Mixer.
-
-Mixer's attribute processing phase is implemented via a scripting language (exact language *TBD*). 
-The scripts are provided a set of attributes and are responsible for producing the adapter parameters and dispatching
-control to individual configured adapters.
-
-For common uses, the operator authors adapter parameter production rules via a relatively simple declarative format
-and expression syntax. Mixer ingests such rules and produces a script that performs the necessary runtime work
-of accessing the request's incoming attributes and producing the requisite adapter parameters.
-
-For advanced uses, the operator can bypass the declarative format and author directly in the scripting
-language. This is more complex, but provides ultimate flexibility.
