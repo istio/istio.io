@@ -226,7 +226,9 @@ Upgrade is not yet supported. Please un-install using the same yaml files you us
 1. Delete Istio's [Kubernetes CRDs](https://kubernetes.io/docs/tasks/access-kubernetes-api/extend-api-custom-resource-definitions/):
 
    ```bash
-   kubectl delete crd --all
+   kubectl delete crd destinationpolicies.config.istio.io
+   kubectl delete crd egressrules.config.istio.io
+   kubectl delete crd routerules.config.istio.io
    ```
 
 ## What's next
