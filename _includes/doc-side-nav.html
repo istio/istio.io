@@ -6,19 +6,27 @@
 
 	{% assign docs = site.docs %}
 	{% for d in docs %}
+        {% if d.draft == true %}
+    	    {% continue %}
+        {% endif %}
+
 		{% assign components = d.path | downcase | split: '/' %}
 		{% if components[1] == section %}
 			{% if components[2] == 'index.md' %}
 	            {% assign foundSection = true %}
 				<li><h5 class='doc-side-nav-title'>{{d.title}}</h5></li>
 			{% endif %}
-		{% endif %}
+        {% endif %}
 	{% endfor %}
 
 	{% if foundSection == true %}
 	<script type="text/javascript">
         var docs = [];
         {% for d in docs %}
+            {% if d.draft == true %}
+                {% continue %}
+            {% endif %}
+
 	        {% assign components = d.path | downcase | split: '/' %}
 			{% if components[1] == section %}
 		        docs.push({path: [
@@ -33,7 +41,7 @@
 				{% endif %}
                 {% assign url = d.url | remove: "index.html" %}
         		], url: "{{url}}", title: "{{d.title}}", order: {{order}}, overview: "{{d.overview}}"});
-			{% endif %}
+		    {% endif %}
         {% endfor %}
 
 		genNavBarTree(docs)
