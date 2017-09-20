@@ -29,10 +29,10 @@ aspects:
   params:
     inputExpressions:
       srcIP: source.ip | "unknown"
-      tgtIP: target.ip | "unknown"
+      dstIP: destination.ip | "unknown"
     attributeBindings:
       sourceName: srcName
-      targetName: tgtName
+      destinationName: dstName
 
 The mixerInfo adapter takes no input arguments and produces three output
 values (version, buildID, and buildStatus). Those three output values are
@@ -42,7 +42,7 @@ mixerBuildStatus) via the attributeBindings.
 Similarly, the k8sPodInfo adapter takes two inputs (srcIp and tgtIp). Their
 values are generated from the expressions that reference mixer attributes.
 The adapter produces two outputs (srcName and tgtName) that are mapped into
-mixer attributes (sourceName and targetName) by the attributeBindings.
+mixer attributes (sourceName and destinationName) by the attributeBindings.
 
 <table>
  <tr>

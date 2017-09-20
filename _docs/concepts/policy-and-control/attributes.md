@@ -23,7 +23,7 @@ original IP address of a TCP connection. For example:
 	request.size: 234
 	request.time: 12:34:56.789 04/17/2017
 	source.ip: 192.168.0.1
-	target.service: example
+	destination.service: example
 
 ## Attribute vocabulary
 
