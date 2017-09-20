@@ -44,64 +44,62 @@ route requests to all available versions of a service in a random fashion.
    istioctl get routerules -o yaml
    ```
    ```yaml
-   apiVersion: v1
-   items:
-   - apiVersion: config.istio.io/v1alpha2
-     kind: RouteRule
-     metadata:
-       name: details-default
-       namespace: default
-       ...
-     spec:
-       destination:
-         name: details
-       precedence: 1
-       route:
-       - labels:
-           version: v1
-   - apiVersion: config.istio.io/v1alpha2
-     kind: RouteRule
-     metadata:
-       name: productpage-default
-       namespace: default
-       ...
-     spec:
-       destination:
-         name: productpage
-       precedence: 1
-       route:
-       - labels:
-           version: v1
-   - apiVersion: config.istio.io/v1alpha2
-     kind: RouteRule
-     metadata:
-       name: ratings-default
-       namespace: default
-       ...
-     spec:
-       destination:
-         name: ratings
-       precedence: 1
-       route:
-       - labels:
-           version: v1
-   - apiVersion: config.istio.io/v1alpha2
-     kind: RouteRule
-     metadata:
-       name: reviews-default
-       namespace: default
-       ...
-     spec:
-       destination:
-         name: reviews
-       precedence: 1
-       route:
-       - labels:
-           version: v1
-   kind: List
+   apiVersion: config.istio.io/v1alpha2
+   kind: RouteRule
    metadata:
-     resourceVersion: ""
-     selfLink: ""
+     name: details-default
+     namespace: default
+     ...
+   spec:
+     destination:
+       name: details
+     precedence: 1
+     route:
+     - labels:
+         version: v1
+   ---
+   apiVersion: config.istio.io/v1alpha2
+   kind: RouteRule
+   metadata:
+     name: productpage-default
+     namespace: default
+     ...
+   spec:
+     destination:
+       name: productpage
+     precedence: 1
+     route:
+     - labels:
+         version: v1
+   ---
+   apiVersion: config.istio.io/v1alpha2
+   kind: RouteRule
+   metadata:
+     name: ratings-default
+     namespace: default
+     ...
+   spec:
+     destination:
+       name: ratings
+     precedence: 1
+     route:
+     - labels:
+         version: v1
+   ---
+   apiVersion: config.istio.io/v1alpha2
+   kind: RouteRule
+   metadata:
+     name: reviews-default
+     namespace: default
+     ...
+   spec:
+     destination:
+       name: reviews
+     precedence: 1
+     route:
+     - labels:
+         version: v1
+   ---
    ```
 
    Since rule propagation to the proxies is asynchronous, you should wait a few seconds for the rules
