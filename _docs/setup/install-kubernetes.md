@@ -42,13 +42,13 @@ You can expose services either via Istio ingress or using default openshift rout
 * Install the Kubernetes client [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/), or upgrade to the latest
   version supported by your cluster.
 
-* Upgrade is not yet supported. If you previously installed Istio on this cluster, please uninstall first by following the
+* Upgrading Istio is not yet supported. If you previously installed Istio on this cluster, please uninstall first by following the
   uninstalling steps and yaml files matching your current version.
   For the {{ site.data.istio.version }} release, the [uninstalling]({{home}}/docs/setup/install-kubernetes.html#uninstalling) steps are located at the end of this page.
 
 ## Installation steps
 
-Starting with the {{ site.data.istio.version }} release, Istio will be installed in its own `istio-system` namespace,
+Starting with the {{ site.data.istio.version }} release, Istio is installed in its own `istio-system` namespace,
 and can manage micro-services from all other namespaces.
 
 1. Go to the [Istio release](https://github.com/istio/istio/releases) page, to download the installation file corresponding to your OS or run 
