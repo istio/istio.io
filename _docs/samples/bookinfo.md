@@ -83,10 +83,7 @@ This application is polyglot, i.e., the microservices are written in different l
    ```bash
    NAME                       CLUSTER-IP   EXTERNAL-IP   PORT(S)              AGE
    details                    10.0.0.31    <none>        9080/TCP             6m
-   istio-ingress              10.0.0.122   <pending>     80:31565/TCP         8m
-   istio-pilot                10.0.0.189   <none>        8080/TCP             8m
-   istio-mixer                10.0.0.132   <none>        9091/TCP,42422/TCP   8m
-   kubernetes                 10.0.0.1     <none>        443/TCP              14d
+   kubernetes                 10.0.0.1     <none>        443/TCP              7d
    productpage                10.0.0.120   <none>        9080/TCP             6m
    ratings                    10.0.0.15    <none>        9080/TCP             6m
    reviews                    10.0.0.170   <none>        9080/TCP             6m
@@ -103,9 +100,6 @@ This application is polyglot, i.e., the microservices are written in different l
    ```bash
    NAME                                        READY     STATUS    RESTARTS   AGE
    details-v1-1520924117-48z17                 2/2       Running   0          6m
-   istio-ingress-3181829929-xrrk5              1/1       Running   0          8m
-   istio-pilot-175173354-d6jm7                 2/2       Running   0          8m
-   istio-mixer-3883863574-jt09j                2/2       Running   0          8m
    productpage-v1-560495357-jk1lz              2/2       Running   0          6m
    ratings-v1-734492171-rnr5l                  2/2       Running   0          6m
    reviews-v1-874083890-f0qf0                  2/2       Running   0          6m
@@ -144,7 +138,7 @@ This application is polyglot, i.e., the microservices are written in different l
    In this case you can use the service NodePort instead:
    
    ```bash
-   export GATEWAY_URL=$(kubectl get po -l istio=ingress -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -o 'jsonpath={.spec.ports[0].nodePort}')
+   export GATEWAY_URL=$(kubectl get po -n istio-system -l istio=ingress -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}')
    ```
 
 1. Confirm that the BookInfo application is running with the following `curl` command:
@@ -169,8 +163,8 @@ When you're finished experimenting with the BookInfo sample, you can uninstall i
 1. Confirm shutdown
 
    ```bash
-   istioctl get route-rules   #-- there should be no more routing rules
-   kubectl get pods           #-- the BookInfo pods should be deleted
+   istioctl get routerules   #-- there should be no more routing rules
+   kubectl get pods          #-- the BookInfo pods should be deleted
    ```
 
 ## What's next
