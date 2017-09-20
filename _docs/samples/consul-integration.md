@@ -13,7 +13,7 @@ draft: true
 This sample deploys the Bookinfo application in a simple Docker Compose environment using Consul as the service registry, and demonstrates various features of the Istio service mesh on non-kubernetes platforms.
 
 ## Before you begin
-* Setup Istio by following the instructions in the [Installation guide]({{home}}/docs/tasks/install-kubernetes.html).
+* Setup Istio by following the instructions in the [Installation guide]({{home}}/docs/setup/install-kubernetes.html).
   You will need `kubectl` and Steps 1-4 from `Installation step` only for this Task.
 
 * Install [Docker](https://docs.docker.com/engine/installation/#cloud) and 
