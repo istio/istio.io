@@ -37,8 +37,7 @@ Quick Start instructions to install and configure Istio in a Kubernetes cluster.
  oc adm policy add-scc-to-user anyuid -z istio-ingress-service-account -n istio-system
  oc adm policy add-scc-to-user anyuid -z istio-egress-service-account -n istio-system
   ```  
-You can expose services either via Istio ingress or using default [openshift router](https://docs.openshift.com/container-platform/3.3/dev_guide/getting_traffic_into_cluster.html#using-a-router).
-  
+
 * Install the Kubernetes client [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/), or upgrade to the latest
   version supported by your cluster.
 
