@@ -119,6 +119,11 @@ route requests to all available versions of a service in a random fashion.
    istioctl create -f samples/apps/bookinfo/rules/route-rule-reviews-test-v2.yaml
    ```
 
+   > Note: In a Consul-based setup, use the following command:
+     ```bash
+     istioctl create -f samples/apps/bookinfo/consul/consul-reviews-v1.yaml
+     ```
+
    Confirm the rule is created:
 
    ```bash
@@ -191,6 +196,11 @@ that we created exclusively for him:
    ```bash
    istioctl replace -f samples/apps/bookinfo/rules/route-rule-reviews-v3.yaml
    ```
+
+   > Note: In a Consul-based setup, use the following command:
+     ```bash
+     istioctl replace -f samples/apps/bookinfo/consul/consul-reviews-v3.yaml
+     ```
 
    You can now log in to the `productpage` as any user and you should always see book reviews
    with *red* colored star ratings for each review.
