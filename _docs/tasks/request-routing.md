@@ -47,12 +47,12 @@ route requests to all available versions of a service in a random fashion.
    apiVersion: config.istio.io/v1alpha2
    kind: RouteRule
    metadata:
-     name: reviews-default
+     name: details-default
      namespace: default
      ...
    spec:
      destination:
-       name: reviews
+       name: details
      precedence: 1
      route:
      - labels:
@@ -61,12 +61,12 @@ route requests to all available versions of a service in a random fashion.
    apiVersion: config.istio.io/v1alpha2
    kind: RouteRule
    metadata:
-     name: reviews-default
+     name: productpage-default
      namespace: default
      ...
    spec:
      destination:
-       name: reviews
+       name: productpage
      precedence: 1
      route:
      - labels:
@@ -75,12 +75,12 @@ route requests to all available versions of a service in a random fashion.
    apiVersion: config.istio.io/v1alpha2
    kind: RouteRule
    metadata:
-     name: reviews-default
+     name: ratings-default
      namespace: default
      ...
    spec:
      destination:
-       name: reviews
+       name: ratings
      precedence: 1
      route:
      - labels:
