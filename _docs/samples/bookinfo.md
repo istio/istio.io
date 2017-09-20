@@ -152,7 +152,8 @@ This application is polyglot, i.e., the microservices are written in different l
    
 ## Cleanup
 
-When you're finished experimenting with the BookInfo sample, you can uninstall it as follows:
+When you're finished experimenting with the BookInfo sample, you can
+uninstall it in a Kubernetes environment as follows:
 
 1. Delete the routing rules and terminate the application pods
 
@@ -166,6 +167,13 @@ When you're finished experimenting with the BookInfo sample, you can uninstall i
    istioctl get routerules   #-- there should be no more routing rules
    kubectl get pods          #-- the BookInfo pods should be deleted
    ```
+
+If you are using the Docker Compose version of the demo, run the following
+command to clean up:
+
+  ```bash
+  docker-compose -f samples/apps/bookinfo/consul/docker-compose.yaml down
+  ```
 
 ## What's next
 
