@@ -48,7 +48,7 @@ You can expose services either via Istio ingress or using default openshift rout
 
 ## Installation steps
 
-For the {{ site.data.istio.version }} release, Istio will be installed in its own `istio-system` namespace,
+Starting with the {{ site.data.istio.version }} release, Istio will be installed in its own `istio-system` namespace,
 and can manage micro-services from all other namespaces.
 
 1. Go to the [Istio release](https://github.com/istio/istio/releases) page, to download the installation file corresponding to your OS or run 
