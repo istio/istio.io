@@ -42,8 +42,9 @@ You can expose services either via Istio ingress or using default openshift rout
 * Install the Kubernetes client [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/), or upgrade to the latest
   version supported by your cluster.
 
-* If you previously installed Istio on this cluster, please uninstall first by following the
-  [uninstalling]({{home}}/docs/setup/install-kubernetes.html#uninstalling) steps at the end of this page.
+* Upgrade is not yet supported. If you previously installed Istio on this cluster, please uninstall first by following the
+  uninstalling steps and yaml files matching your current version.
+  For the {{ site.data.istio.version }} release, the [uninstalling]({{home}}/docs/setup/install-kubernetes.html#uninstalling) steps are located at the end of this page.
 
 ## Installation steps
 
@@ -71,17 +72,17 @@ and can manage micro-services from all other namespaces.
    export PATH=$PWD/bin:$PATH
    ```
 
-1. Install Istio's core components.  Choose one of the two mutually exclusive options below:
+1. Install Istio's core components.  Choose one of the two _**mutually exclusive**_ options below:
 
-    * Install Istio without enabling [authentication]({{home}}/docs/concepts/network-and-auth/auth.html) between proxies with [mTLS](https://en.wikipedia.org/wiki/Mutual_authentication).
+    * Install Istio without enabling [authentication]({{home}}/docs/concepts/network-and-auth/auth.html) between sidecars with [mutual TLS authentication](https://en.wikipedia.org/wiki/Mutual_authentication).
     We recommend this option for clusters with existing applications, to allow new applications to communicate with the old applications,
-    and for clusters that use [liveliness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/):
+    and for clusters that use [liveliness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/), headless services, or statefulsets.
 
       ```bash
       kubectl apply -f install/kubernetes/istio.yaml
       ```
 
-   * Install Istio and enable [authentication]({{home}}/docs/concepts/network-and-auth/auth.html) between proxies with [mTLS](https://en.wikipedia.org/wiki/Mutual_authentication):
+   * Install Istio and enable [authentication]({{home}}/docs/concepts/network-and-auth/auth.html) between sidecars with [mutual TLS authentication](https://en.wikipedia.org/wiki/Mutual_authentication):
 
      ```bash
      kubectl apply -f install/kubernetes/istio-auth.yaml
@@ -89,7 +90,7 @@ and can manage micro-services from all other namespaces.
 
    This creates the `istio-system` namespace, all necessary RBAC permissions, and deploys Pilot, Mixer, Istio-Ingress, Istio-Egress, and Istio-CA (Certificate Authority).
 
-1. *Optional:* If you cluster has Kubernetes alpha features enabled, and you wish to enable transparent injection of proxy, please install the Istio-Initializer:
+1. *Optional:* If you cluster has Kubernetes alpha features enabled, and you wish to enable transparent injection of sidecar, please install the Istio-Initializer:
 
     ```bash
      kubectl apply -f install/kubernetes/istio-initializer.yaml
@@ -199,8 +200,6 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 
 ## Uninstalling
 
-Upgrade is not yet supported. Please un-install using the same yaml files you used during install.
-
 1. If you installed Istio addons, uninstall them:
 
    ```bash
@@ -211,13 +210,13 @@ Upgrade is not yet supported. Please un-install using the same yaml files you us
 1. Uninstall Istio core components. For the {{ site.data.istio.version }} release, the uninstall will delete the RBAC permissions, the `istio-system` namespace, and hierarchically all resources under it.
    It is safe to ignore errors for non-existent resources, since they may have been deleted hierarchically.
 
-   * If Istio was installed without mTLS authentication enabled:
+   * If Istio was installed with mutual TLS authentication disabled:
 
      ```bash
      kubectl delete -f install/kubernetes/istio.yaml
      ```
 
-   * If Istio was installed with mTLS authentication enabled:
+   * If Istio was installed with mutual TLS authentication enabled:
 
      ```bash
      kubectl delete -f install/kubernetes/istio-auth.yaml
