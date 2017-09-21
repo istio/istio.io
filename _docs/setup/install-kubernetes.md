@@ -104,7 +104,7 @@ and can manage micro-services from all other namespaces.
 
    Both options create the `istio-system` namespace along with the required RBAC permissions, and deploy Istio-Pilot, Istio-Mixer, Istio-Ingress, Istio-Egress, and Istio-CA (Certificate Authority).
 
-1. *Optional:* If you cluster has Kubernetes alpha features enabled, and you wish to enable transparent injection of sidecar, please install the Istio-Initializer:
+1. *Optional:* If your cluster has Kubernetes alpha features enabled, and you wish to enable transparent injection of sidecar, please install the Istio-Initializer:
 
     ```bash
      kubectl apply -f install/kubernetes/istio-initializer.yaml
@@ -239,7 +239,7 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 1. Delete Istio's [Kubernetes CRDs](https://kubernetes.io/docs/tasks/access-kubernetes-api/extend-api-custom-resource-definitions/):
 
    ```bash
-   kubectl get crd -o 'jsonpath={.items[*].metadata.name}' | grep istio | xargs kubectl delete crd
+   kubectl get crd -o 'jsonpath={.items[*].metadata.name}' | grep config\.istio\.io | xargs kubectl delete crd
    ```
 
 ## What's next
