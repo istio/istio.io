@@ -40,12 +40,10 @@ Always check the Release Notes of the Istio version you are installing for detai
     oc adm policy add-scc-to-user anyuid -z istio-egress-service-account -n istio-system
     ```  
 
-* Install the Kubernetes client [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/), or upgrade to the latest
-  version supported by your cluster (version 1.7 or newer for CRD support, and it should match your cluster's).
+* Install or upgrade the Kubernetes client [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) to match
+  version supported by your cluster (version 1.7 or newer for CRD support).
 
-* Note that upgrading Istio is not yet supported. If you previously installed Istio on this cluster, please uninstall first by following the
-  uninstalling steps and yaml files matching your current version.
-  For the {{ site.data.istio.version }} release, the [uninstalling]({{home}}/docs/setup/install-kubernetes.html#uninstalling) steps are located at the end of this page.
+* If you installed one of our v0.1.x alpha versions before please [uninstall](https://istio.io/v-0.1/docs/tasks/installing-istio.html#uninstalling) it first.
 
 ## Installation steps
 
@@ -56,17 +54,17 @@ and can manage micro-services from all other namespaces.
    ```bash
    curl -L https://git.io/getIstio | sh -
    ```
-   to download and extract the latest release automatically (on MacOS and Ubuntu).
+   to download and extract the latest stable release automatically (on MacOS and Ubuntu).
 
 1. Extract the installation file, and change directory to the location where the files were extracted. The following instructions
    are relative to this installation directory.
    The installation directory contains:
-    * yaml installation files for Kubernetes
-    * sample apps
-    * the `istioctl` client binary, needed to inject Envoy as a sidecar proxy, and useful for creating routing rules and policies.
-    * the istio.VERSION configuration file.
+    * Installation `.yaml` files for Kubernetes in `install/`
+    * Sample apps in `samples/`
+    * The `istioctl` client binary in the `bin/` directory. `istioctl` is used when manually injecting Envoy as a sidecar proxy, and useful for creating routing rules and policies.
+    * The `istio.VERSION` configuration file.
 
-1. Add the `istioctl` client to your PATH if you download the installation file from [Istio release](https://github.com/istio/istio/releases).
+1. Add the `istioctl` client to your PATH.
    For example, run the following commands on a Linux or MacOS system:
 
    ```bash
