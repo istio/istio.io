@@ -1,6 +1,7 @@
 ---
 title: Collecting Metrics and Logs
-overview: This task shows you how to configure Mixer to collect metrics and logs from Envoy instances.
+
+overview: This task shows you how to configure Istio to collect metrics and logs.
 
 order: 110
 
@@ -9,210 +10,310 @@ type: markdown
 ---
 {% include home.html %}
 
-This task shows how to configure Mixer to automatically gather telemetry
-for a service within a cluster. At the end of this task, a new metric and
-a new log stream will be enabled for calls to a specific service within your
-cluster.
+This task shows how to configure Istio to automatically gather telemetry for
+services in a mesh. At the end of this task, a new metric and a new log stream
+will be enabled for calls to services within your mesh.
 
 The [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application is used
 as the example application throughout this task.
 
 ## Before you begin
-* [Install Istio](./installing-istio.html) in your kubernetes
-  cluster and deploy an application.
+* [Install Istio](./installing-istio.html) in your cluster and deploy an
+  application. This task assumes that Mixer is setup in a default configuration
+  (`--configDefaultNamespace=istio-config-default`). If a different value is
+  used, the configuration in this Task (and commands to be issued) must be
+  updated to match.
 
-* Configure your environment to support calling `istioctl mixer`.
-  This may require setting up port-forwarding for the Mixer Config API as described in the
-  [reference docs]({{home}}/docs/reference/commands/istioctl.html#istioctl-mixer) for `istioctl mixer`.
-
-* Configure your environment to support accessing the Istio dashboard, as described in the 
-  [Installation Guide](./installing-istio.html). This requires installing the optional add-ons
-  ([Prometheus](https://prometheus.io) and [Grafana](https://grafana.com/)), as well as verifying access to
-  the dashboard. The Istio dashboard will be used to verify task success.
+* Install the optional add-on [Prometheus](https://prometheus.io). Prometheus
+  will be used to verify task success.
 
 ## Collecting new telemetry data
 
-1. Create a new YAML file to hold configuration for
-   the new metric and log stream that Istio will generate and collect
-   automatically.
+1. Create a new YAML file to hold configuration for the new metric and log
+   stream that Istio will generate and collect automatically.
 
-   Save the following as `new_rule.yaml`:
-   <pre data-src="https://raw.githubusercontent.com/istio/istio/release-0.1/samples/apps/bookinfo/mixer-rule-additional-telemetry.yaml"></pre>
-
-1. Pick a destination service for the new rule.
-
-   If using the BookInfo sample, select `reviews.default.svc.cluster.local`. 
-   A fully-qualified domain name for the service is required in the following steps.
-
-1. Validate that the selected service has no service-specific rules
-   already applied.
-
-   ```bash
-   istioctl mixer rule get reviews.default.svc.cluster.local reviews.default.svc.cluster.local
+   Save the following as `new_telemetry.yaml`:
+   ```yaml
+   # Configuration for metric instances
+   apiVersion: "config.istio.io/v1alpha2"
+   kind: metric
+   metadata:
+     name: doublerequestcount
+     namespace: istio-config-default
+   spec:
+     value: "2" # count each request twice
+     dimensions:
+       source: source.service | "unknown"
+       destination: destination.service | "unknown"
+       message: '"twice the fun!"'
+     monitored_resource_type: '"UNSPECIFIED"'
+   ---
+   # Configuration for a Prometheus handler
+   apiVersion: "config.istio.io/v1alpha2"
+   kind: prometheus
+   metadata:
+     name: doublehandler
+     namespace: istio-config-default
+   spec:
+     metrics:
+     - name: double_request_count # Prometheus metric name
+       instance_name: doublerequestcount.metric.istio-config-default # Mixer instance name (fully-qualified)
+       kind: COUNTER
+       label_names:
+       - source
+       - destination
+       - message
+   ---
+   # Rule to send metric instances to a Prometheus handler
+   apiVersion: "config.istio.io/v1alpha2"
+   kind: rule
+   metadata:
+     name: doubleprom
+     namespace: istio-config-default
+   spec:
+     actions:
+     - handler: doublehandler.prometheus
+       instances:
+       - doublerequestcount.metric
+   ---
+   # Configuration for logentry instances
+   apiVersion: "config.istio.io/v1alpha2"
+   kind: logentry
+   metadata:
+     name: newlog
+     namespace: istio-config-default
+   spec:
+     severity: '"warning"'
+     timestamp: request.time
+     variables:
+       source: source.labels["app"] | source.service | "unknown"
+       user: source.user | "unknown"
+       destination: destination.labels["app"] | destination.service | "unknown"
+       responseCode: response.code | 0
+       responseSize: response.size | 0
+       latency: response.duration | "0ms"
+     monitored_resource_type: '"UNSPECIFIED"'
+   ---
+   # Configuration for a stdio handler
+   apiVersion: "config.istio.io/v1alpha2"
+   kind: stdio
+   metadata:
+     name: newhandler
+     namespace: istio-config-default
+   spec:
+    severity_levels:
+      warning: 1 # Params.Level.WARNING
+    outputAsJson: true
+   ---
+   # Rule to send logentry instances to a stdio handler
+   apiVersion: "config.istio.io/v1alpha2"
+   kind: rule
+   metadata:
+     name: newlogstdio
+     namespace: istio-config-default
+   spec:
+     match: "true" # match for all requests
+     actions:
+      - handler: newhandler.stdio
+        instances:
+        - newlog.logentry
+   ---
    ```
 
-   The expected output is:
+1. Push the new configuration.
 
    ```bash
-   Error: the server could not find the requested resource
+   istioctl apply -f new_telemetry.yaml
    ```
 
-   If your selected service has service-specific rules, update `new_rule.yaml`
-   to include the existing rules appropriately. Append the rule from `new_rule.yaml`
-   to the existing `rules` block and save the updated content back over `new_rule.yaml`.
-
-1. Push the new configuration to Mixer for a specific service.
-
-   ```bash
-   istioctl mixer rule create reviews.default.svc.cluster.local reviews.default.svc.cluster.local -f new_rule.yaml
+   The expected output is similar to:
+   ```
+   Created config metric/istio-config-default/doublerequestcount at revision 1973035
+   Created config prometheus/istio-config-default/doublehandler at revision 1973036
+   Created config rule/istio-config-default/doubleprom at revision 1973037
+   Created config logentry/istio-config-default/newlog at revision 1973038
+   Created config stdio/istio-config-default/newhandler at revision 1973039
+   Created config rule/istio-config-default/newlogstdio at revision 1973041
    ```
 
-1. Send traffic to that service.
+1. Send traffic to the sample application.
 
-   For the BookInfo sample, visit `http://$GATEWAY_URL/productpage` in your web browser or
-   issue the following command:
+   For the BookInfo sample, visit `http://$GATEWAY_URL/productpage` in your web
+   browser or issue the following command:
 
    ```bash
    curl http://$GATEWAY_URL/productpage
    ```
 
-   For purposes of this task, please refresh the page several times or issue the curl
-   command a few times to generate traffic.
+   For purposes of this task, please refresh the page several times or issue the
+   curl command a few times to generate traffic.
 
-1. Verify that the new metric is being collected.
-   
-   Setup port-forwarding for Grafana:
-   
+1. Verify that the new metric values are being generated and collected.
+
+   In a Kubernetes environment, setup port-forwarding for Prometheus by
+   executing the following command:
+
    ```bash
-   kubectl port-forward $(kubectl get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
+   kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
    ```
 
-   Then open the Istio dashboard in a web browser: [http://localhost:3000/dashboard/db/istio-dashboard](http://localhost:3000/dashboard/db/istio-dashboard)
+   View values for the new metric via the [Prometheus UI](http://localhost:9090/graph#%5B%7B%22range_input%22%3A%221h%22%2C%22expr%22%3A%22double_request_count%22%2C%22tab%22%3A1%7D%5D).
    
-   One of the rows in the dashboard will be named "reviews". If that row is not visible, please refresh the dashboard page. The "reviews" row
-   contains a graph entitled "Response Size by Source And Version". The graph displays a breakdown of the distribution of Response Sizes returned
-   by the "reviews" service.
+   The provided link opens the Prometheus UI and executes a query for values of the
+   `double_request_count` metric. The table displayed in the **Console** tab
+   includes entries similar to:
 
-   The request from the previous step is reflected in the graphs. This looks similar to:
-   <figure><img style="max-width: 100%;" src="./img/dashboard_response_size.png" alt="Istio Dashboard for Reviews Service" title="Istio Dashboard for Reviews Service" />
-   <figcaption>Istio Dashboard for Reviews Service</figcaption></figure>
+   ```
+   double_request_count{destination="details.default.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="productpage.default.svc.cluster.local"}	2
+   double_request_count{destination="ingress.istio-system.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="unknown"}	2
+   double_request_count{destination="productpage.default.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="ingress.istio-system.svc.cluster.local"}	2
+   double_request_count{destination="reviews.default.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="productpage.default.svc.cluster.local"}	2
+   ```
 
-1. Verify that the logs stream has been created and is being populated
-   for requests.
+1. Verify that the logs stream has been created and is being populated for
+   requests.
 
-   Search through the logs for the Mixer pod as follows:
+   In a Kubernetes environment, search through the logs for the Mixer pod as
+   follows:
 
    ```bash
-   kubectl logs $(kubectl get pods -l istio=mixer -o jsonpath='{.items[0].metadata.name}') | grep \"combined_log\"
+   kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio=mixer -o jsonpath='{.items[0].metadata.name}') mixer | grep \"instance\":\"newlog.logentry.istio-config-default\"
    ```
 
    The expected output is similar to:
 
    ```json
-   {"logName":"combined_log","labels":{"referer":"","responseSize":871,"timestamp":"2017-04-29T02:11:54.989466058Z","url":"/reviews","userAgent":"python-requests/2.11.1"},"textPayload":"- - - [29/Apr/2017:02:11:54 +0000] \"- /reviews -\" - 871 - python-requests/2.11.1"}
+   {"level":"warn","ts":"2017-09-21T04:33:31.249Z","instance":"newlog.logentry.istio-config-default","destination":"details","latency":"6.848ms","responseCode":200,"responseSize":178,"source":"productpage","user":"unknown"}
+   {"level":"warn","ts":"2017-09-21T04:33:31.291Z","instance":"newlog.logentry.istio-config-default","destination":"ratings","latency":"6.753ms","responseCode":200,"responseSize":48,"source":"reviews","user":"unknown"}
+   {"level":"warn","ts":"2017-09-21T04:33:31.263Z","instance":"newlog.logentry.istio-config-default","destination":"reviews","latency":"39.848ms","responseCode":200,"responseSize":379,"source":"productpage","user":"unknown"}
+   {"level":"warn","ts":"2017-09-21T04:33:31.239Z","instance":"newlog.logentry.istio-config-default","destination":"productpage","latency":"67.675ms","responseCode":200,"responseSize":5599,"source":"ingress.istio-system.svc.cluster.local","user":"unknown"}
+   {"level":"warn","ts":"2017-09-21T04:33:31.233Z","instance":"newlog.logentry.istio-config-default","destination":"ingress.istio-system.svc.cluster.local","latency":"74.47ms","responseCode":200,"responseSize":5599,"source":"unknown","user":"unknown"}
    ```
 
-## Understanding the new telemetry rule
+## Cleanup
 
-In this task, you added a new rule for a service within your cluster.
-The new rule instructed Mixer to automatically generate and report a
-new metric and a new log stream for all traffic going to a specific
-service.
+Remove the new telemetry configuration:
 
-The new rule was comprised of a new `aspect` definitions. These `aspect`
-definitions were for the aspect kind of `metrics` and `access-logs`.
+```bash
+istioctl delete -f new_telemetry.yaml
+```
 
-### Understanding the rule's metrics aspect
+## Understanding the new telemetry configuration
 
-The `metrics` aspect directs Mixer to report metrics to the `prometheus`
-adapter. The adapter `params` tell Mixer _how_ to generate metric values
-for any given request, based on the attributes reported by Envoy (and
-generated by Mixer itself).
+In this task, you added Istio configuration that instructed Mixer to
+automatically generate and report a new metric and a new log stream for all
+traffic within the mesh.
 
-The schema for the metric came from a predefined metric `descriptor`
-known to Mixer. In this task, the descriptor used was `response_size`.
-The `response_size` metric descriptor uses buckets to record a 
-distribution of values, making it easier for the backend metrics systems
-to provide summary statistics for a bunch of requests in aggregate (as
-is often desirable when looking at response sizes).
+The added configuration controlled three pieces of Mixer functionality:
+1. Generation of *instances* (in this example, metric values and log entries)
+   from Istio attributes
+1. Creation of *handlers* (configured Mixer adapters) capable of processing
+   generated *instances*
+1. Dispatch of *instances* to *handlers* according to a set of *rules*
 
-The new rule instructs Mixer to generate values for the metric based
-on the values of the attribute `response.size`. A default values of `0`
-was added, in case Envoy does not report the values as expected.
+### Understanding the metrics configuration
 
-A set of dimensions were also configured for the metric value, via the
-`labels` chunks of configuration. For the new metric, the dimensions
-were `source`, `destination`, `service`, `version`, `method`, and `response_code`.
+The metrics configuration directs Mixer to send metric values to Prometheus. It
+uses three stanzas (or blocks) of configuration: *instance* configuration,
+*handler* configuration, and *rule* configuration.
 
-Dimensions provide a way to slice, aggregate, and analyze metric data
-according to different needs and directions of inquiry. For instance, it
-may be desirable to only consider response sizes for non-error responses
-when troubleshooting the rollout of a new application version.
+The `kind: metric` stanza of config defines a schema for generated metric values
+(or *instances*) for a new metric named `doublerequestcount`. This instance
+configuration tells Mixer _how_ to generate metric values for any given request,
+based on the attributes reported by Envoy (and generated by Mixer itself).
 
-The new rule instructs Mixer to populate values for these dimensions
-based on attribute values. For instance, for the `service` dimension, the
-new rule requests that the value be taken from the `destination.labels["app"]` 
-attribute. If that attribute value is not populated, the rule instructs
- Mixer to use a default value of `"unknown"`.
+For each instance of `doublerequestcount.metric`, the config directs Mixer to
+supply a value of `2` for the instance. Because Istio generates an instance for
+each request, this means that this metric records a value equal to twice the
+total number of requests received.
 
-At the moment, it is not possible to programmatically generate new metric
-descriptors for use within Mixer. As a result, all new metric configurations
-must use one of the predefined metrics descriptors: `request_count`,
-`request_duration`, `request_size`, and `response_size`.
+A set of `dimensions` are specified for each `doublerequestcount.metric`
+instance. Dimensions provide a way to slice, aggregate, and analyze metric data
+according to different needs and directions of inquiry. For instance, it may be
+desirable to only consider requests for a certain destination service when
+troubleshooting application behavior.
 
-Work is ongoing to extend the Mixer Config API to add support for creating
-new descriptors.
+The configuration instructs Mixer to populate values for these dimensions based
+on attribute values and literal values. For instance, for the `source`
+dimension, the new config requests that the value be taken from the
+`source.service` attribute. If that attribute value is not populated, the rule
+instructs Mixer to use a default value of `"unknown"`. For the `message`
+dimension, a literal value of `"twice the fun!"` will be used for all instances.
 
-### Understanding the rule's access_logs aspect
+The `kind: prometheus` stanza of config defines a *handler* named
+`doublehandler`. The handler `spec` configures how the Prometheus adapter code
+translates received metric instances into prometheus-formatted values that can
+be processed by a Prometheus backend. This configuration specified a new
+Prometheus metric named `double_request_count`, with three labels (matching the
+dimensions configured for `doublerequestcount.metric` instances).
 
-The `access-logs` aspect directs Mixer to send access logs to the `default`
-adapter (typically, `stdioLogger`). The adapter `params` tell Mixer _how_ 
-to generate the access logs for incoming requests based on attributes reported
-by Envoy.
+For `kind: prometheus` handlers, Mixer instances are matched to Prometheus
+metrics via the `instance_name` parameter. The `instance_name` values must be
+the fully-qualified name for Mixer instances (example:
+`doublerequestcount.metric.istio-config-default`).
 
-The `logName` parameter is used by Mixer to identify a logs stream. In
-this task, the log name `combined_log` was used to identify the log
-stream amidst the rest of the Mixer logging output. This name should be
-used to uniquely identify log streams to various logging backends.
+The `kind: rule` stanza of config defines a new *rule* named `doubleprom`. The 
+rule directs Mixer to send all `doublerequestcount.metric` instances to the
+`doublehandler.prometheus` handler. Because there is no `match` clause in the 
+rule, and because the rule is in the configured default configuration namespace 
+(`istio-config-default`), the rule is executed for all requests in the mesh.
 
-The `log` section of the rule describes the shape of the access log that
-Mixer will generate when the rule is applied. In this task, the pre-configured 
-definition for an access log named `accesslog.combined` was used. It
-is based on the well-known [Combined Log Format](https://httpd.apache.org/docs/1.3/logs.html#combined).
+### Understanding the logs configuration
 
-Access logs use a template to generate a plaintext log from a set of
-named arguments. The template is defined in the configured `descriptor`
-for the aspect. In this task, the template used is defined in the
-descriptor named `accesslog.combined`. The set of inputs to the `template_expressions`
-is fixed in the descriptor and cannot be altered in aspect configuration.
+The logs configuration directs Mixer to send log entries to stdout. It uses
+three stanzas (or blocks) of configuration: *instance* configuration, *handler*
+configuration, and *rule* configuration.
 
-The `template_expressions` describe how to translate attribute values
-into the named arguments for the template processing. For example, the
-value for `userAgent` is to be derived directly from the value for the
-attribute `request.headers["user-agent"]`.
+The `kind: logentry` stanza of config defines a schema for generated log entries
+(or *instances*) named `newlog`. This instance configuration tells Mixer _how_
+to generate log entries for requests based on the attributes reported by Envoy.
 
-Mixer supports structured log generation in addition to plaintext logs. In
-this task, a set of `labels` to populate for structured
-log generation was configured. These `labels` are populated from attribute values
-according to attribute expressions, in exactly the same manner as the
-`template_expressions`.
+The `severity` parameter is used to indicate the log level for any generated
+`logentry`. In this example, a literal value of `"warning"` is used. This value will
+be mapped to supported logging levels by a `logentry` *handler*.
 
-While it is common practice to include the same set of arguments in the
-`labels` as in the `template_expressions`, this is not required. Mixer
-will generate the `labels` completely independently of the `template_expressions`.
+The `timestamp` parameter provides time information for all log entries. In this
+example, the time is provided by the attribute value of `request.time`, as
+provided by Envoy.
 
-As with metric descriptors, it is not currently possible to programmatically
-generate new access logs descriptors. Work is ongoing to extend the Mixer
-Config API to add support for creating new descriptors.
+The `variables` parameter allows operators to configure what values should be
+included in each `logentry`. A set of expressions controls the mapping from Istio
+attributes and literal values into the values that constitute a `logentry`.
+In this example, each `logentry` instance has a field named `latency` populated
+with the value from the attribute `response.duration`. If there is no known
+value for `response.duration`, the `latency` field will be set to a duration of
+`0ms`.
+
+The `kind: stdio` stanza of config defines a *handler* named `newhandler`. The
+handler `spec` configures how the `stdio` adapter code processes received
+`logentry` instances. The `severity_levels` parameter controls how `logentry`
+values for the `severity` field are mapped to supported logging levels. Here,
+the value of `"warning"` is mapped to the `WARNING` log level. The
+`outputAsJson` parameter directs the adapter to generate JSON-formatted log
+lines.
+
+The `kind: rule` stanza of config defines a new *rule* named `newlogstdio`. The
+rule directs Mixer to send all `newlog.logentry` instances to the
+`newhandler.stdio` handler. Because the `match` parameter is set to `true`, the
+rule is executed for all requests in the mesh.
+
+A `match: true` expression in the rule specification is not required to
+configure a rule to be executed for all requests. Omitting the entire `match`
+parameter from the `spec` is equivalent to setting `match: true`. It is included
+here to illustrate how to use `match` expressions to control rule execution.
 
 ## What's next
 
-* Learn more about [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html) and [Mixer Config]({{home}}/docs/concepts/policy-and-control/mixer-config.html).
+* Learn more about [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html)
+  and [Mixer
+  Config]({{home}}/docs/concepts/policy-and-control/mixer-config.html).
 
-* Discover the full [Attribute Vocabulary]({{home}}/docs/reference/config/mixer/attribute-vocabulary.html).
+* Discover the full [Attribute
+  Vocabulary]({{home}}/docs/reference/config/mixer/attribute-vocabulary.html).
 
-* Read the reference guide to [Writing Config]({{home}}/docs/reference/writing-config.html).
+* Read the reference guide to [Writing
+  Config]({{home}}/docs/reference/writing-config.html).
 
-* If you are not planning to explore any follow-on tasks, refer to the
-  [BookInfo cleanup]({{home}}/docs/samples/bookinfo.html#cleanup) instructions
-  to shutdown the application and cleanup the associated rules.
+* If you are not planning to explore any follow-on tasks, refer to the [BookInfo
+  cleanup]({{home}}/docs/samples/bookinfo.html#cleanup) instructions to shutdown
+  the application and cleanup the associated rules.
