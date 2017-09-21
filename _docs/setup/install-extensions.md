@@ -11,16 +11,18 @@ type: markdown
 This task shows how to install Istio in a non-kubernetes machine in the same network
 (VPC, VPN) as the kubernetes cluster.
 
+_This document is under construction._
 
 ## Prerequisites
 
-* The machine must have IP connectivity to the nodes and endpoints in the cluster.
+* The machine must have IP connectivity to the nodes and endpoints in the cluster. This
+typically requires same VPC or a VPN connection, as well as a container network that
+provides direct (without NAT or firewall deny) routing to the endpoints. The machine
+is not required to have access to the cluster IP addresses assigned by K8S.
 
 * The control plane (Pilot, Mixer, CA) and kuberentes DNS server must be accessible
-from the VM in order for the machine to access services running in the cluster. This
-is typically done using an [Internal Load Balancer](https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer)
-
-_This document is under construction._
+from the VM. This is typically done using an [Internal Load
+Balancer](https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer).
 
 ## Installation steps
 
@@ -41,24 +43,25 @@ each cluster - the istioInitILB function has an example for GKE using internal l
 This step should result in IP addresses accessible from the VM and allowing direct access
 to the components above.
 
-* Generate the Istio iptables config to be deployed in the VMs. Istio sidecar  will
-use a /usr/local/istio/proxy/cluster.env file, containing the cluster IP address ranges to intercept.
-You can use the 'istioGenerateClusterConfigs' function to generate this file on the admin machine.
+* Generate the Istio 'cluster.env' config to be deployed in the VMs. This file contains
+the cluster IP address ranges to intercept.
 
 Example generated files:
+
    ```bash
 
+   # See istioGenerateClusterConfig in istio_vm_common.sh
    cat /usr/local/istio/proxy/cluster.env
    ISTIO_SERVICE_CIDR=10.23.240.0/20
 
   ```
-* Generate DNS config file to be used in the VMs.
-As an example using dnsmasq for DNS configuration, you can use the 'istioGenerateClusterConfigs' function.
-It is also possible to customize delegation to the kubedns server.
+* Generate DNS config file to be used in the VMs. This will allow apps on the VM to resolve
+cluster service names, which will be intercepted by the sidecar and forwarded.
 
 Example generated files:
    ```bash
 
+   # See istioGenerateClusterConfig in istio_vm_common.sh
    cat /etc/dnsmasq/kubedns
    server=/svc.cluster.local/10.128.0.6
    address=/istio-mixer/10.128.0.7
@@ -77,15 +80,18 @@ Example generated files:
 names and connect to pilot, for example:
 
     ```bash
+
+    # Example
     dig ...
     curl ...
     ```
 
 * If auth is enabled, extract the initial kubernetes secrets and copy them to the machine.
-An example is 'istio_provision_cert' - the generated files must be copied to /etc/certs on
+An example in 'istio_provision_cert' - the generated files must be copied to /etc/certs on
 each machine.
 
-* Install istio debian files,and start 'istio' and 'istio-auth-node-agent' services.
+* Install istio debian files and start 'istio' and 'istio-auth-node-agent' services.
+
 
 After setup, the machine should be able to access services running in the k8s cluster
 or other cluster extension machines.
@@ -93,8 +99,8 @@ or other cluster extension machines.
 
 ## Running services on a cluster extension machine
 
-* Intercept the port with istio sidecar. This is configured in /var/lib/istio/envoy/sidecar.env,
-using the ISTIO_INBOUND_PORTS
+* Configure the sidecar to intercept the port. This is configured in /var/lib/istio/envoy/sidecar.env,
+using the ISTIO_INBOUND_PORTS environment variable.
 
   Example (on the VM running the service):
 
