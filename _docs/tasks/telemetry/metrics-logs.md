@@ -3,10 +3,11 @@ title: Collecting Metrics and Logs
 
 overview: This task shows you how to configure Istio to collect metrics and logs.
 
-order: 110
+order: 10
 
 layout: docs
 type: markdown
+redirect_from: "/docs/tasks/metrics-logs.html"
 ---
 {% include home.html %}
 
@@ -18,7 +19,7 @@ The [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application is used
 as the example application throughout this task.
 
 ## Before you begin
-* [Install Istio](./installing-istio.html) in your cluster and deploy an
+* [Install Istio]({{home}}/docs/setup/) in your cluster and deploy an
   application. This task assumes that Mixer is setup in a default configuration
   (`--configDefaultNamespace=istio-config-default`). If you use a different
   value, update the configuration and commands in this task to match the value.
