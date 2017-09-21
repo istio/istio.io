@@ -6,6 +6,7 @@ order: 30
 
 layout: docs
 type: markdown
+redirect_from: "/docs/tasks/ingress.html"
 ---
 
 This task describes how to configure Istio to expose a service outside of the service mesh cluster.
@@ -17,7 +18,7 @@ to configure ingress behavior.
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](./installing-istio.html).
+  [Installation guide](({{home}}/docs/setup/).
   
 * Make sure your current directory is the `istio` directory.
   

@@ -2,10 +2,11 @@
 title: Configuring Request Routing
 overview: This task shows you how to configure dynamic request routing based on weights and HTTP headers.
 
-order: 50
+order: 10
 
 layout: docs
 type: markdown
+redirect_from: "/docs/tasks/request-routing.html"
 ---
 {% include home.html %}
 
@@ -14,7 +15,7 @@ This task shows you how to configure dynamic request routing based on weights an
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](./installing-istio.html).
+  [Installation guide](({{home}}/docs/setup/).
 
 * Deploy the [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application.
 

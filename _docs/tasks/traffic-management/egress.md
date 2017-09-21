@@ -6,6 +6,7 @@ order: 40
 
 layout: docs
 type: markdown
+redirect_from: "/docs/tasks/egress.html"
 ---
 {% include home.html %}
 
@@ -20,7 +21,7 @@ service or, alternatively, to simply enable direct calls to an external service.
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](./installing-istio.html).
+  [Installation guide](({{home}}/docs/setup/).
 
 * Start the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) sample
   which will be used as a test source for external calls.
