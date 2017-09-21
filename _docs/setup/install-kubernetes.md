@@ -43,7 +43,7 @@ Always check the Release Notes of the Istio version you are installing for detai
 * Install or upgrade the Kubernetes client [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) to match
   version supported by your cluster (version 1.7 or newer for CRD support).
 
-* If you installed one of our v0.1.x alpha versions before please [uninstall](https://istio.io/v-0.1/docs/tasks/installing-istio.html#uninstalling) it first.
+* If you installed one of our v0.1.x versions before please [uninstall](https://istio.io/v-0.1/docs/tasks/installing-istio.html#uninstalling) it first.
 
 ## Installation steps
 
