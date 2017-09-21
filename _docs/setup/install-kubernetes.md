@@ -15,7 +15,8 @@ Quick Start instructions to install and configure Istio in a Kubernetes cluster.
 
 ## Prerequisites
 
-* The following instructions assume you have access to a Kubernetes cluster. To install Kubernetes locally,
+* The following instructions assume you have access to a Kubernetes cluster with version > 1.7.0
+  and  [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/) enabled. To install Kubernetes locally,
   try [minikube](https://kubernetes.io/docs/getting-started-guides/minikube/).
 
 * If you are using [Google Container Engine](https://cloud.google.com/container-engine), find out your cluster
@@ -36,21 +37,18 @@ Quick Start instructions to install and configure Istio in a Kubernetes cluster.
  oc adm policy add-scc-to-user anyuid -z istio-ingress-service-account -n istio-system
  oc adm policy add-scc-to-user anyuid -z istio-egress-service-account -n istio-system
   ```  
-You can expose services either via istio ingress or using default openshift router.
-  
+
 * Install the Kubernetes client [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/), or upgrade to the latest
   version supported by your cluster.
 
-* If you previously installed Istio on this cluster, please uninstall first by following the
-  [uninstalling]({{home}}/docs/setup/install-kubernetes.html#uninstalling) steps at the end of this page.
+* Upgrading Istio is not yet supported. If you previously installed Istio on this cluster, please uninstall first by following the
+  uninstalling steps and yaml files matching your current version.
+  For the {{ site.data.istio.version }} release, the [uninstalling]({{home}}/docs/setup/install-kubernetes.html#uninstalling) steps are located at the end of this page.
 
 ## Installation steps
 
-You can use the [Istio Helm chart](https://github.com/kubernetes/charts/tree/master/incubator/istio#installing-the-chart) to install, or follow the steps below.
-
-For the {{ site.data.istio.version }} release, Istio must be installed in the same Kubernetes namespace as the applications. 
-Instructions below will deploy Istio in the
-default namespace. They can be modified for deployment in a different namespace.
+Starting with the {{ site.data.istio.version }} release, Istio is installed in its own `istio-system` namespace,
+and can manage micro-services from all other namespaces.
 
 1. Go to the [Istio release](https://github.com/istio/istio/releases) page, to download the installation file corresponding to your OS or run 
    ```bash
@@ -73,59 +71,29 @@ default namespace. They can be modified for deployment in a different namespace.
    export PATH=$PWD/bin:$PATH
    ```
 
-1. Run the following command to determine if your cluster has 
-   [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/) enabled:
+1. Install Istio's core components.  Choose one of the two _**mutually exclusive**_ options below:
 
-   ```bash
-   kubectl api-versions | grep rbac
-   ```
-   * If the command displays an error, or does not display anything, it means the cluster does not support RBAC, and you can proceed to step 5 below.
-   
-   * If the command displays 'beta' version, or both 'alpha' and 'beta', please apply istio-rbac-beta.yaml configuration as show below:
-   
-   *(Note: If you deploy Istio in another namespace than the `default` namespace, replace the `namespace: default` line 
-   in all ClusterRoleBinding resources with the actual namespace.)*
-   
-   ```bash
-   kubectl apply -f install/kubernetes/istio-rbac-beta.yaml
-   ```
-   If you get an error
-   ```
-   Error from server (Forbidden): error when creating "install/kubernetes/istio-rbac-beta.yaml": clusterroles.rbac.authorization.k8s.io "istio-pilot" is forbidden: attempt to grant extra privileges: [{[*] [istio.io] [istioconfigs] [] []} {[*] [istio.io] [istioconfigs.istio.io] [] []} {[*] [extensions] [thirdpartyresources] [] []} {[*] [extensions] [thirdpartyresources.extensions] [] []} {[*] [extensions] [ingresses] [] []} {[*] [] [configmaps] [] []} {[*] [] [endpoints] [] []} {[*] [] [pods] [] []} {[*] [] [services] [] []}] user=&{user@example.org [...]
-   ```
-   You need to add the following: (replace the name with your own)
-   ```
-   kubectl create clusterrolebinding myname-cluster-admin-binding --clusterrole=cluster-admin --user=myname@example.org
-   ```
-   
-   * If the command displays only 'alpha' version, please apply istio-rbac-alpha.yaml configuration:
-   
-   *(Note: If you deploy Istio in another namespace than the `default` namespace, replace the `namespace: default` line 
-      in all ClusterRoleBinding resources with the actual namespace.)*
-      
-   ```bash
-   kubectl apply -f install/kubernetes/istio-rbac-alpha.yaml
-   ```
-
-1. Install Istio's core components .
-   There are two mutually exclusive options at this stage:
-
-    * Install Istio without enabling [Istio Auth]({{home}}/docs/concepts/network-and-auth/auth.html) feature:
+    * Install Istio without enabling [authentication]({{home}}/docs/concepts/network-and-auth/auth.html) between sidecars with [mutual TLS authentication](https://en.wikipedia.org/wiki/Mutual_authentication).
+    We recommend this option for clusters with existing applications, to allow new applications to communicate with the old applications,
+    and for clusters that use [liveliness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/), headless services, or statefulsets.
 
       ```bash
       kubectl apply -f install/kubernetes/istio.yaml
       ```
-   
-      This command will install Pilot, Mixer, Ingress-Controller, Egress-Controller core components.
 
-   * Install Istio and enable [Istio Auth]({{home}}/docs/concepts/network-and-auth/auth.html) feature
-   (This deploys a CA in the namespace and enables
-   [mTLS](https://en.wikipedia.org/wiki/Mutual_authentication) between the services):
+   * Install Istio and enable [authentication]({{home}}/docs/concepts/network-and-auth/auth.html) between sidecars with [mutual TLS authentication](https://en.wikipedia.org/wiki/Mutual_authentication):
 
      ```bash
      kubectl apply -f install/kubernetes/istio-auth.yaml
      ```
-     This command will install Pilot, Mixer, Ingress-Controller, and Egress-Controller, and the Istio CA (Certificate Authority).
+
+   This creates the `istio-system` namespace, all necessary RBAC permissions, and deploys Pilot, Mixer, Istio-Ingress, Istio-Egress, and Istio-CA (Certificate Authority).
+
+1. *Optional:* If you cluster has Kubernetes alpha features enabled, and you wish to enable transparent injection of sidecar, please install the Istio-Initializer:
+
+    ```bash
+     kubectl apply -f install/kubernetes/istio-initializer.yaml
+     ```
 
 1. *Optional:* Install addons for metric collection and/or request tracing as described in the following sections.
 
@@ -175,10 +143,10 @@ After running some services -- for example, after installing the [BookInfo]({{ho
 ## Verifying the installation
 
 1. Ensure the following Kubernetes services were deployed: "istio-pilot", "istio-mixer", "istio-ingress", "istio-egress",
-   "istio-ca" (if Istio Auth is enabled), and, optionally, "grafana", "prometheus' and "servicegraph").
+   "istio-ca", and, optionally, "grafana", "prometheus' and "servicegraph".
 
    ```bash
-   kubectl get svc
+   kubectl get svc -n istio-system
    ```
    ```bash
    NAME            CLUSTER-IP      EXTERNAL-IP       PORT(S)                       AGE
@@ -194,14 +162,14 @@ After running some services -- for example, after installing the [BookInfo]({{ho
 
    Note that if your cluster is running in an environment that does not support an external load balancer
    (e.g., minikube), the `EXTERNAL-IP` of `istio-ingress` will say `<pending>` and you will need to access the
-   application using the service NodePort or port-forwarding instead.
+   application using the service NodePort, or use port-forwarding instead.
 
 2. Check the corresponding Kubernetes pods were deployed and all containers are up and running:
-   "istio-pilot-\*", "istio-mixer-\*", "istio-ingress-\*", "istio-egress-\*", "istio-ca-\*" (if Istio Auth is enabled),
+   "istio-pilot-\*", "istio-mixer-\*", "istio-ingress-\*", "istio-egress-\*", "istio-ca-\*" ,
    and, optionally, "grafana-\*", "prometheus-\*' and "servicegraph-\*".
 
    ```bash
-   kubectl get pods
+   kubectl get pods -n istio-system
    ```
    ```bash
    grafana-3836448452-vhc1v         1/1       Running   0          5h
@@ -221,7 +189,7 @@ You can now deploy your own application, or one of the sample applications provi
 for example [BookInfo]({{home}}/docs/samples/bookinfo.html). Note that the application should use HTTP/1.1
 or HTTP/2.0 protocol for all its HTTP traffic; HTTP/1.0 is not supported.
 
-When deploying the application, you must
+Unless you installed the Istio-Initializer as shown above, when deploying the application, you must
 use [istioctl kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject) to automatically inject
 Envoy containers in your application pods:
 
@@ -231,52 +199,32 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 
 ## Uninstalling
 
-You can use the [Istio Helm chart](https://github.com/kubernetes/charts/tree/master/incubator/istio#uninstalling-the-chart) to uninstall, or follow the steps below.
+1. If you installed Istio addons, uninstall them:
 
-1. Uninstall Istio core components:
+   ```bash
+   kubectl delete -f install/kubernetes/addons/
+   ```
 
-   * If Istio was installed without Istio auth feature:
+
+1. Uninstall Istio core components. For the {{ site.data.istio.version }} release, the uninstall will delete the RBAC permissions, the `istio-system` namespace, and hierarchically all resources under it.
+   It is safe to ignore errors for non-existent resources, since they may have been deleted hierarchically.
+
+   * If Istio was installed with mutual TLS authentication disabled:
 
      ```bash
      kubectl delete -f install/kubernetes/istio.yaml
      ```
 
-   * If Istio was installed with auth feature enabled:
+   * If Istio was installed with mutual TLS authentication enabled:
 
      ```bash
      kubectl delete -f install/kubernetes/istio-auth.yaml
      ```
 
-2. Uninstall RBAC Istio roles:
-
-   * If beta version was installed:
-
-     ```bash
-     kubectl delete -f install/kubernetes/istio-rbac-beta.yaml
-     ```
-
-   * If alpha version was installed:
-
-     ```bash
-     kubectl delete -f install/kubernetes/istio-rbac-alpha.yaml
-     ```
-
-3. If you installed Istio addons, uninstall them:
+1. Delete Istio's [Kubernetes CRDs](https://kubernetes.io/docs/tasks/access-kubernetes-api/extend-api-custom-resource-definitions/):
 
    ```bash
-   kubectl delete -f install/kubernetes/addons/
-   ```
-   and, if Jaeger was installed,
-   ```bash
-   kubectl delete -f https://raw.githubusercontent.com/jaegertracing/jaeger-kubernetes/master/all-in-one/jaeger-all-in-one-template.yml
-   ```
-
-
-4. Delete Istio Kubernetes [TPRs](https://kubernetes.io/docs/tasks/access-kubernetes-api/extend-api-third-party-resource):
-
-   ```bash
-   kubectl delete istioconfigs --all
-   kubectl delete thirdpartyresource istio-config.istio.io
+   kubectl get crd -o 'jsonpath={.items[*].metadata.name}' | grep istio | xargs kubectl delete crd
    ```
 
 ## What's next
