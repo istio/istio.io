@@ -14,34 +14,37 @@ Quick Start instructions to install and configure Istio in a Kubernetes cluster.
 
 
 ## Prerequisites
+The following instructions assume you have access to a Kubernetes **1.7 or newer** cluster
+and  [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/) enabled.
+Always check the Release Notes of the Istio version you are installing for detailed requirements and limitations.
 
-* The following instructions assume you have access to a Kubernetes cluster with version > 1.7.0
-  and  [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/) enabled. To install Kubernetes locally,
+* Depending on your Kubernetes provider:
+  * For a local install, you can
   try [minikube](https://kubernetes.io/docs/getting-started-guides/minikube/).
 
-* If you are using [Google Container Engine](https://cloud.google.com/container-engine), find out your cluster
+  * If you are using [Google Container Engine](https://cloud.google.com/container-engine), find out your cluster
   name and zone, and fetch credentials for kubectl:
-  
-  ```bash
-  gcloud container clusters get-credentials <cluster-name> --zone <zone> --project <project-name>
-  ```
 
-* If you are using [IBM Bluemix Container Service](https://www.ibm.com/cloud-computing/bluemix/containers), find out your cluster name, and fetch credentials for kubectl:
+    ```bash
+    gcloud container clusters get-credentials <cluster-name> --zone <zone> --project <project-name>
+    ```
 
-  ```bash
-  $(bx cs cluster-config <cluster-name>|grep "export KUBECONFIG")
-  ```
-* If you are using [Openshift Origin](https://www.openshift.org) version 3.7 or later, Openshift by default does not allow containers running with uid 0, you can enable this for Istio's service accounts for ingress and egress as follows:
+  * If you are using [IBM Bluemix Container Service](https://www.ibm.com/cloud-computing/bluemix/containers), find out your cluster name, and fetch credentials for kubectl:
 
-  ```bash
- oc adm policy add-scc-to-user anyuid -z istio-ingress-service-account -n istio-system
- oc adm policy add-scc-to-user anyuid -z istio-egress-service-account -n istio-system
-  ```  
+    ```bash
+    $(bx cs cluster-config <cluster-name>|grep "export KUBECONFIG")
+    ```
+  * If you are using [Openshift Origin](https://www.openshift.org) version 3.7 or later, Openshift by default does not allow containers running with uid 0, you can enable this for Istio's service accounts for ingress and egress as follows:
+
+    ```bash
+    oc adm policy add-scc-to-user anyuid -z istio-ingress-service-account -n istio-system
+    oc adm policy add-scc-to-user anyuid -z istio-egress-service-account -n istio-system
+    ```  
 
 * Install the Kubernetes client [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/), or upgrade to the latest
-  version supported by your cluster.
+  version supported by your cluster (version >1.7 and should match your cluster's).
 
-* Upgrading Istio is not yet supported. If you previously installed Istio on this cluster, please uninstall first by following the
+* Note that upgrading Istio is not yet supported. If you previously installed Istio on this cluster, please uninstall first by following the
   uninstalling steps and yaml files matching your current version.
   For the {{ site.data.istio.version }} release, the [uninstalling]({{home}}/docs/setup/install-kubernetes.html#uninstalling) steps are located at the end of this page.
 
@@ -50,13 +53,13 @@ Quick Start instructions to install and configure Istio in a Kubernetes cluster.
 Starting with the {{ site.data.istio.version }} release, Istio is installed in its own `istio-system` namespace,
 and can manage micro-services from all other namespaces.
 
-1. Go to the [Istio release](https://github.com/istio/istio/releases) page, to download the installation file corresponding to your OS or run 
+1. Go to the [Istio release](https://github.com/istio/istio/releases) page, to download the installation file corresponding to your OS or run
    ```bash
    curl -L https://git.io/getIstio | sh -
-   ``` 
+   ```
    to download and extract the latest release automatically (on MacOS and Ubuntu).
 
-1. Extract the installation file, and change directory to the location where the files were extracted. The following instructions 
+1. Extract the installation file, and change directory to the location where the files were extracted. The following instructions
    are relative to this installation directory.
    The installation directory contains:
     * yaml installation files for Kubernetes
@@ -132,7 +135,7 @@ The ServiceGraph addon provides a textual (JSON) representation and a graphical 
 kubectl port-forward $(kubectl get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
 ```
 
-The ServiceGraph service provides both a textual (JSON) representation (via `/graph`) and a graphical visualization (via `/dotviz`) of the underlying service graph. To view the graphical visualization (assuming that you have configured port forwarding as per the previous snippet), open your browser at: [http://localhost:8088/dotviz](http://localhost:8088/dotviz). 
+The ServiceGraph service provides both a textual (JSON) representation (via `/graph`) and a graphical visualization (via `/dotviz`) of the underlying service graph. To view the graphical visualization (assuming that you have configured port forwarding as per the previous snippet), open your browser at: [http://localhost:8088/dotviz](http://localhost:8088/dotviz).
 
 After running some services -- for example, after installing the [BookInfo]({{home}}/docs/samples/bookinfo.html)  sample application and generating some load on the application (e.g., executing `curl` requests in a `while` loop) -- the resulting service graph should look something like this:
 
