@@ -15,7 +15,7 @@ Quick Start instructions to install and configure Istio in a Kubernetes cluster.
 
 ## Prerequisites
 
-The following instructions assume you have access to a Kubernetes **1.7 or newer** cluster
+The following instructions assume you have access to a Kubernetes **1.7.4 or newer** cluster
 with [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/) enabled.
 
   > Note: Istio 0.2.x is not backward compatible with 0.1.x. Uninstall any 0.1.x
@@ -24,8 +24,8 @@ with [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authori
   > sidecar supplied by 0.2.x release.
 
 * Depending on your Kubernetes provider:
-  * To install Istio locally, setup
-    [minikube](https://kubernetes.io/docs/getting-started-guides/minikube/).
+  * To install Istio locally, install the latest version of
+    [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) (version 0.22.1 or later).
 
   * If you are using
     [Google Container Engine](https://cloud.google.com/container-engine),
