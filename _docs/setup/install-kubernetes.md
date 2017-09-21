@@ -19,7 +19,7 @@ The following instructions assume you have access to a Kubernetes **1.7.4 or new
 with [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/) enabled.
 
   > Note: If you installed Istio 0.1.x please
-  > [Uninstall](https://istio.io/v-0.1/docs/tasks/installing-istio.html#uninstalling)
+  > [uninstall](https://istio.io/v-0.1/docs/tasks/installing-istio.html#uninstalling)
   > it completely before installing the newer version (including the Istio sidecar
   > for all Istio enabled application pods).
 
