@@ -33,9 +33,7 @@ Note that Istio pilot agent is running inside each app container so as to coordi
 1. First step is to generate a configuration file which will be used by `istioctl` and Istio Discovery
 
     ```bash
-    kubectl config set-cluster local --server=http://172.28.0.13:8080
-    kubectl config set-context local --cluster=local
-    kubectl config use-context local
+    istioctl context-create --api-server http://172.28.0.13:8080
     ```
     
 1. Change directory to the root of the Istio installation directory.
