@@ -14,36 +14,49 @@ Quick Start instructions to install and configure Istio in a Kubernetes cluster.
 
 
 ## Prerequisites
+
 The following instructions assume you have access to a Kubernetes **1.7 or newer** cluster
-and  [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/) enabled.
-Always check the Release Notes of the Istio version you are installing for detailed requirements and limitations.
+with [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/) enabled.
+
+  > Note: Istio 0.2.x is not backward compatible with 0.1.x. Uninstall any 0.1.x
+  > version of Istio before installing the newer version. Any applications
+  > using Istio sidecar from 0.1.x version must upgrade to using the
+  > sidecar supplied by 0.2.x release.
 
 * Depending on your Kubernetes provider:
-  * To install Istio locally, setup [minikube](https://kubernetes.io/docs/getting-started-guides/minikube/).
+  * To install Istio locally, setup
+    [minikube](https://kubernetes.io/docs/getting-started-guides/minikube/).
 
-  * If you are using [Google Container Engine](https://cloud.google.com/container-engine), find out your cluster
-  name and zone, and fetch credentials for kubectl:
+  * If you are using
+    [Google Container Engine](https://cloud.google.com/container-engine),
+    find out your cluster name and zone, and fetch credentials for kubectl:
 
     ```bash
     gcloud container clusters get-credentials <cluster-name> --zone <zone> --project <project-name>
     ```
 
-  * If you are using [IBM Bluemix Container Service](https://www.ibm.com/cloud-computing/bluemix/containers), find out your cluster name, and fetch credentials for kubectl:
+  * If you are using
+    [IBM Bluemix Container Service](https://www.ibm.com/cloud-computing/bluemix/containers),
+    find out your cluster name, and fetch credentials for kubectl:
 
     ```bash
     $(bx cs cluster-config <cluster-name>|grep "export KUBECONFIG")
     ```
-  * If you are using [Openshift Origin](https://www.openshift.org) version 3.7 or later, Openshift by default does not allow containers running with uid 0, you can enable this for Istio's service accounts for ingress and egress as follows:
+
+  * If you are using [Openshift Origin](https://www.openshift.org) version
+    3.7 or later, Openshift by default does not allow containers running
+    with uid 0, you can enable this for Istio's service accounts for
+    ingress and egress as follows:
 
     ```bash
     oc adm policy add-scc-to-user anyuid -z istio-ingress-service-account -n istio-system
     oc adm policy add-scc-to-user anyuid -z istio-egress-service-account -n istio-system
     ```  
 
-* Install or upgrade the Kubernetes client [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) to match
-  version supported by your cluster (version 1.7 or newer for CRD support).
-
-* If you installed one of our v0.1.x versions before please [uninstall](https://istio.io/v-0.1/docs/tasks/installing-istio.html#uninstalling) it first.
+* Install or upgrade the Kubernetes CLI
+  [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) to
+  match the version supported by your cluster (version 1.7 or newer for CRD
+  support).
 
 ## Installation steps
 
@@ -73,21 +86,23 @@ and can manage micro-services from all other namespaces.
 
 1. Install Istio's core components.  Choose one of the two _**mutually exclusive**_ options below:
 
-    * Install Istio without enabling [authentication]({{home}}/docs/concepts/network-and-auth/auth.html) between sidecars with [mutual TLS authentication](https://en.wikipedia.org/wiki/Mutual_authentication).
-    We recommend this option for clusters with existing applications, to allow new applications to communicate with the old applications,
-    and for clusters that use [liveliness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/), headless services, or statefulsets.
+    a. Install Istio without enabling [authentication]({{home}}/docs/concepts/network-and-auth/auth.html) between sidecars with [mutual TLS authentication](https://en.wikipedia.org/wiki/Mutual_authentication).
+    We recommend this option for clusters with existing applications, applications where services with Istio sidecar need to be able to communicate with other non-Istio Kubernetes services, as well as 
+    applications that use [liveliness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/), headless services, or statefulsets.
 
       ```bash
       kubectl apply -f install/kubernetes/istio.yaml
       ```
 
-   * Install Istio and enable [authentication]({{home}}/docs/concepts/network-and-auth/auth.html) between sidecars with [mutual TLS authentication](https://en.wikipedia.org/wiki/Mutual_authentication):
+    _**OR**_
+
+    b. Install Istio and enable [authentication]({{home}}/docs/concepts/network-and-auth/auth.html) between sidecars with [mutual TLS authentication](https://en.wikipedia.org/wiki/Mutual_authentication):
 
      ```bash
      kubectl apply -f install/kubernetes/istio-auth.yaml
      ```
 
-   This creates the `istio-system` namespace, all necessary RBAC permissions, and deploys Pilot, Mixer, Istio-Ingress, Istio-Egress, and Istio-CA (Certificate Authority).
+   Both options create the `istio-system` namespace along with the required RBAC permissions, and deploy Istio-Pilot, Istio-Mixer, Istio-Ingress, Istio-Egress, and Istio-CA (Certificate Authority).
 
 1. *Optional:* If you cluster has Kubernetes alpha features enabled, and you wish to enable transparent injection of sidecar, please install the Istio-Initializer:
 
