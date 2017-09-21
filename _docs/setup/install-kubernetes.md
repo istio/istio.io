@@ -19,8 +19,7 @@ and  [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authori
 Always check the Release Notes of the Istio version you are installing for detailed requirements and limitations.
 
 * Depending on your Kubernetes provider:
-  * For a local install, you can
-  try [minikube](https://kubernetes.io/docs/getting-started-guides/minikube/).
+  * To install Istio locally, setup [minikube](https://kubernetes.io/docs/getting-started-guides/minikube/).
 
   * If you are using [Google Container Engine](https://cloud.google.com/container-engine), find out your cluster
   name and zone, and fetch credentials for kubectl:
