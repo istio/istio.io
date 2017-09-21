@@ -15,7 +15,7 @@ This task shows how to use Istio to control access to a service.
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](./installing-istio.html).
+  [Installation guide](({{home}}/docs/setup/).
 
 * Deploy the [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application.
 

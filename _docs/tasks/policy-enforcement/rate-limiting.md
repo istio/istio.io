@@ -15,7 +15,7 @@ This task shows you how to use Istio to dynamically limit the traffic to a servi
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide]({{home}}/docs/setup/installing-istio.html).
+  [Installation guide](({{home}}/docs/setup/).
 
 * Deploy the [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application.
 

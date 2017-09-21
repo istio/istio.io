@@ -19,7 +19,7 @@ The [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application is used
 as the example application throughout this task.
 
 ## Before you begin
-* [Install Istio](./installing-istio.html) in your cluster and deploy an
+* [Install Istio]({{home}}/docs/setup/) in your cluster and deploy an
   application. This task assumes that Mixer is setup in a default configuration
   (`--configDefaultNamespace=istio-config-default`). If a different value is
   used, the configuration in this Task (and commands to be issued) must be
