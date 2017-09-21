@@ -22,8 +22,8 @@ This task shows how to use Istio to control access to a service.
   test user "jason" to version v2 and requests from any other user to v3.
 
   ```bash
-  istioctl create -f samples/apps/bookinfo/route-rule-reviews-test-v2.yaml
-  istioctl create -f samples/apps/bookinfo/route-rule-reviews-v3.yaml
+  istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+  istioctl create -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
   ```
   
   > Note: if you have conflicting rules that you set in previous tasks,
@@ -166,8 +166,8 @@ Istio also supports attribute-based whitelists and blacklists.
 * Remove the application routing rules:
 
   ```
-  istioctl delete -f samples/apps/bookinfo/route-rule-reviews-test-v2.yaml
-  istioctl delete -f samples/apps/bookinfo/route-rule-reviews-v3.yaml
+  istioctl delete -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+  istioctl delete -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
   ```
 
 ## What's next

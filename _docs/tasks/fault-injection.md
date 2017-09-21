@@ -26,8 +26,8 @@ This task shows how to inject delays and test the resiliency of your application
 
 
   ```bash
-  istioctl create -f samples/apps/bookinfo/rules/route-rule-all-v1.yaml
-  istioctl create -f samples/apps/bookinfo/rules/route-rule-reviews-test-v2.yaml
+  istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
+  istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
   ```
   
 ## Fault injection
@@ -40,7 +40,7 @@ continue without any errors.
 1. Create a fault injection rule to delay traffic coming from user "jason" (our test user)
 
    ```bash
-   istioctl create -f samples/apps/bookinfo/rules/route-rule-ratings-test-delay.yaml
+   istioctl create -f samples/bookinfo/kube/route-rule-ratings-test-delay.yaml
    ```
 
    Confirm the rule is created:
