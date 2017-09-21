@@ -24,19 +24,24 @@ _This document is under construction._
 
 ## Installation steps
 
-Example functions to help with the setup are available in install/tools/istio_vm_common.sh -
-depending on cluster and environment you may need to tweak them. The functions need to run
-on an cluster admin machine, with permissions to kubernetes and the VM.
+Setup consists of preparing the cluster for extensions and installing and configuring each VM.
 
-An example script to run on a machine is available in install/tools/istio_vm_setup.sh.
+Example functions to help with the cluster setup are available in
+[istio_vm_common.sh](https://raw.githubusercontent.com/istio/istio/master/install/tools/istio_vm_common.sh).
+Depending on cluster and environment you may need to adjust them for your cluster and VM.
+The scripts need to be run by a cluster admin, with permissions to kubernetes and the VM.
+
+An example script to configure a machine is available in [istio_vm_setup.sh](https://raw.githubusercontent.com/istio/istio/master/install/tools/istio_vm_setup.sh).
 You should customize it to match your normal provisioning toos and DNS requirements.
+
+### Preparing the K8s cluster
 
 * Setup internal load balancers for Kube DNS, Pilot, Mixer and CA. This step is specific to
 each cluster - the istioInitILB function has an example for GKE using internal load balancers.
 This step should result in IP addresses accessible from the VM and allowing direct access
 to the components above.
 
-* Generate iptables config files to be used in the VMs. Istio sidecar  will
+* Generate the Istio iptables config to be deployed in the VMs. Istio sidecar  will
 use a /usr/local/istio/proxy/cluster.env file, containing the cluster IP address ranges to intercept.
 You can use the 'istioGenerateClusterConfigs' function to generate this file on the admin machine.
 
@@ -47,9 +52,9 @@ Example generated files:
    ISTIO_SERVICE_CIDR=10.23.240.0/20
 
   ```
-
 * Generate DNS config file to be used in the VMs.
 As an example using dnsmasq for DNS configuration, you can use the 'istioGenerateClusterConfigs' function.
+It is also possible to customize delegation to the kubedns server.
 
 Example generated files:
    ```bash
@@ -63,10 +68,13 @@ Example generated files:
 
   ```
 
-* Copy the config files to each machine joining the cluster, and make sure dnsmasq is installed
-and works properly.
+### Setting up the machines
 
-To verify, check that the VM can resolve names and connect to pilot, for example:
+* Copy the config files and istio debian files to each machine joining the cluster.
+
+* Configure and verify DNS settings - this may require installing dnsmasq, adding it to
+/etc/resolv.conf directly or via DHCP scripts.  To verify, check that the VM can resolve
+names and connect to pilot, for example:
 
     ```bash
     dig ...
@@ -77,12 +85,11 @@ To verify, check that the VM can resolve names and connect to pilot, for example
 An example is 'istio_provision_cert' - the generated files must be copied to /etc/certs on
 each machine.
 
-* Download istio debian files and install them on the machines, and start 'istio' and
-'istio-auth-node-agent' services.
-
+* Install istio debian files,and start 'istio' and 'istio-auth-node-agent' services.
 
 After setup, the machine should be able to access services running in the k8s cluster
 or other cluster extension machines.
+
 
 ## Running services on a cluster extension machine
 
@@ -103,13 +110,10 @@ services that are not backed by Kubernetes pods.
    Example, on a machine with permissions to modify k8s services:
    ```bash
 
-   istioctl register SERVICENAME ...
+   istioctl register ...
 
    ```
 
 After the setup, k8s pods and other cluster extensions should be able to access the
 services running on the machine.
 
-## Debugging cluster extensions
-
-...
