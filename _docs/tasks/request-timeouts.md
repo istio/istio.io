@@ -24,7 +24,7 @@ This task shows you how to setup request timeouts in Envoy using Istio.
 > Note: This assumes you don't have any routes set yet. If you've already created route rules for the sample, you'll need to use `replace` rather than `create` in the following command.
   
   ```bash
-  istioctl create -f samples/apps/bookinfo/rules/route-rule-all-v1.yaml
+  istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
   ```
 
 ## Request timeouts

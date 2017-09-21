@@ -22,11 +22,11 @@ service or, alternatively, to simply enable direct calls to an external service.
 * Setup Istio by following the instructions in the
   [Installation guide](./installing-istio.html).
 
-* Start the [sleep](https://github.com/istio/istio/tree/master/samples/apps/sleep) sample
+* Start the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) sample
   which will be used as a test source for external calls.
   
   ```bash
-  kubectl apply -f <(istioctl kube-inject -f samples/apps/sleep/sleep.yaml)
+  kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
   ```
 
   Note that any pod that you can `exec` and `curl` from would do.
@@ -75,7 +75,7 @@ from within your Istio cluster. In this task we will use
    EOF
    ```
    
-The `metadata.name` field is the url your internal apps will use when calling the external service.
+The `metadata.name` field is the url your internal applications will use when calling the external service.
 The `spec.externalName` is the DNS name of the external service.
 Egress Envoy expects external services to be listening on either port `80` for
 HTTP or port `443` for HTTPS.
@@ -123,13 +123,13 @@ The values used for internal IP range(s), however, depends on where your cluster
 For example, with Minikube the range is 10.0.0.1/24, so you would start the sleep service like this:
 
 ```bash
-kubectl apply -f <(istioctl kube-inject -f samples/apps/sleep/sleep.yaml --includeIPRanges=10.0.0.1/24)
+kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=10.0.0.1/24)
 ```
 
 On IBM Bluemix, use:
 
 ```bash
-kubectl apply -f <(istioctl kube-inject -f samples/apps/sleep/sleep.yaml --includeIPRanges=172.30.0.0/16,172.20.0.0/16,10.10.10.0/24)
+kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=172.30.0.0/16,172.20.0.0/16,10.10.10.0/24)
 ```
 
 On Google Container Engine (GKE) the ranges are not fixed, so you will
@@ -143,13 +143,13 @@ clusterIpv4Cidr: 10.4.0.0/14
 servicesIpv4Cidr: 10.7.240.0/20
 ```
 ```bash
-kubectl apply -f <(istioctl kube-inject -f samples/apps/sleep/sleep.yaml --includeIPRanges=10.4.0.0/14,10.7.240.0/20)
+kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=10.4.0.0/14,10.7.240.0/20)
 ```
 
 On Azure Container Service(ACS), use:
 
 ```bash
-kubectl apply -f <(istioctl kube-inject -f samples/apps/sleep/sleep.yaml --includeIPRanges=10.244.0.0/16,10.240.0.0/16)
+kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=10.244.0.0/16,10.240.0.0/16)
 ```
 
 
@@ -187,10 +187,10 @@ cloud provider specific knowledge and configuration.
    kubectl delete service externalbin securegoogle 
    ```
 
-1. Shutdown the [sleep](https://github.com/istio/istio/tree/master/samples/apps/sleep) service.
+1. Shutdown the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) service.
 
    ```bash
-   kubectl delete -f samples/apps/sleep/sleep.yaml
+   kubectl delete -f samples/sleep/sleep.yaml
    ```
 
 

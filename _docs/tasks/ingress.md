@@ -21,11 +21,11 @@ to configure ingress behavior.
   
 * Make sure your current directory is the `istio` directory.
   
-* Start the [httpbin](https://github.com/istio/istio/tree/master/samples/apps/httpbin) sample,
+* Start the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) sample,
   which will be used as the destination service to be exposed externally.
 
   ```bash
-  kubectl apply -f <(istioctl kube-inject -f samples/apps/httpbin/httpbin.yaml)
+  kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml)
   ```
 
 ## Configuring ingress (HTTP)
@@ -304,10 +304,10 @@ We also showed how to control the ingress traffic using an Istio route rule.
    kubectl delete secret ingress-secret
    ```
 
-1. Shutdown the [httpbin](https://github.com/istio/istio/tree/master/samples/apps/httpbin) service.
+1. Shutdown the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) service.
 
    ```bash
-   kubectl delete -f samples/apps/httpbin/httpbin.yaml
+   kubectl delete -f samples/httpbin/httpbin.yaml
    ```
 
 

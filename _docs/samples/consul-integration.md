@@ -43,7 +43,7 @@ Note that Istio pilot agent is running inside each app container so as to coordi
 1. Bring up the application containers in docker:
 
     ```bash
-    docker-compose -f samples/apps/bookinfo/consul/docker-compose.yaml up -d
+    docker-compose -f samples/bookinfo/consul/docker-compose.yaml up -d
     ```
     
 1. Confirm all docker containers are running:
@@ -71,5 +71,5 @@ Note that Istio pilot agent is running inside each app container so as to coordi
 Remove all docker containers:
 
   ```bash
-  docker-compose -f samples/apps/bookinfo/consul/docker-compose.yaml down
+  docker-compose -f samples/bookinfo/consul/docker-compose.yaml down
   ```
