@@ -172,7 +172,7 @@ If you are using the Docker Compose version of the demo, run the following
 command to clean up:
 
   ```bash
-  docker-compose -f samples/apps/bookinfo/consul/docker-compose.yaml down
+  docker-compose -f samples/bookinfo/consul/docker-compose.yaml down
   ```
 
 ## What's next

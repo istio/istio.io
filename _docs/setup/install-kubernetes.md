@@ -73,7 +73,7 @@ and can manage micro-services from all other namespaces.
    are relative to this installation directory.
    The installation directory contains:
     * Installation `.yaml` files for Kubernetes in `install/`
-    * Sample apps in `samples/`
+    * Sample applications in `samples/`
     * The `istioctl` client binary in the `bin/` directory. `istioctl` is used when manually injecting Envoy as a sidecar proxy, and useful for creating routing rules and policies.
     * The `istio.VERSION` configuration file.
 
