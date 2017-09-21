@@ -18,11 +18,11 @@ The [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application is used
 as the example application throughout this task.
 
 ## Before you begin
-* [Install Istio](./installing-istio.html) in your kubernetes cluster and deploy
-  an application. This task assumes that Mixer is setup in a default
-  configuration (`--configDefaultNamespace=istio-config-default`). If a
-  different value is used, the configuration in this Task (and commands to be
-  issued) must be updated to match.
+* [Install Istio](./installing-istio.html) in your cluster and deploy an
+  application. This task assumes that Mixer is setup in a default configuration
+  (`--configDefaultNamespace=istio-config-default`). If a different value is
+  used, the configuration in this Task (and commands to be issued) must be
+  updated to match.
 
 * Install the optional add-on [Prometheus](https://prometheus.io). Prometheus
   will be used to verify task success.
@@ -123,17 +123,17 @@ as the example application throughout this task.
 1. Push the new configuration.
 
    ```bash
-   kubectl -n istio-config-default apply -f new_telemetry.yaml
+   istioctl apply -f new_telemetry.yaml
    ```
 
-   Expected output:
+   The expected output is similar to:
    ```
-   metric "doublerequestcount" configured
-   prometheus "doublehandler" configured
-   rule "doubleprom" configured
-   logentry "newlog" configured
-   stdio "newhandler" configured
-   rule "newlogstdio" configured
+   Created config metric/istio-config-default/doublerequestcount at revision 1973035
+   Created config prometheus/istio-config-default/doublehandler at revision 1973036
+   Created config rule/istio-config-default/doubleprom at revision 1973037
+   Created config logentry/istio-config-default/newlog at revision 1973038
+   Created config stdio/istio-config-default/newhandler at revision 1973039
+   Created config rule/istio-config-default/newlogstdio at revision 1973041
    ```
 
 1. Send traffic to the sample application.
@@ -150,16 +150,17 @@ as the example application throughout this task.
 
 1. Verify that the new metric values are being generated and collected.
 
-   Setup port-forwarding for Prometheus:
+   In a Kubernetes environment, setup port-forwarding for Prometheus by
+   executing the following command:
 
    ```bash
    kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
    ```
 
-   Then open [this
-   link](http://localhost:9090/graph#%5B%7B%22range_input%22%3A%221h%22%2C%22expr%22%3A%22double_request_count%22%2C%22tab%22%3A1%7D%5D)
-   in a web browser to execute a query for values of the `double_request_count`
-   metric in the Prometheus UI. The table displayed in the `Console` tab
+   View values for the new metric via the [Prometheus UI](http://localhost:9090/graph#%5B%7B%22range_input%22%3A%221h%22%2C%22expr%22%3A%22double_request_count%22%2C%22tab%22%3A1%7D%5D).
+   
+   The provided link opens the Prometheus UI and executes a query for values of the
+   `double_request_count` metric. The table displayed in the **Console** tab
    includes entries similar to:
 
    ```
@@ -172,7 +173,8 @@ as the example application throughout this task.
 1. Verify that the logs stream has been created and is being populated for
    requests.
 
-   Search through the logs for the Mixer pod as follows:
+   In a Kubernetes environment, search through the logs for the Mixer pod as
+   follows:
 
    ```bash
    kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio=mixer -o jsonpath='{.items[0].metadata.name}') mixer | grep \"instance\":\"newlog.logentry.istio-config-default\"
@@ -197,9 +199,9 @@ traffic within the mesh.
 The added configuration controlled three pieces of Mixer functionality:
 1. Generation of *instances* (in this example, metric values and log entries)
    from Istio attributes
-2. Creation of *handlers* (configured Mixer adapters) capable of processing
+1. Creation of *handlers* (configured Mixer adapters) capable of processing
    generated *instances*
-3. Dispatch of *instances* to *handlers* according to a set of *rules*
+1. Dispatch of *instances* to *handlers* according to a set of *rules*
 
 ### Understanding the metrics configuration
 
