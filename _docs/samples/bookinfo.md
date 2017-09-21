@@ -164,7 +164,7 @@ uninstall it in a Kubernetes environment as follows:
 1. Confirm shutdown
 
    ```bash
-   istioctl get routerules   #-- there should be no more routing rules
+   istioctl get route-rules   #-- there should be no more routing rules
    kubectl get pods          #-- the BookInfo pods should be deleted
    ```
 
