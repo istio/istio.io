@@ -6,6 +6,7 @@ order: 20
 
 layout: docs
 type: markdown
+redirect_from: "/docs/tasks/distributed-tracing.html"
 ---
 {% include home.html %}
 

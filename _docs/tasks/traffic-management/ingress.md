@@ -6,6 +6,7 @@ order: 30
 
 layout: docs
 type: markdown
+redirect_from: "/docs/tasks/ingress.html"
 ---
 
 This task describes how to configure Istio to expose a service outside of the service mesh cluster.
