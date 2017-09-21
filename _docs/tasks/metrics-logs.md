@@ -190,6 +190,14 @@ as the example application throughout this task.
    {"level":"warn","ts":"2017-09-21T04:33:31.233Z","instance":"newlog.logentry.istio-config-default","destination":"ingress.istio-system.svc.cluster.local","latency":"74.47ms","responseCode":200,"responseSize":5599,"source":"unknown","user":"unknown"}
    ```
 
+## Cleanup
+
+Remove the new telemetry configuration:
+
+```bash
+istioctl delete -f new_telemetry.yaml
+```
+
 ## Understanding the new telemetry configuration
 
 In this task, you added Istio configuration that instructed Mixer to
