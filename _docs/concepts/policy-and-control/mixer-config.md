@@ -335,8 +335,6 @@ that conform to the descriptor's shape (it's value type and its set of labels).
 
 - Descriptors can be referenced and reused from multiple aspects.
 
-- It enables Istio to provide a strongly-typed scripting environment as discussed [here](./mixer.html#scripting)
-
 The different descriptor types are detailed in [here]({{home}}/docs/reference/config/mixer/mixer-config.html).
 
 ### Scopes
