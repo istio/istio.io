@@ -22,8 +22,8 @@ This task shows you how to use Istio to dynamically limit the traffic to a servi
   test user "jason" to version v2 and requests from any other user to v3.
 
   ```bash
-  istioctl create -f samples/apps/bookinfo/route-rule-reviews-test-v2.yaml
-  istioctl create -f samples/apps/bookinfo/route-rule-reviews-v3.yaml
+  istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+  istioctl create -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
   ```
   
   > Note: if you have conflicting rule that you set in previous tasks,
@@ -189,7 +189,7 @@ the following config validation error if any labels are missing.
 * Remove the mixer configuration rule:
 
   ```bash
-  istioctl mixer rule create global ratings.default.svc.cluster.local -f samples/apps/bookinfo/mixer-rule-empty-rule.yaml
+  istioctl mixer rule create global ratings.default.svc.cluster.local -f samples/bookinfo/kube/mixer-rule-empty-rule.yaml
   ```
 
   > Note: removing a rule by setting an empty rule list is a temporary workaround because `istioctl delete` does not
@@ -198,8 +198,8 @@ the following config validation error if any labels are missing.
 * Remove the application routing rules:
 
   ```
-  istioctl delete -f samples/apps/bookinfo/route-rule-reviews-test-v2.yaml
-  istioctl delete -f samples/apps/bookinfo/route-rule-reviews-v3.yaml
+  istioctl delete -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+  istioctl delete -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
   ```
 
 ## What's next

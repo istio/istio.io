@@ -32,7 +32,7 @@ route requests to all available versions of a service in a random fashion.
 1. Set the default version for all microservices to v1.
 
    ```bash
-   istioctl create -f samples/apps/bookinfo/rules/route-rule-all-v1.yaml
+   istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
    ```
 
    > Note: In a Kubernetes deployment of Istio, you can replace `istioctl`
@@ -116,12 +116,12 @@ route requests to all available versions of a service in a random fashion.
    `reviews:v2` instances.
 
    ```bash
-   istioctl create -f samples/apps/bookinfo/rules/route-rule-reviews-test-v2.yaml
+   istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
    ```
 
    > Note: In a Consul-based setup, use the following command:
      ```bash
-     istioctl create -f samples/apps/bookinfo/consul/consul-reviews-v1.yaml
+     istioctl create -f samples/bookinfo/consul/consul-reviews-v1.yaml
      ```
 
    Confirm the rule is created:
@@ -173,7 +173,7 @@ to `reviews:v3` in two steps as follows:
 1. First, transfer 50% of traffic from `reviews:v1` to `reviews:v3` with the following command:
 
    ```bash
-   istioctl replace -f samples/apps/bookinfo/rules/route-rule-reviews-50-v3.yaml
+   istioctl replace -f samples/bookinfo/kube/route-rule-reviews-50-v3.yaml
    ```
 
    Notice that we are using `istioctl replace` instead of `create`.
@@ -194,12 +194,12 @@ that we created exclusively for him:
 3. When version v3 of the reviews microservice is stable, route 100% of the traffic to `reviews:v3`:
 
    ```bash
-   istioctl replace -f samples/apps/bookinfo/rules/route-rule-reviews-v3.yaml
+   istioctl replace -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
    ```
 
    > Note: In a Consul-based setup, use the following command:
      ```bash
-     istioctl replace -f samples/apps/bookinfo/consul/consul-reviews-v3.yaml
+     istioctl replace -f samples/bookinfo/consul/consul-reviews-v3.yaml
      ```
 
    You can now log in to the `productpage` as any user and you should always see book reviews

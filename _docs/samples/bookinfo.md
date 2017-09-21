@@ -52,7 +52,7 @@ This application is polyglot, i.e., the microservices are written in different l
 1. Bring up the application containers:
 
    ```bash
-   kubectl apply -f <(istioctl kube-inject -f samples/apps/bookinfo/bookinfo.yaml)
+   kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo.yaml)
    ```
 
    The above command launches four microservices and creates the gateway
@@ -158,7 +158,7 @@ uninstall it in a Kubernetes environment as follows:
 1. Delete the routing rules and terminate the application pods
 
    ```bash
-   samples/apps/bookinfo/cleanup.sh
+   samples/bookinfo/kube/cleanup.sh
    ```
 
 1. Confirm shutdown
