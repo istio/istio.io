@@ -2,7 +2,7 @@
 title: Enabling Rate Limits
 overview: This task shows you how to use Istio to dynamically limit the traffic to a service.
           
-order: 80
+order: 10
 
 layout: docs
 type: markdown

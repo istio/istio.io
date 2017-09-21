@@ -2,7 +2,7 @@
 title: Distributed Tracing
 overview: How to configure the proxies to send tracing requests to Zipkin or Jaeger
 
-order: 120
+order: 20
 
 layout: docs
 type: markdown

@@ -3,7 +3,7 @@ title: Collecting Metrics and Logs
 
 overview: This task shows you how to configure Istio to collect metrics and logs.
 
-order: 110
+order: 10
 
 layout: docs
 type: markdown
