@@ -1,8 +1,8 @@
 ---
-title: Routing Rules
+title: Egress Rules
 overview: Generated documentation for Istio's Configuration Schemas
 
-order: 1210
+order: 1010
 
 layout: docs
 type: markdown
@@ -13,6 +13,10 @@ type: markdown
 ### Index
 
 * [DestinationWeight](#istio.proxy.v1.config.DestinationWeight)
+(message)
+* [EgressRule](#istio.proxy.v1.config.EgressRule)
+(message)
+* [EgressRule.Port](#istio.proxy.v1.config.EgressRule.Port)
 (message)
 * [HTTPFaultInjection](#istio.proxy.v1.config.HTTPFaultInjection)
 (message)
@@ -33,6 +37,14 @@ type: markdown
 * [HTTPTimeout.SimpleTimeoutPolicy](#istio.proxy.v1.config.HTTPTimeout.SimpleTimeoutPolicy)
 (message)
 * [IstioService](#istio.proxy.v1.config.IstioService)
+(message)
+* [L4FaultInjection](#istio.proxy.v1.config.L4FaultInjection)
+(message)
+* [L4FaultInjection.Terminate](#istio.proxy.v1.config.L4FaultInjection.Terminate)
+(message)
+* [L4FaultInjection.Throttle](#istio.proxy.v1.config.L4FaultInjection.Throttle)
+(message)
+* [L4MatchAttributes](#istio.proxy.v1.config.L4MatchAttributes)
 (message)
 * [MatchCondition](#istio.proxy.v1.config.MatchCondition)
 (message)
@@ -90,6 +102,83 @@ instances with the "v2" tag and the remaining traffic (i.e., 75%) to
   <td><code>weight</code></td>
   <td>int32</td>
   <td>REQUIRED. The proportion of traffic to be forwarded to the service version. (0-100). Sum of weights across destinations SHOULD BE == 100. If there is only destination in a rule, the weight value is assumed to be 100.</td>
+ </tr>
+</table>
+
+<a name="istio.proxy.v1.config.EgressRule"></a>
+### EgressRule
+Egress rules describe the properties of a service outside Istio. When transparent proxying
+is used, egress rules signify a white listed set of domains that microserves in the mesh
+are allowed to access. A subset of routing rules and all destination policies can be applied
+on the service targeted by an egress rule. The destination of an egress rule is allowed to
+contain wildcards (e.g., *.foo.com). Currently, only HTTP-based services can be expressed
+through the egress rule. If TLS origination from the sidecar is desired, the protocol
+associated with the service port must be marked as HTTPS, and the service is expected to
+be accessed over HTTP (e.g., http://gmail.com:443). The sidecar will automatically upgrade
+the connection to TLS when initiating a connection with the external service.
+
+For example, the following egress rule describes the set of services hosted under the *.foo.com domain
+
+
+    kind: EgressRule
+    metadata:
+      name: foo-egress-rule
+    spec:
+      destination:
+        service: *.foo.com
+      ports:
+        - port: 80
+          protocol: http
+        - port: 443
+          protocol: https
+
+<table>
+ <tr>
+  <th>Field</th>
+  <th>Type</th>
+  <th>Description</th>
+ </tr>
+<a name="istio.proxy.v1.config.EgressRule.destination"></a>
+ <tr>
+  <td><code>destination</code></td>
+  <td><a href="#istio.proxy.v1.config.IstioService">IstioService</a></td>
+  <td>REQUIRED: Hostname or a wildcard domain name associated with the external service. ONLY the "service" field of destination will be taken into consideration. Name, namespace, domain and labels are ignored. Routing rules and destination policies that refer to these external services must have identical specification for the destination as the corresponding egress rule. Wildcard domain specifications must conform to format allowed by Envoy's Virtual Host specification, such as “*.foo.com” or “*-bar.foo.com”. The character '*' in a domain specification indicates a non-empty string. Hence, a wildcard domain of form “*-bar.foo.com” will match “baz-bar.foo.com” but not “-bar.foo.com”.</td>
+ </tr>
+<a name="istio.proxy.v1.config.EgressRule.ports"></a>
+ <tr>
+  <td><code>ports[]</code></td>
+  <td>repeated <a href="#istio.proxy.v1.config.EgressRule.Port">Port</a></td>
+  <td>REQUIRED: list of ports on which the external service is available.</td>
+ </tr>
+<a name="istio.proxy.v1.config.EgressRule.useEgressProxy"></a>
+ <tr>
+  <td><code>useEgressProxy</code></td>
+  <td>bool</td>
+  <td><p>Forward all the external traffic through a dedicated egress proxy. It is used in some scenarios where there is a requirement that all the external traffic goes through special dedicated nodes/pods. These dedicated egress nodes could then be more closely monitored for security vulnerabilities.</p><p>The default is false, i.e. the sidecar forwards external traffic directly to the external service.</p></td>
+ </tr>
+</table>
+
+<a name="istio.proxy.v1.config.EgressRule.Port"></a>
+### Port
+Port describes the properties of a specific TCP port of an external service.
+
+<table>
+ <tr>
+  <th>Field</th>
+  <th>Type</th>
+  <th>Description</th>
+ </tr>
+<a name="istio.proxy.v1.config.EgressRule.Port.port"></a>
+ <tr>
+  <td><code>port</code></td>
+  <td>int32</td>
+  <td>A valid non-negative integer port number.</td>
+ </tr>
+<a name="istio.proxy.v1.config.EgressRule.Port.protocol"></a>
+ <tr>
+  <td><code>protocol</code></td>
+  <td>string</td>
+  <td>The protocol to communicate with the external services. MUST BE one of HTTP|HTTPS|GRPC|HTTP2.</td>
  </tr>
 </table>
 
@@ -162,10 +251,28 @@ not specified, all requests are aborted.
   <td>float</td>
   <td>percentage of requests to be aborted with the error code provided (0-100).</td>
  </tr>
+<a name="istio.proxy.v1.config.HTTPFaultInjection.Abort.overrideHeaderName"></a>
+ <tr>
+  <td><code>overrideHeaderName</code></td>
+  <td>string</td>
+  <td></td>
+ </tr>
+<a name="istio.proxy.v1.config.HTTPFaultInjection.Abort.grpcStatus"></a>
+ <tr>
+  <td><code>grpcStatus</code></td>
+  <td>string (oneof )</td>
+  <td></td>
+ </tr>
+<a name="istio.proxy.v1.config.HTTPFaultInjection.Abort.http2Error"></a>
+ <tr>
+  <td><code>http2Error</code></td>
+  <td>string (oneof )</td>
+  <td></td>
+ </tr>
 <a name="istio.proxy.v1.config.HTTPFaultInjection.Abort.httpStatus"></a>
  <tr>
   <td><code>httpStatus</code></td>
-  <td>int32</td>
+  <td>int32 (oneof )</td>
   <td>REQUIRED. HTTP status code to use to abort the Http request.</td>
  </tr>
 </table>
@@ -209,11 +316,23 @@ unspecified, all request will be delayed.
   <td>float</td>
   <td>percentage of requests on which the delay will be injected (0-100)</td>
  </tr>
+<a name="istio.proxy.v1.config.HTTPFaultInjection.Delay.overrideHeaderName"></a>
+ <tr>
+  <td><code>overrideHeaderName</code></td>
+  <td>string</td>
+  <td></td>
+ </tr>
 <a name="istio.proxy.v1.config.HTTPFaultInjection.Delay.fixedDelay"></a>
  <tr>
   <td><code>fixedDelay</code></td>
-  <td><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></td>
+  <td><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a> (oneof )</td>
   <td>REQUIRED. Add a fixed delay before forwarding the request. Format: 1h/1m/1s/1ms. MUST be &gt;=1ms.</td>
+ </tr>
+<a name="istio.proxy.v1.config.HTTPFaultInjection.Delay.exponentialDelay"></a>
+ <tr>
+  <td><code>exponentialDelay</code></td>
+  <td><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a> (oneof )</td>
+  <td></td>
  </tr>
 </table>
 
@@ -290,7 +409,13 @@ calling ratings:v1 service, with a 2s timeout per retry attempt.
 <a name="istio.proxy.v1.config.HTTPRetry.simpleRetry"></a>
  <tr>
   <td><code>simpleRetry</code></td>
-  <td><a href="#istio.proxy.v1.config.HTTPRetry.SimpleRetryPolicy">SimpleRetryPolicy</a></td>
+  <td><a href="#istio.proxy.v1.config.HTTPRetry.SimpleRetryPolicy">SimpleRetryPolicy</a> (oneof )</td>
+  <td></td>
+ </tr>
+<a name="istio.proxy.v1.config.HTTPRetry.custom"></a>
+ <tr>
+  <td><code>custom</code></td>
+  <td><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#any">Any</a> (oneof )</td>
   <td></td>
  </tr>
 </table>
@@ -315,6 +440,12 @@ calling ratings:v1 service, with a 2s timeout per retry attempt.
   <td><code>perTryTimeout</code></td>
   <td><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></td>
   <td>Timeout per retry attempt for a given request. format: 1h/1m/1s/1ms. MUST BE &gt;=1ms.</td>
+ </tr>
+<a name="istio.proxy.v1.config.HTTPRetry.SimpleRetryPolicy.overrideHeaderName"></a>
+ <tr>
+  <td><code>overrideHeaderName</code></td>
+  <td>string</td>
+  <td></td>
  </tr>
 </table>
 
@@ -392,7 +523,13 @@ Describes HTTP request timeout. For example, the following rule sets a
 <a name="istio.proxy.v1.config.HTTPTimeout.simpleTimeout"></a>
  <tr>
   <td><code>simpleTimeout</code></td>
-  <td><a href="#istio.proxy.v1.config.HTTPTimeout.SimpleTimeoutPolicy">SimpleTimeoutPolicy</a></td>
+  <td><a href="#istio.proxy.v1.config.HTTPTimeout.SimpleTimeoutPolicy">SimpleTimeoutPolicy</a> (oneof )</td>
+  <td></td>
+ </tr>
+<a name="istio.proxy.v1.config.HTTPTimeout.custom"></a>
+ <tr>
+  <td><code>custom</code></td>
+  <td><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#any">Any</a> (oneof )</td>
   <td></td>
  </tr>
 </table>
@@ -411,6 +548,12 @@ Describes HTTP request timeout. For example, the following rule sets a
   <td><code>timeout</code></td>
   <td><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></td>
   <td>REQUIRED. Timeout for a HTTP request. Includes retries as well. Default 15s. format: 1h/1m/1s/1ms. MUST BE &gt;=1ms. It is possible to control timeout per request by supplying the timeout value via x-envoy-upstream-rq-timeout-ms HTTP header.</td>
+ </tr>
+<a name="istio.proxy.v1.config.HTTPTimeout.SimpleTimeoutPolicy.overrideHeaderName"></a>
+ <tr>
+  <td><code>overrideHeaderName</code></td>
+  <td>string</td>
+  <td></td>
  </tr>
 </table>
 
@@ -455,6 +598,125 @@ The FQDN of the service is composed from the name, namespace, and implementation
   <td><code>labels</code></td>
   <td>repeated map&lt;string, string&gt;</td>
   <td><p>Optional one or more labels that uniquely identify the service version.</p><p><em>Note:</em> When used for a RouteRule destination, labels MUST be empty.</p></td>
+ </tr>
+</table>
+
+<a name="istio.proxy.v1.config.L4FaultInjection"></a>
+### L4FaultInjection
+
+<table>
+ <tr>
+  <th>Field</th>
+  <th>Type</th>
+  <th>Description</th>
+ </tr>
+<a name="istio.proxy.v1.config.L4FaultInjection.throttle"></a>
+ <tr>
+  <td><code>throttle</code></td>
+  <td><a href="#istio.proxy.v1.config.L4FaultInjection.Throttle">Throttle</a></td>
+  <td>Unlike Http services, we have very little context for raw Tcp|Udp connections. We could throttle bandwidth of the connections (slow down the connection) and/or abruptly reset (terminate) the Tcp connection after it has been established. We first throttle (if set) and then terminate the connection.</td>
+ </tr>
+<a name="istio.proxy.v1.config.L4FaultInjection.terminate"></a>
+ <tr>
+  <td><code>terminate</code></td>
+  <td><a href="#istio.proxy.v1.config.L4FaultInjection.Terminate">Terminate</a></td>
+  <td></td>
+ </tr>
+</table>
+
+<a name="istio.proxy.v1.config.L4FaultInjection.Terminate"></a>
+### Terminate
+Abruptly reset (terminate) the Tcp connection after it has been
+established, emulating remote server crash or link failure.
+
+<table>
+ <tr>
+  <th>Field</th>
+  <th>Type</th>
+  <th>Description</th>
+ </tr>
+<a name="istio.proxy.v1.config.L4FaultInjection.Terminate.percent"></a>
+ <tr>
+  <td><code>percent</code></td>
+  <td>float</td>
+  <td>percentage of established Tcp connections to be terminated/reset</td>
+ </tr>
+<a name="istio.proxy.v1.config.L4FaultInjection.Terminate.terminateAfterPeriod"></a>
+ <tr>
+  <td><code>terminateAfterPeriod</code></td>
+  <td><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></td>
+  <td></td>
+ </tr>
+</table>
+
+<a name="istio.proxy.v1.config.L4FaultInjection.Throttle"></a>
+### Throttle
+Bandwidth throttling for Tcp and Udp connections
+
+<table>
+ <tr>
+  <th>Field</th>
+  <th>Type</th>
+  <th>Description</th>
+ </tr>
+<a name="istio.proxy.v1.config.L4FaultInjection.Throttle.percent"></a>
+ <tr>
+  <td><code>percent</code></td>
+  <td>float</td>
+  <td>percentage of connections to throttle.</td>
+ </tr>
+<a name="istio.proxy.v1.config.L4FaultInjection.Throttle.downstreamLimitBps"></a>
+ <tr>
+  <td><code>downstreamLimitBps</code></td>
+  <td>int64</td>
+  <td>bandwidth limit in "bits" per second between downstream and Envoy</td>
+ </tr>
+<a name="istio.proxy.v1.config.L4FaultInjection.Throttle.upstreamLimitBps"></a>
+ <tr>
+  <td><code>upstreamLimitBps</code></td>
+  <td>int64</td>
+  <td>bandwidth limits in "bits" per second between Envoy and upstream</td>
+ </tr>
+<a name="istio.proxy.v1.config.L4FaultInjection.Throttle.throttleForPeriod"></a>
+ <tr>
+  <td><code>throttleForPeriod</code></td>
+  <td><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></td>
+  <td>Stop throttling after the given duration. If not set, the connection will be throttled for its lifetime.</td>
+ </tr>
+<a name="istio.proxy.v1.config.L4FaultInjection.Throttle.throttleAfterPeriod"></a>
+ <tr>
+  <td><code>throttleAfterPeriod</code></td>
+  <td><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a> (oneof )</td>
+  <td>Wait a while after the connection is established, before starting bandwidth throttling. This would allow us to inject fault after the application protocol (e.g., MySQL) has had time to establish sessions/whatever handshake necessary.</td>
+ </tr>
+<a name="istio.proxy.v1.config.L4FaultInjection.Throttle.throttleAfterBytes"></a>
+ <tr>
+  <td><code>throttleAfterBytes</code></td>
+  <td>double (oneof )</td>
+  <td>Alternatively, we could wait for a certain number of bytes to be transferred to upstream before throttling the bandwidth.</td>
+ </tr>
+</table>
+
+<a name="istio.proxy.v1.config.L4MatchAttributes"></a>
+### L4MatchAttributes
+
+<table>
+ <tr>
+  <th>Field</th>
+  <th>Type</th>
+  <th>Description</th>
+ </tr>
+<a name="istio.proxy.v1.config.L4MatchAttributes.sourceSubnet"></a>
+ <tr>
+  <td><code>sourceSubnet[]</code></td>
+  <td>repeated string</td>
+  <td>IPv4 or IPv6 ip address with optional subnet. E.g., a.b.c.d/xx form or just a.b.c.d</td>
+ </tr>
+<a name="istio.proxy.v1.config.L4MatchAttributes.destinationSubnet"></a>
+ <tr>
+  <td><code>destinationSubnet[]</code></td>
+  <td>repeated string</td>
+  <td>IPv4 or IPv6 ip address of destination with optional subnet. E.g., a.b.c.d/xx form or just a.b.c.d. This is only valid when the destination service has several IPs and the application explicitly specifies a particular IP.</td>
  </tr>
 </table>
 
@@ -503,6 +765,18 @@ request header must be specified.
   <td><code>source</code></td>
   <td><a href="#istio.proxy.v1.config.IstioService">IstioService</a></td>
   <td>Identifies the service initiating a connection or a request.</td>
+ </tr>
+<a name="istio.proxy.v1.config.MatchCondition.tcp"></a>
+ <tr>
+  <td><code>tcp</code></td>
+  <td><a href="#istio.proxy.v1.config.L4MatchAttributes">L4MatchAttributes</a></td>
+  <td></td>
+ </tr>
+<a name="istio.proxy.v1.config.MatchCondition.udp"></a>
+ <tr>
+  <td><code>udp</code></td>
+  <td><a href="#istio.proxy.v1.config.L4MatchAttributes">L4MatchAttributes</a></td>
+  <td></td>
  </tr>
 <a name="istio.proxy.v1.config.MatchCondition.request"></a>
  <tr>
@@ -655,6 +929,12 @@ For example, a simple rule to send 100% of incoming traffic for a
   <td><code>httpFault</code></td>
   <td><a href="#istio.proxy.v1.config.HTTPFaultInjection">HTTPFaultInjection</a></td>
   <td>Fault injection policy to apply on HTTP traffic</td>
+ </tr>
+<a name="istio.proxy.v1.config.RouteRule.l4Fault"></a>
+ <tr>
+  <td><code>l4Fault</code></td>
+  <td><a href="#istio.proxy.v1.config.L4FaultInjection">L4FaultInjection</a></td>
+  <td></td>
  </tr>
 </table>
 

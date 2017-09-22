@@ -1,8 +1,8 @@
 ---
 title: metric Config
-overview: Generated documentation for Mixer's Aspect Configuration Schema
+overview: Generated documentation for Mixer's Template Configuration Schema
 
-order: 1170
+order: 1180
 
 layout: docs
 type: markdown

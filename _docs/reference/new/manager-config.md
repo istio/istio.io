@@ -2,7 +2,7 @@
 title: Manager
 overview: Generated documentation for Istio's Configuration Schemas
 
-order: 1020
+order: 1030
 
 layout: docs
 type: markdown

@@ -1,8 +1,8 @@
 ---
 title: reportnothing Config
-overview: Generated documentation for Mixer's Aspect Configuration Schema
+overview: Generated documentation for Mixer's Template Configuration Schema
 
-order: 1190
+order: 1200
 
 layout: docs
 type: markdown

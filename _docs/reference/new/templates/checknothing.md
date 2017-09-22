@@ -1,8 +1,8 @@
 ---
 title: checknothing Config
-overview: Generated documentation for Mixer's Aspect Configuration Schema
+overview: Generated documentation for Mixer's Template Configuration Schema
 
-order: 1140
+order: 1150
 
 layout: docs
 type: markdown

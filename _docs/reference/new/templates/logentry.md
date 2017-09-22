@@ -1,8 +1,8 @@
 ---
 title: logentry Config
-overview: Generated documentation for Mixer's Aspect Configuration Schema
+overview: Generated documentation for Mixer's Template Configuration Schema
 
-order: 1160
+order: 1170
 
 layout: docs
 type: markdown

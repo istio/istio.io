@@ -2,7 +2,7 @@
 title: Fault Injection
 overview: Generated documentation for Istio's Configuration Schemas
 
-order: 1010
+order: 1020
 
 layout: docs
 type: markdown

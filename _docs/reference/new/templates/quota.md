@@ -1,8 +1,8 @@
 ---
 title: quota Config
-overview: Generated documentation for Mixer's Aspect Configuration Schema
+overview: Generated documentation for Mixer's Template Configuration Schema
 
-order: 1180
+order: 1190
 
 layout: docs
 type: markdown

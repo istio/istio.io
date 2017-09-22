@@ -1,8 +1,8 @@
 ---
 title: listentry Config
-overview: Generated documentation for Mixer's Aspect Configuration Schema
+overview: Generated documentation for Mixer's Template Configuration Schema
 
-order: 1150
+order: 1160
 
 layout: docs
 type: markdown

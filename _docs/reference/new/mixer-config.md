@@ -2,7 +2,7 @@
 title: Mixer
 overview: Generated documentation for Mixer's Configuration Schema
 
-order: 1120
+order: 1130
 
 layout: docs
 type: markdown
