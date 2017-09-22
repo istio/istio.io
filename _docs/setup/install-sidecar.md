@@ -232,4 +232,4 @@ kubectl delete -f apps.yaml
 
 * Review full documentation for [istioctl kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject)
 
-* See the [BookInfo]({{home}}/docs/samples/bookinfo.html) sample for a more complete example of applications integrated on Kubernetes with Istio.
+* See the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample for a more complete example of applications integrated on Kubernetes with Istio.

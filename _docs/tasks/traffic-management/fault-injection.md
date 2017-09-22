@@ -17,7 +17,7 @@ This task shows how to inject delays and test the resiliency of your application
 * Setup Istio by following the instructions in the
   [Installation guide](({{home}}/docs/setup/).
 
-* Deploy the [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application.
+* Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
 * Initialize the application version routing by either first doing the
   [request routing](./request-routing.html) task or by running following
@@ -117,5 +117,5 @@ continue without any errors.
 * Limit requests to the BookInfo `ratings` service with Istio [rate limiting]({{home}}/docs/tasks/policy-enforcement/rate-limiting.html).
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [BookInfo cleanup]({{home}}/docs/samples/bookinfo.html#cleanup) instructions
+  [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
   to shutdown the application and cleanup the associated rules.

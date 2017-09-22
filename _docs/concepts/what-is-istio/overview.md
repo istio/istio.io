@@ -94,9 +94,9 @@ role-based access control as well as authorization hooks.
 
 ## What's next
 
-* Learn about Istio's [design goals](./goals.html).
+* Learn about Istio's [design goals]({{home}}/docs/concepts/what-is-istio/goals.html).
 
-* Explore and try deploying our [sample application]({{home}}/docs/samples/bookinfo.html).
+* Explore our [Guides]({{home}}/docs/guides/).
 
 * Read about Istio components in detail in our other [Concepts]({{home}}/docs/concepts/) guides.
 
