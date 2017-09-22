@@ -61,3 +61,5 @@ exclude:
   - repos/*.html
   - repos/*.md
 
+repository:
+  istio/istio.github.io
