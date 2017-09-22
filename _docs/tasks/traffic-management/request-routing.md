@@ -17,7 +17,7 @@ This task shows you how to configure dynamic request routing based on weights an
 * Setup Istio by following the instructions in the
   [Installation guide](({{home}}/docs/setup/).
 
-* Deploy the [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application.
+* Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
 ## Content-based routing
 
@@ -213,5 +213,5 @@ that we created exclusively for him:
 * Test the BookInfo application resiliency by [injecting faults](./fault-injection.html).
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [BookInfo cleanup]({{home}}/docs/samples/bookinfo.html#cleanup) instructions
+  [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
   to shutdown the application and cleanup the associated rules.

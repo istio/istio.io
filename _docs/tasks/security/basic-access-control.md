@@ -17,7 +17,7 @@ This task shows how to use Istio to control access to a service.
 * Setup Istio by following the instructions in the
   [Installation guide](({{home}}/docs/setup/).
 
-* Deploy the [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application.
+* Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
 * Initialize the application version routing to direct `reviews` service requests from
   test user "jason" to version v2 and requests from any other user to v3.
@@ -38,7 +38,7 @@ This task shows how to use Istio to control access to a service.
 Using Istio you can control access to a service based on any attributes that are available within Mixer.
 This simple form of access control is based on conditionally denying requests using Mixer selectors.
 
-Consider the [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application where the `ratings` service is accessed by multiple versions
+Consider the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application where the `ratings` service is accessed by multiple versions
 of the `reviews` service. We would like to cut off access to version `v3` of the `reviews` service.
 
 1. Point your browser at the BookInfo `productpage` (http://$GATEWAY_URL/productpage). 

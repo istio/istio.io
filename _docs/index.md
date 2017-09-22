@@ -27,7 +27,7 @@ is where you can learn about what Istio does and how it does it.
 
 - [Tasks]({{home}}/docs/tasks/). Tasks show you how to do a single directed activity with Istio.
 
-- [Samples]({{home}}/docs/samples/). Samples are fully working stand-alone examples
+- [Guides]({{home}}/docs/guides/). Guides are fully working stand-alone examples
 intended to highlight a particular set of Istio's features.
 
 - [Reference]({{home}}/docs/reference/). Detailed exhaustive lists of

@@ -21,7 +21,7 @@ features of the Istio service mesh on non-kubernetes platforms.
 ## Overview
 
 For the purposes of illustration, this sample deploys the Istio control
-plane and the [BookInfo]({{home}}/docs/samples/bookinfo.html) application
+plane and the [BookInfo]({{home}}/docs/guides/bookinfo.html) application
 in a simple Docker Compose based setup. Since there is no concept of pods
 in a Docker setup, the Istio sidecar runs in the same container as the
 application.  We will use
