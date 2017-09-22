@@ -1,5 +1,5 @@
 ---
-title: BookInfo
+title: The sample application
 overview: This sample deploys a simple application composed of four separate microservices which will be used to demonstrate various features of the Istio service mesh.
 
 order: 10
