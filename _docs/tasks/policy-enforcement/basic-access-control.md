@@ -2,10 +2,11 @@
 title: Enabling Simple Access Control
 overview: This task shows how to use Istio to control access to a service.
           
-order: 90
+order: 20
 
 layout: docs
 type: markdown
+redirect_from: "/docs/tasks/basic-access-control.html"
 ---
 {% include home.html %}
 
@@ -14,7 +15,7 @@ This task shows how to use Istio to control access to a service.
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](./installing-istio.html).
+  [Installation guide](({{home}}/docs/setup/).
 
 * Deploy the [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application.
 

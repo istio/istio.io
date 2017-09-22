@@ -2,10 +2,11 @@
 title: Fault Injection
 overview: This task shows how to inject delays and test the resiliency of your application.
 
-order: 60
+order: 20
 
 layout: docs
 type: markdown
+redirect_from: "/docs/tasks/fault-injection.html"
 ---
 {% include home.html %}
 
@@ -14,7 +15,7 @@ This task shows how to inject delays and test the resiliency of your application
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](./installing-istio.html).
+  [Installation guide](({{home}}/docs/setup/).
 
 * Deploy the [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application.
 
@@ -113,7 +114,7 @@ continue without any errors.
 
 * Learn more about [fault injection]({{home}}/docs/concepts/traffic-management/fault-injection.html).
 
-* Limit requests to the BookInfo `ratings` service with Istio [rate limiting](./rate-limiting.html).
+* Limit requests to the BookInfo `ratings` service with Istio [rate limiting]({{home}}/docs/tasks/policy-enforcement/rate-limiting.html).
 
 * If you are not planning to explore any follow-on tasks, refer to the
   [BookInfo cleanup]({{home}}/docs/samples/bookinfo.html#cleanup) instructions

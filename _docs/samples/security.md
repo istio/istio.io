@@ -1,5 +1,5 @@
 ---
-title: Gathering Metrics, Logs, and Traces
+title: Security
 overview: This sample demonstrates how to obtain uniform metrics, logs, traces across different services using Istio Mixer and Istio sidecar.
 
 order: 30

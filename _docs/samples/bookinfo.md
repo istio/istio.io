@@ -1,5 +1,5 @@
 ---
-title: BookInfo
+title: The sample application
 overview: This sample deploys a simple application composed of four separate microservices which will be used to demonstrate various features of the Istio service mesh.
 
 order: 10
@@ -16,7 +16,7 @@ to demonstrate various features of the Istio service mesh.
 * If you use GKE, please ensure your cluster has at least 4 standard GKE nodes.
 
 * Setup Istio by following the instructions in the
-[Installation guide]({{home}}/docs/tasks/installing-istio.html).
+[Installation guide]({{home}}/docs/setup/).
 
 ## Overview
 

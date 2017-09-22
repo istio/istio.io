@@ -18,10 +18,10 @@ Quick Start instructions to install and configure Istio in a Kubernetes cluster.
 The following instructions assume you have access to a Kubernetes **1.7.4 or newer** cluster
 with [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/) enabled.
 
-  > Note: Istio 0.2.x is not backward compatible with 0.1.x. Uninstall any 0.1.x
-  > version of Istio before installing the newer version. Any applications
-  > using Istio sidecar from 0.1.x version must upgrade to using the
-  > sidecar supplied by 0.2.x release.
+  > Note: If you installed Istio 0.1.x,
+  > [uninstall](https://istio.io/v-0.1/docs/tasks/installing-istio.html#uninstalling)
+  > it completely before installing the newer version (including the Istio sidecar
+  > for all Istio enabled application pods).
 
 * Depending on your Kubernetes provider:
   * To install Istio locally, install the latest version of
@@ -87,7 +87,7 @@ and can manage micro-services from all other namespaces.
 1. Install Istio's core components.  Choose one of the two _**mutually exclusive**_ options below:
 
     a. Install Istio without enabling [authentication]({{home}}/docs/concepts/network-and-auth/auth.html) between sidecars with [mutual TLS authentication](https://en.wikipedia.org/wiki/Mutual_authentication).
-    We recommend this option for clusters with existing applications, applications where services with Istio sidecar need to be able to communicate with other non-Istio Kubernetes services, as well as 
+    We recommend this option for clusters with existing applications, applications where services with Istio sidecar need to be able to communicate with other non-Istio Kubernetes services, as well as
     applications that use [liveliness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/), headless services, or statefulsets.
 
       ```bash
@@ -104,7 +104,7 @@ and can manage micro-services from all other namespaces.
 
    Both options create the `istio-system` namespace along with the required RBAC permissions, and deploy Istio-Pilot, Istio-Mixer, Istio-Ingress, Istio-Egress, and Istio-CA (Certificate Authority).
 
-1. *Optional:* If you cluster has Kubernetes alpha features enabled, and you wish to enable transparent injection of sidecar, please install the Istio-Initializer:
+1. *Optional:* If your cluster has Kubernetes alpha features enabled, and you wish to enable transparent injection of sidecar, please install the Istio-Initializer:
 
     ```bash
      kubectl apply -f install/kubernetes/istio-initializer.yaml
@@ -239,7 +239,7 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 1. Delete Istio's [Kubernetes CRDs](https://kubernetes.io/docs/tasks/access-kubernetes-api/extend-api-custom-resource-definitions/):
 
    ```bash
-   kubectl get crd -o 'jsonpath={.items[*].metadata.name}' | grep istio | xargs kubectl delete crd
+   kubectl get crd -o 'jsonpath={.items[*].metadata.name}' | grep config\.istio\.io | xargs kubectl delete crd
    ```
 
 ## What's next
