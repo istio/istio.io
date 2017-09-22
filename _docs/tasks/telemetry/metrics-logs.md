@@ -3,10 +3,11 @@ title: Collecting Metrics and Logs
 
 overview: This task shows you how to configure Istio to collect metrics and logs.
 
-order: 110
+order: 10
 
 layout: docs
 type: markdown
+redirect_from: "/docs/tasks/metrics-logs.html"
 ---
 {% include home.html %}
 
@@ -18,11 +19,10 @@ The [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application is used
 as the example application throughout this task.
 
 ## Before you begin
-* [Install Istio](./installing-istio.html) in your cluster and deploy an
+* [Install Istio]({{home}}/docs/setup/) in your cluster and deploy an
   application. This task assumes that Mixer is setup in a default configuration
-  (`--configDefaultNamespace=istio-config-default`). If a different value is
-  used, the configuration in this Task (and commands to be issued) must be
-  updated to match.
+  (`--configDefaultNamespace=istio-config-default`). If you use a different
+  value, update the configuration and commands in this task to match the value.
 
 * Install the optional add-on [Prometheus](https://prometheus.io). Prometheus
   will be used to verify task success.
@@ -145,9 +145,6 @@ as the example application throughout this task.
    curl http://$GATEWAY_URL/productpage
    ```
 
-   For purposes of this task, please refresh the page several times or issue the
-   curl command a few times to generate traffic.
-
 1. Verify that the new metric values are being generated and collected.
 
    In a Kubernetes environment, setup port-forwarding for Prometheus by
@@ -198,7 +195,7 @@ Remove the new telemetry configuration:
 istioctl delete -f new_telemetry.yaml
 ```
 
-## Understanding the new telemetry configuration
+## Understanding the telemetry configuration
 
 In this task, you added Istio configuration that instructed Mixer to
 automatically generate and report a new metric and a new log stream for all
