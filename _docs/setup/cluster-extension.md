@@ -17,12 +17,15 @@ _This document is under construction._
 
 * You have [installed Istio](install-kubernetes.html) on your cluster
 
-* The machine must have IP connectivity to the nodes and endpoints in the cluster. This
+* The machine must have IP connectivity to the endpoints in the cluster. This
 typically requires same VPC or a VPN connection, as well as a container network that
 provides direct (without NAT or firewall deny) routing to the endpoints. The machine
 is not required to have access to the cluster IP addresses assigned by K8S.
+Istio's Pilot and the Istio sidecar and configuration installed on the external
+machine(s) by following these steps provide the service level connectivity and
+all the Istio advance routing and control capabilities.
 
-* The control plane (Pilot, Mixer, CA) and kuberentes DNS server must be accessible
+* The control plane (Pilot, Mixer, CA) and Kubernetes DNS server must be accessible
 from the VM. This is typically done using an [Internal Load
 Balancer](https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer).
 
@@ -33,10 +36,10 @@ Setup consists of preparing the cluster for extensions and installing and config
 Example functions to help with the cluster setup are available in
 [istio_vm_common.sh](https://raw.githubusercontent.com/istio/istio/master/install/tools/istio_vm_common.sh).
 Depending on cluster and environment you may need to adjust them for your cluster and VM.
-The scripts need to be run by a cluster admin, with permissions to kubernetes and the VM.
+The scripts need to be run by a cluster admin, with permissions to Kubernetes and the VM.
 
 An example script to configure a machine is available in [istio_vm_setup.sh](https://raw.githubusercontent.com/istio/istio/master/install/tools/istio_vm_setup.sh).
-You should customize it to match your normal provisioning toos and DNS requirements.
+You should customize it to match your normal provisioning tools and DNS requirements.
 
 ### Preparing the K8s cluster
 
@@ -84,8 +87,8 @@ names and connect to pilot, for example:
     ```bash
 
     # Example
-    dig ...
-    curl ...
+    dig istio-pilot.istio-system
+    curl http://istio-mixer.istio-system:42422/metrics
     ```
 
 * If auth is enabled, extract the initial kubernetes secrets and copy them to the machine.
@@ -118,8 +121,9 @@ services that are not backed by Kubernetes pods.
    Example, on a machine with permissions to modify k8s services:
    ```bash
 
-   istioctl register ...
-
+   # istioctl register servicename machine-ip portname:port
+   istioctl -n onprem register mysql 1.2.3.4 3306
+   istioctl -n onprem register svc1 1.2.3.4 http:7000
    ```
 
 After the setup, k8s pods and other cluster extensions should be able to access the
