@@ -172,7 +172,7 @@ similar to the following:
 
 ## Verifying the installation
 
-1. Ensure the following Kubernetes services are deployed: `istio-pilot`, `istio-mixer`,
+1. Ensure the following Kubernetes services are deployed: `istio-pilot`, `istio-mixer`, `istio-ca`, 
    `istio-ingress`, `istio-egress`, and, optionally, `grafana`, `prometheus` and `servicegraph`.
 
    ```bash
