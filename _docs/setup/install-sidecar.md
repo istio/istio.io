@@ -1,8 +1,8 @@
 ---
-title: Integrating Services into the Mesh
+title: Installing Istio Sidecar
 overview: This task shows you how to integrate your applications with the Istio service mesh.
 
-order: 20
+order: 40
 
 layout: docs
 type: markdown
@@ -12,12 +12,6 @@ type: markdown
 This task shows how to integrate applications on Kubernetes with
 Istio. You'll learn how to inject the Envoy sidecar into deployments
 using [istioctl kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject)
-
-## Before you begin
-
-This task assumes you have deployed Istio on Kubernetes.
-If you have not done so, please first complete the
-[Installation Steps](./installing-istio.html).
 
 ## Injecting Envoy sidecar into a deployment
 
@@ -238,4 +232,4 @@ kubectl delete -f apps.yaml
 
 * Review full documentation for [istioctl kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject)
 
-* See the [BookInfo]({{home}}/docs/samples/bookinfo.html) sample for a more complete example of applications integrated on Kubernetes with Istio.
+* See the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample for a more complete example of applications integrated on Kubernetes with Istio.

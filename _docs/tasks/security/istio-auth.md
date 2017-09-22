@@ -2,10 +2,11 @@
 title: Testing Istio Auth
 overview: This task shows you how to verify and test Istio-Auth.
 
-order: 100
+order: 10
 
 layout: docs
 type: markdown
+redirect_from: "/docs/tasks/istio-auth.html"
 ---
 {% include home.html %}
 
@@ -17,12 +18,12 @@ Through this task, you will learn how to:
 
 ## Before you begin
 
-This task assumes you have:
+This task assumes you have a Kubernetes cluster:
 
 * Installed Istio with Auth by following
-[the Istio installation task]({{home}}/docs/tasks/installing-istio.html).
+[the Istio installation task]({{home}}/docs/setup/install-kubernetes.html).
 Note to choose "enable Istio Auth feature" at step 5 in
-"[Installation steps]({{home}}/docs/tasks/installing-istio.html#installation-steps)".
+"[Installation steps]({{home}}/docs/setup/install-kubernetes.html#installation-steps)".
 
 ## Verifying Istio Auth setup
 
@@ -52,30 +53,13 @@ Istio CA is up if the "AVAILABLE" column is 1.
    kubectl get configmap istio -o yaml | grep authPolicy | head -1
    ```
 
-   Istio Auth is enabled if the line `    authPolicy: MUTUAL_TLS` is uncommented.
-
-1. Check Istio Auth is enabled on Envoy proxies.
-
-   When Istio Auth is enabled for a pod, the *ssl_context* stanzas should be in the pod's proxy config.
-   The following commands verifies the proxy config on *app-pod* has *ssl_context* configured:
-
-   ```bash
-   kubectl exec <app-pod> -c proxy -- ls /etc/envoy
-   ```
-
-   The output should contain the config file "envoy-rev<X>.json". Use the file name in the following command:
-
-   ```bash
-   kubectl exec <app-pod> -c proxy -- cat /etc/envoy/envoy-rev<X>.json | grep ssl_context
-   ```
-
-   If you see *ssl_context* lines in the output, the proxy has enabled Istio Auth.
+   Istio Auth is enabled if the line `authPolicy: MUTUAL_TLS` is uncommented (doesn't have a `#`).
 
 ## Testing Istio Auth
 
 When running Istio auth-enabled services, you can use curl in one service's
 envoy to send request to other services.
-For example, after starting the [BookInfo]({{home}}/docs/samples/bookinfo.html) 
+For example, after starting the [BookInfo]({{home}}/docs/guides/bookinfo.html) 
 sample application you can ssh into the envoy container of `productpage` service, 
 and send request to other services by curl. 
 
@@ -94,7 +78,7 @@ There are several steps:
 
 1. ssh into the envoy container 
    ```bash
-   kubectl exec -it productpage-v1-4184313719-5mxjc -c proxy /bin/bash 
+   kubectl exec -it productpage-v1-4184313719-5mxjc -c istio-proxy /bin/bash 
    ```
 
 1. make sure the key/cert is in /etc/certs/ directory
@@ -122,7 +106,7 @@ There are several steps:
    ...
    ```
   
-The service name and port are defined [here](https://github.com/istio/istio/blob/master/samples/apps/bookinfo/bookinfo.yaml).
+The service name and port are defined [here](https://github.com/istio/istio/blob/master/samples/bookinfo/kube/bookinfo.yaml).
    
 Note that Istio uses [Kubernetes service account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account) 
 as service identity, which offers stronger security than service name 

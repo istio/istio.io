@@ -45,7 +45,7 @@ Consider the following aspect configuration that [enables rate limits]({{tasks}}
         maxAmount: 5
         expiration: 1s
         labels:
-          label1: target.service
+          label1: destination.service
 ```
 It _uses_ `RequestCount` to describe the quota. 
 The following is an example of the `RequestCount` descriptor.
@@ -93,7 +93,7 @@ The following example shows how to use a [_selector_](./mixer-config.html#Select
         maxAmount: 5
         expiration: 1s
         labels:
-          label1: target.service
+          label1: destination.service
 ```
 
 
@@ -107,10 +107,10 @@ The following table enumerates valid combinations of the `aspects`, the `descrip
 |-----------------------------------------------
 |[Quota enforcement]({{aspectConfig}}/quotas.html ) | [QuotaDescriptor]({{mixerConfig}}#istio.mixer.v1.config.descriptor.QuotaDescriptor) |  [memQuota]({{adapterConfig}}/memQuota.html), [redisQuota]({{adapterConfig}}/redisquota.html)
 |[Metrics collection]({{aspectConfig}}/metrics.html)| [MetricDescriptor]({{mixerConfig}}#metricdescriptor) |[prometheus]({{adapterConfig}}/prometheus.html),[statsd]({{adapterConfig}}/statsd.html)
-|[Whitelist/Blacklist]({{aspectConfig}}/lists.html)| None |[genericListChecker]({{adapterConfig}}/genericListChecker.html),[ipListChecker]({{adapterConfig}}/ipListChecker.html)
+|[Whitelist/Blacklist]({{aspectConfig}}/lists.html)| None |[genericListChecker]({{adapterConfig}}/genericListChecker.html),[listchecker]({{adapterConfig}}/list.html)
 |[Access logs]({{aspectConfig}}/accessLogs.html)|[LogEntryDescriptor]({{mixerConfig}}#logentrydescriptor)  |[stdioLogger]({{adapterConfig}}/stdioLogger.html)
 |[Application logs]({{aspectConfig}}/applicationLogs.html)|[LogEntryDescriptor]({{mixerConfig}}#logentrydescriptor)  |[stdioLogger]({{adapterConfig}}/stdioLogger.html)
-|[Deny Request]({{aspectConfig}}/denials.html)| None |[denyChecker]({{adapterConfig}}/denyChecker.html)
+|[Deny Request]({{aspectConfig}}/denials.html)| None |[denyChecker]({{adapterConfig}}/denier.html)
 
 Istio uses [`protobufs`](https://developers.google.com/protocol-buffers/) to define configuration schemas. The [Writing Configuration]({{home}}/docs/reference/writing-config.html) document explains how to express `proto` definitions as `yaml`.
 

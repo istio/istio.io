@@ -44,7 +44,7 @@ descriptorName: request_count
 value: "1"
 labels:
   source: origin.ip
-  target: target.service
+  destination: destination.service
 </pre>
     </td>
   </tr>
@@ -82,12 +82,12 @@ metrics:
   value: "1"
   labels:
     source: origin.ip
-    target: target.service
+    destination: destination.service
 - descriptorName: request_latency
   value: response.duration
   labels:
     source: origin.ip
-    target: target.service
+    destination: destination.service
 </pre>
     </td>
   </tr>

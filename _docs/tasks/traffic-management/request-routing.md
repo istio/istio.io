@@ -2,10 +2,11 @@
 title: Configuring Request Routing
 overview: This task shows you how to configure dynamic request routing based on weights and HTTP headers.
 
-order: 50
+order: 10
 
 layout: docs
 type: markdown
+redirect_from: "/docs/tasks/request-routing.html"
 ---
 {% include home.html %}
 
@@ -14,9 +15,9 @@ This task shows you how to configure dynamic request routing based on weights an
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](./installing-istio.html).
+  [Installation guide](({{home}}/docs/setup/).
 
-* Deploy the [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application.
+* Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
 ## Content-based routing
 
@@ -32,58 +33,73 @@ route requests to all available versions of a service in a random fashion.
 1. Set the default version for all microservices to v1.
 
    ```bash
-   istioctl create -f samples/apps/bookinfo/route-rule-all-v1.yaml
+   istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
    ```
+
+   > Note: In a Kubernetes deployment of Istio, you can replace `istioctl`
+   > with `kubectl` in the above, and for all other CLI commands.
 
    You can display the routes that are defined with the following command:
 
    ```bash
-   istioctl get route-rules -o yaml
+   istioctl get routerules -o yaml
    ```
    ```yaml
-   type: route-rule
-   name: ratings-default
-   namespace: default
+   apiVersion: config.istio.io/v1alpha2
+   kind: RouteRule
+   metadata:
+     name: details-default
+     namespace: default
+     ...
    spec:
-     destination: ratings.default.svc.cluster.local
+     destination:
+       name: details
      precedence: 1
      route:
-     - tags:
+     - labels:
          version: v1
-       weight: 100
    ---
-   type: route-rule
-   name: reviews-default
-   namespace: default
+   apiVersion: config.istio.io/v1alpha2
+   kind: RouteRule
+   metadata:
+     name: productpage-default
+     namespace: default
+     ...
    spec:
-     destination: reviews.default.svc.cluster.local
+     destination:
+       name: productpage
      precedence: 1
      route:
-     - tags:
+     - labels:
          version: v1
-       weight: 100
    ---
-   type: route-rule
-   name: details-default
-   namespace: default
+   apiVersion: config.istio.io/v1alpha2
+   kind: RouteRule
+   metadata:
+     name: ratings-default
+     namespace: default
+     ...
    spec:
-     destination: details.default.svc.cluster.local
+     destination:
+       name: ratings
      precedence: 1
      route:
-     - tags:
+     - labels:
          version: v1
-       weight: 100
    ---
-   type: route-rule
-   name: productpage-default
-   namespace: default
+   apiVersion: config.istio.io/v1alpha2
+   kind: RouteRule
+   metadata:
+     name: reviews-default
+     namespace: default
+     ...
    spec:
-     destination: productpage.default.svc.cluster.local
+     destination:
+       name: reviews
      precedence: 1
      route:
-     - tags:
+     - labels:
          version: v1
-       weight: 100
    ---
    ```
 
@@ -101,24 +117,38 @@ route requests to all available versions of a service in a random fashion.
    `reviews:v2` instances.
 
    ```bash
-   istioctl create -f samples/apps/bookinfo/route-rule-reviews-test-v2.yaml
+   istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
    ```
+
+   > Note: In a Consul-based setup, use the following command:
+     ```bash
+     istioctl create -f samples/bookinfo/consul/consul-reviews-v1.yaml
+     ```
 
    Confirm the rule is created:
 
    ```bash
-   istioctl get route-rule reviews-test-v2
+   istioctl get routerule reviews-test-v2 -o yaml
    ```
    ```yaml
-   destination: reviews.default.svc.cluster.local
-   match:
-     httpHeaders:
-       cookie:
-         regex: ^(.*?;)?(user=jason)(;.*)?$
-   precedence: 2
-   route:
-   - tags:
-       version: v2
+   apiVersion: config.istio.io/v1alpha2
+   kind: RouteRule
+   metadata:
+     name: reviews-test-v2
+     namespace: default
+     ...
+   spec:
+     destination:
+       name: reviews
+     match:
+       request:
+         headers:
+           cookie:
+             regex: ^(.*?;)?(user=jason)(;.*)?$
+     precedence: 2
+     route:
+     - labels:
+         version: v2
    ```
 
 1. Log in as user "jason" at the `productpage` web page.
@@ -144,7 +174,7 @@ to `reviews:v3` in two steps as follows:
 1. First, transfer 50% of traffic from `reviews:v1` to `reviews:v3` with the following command:
 
    ```bash
-   istioctl replace -f samples/apps/bookinfo/route-rule-reviews-50-v3.yaml
+   istioctl replace -f samples/bookinfo/kube/route-rule-reviews-50-v3.yaml
    ```
 
    Notice that we are using `istioctl replace` instead of `create`.
@@ -153,8 +183,7 @@ to `reviews:v3` in two steps as follows:
 that we created exclusively for him:
 
    ```bash
-   istioctl delete route-rule reviews-test-v2
-   istioctl delete route-rule ratings-test-delay
+   istioctl delete routerule reviews-test-v2
    ```
 
    You should now see *red* colored star ratings approximately 50% of the time when you refresh
@@ -166,8 +195,13 @@ that we created exclusively for him:
 3. When version v3 of the reviews microservice is stable, route 100% of the traffic to `reviews:v3`:
 
    ```bash
-   istioctl replace -f samples/apps/bookinfo/route-rule-reviews-v3.yaml
+   istioctl replace -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
    ```
+
+   > Note: In a Consul-based setup, use the following command:
+     ```bash
+     istioctl replace -f samples/bookinfo/consul/consul-reviews-v3.yaml
+     ```
 
    You can now log in to the `productpage` as any user and you should always see book reviews
    with *red* colored star ratings for each review.
@@ -179,5 +213,5 @@ that we created exclusively for him:
 * Test the BookInfo application resiliency by [injecting faults](./fault-injection.html).
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [BookInfo cleanup]({{home}}/docs/samples/bookinfo.html#cleanup) instructions
+  [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
   to shutdown the application and cleanup the associated rules.

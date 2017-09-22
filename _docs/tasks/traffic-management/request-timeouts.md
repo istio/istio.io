@@ -2,10 +2,11 @@
 title: Setting Request Timeouts
 overview: This task shows you how to setup request timeouts in Envoy using Istio.
             
-order: 70
+order: 50
 
 layout: docs
 type: markdown
+redirect_from: "/docs/tasks/request-timeouts.html"
 ---
 {% include home.html %}
 
@@ -15,16 +16,16 @@ This task shows you how to setup request timeouts in Envoy using Istio.
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](./installing-istio.html).
+  [Installation guide](({{home}}/docs/setup/).
 
-* Deploy the [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application.
+* Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
 * Initialize the application version routing by running the following command:
 
 > Note: This assumes you don't have any routes set yet. If you've already created route rules for the sample, you'll need to use `replace` rather than `create` in the following command.
   
   ```bash
-  istioctl create -f samples/apps/bookinfo/route-rule-all-v1.yaml
+  istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
   ```
 
 ## Request timeouts
@@ -38,13 +39,16 @@ to the `ratings` service.
 1. Route requests to v2 of the `reviews` service, i.e., a version that calls the `ratings` service
 
    ```bash
-   cat <<EOF | istioctl replace
-   type: route-rule
-   name: reviews-default
+   cat <<EOF | istioctl replace -f -
+   apiVersion: config.istio.io/v1alpha2
+   kind: RouteRule
+   metadata:
+     name: reviews-default
    spec:
-     destination: reviews.default.svc.cluster.local
+     destination:
+       name: reviews
      route:
-     - tags:
+     - labels:
          version: v2
    EOF
    ```
@@ -52,13 +56,16 @@ to the `ratings` service.
 1. Add a 2 second delay to calls to the `ratings` service:
 
    ```bash
-   cat <<EOF | istioctl replace
-   type: route-rule
-   name: ratings-default
+   cat <<EOF | istioctl replace -f -
+   apiVersion: config.istio.io/v1alpha2
+   kind: RouteRule
+   metadata:
+     name: ratings-default
    spec:
-     destination: ratings.default.svc.cluster.local
+     destination:
+       name: ratings
      route:
-     - tags:
+     - labels:
          version: v1
      httpFault:
        delay:
@@ -75,13 +82,16 @@ to the `ratings` service.
 1. Now add a 1 second request timeout for calls to the `reviews` service
    
    ```bash
-   cat <<EOF | istioctl replace
-   type: route-rule
-   name: reviews-default
+   cat <<EOF | istioctl replace -f -
+   apiVersion: config.istio.io/v1alpha2
+   kind: RouteRule
+   metadata:
+     name: reviews-default
    spec:
-     destination: reviews.default.svc.cluster.local
+     destination:
+       name: reviews
      route:
-     - tags:
+     - labels:
          version: v2
      httpReqTimeout:
        simpleTimeout:
@@ -127,5 +137,5 @@ the timeout is specified in millisecond (instead of second) units.
 * Learn more about [routing rules]({{home}}/docs/concepts/traffic-management/rules-configuration.html).
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [BookInfo cleanup]({{home}}/docs/samples/bookinfo.html#cleanup) instructions
+  [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
   to shutdown the application and cleanup the associated rules.

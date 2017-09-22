@@ -1,39 +1,48 @@
 ---
-title: Distributed Request Tracing
-overview: How to configure the proxies to send tracing requests to Zipkin
+title: Distributed Tracing
+overview: How to configure the proxies to send tracing requests to Zipkin or Jaeger
 
-order: 120
+order: 20
 
 layout: docs
 type: markdown
+redirect_from: "/docs/tasks/distributed-tracing.html"
 ---
 {% include home.html %}
 
 This task shows you how Istio-enabled applications 
-can be configured to collect trace spans using [Zipkin](http://zipkin.io). 
+can be configured to collect trace spans using [Zipkin](http://zipkin.io) or [Jaeger](https://uber.github.io/jaeger/). 
 After completing this task, you should understand all of the assumptions about your
 application and how to have it participate in tracing, regardless of what
 language/framework/platform you use to build your application.
 
-The [BookInfo]({{home}}/docs/samples/bookinfo.html) sample is used as the
+The [BookInfo]({{home}}/docs/guides/bookinfo.html) sample is used as the
 example application for this task.
 
 
 ## Before you begin
 
-* Setup Istio by following the instructions in the [Installation guide](./installing-istio.html).
+* Setup Istio by following the instructions in the [Installation guide](({{home}}/docs/setup/).
 
-  If you didn't start the Zipkin addon during installation,
+  If you didn't start the Zipkin or Jaeger addon during installation,
   you can run the following command to start it now:
   
   ```bash
   kubectl apply -f install/kubernetes/addons/zipkin.yaml
   ```
+  for Zipkin, or
 
-* Deploy the [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application.
+  ```bash
+  kubectl apply -f https://raw.githubusercontent.com/jaegertracing/jaeger-kubernetes/master/all-in-one/jaeger-all-in-one-template.yml
+  ```
+  for Jaeger.
+
+* Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
 
-## Accessing the Zipkin dashboard
+## Accessing the dashboard
+
+### Zipkin
 
 Setup access to the Zipkin dashboard URL using port-forwarding:
 
@@ -43,25 +52,35 @@ kubectl port-forward $(kubectl get pod -l app=zipkin -o jsonpath='{.items[0].met
 
 Then open your browser at [http://localhost:9411](http://localhost:9411)
 
+### Jaeger
+
+Setup access to the Jaeger dashboard URL using port-forwarding:
+
+```bash
+kubectl port-forward $(kubectl get pod -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 16686:16686 &
+```
+
+Then open your browser at [http://localhost:16686](http://localhost:16686)
+
 
 ## Generating traces using the BookInfo sample
 
 With the BookInfo application up and running, generate trace information by accessing
 `http://$GATEWAY_URL/productpage` one or more times.
 
-If you now look at the Zipkin dashboard, you should see something similar to the following:
+If you now look at the dashboard, you should see something similar to the following:
 
-<figure><img style="max-width:100%" src="./img/zipkin_dashboard.png" alt="Zipkin Istio Dashboard" title="Zipkin Istio Dashboard" />
-<figcaption>Zipkin Istio Dashboard</figcaption></figure>
+<img style="max-width:50%" width="425" src="./img/zipkin_dashboard.png" alt="Zipkin Dashboard" title="Zipkin Dashboard" /> <img style="max-width:50%" width="425" src="./img/jaeger_dashboard.png" alt="Jaeger Dashboard" title="Jaeger Dashboard" />
+_(Zipkin on the left, Jaeger on the right)_
 
 If you click on the top (most recent) trace, you should see the details corresponding to your
 latest refresh of the `/productpage`.
 The page should look something like this:
 
-<figure><img style="max-width:100%" src="./img/zipkin_span.png" alt="Zipkin Istio Dashboard" title="Zipkin Istio Dashboard" />
-<figcaption>Zipkin Istio Dashboard</figcaption></figure>
+<img style="max-width:50%" width="425" src="./img/zipkin_span.png" alt="Zipkin Trace View" title="Zipkin Trace View" /> <img style="max-width:50%" width="425" src="./img/jaeger_trace.png" alt="Jaeger Trace View" title="Jaeger Trace View" />
+_(Zipkin on the left, Jaeger on the right)_
 
-As you can see, there are 4 spans (only 3, if version v1 of the `reviews` service was used),
+As you can see, the trace is comprised of spans,
 where each span corresponds to a BookInfo service invoked during the execution of a `/productpage` request.
 Although every service has the same label, `istio-proxy`, because the tracing is being done by
 the Istio sidecar (Envoy proxy) which wraps the call to the actual service,
@@ -75,8 +94,8 @@ The `reviews` service took about 243ms to execute, including a 15ms call to `rat
 
 ## Understanding what happened
 
-Although Istio proxies are able to automatically send spans to Zipkin, they need some hints to tie together the entire trace.
-Applications need to propagate the appropriate HTTP headers so that when the proxies send span information to Zipkin,
+Although Istio proxies are able to automatically send spans, they need some hints to tie together the entire trace.
+Applications need to propagate the appropriate HTTP headers so that when the proxies send span information to Zipkin or Jaeger,
 the spans can be correlated correctly into a single trace.
 
 To do this, an application needs to collect and propagate the following headers from the incoming request to any outgoing requests:
@@ -144,5 +163,5 @@ When you make downstream calls in your applications, make sure to include these 
 * Learn more about [Metrics and Logs]({{home}}/docs/tasks/metrics-logs.html)
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [BookInfo cleanup]({{home}}/docs/samples/bookinfo.html#cleanup) instructions
+  [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
   to shutdown the application and cleanup the associated rules.

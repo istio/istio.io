@@ -66,8 +66,8 @@ rule it's embedded in. The value for `params` depends on the `kind` of this
 aspect: each kind of aspect defines its own `params` proto.
 
 The following example instructs Mixer to populate a metric named "responseTime"
-that was declared to have three labels: srcConsumerId, targetResponseStatusCode,
-and targetServiceName. For each label and the metric's `value` we provide
+that was declared to have three labels: srcConsumerId, destinationResponseStatusCode,
+and destinationServiceName. For each label and the metric's `value` we provide
 an expression over Istio's attributes. Mixer evaluates these expressions for
 each request.
 
@@ -80,8 +80,8 @@ params:
     value: response.time  # from the set of canonical attributes
     labels:
       srcConsumerId: source.user | source.uid
-      targetResponseStatusCode: response.code
-      targetServiceName: target.service
+      destinationResponseStatusCode: response.code
+      destinationServiceName: destination.service
 ```
 
 <table>
@@ -130,7 +130,7 @@ evaluated if this rule's selector is true.
 <ul>
   <li>an empty selector evaluates to <code>true</code></li>
   <li><code>true</code>, a boolean literal; a rule with this selector will always be executed</li>
-  <li><code>target.service == ratings*</code> selects any request targeting a service whose name starts with "ratings"</li>
+  <li><code>destination.service == ratings*</code> selects any request targeting a service whose name starts with "ratings"</li>
   <li><code>attr1 == &quot;20&quot; &amp;&amp; attr2 == &quot;30&quot;</code> logical AND, OR, and NOT are also available</li>
 </ul></td>
  </tr>
@@ -388,7 +388,7 @@ The following example configures a metric that will be recorded for all services
 subject: "namespace:ns1"
 revision: "1011"
 rules:
-- selector: target.service == "*"
+- selector: destination.service == "*"
   aspects:
   - kind: metrics
     params:

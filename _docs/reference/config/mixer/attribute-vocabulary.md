@@ -31,15 +31,15 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | source.uid | string | Platform-specific unique identifier for the client instance of the source service. | kubernetes://redis-master-2353460263-1ecey.my-namespace |
 | source.labels | map[string, string] | A map of key-value pairs attached to the client instance. | version => v1 |
 | source.user | string | The identity of the immediate sender of the request, authenticated by mTLS. | service-account-foo |
-| target.ip | ip_address | Server IP address. | 10.0.0.104 |
-| target.port | int64 | The recipient port on the server IP address. | 8080 |
-| target.service | string | The fully qualified name of the service that the server belongs to. | my-svc.my-namespace.svc.cluster.local |
-| target.name | string | The short name part of the target service. | my-svc |
-| target.namespace | string | The namespace part of the target service. | my-namespace |
-| target.domain | string | The domain suffix part of the target service, excluding the name and the namespace. | svc.cluster.local |
-| target.uid | string | Platform-specific unique identifier for the server instance of the target service. | kubernetes://my-svc-234443-5sffe.my-namespace |
-| target.labels | map[string, string] | A map of key-value pairs attached to the server instance. | version => v2 |
-| target.user | string | The user running the target application. | service-account |
+| destination.ip | ip_address | Server IP address. | 10.0.0.104 |
+| destination.port | int64 | The recipient port on the server IP address. | 8080 |
+| destination.service | string | The fully qualified name of the service that the server belongs to. | my-svc.my-namespace.svc.cluster.local |
+| destination.name | string | The short name part of the destination service. | my-svc |
+| destination.namespace | string | The namespace part of the destination service. | my-namespace |
+| destination.domain | string | The domain suffix part of the destination service, excluding the name and the namespace. | svc.cluster.local |
+| destination.uid | string | Platform-specific unique identifier for the server instance of the destination service. | kubernetes://my-svc-234443-5sffe.my-namespace |
+| destination.labels | map[string, string] | A map of key-value pairs attached to the server instance. | version => v2 |
+| destination.user | string | The user running the destination application. | service-account |
 | request.headers | map[string, string] | HTTP request headers. | |
 | request.id | string | An ID for the request with statistically low probability of collision. | |
 | request.path | string | The HTTP URL path including query string | |
@@ -49,10 +49,10 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | request.referer | string | The HTTP referer header. | |
 | request.scheme | string | URI Scheme of the request | |
 | request.size | int64 | Size of the request in bytes. For HTTP requests this is equivalent to the Content-Length header. | |
-| request.time | timestamp | The timestamp when the target receives the request. This should be equivalent to Firebase "now". | |
+| request.time | timestamp | The timestamp when the destination receives the request. This should be equivalent to Firebase "now". | |
 | request.useragent | string | The HTTP User-Agent header. | |
 | response.headers | map[string, string] | HTTP response headers. | |
 | response.size | int64 | Size of the response body in bytes | |
-| response.time | timestamp | The timestamp when the target produced the response. | |
+| response.time | timestamp | The timestamp when the destination produced the response. | |
 | response.duration | duration | The amount of time the response took to generate. | |
 | response.code | int64 | The response's HTTP status code | |
