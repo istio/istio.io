@@ -6,6 +6,7 @@ order: 30
 
 layout: docs
 type: markdown
+redirect_from: "/docs/tasks/ingress.html"
 ---
 
 This task describes how to configure Istio to expose a service outside of the service mesh cluster.
@@ -17,15 +18,15 @@ to configure ingress behavior.
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](./installing-istio.html).
+  [Installation guide](({{home}}/docs/setup/).
   
 * Make sure your current directory is the `istio` directory.
   
-* Start the [httpbin](https://github.com/istio/istio/tree/master/samples/apps/httpbin) sample,
+* Start the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) sample,
   which will be used as the destination service to be exposed externally.
 
   ```bash
-  kubectl apply -f <(istioctl kube-inject -f samples/apps/httpbin/httpbin.yaml)
+  kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml)
   ```
 
 ## Configuring ingress (HTTP)
@@ -304,10 +305,10 @@ We also showed how to control the ingress traffic using an Istio route rule.
    kubectl delete secret ingress-secret
    ```
 
-1. Shutdown the [httpbin](https://github.com/istio/istio/tree/master/samples/apps/httpbin) service.
+1. Shutdown the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) service.
 
    ```bash
-   kubectl delete -f samples/apps/httpbin/httpbin.yaml
+   kubectl delete -f samples/httpbin/httpbin.yaml
    ```
 
 

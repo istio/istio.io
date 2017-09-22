@@ -2,10 +2,11 @@
 title: Distributed Tracing
 overview: How to configure the proxies to send tracing requests to Zipkin or Jaeger
 
-order: 120
+order: 20
 
 layout: docs
 type: markdown
+redirect_from: "/docs/tasks/distributed-tracing.html"
 ---
 {% include home.html %}
 
@@ -21,7 +22,7 @@ example application for this task.
 
 ## Before you begin
 
-* Setup Istio by following the instructions in the [Installation guide](./installing-istio.html).
+* Setup Istio by following the instructions in the [Installation guide](({{home}}/docs/setup/).
 
   If you didn't start the Zipkin or Jaeger addon during installation,
   you can run the following command to start it now:
