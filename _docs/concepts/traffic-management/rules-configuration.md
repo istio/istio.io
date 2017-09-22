@@ -47,14 +47,14 @@ deployment using the `kubectl` command instead. See the
 [configuring request routing task]({{home}}/docs/tasks/request-routing.html) for
 examples.
 
-There are three kinds of traffic management rules in Istio, **Route Rules**, **Destination
+There are three kinds of traffic management rules in Istio: **Route Rules**, **Destination
 Policies** (these are not the same as Mixer policies), and **Egress Rules**. All three
 kinds of rules control how requests are routed to a destination service.
 
 ## Route Rules
 
-Route rules control how requests are routed within an Istio service mesh,
-for example, to different versions of a service.
+Route rules control how requests are routed within an Istio service mesh.
+For example, a route rule could route requests to different versions of a service.
 Requests can be routed based on the source and destination, HTTP
 header fields, and weights associated with individual service versions. The
 following important aspects must be kept in mind while writing route rules:
