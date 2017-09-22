@@ -15,8 +15,8 @@ iptables is used in the pod to transparently redirect all outbound traffic to th
 which only handles intra-cluster destinations.
   
 This task describes how to configure Istio to expose external services to Istio-enabled clients.
-You'll learn how to configure an external service and make requests to it via the Istio egress
-service or, alternatively, to simply enable direct calls to an external service.
+You'll learn how to enable access to external services using egress rules,
+or alternatively, to simply bypass the Istio proxy for a specific range of IPs.
 
 ## Before you begin
 
@@ -32,54 +32,47 @@ service or, alternatively, to simply enable direct calls to an external service.
 
   Note that any pod that you can `exec` and `curl` from would do.
 
-## Using the Istio Egress service
+## Using Istio egress rules
 
-Using the Istio Egress service, you can access any publicly accessible service
+Using Istio egress rules, you can access any publicly accessible service
 from within your Istio cluster. In this task we will use 
 [httpbin.org](http://httpbin.org) and [www.google.com](http://www.google.com) as examples.
 
 ### Configuring the external services
 
-1. Register an external HTTP service:
+1. Create an egress rule to allow access to an external HTTP service:
 
    ```bash
-   cat <<EOF | kubectl create -f -
-   apiVersion: v1
-   kind: Service
+   cat <<EOF | istioctl create -f -
+   apiVersion: config.istio.io/v1alpha2
+   kind: EgressRule
    metadata:
-    name: externalbin
+     name: httpbin-egress-rule
    spec:
-    type: ExternalName
-    externalName: httpbin.org
-    ports:
-    - port: 80
-      # important to set protocol name
-      name: http
+     destination:
+       service: httpbin.org
+     ports:
+       - port: 80
+         protocol: http
    EOF
    ```
 
-2. Register an external HTTPS service:
+2. Create an egress rule to allow access to an external HTTPS service:
 
    ```bash
-   cat <<EOF | kubectl create -f -
-   apiVersion: v1
-   kind: Service
+   cat <<EOF | istioctl create -f -
+   apiVersion: config.istio.io/v1alpha2
+   kind: EgressRule
    metadata:
-    name: securegoogle
+     name: google-egress-rule
    spec:
-    type: ExternalName
-    externalName: www.google.com
-    ports:
-    - port: 443
-      # important to set protocol name
-      name: https
+     destination:
+       service: www.google.com
+     ports:
+       - port: 443
+         protocol: https
    EOF
    ```
-   
-The `metadata.name` field is the url your internal applications will use when calling the external service.
-The `spec.externalName` is the DNS name of the external service.
-Egress Envoy expects external services to be listening on either port `80` for
-HTTP or port `443` for HTTPS.
 
 ### Make requests to the external services
 
@@ -91,27 +84,86 @@ HTTP or port `443` for HTTPS.
    kubectl exec -it $SOURCE_POD -c sleep bash
    ```
 
-2. Make a request to an external service using the `name` from the Service spec
-   above followed by the path to the desired API endpoint:
+2. Make a request to the external HTTP service:
 
    ```bash
-   curl http://externalbin/headers
+   curl http://httpbin.org/headers
    ```
 
-3. For external services of type HTTPS, the port must be specified in the request.
-   App clients should make the request over HTTP since the Egress Envoy will initiate HTTPS 
-   with the external service:
+3. Make a request to the external HTTPS service.
+   External services of type HTTPS must be accessed over HTTP with the port specified in the request:
 
    ```bash
-   curl http://securegoogle:443
+   curl http://www.google.com:443
    ```
+
+### Setting route rules on an external service
+
+Similar to inter-cluster requests, Istio
+[routing rules]({{home}}/docs/concepts/traffic-management/rules-configuration.html)
+can also be set for external services that are accessed using egress rules.
+To illustrate we will use [istioctl]({{home}}/docs/reference/commands/istioctl.html)
+to set a timeout rule on calls to the httpbin.org service.
+
+1. From inside the pod being used as the test source, invoke the `/delay` endpoint of the httpbin.org external service:
+
+   ```bash
+   kubectl exec -it $SOURCE_POD -c sleep bash
+   time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
+   ```
+
+   ```bash
+   200
+
+   real    0m5.024s
+   user    0m0.003s
+   sys     0m0.003s
+   ```
+
+   The request should return 200 (OK) in approximately 5 seconds.
+
+1. Exit the source pod and use `istioctl` to set a 3s timeout on calls to the httpbin.org external service:
+
+   ```bash
+   cat <<EOF | istioctl create -f -
+   apiVersion: config.istio.io/v1alpha2
+   kind: RouteRule
+   metadata:
+     name: httpbin-timeout-rule
+   spec:
+     destination:
+       service: httpbin.org
+     http_req_timeout:
+       simple_timeout:
+         timeout: 3s
+   EOF
+   ```
+
+1. Wait a few seconds, then issue the _curl_ request again:
+
+   ```bash
+   kubectl exec -it $SOURCE_POD -c sleep bash
+   time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
+   ```
+
+   ```bash
+   504
+
+   real    0m3.149s
+   user    0m0.004s
+   sys     0m0.004s
+   ```
+
+   This time a 504 (Gateway Timeout) appears after 3 seconds.
+   Although httpbin.org was waiting 5 seconds, Istio cut off the request at 3 seconds.
+
 
 ## Calling external services directly
 
-The Istio Egress service currently only supports HTTP/HTTPS requests.
+The Istio egress rules currently only supports HTTP/HTTPS requests.
 If you want to access services with other protocols (e.g., mongodb://host/database), 
-or if you simply don't want to use the
-Egress proxy, you will need to configure the source service's Envoy sidecar to prevent it from 
+or if you want to completely bypass Istio for a specific IP range,
+you will need to configure the source service's Envoy sidecar to prevent it from
 [intercepting]({{home}}/docs/concepts/traffic-management/request-routing.html#communication-between-services)
 the external requests. This can be done using the `--includeIPRanges` option of
 [istioctl kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject)
@@ -163,17 +215,18 @@ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.n
 kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
 ```
 
+
 ## Understanding what happened
 
 In this task we looked at two ways to call external services from within an Istio cluster:
 
-1. Using the Istio egress service (recommended)
+1. Using an egress rule (recommended)
 
 2. Configuring the Istio sidecar to exclude external IPs from its remapped IP table
 
-The first approach (Egress service) currently only supports HTTP(S) requests, but allows
+The first approach (egress rule) currently only supports HTTP(S) requests, but allows
 you to use all of the same Istio service mesh features for calls to services within or outside 
-of the cluster.
+of the cluster. We demonstrated this by setting a timeout rule for calls to an external service.
 
 The second approach bypasses the Istio sidecar proxy, giving your services direct access to any
 external URL. However, configuring the proxy this way does require
@@ -182,10 +235,11 @@ cloud provider specific knowledge and configuration.
 
 ## Cleanup
 
-1. Remove the external services.
+1. Remove the rules.
     
    ```bash
-   kubectl delete service externalbin securegoogle 
+   istioctl delete egressrule httpbin-egress-rule google-egress-rule
+   istioctl delete routerule httpbin-timeout-rule
    ```
 
 1. Shutdown the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) service.
@@ -197,6 +251,6 @@ cloud provider specific knowledge and configuration.
 
 ## What's next
 
-* Read more about the [egress service]({{home}}/docs/concepts/traffic-management/request-routing.html#ingress-and-egress-envoys).
+* Read more about [egress rules]({{home}}/docs/concepts/traffic-management/rules-configuration.html#egress-rules).
 
 * Learn how to use Istio's [request routing](./request-routing.html) features.
