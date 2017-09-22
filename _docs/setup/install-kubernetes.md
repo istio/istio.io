@@ -162,7 +162,7 @@ visualization (via `/dotviz`) of the underlying service graph. If you configured
 the above command, you can view the graphical visualization by opening your browser at [http://localhost:8088/dotviz](http://localhost:8088/dotviz).
 
 After you run some services, a service graph builds. For example, after installing the
-[BookInfo]({{home}}/docs/samples/bookinfo.html) sample application and generating some load on the
+[BookInfo]({{home}}/docs/guides/bookinfo.html) sample application and generating some load on the
 application (e.g., executing `curl` requests in a `while` loop), the resulting service graph looks
 similar to the following:
 
@@ -215,7 +215,7 @@ similar to the following:
 ## Deploy your application
 
 You can now deploy your own application or one of the sample applications provided with the
-installation like [BookInfo]({{home}}/docs/samples/bookinfo.html).
+installation like [BookInfo]({{home}}/docs/guides/bookinfo.html).
 Note: the application must use HTTP/1.1 or HTTP/2.0 protocol for all its HTTP traffic because HTTP/1.0 is not supported.
 
 Unless you installed the Istio-Initializer as shown above, when deploying the application, you must
@@ -259,6 +259,6 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 
 ## What's next
 
-* See the sample [BookInfo]({{home}}/docs/samples/bookinfo.html) application.
+* See the sample [BookInfo]({{home}}/docs/guides/bookinfo.html) application.
 
-* See how to [test Istio Auth]({{home}}/docs/tasks/istio-auth.html).
+* See how to [test Istio Auth]({{home}}/docs/tasks/security/istio-auth.html).

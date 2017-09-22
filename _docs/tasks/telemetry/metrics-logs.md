@@ -15,7 +15,7 @@ This task shows how to configure Istio to automatically gather telemetry for
 services in a mesh. At the end of this task, a new metric and a new log stream
 will be enabled for calls to services within your mesh.
 
-The [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application is used
+The [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application is used
 as the example application throughout this task.
 
 ## Before you begin
@@ -312,5 +312,5 @@ here to illustrate how to use `match` expressions to control rule execution.
   Config]({{home}}/docs/reference/writing-config.html).
 
 * If you are not planning to explore any follow-on tasks, refer to the [BookInfo
-  cleanup]({{home}}/docs/samples/bookinfo.html#cleanup) instructions to shutdown
+  cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions to shutdown
   the application and cleanup the associated rules.

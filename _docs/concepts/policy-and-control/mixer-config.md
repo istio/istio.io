@@ -437,5 +437,5 @@ manifests:
 
 ## Examples
 
-You can find fully formed examples of Mixer configuration by visiting the [Samples]({{home}}/docs/samples). As
+You can find fully formed examples of Mixer configuration by visiting the [Guides]({{home}}/docs/guides). As
 a specific example, here is the [Default configuration](https://github.com/istio/mixer/blob/master/testdata/configroot/scopes/global/subjects/global/rules.yml).
