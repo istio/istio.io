@@ -36,9 +36,12 @@ ApiServer in the proxy container.
 
 To ssh into the proxy container:
 
+```bash
 $ kubectl exec -it myPod -c istio-proxy /bin/bash
+```
 
 Access ApiServer within the proxy container:
 
+```bash
 # curl https://kubernetes/api/v1/namespaces/default/secrets -H "Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" -k -v
-
+```
