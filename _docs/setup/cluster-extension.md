@@ -1,19 +1,21 @@
 ---
-title: Istio with Cluster Extensions
-overview: Quick Start instructions to extend the Istio service mesh with external machines.
+title: Istio Kubernetes Cluster Extension
+overview: Instructions to add external machines to your Istio managed Kubernetes cluster.
 
-order: 30
+order: 25
 
 layout: docs
 type: markdown
 ---
 
 This task shows how to install Istio in a non-kubernetes machine in the same network
-(VPC, VPN) as the kubernetes cluster.
+(VPC, VPN) as the Kubernetes cluster.
 
 _This document is under construction._
 
 ## Prerequisites
+
+* You have [installed Istio](install-kubernetes.html) on your cluster
 
 * The machine must have IP connectivity to the nodes and endpoints in the cluster. This
 typically requires same VPC or a VPN connection, as well as a container network that
