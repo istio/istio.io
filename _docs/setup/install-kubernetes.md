@@ -172,8 +172,8 @@ similar to the following:
 
 ## Verifying the installation
 
-1. Ensure the following Kubernetes services are deployed: "istio-pilot", "istio-mixer",
-   "istio-ingress", "istio-egress", and, optionally, "grafana", "prometheus' and "servicegraph".
+1. Ensure the following Kubernetes services are deployed: `istio-pilot`, `istio-mixer`,
+   `istio-ingress`, `istio-egress`, and, optionally, `grafana`, `prometheus` and `servicegraph`.
 
    ```bash
    kubectl get svc -n istio-system
@@ -195,8 +195,8 @@ similar to the following:
    application using the service NodePort, or use port-forwarding instead.
 
 2. Ensure the corresponding Kubernetes pods are deployed and all containers are up and running:
-   "istio-pilot-\*", "istio-mixer-\*", "istio-ingress-\*", "istio-egress-\*", "istio-ca-\*" ,
-   and, optionally, "grafana-\*", "prometheus-\*' and "servicegraph-\*".
+   `istio-pilot-\*`, `istio-mixer-\*`, `istio-ingress-\*`, `istio-egress-\*`, `istio-ca-\*`,
+   and, optionally, `grafana-\*`, `prometheus-\*` and `servicegraph-\*`.
 
    ```bash
    kubectl get pods -n istio-system
