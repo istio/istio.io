@@ -47,14 +47,15 @@ deployment using the `kubectl` command instead. See the
 [configuring request routing task]({{home}}/docs/tasks/request-routing.html) for
 examples.
 
-There are two types of rules in Istio, **Route Rules** and **Destination
-Policies** (these are not the same as Mixer policies). Both types of rules
-control how requests are routed to a destination service.
+There are three kinds of traffic management rules in Istio: **Route Rules**, **Destination
+Policies** (these are not the same as Mixer policies), and **Egress Rules**. All three
+kinds of rules control how requests are routed to a destination service.
 
 ## Route Rules
 
-Route rules control how requests are routed to different versions of a
-service. Requests can be routed based on the source and destination, HTTP
+Route rules control how requests are routed within an Istio service mesh.
+For example, a route rule could route requests to different versions of a service.
+Requests can be routed based on the source and destination, HTTP
 header fields, and weights associated with individual service versions. The
 following important aspects must be kept in mind while writing route rules:
 
@@ -65,8 +66,8 @@ Every rule corresponds to some destination service identified by a
 to the "reviews" service will typically include at least the following.
 
 ```yaml
-  destination:
-    name: reviews
+destination:
+  name: reviews
 ```
 
 The *destination* value specifies, implicitly or explicitly, a fully qualified
@@ -82,10 +83,10 @@ FQDN = name + "." + namespace + "." + domain
 These fields can be explicitly specified as follows.
 
 ```yaml
-  destination:
-    name: reviews
-    namespace: default
-    domain: svc.cluster.local
+destination:
+  name: reviews
+  namespace: default
+  domain: svc.cluster.local
 ```
 
 More commonly, to simplify and maximize reuse of the rule (for example, to use
@@ -105,8 +106,8 @@ on platforms where *namespace* and *domain* are not meaningful, an alternative
 *service* field can be used to explicitly specify the destination:
 
 ```yaml
-  destination:
-    service: my-service.com
+destination:
+  service: my-service.com
 ```
 
 When the *service* field is specified, all other implicit or explicit values of the
@@ -554,3 +555,61 @@ without any rules being set, as soon as version discrimination is desired
 rules are going to be needed.
 Therefore, setting a default rule for every service, right from the
 start, is generally considered a best practice in Istio.
+
+## Egress Rules
+
+Egress rules are used to enable requests to services outside of an Istio service mesh.
+For example, the following rule can be used to allow external calls to services hosted
+under the `*.foo.com` domain.
+
+```yaml
+apiVersion: config.istio.io/v1alpha2
+kind: EgressRule
+metadata:
+  name: foo-egress-rule
+spec:
+  destination:
+    service: *.foo.com
+  ports:
+    - port: 80
+      protocol: http
+    - port: 443
+      protocol: https
+```
+
+The destination of an egress rule is specified using the *service* field, which
+can be either a fully qualified or wildcard domain name.
+It represents a white listed set of one or more external services that services
+in the mesh are allowed to access. The supported wildcard syntax can be found
+[here]({{home}}/docs/reference/config/traffic-rules/egress-rule.html).
+
+Currently, only HTTP-based services can be expressed using an egress rule, however,
+TLS origination from the sidecar can be achieved by setting the protocol of
+the associated service port to "https", as shown in the above example.
+The service must be accessed over HTTP
+(e.g., `http://secure-service.foo.com:443`, instead of `https://secure-service.foo.com`),
+however, the sidecar will upgrade the connection to TLS in this case.
+
+Egress rules work well in conjunction with route rules and destination
+policies as long as they refer to the external services using the exact same
+specification for the destination service as the corresponding egress rule.
+For example, the following rule can be used in conjunction with the above egress
+rule to set a 10s timeout for calls to the external services.
+
+```yaml
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: foo-timeout-rule
+spec:
+  destination:
+    service: *.foo.com
+  httpReqTimeout:
+    simpleTimeout:
+      timeout: 10s
+```
+
+Destination policies and route rules to redirect and forward traffic, to define retry,
+timeout and fault injection policies are all supported for external destinations.
+Weighted (version-based) routing is not possible, however, since there is no notion
+of multiple versions of an external service.
