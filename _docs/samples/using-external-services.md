@@ -6,7 +6,6 @@ order: 50
 
 layout: docs
 type: markdown
-draft: false
 ---
 {% include home.html %}
 
