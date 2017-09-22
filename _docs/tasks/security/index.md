@@ -1,5 +1,5 @@
 ---
-title: Authentication
+title: Security
 overview: Describes tasks that help securing the service mesh traffic.
 
 order: 20
