@@ -17,11 +17,11 @@ automatic sidecar proxy injection.
 
 ## What's an initializer?
 
-See [What are initializers?](https://kubernetes.io/docs/admin/extensible-admission-controllers/#what-are-initializers) and
+See [What are initializers](https://kubernetes.io/docs/admin/extensible-admission-controllers/#what-are-initializers) and
 [Kubernetes Initializer Tutorial](https://github.com/kelseyhightower/kubernetes-initializer-tutorial) for
 a general overview of Kubernetes initializers. The Istio Initializer performs the same function as
-[istioctl kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject),
-but does so automatically for most workloads created in the cluster.
+[istioctl kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject) automatically
+for cluster workloads.
 
 Note: Kubernetes InitializerConfiguration is not namespaced and
 applies to workloads across the entire cluster. Do _not_ enable this
@@ -67,24 +67,24 @@ kubectl apply -f install/kubernetes/istio-initializer.yaml
 
 This create four resources: Deployment, ConfigMap, InitializerConfiguration, and ServiceAccount
 
-* InitializerConfiguration
+### InitializerConfiguration
 
 The `istio-sidecar` InitializerConfiguration configures what resources are subject to
 initialization. By default `deployments`, `statefulsets`, `jobs`, and
 `daemonsets` are enabled.
 
-* ConfigMap
+### ConfigMap
 
 The `istio-inject` ConfigMap contains the default injection
 policy for the initializer, namespace(s) to initialize, and template
 parameters to use during the injection itself. These options are
 explained in more detail under #extended-configuration.
 
-* Deployment
+### Deployment
 
 The `istio-initializer` Deployment runs the initializer controller
 
-* ServiceAccount
+### ServiceAccount
 
 The `istio-initializer-service-account` ServiceAccount is used by the
 `istio-initializer` deployment. The `ClusterRole` and
@@ -210,8 +210,8 @@ Here's what happened after the workload was submitted to Kubernetes:
 1) kubernetes adds `sidecar.initializer.istio.io` to the list of
 pending initializers in the workload.
 
-2) istio-initializer controller observes a new workload (via
-`watch`). It finds its configured name `sidecar.initializer.istio.io`
+2) istio-initializer controller observes a new uninitialized workload was created. 
+It finds its configured name `sidecar.initializer.istio.io`
 as the first in the list of pending initializers.
 
 3) istio-initializer checks to see if it was responsible for
@@ -262,7 +262,7 @@ data:
       imagePullPolicy: IfNotPresent
 ```
 
-### _policy_ can have one of the following values:
+### _policy_
 
 `off` - Disable the initializer from modifying resources. The pending
 'status.sidecar.istio.io initializer' initializer is still removed to
@@ -281,7 +281,7 @@ false.
 #### per-workload overrides
 
 Individual workloads can override the global policy using the
-`sidecar.istio.io/inject` annotation. The global policy always applies
+`sidecar.istio.io/inject` annotation. The global policy applies
 if the annotation is omitted.
 
 If the value of the annotation is `true`, sidecar proxy will be
@@ -296,10 +296,10 @@ per-workload overrides.
 |  policy  | workload annotation | injected |
 | -------- | ------------------- | -------- |
 | off      | N/A                 | no       |
-| disabled | none                | no       |
+| disabled | omitted          | no       |
 | disabled | false               | no       |
 | disabled | true                | yes      |
-| enabled  | none                | yes      |
+| enabled  | omitted                | yes      |
 | enabled  | false               | no       |
 | enabled  | true                | yes      |
 
@@ -307,8 +307,8 @@ per-workload overrides.
 
 This is a list of namespaces to watch and initialize. The special `""`
 namespace corresponds to `v1.NamespaceAll` and configures the
-initializer to initializer all namespaces. Known special namespaces
-are except from initialization, e.g. kube-system, istio-system.
+initializer to initialize all namespaces. kube-system, kube-public, and 
+istio-system are exept from initialization.
 
 ### _initializerName_
 
