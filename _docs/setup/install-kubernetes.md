@@ -254,7 +254,7 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 1. Delete Istio's [Kubernetes CRDs](https://kubernetes.io/docs/tasks/access-kubernetes-api/extend-api-custom-resource-definitions/):
 
    ```bash
-   kubectl get crd -o 'jsonpath={.items[*].metadata.name}' | grep config\.istio\.io | xargs kubectl delete crd
+   kubectl get crd -o 'jsonpath={.items[*].metadata.name}' | xargs -n 1 | fgrep config.istio.io | xargs kubectl delete crd
    ```
 
 ## What's next
