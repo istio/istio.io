@@ -82,13 +82,13 @@ explained in more detail under #extended-configuration.
 
 ### Deployment
 
-The `istio-initializer` Deployment runs the initializer controller
+The `istio-initializer` Deployment runs the initializer controller.
 
 ### ServiceAccount
 
 The `istio-initializer-service-account` ServiceAccount is used by the
 `istio-initializer` deployment. The `ClusterRole` and
-`ClusterRoleBinding` are defined ininstall/kubernetes/istio.yaml. Note
+`ClusterRoleBinding` are defined in install/kubernetes/istio.yaml. Note
 that `initialize` and `patch` are required on _all_ workload resource
 types. It is for this reason that the initializer is run as its own
 deployment and not embedded in another controller, e.g. istio-pilot.
