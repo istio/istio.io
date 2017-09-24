@@ -199,7 +199,7 @@ The common baseline set of attributes available in most Istio deployments is def
 [here](https://istio.io/docs/reference/config/mixer/attribute-vocabulary.html).
 
 Attributes are strongly typed. The supported attribute types are defined by
-[ValueType](https://github.com/istio/api/blob/master/mixer/v1/config/descriptor/valueType.proto).
+[ValueType](https://github.com/istio/api/blob/master/mixer/v1/config/descriptor/value_type.proto).
 Each type of value is encoded into one of the so-called transport types present
 in this message.
 
