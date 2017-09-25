@@ -35,7 +35,7 @@ alpha feature that must be explicitly enabled.
 
 The following steps assume RBAC is enabled.
 
-### GKE
+### Google Container Engine
 
 Create an alpha cluster on GKE:
 
@@ -56,6 +56,10 @@ Create a cluster with DynamicAdmissionControl enabled on Minikube:
 Minikube version v0.22.1 or later is required for proper certificate
 configuration for GenericAdmissionWebhook feature. Get the latest
 version from https://github.com/kubernetes/minikube/releases.
+
+### Bluemix 
+
+Kubernetes alpha features are enabled by default on new IBM Bluemix clusters.
 
 ```bash
 minikube start \
@@ -239,7 +243,7 @@ and submits it back to kubernetes via PATCH.
 7) kubernetes finishes creating the workload as normal and the
 workload includes the injected sidecar proxy.
 
-## [Additionl configuration options](#additional-configuration-options)
+## [Additional configuration options](#additional-configuration-options)
 
 The istio-initializer has a global default policy for injection as
 well as per-workload overrides. The global policy is configured by the
