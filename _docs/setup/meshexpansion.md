@@ -1,6 +1,6 @@
 ---
-title: Istio Kubernetes Cluster Extension
-overview: Instructions to add external machines to your Istio managed Kubernetes cluster.
+title: Istio Kubernetes Mesh Expansion
+overview: Instructions to add external machines and expanding Istio.
 
 order: 25
 
@@ -8,8 +8,8 @@ layout: docs
 type: markdown
 ---
 
-Instructions to configure Istio on a Kubernetes Cluster to support workloads not
-managed by Kubernetes, running on cloud or on prem VMs.
+Instructions to configure Istio on a Kubernetes Cluster so it can be expanded with
+services running on cloud or on prem VMs.
 
 _This document is under construction._
 
@@ -17,7 +17,7 @@ _This document is under construction._
 
 * You have [installed Istio](install-kubernetes.html) on Kubernetes.
 
-* The machine must have IP connectivity to the endpoints in the cluster. This
+* The machine must have IP connectivity to the endpoints in the mesh. This
 typically requires same VPC or a VPN connection, as well as a container network that
 provides direct (without NAT or firewall deny) routing to the endpoints. The machine
 is not required to have access to the cluster IP addresses assigned by K8S.
@@ -30,15 +30,15 @@ custom network configurations - separate documents will cover advanced configs.
 
 ## Installation steps
 
-Setup consists of preparing the cluster for extensions and installing and configuring each VM.
+Setup consists of preparing the mesh for expansion and installing and configuring each VM.
 
-An example script to help with the cluster setup is available in
+An example script to help with K8S setup is available in
 [install/tools/setupMeshEx.sh](https://raw.githubusercontent.com/istio/istio/master/install/tools/setupMeshEx.sh).
 
 An example script to help configure a machine is available in [install/tools/setupIstioVM.sh](https://raw.githubusercontent.com/istio/istio/master/install/tools/setupIstioVM.sh).
 You should customize it based on your provisioning tools and DNS requirements.
 
-### Preparing the K8s cluster
+### Preparing the K8s for exapansion
 
 * Setup internal load balancers for Kube DNS, Pilot, Mixer and CA. This step is specific to
 each cluster, you may need to add annotations.
@@ -170,7 +170,7 @@ The generated files (key.pem, root-cert.pem, cert-chain.pem) must be copied to /
 
 
 After setup, the machine should be able to access services running in the k8s cluster
-or other cluster extension machines.
+or other mesh expansion machines.
 
 ```bash
    # Assuming you install bookinfo in 'bookinfo' namespace
@@ -179,7 +179,7 @@ or other cluster extension machines.
 
 ```
 
-## Running services on a cluster extension machine
+## Running services on a mesh expansion machine
 
 * Configure the sidecar to intercept the port. This is configured in /var/lib/istio/envoy/sidecar.env,
 using the ISTIO_INBOUND_PORTS environment variable.
@@ -203,5 +203,5 @@ services that are not backed by Kubernetes pods.
    istioctl -n onprem register svc1 1.2.3.4 http:7000
    ```
 
-After the setup, k8s pods and other cluster extensions should be able to access the
+After the setup, k8s pods and other mesh expansions should be able to access the
 services running on the machine.
