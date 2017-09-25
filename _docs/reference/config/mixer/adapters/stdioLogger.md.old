@@ -3,7 +3,7 @@ title: stdioLogger
 overview: stdioLogger adapter configuration schema
 
 order: 80
-
+draft: true
 layout: docs
 type: markdown
 ---

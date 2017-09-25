@@ -3,7 +3,7 @@ title: lists
 overview: lists aspect configuration schema
 
 order: 1160
-
+draft: true
 layout: docs
 type: markdown
 ---

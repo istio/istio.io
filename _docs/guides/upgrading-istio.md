@@ -3,7 +3,7 @@ title: Upgrading Istio
 overview: This guide demonstrates how to upgrade the Istio control plane and data plane independently.
 
 order: 70
-
+draft: true
 layout: docs
 type: markdown
 ---

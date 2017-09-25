@@ -3,7 +3,7 @@ title: accessLogs
 overview: accessLogs aspect configuration schema
 
 order: 1120
-
+draft: true
 layout: docs
 type: markdown
 ---
