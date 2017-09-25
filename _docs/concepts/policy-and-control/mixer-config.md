@@ -53,7 +53,7 @@ Mixer's configuration has the following central responsibilities:
 - Describe how to map request attributes into adapter inputs.
 - Describe when a particular adapter is called with specific inputs.
 
-Configuration is based on  [*adapters*](./mixer.html#adapters) and [*templates*](#templates)
+Configuration is based on  *adapters* and *templates*.
 - **Adapter** encapsulate the logic necessary to interface Mixer with a specific infrastructure backend.
 - **Template** defines the schema for specifying request mapping from attributes to adapter inputs. A template also defines the structure of the adapter inputs.
 An adapter may support multiple templates.
