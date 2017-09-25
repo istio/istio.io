@@ -3,7 +3,7 @@ title: denials
 overview: denials aspect configuration schema
 
 order: 1150
-
+draft: true
 layout: docs
 type: markdown
 ---

@@ -3,7 +3,7 @@ title: Policy Enforcement
 overview: This sample uses the Bookinfo application to demonstrate policy enforcement using Istio Mixer.
 
 order: 40
-
+draft: true
 layout: docs
 type: markdown
 ---

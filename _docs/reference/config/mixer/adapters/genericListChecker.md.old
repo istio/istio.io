@@ -3,7 +3,7 @@ title: genericListChecker
 overview: genericListChecker adapter configuration schema
 
 order: 10
-
+draft: true
 layout: docs
 type: markdown
 ---
