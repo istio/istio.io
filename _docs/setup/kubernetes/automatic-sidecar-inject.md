@@ -24,8 +24,8 @@ a general overview of Kubernetes initializers. The Istio Initializer performs th
 for cluster workloads.
 
 Note: Kubernetes InitializerConfiguration is not namespaced and
-applies to workloads across the entire cluster. Do _not_ enable this
-feature in shared testing environments.
+applies to workloads across the entire cluster. Do _not_ enable
+this feature in shared testing environments.
 
 ## Prerequisites
 
@@ -35,7 +35,9 @@ alpha feature that must be explicitly enabled.
 
 The following steps assume RBAC is enabled.
 
-### GKE
+### Google Container Engine
+
+Create an alpha cluster on GKE:
 
 ```bash
 gcloud container clusters create NAME \
@@ -49,7 +51,9 @@ gcloud container clusters create NAME \
 
 ### Minikube
 
-Minikube version >= v0.22.1 is required for proper certificate
+Create a cluster with DynamicAdmissionControl enabled on Minikube:
+
+Minikube version v0.22.1 or later is required for proper certificate
 configuration for GenericAdmissionWebhook feature. Get the latest
 version from https://github.com/kubernetes/minikube/releases.
 
@@ -58,6 +62,9 @@ minikube start \
     --extra-config=apiserver.Admission.PluginNames="Initializers,NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,GenericAdmissionWebhook,ResourceQuota" \
     --kubernetes-version=v1.7.5
 ```
+### Bluemix 
+
+Kubernetes alpha features are enabled by default on new IBM Bluemix clusters.
 
 ## Installing the initializer
 
@@ -65,7 +72,7 @@ minikube start \
 kubectl apply -f install/kubernetes/istio-initializer.yaml
 ```
 
-This create four resources: Deployment, ConfigMap, InitializerConfiguration, and ServiceAccount
+This creates four resources: Deployment, ConfigMap, InitializerConfiguration, and ServiceAccount
 
 ### InitializerConfiguration
 
@@ -78,7 +85,7 @@ initialization. By default `deployments`, `statefulsets`, `jobs`, and
 The `istio-inject` ConfigMap contains the default injection
 policy for the initializer, namespace(s) to initialize, and template
 parameters to use during the injection itself. These options are
-explained in more detail under #extended-configuration.
+explained in more detail under [additional configuration options](#additional-configuration-options).
 
 ### Deployment
 
@@ -88,7 +95,7 @@ The `istio-initializer` Deployment runs the initializer controller.
 
 The `istio-initializer-service-account` ServiceAccount is used by the
 `istio-initializer` deployment. The `ClusterRole` and
-`ClusterRoleBinding` are defined in install/kubernetes/istio.yaml. Note
+`ClusterRoleBinding` are defined in `install/kubernetes/istio.yaml`. Note
 that `initialize` and `patch` are required on _all_ workload resource
 types. It is for this reason that the initializer is run as its own
 deployment and not embedded in another controller, e.g. istio-pilot.
@@ -177,7 +184,7 @@ $ echo $(kubectl get deployment service-one -o jsonpath='{.metadata.annotations.
 injected-version-9c7c291eab0a522f8033decd0f5b031f5ed0e126
 ```
 
-Or view the full deployment with injected containers and volumes.
+You can view the full deployment with injected containers and volumes.
 
 ```bash
 kubectl get deployment service-one -o yaml
@@ -218,7 +225,7 @@ as the first in the list of pending initializers.
 initializing the namespace of the workload. No further work is done
 and the initializer ignores the workload if the initializer is
 configured for the namespace. By default the initializer is
-responsible for all namespaces (see #extended-configuration)
+responsible for all namespaces (see [additional configuration options](#additional-configuration-options)).
 
 4) istio-initializer removes itself from the list of pending
 initializers. Kubernetes will not finish creating workloads if the
@@ -235,7 +242,7 @@ and submits it back to kubernetes via PATCH.
 7) kubernetes finishes creating the workload as normal and the
 workload includes the injected sidecar proxy.
 
-## Extended configuration
+## [Additional configuration options](#additional-configuration-options)
 
 The istio-initializer has a global default policy for injection as
 well as per-workload overrides. The global policy is configured by the
@@ -265,20 +272,20 @@ data:
 ### _policy_
 
 `off` - Disable the initializer from modifying resources. The pending
-'status.sidecar.istio.io initializer' initializer is still removed to
+`status.sidecar.istio.io initializer` initializer is still removed to
 avoid blocking creation of resources.
 
 `disabled` - The initializer will not inject the sidecar into
 resources by default for the namespace(s) being watched. Resources can
-enable injection using the "sidecar.istio.io/inject" annotation with
-value of true.
+enable injection using the `sidecar.istio.io/inject` annotation with
+value of `true`.
 
 `enabled` - The initializer will inject the sidecar into resources by
 default for the namespace(s) being watched. Resources can disable
-injection using the "sidecar.istio.io/inject" annotation with value of
-false.
+injection using the `sidecar.istio.io/inject` annotation with value of
+`false`.
 
-#### per-workload overrides
+##### workload overrides
 
 Individual workloads can override the global policy using the
 `sidecar.istio.io/inject` annotation. The global policy applies
@@ -308,7 +315,7 @@ per-workload overrides.
 This is a list of namespaces to watch and initialize. The special `""`
 namespace corresponds to `v1.NamespaceAll` and configures the
 initializer to initialize all namespaces. kube-system, kube-public, and 
-istio-system are exept from initialization.
+istio-system are exempt from initialization.
 
 ### _initializerName_
 
@@ -318,7 +325,7 @@ that match its configured name.
 
 ### _params_
 
-These parameters allow some limited tweaking to the injected sidecar
+These parameters allow you to make limited changes to the injected sidecar
 proxy. Changing these values will not affect already deployed
 workloads.
 
