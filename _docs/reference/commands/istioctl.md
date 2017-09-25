@@ -6,7 +6,7 @@ order: 20
 type: markdown
 ---
 
-<a name="istioctl_cmd"></a>
+<a name="istioctl"></a>
 ## istioctl
 
 Istio control interface
@@ -22,23 +22,22 @@ system.
 
 Available routing and traffic management configuration types:
 
-	[destination-policy ingress-rule route-rule]
+	[route-rule ingress-rule egress-rule destination-policy]
 
-See [here]({{home}}/docs/reference/config/traffic-rules/routing-rules.html) for an overview of routing rules
+See http://istio.io/docs/reference for an overview of routing rules
 and destination policies.
 
-More information on Mixer's API configuration can be found under the
-istioctl mixer command documentation.
 
 
 ### Options
 
 ```
-      --kube                             Use Kubernetes client to send API requests to Pilot service (default true)
-  -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
+  -h, --help                             help for istioctl
+  -i, --istioNamespace string            Istio system namespace (default "istio-system")
+  -c, --kubeconfig string                Kubernetes configuration file (default "/home/kuat/.kube/config")
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
-      --configAPIservice string          Name of Pilot service. When --kube=false this sets the address of the Pilot service (default "istio-pilot:8081")
-  -n, --namespace string                 Select a Kubernetes namespace (default "default")
+  -n, --namespace string                 Config namespace (default "default")
+  -p, --platform string                  Istio host platform (default "kube")
   -v, --v Level                          log level for V logs
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
 ```
@@ -57,7 +56,7 @@ be evaluated to provide interactive completion of istioctl
 commands.
 
 ```
-istioctl completion
+istioctl completion [flags]
 ```
 
 ### Examples
@@ -73,14 +72,61 @@ echo "source ~/.istioctl-complete.bash" >> ~/.bash_profile
 
 ```
 
+### Options
+
+```
+  -h, --help   help for completion
+```
+
 ### Options inherited from parent commands
 
 ```
-      --kube                             Use Kubernetes client to send API requests to Pilot service (default true)
-  -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
+  -i, --istioNamespace string            Istio system namespace (default "istio-system")
+  -c, --kubeconfig string                Kubernetes configuration file (default "/home/kuat/.kube/config")
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
-      --configAPIservice string          Name of Pilot service. When --kube=false this sets the address of the Pilot service (default "istio-pilot:8081")
-  -n, --namespace string                 Select a Kubernetes namespace (default "default")
+  -n, --namespace string                 Config namespace (default "default")
+  -p, --platform string                  Istio host platform (default "kube")
+  -v, --v Level                          log level for V logs
+      --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
+```
+
+<a name="istioctl_context-create"></a>
+## istioctl context-create
+
+Create a kubeconfig file suitable for use with istioctl in a non kubernetes environment
+
+### Synopsis
+
+
+Create a kubeconfig file suitable for use with istioctl in a non kubernetes environment
+
+```
+istioctl context-create --api-server http://<ip>:<port> [flags]
+```
+
+### Examples
+
+```
+# Create a config file for the api server.
+istioctl context-create --api-server http://127.0.0.1:8080
+```
+
+### Options
+
+```
+      --api-server string   URL for Istio api server
+      --context string      Kubernetes configuration file context name (default "istio")
+  -h, --help                help for context-create
+```
+
+### Options inherited from parent commands
+
+```
+  -i, --istioNamespace string            Istio system namespace (default "istio-system")
+  -c, --kubeconfig string                Kubernetes configuration file (default "/home/kuat/.kube/config")
+      --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
+  -n, --namespace string                 Config namespace (default "default")
+  -p, --platform string                  Istio host platform (default "kube")
   -v, --v Level                          log level for V logs
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
 ```
@@ -96,31 +142,30 @@ Create policies and rules
 Create policies and rules
 
 ```
-istioctl create
+istioctl create [flags]
 ```
 
 ### Examples
 
 ```
-
 istioctl create -f example-routing.yaml
-
 ```
 
 ### Options
 
 ```
   -f, --file string   Input file with the content of the configuration objects (if not set, command reads from the standard input)
+  -h, --help          help for create
 ```
 
 ### Options inherited from parent commands
 
 ```
-      --kube                             Use Kubernetes client to send API requests to Pilot service (default true)
-  -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
+  -i, --istioNamespace string            Istio system namespace (default "istio-system")
+  -c, --kubeconfig string                Kubernetes configuration file (default "/home/kuat/.kube/config")
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
-      --configAPIservice string          Name of Pilot service. When --kube=false this sets the address of the Pilot service (default "istio-pilot:8081")
-  -n, --namespace string                 Select a Kubernetes namespace (default "default")
+  -n, --namespace string                 Config namespace (default "default")
+  -p, --platform string                  Istio host platform (default "kube")
   -v, --v Level                          log level for V logs
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
 ```
@@ -136,35 +181,34 @@ Delete policies or rules
 Delete policies or rules
 
 ```
-istioctl delete
+istioctl delete <type> <name> [<name2> ... <nameN>] [flags]
 ```
 
 ### Examples
 
 ```
-
 # Delete a rule using the definition in example-routing.yaml.
 istioctl delete -f example-routing.yaml
 
 # Delete the rule productpage-default
-istioctl delete route-rule productpage-default
-
+istioctl delete routerule productpage-default
 ```
 
 ### Options
 
 ```
   -f, --file string   Input file with the content of the configuration objects (if not set, command reads from the standard input)
+  -h, --help          help for delete
 ```
 
 ### Options inherited from parent commands
 
 ```
-      --kube                             Use Kubernetes client to send API requests to Pilot service (default true)
-  -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
+  -i, --istioNamespace string            Istio system namespace (default "istio-system")
+  -c, --kubeconfig string                Kubernetes configuration file (default "/home/kuat/.kube/config")
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
-      --configAPIservice string          Name of Pilot service. When --kube=false this sets the address of the Pilot service (default "istio-pilot:8081")
-  -n, --namespace string                 Select a Kubernetes namespace (default "default")
+  -n, --namespace string                 Config namespace (default "default")
+  -p, --platform string                  Istio host platform (default "kube")
   -v, --v Level                          log level for V logs
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
 ```
@@ -180,38 +224,37 @@ Retrieve policies and rules
 Retrieve policies and rules
 
 ```
-istioctl get
+istioctl get <type> [<name>] [flags]
 ```
 
 ### Examples
 
 ```
-
 # List all route rules
-istioctl get route-rules
+istioctl get routerules
 
 # List all destination policies
-istioctl get destination-policies
+istioctl get destinationpolicies
 
 # Get a specific rule named productpage-default
-istioctl get route-rule productpage-default
-
+istioctl get routerule productpage-default
 ```
 
 ### Options
 
 ```
+  -h, --help            help for get
   -o, --output string   Output format. One of:yaml|short (default "short")
 ```
 
 ### Options inherited from parent commands
 
 ```
-      --kube                             Use Kubernetes client to send API requests to Pilot service (default true)
-  -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
+  -i, --istioNamespace string            Istio system namespace (default "istio-system")
+  -c, --kubeconfig string                Kubernetes configuration file (default "/home/kuat/.kube/config")
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
-      --configAPIservice string          Name of Pilot service. When --kube=false this sets the address of the Pilot service (default "istio-pilot:8081")
-  -n, --namespace string                 Select a Kubernetes namespace (default "default")
+  -n, --namespace string                 Config namespace (default "default")
+  -p, --platform string                  Istio host platform (default "kube")
   -v, --v Level                          log level for V logs
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
 ```
@@ -245,7 +288,7 @@ kube-inject on deployments to get the most up-to-date changes.
 
 
 ```
-istioctl kube-inject
+istioctl kube-inject [flags]
 ```
 
 ### Examples
@@ -268,171 +311,64 @@ kubectl get deployment -o yaml | istioctl kube-inject -f - | kubectl apply -f -
 ### Options
 
 ```
-      --coreDump                  Enable/Disable core dumps in injected Envoy sidecar (--coreDump=true affects all pods in a node and should only be used the cluster admin) (default true)
-  -f, --filename string           Input Kubernetes resource filename
-      --hub string                Docker hub
-      --includeIPRanges string    Comma separated list of IP ranges in CIDR form. If set, only redirect outbound traffic to Envoy for IP ranges. Otherwise all outbound traffic is redirected
-      --meshConfig string         ConfigMap name for Istio mesh configuration, key should be "mesh" (default "istio")
-  -o, --output string             Modified output Kubernetes resource filename
-      --setVersionString string   Override version info injected into resource
-      --sidecarProxyUID int       Envoy sidecar UID (default 1337)
-      --tag string                Docker tag
-      --verbosity int             Runtime verbosity (default 2)
+      --coreDump                   Enable/Disable core dumps in injected Envoy sidecar (--coreDump=true affects all pods in a node and should only be used the cluster admin) (default true)
+      --debug                      Use debug images and settings for the sidecar (default true)
+  -f, --filename string            Input Kubernetes resource filename
+  -h, --help                       help for kube-inject
+      --hub string                 Docker hub (default "docker.io/istio")
+      --imagePullPolicy string     Sets the container image pull policy. Valid options are Always,IfNotPresent,Never.The default policy is IfNotPresent. (default "IfNotPresent")
+      --includeIPRanges string     Comma separated list of IP ranges in CIDR form. If set, only redirect outbound traffic to Envoy for IP ranges. Otherwise all outbound traffic is redirected
+      --meshConfigMapName string   ConfigMap name for Istio mesh configuration, key should be "mesh" (default "istio")
+  -o, --output string              Modified output Kubernetes resource filename
+      --setVersionString string    Override version info injected into resource
+      --sidecarProxyUID int        Envoy sidecar UID (default 1337)
+      --tag string                 Docker tag (default "c371d111adb3da6f4edf0091716380ab97087886")
+      --verbosity int              Runtime verbosity (default 2)
 ```
 
 ### Options inherited from parent commands
 
 ```
-      --kube                             Use Kubernetes client to send API requests to Pilot service (default true)
-  -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
+  -i, --istioNamespace string            Istio system namespace (default "istio-system")
+  -c, --kubeconfig string                Kubernetes configuration file (default "/home/kuat/.kube/config")
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
-      --configAPIservice string          Name of Pilot service. When --kube=false this sets the address of the Pilot service (default "istio-pilot:8081")
-  -n, --namespace string                 Select a Kubernetes namespace (default "default")
+  -n, --namespace string                 Config namespace (default "default")
+  -p, --platform string                  Istio host platform (default "kube")
   -v, --v Level                          log level for V logs
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
 ```
 
-<a name="istioctl_mixer"></a>
-## istioctl mixer
+<a name="istioctl_register"></a>
+## istioctl register
 
-Istio Mixer configuration
-
-### Synopsis
-
-
-
-The Mixer configuration API allows users to configure all facets of the
-Mixer.
-
-See [mixer-config]({{home}}/docs/concepts/policy-and-control/mixer-config.html)
-for a description of Mixer configuration's scope, subject, and rules.
-
-
-### Options
-
-```
-      --mixer string             (deprecated) Address of the Mixer configuration server as <host>:<port>
-      --mixerAPIService string   Name of istio-mixer service. When --kube=false this sets Mixer's address (default "istio-mixer:9094")
-```
-
-### Options inherited from parent commands
-
-```
-      --kube                             Use Kubernetes client to send API requests to Pilot service (default true)
-  -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
-      --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
-      --configAPIservice string          Name of Pilot service. When --kube=false this sets the address of the Pilot service (default "istio-pilot:8081")
-  -n, --namespace string                 Select a Kubernetes namespace (default "default")
-  -v, --v Level                          log level for V logs
-      --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
-```
-
-<a name="istioctl_mixer_rule_create"></a>
-## istioctl mixer rule create
-
-Create Istio Mixer rules
+Registers a service instance (e.g. VM) joining the mesh
 
 ### Synopsis
 
 
-Create Istio Mixer rules
+Registers a service instance (e.g. VM) joining the mesh
 
 ```
-istioctl mixer rule create
-```
-
-### Examples
-
-```
-
-# Create a new Mixer rule for the given scope and subject.
-istioctl mixer rule create global myservice.ns.svc.cluster.local -f mixer-rule.yml
-
+istioctl register <svcname> <ip> [name1:]port1 [name2:]port2 ... [flags]
 ```
 
 ### Options
 
 ```
-  -f, --file string   Input file with contents of the Mixer rule
+  -a, --annotations stringSlice   List of string annotations to apply if creating a service/endpoint; e.g. -a foo=bar,test,x=y
+  -h, --help                      help for register
+  -l, --labels stringSlice        List of labels to apply if creating a service/endpoint; e.g. -l env=prod,vers=2
+  -s, --serviceaccount string     Service account to link to the service (default "default")
 ```
 
 ### Options inherited from parent commands
 
 ```
-      --kube                             Use Kubernetes client to send API requests to Pilot service (default true)
-  -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
+  -i, --istioNamespace string            Istio system namespace (default "istio-system")
+  -c, --kubeconfig string                Kubernetes configuration file (default "/home/kuat/.kube/config")
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
-      --configAPIservice string          Name of Pilot service. When --kube=false this sets the address of the Pilot service (default "istio-pilot:8081")
-      --mixer string                     (deprecated) Address of the Mixer configuration server as <host>:<port>
-      --mixerAPIService string           Name of istio-mixer service. When --kube=false this sets the Mixer's address (default 
-      "istio-mixer:9094")
-  -n, --namespace string                 Select a Kubernetes namespace (default "default")
-  -v, --v Level                          log level for V logs
-      --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
-```
-
-<a name="istioctl_mixer_rule_get"></a>
-## istioctl mixer rule get
-
-Get Istio Mixer rules
-
-### Synopsis
-
-
-
-Get a Mixer rule for a given scope and subject.
-
-
-```
-istioctl mixer rule get
-```
-
-### Examples
-
-```
-
-# Get the Mixer rule with scope='global' and subject='myservice.ns.svc.cluster.local'
-istioctl mixer rule get global myservice.ns.svc.cluster.local
-
-```
-
-### Options inherited from parent commands
-
-```
-      --kube                             Use Kubernetes client to send API requests to Pilot service (default true)
-  -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
-      --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
-      --configAPIservice string          Name of Pilot service. When --kube=false this sets the address of the Pilot service (default "istio-pilot:8081")
-      --mixer string                     (deprecated) Address of the Mixer configuration server as <host>:<port>
-      --mixerAPIService string           Name of istio-mixer service. When --kube=false this sets Mixer's address (default 
-      "istio-mixer:9094")
-  -n, --namespace string                 Select a Kubernetes namespace (default "default")
-  -v, --v Level                          log level for V logs
-      --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
-```
-
-<a name="istioctl_mixer_rule"></a>
-## istioctl mixer rule
-
-Istio Mixer Rule configuration
-
-### Synopsis
-
-
-
-Create and list Mixer rules in the configuration server.
-
-
-### Options inherited from parent commands
-
-```
-      --kube                             Use Kubernetes client to send API requests to Pilot service (default true)
-  -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
-      --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
-      --configAPIservice string          Name of Pilot service. When --kube=false this sets the address of the Pilot service (default "istio-pilot:8081")
-      --mixer string                     (deprecated) Address of the Mixer configuration server as <host>:<port>
-      --mixerAPIService string           Name of istio-mixer service. When --kube=false this sets Mixer's address (default "istio-mixer:9094")
-  -n, --namespace string                 Select a Kubernetes namespace (default "default")
+  -n, --namespace string                 Config namespace (default "default")
+  -p, --platform string                  Istio host platform (default "kube")
   -v, --v Level                          log level for V logs
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
 ```
@@ -448,31 +384,30 @@ Replace existing policies and rules
 Replace existing policies and rules
 
 ```
-istioctl replace
+istioctl replace [flags]
 ```
 
 ### Examples
 
 ```
-
-istioctl replace -f example-routing.yaml
-
+istioctl replace -f example-routing.yaml	
 ```
 
 ### Options
 
 ```
   -f, --file string   Input file with the content of the configuration objects (if not set, command reads from the standard input)
+  -h, --help          help for replace
 ```
 
 ### Options inherited from parent commands
 
 ```
-      --kube                             Use Kubernetes client to send API requests to Pilot service (default true)
-  -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
+  -i, --istioNamespace string            Istio system namespace (default "istio-system")
+  -c, --kubeconfig string                Kubernetes configuration file (default "/home/kuat/.kube/config")
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
-      --configAPIservice string          Name of Pilot service. When --kube=false this sets the address of the Pilot service (default "istio-pilot:8081")
-  -n, --namespace string                 Select a Kubernetes namespace (default "default")
+  -n, --namespace string                 Config namespace (default "default")
+  -p, --platform string                  Istio host platform (default "kube")
   -v, --v Level                          log level for V logs
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
 ```
@@ -480,25 +415,31 @@ istioctl replace -f example-routing.yaml
 <a name="istioctl_version"></a>
 ## istioctl version
 
-Display version information and exit
+Display version information
 
 ### Synopsis
 
 
-Display version information and exit
+Display version information
 
 ```
-istioctl version
+istioctl version [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for version
 ```
 
 ### Options inherited from parent commands
 
 ```
-      --kube                             Use Kubernetes client to send API requests to Pilot service (default true)
-  -c, --kubeconfig string                Use a Kubernetes configuration file instead of in-cluster configuration
+  -i, --istioNamespace string            Istio system namespace (default "istio-system")
+  -c, --kubeconfig string                Kubernetes configuration file (default "/home/kuat/.kube/config")
       --log_backtrace_at traceLocation   when logging hits line file:N, emit a stack trace (default :0)
-      --configAPIservice string          Name of Pilot service. When --kube=false this sets the address of the Pilot service (default "istio-pilot:8081")
-  -n, --namespace string                 Select a Kubernetes namespace (default "default")
+  -n, --namespace string                 Config namespace (default "default")
+  -p, --platform string                  Istio host platform (default "kube")
   -v, --v Level                          log level for V logs
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
 ```
