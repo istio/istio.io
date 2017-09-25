@@ -2,7 +2,7 @@
 title: Mixer
 overview: Generated documentation for Mixer's Configuration Schema
 
-order: 1130
+order: 30
 
 layout: docs
 type: markdown
@@ -247,7 +247,7 @@ of an Istio deployment.
   <td>repeated map&lt;string, <a href="#istio.mixer.v1.config.AttributeManifest.AttributeInfo">AttributeInfo</a>&gt;</td>
   <td><p>The set of attributes this Istio component will be responsible for producing at runtime. We map from attribute name to the attribute's specification. The name of an attribute, which is how attributes are referred to in aspect configuration, must conform to:</p>
 <pre><code>Name = IDENT { SEPARATOR IDENT };
-</code></pre><p>Where <code>IDENT</code> must match the regular expression <code>[a-z][a-z0-9]+</code> and <code>SEPARATOR</code> must match the regular expression <code>[\.-]</code>.</p><p>Attribute names must be unique within a single Istio deployment. The set of canonical attributes are described at <a href="https://istio.io/docs/reference/attribute-vocabulary.html">https://istio.io/docs/reference/attribute-vocabulary.html</a>. Attributes not in that list should be named with a component-specific suffix such as request.count-my.component</p></td>
+</code></pre><p>Where <code>IDENT</code> must match the regular expression <code>[a-z][a-z0-9]+</code> and <code>SEPARATOR</code> must match the regular expression <code>[\.-]</code>.</p><p>Attribute names must be unique within a single Istio deployment. The set of canonical attributes are described at <a href="https://istio.io/docs/reference/config/mixer/attribute-vocabulary.html">https://istio.io/docs/reference/config/mixer/attribute-vocabulary.html</a>. Attributes not in that list should be named with a component-specific suffix such as request.count-my.component</p></td>
  </tr>
 </table>
 

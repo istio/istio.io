@@ -1,6 +1,6 @@
 ---
-title: Samples
-overview: Samples include a variety of fully working example uses for Istio that you can experiment with.
+title: Guides
+overview: Guides include a variety of fully working example uses for Istio that you can experiment with.
 index: true
 
 order: 30

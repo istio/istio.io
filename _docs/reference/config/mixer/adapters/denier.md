@@ -2,7 +2,7 @@
 title: denier Config
 overview: Generated documentation for Mixer's denier Adapter Configuration Schema
 
-order: 0
+order: 100
 
 layout: docs
 type: markdown

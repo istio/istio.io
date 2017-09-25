@@ -2,7 +2,7 @@
 title: Mixer Adapters
 overview: Generated documentation for Mixer's adapters.
 
-order: 2000
+order: 40
 
 layout: docs
 type: markdown
