@@ -1,14 +1,21 @@
 ---
-title: denier
-overview: denier adapter configuration schema
+title: denier Config
+overview: Generated documentation for Mixer's denier Adapter Configuration Schema
 
-order: 0
+order: 100
 
 layout: docs
 type: markdown
 ---
 
 
+<a name="rpcAdapter.denier.configIndex"></a>
+### Index
+
+* [Params](#adapter.denier.config.Params)
+(message)
+
+<a name="adapter.denier.config.Params"></a>
 ### Params
 
 <table>
@@ -17,7 +24,7 @@ type: markdown
   <th>Type</th>
   <th>Description</th>
  </tr>
-<a name="adapter.denier.Params.status"></a>
+<a name="adapter.denier.config.Params.status"></a>
  <tr>
   <td><code>status</code></td>
   <td><a href="/docs/reference/api/mixer/status.html">Status</a></td>
