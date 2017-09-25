@@ -1,6 +1,6 @@
 ---
-title: Installing Istio Sidecar
-overview: This task shows you how to integrate your applications with the Istio service mesh.
+title: Manual Sidecar Installation
+overview: Instructions for manually adding the Istio sidecar into application pods.
 
 order: 40
 
