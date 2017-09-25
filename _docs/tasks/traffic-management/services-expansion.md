@@ -1,19 +1,18 @@
 ---
-title: Accessing Services in Mesh Extensions
+title: Accessing Services in the Expanded Mesh
 overview: This task shows you how to use services provided by VM
 
-order: 10
+order: 60
 
-draft: true
+#draft: true
 layout: docs
 type: markdown
-redirect_from: "/docs/tasks/extension_services.html"
 ---
 {% include home.html %}
 
 This task shows you how to configure services running in a VM that joined the cluster.
 
-Current task was tested on GCP - WIP on adding specific info for other clusters.
+Current task was tested on GCP. _WIP on adding specific info for other providers_
 
 ## Before you begin
 
@@ -36,7 +35,7 @@ On the VM:
 
 ## Registering the mysql service with the mesh
 
- ### Machine admin
+### Machine admin
 First step is to configure the VM sidecar, by adding the service port and restarting the sidecar.
 
 On the DB machine:
@@ -50,7 +49,7 @@ On the DB machine:
   # add mysql port to the "ISTIO_INBOUND_PORTS" config
   ```
 
-  ###  Cluster admin
+###  Cluster admin
 
   If you previously run the mysql bookinfo on kubernetes, you need to remove the k8s mysql service:
 
