@@ -16,11 +16,11 @@ Grafana server preconfigured with a default dashboard for monitoring an Istio
 service mesh, and an example ServiceGraph service that can generate a visual
 representation of an Istio service mesh.
 
-The [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application is used
+The [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application is used
 as the example application throughout this task.
 
 ## Before you begin
-* [Install Istio](./installing-istio.html) in your cluster and deploy an
+* [Install Istio]({{home}}/docs/setup/) in your cluster and deploy an
   application.
 
 ## Using the Prometheus add-on
