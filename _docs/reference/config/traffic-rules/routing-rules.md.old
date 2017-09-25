@@ -3,7 +3,7 @@ title: Routing Rules
 overview: Traffic routing rule configuration schema
 
 order: 20
-
+draft: true
 layout: docs
 type: markdown
 ---

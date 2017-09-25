@@ -3,7 +3,7 @@ title: redisquota
 overview: redisquota adapter configuration schema
 
 order: 60
-
+draft: true
 layout: docs
 type: markdown
 ---

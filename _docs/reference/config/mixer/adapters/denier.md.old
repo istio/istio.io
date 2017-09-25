@@ -2,8 +2,8 @@
 title: denier
 overview: denier adapter configuration schema
 
-order: 0
-
+order: 1000
+draft: true
 layout: docs
 type: markdown
 ---

@@ -3,7 +3,7 @@ title: prometheus
 overview: prometheus adapter configuration schema
 
 order: 50
-
+draft: true
 layout: docs
 type: markdown
 ---

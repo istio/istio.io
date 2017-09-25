@@ -3,7 +3,7 @@ title: Mixer
 overview: Mixer's configuration schema
 
 order: 1190
-
+draft: true
 layout: docs
 type: markdown
 ---

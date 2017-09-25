@@ -1,6 +1,6 @@
 ---
-title: Manager
-overview: Generated documentation for Istio's Configuration Schemas
+title: Service Mesh
+overview: Global Configuration Schema
 
 order: 15
 

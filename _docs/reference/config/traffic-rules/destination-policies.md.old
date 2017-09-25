@@ -3,7 +3,7 @@ title: Destination Policies
 overview: Client-side traffic management policies configuration schema
 
 order: 30
-
+draft: true
 layout: docs
 type: markdown
 ---
