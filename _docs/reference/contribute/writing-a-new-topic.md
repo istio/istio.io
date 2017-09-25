@@ -38,8 +38,8 @@ is the best fit for your content:
   </tr>
 
   <tr>
-    <td>Sample</td>
-    <td>A sample page describes a fully working stand-alone example highlighting a particular set of features. Samples
+    <td>Guides</td>
+    <td>A guide page describes a fully working stand-alone example highlighting a particular set of features. Guides
     must have easy to follow setup and usage instructions so users can quickly run the sample
     themselves and experiment with changing the sample to explore the system.
     </td>
@@ -108,7 +108,7 @@ Depending on your page type, put your new file in a subdirectory of one of these
 
 * _docs/concepts/
 * _docs/reference/
-* _docs/samples/
+* _docs/guides/
 * _docs/tasks/
 
 You can put your file in an existing subdirectory, or you can create a new

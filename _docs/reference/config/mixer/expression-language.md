@@ -2,7 +2,7 @@
 title: Expression Language
 overview: Mixer config expression language reference.
 
-order: 43
+order: 20
 
 layout: docs
 type: markdown

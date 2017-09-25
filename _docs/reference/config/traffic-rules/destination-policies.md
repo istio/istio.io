@@ -8,24 +8,57 @@ layout: docs
 type: markdown
 ---
 
-
 <a name="istio.proxy.v1.config.DestinationPolicy"></a>
 ### DestinationPolicy
 DestinationPolicy defines client/caller-side policies that determine how
 to handle traffic bound to a particular destination service. The policy
-specifies configuration for load balancing and circuit breakers.  For
-example, a simple load balancing policy for the reviews service would
+specifies configuration for load balancing and circuit breakers. For
+example, a simple load balancing policy for the ratings service would
 look as follows:
 
 
-    destination: reviews.default.svc.cluster.local
-    policy:
-    - loadBalancing: 
-        name: RANDOM
+    metadata:
+      name: ratings-lb-policy
+      namespace: default # optional (default is "default")
+    spec:
+      destination:
+        name: ratings
+      loadBalancing:
+        name: ROUND_ROBIN
 
 
-Policies are applicable per individual service versions. ONLY
-ONE policy can be defined per service version. Policy CANNOT be empty.
+The FQDN of the destination service is composed from the destination name and meta namespace fields, along with
+a platform-specific domain suffix
+(e.g. on Kubernetes, "reviews" + "default" + "svc.cluster.local" -> "reviews.default.svc.cluster.local").
+
+A destination policy can be restricted to a particular version of a
+service or applied to all versions. It can also be restricted to calls from
+a particular source. For example, the following load balancing policy
+applies to version v1 of the ratings service running in the prod
+environment but only when called from version v2 of the reviews service:
+
+
+    metadata:
+      name: ratings-lb-policy
+      namespace: default
+    spec:
+      source:
+        name: reviews
+        labels:
+          version: v2
+      destination:
+        name: ratings
+        labels:
+          env: prod
+          version: v1
+      loadBalancing:
+        name: ROUND_ROBIN
+
+
+*Note:* Destination policies will be applied only if the corresponding
+tagged instances are explicity routed to. In other words, for every
+destination policy defined, at least one route rule must refer to the
+service version indicated in the destination policy.
 
 <table>
  <tr>
@@ -36,66 +69,32 @@ ONE policy can be defined per service version. Policy CANNOT be empty.
 <a name="istio.proxy.v1.config.DestinationPolicy.destination"></a>
  <tr>
   <td><code>destination</code></td>
-  <td>string</td>
-  <td>REQUIRED. Service name for which the service version is defined. The value MUST BE a fully-qualified domain name, e.g. <em>my-service.default.svc.cluster.local</em>.</td>
+  <td><a href="/docs/reference/config/traffic-rules/routing-rules.html#istio.proxy.v1.config.IstioService">IstioService</a></td>
+  <td>Optional: Destination uniquely identifies the destination service associated with this policy.</td>
  </tr>
-<a name="istio.proxy.v1.config.DestinationPolicy.policy"></a>
+<a name="istio.proxy.v1.config.DestinationPolicy.source"></a>
  <tr>
-  <td><code>policy[]</code></td>
-  <td>repeated <a href="#istio.proxy.v1.config.DestinationVersionPolicy">DestinationVersionPolicy</a></td>
-  <td>REQUIRED. List of policies, one per service version.</td>
+  <td><code>source</code></td>
+  <td><a href="/docs/reference/config/traffic-rules/routing-rules.html#istio.proxy.v1.config.IstioService">IstioService</a></td>
+  <td>Optional: Source uniquely identifies the source service associated with this policy.</td>
  </tr>
-</table>
-
-<a name="istio.proxy.v1.config.DestinationVersionPolicy"></a>
-#### DestinationVersionPolicy
-A destination policy can be restricted to a particular version of a
-service or applied to all versions. The tags field in the
-DestinationVersionPolicy allow restricting the scope of a
-DestinationPolicy. For example, the following load balancing policy
-applies to version v1 of the reviews service running in the prod
-environment:
-
-
-    destination: reviews.default.svc.cluster.local
-    policy:
-    - tags:
-        env: prod
-        version: v1
-      loadBalancing: 
-        name: RANDOM
-
-
-If tags are omitted, the policy applies for all versions of the
-service. Policy CANNOT BE empty.
-*Note:* Destination policies will be applied only if the corresponding
-tagged instances are explicitly routed to. In other words, for every
-destination policy defined, at least one route rule must refer to the
-service version indicated in the destination policy.
-
-<table>
- <tr>
-  <th>Field</th>
-  <th>Type</th>
-  <th>Description</th>
- </tr>
-<a name="istio.proxy.v1.config.DestinationVersionPolicy.tags"></a>
- <tr>
-  <td><code>tags</code></td>
-  <td>repeated map&lt;string, string&gt;</td>
-  <td>Optional set of tags that identify a particular version of the destination service. If omitted, the policy will apply to all versions of the service.</td>
- </tr>
-<a name="istio.proxy.v1.config.DestinationVersionPolicy.loadBalancing"></a>
+<a name="istio.proxy.v1.config.DestinationPolicy.loadBalancing"></a>
  <tr>
   <td><code>loadBalancing</code></td>
   <td><a href="#istio.proxy.v1.config.LoadBalancing">LoadBalancing</a></td>
   <td>Load balancing policy.</td>
  </tr>
-<a name="istio.proxy.v1.config.DestinationVersionPolicy.circuitBreaker"></a>
+<a name="istio.proxy.v1.config.DestinationPolicy.circuitBreaker"></a>
  <tr>
   <td><code>circuitBreaker</code></td>
   <td><a href="#istio.proxy.v1.config.CircuitBreaker">CircuitBreaker</a></td>
   <td>Circuit breaker policy.</td>
+ </tr>
+<a name="istio.proxy.v1.config.DestinationPolicy.custom"></a>
+ <tr>
+  <td><code>custom</code></td>
+  <td><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#any">Any</a></td>
+  <td></td>
  </tr>
 </table>
 
@@ -107,9 +106,13 @@ types](https://envoyproxy.github.io/envoy/intro/arch_overview/load_balancing.htm
 supported by Envoy. Example,
 
 
-    destination: reviews.default.svc.cluster.local
-    policy:
-    - loadBalancing: 
+    metadata:
+      name: reviews-lb-policy
+      namespace: default
+    spec:
+      destination:
+        name: reviews
+      loadBalancing:
         name: RANDOM
 
 <table>
@@ -159,8 +162,9 @@ Circuit breaker configuration for Envoy. The circuit breaker
 implementation is fine-grained in that it tracks the success/failure
 rates of individual hosts in the load balancing pool. Hosts that
 continually return errors for API calls are ejected from the pool for a
-pre-defined period of time. See Envoy's 
-[circuit breaker](https://envoyproxy.github.io/envoy/intro/arch_overview/circuit_breaking.html) 
+pre-defined period of time.
+See Envoy's
+[circuit breaker](https://envoyproxy.github.io/envoy/intro/arch_overview/circuit_breaking.html)
 and [outlier detection](https://envoyproxy.github.io/envoy/intro/arch_overview/outlier.html)
 for more details.
 
@@ -186,10 +190,14 @@ policy sets a limit of 100 connections to "reviews" service version
 "v1" backends. 
 
 
-    destination: reviews.default.svc.cluster.local
-    policy:
-    - tags:
-        version: v1
+    metadata:
+      name: reviews-cb-policy
+      namespace: default
+    spec:
+      destination:
+        name: reviews
+        labels:
+          version: v1
       circuitBreaker:
         simpleCb:
           maxConnections: 100
@@ -198,14 +206,18 @@ policy sets a limit of 100 connections to "reviews" service version
 The following destination policy sets a limit of 100 connections and
 1000 concurrent requests, with no more than 10 req/connection to
 "reviews" service version "v1" backends. In addition, it configures
-hosts to be scanned every 5 minutes, such that any host that fails 7
+hosts to be scanned every 5 mins, such that any host that fails 7
 consecutive times with 5XX error code will be ejected for 15 minutes.
 
 
-    destination: reviews.default.svc.cluster.local
-    policy:
-    - tags:
-        version: v1
+    metadata:
+      name: reviews-cb-policy
+      namespace: default
+    spec:
+      destination:
+        name: reviews
+        labels:
+          version: v1
       circuitBreaker:
         simpleCb:
           maxConnections: 100
@@ -270,4 +282,3 @@ consecutive times with 5XX error code will be ejected for 15 minutes.
   <td>Maximum % of hosts in the load balancing pool for the destination service that can be ejected by the circuit breaker. Defaults to 10%.</td>
  </tr>
 </table>
-

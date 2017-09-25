@@ -12,6 +12,37 @@ type: markdown
 <a name="istio.proxy.v1.config.RouteRule"></a>
 ### RouteRule
 
+<a name="rpcIstio.proxy.v1.configIstio.proxy.v1.config.RouteRuleDescriptionSubsectionSubsectionSubsection"></a>
+#### Glossary & concepts
+*Service* is a unit of an application with a unique name that other services
+use to refer to the functionality being called. Service instances are
+pods/VMs/containers that implement the service.
+
+*Service versions* - In a continuous deployment scenario, for a given service,
+there can be multiple sets of instances running potentially different
+variants of the application binary. These variants are not necessarily
+different API versions. They could be iterative changes to the same service,
+deployed in different environments (prod, staging, dev, etc.). Common
+scenarios where this occurs include A/B testing, canary rollouts, etc. The
+choice of a particular version can be decided based on various criterion
+(headers, url, etc.) and/or by weights assigned to each version.  Each
+service has a default version consisting of all its instances.
+
+*Source* - downstream client (browser or another service) calling the
+Envoy proxy/sidecar (typically to reach another service).
+
+*Destination* - The remote upstream service to which the Envoy proxy/sidecar is
+talking to, on behalf of the source service. There can be one or more
+service versions for a given service (see the discussion on versions above).
+Envoy would choose the version based on various routing rules.
+
+*Access model* - Applications address only the destination service
+without knowledge of individual service versions. The actual choice of
+the version is determined by Envoy, enabling the application code to
+decouple itself from the evolution of dependent services.
+
+
+
 Route rule provides a custom routing policy based on the source and
 destination service versions and connection/request metadata.  The rule
 must provide a set of conditions for each protocol (TCP, UDP, HTTP) that
@@ -26,11 +57,17 @@ For example, a simple rule to send 100% of incoming traffic for a
 "reviews" service to version "v1" can be specified as follows:
 
 
-    destination: reviews.default.svc.cluster.local
-    route:
-    - tags:
-        version: v1
-      weight: 100
+    metadata:
+      name: my-rule
+      namespace: default # optional (default is "default")
+    spec:
+      destination:
+        name: reviews
+        namespace: my-namespace # optional (default is metadata namespace field)
+      route:
+      - labels:
+          version: v1
+        weight: 100
 
 <table>
  <tr>
@@ -41,8 +78,8 @@ For example, a simple rule to send 100% of incoming traffic for a
 <a name="istio.proxy.v1.config.RouteRule.destination"></a>
  <tr>
   <td><code>destination</code></td>
-  <td>string</td>
-  <td>REQUIRED: Destination uniquely identifies the destination associated with this routing rule. This field is applicable for hostname-based resolution for HTTP traffic as well as IP-based resolution for TCP/UDP traffic. The value MUST BE a fully-qualified domain name, e.g. "my-service.default.svc.cluster.local".</td>
+  <td><a href="#istio.proxy.v1.config.IstioService">IstioService</a></td>
+  <td><p>REQUIRED: Destination uniquely identifies the destination associated with this routing rule. This field is applicable for hostname-based resolution for HTTP traffic as well as IP-based resolution for TCP/UDP traffic.</p><p><em>Note:</em> The route rule destination specification represents all version of the service and therefore the IstioService's labels field MUST be empty.</p></td>
  </tr>
 <a name="istio.proxy.v1.config.RouteRule.precedence"></a>
  <tr>
@@ -74,6 +111,12 @@ For example, a simple rule to send 100% of incoming traffic for a
   <td><a href="#istio.proxy.v1.config.HTTPRewrite">HTTPRewrite</a></td>
   <td>Rewrite HTTP URIs and Authority headers. Rewrite cannot be used with Redirect primitive. Rewrite will be performed before forwarding.</td>
  </tr>
+<a name="istio.proxy.v1.config.RouteRule.websocketUpgrade"></a>
+ <tr>
+  <td><code>websocketUpgrade</code></td>
+  <td>bool</td>
+  <td>Indicates that a HTTP/1.1 client connection to this particular route should be allowed (and expected) to upgrade to a WebSocket connection. The default is false. Envoy expects the first request to this route to contain the WebSocket upgrade headers. Otherwise, the request will be rejected.</td>
+ </tr>
 <a name="istio.proxy.v1.config.RouteRule.httpReqTimeout"></a>
  <tr>
   <td><code>httpReqTimeout</code></td>
@@ -94,10 +137,54 @@ For example, a simple rule to send 100% of incoming traffic for a
  </tr>
 </table>
 
+<a name="istio.proxy.v1.config.IstioService"></a>
+### IstioService
+IstioService identifies a service and optionally service version.
+The FQDN of the service is composed from the name, namespace, and implementation-specific domain suffix
+(e.g. on Kubernetes, "reviews" + "default" + "svc.cluster.local" -> "reviews.default.svc.cluster.local").
+
+<table>
+ <tr>
+  <th>Field</th>
+  <th>Type</th>
+  <th>Description</th>
+ </tr>
+<a name="istio.proxy.v1.config.IstioService.name"></a>
+ <tr>
+  <td><code>name</code></td>
+  <td>string</td>
+  <td>The short name of the service such as "foo".</td>
+ </tr>
+<a name="istio.proxy.v1.config.IstioService.namespace"></a>
+ <tr>
+  <td><code>namespace</code></td>
+  <td>string</td>
+  <td>Optional namespace of the service. Defaults to value of metadata namespace field.</td>
+ </tr>
+<a name="istio.proxy.v1.config.IstioService.domain"></a>
+ <tr>
+  <td><code>domain</code></td>
+  <td>string</td>
+  <td>Domain suffix used to construct the service FQDN in implementations that support such specification.</td>
+ </tr>
+<a name="istio.proxy.v1.config.IstioService.service"></a>
+ <tr>
+  <td><code>service</code></td>
+  <td>string</td>
+  <td>The service FQDN.</td>
+ </tr>
+<a name="istio.proxy.v1.config.IstioService.labels"></a>
+ <tr>
+  <td><code>labels</code></td>
+  <td>repeated map&lt;string, string&gt;</td>
+  <td><p>Optional one or more labels that uniquely identify the service version.</p><p><em>Note:</em> When used for a RouteRule destination, labels MUST be empty.</p></td>
+ </tr>
+</table>
+
 <a name="istio.proxy.v1.config.MatchCondition"></a>
 ### MatchCondition
-Match condition specifies a set of criteria to be met in order for the
-route rule to be applied to the connection or HTTP request.  The
+Match condition specifies a set of criterion to be met in order for the
+route rule to be applied to the connection or HTTP request. The
 condition provides distinct set of conditions for each protocol with the
 intention that conditions apply only to the service ports that match the
 protocol. For example, the following route rule restricts the rule to
@@ -106,20 +193,27 @@ service where the URL path starts with /ratings/v2/ and the request
 contains a "cookie" with value "user=jason",
 
 
-    destination: ratings.default.svc.cluster.local
-    match:
-      source: reviews.default.svc.cluster.local
-      sourceTags:
-        version: v2
-      httpHeaders:
-        cookie:
-          regex: "^(.*?;)?(user=jason)(;.*)?$"
-        uri:
-          prefix: "/ratings/v2/"
+    metadata:
+      name: my-rule
+      namespace: default
+    spec:
+      destination:
+        name: ratings
+      match:
+        source:
+          name: reviews
+          labels:
+            version: v2
+        request:
+          headers:
+            cookie:
+              regex: "^(.*?;)?(user=jason)(;.*)?"
+            uri:
+              prefix: "/ratings/v2/"
 
 
-MatchCondition CANNOT BE empty. At least one of source, sourceTags or
-httpHeaders must be specified.
+MatchCondition CANNOT be empty. At least one source or
+request header must be specified.
 
 <table>
  <tr>
@@ -130,20 +224,32 @@ httpHeaders must be specified.
 <a name="istio.proxy.v1.config.MatchCondition.source"></a>
  <tr>
   <td><code>source</code></td>
-  <td>string</td>
-  <td>Identifies the service initiating a connection or a request by its name. If specified, name MUST BE a fully qualified domain name such as foo.bar.com</td>
+  <td><a href="#istio.proxy.v1.config.IstioService">IstioService</a></td>
+  <td>Identifies the service initiating a connection or a request.</td>
  </tr>
-<a name="istio.proxy.v1.config.MatchCondition.sourceTags"></a>
+<a name="istio.proxy.v1.config.MatchCondition.request"></a>
  <tr>
-  <td><code>sourceTags</code></td>
-  <td>repeated map&lt;string, string&gt;</td>
-  <td>One or more tags that uniquely identify the source service version. In Kubernetes, tags correspond to the labels associated with pods.</td>
+  <td><code>request</code></td>
+  <td><a href="#istio.proxy.v1.config.MatchRequest">MatchRequest</a></td>
+  <td>Attributes of an HTTP request to match.</td>
  </tr>
-<a name="istio.proxy.v1.config.MatchCondition.httpHeaders"></a>
+</table>
+
+<a name="istio.proxy.v1.config.MatchRequest"></a>
+#### MatchRequest
+MatchRequest specifies the attributes of an HTTP request to be used for matching a request.
+
+<table>
  <tr>
-  <td><code>httpHeaders</code></td>
+  <th>Field</th>
+  <th>Type</th>
+  <th>Description</th>
+ </tr>
+<a name="istio.proxy.v1.config.MatchRequest.headers"></a>
+ <tr>
+  <td><code>headers</code></td>
   <td>repeated map&lt;string, <a href="#istio.proxy.v1.config.StringMatch">StringMatch</a>&gt;</td>
-  <td><p>Set of HTTP match conditions based on HTTP/1.1, HTTP/2, GRPC request metadata, such as <em>uri</em>, <em>scheme</em>, <em>authority</em>. The header keys must be lowercase and use hyphen as the separator, e.g. <em>x-request-id</em>.</p><p><em>Note 1:</em> The keys <em>uri</em>, <em>scheme</em>, <em>method</em>, and <em>authority</em> correspond to URI, protocol scheme (e.g., HTTP, HTTPS), HTTP method (e.g., GET, POST), and the HTTP Host header respectively.</p><p><em>Note 2:</em> <em>uri</em> can be used to perform URL matches. For URL matches (Uri_), only prefix and exact (see StringMatch) matches are supported. For other HTTP headers, exact, prefix and ECMA style regular expression matches are supported.</p></td>
+  <td><p>Set of HTTP match conditions based on HTTP/1.1, HTTP/2, GRPC request metadata, such as <em>uri</em>, <em>scheme</em>, <em>authority</em>. The header keys must be lowercase and use hyphen as the separator, e.g. <em>x-request-id</em>.</p><p>Header values are case-sensitive and formatted as follows:</p><p><em>exact: "value"</em> or just <em>"value"</em> for exact string match</p><p><em>prefix: "value"</em> for prefix-based match</p><p><em>regex: "value"</em> for ECMAscript style regex-based match</p><p><em>Note 1:</em> The keys <em>uri</em>, <em>scheme</em>, <em>method</em>, and <em>authority</em> correspond to URI, protocol scheme (e.g., HTTP, HTTPS), HTTP method (e.g., GET, POST), and the HTTP Host header respectively.</p><p><em>Note 2:</em> <em>uri</em> can be used to perform URL matches. For all HTTP headers including <em>uri</em>, exact, prefix and ECMA style regular expression matches are supported.</p></td>
  </tr>
 </table>
 
@@ -187,14 +293,19 @@ instances with the "v2" tag and the remaining traffic (i.e., 75%) to
 "v1".
 
 
-    destination: reviews.default.svc.cluster.local
-    route:
-    - tags:
-        version: v2
-      weight: 25
-    - tags:
-        version: v1
-      weight: 75
+    metadata:
+      name: my-rule
+      namespace: default
+    spec:
+      destination:
+        name: reviews
+      route:
+      - labels:
+          version: v2
+        weight: 25
+      - labels:
+          version: v1
+        weight: 75
 
 <table>
  <tr>
@@ -205,12 +316,12 @@ instances with the "v2" tag and the remaining traffic (i.e., 75%) to
 <a name="istio.proxy.v1.config.DestinationWeight.destination"></a>
  <tr>
   <td><code>destination</code></td>
-  <td>string</td>
-  <td>Destination uniquely identifies the destination service. If not specified, the value is inherited from the parent route rule. Value must be in fully qualified domain name format (e.g., "my-service.default.svc.cluster.local").</td>
+  <td><a href="#istio.proxy.v1.config.IstioService">IstioService</a></td>
+  <td>Optional destination uniquely identifies the destination service. If not specified, the value is inherited from the parent route rule.</td>
  </tr>
-<a name="istio.proxy.v1.config.DestinationWeight.tags"></a>
+<a name="istio.proxy.v1.config.DestinationWeight.labels"></a>
  <tr>
-  <td><code>tags</code></td>
+  <td><code>labels</code></td>
   <td>repeated map&lt;string, string&gt;</td>
   <td>Service version identifier for the destination service.</td>
  </tr>
@@ -231,14 +342,19 @@ requests for /v1/getProductRatings API on the ratings service to
 /v1/bookRatings provided by the bookratings service.
 
 
-    destination: ratings.default.svc.cluster.local
-    match:
-      httpHeaders:
-        uri:
-         exact: /v1/getProductRatings
-    redirect:
-      uri: /v1/bookRatings
-      authority: bookratings.default.svc.cluster.local
+    metadata:
+      name: my-rule
+      namespace: default
+    spec:
+      destination:
+        name: ratings
+      match:
+        request:
+          headers:
+            uri: /v1/getProductRatings
+      redirect:
+        uri: /v1/bookRatings
+        authority: bookratings.default.svc.cluster.local
 
 <table>
  <tr>
@@ -269,16 +385,22 @@ demonstrates how to rewrite the URL prefix for api call (/ratings) to
 ratings service before making the actual API call.
 
 
-    destination: ratings.default.svc.cluster.local
-    match:
-      httpHeaders:
-        uri:
-         prefix: /ratings
-    rewrite:
-      uri: /v1/bookRatings
-    route:
-    - tags:
-        version: v1
+    metadata:
+      name: my-rule
+      namespace: default
+    spec:
+      destination:
+        name: ratings
+      match:
+        request:
+          headers:
+            uri:
+              prefix: /ratings
+      rewrite:
+        uri: /v1/bookRatings
+      route:
+      - labels:
+          version: v1
 
 <table>
  <tr>
@@ -306,13 +428,18 @@ Describes HTTP request timeout. For example, the following rule sets a
 10 second timeout for calls to the ratings:v1 service
 
 
-    destination: ratings.default.svc.cluster.local
-    route:
-    - tags:
-        version: v1
-    httpReqTimeout:
-      simpleTimeout:
-        timeout: 10s
+    metadata:
+      name: my-rule
+      namespace: default
+    spec:
+      destination:
+        name: ratings
+      route:
+      - labels:
+          version: v1
+      httpReqTimeout:
+        simpleTimeout:
+          timeout: 10s
 
 <table>
  <tr>
@@ -352,14 +479,19 @@ example, the following rule sets the maximum number of retries to 3 when
 calling ratings:v1 service, with a 2s timeout per retry attempt.
 
 
-    destination: ratings.default.svc.cluster.local
-    route:
-    - tags:
-        version: v1
-    httpReqRetries:
-      simpleRetry:
-        attempts: 3
-        perTryTimeout: 2s
+    metadata:
+      name: my-rule
+      namespace: default
+    spec:
+      destination:
+        name: ratings
+      route:
+      - labels:
+          version: v1
+      httpReqRetries:
+        simpleRetry:
+          attempts: 3
+          perTryTimeout: 2s
 
 <table>
  <tr>
@@ -436,14 +568,18 @@ pre-specified error code. The following example will return an HTTP
 400 error code for 10% of the requests to the "ratings" service "v1".
 
 
-    destination: ratings.default.svc.cluster.local
-    route:
-    - tags:
-        version: v1
-    httpFault:
-      abort:
-        percent: 10
-        httpStatus: 400
+    metadata:
+      name: my-rule
+    spec:
+      destination:
+        name: reviews
+      route:
+      - labels:
+          version: v1
+      httpFault:
+        abort:
+          percent: 10
+          httpStatus: 400
 
 
 The HttpStatus_ field is used to indicate the HTTP status code to
@@ -479,14 +615,18 @@ in 10% of the requests to the "v1" version of the "reviews"
 service.
 
 
-    destination: reviews.default.svc.cluster.local
-    route:
-    - tags:
-        version: v1
-    httpFault:
-      delay:
-        percent: 10
-        fixedDelay: 5s
+    metadata:
+      name: my-rule
+    spec:
+      destination:
+        name: reviews
+      route:
+      - labels:
+          version: v1
+      httpFault:
+        delay:
+          percent: 10
+          fixedDelay: 5s
 
 
 The FixedDelay_ field is used to indicate the amount of delay in
@@ -513,4 +653,3 @@ unspecified, all request will be delayed.
   <td>REQUIRED. Add a fixed delay before forwarding the request. Format: 1h/1m/1s/1ms. MUST be &gt;=1ms.</td>
  </tr>
 </table>
-

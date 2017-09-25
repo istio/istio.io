@@ -2,7 +2,7 @@
 title: Configuration
 overview: Detailed information on configuration options.
 
-order: 22
+order: 20
 
 layout: docs
 type: markdown

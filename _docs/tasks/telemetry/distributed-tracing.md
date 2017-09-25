@@ -16,13 +16,13 @@ After completing this task, you should understand all of the assumptions about y
 application and how to have it participate in tracing, regardless of what
 language/framework/platform you use to build your application.
 
-The [BookInfo]({{home}}/docs/samples/bookinfo.html) sample is used as the
+The [BookInfo]({{home}}/docs/guides/bookinfo.html) sample is used as the
 example application for this task.
 
 
 ## Before you begin
 
-* Setup Istio by following the instructions in the [Installation guide](({{home}}/docs/setup/).
+* Setup Istio by following the instructions in the [Installation guide]({{home}}/docs/setup/).
 
   If you didn't start the Zipkin or Jaeger addon during installation,
   you can run the following command to start it now:
@@ -37,7 +37,7 @@ example application for this task.
   ```
   for Jaeger.
 
-* Deploy the [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application.
+* Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
 
 ## Accessing the dashboard
@@ -163,5 +163,5 @@ When you make downstream calls in your applications, make sure to include these 
 * Learn more about [Metrics and Logs]({{home}}/docs/tasks/metrics-logs.html)
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [BookInfo cleanup]({{home}}/docs/samples/bookinfo.html#cleanup) instructions
+  [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
   to shutdown the application and cleanup the associated rules.

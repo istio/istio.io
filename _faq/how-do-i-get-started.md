@@ -5,9 +5,8 @@ type: markdown
 ---
 {% include home.html %}
 
-We recommend starting with the [BookInfo]({{home}}/docs/samples/bookinfo.html) sample, which walks through setting up a cluster with 
-four distinct 
-microservices managed by Istio. It exercises some basic features, including content-based routing, fault injection, and rate-limiting.
+We recommend starting with the [Guides]({{home}}/docs/guides/), which walks
+through different core Istio concepts in a tutorial style. The guides show
+case intelligent routing, policy enforcement, security, telemetry, etc.
 
-After you have mastered the BookInfo sample, you are ready to begin using Istio for your own services. To start using Istio on your existing Kubernetes 
-or Consul deployment, please refer to our [Installation]({{home}}/docs/setup/) task guide.
+To start using Istio on your existing Kubernetes  or Consul deployment, please refer to our [Installation]({{home}}/docs/setup/) task guide.

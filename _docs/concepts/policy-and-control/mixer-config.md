@@ -210,8 +210,8 @@ the name of a *descriptor* which is a separate configuration block, described [b
 the kind of metric this is. The `value` field and the four label fields describe which attributes to use
 at request time in order to produce the metric.
 
-Each aspect kind defines its own particular format of configuration data. The exhaustive set of
-aspect configuration formats can be found [here]({{home}}/docs/reference/config/mixer/aspects/).
+Each aspect kind defines its own particular format of configuration
+data.
     
 #### Attribute expressions
 
@@ -437,5 +437,5 @@ manifests:
 
 ## Examples
 
-You can find fully formed examples of Mixer configuration by visiting the [Samples]({{home}}/docs/samples). As
+You can find fully formed examples of Mixer configuration by visiting the [Guides]({{home}}/docs/guides). As
 a specific example, here is the [Default configuration](https://github.com/istio/mixer/blob/master/testdata/configroot/scopes/global/subjects/global/rules.yml).
