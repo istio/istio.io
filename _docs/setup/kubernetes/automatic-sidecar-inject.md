@@ -235,7 +235,7 @@ and submits it back to kubernetes via PATCH.
 7) kubernetes finishes creating the workload as normal and the
 workload includes the injected sidecar proxy.
 
-## [Additional configuration options](#extended-configuration)
+## Extended configuration
 
 The istio-initializer has a global default policy for injection as
 well as per-workload overrides. The global policy is configured by the
