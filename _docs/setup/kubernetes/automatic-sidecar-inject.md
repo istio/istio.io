@@ -1,15 +1,15 @@
 ---
-title: Using the Istio Initializer
-overview: This task shows you how to use the Istio Initializer for automatic sidecar proxy injection
+title: Automatic sidecar injection
+overview: Instructions for installing the Istio initializer in Kubernetes to automatically inject the Istio sidecar into pods.
 
-order: 40
+order: 50
 
 layout: docs
 type: markdown
 ---
 {% include home.html %}
 
-This task shows how to use the Istio Initializer for automatic sidecar
+This page provides instructions to setup the Istio Initializer for automatic sidecar
 proxy injection. You'll learn how to enable the prerequisite alpha
 features in your cluster, enable the initializer, and fine-tune the
 configuration of the initializer itself and your workloads to enable
@@ -327,7 +327,3 @@ workloads.
 ```bash
 kubectl delete -f install/kubernetes/istio-initializer.yaml
 ```
-
-## What's next
-
-* See the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample for a more complete example of applications integrated on Kubernetes with Istio.

@@ -1,6 +1,6 @@
 ---
-title: Istio with Consul
-overview: Quick Start instructions to setup the Istio service mesh in Consul-based infrastructure.
+title: Installation
+overview: Instructions for installing the Istio control plane in a Consul based environment, with or without Nomad.
 
 order: 30
 

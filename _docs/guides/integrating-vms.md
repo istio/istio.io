@@ -17,7 +17,7 @@ this infrastructure as a single mesh.
 * Describe installation options.
 
 * Install Istio control plane in a Kubernetes cluster by following the quick start instructions in the
-[Installation guide]({{home}}/docs/setup/install-kubernetes.html).
+[Installation guide]({{home}}/docs/setup/kubernetes/).
 
 ## Overview
 

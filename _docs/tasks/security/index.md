@@ -2,7 +2,7 @@
 title: Security
 overview: Describes tasks that help securing the service mesh traffic.
 
-order: 20
+order: 40
 
 layout: docs
 type: markdown
