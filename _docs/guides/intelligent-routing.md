@@ -3,7 +3,7 @@ title: Intelligent Routing
 overview: This sample demonstrates how to use various traffic management capabilities of Istio service mesh running on Kubernetes.
 
 order: 20
-
+draft: true
 layout: docs
 type: markdown
 ---
