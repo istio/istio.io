@@ -3,7 +3,7 @@ title: Gathering Metrics, Logs, and Traces
 overview: This sample demonstrates how to obtain uniform metrics, logs, traces across different services using Istio Mixer and Istio sidecar.
 
 order: 30
-
+draft: true
 layout: docs
 type: markdown
 ---
