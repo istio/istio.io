@@ -79,7 +79,7 @@ Example generated files:
 
    ```bash
 
-   vm$ cat /etc/dnsmasq/kubedns
+   vm$ cat /etc/dnsmasq.d/kubedns
    server=/svc.cluster.local/10.128.0.6
    address=/istio-mixer/10.128.0.7
    address=/mixer-server/10.128.0.7
@@ -90,16 +90,47 @@ Example generated files:
 
 ### Setting up the machines
 
-* Copy the config files and istio debian files to each machine joining the cluster.
+* Copy the config files and istio debian files to each machine joining the cluster, as
+/etc/dnsmasq.d/kubedns and /var/lib/istio/envoy/cluster.env.
 
 * Configure and verify DNS settings - this may require installing dnsmasq, adding it to
-/etc/resolv.conf directly or via DHCP scripts.  To verify, check that the VM can resolve
+/etc/resolv.conf directly or via DHCP scripts. To verify, check that the VM can resolve
 names and connect to pilot, for example:
 
     ```bash
 
-    dig istio-pilot.istio-system
-    curl http://istio-mixer.istio-system:42422/metrics
+    vm$ dig istio-pilot.istio-system
+    # This should be the same address shown as "EXTERNAL-IP" in 'kubectl get svc -n istio-system istio-pilot-ilb'
+    ...
+    istio-pilot.istio-system. 0	IN	A	10.128.0.5
+    ...
+
+
+    # Check that we can resolve cluster IPs. The actual IN A will depend on cluster config.
+    vm$ dig istio-pilot.istio-system.svc.cluster.local.
+    ...
+    istio-pilot.istio-system.svc.cluster.local. 30 IN A 10.23.251.121
+
+    vm$ dig istio-ingress.istio-system.svc.cluster.local.
+    ...
+    istio-ingress.istio-system.svc.cluster.local. 30 IN A 10.23.245.11
+
+
+    ```
+
+* Verify connectivity. We'll check if the VM can connect to the pilot, and it can connect to
+an endpoint.
+
+    ```bash
+    vm$ curl -v 'http://istio-pilot.istio-system:8080/v1/registration/istio-pilot.istio-system.svc.cluster.local|http-discovery'
+    ...
+    "ip_address": "10.20.1.18",
+    ...
+
+
+    # Use the address above - it will connect directly the the pod running istio-pilot.
+    vm$ curl -v 'http://10.20.1.18:8080/v1/registration/istio-pilot.istio-system.svc.cluster.local|http-discovery'
+
     ```
 
 * Extract the initial Istio authentication secrets and copy them to the machine. The default
@@ -119,10 +150,34 @@ The generated files (key.pem, root-cert.pem, cert-chain.pem) must be copied to /
 
 * Install istio debian files and start 'istio' and 'istio-auth-node-agent' services.
 
+  ```bash
+
+      ISTIO_VERSION=0.2.4 # Update with the current istio version
+      DEBURL=http://gcsweb.istio.io/gcs/istio-release/releases/${ISTIO_VERSION}/deb
+      curl -L ${DEBURL}/istio-agent-release.deb > istio-agent-release.deb
+      curl -L ${DEBURL}/istio-auth-node-agent-release.deb > istio-auth-node-agent-release.deb
+      curl -L ${DEBURL}/istio-proxy-release.deb > istio-proxy-release.deb
+
+      dpkg -i ${ISTIO_STAGING}/istio-proxy-envoy.deb
+      dpkg -i ${ISTIO_STAGING}/istio-agent.deb
+      dpkg -i ${ISTIO_STAGING}/istio-auth-node-agent.deb
+
+      # TODO: This will be replaced with an 'apt-get' command once the repositories are setup.
+
+      systemctl start istio
+      systemctl start istio-auth-node-agent
+  ```
+
 
 After setup, the machine should be able to access services running in the k8s cluster
 or other cluster extension machines.
 
+```bash
+   # Assuming you install bookinfo in 'bookinfo' namespace
+   vm$ curl productpage.bookinfo.svc.cluster.local:9080
+   ... html content ...
+
+```
 
 ## Running services on a cluster extension machine
 
