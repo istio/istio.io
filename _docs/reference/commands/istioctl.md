@@ -107,10 +107,8 @@ istioctl context-create --api-server http://<ip>:<port> [flags]
 ### Examples
 
 ```
-
-		# Create a config file for the api server.
-		istioctl context-create --api-server http://127.0.0.1:8080
-		
+# Create a config file for the api server.
+istioctl context-create --api-server http://127.0.0.1:8080
 ```
 
 ### Options
@@ -150,9 +148,7 @@ istioctl create [flags]
 ### Examples
 
 ```
-
-			istioctl create -f example-routing.yaml
-			
+istioctl create -f example-routing.yaml
 ```
 
 ### Options
@@ -191,13 +187,11 @@ istioctl delete <type> <name> [<name2> ... <nameN>] [flags]
 ### Examples
 
 ```
+# Delete a rule using the definition in example-routing.yaml.
+istioctl delete -f example-routing.yaml
 
-		# Delete a rule using the definition in example-routing.yaml.
-		istioctl delete -f example-routing.yaml
-
-		# Delete the rule productpage-default
-		istioctl delete routerule productpage-default
-		
+# Delete the rule productpage-default
+istioctl delete routerule productpage-default
 ```
 
 ### Options
@@ -236,16 +230,14 @@ istioctl get <type> [<name>] [flags]
 ### Examples
 
 ```
+# List all route rules
+istioctl get routerules
 
-		# List all route rules
-		istioctl get routerules
+# List all destination policies
+istioctl get destinationpolicies
 
-		# List all destination policies
-		istioctl get destinationpolicies
-
-		# Get a specific rule named productpage-default
-		istioctl get routerule productpage-default
-		
+# Get a specific rule named productpage-default
+istioctl get routerule productpage-default
 ```
 
 ### Options
@@ -398,9 +390,7 @@ istioctl replace [flags]
 ### Examples
 
 ```
-
-			istioctl replace -f example-routing.yaml
-			
+istioctl replace -f example-routing.yaml	
 ```
 
 ### Options
