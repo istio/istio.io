@@ -67,7 +67,7 @@ Starting with the {{ site.data.istio.version }} release, Istio is installed in i
     installation file corresponding to your OS. If you are using a MacOS or Linux system, you can also
     run the following command to download and extract the latest stable release automatically:
     ```bash
-    curl -L https://git.io/getIstio | sh -
+    curl -L https://git.io/getLatestIstio | sh -
     ```
 
 1. Extract the installation file and change the directory to the file location. The
