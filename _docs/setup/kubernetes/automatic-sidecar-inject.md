@@ -57,15 +57,14 @@ Minikube version v0.22.1 or later is required for proper certificate
 configuration for GenericAdmissionWebhook feature. Get the latest
 version from https://github.com/kubernetes/minikube/releases.
 
-### Bluemix 
-
-Kubernetes alpha features are enabled by default on new IBM Bluemix clusters.
-
 ```bash
 minikube start \
     --extra-config=apiserver.Admission.PluginNames="Initializers,NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,GenericAdmissionWebhook,ResourceQuota" \
     --kubernetes-version=v1.7.5
 ```
+### Bluemix 
+
+Kubernetes alpha features are enabled by default on new IBM Bluemix clusters.
 
 ## Installing the initializer
 
