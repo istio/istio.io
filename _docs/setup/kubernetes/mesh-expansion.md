@@ -9,9 +9,7 @@ type: markdown
 ---
 
 Instructions to configure Istio on a Kubernetes Cluster so it can be expanded with
-services running on cloud or on-prem VMs.
-
-_This document is under construction._
+services running on cloud or on-prem VMs or external machines.
 
 ## Prerequisites
 
@@ -89,10 +87,10 @@ cat /etc/dnsmasq.d/kubedns
 ### Setting up the machines
 
 * Copy the config files and istio debian files to each machine joining the cluster, as
-/etc/dnsmasq.d/kubedns and /var/lib/istio/envoy/cluster.env.
+`/etc/dnsmasq.d/kubedns` and `/var/lib/istio/envoy/cluster.env`.
 
 * Configure and verify DNS settings - this may require installing dnsmasq, adding it to
-/etc/resolv.conf directly or via DHCP scripts. To verify, check that the VM can resolve
+`/etc/resolv.conf` directly or via DHCP scripts. To verify, check that the VM can resolve
 names and connect to pilot, for example:
 
 On the VM/external host:
