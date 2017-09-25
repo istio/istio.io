@@ -24,7 +24,7 @@ two steps: 50%, 100%.
 * Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
 > Note: This task assumes you are deploying the application on Kubernetes.
-  All of example commands are using the Kubernetes version of the rule yaml files
+  All of the example commands are using the Kubernetes version of the rule yaml files
   (e.g., `samples/bookinfo/kube/route-rule-all-v1.yaml`). If you are running this
   task in a different environment, change `kube` to the directory that corresponds
   to your runtime (e.g., samples/bookinfo/consul/route-rule-all-v1.yaml for
@@ -32,25 +32,25 @@ two steps: 50%, 100%.
 
 ## Weight-based version routing
 
-1. Set the default version for the microservices to v1.
+1. Set the default version for all microservices to v1.
 
    ```bash
    istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
    ```
 
-1. Confirm v1 is the active version of the `reviews` service by opening http://$GATEWAY_URL/productpage in your browser
+1. Confirm v1 is the active version of the `reviews` service by opening http://$GATEWAY_URL/productpage in your browser.
 
    You should see the BookInfo application productpage displayed.
    Notice that the `productpage` is displayed with no rating stars since `reviews:v1` does not access the ratings service.
 
-   > Note: If you previouly ran the [request routing](./request-routing.html) task, you may need to either Log out
-     as test user "jason" or delete the test rules that we created exclusively for him:
+   > Note: If you previously ran the [request routing](./request-routing.html) task, you may need to either log out
+     as test user "jason" or delete the test rules that were created exclusively for him:
 
      ```bash
      istioctl delete routerule reviews-test-v2
      ```
 
-1. First, transfer 50% of traffic from `reviews:v1` to `reviews:v3` with the following command:
+1. First, transfer 50% of the traffic from `reviews:v1` to `reviews:v3` with the following command:
 
    ```bash
    istioctl replace -f samples/bookinfo/kube/route-rule-reviews-50-v3.yaml
@@ -58,20 +58,18 @@ two steps: 50%, 100%.
 
    Notice that we are using `istioctl replace` instead of `create`.
 
+1. Refresh the `productpage` in your browser and you should now see *red* colored star ratings approximately 50% of the time.
 
-1. You should now see *red* colored star ratings approximately 50% of the time when you refresh
-   the `productpage`.
-
-   > Note: With the Envoy sidecar implementation, you may need to refresh the `productpage` multiple times
+   > Note: With the current Envoy sidecar implementation, you may need to refresh the `productpage` very many times
    > to see the proper distribution. You can modify the rules to route 90% of the traffic to v3 to see red stars more often.
 
-1. When version v3 of the reviews microservice is considered stable, we can route 100% of the traffic to `reviews:v3`:
+1. When version v3 of the `reviews` microservice is considered stable, we can route 100% of the traffic to `reviews:v3`:
 
    ```bash
    istioctl replace -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
    ```
 
-   You can now log in to the `productpage` as any user and you should always see book reviews
+   You can now log into the `productpage` as any user and you should always see book reviews
    with *red* colored star ratings for each review.
 
 ## Understanding what happened

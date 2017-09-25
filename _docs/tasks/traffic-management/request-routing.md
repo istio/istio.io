@@ -20,7 +20,7 @@ This task shows you how to configure dynamic request routing based on weights an
 * Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
 > Note: This task assumes you are deploying the application on Kubernetes.
-  All of example commands are using the Kubernetes version of the rule yaml files
+  All of the example commands are using the Kubernetes version of the rule yaml files
   (e.g., `samples/bookinfo/kube/route-rule-all-v1.yaml`). If you are running this
   task in a different environment, change `kube` to the directory that corresponds
   to your runtime (e.g., samples/bookinfo/consul/route-rule-all-v1.yaml for
@@ -35,7 +35,8 @@ star ratings.
 This is because without an explicit default version set, Istio will
 route requests to all available versions of a service in a random fashion.
 
-> Note: This task assumes you don't have any routes set yet. If you've already created conflicting route rules for the sample, you'll need to use `replace` rather than `create` in one or both of the following commands.
+> Note: This task assumes you don't have any routes set yet. If you've already created conflicting route rules for the sample,
+  you'll need to use `replace` rather than `create` in one or both of the following commands.
 
 1. Set the default version for all microservices to v1.
 
