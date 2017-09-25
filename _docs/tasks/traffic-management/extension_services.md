@@ -4,6 +4,7 @@ overview: This task shows you how to use services provided by VM
 
 order: 10
 
+draft: true
 layout: docs
 type: markdown
 redirect_from: "/docs/tasks/extension_services.html"
