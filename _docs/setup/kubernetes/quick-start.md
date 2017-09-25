@@ -65,7 +65,7 @@ Starting with the {{ site.data.istio.version }} release, Istio is installed in i
 
  1. Go to the [Istio release](https://github.com/istio/istio/releases) page to download the
     installation file corresponding to your OS. If you are using a MacOS or Linux system, you can also
-    run the following command to download and extract the latest stable release automatically:
+    run the following command to download and extract the latest release automatically:
     ```bash
     curl -L https://git.io/getLatestIstio | sh -
     ```
