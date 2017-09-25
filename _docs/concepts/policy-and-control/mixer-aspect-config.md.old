@@ -3,7 +3,7 @@ title: Mixer Aspect Configuration
 overview: Explains how to configure a Mixer Aspect and its dependencies.
 
 order: 38
-
+draft: true
 layout: docs
 type: markdown
 ---

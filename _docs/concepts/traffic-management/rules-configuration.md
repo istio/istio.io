@@ -581,7 +581,7 @@ The destination of an egress rule is specified using the *service* field, which
 can be either a fully qualified or wildcard domain name.
 It represents a white listed set of one or more external services that services
 in the mesh are allowed to access. The supported wildcard syntax can be found
-[here]({{home}}/docs/reference/config/traffic-rules/egress-rule.html).
+[here]({{home}}/docs/reference/config/traffic-rules/egress-rules.html).
 
 Currently, only HTTP-based services can be expressed using an egress rule, however,
 TLS origination from the sidecar can be achieved by setting the protocol of

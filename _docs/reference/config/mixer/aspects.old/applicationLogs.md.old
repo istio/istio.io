@@ -3,7 +3,7 @@ title: applicationLogs
 overview: applicationLogs aspect configuration schema
 
 order: 1130
-
+draft: true
 layout: docs
 type: markdown
 ---

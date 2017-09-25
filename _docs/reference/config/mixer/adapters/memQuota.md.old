@@ -3,7 +3,7 @@ title: memQuota
 overview: memQuota adapter configuration schema
 
 order: 40
-
+draft: true
 layout: docs
 type: markdown
 ---

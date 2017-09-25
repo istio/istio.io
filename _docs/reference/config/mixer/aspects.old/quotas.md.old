@@ -3,7 +3,7 @@ title: quotas
 overview: quotas aspect configuration schema
 
 order: 1180
-
+draft: true
 layout: docs
 type: markdown
 ---
