@@ -6,7 +6,7 @@ order: 20
 type: markdown
 ---
 
-<a name="istioctl"></a>
+<a name="istioctl_cmd"></a>
 ## istioctl
 
 Istio control interface
