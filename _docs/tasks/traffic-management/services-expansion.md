@@ -13,7 +13,7 @@ redirect_from: "/docs/tasks/extension_services.html"
 
 This task shows you how to configure services running in a VM that joined the cluster.
 
-Current task was tested on GCP - WIP on adding specific info for other clusters. 
+Current task was tested on GCP - WIP on adding specific info for other clusters.
 
 ## Before you begin
 
@@ -22,7 +22,7 @@ Current task was tested on GCP - WIP on adding specific info for other clusters.
 
 * Deploy the [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application.
 
-* Create a VM named 'db' in the same project as Istio cluster, and [Join the Mesh]({{home}}/docs/install/joining.html).
+* Create a VM named 'db' in the same project as Istio cluster, and [Join the Mesh]({{home}}/docs/setup/kubernetes/mesh-expansion.html).
 
 ## Running mysql on the VM
 
@@ -40,38 +40,38 @@ On the VM:
 First step is to configure the VM sidecar, by adding the service port and restarting the sidecar.
 
 ```bash
-  
+
   db$ sudo echo "ISTIO_INBOUND_PORTS=..." > /var/lib/istio/envoy/sidecar.env
   db$ sudo chown istio-proxy /var/lib/istio/envoy/sidecar.env
   db$ sudo systemctl restart istio
-  
- # Or 
+
+ # Or
   db$ sudo istio-pilot vi /var/lib/istio/envoy/sidecar.env
   # add mysql port to the "ISTIO_INBOUND_PORTS" config
-  
+
   ```
-  
-  ###  Cluster admin 
-  
+
+  ###  Cluster admin
+
   If you previously run the mysql bookinfo on kubernetes, you need to remove the k8s mysql service:
-  
+
   ```bash
   admin$ kubectl delete service mysql
   ```
-  
+
   Run istioctl to configure the service:
-  
+
   ```bash
   admin$ istioctl register mysql PORT IP
   ```
-  
-  Note that the 'db' machine does not need and should not have special kubernetes priviledges. 
-  
+
+  Note that the 'db' machine does not need and should not have special kubernetes priviledges.
+
 ## Registering the mongodb service with the mesh
-  
+
  In progress...
 
-## USing the mysql service 
+## USing the mysql service
 
 The ratings service in bookinfo will use the DB on the machine. To verify it works, you can
 modify the ratings value on the database.

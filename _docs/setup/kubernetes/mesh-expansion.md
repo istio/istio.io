@@ -2,7 +2,7 @@
 title: Istio Kubernetes Mesh Expansion
 overview: Instructions to add external machines and expanding Istio.
 
-order: 25
+order: 60
 
 layout: docs
 type: markdown
@@ -15,7 +15,7 @@ _This document is under construction._
 
 ## Prerequisites
 
-* You have [installed Istio](install-kubernetes.html) on Kubernetes.
+* You have [installed Istio](quick-start.html) on Kubernetes.
 
 * The machine must have IP connectivity to the endpoints in the mesh. This
 typically requires same VPC or a VPN connection, as well as a container network that
@@ -45,18 +45,18 @@ each cluster, you may need to add annotations.
 
 ```bash
   admin$ install/tools/setupMeshEx initCluster
-  
-  or 
-  
+
+  or
+
   admin$ kubectl apply -f install/kubernetes/meshex.yaml
 ```
 
 * Generate the Istio 'cluster.env' config to be deployed in the VMs. This file contains
-the cluster IP address ranges to intercept. 
+the cluster IP address ranges to intercept.
 
 ```bash
   admin$ install/tools/setupMeshEx generateConfigs MY_CLUSTER_NAME
-  
+
 ```
 
 Example generated files:
