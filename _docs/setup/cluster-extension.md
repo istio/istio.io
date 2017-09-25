@@ -8,14 +8,14 @@ layout: docs
 type: markdown
 ---
 
-This task shows how to install Istio in a non-kubernetes machine in the same network
-(VPC, VPN) as the Kubernetes cluster.
+Instructions to configure Istio on a Kubernetes Cluster to support workloads not
+managed by Kubernetes, running on cloud or on prem VMs.
 
 _This document is under construction._
 
 ## Prerequisites
 
-* You have [installed Istio](install-kubernetes.html) on your cluster
+* You have [installed Istio](install-kubernetes.html) on Kubernetes.
 
 * The machine must have IP connectivity to the endpoints in the cluster. This
 typically requires same VPC or a VPN connection, as well as a container network that
@@ -23,8 +23,10 @@ provides direct (without NAT or firewall deny) routing to the endpoints. The mac
 is not required to have access to the cluster IP addresses assigned by K8S.
 
 * The control plane (Pilot, Mixer, CA) and Kubernetes DNS server must be accessible
-from the VM. This is typically done using an [Internal Load
+from the VMs. This is typically done using an [Internal Load
 Balancer](https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer).
+Other options are possible, for example NodePort, or running Istio components on VMs, or
+custom network configurations - separate documents will cover advanced configs.
 
 ## Installation steps
 
@@ -100,9 +102,20 @@ names and connect to pilot, for example:
     curl http://istio-mixer.istio-system:42422/metrics
     ```
 
-* If auth is enabled, extract the initial kubernetes secrets and copy them to the machine.
-An example in 'istio_provision_cert' - the generated files must be copied to /etc/certs on
-each machine.
+* Extract the initial Istio authentication secrets and copy them to the machine. The default
+installation of Istio includes IstioCA and will generate Istio secrets even if automatic 'mTLS'
+setting is disabled. It is recommended that you perform this step to make it easy to
+enable mTLS in future and upgrade to future version that will have mTLS enabled by default.
+
+'''bash
+  # ACCOUNT defaults to 'istio.default', or SERVICE_ACCOUNT environment variable
+  # NAMESPACE defaults to current namespace, or SERVICE_NAMESPACE environment variable
+
+  admin$ install/tools/setupMeshEx machineCerts ACCOUNT NAMESPACE
+
+```
+
+The generated files (key.pem, root-cert.pem, cert-chain.pem) must be copied to /etc/certs on each machine, readable by istio-proxy.
 
 * Install istio debian files and start 'istio' and 'istio-auth-node-agent' services.
 
