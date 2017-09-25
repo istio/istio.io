@@ -15,7 +15,7 @@ This task shows how to use Istio to control access to a service.
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](({{home}}/docs/setup/).
+  [Installation guide]({{home}}/docs/setup/kubernetes/quick-start.html).
 
 * Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
 

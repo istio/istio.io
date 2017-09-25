@@ -11,12 +11,6 @@ type: markdown
 
 This guide demonstrates how to upgrade the Istio control plane and data plane independently.
 
-## Before you begin
-* Describe installation options.
-
-* Install Istio control plane in a Kubernetes cluster by following the quick start instructions in the
-[Installation guide]({{home}}/docs/setup/install-kubernetes.html).
-
 ## Overview
 
 Placeholder.

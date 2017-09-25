@@ -15,7 +15,7 @@ This sample uses the Bookinfo application to demonstrate policy enforcement usin
 * Describe installation options.
 
 * Install Istio control plane in a Kubernetes cluster by following the quick start instructions in the
-[Installation guide]({{home}}/docs/setup/install-kubernetes.html).
+[Installation guide]({{home}}/docs/setup/kubernetes/quick-start.html).
 
 ## Overview
 
