@@ -1,5 +1,5 @@
 ---
-title: Istio with Consul
+title: Bookinfo with Consul
 overview: This sample deploys the Bookinfo application in a simple Docker Compose environment using Consul as the service registry, and demonstrates various features of the Istio service mesh on non-kubernetes platforms.
 
 order: 60
@@ -64,9 +64,10 @@ automatically register instances of services in the Consul service registry.
 1. Bring up the Istio control plane and the application containers:
 
     ```bash
-    docker-compose -f samples/bookinfo/consul/docker-compose.yaml up -d
+    docker-compose -f samples/bookinfo/consul/control-plane.yaml up -d
+    docker-compose -f samples/bookinfo/consul/bookinfo.yaml up -d
     ```
-    
+
 1. Confirm that all docker containers are running:
 
    ```bash

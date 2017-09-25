@@ -65,9 +65,9 @@ Starting with the {{ site.data.istio.version }} release, Istio is installed in i
 
  1. Go to the [Istio release](https://github.com/istio/istio/releases) page to download the
     installation file corresponding to your OS. If you are using a MacOS or Linux system, you can also
-    run the following command to download and extract the latest stable release automatically:
+    run the following command to download and extract the latest release automatically:
     ```bash
-    curl -L https://git.io/getIstio | sh -
+    curl -L https://git.io/getLatestIstio | sh -
     ```
 
 1. Extract the installation file and change the directory to the file location. The
@@ -137,7 +137,7 @@ such as request rates and success or failure rates. After you install Grafana, c
 Configure port-forwarding for the `grafana` service:
 
   ```bash
-  kubectl port-forward $(kubectl get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
+  kubectl port-forward -n istio-system $(kubectl get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
   ```
 
 Point your web browser to [http://localhost:3000/dashboard/db/istio-dashboard](http://localhost:3000/dashboard/db/istio-dashboard).
@@ -154,7 +154,7 @@ port-forwarding, service nodePort, or, if external load balancing is available, 
 example the service name is `servicegraph` and the port to access is `8088`:
 
 ```bash
-kubectl port-forward $(kubectl get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
+kubectl port-forward -n istio-system $(kubectl get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
 ```
 
 The ServiceGraph service provides both a textual (JSON) representation (via `/graph`) and a graphical
