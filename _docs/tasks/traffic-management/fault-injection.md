@@ -15,7 +15,7 @@ This task shows how to inject delays and test the resiliency of your application
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](({{home}}/docs/setup/).
+  [Installation guide]({{home}}/docs/setup/).
 
 * Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
 

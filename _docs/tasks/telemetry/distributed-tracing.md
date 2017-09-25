@@ -22,7 +22,7 @@ example application for this task.
 
 ## Before you begin
 
-* Setup Istio by following the instructions in the [Installation guide](({{home}}/docs/setup/).
+* Setup Istio by following the instructions in the [Installation guide]({{home}}/docs/setup/).
 
   If you didn't start the Zipkin or Jaeger addon during installation,
   you can run the following command to start it now:

@@ -18,7 +18,7 @@ to configure ingress behavior.
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](({{home}}/docs/setup/).
+  [Installation guide]({{home}}/docs/setup/).
   
 * Make sure your current directory is the `istio` directory.
   
