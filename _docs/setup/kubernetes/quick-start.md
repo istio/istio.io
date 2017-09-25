@@ -137,7 +137,7 @@ such as request rates and success or failure rates. After you install Grafana, c
 Configure port-forwarding for the `grafana` service:
 
   ```bash
-  kubectl port-forward $(kubectl get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
+  kubectl port-forward -n istio-system $(kubectl get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
   ```
 
 Point your web browser to [http://localhost:3000/dashboard/db/istio-dashboard](http://localhost:3000/dashboard/db/istio-dashboard).
@@ -154,7 +154,7 @@ port-forwarding, service nodePort, or, if external load balancing is available, 
 example the service name is `servicegraph` and the port to access is `8088`:
 
 ```bash
-kubectl port-forward $(kubectl get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
+kubectl port-forward -n istio-system $(kubectl get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
 ```
 
 The ServiceGraph service provides both a textual (JSON) representation (via `/graph`) and a graphical
