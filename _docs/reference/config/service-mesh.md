@@ -9,18 +9,6 @@ type: markdown
 ---
 
 
-<a name="rpcIstio.proxy.v1.configIndex"></a>
-### Index
-
-* [MeshConfig](#istio.proxy.v1.config.MeshConfig)
-(message)
-* [MeshConfig.AuthPolicy](#istio.proxy.v1.config.MeshConfig.AuthPolicy)
-(enum)
-* [MeshConfig.IngressControllerMode](#istio.proxy.v1.config.MeshConfig.IngressControllerMode)
-(enum)
-* [ProxyConfig](#istio.proxy.v1.config.ProxyConfig)
-(message)
-
 <a name="istio.proxy.v1.config.MeshConfig"></a>
 ### MeshConfig
 MeshConfig defines mesh-wide variables shared by all Envoy instances in the
@@ -119,7 +107,7 @@ Istio service mesh.
 </table>
 
 <a name="istio.proxy.v1.config.MeshConfig.AuthPolicy"></a>
-### AuthPolicy
+#### AuthPolicy
 
 
 <table>
@@ -140,7 +128,7 @@ Istio service mesh.
 </table>
 
 <a name="istio.proxy.v1.config.MeshConfig.IngressControllerMode"></a>
-### IngressControllerMode
+#### IngressControllerMode
 
 
 <table>
