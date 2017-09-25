@@ -1,6 +1,6 @@
 ---
-title: Bookinfo on Kubernetes
-overview: This sample deploys a simple application composed of four separate microservices which will be used to demonstrate various features of the Istio service mesh.
+title: Bookinfo Sample Application
+overview: This guide deploys a sample application composed of four separate microservices which will be used to demonstrate various features of the Istio service mesh.
 
 order: 10
 
@@ -10,12 +10,12 @@ redirect_from: "/docs/samples/bookinfo.html"
 ---
 {% include home.html %}
 
-This sample deploys a simple application composed of four separate microservices which will be used
+This guide deploys a sample application composed of four separate microservices which will be used
 to demonstrate various features of the Istio service mesh.
 
 ## Overview
 
-In this sample we will deploy a simple application that displays information about a
+In this guide we will deploy a simple application that displays information about a
 book, similar to a single catalog entry of an online book store. Displayed
 on the page is a description of the book, book details (ISBN, number of
 pages, and so on), and a few book reviews.
@@ -40,15 +40,15 @@ The end-to-end architecture of the application is shown below.
 
 This application is polyglot, i.e., the microservices are written in different languages.
 It’s worth noting that these services have no dependencies on Istio, but make an interesting
-sevice mesh example, particularly, the multitude of services, languages and versions for the
-reviews service.
+sevice mesh example, particularly because of the multitude of services, languages and versions
+for the reviews service.
 
-## Running the application
+## Deploying the application
 
-To run the sample in an Istio-enabled environment requires no changes to the
+To run the sample with Istio requires no changes to the
 application itself. Instead, we simply need to configure and run the services in an
 Istio-enabled environment, with Envoy sidecars injected along side each service.
-The needed commands and configuration vary depending on the runtime environment,
+The needed commands and configuration vary depending on the runtime environment
 although in all cases the resulting deployment will look like this:
 
 <figure><img src="./img/bookinfo/withistio.svg" alt="BookInfo Application" title="BookInfo Application" />
@@ -60,7 +60,7 @@ via the Istio control plane, routing, telemetry collection, and policy enforceme
 for the application as a whole.
 
 Before you begin, if you haven't already done so, setup Istio by following the instructions
-corresponding to your platform [Installation guide]({{home}}/docs/setup/) and then
+corresponding to your platform [installation guide]({{home}}/docs/setup/) and then
 run the application using the instructions in one of the following sections.
 
 ### Running on Kubernetes
@@ -202,20 +202,20 @@ curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage
 
 You can also point your browser to `http://$GATEWAY_URL/productpage`
 to view the Bookinfo web page. If you refresh the page several times, you should
-see different versions of reviews shown in productpage presented in a round robin style (red
+see different versions of reviews shown in productpage, presented in a round robin style (red
 stars, black stars, no stars), since we haven't yet used Istio to control the
 version routing.
 
-You can now use this sample to experiment with Istio traffic routing, fault injection,
-rate limitting, etc..
+You can now use this sample to experiment with Istio's features for
+traffic routing, fault injection, rate limitting, etc..
 To proceed, refer to one or more of the [Istio Guides]({{home}}/docs/guides),
-depending on your interest. [Request Routing]({{home}}/docs/guides/request-routing.html)
+depending on your interest. [Intelligent Routing]({{home}}/docs/guides/intelligent-routing.html)
 is a good place to start for beginners.
 
 ## Cleanup
 
 When you're finished experimenting with the BookInfo sample, you can
-uninstall and cleanup using the following instructions.
+uninstall and clean it up using the following instructions.
 
 ### Uninstall from Kubernetes environment
 
