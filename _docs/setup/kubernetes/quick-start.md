@@ -17,6 +17,7 @@ Quick Start instructions to install and configure Istio in a Kubernetes cluster.
 
 The following instructions assume you have access to a Kubernetes **1.7.4 or newer** cluster
 with [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/) enabled.
+If you wish to enable [transparent injection of sidecar]({{home}}/docs/setup/kubernetes/automatic-sidecar-inject.html), you need to turn on Kubernetes alpha features in your cluster.
 
   > Note: If you installed Istio 0.1.x,
   > [uninstall](https://istio.io/v-0.1/docs/tasks/installing-istio.html#uninstalling)
@@ -65,9 +66,9 @@ Starting with the {{ site.data.istio.version }} release, Istio is installed in i
 
  1. Go to the [Istio release](https://github.com/istio/istio/releases) page to download the
     installation file corresponding to your OS. If you are using a MacOS or Linux system, you can also
-    run the following command to download and extract the latest stable release automatically:
+    run the following command to download and extract the latest release automatically:
     ```bash
-    curl -L https://git.io/getIstio | sh -
+    curl -L https://git.io/getLatestIstio | sh -
     ```
 
 1. Extract the installation file and change the directory to the file location. The
@@ -108,7 +109,7 @@ Starting with the {{ site.data.istio.version }} release, Istio is installed in i
    and deploy Istio-Pilot, Istio-Mixer, Istio-Ingress, Istio-Egress, and Istio-CA (Certificate Authority).
 
 1. *Optional:* If your cluster has Kubernetes alpha features enabled, and you wish to enable a
-   transparent injection of sidecar, install the Istio-Initializer:
+   [transparent injection of sidecar]({{home}}/docs/setup/kubernetes/automatic-sidecar-inject.html), install the Istio-Initializer:
 
     ```bash
      kubectl apply -f install/kubernetes/istio-initializer.yaml
@@ -137,7 +138,7 @@ such as request rates and success or failure rates. After you install Grafana, c
 Configure port-forwarding for the `grafana` service:
 
   ```bash
-  kubectl port-forward $(kubectl get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
+  kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
   ```
 
 Point your web browser to [http://localhost:3000/dashboard/db/istio-dashboard](http://localhost:3000/dashboard/db/istio-dashboard).
@@ -154,7 +155,7 @@ port-forwarding, service nodePort, or, if external load balancing is available, 
 example the service name is `servicegraph` and the port to access is `8088`:
 
 ```bash
-kubectl port-forward $(kubectl get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
+kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
 ```
 
 The ServiceGraph service provides both a textual (JSON) representation (via `/graph`) and a graphical

@@ -49,6 +49,9 @@ gcloud container clusters create NAME \
     --zone=ZONE
 ```
 
+### IBM Bluemix Container Service
+If your cluster is v1.7.4 or newer, you'll have the required [alpha feature](https://kubernetes.io/docs/admin/extensible-admission-controllers/#enable-initializers-alpha-feature) enabled by default.  
+
 ### Minikube
 
 Create a cluster with DynamicAdmissionControl enabled on Minikube:
@@ -62,9 +65,6 @@ minikube start \
     --extra-config=apiserver.Admission.PluginNames="Initializers,NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,GenericAdmissionWebhook,ResourceQuota" \
     --kubernetes-version=v1.7.5
 ```
-### Bluemix 
-
-Kubernetes alpha features are enabled by default on new IBM Bluemix clusters.
 
 ## Installing the initializer
 

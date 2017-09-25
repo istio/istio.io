@@ -90,5 +90,6 @@ automatically register instances of services in the Consul service registry.
 Remove all docker containers:
 
   ```bash
-  docker-compose -f samples/bookinfo/consul/docker-compose.yaml down
+   docker-compose -f samples/bookinfo/consul/bookinfo.yaml down
+   docker-compose -f samples/bookinfo/consul/control-plane.yaml down
   ```
