@@ -1,5 +1,5 @@
 ---
-title: Gathering Metrics, Logs, and Traces
+title: Gathering Metrics and Traces
 overview: This sample demonstrates how to obtain uniform metrics, logs, traces across different services using Istio Mixer and Istio sidecar.
 
 order: 30
@@ -32,14 +32,14 @@ developers to manually instrument their applications.
 
 ## Tasks
 
-1. [Collect uniform metrics]({{home}}/docs/tasks/telemetry/metrics-logs.html)
+1. [Collecting metrics]({{home}}/docs/tasks/telemetry/metrics-logs.html)
    This task will configure Mixer to collect a uniform set of metrics
    across all services in the Bookinfo application. It will configure Istio
    Mixer to propagate the metrics to a Prometheus backend. Interested users can
    setup Grafana to visualize the metrics by following the
    [Istio Add-ons]({{home}}/docs/tasks/telemetry/istio-addons.html).
 
-1. [Trace request flow]({{home}}/docs/tasks/telemetry/distributed-tracing.html) We will now use Istio to
+1. [Request tracing]({{home}}/docs/tasks/telemetry/distributed-tracing.html) We will now use Istio to
    trace how requests are flowing across services in the
    application. Distributed tracing speeds up troubleshooting by allowing
    developers to quickly understand how different services contribute to
