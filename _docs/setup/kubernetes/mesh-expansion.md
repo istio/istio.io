@@ -1,6 +1,6 @@
 ---
 title: Mesh Expansion
-overview: Instructions to add external machines and expanding Istio.
+overview: Instructions to add external machines and expand the Istio mesh.
 
 order: 60
 
@@ -8,17 +8,17 @@ layout: docs
 type: markdown
 ---
 
-Instructions to configure Istio on a Kubernetes Cluster so it can be expanded with
-services running on cloud or on-prem VMs or external machines.
+Instructions to configure Istio on a Kubernetes cluster so it can be expanded with
+services running on cloud, on-premises VMs, or external machines.
 
 ## Prerequisites
 
-* You have [installed Istio](quick-start.html) on Kubernetes.
+* Setup Istio on Kubernetes by following the instructions in the [Installation guide](quick-start.html).
 
 * The machine must have IP connectivity to the endpoints in the mesh. This
-typically requires same VPC or a VPN connection, as well as a container network that
+typically requires a VPC or a VPN, as well as a container network that
 provides direct (without NAT or firewall deny) routing to the endpoints. The machine
-is not required to have access to the cluster IP addresses assigned by K8S.
+is not required to have access to the cluster IP addresses assigned by Kubernetes.
 
 * The control plane (Pilot, Mixer, CA) and Kubernetes DNS server must be accessible
 from the VMs. This is typically done using an [Internal Load
@@ -30,13 +30,13 @@ custom network configurations - separate documents will cover advanced configs.
 
 Setup consists of preparing the mesh for expansion and installing and configuring each VM.
 
-An example script to help with K8S setup is available in
+An example script to help with Kubernetes setup is available in
 [install/tools/setupMeshEx.sh](https://raw.githubusercontent.com/istio/istio/master/install/tools/setupMeshEx.sh).
 
 An example script to help configure a machine is available in [install/tools/setupIstioVM.sh](https://raw.githubusercontent.com/istio/istio/master/install/tools/setupIstioVM.sh).
 You should customize it based on your provisioning tools and DNS requirements.
 
-### Preparing the K8s for expansion
+### Preparing the Kubernetes cluster for expansion
 
 * Setup internal load balancers for Kube DNS, Pilot, Mixer and CA. This step is specific to
 each cluster, you may need to add annotations.
@@ -49,7 +49,7 @@ or
 kubectl apply -f install/kubernetes/meshex.yaml
 ```
 
-* Generate the Istio 'cluster.env' config to be deployed in the VMs. This file contains
+* Generate the Istio 'cluster.env' configuration to be deployed in the VMs. This file contains
 the cluster IP address ranges to intercept.
 
 ```bash
@@ -64,7 +64,7 @@ Example generated files:
    ```
    ISTIO_SERVICE_CIDR=10.23.240.0/20
    ```
-* Generate DNS config file to be used in the VMs. This will allow apps on the VM to resolve
+* Generate DNS configuration file to be used in the VMs. This will allow apps on the VM to resolve
 cluster service names, which will be intercepted by the sidecar and forwarded.
 
 ```bash
@@ -86,11 +86,11 @@ cat /etc/dnsmasq.d/kubedns
 
 ### Setting up the machines
 
-* Copy the config files and istio debian files to each machine joining the cluster, as
-`/etc/dnsmasq.d/kubedns` and `/var/lib/istio/envoy/cluster.env`.
+* Copy the configuration files and Istio Debian files to each machine joining the cluster.
+Save the files as `/etc/dnsmasq.d/kubedns` and `/var/lib/istio/envoy/cluster.env`.
 
-* Configure and verify DNS settings - this may require installing dnsmasq, adding it to
-`/etc/resolv.conf` directly or via DHCP scripts. To verify, check that the VM can resolve
+* Configure and verify DNS settings. This may require installing `dnsmasq` and either
+adding it to `/etc/resolv.conf` directly or via DHCP scripts. To verify, check that the VM can resolve
 names and connect to pilot, for example:
 
 On the VM/external host:
@@ -104,7 +104,7 @@ dig istio-pilot.istio-system
     ...
 ```
 ```bash
-    # Check that we can resolve cluster IPs. The actual IN A will depend on cluster config.
+    # Check that we can resolve cluster IPs. The actual IN A will depend on cluster configuration.
     dig istio-pilot.istio-system.svc.cluster.local.
 ```
 ```
@@ -119,8 +119,7 @@ dig istio-ingress.istio-system.svc.cluster.local.
     istio-ingress.istio-system.svc.cluster.local. 30 IN A 10.23.245.11
 ```
 
-* Verify connectivity. We'll check if the VM can connect to the pilot, and it can connect to
-an endpoint.
+* Verify connectivity by checking whether the VM can connect to Pilot and to an endpoint.
 
     ```bash
     curl -v 'http://istio-pilot.istio-system:8080/v1/registration/istio-pilot.istio-system.svc.cluster.local|http-discovery'
@@ -147,9 +146,9 @@ enable mTLS in future and upgrade to future version that will have mTLS enabled 
   install/tools/setupMeshEx machineCerts ACCOUNT NAMESPACE
 ```
 
-The generated files (key.pem, root-cert.pem, cert-chain.pem) must be copied to /etc/certs on each machine, readable by istio-proxy.
+The generated files (`key.pem`, `root-cert.pem`, `cert-chain.pem`) must be copied to /etc/certs on each machine, readable by istio-proxy.
 
-* Install istio debian files and start 'istio' and 'istio-auth-node-agent' services.
+* Install Istio Debian files and start 'istio' and 'istio-auth-node-agent' services.
 
   ```bash
 
@@ -170,7 +169,7 @@ The generated files (key.pem, root-cert.pem, cert-chain.pem) must be copied to /
   ```
 
 
-After setup, the machine should be able to access services running in the k8s cluster
+After setup, the machine should be able to access services running in the Kubernetes cluster
 or other mesh expansion machines.
 
 ```bash
@@ -183,7 +182,7 @@ or other mesh expansion machines.
 
 ## Running services on a mesh expansion machine
 
-* Configure the sidecar to intercept the port. This is configured in /var/lib/istio/envoy/sidecar.env,
+* Configure the sidecar to intercept the port. This is configured in ``/var/lib/istio/envoy/sidecar.env`,
 using the ISTIO_INBOUND_PORTS environment variable.
 
   Example (on the VM running the service):
@@ -197,12 +196,12 @@ using the ISTIO_INBOUND_PORTS environment variable.
 * Manually configure a selector-less service and endpoints. The 'selector-less' service is used for
 services that are not backed by Kubernetes pods.
 
-   Example, on a machine with permissions to modify k8s services:
+   Example, on a machine with permissions to modify Kubernetes services:
    ```bash
    # istioctl register servicename machine-ip portname:port
    istioctl -n onprem register mysql 1.2.3.4 3306
    istioctl -n onprem register svc1 1.2.3.4 http:7000
    ```
 
-After the setup, k8s pods and other mesh expansions should be able to access the
+After the setup, Kubernetes pods and other mesh expansions should be able to access the
 services running on the machine.
