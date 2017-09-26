@@ -23,8 +23,8 @@ is not required to have access to the cluster IP addresses assigned by Kubernete
 * The control plane (Pilot, Mixer, CA) and Kubernetes DNS server must be accessible
 from the VMs. This is typically done using an [Internal Load
 Balancer](https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer).
-Other options are possible, for example NodePort, or running Istio components on VMs, or
-custom network configurations - separate documents will cover advanced configs.
+You can also use NodePort, run Istio components on VMs, or use custom network configurations,
+separate documents will cover these advanced configurations.
 
 ## Installation steps
 
