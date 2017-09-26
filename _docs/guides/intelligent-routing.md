@@ -32,18 +32,18 @@ for a running application.
 
 ## Tasks
 
-1. [Request routing]({{home}}/docs/tasks/request-routing.html) This task will first
+1. [Request routing]({{home}}/docs/tasks/traffic-management/request-routing.html) This task will first
    direct all incoming traffic for the Bookinfo application to the v1 version of the
    `reviews` service. It will then send traffic only from a specific test user to version v2,
    leaving all other users unaffected.
 
-1. [Fault injection]({{home}}/docs/tasks/fault-injection.html) We will now use Istio to
+1. [Fault injection]({{home}}/docs/tasks/traffic-management/fault-injection.html) We will now use Istio to
    test the resiliency of the Bookinfo application by injecting an artificial delay in
    requests between the `reviews:v2` and `ratings` services. Observing the resulting behavior
    as the test user, we will notice that the v2 version of the `reviews` service has a bug.
    Note that all other users are unaware of this testing against the live system.
 
-1. [Version migration]({{home}}/docs/tasks/version-migration.html) Finally, we will
+1. [Version migration]({{home}}/docs/tasks/traffic-management/version-migration.html) Finally, we will
    use Istio to gradually migrate traffic for all users from to a v3 version of
    the `reviews` service, one which includes the fix for the bug discovered in v2.
 
