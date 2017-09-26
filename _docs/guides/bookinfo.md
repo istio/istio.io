@@ -71,7 +71,7 @@ run the application using the instructions in one of the following sections.
 
 1. Bring up the application containers:
 
-   If you are running in cluster with
+   If you are using a cluster with
    [automatic sidecar injection]({{home}}/docs/setup/kubernetes/automatic-sidecar-inject.html)
    enabled, simply deploy the services using `kubectl`:
 
