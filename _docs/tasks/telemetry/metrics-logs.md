@@ -123,7 +123,7 @@ as the example application throughout this task.
 1. Push the new configuration.
 
    ```bash
-   istioctl apply -f new_telemetry.yaml
+   istioctl create -f new_telemetry.yaml
    ```
 
    The expected output is similar to:
