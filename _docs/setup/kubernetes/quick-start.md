@@ -160,7 +160,7 @@ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=se
 
 The ServiceGraph service provides both a textual (JSON) representation (via `/graph`) and a graphical
 visualization (via `/dotviz`) of the underlying service graph. If you configured port forwarding using
-the above command, you can view the graphical visualization by opening your browser at [http://localhost:8088/dotviz](http://localhost:8088/dotviz).
+the above command, you can view the graphical visualization by opening your browser at [http://localhost:8088/dotviz](http://localhost:8088/dotviz).  You will see an empty page initially before you have any microservices deployed.
 
 After you run some services, a service graph builds. For example, after installing the
 [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application and generating some load on the
