@@ -219,7 +219,14 @@ You can now deploy your own application or one of the sample applications provid
 installation like [BookInfo]({{home}}/docs/guides/bookinfo.html).
 Note: the application must use HTTP/1.1 or HTTP/2.0 protocol for all its HTTP traffic because HTTP/1.0 is not supported.
 
-Unless you installed the Istio-Initializer as shown above, when deploying the application, you must
+If you have the Istio-Initializer as shown above installed, you can deploy the application directly via
+`kubectl create`, the Istio-Initializer will automatically inject Envoy containers in your application pods:
+
+```bash
+kubectl create -f <your-app-spec>.yaml
+```
+
+If you do not have the Istio-Initializer as shown above installed, when deploying the application, you must
 use [istioctl kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject) to
 automatically inject Envoy containers in your application pods:
 
