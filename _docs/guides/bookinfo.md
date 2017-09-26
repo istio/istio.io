@@ -50,7 +50,15 @@ This application is polyglot, i.e., the microservices are written in different l
 
 1. Change directory to the root of the Istio installation directory.
 
-1. Bring up the application containers:
+1. Bring up the application containers.
+
+   If you have the istio initializer deployed, run the command as follows to deploy:
+
+   ```bash
+   kubectl apply -f samples/bookinfo/kube/bookinfo.yaml
+   ```
+
+   If you do not have the istio initializer deployed, run the command as follows to deploy:
 
    ```bash
    kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo.yaml)
@@ -63,9 +71,12 @@ This application is polyglot, i.e., the microservices are written in different l
    > Note that in a realistic deployment, new versions of a microservice are deployed
    over time instead of deploying all versions simultaneously.
 
-   Notice that the `istioctl kube-inject` command is used to modify the `bookinfo.yaml`
-   file before creating the deployments. This injects Envoy into Kubernetes resources
-   as documented [here]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject).
+   Notice that the istio initializer is used to modify the `bookinfo.yaml` file before
+   creating the deployments. This injects Envoy into Kubernetes resources as documented
+   [here]({{home}}/docs/setup/kubernetes/automatic-sidecar-inject.html).
+   The `istioctl kube-inject` has same function as istio initializer, but it is a manual
+   operation, you can refer the documented [here]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject).
+
    Consequently, all of the microservices are now packaged with an Envoy sidecar
    that manages incoming and outgoing calls for the service. The updated diagram looks
    like this:
