@@ -1,6 +1,6 @@
 ---
-title: Bookinfo on Kubernetes
-overview: This sample deploys a simple application composed of four separate microservices which will be used to demonstrate various features of the Istio service mesh.
+title: Bookinfo Sample Application
+overview: This guide deploys a sample application composed of four separate microservices which will be used to demonstrate various features of the Istio service mesh.
 
 order: 10
 
@@ -10,18 +10,12 @@ redirect_from: "/docs/samples/bookinfo.html"
 ---
 {% include home.html %}
 
-This sample deploys a simple application composed of four separate microservices which will be used
+This guide deploys a sample application composed of four separate microservices which will be used
 to demonstrate various features of the Istio service mesh.
-
-## Before you begin
-* If you use GKE, please ensure your cluster has at least 4 standard GKE nodes.
-
-* Setup Istio by following the instructions in the
-[Installation guide]({{home}}/docs/setup/kubernetes/quick-start.html).
 
 ## Overview
 
-In this sample we will deploy a simple application that displays information about a
+In this guide we will deploy a simple application that displays information about a
 book, similar to a single catalog entry of an online book store. Displayed
 on the page is a description of the book, book details (ISBN, number of
 pages, and so on), and a few book reviews.
@@ -45,33 +39,62 @@ The end-to-end architecture of the application is shown below.
 <figcaption>BookInfo Application without Istio</figcaption></figure>
 
 This application is polyglot, i.e., the microservices are written in different languages.
+It’s worth noting that these services have no dependencies on Istio, but make an interesting
+sevice mesh example, particularly because of the multitude of services, languages and versions
+for the reviews service.
 
-## Start the application
+## Deploying the application
+
+To run the sample with Istio requires no changes to the
+application itself. Instead, we simply need to configure and run the services in an
+Istio-enabled environment, with Envoy sidecars injected along side each service.
+The needed commands and configuration vary depending on the runtime environment
+although in all cases the resulting deployment will look like this:
+
+<figure><img src="./img/bookinfo/withistio.svg" alt="BookInfo Application" title="BookInfo Application" />
+<figcaption>BookInfo Application</figcaption></figure>
+
+All of the microservices will be packaged with an Envoy sidecar that intercepts incoming
+and outgoing calls for the services, providing the hooks needed to externally control,
+via the Istio control plane, routing, telemetry collection, and policy enforcement
+for the application as a whole.
+
+Before you begin, if you haven't already done so, setup Istio by following the instructions
+corresponding to your platform [installation guide]({{home}}/docs/setup/) and then
+run the application using the instructions in one of the following sections.
+
+### Running on Kubernetes
+
+> Note: If you use GKE, please ensure your cluster has at least 4 standard GKE nodes.
 
 1. Change directory to the root of the Istio installation directory.
 
 1. Bring up the application containers:
 
+   If you are using a cluster with
+   [automatic sidecar injection]({{home}}/docs/setup/kubernetes/automatic-sidecar-inject.html)
+   enabled, simply deploy the services using `kubectl`:
+
+   ```bash
+   kubectl apply -f samples/bookinfo/kube/bookinfo.yaml
+   ```
+
+   If you are using [manual sidecar injection]({{home}}/docs/setup/kubernetes/manual-sidecar-inject.html),
+   use the folloiwng command instead:
+
    ```bash
    kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo.yaml)
    ```
 
-   The above command launches four microservices and creates the gateway
-   ingress resource as illustrated in the diagram below.
-   The reviews microservice has 3 versions: v1, v2, and v3.
+   The `istioctl kube-inject` command is used to manually modify the `bookinfo.yaml`
+   file before creating the deployments as documented [here]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject).
+
+   Either of the above commands launches all four microservices and creates the gateway
+   ingress resource as illustrated in the above diagram.
+   All 3 versions of the reviews service, v1, v2, and v3, are started.
 
    > Note that in a realistic deployment, new versions of a microservice are deployed
    over time instead of deploying all versions simultaneously.
-
-   Notice that the `istioctl kube-inject` command is used to modify the `bookinfo.yaml`
-   file before creating the deployments. This injects Envoy into Kubernetes resources
-   as documented [here]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject).
-   Consequently, all of the microservices are now packaged with an Envoy sidecar
-   that manages incoming and outgoing calls for the service. The updated diagram looks
-   like this:
-
-   <figure><img src="./img/bookinfo/withistio.svg" alt="BookInfo Application" title="BookInfo Application" />
-   <figcaption>BookInfo Application</figcaption></figure>
 
 1. Confirm all services and pods are correctly defined and running:
 
@@ -142,19 +165,59 @@ This application is polyglot, i.e., the microservices are written in different l
    export GATEWAY_URL=$(kubectl get po -n istio-system -l istio=ingress -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}')
    ```
 
-1. Confirm that the BookInfo application is running with the following `curl` command:
+### Running on Docker with Consul
+
+1. Change directory to the root of the Istio installation directory.
+
+1. Bring up the Istio control plane and the application containers:
+
+    ```bash
+    docker-compose -f samples/bookinfo/consul/docker-compose.yaml up -d
+    ```
+
+1. Confirm that all docker containers are running:
 
    ```bash
-   curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage
+   docker ps -a
    ```
+
+   > If the `Istio-Pilot` container terminates, re-run the command from the previous step.
+
+1. Set the GATEWAY_URL:
+
    ```bash
-   200
+   export GATEWAY_URL=localhost:9081
    ```
-   
+
+## What's next
+
+To confirm that the BookInfo application is running, run the following `curl` command:
+
+```bash
+curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage
+```
+```bash
+200
+```
+
+You can also point your browser to `http://$GATEWAY_URL/productpage`
+to view the Bookinfo web page. If you refresh the page several times, you should
+see different versions of reviews shown in productpage, presented in a round robin style (red
+stars, black stars, no stars), since we haven't yet used Istio to control the
+version routing.
+
+You can now use this sample to experiment with Istio's features for
+traffic routing, fault injection, rate limitting, etc..
+To proceed, refer to one or more of the [Istio Guides]({{home}}/docs/guides),
+depending on your interest. [Intelligent Routing]({{home}}/docs/guides/intelligent-routing.html)
+is a good place to start for beginners.
+
 ## Cleanup
 
 When you're finished experimenting with the BookInfo sample, you can
-uninstall it in a Kubernetes environment as follows:
+uninstall and clean it up using the following instructions.
+
+### Uninstall from Kubernetes environment
 
 1. Delete the routing rules and terminate the application pods
 
@@ -169,16 +232,16 @@ uninstall it in a Kubernetes environment as follows:
    kubectl get pods          #-- the BookInfo pods should be deleted
    ```
 
-If you are using the Docker Compose version of the demo, run the following
-command to clean up:
+### Uninstall from Docker environment
+
+1. Showdown the application
 
   ```bash
   docker-compose -f samples/bookinfo/consul/docker-compose.yaml down
   ```
 
-## What's next
+2. Cleanup rules
 
-Now that you have the BookInfo sample up and running, you can point your browser to `http://$GATEWAY_URL/productpage`
-to see the running application and use Istio to control traffic routing, inject faults, rate limit services, etc..
-
-To get started, check out the [request routing task]({{home}}/docs/tasks/request-routing.html).
+  ```
+  TBD
+  ```

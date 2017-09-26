@@ -19,6 +19,13 @@ This task shows you how to configure dynamic request routing based on weights an
 
 * Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
+> Note: This task assumes you are deploying the application on Kubernetes.
+  All of the example commands are using the Kubernetes version of the rule yaml files
+  (e.g., `samples/bookinfo/kube/route-rule-all-v1.yaml`). If you are running this
+  task in a different environment, change `kube` to the directory that corresponds
+  to your runtime (e.g., samples/bookinfo/consul/route-rule-all-v1.yaml for
+  the Consul-based runtime).
+
 ## Content-based routing
 
 Because the BookInfo sample deploys 3 versions of the reviews microservice,
@@ -28,7 +35,8 @@ star ratings.
 This is because without an explicit default version set, Istio will
 route requests to all available versions of a service in a random fashion.
 
-> Note: This task assumes you don't have any routes set yet. If you've already created conflicting route rules for the sample, you'll need to use `replace` rather than `create` in one or both of the following commands.
+> Note: This task assumes you don't have any routes set yet. If you've already created conflicting route rules for the sample,
+  you'll need to use `replace` rather than `create` in one or both of the following commands.
 
 1. Set the default version for all microservices to v1.
 
@@ -38,6 +46,7 @@ route requests to all available versions of a service in a random fashion.
 
    > Note: In a Kubernetes deployment of Istio, you can replace `istioctl`
    > with `kubectl` in the above, and for all other CLI commands.
+   > Note, however, that `kubectl` currently does not provide input validation.
 
    You can display the routes that are defined with the following command:
 
@@ -120,11 +129,6 @@ route requests to all available versions of a service in a random fashion.
    istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
    ```
 
-   > Note: In a Consul-based setup, use the following command:
-     ```bash
-     istioctl create -f samples/bookinfo/consul/consul-reviews-v1.yaml
-     ```
-
    Confirm the rule is created:
 
    ```bash
@@ -163,48 +167,7 @@ services. You then set a rule to selectively send traffic to version v2 of the r
 on a header (i.e., a user cookie) in a request.
 
 Once the v2 version has been tested to our satisfaction, we could use Istio to send traffic from
-all users to v2, optionally in a gradual fashion by using a sequence of rules with weights less
-than 100 to migrate traffic in steps, for example 10, 20, 30, ... 100%.
-
-If you now proceed to the [fault injection task](./fault-injection.html), you will see
-that with simple testing, the v2 version of the reviews service has a bug, which is fixed in v3.
-So after exploring that task, you can route all user traffic from `reviews:v1`
-to `reviews:v3` in two steps as follows:
-
-1. First, transfer 50% of traffic from `reviews:v1` to `reviews:v3` with the following command:
-
-   ```bash
-   istioctl replace -f samples/bookinfo/kube/route-rule-reviews-50-v3.yaml
-   ```
-
-   Notice that we are using `istioctl replace` instead of `create`.
-
-2. To see the new version you need to either Log out as test user "jason" or delete the test rules
-that we created exclusively for him:
-
-   ```bash
-   istioctl delete routerule reviews-test-v2
-   ```
-
-   You should now see *red* colored star ratings approximately 50% of the time when you refresh
-   the `productpage`.
-
-   > Note: With the Envoy sidecar implementation, you may need to refresh the `productpage` multiple times
-   > to see the proper distribution. You can modify the rules to route 90% of the traffic to v3 to see red stars more often.
-
-3. When version v3 of the reviews microservice is stable, route 100% of the traffic to `reviews:v3`:
-
-   ```bash
-   istioctl replace -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
-   ```
-
-   > Note: In a Consul-based setup, use the following command:
-     ```bash
-     istioctl replace -f samples/bookinfo/consul/consul-reviews-v3.yaml
-     ```
-
-   You can now log in to the `productpage` as any user and you should always see book reviews
-   with *red* colored star ratings for each review.
+all users to v2, optionally in a gradual fashion. We'll explore this in a separate task.
 
 ## What's next
 

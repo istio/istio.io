@@ -105,7 +105,7 @@ continue without any errors.
 
   However, we already have this fix running in v3 of the reviews service, so we can simply
   fix the problem by migrating all
-  traffic to `reviews:v3` as described in the [request routing task](./request-routing.html).
+  traffic to `reviews:v3` as described in the [version migration](./version-migration.html).
 
   (Left as an exercise for the reader - change the delay rule to
   use a 2.8 second delay and then run it against the v3 version of reviews.)
@@ -113,8 +113,6 @@ continue without any errors.
 ## What's next
 
 * Learn more about [fault injection]({{home}}/docs/concepts/traffic-management/fault-injection.html).
-
-* Limit requests to the BookInfo `ratings` service with Istio [rate limiting]({{home}}/docs/tasks/policy-enforcement/rate-limiting.html).
 
 * If you are not planning to explore any follow-on tasks, refer to the
   [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
