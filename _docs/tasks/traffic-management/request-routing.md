@@ -122,7 +122,7 @@ route requests to all available versions of a service in a random fashion.
 
    > Note: In a Consul-based setup, use the following command:
      ```bash
-     istioctl create -f samples/bookinfo/consul/consul-reviews-v1.yaml
+     istioctl create -f samples/bookinfo/consul/route-rule-reviews-test-v2.yaml
      ```
 
    Confirm the rule is created:
@@ -200,7 +200,7 @@ that we created exclusively for him:
 
    > Note: In a Consul-based setup, use the following command:
      ```bash
-     istioctl replace -f samples/bookinfo/consul/consul-reviews-v3.yaml
+     istioctl replace -f samples/bookinfo/consul/route-rule-reviews-v3.yaml
      ```
 
    You can now log in to the `productpage` as any user and you should always see book reviews
@@ -220,8 +220,8 @@ that we created exclusively for him:
   For Consul-based setup, use the following command:
 
   ```bash
-  istioctl delete -f samples/bookinfo/kube/route-rule-all-v1.yaml
-  istioctl delete -f samples/bookinfo/consul/consul-reviews-v1.yaml
+  istioctl delete -f samples/bookinfo/consul/route-rule-all-v1.yaml
+  istioctl delete -f samples/bookinfo/consul/route-rule-reviews-test-v2.yaml
   ```
 
 ## What's next
