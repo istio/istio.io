@@ -20,7 +20,8 @@ is where you can learn about what Istio does and how it does it.
 
 - [Setup]({{home}}/docs/setup/). Setup contains instructions for installing
   the Istio control plane in various environments (e.g., Kubernetes, Consul,
-  etc.), as well as instructions for installing the sidecar in the application deployment. 
+  etc.), as well as instructions for installing the sidecar in the
+  application deployment. 
   Jump directly to (https://istio.io/docs/setup/kubernetes/quick-start.html)[downloading and installing] Istio for Kubernetes,
   if it is your platform of choice.
 
