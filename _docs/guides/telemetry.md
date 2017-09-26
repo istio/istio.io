@@ -1,5 +1,5 @@
 ---
-title: Gathering Metrics and Traces
+title: In-Depth Telemetry
 overview: This sample demonstrates how to obtain uniform metrics, logs, traces across different services using Istio Mixer and Istio sidecar.
 
 order: 30
