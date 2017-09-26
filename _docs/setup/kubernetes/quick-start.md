@@ -115,62 +115,6 @@ Starting with the {{ site.data.istio.version }} release, Istio is installed in i
      kubectl apply -f install/kubernetes/istio-initializer.yaml
      ```
 
-1. *Optional:* Install add-ons for metric collection and/or request tracing as described in the following sections.
-
-### Enabling metrics collection
-
-To collect and view metrics provided by Mixer, install [Prometheus](https://prometheus.io)
-as well as the [Grafana](https://grafana.com/grafana/download) and/or ServiceGraph add-ons.
-
-```bash
-kubectl apply -f install/kubernetes/addons/prometheus.yaml
-kubectl apply -f install/kubernetes/addons/grafana.yaml
-kubectl apply -f install/kubernetes/addons/servicegraph.yaml
-```
-You can find out more about how to use these tools in [Collecting Metrics and Logs]({{home}}/docs/tasks/metrics-logs.html).
-
-#### Verifying the Grafana dashboard
-
-The Grafana add-on provides an Istio dashboard visualization of the metrics in the cluster
-such as request rates and success or failure rates. After you install Grafana, check that you can
- access the dashboard.
-
-Configure port-forwarding for the `grafana` service:
-
-  ```bash
-  kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
-  ```
-
-Point your web browser to [http://localhost:3000/dashboard/db/istio-dashboard](http://localhost:3000/dashboard/db/istio-dashboard).
-The dashboard looks similar to the following:
-
-<figure><img style="max-width:80%" src="./img/grafana_dashboard.png" alt="Grafana Istio Dashboard" title="Grafana Istio Dashboard" />
-<figcaption>Grafana Istio Dashboard</figcaption></figure>
-
-#### Verifying the ServiceGraph service
-
-The ServiceGraph add-on provides a textual (JSON) representation and a graphical visualization of the
-service interaction graph for the cluster. Like Grafana, you can access the servicegraph service using
-port-forwarding, service nodePort, or, if external load balancing is available, external IP. In this
-example the service name is `servicegraph` and the port to access is `8088`:
-
-```bash
-kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
-```
-
-The ServiceGraph service provides both a textual (JSON) representation (via `/graph`) and a graphical
-visualization (via `/dotviz`) of the underlying service graph. If you configured port forwarding using
-the above command, you can view the graphical visualization by opening your browser at [http://localhost:8088/dotviz](http://localhost:8088/dotviz).  You will see an empty page initially before you have any microservices deployed.
-
-After you run some services, a service graph builds. For example, after installing the
-[BookInfo]({{home}}/docs/guides/bookinfo.html) sample application and generating some load on the
-application (e.g., executing `curl` requests in a `while` loop), the resulting service graph looks
-similar to the following:
-
-<figure><img src="./img/servicegraph.png" alt="BookInfo Service Graph" title="BookInfo Service Graph" />
-<figcaption>BookInfo Service Graph</figcaption></figure>
-
-
 ## Verifying the installation
 
 1. Ensure the following Kubernetes services are deployed: `istio-pilot`, `istio-mixer`,
