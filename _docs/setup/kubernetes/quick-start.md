@@ -186,7 +186,6 @@ similar to the following:
    istio-ingress   10.83.245.171   35.184.245.62     80:32730/TCP,443:30574/TCP    5h
    istio-pilot     10.83.251.173   <none>            8080/TCP,8081/TCP             5h
    istio-mixer     10.83.244.253   <none>            9091/TCP,9094/TCP,42422/TCP   5h
-   kubernetes      10.83.240.1     <none>            443/TCP                       36d
    prometheus      10.83.247.221   <none>            9090:30398/TCP                5h
    servicegraph    10.83.242.48    <none>            8088:31928/TCP                5h
    ```
@@ -197,20 +196,21 @@ similar to the following:
 
 2. Ensure the corresponding Kubernetes pods are deployed and all containers are up and running:
    `istio-pilot-\*`, `istio-mixer-\*`, `istio-ingress-\*`, `istio-egress-\*`, `istio-ca-\*`,
-   and, optionally, `grafana-\*`, `prometheus-\*` and `servicegraph-\*`.
+   and, optionally, `istio-initializer-\*`, `grafana-\*`, `prometheus-\*` and `servicegraph-\*`.
 
    ```bash
    kubectl get pods -n istio-system
    ```
    ```bash
-   grafana-3836448452-vhc1v         1/1       Running   0          5h
-   istio-ca-3657790228-j21b9        1/1       Running   0          5h
-   istio-egress-1684034556-fhw89    1/1       Running   0          5h
-   istio-ingress-1842462111-j3vcs   1/1       Running   0          5h
-   istio-pilot-2275554717-93c43     2/2       Running   0          5h
-   istio-mixer-2104784889-20rm8     1/1       Running   0          5h
-   prometheus-3067433533-wlmt2      1/1       Running   0          5h
-   servicegraph-3127588006-pc5z3    1/1       Running   0          5h
+   grafana-3836448452-vhc1v            1/1       Running   0          5h
+   istio-ca-3657790228-j21b9           1/1       Running   0          5h
+   istio-egress-1684034556-fhw89       1/1       Running   0          5h
+   istio-ingress-1842462111-j3vcs      1/1       Running   0          5h
+   istio-initializer-184129454-zdgf5   1/1       Running   0          5h
+   istio-pilot-2275554717-93c43        1/1       Running   0          5h
+   istio-mixer-2104784889-20rm8        2/2       Running   0          5h
+   prometheus-3067433533-wlmt2         1/1       Running   0          5h
+   servicegraph-3127588006-pc5z3       1/1       Running   0          5h
    ```
 
 ## Deploy your application
