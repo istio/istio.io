@@ -17,6 +17,7 @@ Quick Start instructions to install and configure Istio in a Kubernetes cluster.
 
 The following instructions assume you have access to a Kubernetes **1.7.4 or newer** cluster
 with [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/) enabled.
+If you wish to enable [transparent injection of sidecar]({{home}}/docs/setup/kubernetes/automatic-sidecar-inject.html), you need to turn on Kubernetes alpha features in your cluster.
 
   > Note: If you installed Istio 0.1.x,
   > [uninstall](https://istio.io/v-0.1/docs/tasks/installing-istio.html#uninstalling)
@@ -108,7 +109,7 @@ Starting with the {{ site.data.istio.version }} release, Istio is installed in i
    and deploy Istio-Pilot, Istio-Mixer, Istio-Ingress, Istio-Egress, and Istio-CA (Certificate Authority).
 
 1. *Optional:* If your cluster has Kubernetes alpha features enabled, and you wish to enable a
-   transparent injection of sidecar, install the Istio-Initializer:
+   [transparent injection of sidecar]({{home}}/docs/setup/kubernetes/automatic-sidecar-inject.html), install the Istio-Initializer:
 
     ```bash
      kubectl apply -f install/kubernetes/istio-initializer.yaml
@@ -129,7 +130,6 @@ Starting with the {{ site.data.istio.version }} release, Istio is installed in i
    istio-ingress   10.83.245.171   35.184.245.62     80:32730/TCP,443:30574/TCP    5h
    istio-pilot     10.83.251.173   <none>            8080/TCP,8081/TCP             5h
    istio-mixer     10.83.244.253   <none>            9091/TCP,9094/TCP,42422/TCP   5h
-   kubernetes      10.83.240.1     <none>            443/TCP                       36d
    prometheus      10.83.247.221   <none>            9090:30398/TCP                5h
    servicegraph    10.83.242.48    <none>            8088:31928/TCP                5h
    ```
@@ -140,20 +140,21 @@ Starting with the {{ site.data.istio.version }} release, Istio is installed in i
 
 2. Ensure the corresponding Kubernetes pods are deployed and all containers are up and running:
    `istio-pilot-\*`, `istio-mixer-\*`, `istio-ingress-\*`, `istio-egress-\*`, `istio-ca-\*`,
-   and, optionally, `grafana-\*`, `prometheus-\*` and `servicegraph-\*`.
+   and, optionally, `istio-initializer-\*`, `grafana-\*`, `prometheus-\*` and `servicegraph-\*`.
 
    ```bash
    kubectl get pods -n istio-system
    ```
    ```bash
-   grafana-3836448452-vhc1v         1/1       Running   0          5h
-   istio-ca-3657790228-j21b9        1/1       Running   0          5h
-   istio-egress-1684034556-fhw89    1/1       Running   0          5h
-   istio-ingress-1842462111-j3vcs   1/1       Running   0          5h
-   istio-pilot-2275554717-93c43     2/2       Running   0          5h
-   istio-mixer-2104784889-20rm8     1/1       Running   0          5h
-   prometheus-3067433533-wlmt2      1/1       Running   0          5h
-   servicegraph-3127588006-pc5z3    1/1       Running   0          5h
+   grafana-3836448452-vhc1v            1/1       Running   0          5h
+   istio-ca-3657790228-j21b9           1/1       Running   0          5h
+   istio-egress-1684034556-fhw89       1/1       Running   0          5h
+   istio-ingress-1842462111-j3vcs      1/1       Running   0          5h
+   istio-initializer-184129454-zdgf5   1/1       Running   0          5h
+   istio-pilot-2275554717-93c43        1/1       Running   0          5h
+   istio-mixer-2104784889-20rm8        2/2       Running   0          5h
+   prometheus-3067433533-wlmt2         1/1       Running   0          5h
+   servicegraph-3127588006-pc5z3       1/1       Running   0          5h
    ```
 
 ## Deploy your application
@@ -162,9 +163,16 @@ You can now deploy your own application or one of the sample applications provid
 installation like [BookInfo]({{home}}/docs/guides/bookinfo.html).
 Note: the application must use HTTP/1.1 or HTTP/2.0 protocol for all its HTTP traffic because HTTP/1.0 is not supported.
 
-Unless you installed the Istio-Initializer as shown above, when deploying the application, you must
+If you started the Istio-Initializer, as shown above, you can deploy the application directly using
+`kubectl create`. The Istio-Initializer will automatically inject Envoy containers into your application pods:
+
+```bash
+kubectl create -f <your-app-spec>.yaml
+```
+
+If you do not have the Istio-Initializer installed, you must
 use [istioctl kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject) to
-automatically inject Envoy containers in your application pods:
+manuallly inject Envoy containers in your application pods before deploying them:
 
 ```bash
 kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)

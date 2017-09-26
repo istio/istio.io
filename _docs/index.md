@@ -22,6 +22,8 @@ is where you can learn about what Istio does and how it does it.
   the Istio control plane in various environments (e.g., Kubernetes, Consul,
   etc.), as well as instructions for installing the sidecar in the
   application deployment.
+  Jump directly to [downloading and installing](https://istio.io/docs/setup/kubernetes/quick-start.html) Istio for Kubernetes,
+  if it is your platform of choice.
 
 - [Tasks]({{home}}/docs/tasks/). Tasks show you how to do a single directed activity with Istio.
 
@@ -35,3 +37,5 @@ We're always looking for help improving our documentation, so please don't hesit
 [file an issue](https://github.com/istio/istio.github.io/issues/new) if you see some problem.
 Or better yet, submit your own [contributions]({{home}}/docs/reference/contribute/editing.html) to help
 make our docs better.
+
+Follow this link for the archive of [v0.1 documentation](https://istio.io/v-0.1/docs/).

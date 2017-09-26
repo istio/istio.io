@@ -33,7 +33,7 @@ example application for this task.
   for Zipkin, or
 
   ```bash
-  kubectl apply -f https://raw.githubusercontent.com/jaegertracing/jaeger-kubernetes/master/all-in-one/jaeger-all-in-one-template.yml
+  kubectl apply -n istio-system -f https://raw.githubusercontent.com/jaegertracing/jaeger-kubernetes/master/all-in-one/jaeger-all-in-one-template.yml
   ```
   for Jaeger.
 
@@ -47,7 +47,7 @@ example application for this task.
 Setup access to the Zipkin dashboard URL using port-forwarding:
 
 ```bash
-kubectl port-forward $(kubectl get pod -l app=zipkin -o jsonpath='{.items[0].metadata.name}') 9411:9411 &
+kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=zipkin -o jsonpath='{.items[0].metadata.name}') 9411:9411 &
 ```
 
 Then open your browser at [http://localhost:9411](http://localhost:9411)
@@ -57,7 +57,7 @@ Then open your browser at [http://localhost:9411](http://localhost:9411)
 Setup access to the Jaeger dashboard URL using port-forwarding:
 
 ```bash
-kubectl port-forward $(kubectl get pod -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 16686:16686 &
+kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 16686:16686 &
 ```
 
 Then open your browser at [http://localhost:16686](http://localhost:16686)
