@@ -110,6 +110,16 @@ continue without any errors.
   (Left as an exercise for the reader - change the delay rule to
   use a 2.8 second delay and then run it against the v3 version of reviews.)
 
+## Cleanup
+
+* Remove the application routing rules:
+
+  ```bash
+  istioctl delete -f samples/bookinfo/kube/route-rule-all-v1.yaml
+  istioctl delete -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+  istioctl delete -f samples/bookinfo/kube/route-rule-ratings-test-delay.yaml
+  ```
+
 ## What's next
 
 * Learn more about [fault injection]({{home}}/docs/concepts/traffic-management/fault-injection.html).
