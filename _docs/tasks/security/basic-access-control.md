@@ -15,7 +15,7 @@ This task shows how to use Istio to control access to a service.
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](({{home}}/docs/setup/).
+  [Installation guide]({{home}}/docs/setup/kubernetes/quick-start.html).
 
 * Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
@@ -69,11 +69,10 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
      name: denyrequest
      namespace: default
    spec:
-   ---
    ```
    Save the file as mixer-rule-ratings-denial.yaml and run
    ```bash
-   istioctl create -f istioctl mixer-rule-ratings-denial.yaml
+   istioctl create -f mixer-rule-ratings-denial.yaml
    ```
    You can expect to see the following output
    ```bash

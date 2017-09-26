@@ -15,7 +15,7 @@ This task shows you how to configure dynamic request routing based on weights an
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](({{home}}/docs/setup/).
+  [Installation guide]({{home}}/docs/setup/).
 
 * Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
@@ -205,6 +205,24 @@ that we created exclusively for him:
 
    You can now log in to the `productpage` as any user and you should always see book reviews
    with *red* colored star ratings for each review.
+
+## Cleanup
+
+* Remove the application routing rules.
+
+  For Kubernetes-based setup, use the following command:
+
+  ```bash
+  istioctl delete -f samples/bookinfo/kube/route-rule-all-v1.yaml
+  istioctl delete -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+  ```
+
+  For Consul-based setup, use the following command:
+
+  ```bash
+  istioctl delete -f samples/bookinfo/kube/route-rule-all-v1.yaml
+  istioctl delete -f samples/bookinfo/consul/consul-reviews-v1.yaml
+  ```
 
 ## What's next
 

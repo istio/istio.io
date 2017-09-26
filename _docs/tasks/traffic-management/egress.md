@@ -21,7 +21,7 @@ or alternatively, to simply bypass the Istio proxy for a specific range of IPs.
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](({{home}}/docs/setup/).
+  [Installation guide]({{home}}/docs/setup/).
 
 * Start the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) sample
   which will be used as a test source for external calls.

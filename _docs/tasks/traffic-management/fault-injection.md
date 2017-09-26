@@ -15,7 +15,7 @@ This task shows how to inject delays and test the resiliency of your application
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](({{home}}/docs/setup/).
+  [Installation guide]({{home}}/docs/setup/).
 
 * Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
@@ -109,6 +109,16 @@ continue without any errors.
 
   (Left as an exercise for the reader - change the delay rule to
   use a 2.8 second delay and then run it against the v3 version of reviews.)
+
+## Cleanup
+
+* Remove the application routing rules:
+
+  ```bash
+  istioctl delete -f samples/bookinfo/kube/route-rule-all-v1.yaml
+  istioctl delete -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+  istioctl delete -f samples/bookinfo/kube/route-rule-ratings-test-delay.yaml
+  ```
 
 ## What's next
 
