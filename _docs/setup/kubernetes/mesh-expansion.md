@@ -20,7 +20,7 @@ typically requires a VPC or a VPN, as well as a container network that
 provides direct (without NAT or firewall deny) routing to the endpoints. The machine
 is not required to have access to the cluster IP addresses assigned by Kubernetes.
 
-* The control plane (Pilot, Mixer, CA) and Kubernetes DNS server must be accessible
+* The Istio control plane services (Pilot, Mixer, CA) and Kubernetes DNS server must be accessible
 from the VMs. This is typically done using an [Internal Load
 Balancer](https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer).
 You can also use NodePort, run Istio components on VMs, or use custom network configurations,
