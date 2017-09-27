@@ -59,11 +59,11 @@ Configuration is based on  *adapters* and *templates*.
 An adapter may support multiple templates.
 
 
-Configuration is expressed using a YAML format built around the following abstractions that are later explained in detail.
+Configuration is expressed using a YAML format built around the following abstractions. These abstractions are later explained in detail.
 
 |Concept                     |Description
 |----------------------------|-----------
-|[Handlers](#handlers)       | A handler is an instance of an adapter. The adapter constructor parameters are specified as handler configuration.
+|[Handlers](#handlers)       | A handler is a configured instance of an adapter. The adapter constructor parameters are specified as handler configuration.
 |[Instances](#instances)     | A (request) instance is the result of applying request attributes to the template mapping. The mapping is specified as an instance configuration.
 |[Rules](#rules)             | A rule defines when a particular handler is invoked using a specific template configuration.
 
@@ -77,18 +77,18 @@ metadata:
 spec:
   # kind specific configuration.
 ``` 
-- **apiVersion** - It is a constant for an Istio release.
-- **kind** - Adapters and templates are assigned unique "kinds".
-- **name** - It is the shortname of the configuration resource.
-- **namespace** - The configuration resource is applied to services in this namespace. 
+- **apiVersion** - A constant for an Istio release.
+- **kind** - A Mixer assigned unique "kind" for every adapter and template.
+- **name** - The configuration resource name.
+- **namespace** - The namespace in which the configuration resource is applicable. 
 - **spec** - The `kind` specific configuration.
 
 ### Handlers
 
-[Adapters](./mixer.html#adapters) encapsulate the logic necessary to interface Mixer with specific external infrastructure
+[Adapters](./mixer.html#adapters) encapsulates the logic necessary to interface Mixer with specific external infrastructure
 backends such as [Prometheus](https://prometheus.io), [New Relic](https://newrelic.com), or [Stackdriver](https://cloud.google.com/logging).
-Individual adapters generally need to be provided operational parameters in order to do their work. For example, a logging adapter may need
-to know the IP address and port where it's log data should be pumped.
+Individual adapters generally need operational parameters in order to do their work. For example, a logging adapter may require 
+ the IP address and port of the log sink.
 
 Here is an example showing how to configure an adapter of kind = `listchecker`. The listchecker adapter checks the input value against a list.
 If the adapter is configured for a whitelist, it returns success if the input value is found in the list.
@@ -112,7 +112,7 @@ Spec typically includes connection information necessary to connect to an extern
 delivered to it by Mixer. 
 
 Some adapters implement functionality that goes beyond connecting Mixer to a backend.
-For example `prometheus` adapter consumes metrics observations and aggregates them as distributions or counters in a configurable way.
+For example, the `prometheus` adapter consumes metrics observations and aggregates them as distributions or counters in a configurable way.
 
 ```yaml
 apiVersion: config.istio.io/v1alpha2
@@ -205,7 +205,7 @@ spec:
 ```
 A rule contains a `match` predicate expression and a list of actions to perform if the predicate is true. 
 An action specifies the list of instances to be delivered to a handler. 
-A rules must use the fully qualified names of handlers and instances.
+A rule must use the fully qualified names of handlers and instances.
 If the rule, handlers, and instances are all in the same namespace, the namespace suffix can be elided from the fully qualified name as seen in `handler.prometheus`.
 
 The match predicate is an [expression]({{home}}/docs/reference/config/mixer/expression-language.html) using the Mixer expression language.
@@ -216,7 +216,7 @@ Mixer features a number of independent [request processing phases](./mixer.html#
 The *Attribute Processing* phase is responsible for ingesting a set of attributes and producing template instances
 necessary to invoke individual adapters. The phase operates by evaluating a series of *attribute expressions*.
 
-We've already seen a few simple attribute expressions in the previous examples:
+You have already seen a few simple attribute expressions in the previous examples:
 
 ```yaml
   destination_service: destination.service
@@ -252,7 +252,7 @@ with requests arriving for service B. Resolution is about deciding which config 
 
 Resolution depends on a well-known attribute to guide its choice, called *identity attribute*.
 The default identity attribute is `destination.service`.
-The mesh wide configuration is stored in the `configDefaultNamespace` whose default value is `istio-system`.
+The mesh-wide configuration is stored in the `configDefaultNamespace` whose default value is `istio-system`.
 
 Mixer resolver goes through the following steps to arrive at the set of `actions`.
 
