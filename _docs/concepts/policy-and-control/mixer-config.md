@@ -39,8 +39,9 @@ can be added to Istio and be fully manipulated using the same general mechanisms
 ## Concepts
 
 Mixer is an attribute processing machine. Requests arrive at Mixer with a set of [*attributes*](./attributes.html),
-and based on these attributes, Mixer generates calls to a variety of infrastructure backends. The set of
-attributes determines which backend Mixer calls for a given request and what parameters
+and based on these attributes, Mixer generates calls to a variety of infrastructure backends.
+A rate limit server, an ACL provider, and a policy enforcer are examples of infrastructure backends.
+The set of attributes determines which backend Mixer calls for a given request and what parameters
 each is given. In order to hide the details of individual backends, Mixer uses modules
 known as [*adapters*](./mixer.html#adapters).
 
