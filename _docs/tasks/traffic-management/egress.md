@@ -249,8 +249,11 @@ cloud provider specific knowledge and configuration.
    ```
 
 
-## What's next
+## Further reading
 
 * Read more about [egress rules]({{home}}/docs/concepts/traffic-management/rules-configuration.html#egress-rules).
 
-* Learn how to use Istio's [request routing](./request-routing.html) features.
+* Learn how to use setup
+  [timeouts]({{home}}/docs/reference/config/traffic-rules/routing-rules.html#httptimeout),
+  [retries]({{home}}/docs/reference/config/traffic-rules/routing-rules.html#httpretry),
+  and [circuit breakers]({{home}}/docs/reference/config/traffic-rules/destination-policies.html#circuitbreaker) for egress traffic.
