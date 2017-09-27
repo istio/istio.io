@@ -25,6 +25,14 @@ to configure ingress behavior.
 * Start the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) sample,
   which will be used as the destination service to be exposed externally.
 
+  With [Istio-Initializer](https://istio.io/docs/setup/kubernetes/automatic-sidecar-inject.html):
+
+  ```bash
+  kubectl apply -f samples/httpbin/httpbin.yaml
+  ```
+
+  Without [Istio-Initializer](https://istio.io/docs/setup/kubernetes/automatic-sidecar-inject.html):
+
   ```bash
   kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml)
   ```
