@@ -21,7 +21,7 @@ as the example application throughout this task.
 ## Before you begin
 * [Install Istio]({{home}}/docs/setup/) in your cluster and deploy an
   application. This task assumes that Mixer is setup in a default configuration
-  (`--configDefaultNamespace=istio-config-default`). If you use a different
+  (`--configDefaultNamespace=istio-system`). If you use a different
   value, update the configuration and commands in this task to match the value.
 
 * Install the optional add-on [Prometheus](https://prometheus.io). Prometheus
@@ -39,7 +39,7 @@ as the example application throughout this task.
    kind: metric
    metadata:
      name: doublerequestcount
-     namespace: istio-config-default
+     namespace: istio-system
    spec:
      value: "2" # count each request twice
      dimensions:
@@ -53,7 +53,7 @@ as the example application throughout this task.
    kind: prometheus
    metadata:
      name: doublehandler
-     namespace: istio-config-default
+     namespace: istio-system
    spec:
      metrics:
      - name: double_request_count # Prometheus metric name
@@ -69,7 +69,7 @@ as the example application throughout this task.
    kind: rule
    metadata:
      name: doubleprom
-     namespace: istio-config-default
+     namespace: istio-system
    spec:
      actions:
      - handler: doublehandler.prometheus
@@ -81,7 +81,7 @@ as the example application throughout this task.
    kind: logentry
    metadata:
      name: newlog
-     namespace: istio-config-default
+     namespace: istio-system
    spec:
      severity: '"warning"'
      timestamp: request.time
@@ -99,7 +99,7 @@ as the example application throughout this task.
    kind: stdio
    metadata:
      name: newhandler
-     namespace: istio-config-default
+     namespace: istio-system
    spec:
     severity_levels:
       warning: 1 # Params.Level.WARNING
@@ -110,7 +110,7 @@ as the example application throughout this task.
    kind: rule
    metadata:
      name: newlogstdio
-     namespace: istio-config-default
+     namespace: istio-system
    spec:
      match: "true" # match for all requests
      actions:
