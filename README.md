@@ -10,7 +10,9 @@ see the Istio [contribution guidelines](https://github.com/istio/istio/blob/mast
 The website uses [Jekyll](https://jekyllrb.com/) templates and is hosted on GitHub Pages. Please make sure you are
 familiar with these before editing.
 
-To run the site locally with Docker, use the following command:
+To run the site locally with Docker, use the following command from the toplevel directory for this git repo
+(e.g. pwd must be `~/github/istio.github.io` if you were in `~/github` when you issued 
+`git clone https://github.com/istio/istio.github.io.git`)
 
 ```bash
 # First time: (slow)
