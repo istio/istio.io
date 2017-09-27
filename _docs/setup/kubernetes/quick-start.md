@@ -185,7 +185,7 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
    ```bash
    kubectl delete -f install/kubernetes/addons/
    ```
-   *Optional:* If you installed Istio with initializer enabled, uninstall it:
+   If you installed Istio with initializer enabled, uninstall it:
 
    ```bash
    kubectl delete -f install/kubernetes/istio-initializer.yaml
