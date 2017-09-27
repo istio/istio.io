@@ -48,12 +48,17 @@ If you wish to enable [transparent injection of sidecar]({{home}}/docs/setup/kub
   * If you are using [Openshift Origin](https://www.openshift.org) version 3.7 or later,
     Openshift by default does not allow containers running with UID 0. Enable containers running
     with UID 0 for Istio's service accounts for ingress and egress:
-
+    
     ```bash
     oc adm policy add-scc-to-user anyuid -z istio-ingress-service-account -n istio-system
     oc adm policy add-scc-to-user anyuid -z istio-egress-service-account -n istio-system
-    ```  
-
+    oc adm policy add-scc-to-user anyuid -z default -n istio-system
+    ```
+    Service account that runs application pods need privileged security context constraints as part of sidecar injection. 
+    ```bash
+    oc adm policy add-scc-to-user privileged -z default -n <target-namespace>
+    ```
+    
 * Install or upgrade the Kubernetes CLI
   [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) to
   match the version supported by your cluster (version 1.7 or later for CRD
@@ -163,8 +168,9 @@ You can now deploy your own application or one of the sample applications provid
 installation like [BookInfo]({{home}}/docs/guides/bookinfo.html).
 Note: the application must use HTTP/1.1 or HTTP/2.0 protocol for all its HTTP traffic because HTTP/1.0 is not supported.
 
-If you started the Istio-Initializer, as shown above, you can deploy the application directly using
-`kubectl create`. The Istio-Initializer will automatically inject Envoy containers into your application pods:
+If you started the [Istio-Initializer]({{home}}/docs/setup/kubernetes/automatic-sidecar-inject.html),
+as shown above, you can deploy the application directly using `kubectl create`. The Istio-Initializer
+will automatically inject Envoy containers into your application pods:
 
 ```bash
 kubectl create -f <your-app-spec>.yaml

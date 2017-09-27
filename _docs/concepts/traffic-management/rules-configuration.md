@@ -368,9 +368,9 @@ more than one, can be specified by setting the *precedence* field of the
 rule.
 
 ```yaml
-  destination:
-    name: reviews
-  precedence: 1
+destination:
+  name: reviews
+precedence: 1
 ```
 
 The precedence field is an optional integer value, 0 by default.  Rules
