@@ -48,12 +48,17 @@ If you wish to enable [transparent injection of sidecar]({{home}}/docs/setup/kub
   * If you are using [Openshift Origin](https://www.openshift.org) version 3.7 or later,
     Openshift by default does not allow containers running with UID 0. Enable containers running
     with UID 0 for Istio's service accounts for ingress and egress:
-
+    
     ```bash
     oc adm policy add-scc-to-user anyuid -z istio-ingress-service-account -n istio-system
     oc adm policy add-scc-to-user anyuid -z istio-egress-service-account -n istio-system
-    ```  
-
+    oc adm policy add-scc-to-user anyuid -z default -n istio-system
+    ```
+    Service account that runs application pods need privileged security context constraints as part of sidecar injection. 
+    ```bash
+    oc adm policy add-scc-to-user privileged -z default -n <target-namespace>
+    ```
+    
 * Install or upgrade the Kubernetes CLI
   [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) to
   match the version supported by your cluster (version 1.7 or later for CRD
