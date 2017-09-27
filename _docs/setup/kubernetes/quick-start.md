@@ -191,7 +191,11 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
    ```bash
    kubectl delete -f install/kubernetes/addons/
    ```
+   If you installed Istio with initializer enabled, uninstall it:
 
+   ```bash
+   kubectl delete -f install/kubernetes/istio-initializer.yaml
+   ```
 
 1. Uninstall Istio core components. For the {{ site.data.istio.version }} release, the uninstall
    deletes the RBAC permissions, the `istio-system` namespace, and hierarchically all resources under it.
