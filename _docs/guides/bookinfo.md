@@ -155,14 +155,14 @@ run the application using the instructions in one of the following sections.
    > If, however, the cluster has a firewall, you will also need to create a firewall rule to allow TCP traffic to the NodePort.
    > In GKE, for instance, you can create a firewall rule using the following command:
    > ```bash
-   > gcloud compute firewall-rules create allow-book --allow tcp:$(kubectl get svc istio-ingress -o jsonpath='{.spec.ports[0].nodePort}')
+   > gcloud compute firewall-rules create allow-book --allow tcp:$(kubectl --namespace istio-system get svc istio-ingress -o jsonpath='{.spec.ports[0].nodePort}')
    > ```
 
    If your deployment environment does not support external load balancers (e.g., minikube), the ADDRESS field will be empty.
    In this case you can use the service NodePort instead:
    
    ```bash
-   export GATEWAY_URL=$(kubectl get po -n istio-system -l istio=ingress -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}')
+   export GATEWAY_URL=$(kubectl --namespace istio-system get po -n istio-system -l istio=ingress -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl --namespace istio-system get svc istio-ingress -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}')
    ```
 
 ### Running on Docker with Consul
