@@ -2,7 +2,7 @@ _site
 _static_site
 .bundle
 config_override.yml
-
+.jekyll-metadata
 # Eclipse artifacts
 .project
 .pydevproject

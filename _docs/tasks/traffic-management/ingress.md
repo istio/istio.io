@@ -25,6 +25,14 @@ to configure ingress behavior.
 * Start the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) sample,
   which will be used as the destination service to be exposed externally.
 
+  If you installed the [Istio-Initializer]({{home}}/docs/setup/kubernetes/automatic-sidecar-inject.html), do
+
+  ```bash
+  kubectl apply -f samples/httpbin/httpbin.yaml
+  ```
+
+  Without the Istio-Initializer:
+
   ```bash
   kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml)
   ```
@@ -134,7 +142,7 @@ to configure ingress behavior.
 1. Update the secret using `kubectl`
 
    ```bash
-   kubectl delete secret istio-ingress-certs; kubectl create secret tls ingress-secret --key /tmp/tls.key --cert /tmp/tls.crt
+   kubectl create -n istio-system secret tls istio-ingress-certs --key /tmp/tls.key --cert /tmp/tls.crt
    ```
 
 1. Create the Ingress Resource for the httpbin service
@@ -162,7 +170,7 @@ to configure ingress behavior.
    
    Notice that in this example we are only exposing httpbin's `/ip` endpoint.
    
-   > Note: Envoy currently only allows a single TLS secret in the ingress since SNI is not yet supported.
+   > Note: Envoy currently only allows a single TLS secret in the ingress since SNI is not yet supported. That means that the secret name field in ingress resource is not used, and the secret must be called `istio-ingress-certs` in `istio-system` namespace.
    
 1. Determine the secure ingress URL:
  
