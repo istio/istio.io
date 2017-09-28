@@ -322,4 +322,6 @@ We also showed how to control the ingress traffic using an Istio route rule.
 
 ## Further reading
 
+* Learn more about [Ingress Resources](https://kubernetes.io/docs/concepts/services-networking/ingress/).
+
 * Learn more about [routing rules]({{home}}/docs/concepts/traffic-management/rules-configuration.html).
