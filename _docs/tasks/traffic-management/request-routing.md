@@ -169,6 +169,24 @@ on a header (i.e., a user cookie) in a request.
 Once the v2 version has been tested to our satisfaction, we could use Istio to send traffic from
 all users to v2, optionally in a gradual fashion. We'll explore this in a separate task.
 
+## Cleanup
+
+* Remove the application routing rules.
+
+  For Kubernetes-based setup, use the following command:
+
+  ```bash
+  istioctl delete -f samples/bookinfo/kube/route-rule-all-v1.yaml
+  istioctl delete -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+  ```
+
+  For Consul-based setup, use the following command:
+
+  ```bash
+  istioctl delete -f samples/bookinfo/consul/route-rule-all-v1.yaml
+  istioctl delete -f samples/bookinfo/consul/route-rule-reviews-test-v2.yaml
+  ```
+
 ## What's next
 
 * Learn more about [request routing]({{home}}/docs/concepts/traffic-management/rules-configuration.html).
