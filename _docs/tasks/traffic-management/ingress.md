@@ -320,8 +320,6 @@ We also showed how to control the ingress traffic using an Istio route rule.
    ```
 
 
-## What's next
+## Further reading
 
 * Learn more about [routing rules]({{home}}/docs/concepts/traffic-management/rules-configuration.html).
-
-* Learn how to expose external services by [enabling egress traffic](./egress.html).

@@ -248,12 +248,11 @@ cloud provider specific knowledge and configuration.
    kubectl delete -f samples/sleep/sleep.yaml
    ```
 
-
 ## Further reading
 
 * Read more about [egress rules]({{home}}/docs/concepts/traffic-management/rules-configuration.html#egress-rules).
 
-* Learn how to use setup
+* Learn how to setup
   [timeouts]({{home}}/docs/reference/config/traffic-rules/routing-rules.html#httptimeout),
   [retries]({{home}}/docs/reference/config/traffic-rules/routing-rules.html#httpretry),
   and [circuit breakers]({{home}}/docs/reference/config/traffic-rules/destination-policies.html#circuitbreaker) for egress traffic.
