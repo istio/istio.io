@@ -29,9 +29,6 @@ the example application throughout this task.
 
 ## Viewing the Istio Dashboard
 
-
-### Installation and Usage
-
 1. To view Istio metrics in a graphical dashboard install the Grafana add-on. 
 
     In Kubernetes environments, execute the following command:
