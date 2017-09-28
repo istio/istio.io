@@ -2,11 +2,10 @@
 title: Distributed Tracing
 overview: How to configure the proxies to send tracing requests to Zipkin or Jaeger
 
-order: 20
+order: 10
 
 layout: docs
 type: markdown
-#redirect_from: "/docs/tasks/distributed-tracing.html"
 ---
 {% include home.html %}
 
@@ -166,4 +165,4 @@ When you make downstream calls in your applications, make sure to include these 
 
 ## Further reading
 
-* Learn more about [Metrics and Logs]({{home}}/docs/tasks/metrics-logs.html)
+* Learn more about [Metrics and Logs]({{home}}/docs/tasks/telemetry/metrics-logs.html)

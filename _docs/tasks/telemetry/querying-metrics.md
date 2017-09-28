@@ -1,9 +1,9 @@
 ---
-title: Querying Istio Metrics
+title: Querying Metrics from Prometheus
 
 overview: This task shows you how to query for Istio Metrics using Prometheus.
 
-order: 15
+order: 30
 
 layout: docs
 type: markdown

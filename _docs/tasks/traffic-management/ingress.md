@@ -1,12 +1,11 @@
 ---
-title: Enabling Ingress Traffic
-overview: Describes how to configure Istio to expose a service outside of the service mesh.
+title: Istio Ingress Controller
+overview: Describes how to configure the Istio ingress controller on Kubernetes.
 
 order: 30
 
 layout: docs
 type: markdown
-#redirect_from: "/docs/tasks/ingress.html"
 ---
 
 This task describes how to configure Istio to expose a service outside of the service mesh cluster.

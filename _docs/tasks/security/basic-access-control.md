@@ -1,12 +1,11 @@
 ---
-title: Enabling Simple Access Control
+title: Setup Basic Access Control
 overview: This task shows how to use Istio to control access to a service.
           
 order: 20
 
 layout: docs
 type: markdown
-#redirect_from: "/docs/tasks/basic-access-control.html"
 ---
 {% include home.html %}
 

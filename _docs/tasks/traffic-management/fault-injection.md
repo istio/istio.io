@@ -6,7 +6,6 @@ order: 20
 
 layout: docs
 type: markdown
-#redirect_from: "/docs/tasks/fault-injection.html"
 ---
 {% include home.html %}
 
@@ -111,7 +110,8 @@ continue without any errors.
 
   However, we already have this fix running in v3 of the reviews service, so we can simply
   fix the problem by migrating all
-  traffic to `reviews:v3` as described in the [version migration](./version-migration.html).
+  traffic to `reviews:v3` as described in the
+  [traffic shifting]({{home}}/docs/tasks/traffic-management/traffic-shifting.html) task.
 
   (Left as an exercise for the reader - change the delay rule to
   use a 2.8 second delay and then run it against the v3 version of reviews.)

@@ -44,7 +44,7 @@ will receive traffic.
 Rules can be configured using the
 [istioctl CLI]({{home}}/docs/reference/commands/istioctl.html), or in a Kubernetes
 deployment using the `kubectl` command instead. See the
-[configuring request routing task]({{home}}/docs/tasks/request-routing.html) for
+[configuring request routing task]({{home}}/docs/tasks/traffic-management/request-routing.html) for
 examples.
 
 There are three kinds of traffic management rules in Istio: **Route Rules**, **Destination
@@ -280,7 +280,7 @@ spec:
 Note that request timeouts and retries can also be
 [overridden on a per-request basis](./handling-failures.html#fine-tuning).
 
-See the [request timeouts task]({{home}}/docs/tasks/request-timeouts.html) for a demonstration of timeout control.
+See the [request timeouts task]({{home}}/docs/tasks/traffic-management/request-timeouts.html) for a demonstration of timeout control.
 
 ### Injecting faults in the request path
 
@@ -358,7 +358,7 @@ spec:
       httpStatus: 400
 ```
 
-To see fault injection in action, see the [fault injection task]({{home}}/docs/tasks/fault-injection.html).
+To see fault injection in action, see the [fault injection task]({{home}}/docs/tasks/traffic-management/fault-injection.html).
 
 ### Rules have precedence
 

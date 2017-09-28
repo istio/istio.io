@@ -1,12 +1,11 @@
 ---
-title: Enabling Egress Traffic
+title: Control Egress Traffic
 overview: Describes how to configure Istio to route traffic from services in the mesh to external services.
 
 order: 40
 
 layout: docs
 type: markdown
-#redirect_from: "/docs/tasks/egress.html"
 ---
 {% include home.html %}
 

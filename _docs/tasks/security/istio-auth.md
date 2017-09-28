@@ -1,12 +1,11 @@
 ---
-title: Testing Istio Auth
+title: Testing mTLS authentication
 overview: This task shows you how to verify and test Istio-Auth.
 
 order: 10
 
 layout: docs
 type: markdown
-#redirect_from: "/docs/tasks/istio-auth.html"
 ---
 {% include home.html %}
 
