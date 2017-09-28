@@ -12,12 +12,18 @@ This sample deploys the Bookinfo services across Kubernetes and a set of
 Virtual Machines, and illustrates how to use Istio service mesh to control
 this infrastructure as a single mesh.
 
+## Overview
+
+Provide a high level overview of what users can expect to learn, why these
+features are important, and so on. This is not a task, but a feature of
+Istio.
+
 ## Before you begin
 
 * Setup Istio by following the instructions in the
   [Installation guide](({{home}}/docs/setup/).
 
-* Deploy the [BookInfo]({{home}}/docs/samples/bookinfo.html) sample application.
+* Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
 * Create a VM named 'db' in the same project as Istio cluster, and [Join the Mesh]({{home}}/docs/setup/kubernetes/mesh-expansion.html).
 

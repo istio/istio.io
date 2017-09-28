@@ -6,7 +6,7 @@ order: 10
 
 layout: docs
 type: markdown
-redirect_from: "/docs/tasks/istio-auth.html"
+#redirect_from: "/docs/tasks/istio-auth.html"
 ---
 {% include home.html %}
 

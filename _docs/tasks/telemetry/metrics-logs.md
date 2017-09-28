@@ -7,7 +7,7 @@ order: 10
 
 layout: docs
 type: markdown
-redirect_from: "/docs/tasks/metrics-logs.html"
+#redirect_from: "/docs/tasks/metrics-logs.html"
 ---
 {% include home.html %}
 
