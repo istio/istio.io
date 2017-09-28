@@ -116,3 +116,9 @@ server identity. As a result, we use curl option '-k' to prevent the curl client
 in server's (i.e., productpage) certificate. 
 Please check secure naming [here]({{home}}/docs/concepts/network-and-auth/auth.html#workflow) for more information
 about how the client verifies the server's identity in Istio.
+
+## Further reading
+
+* Learn more about the design principles behind Istio's automatic mTLS authentication
+  between all services in this
+  [blog]({{home}}/blog/istio-auth-for-microservices.html).

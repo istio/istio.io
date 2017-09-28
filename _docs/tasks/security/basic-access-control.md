@@ -170,10 +170,18 @@ Istio also supports attribute-based whitelists and blacklists.
   istioctl delete -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
   ```
 
-## What's next
+* If you are not planning to explore any follow-on tasks, refer to the
+  [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+  to shutdown the application.
+
+## Further reading
 
 * Learn more about [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html) and [Mixer Config]({{home}}/docs/concepts/policy-and-control/mixer-config.html).
 
 * Discover the full [Attribute Vocabulary]({{home}}/docs/reference/config/mixer/attribute-vocabulary.html).
 
 * Read the reference guide to [Writing Config]({{home}}/docs/reference/writing-config.html).
+
+* Understand the differences between Kubernetes network policies and Istio
+  access control policies from this
+  [blog]({{home}}/blog/using-network-policy-in-concert-with-istio.html).
