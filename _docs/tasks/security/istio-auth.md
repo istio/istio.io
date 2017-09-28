@@ -35,7 +35,7 @@ Use the parameter *-n yournamespace* to specify a namespace other than the defau
 Verify the cluster-level CA is running:
 
 ```bash
-kubectl get deploy -l istio=istio-ca
+kubectl get deploy -l istio=istio-ca -n istio-system
 ```
 
 ```bash
@@ -50,7 +50,7 @@ Istio CA is up if the "AVAILABLE" column is 1.
 1. Verify AuthPolicy setting in ConfigMap.
 
    ```bash
-   kubectl get configmap istio -o yaml | grep authPolicy | head -1
+   kubectl get configmap istio -o yaml -n istio-system | grep authPolicy | head -1
    ```
 
    Istio Auth is enabled if the line `authPolicy: MUTUAL_TLS` is uncommented (doesn't have a `#`).
