@@ -174,7 +174,7 @@ To start the application, follow the instructions below corresponding to your Is
 1. Bring up the Istio control plane and the application containers:
 
     ```bash
-    docker-compose -f samples/bookinfo/consul/docker-compose.yaml up -d
+    docker-compose -f samples/bookinfo/consul/bookinfo.yaml up -d
     ```
 
 1. Confirm that all docker containers are running:
