@@ -237,7 +237,7 @@ uninstall and clean it up using the following instructions.
 1. Showdown the application
 
   ```bash
-  docker-compose -f samples/bookinfo/consul/docker-compose.yaml down
+  docker-compose -f samples/bookinfo/consul/bookinfo.yaml down
   ```
 
 2. Cleanup rules
