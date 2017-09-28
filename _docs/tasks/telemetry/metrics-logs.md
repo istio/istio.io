@@ -167,6 +167,9 @@ as the example application throughout this task.
    double_request_count{destination="reviews.default.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="productpage.default.svc.cluster.local"}	2
    ```
 
+   For more on querying Prometheus for metric values, see the [Querying Istio
+   Metrics]({{home}}/docs/tasks/telemetry/querying-metrics.html) Task.
+
 1. Verify that the logs stream has been created and is being populated for
    requests.
 
@@ -186,14 +189,6 @@ as the example application throughout this task.
    {"level":"warn","ts":"2017-09-21T04:33:31.239Z","instance":"newlog.logentry.istio-config-default","destination":"productpage","latency":"67.675ms","responseCode":200,"responseSize":5599,"source":"ingress.istio-system.svc.cluster.local","user":"unknown"}
    {"level":"warn","ts":"2017-09-21T04:33:31.233Z","instance":"newlog.logentry.istio-config-default","destination":"ingress.istio-system.svc.cluster.local","latency":"74.47ms","responseCode":200,"responseSize":5599,"source":"unknown","user":"unknown"}
    ```
-
-## Cleanup
-
-Remove the new telemetry configuration:
-
-```bash
-istioctl delete -f new_telemetry.yaml
-```
 
 ## Understanding the telemetry configuration
 
@@ -299,6 +294,14 @@ configure a rule to be executed for all requests. Omitting the entire `match`
 parameter from the `spec` is equivalent to setting `match: true`. It is included
 here to illustrate how to use `match` expressions to control rule execution.
 
+## Cleanup
+
+Remove the new telemetry configuration:
+
+```bash
+istioctl delete -f new_telemetry.yaml
+```
+
 ## What's next
 
 * Learn more about [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html)
@@ -310,6 +313,11 @@ here to illustrate how to use `match` expressions to control rule execution.
 
 * Read the reference guide to [Writing
   Config]({{home}}/docs/reference/writing-config.html).
+
+* Try out the related telemetry tasks:
+  - [Querying Istio Metrics]({{home}}/docs/tasks/telemetry/querying-metrics.html)
+  - [Using the Istio Dashboard]({{home}}/docs/tasks/telemetry/using-istio-dashboard.html)
+  - [Generating an Istio Service Graph]({{home}}/docs/tasks/telemetry/servicegraph.html)
 
 * If you are not planning to explore any follow-on tasks, refer to the [BookInfo
   cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions to shutdown
