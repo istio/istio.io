@@ -34,10 +34,13 @@ developers to manually instrument their applications.
 
 1. [Collecting metrics]({{home}}/docs/tasks/telemetry/metrics-logs.html)
    This task will configure Mixer to collect a uniform set of metrics
-   across all services in the Bookinfo application. It will configure Istio
-   Mixer to propagate the metrics to a Prometheus backend. Interested users can
-   setup Grafana to visualize the metrics by following the
-   [Istio Add-ons]({{home}}/docs/tasks/telemetry/istio-addons.html).
+   across all services in the Bookinfo application.
+
+1. [Querying metrics]({{home}}/docs/tasks/telemetry/querying-metrics.html) This task installs the Prometheus add-on for metrics collection and demonstrates querying a configured Prometheus server for Istio metrics.
+
+1. [Using the Istio Dashboard]({{home}}/docs/tasks/telemetry/using-istio-dashboard.html) This task installs the Grafana add-on with a pre-configured dashboard for monitoring mesh traffic.
+
+1. [Generating a Service Graph]({{home}}/docs/tasks/telemetry/servicegraph.html) This task generates a graph of service connections based on observed mesh traffic using the Servicegraph add-on.
 
 1. [Request tracing]({{home}}/docs/tasks/telemetry/distributed-tracing.html) We will now use Istio to
    trace how requests are flowing across services in the
