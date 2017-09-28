@@ -6,7 +6,7 @@ order: 10
 
 layout: docs
 type: markdown
-redirect_from: "/docs/tasks/request-routing.html"
+#redirect_from: "/docs/tasks/request-routing.html"
 ---
 {% include home.html %}
 

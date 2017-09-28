@@ -6,7 +6,7 @@ order: 50
 
 layout: docs
 type: markdown
-redirect_from: "/docs/tasks/request-timeouts.html"
+#redirect_from: "/docs/tasks/request-timeouts.html"
 ---
 {% include home.html %}
 

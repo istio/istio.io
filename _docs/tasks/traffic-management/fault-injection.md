@@ -6,7 +6,7 @@ order: 20
 
 layout: docs
 type: markdown
-redirect_from: "/docs/tasks/fault-injection.html"
+#redirect_from: "/docs/tasks/fault-injection.html"
 ---
 {% include home.html %}
 

@@ -6,7 +6,7 @@ order: 20
 
 layout: docs
 type: markdown
-redirect_from: "/docs/tasks/basic-access-control.html"
+#redirect_from: "/docs/tasks/basic-access-control.html"
 ---
 {% include home.html %}
 
@@ -14,8 +14,8 @@ This task shows how to use Istio to control access to a service.
 
 ## Before you begin
 
-* Setup Istio by following the instructions in the
-  [Installation guide]({{home}}/docs/setup/kubernetes/quick-start.html).
+* Setup Istio on Kubernetes by following the instructions in the
+  [Installation guide]({{home}}/docs/setup/kubernetes/).
 
 * Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
