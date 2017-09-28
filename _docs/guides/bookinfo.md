@@ -63,7 +63,7 @@ and outgoing calls for the services, providing the hooks needed to externally co
 via the Istio control plane, routing, telemetry collection, and policy enforcement
 for the application as a whole.
 
-To start the application, follow the instructions, below, corresponding to your Istio runtime environment.
+To start the application, follow the instructions below corresponding to your Istio runtime environment.
 
 ### Running on Kubernetes
 

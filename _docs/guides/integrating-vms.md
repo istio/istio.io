@@ -12,7 +12,9 @@ This sample deploys the Bookinfo services across Kubernetes and a set of
 Virtual Machines, and illustrates how to use Istio service mesh to control
 this infrastructure as a single mesh.
 
-> Note: this guide is still under development and only tested on GCE.
+> Note: this guide is still under development and only tested on Google Cloud Platform.
+  On IBM Bluemix or most other platforms where overlay network of Pods is isolated from VM network,
+  VMs cannot initiate any direct communication to Kubernetes Pods when using Istio.
 
 ## Overview
 
