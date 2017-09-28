@@ -2,6 +2,7 @@
 title: Integrating Virtual Machines in Google Cloud
 overview: This sample deploys the Bookinfo services across Kubernetes and a set of virtual machines, and illustrates how to use the Istio service mesh to control this infrastructure as a single mesh.
 
+draft: true
 order: 60
 layout: docs
 type: markdown
@@ -21,7 +22,7 @@ Istio.
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](({{home}}/docs/setup/).
+  [Installation guide]({{home}}/docs/setup/kubernetes/quick-start.html).
 
 * Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
