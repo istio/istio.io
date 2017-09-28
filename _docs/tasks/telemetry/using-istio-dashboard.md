@@ -1,9 +1,9 @@
 ---
-title: Using the Istio Dashboard
+title: Visualizing Metrics with Grafana
 
 overview: This task shows you how to setup and use the Istio Dashboard to monitor mesh traffic.
 
-order: 18
+order: 40
 
 layout: docs
 type: markdown
@@ -114,9 +114,13 @@ For more on how to create, configure, and edit dashboards, please see the
 
 ## Cleanup
 
-In Kubernetes environments, execute the following command to remove the Grafana
-add-on:
+* In Kubernetes environments, execute the following command to remove the Grafana
+  add-on:
 
-```bash
-kubectl delete -f install/kubernetes/addons/grafana.yaml
-```
+  ```bash
+  kubectl delete -f install/kubernetes/addons/grafana.yaml
+  ```
+
+* If you are not planning to explore any follow-on tasks, refer to the
+  [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+  to shutdown the application.
