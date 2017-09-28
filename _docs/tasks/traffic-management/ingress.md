@@ -142,7 +142,7 @@ to configure ingress behavior.
 1. Update the secret using `kubectl`
 
    ```bash
-   kubectl delete secret istio-ingress-certs; kubectl create secret tls ingress-secret --key /tmp/tls.key --cert /tmp/tls.crt
+   kubectl create secret tls istio-ingress-certs --key /tmp/tls.key --cert /tmp/tls.crt -n istio-system
    ```
 
 1. Create the Ingress Resource for the httpbin service
@@ -170,7 +170,7 @@ to configure ingress behavior.
    
    Notice that in this example we are only exposing httpbin's `/ip` endpoint.
    
-   > Note: Envoy currently only allows a single TLS secret in the ingress since SNI is not yet supported.
+   > Note: Envoy currently only allows a single TLS secret in the ingress since SNI is not yet supported. That means that the secret name field in ingress resource is not used, and the secret must be called `istio-ingress-certs` in `istio-ingress` namespace.
    
 1. Determine the secure ingress URL:
  
