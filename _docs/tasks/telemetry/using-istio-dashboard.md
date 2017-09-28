@@ -114,9 +114,13 @@ For more on how to create, configure, and edit dashboards, please see the
 
 ## Cleanup
 
-In Kubernetes environments, execute the following command to remove the Grafana
-add-on:
+* In Kubernetes environments, execute the following command to remove the Grafana
+  add-on:
 
-```bash
-kubectl delete -f install/kubernetes/addons/grafana.yaml
-```
+  ```bash
+  kubectl delete -f install/kubernetes/addons/grafana.yaml
+  ```
+
+* If you are not planning to explore any follow-on tasks, refer to the
+  [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+  to shutdown the application.
