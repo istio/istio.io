@@ -36,18 +36,21 @@ developers to manually instrument their applications.
    This task will configure Mixer to collect a uniform set of metrics
    across all services in the Bookinfo application.
 
-1. [Querying metrics]({{home}}/docs/tasks/telemetry/querying-metrics.html) This task installs the Prometheus add-on for metrics collection and demonstrates querying a configured Prometheus server for Istio metrics.
+1. [Querying metrics]({{home}}/docs/tasks/telemetry/querying-metrics.html)
+   This task installs the Prometheus add-on for metrics collection and
+   demonstrates querying a configured Prometheus server for Istio metrics.
 
-1. [Using the Istio Dashboard]({{home}}/docs/tasks/telemetry/using-istio-dashboard.html) This task installs the Grafana add-on with a pre-configured dashboard for monitoring mesh traffic.
+1. [Distributed tracing]({{home}}/docs/tasks/telemetry/distributed-tracing.html)
+   We will now use Istio to trace how requests are flowing across services
+   in the application. Distributed tracing speeds up troubleshooting by
+   allowing developers to quickly understand how different services
+   contribute to the overall end-user perceived latency. In addition, it
+   can be a valuable tool to diagnosis and troubleshooting in distributed
+   applications.
 
-1. [Generating a Service Graph]({{home}}/docs/tasks/telemetry/servicegraph.html) This task generates a graph of service connections based on observed mesh traffic using the Servicegraph add-on.
-
-1. [Request tracing]({{home}}/docs/tasks/telemetry/distributed-tracing.html) We will now use Istio to
-   trace how requests are flowing across services in the
-   application. Distributed tracing speeds up troubleshooting by allowing
-   developers to quickly understand how different services contribute to
-   the overall end-user perceived latency. In addition, it can be a
-   valuable tool to diagnosis and troubleshooting in distributed applications.
+1. [Using the Istio Dashboard]({{home}}/docs/tasks/telemetry/using-istio-dashboard.html)
+   This task installs the Grafana add-on with a pre-configured dashboard
+   for monitoring mesh traffic.
 
 ## Cleanup
 
