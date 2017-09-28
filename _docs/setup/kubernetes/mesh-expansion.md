@@ -1,6 +1,6 @@
 ---
-title: Mesh Expansion
-overview: Instructions to add external machines and expand the Istio mesh.
+title: Adding VMs to the Mesh
+overview: Instructions for integrating VMs and bare metal hosts into an Istio mesh deployed on Kubernetes.
 
 order: 60
 
@@ -8,8 +8,8 @@ layout: docs
 type: markdown
 ---
 
-Instructions to configure Istio on a Kubernetes cluster so it can be expanded with
-services running on cloud, on-premises VMs, or external machines.
+Instructions for integrating VMs and bare metal hosts into an Istio mesh
+deployed on Kubernetes.
 
 ## Prerequisites
 
