@@ -2,11 +2,10 @@
 title: Distributed Tracing
 overview: How to configure the proxies to send tracing requests to Zipkin or Jaeger
 
-order: 20
+order: 10
 
 layout: docs
 type: markdown
-redirect_from: "/docs/tasks/distributed-tracing.html"
 ---
 {% include home.html %}
 
@@ -158,10 +157,12 @@ The reviews application (Java) does something similar:
 
 When you make downstream calls in your applications, make sure to include these headers.
 
-## What's next
-
-* Learn more about [Metrics and Logs]({{home}}/docs/tasks/metrics-logs.html)
+## Cleanup
 
 * If you are not planning to explore any follow-on tasks, refer to the
   [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
-  to shutdown the application and cleanup the associated rules.
+  to shutdown the application.
+
+## Further reading
+
+* Learn more about [Metrics and Logs]({{home}}/docs/tasks/telemetry/metrics-logs.html)

@@ -1,12 +1,11 @@
 ---
-title: Enabling Simple Access Control
+title: Setup Basic Access Control
 overview: This task shows how to use Istio to control access to a service.
           
 order: 20
 
 layout: docs
 type: markdown
-redirect_from: "/docs/tasks/basic-access-control.html"
 ---
 {% include home.html %}
 
@@ -14,8 +13,8 @@ This task shows how to use Istio to control access to a service.
 
 ## Before you begin
 
-* Setup Istio by following the instructions in the
-  [Installation guide]({{home}}/docs/setup/kubernetes/quick-start.html).
+* Setup Istio on Kubernetes by following the instructions in the
+  [Installation guide]({{home}}/docs/setup/kubernetes/).
 
 * Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
@@ -90,7 +89,7 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
    spec:
      match: destination.labels["app"] == "ratings" && source.labels["app"]=="reviews" && source.labels["version"] == "v3"
      actions:
-     - handler: denyall.denier
+     - handler: handler.denier
        instances:
        - denyrequest.checknothing
    ```
@@ -170,10 +169,18 @@ Istio also supports attribute-based whitelists and blacklists.
   istioctl delete -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
   ```
 
-## What's next
+* If you are not planning to explore any follow-on tasks, refer to the
+  [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+  to shutdown the application.
+
+## Further reading
 
 * Learn more about [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html) and [Mixer Config]({{home}}/docs/concepts/policy-and-control/mixer-config.html).
 
 * Discover the full [Attribute Vocabulary]({{home}}/docs/reference/config/mixer/attribute-vocabulary.html).
 
 * Read the reference guide to [Writing Config]({{home}}/docs/reference/writing-config.html).
+
+* Understand the differences between Kubernetes network policies and Istio
+  access control policies from this
+  [blog]({{home}}/blog/using-network-policy-in-concert-with-istio.html).

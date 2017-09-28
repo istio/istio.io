@@ -1,12 +1,11 @@
 ---
-title: Bookinfo Sample Application
+1;95;0ctitle: Bookinfo Sample Application
 overview: This guide deploys a sample application composed of four separate microservices which will be used to demonstrate various features of the Istio service mesh.
 
 order: 10
 
 layout: docs
 type: markdown
-redirect_from: "/docs/samples/bookinfo.html"
 ---
 {% include home.html %}
 
@@ -43,6 +42,11 @@ It’s worth noting that these services have no dependencies on Istio, but make 
 sevice mesh example, particularly because of the multitude of services, languages and versions
 for the reviews service.
 
+## Before you begin
+
+If you haven't already done so, setup Istio by following the instructions
+corresponding to your platform [installation guide]({{home}}/docs/setup/).
+
 ## Deploying the application
 
 To run the sample with Istio requires no changes to the
@@ -59,9 +63,7 @@ and outgoing calls for the services, providing the hooks needed to externally co
 via the Istio control plane, routing, telemetry collection, and policy enforcement
 for the application as a whole.
 
-Before you begin, if you haven't already done so, setup Istio by following the instructions
-corresponding to your platform [installation guide]({{home}}/docs/setup/) and then
-run the application using the instructions in one of the following sections.
+To start the application, follow the instructions below corresponding to your Istio runtime environment.
 
 ### Running on Kubernetes
 
@@ -172,7 +174,7 @@ run the application using the instructions in one of the following sections.
 1. Bring up the Istio control plane and the application containers:
 
     ```bash
-    docker-compose -f samples/bookinfo/consul/docker-compose.yaml up -d
+    docker-compose -f samples/bookinfo/consul/bookinfo.yaml up -d
     ```
 
 1. Confirm that all docker containers are running:
@@ -237,7 +239,7 @@ uninstall and clean it up using the following instructions.
 1. Showdown the application
 
   ```bash
-  docker-compose -f samples/bookinfo/consul/docker-compose.yaml down
+  docker-compose -f samples/bookinfo/consul/bookinfo.yaml down
   ```
 
 2. Cleanup rules

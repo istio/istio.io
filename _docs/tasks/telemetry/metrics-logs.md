@@ -3,11 +3,10 @@ title: Collecting Metrics and Logs
 
 overview: This task shows you how to configure Istio to collect metrics and logs.
 
-order: 10
+order: 20
 
 layout: docs
 type: markdown
-redirect_from: "/docs/tasks/metrics-logs.html"
 ---
 {% include home.html %}
 
@@ -21,7 +20,7 @@ as the example application throughout this task.
 ## Before you begin
 * [Install Istio]({{home}}/docs/setup/) in your cluster and deploy an
   application. This task assumes that Mixer is setup in a default configuration
-  (`--configDefaultNamespace=istio-config-default`). If you use a different
+  (`--configDefaultNamespace=istio-system`). If you use a different
   value, update the configuration and commands in this task to match the value.
 
 * Install the optional add-on [Prometheus](https://prometheus.io). Prometheus
@@ -39,7 +38,7 @@ as the example application throughout this task.
    kind: metric
    metadata:
      name: doublerequestcount
-     namespace: istio-config-default
+     namespace: istio-system
    spec:
      value: "2" # count each request twice
      dimensions:
@@ -53,11 +52,11 @@ as the example application throughout this task.
    kind: prometheus
    metadata:
      name: doublehandler
-     namespace: istio-config-default
+     namespace: istio-system
    spec:
      metrics:
      - name: double_request_count # Prometheus metric name
-       instance_name: doublerequestcount.metric.istio-config-default # Mixer instance name (fully-qualified)
+       instance_name: doublerequestcount.metric.istio-system # Mixer instance name (fully-qualified)
        kind: COUNTER
        label_names:
        - source
@@ -69,7 +68,7 @@ as the example application throughout this task.
    kind: rule
    metadata:
      name: doubleprom
-     namespace: istio-config-default
+     namespace: istio-system
    spec:
      actions:
      - handler: doublehandler.prometheus
@@ -81,7 +80,7 @@ as the example application throughout this task.
    kind: logentry
    metadata:
      name: newlog
-     namespace: istio-config-default
+     namespace: istio-system
    spec:
      severity: '"warning"'
      timestamp: request.time
@@ -99,7 +98,7 @@ as the example application throughout this task.
    kind: stdio
    metadata:
      name: newhandler
-     namespace: istio-config-default
+     namespace: istio-system
    spec:
     severity_levels:
       warning: 1 # Params.Level.WARNING
@@ -110,7 +109,7 @@ as the example application throughout this task.
    kind: rule
    metadata:
      name: newlogstdio
-     namespace: istio-config-default
+     namespace: istio-system
    spec:
      match: "true" # match for all requests
      actions:
@@ -128,12 +127,12 @@ as the example application throughout this task.
 
    The expected output is similar to:
    ```
-   Created config metric/istio-config-default/doublerequestcount at revision 1973035
-   Created config prometheus/istio-config-default/doublehandler at revision 1973036
-   Created config rule/istio-config-default/doubleprom at revision 1973037
-   Created config logentry/istio-config-default/newlog at revision 1973038
-   Created config stdio/istio-config-default/newhandler at revision 1973039
-   Created config rule/istio-config-default/newlogstdio at revision 1973041
+   Created config metric/istio-system/doublerequestcount at revision 1973035
+   Created config prometheus/istio-system/doublehandler at revision 1973036
+   Created config rule/istio-system/doubleprom at revision 1973037
+   Created config logentry/istio-system/newlog at revision 1973038
+   Created config stdio/istio-system/newhandler at revision 1973039
+   Created config rule/istio-system/newlogstdio at revision 1973041
    ```
 
 1. Send traffic to the sample application.
@@ -167,6 +166,9 @@ as the example application throughout this task.
    double_request_count{destination="reviews.default.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="productpage.default.svc.cluster.local"}	2
    ```
 
+   For more on querying Prometheus for metric values, see the [Querying Istio
+   Metrics]({{home}}/docs/tasks/telemetry/querying-metrics.html) Task.
+
 1. Verify that the logs stream has been created and is being populated for
    requests.
 
@@ -174,26 +176,18 @@ as the example application throughout this task.
    follows:
 
    ```bash
-   kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio=mixer -o jsonpath='{.items[0].metadata.name}') mixer | grep \"instance\":\"newlog.logentry.istio-config-default\"
+   kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio=mixer -o jsonpath='{.items[0].metadata.name}') mixer | grep \"instance\":\"newlog.logentry.istio-system\"
    ```
 
    The expected output is similar to:
 
    ```json
-   {"level":"warn","ts":"2017-09-21T04:33:31.249Z","instance":"newlog.logentry.istio-config-default","destination":"details","latency":"6.848ms","responseCode":200,"responseSize":178,"source":"productpage","user":"unknown"}
-   {"level":"warn","ts":"2017-09-21T04:33:31.291Z","instance":"newlog.logentry.istio-config-default","destination":"ratings","latency":"6.753ms","responseCode":200,"responseSize":48,"source":"reviews","user":"unknown"}
-   {"level":"warn","ts":"2017-09-21T04:33:31.263Z","instance":"newlog.logentry.istio-config-default","destination":"reviews","latency":"39.848ms","responseCode":200,"responseSize":379,"source":"productpage","user":"unknown"}
-   {"level":"warn","ts":"2017-09-21T04:33:31.239Z","instance":"newlog.logentry.istio-config-default","destination":"productpage","latency":"67.675ms","responseCode":200,"responseSize":5599,"source":"ingress.istio-system.svc.cluster.local","user":"unknown"}
-   {"level":"warn","ts":"2017-09-21T04:33:31.233Z","instance":"newlog.logentry.istio-config-default","destination":"ingress.istio-system.svc.cluster.local","latency":"74.47ms","responseCode":200,"responseSize":5599,"source":"unknown","user":"unknown"}
+   {"level":"warn","ts":"2017-09-21T04:33:31.249Z","instance":"newlog.logentry.istio-system","destination":"details","latency":"6.848ms","responseCode":200,"responseSize":178,"source":"productpage","user":"unknown"}
+   {"level":"warn","ts":"2017-09-21T04:33:31.291Z","instance":"newlog.logentry.istio-system","destination":"ratings","latency":"6.753ms","responseCode":200,"responseSize":48,"source":"reviews","user":"unknown"}
+   {"level":"warn","ts":"2017-09-21T04:33:31.263Z","instance":"newlog.logentry.istio-system","destination":"reviews","latency":"39.848ms","responseCode":200,"responseSize":379,"source":"productpage","user":"unknown"}
+   {"level":"warn","ts":"2017-09-21T04:33:31.239Z","instance":"newlog.logentry.istio-system","destination":"productpage","latency":"67.675ms","responseCode":200,"responseSize":5599,"source":"ingress.istio-system.svc.cluster.local","user":"unknown"}
+   {"level":"warn","ts":"2017-09-21T04:33:31.233Z","instance":"newlog.logentry.istio-system","destination":"ingress.istio-system.svc.cluster.local","latency":"74.47ms","responseCode":200,"responseSize":5599,"source":"unknown","user":"unknown"}
    ```
-
-## Cleanup
-
-Remove the new telemetry configuration:
-
-```bash
-istioctl delete -f new_telemetry.yaml
-```
 
 ## Understanding the telemetry configuration
 
@@ -247,13 +241,13 @@ dimensions configured for `doublerequestcount.metric` instances).
 For `kind: prometheus` handlers, Mixer instances are matched to Prometheus
 metrics via the `instance_name` parameter. The `instance_name` values must be
 the fully-qualified name for Mixer instances (example:
-`doublerequestcount.metric.istio-config-default`).
+`doublerequestcount.metric.istio-system`).
 
 The `kind: rule` stanza of config defines a new *rule* named `doubleprom`. The 
 rule directs Mixer to send all `doublerequestcount.metric` instances to the
 `doublehandler.prometheus` handler. Because there is no `match` clause in the 
 rule, and because the rule is in the configured default configuration namespace 
-(`istio-config-default`), the rule is executed for all requests in the mesh.
+(`istio-system`), the rule is executed for all requests in the mesh.
 
 ### Understanding the logs configuration
 
@@ -299,7 +293,19 @@ configure a rule to be executed for all requests. Omitting the entire `match`
 parameter from the `spec` is equivalent to setting `match: true`. It is included
 here to illustrate how to use `match` expressions to control rule execution.
 
-## What's next
+## Cleanup
+
+* Remove the new telemetry configuration:
+
+  ```bash
+  istioctl delete -f new_telemetry.yaml
+  ```
+
+* If you are not planning to explore any follow-on tasks, refer to the
+  [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+  to shutdown the application.
+
+## Further reading
 
 * Learn more about [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html)
   and [Mixer
@@ -311,6 +317,4 @@ here to illustrate how to use `match` expressions to control rule execution.
 * Read the reference guide to [Writing
   Config]({{home}}/docs/reference/writing-config.html).
 
-* If you are not planning to explore any follow-on tasks, refer to the [BookInfo
-  cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions to shutdown
-  the application and cleanup the associated rules.
+* Refer to the [In-Depth Telemetry]({{home}}/docs/guides/telemetry.html) guide.

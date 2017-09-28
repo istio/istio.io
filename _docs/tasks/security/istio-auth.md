@@ -1,12 +1,11 @@
 ---
-title: Testing Istio Auth
+title: Testing mTLS authentication
 overview: This task shows you how to verify and test Istio-Auth.
 
 order: 10
 
 layout: docs
 type: markdown
-redirect_from: "/docs/tasks/istio-auth.html"
 ---
 {% include home.html %}
 
@@ -35,7 +34,7 @@ Use the parameter *-n yournamespace* to specify a namespace other than the defau
 Verify the cluster-level CA is running:
 
 ```bash
-kubectl get deploy -l istio=istio-ca
+kubectl get deploy -l istio=istio-ca -n istio-system
 ```
 
 ```bash
@@ -50,7 +49,7 @@ Istio CA is up if the "AVAILABLE" column is 1.
 1. Verify AuthPolicy setting in ConfigMap.
 
    ```bash
-   kubectl get configmap istio -o yaml | grep authPolicy | head -1
+   kubectl get configmap istio -o yaml -n istio-system | grep authPolicy | head -1
    ```
 
    Istio Auth is enabled if the line `authPolicy: MUTUAL_TLS` is uncommented (doesn't have a `#`).
@@ -116,3 +115,9 @@ server identity. As a result, we use curl option '-k' to prevent the curl client
 in server's (i.e., productpage) certificate. 
 Please check secure naming [here]({{home}}/docs/concepts/network-and-auth/auth.html#workflow) for more information
 about how the client verifies the server's identity in Istio.
+
+## Further reading
+
+* Learn more about the design principles behind Istio's automatic mTLS authentication
+  between all services in this
+  [blog]({{home}}/blog/istio-auth-for-microservices.html).

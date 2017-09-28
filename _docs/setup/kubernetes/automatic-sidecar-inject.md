@@ -1,5 +1,5 @@
 ---
-title: Automatic sidecar injection
+title: Automatic Sidecar Injection
 overview: Instructions for installing the Istio initializer in Kubernetes to automatically inject the Istio sidecar into pods.
 
 order: 50
