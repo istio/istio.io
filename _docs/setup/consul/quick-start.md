@@ -51,7 +51,7 @@ Quick Start instructions to install and configure Istio in a Docker Compose setu
 1. Bring up the Istio control plane containers:
 
     ```bash
-    docker-compose -f samples/bookinfo/consul/control-plane.yaml up -d
+    docker-compose -f install/consul/istio.yaml up -d
     ```
 
 1. Confirm that all docker containers are running:
@@ -85,7 +85,7 @@ docker-compose -f <your-app-spec>.yaml up -d)
 1. Uninstall Istio core components by removing the docker containers:
 
 ```bash
-docker-compose -f samples/bookinfo/consul/control-plane.yaml down
+docker-compose -f install/consul/istio.yaml down
 ```
 
 ## What's next
