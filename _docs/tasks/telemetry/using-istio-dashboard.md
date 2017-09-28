@@ -21,7 +21,9 @@ the example application throughout this task.
 * [Install Istio]({{home}}/docs/setup/) in your cluster and deploy an
   application.
 
-* Install the Prometheus add-on. Directions for install of this add-on are supplied as part of the [Querying Metrics]({{home}}/docs/tasks/telemetry/querying-metrics.html) Task.
+* Install the Prometheus add-on. Directions for install of this add-on are
+  supplied as part of the [Querying
+  Metrics]({{home}}/docs/tasks/telemetry/querying-metrics.html) Task.
   
   Use of the Prometheus add-on is _required_ for the Istio Dashboard.
 
@@ -65,8 +67,9 @@ the example application throughout this task.
 
     The Istio Dashboard will look similar to:
 
-<figure><img style="max-width:100%" src="./img/grafana-istio-dashboard.png" alt="Istio Dashboard" title="Istio Dashboard" />
-<figcaption>Istio Dashboard</figcaption></figure>
+<figure><img style="max-width:100%" src="./img/grafana-istio-dashboard.png"
+alt="Istio Dashboard" title="Istio Dashboard" /> <figcaption>Istio
+Dashboard</figcaption></figure>
 
 1. Send traffic to the mesh.
 
@@ -87,7 +90,8 @@ the example application throughout this task.
 alt="Istio Dashboard With Traffic" title="Istio Dashboard With Traffic" />
 <figcaption>Istio Dashboard With Traffic</figcaption></figure>
 
-   Note: `$GATEWAY_URL` is the value set in the [BookInfo]({{home}}/docs/guides/bookinfo.html) guide.
+   Note: `$GATEWAY_URL` is the value set in the
+   [BookInfo]({{home}}/docs/guides/bookinfo.html) guide.
 
 
 ### About the Grafana add-on
@@ -113,7 +117,8 @@ For more on how to create, configure, and edit dashboards, please see the
 
 ## Cleanup
 
-In Kubernetes environments, execute the following command to remove the Grafana add-on:
+In Kubernetes environments, execute the following command to remove the Grafana
+add-on:
 
 ```bash
 kubectl delete -f install/kubernetes/addons/grafana.yaml

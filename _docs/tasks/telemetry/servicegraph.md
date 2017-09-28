@@ -22,7 +22,9 @@ the example application throughout this task.
 * [Install Istio]({{home}}/docs/setup/) in your cluster and deploy an
   application.
 
-* Install the Prometheus add-on. Directions for install of this add-on are supplied as part of the [Querying Metrics]({{home}}/docs/tasks/telemetry/querying-metrics.html) Task.
+* Install the Prometheus add-on. Directions for install of this add-on are
+  supplied as part of the [Querying
+  Metrics]({{home}}/docs/tasks/telemetry/querying-metrics.html) Task.
   
   Use of the Prometheus add-on is _required_ for the Istio Dashboard.
 
@@ -64,7 +66,8 @@ the example application throughout this task.
    Refresh the page a few times (or send the command a few times) to generate a
    small amount of traffic.
 
-   Note: `$GATEWAY_URL` is the value set in the [BookInfo]({{home}}/docs/guides/bookinfo.html) guide.
+   Note: `$GATEWAY_URL` is the value set in the
+   [BookInfo]({{home}}/docs/guides/bookinfo.html) guide.
 
 1. Open the Servicegraph UI.
 
@@ -78,8 +81,9 @@ the example application throughout this task.
 
     The results will look similar to:
 
-<figure><img style="max-width:100%" src="./img/servicegraph-example.png" alt="Example Servicegraph" title="Example Servicegraph" />
-<figcaption>Example Servicegraph</figcaption></figure>
+<figure><img style="max-width:100%" src="./img/servicegraph-example.png"
+alt="Example Servicegraph" title="Example Servicegraph" /> <figcaption>Example
+Servicegraph</figcaption></figure>
     
 ### About the Servicegraph Add-on
 
@@ -102,7 +106,8 @@ The Servicegraph example is built on top of Prometheus queries.
 
 ## Cleanup
 
-In Kubernetes environments, execute the following command to remove the ServiceGraph add-on:
+In Kubernetes environments, execute the following command to remove the
+ServiceGraph add-on:
 
 ```bash
 kubectl delete -f install/kubernetes/addons/servicegraph.yaml
