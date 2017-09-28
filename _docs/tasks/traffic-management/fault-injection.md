@@ -6,7 +6,6 @@ order: 20
 
 layout: docs
 type: markdown
-redirect_from: "/docs/tasks/fault-injection.html"
 ---
 {% include home.html %}
 
@@ -25,12 +24,18 @@ This task shows how to inject delays and test the resiliency of your application
   
   > Note: This assumes you don't have any routes set yet. If you've already created conflicting route rules for the sample, you'll need to use `replace` rather than `create` in one or both of the following commands.
 
-
   ```bash
   istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
   istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
   ```
-  
+
+> Note: This task assumes you are deploying the application on Kubernetes.
+  All of the example commands are using the Kubernetes version of the rule yaml files
+  (e.g., `samples/bookinfo/kube/route-rule-all-v1.yaml`). If you are running this
+  task in a different environment, change `kube` to the directory that corresponds
+  to your runtime (e.g., `samples/bookinfo/consul/route-rule-all-v1.yaml` for
+  the Consul-based runtime).
+
 ## Fault injection
 
 To test our BookInfo application microservices for resiliency, we will _inject a 7s delay_
@@ -105,7 +110,8 @@ continue without any errors.
 
   However, we already have this fix running in v3 of the reviews service, so we can simply
   fix the problem by migrating all
-  traffic to `reviews:v3` as described in the [version migration](./version-migration.html).
+  traffic to `reviews:v3` as described in the
+  [traffic shifting]({{home}}/docs/tasks/traffic-management/traffic-shifting.html) task.
 
   (Left as an exercise for the reader - change the delay rule to
   use a 2.8 second delay and then run it against the v3 version of reviews.)
@@ -120,10 +126,10 @@ continue without any errors.
   istioctl delete -f samples/bookinfo/kube/route-rule-ratings-test-delay.yaml
   ```
 
-## What's next
-
-* Learn more about [fault injection]({{home}}/docs/concepts/traffic-management/fault-injection.html).
-
 * If you are not planning to explore any follow-on tasks, refer to the
   [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
-  to shutdown the application and cleanup the associated rules.
+  to shutdown the application.
+
+## Further reading
+
+* Learn more about [fault injection]({{home}}/docs/concepts/traffic-management/fault-injection.html).

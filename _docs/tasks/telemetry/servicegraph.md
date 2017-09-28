@@ -1,9 +1,9 @@
 ---
-title: Generating an Istio Service Graph
+title: Generating a Service Graph
 
 overview: This task shows you how to generate a graph of services within an Istio mesh.
 
-order: 25
+order: 50
 
 layout: docs
 type: markdown
@@ -106,9 +106,13 @@ The Servicegraph example is built on top of Prometheus queries.
 
 ## Cleanup
 
-In Kubernetes environments, execute the following command to remove the
-ServiceGraph add-on:
+* In Kubernetes environments, execute the following command to remove the
+  ServiceGraph add-on:
 
-```bash
-kubectl delete -f install/kubernetes/addons/servicegraph.yaml
-```
+  ```bash
+  kubectl delete -f install/kubernetes/addons/servicegraph.yaml
+  ```
+
+* If you are not planning to explore any follow-on tasks, refer to the
+  [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+  to shutdown the application.

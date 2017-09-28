@@ -43,7 +43,7 @@ for a running application.
    as the test user, we will notice that the v2 version of the `reviews` service has a bug.
    Note that all other users are unaware of this testing against the live system.
 
-1. [Traffic Shifting]({{home}}/docs/tasks/traffic-management/version-migration.html) Finally, we will
+1. [Traffic Shifting]({{home}}/docs/tasks/traffic-management/traffic-shifting.html) Finally, we will
    use Istio to gradually migrate traffic for all users from to a v3 version of
    the `reviews` service, one which includes the fix for the bug discovered in v2.
 

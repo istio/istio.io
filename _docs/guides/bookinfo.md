@@ -1,12 +1,11 @@
 ---
-title: Bookinfo Sample Application
+1;95;0ctitle: Bookinfo Sample Application
 overview: This guide deploys a sample application composed of four separate microservices which will be used to demonstrate various features of the Istio service mesh.
 
 order: 10
 
 layout: docs
 type: markdown
-redirect_from: "/docs/samples/bookinfo.html"
 ---
 {% include home.html %}
 
