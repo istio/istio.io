@@ -19,11 +19,11 @@ the links below:
 is where you can learn about what Istio does and how it does it.
 
 - [Setup]({{home}}/docs/setup/). Setup contains instructions for installing
-  the Istio control plane in various environments (e.g., Kubernetes, Consul,
-  etc.), as well as instructions for installing the sidecar in the
-  application deployment.
-  Jump directly to [downloading and installing](https://istio.io/docs/setup/kubernetes/quick-start.html) Istio for Kubernetes,
-  if it is your platform of choice.
+  the Istio control plane in various environments, as well as instructions
+  for installing the sidecar in the application deployment. Quick start
+  instructions are available for
+  [Kubernetes]({{docs}}/docs/setup/kubernetes/quick-start.html) and 
+  [Docker Compose w/ Consul]({{docs}}/docs/setup/consul/quick-start.html).
 
 - [Tasks]({{home}}/docs/tasks/). Tasks show you how to do a single directed activity with Istio.
 
