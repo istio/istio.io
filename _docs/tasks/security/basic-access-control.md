@@ -90,7 +90,7 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
    spec:
      match: destination.labels["app"] == "ratings" && source.labels["app"]=="reviews" && source.labels["version"] == "v3"
      actions:
-     - handler: denyall.denier
+     - handler: handler.denier
        instances:
        - denyrequest.checknothing
    ```
