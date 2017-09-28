@@ -42,6 +42,11 @@ It’s worth noting that these services have no dependencies on Istio, but make 
 sevice mesh example, particularly because of the multitude of services, languages and versions
 for the reviews service.
 
+## Before you begin
+
+If you haven't already done so, setup Istio by following the instructions
+corresponding to your platform [installation guide]({{home}}/docs/setup/).
+
 ## Deploying the application
 
 To run the sample with Istio requires no changes to the
@@ -58,9 +63,7 @@ and outgoing calls for the services, providing the hooks needed to externally co
 via the Istio control plane, routing, telemetry collection, and policy enforcement
 for the application as a whole.
 
-Before you begin, if you haven't already done so, setup Istio by following the instructions
-corresponding to your platform [installation guide]({{home}}/docs/setup/) and then
-run the application using the instructions in one of the following sections.
+To start the application, follow the instructions below corresponding to your Istio runtime environment.
 
 ### Running on Kubernetes
 
