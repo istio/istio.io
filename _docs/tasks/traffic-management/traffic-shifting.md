@@ -2,7 +2,7 @@
 title: Traffic Shifting
 overview: This task shows you how to migrate traffic from an old to new version of a service.
 
-order: 10
+order: 25
 
 layout: docs
 type: markdown
@@ -26,7 +26,7 @@ two steps: 50%, 100%.
   All of the example commands are using the Kubernetes version of the rule yaml files
   (e.g., `samples/bookinfo/kube/route-rule-all-v1.yaml`). If you are running this
   task in a different environment, change `kube` to the directory that corresponds
-  to your runtime (e.g., samples/bookinfo/consul/route-rule-all-v1.yaml for
+  to your runtime (e.g., `samples/bookinfo/consul/route-rule-all-v1.yaml` for
   the Consul-based runtime).
 
 ## Weight-based version routing
@@ -80,11 +80,18 @@ With Istio, we can allow the two versions of the `reviews` service to scale up a
 without affecting the traffic distribution between them.
 For more about version routing with autoscaling, check out [Canary Deployments using Istio]({{home}}/blog/canary-deployments-using-istio.html).
 
+## Cleanup
 
-## What's next
+* Remove the application routing rules.
 
-* Learn more about [request routing]({{home}}/docs/concepts/traffic-management/rules-configuration.html).
+  ```bash
+  istioctl delete -f samples/bookinfo/kube/route-rule-all-v1.yaml
+  ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
   [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
-  to shutdown the application and cleanup the associated rules.
+  to shutdown the application.
+
+## Further reading
+
+* Learn more about [request routing]({{home}}/docs/concepts/traffic-management/rules-configuration.html).

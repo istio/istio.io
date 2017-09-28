@@ -7,7 +7,6 @@ order: 15
 
 layout: docs
 type: markdown
-redirect_from: "/docs/tasks/installing-istio.html"
 ---
 
 {% include section-index.html %}

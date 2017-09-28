@@ -6,7 +6,6 @@ order: 50
 
 layout: docs
 type: markdown
-redirect_from: "/docs/tasks/request-timeouts.html"
 ---
 {% include home.html %}
 
@@ -22,11 +21,16 @@ This task shows you how to setup request timeouts in Envoy using Istio.
 
 * Initialize the application version routing by running the following command:
 
-> Note: This assumes you don't have any routes set yet. If you've already created route rules for the sample, you'll need to use `replace` rather than `create` in the following command.
-  
   ```bash
   istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
   ```
+
+> Note: This task assumes you are deploying the application on Kubernetes.
+  All of the example commands are using the Kubernetes version of the rule yaml files
+  (e.g., `samples/bookinfo/kube/route-rule-all-v1.yaml`). If you are running this
+  task in a different environment, change `kube` to the directory that corresponds
+  to your runtime (e.g., `samples/bookinfo/consul/route-rule-all-v1.yaml` for
+  the Consul-based runtime).
 
 ## Request timeouts
 
@@ -130,12 +134,20 @@ as you did in this task, they can also be overridden on a per-request basis if t
 an "x-envoy-upstream-rq-timeout-ms" header on outbound requests. In the header
 the timeout is specified in millisecond (instead of second) units. 
 
-## What's next
+## Cleanup
+
+* Remove the application routing rules.
+
+  ```bash
+  istioctl delete -f samples/bookinfo/kube/route-rule-all-v1.yaml
+  ```
+
+* If you are not planning to explore any follow-on tasks, refer to the
+  [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+  to shutdown the application.
+
+## Further reading
 
 * Learn more about [failure handling]({{home}}/docs/concepts/traffic-management/handling-failures.html).
 
 * Learn more about [routing rules]({{home}}/docs/concepts/traffic-management/rules-configuration.html).
-
-* If you are not planning to explore any follow-on tasks, refer to the
-  [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
-  to shutdown the application and cleanup the associated rules.

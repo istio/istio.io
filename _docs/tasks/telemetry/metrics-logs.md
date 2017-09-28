@@ -3,11 +3,10 @@ title: Collecting Metrics and Logs
 
 overview: This task shows you how to configure Istio to collect metrics and logs.
 
-order: 10
+order: 20
 
 layout: docs
 type: markdown
-redirect_from: "/docs/tasks/metrics-logs.html"
 ---
 {% include home.html %}
 
@@ -296,13 +295,17 @@ here to illustrate how to use `match` expressions to control rule execution.
 
 ## Cleanup
 
-Remove the new telemetry configuration:
+* Remove the new telemetry configuration:
 
-```bash
-istioctl delete -f new_telemetry.yaml
-```
+  ```bash
+  istioctl delete -f new_telemetry.yaml
+  ```
 
-## What's next
+* If you are not planning to explore any follow-on tasks, refer to the
+  [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+  to shutdown the application.
+
+## Further reading
 
 * Learn more about [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html)
   and [Mixer
@@ -314,11 +317,4 @@ istioctl delete -f new_telemetry.yaml
 * Read the reference guide to [Writing
   Config]({{home}}/docs/reference/writing-config.html).
 
-* Try out the related telemetry tasks:
-  - [Querying Istio Metrics]({{home}}/docs/tasks/telemetry/querying-metrics.html)
-  - [Using the Istio Dashboard]({{home}}/docs/tasks/telemetry/using-istio-dashboard.html)
-  - [Generating an Istio Service Graph]({{home}}/docs/tasks/telemetry/servicegraph.html)
-
-* If you are not planning to explore any follow-on tasks, refer to the [BookInfo
-  cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions to shutdown
-  the application and cleanup the associated rules.
+* Refer to the [In-Depth Telemetry]({{home}}/docs/guides/telemetry.html) guide.

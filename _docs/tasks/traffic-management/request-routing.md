@@ -6,7 +6,6 @@ order: 10
 
 layout: docs
 type: markdown
-redirect_from: "/docs/tasks/request-routing.html"
 ---
 {% include home.html %}
 
@@ -23,7 +22,7 @@ This task shows you how to configure dynamic request routing based on weights an
   All of the example commands are using the Kubernetes version of the rule yaml files
   (e.g., `samples/bookinfo/kube/route-rule-all-v1.yaml`). If you are running this
   task in a different environment, change `kube` to the directory that corresponds
-  to your runtime (e.g., samples/bookinfo/consul/route-rule-all-v1.yaml for
+  to your runtime (e.g., `samples/bookinfo/consul/route-rule-all-v1.yaml` for
   the Consul-based runtime).
 
 ## Content-based routing
@@ -173,26 +172,15 @@ all users to v2, optionally in a gradual fashion. We'll explore this in a separa
 
 * Remove the application routing rules.
 
-  For Kubernetes-based setup, use the following command:
-
   ```bash
   istioctl delete -f samples/bookinfo/kube/route-rule-all-v1.yaml
   istioctl delete -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
   ```
 
-  For Consul-based setup, use the following command:
-
-  ```bash
-  istioctl delete -f samples/bookinfo/consul/route-rule-all-v1.yaml
-  istioctl delete -f samples/bookinfo/consul/route-rule-reviews-test-v2.yaml
-  ```
-
-## What's next
-
-* Learn more about [request routing]({{home}}/docs/concepts/traffic-management/rules-configuration.html).
-
-* Test the BookInfo application resiliency by [injecting faults](./fault-injection.html).
-
 * If you are not planning to explore any follow-on tasks, refer to the
   [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
-  to shutdown the application and cleanup the associated rules.
+  to shutdown the application.
+
+## Further reading
+
+* Learn more about [request routing]({{home}}/docs/concepts/traffic-management/rules-configuration.html).

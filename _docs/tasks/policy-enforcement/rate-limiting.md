@@ -6,7 +6,6 @@ order: 10
 
 layout: docs
 type: markdown
-redirect_from: "/docs/tasks/rate-limiting.html"
 ---
 {% include home.html %}
 
@@ -192,14 +191,14 @@ selected by matching only three out of four quota dimensions.
   istioctl delete -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
   ```
 
-## What's next
+* If you are not planning to explore any follow-on tasks, refer to the
+  [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+  to shutdown the application.
+
+## Further reading
 
 * Learn more about [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html) and [Mixer Config]({{home}}/docs/concepts/policy-and-control/mixer-config.html).
 
 * Discover the full [Attribute Vocabulary]({{home}}/docs/reference/config/mixer/attribute-vocabulary.html).
 
 * Read the reference guide to [Writing Config]({{home}}/docs/reference/writing-config.html).
-
-* If you are not planning to explore any follow-on tasks, refer to the
-  [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
-  to shutdown the application and cleanup the associated rules.

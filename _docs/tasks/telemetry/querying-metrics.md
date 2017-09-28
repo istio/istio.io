@@ -1,9 +1,9 @@
 ---
-title: Querying Istio Metrics
+title: Querying Metrics from Prometheus
 
 overview: This task shows you how to query for Istio Metrics using Prometheus.
 
-order: 15
+order: 30
 
 layout: docs
 type: markdown
@@ -121,17 +121,17 @@ docs](https://prometheus.io/docs/querying/basics/).
 
 ## Cleanup
 
-In Kubernetes environments, execute the following command to remove the
-Prometheus add-on:
+* In Kubernetes environments, execute the following command to remove the
+  Prometheus add-on:
 
-```bash
-kubectl delete -f install/kubernetes/addons/prometheus.yaml
-```
+  ```bash
+  kubectl delete -f install/kubernetes/addons/prometheus.yaml
+  ```
 
-## What's next
+* If you are not planning to explore any follow-on tasks, refer to the
+  [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+  to shutdown the application.
 
-* Try out the related telemetry tasks:
-  - [Using the Istio
-    Dashboard]({{home}}/docs/tasks/telemetry/using-istio-dashboard.html)
-  - [Generating an Istio Service
-    Graph]({{home}}/docs/tasks/telemetry/servicegraph.html)
+## Further reading
+
+* Refer to the [In-Depth Telemetry]({{home}}/docs/guides/telemetry.html) guide.

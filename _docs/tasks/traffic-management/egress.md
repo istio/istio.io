@@ -1,12 +1,11 @@
 ---
-title: Enabling Egress Traffic
+title: Control Egress Traffic
 overview: Describes how to configure Istio to route traffic from services in the mesh to external services.
 
 order: 40
 
 layout: docs
 type: markdown
-redirect_from: "/docs/tasks/egress.html"
 ---
 {% include home.html %}
 
@@ -248,9 +247,11 @@ cloud provider specific knowledge and configuration.
    kubectl delete -f samples/sleep/sleep.yaml
    ```
 
-
-## What's next
+## Further reading
 
 * Read more about [egress rules]({{home}}/docs/concepts/traffic-management/rules-configuration.html#egress-rules).
 
-* Learn how to use Istio's [request routing](./request-routing.html) features.
+* Learn how to setup
+  [timeouts]({{home}}/docs/reference/config/traffic-rules/routing-rules.html#httptimeout),
+  [retries]({{home}}/docs/reference/config/traffic-rules/routing-rules.html#httpretry),
+  and [circuit breakers]({{home}}/docs/reference/config/traffic-rules/destination-policies.html#circuitbreaker) for egress traffic.
