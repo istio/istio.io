@@ -11,8 +11,7 @@ type: markdown
 
 * _How can I enable/disable mTLS encryption after I installed Istio?_
 
-  Enabling/disabling mTLS requires uninstalling and installing Istio,
-  as well as re-deploying your applications.
+  Enabling/disabling mTLS requires uninstalling and installing Istio.
 
 * _Can a service with Istio Auth enabled communicate with a service without
   Istio?_
