@@ -97,7 +97,7 @@ two.
 The default value for the *namespace* is the namespace of the rule
 itself, which can be specified in the *metadata* field of the rule,
 or during rule install using the `istioctl -n <namespace> create`
-or `kubectl -n <namesapce> create` command.  The default value of
+or `kubectl -n <namespace> create` command.  The default value of
 the *domain* field is implementation specific. In Kubernates, for example,
 the default value is `svc.cluster.local`.
 
