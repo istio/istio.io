@@ -29,7 +29,7 @@ this feature in shared testing environments.
 
 ## Prerequisites
 
-Kubernetes DynamicAdmissionControl is required for transparent proxy
+Kubernetes DynamicAdmissionControl is required for automatic proxy
 injection (via initializer) and configuration validation. This is an
 alpha feature that must be explicitly enabled.
 
@@ -204,7 +204,7 @@ kubectl exec -it ${CLIENT} -c app -- curl service-two:80 | grep x-request-id
 x-request-id=a641eff7-eb82-4a4f-b67b-53cd3a03c399
 ```
 ```bash
-kubectl logs ${CLIENT} proxy | grep a641eff7-eb82-4a4f-b67b-53cd3a03c399
+kubectl logs ${CLIENT} istio-proxy | grep a641eff7-eb82-4a4f-b67b-53cd3a03c399
 ```
 ```bash
 [2017-05-01T22:08:39.310Z] "GET / HTTP/1.1" 200 - 0 398 3 3 "-" "curl/7.47.0" "a641eff7-eb82-4a4f-b67b-53cd3a03c399" "service-two" "10.4.180.7:8080"

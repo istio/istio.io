@@ -116,7 +116,7 @@ service-two pod's IP.
 Outbound request on client pod's proxy.
 
 ```bash
-kubectl logs ${CLIENT} proxy | grep a641eff7-eb82-4a4f-b67b-53cd3a03c399
+kubectl logs ${CLIENT} istio-proxy | grep a641eff7-eb82-4a4f-b67b-53cd3a03c399
 ```
 ```bash
 [2017-05-01T22:08:39.310Z] "GET / HTTP/1.1" 200 - 0 398 3 3 "-" "curl/7.47.0" "a641eff7-eb82-4a4f-b67b-53cd3a03c399" "service-two" "10.4.180.7:8080"
@@ -125,7 +125,7 @@ kubectl logs ${CLIENT} proxy | grep a641eff7-eb82-4a4f-b67b-53cd3a03c399
 Inbound request on server pod's proxy.
 
 ```bash
-kubectl logs ${SERVER} proxy | grep a641eff7-eb82-4a4f-b67b-53cd3a03c399
+kubectl logs ${SERVER} istio-proxy | grep a641eff7-eb82-4a4f-b67b-53cd3a03c399
 ```
 ```bash
 [2017-05-01T22:08:39.310Z] "GET / HTTP/1.1" 200 - 0 398 2 0 "-" "curl/7.47.0" "a641eff7-eb82-4a4f-b67b-53cd3a03c399" "service-two" "127.0.0.1:8080"
@@ -167,6 +167,26 @@ applications which are redirected to proxy.
     - sidecar
     - "-v"
     - "2"
+    - --configPath
+    - /etc/istio/proxy
+    - --binaryPath
+    - /usr/local/bin/envoy
+    - --drainDuration
+    - 2s
+    - --parentShutdownDuration
+    - 3s
+    - --discoveryAddress
+    - istio-pilot:8080
+    - --discoveryRefreshDelay
+    - 1s
+    - --zipkinAddress
+    - ""
+    - --connectTimeout
+    - 1s
+    - --statsdUdpAddress
+    - ""
+    - --proxyAdminPort
+    - "15000"    
   env:
     -
       name: POD_NAME
@@ -181,17 +201,23 @@ applications which are redirected to proxy.
           apiVersion: v1
           fieldPath: metadata.namespace
     -
-      name: POD_IP
+      name: INSTANCE_IP
       valueFrom:
         fieldRef:
           apiVersion: v1
           fieldPath: status.podIP
   image: "docker.io/istio/proxy:<...tag... >"
-  imagePullPolicy: Always
-  name: proxy
+  imagePullPolicy: IfNotPresent
+  name: istio-proxy
   securityContext:
     runAsUser: 1337
-
+    readOnlyRootFilesystem: false
+  volumeMounts:
+    - mountPath: /etc/istio/proxy
+      name: istio-envoy
+    - mountPath: /etc/certs/
+      name: istio-certs
+      readOnly: true
 ```
 
 iptables is used to transparently redirect all inbound and outbound
@@ -204,20 +230,22 @@ traffic to the proxy. An init-container is used for two reasons:
 after pod creation. The proxy container is responsible for dynamically
 routing traffic.
 
-   ```json
-   {
-     "name":"init",
-     "image":"docker.io/istio/init:<..tag...>",
-     "args":[ "-p", "15001", "-u", "1337" ],
-     "imagePullPolicy":"Always",
-     "securityContext":{
-       "capabilities":{
-         "add":[
-           "NET_ADMIN"
-         ]
-       }
-     }
-   },
+   ```yaml
+      initContainers:
+      - args:
+        - -p
+        - "15001"
+        - -u
+        - "1337"
+        image: docker.io/istio/proxy_init:<...tag... >
+        imagePullPolicy: IfNotPresent
+        name: istio-init
+        resources: {}
+        securityContext:
+          capabilities:
+            add:
+            - NET_ADMIN
+          privileged: true  
    ```
 
 ## Cleanup
