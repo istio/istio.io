@@ -28,24 +28,30 @@ If you wish to enable [transparent injection of sidecar]({{home}}/docs/setup/kub
   * To install Istio locally, install the latest version of
     [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) (version 0.22.1 or later).
 
-  * If you are using [Google Container Engine](https://cloud.google.com/container-engine),
-    retrieve your credentials for kubectl:
+  * [Google Container Engine](https://cloud.google.com/container-engine)
 
+    1. Retrieve your credentials for kubectl:
     ```bash
     gcloud container clusters get-credentials <cluster-name> --zone <zone> --project <project-name>
     ```
-    Replace `<cluster-name>` with the name of the cluster you want to use and `<zone>`
-    with the zone that cluster is in.
+    where `<cluster-name>` is the name of the cluster you want to use, and `<zone>` is the zone that cluster is in.
 
-  * If you are using [IBM Bluemix Container Service](https://www.ibm.com/cloud-computing/bluemix/containers), retrieve your
-    credentials for kubectl:
+    2. Grant cluster admin permissions to the current user - admin permissions are required to create the necessary RBAC rules for Istio:
+    ```bash
+        kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value core/account)
+    ```
+
+  * [IBM Bluemix Container Service](https://www.ibm.com/cloud-computing/bluemix/containers)
+
+    Retrieve your credentials for kubectl:
 
     ```bash
     $(bx cs cluster-config <cluster-name>|grep "export KUBECONFIG")
     ```
     where `<cluster-name>` is the name of the cluster you want to use.
 
-  * If you are using [Openshift Origin](https://www.openshift.org) version 3.7 or later,
+  * [Openshift Origin](https://www.openshift.org) version 3.7 or later
+  
     Openshift by default does not allow containers running with UID 0. Enable containers running
     with UID 0 for Istio's service accounts for ingress and egress:
     
