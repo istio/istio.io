@@ -103,6 +103,35 @@ fields of other descriptors.
 ### Template
 LogEntry represents an individual entry within a log.
 
+When writing the configuration, the value for the fields associated with this template can either be a
+literal or an [expression](https://istio.io/docs/reference/config/mixer/expression-language.html). Please note that if the datatype of a field is not istio.mixer.v1.config.descriptor.ValueType,
+then the expression's [inferred type](https://istio.io/docs/reference/config/mixer/expression-language.html#type-checking) must match the datatype of the field.
+
+Example config:
+
+```
+apiVersion: "config.istio.io/v1alpha2"
+kind: logentry
+metadata:
+  name: accesslog
+  namespace: istio-config-default
+spec:
+  severity: '"Default"'
+  timestamp: request.time
+  variables:
+    sourceIp: source.ip | ip("0.0.0.0")
+    destinationIp: destination.ip | ip("0.0.0.0")
+    sourceUser: source.user | ""
+    method: request.method | ""
+    url: request.path | ""
+    protocol: request.scheme | "http"
+    responseCode: response.code | 0
+    responseSize: response.size | 0
+    requestSize: request.size | 0
+    latency: response.duration | "0ms"
+  monitoredResourceType: '"UNSPECIFIED"'
+```
+
 <table>
  <tr>
   <th>Field</th>
