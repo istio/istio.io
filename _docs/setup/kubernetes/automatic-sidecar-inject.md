@@ -29,7 +29,7 @@ this feature in shared testing environments.
 
 ## Prerequisites
 
-Kubernetes DynamicAdmissionControl is required for transparent proxy
+Kubernetes DynamicAdmissionControl is required for automatic proxy
 injection (via initializer) and configuration validation. This is an
 alpha feature that must be explicitly enabled.
 
