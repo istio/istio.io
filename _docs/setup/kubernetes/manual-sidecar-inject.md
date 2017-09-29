@@ -201,7 +201,7 @@ applications which are redirected to proxy.
           apiVersion: v1
           fieldPath: metadata.namespace
     -
-      name: POD_IP
+      name: INSTANCE_IP
       valueFrom:
         fieldRef:
           apiVersion: v1
