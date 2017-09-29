@@ -201,7 +201,7 @@ applications which are redirected to proxy.
           apiVersion: v1
           fieldPath: metadata.namespace
     -
-      name: INSTANCE_IP
+      name: POD_IP
       valueFrom:
         fieldRef:
           apiVersion: v1
@@ -237,7 +237,7 @@ routing traffic.
         - "15001"
         - -u
         - "1337"
-        image: docker.io/istio/proxy_init:unittest
+        image: docker.io/istio/proxy_init:<...tag... >
         imagePullPolicy: IfNotPresent
         name: istio-init
         resources: {}
