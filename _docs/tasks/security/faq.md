@@ -9,17 +9,19 @@ type: markdown
 ---
 {% include home.html %}
 
+* _How can I enable/disable mTLS encryption after I installed Istio?_
+
+  Enabling/disabling mTLS requires uninstalling and installing Istio.
+
 * _Can a service with Istio Auth enabled communicate with a service without
   Istio?_
 
-  Currently it is not well supported. But we do have plan to support this
-  in the near future.
+  This is not supported currently, but will be in the near future.
 
 * _Can I enable Istio Auth with some services while disable others in the
   same cluster?_
 
-  Currently we only support cluster-wise Auth enable/disable. It is a high
-  priority action item for us to support per-service auth.
+  This is not supported currently, but will be in the near future.
 
 * _How can I use Kubernetes liveness and readiness for service health check
   with Istio Auth enabled?_
@@ -28,7 +30,7 @@ type: markdown
   work since they do not have Istio Auth issued certs. A workaround is to
   use command option for health check, e.g., one can install curl in the
   service pod and curl itself within the pod. The Istio team is actively
-  working on a real solution.
+  working on a solution.
 
 * _Can I access the Kubernetes API Server with Auth enabled?_
 
