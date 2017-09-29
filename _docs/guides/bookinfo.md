@@ -166,6 +166,7 @@ To start the application, follow the instructions below corresponding to your Is
    ```bash
    export GATEWAY_URL=$(kubectl get po -n istio-system -l istio=ingress -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}')
    ```
+   If you are using IBM Bluemix Container service free clusters, the external load balancer is not supposed. You may obtain the public ip   for your worker VM via ```bx cs workers {cluster-name}``` where ```cluster-name``` is the name or id of your cluster. 
 
 ### Running on Docker with Consul
 
