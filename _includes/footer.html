@@ -7,8 +7,9 @@
                     <p class="header">Docs</p>
                     <li><a href="{{home}}/docs/">Welcome</a></li>
 		            <li><a href="{{home}}/docs/concepts">Concepts</a></li>
+                    <li><a href="{{home}}/docs/setup">Setup</a></li>
                     <li><a href="{{home}}/docs/tasks">Tasks</a></li>
-                    <li><a href="{{home}}/docs/samples">Samples</a></li>
+                    <li><a href="{{home}}/docs/guides">Guides</a></li>
                     <li><a href="{{home}}/docs/reference">Reference</a></li>
                 </ul>
             </div>
@@ -31,7 +32,7 @@
             <div class="col-md-3 col-sm-4 col-xs-12 center-block">
                 <ul class="toggle">
                     <p class="header">Community</p>
-                    <li><a href="https://groups.google.com/forum/#!forum/istio-users" target="_blank"><span class="group">User</span></a> | <a href="https://groups.google.com/forum/#!forum/istio-dev" target="_blank">Dev Mailing Lists</a></li>
+                    <li><a href="https://groups.google.com/forum/#!forum/istio-users" target="_blank"><span class="group">User</span></a> | <a href="https://groups.google.com/forum/#!forum/istio-dev" target="_blank">Dev</a> | <a href="https://github.com/istio/istio/blob/master/GROUPS.md#working-groups" target="_blank">Working Group Lists</a></li>
                     <li><a href="https://twitter.com/IstioMesh" target="_blank"><span class="twitter">Twitter</span></a></li>
                     <li><a href="https://github.com/istio/istio" target="_blank"><span class="github">GitHub</span></a></li>
                 </ul>
@@ -42,8 +43,7 @@
 
         <div class="row">
             <p class="description small text-center">
-                Copyright &copy; 2017 Istio Authors<br>
-                Istio Version 0.1<br>
+                Istio Version {{site.data.istio.version}}, Copyright &copy; 2017 Istio Authors<br>
                 This site was built on {{site.time | date_to_string | split: ' ' | join: '-'}}
             </p>
         </div>

@@ -3,11 +3,11 @@ footer {
   box-shadow: 0px 500px 0px 500px $footerColor;
   color: $white;
   overflow: hidden;
-  padding: 45px 0 50px 0;
+  padding: 25px 0 30px 0;
   position: relative;
 
   @media (max-width: 767px) {
-    padding: 15px 0 35px;
+    padding: 15px 0 30px;
 
     ul {
       &.active li {

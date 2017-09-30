@@ -65,7 +65,7 @@ The following diagram shows the different components that make up each plane:
 
 ### Envoy
 
-Istio uses an extended version of the [Envoy](https://lyft.github.io/envoy/) proxy, a high-performance proxy developed in C++, to mediate all inbound and outbound traffic for all services in the service mesh. 
+Istio uses an extended version of the [Envoy](https://envoyproxy.github.io/envoy/) proxy, a high-performance proxy developed in C++, to mediate all inbound and outbound traffic for all services in the service mesh. 
 Istio leverages Envoy’s many built-in features such as dynamic service discovery, load balancing, TLS termination, HTTP/2 & gRPC proxying, circuit breakers,
 health checks, staged rollouts with %-based traffic split, fault injection, and rich metrics.
 
@@ -79,7 +79,7 @@ evaluation can be found in [Mixer Configuration]({{home}}/docs/concepts/policy-a
 
 ### Pilot
 
-[Pilot]({{home}}/docs/concepts/traffic-management/pilot.html) serves as an interface between the user and Istio, collecting and validating configuration and propagating it to the various Istio components.
+[Pilot]({{home}}/docs/concepts/traffic-management/pilot.html) is responsible for collecting and validating configuration and propagating it to the various Istio components.
 It abstracts environment-specific implementation details from Mixer and Envoy, providing them with an abstract representation of the user’s services 
 that is independent of the underlying platform. In addition, traffic management rules (i.e. generic layer-4 rules and layer-7 HTTP/gRPC routing rules) can 
 be programmed at runtime via Pilot.
@@ -94,9 +94,9 @@ role-based access control as well as authorization hooks.
 
 ## What's next
 
-* Learn about Istio's [design goals](./goals.html).
+* Learn about Istio's [design goals]({{home}}/docs/concepts/what-is-istio/goals.html).
 
-* Explore and try deploying our [sample application]({{home}}/docs/samples/bookinfo.html).
+* Explore our [Guides]({{home}}/docs/guides/).
 
 * Read about Istio components in detail in our other [Concepts]({{home}}/docs/concepts/) guides.
 

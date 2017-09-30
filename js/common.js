@@ -2,12 +2,7 @@
 sitemap_exclude: y
 ---
 
-// Jquery UI for tabbed panes
-$.getScript("https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js", function(){
-  setupTabs();
-});
-
-//Set up tabs
+// Set up tabs
 function setupTabs(rootElement) {
       rootElement = rootElement || document;
       var tabs = $(rootElement).find('div.tabs');
@@ -108,8 +103,8 @@ $.getScript("{{ site.baseurl }}/js/jquery.collapsible.js", function(){
       minimumHeaders: 2,
       headers: 'h2, h3, h4, h5, h6',
       listType: 'ol', // values: [ol|ul]
-      showEffect: 'show', // values: [show|slideDown|fadeIn|none]
-      showSpeed: 'slow' // set to 0 to deactivate effect
+      showEffect: 'none', // values: [show|slideDown|fadeIn|none]
+      showSpeed: '0' // set to 0 to deactivate effect
     },
     settings = $.extend(defaults, options);
 
