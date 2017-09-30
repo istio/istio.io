@@ -309,7 +309,7 @@ We also showed how to control the ingress traffic using an Istio route rule.
    ```bash
    istioctl delete routerule httpbin-3s-rule
    kubectl delete ingress simple-ingress secured-ingress 
-   kubectl delete secret istio-ingress-certs
+   kubectl delete -n istio-system secret istio-ingress-certs
    ```
 
 1. Shutdown the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) service.
