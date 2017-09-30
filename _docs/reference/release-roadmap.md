@@ -8,31 +8,32 @@ layout: docs
 type: markdown
 ---
 
-## Istio 0.2
-
-Istio 0.2 will be our second release, and will work across multiple Kubernetes clusters and some basic hybrid deployments. Istio 0.2 is focused on expanding the coverage of Istio to more places, and making it easier for users and vendors to integrate into the system. Istio 0.2 will include the following features:
-- TCP telemetry collection and policy enforcement.
-- Support for VMs joining an Istio Mesh.
-- Fully-automated injection of Envoy proxies into Kubernetes pods.
-- Standard extension points for addons and plugins.
-- Expanded authorization with callouts to external services.
-- Mixer request tracing with Zipkin.
-- Additional logging and analysis plugins.
-- Cluster-wide rate limiting.
-- Basic API management features.
-- Configuration rollout and management.
-- Configuration and policy enforcement APIs.
-- Improved system stability and performance.
-
 ## Istio 0.3
 
-Istio 0.3 will be our third release, focused on performance, scale, and stability. The full feature set for 0.3 is still TBD, based on feedback from the community. Some of the additional features we are considering include:
+Istio 0.3 is our third release, focused on performance, stability, and reliability, as well as a great developer experience.
+We expect to encourage production usage of Istio 0.3, which will include the following:
+- Extensive integration and load testing of common user scenarios.
+- Improved support for debugging and tracing of common issues.
+- Basic HA configurations and instructions for scaling Istio.
+- Baseline performance numbers and targets for each component.
+- Support for incremental adoption of Istio into Kubernetes clusters.
+- Support for incremental adoption of mutual TLS throughout an Istio Mesh.
+- Basic Authorization using RBAC.
+- Improved support for VMs joining an Istio Mesh.
+- Improved support for non-Kubernetes use cases.
+- Support for backwards compatibility and Istio Upgrades.
+
+
+## Istio 0.4
+
+Our fourth release, 0.4, will include support for merging multiple Istio installations into a single Istio Mesh, as well as additional features based on community feedback. Here are some examples of features we could work on:
+- Support for additional logging, monitoring, tracing, rate limiting etc. adapters.
+- Configuration rollout and management.
 - Support for multiple clusters in a single mesh.
-- Support for Istio meshes without Kubernetes.
 - Client-oriented telemetry collection and distribution.
 - Global load balancing with autoscaling.
 - Support for the Open Service Broker APIs.
 - Pluggable identity provisioning system to support custom CA (Vault) and custom-defined identity.
-- Additional API Management functionality.
+- API Management functionality.
 
-Please get in touch if there are additional features you'd like to see in our future releases!
+Please get in touch if there are features you'd like to see in our future releases!
