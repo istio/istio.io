@@ -103,6 +103,29 @@ fields of other descriptors.
 ### Template
 Metric represents a single piece of data to report.
 
+When writing the configuration, the value for the fields associated with this template can either be a
+literal or an [expression](https://istio.io/docs/reference/config/mixer/expression-language.html). Please note that if the datatype of a field is not istio.mixer.v1.config.descriptor.ValueType,
+then the expression's [inferred type](https://istio.io/docs/reference/config/mixer/expression-language.html#type-checking) must match the datatype of the field.
+
+Example config:
+
+```
+apiVersion: "config.istio.io/v1alpha2"
+kind: metric
+metadata:
+  name: requestsize
+  namespace: istio-config-default
+spec:
+  value: request.size | 0
+  dimensions:
+    sourceService: source.service | "unknown"
+    sourceVersion: source.labels["version"] | "unknown"
+    destinationService: destination.service | "unknown"
+    destinationVersion: destination.labels["version"] | "unknown"
+    responseCode: response.code | 200
+  monitoredResourceType: '"UNSPECIFIED"'
+```
+
 <table>
  <tr>
   <th>Field</th>

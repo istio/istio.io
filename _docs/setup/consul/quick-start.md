@@ -65,9 +65,8 @@ Quick Start instructions to install and configure Istio in a Docker Compose setu
    ```bash
    docker ps -a
    ```
-
-   > If the `Istio-Pilot` container terminates, re-run the command from the previous step.
-
+   > If the `Istio-Pilot` container terminates, ensure that you run the `istioctl context-create` comamnd and re-run the command from the previous step.
+    
 1. Configure `istioctl` to use mapped local port for the Istio API server:
 
     ```bash
@@ -88,7 +87,7 @@ installation like [BookInfo]({{home}}/docs/guides/bookinfo.html).
 > Note 2: the application must use HTTP/1.1 or HTTP/2.0 protocol for all its HTTP traffic because HTTP/1.0 is not supported.
 
 ```bash
-docker-compose -f <your-app-spec>.yaml up -d)
+docker-compose -f <your-app-spec>.yaml up -d
 ```
 
 ## Uninstalling

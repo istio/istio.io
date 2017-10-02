@@ -74,14 +74,14 @@ To start the application, follow the instructions below corresponding to your Is
 1. Bring up the application containers:
 
    If you are using a cluster with
-   [automatic sidecar injection]({{home}}/docs/setup/kubernetes/automatic-sidecar-inject.html)
+   [automatic sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection)
    enabled, simply deploy the services using `kubectl`:
 
    ```bash
    kubectl apply -f samples/bookinfo/kube/bookinfo.yaml
    ```
 
-   If you are using [manual sidecar injection]({{home}}/docs/setup/kubernetes/manual-sidecar-inject.html),
+   If you are using [manual sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar-injection),
    use the folloiwng command instead:
 
    ```bash

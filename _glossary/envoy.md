@@ -2,5 +2,5 @@
 title: Envoy
 type: markdown
 ---
-Envoy is the high-performance proxy that Istio uses to mediate all inbound and outbound traffic for all services in the service mesh. 
-Learn more about Envoy [here](https://envoyproxy.github.io/envoy/).
+The high-performance proxy that Istio uses to mediate inbound and outbound traffic for all **Services** in the **Service Mesh**. 
+[Learn more about Envoy](https://envoyproxy.github.io/envoy/).
