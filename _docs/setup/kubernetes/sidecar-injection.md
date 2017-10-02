@@ -105,7 +105,7 @@ spec:
 The crux of sidecar injection lies in the `initContainers` and the
 istio-proxy container. The output above has been trimmed for brevity.
 
-Verify that service-one's deployment contains the sidecar. The
+Verify that sleep's deployment contains the sidecar. The
 injected version corresponds to the image TAG of the injected sidecar
 image. It may be different in your setup.
 

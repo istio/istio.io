@@ -20,6 +20,8 @@ type: markdown
   kubectl api-versions | grep admissionregistration
   ```
 
+  In addition, the Kubernetes API server must be started with the Initializer plugin enabled.
+
 * _Automatic sidecar injection is not working. How can I debug this?_
 
   Ensure that your cluster has met the
