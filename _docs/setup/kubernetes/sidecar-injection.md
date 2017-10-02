@@ -41,7 +41,7 @@ cluster must satisfy the following requirements:
   using the Istio Initializer.  Note that the sidecar is not involved in
   traffic between containers in the same pod.
 
-## [Manual sidecar injection](#manual-sidecar-inject)
+## Manual sidecar injection
 
 The `istioctl` CLI has a convenience utility called
 [kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject)
@@ -120,7 +120,7 @@ You can view the full deployment with injected containers and volumes.
 kubectl get deployment sleep -o yaml
 ```
 
-## [Automatic sidecar injection](#automatic-sidecar-inject)
+## Automatic sidecar injection
 
 Istio sidecars can be automatically injected into a Pod before deployment
 using an alpha feature in Kubernetes called
@@ -248,7 +248,7 @@ and submits it back to kubernetes via PATCH.
 7) kubernetes finishes creating the workload as normal and the
 workload includes the injected sidecar.
 
-### [Configuration options](#configuration-options)
+### Configuration options
 
 The istio-initializer has a global default policy for injection as
 well as per-workload overrides. The global policy is configured by the
