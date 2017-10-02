@@ -1,6 +1,6 @@
 ---
-title: Automatic Sidecar Injection
-overview: Instructions for installing the Istio initializer in Kubernetes to automatically inject the Istio sidecar into pods.
+title: Installing Istio Sidecar
+overview: Instructions for installing the Istio sidecar in application pods automatically using the Istio initializer or manually using istioctl CLI.
 
 order: 50
 
@@ -9,64 +9,84 @@ type: markdown
 ---
 {% include home.html %}
 
-This page provides instructions to setup the Istio Initializer for automatic sidecar
-proxy injection. You'll learn how to enable the prerequisite alpha
-features in your cluster, enable the initializer, and fine-tune the
-configuration of the initializer itself and your workloads to enable
-automatic sidecar proxy injection.
+## Pod Spec Requirements
 
-## What's an initializer?
+In order to be a part of the service mesh, each pod in the kubernetes
+cluster must satisfy the following requirements:
 
-See [What are initializers](https://kubernetes.io/docs/admin/extensible-admission-controllers/#what-are-initializers) and
-[Kubernetes Initializer Tutorial](https://github.com/kelseyhightower/kubernetes-initializer-tutorial) for
-a general overview of Kubernetes initializers. The Istio Initializer performs the same function as
-[istioctl kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject) automatically
-for cluster workloads.
+1._Service association:_ The pod must belong to a _single_
+  [Kubernetes Service](https://kubernetes.io/docs/concepts/services-networking/service/)
+  (pods that belong to multiple services are not supported as of now).
 
-Note: Kubernetes InitializerConfiguration is not namespaced and
-applies to workloads across the entire cluster. Do _not_ enable
-this feature in shared testing environments.
+1._Named ports:_ Service ports must be named. The port names must begin
+  with _http_, _http2_, _grpc_, or _mongo_ prefix in order to take advantage
+  of Istio's routing features. For example, `name: http2-foo` or `name: http`
+  are valid port names.  If the port name does not begin with a recognized
+  prefix or if the port is unnamed, traffic on the port will be treated as
+  plain TCP traffic (unless the port explicitly uses `Protocol: UDP` to
+  signify a UDP port). HTTPS traffic will be treated as plain TCP
+  traffic. Hence, ports using HTTPS should not use the prefixes specified
+  above.
 
-## Prerequisites
+1. _Deployments with app label:_ It is recommended that Pods deployed using
+   the Kubernetes `Deployment` have an explicit `app` label in the
+   Deployment specification. Each deployment specification should have a
+   distinct `app` label with a value indicating something meaningful. The
+   `app` label is used to add contextual information in distributed
+   tracing.
 
-Kubernetes DynamicAdmissionControl is required for automatic proxy
-injection (via initializer) and configuration validation. This is an
-alpha feature that must be explicitly enabled.
+1. Finally, each pod in the mesh must be running an Istio compatible
+   sidecar. The following sections describe two ways of injecting the
+   Istio sidecar into a pod: automatically using the Istio Initializer and
+   manually using `istioctl` CLI tool.
 
-The following steps assume RBAC is enabled.
+## Automatic sidecar injection
 
-### Google Container Engine
+Istio sidecars can be automatically injected into a Pod before deployment
+using an alpha feature in Kubernetes called
+[Initializers](https://kubernetes.io/docs/admin/extensible-admission-controllers/#what-are-initializers).
 
-Create an alpha cluster on GKE:
+> Note: Kubernetes InitializerConfiguration is not namespaced and
+> applies to workloads across the entire cluster. Do _not_ enable
+> this feature in shared testing environments.
 
-```bash
-gcloud container clusters create NAME \
-    --cluster-version=1.7.5 \
-    --enable-kubernetes-alpha \
-    --machine-type=n1-standard-2 \
-    --num-nodes=4 \
-    --no-enable-legacy-authorization \
-    --zone=ZONE
-```
+### Prerequisites
 
-### IBM Bluemix Container Service
-If your cluster is v1.7.4 or newer, you'll have the required [alpha feature](https://kubernetes.io/docs/admin/extensible-admission-controllers/#enable-initializers-alpha-feature) enabled by default.  
+Initializers need to be explicitly enabled during cluster setup as outlined
+[here](https://kubernetes.io/docs/admin/extensible-admission-controllers/#enable-initializers-alpha-feature). 
+Assuming RBAC is enabled in the cluster, you can enable the initializers in
+different environments as follows:
 
-### Minikube
+* _GKE_
 
-Create a cluster with DynamicAdmissionControl enabled on Minikube:
+  ```bash
+  gcloud container clusters create NAME \
+      --cluster-version=1.7.5 \
+      --enable-kubernetes-alpha \
+      --machine-type=n1-standard-2 \
+      --num-nodes=4 \
+      --no-enable-legacy-authorization \
+      --zone=ZONE
+  ```
 
-Minikube version v0.22.1 or later is required for proper certificate
-configuration for GenericAdmissionWebhook feature. Get the latest
-version from https://github.com/kubernetes/minikube/releases.
+* _IBM Bluemix_ kubernetes clusters with v1.7.4 or newer versions have
+  initializers enabled by default.
 
-```bash
-minikube start \
-    --extra-config=apiserver.Admission.PluginNames="Initializers,NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,GenericAdmissionWebhook,ResourceQuota" \
-    --kubernetes-version=v1.7.5
-```
+* _Minikube_
 
-## Installing the initializer
+  Minikube version v0.22.1 or later is required for proper certificate
+  configuration for the GenericAdmissionWebhook feature. Get the latest
+  version from https://github.com/kubernetes/minikube/releases.
+
+  ```bash
+  minikube start \
+      --extra-config=apiserver.Admission.PluginNames="Initializers,NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,GenericAdmissionWebhook,ResourceQuota" \
+      --kubernetes-version=v1.7.5
+  ```
+
+### Setup
+
+You can now setup the Istio Initializer from the Istio install root directory.
 
 ```bash
 kubectl apply -f install/kubernetes/istio-initializer.yaml
@@ -81,19 +101,18 @@ the Istio sidecar will be injected into `deployments`, `statefulsets`, `jobs`, a
 1. The `istio-inject` ConfigMap with the default injection policy for the
 initializer, a set of namespaces to initialize, and template parameters to
 use during the injection itself. These options are explained in more detail
-under
-[additional configuration options](#additional-configuration-options).
+under [configuration options](#configuration-options).
 
 1. The `istio-initializer` Deployment that runs the initializer controller.
 
 1. The `istio-initializer-service-account` ServiceAccount that is used by the
 `istio-initializer` deployment. The `ClusterRole` and
 `ClusterRoleBinding` are defined in `install/kubernetes/istio.yaml`. Note
-that `initialize` and `patch` are required on _all_ workload resource
+that `initialize` and `patch` are required on _all_ resource
 types. It is for this reason that the initializer is run as its own
 deployment and not embedded in another controller, e.g. istio-pilot.
 
-## Testing the injection
+### Verification
 
 In order to test whether sidecar injection is working, save the following
 YAML snippet into `apps.yaml`:
@@ -169,7 +188,7 @@ kubectl apply -f apps.yaml
 ```
 
 Verify that service-one's deployment had the sidecar injected. The
-injected version corresponds to the image TAG of the injected proxy
+injected version corresponds to the image TAG of the injected sidecar
 image. It may be different in your setup.
 
 ```bash
@@ -183,27 +202,27 @@ You can view the full deployment with injected containers and volumes.
 kubectl get deployment service-one -o yaml
 ```
 
-Make a request from the client (service-one) to the server
-(service-two) and verify the `x-request-id` appears in the server
-proxy logs.
+<!-- Make a request from the client (service-one) to the server -->
+<!-- (service-two) and verify the `x-request-id` appears in the server -->
+<!-- proxy logs. -->
 
-```bash
-CLIENT=$(kubectl get pod -l app=service-one -o jsonpath='{.items[0].metadata.name}')
-SERVER=$(kubectl get pod -l app=service-two -o jsonpath='{.items[0].metadata.name}')
+<!-- ```bash -->
+<!-- CLIENT=$(kubectl get pod -l app=service-one -o jsonpath='{.items[0].metadata.name}') -->
+<!-- SERVER=$(kubectl get pod -l app=service-two -o jsonpath='{.items[0].metadata.name}') -->
 
-kubectl exec -it ${CLIENT} -c app -- curl service-two:80 | grep x-request-id
-```
-```bash
-x-request-id=a641eff7-eb82-4a4f-b67b-53cd3a03c399
-```
-```bash
-kubectl logs ${CLIENT} istio-proxy | grep a641eff7-eb82-4a4f-b67b-53cd3a03c399
-```
-```bash
-[2017-05-01T22:08:39.310Z] "GET / HTTP/1.1" 200 - 0 398 3 3 "-" "curl/7.47.0" "a641eff7-eb82-4a4f-b67b-53cd3a03c399" "service-two" "10.4.180.7:8080"
-```
+<!-- kubectl exec -it ${CLIENT} -c app -- curl service-two:80 | grep x-request-id -->
+<!-- ``` -->
+<!-- ```bash -->
+<!-- x-request-id=a641eff7-eb82-4a4f-b67b-53cd3a03c399 -->
+<!-- ``` -->
+<!-- ```bash -->
+<!-- kubectl logs ${CLIENT} istio-proxy | grep a641eff7-eb82-4a4f-b67b-53cd3a03c399 -->
+<!-- ``` -->
+<!-- ```bash -->
+<!-- [2017-05-01T22:08:39.310Z] "GET / HTTP/1.1" 200 - 0 398 3 3 "-" "curl/7.47.0" "a641eff7-eb82-4a4f-b67b-53cd3a03c399" "service-two" "10.4.180.7:8080" -->
+<!-- ``` -->
 
-## Understanding what happened
+### Understanding what happened
 
 Here's what happened after the workload was submitted to Kubernetes:
 
@@ -218,7 +237,7 @@ as the first in the list of pending initializers.
 initializing the namespace of the workload. No further work is done
 and the initializer ignores the workload if the initializer is
 configured for the namespace. By default the initializer is
-responsible for all namespaces (see [additional configuration options](#additional-configuration-options)).
+responsible for all namespaces (see [configuration options](#configuration-options)).
 
 4) istio-initializer removes itself from the list of pending
 initializers. Kubernetes will not finish creating workloads if the
@@ -227,15 +246,15 @@ means a broken cluster.
 
 5) istio-initializer checks the default injection policy for the mesh
 _and_ any possible per-workload overrides to determine whether the
-sidecar proxy should be injected.
+sidecar should be injected.
 
 6) istio-initializer injects the sidecar template into the workload
 and submits it back to kubernetes via PATCH.
 
 7) kubernetes finishes creating the workload as normal and the
-workload includes the injected sidecar proxy.
+workload includes the injected sidecar.
 
-## [Additional configuration options](#additional-configuration-options)
+### [Configuration options](#configuration-options)
 
 The istio-initializer has a global default policy for injection as
 well as per-workload overrides. The global policy is configured by the
@@ -293,20 +312,19 @@ that match its configured name.
 
 4. _params_
 
-These parameters allow you to make limited changes to the injected sidecar
-proxy. Changing these values will not affect already deployed
+These parameters allow you to make limited changes to the injected sidecar. Changing these values will not affect already deployed
 workloads.
 
-## Overriding automatic injection
+### Overriding automatic injection
 
 Individual workloads can override the global policy using the
 `sidecar.istio.io/inject` annotation. The global policy applies
 if the annotation is omitted.
 
-If the value of the annotation is `true`, sidecar proxy will be
+If the value of the annotation is `true`, sidecar will be
 injected regardless of the global policy.
 
-If the value of the annotation is `false`, sidecar proxy will _not_ be
+If the value of the annotation is `false`, sidecar will _not_ be
 injected regardless of the global policy.
 
 The following truth table shows the combinations of global policy and
@@ -322,7 +340,7 @@ per-workload overrides.
 | enabled  | false               | no       |
 | enabled  | true                | yes      |
 
-## Cleanup
+### Cleanup
 
 ```bash
 kubectl delete -f install/kubernetes/istio-initializer.yaml
