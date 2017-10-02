@@ -14,11 +14,11 @@ Istio Auth's aim is to enhance the security of microservices and their communica
 
 
 
-*   Presenting a strong identity that represents the role of the service to enable interoperability across clusters and clouds
+*   Providing each service with a strong identity that represents its role to enable interoperability across clusters and clouds
 
-*   Securing the service to service communication and the end-user to service communication
+*   Securing service to service communication and end-user to service communication
 
-*   Providing a key management system to automate key/cert generation, distribution, rotation, and revocation
+*   Providing a key management system to automate key and cert generation, distribution, rotation, and revocation
 
 *   Upcoming features:
     *   Powerful authorization mechanisms: [ABAC](https://docs.google.com/document/d/1U2XFmah7tYdmC5lWkk3D43VMAAQ0xkBatKmohf90ICA/edit), [RBAC](https://docs.google.com/document/d/1dKXUEOxrj4TWZKrW7fx_A-nrOdVD4tYolpjgT8DYBTY/edit), Authorization hooks.
@@ -84,7 +84,7 @@ For services running on VM/bare-metal machines, the above four operations are pe
 
 ## Workflow
 
-Istio Auth workflow consists of two phases, deployment and runtime. We discuss the first phase of the two scenarios separately since they are different. Once the key/cert are deployed, the runtime phase is the same for the two scenarios. We briefly cover the workflow in this section and a more detailed version can be found [here](https://docs.google.com/document/d/1Grz9B0KS0vxqhdI-18iAfHk76cKLQnrFz-9njopRIEE/edit).
+Istio Auth workflow consists of two phases, deployment and runtime. We discuss the first phase of the two scenarios separately since they are different. Once the key and cert are deployed, the runtime phase is the same for the two scenarios. We briefly cover the workflow in this section and a more detailed version can be found [here](https://docs.google.com/document/d/1Grz9B0KS0vxqhdI-18iAfHk76cKLQnrFz-9njopRIEE/edit).
 
 ### Deployment phase (Kubernetes Scenario)
 
