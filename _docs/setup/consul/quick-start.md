@@ -60,7 +60,7 @@ Quick Start instructions to install and configure Istio in a Docker Compose setu
    docker ps -a
    ```
 
-   > If the `Istio-Pilot` container terminates, re-run the command from the previous step.
+   > If the `Istio-Pilot` container terminates, ensure that you run the `istioctl context-create` comamnd and re-run the command from the previous step.
     
 
 ## Deploy your application
