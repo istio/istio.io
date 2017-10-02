@@ -20,7 +20,7 @@ type: markdown
 
 * _Automatic sidecar injection doesn't work for my microservice, how can I debug this?_
   
-  Please ensure your cluster has met the prerequisites for the automatic sidecar injection.  If your microservice is deployed in kube-system, kube-public or istio-system namespaces, they are exempted from automatic sidecar injection.  Please use a different namespace instead.
+  Please ensure your cluster has met the [prerequisites] (automatic-sidecar-inject.html#prerequisites) for the automatic sidecar injection.  If your microservice is deployed in kube-system, kube-public or istio-system namespaces, they are exempted from automatic sidecar injection.  Please use a different namespace instead.
   
 * _Can I migrate an existing installation from Istio v0.1.x to v0.2.x?_
   
