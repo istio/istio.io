@@ -133,35 +133,42 @@ To start the application, follow the instructions below corresponding to your Is
    reviews-v3-1813607990-8ch52                 2/2       Running   0          6m
    ```
 
-1. Determine the gateway ingress URL:
+#### Determining the ingress IP and Port
+
+1. If your Kubernetes cluster is running in an environment that supports external load balancers, the IP address of ingress can be  obtained by the following command:
 
    ```bash
    kubectl get ingress -o wide
    ```
-   
+
+   whose output should be similar to
+
    ```bash
    NAME      HOSTS     ADDRESS                 PORTS     AGE
    gateway   *         130.211.10.121          80        1d
    ```
 
-   If your Kubernetes cluster is running in an environment that supports external load balancers,
-   and the Istio ingress service was able to obtain an External IP, the ingress resource ADDRESS will be equal to the
-   ingress service external IP.
-
+   The address of the ingress service would then be
+   
    ```bash
    export GATEWAY_URL=130.211.10.121:80
    ```
-   
-   > Sometimes when the service is unable to obtain an external IP, the ingress ADDRESS may display a list
-   > of NodePort addresses. In this case, you can use any of the addresses, along with the NodePort, to access the ingress. 
-   > If, however, the cluster has a firewall, you will also need to create a firewall rule to allow TCP traffic to the NodePort.
-   > In GKE, for instance, you can create a firewall rule using the following command:
-   > ```bash
-   > gcloud compute firewall-rules create allow-book --allow tcp:$(kubectl get svc istio-ingress -o jsonpath='{.spec.ports[0].nodePort}')
-   > ```
 
-   If your deployment environment does not support external load balancers (e.g., minikube), the ADDRESS field will be empty.
-   In this case you can use the service NodePort instead:
+1. _GKE:_ Sometimes when the service is unable to obtain an external IP, `kubectl get ingress -o wide` may display a list of worker node addresses. In this case, you can use any of the addresses, along with the NodePort, to access the ingress. If the cluster has a firewall, you will also need to create a firewall rule to allow TCP traffic to the NodePort.
+
+   ```bash
+   export GATEWAY_URL=<workerNodeAddress>:$(kubectl get svc istio-ingress -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
+   gcloud compute firewall-rules create allow-book --allow tcp:$(kubectl get svc istio-ingress -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
+   ```
+
+1. _IBM Bluemix Free Tier:_ External load balancer is not available for kubernetes clusters in the free tier in Bluemix. You can use the public IP of the worker node, along with the NodePort, to access the ingress. The public IP of the worker node can be obtained from the output of the following command:
+
+   ```bash
+   bx cs workers <cluster-name or id>
+   export GATEWAY_URL=<public IP of the worker node>:$(kubectl get svc istio-ingress -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
+   ```
+
+1. _Minikube:_ External load balancers are not supported in Minikube. You can use the host IP of the ingress service, along with the NodePort, to access the ingress.
    
    ```bash
    export GATEWAY_URL=$(kubectl get po -n istio-system -l istio=ingress -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}')
