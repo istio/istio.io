@@ -154,7 +154,7 @@ In this setup, Istio CA is able to provide keys and certificates management for 
 
 *   Secure Istio components (Mixer, Pilot)
 
-*   End-user authentication
+*   End-user to service authentication using JWT/OAuth2/OpenID_Connect.
 
 *   Support GCP service account
 
