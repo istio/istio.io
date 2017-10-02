@@ -77,7 +77,7 @@ installation like [BookInfo]({{home}}/docs/guides/bookinfo.html).
 > Note 2: the application must use HTTP/1.1 or HTTP/2.0 protocol for all its HTTP traffic because HTTP/1.0 is not supported.
 
 ```bash
-docker-compose -f <your-app-spec>.yaml up -d)
+docker-compose -f <your-app-spec>.yaml up -d
 ```
 
 ## Uninstalling
