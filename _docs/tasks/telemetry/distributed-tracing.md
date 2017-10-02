@@ -159,6 +159,21 @@ When you make downstream calls in your applications, make sure to include these 
 
 ## Cleanup
 
+
+* Remove the addon tracing configuration:
+
+  If you are running with Zipkin, run the followign command to cleanup:
+
+  ```bash
+  kubectl delete -f install/kubernetes/addons/zipkin.yaml
+  ```
+
+  If you are running with Jaeger, run the followign command to cleanup:
+
+  ```bash
+  kubectl delete -f https://raw.githubusercontent.com/jaegertracing/jaeger-kubernetes/master/all-in-one/jaeger-all-in-one-template.yml
+  ```
+
 * If you are not planning to explore any follow-on tasks, refer to the
   [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
   to shutdown the application.
