@@ -243,14 +243,15 @@ uninstall and clean it up using the following instructions.
 
 ### Uninstall from Docker environment
 
-1. Showdown the application
+1. Delete the routing rules and application containers
 
-  ```bash
-  docker-compose -f samples/bookinfo/consul/bookinfo.yaml down
-  ```
+   ```bash
+   samples/bookinfo/consul/cleanup.sh
+   ```
 
-2. Cleanup rules
+2. Confirm cleanup
 
-  ```
-  TBD
-  ```
+   ```bash
+   istioctl get routerules   #-- there should be no more routing rules
+   kubectl get pods          #-- the BookInfo pods should be deleted
+   ```
