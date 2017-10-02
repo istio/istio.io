@@ -21,4 +21,15 @@ ReportNothing represents an empty block of data that is used for Report-capable
 adapters which don't require any parameters. This is primarily intended for testing
 scenarios.
 
+Example config:
+
+```
+apiVersion: "config.istio.io/v1alpha2"
+kind: reportnothing
+metadata:
+  name: reportrequest
+  namespace: istio-config-default
+spec:
+```
+
 NOTE: _No fields in this message type.__
