@@ -20,6 +20,22 @@ type: markdown
 ListEntry is used to verify the presence/absence of a string
 within a list.
 
+When writing the configuration, the value for the fields associated with this template can either be a
+literal or an [expression](https://istio.io/docs/reference/config/mixer/expression-language.html). Please note that if the datatype of a field is not istio.mixer.v1.config.descriptor.ValueType,
+then the expression's [inferred type](https://istio.io/docs/reference/config/mixer/expression-language.html#type-checking) must match the datatype of the field.
+
+Example config:
+
+```
+apiVersion: "config.istio.io/v1alpha2"
+kind: listentry
+metadata:
+  name: appversion
+  namespace: istio-config-default
+spec:
+  value: source.labels["version"]
+```
+
 <table>
  <tr>
   <th>Field</th>
