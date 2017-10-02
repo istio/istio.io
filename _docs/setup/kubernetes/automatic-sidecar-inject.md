@@ -28,17 +28,17 @@ cluster must satisfy the following requirements:
   traffic. Hence, ports using HTTPS should not use the prefixes specified
   above.
 
-1. _Deployments with app label:_ It is recommended that Pods deployed using
-   the Kubernetes `Deployment` have an explicit `app` label in the
-   Deployment specification. Each deployment specification should have a
-   distinct `app` label with a value indicating something meaningful. The
-   `app` label is used to add contextual information in distributed
-   tracing.
+1._Deployments with app label:_ It is recommended that Pods deployed using
+  the Kubernetes `Deployment` have an explicit `app` label in the
+  Deployment specification. Each deployment specification should have a
+  distinct `app` label with a value indicating something meaningful. The
+  `app` label is used to add contextual information in distributed
+  tracing.
 
-1. Finally, each pod in the mesh must be running an Istio compatible
-   sidecar. The following sections describe two ways of injecting the
-   Istio sidecar into a pod: automatically using the Istio Initializer and
-   manually using `istioctl` CLI tool.
+1.Finally, each pod in the mesh must be running an Istio compatible
+  sidecar. The following sections describe two ways of injecting the
+  Istio sidecar into a pod: automatically using the Istio Initializer and
+  manually using `istioctl` CLI tool.
 
 ## Automatic sidecar injection
 
@@ -281,39 +281,39 @@ data:
       imagePullPolicy: IfNotPresent
 ```
 
-1. _policy_
+1._policy_
 
-`off` - Disable the initializer from modifying resources. The pending
-`status.sidecar.istio.io initializer` initializer is still removed to
-avoid blocking creation of resources.
+ `off` - Disable the initializer from modifying resources. The pending
+ `status.sidecar.istio.io initializer` initializer is still removed to
+ avoid blocking creation of resources.
 
-`disabled` - The initializer will not inject the sidecar into
-resources by default for the namespace(s) being watched. Resources can
-enable injection using the `sidecar.istio.io/inject` annotation with
-value of `true`.
+ `disabled` - The initializer will not inject the sidecar into
+ resources by default for the namespace(s) being watched. Resources can
+ enable injection using the `sidecar.istio.io/inject` annotation with
+ value of `true`.
 
-`enabled` - The initializer will inject the sidecar into resources by
-default for the namespace(s) being watched. Resources can disable
-injection using the `sidecar.istio.io/inject` annotation with value of
-`false`.
+ `enabled` - The initializer will inject the sidecar into resources by
+ default for the namespace(s) being watched. Resources can disable
+ injection using the `sidecar.istio.io/inject` annotation with value of
+ `false`.
 
-2. _namespaces_
+2._namespaces_
 
-This is a list of namespaces to watch and initialize. The special `""`
-namespace corresponds to `v1.NamespaceAll` and configures the
-initializer to initialize all namespaces. kube-system, kube-public, and 
-istio-system are exempt from initialization.
+ This is a list of namespaces to watch and initialize. The special `""`
+ namespace corresponds to `v1.NamespaceAll` and configures the
+ initializer to initialize all namespaces. kube-system, kube-public, and 
+ istio-system are exempt from initialization.
 
-3. _initializerName_
+3._initializerName_
 
-This must match the name of the initializer in the
-InitializerConfiguration. The initializer only processes workloads
-that match its configured name.
+ This must match the name of the initializer in the
+ InitializerConfiguration. The initializer only processes workloads
+ that match its configured name.
 
-4. _params_
+4._params_
 
-These parameters allow you to make limited changes to the injected sidecar. Changing these values will not affect already deployed
-workloads.
+ These parameters allow you to make limited changes to the injected
+ sidecar. Changing these values will not affect already deployed workloads.
 
 ### Overriding automatic injection
 
@@ -340,7 +340,7 @@ per-workload overrides.
 | enabled  | false               | no       |
 | enabled  | true                | yes      |
 
-### Cleanup
+### Uninstall
 
 ```bash
 kubectl delete -f install/kubernetes/istio-initializer.yaml
