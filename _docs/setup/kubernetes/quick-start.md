@@ -17,7 +17,7 @@ Quick Start instructions to install and configure Istio in a Kubernetes cluster.
 
 The following instructions assume you have access to a Kubernetes **1.7.4 or newer** cluster
 with [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/) enabled.
-If you wish to enable [automatic injection of sidecar]({{home}}/docs/setup/kubernetes/automatic-sidecar-inject.html), you need to turn on Kubernetes alpha features in your cluster.
+If you wish to enable [automatic injection of sidecar]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection), you need to turn on Kubernetes alpha features in your cluster.
 
   > Note: If you installed Istio 0.1.x,
   > [uninstall](https://istio.io/v-0.1/docs/tasks/installing-istio.html#uninstalling)
@@ -118,7 +118,7 @@ run the following command to download and extract the latest release automatical
   and deploy Istio-Pilot, Istio-Mixer, Istio-Ingress, Istio-Egress, and Istio-CA (Certificate Authority).
 
 1. *Optional:* If your cluster has Kubernetes alpha features enabled, and you wish to enable a
-   [automatic injection of sidecar]({{home}}/docs/setup/kubernetes/automatic-sidecar-inject.html), install the Istio-Initializer:
+   [automatic injection of sidecar]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection), install the Istio-Initializer:
   ```bash
   kubectl apply -f install/kubernetes/istio-initializer.yaml
   ```
@@ -163,7 +163,7 @@ You can now deploy your own application or one of the sample applications provid
 installation like [BookInfo]({{home}}/docs/guides/bookinfo.html).
 Note: the application must use HTTP/1.1 or HTTP/2.0 protocol for all its HTTP traffic because HTTP/1.0 is not supported.
 
-If you started the [Istio-Initializer]({{home}}/docs/setup/kubernetes/automatic-sidecar-inject.html),
+If you started the [Istio-Initializer]({{home}}/docs/setup/kubernetes/sidecar-injection.html),
 as shown above, you can deploy the application directly using `kubectl create`. The Istio-Initializer
 will automatically inject Envoy containers into your application pods:
   ```bash
