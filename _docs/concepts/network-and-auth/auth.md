@@ -28,7 +28,7 @@ Istio Auth's aim is to enhance the security of microservices and their communica
 
 ## Architecture
 
-The diagram below shows the architecture of Istio Auth, which includes three important components: identity, key management, and communication security. This diagram describes how Istio Auth is used to secure the service-to-service communication between service ‘frontend’ running as the service account “frontend-team” and service ‘backend’’ running as the service account “backend-team”. Istio supports services running on both Kubernetes containers and VM/Bare-metal machines.
+The diagram below shows Istio Auth's architecture, which includes three primary components: identity, key management, and communication security. This diagram describes how Istio Auth is used to secure the service-to-service communication between service 'frontend' running as the service account 'frontend-team' and service 'backend' running as the service account 'backend-team'. Istio supports services running on both Kubernetes containers and VM/bare-metal machines.
 
 <figure><img src="./img/auth/auth.svg" alt="Components making up the Istio auth model." title="Istio Auth Architecture" />
 <figcaption>Istio Auth Architecture</figcaption></figure>
@@ -67,9 +67,9 @@ Service-to-service communication is tunneled through the client side [Envoy](htt
 
 ### Key management
 
-Istio v0.2 supports services running on both Kubernetes pods and VM/bare-metal machines. We use different key provisioning mechanism for the two scenarios.
+Istio v0.2 supports services running on both Kubernetes pods and VM/bare-metal machines. We use different key provisioning mechanisms for each scenario.
 
-For services running on Kubernetes pods, the per-cluster Istio CA (Certificate Authority) automates the key & certificate management process. It mainly performs 4 critical operations :
+For services running on Kubernetes pods, the per-cluster Istio CA (Certificate Authority) automates the key & certificate management process. It mainly performs four critical operations :
 
 
 *   Generate a [SPIFFE](https://spiffe.github.io/docs/svid) key and certificate pair for each service account
@@ -84,7 +84,7 @@ For services running on VM/bare-metal machines, the above four operations are pe
 
 ## Workflow
 
-Istio Auth workflow consists of two phases, deployment and runtime. We discuss the first phase of the two scenarios separately since they are different. Once the key and certificate are deployed, the runtime phase is the same for the two scenarios. We briefly cover the workflow in this section and a more detailed version can be found [here](https://docs.google.com/document/d/1Grz9B0KS0vxqhdI-18iAfHk76cKLQnrFz-9njopRIEE/edit).
+The Istio Auth workflow consists of two phases, deployment and runtime. For the deployment phase, we discuss the two scenarios (i.e., in Kubernetes and VM/bare-metal machines) separately since they are different. Once the key and certificate are deployed, the runtime phase is the same for the two scenarios. We briefly cover the workflow in this section.
 
 ### Deployment phase (Kubernetes Scenario)
 
@@ -97,7 +97,7 @@ Istio Auth workflow consists of two phases, deployment and runtime. We discuss t
 which
  defines what service account(s) can run a certain service, and passes it to Envoy. 
 
-### Deployment phase (VM/Bare-metal Machines Scenario)
+### Deployment phase (VM/bare-metal Machines Scenario)
 
 
 1.  Istio CA creates a gRPC service to take CSR request.
