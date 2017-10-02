@@ -85,12 +85,7 @@ Istio release. Alternatively, these components can be run as Docker
 containers (docker.io/istio/pilot, docker.io/istio/mixer,
 docker.io/istio/istio-ca). Note that these components are stateless and can
 be scaled horizontally. Each of these components depends on the Istio API
-server, which in turn depends on the etcd cluster for persistence. To
-achieve high availability, each control plane service could be run as a
-[job](https://www.nomadproject.io/docs/job-specification/index.html) in
-Nomad, where the
-[service stanza](https://www.nomadproject.io/docs/job-specification/service.html)
-can be used to describe the desired properties of the control plane services.
+server, which in turn depends on the etcd cluster for persistence.
 
 
 ## Adding Sidecars to Service Instances
@@ -101,18 +96,6 @@ containers, VM, bare metal nodes), the Istio sidecar needs to be installed
 into these components.  For example, if your infrastructure uses VMs, the
 Istio sidecar process must be run on each VM that needs to be part of the
 service mesh.
-
-One way to package the sidecars into a Nomad-based deployment is to add the
-Istio sidecar process as a task in a
-[task group](https://www.nomadproject.io/docs/job-specification/group.html). A
-task group is a collection of one or more related tasks that are guaranteed to be
-colocated on the same host. However, unlike Kubernetes Pods, tasks in a
-group do not share the same network namespace. Hence, care must be taken to
-ensure that only one task group is run per host, when using `iptables`
-rules to transparently re-route all network traffic via the Istio
-sidecar. When support for non-transparent proxying (application explicitly
-talks to the sidecar) is available in Istio, this restriction will no
-longer apply.
 
 ## Routing traffic through Istio Sidecar
 
