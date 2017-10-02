@@ -2,4 +2,5 @@
 title: Service Mesh
 type: markdown
 ---
-A collection of services interconnected through Istio's fleet of proxies.
+A shared set of names and identities that allows for common policy enforcement and telemetry collection.
+**Service Names** and **Workload Principals** are unique within a **Service Mesh**.
