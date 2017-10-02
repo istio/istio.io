@@ -55,4 +55,12 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | response.size | int64 | Size of the response body in bytes | |
 | response.time | timestamp | The timestamp when the destination produced the response. | |
 | response.duration | duration | The amount of time the response took to generate. | |
-| response.code | int64 | The response's HTTP status code | |
+| response.code | int64 | The response's HTTP status code. | |
+| connection.id | string | An ID for a TCP connection with statistically low probability of collision. | |
+| connection.received.bytes | int64 | Number of bytes received by a destination service on a connection since the last Report() for a connection. | |
+| connection.received.bytes_total | int64 | Total number of bytes received by a destination service during the lifetime of a connection. | |
+| connection.sent.bytes | int64 | Number of bytes sent by a destination service on a connection since the last Report() for a connection. | |
+| connection.sent.bytes_total | int64 | Total number of bytes sent by a destination service during the lifetime of a connection. | |
+| connection.duration | duration | The total amount of time a connection has been open. | |
+| context.protocol | string | Protocol of the request or connection being proxied. | tcp |
+| context.time | timestamp | The timestamp of the Report() call. | |
