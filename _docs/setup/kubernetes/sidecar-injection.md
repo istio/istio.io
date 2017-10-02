@@ -14,11 +14,11 @@ type: markdown
 In order to be a part of the service mesh, each pod in the kubernetes
 cluster must satisfy the following requirements:
 
-1._Service association:_ The pod must belong to a _single_
+1._**Service association**:_ The pod must belong to a _single_
   [Kubernetes Service](https://kubernetes.io/docs/concepts/services-networking/service/)
   (pods that belong to multiple services are not supported as of now).
 
-1._Named ports:_ Service ports must be named. The port names must begin
+1._**Named ports**:_ Service ports must be named. The port names must begin
   with _http_, _http2_, _grpc_, or _mongo_ prefix in order to take advantage
   of Istio's routing features. For example, `name: http2-foo` or `name: http`
   are valid port names.  If the port name does not begin with a recognized
@@ -28,18 +28,18 @@ cluster must satisfy the following requirements:
   traffic. Hence, ports using HTTPS should not use the prefixes specified
   above.
 
-1._Deployments with app label:_ It is recommended that Pods deployed using
+1._**Deployments with app label**:_ It is recommended that Pods deployed using
   the Kubernetes `Deployment` have an explicit `app` label in the
   Deployment specification. Each deployment specification should have a
   distinct `app` label with a value indicating something meaningful. The
   `app` label is used to add contextual information in distributed
   tracing.
 
-1.Finally, each pod in the mesh must be running an Istio compatible
-  sidecar. The following sections describe two ways of injecting the Istio
-  sidecar into a pod: manually using `istioctl` CLI tool or automatically
-  using the Istio Initializer.  Note that the sidecar is not involved in
-  traffic between containers in the same pod.
+1._**Sidecar in every pod in mesh**:_ Finally, each pod in the mesh must be
+  running an Istio compatible sidecar. The following sections describe two
+  ways of injecting the Istio sidecar into a pod: manually using `istioctl`
+  CLI tool or automatically using the Istio Initializer.  Note that the
+  sidecar is not involved in traffic between containers in the same pod.
 
 ## Manual sidecar injection
 
@@ -275,7 +275,9 @@ data:
       imagePullPolicy: IfNotPresent
 ```
 
-1._policy_
+The following are key parameters in the configuration:
+
+1._**policy**_
 
  `off` - Disable the initializer from modifying resources. The pending
  `status.sidecar.istio.io initializer` initializer is still removed to
@@ -291,20 +293,20 @@ data:
  injection using the `sidecar.istio.io/inject` annotation with value of
  `false`.
 
-2._namespaces_
+2._**namespaces**_
 
  This is a list of namespaces to watch and initialize. The special `""`
  namespace corresponds to `v1.NamespaceAll` and configures the
  initializer to initialize all namespaces. kube-system, kube-public, and 
  istio-system are exempt from initialization.
 
-3._initializerName_
+3._**initializerName**_
 
  This must match the name of the initializer in the
  InitializerConfiguration. The initializer only processes workloads
  that match its configured name.
 
-4._params_
+4._**params**_
 
  These parameters allow you to make limited changes to the injected
  sidecar. Changing these values will not affect already deployed workloads.
@@ -334,8 +336,14 @@ per-workload overrides.
 | enabled  | false               | no       |
 | enabled  | true                | yes      |
 
-### Uninstall Initializer
+### Uninstalling Initializer
+
+To remove the Istio initializer, run the following command:
 
 ```bash
 kubectl delete -f install/kubernetes/istio-initializer.yaml
 ```
+
+Note that the above command will not remove the injected sidecars from
+Pods. To remove the sidecars, the pods must be redeployed without the
+initializer.
