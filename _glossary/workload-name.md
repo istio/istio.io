@@ -1,5 +1,5 @@
 ---
-title: Workload
+title: Workload Name
 type: markdown
 ---
 A unique name for a **Workload**, identifying it within the **Service Mesh**.
