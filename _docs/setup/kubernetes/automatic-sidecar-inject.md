@@ -72,38 +72,31 @@ minikube start \
 kubectl apply -f install/kubernetes/istio-initializer.yaml
 ```
 
-This creates four resources: Deployment, ConfigMap, InitializerConfiguration, and ServiceAccount
+This creates the following resources:
 
-### InitializerConfiguration
+1. The `istio-sidecar` InitializerConfiguration resource that 
+specifies resources where Istio sidecar should be injected. By default
+the Istio sidecar will be injected into `deployments`, `statefulsets`, `jobs`, and `daemonsets`.
 
-The `istio-sidecar` InitializerConfiguration configures what resources are subject to
-initialization. By default `deployments`, `statefulsets`, `jobs`, and
-`daemonsets` are enabled.
+1. The `istio-inject` ConfigMap with the default injection policy for the
+initializer, a set of namespaces to initialize, and template parameters to
+use during the injection itself. These options are explained in more detail
+under
+[additional configuration options](#additional-configuration-options).
 
-### ConfigMap
+1. The `istio-initializer` Deployment that runs the initializer controller.
 
-The `istio-inject` ConfigMap contains the default injection
-policy for the initializer, namespace(s) to initialize, and template
-parameters to use during the injection itself. These options are
-explained in more detail under [additional configuration options](#additional-configuration-options).
-
-### Deployment
-
-The `istio-initializer` Deployment runs the initializer controller.
-
-### ServiceAccount
-
-The `istio-initializer-service-account` ServiceAccount is used by the
+1. The `istio-initializer-service-account` ServiceAccount that is used by the
 `istio-initializer` deployment. The `ClusterRole` and
 `ClusterRoleBinding` are defined in `install/kubernetes/istio.yaml`. Note
 that `initialize` and `patch` are required on _all_ workload resource
 types. It is for this reason that the initializer is run as its own
 deployment and not embedded in another controller, e.g. istio-pilot.
 
-## Automatic injection
+## Testing the injection
 
-Example deployment and service to demonstrate this task. Save this as
-`apps.yaml`.
+In order to test whether sidecar injection is working, save the following
+YAML snippet into `apps.yaml`:
 
 ```yaml
 apiVersion: v1
@@ -261,15 +254,15 @@ data:
     namespaces: [""] # everything, aka v1.NamepsaceAll, aka cluster-wide
     initializerName: "sidecar.initializer.istio.io"
     params:
-      initImage: docker.io/istio/proxy_init:0.2.4
-      proxyImage: docker.io/istio/proxy:0.2.4
+      initImage: docker.io/istio/proxy_init:0.2.6
+      proxyImage: docker.io/istio/proxy:0.2.6
       verbosity: 2
-      version: 0.2.4
+      version: 0.2.6
       meshConfigMapName: istio
       imagePullPolicy: IfNotPresent
 ```
 
-### _policy_
+1. _policy_
 
 `off` - Disable the initializer from modifying resources. The pending
 `status.sidecar.istio.io initializer` initializer is still removed to
@@ -285,7 +278,26 @@ default for the namespace(s) being watched. Resources can disable
 injection using the `sidecar.istio.io/inject` annotation with value of
 `false`.
 
-##### workload overrides
+2. _namespaces_
+
+This is a list of namespaces to watch and initialize. The special `""`
+namespace corresponds to `v1.NamespaceAll` and configures the
+initializer to initialize all namespaces. kube-system, kube-public, and 
+istio-system are exempt from initialization.
+
+3. _initializerName_
+
+This must match the name of the initializer in the
+InitializerConfiguration. The initializer only processes workloads
+that match its configured name.
+
+4. _params_
+
+These parameters allow you to make limited changes to the injected sidecar
+proxy. Changing these values will not affect already deployed
+workloads.
+
+## Overriding automatic injection
 
 Individual workloads can override the global policy using the
 `sidecar.istio.io/inject` annotation. The global policy applies
@@ -303,31 +315,12 @@ per-workload overrides.
 |  policy  | workload annotation | injected |
 | -------- | ------------------- | -------- |
 | off      | N/A                 | no       |
-| disabled | omitted          | no       |
+| disabled | omitted             | no       |
 | disabled | false               | no       |
 | disabled | true                | yes      |
-| enabled  | omitted                | yes      |
+| enabled  | omitted             | yes      |
 | enabled  | false               | no       |
 | enabled  | true                | yes      |
-
-### _namespaces_
-
-This is a list of namespaces to watch and initialize. The special `""`
-namespace corresponds to `v1.NamespaceAll` and configures the
-initializer to initialize all namespaces. kube-system, kube-public, and 
-istio-system are exempt from initialization.
-
-### _initializerName_
-
-This must match the name of the initializer in the
-InitializerConfiguration. The initializer only processes workloads
-that match its configured name.
-
-### _params_
-
-These parameters allow you to make limited changes to the injected sidecar
-proxy. Changing these values will not affect already deployed
-workloads.
 
 ## Cleanup
 
