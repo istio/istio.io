@@ -2,7 +2,7 @@
 title: Mixer Service
 overview: Generated documentation for Mixer's API Surface
 
-order: 1140
+order: 20
 
 layout: docs
 type: markdown
@@ -60,18 +60,16 @@ both the service operator as well as for service consumers.
 
 <a name="istio.mixer.v1.Mixer.Check"></a>
 #### Check
-<code>
-  rpc Check([CheckRequest](#istio.mixer.v1.CheckRequest)) returns ([CheckResponse](#istio.mixer.v1.CheckResponse))
-</code>
+<pre> rpc Check(<a href="#istio.mixer.v1.CheckRequest">CheckRequest</a>) returns (<a href="istio.mixer.v1.CheckResponse">CheckResponse</a>) </pre>
+
 Checks preconditions and allocate quota before performing an operation.
 The preconditions enforced depend on the set of supplied attributes and
 the active configuration.
 
 <a name="istio.mixer.v1.Mixer.Report"></a>
 #### Report
-<code>
-  rpc Report([ReportRequest](#istio.mixer.v1.ReportRequest)) returns ([ReportResponse](#istio.mixer.v1.ReportResponse))
-</code>
+<pre> rpc Report(<a href="#istio.mixer.v1.ReportRequest">ReportRequest</a>) returns (<a href="#istio.mixer.v1.ReportResponse">ReportResponse</a>) </pre>
+
 Reports telemetry, such as logs and metrics.
 The reported information depends on the set of supplied attributes and the
 active configuration.
@@ -396,9 +394,9 @@ How an attribute's value was matched
   <th>Value</th>
   <th>Description</th>
  </tr>
-<a name="istio.mixer.v1.ReferencedAttributes.Condition.CONDITIONUNSPECIFIED"></a>
+<a name="istio.mixer.v1.ReferencedAttributes.Condition.CONDITION_UNSPECIFIED"></a>
  <tr>
-  <td>CONDITIONUNSPECIFIED</td>
+  <td>CONDITION_UNSPECIFIED</td>
   <td>should not occur</td>
  </tr>
 <a name="istio.mixer.v1.ReferencedAttributes.Condition.ABSENCE"></a>
