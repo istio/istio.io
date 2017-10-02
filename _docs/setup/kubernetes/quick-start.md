@@ -17,7 +17,7 @@ Quick Start instructions to install and configure Istio in a Kubernetes cluster.
 
 The following instructions assume you have access to a Kubernetes **1.7.4 or newer** cluster
 with [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/) enabled.
-If you wish to enable [automatic injection of sidecar]({{home}}/docs/setup/kubernetes/sidecar-injection.html:automaticsidecarinjection), you need to turn on Kubernetes alpha features in your cluster.
+If you wish to enable [automatic injection of sidecar]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-inject), you need to turn on Kubernetes alpha features in your cluster.
 
   > Note: If you installed Istio 0.1.x,
   > [uninstall](https://istio.io/v-0.1/docs/tasks/installing-istio.html#uninstalling)
@@ -118,7 +118,7 @@ run the following command to download and extract the latest release automatical
   and deploy Istio-Pilot, Istio-Mixer, Istio-Ingress, Istio-Egress, and Istio-CA (Certificate Authority).
 
 1. *Optional:* If your cluster has Kubernetes alpha features enabled, and you wish to enable a
-   [automatic injection of sidecar]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automaticsidecarinjection), install the Istio-Initializer:
+   [automatic injection of sidecar]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-inject), install the Istio-Initializer:
   ```bash
   kubectl apply -f install/kubernetes/istio-initializer.yaml
   ```
