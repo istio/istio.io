@@ -36,9 +36,89 @@ cluster must satisfy the following requirements:
   tracing.
 
 1.Finally, each pod in the mesh must be running an Istio compatible
-  sidecar. The following sections describe two ways of injecting the
-  Istio sidecar into a pod: automatically using the Istio Initializer and
-  manually using `istioctl` CLI tool.
+  sidecar. The following sections describe two ways of injecting the Istio
+  sidecar into a pod: manually using `istioctl` CLI tool or automatically
+  using the Istio Initializer.  Note that the sidecar is not involved in
+  traffic between containers in the same pod.
+
+## Manual sidecar injection
+
+The `istioctl` CLI has a convenience utility called
+[kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject)
+that can be used to add the Istio sidecar specification into kubernetes
+workload specifications. Unlike the Initializers, `kube-inject` merely
+transforms the YAML specification to include the Istio sidecar. You are
+responsible for deploying the modified YAMLs using standard tools like
+`kubectl`. For example, the following command adds the sidecars into pods
+specified in sleep.yaml and submits the modified specification to Kubernetes:
+
+```bash
+kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
+```
+
+### Example
+
+Let us try to inject the Istio sidecar into a simple sleep service.
+
+```bash
+kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
+```
+
+Kube-inject subcommand adds the Istio sidecar and the init container to the
+deployment specification as shown in the transformed output below:
+
+```yaml
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    sidecar.istio.io/status: injected-version-root@69916ebba0fc-0.2.6-081ffece00c82cb9de33cd5617682999aee5298d
+  name: sleep
+spec:
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/status: injected-version-root@69916ebba0fc-0.2.6-081ffece00c82cb9de33cd5617682999aee5298d
+      labels:
+        app: sleep
+    spec:
+      containers:
+      - name: sleep
+        image: tutum/curl
+        command: ["/bin/sleep","infinity"]
+        imagePullPolicy: IfNotPresent
+      - name: istio-proxy
+        image: docker.io/istio/proxy_debug:0.2.6
+        args:
+        ... trimmed ...
+      initContainers:
+      - name: istio-init
+        image: docker.io/istio/proxy_init:0.2.6
+        imagePullPolicy: IfNotPresent
+        args:
+        ... trimmed ...
+---
+```
+
+The crux of sidecar injection lies in the `initContainers` and the
+istio-proxy container. The output above has been trimmed for brevity.
+
+Verify that service-one's deployment contains the sidecar. The
+injected version corresponds to the image TAG of the injected sidecar
+image. It may be different in your setup.
+
+```bash
+$ echo $(kubectl get deployment sleep -o jsonpath='{.metadata.annotations.sidecar\.istio\.io\/status}')
+injected-version-9c7c291eab0a522f8033decd0f5b031f5ed0e126
+```
+
+You can view the full deployment with injected containers and volumes.
+
+```bash
+kubectl get deployment sleep -o yaml
+```
 
 ## Automatic sidecar injection
 
@@ -114,80 +194,14 @@ deployment and not embedded in another controller, e.g. istio-pilot.
 
 ### Verification
 
-In order to test whether sidecar injection is working, save the following
-YAML snippet into `apps.yaml`:
-
-```yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: service-one
-  labels:
-    app: service-one
-spec:
-  ports:
-  - port: 80
-    targetPort: 8080
-    name: http
-  selector:
-    app: service-one
----
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: service-one
-spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: service-one
-    spec:
-      containers:
-      - name: app
-        image: gcr.io/google_containers/echoserver:1.4
-        ports:
-        - containerPort: 8080
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: service-two
-  labels:
-    app: service-two
-spec:
-  ports:
-  - port: 80
-    targetPort: 8080
-    name: http-status
-  selector:
-    app: service-two
----
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: service-two
-spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: service-two
-    spec:
-      containers:
-      - name: app
-        image: gcr.io/google_containers/echoserver:1.4
-        ports:
-        - containerPort: 8080
-```
-
-Create the deployments and services.
+In order to test whether sidecar injection is working, let us take the
+sleep service described above. Create the deployments and services.
 
 ```bash
-kubectl apply -f apps.yaml
+kubectl apply -f samples/sleep/sleep.yaml
 ```
 
-Verify that service-one's deployment had the sidecar injected. The
+You can verify that sleep's deployment contains the sidecar. The
 injected version corresponds to the image TAG of the injected sidecar
 image. It may be different in your setup.
 
@@ -201,26 +215,6 @@ You can view the full deployment with injected containers and volumes.
 ```bash
 kubectl get deployment service-one -o yaml
 ```
-
-<!-- Make a request from the client (service-one) to the server -->
-<!-- (service-two) and verify the `x-request-id` appears in the server -->
-<!-- proxy logs. -->
-
-<!-- ```bash -->
-<!-- CLIENT=$(kubectl get pod -l app=service-one -o jsonpath='{.items[0].metadata.name}') -->
-<!-- SERVER=$(kubectl get pod -l app=service-two -o jsonpath='{.items[0].metadata.name}') -->
-
-<!-- kubectl exec -it ${CLIENT} -c app -- curl service-two:80 | grep x-request-id -->
-<!-- ``` -->
-<!-- ```bash -->
-<!-- x-request-id=a641eff7-eb82-4a4f-b67b-53cd3a03c399 -->
-<!-- ``` -->
-<!-- ```bash -->
-<!-- kubectl logs ${CLIENT} istio-proxy | grep a641eff7-eb82-4a4f-b67b-53cd3a03c399 -->
-<!-- ``` -->
-<!-- ```bash -->
-<!-- [2017-05-01T22:08:39.310Z] "GET / HTTP/1.1" 200 - 0 398 3 3 "-" "curl/7.47.0" "a641eff7-eb82-4a4f-b67b-53cd3a03c399" "service-two" "10.4.180.7:8080" -->
-<!-- ``` -->
 
 ### Understanding what happened
 
@@ -340,7 +334,7 @@ per-workload overrides.
 | enabled  | false               | no       |
 | enabled  | true                | yes      |
 
-### Uninstall
+### Uninstall Initializer
 
 ```bash
 kubectl delete -f install/kubernetes/istio-initializer.yaml
