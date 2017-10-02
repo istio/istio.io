@@ -18,7 +18,7 @@ Istio Auth's aim is to enhance the security of microservices and their communica
 
 *   Securing service to service communication and end-user to service communication
 
-*   Providing a key management system to automate key and cert generation, distribution, rotation, and revocation
+*   Providing a key management system to automate key and certificate generation, distribution, rotation, and revocation
 
 *   Upcoming features:
     *   Powerful authorization mechanisms: [ABAC](https://docs.google.com/document/d/1U2XFmah7tYdmC5lWkk3D43VMAAQ0xkBatKmohf90ICA/edit), [RBAC](https://docs.google.com/document/d/1dKXUEOxrj4TWZKrW7fx_A-nrOdVD4tYolpjgT8DYBTY/edit), Authorization hooks.
@@ -33,7 +33,7 @@ The diagram below shows the architecture of Istio Auth, which includes three imp
 <figure><img src="./img/auth/auth.svg" alt="Components making up the Istio auth model." title="Istio Auth Architecture" />
 <figcaption>Istio Auth Architecture</figcaption></figure>
 
-As illustrated in the diagram, Istio Auth leverages secret volume mount to deliver keys/certs from Istio CA to Kubernetes containers. For services running on VM/bare-metal machines, we introduce a node agent, which is a process running on each VM/bare-metal machine. It generates the private key and CSR (cert signing request) locally, sends CSR to Istio CA for signing, and delivers the generated cert together with the private key to Envoy.
+As illustrated in the diagram, Istio Auth leverages secret volume mount to deliver keys/certs from Istio CA to Kubernetes containers. For services running on VM/bare-metal machines, we introduce a node agent, which is a process running on each VM/bare-metal machine. It generates the private key and CSR (certificate signing request) locally, sends CSR to Istio CA for signing, and delivers the generated certificate together with the private key to Envoy.
 
 
 
@@ -69,7 +69,7 @@ Service-to-service communication is tunneled through the client side [Envoy](htt
 
 Istio v0.2 supports services running on both Kubernetes pods and VM/bare-metal machines. We use different key provisioning mechanism for the two scenarios.
 
-For services running on Kubernetes pods, the per-cluster Istio CA (Certificate Authority) automates the key & cert management process. It mainly performs 4 critical operations :
+For services running on Kubernetes pods, the per-cluster Istio CA (Certificate Authority) automates the key & certificate management process. It mainly performs 4 critical operations :
 
 
 *   Generate a [SPIFFE](https://spiffe.github.io/docs/svid) key and certificate pair for each service account
@@ -84,7 +84,7 @@ For services running on VM/bare-metal machines, the above four operations are pe
 
 ## Workflow
 
-Istio Auth workflow consists of two phases, deployment and runtime. We discuss the first phase of the two scenarios separately since they are different. Once the key and cert are deployed, the runtime phase is the same for the two scenarios. We briefly cover the workflow in this section and a more detailed version can be found [here](https://docs.google.com/document/d/1Grz9B0KS0vxqhdI-18iAfHk76cKLQnrFz-9njopRIEE/edit).
+Istio Auth workflow consists of two phases, deployment and runtime. We discuss the first phase of the two scenarios separately since they are different. Once the key and certificate are deployed, the runtime phase is the same for the two scenarios. We briefly cover the workflow in this section and a more detailed version can be found [here](https://docs.google.com/document/d/1Grz9B0KS0vxqhdI-18iAfHk76cKLQnrFz-9njopRIEE/edit).
 
 ### Deployment phase (Kubernetes Scenario)
 
@@ -104,9 +104,9 @@ which
 
 1.  Node agent creates the private key and CSR, sends the CSR to Istio CA for signing.
 
-1.  Istio CA validates the credentials carried in the CSR, and signs the CSR to generate the cert.
+1.  Istio CA validates the credentials carried in the CSR, and signs the CSR to generate the certificate.
 
-1.  Node agent puts the cert received from CA and the private key to Envoy.
+1.  Node agent puts the certificate received from CA and the private key to Envoy.
 
 1.  The above CSR process repeats periodically for rotation.
 
