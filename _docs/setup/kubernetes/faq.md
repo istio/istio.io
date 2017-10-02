@@ -1,6 +1,6 @@
 ---
 title: FAQ
-overview: Frequently asked questions, current limitations and troubleshooting tips on this tipic.
+overview: Frequently asked questions, current limitations and troubleshooting tips on this topic.
 
 order: 100
 
@@ -19,4 +19,4 @@ type: markdown
   
 * _If I delete Istio v0.1 and install Istio v0.2 on my cluster, will my microservices continue to work with the new Istio? _
  
-  Sorry, you will have to uninstll your microservices and reinstall them to ensure they are managed properly by Istio v0.2 with the new envoy sidecar. 
+  Sorry, you will have to uninstll your microservices and reinstall them to ensure they are managed properly by Istio v0.2.
