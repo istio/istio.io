@@ -9,14 +9,15 @@ type: markdown
 ---
 {% include home.html %}
 
-* _How to check if my cluster has the alpha feature required by automatic sidecar injection?_
+* _How do I check if my cluster has enabled the alpha features required for automatic sidecar injection?_
 
-  Automatic sidecar injection requires the [initilizer alpha feature] (https://kubernetes.io/docs/admin/extensible-admission-controllers/#enable-initializers-alpha-feature).  You can execute ```kubectl api-versions | grep admissionregistration``` to check if your cluster has the initializer alpha feature enabled.
-
-* _Is there a migration between v0.1 to v0.2?_
-  
-  Sorry, there is no migration between v0.1 to v0.2.  You must uninstall Istio v0.1 and install Istio v0.2.
-  
-* _If I delete Istio v0.1 and install Istio v0.2 on my cluster, will my microservices continue to work with the new Istio? _
+  Automatic sidecar injection requires the [initilizer alpha feature] (https://kubernetes.io/docs/admin/extensible-admission-controllers/#enable-initializers-alpha-feature).
+  Run the following command to check if the initializer has been enabled (empty output indicates that initializers are not enabled):
  
-  Sorry, you will have to uninstll your microservices and reinstall them to ensure they are managed properly by Istio v0.2.
+  ```bash
+  kubectl api-versions | grep admissionregistration
+  ```
+
+* _Can I migrate an existing installation from Istio v0.1.x to v0.2.x?_
+  
+  Upgrading from Istio 0.1.x to 0.2.x is not supported. You must uninstall Istio v0.1, _including pods with Istio sidecars_ and start with a fresh install of Istio v0.2.
