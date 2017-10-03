@@ -40,12 +40,6 @@ Quick Start instructions to install and configure Istio in a Docker Compose setu
    export PATH=$PWD/bin:$PATH
    ```
 
-1. Generate a configuration file which will be used by Istio Pilot
-
-    ```bash
-    istioctl context-create --api-server http://172.28.0.13:8080
-    ```
-
 1. For Linux users, configure the `DOCKER_GATEWAY` environment variable
 
    ```bash
@@ -66,12 +60,12 @@ Quick Start instructions to install and configure Istio in a Docker Compose setu
    docker ps -a
    ```
 
-   > If the Istio Pilot container terminates, ensure that you run the `istioctl context-create` comamnd and re-run the command from the previous step.
+   > If the Istio Pilot container terminates, ensure that you run the `istioctl context-create` command and re-run the command from the previous step.
     
 1. Configure `istioctl` to use mapped local port for the Istio API server:
 
     ```bash
-    istioctl context-create --context istio-local --api-server http://localhost:8080
+    istioctl context-create --api-server http://localhost:8080
     ```
 
 ## Deploy your application
