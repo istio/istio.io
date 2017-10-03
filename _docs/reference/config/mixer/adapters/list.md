@@ -90,14 +90,14 @@ type: markdown
   <td>STRINGS</td>
   <td>List entries are treated as plain strings.</td>
  </tr>
-<a name="adapter.list.config.Params.ListEntryType.CASEINSENSITIVESTRINGS"></a>
+<a name="adapter.list.config.Params.ListEntryType.CASE_INSENSITIVE_STRINGS"></a>
  <tr>
-  <td>CASEINSENSITIVESTRINGS</td>
+  <td>CASE_INSENSITIVE_STRINGS</td>
   <td>List entries are treated as case-insensitive strings.</td>
  </tr>
-<a name="adapter.list.config.Params.ListEntryType.IPADDRESSES"></a>
+<a name="adapter.list.config.Params.ListEntryType.IP_ADDRESSES"></a>
  <tr>
-  <td>IPADDRESSES</td>
+  <td>IP_ADDRESSES</td>
   <td>List entries are treated as IP addresses and ranges.</td>
  </tr>
 </table>
