@@ -42,6 +42,10 @@ The figure below shows the Istio Auth architecture, which includes three compone
 When running on Kubernetes, Istio Auth uses [Kubernetes service accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) to identify who runs the service because of the following reasons:
 
 
+*   A service account in Istio has the format "spiffe://\<_domain_\>/ns/\<_namespace_>/sa/\<_serviceaccount_\>".
+    *   _domain_ is currently _cluster.local_. We will support customization of domain in the near future.
+    *   _namespace_ is the namespace of the Kubernetes service account.
+    *   _serviceaccount_ is the Kubernetes service account name.
 
 *   A service account is **the identity (or role) a workload runs as**, which represents that workload's privileges. For systems requiring strong security, the amount of privilege for a workload should not be identified by a random string (i.e., service name, label, etc), or by the binary that is deployed.
 
