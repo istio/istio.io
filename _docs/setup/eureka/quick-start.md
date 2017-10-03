@@ -40,24 +40,12 @@ Quick Start instructions to install and configure Istio in a Docker Compose setu
    export PATH=$PWD/bin:$PATH
    ```
 
-1. Generate a configuration file which will be used by Istio Pilot
-
-    ```bash
-    istioctl context-create --api-server http://172.28.0.13:8080
-    ```
-
-1. For Linux users, configure the `DOCKER_GATEWAY` environment variable
-
-   ```bash
-   export DOCKER_GATEWAY=172.28.0.1:
-   ```
-
 1. Change directory to the root of the Istio installation directory.
 
 1. Bring up the Istio control plane containers:
 
     ```bash
-    docker-compose -f install/consul/istio.yaml up -d
+    docker-compose -f install/eureka/istio.yaml up -d
     ```
 
 1. Confirm that all docker containers are running:
@@ -65,7 +53,6 @@ Quick Start instructions to install and configure Istio in a Docker Compose setu
    ```bash
    docker ps -a
    ```
-
    > If the Istio Pilot container terminates, ensure that you run the `istioctl context-create` comamnd and re-run the command from the previous step.
     
 1. Configure `istioctl` to use mapped local port for the Istio API server:
@@ -96,7 +83,7 @@ docker-compose -f <your-app-spec>.yaml up -d
 1. Uninstall Istio core components by removing the docker containers:
 
 ```bash
-docker-compose -f install/consul/istio.yaml down
+docker-compose -f install/eureka/istio.yaml down
 ```
 
 ## What's next

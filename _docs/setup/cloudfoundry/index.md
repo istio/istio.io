@@ -2,7 +2,7 @@
 title: Cloud Foundry
 overview: Instructions for installing the Istio control plane in Cloud Foundry.
 
-order: 30
+order: 40
 
 layout: docs
 type: markdown
