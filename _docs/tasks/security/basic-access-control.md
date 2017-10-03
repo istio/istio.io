@@ -142,7 +142,7 @@ Istio also supports attribute-based whitelists and blacklists.
 
 ## Further reading
 
-* Learn how to securely control access through based on the service account [here]({{home}}/docs/tasks/security/secure-access-control.html).
+* Learn how to securely control access based on the service account [here]({{home}}/docs/tasks/security/secure-access-control.html).
 
 * Learn more about [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html) and [Mixer Config]({{home}}/docs/concepts/policy-and-control/mixer-config.html).
 

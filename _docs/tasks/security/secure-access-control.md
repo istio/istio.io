@@ -12,8 +12,8 @@ type: markdown
 This task shows how to securely control access to a service,
 using the service accounts provided by Istio authentication.
 
-When mTLS authentication is enabled, the server authenticates the client and obtains the client's
-service account from the client-side certificate. The service account is in the `source.user` attribute.
+When Istio auth is enabled, the server authenticates the client according to its certificate, and obtains the client's
+service account from the certificate. The service account is in the `source.user` attribute.
 For the format of the service account in Istio, please refer to the
 [auth concepts]({{home}}/docs/concepts/network-and-auth/auth.html).
 
