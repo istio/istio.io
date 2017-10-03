@@ -1,5 +1,5 @@
 ---
-title: Mixer Adapters
+title: Adapters
 overview: Generated documentation for Mixer's adapters.
 
 order: 40
