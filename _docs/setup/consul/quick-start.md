@@ -65,7 +65,7 @@ Quick Start instructions to install and configure Istio in a Docker Compose setu
    ```bash
    docker ps -a
    ```
-   > If the `Istio-Pilot` container terminates, ensure that you run the `istioctl context-create` comamnd and re-run the command from the previous step.
+   > If the `Istio-Pilot` container terminates, ensure that you run the `istioctl context-create` command and re-run the command from the previous step.
     
 1. Configure `istioctl` to use mapped local port for the Istio API server:
 
