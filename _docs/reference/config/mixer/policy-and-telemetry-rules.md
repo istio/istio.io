@@ -118,7 +118,7 @@ what data to pass to it for processing.
 </table>
 
 The following example instructs Mixer to invoke the `handler.prometheus` handler
-and pass it the object constructed using the metric instance `RequestCount`.
+and pass it the instance constructed using the `RequestCount` metric instance.
 
 
 ```yaml
@@ -131,7 +131,7 @@ and pass it the object constructed using the metric instance `RequestCount`.
 ### Handler
 Handler allows the operator to configure a specific adapter implementation.
 
-In the following example we define a `metric` handler using the Mixer's
+In the following example we define a `prometheus` handler using the Mixer's
 prepackaged [prometheus
 adapter]({{home}}/docs/reference/config/mixer/adapters/prometheus.html). Here,
 we define how the handler should generate prometheus metrics from the metric
@@ -168,8 +168,8 @@ produce values for the specified template at runtime.
 The following example instructs Mixer to construct an instance associated with
 [metric template]({{home}}/docs/reference/config/mixer/template/metric.html). It
 provides a mapping from the template's fields to expressions. Instances produced
-with this instance can be referenced by [Actions](#istio.mixer.v1.config.Action)
-using name `RequestCount`.
+with this instance configuration can be referenced by
+[Actions](#istio.mixer.v1.config.Action) using name `RequestCount`.
 
 
 ```yaml
