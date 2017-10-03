@@ -174,15 +174,20 @@ To start the application, follow the instructions below corresponding to your Is
    export GATEWAY_URL=$(kubectl get po -n istio-system -l istio=ingress -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}')
    ```
 
-### Running on Docker with Consul
+### Running on Docker with Consul or Eureka
 
 1. Change directory to the root of the Istio installation directory.
 
-1. Bring up the Istio control plane and the application containers:
+1. Bring up the application containers.
 
-    ```bash
-    docker-compose -f samples/bookinfo/consul/bookinfo.yaml up -d
-    ```
+    1. To test with Consul, run the following command:
+        ```bash
+        docker-compose -f samples/bookinfo/consul/bookinfo.yaml up -d
+        ```
+    1. To test with Eureka, run the following command:
+        ```bash
+        docker-compose -f samples/bookinfo/eureka/bookinfo.yaml up -d
+        ```
 
 1. Confirm that all docker containers are running:
 
@@ -190,7 +195,7 @@ To start the application, follow the instructions below corresponding to your Is
    docker ps -a
    ```
 
-   > If the `Istio-Pilot` container terminates, re-run the command from the previous step.
+   > If the Istio Pilot container terminates, re-run the command from the previous step.
 
 1. Set the GATEWAY_URL:
 
@@ -245,13 +250,21 @@ uninstall and clean it up using the following instructions.
 
 1. Delete the routing rules and application containers
 
+    1. In a Consul setup, run the following command:
+
    ```bash
    samples/bookinfo/consul/cleanup.sh
+   ```
+   
+   1. In a Eureka setup, run the following command:
+   
+   ```bash
+   samples/bookinfo/eureka/cleanup.sh
    ```
 
 2. Confirm cleanup
 
    ```bash
    istioctl get routerules   #-- there should be no more routing rules
-   kubectl get pods          #-- the BookInfo pods should be deleted
+   docker ps -a              #-- the BookInfo containers should be deleted
    ```
