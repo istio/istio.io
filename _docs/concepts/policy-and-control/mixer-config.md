@@ -300,5 +300,6 @@ manifests:
 
 ## Examples
 
-You can find fully formed examples of Mixer configuration by visiting the [Guides]({{home}}/docs/guides). As
-a specific example, here is the [Default configuration](https://github.com/istio/mixer/blob/master/testdata/config).
+You can find fully-formed examples of Mixer configuration by visiting the
+[Guides]({{home}}/docs/guides). Here is some [example
+configuration](https://github.com/istio/mixer/blob/master/testdata/config).
