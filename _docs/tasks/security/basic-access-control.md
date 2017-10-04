@@ -1,6 +1,6 @@
 ---
 title: Setup Basic Access Control
-overview: This task shows how to use Istio to control access to a service.
+overview: This task shows how to control access to a service using the labels.
           
 order: 20
 
@@ -9,7 +9,7 @@ type: markdown
 ---
 {% include home.html %}
 
-This task shows how to use Istio to control access to a service.
+This task shows how to control access to a service using the labels.
 
 ## Before you begin
 
@@ -50,48 +50,15 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
 
 1. Explicitly deny access to version `v3` of the `reviews` service.
 
-   Before setting up the deny rule, we must create a handler and an instance definition that can be used in the deny rule.
-   ```yaml
-   apiVersion: config.istio.io/v1alpha2
-   kind: denier
-   metadata:
-     name: handler
-     namespace: default
-   spec:
-     status:
-       code: 7 # https://github.com/googleapis/googleapis/blob/master/google/rpc/code.proto
-       message: Not allowed  # This message is sent back the client
-   ---
-   apiVersion: config.istio.io/v1alpha2
-   kind: checknothing
-   metadata:
-     name: denyrequest
-     namespace: default
-   spec:
-   ```
-   Save the file as mixer-rule-ratings-denial.yaml and run
+   Run the following command to set up the deny rule along with a handler and an instance.
    ```bash
-   istioctl create -f mixer-rule-ratings-denial.yaml
+   istioctl create -f samples/bookinfo/kube/mixer-rule-deny-label.yaml
    ```
-   You can expect to see the following output
+   You can expect to see the output similar to the following:
    ```bash
-   denier "denyall" created
-   checknothing "denyrequest" created
-   ```
-
-   Now create the following rule using the above method
-   ```yaml
-   apiVersion: config.istio.io/v1alpha2
-   kind: rule
-   metadata:
-     name: denyreviewsv3
-     namespace: default
-   spec:
-     match: destination.labels["app"] == "ratings" && source.labels["app"]=="reviews" && source.labels["version"] == "v3"
-     actions:
-     - handler: handler.denier
-       instances:
-       - denyrequest.checknothing
+   Created config denier/default/denyreviewsv3handler at revision 2882105
+   Created config checknothing/default/denyreviewsv3request at revision 2882106
+   Created config rule/default/denyreviewsv3 at revision 2882107
    ```
 
    This rule uses the `denier` adapter to deny requests coming from version `v3` of the reviews service.
@@ -103,7 +70,7 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
 
    If you are logged out or logged in as any user other than "jason" you will no longer see red ratings stars because
    the `reviews:v3` service has been denied access to the `ratings` service.
-   Notice, however, that if you log in as user "jason" (the `reviews:v2` user) you continue to see
+   In contrast, if you log in as user "jason" (the `reviews:v2` user) you continue to see
    the black ratings stars.
 
 ## Access control using _whitelists_ 
@@ -174,6 +141,8 @@ Istio also supports attribute-based whitelists and blacklists.
   to shutdown the application.
 
 ## Further reading
+
+* Learn how to securely control access based on the service account [here]({{home}}/docs/tasks/security/secure-access-control.html).
 
 * Learn more about [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html) and [Mixer Config]({{home}}/docs/concepts/policy-and-control/mixer-config.html).
 

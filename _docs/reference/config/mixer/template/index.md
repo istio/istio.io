@@ -1,5 +1,5 @@
 ---
-title: Mixer Templates
+title: Templates
 overview: Generated documentation for Mixer's Templates.
 
 order: 50
