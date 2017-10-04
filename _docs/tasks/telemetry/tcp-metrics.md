@@ -202,7 +202,7 @@ automatically generate and report a new metric for all traffic to a TCP service
 within the mesh.
 
 Similar to the [Collecting Metrics and
-Logs]({{home}}/docs/tasks/telemety/metrics-logs.html) Task, the new
+Logs]({{home}}/docs/tasks/telemetry/metrics-logs.html) Task, the new
 configuration consisted of _instances_, a _handler_, and a _rule_. Please see
 that Task for a complete description of the components of metric collection.
 
