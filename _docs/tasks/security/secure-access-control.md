@@ -39,7 +39,7 @@ For the format of the service account in Istio, please refer to the
 ## Access control using _denials_
 
 In the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application, the `productpage` service is accessing
-both `reviews-vX` services and the `details` service. We would like the `details` service to deny the requests from
+both the `reviews` service and the `details` service. We would like the `details` service to deny the requests from
 the `productpage` service.
 
 1. Point your browser at the BookInfo `productpage` (http://$GATEWAY_URL/productpage).
