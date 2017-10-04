@@ -13,7 +13,7 @@ The page describes Istio attributes, what they are and how they are used.
 
 ## Background
 
-Istio uses *attributes* to control the runtime behavior of services running in the service mesh.
+Istio uses *attributes* to control the runtime behavior of services running in the mesh.
 Attributes are named and typed pieces of metadata describing ingress and egress traffic and the
 environment this traffic occurs in. An Istio attribute carries a specific piece
 of information such as the error code of an API request, the latency of an API request, or the
@@ -30,7 +30,7 @@ original IP address of a TCP connection. For example:
 A given Istio deployment has a fixed vocabulary of attributes that it understands.
 The specific vocabulary is determined by the set of attribute producers being used
 in the deployment. The primary attribute producer in Istio is Envoy, although
-specialized Mixer adapters and services can also generate attributes.
+specialized Mixer adapters can also generate attributes.
 
 The common baseline set of attributes available in most Istio deployments is defined
 [here]({{home}}/docs/reference/config/mixer/attribute-vocabulary.html).
