@@ -60,7 +60,7 @@ Configuration is based on  *adapters* and *templates*.
 An adapter may support multiple templates.
 
 
-Configuration is expressed using a YAML format built around the following abstractions. These abstractions are later explained in detail.
+Configuration is expressed using a YAML format built around the following abstractions:
 
 |Concept                     |Description
 |----------------------------|-----------
@@ -82,14 +82,14 @@ spec:
 - **kind** - A Mixer assigned unique "kind" for every adapter and template.
 - **name** - The configuration resource name.
 - **namespace** - The namespace in which the configuration resource is applicable. 
-- **spec** - The `kind` specific configuration.
+- **spec** - The `kind`-specific configuration.
 
 ### Handlers
 
 [Adapters](./mixer.html#adapters) encapsulates the logic necessary to interface Mixer with specific external infrastructure
 backends such as [Prometheus](https://prometheus.io), [New Relic](https://newrelic.com), or [Stackdriver](https://cloud.google.com/logging).
 Individual adapters generally need operational parameters in order to do their work. For example, a logging adapter may require 
- the IP address and port of the log sink.
+the IP address and port of the log sink.
 
 Here is an example showing how to configure an adapter of kind = `listchecker`. The listchecker adapter checks the input value against a list.
 If the adapter is configured for a whitelist, it returns success if the input value is found in the list.
@@ -109,8 +109,8 @@ spec:
 `staticversion.listchecker.istio-system` and it must be unique.
 An adapter defines the schema of the `spec` section as a proto message.
 
-Spec typically includes connection information necessary to connect to an external systems. It may also include configuration to process the request instance
-delivered to it by Mixer. 
+Spec typically includes connection information necessary to connect to an external system. It may also include configuration to process the request instance
+delivered to the adapter by Mixer. 
 
 Some adapters implement functionality that goes beyond connecting Mixer to a backend.
 For example, the `prometheus` adapter consumes metrics observations and aggregates them as distributions or counters in a configurable way.
@@ -148,7 +148,7 @@ adapters and their specific configuration formats can be found [here]({{home}}/d
 ### Instances
 
 Instance configuration specifies the request mapping from attributes to adapter inputs. An adapter consumes a set of instance types.
-The prometheus adapter from the previous section consumes instances from the metrics template.
+The prometheus adapter from the previous section consumes instances produced from the `metric` template.
 
 ```go
 // Metric represents a single piece of data to report.
@@ -164,7 +164,7 @@ type MetricInstanceParam struct {
   MonitoredResourceDimensions map[string]string 
 }
 ```
-The following is an example of a metrics instance configuration that produces the `requestduration` metric.
+The following is an example of a metric instance configuration that produces the `requestduration` metric.
 
 ```yaml
 apiVersion: config.istio.io/v1alpha2
@@ -255,7 +255,7 @@ Resolution depends on a well-known attribute to guide its choice, called *identi
 The default identity attribute is `destination.service`.
 The mesh-wide configuration is stored in the `configDefaultNamespace` whose default value is `istio-system`.
 
-Mixer resolver goes through the following steps to arrive at the set of `actions`.
+Mixer goes through the following steps to arrive at the set of `actions`.
 
 1. Extract the value of the identity attribute from the request.
 
