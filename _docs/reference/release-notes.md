@@ -73,11 +73,14 @@ release. The experimental redisquota adapter has been removed in the 0.2 release
 
 - **Mutual TLS for TCP Traffic**. In addition to HTTP traffic, mutual TLS is now supported for TCP traffic as well.
 
-- **Identity Provisioning for non-Kubernetes Nodes**. Auth supports a new mechanism using a per-node agent for identity provisioning. This agent runs on each
-node (VM / physical machine) and is responsible for generating and sending out the CSR (Certificate Signing Request) to get certificates from Istio CA. This is an early version of this feature which has limitations (such as requiring a flat network across containers and VMs).
+- **Identity Provisioning for VMs and Physical Machines**. Auth supports a new mechanism using a per-node agent for
+identity provisioning. This agent runs on each node (VM / physical machine) and is responsible for generating and sending out the CSR
+(Certificate Signing Request) to get certificates from Istio CA.
 
-- **Bring Your Own Root Certificates**. Allows users to provide their own key and cert for Istio CA. In addition to that, CA now supports persistent storage 
-using Kubernetes secrets for signing key/cert.
+- **Bring Your Own CA Certificates**. Allows users to provide their own key and certificate for Istio CA.
+
+- **Persistent CA Key/Certificate Storage**. Istio CA now supports storing signing key/certificates in
+persistent storage to facilitate CA restarts. 
 
 ## Istio 0.1
 
