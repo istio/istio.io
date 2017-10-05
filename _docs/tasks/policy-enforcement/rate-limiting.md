@@ -29,9 +29,6 @@ This task shows you how to use Istio to dynamically limit the traffic to a servi
   > Note: if you have conflicting rule that you set in previous tasks,
     use `istioctl replace` instead of `istioctl create`.
 
-  > Note: if you are using a namespace other than the one specified in the examples,
-    ensure that you replace all occurrences of istio-config-default with your namespace.  
-
 ## Rate limits
 
 Istio enables users to rate limit traffic to a service.
