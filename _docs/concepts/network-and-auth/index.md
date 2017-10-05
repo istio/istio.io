@@ -1,6 +1,6 @@
 ---
-title: Network and Auth
-overview: Introduces core network and authentication functionality.
+title: Security
+overview: Describes Istio's authorization and authentication functionality.
 
 order: 30
 

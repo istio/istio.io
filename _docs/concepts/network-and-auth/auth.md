@@ -1,7 +1,7 @@
 ---
-title: Auth
-overview: Architectural deep-dive into the design of Auth, which provides the secure communication channel and strong identity for Istio.
-              
+title: mTLS Authentication
+overview: Describes the architecture behind Istio's automatic mTLS authentication that provides the secure communication channel and strong identity.
+
 order: 10
 
 layout: docs
