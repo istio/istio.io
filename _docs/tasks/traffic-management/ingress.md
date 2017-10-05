@@ -17,9 +17,8 @@ To take advantage of Istio's advanced routing capabilities, we recommend
 combining a minimal Ingress Resource specification with Istio's route
 rules.
 
-> Note: Istio does not support annotations in the ingress resource
-> specifications. Any annotation other than the default ingress class will
-> be ignored.
+> Note: Istio does not support `ingress.kubernetes.io` annotations in the ingress resource
+> specifications. Any annotation other than `kubernetes.io/ingress.class: istio` will be ignored.
 
 ## Before you begin
 
