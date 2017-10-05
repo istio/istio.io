@@ -24,8 +24,7 @@ this features which has limitations (such as requiring a flat network across con
 - **Multi-Platform Support**. Initial support for running Istio outside Kubernetes using Consul or Eureka as service registries. This feature can handle 
 services across multiple service registries.
 
-- **Automatic injection of sidecars**. Istio sidecar can automatically be injected into a Pod before deployment using an alpha feature
-in Kubernetes called [Initializers](https://kubernetes.io/docs/admin/extensible-admission-controllers/#what-are-initializers.
+- **Automatic injection of sidecars**. Istio sidecar can automatically be injected into a Pod upon deployment using the [Initializers](https://kubernetes.io/docs/admin/extensible-admission-controllers/#what-are-initializers) alpha feature in Kubernetes.
 
 #### Perf and Quality
 
