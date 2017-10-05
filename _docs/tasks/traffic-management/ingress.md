@@ -59,13 +59,19 @@ rules.
      rules:
      - http:
          paths:
-         - backend:
+         - path: /.*
+           backend:
              serviceName: httpbin
              servicePort: 8000
    EOF
    ```
-   
-  The default _deny all_ rule which achieves the ingress equivalent behavior:
+ 
+  `/.*` is a special Istio notation that is used to indicate a prefix
+  match, specifically a configuration of the form (`prefix: /`). This
+  configuration above will allow access to all URIs in the httpbin
+  service. However we wish to enable access only to specific URIs under the
+  httpbin service. Let us define a default _deny all_ route rule that
+  provides this behavior:
 
    ```bash
    cat <<EOF | istioctl create -f -
@@ -245,7 +251,8 @@ rules.
      rules:
      - http:
          paths:
-         - backend:
+         - path: /.*
+           backend:
              serviceName: httpbin
              servicePort: 8000
    EOF
