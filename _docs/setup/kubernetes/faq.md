@@ -20,7 +20,7 @@ type: markdown
   kubectl api-versions | grep admissionregistration
   ```
 
-  In addition, the Kubernetes API server must be started with the Initializer plugin [enabled](https://kubernetes.io/docs/admin/extensible-admission-controllers/#enable-initializers-alpha-feature). Failure to enable the `Initializer` pluging will result in the following error when trying to create the initializer deployment.
+  In addition, the Kubernetes API server must be started with the Initializer plugin [enabled](https://kubernetes.io/docs/admin/extensible-admission-controllers/#enable-initializers-alpha-feature). Failure to enable the `Initializer` plugin will result in the following error when trying to create the initializer deployment.
   
   > The Deployment "istio-initializer" is invalid: metadata.initializers.pending: Invalid value: "null": must be non-empty when result is not set
 
