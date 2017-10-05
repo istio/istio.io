@@ -56,7 +56,6 @@ Using Istio we can ensure that `1qps` is not breached.
    kind: memquota
    metadata:
      name: handler
-     namespace: istio-config-default
    spec:
      quotas:
      - name: requestcount.quota.istio-config-default
@@ -96,7 +95,6 @@ Using Istio we can ensure that `1qps` is not breached.
    kind: quota
    metadata:
      name: requestcount
-     namespace: istio-config-default
    spec:
      dimensions:
        source: source.labels["app"] | source.service | "unknown"
@@ -148,7 +146,6 @@ For example, consider the following configuration:
    kind: rule
    metadata:
      name: quota
-     namespace: istio-config-default
    spec:
      match: source.namespace != destination.namespace
      actions:
