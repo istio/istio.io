@@ -336,6 +336,26 @@ per-workload overrides.
 | enabled  | false               | no       |
 | enabled  | true                | yes      |
 
+For example, the following deployment will have sidecars injected, even if
+the global policy is `disabled`.
+
+```yaml
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: myapp
+  annotations:
+    sidecar.istio.io/inject: "true"
+spec:
+  replicas: 1
+  template:
+    ...
+```
+
+This is a good way to use auto-injection in a cluster containing a mixture
+of Istio and non-Istio services.
+
+
 ### Uninstalling Initializer
 
 To remove the Istio initializer, run the following command:
