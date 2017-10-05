@@ -85,7 +85,7 @@ identity provisioning. This agent runs on each node (VM / physical machine) and 
 
 - **Bring Your Own CA Certificates**. Allows users to provide their own key and certificate for Istio CA.
 
-- **Persistent CA Key/Certificate Storage**. Istio CA now supports storing signing key/certificates in
+- **Persistent CA Key/Certificate Storage**. Istio CA now stores signing key/certificates in
 persistent storage to facilitate CA restarts. 
 
 
