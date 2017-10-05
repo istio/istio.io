@@ -14,28 +14,26 @@ type: markdown
 In order to be a part of the service mesh, each pod in the kubernetes
 cluster must satisfy the following requirements:
 
-1._**Service association**:_ The pod must belong to a _single_
+1. _**Service association**:_ The pod must belong to a _single_
   [Kubernetes Service](https://kubernetes.io/docs/concepts/services-networking/service/)
   (pods that belong to multiple services are not supported as of now).
 
-1._**Named ports**:_ Service ports must be named. The port names must begin
+1. _**Named ports**:_ Service ports must be named. The port names must begin
   with _http_, _http2_, _grpc_, or _mongo_ prefix in order to take advantage
   of Istio's routing features. For example, `name: http2-foo` or `name: http`
   are valid port names.  If the port name does not begin with a recognized
   prefix or if the port is unnamed, traffic on the port will be treated as
   plain TCP traffic (unless the port explicitly uses `Protocol: UDP` to
-  signify a UDP port). HTTPS traffic will be treated as plain TCP
-  traffic. Hence, ports using HTTPS should not use the prefixes specified
-  above.
+  signify a UDP port).
 
-1._**Deployments with app label**:_ It is recommended that Pods deployed using
+1. _**Deployments with app label**:_ It is recommended that Pods deployed using
   the Kubernetes `Deployment` have an explicit `app` label in the
   Deployment specification. Each deployment specification should have a
   distinct `app` label with a value indicating something meaningful. The
   `app` label is used to add contextual information in distributed
   tracing.
 
-1._**Sidecar in every pod in mesh**:_ Finally, each pod in the mesh must be
+1. _**Sidecar in every pod in mesh**:_ Finally, each pod in the mesh must be
   running an Istio compatible sidecar. The following sections describe two
   ways of injecting the Istio sidecar into a pod: manually using `istioctl`
   CLI tool or automatically using the Istio Initializer.  Note that the
@@ -68,6 +66,7 @@ Kube-inject subcommand adds the Istio sidecar and the init container to the
 deployment specification as shown in the transformed output below:
 
 ```yaml
+... trimmed ...
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -110,7 +109,10 @@ injected version corresponds to the image TAG of the injected sidecar
 image. It may be different in your setup.
 
 ```bash
-$ echo $(kubectl get deployment sleep -o jsonpath='{.metadata.annotations.sidecar\.istio\.io\/status}')
+echo $(kubectl get deployment sleep -o jsonpath='{.metadata.annotations.sidecar\.istio\.io\/status}')
+```
+
+```bash
 injected-version-9c7c291eab0a522f8033decd0f5b031f5ed0e126
 ```
 
@@ -206,14 +208,17 @@ injected version corresponds to the image TAG of the injected sidecar
 image. It may be different in your setup.
 
 ```bash
-$ echo $(kubectl get deployment service-one -o jsonpath='{.metadata.annotations.sidecar\.istio\.io\/status}')
+$ echo $(kubectl get deployment sleep -o jsonpath='{.metadata.annotations.sidecar\.istio\.io\/status}')
+```
+
+```bash
 injected-version-9c7c291eab0a522f8033decd0f5b031f5ed0e126
 ```
 
 You can view the full deployment with injected containers and volumes.
 
 ```bash
-kubectl get deployment service-one -o yaml
+kubectl get deployment sleep -o yaml
 ```
 
 ### Understanding what happened
@@ -277,7 +282,7 @@ data:
 
 The following are key parameters in the configuration:
 
-1._**policy**_
+1. _**policy**_
 
  `off` - Disable the initializer from modifying resources. The pending
  `status.sidecar.istio.io initializer` initializer is still removed to
@@ -293,20 +298,20 @@ The following are key parameters in the configuration:
  injection using the `sidecar.istio.io/inject` annotation with value of
  `false`.
 
-2._**namespaces**_
+2. _**namespaces**_
 
  This is a list of namespaces to watch and initialize. The special `""`
  namespace corresponds to `v1.NamespaceAll` and configures the
  initializer to initialize all namespaces. kube-system, kube-public, and 
  istio-system are exempt from initialization.
 
-3._**initializerName**_
+3. _**initializerName**_
 
  This must match the name of the initializer in the
  InitializerConfiguration. The initializer only processes workloads
  that match its configured name.
 
-4._**params**_
+4. _**params**_
 
  These parameters allow you to make limited changes to the injected
  sidecar. Changing these values will not affect already deployed workloads.
