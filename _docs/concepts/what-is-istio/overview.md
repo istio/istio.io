@@ -73,20 +73,28 @@ Envoy is deployed as a **sidecar** to the relevant service in the same Kubernete
 
 ### Mixer
 
-[Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html) is responsible for enforcing access control and usage policies across the service mesh and collecting telemetry data from the Envoy proxy and other 
+[Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html) is a platform-independent component responsible for enforcing access control and usage policies across the service mesh and collecting telemetry data from the Envoy proxy and other 
 services. The proxy extracts request level [attributes]({{home}}/docs/concepts/policy-and-control/attributes.html), which are sent to Mixer for evaluation. More information on this attribute extraction and policy 
 evaluation can be found in [Mixer Configuration]({{home}}/docs/concepts/policy-and-control/mixer-config.html). Mixer includes a flexible plugin model enabling it to interface with a variety of host environments and infrastructure backends, abstracting the Envoy proxy and Istio-managed services from these details.
 
 ### Pilot
 
-[Pilot]({{home}}/docs/concepts/traffic-management/pilot.html) is responsible for collecting and validating configuration and propagating it to the various Istio components.
-It abstracts environment-specific implementation details from Mixer and Envoy, providing them with an abstract representation of the user’s services 
-that is independent of the underlying platform. In addition, traffic management rules (i.e. generic layer-4 rules and layer-7 HTTP/gRPC routing rules) can 
-be programmed at runtime via Pilot.
+[Pilot]({{home}}/docs/concepts/traffic-management/pilot.html) provides
+service discovery for the Envoy sidecars, traffic management capabilities
+for intelligent routing (e.g., A/B tests, canary deployments, etc.),
+and resiliency (timeouts, retries, circuit breakers, etc.). It converts a
+high level routing rules that control traffic behavior into Envoy-specific
+configurations, and propagates them to the sidecars at runtime. Pilot
+abstracts platform-specifc service discovery mechanisms and synthesizes
+them into a standard format consumable by any sidecar that conforms to the
+[Envoy data plane APIs](https://github.com/envoyproxy/data-plane-api).
+This loose coupling allows Istio to run on multiple environments 
+(e.g., Kubernetes, Consul/Nomad) while maintaining the same operator 
+interface for traffic management.
 
 ### Istio-Auth
 
-[Istio-Auth]({{home}}/docs/concepts/network-and-auth/auth.html) provides strong service-to-service and end-user authentication using mutual TLS, with built-in identity and credential management.
+[Istio-Auth]({{home}}/docs/concepts/security/mutual-tls.html) provides strong service-to-service and end-user authentication using mutual TLS, with built-in identity and credential management.
 It can be used to upgrade unencrypted traffic in the service mesh, and provides operators the ability to enforce policy based
 on service identity rather than network controls. Future releases of Istio will add fine-grained access control and auditing to control
 and monitor who accesses your service, API, or resource, using a variety of access control mechanisms, including attribute and
