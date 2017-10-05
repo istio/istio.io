@@ -20,12 +20,6 @@ Istio service mesh.
   <th>Type</th>
   <th>Description</th>
  </tr>
-<a name="istio.proxy.v1.config.MeshConfig.egressProxyAddress"></a>
- <tr>
-  <td><code>egressProxyAddress</code></td>
-  <td>string</td>
-  <td>Address of the egress Envoy service (e.g. <em>istio-egress:80</em>).</td>
- </tr>
 <a name="istio.proxy.v1.config.MeshConfig.mixerAddress"></a>
  <tr>
   <td><code>mixerAddress</code></td>

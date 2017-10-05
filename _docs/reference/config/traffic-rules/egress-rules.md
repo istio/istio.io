@@ -54,12 +54,6 @@ For example, the following egress rule describes the set of services hosted unde
   <td>repeated <a href="#istio.proxy.v1.config.EgressRule.Port">Port</a></td>
   <td>REQUIRED: list of ports on which the external service is available.</td>
  </tr>
-<a name="istio.proxy.v1.config.EgressRule.useEgressProxy"></a>
- <tr>
-  <td><code>useEgressProxy</code></td>
-  <td>bool</td>
-  <td><p>Forward all the external traffic through a dedicated egress proxy. It is used in some scenarios where there is a requirement that all the external traffic goes through special dedicated nodes/pods. These dedicated egress nodes could then be more closely monitored for security vulnerabilities.</p><p>The default is false, i.e. the sidecar forwards external traffic directly to the external service.</p></td>
- </tr>
 </table>
 
 <a name="istio.proxy.v1.config.EgressRule.Port"></a>
