@@ -43,7 +43,7 @@ rules.
   kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml)
   ```
 
-## Configuring ingress
+## Configuring ingress (HTTP)
 
 1. Create a basic Ingress Resource for the httpbin service
 
