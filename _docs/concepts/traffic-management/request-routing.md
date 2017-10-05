@@ -58,15 +58,16 @@ Istio does not provide a DNS. Applications can try to resolve the
 FQDN using the DNS service present in the underlying platform (kube-dns,
 mesos-dns, etc.).
 
-## Ingress and Egress Envoys
+## Ingress and Egress
 
 Istio assumes that all traffic entering and leaving the service mesh
 transits through Envoy proxies. By deploying the Envoy proxy in front of
 services, operators can conduct A/B testing, deploy canary services,
 etc. for user-facing services. Similarly, by routing traffic to external
-web services (for instance, accessing the Maps API, or a video service API) via Envoy,
-operators can add failure recovery features such as circuit breakers,
-impose rate limits via Mixer, and provide authentication using Istio-Auth.
+web services (for instance, accessing the Maps API, or a video service API)
+via the sidecar Envoy, operators can add failure recovery features such as
+timeouts, retries, circuit breakers, etc., and obtain detailed metrics on
+the connections to these services.
 
-<figure><img src="./img/pilot/ServiceModel_RequestFlow.svg" alt="Ingress and Egress Envoy." title="Request Flow" />
+<figure><img src="./img/pilot/ServiceModel_RequestFlow.svg" alt="Ingress and Egress through Envoy." title="Request Flow" />
 <figcaption>Request Flow</figcaption></figure>
