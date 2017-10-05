@@ -96,20 +96,18 @@ run the following command to download and extract the latest release automatical
 
 1. Install Istio's core components. Choose one of the two _**mutually exclusive**_ options below:
 
-  a) Install Istio without enabling [authentication]({{home}}/docs/concepts/network-and-auth/auth.html) between sidecars with
-       [mutual TLS authentication](https://en.wikipedia.org/wiki/Mutual_authentication).
+  a) Install Istio without enabling [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars.
        Choose this option for clusters with existing applications, applications where services with an
        Istio sidecar need to be able to communicate with other non-Istio Kubernetes services, and
        applications that use [liveliness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/),
-       headless services, or statefulsets.
+       headless services, or StatefulSets.
   ```bash
   kubectl apply -f install/kubernetes/istio.yaml
   ```
 
   _**OR**_
 
-  b) Install Istio and enable [authentication]({{home}}/docs/concepts/network-and-auth/auth.html) between sidecars
-  with [mutual TLS authentication](https://en.wikipedia.org/wiki/Mutual_authentication):
+  b) Install Istio and enable [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars.:
   ```bash
   kubectl apply -f install/kubernetes/istio-auth.yaml
   ```
@@ -206,4 +204,4 @@ manuallly inject Envoy containers in your application pods before deploying them
 
 * See the sample [BookInfo]({{home}}/docs/guides/bookinfo.html) application.
 
-* See how to [test Istio Auth]({{home}}/docs/tasks/security/istio-auth.html).
+* See how to [test Istio mutual TLS Authentication]({{home}}/docs/tasks/security/mutual-tls.html).

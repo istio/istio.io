@@ -1,7 +1,6 @@
 ---
-title: mTLS Authentication
-overview: Describes the architecture behind Istio's automatic mTLS authentication that provides the secure communication channel and strong identity.
-
+title: Mutual TLS Authentication
+overview: Describes Istio's mutual TLS authentication architecture which provides a strong service identity and secure communication channels between services.
 order: 10
 
 layout: docs
