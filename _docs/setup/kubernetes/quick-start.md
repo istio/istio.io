@@ -141,8 +141,8 @@ run the following command to download and extract the latest release automatical
    application using the service NodePort, or use port-forwarding instead.
 
 2. Ensure the corresponding Kubernetes pods are deployed and all containers are up and running:
-   `istio-pilot-\*`, `istio-mixer-\*`, `istio-ingress-\*`, `istio-egress-\*`, `istio-ca-\*`,
-   and, optionally, `istio-initializer-\*`.
+   `istio-pilot-*`, `istio-mixer-*`, `istio-ingress-*`, `istio-egress-*`, `istio-ca-*`,
+   and, optionally, `istio-initializer-*`.
   ```bash
   kubectl get pods -n istio-system
   ```
