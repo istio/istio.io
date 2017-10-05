@@ -1,6 +1,6 @@
 ---
-title: Testing mTLS authentication
-overview: This task shows you how to verify and test Istio-Auth.
+title: Testing Istio mutual TLS authentication
+overview: This task shows you how to verify and test Istio's automatic mutual TLS authentication.
 
 order: 10
 
@@ -11,20 +11,20 @@ type: markdown
 
 Through this task, you will learn how to:
 
-* Verify Istio Auth setup
+* Verify the Istio mutual TLS Authentication setup
 
-* Manually test Istio Auth
+* Manually test the authentication
 
 ## Before you begin
 
 This task assumes you have a Kubernetes cluster:
 
-* Installed Istio with Auth by following
+* Installed Istio with mutual TLS authentication by following
 [the Istio installation task]({{home}}/docs/setup/kubernetes/quick-start.html).
-Note to choose "enable Istio Auth feature" at step 5 in
+Note to choose "enable Istio mutual TLS Authentication feature" at step 5 in
 "[Installation steps]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps)".
 
-## Verifying Istio Auth setup
+## Verifying Istio's mutual TLS authentication setup
 
 The following commands assume the services are deployed in the default namespace.
 Use the parameter *-n yournamespace* to specify a namespace other than the default one.
@@ -52,11 +52,11 @@ Istio CA is up if the "AVAILABLE" column is 1.
    kubectl get configmap istio -o yaml -n istio-system | grep authPolicy | head -1
    ```
 
-   Istio Auth is enabled if the line `authPolicy: MUTUAL_TLS` is uncommented (doesn't have a `#`).
+   Istio mutual TLS authentication is enabled if the line `authPolicy: MUTUAL_TLS` is uncommented (doesn't have a `#`).
 
-## Testing Istio Auth
+## Testing the authentication setup
 
-When running Istio auth-enabled services, you can use curl in one service's
+When running Istio with mutual TLS authentication turned on, you can use curl in one service's
 envoy to send request to other services.
 For example, after starting the [BookInfo]({{home}}/docs/guides/bookinfo.html) 
 sample application you can ssh into the envoy container of `productpage` service, 
@@ -109,11 +109,11 @@ The service name and port are defined [here](https://github.com/istio/istio/blob
    
 Note that Istio uses [Kubernetes service account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account) 
 as service identity, which offers stronger security than service name 
-(refer [here]({{home}}/docs/concepts/network-and-auth/auth.html#identity) for more information). 
+(refer [here]({{home}}/docs/concepts/security/mutual-tls.html#identity) for more information). 
 Thus the certificates used in Istio do not have service name, which is the information that curl needs to verify
 server identity. As a result, we use curl option '-k' to prevent the curl client from verifying service identity
 in server's (i.e., productpage) certificate. 
-Please check secure naming [here]({{home}}/docs/concepts/network-and-auth/auth.html#workflow) for more information
+Please check secure naming [here]({{home}}/docs/concepts/security/mutual-tls.html#workflow) for more information
 about how the client verifies the server's identity in Istio.
 
 ## Further reading

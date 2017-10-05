@@ -12,10 +12,10 @@ type: markdown
 This task shows how to securely control access to a service,
 using the service accounts provided by Istio authentication.
 
-When Istio auth is enabled, the server authenticates the client according to its certificate, and obtains the client's
+When Istio mutual TLS authentication is enabled, the server authenticates the client according to its certificate, and obtains the client's
 service account from the certificate. The service account is in the `source.user` attribute.
 For the format of the service account in Istio, please refer to the
-[Istio auth identity]({{home}}/docs/concepts/network-and-auth/auth.html#identity).
+[Istio auth identity]({{home}}/docs/concepts/security/mutual-tls.html#identity).
 
 ## Before you begin
 
