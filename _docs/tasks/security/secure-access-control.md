@@ -1,5 +1,5 @@
 ---
-title: Setup Secure Access Control
+title: Setting up Secure Access Control
 overview: This task shows how to securely control access to a service using service accounts.
 
 order: 30
@@ -15,13 +15,14 @@ using the service accounts provided by Istio authentication.
 When Istio mutual TLS authentication is enabled, the server authenticates the client according to its certificate, and obtains the client's
 service account from the certificate. The service account is in the `source.user` attribute.
 For the format of the service account in Istio, please refer to the
-[mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) architecture.
+[Istio auth identity]({{home}}/docs/concepts/security/mutual-tls.html#identity).
 
 ## Before you begin
 
-* Setup Istio on auth-enabled Kubernetes by following the instructions in the
-  [quick start]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps).
-  Note that mTLS authentication should be enabled at step 4.
+* Set up Istio on auth-enabled Kubernetes by following the instructions in the
+  [quick start]({{home}}/docs/setup/kubernetes/quick-start.html).
+  Note that authentication should be enabled at step 4 in the
+  [installation steps]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps).
 
 * Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
@@ -38,15 +39,15 @@ For the format of the service account in Istio, please refer to the
 ## Access control using _denials_
 
 In the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application, the `productpage` service is accessing
-both `reviews` service and the `details` service. We would like the `details` service to deny the requests from
-`productpage`.
+both the `reviews` service and the `details` service. We would like the `details` service to deny the requests from
+the `productpage` service.
 
 1. Point your browser at the BookInfo `productpage` (http://$GATEWAY_URL/productpage).
 
    You should see the "Book Details" section in the lower left part of the page, including type, pages, publisher, etc.
    The `productpage` service obtains the "Book Details" information from the `details` service.
 
-1. Explicitly deny the access to `details` service.
+1. Explicitly deny the requests from `productpage` to `details`.
 
    Run the following command to set up the deny rule along with a handler and an instance.
    ```bash
@@ -58,18 +59,25 @@ both `reviews` service and the `details` service. We would like the `details` se
    Created config checknothing/default/denyproductpagerequest at revision 2877837
    Created config rule/default/denyproductpage at revision 2877838
    ```
-
-   This rule uses the `denier` adapter to deny requests coming from the serivce account
+   Notice the following in the `denyproductpage` rule:
+   ```
+   match: destination.labels["app"] == "details" && source.user == "spiffe://cluster.local/ns/default/sa/bookinfo-productpage"
+   ```
+   It matches requests coming from the serivce account
    "_spiffe://cluster.local/ns/default/sa/bookinfo-productpage_" on the `details` service.
+
+   This rule uses the `denier` adapter to deny these requests.
    The adapter always denies requests with a pre-configured status code and message.
-   The status code and the message is specified in the [denier]({{home}}/docs/reference/config/mixer/adapters/denier.html)
+   The status code and message are specified in the [denier]({{home}}/docs/reference/config/mixer/adapters/denier.html)
    adapter configuration.
 
 1. Refresh the `productpage` in your browser.
 
    You will see the message
-   "Error fetching product details! Sorry, product details are currently unavailable for this book." in the lower left
-   section.
+
+   "_Error fetching product details! Sorry, product details are currently unavailable for this book._"
+
+   in the lower left section of the page. This validates that the access from `productpage` to `details` is denied.
 
 ## Cleanup
 
