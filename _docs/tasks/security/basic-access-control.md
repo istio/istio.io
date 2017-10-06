@@ -82,48 +82,64 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
 
 Istio also supports attribute-based whitelists and blacklists.
 
-1. Add an adapter definition for the [`listchecker`]({{home}}/docs/reference/config/mixer/adapters/list.html)
-   adapter that lists versions `v1, v2`:
+1. Create configuration for the [`listchecker`]({{home}}/docs/reference/config/mixer/adapters/list.html)
+   adapter that lists versions `v1, v2`.
+   Save the following YAML snippet as `whitelist-handler.yaml`:
 
    ```yaml
    apiVersion: config.istio.io/v1alpha2
    kind: listchecker
    metadata:
-     name: staticversion
-     namespace: default
+     name: whitelist
    spec:
      # providerUrl: ordinarily black and white lists are maintained
      # externally and fetched asynchronously using the providerUrl.
      overrides: ["v1", "v2"]  # overrides provide a static list
      blacklist: false
    ```
+  and then run the following command:
 
-2. Extract the version label by creating an instance of the [`listentry`]({{home}}/docs/reference/config/mixer/template/listentry.html) template:
+   ```bash
+   istioctl create -f whitelist-handler.yaml
+   ```
+
+2. Extract the version label by creating an instance of the [`listentry`]({{home}}/docs/reference/config/mixer/template/listentry.html) template.
+Save the following YAML snippet as `appversion-instance.yaml`:
 
    ```yaml
    apiVersion: config.istio.io/v1alpha2
    kind: listentry
    metadata:
      name: appversion
-     namespace: default
    spec:
      value: source.labels["version"]
    ```
+  and then run the following command:
 
-3. Enable `whitelist` checking for the ratings service:
+   ```bash
+   istioctl create -f appversion-instance.yaml
+   ```
+
+3. Enable `whitelist` checking for the ratings service.
+Save the following YAML snippet as `checkversion-rule.yaml`:
+
 
    ```yaml
    apiVersion: config.istio.io/v1alpha2
    kind: rule
    metadata:
      name: checkversion
-     namespace: default
    spec:
      match: destination.labels["app"] == "ratings"
      actions:
-     - handler: staticversion.listchecker
+     - handler: whitelist.listchecker
        instances:
        - appversion.listentry
+   ```
+  and then run the following command:
+
+   ```bash
+   istioctl create -f checkversion-rule.yaml
    ```
 
 ## Cleanup
@@ -131,7 +147,9 @@ Istio also supports attribute-based whitelists and blacklists.
 * Remove the mixer configuration:
 
   ```bash
-  istioctl delete -f /path/to/file.yaml
+  istioctl delete -f checkversion-rule.yaml
+  istioctl delete -f appversion-instance.yaml
+  istioctl delete -f whitelist-handler.yaml
   ```
 
 * Remove the application routing rules:
