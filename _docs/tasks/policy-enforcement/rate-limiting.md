@@ -28,7 +28,6 @@ This task shows you how to use Istio to dynamically limit the traffic to a servi
   
   > Note: if you have conflicting rule that you set in previous tasks,
     use `istioctl replace` instead of `istioctl create`.
- 
 
 ## Rate limits
 
