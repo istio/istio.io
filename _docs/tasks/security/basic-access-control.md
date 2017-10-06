@@ -80,7 +80,16 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
 
 ## Access control using _whitelists_ 
 
-Istio also supports attribute-based whitelists and blacklists.
+Istio also supports attribute-based whitelists and blacklists. The following whitelist configuration is equivalent to the
+`denier` configuration in the previous section. The rule effectively rejects requests from version `v3` of the `reviews` service.
+
+1. Remove the denier configuration that you added in the previous section.
+   ```bash
+   istioctl delete -f samples/bookinfo/kube/mixer-rule-deny-label.yaml
+   ```
+
+1. Verify that when you access the BookInfo `productpage` (http://$GATEWAY_URL/productpage) without logging in, you see red stars.
+   After performing the following steps you will no longer be able to see stars unless you are logged in as "jason".
 
 1. Create configuration for the [`listchecker`]({{home}}/docs/reference/config/mixer/adapters/list.html)
    adapter that lists versions `v1, v2`.
@@ -103,7 +112,7 @@ Istio also supports attribute-based whitelists and blacklists.
    istioctl create -f whitelist-handler.yaml
    ```
 
-2. Extract the version label by creating an instance of the [`listentry`]({{home}}/docs/reference/config/mixer/template/listentry.html) template.
+1. Extract the version label by creating an instance of the [`listentry`]({{home}}/docs/reference/config/mixer/template/listentry.html) template.
 Save the following YAML snippet as `appversion-instance.yaml`:
 
    ```yaml
@@ -120,7 +129,7 @@ Save the following YAML snippet as `appversion-instance.yaml`:
    istioctl create -f appversion-instance.yaml
    ```
 
-3. Enable `whitelist` checking for the ratings service.
+1. Enable `whitelist` checking for the ratings service.
 Save the following YAML snippet as `checkversion-rule.yaml`:
 
 
@@ -141,6 +150,9 @@ Save the following YAML snippet as `checkversion-rule.yaml`:
    ```bash
    istioctl create -f checkversion-rule.yaml
    ```
+
+1. Verify that when you access the BookInfo `productpage` (http://$GATEWAY_URL/productpage) without logging in, you see **no** stars.
+Verify that after logging in as "jason" you see black stars.
 
 ## Cleanup
 
