@@ -59,14 +59,14 @@ Istio CA is up if the "AVAILABLE" column is 1.
 When running Istio with mutual TLS authentication turned on, you can use curl in one service's
 envoy to send request to other services.
 For example, after starting the [BookInfo]({{home}}/docs/guides/bookinfo.html) 
-sample application you can ssh into the envoy container of `productpage` service, 
+sample application you can ssh into the envoy container of `productpage` service,
 and send request to other services by curl. 
 
 There are several steps:
    
 1. get the productpage pod name
    ```bash
-   kubectl get pods -l app=productpage 
+   kubectl get pods -l app=productpage
    ```
    ```bash
    NAME                              READY     STATUS    RESTARTS   AGE
@@ -77,7 +77,7 @@ There are several steps:
 
 1. ssh into the envoy container 
    ```bash
-   kubectl exec -it productpage-v1-4184313719-5mxjc -c istio-proxy /bin/bash 
+   kubectl exec -it productpage-v1-4184313719-5mxjc -c istio-proxy /bin/bash
    ```
 
 1. make sure the key/cert is in /etc/certs/ directory
@@ -92,7 +92,7 @@ There are several steps:
    
 1. send requests to another service, for example, details.
    ```bash
-   curl https://details:9080 -v --key /etc/certs/key.pem --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem -k
+   curl https://details:9080/details/0 -v --key /etc/certs/key.pem --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem -k
    ```
    ```bash
    ...

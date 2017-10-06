@@ -53,10 +53,10 @@ Using Istio we can ensure that `1qps` is not breached.
    kind: memquota
    metadata:
      name: handler
-     namespace: istio-config-default
+     namespace: istio-system
    spec:
      quotas:
-     - name: requestcount.quota.istio-config-default
+     - name: requestcount.quota.istio-system
        # default rate limit is 5000qps
        maxAmount: 5000
        validDuration: 1s
@@ -93,7 +93,7 @@ Using Istio we can ensure that `1qps` is not breached.
    kind: quota
    metadata:
      name: requestcount
-     namespace: istio-config-default
+     namespace: istio-system
    spec:
      dimensions:
        source: source.labels["app"] | source.service | "unknown"
@@ -105,7 +105,7 @@ Using Istio we can ensure that `1qps` is not breached.
    kind: rule
    metadata:
      name: quota
-     namespace: istio-config-default
+     namespace: istio-system
    spec:
      actions:
      - handler: handler.memquota
@@ -145,7 +145,7 @@ For example, consider the following configuration:
    kind: rule
    metadata:
      name: quota
-     namespace: istio-config-default
+     namespace: istio-system
    spec:
      match: source.namespace != destination.namespace
      actions:
@@ -171,6 +171,8 @@ The `maxAmount` in the adapter configuration sets the default limit for all coun
 This default limit applies if a quota override does not match the request. Memquota selects the first override that matches a request.
 An override need not specify all quota dimensions. In the ratelimit-handler.yaml example, the `1qps` override is
 selected by matching only three out of four quota dimensions. 
+
+If you would like the above policies enforced for a given namespace instead of the entire Istio mesh, you can replace all occurrences of istio-system with the given namespace. 
 
 ## Cleanup
 

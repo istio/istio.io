@@ -67,7 +67,7 @@ To start the application, follow the instructions below corresponding to your Is
 
 ### Running on Kubernetes
 
-> Note: If you use GKE, please ensure your cluster has at least 4 standard GKE nodes.
+> Note: If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If you use Minikube, please ensure you have at least 4GB RAM.
 
 1. Change directory to the root of the Istio installation directory.
 
