@@ -20,7 +20,9 @@ type: markdown
   kubectl api-versions | grep admissionregistration
   ```
 
-  In addition, the Kubernetes API server must be started with the Initializer plugin enabled.
+  In addition, the Kubernetes API server must be started with the Initializer plugin [enabled](https://kubernetes.io/docs/admin/extensible-admission-controllers/#enable-initializers-alpha-feature). Failure to enable the `Initializer` plugin will result in the following error when trying to create the initializer deployment.
+  
+  > The Deployment "istio-initializer" is invalid: metadata.initializers.pending: Invalid value: "null": must be non-empty when result is not set
 
 * _Automatic sidecar injection is not working. How can I debug this?_
 
@@ -34,3 +36,4 @@ type: markdown
 * _Can I migrate an existing installation from Istio v0.1.x to v0.2.x?_
   
   Upgrading from Istio 0.1.x to 0.2.x is not supported. You must uninstall Istio v0.1, _including pods with Istio sidecars_ and start with a fresh install of Istio v0.2.
+ 

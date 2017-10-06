@@ -1,7 +1,7 @@
 ---
-title: Setup Basic Access Control
-overview: This task shows how to control access to a service using the labels.
-          
+title: Setting up Basic Access Control
+overview: This task shows how to control access to a service using the Kubernetes labels.
+
 order: 20
 
 layout: docs
@@ -9,11 +9,11 @@ type: markdown
 ---
 {% include home.html %}
 
-This task shows how to control access to a service using the labels.
+This task shows how to control access to a service using the Kubernetes labels.
 
 ## Before you begin
 
-* Setup Istio on Kubernetes by following the instructions in the
+* Set up Istio on Kubernetes by following the instructions in the
   [Installation guide]({{home}}/docs/setup/kubernetes/).
 
 * Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
@@ -42,10 +42,10 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
 
 1. Point your browser at the BookInfo `productpage` (http://$GATEWAY_URL/productpage). 
 
-   If you log in as user "jason", you should see black ratings stars with each review,
+   If you log in as user "jason", you should see black rating stars with each review,
    indicating that the `ratings` service is being called by the "v2" version of the `reviews` service.
    
-   If you log in as any other user (or logout) you should see red ratings stars with each review,
+   If you log in as any other user (or logout) you should see red rating stars with each review,
    indicating that the `ratings` service is being called by the "v3" version of the `reviews` service.
 
 1. Explicitly deny access to version `v3` of the `reviews` service.
@@ -60,6 +60,11 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
    Created config checknothing/default/denyreviewsv3request at revision 2882106
    Created config rule/default/denyreviewsv3 at revision 2882107
    ```
+   Notice the following in the `denyreviewsv3` rule:
+   ```
+   match: destination.labels["app"] == "ratings" && source.labels["app"]=="reviews" && source.labels["version"] == "v3"
+   ```
+   It matches requests coming from the service `reviews` with label `v3` to the service `ratings`.
 
    This rule uses the `denier` adapter to deny requests coming from version `v3` of the reviews service.
    The adapter always denies requests with a pre-configured status code and message.
