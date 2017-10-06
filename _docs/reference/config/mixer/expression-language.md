@@ -24,16 +24,16 @@ CEXL accepts a subset of **[Go expressions](https://golang.org/ref/spec#Expressi
 
 CEXL supports the following functions.
 
-|Operator |Description |Example 
-|------------------------------------
+|Operator/Function |Definition |Example | Description
+|-----------------------------------------
 |`==` |Equals |`request.size == 200` 
-|`==` |Equals Prefix|`service.name == "svc1.*"` 
-|`==` |Equals Suffix|`service.name == "*.ns1.svc.cluster.local"` 
+|`match` | Glob match |`match(destination.service, "*.ns1.svc.cluster.local")` | Matches prefix or suffix based on the location of `*`
 |`!=` |Not Equals |`request.user != "admin"`
 |`||` |Logical OR | `(request.size == 200) || (request.user == "admin")` 
 |`&&` |Logical AND | `(request.size == 200) && (request.user == "admin")` 
 |`[ ]` |Map Access | `request.headers["x-id"]`
 |`|` |First non empty | `source.labels["app"] | source.labels["svc"] | "unknown"`
+|`ip` | Convert a textual IPv4 address into the `IP_ADDRESS` type | `source.ip == ip("10.11.12.13")` | Use the `ip` function to create an `IP_ADDRESS` literal.
 
 ## Type checking
 
