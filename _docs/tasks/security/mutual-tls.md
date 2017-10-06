@@ -64,13 +64,13 @@ and send request to other services by curl.
 
 There are several steps:
    
-1. get the reviews pod name
+1. get the productpage pod name
    ```bash
    kubectl get pods -l app=productpage
    ```
    ```bash
    NAME                              READY     STATUS    RESTARTS   AGE
-   productpage-v1-4184313719-5mxjc       2/2       Running   0          23h
+   productpage-v1-4184313719-5mxjc   2/2       Running   0          23h
    ```
 
    Make sure the pod is "Running".
