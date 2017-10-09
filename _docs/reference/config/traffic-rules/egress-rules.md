@@ -12,7 +12,7 @@ type: markdown
 <a name="istio.proxy.v1.config.EgressRule"></a>
 ### EgressRule
 Egress rules describe the properties of a service outside Istio. When transparent proxying
-is used, egress rules signify a white listed set of domains that microserves in the mesh
+is used, egress rules signify a white listed set of domains that microservices in the mesh
 are allowed to access. A subset of routing rules and all destination policies can be applied
 on the service targeted by an egress rule. The destination of an egress rule is allowed to
 contain wildcards (e.g., *.foo.com). Currently, only HTTP-based services can be expressed
