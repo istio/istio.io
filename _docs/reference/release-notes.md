@@ -90,8 +90,9 @@ persistent storage to facilitate CA restarts.
 
 ### Known Issues
 
-- **User may get periodical 404 when accessing the application**:  We have noticed that envoy doesn't get routes properly occasionally thus a 404 is returned to the user.  We are actively working on this [issue](https://github.com/istio/istio/issues/1038).
-- **Pilot reports ready before Pilot is actually ready**: You can check pods status in the `istio-system` namespace and wait a few seconds after all Istio Pods reach ready status.  We are actively working on this [issue](https://github.com/istio/istio/pull/1055).
+- **User may get periodical 404 when accessing the application**:  We have noticed that Envoy doesn't get routes properly occasionally thus a 404 is returned to the user.  We are actively working on this [issue](https://github.com/istio/istio/issues/1038).
+- **Istio Ingress or Egress reports ready before Pilot is actually ready**: You can check the istio-ingress and istio-egress pods status in the `istio-system` namespace and wait a few seconds after all the Istio pods reach ready status.  We are actively working on this [issue](https://github.com/istio/istio/pull/1055).
+- **A service with Istio Auth enabled can't communicate with a service without Istio**: This limitation will be removed in the near future.
 
 
 [Release notes for previous versions of Istio](./notes)
