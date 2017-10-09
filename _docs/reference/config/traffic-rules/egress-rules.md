@@ -12,7 +12,7 @@ type: markdown
 <a name="istio.proxy.v1.config.EgressRule"></a>
 ### EgressRule
 Egress rules describe the properties of a service outside Istio. When transparent proxying
-is used, egress rules signify a white listed set of domains that microserves in the mesh
+is used, egress rules signify a white listed set of domains that microservices in the mesh
 are allowed to access. A subset of routing rules and all destination policies can be applied
 on the service targeted by an egress rule. The destination of an egress rule is allowed to
 contain wildcards (e.g., *.foo.com). Currently, only HTTP-based services can be expressed
@@ -53,12 +53,6 @@ For example, the following egress rule describes the set of services hosted unde
   <td><code>ports[]</code></td>
   <td>repeated <a href="#istio.proxy.v1.config.EgressRule.Port">Port</a></td>
   <td>REQUIRED: list of ports on which the external service is available.</td>
- </tr>
-<a name="istio.proxy.v1.config.EgressRule.useEgressProxy"></a>
- <tr>
-  <td><code>useEgressProxy</code></td>
-  <td>bool</td>
-  <td><p>Forward all the external traffic through a dedicated egress proxy. It is used in some scenarios where there is a requirement that all the external traffic goes through special dedicated nodes/pods. These dedicated egress nodes could then be more closely monitored for security vulnerabilities.</p><p>The default is false, i.e. the sidecar forwards external traffic directly to the external service.</p></td>
  </tr>
 </table>
 

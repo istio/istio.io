@@ -1,7 +1,7 @@
 ---
-title: Setup Basic Access Control
-overview: This task shows how to control access to a service using the labels.
-          
+title: Setting up Basic Access Control
+overview: This task shows how to control access to a service using the Kubernetes labels.
+
 order: 20
 
 layout: docs
@@ -9,11 +9,11 @@ type: markdown
 ---
 {% include home.html %}
 
-This task shows how to control access to a service using the labels.
+This task shows how to control access to a service using the Kubernetes labels.
 
 ## Before you begin
 
-* Setup Istio on Kubernetes by following the instructions in the
+* Set up Istio on Kubernetes by following the instructions in the
   [Installation guide]({{home}}/docs/setup/kubernetes/).
 
 * Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
@@ -42,10 +42,10 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
 
 1. Point your browser at the BookInfo `productpage` (http://$GATEWAY_URL/productpage). 
 
-   If you log in as user "jason", you should see black ratings stars with each review,
+   If you log in as user "jason", you should see black rating stars with each review,
    indicating that the `ratings` service is being called by the "v2" version of the `reviews` service.
    
-   If you log in as any other user (or logout) you should see red ratings stars with each review,
+   If you log in as any other user (or logout) you should see red rating stars with each review,
    indicating that the `ratings` service is being called by the "v3" version of the `reviews` service.
 
 1. Explicitly deny access to version `v3` of the `reviews` service.
@@ -60,6 +60,11 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
    Created config checknothing/default/denyreviewsv3request at revision 2882106
    Created config rule/default/denyreviewsv3 at revision 2882107
    ```
+   Notice the following in the `denyreviewsv3` rule:
+   ```
+   match: destination.labels["app"] == "ratings" && source.labels["app"]=="reviews" && source.labels["version"] == "v3"
+   ```
+   It matches requests coming from the service `reviews` with label `v3` to the service `ratings`.
 
    This rule uses the `denier` adapter to deny requests coming from version `v3` of the reviews service.
    The adapter always denies requests with a pre-configured status code and message.
@@ -75,58 +80,88 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
 
 ## Access control using _whitelists_ 
 
-Istio also supports attribute-based whitelists and blacklists.
+Istio also supports attribute-based whitelists and blacklists. The following whitelist configuration is equivalent to the
+`denier` configuration in the previous section. The rule effectively rejects requests from version `v3` of the `reviews` service.
 
-1. Add an adapter definition for the [`listchecker`]({{home}}/docs/reference/config/mixer/adapters/list.html)
-   adapter that lists versions `v1, v2`:
+1. Remove the denier configuration that you added in the previous section.
+   ```bash
+   istioctl delete -f samples/bookinfo/kube/mixer-rule-deny-label.yaml
+   ```
+
+1. Verify that when you access the BookInfo `productpage` (http://$GATEWAY_URL/productpage) without logging in, you see red stars.
+   After performing the following steps you will no longer be able to see stars unless you are logged in as "jason".
+
+1. Create configuration for the [`listchecker`]({{home}}/docs/reference/config/mixer/adapters/list.html)
+   adapter that lists versions `v1, v2`.
+   Save the following YAML snippet as `whitelist-handler.yaml`:
 
    ```yaml
    apiVersion: config.istio.io/v1alpha2
    kind: listchecker
    metadata:
-     name: staticversion
-     namespace: default
+     name: whitelist
    spec:
      # providerUrl: ordinarily black and white lists are maintained
      # externally and fetched asynchronously using the providerUrl.
      overrides: ["v1", "v2"]  # overrides provide a static list
      blacklist: false
    ```
+  and then run the following command:
 
-2. Extract the version label by creating an instance of the [`listentry`]({{home}}/docs/reference/config/mixer/template/listentry.html) template:
+   ```bash
+   istioctl create -f whitelist-handler.yaml
+   ```
+
+1. Extract the version label by creating an instance of the [`listentry`]({{home}}/docs/reference/config/mixer/template/listentry.html) template.
+Save the following YAML snippet as `appversion-instance.yaml`:
 
    ```yaml
    apiVersion: config.istio.io/v1alpha2
    kind: listentry
    metadata:
      name: appversion
-     namespace: default
    spec:
      value: source.labels["version"]
    ```
+  and then run the following command:
 
-3. Enable `whitelist` checking for the ratings service:
+   ```bash
+   istioctl create -f appversion-instance.yaml
+   ```
+
+1. Enable `whitelist` checking for the ratings service.
+Save the following YAML snippet as `checkversion-rule.yaml`:
+
 
    ```yaml
    apiVersion: config.istio.io/v1alpha2
    kind: rule
    metadata:
      name: checkversion
-     namespace: default
    spec:
      match: destination.labels["app"] == "ratings"
      actions:
-     - handler: staticversion.listchecker
+     - handler: whitelist.listchecker
        instances:
        - appversion.listentry
    ```
+  and then run the following command:
+
+   ```bash
+   istioctl create -f checkversion-rule.yaml
+   ```
+
+1. Verify that when you access the BookInfo `productpage` (http://$GATEWAY_URL/productpage) without logging in, you see **no** stars.
+Verify that after logging in as "jason" you see black stars.
 
 ## Cleanup
 
 * Remove the mixer configuration:
 
   ```bash
-  istioctl delete -f /path/to/file.yaml
+  istioctl delete -f checkversion-rule.yaml
+  istioctl delete -f appversion-instance.yaml
+  istioctl delete -f whitelist-handler.yaml
   ```
 
 * Remove the application routing rules:

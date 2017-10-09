@@ -9,10 +9,16 @@ type: markdown
 ---
 
 This task describes how to configure Istio to expose a service outside of the service mesh cluster.
-In a Kubernetes environment,
-Istio uses [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/services-networking/ingress/)
-to configure ingress behavior.
+In a Kubernetes environment, the [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/services-networking/ingress/)
+allows users to specify services that should be exposed outside the
+cluster. However, the Ingress Resource specification is very minimal,
+allowing users to specify just hosts, paths and their backing services.
+To take advantage of Istio's advanced routing capabilities, we recommend
+combining a minimal Ingress Resource specification with Istio's route
+rules.
 
+> Note: Istio does not support `ingress.kubernetes.io` annotations in the ingress resource
+> specifications. Any annotation other than `kubernetes.io/ingress.class: istio` will be ignored.
 
 ## Before you begin
 
@@ -38,7 +44,7 @@ to configure ingress behavior.
 
 ## Configuring ingress (HTTP)
 
-1. Create the Ingress Resource for the httpbin service
+1. Create a basic Ingress Resource for the httpbin service
 
    ```bash
    cat <<EOF | kubectl create -f -
@@ -52,19 +58,82 @@ to configure ingress behavior.
      rules:
      - http:
          paths:
-         - path: /headers
-           backend:
-             serviceName: httpbin
-             servicePort: 8000
-         - path: /delay/.*
+         - path: /.*
            backend:
              serviceName: httpbin
              servicePort: 8000
    EOF
    ```
+ 
+  `/.*` is a special Istio notation that is used to indicate a prefix
+  match, specifically a configuration of the form (`prefix: /`). This
+  configuration above will allow access to all URIs in the httpbin
+  service. However we wish to enable access only to specific URIs under the
+  httpbin service. Let us define a default _deny all_ route rule that
+  provides this behavior:
+
+   ```bash
+   cat <<EOF | istioctl create -f -
+   ## Deny all access from istio-ingress
+   apiVersion: config.istio.io/v1alpha2
+   kind: RouteRule
+   metadata:
+     name: deny-route
+   spec:
+     destination:
+       name: httpbin
+     match:
+       # Limit this rule to istio ingress pods only
+       source:
+         labels:
+           istio: ingress
+     precedence: 1
+     route:
+     - weight: 100
+     httpFault:
+       abort:
+         percent: 100
+         httpStatus: 403 #Forbidden for all URLs
+   EOF
+   ```
+
    
-   Notice that in this example we are only exposing httpbin's two endpoints: `/headers` as an exact URI path and `/delay/` using an URI prefix.
-   
+  Now, allow requests to `/status/` prefix by defining a route rule of
+  higher priority.
+
+   ```bash
+   cat <<EOF | istioctl create -f -
+   ## Allow requests to /status prefix
+   apiVersion: config.istio.io/v1alpha2
+   kind: RouteRule
+   metadata:
+     name: status-route
+   spec:
+     destination:
+       name: httpbin
+     match:
+       # Limit this rule to istio ingress pods only
+       source:
+         labels:
+           istio: ingress
+       request:
+         headers:
+           uri:
+             prefix: /status
+     precedence: 2 #must be higher precedence than the deny-route
+     route:
+     - weight: 100
+   EOF
+   ```
+
+  You can use other features of the route rules such as redirects,
+  rewrites, regular expression based match in HTTP headers, websocket
+  upgrades, timeouts, retries, and so on. Please refer to the
+  [routing rules](https://istio.io/docs/reference/config/traffic-rules/routing-rules.html)
+  for more details.
+
+## Verifying ingress
+
 1. Determine the ingress URL:
 
    * If your cluster is running in an environment that supports external load balancers,
@@ -80,7 +149,7 @@ to configure ingress behavior.
      ```
 
      ```bash
-     export INGRESS_URL=130.211.10.121
+     export INGRESS_HOST=130.211.10.121
      ```
 
    * If load balancers are not supported, use the ingress controller pod's hostIP:
@@ -105,28 +174,49 @@ to configure ingress behavior.
      ```
    
      ```bash
-     export INGRESS_URL=169.47.243.100:31486
+     export INGRESS_HOST=169.47.243.100:31486
      ```
    
 1. Access the httpbin service using _curl_:
 
    ```bash
-   curl http://$INGRESS_URL/headers
+   curl -I http://$INGRESS_HOST/status/200
    ```
 
-   ```json
-   {
-     "headers": {
-       "Accept": "*/*", 
-       "Content-Length": "0", 
-       "Host": "httpbin.default.svc.cluster.local:8000", 
-       "User-Agent": "curl/7.51.0", 
-       "X-Envoy-Expected-Rq-Timeout-Ms": "15000", 
-       "X-Request-Id": "3dd59054-6e26-4af5-87cf-a247bc634bab"
-     }
-   }
+   ```bash
+   HTTP/1.1 200 OK
+   Server: meinheld/0.6.1
+   Date: Thu, 05 Oct 2017 21:23:17 GMT
+   Content-Type: text/html; charset=utf-8
+   Access-Control-Allow-Origin: *
+   Access-Control-Allow-Credentials: true
+   X-Powered-By: Flask
+   X-Processed-Time: 0.00105214118958
+   Content-Length: 0
+   Via: 1.1 vegur
+   Connection: Keep-Alive
    ```
 
+1. Access any other URL that has not been explicitly exposed. You should
+   see a HTTP 403
+
+   ```bash
+   curl -I http://$INGRESS_HOST/headers
+   ```
+
+   ```bash
+   HTTP/1.1 403 FORBIDDEN
+   Server: meinheld/0.6.1
+   Date: Thu, 05 Oct 2017 21:24:47 GMT
+   Content-Type: text/html; charset=utf-8
+   Access-Control-Allow-Origin: *
+   Access-Control-Allow-Credentials: true
+   X-Powered-By: Flask
+   X-Processed-Time: 0.000759840011597
+   Content-Length: 0
+   Via: 1.1 vegur
+   Connection: Keep-Alive
+   ```
 
 ## Configuring secure ingress (HTTPS)
 
@@ -151,7 +241,7 @@ to configure ingress behavior.
    apiVersion: extensions/v1beta1
    kind: Ingress
    metadata:
-     name: secured-ingress
+     name: secure-ingress
      annotations:
        kubernetes.io/ingress.class: istio
    spec:
@@ -160,137 +250,25 @@ to configure ingress behavior.
      rules:
      - http:
          paths:
-         - path: /ip
+         - path: /.*
            backend:
              serviceName: httpbin
              servicePort: 8000
    EOF
    ```
-   
-   Notice that in this example we are only exposing httpbin's `/ip` endpoint.
-   
+
+   Create the _deny rule_ and the rule for `/status` prefix as described
+   earlier. Set the INGRESS_HOST to point to the ip address and the
+   port number of the ingress service as shown earlier.
+
    > Note: Envoy currently only allows a single TLS secret in the ingress since SNI is not yet supported. That means that the secret name field in ingress resource is not used, and the secret must be called `istio-ingress-certs` in `istio-system` namespace.
-   
-1. Determine the secure ingress URL:
- 
-   * If your cluster is running in an environment that supports external load balancers,
-     use the ingress' external address:
- 
-     ```bash
-     kubectl get ingress secured-ingress -o wide
-     ```
-    
-     ```bash
-     NAME              HOSTS     ADDRESS                 PORTS     AGE
-     secured-ingress   *         130.211.10.121          80, 443   1d
-     ```
- 
-     ```bash
-     export SECURE_INGRESS_URL=130.211.10.121
-     ```
- 
-     > Note that in this case SECURE_INGRESS_URL should be the same as INGRESS_URL that you set previously.
-    
-   * If load balancers are not supported, use the ingress controller pod's hostIP:
-    
-     ```bash
-     kubectl get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
-     ```
- 
-     ```bash
-     169.47.243.100
-     ```
- 
-     along with the istio-ingress service's nodePort for port 443:
-    
-     ```bash
-     kubectl get svc istio-ingress
-     ```
-    
-     ```bash
-     NAME            CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
-     istio-ingress   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
-     ```
-    
-     ```bash
-     export SECURE_INGRESS_URL=169.47.243.100:32254
-     ```
+
     
 1. Access the secured httpbin service using _curl_:
 
    ```bash
-   curl -k https://$SECURE_INGRESS_URL/ip
+   curl -I -k https://$INGRESS_HOST/status/200
    ```
-   
-   ```json
-   {
-     "origin": "129.42.161.35"
-   }
-   ```
-
-
-## Setting Istio rules on an edge service
-
-Similar to inter-cluster requests, Istio 
-[routing rules]({{home}}/docs/concepts/traffic-management/rules-configuration.html)
-can also be set for edge services
-that are called from outside the cluster.
-To illustrate we will use [istioctl]({{home}}/docs/reference/commands/istioctl.html)
-to set a timeout rule on calls to the httpbin service.
-
-1. Invoke the httpbin `/delay` endpoint you exposed previously:
-
-   ```bash
-   time curl -o /dev/null -s -w "%{http_code}\n" http://$INGRESS_URL/delay/5
-   ```
-   
-   ```bash
-   200
-   
-   real    0m5.024s
-   user    0m0.003s
-   sys     0m0.003s
-   ```
-
-   The request should return 200 (OK) in approximately 5 seconds.
-
-1. Use `istioctl` to set a 3s timeout on calls to the httpbin service
-
-   ```bash
-   cat <<EOF | istioctl create -f -
-   apiVersion: config.istio.io/v1alpha2
-   kind: RouteRule
-   metadata:
-     name: httpbin-3s-rule
-   spec:
-     destination:
-       name: httpbin
-     http_req_timeout:
-       simple_timeout:
-         timeout: 3s
-   EOF
-   ```
-   
-   Note that you may need to change the `default` namespace to the namespace of the `httpbin` application.
-
-1. Wait a few seconds, then issue the _curl_ request again:
- 
-   ```bash
-   time curl -o /dev/null -s -w "%{http_code}\n" http://$INGRESS_URL/delay/5
-   ```
-
-   ```bash
-   504
-   
-   real    0m3.149s
-   user    0m0.004s
-   sys     0m0.004s
-   ```
-   
-   This time a 504 (Gateway Timeout) appears after 3 seconds.
-   Although httpbin was waiting 5 seconds, Istio cut off the request at 3 seconds.
-
-> Note: HTTP fault injection (abort and delay) is not currently supported by ingress proxies.
 
 ## Understanding ingresses
 
@@ -301,14 +279,13 @@ In the preceding steps we created a service inside the Istio service mesh and sh
 to expose both HTTP and HTTPS endpoints of the service to external traffic.
 We also showed how to control the ingress traffic using an Istio route rule.
 
-
 ## Cleanup
 
 1. Remove the secret, Ingress Resource definitions and Istio rule.
     
    ```bash
-   istioctl delete routerule httpbin-3s-rule
-   kubectl delete ingress simple-ingress secured-ingress 
+   istioctl delete routerule deny-route status-route
+   kubectl delete ingress simple-ingress secure-ingress 
    kubectl delete -n istio-system secret istio-ingress-certs
    ```
 

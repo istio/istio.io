@@ -15,9 +15,8 @@ Quick Start instructions to install and configure Istio in a Kubernetes cluster.
 
 ## Prerequisites
 
-The following instructions assume you have access to a Kubernetes **1.7.4 or newer** cluster
-with [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/) enabled.
-If you wish to enable [automatic injection of sidecar]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection), you need to turn on Kubernetes alpha features in your cluster.
+The following instructions require you have access to a Kubernetes **1.7.4 or newer** cluster
+with [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/) enabled. You will also need `kubectl` **1.7.4 or newer** installed.  If you wish to enable [automatic injection of sidecar]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection), you need to turn on Kubernetes alpha features in your cluster.
 
   > Note: If you installed Istio 0.1.x,
   > [uninstall](https://istio.io/v-0.1/docs/tasks/installing-istio.html#uninstalling)
@@ -98,20 +97,18 @@ run the following command to download and extract the latest release automatical
 
 1. Install Istio's core components. Choose one of the two _**mutually exclusive**_ options below:
 
-  a) Install Istio without enabling [authentication]({{home}}/docs/concepts/network-and-auth/auth.html) between sidecars with
-       [mutual TLS authentication](https://en.wikipedia.org/wiki/Mutual_authentication).
+  a) Install Istio without enabling [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars.
        Choose this option for clusters with existing applications, applications where services with an
        Istio sidecar need to be able to communicate with other non-Istio Kubernetes services, and
        applications that use [liveliness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/),
-       headless services, or statefulsets.
+       headless services, or StatefulSets.
   ```bash
   kubectl apply -f install/kubernetes/istio.yaml
   ```
 
   _**OR**_
 
-  b) Install Istio and enable [authentication]({{home}}/docs/concepts/network-and-auth/auth.html) between sidecars
-  with [mutual TLS authentication](https://en.wikipedia.org/wiki/Mutual_authentication):
+  b) Install Istio and enable [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars.:
   ```bash
   kubectl apply -f install/kubernetes/istio-auth.yaml
   ```
@@ -145,8 +142,8 @@ run the following command to download and extract the latest release automatical
    application using the service NodePort, or use port-forwarding instead.
 
 2. Ensure the corresponding Kubernetes pods are deployed and all containers are up and running:
-   `istio-pilot-\*`, `istio-mixer-\*`, `istio-ingress-\*`, `istio-egress-\*`, `istio-ca-\*`,
-   and, optionally, `istio-initializer-\*`.
+   `istio-pilot-*`, `istio-mixer-*`, `istio-ingress-*`, `istio-egress-*`, `istio-ca-*`,
+   and, optionally, `istio-initializer-*`.
   ```bash
   kubectl get pods -n istio-system
   ```
@@ -210,4 +207,4 @@ You can use the [Istio Helm chart](https://github.com/kubernetes/charts/tree/mas
 
 * See the sample [BookInfo]({{home}}/docs/guides/bookinfo.html) application.
 
-* See how to [test Istio Auth]({{home}}/docs/tasks/security/istio-auth.html).
+* See how to [test Istio mutual TLS Authentication]({{home}}/docs/tasks/security/mutual-tls.html).

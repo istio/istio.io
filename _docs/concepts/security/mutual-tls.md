@@ -1,7 +1,6 @@
 ---
-title: Auth
-overview: Architectural deep-dive into the design of Auth, which provides the secure communication channel and strong identity for Istio.
-              
+title: Mutual TLS Authentication
+overview: Describes Istio's mutual TLS authentication architecture which provides a strong service identity and secure communication channels between services.
 order: 10
 
 layout: docs

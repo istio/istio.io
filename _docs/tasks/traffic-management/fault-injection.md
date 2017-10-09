@@ -39,7 +39,7 @@ This task shows how to inject delays and test the resiliency of your application
 ## Fault injection
 
 To test our BookInfo application microservices for resiliency, we will _inject a 7s delay_
-between the reviews:v2 and ratings microservices. Since the _reviews:v2_ service has a
+between the reviews:v2 and ratings microservices, for user "jason". Since the _reviews:v2_ service has a
 10s timeout for its calls to the ratings service, we expect the end-to-end flow to
 continue without any errors.
 
@@ -83,10 +83,10 @@ continue without any errors.
 
 1. Observe application behavior
 
-   If the application's front page was set to correctly handle delays, we expect it
+   Log in as user "jason". If the application's front page was set to correctly handle delays, we expect it
    to load within approximately 7 seconds. To see the web page response times, open the
    *Developer Tools* menu in IE, Chrome or Firefox (typically, key combination _Ctrl+Shift+I_
-   or _Alt+Cmd+I_) and reload the `productpage` web page.
+   or _Alt+Cmd+I_), tab Network, and reload the `productpage` web page.
 
    You will see that the webpage loads in about 6 seconds. The reviews section will show
    *Sorry, product reviews are currently unavailable for this book*.
