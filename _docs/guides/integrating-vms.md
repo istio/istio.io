@@ -2,7 +2,6 @@
 title: Integrating Virtual Machines
 overview: This sample deploys the Bookinfo services across Kubernetes and a set of virtual machines, and illustrates how to use the Istio service mesh to control this infrastructure as a single mesh.
 
-#draft: true
 order: 60
 layout: docs
 type: markdown
@@ -77,15 +76,10 @@ On the DB machine:
 
   Note that the 'db' machine does not need and should not have special kubernetes priviledges.
 
-## Registering the mongodb service with the Mesh
-
- In progress...
-
 ## Using the mysql service
 
 The ratings service in bookinfo will use the DB on the machine. To verify it works, you can
 modify the ratings value on the database.
 
-```bash
-  # ...
-```
+More details here soon.
+See the [MySQL](https://github.com/istio/istio/blob/master/samples/rawvm/README.md) document in the meantime.
