@@ -2,7 +2,6 @@
 title: Integrating Virtual Machines
 overview: This sample deploys the Bookinfo services across Kubernetes and a set of virtual machines, and illustrates how to use the Istio service mesh to control this infrastructure as a single mesh.
 
-draft: true
 order: 60
 layout: docs
 type: markdown
@@ -15,11 +14,16 @@ this infrastructure as a single mesh.
 
 > Note: this guide is still under development and only tested on Google Cloud Platform.
   On IBM Bluemix or other platforms where overlay network of Pods is isolated from VM network,
-  VMs cannot initiate any direct communication to Kubernetes Pods when using Istio.
+  VMs cannot initiate any direct communication to Kubernetes Pods even when using Istio.
 
 ## Overview
 
-TBD
+
+<figure><img src="./img/mesh-expansion.svg" alt="BookInfo Application with Istio Mesh Expansion" title="BookInfo Application with Istio Mesh Expansion" />
+<figcaption>BookInfo Application with Istio Mesh Expansion</figcaption></figure>
+
+<!-- source of the drawing https://docs.google.com/drawings/d/1gQp1OTusiccd-JUOHktQ9RFZaqREoQbwl2Vb-P3XlRQ/edit -->
+
 
 ## Before you begin
 
@@ -72,15 +76,10 @@ On the DB machine:
 
   Note that the 'db' machine does not need and should not have special kubernetes priviledges.
 
-## Registering the mongodb service with the Mesh
-
- In progress...
-
 ## Using the mysql service
 
 The ratings service in bookinfo will use the DB on the machine. To verify it works, you can
 modify the ratings value on the database.
 
-```bash
-  # ...
-```
+More details here soon.
+See the [MySQL](https://github.com/istio/istio/blob/master/samples/rawvm/README.md) document in the meantime.
