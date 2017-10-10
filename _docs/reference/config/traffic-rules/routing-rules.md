@@ -56,7 +56,8 @@ the destination service.
 For example, a simple rule to send 100% of incoming traffic for a
 "reviews" service to version "v1" can be specified as follows:
 
-
+    apiVersion: config.istio.io/v1alpha2
+    kind: RouteRule
     metadata:
       name: my-rule
       namespace: default # optional (default is "default")
