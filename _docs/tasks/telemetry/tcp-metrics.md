@@ -22,12 +22,16 @@ as the example application throughout this task.
 * [Install Istio]({{home}}/docs/setup/) in your cluster and deploy an
   application.
 
-* Install the optional add-on [Prometheus](https://prometheus.io). Prometheus
-  will be used to verify task success.
-
 * This task assumes that the BookInfo sample will be deployed in the `default`
   namespace. If you use a different namespace, you will need to update the
   example configuration and commands.
+
+* Install the Prometheus add-on. Prometheus
+  will be used to verify task success. 
+  ```bash
+  kubectl apply -f install/kubernetes/addons/prometheus.yaml
+  ```
+  See [Prometheus](https://prometheus.io) for details.
 
 ## Collecting new telemetry data
 
