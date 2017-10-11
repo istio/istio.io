@@ -31,8 +31,7 @@ this infrastructure as a single mesh.
   [Installation guide]({{home}}/docs/setup/kubernetes/quick-start.html).
 
 * Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
-
-* Create a VM named 'db' in the same project as Istio cluster, and [Join the Mesh]({{home}}/docs/setup/kubernetes/mesh-expansion.html).
+* Create a VM named 'mysqldb' in the same project as Istio cluster, and [Join the Mesh]({{home}}/docs/setup/kubernetes/mesh-expansion.html).
 
 ## Running mysql on the VM
 
@@ -40,25 +39,33 @@ We will first install mysql on the VM, and configure it as a backend for the rat
 
 On the VM:
 ```bash
-  sudo apt-get update && apt-get install ...
-  # TODO copy or link the istio/istio test script
+  sudo apt-get update && apt-get install -y mariadb-server
+  sudo mysql
+  # Grant remote access by root to db server
+  GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'password' WITH GRANT OPTION;
+  quit;
+  # Allow remote access to mysql
+  sudo sed -i 's/^bind-address\(.*\)/#bind-address\1/g' /etc/mysql/mariadb.conf.d/50-server.cnf
+  sudo systemctl restart mysql
+
+```
+On the VM add ratings dn to the mysql db and to make it easy to visually inspect the difference in the output of the bookinfo application you can change the ratings that are created my mysql db
+```bash
+  # Add ratings db to the mysql db
+  curl -s https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/src/mysql/mysqldb-init.sql | sed -e 's/VALUES (\(.*\),.*/VALUES (\1, 1);/g | mysql'
+```
+## Find out the IP address of the VM that will be used to add it to the mesh
+
+On the VM:
+```bash
+   hostname -I
 ```
 
 ## Registering the mysql service with the mesh
-
-### Machine admin
-First step is to configure the VM sidecar, by adding the service port and restarting the sidecar.
-
-On the DB machine:
+On a host with access to istioctl commands register the VM and mysql db service
 ```bash
-
-  sudo echo "ISTIO_INBOUND_PORTS=..." > /var/lib/istio/envoy/sidecar.env
-  sudo chown istio-proxy /var/lib/istio/envoy/sidecar.env
-  sudo systemctl restart istio
- # Or
-  db$ sudo istio-pilot vi /var/lib/istio/envoy/sidecar.env
-  # add mysql port to the "ISTIO_INBOUND_PORTS" config
-  ```
+   istioctl -n default register mysqldb <ip-address-of-vm> 3306
+```
 
 ###  Cluster admin
 
@@ -68,18 +75,18 @@ On the DB machine:
   kubectl delete service mysql
   ```
 
-  Run istioctl to configure the service (on your admin machine):
-
-  ```bash
-  istioctl register mysql PORT IP
-  ```
-
-  Note that the 'db' machine does not need and should not have special kubernetes priviledges.
+  Note that the 'mysqldb' virtual machine does not need and should not have special kubernetes priviledges.
 
 ## Using the mysql service
 
-The ratings service in bookinfo will use the DB on the machine. To verify it works, you can
-modify the ratings value on the database.
+The ratings service in bookinfo will use the DB on the machine. To verify it works, you must create 'version-2' of the ratings service that will use the mysql db and also specify route rules that force review service to use the ratings version-2 service.
+```bash
+# Create the version of ratings service that will use mysql back end
+kubectl create -f samples/bookinfo/kube/bookinfo-mysql.yaml
 
+# Create route rules that will force bookinfo to use the ratings back end
+istioctl create -f samples/bookinfo/kube/route-rule-ratings-db.yaml
+```
+You can verify the output of bookinfo application is going to show 1 star for both the reviewers.
 More details here soon.
 See the [MySQL](https://github.com/istio/istio/blob/master/samples/rawvm/README.md) document in the meantime.
