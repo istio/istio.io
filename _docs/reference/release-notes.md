@@ -20,7 +20,7 @@ command.
 services in other non-system namespaces.
 
 - **Mesh Expansion**. Initial support for adding non-Kubernetes services (in the form of VMs and/or physical machines) to a mesh. This is an early version of
-this features which has limitations (such as requiring a flat network across containers and VMs).
+this feature and has some limitations (such as requiring a flat network across containers and VMs).
 
 - **Multi-Environment Support**. Initial support for using Istio in conjunction with other service registries 
 including Consul and Eureka. 
@@ -71,7 +71,7 @@ to write adapters.
 - **Improved Mixer Build Model**. It’s now easier to build a Mixer binary that includes custom adapters.
 
 - **Mixer Adapter Updates**. The built-in adapters have all been rewritten to fit into the new adapter model. The stackdriver adapter has been added for this
-release. The experimental redisquota adapter has been removed in the 0.2 release, but is expected to come back in production quality for the 0.3 release.
+release. The experimental redis quota adapter has been removed in the 0.2 release, but is expected to come back in production quality for the 0.3 release.
 
 - **Mixer Call Tracing**. Calls between Envoy and Mixer can now be traced and analyzed in the Zipkin dashboard.
 
