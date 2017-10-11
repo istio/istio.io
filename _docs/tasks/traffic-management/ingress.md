@@ -270,6 +270,90 @@ rules.
    curl -I -k https://$INGRESS_HOST/status/200
    ```
 
+## Configuring ingress for gRPC
+
+The ingress controller currently doesn't support `.` characters in the `path`
+field. This is an issue for gRPC services using namespaces. In order to work
+around the issue, traffic can be directed through a common dummy service, with
+route rules set up to intercept traffic and redirect to the intended services.
+
+1. Create a dummy ingress service:
+
+   ```bash
+   cat <<EOF | kubectl create -f -
+   apiVersion: v1
+   kind: Service
+   metadata:
+     name: ingress-dummy-service
+   spec:
+     ports:
+     - name: grpc
+       port: 1337
+   EOF
+   ```
+
+1. Create a catch-all ingress pointing to the dummy service:
+
+   ```bash
+   cat <<EOF | kubectl create -f -
+   apiVersion: extensions/v1beta1
+   kind: Ingress
+   metadata:
+     name: all-istio-ingress
+     annotations:
+       kubernetes.io/ingress.class: istio
+   spec:
+     rules:
+     - http:
+         paths:
+         - backend:
+             serviceName: ingress-dummy-service
+             servicePort: grpc
+   ```
+
+1. Create a RouteRule for each service, redirecting from the dummy service to
+   the correct gRPC service:
+
+   ```bash
+   cat <<EOF | istioctl create -f -
+   apiVersion: config.istio.io/v1alpha2
+   kind: RouteRule
+   metadata:
+     name: foo-service-route
+   spec:
+     destination:
+       name: ingress-dummy-service
+     match:
+       request:
+         headers:
+           uri:
+             prefix: "/foo.FooService"
+     precedence: 1
+     route:
+     - weight: 100
+       destination:
+         name: foo-service
+   ---
+   apiVersion: config.istio.io/v1alpha2
+   kind: RouteRule
+   metadata:
+     name: bar-service-route
+   spec:
+     destination:
+       name: ingress-dummy-service
+     match:
+       request:
+         headers:
+           uri:
+             prefix: "/bar.BarService"
+     precedence: 1
+     route:
+     - weight: 100
+       destination:
+         name: bar-service
+   ```
+
+
 ## Understanding ingresses
 
 Ingresses provide gateways for external traffic to enter the Istio service mesh
