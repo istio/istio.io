@@ -38,17 +38,13 @@ You should customize it based on your provisioning tools and DNS requirements.
 
 ### Preparing the Kubernetes cluster for expansion
 
-* Setup internal load balancers for Kube DNS, Pilot, Mixer and CA. This step is specific to
-each cluster, you may need to add annotations.
+* Setup Internal Load Balancers (ILBs) for Kube DNS, Pilot, Mixer and CA. This step is specific to
+each cluster, you may need to add cloud provider specific annotations.
 
-<!-- TODO: missing
-```bash
-install/tools/setupMeshEx.sh initCluster
+Note: 0.2.7 yaml has a typo with the wrong namespace for the DNS ILB, use https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/mesh-expansion.yaml
+
 ```
-or
--->
-```
-kubectl apply -f install/kubernetes/meshex.yaml
+kubectl apply -f install/kubernetes/mesh-expansion.yaml
 ```
 
 * Generate the Istio 'cluster.env' configuration to be deployed in the VMs. This file contains
