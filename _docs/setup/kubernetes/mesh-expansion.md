@@ -31,7 +31,7 @@ separate documents will cover these advanced configurations.
 Setup consists of preparing the mesh for expansion and installing and configuring each VM.
 
 An example script to help with Kubernetes setup is available in
-[install/tools/setupMeshEx.sh](https://raw.githubusercontent.com/istio/istio/master/install/tools/setupMeshEx.sh).
+[install/tools/setupMeshEx.sh](https://raw.githubusercontent.com/istio/istio/master/install/tools/setupMeshEx.sh). Please check the script content and environment variables supported (like GCP_OPTS)
 
 An example script to help configure a machine is available in [install/tools/setupIstioVM.sh](https://raw.githubusercontent.com/istio/istio/master/install/tools/setupIstioVM.sh).
 You should customize it based on your provisioning tools and DNS requirements.
@@ -39,11 +39,12 @@ You should customize it based on your provisioning tools and DNS requirements.
 ### Preparing the Kubernetes cluster for expansion
 
 * Setup Internal Load Balancers (ILBs) for Kube DNS, Pilot, Mixer and CA. This step is specific to
-each cluster, you may need to add cloud provider specific annotations.
+each cloud provider, you may need to edit annotations.
 
 > The yaml part of the 0.2.7 distribution has a typo with the wrong
 namespace for the DNS ILB, use
-[this one](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/mesh-expansion.yaml)
+[this one](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/mesh-expansion.yaml),
+likewise for the setupMeshEx.sh, please use the latest above or from cloning [GitHub.com/istio/istio](https://github.com/istio/istio/)
 
 ```
 kubectl apply -f install/kubernetes/mesh-expansion.yaml
@@ -53,13 +54,14 @@ kubectl apply -f install/kubernetes/mesh-expansion.yaml
 the cluster IP address ranges to intercept.
 
 ```bash
+export GCP_OPTS="--zone MY_ZONE --project MY_PROJECT"
 install/tools/setupMeshEx.sh generateClusterEnv MY_CLUSTER_NAME
 ```
 
 Example generated files:
 
    ```bash
-   cat /usr/local/istio/proxy/cluster.env
+   cat cluster.env
    ```
    ```
    ISTIO_SERVICE_CIDR=10.23.240.0/20
