@@ -1,5 +1,5 @@
 ---
-title: Adding VMs to the Mesh
+title: Istio Mesh Expansion
 overview: Instructions for integrating VMs and bare metal hosts into an Istio mesh deployed on Kubernetes.
 
 order: 60
@@ -41,7 +41,9 @@ You should customize it based on your provisioning tools and DNS requirements.
 * Setup Internal Load Balancers (ILBs) for Kube DNS, Pilot, Mixer and CA. This step is specific to
 each cluster, you may need to add cloud provider specific annotations.
 
-Note: 0.2.7 yaml has a typo with the wrong namespace for the DNS ILB, use https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/mesh-expansion.yaml
+> The yaml part of the 0.2.7 distribution has a typo with the wrong
+namespace for the DNS ILB, use
+[this one](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/mesh-expansion.yaml)
 
 ```
 kubectl apply -f install/kubernetes/mesh-expansion.yaml
