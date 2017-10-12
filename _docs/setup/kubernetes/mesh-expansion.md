@@ -55,7 +55,7 @@ kubectl apply -f install/kubernetes/meshex.yaml
 the cluster IP address ranges to intercept.
 
 ```bash
-install/tools/setupMeshEx.sh generateDnsmasq MY_CLUSTER_NAME
+install/tools/setupMeshEx.sh generateClusterEnv MY_CLUSTER_NAME
 ```
 
 Example generated files:
@@ -70,7 +70,7 @@ Example generated files:
 cluster service names, which will be intercepted by the sidecar and forwarded.
 
 ```bash
-install/tools/setupMeshEx.sh generateClusterEnv MY_CLUSTER_NAME
+install/tools/setupMeshEx.sh generateDnsmasq MY_CLUSTER_NAME
 ```
 
 Example generated files:
