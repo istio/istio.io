@@ -58,7 +58,7 @@ export GCP_OPTS="--zone MY_ZONE --project MY_PROJECT"
 install/tools/setupMeshEx.sh generateClusterEnv MY_CLUSTER_NAME
 ```
 
-Example generated files:
+Example generated file:
 
 ```bash
 cat cluster.env
@@ -75,7 +75,7 @@ cluster service names, which will be intercepted by the sidecar and forwarded.
 install/tools/setupMeshEx.sh generateDnsmasq
 ```
 
-Example generated files:
+Example generated file:
 
 ```bash
 cat /etc/dnsmasq.d/kubedns
@@ -92,6 +92,15 @@ address=/istio-ca.istio-system/10.150.0.9
 
 ### Setting up the machines
 
+There is a script that copies and install the setup you can use as an example:
+```bash
+# Check what the script does to see that it meets your need:
+# On a mac either brew install base64 or set BASE64_DECODE="/usr/bin/base64 -D"
+install/tools/setupMeshEx.sh machineSetup DESTINATION
+```
+
+Equivalent manual steps:
+
 * Copy the configuration files and Istio Debian files to each machine joining the cluster.
 Save the files as `/etc/dnsmasq.d/kubedns` and `/var/lib/istio/envoy/cluster.env`.
 
@@ -104,52 +113,56 @@ On the VM/external host:
 dig istio-pilot.istio-system
 ```
 ```
-    # This should be the same address shown as "EXTERNAL-IP" in 'kubectl get svc -n istio-system istio-pilot-ilb'
-    ...
-    istio-pilot.istio-system. 0	IN	A	10.128.0.5
-    ...
+# This should be the same address shown as "EXTERNAL-IP" in 'kubectl get svc -n istio-system istio-pilot-ilb'
+...
+istio-pilot.istio-system. 0	IN	A	10.128.0.5
+...
 ```
 ```bash
-    # Check that we can resolve cluster IPs. The actual IN A will depend on cluster configuration.
-    dig istio-pilot.istio-system.svc.cluster.local.
+# Check that we can resolve cluster IPs. The actual IN A will depend on cluster configuration.
+dig istio-pilot.istio-system.svc.cluster.local.
 ```
 ```
-    ...
-    istio-pilot.istio-system.svc.cluster.local. 30 IN A 10.23.251.121
+...
+istio-pilot.istio-system.svc.cluster.local. 30 IN A 10.23.251.121
 ```
 ```bash
 dig istio-ingress.istio-system.svc.cluster.local.
 ```
 ```
-    ...
-    istio-ingress.istio-system.svc.cluster.local. 30 IN A 10.23.245.11
+...
+istio-ingress.istio-system.svc.cluster.local. 30 IN A 10.23.245.11
 ```
 
 * Verify connectivity by checking whether the VM can connect to Pilot and to an endpoint.
 
-    ```bash
-    curl -v 'http://istio-pilot.istio-system:8080/v1/registration/istio-pilot.istio-system.svc.cluster.local|http-discovery'
-    ```
-    ```
-    ...
-    "ip_address": "10.20.1.18",
-    ...
-    ```
-    ```bash
-    # On the VM: use the address above - it will connect directly the the pod running istio-pilot.
-    curl -v 'http://10.20.1.18:8080/v1/registration/istio-pilot.istio-system.svc.cluster.local|http-discovery'
-    ```
+```bash
+curl -v 'http://istio-pilot.istio-system:8080/v1/registration/istio-pilot.istio-system.svc.cluster.local|http-discovery'
+```
+```
+...
+"ip_address": "10.20.1.18",
+...
+```
+```bash
+# On the VM: use the address above - it will connect directly the the pod running istio-pilot.
+curl -v 'http://10.20.1.18:8080/v1/registration/istio-pilot.istio-system.svc.cluster.local|http-discovery'
+```
+
 
 * Extract the initial Istio authentication secrets and copy them to the machine. The default
-installation of Istio includes IstioCA and will generate Istio secrets even if automatic 'mTLS'
-setting is disabled. It is recommended that you perform this step to make it easy to
-enable mTLS in future and upgrade to future version that will have mTLS enabled by default.
+installation of Istio includes Istio CA and will generate Istio secrets even if automatic 'mTLS'
+setting is disabled (it creates secret for each service account, and the secret
+is named as `istio.<serviceaccount>`). It is recommended that you perform this
+step to make it easy to enable mTLS in future and upgrade to future version that
+will have mTLS enabled by default.
 
 ```bash
-  # ACCOUNT defaults to 'istio.default', or SERVICE_ACCOUNT environment variable
-  # NAMESPACE defaults to current namespace, or SERVICE_NAMESPACE environment variable
-
-  install/tools/setupMeshEx machineCerts ACCOUNT NAMESPACE
+# ACCOUNT defaults to 'default', or SERVICE_ACCOUNT environment variable
+# NAMESPACE defaults to current namespace, or SERVICE_NAMESPACE environment variable
+# (this step is done by machineSetup)
+# On a mac either brew install base64 or set BASE64_DECODE="/usr/bin/base64 -D"
+install/tools/setupMeshEx.sh machineCerts ACCOUNT NAMESPACE
 ```
 
 The generated files (`key.pem`, `root-cert.pem`, `cert-chain.pem`) must be copied to /etc/certs on each machine, readable by istio-proxy.
@@ -158,15 +171,14 @@ The generated files (`key.pem`, `root-cert.pem`, `cert-chain.pem`) must be copie
 
   ```bash
 
-      ISTIO_VERSION=0.2.4 # Update with the current istio version
-      DEBURL=http://gcsweb.istio.io/gcs/istio-release/releases/${ISTIO_VERSION}/deb
-      curl -L ${DEBURL}/istio-agent-release.deb > istio-agent-release.deb
-      curl -L ${DEBURL}/istio-auth-node-agent-release.deb > istio-auth-node-agent-release.deb
-      curl -L ${DEBURL}/istio-proxy-release.deb > istio-proxy-release.deb
+      source istio.VERSION # defines version and URLs env var
+      curl -L ${PILOT_DEBIAN_URL}/istio-agent-release.deb > istio-agent-release.deb
+      curl -L ${AUTH_DEBIAN_URL}/istio-auth-node-agent-release.deb > istio-auth-node-agent-release.deb
+      curl -L ${PROXY_DEBIAN_URL}/istio-proxy-release.deb > istio-proxy-release.deb
 
-      dpkg -i ${ISTIO_STAGING}/istio-proxy-envoy.deb
-      dpkg -i ${ISTIO_STAGING}/istio-agent.deb
-      dpkg -i ${ISTIO_STAGING}/istio-auth-node-agent.deb
+      dpkg -i istio-proxy-envoy.deb
+      dpkg -i istio-agent.deb
+      dpkg -i istio-auth-node-agent.deb
 
       # TODO: This will be replaced with an 'apt-get' command once the repositories are setup.
 
