@@ -41,10 +41,12 @@ You should customize it based on your provisioning tools and DNS requirements.
 * Setup internal load balancers for Kube DNS, Pilot, Mixer and CA. This step is specific to
 each cluster, you may need to add annotations.
 
+<!-- TODO: missing
 ```bash
-install/tools/setupMeshEx initCluster
+install/tools/setupMeshEx.sh initCluster
 ```
 or
+-->
 ```
 kubectl apply -f install/kubernetes/meshex.yaml
 ```
@@ -53,7 +55,7 @@ kubectl apply -f install/kubernetes/meshex.yaml
 the cluster IP address ranges to intercept.
 
 ```bash
-install/tools/setupMeshEx generateConfigs MY_CLUSTER_NAME
+install/tools/setupMeshEx.sh generateDnsmasq MY_CLUSTER_NAME
 ```
 
 Example generated files:
@@ -68,7 +70,7 @@ Example generated files:
 cluster service names, which will be intercepted by the sidecar and forwarded.
 
 ```bash
-install/tools/setupMeshEx generateConfigs MY_CLUSTER_NAME
+install/tools/setupMeshEx.sh generateClusterEnv MY_CLUSTER_NAME
 ```
 
 Example generated files:
@@ -188,7 +190,6 @@ using the ISTIO_INBOUND_PORTS environment variable.
   Example (on the VM running the service):
 
    ```bash
-
    echo "ISTIO_INBOUND_PORTS=27017,3306,8080" > /var/lib/istio/envoy/sidecar.env
    systemctl restart istio
    ```
