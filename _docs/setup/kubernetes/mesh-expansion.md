@@ -60,31 +60,35 @@ install/tools/setupMeshEx.sh generateClusterEnv MY_CLUSTER_NAME
 
 Example generated files:
 
-   ```bash
-   cat cluster.env
-   ```
-   ```
-   ISTIO_SERVICE_CIDR=10.23.240.0/20
-   ```
+```bash
+cat cluster.env
+```
+```
+ISTIO_SERVICE_CIDR=10.63.240.0/20
+```
+
 * Generate DNS configuration file to be used in the VMs. This will allow apps on the VM to resolve
 cluster service names, which will be intercepted by the sidecar and forwarded.
 
 ```bash
-install/tools/setupMeshEx.sh generateDnsmasq MY_CLUSTER_NAME
+# Make sure your kubectl context is set to your cluster
+install/tools/setupMeshEx.sh generateDnsmasq
 ```
 
 Example generated files:
 
-   ```bash
+```bash
 cat /etc/dnsmasq.d/kubedns
 ```
 ```
-   server=/svc.cluster.local/10.128.0.6
-   address=/istio-mixer/10.128.0.7
-   address=/mixer-server/10.128.0.7
-   address=/istio-pilot/10.128.0.5
-   address=/istio-ca/10.128.0.8
-  ```
+server=/svc.cluster.local/10.150.0.7
+address=/istio-mixer/10.150.0.8
+address=/istio-pilot/10.150.0.6
+address=/istio-ca/10.150.0.9
+address=/istio-mixer.istio-system/10.150.0.8
+address=/istio-pilot.istio-system/10.150.0.6
+address=/istio-ca.istio-system/10.150.0.9
+```
 
 ### Setting up the machines
 
