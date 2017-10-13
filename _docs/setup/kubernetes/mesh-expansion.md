@@ -93,15 +93,17 @@ address=/istio-ca.istio-system/10.150.0.9
 
 ### Setting up the machines
 
-As an example, you can use the following script to copy and install the setup:
+As an example, you can use the following "all inclusive" script to copy
+and install the setup:
+
 ```bash
 # Check what the script does to see that it meets your needs.
 # On a Mac, either brew install base64 or set BASE64_DECODE="/usr/bin/base64 -D"
 export GCP_OPTS="--zone MY_ZONE --project MY_PROJECT"
-install/tools/setupMeshEx.sh machineSetup DESTINATION
+install/tools/setupMeshEx.sh machineSetup VM_NAME
 ```
 
-Equivalent manual steps:
+Or the equivalent manual steps:
 
 * Copy the configuration files and Istio Debian files to each machine joining the cluster.
 Save the files as `/etc/dnsmasq.d/kubedns` and `/var/lib/istio/envoy/cluster.env`.
@@ -112,43 +114,44 @@ names and connect to pilot, for example:
 
 On the VM/external host:
 ```bash
-dig istio-pilot.istio-system
+host istio-pilot.istio-system
 ```
 ```
 # Verify you get the same address as shown as "EXTERNAL-IP" in 'kubectl get svc -n istio-system istio-pilot-ilb'
-...
-istio-pilot.istio-system. 0	IN	A	10.128.0.5
-...
+istio-pilot.istio-system has address 10.150.0.6
 ```
 ```bash
-# Check that you can resolve cluster IPs. The actual IN A will depend on cluster configuration.
-dig istio-pilot.istio-system.svc.cluster.local.
+# Check that you can resolve cluster IPs. The actual address will depend on your deployment.
+host istio-pilot.istio-system.svc.cluster.local.
 ```
 ```
-...
-istio-pilot.istio-system.svc.cluster.local. 30 IN A 10.23.251.121
+istio-pilot.istio-system.svc.cluster.local has address 10.63.247.248
 ```
 ```bash
-dig istio-ingress.istio-system.svc.cluster.local.
+host istio-ingress.istio-system.svc.cluster.local.
 ```
 ```
-...
-istio-ingress.istio-system.svc.cluster.local. 30 IN A 10.23.245.11
+istio-ingress.istio-system.svc.cluster.local has address 10.63.243.30
 ```
 
 * Verify connectivity by checking whether the VM can connect to Pilot and to an endpoint.
 
 ```bash
-curl -v 'http://istio-pilot.istio-system:8080/v1/registration/istio-pilot.istio-system.svc.cluster.local|http-discovery'
+curl 'http://istio-pilot.istio-system:8080/v1/registration/istio-pilot.istio-system.svc.cluster.local|http-discovery'
 ```
 ```
-...
-"ip_address": "10.20.1.18",
-...
+{
+  "hosts": [
+   {
+    "ip_address": "10.60.1.4",
+    "port": 8080
+   }
+  ]
+}
 ```
 ```bash
 # On the VM, use the address above. It will directly connect to the pod running istio-pilot.
-curl -v 'http://10.20.1.18:8080/v1/registration/istio-pilot.istio-system.svc.cluster.local|http-discovery'
+curl 'http://10.60.1.4:8080/v1/registration/istio-pilot.istio-system.svc.cluster.local|http-discovery'
 ```
 
 
