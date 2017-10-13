@@ -47,6 +47,21 @@ type: markdown
   service pod and curl itself within the pod. The Istio team is actively
   working on a solution.
 
+  [Kubernetes liveness/readiness](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)
+
+  An example of readinessProbe:
+
+  ```
+  livenessProbe:
+    exec:
+      command:
+      - /bin/sh
+      - -c
+      - curl -f http://localhost:{$PORT}
+    initialDelaySeconds: 10
+    periodSeconds: 5
+  ```
+
 * _Can I access the Kubernetes API Server with Auth enabled?_
 
   The Kubernetes API server does not support mutual TLS
