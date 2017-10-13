@@ -31,7 +31,7 @@ separate documents will cover these advanced configurations.
 Setup consists of preparing the mesh for expansion and installing and configuring each VM.
 
 An example script to help with Kubernetes setup is available in
-[install/tools/setupMeshEx.sh](https://raw.githubusercontent.com/istio/istio/master/install/tools/setupMeshEx.sh). Please check the script content and environment variables supported (like GCP_OPTS)
+[install/tools/setupMeshEx.sh](https://raw.githubusercontent.com/istio/istio/master/install/tools/setupMeshEx.sh). Check the script content and environment variables supported (like GCP_OPTS).
 
 An example script to help configure a machine is available in [install/tools/setupIstioVM.sh](https://raw.githubusercontent.com/istio/istio/master/install/tools/setupIstioVM.sh).
 You should customize it based on your provisioning tools and DNS requirements.
@@ -39,12 +39,13 @@ You should customize it based on your provisioning tools and DNS requirements.
 ### Preparing the Kubernetes cluster for expansion
 
 * Setup Internal Load Balancers (ILBs) for Kube DNS, Pilot, Mixer and CA. This step is specific to
-each cloud provider, you may need to edit annotations.
+each cloud provider, so you may need to edit annotations.
 
-> The yaml part of the 0.2.7 distribution has a typo with the wrong
-namespace for the DNS ILB, use
-[this one](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/mesh-expansion.yaml),
-likewise for the setupMeshEx.sh, please use the latest above or from cloning [GitHub.com/istio/istio](https://github.com/istio/istio/)
+> The yaml file of the 0.2.7 distribution has an incorrect namespace for the DNS ILB.
+Use
+[this one](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/mesh-expansion.yaml)
+instead.
+The `setupMeshEx.sh` also has a typo. Use the latest file from the link above or from cloning [GitHub.com/istio/istio](https://github.com/istio/istio/)
 
 ```
 kubectl apply -f install/kubernetes/mesh-expansion.yaml
@@ -92,10 +93,10 @@ address=/istio-ca.istio-system/10.150.0.9
 
 ### Setting up the machines
 
-There is a script that copies and install the setup you can use as an example:
+As an example, you can use the following script to copy and install the setup:
 ```bash
-# Check what the script does to see that it meets your need:
-# On a mac either brew install base64 or set BASE64_DECODE="/usr/bin/base64 -D"
+# Check what the script does to see that it meets your needs.
+# On a Mac, either brew install base64 or set BASE64_DECODE="/usr/bin/base64 -D"
 export GCP_OPTS="--zone MY_ZONE --project MY_PROJECT"
 install/tools/setupMeshEx.sh machineSetup DESTINATION
 ```
@@ -114,13 +115,13 @@ On the VM/external host:
 dig istio-pilot.istio-system
 ```
 ```
-# This should be the same address shown as "EXTERNAL-IP" in 'kubectl get svc -n istio-system istio-pilot-ilb'
+# Verify you get the same address as shown as "EXTERNAL-IP" in 'kubectl get svc -n istio-system istio-pilot-ilb'
 ...
 istio-pilot.istio-system. 0	IN	A	10.128.0.5
 ...
 ```
 ```bash
-# Check that we can resolve cluster IPs. The actual IN A will depend on cluster configuration.
+# Check that you can resolve cluster IPs. The actual IN A will depend on cluster configuration.
 dig istio-pilot.istio-system.svc.cluster.local.
 ```
 ```
@@ -146,17 +147,18 @@ curl -v 'http://istio-pilot.istio-system:8080/v1/registration/istio-pilot.istio-
 ...
 ```
 ```bash
-# On the VM: use the address above - it will connect directly the the pod running istio-pilot.
+# On the VM, use the address above. It will directly connect to the pod running istio-pilot.
 curl -v 'http://10.20.1.18:8080/v1/registration/istio-pilot.istio-system.svc.cluster.local|http-discovery'
 ```
 
 
 * Extract the initial Istio authentication secrets and copy them to the machine. The default
-installation of Istio includes Istio CA and will generate Istio secrets even if automatic 'mTLS'
+installation of Istio includes Istio CA and will generate Istio secrets even if
+the automatic 'mTLS'
 setting is disabled (it creates secret for each service account, and the secret
 is named as `istio.<serviceaccount>`). It is recommended that you perform this
-step to make it easy to enable mTLS in future and upgrade to future version that
-will have mTLS enabled by default.
+step to make it easy to enable mTLS in the future and to upgrade to a future version
+that will have mTLS enabled by default.
 
 ```bash
 # ACCOUNT defaults to 'default', or SERVICE_ACCOUNT environment variable
