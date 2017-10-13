@@ -96,6 +96,7 @@ There is a script that copies and install the setup you can use as an example:
 ```bash
 # Check what the script does to see that it meets your need:
 # On a mac either brew install base64 or set BASE64_DECODE="/usr/bin/base64 -D"
+export GCP_OPTS="--zone MY_ZONE --project MY_PROJECT"
 install/tools/setupMeshEx.sh machineSetup DESTINATION
 ```
 
@@ -168,19 +169,19 @@ install/tools/setupMeshEx.sh machineCerts ACCOUNT NAMESPACE
 The generated files (`key.pem`, `root-cert.pem`, `cert-chain.pem`) must be copied to /etc/certs on each machine, readable by istio-proxy.
 
 * Install Istio Debian files and start 'istio' and 'istio-auth-node-agent' services.
+Get the debian packages from [github releases](https://github.com/istio/istio/releases) or:
 
   ```bash
+      # Note: This will be replaced with an 'apt-get' command once the repositories are setup.
 
       source istio.VERSION # defines version and URLs env var
-      curl -L ${PILOT_DEBIAN_URL}/istio-agent-release.deb > istio-agent-release.deb
-      curl -L ${AUTH_DEBIAN_URL}/istio-auth-node-agent-release.deb > istio-auth-node-agent-release.deb
-      curl -L ${PROXY_DEBIAN_URL}/istio-proxy-release.deb > istio-proxy-release.deb
+      curl -L ${PILOT_DEBIAN_URL}/istio-agent.deb > ${ISTIO_STAGING}/istio-agent.deb
+      curl -L ${AUTH_DEBIAN_URL}/istio-auth-node-agent.deb > ${ISTIO_STAGING}/istio-auth-node-agent.deb
+      curl -L ${PROXY_DEBIAN_URL}/istio-proxy.deb > ${ISTIO_STAGING}/istio-proxy.deb
 
       dpkg -i istio-proxy-envoy.deb
       dpkg -i istio-agent.deb
       dpkg -i istio-auth-node-agent.deb
-
-      # TODO: This will be replaced with an 'apt-get' command once the repositories are setup.
 
       systemctl start istio
       systemctl start istio-auth-node-agent
