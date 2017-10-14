@@ -233,8 +233,8 @@ It finds its configured name `sidecar.initializer.istio.io`
 as the first in the list of pending initializers.
 
 3) istio-initializer checks to see if it was responsible for
-initializing the namespace of the workload. No further work is done
-and the initializer ignores the workload if the initializer is
+initializing workloads in the namespace of the workload. No further work is done
+and the initializer ignores the workload if the initializer is not
 configured for the namespace. By default the initializer is
 responsible for all namespaces (see [configuration options](#configuration-options)).
 
@@ -285,7 +285,7 @@ The following are key parameters in the configuration:
 1. _**policy**_
 
  `off` - Disable the initializer from modifying resources. The pending
- `status.sidecar.istio.io initializer` initializer is still removed to
+ `sidecar.initializer.istio.io` initializer is still removed to
  avoid blocking creation of resources.
 
  `disabled` - The initializer will not inject the sidecar into
