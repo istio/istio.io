@@ -69,15 +69,19 @@ With the BookInfo application up and running, generate trace information by acce
 
 If you now look at the dashboard, you should see something similar to the following:
 
-<img style="max-width:50%" width="425" src="./img/zipkin_dashboard.png" alt="Zipkin Dashboard" title="Zipkin Dashboard" /> <img style="max-width:50%" width="425" src="./img/jaeger_dashboard.png" alt="Jaeger Dashboard" title="Jaeger Dashboard" />
-_(Zipkin on the left, Jaeger on the right)_
+<figure><img style="max-width:100%" src="./img/zipkin_dashboard.png" alt="Zipkin Dashboard" title="Zipkin Dashboard" />
+<figcaption>Zipkin Dashboard</figcaption></figure>
+<figure><img style="max-width:100%" src="./img/jaeger_dashboard.png" alt="Jaeger Dashboard" title="Jaeger Dashboard" />
+<figcaption>Jaeger Dashboard</figcaption></figure>
 
 If you click on the top (most recent) trace, you should see the details corresponding to your
 latest refresh of the `/productpage`.
 The page should look something like this:
 
-<img style="max-width:50%" width="425" src="./img/zipkin_span.png" alt="Zipkin Trace View" title="Zipkin Trace View" /> <img style="max-width:50%" width="425" src="./img/jaeger_trace.png" alt="Jaeger Trace View" title="Jaeger Trace View" />
-_(Zipkin on the left, Jaeger on the right)_
+<figure><img style="max-width:100%" src="./img/zipkin_span.png" alt="Zipkin Trace View" title="Zipkin Trace View" />
+<figcaption>Zipkin Trace View</figcaption></figure>
+<figure><img style="max-width:100%" src="./img/jaeger_trace.png" alt="Jaeger Trace View" title="Jaeger Trace View" />
+<figcaption>Jaeger Trace View</figcaption></figure>
 
 As you can see, the trace is comprised of spans,
 where each span corresponds to a BookInfo service invoked during the execution of a `/productpage` request.
