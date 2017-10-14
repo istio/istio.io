@@ -43,7 +43,7 @@ type: markdown
 
   If Istio Auth is enabled, http and tcp health check from kubelet will not
   work since they do not have Istio Auth issued certs. A workaround is to
-  use [command option](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#define-a-liveness-command)
+  use a [liveness command](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#define-a-liveness-command)
   for health check, e.g., one can install curl in the service pod and curl itself
   within the pod. The Istio team is actively working on a solution.
 
@@ -53,9 +53,9 @@ type: markdown
   livenessProbe:
     exec:
       command:
-      - /bin/sh
-      - -c
-      - curl -f http://localhost:{$PORT}
+      - curl
+      - -f
+      - http://localhost:{$PORT}
     initialDelaySeconds: 10
     periodSeconds: 5
   ```
