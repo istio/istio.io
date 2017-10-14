@@ -55,7 +55,7 @@ type: markdown
       command:
       - curl
       - -f
-      - http://localhost:{$PORT}
+      - http://localhost:8080/healthz # Replace port and URI by your actual health check
     initialDelaySeconds: 10
     periodSeconds: 5
   ```
