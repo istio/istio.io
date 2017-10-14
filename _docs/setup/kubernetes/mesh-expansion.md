@@ -93,15 +93,17 @@ address=/istio-ca.istio-system/10.150.0.9
 
 ### Setting up the machines
 
-As an example, you can use the following script to copy and install the setup:
+As an example, you can use the following "all inclusive" script to copy
+and install the setup:
+
 ```bash
 # Check what the script does to see that it meets your needs.
 # On a Mac, either brew install base64 or set BASE64_DECODE="/usr/bin/base64 -D"
 export GCP_OPTS="--zone MY_ZONE --project MY_PROJECT"
-install/tools/setupMeshEx.sh machineSetup DESTINATION
+install/tools/setupMeshEx.sh machineSetup VM_NAME
 ```
 
-Equivalent manual steps:
+Or the equivalent manual steps:
 
 * Copy the configuration files and Istio Debian files to each machine joining the cluster.
 Save the files as `/etc/dnsmasq.d/kubedns` and `/var/lib/istio/envoy/cluster.env`.
@@ -112,43 +114,44 @@ names and connect to pilot, for example:
 
 On the VM/external host:
 ```bash
-dig istio-pilot.istio-system
+host istio-pilot.istio-system
 ```
 ```
 # Verify you get the same address as shown as "EXTERNAL-IP" in 'kubectl get svc -n istio-system istio-pilot-ilb'
-...
-istio-pilot.istio-system. 0	IN	A	10.128.0.5
-...
+istio-pilot.istio-system has address 10.150.0.6
 ```
 ```bash
-# Check that you can resolve cluster IPs. The actual IN A will depend on cluster configuration.
-dig istio-pilot.istio-system.svc.cluster.local.
+# Check that you can resolve cluster IPs. The actual address will depend on your deployment.
+host istio-pilot.istio-system.svc.cluster.local.
 ```
 ```
-...
-istio-pilot.istio-system.svc.cluster.local. 30 IN A 10.23.251.121
+istio-pilot.istio-system.svc.cluster.local has address 10.63.247.248
 ```
 ```bash
-dig istio-ingress.istio-system.svc.cluster.local.
+host istio-ingress.istio-system.svc.cluster.local.
 ```
 ```
-...
-istio-ingress.istio-system.svc.cluster.local. 30 IN A 10.23.245.11
+istio-ingress.istio-system.svc.cluster.local has address 10.63.243.30
 ```
 
 * Verify connectivity by checking whether the VM can connect to Pilot and to an endpoint.
 
 ```bash
-curl -v 'http://istio-pilot.istio-system:8080/v1/registration/istio-pilot.istio-system.svc.cluster.local|http-discovery'
+curl 'http://istio-pilot.istio-system:8080/v1/registration/istio-pilot.istio-system.svc.cluster.local|http-discovery'
 ```
 ```
-...
-"ip_address": "10.20.1.18",
-...
+{
+  "hosts": [
+   {
+    "ip_address": "10.60.1.4",
+    "port": 8080
+   }
+  ]
+}
 ```
 ```bash
 # On the VM, use the address above. It will directly connect to the pod running istio-pilot.
-curl -v 'http://10.20.1.18:8080/v1/registration/istio-pilot.istio-system.svc.cluster.local|http-discovery'
+curl 'http://10.60.1.4:8080/v1/registration/istio-pilot.istio-system.svc.cluster.local|http-discovery'
 ```
 
 
@@ -199,6 +202,39 @@ or other mesh expansion machines.
 ```
 ```
    ... html content ...
+```
+
+Check that the processes are running:
+```bash
+ps aux |grep istio
+```
+```
+root      6941  0.0  0.2  75392 16820 ?        Ssl  21:32   0:00 /usr/local/istio/bin/node_agent --logtostderr
+root      6955  0.0  0.0  49344  3048 ?        Ss   21:32   0:00 su -s /bin/bash -c INSTANCE_IP=10.150.0.5 POD_NAME=demo-vm-1 POD_NAMESPACE=default exec /usr/local/bin/pilot-agent proxy > /var/log/istio/istio.log istio-proxy
+istio-p+  7016  0.0  0.1 215172 12096 ?        Ssl  21:32   0:00 /usr/local/bin/pilot-agent proxy
+istio-p+  7094  4.0  0.3  69540 24800 ?        Sl   21:32   0:37 /usr/local/bin/envoy -c /etc/istio/proxy/envoy-rev1.json --restart-epoch 1 --drain-time-s 2 --parent-shutdown-time-s 3 --service-cluster istio-proxy --service-node sidecar~10.150.0.5~demo-vm-1.default~default.svc.cluster.local
+```
+Istio auth node agent is healthy:
+```bash
+sudo systemctl status istio-auth-node-agent
+```
+```
+● istio-auth-node-agent.service - istio-auth-node-agent: The Istio auth node agent
+   Loaded: loaded (/lib/systemd/system/istio-auth-node-agent.service; disabled; vendor preset: enabled)
+   Active: active (running) since Fri 2017-10-13 21:32:29 UTC; 9s ago
+     Docs: http://istio.io/
+ Main PID: 6941 (node_agent)
+    Tasks: 5
+   Memory: 5.9M
+      CPU: 92ms
+   CGroup: /system.slice/istio-auth-node-agent.service
+           └─6941 /usr/local/istio/bin/node_agent --logtostderr
+
+Oct 13 21:32:29 demo-vm-1 systemd[1]: Started istio-auth-node-agent: The Istio auth node agent.
+Oct 13 21:32:29 demo-vm-1 node_agent[6941]: I1013 21:32:29.469314    6941 main.go:66] Starting Node Agent
+Oct 13 21:32:29 demo-vm-1 node_agent[6941]: I1013 21:32:29.469365    6941 nodeagent.go:96] Node Agent starts successfully.
+Oct 13 21:32:29 demo-vm-1 node_agent[6941]: I1013 21:32:29.483324    6941 nodeagent.go:112] Sending CSR (retrial #0) ...
+Oct 13 21:32:29 demo-vm-1 node_agent[6941]: I1013 21:32:29.862575    6941 nodeagent.go:128] CSR is approved successfully. Will renew cert in 29m59.137732603s
 ```
 
 ## Running services on a mesh expansion machine
