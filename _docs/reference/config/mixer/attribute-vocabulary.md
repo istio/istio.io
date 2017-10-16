@@ -63,4 +63,8 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | connection.sent.bytes_total | int64 | Total number of bytes sent by a destination service during the lifetime of a connection. | |
 | connection.duration | duration | The total amount of time a connection has been open. | |
 | context.protocol | string | Protocol of the request or connection being proxied. | tcp |
-| context.time | timestamp | The timestamp of the Report() call. | |
+| context.time | timestamp | The timestamp of Mixer operation. | |
+| api.service | string | The public service name. This is different than the in-mesh service identity and reflects the name of the service exposed to the client. | my-svc.com |
+| api.version | string | The API version. | v1alpha1 |
+| api.operation | string | Unique string used to identify the operation. The id is unique among all operations described in a specific <service, version>. | getPetsById |
+| api.protocol | string | The protocol type of the API call. Mainly for monitoring/analytics. Note that this is the frontend protocol exposed to the client, not the protocol implemented by the backend service. | "http", “https”, or "grpc" |
