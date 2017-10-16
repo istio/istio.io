@@ -66,5 +66,5 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | context.time | timestamp | The timestamp of Mixer operation. | |
 | api.service | string | The public service name. This is different than the in-mesh service identity and reflects the name of the service exposed to the client. | my-svc.com |
 | api.version | string | The API version. | v1alpha1 |
-| api.operation | string | Unique string used to identify the operation. The id MUST be unique among all operations described in a specific <service, version>. | getPetsById |
+| api.operation | string | Unique string used to identify the operation. The id is unique among all operations described in a specific <service, version>. | getPetsById |
 | api.protocol | string | The protocol type of the API call. Mainly for monitoring/analytics. Note that this is the frontend protocol exposed to the client, not the protocol implemented by the backend service. | "http", “https”, or "grpc" |
