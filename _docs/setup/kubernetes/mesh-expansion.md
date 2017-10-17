@@ -108,7 +108,9 @@ install/tools/setupMeshEx.sh machineSetup VM_NAME
 ```
 
 Or the equivalent manual steps:
-------- Manual setup steps begin -------
+
+------ Manual setup steps begin ------
+
 * Copy the configuration files and Istio Debian files to each machine joining the cluster.
 Save the files as `/etc/dnsmasq.d/kubedns` and `/var/lib/istio/envoy/cluster.env`.
 
@@ -198,7 +200,8 @@ Get the debian packages from [github releases](https://github.com/istio/istio/re
       systemctl start istio
       systemctl start istio-auth-node-agent
   ```
-------- Manual setup steps end -------
+
+------ Manual setup steps end ------
 
 After setup, the machine should be able to access services running in the Kubernetes cluster
 or other mesh expansion machines.
