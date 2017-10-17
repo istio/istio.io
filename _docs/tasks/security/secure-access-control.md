@@ -30,7 +30,7 @@ For the format of the service account in Istio, please refer to the
   and redeploy the service `productpage` with the service account.
 
   ```bash
-  kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-add-serviceaccount.yaml)
+  kubectl create -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-add-serviceaccount.yaml)
   ```
 
   > Note: if you are using a namespace other than `default`,
