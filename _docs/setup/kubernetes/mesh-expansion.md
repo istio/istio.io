@@ -56,6 +56,8 @@ the cluster IP address ranges to intercept.
 
 ```bash
 export GCP_OPTS="--zone MY_ZONE --project MY_PROJECT"
+```
+```bash
 install/tools/setupMeshEx.sh generateClusterEnv MY_CLUSTER_NAME
 ```
 
@@ -79,7 +81,7 @@ install/tools/setupMeshEx.sh generateDnsmasq
 Example generated file:
 
 ```bash
-cat /etc/dnsmasq.d/kubedns
+cat kubedns
 ```
 ```
 server=/svc.cluster.local/10.150.0.7
@@ -100,10 +102,14 @@ and install the setup:
 # Check what the script does to see that it meets your needs.
 # On a Mac, either brew install base64 or set BASE64_DECODE="/usr/bin/base64 -D"
 export GCP_OPTS="--zone MY_ZONE --project MY_PROJECT"
+```
+```bash
 install/tools/setupMeshEx.sh machineSetup VM_NAME
 ```
 
 Or the equivalent manual steps:
+
+------ Manual setup steps begin ------
 
 * Copy the configuration files and Istio Debian files to each machine joining the cluster.
 Save the files as `/etc/dnsmasq.d/kubedns` and `/var/lib/istio/envoy/cluster.env`.
@@ -116,6 +122,7 @@ On the VM/external host:
 ```bash
 host istio-pilot.istio-system
 ```
+Example generated message:
 ```
 # Verify you get the same address as shown as "EXTERNAL-IP" in 'kubectl get svc -n istio-system istio-pilot-ilb'
 istio-pilot.istio-system has address 10.150.0.6
@@ -124,12 +131,14 @@ istio-pilot.istio-system has address 10.150.0.6
 # Check that you can resolve cluster IPs. The actual address will depend on your deployment.
 host istio-pilot.istio-system.svc.cluster.local.
 ```
+Example generated message:
 ```
 istio-pilot.istio-system.svc.cluster.local has address 10.63.247.248
 ```
 ```bash
 host istio-ingress.istio-system.svc.cluster.local.
 ```
+Example generated message:
 ```
 istio-ingress.istio-system.svc.cluster.local has address 10.63.243.30
 ```
@@ -192,6 +201,7 @@ Get the debian packages from [github releases](https://github.com/istio/istio/re
       systemctl start istio-auth-node-agent
   ```
 
+------ Manual setup steps end ------
 
 After setup, the machine should be able to access services running in the Kubernetes cluster
 or other mesh expansion machines.
