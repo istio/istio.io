@@ -127,14 +127,15 @@ Example generated message:
 # Verify you get the same address as shown as "EXTERNAL-IP" in 'kubectl get svc -n istio-system istio-pilot-ilb'
 istio-pilot.istio-system has address 10.150.0.6
 ```
+Check that you can resolve cluster IPs. The actual address will depend on your deployment.
 ```bash
-# Check that you can resolve cluster IPs. The actual address will depend on your deployment.
 host istio-pilot.istio-system.svc.cluster.local.
 ```
 Example generated message:
 ```
 istio-pilot.istio-system.svc.cluster.local has address 10.63.247.248
 ```
+Check istio-ingress similarly:
 ```bash
 host istio-ingress.istio-system.svc.cluster.local.
 ```
