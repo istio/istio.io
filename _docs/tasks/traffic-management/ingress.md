@@ -73,7 +73,7 @@ rules.
    provides this behavior:
 
    ```bash
-   cat <<EOF | istioctl create -f -
+   cat <<EOF | kubectl create -f -
    ## Deny all access from istio-ingress
    apiVersion: config.istio.io/v1alpha2
    kind: RouteRule
@@ -100,7 +100,7 @@ rules.
    higher priority.
 
    ```bash
-   cat <<EOF | istioctl create -f -
+   cat <<EOF | kubectl create -f -
    ## Allow requests to /status prefix
    apiVersion: config.istio.io/v1alpha2
    kind: RouteRule
