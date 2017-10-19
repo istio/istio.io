@@ -65,12 +65,12 @@ rules.
    EOF
    ```
  
-  `/.*` is a special Istio notation that is used to indicate a prefix
-  match, specifically a configuration of the form (`prefix: /`). This
-  configuration above will allow access to all URIs in the httpbin
-  service. However we wish to enable access only to specific URIs under the
-  httpbin service. Let us define a default _deny all_ route rule that
-  provides this behavior:
+   `/.*` is a special Istio notation that is used to indicate a prefix
+   match, specifically a configuration of the form (`prefix: /`). This
+   configuration above will allow access to all URIs in the httpbin
+   service. However we wish to enable access only to specific URIs under the
+   httpbin service. Let us define a default _deny all_ route rule that
+   provides this behavior:
 
    ```bash
    cat <<EOF | istioctl create -f -
@@ -95,11 +95,9 @@ rules.
          percent: 100
          httpStatus: 403 #Forbidden for all URLs
    EOF
-   ```
-
-   
-  Now, allow requests to `/status/` prefix by defining a route rule of
-  higher priority.
+   ```   
+2. Now, allow requests to `/status/` prefix by defining a route rule of
+   higher priority.
 
    ```bash
    cat <<EOF | istioctl create -f -
@@ -125,7 +123,6 @@ rules.
      - weight: 100
    EOF
    ```
-
   You can use other features of the route rules such as redirects,
   rewrites, regular expression based match in HTTP headers, websocket
   upgrades, timeouts, retries, and so on. Please refer to the
