@@ -128,5 +128,5 @@ found in the
 > the sidecar process. 
 
 Refer to the
-[sidecar installation](https://github.com/istio/istio/blob/master/samples/bookinfo/src/build-docker-services.sh)
+[sidecar deployment yaml](https://github.com/istio/istio/blob/master/samples/bookinfo/consul/bookinfo.sidecars.yaml)
 for Bookinfo services to understand the steps needed to achieve transparent proxying.
