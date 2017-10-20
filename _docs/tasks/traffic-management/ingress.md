@@ -73,7 +73,7 @@ rules.
    provides this behavior:
 
    ```bash
-   cat <<EOF | kubectl create -f -
+   cat <<EOF | istioctl -f -
    ## Deny all access from istio-ingress
    apiVersion: config.istio.io/v1alpha2
    kind: RouteRule
@@ -85,6 +85,7 @@ rules.
      match:
        # Limit this rule to istio ingress pods only
        source:
+         name: istio-ingress
          labels:
            istio: ingress
      precedence: 1
@@ -100,7 +101,7 @@ rules.
    higher priority.
 
    ```bash
-   cat <<EOF | kubectl create -f -
+   cat <<EOF | istioctl create -f -
    ## Allow requests to /status prefix
    apiVersion: config.istio.io/v1alpha2
    kind: RouteRule
@@ -112,6 +113,7 @@ rules.
      match:
        # Limit this rule to istio ingress pods only
        source:
+         name: istio-ingress
          labels:
            istio: ingress
        request:
