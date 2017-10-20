@@ -308,6 +308,7 @@ route rules set up to intercept traffic and redirect to the intended services.
          - backend:
              serviceName: ingress-dummy-service
              servicePort: grpc
+   EOF
    ```
 
 1. Create a RouteRule for each service, redirecting from the dummy service to
@@ -350,6 +351,7 @@ route rules set up to intercept traffic and redirect to the intended services.
      - weight: 100
        destination:
          name: bar-service
+   EOF      
    ```
 
 
