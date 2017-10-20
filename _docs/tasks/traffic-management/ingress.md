@@ -73,7 +73,7 @@ rules.
    provides this behavior:
 
    ```bash
-   cat <<EOF | istioctl -f -
+   cat <<EOF | istioctl create -f -
    ## Deny all access from istio-ingress
    apiVersion: config.istio.io/v1alpha2
    kind: RouteRule
