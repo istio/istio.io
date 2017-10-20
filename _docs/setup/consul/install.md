@@ -127,6 +127,3 @@ found in the
 > Note: This script must be executed before starting the application or
 > the sidecar process. 
 
-Refer to the
-[sidecar deployment yaml](https://github.com/istio/istio/blob/master/samples/bookinfo/consul/bookinfo.sidecars.yaml)
-for Bookinfo services to understand the steps needed to achieve transparent proxying.
