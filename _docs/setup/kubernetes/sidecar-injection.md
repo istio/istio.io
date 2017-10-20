@@ -18,10 +18,11 @@ cluster must satisfy the following requirements:
   [Kubernetes Service](https://kubernetes.io/docs/concepts/services-networking/service/)
   (pods that belong to multiple services are not supported as of now).
 
-1. _**Named ports**:_ Service ports must be named. The port names must begin
-  with _http_, _http2_, _grpc_, or _mongo_ prefix in order to take advantage
-  of Istio's routing features. For example, `name: http2-foo` or `name: http`
-  are valid port names.  If the port name does not begin with a recognized
+1. _**Named ports**:_ Service ports must be named. The port names must be of
+  the form `<protocol>[-<suffix>]` with _http_, _http2_, _grpc_, _mongo_, or _redis_
+  as the `<protocol>` in order to take advantage of Istio's routing features.
+  For example, `name: http2-foo` or `name: http` are valid port names, but
+  `name: http2foo` is not.  If the port name does not begin with a recognized
   prefix or if the port is unnamed, traffic on the port will be treated as
   plain TCP traffic (unless the port explicitly uses `Protocol: UDP` to
   signify a UDP port).
