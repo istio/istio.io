@@ -270,6 +270,7 @@ data:
   config: |-
     policy: "enabled"
     namespaces: [""] # everything, aka v1.NamepsaceAll, aka cluster-wide
+    # excludeNamespaces: ["ns1", "ns2"]
     initializerName: "sidecar.initializer.istio.io"
     params:
       initImage: docker.io/istio/proxy_init:0.2.6
@@ -305,13 +306,19 @@ The following are key parameters in the configuration:
  initializer to initialize all namespaces. kube-system, kube-public, and 
  istio-system are exempt from initialization.
 
-3. _**initializerName**_
+3. _**excludeNamespaces**_
+
+ This is a list of namespaces to be excluded from istio initializer. It
+ cannot be definend as `v1.NamespaceAll` or defined together with
+ `namespaces`.
+
+4. _**initializerName**_
 
  This must match the name of the initializer in the
  InitializerConfiguration. The initializer only processes workloads
  that match its configured name.
 
-4. _**params**_
+5. _**params**_
 
  These parameters allow you to make limited changes to the injected
  sidecar. Changing these values will not affect already deployed workloads.
