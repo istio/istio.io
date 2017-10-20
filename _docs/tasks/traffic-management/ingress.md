@@ -85,6 +85,7 @@ rules.
      match:
        # Limit this rule to istio ingress pods only
        source:
+         name: istio-ingress
          labels:
            istio: ingress
      precedence: 1
@@ -112,6 +113,7 @@ rules.
      match:
        # Limit this rule to istio ingress pods only
        source:
+         name: istio-ingress
          labels:
            istio: ingress
        request:
