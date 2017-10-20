@@ -19,7 +19,7 @@ cluster must satisfy the following requirements:
   (pods that belong to multiple services are not supported as of now).
 
 1. _**Named ports**:_ Service ports must be named. The port names must be of
-  the form `<protocol>[-<suffix>]` with _http_, _http2_, _grpc_, or _mongo_
+  the form `<protocol>[-<suffix>]` with _http_, _http2_, _grpc_, _mongo_, or _redis_
   as the `<protocol>` in order to take advantage of Istio's routing features.
   For example, `name: http2-foo` or `name: http` are valid port names, but
   `name: http2foo` is not.  If the port name does not begin with a recognized
