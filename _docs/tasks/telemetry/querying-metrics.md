@@ -3,7 +3,7 @@ title: Querying Metrics from Prometheus
 
 overview: This task shows you how to query for Istio Metrics using Prometheus.
 
-order: 30
+order: 20
 
 layout: docs
 type: markdown
@@ -24,6 +24,7 @@ the example application throughout this task.
 ## Querying Istio Metrics
 
 1. To query the metrics provided by Mixer, first install the Prometheus add-on.
+   See [Prometheus](https://prometheus.io) for details.
 
     In Kubernetes environments, execute the following command:
 
