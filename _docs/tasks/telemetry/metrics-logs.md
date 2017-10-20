@@ -3,7 +3,7 @@ title: Collecting Metrics and Logs
 
 overview: This task shows you how to configure Istio to collect metrics and logs.
 
-order: 20
+order: 30
 
 layout: docs
 type: markdown
@@ -23,12 +23,8 @@ as the example application throughout this task.
   (`--configDefaultNamespace=istio-system`). If you use a different
   value, update the configuration and commands in this task to match the value.
 
-* Install the Prometheus add-on. Prometheus
-  will be used to verify task success. 
-  ```bash
-  kubectl apply -f install/kubernetes/addons/prometheus.yaml
-  ```
-  See [Prometheus](https://prometheus.io) for details.
+* [Install the Prometheus add-on]({{home}}/docs/tasks/telemetry/querying-metrics.html).
+  Prometheus will be used to verify task success.
 
 ## Collecting new telemetry data
 

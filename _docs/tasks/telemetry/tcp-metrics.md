@@ -26,12 +26,8 @@ as the example application throughout this task.
   namespace. If you use a different namespace, you will need to update the
   example configuration and commands.
 
-* Install the Prometheus add-on. Prometheus
-  will be used to verify task success. 
-  ```bash
-  kubectl apply -f install/kubernetes/addons/prometheus.yaml
-  ```
-  See [Prometheus](https://prometheus.io) for details.
+* [Install the Prometheus add-on]({{home}}/docs/tasks/telemetry/querying-metrics.html).
+  Prometheus will be used to verify task success.
 
 ## Collecting new telemetry data
 
