@@ -128,6 +128,12 @@ docs](https://prometheus.io/docs/querying/basics/).
   kubectl delete -f install/kubernetes/addons/prometheus.yaml
   ```
 
+* Remove any `kubectl port-forward` processes that may still be running:
+
+  ```bash
+  killall kubectl
+  ```
+
 * If you are not planning to explore any follow-on tasks, refer to the
   [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
   to shutdown the application.
