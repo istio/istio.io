@@ -21,9 +21,11 @@ the example application throughout this task.
 * [Install Istio]({{home}}/docs/setup/) in your cluster and deploy an
   application.
 
-* Install the Prometheus add-on. Directions for install of this add-on are
-  supplied as part of the [Querying
-  Metrics]({{home}}/docs/tasks/telemetry/querying-metrics.html) Task.
+* Install the Prometheus add-on.
+
+  ```bash
+  kubectl apply -f install/kubernetes/addons/prometheus.yaml
+  ```
   
   Use of the Prometheus add-on is _required_ for the Istio Dashboard.
 
@@ -119,6 +121,12 @@ For more on how to create, configure, and edit dashboards, please see the
 
   ```bash
   kubectl delete -f install/kubernetes/addons/grafana.yaml
+  ```
+
+* Remove any `kubectl port-forward` processes that may be running:
+
+  ```bash
+  killall kubectl
   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
