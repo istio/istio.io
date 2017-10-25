@@ -60,74 +60,238 @@ server {
 }
 ```
 
-## Running multiple replicas of Mixer does not work
+## Where are the metrics for my service?
 
-For the 0.1 release, Mixer **must** be configured to run as a single instance within a cluster. We are working on improvements at the protocol, configuration, and deployment levels to support multiple instance and high-availability deployments. We expect to remove this limitation shortly after the initial release.
+The expected flow of metrics is:
 
-Running multiple replicas of Mixer will lead to issues with configuration updates not propagating properly and improperly-enforced quotas (for the memQuota adapter).
+1. Envoy reports attributes to Mixer in batch (asynchronously from requests)
+1. Mixer translates the attributes from Mixer into instances based on 
+   operator-provided configuration.
+1. The instances are handed to Mixer adapters for processing and backend storage.
+1. The backend storage systems record metrics data.
 
-## Mixer's pod was restarted and I lost my config updates
+The default installations of Mixer ship with a [Prometheus](http://prometheus.io/)
+adapter, as well as configuration for generating a basic set of metric
+values and sending them to the Prometheus adapter. The
+[Prometheus add-on]({{home}}/docs/tasks/telemetry/querying-metrics.html#about-the-prometheus-add-on)
+also supplies configuration for an instance of Prometheus to scrape
+Mixer for metrics.
 
-For the 0.1 release, Mixer configuration is stored in a local file system-based store. By default, Mixer is not configured to use a Kubernetes persistent volume.
+If you do not see the expected metrics in the Istio Dashboard and/or via
+Prometheus queries, there may be an issue at any of the steps in the flow
+listed above. Below is a set of instructions to troubleshoot each of
+those steps.
 
-There are a few possible workarounds:
+### Verify Mixer is receiving Report calls
 
-1.  Save configuration updates to a common location and script the application of these updates via istioctl.
-1.  Configure a persistent volume and update the Mixer deployment specs to use that volume for the file system store.
+Mixer generates metrics for monitoring the behavior of Mixer itself.
+Check these metrics.
 
-Work is ongoing to provide a highly-available, persistent configuration store for Mixer. We expect this to work to land immediately following the initial release.
+1. Establish a connection to the Mixer self-monitoring endpoint.
+   
+   In Kubernetes environments, execute the following command:
 
-### Configuring a persistent volume for Mixer config
+   ```bash
+   kubectl -n istio-system port-forward <mixer pod> 9093 &
+   ```
 
-A Mixer deployment can be modified to use Kubernetes [`ConfigMaps`](https://kubernetes.io/docs/tasks/configure-pod-container/configmap/) to provide persistent access to Mixer config. Kubernetes `ConfigMaps` are preserved across restarts and allow running multiple replicas of Mixer.
+1. Verify successful report calls.
 
-Note: `istioctl` is not usable for runtime updates to Mixer configuration when this approach is used (the updates will not persist).
+   On the [Mixer self-monitoring endpoint](http://localhost:9093/metrics), 
+   search for `grpc_server_handled_total`.
+   
+   You should see something like:
 
-Here is an example ConfigMap:
+   ```
+   grpc_server_handled_total{grpc_code="OK",grpc_method="Report",grpc_service="istio.mixer.v1.Mixer",grpc_type="unary"} 68
+   ```
 
-```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: mixer-config2
-data:
-  adapters.yml: |-
-    # Config-map
-    subject: global
-    adapters:
-      …
-  descriptors.yml: |-
-    subject: namespace:ns
-    revision: "2022"
-    …
+If you do not see any data for `grpc_server_handled_total` with a
+`grpc_method="Report"`, then Mixer is not being called by Envoy to report
+telemetry. In this case, ensure that the services have been properly
+integrated into the mesh (either by via
+[automatic]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection)
+or [manual]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar-injection) sidecar injection).
 
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: mixer-configsubjects
-data:
-  rules.yml: |-
-    …
-     …
+### Verify Mixer metrics configuration exists
 
- lifecycle:
-            postStart:
-              exec:
-                command: ["/bin/sh", "-c", "cp /etc/opt/mixer2/configroot/scopes/global/adapters.yml /etc/opt/mixer/configroot/scopes/global/adapters.yml; cp /etc/opt/mixer2/configroot/scopes/global/descriptors.yml /etc/opt/mixer/configroot/scopes/global/descriptors.yml; cp /etc/opt/mixer2/configroot/scopes/subjects/rules.yml /etc/opt/mixer/configroot/scopes/global/subjects/global/rules.yml" ]
+1. Verify Mixer rules exist.
 
-      volumeMounts:
-          - mountPath: /etc/opt/mixer2/configroot/scopes/subjects
-            name: configsubjects
-          - mountPath: /etc/opt/mixer2/configroot/scopes/global
-            name: config
-      volumes:
-        - name: config
-          configMap:
-            name: mixer-config2
-        - name: configsubjects
-          configMap:
-            name: mixer-configsubjects
-```
+   In Kubernetes environments, issue the following command:
+
+   ```bash
+   kubectl get rules --all-namespaces
+   ```
+
+   With the default configuration, you should see something like:
+
+   ```
+   NAMESPACE      NAME        KIND
+   istio-system   promhttp    rule.v1alpha2.config.istio.io
+   istio-system   promtcp     rule.v1alpha2.config.istio.io
+   istio-system   stdio       rule.v1alpha2.config.istio.io
+   ```
+
+   If you do not see anything named `promhttp` or `promtcp`, then there is
+   no Mixer configuration for sending metric instances to a Prometheus adapter.
+   You will need to supply configuration for rules that connect Mixer metric
+   instances to a Prometheus handler
+   ([example](https://github.com/istio/istio/blob/master/install/kubernetes/istio.yaml#L892)).
+
+1. Verify Prometheus handler config exists.
+
+   In Kubernetes environments, issue the following command:
+
+   ```bash
+   kubectl get prometheuses.config.istio.io --all-namespaces
+   ```
+
+   The expected output is:
+
+   ```
+   NAMESPACE      NAME           KIND
+   istio-system   handler        prometheus.v1alpha2.config.istio.io
+   ```
+
+   If there are no prometheus handlers configured, you will need to reconfigure
+   Mixer with the appropriate handler configuration
+   ([example](https://github.com/istio/istio/blob/master/install/kubernetes/istio.yaml#L819))
+
+1. Verify Mixer metric instances config exists.
+
+   In Kubernetes environments, issue the following command:
+
+   ```bash
+   kubectl get metrics.config.istio.io --all-namespaces
+   ```
+
+   The expected output is:
+
+   ```
+   NAMESPACE      NAME                         KIND
+   istio-system   requestcount                 metric.v1alpha2.config.istio.io
+   istio-system   requestduration              metric.v1alpha2.config.istio.io
+   istio-system   requestsize                  metric.v1alpha2.config.istio.io
+   istio-system   responsesize                 metric.v1alpha2.config.istio.io
+   istio-system   stackdriverrequestcount      metric.v1alpha2.config.istio.io
+   istio-system   stackdriverrequestduration   metric.v1alpha2.config.istio.io
+   istio-system   stackdriverrequestsize       metric.v1alpha2.config.istio.io
+   istio-system   stackdriverresponsesize      metric.v1alpha2.config.istio.io
+   istio-system   tcpbytereceived              metric.v1alpha2.config.istio.io
+   istio-system   tcpbytesent                  metric.v1alpha2.config.istio.io
+   ```
+
+   If there are no metric instances configured, you will need to reconfigure
+   Mixer with the appropriate instance configuration
+   ([example](https://github.com/istio/istio/blob/master/install/kubernetes/istio.yaml#L727))
+
+1. Verify Mixer configuration resolution is working for your service.
+
+   1. Establish a connection to the Mixer self-monitoring endpoint.
+   
+      Setup a `port-forward` to the Mixer self-monitoring port as described in
+      [Verify Mixer is receiving Report calls](#verify-mixer-is-receiving-report-calls).
+
+   1. On the [Mixer self-monitoring port](http://localhost:9093/metrics), search
+      for `mixer_config_resolve_count`.
+      
+      You should find something like:
+
+      ```
+      mixer_config_resolve_count{error="false",target="details.default.svc.cluster.local"} 56
+      mixer_config_resolve_count{error="false",target="ingress.istio-system.svc.cluster.local"} 67
+      mixer_config_resolve_count{error="false",target="mongodb.default.svc.cluster.local"} 18
+      mixer_config_resolve_count{error="false",target="productpage.default.svc.cluster.local"} 59
+      mixer_config_resolve_count{error="false",target="ratings.default.svc.cluster.local"} 26
+      mixer_config_resolve_count{error="false",target="reviews.default.svc.cluster.local"} 54
+      ```
+
+   1. Validate that there are values for `mixer_config_resolve_count` where
+      `target="<your service>"` and `error="false"`.
+
+      If there are only instances where `error="true"` where `target=<your service>`,
+      there is likely an issue with Mixer configuration for your service. Logs 
+      information is needed to further debug.
+
+      In Kubernetes environments, retrieve the Mixer logs via:
+
+      ```bash
+      kubectl -n istio-system logs <mixer pod> mixer
+      ```
+
+      Look for errors related to your configuration or your service in the
+      returned logs.
+
+More on viewing Mixer configuration can be found in the
+[Telemetry FAQ](https://istio.io/docs/tasks/telemetry/faq.html#how-do-i-see-all-of-the-configuration-for-mixer-).
+
+### Verify Mixer is sending metric instances to the Prometheus adapter
+
+1. Establish a connection to the Mixer self-monitoring endpoint.
+   
+   Setup a `port-forward` to the Mixer self-monitoring port as described in
+   [Verify Mixer is receiving Report calls](#verify-mixer-is-receiving-report-calls).
+
+1. On the [Mixer self-monitoring port](http://localhost:9093/metrics), search 
+   for `mixer_adapter_dispatch_count`.
+   
+   You should find something like:
+
+   ```
+   mixer_adapter_dispatch_count{adapter="prometheus",error="false",handler="handler.prometheus.istio-system",meshFunction="metric",response_code="OK"} 114
+   mixer_adapter_dispatch_count{adapter="prometheus",error="true",handler="handler.prometheus.default",meshFunction="metric",response_code="INTERNAL"} 4
+   mixer_adapter_dispatch_count{adapter="stdio",error="false",handler="handler.stdio.istio-system",meshFunction="logentry",response_code="OK"} 104
+   ```
+
+1. Validate that there are values for `mixer_adapter_dispatch_count` where 
+   `adapter="prometheus"` and `error="false"`.
+
+   If there are are no recorded dispatches to the Prometheus adapter, there
+   is likely a configuration issue. Please see
+   [Verify Mixer metrics configuration exists](#verify-mixer-metrics-configuration-exists).
+
+   If dispatches to the Prometheus adapter are reporting errors, check the
+   Mixer logs to determine the source of the error. Most likely, there is a
+   configuration issue for the handler listed in `mixer_adapter_dispatch_count`.
+
+   In Kubernetes environment, check the Mixer logs via:
+
+   ```bash
+   kubectl -n istio-system logs <mixer pod> mixer
+   ```
+
+   Filter for lines including something like `Report 0 returned with: INTERNAL 
+   (1 error occurred:` (with some surrounding context) to find more information 
+   regarding Report dispatch failures.
+
+### Verify Prometheus configuration
+
+1. Connect to the Prometheus UI and verify that it can successfully
+   scrape Mixer.
+
+   In Kubernetes environments, setup port-forwarding as follows:
+
+   ```bash
+   kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
+   ```
+
+1. Visit [http://localhost:9090/config](http://localhost:9090/config).
+
+   Confirm that an entry exists that looks like:
+
+   ```yaml
+   - job_name: 'istio-mesh'
+     # Override the global default and scrape targets from this job every 5 seconds.
+     scrape_interval: 5s
+     # metrics_path defaults to '/metrics'
+     # scheme defaults to 'http'.
+     static_configs:
+     - targets: ['istio-mixer.istio-system:42422']
+   ```
+
+1. Visit [http://localhost:9090/targets](http://localhost:9090/targets).
+
+   Confirm that target `istio-mesh` has a status of **UP**.
 
 ## How can I debug issues with the service mesh?
 
