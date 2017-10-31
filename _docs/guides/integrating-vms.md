@@ -71,7 +71,7 @@ On the DB machine:
   Run istioctl to configure the service (on your admin machine):
 
   ```bash
-  istioctl register mysql PORT IP
+  istioctl register mysql IP PORT
   ```
 
   Note that the 'db' machine does not need and should not have special kubernetes priviledges.
