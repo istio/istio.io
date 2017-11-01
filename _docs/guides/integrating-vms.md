@@ -123,7 +123,6 @@ istioctl kube-inject -n bookinfo -f samples/bookinfo/kube/bookinfo-ratings-v2-my
 istioctl create -n bookinfo -f samples/bookinfo/kube/route-rule-ratings-mysql-vm.yaml
 ```
 
-You can verify the output of bookinfo application is showing 1 star from Reviewer1 and 4 stars from Reviewer2.
+You can verify the output of bookinfo application is showing 1 star from Reviewer1 and 4 stars from Reviewer2 or change the ratings on your VM and see the results.
 
-More details here soon.
-See the [MySQL](https://github.com/istio/istio/blob/master/samples/rawvm/README.md) document in the meantime.
+You can also find some troubleshooting and other information in the [RawVM MySQL](https://github.com/istio/istio/blob/master/samples/rawvm/README.md) document in the meantime.
