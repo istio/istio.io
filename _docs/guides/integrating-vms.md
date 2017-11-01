@@ -30,7 +30,7 @@ this infrastructure as a single mesh.
 * Setup Istio by following the instructions in the
   [Installation guide]({{home}}/docs/setup/kubernetes/quick-start.html).
 
-* Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
+* Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application (in the `bookinfo` namespace).
 * Create a VM named 'vm-1' in the same project as Istio cluster, and [Join the Mesh]({{home}}/docs/setup/kubernetes/mesh-expansion.html).
 
 ## Running mysql on the VM
@@ -84,7 +84,7 @@ On the VM:
 ## Registering the mysql service with the mesh
 On a host with access to `istioctl` commands, register the VM and mysql db service
 ```bash
-   istioctl register mysqldb <ip-address-of-vm> 3306
+   istioctl register -n vm mysqldb <ip-address-of-vm> 3306
    # Sample output
    $ istioctl register mysqldb 192.168.56.112 3306
 I1015 22:24:33.846492   15465 register.go:44] Registering for service 'mysqldb' ip '192.168.56.112', ports list [{3306 mysql}]
@@ -107,7 +107,7 @@ I1015 22:24:33.921195   15465 register.go:191] Successfully updated mysqldb, now
   Run istioctl to configure the service (on your admin machine):
 
   ```bash
-  istioctl register mysql IP PORT
+  istioctl register mysql IP mysql:PORT
   ```
 
   Note that the 'mysqldb' virtual machine does not need and should not have special Kubernetes privileges.
@@ -117,11 +117,12 @@ I1015 22:24:33.921195   15465 register.go:191] Successfully updated mysqldb, now
 The ratings service in bookinfo will use the DB on the machine. To verify that it works, create version 2 of the ratings service that uses the mysql db on the VM. Then specify route rules that force the review service to use the ratings version 2.
 ```bash
 # Create the version of ratings service that will use mysql back end
-kubectl create -f samples/bookinfo/kube/bookinfo-mysql.yaml
+istioctl kube-inject -n bookinfo -f samples/bookinfo/kube/bookinfo-ratings-v2-mysql-vm.yaml | kubectl apply -n bookinfo -f -
 
 # Create route rules that will force bookinfo to use the ratings back end
-istioctl create -f samples/bookinfo/kube/route-rule-ratings-db.yaml
+istioctl create -n bookinfo -f samples/bookinfo/kube/route-rule-ratings-mysql-vm.yaml
 ```
+
 You can verify the output of bookinfo application is showing 1 star from Reviewer1 and 4 stars from Reviewer2.
 
 More details here soon.
