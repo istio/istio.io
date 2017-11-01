@@ -87,6 +87,11 @@ run the following command to download and extract the latest release automatical
     * The `istioctl` client binary in the `bin/` directory. `istioctl` is used when manually injecting Envoy as a sidecar proxy and for creating routing rules and policies.
     * The `istio.VERSION` configuration file
 
+1. Change directory to istio package. For example, if the package is istio-0.2.7
+  ```bash
+  cd istio-0.2.7
+  ```
+
 1. Add the `istioctl` client to your PATH.
    For example, run the following command on a MacOS or Linux system:
   ```bash

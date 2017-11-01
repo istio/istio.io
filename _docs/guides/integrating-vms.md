@@ -103,6 +103,13 @@ I1015 22:24:33.921195   15465 register.go:191] Successfully updated mysqldb, now
   kubectl delete service mysql
   ```
 
+
+  Run istioctl to configure the service (on your admin machine):
+
+  ```bash
+  istioctl register mysql IP PORT
+  ```
+
   Note that the 'mysqldb' virtual machine does not need and should not have special Kubernetes privileges.
 
 ## Using the mysql service
