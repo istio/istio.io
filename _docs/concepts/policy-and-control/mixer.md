@@ -132,3 +132,7 @@ phases:
 <figure><img style="max-width:50%;" src="./img/mixer/phases.svg" alt="Phases of
 Mixer request processing." title="Request Phases" /> <figcaption>Request
 Phases</figcaption></figure>
+
+## What's next
+
+* Read the [blog post]({{home}}/blog/mixer-adapter-model.html) describing Mixer's adapter model.
