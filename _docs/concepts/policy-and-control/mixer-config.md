@@ -247,15 +247,14 @@ Refer to the [attribute expression reference]({{home}}/docs/reference/config/mix
 #### Resolution
 
 When a request arrives, Mixer goes through a number of [request processing phases](./mixer.html#request-phases).
-The Resolution phase is concerned with identifying the configuration blocks to use in order to
-process the incoming request. For example, a request arriving at Mixer for service A likely has some configuration differences
-with requests arriving for service B. Resolution is about deciding which config to use for a request.
+The Resolution phase identifies the handlers to use in order to
+process the incoming request. For example, handlers that are applied to a request arriving at Mixer for service A, are likely to be different from the handlers applied to requests arriving for service B.
 
 Resolution depends on a well-known attribute to guide its choice, called *identity attribute*.
 The default identity attribute is `destination.service`.
 The mesh-wide configuration is stored in the `configDefaultNamespace` whose default value is `istio-system`.
 
-Mixer goes through the following steps to arrive at the set of `actions`.
+Mixer goes through the following steps to derive the set of handlers to apply.
 
 1. Extract the value of the identity attribute from the request.
 
@@ -263,7 +262,7 @@ Mixer goes through the following steps to arrive at the set of `actions`.
 
 3. Evaluate the `match` predicate for all rules in the `configDefaultNamespace` and the service namespace.
 
-The actions resulting from these steps are performed by Mixer.
+The handlers derived from these steps are applied by Mixer.
 
 ### Manifests
 
