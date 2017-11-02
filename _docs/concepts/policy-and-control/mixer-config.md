@@ -302,4 +302,4 @@ manifests:
 
 You can find fully-formed examples of Mixer configuration by visiting the
 [Guides]({{home}}/docs/guides). Here is some [example
-configuration](https://github.com/istio/mixer/blob/master/testdata/config).
+configuration](https://github.com/istio/istio/blob/master/mixer/testdata/config).
