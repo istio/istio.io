@@ -122,8 +122,7 @@ Part of the sidecar installation should involve setting up appropriate IP
 Table rules to transparently route application's network traffic through
 the Istio sidecars. The IP table script to setup such forwarding can be
 found in the
-[Istio Pilot repository](https://github.com/istio/pilot/blob/master/docker/prepare_proxy.sh). 
+[here](https://github.com/istio/istio/blob/master/pilot/docker/prepare_proxy.sh). 
 
 > Note: This script must be executed before starting the application or
 > the sidecar process. 
-
