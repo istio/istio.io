@@ -183,4 +183,4 @@ In the 0.2 release, Mixer only supports Zipkin tracing.
 ## How can I write a custom adapter for Mixer ?
 
 To implement a new adapter for Mixer, please refer to the [Adapter Developer's
-Guide](https://github.com/istio/mixer/blob/master/doc/dev/adapters.md).
+Guide](https://github.com/istio/istio/blob/master/mixer/doc/dev/adapters.md).
