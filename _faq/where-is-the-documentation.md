@@ -15,7 +15,7 @@ Detailed developer-level documentation is maintained for each component in GitHu
 
 *   [Envoy](https://envoyproxy.github.io/envoy/)
 
-*   [Pilot](https://github.com/istio/pilot/tree/master/doc)
+*   [Pilot](https://github.com/istio/istio/tree/master/pilot/doc)
 
-*   [Mixer](https://github.com/istio/mixer/tree/master/doc)
+*   [Mixer](https://github.com/istio/istio/tree/master/mixer/doc)
 
