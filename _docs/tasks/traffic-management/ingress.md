@@ -128,7 +128,7 @@ rules.
   You can use other features of the route rules such as redirects,
   rewrites, regular expression based match in HTTP headers, websocket
   upgrades, timeouts, retries, and so on. Please refer to the
-  [routing rules](https://istio.io/docs/reference/config/traffic-rules/routing-rules.html)
+  [routing rules]({{home}}/docs/reference/config/traffic-rules/routing-rules.html)
   for more details.
 
 ## Verifying ingress
