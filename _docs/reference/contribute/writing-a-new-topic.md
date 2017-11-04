@@ -67,7 +67,7 @@ has filename `tbd.md`. You don't need to put
 "Istio" in the filename, because "Istio" is already in the
 URL for the topic, for example:
 ```
-https://istio.io/docs/tasks/tbd.html
+{{home}}/docs/tasks/tbd.html
 ```
 
 ## Updating the front matter
