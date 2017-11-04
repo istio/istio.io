@@ -24,7 +24,7 @@ support organizations to collectively manage complex deployments with ease. Some
 features include:
 
 - **Designed for Operators**. Service operators control all operational and policy
-aspects of a Mixer deployment by manipulating configuration records.
+aspects of a Mixer deployment by manipulating configuration resources.
 
 - **Flexible**. The configuration model is built around Istio's [attributes](./attributes.html),
 enabling operators unprecedented control over the policies used and telemetry produced within a deployment.
@@ -40,7 +40,7 @@ can be added to Istio and be fully manipulated using the same general mechanisms
 
 Mixer is an attribute processing machine. Requests arrive at Mixer with a set of [*attributes*](./attributes.html),
 and based on these attributes, Mixer generates calls to a variety of infrastructure backends.
-A rate limit server, an ACL provider, and a policy enforcer are examples of infrastructure backends.
+A rate limit system, an ACL provider, and a policy enforcer are examples of infrastructure backends.
 The set of attributes determines which backend Mixer calls for a given request and what parameters
 each is given. In order to hide the details of individual backends, Mixer uses modules
 known as [*adapters*](./mixer.html#adapters).
@@ -55,10 +55,10 @@ Mixer's configuration has the following central responsibilities:
 - Describe when a particular adapter is called with specific inputs.
 
 Configuration is based on  *adapters* and *templates*.
-- **Adapter** encapsulates the logic necessary to interface Mixer with a specific infrastructure backend.
-- **Template** defines the schema for specifying request mapping from attributes to adapter inputs. A template also defines the structure of the adapter inputs.
-An adapter may support multiple templates.
 
+- **Adapters** encapsulate the logic necessary to interface Mixer with a specific infrastructure backend.
+- **Templates** define the schema for specifying request mapping from attributes to adapter inputs.
+A given adapter may support any number of templates.
 
 Configuration is expressed using a YAML format built around the following abstractions:
 
@@ -86,12 +86,12 @@ spec:
 
 ### Handlers
 
-[Adapters](./mixer.html#adapters) encapsulates the logic necessary to interface Mixer with specific external infrastructure
+[Adapters](./mixer.html#adapters) encapsulate the logic necessary to interface Mixer with specific external infrastructure
 backends such as [Prometheus](https://prometheus.io), [New Relic](https://newrelic.com), or [Stackdriver](https://cloud.google.com/logging).
 Individual adapters generally need operational parameters in order to do their work. For example, a logging adapter may require 
 the IP address and port of the log sink.
 
-Here is an example showing how to configure an adapter of kind = `listchecker`. The listchecker adapter checks the input value against a list.
+Here is an example showing how to configure an adapter of kind = `listchecker`. The listchecker adapter checks an input value against a list.
 If the adapter is configured for a whitelist, it returns success if the input value is found in the list.
 
 ```yaml
@@ -107,13 +107,10 @@ spec:
 
 `{metadata.name}.{kind}.{metadata.namespace}` is the fully qualified name of a handler. The fully qualified name of the above handler is 
 `staticversion.listchecker.istio-system` and it must be unique.
-An adapter defines the schema of the `spec` section as a proto message.
-
-Spec typically includes connection information necessary to connect to an external system. It may also include configuration to process the request instance
-delivered to the adapter by Mixer. 
+The schema of the data in the `spec` stanza depends on the specific adapter being configured.
 
 Some adapters implement functionality that goes beyond connecting Mixer to a backend.
-For example, the `prometheus` adapter consumes metrics observations and aggregates them as distributions or counters in a configurable way.
+For example, the `prometheus` adapter consumes metrics and aggregates them as distributions or counters in a configurable way.
 
 ```yaml
 apiVersion: config.istio.io/v1alpha2
@@ -147,23 +144,7 @@ adapters and their specific configuration formats can be found [here]({{home}}/d
 
 ### Instances
 
-Instance configuration specifies the request mapping from attributes to adapter inputs. An adapter consumes a set of instance types.
-The prometheus adapter from the previous section consumes instances produced from the `metric` template.
-
-```go
-// Metric represents a single piece of data to report.
-type MetricInstanceParam struct {
-  // The expression for the value being reported.
-  Value                       string            
-  // The unique identity of the particular metric to report.
-  // Maps from a dimension name to an expression.
-  Dimensions                  map[string]string 
-
-
-  MonitoredResourceType       string            
-  MonitoredResourceDimensions map[string]string 
-}
-```
+Instance configuration specifies the request mapping from attributes to adapter inputs.
 The following is an example of a metric instance configuration that produces the `requestduration` metric.
 
 ```yaml
@@ -189,7 +170,7 @@ templates and their specific configuration formats can be found [here]({{home}}/
 
 Rules specify when a particular handler is invoked with a specific instance configuration.
 Consider an example where you want to deliver the `requestduration` metric to the prometheus handler if
- destination service is `service1` and `x-user` request header has a specific value.
+the destination service is `service1` and the `x-user` request header has a specific value.
 
 ```yaml
 apiVersion: config.istio.io/v1alpha2
@@ -209,9 +190,9 @@ An action specifies the list of instances to be delivered to a handler.
 A rule must use the fully qualified names of handlers and instances.
 If the rule, handlers, and instances are all in the same namespace, the namespace suffix can be elided from the fully qualified name as seen in `handler.prometheus`.
 
-The match predicate is an [expression]({{home}}/docs/reference/config/mixer/expression-language.html) using the Mixer expression language.
+The match predicate is an attribute expression, which are explained below.
 
-#### Attribute expressions
+### Attribute expressions
 
 Mixer features a number of independent [request processing phases](./mixer.html#request-phases).
 The *Attribute Processing* phase is responsible for ingesting a set of attributes and producing template instances
@@ -244,14 +225,14 @@ the attributes in the expression and the operators applied to these attributes.
 
 Refer to the [attribute expression reference]({{home}}/docs/reference/config/mixer/expression-language.html) for details.
 
-#### Resolution
+### Resolution
 
 When a request arrives, Mixer goes through a number of [request processing phases](./mixer.html#request-phases).
-The Resolution phase is concerned with identifying the configuration blocks to use in order to
+The Resolution phase is concerned with identifying the configuration resources to use in order to
 process the incoming request. For example, a request arriving at Mixer for service A likely has some configuration differences
-with requests arriving for service B. Resolution is about deciding which config to use for a request.
+with requests arriving for service B. Resolution is about deciding which config resources to use for a request.
 
-Resolution depends on a well-known attribute to guide its choice, called *identity attribute*.
+Resolution depends on a well-known attribute to guide its choice, called the *identity attribute*.
 The default identity attribute is `destination.service`.
 The mesh-wide configuration is stored in the `configDefaultNamespace` whose default value is `istio-system`.
 
@@ -259,7 +240,7 @@ Mixer goes through the following steps to arrive at the set of `actions`.
 
 1. Extract the value of the identity attribute from the request.
 
-2. Extract service namespace from the identity attribute.
+2. Extract the service namespace from the identity attribute.
 
 3. Evaluate the `match` predicate for all rules in the `configDefaultNamespace` and the service namespace.
 
@@ -303,3 +284,7 @@ manifests:
 You can find fully-formed examples of Mixer configuration by visiting the
 [Guides]({{home}}/docs/guides). Here is some [example
 configuration](https://github.com/istio/istio/blob/master/mixer/testdata/config).
+
+## What's next
+
+* Read the [blog post]({{home}}/blog/mixer-adapter-model.html) describing Mixer's adapter model.
