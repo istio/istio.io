@@ -223,7 +223,7 @@ or [manual]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar
       returned logs.
 
 More on viewing Mixer configuration can be found in the
-[Telemetry FAQ](https://istio.io/docs/tasks/telemetry/faq.html#how-do-i-see-all-of-the-configuration-for-mixer-).
+[Telemetry FAQ]({{home}}/docs/tasks/telemetry/faq.html#how-do-i-see-all-of-the-configuration-for-mixer-).
 
 ### Verify Mixer is sending metric instances to the Prometheus adapter
 
