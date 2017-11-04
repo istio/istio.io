@@ -7,7 +7,7 @@ order: 20
 layout: docs
 type: markdown
 ---
-
+{% include home.html %}
 
 <a name="rpcIstio.mixer.v1"></a>
 ## Package istio.mixer.v1
@@ -101,7 +101,7 @@ in the deployment. The primary attribute producer in Istio is Envoy, although
 specialized Mixer adapters and services can also generate attributes.
 
 The common baseline set of attributes available in most Istio deployments is defined
-[here](https://istio.io/docs/reference/config/mixer/attribute-vocabulary.html).
+[here]({{home}}/docs/reference/config/mixer/attribute-vocabulary.html).
 
 Attributes are strongly typed. The supported attribute types are defined by
 [ValueType](https://github.com/istio/api/blob/master/mixer/v1/config/descriptor/value_type.proto).
