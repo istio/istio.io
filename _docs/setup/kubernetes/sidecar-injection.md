@@ -144,7 +144,6 @@ different environments as follows:
 
   ```bash
   gcloud container clusters create NAME \
-      --cluster-version=1.7.5 \
       --enable-kubernetes-alpha \
       --machine-type=n1-standard-2 \
       --num-nodes=4 \
