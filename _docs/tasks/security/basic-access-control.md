@@ -22,8 +22,8 @@ This task shows how to control access to a service using the Kubernetes labels.
   test user "jason" to version v2 and requests from any other user to v3.
 
   ```bash
-  istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
-  istioctl create -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
+  istioctl create -n default -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+  istioctl create -n default -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
   ```
   
   > Note: if you have conflicting rules that you set in previous tasks,
@@ -52,7 +52,7 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
 
    Run the following command to set up the deny rule along with a handler and an instance.
    ```bash
-   istioctl create -f samples/bookinfo/kube/mixer-rule-deny-label.yaml
+   istioctl create -n default -f samples/bookinfo/kube/mixer-rule-deny-label.yaml
    ```
    You can expect to see the output similar to the following:
    ```bash
@@ -109,7 +109,7 @@ Istio also supports attribute-based whitelists and blacklists. The following whi
   and then run the following command:
 
    ```bash
-   istioctl create -f whitelist-handler.yaml
+   istioctl create -n default -f whitelist-handler.yaml
    ```
 
 1. Extract the version label by creating an instance of the [`listentry`]({{home}}/docs/reference/config/mixer/template/listentry.html) template.
@@ -126,7 +126,7 @@ Save the following YAML snippet as `appversion-instance.yaml`:
   and then run the following command:
 
    ```bash
-   istioctl create -f appversion-instance.yaml
+   istioctl create -n default -f appversion-instance.yaml
    ```
 
 1. Enable `whitelist` checking for the ratings service.
@@ -148,7 +148,7 @@ Save the following YAML snippet as `checkversion-rule.yaml`:
   and then run the following command:
 
    ```bash
-   istioctl create -f checkversion-rule.yaml
+   istioctl create -n default -f checkversion-rule.yaml
    ```
 
 1. Verify that when you access the BookInfo `productpage` (http://$GATEWAY_URL/productpage) without logging in, you see **no** stars.

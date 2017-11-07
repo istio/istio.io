@@ -51,7 +51,7 @@ the `productpage` service.
 
    Run the following command to set up the deny rule along with a handler and an instance.
    ```bash
-   istioctl create -f samples/bookinfo/kube/mixer-rule-deny-serviceaccount.yaml
+   istioctl create -n default -f samples/bookinfo/kube/mixer-rule-deny-serviceaccount.yaml
    ```
    You can expect to see the output similar to the following:
    ```bash

@@ -42,7 +42,7 @@ from within your Istio cluster. In this task we will use
 1. Create an egress rule to allow access to an external HTTP service:
 
    ```bash
-   cat <<EOF | istioctl create -f -
+   cat <<EOF | istioctl create -n default -f -
    apiVersion: config.istio.io/v1alpha2
    kind: EgressRule
    metadata:
@@ -59,7 +59,7 @@ from within your Istio cluster. In this task we will use
 2. Create an egress rule to allow access to an external HTTPS service:
 
    ```bash
-   cat <<EOF | istioctl create -f -
+   cat <<EOF | istioctl create -n default -f -
    apiVersion: config.istio.io/v1alpha2
    kind: EgressRule
    metadata:
@@ -124,7 +124,7 @@ to set a timeout rule on calls to the httpbin.org service.
 1. Exit the source pod and use `istioctl` to set a 3s timeout on calls to the httpbin.org external service:
 
    ```bash
-   cat <<EOF | istioctl create -f -
+   cat <<EOF | istioctl create -n default -f -
    apiVersion: config.istio.io/v1alpha2
    kind: RouteRule
    metadata:

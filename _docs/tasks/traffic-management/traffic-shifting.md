@@ -34,7 +34,7 @@ two steps: 50%, 100%.
 1. Set the default version for all microservices to v1.
 
    ```bash
-   istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
+   istioctl create -n default -f samples/bookinfo/kube/route-rule-all-v1.yaml
    ```
 
 1. Confirm v1 is the active version of the `reviews` service by opening http://$GATEWAY_URL/productpage in your browser.
