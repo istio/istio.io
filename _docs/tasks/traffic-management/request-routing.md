@@ -40,7 +40,7 @@ route requests to all available versions of a service in a random fashion.
 1. Set the default version for all microservices to v1.
 
    ```bash
-   istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
+   istioctl create -n default -f samples/bookinfo/kube/route-rule-all-v1.yaml
    ```
 
    > Note: In a Kubernetes deployment of Istio, you can replace `istioctl`
@@ -125,7 +125,7 @@ route requests to all available versions of a service in a random fashion.
    `reviews:v2` instances.
 
    ```bash
-   istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+   istioctl create -n default -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
    ```
 
    Confirm the rule is created:

@@ -22,8 +22,8 @@ This task shows you how to use Istio to dynamically limit the traffic to a servi
   test user "jason" to version v2 and requests from any other user to v3.
 
   ```bash
-  istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
-  istioctl create -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
+  istioctl create -n default -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+  istioctl create -n default -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
   ```
   
   > Note: if you have conflicting rule that you set in previous tasks,
@@ -76,7 +76,7 @@ Using Istio we can ensure that `1qps` is not breached.
    and then run the following command:
 
    ```bash
-   istioctl create -f ratelimit-handler.yaml
+   istioctl create -n default -f ratelimit-handler.yaml
    ```
  
    This configuration specifies a default 5000 qps rate limit. Traffic reaching the ratings service via
@@ -116,7 +116,7 @@ Using Istio we can ensure that `1qps` is not breached.
    Save the configuration as `ratelimit-rule.yaml` and run the following command:
 
    ```bash
-   istioctl create -f ratelimit-rule.yaml
+   istioctl create -n default -f ratelimit-rule.yaml
    ```
 
 1. Generate load on the `productpage` with the following command:

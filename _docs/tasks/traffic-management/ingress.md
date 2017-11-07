@@ -73,7 +73,7 @@ rules.
    provides this behavior:
 
    ```bash
-   cat <<EOF | istioctl create -f -
+   cat <<EOF | istioctl create -n default -f -
    ## Deny all access from istio-ingress
    apiVersion: config.istio.io/v1alpha2
    kind: RouteRule
@@ -101,7 +101,7 @@ rules.
    higher priority.
 
    ```bash
-   cat <<EOF | istioctl create -f -
+   cat <<EOF | istioctl create -n default -f -
    ## Allow requests to /status prefix
    apiVersion: config.istio.io/v1alpha2
    kind: RouteRule
@@ -315,7 +315,7 @@ route rules set up to intercept traffic and redirect to the intended services.
    the correct gRPC service:
 
    ```bash
-   cat <<EOF | istioctl create -f -
+   cat <<EOF | istioctl create -n default -f -
    apiVersion: config.istio.io/v1alpha2
    kind: RouteRule
    metadata:

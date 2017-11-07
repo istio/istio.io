@@ -113,7 +113,7 @@ as the example application throughout this task.
 1. Push the new configuration.
 
    ```bash
-   istioctl create -f tcp_telemetry.yaml
+   istioctl create -n default -f tcp_telemetry.yaml
    ```
 
    The expected output is similar to:
@@ -172,7 +172,7 @@ as the example application throughout this task.
    1. Add routing rules to send traffic to `v2` of the `ratings` service:
 
       ```
-      istioctl create -f samples/bookinfo/kube/route-rule-ratings-db.yaml
+      istioctl create -n default -f samples/bookinfo/kube/route-rule-ratings-db.yaml
       ```
 
       Expected output:
