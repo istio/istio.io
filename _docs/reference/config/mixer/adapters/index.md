@@ -10,5 +10,5 @@ type: markdown
 
 {% include section-index.html %}
 
-To implement a new adapter for Mixer, please refer to the [Adapter Developer's Guide](https://github.com/istio/istio/blob/master/mixer/doc/dev/adapters.md).
+To implement a new adapter for Mixer, please refer to the [Adapter Developer's Guide](https://github.com/istio/istio/blob/master/mixer/doc/adapters.md).
 
