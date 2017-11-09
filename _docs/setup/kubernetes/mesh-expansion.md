@@ -94,8 +94,9 @@ and install the setup:
 
 ```bash
 # Check what the script does to see that it meets your needs.
-# On a Mac, either brew install base64 or set BASE64_DECODE="/usr/bin/base64 -D"
 export GCP_OPTS="--zone MY_ZONE --project MY_PROJECT"
+# change to the namespace you wish to use for VMs but 'vm' is what the bookinfo guide assumes
+export SERVICE_NAMESPACE=vm
 ```
 ```bash
 install/tools/setupMeshEx.sh machineSetup VM_NAME
