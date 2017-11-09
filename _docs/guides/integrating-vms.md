@@ -85,32 +85,19 @@ On the VM:
 On a host with access to `istioctl` commands, register the VM and mysql db service
 ```bash
    istioctl register -n vm mysqldb <ip-address-of-vm> 3306
-   # Sample output
-   $ istioctl register mysqldb 192.168.56.112 3306
-I1015 22:24:33.846492   15465 register.go:44] Registering for service 'mysqldb' ip '192.168.56.112', ports list [{3306 mysql}]
-I1015 22:24:33.846550   15465 register.go:49] 0 labels ([]) and 1 annotations ([alpha.istio.io/kubernetes-serviceaccounts=default])
-W1015 22:24:33.866410   15465 register.go:123] Got 'services "mysqldb" not found' looking up svc 'mysqldb' in namespace 'default', attempting to create it
-W1015 22:24:33.904162   15465 register.go:139] Got 'endpoints "mysqldb" not found' looking up endpoints for 'mysqldb' in namespace 'default', attempting to create them
-I1015 22:24:33.910707   15465 register.go:180] No pre existing exact matching ports list found, created new subset {[{192.168.56.112  <nil> nil}] [] [{mysql 3306 }]}
-I1015 22:24:33.921195   15465 register.go:191] Successfully updated mysqldb, now with 1 endpoints
+```
+Sample output:
+```
+$ istioctl register -n vm mysqldb 10.150.0.5 3306
+I1108 20:17:54.256699   40419 register.go:43] Registering for service 'mysqldb' ip '10.150.0.5', ports list [{3306 mysql}]
+I1108 20:17:54.256815   40419 register.go:48] 0 labels ([]) and 1 annotations ([alpha.istio.io/kubernetes-serviceaccounts=default])
+W1108 20:17:54.573068   40419 register.go:123] Got 'services "mysqldb" not found' looking up svc 'mysqldb' in namespace 'vm', attempting to create it
+W1108 20:17:54.816122   40419 register.go:138] Got 'endpoints "mysqldb" not found' looking up endpoints for 'mysqldb' in namespace 'vm', attempting to create them
+I1108 20:17:54.886657   40419 register.go:180] No pre existing exact matching ports list found, created new subset {[{10.150.0.5  <nil> nil}] [] [{mysql 3306 }]}
+I1108 20:17:54.959744   40419 register.go:191] Successfully updated mysqldb, now with 1 endpoints
 ```
 
-###  Cluster admin
-
-  If you previously run the mysql bookinfo on kubernetes, you need to remove the k8s mysql service:
-
-  ```bash
-  kubectl delete service mysql
-  ```
-
-
-  Run istioctl to configure the service (on your admin machine):
-
-  ```bash
-  istioctl register mysql IP mysql:PORT
-  ```
-
-  Note that the 'mysqldb' virtual machine does not need and should not have special Kubernetes privileges.
+Note that the 'mysqldb' virtual machine does not need and should not have special Kubernetes privileges.
 
 ## Using the mysql service
 
