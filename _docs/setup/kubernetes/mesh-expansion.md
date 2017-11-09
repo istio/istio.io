@@ -30,22 +30,16 @@ separate documents will cover these advanced configurations.
 
 Setup consists of preparing the mesh for expansion and installing and configuring each VM.
 
-An example script to help with Kubernetes setup is available in
+An example script to help with Kubernetes setup is available as part of the release bundle and in
 [install/tools/setupMeshEx.sh](https://raw.githubusercontent.com/istio/istio/master/install/tools/setupMeshEx.sh). Check the script content and environment variables supported (like GCP_OPTS).
 
-An example script to help configure a machine is available in [install/tools/setupIstioVM.sh](https://raw.githubusercontent.com/istio/istio/master/install/tools/setupIstioVM.sh).
+An example script to help configure a machine is available as part of the release bundle and in [install/tools/setupIstioVM.sh](https://raw.githubusercontent.com/istio/istio/master/install/tools/setupIstioVM.sh).
 You should customize it based on your provisioning tools and DNS requirements.
 
 ### Preparing the Kubernetes cluster for expansion
 
 * Setup Internal Load Balancers (ILBs) for Kube DNS, Pilot, Mixer and CA. This step is specific to
 each cloud provider, so you may need to edit annotations.
-
-> The yaml file of the 0.2.7 distribution has an incorrect namespace for the DNS ILB.
-Use
-[this one](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/mesh-expansion.yaml)
-instead.
-The `setupMeshEx.sh` also has a typo. Use the latest file from the link above or from cloning [GitHub.com/istio/istio](https://github.com/istio/istio/)
 
 ```
 kubectl apply -f install/kubernetes/mesh-expansion.yaml
@@ -100,8 +94,9 @@ and install the setup:
 
 ```bash
 # Check what the script does to see that it meets your needs.
-# On a Mac, either brew install base64 or set BASE64_DECODE="/usr/bin/base64 -D"
 export GCP_OPTS="--zone MY_ZONE --project MY_PROJECT"
+# change to the namespace you wish to use for VMs but 'vm' is what the bookinfo guide assumes
+export SERVICE_NAMESPACE=vm
 ```
 ```bash
 install/tools/setupMeshEx.sh machineSetup VM_NAME
