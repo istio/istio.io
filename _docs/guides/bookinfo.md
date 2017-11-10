@@ -73,19 +73,19 @@ To start the application, follow the instructions below corresponding to your Is
 
 1. Bring up the application containers:
 
+   If you are using [manual sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar-injection),
+   use the folloiwng command instead:
+
+   ```bash
+   kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo.yaml)
+   ```
+
    If you are using a cluster with
    [automatic sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection)
    enabled, simply deploy the services using `kubectl`:
 
    ```bash
    kubectl apply -f samples/bookinfo/kube/bookinfo.yaml
-   ```
-
-   If you are using [manual sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar-injection),
-   use the folloiwng command instead:
-
-   ```bash
-   kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo.yaml)
    ```
 
    The `istioctl kube-inject` command is used to manually modify the `bookinfo.yaml`
