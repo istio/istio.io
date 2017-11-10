@@ -154,7 +154,7 @@ rules.
    * If load balancers are not supported, use the ingress controller pod's hostIP:
    
      ```bash
-     kubectl get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
+     kubectl -n istio-system get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
      ```
 
      ```bash
@@ -164,7 +164,7 @@ rules.
      along with the istio-ingress service's nodePort for port 80:
    
      ```bash
-     kubectl get svc istio-ingress
+     kubectl -n istio-system get svc istio-ingress
      ```
    
      ```bash
