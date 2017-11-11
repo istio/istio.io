@@ -11,19 +11,19 @@ type: markdown
 {% include home.html %}
 
 
-Quick Start instructions to install and run Istio in [Google Container Engine](https://cloud.google.com/container-engine/) (GKE) using [Google Cloud Deployment Manager](https://cloud.google.com/deployment-manager/).
+Quick Start instructions to install and run Istio in [Google Container Engine](https://cloud.google.com/container-engine/){:target="_blank"} (GKE) using [Google Cloud Deployment Manager](https://cloud.google.com/deployment-manager/){:target="_blank"}.
 
-This Quick Start creates a new GKE cluster, installs Istio and then deploys the [BookInfo](https://istio.io/docs/guides/bookinfo.html) sample application.   It is essentially
+This Quick Start creates a new GKE cluster, installs Istio and then deploys the [BookInfo](https://istio.io/docs/guides/bookinfo.html){:target="_blank"} sample application.   It is essentially
 all the steps detailed in [Istio Kubernetes Intaller](https://istio.io/docs/setup/kubernetes/quick-start.html) combined with Deployment Manager.
 
-> **Note:** The default install will create a GKE [**ALPHA** Cluster](https://cloud.google.com/container-engine/docs/alpha-clusters) that allows for [automatic sidecar injection](https://istio.io/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection).  As it is an Alpha Cluster,
+> **Note:** The default install will create a GKE [**ALPHA** Cluster](https://cloud.google.com/container-engine/docs/alpha-clusters){:target="_blank"} that allows for [automatic sidecar injection](https://istio.io/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection){:target="_blank"}.  As it is an Alpha Cluster,
 it does not support automatic node or master upgrades and will only run for 30days.
 
 ## Prerequisites
 
-This sample requires a valid Google Cloud Platform project with billing enabled.  If you have not signed already, you could enroll for a $300 US [Free Trial](https://cloud.google.com/free/) credit.
+This sample requires a valid Google Cloud Platform project with billing enabled.  If you have not signed already, you could enroll for a $300 US [Free Trial](https://cloud.google.com/free/){:target="_blank"} credit.
 
-You will also need to install and configure [gcloud SDK](https://cloud.google.com/sdk/docs/) on your local workstation and include kubectl additional component:
+You will also need to install and configure [gcloud SDK](https://cloud.google.com/sdk/docs/){:target="_blank"} on your local workstation and include kubectl additional component:
 
 ```
 gcloud components install kubectl
@@ -34,59 +34,66 @@ Verify gcloud is configured with your login and the project you are using:
 gcloud config list
 ```
 
-If you do not wish to install the client, you can use  [Google Cloud Shell](https://cloud.google.com/shell/docs/) to perform most tasks.
+If you do not wish to install the gcloud client, you can use  [Google Cloud Shell](https://cloud.google.com/shell/docs/){:target="_blank"} to perform most tasks.
+If you choose to use Cloud Shell, you can port forward and proxy using its [Web Preview](https://cloud.google.com/shell/docs/using-web-preview#previewing_the_application){:target="_blank"} feature.  For example, to access Grafana from Cloud Shell, change the kubectl port mapping from 3000:3000 to 8080:3000.  You can simultaneously preview four other consoles via Web Preview proxied on ranges 8080 to 8084.  
 
 **NOTE:**  At the moment, you must set your default service account to include:
 
 - ```roles/container.admin```  (Container Engine Admin)
 - ```Editor```  (on by default)
 
-To set this, navigate to the IAM section of the [Cloud Console](https://console.cloud.google.com/iam-admin/iam/project) and find your
-default GCE/GKE service account in the following form to set that permission:
+To set this, navigate to the IAM section of the [Cloud Console](https://console.cloud.google.com/iam-admin/iam/project){:target="_blank"} and find your default GCE/GKE service account in the following form to set that permission:
 ```
 projectNumber-compute@developer.gserviceaccount.com
 ```
 
 ## Setup
 
-1. Once you have an account and project enabled, simply proceed to the following link 
+### Launch Deployment Manager
 
-- [Istio GKE Deployment Manager](https://accounts.google.com/signin/v2/identifier?service=cloudconsole&passive=1209600&osid=1&continue=https%3A%2F%2Fconsole.cloud.google.com%2Flauncher%2Fconfig%3Ftemplateurl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fsalrashid123%2Fistio_dm%2Fmaster%2Fephemeral_VM%2Fcluster.jinja&followup=https%3A%2F%2Fconsole.cloud.google.com%2Flauncher%2Fconfig%3Ftemplateurl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fsalrashid123%2Fistio_dm%2Fmaster%2Fephemeral_VM%2Fcluster.jinja&flowName=GlifWebSignIn&flowEntry=ServiceLogin)
+Once you have an account and project enabled, simply proceed to the following link 
 
-2. Its recommended to leave the the defaults on as the Rest of the Quick Start demonstrates each feature.
+- [Istio GKE Deployment Manager](https://accounts.google.com/signin/v2/identifier?service=cloudconsole&passive=1209600&osid=1&continue=https%3A%2F%2Fconsole.cloud.google.com%2Flauncher%2Fconfig%3Ftemplateurl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fsalrashid123%2Fistio_dm%2Fmaster%2Fephemeral_VM%2Fcluster.jinja&followup=https%3A%2F%2Fconsole.cloud.google.com%2Flauncher%2Fconfig%3Ftemplateurl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fsalrashid123%2Fistio_dm%2Fmaster%2Fephemeral_VM%2Fcluster.jinja&flowName=GlifWebSignIn&flowEntry=ServiceLogin){:target="_blank"}
 
-3. Click 'Deploy'
+Its recommended to leave the the defaults on as the rest of the Quick Start demonstrates each feature.
 
->> **NOTE:** Deployment will take upto 5minutes.
-(The majoriy of the time is spent initializing GKE itself).
+Click ``'Deploy'``
 
-4. Once Deployment completes, on your workstation with gcloud installed:
+![GKE-Istio Launcher](img/dm_launcher.png)
 
-- Bootstrap kubectl for the cluster you just created:
+> **NOTE:** Deployment will take upto 5minutes.
 
-Confirm the cluster is running and enabled:
+### Bootstrap gcloud
+
+Once Deployment completes, on your workstation with gcloud installed:
+
+Bootstrap kubectl for the cluster you just created:
+
+Confirm the cluster is running and istio is enabled:
 ```
-$ gcloud container clusters list
+gcloud container clusters list
+```
+```
 NAME           ZONE           MASTER_VERSION                    MASTER_IP       MACHINE_TYPE   NODE_VERSION  NUM_NODES  STATUS
 istio-cluster  us-central1-a  1.7.8-gke.0 ALPHA (29 days left)  130.211.216.64  n1-standard-2  1.7.8-gke.0   3          RUNNING
 ```
 
 In this case, the cluster name is ```istio-cluster```
 
-
-5. Bootstrap to the cluster
-
-```
-$ gcloud container clusters get-credentials istio-cluster
-Fetching cluster endpoint and auth data.
-kubeconfig entry generated for istio-cluster.
-```
-
-- Verify istio is installed it its own namespace
+Bootstrap to the cluster
 
 ```
-$ kubectl get deployments,ing -n istio-system
+gcloud container clusters get-credentials istio-cluster --zone=us-central1-a
+```
 
+## Verify installation
+
+Verify istio is installed it its own namespace
+
+```
+kubectl get deployments,ing -n istio-system
+```
+```
 NAME                       DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 deploy/grafana             1         1         1            1           3m
 deploy/istio-ca            1         1         1            1           3m
@@ -99,12 +106,14 @@ deploy/servicegraph        1         1         1            1           3m
 deploy/zipkin              1         1         1            1           3m
 ```
 
-6. If you deployed BookInfo, confirm that it is also installed:
+
+If you deployed BookInfo, confirm that it is also installed:
 
 
 ```
-$ kubectl get deployments,ing
-
+kubectl get deployments,ing
+```
+```
 NAME                    DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 deploy/details-v1       1         1         1            1           3m
 deploy/productpage-v1   1         1         1            1           3m
@@ -120,14 +129,18 @@ ing/gateway   *         35.202.120.89   80        3m
 Note down the IP and Port assigned to BookInfo product page. (in the example above, its ```35.202.120.89:80```.
 
 
-6. Setup environment variable for the external IP address:
+### Access BookInfo Application
+
+Setup environment variable for the external IP address:
 
 ```
 kubectl get ingress -o wide
-export GATEWAY_URL=35.202.120.89:80
+```
+```
+export GATEWAY_URL=35.202.120.89
 ```
 
-Verify you can access the BookInfo ```/productpage```:
+Verify you can access the BookInfo ```http://${GATEWAY_URL}/productpage```:
 
 ![BookInfo](img/dm_bookinfo.png)
 
@@ -136,10 +149,10 @@ Now send some traffic to it:
 for i in {1..100}; do curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage; done
 ```
 
-7. Verify the various Istio plugins installed:
+### Verify Installed Istio plugins
 
 
-- Grafana:
+#### Grafana
 
 Setup a tunnel to Grafana
 
@@ -154,8 +167,7 @@ You should see some statistics for the requests  you just sent earlier:
 
 ![Grafana](img/dm_grafana.png)
 
-
-- Prometheus
+#### Prometheus
 
 Prometheus will get installed with Grafana.  You can view the istio and appliation metrics through the console:
 
@@ -172,7 +184,7 @@ View the console: at
 ![Prometheus](img/dm_prometheus.png)
 
 
-- ServiceGraph:
+#### ServiceGraph
 
 Setup a tunnel to ServiceGraph
 ```
@@ -186,7 +198,7 @@ http://localhost:8088/dotviz
 
 ![ServiceGraph](img/dm_servicegraph.png)
 
-- Tracing:
+#### Tracing
 
 Setup a tunnel to Zipkin:
 
@@ -206,9 +218,9 @@ http://localhost:9411
 ## Uninstalling
 
 Navigate to the Deployments section of the Cloud Console:
-- https://console.cloud.google.com/deployments
+- [https://console.cloud.google.com/deployments](https://console.cloud.google.com/deployments){:target="_blank"}
 
 Select the deployment and click delete.
 
 > Note: Deployment Manager will remove GKE artifacts but items such as Ingress and LoadBalancers will remain.
-You can delete those artifacts by again going to the cloud console under ["Network Services-->LoadBalancers"](https://console.cloud.google.com/net-services/loadbalancing/loadBalancers/list)
+You can delete those artifacts by again going to the cloud console under ["Network Services-->LoadBalancers"](https://console.cloud.google.com/net-services/loadbalancing/loadBalancers/list){:target="_blank"}
