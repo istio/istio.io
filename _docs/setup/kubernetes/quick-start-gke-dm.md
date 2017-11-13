@@ -152,7 +152,7 @@ for i in {1..100}; do curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_
 ### Verify Installed Istio plugins
 
 
-#### Grafana
+- Grafana
 
 Setup a tunnel to Grafana
 
@@ -167,7 +167,10 @@ You should see some statistics for the requests  you just sent earlier:
 
 ![Grafana](img/dm_grafana.png)
 
-#### Prometheus
+For more details [About the Grafana Add-on](/docs/tasks/telemetry/using-istio-dashboard.html#about-the-grafana-add-on).
+
+
+- Prometheus
 
 Prometheus will get installed with Grafana.  You can view the istio and appliation metrics through the console:
 
@@ -183,8 +186,9 @@ View the console: at
 
 ![Prometheus](img/dm_prometheus.png)
 
+For more details [About the Prometheus Add-on](/docs/tasks/telemetry/querying-metrics.html#about-the-prometheus-add-on).
 
-#### ServiceGraph
+- ServiceGraph
 
 Setup a tunnel to ServiceGraph
 ```
@@ -198,7 +202,9 @@ http://localhost:8088/dotviz
 
 ![ServiceGraph](img/dm_servicegraph.png)
 
-#### Tracing
+For more details, see [About the SeriviceGrpah Add-on](/docs/tasks/telemetry/servicegraph.html#about-the-servicegraph-add-on).
+
+- Tracing
 
 Setup a tunnel to Zipkin:
 
@@ -213,6 +219,13 @@ http://localhost:9411
 ```
 
 ![Zipkin](img/dm_zipkin.png)
+
+
+For more details on tracing see [Understanding what happened](/docs/tasks/telemetry/distributed-tracing.html#understanding-what-happened).
+
+- Additional Guides
+
+You can run any of the other [Guides](/docs/guides/) but you will need to install ```istioctl``.  You can either [install](/docs/setup/kubernetes/quick-start.html#installation-steps) it directly on our workstation or within Cloud Shell
 
 
 ## Uninstalling
