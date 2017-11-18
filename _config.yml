@@ -60,6 +60,7 @@ exclude:
   - Jenkinsfile
   - repos/*.html
   - repos/*.md
+  - vendor/
 
 repository:
   istio/istio.github.io
