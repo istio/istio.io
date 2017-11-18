@@ -1,6 +1,6 @@
 ---
 title: Destination Policies
-overview: Client-side traffic management policies configuration schema
+overview: Configuration schema for Client-side traffic management policies
 
 order: 30
 
@@ -56,7 +56,7 @@ environment but only when called from version v2 of the reviews service:
 
 
 *Note:* Destination policies will be applied only if the corresponding
-tagged instances are explicity routed to. In other words, for every
+tagged instances are explicitly routed to. In other words, for every
 destination policy defined, at least one route rule must refer to the
 service version indicated in the destination policy.
 
@@ -102,7 +102,7 @@ service version indicated in the destination policy.
 ### LoadBalancing
 Load balancing policy to use when forwarding traffic. These policies
 directly correlate to [load balancer
-types](https://envoyproxy.github.io/envoy/intro/arch_overview/load_balancing.html)
+types](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing)
 supported by Envoy. Example,
 
 
@@ -131,7 +131,7 @@ supported by Envoy. Example,
 
 <a name="istio.proxy.v1.config.LoadBalancing.SimpleLBPolicy"></a>
 #### SimpleLBPolicy
-Load balancing algorithms supported by Envoy proxy.
+Load balancing algorithms supported by Envoy.
 
 
 <table>
@@ -164,8 +164,8 @@ rates of individual hosts in the load balancing pool. Hosts that
 continually return errors for API calls are ejected from the pool for a
 pre-defined period of time.
 See Envoy's
-[circuit breaker](https://envoyproxy.github.io/envoy/intro/arch_overview/circuit_breaking.html)
-and [outlier detection](https://envoyproxy.github.io/envoy/intro/arch_overview/outlier.html)
+[circuit breaker](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/circuit_breaking)
+and [outlier detection](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/outlier)
 for more details.
 
 <table>
