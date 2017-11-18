@@ -32,4 +32,4 @@ jobs:
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
       # Run the test/html checker
-      - run: bundle exec rake test
+      - run: rake test
