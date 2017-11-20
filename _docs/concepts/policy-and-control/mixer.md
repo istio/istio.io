@@ -94,7 +94,7 @@ operator is responsible for:
   consist of a *match* expression and *actions*. The match expression controls
   when Mixer will execute the specified actions. Actions specify the set of
   instances to generate and the handlers that should process the generated
-  instances. For example, an rule might tell Mixer to send generated
+  instances. For example, a rule might tell Mixer to send generated
   `requestcount` instances to a `statsd` handler for all `Report` calls.
 
 The above configuration state is required to have Mixer know what to do with
@@ -109,7 +109,7 @@ When a request comes in to Mixer, it goes through a number of distinct handling
 phases:
 
 - **Supplementary Attribute Production**. Mixer initially runs a globally
-  configured set of adapters that are responsible for introducing new attributes
+  configured set of adapters that are responsible for introducing new attributes.
   These attributes are combined with the attributes from the request to form the
   total set of attributes for the operation.
 
