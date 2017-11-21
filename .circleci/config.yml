@@ -31,5 +31,13 @@ jobs:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
+      - restore_cache:
+          keys:
+          - htmlproofer-cache
       # Run the test/html checker
       - run: bundle exec rake test
+      # save the external URLs cache
+      - save_cache:
+          key: htmlproofer-cache
+          paths:
+            - tmp/.htmlproofer
