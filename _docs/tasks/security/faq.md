@@ -78,7 +78,7 @@ The Kubernetes API server does not support mutual TLS authentication, so strictl
 
 (Require v0.3 or later) Edit the `mtlsExcludedServices` list in Istio config map to contain the fully-qualified name of the API server (and any other control services for that matter). The default value of `mtlsExcludedServices` already contains `kubernetes.default.svc.cluster.local`, which is the popular service name of the Kubernetes API server.
 
-For a quick reference, here are command to edit Istio configmap and to restart pilot.
+For a quick reference, here are commands to edit Istio configmap and to restart pilot.
 ```bash
 kubectl edit configmap -n istio-system istio
 ```
