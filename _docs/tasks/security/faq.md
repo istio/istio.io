@@ -72,18 +72,19 @@ type: markdown
   ```
 
 * _Can I access the Kubernetes API Server with Auth enabled?_
+The Kubernetes API server does not support mutual TLS authentication, so strictly speaking: no. However, if you use version 0.3 or later, see next question to learn how to disable mTLS in upstream config on clients side so they can access API server.
 
-  No. Kubernetes API server does not have Istio sidecar so it cannot handle requests from a pod with Istio sidecar and mTLS enable. However, starting v0.3, we will have option to disable Istio Auth for traffic to API server (or any other similar control services). See the next question for more details.
+* _How to disable Auth on clients to access the Kubernetes API Server (or any control services that don't have Istio sidecar)?_
 
-* _How to disable Auth on clients to access the Kubernetes API Server?_  
+(Require v0.3 or later) Edit the `mtlsExcludedServices` list in Istio config map to contain the fully-qualified name of the API server (and any other control services for that matter). The default value of `mtlsExcludedServices` already contains `kubernetes.default.svc.cluster.local`, which is the popular service name of the Kubernetes API server.
 
-  In Istio v0.3 and above, we add option to the Istio configmap to specify services that do not accept mTLS. The default list contains `kubernetes.default.svc.cluster.local`, which is a typical Kubernetes API server service name.
+For a quick reference, here are command to edit Istio configmap and to restart pilot.
+```bash
+kubectl edit configmap -n istio-system istio
+```
 
-  If the API server has different name in your system, or you want to exclude mTLS for more control services, edit the `mtlsExcludedServices` in the Istio config map and restart pilot.
-  ```bash
-  kubectl edit configmap -n istio-system istio
+```bash
+kubectl delete pods -n istio-system -l istio=pilot
+```
 
-  kubectl delete pods -n istio-system -l istio=pilot
-  ```
-
-  > Note: DO NOT use this setting for services that are managed by Istio (i.e. using Istio sidecar). Instead, use service-level annotations to overwrite the authentication policy (see above).
+  > Note: DO NOT use this approach to disable mTLS for services that are managed by Istio (i.e. using Istio sidecar). Instead, use service-level annotations to overwrite the authentication policy (see above).
