@@ -72,19 +72,20 @@ type: markdown
   ```
 
 * _Can I access the Kubernetes API Server with Auth enabled?_
-The Kubernetes API server does not support mutual TLS authentication, so strictly speaking: no. However, if you use version 0.3 or later, see next question to learn how to disable mTLS in upstream config on clients side so they can access API server.
+
+  The Kubernetes API server does not support mutual TLS authentication, so strictly speaking: no. However, if you use version 0.3 or later, see next question to learn how to disable mTLS in upstream config on clients side so they can access API server.
 
 * _How to disable Auth on clients to access the Kubernetes API Server (or any control services that don't have Istio sidecar)?_
 
-(Require v0.3 or later) Edit the `mtlsExcludedServices` list in Istio config map to contain the fully-qualified name of the API server (and any other control services for that matter). The default value of `mtlsExcludedServices` already contains `kubernetes.default.svc.cluster.local`, which is the popular service name of the Kubernetes API server.
+  (Require v0.3 or later) Edit the `mtlsExcludedServices` list in Istio config map to contain the fully-qualified name of the API server (and any other control services for that matter). The default value of `mtlsExcludedServices` already contains `kubernetes.default.svc.cluster.local`, which is the default service name of the Kubernetes API server.
 
-For a quick reference, here are commands to edit Istio configmap and to restart pilot.
-```bash
-kubectl edit configmap -n istio-system istio
-```
+  For a quick reference, here are commands to edit Istio configmap and to restart pilot.
+  ```bash
+  kubectl edit configmap -n istio-system istio
+  ```
 
-```bash
-kubectl delete pods -n istio-system -l istio=pilot
-```
+  ```bash
+  kubectl delete pods -n istio-system -l istio=pilot
+  ```
 
   > Note: DO NOT use this approach to disable mTLS for services that are managed by Istio (i.e. using Istio sidecar). Instead, use service-level annotations to overwrite the authentication policy (see above).
