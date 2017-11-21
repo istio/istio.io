@@ -13,7 +13,7 @@ Virtual Machines, and illustrates how to use Istio service mesh to control
 this infrastructure as a single mesh.
 
 > Note: this guide is still under development and only tested on Google Cloud Platform.
-  On IBM Bluemix or other platforms where overlay network of Pods is isolated from VM network,
+  On IBM Cloud or other platforms where overlay network of Pods is isolated from VM network,
   VMs cannot initiate any direct communication to Kubernetes Pods even when using Istio.
 
 ## Overview
