@@ -9,3 +9,4 @@ config_override.yml
 *.iml
 .idea/
 .bundle/
+tmp/
