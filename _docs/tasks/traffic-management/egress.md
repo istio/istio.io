@@ -178,7 +178,7 @@ For example, with Minikube the range is 10.0.0.1/24, so you would start the slee
 kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=10.0.0.1/24)
 ```
 
-On IBM Bluemix, use:
+On IBM Cloud Container Service, use:
 
 ```bash
 kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=172.30.0.0/16,172.20.0.0/16,10.10.10.0/24)

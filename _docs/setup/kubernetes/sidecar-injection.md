@@ -151,7 +151,7 @@ different environments as follows:
       --zone=ZONE
   ```
 
-* _IBM Bluemix_ kubernetes clusters with v1.7.4 or newer versions have
+* _IBM Cloud Container Service_ kubernetes clusters with v1.7.4 or newer versions have
   initializers enabled by default.
 
 * _Minikube_
