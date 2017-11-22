@@ -1,6 +1,6 @@
 ---
 title: FAQ
-overview: Common issues, known limitations and work arounds, and other frequently asked questions on this topic.
+overview: Common issues, known limitations and work-around, and other frequently asked questions on this topic.
 
 order: 100
 
@@ -36,7 +36,18 @@ type: markdown
 * _Can I enable Istio Auth with some services while disable others in the
   same cluster?_
 
-  This is not supported currently, but will be in the near future.
+  (Require version 0.3 or above) You can use service-level annotations to disable (or enable) Istio Auth for particular service-port. The annotation key should be `auth.istio.io/{port_number}`, and the value should be `NONE` (to disable), or `MUTUAL_TLS` (to enable).
+
+  Example: disable Istio Auth on port 9080 for service `details`.
+  ```yaml
+  kind: Service
+  metadata:
+    name: details
+    labels:
+      app: details
+    annotations:
+      auth.istio.io/9080: NONE
+  ```
 
 * _How can I use Kubernetes liveness and readiness for service health check
   with Istio Auth enabled?_
@@ -62,7 +73,28 @@ type: markdown
 
 * _Can I access the Kubernetes API Server with Auth enabled?_
 
-  The Kubernetes API server does not support mutual TLS
-  authentication. Hence, when Istio mTLS authentication is enabled, it is
-  currently not possible to communicate from a pod with Istio sidecar to
-  the Kubernetes API server.
+  The Kubernetes API server does not support mutual TLS authentication, so
+  strictly speaking: no. However, if you use version 0.3 or later, see next
+  question to learn how to disable mTLS in upstream config on clients side so
+  they can access API server.
+
+* _How to disable Auth on clients to access the Kubernetes API Server (or any control services that don't have Istio sidecar)?_
+
+  (Require v0.3 or later) Edit the `mtlsExcludedServices` list in Istio config
+  map to contain the fully-qualified name of the API server (and any other
+  control services for that matter). The default value of `mtlsExcludedServices`
+  already contains `kubernetes.default.svc.cluster.local`, which is the default
+  service name of the Kubernetes API server.
+
+  For a quick reference, here are commands to edit Istio configmap and to restart pilot.
+  ```bash
+  kubectl edit configmap -n istio-system istio
+  ```
+
+  ```bash
+  kubectl delete pods -n istio-system -l istio=pilot
+  ```
+
+  > Note: DO NOT use this approach to disable mTLS for services that are managed
+  by Istio (i.e. using Istio sidecar). Instead, use service-level annotations
+  to overwrite the authentication policy (see above).
