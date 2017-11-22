@@ -6,8 +6,7 @@
 }
 
 #header-nav {
-  background: $mainBrandColor linear-gradient(to right, $mainBrandColor, $secondBrandColor) no-repeat center/cover;
-
+  background-image: linear-gradient(to right, $mainBrandColor, $secondBrandColor);
   padding-top: 10px;
   padding-bottom: 10px;
 }
@@ -43,7 +42,6 @@
 }  
 
 .navbar-header {
-  margin-top: 15px;
   margin-left: 15px;
 }
 

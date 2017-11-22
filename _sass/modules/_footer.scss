@@ -1,5 +1,5 @@
 footer {
-  background: linear-gradient(to right, $mainBrandColor, $secondBrandColor);
+  background-image: linear-gradient(to right, $mainBrandColor, $secondBrandColor);
   box-shadow: 0px 500px 0px 500px $footerColor;
   color: $white;
   overflow: hidden;
@@ -7,9 +7,11 @@ footer {
   position: relative;
 
   @media (max-width: 767px) {
-    padding: 15px 0 30px;
+    padding: 15px 0 20px;
+    text-align: center;
 
     ul {
+      padding-top: 20px;
       &.active li {
         display: initial;
       }
@@ -38,6 +40,18 @@ footer {
     }
   }
 
+  a.header {
+    font-weight: 400;
+    font-size: 1.1em;
+    padding: 10px 0 0px;
+    position: relative;
+    letter-spacing: .5px;
+    line-height: 2.0em;
+
+    @media (max-width: 767px) {
+    }
+  }
+
   .active {
     display: initial;
   }
@@ -47,45 +61,5 @@ footer {
     color: $light-gray;
     line-height: 1.6em;
     font-size: 0.7em;
-  }
-
-  div.header {
-    font-weight: 400;
-    font-size: 1.3em;
-    letter-spacing: .5px;
-    padding: 10px 0 10px;
-    position: relative;
-  }
-
-  @mixin social-icon($image-url) {
-    &::before {
-      content: '';
-      display: inline-block;
-      background: url($image-url) no-repeat center/cover;
-      width: 25px;
-      height: 25px;
-      vertical-align: middle;
-      margin: 0 15px 0 0;
-    }
-  }
-
-  .github {
-    @include social-icon('../img/github.png');
-  }
-
-  .group {
-    @include social-icon('../img/group.svg');
-  }
-
-  .list {
-    @include social-icon('../img/list.png');
-  }
-
-  .stack-overflow {
-    @include social-icon('../img/stackoverflow.png');
-  }
-
-  .twitter {
-    @include social-icon('../img/icon_twitter.svg');
   }
 }
