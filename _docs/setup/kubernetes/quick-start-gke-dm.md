@@ -1,6 +1,6 @@
 ---
-title: Quick Start using Google Container Engine
-overview: Quick Start instructions to setup the Istio service using Google Container Engine (GKE)
+title: Quick Start with Google Kubernetes Engine
+overview: Quick Start instructions to setup the Istio service using Google Kubernetes Engine (GKE)
 
 order: 11
 
@@ -11,12 +11,12 @@ type: markdown
 {% include home.html %}
 
 
-Quick Start instructions to install and run Istio in [Google Container Engine](https://cloud.google.com/container-engine/){:target="_blank"} (GKE) using [Google Cloud Deployment Manager](https://cloud.google.com/deployment-manager/){:target="_blank"}.
+Quick Start instructions to install and run Istio in [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/){:target="_blank"} (GKE) using [Google Cloud Deployment Manager](https://cloud.google.com/deployment-manager/){:target="_blank"}.
 
 This Quick Start creates a new GKE cluster, installs Istio and then deploys the [BookInfo](https://istio.io/docs/guides/bookinfo.html){:target="_blank"} sample application.   It is essentially
 all the steps detailed in [Istio Kubernetes Intaller](https://istio.io/docs/setup/kubernetes/quick-start.html) combined with Deployment Manager.
 
-> **Note:** The default install will create a GKE [**ALPHA** Cluster](https://cloud.google.com/container-engine/docs/alpha-clusters){:target="_blank"} that allows for [automatic sidecar injection](https://istio.io/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection){:target="_blank"}.  As it is an Alpha Cluster,
+> **Note:** The default install will create a GKE [**ALPHA** Cluster](https://cloud.google.com/kubernetes-engine/docs/alpha-clusters){:target="_blank"} that allows for [automatic sidecar injection](https://istio.io/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection){:target="_blank"}.  As it is an Alpha Cluster,
 it does not support automatic node or master upgrades and will only run for 30days.
 
 ## Prerequisites
@@ -37,15 +37,18 @@ gcloud config list
 If you do not wish to install the gcloud client, you can use  [Google Cloud Shell](https://cloud.google.com/shell/docs/){:target="_blank"} to perform most tasks.
 If you choose to use Cloud Shell, you can port forward and proxy using its [Web Preview](https://cloud.google.com/shell/docs/using-web-preview#previewing_the_application){:target="_blank"} feature.  For example, to access Grafana from Cloud Shell, change the kubectl port mapping from 3000:3000 to 8080:3000.  You can simultaneously preview four other consoles via Web Preview proxied on ranges 8080 to 8084.  
 
-**NOTE:**  At the moment, you must set your default service account to include:
+> <img src="{{home}}/img/warning.svg" alt="Warning" title="Warning"
+ style="width: 32px; display:inline" />
+**NOTE:** You must set your default compute service account to include:
 
-- ```roles/container.admin```  (Container Engine Admin)
-- ```Editor```  (on by default)
+> - ```roles/container.admin```  (Container Engine Admin)
+> - ```Editor```  (on by default)
 
-To set this, navigate to the IAM section of the [Cloud Console](https://console.cloud.google.com/iam-admin/iam/project){:target="_blank"} and find your default GCE/GKE service account in the following form to set that permission:
+> To set this, navigate to the IAM section of the [Cloud Console](https://console.cloud.google.com/iam-admin/iam/project){:target="_blank"} and find your default GCE/GKE service account in the following form to set that permission:
 ```
 projectNumber-compute@developer.gserviceaccount.com
 ```
+
 
 ## Setup
 
@@ -53,7 +56,7 @@ projectNumber-compute@developer.gserviceaccount.com
 
 Once you have an account and project enabled, simply proceed to the following link 
 
-- [Istio GKE Deployment Manager](https://accounts.google.com/signin/v2/identifier?service=cloudconsole&passive=1209600&osid=1&continue=https%3A%2F%2Fconsole.cloud.google.com%2Flauncher%2Fconfig%3Ftemplateurl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fsalrashid123%2Fistio_dm%2Fmaster%2Fephemeral_VM%2Fcluster.jinja&followup=https%3A%2F%2Fconsole.cloud.google.com%2Flauncher%2Fconfig%3Ftemplateurl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fsalrashid123%2Fistio_dm%2Fmaster%2Fephemeral_VM%2Fcluster.jinja&flowName=GlifWebSignIn&flowEntry=ServiceLogin){:target="_blank"}
+- [Istio GKE Deployment Manager](https://accounts.google.com/signin/v2/identifier?service=cloudconsole&passive=1209600&osid=1&continue=https%3A%2F%2Fconsole.cloud.google.com%2Flauncher%2Fconfig%3Ftemplateurl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fsalrashid123%2Fdeploymentmanager-samples%2Fistio-example%2Fexamples%2Fv2%2Fgke%2Fistio%2Fcluster.jinja&followup=https%3A%2F%2Fconsole.cloud.google.com%2Flauncher%2Fconfig%3Ftemplateurl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fsalrashid123%2Fdeploymentmanager-samples%2Fistio-example%2Fexamples%2Fv2%2Fgke%2Fistio%2Fcluster.jinja&flowName=GlifWebSignIn&flowEntry=ServiceLogin){:target="_blank"}
 
 Its recommended to leave the the defaults on as the rest of the Quick Start demonstrates each feature.
 
@@ -152,7 +155,7 @@ for i in {1..100}; do curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_
 ### Verify Installed Istio plugins
 
 
-- Grafana
+**Grafana**
 
 Setup a tunnel to Grafana
 
@@ -170,7 +173,7 @@ You should see some statistics for the requests  you just sent earlier:
 For more details [About the Grafana Add-on](/docs/tasks/telemetry/using-istio-dashboard.html#about-the-grafana-add-on).
 
 
-- Prometheus
+**Prometheus**
 
 Prometheus will get installed with Grafana.  You can view the istio and appliation metrics through the console:
 
@@ -188,7 +191,7 @@ View the console: at
 
 For more details [About the Prometheus Add-on](/docs/tasks/telemetry/querying-metrics.html#about-the-prometheus-add-on).
 
-- ServiceGraph
+**ServiceGraph**
 
 Setup a tunnel to ServiceGraph
 ```
@@ -204,7 +207,7 @@ http://localhost:8088/dotviz
 
 For more details, see [About the SeriviceGrpah Add-on](/docs/tasks/telemetry/servicegraph.html#about-the-servicegraph-add-on).
 
-- Tracing
+**Tracing**
 
 Setup a tunnel to Zipkin:
 
@@ -223,9 +226,9 @@ http://localhost:9411
 
 For more details on tracing see [Understanding what happened](/docs/tasks/telemetry/distributed-tracing.html#understanding-what-happened).
 
-- Additional Guides
+**Additional Guides**
 
-You can run any of the other [Guides](/docs/guides/) but you will need to install ```istioctl``.  You can either [install](/docs/setup/kubernetes/quick-start.html#installation-steps) it directly on our workstation or within Cloud Shell
+You can run any of the other [Guides](/docs/guides/) but you will need to install ```istioctl```.  You can either [install](/docs/setup/kubernetes/quick-start.html#installation-steps) it directly on our workstation or within Cloud Shell
 
 
 ## Uninstalling
