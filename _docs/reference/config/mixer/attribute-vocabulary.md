@@ -71,3 +71,4 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | request.auth.principal | string | The authenticated principal of the request. This is a string of the issuer (`iss`) and subject (`sub`) claims within a JWT concatenated with “/” with a percent-encoded subject value. | accounts.my-svc.com/104958560606 |
 | request.auth.audiences | string | The intended audience(s) for this authentication information. This should reflect the audience (`aud`) claim within a JWT. | ['my-svc.com', 'scopes/read'] |
 | request.auth.presenter | string | The authorized presenter of the credential. This value should reflect the optional Authorized Presenter (`azp`) claim within a JWT or the OAuth2 client id. | 123456789012.my-svc.com |
+| request.api_key | string | The API key used for the request. | abcde12345 |

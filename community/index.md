@@ -24,9 +24,9 @@ best approach for different cases.
         and get help troubleshooting problems.
         Join <a href="https://groups.google.com/forum/#!forum/istio-announce">istio-announce@</a> to hear about the latest
         releases, events, and other happenings.
-        Join <a href="https://groups.google.com/forum/#!forum/istio-dev">istio-dev@</a> and
-        our various <a href="https://github.com/istio/istio/blob/master/GROUPS.md#working-groups">working groups</a>
-        if you want to hack on Istio.
+        If you'd like to contribute to the Istio project, check out the
+        <a href="https://github.com/istio/community">community</a> GitHub repository to learn
+        how to get engaged.
       </td>
     </tr>
 
