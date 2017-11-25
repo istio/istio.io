@@ -1,10 +1,14 @@
 ---
 layout: default
 ---
+{% include home.html %}
+
+<script src="{{home}}/js/faq.js"></script>
+
 <div class="container faq">
   <div class="row">
-    <div class="col-sm-12 col-md-10 col-lg-7 nofloat center-block {{page.type}}">
-      {{ content }}
+    <div class="col-sm-12 col-md-10 col-lg-10 nofloat center-block {{page.type}}">
+      {{content}}
     </div>
   </div>
 </div>
