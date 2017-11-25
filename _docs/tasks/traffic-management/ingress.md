@@ -65,12 +65,12 @@ rules.
    EOF
    ```
  
-  `/.*` is a special Istio notation that is used to indicate a prefix
-  match, specifically a configuration of the form (`prefix: /`). This
-  configuration above will allow access to all URIs in the httpbin
-  service. However we wish to enable access only to specific URIs under the
-  httpbin service. Let us define a default _deny all_ route rule that
-  provides this behavior:
+   `/.*` is a special Istio notation that is used to indicate a prefix
+   match, specifically a configuration of the form (`prefix: /`). This
+   configuration above will allow access to all URIs in the httpbin
+   service. However we wish to enable access only to specific URIs under the
+   httpbin service. Let us define a default _deny all_ route rule that
+   provides this behavior:
 
    ```bash
    cat <<EOF | istioctl create -f -
@@ -85,6 +85,7 @@ rules.
      match:
        # Limit this rule to istio ingress pods only
        source:
+         name: istio-ingress
          labels:
            istio: ingress
      precedence: 1
@@ -95,11 +96,9 @@ rules.
          percent: 100
          httpStatus: 403 #Forbidden for all URLs
    EOF
-   ```
-
-   
-  Now, allow requests to `/status/` prefix by defining a route rule of
-  higher priority.
+   ```   
+2. Now, allow requests to `/status/` prefix by defining a route rule of
+   higher priority.
 
    ```bash
    cat <<EOF | istioctl create -f -
@@ -114,6 +113,7 @@ rules.
      match:
        # Limit this rule to istio ingress pods only
        source:
+         name: istio-ingress
          labels:
            istio: ingress
        request:
@@ -125,11 +125,10 @@ rules.
      - weight: 100
    EOF
    ```
-
   You can use other features of the route rules such as redirects,
   rewrites, regular expression based match in HTTP headers, websocket
   upgrades, timeouts, retries, and so on. Please refer to the
-  [routing rules](https://istio.io/docs/reference/config/traffic-rules/routing-rules.html)
+  [routing rules]({{home}}/docs/reference/config/traffic-rules/routing-rules.html)
   for more details.
 
 ## Verifying ingress
@@ -155,7 +154,7 @@ rules.
    * If load balancers are not supported, use the ingress controller pod's hostIP:
    
      ```bash
-     kubectl get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
+     kubectl -n istio-system get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
      ```
 
      ```bash
@@ -165,7 +164,7 @@ rules.
      along with the istio-ingress service's nodePort for port 80:
    
      ```bash
-     kubectl get svc istio-ingress
+     kubectl -n istio-system get svc istio-ingress
      ```
    
      ```bash
@@ -269,6 +268,92 @@ rules.
    ```bash
    curl -I -k https://$INGRESS_HOST/status/200
    ```
+
+## Configuring ingress for gRPC
+
+The ingress controller currently doesn't support `.` characters in the `path`
+field. This is an issue for gRPC services using namespaces. In order to work
+around the issue, traffic can be directed through a common dummy service, with
+route rules set up to intercept traffic and redirect to the intended services.
+
+1. Create a dummy ingress service:
+
+   ```bash
+   cat <<EOF | kubectl create -f -
+   apiVersion: v1
+   kind: Service
+   metadata:
+     name: ingress-dummy-service
+   spec:
+     ports:
+     - name: grpc
+       port: 1337
+   EOF
+   ```
+
+1. Create a catch-all ingress pointing to the dummy service:
+
+   ```bash
+   cat <<EOF | kubectl create -f -
+   apiVersion: extensions/v1beta1
+   kind: Ingress
+   metadata:
+     name: all-istio-ingress
+     annotations:
+       kubernetes.io/ingress.class: istio
+   spec:
+     rules:
+     - http:
+         paths:
+         - backend:
+             serviceName: ingress-dummy-service
+             servicePort: grpc
+   EOF
+   ```
+
+1. Create a RouteRule for each service, redirecting from the dummy service to
+   the correct gRPC service:
+
+   ```bash
+   cat <<EOF | istioctl create -f -
+   apiVersion: config.istio.io/v1alpha2
+   kind: RouteRule
+   metadata:
+     name: foo-service-route
+   spec:
+     destination:
+       name: ingress-dummy-service
+     match:
+       request:
+         headers:
+           uri:
+             prefix: "/foo.FooService"
+     precedence: 1
+     route:
+     - weight: 100
+       destination:
+         name: foo-service
+   ---
+   apiVersion: config.istio.io/v1alpha2
+   kind: RouteRule
+   metadata:
+     name: bar-service-route
+   spec:
+     destination:
+       name: ingress-dummy-service
+     match:
+       request:
+         headers:
+           uri:
+             prefix: "/bar.BarService"
+     precedence: 1
+     route:
+     - weight: 100
+       destination:
+         name: bar-service
+   EOF      
+   ```
+
 
 ## Understanding ingresses
 

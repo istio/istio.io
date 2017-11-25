@@ -56,7 +56,8 @@ the destination service.
 For example, a simple rule to send 100% of incoming traffic for a
 "reviews" service to version "v1" can be specified as follows:
 
-
+    apiVersion: config.istio.io/v1alpha2
+    kind: RouteRule
     metadata:
       name: my-rule
       namespace: default # optional (default is "default")
@@ -317,19 +318,19 @@ instances with the "v2" tag and the remaining traffic (i.e., 75%) to
  <tr>
   <td><code>destination</code></td>
   <td><a href="#istio.proxy.v1.config.IstioService">IstioService</a></td>
-  <td>Optional destination uniquely identifies the destination service. If not specified, the value is inherited from the parent route rule.</td>
+  <td>Sometimes required. Optional destination uniquely identifies the destination service. If not specified, the value is inherited from the parent route rule.</td>
  </tr>
 <a name="istio.proxy.v1.config.DestinationWeight.labels"></a>
  <tr>
   <td><code>labels</code></td>
   <td>repeated map&lt;string, string&gt;</td>
-  <td>Service version identifier for the destination service.</td>
+  <td>Sometimes required. Service version identifier for the destination service.</td>
  </tr>
 <a name="istio.proxy.v1.config.DestinationWeight.weight"></a>
  <tr>
   <td><code>weight</code></td>
   <td>int32</td>
-  <td>REQUIRED. The proportion of traffic to be forwarded to the service version. (0-100). Sum of weights across destinations SHOULD BE == 100. If there is only destination in a rule, the weight value is assumed to be 100.</td>
+  <td>REQUIRED. The proportion of traffic to be forwarded to the service version. (0-100). Sum of weights across destinations SHOULD BE == 100. If there is only destination in a rule, the weight value is assumed to be 100. When using multiple weights, either destination or labels must be specified.</td>
  </tr>
 </table>
 

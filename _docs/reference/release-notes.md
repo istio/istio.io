@@ -20,7 +20,7 @@ command.
 services in other non-system namespaces.
 
 - **Mesh Expansion**. Initial support for adding non-Kubernetes services (in the form of VMs and/or physical machines) to a mesh. This is an early version of
-this features which has limitations (such as requiring a flat network across containers and VMs).
+this feature and has some limitations (such as requiring a flat network across containers and VMs).
 
 - **Multi-Environment Support**. Initial support for using Istio in conjunction with other service registries 
 including Consul and Eureka. 
@@ -65,13 +65,13 @@ rich proxy-side caching and batching for increased performance.
 
 - **New Mixer Adapter Model**. A new adapter composition model makes it easier to extend Mixer by adding whole new classes of adapters via templates. This 
 new model will serve as the foundational building block for many features in the future. See the
-[Adapter Developer's Guide](https://github.com/istio/mixer/blob/master/doc/dev/adapters.md) to learn how
+[Adapter Developer's Guide](https://github.com/istio/istio/blob/master/mixer/doc/adapters.md) to learn how
 to write adapters.
 
 - **Improved Mixer Build Model**. It’s now easier to build a Mixer binary that includes custom adapters.
 
 - **Mixer Adapter Updates**. The built-in adapters have all been rewritten to fit into the new adapter model. The stackdriver adapter has been added for this
-release. The experimental redisquota adapter has been removed in the 0.2 release, but is expected to come back in production quality for the 0.3 release.
+release. The experimental redis quota adapter has been removed in the 0.2 release, but is expected to come back in production quality for the 0.3 release.
 
 - **Mixer Call Tracing**. Calls between Envoy and Mixer can now be traced and analyzed in the Zipkin dashboard.
 
@@ -87,6 +87,12 @@ identity provisioning. This agent runs on each node (VM / physical machine) and 
 
 - **Persistent CA Key/Certificate Storage**. Istio CA now stores signing key/certificates in
 persistent storage to facilitate CA restarts. 
+
+### Known Issues
+
+- **User may get periodical 404 when accessing the application**:  We have noticed that Envoy doesn't get routes properly occasionally thus a 404 is returned to the user.  We are actively working on this [issue](https://github.com/istio/istio/issues/1038).
+- **Istio Ingress or Egress reports ready before Pilot is actually ready**: You can check the istio-ingress and istio-egress pods status in the `istio-system` namespace and wait a few seconds after all the Istio pods reach ready status.  We are actively working on this [issue](https://github.com/istio/istio/pull/1055).
+- **A service with Istio Auth enabled can't communicate with a service without Istio**: This limitation will be removed in the near future.
 
 
 [Release notes for previous versions of Istio](./notes)

@@ -73,19 +73,19 @@ To start the application, follow the instructions below corresponding to your Is
 
 1. Bring up the application containers:
 
+   If you are using [manual sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar-injection),
+   use the folloiwng command instead:
+
+   ```bash
+   kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo.yaml)
+   ```
+
    If you are using a cluster with
    [automatic sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection)
    enabled, simply deploy the services using `kubectl`:
 
    ```bash
    kubectl apply -f samples/bookinfo/kube/bookinfo.yaml
-   ```
-
-   If you are using [manual sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar-injection),
-   use the folloiwng command instead:
-
-   ```bash
-   kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo.yaml)
    ```
 
    The `istioctl kube-inject` command is used to manually modify the `bookinfo.yaml`
@@ -161,7 +161,7 @@ To start the application, follow the instructions below corresponding to your Is
    gcloud compute firewall-rules create allow-book --allow tcp:$(kubectl get svc istio-ingress -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
    ```
 
-1. _IBM Bluemix Free Tier:_ External load balancer is not available for kubernetes clusters in the free tier in Bluemix. You can use the public IP of the worker node, along with the NodePort, to access the ingress. The public IP of the worker node can be obtained from the output of the following command:
+1. _IBM Cloud Container Service Free Tier:_ External load balancer is not available for kubernetes clusters in the free tier. You can use the public IP of the worker node, along with the NodePort, to access the ingress. The public IP of the worker node can be obtained from the output of the following command:
 
    ```bash
    bx cs workers <cluster-name or id>
@@ -171,7 +171,7 @@ To start the application, follow the instructions below corresponding to your Is
 1. _Minikube:_ External load balancers are not supported in Minikube. You can use the host IP of the ingress service, along with the NodePort, to access the ingress.
    
    ```bash
-   export GATEWAY_URL=$(kubectl get po -n istio-system -l istio=ingress -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}')
+   export GATEWAY_URL=$(kubectl get po -n istio-system -l istio=ingress -n istio-system -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -n istio-system -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}')
    ```
 
 ### Running on Docker with Consul or Eureka

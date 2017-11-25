@@ -33,10 +33,12 @@ collections:
     output: true
   faq:
     output: false
+  faq_categories:
+    output: false
   glossary:
     output: false
 
-gems:
+plugins:
   - jekyll-redirect-from
   - jekyll-sitemap
 
@@ -60,6 +62,7 @@ exclude:
   - Jenkinsfile
   - repos/*.html
   - repos/*.md
+  - vendor/
 
 repository:
   istio/istio.github.io

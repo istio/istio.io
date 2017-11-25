@@ -18,10 +18,11 @@ cluster must satisfy the following requirements:
   [Kubernetes Service](https://kubernetes.io/docs/concepts/services-networking/service/)
   (pods that belong to multiple services are not supported as of now).
 
-1. _**Named ports**:_ Service ports must be named. The port names must begin
-  with _http_, _http2_, _grpc_, or _mongo_ prefix in order to take advantage
-  of Istio's routing features. For example, `name: http2-foo` or `name: http`
-  are valid port names.  If the port name does not begin with a recognized
+1. _**Named ports**:_ Service ports must be named. The port names must be of
+  the form `<protocol>[-<suffix>]` with _http_, _http2_, _grpc_, _mongo_, or _redis_
+  as the `<protocol>` in order to take advantage of Istio's routing features.
+  For example, `name: http2-foo` or `name: http` are valid port names, but
+  `name: http2foo` is not.  If the port name does not begin with a recognized
   prefix or if the port is unnamed, traffic on the port will be treated as
   plain TCP traffic (unless the port explicitly uses `Protocol: UDP` to
   signify a UDP port).
@@ -143,7 +144,6 @@ different environments as follows:
 
   ```bash
   gcloud container clusters create NAME \
-      --cluster-version=1.7.5 \
       --enable-kubernetes-alpha \
       --machine-type=n1-standard-2 \
       --num-nodes=4 \
@@ -151,7 +151,7 @@ different environments as follows:
       --zone=ZONE
   ```
 
-* _IBM Bluemix_ kubernetes clusters with v1.7.4 or newer versions have
+* _IBM Cloud Container Service_ kubernetes clusters with v1.7.4 or newer versions have
   initializers enabled by default.
 
 * _Minikube_
@@ -233,8 +233,8 @@ It finds its configured name `sidecar.initializer.istio.io`
 as the first in the list of pending initializers.
 
 3) istio-initializer checks to see if it was responsible for
-initializing the namespace of the workload. No further work is done
-and the initializer ignores the workload if the initializer is
+initializing workloads in the namespace of the workload. No further work is done
+and the initializer ignores the workload if the initializer is not
 configured for the namespace. By default the initializer is
 responsible for all namespaces (see [configuration options](#configuration-options)).
 
@@ -270,6 +270,7 @@ data:
   config: |-
     policy: "enabled"
     namespaces: [""] # everything, aka v1.NamepsaceAll, aka cluster-wide
+    # excludeNamespaces: ["ns1", "ns2"]
     initializerName: "sidecar.initializer.istio.io"
     params:
       initImage: docker.io/istio/proxy_init:0.2.6
@@ -285,7 +286,7 @@ The following are key parameters in the configuration:
 1. _**policy**_
 
  `off` - Disable the initializer from modifying resources. The pending
- `status.sidecar.istio.io initializer` initializer is still removed to
+ `sidecar.initializer.istio.io` initializer is still removed to
  avoid blocking creation of resources.
 
  `disabled` - The initializer will not inject the sidecar into
@@ -305,13 +306,19 @@ The following are key parameters in the configuration:
  initializer to initialize all namespaces. kube-system, kube-public, and 
  istio-system are exempt from initialization.
 
-3. _**initializerName**_
+3. _**excludeNamespaces**_
+
+ This is a list of namespaces to be excluded from istio initializer. It
+ cannot be definend as `v1.NamespaceAll` or defined together with
+ `namespaces`.
+
+4. _**initializerName**_
 
  This must match the name of the initializer in the
  InitializerConfiguration. The initializer only processes workloads
  that match its configured name.
 
-4. _**params**_
+5. _**params**_
 
  These parameters allow you to make limited changes to the injected
  sidecar. Changing these values will not affect already deployed workloads.

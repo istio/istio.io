@@ -22,12 +22,16 @@ as the example application throughout this task.
 * [Install Istio]({{home}}/docs/setup/) in your cluster and deploy an
   application.
 
-* Install the optional add-on [Prometheus](https://prometheus.io). Prometheus
-  will be used to verify task success.
-
 * This task assumes that the BookInfo sample will be deployed in the `default`
   namespace. If you use a different namespace, you will need to update the
   example configuration and commands.
+
+* Install the Prometheus add-on. Prometheus
+  will be used to verify task success. 
+  ```bash
+  kubectl apply -f install/kubernetes/addons/prometheus.yaml
+  ```
+  See [Prometheus](https://prometheus.io) for details.
 
 ## Collecting new telemetry data
 
@@ -37,73 +41,73 @@ as the example application throughout this task.
    Save the following as `tcp_telemetry.yaml`:
 
    ```yaml
-    # Configuration for a metric measuring bytes sent from a server
-    # to a client
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: metric
-    metadata:
-    name: mongosentbytes
-    namespace: default
-    spec:
-      value: connection.sent.bytes | 0 # uses a TCP-specific attribute
-      dimensions:
-        source_service: source.service | "unknown"
-        source_version: source.labels["version"] | "unknown"
-        destination_version: destination.labels["version"] | "unknown"
-      monitoredResourceType: '"UNSPECIFIED"'
-    ---
-    # Configuration for a metric measuring bytes sent from a client
-    # to a server
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: metric
-    metadata:
-    name: mongoreceivedbytes
-    namespace: default
-    spec:
-      value: connection.received.bytes | 0 # uses a TCP-specific attribute
-      dimensions:
-        source_service: source.service | "unknown"
-        source_version: source.labels["version"] | "unknown"
-        destination_version: destination.labels["version"] | "unknown"
-      monitoredResourceType: '"UNSPECIFIED"'
-    ---
-    # Configuration for a Prometheus handler
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: prometheus
-    metadata:
-    name: mongohandler
-    namespace: default
-    spec:
-      metrics:
-      - name: mongo_sent_bytes # Prometheus metric name
-        instance_name: mongosentbytes.metric.default # Mixer instance name (fully-qualified)
-        kind: COUNTER
-        label_names:
-        - source_service
-        - source_version
-        - destination_version
-      - name: mongo_sent_bytes # Prometheus metric name
-        instance_name: mongosentbytes.metric.default # Mixer instance name (fully-qualified)
-        kind: COUNTER
-        label_names:
-        - source_service
-        - source_version
-        - destination_version
-    ---
-    # Rule to send metric instances to a Prometheus handler
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: rule
-    metadata:
-    name: mongoprom
-    namespace: default
-    spec:
-      match: context.protocol == "tcp"
-             && destination.service = "mongodb.default.svc.cluster.local"
-      actions:
-      - handler: mongohandler.prometheus
-        instances:
-        - mongoreceivedbytes.metric
-        - mongosentbytes.metric
+   # Configuration for a metric measuring bytes sent from a server
+   # to a client
+   apiVersion: "config.istio.io/v1alpha2"
+   kind: metric
+   metadata:
+     name: mongosentbytes
+     namespace: default
+   spec:
+     value: connection.sent.bytes | 0 # uses a TCP-specific attribute
+     dimensions:
+       source_service: source.service | "unknown"
+       source_version: source.labels["version"] | "unknown"
+       destination_version: destination.labels["version"] | "unknown"
+     monitoredResourceType: '"UNSPECIFIED"'
+   ---
+   # Configuration for a metric measuring bytes sent from a client
+   # to a server
+   apiVersion: "config.istio.io/v1alpha2"
+   kind: metric
+   metadata:
+     name: mongoreceivedbytes
+     namespace: default
+   spec:
+     value: connection.received.bytes | 0 # uses a TCP-specific attribute
+     dimensions:
+       source_service: source.service | "unknown"
+       source_version: source.labels["version"] | "unknown"
+       destination_version: destination.labels["version"] | "unknown"
+     monitoredResourceType: '"UNSPECIFIED"'
+   ---
+   # Configuration for a Prometheus handler
+   apiVersion: "config.istio.io/v1alpha2"
+   kind: prometheus
+   metadata:
+     name: mongohandler
+     namespace: default
+   spec:
+     metrics:
+     - name: mongo_sent_bytes # Prometheus metric name
+       instance_name: mongosentbytes.metric.default # Mixer instance name (fully-qualified)
+       kind: COUNTER
+       label_names:
+       - source_service
+       - source_version
+       - destination_version
+     - name: mongo_received_bytes # Prometheus metric name
+       instance_name: mongoreceivedbytes.metric.default # Mixer instance name (fully-qualified)
+       kind: COUNTER
+       label_names:
+       - source_service
+       - source_version
+       - destination_version
+   ---
+   # Rule to send metric instances to a Prometheus handler
+   apiVersion: "config.istio.io/v1alpha2"
+   kind: rule
+   metadata:
+     name: mongoprom
+     namespace: default
+   spec:
+     match: context.protocol == "tcp"
+            && destination.service == "mongodb.default.svc.cluster.local"
+     actions:
+     - handler: mongohandler.prometheus
+       instances:
+       - mongoreceivedbytes.metric
+       - mongosentbytes.metric
    ```
 
 1. Push the new configuration.
@@ -122,7 +126,16 @@ as the example application throughout this task.
 
 1. Setup BookInfo to use MongoDB.
 
-   1. Install `v2` of the `ratings` service:
+   1. Install `v2` of the `ratings` service.
+
+      If you are using a cluster with automatic sidecar injection enabled,
+      simply deploy the services using `kubectl`:
+
+      ```
+      kubectl apply -f samples/bookinfo/kube/bookinfo-ratings-v2.yaml
+      ```
+
+      If you are using manual sidecar injection, use the following command instead:
 
       ```
       kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-ratings-v2.yaml)
@@ -135,6 +148,15 @@ as the example application throughout this task.
       ```
 
    1. Install the `mongodb` service:
+
+      If you are using a cluster with automatic sidecar injection enabled,
+      simply deploy the services using `kubectl`:
+
+      ```
+      kubectl apply -f samples/bookinfo/kube/bookinfo-db.yaml
+      ```
+
+      If you are using manual sidecar injection, use the following command instead:
 
       ```
       kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-db.yaml)
@@ -150,14 +172,14 @@ as the example application throughout this task.
    1. Add routing rules to send traffic to `v2` of the `ratings` service:
 
       ```
-      kubectl apply -f samples/bookinfo/kube/route-rule-ratings-db.yaml
+      istioctl create -f samples/bookinfo/kube/route-rule-ratings-db.yaml
       ```
 
       Expected output:
 
       ```
-      routerule "ratings-test-v2" created
-      routerule "reviews-test-ratings-v2" created
+      Created config route-rule//ratings-test-v2 at revision 7216403
+      Created config route-rule//reviews-test-ratings-v2 at revision 7216404
       ```
 
 1. Send traffic to the sample application.
@@ -228,6 +250,12 @@ protocols within policies.
   istioctl delete -f tcp_telemetry.yaml
   ```
 
+* Remove the `port-forward` process:
+
+  ```bash
+  killall kubectl
+  ```
+
 * If you are not planning to explore any follow-on tasks, refer to the
   [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
   to shutdown the application.
@@ -250,5 +278,5 @@ protocols within policies.
    Metrics]({{home}}/docs/tasks/telemetry/querying-metrics.html).
 
 * Learn more about the [MongoDB-specific statistics generated by
-  Envoy](https://envoyproxy.github.io/envoy/configuration/network_filters/mongo_proxy_filter.html#statistics).
+  Envoy](https://www.envoyproxy.io/docs/envoy/latest/configuration/network_filters/mongo_proxy_filter#statistics).
 

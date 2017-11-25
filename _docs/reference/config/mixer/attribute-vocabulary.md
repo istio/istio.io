@@ -63,4 +63,12 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | connection.sent.bytes_total | int64 | Total number of bytes sent by a destination service during the lifetime of a connection. | |
 | connection.duration | duration | The total amount of time a connection has been open. | |
 | context.protocol | string | Protocol of the request or connection being proxied. | tcp |
-| context.time | timestamp | The timestamp of the Report() call. | |
+| context.time | timestamp | The timestamp of Mixer operation. | |
+| api.service | string | The public service name. This is different than the in-mesh service identity and reflects the name of the service exposed to the client. | my-svc.com |
+| api.version | string | The API version. | v1alpha1 |
+| api.operation | string | Unique string used to identify the operation. The id is unique among all operations described in a specific <service, version>. | getPetsById |
+| api.protocol | string | The protocol type of the API call. Mainly for monitoring/analytics. Note that this is the frontend protocol exposed to the client, not the protocol implemented by the backend service. | "http", “https”, or "grpc" |
+| request.auth.principal | string | The authenticated principal of the request. This is a string of the issuer (`iss`) and subject (`sub`) claims within a JWT concatenated with “/” with a percent-encoded subject value. | accounts.my-svc.com/104958560606 |
+| request.auth.audiences | string | The intended audience(s) for this authentication information. This should reflect the audience (`aud`) claim within a JWT. | ['my-svc.com', 'scopes/read'] |
+| request.auth.presenter | string | The authorized presenter of the credential. This value should reflect the optional Authorized Presenter (`azp`) claim within a JWT or the OAuth2 client id. | 123456789012.my-svc.com |
+| request.api_key | string | The API key used for the request. | abcde12345 |

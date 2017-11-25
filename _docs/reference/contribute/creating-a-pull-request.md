@@ -16,7 +16,7 @@ repository. This page shows the steps necessary to create a pull request.
 
 1. Create a [GitHub account](https://github.com){: target="_blank"}.
 
-1. Sign the [Contributor License Agreement](https://github.com/istio/istio/blob/master/CONTRIBUTING.md#contributor-license-agreements)
+1. Sign the [Contributor License Agreement](https://github.com/istio/community/blob/master/CONTRIBUTING.md#contributor-license-agreements)
 
 Documentation will be published under the [Apache 2.0](https://github.com/istio/istio.github.io/blob/master/LICENSE) license.
 

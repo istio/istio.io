@@ -1,9 +1,6 @@
 ---
 title: About
 overview: About Istio.
-
-order: 0
-
 layout: about
 type: markdown
 ---
@@ -15,7 +12,7 @@ and secure microservices. Istio supports managing traffic flows between
 microservices, enforcing access policies, and aggregating telemetry data,
 all without requiring changes to the microservice code. Istio gives you:
 
-- Automatic load balancing for HTTP, gRPC, and TCP traffic.
+- Automatic load balancing for HTTP, gRPC, WebSocket, and TCP traffic.
 
 - Fine-grained control of traffic behavior with rich routing rules,
 retries, failovers, and fault injection.
@@ -29,5 +26,8 @@ including cluster ingress and egress.
 - Secure service-to-service authentication with strong identity assertions
 between services in a cluster.
 
-Istio currently only supports the [Kubernetes](https://kubernetes.io) platform, although we plan support
-for additional platforms such as [Cloud Foundry](https://www.cloudfoundry.org/), [Apache Mesos](http://mesos.apache.org/), and bare metal in the near future.
+Istio can be deployed on [Kubernetes](https://kubernetes.io),
+[Nomad](https://nomadproject.io) with [Consul](https://www.consul.io/). We
+plan to add support for additional platforms such as
+[Cloud Foundry](https://www.cloudfoundry.org/),
+and [Apache Mesos](http://mesos.apache.org/) in the near future.

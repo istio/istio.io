@@ -15,8 +15,8 @@ Quick Start instructions to install and configure Istio in a Kubernetes cluster.
 
 ## Prerequisites
 
-The following instructions require you have access to a Kubernetes **1.7.4 or newer** cluster
-with [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/) enabled. You will also need `kubectl` **1.7.4 or newer** installed.  If you wish to enable [automatic injection of sidecar]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection), you need to turn on Kubernetes alpha features in your cluster.
+The following instructions require you have access to a Kubernetes **1.7.3 or newer** cluster
+with [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/) enabled. You will also need `kubectl` **1.7.3 or newer** installed.  If you wish to enable [automatic injection of sidecar]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection), you need to turn on Kubernetes alpha features in your cluster.
 
   > Note: If you installed Istio 0.1.x,
   > [uninstall](https://istio.io/v-0.1/docs/tasks/installing-istio.html#uninstalling)
@@ -41,7 +41,7 @@ with [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authori
   kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value core/account)
   ```
 
-  * [IBM Bluemix Container Service](https://www.ibm.com/cloud-computing/bluemix/containers)
+  * [IBM Cloud Container Service](https://www.ibm.com/cloud-computing/bluemix/containers)
 
     * Retrieve your credentials for kubectl (replace `<cluster-name>` with the name of the cluster you want to use):
   ```bash
@@ -88,6 +88,11 @@ run the following command to download and extract the latest release automatical
     * Sample applications in `samples/`
     * The `istioctl` client binary in the `bin/` directory. `istioctl` is used when manually injecting Envoy as a sidecar proxy and for creating routing rules and policies.
     * The `istio.VERSION` configuration file
+
+1. Change directory to istio package. For example, if the package is istio-0.2.7
+  ```bash
+  cd istio-0.2.7
+  ```
 
 1. Add the `istioctl` client to your PATH.
    For example, run the following command on a MacOS or Linux system:
