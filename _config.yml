@@ -33,10 +33,12 @@ collections:
     output: true
   faq:
     output: false
+  faq_categories:
+    output: false
   glossary:
     output: false
 
-gems:
+plugins:
   - jekyll-redirect-from
   - jekyll-sitemap
 
