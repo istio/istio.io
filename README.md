@@ -38,10 +38,11 @@ Alternatively, if you just want to develop locally w/o Docker/Kubernetes/Minikub
 xcode-select --install
 sudo xcodebuild -license
 brew install ruby
-sudo gem install bundler
-sudo gem install jekyll
+gem update --system
+gem install bundler
+gem install jekyll
 cd istio.github.io
 bundle install
-rake test
+bundle exec rake test
 bundle exec jekyll serve
 ```
