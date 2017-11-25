@@ -11,7 +11,7 @@ The website uses [Jekyll](https://jekyllrb.com/) templates and is hosted on GitH
 familiar with these before editing.
 
 To run the site locally with Docker, use the following command from the toplevel directory for this git repo
-(e.g. pwd must be `~/github/istio.github.io` if you were in `~/github` when you issued 
+(e.g. pwd must be `~/github/istio.github.io` if you were in `~/github` when you issued
 `git clone https://github.com/istio/istio.github.io.git`)
 
 ```bash
@@ -36,6 +36,7 @@ Alternatively, if you just want to develop locally w/o Docker/Kubernetes/Minikub
 
 ```
 xcode-select --install
+sudo xcodebuild -license
 brew install ruby
 sudo gem install bundler
 sudo gem install jekyll
