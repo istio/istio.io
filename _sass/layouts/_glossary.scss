@@ -1,0 +1,41 @@
+.glossary {
+  .trampolines {
+    font-size: $font-size--l;
+    text-align: center;
+    padding-top: 10px;
+  }
+
+  .entries {
+    h4 {
+      font-size: $font-size--m;
+      font-weight: 300;
+      border-bottom: 1px solid;
+      color: lighten($gray, 35%);
+      border-color: lighten($gray, 35%);
+      margin-top: 25px;
+      margin-bottom: 2px;
+    }
+
+    ul {
+      margin-left: 0px;
+
+      li {
+        margin-left: 30px
+      }
+
+      li.word {
+        font-weight: 600;
+        list-style-type: none;
+        margin-bottom: 0;
+        margin-top: 10px;
+        margin-left: 0;
+      }
+
+      li.definition {
+        list-style-type: none;
+        margin-top: 0px;
+        line-height: 130%;
+      }
+    }
+  }
+}

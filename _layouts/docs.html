@@ -19,7 +19,10 @@ layout: default
         </div>
 
         <div id="content-container" class="thin-left-border col-sm-9 {{ page.type }}">
-          <div id="toc" class="toc"></div>
+          {% if page.toc != false %}
+            <div id="toc" class="toc"></div>
+          {% endif %}
+
           <div id="doc-content">
             <h1>{{page.title}}</h1>
             {{ content }}
