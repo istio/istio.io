@@ -6,7 +6,7 @@ type: markdown
 {% include home.html %}
 
 Automatic sidecar injection requires the
-[initilizer alpha feature](https://kubernetes.io/docs/admin/extensible-admission-controllers/#enable-initializers-alpha-feature).
+[initializer alpha feature](https://kubernetes.io/docs/admin/extensible-admission-controllers/#enable-initializers-alpha-feature).
 Run the following command to check if the initializer has been enabled
 (empty output indicates that initializers are not enabled):
 
