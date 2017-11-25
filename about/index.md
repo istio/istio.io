@@ -1,9 +1,6 @@
 ---
 title: About
 overview: About Istio.
-
-order: 0
-
 layout: about
 type: markdown
 ---
