@@ -17,27 +17,28 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "Gemfile.lock" }}
+          - v2-dependencies-{{ checksum "Gemfile.lock" }}
           # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+          - v2-dependencies-
 
       - run:
           name: install dependencies
           command: |
+            gem install bundler
             bundle install --jobs=4 --retry=3 --path vendor/bundle
 
       - save_cache:
           paths:
             - ./vendor/bundle
-          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+          key: v2-dependencies-{{ checksum "Gemfile.lock" }}
 
       - restore_cache:
           keys:
-          - htmlproofer-cache
+          - htmlproofer-cache-v2
       # Run the test/html checker
       - run: bundle exec rake test
       # save the external URLs cache
       - save_cache:
-          key: htmlproofer-cache
+          key: htmlproofer-cache-v2
           paths:
             - tmp/.htmlproofer
