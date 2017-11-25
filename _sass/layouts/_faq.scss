@@ -53,7 +53,6 @@
   }
 
   a {
-    font-weight: 400;
     text-decoration: none;
 
     h4 {
@@ -65,12 +64,11 @@
   }
 
   .panel-body {
-    padding: 0px;
+    padding: 0px 15px 0px 15px;
     background: $light-gray;
   }
 
   p {
-    padding-top: 0px;
-    padding-left: 15px;
+    padding: 0px;
   }
 }
