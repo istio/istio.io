@@ -222,8 +222,7 @@ or [manual]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar
       Look for errors related to your configuration or your service in the
       returned logs.
 
-More on viewing Mixer configuration can be found in the
-[Telemetry FAQ]({{home}}/docs/tasks/telemetry/faq.html#how-do-i-see-all-of-the-configuration-for-mixer-).
+More on viewing Mixer configuration can be found [here]({{home}}/faq/index.html#mixer-self-monitoring)
 
 ### Verify Mixer is sending metric instances to the Prometheus adapter
 
