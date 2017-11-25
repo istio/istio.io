@@ -34,11 +34,11 @@ jobs:
 
       - restore_cache:
           keys:
-          - htmlproofer-cache
+          - htmlproofer-cache-v2
       # Run the test/html checker
       - run: bundle exec rake test
       # save the external URLs cache
       - save_cache:
-          key: htmlproofer-cache
+          key: htmlproofer-cache-v2
           paths:
             - tmp/.htmlproofer
