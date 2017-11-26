@@ -8,8 +8,10 @@ type: markdown
 
 # Frequently Asked Questions
 
-Here are some frequently asked questions about Istio. If you don't find your questions answered here, be sure
-to check [Stack Overflow](https://stackoverflow.com/questions/tagged/istio) for more Q&A.
+Here are some frequently asked questions about Istio.
+ 
+> <img src="{{home}}/img/bulb.png" alt="Bulb" title="Help" style="width: 32px; display:inline" />
+If you don't find what you're looking for here, check out our [help page]({{home}}/help).
 
 <div class="container">
   <div class="col-md-2">
@@ -51,11 +53,11 @@ to check [Stack Overflow](https://stackoverflow.com/questions/tagged/istio) for 
        	        {% assign name = q.path | downcase | split: '/' | last | remove: ".md" %}
 
                 <div id="{{name}}" class="panel panel-default">
-                  <div class="panel-heading">
-                    <a class="panel-title" data-toggle="collapse" data-parent="#faq-accordion-{{catIndex}}" href="#collapse{{forloop.index}}">
+                  <a class="panel-title" data-toggle="collapse" data-parent="#faq-accordion-{{catIndex}}" href="#collapse{{forloop.index}}">
+                    <div class="panel-heading">
                       <h4>{{q.title}}</h4>
-                    </a>
-                  </div>
+                    </div>
+                  </a>
                 
                   <div id="collapse{{forloop.index}}" class="panel-collapse collapse">
                     <div class="panel-body">
