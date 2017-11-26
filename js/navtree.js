@@ -1,7 +1,7 @@
 ---
 ---
 
-{% assign home = site.baseurl %}
+// {% assign home = site.baseurl %}
 
 // Given an array of documents, constructs a tree of items
 //
