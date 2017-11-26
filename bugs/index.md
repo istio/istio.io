@@ -16,7 +16,5 @@ we think we can fix it. If you don't find your problem in the database, please o
 and let us know what's
 going on.
 
-> <img src="{{home}}/img/troubleshooting.svg" alt="Troubleshooting" title="Troubleshooting" style="width: 32px; display:inline" />
-Hint: Look for a solution to your problem in the [troubleshooting 
-guide]({{home}}/troubleshooting)
-or on the [istio-users@](https://groups.google.com/forum/#!forum/istio-users) mailing list.
+> <img src="{{home}}/img/bulb.png" alt="Bulb" title="Help" style="width: 32px; display:inline" />
+Check out our [help page]({{home}}/help) for potential solutions to your problem.
