@@ -1,5 +1,4 @@
 ---
-sitemap_exclude: y
 ---
 
 // Set up tabs
