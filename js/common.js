@@ -1,5 +1,4 @@
 ---
-sitemap_exclude: y
 ---
 
 // Set up tabs
@@ -88,7 +87,7 @@ $(document).ready(function() {
 });
 
 // Collapsible navbar menu, using https://github.com/jordnkr/collapsible
-$.getScript("{{ site.baseurl }}/js/jquery.collapsible.js", function(){
+$.getScript("{{ site.baseurl }}/js/jquery.collapsible.min.js", function(){
   highlightActive();
   $('.submenu').collapsible();
 });
