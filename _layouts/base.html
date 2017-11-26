@@ -12,6 +12,7 @@ layout: compress
     <meta name="title" content="{{page.title}}">
     <meta name="og:title" content="{{page.title}}">
     <meta name="og:image" content="{{home}}/img/logo.png"/>
+    <meta name="theme-color" content="#466BB0"/>
 
     {% if page.overview == nil %}
     <meta name="description" content="An open platform to connect, manage, and secure microservices.">
@@ -39,15 +40,22 @@ layout: compress
     <!-- RSS -->
     <link rel="alternate" type="application/rss+xml" title="Istio Blog RSS" href="{{home}}/feed.xml">
 
-    <!-- Favicons -->
-    <link rel="apple-touch-icon" href="{{home}}/favicons/apple-touch-icon.png" sizes="180x180">
-    <link rel="icon" type="image/png" href="{{home}}/favicons/android-chrome-96x96.png" sizes="96x96" >
-    <link rel="icon" type="image/png" href="{{home}}/favicons/favicon-32x32.png" sizes="32x32">
+    <!-- Favicons: generated from img/istio-logo.svg by http://cthedot.de/icongen -->
+    <link rel="shortcut icon" href="{{home}}/favicons/favicon.ico" >
+    <link rel="apple-touch-icon" href="{{home}}/favicons/apple-touch-icon-180x180.png" sizes="180x180">
     <link rel="icon" type="image/png" href="{{home}}/favicons/favicon-16x16.png" sizes="16x16">
-    <link rel="manifest" href="{{home}}/favicons/manifest.json">
-    <link rel="mask-icon" href="{{home}}/favicons/safari-pinned-tab.svg" color="#2DA6B0">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="{{home}}/favicons/mstile-150x150.png">
+    <link rel="icon" type="image/png" href="{{home}}/favicons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="{{home}}/favicons/android-36x36.png" sizes="36x36">
+    <link rel="icon" type="image/png" href="{{home}}/favicons/android-48x48.png" sizes="48x48">
+    <link rel="icon" type="image/png" href="{{home}}/favicons/android-72x72.png" sizes="72x72">
+    <link rel="icon" type="image/png" href="{{home}}/favicons/android-96x196.png" sizes="96x196">
+    <link rel="icon" type="image/png" href="{{home}}/favicons/android-144x144.png" sizes="144x144">
+    <link rel="icon" type="image/png" href="{{home}}/favicons/android-192x192.png" sizes="192x192">
+
+    <!-- app manifests -->
+    <link rel="manifest" href="{{home}}/manifest.json">
+    <meta name="apple-mobile-web-app-title" content="Istio">
+    <meta name="application-name" content="Istio">
 
     <!-- style sheets -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic">
@@ -75,9 +83,9 @@ layout: compress
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <!-- our own scripts -->
-    <script src="{{home}}/js/common.js"></script>
-    <script src="{{home}}/js/buttons.js"></script>
-    <script src="{{home}}/js/search.js"></script>
-    <script src="{{home}}/js/prism.js"></script>
+    <script src="{{home}}/js/common.min.js"></script>
+    <script src="{{home}}/js/buttons.min.js"></script>
+    <script src="{{home}}/js/search.min.js"></script>
+    <script src="{{home}}/js/prism.min.js"></script>
   </body>
 </html>
