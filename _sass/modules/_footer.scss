@@ -49,39 +49,12 @@ footer {
     font-size: 0.7em;
   }
 
-  p.header {
+  div.header {
     font-weight: 400;
-    font-size: 1em;
+    font-size: 1.3em;
     letter-spacing: .5px;
-    cursor: auto;
-    padding: 10px 0;
+    padding: 10px 0 10px;
     position: relative;
-
-    &:after {
-      content: '';
-      background: url('../img/caret.svg') no-repeat center/cover;
-      background-size: contain;
-      height: 45px;
-      width: 35px;
-      position: absolute;
-      right: 0;
-      top: 5px;
-      cursor: pointer;
-    }
-  }
-
-  .footer-sections {
-    display: block;
-    width: 120%;
-    margin: 10px -15px;
-    background-color: rgba(234,234,234,0.1);
-    color: rgba(234,234,234,0.1);
-    border: none;
-    height: 1px;
-
-    @media (min-width: 768px) {
-      display: none;
-    }
   }
 
   @mixin social-icon($image-url) {
@@ -101,7 +74,11 @@ footer {
   }
 
   .group {
-    @include social-icon('../img/group.png');
+    @include social-icon('../img/group.svg');
+  }
+
+  .list {
+    @include social-icon('../img/list.png');
   }
 
   .stack-overflow {
