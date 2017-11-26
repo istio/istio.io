@@ -19,7 +19,6 @@ looking for a definition and didn't find it.
     {% assign first = w.title | slice: 0 | upcase %}
     {% if first != previous %}
       {% if previous != "-" %}|{% endif %}
-
       <a href="#{{first}}">{{first}}</a>  
       {% assign previous = first %}
     {% endif %}
@@ -37,8 +36,8 @@ looking for a definition and didn't find it.
       {% assign previous = first %}
     {% endif %}
 
-    {% assign title = w.title | downcase %}
-    <li class="word" id="{{title}}">{{w.title}}</li>
+    {% assign name = w.path | downcase | split: '/' | last | remove: ".md" %}
+    <li class="word" id="{{name}}">{{w.title}}</li>
     <li class="definition">{{w.content}}</li>
   
   {% endfor %}

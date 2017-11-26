@@ -2,8 +2,9 @@
 title: Workload Principal
 type: markdown
 ---
-Identifies the verifiable authority under which a **Workload** runs.
-Istio service-to-service authentication is used to produce the **Workload Principal**.
-By default **Workload Principals** are compliant with the SPIFFE ID format.
-  * Multiple **Workloads** may share the same **Workload Principal**, but each **Workload** has a single canonical **Workload Principal**.
-  * **Workload Principals** are accessible in Istio configuration as the `source.user` and `destination.user` attributes.
+Identifies the verifiable authority under which a [workload](#workload) runs.
+Istio's service-to-service authentication is used to produce the workload principal.
+By default workload principals are compliant with the SPIFFE ID format.
+  * Multiple [workloads](#workload) may share the same workload principal, but each workload has a single canonical workload
+    principal 
+  * Workload principals are accessible in Istio configuration as the `source.user` and `destination.user` [attributes](#attribute).

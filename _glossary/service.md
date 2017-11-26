@@ -2,6 +2,8 @@
 title: Service
 type: markdown
 ---
-A delineated group of related behaviors within a **Service Mesh**. Services are named using a **Service Name**,
-and Istio policies such as load balancing and routing are applied using **Service Names**.
-A **Service** is typically materialized by one or more **Service Endpoints**, and may consistent of multiple **Service Versions**.
+A delineated group of related behaviors within a [service mesh](#service-mesh). Services are identified using a
+[service name](#service-name),
+and Istio policies such as load balancing and routing are applied using these names.
+A service is typically materialized by one or more [service endpoints](#service-endpoint), and may consist of multiple
+[service versions](#service-version).
