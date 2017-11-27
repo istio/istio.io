@@ -57,7 +57,7 @@ projectNumber-compute@developer.gserviceaccount.com
 Once you have an account and project enabled, simply proceed to the following link 
 
 - [Istio GKE Deployment
-  Manager](https://accounts.google.com/signin/v2/identifier?service=cloudconsole&continue=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/salrashid123/deploymentmanager-samples/istio-example/examples/v2/gke/istio/cluster.jinja&followup=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/salrashid123/deploymentmanager-samples/istio-example/examples/v2/gke/istio/cluster.jinja&flowName=GlifWebSignIn&flowEntry=ServiceLogin){:target="_blank"}
+  Manager](https://accounts.google.com/signin/v2/identifier?service=cloudconsole&continue=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/GoogleCloudPlatform/deploymentmanager-samples/istio-example/examples/v2/gke/istio/cluster.jinja&followup=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/GoogleCloudPlatform/deploymentmanager-samples/istio-example/examples/v2/gke/istio/cluster.jinja&flowName=GlifWebSignIn&flowEntry=ServiceLogin){:target="_blank"}
 
 Its recommended to leave the the defaults on as the rest of the Quick Start demonstrates each feature.
 
