@@ -82,14 +82,6 @@ th {
   }
 }
 
-html, body {
-    height: 100%;
-    margin: 0;
-}
-
-// voodoo to glue the footer to the bottom of the page when the content is short
-#wrap {
-    min-height: -webkit-calc(100% - 250px);     /* Chrome */
-    min-height: -moz-calc(100% - 250px);     /* Firefox */
-    min-height: calc(100% - 250px);     /* native */
+html {
+    background-color: $mainBrandColor;
 }
