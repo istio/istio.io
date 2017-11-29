@@ -9,27 +9,24 @@ type: markdown
 # Troubleshooting Guide
 
 Oh no! You're having trouble? Below is a list of solutions to common problems.
- 
-> <img src="{{home}}/img/troubleshooting.svg" alt="Troubleshooting" title="Troubleshooting" style="width: 32px; display:inline" />
-Hint: If you don't find what you need here, be sure to check out the
-[istio-users@](https://groups.google.com/forum/#!forum/istio-users) mailing list to
-see if someone else has already found a solution. If after that you're still stuck, consider [reporting a bug]({{home}}/bugs/).
+
+> <img src="{{home}}/img/bulb.png" alt="Bulb" title="Help" style="width: 32px; display:inline" />
+If you don't find what you need here, be sure to check out our [help page]({{home}}/help).
 
 ## No traces appearing in Zipkin when running Istio locally on Mac
-
 Istio is installed and everything seems to be working except there are no traces showing up in Zipkin when there
 should be.
 
 This may be caused by a known [Docker issue](https://github.com/docker/for-mac/issues/1260) where the time inside
 containers may skew significantly from the time on the host machine. If this is the case,
-when you select a very long date range in Zipin you will see the traces appearing as much as several days too early.
+when you select a very long date range in Zipkin you will see the traces appearing as much as several days too early.
 
 You can also confirm this problem by comparing the date inside a docker container to outside:
 
 ```bash
-$ docker run --entrypoint date gcr.io/istio-testing/ubuntu-16-04-slave:latest
+docker run --entrypoint date gcr.io/istio-testing/ubuntu-16-04-slave:latest
 Sun Jun 11 11:44:18 UTC 2017
-$ date -u
+date -u
 Thu Jun 15 02:25:42 UTC 2017
 ```
 
@@ -222,8 +219,7 @@ or [manual]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar
       Look for errors related to your configuration or your service in the
       returned logs.
 
-More on viewing Mixer configuration can be found in the
-[Telemetry FAQ]({{home}}/docs/tasks/telemetry/faq.html#how-do-i-see-all-of-the-configuration-for-mixer-).
+More on viewing Mixer configuration can be found [here]({{home}}/faq#mixer-self-monitoring)
 
 ### Verify Mixer is sending metric instances to the Prometheus adapter
 

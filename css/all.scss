@@ -1,6 +1,6 @@
 ---
-sitemap_exclude: y
 ---
+
 @import "base/config";
 @import "base/reset";
 @import "base/colors";
@@ -24,6 +24,8 @@ sitemap_exclude: y
 @import "layouts/community";
 @import "layouts/docs";
 @import "layouts/faq";
+@import "layouts/glossary";
+@import "layouts/help";
 @import "layouts/landing";
 @import "layouts/notfound";
 @import "layouts/post";
