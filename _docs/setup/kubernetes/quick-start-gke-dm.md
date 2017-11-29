@@ -41,39 +41,42 @@ If you choose to use Cloud Shell, you can port forward and proxy using its [Web 
  style="width: 32px; display:inline" />
 **NOTE:** You must set your default compute service account to include:
 
-> - ```roles/container.admin```  (Container Engine Admin)
+> - ```roles/container.admin```  (Kubernetes Engine Admin)
 > - ```Editor```  (on by default)
 
-> To set this, navigate to the IAM section of the [Cloud Console](https://console.cloud.google.com/iam-admin/iam/project){:target="_blank"} and find your default GCE/GKE service account in the following form to set that permission:
+> To set this, navigate to the IAM section of the [Cloud Console](https://console.cloud.google.com/iam-admin/iam/project){:target="_blank"} and find your default GCE/GKE service account in the following form:
+
 ```
 projectNumber-compute@developer.gserviceaccount.com
 ```
+
+then under Roles, find the ```Kubernetes Engine``` group and set the role ```Kubernetes Engine Admin```.
 
 
 ## Setup
 
 ### Launch Deployment Manager
 
-Once you have an account and project enabled, simply proceed to the following link 
+Once you have an account and project enabled, proceed to the following link:
 
 - [Istio GKE Deployment
   Manager](https://accounts.google.com/signin/v2/identifier?service=cloudconsole&continue=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/GoogleCloudPlatform/deploymentmanager-samples/istio-example/examples/v2/gke/istio/cluster.jinja&followup=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/GoogleCloudPlatform/deploymentmanager-samples/istio-example/examples/v2/gke/istio/cluster.jinja&flowName=GlifWebSignIn&flowEntry=ServiceLogin){:target="_blank"}
 
 Its recommended to leave the the defaults on as the rest of the Quick Start demonstrates each feature.
 
-Click ``'Deploy'``
+Click ```Deploy```
 
 ![GKE-Istio Launcher](img/dm_launcher.png)
 
-> **NOTE:** Deployment will take upto 5minutes.
+> **NOTE:** Deployment can take upto 5 minutes.
 
 ### Bootstrap gcloud
 
 Once Deployment completes, on your workstation with gcloud installed:
 
-Bootstrap kubectl for the cluster you just created:
+- Bootstrap kubectl for the cluster you just created and confirm the cluster is
+  running and istio is enabled
 
-Confirm the cluster is running and istio is enabled:
 ```
 gcloud container clusters list
 ```
