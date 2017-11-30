@@ -37,7 +37,7 @@ gcloud config list
 If you do not wish to install the gcloud client, you can use  [Google Cloud Shell](https://cloud.google.com/shell/docs/){:target="_blank"} to perform most tasks.
 If you choose to use Cloud Shell, you can port forward and proxy using its [Web Preview](https://cloud.google.com/shell/docs/using-web-preview#previewing_the_application){:target="_blank"} feature.  For example, to access Grafana from Cloud Shell, change the kubectl port mapping from 3000:3000 to 8080:3000.  You can simultaneously preview four other consoles via Web Preview proxied on ranges 8080 to 8084.  
 
-> <img src="{{home}}/img/warning.svg" alt="Warning" title="Warning"
+> <img src="{{home}}/img/exclamation-mark.svg" alt="Warning" title="Warning"
  style="width: 32px; display:inline" />
 **NOTE:** You must set your default compute service account to include:
 
@@ -60,7 +60,7 @@ then under Roles, find the ```Kubernetes Engine``` group and set the role ```Kub
 Once you have an account and project enabled, proceed to the following link:
 
 - [Istio GKE Deployment
-  Manager](https://accounts.google.com/signin/v2/identifier?service=cloudconsole&continue=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/GoogleCloudPlatform/deploymentmanager-samples/istio-example/examples/v2/gke/istio/cluster.jinja&followup=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/GoogleCloudPlatform/deploymentmanager-samples/istio-example/examples/v2/gke/istio/cluster.jinja&flowName=GlifWebSignIn&flowEntry=ServiceLogin){:target="_blank"}
+  Manager](https://accounts.google.com/signin/v2/identifier?service=cloudconsole&continue=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/master/install/gcp/deployment_manager/istio-cluster.jinja&followup=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/master/install/gcp/deployment_manager/istio-cluster.jinja&flowName=GlifWebSignIn&flowEntry=ServiceLogin){:target="_blank"}
 
 Its recommended to leave the the defaults on as the rest of the Quick Start demonstrates each feature.
 
@@ -77,7 +77,7 @@ Once Deployment completes, on your workstation with gcloud installed:
 - Bootstrap kubectl for the cluster you just created and confirm the cluster is
   running and istio is enabled
 
-```
+```bash
 gcloud container clusters list
 ```
 ```
@@ -89,7 +89,7 @@ In this case, the cluster name is ```istio-cluster```
 
 Bootstrap to the cluster
 
-```
+```bash
 gcloud container clusters get-credentials istio-cluster --zone=us-central1-a
 ```
 
@@ -97,7 +97,7 @@ gcloud container clusters get-credentials istio-cluster --zone=us-central1-a
 
 Verify istio is installed it its own namespace
 
-```
+```bash
 kubectl get deployments,ing -n istio-system
 ```
 ```
@@ -117,7 +117,7 @@ deploy/zipkin              1         1         1            1           3m
 If you deployed BookInfo, confirm that it is also installed:
 
 
-```
+```bash
 kubectl get deployments,ing
 ```
 ```
@@ -140,10 +140,10 @@ Note down the IP and Port assigned to BookInfo product page. (in the example abo
 
 Setup environment variable for the external IP address:
 
-```
+```bash
 kubectl get ingress -o wide
 ```
-```
+```bash
 export GATEWAY_URL=35.202.120.89
 ```
 
@@ -152,7 +152,7 @@ Verify you can access the BookInfo ```http://${GATEWAY_URL}/productpage```:
 ![BookInfo](img/dm_bookinfo.png)
 
 Now send some traffic to it:
-```
+```bash
 for i in {1..100}; do curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage; done
 ```
 
@@ -163,7 +163,7 @@ for i in {1..100}; do curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_
 
 Setup a tunnel to Grafana
 
-```
+```bash
 kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
 ```
 then 
@@ -181,14 +181,14 @@ For more details [About the Grafana Add-on](/docs/tasks/telemetry/using-istio-da
 
 Prometheus will get installed with Grafana.  You can view the istio and appliation metrics through the console:
 
-```
+```bash
 kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
 ```
 
-View the console: at
+View the console at:
 
 ```
- http://localhost:9090/graph 
+ http://localhost:9090/graph
 ```
 
 ![Prometheus](img/dm_prometheus.png)
@@ -198,10 +198,10 @@ For more details [About the Prometheus Add-on](/docs/tasks/telemetry/querying-me
 **ServiceGraph**
 
 Setup a tunnel to ServiceGraph
-```
+```bash
 kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
 ```
-You should see the BookInfo service topology at 
+You should see the BookInfo service topology at
 
 ```
 http://localhost:8088/dotviz
@@ -215,7 +215,7 @@ For more details, see [About the SeriviceGrpah Add-on](/docs/tasks/telemetry/ser
 
 Setup a tunnel to Zipkin:
 
-```
+```bash
 kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=zipkin -o jsonpath='{.items[0].metadata.name}') 9411:9411 &
 ```
 
