@@ -24,7 +24,7 @@ resources, and third party resources that store traffic management rules.
 This data is translated into the canonical representation. Envoy-specific
 configuration is generated based on the canonical representation.
 
-Pilot exposes APIs for [service discovery](https://www.envoyproxy.io/docs/envoy/latest/configuration/cluster_manager/sds_api),
+Pilot exposes APIs for [service discovery](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/sds),
 dynamic updates to [load balancing pools](https://www.envoyproxy.io/docs/envoy/latest/configuration/cluster_manager/cds)
 and [routing tables](https://www.envoyproxy.io/docs/envoy/latest/configuration/http_conn_man/rds).
 These APIs decouple Envoy from platform-specific nuances, simplifying the
