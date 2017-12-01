@@ -37,6 +37,12 @@ Below is our list of existing features and their current phases. This informatio
 |-------------------|-------------------
 | [Mesh-wide Settings](https://istio.io/docs/reference/config/service-mesh.html) | Alpha
 | [Basic config validation](https://github.com/istio/istio/issues/1894)    | Alpha
+
+
+### Networking
+
+| Feature           | Phase      
+|-------------------|-------------------
 | [Ingress Controller](https://istio.io/docs/tasks/traffic-management/ingress.html)         | Alpha
 | [Basic Egress](https://istio.io/docs/tasks/traffic-management/egress.html)               | Alpha
 | [Protocols HTTP 1.1](https://github.com/istio/istio/blob/master/pilot/model/service.go#L104)         | Beta
