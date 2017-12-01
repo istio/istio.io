@@ -74,6 +74,8 @@ with UID 0 for Istio's service accounts for ingress and egress:
     
 ## Installation steps
 
+You can use the [Istio Helm chart](https://github.com/kubernetes/charts/tree/master/incubator/istio#installing-the-chart) to install, or follow the steps below.
+
 Starting with the {{ site.data.istio.version }} release, Istio is installed in its own `istio-system`
 namespace, and can manage micro-services from all other namespaces.
 
@@ -184,6 +186,8 @@ manuallly inject Envoy containers in your application pods before deploying them
   ```
 
 ## Uninstalling
+
+You can use the [Istio Helm chart](https://github.com/kubernetes/charts/tree/master/incubator/istio#uninstalling-the-chart) to uninstall, or follow the steps below.
 
 * Uninstall Istio initializer:
 
