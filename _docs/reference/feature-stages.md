@@ -1,6 +1,6 @@
 ---
 title: Feature Status
-overview: List of features and their stages.
+overview: List of features and their release stages.
 
 order: 60
 
@@ -8,10 +8,14 @@ layout: docs
 type: markdown
 redirect_from: "/docs/reference/release-roadmap.html"
 ---
+{% include home.html %}
 
-We have made some changes to Istio release model. Starting 0.3.0, the releases will be driven by monthly schedule. Going forward, you can expect a new release between 15th to 25th of every month. You can download the current version by visiting [https://github.com/istio/istio/releases](https://github.com/istio/istio/releases).
+We have made changes to Istio's release model. Starting with 0.3.0, releases will be delivered on a monthly cadence. Going forward, 
+you can expect a new release towards the end of every month. You can download the current version by visiting our
+[release page](https://github.com/istio/istio/releases).
 
-Each individual feature will go through the Alpha, Beta, and Stable phases. Please note that the phases are applied to individual features within the product, not to the product as a whole. Here is a high level description of what these labels means:
+Each individual feature will go through the Alpha, Beta, and Stable phases. Please note that the phases are applied to individual features
+within the product, not to the product as a whole. Here is a high level description of what these labels means:
 
 ## Feature Phase Definition
 
@@ -22,11 +26,11 @@ Each individual feature will go through the Alpha, Beta, and Stable phases. Plea
 |  **Performance**         | Random     | Random         | Perf (latency/scale) is quantified, documented, with guarantees against regression 
 |   **Deprecation Policy**        | None     | Weak - 3 months         | Dependable,  Firm 1 year  
 
+## Istio 0.3.0 features status
 
-## Istio Features (as of 0.3.0)
 Below is our list of existing features and their current phases. This information will be updated after every monthly release.
 
-### Config /APIs
+### Config / APIs
 
 
 | Feature           | Phase      
@@ -106,4 +110,4 @@ Below is our list of existing features and their current phases. This informatio
 | [Reproducible oss characterization tool (Fortio)](https://github.com/istio/fortio/issues)    | Alpha
 | [Mixer bottom up perf](https://github.com/istio/old_mixer_repo/issues/1472)    | Alpha
 
-Please get in touch if there are features you'd like to see in our future releases!
+Please get in touch by joining our [community]({{home}}/community) if there are features you'd like to see in our future releases!
