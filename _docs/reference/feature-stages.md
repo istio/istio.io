@@ -6,24 +6,25 @@ order: 60
 
 layout: docs
 type: markdown
+redirect_from: "/docs/reference/release-roadmap.html"
 ---
 
-We have made some changes to Istio release model. Starting 0.3.0, the releases will be driven by monthly schedule. Going forward, you can expect a new release between 15th to 25th of every month. You can download the current version by visiting https://github.com/istio/istio/releases.
+We have made some changes to Istio release model. Starting 0.3.0, the releases will be driven by monthly schedule. Going forward, you can expect a new release between 15th to 25th of every month. You can download the current version by visiting [https://github.com/istio/istio/releases](https://github.com/istio/istio/releases).
 
-Each individual feature will go through the Alpha, Beta, and Stable phases. Please note that the stages are applied to individual features within the product, not to the product as a whole. Here is a high level description of what these labels means:
+Each individual feature will go through the Alpha, Beta, and Stable phases. Please note that the phases are applied to individual features within the product, not to the product as a whole. Here is a high level description of what these labels means:
 
 ## Feature Phase Definition
 
 |            | Alpha      | Beta         | Stable     
 |-------------------|-------------------|-------------------|-------------------
 |   **Purpose**         | Demo-able, works end-to-end but has limitations     | Usable in production, not a toy anymore         | Dependable, production hardened      
-|   **API**         | No guarantees on backward compatibility    | APIs are versioned         | Dependable, production worthy. APIs are versioned, with automated version conversion for back compat  
-|  **Performance**         | Random     | Random         | Perf (latency/scale) is quantified, documented, with guarantees against regression. 
+|   **API**         | No guarantees on backward compatibility    | APIs are versioned         | Dependable, production worthy. APIs are versioned, with automated version conversion for backward compatibility
+|  **Performance**         | Random     | Random         | Perf (latency/scale) is quantified, documented, with guarantees against regression 
 |   **Deprecation Policy**        | None     | Weak - 3 months         | Dependable,  Firm 1 year  
 
 
 ## Istio Features (as of 0.3.0)
-Here is the map of our existing features and their phases. This information will be updated after every monthly release.
+Below is our list of existing features and their current phases. This information will be updated after every monthly release.
 
 ### Config /APIs
 
