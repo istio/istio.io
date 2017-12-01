@@ -23,6 +23,11 @@ with [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authori
   > it completely before installing the newer version (including the Istio sidecar
   > for all Istio enabled application pods).
 
+* Install or upgrade the Kubernetes CLI
+[kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) to
+match the version supported by your cluster (version 1.7 or later for CRD
+support).
+
 * Depending on your Kubernetes provider:
 
   * To install Istio locally, install the latest version of
@@ -48,6 +53,10 @@ with [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authori
   $(bx cs cluster-config <cluster-name>|grep "export KUBECONFIG")
   ```
 
+  * [IBM Cloud Private](https://www.ibm.com/cloud-computing/products/ibm-cloud-private/) version 2.1 or later
+
+    * Config `kubectl` CLI based on steps [here](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0/manage_cluster/cfc_cli.html) for how to access the IBM Cloud Private Cluster.
+
   * [Openshift Origin](https://www.openshift.org) version 3.7 or later
 
     * Openshift by default does not allow containers running with UID 0. Enable containers running
@@ -63,11 +72,6 @@ with UID 0 for Istio's service accounts for ingress and egress:
   oc adm policy add-scc-to-user privileged -z default -n <target-namespace>
   ```
     
-* Install or upgrade the Kubernetes CLI
-[kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) to
-match the version supported by your cluster (version 1.7 or later for CRD
-support).
-
 ## Installation steps
 
 Starting with the {{ site.data.istio.version }} release, Istio is installed in its own `istio-system`
