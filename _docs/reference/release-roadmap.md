@@ -8,7 +8,7 @@ layout: docs
 type: markdown
 ---
 
-We have made some changes to Istio release model. Starting 0.3.0, the releases will be drively by monthly schedule. Going forward, you can expect a new release between 15th to 25th of every month. You can download the current version by visiting https://github.com/istio/istio/releases.
+We have made some changes to Istio release model. Starting 0.3.0, the releases will be driven by monthly schedule. Going forward, you can expect a new release between 15th to 25th of every month. You can download the current version by visiting https://github.com/istio/istio/releases.
 
 Each individual feature will go through the Alpha, Beta, and Stable phases. Please note that the stages are applied to individual features within the product, not to the product as a whole. Here is a high level description of what these labels means:
 
