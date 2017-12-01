@@ -6,6 +6,7 @@ order: 60
 
 layout: docs
 type: markdown
+redirect_from: "/docs/reference/release-roadmap.html"
 ---
 
 We have made some changes to Istio release model. Starting 0.3.0, the releases will be driven by monthly schedule. Going forward, you can expect a new release between 15th to 25th of every month. You can download the current version by visiting [https://github.com/istio/istio/releases](https://github.com/istio/istio/releases).
