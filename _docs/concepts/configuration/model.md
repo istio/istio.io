@@ -1,6 +1,6 @@
 ---
 title: Data model
-overview: Overview of Istio configuration data model.
+overview: Istio configuration data model.
 
 order: 10
 

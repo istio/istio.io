@@ -1,5 +1,5 @@
 ---
-title: Istio configuration
+title: Istio Configuration
 overview: A broad overview of the Istio configuration.
 
 order: 50
