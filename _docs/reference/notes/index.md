@@ -1,11 +1,13 @@
 ---
-title: Prior Release Notes
-overview: Release notes for prior versions of Istio.
+title: Release Notes
+overview: What's been happening with Istio.
 
-order: 600
+order: 5
 
 layout: docs
 type: markdown
+redirect_from:
+  - "/docs/reference/release-notes.html"
+  - "/release-notes"
 ---
-
 {% include section-index.html %}
