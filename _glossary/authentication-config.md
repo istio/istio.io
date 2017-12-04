@@ -1,5 +1,5 @@
 ---
-title: Authentication config
+title: Authentication(AuthN) config
 type: markdown
 ---
 Defines how to mutually identify and establish a secure connection to a
