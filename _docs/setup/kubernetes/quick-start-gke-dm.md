@@ -22,7 +22,7 @@ This Quick Start creates a new GKE cluster, installs Istio and then deploys the 
 This sample requires a valid Google Cloud Platform project with billing enabled.  
 - If you are not an existing GCP user, you may be able to enroll for a $300 US [Free Trial](https://cloud.google.com/free/){:target="_blank"} credit.
 
-- You must install and configure [gcloud command line tool](https://cloud.google.com/sdk/docs/){:target="_blank"} and include the ```kubectl``` component (```gcloud components install kubectl```).  If you do not wish to install the gcloud client, you can use [Google Cloud Shell](https://cloud.google.com/shell/docs/){:target="_blank"} to perform these tasks.
+- You must install and configure the [gcloud command line tool](https://cloud.google.com/sdk/docs/){:target="_blank"} and include the ```kubectl``` component (```gcloud components install kubectl```).  If you do not wish to install the gcloud client, you can use [Google Cloud Shell](https://cloud.google.com/shell/docs/){:target="_blank"} to perform these tasks.
 
 - <img src="{{home}}/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" /> You must set your default compute service account to include:
 > - ```roles/container.admin```  (Kubernetes Engine Admin)
@@ -52,25 +52,25 @@ Wait until Istio is fully deployed. Note that this can take up to five minutes.
 
 Once deployment is complete, do the following on the workstation where you've installed `gcloud`:
 
-* Bootstrap kubectl for the cluster you just created and confirm the cluster is
+1. Bootstrap kubectl for the cluster you just created and confirm the cluster is
   running and istio is enabled
 
-```
-gcloud container clusters list
-```
+   ```
+   gcloud container clusters list
+   ```
 
-```
-NAME           ZONE           MASTER_VERSION                    MASTER_IP       MACHINE_TYPE   NODE_VERSION  NUM_NODES  STATUS
-istio-cluster  us-central1-a  1.7.8-gke.0 ALPHA (29 days left)  130.211.216.64  n1-standard-2  1.7.8-gke.0   3          RUNNING
-```
+   ```
+   NAME           ZONE           MASTER_VERSION                    MASTER_IP       MACHINE_TYPE   NODE_VERSION  NUM_NODES  STATUS
+   istio-cluster  us-central1-a  1.7.8-gke.0 ALPHA (29 days left)  130.211.216.64  n1-standard-2  1.7.8-gke.0   3          RUNNING
+   ```
 
-In this case, the cluster name is ```istio-cluster```
+   In this case, the cluster name is ```istio-cluster```
 
-* Now acquire the credentials for this cluster
- 
-```
-gcloud container clusters get-credentials istio-cluster --zone=us-central1-a
-```
+2. Now acquire the credentials for this cluster
+
+   ```
+   gcloud container clusters get-credentials istio-cluster --zone=us-central1-a
+   ```
 
 ## Verify installation
 
@@ -120,23 +120,23 @@ You can also view the installation by going to the `Kubernetes Engine-->Workload
 
 ### Access the BookInfo Sample
 
-Set up an environment variable for BookInfo's external IP address:
+1. Set up an environment variable for BookInfo's external IP address:
 
-```bash
-kubectl get ingress -o wide
-```
-```bash
-export GATEWAY_URL=35.202.120.89
-```
+   ```bash
+   kubectl get ingress -o wide
+   ```
+   ```bash
+   export GATEWAY_URL=35.202.120.89
+   ```
 
-Verify you can access the BookInfo ```http://${GATEWAY_URL}/productpage```:
+2. Verify you can access the BookInfo ```http://${GATEWAY_URL}/productpage```:
 
-![BookInfo](img/dm_bookinfo.png)
+   ![BookInfo](img/dm_bookinfo.png)
 
-Now send some traffic to it:
-```bash
-for i in {1..100}; do curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage; done
-```
+3. Now send some traffic to it:
+   ```bash
+   for i in {1..100}; do curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage; done
+   ```
 
 ### Verify Installed Istio plugins
 
@@ -151,7 +151,7 @@ Set up a tunnel to Grafana:
 ```bash
 kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
 ```
-then 
+then
 ```
  http://localhost:3000/dashboard/db/istio-dashboard
 ```
