@@ -269,15 +269,15 @@ rules.
    curl -I -k https://$INGRESS_HOST/status/200
    ```
 
-### Configuring RBAC for ingress key/cert
+1. Configuring RBAC for ingress key/cert
 There are service accounts which can access this ingress key/cert, and this leads to risks of 
 leaking key/cert. We can set up Role-Based Access Control ("RBAC") to protect it. 
 [istio/install/kubernetes/istio.yaml](https://github.com/istio/istio/blob/master/install/kubernetes/istio.yaml) 
 defines ClusterRoles and ClusterRoleBindings which allow service accounts in namespace istio-system 
-to access to all secret resources. We need to update or replace these RBAC set up to only allow 
+to access all secret resources. We need to update or replace these RBAC set up to only allow 
 istio-ingress-service-account to access ingress key/cert.
 
-We can use kubectl to list all secrets in namespace istio-system that we need to protect using RBAC.
+   We can use kubectl to list all secrets in namespace istio-system that we need to protect using RBAC.
    
    ```bash
    kubectl get secrets -n istio-system
