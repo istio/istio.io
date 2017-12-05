@@ -277,7 +277,7 @@ defines some ClusterRoles which grant access to all secret resources. For exampl
 istio-pilot-istio-system and istio-mixer-istio-system allow reading secret resources, and 
 istio-ca-istio-system allows reading, creating and updating secret resources.
 [istio/install/kubernetes/istio.yaml](https://github.com/istio/istio/blob/master/install/kubernetes/istio.yaml) 
-also defines ClusterRoleBindings which bind these ClusterRoles to service accounts, for example, 
+also defines ClusterRoleBindings which bind these ClusterRoles to service accounts, such as 
 istio-pilot-service-account, istio-mixer-service-account, istio-ca-service-account and 
 istio-ingress-service-account. We need to update or replace these RBAC set up to only allow 
 istio-ingress-service-account to access ingress key/cert.       
@@ -317,7 +317,7 @@ istio-ingress-service-account to access ingress key/cert.
    istio.istio-mixer-service-account           istio.io/key-and-cert                 3         7d
    istio.istio-pilot-service-account           istio.io/key-and-cert                 3         7d
    ```
-   Create a file istio-pilot-mixer-istio-system.yaml, which defines new ClusterRole that grants  
+   Create a file istio-pilot-mixer-istio-system.yaml, which defines a new ClusterRole that grants  
    access permission to kubernetes.io/service-account-token, istio.io/key-and-cert, and  
    istio.io/ca-root types of resource instances. This file also defines a ClusterRoleBinding to  
    bind this new ClusterRole to service accounts istio-pilot-service-account and 
@@ -504,10 +504,11 @@ istio-ingress-service-account to access ingress key/cert.
    ```
    
 1. Update RBAC set up for istio-ca-service-account.
-Create a file istio-ca-role-binding-istio-system.yaml, which defines ClusterRole 
-istio-ca-istio-system. This ClusterRole allows istio-ca-service-account to read and modify 
-istio.io/key-and-cert and kubernetes.io/service-account-token types of secrets, and secret instance 
-istio-ca-secret.  
+
+   Create a file istio-ca-role-binding-istio-system.yaml, which defines ClusterRole 
+   istio-ca-istio-system. This ClusterRole allows istio-ca-service-account to read and modify 
+   istio.io/key-and-cert and kubernetes.io/service-account-token types of secrets, and secret 
+   instance istio-ca-secret.
 
    ```bash
    kind: ClusterRole
@@ -593,7 +594,7 @@ istio-ca-secret.
    ```
    In this command, we can replace service account with istio-mixer-service-account, or 
    istio-ca-service-account, we can also replace verb "get" with "watch" or "list", and the 
-   output should remain the same.
+   output should look similarly.
    
    Accessibility to secret resources expect istio-ingress-certs should remain the same for 
    istio-ca-service-account, istio-ingress-service-account, istio-pilot-service-account and
