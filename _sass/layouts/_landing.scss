@@ -31,6 +31,13 @@
       padding: 0;
     }
 
+    .hero-label {
+      color: white;
+      margin: 80px 0 0 0;
+      padding: 0;
+      font-size: 62px;
+    }
+
     .hero-lead {
       color: $white;
       display: block;
@@ -53,6 +60,9 @@
     .nav-hero-container {
       .hero-logo {
         margin: 28px 0 0 0;
+      }
+      .hero-lebal {
+        margin: 30px 0 0 0;
       }
       .hero-lead {
         margin: 32px 0 0 0;
