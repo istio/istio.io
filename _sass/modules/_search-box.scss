@@ -1,47 +1,7 @@
-.search-box {
-    right: 50px;
-    top: 3px;
-    display: block;
-    position: absolute;
-
-    input {
-        position: relative;
-        height: 30px;
-        padding: 0 10px;
-        line-height: 30px;
-        font-size: 16px;
-        vertical-align: top;
-        background: #fff;
-
-        border-color: $mainBrandColor;
-        border-radius: 4px;
-        border-width: 1px;
-    }
-
-    input::placeholder {
-        color: lighten($gray, 35%);
-        font-style: italic;
-    }
-}
-
-::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-  color: pink;
-}
-::-moz-placeholder { /* Firefox 19+ */
-  color: pink;
-}
-:-ms-input-placeholder { /* IE 10+ */
-  color: pink;
-}
-:-moz-placeholder { /* Firefox 18- */
-  color: pink;
-}
-
 .btn-search {
-  color: #aaa; 
+  color: #aaa;
   cursor:pointer;
-  padding-left: 5px;
+  padding-left: 3px;
   font-size: 1.2em;
   vertical-align: middle;
 }
- 
