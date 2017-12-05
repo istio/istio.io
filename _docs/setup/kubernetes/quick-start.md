@@ -71,10 +71,10 @@ with UID 0 for Istio's service accounts for ingress and egress:
   ```bash
   oc adm policy add-scc-to-user privileged -z default -n <target-namespace>
   ```
-    
+
 ## Installation steps
 
-Starting with the {{ site.data.istio.version }} release, Istio is installed in its own `istio-system`
+Starting with the 0.2 release, Istio is installed in its own `istio-system`
 namespace, and can manage micro-services from all other namespaces.
 
 1. Go to the [Istio release](https://github.com/istio/istio/releases) page to download the
@@ -91,9 +91,9 @@ run the following command to download and extract the latest release automatical
     * The `istioctl` client binary in the `bin/` directory. `istioctl` is used when manually injecting Envoy as a sidecar proxy and for creating routing rules and policies.
     * The `istio.VERSION` configuration file
 
-1. Change directory to istio package. For example, if the package is istio-0.2.7
+1. Change directory to istio package. For example, if the package is istio-{{ site.data.istio.version }}
   ```bash
-  cd istio-0.2.7
+  cd istio-{{ site.data.istio.version }}
   ```
 
 1. Add the `istioctl` client to your PATH.
