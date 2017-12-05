@@ -1,0 +1,230 @@
+---
+title: Quick Start with Google Kubernetes Engine
+overview: Quick Start instructions to setup the Istio service using Google Kubernetes Engine (GKE)
+
+order: 11
+
+layout: docs
+type: markdown
+---
+
+{% include home.html %}
+
+
+Quick Start instructions to install and run Istio in [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/){:target="_blank"} (GKE) using [Google Cloud Deployment Manager](https://cloud.google.com/deployment-manager/){:target="_blank"}.
+
+This Quick Start creates a new GKE cluster, installs Istio and then deploys the [BookInfo](https://istio.io/docs/guides/bookinfo.html){:target="_blank"} sample application.  It uses Deployment Manager to automate the steps detailed in the [Istio on Kubernetes setup guide](/docs/setup/kubernetes/quick-start.html){:target="_blank"} for Kubernetes Engine
+
+> **Note:** The default install will create a GKE [**alpha** cluster](https://cloud.google.com/kubernetes-engine/docs/alpha-clusters){:target="_blank"} that allows for [automatic sidecar injection](https://istio.io/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection){:target="_blank"}.  As it is an alpha cluster, it does not support automatic node or master upgrades and will be automatically deleted after 30 days.
+
+## Prerequisites
+
+This sample requires a valid Google Cloud Platform project with billing enabled.  
+- If you are not an existing GCP user, you may be able to enroll for a $300 US [Free Trial](https://cloud.google.com/free/){:target="_blank"} credit.
+
+- You must install and configure the [gcloud command line tool](https://cloud.google.com/sdk/docs/){:target="_blank"} and include the ```kubectl``` component (```gcloud components install kubectl```).  If you do not wish to install the gcloud client, you can use [Google Cloud Shell](https://cloud.google.com/shell/docs/){:target="_blank"} to perform these tasks.
+
+- <img src="{{home}}/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" /> You must set your default compute service account to include:
+> - ```roles/container.admin```  (Kubernetes Engine Admin)
+> - ```Editor```  (on by default)
+
+To set this, navigate to the IAM section of the [Cloud Console](https://console.cloud.google.com/iam-admin/iam/project){:target="_blank"} and find your default GCE/GKE service account in the following form: `projectNumber-compute@developer.gserviceaccount.com`  then under **Roles**, find the ```Kubernetes Engine``` group and set the role ```Kubernetes Engine Admin```.
+
+
+## Setup
+
+### Launch Deployment Manager
+
+Once you have an account and project enabled, click the following link to open the Deployment Manager.
+
+- [Istio GKE Deployment
+  Manager](https://accounts.google.com/signin/v2/identifier?service=cloudconsole&continue=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/master/install/gcp/deployment_manager/istio-cluster.jinja&followup=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/master/install/gcp/deployment_manager/istio-cluster.jinja&flowName=GlifWebSignIn&flowEntry=ServiceLogin){:target="_blank"}
+
+We recommend that you leave the default settings as the rest of this tutorial shows how to access the installed features. By default the tool creates a GKE alpha cluster with the specified settings, then installs the Istio [control plane](https://istio.io/docs/concepts/what-is-istio/overview.html#architecture){:target="_blank"}, the [BookInfo](https://istio.io/docs/guides/bookinfo.html){:target="_blank"} sample app, [Grafana](https://istio.io/docs/tasks/telemetry/using-istio-dashboard.html){:target="_blank"} with [Prometheus](https://istio.io/docs/tasks/telemetry/querying-metrics.html){:target="_blank"}, [ServiceGraph](https://istio.io/docs/tasks/telemetry/servicegraph.html){:target="_blank"}, and [Zipkin](https://istio.io/docs/tasks/telemetry/distributed-tracing.html#zipkin){:target="_blank"}. You'll find out more about how to access all of these below.
+
+Click ```Deploy```
+
+![GKE-Istio Launcher](img/dm_launcher.png)
+
+Wait until Istio is fully deployed. Note that this can take up to five minutes.
+
+### Bootstrap gcloud
+
+Once deployment is complete, do the following on the workstation where you've installed `gcloud`:
+
+1. Bootstrap kubectl for the cluster you just created and confirm the cluster is
+  running and istio is enabled
+
+   ```
+   gcloud container clusters list
+   ```
+
+   ```
+   NAME           ZONE           MASTER_VERSION                    MASTER_IP       MACHINE_TYPE   NODE_VERSION  NUM_NODES  STATUS
+   istio-cluster  us-central1-a  1.7.8-gke.0 ALPHA (29 days left)  130.211.216.64  n1-standard-2  1.7.8-gke.0   3          RUNNING
+   ```
+
+   In this case, the cluster name is ```istio-cluster```
+
+2. Now acquire the credentials for this cluster
+
+   ```
+   gcloud container clusters get-credentials istio-cluster --zone=us-central1-a
+   ```
+
+## Verify installation
+
+Verify Istio is installed in its own namespace
+
+```bash
+kubectl get deployments,ing -n istio-system
+```
+```
+NAME                       DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+deploy/grafana             1         1         1            1           3m
+deploy/istio-ca            1         1         1            1           3m
+deploy/istio-ingress       1         1         1            1           3m
+deploy/istio-initializer   1         1         1            1           3m
+deploy/istio-mixer         1         1         1            1           3m
+deploy/istio-pilot         1         1         1            1           3m
+deploy/prometheus          1         1         1            1           3m
+deploy/servicegraph        1         1         1            1           3m
+deploy/zipkin              1         1         1            1           3m
+```
+
+
+Now confirm that the BookInfo sample application is also installed:
+
+
+```bash
+kubectl get deployments,ing
+```
+```
+NAME                    DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+deploy/details-v1       1         1         1            1           3m
+deploy/productpage-v1   1         1         1            1           3m
+deploy/ratings-v1       1         1         1            1           3m
+deploy/reviews-v1       1         1         1            1           3m
+deploy/reviews-v2       1         1         1            1           3m
+deploy/reviews-v3       1         1         1            1           3m
+
+NAME          HOSTS     ADDRESS         PORTS     AGE
+ing/gateway   *         35.202.120.89   80        3m
+```
+
+Note down the IP and Port assigned to BookInfo product page. (in the example above, its ```35.202.120.89:80```.
+
+You can also view the installation by going to the `Kubernetes Engine-->Workloads` section on the [Cloud Console](https://console.cloud.google.com/kubernetes/workload){:target="_blank"}:
+
+![GKE-Workloads](img/dm_kubernetes_workloads.png)
+
+### Access the BookInfo Sample
+
+1. Set up an environment variable for BookInfo's external IP address:
+
+   ```bash
+   kubectl get ingress -o wide
+   ```
+   ```bash
+   export GATEWAY_URL=35.202.120.89
+   ```
+
+2. Verify you can access the BookInfo ```http://${GATEWAY_URL}/productpage```:
+
+   ![BookInfo](img/dm_bookinfo.png)
+
+3. Now send some traffic to it:
+   ```bash
+   for i in {1..100}; do curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage; done
+   ```
+
+### Verify Installed Istio plugins
+
+Once you have verified that the Istio control plane and sample application are working, try accessing the installed Istio plugins.
+
+If you used Cloud Shell, you can port forward and proxy using its [Web Preview](https://cloud.google.com/shell/docs/using-web-preview#previewing_the_application){:target="_blank"} feature.  For example, to access Grafana from Cloud Shell, change the kubectl port mapping from 3000:3000 to 8080:3000.  You can simultaneously preview four other consoles via Web Preview proxied on ranges 8080 to 8084.  
+
+**Grafana**
+
+Set up a tunnel to Grafana:
+
+```bash
+kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
+```
+then
+```
+ http://localhost:3000/dashboard/db/istio-dashboard
+```
+You should see some statistics for the requests you sent earlier.
+
+![Grafana](img/dm_grafana.png)
+
+For more details about using Grafana, see [About the Grafana Add-on](/docs/tasks/telemetry/using-istio-dashboard.html#about-the-grafana-add-on).
+
+
+**Prometheus**
+
+Prometheus is installed with Grafana. You can view Istio and application metrics using the console as follows:
+
+```bash
+kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
+```
+
+View the console at:
+
+```
+ http://localhost:9090/graph
+```
+
+![Prometheus](img/dm_prometheus.png)
+
+For more details, see [About the Prometheus Add-on](/docs/tasks/telemetry/querying-metrics.html#about-the-prometheus-add-on).
+
+**ServiceGraph**
+
+Set up a tunnel to ServiceGraph:
+```bash
+kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
+```
+You should see the BookInfo service topology at
+
+```
+http://localhost:8088/dotviz
+```
+
+![ServiceGraph](img/dm_servicegraph.png)
+
+For more details, see [About the ServiceGraph Add-on](/docs/tasks/telemetry/servicegraph.html#about-the-servicegraph-add-on).
+
+**Tracing**
+
+Set up a tunnel to Zipkin:
+
+```bash
+kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=zipkin -o jsonpath='{.items[0].metadata.name}') 9411:9411 &
+```
+
+You should see the trace statistics sent earlier:
+
+```
+http://localhost:9411
+```
+
+![Zipkin](img/dm_zipkin.png)
+
+
+For more details on tracing see [Understanding what happened](/docs/tasks/telemetry/distributed-tracing.html#understanding-what-happened).
+
+**Whats next?**
+
+You can further explore the BookInfo app and Istio functionality by following any of the tutorials in the [Guides](/docs/guides/) section. However, to do this you need to install ```istioctl``` to interact with Istio. You can either [install](/docs/setup/kubernetes/quick-start.html#installation-steps) it directly on our workstation or within Cloud Shell.
+
+## Uninstalling
+
+1. Navigate to the Deployments section of the Cloud Console:
+- [https://console.cloud.google.com/deployments](https://console.cloud.google.com/deployments){:target="_blank"}
+
+2. Select the deployment and click delete.
+
+3. Deployment Manager will remove GKE artifacts but items such as Ingress and LoadBalancers will remain.
+You can delete those artifacts by again going to the cloud console under ["Network Services-->LoadBalancers"](https://console.cloud.google.com/net-services/loadbalancing/loadBalancers/list){:target="_blank"}
