@@ -74,7 +74,7 @@ GEM
     html-pipeline (2.7.1)
       activesupport (>= 2)
       nokogiri (>= 1.4)
-    html-proofer (3.7.4)
+    html-proofer (3.7.5)
       activesupport (>= 4.2, < 6.0)
       addressable (~> 2.3)
       colorize (~> 0.8)
@@ -230,7 +230,7 @@ PLATFORMS
 
 DEPENDENCIES
   github-pages
-  html-proofer (>= 3.7.4)
+  html-proofer (>= 3.7.5)
   jekyll-include-cache (~> 0.1)
   nokogiri (>= 1.8.1)
   rake

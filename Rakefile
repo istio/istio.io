@@ -2,8 +2,14 @@ require 'html-proofer'
 
 task :test do
   sh "bundle exec jekyll build"
-  options = { :check_html => true, # :validation => { :report_missing_names, :report_invalid_tags => true, :report_script_embeds => true },
+  options = { :check_html => true,
+              # :validation => { :report_missing_names => true, :report_invalid_tags => true },
               :cache => { :timeframe => '2d'},
-              :assume_extension => true, :url_ignore => [/localhost|github\.com\/istio\/istio\.github\.io\/edit\/master\//] }
+              :enforce_https => false, # we should turn this on eventually
+              :directory_index_file => "index.html",
+              :check_external_hash => false,
+              :assume_extension => false,
+              :url_ignore => [/localhost|github\.com\/istio\/istio\.github\.io\/edit\/master\//],
+             }
   HTMLProofer.check_directory("./_site", options).run
 end
