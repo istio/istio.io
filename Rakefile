@@ -9,6 +9,7 @@ task :test do
               :directory_index_file => "index.html",
               :check_external_hash => false,
               :assume_extension => false,
+              :log_level => :debug,
               :url_ignore => [/localhost|github\.com\/istio\/istio\.github\.io\/edit\/master\//],
              }
   HTMLProofer.check_directory("./_site", options).run
