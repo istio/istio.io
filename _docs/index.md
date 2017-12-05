@@ -12,8 +12,7 @@ type: markdown
 
 # Welcome to Istio
 
-Welcome to Istio's latest documentation home page. From here you can learn all about Istio by following
-the links below:
+From here you can learn all about Istio's architecture and how to deploy and use Istio.
 
 - [Concepts]({{home}}/docs/concepts/). Concepts explain some significant aspect of Istio. This
 is where you can learn about what Istio does and how it does it.
