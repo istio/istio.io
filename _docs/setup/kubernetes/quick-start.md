@@ -71,7 +71,7 @@ with UID 0 for Istio's service accounts for ingress and egress:
   ```bash
   oc adm policy add-scc-to-user privileged -z default -n <target-namespace>
   ```
-    
+
 ## Installation steps
 
 Starting with the 0.2 release, Istio is installed in its own `istio-system`
@@ -93,7 +93,7 @@ run the following command to download and extract the latest release automatical
 
 1. Change directory to istio package. For example, if the package is istio-{{ site.data.istio.version }}
   ```bash
-  cd {{ site.data.istio.version }}
+  cd istio-{{ site.data.istio.version }}
   ```
 
 1. Add the `istioctl` client to your PATH.
