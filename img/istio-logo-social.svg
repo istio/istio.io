@@ -1,0 +1,9 @@
+<svg id="options" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320">
+  <g id="logo" data-name="2x2">
+    <g fill="#fff">
+      <polygon class="hull" points="80 250 240 250 140 280 80 250"/>
+      <polygon class="mainsail" points="80 240 140 230 140 120 80 240"/>
+      <polygon class="headsail" points="150 230 240 240 150 40 150 230"/>
+    </g>
+  </g>
+</svg>
