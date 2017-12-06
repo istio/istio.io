@@ -1,12 +1,15 @@
 ---
 title: Glossary
 overview: A glossary of common Istio terms.
+
+order: 30
+
+toc: false
 layout: glossary
 type: markdown
+redirect_from: /glossary
 ---
 {% include home.html %}
-
-# Glossary
 
 Common Istio words and phrases. Please [let us know](https://github.com/istio/istio.github.io/issues/new?title=Missing%20Glossary%20Entry) if you
 came here looking for a definition and didn't find it.
