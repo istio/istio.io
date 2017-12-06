@@ -1,12 +1,14 @@
 ---
-title: FAQ
+title: Frequently Asked Questions
 overview: Frequently Asked Questions about Istio.
+
+order: 20
+
 layout: faq
 type: markdown
+redirect_from: /faq
 ---
 {% include home.html %}
-
-# Frequently Asked Questions
 
 Here are some frequently asked questions about Istio.
  
