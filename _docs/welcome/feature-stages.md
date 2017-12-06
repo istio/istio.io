@@ -2,7 +2,7 @@
 title: Feature Status
 overview: List of features and their release stages.
 
-order: 60
+order: 10
 
 layout: docs
 type: markdown
