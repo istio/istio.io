@@ -24,7 +24,7 @@ In this tutorial, you will learn:
 
 * Install Istio with mutual TLS authentication by following the instructions in the [Installation guide]({{home}}/docs/setup/kubernetes/).
 
-* Start [httpbin demo](https://github.com/istio/istio/tree/master/samples/httpbin) with Istio sidecar. Also, for testing purpose, run two instances of [sleep](https://github.com/istio/istio/tree/master/samples/sleep), one with sidecar and one without (in different namespace)
+* Start [httpbin demo](https://github.com/istio/istio/tree/master/samples/httpbin) with Istio sidecar. Also, for testing purpose, run two instances of [sleep](https://github.com/istio/istio/tree/master/samples/sleep), one with sidecar and one without (in different namespace). Below are commands to help you start these services.
 
 ```bash
 kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml)
@@ -66,7 +66,7 @@ annotations:
 For a quick test, run `kubectl edit svc httpbin` and add the annotations above (
 or you can edit the original httpbin.yaml file and re-apply it). After the change is applied, request from sleep.legacy should now success, as the result of mTLS was dropped.
 
-Note: the annotations can be used in the opposite direction, i.e enable mTLS for a services, simply by using annotation value  `MUTUAL_TLS`, instead of `NONE`.
+Note: the annotations can be used in the opposite direction, i.e enable mTLS for a service, simply by using annotation value  `MUTUAL_TLS`, instead of `NONE`.
 
 ## Disable mutual TLS authentication for control services.
 
