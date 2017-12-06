@@ -33,7 +33,7 @@ support).
   * To install Istio locally, install the latest version of
 [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) (version 0.22.1 or later).
 
-  * [Google Container Engine](https://cloud.google.com/container-engine)
+  * [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/)
 
     * Retrieve your credentials for kubectl (replace `<cluster-name>` with the name of the cluster you want to use,
     and `<zone>` with the zone where that cluster is located):
