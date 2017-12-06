@@ -7,6 +7,7 @@ order: 20
 layout: faq
 type: markdown
 redirect_from: /faq
+toc: false
 ---
 {% include home.html %}
 
