@@ -23,12 +23,17 @@ with [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authori
   > it completely before installing the newer version (including the Istio sidecar
   > for all Istio enabled application pods).
 
+* Install or upgrade the Kubernetes CLI
+[kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) to
+match the version supported by your cluster (version 1.7 or later for CRD
+support).
+
 * Depending on your Kubernetes provider:
 
   * To install Istio locally, install the latest version of
 [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) (version 0.22.1 or later).
 
-  * [Google Container Engine](https://cloud.google.com/container-engine)
+  * [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/)
 
     * Retrieve your credentials for kubectl (replace `<cluster-name>` with the name of the cluster you want to use,
     and `<zone>` with the zone where that cluster is located):
@@ -48,6 +53,10 @@ with [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authori
   $(bx cs cluster-config <cluster-name>|grep "export KUBECONFIG")
   ```
 
+  * [IBM Cloud Private](https://www.ibm.com/cloud-computing/products/ibm-cloud-private/) version 2.1 or later
+
+    * Config `kubectl` CLI based on steps [here](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0/manage_cluster/cfc_cli.html) for how to access the IBM Cloud Private Cluster.
+
   * [Openshift Origin](https://www.openshift.org) version 3.7 or later
 
     * Openshift by default does not allow containers running with UID 0. Enable containers running
@@ -62,15 +71,10 @@ with UID 0 for Istio's service accounts for ingress and egress:
   ```bash
   oc adm policy add-scc-to-user privileged -z default -n <target-namespace>
   ```
-    
-* Install or upgrade the Kubernetes CLI
-[kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) to
-match the version supported by your cluster (version 1.7 or later for CRD
-support).
 
 ## Installation steps
 
-Starting with the {{ site.data.istio.version }} release, Istio is installed in its own `istio-system`
+Starting with the 0.2 release, Istio is installed in its own `istio-system`
 namespace, and can manage micro-services from all other namespaces.
 
 1. Go to the [Istio release](https://github.com/istio/istio/releases) page to download the
@@ -87,9 +91,9 @@ run the following command to download and extract the latest release automatical
     * The `istioctl` client binary in the `bin/` directory. `istioctl` is used when manually injecting Envoy as a sidecar proxy and for creating routing rules and policies.
     * The `istio.VERSION` configuration file
 
-1. Change directory to istio package. For example, if the package is istio-0.2.7
+1. Change directory to istio package. For example, if the package is istio-{{ site.data.istio.version }}
   ```bash
-  cd istio-0.2.7
+  cd istio-{{ site.data.istio.version }}
   ```
 
 1. Add the `istioctl` client to your PATH.

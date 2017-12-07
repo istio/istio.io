@@ -81,3 +81,7 @@ th {
     border-left-width: 4px;
   }
 }
+
+html {
+  background-image: linear-gradient(to right, $mainBrandColor, $secondBrandColor);
+}
