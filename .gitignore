@@ -10,3 +10,4 @@ config_override.yml
 .idea/
 .bundle/
 tmp/
+*.bak
