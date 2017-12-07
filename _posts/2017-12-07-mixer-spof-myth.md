@@ -46,7 +46,10 @@ As shown in the diagram below, Mixer sits between the mesh components and the in
 <figure><img src="./img/mixer-spof-myth-2.svg" alt="Istio Topology" title="Istio Topology" />
 <figcaption>Istio Topology</figcaption></figure>
 
-The proxy logically calls Mixer before each request to perform precondition checks, and after each request to report telemetry. The proxy has local caching such that a relatively large percentage of precondition checks can be performed from cache. Additionally, the proxy buffers outgoing telemetry such that it only actually needs to call Mixer once for every several thousands requests. Whereas precondition checks are synchronous to request processing, telemetry reports can be done asynchronously with a fire-and-forget pattern.
+The Envoy sidecar logically calls Mixer before each request to perform precondition checks, and after each request to report telemetry.
+The sidecar has local caching such that a relatively large percentage of precondition checks can be performed from cache. Additionally, the
+sidecar buffers outgoing telemetry such that it only actually needs to call Mixer once for every several thousands requests. Whereas precondition
+checks are synchronous to request processing, telemetry reports are done asynchronously with a fire-and-forget pattern.
 
 At a high level, Mixer provides:
 
@@ -88,7 +91,7 @@ Mixer doesn’t yet do canarying of config changes, but we expect this to come o
 
 ### Cache tuning
 
-We have yet to fine-tune the sizes of the sidecar and Mixer caches. This is work will be focused on achieving the highest performance possible using the least amount of resources.
+We have yet to fine-tune the sizes of the sidecar and Mixer caches. This work will focus on achieving the highest performance possible using the least amount of resources.
 
 ### Cache sharing
 
@@ -96,13 +99,21 @@ At the moment, each Mixer instance operates independently of all other instances
 
 ### Sharding
 
-In very large meshes, the load on Mixer can be great. There can be a large number of Mixer instances, each straining to keep caches primed to satisfy incoming traffic. We expect to eventually introduce intelligent sharding such that Mixer instances become slightly specialized in handling particular data streams in order to increase the likelihood of cache hits. We don’t do this yet, but expect to see this down the line.
+In very large meshes, the load on Mixer can be great. There can be a large number of Mixer instances, each straining to keep caches primed to
+satisfy incoming traffic. We expect to eventually introduce intelligent sharding such that Mixer instances become slightly specialized in
+handling particular data streams in order to increase the likelihood of cache hits. In other words, sharding helps improve cache
+efficiency by routing related traffic to the same Mixer instance over time, rather than randomly dispatching to 
+any available Mixer instance.
 
 ## Conclusion
 
-Practical experience at Google showed that the model of a slim sidecar proxy and a large caching control plane intermediary hits a sweet spot, delivering excellent perceived availability and latency. We’ve taken the lessons learned there and applied them to create more sophisticated and effective caching, prefetching, and buffering strategies in Istio. We’ve also optimized the communication protocols to reduce overhead when a cache miss does occur.
+Practical experience at Google showed that the model of a slim sidecar proxy and a large shared caching control plane intermediary hits a sweet
+spot, delivering excellent perceived availability and latency. We’ve taken the lessons learned there and applied them to create more sophisticated and 
+effective caching, prefetching, and buffering strategies in Istio. We’ve also optimized the communication protocols to reduce overhead when a cache miss does occur.
 
-Mixer is still young. As of Istio 0.3, we haven’t really done significant perf work within Mixer itself. This means when a request misses the sidecar cache, we spend more time in Mixer to respond to requests than we should. We’re doing a lot of work to improve this in coming months to reduce the overhead that Mixer imparts in the synchronous precondition check case.
+Mixer is still young. As of Istio 0.3, we haven’t really done significant performance work within Mixer itself. This means when a request misses the sidecar 
+cache, we spend more time in Mixer to respond to requests than we should. We’re doing a lot of work to improve this in coming months to reduce the overhead 
+that Mixer imparts in the synchronous precondition check case.
 
 We hope this post makes you appreciate the inherent benefits that Mixer brings to Istio.
 Don’t hesitate to post comments or questions to [istio-integrations@](https://groups.google.com/forum/#!forum/istio-integrations).
