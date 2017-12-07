@@ -10,9 +10,9 @@ type: markdown
 ---
 {% include home.html %}
 
-This task shows you how to setup and use the Istio Dashboard to monitor mesh
-traffic. As part of this task, you will install the Grafana Istio addon and use
-the web-based interface for viewing service mesh traffic data.
+This task shows you how to generate a graph of services within an Istio mesh.
+As part of this task, you will install the ServiceGraph addon and use
+the web-based interface for viewing service graph of the service mesh.
 
 The [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application is used as
 the example application throughout this task.
@@ -25,8 +25,8 @@ the example application throughout this task.
 * Install the Prometheus add-on. Directions for install of this add-on are
   supplied as part of the [Querying
   Metrics]({{home}}/docs/tasks/telemetry/querying-metrics.html) Task.
-  
-  Use of the Prometheus add-on is _required_ for the Istio Dashboard.
+
+  Use of the Prometheus add-on is _required_ for the service graph.
 
 ## Generating a Service Graph
 
@@ -84,7 +84,7 @@ the example application throughout this task.
 <figure><img style="max-width:100%" src="./img/servicegraph-example.png"
 alt="Example Servicegraph" title="Example Servicegraph" /> <figcaption>Example
 Servicegraph</figcaption></figure>
-    
+
 ### About the Servicegraph Add-on
 
 The Servicegraph service is an example service that provides endpoints for
