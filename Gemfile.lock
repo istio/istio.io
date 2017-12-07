@@ -1,6 +1,6 @@
 GIT
   remote: git@github.com:/ldemailly/html-proofer.git
-  revision: e0b5e49c06f1288f648b28a56676b734c81dbaf2
+  revision: a9fd7130ddf4bffc54ef938783d09a110e46574b
   specs:
     html-proofer (3.7.5)
       activesupport (>= 4.2, < 6.0)
