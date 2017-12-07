@@ -31,6 +31,7 @@
   vertical-align: bottom;
   line-height: 1.3em;
   margin-left: 15px;
+  font-family: "Verdana";
 }
 
 .navbar-brand {
@@ -41,7 +42,7 @@
   img {
     height: 3em;
   }
-}  
+}
 
 .navbar-header {
   margin-left: 15px;
@@ -75,8 +76,8 @@
   font-weight: bold;
 }
 
-.navbar-inverse .navbar-nav>.open>a, 
-.navbar-inverse .navbar-nav>.open>a:hover, 
+.navbar-inverse .navbar-nav>.open>a,
+.navbar-inverse .navbar-nav>.open>a:hover,
 .navbar-inverse .navbar-nav>.open>a:focus {
   color: #fff !important;
   background-color: $thirdBrandColor;
