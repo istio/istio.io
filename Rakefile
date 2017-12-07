@@ -2,6 +2,10 @@ require 'html-proofer'
 
 task :test do
   sh "bundle exec jekyll build"
+  typhoeus_configuration = {
+  :timeout => 10,
+  :verbose => true
+  }
   options = { :check_html => true,
               # :validation => { :report_missing_names => true, :report_invalid_tags => true },
               :cache => { :timeframe => '2d'},
@@ -11,6 +15,7 @@ task :test do
               :assume_extension => false,
               :log_level => :debug,
               :url_ignore => [/localhost|github\.com\/istio\/istio\.github\.io\/edit\/master\//],
+              :typhoeus => typhoeus_configuration,
              }
   HTMLProofer.check_directory("./_site", options).run
 end
