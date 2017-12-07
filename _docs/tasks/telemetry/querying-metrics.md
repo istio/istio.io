@@ -71,7 +71,7 @@ the example application throughout this task.
 1. Execute a Prometheus query.
 
     In the "Expression" input box at the top of the web page, enter the text:
-    `request_count`. Then, click the **Execute** button.
+    `istio_request_count`. Then, click the **Execute** button.
 
     The results will be similar to:
 
@@ -83,13 +83,13 @@ the example application throughout this task.
     - Total count of all requests to `productpage` service:
 
        ```
-       request_count{destination_service="productpage.default.svc.cluster.local"}
+       istio_request_count{destination_service="productpage.default.svc.cluster.local"}
        ```
 
     - Total count of all requests to `v3` of the `reviews` service:
 
        ```
-       request_count{destination_service="reviews.default.svc.cluster.local", destination_version="v3"}
+       istio_request_count{destination_service="reviews.default.svc.cluster.local", destination_version="v3"}
        ```
        
        This query returns the current total count of all requests to the v3 of the reviews service.
@@ -97,7 +97,7 @@ the example application throughout this task.
     - Rate of requests over the past 5 minutes to all `productpage` services:
 
        ```
-       rate(request_count{destination_service=~"productpage.*", response_code="200"}[5m])
+       rate(istio_request_count{destination_service=~"productpage.*", response_code="200"}[5m])
        ```
 
 ### About the Prometheus Add-on
