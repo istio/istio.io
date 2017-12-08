@@ -9,135 +9,146 @@ type: markdown
 ---
 {% include home.html %}
 
-Istio configuration is component oriented. Each component exposes independently evolved
-configuration resources to the Istio end user, such as Mixer configuration,
- Pilot configuration, etc. Another way to understand the configuration is through their functionality and the entities where they apply on. 
-The following diagram illustrates such concept. 
+Istio configuration is component oriented. Each component exposes independently
+evolved configuration resources to the Istio end user, such as Mixer
+configuration.  Another way to understand the configuration is through their
+functionality and the entities where they apply on.  Three entities in Istio
+receive configurations for mesh functions, core components, mesh services, and
+infrastructure backends.  Part of the configuration is static, for installing
+the services to the platform. Part of the configuration is dyanmic, for
+managinng Istio services (traffic/data) as an application to the platform.
+[Deployment configuration](#deployment-configuration) contains all the static
+portion. For a Kubernetes installation, all of them are represented as
+Kubernetes build-in resources.  The rest are the dynamic configuration, which
+defines mesh runtime and service management traffic and policies.
+Infrastructure backends that power Istio service management features are
+configured as independent services. The following diagram illustrates such
+concept. You can find all the configuration terms on this page.
 
-<figure><img src="./img/space.svg" alt="Config taxonomy." title="Istio Config Taxonomy"/>
-<figcaption>Istio Config Taxonomy</figcaption></figure>
+<figure><img src="./img/taxonomy.svg" alt="Configuration taxonomy." title="Istio Configuration Taxonomy"/>
+<figcaption>Istio Configuration Taxonomy</figcaption></figure>
 
-## Adapter config
+## Adapter configuration
 
 Configs used by Mixer adapters to forward service management runtime request to
-infrastructure backends. Adapter config may contain infrastructure backend config
+infrastructure backends. Adapter configuration may contain infrastructure backend configuration
 runtime paramters, access credentials, and policy definitions. See
 [details]({{home}}/docs/reference/config/mixer/adapters).
 
-## API management config
+## API management configuration
 
-Configs for service API management, including [IDL config](#idl-config) and
-[policy config](#policy-config).
+Configs for service API management, including [IDL configuration](#idl-configuration) and
+[policy configuration](#policy-configuration).
 
-## Authentication config
+## Authentication configuration
 
 Defines how to mutually identify and establish a secure connection to a
 service. The identification includes service identity and end-user
 (per-request) identity. Secure communication includes traffic within the mesh
-and across mesh boundaries, such as mTLS configs. Per request authentication
-config live in Proxy such as JWT token validation.
+and across mesh boundaries, such as mTLS configurations. Per request authentication
+configuration live in Proxy such as JWT token validation.
 
-## Authorization config
+## Authorization configuration
 
 Istio service resource access policy definition, such as Istio RBAC, defining
 who can access which.
 
-## Backend config
+## Backend configuration
 
-Backend config is not part of [Istio config](#istio-config). These are the
-configs for Istio infrastructure backends. Backend config defines the
+Backend configuration is not part of [Istio configuration](#istio-configuration). These are the
+configurations for Istio infrastructure backends. Backend configuration defines the
 management resources, such as quota, monitoring that will be used to accept
-runtime control requests from Istio through Mixer adapters. Backend config may
+runtime control requests from Istio through Mixer adapters. Backend configuration may
 live in cloud vendors.
 
-## Catalog config
+## Catalog configuration
 
 Config for service to expose a standard Open Service Broker Interface (OSBI)
 and provide Istio automatic multi-tenancy (AMT) feature. 
 
-## Component config
+## Component configuration
 
-Refer to service [management config](#management-config) for each Istio core
+Refer to service [management configuration](#management-configuration) for each Istio core
 service component: Proxy, Mixer, Broker, Auth.
 
-## Core config
+## Core configuration
 
-Istio core component configs. Typically the configs to install Pilot, Proxy,
+Istio core component configurations. Typically the configurations to install Pilot, Proxy,
 Mixer, Broker. Currently it only includes [deployment
-config](#deployment-config). Once Istio components are managed as mesh services
-("Istio on Istio"), it will include [management config](#management-config).
+configuration](#deployment-configuration). Once Istio components are managed as mesh services
+("Istio on Istio"), it will include [management configuration](#management-configuration).
 
-## Deployment config
+## Deployment configuration
 
-The config to deploy Istio component or services. These are environment
+The configuration to deploy Istio component or services. These are environment
 specific. On Kubernetes, they are deployment, namespace, service, RBAC,
 configMap resources. 
 
-## IDL config
+## IDL configuration
 
 Service interface definition, such as API IDL, protocol.
 
-## Istio config
+## Istio configuration
 
-The entire Istio config space where an Istio operator can work on. It includes
-[core config](#core-config) and [service config](#service-config).
+Joint space of [core configuration](#core-configuration) and [service configuration](#service-configuration).
+Mesh operator can read/write these configurations through [istioctl]({{home}}/docs/reference/commands/istioctl.html).
 
-## Logging config
+## Logging configuration
 
 Define log entries, format, and input data.
 
-## Management config
+## Management configuration
 
-The config that defines and manages the traffic sent to a service. This
-includes [traffic config](#traffic-config), [catalog config](#catalog-config),
-[IDL config](#idl-config), [authentication config](#authentication-config),
-[adapter config](#adapter-config), and [policy config](#policy-config).
+The configuration that defines and manages the traffic sent to a service. This
+includes [traffic configuration](#traffic-configuration), [catalog configuration](#catalog-configuration),
+[IDL configuration](#idl-configuration), [authentication configuration](#authentication-configuration),
+[adapter configuration](#adapter-configuration), and [policy configuration](#policy-configuration).
 
-## Mesh config
+## Mesh configuration
 
-Mesh config refers to a particular scoped [service config](#service-config)
+Mesh configuration refers to a particular scoped [service configuration](#service-configuration)
 that applies to all services in a mesh.
 
-## Metric config
+## Metric configuration
 
 Define metric types, metric instances, and metric rules. 
 
-## Namespace config
+## Namespace configuration
 
-Namespace config refers to a particular scoped [service
-config](#service-config) that applies to all services in a namespace.
+Namespace configuration refers to a particular scoped [service
+configuration](#service-configuration) that applies to all services in a namespace.
 
-## Policy config
+## Policy configuration
 
-Define service management policies, including [quota config](#quota-config),
-[metric config](#metric-config), [logging config](#logging-config), and
-[authorization config](#authorization-config).
+Define service management policies, including [quota configuration](#quota-configuration),
+[metric configuration](#metric-configuration), [logging configuration](#logging-configuration), and
+[authorization configuration](#authorization-configuration).
 
-## Quota config
+## Quota configuration
 
 Define quota types and quota policies.
 
-## Runtime config
+## Runtime configuration
 
-Istio mesh runtime configs, mostly for configuring Envoy runtime. They are
+Istio mesh runtime configurations, mostly for configuring Envoy runtime. They are
 currently configured through configMap resources. See
 [details]({{home}}/docs/reference/config/service-mesh.html). 
 
-## Security config
+## Security configuration
 
 Define Istio service security aspects including [authentication
-config](#authentication-config) and [authorization config](#authorization-config).
+configuration](#authentication-configuration) and [authorization configuration](#authorization-configuration).
 
-## Service config
+## Service configuration
 
-The configs that apply to a mesh service, to install or control the data flow
-that passes in/out of the service. Service config includes service [deployment
-config](#deployment-config) and service [management
-config](#management-config). The configs can be scoped to apply to more than
+The configurations that apply to a mesh service, to install or control the data flow
+that passes in/out of the service. Service configuration includes service [deployment
+configuration](#deployment-configuration) and service [management
+configuration](#management-configuration). The configurations can be scoped to apply to more than
 one service.
 
-## Traffic config
+## Traffic configuration
 
-Also refered as networking config. Defines the mesh service network. This
+Also refered as networking configuration. Defines the mesh service network. This
 includes routing rules, destination policy, ingress rules, and egress rules.
 See [details]({{home}}/docs/reference/config/traffic-rules).
