@@ -3,7 +3,7 @@ title: "Mixer Adapter Model"
 overview: Provides an overview of Istio 0.2's updated Mixer adapter model
 published: true
 permalink: blog/mixer-adapter-model.html
-attribution: The Istio Team
+attribution: The Mixer Crew
 layout: post
 type: markdown
 ---

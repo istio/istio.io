@@ -21,6 +21,8 @@ This Quick Start creates a new GKE cluster, installs Istio and then deploys the 
 
 - This sample requires a valid Google Cloud Platform project with billing enabled. If you are not an existing GCP user, you may be able to enroll for a $300 US [Free Trial](https://cloud.google.com/free/){:target="_blank"} credit.
 
+- Ensure that the [Google Container Engine API](https://console.cloud.google.com/apis/library/container.googleapis.com/){:target="_blank"}is enabled for your project (also found by navigating to "APIs &amp; Services" -> "Dashboard" in the navigation bar). If you do not see "API enabled", then you may enable the API by clicking the "Enable this API" button.
+
 - You must install and configure the [gcloud command line tool](https://cloud.google.com/sdk/docs/){:target="_blank"} and include the `kubectl` component (`gcloud components install kubectl`).  If you don't want to install the `gcloud` client on your own machine, you can use `gcloud` via [Google Cloud Shell](https://cloud.google.com/shell/docs/){:target="_blank"} to perform the same tasks.
 
 - <img src="{{home}}/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" /> You must set your default compute service account to include:
