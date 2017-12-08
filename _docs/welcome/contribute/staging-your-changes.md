@@ -1,7 +1,7 @@
 ---
 title: Staging Your Changes
 overview: Explains how to test your changes locally before submitting them.
-              
+
 order: 40
 
 layout: docs
@@ -18,16 +18,9 @@ Create a fork of the Istio documentation repository as described in
 
 ## Staging locally
 
-To stage your changes, go to the top of your documentation repo and start Jekyll via the following
-docker command-line:
+See [Detailed instructions and options on GitHub](https://github.com/istio/istio.github.io/blob/master/README.md)
 
-```bash
-docker run --rm --label=jekyll --volume=$(pwd):/srv/jekyll  -it -p 127.0.0.1:4000:4000 jekyll/jekyll jekyll serve
-```
-
-If you don't have docker installed, get that first and the above should then just work.
-
-Once the docker command is running, you can open a web browser and go to `http://localhost:4000` to see your
+Once Jekyll is running, you can open a web browser and go to `http://localhost:4000` to see your
 changes. You can make further changes to the content in your repo and just refresh your browser page to see
 the results, no need to restart Jekyll all the time.
 

@@ -1,7 +1,7 @@
 ---
 title: Creating a Pull Request
 overview: Shows you how to create a GitHub pull request in order to submit your docs for approval.
-              
+
 order: 20
 
 layout: docs
@@ -21,7 +21,7 @@ repository. This page shows the steps necessary to create a pull request.
 Documentation will be published under the [Apache 2.0](https://github.com/istio/istio.github.io/blob/master/LICENSE) license.
 
 ## Creating a fork
- 
+
 Before you can edit documentation, you need to create a fork of Istio's documentation GitHub repository:
 
 1. Go to the
@@ -44,7 +44,10 @@ that is the best fit for your content.
 ## Submitting a pull request
 
 To publish your changes, you must create a pull request against the master branch of Istio's
-documentation repositoryL
+documentation repository.
+
+1. Make sure your change produce valid html and links are valid, `rake test`
+will check this for you.
 
 1. In your GitHub account, in your new branch, create a pull request
 against the master branch of the istio/istio.github.io
