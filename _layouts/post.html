@@ -11,6 +11,11 @@ layout: default
         <div class="postdate">
           Posted on {{ page.date | date: "%A, %B %d %Y" }}.
         </div>
+
+        {% if page.toc != false %}
+        <div id="toc" class="toc"></div>
+        {% endif %}
+
         <div class="content">
           {{ content }}
         </div>
