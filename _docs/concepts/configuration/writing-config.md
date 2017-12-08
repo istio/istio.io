@@ -1,5 +1,5 @@
 ---
-title: Writing Configuration
+title: Authoring Guide
 overview: How to write Istio config YAML content.
 
 order: 70

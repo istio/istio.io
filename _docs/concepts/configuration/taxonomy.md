@@ -7,14 +7,15 @@ order: 15
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
-Currently Istio configuration is component oriented. Each component exposes a separate
-configuration schema to the Istio end user. These are what we refer to as Mixer configuration,
-or Pilot configuration, etc. We can also look into the configurations through their functions. 
-This diagram illustrates configuration taxonomy and relationships.
+Istio configuration is component oriented. Each component exposes independently evolved
+configuration resources to the Istio end user, such as Mixer configuration,
+ Pilot configuration, etc. Another way to understand the configuration is through their functionality and the entities where they apply on. 
+The following diagram illustrates such concept. 
 
-<figure><img src="./img/space.svg" alt="The overall config functions." title="Istio Config Functional Space" />
-<figcaption>Istio Config Functional Space</figcaption></figure>
+<figure><img src="./img/space.svg" alt="Config taxonomy." title="Istio Config Taxonomy"/>
+<figcaption>Istio Config Taxonomy</figcaption></figure>
 
 ## Adapter config
 
@@ -28,7 +29,7 @@ runtime paramters, access credentials, and policy definitions. See
 Configs for service API management, including [IDL config](#idl-config) and
 [policy config](#policy-config).
 
-## Authentication(AuthN) config
+## Authentication config
 
 Defines how to mutually identify and establish a secure connection to a
 service. The identification includes service identity and end-user
@@ -36,7 +37,7 @@ service. The identification includes service identity and end-user
 and across mesh boundaries, such as mTLS configs. Per request authentication
 config live in Proxy such as JWT token validation.
 
-## Authorization(AuthZ) config
+## Authorization config
 
 Istio service resource access policy definition, such as Istio RBAC, defining
 who can access which.
