@@ -1,7 +1,7 @@
 require 'html-proofer'
 
 task :test do
-  sh "bundle exec jekyll build"
+  sh "bundle exec jekyll build --incremental"
   typhoeus_configuration = {
   :timeout => 30,
 #  :verbose => true
