@@ -41,7 +41,7 @@ Look familiar? Of course: it’s just like Istio! Istio was conceived as a secon
 
 ## Architecture recap
 
-As shown in the diagram below, Mixer sits between the mesh components and the infrastructure backends that support it:
+As shown in the diagram below, Mixer sits between the mesh and the infrastructure backends that support it:
 
 <figure><img src="./img/mixer-spof-myth-2.svg" alt="Istio Topology" title="Istio Topology" />
 <figcaption>Istio Topology</figcaption></figure>
