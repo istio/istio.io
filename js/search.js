@@ -1,6 +1,6 @@
 (function ($) {
     function doSearch() {
-        var url = '/search/?q=' + document.getElementsByName('q')[0].value;
+        var url = '/search?q=' + document.getElementsByName('q')[0].value;
         window.location.assign(url);
     }
 

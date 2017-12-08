@@ -29,14 +29,14 @@ compress_html:
   profile: false
 
 collections:
-  docs:
-    output: true
   faq:
     output: false
   faq_categories:
     output: false
   glossary:
     output: false
+  docs:
+    output: true
 
 plugins:
   - jekyll-redirect-from

@@ -29,7 +29,7 @@ There are quite a few ways to get plugged in with the Istio community:
     </tr>
 
     <tr>
-      <td class="logo"><img src="{{home}}/img/twitter.png" alt="Twitter"/></td>
+      <td class="logo"><img src="{{home}}/img/twitter.svg" alt="Twitter"/></td>
       <td>
         Follow us on <a href="https://twitter.com/IstioMesh">Twitter</a> to get the latest news.
       </td>

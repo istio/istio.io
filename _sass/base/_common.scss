@@ -83,5 +83,5 @@ th {
 }
 
 html {
-    background-color: $mainBrandColor;
+  background-image: linear-gradient(to right, $mainBrandColor, $secondBrandColor);
 }
