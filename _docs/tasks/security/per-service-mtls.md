@@ -66,7 +66,11 @@ annotations:
 For a quick test, run `kubectl edit svc httpbin` and add the annotations above (
 or you can edit the original httpbin.yaml file and re-apply it). After the change is applied, request from sleep.legacy should now success, as the result of mTLS was dropped.
 
-Note: the annotations can be used in the opposite direction, i.e enable mTLS for a service, simply by using annotation value  `MUTUAL_TLS`, instead of `NONE`.
+Note:
+
+* The annotations can be used in the opposite direction, i.e enable mTLS for a service, simply by using annotation value  `MUTUAL_TLS`, instead of `NONE`. People can use this option to enable mTLS on selected services instead of enable it for the whole mesh.
+
+* Annotations can also be used for a (server) service that *does not have sidecar*, to instruct Istio do not apply mTLS for the client when making a call to that service. In fact, if a system has some services that are not managed by Istio (i.e without sidecar), this is a recommended solution to fix communication problem with those services.
 
 ## Disable mutual TLS authentication for control services.
 
