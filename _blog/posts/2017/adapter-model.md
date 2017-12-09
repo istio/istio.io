@@ -1,11 +1,15 @@
 ---
 title: "Mixer Adapter Model"
 overview: Provides an overview of Istio 0.2's updated Mixer adapter model
-published: true
-permalink: blog/mixer-adapter-model.html
-attribution: The Mixer Crew
-layout: post
+publish_date: November 3, 2017
+subtitle:
+attribution: Martin Taillefer
+
+order: 95
+
+layout: blog
 type: markdown
+redirect_from: "/blog/mixer-adapter-model.html"
 ---
 {% include home.html %}
 

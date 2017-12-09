@@ -1,11 +1,18 @@
 ---
 title: "Mixer and the SPOF Myth"
-overview: Mixer's effect on reliability and latency
-published: true
-permalink: blog/mixer-spof-myth.html
-attribution: The Mixer Crew
-layout: post
+overview: Improving availability and reducing latency
+publish_date: December 7, 2017
+subtitle: Improving availability and reducing latency
+attribution: Martin Taillefer
+
+order: 94
+
+layout: blog
 type: markdown
+redirect_from:
+  - "/blog/mixer-spof-myth.html"
+  - "/blog/"
+
 ---
 {% include home.html %}
 

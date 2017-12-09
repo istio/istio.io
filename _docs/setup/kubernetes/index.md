@@ -9,4 +9,5 @@ type: markdown
 redirect_from: "/docs/tasks/installing-istio.html"
 ---
 
+{% assign docs = site.docs %}
 {% include section-index.html %}

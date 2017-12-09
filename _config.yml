@@ -17,9 +17,6 @@ liquid:
 sass:
   style: compressed
 
-paginate: 5
-paginate_path: "/blog/page:num/"
-
 excerpt_separator: <!--end_excerpt-->
 
 compress_html:
@@ -35,6 +32,8 @@ collections:
     output: false
   glossary:
     output: false
+  blog:
+    output: true
   docs:
     output: true
 
