@@ -1,8 +1,6 @@
 ---
 ---
 
-// {% assign home = site.baseurl %}
-
 // Given an array of documents, constructs a tree of items
 //
 // The tree is built based on the doc.path array that's in every
@@ -62,7 +60,7 @@ function makeNavTree(parent, docs, depth) {
     return items;
 }
 
-function outputNavBarTree(items) {
+function outputSideBarTree(items) {
     document.writeln("<ul class='list-unstyled tree'>");
 
     for (var i = 0; i < items.length; i++) {
@@ -70,13 +68,14 @@ function outputNavBarTree(items) {
 
         if (item.children.length == 0) {
             if (item.doc.url == location.pathname) {
-                document.write("<li class='doc-side-nav-list-item'><a class='current' href='");
-            }
-            else {
-                document.write("<li class='doc-side-nav-list-item'><a href='");
+                document.write("<li class='sidebar-list-item'><a class='current' href='");
+            } else {
+                document.write("<li class='sidebar-list-item'><a href='");
             }
             document.write("{{home}}");
             document.write(item.doc.url);
+            document.write("' title='");
+            document.write(item.doc.overview);
             document.write("'>");
             document.write(item.doc.title);
             document.writeln("</a>");
@@ -92,7 +91,7 @@ function outputNavBarTree(items) {
         var item = items[i];
 
         if (item.children.length > 0) {
-            document.writeln("<li class='doc-side-nav-list-item'>");
+            document.writeln("<li class='sidebar-list-item'>");
             document.writeln("<label class='tree-toggle'>");
             document.writeln("<i class='fa fa-lg fa-caret-down'></i>");
             document.writeln("<a class='tree-toggle-link' href='javascript:void 0;'>");
@@ -108,7 +107,7 @@ function outputNavBarTree(items) {
                 document.writeln('(please set order: front matter for this document)')
             }
 
-            outputNavBarTree(item.children);
+            outputSideBarTree(item.children);
             document.writeln("</li>");
         }
     }
@@ -116,10 +115,10 @@ function outputNavBarTree(items) {
     document.writeln("</ul>");
 }
 
-// Given an array of documents, generate the left-side nav tree
-function genNavBarTree(docs) {
+// Given an array of documents, generate the sidebar nav tree
+function genSideBarTree(docs) {
     var items = makeNavTree(null, docs, 0);
-    outputNavBarTree(items);
+    outputSideBarTree(items);
 }
 
 

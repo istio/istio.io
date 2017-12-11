@@ -2,7 +2,7 @@
 layout: default
 ---
 {% include home.html %}
-{% include doc-top-nav.html %}
+{% include doctab.html %}
 
 <script src="{{home}}/js/navtree.min.js"></script>
 
@@ -11,7 +11,8 @@ layout: default
     <div class="col-md-11 nofloat center-block">
       <div class="row">
         <div id="sidebar-container" class="col-sm-3">
-          {% include doc-side-nav.html %}
+          {% assign docs = site.docs %}
+          {% include sidebar.html %}
         </div>
 
         <div id="tab-container" class="col-xs-1 tab-neg-margin pull-left">
@@ -33,4 +34,4 @@ layout: default
   </div>
 </div>
 
-<script src="{{home}}/js/sidemenu.min.js"></script>
+<script src="{{home}}/js/sidebar.min.js"></script>

@@ -10,4 +10,6 @@ redirect_from:
   - "/docs/reference/release-notes.html"
   - "/release-notes"
 ---
+
+{% assign docs = site.docs %}
 {% include section-index.html %}
