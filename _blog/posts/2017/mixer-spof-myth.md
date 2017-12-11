@@ -23,8 +23,6 @@ overall system availability and latency. A common refrain we hear when people fi
 In this post, we’ll dig deeper and cover the design principles that underpin Mixer and the surprising fact Mixer actually 
 increases overall mesh availability and reduces average request latency.
 
-<!--end_excerpt-->
-
 Istio's use of Mixer has two main benefits in terms of overall system availability and latency:
 
 * **Increased SLO**. Mixer insulates proxies and services from infrastructure backend failures, enabling higher effective mesh availability. The mesh as a whole tends to experience a lower rate of failure when interacting with the infrastructure backends than if Mixer were not present.
