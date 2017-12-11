@@ -5,7 +5,6 @@
 <script type="text/javascript">
 	var docs = [];
 
-	{% assign docs = site.docs %}
 	{% for d in docs %}
         {% if d.draft == true %}
             {% continue %}

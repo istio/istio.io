@@ -1,10 +1,8 @@
-<ul class="doc-side-nav">
+<ul class="sidebar">
 
 	{% assign components = page.path | downcase | split: '/' %}
 	{% assign section = components[1] %}
-	{% assign foundSection = false %}
 
-	{% assign docs = site.docs %}
 	{% for d in docs %}
         {% if d.draft == true %}
     	    {% continue %}
@@ -13,13 +11,11 @@
 		{% assign components = d.path | downcase | split: '/' %}
 		{% if components[1] == section %}
 			{% if components[2] == 'index.md' %}
-	            {% assign foundSection = true %}
-				<li><h5 class='doc-side-nav-title'>{{d.title}}</h5></li>
+				<li><h5 class='sidebar-title'>{{d.title}}</h5></li>
 			{% endif %}
         {% endif %}
 	{% endfor %}
 
-	{% if foundSection == true %}
 	<script type="text/javascript">
         var docs = [];
         {% for d in docs %}
@@ -36,7 +32,7 @@
         			{% endif %}
         		{% endfor %}
 				{% assign order = d.order %}
-				{% if d.order == nil %}
+				{% if order == nil %}
 				{% assign order = 9999 %}
 				{% endif %}
                 {% assign url = d.url | remove: "index.html" %}
@@ -44,7 +40,6 @@
 		    {% endif %}
         {% endfor %}
 
-		genNavBarTree(docs)
+		genSideBarTree(docs)
 	</script>
-	{% endif %}
 </ul>

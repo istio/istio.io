@@ -1,17 +1,19 @@
 ---
 title: "Mixer Adapter Model"
-overview: Provides an overview of Istio 0.2's updated Mixer adapter model
-published: true
-permalink: blog/mixer-adapter-model.html
-attribution: The Mixer Crew
-layout: post
+overview: Provides an overview of the Mixer plug-in architecture
+publish_date: November 3, 2017
+subtitle: Extending Istio to integrate with a world of infrastructure backends
+attribution: Martin Taillefer
+
+order: 95
+
+layout: blog
 type: markdown
+redirect_from: "/blog/mixer-adapter-model.html"
 ---
 {% include home.html %}
 
 Istio 0.2 introduced a new Mixer adapter model which is intended to increase Mixer’s flexibility to address a varied set of infrastructure backends. This post intends to put the adapter model in context and explain how it works.
-
-<!--end_excerpt-->
 
 ## Why Adapters?
 

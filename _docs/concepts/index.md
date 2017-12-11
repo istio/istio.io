@@ -10,4 +10,5 @@ type: markdown
 
 ---
 
+{% assign docs = site.docs %}
 {% include section-index.html %}

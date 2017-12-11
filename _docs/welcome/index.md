@@ -7,6 +7,7 @@ order: 0
 
 layout: docs
 type: markdown
+redirect_from: "/docs/"
 ---
 {% include home.html %}
 

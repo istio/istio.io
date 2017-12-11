@@ -1,11 +1,18 @@
 ---
 title: "Mixer and the SPOF Myth"
-overview: Mixer's effect on reliability and latency
-published: true
-permalink: blog/mixer-spof-myth.html
-attribution: The Mixer Crew
-layout: post
+overview: Improving availability and reducing latency
+publish_date: December 7, 2017
+subtitle: Improving availability and reducing latency
+attribution: Martin Taillefer
+
+order: 94
+
+layout: blog
 type: markdown
+redirect_from:
+  - "/blog/mixer-spof-myth.html"
+  - "/blog/"
+
 ---
 {% include home.html %}
 
@@ -15,8 +22,6 @@ overall system availability and latency. A common refrain we hear when people fi
 
 In this post, we’ll dig deeper and cover the design principles that underpin Mixer and the surprising fact Mixer actually 
 increases overall mesh availability and reduces average request latency.
-
-<!--end_excerpt-->
 
 Istio's use of Mixer has two main benefits in terms of overall system availability and latency:
 
