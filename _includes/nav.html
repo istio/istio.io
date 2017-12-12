@@ -31,11 +31,11 @@
 
           <div class="collapse navbar-collapse" id="navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-              <li><a href="{{home}}/about" {% if current[1] == 'about' %}class='current'{% endif %}>About</a></li>
+              <li><a href="{{home}}/about" {% if current[1] == 'about.html' %}class='current'{% endif %}>About</a></li>
               <li><a href="{{home}}/blog" {% if current[1] == 'blog' %}class='current'{% endif %}>Blog</a></li>
               <li><a href="{{home}}/docs/welcome" {% if current[1] == 'docs' %}class='current'{% endif %}>Docs</a></li>
-              <li><a href="{{home}}/help" {% if current[1] == 'help' %}class='current'{% endif %}>Help</a></li>
-              <li><a href="{{home}}/community" {% if current[1] == 'community' %}class='current'{% endif %}>Community</a></li>
+              <li><a href="{{home}}/help" {% if current[1] == 'help.html' %}class='current'{% endif %}>Help</a></li>
+              <li><a href="{{home}}/community" {% if current[1] == 'community.html' %}class='current'{% endif %}>Community</a></li>
               <li>{% include search-box.html %}</li>
             </ul>
           </div>
