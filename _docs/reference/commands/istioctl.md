@@ -24,7 +24,7 @@ Available routing and traffic management configuration types:
 
 	[route-rule ingress-rule egress-rule destination-policy]
 
-See [https://istio.io/docs/reference/](https://istio.io/docs/reference/) for an
+See [https://istio.io/docs/reference/]({{home}}/docs/reference/) for an
 overview of routing rules and destination policies.
 
 
