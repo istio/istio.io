@@ -3,15 +3,48 @@ layout: default
 ---
 {% include home.html %}
 
-<div class="container blog">
-  <div class="row">
-    <div class="col-sm-12 col-md-10 col-lg-7 nofloat center-block {{page.type}}">
-      {{ content }}
+<script src="{{home}}/js/navtree.min.js"></script>
 
-      <a class="rssLink" href="{{home}}/feed.xml">
-        <img title="RSS" alt="RSS" src="{{home}}/img/rss.gif" width="36" height="14">
-      </a>
+<div class="container blog">
+    <div class="row">
+        <div class="col-md-11 nofloat center-block">
+            <div class="row">
+                <div id="sidebar-container" class="col-sm-3">
+                    {% assign docs = site.blog %}
+                    {% include sidebar.html %}
+                </div>
+
+                <div id="tab-container" class="col-xs-1 tab-neg-margin pull-left">
+                    <a id="sidebar-tab" class="glyphicon glyphicon-chevron-left" href="javascript:void 0;"> </a>
+                </div>
+
+                <div id="content-container" class="thin-left-border col-sm-9 {{ page.type }}">
+                    {% if page.toc != false %}
+                    <div id="toc" class="toc"></div>
+                    {% endif %}
+
+                    <div id="doc-content">
+                        <h1 class="title">{{page.title}}</h1>
+
+                        {% if page.subtitle != nil %}
+                        <p class="subtitle">{{page.subtitle}}</p>
+                        {% endif %}
+
+                        {% if page.attribution != nil or page.publish_date != nil %}
+                        <p class="byline">
+                            {% if page.attribution != nil %}
+                            By <span class="attribution">{{page.attribution}}</span> /
+                            {% endif %}
+                            <span class="publish_date">{{page.publish_date}}</span>
+                        </p>
+                        {% endif %}
+
+                        {{ content }}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
+<script src="{{home}}/js/sidebar.min.js"></script>
