@@ -107,7 +107,7 @@ There are several steps:
   
 The service name and port are defined [here](https://github.com/istio/istio/blob/master/samples/bookinfo/kube/bookinfo.yaml).
    
-Note that Istio uses [Kubernetes service account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account) 
+Note that Istio uses [Kubernetes service account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) 
 as service identity, which offers stronger security than service name 
 (refer [here]({{home}}/docs/concepts/security/mutual-tls.html#identity) for more information). 
 Thus the certificates used in Istio do not have service name, which is the information that curl needs to verify
