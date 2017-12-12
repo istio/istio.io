@@ -24,8 +24,8 @@ Available routing and traffic management configuration types:
 
 	[route-rule ingress-rule egress-rule destination-policy]
 
-See http://istio.io/docs/reference for an overview of routing rules
-and destination policies.
+See [https://istio.io/docs/reference/]({{home}}/docs/reference/) for an
+overview of routing rules and destination policies.
 
 
 
@@ -390,7 +390,7 @@ istioctl replace [flags]
 ### Examples
 
 ```
-istioctl replace -f example-routing.yaml	
+istioctl replace -f example-routing.yaml
 ```
 
 ### Options
@@ -443,4 +443,3 @@ istioctl version [flags]
   -v, --v Level                          log level for V logs
       --vmodule moduleSpec               comma-separated list of pattern=N settings for file-filtered logging
 ```
-
