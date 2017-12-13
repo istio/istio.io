@@ -210,6 +210,54 @@ The following are the known limitations of Istio ingress:
    curl -I -k https://$INGRESS_HOST/status/200
    ```
 
+## Using Istio Routing Rules with Ingress
+
+Istio's routing rules can be used to achieve a greater degree of control
+when routing requests to backend services. For example, the following
+route rule splits the traffic between two versions of the httpbin service:
+
+   ```bash
+   cat <<EOF | istioctl create -f -
+   apiVersion: config.istio.io/v1alpha2
+   kind: RouteRule
+   metadata:
+     name: status-route
+   spec:
+     destination:
+       name: httpbin
+     match:
+       # Optionally limit this rule to istio ingress pods only
+       source:
+         name: istio-ingress
+         labels:
+           istio: ingress
+       request:
+         headers:
+           uri:
+             prefix: /status/ #must match the path specified in ingress spec
+                 # if using prefix paths (/status/.*), omit the .*.
+                 # if using exact match, use exact: /status
+     route:
+     - labels:
+         version: v1
+       weight: 70
+     - labels:
+         version: v2
+       weight: 30
+   EOF
+   ```
+
+You can use other features of the route rules such as redirects,
+rewrites, regular expression based match in HTTP headers, websocket
+upgrades, timeouts, retries, and so on. Please refer to the
+[routing rules]({{home}}/docs/reference/config/traffic-rules/routing-rules.html)
+for more details.
+
+> Note 1: Fault injection does not work at the Ingress
+
+> Note 2: When matching requests in the routing rule, use the same exact
+> path or prefix as the one used in the Ingress specification.
+
 ## Understanding ingresses
 
 Ingresses provide gateways for external traffic to enter the Istio service
@@ -245,3 +293,5 @@ external traffic.
 ## Further reading
 
 * Learn more about [Ingress Resources](https://kubernetes.io/docs/concepts/services-networking/ingress/).
+
+* Learn more about [Routing Rules]({{home}}/docs/reference/config/traffic-rules/routing-rules.html).
