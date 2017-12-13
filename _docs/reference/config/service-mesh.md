@@ -1,5 +1,5 @@
 ---
-title: Service Mesh
+title: Service Mesh Runtime
 overview: Global Configuration Schema
 
 order: 15
@@ -10,8 +10,8 @@ type: markdown
 
 
 <a name="istio.proxy.v1.config.MeshConfig"></a>
-### MeshConfig
-MeshConfig defines mesh-wide variables shared by all Envoy instances in the
+### RuntimeConfig
+RuntimeConfig defines mesh-wide variables shared by all Envoy instances in the
 Istio service mesh.
 
 <table>
