@@ -13,12 +13,14 @@ In a Kubernetes environment, the [Kubernetes Ingress Resources](https://kubernet
 allows users to specify services that should be exposed outside the
 cluster. However, the Ingress Resource specification is very minimal,
 allowing users to specify just hosts, paths and their backing services.
-To take advantage of Istio's advanced routing capabilities, we recommend
-combining a minimal Ingress Resource specification with Istio's route
-rules.
+The following are the known limitations of Istio ingress:
 
-> Note: Istio does not support `ingress.kubernetes.io` annotations in the ingress resource
-> specifications. Any annotation other than `kubernetes.io/ingress.class: istio` will be ignored.
+1. Istio supports standard Kubernetes Ingress specification without
+   annotations. There is no support for `ingress.kubernetes.io` annotations
+   in the Ingress resource specifications. Any annotation other than
+   `kubernetes.io/ingress.class: istio` will be ignored.
+2. Regular expressions in paths are not supported.
+3. Fault injection at the Ingress is not supported.
 
 ## Before you begin
 
@@ -58,7 +60,7 @@ rules.
      rules:
      - http:
          paths:
-         - path: /.*
+         - path: /status/.*
            backend:
              serviceName: httpbin
              servicePort: 8000
@@ -66,71 +68,10 @@ rules.
    ```
  
    `/.*` is a special Istio notation that is used to indicate a prefix
-   match, specifically a configuration of the form (`prefix: /`). This
-   configuration above will allow access to all URIs in the httpbin
-   service. However we wish to enable access only to specific URIs under the
-   httpbin service. Let us define a default _deny all_ route rule that
-   provides this behavior:
-
-   ```bash
-   cat <<EOF | istioctl create -f -
-   ## Deny all access from istio-ingress
-   apiVersion: config.istio.io/v1alpha2
-   kind: RouteRule
-   metadata:
-     name: deny-route
-   spec:
-     destination:
-       name: httpbin
-     match:
-       # Limit this rule to istio ingress pods only
-       source:
-         name: istio-ingress
-         labels:
-           istio: ingress
-     precedence: 1
-     route:
-     - weight: 100
-     httpFault:
-       abort:
-         percent: 100
-         httpStatus: 403 #Forbidden for all URLs
-   EOF
-   ```   
-2. Now, allow requests to `/status/` prefix by defining a route rule of
-   higher priority.
-
-   ```bash
-   cat <<EOF | istioctl create -f -
-   ## Allow requests to /status prefix
-   apiVersion: config.istio.io/v1alpha2
-   kind: RouteRule
-   metadata:
-     name: status-route
-   spec:
-     destination:
-       name: httpbin
-     match:
-       # Limit this rule to istio ingress pods only
-       source:
-         name: istio-ingress
-         labels:
-           istio: ingress
-       request:
-         headers:
-           uri:
-             prefix: /status
-     precedence: 2 #must be higher precedence than the deny-route
-     route:
-     - weight: 100
-   EOF
-   ```
-  You can use other features of the route rules such as redirects,
-  rewrites, regular expression based match in HTTP headers, websocket
-  upgrades, timeouts, retries, and so on. Please refer to the
-  [routing rules]({{home}}/docs/reference/config/traffic-rules/routing-rules.html)
-  for more details.
-
+   match, specifically a
+   [rule match configuration]({{home}}/docs/reference/config/traffic-rules/routing-rules.html#matchcondition)
+   of the form (`prefix: /`).
+   
 ## Verifying ingress
 
 1. Determine the ingress URL:
@@ -249,18 +190,24 @@ rules.
      rules:
      - http:
          paths:
-         - path: /.*
+         - path: /status/.*
+           backend:
+             serviceName: httpbin
+             servicePort: 8000
+         - path: /delay/.*
            backend:
              serviceName: httpbin
              servicePort: 8000
    EOF
    ```
 
-   Create the _deny rule_ and the rule for `/status` prefix as described
-   earlier. Set the INGRESS_HOST to point to the ip address and the
+   Set the INGRESS_HOST to point to the ip address and the
    port number of the ingress service as shown earlier.
 
-   > Note: Envoy currently only allows a single TLS secret in the ingress since SNI is not yet supported. That means that the secret name field in ingress resource is not used, and the secret must be called `istio-ingress-certs` in `istio-system` namespace.
+   > Note: Envoy currently only allows a single TLS secret in the ingress
+   > since SNI is not yet supported. That means that the secret name field
+   > in ingress resource is not used, and the secret must be called
+   > `istio-ingress-certs` in `istio-system` namespace.
 
     
 1. Access the secured httpbin service using _curl_:
@@ -269,107 +216,79 @@ rules.
    curl -I -k https://$INGRESS_HOST/status/200
    ```
 
-## Configuring ingress for gRPC
+## Using Istio Routing Rules with Ingress
 
-The ingress controller currently doesn't support `.` characters in the `path`
-field. This is an issue for gRPC services using namespaces. In order to work
-around the issue, traffic can be directed through a common dummy service, with
-route rules set up to intercept traffic and redirect to the intended services.
-
-1. Create a dummy ingress service:
-
-   ```bash
-   cat <<EOF | kubectl create -f -
-   apiVersion: v1
-   kind: Service
-   metadata:
-     name: ingress-dummy-service
-   spec:
-     ports:
-     - name: grpc
-       port: 1337
-   EOF
-   ```
-
-1. Create a catch-all ingress pointing to the dummy service:
-
-   ```bash
-   cat <<EOF | kubectl create -f -
-   apiVersion: extensions/v1beta1
-   kind: Ingress
-   metadata:
-     name: all-istio-ingress
-     annotations:
-       kubernetes.io/ingress.class: istio
-   spec:
-     rules:
-     - http:
-         paths:
-         - backend:
-             serviceName: ingress-dummy-service
-             servicePort: grpc
-   EOF
-   ```
-
-1. Create a RouteRule for each service, redirecting from the dummy service to
-   the correct gRPC service:
+Istio's routing rules can be used to achieve a greater degree of control
+when routing requests to backend services. For example, the following
+route rule sets a 4s timeout for all calls to the httpbin service on the
+/delay URL.
 
    ```bash
    cat <<EOF | istioctl create -f -
    apiVersion: config.istio.io/v1alpha2
    kind: RouteRule
    metadata:
-     name: foo-service-route
+     name: status-route
    spec:
      destination:
-       name: ingress-dummy-service
+       name: httpbin
      match:
+       # Optionally limit this rule to istio ingress pods only
+       source:
+         name: istio-ingress
+         labels:
+           istio: ingress
        request:
          headers:
            uri:
-             prefix: "/foo.FooService"
-     precedence: 1
+             prefix: /delay/ #must match the path specified in ingress spec
+                 # if using prefix paths (/delay/.*), omit the .*.
+                 # if using exact match, use exact: /status
      route:
      - weight: 100
-       destination:
-         name: foo-service
-   ---
-   apiVersion: config.istio.io/v1alpha2
-   kind: RouteRule
-   metadata:
-     name: bar-service-route
-   spec:
-     destination:
-       name: ingress-dummy-service
-     match:
-       request:
-         headers:
-           uri:
-             prefix: "/bar.BarService"
-     precedence: 1
-     route:
-     - weight: 100
-       destination:
-         name: bar-service
-   EOF      
+     httpReqTimeout:
+       simpleTimeout:
+         timeout: 4s
+  EOF
    ```
 
+If you were to make a call to the ingress with the URL
+`http://$INGRESS_HOST/delay/10`, you will find that the call returns in 4s
+instead of the expected 10s delay.
+
+You can use other features of the route rules such as redirects, rewrites,
+routing to multiple versions, regular expression based match in HTTP
+headers, websocket upgrades, timeouts, retries, etc. Please refer to the
+[routing rules]({{home}}/docs/reference/config/traffic-rules/routing-rules.html)
+for more details.
+
+> Note 1: Fault injection does not work at the Ingress
+
+> Note 2: When matching requests in the routing rule, use the same exact
+> path or prefix as the one used in the Ingress specification.
 
 ## Understanding ingresses
 
-Ingresses provide gateways for external traffic to enter the Istio service mesh
-and make the traffic management and policy features of Istio available for edge services.
+Ingresses provide gateways for external traffic to enter the Istio service
+mesh and make the traffic management and policy features of Istio available
+for edge services.
 
-In the preceding steps we created a service inside the Istio service mesh and showed how
-to expose both HTTP and HTTPS endpoints of the service to external traffic.
-We also showed how to control the ingress traffic using an Istio route rule.
+The servicePort field in the Ingress specification can take a port number
+(integer) or a name. The port name must follow the Istio port naming
+conventions (e.g., `grpc-*`, `http2-*`, `http-*`, etc.) in order to
+function properly. The name used must match the port name in the backend
+service declaration.
+
+In the preceding steps we created a service inside the Istio service mesh
+and showed how to expose both HTTP and HTTPS endpoints of the service to
+external traffic. We also showed how to control the ingress traffic using
+an Istio route rule.
 
 ## Cleanup
 
-1. Remove the secret, Ingress Resource definitions and Istio rule.
+1. Remove the secret and Ingress Resource definitions.
     
    ```bash
-   istioctl delete routerule deny-route status-route
    kubectl delete ingress simple-ingress secure-ingress 
    kubectl delete -n istio-system secret istio-ingress-certs
    ```
@@ -385,4 +304,4 @@ We also showed how to control the ingress traffic using an Istio route rule.
 
 * Learn more about [Ingress Resources](https://kubernetes.io/docs/concepts/services-networking/ingress/).
 
-* Learn more about [routing rules]({{home}}/docs/concepts/traffic-management/rules-configuration.html).
+* Learn more about [Routing Rules]({{home}}/docs/reference/config/traffic-rules/routing-rules.html).
