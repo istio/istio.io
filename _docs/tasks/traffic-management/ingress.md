@@ -192,6 +192,10 @@ The following are the known limitations of Istio ingress:
            backend:
              serviceName: httpbin
              servicePort: 8000
+         - path: /delay/.*
+           backend:
+             serviceName: httpbin
+             servicePort: 8000
    EOF
    ```
 
@@ -214,7 +218,8 @@ The following are the known limitations of Istio ingress:
 
 Istio's routing rules can be used to achieve a greater degree of control
 when routing requests to backend services. For example, the following
-route rule splits the traffic between two versions of the httpbin service:
+route rule sets a 4s timeout for all calls to the httpbin service on the
+/delay URL.
 
    ```bash
    cat <<EOF | istioctl create -f -
@@ -234,22 +239,24 @@ route rule splits the traffic between two versions of the httpbin service:
        request:
          headers:
            uri:
-             prefix: /status/ #must match the path specified in ingress spec
-                 # if using prefix paths (/status/.*), omit the .*.
+             prefix: /delay/ #must match the path specified in ingress spec
+                 # if using prefix paths (/delay/.*), omit the .*.
                  # if using exact match, use exact: /status
      route:
-     - labels:
-         version: v1
-       weight: 70
-     - labels:
-         version: v2
-       weight: 30
-   EOF
+     - weight: 100
+     httpReqTimeout:
+       simpleTimeout:
+         timeout: 4s
+  EOF
    ```
 
-You can use other features of the route rules such as redirects,
-rewrites, regular expression based match in HTTP headers, websocket
-upgrades, timeouts, retries, and so on. Please refer to the
+If you were to make a call to the ingress with the URL
+`http://$INGRESS_HOST/delay/10`, you will find that the call returns in 4s
+instead of the expected 10s delay.
+
+You can use other features of the route rules such as redirects, rewrites,
+routing to multiple versions, regular expression based match in HTTP
+headers, websocket upgrades, timeouts, retries, etc. Please refer to the
 [routing rules]({{home}}/docs/reference/config/traffic-rules/routing-rules.html)
 for more details.
 
