@@ -68,7 +68,9 @@ The following are the known limitations of Istio ingress:
    ```
  
    `/.*` is a special Istio notation that is used to indicate a prefix
-   match, specifically a configuration of the form (`prefix: /`).
+   match, specifically a
+   [rule match configuration]({{home}}/docs/reference/config/traffic-rules/routing-rules.html#matchcondition)
+   of the form (`prefix: /`).
    
 ## Verifying ingress
 
@@ -274,8 +276,8 @@ for edge services.
 The servicePort field in the Ingress specification can take a port number
 (integer) or a name. The port name must follow the Istio port naming
 conventions (e.g., `grpc-*`, `http2-*`, `http-*`, etc.) in order to
-function properly. The name used must match with the port name in the
-backend service declaration.
+function properly. The name used must match the port name in the backend
+service declaration.
 
 In the preceding steps we created a service inside the Istio service mesh
 and showed how to expose both HTTP and HTTPS endpoints of the service to
