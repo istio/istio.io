@@ -279,7 +279,8 @@ backend service declaration.
 
 In the preceding steps we created a service inside the Istio service mesh
 and showed how to expose both HTTP and HTTPS endpoints of the service to
-external traffic.
+external traffic. We also showed how to control the ingress traffic using
+an Istio route rule.
 
 ## Cleanup
 
