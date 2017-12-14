@@ -178,6 +178,26 @@ For example, with Minikube the range is 10.0.0.1/24, so you would start the slee
 kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=10.0.0.1/24)
 ```
 
+On IBM Cloud Private, use:
+
+1. Get your `service_cluster_ip_range` from IBM Cloud Private configuration file under `cluster/config.yaml`.
+
+   ```bash
+   cat cluster/config.yaml | grep service_cluster_ip_range
+   ```
+
+   A sample output is as following:
+
+   ```
+   service_cluster_ip_range: 10.0.0.1/24
+   ```
+
+1. Inject the `service_cluster_ip_range` to your application profile via `--includeIPRanges` to limit Istio's traffic interception to the service cluster IP range.
+
+   ```bash
+   kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=10.0.0.1/24)
+   ```
+
 On IBM Cloud Container Service, use:
 
 ```bash
