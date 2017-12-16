@@ -36,7 +36,7 @@ There are quite a few ways to get plugged in with the Istio community:
     </tr>
 
     <tr>
-      <td class="logo"><img src="{{home}}/img/stackoverflow.png" alt="Stack Overflow"/></td>
+      <td class="logo"><img src="{{home}}/img/stackoverflow.svg" alt="Stack Overflow"/></td>
       <td>
         <a href="https://stackoverflow.com/questions/tagged/istio">Stack Overflow</a> is for practical questions and curated answers
         on deploying, configuring, and using Istio.
@@ -49,7 +49,17 @@ There are quite a few ways to get plugged in with the Istio community:
         <a href="https://github.com/istio/community">GitHub</a> is where development takes place on Istio code.
       </td>
     </tr>
-
+    
+    <tr>
+      <td class="logo"><img src="{{home}}/img/drive.png" alt="Team Dive"/></td>
+      <td>
+        If you want to get into the nuts and bolts of Istio, check out our growing collection
+        of design documents. Join any of the Istio mailing lists mentioned above, and you'll
+        be able to access our
+        <a href="https://drive.google.com/corp/drive/u/0/folders/0AIS5p3eW9BCtUk9PVA">folder full of technical goodies</a>.
+      </td>
+    </tr>
+        
     <tr>
       <td class="logo"><img src="{{home}}/img/group.svg" alt="Working Groups"/></td>
       <td>

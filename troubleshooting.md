@@ -10,7 +10,7 @@ type: markdown
 
 Oh no! You're having trouble? Below is a list of solutions to common problems.
 
-> <img src="{{home}}/img/bulb.png" alt="Bulb" title="Help" style="width: 32px; display:inline" />
+> <img src="{{home}}/img/bulb.svg" alt="Bulb" title="Help" style="width: 32px; display:inline" />
 If you don't find what you need here, be sure to check out our [help page]({{home}}/help).
 
 ## No traces appearing in Zipkin when running Istio locally on Mac

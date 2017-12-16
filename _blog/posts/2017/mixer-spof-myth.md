@@ -9,9 +9,6 @@ order: 94
 
 layout: blog
 type: markdown
-redirect_from:
-  - "/blog/mixer-spof-myth.html"
-  - "/blog/"
 
 ---
 {% include home.html %}
