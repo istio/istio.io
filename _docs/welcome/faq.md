@@ -11,6 +11,9 @@ toc: false
 ---
 {% include home.html %}
 
+{% assign faq_category_dirs = "general,setup,security,mixer,traffic-management" | split: ',' %}
+{% assign faq_category_names = "General,Setup,Security,Mixer,Traffic Management" | split: ',' %}
+
 Here are some frequently asked questions about Istio.
  
 > <img src="{{home}}/img/bulb.svg" alt="Bulb" title="Help" style="width: 32px; display:inline" />
@@ -20,14 +23,14 @@ If you don't find what you're looking for here, check out our [help page]({{home
   <div class="col-md-2">
     <ul class="list-group help-group">
       <div class="faq-list list-group nav nav-tabs">
-        {% assign cats = site.faq_categories | sort: "order" %}
+        {% assign cats = faq_category_dirs %}
         {% for cat in cats %}
           {% assign active = "" %}
           {% if forloop.index == 1 %}
             {% assign active = "active" %}
           {% endif %}
           
-          <a href="#tab{{forloop.index}}" class="list-group-item {{active}}" role="tab" data-toggle="tab">{{cat.title}}</a>
+          <a href="#tab{{forloop.index}}" class="list-group-item {{active}}" role="tab" data-toggle="tab">{{faq_category_names[forloop.index0]}}</a>
         {% endfor %}
       </div>
     </ul>
@@ -36,7 +39,7 @@ If you don't find what you're looking for here, check out our [help page]({{home
   <div class="col-md-8">
     <div class="tab-content panels-faq">    
 
-      {% assign cats = site.faq_categories | sort: "order" %}
+      {% assign cats = faq_category_dirs %}
       {% for cat in cats %}
         {% assign catIndex = forloop.index %}
         
@@ -52,7 +55,7 @@ If you don't find what you're looking for here, check out our [help page]({{home
             {% for q in faqs %}
               {% assign comp = q.path | split: '/' %}
               {% assign qcat = comp[1] %}
-              {% if cat.name == qcat %}
+              {% if cat == qcat %}
        	        {% assign name = q.path | downcase | split: '/' | last | remove: ".md" %}
 
                 <div id="{{name}}" class="panel panel-default">

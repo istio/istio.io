@@ -28,8 +28,6 @@ compress_html:
 collections:
   faq:
     output: false
-  faq_categories:
-    output: false
   glossary:
     output: false
   blog:
