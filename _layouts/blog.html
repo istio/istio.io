@@ -18,6 +18,10 @@ layout: default
                     <a id="sidebar-tab" class="glyphicon glyphicon-chevron-left" href="javascript:void 0;"> </a>
                 </div>
 
+                <a class="rssLink" href="{{home}}/feed.xml">
+                    <img title="RSS" alt="RSS" src="{{home}}/img/rss.gif" width="36" height="14">
+                </a>
+
                 <div id="content-container" class="thin-left-border col-sm-9 {{ page.type }}">
                     {% if page.toc != false %}
                     <div id="toc" class="toc"></div>

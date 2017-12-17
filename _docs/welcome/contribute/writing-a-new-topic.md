@@ -27,7 +27,7 @@ is the best fit for your content:
     <td>A concept page explains some significant aspect of Istio. For example, a concept page might describe the 
     Mixer's configuration model and explain some of its subtleties.
     Typically, concept pages don't include sequences of steps, but instead provide links to
-    tasks or tutorials that do.</td>
+    tasks that do.</td>
   </tr>
 
   <tr>
@@ -50,6 +50,21 @@ is the best fit for your content:
     <td>A task page shows how to do a single thing, typically by giving a short sequence of steps. Task pages have minimal
     explanation, but often provide links to conceptual topics that provide related background and knowledge.</td>
   </tr>
+
+  <tr>
+    <td>Setup</td>
+    <td>A setup page is similar to a task page, except that it is focused on installation
+    ectivities.
+    </td>
+  </tr>
+  
+  <tr>
+    <td>Blog Post</td>
+    <td>
+      A blog post is a timely article on Istio or products and technologies related to it.
+      See <a href="#blog-posts">below</a> for additional information about creating blog posts.
+    </td>
+  </tr>
 </table>
 
 Each page type has a template file located in the corresponding directory which shows
@@ -61,14 +76,6 @@ copying the template.
 Choose a title for your topic that has the keywords you want search engines to find.
 Create a filename for your topic that uses the words in your title, separated by hyphens,
 all in lower case.
-
-For example, the topic with title TBD (`[TBD](/docs/tasks/tbd.html)`)
-has filename `tbd.md`. You don't need to put
-"Istio" in the filename, because "Istio" is already in the
-URL for the topic, for example:
-```
-{{home}}/docs/tasks/tbd.html
-```
 
 ## Updating the front matter
 
@@ -94,13 +101,17 @@ Copy the above at the start of your new markdown file and update
 the `<title>`, `<overview>` and `<order>` fields for your particular file. The available front
 matter fields are:
 
-|Field      | Description
-|-----------|------------
-|`title`    | The short title of the page
-|`overview` | a one-line description of what the topic is about
-|`order`    | integer used for sort order
-|`layout`   | indicates which of the Jekyll layouts this page uses
-|`index`    | indicates whether the page should appear in the doc's top nav tabs
+|Field          | Description
+|---------------|------------
+|`title`        | The short title of the page
+|`overview`     | a one-line description of what the topic is about
+|`order`        | integer used for sort order
+|`layout`       | indicates which of the Jekyll layouts this page uses
+|`index`        | indicates whether the page should appear in the doc's top nav tabs
+|`draft`        | when true, prevents the page from shownig up in any navigation area
+|`publish_date` | for blog posts, indicates the date of publication of the post
+|`subtitle`     | for blog posts, supplies an optional subtitle to be displayed below the main title
+|`attribution`  | for blog posts, supplies an optional author's name
 
 ## Choosing a directory
 
@@ -110,9 +121,18 @@ Depending on your page type, put your new file in a subdirectory of one of these
 * _docs/reference/
 * _docs/guides/
 * _docs/tasks/
+* _blog/posts/
 
 You can put your file in an existing subdirectory, or you can create a new
-subdirectory.
+subdirectory. For blog posts, put the file into a subdirectory for the current
+year (2017, 2018, etc)
+
+### Blog Posts
+
+When adding a new blog post, you need to go change the latest_blog_post value that's defined
+in the file _data/istio.yml to point to your post. This makes it so references to the latest
+blog post throughout the site point to the right place. For example, the Blog link in the
+top navigation area of the web site uses this value.
 
 ## Adding images to a topic
 
