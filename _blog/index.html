@@ -1,15 +1,15 @@
 ---
 layout: compress
 ---
-{% include home.html %}
+{% include latest_blog_post.html %}
 
 <!DOCTYPE html>
 <html lang="en-US">
   <meta charset="utf-8">
   <title>Redirecting…</title>
-  <link rel="canonical" href="{{home}}/blog/posts/{{site.data.istio.latest_blog_post}}">
-  <meta http-equiv="refresh" content="0; url={{home}}/blog/posts/{{site.data.istio.latest_blog_post}}">
+  <link rel="canonical" href="{{latest_blog_post}}">
+  <meta http-equiv="refresh" content="0; url={{latest_blog_post}}">
   <h1>Redirecting…</h1>
-  <a href="{{home}}/blog/posts/{{site.data.istio.latest_blog_post}}">Click here if you are not redirected.</a>
-  <script>location="{{home}}/blog/posts/{{site.data.istio.latest_blog_post}}"</script>
+  <a href="{{latest_blog_post}}">Click here if you are not redirected.</a>
+  <script>location="{{latest_blog_post}}"</script>
 </html>
