@@ -62,7 +62,6 @@ is the best fit for your content:
     <td>Blog Post</td>
     <td>
       A blog post is a timely article on Istio or products and technologies related to it.
-      See <a href="#blog-posts">below</a> for additional information about creating blog posts.
     </td>
   </tr>
 </table>
@@ -126,13 +125,6 @@ Depending on your page type, put your new file in a subdirectory of one of these
 You can put your file in an existing subdirectory, or you can create a new
 subdirectory. For blog posts, put the file into a subdirectory for the current
 year (2017, 2018, etc)
-
-### Blog Posts
-
-When adding a new blog post, you need to go change the latest_blog_post value that's defined
-in the file _data/istio.yml to point to your post. This makes it so references to the latest
-blog post throughout the site point to the right place. For example, the Blog link in the
-top navigation area of the web site uses this value.
 
 ## Adding images to a topic
 

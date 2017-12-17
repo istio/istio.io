@@ -1,3 +1,5 @@
+{% include latest_blog_post.html %}
+
 {% assign current = page.url | downcase | split: '/' %}
 
 {% if page.url == "/index.html" or page.url == "/" %}
@@ -32,7 +34,7 @@
           <div class="collapse navbar-collapse" id="navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
               <li><a href="{{home}}/about" {% if current[1] == 'about.html' %}class='current'{% endif %}>About</a></li>
-              <li><a href="{{home}}/blog/posts/{{site.data.istio.latest_blog_post}}" {% if current[1] == 'blog' %}class='current'{% endif %}>Blog</a></li>
+              <li><a href="{{latest_blog_post}}" {% if current[1] == 'blog' %}class='current'{% endif %}>Blog</a></li>
               <li><a href="{{home}}/docs/welcome" {% if current[1] == 'docs' %}class='current'{% endif %}>Docs</a></li>
               <li><a href="{{home}}/help" {% if current[1] == 'help.html' %}class='current'{% endif %}>Help</a></li>
               <li><a href="{{home}}/community" {% if current[1] == 'community.html' %}class='current'{% endif %}>Community</a></li>
