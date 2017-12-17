@@ -52,10 +52,12 @@ exclude:
   - .gitmodules
   - Vagrantfile
   - .vagrant
+  - _blog/posts/post.md.template
   - _docs/concepts/concept.md.template
   - _docs/tasks/task.md.template
   - _docs/guides/sample.md.template
   - _docs/reference/reference.md.template
+  - _docs/setup/setup.md.template
   - scripts/
   - Rakefile
   - Jenkinsfile

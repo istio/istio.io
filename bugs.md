@@ -16,5 +16,5 @@ we think we can fix it. If you don't find your problem in the database, please o
 and let us know what's
 going on.
 
-> <img src="{{home}}/img/bulb.png" alt="Bulb" title="Help" style="width: 32px; display:inline" />
+> <img src="{{home}}/img/bulb.svg" alt="Bulb" title="Help" style="width: 32px; display:inline" />
 Check out our [help page]({{home}}/help) for potential solutions to your problem.
