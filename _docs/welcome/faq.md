@@ -13,7 +13,7 @@ toc: false
 
 Here are some frequently asked questions about Istio.
  
-> <img src="{{home}}/img/bulb.png" alt="Bulb" title="Help" style="width: 32px; display:inline" />
+> <img src="{{home}}/img/bulb.svg" alt="Bulb" title="Help" style="width: 32px; display:inline" />
 If you don't find what you're looking for here, check out our [help page]({{home}}/help).
 
 <div class="container">
