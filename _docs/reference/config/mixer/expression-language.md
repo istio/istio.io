@@ -27,13 +27,18 @@ CEXL supports the following functions.
 |Operator/Function |Definition |Example | Description
 |-----------------------------------------
 |`==` |Equals |`request.size == 200` 
-|`match` | Glob match |`match(destination.service, "*.ns1.svc.cluster.local")` | Matches prefix or suffix based on the location of `*`
 |`!=` |Not Equals |`request.user != "admin"`
 |`||` |Logical OR | `(request.size == 200) || (request.user == "admin")` 
 |`&&` |Logical AND | `(request.size == 200) && (request.user == "admin")` 
 |`[ ]` |Map Access | `request.headers["x-id"]`
 |`|` |First non empty | `source.labels["app"] | source.labels["svc"] | "unknown"`
+|`match` | Glob match |`match(destination.service, "*.ns1.svc.cluster.local")` | Matches prefix or suffix based on the location of `*`
 |`ip` | Convert a textual IPv4 address into the `IP_ADDRESS` type | `source.ip == ip("10.11.12.13")` | Use the `ip` function to create an `IP_ADDRESS` literal.
+|`timestamp` | Convert a textual timestamp in RFC 3339 format into the `TIMESTAMP` type |`timestamp("2015-01-02T15:04:35Z")` | Use the `timestamp` function to create a `TIMESTAMP` literal.
+|`.matches` | Regular expression match | `"svc.*".matches(destination.service)` | Matches `destination.service` against regular expression pattern `"svc.*"`. 
+|`.startsWith` | string prefix match | `destination.service.startsWith("acme")` | Checks whether `destination.service` starts with `"acme"`.  
+|`.endsWith` | string postfix match | `destination.service.endsWith("acme")`  | Checks whether `destination.service` ends with `"acme"`.
+
 
 ## Type checking
 
