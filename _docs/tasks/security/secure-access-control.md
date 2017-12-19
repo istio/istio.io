@@ -30,8 +30,15 @@ For the format of the service account in Istio, please refer to the
   and redeploy the service `productpage` with the service account.
 
   ```bash
-  kubectl create -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-add-serviceaccount.yaml)
+  kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-add-serviceaccount.yaml)
   ```
+
+  You can expect to see the output similar to the following:
+  ```bash
+  serviceaccount "bookinfo-productpage" created
+  deployment "productpage-v1" configured
+  ```
+
 
   > Note: if you are using a namespace other than `default`,
     use `istioctl -n namespace ...` to specify the namespace.
@@ -61,10 +68,10 @@ the `productpage` service.
    ```
    Notice the following in the `denyproductpage` rule:
    ```
-   match: destination.labels["app"] == "details" && source.user == "spiffe://cluster.local/ns/default/sa/bookinfo-productpage"
+   match: destination.labels["app"] == "details" && source.user == "cluster.local/ns/default/sa/bookinfo-productpage"
    ```
    It matches requests coming from the serivce account
-   "_spiffe://cluster.local/ns/default/sa/bookinfo-productpage_" on the `details` service.   
+   "_cluster.local/ns/default/sa/bookinfo-productpage_" on the `details` service.
    > Note:  If you are using a namespace other than `default`, replace the `default` with your namespace in the value of `source.user`.
 
    This rule uses the `denier` adapter to deny these requests.
