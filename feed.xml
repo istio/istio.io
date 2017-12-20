@@ -1,29 +1,39 @@
 ---
 layout: null
 ---
-{% include home.html %}
-
+{%- assign root = "https://istio.io" -%}
+<?xml version="1.0"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Istio</title>
+    <title>Istio Blog</title>
     <description>An open platform to connect, manage, and secure microservices.</description>
     <pubDate>{{ site.time | date_to_xmlschema }}</pubDate>
-    <link>{{home}}/index.html</link>
+    <link>{{root}}</link>
     <image>
-      <url>img/android-chrome-96x96.png</url>
-      <link>{{home}}/index.html</link>
+      <url>{{root}}/favicons/android-192x192.png</url>
+      <link>{{root}}</link>
     </image>
-    {% for post in site.posts %}
-      {% unless post.draft %}
-        <item>
-          <title>{{ post.title | xml_escape }}</title>
-          <description>{{ post.overview | xml_escape }}</description>
-          <pubDate>{{ post.date | date_to_xmlschema }}</pubDate>
-          <link>{{ post.url | prepend: site.github.url }}</link>
-          <author>{{ post.attribution }}</author>
-          <guid isPermaLink="true">{{ post.url | prepend: site.github.url }}</guid>
-        </item>
-      {% endunless %}
-    {% endfor %}
+
+    {%- assign sorted = site.blog | sort: "url" -%}
+    {%- for post in sorted -%}
+      {%- if post.draft == true -%}
+        {%- continue -%}
+      {%- endif -%}
+
+      {%- assign path = post.url | split: "/" -%}
+      {%- assign name = path | last -%}
+      {%- if name == "index.html" -%}
+        {%- continue -%}
+      {% endif %}
+
+      <item>
+        <title>{{ post.title | xml_escape }}</title>
+        <description>{{ post.overview | xml_escape }}</description>
+        <pubDate>{{ post.publish_date | date_to_xmlschema }}</pubDate>
+        <link>{{root}}{{ post.url }}</link>
+        <author>{{ post.attribution }}</author>
+        <guid isPermaLink="true">{{root}}{{ post.url }}</guid>
+      </item>
+    {%- endfor -%}
   </channel>
 </rss>
