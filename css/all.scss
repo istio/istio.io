@@ -10,11 +10,12 @@
 @import "base/markdown";
 
 @import "modules/buttons";
-@import "modules/doc-nav";
+@import "modules/doctab";
 @import "modules/footer";
 @import "modules/nav";
 @import "modules/search-box";
 @import "modules/section-index";
+@import "modules/sidebar";
 @import "modules/toc";
 
 @import "layouts/about";
@@ -27,6 +28,5 @@
 @import "layouts/help";
 @import "layouts/landing";
 @import "layouts/notfound";
-@import "layouts/post";
 @import "layouts/search-results";
 @import "layouts/troubleshooting";

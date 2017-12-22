@@ -63,7 +63,6 @@ support).
 with UID 0 for Istio's service accounts for ingress and egress:
   ```bash
   oc adm policy add-scc-to-user anyuid -z istio-ingress-service-account -n istio-system
-  oc adm policy add-scc-to-user anyuid -z istio-egress-service-account -n istio-system
   oc adm policy add-scc-to-user anyuid -z default -n istio-system
   ```
 
@@ -132,13 +131,12 @@ run the following command to download and extract the latest release automatical
 ## Verifying the installation
 
 1. Ensure the following Kubernetes services are deployed: `istio-pilot`, `istio-mixer`,
-   `istio-ingress`, `istio-egress`.
+   `istio-ingress`.
   ```bash
   kubectl get svc -n istio-system
   ```
   ```bash
   NAME            CLUSTER-IP      EXTERNAL-IP       PORT(S)                       AGE
-  istio-egress    10.83.247.89    <none>            80/TCP                        5h
   istio-ingress   10.83.245.171   35.184.245.62     80:32730/TCP,443:30574/TCP    5h
   istio-pilot     10.83.251.173   <none>            8080/TCP,8081/TCP             5h
   istio-mixer     10.83.244.253   <none>            9091/TCP,9094/TCP,42422/TCP   5h
@@ -149,14 +147,13 @@ run the following command to download and extract the latest release automatical
    application using the service NodePort, or use port-forwarding instead.
 
 2. Ensure the corresponding Kubernetes pods are deployed and all containers are up and running:
-   `istio-pilot-*`, `istio-mixer-*`, `istio-ingress-*`, `istio-egress-*`, `istio-ca-*`,
+   `istio-pilot-*`, `istio-mixer-*`, `istio-ingress-*`, `istio-ca-*`,
    and, optionally, `istio-initializer-*`.
   ```bash
   kubectl get pods -n istio-system
   ```
   ```bash
   istio-ca-3657790228-j21b9           1/1       Running   0          5h
-  istio-egress-1684034556-fhw89       1/1       Running   0          5h
   istio-ingress-1842462111-j3vcs      1/1       Running   0          5h
   istio-initializer-184129454-zdgf5   1/1       Running   0          5h
   istio-pilot-2275554717-93c43        1/1       Running   0          5h

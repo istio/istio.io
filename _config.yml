@@ -17,9 +17,6 @@ liquid:
 sass:
   style: compressed
 
-paginate: 5
-paginate_path: "/blog/page:num/"
-
 excerpt_separator: <!--end_excerpt-->
 
 compress_html:
@@ -31,10 +28,10 @@ compress_html:
 collections:
   faq:
     output: false
-  faq_categories:
-    output: false
   glossary:
     output: false
+  blog:
+    output: true
   docs:
     output: true
 
@@ -53,10 +50,12 @@ exclude:
   - .gitmodules
   - Vagrantfile
   - .vagrant
+  - _blog/posts/post.md.template
   - _docs/concepts/concept.md.template
   - _docs/tasks/task.md.template
   - _docs/guides/sample.md.template
   - _docs/reference/reference.md.template
+  - _docs/setup/setup.md.template
   - scripts/
   - Rakefile
   - Jenkinsfile

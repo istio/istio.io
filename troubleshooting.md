@@ -10,7 +10,7 @@ type: markdown
 
 Oh no! You're having trouble? Below is a list of solutions to common problems.
 
-> <img src="{{home}}/img/bulb.png" alt="Bulb" title="Help" style="width: 32px; display:inline" />
+> <img src="{{home}}/img/bulb.svg" alt="Bulb" title="Help" style="width: 32px; display:inline" />
 If you don't find what you need here, be sure to check out our [help page]({{home}}/help).
 
 ## No traces appearing in Zipkin when running Istio locally on Mac
@@ -56,6 +56,17 @@ server {
     }
 }
 ```
+
+## No grafana output when connecting from a local web client to Istio remotely hosted
+
+Validate the client and server date and time match.
+
+The time of the web client (e.g. Chrome) affects the output from Grafana. A simple solution
+to this problem is to verify a time synchronization service is running correctly within the
+Kubernetes cluster and the web client machine also is correctly using a time synchronization
+service. Some common time synchronization systems are NTP and Chrony. This is especially
+problematic is engineering labs with firewalls. In these scenarios, NTP may not be configured
+properly to point at the lab-based NTP services.
 
 ## Where are the metrics for my service?
 

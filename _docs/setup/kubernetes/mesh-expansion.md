@@ -228,7 +228,7 @@ sudo systemctl status istio-auth-node-agent
 ● istio-auth-node-agent.service - istio-auth-node-agent: The Istio auth node agent
    Loaded: loaded (/lib/systemd/system/istio-auth-node-agent.service; disabled; vendor preset: enabled)
    Active: active (running) since Fri 2017-10-13 21:32:29 UTC; 9s ago
-     Docs: http://istio.io/
+     Docs: https://istio.io/
  Main PID: 6941 (node_agent)
     Tasks: 5
    Memory: 5.9M
