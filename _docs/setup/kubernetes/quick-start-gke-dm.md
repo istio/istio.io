@@ -39,13 +39,18 @@ This Quick Start creates a new GKE cluster, installs Istio and then deploys the 
 1. Once you have an account and project enabled, click the following link to open the Deployment Manager.
 
    - [Istio GKE Deployment
-  Manager](https://accounts.google.com/signin/v2/identifier?service=cloudconsole&continue=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/master/install/gcp/deployment_manager/istio-cluster.jinja&followup=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/master/install/gcp/deployment_manager/istio-cluster.jinja&flowName=GlifWebSignIn&flowEntry=ServiceLogin){:target="_blank"}
+Manager](https://accounts.google.com/signin/v2/identifier?service=cloudconsole&continue=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/master/install/gcp/deployment_manager/istio-cluster.jinja&followup=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/master/install/gcp/deployment_manager/istio-cluster.jinja&flowName=GlifWebSignIn&flowEntry=ServiceLogin){:target="_blank"}
 
    We recommend that you leave the default settings as the rest of this tutorial shows how to access the installed features. By default the tool creates a GKE alpha cluster with the specified settings, then installs the Istio [control plane](https://istio.io/docs/concepts/what-is-istio/overview.html#architecture){:target="_blank"}, the [BookInfo](https://istio.io/docs/guides/bookinfo.html){:target="_blank"} sample app, [Grafana](https://istio.io/docs/tasks/telemetry/using-istio-dashboard.html){:target="_blank"} with [Prometheus](https://istio.io/docs/tasks/telemetry/querying-metrics.html){:target="_blank"}, [ServiceGraph](https://istio.io/docs/tasks/telemetry/servicegraph.html){:target="_blank"}, and [Zipkin](https://istio.io/docs/tasks/telemetry/distributed-tracing.html#zipkin){:target="_blank"}. You'll find out more about how to access all of these below.
 
 2. Click **Deploy**:
 
-   ![GKE-Istio Launcher](img/dm_launcher.png)
+   {% include figure.html width="100%" ratio="67.17%"
+    img='./img/dm_launcher.png'
+    alt='GKE-Istio Launcher'
+    title='GKE-Istio Launcher'
+    caption='GKE-Istio Launcher'
+    %}
 
    Wait until Istio is fully deployed. Note that this can take up to five minutes.
 
@@ -117,7 +122,12 @@ Note down the IP and Port assigned to BookInfo product page. (in the example abo
 
 You can also view the installation using the ***Kubernetes Engine -> Workloads** section on the [Cloud Console](https://console.cloud.google.com/kubernetes/workload){:target="_blank"}:
 
-![GKE-Workloads](img/dm_kubernetes_workloads.png)
+{% include figure.html width="100%" ratio="65.37%"
+    img='./img/dm_kubernetes_workloads.png'
+    alt='GKE-Workloads'
+    title='GKE-Workloads'
+    caption='GKE-Workloads'
+    %}
 
 ### Access the BookInfo sample
 
@@ -132,7 +142,12 @@ You can also view the installation using the ***Kubernetes Engine -> Workloads**
 
 2. Verify you can access the BookInfo ```http://${GATEWAY_URL}/productpage```:
 
-   ![BookInfo](img/dm_bookinfo.png)
+   {% include figure.html width="100%" ratio="45.04%"
+    img='./img/dm_bookinfo.png'
+    alt='BookInfo'
+    title='BookInfo'
+    caption='BookInfo'
+    %}
 
 3. Now send some traffic to it:
    ```bash
@@ -158,7 +173,12 @@ then
 ```
 You should see some statistics for the requests you sent earlier.
 
-![Grafana](img/dm_grafana.png)
+{% include figure.html width="100%" ratio="48.49%"
+    img='./img/dm_grafana.png'
+    alt='Grafana'
+    title='Grafana'
+    caption='Grafana'
+    %}
 
 For more details about using Grafana, see [About the Grafana Add-on](/docs/tasks/telemetry/using-istio-dashboard.html#about-the-grafana-add-on).
 
@@ -177,7 +197,12 @@ View the console at:
  http://localhost:9090/graph
 ```
 
-![Prometheus](img/dm_prometheus.png)
+{% include figure.html width="100%" ratio="43.88%"
+    img='./img/dm_prometheus.png'
+    alt='Prometheus'
+    title='Prometheus'
+    caption='Prometheus'
+    %}
 
 For more details, see [About the Prometheus Add-on](/docs/tasks/telemetry/querying-metrics.html#about-the-prometheus-add-on).
 
@@ -194,7 +219,12 @@ You should see the BookInfo service topology at
 http://localhost:8088/dotviz
 ```
 
-![ServiceGraph](img/dm_servicegraph.png)
+{% include figure.html width="100%" ratio="53.33%"
+    img='./img/dm_servicegraph.png'
+    alt='ServiceGraph'
+    title='ServiceGraph'
+    caption='ServiceGraph'
+    %}
 
 For more details, see [About the ServiceGraph Add-on](/docs/tasks/telemetry/servicegraph.html#about-the-servicegraph-add-on).
 
@@ -212,8 +242,12 @@ You should see the trace statistics sent earlier:
 http://localhost:9411
 ```
 
-![Zipkin](img/dm_zipkin.png)
-
+{% include figure.html width="100%" ratio="57.00%"
+    img='./img/dm_zipkin.png'
+    alt='Zipkin'
+    title='Zipkin'
+    caption='Zipkin'
+    %}
 
 For more details on tracing see [Understanding what happened](/docs/tasks/telemetry/distributed-tracing.html#understanding-what-happened).
 
