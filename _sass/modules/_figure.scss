@@ -1,0 +1,27 @@
+.figure {
+    margin: 1.5rem auto;
+    display: block;
+    border: 1px solid rgba(0, 0, 0, .1);
+    border-radius: 4px;
+    padding: .5rem .5rem 0 .5rem;
+
+    p {
+        text-align: center;
+        font-size: $font-size--s;
+        font-style: italic;
+        font-weight: 300;
+    }
+
+    .wrapper-with-intrinsic-ratio {
+        position: relative;
+        height: 0;
+    }
+
+    .element-to-stretch {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+}

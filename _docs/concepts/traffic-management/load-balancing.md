@@ -24,8 +24,12 @@ registry and provides a platform-agnostic service discovery
 interface. Envoy instances in the mesh perform service discovery and 
 dynamically update their load balancing pools accordingly.
 
-<figure><img src="./img/pilot/LoadBalancing.svg" alt="Discovery and Load Balancing" title="Discovery and Load Balancing" />
-<figcaption>Discovery and Load Balancing</figcaption></figure>
+{% include figure.html width='60%' ratio='74.79%'
+    img='./img/pilot/LoadBalancing.svg'
+    alt='Discovery and Load Balancing'
+    title='Discovery and Load Balancing'
+    caption='Discovery and Load Balancing'
+    %}
 
 As illustrated in the figure above, services in the mesh access each other
 using their DNS names. All HTTP traffic bound to a service is automatically

@@ -9,7 +9,7 @@ type: markdown
 redirect_from:
   - "/docs/reference/release-notes.html"
   - "/release-notes"
+toc: false  
 ---
 
-{% assign docs = site.docs %}
-{% include section-index.html %}
+{% include section-index.html docs=site.docs %}

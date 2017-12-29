@@ -50,9 +50,9 @@ Quick Start instructions to install and configure Istio in a Docker Compose setu
 
 1. Bring up the Istio control plane containers:
 
-    ```bash
-    docker-compose -f install/consul/istio.yaml up -d
-    ```
+   ```bash
+   docker-compose -f install/consul/istio.yaml up -d
+   ```
 
 1. Confirm that all docker containers are running:
 
@@ -64,9 +64,9 @@ Quick Start instructions to install and configure Istio in a Docker Compose setu
     
 1. Configure `istioctl` to use mapped local port for the Istio API server:
 
-    ```bash
-    istioctl context-create --api-server http://localhost:8080
-    ```
+   ```bash
+   istioctl context-create --api-server http://localhost:8080
+   ```
 
 ## Deploy your application
 
