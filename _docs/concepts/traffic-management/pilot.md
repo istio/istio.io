@@ -11,8 +11,12 @@ type: markdown
 Pilot is responsible for the lifecycle of Envoy instances deployed
 across the Istio service mesh.
 
-<figure><img src="./img/pilot/PilotAdapters.svg" alt="Pilot's overall architecture." title="Pilot Architecture" />
-<figcaption>Pilot Architecture</figcaption></figure>
+{% include figure.html width='60%' ratio='72.17%'
+    img='./img/pilot/PilotAdapters.svg'
+    alt="Pilot's overall architecture."
+    title='Pilot Architecture'
+    caption='Pilot Architecture'
+    %}
 
 As illustrated in the figure above, Pilot maintains a canonical
 representation of services in the mesh that is independent of the underlying

@@ -32,8 +32,13 @@ Adapters are Go packages that are directly linked into the Mixer binary. It’s 
 
 Mixer is essentially an attribute processing and routing machine. The proxy sends it [attributes]({{home}}/docs/concepts/policy-and-control/attributes.html) as part of doing precondition checks and telemetry reports, which it turns into a series of calls into adapters. The operator supplies configuration which describes how to map incoming attributes to inputs for the adapters. 
 
-<figure><img src="{{home}}/docs/concepts/policy-and-control/img/mixer-config/machine.svg" alt="Attribute Machine" title="Attribute Machine" />
-<figcaption>Attribute Machine</figcaption></figure>
+{% assign url = home | append: "/docs/concepts/policy-and-control/img/mixer-config/machine.svg" %}
+{% include figure.html width='60%' ratio='42.60%'
+    img=url
+    alt='Attribute Machine'
+    title='Attribute Machine'
+    caption='Attribute Machine'
+    %}
 
 Configuration is a complex task. In fact, evidence shows that the overwhelming majority of service outages are caused by configuration errors. To help combat this, Mixer’s configuration model enforces a number of constraints designed to avoid errors. For example, the configuration model uses strong typing to ensure that only meaningful attributes or attribute expressions are used in any given context.
 
@@ -84,4 +89,6 @@ The refreshed Mixer adapter model is designed to provide a flexible framework to
 
 Handlers provide configuration data for individual adapters, templates determine exactly what kind of data different adapters want to consume at runtime, instances let operators prepare this data, rules direct the data to one or more handlers.
 
-You can learn more about the overall Mixer architecture [here]({{home}}/docs/concepts/policy-and-control/), and learn the specifics of templates, handlers, and rules [here]({{home}}/docs/reference/config/mixer/). You can find many examples of Mixer configuration resources in the bookinfo sample [here](https://github.com/istio/istio/tree/master/samples/bookinfo/kube).
+You can learn more about Mixer's overall architecture [here]({{home}}/docs/concepts/policy-and-control/), and learn the specifics of templates, handlers,
+and rules [here]({{home}}/docs/reference/config/mixer/). You can find many examples of Mixer configuration resources in the BookInfo sample
+[here](https://github.com/istio/istio/tree/master/samples/bookinfo/kube).

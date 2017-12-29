@@ -34,8 +34,12 @@ There are 3 versions of the reviews microservice:
 
 The end-to-end architecture of the application is shown below.
 
-<figure><img src="./img/bookinfo/noistio.svg" alt="BookInfo Application without Istio" title="BookInfo Application without Istio" />
-<figcaption>BookInfo Application without Istio</figcaption></figure>
+{% include figure.html width='80%' ratio='68.52%'
+    img='./img/bookinfo/noistio.svg'
+    alt='BookInfo Application without Istio'
+    title='BookInfo Application without Istio'
+    caption='BookInfo Application without Istio'
+    %}
 
 This application is polyglot, i.e., the microservices are written in different languages.
 It’s worth noting that these services have no dependencies on Istio, but make an interesting
@@ -55,8 +59,12 @@ Istio-enabled environment, with Envoy sidecars injected along side each service.
 The needed commands and configuration vary depending on the runtime environment
 although in all cases the resulting deployment will look like this:
 
-<figure><img src="./img/bookinfo/withistio.svg" alt="BookInfo Application" title="BookInfo Application" />
-<figcaption>BookInfo Application</figcaption></figure>
+{% include figure.html width='80%' ratio='59.08%'
+    img='./img/bookinfo/withistio.svg'
+    alt='BookInfo Application'
+    title='BookInfo Application'
+    caption='BookInfo Application'
+    %}
 
 All of the microservices will be packaged with an Envoy sidecar that intercepts incoming
 and outgoing calls for the services, providing the hooks needed to externally control,
