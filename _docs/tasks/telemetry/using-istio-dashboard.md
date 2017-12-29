@@ -66,9 +66,12 @@ the example application throughout this task.
 
     The Istio Dashboard will look similar to:
 
-<figure><img style="max-width:100%" src="./img/grafana-istio-dashboard.png"
-alt="Istio Dashboard" title="Istio Dashboard" /> <figcaption>Istio
-Dashboard</figcaption></figure>
+{% include figure.html width='100%' ratio='56.57%'
+    img='./img/grafana-istio-dashboard.png'
+    alt='Istio Dashboard'
+    title='Istio Dashboard'
+    caption='Istio Dashboard'
+    %}
 
 1. Send traffic to the mesh.
 
@@ -85,9 +88,12 @@ Dashboard</figcaption></figure>
    Look at the Istio Dashboard again. It should reflect the traffic that was
    generated. It will look similar to:
 
-<figure><img style="max-width:100%" src="./img/dashboard-with-traffic.png"
-alt="Istio Dashboard With Traffic" title="Istio Dashboard With Traffic" />
-<figcaption>Istio Dashboard With Traffic</figcaption></figure>
+{% include figure.html width='100%' ratio='56.57%'
+    img='./img/dashboard-with-traffic.png'
+    alt='Istio Dashboard With Traffic'
+    title='Istio Dashboard With Traffic'
+    caption='Istio Dashboard With Traffic'
+    %}
 
    Note: `$GATEWAY_URL` is the value set in the
    [BookInfo]({{home}}/docs/guides/bookinfo.html) guide.
