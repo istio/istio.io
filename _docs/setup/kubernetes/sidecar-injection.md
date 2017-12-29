@@ -285,43 +285,43 @@ The following are key parameters in the configuration:
 
 1. _**policy**_
 
- `off` - Disable the initializer from modifying resources. The pending
- `sidecar.initializer.istio.io` initializer is still removed to
- avoid blocking creation of resources.
-
- `disabled` - The initializer will not inject the sidecar into
- resources by default for the namespace(s) being watched. Resources can
- enable injection using the `sidecar.istio.io/inject` annotation with
- value of `true`.
-
- `enabled` - The initializer will inject the sidecar into resources by
- default for the namespace(s) being watched. Resources can disable
- injection using the `sidecar.istio.io/inject` annotation with value of
- `false`.
+    `off` - Disable the initializer from modifying resources. The pending
+    `sidecar.initializer.istio.io` initializer is still removed to
+    avoid blocking creation of resources.
+    
+    `disabled` - The initializer will not inject the sidecar into
+    resources by default for the namespace(s) being watched. Resources can
+    enable injection using the `sidecar.istio.io/inject` annotation with
+    value of `true`.
+    
+    `enabled` - The initializer will inject the sidecar into resources by
+    default for the namespace(s) being watched. Resources can disable
+    injection using the `sidecar.istio.io/inject` annotation with value of
+    `false`.
 
 2. _**namespaces**_
 
- This is a list of namespaces to watch and initialize. The special `""`
- namespace corresponds to `v1.NamespaceAll` and configures the
- initializer to initialize all namespaces. kube-system, kube-public, and 
- istio-system are exempt from initialization.
+    This is a list of namespaces to watch and initialize. The special `""`
+    namespace corresponds to `v1.NamespaceAll` and configures the
+    initializer to initialize all namespaces. kube-system, kube-public, and 
+    istio-system are exempt from initialization.
 
 3. _**excludeNamespaces**_
 
- This is a list of namespaces to be excluded from istio initializer. It
- cannot be definend as `v1.NamespaceAll` or defined together with
- `namespaces`.
+    This is a list of namespaces to be excluded from istio initializer. It
+    cannot be definend as `v1.NamespaceAll` or defined together with
+    `namespaces`.
 
 4. _**initializerName**_
 
- This must match the name of the initializer in the
- InitializerConfiguration. The initializer only processes workloads
- that match its configured name.
+    This must match the name of the initializer in the
+    InitializerConfiguration. The initializer only processes workloads
+    that match its configured name.
 
 5. _**params**_
 
- These parameters allow you to make limited changes to the injected
- sidecar. Changing these values will not affect already deployed workloads.
+    These parameters allow you to make limited changes to the injected
+    sidecar. Changing these values will not affect already deployed workloads.
 
 ### Overriding automatic injection
 
