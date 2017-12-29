@@ -228,7 +228,8 @@ func HelloWorld() {
 }
 ```
 
-You can use `markdown`, `yaml`, `json`, `java`, `javascript`, `c`, `cpp`, `csharp`, `go`, `html`, `protobuf`, and `bash`.
+You can use `markdown`, `yaml`, `json`, `java`, `javascript`, `c`, `cpp`, `csharp`, `go`, `html`, `protobuf`, 
+`perl`, `docker`, and `bash`.
 
 ### Displaying file content
 

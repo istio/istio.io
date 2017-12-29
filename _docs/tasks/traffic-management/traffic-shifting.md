@@ -45,9 +45,9 @@ two steps: 50%, 100%.
    > Note: If you previously ran the [request routing](./request-routing.html) task, you may need to either log out
      as test user "jason" or delete the test rules that were created exclusively for him:
 
-     ```bash
-     istioctl delete routerule reviews-test-v2
-     ```
+   ```bash
+   istioctl delete routerule reviews-test-v2
+   ```
 
 1. First, transfer 50% of the traffic from `reviews:v1` to `reviews:v3` with the following command:
 

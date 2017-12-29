@@ -169,7 +169,7 @@ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=gr
 ```
 then
 ```
- http://localhost:3000/dashboard/db/istio-dashboard
+http://localhost:3000/dashboard/db/istio-dashboard
 ```
 You should see some statistics for the requests you sent earlier.
 
@@ -194,7 +194,7 @@ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=pr
 View the console at:
 
 ```
- http://localhost:9090/graph
+http://localhost:9090/graph
 ```
 
 {% include figure.html width="100%" ratio="43.88%"
