@@ -1,12 +1,12 @@
 ---
-title: 2017
+title: 2017 Posts
 overview: Blog posts for 2017
 
 order: 10
 
 layout: blog
 type: markdown
+toc: false
 ---
 
-{% assign docs = site.blog %}
-{% include section-index.html %}
+{% include section-index.html docs=site.blog %}

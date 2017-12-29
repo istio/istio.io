@@ -7,7 +7,7 @@ order: 10
 layout: docs
 type: markdown
 redirect_from: "/docs/tasks/installing-istio.html"
+toc: false
 ---
 
-{% assign docs = site.docs %}
-{% include section-index.html %}
+{% include section-index.html docs=site.docs %}
