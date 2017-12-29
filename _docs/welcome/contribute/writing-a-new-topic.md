@@ -136,24 +136,21 @@ SVG file in the repository even if it isn't used in the web
 site itself. This is so we can update the imagery over time 
 if needed.
 
-Within markdown, use the `figure` element to add the image:
+Within markdown, use the following sequence to add the image:
 
 ```html
-{% raw %}<figure>
-<img src="./img/myfile.svg" alt="Some description for accessibility" titla="A title displayed as a tooltip"/>
-<figcaption>A caption displayed under the image</figcaption>
-</figure>{% endraw %}
+{% raw %}
+{% include figure.html width='75%' ratio='69.52%'
+    img='./img/myfile.svg'
+    alt='Alternate text to display when the image is not available'
+    title='A tooltip displayed when hovering over the image'
+    caption='A caption displayed under the image'
+    %}
+{% endraw %}
 ```
 
-This will insert the image centered with a width of 75% and the given caption under it. You can
-adjust the width using a style element such as:
- 
-```html
-{% raw %}<figure>
-<img style="max-width: 32%;" src="./img/myfile.svg" alt="Some description for accessibility" titla="A title displayed as a tooltip"/>
-<figcaption>A caption displayed under the image</figcaption>
-</figure>{% endraw %}
-```
+You need to fill in all the values. The width represents the percentage of space used by the image
+relative to the surrounding text. The ratio is (image height / image width) * 100.
 
 ## Linking to other pages
 

@@ -81,9 +81,12 @@ the example application throughout this task.
 
     The results will look similar to:
 
-<figure><img style="max-width:100%" src="./img/servicegraph-example.png"
-alt="Example Servicegraph" title="Example Servicegraph" /> <figcaption>Example
-Servicegraph</figcaption></figure>
+{% include figure.html width='100%' ratio='63.16%'
+    img='./img/servicegraph-example.png'
+    alt='Example Servicegraph'
+    title='Example Servicegraph'
+    caption='Example Servicegraph'
+    %}
 
 ### About the Servicegraph Add-on
 

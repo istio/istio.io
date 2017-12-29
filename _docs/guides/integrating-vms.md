@@ -18,9 +18,12 @@ this infrastructure as a single mesh.
 
 ## Overview
 
-
-<figure><img src="./img/mesh-expansion.svg" alt="BookInfo Application with Istio Mesh Expansion" title="BookInfo Application with Istio Mesh Expansion" />
-<figcaption>BookInfo Application with Istio Mesh Expansion</figcaption></figure>
+{% include figure.html width='80%' ratio='56.78%'
+    img='./img/mesh-expansion.svg'
+    alt='BookInfo Application with Istio Mesh Expansion'
+    title='BookInfo Application with Istio Mesh Expansion'
+    caption='BookInfo Application with Istio Mesh Expansion'
+    %}
 
 <!-- source of the drawing https://docs.google.com/drawings/d/1gQp1OTusiccd-JUOHktQ9RFZaqREoQbwl2Vb-P3XlRQ/edit -->
 

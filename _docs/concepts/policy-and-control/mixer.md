@@ -29,9 +29,12 @@ Mixer is designed to change the boundaries between layers in order to reduce
 systemic complexity, eliminating policy logic from service code and giving
 control to operators instead.
 
-<figure><img style="max-width:60%;" src="./img/mixer/traffic.svg" alt="Showing
-the flow of traffic through Mixer." title="Mixer Traffic Flow" />
-<figcaption>Mixer Traffic Flow</figcaption></figure>
+{% include figure.html width='60%' ratio='59%'
+    img='./img/mixer/traffic.svg'
+    alt='Showing the flow of traffic through Mixer.'
+    title='Mixer Traffic Flow'
+    caption='Mixer Traffic Flow'
+    %}
 
 Mixer provides three core features:
 
@@ -69,8 +72,12 @@ single consistent API, independent of the backends in use. The exact set of
 adapters used at runtime is determined through configuration and can easily be
 extended to target new or custom infrastructure backends.
 
-<figure><img style="max-width:35%;" src="./img/mixer/adapters.svg" alt="Showing
-Mixer with adapters." title="Mixer and its Adapters" /></figure>
+{% include figure.html width='35%' ratio='138%'
+    img='./img/mixer/adapters.svg'
+    alt='Showing Mixer with adapters.'
+    title='Mixer and its Adapters'
+    caption='Mixer and its Adapters'
+    %}
 
 ## Configuration state
 
@@ -129,9 +136,12 @@ phases:
   parameters. The Adapter Dispatching phase invokes the adapters associated with
   each aspect and passes them those parameters.
 
-<figure><img style="max-width:50%;" src="./img/mixer/phases.svg" alt="Phases of
-Mixer request processing." title="Request Phases" /> <figcaption>Request
-Phases</figcaption></figure>
+{% include figure.html width='50%' ratio='144%'
+    img='./img/mixer/phases.svg'
+    alt='Phases of Mixer request processing.'
+    title='Request Phases'
+    caption='Request Phases'
+    %}
 
 ## What's next
 

@@ -239,8 +239,12 @@ Mixer at both connection establishment and connection close. Additionally,
 context attributes provide the ability to distinguish between `http` and `tcp`
 protocols within policies.
 
-<figure><img style="max-width:100%;" src="./img/istio-tcp-attribute-flow.svg" alt="Attribute Generation Flow for TCP Services in an Istio Mesh." title="TCP Attribute Flow" />
-<figcaption>TCP Attribute Flow</figcaption></figure>
+{% include figure.html width='100%' ratio='192.50%'
+    img='./img/istio-tcp-attribute-flow.svg'
+    alt='Attribute Generation Flow for TCP Services in an Istio Mesh.'
+    title='TCP Attribute Flow'
+    caption='TCP Attribute Flow'
+    %}
 
 ## Cleanup
 
