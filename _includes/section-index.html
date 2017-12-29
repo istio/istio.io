@@ -5,7 +5,7 @@
 <script type="text/javascript">
 	var docs = [];
 
-	{% for d in docs %}
+	{% for d in include.docs %}
         {% if d.draft == true %}
             {% continue %}
         {% endif %}
