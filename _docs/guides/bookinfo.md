@@ -191,12 +191,12 @@ To start the application, follow the instructions below corresponding to your Is
     * To test with Consul, run the following commands:
       ```bash
       docker-compose -f samples/bookinfo/consul/bookinfo.yaml up -d
-      docker-compose -f samples/bookinfo/consul/bookinfo.sidecar.yaml up -d
+      docker-compose -f samples/bookinfo/consul/bookinfo.sidecars.yaml up -d
       ```
     * To test with Eureka, run the following commands:
       ```bash
       docker-compose -f samples/bookinfo/eureka/bookinfo.yaml up -d
-      docker-compose -f samples/bookinfo/eureka/bookinfo.sidecar.yaml up -d
+      docker-compose -f samples/bookinfo/eureka/bookinfo.sidecars.yaml up -d
       ```
 1. Confirm that all docker containers are running:
 
