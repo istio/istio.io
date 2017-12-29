@@ -32,8 +32,12 @@ additional control over traffic between services.
 
 ## Communication between services
 
-<figure><img src="./img/pilot/ServiceModel_Versions.svg" alt="Showing how service versions are handled." title="Service Versions" />
-<figcaption>Service Versions</figcaption></figure>
+{% include figure.html width='60%' ratio='100.42%'
+    img='./img/pilot/ServiceModel_Versions.svg'
+    alt='Showing how service versions are handled.'
+    title='Service Versions'
+    caption='Service Versions'
+    %}
 
 As illustrated in the figure above, clients of a service have no knowledge
 of different versions of the service. They can continue to access the
@@ -69,5 +73,10 @@ via the sidecar Envoy, operators can add failure recovery features such as
 timeouts, retries, circuit breakers, etc., and obtain detailed metrics on
 the connections to these services.
 
-<figure><img src="./img/pilot/ServiceModel_RequestFlow.svg" alt="Ingress and Egress through Envoy." title="Request Flow" />
-<figcaption>Request Flow</figcaption></figure>
+{% include figure.html width='60%' ratio='28.88%'
+    img='./img/pilot/ServiceModel_RequestFlow.svg'
+    alt='Ingress and Egress through Envoy.'
+    title='Request Flow'
+    caption='Request Flow'
+    %}
+

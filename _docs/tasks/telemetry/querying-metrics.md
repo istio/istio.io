@@ -75,8 +75,12 @@ the example application throughout this task.
 
     The results will be similar to:
 
-    <figure><img style="max-width:100%" src="./img/prometheus_query_result.png" alt="Prometheus Query Result" title="Prometheus Query Result" />
-    <figcaption>Prometheus Query Result</figcaption></figure>
+{% include figure.html width='100%' ratio='39.36%'
+    img='./img/prometheus_query_result.png'
+    alt='Prometheus Query Result'
+    title='Prometheus Query Result'
+    caption='Prometheus Query Result'
+    %}
 
     Other queries to try:
 
