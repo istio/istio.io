@@ -60,26 +60,31 @@ th {
   color: $linkHoverColor !important;
 }
 
-#content-container {
-  div.toolbar {
-    top: -2px;
-  }
+pre.code-toolbar {
+    max-height: 30em;
+    margin: 1em 2em;
 
-  .toolbar-item {
-    a {
-       background-color: $mainBrandColor;
-       color: $white;
+    @media (max-width: 768px) {
+        margin: .5em 0;
     }
-  }
-}
 
-.code-block {
-  overflow: auto;
-  margin-bottom: -10px;
+    >.toolbar {
+        top: -2px;
+    }
 
-  pre[class*="language-"] {
-    border-left-width: 4px;
-  }
+    >.toolbar a {
+        background-color: $mainBrandColor;
+        color: $white;
+    }
+
+    >.toolbar a:hover {
+        background-color: $secondBrandColor;
+        color: $white;
+    }
+
+    >code {
+        border-left-width: 4px;
+    }
 }
 
 html {

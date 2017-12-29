@@ -182,19 +182,19 @@ The generated files (`key.pem`, `root-cert.pem`, `cert-chain.pem`) must be copie
 Get the debian packages from [github releases](https://github.com/istio/istio/releases) or:
 
   ```bash
-      # Note: This will be replaced with an 'apt-get' command once the repositories are setup.
+  # Note: This will be replaced with an 'apt-get' command once the repositories are setup.
 
-      source istio.VERSION # defines version and URLs env var
-      curl -L ${PILOT_DEBIAN_URL}/istio-agent.deb > ${ISTIO_STAGING}/istio-agent.deb
-      curl -L ${AUTH_DEBIAN_URL}/istio-auth-node-agent.deb > ${ISTIO_STAGING}/istio-auth-node-agent.deb
-      curl -L ${PROXY_DEBIAN_URL}/istio-proxy.deb > ${ISTIO_STAGING}/istio-proxy.deb
+  source istio.VERSION # defines version and URLs env var
+  curl -L ${PILOT_DEBIAN_URL}/istio-agent.deb > ${ISTIO_STAGING}/istio-agent.deb
+  curl -L ${AUTH_DEBIAN_URL}/istio-auth-node-agent.deb > ${ISTIO_STAGING}/istio-auth-node-agent.deb
+  curl -L ${PROXY_DEBIAN_URL}/istio-proxy.deb > ${ISTIO_STAGING}/istio-proxy.deb
 
-      dpkg -i istio-proxy-envoy.deb
-      dpkg -i istio-agent.deb
-      dpkg -i istio-auth-node-agent.deb
+  dpkg -i istio-proxy-envoy.deb
+  dpkg -i istio-agent.deb
+  dpkg -i istio-auth-node-agent.deb
 
-      systemctl start istio
-      systemctl start istio-auth-node-agent
+  systemctl start istio
+  systemctl start istio-auth-node-agent
   ```
 
 ------ Manual setup steps end ------
@@ -203,11 +203,11 @@ After setup, the machine should be able to access services running in the Kubern
 or other mesh expansion machines.
 
 ```bash
-   # Assuming you install bookinfo in 'bookinfo' namespace
-   curl productpage.bookinfo.svc.cluster.local:9080
+# Assuming you install bookinfo in 'bookinfo' namespace
+curl productpage.bookinfo.svc.cluster.local:9080
 ```
 ```
-   ... html content ...
+... html content ...
 ```
 
 Check that the processes are running:
@@ -250,20 +250,20 @@ using the ISTIO_INBOUND_PORTS environment variable.
 
   Example (on the VM running the service):
 
-   ```bash
-   echo "ISTIO_INBOUND_PORTS=27017,3306,8080" > /var/lib/istio/envoy/sidecar.env
-   systemctl restart istio
-   ```
+```bash
+echo "ISTIO_INBOUND_PORTS=27017,3306,8080" > /var/lib/istio/envoy/sidecar.env
+systemctl restart istio
+```
 
 * Manually configure a selector-less service and endpoints. The 'selector-less' service is used for
 services that are not backed by Kubernetes pods.
 
    Example, on a machine with permissions to modify Kubernetes services:
-   ```bash
-   # istioctl register servicename machine-ip portname:port
-   istioctl -n onprem register mysql 1.2.3.4 3306
-   istioctl -n onprem register svc1 1.2.3.4 http:7000
-   ```
+```bash
+# istioctl register servicename machine-ip portname:port
+istioctl -n onprem register mysql 1.2.3.4 3306
+istioctl -n onprem register svc1 1.2.3.4 http:7000
+```
 
 After the setup, Kubernetes pods and other mesh expansions should be able to access the
 services running on the machine.

@@ -123,7 +123,7 @@ The following are the known limitations of Istio ingress:
    curl -I http://$INGRESS_HOST/status/200
    ```
 
-   ```bash
+   ```
    HTTP/1.1 200 OK
    Server: meinheld/0.6.1
    Date: Thu, 05 Oct 2017 21:23:17 GMT
@@ -144,7 +144,7 @@ The following are the known limitations of Istio ingress:
    curl -I http://$INGRESS_HOST/headers
    ```
 
-   ```bash
+   ```
    HTTP/1.1 403 FORBIDDEN
    Server: meinheld/0.6.1
    Date: Thu, 05 Oct 2017 21:24:47 GMT
@@ -223,34 +223,34 @@ when routing requests to backend services. For example, the following
 route rule sets a 4s timeout for all calls to the httpbin service on the
 /delay URL.
 
-   ```bash
-   cat <<EOF | istioctl create -f -
-   apiVersion: config.istio.io/v1alpha2
-   kind: RouteRule
-   metadata:
-     name: status-route
-   spec:
-     destination:
-       name: httpbin
-     match:
-       # Optionally limit this rule to istio ingress pods only
-       source:
-         name: istio-ingress
-         labels:
-           istio: ingress
-       request:
-         headers:
-           uri:
-             prefix: /delay/ #must match the path specified in ingress spec
-                 # if using prefix paths (/delay/.*), omit the .*.
-                 # if using exact match, use exact: /status
-     route:
-     - weight: 100
-     httpReqTimeout:
-       simpleTimeout:
-         timeout: 4s
-  EOF
-   ```
+```bash
+cat <<EOF | istioctl create -f -
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: status-route
+spec:
+  destination:
+    name: httpbin
+  match:
+    # Optionally limit this rule to istio ingress pods only
+    source:
+      name: istio-ingress
+      labels:
+        istio: ingress
+    request:
+      headers:
+        uri:
+          prefix: /delay/ #must match the path specified in ingress spec
+              # if using prefix paths (/delay/.*), omit the .*.
+              # if using exact match, use exact: /status
+  route:
+  - weight: 100
+  httpReqTimeout:
+    simpleTimeout:
+      timeout: 4s
+EOF
+```
 
 If you were to make a call to the ingress with the URL
 `http://$INGRESS_HOST/delay/10`, you will find that the call returns in 4s
