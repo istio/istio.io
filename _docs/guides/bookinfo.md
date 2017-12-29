@@ -188,17 +188,16 @@ To start the application, follow the instructions below corresponding to your Is
 
 1. Bring up the application containers.
 
-    1. To test with Consul, run the following command:
-        ```bash
-        docker-compose -f samples/bookinfo/consul/bookinfo.yaml up -d
-        docker-compose -f samples/bookinfo/consul/bookinfo.sidecars.yaml up -d
-        ```
-    1. To test with Eureka, run the following command:
-        ```bash
-        docker-compose -f samples/bookinfo/eureka/bookinfo.yaml up -d
-        docker-compose -f samples/bookinfo/eureka/bookinfo.sidecars.yaml up -d
-        ```
-
+    * To test with Consul, run the following commands:
+      ```bash
+      docker-compose -f samples/bookinfo/consul/bookinfo.yaml up -d
+      docker-compose -f samples/bookinfo/consul/bookinfo.sidecar.yaml up -d
+      ```
+    * To test with Eureka, run the following commands:
+      ```bash
+      docker-compose -f samples/bookinfo/eureka/bookinfo.yaml up -d
+      docker-compose -f samples/bookinfo/eureka/bookinfo.sidecar.yaml up -d
+      ```
 1. Confirm that all docker containers are running:
 
    ```bash
@@ -220,7 +219,7 @@ To confirm that the BookInfo application is running, run the following `curl` co
 ```bash
 curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage
 ```
-```bash
+```
 200
 ```
 

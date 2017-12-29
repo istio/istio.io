@@ -160,21 +160,21 @@ def getForwardHeaders(request):
 The reviews application (Java) does something similar:
  
 ```java
-    @GET
-    @Path("/reviews")
-    public Response bookReviews(@CookieParam("user") Cookie user,
-                                @HeaderParam("x-request-id") String xreq,
-                                @HeaderParam("x-b3-traceid") String xtraceid,
-                                @HeaderParam("x-b3-spanid") String xspanid,
-                                @HeaderParam("x-b3-parentspanid") String xparentspanid,
-                                @HeaderParam("x-b3-sampled") String xsampled,
-                                @HeaderParam("x-b3-flags") String xflags,
-                                @HeaderParam("x-ot-span-context") String xotspan) {
-      String r1 = "";
-      String r2 = "";
+@GET
+@Path("/reviews")
+public Response bookReviews(@CookieParam("user") Cookie user,
+                            @HeaderParam("x-request-id") String xreq,
+                            @HeaderParam("x-b3-traceid") String xtraceid,
+                            @HeaderParam("x-b3-spanid") String xspanid,
+                            @HeaderParam("x-b3-parentspanid") String xparentspanid,
+                            @HeaderParam("x-b3-sampled") String xsampled,
+                            @HeaderParam("x-b3-flags") String xflags,
+                            @HeaderParam("x-ot-span-context") String xotspan) {
+  String r1 = "";
+  String r2 = "";
 
-      if(ratings_enabled){
-        JsonObject ratings = getRatings(user, xreq, xtraceid, xspanid, xparentspanid, xsampled, xflags, xotspan);
+  if(ratings_enabled){
+    JsonObject ratings = getRatings(user, xreq, xtraceid, xspanid, xparentspanid, xsampled, xflags, xotspan);
 ``` 
 
 When you make downstream calls in your applications, make sure to include these headers.

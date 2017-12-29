@@ -25,31 +25,31 @@ the example application throughout this task.
 
 1. To query the metrics provided by Mixer, first install the Prometheus add-on.
 
-    In Kubernetes environments, execute the following command:
+   In Kubernetes environments, execute the following command:
 
-    ```bash
-    kubectl apply -f install/kubernetes/addons/prometheus.yaml
-    ```
+   ```bash
+   kubectl apply -f install/kubernetes/addons/prometheus.yaml
+   ```
 
 1. Verify that the service is running in your cluster.
 
-    In Kubernetes environments, execute the following command:
+   In Kubernetes environments, execute the following command:
 
-    ```bash
-    kubectl -n istio-system get svc prometheus
-    ```
+   ```bash
+   kubectl -n istio-system get svc prometheus
+   ```
 
-    The output will be similar to:
+   The output will be similar to:
 
-    ```
-    NAME         CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
-    prometheus   10.59.241.54   <none>        9090/TCP   2m
-    ```
+   ```
+   NAME         CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
+   prometheus   10.59.241.54   <none>        9090/TCP   2m
+   ```
 
 1. Send traffic to the mesh.
 
-    For the BookInfo sample, visit `http://$GATEWAY_URL/productpage` in your web
-    browser or issue the following command:
+   For the BookInfo sample, visit `http://$GATEWAY_URL/productpage` in your web
+   browser or issue the following command:
 
    ```bash
    curl http://$GATEWAY_URL/productpage
@@ -60,13 +60,13 @@ the example application throughout this task.
 
 1. Open the Prometheus UI.
 
-    In Kubernetes environments, execute the following command:
+   In Kubernetes environments, execute the following command:
 
-    ```bash
-    kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &   
-    ```
+   ```bash
+   kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &   
+   ```
 
-    Visit [http://localhost:9090/graph](http://localhost:9090/graph) in your web browser.
+   Visit [http://localhost:9090/graph](http://localhost:9090/graph) in your web browser.
 
 1. Execute a Prometheus query.
 
@@ -86,23 +86,23 @@ the example application throughout this task.
 
     - Total count of all requests to `productpage` service:
 
-       ```
-       istio_request_count{destination_service="productpage.default.svc.cluster.local"}
-       ```
+      ```
+      istio_request_count{destination_service="productpage.default.svc.cluster.local"}
+      ```
 
     - Total count of all requests to `v3` of the `reviews` service:
 
-       ```
-       istio_request_count{destination_service="reviews.default.svc.cluster.local", destination_version="v3"}
-       ```
+      ```
+      istio_request_count{destination_service="reviews.default.svc.cluster.local", destination_version="v3"}
+      ```
        
-       This query returns the current total count of all requests to the v3 of the reviews service.
+      This query returns the current total count of all requests to the v3 of the reviews service.
 
     - Rate of requests over the past 5 minutes to all `productpage` services:
 
-       ```
-       rate(istio_request_count{destination_service=~"productpage.*", response_code="200"}[5m])
-       ```
+      ```
+      rate(istio_request_count{destination_service=~"productpage.*", response_code="200"}[5m])
+      ```
 
 ### About the Prometheus Add-on
 
