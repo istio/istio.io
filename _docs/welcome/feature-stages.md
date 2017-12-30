@@ -6,7 +6,9 @@ order: 10
 
 layout: docs
 type: markdown
-redirect_from: "/docs/reference/release-roadmap.html"
+redirect_from:
+  - "/docs/reference/release-roadmap.html"
+  - "/docs/reference/feature-stages.html"
 draft: true
 ---
 {% include home.html %}
