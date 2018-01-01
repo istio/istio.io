@@ -82,7 +82,7 @@ To start the application, follow the instructions below corresponding to your Is
 1. Bring up the application containers:
 
    If you are using [manual sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar-injection),
-   use the folloiwng command instead:
+   use the following command instead:
 
    ```bash
    kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo.yaml)
