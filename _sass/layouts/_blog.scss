@@ -1,74 +1,33 @@
 .blog {
-  .title {
-    margin-bottom: 0px;
-  }
-
-  .subtitle {
-    margin-top: 2px;
-    margin-bottom: 0;
-    padding: 0 0 0 0;
-    font-size: 125%;
-  }
-
-  .byline {
-    margin-top: 2px;
-    margin-bottom: 25px;
-    padding: 0 0 0 0;
-    text-transform: uppercase;
-    font-size: 75%;
-  }
-
-  .attribution {
-    font-weight: bolder;
-  }
-
-  .publish_date {
-  }
-
-  .rssLink {
-    position: absolute;
-    top: 10px;
-    right: 0px;
-  }
-
-  .thin-left-border {
-    border-left: 1px solid rgba(0, 0, 0, .15);
-  }
-
-  .tab-neg-margin {
-    margin-left: -15px;
-  }
-
-  #sidebar-tab {
-    border: 1px solid rgba(0,0,0,0.10);
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
-    background-color: rgba(0,0,0,0.05);
-    padding: 10px 5px 10px 5px;
-    margin-top: -2px;
-    margin-right: 10px;
-    font-size: 1rem;
-    color: $black;
-
-    &, &:focus, &:hover, &:active{
-      color:black !important;
-      text-decoration: none !important;
+    h1 {
+        margin-bottom: 0;
     }
-  }
 
-  #tab-container{
-    z-index:1000;
-  }
-
-  #sidebar-container {
-    float: left;
-    padding:0px;
-    background-color: #fff;
-  }
-
-  @media (max-width: 768px) {
-    #content-container{
-      clear:both;
+    .subtitle {
+        margin-top: .15rem;
+        margin-bottom: 0;
+        padding: 0 0 0 0;
+        font-size: 125%;
     }
-  }
+
+    .byline {
+        margin-top: .15rem;
+        margin-bottom: 2rem;
+        padding: 0;
+        text-transform: uppercase;
+        font-size: 75%;
+    }
+
+    .attribution {
+        font-weight: bolder;
+    }
+
+    .publish_date {
+    }
+
+    .rssLink {
+        position: absolute;
+        top: 10px;
+        right: 0;
+    }
 }

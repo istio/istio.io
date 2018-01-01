@@ -1,12 +1,38 @@
 ---
 layout: default
 ---
-{% include home.html %}
+<div class="container-fluid">
+    <div class="row row-offcanvas row-offcanvas-left">
+        <div class="col-6 col-md-3 col-xl-2 sidebar-offcanvas">
+            {% include sidebar.html docs=site.help singlecard=true %}
+        </div>
 
-<div class="container help">
-  <div class="row">
-    <div class="col-sm-12 col-md-10 col-lg-7 nofloat center-block {{page.type}}">
-      {{content}}
+        {% if page.toc != false %}
+            <div class="col-12 col-md-9 col-lg-6 col-xl-7">
+        {% else %}
+            <div class="col-12 col-md-9 col-xl-10">
+        {% endif %}
+            <p class="d-md-none">
+                <label class="sidebar-toggler" data-toggle="offcanvas">
+                    <i class="fa fa-chevron-right"></i>
+                </label>
+            </p>
+
+            <main role="main">
+                <h1>{{page.title}}</h1>
+                {{ content}}
+            </main>
+        </div>
+
+        {% if page.toc != false %}
+            <div class="col-12 col-md-3 d-none d-lg-block">
+                <nav class="toc">
+                    <div class="spacer"></div>
+                    <div class="directory" role="directory">
+                        {% include toc.html html=content sanitize=true h_min=2 h_max=4 %}
+                    </div>
+                </nav>
+            </div>
+        {% endif %}
     </div>
-  </div>
 </div>

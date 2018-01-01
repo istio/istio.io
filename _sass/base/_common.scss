@@ -1,71 +1,66 @@
-// Shared
-.vpad {
-  padding-top: $vpad;
+*[id]:before {
+      display: block;
+      content: " ";
+      margin-top: -3.0em;
+      height: 3.0em;
+      visibility: hidden;
 }
 
-.page-title-bar {
-  background-color: $thirdBrandColor;
-  border-top: 3px solid $lightPopBrandColor;
-  padding-top: 20px;
-  padding-bottom: 30px;
-
-  .fa {
-    color: $popBrandColor;
-  }
+html {
+    overflow-y: scroll;
+    position: relative;
+    min-height: 100%;
 }
 
-.page-spacer {
-  height: 100px;
+body {
+    padding-top: $headerHeight-xs;
+    margin-bottom: $footerHeight-xs;
+    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: $textColor;
+
+    @media (min-width: $bp-sm) {
+        padding-top: $headerHeight;
+        margin-bottom: $footerHeight;
+    }
 }
 
-.section {
-  padding: 50px 0;
-  position: relative;
+a {
+    color: $linkColor;
+    text-decoration: none;
+    font-weight: 500;
 }
 
-.section-divider {
-  border-bottom: 2px solid #e3e3e3;
-  margin: 0;
-  width: 100%; 
+a:hover, a:focus {
+    color: $linkHoverColor;
+    text-decoration: none;
+    font-weight: 500;
 }
 
-// Tables are table-y
-table,
-th,
-td {
-  border: 1px solid lighten($textColor, 20%);
-  padding: 6px
+a.disabled {
+    color: $linkDisabledColor;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+table, th, td {
+    border: 1px solid lighten($textColor, 20%);
+    padding: .3em;
 }
 
 table {
-  border-collapse: collapse;
+    border-collapse: collapse;
 }
 
 th {
-  background-color: $thirdBrandColor;
-}
-
-// Tabs are tabby
-.ui-widget-content {
-  font-size: $font-size--primary !important;
-  font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
-  color: $textColor !important;
-}
-
-.ui-widget-content a {
-  color: $mainBrandColor !important;
-}
-
-.ui-widget-content a:hover, a:focus {
-  color: $linkHoverColor !important;
+    background-color: $thirdBrandColor;
 }
 
 pre.code-toolbar {
     max-height: 30em;
-    margin: 1em 2em;
+    margin: .6em 2em;
 
-    @media (max-width: 768px) {
-        margin: .5em 0;
+    @media (min-width: $bp-md) {
+        margin: 1.5em 0;
     }
 
     >.toolbar {
@@ -87,6 +82,118 @@ pre.code-toolbar {
     }
 }
 
-html {
-  background-image: linear-gradient(to right, $mainBrandColor, $secondBrandColor);
+p {
+    font-size: $font-size--xs;
+    line-height: 1.5;
+    margin: .25em 0;
+
+    @media (min-width: $bp-md) {
+        margin: 1.5em 0;
+    }
+}
+
+li, dt, dd {
+    font-size: $font-size--xs;
+    line-height: 1.5;
+    margin: .25em;
+}
+
+ol, ul, dl {
+    list-style: initial;
+    font-size: $font-size--primary;
+    margin: 0 1.5em;
+    padding: 0;
+}
+
+li p, dt p, dd p {
+    margin: .4em 0;
+}
+
+ol {
+    list-style: decimal;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    border: 0;
+    font-weight: normal;
+}
+
+h1 {
+    font-size: $font-size--xxl;
+    color: $secondBrandColor;
+    margin: 30px 0;
+}
+
+h2 {
+    font-size: $font-size--xl;
+    color: $black;
+    margin-bottom: 20px;
+    margin-top: 30px;
+    padding-bottom: 10px;
+    border-bottom: 1px;
+    border-color: $gray;
+    border-style: solid;
+}
+
+h3 {
+    font-size: $font-size--l;
+    font-weight: 500;
+    color: $dark-gray;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    margin-top: 30px;
+}
+
+h4 {
+    font-size: $font-size--l;
+    font-weight: 500;
+    margin: 30px 0 20px;
+    color: $dark-gray;
+
+    // Text immediately following h4 should have same level of indention
+    + p {
+        margin: 10px 0;
+
+        @media (max-width: 768px) {
+            margin: 5px 0;
+        }
+    }
+}
+
+h5 {
+    font-size: $font-size--s;
+    font-weight: 500;
+    color: $black;
+}
+
+h6 {
+    font-size: .9rem;
+    font-weight: 500;
+    color: $black;
+}
+
+em {
+    font-style: italic;
+}
+
+strong {
+    font-weight: bold;
+}
+
+img {
+    width: 100%;
+}
+
+blockquote {
+    display: block;
+    margin: 1em 3em;
+    background-color: $light-gray;
+}
+
+.spacer {
+    height: .1rem;
+
+    @media (min-width: $bp-md) {
+        height: 1rem;
+    }
 }
