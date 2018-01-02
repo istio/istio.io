@@ -28,7 +28,7 @@ within the product, not to the product as a whole. Here is a high level descript
 |  **Performance**         | Not quantified or guaranteed     | Not quantified or guaranteed         | Perf (latency/scale) is quantified, documented, with guarantees against regression 
 |   **Deprecation Policy**        | None     | Weak - 3 months         | Dependable,  Firm. 1 year notice will be provided before changes
 
-## Istio 0.4 Features
+## Istio 0.4 features
 
 Below is our list of existing features and their current phases. This information will be updated after every monthly release.
 
@@ -36,7 +36,7 @@ Below is our list of existing features and their current phases. This informatio
 
 | Feature           | Phase      
 |-------------------|-------------------
-| [Memquota Implementation and Integration](https://istio.io/docs/tasks/telemetry/metrics-logs.html) - **New to 0.4** | Beta
+| [Memquota Implementation and Integration](https://istio.io/docs/tasks/telemetry/metrics-logs.html) | Beta
 | [Protocols: HTTP 1.1](https://github.com/istio/istio/blob/master/pilot/model/service.go#L104)  | Beta
 | [Protocols: HTTP 2.0](https://github.com/istio/istio/blob/master/pilot/model/service.go#L101)  | Alpha
 | [Protocols: gRPC](https://github.com/istio/istio/blob/master/pilot/model/service.go#L97)    | Alpha
