@@ -13,7 +13,7 @@ draft: true
 ---
 {% include home.html %}
 
-Starting with 0.3.0, Istio releases are delivered on a monthly cadence. You can download the current version by visiting our
+Starting with 0.3, Istio releases are delivered on a monthly cadence. You can download the current version by visiting our
 [release page](https://github.com/istio/istio/releases). 
 
 Please note that the phases (alpha, beta, and stable) are applied to individual features
@@ -28,7 +28,7 @@ within the product, not to the product as a whole. Here is a high level descript
 |  **Performance**         | Not quantified or guaranteed     | Not quantified or guaranteed         | Perf (latency/scale) is quantified, documented, with guarantees against regression 
 |   **Deprecation Policy**        | None     | Weak - 3 months         | Dependable,  Firm. 1 year notice will be provided before changes
 
-## Istio 0.4.0 Features
+## Istio 0.4 Features
 
 Below is our list of existing features and their current phases. This information will be updated after every monthly release.
 
