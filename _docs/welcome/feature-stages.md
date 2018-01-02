@@ -28,7 +28,7 @@ within the product, not to the product as a whole. Here is a high level descript
 |  **Performance**         | Not quantified or guaranteed     | Not quantified or guaranteed         | Perf (latency/scale) is quantified, documented, with guarantees against regression 
 |   **Deprecation Policy**        | None     | Weak - 3 months         | Dependable,  Firm. 1 year notice will be provided before changes
 
-## Istio 0.4.0 features status
+## Istio 0.4.0 Features
 
 Below is our list of existing features and their current phases. This information will be updated after every monthly release.
 
@@ -36,11 +36,11 @@ Below is our list of existing features and their current phases. This informatio
 
 | Feature           | Phase      
 |-------------------|-------------------
-| [Memquota Implementation and Integration](https://istio.io/docs/tasks/telemetry/metrics-logs.html)         | Beta
-| [Protocols: HTTP 1.1](https://github.com/istio/istio/blob/master/pilot/model/service.go#L104)         | Beta
-| [Protocols: HTTP 2.0](https://github.com/istio/istio/blob/master/pilot/model/service.go#L101)        | Alpha
-| [Protocols: gRPC](https://github.com/istio/istio/blob/master/pilot/model/service.go#L97)     		   | Alpha
-| [Protocols: TCP](https://github.com/istio/istio/blob/master/pilot/model/service.go#L107)         	   | Alpha
+| [Memquota Implementation and Integration](https://istio.io/docs/tasks/telemetry/metrics-logs.html) (**New to 0.4**)   | Beta
+| [Protocols: HTTP 1.1](https://github.com/istio/istio/blob/master/pilot/model/service.go#L104)  | Beta
+| [Protocols: HTTP 2.0](https://github.com/istio/istio/blob/master/pilot/model/service.go#L101)  | Alpha
+| [Protocols: gRPC](https://github.com/istio/istio/blob/master/pilot/model/service.go#L97)    | Alpha
+| [Protocols: TCP](https://github.com/istio/istio/blob/master/pilot/model/service.go#L107)     | Alpha
 | [Protocols: WebSocket](https://github.com/istio/istio/blob/master/pilot/proxy/envoy/testdata/websocket-route.yaml.golden)       | Alpha
 | [Protocols: MongoDB](https://github.com/istio/istio/blob/master/pilot/model/service.go#L134)         | Alpha
 | [Routing Rules: Retries](https://istio.io/docs/tasks/traffic-management/request-routing.html)      | Alpha
@@ -48,7 +48,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Routing Rules: Circuit Break](https://istio.io/docs/tasks/traffic-management/request-routing.html)      | Alpha
 | [Routing Rules: Header Rewrite](https://istio.io/docs/tasks/traffic-management/request-routing.html)      | Alpha
 | [Routing Rules: Traffic Splitting](https://istio.io/docs/tasks/traffic-management/request-routing.html)      | Alpha
-| Bring your own service name / custom service names        | Alpha
+| Bring your own service name / custom service names   (**New to 0.4**)   | Alpha
 
 ### Observability
 
@@ -73,9 +73,9 @@ Below is our list of existing features and their current phases. This informatio
 | [Kubernetes: Service Credential Distribution](https://istio.io/docs/concepts/security/mutual-tls.html)               | Beta
 | [Pluggable Key/Cert Support for Istio CA](https://istio.io/docs/tasks/security/plugin-ca-cert.html)        | Beta
 | [Service-to-service mutual TLS](https://istio.io/docs/concepts/security/mutual-tls.html)         | Beta
-| [Incremental enablement of service-to-service mutual TLS](https://docs.google.com/document/d/1D7wZCQjVB72Wlwr5ZxP5WUmn3FUDr-XzfX8OodPXe8Y/edit)    | Alpha
+| [Incremental Enablement of service-to-service mutual TLS](https://docs.google.com/document/d/1D7wZCQjVB72Wlwr5ZxP5WUmn3FUDr-XzfX8OodPXe8Y/edit)    | Alpha
 | [VM: Service Credential Distribution](https://istio.io/docs/concepts/security/mutual-tls.html)         | Alpha
-| OPA Checker        | Alpha
+| OPA Checker  (**New to 0.4**)      | Alpha 
 
 
 
@@ -87,14 +87,14 @@ Below is our list of existing features and their current phases. This informatio
 | [Kubernetes: Istio Data Plane: Envoy Installation and Traffic Interception](https://istio.io/docs/setup/kubernetes/)        | Beta
 | [Kubernetes: Istio Control Plane Installation and Upgrade](https://istio.io/docs/setup/kubernetes/) | Beta
 | [Pilot Integration into Kubernetes Service Discovery](https://istio.io/docs/setup/kubernetes/)         | Beta
-| [VM: Istio Data Plane Installation: Envoy Installation, Traffic Interception and Service Registration](https://istio.io/docs/guides/integrating-vms.html)    | Alpha
-| [VM: Istio Control Plane Installation and Upgrade (Galley, Mixer, Pilot, CA)](https://github.com/istio/istio/issues/2083)  | Alpha
+| [VM: Istio Data Plane: Envoy Installation, Traffic Interception and Service Registration](https://istio.io/docs/guides/integrating-vms.html)    | Alpha
+| [VM: Istio Control Plane: Installation and Upgrade (Galley, Mixer, Pilot, CA)](https://github.com/istio/istio/issues/2083)  | Alpha
 | [Pilot Integration into Consul, Eureka and Cloud Foundry Service Discovery](https://istio.io/docs/setup/consul/quick-start.html)     		   | Alpha
 | [Basic Config Resource Validation](https://github.com/istio/istio/issues/1894)         	   | Alpha
 | [Distributed Tracing to Zipkin / Jaeger](https://istio.io/docs/tasks/telemetry/distributed-tracing.html)         | Alpha
 | Logging, Monitoring, and Tracing of Istio components         | Alpha
-| Attribute expression language        | Alpha
-| Mixer plugin model        | Alpha
+| Attribute Expression Language        | Alpha
+| Mixer Plugin Model        | Alpha
 
 
 
