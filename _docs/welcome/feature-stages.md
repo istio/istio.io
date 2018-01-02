@@ -48,7 +48,6 @@ Below is our list of existing features and their current phases. This informatio
 | [Routing Rules: Circuit Break](https://istio.io/docs/tasks/traffic-management/request-routing.html)      | Alpha
 | [Routing Rules: Header Rewrite](https://istio.io/docs/tasks/traffic-management/request-routing.html)      | Alpha
 | [Routing Rules: Traffic Splitting](https://istio.io/docs/tasks/traffic-management/request-routing.html)      | Alpha
-| Bring your own service name / custom service names   - **New to 0.4**   | Alpha
 
 ### Observability
 
@@ -75,7 +74,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Service-to-service mutual TLS](https://istio.io/docs/concepts/security/mutual-tls.html)         | Beta
 | [Incremental Enablement of service-to-service mutual TLS](https://docs.google.com/document/d/1D7wZCQjVB72Wlwr5ZxP5WUmn3FUDr-XzfX8OodPXe8Y/edit)    | Alpha
 | [VM: Service Credential Distribution](https://istio.io/docs/concepts/security/mutual-tls.html)         | Alpha
-| OPA Checker  - **New to 0.4**      | Alpha 
+| [OPA Checker](https://github.com/mangchiandjjoe/istio/blob/d5390f6e436225949907d77ad3e9747a9bc26722/mixer/adapter/opa/README.md)  - **New to 0.4**      | Alpha 
 
 
 
@@ -85,11 +84,12 @@ Below is our list of existing features and their current phases. This informatio
 | Feature           | Phase        
 |-------------------|-------------------
 | [Kubernetes: Istio Data Plane: Envoy Installation and Traffic Interception](https://istio.io/docs/setup/kubernetes/)        | Beta
-| [Kubernetes: Istio Control Plane Installation and Upgrade](https://istio.io/docs/setup/kubernetes/) | Beta
+| [Kubernetes: Istio Control Plane Installation](https://istio.io/docs/setup/kubernetes/) | Beta
 | [Pilot Integration into Kubernetes Service Discovery](https://istio.io/docs/setup/kubernetes/)         | Beta
 | [Attribute Expression Language](https://istio.io/docs/reference/config/mixer/expression-language.html)        | Beta
 | [Mixer Adapter Authoring Model](https://istio.io/blog/posts/2017/adapter-model.html)        | Beta
 | [VM: Istio Data Plane: Envoy Installation, Traffic Interception and Service Registration](https://istio.io/docs/guides/integrating-vms.html)    | Alpha
+| [Kubernetes: Istio Control Plane Upgrade](https://istio.io/docs/setup/kubernetes/) | Alpha
 | [VM: Istio Control Plane: Installation and Upgrade (Galley, Mixer, Pilot, CA)](https://github.com/istio/istio/issues/2083)  | Alpha
 | [Pilot Integration into Consul, Eureka and Cloud Foundry Service Discovery](https://istio.io/docs/setup/consul/quick-start.html)     		   | Alpha
 | [Basic Config Resource Validation](https://github.com/istio/istio/issues/1894)         	   | Alpha
