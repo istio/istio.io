@@ -36,7 +36,7 @@ Below is our list of existing features and their current phases. This informatio
 
 | Feature           | Phase      
 |-------------------|-------------------
-| [Memquota Implementation and Integration](https://istio.io/docs/tasks/telemetry/metrics-logs.html) (**New to 0.4**)   | Beta
+| [Memquota Implementation and Integration](https://istio.io/docs/tasks/telemetry/metrics-logs.html) - **New to 0.4** | Beta
 | [Protocols: HTTP 1.1](https://github.com/istio/istio/blob/master/pilot/model/service.go#L104)  | Beta
 | [Protocols: HTTP 2.0](https://github.com/istio/istio/blob/master/pilot/model/service.go#L101)  | Alpha
 | [Protocols: gRPC](https://github.com/istio/istio/blob/master/pilot/model/service.go#L97)    | Alpha
@@ -48,7 +48,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Routing Rules: Circuit Break](https://istio.io/docs/tasks/traffic-management/request-routing.html)      | Alpha
 | [Routing Rules: Header Rewrite](https://istio.io/docs/tasks/traffic-management/request-routing.html)      | Alpha
 | [Routing Rules: Traffic Splitting](https://istio.io/docs/tasks/traffic-management/request-routing.html)      | Alpha
-| Bring your own service name / custom service names   (**New to 0.4**)   | Alpha
+| Bring your own service name / custom service names   - **New to 0.4**   | Alpha
 
 ### Observability
 
@@ -75,7 +75,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Service-to-service mutual TLS](https://istio.io/docs/concepts/security/mutual-tls.html)         | Beta
 | [Incremental Enablement of service-to-service mutual TLS](https://docs.google.com/document/d/1D7wZCQjVB72Wlwr5ZxP5WUmn3FUDr-XzfX8OodPXe8Y/edit)    | Alpha
 | [VM: Service Credential Distribution](https://istio.io/docs/concepts/security/mutual-tls.html)         | Alpha
-| OPA Checker  (**New to 0.4**)      | Alpha 
+| OPA Checker  - **New to 0.4**      | Alpha 
 
 
 
