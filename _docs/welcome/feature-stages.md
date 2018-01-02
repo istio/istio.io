@@ -88,15 +88,15 @@ Below is our list of existing features and their current phases. This informatio
 | [Kubernetes: Istio Control Plane Installation and Upgrade](https://istio.io/docs/setup/kubernetes/) | Beta
 | [Pilot Integration into Kubernetes Service Discovery](https://istio.io/docs/setup/kubernetes/)         | Beta
 | [Attribute Expression Language](https://istio.io/docs/reference/config/mixer/expression-language.html)        | Beta
+| [Mixer Adapter Authoring Model](https://istio.io/blog/posts/2017/adapter-model.html)        | Beta
 | [VM: Istio Data Plane: Envoy Installation, Traffic Interception and Service Registration](https://istio.io/docs/guides/integrating-vms.html)    | Alpha
 | [VM: Istio Control Plane: Installation and Upgrade (Galley, Mixer, Pilot, CA)](https://github.com/istio/istio/issues/2083)  | Alpha
 | [Pilot Integration into Consul, Eureka and Cloud Foundry Service Discovery](https://istio.io/docs/setup/consul/quick-start.html)     		   | Alpha
 | [Basic Config Resource Validation](https://github.com/istio/istio/issues/1894)         	   | Alpha
 | [Distributed Tracing to Zipkin / Jaeger](https://istio.io/docs/tasks/telemetry/distributed-tracing.html)         | Alpha
-| [Mixer Plugin Model](https://istio.io/blog/posts/2017/adapter-model.html)        | Alpha
-| Logging, Monitoring, and Tracing of Istio components   | Alpha
 
 
 
 
-Please get in touch by joining our [community]({{home}}/community) if there are features you'd like to see in our future releases!
+
+**Please get in touch by joining our [community]({{home}}/community) if there are features you'd like to see in our future releases!**
