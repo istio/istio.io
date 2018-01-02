@@ -13,7 +13,7 @@ draft: true
 ---
 {% include home.html %}
 
-Istio releases are delivered on a monthly cadence. You can download the current version by visiting our
+Starting with 0.3.0, Istio releases are delivered on a monthly cadence. You can download the current version by visiting our
 [release page](https://github.com/istio/istio/releases). 
 
 Please note that the phases (alpha, beta, and stable) are applied to individual features
