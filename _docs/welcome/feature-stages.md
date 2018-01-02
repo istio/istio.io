@@ -74,7 +74,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Service-to-service mutual TLS](https://istio.io/docs/concepts/security/mutual-tls.html)         | Beta
 | [Incremental Enablement of service-to-service mutual TLS](https://docs.google.com/document/d/1D7wZCQjVB72Wlwr5ZxP5WUmn3FUDr-XzfX8OodPXe8Y/edit)    | Alpha
 | [VM: Service Credential Distribution](https://istio.io/docs/concepts/security/mutual-tls.html)         | Alpha
-| [OPA Checker](https://github.com/mangchiandjjoe/istio/blob/d5390f6e436225949907d77ad3e9747a9bc26722/mixer/adapter/opa/README.md)  - **New to 0.4**      | Alpha 
+| [OPA Checker](https://github.com/mangchiandjjoe/istio/blob/d5390f6e436225949907d77ad3e9747a9bc26722/mixer/adapter/opa/README.md)  - **New to 0.4**      | Alpha <img src="{{home}}/img/bulb.svg" alt="Bulb" title="Help" style="width: 32px; display:inline" />
 
 
 
