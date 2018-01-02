@@ -55,10 +55,10 @@ Below is our list of existing features and their current phases. This informatio
 
 | Feature           | Phase      
 |-------------------|-------------------
+| [Prometheus Integration](https://istio.io/docs/guides/telemetry.html)         | Beta
 | [Local Logging (STDIO)](https://istio.io/docs/guides/telemetry.html)               | Beta
 | [Statsd Integration](https://istio.io/docs/reference/config/mixer/adapters/statsd.html)         	   | Beta
 | [Service Dashboard in Grafana](https://istio.io/docs/tasks/telemetry/using-istio-dashboard.html)       | Beta
-| [Prometheus Integration](https://istio.io/docs/guides/telemetry.html)         | Alpha
 | [Stackdriver Integration](https://istio.io/docs/reference/config/mixer/adapters/stackdriver.html)       | Alpha
 | [Service Graph](https://istio.io/docs/tasks/telemetry/servicegraph.html)       | Alpha
 
@@ -87,13 +87,13 @@ Below is our list of existing features and their current phases. This informatio
 | [Kubernetes: Istio Data Plane: Envoy Installation and Traffic Interception](https://istio.io/docs/setup/kubernetes/)        | Beta
 | [Kubernetes: Istio Control Plane Installation and Upgrade](https://istio.io/docs/setup/kubernetes/) | Beta
 | [Pilot Integration into Kubernetes Service Discovery](https://istio.io/docs/setup/kubernetes/)         | Beta
+| [Attribute Expression Language](https://istio.io/docs/reference/config/mixer/expression-language.html)        | Beta
 | [VM: Istio Data Plane: Envoy Installation, Traffic Interception and Service Registration](https://istio.io/docs/guides/integrating-vms.html)    | Alpha
 | [VM: Istio Control Plane: Installation and Upgrade (Galley, Mixer, Pilot, CA)](https://github.com/istio/istio/issues/2083)  | Alpha
 | [Pilot Integration into Consul, Eureka and Cloud Foundry Service Discovery](https://istio.io/docs/setup/consul/quick-start.html)     		   | Alpha
 | [Basic Config Resource Validation](https://github.com/istio/istio/issues/1894)         	   | Alpha
 | [Distributed Tracing to Zipkin / Jaeger](https://istio.io/docs/tasks/telemetry/distributed-tracing.html)         | Alpha
 | Logging, Monitoring, and Tracing of Istio components         | Alpha
-| Attribute Expression Language        | Alpha
 | Mixer Plugin Model        | Alpha
 
 
