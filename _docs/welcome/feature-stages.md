@@ -13,11 +13,10 @@ draft: true
 ---
 {% include home.html %}
 
-We have made changes to Istio's release model. Starting with 0.3.0, releases will be delivered on a monthly cadence. Going forward, 
-you can expect a new release towards the end of every month. You can download the current version by visiting our
-[release page](https://github.com/istio/istio/releases).
+Istio releases are delivered on a monthly cadence. You can download the current version by visiting our
+[release page](https://github.com/istio/istio/releases). 
 
-Each individual feature will go through the Alpha, Beta, and Stable phases. Please note that the phases are applied to individual features
+Please note that the phases (alpha, beta, and stable) are applied to individual features
 within the product, not to the product as a whole. Here is a high level description of what these labels means:
 
 ## Feature Phase Definition
