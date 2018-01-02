@@ -93,8 +93,9 @@ Below is our list of existing features and their current phases. This informatio
 | [Pilot Integration into Consul, Eureka and Cloud Foundry Service Discovery](https://istio.io/docs/setup/consul/quick-start.html)     		   | Alpha
 | [Basic Config Resource Validation](https://github.com/istio/istio/issues/1894)         	   | Alpha
 | [Distributed Tracing to Zipkin / Jaeger](https://istio.io/docs/tasks/telemetry/distributed-tracing.html)         | Alpha
-| Logging, Monitoring, and Tracing of Istio components         | Alpha
-| Mixer Plugin Model        | Alpha
+| [Mixer Plugin Model](https://istio.io/blog/posts/2017/adapter-model.html)        | Alpha
+| Logging, Monitoring, and Tracing of Istio components   | Alpha
+
 
 
 
