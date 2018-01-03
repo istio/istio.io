@@ -64,6 +64,10 @@ The following are the known limitations of Istio ingress:
            backend:
              serviceName: httpbin
              servicePort: 8000
+         - path: /delay/.*
+           backend:
+             serviceName: httpbin
+             servicePort: 8000
    EOF
    ```
  
