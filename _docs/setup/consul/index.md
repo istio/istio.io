@@ -6,7 +6,7 @@ order: 20
 
 layout: docs
 type: markdown
+toc: false
 ---
 
-{% assign docs = site.docs %}
-{% include section-index.html %}
+{% include section-index.html docs=site.docs %}

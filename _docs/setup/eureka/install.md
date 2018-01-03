@@ -14,12 +14,12 @@ Using Istio in a non-kubernetes environment involves a few key tasks:
 2. Adding the Istio sidecar to every instance of a service
 3. Ensuring requests are routed through the sidecars
 
-## Setting up the Control Plane
+## Setting up the control plane
 
 Istio control plane consists of four main services: Pilot, Mixer, CA, and
 the API server.
 
-### API Server
+### API server
 
 Istio's API server (based on Kubernetes' API server) provides key functions
 such as configuration management and Role-Based Access Control. The API
@@ -31,7 +31,7 @@ be found
 Documentation on set of startup options for the Kubernetes API server can be found
 [here](https://kubernetes.io/docs/admin/kube-apiserver/)
 
-#### Local Install
+#### Local install
 
 For _proof of concept_ purposes, it is possible to install
 a simple single container API server using the following Docker Compose file:
@@ -78,7 +78,7 @@ services:
 ```
 
 
-### Other Istio Components
+### Other Istio components
 
 Debian packages for Istio Pilot, Mixer, and CA are available through the
 Istio release. Alternatively, these components can be run as Docker
@@ -88,7 +88,7 @@ be scaled horizontally. Each of these components depends on the Istio API
 server, which in turn depends on the etcd cluster for persistence.
 
 
-## Adding Sidecars to Service Instances
+## Adding sidecars to service instances
 
 Each instance of a service in an application must be accompanied by the
 Istio sidecar. Depending on the unit of your installation (Docker

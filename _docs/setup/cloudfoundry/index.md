@@ -6,10 +6,10 @@ order: 40
 
 layout: docs
 type: markdown
+toc: false
 ---
 
-{% assign docs = site.docs %}
-{% include section-index.html %}
+{% include section-index.html docs=site.docs %}
 
 We are working with the Cloud Foundry developers to integrate Istio
 natively into the Cloud Foundry platform. Tune

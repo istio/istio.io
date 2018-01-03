@@ -1,0 +1,22 @@
+.faq {
+    .card {
+        margin-bottom: .2em;
+    }
+
+	.card-body {
+	    padding-top: 0;
+	    padding-bottom: 0;
+	}
+
+    .card-header {
+        padding: 0;
+
+	    div {
+	        padding: .75em 1.25em;
+	    }
+    }
+
+    .list-group {
+        padding-bottom: 3em;
+    }
+}

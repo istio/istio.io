@@ -10,7 +10,7 @@ type: markdown
 {% include home.html %}
 
 This task shows you how Istio-enabled applications 
-can be configured to collect trace spans using [Zipkin](http://zipkin.io) or [Jaeger](https://uber.github.io/jaeger/). 
+can be configured to collect trace spans using [Zipkin](http://zipkin.io) or [Jaeger](https://jaeger.readthedocs.io). 
 After completing this task, you should understand all of the assumptions about your
 application and how to have it participate in tracing, regardless of what
 language/framework/platform you use to build your application.
@@ -69,19 +69,37 @@ With the BookInfo application up and running, generate trace information by acce
 
 If you now look at the dashboard, you should see something similar to the following:
 
-<figure><img style="max-width:100%" src="./img/zipkin_dashboard.png" alt="Zipkin Dashboard" title="Zipkin Dashboard" />
-<figcaption>Zipkin Dashboard</figcaption></figure>
-<figure><img style="max-width:100%" src="./img/jaeger_dashboard.png" alt="Jaeger Dashboard" title="Jaeger Dashboard" />
-<figcaption>Jaeger Dashboard</figcaption></figure>
+{% include figure.html width='100%' ratio='44.28%'
+    img='./img/zipkin_dashboard.png'
+    alt='Zipkin Dashboard'
+    title='Zipkin Dashboard'
+    caption='Zipkin Dashboard'
+    %}
+
+{% include figure.html width='100%' ratio='42.35%'
+    img='./img/jaeger_dashboard.png'
+    alt='Jaeger Dashboard'
+    title='Jaeger Dashboard'
+    caption='Jaeger Dashboard'
+    %}
 
 If you click on the top (most recent) trace, you should see the details corresponding to your
 latest refresh of the `/productpage`.
 The page should look something like this:
 
-<figure><img style="max-width:100%" src="./img/zipkin_span.png" alt="Zipkin Trace View" title="Zipkin Trace View" />
-<figcaption>Zipkin Trace View</figcaption></figure>
-<figure><img style="max-width:100%" src="./img/jaeger_trace.png" alt="Jaeger Trace View" title="Jaeger Trace View" />
-<figcaption>Jaeger Trace View</figcaption></figure>
+{% include figure.html width='100%' ratio='19.70%'
+    img='./img/zipkin_span.png'
+    alt='Zipkin Trace View'
+    title='Zipkin Trace View'
+    caption='Zipkin Trace View'
+    %}
+
+{% include figure.html width='100%' ratio='26.99%'
+    img='./img/jaeger_trace.png'
+    alt='Jaeger Trace View'
+    title='Jaeger Trace View'
+    caption='Jaeger Trace View'
+    %}
 
 As you can see, the trace is comprised of spans,
 where each span corresponds to a BookInfo service invoked during the execution of a `/productpage` request.
@@ -142,21 +160,21 @@ def getForwardHeaders(request):
 The reviews application (Java) does something similar:
  
 ```java
-    @GET
-    @Path("/reviews")
-    public Response bookReviews(@CookieParam("user") Cookie user,
-                                @HeaderParam("x-request-id") String xreq,
-                                @HeaderParam("x-b3-traceid") String xtraceid,
-                                @HeaderParam("x-b3-spanid") String xspanid,
-                                @HeaderParam("x-b3-parentspanid") String xparentspanid,
-                                @HeaderParam("x-b3-sampled") String xsampled,
-                                @HeaderParam("x-b3-flags") String xflags,
-                                @HeaderParam("x-ot-span-context") String xotspan) {
-      String r1 = "";
-      String r2 = "";
+@GET
+@Path("/reviews")
+public Response bookReviews(@CookieParam("user") Cookie user,
+                            @HeaderParam("x-request-id") String xreq,
+                            @HeaderParam("x-b3-traceid") String xtraceid,
+                            @HeaderParam("x-b3-spanid") String xspanid,
+                            @HeaderParam("x-b3-parentspanid") String xparentspanid,
+                            @HeaderParam("x-b3-sampled") String xsampled,
+                            @HeaderParam("x-b3-flags") String xflags,
+                            @HeaderParam("x-ot-span-context") String xotspan) {
+  String r1 = "";
+  String r2 = "";
 
-      if(ratings_enabled){
-        JsonObject ratings = getRatings(user, xreq, xtraceid, xspanid, xparentspanid, xsampled, xflags, xotspan);
+  if(ratings_enabled){
+    JsonObject ratings = getRatings(user, xreq, xtraceid, xspanid, xparentspanid, xsampled, xflags, xotspan);
 ``` 
 
 When you make downstream calls in your applications, make sure to include these headers.

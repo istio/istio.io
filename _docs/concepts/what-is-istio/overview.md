@@ -60,8 +60,12 @@ configuring proxies to route traffic, as well as enforcing policies at runtime.
 
 The following diagram shows the different components that make up each plane:
 
-<figure><img src="./img/architecture/arch.svg" alt="The overall architecture of an Istio-based application." title="Istio Architecture" />
-<figcaption>Istio Architecture</figcaption></figure>
+{% include figure.html width='80%' ratio='56.25%'
+    img='./img/overview/arch.svg'
+    alt='The overall architecture of an Istio-based application.'
+    title='Istio Architecture'
+    caption='Istio Architecture'
+    %}
 
 ### Envoy
 

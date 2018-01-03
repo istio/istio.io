@@ -45,9 +45,9 @@ two steps: 50%, 100%.
    > Note: If you previously ran the [request routing](./request-routing.html) task, you may need to either log out
      as test user "jason" or delete the test rules that were created exclusively for him:
 
-     ```bash
-     istioctl delete routerule reviews-test-v2
-     ```
+   ```bash
+   istioctl delete routerule reviews-test-v2
+   ```
 
 1. First, transfer 50% of the traffic from `reviews:v1` to `reviews:v3` with the following command:
 
@@ -56,6 +56,30 @@ two steps: 50%, 100%.
    ```
 
    Notice that we are using `istioctl replace` instead of `create`.
+
+   Confirm the rule was replaced:
+
+   ```bash
+   istioctl get routerule reviews-default -o yaml
+   ```
+   ```yaml
+   apiVersion: config.istio.io/v1alpha2
+   kind: RouteRule
+   metadata:
+     name: reviews-default
+     namespace: default
+   spec:
+     destination:
+       name: reviews
+     precedence: 1
+     route:
+     - labels:
+         version: v1
+       weight: 50
+     - labels:
+         version: v3
+       weight: 50
+   ```
 
 1. Refresh the `productpage` in your browser and you should now see *red* colored star ratings approximately 50% of the time.
 

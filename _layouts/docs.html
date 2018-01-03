@@ -1,37 +1,38 @@
 ---
 layout: default
 ---
-{% include home.html %}
-{% include doctab.html %}
-
-<script src="{{home}}/js/navtree.min.js"></script>
-
-<div class="container docs">
-  <div class="row">
-    <div class="col-md-11 nofloat center-block">
-      <div class="row">
-        <div id="sidebar-container" class="col-sm-3">
-          {% assign docs = site.docs %}
-          {% include sidebar.html %}
+<div class="container-fluid">
+    <div class="row row-offcanvas row-offcanvas-left">
+        <div class="col-6 col-md-3 col-xl-2 sidebar-offcanvas">
+            {% include sidebar.html docs=site.docs %}
         </div>
 
-        <div id="tab-container" class="col-xs-1 tab-neg-margin pull-left">
-          <a id="sidebar-tab" class="glyphicon glyphicon-chevron-left" href="javascript:void 0;"> </a>
+        {% if page.toc != false %}
+            <div class="col-12 col-md-9 col-lg-7 col-xl-8">
+        {% else %}
+            <div class="col-12 col-md-9 col-xl-10">
+        {% endif %}
+            <p class="d-md-none">
+                <label class="sidebar-toggler" data-toggle="offcanvas">
+                    <i class="fa fa-chevron-right"></i>
+                </label>
+            </p>
+
+            <main role="main">
+                <h1>{{page.title}}</h1>
+                {{ content}}
+            </main>
         </div>
 
-        <div id="content-container" class="thin-left-border col-sm-9 {{ page.type }}">
-          {% if page.toc != false %}
-            <div id="toc" class="toc"></div>
-          {% endif %}
-
-          <div id="doc-content">
-            <h1>{{page.title}}</h1>
-            {{ content }}
-          </div>
-        </div>
-      </div>
+        {% if page.toc != false %}
+            <div class="col-12 col-md-2 d-none d-lg-block">
+                <nav class="toc">
+                    <div class="spacer"></div>
+                    <div class="directory" role="directory">
+                        {% include toc.html html=content sanitize=true h_min=2 h_max=4 %}
+                    </div>
+                </nav>
+            </div>
+        {% endif %}
     </div>
-  </div>
 </div>
-
-<script src="{{home}}/js/sidebar.min.js"></script>

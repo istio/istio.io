@@ -5,5 +5,5 @@ type: markdown
 ---
 {% include home.html %}
 
-See our [feature stages page]({{home}}/docs/welcome/feature-stages.html)
-and [release notes]({{home}}/docs/welcome/notes) for more details.
+See our [feature stages page]({{home}}/about/feature-stages.html)
+and [release notes]({{home}}/about/notes) for more details.
