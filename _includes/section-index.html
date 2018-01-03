@@ -1,46 +1,72 @@
-{% assign components = page.path | downcase | split: '/' %}
+{% comment %}
+Purpose:
+    Generates a section index providing access to all nested docs.
+
+Usage:
+    {% include section-index.html docs='<doc collection>' %}
+
+Parameters:
+    * docs     (collection) - the document collection containing the docs to index
+{% endcomment %}
+
+{% include home.html %}
+{% assign components = page.url | split: '/' %}
+{% for comp in components %}
+    {% if forloop.last %}
+        {% break %}
+    {% endif %}
+
+    {% assign prefix = prefix | append: comp | append: "/" %}
+{% endfor %}
+
+{% include sort-hierarchy.html docs=include.docs prefix=prefix %}
 
 <p>{{page.overview}}</p>
 
-<script type="text/javascript">
-	var docs = [];
+{% assign pageComponents = page.url | split: "/" %}
 
-	{% for d in include.docs %}
-        {% if d.draft == true %}
-            {% continue %}
-        {% endif %}
+<div class="section-index">
+<ul>
 
-		{% assign doc_components = d.path | downcase | split: '/' %}
-		{% assign family = true %}
+{% assign pageDepth = pageComponents | size %}
+{% assign depth = pageDepth %}
+{% for url in urls %}
+    {% if forloop.first %}
+        {% continue %}
+    {% endif %}
 
-		{% for comp in components %}
-			{% if forloop.last %}
-				{% continue %}
-			{% endif %}
+    {% assign title = titles[forloop.index0] %}
+    {% assign overview = overviews[forloop.index0] %}
 
-			{% assign dc = doc_components[forloop.index0] %}
+    {% assign components = url | split: "/" %}
+    {% assign numComponents = components | size %}
+    {% assign name = components | last %}
 
-			{% if dc != comp %}
-				{% assign family = false %}
-				{% break %}
-			{% endif %}
-		{% endfor %}
+    {% if name == "index.html" %}
+        {% for i in (numComponents..depth) %}
+            </ul></li>
+        {% endfor %}
 
-		{% if family == false %}
-			{% continue %}
-		{% endif %}
+        <li class="directory">
+            <span title="{{overview}}">{{title}}</span>
+            <ul>
 
-		docs.push({path: [
-		{% for comp in doc_components %}
-			{% if forloop.index < components.size %}
-				{% continue %}
-			{% endif %}
+    {% else %}
+        {% assign end = depth | minus: 1 %}
+        {% for i in (numComponents..end) %}
+            </ul></li>
+        {% endfor %}
+        <li class="file">
+            <a href="{{home}}{{url}}">{{title}}</a>. {{ overview }}
+        </li>
+    {% endif %}
+    {% assign depth = numComponents %}
+{% endfor %}
 
-			"{{ comp }}",
-		{% endfor %}
-        {% assign url = d.url | remove: "index.html" %}
-		], url: "{{url}}", title: "{{d.title}}", order: {{d.order}}, overview: "{{d.overview}}"});
-	{% endfor %}
+{% assign end = depth | minus: 1 %}
+{% for i in (pageDepth..end) %}
+    </ul></li>
+{% endfor %}
 
-	genSectionNavTree(docs)
-</script>
+</ul>
+</div>

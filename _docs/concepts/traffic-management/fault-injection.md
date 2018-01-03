@@ -6,6 +6,7 @@ order: 40
 
 layout: docs
 type: markdown
+toc: false
 ---
  
 While Envoy sidecar/proxy provides a host of

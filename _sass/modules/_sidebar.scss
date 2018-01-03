@@ -1,44 +1,176 @@
-.sidebar {
-    margin-bottom: 20px;
-
-    @media (min-width: $tablet) {
-        margin-bottom: 0;
-        padding: $spacing--xs 0 $spacing--xl;
+@media screen and (max-width: 767px) {
+    .row-offcanvas {
+        position: relative;
+        transition: all .25s ease-out;
     }
 
-	.current {
-  		color: $popBrandColor;
- 		font-weight: bold;
-  	}
+    .row-offcanvas-right {
+        right: 0;
+    }
 
-  	.sidebar-title {
-		padding: $spacing--s;
-		font-weight: bold;
-	}
+    .row-offcanvas-left {
+        left: 0;
+    }
 
-	.sidebar-list-item {
-		display: inline-block;
-		padding: 2px $spacing--s;
-		width: 100%;
-	}
+    .row-offcanvas-right .sidebar-offcanvas {
+        right: -100%; /* 12 columns */
+    }
 
-    a {
-        font-weight: normal;
+    .row-offcanvas-right.active .sidebar-offcanvas {
+        right: -50%; /* 6 columns */
+    }
+
+    .row-offcanvas-left .sidebar-offcanvas {
+        left: -100%; /* 12 columns */
+    }
+
+    .row-offcanvas-left.active .sidebar-offcanvas {
+        left: -50%; /* 6 columns */
+    }
+
+    .row-offcanvas-right.active {
+        right: 50%; /* 6 columns */
+    }
+
+    .row-offcanvas-left.active {
+        left: 50%; /* 6 columns */
+    }
+
+    .sidebar-offcanvas {
+        position: absolute;
+        top: 0;
+        width: 50%; /* 6 columns */
     }
 }
 
-.tree li {
-    padding-left: 20px;
+.sidebar {
+    order: 0;
+    font-size: 85%;
+
+    @media (min-width: $bp-lg) {
+        font-size: 100%;
+    }
+
+    @supports ((position:-webkit-sticky) or (position:sticky)) {
+        position: -webkit-sticky;
+        position: sticky;
+        top: $headerHeight;
+        z-index: 1000;
+    }
+
+    .directory {
+        @supports ((position:-webkit-sticky) or (position:sticky)) {
+            max-height: calc(100vh - 9rem);
+        }
+
+        @media (min-width: 1200px) {
+            max-width: 25em;
+        }
+
+        @media (min-width: 768px) {
+            @supports ((position:-webkit-sticky) or (position:sticky)) {
+                max-height: calc(100vh - 9rem);
+                overflow-y: auto;
+            }
+        }
+
+        @media (min-width: 768px) {
+            display: block !important;
+        }
+
+        a {
+            font-weight: normal;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            padding-left: .2em;
+            margin-bottom: 0;
+            margin-left: 0;
+            margin-right: .3em;
+        }
+
+        li {
+            display: inline-block;
+            padding: 2px 0 1px 16px;
+            width: 100%;
+            font-size: 85%;
+
+            .current {
+                color: $popBrandColor;
+                font-weight: 500;
+            }
+        }
+
+        li.sublist {
+            padding-left: 0;
+
+            i {
+                width: 12px;
+            }
+        }
+
+        .card-body {
+            padding: .5em .1em;
+        }
+
+        .card-body > ul {
+            padding-left: 0;
+        }
+
+        .card {
+            margin-top: .1rem;
+            margin-bottom: .1rem;
+        }
+
+        .card-header {
+            padding: 0;
+
+            div {
+                padding: .75em 1.25em;
+            }
+        }
+
+        @media (min-width: $bp-lg) {
+            .card-body {
+                padding-left: 1.25rem;
+                padding-right: 1.25rem;
+            }
+
+            li {
+                font-size: 100%;
+            }
+
+            ul {
+                padding-left: 1em;
+            }
+        }
+    }
 }
 
 .tree-toggle {
     cursor: pointer;
-    margin-left: -1em;
+    margin-bottom: 0;
 
-	.tree-toggle-link{
-		&, &:focus, &:hover{
+	.tree-toggle-link {
+		&, &:focus, &:hover {
 			color:#535f61 !important;
 			text-decoration: none;
 		}
 	}
+}
+
+.sidebar-toggler {
+    font-size: 1rem;
+    line-height: 1rem;
+    padding: .5rem;
+    color: rgba(0, 0, 0, .4);
+    border: 1px solid rgba(0, 0, 0, .4);
+    border-radius: 0 10px 10px 0;
+}
+
+.sidebar-toggler:hover {
+    cursor: pointer;
+	color: $linkHoverColor;
 }

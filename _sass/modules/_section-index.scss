@@ -1,22 +1,35 @@
 .section-index {
 
     li.directory {
-        margin: 0px;
-        padding: 0px;
+        margin: 0;
+        padding: 0;
         margin-top: 15px;
-        margin-left: 0px;
-        font-size: 1.20rem;
+        margin-left: 0;
     }
 
     li.file {
-        margin: 0px;
-        padding: 0px;
+        margin: 0;
+        padding: 0;
         margin-top: 10px;
-        list-style: none;
-        font-size: 1.10rem;
     }
 
     a {
         font-weight: 400;
+    }
+
+    ul {
+        list-style: disc;
+
+        >li>ul {
+            list-style: circle;
+
+            >li>ul {
+                list-style: square;
+
+                >li>ul {
+                    list-style: disc;
+                }
+            }
+        }
     }
 }

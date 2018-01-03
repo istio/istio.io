@@ -6,8 +6,6 @@ type: markdown
 ---
 {% include home.html %}
 
-# Our community
-
 Istio is an open source project with an active community that supports its use and on-going development. We'd love for you
 to join us and get involved!
 
@@ -18,53 +16,54 @@ There are quite a few ways to get plugged in with the Istio community:
     
     <tr>
       <td class="logo"><img src="{{home}}/img/list.png" alt="Mailing Lists"/></td>
-      <td>
-        Join the <a href="https://groups.google.com/forum/#!forum/istio-users">istio-users@</a> mailing list to participate in discussions
+      <td class="desc">
+        Join the <a href="https://groups.google.com/forum/#!forum/istio-users" target="_blank" rel="noopener">istio-users@</a> mailing list to participate in
+         discussions
         and get help troubleshooting problems.
-        Join <a href="https://groups.google.com/forum/#!forum/istio-announce">istio-announce@</a> to hear about the latest
+        Join <a href="https://groups.google.com/forum/#!forum/istio-announce" target="_blank" rel="noopener">istio-announce@</a> to hear about the latest
         releases, events, and other happenings.
-        There's also the <a href="https://groups.google.com/forum/#!forum/istio-dev">istio-dev@</a> mailing list which
+        There's also the <a href="https://groups.google.com/forum/#!forum/istio-dev" target="_blank" rel="noopener">istio-dev@</a> mailing list which
         is used to discuss development issues around the Istio project.
       </td>
     </tr>
 
     <tr>
       <td class="logo"><img src="{{home}}/img/twitter.svg" alt="Twitter"/></td>
-      <td>
-        Follow us on <a href="https://twitter.com/IstioMesh">Twitter</a> to get the latest news.
+      <td class="desc">
+        Follow us on <a href="https://twitter.com/IstioMesh" target="_blank" rel="noopener">Twitter</a> to get the latest news.
       </td>
     </tr>
 
     <tr>
       <td class="logo"><img src="{{home}}/img/stackoverflow.svg" alt="Stack Overflow"/></td>
-      <td>
-        <a href="https://stackoverflow.com/questions/tagged/istio">Stack Overflow</a> is for practical questions and curated answers
+      <td class="desc">
+        <a href="https://stackoverflow.com/questions/tagged/istio" target="_blank" rel="noopener">Stack Overflow</a> is for practical questions and curated answers
         on deploying, configuring, and using Istio.
       </td>
     </tr>
 
     <tr>
       <td class="logo"><img src="{{home}}/img/github.png" alt="GitHub"/></td>
-      <td>
-        <a href="https://github.com/istio/community">GitHub</a> is where development takes place on Istio code.
+      <td class="desc">
+        <a href="https://github.com/istio/community" target="_blank" rel="noopener">GitHub</a> is where development takes place on Istio code.
       </td>
     </tr>
     
     <tr>
       <td class="logo"><img src="{{home}}/img/drive.png" alt="Team Dive"/></td>
-      <td>
+      <td class="desc">
         If you want to get into the nuts and bolts of Istio, check out our growing collection
         of design documents. Join any of the Istio mailing lists mentioned above, and you'll
         be able to access our
-        <a href="https://drive.google.com/corp/drive/u/0/folders/0AIS5p3eW9BCtUk9PVA">folder full of technical goodies</a>.
+        <a href="https://drive.google.com/corp/drive/u/0/folders/0AIS5p3eW9BCtUk9PVA" target="_blank" rel="noopener">folder full of technical goodies</a>.
       </td>
     </tr>
         
     <tr>
       <td class="logo"><img src="{{home}}/img/group.svg" alt="Working Groups"/></td>
-      <td>
+      <td class="desc">
         If you'd like to contribute to the Istio project, consider participating in our 
-        <a href="https://github.com/istio/community/blob/master/WORKING-GROUPS.md">working groups</a>.
+        <a href="https://github.com/istio/community/blob/master/WORKING-GROUPS.md" target="_blank" rel="noopener">working groups</a>.
       </td>
     </tr>
   </tbody>

@@ -1,33 +1,20 @@
 ---
 ---
 
-@import "base/config";
-@import "base/reset";
-@import "base/colors";
+@import "base/constants";
 @import "base/common";
-@import "base/text";
-@import "base/override";
-@import "base/markdown";
 
-@import "modules/buttons";
-@import "modules/doctab";
-@import "modules/figure";
+@import "modules/header";
 @import "modules/footer";
-@import "modules/nav";
-@import "modules/search-box";
-@import "modules/section-index";
 @import "modules/sidebar";
 @import "modules/toc";
+@import "modules/figure";
+@import "modules/faq";
+@import "modules/glossary";
+@import "modules/section-index";
+@import "modules/buttons";
 
-@import "layouts/about";
-@import "layouts/blog";
-@import "layouts/bugs";
-@import "layouts/community";
-@import "layouts/docs";
-@import "layouts/faq";
-@import "layouts/glossary";
-@import "layouts/help";
-@import "layouts/landing";
 @import "layouts/notfound";
-@import "layouts/search-results";
-@import "layouts/troubleshooting";
+@import "layouts/blog";
+@import "layouts/community";
+@import "layouts/landing";

@@ -1,171 +1,107 @@
 .landing {
+    .hero {
+        background: $mainBrandColor linear-gradient(to right, $mainBrandColor, $secondBrandColor) no-repeat center/cover;
+        position: relative;
+        text-align: center;
 
-  .hero {
-    position: relative;
-    text-align: center;
-  }
+        .hero-label {
+            color: white;
+            margin: 0 0 0 0;
+            padding: 30px 0 0 0;
+            font-size: 62px;
+        }
 
-  .jumbotron {
-    padding-top: 20px;
-    padding-bottom: 20px;
-  }
+        .hero-logo {
+            height: 170px;
+            padding: 0;
+            margin: 28px 0 0 0;
+        }
 
-  /* base styles and > 770px height */
-  .nav-hero-container {
-    *[id]:before {
-      display: block;
-      content: " ";
-      margin-top: -1em;
-      height: 1em;
-      visibility: hidden;
+        .hero-lead {
+            color: white;
+            display: block;
+            font-size: 18px;
+            font-weight: 300;
+            margin: 32px 0 0 0;
+            padding: 0;
+        }
+
+        .hero-down-arrow {
+            color: white;
+            display: inline-block;
+            margin: 20px 0 20px 0;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        @media (min-width: $bp-sm) {
+            .hero-label {
+                padding: 80px;
+            }
+
+            .hero-logo {
+                margin: 78px 0 0 0;
+            }
+
+            .hero-lead {
+                margin: 82px 0 0 0;
+            }
+
+            .hero-down-arrow {
+                margin: 60px 0 20px 0;
+            }
+        }
     }
-
-    background: $mainBrandColor linear-gradient(to right, $mainBrandColor, $secondBrandColor) no-repeat center/cover;
-    z-index: 9010;
-    position: relative;
-    color: white;
-
-    .hero-logo {
-      height: 170px;
-      margin: 78px 0 0 0;
-      padding: 0;
-    }
-
-    .hero-label {
-      color: white;
-      margin: 80px 0 0 0;
-      padding: 0;
-      font-size: 62px;
-    }
-
-    .hero-lead {
-      color: $white;
-      display: block;
-      font-size: 18px;
-      font-weight: 300;
-      margin: 82px 0 0 0;
-      padding: 0px;
-    }
-
-    .hero-down-arrow {
-      display: inline-block;
-      margin: 60px 0 20px 0;
-      padding: 5px;
-      cursor: pointer;
-    }
-  }
-
-  /* < 550px height */
-  @media (max-height: 550px){
-    .nav-hero-container {
-      .hero-logo {
-        margin: 28px 0 0 0;
-      }
-      .hero-lebal {
-        margin: 30px 0 0 0;
-      }
-      .hero-lead {
-        margin: 32px 0 0 0;
-      }
-      .hero-down-arrow {
-        margin: 20px 0 20px 0;
-      }
-    }
-  }
-
-  /* default styles */
-  .section-content {
-    padding: 20px 20px 20px 20px;
 
     h2 {
-      text-align: center;
-    }
-
-    p {
-      font-weight: normal;
-      font-size: 100%;
-      text-align: center;
-    }
-  }
-
-  .landing-image {
-    padding-top: 10px;
-    padding-bottom: 20px;
-    max-height: 300px;
-  }
-
-  .jumbotron {
-    margin: 0;
-  }
-
-  .traffic, .policy {
-    background-color: white;
-  }
-
-  .resilience, .reporting, .resilience h2, .reporting h2 {
-    background-color: #f8f8f8;
-  }
-
-  #doc-call {
-    margin: 80px 0;
-    padding:0;
-    height:auto;
-
-    .doc-call-title{
-      margin:0;
-      padding:0;
-    }
-    .doc-call-text{
-      margin:20px 0 30px 0;
-      padding:0;
-    }
-  }
-
-  /* screens 1024px or larger */
-  @media (min-width: $desktop-small) {
-    .container-fluid {
-      height: 400px;
-      clear:both;
+        border: 0;
     }
 
     .landing-image {
-      position: relative;
-      top: 50%;
-      transform: translateY(-50%);
-      max-width: 55%;
-      padding-right: 20px;
-      padding-left: 20px;
+        max-height: 300px;
+        text-align: center;
     }
 
-    .section-content {
-      padding: 10% 0;
-      position: relative;
-      top: 50%;
-      transform: translateY(-50%);
-      float: right;
-      width: 45%;
-
-      h2 {
-        font-size: 2rem;
-        padding:0;
-        text-align: left;
-      }
-
-      p {
-        padding:0;
-        margin:15px 0 30px 0;
-        font-size: 14px;
-        line-height: 1.5;
-        text-align: left;
-      }
+    .landing-text {
+        text-align: center;
     }
-  }
 
-  /* screens 1440px or larger */
-  @media (min-width: $desktop-large) {
-    .jumbotron {
-      padding-left: 200px;
-      padding-right: 200px;
+    .alt {
+        background-color: #f8f8f8;
     }
-  }
+
+    .container-fluid {
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+
+    @media (min-width: $bp-md) {
+        .landing-text {
+            text-align: left;
+
+            .alt {
+                text-align: right;
+            }
+        }
+
+        .landing-image {
+            text-align: right;
+
+            .alt {
+                text-align: left;
+            }
+        }
+
+        .container-fluid {
+            padding-top: 30px;
+            padding-bottom: 30px;
+        }
+    }
+
+    .call {
+        margin: 80px 0 20px 0;
+        padding: 0;
+        height: auto;
+        text-align: center;
+    }
 }
