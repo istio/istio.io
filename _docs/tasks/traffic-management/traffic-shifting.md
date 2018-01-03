@@ -57,6 +57,30 @@ two steps: 50%, 100%.
 
    Notice that we are using `istioctl replace` instead of `create`.
 
+   Confirm the rule was replaced:
+
+   ```bash
+   istioctl get routerule reviews-default -o yaml
+   ```
+   ```yaml
+   apiVersion: config.istio.io/v1alpha2
+   kind: RouteRule
+   metadata:
+     name: reviews-default
+     namespace: default
+   spec:
+     destination:
+       name: reviews
+     precedence: 1
+     route:
+     - labels:
+         version: v1
+       weight: 50
+     - labels:
+         version: v3
+       weight: 50
+   ```
+
 1. Refresh the `productpage` in your browser and you should now see *red* colored star ratings approximately 50% of the time.
 
    > Note: With the current Envoy sidecar implementation, you may need to refresh the `productpage` very many times
