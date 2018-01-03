@@ -88,7 +88,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Kubernetes: Istio Control Plane Installation](https://istio.io/docs/setup/kubernetes/) | Beta
 | [Pilot Integration into Kubernetes Service Discovery](https://istio.io/docs/setup/kubernetes/)         | Beta
 | [Attribute Expression Language](https://istio.io/docs/reference/config/mixer/expression-language.html)        | Beta
-| [Mixer Adapter Authoring Model](https://istio.io/blog/posts/2017/adapter-model.html)        | Beta
+| [Mixer Adapter Authoring Model](https://istio.io/blog/2017/adapter-model.html)        | Beta
 | [VM: Envoy Installation, Traffic Interception and Service Registration](https://istio.io/docs/guides/integrating-vms.html)    | Alpha
 | [VM: Istio Control Plane Installation and Upgrade (Galley, Mixer, Pilot, CA)](https://github.com/istio/istio/issues/2083)  | Alpha
 | [Kubernetes: Istio Control Plane Upgrade](https://istio.io/docs/setup/kubernetes/) | Alpha
