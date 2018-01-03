@@ -7,6 +7,7 @@ order: 60
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 Instructions for integrating VMs and bare metal hosts into an Istio mesh
 deployed on Kubernetes.

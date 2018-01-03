@@ -1,0 +1,42 @@
+{% include latest_blog_post.html %}
+
+{% assign current = page.url | downcase | split: '/' %}
+
+<header role="banner">
+    <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-dark">
+        {% if page.url == "/index.html" or page.url == "/" %}
+            {% assign visibility = "hidden" %}
+        {% else %}
+            {% assign visibility = "visible" %}
+        {% endif %}
+
+        <a class="navbar-brand d-flex w-50 mr-auto" href="{{home}}/" style="visibility: {{visibility}}">
+            <img class="logo" src="{{home}}/img/istio-logo.svg" alt="Istio Logo"/>
+            <span class="brand-name">Istio</span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav justify-content-end">
+                <a class="nav-item nav-link {% if current[1] == 'about' %}active{% endif %}" href="{{home}}/about/intro.html">About</a>
+                <a class="nav-item nav-link {% if current[1] == 'blog' %}active{% endif %}" href="{{latest_blog_post}}">Blog</a>
+                <a class="nav-item nav-link {% if current[1] == 'docs' %}active{% endif %}" href="{{home}}/docs/">Docs</a>
+                <a class="nav-item nav-link {% if current[1] == 'help' %}active{% endif %}" href="{{home}}/help">Help</a>
+                <a class="nav-item nav-link {% if current[1] == 'community.html' %}active{% endif %}" href="{{home}}/community">Community</a>
+            </div>
+
+            <form name="cse" id="searchbox" class="form-inline justify-content-end" role="search">
+                <input type="hidden" name="cx" value="013699703217164175118:veyyqmfmpj4" />
+                <input type="hidden" name="ie" value="utf-8" />
+                <input type="hidden" name="hl" value="en" />
+                <div class="input-group">
+                    <input name="q" class="form-control search-box" type="text" size="30" />
+                    <button class="btn btn-search input-group-addon my-2 my-sm-0 fa fa-search" type="submit"></button>
+                </div>
+            </form>
+        </div>
+    </nav>
+</header>

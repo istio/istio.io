@@ -1,0 +1,83 @@
+{% comment %}
+Purpose:
+    Sorts a document hierarchy by the 'order' front-matter entry of each doc.
+    This is hard since Liquid doesn't have functions, recursion, scoped variables,
+    or data structures. Oh, and Liquid is very slow too.
+
+Usage:
+    {% include sort-hierarchy.html docs='<doc collection>' prefix='<doc url filter>' %}
+
+Parameters:
+    * docs     (collection) - the document collection to sort such as site.docs
+
+Results:
+    * urls      (string array) - the sorted document urls
+    * titles    (string array) - the sorted document titles
+    * overviews (string array) - the sorted document overviews
+
+Note:
+    This code uses $ and ^ as magic string markers. If any document's
+    URL, title, or overview contain these characters, then this code
+    will get confused and return gibberish.
+
+{% endcomment %}
+
+{% assign prefixlen = include.prefix | size %}
+{% assign a = "" %}
+{% for doc in include.docs %}
+    {% if doc.draft == true %}
+        {% continue %}
+    {% endif %}
+
+    {% assign doc_prefix = doc.url | slice: 0, prefixlen %}
+    {% if doc_prefix != include.prefix %}
+        {% continue %}
+    {% endif %}
+
+    {% assign o = "00000" | append: doc.order %}
+    {% assign start = o | size | minus: 5 %}
+    {% assign order = o | slice: start, 5 %}
+
+    {% assign components = doc.url | split: "/" %}
+    {% assign count = components | size | minus:2 %}
+    {% for max in (2..count) reversed %}
+        {% assign p = "" %}
+        {% for i in (1..max) %}
+            {% assign p = p | append: "/" | append: components[i] %}
+        {% endfor %}
+        {% assign p = p | append: "/index.html" %}
+
+        {% for sub in include.docs %}
+            {% if sub.url == p %}
+                {% assign o = "00000" | append: sub.order %}
+                {% assign start = o | size | minus: 5 %}
+                {% assign order = o | slice: start, 5 | append:"/" | append: order %}
+                {% break %}
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+
+    {% assign name = components | last %}
+    {% if name == "index.html" %}
+        {% assign len = order | size | minus: 5 %}
+        {% assign order = order | slice: 0, len | append: "#####" %}
+    {% endif %}
+
+    {% assign a = a | append: "^" | append: order | append: "$" | append: doc.url | append: "$" | append: doc.title | append: "$" | append: doc.overview %}
+{% endfor %}
+
+{% assign sorted = a | split: "^" | sort %}
+{% for s in sorted %}
+    {% assign parts = s | split: "$" %}
+    {% assign urls = urls | append: "$" | append: parts[1] %}
+    {% assign titles = titles | append: "$" | append: parts[2] %}
+    {% assign overviews = overviews | append: "$" | append: parts[3] %}
+{% endfor %}
+
+{% assign urlslen = urls | size | minus: 2 %}
+{% assign titleslen = titles | size | minus: 2 %}
+{% assign overviewslen = overviews | size | minus: 2 %}
+
+{% assign urls = urls | slice: 2, urlslen | split: "$" %}
+{% assign titles = titles | slice: 2, titleslen | split: "$" %}
+{% assign overviews = overviews | slice: 2, overviewslen | split: "$" %}

@@ -251,9 +251,11 @@ http://localhost:9411
 
 For more details on tracing see [Understanding what happened](/docs/tasks/telemetry/distributed-tracing.html#understanding-what-happened).
 
-## Whats next?
+## What's next
 
-You can further explore the BookInfo app and Istio functionality by following any of the tutorials in the [Guides](/docs/guides/) section. However, to do this you need to install ```istioctl``` to interact with Istio. You can either [install](/docs/setup/kubernetes/quick-start.html#installation-steps) it directly on our workstation or within Cloud Shell.
+You can further explore the BookInfo app and Istio functionality by following any of the tutorials in the
+[Guides]({{home}}/docs/guides/) section. However, to do this you need to install ```istioctl``` to interact with Istio. You can either [install]
+(/docs/setup/kubernetes/quick-start.html#installation-steps) it directly on our workstation or within Cloud Shell.
 
 ## Uninstalling
 

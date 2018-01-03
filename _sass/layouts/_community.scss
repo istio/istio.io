@@ -1,14 +1,20 @@
 .community {
-  table, th, td {
-    border-color: $light-gray;
-  }
+    table, th, td {
+        border: none;
+    }
 
-  td {
-    line-height: 1.15em;
-    vertical-align: middle;
-  }
+    td {
+        line-height: 1.15em;
+        vertical-align: middle;
+        padding-top: 1em;
+        padding-bottom: 1em;
+    }
 
-  td.logo {
-    width : 65px;
-  }
+    td.logo {
+        width : 65px;
+    }
+
+    td.desc {
+        padding-left: 1em;
+    }
 }

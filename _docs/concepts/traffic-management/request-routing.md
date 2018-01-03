@@ -62,7 +62,7 @@ Istio does not provide a DNS. Applications can try to resolve the
 FQDN using the DNS service present in the underlying platform (kube-dns,
 mesos-dns, etc.).
 
-## Ingress and Egress
+## Ingress and egress
 
 Istio assumes that all traffic entering and leaving the service mesh
 transits through Envoy proxies. By deploying the Envoy proxy in front of
