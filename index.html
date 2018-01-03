@@ -4,87 +4,91 @@ title: Istio
 ---
 {% include home.html %}
 
-<div class="nav-hero-container">
-    <div class="hero">
-        <div class="container">
-            <h1 class="hero-label">Istio</h1>
-            <img class="hero-logo" alt="Istio Logo" src="{{home}}/img/istio-logo.svg" />
-            <h1 class="hero-lead">An open platform to connect, manage, and secure microservices</h1>
-            <span class="hero-down-arrow fa fa-2 fa-caret-down"></span>
+<div class="hero">
+    <div class="container">
+        <h1 class="hero-label">Istio</h1>
+        <img class="hero-logo" alt="Istio Logo" src="{{home}}/img/istio-logo.svg" />
+        <h1 class="hero-lead">An open platform to connect, manage, and secure microservices</h1>
+        <span onclick="getElementById('SCROLLME').scrollIntoView({block: 'start', inline: 'nearest', behavior: 'smooth'})" class="hero-down-arrow fa fa-2
+        fa-caret-down"></span>
+        <span id="SCROLLME"></span>
+    </div>
+</div>
+
+<div class="container-fluid traffic">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-12 col-md-5">
+            <img class="landing-image" src="{{home}}/img/routing.svg" alt="Traffic Management">
+        </div>
+        <div class="col-12 col-md-5 landing-text">
+            <h2>Intelligent Routing and Load Balancing</h2>
+            <p>
+                Control traffic between services with dynamic route configuration,
+                conduct A/B tests, release canaries, and gradually upgrade versions using red/black deployments.
+                <a href="{{home}}/docs/concepts/traffic-management/overview.html">Learn more...</a>
+            </p>
         </div>
     </div>
 </div>
 
-<section class="hero-wrapper">
-    <div class="jumbotron traffic">
-        <div class="container-fluid">
-            <img class="landing-image pull-left" src="{{home}}/img/routing.svg" alt="Traffic Management">
-            <div class="section-content pull-right">
-                <h2>Intelligent Routing and Load Balancing</h2>
-                <p>
-                    Control traffic between services with dynamic route configuration,
-                    conduct A/B tests, release canaries, and gradually upgrade versions using red/black deployments.
-                    <a href="{{home}}/docs/concepts/traffic-management/overview.html">Learn more...</a>
-                </p>
-            </div>
+<div class="container-fluid resilience alt">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-12 col-md-5">
+            <img class="landing-image" src="{{home}}/img/resilience.svg" alt="Timeouts, Retries, Circuit Breakers">
         </div>
-    </div>
-</section>
-
-<section class="hero-wrapper">
-    <div class="jumbotron resilience">
-        <div class="container-fluid">
-            <img class="landing-image pull-right" src="{{home}}/img/resilience.svg" alt="Timeouts, Retries, Circuit Breakers">
-            <div class="section-content pull-left">
-                <h2>Resilience Across Languages and Platforms</h2>
-                <p>
-                    Increase reliability by shielding applications from flaky networks and cascading failures in adverse conditions.
-                    <a href="{{home}}/docs/concepts/traffic-management/handling-failures.html">Learn more...</a>
-                </p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="hero-wrapper">
-    <div class="jumbotron policy">
-        <div class="container-fluid">
-            <img class="landing-image pull-left" src="{{home}}/img/policy.svg" alt="Policy Enforcement">
-            <div class="section-content pull-right">
-                <h2>Fleet-Wide Policy Enforcement</h2>
-                <p>
-                    Apply organizational policy to the interaction between services, ensure access policies are enforced and resources are fairly distributed
-                    among consumers.
-                    <a href="{{home}}/docs/concepts/policy-and-control/mixer.html">Learn more...</a>
-                </p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="hero-wrapper">
-    <div class="jumbotron reporting">
-        <div class="container-fluid">
-            <img class="landing-image pull-right" src="{{home}}/img/monitoring.svg" alt="Distributed tracing and telemetry">
-            <div class="section-content pull-left">
-                <h2>In-Depth Telemetry and Reporting</h2>
-                <p>
-                    Understand the dependencies between services, the nature and flow of traffic between them, and quickly identify issues with distributed tracing.
-                    <a href="{{home}}/docs/concepts/what-is-istio/overview.html">Learn more...</a>
-                </p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<div id="doc-call" class="container-fluid doc-call-container ">
-    <div class="row doc-call-row">
-        <div class="col-md-10 nofloat center-block">
-            <div class="col-sm-9 text-center nofloat center-block">
-                <h2 class="doc-call-title">Want to learn more?</h2>
-                <p class="doc-call-text">Get started by learning Istio concepts and doing our BookInfo sample.</p>
-                <a href="{{home}}/docs"><button class="btn btn-istio">GET STARTED</button></a>
-            </div>
+        <div class="col-12 col-md-5 order-md-first landing-text">
+            <h2>Resilience Across Languages and Platforms</h2>
+            <p>
+                Increase reliability by shielding applications from flaky networks and cascading failures in adverse conditions.
+                <a href="{{home}}/docs/concepts/traffic-management/handling-failures.html">Learn more...</a>
+            </p>
         </div>
     </div>
 </div>
+
+<div class="container-fluid policy">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-12 col-md-5">
+            <img class="landing-image" src="{{home}}/img/policy.svg" alt="Policy Enforcement">
+        </div>
+        <div class="col-12 col-md-5 landing-text">
+            <h2>Fleet-Wide Policy Enforcement</h2>
+            <p>
+                Apply organizational policy to the interaction between services, ensure access policies are enforced and resources are fairly distributed
+                among consumers.
+                <a href="{{home}}/docs/concepts/policy-and-control/mixer.html">Learn more...</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid reporting alt">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-12 col-md-5">
+            <img class="landing-image" src="{{home}}/img/monitoring.svg" alt="Distributed tracing and telemetry">
+        </div>
+        <div class="col-12 col-md-5 order-md-first landing-text">
+            <h2>In-Depth Telemetry and Reporting</h2>
+            <p>
+                Understand the dependencies between services, the nature and flow of traffic between them, and quickly identify issues with distributed tracing.
+                <a href="{{home}}/docs/concepts/what-is-istio/overview.html">Learn more...</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid call">
+    <h2>Want to learn more?</h2>
+    <p>Get started by learning Istio concepts and doing our BookInfo sample.</p>
+    <a href="{{home}}/docs"><button class="btn btn-istio">GET STARTED</button></a>
+</div>
+
+<style type="text/css">
+    header .navbar {
+        box-shadow: none;
+    }
+
+    body {
+        padding-top: 5rem;
+    }
+</style>

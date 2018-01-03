@@ -6,6 +6,7 @@ order: 25
 
 layout: docs
 type: markdown
+toc: false
 ---
 
 This page describes how Istio load balances traffic across instances of a
@@ -24,7 +25,7 @@ registry and provides a platform-agnostic service discovery
 interface. Envoy instances in the mesh perform service discovery and 
 dynamically update their load balancing pools accordingly.
 
-{% include figure.html width='60%' ratio='74.79%'
+{% include figure.html width='80%' ratio='74.79%'
     img='./img/pilot/LoadBalancing.svg'
     alt='Discovery and Load Balancing'
     title='Discovery and Load Balancing'

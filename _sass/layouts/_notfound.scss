@@ -1,22 +1,22 @@
 .notfound {
-  text-align: center;
+    text-align: center;
 
-  .icon {
-    margin-top: 120px;
-    img {
-      height: 150px;
+    .icon {
+        margin-top: 9rem;
+        img {
+            height: 12rem;
+        }
     }
-  }
 
-  .error {
-    padding: 25px 0px 0px 0px;
-    font-weight: 70%;
-    font-size: 200%;
-  }
+    .error {
+        padding: 2rem 0 0 0;
+        font-weight: 70%;
+        font-size: 200%;
+    }
 
-  .explanation {
-    padding: 25px 0px 120px 0px;
-    font-weight: normal;
-    font-size: 100%;
-  }
+    .explanation {
+        padding: 2rem 0 9rem 0;
+        font-weight: normal;
+        font-size: 100%;
+    }
 }

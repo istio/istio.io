@@ -1,45 +1,132 @@
-<ul class="sidebar">
+{% comment %}
+Purpose:
+    Generates a sidebar providing access to a document hierarchy.
 
-	{% assign components = page.path | downcase | split: '/' %}
-	{% assign section = components[1] %}
+Usage:
+    {% include sidebar docs='<doc collection>' singlecard='true|false' %}
 
-	{% for d in docs %}
-        {% if d.draft == true %}
-    	    {% continue %}
+    Parameters:
+        * docs       (collection) - the document collection containing the docs to index
+        * singlecard (boolean) - an optional boolean indicating whether the whole hierarchy should be in a single card
+{% endcomment %}
+
+{% include home.html %}
+
+<nav class="sidebar">
+    <div class="spacer"></div>
+    <div class="directory" role="tablist">
+
+        {% include sort-hierarchy.html docs=include.docs prefix='' %}
+
+        {% assign pageComponents = page.url | split: "/" %}
+
+        {% if include.singlecard %}
+            {% assign depth = 2 %}
+        {% else %}
+            {% assign depth = 3 %}
         {% endif %}
+        {% assign componentTrigger = depth | plus: 1 %}
 
-		{% assign components = d.path | downcase | split: '/' %}
-		{% if components[1] == section %}
-			{% if components[2] == 'index.md' %}
-				<li><h5 class='sidebar-title'>{{d.title}}</h5></li>
-			{% endif %}
-        {% endif %}
-	{% endfor %}
-
-	<script type="text/javascript">
-        var docs = [];
-        {% for d in docs %}
-            {% if d.draft == true %}
-                {% continue %}
+        {% for url in urls %}
+            {% if forloop.first %}
+                {% if include.singlecard != true %}
+                    {% continue %}
+                {% endif %}
             {% endif %}
 
-	        {% assign components = d.path | downcase | split: '/' %}
-			{% if components[1] == section %}
-		        docs.push({path: [
-		        {% for comp in components %}
-        			{% if forloop.index > 2 %}
-        				"{{ comp }}",
-        			{% endif %}
-        		{% endfor %}
-				{% assign order = d.order %}
-				{% if order == nil %}
-				{% assign order = 9999 %}
-				{% endif %}
-                {% assign url = d.url | remove: "index.html" %}
-        		], url: "{{url}}", title: "{{d.title}}", order: {{order}}, overview: "{{d.overview}}"});
-		    {% endif %}
+            {% assign title = titles[forloop.index0] %}
+            {% assign overview = overviews[forloop.index0] %}
+
+            {% assign components = url | split: "/" %}
+            {% assign numComponents = components | size %}
+            {% assign name = components | last %}
+
+            {% if name == "index.html" %}
+
+                {% assign parent = false %}
+                {% for c in components %}
+                    {% if c == "index.html" %}
+                        {% assign parent = true %}
+                        {% break %}
+                    {% endif %}
+                    {% if c != pageComponents[forloop.index0] %}
+                        {% break %}
+                    {% endif %}
+                {% endfor %}
+
+                {% if numComponents == componentTrigger %}
+                    {% if depth >= numComponents %}
+                        {% assign end = depth | minus: 1 %}
+                        {% for i in (numComponents..end) %}
+                            </ul></li>
+                        {% endfor %}
+                        </ul></div></div></div>
+                    {% endif %}
+
+                    <div class="card">
+                        <div class="card-header" role="tab" id="header{{forloop.index0}}">
+                            {% if include.singlecard %}
+                                <div title="{{overview}}">
+                                    {{title}}
+                                </div>
+                            {% else %}
+                                <a data-toggle="collapse" href="#collapse{{forloop.index0}}" title="{{overview}}" role="button"
+                                   aria-controls="collapse{{forloop.index0}}">
+                                    <div>
+                                        {{title}}
+                                    </div>
+                                </a>
+                            {% endif %}
+                        </div>
+
+                        <div id="collapse{{forloop.index0}}" class="collapse{% if parent == true %} show{% endif %}" data-parent="#sidebar" role="tabpanel"
+                             aria-labelledby="header{{forloop.index0}}">
+                            <div class="card-body">
+                                <ul class="tree">
+                {% else %}
+                    {% for i in (numComponents..depth) %}
+                        </ul></li>
+                    {% endfor %}
+
+                    <li class="sublist">
+                        <label class='tree-toggle'>
+                            {% if parent == true %}
+                                <i class='fa fa-lg fa-caret-down'></i>
+                            {% else %}
+                                <i class='fa fa-lg fa-caret-right'></i>
+                            {% endif %}
+                            {% assign niceurl = url | remove: "/index.html" %}
+                            <a class="{% if url == page.url %}current{% endif %}" title="{{overview}}" href="{{home}}{{niceurl}}">{{title}}</a>
+                        </label>
+                        <ul class="tree{% if parent == false %} collapse{% endif %}">
+                {% endif %}
+            {% else %}
+                {% assign end = depth | minus: 1 %}
+                {% for i in (numComponents..end) %}
+                    </ul></li>
+                {% endfor %}
+                <li>
+                    {% if url == page.url %}
+                        <span class="current" title="{{overview}}">{{title}}</span>
+                    {% else %}
+                        <a title="{{overview}}" href="{{home}}{{url}}">{{title}}</a>
+                    {% endif %}
+                </li>
+            {% endif %}
+            {% assign depth = numComponents %}
         {% endfor %}
 
-		genSideBarTree(docs)
-	</script>
-</ul>
+        {% for i in (5..depth) %}
+            </ul></li>
+        {% endfor %}
+        </ul></div></div></div>
+
+        {% if include.bloghack %}
+            <div class="text-center" style="margin-top: 1em; font-size: 1.2em;" >
+                <a href="{{home}}/feed.xml">
+                    <img style="width: 1.4em;" src="{{home}}/img/rss.svg" alt="RSS"/> Subscribe
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</nav>

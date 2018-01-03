@@ -2,6 +2,7 @@ markdown:
   kramdown
 
 kramdown:
+  auto_ids: true
   input: GFM
   hard_wrap: false
   syntax_highlighter_opts:
@@ -17,8 +18,6 @@ liquid:
 sass:
   style: compressed
 
-excerpt_separator: <!--end_excerpt-->
-
 compress_html:
   clippings: all
   comments: all
@@ -33,6 +32,10 @@ collections:
   blog:
     output: true
   docs:
+    output: true
+  help:
+    output: true
+  about:
     output: true
 
 plugins:

@@ -145,4 +145,4 @@ phases:
 
 ## What's next
 
-* Read the [blog post]({{home}}/blog/mixer-adapter-model.html) describing Mixer's adapter model.
+* Read the [blog post]({{home}}/blog/2017/adapter-model.html) describing Mixer's adapter model.

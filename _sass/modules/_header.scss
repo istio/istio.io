@@ -1,0 +1,92 @@
+header {
+    .navbar {
+        background-image: linear-gradient(to right, $mainBrandColor, $secondBrandColor);
+        box-shadow: 0 0 2px 2px rgba(0, 0, 0, .14), 0 2px 4px 2px rgba(0, 0, 0, .28);
+        padding-top: .2em;
+        padding-bottom: .2em;
+
+        @media (min-width: $bp-sm) {
+            padding-top: .5em;
+            padding-bottom: .5em;
+        }
+
+        .logo {
+            width: .8em;
+            height: 1.2em;
+
+            @media (min-width: $bp-sm) {
+                width: 2em;
+                height: 3em;
+            }
+        }
+
+        .brand-name {
+            color: $white;
+            font-size: 1em;
+            font-weight: 400;
+            vertical-align: bottom;
+            line-height: 1.1em;
+            margin-left: .7em;
+
+            @media (min-width: $bp-sm) {
+                font-size: 1.7em;
+                line-height: 1.5em;
+            }
+        }
+
+        a.nav-link {
+            color: $white;
+
+            &::hover {
+                color: red;
+            }
+        }
+
+        a.active {
+            border-bottom: solid 3px $white;
+            border-radius: 2px;
+        }
+
+        #searchbox {
+            margin-left: 1.5em;
+        }
+
+        .btn-search {
+            color: #aaa;
+            background: $light-gray;
+            cursor: pointer;
+            padding-left: .7em;
+            font-size: .8em;
+            vertical-align: middle;
+
+            @media (min-width: $bp-sm) {
+                font-size: 1.2em;
+            }
+        }
+    }
+
+    .navbar-dark .navbar-nav .nav-link {
+        color: white;
+
+        &:hover {
+            color: cyan;
+        }
+
+        &:active {
+            color: $popBrandColor;
+        }
+    }
+
+    .navbar-dark .navbar-nav .nav-link.active {
+        color: white;
+        cursor: default;
+
+        &:hover {
+            color: white;
+        }
+
+        &:active {
+            color: white;
+        }
+    }
+}

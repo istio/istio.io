@@ -3,21 +3,29 @@ layout: default
 ---
 
 <style>
-  .gsc-table-cell-snippet-close, .gsc-table-cell-snippet-open {
-    padding: 6px;
-  }
+    .gsc-table-cell-snippet-close, .gsc-table-cell-snippet-open {
+        padding: 6px;
+    }
 
-  .gsc-input-box {
-    height: 35px;
-  }
+    td {
+        border: 0;
+    }
+
+    table {
+        border: 0;
+    }
 </style>
 
-<div class="container search-results">
-  <div class="row">
-    <div class="col-sm-12 col-md-10 col-lg-7 nofloat center-block {{page.type}}">
-      {{ content }}
+<div class="container-fluid search-results">
+    <div class="row">
+        <div class="col-12 col-md-1"></div>
+        <div class="col-12 col-md-10">
+            <main role="main">
+                {{ content }}
+            </main>
+        </div>
+        <div class="col-12 col-md-1"></div>
     </div>
-  </div>
 </div>
 
 <script>

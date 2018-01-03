@@ -1,55 +1,55 @@
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-2 col-md-2 col-sm-2"></div>
+<div class="footer">
+    <footer>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-2"></div>
 
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 center-block">
-                <ul>
-                    <li><a class="header" href="{{home}}/docs/welcome">Docs</a></li>
-		            <li><a href="{{home}}/docs/concepts">Concepts</a></li>
-                    <li><a href="{{home}}/docs/setup">Setup</a></li>
-                    <li><a href="{{home}}/docs/tasks">Tasks</a></li>
-                    <li><a href="{{home}}/docs/guides">Guides</a></li>
-                    <li><a href="{{home}}/docs/reference">Reference</a></li>
-                </ul>
+                <nav class=" col-12 col-sm-3" role="navigation">
+                    <ul class="first">
+                        <li><a class="header" href="{{home}}/docs">Docs</a></li>
+                        <li><a href="{{home}}/docs/concepts">Concepts</a></li>
+                        <li><a href="{{home}}/docs/setup">Setup</a></li>
+                        <li><a href="{{home}}/docs/tasks">Tasks</a></li>
+                        <li><a href="{{home}}/docs/guides">Guides</a></li>
+                        <li><a href="{{home}}/docs/reference">Reference</a></li>
+                    </ul>
+                </nav>
+
+                <nav class="col-12 col-sm-3" role="navigation">
+                    <ul>
+                        <li><a class="header" href="{{home}}/help">Help</a></li>
+                        <li><a href="{{home}}/help/faq.html">FAQ</a></li>
+                        <li><a href="{{home}}/help/glossary.html">Glossary</a></li>
+                        <li><a href="{{home}}/help/troubleshooting.html">Troubleshooting</a></li>
+                        <li><a href="{{home}}/help/bugs.html">Report Bugs</a></li>
+                        <li><a href="https://github.com/istio/istio.github.io/issues/new?title=Issue with {{page.path}}" target="_blank" rel="noopener">Doc Bugs & Gaps</a></li>
+                        <li><a href="https://github.com/istio/istio.github.io/edit/master/{{page.path}}" target="_blank" rel="noopener">Edit This Page</a></li>
+                    </ul>
+                </nav>
+
+                <nav class="col-12 col-sm-3" role="navigation">
+                    <ul>
+                        <li><a class="header" href="{{home}}/community">Community</a></li>
+                        <li>
+                            <a href="https://groups.google.com/forum/#!forum/istio-users" target="_blank" rel="noopener">User</a> |
+                            <a href="https://groups.google.com/forum/#!forum/istio-dev" target="_blank" rel="noopener">Dev Mailing Lists</a>
+                        </li>
+                        <li><a href="https://twitter.com/IstioMesh" target="_blank" rel="noopener">Twitter</a></li>
+                        <li><a href="https://stackoverflow.com/questions/tagged/istio" target="_blank" rel="noopener">Stack Overflow</a></li>
+                        <li><a href="https://github.com/istio/community" target="_blank" rel="noopener">GitHub</a></li>
+                        <li><a href="https://github.com/istio/community/blob/master/WORKING-GROUPS.md" target="_blank" rel="noopener">Working Groups</a></li>
+                    </ul>
+                </nav>
             </div>
 
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 center-block">
-                <ul>
-                    <li><a class="header" href="{{home}}/help">Help</a></li>
-                    <li><a href="{{home}}/faq">FAQ</a></li>
-                    <li><a href="{{home}}/glossary">Glossary</a></li>
-                    <li><a href="{{home}}/troubleshooting">Troubleshooting</a></li>
-                    <li><a href="{{home}}/bugs">Report Bugs</a></li>
-                    <li><a href="https://github.com/istio/istio.github.io/issues/new?title=Issue with {{page.path}}">Doc Bugs & Gaps</a></li>
-                    <li><a href="https://github.com/istio/istio.github.io/edit/master/{{page.path}}">Edit This Page</a></li>
-                </ul>
+            <div class="row">
+                <div class="col-12">
+                    <p class="description text-center" role="contentinfo">
+                        Istio Release {{site.data.istio.version}}, Copyright &copy; 2017 Istio Authors<br>
+                        This site was built on {{site.time | date_to_string | split: ' ' | join: '-'}}
+                    </p>
+                </div>
             </div>
-
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 center-block">
-                <ul>
-                    <li>
-                        <a class="header" href="{{home}}/community">Community</a>
-                    </li>
-                    <li>
-                        <a href="https://groups.google.com/forum/#!forum/istio-users" target="_blank" rel="noopener">User</a> |
-                        <a href="https://groups.google.com/forum/#!forum/istio-dev" target="_blank" rel="noopener">Dev Mailing Lists</a>
-                    </li>
-                    <li><a href="https://twitter.com/IstioMesh" target="_blank" rel="noopener">Twitter</a></li>
-                    <li><a href="https://stackoverflow.com/questions/tagged/istio" target="_blank" rel="noopener">Stack Overflow</a></li>
-                    <li><a href="https://github.com/istio/community" target="_blank" rel="noopener">GitHub</a></li>
-                    <li><a href="https://github.com/istio/community/blob/master/WORKING-GROUPS.md" target="_blank" rel="noopener">Working Groups</a></li>
-                </ul>
-            </div>
-
-            <div class="col-lg-1 col-md-1 col-sm-1"></div>
         </div>
-
-        <div class="row">
-            <p class="description small text-center">
-                Istio Version {{site.data.istio.version}}, Copyright &copy; 2017 Istio Authors<br>
-                This site was built on {{site.time | date_to_string | split: ' ' | join: '-'}}
-            </p>
-        </div>
-    </div>
-</footer>
+    </footer>
+</div>
