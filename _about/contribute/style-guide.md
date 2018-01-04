@@ -6,6 +6,7 @@ order: 70
 
 layout: about
 type: markdown
+redirect_from: /docs/welcome/contribute/style-guide.html
 ---
 
 TBD: This needs to be updated with Istio examples instead of Kubernetes examples.

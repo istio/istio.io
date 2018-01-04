@@ -6,6 +6,7 @@ order: 40
 
 layout: about
 type: markdown
+redirect_from: /docs/welcome/contribute/staging-your-changes.html
 ---
 
 This page shows how to stage content that you want to contribute

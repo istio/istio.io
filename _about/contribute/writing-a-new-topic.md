@@ -6,6 +6,7 @@ order: 30
 
 layout: about
 type: markdown
+redirect_from: /docs/welcome/contribute/writing-a-new-topic.html
 ---
 {% include home.html %}
 
