@@ -6,6 +6,7 @@ order: 60
 
 layout: about
 type: markdown
+redirect_from: /docs/welcome/contribute/reviewing-doc-issues.html
 ---
 
 This page explains how documentation issues are reviewed and prioritized for the
