@@ -18,8 +18,11 @@ body {
     font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: $textColor;
 
-    @media (min-width: $bp-sm) {
+    @media (min-height: $bp-md-v) {
         padding-top: $headerHeight;
+    }
+
+    @media (min-width: $bp-sm) {
         margin-bottom: $footerHeight;
     }
 }
