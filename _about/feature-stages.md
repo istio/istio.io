@@ -9,6 +9,7 @@ type: markdown
 redirect_from:
   - "/docs/reference/release-roadmap.html"
   - "/docs/reference/feature-stages.html"
+  - "/docs/welcome/feature-stages.html"
 ---
 {% include home.html %}
 

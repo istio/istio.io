@@ -6,6 +6,7 @@ order: 10
 
 layout: about
 type: markdown
+redirect_from: /docs/welcome/contribute/editing.html
 ---
 
 Click the button below to visit the GitHub repository for this whole web site. You can then click the
