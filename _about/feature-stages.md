@@ -73,7 +73,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Kubernetes: Service Credential Distribution](https://istio.io/docs/concepts/security/mutual-tls.html)               | Beta
 | [Pluggable Key/Cert Support for Istio CA](https://istio.io/docs/tasks/security/plugin-ca-cert.html)        | Beta
 | [Service-to-service mutual TLS](https://istio.io/docs/concepts/security/mutual-tls.html)         | Beta
-| Incremental Enablement of service-to-service mutual TLS    | Alpha
+| [Incremental Enablement of service-to-service mutual TLS](https://istio.io/docs/tasks/security/per-service-mtls.html)  | Alpha
 | [VM: Service Credential Distribution](https://istio.io/docs/concepts/security/mutual-tls.html)         | Alpha
 | [OPA Checker](https://github.com/mangchiandjjoe/istio/blob/d5390f6e436225949907d77ad3e9747a9bc26722/mixer/adapter/opa/README.md)  - **New to 0.4**      | Alpha
 
