@@ -5,7 +5,7 @@ header {
         padding-top: .2em;
         padding-bottom: .2em;
 
-        @media (min-width: $bp-sm) {
+        @media (min-height: $bp-md-v) {
             padding-top: .5em;
             padding-bottom: .5em;
         }
@@ -14,7 +14,7 @@ header {
             width: .8em;
             height: 1.2em;
 
-            @media (min-width: $bp-sm) {
+            @media (min-height: $bp-md-v) {
                 width: 2em;
                 height: 3em;
             }
@@ -28,7 +28,7 @@ header {
             line-height: 1.1em;
             margin-left: .7em;
 
-            @media (min-width: $bp-sm) {
+            @media (min-height: $bp-md-v) {
                 font-size: 1.7em;
                 line-height: 1.5em;
             }
@@ -59,7 +59,7 @@ header {
             font-size: .8em;
             vertical-align: middle;
 
-            @media (min-width: $bp-sm) {
+            @media (min-height: $bp-md-v) {
                 font-size: 1.2em;
             }
         }
