@@ -6,7 +6,9 @@ order: 20
 
 layout: help
 type: markdown
-redirect_from: /faq
+redirect_from:
+  - "/faq"
+  - "/docs/welcome/faq.html"
 toc: false
 ---
 {% include home.html %}

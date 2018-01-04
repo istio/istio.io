@@ -9,6 +9,7 @@ type: markdown
 redirect_from:
   - "/docs/reference/release-notes.html"
   - "/release-notes"
+  - "/docs/welcome/notes/index.html"
 toc: false  
 ---
 

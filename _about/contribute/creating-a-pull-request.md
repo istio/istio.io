@@ -6,6 +6,7 @@ order: 20
 
 layout: about
 type: markdown
+redirect_from: /docs/welcome/contribute/creating-a-pull-request.html
 ---
 
 To contribute to Istio documentation, create a pull request against the
