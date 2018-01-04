@@ -22,10 +22,18 @@ layout: compress
             <meta name="og:description" content="{{page.overview}}">
         {% endif %}
 
-        {% if page.title == 'Istio' %}
-            <title>Istio</title>
+        {% if site.data.istio.archive %}
+            {% if page.title == 'Istio' %}
+                <title>Istioldie {{site.data.istio.short_version}}</title>
+            {% else %}
+                <title>Istioldie {{site.data.istio.short_version}} / {{ page.title }}</title>
+            {% endif %}
         {% else %}
-            <title>Istio / {{ page.title }}</title>
+            {% if page.title == 'Istio' %}
+                <title>Istio</title>
+            {% else %}
+                <title>Istio / {{ page.title }}</title>
+            {% endif %}
         {% endif %}
 
         <!-- Google Analytics -->
