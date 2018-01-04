@@ -1,6 +1,12 @@
 ---
 ---
 
+{% if site.data.istio.archive %}
+@import "base/archive_colors";
+{% else %}
+@import "base/normal_colors";
+{% endif %}
+
 @import "base/constants";
 @import "base/common";
 @import "base/syntax-coloring";
