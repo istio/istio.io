@@ -4,7 +4,7 @@ overview: List of features and their release stages.
 
 order: 10
 
-layout: docs
+layout: about
 type: markdown
 redirect_from:
   - "/docs/reference/release-roadmap.html"
