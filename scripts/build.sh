@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This is deprectated - moved to
+# This is deprecated - moved to
 # https://github.com/istio/admin-sites/blob/master/archive.istio.io/build.sh
 
 #example: PROJECT_ID=istiodocs-v01 RELEASE=0.1 FIREBASE_TOKEN=aabbccdd ./scripts/build.sh
