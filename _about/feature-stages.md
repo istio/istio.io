@@ -36,12 +36,12 @@ Below is our list of existing features and their current phases. This informatio
 
 | Feature           | Phase      
 |-------------------|-------------------
-| Protocols: HTTP 1.1  | Beta
-| Protocols: HTTP 2.0  | Alpha
-| Protocols: gRPC   | Alpha
-| Protocols: TCP    | Alpha
-| Protocols: WebSocket      | Alpha
-| Protocols: MongoDB      | Alpha
+| [Protocols: HTTP 1.1](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/http_connection_management.html#http-protocols)  | Beta
+| [Protocols: HTTP 2.0](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/http_connection_management.html#http-protocols)  | Alpha
+| [Protocols: gRPC](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/grpc)   | Alpha
+| [Protocols: TCP](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/tcp_proxy)    | Alpha
+| [Protocols: WebSocket](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/websocket)      | Alpha
+| [Protocols: MongoDB](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/mongo)      | Alpha
 | [Routing Rules: Retry](https://istio.io/docs/tasks/traffic-management/request-routing.html)      | Alpha
 | [Routing Rules: Timeout](https://istio.io/docs/tasks/traffic-management/request-routing.html)      | Alpha
 | [Routing Rules: Circuit Break](https://istio.io/docs/tasks/traffic-management/request-routing.html)      | Alpha
