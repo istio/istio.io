@@ -41,7 +41,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Protocols: gRPC](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/grpc)   | Alpha
 | [Protocols: TCP](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/tcp_proxy)    | Alpha
 | [Protocols: WebSocket](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/websocket)      | Alpha
-| [Protocols: MongoDB](https://www.envoyproxy.io/docs/envoy/latest/configuration/network_filters/mongo_proxy_filter.html)      | Alpha
+| [Protocols: MongoDB](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/mongo)      | Alpha
 | [Routing Rules: Retry](https://istio.io/docs/tasks/traffic-management/request-routing.html)      | Alpha
 | [Routing Rules: Timeout](https://istio.io/docs/tasks/traffic-management/request-routing.html)      | Alpha
 | [Routing Rules: Circuit Break](https://istio.io/docs/tasks/traffic-management/request-routing.html)      | Alpha
