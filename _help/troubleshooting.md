@@ -72,7 +72,7 @@ properly to point at the lab-based NTP services.
 The expected flow of metrics is:
 
 1. Envoy reports attributes to Mixer in batch (asynchronously from requests)
-1. Mixer translates the attributes from Mixer into instances based on 
+1. Mixer translates the attributes from Mixer into instances based on
    operator-provided configuration.
 1. The instances are handed to Mixer adapters for processing and backend storage.
 1. The backend storage systems record metrics data.
@@ -95,7 +95,7 @@ Mixer generates metrics for monitoring the behavior of Mixer itself.
 Check these metrics.
 
 1. Establish a connection to the Mixer self-monitoring endpoint.
-   
+
    In Kubernetes environments, execute the following command:
 
    ```bash
@@ -104,9 +104,9 @@ Check these metrics.
 
 1. Verify successful report calls.
 
-   On the [Mixer self-monitoring endpoint](http://localhost:9093/metrics), 
+   On the [Mixer self-monitoring endpoint](http://localhost:9093/metrics),
    search for `grpc_server_handled_total`.
-   
+
    You should see something like:
 
    ```
@@ -142,8 +142,8 @@ or [manual]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar
    If you do not see anything named `promhttp` or `promtcp`, then there is
    no Mixer configuration for sending metric instances to a Prometheus adapter.
    You will need to supply configuration for rules that connect Mixer metric
-   instances to a Prometheus handler
-   ([example](https://github.com/istio/istio/blob/master/install/kubernetes/istio.yaml#L892)).
+   instances to a Prometheus handler.
+<!-- todo replace ([example](https://github.com/istio/istio/blob/master/install/kubernetes/istio.yaml#L892)). -->
 
 1. Verify Prometheus handler config exists.
 
@@ -161,8 +161,8 @@ or [manual]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar
    ```
 
    If there are no prometheus handlers configured, you will need to reconfigure
-   Mixer with the appropriate handler configuration
-   ([example](https://github.com/istio/istio/blob/master/install/kubernetes/istio.yaml#L819))
+   Mixer with the appropriate handler configuration.
+<!-- todo replace ([example](https://github.com/istio/istio/blob/master/install/kubernetes/istio.yaml#L819)) -->
 
 1. Verify Mixer metric instances config exists.
 
@@ -189,19 +189,19 @@ or [manual]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar
    ```
 
    If there are no metric instances configured, you will need to reconfigure
-   Mixer with the appropriate instance configuration
-   ([example](https://github.com/istio/istio/blob/master/install/kubernetes/istio.yaml#L727))
+   Mixer with the appropriate instance configuration.
+<!-- todo replace ([example](https://github.com/istio/istio/blob/master/install/kubernetes/istio.yaml#L727)) -->
 
 1. Verify Mixer configuration resolution is working for your service.
 
    1. Establish a connection to the Mixer self-monitoring endpoint.
-   
+
       Setup a `port-forward` to the Mixer self-monitoring port as described in
       [Verify Mixer is receiving Report calls](#verify-mixer-is-receiving-report-calls).
 
    1. On the [Mixer self-monitoring port](http://localhost:9093/metrics), search
       for `mixer_config_resolve_count`.
-      
+
       You should find something like:
 
       ```
@@ -217,7 +217,7 @@ or [manual]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar
       `target="<your service>"` and `error="false"`.
 
       If there are only instances where `error="true"` where `target=<your service>`,
-      there is likely an issue with Mixer configuration for your service. Logs 
+      there is likely an issue with Mixer configuration for your service. Logs
       information is needed to further debug.
 
       In Kubernetes environments, retrieve the Mixer logs via:
@@ -234,13 +234,13 @@ More on viewing Mixer configuration can be found [here]({{home}}/help/faq.html#m
 ### Verify Mixer is sending metric instances to the Prometheus adapter
 
 1. Establish a connection to the Mixer self-monitoring endpoint.
-   
+
    Setup a `port-forward` to the Mixer self-monitoring port as described in
    [Verify Mixer is receiving Report calls](#verify-mixer-is-receiving-report-calls).
 
-1. On the [Mixer self-monitoring port](http://localhost:9093/metrics), search 
+1. On the [Mixer self-monitoring port](http://localhost:9093/metrics), search
    for `mixer_adapter_dispatch_count`.
-   
+
    You should find something like:
 
    ```
@@ -249,7 +249,7 @@ More on viewing Mixer configuration can be found [here]({{home}}/help/faq.html#m
    mixer_adapter_dispatch_count{adapter="stdio",error="false",handler="handler.stdio.istio-system",meshFunction="logentry",response_code="OK"} 104
    ```
 
-1. Validate that there are values for `mixer_adapter_dispatch_count` where 
+1. Validate that there are values for `mixer_adapter_dispatch_count` where
    `adapter="prometheus"` and `error="false"`.
 
    If there are are no recorded dispatches to the Prometheus adapter, there
@@ -266,8 +266,8 @@ More on viewing Mixer configuration can be found [here]({{home}}/help/faq.html#m
    kubectl -n istio-system logs <mixer pod> mixer
    ```
 
-   Filter for lines including something like `Report 0 returned with: INTERNAL 
-   (1 error occurred:` (with some surrounding context) to find more information 
+   Filter for lines including something like `Report 0 returned with: INTERNAL
+   (1 error occurred:` (with some surrounding context) to find more information
    regarding Report dispatch failures.
 
 ### Verify Prometheus configuration
