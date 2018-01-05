@@ -9,6 +9,7 @@ type: markdown
 redirect_from:
   - "/docs/reference/release-roadmap.html"
   - "/docs/reference/feature-stages.html"
+  - "/docs/welcome/feature-stages.html"
 ---
 {% include home.html %}
 
@@ -35,12 +36,12 @@ Below is our list of existing features and their current phases. This informatio
 
 | Feature           | Phase      
 |-------------------|-------------------
-| Protocols: HTTP 1.1  | Beta
-| Protocols: HTTP 2.0  | Alpha
-| Protocols: gRPC   | Alpha
-| Protocols: TCP    | Alpha
-| Protocols: WebSocket      | Alpha
-| Protocols: MongoDB      | Alpha
+| [Protocols: HTTP 1.1](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/http_connection_management.html#http-protocols)  | Beta
+| [Protocols: HTTP 2.0](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/http_connection_management.html#http-protocols)  | Alpha
+| [Protocols: gRPC](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/grpc)   | Alpha
+| [Protocols: TCP](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/tcp_proxy)    | Alpha
+| [Protocols: WebSocket](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/websocket)      | Alpha
+| [Protocols: MongoDB](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/mongo)      | Alpha
 | [Routing Rules: Retry](https://istio.io/docs/tasks/traffic-management/request-routing.html)      | Alpha
 | [Routing Rules: Timeout](https://istio.io/docs/tasks/traffic-management/request-routing.html)      | Alpha
 | [Routing Rules: Circuit Break](https://istio.io/docs/tasks/traffic-management/request-routing.html)      | Alpha
@@ -72,7 +73,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Kubernetes: Service Credential Distribution](https://istio.io/docs/concepts/security/mutual-tls.html)               | Beta
 | [Pluggable Key/Cert Support for Istio CA](https://istio.io/docs/tasks/security/plugin-ca-cert.html)        | Beta
 | [Service-to-service mutual TLS](https://istio.io/docs/concepts/security/mutual-tls.html)         | Beta
-| Incremental Enablement of service-to-service mutual TLS    | Alpha
+| [Incremental Enablement of service-to-service mutual TLS](https://istio.io/docs/tasks/security/per-service-mtls.html)  | Alpha
 | [VM: Service Credential Distribution](https://istio.io/docs/concepts/security/mutual-tls.html)         | Alpha
 | [OPA Checker](https://github.com/mangchiandjjoe/istio/blob/d5390f6e436225949907d77ad3e9747a9bc26722/mixer/adapter/opa/README.md)  - **New to 0.4**      | Alpha
 
