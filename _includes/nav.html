@@ -11,7 +11,7 @@
 </style>
 {% endif %}
 
-<nav id="header-nav" class="navbar navbar-inverse" role="navigation">
+<nav id="header-nav" class="navbar navbar-inverse" role="navigation" style="z-index: 200000;">
   <div class="container">
       <div class="row">
         <div class="col-md-11 nofloat center-block ">
@@ -26,7 +26,11 @@
             <a class="navbar-brand" href="{{home}}/">
               <div>
                 <img src="{{home}}/img/istio-logo.svg" alt="Istio Logo" height="54px"/>
-                <span class="brand-name">Istio</span>
+                {% if site.data.istio.archive %}
+                  <span class="brand-name">Istioldie {{site.data.istio.short_version}}</span>
+                {% else %}
+                  <span class="brand-name">Istio</span>
+                {% endif %}
               </div>
             </a>
           </div>
@@ -38,6 +42,20 @@
               <li><a href="{{home}}/docs/welcome" {% if current[1] == 'docs' %}class='current'{% endif %}>Docs</a></li>
               <li><a href="{{home}}/help" {% if current[1] == 'help.html' %}class='current'{% endif %}>Help</a></li>
               <li><a href="{{home}}/community" {% if current[1] == 'community.html' %}class='current'{% endif %}>Community</a></li>
+
+              {% if site.data.istio.archive %}
+                  <li class="dropdown">
+                      <a class="dropdown-toggle" data-toggle="dropdown" href="">{{site.data.istio.short_version}}
+                          <span class="caret"></span>
+                      </a>
+                      <ul class="dropdown-menu">
+                          {% for a in site.data.archives.archives %}
+                              <li><a href="https://archive.istio.io/{{a}}/">Archive {{a}}</a></li>
+                          {% endfor %}
+                      </ul>
+                  </li>
+              {% endif %}
+
               <li>{% include search-box.html %}</li>
             </ul>
           </div>
