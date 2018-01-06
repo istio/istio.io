@@ -3,6 +3,11 @@ sitemap_exclude: y
 ---
 @import "base/config";
 @import "base/reset";
+{% if site.data.istio.archive %}
+@import "base/archive_colors";
+{% else %}
+@import "base/normal_colors";
+{% endif %}
 @import "base/colors";
 @import "base/common";
 @import "base/text";
