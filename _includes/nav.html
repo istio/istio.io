@@ -24,7 +24,11 @@
             <a class="navbar-brand" href="{{home}}/">
               <div>
                 <img src="{{home}}/img/logo.png" alt="Istio" width="36px" height="54px"/>
-                <span class="brand-name">Istio</span>
+                {% if site.data.istio.archive %}
+                  <span class="brand-name">Istioldie {{site.data.istio.short_version}}</span>
+                {% else %}
+                  <span class="brand-name">Istio</span>
+                {% endif %}
               </div>
             </a>
           </div>
@@ -36,6 +40,20 @@
               <li><a href="{{home}}/blog/" {% if current[1] == 'blog' %}class='current'{% endif %}>Blog</a></li>
               <li><a href="{{home}}/community/" {% if current[1] == 'community' %}class='current'{% endif %}>Community</a></li>
               <li><a href="{{home}}/faq/" {% if current[1] == 'faq' %}class='current'{% endif %}>FAQ</a></li>
+
+              {% if site.data.istio.archive %}
+                  <li class="dropdown">
+                      <a class="dropdown-toggle" data-toggle="dropdown" href="">{{site.data.istio.short_version}}
+                          <span class="caret"></span>
+                      </a>
+                      <ul class="dropdown-menu">
+                          {% for a in site.data.archives.archives %}
+                              <li><a href="https://archive.istio.io/{{a}}/">Archive {{a}}</a></li>
+                          {% endfor %}
+                      </ul>
+                  </li>
+              {% endif %}
+
               <li>{% include search-box.html %}</li>
             </ul>
           </div>
