@@ -55,9 +55,7 @@ table {
 }
 
 th {
-    color: $white;
-    background-color: $secondBrandColor;
-    font-weight: normal;
+    background-color: $thirdBrandColor;
 }
 
 pre.code-toolbar {
@@ -73,22 +71,16 @@ pre.code-toolbar {
     }
 
     >.toolbar a {
-        background-color: $secondBrandColor;
-        color: $white;
-    }
-
-    >.toolbar a:hover {
         background-color: $mainBrandColor;
         color: $white;
     }
 
-    >.toolbar a:active {
-        background-color: $popBrandColor;
+    >.toolbar a:hover {
+        background-color: $secondBrandColor;
         color: $white;
     }
 
     >code {
-        border-left-color: $secondBrandColor;
         border-left-width: 4px;
     }
 }
