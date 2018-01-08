@@ -35,14 +35,6 @@ header {
             }
         }
 
-        a.nav-link {
-            color: $white;
-
-            &::hover {
-                color: $popBrandColor;
-            }
-        }
-
         a.active {
             border-bottom: solid 3px $white;
             border-radius: 2px;
@@ -70,7 +62,7 @@ header {
         color: white;
 
         &:hover {
-            color: cyan;
+            color: $linkHoverColor;
         }
 
         &:active {
