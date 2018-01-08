@@ -452,6 +452,7 @@ from version "v2" of the "reviews" service.
 
 ```yaml
 apiVersion: config.istio.io/v1alpha2
+kind: DestinationPolicy
 metadata:
   name: ratings-lb-policy
 spec:
@@ -476,6 +477,7 @@ sets a limit of 100 connections to "reviews" service version "v1" backends.
 
 ```yaml
 apiVersion: config.istio.io/v1alpha2
+kind: DestinationPolicy
 metadata:
   name: reviews-v1-cb
 spec:
@@ -511,6 +513,7 @@ consider the following rule, as the one and only rule defined for the
 
 ```yaml
 apiVersion: config.istio.io/v1alpha2
+kind: DestinationPolicy
 metadata:
   name: reviews-v1-cb
 spec:
