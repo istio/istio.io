@@ -165,7 +165,46 @@ different environments as follows:
       --extra-config=apiserver.Admission.PluginNames="Initializers,NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,GenericAdmissionWebhook,ResourceQuota" \
       --kubernetes-version=v1.7.5
   ```
-
+* _AWS with Kops_
+  
+  If Kubernetes is deployed with Kops utility from https://github.com/kubernetes/kops, cluster needs to be updated:
+  
+  ```bash
+   kops edit cluster YOURCLUSTER
+  ```
+  Add following configuration in spec section
+  
+  ```
+  kubeAPIServer:
+    admissionControl:
+    - NamespaceLifecycle
+    - LimitRanger
+    - ServiceAccount
+    - PersistentVolumeLabel
+    - DefaultStorageClass
+    - ResourceQuota
+    - DefaultTolerationSeconds
+    - Initializers
+    runtimeConfig:
+      admissionregistration.k8s.io/v1alpha1: "true"
+  ```
+   Apply new configuration
+  
+  ```bash
+  kops rolling-update cluster --force --yes
+  ```
+  Check result with
+  
+  ```bash
+   kubectl api-versions | grep admi
+  ```
+  
+  You must have:
+  
+  ```bash
+  admissionregistration.k8s.io/v1alpha1
+  ```
+  
 ### Setup
 
 You can now setup the Istio Initializer from the Istio install root directory.
