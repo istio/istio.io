@@ -1,16 +1,25 @@
 .btn {
+    &:focus {
+        outline: 0 !important;
+    }
+
     &.btn-istio {
         background-color: $secondBrandColor;
         color: $white;
         font-weight: 400;
         letter-spacing: 1px;
-        cursor: pointer;
 
-        &:hover {
-            background-color: $mainBrandColor;
+        a {
+            color: $white;
         }
 
-        &:active {
+        &.inverse {
+            background-color: transparent;
+            border: 2px solid $mainBrandColor;
+            color: $mainBrandColor;
+        }
+
+        &.btn-istio:hover {
             background-color: $popBrandColor;
         }
     }
