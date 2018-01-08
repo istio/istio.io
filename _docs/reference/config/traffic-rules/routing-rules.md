@@ -136,6 +136,21 @@ For example, a simple rule to send 100% of incoming traffic for a
   <td><a href="#istio.proxy.v1.config.HTTPFaultInjection">HTTPFaultInjection</a></td>
   <td>Fault injection policy to apply on HTTP traffic</td>
  </tr>
+ <tr>
+    <td><code>mirror</code></td>
+    <td><a href="#istio.proxy.v1.config.IstioService">IstioService</a></td>
+    <td>Apply shadow/mirroring HTTP traffic to another cluster for testing against live traffic</td>
+ </tr>
+ <tr>
+   <td><code>corsPolicy</code></td>
+   <td><a href="#istio.proxy.v1.config.CorsPolicy">CorsPolicy</a></td>
+   <td>Cross-Origin Resource Sharing policy (CORS)</td>
+ </tr>
+ <tr>
+   <td><code>appendHeaders</code></td>
+   <td>repeated map<string, string</td>
+   <td>Additional HTTP headers to add before forwarding a request to the destination service</td>
+ </tr> 
 </table>
 
 <a name="istio.proxy.v1.config.IstioService"></a>
@@ -653,4 +668,89 @@ unspecified, all request will be delayed.
   <td><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></td>
   <td>REQUIRED. Add a fixed delay before forwarding the request. Format: 1h/1m/1s/1ms. MUST be &gt;=1ms.</td>
  </tr>
+</table>
+
+### Mirror
+
+Mirroring allows replicating traffic to another cluster. This can be useful for testing against live traffic without actually putting new code in the request path. This is also known as [traffic shadowing](https://www.envoyproxy.io/docs/envoy/latest/api-v1/route_config/route.html#shadow) or [request mirroring](https://www.envoyproxy.io/docs/envoy/latest/api-v2/rds.proto.html#routeaction-requestmirrorpolicy). 
+
+    metadata:
+      name: my-rule
+    spec:
+      destination:
+        name: ratings
+      mirror:
+        name: ratings
+        labels:
+          version: v2
+        
+
+<a name="istio.proxy.v1.config.CorsPolicy"></a>
+### CorsPolicy
+
+Describes the Cross-Origin Resource Sharing (CORS) policy, for a given service. Refer to https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS for further details about cross origin resource sharing. For example, the following rule restricts cross origin requests to those originating from example.com domain using HTTP POST/GET, and sets the Access-Control-Allow-Credentials header to false. In addition, it only exposes X-Foo-bar header and sets an expiry period of 1 day. 
+
+     metadata:
+       name: my-rule
+       namespace: default
+     spec:
+       destination:
+         name: ratings
+       route:
+       - labels:
+           version: v1
+       corsPolicy:
+         allowOrigin:
+         - example.com
+         allowMethods:
+         - POST
+         - GET
+         allowCredentials: false
+         allowHeaders:
+         - X-Foo-Bar
+         maxAge: "1d"
+
+
+<table>
+ <tr>
+  <th>Field</th>
+  <th>Type</th>
+  <th>Description</th>
+ </tr>
+<a name="istio.proxy.v1.config.CorsPolicy.allowOrigin"></a>
+ <tr>
+  <td><code>allowOrigin</code></td>
+  <td>[]string</td>
+  <td>The list of origins that are allowed to perform CORS requests. The content will be serialized into the Access-Control-Allow-Origin header. Wildcard * will allow all origins</td>
+ </tr>
+<a name="istio.proxy.v1.config.CorsPolicy.allowMethods"></a>
+ <tr>
+  <td><code>allowMethods</code></td>
+  <td>[]string</td>
+  <td>List of HTTP methods allowed to access the resource. The content will be serialized into the Access-Control-Allow-Methods header.</td>
+ </tr>
+<a name="istio.proxy.v1.config.CorsPolicy.allowHeaders"></a>
+ <tr>
+  <td><code>allowHeaders</code></td>
+  <td>[]string</td>
+  <td>List of HTTP headers that can be used when requesting the resource. Serialized to Access-Control-Allow-Methods header.</td>
+ </tr>
+<a name="istio.proxy.v1.config.CorsPolicy.exposeHeaders"></a>
+ <tr>
+  <td><code>exposeHeaders</code></td>
+  <td>[]string</td>
+  <td>A white list of HTTP headers that the browsers are allowed to access. Serialized into Access-Control-Expose-Headers header.</td>
+ </tr>  
+<a name="istio.proxy.v1.config.CorsPolicy.maxAge"></a>
+ <tr>
+  <td><code>maxAge</code></td>
+  <td><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Duration">Duration</a></td>
+  <td>Specifies how long the the results of a preflight request can be cached. Translates to the Access-Control-Max-Age header.</td>
+ </tr>
+<a name="istio.proxy.v1.config.CorsPolicy.allowCredentials"></a>
+ <tr>
+  <td><code>allowCredentials</code></td>
+  <td><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.BoolValue">BoolValue</a></td>
+  <td>Indicates whether the caller is allowed to send the actual request (not the preflight) using credentials. Translates to  Access-Control-Allow-Credentials header.</td>
+ </tr>       
 </table>
