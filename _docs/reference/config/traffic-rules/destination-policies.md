@@ -255,7 +255,7 @@ consecutive times with 5XX error code will be ejected for 15 minutes.
  <tr>
   <td><code>sleepWindow</code></td>
   <td><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></td>
-  <td><b>Required.</b> <br/>Minimum time the circuit will be closed. format: 1h/1m/1s/1ms. MUST BE &gt;=1ms. Default is 30s.</td>
+  <td><b>Required.</b> <br/>Minimum time the circuit will be open. format: 1h/1m/1s/1ms. MUST BE &gt;=1ms. Default is 30s.</td>
  </tr>
 <a name="istio.proxy.v1.config.CircuitBreaker.SimpleCircuitBreakerPolicy.httpConsecutiveErrors"></a>
  <tr>
