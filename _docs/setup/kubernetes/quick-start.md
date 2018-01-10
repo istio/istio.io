@@ -120,7 +120,7 @@ kubectl apply -f install/kubernetes/istio-auth.yaml
 ```
 
   Both options create the `istio-system` namespace along with the required RBAC permissions,
-  and deploy Istio-Pilot, Istio-Mixer, Istio-Ingress, Istio-Egress, and Istio-CA (Certificate Authority).
+  and deploy Istio-Pilot, Istio-Mixer, Istio-Ingress, and Istio-CA (Certificate Authority).
 
 1. *Optional:* If your cluster has Kubernetes alpha features enabled, and you wish to enable a
    [automatic injection of sidecar]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection), install the Istio-Initializer:
