@@ -325,3 +325,30 @@ Check your `ulimit -a`. Many systems have a 1024 open file descriptor limit by d
 ```
 
 Make sure to raise your ulimit. Example: `ulimit -n 16384`
+
+## Headless TCP Services Losing Connection from Istiofied Containers
+
+If `istio-ca` is deployed, Envoy is restarted every 15 minutes to refresh certificates.
+This causes the disconnection of TCP streams or long-running connections between services.
+
+You should build resilience into your application for this type of
+disconnect, but if you still want to prevent the disconnects from
+happening, you will need to disable mTLS and the `istio-ca` deployment.
+
+First, edit your istio config to disable mTLS
+
+```
+# comment out or uncomment out authPolicy: MUTUAL_TLS to toggle mTLS and then
+kubectl edit configmap -n istio-system istio
+
+# restart pilot and wait a few minutes
+kubectl delete pods -n istio-system -l istio=pilot
+```
+
+Next, scale down the `istio-ca` deployment to disable Envoy restarts.
+
+```
+kubectl scale --replicas=0 deploy/istio-ca -n istio-system
+```
+
+This should stop istio from restarting Envoy and disconnecting TCP connections.
