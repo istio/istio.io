@@ -35,4 +35,4 @@ We're always looking for help improving our documentation, so please don't hesit
 Or better yet, submit your own [contributions]({{home}}/about/contribute/editing.html) to help
 make our docs better.
 
-Follow this link for the archive of [v0.1 documentation](https://istio.io/v-0.1/docs/).
+Follow this link for the archive of the [earlier releases' documentation](https://archive.istio.io/).
