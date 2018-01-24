@@ -2,7 +2,7 @@
 title: Istio Helm Chart Instructions
 overview: Instructions for the setup and configuration of Istio using the Helm package manager.
 
-order: 10
+order: 30
 
 layout: docs
 type: markdown
@@ -54,9 +54,9 @@ following table:
 | global.proxy.debug           | true/false         | false                      | Specifies whether proxy is run in debug mode   |
 | global.pilot.hub             | registry+namespace | release registry/namespace | Specifies the HUB for the pilot image          |
 | global.pilot.tag             | image tag          | release unique hash        | Specifies the TAG for the pilot image          |
-| global.pilot.enabled         | true/false         | true                       | Specifies whether pilot is enabled/disabled     |
-| istio.ca.hub                 | registry+namespace | release registry/namespace | Specifies the HUB for the ca image             |
-| istio.ca.tag                 | image tag          | release unique hash        | Specifies the TAG for the ca image             |
+| global.pilot.enabled         | true/false         | true                       | Specifies whether pilot is enabled/disabled    |
+| global.security.hub          | registry+namespace | release registry/namespace | Specifies the HUB for the ca image             |
+| global.security.tag          | image tag          | release unique hash        | Specifies the TAG for the ca image             |
 | global.security.enabled      | true/false         | false                      | Specifies whether security is enabled/disabled |
 | global.mixer.hub             | registry+namespace | release registry/namespace | Specifies the HUB for the mixer image          |
 | global.mixer.tag             | image tag          | release unique hash        | Specifies the TAG for the mixer image          |
