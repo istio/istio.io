@@ -73,7 +73,7 @@ Good news is that our application did not crash. With a good microservice design
 Hmm, so what might have gone wrong? Ah... The answer is that I forgot to enable traffic from inside the mesh to an external service, in this case to the Google Books web service. By default, the Istio sidecar proxies block all the traffic to the outside of the cluster. To enable such traffic, we have to define an [Egress Rule]({{home}}/reference/config/traffic-rules/egress-rules.html).
 
 ### Egress Rule for Google Books Web Service
-No worries, let's define an Egress Rule and fix our application.
+No worries, let's define an **Egress Rule** and fix our application.
 ```bash
 cat <<EOF | istioctl create -f -
 apiVersion: config.istio.io/v1alpha2
@@ -95,7 +95,7 @@ Now accessing the web page of the application displays the book details without 
 <figure><img src="img/externalBookDetails.png" alt="Book Details displayed without error" title="Book Details displayed without error" />
 <figcaption>Book Details displayed without error</figcaption></figure>
 
-Note that our Egress Rule allows traffic to any domain matching _*.googleapis.com_, on port 443, using the HTTPS protocol. Let's assume for the sake of the example, that we must access multiple domains matching _*.gooogleapis.com_, not only _www.googleapis.com_ that is accessed by our code in reality. This wildcard feature allows us to enable traffic to multiple domains by a single Egress Rule.
+Note that our Egress Rule allows traffic to any domain matching _*.googleapis.com_, on port 443, using the HTTPS protocol. Let's assume for the sake of the example, that we must access multiple domains matching _*.gooogleapis.com_, not only _www.googleapis.com_ that is accessed by our code in reality. This **wildcard** feature allows us to enable traffic to multiple domains by a single Egress Rule.
 
 
 We can query our Egress Rules:
@@ -119,11 +119,11 @@ and see in the output of _istioctl delete_ that the Egress Rule is deleted:
 Deleted config: egressrule googleapis
 ```
 
-Accessing the web page now will produce the same error that we experienced before, namely _Error fetching product details_. As we can see, the Egress Rules are defined dynamically. The Istio Operators can decide dynamically which domains they allow the microservices to access. They can enable and disable traffic to the external domains dynamically.
+Accessing the web page now will produce the same error that we experienced before, namely _Error fetching product details_. As we can see, the Egress Rules are defined **dynamically**, as many other Istio configuration artifacts. The Istio Operators can decide dynamically which domains they allow the microservices to access. They can enable and disable traffic to the external domains on the fly, without redeploying the microservices.
 
 ## The Issues with Istio Egress Traffic Control
 ### TLS Origination by Istio
-There is a caveat to the story. In HTTPS, all the HTTP details (hostname, path, headers etc.) are encrypted, so Istio cannot know the destination domain of the encrypted requests. Well, Istio could know the destination domain by the  [SNI](https://tools.ietf.org/html/rfc3546#section-3.1) (_Server Name Indication_) field. This feature is not yet implemented in Istio. Therefore Istio cannot perform filtering of HTTPS requests based on the destination domains.
+There is a caveat to the story. In HTTPS, all the HTTP details (hostname, path, headers etc.) are encrypted, so Istio cannot know the destination domain of the encrypted requests. Well, Istio could know the destination domain by the  [SNI](https://tools.ietf.org/html/rfc3546#section-3.1) (_Server Name Indication_) field. This feature is not yet implemented in Istio. Therefore, Istio cannot perform filtering of HTTPS requests based on the destination domains.
 
 To allow Istio perform filtering of Egress Requests based on domains, the microservices must issue HTTP requests. Istio then will open HTTPS connection to the destination (perform TLS origination). The microservices code must be written or configured differently depending on whether the microservice runs inside or outside of an Istio Service Mesh. This contradicts the Istio Design Goal of [Maximizing Transparency]({{home}}/concepts/what-is-istio/goals.html). Tough luck, sometimes we must compromise...
 
