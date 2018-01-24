@@ -139,7 +139,7 @@ end
 
 When `WITH_ISTIO` environment variable is defined, the request is performed without SSL (plain HTTP).
 
-We set `WITH_ISTIO` environment variable to "true" string in the [kubernetes deployment of _details v2_](https://github.com/istio/istio/blob/master/samples/bookinfo/kube/bookinfo-details-v2.yaml), container spec:
+We set `WITH_ISTIO` environment variable to _"true"_ in the [kubernetes deployment of _details v2_](https://github.com/istio/istio/blob/master/samples/bookinfo/kube/bookinfo-details-v2.yaml), container spec:
 ```yaml
 env:
 - name: WITH_ISTIO
