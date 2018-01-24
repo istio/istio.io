@@ -95,7 +95,7 @@ Now accessing the web page of the application displays the book details without 
 <figure><img src="img/externalBookDetails.png" alt="Book Details displayed without error" title="Book Details displayed without error" />
 <figcaption>Book Details displayed without error</figcaption></figure>
 
-Note that our Egress Rule allows traffic to any domain matching _*.googleapis.com_, on port 443, using the HTTPS protocol. Let's assume for the sake of the example, that we must access multiple domains matching _*.gooogleapis.com_, not only _www.googleapis.com_ which is accessed by our code in reality. This wildcard feature allows us to enable traffic to multiple domains by a single Egress Rule.
+Note that our Egress Rule allows traffic to any domain matching _*.googleapis.com_, on port 443, using the HTTPS protocol. Let's assume for the sake of the example, that we must access multiple domains matching _*.gooogleapis.com_, not only _www.googleapis.com_ that is accessed by our code in reality. This wildcard feature allows us to enable traffic to multiple domains by a single Egress Rule.
 
 
 We can query our Egress Rules:
