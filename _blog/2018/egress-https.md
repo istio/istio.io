@@ -20,7 +20,7 @@ In this blog post I will modify [Istio Bookinfo Sample Application]({{home}}/doc
 ## Bookinfo Sample App with External Details Web Service
 
 ### Initial Setting
-To demonstrate the scenario of consuming an external web service, I will start with a Kubernetes cluster with [Istio installed]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps). Then I will deploy [Istio Bookinfo Sample Application]({{home}}/docs/guides/bookinfo.html). This application uses the _details_ microservice to fetch book details, e.g. the number of pages and the publisher. The original _details_ microservice provides the book details without consulting any external service.
+To demonstrate the scenario of consuming an external web service, I will start with a Kubernetes cluster with [Istio installed]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps). Then I will deploy [Istio Bookinfo Sample Application]({{home}}/docs/guides/bookinfo.html). This application uses the _details_ microservice to fetch book details, for example the number of pages and the publisher. The original _details_ microservice provides the book details without consulting any external service.
 
 I will copy here the end-to-end architecture of the application from the original [Bookinfo Guide]({{home}}/docs/guides/bookinfo.html).
 
