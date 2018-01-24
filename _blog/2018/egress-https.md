@@ -152,7 +152,7 @@ Another issue is that the Egress Rule is currently **not a security feature**, i
 Securing egress traffic is currently not supported in Istio and should be performed elsewhere, for example by a firewall or by an additional proxy outside of Istio. Right now we in Istio are working to enable applying Mixer security policies on the egress traffic and to prevent the attack described above.
 
 ### No Tracing, Telemetry and no Mixer Checks
-Note that currently no tracing/telemetry information can be collected for the Egress traffic and Mixer policies cannot be applied. We are working to fix this in the future Istio releases.
+Note that currently no tracing and telemetry information can be collected for the Egress traffic. Mixer policies cannot be applied. We are working to fix this in the future Istio releases.
 
 ## Future Work
 In my next blog posts I will demonstrate Istio Egress Rules for TCP traffic and will show examples of combining Routing Rules and Egress Rules.
