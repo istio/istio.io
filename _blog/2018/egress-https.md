@@ -157,7 +157,7 @@ Note that currently no tracing and telemetry information can be collected for th
 ## Future Work
 In my next blog posts I will demonstrate Istio Egress Rules for TCP traffic and will show examples of combining Routing Rules and Egress Rules.
 
-In Istio, we are working on making Istio egress traffic more secure, and in particular on enabling tracing/telemetry and Mixer checkss.
+In Istio, we are working on making Istio egress traffic more secure, and in particular on enabling tracing, telemetry and Mixer checks.
 
 ## Conclusion
 In this blog post I demonstrated how the microservices in an Istio Service Mesh can consume external web services via HTTPS. By default, Istio blocks all the traffic to the hosts outside of the cluster. To enable such traffic, Egress Rules must be created for the Service Mesh. It is possible to access the external sites by HTTPS, however the microservices must issue HTTP requests while Istio will communicate to the external sites by HTTPS (TLS origination). Currently, no logging, telemetry and Mixer checks are enabled on the egress traffic. Egress Rules are currently not a security feature, so additional mechanisms are required for securing egress traffic. We, in Istio, are working to make Egress Services more secure and to enable logging/telemetry and security policies on the egress traffic.
