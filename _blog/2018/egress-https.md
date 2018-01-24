@@ -149,7 +149,7 @@ env:
 ### Malicious Microservices Threat
 Another issue is that the Egress Rule is currently **not a security feature**, it just **enables** traffic to external services. For HTTP based protocols, the rules are based on domains. Istio does not check that the destination IP of the request matches the _Host_ header. It means that a malicious microservice inside a Service Mesh could trick Istio to allow traffic to a malicious IP, while setting an allowed domain as the _Host_ header.
 
-Securing egress traffic is currently not supported in Istio and should be performed elsewhere, for example by a firewall or by an additional proxy outside of Istio. Right now we in Istio are working to add applying Mixer security policies on the egress traffic and to prevent the attack described above.
+Securing egress traffic is currently not supported in Istio and should be performed elsewhere, for example by a firewall or by an additional proxy outside of Istio. Right now we in Istio are working to enable applying Mixer security policies on the egress traffic and to prevent the attack described above.
 
 ### No Tracing, Telemetry and no Mixer Checks
 Note that currently no tracing/telemetry information can be collected for the Egress traffic and Mixer policies cannot be applied. We are working to fix this in the future Istio releases.
