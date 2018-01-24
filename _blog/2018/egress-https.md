@@ -17,7 +17,7 @@ In many cases, not all the parts of a microservices-based application reside in 
 
 In this blog post I will modify [Istio Bookinfo Sample Application]({{home}}/docs/guides/bookinfo.html) to fetch book details from an external web service ([Google Books APIs](https://developers.google.com/books/docs/v1/getting_started)). I will show how to enable external HTTPS traffic in Istio by using an Egress Rule. I will explain the current issues related to the Egress Traffic control in Istio.
 
-## Bookinfo Sample App with External Details Web Service
+## Bookinfo Sample Application with External Details Web Service
 
 ### Initial Setting
 To demonstrate the scenario of consuming an external web service, I will start with a Kubernetes cluster with [Istio installed]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps). Then I will deploy [Istio Bookinfo Sample Application]({{home}}/docs/guides/bookinfo.html). This application uses the _details_ microservice to fetch book details, for example the number of pages and the publisher. The original _details_ microservice provides the book details without consulting any external service.
