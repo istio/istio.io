@@ -119,7 +119,7 @@ and see in the output of _istioctl delete_ that the Egress Rule is deleted:
 Deleted config: egressrule googleapis
 ```
 
-Accessing the web page now will produce the previous error about fetching product details we experienced before. As we can see, the Egress Rules are defined dynamically. The Istio Operators can decide dynamically which domains they allow the microservices to access. They can enable and disable traffic to the external domains dynamically.
+Accessing the web page now will produce the same error that we experienced before, namely _Error fetching product details_. As we can see, the Egress Rules are defined dynamically. The Istio Operators can decide dynamically which domains they allow the microservices to access. They can enable and disable traffic to the external domains dynamically.
 
 ## The Issues with Istio Egress Traffic Control
 ### TLS Origination by Istio
