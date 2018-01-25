@@ -352,3 +352,31 @@ kubectl scale --replicas=0 deploy/istio-ca -n istio-system
 ```
 
 This should stop istio from restarting Envoy and disconnecting TCP connections.
+
+## Envoy Process High CPU Usage
+
+For larger clusters, the default configuration that comes with Istio
+refreshes the Envoy configuration every 1 second. This can cause high
+CPU usage, even when Envoy isn't doing anything. In order to bring the
+CPU usage down for larger deployments, increase the refresh interval for
+Envoy to something higher, like 30 seconds.
+
+```
+# increase the field rdsRefreshDelay in the mesh and defaultConfig section
+# set the refresh interval to 30s
+kubectl edit configmap -n istio-system istio
+
+# restart pilot and wait a few minutes
+kubectl delete pods -n istio-system -l istio=pilot
+```
+
+Also make sure to reinject the sidecar into all of your pods, as
+their configuration needs to be updated as well.
+
+Afterwards, you should see CPU usage fall back to 0-1% while idling.
+Make sure to tune these values for your specific deployment.
+
+*Warning:*: Changes created by routing rules will take up to 2x refresh interval to propagate to the sidecars. 
+While the larger refresh interval will reduce CPU usage, updates caused by routing rules may cause a period 
+of HTTP 404s (upto 2x the refresh interval) until the Envoy sidecars get all relevant configuration. 
+
