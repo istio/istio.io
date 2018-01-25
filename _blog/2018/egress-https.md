@@ -127,7 +127,10 @@ There is a caveat to the story. In HTTPS, all the HTTP details (hostname, path, 
 
 To allow Istio to perform filtering of Egress Requests based on domains, the microservices must issue HTTP requests. Istio then will open HTTPS connection to the destination (perform TLS origination). The microservices code must be written differently or configured according to whether the microservice runs inside or outside of an Istio Service Mesh. This contradicts the Istio Design Goal of [Maximizing Transparency]({{home}}/concepts/what-is-istio/goals.html). Tough luck, sometimes we must compromise...
 
-Here how it is done in the [the Bookinfo details microservice code](https://github.com/istio/istio/blob/master/samples/bookinfo/src/details/details.rb), using Ruby [net/http module](https://docs.ruby-lang.org/en/2.0.0/Net/HTTP.html):
+<figure><img src="img/https_from_the_app.svg" alt="HTTPS traffic to external services, from inside vs. from outside of Istio Service Mesh" title="HTTPS traffic to external services, from inside vs. from outside of Istio Service Mesh" />
+<figcaption>HTTPS traffic to external services, from inside vs. from outside of Istio Service Mesh</figcaption></figure>
+
+Here is how we code this behavior in the [the Bookinfo details microservice code](https://github.com/istio/istio/blob/master/samples/bookinfo/src/details/details.rb), using Ruby [net/http module](https://docs.ruby-lang.org/en/2.0.0/Net/HTTP.html):
 ```ruby
 uri = URI.parse('https://www.googleapis.com/books/v1/volumes?q=isbn:' + isbn)
 http = Net::HTTP.new(uri.host, uri.port)
