@@ -24,8 +24,8 @@ To demonstrate the scenario of consuming an external web service, I will start w
 
 I will copy here the end-to-end architecture of the application from the original [Bookinfo Guide]({{home}}/docs/guides/bookinfo.html).
 
-<figure><img src="{{home}}/docs/guides/img/bookinfo/withistio.svg" alt="The Original BookInfo Application" title="The Original BookInfo Application" />
-<figcaption>The Original BookInfo  Application</figcaption></figure>
+<figure><img src="{{home}}/docs/guides/img/bookinfo/withistio.svg" alt="The Original Bookinfo Application" title="The Original Bookinfo Application" />
+<figcaption>The Original Bookinfo  Application</figcaption></figure>
 
 ### Bookinfo with Details Version 2
 Let's add a new version of the _details_ microservice, _v2_, that fetches the book details from [Google Books APIs](https://developers.google.com/books/docs/v1/getting_started).
