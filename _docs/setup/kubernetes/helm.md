@@ -33,7 +33,7 @@ is also required.
 
 1. Create the Helm chart:
   ```bash
-  helm install install/kuberenetes/istio --name istio
+  helm install install/kuberenetes/helm/istio --name istio
   ```
 
 ## Customization with Helm
