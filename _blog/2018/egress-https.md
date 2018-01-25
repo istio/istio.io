@@ -68,7 +68,7 @@ Oops... Instead of the book details we have _Error fetching product details_ mes
 <figcaption>Error Fetching Product Details Displayed</figcaption></figure>
 
 
-Good news is that our application did not crash. With a good microservice design we do not have **failure propagation**. In our case the failing _details_ microservice does not cause the _productpage_ microservice to fail. Most of the functionality of the application is still provided despite the failure in the _details_ microservice. We achieve **graceful service degradation**: as you can see, the reviews and the ratings are displayed correctly, and the application is still useful.
+Good news is that our application did not crash. With a good microservice design we do not have **failure propagation**. In our case the failing _details_ microservice does not cause the _productpage_ microservice to fail. Most of the functionality of the application is still provided despite the failure in the _details_ microservice. We have **graceful service degradation**: as you can see, the reviews and the ratings are displayed correctly, and the application is still useful.
 
 Hmm, so what might have gone wrong? Ah... The answer is that I forgot to enable traffic from inside the mesh to an external service, in this case to the Google Books web service. By default, the Istio sidecar proxies block all the traffic to the outside of the cluster. To enable such traffic, we have to define an [Egress Rule]({{home}}/reference/config/traffic-rules/egress-rules.html).
 
