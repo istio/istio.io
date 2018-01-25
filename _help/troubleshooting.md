@@ -326,6 +326,33 @@ Check your `ulimit -a`. Many systems have a 1024 open file descriptor limit by d
 
 Make sure to raise your ulimit. Example: `ulimit -n 16384`
 
+## Headless TCP Services Losing Connection from Istiofied Containers
+
+If `istio-ca` is deployed, Envoy is restarted every 15 minutes to refresh certificates.
+This causes the disconnection of TCP streams or long-running connections between services.
+
+You should build resilience into your application for this type of
+disconnect, but if you still want to prevent the disconnects from
+happening, you will need to disable mTLS and the `istio-ca` deployment.
+
+First, edit your istio config to disable mTLS
+
+```
+# comment out or uncomment out authPolicy: MUTUAL_TLS to toggle mTLS and then
+kubectl edit configmap -n istio-system istio
+
+# restart pilot and wait a few minutes
+kubectl delete pods -n istio-system -l istio=pilot
+```
+
+Next, scale down the `istio-ca` deployment to disable Envoy restarts.
+
+```
+kubectl scale --replicas=0 deploy/istio-ca -n istio-system
+```
+
+This should stop istio from restarting Envoy and disconnecting TCP connections.
+
 ## Envoy Process High CPU Usage
 
 For larger clusters, the default configuration that comes with Istio
@@ -348,4 +375,8 @@ their configuration needs to be updated as well.
 
 Afterwards, you should see CPU usage fall back to 0-1% while idling.
 Make sure to tune these values for your specific deployment.
+
+*Warning:*: Changes created by routing rules will take up to 2x refresh interval to propagate to the sidecars. 
+While the larger refresh interval will reduce CPU usage, updates caused by routing rules may cause a period 
+of HTTP 404s (upto 2x the refresh interval) until the Envoy sidecars get all relevant configuration. 
 
