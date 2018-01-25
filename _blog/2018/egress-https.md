@@ -125,13 +125,13 @@ Accessing the web page now will produce the same error that we experienced befor
 ### TLS Origination by Istio
 There is a caveat to the story. In HTTPS, all the HTTP details (hostname, path, headers etc.) are encrypted, so Istio cannot know the destination domain of the encrypted requests. Well, Istio could know the destination domain by the  [SNI](https://tools.ietf.org/html/rfc3546#section-3.1) (_Server Name Indication_) field. This feature is not yet implemented in Istio. Therefore, currently Istio cannot perform filtering of HTTPS requests based on the destination domains.
 
-To allow Istio to perform filtering of Egress Requests based on domains, the microservices must issue HTTP requests. Istio then will open HTTPS connection to the destination (perform TLS origination). The code of the microservices must be written differently or configured differently, according to whether the microservice runs inside or outside of an Istio Service Mesh. This contradicts the Istio Design Goal of [Maximizing Transparency]({{home}}/docs/concepts/what-is-istio/goals.html). Tough luck, sometimes we must compromise...
+To allow Istio to perform filtering of Egress Requests based on domains, the microservices must issue HTTP requests. Istio then will open HTTPS connection to the destination (perform TLS origination). The code of the microservices must be written differently or configured differently, according to whether the microservice runs inside or outside an Istio Service Mesh. This contradicts the Istio Design Goal of [Maximizing Transparency]({{home}}/docs/concepts/what-is-istio/goals.html). Tough luck, sometimes we must compromise...
 
-The diagram below shows how the HTTPS traffic to external services is performed. On the top, a microservice outside of an Istio Service Mesh,
+The diagram below shows how the HTTPS traffic to external services is performed. On the top, a microservice outside an Istio Service Mesh
 sends regular HTTPS requests, encrypted end-to-end. On the bottom, the same microservice inside an Istio Service Mesh must send unencrypted HTTP requests inside a pod, which are intercepted by the sidecar Envoy proxy. The sidecar proxy performs TLS origination, so the traffic between the pod and the external service is encrypted.
 
-<figure><img src="img/https_from_the_app.svg" alt="HTTPS traffic to external services, from outside vs. from inside of an Istio Service Mesh" title="HTTPS traffic to external services, from outside vs. from inside of an Istio Service Mesh" />
-<figcaption>HTTPS traffic to external services, from outside vs. from inside of an Istio Service Mesh</figcaption></figure>
+<figure><img src="img/https_from_the_app.svg" alt="HTTPS traffic to external services, from outside vs. from inside an Istio Service Mesh" title="HTTPS traffic to external services, from outside vs. from inside an Istio Service Mesh" />
+<figcaption>HTTPS traffic to external services, from outside vs. from inside an Istio Service Mesh</figcaption></figure>
 
 Here is how we code this behavior in the [the Bookinfo details microservice code](https://github.com/istio/istio/blob/master/samples/bookinfo/src/details/details.rb), using Ruby [net/http module](https://docs.ruby-lang.org/en/2.0.0/Net/HTTP.html):
 ```ruby
