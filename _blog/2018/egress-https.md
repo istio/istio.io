@@ -38,8 +38,8 @@ kubectl apply -f samples/bookinfo/kube/bookinfo-details-v2.yaml
 ```
 
 The updated architecture of the application now looks as follows:
-<figure><img src="img/bookinfo-details-v2.svg" alt="The BookInfo Application with details v2" title="The BookInfo Application with details v2" />
-<figcaption>The BookInfo Application with details v2</figcaption></figure>
+<figure><img src="img/bookinfo-details-v2.svg" alt="The Bookinfo Application with details v2" title="The Bookinfo Application with details v2" />
+<figcaption>The Bookinfo Application with details v2</figcaption></figure>
 
 Note that the Google Books web service is outside of the Istio Service Mesh whose boundaries are marked by a dashed line.
 
