@@ -70,7 +70,7 @@ Oops... Instead of the book details we have _Error fetching product details_ mes
 
 Good news is that our application did not crash. With a good microservice design we do not have **failure propagation**. In our case the failing _details_ microservice does not cause the _productpage_ microservice to fail. Most of the functionality of the application is still provided despite the failure in the _details_ microservice. We have **graceful service degradation**: as you can see, the reviews and the ratings are displayed correctly, and the application is still useful.
 
-Hmm, so what might have gone wrong? Ah... The answer is that I forgot to enable traffic from inside the mesh to an external service, in this case to the Google Books web service. By default, the Istio sidecar proxies ([Envoy proxies](https://www.envoyproxy.io)) block all the traffic to the outside of the cluster. To enable such traffic, we have to define an [Egress Rule]({{home}}/docs/reference/config/traffic-rules/egress-rules.html).
+Hmm, so what might have gone wrong? Ah... The answer is that I forgot to enable traffic from inside the mesh to an external service, in this case to the Google Books web service. By default, the Istio sidecar proxies ([Envoy proxies](https://www.envoyproxy.io)) block all the traffic to the outside of the cluster. To enable such traffic, we must define an [Egress Rule]({{home}}/docs/reference/config/traffic-rules/egress-rules.html).
 
 ### Egress Rule for Google Books Web Service
 No worries, let's define an **Egress Rule** and fix our application.
@@ -128,7 +128,7 @@ There is a caveat to the story. In HTTPS, all the HTTP details (hostname, path, 
 To allow Istio to perform filtering of Egress Requests based on domains, the microservices must issue HTTP requests. Istio then will open HTTPS connection to the destination (perform TLS origination). The microservices code must be written differently or configured differently, according to whether the microservice runs inside or outside of an Istio Service Mesh. This contradicts the Istio Design Goal of [Maximizing Transparency]({{home}}/docs/concepts/what-is-istio/goals.html). Tough luck, sometimes we must compromise...
 
 The diagram below shows how the HTTPS traffic to external services is performed. On the top, a microservice outside of an Istio Service Mesh,
-sends regular HTTPS requests, encrypted end-to-end. On the bottom, the same microservice inside an Istio Service Mesh has to send unencrypted HTTP requests inside a pod, which are intercepted by the sidecar Envoy proxy. The sidecar proxy performs TLS origination, so the traffic between the pod and the external service is encrypted.
+sends regular HTTPS requests, encrypted end-to-end. On the bottom, the same microservice inside an Istio Service Mesh must send unencrypted HTTP requests inside a pod, which are intercepted by the sidecar Envoy proxy. The sidecar proxy performs TLS origination, so the traffic between the pod and the external service is encrypted.
 
 <figure><img src="img/https_from_the_app.svg" alt="HTTPS traffic to external services, from outside vs. from inside of an Istio Service Mesh" title="HTTPS traffic to external services, from outside vs. from inside of an Istio Service Mesh" />
 <figcaption>HTTPS traffic to external services, from outside vs. from inside of an Istio Service Mesh</figcaption></figure>
@@ -143,7 +143,7 @@ unless ENV['WITH_ISTIO'] === 'true' then
 end
 ```
 
-Note that the port is derived by the `URI.parse` to be `443`, the default HTTPS port. The microservice, when running inside an Istio Service Mesh, has to issue HTTP requests to the port `443`, the port the external service listens to.
+Note that the port is derived by the `URI.parse` to be `443`, the default HTTPS port. The microservice, when running inside an Istio Service Mesh, must issue HTTP requests to the port `443`, the port the external service listens to.
 
 When `WITH_ISTIO` environment variable is defined, the request is performed without SSL (plain HTTP).
 
