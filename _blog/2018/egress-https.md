@@ -143,7 +143,7 @@ unless ENV['WITH_ISTIO'] === 'true' then
 end
 ```
 
-Note that the port is derived by the `URI.parse` from the URL's schema to be `443`, the default HTTPS port. The microservice, when running inside an Istio Service Mesh, must issue HTTP requests to the port `443`, the port the external service listens to.
+Note that the port is derived by the `URI.parse` from the URI's schema (https://) to be `443`, the default HTTPS port. The microservice, when running inside an Istio Service Mesh, must issue HTTP requests to the port `443`, the port the external service listens to.
 
 When `WITH_ISTIO` environment variable is defined, the request is performed without SSL (plain HTTP).
 
