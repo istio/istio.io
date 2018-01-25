@@ -127,6 +127,9 @@ There is a caveat to the story. In HTTPS, all the HTTP details (hostname, path, 
 
 To allow Istio to perform filtering of Egress Requests based on domains, the microservices must issue HTTP requests. Istio then will open HTTPS connection to the destination (perform TLS origination). The microservices code must be written differently or configured according to whether the microservice runs inside or outside of an Istio Service Mesh. This contradicts the Istio Design Goal of [Maximizing Transparency]({{home}}/concepts/what-is-istio/goals.html). Tough luck, sometimes we must compromise...
 
+The diagram below shows how the HTTPS traffic is performed to external services. On the top, a microservice outside of the Istio Service Mesh,
+sends regular HTTPS requests, encrypted end-to-end. On the bottom, the same microservice inside the Istio Service Mesh has to send unencrypted HTTP requests inside a pod, which are intercepted by the sidecar Envoy proxy. The sidecar proxy performs TLS origination, so the traffic between the sidecar proxy and the external service is encrypted.
+
 <figure><img src="img/https_from_the_app.svg" alt="HTTPS traffic to external services, from inside vs. from outside of Istio Service Mesh" title="HTTPS traffic to external services, from inside vs. from outside of Istio Service Mesh" />
 <figcaption>HTTPS traffic to external services, from inside vs. from outside of Istio Service Mesh</figcaption></figure>
 
