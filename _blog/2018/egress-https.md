@@ -121,7 +121,7 @@ Deleted config: egressrule googleapis
 
 Accessing the web page now will produce the same error that we experienced before, namely _Error fetching product details_. As we can see, the Egress Rules are defined **dynamically**, as many other Istio configuration artifacts. The Istio Operators can decide dynamically which domains they allow the microservices to access. They can enable and disable traffic to the external domains on the fly, without redeploying the microservices.
 
-## The Issues with Istio Egress Traffic Control
+## Issues with Istio Egress Traffic Control
 ### TLS Origination by Istio
 There is a caveat to the story. In HTTPS, all the HTTP details (hostname, path, headers etc.) are encrypted, so Istio cannot know the destination domain of the encrypted requests. Well, Istio could know the destination domain by the  [SNI](https://tools.ietf.org/html/rfc3546#section-3.1) (_Server Name Indication_) field. This feature is not yet implemented in Istio. Therefore, currently Istio cannot perform filtering of HTTPS requests based on the destination domains.
 
