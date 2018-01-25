@@ -143,6 +143,8 @@ unless ENV['WITH_ISTIO'] === 'true' then
 end
 ```
 
+Note that the port is derived by the `URI.parse` to be `443`, the default HTTPS port. The microservice, when running inside the Istio Service Mesh, has to issue HTTP requests to the port `443`, the port the external service listens to.
+
 When `WITH_ISTIO` environment variable is defined, the request is performed without SSL (plain HTTP).
 
 We set `WITH_ISTIO` environment variable to _"true"_ in the [kubernetes deployment of _details v2_](https://github.com/istio/istio/blob/master/samples/bookinfo/kube/bookinfo-details-v2.yaml), container spec:
