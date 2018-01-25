@@ -130,8 +130,8 @@ To allow Istio to perform filtering of Egress Requests based on domains, the mic
 The diagram below shows how the HTTPS traffic is performed to external services. On the top, a microservice outside of the Istio Service Mesh,
 sends regular HTTPS requests, encrypted end-to-end. On the bottom, the same microservice inside the Istio Service Mesh has to send unencrypted HTTP requests inside a pod, which are intercepted by the sidecar Envoy proxy. The sidecar proxy performs TLS origination, so the traffic between the sidecar proxy and the external service is encrypted.
 
-<figure><img src="img/https_from_the_app.svg" alt="HTTPS traffic to external services, from inside vs. from outside of Istio Service Mesh" title="HTTPS traffic to external services, from inside vs. from outside of Istio Service Mesh" />
-<figcaption>HTTPS traffic to external services, from inside vs. from outside of Istio Service Mesh</figcaption></figure>
+<figure><img src="img/https_from_the_app.svg" alt="HTTPS traffic to external services, from outside vs. from inside of Istio Service Mesh" title="HTTPS traffic to external services, from outside vs. from inside of Istio Service Mesh" />
+<figcaption>HTTPS traffic to external services, from outside vs. from inside of Istio Service Mesh</figcaption></figure>
 
 Here is how we code this behavior in the [the Bookinfo details microservice code](https://github.com/istio/istio/blob/master/samples/bookinfo/src/details/details.rb), using Ruby [net/http module](https://docs.ruby-lang.org/en/2.0.0/Net/HTTP.html):
 ```ruby
