@@ -13,7 +13,7 @@ redirect_from: "/blog/egress-https.html"
 ---
 {% include home.html %}
 
-In many cases, not all the parts of a microservices-based application reside in a Service Mesh. Sometimes, the microservices-based applications use functionality provided by legacy systems that reside outside of the Mesh. In other cases, the applications use web services provided by external organizations, often over the World Wide Web.
+In many cases, not all the parts of a microservices-based application reside in a Service Mesh. Sometimes, the microservices-based applications use functionality provided by legacy systems that reside outside the Mesh. In other cases, the applications use web services provided by external organizations, often over the World Wide Web.
 
 In this blog post I will modify [Istio Bookinfo Sample Application]({{home}}/docs/guides/bookinfo.html) to fetch book details from an external web service ([Google Books APIs](https://developers.google.com/books/docs/v1/getting_started)). I will show how to enable external HTTPS traffic in Istio by using an Egress Rule. I will explain the current issues related to the Egress Traffic control in Istio.
 
@@ -41,7 +41,7 @@ The updated architecture of the application now looks as follows:
 <figure><img src="img/bookinfo-details-v2.svg" alt="The Bookinfo Application with details v2" title="The Bookinfo Application with details v2" />
 <figcaption>The Bookinfo Application with details v2</figcaption></figure>
 
-Note that the Google Books web service is outside of the Istio Service Mesh whose boundaries are marked by a dashed line.
+Note that the Google Books web service is outside the Istio Service Mesh whose boundaries are marked by a dashed line.
 
 Now let's direct all the traffic to the version _v2_ of the _details_ microservice, using the following Route Rule:
 
@@ -70,7 +70,7 @@ Oops... Instead of the book details we have _Error fetching product details_ mes
 
 Good news is that our application did not crash. With a good microservice design we do not have **failure propagation**. In our case the failing _details_ microservice does not cause the _productpage_ microservice to fail. Most of the functionality of the application is still provided despite the failure in the _details_ microservice. We have **graceful service degradation**: as you can see, the reviews and the ratings are displayed correctly, and the application is still useful.
 
-Hmm, so what might have gone wrong? Ah... The answer is that I forgot to enable traffic from inside the mesh to an external service, in this case to the Google Books web service. By default, the Istio sidecar proxies ([Envoy proxies](https://www.envoyproxy.io)) block all the traffic to the outside of the cluster. To enable such traffic, we must define an [Egress Rule]({{home}}/docs/reference/config/traffic-rules/egress-rules.html).
+Hmm, so what might have gone wrong? Ah... The answer is that I forgot to enable traffic from inside the mesh to an external service, in this case to the Google Books web service. By default, the Istio sidecar proxies ([Envoy proxies](https://www.envoyproxy.io)) block all the traffic to the outside the cluster. To enable such traffic, we must define an [Egress Rule]({{home}}/docs/reference/config/traffic-rules/egress-rules.html).
 
 ### Egress Rule for Google Books Web Service
 No worries, let's define an **Egress Rule** and fix our application.
@@ -157,7 +157,7 @@ env:
 ### Malicious Microservices Threat
 Another issue is that the Egress Rules are currently **not a security feature**, they only **enable** traffic to external services. For HTTP based protocols, the rules are based on domains. Istio does not check that the destination IP of the request matches the _Host_ header. It means that a malicious microservice inside a Service Mesh could trick Istio to allow traffic to a malicious IP. The trick is to set one of the domains allowed by some existing Egress Rule as the _Host_ header of the malicious request.
 
-Securing egress traffic is currently not supported in Istio and should be performed elsewhere, for example by a firewall or by an additional proxy outside of Istio. Right now we in Istio are working to enable applying Mixer security policies on the egress traffic and to prevent the attack described above.
+Securing egress traffic is currently not supported in Istio and should be performed elsewhere, for example by a firewall or by an additional proxy outside Istio. Right now we in Istio are working to enable applying Mixer security policies on the egress traffic and to prevent the attack described above.
 
 ### No Tracing, Telemetry and No Mixer Checks
 Note that currently no tracing and telemetry information can be collected for the Egress traffic. Mixer policies cannot be applied. We are working to fix this in the future Istio releases.
@@ -168,6 +168,6 @@ In my next blog posts I will demonstrate Istio Egress Rules for TCP traffic and 
 In Istio, we are working on making Istio egress traffic more secure, and in particular on enabling tracing, telemetry and Mixer checks for the egress traffic.
 
 ## Conclusion
-In this blog post I demonstrated how the microservices in an Istio Service Mesh can consume external web services via HTTPS. By default, Istio blocks all the traffic to the hosts outside of the cluster. To enable such traffic, Egress Rules must be created for the Service Mesh. It is possible to access the external sites by HTTPS, however the microservices must issue HTTP requests while Istio will perform TLS origination. Currently, no tracing, telemetry and Mixer checks are enabled for the egress traffic. Egress Rules are currently not a security feature, so additional mechanisms are required for securing egress traffic. We, in Istio, are working to enable logging/telemetry and security policies for the egress traffic in the future releases.
+In this blog post I demonstrated how the microservices in an Istio Service Mesh can consume external web services via HTTPS. By default, Istio blocks all the traffic to the hosts outside the cluster. To enable such traffic, Egress Rules must be created for the Service Mesh. It is possible to access the external sites by HTTPS, however the microservices must issue HTTP requests while Istio will perform TLS origination. Currently, no tracing, telemetry and Mixer checks are enabled for the egress traffic. Egress Rules are currently not a security feature, so additional mechanisms are required for securing egress traffic. We, in Istio, are working to enable logging/telemetry and security policies for the egress traffic in the future releases.
 
 To read more about Istio Egress Traffic control, see [Control Egress Traffic Task]({{home}}/docs/tasks/traffic-management/egress.html).
