@@ -672,7 +672,7 @@ unspecified, all request will be delayed.
 
 ### Mirror
 
-Mirroring allows replicating traffic to another cluster. This can be useful for testing against live traffic without actually putting new code in the request path. This is also known as [traffic shadowing](https://www.envoyproxy.io/docs/envoy/latest/api-v1/route_config/route.html#shadow) or [request mirroring](https://www.envoyproxy.io/docs/envoy/latest/api-v2/rds.proto.html#routeaction-requestmirrorpolicy). 
+Mirroring allows replicating traffic to another cluster. This can be useful for testing against live traffic without actually putting new code in the request path. This is also known as [traffic shadowing](https://www.envoyproxy.io/docs/envoy/latest/api-v1/route_config/route.html#shadow) or [request mirroring](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/route/route.proto.html#route-routeaction-requestmirrorpolicy). 
 
     metadata:
       name: my-rule
