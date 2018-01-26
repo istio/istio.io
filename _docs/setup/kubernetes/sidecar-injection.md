@@ -130,11 +130,17 @@ kubectl create clusterrolebinding cluster-admin-binding \
     --user=$(gcloud config get-value core/account)
 ```
 
-#### minikube (TODO)
+#### minikube 
 
-#### IBM Cloud Container Service (TODO)
+TODO(https://github.com/istio/istio.github.io/issues/885)
 
-#### AWS with Kops (TODO)
+#### IBM Cloud Container Service
+
+TODO(https://github.com/istio/istio.github.io/issues/887)
+
+#### AWS with Kops
+
+TODO(https://github.com/istio/istio.github.io/issues/886)
 
 ### Installing the Webhook 
 
