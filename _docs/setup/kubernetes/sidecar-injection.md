@@ -86,7 +86,7 @@ $ kubectl apply -f sleep-injected.yaml
 Alternatively, this can be performed in a single step. This uses the built-in default template and dynamically fetches the mesh configuration from the `istio` ConfigMap. Additional parameter overrides are available via flags (see `istioctl kube-inject --help`).
 
 ```
-kubectl apply -f <(~istioctl kube-inject --meshConfigMapName=istio -f samples/sleep/sleep.yaml)
+kubectl apply -f <(~istioctl kube-inject -f samples/sleep/sleep.yaml)
 ```
 
 Verify that the sidecar has been injected into the deployment.
