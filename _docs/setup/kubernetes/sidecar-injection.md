@@ -318,7 +318,7 @@ define injected containers/volumes based on per-pod values.
 
 For example, the following template snippet from install/kubernetes/istio-sidecar-injector-configmap-release.yaml
 
-
+{% raw %}
 ```yaml
 containers:
 - name: istio-proxy
@@ -337,6 +337,7 @@ containers:
   - "istio-proxy"
   {{ end -}}
 ```
+{% endraw %}
 
 expands to 
 
