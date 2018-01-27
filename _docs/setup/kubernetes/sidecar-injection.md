@@ -55,8 +55,11 @@ systematically with a deployment rolling update.
 
 Manual and automatic injection use the same templated configuration. Automatic 
 injection loads the configuration from the `istio-inject` ConfigMap in the 
-`istio-system` namespace. Two variants of the injection configmap are provided
-with the default install: `istio-sidecar-injector-configmap-release.yaml` 
+`istio-system` namespace. Manual injection can load from a local file or from 
+the ConfigMap.
+
+Two variants of the injection configuration are provided with the default 
+install: `istio-sidecar-injector-configmap-release.yaml` 
 and `istio-sidecar-injector-configmap-debug.yaml`. The injection configmap includes 
 the default injection policy and sidecar injection template. The debug version 
 includes debug proxy images and additional loggin and core dump functionality using 
