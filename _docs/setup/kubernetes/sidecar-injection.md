@@ -68,7 +68,9 @@ for debugging the sidecar proxy.
 ## Manual sidecar injection
 
 `kube-inject` is designed to be run offline without access to a running Kubernetes
-cluster. Create local copies of the injection and mesh configmap.
+cluster. 
+
+Create local copies of the injection and mesh configmap.
 
 
 ```
@@ -229,7 +231,7 @@ NAME                     READY     STATUS        RESTARTS   AGE
 sleep-776b7bcdcd-7hpnk   1/1       Running       0          4
 ```
 
-Label `default` namespace with `istio-injection=enabled`
+Label the `default` namespace with `istio-injection=enabled`
 
 ```
 $ kubectl label namespace default istio-injection=enabled
@@ -242,7 +244,7 @@ kube-public    Active    1h
 kube-system    Active    1h  
 ```
 
-Injection occurs at pod creation time. Kill the running pod and verify a new pod is created with the injected sidecar.
+Injection occurs at pod creation time. Kill the running pod and verify a new pod is created with the injected sidecar. The original pod has 1/1 READY containers and the pod with injected sidecar has 2/2 READY containers.
 
 ```
 $ kubectl delete pod sleep-776b7bcdcd-7hpnk 
@@ -271,13 +273,13 @@ sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
 [admissionregistration.k8s.io/v1alpha1#MutatingWebhookConfiguration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.9/#mutatingwebhookconfiguration-v1beta1-admissionregistration) 
 configures when the webhook is invoked by Kubernetes. The default 
 supplied with Istio selects pods in namespaces with label `istio-injection=enabled`. 
-This can be changed by modifying the MutatingWebhookConfiguration 
+This can be changed by modifying the MutatingWebhookConfiguration in
 `install/kubernetes/istio-sidecar-injector-with-ca-bundle.yaml`.
 
-The `istio-inject` ConfigMap in `istio-system` contains the default 
+The `istio-inject` ConfigMap in the `istio-system` namespace the default 
 injection policy and sidecar injection template.
 
-1. _**policy**_
+##### _**policy**_
     
 `disabled` - The sidecar injector will not inject the sidecar into
 pods by default. Pods can enable injection using the `sidecar.istio.io/inject` 
@@ -287,7 +289,7 @@ annotation with value of `true`.
 default. Pods can disable injection using the `sidecar.istio.io/inject`
 annotation with value of `false`.
     
-2. _**template**_
+##### _**template**_
    
 The sidecar injection template uses https://golang.org/pkg/text/template which, 
 when parsed and exectuted, is decoded to the following 
@@ -305,16 +307,16 @@ The template is applied to the following data structure at runtime.
     
 ```golang
 type SidecarTemplateData struct {
-    ObjectMeta  *metav1.ObjectMeta       // 
-	  Spec        *v1.PodSpec              // 
-	  ProxyConfig *meshconfig.ProxyConfig  // Defined by https://istio.io/docs/reference/config/service-mesh.html#proxyconfig
-	  MeshConfig  *meshconfig.MeshConfig   // Defined by https://istio.io/docs/reference/config/service-mesh.html#meshconfig 
+    ObjectMeta  *metav1.ObjectMeta        
+    Spec        *v1.PodSpec               
+    ProxyConfig *meshconfig.ProxyConfig  // Defined by https://istio.io/docs/reference/config/service-mesh.html#proxyconfig
+    MeshConfig  *meshconfig.MeshConfig   // Defined by https://istio.io/docs/reference/config/service-mesh.html#meshconfig 
 }
 ```
 
-`ObjectMeta` and `Spec` are from the to-be-injected Pod. `ProxyConfig` and `MeshConfig` 
+`ObjectMeta` and `Spec` are from the pod. `ProxyConfig` and `MeshConfig` 
 are from the `istio` ConfigMap in the `istio-system` namespace. Templates can conditional 
-define injected containers/volumes based on per-pod values. 
+define injected containers and volumes with this data. 
 
 For example, the following template snippet from install/kubernetes/istio-sidecar-injector-configmap-release.yaml
 
