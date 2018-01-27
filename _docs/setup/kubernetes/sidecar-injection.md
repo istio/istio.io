@@ -53,17 +53,20 @@ Automatic injection injects at pod creation time. The controller resource is
 unmodified. Sidecars can be updated selectively by manually deleting a pods or
 systematically with a deployment rolling update.
 
-
-Manual and automatic injection use the same templated configuration. See TBD 
-for template configuration format.
+Manual and automatic injection use the same templated configuration. Automatic 
+injection loads the configuration from the `istio-inject` ConfigMap in the 
+`istio-system` namespace. Two variants of the injection configmap are provided
+with the default install: `istio-sidecar-injector-configmap-release.yaml` 
+and `istio-sidecar-injector-configmap-debug.yaml`. The injection configmap includes 
+the default injection policy and sidecar injection template. The debug version 
+includes debug proxy images and additional loggin and core dump functionality using 
+for debugging the sidecar proxy. 
 
 ## Manual injection
 
 `kube-inject` is designed to be run offline without access to a running Kubernetes
-cluster. 
+cluster. Create local copies of the injection and mesh configmap.
 
-Create local copies of the injection and mesh configmap. This might typically be fetched 
-from SCM as part of a CI/CD pipeline.
 
 ```
 $ kubectl create -f install/kubernetes/istio-sidecar-injector-configmap-release.yaml \
@@ -71,7 +74,7 @@ $ kubectl create -f install/kubernetes/istio-sidecar-injector-configmap-release.
     
 $ kubectl -n istio-system get configmap istio -o=jsonpath='{.data.mesh}' > mesh-config.yaml
 ```
-
+  `
 Run `kube-inject` over the input YAML file and save and deploy the injected YAML file.
 
 ```
