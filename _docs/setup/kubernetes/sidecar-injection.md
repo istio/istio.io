@@ -65,7 +65,7 @@ the default injection policy and sidecar injection template. The debug version
 includes debug proxy images and additional loggin and core dump functionality using 
 for debugging the sidecar proxy. 
 
-## Manual injection
+## Manual sidecar injection
 
 `kube-inject` is designed to be run offline without access to a running Kubernetes
 cluster. Create local copies of the injection and mesh configmap.
@@ -103,7 +103,7 @@ NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE       CONTAINERS     
 sleep     1         1         1            1           2h        sleep,istio-proxy   tutum/curl,unknown/proxy:unknown   app=sleep
 ```
 
-## Automatic injection with mutating webhooks
+## Automatic sidecar injection
 
 See [validatingadmissionwebhook-alpha-in-18-beta-in-19](https://kubernetes.io/docs/admin/admission-controllers/#validatingadmissionwebhook-alpha-in-18-beta-in-19) for overview of webhook admission controller.
 
