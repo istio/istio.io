@@ -1,8 +1,8 @@
 .btn {
     &.btn-istio {
         background-color: $secondBrandColor;
-        color: $white;
-        font-weight: 400;
+        color: $textBrandColor;
+        font-weight: $buttonWeight;
         letter-spacing: 1px;
         cursor: pointer;
 
@@ -11,7 +11,7 @@
         }
 
         &:active {
-            background-color: $popBrandColor;
+            background-color: $buttonActiveColor;
         }
     }
 }

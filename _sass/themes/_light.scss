@@ -1,0 +1,65 @@
+$black: #2E2E2E;
+$white: #FFFFFF;
+$gray: #737373;
+$light-gray: lighten($gray, 52%);
+$dark-gray: darken($gray, 20%);
+
+$backgroundColor: $white;
+
+$textColor: #535f61;
+$textCodeColor: #d14;
+
+$linkColor: $mainBrandColor;
+$linkHoverColor: lighten($linkColor, 20%);
+$linkDisabledColor: #CCCCCC;
+$linkActiveColor: #b05464;
+
+$h1Color: $secondBrandColor;
+$h2Color: $black;
+$h3Color: $dark-gray;
+$h4Color: $dark-gray;
+$h5Color: $dark-gray;
+$h6Color: $dark-gray;
+$h2UnderlineColor: $gray;
+
+$buttonActiveColor: #b05464;
+$dividerBarColor: rgba(0, 0, 0, .1);
+$glossaryHeaderColor: lighten($gray, 35%);
+$searchButtonColor: $light-gray;
+$blockQuoteBackgroundColor: $light-gray;
+$deprecatedBackgroundColor: silver;
+$codeBlockShadowColor: #a7a7a7;
+$boxBorderColor: $secondBrandColor;
+
+$headerLightShadowColor: rgba(0, 0, 0, .14);
+$headerDarkShadowColor: rgba(0, 0, 0, .28);
+
+$figureBackgroundColor: $backgroundColor;
+$figureCaptionColor: $textColor;
+
+$landingBackgroundColor1: $white;
+$landingBackgroundColor2: #f8f8f8;
+
+$togglerColor: rgba(0, 0, 0, .4);
+
+$textWeight: 400;
+$linkWeight: 400;
+$h1Weight: 400;
+$h2Weight: 400;
+$h3Weight: 500;
+$h4Weight: 500;
+$h5Weight: 500;
+$h6Weight: 500;
+$tableHeaderWeight: 400;
+$boldTextWeight: 700;
+$heroLeadWeight: 300;
+$blogAttributeWeight: 600;
+$sectionIndexLinkWeight: 400;
+$buttonWeight: 400;
+$tocLinkWeight: 400;
+$sidebarLinkWeight: 400;
+$sidebarCurrentPageWeight: 500;
+$glossaryHeaderWeight: 300;
+$glossaryWordWeight: 600;
+$figureCaptionWeight: 400;
+$textCodeWeight: $textWeight;
