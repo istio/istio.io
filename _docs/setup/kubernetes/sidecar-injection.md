@@ -101,6 +101,8 @@ Verify that the sidecar has been injected into the deployment.
 
 ```
 kubectl get deployment sleep -o wide
+```
+```
 NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE       CONTAINERS          IMAGES                             SELECTOR
 sleep     1         1         1            1           2h        sleep,istio-proxy   tutum/curl,unknown/proxy:unknown   app=sleep
 ```
@@ -115,6 +117,8 @@ Kubernetes 1.9 cluster is required with `admissionregistration.k8s.io/v1beta1` e
 
 ```
 kubectl api-versions | grep admissionregistration.k8s.io/v1beta1
+```
+```
 admissionregistration.k8s.io/v1beta1
 ```
 
@@ -128,11 +132,13 @@ gcloud container clusters create <cluster-name> \
     --cluster-version=1.9.1-gke.0 
     --zone=<zone>
     --project <project-name>
-    
+```
+```    
 gcloud container clusters get-credentials <cluster-name> \
     --zone <zone> \
     --project <project-name>
-    
+```
+```
 kubectl create clusterrolebinding cluster-admin-binding \
     --clusterrole=cluster-admin \
     --user=$(gcloud config get-value core/account)
@@ -160,7 +166,7 @@ kubectl apply -f install/kubernetes/istio.yaml
 
 Webhooks requires a signed cert/key pair. Use `install/kubernetes/webhook-create-signed-cert.sh` to generate 
 a cert/key pair signed by the Kubernetes' CA. The resulting cert/key file is stored as a Kubernetes 
-secret for the sidecar injector webhook to consume.
+secret for the sidecar injector webhook to consume. 
 
 _Note_: Kubernetes CA approval requires permissions to create and approve CSR. See 
 https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster and 
@@ -198,6 +204,8 @@ The sidecar injector webhook should now be running.
 
 ```
 kubectl -n istio-system get deployment -listio=sidecar-injector
+```
+```
 NAME                     DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 istio-sidecar-injector   1         1         1            1           1d
 ```
