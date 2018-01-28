@@ -166,7 +166,7 @@ kubectl apply -f install/kubernetes/istio.yaml
 
 Webhooks requires a signed cert/key pair. Use `install/kubernetes/webhook-create-signed-cert.sh` to generate 
 a cert/key pair signed by the Kubernetes' CA. The resulting cert/key file is stored as a Kubernetes 
-secret for the sidecar injector webhook to consume. Before running the script, please install cfssl. On MAC OS X, you can use 'brew install cfssl'.
+secret for the sidecar injector webhook to consume. 
 
 _Note_: Kubernetes CA approval requires permissions to create and approve CSR. See 
 https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster and 
