@@ -74,21 +74,21 @@ Create local copies of the injection and mesh configmap.
 
 
 ```
-$ kubectl create -f install/kubernetes/istio-sidecar-injector-configmap-release.yaml \
+kubectl create -f install/kubernetes/istio-sidecar-injector-configmap-release.yaml \
     -o=jsonpath='{.data.config}' > inject-config.yaml
     
-$ kubectl -n istio-system get configmap istio -o=jsonpath='{.data.mesh}' > mesh-config.yaml
+kubectl -n istio-system get configmap istio -o=jsonpath='{.data.mesh}' > mesh-config.yaml
 ```
   `
 Run `kube-inject` over the input YAML file and save and deploy the injected YAML file.
 
 ```
-$ istioctl kube-inject \
+istioctl kube-inject \
     --injectConfigFile inject-config.yaml \
     --meshConfigFile mesh-config.yaml \
     --filename samples/sleep/sleep.yaml \
     --output sleep-injected.yaml
-$ kubectl apply -f sleep-injected.yaml    
+kubectl apply -f sleep-injected.yaml    
 ```
 
 Alternatively, this can be performed in a single step. This uses the built-in default template and dynamically fetches the mesh configuration from the `istio` ConfigMap. Additional parameter overrides are available via flags (see `istioctl kube-inject --help`).
@@ -100,7 +100,7 @@ kubectl apply -f <(~istioctl kube-inject -f samples/sleep/sleep.yaml)
 Verify that the sidecar has been injected into the deployment.
 
 ```
-$ kubectl get deployment sleep -o wide
+kubectl get deployment sleep -o wide
 NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE       CONTAINERS          IMAGES                             SELECTOR
 sleep     1         1         1            1           2h        sleep,istio-proxy   tutum/curl,unknown/proxy:unknown   app=sleep
 ```
@@ -114,7 +114,7 @@ See [validatingadmissionwebhook-alpha-in-18-beta-in-19](https://kubernetes.io/do
 Kubernetes 1.9 cluster is required with `admissionregistration.k8s.io/v1beta1` enabled.
 
 ```
-$ kubectl api-versions | grep admissionregistration.k8s.io/v1beta1
+kubectl api-versions | grep admissionregistration.k8s.io/v1beta1
 admissionregistration.k8s.io/v1beta1
 ```
 
@@ -155,7 +155,7 @@ TODO(https://github.com/istio/istio.github.io/issues/886)
 Install base Istio.
 
 ```
-$ kubectl apply -f install/kubernetes/istio.yaml
+kubectl apply -f install/kubernetes/istio.yaml
 ```
 
 Webhooks requires a signed cert/key pair. Use `install/kubernetes/webhook-create-signed-cert.sh` to generate 
@@ -167,7 +167,7 @@ https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster and
 `install/kubernetes/webhook-create-signed-cert.sh` for more information.
 
 ```
-$ ./install/kubernetes/webhook-create-signed-cert.sh \
+./install/kubernetes/webhook-create-signed-cert.sh \
     --service istio-sidecar-injector \
     --namespace istio-system \
     --secret sidecar-injector-certs
@@ -176,14 +176,14 @@ $ ./install/kubernetes/webhook-create-signed-cert.sh \
 Install the sidecar injection configmap. 
 
 ```
-$ kubectl apply -f install/kubernetes/istio-sidecar-injector-configmap-release.yaml
+kubectl apply -f install/kubernetes/istio-sidecar-injector-configmap-release.yaml
 ```
 
 Set the `caBundle` in the webhook install YAML that the Kubernetes api-server 
 uses to invoke the webhook. 
 
 ```
-$ cat install/kubernetes/istio-sidecar-injector.yaml | \
+cat install/kubernetes/istio-sidecar-injector.yaml | \
      ./install/kubernetes/webhook-patch-ca-bundle.sh > \
      install/kubernetes/istio-sidecar-injector-with-ca-bundle.yaml
 ```
@@ -191,13 +191,13 @@ $ cat install/kubernetes/istio-sidecar-injector.yaml | \
 Install the sidecar injector webhook.
 
 ```
-$ kubectl apply -f install/kubernetes/istio-sidecar-injector-with-ca-bundle.yaml
+kubectl apply -f install/kubernetes/istio-sidecar-injector-with-ca-bundle.yaml
 ```
 
 The sidecar injector webhook should now be running.
 
 ```
-$ kubectl -n istio-system get deployment -listio=sidecar-injector
+kubectl -n istio-system get deployment -listio=sidecar-injector
 NAME                     DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 istio-sidecar-injector   1         1         1            1           1d
 ```
@@ -207,7 +207,9 @@ NamespaceSelector decides whether to run the webhook on an object based on wheth
 View namespaces showing `istio-injection` label and verify the `default` namespace is not labeled.
 
 ```
-$ kubectl get namespace -L istio-injection
+kubectl get namespace -L istio-injection
+```
+```
 NAME           STATUS        AGE       ISTIO-INJECTION
 default        Active        1h        
 istio-system   Active        1h        
@@ -220,13 +222,19 @@ kube-system    Active        1h
 Deploy sleep app. Verify both deployment and pod have a single container.
 
 ```
-$ kubectl apply -f samples/sleep/sleep.yaml 
-
-$ kubectl get deployment -o wide
+kubectl apply -f samples/sleep/sleep.yaml 
+```
+```
+kubectl get deployment -o wide
+```
+```
 NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE       CONTAINERS   IMAGES       SELECTOR
 sleep     1         1         1            1           12m       sleep        tutum/curl   app=sleep
-
-$ kubectl get pod
+```
+```
+kubectl get pod
+```
+```
 NAME                     READY     STATUS        RESTARTS   AGE
 sleep-776b7bcdcd-7hpnk   1/1       Running       0          4
 ```
@@ -234,9 +242,12 @@ sleep-776b7bcdcd-7hpnk   1/1       Running       0          4
 Label the `default` namespace with `istio-injection=enabled`
 
 ```
-$ kubectl label namespace default istio-injection=enabled
-
-$ kubectl get namespace -L istio-injection
+kubectl label namespace default istio-injection=enabled
+```
+```
+kubectl get namespace -L istio-injection
+```
+```
 NAME           STATUS    AGE       ISTIO-INJECTION
 default        Active    1h        enabled
 istio-system   Active    1h        
@@ -247,9 +258,12 @@ kube-system    Active    1h
 Injection occurs at pod creation time. Kill the running pod and verify a new pod is created with the injected sidecar. The original pod has 1/1 READY containers and the pod with injected sidecar has 2/2 READY containers.
 
 ```
-$ kubectl delete pod sleep-776b7bcdcd-7hpnk 
-
-$ kubectl get pod
+kubectl delete pod sleep-776b7bcdcd-7hpnk 
+```
+```
+kubectl get pod
+```
+```
 NAME                     READY     STATUS        RESTARTS   AGE
 sleep-776b7bcdcd-7hpnk   1/1       Terminating   0          1m
 sleep-776b7bcdcd-bhn9m   2/2       Running       0          7s
@@ -258,11 +272,15 @@ sleep-776b7bcdcd-bhn9m   2/2       Running       0          7s
 Disable injection for the `default` namespace and verify new pods are created without the sidecar.
 
 ```
-$ kubectl label namespace default istio-injection
-
-$ kubectl delete pod sleep-776b7bcdcd-bhn9m 
-
-$ kubectl get pod
+kubectl label namespace default istio-injection-
+```
+```
+kubectl delete pod sleep-776b7bcdcd-bhn9m 
+```
+```
+kubectl get pod
+```
+```
 NAME                     READY     STATUS        RESTARTS   AGE
 sleep-776b7bcdcd-bhn9m   2/2       Terminating   0          2m
 sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
@@ -363,7 +381,7 @@ when applied over a pod defined by the pod template spec in `sample/sleep/sleep.
 ### Uninstalling the webhook
 
 ```
-$ kubectl delete -f install/kubernetes/istio-sidecar-injector-with-ca-bundle.yaml
+kubectl delete -f install/kubernetes/istio-sidecar-injector-with-ca-bundle.yaml
 ```
 
 The above command will not remove the injected sidecars from
