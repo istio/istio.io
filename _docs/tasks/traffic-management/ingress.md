@@ -167,6 +167,8 @@ The following are the known limitations of Istio ingress:
    Create the secret `istio-ingress-certs` in namespace `istio-system` using `kubectl`. The Istio Ingress will automatically
    load the secret.
 
+   > Note: the secret must be called `istio-ingress-certs` in `istio-system` namespace, for it to be mounted on Istio Ingress.
+
    ```bash
    kubectl create -n istio-system secret tls istio-ingress-certs --key /tmp/tls.key --cert /tmp/tls.crt
    ```
