@@ -29,5 +29,54 @@ $(function ($) {
             $(this).children('i.fa').toggleClass('fa-caret-down');
             $(this).parent().children('ul.tree').toggle(200);
         });
+
+        // toggle copy button
+        $(document).on('mouseenter', 'pre', function () {
+            $(this).children("div.copy").toggleClass("show", true)
+            $(this).children("div.copy").toggleClass("hide", false)
+        });
+
+        // toggle copy button
+        $(document).on('mouseleave', 'pre', function () {
+            $(this).children("div.copy").toggleClass("show", false)
+            $(this).children("div.copy").toggleClass("hide", true)
+        });
     });
 }(jQuery));
+
+(function(){
+    var div = "<div class='copy hide'><a style='color: white' class='copy-button'>Copy</a></div>";
+    var pre = document.getElementsByTagName('PRE');
+    for (var i = 0; i < pre.length; i++) {
+        pre[i].insertAdjacentHTML('afterbegin', div);
+    };
+
+    var copyCode = new Clipboard('.copy-button', {
+        target: function(trigger) {
+            return trigger.parentElement.nextElementSibling;
+        }
+    });
+
+    // On success:
+    // - Change the "Copy" text to "Done".
+    // - Swap it to "Copy" in 2s.
+
+    copyCode.on('success', function(event) {
+        event.clearSelection();
+        event.trigger.textContent = 'Done';
+        window.setTimeout(function() {
+            event.trigger.textContent = 'Copy';
+        }, 2000);
+    });
+
+    // On error (Safari):
+    // - Change to "Not supported"
+    // - Swap it to "Copy" in 2s.
+
+    copyCode.on('error', function(event) {
+        event.trigger.textContent = 'Not supported';
+        window.setTimeout(function() {
+            event.trigger.textContent = 'Copy';
+        }, 5000);
+    });
+})();
