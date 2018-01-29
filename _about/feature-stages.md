@@ -42,25 +42,25 @@ Below is our list of existing features and their current phases. This informatio
 | [Protocols: TCP](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/tcp_proxy)    | Alpha
 | [Protocols: WebSocket](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/websocket)      | Alpha
 | [Protocols: MongoDB](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/mongo)      | Alpha
-| [Routing Rules: Retry](https://istio.io/docs/tasks/traffic-management/request-routing.html)      | Alpha
-| [Routing Rules: Timeout](https://istio.io/docs/tasks/traffic-management/request-routing.html)      | Alpha
-| [Routing Rules: Circuit Break](https://istio.io/docs/tasks/traffic-management/request-routing.html)      | Alpha
-| [Routing Rules: Header Rewrite](https://istio.io/docs/tasks/traffic-management/request-routing.html)      | Alpha
-| [Routing Rules: Traffic Splitting](https://istio.io/docs/tasks/traffic-management/request-routing.html)      | Alpha
-| [Memquota Implementation and Integration](https://istio.io/docs/tasks/telemetry/metrics-logs.html) | Alpha
+| [Routing Rules: Retry]({{home}}/docs/tasks/traffic-management/request-routing.html)      | Alpha
+| [Routing Rules: Timeout]({{home}}/docs/tasks/traffic-management/request-routing.html)      | Alpha
+| [Routing Rules: Circuit Break]({{home}}/docs/tasks/traffic-management/request-routing.html)      | Alpha
+| [Routing Rules: Header Rewrite]({{home}}/docs/tasks/traffic-management/request-routing.html)      | Alpha
+| [Routing Rules: Traffic Splitting]({{home}}/docs/tasks/traffic-management/request-routing.html)      | Alpha
+| [Memquota Implementation and Integration]({{home}}/docs/tasks/telemetry/metrics-logs.html) | Alpha
 
 ### Observability
 
 
 | Feature           | Phase      
 |-------------------|-------------------
-| [Prometheus Integration](https://istio.io/docs/guides/telemetry.html)         | Beta
-| [Local Logging (STDIO)](https://istio.io/docs/guides/telemetry.html)               | Beta
-| [Statsd Integration](https://istio.io/docs/reference/config/mixer/adapters/statsd.html)         	   | Beta
-| [Service Dashboard in Grafana](https://istio.io/docs/tasks/telemetry/using-istio-dashboard.html)       | Beta
-| [Stackdriver Integration](https://istio.io/docs/reference/config/mixer/adapters/stackdriver.html)       | Alpha
-| [Service Graph](https://istio.io/docs/tasks/telemetry/servicegraph.html)       | Alpha
-| [Distributed Tracing to Zipkin / Jaeger](https://istio.io/docs/tasks/telemetry/distributed-tracing.html)         | Alpha
+| [Prometheus Integration]({{home}}/docs/guides/telemetry.html)         | Beta
+| [Local Logging (STDIO)]({{home}}/docs/guides/telemetry.html)               | Beta
+| [Statsd Integration]({{home}}/docs/reference/config/adapters/statsd.html)         	   | Beta
+| [Service Dashboard in Grafana]({{home}}/docs/tasks/telemetry/using-istio-dashboard.html)       | Beta
+| [Stackdriver Integration]({{home}}/docs/reference/config/adapters/stackdriver.html)       | Alpha
+| [Service Graph]({{home}}/docs/tasks/telemetry/servicegraph.html)       | Alpha
+| [Distributed Tracing to Zipkin / Jaeger]({{home}}/docs/tasks/telemetry/distributed-tracing.html)         | Alpha
 
 
 ### Security
@@ -68,13 +68,13 @@ Below is our list of existing features and their current phases. This informatio
 
 | Feature           | Phase        
 |-------------------|-------------------
-| [Deny Checker](https://istio.io/docs/reference/config/mixer/adapters/denier.html)         | Beta
-| [List Checker](https://istio.io/docs/reference/config/mixer/adapters/list.html)        | Beta
-| [Kubernetes: Service Credential Distribution](https://istio.io/docs/concepts/security/mutual-tls.html)               | Beta
-| [Pluggable Key/Cert Support for Istio CA](https://istio.io/docs/tasks/security/plugin-ca-cert.html)        | Beta
-| [Service-to-service mutual TLS](https://istio.io/docs/concepts/security/mutual-tls.html)         | Beta
-| [Incremental Enablement of service-to-service mutual TLS](https://istio.io/docs/tasks/security/per-service-mtls.html)  | Alpha
-| [VM: Service Credential Distribution](https://istio.io/docs/concepts/security/mutual-tls.html)         | Alpha
+| [Deny Checker]({{home}}/docs/reference/config/adapters/denier.html)         | Beta
+| [List Checker]({{home}}/docs/reference/config/adapters/list.html)        | Beta
+| [Kubernetes: Service Credential Distribution]({{home}}/docs/concepts/security/mutual-tls.html)               | Beta
+| [Pluggable Key/Cert Support for Istio CA]({{home}}/docs/tasks/security/plugin-ca-cert.html)        | Beta
+| [Service-to-service mutual TLS]({{home}}/docs/concepts/security/mutual-tls.html)         | Beta
+| [Incremental Enablement of service-to-service mutual TLS]({{home}}/docs/tasks/security/per-service-mtls.html)  | Alpha
+| [VM: Service Credential Distribution]({{home}}/docs/concepts/security/mutual-tls.html)         | Alpha
 | [OPA Checker](https://github.com/istio/istio/blob/41a8aa4f75f31bf0c1911d844a18da4cff8ac584/mixer/adapter/opa/README.md)  - **New to 0.4**      | Alpha
 
 
@@ -84,17 +84,17 @@ Below is our list of existing features and their current phases. This informatio
 
 | Feature           | Phase        
 |-------------------|-------------------
-| [Kubernetes: Envoy Installation and Traffic Interception](https://istio.io/docs/setup/kubernetes/)        | Beta
-| [Kubernetes: Istio Control Plane Installation](https://istio.io/docs/setup/kubernetes/) | Beta
-| [Pilot Integration into Kubernetes Service Discovery](https://istio.io/docs/setup/kubernetes/)         | Beta
-| [Attribute Expression Language](https://istio.io/docs/reference/config/mixer/expression-language.html)        | Beta
-| [Mixer Adapter Authoring Model](https://istio.io/blog/2017/adapter-model.html)        | Beta
-| [VM: Envoy Installation, Traffic Interception and Service Registration](https://istio.io/docs/guides/integrating-vms.html)    | Alpha
+| [Kubernetes: Envoy Installation and Traffic Interception]({{home}}/docs/setup/kubernetes/)        | Beta
+| [Kubernetes: Istio Control Plane Installation]({{home}}/docs/setup/kubernetes/) | Beta
+| [Pilot Integration into Kubernetes Service Discovery]({{home}}/docs/setup/kubernetes/)         | Beta
+| [Attribute Expression Language]({{home}}/docs/reference/config/mixer/expression-language.html)        | Beta
+| [Mixer Adapter Authoring Model]({{home}}/blog/2017/adapter-model.html)        | Beta
+| [VM: Envoy Installation, Traffic Interception and Service Registration]({{home}}/docs/guides/integrating-vms.html)    | Alpha
 | [VM: Istio Control Plane Installation and Upgrade (Galley, Mixer, Pilot, CA)](https://github.com/istio/istio/issues/2083)  | Alpha
-| [Kubernetes: Istio Control Plane Upgrade](https://istio.io/docs/setup/kubernetes/) | Alpha
-| [Pilot Integration into Consul](https://istio.io/docs/setup/consul/quick-start.html)     		   | Alpha
-| [Pilot Integration into Eureka](https://istio.io/docs/setup/consul/quick-start.html)     		   | Alpha
-| [Pilot Integration into Cloud Foundry Service Discovery](https://istio.io/docs/setup/consul/quick-start.html)    | Alpha
+| [Kubernetes: Istio Control Plane Upgrade]({{home}}/docs/setup/kubernetes/) | Alpha
+| [Pilot Integration into Consul]({{home}}/docs/setup/consul/quick-start.html)     		   | Alpha
+| [Pilot Integration into Eureka]({{home}}/docs/setup/consul/quick-start.html)     		   | Alpha
+| [Pilot Integration into Cloud Foundry Service Discovery]({{home}}/docs/setup/consul/quick-start.html)    | Alpha
 | [Basic Config Resource Validation](https://github.com/istio/istio/issues/1894)         	   | Alpha
 
 

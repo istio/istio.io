@@ -15,7 +15,7 @@ services in the application deployment. The DSL allows the operator to
 configure service-level properties such as circuit breakers, timeouts,
 retries, as well as set up common continuous deployment tasks such as
 canary rollouts, A/B testing, staged rollouts with %-based traffic splits,
-etc. See [routing rules reference]({{home}}/docs/reference/config/traffic-rules/) for detailed information.
+etc. See [routing rules reference]({{home}}/docs/reference/config/istio.routing.v1alpha1.html) for detailed information.
 
 For example, a simple rule to send 100% of incoming traffic for a "reviews"
 service to version "v1" can be described using the Rules DSL as
@@ -491,7 +491,7 @@ spec:
 ```
 
 The complete set of simple circuit breaker fields can be found
-[here]({{home}}/docs/reference/config/traffic-rules/destination-policies.html#istio.proxy.v1.config.CircuitBreaker).
+[here]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#CircuitBreaker).
 
 ### Destination policy evaluation
 
@@ -584,7 +584,7 @@ The destination of an egress rule is specified using the *service* field, which
 can be either a fully qualified or wildcard domain name.
 It represents a white listed set of one or more external services that services
 in the mesh are allowed to access. The supported wildcard syntax can be found
-[here]({{home}}/docs/reference/config/traffic-rules/egress-rules.html).
+[here]({{home}}/docs/reference/config/istio.routing.v1alpha1.html).
 
 Currently, only HTTP-based services can be expressed using an egress rule, however,
 TLS origination from the sidecar can be achieved by setting the protocol of
