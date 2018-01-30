@@ -76,7 +76,7 @@ The following are the known limitations of Istio ingress:
    [rule match configuration]({{home}}/docs/reference/config/traffic-rules/routing-rules.html#matchcondition)
    of the form (`prefix: /`).
    
-## Verifying ingress
+### Verifying ingress
 
 1. Determine the ingress URL:
 
@@ -129,42 +129,32 @@ The following are the known limitations of Istio ingress:
 
    ```
    HTTP/1.1 200 OK
-   Server: meinheld/0.6.1
-   Date: Thu, 05 Oct 2017 21:23:17 GMT
-   Content-Type: text/html; charset=utf-8
-   Access-Control-Allow-Origin: *
-   Access-Control-Allow-Credentials: true
-   X-Powered-By: Flask
-   X-Processed-Time: 0.00105214118958
-   Content-Length: 0
-   Via: 1.1 vegur
-   Connection: Keep-Alive
+   server: envoy
+   date: Mon, 29 Jan 2018 04:45:49 GMT
+   content-type: text/html; charset=utf-8
+   access-control-allow-origin: *
+   access-control-allow-credentials: true
+   content-length: 0
+   x-envoy-upstream-service-time: 48
    ```
 
 1. Access any other URL that has not been explicitly exposed. You should
-   see a HTTP 403
+   see a HTTP 404 error
 
    ```bash
    curl -I http://$INGRESS_HOST/headers
    ```
 
    ```
-   HTTP/1.1 403 FORBIDDEN
-   Server: meinheld/0.6.1
-   Date: Thu, 05 Oct 2017 21:24:47 GMT
-   Content-Type: text/html; charset=utf-8
-   Access-Control-Allow-Origin: *
-   Access-Control-Allow-Credentials: true
-   X-Powered-By: Flask
-   X-Processed-Time: 0.000759840011597
-   Content-Length: 0
-   Via: 1.1 vegur
-   Connection: Keep-Alive
+   HTTP/1.1 404 Not Found
+   date: Mon, 29 Jan 2018 04:45:49 GMT
+   server: envoy
+   content-length: 0
    ```
 
 ## Configuring secure ingress (HTTPS)
 
-1. Generate keys if necessary
+1. Generate certificate and key for the ingress
 
    A private key and certificate can be created for testing using [OpenSSL](https://www.openssl.org/).
 
@@ -172,7 +162,12 @@ The following are the known limitations of Istio ingress:
    openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /tmp/tls.key -out /tmp/tls.crt -subj "/CN=foo.bar.com"
    ```
 
-1. Update the secret using `kubectl`
+1. Create the secret
+
+   Create the secret `istio-ingress-certs` in namespace `istio-system` using `kubectl`. The Istio Ingress will automatically
+   load the secret.
+
+   > Note: the secret must be called `istio-ingress-certs` in `istio-system` namespace, for it to be mounted on Istio Ingress.
 
    ```bash
    kubectl create -n istio-system secret tls istio-ingress-certs --key /tmp/tls.key --cert /tmp/tls.crt
@@ -205,19 +200,83 @@ The following are the known limitations of Istio ingress:
    EOF
    ```
 
-   Set the INGRESS_HOST to point to the ip address and the
-   port number of the ingress service as shown earlier.
+   > Note: Because SNI is not yet supported, Envoy currently only allows a single TLS secret in the ingress.
+   > That means the secretName field in ingress resource is not used.
 
-   > Note: Envoy currently only allows a single TLS secret in the ingress
-   > since SNI is not yet supported. That means that the secret name field
-   > in ingress resource is not used, and the secret must be called
-   > `istio-ingress-certs` in `istio-system` namespace.
+### Verifying ingress
 
-    
-1. Access the secured httpbin service using _curl_:
+1. Determine the ingress URL:
+
+   * If your cluster is running in an environment that supports external load balancers,
+     use the ingress' external address:
+
+     ```bash
+     kubectl get ingress secure-ingress -o wide
+     ```
+
+     ```bash
+     NAME             HOSTS     ADDRESS                 PORTS     AGE
+     secure-ingress   *         130.211.10.121          80        1d
+     ```
+
+     ```bash
+     export INGRESS_HOST=130.211.10.121
+     ```
+
+   * If load balancers are not supported, use the ingress controller pod's hostIP:
+
+     ```bash
+     kubectl -n istio-system get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
+     ```
+
+     ```bash
+     169.47.243.100
+     ```
+
+     along with the istio-ingress service's nodePort for port 80:
+
+     ```bash
+     kubectl -n istio-system get svc istio-ingress
+     ```
+
+     ```bash
+     NAME            CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
+     istio-ingress   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
+     ```
+
+     ```bash
+     export INGRESS_HOST=169.47.243.100:31486
+     ```
+
+1. Access the httpbin service using _curl_:
 
    ```bash
    curl -I -k https://$INGRESS_HOST/status/200
+   ```
+
+   ```
+   HTTP/1.1 200 OK
+   server: envoy
+   date: Mon, 29 Jan 2018 04:45:49 GMT
+   content-type: text/html; charset=utf-8
+   access-control-allow-origin: *
+   access-control-allow-credentials: true
+   content-length: 0
+   x-envoy-upstream-service-time: 96
+   ```
+
+1. Access any other URL that has not been explicitly exposed. You should
+   see a HTTP 404 error
+
+   ```bash
+   curl -I -k http://$INGRESS_HOST/headers
+   ```
+
+   ```
+   HTTP/1.1 404 Not Found
+   date: Mon, 29 Jan 2018 04:45:49 GMT
+   server: envoy
+   content-length: 0
    ```
 
 ## Using Istio Routing Rules with Ingress
