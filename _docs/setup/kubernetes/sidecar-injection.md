@@ -62,7 +62,7 @@ Two variants of the injection configuration are provided with the default
 install: `istio-sidecar-injector-configmap-release.yaml` 
 and `istio-sidecar-injector-configmap-debug.yaml`. The injection configmap includes 
 the default injection policy and sidecar injection template. The debug version 
-includes debug proxy images and additional loggin and core dump functionality using 
+includes debug proxy images and additional logging and core dump functionality using 
 for debugging the sidecar proxy. 
 
 ## Manual sidecar injection
@@ -75,7 +75,7 @@ are available via flags (see `istioctl kube-inject --help`).
 kubectl apply -f <(~istioctl kube-inject -f samples/sleep/sleep.yaml)
 ```
 
-`kube-inject` can also be run offline without access to a running Kubernetes
+`kube-inject` can also be run without access to a running Kubernetes
 cluster. Create local copies of the injection and mesh configmap.
 
 ```
@@ -86,7 +86,7 @@ kubectl create -f install/kubernetes/istio-sidecar-injector-configmap-release.ya
 kubectl -n istio-system get configmap istio -o=jsonpath='{.data.mesh}' > mesh-config.yaml
 ```
   `
-Run `kube-inject` over the input YAML file and save and deploy the injected YAML file.
+Run `kube-inject` over the input file.
 
 ```
 istioctl kube-inject \
@@ -96,6 +96,7 @@ istioctl kube-inject \
     --output sleep-injected.yaml
 ```
 
+Deploy the injected YAML file.
 
 ```
 kubectl apply -f sleep-injected.yaml    
@@ -312,12 +313,12 @@ injection policy and sidecar injection template.
 ##### _**policy**_
     
 `disabled` - The sidecar injector will not inject the sidecar into
-pods by default. Pods can enable injection using the `sidecar.istio.io/inject` 
-annotation with value of `true`.
+pods by default. Add the `sidecar.istio.io/inject` annotation with 
+value `true` to the pod template spec to enable injection.
    
 `enabled` - The sidecar injector will inject the sidecar into pods by
-default. Pods can disable injection using the `sidecar.istio.io/inject`
-annotation with value of `false`.
+default. Add the `sidecar.istio.io/inject` annotation with 
+value `false` to the pod template spec to disable injection.
     
 ##### _**template**_
    
