@@ -51,7 +51,7 @@ spec:
 <a name="quota.Template.dimensions"></a>
  <tr>
   <td><code>dimensions</code></td>
-  <td>repeated map&lt;string, <a href="{{home}}/docs/reference/config/mixer/value-type.html#istio.mixer.v1.config.descriptor.ValueType">ValueType</a>&gt;</td>
+  <td>repeated map&lt;string, <a href="{{home}}/docs/reference/config/mixer/istio.mixer.v1.config.descriptor#ValueType">ValueType</a>&gt;</td>
   <td>The unique identity of the particular quota to manipulate.</td>
  </tr>
 </table>

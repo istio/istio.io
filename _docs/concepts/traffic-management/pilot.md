@@ -37,5 +37,5 @@ These APIs decouple Envoy from platform-specific nuances, simplifying the
 design and increasing portability across platforms.
 
 Operators can specify high-level traffic management rules through 
-[Pilot's Rules API]({{home}}/docs/reference/config/traffic-rules/). These rules are translated into low-level
+[Pilot's Rules API]({{home}}/docs/reference/config/istio.routing.v1alpha1.html). These rules are translated into low-level
 configurations and distributed to Envoy instances via the discovery API.

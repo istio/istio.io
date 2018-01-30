@@ -26,7 +26,8 @@ This task demonstrates the circuit-breaking capability for resilient application
 
 ## Circuit breaker
 
-Let's set up a scenario to demonstrate the circuit-breaking capabilities of Istio. We should have the `httpbin` service running from the previous section. We'll want to make sure we set some route rules to route all traffic to `httpbin` with `version=v1`. We'll be setting the circuit-breaking settings by creating an Istio [destination policy]({{home}}/docs/reference/config/traffic-rules/destination-policies.html) but for destination policies to take effect, there needs to be a route rule for the destination first. Let's create the route rule:
+Let's set up a scenario to demonstrate the circuit-breaking capabilities of Istio. We should have the `httpbin` service running from the previous section. We'll want to make sure we set some route rules to route all traffic to `httpbin` with `version=v1`. We'll be setting the circuit-breaking settings by creating an Istio
+[destination policy]({{home}}/docs/reference/config/istio.routing.v1alpha1.html) but for destination policies to take effect, there needs to be a route rule for the destination first. Let's create the route rule:
 
 ### Creating circuit breaking policies
 

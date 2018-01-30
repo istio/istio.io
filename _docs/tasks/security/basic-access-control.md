@@ -68,7 +68,7 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
 
    This rule uses the `denier` adapter to deny requests coming from version `v3` of the reviews service.
    The adapter always denies requests with a pre-configured status code and message.
-   The status code and the message is specified in the [denier]({{home}}/docs/reference/config/mixer/adapters/denier.html)
+   The status code and the message is specified in the [denier]({{home}}/docs/reference/config/adapters/denier.html)
    adapter configuration.
   
 1. Refresh the `productpage` in your browser.
@@ -91,7 +91,7 @@ Istio also supports attribute-based whitelists and blacklists. The following whi
 1. Verify that when you access the BookInfo `productpage` (http://$GATEWAY_URL/productpage) without logging in, you see red stars.
    After performing the following steps you will no longer be able to see stars unless you are logged in as "jason".
 
-1. Create configuration for the [`listchecker`]({{home}}/docs/reference/config/mixer/adapters/list.html)
+1. Create configuration for the [`list`]({{home}}/docs/reference/config/adapters/list.html)
    adapter that lists versions `v1, v2`.
    Save the following YAML snippet as `whitelist-handler.yaml`:
 
@@ -112,7 +112,7 @@ Istio also supports attribute-based whitelists and blacklists. The following whi
    istioctl create -f whitelist-handler.yaml
    ```
 
-1. Extract the version label by creating an instance of the [`listentry`]({{home}}/docs/reference/config/mixer/template/listentry.html) template.
+1. Extract the version label by creating an instance of the [`listentry`]({{home}}/docs/reference/config/template/listentry.html) template.
 Save the following YAML snippet as `appversion-instance.yaml`:
 
    ```yaml

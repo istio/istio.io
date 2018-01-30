@@ -73,7 +73,7 @@ The following are the known limitations of Istio ingress:
  
    `/.*` is a special Istio notation that is used to indicate a prefix
    match, specifically a
-   [rule match configuration]({{home}}/docs/reference/config/traffic-rules/routing-rules.html#matchcondition)
+   [rule match configuration]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#matchcondition)
    of the form (`prefix: /`).
    
 ### Verifying ingress
@@ -322,7 +322,7 @@ instead of the expected 10s delay.
 You can use other features of the route rules such as redirects, rewrites,
 routing to multiple versions, regular expression based match in HTTP
 headers, websocket upgrades, timeouts, retries, etc. Please refer to the
-[routing rules]({{home}}/docs/reference/config/traffic-rules/routing-rules.html)
+[routing rules]({{home}}/docs/reference/config/istio.routing.v1alpha1.html)
 for more details.
 
 > Note 1: Fault injection does not work at the Ingress
@@ -367,4 +367,4 @@ an Istio route rule.
 
 * Learn more about [Ingress Resources](https://kubernetes.io/docs/concepts/services-networking/ingress/).
 
-* Learn more about [Routing Rules]({{home}}/docs/reference/config/traffic-rules/routing-rules.html).
+* Learn more about [Routing Rules]({{home}}/docs/reference/config/istio.routing.v1alpha1.html).

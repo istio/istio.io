@@ -272,6 +272,6 @@ cloud provider specific knowledge and configuration.
 * Read more about [egress rules]({{home}}/docs/concepts/traffic-management/rules-configuration.html#egress-rules).
 
 * Learn how to setup
-  [timeouts]({{home}}/docs/reference/config/traffic-rules/routing-rules.html#httptimeout),
-  [retries]({{home}}/docs/reference/config/traffic-rules/routing-rules.html#httpretry),
-  and [circuit breakers]({{home}}/docs/reference/config/traffic-rules/destination-policies.html#circuitbreaker) for egress traffic.
+  [timeouts]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#httptimeout),
+  [retries]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#httpretry),
+  and [circuit breakers]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#circuitbreaker) for egress traffic.

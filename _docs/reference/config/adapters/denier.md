@@ -27,7 +27,7 @@ type: markdown
 <a name="adapter.denier.config.Params.status"></a>
  <tr>
   <td><code>status</code></td>
-  <td><a href="/docs/reference/api/mixer/status.html">Status</a></td>
+  <td>Status</td>
   <td>The error to return when denying a request.</td>
  </tr>
 </table>
