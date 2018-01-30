@@ -67,14 +67,20 @@ for debugging the sidecar proxy.
 
 ## Manual sidecar injection
 
-`kube-inject` is designed to be run offline without access to a running Kubernetes
-cluster. 
+Use the built-in defaults template and dynamically fetch the mesh 
+configuration from the `istio` ConfigMap. Additional parameter overrides
+are available via flags (see `istioctl kube-inject --help`).
 
-Create local copies of the injection and mesh configmap.
+```
+kubectl apply -f <(~istioctl kube-inject -f samples/sleep/sleep.yaml)
+```
 
+`kube-inject` can also be run offline without access to a running Kubernetes
+cluster. Create local copies of the injection and mesh configmap.
 
 ```
 kubectl create -f install/kubernetes/istio-sidecar-injector-configmap-release.yaml \
+    --dry-run \
     -o=jsonpath='{.data.config}' > inject-config.yaml
     
 kubectl -n istio-system get configmap istio -o=jsonpath='{.data.mesh}' > mesh-config.yaml
@@ -88,13 +94,11 @@ istioctl kube-inject \
     --meshConfigFile mesh-config.yaml \
     --filename samples/sleep/sleep.yaml \
     --output sleep-injected.yaml
+```
+
+
+```
 kubectl apply -f sleep-injected.yaml    
-```
-
-Alternatively, this can be performed in a single step. This uses the built-in default template and dynamically fetches the mesh configuration from the `istio` ConfigMap. Additional parameter overrides are available via flags (see `istioctl kube-inject --help`).
-
-```
-kubectl apply -f <(~istioctl kube-inject -f samples/sleep/sleep.yaml)
 ```
 
 Verify that the sidecar has been injected into the deployment.
