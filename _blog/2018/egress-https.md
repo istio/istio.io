@@ -45,7 +45,7 @@ The updated architecture of the application now looks as follows:
 
 Note that the Google Books web service is outside the Istio service mesh, the boundary of which is marked by a dotted line.
 
-Now let's direct all the traffic to the version _v2_ of the _details_ microservice, using the following _route rule_:
+Now let's direct all the traffic destined to the _details_ microservice, to _details version v2_, using the following _route rule_:
 
 ```bash
 cat <<EOF | istioctl create -f -
