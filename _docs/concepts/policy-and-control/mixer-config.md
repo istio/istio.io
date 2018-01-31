@@ -144,7 +144,7 @@ spec:
 ```
 
 Each adapter defines its own particular format of configuration data. The exhaustive set of
-adapters and their specific configuration formats can be found [here]({{home}}/docs/reference/config/mixer/adapters/).
+adapters and their specific configuration formats can be found [here]({{home}}/docs/reference/config/adapters/).
 
 ### Instances
 
@@ -168,7 +168,7 @@ spec:
 Note that all the dimensions expected in the handler configuration are specified in the mapping.
 
 Each template defines its own particular format of configuration data. The exhaustive set of
-templates and their specific configuration formats can be found [here]({{home}}/docs/reference/config/mixer/template/).
+templates and their specific configuration formats can be found [here]({{home}}/docs/reference/config/template/).
 
 ### Rules
 

@@ -76,7 +76,7 @@ the `productpage` service.
 
    This rule uses the `denier` adapter to deny these requests.
    The adapter always denies requests with a pre-configured status code and message.
-   The status code and message are specified in the [denier]({{home}}/docs/reference/config/mixer/adapters/denier.html)
+   The status code and message are specified in the [denier]({{home}}/docs/reference/config/adapters/denier.html)
    adapter configuration.
 
 1. Refresh the `productpage` in your browser.

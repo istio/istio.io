@@ -54,13 +54,13 @@ spec:
 <a name="metric.Template.value"></a>
  <tr>
   <td><code>value</code></td>
-  <td><a href="{{home}}/docs/reference/config/mixer/value-type.html#istio.mixer.v1.config.descriptor.ValueType">ValueType</a></td>
+  <td><a href="{{home}}/docs/reference/config/mixer/istio.mixer.v1.config.descriptor#ValueType">ValueType</a></td>
   <td>The value being reported.</td>
  </tr>
 <a name="metric.Template.dimensions"></a>
  <tr>
   <td><code>dimensions</code></td>
-  <td>repeated map&lt;string, <a href="{{home}}/docs/reference/config/mixer/value-type.html#istio.mixer.v1.config.descriptor.ValueType">ValueType</a>&gt;</td>
+  <td>repeated map&lt;string, <a href="{{home}}/docs/reference/config/mixer/istio.mixer.v1.config.descriptor#ValueType">ValueType</a>&gt;</td>
   <td>The unique identity of the particular metric to report.</td>
  </tr>
 <a name="metric.Template.monitoredResourceType"></a>
@@ -72,7 +72,7 @@ spec:
 <a name="metric.Template.monitoredResourceDimensions"></a>
  <tr>
   <td><code>monitoredResourceDimensions</code></td>
-  <td>repeated map&lt;string, <a href="{{home}}/docs/reference/config/mixer/value-type.html#istio.mixer.v1.config.descriptor.ValueType">ValueType</a>&gt;</td>
+  <td>repeated map&lt;string, <a href="{{home}}/docs/reference/config/mixer/istio.mixer.v1.config.descriptor#ValueType">ValueType</a>&gt;</td>
   <td>Optional. A set of expressions that will form the dimensions of the monitored resource this metric is being reported on. If the metric backend supports monitored resources, these fields are used to populate that resource. Otherwise these fields will be ignored by the adapter.</td>
  </tr>
 </table>
