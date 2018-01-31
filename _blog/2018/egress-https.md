@@ -134,7 +134,7 @@ sends regular HTTPS requests, encrypted end-to-end. On the bottom, the same micr
 <figure><img src="img/https_from_the_app.svg" alt="HTTPS traffic to external services, from outside vs. from inside an Istio service mesh" title="HTTPS traffic to external services, from outside vs. from inside an Istio service mesh" />
 <figcaption>HTTPS traffic to external services, from outside vs. from inside an Istio service mesh</figcaption></figure>
 
-Here is how we code this behavior in the [the Bookinfo details microservice code](https://github.com/istio/istio/blob/master/samples/bookinfo/src/details/details.rb), using Ruby [net/http module](https://docs.ruby-lang.org/en/2.0.0/Net/HTTP.html):
+Here is how we code this behavior in the [the Bookinfo details microservice code](https://github.com/istio/istio/blob/master/samples/bookinfo/src/details/details.rb), using the Ruby [net/http module](https://docs.ruby-lang.org/en/2.0.0/Net/HTTP.html):
 ```ruby
 uri = URI.parse('https://www.googleapis.com/books/v1/volumes?q=isbn:' + isbn)
 http = Net::HTTP.new(uri.host, uri.port)
