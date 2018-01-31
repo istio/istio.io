@@ -267,6 +267,9 @@ cloud provider specific knowledge and configuration.
    kubectl delete -f samples/sleep/sleep.yaml
    ```
 
+## Relation to Security
+Note that Egress Rules is **not a security feature**. Egress Rules enable access to external (out of the service mesh) services. However, they cannot prevent from malicious applications inside the service mesh to access forbidden external services. Egress Rules cannot apply access policies to the traffic to external services. For securing the traffic to external services other security mechanisms must be applied, for example a firewall.
+
 ## Further reading
 
 * Read more about [egress rules]({{home}}/docs/concepts/traffic-management/rules-configuration.html#egress-rules).
