@@ -1,7 +1,7 @@
 ---
 title: "Consuming External Web Services"
 overview: Describes a simple scenario based on Istio Bookinfo sample
-publish_date: January 26, 2018
+publish_date: January 31, 2018
 subtitle: Egress Rules for HTTPS traffic
 attribution: Vadim Eisenberg
 
