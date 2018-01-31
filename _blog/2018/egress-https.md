@@ -30,11 +30,8 @@ I will copy here the end-to-end architecture of the application from the origina
 ### Bookinfo with Details Version 2
 Let's add a new version of the _details_ microservice, _v2_, that fetches the book details from [Google Books APIs](https://developers.google.com/books/docs/v1/getting_started).
 
-I am using a Kubernetes cluster with
-[automatic sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection)
-   enabled, so I will simply use `kubectl` command to deploy _details v2_.
 ```bash
-kubectl apply -f samples/bookinfo/kube/bookinfo-details-v2.yaml
+kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-details-v2.yaml)
 ```
 
 The updated architecture of the application now looks as follows:
