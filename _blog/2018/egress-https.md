@@ -148,7 +148,7 @@ Note that the port is derived by the `URI.parse` from the URI's schema (https://
 
 When the `WITH_ISTIO` environment variable is defined, the request is performed without SSL (plain HTTP).
 
-We set the `WITH_ISTIO` environment variable to _"true"_ in the [kubernetes deployment of _details v2_](https://github.com/istio/istio/blob/master/samples/bookinfo/kube/bookinfo-details-v2.yaml), the `container` spec:
+We set the `WITH_ISTIO` environment variable to _"true"_ in the [Kubernetes deployment spec of _details v2_](https://github.com/istio/istio/blob/master/samples/bookinfo/kube/bookinfo-details-v2.yaml), the `container` section:
 ```yaml
 env:
 - name: WITH_ISTIO
