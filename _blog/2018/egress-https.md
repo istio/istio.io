@@ -27,7 +27,7 @@ The example commands in this blog post work with Istio version 0.2+, with or wit
 The Bookinfo configuration files required for the scenario of this post appear starting from [Istio release version 0.5](https://github.com/istio/istio/releases/tag/0.5.0).
 The Bookinfo configuration files reside in the `samples/bookinfo/kube` directory of the Istio release archive.
 
-I will copy here the end-to-end architecture of the application from the original [Bookinfo Guide]({{home}}/docs/guides/bookinfo.html).
+Here is a copy of the end-to-end architecture of the application from the original [Bookinfo Guide]({{home}}/docs/guides/bookinfo.html).
 
 <figure><img src="{{home}}/docs/guides/img/bookinfo/withistio.svg" alt="The Original Bookinfo Application" title="The Original Bookinfo Application" />
 <figcaption>The Original Bookinfo  Application</figcaption></figure>
