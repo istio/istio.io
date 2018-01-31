@@ -97,7 +97,7 @@ Now accessing the web page of the application displays the book details without 
 <figure><img src="img/externalBookDetails.png" alt="Book Details Displayed Correctly" title="Book Details Displayed Correctly" />
 <figcaption>Book Details Displayed Correctly</figcaption></figure>
 
-Note that our egress rule allows traffic to any domain matching _*.googleapis.com_, on port 443, using the HTTPS protocol. Let's assume for the sake of example that the applications in our Istio service mesh must access multiple subdomains of _gooogleapis.com_, for example _www.googleapis.com_ and also _fcm.googleapis.com_. Our rule will allow traffic to both _www.googleapis.com_ and _fcm.googleapis.com_, since both of them match  _*.googleapis.com_. This **wildcard** feature allows us to enable traffic to multiple domains by a single egress rule.
+Note that our egress rule allows traffic to any domain matching _*.googleapis.com_, on port 443, using the HTTPS protocol. Let's assume for the sake of example that the applications in our Istio service mesh must access multiple subdomains of _gooogleapis.com_, for example _www.googleapis.com_ and also _fcm.googleapis.com_. Our rule allows traffic to both _www.googleapis.com_ and _fcm.googleapis.com_, since they both match  _*.googleapis.com_. This **wildcard** feature allows us to enable traffic to multiple domains using a single egress rule.
 
 We can query our egress rules:
 ```bash
