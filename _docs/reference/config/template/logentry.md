@@ -60,7 +60,7 @@ spec:
 <a name="logentry.Template.variables"></a>
  <tr>
   <td><code>variables</code></td>
-  <td>repeated map&lt;string, <a href="{{home}}/docs/reference/config/mixer/value-type.html#istio.mixer.v1.config.descriptor.ValueType">ValueType</a>&gt;</td>
+  <td>repeated map&lt;string, <a href="{{home}}/docs/reference/config/mixer/istio.mixer.v1.config.descriptor.html#ValueType">ValueType</a>&gt;</td>
   <td>Variables that are delivered for each log entry.</td>
  </tr>
 <a name="logentry.Template.timestamp"></a>
@@ -84,7 +84,7 @@ spec:
 <a name="logentry.Template.monitoredResourceDimensions"></a>
  <tr>
   <td><code>monitoredResourceDimensions</code></td>
-  <td>repeated map&lt;string, <a href="{{home}}/docs/reference/config/mixer/value-type.html#istio.mixer.v1.config.descriptor.ValueType">ValueType</a>&gt;</td>
+  <td>repeated map&lt;string, <a href="{{home}}/docs/reference/config/mixer/istio.mixer.v1.config.descriptor.html#ValueType">ValueType</a>&gt;</td>
   <td>Optional. A set of expressions that will form the dimensions of the monitored resource this log entry is being recorded on. If the logging backend supports monitored resources, these fields are used to populate that resource. Otherwise these fields will be ignored by the adapter.</td>
  </tr>
 </table>

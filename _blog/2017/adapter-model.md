@@ -52,11 +52,11 @@ configuration resource which represents a fully configured adapter ready for use
 ## Templates: adapter input schema
 
 Mixer is typically invoked twice for every incoming request to a mesh service, once for precondition checks and once for telemetry reporting. For every such call, Mixer invokes one or more adapters. Different adapters need different pieces of data as input in order to do their work. A logging adapter needs a log entry, a metric adapter needs a metric, an authorization adapter needs credentials, etc.
-Mixer [*templates*]({{home}}/docs/reference/config/mixer/template/) are used to describe the exact data that an adapter consumes at request time.
+Mixer [*templates*]({{home}}/docs/reference/config/template/) are used to describe the exact data that an adapter consumes at request time.
 
 Each template is specified as a [protobuf](https://developers.google.com/protocol-buffers/) message. A single template describes a bundle of data that is delivered to one or more adapters at runtime. Any given adapter can be designed to support any number of templates, the specific templates the adapter supports is determined by the adapter developer. 
 
-[metric]({{home}}/docs/reference/config/mixer/template/metric.html) and [logentry]({{home}}/docs/reference/config/mixer/template/logentry.html) are two of the most essential templates used within Istio. They represent respectively the payload to report a single metric and a single log entry to appropriate backends. 
+[metric]({{home}}/docs/reference/config/template/metric.html) and [logentry]({{home}}/docs/reference/config/template/logentry.html) are two of the most essential templates used within Istio. They represent respectively the payload to report a single metric and a single log entry to appropriate backends. 
 
 ## Instances: attribute mapping
 
