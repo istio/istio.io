@@ -43,7 +43,7 @@ The updated architecture of the application now looks as follows:
 <figure><img src="img/bookinfo-details-v2.svg" alt="The Bookinfo Application with details v2" title="The Bookinfo Application with details v2" />
 <figcaption>The Bookinfo Application with details v2</figcaption></figure>
 
-Note that the Google Books web service is outside the Istio service mesh whose boundaries are marked by a dashed line.
+Note that the Google Books web service is outside the Istio service mesh, the boundary of which is marked by a dotted line.
 
 Now let's direct all the traffic to the version _v2_ of the _details_ microservice, using the following _route rule_:
 
