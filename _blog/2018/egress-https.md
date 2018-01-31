@@ -15,7 +15,7 @@ redirect_from: "/blog/egress-https.html"
 
 In many cases, not all the parts of a microservices-based application reside in a _service mesh_. Sometimes, the microservices-based applications use functionality provided by legacy systems that reside outside the mesh. We may want to migrate these systems to the service mesh gradually. Until these systems are migrated, they must be accessed by the applications inside the mesh. In other cases, the applications use web services provided by external organizations, often over the World Wide Web.
 
-In this blog post I will modify [Istio Bookinfo Sample Application]({{home}}/docs/guides/bookinfo.html) to fetch book details from an external web service ([Google Books APIs](https://developers.google.com/books/docs/v1/getting_started)). I will show how to enable external HTTPS traffic in Istio by using an _egress rule_. I will explain the current issues related to the egress traffic control in Istio.
+In this blog post I will modify the [Istio Bookinfo Sample Application]({{home}}/docs/guides/bookinfo.html) to fetch book details from an external web service ([Google Books APIs](https://developers.google.com/books/docs/v1/getting_started)). I will show how to enable external HTTPS traffic in Istio by using an _egress rule_. I will explain the current issues related to the egress traffic control in Istio.
 
 ## Bookinfo Sample Application with External Details Web Service
 
@@ -65,12 +65,12 @@ EOF
 
 Let's access the web page of the application, after [determining the ingress IP and port]({{home}}/docs/guides/bookinfo.html#determining-the-ingress-ip-and-port).
 
-Oops... Instead of the book details we have _Error fetching product details_ message displayed:
+Oops... Instead of the book details we have the _Error fetching product details_ message displayed:
 <figure><img src="img/errorFetchingBookDetails.png" alt="The Error Fetching Product Details Message" title="The Error Fetching Product Details Message" />
 <figcaption>The error fetching product details message</figcaption></figure>
 
 
-Good news is that our application did not crash. With a good microservice design we do not have **failure propagation**. In our case the failing _details_ microservice does not cause the _productpage_ microservice to fail. Most of the functionality of the application is still provided despite the failure in the _details_ microservice. We have **graceful service degradation**: as you can see, the reviews and the ratings are displayed correctly, and the application is still useful.
+The good news is that our application did not crash. With a good microservice design we do not have **failure propagation**. In our case the failing _details_ microservice does not cause the _productpage_ microservice to fail. Most of the functionality of the application is still provided despite the failure in the _details_ microservice. We have **graceful service degradation**: as you can see, the reviews and the ratings are displayed correctly, and the application is still useful.
 
 Hmm, so what might have gone wrong? Ah... The answer is that I forgot to enable traffic from inside the mesh to an external service, in this case to the Google Books web service. By default, the Istio sidecar proxies ([Envoy proxies](https://www.envoyproxy.io)) **block all the traffic to destinations outside the cluster**. To enable such traffic, we must define an [egress rule]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#EgressRule).
 
@@ -146,9 +146,9 @@ end
 
 Note that the port is derived by the `URI.parse` from the URI's schema (https://) to be `443`, the default HTTPS port. The microservice, when running inside an Istio service mesh, must issue HTTP requests to the port `443`, the port the external service listens to.
 
-When `WITH_ISTIO` environment variable is defined, the request is performed without SSL (plain HTTP).
+When the `WITH_ISTIO` environment variable is defined, the request is performed without SSL (plain HTTP).
 
-We set `WITH_ISTIO` environment variable to _"true"_ in the [kubernetes deployment of _details v2_](https://github.com/istio/istio/blob/master/samples/bookinfo/kube/bookinfo-details-v2.yaml), the `container` spec:
+We set the `WITH_ISTIO` environment variable to _"true"_ in the [kubernetes deployment of _details v2_](https://github.com/istio/istio/blob/master/samples/bookinfo/kube/bookinfo-details-v2.yaml), the `container` spec:
 ```yaml
 env:
 - name: WITH_ISTIO
