@@ -99,7 +99,6 @@ Now accessing the web page of the application displays the book details without 
 
 Note that our Egress Rule allows traffic to any domain matching _*.googleapis.com_, on port 443, using the HTTPS protocol. Let's assume for the sake of example that the applications in our Istio Service Mesh must access multiple subdomains of _gooogleapis.com_, for example _www.googleapis.com_ and also _fcm.googleapis.com_. Our rule will allow traffic to both _www.googleapis.com_ and _fcm.googleapis.com_, since both of them match  _*.googleapis.com_. This **wildcard** feature allows us to enable traffic to multiple domains by a single Egress Rule.
 
-
 We can query our Egress Rules:
 ```bash
 istioctl get egressrules
@@ -155,6 +154,9 @@ env:
 - name: WITH_ISTIO
   value: "true"
 ```
+
+#### Relation to Istio Mutual TLS
+Note that the TLS origination in this case is unrelated to [the mutual TLS](https://istio.io/docs/concepts/security/mutual-tls.html) applied by Istio. The **mutual** TLS secures service-to-service communication **inside** the Service Mesh and provides each service with strong a identity. In the case of the **external services**, we have **one-way** TLS, the same mechanism used to secure communication between a web browser and a web server. TLS is applied to the communication with external services in order to verify the identity of the external server and to encrypt the traffic.
 
 ### Malicious Microservices Threat
 Another issue is that the Egress Rules are currently **not a security feature**, they only **enable** traffic to external services. For HTTP based protocols, the rules are based on domains. Istio does not check that the destination IP of the request matches the _Host_ header. It means that a malicious microservice inside a Service Mesh could trick Istio to allow traffic to a malicious IP. The trick is to set one of the domains allowed by some existing Egress Rule as the _Host_ header of the malicious request.
