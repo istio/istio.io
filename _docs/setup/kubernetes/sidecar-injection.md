@@ -11,7 +11,7 @@ type: markdown
 
 _NOTE_: The following requires Istio 0.5.0 or greater. See https://archive.istio.io/v0.4/docs/setup/kubernetes/sidecar-injection for Istio versions 0.4.0 or older.
 
-_NOTE_: The Kubernetes initializer feature has been used in previous releases for automatic proxy injection. This was an alpha feature subject to change/removal and not enabled by default in Kubernetes releases. Starting in Istio 0.5.0 release the automatic proxy injection uses Kubernetes mutating webhooks which is beta and available by default in Kubernetes 1.9 and beyond. Support for the  alpha initializer mechanism for proxy injection has been removed in 0.5.0. Users who cannot uprade to Kubernetes 1.9 should use manual injection.
+_NOTE_: In previous releases the Kubernetes initializer feature has been used for automatic proxy injection. This was an alpha feature subject to change/removal and not enabled by default in Kubernetes. Starting in Istio 0.5.0 release the automatic proxy injection uses Kubernetes mutating webhooks. This Kubernetes feature is beta and available by default in Kubernetes 1.9 and beyond. Support for the alpha initializer mechanism for proxy injection has been removed in 0.5.0. Users who cannot uprade to Kubernetes 1.9 should use manual injection.
 
 # Pod Spec Requirements
 
