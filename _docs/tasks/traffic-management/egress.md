@@ -268,7 +268,7 @@ cloud provider specific knowledge and configuration.
    ```
 
 ## Egress Rules and Access Control
-Note that Istio Egress Rules are **not a security feature**. They enable access to external (out of the service mesh) services. It is up to the user to deploy appropriate security mechanisms such as firewalls to prevent unauthorized access to external services. We are working on adding access control support for external services.
+Note that Istio Egress Rules are **not a security feature**. They enable access to external (out of the service mesh) services. It is up to the user to deploy appropriate security mechanisms such as firewalls to prevent unauthorized access to the external services. We are working on adding access control support for the external services.
 
 ## Further reading
 
