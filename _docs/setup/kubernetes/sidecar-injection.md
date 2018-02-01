@@ -1,6 +1,6 @@
 ---
 title: Installing Istio Sidecar
-overview: Instructions for installing the Istio sidecar in application pods automatically using the Istio initializer or manually using istioctl CLI.
+overview: Instructions for installing the Istio sidecar in application pods automatically using the sidecar injector webhook or manually using istioctl CLI.
 
 order: 50
 
@@ -9,7 +9,9 @@ type: markdown
 ---
 {% include home.html %}
 
-_NOTE_: the following requires Istio 0.5.0 or greater. See https://archive.istio.io/v0.4/docs/setup/kubernetes/sidecar-injection for versions 0.4.0 or older.
+_NOTE_: The following requires Istio 0.5.0 or greater. See https://archive.istio.io/v0.4/docs/setup/kubernetes/sidecar-injection for Istio versions 0.4.0 or older.
+
+_NOTE_: In previous releases the Kubernetes initializer feature has been used for automatic proxy injection. This was an alpha feature subject to change/removal and not enabled by default in Kubernetes. Starting in Istio 0.5.0 release the automatic proxy injection uses Kubernetes mutating webhooks. This Kubernetes feature is beta and available by default in Kubernetes 1.9 and beyond. Support for the alpha initializer mechanism for proxy injection has been removed in 0.5.0. Users who cannot uprade to Kubernetes 1.9 should use manual injection.
 
 # Pod Spec Requirements
 
