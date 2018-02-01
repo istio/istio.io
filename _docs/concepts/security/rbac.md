@@ -6,6 +6,7 @@ order: 10
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 ## Overview
 Istio Role-Based Access Control (RBAC) provides namespace-level, service-level, method-level access control for services in Istio Mesh.
@@ -32,7 +33,7 @@ request context against the RBAC policies, and returns the authorization result 
 
 ### Request Context
 
-In the current release, Istio RBAC engine is implemented as a [Mixer adapter](https://istio.io/docs/concepts/policy-and-control/mixer.html#adapters).
+In the current release, Istio RBAC engine is implemented as a [Mixer adapter]({{home}}/docs/concepts/policy-and-control/mixer.html#adapters).
 The request context is provided as an instance of the
 [authorization template](https://github.com/istio/istio/blob/master/mixer/template/authorization/template.proto). The request context
  contains all the information about the request and the environment that an authorization module needs to know. In particular, it has two parts:
@@ -193,7 +194,7 @@ which means Kubernetes API server. Alternatively, if you are testing RBAC policy
 `"fs:///tmp/testdata/configroot"`.
 
 The second part defines a rule, which specifies that the RBAC handler should be invoked with the "requestcontext" instance [defined
-earlier in the document](https://istio.io/docs/concepts/security/rbac.html#request-context).
+earlier in the document](#request-context).
 
 ```rule
    apiVersion: "config.istio.io/v1alpha2"
