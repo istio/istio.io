@@ -38,9 +38,9 @@ The request context is provided as an instance of the
 [authorization template](https://github.com/istio/istio/blob/master/mixer/template/authorization/template.proto). The request context
  contains all the information about the request and the environment that an authorization module needs to know. In particular, it has two parts:
 
-* **subject** contains a list of properties that identify the caller identity, including "user" name/ID, "groups" the subject belongs to,
+* **subject** contains a list of properties that identify the caller identity, including `"user"` name/ID, `"groups"` the subject belongs to,
 or any additional properties about the subject such as namespace, service name.
-* **action** specifies "how a service is accessed". It includes "namespace", "service", "path", "method" that the action is being taken on,
+* **action** specifies "how a service is accessed". It includes `"namespace"`, `"service"`, `"path"`, `"method"` that the action is being taken on,
 and any additional properties about the action.
 
 Below we show an example "requestcontext".
@@ -76,11 +76,12 @@ Istio RBAC introduces ServiceRole and ServiceRoleBinding, both of which are defi
 ### ServiceRole
 
 A ServiceRole specification includes a list of rules. Each rule has the following standard fields:
-* **services**: a list of services.
-* **methods**: HTTP methods or gRPC methods. Note that gRPC methods should be presented in the form of "packageName.serviceName/methodName".
-* **paths**: HTTP paths. It is ignored in gRPC case.
+* **services**: A list of service names, which are matched against the `action.service` field of the "requestcontext".
+* **methods**: A list of method names which are matched against the `action.method` field of the "requestcontext". In the above "requestcontext",
+this is the HTTP or gRPC method. Note that gRPC methods are formatted in the form of "packageName.serviceName/methodName" (case sensitive).
+* **paths**: A list of HTTP paths which are matched against the `action.path` field of the "requestcontext". It is ignored in gRPC case.
 
-A ServiceRole specification only applies to the **namespace** specified in "metadata" section. The "services" and "methods" are required
+A ServiceRole specification only applies to the **namespace** specified in `"metadata"` section. The "services" and "methods" are required
 fields in a rule. "paths" is optional. If not specified or set to "*", it applies to "any" instance.
 
 Here is an example of a simple role "service-admin", which has full access to all services in "default" namespace.
@@ -97,7 +98,7 @@ Here is an example of a simple role "service-admin", which has full access to al
        methods: ["*"]
 ```
 
-Here is another role "products-viewer", which has read ("GET" and "HEAD") access to service "products.svc.cluster.local"
+Here is another role "products-viewer", which has read ("GET" and "HEAD") access to service "products.default.svc.cluster.local"
 in "default" namespace.
 
 ```rule
@@ -108,14 +109,15 @@ in "default" namespace.
      namespace: default
    spec:
      rules:
-     - services: ["products.svc.cluster.local"]
+     - services: ["products.default.svc.cluster.local"]
        methods: ["GET", "HEAD"]
 ```
 
 In addition, we support **prefix match** and **suffix match** for all the fields in a rule. For example, you can define a "tester" role that
 has the following permissions in "default" namespace:
-* Full access to all services with prefix "test-" (e.g, "test-bookstore", "test-performance", "test-api.svc.cluster.local").
-* Read ("GET") access to all paths with "/reviews" suffix (e.g, "/books/reviews", "/events/booksale/reviews", "/reviews") in service "bookstore.svc.cluster.local".
+* Full access to all services with prefix "test-" (e.g, "test-bookstore", "test-performance", "test-api.default.svc.cluster.local").
+* Read ("GET") access to all paths with "/reviews" suffix (e.g, "/books/reviews", "/events/booksale/reviews", "/reviews")
+in service "bookstore.default.svc.cluster.local".
 
 ```rule
    apiVersion: "config.istio.io/v1alpha2"
@@ -127,7 +129,7 @@ has the following permissions in "default" namespace:
      rules:
      - services: ["test-*"]
        methods: ["*"]
-     - services: ["bookstore.svc.cluster.local"]
+     - services: ["bookstore.default.svc.cluster.local"]
        paths: ["*/reviews"]
        methods: ["GET"]
 ```
@@ -138,7 +140,7 @@ certain "version" of a service, or only applies to services that are labeled "fo
 custom fields.
 
 For example, the following ServiceRole definition extends the previous "products-viewer" role by adding a constraint on service "version"
-being "v1" or "v2". Note that the "version" property is provided by "action.properties.version" in "requestcontext".
+being "v1" or "v2". Note that the "version" property is provided by `"action.properties.version"` in "requestcontext".
 
 ```rule
    apiVersion: "config.istio.io/v1alpha2"
@@ -148,7 +150,7 @@ being "v1" or "v2". Note that the "version" property is provided by "action.prop
      namespace: default
    spec:
      rules:
-     - services: ["products.svc.cluster.local"]
+     - services: ["products.default.svc.cluster.local"]
        methods: ["GET", "HEAD"]
        constraints:
        - key: "version"
@@ -158,8 +160,8 @@ being "v1" or "v2". Note that the "version" property is provided by "action.prop
 ### ServiceRoleBinding
 
 A ServiceRoleBinding specification includes two parts:
-* `roleRef` refers to a ServiceRole object **in the same namespace**.
-* A list of `subjects` that are assigned the role.
+* **roleRef** refers to a ServiceRole object **in the same namespace**.
+* A list of **subjects** that are assigned the role.
 
 A subject can either be a "user", or a "group", or is represented with a set of "properties". Each entry ("user" or "group" or an entry
 in "properties") must match one of fields ("user" or "groups" or an entry in "properties") in the "subject" part of the "requestcontext"
@@ -167,7 +169,7 @@ instance.
 
 Here is an example of ServiceRoleBinding object "test-binding-products", which binds two subjects to ServiceRole "product-viewer":
 * user "alice@yahoo.com".
-* "reviews" service in "abc" namespace.
+* "reviews.abc.svc.cluster.local" service in "abc" namespace.
 
 ```rule
    apiVersion: "config.istio.io/v1alpha2"
@@ -179,7 +181,7 @@ Here is an example of ServiceRoleBinding object "test-binding-products", which b
      subjects:
      - user: "alice@yahoo.com"
      - properties:
-         service: "reviews"
+         service: "reviews.abc.svc.cluster.local"
          namespace: "abc"
      roleRef:
        kind: ServiceRole
