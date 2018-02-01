@@ -200,7 +200,6 @@ istioctl gen-deploy [flags]
 istioctl gen-deploy --features routing,policy,sidecar-injector -o helm
 ```
 
-
 |Option|Shorthand|Description
 |------|---------|-----------
 |--debug ||If true, uses debug images instead of release images 
@@ -222,9 +221,7 @@ istioctl gen-deploy --features routing,policy,sidecar-injector -o helm
 |--log_stacktrace_level <string>||The minimum logging level at which stack traces are captured, can be one of "debug", "info", "warn", "error", or "none"  (default "none")
 |--log_target <stringArray>||The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default [stdout])
 |--namespace <string>|-n|Config namespace  (default "")
-|--out <string>|-o|Output format. Acceptable values are:
-					"helm": produces contents of values.yaml
-					"yaml": produces Kubernetes deployments  (default "helm")
+|--out <string>|-o|Output format. Acceptable values are: "helm" to produces contents of values.yaml or "yaml" to produces Kubernetes deployments  (default "helm")
 |--platform <string>|-p|Istio host platform  (default "kube")
 |--v <Level>|-v|log level for V logs  (default 0)
 |--values <string>||Path to the Helm values.yaml file used to render YAML deployments locally when --out=yaml. Flag values are ignored in favor of using the file directly.  (default "")
