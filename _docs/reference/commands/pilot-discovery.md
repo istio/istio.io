@@ -1,9 +1,9 @@
 ---
-title: pilot-agent
-overview: Istio Pilot agent
+title: pilot-discovery
+overview: Istio Pilot
 layout: docs
 ---
-Istio Pilot provides management plane functionality to the Istio service mesh and Istio Mixer.
+Istio Pilot provides fleet-wide traffic management capabilities in the Istio Service Mesh.
 
 |Option|Shorthand|Description
 |------|---------|-----------
@@ -21,28 +21,32 @@ Istio Pilot provides management plane functionality to the Istio service mesh an
 |`--vmodule <moduleSpec>`||comma-separated list of pattern=N settings for file-filtered logging  (default ``)
 
 
-## pilot-agent proxy
+## pilot-discovery discovery
 
-Envoy proxy agent
+Start Istio proxy discovery service
 ```bash
-pilot-agent proxy [flags]
+pilot-discovery discovery [flags]
 ```
 
 
 |Option|Shorthand|Description
 |------|---------|-----------
-|`--availabilityZone <string>`||Availability zone  (default `""`)
-|`--binaryPath <string>`||Path to the proxy binary  (default `"/usr/local/bin/envoy"`)
-|`--configPath <string>`||Path to the generated configuration file directory  (default `"/etc/istio/proxy"`)
-|`--connectTimeout <duration>`||Connection timeout used by Envoy for supporting services  (default `1s`)
-|`--controlPlaneAuthPolicy <string>`||Control Plane Authentication Policy  (default `"NONE"`)
-|`--customConfigFile <string>`||Path to the generated configuration file directory  (default `""`)
-|`--discoveryAddress <string>`||Address of the discovery service exposing xDS (e.g. istio-pilot:8080)  (default `"istio-pilot:15003"`)
-|`--discoveryRefreshDelay <duration>`||Polling interval for service discovery (used by EDS, CDS, LDS, but not RDS)  (default `1s`)
-|`--domain <string>`||DNS domain suffix. If not provided uses ${POD_NAMESPACE}.svc.cluster.local  (default `""`)
-|`--drainDuration <duration>`||The time in seconds that Envoy will drain connections during a hot restart  (default `2s`)
-|`--id <string>`||Proxy unique ID. If not provided uses ${POD_NAME}.${POD_NAMESPACE} from environment variables  (default `""`)
-|`--ip <string>`||Proxy IP address. If not provided uses ${INSTANCE_IP} environment variable.  (default `""`)
+|`--admission-registration-delay <duration>`||Time to delay webhook registration after starting webhook server  (default `0s`)
+|`--admission-secret <string>`||Name of k8s secret for pilot webhook certs  (default `"pilot-webhook"`)
+|`--admission-service <string>`||Service name the admission controller uses during registration  (default `"istio-pilot"`)
+|`--admission-service-port <int>`||HTTPS port of the admission service. Must be 443 if service has more than one port   (default `443`)
+|`--admission-webhook-name <string>`||Webhook name for Pilot admission controller  (default `"pilot-webhook.istio.io"`)
+|`--appNamespace <string>`|`-a`|Restrict the applications namespace the controller manages; if not set, controller watches all namespaces  (default `""`)
+|`--cfConfig <string>`||Cloud Foundry config file  (default `""`)
+|`--configDir <string>`||Directory to watch for updates to config yaml files. If specified, the files will be used as the source of config, rather than a CRD client.  (default `""`)
+|`--consulconfig <string>`||Consul Config file for discovery  (default `""`)
+|`--consulserverInterval <duration>`||Interval (in seconds) for polling the Consul service registry  (default `2s`)
+|`--consulserverURL <string>`||URL for the Consul server  (default `""`)
+|`--discovery_cache`||Enable caching discovery service responses 
+|`--domain <string>`||DNS domain suffix  (default `"cluster.local"`)
+|`--eurekaserverInterval <duration>`||Interval (in seconds) for polling the Eureka service registry  (default `2s`)
+|`--eurekaserverURL <string>`||URL for the Eureka server  (default `""`)
+|`--kubeconfig <string>`||Use a Kubernetes configuration file instead of in-cluster configuration  (default `""`)
 |`--log_as_json`||Whether to format output as JSON or in plain console-friendly format 
 |`--log_backtrace_at <traceLocation>`||when logging hits line file:N, emit a stack trace  (default `:0`)
 |`--log_callers`||Include caller information, useful for debugging 
@@ -53,22 +57,23 @@ pilot-agent proxy [flags]
 |`--log_rotate_max_size <int>`||The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)
 |`--log_stacktrace_level <string>`||The minimum logging level at which stack traces are captured, can be one of "debug", "info", "warn", "error", or "none"  (default `"none"`)
 |`--log_target <stringArray>`||The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)
-|`--parentShutdownDuration <duration>`||The time in seconds that Envoy will wait before shutting down the parent process during a hot restart  (default `3s`)
-|`--proxyAdminPort <int>`||Port on which Envoy should listen for administrative commands  (default `15000`)
-|`--proxyLogLevel <string>`||The log level used to start the Envoy proxy (choose from {trace, debug, info, warn, err, critical, off})  (default `"info"`)
-|`--serviceCluster <string>`||Service cluster  (default `"istio-proxy"`)
-|`--serviceregistry <string>`||Select the platform for service registry, options are {Kubernetes, Consul, Eureka}  (default `"Kubernetes"`)
-|`--statsdUdpAddress <string>`||IP Address and Port of a statsd UDP listener (e.g. 10.75.241.127:9125)  (default `""`)
+|`--meshConfig <string>`||File name for Istio mesh configuration. If not specified, a default mesh will be used.  (default `"/etc/istio/config/mesh"`)
+|`--monitoringPort <int>`||HTTP port to use for the exposing pilot self-monitoring information  (default `9093`)
+|`--namespace <string>`|`-n`|Select a namespace where the controller resides. If not set, uses ${POD_NAMESPACE} environment variable  (default `""`)
+|`--port <int>`||Discovery service port  (default `8080`)
+|`--profile`||Enable profiling via web interface host:port/debug/pprof 
+|`--registries <stringSlice>`||Comma separated list of platform service registries to read from (choose one or more from {Kubernetes, Consul, Eureka, CloudFoundry, Mock})  (default `[Kubernetes]`)
+|`--resync <duration>`||Controller resync interval  (default `1m0s`)
 |`--v <Level>`|`-v`|log level for V logs  (default `0`)
 |`--vmodule <moduleSpec>`||comma-separated list of pattern=N settings for file-filtered logging  (default ``)
-|`--zipkinAddress <string>`||Address of the Zipkin service (e.g. zipkin:9411)  (default `""`)
+|`--webhookEndpoint <string>`||Webhook API endpoint (supports DNS, IP, and unix domain socket.  (default `""`)
 
 
-## pilot-agent version
+## pilot-discovery version
 
 Prints out build version information
 ```bash
-pilot-agent version [flags]
+pilot-discovery version [flags]
 ```
 
 
