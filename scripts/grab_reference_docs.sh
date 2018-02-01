@@ -9,9 +9,7 @@
 # Additionally, this script also builds Istio components and runs them to extract their command-line docs which it
 # copies to _docs/reference/commands.
 
-set -o errexit
-set -o nounset
-set -o pipefail
+#set -e
 
 ISTIO_BASE=$(cd "$(dirname "$0")" ; pwd -P)/..
 WORK_DIR=$(mktemp -d)
@@ -56,12 +54,19 @@ get_command_doc() {
     ./$COMMAND collateral -o $COMMAND_DIR --markdown
 }
 
-find $WORK_DIR/api -type f -name '*.pb.html' | while read line; do
-    locate_file $line
+# First delete all the current generated files so that any stale files are removed
+find _docs/reference -name '*.html' -type f|xargs rm
+
+for f in `find $WORK_DIR/api -type f -name '*.pb.html'`
+do
+    echo "processing $f"
+    locate_file $f
 done
 
-find $WORK_DIR/istio -type f -name '*.pb.html' | while read line; do
-    locate_file $line
+for f in `find $WORK_DIR/istio -type f -name '*.pb.html'`
+do
+    echo "processing $f"
+    locate_file $f
 done
 
 # get_command_doc $WORK_DIR/istio/broker/cmd/brks brks
