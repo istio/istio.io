@@ -166,7 +166,7 @@ Note: the application must use HTTP/1.1 or HTTP/2.0 protocol for all its HTTP tr
 If you started the [Istio-sidecar-injector]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection),
 as shown above, you can deploy the application directly using `kubectl create`. 
 
-The Istio-Sidecar-injector will automatically inject Envoy containers into your application pods assuming running in namespaes labeld with `istio-injection=enabled`
+The Istio-Sidecar-injector will automatically inject Envoy containers into your application pods assuming running in namespaces labeled with `istio-injection=enabled`
 
 ```bash
 kubectl label namespace <namespace> istio-injection=enabled
