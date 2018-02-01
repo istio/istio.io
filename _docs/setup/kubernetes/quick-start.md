@@ -16,7 +16,7 @@ Quick Start instructions to install and configure Istio in a Kubernetes cluster.
 ## Prerequisites
 
 The following instructions require you have access to a Kubernetes **1.7.3 or newer** cluster
-with [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/) enabled. You will also need `kubectl` **1.7.3 or newer** installed.  If you wish to enable [automatic injection of sidecar]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection), you need to turn on Kubernetes alpha features in your cluster.
+with [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/) enabled. You will also need `kubectl` **1.7.3 or newer** installed.  If you wish to enable [automatic sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection), you need Kubernetes version 1.9 or greater.
 
   > Note: If you installed Istio 0.1.x,
   > [uninstall](https://archive.istio.io/v0.1/docs/tasks/installing-istio.html#uninstalling)
@@ -123,11 +123,7 @@ kubectl apply -f install/kubernetes/istio-auth.yaml
   Both options create the `istio-system` namespace along with the required RBAC permissions,
   and deploy Istio-Pilot, Istio-Mixer, Istio-Ingress, and Istio-CA (Certificate Authority).
 
-1. *Optional:* If your cluster has Kubernetes alpha features enabled, and you wish to enable a
-   [automatic injection of sidecar]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection), install the Istio-Initializer:
-```bash
-kubectl apply -f install/kubernetes/istio-initializer.yaml
-```
+1. *Optional:* If your cluster has Kubernetes version 1.9 or greater, and you wish to enable automatic proxy injection, install the sidecar injector webhook using the instructions at ({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection).
 
 ## Verifying the installation
 
@@ -149,16 +145,16 @@ istio-mixer     10.83.244.253   <none>            9091/TCP,9094/TCP,42422/TCP   
 
 2. Ensure the corresponding Kubernetes pods are deployed and all containers are up and running:
    `istio-pilot-*`, `istio-mixer-*`, `istio-ingress-*`, `istio-ca-*`,
-   and, optionally, `istio-initializer-*`.
+   and, optionally, `istio-sidecar-injector-*`.
 ```bash
 kubectl get pods -n istio-system
 ```
 ```bash
-istio-ca-3657790228-j21b9           1/1       Running   0          5h
-istio-ingress-1842462111-j3vcs      1/1       Running   0          5h
-istio-initializer-184129454-zdgf5   1/1       Running   0          5h
-istio-pilot-2275554717-93c43        1/1       Running   0          5h
-istio-mixer-2104784889-20rm8        2/2       Running   0          5h
+istio-ca-3657790228-j21b9                1/1       Running   0          5h
+istio-ingress-1842462111-j3vcs           1/1       Running   0          5h
+istio-sidecar-injector-184129454-zdgf5   1/1       Running   0          5h
+istio-pilot-2275554717-93c43             1/1       Running   0          5h
+istio-mixer-2104784889-20rm8             2/2       Running   0          5h
 ```
 
 ## Deploy your application
@@ -167,14 +163,17 @@ You can now deploy your own application or one of the sample applications provid
 installation like [BookInfo]({{home}}/docs/guides/bookinfo.html).
 Note: the application must use HTTP/1.1 or HTTP/2.0 protocol for all its HTTP traffic because HTTP/1.0 is not supported.
 
-If you started the [Istio-Initializer]({{home}}/docs/setup/kubernetes/sidecar-injection.html),
-as shown above, you can deploy the application directly using `kubectl create`. The Istio-Initializer
-will automatically inject Envoy containers into your application pods:
+If you started the [Istio-sidecar-injector]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection),
+as shown above, you can deploy the application directly using `kubectl create`. 
+
+The Istio-Sidecar-injector will automatically inject Envoy containers into your application pods assuming running in namespaces labeled with `istio-injection=enabled`
+
 ```bash
-kubectl create -f <your-app-spec>.yaml
+kubectl label namespace <namespace> istio-injection=enabled
+kubectl create -n <namspace> -f <your-app-spec>.yaml
 ```
 
-If you do not have the Istio-Initializer installed, you must
+If you do not have the Istio-sidecar-injector installed, you must
 use [istioctl kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject) to
 manuallly inject Envoy containers in your application pods before deploying them:
 ```bash
@@ -183,11 +182,11 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 
 ## Uninstalling
 
-* Uninstall Istio initializer:
+* Uninstall Istio sidecar injector:
 
-  If you installed Istio with initializer enabled, uninstall it:
+  If you installed Istio with sidecar injector enabled, uninstall it:
 ```bash
-kubectl delete -f install/kubernetes/istio-initializer.yaml
+kubectl delete -f install/kubernetes/istio-sidecar-injector-with-ca-bundle.yaml
 ```
 
 * Uninstall Istio core components. For the {{ site.data.istio.version }} release, the uninstall
