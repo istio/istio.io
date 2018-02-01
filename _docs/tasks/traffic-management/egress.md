@@ -267,6 +267,9 @@ cloud provider specific knowledge and configuration.
    kubectl delete -f samples/sleep/sleep.yaml
    ```
 
+## Egress Rules and Access Control
+Note that Istio Egress Rules are **not a security feature**. They enable access to external (out of the service mesh) services. It is up to the user to deploy appropriate security mechanisms such as firewalls to prevent unauthorized access to the external services. We are working on adding access control support for the external services.
+
 ## Further reading
 
 * Read more about [egress rules]({{home}}/docs/concepts/traffic-management/rules-configuration.html#egress-rules).
