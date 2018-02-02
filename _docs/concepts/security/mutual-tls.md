@@ -19,11 +19,6 @@ Istio Auth's aim is to enhance the security of microservices and their communica
 
 *   Providing a key management system to automate key and certificate generation, distribution, rotation, and revocation
 
-*   Upcoming features:
-    *   Powerful authorization mechanisms: [ABAC](https://docs.google.com/document/d/1U2XFmah7tYdmC5lWkk3D43VMAAQ0xkBatKmohf90ICA/edit), [RBAC](https://docs.google.com/document/d/1dKXUEOxrj4TWZKrW7fx_A-nrOdVD4tYolpjgT8DYBTY/edit), Authorization hooks.
-    *   [End-user authentication](https://docs.google.com/document/d/1rU0OgZ0vGNXVlm_WjA-dnfQdS3BsyqmqXnu254pFnZg/edit)
-    *   CA and identity Pluggability
-
 
 ## Architecture
 
