@@ -114,8 +114,7 @@ as service identity, which offers stronger security than service name
 (refer [here]({{home}}/docs/concepts/security/mutual-tls.html#identity) for more information). 
 Thus the certificates used in Istio do not have service name, which is the information that curl needs to verify
 server identity. As a result, we use curl option '-k' to prevent the curl client from aborting when failing to
-find and verify the service identity
-in the server's (i.e., productpage) certificate. 
+find and verify the server name (i.e., productpage.ns.svc.cluster.local) in the certificate provided by the server. 
 
 Please check secure naming [here]({{home}}/docs/concepts/security/mutual-tls.html#workflow) for more information
 about how the client verifies the server's identity in Istio.
