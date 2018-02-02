@@ -174,7 +174,7 @@ kubectl create -n <namspace> -f <your-app-spec>.yaml
 ```
 
 If you do not have the Istio-sidecar-injector installed, you must
-use [istioctl kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject) to
+use [istioctl kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl kube-inject) to
 manuallly inject Envoy containers in your application pods before deploying them:
 ```bash
 kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)

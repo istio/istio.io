@@ -1,0 +1,346 @@
+---
+title: pilot-discovery
+overview: Istio Pilot
+layout: pkg-collateral-docs
+---
+<p>Istio Pilot provides fleet-wide traffic management capabilities in the Istio Service Mesh.</p>
+<table class="command-flags">
+<thead>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
+<td><code>--log_callers</code></td>
+<td></td>
+<td>Include caller information, useful for debugging </td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pilot-discovery discovery">pilot-discovery discovery</h2>
+<p>Start Istio proxy discovery service</p>
+<pre class="language-bash"><code>pilot-discovery discovery [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+<td><code>--admission-registration-delay &lt;duration&gt;</code></td>
+<td></td>
+<td>Time to delay webhook registration after starting webhook server  (default `0s`)</td>
+</tr>
+<tr>
+<td><code>--admission-secret &lt;string&gt;</code></td>
+<td></td>
+<td>Name of k8s secret for pilot webhook certs  (default `pilot-webhook`)</td>
+</tr>
+<tr>
+<td><code>--admission-service &lt;string&gt;</code></td>
+<td></td>
+<td>Service name the admission controller uses during registration  (default `istio-pilot`)</td>
+</tr>
+<tr>
+<td><code>--admission-service-port &lt;int&gt;</code></td>
+<td></td>
+<td>HTTPS port of the admission service. Must be 443 if service has more than one port   (default `443`)</td>
+</tr>
+<tr>
+<td><code>--admission-webhook-name &lt;string&gt;</code></td>
+<td></td>
+<td>Webhook name for Pilot admission controller  (default `pilot-webhook.istio.io`)</td>
+</tr>
+<tr>
+<td><code>--appNamespace &lt;string&gt;</code></td>
+<td><code>-a</code></td>
+<td>Restrict the applications namespace the controller manages; if not set, controller watches all namespaces  (default ``)</td>
+</tr>
+<tr>
+<td><code>--cfConfig &lt;string&gt;</code></td>
+<td></td>
+<td>Cloud Foundry config file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--configDir &lt;string&gt;</code></td>
+<td></td>
+<td>Directory to watch for updates to config yaml files. If specified, the files will be used as the source of config, rather than a CRD client.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--consulconfig &lt;string&gt;</code></td>
+<td></td>
+<td>Consul Config file for discovery  (default ``)</td>
+</tr>
+<tr>
+<td><code>--consulserverInterval &lt;duration&gt;</code></td>
+<td></td>
+<td>Interval (in seconds) for polling the Consul service registry  (default `2s`)</td>
+</tr>
+<tr>
+<td><code>--consulserverURL &lt;string&gt;</code></td>
+<td></td>
+<td>URL for the Consul server  (default ``)</td>
+</tr>
+<tr>
+<td><code>--discovery_cache</code></td>
+<td></td>
+<td>Enable caching discovery service responses </td>
+</tr>
+<tr>
+<td><code>--domain &lt;string&gt;</code></td>
+<td></td>
+<td>DNS domain suffix  (default `cluster.local`)</td>
+</tr>
+<tr>
+<td><code>--eurekaserverInterval &lt;duration&gt;</code></td>
+<td></td>
+<td>Interval (in seconds) for polling the Eureka service registry  (default `2s`)</td>
+</tr>
+<tr>
+<td><code>--eurekaserverURL &lt;string&gt;</code></td>
+<td></td>
+<td>URL for the Eureka server  (default ``)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td></td>
+<td>Use a Kubernetes configuration file instead of in-cluster configuration  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
+<td><code>--log_callers</code></td>
+<td></td>
+<td>Include caller information, useful for debugging </td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--meshConfig &lt;string&gt;</code></td>
+<td></td>
+<td>File name for Istio mesh configuration. If not specified, a default mesh will be used.  (default `/etc/istio/config/mesh`)</td>
+</tr>
+<tr>
+<td><code>--monitoringPort &lt;int&gt;</code></td>
+<td></td>
+<td>HTTP port to use for the exposing pilot self-monitoring information  (default `9093`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Select a namespace where the controller resides. If not set, uses ${POD_NAMESPACE} environment variable  (default ``)</td>
+</tr>
+<tr>
+<td><code>--port &lt;int&gt;</code></td>
+<td></td>
+<td>Discovery service port  (default `8080`)</td>
+</tr>
+<tr>
+<td><code>--profile</code></td>
+<td></td>
+<td>Enable profiling via web interface host:port/debug/pprof </td>
+</tr>
+<tr>
+<td><code>--registries &lt;stringSlice&gt;</code></td>
+<td></td>
+<td>Comma separated list of platform service registries to read from (choose one or more from {Kubernetes, Consul, Eureka, CloudFoundry, Mock})  (default `[Kubernetes]`)</td>
+</tr>
+<tr>
+<td><code>--resync &lt;duration&gt;</code></td>
+<td></td>
+<td>Controller resync interval  (default `1m0s`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
+</tr>
+<tr>
+<td><code>--webhookEndpoint &lt;string&gt;</code></td>
+<td></td>
+<td>Webhook API endpoint (supports DNS, IP, and unix domain socket.  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pilot-discovery version">pilot-discovery version</h2>
+<p>Prints out build version information</p>
+<pre class="language-bash"><code>pilot-discovery version [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
+<td><code>--log_callers</code></td>
+<td></td>
+<td>Include caller information, useful for debugging </td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--short</code></td>
+<td><code>-s</code></td>
+<td>Displays a short form of the version information </td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
+</tr>
+</tbody>
+</table>
