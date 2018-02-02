@@ -49,9 +49,10 @@ get_command_doc() {
     COMMAND_PATH=$1
     COMMAND=$2
 
-    cd $COMMAND_PATH
+    pushd $COMMAND_PATH
     go build
-    ./$COMMAND collateral -o $COMMAND_DIR --markdown
+    ./$COMMAND collateral -o $COMMAND_DIR --jekyll_html
+    popd
 }
 
 # First delete all the current generated files so that any stale files are removed
