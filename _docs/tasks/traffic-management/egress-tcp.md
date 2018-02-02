@@ -27,9 +27,9 @@ This task describes how to configure Istio to expose external TCP services to ap
   Note that any pod that you can execute `curl` from, would do.
 
 ## Using Istio egress rules for external TCP traffic
-In this task we access `wikipedia.org` by HTTPS originated by the application. This task demonstrates the use case when the application cannot use HTTP with TLS origination by the sidecar proxy. Using HTTP with TLS origination by the sidecar proxy is described in the [Control Egress Traffic]({{home}}/docs/tasks/traffic-management/egress.html) task. In that task, `https://google.com` was accessed by issuing HTTP requests to  `http://www.google.com:443`.
+In this task we access `wikipedia.org` by HTTPS originated by the application. This task demonstrates the use case when the application cannot use HTTP with TLS origination by the sidecar proxy. Using HTTP with TLS origination by the sidecar proxy is described in the [Control Egress Traffic]({{home}}/docs/tasks/traffic-management/egress.html) task. In that task, `https://google.com` was accessed by issuing HTTP requests to `http://www.google.com:443`.
 
-The HTTPS traffic  originated by the application will be treated by Istio as _opaque_ TCP. To enable such traffic, we define a TCP egress rule on port 443.
+The HTTPS traffic originated by the application will be treated by Istio as _opaque_ TCP. To enable such traffic, we define a TCP egress rule on port 443.
 
 In TCP egress rules as opposed to HTTP-based egress rules, the destinations are specified by IPs or by blocks of IPs in [CIDR notation](https://tools.ietf.org/html/rfc2317).
 
