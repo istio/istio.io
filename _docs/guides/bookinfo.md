@@ -97,7 +97,7 @@ To start the application, follow the instructions below corresponding to your Is
    ```
 
    The `istioctl kube-inject` command is used to manually modify the `bookinfo.yaml`
-   file before creating the deployments as documented [here]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject).
+   file before creating the deployments as documented [here]({{home}}/docs/reference/commands/istioctl.html#istioctl kube-inject).
 
    Either of the above commands launches all four microservices and creates the gateway
    ingress resource as illustrated in the above diagram.
