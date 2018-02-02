@@ -23,7 +23,7 @@ However, sometimes this approach cannot work due to the following reasons:
 * The code of the application uses some library to access the external service and that library uses HTTPS only
 * There are compliance requirements that do not allow unencrypted traffic, even if the traffic is unencrypted only inside the pod or the VM
 
-In this case, HTTPS can be treated by Istio as _opaque TCP_ and can be handled in the same way as other TCP non-HTTP protocols.  
+In this case, HTTPS can be treated by Istio as _opaque TCP_ and can be handled in the same way as other TCP non-HTTP protocols.
 
 ## Egress rules for TCP traffic
 The egress rules for enabling TCP traffic to a specific port must specify `TCP` as the protocol of the port. Additional non-HTTP TCP protocol currently supported is `MONGO`, the [MongoDB Wire Protocol](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/).
