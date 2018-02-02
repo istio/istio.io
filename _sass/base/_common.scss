@@ -286,6 +286,12 @@ blockquote {
     background-color: $light-gray;
 }
 
+code {
+    color: #d14;
+    font-size: 75%;
+    word-break: normal;
+}
+
 .spacer {
     height: .1rem;
 
