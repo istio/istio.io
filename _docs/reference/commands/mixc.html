@@ -1,0 +1,242 @@
+---
+title: mixc
+overview: Utility to trigger direct calls to Mixer&#39;s API.
+layout: pkg-collateral-docs
+---
+<p>This command lets you interact with a running instance of
+Mixer. Note that you need a pretty good understanding of Mixer&#39;s
+API in order to use this command.</p>
+<table class="command-flags">
+<thead>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+<td><code>--trace_jaeger_url &lt;string&gt;</code></td>
+<td></td>
+<td>URL of Jaeger HTTP collector (example: &#39;http://jaeger:14268/api/traces?format=jaeger.thrift&#39;).  (default ``)</td>
+</tr>
+<tr>
+<td><code>--trace_log_spans</code></td>
+<td></td>
+<td>Whether or not to log trace spans. </td>
+</tr>
+<tr>
+<td><code>--trace_zipkin_url &lt;string&gt;</code></td>
+<td></td>
+<td>URL of Zipkin collector (example: &#39;http://zipkin:9411/api/v1/spans&#39;).  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="mixc check">mixc check</h2>
+<p>The Check method is used to perform precondition checks and quota allocations. Mixer
+expects a set of attributes as input, which it uses, along with
+its configuration, to determine which adapters to invoke and with
+which parameters in order to perform the checks and allocations.</p>
+<pre class="language-bash"><code>mixc check [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+<td><code>--attributes &lt;string&gt;</code></td>
+<td><code>-a</code></td>
+<td>List of name/value auto-sensed attributes specified as name1=value1,name2=value2,...  (default ``)</td>
+</tr>
+<tr>
+<td><code>--bool_attributes &lt;string&gt;</code></td>
+<td><code>-b</code></td>
+<td>List of name/value bool attributes specified as name1=value1,name2=value2,...  (default ``)</td>
+</tr>
+<tr>
+<td><code>--bytes_attributes &lt;string&gt;</code></td>
+<td></td>
+<td>List of name/value bytes attributes specified as name1=b0:b1:b3,name2=b4:b5:b6,...  (default ``)</td>
+</tr>
+<tr>
+<td><code>--double_attributes &lt;string&gt;</code></td>
+<td><code>-d</code></td>
+<td>List of name/value float64 attributes specified as name1=value1,name2=value2,...  (default ``)</td>
+</tr>
+<tr>
+<td><code>--duration_attributes &lt;string&gt;</code></td>
+<td></td>
+<td>List of name/value duration attributes specified as name1=value1,name2=value2,...  (default ``)</td>
+</tr>
+<tr>
+<td><code>--int64_attributes &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>List of name/value int64 attributes specified as name1=value1,name2=value2,...  (default ``)</td>
+</tr>
+<tr>
+<td><code>--mixer &lt;string&gt;</code></td>
+<td><code>-m</code></td>
+<td>Address and port of a running Mixer instance  (default `localhost:9091`)</td>
+</tr>
+<tr>
+<td><code>--quotas &lt;string&gt;</code></td>
+<td><code>-q</code></td>
+<td>List of quotas to allocate specified as name1=amount1,name2=amount2,...  (default ``)</td>
+</tr>
+<tr>
+<td><code>--repeat &lt;int&gt;</code></td>
+<td><code>-r</code></td>
+<td>Sends the specified number of requests in quick succession  (default `1`)</td>
+</tr>
+<tr>
+<td><code>--string_attributes &lt;string&gt;</code></td>
+<td><code>-s</code></td>
+<td>List of name/value string attributes specified as name1=value1,name2=value2,...  (default ``)</td>
+</tr>
+<tr>
+<td><code>--stringmap_attributes &lt;string&gt;</code></td>
+<td></td>
+<td>List of name/value string map attributes specified as name1=k1:v1;k2:v2,name2=k3:v3...  (default ``)</td>
+</tr>
+<tr>
+<td><code>--timestamp_attributes &lt;string&gt;</code></td>
+<td><code>-t</code></td>
+<td>List of name/value timestamp attributes specified as name1=value1,name2=value2,...  (default ``)</td>
+</tr>
+<tr>
+<td><code>--trace_jaeger_url &lt;string&gt;</code></td>
+<td></td>
+<td>URL of Jaeger HTTP collector (example: &#39;http://jaeger:14268/api/traces?format=jaeger.thrift&#39;).  (default ``)</td>
+</tr>
+<tr>
+<td><code>--trace_log_spans</code></td>
+<td></td>
+<td>Whether or not to log trace spans. </td>
+</tr>
+<tr>
+<td><code>--trace_zipkin_url &lt;string&gt;</code></td>
+<td></td>
+<td>URL of Zipkin collector (example: &#39;http://zipkin:9411/api/v1/spans&#39;).  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="mixc report">mixc report</h2>
+<p>The Report method is used to produce telemetry. Mixer
+expects a set of attributes as input, which it uses, along with
+its configuration, to determine which adapters to invoke and with
+which parameters in order to output the telemetry.</p>
+<pre class="language-bash"><code>mixc report [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+<td><code>--attributes &lt;string&gt;</code></td>
+<td><code>-a</code></td>
+<td>List of name/value auto-sensed attributes specified as name1=value1,name2=value2,...  (default ``)</td>
+</tr>
+<tr>
+<td><code>--bool_attributes &lt;string&gt;</code></td>
+<td><code>-b</code></td>
+<td>List of name/value bool attributes specified as name1=value1,name2=value2,...  (default ``)</td>
+</tr>
+<tr>
+<td><code>--bytes_attributes &lt;string&gt;</code></td>
+<td></td>
+<td>List of name/value bytes attributes specified as name1=b0:b1:b3,name2=b4:b5:b6,...  (default ``)</td>
+</tr>
+<tr>
+<td><code>--double_attributes &lt;string&gt;</code></td>
+<td><code>-d</code></td>
+<td>List of name/value float64 attributes specified as name1=value1,name2=value2,...  (default ``)</td>
+</tr>
+<tr>
+<td><code>--duration_attributes &lt;string&gt;</code></td>
+<td></td>
+<td>List of name/value duration attributes specified as name1=value1,name2=value2,...  (default ``)</td>
+</tr>
+<tr>
+<td><code>--int64_attributes &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>List of name/value int64 attributes specified as name1=value1,name2=value2,...  (default ``)</td>
+</tr>
+<tr>
+<td><code>--mixer &lt;string&gt;</code></td>
+<td><code>-m</code></td>
+<td>Address and port of a running Mixer instance  (default `localhost:9091`)</td>
+</tr>
+<tr>
+<td><code>--repeat &lt;int&gt;</code></td>
+<td><code>-r</code></td>
+<td>Sends the specified number of requests in quick succession  (default `1`)</td>
+</tr>
+<tr>
+<td><code>--string_attributes &lt;string&gt;</code></td>
+<td><code>-s</code></td>
+<td>List of name/value string attributes specified as name1=value1,name2=value2,...  (default ``)</td>
+</tr>
+<tr>
+<td><code>--stringmap_attributes &lt;string&gt;</code></td>
+<td></td>
+<td>List of name/value string map attributes specified as name1=k1:v1;k2:v2,name2=k3:v3...  (default ``)</td>
+</tr>
+<tr>
+<td><code>--timestamp_attributes &lt;string&gt;</code></td>
+<td><code>-t</code></td>
+<td>List of name/value timestamp attributes specified as name1=value1,name2=value2,...  (default ``)</td>
+</tr>
+<tr>
+<td><code>--trace_jaeger_url &lt;string&gt;</code></td>
+<td></td>
+<td>URL of Jaeger HTTP collector (example: &#39;http://jaeger:14268/api/traces?format=jaeger.thrift&#39;).  (default ``)</td>
+</tr>
+<tr>
+<td><code>--trace_log_spans</code></td>
+<td></td>
+<td>Whether or not to log trace spans. </td>
+</tr>
+<tr>
+<td><code>--trace_zipkin_url &lt;string&gt;</code></td>
+<td></td>
+<td>URL of Zipkin collector (example: &#39;http://zipkin:9411/api/v1/spans&#39;).  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="mixc version">mixc version</h2>
+<p>Prints out build version information</p>
+<pre class="language-bash"><code>mixc version [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+<td><code>--short</code></td>
+<td><code>-s</code></td>
+<td>Displays a short form of the version information </td>
+</tr>
+<tr>
+<td><code>--trace_jaeger_url &lt;string&gt;</code></td>
+<td></td>
+<td>URL of Jaeger HTTP collector (example: &#39;http://jaeger:14268/api/traces?format=jaeger.thrift&#39;).  (default ``)</td>
+</tr>
+<tr>
+<td><code>--trace_log_spans</code></td>
+<td></td>
+<td>Whether or not to log trace spans. </td>
+</tr>
+<tr>
+<td><code>--trace_zipkin_url &lt;string&gt;</code></td>
+<td></td>
+<td>URL of Zipkin collector (example: &#39;http://zipkin:9411/api/v1/spans&#39;).  (default ``)</td>
+</tr>
+</tbody>
+</table>
