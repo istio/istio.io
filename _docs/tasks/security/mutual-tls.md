@@ -96,6 +96,8 @@ There are several steps:
    ```
    ```bash
    ...
+   * error fetching CN from cert:The requested data were not available.
+   ...
    < HTTP/1.1 200 OK
    < content-type: text/html; charset=utf-8
    < content-length: 1867
@@ -111,10 +113,13 @@ Note that Istio uses [Kubernetes service account](https://kubernetes.io/docs/tas
 as service identity, which offers stronger security than service name 
 (refer [here]({{home}}/docs/concepts/security/mutual-tls.html#identity) for more information). 
 Thus the certificates used in Istio do not have service name, which is the information that curl needs to verify
-server identity. As a result, we use curl option '-k' to prevent the curl client from verifying service identity
-in server's (i.e., productpage) certificate. 
+server identity. As a result, we use curl option '-k' to prevent the curl client from aborting when failing to
+find and verify the server name (i.e., productpage.ns.svc.cluster.local) in the certificate provided by the server. 
+
 Please check secure naming [here]({{home}}/docs/concepts/security/mutual-tls.html#workflow) for more information
 about how the client verifies the server's identity in Istio.
+
+What we are demonstrating and verifying above is that the server accepts the connection from the client. Try not giving the client `--key` and `--cert` and observe you are not allowed to connect and you do not get an HTTP 200.
 
 ## Further reading
 
