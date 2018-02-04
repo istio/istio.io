@@ -2,6 +2,7 @@
 title: istio_ca
 overview: Istio Certificate Authority (CA)
 layout: pkg-collateral-docs
+number_of_entries: 3
 ---
 <p>Istio Certificate Authority (CA)</p>
 <pre class="language-bash"><code>istio_ca [flags]
@@ -47,6 +48,16 @@ layout: pkg-collateral-docs
 <td><code>--kube-config &lt;string&gt;</code></td>
 <td></td>
 <td>Specifies path to kubeconfig file. This must be specified when not running inside a Kubernetes pod.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--livenessProbeInterval &lt;duration&gt;</code></td>
+<td></td>
+<td>Interval of updating file for the liveness probe.  (default `0s`)</td>
+</tr>
+<tr>
+<td><code>--livenessProbePath &lt;string&gt;</code></td>
+<td></td>
+<td>Path to the file for the liveness probe.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
