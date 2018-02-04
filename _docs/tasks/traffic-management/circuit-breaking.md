@@ -27,7 +27,7 @@ This task demonstrates the circuit-breaking capability for resilient application
 ## Circuit breaker
 
 Let's set up a scenario to demonstrate the circuit-breaking capabilities of Istio. We should have the `httpbin` service running from the previous section. We'll want to make sure we set some route rules to route all traffic to `httpbin` with `version=v1`. We'll be setting the circuit-breaking settings by creating an Istio
-[destination policy]({{home}}/docs/reference/config/istio.routing.v1alpha1.html) but for destination policies to take effect, there needs to be a route rule for the destination first. Let's create the route rule:
+[destination policy]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#CircuitBreaker) but for destination policies to take effect, there needs to be a route rule for the destination first. Let's create the route rule:
 
 ### Creating circuit breaking policies
 
@@ -37,7 +37,7 @@ Let's set up a scenario to demonstrate the circuit-breaking capabilities of Isti
 istioctl create -f samples/httpbin/routerules/httpbin-v1.yaml
 ```
 
-2. Create a [destination policy]() to specify our circuit breaking settings when calling `httpbin` service:
+2. Create a [destination policy]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#CircuitBreaker) to specify our circuit breaking settings when calling `httpbin` service:
 
    ```bash
    cat <<EOF | istioctl create -f -
@@ -237,4 +237,4 @@ We see `12` for the `upstream_rq_pending_overflow` value which means `12` calls 
 
 ## What's next
 
-Check out the [destination policy](https://github.com/istio/istio/tree/master/samples/httpbin) reference section for more settings for circuit breaker.
+Check out the [destination policy]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#CircuitBreaker) reference section for more settings for circuit breaker.
