@@ -17,7 +17,7 @@ Quick Start instructions for the setup and configuration of Istio using the Helm
 
 The following instructions require you have access to Helm **2.7.2 or newer** in your Kubernetes environment or 
 alternately the ability to modify RBAC rules required to install Helm.  Additionally Kubernetes **1.7.3 or newer**
-is also required.
+is also required.  Finally this Helm chart **does not** yet implement automatic sidecar injection.
 
 ## Deploy with Helm
 
@@ -33,7 +33,7 @@ is also required.
 
 1. Create the Helm chart:
   ```bash
-  helm install install/kuberenetes/helm/istio --name istio
+  helm install install/kubernetes/helm/istio --name istio
   ```
 
 ## Customization with Helm
