@@ -283,10 +283,9 @@ The following are the known limitations of Istio ingress:
 
     There are service accounts which can access this ingress key/cert, and this leads to risks of 
     leaking key/cert. We can set up Role-Based Access Control ("RBAC") to protect it. 
-    [istio/install/kubernetes/istio.yaml](https://github.com/istio/istio/blob/master/install/kubernetes/istio.yaml) 
-    defines ClusterRoles and ClusterRoleBindings which allow service accounts in namespace istio-system 
-    to access all secret resources. We need to update or replace these RBAC set up to only allow 
-    istio-ingress-service-account to access ingress key/cert.
+    install/kubernetes/istio.yaml defines ClusterRoles and ClusterRoleBindings which allow service 
+    accounts in namespace istio-system to access all secret resources. We need to update or replace 
+    these RBAC set up to only allow istio-ingress-service-account to access ingress key/cert.
 
     We can use kubectl to list all secrets in namespace istio-system that we need to protect using RBAC.
     ```bash
@@ -336,16 +335,7 @@ The following are the known limitations of Istio ingress:
       resources: ["secrets"]
       resourceNames: ["istio-ca-secret"]
       verbs: ["get", "list", "watch"]
-    ......
-    - apiGroups: ["config.istio.io"] # Istio CRD watcher
-      resources: ["*"]
-      verbs: ["get", "list", "watch"]
-    - apiGroups: ["apiextensions.k8s.io"]
-      resources: ["customresourcedefinitions"]
-      verbs: ["get", "list", "watch"]
-    - apiGroups: [""]
-      resources: ["configmaps", "endpoints", "pods", "services", "namespaces"]
-      verbs: ["get", "list", "watch"]      
+    ......   
     ---
     kind: ClusterRoleBinding
     apiVersion: rbac.authorization.k8s.io/v1beta1
