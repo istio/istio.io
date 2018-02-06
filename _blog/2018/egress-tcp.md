@@ -198,7 +198,10 @@ Note that the MySQL database is outside the Istio service mesh, or more precisel
   ```
 
 4. Delete the egress rule:
-
+```bash
+$ istioctl delete egressrule mysql -n default
+Deleted config: egressrule mysql
+```
 # Future Work
 In my next blog posts I will show examples of combining routing rules and egress rules, and also examples of accessing external services via Kubernetes _ExternalName_ services.
 
