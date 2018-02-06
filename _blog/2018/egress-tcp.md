@@ -197,3 +197,13 @@ Note that the MySQL database is outside the Istio service mesh, or more precisel
   ```
 
 4. Delete the egress rule:
+
+# Future Work
+In my next blog posts I will show examples of combining routing rules and egress rules, and also examples of accessing external services via Kubernetes _ExternalName_ services.
+
+## Conclusion
+
+## Further Reading
+To read more about Istio egress traffic control:
+* for TCP, see [Control Egress TCP Traffic Task]({{home}}/docs/tasks/traffic-management/egress-tcp.html)
+* for HTTP/HTTPS, see [Control Egress Traffic Task]({{home}}/docs/tasks/traffic-management/egress.html)
