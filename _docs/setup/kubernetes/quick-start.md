@@ -102,7 +102,8 @@ cd istio-{{ site.data.istio.version }}
 export PATH=$PWD/bin:$PATH
 ```
 
-1. Install Istio's core components. Choose one of the two _**mutually exclusive**_ options below:
+1. Install Istio's core components. Choose one of the two _**mutually exclusive**_ options below or alternately install
+   with the [Helm Chart]({{home}}/docs/setup/kubernetes/helm.html):
 
   a) Install Istio without enabling [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars.
        Choose this option for clusters with existing applications, applications where services with an
@@ -174,7 +175,7 @@ kubectl create -n <namspace> -f <your-app-spec>.yaml
 ```
 
 If you do not have the Istio-sidecar-injector installed, you must
-use [istioctl kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject) to
+use [istioctl kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl kube-inject) to
 manuallly inject Envoy containers in your application pods before deploying them:
 ```bash
 kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
