@@ -45,18 +45,86 @@ To read more about Istio Egress Traffic control, see [Control Egress Traffic Tas
 ## Setting up the database for ratings data
 For this task I will set up an instance of MySQL. Any MySQL would do, I used [Compose for MySQL](https://www.ibm.com/cloud/compose/mysql). As a MySQL client to feed the ratings data, I used  [MySQL Shell](https://dev.mysql.com/doc/refman/5.7/en/mysqlsh.html).
 
-To initialize the database, I run the following command entering the password when prompted. The command is performed with the credentials of the  `admin` user, created by default by [Compose for MySQL](https://www.ibm.com/cloud/compose/mysql).
+1. To initialize the database, I run the following command entering the password when prompted. The command is performed with the credentials of the  `admin` user, created by default by [Compose for MySQL](https://www.ibm.com/cloud/compose/mysql).
+  ```bash
+   curl -s https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/src/mysql/mysqldb-init.sql | mysqlsh --sql -u admin -p --host <mysql host> --port <mysql port> --ssl-mode=REQUIRED
+  ```
 
-```bash
- curl -s https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/src/mysql/mysqldb-init.sql | mysqlsh --sql -u admin -p --host <mysql host> --port <mysql port> --ssl-mode=REQUIRED
-```
+  Alternatively, using the `mysql` client and local MySQL database, I would run:
+  ```bash
+  curl -s https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/src/mysql/mysqldb-init.sql | mysql -u root -p
+  ```
 
-Then I create a user and grant it _SELECT_ privilege on the `test.ratings`:
+2. Then I create a user with the name _bookinfo_ and grant it _SELECT_ privilege on the `test.ratings`:
 
-```bash
-mysqlsh --sql -u admin -p --host <mysql host> --port <mysql port> --ssl-mode=REQUIRED -e "CREATE USER '<your user goes here>' IDENTIFIED BY '<your password goes here>'; GRANT SELECT ON test.ratings to '<the created user in the previous statement>'"
-```
+  ```bash
+  mysqlsh --sql -u admin -p --host <mysql host> --port <mysql port> --ssl-mode=REQUIRED -e "CREATE USER 'bookinfo' IDENTIFIED BY '<password you choose>'; GRANT SELECT ON test.ratings to 'bookinfo';"
+  ```
 
-After running that command, I will clean my bash history by checking the number of the last command and running `history -d <the number of the command that created the user>`. I do not want the password of the new user to be stored in bash history. If I would use mysql, I would remove the last command from `~/.mysql_history` file as well. Read more about password protection of the newly created user in [MySQL documentation](https://dev.mysql.com/doc/refman/5.5/en/create-user.html).
+  For `mysql` and the local database, the command would be:
+  ```bash
+  mysql -u root -p -e "CREATE USER 'bookinfo' IDENTIFIED BY '<password you choose>'; GRANT SELECT ON test.ratings to 'bookinfo';"
+  ```
+  Here I apply the [principle of least privilege](https://en.wikipedia.org/wiki/Principle_of_least_privilege). I do not use my _admin_ user in the Bookinfo application. For Bookinfo application I create a special user with minimal privileges, in this case only the `SELECT` privilege and only on a single table.
 
-Let's inspect the created ratings:
+  After running that command, I will clean my bash history by checking the number of the last command and running `history -d <the number of the command that created the user>`. I do not want the password of the new user to be stored in bash history. If I would use mysql, I would remove the last command from `~/.mysql_history` file as well. Read more about password protection of the newly created user in [MySQL documentation](https://dev.mysql.com/doc/refman/5.5/en/create-user.html).
+
+3. I inspect the created ratings to see that everything worked as expected:
+  ```bash
+  mysqlsh --sql -u bookinfo -p --host <mysql host> --port <mysql port> --ssl-mode=REQUIRED -e "select * from test.ratings;"
+  Enter password:
+  +----------+--------+
+  | ReviewID | Rating |
+  +----------+--------+
+  |        1 |      5 |
+  |        2 |      4 |
+  +----------+--------+
+  ```
+
+  For `mysql` and the local database:
+  ```bash
+  mysql -u bookinfo -p -e "select * from test.ratings;"
+  Enter password:
+  +----------+--------+
+  | ReviewID | Rating |
+  +----------+--------+
+  |        1 |      5 |
+  |        2 |      4 |
+  +----------+--------+
+  ```
+
+4. I set the ratings temporarily to 1 to provide a visual clue when our database is used by the Bookinfo _ratings_ service:
+  ```bash
+  mysqlsh --sql -u admin -p --host <mysql host> --port <mysql port> --ssl-mode=REQUIRED -e "update test.ratings set rating=1; select * from test.ratings;"
+  Enter password:
+  +----------+--------+
+  | ReviewID | Rating |
+  +----------+--------+
+  |        1 |      1 |
+  |        2 |      1 |
+  +----------+--------+
+  ```
+
+  For `mysql` and the local database:
+  ```bash
+  mysql -u root -p -e "update test.ratings set rating=1; select * from test.ratings;"
+  Enter password:
+  +----------+--------+
+  | ReviewID | Rating |
+  +----------+--------+
+  |        1 |      1 |
+  |        2 |      1 |
+  +----------+--------+
+  ```
+I used the _admin_ user (and _root_ for the local database) in the last command since the _bookinfo_ user does not have the _UPDATE_ privilege on the `test.ratings` table.
+
+## Cleanup
+1. Drop the _test_ database and the _bookinfo_ user:
+  ```bash
+  mysqlsh --sql -u admin -p --host <mysql host> --port <mysql port> --ssl-mode=REQUIRED -e "drop database test; drop user bookinfo;"
+  ```
+
+  For `mysql` and the local database:
+  ```bash
+  mysql -u root -p -e "drop database test; drop user bookinfo;"
+  ```
