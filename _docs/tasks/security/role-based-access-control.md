@@ -21,13 +21,17 @@ RBAC from [Istio RBAC concept page](https://istio.io/docs/concepts/security/rbac
 
 * Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
- > Note: Some sample configurations we use below are not in the current Istio release yet. So before you continue, you
+ *> Note: Some sample configurations we use below are not in the current Istio release yet. So before you continue, you
  need to copy the following configuration files from https://github.com/istio/istio/tree/master/samples/bookinfo/kube to
  "samples/bookinfo/kube" directory under where you installed Istio. The files include `bookinfo-add-serviceaccount.yaml`
  (replace the original one), `istio-rbac-enable.yaml`, `istio-rbac-namespace.yaml`, `istio-rbac-productpage.yaml`,
- `istio-rbac-details-reviews.yaml`, `istio-rbac-ratings.yaml`.
+ `istio-rbac-details-reviews.yaml`, `istio-rbac-ratings.yaml`.*
 
-* Run the following command to
+* In this task, we will enable access control based on Service Accounts, which are cryptographically authenticated in the Istio mesh.
+In order to give different microservices different access privileges, we will create some service accounts and redeploy BookInfo
+microservices running under them.
+
+  Run the following command to
   * Create service account `bookinfo-productpage`, and redeploy the service `productpage` with the service account.
   * Create service account `bookinfo-reviews`, and redeploy the services `reviews` (deployments `reviews-v2` and `reviews-v3`)
   with the service account.
