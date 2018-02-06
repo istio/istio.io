@@ -180,6 +180,28 @@ We have a problem... Instead of the rating stars we have the _Ratings service is
 <figure><img src="img/errorFetchingBookRating.png" alt="The Ratings service is currently unavailable messages" title="The Ratings service is currently unavailable messages" />
 <figcaption>The Ratings service is currently unavailable messages</figcaption></figure>
 
+### Egress Rule for external MySQL instance
+TCP Egress Rules come to our rescue. Let's fix our application:
+```bash
+cat <<EOF | istioctl create -f -
+apiVersion: config.istio.io/v1alpha2
+kind: EgressRule
+metadata:
+  name: mysql
+  namespace: default
+spec:
+  destination:
+      service: <MySQL instance IP>
+  ports:
+      - port: <MySQL instance port>
+        protocol: tcp
+EOF
+```
+
+Now accessing the web page of the application displays the ratings without error:
+
+<figure><img src="img/externalMySQLRatings.png" alt="Book Ratings Displayed Correctly" title="Book Ratings Displayed Correctly" />
+<figcaption>Book Ratings Displayed Correctly</figcaption></figure>
 
 ## Cleanup
 1. Drop the _test_ database and the _bookinfo_ user:
