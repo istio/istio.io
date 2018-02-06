@@ -166,7 +166,8 @@ Created config route-rule/default/ratings-test-v2-mysql at revision 1918799
 Created config route-rule/default/reviews-test-ratings-v2 at revision 1918800
 ```
 
-The updated architecture now looks as follows:
+The updated architecture appears below. Note that the blue arrows mark the traffic allowed by the route rules we added. According to the route rules, the traffic is allowed to _reviews v3_ and _ratings v2-mysql_.
+
 <figure><img src="img/bookinfo-ratings-v2-mysql-external.svg" alt="The Bookinfo Application with ratings v2-mysql, an external MySQL database" title="The Bookinfo Application with ratings v2-mysql, an external MySQL database" />
 <figcaption>The Bookinfo Application with with ratings v2-mysql, an external MySQL database</figcaption></figure>
 
