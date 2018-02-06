@@ -1,29 +1,17 @@
 .btn {
+    &.btn-istio {
+        background-color: $secondBrandColor;
+        color: $white;
+        font-weight: 400;
+        letter-spacing: 1px;
+        cursor: pointer;
 
-  &:focus {
-    outline: 0 !important;
-  }
+        &:hover {
+            background-color: $mainBrandColor;
+        }
 
-  &.btn-istio {
-    background-color: $secondBrandColor;
-    color: $white;
-    font-weight: 400;
-    letter-spacing: 1px;
-    border-radius: 0px;
-
-    a {
-      color: $white;
+        &:active {
+            background-color: $popBrandColor;
+        }
     }
-
-    // Inverse Colored Button
-    &.inverse {
-      background-color: transparent;
-      border: 2px solid $mainBrandColor;
-      color: $mainBrandColor;
-    }
-
-    &.btn-istio:hover {
-      background-color: $popBrandColor;
-    }
-  }
 }

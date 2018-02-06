@@ -165,7 +165,7 @@ or if you want to completely bypass Istio for a specific IP range,
 you will need to configure the source service's Envoy sidecar to prevent it from
 [intercepting]({{home}}/docs/concepts/traffic-management/request-routing.html#communication-between-services)
 the external requests. This can be done using the `--includeIPRanges` option of
-[istioctl kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject)
+[istioctl kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl kube-inject)
 when starting the service.
 
 The simplest way to use the `--includeIPRanges` option is to pass it the IP range(s)
@@ -177,6 +177,26 @@ For example, with Minikube the range is 10.0.0.1/24, so you would start the slee
 ```bash
 kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=10.0.0.1/24)
 ```
+
+On IBM Cloud Private, use:
+
+1. Get your `service_cluster_ip_range` from IBM Cloud Private configuration file under `cluster/config.yaml`.
+
+   ```bash
+   cat cluster/config.yaml | grep service_cluster_ip_range
+   ```
+
+   A sample output is as following:
+
+   ```
+   service_cluster_ip_range: 10.0.0.1/24
+   ```
+
+1. Inject the `service_cluster_ip_range` to your application profile via `--includeIPRanges` to limit Istio's traffic interception to the service cluster IP range.
+
+   ```bash
+   kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=10.0.0.1/24)
+   ```
 
 On IBM Cloud Container Service, use:
 
@@ -247,11 +267,14 @@ cloud provider specific knowledge and configuration.
    kubectl delete -f samples/sleep/sleep.yaml
    ```
 
+## Egress Rules and Access Control
+Note that Istio Egress Rules are **not a security feature**. They enable access to external (out of the service mesh) services. It is up to the user to deploy appropriate security mechanisms such as firewalls to prevent unauthorized access to the external services. We are working on adding access control support for the external services.
+
 ## Further reading
 
 * Read more about [egress rules]({{home}}/docs/concepts/traffic-management/rules-configuration.html#egress-rules).
 
 * Learn how to setup
-  [timeouts]({{home}}/docs/reference/config/traffic-rules/routing-rules.html#httptimeout),
-  [retries]({{home}}/docs/reference/config/traffic-rules/routing-rules.html#httpretry),
-  and [circuit breakers]({{home}}/docs/reference/config/traffic-rules/destination-policies.html#circuitbreaker) for egress traffic.
+  [timeouts]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#httptimeout),
+  [retries]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#httpretry),
+  and [circuit breakers]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#circuitbreaker) for egress traffic.

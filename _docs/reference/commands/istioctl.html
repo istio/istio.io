@@ -1,0 +1,1257 @@
+---
+title: istioctl
+overview: Istio control interface
+layout: pkg-collateral-docs
+---
+<p>
+Istio configuration command line utility.</p>
+<p>Create, list, modify, and delete configuration resources in the Istio
+system.</p>
+<p>Available routing and traffic management configuration types:</p>
+<p>	[routerule ingressrule egressrule destinationpolicy]</p>
+<p>See https://istio.io/docs/reference/ for an overview of routing rules
+and destination policies.</p>
+<p></p>
+<table class="command-flags">
+<thead>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default `/Users/mtail/.kube/config`)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
+<td><code>--log_callers</code></td>
+<td></td>
+<td>Include caller information, useful for debugging </td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--platform &lt;string&gt;</code></td>
+<td><code>-p</code></td>
+<td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="istioctl context-create">istioctl context-create</h2>
+<p>Create a kubeconfig file suitable for use with istioctl in a non kubernetes environment</p>
+<pre class="language-bash"><code>istioctl context-create --api-server http://&lt;ip&gt;:&lt;port&gt; [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+<td><code>--api-server &lt;string&gt;</code></td>
+<td></td>
+<td>URL for Istio api server  (default ``)</td>
+</tr>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>Kubernetes configuration file context name  (default `istio`)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default `/Users/mtail/.kube/config`)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
+<td><code>--log_callers</code></td>
+<td></td>
+<td>Include caller information, useful for debugging </td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--platform &lt;string&gt;</code></td>
+<td><code>-p</code></td>
+<td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl context-create Examples">Examples</h3>
+<pre class="language-bash"><code># Create a config file for the api server.
+istioctl context-create --api-server http://127.0.0.1:8080
+
+</code></pre>
+<h2 id="istioctl create">istioctl create</h2>
+<p>Create policies and rules</p>
+<pre class="language-bash"><code>istioctl create [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+<td><code>--file &lt;string&gt;</code></td>
+<td><code>-f</code></td>
+<td>Input file with the content of the configuration objects (if not set, command reads from the standard input)  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default `/Users/mtail/.kube/config`)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
+<td><code>--log_callers</code></td>
+<td></td>
+<td>Include caller information, useful for debugging </td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--platform &lt;string&gt;</code></td>
+<td><code>-p</code></td>
+<td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl create Examples">Examples</h3>
+<pre class="language-bash"><code>istioctl create -f example-routing.yaml
+</code></pre>
+<h2 id="istioctl delete">istioctl delete</h2>
+<p>Delete policies or rules</p>
+<pre class="language-bash"><code>istioctl delete &lt;type&gt; &lt;name&gt; [&lt;name2&gt; ... &lt;nameN&gt;] [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+<td><code>--file &lt;string&gt;</code></td>
+<td><code>-f</code></td>
+<td>Input file with the content of the configuration objects (if not set, command reads from the standard input)  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default `/Users/mtail/.kube/config`)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
+<td><code>--log_callers</code></td>
+<td></td>
+<td>Include caller information, useful for debugging </td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--platform &lt;string&gt;</code></td>
+<td><code>-p</code></td>
+<td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl delete Examples">Examples</h3>
+<pre class="language-bash"><code># Delete a rule using the definition in example-routing.yaml.
+istioctl delete -f example-routing.yaml
+
+# Delete the rule productpage-default
+istioctl delete routerule productpage-default
+
+</code></pre>
+<h2 id="istioctl deregister">istioctl deregister</h2>
+<p>De-registers a service instance</p>
+<pre class="language-bash"><code>istioctl deregister &lt;svcname&gt; &lt;ip&gt; [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default `/Users/mtail/.kube/config`)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
+<td><code>--log_callers</code></td>
+<td></td>
+<td>Include caller information, useful for debugging </td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--platform &lt;string&gt;</code></td>
+<td><code>-p</code></td>
+<td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="istioctl gen-deploy">istioctl gen-deploy</h2>
+<p>istioctl gen-deploy produces deployment files to run the minimum Istio control for the set of features requested by the --feature flag. If no features are provided, we create deployments for the default control plane: Pilot, Mixer, CA, and Ingress Proxies, with mTLS enabled.</p>
+<pre class="language-bash"><code>istioctl gen-deploy [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+<td><code>--debug</code></td>
+<td></td>
+<td>If true, uses debug images instead of release images </td>
+</tr>
+<tr>
+<td><code>--features &lt;stringArray&gt;</code></td>
+<td><code>-f</code></td>
+<td>List of Istio features to enable. Accepts any combination of &#34;mtls&#34;, &#34;telemetry&#34;, &#34;routing&#34;, &#34;ingress&#34;, &#34;policy&#34;, &#34;sidecar-injector&#34;.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--helm-chart-dir &lt;string&gt;</code></td>
+<td></td>
+<td>The directory to find the helm charts used to render Istio deployments. -o yaml uses these to render the helm chart locally.  (default `.`)</td>
+</tr>
+<tr>
+<td><code>--hyperkube-hub &lt;string&gt;</code></td>
+<td></td>
+<td>The container registry to pull Hyperkube images from  (default `quay.io/coreos/hyperkube`)</td>
+</tr>
+<tr>
+<td><code>--hyperkube-tag &lt;Hyperkube&gt;</code></td>
+<td></td>
+<td>The tag to use to pull the Hyperkube container  (default `0.4.0`)</td>
+</tr>
+<tr>
+<td><code>--ingress-node-port &lt;uint16&gt;</code></td>
+<td></td>
+<td>If provided, Istio ingress proxies will run as a NodePort service mapped to the port provided by this flag. Note that this flag is ignored unless the &#34;ingress&#34; feature flag is provided too.  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default `/Users/mtail/.kube/config`)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
+<td><code>--log_callers</code></td>
+<td></td>
+<td>Include caller information, useful for debugging </td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--out &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format. Acceptable values are&#39;helm&#39; to produce contents of values.yaml or &#39;helm&#39; to produces Kubernetes deployments  (default `helm`)</td>
+</tr>
+<tr>
+<td><code>--platform &lt;string&gt;</code></td>
+<td><code>-p</code></td>
+<td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--values &lt;string&gt;</code></td>
+<td></td>
+<td>Path to the Helm values.yaml file used to render YAML deployments locally when --out=yaml. Flag values are ignored in favor of using the file directly.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl gen-deploy Examples">Examples</h3>
+<pre class="language-bash"><code>istioctl gen-deploy --features routing,policy,sidecar-injector -o helm
+</code></pre>
+<h2 id="istioctl get">istioctl get</h2>
+<p>Retrieve policies and rules</p>
+<pre class="language-bash"><code>istioctl get &lt;type&gt; [&lt;name&gt;] [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default `/Users/mtail/.kube/config`)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
+<td><code>--log_callers</code></td>
+<td></td>
+<td>Include caller information, useful for debugging </td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format. One of:yaml|short  (default `short`)</td>
+</tr>
+<tr>
+<td><code>--platform &lt;string&gt;</code></td>
+<td><code>-p</code></td>
+<td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl get Examples">Examples</h3>
+<pre class="language-bash"><code># List all route rules
+istioctl get routerules
+
+# List all destination policies
+istioctl get destinationpolicies
+
+# Get a specific rule named productpage-default
+istioctl get routerule productpage-default
+
+</code></pre>
+<h2 id="istioctl kube-inject">istioctl kube-inject</h2>
+<p></p>
+<p>kube-inject manually injects envoy sidecar into kubernetes
+workloads. Unsupported resources are left unmodified so it is safe to
+run kube-inject over a single file that contains multiple Service,
+ConfigMap, Deployment, etc. definitions for a complex application. Its
+best to do this when the resource is initially created.</p>
+<p>k8s.io/docs/concepts/workloads/pods/pod-overview/#pod-templates is
+updated for Job, DaemonSet, ReplicaSet, and Deployment YAML resource
+documents. Support for additional pod-based resource types can be
+added as necessary.</p>
+<p>The Istio project is continually evolving so the Istio sidecar
+configuration may change unannounced. When in doubt re-run istioctl
+kube-inject on deployments to get the most up-to-date changes.
+</p>
+<pre class="language-bash"><code>istioctl kube-inject [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+<td><code>--coreDump</code></td>
+<td></td>
+<td>Enable/Disable core dumps in injected Envoy sidecar (--coreDump=true affects all pods in a node and should only be used the cluster admin) </td>
+</tr>
+<tr>
+<td><code>--debug</code></td>
+<td></td>
+<td>Use debug images and settings for the sidecar </td>
+</tr>
+<tr>
+<td><code>--emitTemplate</code></td>
+<td></td>
+<td>Emit sidecar template based on parameterized flags </td>
+</tr>
+<tr>
+<td><code>--filename &lt;string&gt;</code></td>
+<td><code>-f</code></td>
+<td>Input Kubernetes resource filename  (default ``)</td>
+</tr>
+<tr>
+<td><code>--hub &lt;string&gt;</code></td>
+<td></td>
+<td>Docker hub  (default `unknown`)</td>
+</tr>
+<tr>
+<td><code>--imagePullPolicy &lt;string&gt;</code></td>
+<td></td>
+<td>Sets the container image pull policy. Valid options are Always,IfNotPresent,Never.The default policy is IfNotPresent.  (default `IfNotPresent`)</td>
+</tr>
+<tr>
+<td><code>--includeIPRanges &lt;string&gt;</code></td>
+<td></td>
+<td>Comma separated list of IP ranges in CIDR form. If set, only redirect outbound traffic to Envoy for IP ranges. Otherwise all outbound traffic is redirected  (default ``)</td>
+</tr>
+<tr>
+<td><code>--injectConfigFile &lt;string&gt;</code></td>
+<td></td>
+<td>injection configuration filename  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default `/Users/mtail/.kube/config`)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
+<td><code>--log_callers</code></td>
+<td></td>
+<td>Include caller information, useful for debugging </td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--meshConfigFile &lt;string&gt;</code></td>
+<td></td>
+<td>mesh configuration filename. Takes precedence over --meshConfigMapName if set  (default ``)</td>
+</tr>
+<tr>
+<td><code>--meshConfigMapName &lt;string&gt;</code></td>
+<td></td>
+<td>ConfigMap name for Istio mesh configuration, key should be &#34;mesh&#34;  (default `istio`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Modified output Kubernetes resource filename  (default ``)</td>
+</tr>
+<tr>
+<td><code>--platform &lt;string&gt;</code></td>
+<td><code>-p</code></td>
+<td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--setVersionString &lt;string&gt;</code></td>
+<td></td>
+<td>Override version info injected into resource  (default ``)</td>
+</tr>
+<tr>
+<td><code>--sidecarProxyUID &lt;uint&gt;</code></td>
+<td></td>
+<td>Envoy sidecar UID  (default `1337`)</td>
+</tr>
+<tr>
+<td><code>--tag &lt;string&gt;</code></td>
+<td></td>
+<td>Docker tag  (default `unknown`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--verbosity &lt;int&gt;</code></td>
+<td></td>
+<td>Runtime verbosity  (default `2`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl kube-inject Examples">Examples</h3>
+<pre class="language-bash"><code>
+# Update resources on the fly before applying.
+kubectl apply -f &lt;(istioctl kube-inject -f &lt;resource.yaml&gt;)
+
+# Create a persistent version of the deployment with Envoy sidecar
+# injected.
+istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml
+
+# Update an existing deployment.
+kubectl get deployment -o yaml | istioctl kube-inject -f - | kubectl apply -f -
+
+</code></pre>
+<h2 id="istioctl register">istioctl register</h2>
+<p>Registers a service instance (e.g. VM) joining the mesh</p>
+<pre class="language-bash"><code>istioctl register &lt;svcname&gt; &lt;ip&gt; [name1:]port1 [name2:]port2 ... [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+<td><code>--annotations &lt;stringSlice&gt;</code></td>
+<td><code>-a</code></td>
+<td>List of string annotations to apply if creating a service/endpoint; e.g. -a foo=bar,test,x=y  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default `/Users/mtail/.kube/config`)</td>
+</tr>
+<tr>
+<td><code>--labels &lt;stringSlice&gt;</code></td>
+<td><code>-l</code></td>
+<td>List of labels to apply if creating a service/endpoint; e.g. -l env=prod,vers=2  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
+<td><code>--log_callers</code></td>
+<td></td>
+<td>Include caller information, useful for debugging </td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--platform &lt;string&gt;</code></td>
+<td><code>-p</code></td>
+<td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--serviceaccount &lt;string&gt;</code></td>
+<td><code>-s</code></td>
+<td>Service account to link to the service  (default `default`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="istioctl replace">istioctl replace</h2>
+<p>Replace existing policies and rules</p>
+<pre class="language-bash"><code>istioctl replace [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+<td><code>--file &lt;string&gt;</code></td>
+<td><code>-f</code></td>
+<td>Input file with the content of the configuration objects (if not set, command reads from the standard input)  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default `/Users/mtail/.kube/config`)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
+<td><code>--log_callers</code></td>
+<td></td>
+<td>Include caller information, useful for debugging </td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--platform &lt;string&gt;</code></td>
+<td><code>-p</code></td>
+<td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl replace Examples">Examples</h3>
+<pre class="language-bash"><code>istioctl replace -f example-routing.yaml
+</code></pre>
+<h2 id="istioctl version">istioctl version</h2>
+<p>Prints out build version information</p>
+<pre class="language-bash"><code>istioctl version [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default `/Users/mtail/.kube/config`)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
+<td><code>--log_callers</code></td>
+<td></td>
+<td>Include caller information, useful for debugging </td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--platform &lt;string&gt;</code></td>
+<td><code>-p</code></td>
+<td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--short</code></td>
+<td><code>-s</code></td>
+<td>Displays a short form of the version information </td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
+</tr>
+</tbody>
+</table>

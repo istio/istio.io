@@ -34,8 +34,12 @@ There are 3 versions of the reviews microservice:
 
 The end-to-end architecture of the application is shown below.
 
-<figure><img src="./img/bookinfo/noistio.svg" alt="BookInfo Application without Istio" title="BookInfo Application without Istio" />
-<figcaption>BookInfo Application without Istio</figcaption></figure>
+{% include figure.html width='80%' ratio='68.52%'
+    img='./img/bookinfo/noistio.svg'
+    alt='BookInfo Application without Istio'
+    title='BookInfo Application without Istio'
+    caption='BookInfo Application without Istio'
+    %}
 
 This application is polyglot, i.e., the microservices are written in different languages.
 It’s worth noting that these services have no dependencies on Istio, but make an interesting
@@ -55,8 +59,12 @@ Istio-enabled environment, with Envoy sidecars injected along side each service.
 The needed commands and configuration vary depending on the runtime environment
 although in all cases the resulting deployment will look like this:
 
-<figure><img src="./img/bookinfo/withistio.svg" alt="BookInfo Application" title="BookInfo Application" />
-<figcaption>BookInfo Application</figcaption></figure>
+{% include figure.html width='80%' ratio='59.08%'
+    img='./img/bookinfo/withistio.svg'
+    alt='BookInfo Application'
+    title='BookInfo Application'
+    caption='BookInfo Application'
+    %}
 
 All of the microservices will be packaged with an Envoy sidecar that intercepts incoming
 and outgoing calls for the services, providing the hooks needed to externally control,
@@ -74,7 +82,7 @@ To start the application, follow the instructions below corresponding to your Is
 1. Bring up the application containers:
 
    If you are using [manual sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar-injection),
-   use the folloiwng command instead:
+   use the following command instead:
 
    ```bash
    kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo.yaml)
@@ -89,7 +97,7 @@ To start the application, follow the instructions below corresponding to your Is
    ```
 
    The `istioctl kube-inject` command is used to manually modify the `bookinfo.yaml`
-   file before creating the deployments as documented [here]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject).
+   file before creating the deployments as documented [here]({{home}}/docs/reference/commands/istioctl.html#istioctl kube-inject).
 
    Either of the above commands launches all four microservices and creates the gateway
    ingress resource as illustrated in the above diagram.
@@ -168,10 +176,16 @@ To start the application, follow the instructions below corresponding to your Is
    export GATEWAY_URL=<public IP of the worker node>:$(kubectl get svc istio-ingress -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
    ```
 
+1. _IBM Cloud Private:_ External load balancers are not supported in IBM Cloud Private. You can use the host IP of the ingress service, along with the NodePort, to access the ingress.
+
+   ```bash
+   export GATEWAY_URL=$(kubectl get po -l istio=ingress -n istio-system -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}')
+   ```
+
 1. _Minikube:_ External load balancers are not supported in Minikube. You can use the host IP of the ingress service, along with the NodePort, to access the ingress.
    
    ```bash
-   export GATEWAY_URL=$(kubectl get po -n istio-system -l istio=ingress -n istio-system -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -n istio-system -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}')
+   export GATEWAY_URL=$(kubectl get po -l istio=ingress -n istio-system -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}')
    ```
 
 ### Running on Docker with Consul or Eureka
@@ -180,15 +194,16 @@ To start the application, follow the instructions below corresponding to your Is
 
 1. Bring up the application containers.
 
-    1. To test with Consul, run the following command:
-        ```bash
-        docker-compose -f samples/bookinfo/consul/bookinfo.yaml up -d
-        ```
-    1. To test with Eureka, run the following command:
-        ```bash
-        docker-compose -f samples/bookinfo/eureka/bookinfo.yaml up -d
-        ```
-
+    * To test with Consul, run the following commands:
+      ```bash
+      docker-compose -f samples/bookinfo/consul/bookinfo.yaml up -d
+      docker-compose -f samples/bookinfo/consul/bookinfo.sidecars.yaml up -d
+      ```
+    * To test with Eureka, run the following commands:
+      ```bash
+      docker-compose -f samples/bookinfo/eureka/bookinfo.yaml up -d
+      docker-compose -f samples/bookinfo/eureka/bookinfo.sidecars.yaml up -d
+      ```
 1. Confirm that all docker containers are running:
 
    ```bash
@@ -210,7 +225,7 @@ To confirm that the BookInfo application is running, run the following `curl` co
 ```bash
 curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage
 ```
-```bash
+```
 200
 ```
 

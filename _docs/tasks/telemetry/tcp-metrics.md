@@ -200,21 +200,21 @@ as the example application throughout this task.
    kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
    ```
 
-   View values for the new metric via the [Prometheus UI](http://localhost:9090/graph#%5B%7B%22range_input%22%3A%221h%22%2C%22expr%22%3A%22mongo_received_bytes%22%2C%22tab%22%3A1%7D%5D).
+   View values for the new metric via the [Prometheus UI](http://localhost:9090/graph#%5B%7B%22range_input%22%3A%221h%22%2C%22expr%22%3A%22istio_mongo_received_bytes%22%2C%22tab%22%3A1%7D%5D).
    
    The provided link opens the Prometheus UI and executes a query for values of
-   the `mongo_received_bytes` metric. The table displayed in the **Console** tab
-   includes entries similar to:
+   the `istio_mongo_received_bytes` metric. The table displayed in the
+   **Console** tab includes entries similar to:
 
    ```
-   mongo_received_bytes{destination_version="v1",instance="istio-mixer.istio-system:42422",job="istio-mesh",source_service="ratings.default.svc.cluster.local",source_version="v2"}	2317
+   istio_mongo_received_bytes{destination_version="v1",instance="istio-mixer.istio-system:42422",job="istio-mesh",source_service="ratings.default.svc.cluster.local",source_version="v2"}	2317
    ```
 
    NOTE: Istio also collects protocol-specific statistics for MongoDB. For
    example, the value of total OP_QUERY messages sent from the `ratings` service
    is collected in the following metric:
-   `envoy_mongo_mongo_collection_ratings_query_total_counter` (click
-   [here](http://localhost:9090/graph#%5B%7B%22range_input%22%3A%221h%22%2C%22expr%22%3A%22envoy_mongo_mongo_collection_ratings_query_total_counter%22%2C%22tab%22%3A1%7D%5D)
+   `envoy_mongo_mongo_collection_ratings_query_total` (click
+   [here](http://localhost:9090/graph#%5B%7B%22range_input%22%3A%221h%22%2C%22expr%22%3A%22envoy_mongo_mongo_collection_ratings_query_total%22%2C%22tab%22%3A1%7D%5D)
    to execute the query).
 
 ## Understanding TCP telemetry collection
@@ -239,8 +239,12 @@ Mixer at both connection establishment and connection close. Additionally,
 context attributes provide the ability to distinguish between `http` and `tcp`
 protocols within policies.
 
-<figure><img style="max-width:100%;" src="./img/istio-tcp-attribute-flow.svg" alt="Attribute Generation Flow for TCP Services in an Istio Mesh." title="TCP Attribute Flow" />
-<figcaption>TCP Attribute Flow</figcaption></figure>
+{% include figure.html width='100%' ratio='192.50%'
+    img='./img/istio-tcp-attribute-flow.svg'
+    alt='Attribute Generation Flow for TCP Services in an Istio Mesh.'
+    title='TCP Attribute Flow'
+    caption='TCP Attribute Flow'
+    %}
 
 ## Cleanup
 

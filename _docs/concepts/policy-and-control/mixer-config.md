@@ -45,8 +45,12 @@ The set of attributes determines which backend Mixer calls for a given request a
 each is given. In order to hide the details of individual backends, Mixer uses modules
 known as [*adapters*](./mixer.html#adapters).
 
-<figure><img src="./img/mixer-config/machine.svg" alt="Attribute Machine" title="Attribute Machine" />
-<figcaption>Attribute Machine</figcaption></figure>
+{% include figure.html width='60%' ratio='42.60%'
+    img='./img/mixer-config/machine.svg'
+    alt='Attribute Machine'
+    title='Attribute Machine'
+    caption='Attribute Machine'
+    %}
 
 Mixer's configuration has the following central responsibilities:
 
@@ -140,7 +144,7 @@ spec:
 ```
 
 Each adapter defines its own particular format of configuration data. The exhaustive set of
-adapters and their specific configuration formats can be found [here]({{home}}/docs/reference/config/mixer/adapters/).
+adapters and their specific configuration formats can be found [here]({{home}}/docs/reference/config/adapters/).
 
 ### Instances
 
@@ -164,7 +168,7 @@ spec:
 Note that all the dimensions expected in the handler configuration are specified in the mapping.
 
 Each template defines its own particular format of configuration data. The exhaustive set of
-templates and their specific configuration formats can be found [here]({{home}}/docs/reference/config/mixer/template/).
+templates and their specific configuration formats can be found [here]({{home}}/docs/reference/config/template/).
 
 ### Rules
 
