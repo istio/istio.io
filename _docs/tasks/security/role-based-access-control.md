@@ -23,9 +23,9 @@ RBAC from [Istio RBAC concept page](https://istio.io/docs/concepts/security/rbac
 
  > Note: Some sample configurations we use below are not in the current Istio release yet. So before you continue, you
  need to copy the following configuration files from https://github.com/istio/istio/tree/master/samples/bookinfo/kube to
- "samples/bookinfo/kube" directory under where you installed Istio: `bookinfo-add-serviceaccount.yaml` (replace the original one),
- `istio-rbac-enable.yaml`, `istio-rbac-namespace.yaml`, `istio-rbac-productpage.yaml`, `istio-rbac-details-reviews.yaml`,
- `istio-rbac-ratings.yaml`.
+ "samples/bookinfo/kube" directory under where you installed Istio. The files include `bookinfo-add-serviceaccount.yaml`
+ (replace the original one), `istio-rbac-enable.yaml`, `istio-rbac-namespace.yaml`, `istio-rbac-productpage.yaml`,
+ `istio-rbac-details-reviews.yaml`, `istio-rbac-ratings.yaml`.
 
 * Run the following command to
   * Create service account `bookinfo-productpage`, and redeploy the service `productpage` with the service account.
@@ -186,7 +186,8 @@ The policy does the following:
 
 Point your browser at the BookInfo `productpage` (http://$GATEWAY_URL/productpage). Now you should see "BookInfo Sample"
 page. But there are errors "Error fetching product details" and "Error fetching product reviews" on the page. These errors
-are expected because we have not grant "productpage" service to access "details" and "reviews" services.
+are expected because we have not granted "productpage" service to access "details" and "reviews" services. We will fix the errors
+in the following steps.
 
   > Note: There may be delay due to caching on browser and Istio proxy.
 
@@ -244,7 +245,7 @@ page with "Book Details" on the lower left part, and "Book Reviews" on the lower
 you see one of the following two errors:
 1. "Error featching product reviews". This is because "productpage" service is only allowed to access "reviews" service with versions
 "v2" or "v3". The error occurs when "productpage" service is routed to "reviews" service at version "v1".
-2. "Book Reviews" section is shown on the lower right part of the page. But there is error "Ratings service currently unavailable". This
+2. "Book Reviews" section is shown on the lower right part of the page. But there is an error "Ratings service currently unavailable". This
 is because "reviews" service does not have permission to access "ratings" service.
 
   > Note: There may be delay due to caching on browser and Istio proxy.
@@ -269,7 +270,11 @@ To fix the second issue, you need to grant "reviews" service read access to "rat
 
 ### Step 3. Allowing "reviews" Service to Access "ratings" Service
 
-Run the following command to create a policy that allows "reviews" service to read access "ratings" service.
+We will create a policy to allow "reviews" service to read "ratings" service. Note that in the
+[setup step](#before-you-begin), we created a service account "bookinfo-reviews" for "reviews" service. This
+"bookinfo-reviews" service account is the authenticated identify for "reviews" service.
+
+Run the following command to create a policy that allows "reviews" service to read "ratings" service.
 
   ```bash
   kubectl apply -f samples/bookinfo/kube/istio-rbac-ratings.yaml
@@ -290,7 +295,6 @@ The policy does the following:
   ```
 * Creates a ServiceRoleBinding "bind-ratings" which assigns "ratings-viewer" role to service
 account "cluster.local/ns/default/sa/bookinfo-reviews", which represents the "reviews" services.
-Note that the "bookinfo-reviews" service account was created and configure in the [setup step](#before-you-begin).
   ```rule
   apiVersion: "config.istio.io/v1alpha2"
   kind: ServiceRoleBinding
@@ -334,7 +338,6 @@ service at version "v3" can access "ratings" service.
     kubectl delete -f samples/bookinfo/kube/istio-rbac-ratings.yaml
     kubectl delete -f samples/bookinfo/kube/istio-rbac-details-reviews.yaml
     kubectl delete -f samples/bookinfo/kube/istio-rbac-productpage.yaml
-    kubectl delete -f samples/bookinfo/kube/istio-rbac-namespace.yaml
   ```
 Alternatively, you can delete all ServiceRole and ServiceRoleBinding objects by running the following commands:
   ```bash
