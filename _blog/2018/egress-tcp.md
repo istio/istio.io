@@ -232,7 +232,8 @@ Now accessing the web page of the application displays the ratings without error
 $ istioctl delete egressrule mysql -n default
 Deleted config: egressrule mysql
 ```
-# Future Work
+
+## Future Work
 In my next blog posts I will show examples of combining routing rules and egress rules, and also examples of accessing external services via Kubernetes _ExternalName_ services.
 
 ## Conclusion
