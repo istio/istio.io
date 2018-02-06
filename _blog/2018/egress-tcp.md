@@ -173,6 +173,14 @@ The updated architecture appears below. Note that the blue arrows mark the traff
 
 Note that the MySQL database is outside the Istio service mesh, or more precisely outside the Kubernetes cluster. The boundary of the service mesh is marked by a dotted line.
 
+## Access the webpage of the application
+Let's access the web page of the application, after [determining the ingress IP and port]({{home}}/docs/guides/bookinfo.html#determining-the-ingress-ip-and-port).
+
+We have a problem... Instead of the rating stars we have the _Ratings service is currently unavailable_ message displayed per each review:
+<figure><img src="img/errorFetchingBookRating.png" alt="The Ratings service is currently unavailable messages" title="The Ratings service is currently unavailable messages" />
+<figcaption>The Ratings service is currently unavailable messages</figcaption></figure>
+
+
 ## Cleanup
 1. Drop the _test_ database and the _bookinfo_ user:
    ```bash
