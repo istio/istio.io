@@ -168,7 +168,7 @@ Created config route-rule/default/reviews-test-ratings-v2 at revision 1918800
 
 The updated architecture now looks as follows:
 <figure><img src="img/bookinfo-ratings-v2-mysql-external.svg" alt="The Bookinfo Application with ratings v2-mysql, an external MySQL database" title="The Bookinfo Application with ratings v2-mysql, an external MySQL database" />
-<figcaption>The Bookinfo Application with with ratings _v2-mysql_, an external MySQL database</figcaption></figure>
+<figcaption>The Bookinfo Application with with ratings v2-mysql, an external MySQL database</figcaption></figure>
 
 Note that the MySQL database is outside the Istio service mesh, or more precisely outside the Kubernetes cluster. The boundary of the service mesh is marked by a dotted line.
 
