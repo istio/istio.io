@@ -96,7 +96,7 @@ There are several steps:
    ```
    ```bash
    ...
-   * error fetching CN from cert:The requested data were not available.
+   error fetching CN from cert:The requested data were not available.
    ...
    < HTTP/1.1 200 OK
    < content-type: text/html; charset=utf-8
