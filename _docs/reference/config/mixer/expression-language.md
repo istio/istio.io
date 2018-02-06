@@ -59,8 +59,8 @@ For example, the expression `request.user == "user1"` fails evaluation if the re
 
 |Expression |Return Type |Description
 |------------------------------------
-|`request.size| 200` |  **int** | request.size if available, otherwise 200.
-|`request.header["X-FORWARDED-HOST"] == "myhost"`| **boolean** 
-|`(request.header["x-user-group"] == "admin") || (request.user == "admin")`| **boolean**| True if the user is admin or in the admin group.
-|`(request.user | "nobody" ) == "user1"` | **boolean** | True if request.user is "user1", The expression will not error out if request.user is missing.
+|`request.size| 200` |  **int** | `request.size` if available, otherwise 200.
+|`request.headers["X-FORWARDED-HOST"] == "myhost"`| **boolean** 
+|`(request.headers["x-user-group"] == "admin") || (request.auth.principal == "admin")`| **boolean**| True if the user is admin or in the admin group.
+|`(request.auth.principal | "nobody" ) == "user1"` | **boolean** | True if user is "user1", the expression will not error out if `request.auth.principal` is missing.
 |`source.labels["app"]=="reviews" && source.labels["version"]=="v3"`| **boolean** | True if app label is reviews and version label is v3, false otherwise.
