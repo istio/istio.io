@@ -129,6 +129,49 @@ For this task I set up an instance of [MySQL](https://www.mysql.com). Any MySQL 
    ```
    I used the _admin_ user (and _root_ for the local database) in the last command since the _bookinfo_ user does not have the _UPDATE_ privilege on the `test.ratings` table.
 
+Now we are ready to deploy a version of the _ratings_ microservice that will use our database
+
+## Use the database for ratings data
+Let me remind you the end-to-end architecture of the application from the original [Bookinfo Guide]({{home}}/docs/guides/bookinfo.html).
+
+<figure><img src="{{home}}/docs/guides/img/bookinfo/withistio.svg" alt="The Original Bookinfo Application" title="The Original Bookinfo Application" />
+<figcaption>The Original Bookinfo  Application</figcaption></figure>
+
+First, I modify the deployment spec of a version of the _ratings_ microservice that uses a MySQL database, to use my database instance. The spec is in `samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml` of an Istio release archive. I edit the following lines:
+
+```yaml
+- name: MYSQL_DB_HOST
+  value: mysqldb
+- name: MYSQL_DB_PORT
+  value: "3306"
+- name: MYSQL_DB_USER
+  value: root
+- name: MYSQL_DB_PASSWORD
+  value: password
+```
+I replace the values in the snippet above, specifying the database host, port, user and password. Note that the correct way to work with passwords in container's environment variables in Kubernetes is [to use secrets](https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables). For this example task only, I write the password directly in the deployment spec. **Do not do it** in a real environment! No need to mention that `"password"` should not be used as a password.
+
+Second, I apply the modified spec to deploy the version of the _ratings_ microservice, _v2-mysql_, that will use my database.
+
+```bash
+$ kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml)
+deployment "ratings-v2-mysql" created
+```
+
+Third, I route all the traffic destined to the _reviews_ service, to its _v3_ version. I do this to ensure that the _reviews_ service always calls the _ratings_ service. In addition, I route all the traffic destined to the _ratings_ service to _ratings v2-mysql_ that uses my database. I add routing for both services above by adding two [route rules](https://istio.io/docs/reference/config/istio.routing.v1alpha1.html). These rules are specified in `samples/bookinfo/kube/route-rule-ratings-mysql.yaml` of an Istio release archive.
+
+```bash
+$ istioctl create -f samples/bookinfo/kube/route-rule-ratings-mysql.yaml
+Created config route-rule/default/ratings-test-v2-mysql at revision 1918799
+Created config route-rule/default/reviews-test-ratings-v2 at revision 1918800
+```
+
+The updated architecture now looks as follows:
+<figure><img src="img/bookinfo-ratings-v2-mysql-external.svg" alt="The Bookinfo Application with ratings v2-mysql, an external MySQL database" title="The Bookinfo Application with ratings v2-mysql, an external MySQL database" />
+<figcaption>The Bookinfo Application with with ratings _v2-mysql_, an external MySQL database</figcaption></figure>
+
+Note that the MySQL database is outside the Istio service mesh, or more precisely outside the Kubernetes cluster. The boundary of the service mesh is marked by a dotted line.
+
 ## Cleanup
 1. Drop the _test_ database and the _bookinfo_ user:
    ```bash
@@ -141,3 +184,16 @@ For this task I set up an instance of [MySQL](https://www.mysql.com). Any MySQL 
    ```bash
    mysql -u root -p -e "drop database test; drop user bookinfo;"
    ```
+2. Remove the route rules:
+  ```bash
+  $ istioctl delete -f samples/bookinfo/kube/route-rule-ratings-mysql.yaml
+  Deleted config: route-rule/default/ratings-test-v2-mysql
+  Deleted config: route-rule/default/reviews-test-ratings-v2
+  ```
+3. Undeploy _ratings v2-mysql_:
+  ```bash
+  $ kubectl delete -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml)
+  deployment "ratings-v2-mysql" deleted
+  ```
+
+4. Delete the egress rule:
