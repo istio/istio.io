@@ -5,7 +5,7 @@ publish_date: February 6, 2018
 subtitle: Egress rules for TCP traffic
 attribution: Vadim Eisenberg
 
-order: 94
+order: 92
 
 layout: blog
 type: markdown
