@@ -168,7 +168,7 @@ Let me remind you the end-to-end architecture of the application from the origin
 
 The updated architecture appears below. Note that the blue arrows inside the mesh mark the traffic allowed by the route rules we added. According to the route rules, the traffic is allowed to _reviews v3_ and _ratings v2-mysql_.
 
-{% include figure.html width='80%' ratio='65.16%'
+{% include figure.html width='80%' ratio='59.31%'
     img='./img/bookinfo-ratings-v2-mysql-external.svg'
     alt='The Bookinfo Application with ratings v2-mysql and an external MySQL database'
     title='The Bookinfo Application with ratings v2-mysql and an external MySQL database'
@@ -182,7 +182,7 @@ Let's access the webpage of the application, after [determining the ingress IP a
 
 We have a problem... Instead of the rating stars we have the _Ratings service is currently unavailable_ message displayed per each review:
 
-{% include figure.html width='80%' ratio='36.01%'
+{% include figure.html width='80%' ratio='36.19%'
     img='./img/errorFetchingBookRating.png'
     alt='The Ratings service error messages'
     title='The Ratings service error messages'
@@ -221,7 +221,7 @@ Note that for a TCP egress rule, we specify `tcp` as the protocol of a port of t
 
 It worked! Accessing the web page of the application displays the ratings without error:
 
-{% include figure.html width='80%' ratio='34.82%'
+{% include figure.html width='80%' ratio='36.69%'
     img='./img/externalMySQLRatings.png'
     alt='Book Ratings Displayed Correctly'
     title='Book Ratings Displayed Correctly'
