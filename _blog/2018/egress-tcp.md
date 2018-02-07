@@ -120,12 +120,17 @@ To demonstrate the scenario of using an external database, I start with a Kubern
 
 The example commands in this blog post work with Istio version 0.3+, with or without [Mutual TLS](https://istio.io/docs/concepts/security/mutual-tls.html) enabled.
 
-### Use the Database for Ratings Data in Bookinfo Application
 Let me remind you the end-to-end architecture of the application from the original [Bookinfo Guide]({{home}}/docs/guides/bookinfo.html).
 
-<figure><img src="{{home}}/docs/guides/img/bookinfo/withistio.svg" alt="The Original Bookinfo Application" title="The Original Bookinfo Application" />
-<figcaption>The Original Bookinfo  Application</figcaption></figure>
+{% assign url = home | append: "/docs/guides/img/bookinfo/withistio.svg" %}
+{% include figure.html width='80%' ratio='59.08%'
+    img=url
+    alt='The Original Bookinfo Application'
+    title='The Original Bookinfo Application'
+    caption='The Original Bookinfo Application'
+    %}
 
+### Use the Database for Ratings Data in Bookinfo Application
 First, I modify the deployment spec of a version of the _ratings_ microservice that uses a MySQL database, to use my database instance. The spec is in `samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml` of an Istio release archive. I edit the following lines:
 
 ```yaml
@@ -161,8 +166,12 @@ Created config route-rule/default/reviews-test-ratings-v2 at revision 1918800
 
 The updated architecture appears below. Note that the blue arrows mark the traffic allowed by the route rules we added. According to the route rules, the traffic is allowed to _reviews v3_ and _ratings v2-mysql_.
 
-<figure><img src="img/bookinfo-ratings-v2-mysql-external.svg" alt="The Bookinfo Application with ratings v2-mysql, an external MySQL database" title="The Bookinfo Application with ratings v2-mysql, an external MySQL database" />
-<figcaption>The Bookinfo Application with with ratings v2-mysql, an external MySQL database</figcaption></figure>
+{% include figure.html width='80%' ratio='65.16%'
+    img='./img/bookinfo-ratings-v2-mysql-external.svg'
+    alt='The Bookinfo Application with ratings v2-mysql and an external MySQL database'
+    title='The Bookinfo Application with ratings v2-mysql and an external MySQL database'
+    caption='The Bookinfo Application with ratings v2-mysql and an external MySQL database'
+    %}
 
 Note that the MySQL database is outside the Istio service mesh, or more precisely outside the Kubernetes cluster. The boundary of the service mesh is marked by a dotted line.
 
@@ -170,8 +179,13 @@ Note that the MySQL database is outside the Istio service mesh, or more precisel
 Let's access the webpage of the application, after [determining the ingress IP and port]({{home}}/docs/guides/bookinfo.html#determining-the-ingress-ip-and-port).
 
 We have a problem... Instead of the rating stars we have the _Ratings service is currently unavailable_ message displayed per each review:
-<figure><img src="img/errorFetchingBookRating.png" alt="The Ratings service is currently unavailable messages" title="The Ratings service is currently unavailable messages" />
-<figcaption>The Ratings service is currently unavailable messages</figcaption></figure>
+
+{% include figure.html width='80%' ratio='36.01%'
+    img='./img/errorFetchingBookRating.png'
+    alt='The Ratings service error messages'
+    title='The Ratings service error messages'
+    caption='The Ratings service error messages'
+    %}
 
 As in [Consuming External Web Services]({{home}}/blog/2018/egress-https.html), we **graceful service degradation**. The application did not crash due to the error in the _ratings_ microservice. The webpage of the application correctly displayed book details, book information and the reviews, just without the rating stars.
 
@@ -204,8 +218,12 @@ Note that for a TCP egress rule, we specify `tcp` as the protocol of a port of t
 
 It worked! Accessing the web page of the application displays the ratings without error:
 
-<figure><img src="img/externalMySQLRatings.png" alt="Book Ratings Displayed Correctly" title="Book Ratings Displayed Correctly" />
-<figcaption>Book Ratings Displayed Correctly</figcaption></figure>
+{% include figure.html width='80%' ratio='34.82%'
+    img='./img/externalMySQLRatings.png'
+    alt='Book Ratings Displayed Correctly'
+    title='Book Ratings Displayed Correctly'
+    caption='Book Ratings Displayed Correctly'
+    %}
 
 Note that we see one star rating for the both displayed reviews, as expected. I changed the ratings to be one star to provide us a visual clue that our external database is indeed used.
 
