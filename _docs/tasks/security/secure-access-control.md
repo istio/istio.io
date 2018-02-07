@@ -21,7 +21,7 @@ For the format of the service account in Istio, please refer to the
 
 * Set up Istio on auth-enabled Kubernetes by following the instructions in the
   [quick start]({{home}}/docs/setup/kubernetes/quick-start.html).
-  Note that authentication should be enabled at step 4 in the
+  Note that authentication should be enabled at step 5 in the
   [installation steps]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps).
 
 * Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
