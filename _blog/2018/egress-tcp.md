@@ -24,7 +24,7 @@ For this task I set up an instance of [MySQL](https://www.mysql.com). Any MySQL 
 1. To initialize the database, I run the following command entering the password when prompted. The command is performed with the credentials of the  `admin` user, created by default by [Compose for MySQL](https://www.ibm.com/cloud/compose/mysql).
    ```bash
    curl -s https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/src/mysql/mysqldb-init.sql | mysqlsh \
-   --sql -u admin -p --host <the database host> --port <the database port> --ssl-mode=REQUIRED
+   --sql --ssl-mode=REQUIRED -u admin -p --host <the database host> --port <the database port>
    ```
 
    _**OR**_
@@ -258,7 +258,7 @@ Also note that the IPs of an external service are not always static, for example
 ## Cleanup
 1. Drop the _test_ database and the _bookinfo_ user:
    ```bash
-   mysqlsh --sql --ssl-mode=REQUIRED-u admin -p --host <the database host> --port <the database port> \
+   mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host <the database host> --port <the database port> \
    -e "drop database test; drop user bookinfo;"
    ```
 
