@@ -6,7 +6,6 @@ layout: protoc-gen-docs
 redirect_from: /docs/reference/api/mixer/mixer.html
 number_of_entries: 17
 ---
-{% raw %}
 <p>This package defines the Mixer API that the sidecar proxy uses to perform
 precondition checks, manage quotas, and report telemetry.</p>
 
@@ -69,7 +68,7 @@ in the deployment. The primary attribute producer in Istio is Envoy, although
 specialized Mixer adapters and services can also generate attributes.</p>
 
 <p>The common baseline set of attributes available in most Istio deployments is defined
-<a href="https://istio.io/docs/reference/config/mixer/attribute-vocabulary.html">here</a>.</p>
+<a href="{{site.baseurl}}/docs/reference/config/mixer/attribute-vocabulary.html">here</a>.</p>
 
 <p>Attributes are strongly typed. The supported attribute types are defined by
 <a href="https://github.com/istio/api/blob/master/mixer/v1/config/descriptor/value_type.proto">ValueType</a>.
@@ -848,4 +847,3 @@ message types for APIs to use.</p>
 </tbody>
 </table>
 </section>
-{% endraw %}
