@@ -29,15 +29,15 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:window-width="1920"
-     inkscape:window-height="1101"
+     inkscape:window-height="1035"
      id="namedview5013"
      showgrid="false"
      inkscape:snap-global="false"
      inkscape:zoom="1"
-     inkscape:cx="334.87175"
-     inkscape:cy="154.51694"
-     inkscape:window-x="1440"
-     inkscape:window-y="23"
+     inkscape:cx="155.87175"
+     inkscape:cy="114.51694"
+     inkscape:window-x="1415"
+     inkscape:window-y="49"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg4481"
      fit-margin-top="0"
@@ -2138,5 +2138,10 @@
      id="svg_64-4-3-45-1"
      d="m 518.64915,473.953 -0.41986,-19.90378"
      style="clip-rule:evenodd;fill:none;stroke:#1800ff;stroke-width:0.99999994px;marker-start:url(#Arrow1Mstart-6-3-7);marker-end:url(#Arrow1Mend-6-1-5)"
+     inkscape:connector-curvature="0" />
+  <path
+     d="m 544.581,480.81064 c 0,-1.77264 -2.393,-3.21156 -5.341,-3.21156 h -44.47901 c -2.94799,0 -5.34199,1.43892 -5.34199,3.21156 v 24.50544 c 0,1.77263 2.394,3.21215 5.34199,3.21215 H 539.24 c 2.948,0 5.341,-1.43952 5.341,-3.21215 z"
+     id="App1"
+     style="clip-rule:evenodd;fill:none;stroke:#000000;stroke-width:0.99999994px"
      inkscape:connector-curvature="0" />
 </svg>
