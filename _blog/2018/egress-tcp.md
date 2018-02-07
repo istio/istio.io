@@ -13,7 +13,7 @@ redirect_from: "/blog/egress-tcp.html"
 ---
 {% include home.html %}
 
-In my previous blog post, [Consuming External Web Services]({{home}}/blog/2018/egress-https.html), I described how external services can be consumed by in-mesh Istio applications via HTTPS. In this post, I demonstrate consuming external services over TCP. I use the [Istio Bookinfo sample application]({{home}}/docs/guides/bookinfo.html), the version in which the book ratings data is persisted in a MySQL database. I deploy this database outside the cluster and will configure the _ratings_ microservice to use it. I define an [egress rule]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#EgressRule) to allow the in-mesh applications access the external database.
+In my previous blog post, [Consuming External Web Services]({{home}}/blog/2018/egress-https.html), I described how external services can be consumed by in-mesh Istio applications via HTTPS. In this post, I demonstrate consuming external services over TCP. I use the [Istio Bookinfo sample application]({{home}}/docs/guides/bookinfo.html), the version in which the book ratings data is persisted in a MySQL database. I deploy this database outside the cluster and will configure the _ratings_ microservice to use it. I define an [egress rule]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#EgressRule) to allow the in-mesh applications to access the external database.
 
 ## Bookinfo sample application with external ratings database
 First, I set up a MySQL database instance to hold book ratings data, outside my Kubernetes cluster. Then I modify the [Bookinfo sample application]({{home}}/docs/guides/bookinfo.html) to use my database.
