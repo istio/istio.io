@@ -36,7 +36,7 @@ locate_file() {
     FNP=${LOCATION:31}
     FN=$(echo $FNP | rev | cut -d'/' -f1 | rev)
     PP=$(echo $FNP | rev | cut -d'/' -f2- | rev)
-    cp ${FILENAME} _docs/${PP}/${FN}
+    sed -e 's/href="https:\/\/istio.io/href="{{site.baseurl}}/g' ${FILENAME} >_docs/${PP}/${FN}
 }
 
 # Given the path and name to an Istio command, builds the command and then
@@ -52,6 +52,7 @@ get_command_doc() {
     pushd $COMMAND_PATH
     go build
     ./$COMMAND collateral -o $COMMAND_DIR --jekyll_html
+    rm $COMMAND
     popd
 }
 
