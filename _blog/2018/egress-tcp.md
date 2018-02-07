@@ -247,7 +247,7 @@ In this case, HTTPS can be treated by Istio as _opaque TCP_ and can be handled i
 Next let's see how we define egress rules for TCP traffic.
 
 ## Egress rules for TCP traffic
-The egress rules for enabling TCP traffic to a specific port must specify `TCP` as the protocol of the port. Additional non-HTTP TCP protocol currently supported is `MONGO`, the [MongoDB Wire Protocol](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/).
+The egress rules for enabling TCP traffic to a specific port must specify `TCP` as the protocol of the port. Additionally, for the [MongoDB Wire Protocol](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/), the protocol can be specified as `MONGO`, instead of `TCP`.
 
 For the `destination.service` field of the rule, an IP or a block of IPs in [CIDR](https://tools.ietf.org/html/rfc2317) notation must be used.
 
