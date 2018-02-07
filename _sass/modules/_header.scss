@@ -40,6 +40,14 @@ header {
             border-radius: 2px;
         }
 
+        a.nav-link {
+            color: $white;
+
+            &:hover {
+                color: $linkHoverColor;
+            }
+        }
+
         #searchbox {
             margin-left: 1.5em;
         }
