@@ -165,7 +165,7 @@ or if you want to completely bypass Istio for a specific IP range,
 you will need to configure the source service's Envoy sidecar to prevent it from
 [intercepting]({{home}}/docs/concepts/traffic-management/request-routing.html#communication-between-services)
 the external requests. This can be done using the `--includeIPRanges` option of
-[istioctl kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject)
+[istioctl kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl kube-inject)
 when starting the service.
 
 The simplest way to use the `--includeIPRanges` option is to pass it the IP range(s)
@@ -266,6 +266,9 @@ cloud provider specific knowledge and configuration.
    ```bash
    kubectl delete -f samples/sleep/sleep.yaml
    ```
+
+## Egress Rules and Access Control
+Note that Istio Egress Rules are **not a security feature**. They enable access to external (out of the service mesh) services. It is up to the user to deploy appropriate security mechanisms such as firewalls to prevent unauthorized access to the external services. We are working on adding access control support for the external services.
 
 ## Further reading
 
