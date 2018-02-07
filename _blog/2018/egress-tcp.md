@@ -120,7 +120,7 @@ Now I am ready to deploy a version of the Bookinfo application that will use my 
 ### Initial Setting of Bookinfo Application
 To demonstrate the scenario of using an external database, I start with a Kubernetes cluster with [Istio installed]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps). Then I deploy [Istio Bookinfo Sample Application]({{home}}/docs/guides/bookinfo.html). This application uses the _ratings_ microservice to fetch book ratings, a number between 1 and 5. The ratings are displayed as stars per each review. There are several versions of the _ratings_ microservice. Some use [MongoDB](https://www.mongodb.com), others use [MySQL](https://www.mysql.com) as their database.
 
-The example commands in this blog post work with Istio version 0.3+, with or without [Mutual TLS](https://istio.io/docs/concepts/security/mutual-tls.html) enabled.
+The example commands in this blog post work with Istio version 0.3+, with or without [Mutual TLS]({{home}}/docs/concepts/security/mutual-tls.html) enabled.
 
 Let me remind you the end-to-end architecture of the application from the original [Bookinfo Guide]({{home}}/docs/guides/bookinfo.html).
 
@@ -156,7 +156,7 @@ Let me remind you the end-to-end architecture of the application from the origin
     deployment "ratings-v2-mysql" created
     ```
 
-3. I route all the traffic destined to the _reviews_ service, to its _v3_ version. I do this to ensure that the _reviews_ service always calls the _ratings_ service. In addition, I route all the traffic destined to the _ratings_ service to _ratings v2-mysql_ that uses my database. I add routing for both services above by adding two [route rules](https://istio.io/docs/reference/config/istio.routing.v1alpha1.html). These rules are specified in `samples/bookinfo/kube/route-rule-ratings-mysql.yaml` of an Istio release archive.
+3. I route all the traffic destined to the _reviews_ service, to its _v3_ version. I do this to ensure that the _reviews_ service always calls the _ratings_ service. In addition, I route all the traffic destined to the _ratings_ service to _ratings v2-mysql_ that uses my database. I add routing for both services above by adding two [route rules]({{home}}/docs/reference/config/istio.routing.v1alpha1.html). These rules are specified in `samples/bookinfo/kube/route-rule-ratings-mysql.yaml` of an Istio release archive.
 
     ```bash
     istioctl create -f samples/bookinfo/kube/route-rule-ratings-mysql.yaml
@@ -255,7 +255,7 @@ To enable TCP traffic to an external service by its hostname, all the IPs of the
 
 Note that all the IPs of an external service are not always known. To enable TCP traffic by IPs, as opposed to the traffic by a hostname, only the IPs that are used by the applications must be specified.
 
-Also note that the IPs of an external service are not always static, for example in the case of [CDNs](https://en.wikipedia.org/wiki/Content_delivery_network). Sometimes the IPs are static most of the time, but can be changed from time to time, for example due to infrastructure changes. In these cases, if the range of the possible IPs is known, you should specify the range by CIDR blocks, by multiple egress rules if needed, as in the case of `wikipedia.org`,  described in [Control Egress TCP Traffic Task]({{home}}/docs/tasks/traffic-management/egress-tcp.html). If the range of the possible IPs is not known, egress rules for TCP cannot be used and [the external services must be called directly](https://istio.io/docs/tasks/traffic-management/egress.html#calling-external-services-directly), circumventing the sidecar proxies.
+Also note that the IPs of an external service are not always static, for example in the case of [CDNs](https://en.wikipedia.org/wiki/Content_delivery_network). Sometimes the IPs are static most of the time, but can be changed from time to time, for example due to infrastructure changes. In these cases, if the range of the possible IPs is known, you should specify the range by CIDR blocks, by multiple egress rules if needed, as in the case of `wikipedia.org`,  described in [Control Egress TCP Traffic Task]({{home}}/docs/tasks/traffic-management/egress-tcp.html). If the range of the possible IPs is not known, egress rules for TCP cannot be used and [the external services must be called directly]({{home}}/docs/tasks/traffic-management/egress.html#calling-external-services-directly), circumventing the sidecar proxies.
 
 ## Cleanup
 1. Drop the _test_ database and the _bookinfo_ user:
