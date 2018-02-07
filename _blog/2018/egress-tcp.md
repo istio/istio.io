@@ -131,40 +131,40 @@ Let me remind you the end-to-end architecture of the application from the origin
     %}
 
 ### Use the Database for Ratings Data in Bookinfo Application
-First, I modify the deployment spec of a version of the _ratings_ microservice that uses a MySQL database, to use my database instance. The spec is in `samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml` of an Istio release archive. I edit the following lines:
+1. I modify the deployment spec of a version of the _ratings_ microservice that uses a MySQL database, to use my database instance. The spec is in `samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml` of an Istio release archive. I edit the following lines:
 
-```yaml
-- name: MYSQL_DB_HOST
-  value: mysqldb
-- name: MYSQL_DB_PORT
-  value: "3306"
-- name: MYSQL_DB_USER
-  value: root
-- name: MYSQL_DB_PASSWORD
-  value: password
-```
-I replace the values in the snippet above, specifying the database host, port, user and password. Note that the correct way to work with passwords in container's environment variables in Kubernetes is [to use secrets](https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables). For this example task only, I write the password directly in the deployment spec. **Do not do it** in a real environment! No need to mention that `"password"` should not be used as a password.
+    ```yaml
+    - name: MYSQL_DB_HOST
+      value: mysqldb
+    - name: MYSQL_DB_PORT
+      value: "3306"
+    - name: MYSQL_DB_USER
+      value: root
+    - name: MYSQL_DB_PASSWORD
+      value: password
+    ```
+    I replace the values in the snippet above, specifying the database host, port, user and password. Note that the correct way to work with passwords in container's environment variables in Kubernetes is [to use secrets](https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables). For this example task only, I write the password directly in the deployment spec. **Do not do it** in a real environment! No need to mention that `"password"` should not be used as a password.
 
-Second, I apply the modified spec to deploy the version of the _ratings_ microservice, _v2-mysql_, that will use my database.
+2. I apply the modified spec to deploy the version of the _ratings_ microservice, _v2-mysql_, that will use my database.
 
-```bash
-kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml)
-```
-```bash
-deployment "ratings-v2-mysql" created
-```
+    ```bash
+    kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml)
+    ```
+    ```bash
+    deployment "ratings-v2-mysql" created
+    ```
 
-Third, I route all the traffic destined to the _reviews_ service, to its _v3_ version. I do this to ensure that the _reviews_ service always calls the _ratings_ service. In addition, I route all the traffic destined to the _ratings_ service to _ratings v2-mysql_ that uses my database. I add routing for both services above by adding two [route rules](https://istio.io/docs/reference/config/istio.routing.v1alpha1.html). These rules are specified in `samples/bookinfo/kube/route-rule-ratings-mysql.yaml` of an Istio release archive.
+3. I route all the traffic destined to the _reviews_ service, to its _v3_ version. I do this to ensure that the _reviews_ service always calls the _ratings_ service. In addition, I route all the traffic destined to the _ratings_ service to _ratings v2-mysql_ that uses my database. I add routing for both services above by adding two [route rules](https://istio.io/docs/reference/config/istio.routing.v1alpha1.html). These rules are specified in `samples/bookinfo/kube/route-rule-ratings-mysql.yaml` of an Istio release archive.
 
-```bash
-istioctl create -f samples/bookinfo/kube/route-rule-ratings-mysql.yaml
-```
-```bash
-Created config route-rule/default/ratings-test-v2-mysql at revision 1918799
-Created config route-rule/default/reviews-test-ratings-v2 at revision 1918800
-```
+    ```bash
+    istioctl create -f samples/bookinfo/kube/route-rule-ratings-mysql.yaml
+    ```
+    ```bash
+    Created config route-rule/default/ratings-test-v2-mysql at revision 1918799
+    Created config route-rule/default/reviews-test-ratings-v2 at revision 1918800
+    ```
 
-The updated architecture appears below. Note that the blue arrows mark the traffic allowed by the route rules we added. According to the route rules, the traffic is allowed to _reviews v3_ and _ratings v2-mysql_.
+The updated architecture appears below. Note that the blue arrows inside the mesh mark the traffic allowed by the route rules we added. According to the route rules, the traffic is allowed to _reviews v3_ and _ratings v2-mysql_.
 
 {% include figure.html width='80%' ratio='65.16%'
     img='./img/bookinfo-ratings-v2-mysql-external.svg'
@@ -187,9 +187,9 @@ We have a problem... Instead of the rating stars we have the _Ratings service is
     caption='The Ratings service error messages'
     %}
 
-As in [Consuming External Web Services]({{home}}/blog/2018/egress-https.html), we **graceful service degradation**. The application did not crash due to the error in the _ratings_ microservice. The webpage of the application correctly displayed book details, book information and the reviews, just without the rating stars.
+As in [Consuming External Web Services]({{home}}/blog/2018/egress-https.html), we experience **graceful service degradation**, which is good. The application did not crash due to the error in the _ratings_ microservice. The webpage of the application correctly displayed the book information, the details and the reviews, just without the rating stars.
 
-We have the same problem as in [Consuming External Web Services]({{home}}/blog/2018/egress-https.html), namely all the traffic outside the Kubernetes cluster, both TCP and HTTP, is blocked by default by sidecar proxies. To enable such traffic for TCP, an egress rule for TCP must be defined.
+We have the same problem as in [Consuming External Web Services]({{home}}/blog/2018/egress-https.html), namely all the traffic outside the Kubernetes cluster, both TCP and HTTP, is blocked by default by the sidecar proxies. To enable such traffic for TCP, an egress rule for TCP must be defined.
 
 ### Egress Rule for an External MySQL instance
 TCP egress rules come to our rescue. I copy the following YAML spec to a text file, let's call it `egress-rule-mysql.yaml`, and edit it to specify the IP of my database instance and its port.
@@ -208,6 +208,7 @@ spec:
         protocol: tcp
 ```
 
+Then I run `istioctl` to add the egress rule to the service mesh:
 ```bash
 istioctl create -f egress-rule-mysql.yaml
 ```
@@ -225,14 +226,14 @@ It worked! Accessing the web page of the application displays the ratings withou
     caption='Book Ratings Displayed Correctly'
     %}
 
-Note that we see one star rating for the both displayed reviews, as expected. I changed the ratings to be one star to provide us a visual clue that our external database is indeed used.
+Note that we see a one-star rating for the both displayed reviews, as expected. I changed the ratings to be one star to provide us a visual clue that our external database is indeed used.
 
 As with egress rules for HTTP/HTTPS, we can delete and create egress rules for TCP using `istioctl`, dynamically.
 
 ## Motivation for Egress TCP Traffic Control
 Some in-mesh Istio applications must access external services, for example legacy systems. In many cases, the access is not performed over HTTP or HTTPS protocols. Other TCP protocols are used, for example database specific protocols [MongoDB Wire Protocol](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/) and [MySQL CLient/Server Protocol](https://dev.mysql.com/doc/internals/en/client-server-protocol.html) to communicate with external databases.
 
-Note that in case of access to external HTTPS services, as described in the [control egress TCP traffic]({{home}}/docs/tasks/traffic-management/egress.html) task, an application must issue HTTP requests to the external service. The Envoy sidecar proxy attached to the pod or the VM, will intercept the requests and will open an HTTPS connection to the external service. The traffic will be unencrypted inside the pod or the VM, but it will leave the pod or the VM encrypted.
+Note that in case of access to external HTTPS services, as described in the [Control Egress TCP Traffic]({{home}}/docs/tasks/traffic-management/egress.html) task, an application must issue HTTP requests to the external service. The Envoy sidecar proxy attached to the pod or the VM, will intercept the requests and will open an HTTPS connection to the external service. The traffic will be unencrypted inside the pod or the VM, but it will leave the pod or the VM encrypted.
 
 However, sometimes this approach cannot work due to the following reasons:
 * The code of the application is configured to use an HTTPS URL and cannot be changed
@@ -257,7 +258,8 @@ Also note that the IPs of an external service are not always static, for example
 ## Cleanup
 1. Drop the _test_ database and the _bookinfo_ user:
    ```bash
-   mysqlsh --sql --ssl-mode=REQUIRED-u admin -p --host <the database host> --port <the database port> -e "drop database test; drop user bookinfo;"
+   mysqlsh --sql --ssl-mode=REQUIRED-u admin -p --host <the database host> --port <the database port> \
+   -e "drop database test; drop user bookinfo;"
    ```
 
    _**OR**_
@@ -291,7 +293,7 @@ Deleted config: egressrule mysql
 ```
 
 ## Future Work
-In my next blog posts I will show examples of combining routing rules and egress rules, and also examples of accessing external services via Kubernetes _ExternalName_ services.
+In my next blog posts I will show examples of combining route rules and egress rules, and also examples of accessing external services via Kubernetes _ExternalName_ services.
 
 ## Conclusion
 In this blog post I demonstrated how the microservices in an Istio service mesh can consume external services via TCP. By default, Istio blocks all the traffic, TCP and HTTP, to the hosts outside the cluster. To enable such traffic for TCP, TCP egress rules must be created for the service mesh.
