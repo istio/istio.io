@@ -194,7 +194,9 @@ spec:
 EOF
 ```
 
-This route rule specifies we route 100% of the traffic to v1 and 0% to v2. At the moment, it's necesary to call out the v2 service explicitly because this is what creates the envoy-cluster definitions in the background. The last stanza specifies we want to mirror to the `httpbin v2` service.
+This route rule specifies we route 100% of the traffic to v1 and 0% to v2. At the moment, it's necesary to call out the v2 service explicitly because this is what creates the envoy-cluster definitions in the background. In future versions, we'll work to improve this so we don't have to explicitly specify a 0% weighted routing. 
+
+The last stanza specifies we want to mirror to the `httpbin v2` service. When traffic gets mirrored, the requests are sent to the mirrored service with its Host/Authority header appended with *-shadow*. For example, *cluster-1* becomes *cluster-1-shadow*. Also important to realize is that these requests are mirrored as "fire and forget", i.e., the responses are discarded. 
 
 
 Now if we send in traffic:
