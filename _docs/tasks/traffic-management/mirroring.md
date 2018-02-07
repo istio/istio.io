@@ -194,7 +194,7 @@ spec:
 EOF
 ```
 
-This route rule specifies we route 100% of the traffic to v1 and 0% to v2. At the moment, it's necesary to call out the v2 service explicitly because this is what creates the cluster definitions in the background. The last stanza specifies we want to mirror to the `httpbin v2` service.
+This route rule specifies we route 100% of the traffic to v1 and 0% to v2. At the moment, it's necesary to call out the v2 service explicitly because this is what creates the envoy-cluster definitions in the background. The last stanza specifies we want to mirror to the `httpbin v2` service.
 
 
 Now if we send in traffic:
