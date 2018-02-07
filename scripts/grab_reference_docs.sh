@@ -52,6 +52,7 @@ get_command_doc() {
     pushd $COMMAND_PATH
     go build
     ./$COMMAND collateral -o $COMMAND_DIR --jekyll_html
+    rm $COMMAND
     popd
 }
 

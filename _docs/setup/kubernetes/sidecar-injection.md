@@ -153,7 +153,15 @@ kubectl create clusterrolebinding cluster-admin-binding \
 
 #### minikube 
 
-TODO(https://github.com/istio/istio.github.io/issues/885)
+Minikube version v0.25.0 or later is required for Kubernetes v1.9. Get the latest version from https://github.com/kubernetes/minikube/releases.
+
+```bash
+minikube start \
+	--extra-config=controller-manager.ClusterSigningCertFile="/var/lib/localkube/certs/ca.crt" \
+	--extra-config=controller-manager.ClusterSigningKeyFile="/var/lib/localkube/certs/ca.key" \
+	--extra-config=apiserver.Admission.PluginNames=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota \
+	--kubernetes-version=v1.9.0
+```
 
 #### IBM Cloud Container Service
 

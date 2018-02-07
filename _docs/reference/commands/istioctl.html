@@ -2,6 +2,7 @@
 title: istioctl
 overview: Istio control interface
 layout: pkg-collateral-docs
+number_of_entries: 13
 ---
 <p>
 Istio configuration command line utility.</p>
@@ -27,7 +28,7 @@ and destination policies.</p>
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default `/Users/mtail/.kube/config`)</td>
+<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -130,7 +131,7 @@ and destination policies.</p>
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default `/Users/mtail/.kube/config`)</td>
+<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -233,7 +234,7 @@ istioctl context-create --api-server http://127.0.0.1:8080
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default `/Users/mtail/.kube/config`)</td>
+<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -334,7 +335,7 @@ istioctl context-create --api-server http://127.0.0.1:8080
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default `/Users/mtail/.kube/config`)</td>
+<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -435,7 +436,7 @@ istioctl delete routerule productpage-default
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default `/Users/mtail/.kube/config`)</td>
+<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -558,7 +559,7 @@ istioctl delete routerule productpage-default
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default `/Users/mtail/.kube/config`)</td>
+<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -664,7 +665,7 @@ istioctl delete routerule productpage-default
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default `/Users/mtail/.kube/config`)</td>
+<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -826,7 +827,7 @@ kube-inject on deployments to get the most up-to-date changes.
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default `/Users/mtail/.kube/config`)</td>
+<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -972,7 +973,7 @@ kubectl get deployment -o yaml | istioctl kube-inject -f - | kubectl apply -f -
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default `/Users/mtail/.kube/config`)</td>
+<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
 </tr>
 <tr>
 <td><code>--labels &lt;stringSlice&gt;</code></td>
@@ -1080,7 +1081,7 @@ kubectl get deployment -o yaml | istioctl kube-inject -f - | kubectl apply -f -
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default `/Users/mtail/.kube/config`)</td>
+<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -1176,7 +1177,7 @@ kubectl get deployment -o yaml | istioctl kube-inject -f - | kubectl apply -f -
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default `/Users/mtail/.kube/config`)</td>
+<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>

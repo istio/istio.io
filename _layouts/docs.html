@@ -7,7 +7,7 @@ layout: default
             {% include sidebar.html docs=site.docs %}
         </div>
 
-        {% if page.toc != false %}
+        {% if page.toc != false and page.number_of_entries != 1 %}
             <div class="col-12 col-md-9 col-lg-7 col-xl-8">
         {% else %}
             <div class="col-12 col-md-9 col-xl-10">
@@ -24,7 +24,7 @@ layout: default
             </main>
         </div>
 
-        {% if page.toc != false %}
+        {% if page.toc != false and page.number_of_entries != 1 %}
             <div class="col-12 col-md-2 d-none d-lg-block">
                 <nav class="toc">
                     <div class="spacer"></div>
