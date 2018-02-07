@@ -135,36 +135,36 @@ Let me remind you the end-to-end architecture of the application from the origin
 ### Use the database for ratings data in Bookinfo application
 1. I modify the deployment spec of a version of the _ratings_ microservice that uses a MySQL database, to use my database instance. The spec is in `samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml` of an Istio release archive. I edit the following lines:
 
-    ```yaml
-    - name: MYSQL_DB_HOST
-      value: mysqldb
-    - name: MYSQL_DB_PORT
-      value: "3306"
-    - name: MYSQL_DB_USER
-      value: root
-    - name: MYSQL_DB_PASSWORD
-      value: password
-    ```
-    I replace the values in the snippet above, specifying the database host, port, user and password. Note that the correct way to work with passwords in container's environment variables in Kubernetes is [to use secrets](https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables). For this example task only, I write the password directly in the deployment spec. **Do not do it** in a real environment! No need to mention that `"password"` should not be used as a password.
+   ```yaml
+   - name: MYSQL_DB_HOST
+     value: mysqldb
+   - name: MYSQL_DB_PORT
+     value: "3306"
+   - name: MYSQL_DB_USER
+     value: root
+   - name: MYSQL_DB_PASSWORD
+     value: password
+   ```
+   I replace the values in the snippet above, specifying the database host, port, user and password. Note that the correct way to work with passwords in container's environment variables in Kubernetes is [to use secrets](https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables). For this example task only, I write the password directly in the deployment spec. **Do not do it** in a real environment! No need to mention that `"password"` should not be used as a password.
 
 2. I apply the modified spec to deploy the version of the _ratings_ microservice, _v2-mysql_, that will use my database.
 
-    ```bash
-    kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml)
-    ```
-    ```bash
-    deployment "ratings-v2-mysql" created
-    ```
+   ```bash
+   kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml)
+   ```
+   ```bash
+   deployment "ratings-v2-mysql" created
+   ```
 
 3. I route all the traffic destined to the _reviews_ service, to its _v3_ version. I do this to ensure that the _reviews_ service always calls the _ratings_ service. In addition, I route all the traffic destined to the _ratings_ service to _ratings v2-mysql_ that uses my database. I add routing for both services above by adding two [route rules]({{home}}/docs/reference/config/istio.routing.v1alpha1.html). These rules are specified in `samples/bookinfo/kube/route-rule-ratings-mysql.yaml` of an Istio release archive.
 
-    ```bash
-    istioctl create -f samples/bookinfo/kube/route-rule-ratings-mysql.yaml
-    ```
-    ```bash
-    Created config route-rule/default/ratings-test-v2-mysql at revision 1918799
-    Created config route-rule/default/reviews-test-ratings-v2 at revision 1918800
-    ```
+   ```bash
+   istioctl create -f samples/bookinfo/kube/route-rule-ratings-mysql.yaml
+   ```
+   ```bash
+   Created config route-rule/default/ratings-test-v2-mysql at revision 1918799
+   Created config route-rule/default/reviews-test-ratings-v2 at revision 1918800
+   ```
 
 The updated architecture appears below. Note that the blue arrows inside the mesh mark the traffic allowed by the route rules we added. According to the route rules, the traffic is allowed to _reviews v3_ and _ratings v2-mysql_.
 
