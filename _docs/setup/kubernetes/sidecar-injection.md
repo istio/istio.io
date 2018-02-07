@@ -9,7 +9,7 @@ type: markdown
 ---
 {% include home.html %}
 
-_NOTE_: The following requires Istio 0.5.0 or greater. See https://archive.istio.io/v0.4/docs/setup/kubernetes/sidecar-injection for Istio versions 0.4.0 or older.
+_NOTE_: The following requires Istio 0.5.0 or greater. See [https://archive.istio.io/v0.4/docs/setup/kubernetes/sidecar-injection](https://archive.istio.io/v0.4/docs/setup/kubernetes/sidecar-injection) for Istio versions 0.4.0 or older.
 
 _NOTE_: In previous releases the Kubernetes initializer feature has been used for automatic proxy injection. This was an alpha feature subject to change/removal and not enabled by default in Kubernetes. Starting in Istio 0.5.0 release the automatic proxy injection uses Kubernetes mutating webhooks. This Kubernetes feature is beta and available by default in Kubernetes 1.9 and beyond. Support for the alpha initializer mechanism for proxy injection has been removed in 0.5.0. Users who cannot uprade to Kubernetes 1.9 should use manual injection.
 
@@ -131,7 +131,7 @@ admissionregistration.k8s.io/v1beta1
 
 #### GKE
 
-1.9.1 is available for non-whitelisted early access users with alpha clusters (see https://cloud.google.com/kubernetes-engine/release-notes#january-16-2018). 
+1.9.1 is available for non-whitelisted early access users with alpha clusters (see [https://cloud.google.com/kubernetes-engine/release-notes#january-16-2018](https://cloud.google.com/kubernetes-engine/release-notes#january-16-2018)). 
 
 ```bash
 gcloud container clusters create <cluster-name> \
@@ -153,7 +153,7 @@ kubectl create clusterrolebinding cluster-admin-binding \
 
 #### minikube 
 
-Minikube version v0.25.0 or later is required for Kubernetes v1.9. Get the latest version from https://github.com/kubernetes/minikube/releases.
+Minikube version v0.25.0 or later is required for Kubernetes v1.9. Get the latest version from [https://github.com/kubernetes/minikube/releases](https://github.com/kubernetes/minikube/releases).
 
 ```bash
 minikube start \
@@ -184,8 +184,8 @@ a cert/key pair signed by the Kubernetes' CA. The resulting cert/key file is sto
 secret for the sidecar injector webhook to consume. 
 
 _Note_: Kubernetes CA approval requires permissions to create and approve CSR. See 
-https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster and 
-`install/kubernetes/webhook-create-signed-cert.sh` for more information.
+[https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster ](https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster) and 
+[install/kubernetes/webhook-create-signed-cert.sh](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/webhook-create-signed-cert.sh) for more information.
 
 ```
 ./install/kubernetes/webhook-create-signed-cert.sh \
@@ -332,7 +332,7 @@ value `false` to the pod template spec to disable injection.
     
 ##### _**template**_
    
-The sidecar injection template uses https://golang.org/pkg/text/template which, 
+The sidecar injection template uses [https://golang.org/pkg/text/template](https://golang.org/pkg/text/template) which, 
 when parsed and exectuted, is decoded to the following 
 struct containing the list of containers and volumes to inject into the pod. 
    
@@ -359,7 +359,7 @@ type SidecarTemplateData struct {
 are from the `istio` ConfigMap in the `istio-system` namespace. Templates can conditional 
 define injected containers and volumes with this data. 
 
-For example, the following template snippet from install/kubernetes/istio-sidecar-injector-configmap-release.yaml
+For example, the following template snippet from `install/kubernetes/istio-sidecar-injector-configmap-release.yaml`
 
 {% raw %}
 ```yaml
@@ -399,7 +399,7 @@ containers:
   - sleep
 ```
  
-when applied over a pod defined by the pod template spec in `sample/sleep/sleep.yaml`.
+when applied over a pod defined by the pod template spec in [samples/sleep/sleep.yaml](https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml).
 
 ### Uninstalling the webhook
 
