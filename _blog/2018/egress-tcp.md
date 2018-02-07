@@ -161,6 +161,8 @@ We have a problem... Instead of the rating stars we have the _Ratings service is
 <figure><img src="img/errorFetchingBookRating.png" alt="The Ratings service is currently unavailable messages" title="The Ratings service is currently unavailable messages" />
 <figcaption>The Ratings service is currently unavailable messages</figcaption></figure>
 
+As in [Consuming External Web Services]({{home}}/blog/2018/egress-https.html), we **graceful service degradation**. The application did not crash due to the error in the _ratings_ microservice. The webpage of the application correctly displayed book details, book information and the reviews, just without the rating stars.
+
 We have the same problem as in [Consuming External Web Services]({{home}}/blog/2018/egress-https.html), namely all the traffic outside the Kubernetes cluster, both TCP and HTTP, is blocked by default by sidecar proxies. To enable such traffic for TCP, an egress rule for TCP must be defined.
 
 ### Egress Rule for an External MySQL instance
