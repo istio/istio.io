@@ -22,11 +22,6 @@ $bp-md-v: 500px;
 $bp-lg-v: 768px;
 $bp-xl-v: 1024px;
 
-// Brand Colors
-$mainBrandColor: #466BB0;
-$secondBrandColor: #286AC7;
-$popBrandColor: #b05464; // split complementary to main brand color
-
 // Typography
 $linkColor: $mainBrandColor;
 $linkHoverColor: lighten($linkColor, 20%);
