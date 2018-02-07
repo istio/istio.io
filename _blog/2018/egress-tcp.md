@@ -54,6 +54,8 @@ For this task I set up an instance of [MySQL](https://www.mysql.com). Any MySQL 
    ```bash
    mysqlsh --sql --ssl-mode=REQUIRED -u bookinfo -p --host <the database host> --port <the database port> \
    -e "select * from test.ratings;"
+   ```
+   ```bash
    Enter password:
    +----------+--------+
    | ReviewID | Rating |
@@ -68,6 +70,8 @@ For this task I set up an instance of [MySQL](https://www.mysql.com). Any MySQL 
    For `mysql` and the local database:
    ```bash
    mysql -u bookinfo -p -e "select * from test.ratings;"
+   ```
+   ```bash
    Enter password:
    +----------+--------+
    | ReviewID | Rating |
@@ -81,6 +85,8 @@ For this task I set up an instance of [MySQL](https://www.mysql.com). Any MySQL 
    ```bash
    mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host <the database host> --port <the database port>  \
    -e "update test.ratings set rating=1; select * from test.ratings;"
+   ```
+   ```bash
    Enter password:
    +----------+--------+
    | ReviewID | Rating |
@@ -95,6 +101,8 @@ For this task I set up an instance of [MySQL](https://www.mysql.com). Any MySQL 
    For `mysql` and the local database:
    ```bash
    mysql -u root -p -e "update test.ratings set rating=1; select * from  test.ratings;"
+   ```
+   ```bash
    Enter password:
    +----------+--------+
    | ReviewID | Rating |
@@ -135,14 +143,18 @@ I replace the values in the snippet above, specifying the database host, port, u
 Second, I apply the modified spec to deploy the version of the _ratings_ microservice, _v2-mysql_, that will use my database.
 
 ```bash
-$ kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml)
+kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml)
+```
+```bash
 deployment "ratings-v2-mysql" created
 ```
 
 Third, I route all the traffic destined to the _reviews_ service, to its _v3_ version. I do this to ensure that the _reviews_ service always calls the _ratings_ service. In addition, I route all the traffic destined to the _ratings_ service to _ratings v2-mysql_ that uses my database. I add routing for both services above by adding two [route rules](https://istio.io/docs/reference/config/istio.routing.v1alpha1.html). These rules are specified in `samples/bookinfo/kube/route-rule-ratings-mysql.yaml` of an Istio release archive.
 
 ```bash
-$ istioctl create -f samples/bookinfo/kube/route-rule-ratings-mysql.yaml
+istioctl create -f samples/bookinfo/kube/route-rule-ratings-mysql.yaml
+```
+```bash
 Created config route-rule/default/ratings-test-v2-mysql at revision 1918799
 Created config route-rule/default/reviews-test-ratings-v2 at revision 1918800
 ```
@@ -233,19 +245,25 @@ Also note that the IPs of an external service are not always static, for example
    ```
 2. Remove the route rules:
   ```bash
-  $ istioctl delete -f samples/bookinfo/kube/route-rule-ratings-mysql.yaml
+  istioctl delete -f samples/bookinfo/kube/route-rule-ratings-mysql.yaml
+  ```
+  ```bash
   Deleted config: route-rule/default/ratings-test-v2-mysql
   Deleted config: route-rule/default/reviews-test-ratings-v2
   ```
 3. Undeploy _ratings v2-mysql_:
   ```bash
-  $ kubectl delete -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml)
+  kubectl delete -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml)
+  ```
+  ```bash
   deployment "ratings-v2-mysql" deleted
   ```
 
 4. Delete the egress rule:
 ```bash
-$ istioctl delete egressrule mysql -n default
+istioctl delete egressrule mysql -n default
+```
+```bash
 Deleted config: egressrule mysql
 ```
 
