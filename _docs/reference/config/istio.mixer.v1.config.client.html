@@ -5,7 +5,6 @@ location: https://istio.io/docs/reference/config/istio.mixer.v1.config.client.ht
 layout: protoc-gen-docs
 number_of_entries: 24
 ---
-{% raw %}
 <h2 id="APIKey">APIKey</h2>
 <section>
 <p>APIKey defines the explicit configuration for generating the
@@ -189,6 +188,9 @@ that should be mapped to the specified service(s).</p>
 </section>
 <h2 id="EndUserAuthenticationPolicySpecReference">EndUserAuthenticationPolicySpecReference</h2>
 <section>
+<p>EndUserAuthenticationPolicySpecReference identifies a
+EndUserAuthenticationPolicySpec that is bound to a set of services.</p>
+
 <table class="message-fields">
 <thead>
 <tr>
@@ -258,11 +260,11 @@ spec:
   - attributes:
       api.operation: findPetById
     httpMethod: GET
-    uriTemplate: /api/pets/{id}
+    uriTemplate: /api/pets/&lbrace;id}
   - attributes:
       api.operation: deletePet
     httpMethod: DELETE
-    uriTemplate: /api/pets/{id}
+    uriTemplate: /api/pets/&lbrace;id}
   api_keys:
   - query: api-key
 </code></pre>
@@ -416,9 +418,9 @@ example: GET, HEAD, POST, PUT, DELETE.</p>
 following are valid URI templates:</p>
 
 <pre><code>/pets
-/pets/{id}
-/dictionary/{term:1}/{term}
-/search{?q*,lang}
+/pets/&lbrace;id}
+/dictionary/&lbrace;term:1}/&lbrace;term}
+/search&lbrace;?q*,lang}
 </code></pre>
 
 </td>
@@ -702,6 +704,8 @@ specified.</p>
 <td><code>locations</code></td>
 <td><code><a href="#JWT.Location">JWT.Location[]</a></code></td>
 <td>
+<p>Zero or more locations to search for JWT in an HTTP request.</p>
+
 </td>
 </tr>
 <tr id="JWT.jwks_uri_envoy_cluster">
@@ -893,6 +897,9 @@ conditions defined in the QuotaSpecs should not overlap.</p>
 </section>
 <h2 id="QuotaSpecBinding.QuotaSpecReference">QuotaSpecBinding.QuotaSpecReference</h2>
 <section>
+<p>QuotaSpecReference uniquely identifies the QuotaSpec used in the
+Binding.</p>
+
 <table class="message-fields">
 <thead>
 <tr>
@@ -1187,6 +1194,9 @@ Istio Grafana dashboards to be reconfigured to use the new name.</p>
 </section>
 <h2 id="TransportConfig.NetworkFailPolicy">TransportConfig.NetworkFailPolicy</h2>
 <section>
+<p>NetworkFailPolicy defines behavior when network connection
+failure occurs.</p>
+
 <table class="enum-values">
 <thead>
 <tr>
@@ -1236,7 +1246,7 @@ in the deployment. The primary attribute producer in Istio is Envoy, although
 specialized Mixer adapters and services can also generate attributes.</p>
 
 <p>The common baseline set of attributes available in most Istio deployments is defined
-<a href="https://istio.io/docs/reference/config/mixer/attribute-vocabulary.html">here</a>.</p>
+<a href="{{site.baseurl}}/docs/reference/config/mixer/attribute-vocabulary.html">here</a>.</p>
 
 <p>Attributes are strongly typed. The supported attribute types are defined by
 <a href="https://github.com/istio/api/blob/master/mixer/v1/config/descriptor/value_type.proto">ValueType</a>.
@@ -1269,4 +1279,3 @@ Following places may use this message:
 </tbody>
 </table>
 </section>
-{% endraw %}
