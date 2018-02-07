@@ -22,7 +22,7 @@ In this blog post, I modify the [Istio Bookinfo Sample Application]({{home}}/doc
 ### Initial Setting
 To demonstrate the scenario of consuming an external web service, I start with a Kubernetes cluster with [Istio installed]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps). Then I deploy [Istio Bookinfo Sample Application]({{home}}/docs/guides/bookinfo.html). This application uses the _details_ microservice to fetch book details, such as the number of pages and the publisher. The original _details_ microservice provides the book details without consulting any external service.
 
-The example commands in this blog post work with Istio version 0.2+, with or without [Mutual TLS](https://istio.io/docs/concepts/security/mutual-tls.html) enabled.
+The example commands in this blog post work with Istio version 0.2+, with or without [Mutual TLS]({{home}}/docs/concepts/security/mutual-tls.html) enabled.
 
 The Bookinfo configuration files required for the scenario of this post appear starting from [Istio release version 0.5](https://github.com/istio/istio/releases/tag/0.5.0).
 The Bookinfo configuration files reside in the `samples/bookinfo/kube` directory of the Istio release archive.
@@ -178,7 +178,7 @@ env:
 ```
 
 #### Relation to Istio Mutual TLS
-Note that the TLS origination in this case is unrelated to [the mutual TLS](https://istio.io/docs/concepts/security/mutual-tls.html) applied by Istio. The TLS origination for the external services will work, whether the Istio mutual TLS is enabled or not. The **mutual** TLS secures service-to-service communication **inside** the service mesh and provides each service with a strong identity. In the case of the **external services**, we have **one-way** TLS, the same mechanism used to secure communication between a web browser and a web server. TLS is applied to the communication with external services to verify the identity of the external server and to encrypt the traffic.
+Note that the TLS origination in this case is unrelated to [the mutual TLS]({{home}}/docs/concepts/security/mutual-tls.html) applied by Istio. The TLS origination for the external services will work, whether the Istio mutual TLS is enabled or not. The **mutual** TLS secures service-to-service communication **inside** the service mesh and provides each service with a strong identity. In the case of the **external services**, we have **one-way** TLS, the same mechanism used to secure communication between a web browser and a web server. TLS is applied to the communication with external services to verify the identity of the external server and to encrypt the traffic.
 
 ### Malicious Microservices Threat
 Another issue is that the egress rules are currently **not a security feature**; they only **enable** traffic to external services. For HTTP-based protocols, the rules are based on domains. Istio does not check that the destination IP of the request matches the _Host_ header. This means that a malicious microservice inside a service mesh could trick Istio to allow traffic to a malicious IP. The attack is to set one of the domains allowed by some existing Egress Rule as the _Host_ header of the malicious request.
