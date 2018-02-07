@@ -5,7 +5,6 @@ location: https://istio.io/docs/reference/config/template/metric.html
 layout: protoc-gen-docs
 number_of_entries: 1
 ---
-{% raw %}
 <p>The <code>metric</code> template is designed to let you describe runtime metric to dispatch to
 monitoring backends.</p>
 
@@ -14,8 +13,8 @@ monitoring backends.</p>
 <p>The <code>metric</code> template represents a single piece of data to report.</p>
 
 <p>When writing the configuration, the value for the fields associated with this template can either be a
-literal or an <a href="https://istio.io/docs/reference/config/mixer/expression-language.html">expression</a>. Please note that if the datatype of a field is not istio.mixer.v1.template.Value,
-then the expression&rsquo;s <a href="https://istio.io/docs/reference/config/mixer/expression-language.html#type-checking">inferred type</a> must match the datatype of the field.</p>
+literal or an <a href="{{site.baseurl}}/docs/reference/config/mixer/expression-language.html">expression</a>. Please note that if the datatype of a field is not istio.mixer.v1.template.Value,
+then the expression&rsquo;s <a href="{{site.baseurl}}/docs/reference/config/mixer/expression-language.html#type-checking">inferred type</a> must match the datatype of the field.</p>
 
 <p>Example config:</p>
 
@@ -46,7 +45,7 @@ spec:
 <tbody>
 <tr id="Template.value">
 <td><code>value</code></td>
-<td><code><a href="https://istio.io/docs/reference/config/mixer/istio.mixer.v1.template.html#Value">istio.mixer.v1.template.Value</a></code></td>
+<td><code><a href="{{site.baseurl}}/docs/reference/config/mixer/istio.mixer.v1.template.html#Value">istio.mixer.v1.template.Value</a></code></td>
 <td>
 <p>The value being reported.</p>
 
@@ -54,7 +53,7 @@ spec:
 </tr>
 <tr id="Template.dimensions">
 <td><code>dimensions</code></td>
-<td><code>map&lt;string, <a href="https://istio.io/docs/reference/config/mixer/istio.mixer.v1.template.html#Value">istio.mixer.v1.template.Value</a>&gt;</code></td>
+<td><code>map&lt;string, <a href="{{site.baseurl}}/docs/reference/config/mixer/istio.mixer.v1.template.html#Value">istio.mixer.v1.template.Value</a>&gt;</code></td>
 <td>
 <p>The unique identity of the particular metric to report.</p>
 
@@ -72,7 +71,7 @@ these fields will be ignored by the adapter.</p>
 </tr>
 <tr id="Template.monitored_resource_dimensions">
 <td><code>monitoredResourceDimensions</code></td>
-<td><code>map&lt;string, <a href="https://istio.io/docs/reference/config/mixer/istio.mixer.v1.template.html#Value">istio.mixer.v1.template.Value</a>&gt;</code></td>
+<td><code>map&lt;string, <a href="{{site.baseurl}}/docs/reference/config/mixer/istio.mixer.v1.template.html#Value">istio.mixer.v1.template.Value</a>&gt;</code></td>
 <td>
 <p>Optional. A set of expressions that will form the dimensions of the monitored resource this metric is being reported on.
 If the metric backend supports monitored resources, these fields are used to populate that resource. Otherwise
@@ -83,4 +82,3 @@ these fields will be ignored by the adapter.</p>
 </tbody>
 </table>
 </section>
-{% endraw %}
