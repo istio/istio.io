@@ -122,7 +122,7 @@ To demonstrate the scenario of using an external database, I start with a Kubern
 
 The example commands in this blog post work with Istio version 0.3+, with or without [Mutual TLS]({{home}}/docs/concepts/security/mutual-tls.html) enabled.
 
-Let me remind you the end-to-end architecture of the application from the original [Bookinfo Guide]({{home}}/docs/guides/bookinfo.html).
+As a reminder, here is the end-to-end architecture of the application from the [Bookinfo Guide]({{home}}/docs/guides/bookinfo.html).
 
 {% assign url = home | append: "/docs/guides/img/bookinfo/withistio.svg" %}
 {% include figure.html width='80%' ratio='59.08%'
