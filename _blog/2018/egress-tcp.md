@@ -23,15 +23,16 @@ For this task I set up an instance of [MySQL](https://www.mysql.com). Any MySQL 
 
 1. To initialize the database, I run the following command entering the password when prompted. The command is performed with the credentials of the  `admin` user, created by default by [Compose for MySQL](https://www.ibm.com/cloud/compose/mysql).
    ```bash
-   curl -s https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/src/mysql/mysqldb-init.sql | mysqlsh \
-   --sql --ssl-mode=REQUIRED -u admin -p --host <the database host> --port <the database port>
+   curl -s https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/src/mysql/mysqldb-init.sql |
+   mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host <the database host> --port <the database port>
    ```
 
    _**OR**_
 
    When using the `mysql` client and a local MySQL database, I would run:
    ```bash
-   curl -s https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/src/mysql/mysqldb-init.sql | mysql -u root -p
+   curl -s https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/src/mysql/mysqldb-init.sql |
+   mysql -u root -p
    ```
 
 2. Then I create a user with the name _bookinfo_ and grant it _SELECT_ privilege on the `test.ratings` table:
@@ -44,7 +45,8 @@ For this task I set up an instance of [MySQL](https://www.mysql.com). Any MySQL 
 
    For `mysql` and the local database, the command would be:
    ```bash
-   mysql -u root -p -e "CREATE USER 'bookinfo' IDENTIFIED BY '<password you choose>'; GRANT SELECT ON test.ratings to 'bookinfo';"
+   mysql -u root -p -e \
+   "CREATE USER 'bookinfo' IDENTIFIED BY '<password you choose>'; GRANT SELECT ON test.ratings to 'bookinfo';"
    ```
    Here I apply the [principle of least privilege](https://en.wikipedia.org/wiki/Principle_of_least_privilege). It means that I do not use my _admin_ user in the Bookinfo application. Instead, for Bookinfo application I create a special user, _bookinfo_, with minimal privileges, in this case only the `SELECT` privilege and only on a single table.
 
