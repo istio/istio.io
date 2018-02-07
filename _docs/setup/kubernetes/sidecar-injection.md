@@ -116,7 +116,8 @@ sleep     1         1         1            1           2h        sleep,istio-pro
 
 ## Automatic sidecar injection
 
-See [validatingadmissionwebhook-alpha-in-18-beta-in-19](https://kubernetes.io/docs/admin/admission-controllers/#validatingadmissionwebhook-alpha-in-18-beta-in-19) for overview of webhook admission controller.
+See the [validatingadmissionwebhook-alpha-in-18-beta-in-19](https://kubernetes.io/docs/admin/admission-controllers/#validatingadmissionwebhook-alpha-in-18-beta-in-19) section which lists the webhook admission controllers required for automatic sidecar injection.
+Specifically, verify that the kube-apiserver process has the `admission-control` flag set with the `MutatingAdmissionWebhook, ValidatingAdmissionWebhook` admission controllers.
 
 ### Prerequisites
 
