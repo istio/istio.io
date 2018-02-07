@@ -13,7 +13,7 @@ redirect_from: "/blog/egress-tcp.html"
 ---
 {% include home.html %}
 
-In my previous blog post, [Consuming External Web Services]({{home}}/blog/2018/egress-https.html), I described how external services can be consumed by in-mesh Istio applications via HTTPS. In this post, I will demonstrate how in-mesh Istio applications can consume external applications over TCP. I will use the [Istio Bookinfo Sample Application]({{home}}/docs/guides/bookinfo.html), the version in which the ratings data is persisted in a MySQL database. I will deploy this database outside of the cluster and will configure the _ratings_ microservice to use it. I will define an [egress rule]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#EgressRule) to allow the in-mesh applications access the external database.
+In my previous blog post, [Consuming External Web Services]({{home}}/blog/2018/egress-https.html), I described how external services can be consumed by in-mesh Istio applications via HTTPS. In this post, I demonstrate consuming external services over TCP. I use the [Istio Bookinfo Sample Application]({{home}}/docs/guides/bookinfo.html), the version in which the book ratings data is persisted in a MySQL database. I deploy this database outside the cluster and will configure the _ratings_ microservice to use it. I define an [egress rule]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#EgressRule) to allow the in-mesh applications access the external database.
 
 ## Bookinfo Sample Application with External Ratings Database
 First, I set up a MySQL database instance to hold book ratings data, outside my Kubernetes cluster. Then I modify the [Bookinfo Sample Application]({{home}}/docs/guides/bookinfo.html) to use my database.
@@ -46,7 +46,7 @@ For this task I set up an instance of [MySQL](https://www.mysql.com). Any MySQL 
    ```bash
    mysql -u root -p -e "CREATE USER 'bookinfo' IDENTIFIED BY '<password you choose>'; GRANT SELECT ON test.ratings to 'bookinfo';"
    ```
-   Here I apply the [principle of least privilege](https://en.wikipedia.org/wiki/Principle_of_least_privilege). It means that I do not use my _admin_ user in the Bookinfo application. Instead, for Bookinfo application I create a special user with minimal privileges, in this case only the `SELECT` privilege and only on a single table.
+   Here I apply the [principle of least privilege](https://en.wikipedia.org/wiki/Principle_of_least_privilege). It means that I do not use my _admin_ user in the Bookinfo application. Instead, for Bookinfo application I create a special user, _bookinfo_, with minimal privileges, in this case only the `SELECT` privilege and only on a single table.
 
    After running the command to create the user, I will clean my bash history by checking the number of the last command and running `history -d <the number of the command that created the user>`. I do not want the password of the new user to be stored in the bash history. If I would use mysql, I would remove the last command from `~/.mysql_history` file as well. Read more about password protection of the newly created user in [MySQL documentation](https://dev.mysql.com/doc/refman/5.5/en/create-user.html).
 
@@ -116,7 +116,7 @@ For this task I set up an instance of [MySQL](https://www.mysql.com). Any MySQL 
 Now I am ready to deploy a version of the Bookinfo application that will use my database.
 
 ### Initial Setting of Bookinfo Application
-To demonstrate the scenario of using an external database, I start with a Kubernetes cluster with [[Istio Bookinfo Sample Application]({{home}}/docs/guides/bookinfo.html) installed]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps). Then I deploy [Istio Bookinfo Sample Application]({{home}}/docs/guides/bookinfo.html). This application uses the _ratings_ microservice to fetch book ratings, a number between 1 and 5. The ratings are displayed as stars per each review. There are several versions of the _ratings_ microservice. Some use [MongoDB](https://www.mongodb.com), others use [MySQL](https://www.mysql.com) as their database.
+To demonstrate the scenario of using an external database, I start with a Kubernetes cluster with [Istio installed]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps). Then I deploy [Istio Bookinfo Sample Application]({{home}}/docs/guides/bookinfo.html). This application uses the _ratings_ microservice to fetch book ratings, a number between 1 and 5. The ratings are displayed as stars per each review. There are several versions of the _ratings_ microservice. Some use [MongoDB](https://www.mongodb.com), others use [MySQL](https://www.mysql.com) as their database.
 
 The example commands in this blog post work with Istio version 0.3+, with or without [Mutual TLS](https://istio.io/docs/concepts/security/mutual-tls.html) enabled.
 
@@ -178,9 +178,9 @@ As in [Consuming External Web Services]({{home}}/blog/2018/egress-https.html), w
 We have the same problem as in [Consuming External Web Services]({{home}}/blog/2018/egress-https.html), namely all the traffic outside the Kubernetes cluster, both TCP and HTTP, is blocked by default by sidecar proxies. To enable such traffic for TCP, an egress rule for TCP must be defined.
 
 ### Egress Rule for an External MySQL instance
-TCP egress rules come to our rescue:
-```bash
-cat <<EOF | istioctl create -f -
+TCP egress rules come to our rescue. I copy the following YAML spec to a text file, let's call it `egress-rule-mysql.yaml`, and edit it to specify the IP of my database instance and its port.
+
+```yaml
 apiVersion: config.istio.io/v1alpha2
 kind: EgressRule
 metadata:
@@ -192,10 +192,15 @@ spec:
   ports:
       - port: <MySQL instance port>
         protocol: tcp
-EOF
 ```
 
-Note that for a TCP egress rule, we specify `tcp` as the protocol of a port of the rule. Also note that we use an IP of the external service instead of its domain name. I will talk more about TCP Egress Rules [below](#egress-rules-for-tcp-traffic). For now, let's verify that the egress rule we added fixed the problem.
+```bash
+istioctl create -f egress-rule-mysql.yaml
+```
+```bash
+Created config egress-rule/default/mysql at revision 1954425
+```
+Note that for a TCP egress rule, we specify `tcp` as the protocol of a port of the rule. Also note that we use an IP of the external service instead of its domain name. I will talk more about TCP Egress Rules [below](#egress-rules-for-tcp-traffic). For now, let's verify that the egress rule we added fixed the problem. Let's access the webpage and see if the stars are back.
 
 It worked! Accessing the web page of the application displays the ratings without error:
 
