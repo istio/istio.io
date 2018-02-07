@@ -70,7 +70,7 @@ It also defines "requestcontext", which is an instance of the
 "requestcontext" defines the input to the RBAC engine at runtime.
 
 Point your browser at the BookInfo `productpage` (http://$GATEWAY_URL/productpage). Now you should see
-"PERMISSION_DENIED:handler.rbac.istio-system:RBAC: permission denied." This is because Istio RBAC is "deny by default",
+`"PERMISSION_DENIED:handler.rbac.istio-system:RBAC: permission denied."` This is because Istio RBAC is "deny by default",
 which means that you need to explicitly define access control policy to grant access to any service.
 
   > Note: There may be delay due to caching on browser and Istio proxy.
@@ -92,7 +92,8 @@ Run the following command to create a namespace-level access control policy.
 
 The policy does the following:
 * Creates a ServiceRole "service-viewer" which allows read access to any services in "default" namespace.
-  ```rule
+
+  ```bash
   apiVersion: "config.istio.io/v1alpha2"
   kind: ServiceRole
   metadata:
@@ -103,8 +104,10 @@ The policy does the following:
     - services: ["*"]
       methods: ["GET"]
   ```
+
 * Creates a ServiceRoleBinding that assign the "service-viewer" role to all services in "istio-system" and "default" namespaces.
-  ```rule
+
+  ```bash
   apiVersion: "config.istio.io/v1alpha2"
   kind: ServiceRoleBinding
   metadata:
@@ -122,6 +125,7 @@ The policy does the following:
   ```
 
 You can expect to see the output similar to the following:
+
 ```bash
 servicerole "service-viewer" created
 servicerolebinding "bind-service-viewer" created
@@ -135,6 +139,7 @@ with "Book Details" section in the lower left part and "Book Reviews" section in
 ### Cleanup Namespace-Level Access Control
 
 Remove the following configuration before you proceed to the next task:
+
 ```bash
 kubectl delete -f samples/bookinfo/kube/istio-rbac-namespace.yaml
 ```
@@ -146,7 +151,7 @@ This task shows you how to set up service-level access control using Istio RBAC.
 * You have [removed namespace-level Istio RBAC policy](#cleanup-namespace-level-access-control).
 
 Point your browser at the BookInfo `productpage` (http://$GATEWAY_URL/productpage). You should see
-"PERMISSION_DENIED:handler.rbac.istio-system:RBAC: permission denied." We will incrementally add
+`"PERMISSION_DENIED:handler.rbac.istio-system:RBAC: permission denied."` We will incrementally add
 access to the services in BookInfo sample.
 
 ### Step 1. Allowing Access to "productpage" Service
@@ -160,7 +165,8 @@ Run the following command:
 
 The policy does the following:
 * Creates a ServiceRole "productpage-viewer" which allows read access to "productpage" service.
-  ```rule
+
+  ```bash
   apiVersion: "config.istio.io/v1alpha2"
   kind: ServiceRole
   metadata:
@@ -173,7 +179,8 @@ The policy does the following:
   ```
 
 * Creates a ServiceRoleBinding "bind-productpager-viewer" which assigns "productpage-viewer" role to services from "istio-system" namespace.
-  ```rule
+
+  ```bash
   apiVersion: "config.istio.io/v1alpha2"
   kind: ServiceRoleBinding
   metadata:
@@ -189,7 +196,7 @@ The policy does the following:
   ```
 
 Point your browser at the BookInfo `productpage` (http://$GATEWAY_URL/productpage). Now you should see "BookInfo Sample"
-page. But there are errors "Error fetching product details" and "Error fetching product reviews" on the page. These errors
+page. But there are errors `"Error fetching product details"` and `"Error fetching product reviews"` on the page. These errors
 are expected because we have not granted "productpage" service to access "details" and "reviews" services. We will fix the errors
 in the following steps.
 
@@ -211,7 +218,8 @@ The policy does the following:
   * Read access to "details" service, and
   * Read access to "reviews" services at versions "v2" and "v3". Note that there is a "constraint" specifying that "version" must be
   "v2" or "v3".
-  ```rule
+
+  ```bash
   apiVersion: "config.istio.io/v1alpha2"
   kind: ServiceRole
   metadata:
@@ -230,7 +238,8 @@ The policy does the following:
 
 * Creates a ServiceRoleBinding "bind-details-reviews" which assigns "details-reviews-viewer" role to service
 account "cluster.local/ns/default/sa/bookinfo-productpage" (representing the "productpage" service).
-  ```rule
+
+  ```bash
   apiVersion: "config.istio.io/v1alpha2"
   kind: ServiceRoleBinding
   metadata:
@@ -247,15 +256,15 @@ account "cluster.local/ns/default/sa/bookinfo-productpage" (representing the "pr
 Point your browser at the BookInfo `productpage` (http://$GATEWAY_URL/productpage). Now you should see "BookInfo Sample"
 page with "Book Details" on the lower left part, and "Book Reviews" on the lower right part. However, in "Book Reviews" section,
 you see one of the following two errors:
-1. "Error featching product reviews". This is because "productpage" service is only allowed to access "reviews" service with versions
+1. `"Error featching product reviews"`. This is because "productpage" service is only allowed to access "reviews" service with versions
 "v2" or "v3". The error occurs when "productpage" service is routed to "reviews" service at version "v1".
-2. "Book Reviews" section is shown on the lower right part of the page. But there is an error "Ratings service currently unavailable". This
+2. "Book Reviews" section is shown on the lower right part of the page. But there is an error `"Ratings service currently unavailable"`. This
 is because "reviews" service does not have permission to access "ratings" service.
 
   > Note: There may be delay due to caching on browser and Istio proxy.
 
 To fix the first error, you need to remove the "version" constraint, so that the "details-reviews-viewer" role look like the following:
-  ```rule
+  ```bash
   apiVersion: "config.istio.io/v1alpha2"
   kind: ServiceRole
   metadata:
@@ -268,7 +277,6 @@ To fix the first error, you need to remove the "version" constraint, so that the
     - services: ["reviews.default.svc.cluster.local"]
       methods: ["GET"]
   ```
-Note that in the above ServiceRole specification, the "constraints" part in the role is removed.
 
 To fix the second issue, you need to grant "reviews" service read access to "ratings" service. We will show how to do that in the next step.
 
@@ -286,7 +294,8 @@ Run the following command to create a policy that allows "reviews" service to re
 
 The policy does the following:
 * Creates a ServiceRole "ratings-viewer" which allows read access to "ratings" service.
-  ```rule
+
+  ```bash
   apiVersion: "config.istio.io/v1alpha2"
   kind: ServiceRole
   metadata:
@@ -297,9 +306,11 @@ The policy does the following:
     - services: ["ratings.default.svc.cluster.local"]
       methods: ["GET"]
   ```
+
 * Creates a ServiceRoleBinding "bind-ratings" which assigns "ratings-viewer" role to service
 account "cluster.local/ns/default/sa/bookinfo-reviews", which represents the "reviews" services.
-  ```rule
+
+  ```bash
   apiVersion: "config.istio.io/v1alpha2"
   kind: ServiceRoleBinding
   metadata:
@@ -320,7 +331,8 @@ the "black" and "red" ratings in "Book Reviews" section.
 
 If you would like to only see "red" ratings in "Book Reviews" section, you can do that by specifying that only "reviews"
 service at version "v3" can access "ratings" service.
-  ```rule
+
+  ```bash
   apiVersion: "config.istio.io/v1alpha2"
   kind: ServiceRoleBinding
   metadata:
