@@ -6,7 +6,11 @@ title: Istio
 
 <div class="hero">
     <div class="container">
-        <h1 class="hero-label">Istio</h1>
+        {% if site.data.istio.archive %}
+            <h1 class="hero-label">Istio Archive {{site.data.istio.short_version}}</h1>
+        {% else %}
+            <h1 class="hero-label">Istio</h1>
+        {% endif %}
         <img class="hero-logo" alt="Istio Logo" src="{{home}}/img/istio-logo.svg" />
         <h1 class="hero-lead">An open platform to connect, manage, and secure microservices</h1>
         <span onclick="getElementById('SCROLLME').scrollIntoView({block: 'start', inline: 'nearest', behavior: 'smooth'})" class="hero-down-arrow fa fa-2

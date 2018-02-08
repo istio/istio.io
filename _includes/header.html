@@ -12,7 +12,11 @@
 
         <a class="navbar-brand d-flex w-50 mr-auto" href="{{home}}/" style="visibility: {{visibility}}">
             <img class="logo" src="{{home}}/img/istio-logo.svg" alt="Istio Logo"/>
-            <span class="brand-name">Istio</span>
+            {% if site.data.istio.archive %}
+                <span class="brand-name">Istioldie {{site.data.istio.short_version}}</span>
+            {% else %}
+                <span class="brand-name">Istio</span>
+            {% endif %}
         </a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,8 +32,23 @@
                 <a class="nav-item nav-link {% if current[1] == 'community.html' %}active{% endif %}" href="{{home}}/community">Community</a>
             </div>
 
+            <div class="dropdown">
+                <a href="" class="nav-link nav-item dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                         aria-expanded="false">
+                    {{site.data.istio.short_version}}
+                </a>
+                <div class="dropdown-menu">
+                    {% if site.data.istio.archive %}
+                        <li><a href="https://istio.io">Latest</a></li>
+                    {% endif %}
+                    {% for a in site.data.archives.archives %}
+                        <li><a href="https://archive.istio.io/{{a}}/">Archive {{a}}</a></li>
+                    {% endfor %}
+                </div>
+            </div>
+
             <form name="cse" id="searchbox" class="form-inline justify-content-end" role="search">
-                <input type="hidden" name="cx" value="013699703217164175118:veyyqmfmpj4" />
+                <input type="hidden" name="cx" value="{{site.data.istio.search_engine_id}}" />
                 <input type="hidden" name="ie" value="utf-8" />
                 <input type="hidden" name="hl" value="en" />
                 <div class="input-group">
