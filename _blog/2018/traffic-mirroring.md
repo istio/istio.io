@@ -1,0 +1,49 @@
+---
+title: "Traffic mirroring with Istio for testing in production"
+overview: An introduction to safer, lower-risk deployments and release to production
+publish_date: February 8, 2018
+subtitle: Routing rules for HTTP traffic
+attribution: Christian Posta
+
+order: 95
+
+layout: blog
+type: markdown
+redirect_from: "/blog/traffic-mirroring.html"
+---
+{% include home.html %}
+
+Tryign to enumerate all of the possible cominations of test cases for testing services in lower environments can be daunting. In some cases, you'll find that all of the effort that goes into cataloging this use cases doesn't match up to real production use cases. Ideally, we could use live production usecases and traffic to help illuminate all of the areas of our code that we might miss in more contrived lower-stage testing. 
+
+Istio can help here. With the release of [Istio 0.5.0]({{home}}/about/notes/0.5.html), Istio can mirror traffic to help test your services. We can write route rules similar to the following the enable mirroring:
+
+
+```yaml
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: mirror-traffic-to-httbin-v2
+spec:
+  destination:
+    name: httpbin
+  precedence: 11
+  route:
+  - labels:
+      version: v1
+    weight: 100
+  - labels: 
+      version: v2
+    weight: 0
+  mirror:
+    name: httpbin
+    labels:
+      version: v2
+``` 
+
+A few things to note here:
+
+* When traffic gets mirrored to a different service, that happens outside the critical path of the request
+* Responses to any mirrored traffic is ignored; traffic is mirrored as "fire-and-forget"
+* We'll need to have the 0 weighted route to hint to Istio to create the proper Envoy cluster under the covers; [this should be ironed out in future releases](https://github.com/istio/istio/issues/3270).
+
+For more on this, see the [Mirroring Task]({{home}}/docs/tasks/traffic-management/mirroring.html) from the Istio docs and see the more [comprehensive treatment of this scenario on my blog](http://blog.christianposta.com/microservices/traffic-shadowing-with-istio-reduce-the-risk-of-code-release/)
