@@ -44,7 +44,13 @@ alpha cluster, it does not support automatic node or master upgrades and will be
    - [Istio GKE Deployment Manager](https://accounts.google.com/signin/v2/identifier?service=cloudconsole&continue=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/master/install/gcp/deployment_manager/istio-cluster.jinja&followup=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/master/install/gcp/deployment_manager/istio-cluster.jinja&flowName=GlifWebSignIn&flowEntry=ServiceLogin)
 
    We recommend that you leave the default settings as the rest of this tutorial shows how to access the installed features. By default the tool creates a 
-   GKE alpha cluster with the specified settings, then installs the Istio [control plane]({{home}}/docs/concepts/what-is-istio/overview.html#architecture), the [BookInfo](https://istio.io/docs/guides/bookinfo.html) sample app, [Grafana](https://istio.io/docs/tasks/telemetry/using-istio-dashboard.html) with [Prometheus](https://istio.io/docs/tasks/telemetry/querying-metrics.html), [ServiceGraph](https://istio.io/docs/tasks/telemetry/servicegraph.html), and [Zipkin](https://istio.io/docs/tasks/telemetry/distributed-tracing.html#zipkin). You'll find out more about how to access all of these below.
+   GKE alpha cluster with the specified settings, then installs the Istio [control plane]({{home}}/docs/concepts/what-is-istio/overview.html#architecture), the
+   [BookInfo]({{home}}/docs/guides/bookinfo.html) sample app,
+   [Grafana]({{home}}/docs/tasks/telemetry/using-istio-dashboard.html) with
+   [Prometheus]({{home}}/docs/tasks/telemetry/querying-metrics.html),
+   [ServiceGraph]({{home}}/docs/tasks/telemetry/servicegraph.html),
+   and [Zipkin]({{home}}/docs/tasks/telemetry/distributed-tracing.html#zipkin).
+   You'll find out more about how to access all of these below.
 
 2. Click **Deploy**:
 
