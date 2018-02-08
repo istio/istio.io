@@ -133,7 +133,7 @@ This requires you have `openssl` installed on your machine.
   kubectl delete -f install/kubernetes/istio-auth.yaml
   ```
 
-## Further reading
+## What's next
 
 * Read the [Istio CA arguments](https://github.com/istio/istio/blob/master/security/cmd/istio_ca/main.go).
 * Read [how the sample certificates and keys are generated](https://github.com/istio/istio/blob/master/security/samples/plugin_ca_certs).

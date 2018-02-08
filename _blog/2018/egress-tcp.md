@@ -258,7 +258,13 @@ Note that all the IPs of an external service are not always known. To enable TCP
 Also note that the IPs of an external service are not always static, for example in the case of [CDNs](https://en.wikipedia.org/wiki/Content_delivery_network). Sometimes the IPs are static most of the time, but can be changed from time to time, for example due to infrastructure changes. In these cases, if the range of the possible IPs is known, you should specify the range by CIDR blocks, by multiple egress rules if needed, as in the case of `wikipedia.org`,  described in [Control Egress TCP Traffic Task]({{home}}/docs/tasks/traffic-management/egress-tcp.html). If the range of the possible IPs is not known, egress rules for TCP cannot be used and [the external services must be called directly]({{home}}/docs/tasks/traffic-management/egress.html#calling-external-services-directly), circumventing the sidecar proxies.
 
 ## Relation to mesh expansion
-Note that the scenario described in this post is different from the mesh expansion scenario, described in the [Integrating Virtual Machines](https://istio.io/docs/guides/integrating-vms.html) guide. In that scenario, a MySQL instance runs on a an external (outside the cluster) machine (a bare metal or a VM), integrated with the Istio service mesh. The MySQL service becomes a first-class citizen of the mesh with all the beneficial features of Istio applicable. Among other things, the service becomes addressable by a local cluster domain name, for example by `mysqldb.vm.svc.cluster.local`, and the communication to it can be secured by [mutual TLS authentication](https://istio.io/docs/concepts/security/mutual-tls.html). There is no need to create an egress rule to access this service, however the service has to be registered with Istio. To enable such integration, Istio components (_Envoy proxy_, _node-agent_, _istio-agent_) must be installed on the machine and the Istio control plane (_Pilot_, _Mixer_, _CA_) must be accessible from it. See the [Istio Mesh Expansion](https://istio.io/docs/setup/kubernetes/mesh-expansion.html) instructions for more details.
+Note that the scenario described in this post is different from the mesh expansion scenario, described in the
+[Integrating Virtual Machines]({{home}}/docs/guides/integrating-vms.html) guide. In that scenario, a MySQL instance runs on a an external
+(outside the cluster) machine (a bare metal or a VM), integrated with the Istio service mesh. The MySQL service becomes a first-class citizen of the mesh with all the beneficial features of Istio applicable. Among other things, the service becomes addressable by a local cluster domain name, for example by `mysqldb.vm.svc.cluster.local`, and the communication to it can be secured by
+[mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html). There is no need to create an egress rule to access this service, however the
+service has to be registered with Istio. To enable such integration, Istio components (_Envoy proxy_, _node-agent_, _istio-agent_) must be
+installed on the machine and the Istio control plane (_Pilot_, _Mixer_, _CA_) must be accessible from it. See the
+[Istio Mesh Expansion]({{home}}/docs/setup/kubernetes/mesh-expansion.html) instructions for more details.
 
 In our case, the MySQL instance can run on any machine or can be provisioned as a service by a cloud provider. There is no requirement to integrate the machine with Istio. The Istio contol plane does not have to be accessible from the machine. In the case of MySQL as a service, the machine which MySQL runs on, may be not accessible and installing on it the required components may be impossible. In our case, the MySQL instance is addressable by its global domain name, which could be beneficial if the consuming applications expect to use that domain name. Especially, when this expectation cannot be changed by the deployment configuration of the consuming applications.
 
@@ -276,28 +282,28 @@ In our case, the MySQL instance can run on any machine or can be provisioned as 
    mysql -u root -p -e "drop database test; drop user bookinfo;"
    ```
 2. Remove the route rules:
-  ```bash
-  istioctl delete -f samples/bookinfo/kube/route-rule-ratings-mysql.yaml
-  ```
-  ```bash
-  Deleted config: route-rule/default/ratings-test-v2-mysql
-  Deleted config: route-rule/default/reviews-test-ratings-v2
-  ```
+   ```bash
+   istioctl delete -f samples/bookinfo/kube/route-rule-ratings-mysql.yaml
+   ```
+   ```bash
+   Deleted config: route-rule/default/ratings-test-v2-mysql
+   Deleted config: route-rule/default/reviews-test-ratings-v2
+   ```
 3. Undeploy _ratings v2-mysql_:
-  ```bash
-  kubectl delete -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml)
-  ```
-  ```bash
-  deployment "ratings-v2-mysql" deleted
-  ```
+   ```bash
+   kubectl delete -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml)
+   ```
+   ```bash
+   deployment "ratings-v2-mysql" deleted
+   ```
 
 4. Delete the egress rule:
-```bash
-istioctl delete egressrule mysql -n default
-```
-```bash
-Deleted config: egressrule mysql
-```
+   ```bash
+   istioctl delete egressrule mysql -n default
+   ```
+   ```bash
+   Deleted config: egressrule mysql
+   ```
 
 ## Future work
 In my next blog posts I will show examples of combining route rules and egress rules, and also examples of accessing external services via Kubernetes _ExternalName_ services.
@@ -305,7 +311,8 @@ In my next blog posts I will show examples of combining route rules and egress r
 ## Conclusion
 In this blog post I demonstrated how the microservices in an Istio service mesh can consume external services via TCP. By default, Istio blocks all the traffic, TCP and HTTP, to the hosts outside the cluster. To enable such traffic for TCP, TCP egress rules must be created for the service mesh.
 
-## Further reading
+## What's next
+
 To read more about Istio egress traffic control:
 * for TCP, see [Control Egress TCP Traffic Task]({{home}}/docs/tasks/traffic-management/egress-tcp.html)
 * for HTTP/HTTPS, see [Control Egress Traffic Task]({{home}}/docs/tasks/traffic-management/egress.html)

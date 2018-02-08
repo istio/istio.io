@@ -370,7 +370,7 @@ example stack.
 1. Send traffic to the sample application.
 
    For the
-   [BookInfo](/docs/guides/bookinfo.html#determining-the-ingress-ip-and-port)
+   [BookInfo]({{home}}/docs/guides/bookinfo.html#determining-the-ingress-ip-and-port)
    sample, visit `http://$GATEWAY_URL/productpage` in your web browser
    or issue the following command:
 
@@ -413,18 +413,14 @@ example stack.
   [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
   to shutdown the application.
 
-## Further reading
+## What's next
 
-* [Collecting Metrics and
-  Logs](/docs/tasks/telemetry/metrics-logs.html) for a detailed
+* [Collecting Metrics and Logs]({{home}}/docs/tasks/telemetry/metrics-logs.html) for a detailed
   explanation of the log configurations.
 
 * Learn more about [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html)
-  and [Mixer
-  Config]({{home}}/docs/concepts/policy-and-control/mixer-config.html).
+  and [Mixer Config]({{home}}/docs/concepts/policy-and-control/mixer-config.html).
 
-* Discover the full [Attribute
-  Vocabulary]({{home}}/docs/reference/config/mixer/attribute-vocabulary.html).
+* Discover the full [Attribute Vocabulary]({{home}}/docs/reference/config/mixer/attribute-vocabulary.html).
 
-* Read the reference guide to [Writing
-  Config]({{home}}/docs/reference/writing-config.html).
+* Read the reference guide to [Writing Config]({{home}}/docs/reference/writing-config.html).
