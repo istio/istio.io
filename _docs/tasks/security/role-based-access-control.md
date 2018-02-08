@@ -10,7 +10,7 @@ type: markdown
 {% include home.html %}
 
 This task shows how to set up role-based access control (RBAC) for services in Istio mesh. You can read more about Istio
-RBAC from [Istio RBAC concept page](https://istio.io/docs/concepts/security/rbac.html).
+RBAC from [Istio RBAC concept page]({{home}}/docs/concepts/security/rbac.html).
 
 ## Before you begin
 
@@ -61,9 +61,9 @@ Point your browser at the BookInfo `productpage` (http://$GATEWAY_URL/productpag
 
 Run the following command to enable Istio RBAC.
 
-  ```bash
-  kubectl apply -f samples/bookinfo/kube/istio-rbac-enable.yaml
-  ```
+```bash
+kubectl apply -f samples/bookinfo/kube/istio-rbac-enable.yaml
+```
 
 It also defines "requestcontext", which is an instance of the
 [authorization template](https://github.com/istio/istio/blob/master/mixer/template/authorization/template.proto).
@@ -75,7 +75,7 @@ which means that you need to explicitly define access control policy to grant ac
 
   > Note: There may be delay due to caching on browser and Istio proxy.
 
-## Namespace-Level Access Control
+## Namespace-level access control
 
 Using Istio RBAC, you can easily setup namespace-level access control by specifying all (or a collection of) services
 in a namespace are accessible by services from another namespace.
@@ -86,9 +86,9 @@ services in "default" namespace are accessible by services in the same namespace
 services in "istio-system" namespace.
 
 Run the following command to create a namespace-level access control policy.
-  ```bash
-  kubectl apply -f samples/bookinfo/kube/istio-rbac-namespace.yaml
-  ```
+```bash
+kubectl apply -f samples/bookinfo/kube/istio-rbac-namespace.yaml
+```
 
 The policy does the following:
 * Creates a ServiceRole "service-viewer" which allows read access to any services in "default" namespace.
@@ -136,7 +136,7 @@ with "Book Details" section in the lower left part and "Book Reviews" section in
 
   > Note: There may be delay due to caching on browser and Istio proxy.
 
-### Cleanup Namespace-Level Access Control
+### Cleanup namespace-level access control
 
 Remove the following configuration before you proceed to the next task:
 
@@ -144,7 +144,7 @@ Remove the following configuration before you proceed to the next task:
 kubectl delete -f samples/bookinfo/kube/istio-rbac-namespace.yaml
 ```
 
-## Service-Level Access Control
+## Service-level access control
 
 This task shows you how to set up service-level access control using Istio RBAC. Before you start, please make sure that:
 * You have [enabled Istio RBAC](#enabling-istio-rbac).
@@ -154,14 +154,14 @@ Point your browser at the BookInfo `productpage` (http://$GATEWAY_URL/productpag
 `"PERMISSION_DENIED:handler.rbac.istio-system:RBAC: permission denied."` We will incrementally add
 access to the services in BookInfo sample.
 
-### Step 1. Allowing Access to "productpage" Service
+### Step 1. allowing access to "productpage" service
 
 In this step, we will create a policy that allows external requests to view `productpage` service via Ingress.
 
 Run the following command:
-  ```bash
-  kubectl apply -f samples/bookinfo/kube/istio-rbac-productpage.yaml
-  ```
+```bash
+kubectl apply -f samples/bookinfo/kube/istio-rbac-productpage.yaml
+```
 
 The policy does the following:
 * Creates a ServiceRole "productpage-viewer" which allows read access to "productpage" service.
@@ -202,16 +202,16 @@ in the following steps.
 
   > Note: There may be delay due to caching on browser and Istio proxy.
 
-### Step 2. Allowing "productpage" Service to Access "details" and "reviews" Services
+### Step 2. allowing "productpage" service to access "details" and "reviews" services
 
 We will create a policy to allow "productpage" service to read "details" and "reviews" services. Note that in the
 [setup step](#before-you-begin), we created a service account "bookinfo-productpage" for "productpage" service. This
 "bookinfo-productpage" service account is the authenticated identify for "productpage" service.
 
 Run the following command:
-  ```bash
-  kubectl apply -f samples/bookinfo/kube/istio-rbac-details-reviews.yaml
-  ```
+```bash
+kubectl apply -f samples/bookinfo/kube/istio-rbac-details-reviews.yaml
+```
 
 The policy does the following:
 * Creates a ServiceRole "details-reviews-viewer" which allows
@@ -264,23 +264,23 @@ is because "reviews" service does not have permission to access "ratings" servic
   > Note: There may be delay due to caching on browser and Istio proxy.
 
 To fix the first error, you need to remove the "version" constraint, so that the "details-reviews-viewer" role look like the following:
-  ```bash
-  apiVersion: "config.istio.io/v1alpha2"
-  kind: ServiceRole
-  metadata:
-    name: details-reviews-viewer
-    namespace: default
-  spec:
-    rules:
-    - services: ["details.default.svc.cluster.local"]
-      methods: ["GET"]
-    - services: ["reviews.default.svc.cluster.local"]
-      methods: ["GET"]
-  ```
+```bash
+apiVersion: "config.istio.io/v1alpha2"
+kind: ServiceRole
+metadata:
+  name: details-reviews-viewer
+  namespace: default
+spec:
+  rules:
+  - services: ["details.default.svc.cluster.local"]
+    methods: ["GET"]
+  - services: ["reviews.default.svc.cluster.local"]
+    methods: ["GET"]
+```
 
 To fix the second issue, you need to grant "reviews" service read access to "ratings" service. We will show how to do that in the next step.
 
-### Step 3. Allowing "reviews" Service to Access "ratings" Service
+### Step 3. allowing "reviews" service to access "ratings" service
 
 We will create a policy to allow "reviews" service to read "ratings" service. Note that in the
 [setup step](#before-you-begin), we created a service account "bookinfo-reviews" for "reviews" service. This
@@ -288,9 +288,9 @@ We will create a policy to allow "reviews" service to read "ratings" service. No
 
 Run the following command to create a policy that allows "reviews" service to read "ratings" service.
 
-  ```bash
-  kubectl apply -f samples/bookinfo/kube/istio-rbac-ratings.yaml
-  ```
+```bash
+kubectl apply -f samples/bookinfo/kube/istio-rbac-ratings.yaml
+```
 
 The policy does the following:
 * Creates a ServiceRole "ratings-viewer" which allows read access to "ratings" service.
@@ -332,40 +332,45 @@ the "black" and "red" ratings in "Book Reviews" section.
 If you would like to only see "red" ratings in "Book Reviews" section, you can do that by specifying that only "reviews"
 service at version "v3" can access "ratings" service.
 
-  ```bash
-  apiVersion: "config.istio.io/v1alpha2"
-  kind: ServiceRoleBinding
-  metadata:
-    name: bind-ratings
-    namespace: default
-  spec:
-    subjects:
-    - user: "cluster.local/ns/default/sa/bookinfo-reviews"
-      properties:
-        version: "v3"
-    roleRef:
-      kind: ServiceRole
-      name: "ratings-viewer"
-  ```
+```bash
+apiVersion: "config.istio.io/v1alpha2"
+kind: ServiceRoleBinding
+metadata:
+  name: bind-ratings
+  namespace: default
+spec:
+  subjects:
+  - user: "cluster.local/ns/default/sa/bookinfo-reviews"
+    properties:
+      version: "v3"
+  roleRef:
+    kind: ServiceRole
+    name: "ratings-viewer"
+```
 
 ## Cleanup
+
 * Remove Istio RBAC policy configuration:
+
   ```bash
-    kubectl delete -f samples/bookinfo/kube/istio-rbac-ratings.yaml
-    kubectl delete -f samples/bookinfo/kube/istio-rbac-details-reviews.yaml
-    kubectl delete -f samples/bookinfo/kube/istio-rbac-productpage.yaml
+  kubectl delete -f samples/bookinfo/kube/istio-rbac-ratings.yaml
+  kubectl delete -f samples/bookinfo/kube/istio-rbac-details-reviews.yaml
+  kubectl delete -f samples/bookinfo/kube/istio-rbac-productpage.yaml
   ```
-Alternatively, you can delete all ServiceRole and ServiceRoleBinding objects by running the following commands:
+
+  Alternatively, you can delete all ServiceRole and ServiceRoleBinding objects by running the following commands:
+
   ```bash
-    kubectl delete servicerole --all
-    kubectl delete servicerolebinding --all
+  kubectl delete servicerole --all
+  kubectl delete servicerolebinding --all
   ```
 
 * Disable Istio RBAC:
+
   ```bash
-    kubectl delete -f samples/bookinfo/kube/istio-rbac-enable.ymal
+  kubectl delete -f samples/bookinfo/kube/istio-rbac-enable.ymal
   ```
 
-## Further reading
+## What's next
 
 * Learn more about [Istio RBAC]({{home}}/docs/concepts/security/rbac.html).

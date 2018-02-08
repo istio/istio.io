@@ -264,7 +264,7 @@ protocols within policies.
   [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
   to shutdown the application.
 
-## Further reading
+## What's next
 
 * Learn more about [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html)
   and [Mixer

@@ -140,20 +140,21 @@ attributes using a match condition in the quota rule.
 
 For example, consider the following configuration:
 
-   ```yaml
-   apiVersion: config.istio.io/v1alpha2
-   kind: rule
-   metadata:
-     name: quota
-     namespace: istio-system
-   spec:
-     match: source.namespace != destination.namespace
-     actions:
-     - handler: handler.memquota
-       instances:
-       - requestcount.quota
+```yaml
+apiVersion: config.istio.io/v1alpha2
+kind: rule
+metadata:
+ name: quota
+ namespace: istio-system
+spec:
+ match: source.namespace != destination.namespace
+ actions:
+ - handler: handler.memquota
+   instances:
+   - requestcount.quota
 
-   ```
+```
+
 This configuration applies the quota rule to requests whose source and destination namespaces are different.
 
 ## Understanding rate limits
@@ -194,7 +195,7 @@ If you would like the above policies enforced for a given namespace instead of t
   [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
   to shutdown the application.
 
-## Further reading
+## What's next
 
 * Learn more about [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html) and [Mixer Config]({{home}}/docs/concepts/policy-and-control/mixer-config.html).
 
