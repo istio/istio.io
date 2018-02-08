@@ -205,9 +205,9 @@ necessary to invoke individual adapters. The phase operates by evaluating a seri
 You have already seen a few simple attribute expressions in the previous examples:
 
 ```yaml
-  destination_service: destination.service
-  response_code: response.code
-  destination_version: destination.labels["version"] | "unknown"
+destination_service: destination.service
+response_code: response.code
+destination_version: destination.labels["version"] | "unknown"
 ```
 The sequences on the right-hand side of the colons are the simplest forms of attribute expressions.
 The first two only consist of attribute names. The `response_code` label is assigned the value from the `request.code` attribute.
@@ -215,7 +215,7 @@ The first two only consist of attribute names. The `response_code` label is assi
 Here's an example of a conditional expression:
 
 ```yaml
-  destination_version: destination.labels["version"] | "unknown"
+destination_version: destination.labels["version"] | "unknown"
 ```
 
 With the above, the `destination_version` label is assigned the value of `destination.labels["version"]`. However if that attribute
