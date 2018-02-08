@@ -181,6 +181,6 @@ all users to v2, optionally in a gradual fashion. We'll explore this in a separa
   [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
   to shutdown the application.
 
-## Further reading
+## What's next
 
 * Learn more about [request routing]({{home}}/docs/concepts/traffic-management/rules-configuration.html).
