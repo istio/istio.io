@@ -41,6 +41,4 @@ the master branch.
 
 1. Delete the `CNAME` file.
 
-1. View your staged content at this URL:
-
-        https://<your-username>.github.io
+1. View your staged content at this URL: `https://<your-username>.github.io`
