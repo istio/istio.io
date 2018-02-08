@@ -175,7 +175,7 @@ Verify that after logging in as "jason" you see black stars.
   [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
   to shutdown the application.
 
-## Further reading
+## What's next
 
 * Learn how to securely control access based on the service account [here]({{home}}/docs/tasks/security/secure-access-control.html).
 

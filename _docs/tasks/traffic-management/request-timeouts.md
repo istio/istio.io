@@ -146,7 +146,7 @@ the timeout is specified in millisecond (instead of second) units.
   [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
   to shutdown the application.
 
-## Further reading
+## What's next
 
 * Learn more about [failure handling]({{home}}/docs/concepts/traffic-management/handling-failures.html).
 

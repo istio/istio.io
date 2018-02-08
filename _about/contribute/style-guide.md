@@ -49,9 +49,11 @@ represents.
 
 1. Display information about a pod:
 
-        kubectl describe pod <pod-name>
-
-    where `<pod-name>` is the name of one of your pods.
+   ```bash
+   kubectl describe pod <pod-name>
+   ```
+   
+  where `<pod-name>` is the name of one of your pods.
 
 ### Use **bold** for user interface elements
 
@@ -115,7 +117,7 @@ except is a word is a proper noun or an acronym.
 
 |Do               | Don't
 |-----------------|------
-|kubectl get pods | $ kubectl get pods
+|`kubectl get pods` | `$ kubectl get pods`
 
 ### Separate commands from output
 
