@@ -130,6 +130,6 @@ continue without any errors.
   [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
   to shutdown the application.
 
-## Further reading
+## What's next
 
 * Learn more about [fault injection]({{home}}/docs/concepts/traffic-management/fault-injection.html).

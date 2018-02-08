@@ -115,14 +115,15 @@ This command will create five egress rules, a rule per different block of IPs of
    We should see `200` printed as the output, which is the HTTP code _OK_.
 
 3. Now let's fetch the current number of articles in English language:
-  ```bash
-  curl -s https://en.wikipedia.org/wiki/Main_Page | grep articlecount | grep 'Special:Statistics'
-  ```
+   ```bash
+   curl -s https://en.wikipedia.org/wiki/Main_Page | grep articlecount | grep 'Special:Statistics'
+   ```
 
-  The output should be similar to:
-  ```bash
-  <div id="articlecount" style="font-size:85%;"><a href="/wiki/Special:Statistics" title="Special:Statistics">5,563,121</a> articles in <a href="/wiki/English_language" title="English language">English</a></div>
-  ```
+   The output should be similar to:
+
+   ```bash
+   <div id="articlecount" style="font-size:85%;"><a href="/wiki/Special:Statistics" title="Special:Statistics">5,563,121</a> articles in <a  href="/wiki/English_language" title="English language">English</a></div>
+   ```
 
   This means there were 5,563,121 articles in Wikipedia in English when this task was written.
 
@@ -131,7 +132,7 @@ This command will create five egress rules, a rule per different block of IPs of
 1. Remove the egress rules we created.
 
    ```bash
-  istioctl delete egressrule wikipedia-range1 wikipedia-range2 wikipedia-range3 wikipedia-range4 wikipedia-range5 -n default
+   istioctl delete egressrule wikipedia-range1 wikipedia-range2 wikipedia-range3 wikipedia-range4 wikipedia-range5 -n default
    ```
 
 1. Shutdown the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) application.
@@ -140,7 +141,7 @@ This command will create five egress rules, a rule per different block of IPs of
    kubectl delete -f samples/sleep/sleep.yaml
    ```
 
-## Further reading
+## What's next
 
 * The [Egress Rules]({{home}}/docs/concepts/traffic-management/rules-configuration.html#egress-rules) reference.
 

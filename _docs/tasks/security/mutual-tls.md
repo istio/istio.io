@@ -121,7 +121,7 @@ about how the client verifies the server's identity in Istio.
 
 What we are demonstrating and verifying above is that the server accepts the connection from the client. Try not giving the client `--key` and `--cert` and observe you are not allowed to connect and you do not get an HTTP 200.
 
-## Further reading
+## What's next
 
 * Learn more about the design principles behind Istio's automatic mTLS authentication
   between all services in this
