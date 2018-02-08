@@ -11,3 +11,4 @@ config_override.yml
 .bundle/
 tmp/
 *.bak
+.DS_Store
