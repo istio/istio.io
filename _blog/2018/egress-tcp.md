@@ -166,7 +166,7 @@ As a reminder, here is the end-to-end architecture of the application from the [
    Created config route-rule/default/reviews-test-ratings-v2 at revision 1918800
    ```
 
-The updated architecture appears below. Note that the blue arrows inside the mesh mark the traffic sent according to the route rules we added. According to the route rules, the traffic is sent to _reviews v3_ and _ratings v2-mysql_.
+The updated architecture appears below. Note that the blue arrows inside the mesh mark the traffic configured according to the route rules we added. According to the route rules, the traffic is sent to _reviews v3_ and _ratings v2-mysql_.
 
 {% include figure.html width='80%' ratio='59.31%'
     img='./img/bookinfo-ratings-v2-mysql-external.svg'
