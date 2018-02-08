@@ -276,28 +276,28 @@ In our case, the MySQL instance can run on any machine or can be provisioned as 
    mysql -u root -p -e "drop database test; drop user bookinfo;"
    ```
 2. Remove the route rules:
-  ```bash
-  istioctl delete -f samples/bookinfo/kube/route-rule-ratings-mysql.yaml
-  ```
-  ```bash
-  Deleted config: route-rule/default/ratings-test-v2-mysql
-  Deleted config: route-rule/default/reviews-test-ratings-v2
-  ```
+   ```bash
+   istioctl delete -f samples/bookinfo/kube/route-rule-ratings-mysql.yaml
+   ```
+   ```bash
+   Deleted config: route-rule/default/ratings-test-v2-mysql
+   Deleted config: route-rule/default/reviews-test-ratings-v2
+   ```
 3. Undeploy _ratings v2-mysql_:
-  ```bash
-  kubectl delete -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml)
-  ```
-  ```bash
-  deployment "ratings-v2-mysql" deleted
-  ```
+   ```bash
+   kubectl delete -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml)
+   ```
+   ```bash
+   deployment "ratings-v2-mysql" deleted
+   ```
 
 4. Delete the egress rule:
-```bash
-istioctl delete egressrule mysql -n default
-```
-```bash
-Deleted config: egressrule mysql
-```
+   ```bash
+   istioctl delete egressrule mysql -n default
+   ```
+   ```bash
+   Deleted config: egressrule mysql
+   ```
 
 ## Future work
 In my next blog posts I will show examples of combining route rules and egress rules, and also examples of accessing external services via Kubernetes _ExternalName_ services.
@@ -305,7 +305,8 @@ In my next blog posts I will show examples of combining route rules and egress r
 ## Conclusion
 In this blog post I demonstrated how the microservices in an Istio service mesh can consume external services via TCP. By default, Istio blocks all the traffic, TCP and HTTP, to the hosts outside the cluster. To enable such traffic for TCP, TCP egress rules must be created for the service mesh.
 
-## Further reading
+## What's next
+
 To read more about Istio egress traffic control:
 * for TCP, see [Control Egress TCP Traffic Task]({{home}}/docs/tasks/traffic-management/egress-tcp.html)
 * for HTTP/HTTPS, see [Control Egress Traffic Task]({{home}}/docs/tasks/traffic-management/egress.html)

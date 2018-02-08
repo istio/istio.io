@@ -200,6 +200,6 @@ When you make downstream calls in your applications, make sure to include these 
   [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
   to shutdown the application.
 
-## Further reading
+## What's next
 
 * Learn more about [Metrics and Logs]({{home}}/docs/tasks/telemetry/metrics-logs.html)
