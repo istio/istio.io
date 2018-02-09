@@ -162,6 +162,57 @@ minikube start \
 	--extra-config=apiserver.Admission.PluginNames=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota \
 	--kubernetes-version=v1.9.0
 ```
+
+### AWS (with Kops)
+
+When you install a new cluster with Kubernetes version 1.9, prerequisite for `admissionregistration.k8s.io/v1beta1` enabled is covered. 
+
+Nevertheless admission controllers needs to be updated.
+
+```bash
+kops edit cluster $YOURCLUSTER
+```
+
+Add following in the configuration file just openned:
+
+```bash
+kubeAPIServer:
+    admissionControl:
+    - NamespaceLifecycle
+    - LimitRanger
+    - ServiceAccount
+    - PersistentVolumeLabel
+    - DefaultStorageClass
+    - DefaultTolerationSeconds
+    - MutatingAdmissionWebhook
+    - ValidatingAdmissionWebhook
+    - ResourceQuota
+    - Initializers
+    - NodeRestriction
+    - Priority
+```
+
+Perform the update
+
+```bash
+kops update cluster
+kops update cluster --yes
+```
+
+Launch the rolling update
+
+```bash
+kops rolling-update cluster
+kops rolling-update cluster --yes
+```
+
+Validate with a `ps` on master node, you should see new admission controller
+
+```bash
+/bin/sh -c /usr/local/bin/kube-apiserver --address=127.0.0.1 --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota,Initializers,NodeRestriction,Priority [...]
+```
+   
+
 ### Installing the Webhook 
 
 Install base Istio.
