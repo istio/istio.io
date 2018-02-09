@@ -142,6 +142,6 @@ docs](https://prometheus.io/docs/querying/basics/).
   [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
   to shutdown the application.
 
-## Further reading
+## What's next
 
 * Refer to the [In-Depth Telemetry]({{home}}/docs/guides/telemetry.html) guide.

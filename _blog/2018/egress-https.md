@@ -17,12 +17,12 @@ In many cases, not all the parts of a microservices-based application reside in 
 
 In this blog post, I modify the [Istio Bookinfo Sample Application]({{home}}/docs/guides/bookinfo.html) to fetch book details from an external web service ([Google Books APIs](https://developers.google.com/books/docs/v1/getting_started)). I show how to enable external HTTPS traffic in Istio by using an _egress rule_. Finally, I explain the current issues related to the egress traffic control in Istio.
 
-## Bookinfo Sample Application with External Details Web Service
+## Bookinfo sample application with external details web service
 
-### Initial Setting
+### Initial setting
 To demonstrate the scenario of consuming an external web service, I start with a Kubernetes cluster with [Istio installed]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps). Then I deploy [Istio Bookinfo Sample Application]({{home}}/docs/guides/bookinfo.html). This application uses the _details_ microservice to fetch book details, such as the number of pages and the publisher. The original _details_ microservice provides the book details without consulting any external service.
 
-The example commands in this blog post work with Istio version 0.2+, with or without [Mutual TLS](https://istio.io/docs/concepts/security/mutual-tls.html) enabled.
+The example commands in this blog post work with Istio version 0.2+, with or without [Mutual TLS]({{home}}/docs/concepts/security/mutual-tls.html) enabled.
 
 The Bookinfo configuration files required for the scenario of this post appear starting from [Istio release version 0.5](https://github.com/istio/istio/releases/tag/0.5.0).
 The Bookinfo configuration files reside in the `samples/bookinfo/kube` directory of the Istio release archive.
@@ -37,7 +37,7 @@ Here is a copy of the end-to-end architecture of the application from the origin
     caption='The Original Bookinfo Application'
     %}
 
-### Bookinfo with Details Version 2
+### Bookinfo with details version 2
 Let's add a new version of the _details_ microservice, _v2_, that fetches the book details from [Google Books APIs](https://developers.google.com/books/docs/v1/getting_started).
 
 ```bash
@@ -88,7 +88,7 @@ The good news is that our application did not crash. With a good microservice de
 
 So what might have gone wrong? Ah... The answer is that I forgot to enable traffic from inside the mesh to an external service, in this case to the Google Books web service. By default, the Istio sidecar proxies ([Envoy proxies](https://www.envoyproxy.io)) **block all the traffic to destinations outside the cluster**. To enable such traffic, we must define an [egress rule]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#EgressRule).
 
-### Egress Rule for Google Books Web Service
+### Egress rule for Google Books web service
 No worries, let's define an **egress rule** and fix our application:
 ```bash
 cat <<EOF | istioctl create -f -
@@ -140,8 +140,8 @@ Deleted config: egressrule googleapis
 
 Accessing the web page after deleting the egress rule produces the same error that we experienced before, namely _Error fetching product details_. As we can see, the egress rules are defined **dynamically**, as many other Istio configuration artifacts. The Istio operators can decide dynamically which domains they allow the microservices to access. They can enable and disable traffic to the external domains on the fly, without redeploying the microservices.
 
-## Issues with Istio Egress Traffic Control
-### TLS Origination by Istio
+## Issues with Istio egress traffic control
+### TLS origination by Istio
 There is a caveat to this story. In HTTPS, all the HTTP details (hostname, path, headers etc.) are encrypted, so Istio cannot know the destination domain of the encrypted requests. Well, Istio could know the destination domain by the  [SNI](https://tools.ietf.org/html/rfc3546#section-3.1) (_Server Name Indication_) field. This feature, however, is not yet implemented in Istio. Therefore, currently Istio cannot perform filtering of HTTPS requests based on the destination domains.
 
 To allow Istio to perform filtering of egress requests based on domains, the microservices must issue HTTP requests. Istio then opens an HTTPS connection to the destination (performs TLS origination). The code of the microservices must be written differently or configured differently, according to whether the microservice runs inside or outside an Istio service mesh. This contradicts the Istio design goal of [maximizing transparency]({{home}}/docs/concepts/what-is-istio/goals.html). Sometimes we need to compromise...
@@ -177,18 +177,18 @@ env:
   value: "true"
 ```
 
-#### Relation to Istio Mutual TLS
-Note that the TLS origination in this case is unrelated to [the mutual TLS](https://istio.io/docs/concepts/security/mutual-tls.html) applied by Istio. The TLS origination for the external services will work, whether the Istio mutual TLS is enabled or not. The **mutual** TLS secures service-to-service communication **inside** the service mesh and provides each service with a strong identity. In the case of the **external services**, we have **one-way** TLS, the same mechanism used to secure communication between a web browser and a web server. TLS is applied to the communication with external services to verify the identity of the external server and to encrypt the traffic.
+#### Relation to Istio mutual TLS
+Note that the TLS origination in this case is unrelated to [the mutual TLS]({{home}}/docs/concepts/security/mutual-tls.html) applied by Istio. The TLS origination for the external services will work, whether the Istio mutual TLS is enabled or not. The **mutual** TLS secures service-to-service communication **inside** the service mesh and provides each service with a strong identity. In the case of the **external services**, we have **one-way** TLS, the same mechanism used to secure communication between a web browser and a web server. TLS is applied to the communication with external services to verify the identity of the external server and to encrypt the traffic.
 
-### Malicious Microservices Threat
+### Malicious microservices threat
 Another issue is that the egress rules are currently **not a security feature**; they only **enable** traffic to external services. For HTTP-based protocols, the rules are based on domains. Istio does not check that the destination IP of the request matches the _Host_ header. This means that a malicious microservice inside a service mesh could trick Istio to allow traffic to a malicious IP. The attack is to set one of the domains allowed by some existing Egress Rule as the _Host_ header of the malicious request.
 
 Securing egress traffic is currently not supported in Istio and should be performed elsewhere, for example by a firewall or by an additional proxy outside Istio. Right now, we're working to enable the application of Mixer security policies on the egress traffic and to prevent the attack described above.
 
-### No Tracing, Telemetry and No Mixer Checks
+### No tracing, telemetry and no mixer checks
 Note that currently no tracing and telemetry information can be collected for the egress traffic. Mixer policies cannot be applied. We are working to fix this in future Istio releases.
 
-## Future Work
+## Future work
 In my next blog posts I will demonstrate Istio egress rules for TCP traffic and will show examples of combining routing rules and egress rules.
 
 In Istio, we are working on making Istio egress traffic more secure, and in particular on enabling tracing, telemetry, and Mixer checks for the egress traffic.
