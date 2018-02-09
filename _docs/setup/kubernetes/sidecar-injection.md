@@ -167,7 +167,7 @@ minikube start \
 
 When you install a new cluster with Kubernetes version 1.9, prerequisite for `admissionregistration.k8s.io/v1beta1` enabled is covered. 
 
-Nevertheless admission controllers needs to be updated.
+Nevertheless the list of admission controllers needs to be updated.
 
 ```bash
 kops edit cluster $YOURCLUSTER
