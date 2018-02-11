@@ -30,6 +30,8 @@ HTML-Proofer finished successfully.
 ```
 in the output
 
+> In some cases the `--incremental` may not work properly and you might have to remove it.
+
 ## Local/Native Jekyll install:
 
 Alternatively, if you just want to develop locally w/o Docker/Kubernetes/Minikube, you can try installing Jekyll locally. You may need to install other prerequisites manually (which is where using the docker image shines). Here's an example of doing so for Mac OS X:
