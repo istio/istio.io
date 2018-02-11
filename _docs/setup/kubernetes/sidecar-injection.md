@@ -11,11 +11,11 @@ type: markdown
 
 _NOTE_: The following requires Istio 0.5.0 or greater. See [https://archive.istio.io/v0.4/docs/setup/kubernetes/sidecar-injection](https://archive.istio.io/v0.4/docs/setup/kubernetes/sidecar-injection) for Istio versions 0.4.0 or older.
 
-_NOTE_: In previous releases the Kubernetes initializer feature has been used for automatic proxy injection. This was an alpha feature subject to change/removal and not enabled by default in Kubernetes. Starting in Istio 0.5.0 release the automatic proxy injection uses Kubernetes mutating webhooks. This Kubernetes feature is beta and available by default in Kubernetes 1.9 and beyond. Support for the alpha initializer mechanism for proxy injection has been removed in 0.5.0. Users who cannot uprade to Kubernetes 1.9 should use manual injection.
+_NOTE_: In previous releases, the Kubernetes initializer feature was used for automatic proxy injection. This was an Alpha feature, subject to change/removal, and not enabled by default in Kubernetes. Starting in Kubernetes 1.9 it was replaced by a beta feature called [mutating webhooks](https://kubernetes.io/docs/admin/admission-controllers/#mutatingadmissionwebhook-beta-in-19), which is now enabled by default in Kubernetes 1.9 and beyond. Starting in Istio 0.5.0 the automatic proxy injection uses mutating webhooks, and support for injection by initializer has been removed. Users who cannot uprade to Kubernetes 1.9 should use manual injection.
 
 # Pod Spec Requirements
 
-In order to be a part of the service mesh, each pod in the kubernetes
+In order to be a part of the service mesh, each pod in the Kubernetes
 cluster must satisfy the following requirements:
 
 1. _**Service association**:_ The pod must belong to a _single_
@@ -116,28 +116,30 @@ sleep     1         1         1            1           2h        sleep,istio-pro
 
 ## Automatic sidecar injection
 
-See [validatingadmissionwebhook-alpha-in-18-beta-in-19](https://kubernetes.io/docs/admin/admission-controllers/#validatingadmissionwebhook-alpha-in-18-beta-in-19) for overview of webhook admission controller.
+Sidecars can be automatically added to applicable Kubernetes pods using a 
+[mutating webhook admission controller](https://kubernetes.io/docs/admin/admission-controllers/#validatingadmissionwebhook-alpha-in-18-beta-in-19), available in Kubernetes 1.9 and above.
 
 ### Prerequisites
 
-Kubernetes 1.9 cluster is required with `admissionregistration.k8s.io/v1beta1` enabled.
+A Kubernetes 1.9 cluster is required, with the `admissionregistration.k8s.io/v1beta1` API enabled.  This is enabled by default on most instllations.  If you want to check, you can grep:
 
 ```bash
-kubectl api-versions | grep admissionregistration.k8s.io/v1beta1
+kubectl api-versions | grep admissionregistration
 ```
+
+You should see 
 ```
 admissionregistration.k8s.io/v1beta1
 ```
 
-#### GKE
+#### Google Kubernetes Engine (GKE)
 
-1.9.1 is available for non-whitelisted early access users with alpha clusters (see [https://cloud.google.com/kubernetes-engine/release-notes#january-16-2018](https://cloud.google.com/kubernetes-engine/release-notes#january-16-2018)). 
+Kubernetes 1.9 is generally available on Google Kubernetes Engine (GKE).  At the time of writing it is not the default version, so to create a cluster:
 
 ```bash
 gcloud container clusters create <cluster-name> \
-    --enable-kubernetes-alpha 
-    --cluster-version=1.9.1-gke.0 
-    --zone=<zone>
+    --cluster-version=1.9.2-gke.1 
+    --zone <zone>
     --project <project-name>
 ```
 ```bash
