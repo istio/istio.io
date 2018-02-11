@@ -60,6 +60,16 @@ header {
             a {
                 font-weight: $linkWeight;
             }
+
+            .theme-selector {
+                cursor: pointer;
+                font-weight: $linkWeight;
+                color: $linkColor;
+            }
+
+            i {
+                color: $textColor;
+            }
         }
 
         #searchbox {

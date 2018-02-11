@@ -41,12 +41,12 @@
                 <div class="dropdown-menu">
                     {% if site.data.istio.archive %}
                         <li>
-                            <i style="visibility: hidden" class='fa fa-lg fa-check'></i>
+                            <i style="visibility: hidden" class='fa fa-check'></i>
                             <a href="https://istio.io">Latest</a>
                         </li>
                     {% else %}
                         <li>
-                            <i class='fa fa-lg fa-check'></i>
+                            <i class='fa fa-check'></i>
                             <a href="https://istio.io">{{site.data.istio.short_version}}</a>
                         </li>
                     {% endif %}
@@ -62,9 +62,9 @@
                             {% endif %}
 
                             {% if selected %}
-                                <i class='fa fa-lg fa-check'></i>
+                                <i class='fa fa-check'></i>
                             {% else %}
-                                <i style="visibility: hidden;" class='fa fa-lg fa-check'></i>
+                                <i style="visibility: hidden;" class='fa fa-check'></i>
                             {% endif %}
 
                             <a href="https://archive.istio.io/{{a}}/">Archive {{a}}</a>
@@ -74,13 +74,13 @@
                     <li class="dropdown-divider"></li>
 
                     <li>
-                        <i class='fa fa-lg fa-check light'></i>
-                        <a href="#" onclick="setActiveStyleSheet('light');return false;">Light Theme</a>
+                        <i class='fa fa-check light'></i>
+                        <span class="theme-selector" onclick="setActiveStyleSheet('light');return false;">Light Theme</span>
                     </li>
 
                     <li>
-                        <i class='fa fa-lg fa-check dark'></i>
-                        <a href="#" onclick="setActiveStyleSheet('dark');return false;">Dark Theme</a>
+                        <i class='fa fa-check dark'></i>
+                        <span class="theme-selector" onclick="setActiveStyleSheet('dark');return false;">Dark Theme</span>
                     </li>
                 </div>
             </div>
