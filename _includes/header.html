@@ -35,15 +35,53 @@
             <div class="dropdown">
                 <a href="" class="nav-link nav-item dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                          aria-expanded="false">
-                    {{site.data.istio.short_version}}
+                    <i class='fa fa-lg fa-gear'></i>
                 </a>
+
                 <div class="dropdown-menu">
                     {% if site.data.istio.archive %}
-                        <li><a href="https://istio.io">Latest</a></li>
+                        <li>
+                            <i style="visibility: hidden" class='fa fa-check'></i>
+                            <a href="https://istio.io">Latest</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <i class='fa fa-check'></i>
+                            <a href="https://istio.io">{{site.data.istio.short_version}}</a>
+                        </li>
                     {% endif %}
+
                     {% for a in site.data.archives.archives %}
-                        <li><a href="https://archive.istio.io/{{a}}/">Archive {{a}}</a></li>
+                        <li>
+                            {% assign selected = false %}
+                            {% if site.data.istio.archive %}
+                                {% assign vname = site.data.istio.short_version | prepend: "v" %}
+                                {% if vname == a %}
+                                    {% assign selected = true %}
+                                {% endif %}
+                            {% endif %}
+
+                            {% if selected %}
+                                <i class='fa fa-check'></i>
+                            {% else %}
+                                <i style="visibility: hidden;" class='fa fa-check'></i>
+                            {% endif %}
+
+                            <a href="https://archive.istio.io/{{a}}/">Archive {{a}}</a>
+                        </li>
                     {% endfor %}
+
+                    <li class="dropdown-divider"></li>
+
+                    <li>
+                        <i class='fa fa-check light'></i>
+                        <span class="theme-selector" onclick="setActiveStyleSheet('light');return false;">Light Theme</span>
+                    </li>
+
+                    <li>
+                        <i class='fa fa-check dark'></i>
+                        <span class="theme-selector" onclick="setActiveStyleSheet('dark');return false;">Dark Theme</span>
+                    </li>
                 </div>
             </div>
 
