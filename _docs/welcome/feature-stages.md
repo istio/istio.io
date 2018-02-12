@@ -35,7 +35,7 @@ Below is our list of existing features and their current phases. This informatio
 
 | Feature           | Phase      
 |-------------------|-------------------
-| [Mesh-wide Settings](https://istio.io/docs/reference/config/service-mesh.html) | Alpha
+| [Mesh-wide Settings]({{home}}/docs/reference/config/service-mesh.html) | Alpha
 | [Basic config validation](https://github.com/istio/istio/issues/1894)    | Alpha
 
 
@@ -43,17 +43,17 @@ Below is our list of existing features and their current phases. This informatio
 
 | Feature           | Phase      
 |-------------------|-------------------
-| [Ingress Controller](https://istio.io/docs/tasks/traffic-management/ingress.html)         | Alpha
-| [Basic Egress](https://istio.io/docs/tasks/traffic-management/egress.html)               | Alpha
+| [Ingress Controller]({{home}}/docs/tasks/traffic-management/ingress.html)         | Alpha
+| [Basic Egress]({{home}}/docs/tasks/traffic-management/egress.html)               | Alpha
 | [Protocols HTTP 1.1](https://github.com/istio/istio/blob/master/pilot/model/service.go#L104)         | Beta
 | [Protocols HTTP 2.0](https://github.com/istio/istio/blob/master/pilot/model/service.go#L101)        | Alpha
 | [Protocols gRPC](https://github.com/istio/istio/blob/master/pilot/model/service.go#L97)     		   | Alpha
 | [Protocols TCP](https://github.com/istio/istio/blob/master/pilot/model/service.go#L107)         	   | Alpha
 | [Protocols: WebSocket](https://github.com/istio/istio/blob/master/pilot/proxy/envoy/testdata/websocket-route.yaml.golden)       | Alpha
 | [Protocols: MongoDB](https://github.com/istio/istio/blob/master/pilot/model/service.go#L134)         | Alpha
-| [Basic Routing Rules](https://istio.io/docs/tasks/traffic-management/request-routing.html)      | Alpha
-| [Distributed Tracing Zipkin / Jaeger](https://istio.io/docs/tasks/telemetry/distributed-tracing.html)        | Beta
-| [Istioctl CLI](https://istio.io/docs/reference/commands/istioctl.html)        | Alpha
+| [Basic Routing Rules]({{home}}/docs/tasks/traffic-management/request-routing.html)      | Alpha
+| [Distributed Tracing Zipkin / Jaeger]({{home}}/docs/tasks/telemetry/distributed-tracing.html)        | Beta
+| [Istioctl CLI]({{home}}/docs/reference/commands/istioctl.html)        | Alpha
 
 ### Integrations
 
@@ -61,13 +61,13 @@ Below is our list of existing features and their current phases. This informatio
 | Feature           | Phase      
 |-------------------|-------------------
 | [Mixer Adapter Authoring Model](https://github.com/istio/istio/blob/master/mixer/doc/adapters.md) | Alpha
-| [Mixer Configuration Model](https://istio.io/docs/concepts/policy-and-control/mixer-config.html)    | Alpha
-| [Prometheus Adapter](https://istio.io/docs/guides/telemetry.html)         | Beta
-| [Local Logging Adapter (STDIO, File)](https://istio.io/docs/guides/telemetry.html)               | Beta
-| [Deny Adapter](https://istio.io/docs/reference/config/mixer/adapters/denier.html)         | Beta
-| [ListCheck Adapter](https://istio.io/docs/reference/config/mixer/adapters/list.html)        | Beta
-| [Kubernetes Attributes Adapter](https://istio.io/docs/reference/config/mixer/adapters/kubernetes.html)     		   | Alpha
-| [Statsd Adapter](https://istio.io/docs/reference/config/mixer/adapters/statsd.html)         	   | Beta
+| [Mixer Configuration Model]({{home}}/docs/concepts/policy-and-control/mixer-config.html)    | Alpha
+| [Prometheus Adapter]({{home}}/docs/guides/telemetry.html)         | Beta
+| [Local Logging Adapter (STDIO, File)]({{home}}/docs/guides/telemetry.html)               | Beta
+| [Deny Adapter]({{home}}/docs/reference/config/mixer/adapters/denier.html)         | Beta
+| [ListCheck Adapter]({{home}}/docs/reference/config/mixer/adapters/list.html)        | Beta
+| [Kubernetes Attributes Adapter]({{home}}/docs/reference/config/mixer/adapters/kubernetes.html)     		   | Alpha
+| [Statsd Adapter]({{home}}/docs/reference/config/mixer/adapters/statsd.html)         	   | Beta
 | [Tracing Adapter](https://github.com/istio/old_mixer_repo/issues/797)       | Alpha
 | [Mixer Telemetry Collection](https://github.com/istio/old_mixer_repo/issues/63)         | Alpha
 | [Support for Mixer in Envoy (Mixer Client Library)](https://github.com/istio/mixerclient)      | Alpha
@@ -77,12 +77,12 @@ Below is our list of existing features and their current phases. This informatio
 
 | Feature           | Phase        
 |-------------------|-------------------
-| [VM: Basic Envoy Installation, Interception and Registration for VMs](https://istio.io/docs/guides/integrating-vms.html) | Alpha
-| [Kubernetes: Istio Installation](https://istio.io/docs/setup/kubernetes/)    | Alpha
+| [VM: Basic Envoy Installation, Interception and Registration for VMs]({{home}}/docs/guides/integrating-vms.html) | Alpha
+| [Kubernetes: Istio Installation]({{home}}/docs/setup/kubernetes/)    | Alpha
 | [Kubernetes: Envoy Installation](https://goo.gl/jhng56)               | Alpha
-| [Kubernetes: Pilot supports K8s Service Discovery](https://istio.io/docs/setup/kubernetes/)         | Alpha
-| [Kubernetes: Traffic Interception](https://istio.io/docs/setup/kubernetes/)        | Beta
-| [Integration into Consul Service Discovery](https://istio.io/docs/setup/consul/quick-start.html)     		   | Alpha
+| [Kubernetes: Pilot supports K8s Service Discovery]({{home}}/docs/setup/kubernetes/)         | Alpha
+| [Kubernetes: Traffic Interception]({{home}}/docs/setup/kubernetes/)        | Beta
+| [Integration into Consul Service Discovery]({{home}}/docs/setup/consul/quick-start.html)     		   | Alpha
 | [Bring your own service name/DNS](https://docs.google.com/document/d/1If-t_g7CZnRX_dc0NG4y6CRGoI5FhkgUCqnNmPt9eFY/edit)         	   | Alpha
 
 
@@ -93,18 +93,18 @@ Below is our list of existing features and their current phases. This informatio
 |-------------------|-------------------
 | [Istio on Istio (secure istio components)](https://docs.google.com/document/d/1YzYPddihbLgJhme27-md9COn0NnKUKX_xCJ_GPXU4Fw/edit#heading=h.jbmfrt4h5lj0) | Alpha
 | [Incremental mTLS](https://docs.google.com/document/d/1D7wZCQjVB72Wlwr5ZxP5WUmn3FUDr-XzfX8OodPXe8Y/edit)    | Alpha
-| [VM Credential Distribution](https://istio.io/docs/concepts/security/mutual-tls.html)         | Alpha
-| [Kubernetes Credential Distribution](https://istio.io/docs/concepts/security/mutual-tls.html)               | Beta
-| [Istio mTLS](https://istio.io/docs/concepts/security/mutual-tls.html)         | Beta
-| [Pluggable Key/Cert Support for Istio CA](https://istio.io/docs/tasks/security/plugin-ca-cert.html)        | Beta
+| [VM Credential Distribution]({{home}}/docs/concepts/security/mutual-tls.html)         | Alpha
+| [Kubernetes Credential Distribution]({{home}}/docs/concepts/security/mutual-tls.html)               | Beta
+| [Istio mTLS]({{home}}/docs/concepts/security/mutual-tls.html)         | Beta
+| [Pluggable Key/Cert Support for Istio CA]({{home}}/docs/tasks/security/plugin-ca-cert.html)        | Beta
 
 ### User Interface
 
 
 | Feature           | Phase       
 |-------------------|-------------------
-| [Grafana Dashboard](https://istio.io/docs/tasks/telemetry/using-istio-dashboard.html) | Alpha
-| [Service Graph](https://istio.io/docs/tasks/telemetry/servicegraph.html)    | Alpha
+| [Grafana Dashboard]({{home}}/docs/tasks/telemetry/using-istio-dashboard.html) | Alpha
+| [Service Graph]({{home}}/docs/tasks/telemetry/servicegraph.html)    | Alpha
 
 
 ### Performance and Scalability
