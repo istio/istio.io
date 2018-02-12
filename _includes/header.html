@@ -35,23 +35,62 @@
             <div class="dropdown">
                 <a href="" class="nav-link nav-item dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                          aria-expanded="false">
-                    <i class='fa fa-lg fa-gear'></i>
+                    <i class='fa fa-lg fa-cog'></i>
                 </a>
 
                 <div class="dropdown-menu">
+                    {% assign target = "" %}
+                    {% if current[1] == 'about' %}
+                        {% assign target = "about" %}
+                    {% elsif current[1] == 'blog' %}
+                        {% assign target = "blog" %}
+                    {% elsif current[1] == 'community.html' %}
+                        {% assign target = "community" %}
+                    {% elsif current[1] == 'help' %}
+                        {% assign target = "help" %}
+                    {% elsif current[1] == 'docs' %}
+                        {% assign target = "docs" %}
+                        {% if current[2] == 'reference' %}
+                            {% assign target = "docs/reference" %}
+                        {% elsif current[2] == 'guides' %}
+                            {% assign target = "docs/guides" %}
+                        {% elsif current[2] == 'tasks' %}
+                            {% assign target = "docs/tasks" %}
+                        {% elsif current[2] == 'concepts' %}
+                            {% assign target = "docs/concepts" %}
+                        {% elsif current[2] == 'setup' %}
+                            {% assign target = "docs/setup" %}
+                        {% endif %}
+                    {% endif %}
+
                     {% if site.data.istio.archive %}
                         <li>
                             <i style="visibility: hidden" class='fa fa-check'></i>
-                            <a href="https://istio.io">Latest</a>
+                            <a href="https://istio.io/{{target}}">Latest</a>
                         </li>
                     {% else %}
                         <li>
                             <i class='fa fa-check'></i>
-                            <a href="https://istio.io">{{site.data.istio.short_version}}</a>
+                            <a href="https://istio.io/{{target}}">{{site.data.istio.short_version}}</a>
                         </li>
                     {% endif %}
 
                     {% for a in site.data.archives.archives %}
+
+                        {% if a == "v0.1" %}
+                            {% if target == "docs/setup" %}
+                                {% assign target = "docs/tasks/installing-istio" %}
+                            {% elsif target == "docs/guides" %}
+                                {% assign target = "docs/samples" %}
+                            {% elsif target == "help" %}
+                                {% assign target = "faq" %}
+                            {% endif %}
+                        {% else if a == "v0.2" %}
+                            {% if target == "help" %}
+                                {% assign target = "faq" %}
+                            {% endif %}
+                        {% endif %}
+
                         <li>
                             {% assign selected = false %}
                             {% if site.data.istio.archive %}
@@ -67,7 +106,7 @@
                                 <i style="visibility: hidden;" class='fa fa-check'></i>
                             {% endif %}
 
-                            <a href="https://archive.istio.io/{{a}}/">Archive {{a}}</a>
+                            <a href="https://archive.istio.io/{{a}}/{{target}}">Archive {{a}}</a>
                         </li>
                     {% endfor %}
 
