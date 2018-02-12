@@ -2,14 +2,16 @@
 ---
 
 {% if site.data.istio.archive %}
-@import "base/archive_colors";
+@import "base/brand_colors_archive";
 {% else %}
-@import "base/normal_colors";
+@import "base/brand_colors_normal";
 {% endif %}
+
+@import "themes/dark";
+@import "themes/dark_syntax";
 
 @import "base/constants";
 @import "base/common";
-@import "base/syntax-coloring";
 
 @import "modules/header";
 @import "modules/footer";

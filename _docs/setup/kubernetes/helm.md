@@ -12,6 +12,7 @@ type: markdown
 
 Quick Start instructions for the setup and configuration of Istio using the Helm package manager.
 
+<span style="color:red">**Warning: Helm charts are currently broken in 0.5.0**</span>
 
 ## Prerequisites
 
@@ -23,7 +24,7 @@ is also required.  Finally this Helm chart **does not** yet implement automatic 
 
 1. If a service account has not already been installed for Helm, please install one:
    ```bash
-   kubectl create -f install/kubernetes/helm-service-account.yaml
+   kubectl create -f install/kubernetes/helm/helm-service-account.yaml
    ```
 
 1. Initialize Helm:

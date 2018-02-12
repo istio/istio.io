@@ -26,6 +26,7 @@ body {
     margin-bottom: $footerHeight-xs;
     font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: $textColor;
+    background-color: $backgroundColor;
 
     @media (min-height: $bp-md-v) {
         padding-top: $headerHeight;
@@ -39,19 +40,25 @@ body {
 a {
     color: $linkColor;
     text-decoration: none;
-    font-weight: 500;
+    font-weight: $linkWeight;
 }
 
 a:hover, a:focus {
     color: $linkHoverColor;
     text-decoration: none;
-    font-weight: 500;
+    font-weight: $linkWeight;
 }
 
 a.disabled {
     color: $linkDisabledColor;
     text-decoration: none;
-    font-weight: 500;
+    font-weight: $linkWeight;
+}
+
+a.active {
+    color: $linkActiveColor;
+    text-decoration: none;
+    font-weight: $linkWeight;
 }
 
 table, th, td, tr {
@@ -72,9 +79,9 @@ table p:last-of-type {
 }
 
 th {
-    color: $white;
+    color: $textBrandColor;
     background-color: $secondBrandColor;
-    font-weight: normal;
+    font-weight: $tableHeaderWeight;
 }
 
 tr.oneof>td {
@@ -88,8 +95,8 @@ table {
 }
 
 th, td {
-    border-left: 1px solid $secondBrandColor;
-    border-top: 1px solid $secondBrandColor;
+    border-left: 1px solid $boxBorderColor;
+    border-top: 1px solid $boxBorderColor;
 }
 
 tr:first-child th:first-child {
@@ -109,7 +116,7 @@ tr:first-child td:last-child {
 }
 
 tr:last-child td {
-    border-bottom: 1px solid $secondBrandColor;
+    border-bottom: 1px solid $boxBorderColor;
 }
 
 tr:last-child td:first-child {
@@ -121,11 +128,11 @@ tr:last-child td:last-child {
 }
 
 tr th:last-child {
-    border-right: 1px solid $secondBrandColor;
+    border-right: 1px solid $boxBorderColor;
 }
 
 tr td:last-child {
-    border-right: 1px solid $secondBrandColor;
+    border-right: 1px solid $boxBorderColor;
 }
 
 thead+tbody tr:first-child td:first-child {
@@ -139,14 +146,14 @@ thead+tbody tr:first-child td:last-child {
 pre {
     margin: 1em;
     max-height: 31em;
-    border: 1px solid $secondBrandColor;
-    border-left: 7px solid $secondBrandColor;
+    border: 1px solid $boxBorderColor;
+    border-left: 7px solid $boxBorderColor;
     border-radius: 4px;
     background-image: linear-gradient(transparent 50%, rgba(69,142,209,0.04) 50%);
     background-size: 3em 3em;
     background-origin: content-box;
     background-attachment: local;
-    box-shadow: 3px 3px 8px #a7a7a7;
+    box-shadow: 3px 3px 8px $codeBlockShadowColor;
 
     code {
         display: block;
@@ -159,7 +166,7 @@ pre {
         border-radius: .3em;
         background-color: $secondBrandColor;
         cursor: pointer;
-        color: $white;
+        color: $textBrandColor;
         margin-right: 1px;
     }
 
@@ -180,6 +187,7 @@ pre {
 
 p {
     font-size: $font-size--xs;
+    font-weight: $textWeight;
     line-height: 1.5;
     margin: .25em 0;
 
@@ -190,6 +198,7 @@ p {
 
 li, dt, dd {
     font-size: $font-size--xs;
+    font-weight: $textWeight;
     line-height: 1.5;
     margin: .25em;
 }
@@ -197,6 +206,7 @@ li, dt, dd {
 ol, ul, dl {
     list-style: initial;
     font-size: $font-size--primary;
+    font-weight: $textWeight;
     margin: 0 1.5em;
     padding: 0;
 }
@@ -211,30 +221,29 @@ ol {
 
 h1, h2, h3, h4, h5, h6 {
     border: 0;
-    font-weight: normal;
 }
 
 h1 {
     font-size: $font-size--xxl;
-    color: $secondBrandColor;
+    color: $h1Color;
+    font-weight: $h1Weight;
     margin: 30px 0;
 }
 
 h2 {
     font-size: $font-size--xl;
-    color: $black;
+    color: $h2Color;
+    font-weight: $h2Weight;
     margin-bottom: 20px;
     margin-top: 30px;
     padding-bottom: 10px;
-    border-bottom: 1px;
-    border-color: $gray;
-    border-style: solid;
+    border-bottom: 1px solid $h2UnderlineColor;
 }
 
 h3 {
     font-size: $font-size--l;
-    font-weight: 500;
-    color: $dark-gray;
+    color: $h3Color;
+    font-weight: $h3Weight;
     letter-spacing: 1px;
     margin-bottom: 20px;
     margin-top: 30px;
@@ -242,9 +251,9 @@ h3 {
 
 h4 {
     font-size: $font-size--l;
-    font-weight: 500;
+    color: $h4Color;
+    font-weight: $h4Weight;
     margin: 30px 0 20px;
-    color: $dark-gray;
 
     // Text immediately following h4 should have same level of indention
     + p {
@@ -258,14 +267,14 @@ h4 {
 
 h5 {
     font-size: $font-size--s;
-    font-weight: 500;
-    color: $black;
+    color: $h5Color;
+    font-weight: $h5Weight;
 }
 
 h6 {
     font-size: .9rem;
-    font-weight: 500;
-    color: $black;
+    color: $h6Color;
+    font-weight: $h6Weight;
 }
 
 em {
@@ -273,7 +282,7 @@ em {
 }
 
 strong {
-    font-weight: bold;
+    font-weight: $boldTextWeight;
 }
 
 img {
@@ -283,12 +292,16 @@ img {
 blockquote {
     display: block;
     margin: 1em 3em;
-    background-color: $light-gray;
+    padding-left: 1em;
+    padding-right: 1em;
+    background-color: $blockQuoteBackgroundColor;
+    border-radius: 4px 4px 4px 4px;
 }
 
 code {
-    color: #d14;
-    font-size: 75%;
+    color: $textCodeColor;
+    font-size: 80%;
+    font-weight: $textCodeWeight;
     word-break: normal;
 }
 
@@ -301,5 +314,14 @@ code {
 }
 
 .deprecated {
-    background: silver;
+    background: $deprecatedBackgroundColor;
+}
+
+.card {
+    background-color: $backgroundColor;
+    border-color: $dividerBarColor;
+}
+
+.card-header {
+    border-bottom-color: $dividerBarColor;
 }

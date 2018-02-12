@@ -1,7 +1,7 @@
 header {
     .navbar {
         background-image: linear-gradient(to right, $mainBrandColor, $secondBrandColor);
-        box-shadow: 0 0 2px 2px rgba(0, 0, 0, .14), 0 2px 4px 2px rgba(0, 0, 0, .28);
+        box-shadow: 0 0 2px 2px $headerLightShadowColor, 0 2px 4px 2px $headerDarkShadowColor;
         padding-top: .2em;
         padding-bottom: .2em;
 
@@ -21,7 +21,7 @@ header {
         }
 
         .brand-name {
-            color: $white;
+            color: $textBrandColor;
             font-size: 1em;
             font-weight: 400;
             vertical-align: bottom;
@@ -35,16 +35,40 @@ header {
             }
         }
 
+        a {
+            font-weight: 500;
+        }
+
         a.active {
-            border-bottom: solid 3px $white;
+            border-bottom: solid 3px $textBrandColor;
             border-radius: 2px;
         }
 
         a.nav-link {
-            color: $white;
+            color: $textBrandColor;
 
             &:hover {
                 color: $linkHoverColor;
+            }
+        }
+
+        .dropdown-menu {
+            padding: 0;
+            background-color: $backgroundColor;
+            border-color: $boxBorderColor;
+
+            a {
+                font-weight: $linkWeight;
+            }
+
+            .theme-selector {
+                cursor: pointer;
+                font-weight: $linkWeight;
+                color: $linkColor;
+            }
+
+            i {
+                color: $textColor;
             }
         }
 
@@ -54,7 +78,7 @@ header {
 
         .btn-search {
             color: #aaa;
-            background: $light-gray;
+            background: $searchButtonColor;
             cursor: pointer;
             padding-left: .7em;
             font-size: .8em;
@@ -67,27 +91,47 @@ header {
     }
 
     .navbar-dark .navbar-nav .nav-link {
-        color: white;
+        color: $textBrandColor;
 
         &:hover {
             color: $linkHoverColor;
         }
 
         &:active {
-            color: $popBrandColor;
+            color: $linkActiveColor;
         }
     }
 
     .navbar-dark .navbar-nav .nav-link.active {
-        color: white;
+        color: $textBrandColor;
         cursor: default;
 
         &:hover {
-            color: white;
+            color: $textBrandColor;
         }
 
         &:active {
-            color: white;
+            color: $textBrandColor;
         }
+    }
+}
+
+body.theme-dark {
+    i.dark {
+        visibility: visible;
+    }
+
+    i.light {
+        visibility: hidden;
+    }
+}
+
+body.theme-light {
+    i.dark {
+        visibility: hidden;
+    }
+
+    i.light {
+        visibility: visible;
     }
 }
