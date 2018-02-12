@@ -13,9 +13,10 @@ type: markdown
 
 Quick Start instructions to install and run Istio in [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/){:target="_blank"} (GKE) using [Google Cloud Deployment Manager](https://cloud.google.com/deployment-manager/){:target="_blank"}.
 
-This Quick Start creates a new GKE cluster, installs Istio and then deploys the [BookInfo](https://istio.io/docs/guides/bookinfo.html){:target="_blank"} sample application.  It uses Deployment Manager to automate the steps detailed in the [Istio on Kubernetes setup guide](/docs/setup/kubernetes/quick-start.html){:target="_blank"} for Kubernetes Engine
+This Quick Start creates a new GKE cluster, installs Istio and then deploys the [BookInfo]({{home}}/docs/guides/bookinfo.html){:target="_blank"} sample application.  It uses Deployment Manager to automate the steps detailed in the
+[Istio on Kubernetes setup guide]({{home}}/docs/setup/kubernetes/quick-start.html){:target="_blank"} for Kubernetes Engine
 
-> **Note:** The default install will create a GKE [**alpha** cluster](https://cloud.google.com/kubernetes-engine/docs/alpha-clusters){:target="_blank"} that allows for [automatic sidecar injection](https://istio.io/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection){:target="_blank"}.  As it is an alpha cluster, it does not support automatic node or master upgrades and will be automatically deleted after 30 days.
+> **Note:** The default install will create a GKE [**alpha** cluster](https://cloud.google.com/kubernetes-engine/docs/alpha-clusters){:target="_blank"} that allows for [automatic sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection){:target="_blank"}.  As it is an alpha cluster, it does not support automatic node or master upgrades and will be automatically deleted after 30 days.
 
 ## Prerequisites
 
@@ -41,7 +42,7 @@ This Quick Start creates a new GKE cluster, installs Istio and then deploys the 
    - [Istio GKE Deployment
   Manager](https://accounts.google.com/signin/v2/identifier?service=cloudconsole&continue=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/master/install/gcp/deployment_manager/istio-cluster.jinja&followup=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/master/install/gcp/deployment_manager/istio-cluster.jinja&flowName=GlifWebSignIn&flowEntry=ServiceLogin){:target="_blank"}
 
-   We recommend that you leave the default settings as the rest of this tutorial shows how to access the installed features. By default the tool creates a GKE alpha cluster with the specified settings, then installs the Istio [control plane](https://istio.io/docs/concepts/what-is-istio/overview.html#architecture){:target="_blank"}, the [BookInfo](https://istio.io/docs/guides/bookinfo.html){:target="_blank"} sample app, [Grafana](https://istio.io/docs/tasks/telemetry/using-istio-dashboard.html){:target="_blank"} with [Prometheus](https://istio.io/docs/tasks/telemetry/querying-metrics.html){:target="_blank"}, [ServiceGraph](https://istio.io/docs/tasks/telemetry/servicegraph.html){:target="_blank"}, and [Zipkin](https://istio.io/docs/tasks/telemetry/distributed-tracing.html#zipkin){:target="_blank"}. You'll find out more about how to access all of these below.
+   We recommend that you leave the default settings as the rest of this tutorial shows how to access the installed features. By default the tool creates a GKE alpha cluster with the specified settings, then installs the Istio [control plane]({{home}}/docs/concepts/what-is-istio/overview.html#architecture){:target="_blank"}, the [BookInfo]({{home}}/docs/guides/bookinfo.html){:target="_blank"} sample app, [Grafana]({{home}}/docs/tasks/telemetry/using-istio-dashboard.html){:target="_blank"} with [Prometheus]({{home}}/docs/tasks/telemetry/querying-metrics.html){:target="_blank"}, [ServiceGraph]({{home}}/docs/tasks/telemetry/servicegraph.html){:target="_blank"}, and [Zipkin]({{home}}/docs/tasks/telemetry/distributed-tracing.html#zipkin){:target="_blank"}. You'll find out more about how to access all of these below.
 
 2. Click **Deploy**:
 
@@ -160,7 +161,7 @@ You should see some statistics for the requests you sent earlier.
 
 ![Grafana](img/dm_grafana.png)
 
-For more details about using Grafana, see [About the Grafana Add-on](/docs/tasks/telemetry/using-istio-dashboard.html#about-the-grafana-add-on).
+For more details about using Grafana, see [About the Grafana Add-on]({{home}}/docs/tasks/telemetry/using-istio-dashboard.html#about-the-grafana-add-on).
 
 
 ### Prometheus
@@ -179,7 +180,7 @@ View the console at:
 
 ![Prometheus](img/dm_prometheus.png)
 
-For more details, see [About the Prometheus Add-on](/docs/tasks/telemetry/querying-metrics.html#about-the-prometheus-add-on).
+For more details, see [About the Prometheus Add-on]({{home}}/docs/tasks/telemetry/querying-metrics.html#about-the-prometheus-add-on).
 
 ### ServiceGraph
 
@@ -196,7 +197,7 @@ http://localhost:8088/dotviz
 
 ![ServiceGraph](img/dm_servicegraph.png)
 
-For more details, see [About the ServiceGraph Add-on](/docs/tasks/telemetry/servicegraph.html#about-the-servicegraph-add-on).
+For more details, see [About the ServiceGraph Add-on]({{home}}/docs/tasks/telemetry/servicegraph.html#about-the-servicegraph-add-on).
 
 ## Tracing
 
@@ -215,11 +216,11 @@ http://localhost:9411
 ![Zipkin](img/dm_zipkin.png)
 
 
-For more details on tracing see [Understanding what happened](/docs/tasks/telemetry/distributed-tracing.html#understanding-what-happened).
+For more details on tracing see [Understanding what happened]({{home}}/docs/tasks/telemetry/distributed-tracing.html#understanding-what-happened).
 
 ## Whats next?
 
-You can further explore the BookInfo app and Istio functionality by following any of the tutorials in the [Guides](/docs/guides/) section. However, to do this you need to install ```istioctl``` to interact with Istio. You can either [install](/docs/setup/kubernetes/quick-start.html#installation-steps) it directly on our workstation or within Cloud Shell.
+You can further explore the BookInfo app and Istio functionality by following any of the tutorials in the [Guides]({{home}}/docs/guides/) section. However, to do this you need to install ```istioctl``` to interact with Istio. You can either [install]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps) it directly on our workstation or within Cloud Shell.
 
 ## Uninstalling
 
