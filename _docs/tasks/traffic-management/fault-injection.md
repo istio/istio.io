@@ -118,8 +118,8 @@ continue without any errors.
   use a 2.8 second delay and then run it against the v3 version of reviews.)
 
 ## Fault injection using HTTP Abort
-As another test of resiliency, we will introduce a HTTP abort to the ratings microservices for the user "jason".
-we expect the page to load immediately unlike the delay example and display the "product ratings not available"
+As another test of resiliency, we will introduce an HTTP abort to the ratings microservices for the user "jason".
+We expect the page to load immediately unlike the delay example and display the "product ratings not available"
 message.
 
 1. Remove the fault delay injection rule before attempting the fault abort rule
@@ -128,7 +128,7 @@ message.
    istioctl delete -f samples/bookinfo/kube/route-rule-ratings-test-delay.yaml
    ```
 
-1. Create the fault injection rule to send a HTTP abort for user "jason"
+1. Create the fault injection rule to send an HTTP abort for user "jason"
 
    ```bash
    istioctl create -f samples/bookinfo/kube/route-rule-ratings-test-abort.yaml
@@ -168,7 +168,7 @@ message.
 
    Login as user "jason". If the rule propagated successfully to all pods, you should see the page load
    immediately with the "product ratings not available" message. Logout from user "jason" and you should
-   see the ratings v2 show up successfully on the productinfo page.
+   see the ratings v2 show up successfully on the productpage web page.
 
 ## Cleanup
 
