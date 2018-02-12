@@ -5,7 +5,7 @@
         text-align: center;
 
         .hero-label {
-            color: white;
+            color: $textBrandColor;
             margin: 0 0 0 0;
             padding: 30px 0 0 0;
             font-size: 62px;
@@ -19,16 +19,16 @@
         }
 
         .hero-lead {
-            color: white;
+            color: $textBrandColor;
             display: block;
             font-size: 18px;
-            font-weight: 300;
+            font-weight: $heroLeadWeight;
             margin: 32px 0 0 0;
             padding: 0;
         }
 
         .hero-down-arrow {
-            color: white;
+            color: $textBrandColor;
             display: inline-block;
             margin: 20px 0 20px 0;
             padding: 5px;
@@ -67,8 +67,14 @@
         text-align: center;
     }
 
-    .alt {
-        background-color: #f8f8f8;
+    .color1 {
+        background-color: $landingBackgroundColor1;
+        stroke: $landingBackgroundColor1;
+    }
+
+    .color2 {
+        background-color: $landingBackgroundColor2;
+        stroke: $landingBackgroundColor2;
     }
 
     .container-fluid {
@@ -100,8 +106,8 @@
     }
 
     .call {
-        margin: 80px 0 20px 0;
-        padding: 0;
+//        margin: 80px 0 20px 0;
+//        padding: 0;
         height: auto;
         text-align: center;
     }
