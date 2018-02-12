@@ -3,7 +3,7 @@ div.footer {
 
     footer {
         background-image: linear-gradient(to right, $mainBrandColor, $secondBrandColor);
-        color: $white;
+        color: $textBrandColor;
         padding: 1.5rem 0 1rem 0;
         position: absolute;
         bottom: 0;
@@ -38,7 +38,7 @@ div.footer {
         }
 
         a {
-            color: $white;
+            color: $textBrandColor;
             font-weight: 300;
             font-size: .8em;
             padding: 0;
@@ -47,7 +47,7 @@ div.footer {
 
             &:hover {
                 text-decoration: underline;
-                color: $white;
+                color: $textBrandColor;
             }
         }
 
@@ -60,7 +60,7 @@ div.footer {
 
         p.description {
             padding-top: 2em;
-            color: $light-gray;
+            color: $textBrandColorLight;
             line-height: 1.6em;
             font-size: 0.7em;
         }

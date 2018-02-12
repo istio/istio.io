@@ -79,7 +79,7 @@
         }
 
         a {
-            font-weight: normal;
+            font-weight: $sidebarLinkWeight;
         }
 
         ul {
@@ -98,8 +98,8 @@
             font-size: 85%;
 
             .current {
-                color: $popBrandColor;
-                font-weight: 500;
+                color: $linkActiveColor;
+                font-weight: $sidebarCurrentPageWeight;
             }
         }
 
@@ -152,21 +152,14 @@
 .tree-toggle {
     cursor: pointer;
     margin-bottom: 0;
-
-	.tree-toggle-link {
-		&, &:focus, &:hover {
-			color:#535f61 !important;
-			text-decoration: none;
-		}
-	}
 }
 
 .sidebar-toggler {
     font-size: 1rem;
     line-height: 1rem;
     padding: .5rem;
-    color: rgba(0, 0, 0, .4);
-    border: 1px solid rgba(0, 0, 0, .4);
+    color: $togglerColor;
+    border: 1px solid $togglerColor;
     border-radius: 0 10px 10px 0;
 }
 

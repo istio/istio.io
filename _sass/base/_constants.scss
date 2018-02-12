@@ -22,20 +22,6 @@ $bp-md-v: 500px;
 $bp-lg-v: 768px;
 $bp-xl-v: 1024px;
 
-// Typography
-$linkColor: $mainBrandColor;
-$linkHoverColor: lighten($linkColor, 20%);
-$linkDisabledColor: #CCCCCC;
-$textColor: #535f61;
-$dividerBarColor: rgba(0, 0, 0, .1);
-
-// General Colors
-$black: #2E2E2E;
-$white: #FFFFFF;
-$gray: #737373;
-$light-gray: lighten($gray, 52%);
-$dark-gray: darken($gray, 20%);
-
 // Embellishments
 $headerHeight: 5.5rem;
 $headerHeight-xs: 3.2rem;
