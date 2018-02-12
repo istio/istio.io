@@ -13,7 +13,7 @@ type: markdown
 # Welcome - Istio 0.1
 
 Welcome to Istio's documentation archive for the 0.1 release.
-Follow [this link for the most current documentation]({{home}}/docs/).
+Follow [this link for the most current documentation](https://istio.io/docs/).
 Otherwise, you can learn all about Istio as of 0.1 by following
 the links below:
 
