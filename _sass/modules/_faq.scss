@@ -19,4 +19,15 @@
     .list-group {
         padding-bottom: 3em;
     }
+
+    .list-group-item {
+        background-color: $backgroundColor;
+        color: $textColor;
+        border-color: $dividerBarColor;
+    }
+
+    .list-group-item.active {
+        background-color: $mainBrandColor;
+        color: $textBrandColor;
+    }
 }
