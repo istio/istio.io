@@ -36,8 +36,9 @@ This task shows how to inject delays and test the resiliency of your application
   to your runtime (e.g., `samples/bookinfo/consul/route-rule-all-v1.yaml` for
   the Consul-based runtime).
 
-## Fault injection
+# Fault injection
 
+## Fault injection using HTTP delay
 To test our BookInfo application microservices for resiliency, we will _inject a 7s delay_
 between the reviews:v2 and ratings microservices, for user "jason". Since the _reviews:v2_ service has a
 10s timeout for its calls to the ratings service, we expect the end-to-end flow to
@@ -116,6 +117,59 @@ continue without any errors.
   (Left as an exercise for the reader - change the delay rule to
   use a 2.8 second delay and then run it against the v3 version of reviews.)
 
+## Fault injection using HTTP Abort
+As another test of resiliency, we will introduce an HTTP abort to the ratings microservices for the user "jason".
+We expect the page to load immediately unlike the delay example and display the "product ratings not available"
+message.
+
+1. Remove the fault delay injection rule before attempting the fault abort rule
+
+   ```bash
+   istioctl delete -f samples/bookinfo/kube/route-rule-ratings-test-delay.yaml
+   ```
+
+1. Create the fault injection rule to send an HTTP abort for user "jason"
+
+   ```bash
+   istioctl create -f samples/bookinfo/kube/route-rule-ratings-test-abort.yaml
+   ```
+
+   Confirm the rule is created
+
+   ```bash
+   istioctl get routerules ratings-test-abort -o yaml
+   ```
+   ```yaml
+   apiVersion: config.istio.io/v1alpha2
+   kind: RouteRule
+   metadata:
+     name: ratings-test-abort
+     namespace: default
+     ...
+   spec:
+     destination:
+       name: ratings
+     httpFault:
+       abort:
+         httpStatus: 500
+         percent: 100
+     match:
+       request:
+         headers:
+           cookie:
+             regex: ^(.*?;)?(user=jason)(;.*)?$
+     precedence: 2
+     route:
+     - labels:
+         version: v1
+   ```
+
+1. Observe application behavior
+
+   Login as user "jason". If the rule propagated successfully to all pods, you should see the page load
+   immediately with the "product ratings not available" message. Logout from user "jason" and you should
+   see the ratings v2 show up successfully on the productpage web page.
+
 ## Cleanup
 
 * Remove the application routing rules:
@@ -124,6 +178,7 @@ continue without any errors.
   istioctl delete -f samples/bookinfo/kube/route-rule-all-v1.yaml
   istioctl delete -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
   istioctl delete -f samples/bookinfo/kube/route-rule-ratings-test-delay.yaml
+  istioctl delete -f samples/bookinfo/kube/route-rule-ratings-test-abort.yaml
   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
