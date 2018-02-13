@@ -9,12 +9,12 @@ $backgroundColor: $white;
 $textColor: #535f61;
 $textCodeColor: #d14;
 
-$linkColor: $mainBrandColor;
-$linkHoverColor: lighten($linkColor, 20%);
+$linkColor: #469BFF;
+$linkHoverColor: darken($linkColor, 20%);
 $linkDisabledColor: #CCCCCC;
 $linkActiveColor: #b05464;
 
-$h1Color: $secondBrandColor;
+$h1Color: $black;
 $h2Color: $black;
 $h3Color: $dark-gray;
 $h4Color: $dark-gray;

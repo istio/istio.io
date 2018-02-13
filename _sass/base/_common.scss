@@ -45,7 +45,7 @@ a {
 
 a:hover, a:focus {
     color: $linkHoverColor;
-    text-decoration: none;
+    text-decoration: underline;
     font-weight: $linkWeight;
 }
 
@@ -275,6 +275,23 @@ h6 {
     font-size: .9rem;
     color: $h6Color;
     font-weight: $h6Weight;
+}
+
+.header-link {
+    position: relative;
+    left: 0.5em;
+    top: -.1em;
+    opacity: 0;
+    font-size: 0.6em;
+}
+
+h2:hover .header-link,
+h3:hover .header-link,
+h4:hover .header-link,
+h5:hover .header-link,
+h6:hover .header-link {
+    transition: opacity .4s ease-in-out;
+    opacity: 1;
 }
 
 em {
