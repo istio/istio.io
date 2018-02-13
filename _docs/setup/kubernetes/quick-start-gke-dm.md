@@ -53,7 +53,7 @@ application.  It uses Deployment Manager to automate the steps detailed in the [
    [Prometheus]({{home}}/docs/tasks/telemetry/querying-metrics.html),
    [ServiceGraph]({{home}}/docs/tasks/telemetry/servicegraph.html),
    and [Zipkin]({{home}}/docs/tasks/telemetry/distributed-tracing.html#zipkin).
-   You'll find out more about how to access all of these below.
+   You'll find out more about how to access all of these below.  This script will enable istio auto-injection on the ```default``` namespace only.
 
 2. Click **Deploy**:
 
@@ -79,7 +79,7 @@ Once deployment is complete, do the following on the workstation where you've in
 
    ```
    NAME           ZONE           MASTER_VERSION                    MASTER_IP       MACHINE_TYPE   NODE_VERSION  NUM_NODES  STATUS
-   istio-cluster  us-central1-a  1.7.12-gke.1                      130.211.216.64  n1-standard-2  1.7.12-gke.1  3          RUNNING
+   istio-cluster  us-central1-a  v1.9.2-gke.1                      130.211.216.64  n1-standard-2  v1.9.2-gke.1  3          RUNNING
    ```
 
    In this case, the cluster name is ```istio-cluster```
