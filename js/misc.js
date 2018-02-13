@@ -80,3 +80,36 @@ $(function ($) {
         }, 5000);
     });
 })();
+
+(function(){
+    function anchorForId(id) {
+        var anchor = document.createElement("a");
+        anchor.className = "header-link";
+        anchor.href      = "#" + id;
+        anchor.innerHTML = "<i class=\"fa fa-link\"></i>";
+        return anchor;
+    }
+
+    function linkifyAnchors(level, containingElement) {
+        var headers = containingElement.getElementsByTagName("h" + level);
+        for (var h = 0; h < headers.length; h++) {
+            var header = headers[h];
+
+            if (typeof header.id !== "undefined" && header.id !== "") {
+                header.appendChild(anchorForId(header.id));
+            }
+        }
+    }
+
+    for (var level = 1; level <= 6; level++) {
+        linkifyAnchors(level, document);
+    }
+
+    var links = document.getElementsByTagName("a")
+    for (var i = 0; i < links.length; i++) {
+        var l = links[i]
+        if (l.hostname && l.hostname != location.hostname) {
+            l.setAttribute("target", "_blank")
+        }
+    }
+})();

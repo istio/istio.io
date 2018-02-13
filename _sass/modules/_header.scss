@@ -48,7 +48,7 @@ header {
             color: $textBrandColor;
 
             &:hover {
-                color: $linkHoverColor;
+                color: #de7d40;
             }
         }
 
@@ -59,12 +59,6 @@ header {
 
             a {
                 font-weight: $linkWeight;
-            }
-
-            .theme-selector {
-                cursor: pointer;
-                font-weight: $linkWeight;
-                color: $linkColor;
             }
 
             i {
@@ -94,11 +88,11 @@ header {
         color: $textBrandColor;
 
         &:hover {
-            color: $linkHoverColor;
+            color: #de7d40;
         }
 
         &:active {
-            color: $linkActiveColor;
+            color: #de7d40;
         }
     }
 
