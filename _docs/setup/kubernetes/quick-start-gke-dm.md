@@ -13,12 +13,9 @@ type: markdown
 
 Quick Start instructions to install and run Istio in [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) (GKE) using [Google Cloud Deployment Manager](https://cloud.google.com/deployment-manager/).
 
-This Quick Start creates a new GKE cluster, installs Istio and then deploys the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample 
+This Quick Start creates a new GKE [zonal cluster](https://cloud.google.com/kubernetes-engine/versioning-and-upgrades#versions_available_for_new_cluster_masters), installs Istio and then deploys the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample 
 application.  It uses Deployment Manager to automate the steps detailed in the [Istio on Kubernetes setup guide]({{home}}/docs/setup/kubernetes/quick-start.html) for Kubernetes Engine
 
-> **Note:** The default install will create a GKE [**alpha** cluster](https://cloud.google.com/kubernetes-engine/docs/alpha-clusters) that 
-allows for [automatic sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection).  As it is an 
-alpha cluster, it does not support automatic node or master upgrades and will be automatically deleted after 30 days.
 
 ## Prerequisites
 
@@ -32,8 +29,14 @@ alpha cluster, it does not support automatic node or master upgrades and will be
 > - ```roles/container.admin```  (Kubernetes Engine Admin)
 > - ```Editor```  (on by default)
 
-   To set this, navigate to the **IAM** section of the [Cloud Console](https://console.cloud.google.com/iam-admin/iam/project) and find your default GCE/GKE service account in the following form: `projectNumber-compute@developer.gserviceaccount.com`: by default it should just have the **Editor** role. Then in the **Roles** drop-down list for that account, find the **Kubernetes Engine** group and select the role **Kubernetes Engine Admin**. The **Roles** listing for your account will change to **Multiple**.
+   To set this, navigate to the **IAM** section of the [Cloud Console](https://console.cloud.google.com/iam-admin/iam/project) as shown below and find your default GCE/GKE service account in the following form: `projectNumber-compute@developer.gserviceaccount.com`: by default it should just have the **Editor** role. Then in the **Roles** drop-down list for that account, find the **Kubernetes Engine** group and select the role **Kubernetes Engine Admin**. The **Roles** listing for your account will change to **Multiple**.
 
+   {% include figure.html width="100%" ratio="30%"
+    img='./img/dm_gcp_iam.png'
+    alt='GCP-IAM Permissions'
+    title='GCP-IAM Permissions'
+    caption='GKE-IAM Permissions'
+    %}
 
 ## Setup
 
@@ -50,7 +53,7 @@ alpha cluster, it does not support automatic node or master upgrades and will be
    [Prometheus]({{home}}/docs/tasks/telemetry/querying-metrics.html),
    [ServiceGraph]({{home}}/docs/tasks/telemetry/servicegraph.html),
    and [Zipkin]({{home}}/docs/tasks/telemetry/distributed-tracing.html#zipkin).
-   You'll find out more about how to access all of these below.
+   You'll find out more about how to access all of these below.  This script will enable istio auto-injection on the ```default``` namespace only.
 
 2. Click **Deploy**:
 
@@ -76,7 +79,7 @@ Once deployment is complete, do the following on the workstation where you've in
 
    ```
    NAME           ZONE           MASTER_VERSION                    MASTER_IP       MACHINE_TYPE   NODE_VERSION  NUM_NODES  STATUS
-   istio-cluster  us-central1-a  1.7.8-gke.0 ALPHA (29 days left)  130.211.216.64  n1-standard-2  1.7.8-gke.0   3          RUNNING
+   istio-cluster  us-central1-a  v1.9.2-gke.1                      130.211.216.64  n1-standard-2  v1.9.2-gke.1  3          RUNNING
    ```
 
    In this case, the cluster name is ```istio-cluster```
