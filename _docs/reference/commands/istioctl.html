@@ -768,7 +768,12 @@ documents. Support for additional pod-based resource types can be
 added as necessary.</p>
 <p>The Istio project is continually evolving so the Istio sidecar
 configuration may change unannounced. When in doubt re-run istioctl
-kube-inject on deployments to get the most up-to-date changes.
+kube-inject on deployments to get the most up-to-date changes.</p>
+<p>To override the sidecar injection template built into istioctl, the
+parameters --injectConfigFile or --injectConfigMapName can be used.
+Both options override any other template configuration parameters, eg.
+--hub and --tag.  These options would typically be used with the
+file/configmap created with a new Istio release.
 </p>
 <pre class="language-bash"><code>istioctl kube-inject [flags]
 </code></pre>
@@ -817,7 +822,12 @@ kube-inject on deployments to get the most up-to-date changes.
 <tr>
 <td><code>--injectConfigFile &lt;string&gt;</code></td>
 <td></td>
-<td>injection configuration filename  (default ``)</td>
+<td>injection configuration filename. Cannot be used with --injectConfigMapName  (default ``)</td>
+</tr>
+<tr>
+<td><code>--injectConfigMapName &lt;string&gt;</code></td>
+<td></td>
+<td>ConfigMap name for Istio sidecar injection, key should be &#34;config&#34;.This option overrides any other sidecar injection config options, eg. --hub  (default ``)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -947,6 +957,10 @@ istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml
 
 # Update an existing deployment.
 kubectl get deployment -o yaml | istioctl kube-inject -f - | kubectl apply -f -
+
+# Create a persistent version of the deployment with Envoy sidecar
+# injected configuration from kubernetes configmap &#39;istio-inject&#39;
+istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml --injectConfigMapName istio-inject
 
 </code></pre>
 <h2 id="istioctl proxy-config">istioctl proxy-config</h2>
