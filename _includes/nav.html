@@ -43,10 +43,13 @@
 
               {% if site.data.istio.archive %}
                   <li class="dropdown">
-                      <a class="dropdown-toggle" data-toggle="dropdown" href="">{{site.data.istio.short_version}}
-                          <span class="caret"></span>
-                      </a>
-                      <ul class="dropdown-menu">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="">
+                        <i class='fa fa-lg fa-cog'></i>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="https://istio.io/">Latest</a></li>
                           {% for a in site.data.archives.archives %}
                               <li><a href="https://archive.istio.io/{{a}}/">Archive {{a}}</a></li>
                           {% endfor %}
