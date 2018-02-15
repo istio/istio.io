@@ -24,7 +24,7 @@ alpha cluster, it does not support automatic node or master upgrades and will be
 
 - This sample requires a valid Google Cloud Platform project with billing enabled. If you are not an existing GCP user, you may be able to enroll for a $300 US [Free Trial](https://cloud.google.com/free/) credit.
 
-- Ensure that the [Google Container Engine API](https://console.cloud.google.com/apis/library/container.googleapis.com/)is enabled for your project (also found by navigating to "APIs &amp; Services" -> "Dashboard" in the navigation bar). If you do not see "API enabled", then you may enable the API by clicking the "Enable this API" button.
+- Ensure that the [Google Kubernetes Engine API](https://console.cloud.google.com/apis/library/container.googleapis.com/) is enabled for your project (also found by navigating to "APIs &amp; Services" -> "Dashboard" in the navigation bar). If you do not see "API enabled", then you may enable the API by clicking the "Enable this API" button.
 
 - You must install and configure the [gcloud command line tool](https://cloud.google.com/sdk/docs/) and include the `kubectl` component (`gcloud components install kubectl`).  If you don't want to install the `gcloud` client on your own machine, you can use `gcloud` via [Google Cloud Shell](https://cloud.google.com/shell/docs/) to perform the same tasks.
 
