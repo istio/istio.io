@@ -170,9 +170,19 @@ number_of_entries: 3
 <td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 <tr>
+<td><code>--workload-cert-grace-period-ratio &lt;float32&gt;</code></td>
+<td></td>
+<td>The workload certificate rotation grace period, as a ratio of the workload certificate TTL.  (default `0.5`)</td>
+</tr>
+<tr>
+<td><code>--workload-cert-min-grace-period &lt;duration&gt;</code></td>
+<td></td>
+<td>The minimum workload certificate rotation grace period.  (default `10m0s`)</td>
+</tr>
+<tr>
 <td><code>--workload-cert-ttl &lt;duration&gt;</code></td>
 <td></td>
-<td>The TTL of issued workload certificates  (default `1h0m0s`)</td>
+<td>The TTL of issued workload certificates  (default `19h0m0s`)</td>
 </tr>
 </tbody>
 </table>

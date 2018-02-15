@@ -8,10 +8,10 @@
     .entries {
         h4 {
             font-size: $font-size--m;
-            font-weight: 300;
+            font-weight: $glossaryHeaderWeight;
             border-bottom: 1px solid;
-            color: lighten($gray, 35%);
-            border-color: lighten($gray, 35%);
+            color: $glossaryHeaderColor;
+            border-color: $glossaryHeaderColor;
             margin-top: 2.2rem;
             margin-bottom: .15rem;
         }
@@ -20,7 +20,7 @@
             margin-left: 0;
 
             dt {
-                font-weight: 600;
+                font-weight: $glossaryWordWeight;
                 list-style-type: none;
                 margin-bottom: 0;
                 margin-top: .8rem;
