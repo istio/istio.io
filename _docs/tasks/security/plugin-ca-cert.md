@@ -38,10 +38,10 @@ Note that if your `ca-cert.pem` is the same as `root-cert.pem`, you can have an 
    Download the example files:
    ```bash
    rm /tmp/ca-cert.pem /tmp/ca-key.pem /tmp/root-cert.pem /tmp/cert-chain.pem
-   wget -P /tmp https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/ca-cert.pem
-   wget -P /tmp https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/ca-key.pem
-   wget -P /tmp https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/root-cert.pem
-   wget -P /tmp https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/cert-chain.pem
+   wget -P /tmp https://raw.githubusercontent.com/istio/istio/master/security/samples/plugin_ca_certs/ca-cert.pem
+   wget -P /tmp https://raw.githubusercontent.com/istio/istio/master/security/samples/plugin_ca_certs/ca-key.pem
+   wget -P /tmp https://raw.githubusercontent.com/istio/istio/master/security/samples/plugin_ca_certs/root-cert.pem
+   wget -P /tmp https://raw.githubusercontent.com/istio/istio/master/security/samples/plugin_ca_certs/cert-chain.pem
    ```
 
 The following steps enable plugging in the certificate and key into the Istio CA:
