@@ -19,7 +19,7 @@ This task demonstrates the circuit-breaking capability for resilient application
   which will be used as the backend service for our task
   
   ```bash
-  kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml)
+  kubectl apply -f <(istioctl kube-inject --debug -f samples/httpbin/httpbin.yaml)
   ```  
 
 ## Circuit breaker
@@ -75,7 +75,7 @@ Let's set up a scenario to demonstrate the circuit-breaking capabilities of Isti
 Now that we've set up rules for calling the `httpbin` service, let's create a client we can use to send traffic to our service and see whether we can trip the circuit breaking policies. We're going to use a simple load-testing client called [fortio](https://github.com/istio/fortio). With this client we can control the number of connections, concurrency, and delays of outgoing HTTP calls. In this step, we'll set up a client that is injected with the istio sidecar proxy so our network interactions are governed by Istio:
 
 ```bash
-kubectl apply -f <(istioctl kube-inject -f samples/httpbin/sample-client/fortio-deploy.yaml)
+kubectl apply -f <(istioctl kube-inject --debug -f samples/httpbin/sample-client/fortio-deploy.yaml)
 ```
     
 Now we should be able to log into that client pod and use the simple fortio tool to call `httpbin`. We'll pass in `-curl` to indicate we just want to make one call: 
