@@ -21,7 +21,7 @@ This task demonstrates the traffic shadowing/mirroring capabilites of Istio. Tra
 httpbin-v1:
 
 ```bash
-cat <<EOF | kubectl create -f -
+cat <<EOF | istioctl kube-inject -f - | kubectl create -f -
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -46,7 +46,7 @@ EOF
 httpbin-v2:
 
 ```bash
-cat <<EOF | kubectl create -f -
+cat <<EOF | istioctl kube-inject -f - | kubectl create -f -
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -94,7 +94,7 @@ EOF
 sleep service:
 
  ```bash
-cat <<EOF | kubectl create -f -
+cat <<EOF | istioctl kube-inject -f - | kubectl create -f -
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
