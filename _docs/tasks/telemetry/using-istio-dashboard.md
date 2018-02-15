@@ -23,6 +23,14 @@ the example application throughout this task.
 
 * Install the Prometheus add-on.
 
+  <img src="{{home}}/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" /> If you are using Istio ```0.5.1```, 
+please modify the prometheus.yaml file first to include the namespace for the prometheus ServiceAccount:
+
+```
+sed -i '245i\  namespace: istio-system' install/kubernetes/addons/prometheus.yaml
+```
+ 
+Then 
   ```bash
   kubectl apply -f install/kubernetes/addons/prometheus.yaml
   ```
