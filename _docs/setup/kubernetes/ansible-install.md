@@ -1,8 +1,8 @@
 ---
-title: Install using Ansible
+title: Installing with Ansible
 overview: Instructions on using the included Ansible playbook to perform installation.
 
-order: 70
+order: 40
 
 layout: docs
 type: markdown
