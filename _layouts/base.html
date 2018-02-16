@@ -9,18 +9,22 @@ layout: compress
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="title" content="{{page.title}}">
-        <meta name="og:title" content="{{page.title}}">
-        <meta name="og:image" content="{{home}}/img/logo.png"/>
         <meta name="theme-color" content="#466BB0"/>
 
         {% if page.overview == nil %}
-            <meta name="description" content="An open platform to connect, manage, and secure microservices.">
-            <meta name="og:description" content="An open platform to connect, manage, and secure microservices.">
+            {% assign description = "An open platform to connect, manage, and secure microservices." %}
         {% else %}
-            <meta name="description" content="{{page.overview}}">
-            <meta name="og:description" content="{{page.overview}}">
+            {% assign description = page.overview %}
         {% endif %}
+
+        <meta name="title" content="{{page.title}}">
+        <meta name="description" content="{{description}}">
+
+        <!-- Open Graph protocol -->
+        <meta name="og:title" content="{{page.title}}">
+        <meta name="og:description" content="{{description}}">
+        <meta name="og:url" content="{{page.url}}">
+        <meta name="og.site_name" content="Istio">
 
         {% if site.data.istio.archive %}
             {% if page.title == 'Istio' %}

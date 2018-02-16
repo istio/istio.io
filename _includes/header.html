@@ -10,7 +10,7 @@
             {% assign visibility = "visible" %}
         {% endif %}
 
-        <a class="navbar-brand d-flex w-50 mr-auto" href="{{home}}/" style="visibility: {{visibility}}">
+        <a class="navbar-brand" href="{{home}}/" style="visibility: {{visibility}}">
             <img class="logo" src="{{home}}/img/istio-logo.svg" alt="Istio Logo"/>
             {% if site.data.istio.archive %}
                 <span class="brand-name">Istioldie {{site.data.istio.short_version}}</span>
@@ -23,106 +23,115 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <div class="navbar-nav justify-content-end">
-                <a class="nav-item nav-link {% if current[1] == 'about' %}active{% endif %}" href="{{home}}/about/intro.html">About</a>
-                <a class="nav-item nav-link {% if current[1] == 'blog' %}active{% endif %}" href="{{latest_blog_post}}">Blog</a>
-                <a class="nav-item nav-link {% if current[1] == 'docs' %}active{% endif %}" href="{{home}}/docs/">Docs</a>
-                <a class="nav-item nav-link {% if current[1] == 'help' %}active{% endif %}" href="{{home}}/help">Help</a>
-                <a class="nav-item nav-link {% if current[1] == 'community.html' %}active{% endif %}" href="{{home}}/community">Community</a>
-            </div>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link {% if current[1] == 'about' %}active{% endif %}" href="{{home}}/about/intro.html">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if current[1] == 'blog' %}active{% endif %}" href="{{latest_blog_post}}">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if current[1] == 'docs' %}active{% endif %}" href="{{home}}/docs/">Docs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if current[1] == 'help' %}active{% endif %}" href="{{home}}/help">Help</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if current[1] == 'community.html' %}active{% endif %}" href="{{home}}/community">Community</a>
+                </li>
 
-            <div class="dropdown">
-                <a href="" class="nav-link nav-item dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                         aria-expanded="false">
-                    <i class='fa fa-lg fa-cog'></i>
-                </a>
+                <li class="nav-item dropdown" id="gearDropdown">
+                    <a href="" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class='fa fa-lg fa-cog'></i>
+                    </a>
 
-                <div class="dropdown-menu">
-                    {% assign target = "" %}
-                    {% if current[1] == 'about' %}
-                        {% assign target = "about" %}
-                    {% elsif current[1] == 'blog' %}
-                        {% assign target = "blog" %}
-                    {% elsif current[1] == 'community.html' %}
-                        {% assign target = "community" %}
-                    {% elsif current[1] == 'help' %}
-                        {% assign target = "help" %}
-                    {% elsif current[1] == 'docs' %}
-                        {% assign target = "docs" %}
-                        {% if current[2] == 'reference' %}
-                            {% assign target = "docs/reference" %}
-                        {% elsif current[2] == 'guides' %}
-                            {% assign target = "docs/guides" %}
-                        {% elsif current[2] == 'tasks' %}
-                            {% assign target = "docs/tasks" %}
-                        {% elsif current[2] == 'concepts' %}
-                            {% assign target = "docs/concepts" %}
-                        {% elsif current[2] == 'setup' %}
-                            {% assign target = "docs/setup" %}
-                        {% endif %}
-                    {% endif %}
-
-                    {% if site.data.istio.archive %}
-                        <li>
-                            <i style="visibility: hidden" class='fa fa-check'></i>
-                            <a href="https://istio.io/{{target}}">Latest</a>
-                        </li>
-                    {% else %}
-                        <li>
-                            <i class='fa fa-check'></i>
-                            <a href="https://istio.io/{{target}}">{{site.data.istio.short_version}}</a>
-                        </li>
-                    {% endif %}
-
-                    {% for a in site.data.archives.archives %}
-
-                        {% if a == "v0.1" %}
-                            {% if target == "docs/setup" %}
-                                {% assign target = "docs/tasks/installing-istio" %}
-                            {% elsif target == "docs/guides" %}
-                                {% assign target = "docs/samples" %}
-                            {% elsif target == "help" %}
-                                {% assign target = "faq" %}
-                            {% endif %}
-                        {% else if a == "v0.2" %}
-                            {% if target == "help" %}
-                                {% assign target = "faq" %}
+                    <ul class="dropdown-menu" aria-labelledby="gearDropdown">
+                        {% assign target = "" %}
+                        {% if current[1] == 'about' %}
+                            {% assign target = "about" %}
+                        {% elsif current[1] == 'blog' %}
+                            {% assign target = "blog" %}
+                        {% elsif current[1] == 'community.html' %}
+                            {% assign target = "community" %}
+                        {% elsif current[1] == 'help' %}
+                            {% assign target = "help" %}
+                        {% elsif current[1] == 'docs' %}
+                            {% assign target = "docs" %}
+                            {% if current[2] == 'reference' %}
+                                {% assign target = "docs/reference" %}
+                            {% elsif current[2] == 'guides' %}
+                                {% assign target = "docs/guides" %}
+                            {% elsif current[2] == 'tasks' %}
+                                {% assign target = "docs/tasks" %}
+                            {% elsif current[2] == 'concepts' %}
+                                {% assign target = "docs/concepts" %}
+                            {% elsif current[2] == 'setup' %}
+                                {% assign target = "docs/setup" %}
                             {% endif %}
                         {% endif %}
 
-                        <li>
-                            {% assign selected = false %}
-                            {% if site.data.istio.archive %}
-                                {% assign vname = site.data.istio.short_version | prepend: "v" %}
-                                {% if vname == a %}
-                                    {% assign selected = true %}
+                        {% if site.data.istio.archive %}
+                            <li>
+                                <i style="visibility: hidden" class='fa fa-check'></i>
+                                <a href="https://istio.io/{{target}}">Latest</a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <i class='fa fa-check'></i>
+                                <a href="https://istio.io/{{target}}">{{site.data.istio.short_version}}</a>
+                            </li>
+                        {% endif %}
+
+                        {% for a in site.data.archives.archives %}
+
+                            {% if a == "v0.1" %}
+                                {% if target == "docs/setup" %}
+                                    {% assign target = "docs/tasks/installing-istio" %}
+                                {% elsif target == "docs/guides" %}
+                                    {% assign target = "docs/samples" %}
+                                {% elsif target == "help" %}
+                                    {% assign target = "faq" %}
+                                {% endif %}
+                            {% else if a == "v0.2" %}
+                                {% if target == "help" %}
+                                    {% assign target = "faq" %}
                                 {% endif %}
                             {% endif %}
 
-                            {% if selected %}
-                                <i class='fa fa-check'></i>
-                            {% else %}
-                                <i style="visibility: hidden;" class='fa fa-check'></i>
-                            {% endif %}
+                            <li>
+                                {% assign selected = false %}
+                                {% if site.data.istio.archive %}
+                                    {% assign vname = site.data.istio.short_version | prepend: "v" %}
+                                    {% if vname == a %}
+                                        {% assign selected = true %}
+                                    {% endif %}
+                                {% endif %}
 
-                            <a href="https://archive.istio.io/{{a}}/{{target}}">Archive {{a}}</a>
+                                {% if selected %}
+                                    <i class='fa fa-check'></i>
+                                {% else %}
+                                    <i style="visibility: hidden;" class='fa fa-check'></i>
+                                {% endif %}
+
+                                <a href="https://archive.istio.io/{{a}}/{{target}}">Archive {{a}}</a>
+                            </li>
+                        {% endfor %}
+
+                        <li class="dropdown-divider"></li>
+
+                        <li>
+                            <i class='fa fa-check light'></i>
+                            <a href="" onclick="setActiveStyleSheet('light');return false;">Light Theme</a>
                         </li>
-                    {% endfor %}
 
-                    <li class="dropdown-divider"></li>
-
-                    <li>
-                        <i class='fa fa-check light'></i>
-                        <a href="" onclick="setActiveStyleSheet('light');return false;">Light Theme</a>
-                    </li>
-
-                    <li>
-                        <i class='fa fa-check dark'></i>
-                        <a href="" onclick="setActiveStyleSheet('dark');return false;">Dark Theme</a>
-                    </li>
-                </div>
-            </div>
+                        <li>
+                            <i class='fa fa-check dark'></i>
+                            <a href="" onclick="setActiveStyleSheet('dark');return false;">Dark Theme</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
 
             <form name="cse" id="searchbox" class="form-inline justify-content-end" role="search">
                 <input type="hidden" name="cx" value="{{site.data.istio.search_engine_id}}" />
