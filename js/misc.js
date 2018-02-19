@@ -50,8 +50,8 @@ $(function ($) {
 
         // toggle copy button
         $(document).on('mouseleave', 'div.copy', function () {
-  //          $(this).parent().children('div.copy').toggleClass("copy-show", false)
-//            $(this).parent().children('div.copy').toggleClass("copy-hide", true)
+            $(this).parent().children('div.copy').toggleClass("copy-show", false)
+            $(this).parent().children('div.copy').toggleClass("copy-hide", true)
         });
     });
 }(jQuery));

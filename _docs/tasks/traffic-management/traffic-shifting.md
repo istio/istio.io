@@ -20,7 +20,7 @@ two steps: 50%, 100%.
 * Setup Istio by following the instructions in the
   [Installation guide]({{home}}/docs/setup/).
 
-* Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
+* Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
 > Note: This task assumes you are deploying the application on Kubernetes.
   All of the example commands are using the Kubernetes version of the rule yaml files
@@ -39,7 +39,7 @@ two steps: 50%, 100%.
 
 1. Confirm v1 is the active version of the `reviews` service by opening http://$GATEWAY_URL/productpage in your browser.
 
-   You should see the BookInfo application productpage displayed.
+   You should see the Bookinfo application productpage displayed.
    Notice that the `productpage` is displayed with no rating stars since `reviews:v1` does not access the ratings service.
 
    > Note: If you previously ran the [request routing](./request-routing.html) task, you may need to either log out
@@ -113,7 +113,7 @@ For more about version routing with autoscaling, check out [Canary Deployments u
   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+  [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
   to shutdown the application.
 
 ## What's next

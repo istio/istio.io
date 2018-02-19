@@ -64,7 +64,7 @@ Quick Start instructions to install and configure Istio in a Docker Compose setu
 ## Deploy your application
 
 You can now deploy your own application or one of the sample applications provided with the
-installation like [BookInfo]({{home}}/docs/guides/bookinfo.html).
+installation like [Bookinfo]({{home}}/docs/guides/bookinfo.html).
 
 > Note 1: Since there is no concept of pods in a Docker setup, the Istio
 > sidecar runs in the same container as the application.  We will use 
@@ -88,4 +88,4 @@ docker-compose -f install/eureka/istio.yaml down
 
 ## What's next
 
-* See the sample [BookInfo]({{home}}/docs/guides/bookinfo.html) application.
+* See the sample [Bookinfo]({{home}}/docs/guides/bookinfo.html) application.

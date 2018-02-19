@@ -75,7 +75,7 @@ with UID 0 for Istio's service accounts for ingress as well the Prometheus and G
 ## Installation steps
 
 Starting with the 0.2 release, Istio is installed in its own `istio-system`
-namespace, and can manage micro-services from all other namespaces.
+namespace, and can manage services from all other namespaces.
 
 1. Go to the [Istio release](https://github.com/istio/istio/releases) page to download the
 installation file corresponding to your OS. If you are using a MacOS or Linux system, you can also
@@ -162,7 +162,7 @@ istio-mixer-2104784889-20rm8             2/2       Running   0          5h
 ## Deploy your application
 
 You can now deploy your own application or one of the sample applications provided with the
-installation like [BookInfo]({{home}}/docs/guides/bookinfo.html).
+installation like [Bookinfo]({{home}}/docs/guides/bookinfo.html).
 Note: the application must use HTTP/1.1 or HTTP/2.0 protocol for all its HTTP traffic because HTTP/1.0 is not supported.
 
 If you started the [Istio-sidecar-injector]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection),
@@ -209,6 +209,6 @@ kubectl delete -f install/kubernetes/istio-auth.yaml
 
 ## What's next
 
-* See the sample [BookInfo]({{home}}/docs/guides/bookinfo.html) application.
+* See the sample [Bookinfo]({{home}}/docs/guides/bookinfo.html) application.
 
 * See how to [test Istio mutual TLS Authentication]({{home}}/docs/tasks/security/mutual-tls.html).

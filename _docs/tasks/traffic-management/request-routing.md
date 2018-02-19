@@ -16,7 +16,7 @@ This task shows you how to configure dynamic request routing based on weights an
 * Setup Istio by following the instructions in the
   [Installation guide]({{home}}/docs/setup/).
 
-* Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
+* Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
 > Note: This task assumes you are deploying the application on Kubernetes.
   All of the example commands are using the Kubernetes version of the rule yaml files
@@ -27,7 +27,7 @@ This task shows you how to configure dynamic request routing based on weights an
 
 ## Content-based routing
 
-Because the BookInfo sample deploys 3 versions of the reviews microservice,
+Because the Bookinfo sample deploys 3 versions of the reviews microservice,
 we need to set a default route.
 Otherwise if you access the application several times, you'll notice that sometimes the output contains
 star ratings.
@@ -114,9 +114,9 @@ route requests to all available versions of a service in a random fashion.
    Since rule propagation to the proxies is asynchronous, you should wait a few seconds for the rules
    to propagate to all pods before attempting to access the application.
 
-1. Open the BookInfo URL (http://$GATEWAY_URL/productpage) in your browser
+1. Open the Bookinfo URL (http://$GATEWAY_URL/productpage) in your browser
 
-   You should see the BookInfo application productpage displayed.
+   You should see the Bookinfo application productpage displayed.
    Notice that the `productpage` is displayed with no rating stars since `reviews:v1` does not access the ratings service.
 
 1. Route a specific user to `reviews:v2`
@@ -161,7 +161,7 @@ route requests to all available versions of a service in a random fashion.
 
 ## Understanding what happened
 
-In this task, you used Istio to send 100% of the traffic to the v1 version of each of the BookInfo
+In this task, you used Istio to send 100% of the traffic to the v1 version of each of the Bookinfo
 services. You then set a rule to selectively send traffic to version v2 of the reviews service based
 on a header (i.e., a user cookie) in a request.
 
@@ -178,7 +178,7 @@ all users to v2, optionally in a gradual fashion. We'll explore this in a separa
   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+  [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
   to shutdown the application.
 
 ## What's next

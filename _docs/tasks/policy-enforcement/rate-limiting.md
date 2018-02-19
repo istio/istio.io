@@ -16,7 +16,7 @@ This task shows you how to use Istio to dynamically limit the traffic to a servi
 * Setup Istio in a Kubernetes cluster by following the quick start instructions in the
   [Installation guide]({{home}}/docs/setup/kubernetes/quick-start.html).
 
-* Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
+* Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
 * Initialize the application version routing to direct `reviews` service requests from
   test user "jason" to version v2 and requests from any other user to v3.
@@ -36,7 +36,7 @@ Istio enables users to rate limit traffic to a service.
 Consider `ratings` as an external paid service like Rotten Tomatoes® with `1qps` free quota.
 Using Istio we can ensure that `1qps` is not breached.  
 
-1. Point your browser at the BookInfo `productpage` (http://$GATEWAY_URL/productpage). 
+1. Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage).
 
    If you log in as user "jason", you should see black ratings stars with each review,
    indicating that the `ratings` service is being called by the "v2" version of the `reviews` service.
@@ -192,7 +192,7 @@ If you would like the above policies enforced for a given namespace instead of t
   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+  [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
   to shutdown the application.
 
 ## What's next

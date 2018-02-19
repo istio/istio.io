@@ -19,7 +19,7 @@ book, similar to a single catalog entry of an online book store. Displayed
 on the page is a description of the book, book details (ISBN, number of
 pages, and so on), and a few book reviews.
 
-The BookInfo application is broken into four separate microservices:
+The Bookinfo application is broken into four separate microservices:
 
 * *productpage*. The productpage microservice calls the *details* and *reviews* microservices to populate the page.
 * *details*. The details microservice contains book information.
@@ -36,9 +36,9 @@ The end-to-end architecture of the application is shown below.
 
 {% include figure.html width='80%' ratio='68.52%'
     img='./img/bookinfo/noistio.svg'
-    alt='BookInfo Application without Istio'
-    title='BookInfo Application without Istio'
-    caption='BookInfo Application without Istio'
+    alt='Bookinfo Application without Istio'
+    title='Bookinfo Application without Istio'
+    caption='Bookinfo Application without Istio'
     %}
 
 This application is polyglot, i.e., the microservices are written in different languages.
@@ -61,9 +61,9 @@ although in all cases the resulting deployment will look like this:
 
 {% include figure.html width='80%' ratio='59.08%'
     img='./img/bookinfo/withistio.svg'
-    alt='BookInfo Application'
-    title='BookInfo Application'
-    caption='BookInfo Application'
+    alt='Bookinfo Application'
+    title='Bookinfo Application'
+    caption='Bookinfo Application'
     %}
 
 All of the microservices will be packaged with an Envoy sidecar that intercepts incoming
@@ -220,7 +220,7 @@ To start the application, follow the instructions below corresponding to your Is
 
 ## What's next
 
-To confirm that the BookInfo application is running, run the following `curl` command:
+To confirm that the Bookinfo application is running, run the following `curl` command:
 
 ```bash
 curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage
@@ -243,7 +243,7 @@ is a good place to start for beginners.
 
 ## Cleanup
 
-When you're finished experimenting with the BookInfo sample, you can
+When you're finished experimenting with the Bookinfo sample, you can
 uninstall and clean it up using the following instructions.
 
 ### Uninstall from Kubernetes environment
@@ -258,7 +258,7 @@ uninstall and clean it up using the following instructions.
 
    ```bash
    istioctl get routerules   #-- there should be no more routing rules
-   kubectl get pods          #-- the BookInfo pods should be deleted
+   kubectl get pods          #-- the Bookinfo pods should be deleted
    ```
 
 ### Uninstall from Docker environment
@@ -281,5 +281,5 @@ uninstall and clean it up using the following instructions.
 
    ```bash
    istioctl get routerules   #-- there should be no more routing rules
-   docker ps -a              #-- the BookInfo containers should be deleted
+   docker ps -a              #-- the Bookinfo containers should be deleted
    ```
