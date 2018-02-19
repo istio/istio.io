@@ -15,7 +15,7 @@ After completing this task, you should understand all of the assumptions about y
 application and how to have it participate in tracing, regardless of what
 language/framework/platform you use to build your application.
 
-The [BookInfo]({{home}}/docs/guides/bookinfo.html) sample is used as the
+The [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample is used as the
 example application for this task.
 
 
@@ -36,7 +36,7 @@ example application for this task.
   ```
   for Jaeger.
 
-* Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
+* Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
 
 ## Accessing the dashboard
@@ -62,9 +62,9 @@ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=ja
 Then open your browser at [http://localhost:16686](http://localhost:16686)
 
 
-## Generating traces using the BookInfo sample
+## Generating traces using the Bookinfo sample
 
-With the BookInfo application up and running, generate trace information by accessing
+With the Bookinfo application up and running, generate trace information by accessing
 `http://$GATEWAY_URL/productpage` one or more times.
 
 If you now look at the dashboard, you should see something similar to the following:
@@ -102,7 +102,7 @@ The page should look something like this:
     %}
 
 As you can see, the trace is comprised of spans,
-where each span corresponds to a BookInfo service invoked during the execution of a `/productpage` request.
+where each span corresponds to a Bookinfo service invoked during the execution of a `/productpage` request.
 Although every service has the same label, `istio-proxy`, because the tracing is being done by
 the Istio sidecar (Envoy proxy) which wraps the call to the actual service,
 the label of the destination (to the right) identifies the service for which the time is represented by each line.
@@ -197,7 +197,7 @@ When you make downstream calls in your applications, make sure to include these 
   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+  [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
   to shutdown the application.
 
 ## What's next

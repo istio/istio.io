@@ -14,7 +14,7 @@ This task shows you how to query for Istio Metrics using Prometheus. As part of
 this task, you will install the Prometheus Istio addon and use the web-based
 interface for querying metric values.
 
-The [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application is used as
+The [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application is used as
 the example application throughout this task.
 
 ## Before you begin
@@ -48,7 +48,7 @@ the example application throughout this task.
 
 1. Send traffic to the mesh.
 
-   For the BookInfo sample, visit `http://$GATEWAY_URL/productpage` in your web
+   For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
    browser or issue the following command:
 
    ```bash
@@ -56,7 +56,7 @@ the example application throughout this task.
    ```
 
    Note: `$GATEWAY_URL` is the value set in the
-   [BookInfo]({{home}}/docs/guides/bookinfo.html) guide.
+   [Bookinfo]({{home}}/docs/guides/bookinfo.html) guide.
 
 1. Open the Prometheus UI.
 
@@ -139,7 +139,7 @@ docs](https://prometheus.io/docs/querying/basics/).
   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+  [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
   to shutdown the application.
 
 ## What's next

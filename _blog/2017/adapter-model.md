@@ -90,5 +90,5 @@ The refreshed Mixer adapter model is designed to provide a flexible framework to
 Handlers provide configuration data for individual adapters, templates determine exactly what kind of data different adapters want to consume at runtime, instances let operators prepare this data, rules direct the data to one or more handlers.
 
 You can learn more about Mixer's overall architecture [here]({{home}}/docs/concepts/policy-and-control/), and learn the specifics of templates, handlers,
-and rules [here]({{home}}/docs/reference/config/mixer/). You can find many examples of Mixer configuration resources in the BookInfo sample
+and rules [here]({{home}}/docs/reference/config/mixer/). You can find many examples of Mixer configuration resources in the Bookinfo sample
 [here](https://github.com/istio/istio/tree/master/samples/bookinfo/kube).

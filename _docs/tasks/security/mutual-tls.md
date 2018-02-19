@@ -58,7 +58,7 @@ Istio CA is up if the "AVAILABLE" column is 1.
 
 When running Istio with mutual TLS authentication turned on, you can use curl in one service's
 envoy to send request to other services.
-For example, after starting the [BookInfo]({{home}}/docs/guides/bookinfo.html) 
+For example, after starting the [Bookinfo]({{home}}/docs/guides/bookinfo.html)
 sample application you can ssh into the envoy container of `productpage` service,
 and send request to other services by curl. 
 

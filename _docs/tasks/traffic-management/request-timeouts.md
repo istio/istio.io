@@ -17,7 +17,7 @@ This task shows you how to setup request timeouts in Envoy using Istio.
 * Setup Istio by following the instructions in the
   [Installation guide]({{home}}/docs/setup/).
 
-* Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
+* Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
 * Initialize the application version routing by running the following command:
 
@@ -78,9 +78,9 @@ to the `ratings` service.
    EOF
    ```
 
-1. Open the BookInfo URL (http://$GATEWAY_URL/productpage) in your browser
+1. Open the Bookinfo URL (http://$GATEWAY_URL/productpage) in your browser
 
-   You should see the BookInfo application working normally (with ratings stars displayed),
+   You should see the Bookinfo application working normally (with ratings stars displayed),
    but there is a 2 second delay whenever you refresh the page.
 
 1. Now add a 1 second request timeout for calls to the `reviews` service
@@ -103,7 +103,7 @@ to the `ratings` service.
    EOF
    ```
 
-1. Refresh the BookInfo web page
+1. Refresh the Bookinfo web page
 
    You should now see that it returns in 1 second (instead of 2), but the reviews are unavailable.
 
@@ -117,7 +117,7 @@ you used Istio to inject a 2 second delay in calls to `ratings`, so that you wou
 `reviews` service to take longer than 1 second to complete and consequently you could see the
 timeout in action. 
 
-You observed that the BookInfo productpage (which calls the `reviews` service to populate the page),
+You observed that the Bookinfo productpage (which calls the `reviews` service to populate the page),
 instead of displaying reviews, displayed
 the message: Sorry, product reviews are currently unavailable for this book.
 This was the result of it receiving the timeout error from the `reviews` service.
@@ -143,7 +143,7 @@ the timeout is specified in millisecond (instead of second) units.
   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+  [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
   to shutdown the application.
 
 ## What's next
