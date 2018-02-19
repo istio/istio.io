@@ -82,7 +82,7 @@ of Istio need to be reinstalled, then it is advisable to delete the `istio-syste
 
 ## Typical use cases
 
-The following commands are some examples of how a user could install Istio using this Ansible role
+The following commands are some examples of how a user could install Istio using this Ansible role:
 
 - User executes installs Istio accepting all defaults
 ```bash
