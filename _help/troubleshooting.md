@@ -229,7 +229,7 @@ or [manual]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar
       Look for errors related to your configuration or your service in the
       returned logs.
 
-More on viewing Mixer configuration can be found [here]({{home}}/help/faq.html#mixer-self-monitoring)
+More on viewing Mixer configuration can be found [here]({{home}}/help/faq/mixer.html#mixer-self-monitoring)
 
 ### Verify Mixer is sending metric instances to the Prometheus adapter
 
@@ -379,4 +379,8 @@ Make sure to tune these values for your specific deployment.
 *Warning:*: Changes created by routing rules will take up to 2x refresh interval to propagate to the sidecars. 
 While the larger refresh interval will reduce CPU usage, updates caused by routing rules may cause a period 
 of HTTP 404s (upto 2x the refresh interval) until the Envoy sidecars get all relevant configuration. 
+
+## Kubernetes webhook setup script files are missing from 0.5 release package
+
+NOTE: The 0.5.0 and 0.5.1 releases are missing scripts to provision webhook certificates. Download the missing files from [here](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/webhook-create-signed-cert.sh) and [here](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/webhook-patch-ca-bundle.sh). Subsqeuent releases (> 0.5.1) should include these missing files.
 

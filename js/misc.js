@@ -32,23 +32,35 @@ $(function ($) {
 
         // toggle copy button
         $(document).on('mouseenter', 'pre', function () {
-            $(this).children("div.copy").toggleClass("show", true)
-            $(this).children("div.copy").toggleClass("hide", false)
+            $(this).parent().children('div.copy').toggleClass("show", true)
+            $(this).parent().children('div.copy').toggleClass("hide", false)
         });
 
         // toggle copy button
         $(document).on('mouseleave', 'pre', function () {
-            $(this).children("div.copy").toggleClass("show", false)
-            $(this).children("div.copy").toggleClass("hide", true)
+            $(this).parent().children('div.copy').toggleClass("show", false)
+            $(this).parent().children('div.copy').toggleClass("hide", true)
+        });
+
+        // toggle copy button
+        $(document).on('mouseenter', 'div.copy', function () {
+            $(this).parent().children('div.copy').toggleClass("show", true)
+            $(this).parent().children('div.copy').toggleClass("hide", false)
+        });
+
+        // toggle copy button
+        $(document).on('mouseleave', 'div.copy', function () {
+            $(this).parent().children('div.copy').toggleClass("show", false)
+            $(this).parent().children('div.copy').toggleClass("hide", true)
         });
     });
 }(jQuery));
 
 (function(){
-    var div = "<div class='copy hide'><a style='color: white' class='copy-button'>Copy</a></div>";
+    var div = "<div class='copy hide'><button title='Copy to clipboard' class='copy-button'>Copy</button></div>";
     var pre = document.getElementsByTagName('PRE');
     for (var i = 0; i < pre.length; i++) {
-        pre[i].insertAdjacentHTML('afterbegin', div);
+        pre[i].insertAdjacentHTML('beforebegin', div);
     };
 
     var copyCode = new Clipboard('.copy-button', {
@@ -79,4 +91,37 @@ $(function ($) {
             event.trigger.textContent = 'Copy';
         }, 5000);
     });
+})();
+
+(function(){
+    function anchorForId(id) {
+        var anchor = document.createElement("a");
+        anchor.className = "header-link";
+        anchor.href      = "#" + id;
+        anchor.innerHTML = "<i class=\"fa fa-link\"></i>";
+        return anchor;
+    }
+
+    function linkifyAnchors(level, containingElement) {
+        var headers = containingElement.getElementsByTagName("h" + level);
+        for (var h = 0; h < headers.length; h++) {
+            var header = headers[h];
+
+            if (typeof header.id !== "undefined" && header.id !== "") {
+                header.appendChild(anchorForId(header.id));
+            }
+        }
+    }
+
+    for (var level = 1; level <= 6; level++) {
+        linkifyAnchors(level, document);
+    }
+
+    var links = document.getElementsByTagName("a")
+    for (var i = 0; i < links.length; i++) {
+        var l = links[i]
+        if (l.hostname && l.hostname != location.hostname) {
+            l.setAttribute("target", "_blank")
+        }
+    }
 })();
