@@ -159,30 +159,37 @@ pre {
         display: block;
         padding-left: 1em;
     }
+}
 
-    a.copy-button {
-        font-size: .8em;
-        padding: .2em .5em;
-        border-radius: .3em;
-        background-color: $secondBrandColor;
-        cursor: pointer;
-        color: $textBrandColor;
-        margin-right: 1px;
-    }
+button.copy-button {
+    font-size: .8em;
+    padding: 0 .5em;
+    border-radius: .3em;
+    background-color: $secondBrandColor;
+    cursor: pointer;
+    color: $textBrandColor;
+    text-decoration: none;
+    border: 0;
+}
 
-    div.hide {
-        float: right;
-        z-index: 2;
-        transition: opacity .4s ease-in-out;
-        opacity: 0;
-    }
+div.hide {
+    position: relative;
+    float: right;
+    top: -2px;
+    right: 38px;
+    z-index: 2;
+    transition: opacity .4s ease-in-out;
+    opacity: 0;
+}
 
-    div.show {
-        float: right;
-        z-index: 2;
-        transition: opacity 1.2s ease-in-out;
-        opacity: 1;
-    }
+div.show {
+    position: relative;
+    float: right;
+    top: -2px;
+    right: 38px;
+    z-index: 2;
+    transition: opacity 1.2s ease-in-out;
+    opacity: 1;
 }
 
 p {
