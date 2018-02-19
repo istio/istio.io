@@ -20,9 +20,9 @@ this infrastructure as a single mesh.
 
 {% include figure.html width='80%' ratio='56.78%'
     img='./img/mesh-expansion.svg'
-    alt='BookInfo Application with Istio Mesh Expansion'
-    title='BookInfo Application with Istio Mesh Expansion'
-    caption='BookInfo Application with Istio Mesh Expansion'
+    alt='Bookinfo Application with Istio Mesh Expansion'
+    title='Bookinfo Application with Istio Mesh Expansion'
+    caption='Bookinfo Application with Istio Mesh Expansion'
     %}
 
 <!-- source of the drawing https://docs.google.com/drawings/d/1gQp1OTusiccd-JUOHktQ9RFZaqREoQbwl2Vb-P3XlRQ/edit -->
@@ -33,7 +33,7 @@ this infrastructure as a single mesh.
 * Setup Istio by following the instructions in the
   [Installation guide]({{home}}/docs/setup/kubernetes/quick-start.html).
 
-* Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application (in the `bookinfo` namespace).
+* Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application (in the `bookinfo` namespace).
 * Create a VM named 'vm-1' in the same project as Istio cluster, and [Join the Mesh]({{home}}/docs/setup/kubernetes/mesh-expansion.html).
 
 ## Running mysql on the VM
