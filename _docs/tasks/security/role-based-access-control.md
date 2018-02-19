@@ -19,7 +19,7 @@ RBAC from [Istio RBAC concept page]({{home}}/docs/concepts/security/rbac.html).
   Note that authentication should be enabled at step 5 in the
   [installation steps]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps).
 
-* Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
+* Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
  *> Note: Some sample configurations we use below are not in the current Istio release yet. So before you continue, you
  need to copy the following configuration files from https://github.com/istio/istio/tree/master/samples/bookinfo/kube to
@@ -28,7 +28,7 @@ RBAC from [Istio RBAC concept page]({{home}}/docs/concepts/security/rbac.html).
  `istio-rbac-details-reviews.yaml`, `istio-rbac-ratings.yaml`.*
 
 * In this task, we will enable access control based on Service Accounts, which are cryptographically authenticated in the Istio mesh.
-In order to give different microservices different access privileges, we will create some service accounts and redeploy BookInfo
+In order to give different microservices different access privileges, we will create some service accounts and redeploy Bookinfo
 microservices running under them.
 
   Run the following command to
@@ -53,7 +53,7 @@ microservices running under them.
   > Note: if you are using a namespace other than `default`,
     use `istioctl -n namespace ...` to specify the namespace.
 
-Point your browser at the BookInfo `productpage` (http://$GATEWAY_URL/productpage). You should see:
+Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage). You should see:
 * "Book Details" section in the lower left part of the page, including type, pages, publisher, etc.
 * "Book Reviews" section in the lower right part of the page.
 
@@ -69,7 +69,7 @@ It also defines "requestcontext", which is an instance of the
 [authorization template](https://github.com/istio/istio/blob/master/mixer/template/authorization/template.proto).
 "requestcontext" defines the input to the RBAC engine at runtime.
 
-Point your browser at the BookInfo `productpage` (http://$GATEWAY_URL/productpage). Now you should see
+Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage). Now you should see
 `"PERMISSION_DENIED:handler.rbac.istio-system:RBAC: permission denied."` This is because Istio RBAC is "deny by default",
 which means that you need to explicitly define access control policy to grant access to any service.
 
@@ -80,7 +80,7 @@ which means that you need to explicitly define access control policy to grant ac
 Using Istio RBAC, you can easily setup namespace-level access control by specifying all (or a collection of) services
 in a namespace are accessible by services from another namespace.
 
-In our BookInfo sample, the "productpage", "reviews", "details", "ratings" services are deployed in "default" namespace.
+In our Bookinfo sample, the "productpage", "reviews", "details", "ratings" services are deployed in "default" namespace.
 The Istio components like "ingress" service are deployed in "istio-system" namespace. We can define a policy that all
 services in "default" namespace are accessible by services in the same namespace (i.e., "default" namespace) and
 services in "istio-system" namespace.
@@ -131,7 +131,7 @@ servicerole "service-viewer" created
 servicerolebinding "bind-service-viewer" created
 ```
 
-Now if you point your browser at BookInfo `productpage` (http://$GATEWAY_URL/productpage). You should see "BookInfo Sample" page,
+Now if you point your browser at Bookinfo `productpage` (http://$GATEWAY_URL/productpage). You should see "Bookinfo Sample" page,
 with "Book Details" section in the lower left part and "Book Reviews" section in the lower right part.
 
   > Note: There may be delay due to caching on browser and Istio proxy.
@@ -150,9 +150,9 @@ This task shows you how to set up service-level access control using Istio RBAC.
 * You have [enabled Istio RBAC](#enabling-istio-rbac).
 * You have [removed namespace-level Istio RBAC policy](#cleanup-namespace-level-access-control).
 
-Point your browser at the BookInfo `productpage` (http://$GATEWAY_URL/productpage). You should see
+Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage). You should see
 `"PERMISSION_DENIED:handler.rbac.istio-system:RBAC: permission denied."` We will incrementally add
-access to the services in BookInfo sample.
+access to the services in Bookinfo sample.
 
 ### Step 1. allowing access to "productpage" service
 
@@ -195,7 +195,7 @@ The policy does the following:
       name: "productpage-viewer"
   ```
 
-Point your browser at the BookInfo `productpage` (http://$GATEWAY_URL/productpage). Now you should see "BookInfo Sample"
+Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage). Now you should see "Bookinfo Sample"
 page. But there are errors `"Error fetching product details"` and `"Error fetching product reviews"` on the page. These errors
 are expected because we have not granted "productpage" service to access "details" and "reviews" services. We will fix the errors
 in the following steps.
@@ -253,7 +253,7 @@ account "cluster.local/ns/default/sa/bookinfo-productpage" (representing the "pr
       name: "details-reviews-viewer"
   ```
 
-Point your browser at the BookInfo `productpage` (http://$GATEWAY_URL/productpage). Now you should see "BookInfo Sample"
+Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage). Now you should see "Bookinfo Sample"
 page with "Book Details" on the lower left part, and "Book Reviews" on the lower right part. However, in "Book Reviews" section,
 you see one of the following two errors:
 1. `"Error featching product reviews"`. This is because "productpage" service is only allowed to access "reviews" service with versions
@@ -324,7 +324,7 @@ account "cluster.local/ns/default/sa/bookinfo-reviews", which represents the "re
       name: "ratings-viewer"
   ```
 
-Point your browser at the BookInfo `productpage` (http://$GATEWAY_URL/productpage). Now you should see
+Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage). Now you should see
 the "black" and "red" ratings in "Book Reviews" section.
 
   > Note: There may be delay due to caching on browser and Istio proxy.

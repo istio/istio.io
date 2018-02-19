@@ -15,14 +15,14 @@ This task shows how to configure Istio to automatically gather telemetry for TCP
 services in a mesh. At the end of this task, a new metric will be enabled for
 calls to a TCP service within your mesh.
 
-The [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application is used
+The [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application is used
 as the example application throughout this task.
 
 ## Before you begin
 * [Install Istio]({{home}}/docs/setup/) in your cluster and deploy an
   application.
 
-* This task assumes that the BookInfo sample will be deployed in the `default`
+* This task assumes that the Bookinfo sample will be deployed in the `default`
   namespace. If you use a different namespace, you will need to update the
   example configuration and commands.
 
@@ -124,7 +124,7 @@ as the example application throughout this task.
    Created config rule/default/mongoprom at revision 3852846
    ```
 
-1. Setup BookInfo to use MongoDB.
+1. Setup Bookinfo to use MongoDB.
 
    1. Install `v2` of the `ratings` service.
 
@@ -184,7 +184,7 @@ as the example application throughout this task.
 
 1. Send traffic to the sample application.
 
-   For the BookInfo sample, visit `http://$GATEWAY_URL/productpage` in your web
+   For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
    browser or issue the following command:
 
    ```bash
@@ -261,7 +261,7 @@ protocols within policies.
   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+  [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
   to shutdown the application.
 
 ## What's next

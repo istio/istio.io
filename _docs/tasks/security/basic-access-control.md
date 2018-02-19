@@ -16,7 +16,7 @@ This task shows how to control access to a service using the Kubernetes labels.
 * Set up Istio on Kubernetes by following the instructions in the
   [Installation guide]({{home}}/docs/setup/kubernetes/).
 
-* Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
+* Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
 * Initialize the application version routing to direct `reviews` service requests from
   test user "jason" to version v2 and requests from any other user to v3.
@@ -37,10 +37,10 @@ This task shows how to control access to a service using the Kubernetes labels.
 Using Istio you can control access to a service based on any attributes that are available within Mixer.
 This simple form of access control is based on conditionally denying requests using Mixer selectors.
 
-Consider the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application where the `ratings` service is accessed by multiple versions
+Consider the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application where the `ratings` service is accessed by multiple versions
 of the `reviews` service. We would like to cut off access to version `v3` of the `reviews` service.
 
-1. Point your browser at the BookInfo `productpage` (http://$GATEWAY_URL/productpage). 
+1. Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage).
 
    If you log in as user "jason", you should see black rating stars with each review,
    indicating that the `ratings` service is being called by the "v2" version of the `reviews` service.
@@ -88,7 +88,7 @@ Istio also supports attribute-based whitelists and blacklists. The following whi
    istioctl delete -f samples/bookinfo/kube/mixer-rule-deny-label.yaml
    ```
 
-1. Verify that when you access the BookInfo `productpage` (http://$GATEWAY_URL/productpage) without logging in, you see red stars.
+1. Verify that when you access the Bookinfo `productpage` (http://$GATEWAY_URL/productpage) without logging in, you see red stars.
    After performing the following steps you will no longer be able to see stars unless you are logged in as "jason".
 
 1. Create configuration for the [`list`]({{home}}/docs/reference/config/adapters/list.html)
@@ -151,7 +151,7 @@ Save the following YAML snippet as `checkversion-rule.yaml`:
    istioctl create -f checkversion-rule.yaml
    ```
 
-1. Verify that when you access the BookInfo `productpage` (http://$GATEWAY_URL/productpage) without logging in, you see **no** stars.
+1. Verify that when you access the Bookinfo `productpage` (http://$GATEWAY_URL/productpage) without logging in, you see **no** stars.
 Verify that after logging in as "jason" you see black stars.
 
 ## Cleanup
@@ -172,7 +172,7 @@ Verify that after logging in as "jason" you see black stars.
   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+  [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
   to shutdown the application.
 
 ## What's next

@@ -14,7 +14,7 @@ This task shows how to configure Istio to automatically gather telemetry for
 services in a mesh. At the end of this task, a new metric and a new log stream
 will be enabled for calls to services within your mesh.
 
-The [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application is used
+The [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application is used
 as the example application throughout this task.
 
 ## Before you begin
@@ -141,7 +141,7 @@ as the example application throughout this task.
 
 1. Send traffic to the sample application.
 
-   For the BookInfo sample, visit `http://$GATEWAY_URL/productpage` in your web
+   For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
    browser or issue the following command:
 
    ```bash
@@ -308,7 +308,7 @@ here to illustrate how to use `match` expressions to control rule execution.
   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+  [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
   to shutdown the application.
 
 ## What's next
