@@ -44,7 +44,7 @@ ansible-playbook main.yml
 ```
 
 Remarks:
-- The role tries it's best to be idempotent, so running the playbook multiple times should be have the same effect as running it a single time.   
+- This Ansible playbook is idempotent. If you find examples of lacking idempotency please file a bug.   
 - The default parameters that apply to this role can be found in `istio/defaults/main.yml`.
 
 The full list of configurable parameters is as follows:
@@ -54,7 +54,7 @@ The full list of configurable parameters is as follows:
 | `cluster_flavour` | Defines whether the target cluster is a Kubernetes or an Openshift cluster. | Valid values are `k8s` and `ocp` (default) |
 | `github_api_token` | The API token used for authentication when calling the GitHub API | Any valid GitHub API token or empty (default) |
 | `cmd_path` | Can be used when the user does not have the `oc` or `kubectl` binary on the PATH | Defaults to expecting the binary is on the path | 
-| `istio.release_tag_name` | Should be a valid Istio release version. If left empty, the latest Istio release will be installed | `0.2.12`, `0.3.0`, `0.4.0` (default) |
+| `istio.release_tag_name` | Should be a valid Istio release version. If left empty, the latest Istio release will be installed | `0.2.12`, `0.3.0`, `0.4.0`, `0.5.0`, `0.5.1` |
 | `istio.dest` | Destination folder you want to install on your machine istio distribution | `~/.istio` (default) |
 | `istio.auth` | Boolean value to install Istio using MUTUAL_TLS | `true` and `false` (default) |
 | `istio.namespace` | The namespace where Istio will be installed | `istio-system` (default) |
