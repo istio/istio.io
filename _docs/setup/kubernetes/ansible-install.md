@@ -52,11 +52,11 @@ The full list of configurable parameters is as follows:
 | `cmd_path` | Can be used when the user does not have the `oc` or `kubectl` binary on the PATH | Defaults to expecting the binary is on the path | 
 | `istio.release_tag_name` | Should be a valid Istio release version. If left empty, the latest Istio release will be installed | `0.2.12`, `0.3.0`, `0.4.0` (default) |
 | `istio.dest` | Destination folder you want to install on your machine istio distribution | `~/.istio` (default) |
-| `istio.auth` | Boolean value to install istio using MUTUAL_TLS | `true` and `false` (default) |
-| `istio.namespace` | The namespace where istio will be installed | `istio-system` (default) |
+| `istio.auth` | Boolean value to install Istio using MUTUAL_TLS | `true` and `false` (default) |
+| `istio.namespace` | The namespace where Istio will be installed | `istio-system` (default) |
 | `istio.addon` | Which Istio addons should be installed as well | This field is an array field, which by default contains `grafana`, `prometheus`, `zipkin` and `servicegraph` |
 | `istio.jaeger` | Whether or not Jaeger tracing should also be installed | `true` and `false` (default)|
-| `istio.delete_resources` | Boolean value to delete resources created under the istio namespace | `true` and `false` (default)|
+| `istio.delete_resources` | Boolean value to delete resources created under the Istio namespace | `true` and `false` (default)|
 | `istio.samples` | Array containing the names of the samples that should be installed | Valid names are: `bookinfo`, `helloworld`, `httpbin`, `sleep`
 
 
