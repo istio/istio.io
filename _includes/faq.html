@@ -1,68 +1,12 @@
-{% include home.html %}
 
-<div class="container-fluid faq">
-    <div class="row">
+{% assign faqs = site.faq | sort: "order" %}
+{% for q in faqs %}
+    {% assign comp = q.path | split: '/' %}
+    {% assign qcat = comp[1] %}
+    {% if qcat == include.category %}
+        {% assign name = q.path | downcase | split: '/' | last | remove: ".md" %}
 
-        {% assign category_dirs = include.faq_category_dirs | split: ',' %}
-        {% assign category_names = include.faq_category_names | split: ',' %}
-
-        <div class="col-12 col-md-3 col-xl-2">
-            <div class="list-group" role="tablist">
-                {% assign cats = category_dirs %}
-                {% for cat in cats %}
-                    {% assign active = "" %}
-                    {% if forloop.index == 1 %}
-                        {% assign active = "active" %}
-                    {% endif %}
-
-                    <a class="list-group-item list-group-item-action {{active}}" data-toggle="list" role="tab" href="#tab{{forloop.index}}">
-                        {{category_names[forloop.index0]}}
-                    </a>
-                {% endfor %}
-            </div>
-        </div>
-
-        <div class="col-12 col-md-9 col-xl-10">
-            <div class="tab-content">
-
-                {% assign cats = category_dirs %}
-                {% for cat in cats %}
-                    {% assign catIndex = forloop.index %}
-
-                    {% assign active = "" %}
-                    {% if catIndex == 1 %}
-                        {% assign active = "active" %}
-                    {% endif %}
-
-                    <div class="tab-pane {{active}}" id="tab{{catIndex}}" role="tabpanel">
-
-                        {% assign faqs = include.faq_pages | sort: "order" %}
-                        {% for q in faqs %}
-                            {% assign comp = q.path | split: '/' %}
-                            {% assign qcat = comp[1] %}
-                            {% if cat == qcat %}
-                                {% assign name = q.path | downcase | split: '/' | last | remove: ".md" %}
-
-                                <div class="card">
-                                    <div class="card-header">
-                                        <a data-toggle="collapse" href="#{{name}}">
-                                            <div>
-                                                {{q.title}}
-                                            </div>
-                                        </a>
-                                    </div>
-
-                                    <div id="{{name}}" class="collapse" data-parent="#tab{{catIndex}}">
-                                        <div class="card-body">
-                                            {{q.content}}
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-</div>
+        <h4 id="{{name}}">Q: {{q.title}}</h4>
+        {{q.content}}
+    {% endif %}
+{% endfor %}

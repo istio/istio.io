@@ -2,7 +2,7 @@
 title: istio_ca
 overview: Istio Certificate Authority (CA)
 layout: pkg-collateral-docs
-number_of_entries: 3
+number_of_entries: 4
 ---
 <p>Istio Certificate Authority (CA)</p>
 <pre class="language-bash"><code>istio_ca [flags]
@@ -18,11 +18,6 @@ number_of_entries: 3
 <td><code>--alsologtostderr</code></td>
 <td></td>
 <td>log to standard error as well as files </td>
-</tr>
-<tr>
-<td><code>--ca-cert-ttl &lt;duration&gt;</code></td>
-<td></td>
-<td>The TTL of self-signed CA root certificate  (default `8760h0m0s`)</td>
 </tr>
 <tr>
 <td><code>--cert-chain &lt;string&gt;</code></td>
@@ -50,12 +45,17 @@ number_of_entries: 3
 <td>Specifies path to kubeconfig file. This must be specified when not running inside a Kubernetes pod.  (default ``)</td>
 </tr>
 <tr>
-<td><code>--livenessProbeInterval &lt;duration&gt;</code></td>
+<td><code>--listened-namespace &lt;string&gt;</code></td>
+<td></td>
+<td>Select a namespace for the CA to listen to. If unspecified, Istio CA tries to use the ${NAMESPACE} environment variable. If neither is set, Istio CA listens to all namespaces.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--liveness-probe-interval &lt;duration&gt;</code></td>
 <td></td>
 <td>Interval of updating file for the liveness probe.  (default `0s`)</td>
 </tr>
 <tr>
-<td><code>--livenessProbePath &lt;string&gt;</code></td>
+<td><code>--liveness-probe-path &lt;string&gt;</code></td>
 <td></td>
 <td>Path to the file for the liveness probe.  (default ``)</td>
 </tr>
@@ -125,9 +125,9 @@ number_of_entries: 3
 <td>The max TTL of issued workload certificates  (default `168h0m0s`)</td>
 </tr>
 <tr>
-<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>--probe-check-interval &lt;duration&gt;</code></td>
 <td></td>
-<td>Select a namespace for the CA to listen to. If unspecified, Istio CA tries to use the ${NAMESPACE} environment variable. If neither is set, Istio CA listens to all namespaces.  (default ``)</td>
+<td>Interval of checking the liveness of the CA.  (default `30s`)</td>
 </tr>
 <tr>
 <td><code>--root-cert &lt;string&gt;</code></td>
@@ -138,6 +138,11 @@ number_of_entries: 3
 <td><code>--self-signed-ca</code></td>
 <td></td>
 <td>Indicates whether to use auto-generated self-signed CA certificate. When set to true, the &#39;--signing-cert&#39; and &#39;--signing-key&#39; options are ignored. </td>
+</tr>
+<tr>
+<td><code>--self-signed-ca-cert-ttl &lt;duration&gt;</code></td>
+<td></td>
+<td>The TTL of self-signed CA root certificate  (default `8760h0m0s`)</td>
 </tr>
 <tr>
 <td><code>--self-signed-ca-org &lt;string&gt;</code></td>
@@ -183,6 +188,109 @@ number_of_entries: 3
 <td><code>--workload-cert-ttl &lt;duration&gt;</code></td>
 <td></td>
 <td>The TTL of issued workload certificates  (default `19h0m0s`)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="istio_ca probe">istio_ca probe</h2>
+<p>Check the liveness or readiness of a locally-running server</p>
+<pre class="language-bash"><code>istio_ca probe [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+<td><code>--alsologtostderr</code></td>
+<td></td>
+<td>log to standard error as well as files </td>
+</tr>
+<tr>
+<td><code>--interval &lt;duration&gt;</code></td>
+<td></td>
+<td>Duration used for checking the target file&#39;s last modified time.  (default `0s`)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
+<td><code>--log_callers</code></td>
+<td></td>
+<td>Include caller information, useful for debugging </td>
+</tr>
+<tr>
+<td><code>--log_dir &lt;string&gt;</code></td>
+<td></td>
+<td>If non-empty, write log files in this directory  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>log to standard error instead of files </td>
+</tr>
+<tr>
+<td><code>--probe-path &lt;string&gt;</code></td>
+<td></td>
+<td>Path of the file for checking the availability.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--stderrthreshold &lt;severity&gt;</code></td>
+<td></td>
+<td>logs at or above this threshold go to stderr  (default `2`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 </tbody>
 </table>
