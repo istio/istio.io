@@ -32,32 +32,32 @@ $(function ($) {
 
         // toggle copy button
         $(document).on('mouseenter', 'pre', function () {
-            $(this).parent().children('div.copy').toggleClass("show", true)
-            $(this).parent().children('div.copy').toggleClass("hide", false)
+            $(this).parent().children('div.copy').toggleClass("copy-show", true)
+            $(this).parent().children('div.copy').toggleClass("copy-hide", false)
         });
 
         // toggle copy button
         $(document).on('mouseleave', 'pre', function () {
-            $(this).parent().children('div.copy').toggleClass("show", false)
-            $(this).parent().children('div.copy').toggleClass("hide", true)
+            $(this).parent().children('div.copy').toggleClass("copy-show", false)
+            $(this).parent().children('div.copy').toggleClass("copy-hide", true)
         });
 
         // toggle copy button
         $(document).on('mouseenter', 'div.copy', function () {
-            $(this).parent().children('div.copy').toggleClass("show", true)
-            $(this).parent().children('div.copy').toggleClass("hide", false)
+            $(this).parent().children('div.copy').toggleClass("copy-show", true)
+            $(this).parent().children('div.copy').toggleClass("copy-hide", false)
         });
 
         // toggle copy button
         $(document).on('mouseleave', 'div.copy', function () {
-            $(this).parent().children('div.copy').toggleClass("show", false)
-            $(this).parent().children('div.copy').toggleClass("hide", true)
+  //          $(this).parent().children('div.copy').toggleClass("copy-show", false)
+//            $(this).parent().children('div.copy').toggleClass("copy-hide", true)
         });
     });
 }(jQuery));
 
 (function(){
-    var div = "<div class='copy hide'><button title='Copy to clipboard' class='copy-button'>Copy</button></div>";
+    var div = "<div class='copy copy-hide'><button title='Copy to clipboard' class='copy-button'>Copy</button></div>";
     var pre = document.getElementsByTagName('PRE');
     for (var i = 0; i < pre.length; i++) {
         pre[i].insertAdjacentHTML('beforebegin', div);
