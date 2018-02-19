@@ -32,23 +32,35 @@ $(function ($) {
 
         // toggle copy button
         $(document).on('mouseenter', 'pre', function () {
-            $(this).children("div.copy").toggleClass("show", true)
-            $(this).children("div.copy").toggleClass("hide", false)
+            $(this).parent().children('div.copy').toggleClass("show", true)
+            $(this).parent().children('div.copy').toggleClass("hide", false)
         });
 
         // toggle copy button
         $(document).on('mouseleave', 'pre', function () {
-            $(this).children("div.copy").toggleClass("show", false)
-            $(this).children("div.copy").toggleClass("hide", true)
+            $(this).parent().children('div.copy').toggleClass("show", false)
+            $(this).parent().children('div.copy').toggleClass("hide", true)
+        });
+
+        // toggle copy button
+        $(document).on('mouseenter', 'div.copy', function () {
+            $(this).parent().children('div.copy').toggleClass("show", true)
+            $(this).parent().children('div.copy').toggleClass("hide", false)
+        });
+
+        // toggle copy button
+        $(document).on('mouseleave', 'div.copy', function () {
+            $(this).parent().children('div.copy').toggleClass("show", false)
+            $(this).parent().children('div.copy').toggleClass("hide", true)
         });
     });
 }(jQuery));
 
 (function(){
-    var div = "<div class='copy hide'><a style='color: white' class='copy-button'>Copy</a></div>";
+    var div = "<div class='copy hide'><button title='Copy to clipboard' class='copy-button'>Copy</button></div>";
     var pre = document.getElementsByTagName('PRE');
     for (var i = 0; i < pre.length; i++) {
-        pre[i].insertAdjacentHTML('afterbegin', div);
+        pre[i].insertAdjacentHTML('beforebegin', div);
     };
 
     var copyCode = new Clipboard('.copy-button', {
