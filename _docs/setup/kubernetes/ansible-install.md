@@ -55,7 +55,7 @@ The full list of configurable parameters is as follows:
 | `github_api_token` | The API token used for authentication when calling the GitHub API | Any valid GitHub API token or empty (default) |
 | `cmd_path` | Can be used when the user does not have the `oc` or `kubectl` binary on the PATH | Defaults to expecting the binary is on the path | 
 | `istio.release_tag_name` | Should be a valid Istio release version. If left empty, the latest Istio release will be installed | `0.2.12`, `0.3.0`, `0.4.0`, `0.5.0`, `0.5.1` |
-| `istio.dest` | Destination folder you want to install on your machine istio distribution | `~/.istio` (default) |
+| `istio.dest` | The directory of the target machine where Istio will be installed | `~/.istio` (default) |
 | `istio.auth` | Boolean value to install Istio using MUTUAL_TLS | `true` and `false` (default) |
 | `istio.namespace` | The namespace where Istio will be installed | `istio-system` (default) |
 | `istio.addon` | Which Istio addons should be installed as well | This field is an array field, which by default contains `grafana`, `prometheus`, `zipkin` and `servicegraph` |
