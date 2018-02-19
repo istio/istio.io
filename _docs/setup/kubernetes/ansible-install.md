@@ -20,15 +20,19 @@ The Ansible scenario defined within this project will allow you to :
 - [Ansible 2.4](http://docs.ansible.com/ansible/latest/intro_installation.html)
 
 Refer to the Ansible Installation Doc on how to install Ansible on your machine.
-To use [Minishift](https://docs.openshift.org/latest/minishift/command-ref/minishift_start.html) or [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) for local clusters, please refer to their respective documentation. 
+To use [Minishift](https://docs.openshift.org/latest/minishift/command-ref/minishift_start.html) or [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) for local clusters, please refer to their respective documentation.
+
+Furthermore, the following requirements must be met for the respective clusters 
+* Kubernetes:
+    - Minimum Version: `1.7.2`
+    - `kubectl` configured to be able to access the cluster
+* Openshift 
+    - Minimum Version: `3.7.0` 
+    - `oc` configured to be able to access the cluster
+    - User has logged in to the cluster
+    - User has `admin` role on the Openshift platform    
 
 ## Execution
-
-The role assumes that the user :
-- Can access a Kubernetes or Openshift cluster via `kubectl` or `oc` respectively and is authenticated against the cluster. 
-- Has the `admin` role on the OpenShift platform
-
-Remark : Furthermore the minimum Kubernetes version that is compatible is `1.7.0` (`3.7.0` is the corresponding OpenShift version).   
 
 **Important**: All invocations of the Ansible playbooks need to take place at the `install/ansible` path of the project.
 Failing to do so will result in unexpected errors 
