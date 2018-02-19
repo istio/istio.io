@@ -11,7 +11,7 @@ type: markdown
 
 The Ansible scenario defined within this project will allow you to : 
 
-- Deploy Istio on Openshift or Kubernetes by specifying different parameters (version, enable auth, deploy bookinfo, ...)
+- Deploy Istio on Kubernetes or Openshift by specifying different parameters (version, enable auth, deploy bookinfo, ...)
 - Specify the addons to be deployed such as `Grafana`, `Prometheus`, `Servicegraph`, `Zipkin` or `Jaeger`
 
 ## Prerequisites
