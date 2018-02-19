@@ -456,3 +456,11 @@ kubectl delete -f install/kubernetes/istio-sidecar-injector-with-ca-bundle.yaml
 The above command will not remove the injected sidecars from
 Pods. A rolling update or simply deleting the pods and forcing
 the deployment to create them is required.
+
+Optionally, if may be also be desirable to clean-up other resources that were created in this task. This includes the secret holding the cert/key and CSR used to sign them, as well as any namespace that was labeled for injection.
+
+```bash
+kubectl -n istio-system delete secret sidecar-injector-certs
+kubectl delete csr istio-sidecar-injector.istio-system
+kubectl label namespace default istio-injection-
+```
