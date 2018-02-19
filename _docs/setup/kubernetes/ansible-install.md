@@ -70,7 +70,7 @@ ansible-playbook main.yml -e '{"istio": {"jaeger": true}}'
 
 
 This playbook will take care of downloading and installing Istio locally on your machine, before deploying the necessary Kubernetes / Openshift
-pods, services etc. on to the cluster
+pods, services etc. on to the cluster.
 
 ### Note on istio.delete_resources
 
