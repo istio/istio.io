@@ -7,7 +7,17 @@ layout: default
             {% include sidebar.html docs=site.help singlecard=true %}
         </div>
 
-        {% if page.toc != false %}
+        {% assign needTOC = true %}
+        {% if page.toc == false %}
+            {% assign needTOC = false %}
+        {% else %}
+            {% include toc.html html=content sanitize=true h_min=2 h_max=4 %}
+            {% if emptyTOC %}
+                {% assign needTOC = false %}
+            {% endif %}
+        {% endif %}
+
+        {% if needTOC %}
             <div class="col-12 col-md-9 col-lg-6 col-xl-7">
         {% else %}
             <div class="col-12 col-md-9 col-xl-10">
@@ -24,12 +34,12 @@ layout: default
             </main>
         </div>
 
-        {% if page.toc != false %}
+        {% if needTOC %}
             <div class="col-12 col-md-3 d-none d-lg-block">
                 <nav class="toc">
                     <div class="spacer"></div>
                     <div class="directory" role="directory">
-                        {% include toc.html html=content sanitize=true h_min=2 h_max=4 %}
+                        {{ toc }}
                     </div>
                 </nav>
             </div>
