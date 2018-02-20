@@ -22,17 +22,17 @@ number_of_entries: 4
 <tr>
 <td><code>--cert-chain &lt;string&gt;</code></td>
 <td></td>
-<td>Speicifies path to the certificate chain file  (default ``)</td>
+<td>Path to the certificate chain file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--grpc-hostname &lt;string&gt;</code></td>
 <td></td>
-<td>Specifies the hostname for GRPC server.  (default `localhost`)</td>
+<td>The hostname for GRPC server.  (default `localhost`)</td>
 </tr>
 <tr>
 <td><code>--grpc-port &lt;int&gt;</code></td>
 <td></td>
-<td>Specifies the port number for GRPC server. If unspecified, Istio CA will not server GRPC request.  (default `0`)</td>
+<td>The port number for GRPC server. If unspecified, Istio CA will not server GRPC request.  (default `0`)</td>
 </tr>
 <tr>
 <td><code>--istio-ca-storage-namespace &lt;string&gt;</code></td>
@@ -132,7 +132,7 @@ number_of_entries: 4
 <tr>
 <td><code>--root-cert &lt;string&gt;</code></td>
 <td></td>
-<td>Specifies path to the root certificate file  (default ``)</td>
+<td>Path to the root certificate file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--self-signed-ca</code></td>
@@ -152,17 +152,32 @@ number_of_entries: 4
 <tr>
 <td><code>--signing-cert &lt;string&gt;</code></td>
 <td></td>
-<td>Specifies path to the CA signing certificate file  (default ``)</td>
+<td>Path to the CA signing certificate file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--signing-key &lt;string&gt;</code></td>
 <td></td>
-<td>Specifies path to the CA signing key file  (default ``)</td>
+<td>Path to the CA signing key file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--stderrthreshold &lt;severity&gt;</code></td>
 <td></td>
 <td>logs at or above this threshold go to stderr  (default `2`)</td>
+</tr>
+<tr>
+<td><code>--upstream-auth &lt;string&gt;</code></td>
+<td></td>
+<td>Specifies how the Istio CA is authenticated to the upstream CA.  (default `mtls`)</td>
+</tr>
+<tr>
+<td><code>--upstream-ca-address &lt;string&gt;</code></td>
+<td></td>
+<td>The IP:port address of the upstream CA. When set, the CA will rely on the upstream Istio CA to provision its own certificate.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--upstream-ca-cert-file &lt;string&gt;</code></td>
+<td></td>
+<td>Path to the certificate for authenticating upstream CA.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--v &lt;Level&gt;</code></td>
