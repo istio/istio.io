@@ -13,7 +13,7 @@ type: markdown
 
 Quick Start instructions to install and run Istio in [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) (GKE) using [Google Cloud Deployment Manager](https://cloud.google.com/deployment-manager/).
 
-This Quick Start creates a new GKE [zonal cluster](https://cloud.google.com/kubernetes-engine/versioning-and-upgrades#versions_available_for_new_cluster_masters), installs Istio and then deploys the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample 
+This Quick Start creates a new GKE [zonal cluster](https://cloud.google.com/kubernetes-engine/versioning-and-upgrades#versions_available_for_new_cluster_masters), installs Istio and then deploys the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample
 application.  It uses Deployment Manager to automate the steps detailed in the [Istio on Kubernetes setup guide]({{home}}/docs/setup/kubernetes/quick-start.html) for Kubernetes Engine
 
 
@@ -48,7 +48,7 @@ application.  It uses Deployment Manager to automate the steps detailed in the [
 
    We recommend that you leave the default settings as the rest of this tutorial shows how to access the installed features. By default the tool creates a 
    GKE alpha cluster with the specified settings, then installs the Istio [control plane]({{home}}/docs/concepts/what-is-istio/overview.html#architecture), the
-   [BookInfo]({{home}}/docs/guides/bookinfo.html) sample app,
+   [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample app,
    [Grafana]({{home}}/docs/tasks/telemetry/using-istio-dashboard.html) with
    [Prometheus]({{home}}/docs/tasks/telemetry/querying-metrics.html),
    [ServiceGraph]({{home}}/docs/tasks/telemetry/servicegraph.html),
@@ -111,7 +111,7 @@ deploy/zipkin              1         1         1            1           3m
 ```
 
 
-Now confirm that the BookInfo sample application is also installed:
+Now confirm that the Bookinfo sample application is also installed:
 
 
 ```bash
@@ -130,7 +130,7 @@ NAME          HOSTS     ADDRESS         PORTS     AGE
 ing/gateway   *         35.202.120.89   80        3m
 ```
 
-Note down the IP and Port assigned to BookInfo product page. (in the example above, its ```35.202.120.89:80```.
+Note down the IP and Port assigned to Bookinfo product page. (in the example above, its ```35.202.120.89:80```.
 
 You can also view the installation using the ***Kubernetes Engine -> Workloads** section on the [Cloud Console](https://console.cloud.google.com/kubernetes/workload):
 
@@ -141,9 +141,9 @@ You can also view the installation using the ***Kubernetes Engine -> Workloads**
     caption='GKE-Workloads'
     %}
 
-### Access the BookInfo sample
+### Access the Bookinfo sample
 
-1. Set up an environment variable for BookInfo's external IP address:
+1. Set up an environment variable for Bookinfo's external IP address:
 
    ```bash
    kubectl get ingress -o wide
@@ -152,13 +152,13 @@ You can also view the installation using the ***Kubernetes Engine -> Workloads**
    export GATEWAY_URL=35.202.120.89
    ```
 
-2. Verify you can access the BookInfo ```http://${GATEWAY_URL}/productpage```:
+2. Verify you can access the Bookinfo ```http://${GATEWAY_URL}/productpage```:
 
    {% include figure.html width="100%" ratio="45.04%"
     img='./img/dm_bookinfo.png'
-    alt='BookInfo'
-    title='BookInfo'
-    caption='BookInfo'
+    alt='Bookinfo'
+    title='Bookinfo'
+    caption='Bookinfo'
     %}
 
 3. Now send some traffic to it:
@@ -225,7 +225,7 @@ Set up a tunnel to ServiceGraph:
 ```bash
 kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
 ```
-You should see the BookInfo service topology at
+You should see the Bookinfo service topology at
 
 ```
 http://localhost:8088/dotviz
@@ -265,7 +265,7 @@ For more details on tracing see [Understanding what happened]({{home}}/docs/task
 
 ## What's next
 
-You can further explore the BookInfo app and Istio functionality by following any of the tutorials in the
+You can further explore the Bookinfo app and Istio functionality by following any of the tutorials in the
 [Guides]({{home}}/docs/guides/) section. However, to do this you need to install `istioctl` to interact
 with Istio. You can either [install]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps) it directly
 on our workstation or within Cloud Shell.

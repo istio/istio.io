@@ -175,7 +175,7 @@ The updated architecture appears below. Note that the blue arrows inside the mes
     caption='The Bookinfo Application with ratings v2-mysql and an external MySQL database'
     %}
 
-Note that the MySQL database is outside the Istio service mesh, or more precisely outside the Kubernetes cluster. The boundary of the service mesh is marked by a dotted line.
+Note that the MySQL database is outside the Istio service mesh, or more precisely outside the Kubernetes cluster. The boundary of the service mesh is marked by a dashed line.
 
 ### Access the webpage
 Let's access the webpage of the application, after [determining the ingress IP and port]({{home}}/docs/guides/bookinfo.html#determining-the-ingress-ip-and-port).

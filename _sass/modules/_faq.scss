@@ -1,33 +1,12 @@
 .faq {
     .card {
-        margin-bottom: .2em;
+        border-color: $boxBorderColor;
+        margin-bottom: 2em;
+        border-radius: 4px;
     }
-
-	.card-body {
-	    padding-top: 0;
-	    padding-bottom: 0;
-	}
 
     .card-header {
-        padding: 0;
-
-	    div {
-	        padding: .75em 1.25em;
-	    }
-    }
-
-    .list-group {
-        padding-bottom: 3em;
-    }
-
-    .list-group-item {
-        background-color: $backgroundColor;
-        color: $textColor;
-        border-color: $dividerBarColor;
-    }
-
-    .list-group-item.active {
-        background-color: $mainBrandColor;
         color: $textBrandColor;
+        background-color: $boxBorderColor;
     }
 }

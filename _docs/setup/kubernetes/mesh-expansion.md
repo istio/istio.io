@@ -271,4 +271,4 @@ services running on the machine.
 
 ## Putting it all together
 
-See the [BookInfo Mesh Expansion]({{home}}/docs/guides/integrating-vms.html) guide.
+See the [Bookinfo Mesh Expansion]({{home}}/docs/guides/integrating-vms.html) guide.
