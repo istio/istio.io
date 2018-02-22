@@ -9,7 +9,7 @@ type: markdown
 ---
 
 This task describes how to configure Istio to expose a service outside of the service mesh cluster.
-In a Kubernetes environment, the [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/services-networking/ingress/)
+In a Kubernetes environment, the [Kubernetes Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/)
 allows users to specify services that should be exposed outside the
 cluster. However, the Ingress Resource specification is very minimal,
 allowing users to specify just hosts, paths and their backing services.
