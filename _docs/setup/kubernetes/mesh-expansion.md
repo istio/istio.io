@@ -99,9 +99,24 @@ export GCP_OPTS="--zone MY_ZONE --project MY_PROJECT"
 # change to the namespace you wish to use for VMs but 'vm' is what the bookinfo guide assumes
 export SERVICE_NAMESPACE=vm
 ```
+
+If you are running on a GCE VM, please you can use
+
+```bash
+install/tools/setupMeshEx.sh gceMachineSetup VM_NAME
+```
+
+Otherwise, please use
 ```bash
 install/tools/setupMeshEx.sh machineSetup VM_NAME
 ```
+
+GCE provides better user experience since node agent can always relies on
+GCE metadata instance document to authenticate to Istio CA. For everything
+else, e.g., on-prem or raw VM, we have to bootstrap a key/cert as credential,
+which typically has a limited lifetime. And when the cert expires, you have to
+rerun the above command.
+
 
 Or the equivalent manual steps:
 
