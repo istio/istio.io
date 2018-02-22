@@ -1,6 +1,6 @@
 ---
-title: Istio Ingress Controller
-overview: Describes how to configure the Istio ingress controller on Kubernetes.
+title: Istio Ingress
+overview: Describes how to configure Istio Ingress on Kubernetes.
 
 order: 30
 
