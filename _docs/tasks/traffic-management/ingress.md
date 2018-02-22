@@ -11,16 +11,20 @@ type: markdown
 This task describes how to configure Istio to expose a service outside of the service mesh cluster.
 In a Kubernetes environment, the [Kubernetes Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/)
 allows users to specify services that should be exposed outside the
-cluster. However, the Ingress Resource specification is very minimal,
-allowing users to specify just hosts, paths and their backing services.
+cluster. It allows defining a backend service per virtual host and path.
+
+Once the Istio Ingress specification is defined, the into-the-cluster traffic is directed through the `istio-ingress` pod. This allows applying Istio features, for example, monitoring and route rules, on the into-the-cluster traffic.
+
+Istio Ingress specification is based on the standard [Kubernetes Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/) specification, with the following differences:
+
+1. Istio Ingress specification contains `kubernetes.io/ingress.class: istio` annotation.
+
+2. All other annotations are ignored.
+
 The following are the known limitations of Istio ingress:
 
-1. Istio supports standard Kubernetes Ingress specification without
-   annotations. There is no support for `ingress.kubernetes.io` annotations
-   in the Ingress resource specifications. Any annotation other than
-   `kubernetes.io/ingress.class: istio` will be ignored.
-2. Regular expressions in paths are not supported.
-3. Fault injection at the Ingress is not supported.
+1. Regular expressions in paths are not supported.
+2. Fault injection at the Ingress is not supported.
 
 ## Before you begin
 
