@@ -11,7 +11,7 @@ type: markdown
 This task describes how to configure Istio to expose a service outside of the service mesh cluster.
 In a Kubernetes environment, the [Kubernetes Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/)
 allows users to specify services that should be exposed outside the
-cluster. It allows defining a backend service per virtual host and path.
+cluster. It allows one to define a backend service per virtual host and path.
 
 Once the Istio Ingress specification is defined, the into-the-cluster traffic is directed through the `istio-ingress` pod. This allows applying Istio features, for example, monitoring and route rules, on the into-the-cluster traffic.
 
