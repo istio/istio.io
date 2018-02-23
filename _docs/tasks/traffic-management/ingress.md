@@ -21,7 +21,7 @@ The Istio Ingress specification is based on the standard [Kubernetes Ingress Res
 
 2. All other annotations are ignored.
 
-The following are the known limitations of Istio Ingress:
+The following are known limitations of Istio Ingress:
 
 1. Regular expressions in paths are not supported.
 2. Fault injection at the Ingress is not supported.
