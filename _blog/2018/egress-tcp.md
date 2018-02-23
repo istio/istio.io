@@ -35,7 +35,7 @@ For this task I set up an instance of [MySQL](https://www.mysql.com). You can us
    mysql -u root -p
    ```
 
-2. Then I create a user with the name _bookinfo_ and grant it _SELECT_ privilege on the `test.ratings` table:
+2. I then create a user with the name _bookinfo_ and grant it _SELECT_ privilege on the `test.ratings` table:
    ```bash
    mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host <the database host> --port <the database port>  \
    -e "CREATE USER 'bookinfo' IDENTIFIED BY '<password you choose>'; GRANT SELECT ON test.ratings to 'bookinfo';"
