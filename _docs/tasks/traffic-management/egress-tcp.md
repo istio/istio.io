@@ -9,7 +9,7 @@ type: markdown
 ---
 {% include home.html %}
 
-The [Control Egress Traffic]({{home}}/docs/tasks/traffic-management/egress.html) task demonstrated how external (outside the Kubernetes cluster) HTTP and HTTPS services can be accessed from applications inside the mesh. To remind: by default, Istio-enabled applications are unable to access URLs outside the cluster. To enable such access, [egress rules]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#EgressRule) must be defined, or, alternatively, [direct access to external services]({{home}}/docs/tasks/traffic-management/egress.html#calling-external-services-directly) must be configured.
+The [Control Egress Traffic]({{home}}/docs/tasks/traffic-management/egress.html) task demonstrated how external (outside the Kubernetes cluster) HTTP and HTTPS services can be accessed from applications inside the mesh. A quick reminder: by default, Istio-enabled applications are unable to access URLs outside the cluster. To enable such access, [egress rules]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#EgressRule) must be defined, or, alternatively, [direct access to external services]({{home}}/docs/tasks/traffic-management/egress.html#calling-external-services-directly) must be configured.
 
 This task describes how to configure Istio to expose external TCP services to applications inside the Istio service mesh.
 
