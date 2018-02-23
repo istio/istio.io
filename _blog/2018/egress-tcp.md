@@ -13,7 +13,7 @@ redirect_from: "/blog/egress-tcp.html"
 ---
 {% include home.html %}
 
-In my previous blog post, [Consuming External Web Services]({{home}}/blog/2018/egress-https.html), I described how external services can be consumed by in-mesh Istio applications via HTTPS. In this post, I demonstrate consuming external services over TCP. I use the [Istio Bookinfo sample application]({{home}}/docs/guides/bookinfo.html), the version in which the book ratings data is persisted in a MySQL database. I deploy this database outside the cluster and will configure the _ratings_ microservice to use it. I define an [egress rule]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#EgressRule) to allow the in-mesh applications to access the external database.
+In my previous blog post, [Consuming External Web Services]({{home}}/blog/2018/egress-https.html), I described how external services can be consumed by in-mesh Istio applications via HTTPS. In this post, I demonstrate consuming external services over TCP. I use the [Istio Bookinfo sample application]({{home}}/docs/guides/bookinfo.html), the version in which the book ratings data is persisted in a MySQL database. I deploy this database outside the cluster and configure the _ratings_ microservice to use it. I define an [egress rule]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#EgressRule) to allow the in-mesh applications to access the external database.
 
 ## Bookinfo sample application with external ratings database
 First, I set up a MySQL database instance to hold book ratings data, outside my Kubernetes cluster. Then I modify the [Bookinfo sample application]({{home}}/docs/guides/bookinfo.html) to use my database.
@@ -235,7 +235,7 @@ As with egress rules for HTTP/HTTPS, we can delete and create egress rules for T
 ## Motivation for egress TCP traffic control
 Some in-mesh Istio applications must access external services, for example legacy systems. In many cases, the access is not performed over HTTP or HTTPS protocols. Other TCP protocols are used, for example database specific protocols [MongoDB Wire Protocol](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/) and [MySQL CLient/Server Protocol](https://dev.mysql.com/doc/internals/en/client-server-protocol.html) to communicate with external databases.
 
-Note that in case of access to external HTTPS services, as described in the [Control Egress TCP Traffic]({{home}}/docs/tasks/traffic-management/egress.html) task, an application must issue HTTP requests to the external service. The Envoy sidecar proxy attached to the pod or the VM, will intercept the requests and will open an HTTPS connection to the external service. The traffic will be unencrypted inside the pod or the VM, but it will leave the pod or the VM encrypted.
+Note that in case of access to external HTTPS services, as described in the [Control Egress TCP Traffic]({{home}}/docs/tasks/traffic-management/egress.html) task, an application must issue HTTP requests to the external service. The Envoy sidecar proxy attached to the pod or the VM, will intercept the requests and open an HTTPS connection to the external service. The traffic will be unencrypted inside the pod or the VM, but it will leave the pod or the VM encrypted.
 
 However, sometimes this approach cannot work due to the following reasons:
 * The code of the application is configured to use an HTTPS URL and cannot be changed
