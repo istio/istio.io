@@ -50,7 +50,7 @@ The following are the known limitations of Istio Ingress:
 
 ## Configuring ingress (HTTP)
 
-1. Create a basic Ingress Resource for the httpbin service
+1. Create a basic Ingress specification for the httpbin service
 
    ```bash
    cat <<EOF | kubectl create -f -
@@ -177,7 +177,7 @@ The following are the known limitations of Istio Ingress:
    kubectl create -n istio-system secret tls istio-ingress-certs --key /tmp/tls.key --cert /tmp/tls.crt
    ```
 
-1. Create the Ingress Resource for the httpbin service
+1. Create the Ingress specification for the httpbin service
 
    ```bash
    cat <<EOF | kubectl create -f -
