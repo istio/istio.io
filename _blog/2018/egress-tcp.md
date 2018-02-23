@@ -217,7 +217,7 @@ istioctl create -f egress-rule-mysql.yaml
 ```bash
 Created config egress-rule/default/mysql at revision 1954425
 ```
-Note that for a TCP egress rule, we specify `tcp` as the protocol of a port of the rule. Also note that we use an IP of the external service instead of its domain name. I will talk more about TCP Egress Rules [below](#egress-rules-for-tcp-traffic). For now, let's verify that the egress rule we added fixed the problem. Let's access the webpage and see if the stars are back.
+Note that for a TCP egress rule, we specify `tcp` as the protocol of a port of the rule. Also note that we use an IP of the external service instead of its domain name. I will talk more about TCP egress rules [below](#egress-rules-for-tcp-traffic). For now, let's verify that the egress rule we added fixed the problem. Let's access the webpage and see if the stars are back.
 
 It worked! Accessing the web page of the application displays the ratings without error:
 
