@@ -106,7 +106,7 @@ If you are running on a GCE VM, run
 install/tools/setupMeshEx.sh gceMachineSetup VM_NAME
 ```
 
-Otherwise run
+Otherwise, run
 ```bash
 install/tools/setupMeshEx.sh machineSetup VM_NAME
 ```
