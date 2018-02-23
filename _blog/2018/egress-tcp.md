@@ -194,7 +194,7 @@ As in [Consuming External Web Services]({{home}}/blog/2018/egress-https.html), w
 We have the same problem as in [Consuming External Web Services]({{home}}/blog/2018/egress-https.html), namely all the traffic outside the Kubernetes cluster, both TCP and HTTP, is blocked by default by the sidecar proxies. To enable such traffic for TCP, an egress rule for TCP must be defined.
 
 ### Egress rule for an external MySQL instance
-TCP egress rules come to our rescue. I copy the following YAML spec to a text file, let's call it `egress-rule-mysql.yaml`, and edit it to specify the IP of my database instance and its port.
+TCP egress rules come to our rescue. I copy the following YAML spec to a text file (let's call it `egress-rule-mysql.yaml`) and edit it to specify the IP of my database instance and its port.
 
 ```yaml
 apiVersion: config.istio.io/v1alpha2
