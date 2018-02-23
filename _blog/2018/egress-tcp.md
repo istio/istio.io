@@ -170,9 +170,9 @@ The updated architecture appears below. Note that the blue arrows inside the mes
 
 {% include figure.html width='80%' ratio='59.31%'
     img='./img/bookinfo-ratings-v2-mysql-external.svg'
-    alt='The Bookinfo Application with ratings v2-mysql and an external MySQL database'
-    title='The Bookinfo Application with ratings v2-mysql and an external MySQL database'
-    caption='The Bookinfo Application with ratings v2-mysql and an external MySQL database'
+    alt='The Bookinfo application with ratings v2-mysql and an external MySQL database'
+    title='The Bookinfo application with ratings v2-mysql and an external MySQL database'
+    caption='The Bookinfo application with ratings v2-mysql and an external MySQL database'
     %}
 
 Note that the MySQL database is outside the Istio service mesh, or more precisely outside the Kubernetes cluster. The boundary of the service mesh is marked by a dashed line.
