@@ -35,7 +35,7 @@ In TCP egress rules as opposed to HTTP-based egress rules, the destinations are 
 
 Let's assume for the sake of the example that we want to access `wikipedia.org` by the domain name. This means that we have to specify all the IPs of `wikipedia.org` in our TCP egress rules. Fortunately, the IPs of `wikipedia.org` are published [here]( https://www.mediawiki.org/wiki/Wikipedia_Zero/IP_Addresses). It is a list of IP blocks in [CIDR notation](https://tools.ietf.org/html/rfc2317): `91.198.174.192/27`, `103.102.166.224/27`, and more. We must define an egress rule per each IP block.
 
-Alternatively, if we want to access `wikipedia.org` by an IP, a single egress rule for that IP must be defined.
+Alternatively, if we want to access `wikipedia.org` by an IP, just a single egress rule for that IP must be defined.
 
 ## Creating egress rules
 Let's create egress rules to enable TCP access to `wikipedia.org`:
