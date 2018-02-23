@@ -114,7 +114,7 @@ This command will create five egress rules, a rule per different block of IPs of
 
    We should see `200` printed as the output, which is the HTTP code _OK_.
 
-3. Now let's fetch the current number of articles in English language:
+3. Now let's fetch the current number of the articles available on Wikipedia in the English language:
    ```bash
    curl -s https://en.wikipedia.org/wiki/Main_Page | grep articlecount | grep 'Special:Statistics'
    ```
