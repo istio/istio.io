@@ -103,7 +103,7 @@ This command will create five egress rules, a rule per different block of IPs of
    kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep bash
    ```
 
-2. Make a request and see that we can access https://www.wikipedia.org successfully:
+2. Make a request and verify that we can access https://www.wikipedia.org successfully:
 
    ```bash
    curl -o /dev/null -s -w "%{http_code}\n" https://www.wikipedia.org
