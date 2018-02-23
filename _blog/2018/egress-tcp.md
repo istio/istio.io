@@ -189,7 +189,7 @@ We have a problem... Instead of the rating stars, the message _"Ratings service 
     caption='The Ratings service error messages'
     %}
 
-As in [Consuming External Web Services]({{home}}/blog/2018/egress-https.html), we experience **graceful service degradation**, which is good. The application did not crash due to the error in the _ratings_ microservice. The webpage of the application correctly displayed the book information, the details and the reviews, just without the rating stars.
+As in [Consuming External Web Services]({{home}}/blog/2018/egress-https.html), we experience **graceful service degradation**, which is good. The application did not crash due to the error in the _ratings_ microservice. The webpage of the application correctly displayed the book information, the details, and the reviews, just without the rating stars.
 
 We have the same problem as in [Consuming External Web Services]({{home}}/blog/2018/egress-https.html), namely all the traffic outside the Kubernetes cluster, both TCP and HTTP, is blocked by default by the sidecar proxies. To enable such traffic for TCP, an egress rule for TCP must be defined.
 
