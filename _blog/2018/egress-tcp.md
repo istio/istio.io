@@ -259,7 +259,7 @@ Also note that the IPs of an external service are not always static, for example
 
 ## Relation to mesh expansion
 Note that the scenario described in this post is different from the mesh expansion scenario, described in the
-[Integrating Virtual Machines]({{home}}/docs/guides/integrating-vms.html) guide. In that scenario, a MySQL instance runs on a an external
+[Integrating Virtual Machines]({{home}}/docs/guides/integrating-vms.html) guide. In that scenario, a MySQL instance runs on an external
 (outside the cluster) machine (a bare metal or a VM), integrated with the Istio service mesh. The MySQL service becomes a first-class citizen of the mesh with all the beneficial features of Istio applicable. Among other things, the service becomes addressable by a local cluster domain name, for example by `mysqldb.vm.svc.cluster.local`, and the communication to it can be secured by
 [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html). There is no need to create an egress rule to access this service, however the
 service has to be registered with Istio. To enable such integration, Istio components (_Envoy proxy_, _node-agent_, _istio-agent_) must be
