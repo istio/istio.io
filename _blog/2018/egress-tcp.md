@@ -228,7 +228,7 @@ It worked! Accessing the web page of the application displays the ratings withou
     caption='Book Ratings Displayed Correctly'
     %}
 
-Note that we see a one-star rating for the both displayed reviews, as expected. I changed the ratings to be one star to provide us a visual clue that our external database is indeed used.
+Note that we see a one-star rating for both displayed reviews, as expected. I changed the ratings to be one star to provide us a visual clue that our external database is indeed used.
 
 As with egress rules for HTTP/HTTPS, we can delete and create egress rules for TCP using `istioctl`, dynamically.
 
