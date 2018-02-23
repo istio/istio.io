@@ -50,7 +50,7 @@ For this task I set up an instance of [MySQL](https://www.mysql.com). You can us
    ```
    Here I apply the [principle of least privilege](https://en.wikipedia.org/wiki/Principle_of_least_privilege). This means that I do not use my _admin_ user in the Bookinfo application. Instead, I create a special user for the Bookinfo application , _bookinfo_, with minimal privileges. In this case, the _bookinfo_ user only has the `SELECT` privilege on a single table.
 
-   After running the command to create the user, I will clean my bash history by checking the number of the last command and running `history -d <the number of the command that created the user>`. I do not want the password of the new user to be stored in the bash history. If I would use mysql, I would remove the last command from `~/.mysql_history` file as well. Read more about password protection of the newly created user in [MySQL documentation](https://dev.mysql.com/doc/refman/5.5/en/create-user.html).
+   After running the command to create the user, I will clean my bash history by checking the number of the last command and running `history -d <the number of the command that created the user>`. I don't want the password of the new user to be stored in the bash history. If I would use mysql, I would remove the last command from `~/.mysql_history` file as well. Read more about password protection of the newly created user in [MySQL documentation](https://dev.mysql.com/doc/refman/5.5/en/create-user.html).
 
 3. I inspect the created ratings to see that everything worked as expected:
    ```bash
