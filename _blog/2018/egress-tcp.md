@@ -127,9 +127,9 @@ As a reminder, here is the end-to-end architecture of the application from the [
 {% assign url = home | append: "/docs/guides/img/bookinfo/withistio.svg" %}
 {% include figure.html width='80%' ratio='59.08%'
     img=url
-    alt='The Original Bookinfo Application'
-    title='The Original Bookinfo Application'
-    caption='The Original Bookinfo Application'
+    alt='The original Bookinfo application'
+    title='The original Bookinfo application'
+    caption='The original Bookinfo application'
     %}
 
 ### Use the database for ratings data in Bookinfo application
