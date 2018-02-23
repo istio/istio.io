@@ -15,7 +15,7 @@ cluster. It allows one to define a backend service per virtual host and path.
 
 Once the Istio Ingress specification is defined, the into-the-cluster traffic is directed through the `istio-ingress` service, so that Istio features, for example, monitoring and route rules, can be applied to the into-the-cluster traffic.
 
-Istio Ingress specification is based on the standard [Kubernetes Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/) specification, with the following differences:
+The Istio Ingress specification is based on the standard [Kubernetes Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/) specification, with the following differences:
 
 1. Istio Ingress specification contains `kubernetes.io/ingress.class: istio` annotation.
 
