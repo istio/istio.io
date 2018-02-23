@@ -145,7 +145,7 @@ As a reminder, here is the end-to-end architecture of the application from the [
    - name: MYSQL_DB_PASSWORD
      value: password
    ```
-   I replace the values in the snippet above, specifying the database host, port, user, and password. Note that the correct way to work with passwords in container's environment variables in Kubernetes is [to use secrets](https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables). For this example task only, I write the password directly in the deployment spec. **Do not do it** in a real environment! No need to mention that `"password"` should not be used as a password.
+   I replace the values in the snippet above, specifying the database host, port, user, and password. Note that the correct way to work with passwords in container's environment variables in Kubernetes is [to use secrets](https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables). For this example task only, I write the password directly in the deployment spec. **Do not do it** in a real environment! I also assume everyone realizes that `"password"` should not be used as a password...
 
 2. I apply the modified spec to deploy the version of the _ratings_ microservice, _v2-mysql_, that will use my database.
 
