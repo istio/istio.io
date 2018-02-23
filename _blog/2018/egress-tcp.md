@@ -266,7 +266,7 @@ service must be registered with Istio. To enable such integration, Istio compone
 installed on the machine and the Istio control plane (_Pilot_, _Mixer_, _CA_) must be accessible from it. See the
 [Istio Mesh Expansion]({{home}}/docs/setup/kubernetes/mesh-expansion.html) instructions for more details.
 
-In our case, the MySQL instance can run on any machine or can be provisioned as a service by a cloud provider. There is no requirement to integrate the machine with Istio. The Istio contol plane does not have to be accessible from the machine. In the case of MySQL as a service, the machine which MySQL runs on may be not accessible and installing on it the required components may be impossible. In our case, the MySQL instance is addressable by its global domain name, which could be beneficial if the consuming applications expect to use that domain name. Especially, when this expectation cannot be changed by the deployment configuration of the consuming applications.
+In our case, the MySQL instance can run on any machine or can be provisioned as a service by a cloud provider. There is no requirement to integrate the machine with Istio. The Istio contol plane does not have to be accessible from the machine. In the case of MySQL as a service, the machine which MySQL runs on may be not accessible and installing on it the required components may be impossible. In our case, the MySQL instance is addressable by its global domain name, which could be beneficial if the consuming applications expect to use that domain name. This is especially relevant when that expected domain name cannot be changed in the deployment configuration of the consuming applications.
 
 ## Cleanup
 1. Drop the _test_ database and the _bookinfo_ user:
