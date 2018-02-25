@@ -25,7 +25,7 @@
               <div>
                 <img src="{{home}}/img/logo.png" alt="Istio" width="36px" height="54px"/>
                 {% if site.data.istio.archive %}
-                  <span class="brand-name">Istioldie {{site.data.istio.short_version}}</span>
+                  <span class="brand-name">Istioldie {{site.data.istio.version}}</span>
                 {% else %}
                   <span class="brand-name">Istio</span>
                 {% endif %}
@@ -48,9 +48,15 @@
                           <span class="caret"></span>
                       </a>
                       <ul class="dropdown-menu">
-                          <li><a href="https://istio.io/">Latest</a></li>
-                          {% for a in site.data.archives.archives %}
-                              <li><a href="https://archive.istio.io/{{a}}/">Archive {{a}}</a></li>
+                          {% for rel in site.data.releases %}
+                              <li><a href="{{rel.url}}/">
+                                  {% if site.data.istio.version == rel.name %}
+                                      <i class='fa fa-check'></i>
+                                  {% else %}
+                                      <i style="visibility: hidden;" class='fa fa-check'></i>
+                                  {% endif %}
+                                  {{rel.name}}
+                              </a></li>
                           {% endfor %}
                       </ul>
                   </li>
