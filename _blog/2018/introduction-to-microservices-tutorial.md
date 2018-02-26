@@ -18,6 +18,6 @@ This tutoral demonstrates microservices as web apps, node.js, Docker, Kubernetes
 
 The ideas and scenarios were taken from the [Production-Ready Microservices](http://shop.oreilly.com/product/0636920053675.do) book of Susan Fowler and from [istio.io guides and tasks](https://istio.io).
 
-The tutorial can be used either for self-learning microservices with Istio, or for teaching microservices with Istio or, alternatively, just for quick demonstration of most of the Istio features. Demonstration of the tutorial modules can take approximately two hours.
+The tutorial can be used either for self-learning microservices with Istio, or for teaching microservices with Istio. Alternatively, the tutorial can be used for quick demonstration of the most of the basic Istio features. Demonstration of the tutorial modules can take approximately two hours.
 
 The tutorial: [https://github.com/vadimeisenbergibm/introduction-to-microservices-with-istio-bookinfo](https://github.com/vadimeisenbergibm/introduction-to-microservices-with-istio-bookinfo).
