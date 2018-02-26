@@ -1,6 +1,6 @@
 ---
-title: Istio Ingress Controller
-overview: Describes how to configure the Istio ingress controller on Kubernetes.
+title: Istio Ingress
+overview: Describes how to configure Istio Ingress on Kubernetes.
 
 order: 30
 
@@ -9,18 +9,22 @@ type: markdown
 ---
 
 This task describes how to configure Istio to expose a service outside of the service mesh cluster.
-In a Kubernetes environment, the [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/services-networking/ingress/)
+In a Kubernetes environment, the [Kubernetes Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/)
 allows users to specify services that should be exposed outside the
-cluster. However, the Ingress Resource specification is very minimal,
-allowing users to specify just hosts, paths and their backing services.
-The following are the known limitations of Istio ingress:
+cluster. It allows one to define a backend service per virtual host and path.
 
-1. Istio supports standard Kubernetes Ingress specification without
-   annotations. There is no support for `ingress.kubernetes.io` annotations
-   in the Ingress resource specifications. Any annotation other than
-   `kubernetes.io/ingress.class: istio` will be ignored.
-2. Regular expressions in paths are not supported.
-3. Fault injection at the Ingress is not supported.
+Once the Istio Ingress specification is defined, the traffic entering the cluster is directed through the `istio-ingress` service. As a result, Istio features, for example, monitoring and route rules, can be applied to the traffic entering the cluster.
+
+The Istio Ingress specification is based on the standard [Kubernetes Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/) specification, with the following differences:
+
+1. Istio Ingress specification contains `kubernetes.io/ingress.class: istio` annotation.
+
+2. All other annotations are ignored.
+
+The following are known limitations of Istio Ingress:
+
+1. Regular expressions in paths are not supported.
+2. Fault injection at the Ingress is not supported.
 
 ## Before you begin
 
@@ -46,7 +50,7 @@ The following are the known limitations of Istio ingress:
 
 ## Configuring ingress (HTTP)
 
-1. Create a basic Ingress Resource for the httpbin service
+1. Create a basic Ingress specification for the httpbin service
 
    ```bash
    cat <<EOF | kubectl create -f -
@@ -173,7 +177,7 @@ The following are the known limitations of Istio ingress:
    kubectl create -n istio-system secret tls istio-ingress-certs --key /tmp/tls.key --cert /tmp/tls.crt
    ```
 
-1. Create the Ingress Resource for the httpbin service
+1. Create the Ingress specification for the httpbin service
 
    ```bash
    cat <<EOF | kubectl create -f -
