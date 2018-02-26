@@ -13,7 +13,7 @@ In a Kubernetes environment, the [Kubernetes Ingress Resource](https://kubernete
 allows users to specify services that should be exposed outside the
 cluster. It allows one to define a backend service per virtual host and path.
 
-Once the Istio Ingress specification is defined, the into-the-cluster traffic is directed through the `istio-ingress` service, so that Istio features, for example, monitoring and route rules, can be applied to the into-the-cluster traffic.
+Once the Istio Ingress specification is defined, the into-the-cluster traffic is directed through the `istio-ingress` service, so that Istio features, for example, monitoring and route rules, can be applied to the traffic entering the cluster.
 
 The Istio Ingress specification is based on the standard [Kubernetes Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/) specification, with the following differences:
 
