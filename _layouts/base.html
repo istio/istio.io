@@ -28,9 +28,9 @@ layout: compress
 
         {% if site.data.istio.archive %}
             {% if page.title == 'Istio' %}
-                <title>Istioldie {{site.data.istio.short_version}}</title>
+                <title>Istioldie {{site.data.istio.version}}</title>
             {% else %}
-                <title>Istioldie {{site.data.istio.short_version}} / {{ page.title }}</title>
+                <title>Istioldie {{site.data.istio.version}} / {{ page.title }}</title>
             {% endif %}
         {% else %}
             {% if page.title == 'Istio' %}
