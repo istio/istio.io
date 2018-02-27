@@ -100,13 +100,13 @@ export GCP_OPTS="--zone MY_ZONE --project MY_PROJECT"
 export SERVICE_NAMESPACE=vm
 ```
 
-If you are running on a GCE VM, please you can use
+If you are running on a GCE VM, run
 
 ```bash
 install/tools/setupMeshEx.sh gceMachineSetup VM_NAME
 ```
 
-Otherwise, please use
+Otherwise, run
 ```bash
 install/tools/setupMeshEx.sh machineSetup VM_NAME
 ```
