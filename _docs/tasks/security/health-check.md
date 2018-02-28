@@ -18,20 +18,19 @@ by periodically sending CSRs to the API. More health check features are coming s
 
 The Istio CA contains a _prober client_ module that periodically checks the CA's status (currently only the health
 status of the gRPC server).
-If the Istio CA is healthy, the _prober client_ updates the _modificate time_ of the health status file
-(the file is always empty), otherwise,
-it will do nothing. Istio CA relies on a
+If the Istio CA is healthy, the _prober client_ updates the _modificate time_ of the _health status file_
+(the file is always empty). Otherwise, it does nothing. Istio CA relies on a
 [K8s liveness and readiness probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)
-with command line to check the _modification time_ of the health status file on the pod.
+with command line to check the _modification time_ of the _health status file_ on the pod.
 If the file is not updated for a period, the probe will be triggered and Kubelet will restart the CA container.
 
 Note: because the Istio CA health check currently only monitors the health status of CSR service API,
-you do not need this feature enabled for your production if you are not using the
+this feature is not needed if the production setup is not using the
 [Istio Mesh Expansion]({{home}}/docs/setup/kubernetes/mesh-expansion.html) (which requires the CSR service API).
 
 ## Before you begin
 
-* Set up Istio on auth-enabled Kubernetes by following the instructions in the
+* Set up Istio by following the instructions in the
   [quick start]({{home}}/docs/setup/kubernetes/quick-start.html).
   Note that authentication should be enabled at step 5 in the
   [installation steps]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps).
@@ -44,8 +43,7 @@ Deploy the Istio CA with health check enabled.
 kubectl apply -f install/kubernetes/istio-ca-with-health-check.yaml
 ```
 
-Deploy the `istio-ca` service so that the CSR service can be found by the health checker
-(this step will be ommited in the next release).
+Deploy the `istio-ca` service so that the CSR service can be found by the health checker.
 
 ```bash
 cat <<EOF | kubectl create -f -
@@ -64,7 +62,7 @@ spec:
 EOF
 ```
 
-## Verifying the Istio CA health check is working
+## Verifying the health checker is working
 
 Isito CA will log the health check results. Run the following in command line:
 
@@ -83,9 +81,10 @@ You will see the output similar to:
 ...
 ```
 
+The log above indicates the periodic health check is working.
 Observe that the health check interval is about 15 seconds, which is the default health check interval.
 
-## (Optional) Adjusting the health check configuration
+## (Optional) Configuring the health check
 
 Optionally, adjust the health check configuration to meet your own needs. Open the file
 `install/kubernetes/istio-ca-with-health-check.yaml`, and locate the following lines.
@@ -118,17 +117,17 @@ The `interval` is the maximum time elapsed since the last update of the health s
 the Istio CA as healthy.
 `initialDelaySeconds` and `periodSeconds` are the intial delay and the probe running period.
 
-Prolonging `probe-check-interval` will reduce the health check overhead, but the prober will be notified later when
-the CA is unhealthy.
+Prolonging `probe-check-interval` will reduce the health check overhead, but there will be a greater lagging for the
+prober to get notified on the unhealthy status.
 To avoid the prober restarting the Istio CA due to temporary unavailablily, the `interval` on the prober can be
-configured to be `N` times of the `liveness-probe-interval`. This will allow the prober to tolerate `N-1` continuously
-failed health checks.
+configured to be more than `N` times of the `liveness-probe-interval`. This will allow the prober to tolerate `N-1`
+continuously failed health checks.
 
 ## Cleanup
 
 * To disable health check on the Istio CA:
   ```bash
-  kubectl delete -f install/kubernetes/istio-ca.yaml
+  kubectl apply -f install/kubernetes/istio-auth.yaml
   kubectl delete svc istio-ca -n istio-system
   ```
 

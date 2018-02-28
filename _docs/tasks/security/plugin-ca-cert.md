@@ -17,7 +17,7 @@ This task demonstrates an example to plug certificate and key into the Istio CA.
 
 ## Before you begin
 
-* Set up Istio on auth-enabled Kubernetes by following the instructions in the
+* Set up Istio by following the instructions in the
   [quick start]({{home}}/docs/setup/kubernetes/quick-start.html).
   Note that authentication should be enabled at step 5 in the
   [installation steps]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps).
