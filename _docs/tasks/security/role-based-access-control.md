@@ -2,7 +2,7 @@
 title: Setting up Istio Role-Based Access Control
 overview: This task shows how to set up role-based access control for services in Istio mesh.
 
-order: 30
+order: 40
 
 layout: docs
 type: markdown
