@@ -375,6 +375,25 @@ value `true` to the pod template spec to enable injection.
 `enabled` - The sidecar injector will inject the sidecar into pods by
 default. Add the `sidecar.istio.io/inject` annotation with 
 value `false` to the pod template spec to disable injection.
+
+The following example uses the `sidecar.istio.io/inject` annotation to disable sidecar injection.
+
+```yaml
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ignored
+spec:
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "false"
+    spec:
+      containers:
+      - name: ignored
+        image: tutum/curl
+        command: ["/bin/sleep","infinity"]
+```
     
 ##### _**template**_
    
