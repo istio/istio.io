@@ -388,6 +388,7 @@ NOTE: The 0.5.0 and 0.5.1 releases are missing scripts to provision webhook cert
 
 This was tested on 0.5.0 with the additional files required as referenced in the above issue.   When the Kube-apiserver included 
 proxy settings such as:
+```yaml
       env:
     - name: http_proxy
       value: http://proxy-wsa.esl.foo.com:80
@@ -395,6 +396,12 @@ proxy settings such as:
       value: http://proxy-wsa.esl.foo.com:80
     - name: no_proxy
       value: 127.0.0.1,localhost,dockerhub.cisco.com,devhub-docker.foo.com,10.84.100.125,10.84.100.126,10.84.100.127
-
+```
+```bash
 The sidecar injection would fail.   The only related failure logs was in the kube-apiserver log:
 W0227 21:51:03.156818       1 admission.go:257] Failed calling webhook, failing open sidecar-injector.istio.io: failed calling admission webhook "sidecar-injector.istio.io": Post https://istio-sidecar-injector.istio-system.svc:443/inject: Service Unavailable
+```
+A workaround is to remove the proxy settings from the kube-apiserver manifest and restart the server.   
+
+An issue has been filed in kubernetes related to this.   [https://github.com/kubernetes/kubeadm/issues/666](https://github.com/kubernetes/kubeadm/issues/666)
+and a possible fix is in progress:  [https://github.com/kubernetes/kubernetes/pull/58698#discussion_r163879443](https://github.com/kubernetes/kubernetes/pull/58698#discussion_r163879443)
