@@ -1,6 +1,6 @@
 ---
-title: Istio Ingress Controller
-overview: Describes how to configure the Istio ingress controller on Kubernetes.
+title: Istio Ingress
+overview: Describes how to configure Istio Ingress on Kubernetes.
 
 order: 30
 
@@ -9,16 +9,22 @@ type: markdown
 ---
 
 This task describes how to configure Istio to expose a service outside of the service mesh cluster.
-In a Kubernetes environment, the [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/services-networking/ingress/)
+In a Kubernetes environment, the [Kubernetes Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/)
 allows users to specify services that should be exposed outside the
-cluster. However, the Ingress Resource specification is very minimal,
-allowing users to specify just hosts, paths and their backing services.
-To take advantage of Istio's advanced routing capabilities, we recommend
-combining a minimal Ingress Resource specification with Istio's route
-rules.
+cluster. It allows one to define a backend service per virtual host and path.
 
-> Note: Istio does not support `ingress.kubernetes.io` annotations in the ingress resource
-> specifications. Any annotation other than `kubernetes.io/ingress.class: istio` will be ignored.
+Once the Istio Ingress specification is defined, the traffic entering the cluster is directed through the `istio-ingress` service. As a result, Istio features, for example, monitoring and route rules, can be applied to the traffic entering the cluster.
+
+The Istio Ingress specification is based on the standard [Kubernetes Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/) specification, with the following differences:
+
+1. Istio Ingress specification contains `kubernetes.io/ingress.class: istio` annotation.
+
+2. All other annotations are ignored.
+
+The following are known limitations of Istio Ingress:
+
+1. Regular expressions in paths are not supported.
+2. Fault injection at the Ingress is not supported.
 
 ## Before you begin
 
@@ -44,7 +50,7 @@ rules.
 
 ## Configuring ingress (HTTP)
 
-1. Create a basic Ingress Resource for the httpbin service
+1. Create a basic Ingress specification for the httpbin service
 
    ```bash
    cat <<EOF | kubectl create -f -
@@ -58,7 +64,11 @@ rules.
      rules:
      - http:
          paths:
-         - path: /.*
+         - path: /status/.*
+           backend:
+             serviceName: httpbin
+             servicePort: 8000
+         - path: /delay/.*
            backend:
              serviceName: httpbin
              servicePort: 8000
@@ -66,72 +76,11 @@ rules.
    ```
  
    `/.*` is a special Istio notation that is used to indicate a prefix
-   match, specifically a configuration of the form (`prefix: /`). This
-   configuration above will allow access to all URIs in the httpbin
-   service. However we wish to enable access only to specific URIs under the
-   httpbin service. Let us define a default _deny all_ route rule that
-   provides this behavior:
-
-   ```bash
-   cat <<EOF | istioctl create -f -
-   ## Deny all access from istio-ingress
-   apiVersion: config.istio.io/v1alpha2
-   kind: RouteRule
-   metadata:
-     name: deny-route
-   spec:
-     destination:
-       name: httpbin
-     match:
-       # Limit this rule to istio ingress pods only
-       source:
-         name: istio-ingress
-         labels:
-           istio: ingress
-     precedence: 1
-     route:
-     - weight: 100
-     httpFault:
-       abort:
-         percent: 100
-         httpStatus: 403 #Forbidden for all URLs
-   EOF
-   ```   
-2. Now, allow requests to `/status/` prefix by defining a route rule of
-   higher priority.
-
-   ```bash
-   cat <<EOF | istioctl create -f -
-   ## Allow requests to /status prefix
-   apiVersion: config.istio.io/v1alpha2
-   kind: RouteRule
-   metadata:
-     name: status-route
-   spec:
-     destination:
-       name: httpbin
-     match:
-       # Limit this rule to istio ingress pods only
-       source:
-         name: istio-ingress
-         labels:
-           istio: ingress
-       request:
-         headers:
-           uri:
-             prefix: /status
-     precedence: 2 #must be higher precedence than the deny-route
-     route:
-     - weight: 100
-   EOF
-   ```
-  You can use other features of the route rules such as redirects,
-  rewrites, regular expression based match in HTTP headers, websocket
-  upgrades, timeouts, retries, and so on. Please refer to the
-  [routing rules](https://istio.io/docs/reference/config/traffic-rules/routing-rules.html)
-  for more details.
-
-## Verifying ingress
+   match, specifically a
+   [rule match configuration]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#matchcondition)
+   of the form (`prefix: /`).
+   
+### Verifying ingress
 
 1. Determine the ingress URL:
 
@@ -154,7 +103,7 @@ rules.
    * If load balancers are not supported, use the ingress controller pod's hostIP:
    
      ```bash
-     kubectl get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
+     kubectl -n istio-system get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
      ```
 
      ```bash
@@ -164,7 +113,7 @@ rules.
      along with the istio-ingress service's nodePort for port 80:
    
      ```bash
-     kubectl get svc istio-ingress
+     kubectl -n istio-system get svc istio-ingress
      ```
    
      ```bash
@@ -182,44 +131,34 @@ rules.
    curl -I http://$INGRESS_HOST/status/200
    ```
 
-   ```bash
+   ```
    HTTP/1.1 200 OK
-   Server: meinheld/0.6.1
-   Date: Thu, 05 Oct 2017 21:23:17 GMT
-   Content-Type: text/html; charset=utf-8
-   Access-Control-Allow-Origin: *
-   Access-Control-Allow-Credentials: true
-   X-Powered-By: Flask
-   X-Processed-Time: 0.00105214118958
-   Content-Length: 0
-   Via: 1.1 vegur
-   Connection: Keep-Alive
+   server: envoy
+   date: Mon, 29 Jan 2018 04:45:49 GMT
+   content-type: text/html; charset=utf-8
+   access-control-allow-origin: *
+   access-control-allow-credentials: true
+   content-length: 0
+   x-envoy-upstream-service-time: 48
    ```
 
 1. Access any other URL that has not been explicitly exposed. You should
-   see a HTTP 403
+   see a HTTP 404 error
 
    ```bash
    curl -I http://$INGRESS_HOST/headers
    ```
 
-   ```bash
-   HTTP/1.1 403 FORBIDDEN
-   Server: meinheld/0.6.1
-   Date: Thu, 05 Oct 2017 21:24:47 GMT
-   Content-Type: text/html; charset=utf-8
-   Access-Control-Allow-Origin: *
-   Access-Control-Allow-Credentials: true
-   X-Powered-By: Flask
-   X-Processed-Time: 0.000759840011597
-   Content-Length: 0
-   Via: 1.1 vegur
-   Connection: Keep-Alive
+   ```
+   HTTP/1.1 404 Not Found
+   date: Mon, 29 Jan 2018 04:45:49 GMT
+   server: envoy
+   content-length: 0
    ```
 
 ## Configuring secure ingress (HTTPS)
 
-1. Generate keys if necessary
+1. Generate certificate and key for the ingress
 
    A private key and certificate can be created for testing using [OpenSSL](https://www.openssl.org/).
 
@@ -227,13 +166,18 @@ rules.
    openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /tmp/tls.key -out /tmp/tls.crt -subj "/CN=foo.bar.com"
    ```
 
-1. Update the secret using `kubectl`
+1. Create the secret
+
+   Create the secret `istio-ingress-certs` in namespace `istio-system` using `kubectl`. The Istio Ingress will automatically
+   load the secret.
+
+   > Note: the secret must be called `istio-ingress-certs` in `istio-system` namespace, for it to be mounted on Istio Ingress.
 
    ```bash
    kubectl create -n istio-system secret tls istio-ingress-certs --key /tmp/tls.key --cert /tmp/tls.crt
    ```
 
-1. Create the Ingress Resource for the httpbin service
+1. Create the Ingress specification for the httpbin service
 
    ```bash
    cat <<EOF | kubectl create -f -
@@ -249,127 +193,416 @@ rules.
      rules:
      - http:
          paths:
-         - path: /.*
+         - path: /status/.*
+           backend:
+             serviceName: httpbin
+             servicePort: 8000
+         - path: /delay/.*
            backend:
              serviceName: httpbin
              servicePort: 8000
    EOF
    ```
 
-   Create the _deny rule_ and the rule for `/status` prefix as described
-   earlier. Set the INGRESS_HOST to point to the ip address and the
-   port number of the ingress service as shown earlier.
+   > Note: Because SNI is not yet supported, Envoy currently only allows a single TLS secret in the ingress.
+   > That means the secretName field in ingress resource is not used.
 
-   > Note: Envoy currently only allows a single TLS secret in the ingress since SNI is not yet supported. That means that the secret name field in ingress resource is not used, and the secret must be called `istio-ingress-certs` in `istio-system` namespace.
+### Verifying ingress
 
-    
-1. Access the secured httpbin service using _curl_:
+1. Determine the ingress URL:
+
+   * If your cluster is running in an environment that supports external load balancers,
+     use the ingress' external address:
+
+     ```bash
+     kubectl get ingress secure-ingress -o wide
+     ```
+
+     ```bash
+     NAME             HOSTS     ADDRESS                 PORTS     AGE
+     secure-ingress   *         130.211.10.121          80        1d
+     ```
+
+     ```bash
+     export INGRESS_HOST=130.211.10.121
+     ```
+
+   * If load balancers are not supported, use the ingress controller pod's hostIP:
+
+     ```bash
+     kubectl -n istio-system get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
+     ```
+
+     ```bash
+     169.47.243.100
+     ```
+
+     along with the istio-ingress service's nodePort for port 80:
+
+     ```bash
+     kubectl -n istio-system get svc istio-ingress
+     ```
+
+     ```bash
+     NAME            CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
+     istio-ingress   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
+     ```
+
+     ```bash
+     export INGRESS_HOST=169.47.243.100:31486
+     ```
+
+1. Access the httpbin service using _curl_:
 
    ```bash
    curl -I -k https://$INGRESS_HOST/status/200
    ```
 
-## Configuring ingress for gRPC
-
-The ingress controller currently doesn't support `.` characters in the `path`
-field. This is an issue for gRPC services using namespaces. In order to work
-around the issue, traffic can be directed through a common dummy service, with
-route rules set up to intercept traffic and redirect to the intended services.
-
-1. Create a dummy ingress service:
-
-   ```bash
-   cat <<EOF | kubectl create -f -
-   apiVersion: v1
-   kind: Service
-   metadata:
-     name: ingress-dummy-service
-   spec:
-     ports:
-     - name: grpc
-       port: 1337
-   EOF
+   ```
+   HTTP/1.1 200 OK
+   server: envoy
+   date: Mon, 29 Jan 2018 04:45:49 GMT
+   content-type: text/html; charset=utf-8
+   access-control-allow-origin: *
+   access-control-allow-credentials: true
+   content-length: 0
+   x-envoy-upstream-service-time: 96
    ```
 
-1. Create a catch-all ingress pointing to the dummy service:
+1. Access any other URL that has not been explicitly exposed. You should
+   see a HTTP 404 error
 
    ```bash
-   cat <<EOF | kubectl create -f -
-   apiVersion: extensions/v1beta1
-   kind: Ingress
-   metadata:
-     name: all-istio-ingress
-     annotations:
-       kubernetes.io/ingress.class: istio
-   spec:
-     rules:
-     - http:
-         paths:
-         - backend:
-             serviceName: ingress-dummy-service
-             servicePort: grpc
-   EOF
+   curl -I -k http://$INGRESS_HOST/headers
    ```
 
-1. Create a RouteRule for each service, redirecting from the dummy service to
-   the correct gRPC service:
+   ```
+   HTTP/1.1 404 Not Found
+   date: Mon, 29 Jan 2018 04:45:49 GMT
+   server: envoy
+   content-length: 0
+   ```
+
+1. Configuring RBAC for ingress key/cert
+
+    There are service accounts which can access this ingress key/cert, and this leads to risks of 
+    leaking key/cert. We can set up Role-Based Access Control ("RBAC") to protect it. 
+    install/kubernetes/istio.yaml defines ClusterRoles and ClusterRoleBindings which allow service 
+    accounts in namespace istio-system to access all secret resources. We need to update or replace 
+    these RBAC set up to only allow istio-ingress-service-account to access ingress key/cert.
+
+    We can use kubectl to list all secrets in namespace istio-system that we need to protect using RBAC.
+   ```bash
+   kubectl get secrets -n istio-system
+   ```
+    This produces the following output:
+   ```bash
+   NAME                                        TYPE                                  DATA      AGE
+   istio-ingress-certs                         kubernetes.io/tls                     2         7d
+   istio.istio-ingress-service-account         istio.io/key-and-cert                 3         7d
+   ......
+   ```
+
+1. Update RBAC set up for istio-pilot-service-account and istio-mixer-istio-service-account
+    
+    Record ClusterRole istio-mixer-istio-system and istio-pilot-istio-system. We will refer to 
+    these copies when we redefine them to avoid breaking access permissions to other resources.
+   ```bash
+   kubectl describe ClusterRole istio-mixer-istio-system
+   kubectl describe ClusterRole istio-pilot-istio-system
+   ```
+    Delete existing ClusterRoleBindings and ClusterRole.
 
    ```bash
-   cat <<EOF | istioctl create -f -
-   apiVersion: config.istio.io/v1alpha2
-   kind: RouteRule
+   kubectl delete ClusterRoleBinding istio-pilot-admin-role-binding-istio-system
+   kubectl delete ClusterRoleBinding istio-mixer-admin-role-binding-istio-system
+   kubectl delete ClusterRole istio-mixer-istio-system
+   ```
+    As istio-pilot-istio-system is also bound to istio-ingress-service-account, we will delete 
+    istio-pilot-istio-system in next step. 
+    
+    Create istio-mixer-istio-system.yaml, which allows istio-mixer-service-account to read 
+    istio.io/key-and-cert, and istio.io/ca-root types of secret instances. Refer to the recorded 
+    copy of istio-mixer-istio-system and add access permissions to other resources.  
+   
+   ```bash
+   kind: ClusterRole
+   apiVersion: rbac.authorization.k8s.io/v1beta1
    metadata:
-     name: foo-service-route
-   spec:
-     destination:
-       name: ingress-dummy-service
-     match:
-       request:
-         headers:
-           uri:
-             prefix: "/foo.FooService"
-     precedence: 1
-     route:
-     - weight: 100
-       destination:
-         name: foo-service
+     name: istio-mixer-istio-system
+   rules:  
+   - apiGroups: [""] # "" indicates the core API group
+     resources: ["secrets"]
+     resourceNames: ["istio.istio-ca-service-account"]
+     verbs: ["get", "list", "watch"]
+   - apiGroups: [""] # "" indicates the core API group
+     resources: ["secrets"]
+     resourceNames: ["istio-ca-secret"]
+     verbs: ["get", "list", "watch"]
+   ......   
    ---
-   apiVersion: config.istio.io/v1alpha2
-   kind: RouteRule
+   kind: ClusterRoleBinding
+   apiVersion: rbac.authorization.k8s.io/v1beta1
    metadata:
-     name: bar-service-route
-   spec:
-     destination:
-       name: ingress-dummy-service
-     match:
-       request:
-         headers:
-           uri:
-             prefix: "/bar.BarService"
-     precedence: 1
-     route:
-     - weight: 100
-       destination:
-         name: bar-service
-   EOF      
+     name: istio-mixer-admin-role-binding-istio-system
+   subjects:
+   - kind: ServiceAccount
+     name: istio-mixer-service-account
+     namespace: istio-system
+   roleRef:
+     kind: ClusterRole
+     name: istio-mixer-istio-system
+     apiGroup: rbac.authorization.k8s.io
+   ```
+   
+   ```bash
+   kubectl apply -f istio-mixer-istio-system.yaml
    ```
 
+1. Update RBAC set up for istio-pilot-service-account and istio-ingress-service-account
+
+    Delete existing ClusterRoleBinding and ClusterRole.
+   
+   ```bash
+   kubectl delete clusterrolebinding istio-ingress-admin-role-binding-istio-system
+   kubectl delete ClusterRole istio-pilot-istio-system
+   ```
+    
+    Create istio-pilot-istio-system.yaml, which allows istio-pilot-service-account to read 
+    istio.io/key-and-cert, and istio.io/ca-root types of secret instances. Refer to the recorded 
+    copy of istio-pilot-istio-system and add access permissions to other resources.  
+    
+   ```bash
+   kind: ClusterRole
+   apiVersion: rbac.authorization.k8s.io/v1beta1
+   metadata:
+     name: istio-pilot-istio-system
+   rules:  
+   - apiGroups: [""] # "" indicates the core API group
+     resources: ["secrets"]
+     resourceNames: ["istio.istio-ca-service-account"]
+     verbs: ["get", "list", "watch"]
+   - apiGroups: [""] # "" indicates the core API group
+     resources: ["secrets"]
+     resourceNames: ["istio-ca-secret"]
+     verbs: ["get", "list", "watch"]
+   ......   
+   ---
+   kind: ClusterRoleBinding
+   apiVersion: rbac.authorization.k8s.io/v1beta1
+   metadata:
+     name: istio-pilot-admin-role-binding-istio-system
+   subjects:
+   - kind: ServiceAccount
+     name: istio-pilot-service-account
+     namespace: istio-system
+   roleRef:
+     kind: ClusterRole
+     name: istio-pilot-istio-system
+     apiGroup: rbac.authorization.k8s.io
+   ```
+   
+   ```bash
+   kubectl apply -f istio-pilot-istio-system.yaml
+   ```     
+    
+    Create istio-ingress-istio-system.yaml which allows istio-ingress-service-account to read 
+    istio-ingress-certs as well as other secret instances. Refer to the recorded copy of 
+    istio-pilot-istio-system and add access permissions to other resources.
+   
+   ```bash
+   kind: ClusterRole
+   apiVersion: rbac.authorization.k8s.io/v1
+   metadata:
+     name: istio-ingress-istio-system
+   rules: 
+   - apiGroups: [""] # "" indicates the core API group
+     resources: ["secrets"]
+     resourceNames: ["istio.istio-ca-service-account"]
+     verbs: ["get", "list", "watch"]
+   - apiGroups: [""] # "" indicates the core API group
+     resources: ["secrets"]
+     resourceNames: ["istio-ca-secret"]
+     verbs: ["get", "list", "watch"]
+   ......
+   - apiGroups: [""] # "" indicates the core API group
+     resources: ["secrets"]
+     resourceNames: ["istio-ingress-certs"]
+     verbs: ["get", "list", "watch"]
+   ---
+   kind: ClusterRoleBinding
+   apiVersion: rbac.authorization.k8s.io/v1
+   metadata:
+     name: istio-ingress-admin-role-binding-istio-system
+   subjects:
+   - kind: ServiceAccount
+     name: istio-ingress-service-account
+     namespace: istio-system
+   roleRef:
+     kind: ClusterRole
+     name: istio-ingress-istio-system
+     apiGroup: rbac.authorization.k8s.io
+   ```
+   
+   ```bash
+   kubectl apply -f istio-ingress-istio-system.yaml
+   ```
+   
+1. Update RBAC set up for istio-ca-service-account
+
+    Record ClusterRole istio-ca-istio-system.
+   ```bash
+   kubectl describe ClusterRole istio-ca-istio-system
+   ```
+    
+    Create istio-ca-istio-system.yaml, which updates existing ClusterRole istio-ca-istio-system 
+    that allows istio-ca-service-account to read, create and modify all istio.io/key-and-cert, and 
+    istio.io/ca-root types of secrets.
+    
+   ```bash
+   kind: ClusterRole
+   apiVersion: rbac.authorization.k8s.io/v1
+   metadata:
+    name: istio-ca-istio-system
+   rules:
+   - apiGroups: [""] # "" indicates the core API group
+    resources: ["secrets"]
+    resourceNames: ["istio.istio-ca-service-account"]
+    verbs: ["get", "list", "watch", "create", "update"]
+   - apiGroups: [""] # "" indicates the core API group
+    resources: ["secrets"]
+    resourceNames: ["istio-ca-secret"]
+    verbs: ["get", "list", "watch", "create", "update"]
+   ......
+   kind: ClusterRoleBinding
+   apiVersion: rbac.authorization.k8s.io/v1
+   metadata:
+     name: istio-ca-role-binding-istio-system
+   subjects:
+   - kind: ServiceAccount
+     name: istio-ca-service-account
+     namespace: istio-system
+   roleRef:
+     kind: ClusterRole
+     name: istio-ca-istio-system
+     apiGroup: rbac.authorization.k8s.io
+   ```
+   ```bash
+   kubectl apply -f istio-ca-istio-system.yaml
+   ```
+1. Verify that the new ClusterRoles work as expected
+   
+   ```bash
+   kubectl auth can-i get secret/istio-ingress-certs --as system:serviceaccount:istio-system:istio-ingress-service-account -n istio-system
+   ```
+    whose output should be
+   ```bash
+   yes
+   ```
+    In this command, we can replace verb "get" with "list" or "watch", and the output should always 
+    be "yes". Now let us test with other service accounts.
+   
+   ```bash
+   kubectl auth can-i get secret/istio-ingress-certs --as system:serviceaccount:istio-system:istio-pilot-service-account -n istio-system
+   ```    
+    whose output should be
+   ```bash
+   no - Unknown user "system:serviceaccount:istio-system:istio-pilot-service-account"
+   ```
+    In this command, we can replace service account with istio-mixer-service-account, or 
+    istio-ca-service-account, we can also replace verb "get" with "watch" or "list", and the output 
+    should look similarly.
+
+    Accessibility to secret resources except istio-ingress-certs should remain the same for 
+    istio-ca-service-account, istio-ingress-service-account, istio-pilot-service-account and 
+    istio-mixer-service-account.
+   ```bash
+   kubectl auth can-i get secret/istio-ca-service-account-token-r14xm --as system:serviceaccount:istio-system:istio-ca-service-account -n istio-system
+   ```
+    whose output should be
+   ```bash
+   yes
+   ```
+    
+1. Cleanup
+
+    We can delete these newly defined ClusterRoles and ClusterRoleBindings, and restore original
+    ClusterRoles and ClusterRoleBindings according to those recorded copies.    
+   
+
+## Using Istio Routing Rules with Ingress
+
+Istio's routing rules can be used to achieve a greater degree of control
+when routing requests to backend services. For example, the following
+route rule sets a 4s timeout for all calls to the httpbin service on the
+/delay URL.
+
+```bash
+cat <<EOF | istioctl create -f -
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: status-route
+spec:
+  destination:
+    name: httpbin
+  match:
+    # Optionally limit this rule to istio ingress pods only
+    source:
+      name: istio-ingress
+      labels:
+        istio: ingress
+    request:
+      headers:
+        uri:
+          prefix: /delay/ #must match the path specified in ingress spec
+              # if using prefix paths (/delay/.*), omit the .*.
+              # if using exact match, use exact: /status
+  route:
+  - weight: 100
+  httpReqTimeout:
+    simpleTimeout:
+      timeout: 4s
+EOF
+```
+
+If you were to make a call to the ingress with the URL
+`http://$INGRESS_HOST/delay/10`, you will find that the call returns in 4s
+instead of the expected 10s delay.
+
+You can use other features of the route rules such as redirects, rewrites,
+routing to multiple versions, regular expression based match in HTTP
+headers, websocket upgrades, timeouts, retries, etc. Please refer to the
+[routing rules]({{home}}/docs/reference/config/istio.routing.v1alpha1.html)
+for more details.
+
+> Note 1: Fault injection does not work at the Ingress
+
+> Note 2: When matching requests in the routing rule, use the same exact
+> path or prefix as the one used in the Ingress specification.
 
 ## Understanding ingresses
 
-Ingresses provide gateways for external traffic to enter the Istio service mesh
-and make the traffic management and policy features of Istio available for edge services.
+Ingresses provide gateways for external traffic to enter the Istio service
+mesh and make the traffic management and policy features of Istio available
+for edge services.
 
-In the preceding steps we created a service inside the Istio service mesh and showed how
-to expose both HTTP and HTTPS endpoints of the service to external traffic.
-We also showed how to control the ingress traffic using an Istio route rule.
+The servicePort field in the Ingress specification can take a port number
+(integer) or a name. The port name must follow the Istio port naming
+conventions (e.g., `grpc-*`, `http2-*`, `http-*`, etc.) in order to
+function properly. The name used must match the port name in the backend
+service declaration.
+
+In the preceding steps we created a service inside the Istio service mesh
+and showed how to expose both HTTP and HTTPS endpoints of the service to
+external traffic. We also showed how to control the ingress traffic using
+an Istio route rule.
 
 ## Cleanup
 
-1. Remove the secret, Ingress Resource definitions and Istio rule.
+1. Remove the secret and Ingress Resource definitions.
     
    ```bash
-   istioctl delete routerule deny-route status-route
    kubectl delete ingress simple-ingress secure-ingress 
    kubectl delete -n istio-system secret istio-ingress-certs
    ```
@@ -381,8 +614,8 @@ We also showed how to control the ingress traffic using an Istio route rule.
    ```
 
 
-## Further reading
+## What's next
 
 * Learn more about [Ingress Resources](https://kubernetes.io/docs/concepts/services-networking/ingress/).
 
-* Learn more about [routing rules]({{home}}/docs/concepts/traffic-management/rules-configuration.html).
+* Learn more about [Routing Rules]({{home}}/docs/reference/config/istio.routing.v1alpha1.html).

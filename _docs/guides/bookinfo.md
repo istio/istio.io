@@ -19,7 +19,7 @@ book, similar to a single catalog entry of an online book store. Displayed
 on the page is a description of the book, book details (ISBN, number of
 pages, and so on), and a few book reviews.
 
-The BookInfo application is broken into four separate microservices:
+The Bookinfo application is broken into four separate microservices:
 
 * *productpage*. The productpage microservice calls the *details* and *reviews* microservices to populate the page.
 * *details*. The details microservice contains book information.
@@ -34,8 +34,12 @@ There are 3 versions of the reviews microservice:
 
 The end-to-end architecture of the application is shown below.
 
-<figure><img src="./img/bookinfo/noistio.svg" alt="BookInfo Application without Istio" title="BookInfo Application without Istio" />
-<figcaption>BookInfo Application without Istio</figcaption></figure>
+{% include figure.html width='80%' ratio='68.52%'
+    img='./img/bookinfo/noistio.svg'
+    alt='Bookinfo Application without Istio'
+    title='Bookinfo Application without Istio'
+    caption='Bookinfo Application without Istio'
+    %}
 
 This application is polyglot, i.e., the microservices are written in different languages.
 It’s worth noting that these services have no dependencies on Istio, but make an interesting
@@ -55,8 +59,12 @@ Istio-enabled environment, with Envoy sidecars injected along side each service.
 The needed commands and configuration vary depending on the runtime environment
 although in all cases the resulting deployment will look like this:
 
-<figure><img src="./img/bookinfo/withistio.svg" alt="BookInfo Application" title="BookInfo Application" />
-<figcaption>BookInfo Application</figcaption></figure>
+{% include figure.html width='80%' ratio='59.08%'
+    img='./img/bookinfo/withistio.svg'
+    alt='Bookinfo Application'
+    title='Bookinfo Application'
+    caption='Bookinfo Application'
+    %}
 
 All of the microservices will be packaged with an Envoy sidecar that intercepts incoming
 and outgoing calls for the services, providing the hooks needed to externally control,
@@ -73,6 +81,13 @@ To start the application, follow the instructions below corresponding to your Is
 
 1. Bring up the application containers:
 
+   If you are using [manual sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar-injection),
+   use the following command instead:
+
+   ```bash
+   kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo.yaml)
+   ```
+
    If you are using a cluster with
    [automatic sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection)
    enabled, simply deploy the services using `kubectl`:
@@ -81,15 +96,8 @@ To start the application, follow the instructions below corresponding to your Is
    kubectl apply -f samples/bookinfo/kube/bookinfo.yaml
    ```
 
-   If you are using [manual sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar-injection),
-   use the folloiwng command instead:
-
-   ```bash
-   kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo.yaml)
-   ```
-
    The `istioctl kube-inject` command is used to manually modify the `bookinfo.yaml`
-   file before creating the deployments as documented [here]({{home}}/docs/reference/commands/istioctl.html#istioctl-kube-inject).
+   file before creating the deployments as documented [here]({{home}}/docs/reference/commands/istioctl.html#istioctl kube-inject).
 
    Either of the above commands launches all four microservices and creates the gateway
    ingress resource as illustrated in the above diagram.
@@ -161,17 +169,23 @@ To start the application, follow the instructions below corresponding to your Is
    gcloud compute firewall-rules create allow-book --allow tcp:$(kubectl get svc istio-ingress -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
    ```
 
-1. _IBM Bluemix Free Tier:_ External load balancer is not available for kubernetes clusters in the free tier in Bluemix. You can use the public IP of the worker node, along with the NodePort, to access the ingress. The public IP of the worker node can be obtained from the output of the following command:
+1. _IBM Cloud Container Service Free Tier:_ External load balancer is not available for kubernetes clusters in the free tier. You can use the public IP of the worker node, along with the NodePort, to access the ingress. The public IP of the worker node can be obtained from the output of the following command:
 
    ```bash
    bx cs workers <cluster-name or id>
    export GATEWAY_URL=<public IP of the worker node>:$(kubectl get svc istio-ingress -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
    ```
 
+1. _IBM Cloud Private:_ External load balancers are not supported in IBM Cloud Private. You can use the host IP of the ingress service, along with the NodePort, to access the ingress.
+
+   ```bash
+   export GATEWAY_URL=$(kubectl get po -l istio=ingress -n istio-system -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}')
+   ```
+
 1. _Minikube:_ External load balancers are not supported in Minikube. You can use the host IP of the ingress service, along with the NodePort, to access the ingress.
    
    ```bash
-   export GATEWAY_URL=$(kubectl get po -n istio-system -l istio=ingress -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}')
+   export GATEWAY_URL=$(kubectl get po -l istio=ingress -n istio-system -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}')
    ```
 
 ### Running on Docker with Consul or Eureka
@@ -180,15 +194,16 @@ To start the application, follow the instructions below corresponding to your Is
 
 1. Bring up the application containers.
 
-    1. To test with Consul, run the following command:
-        ```bash
-        docker-compose -f samples/bookinfo/consul/bookinfo.yaml up -d
-        ```
-    1. To test with Eureka, run the following command:
-        ```bash
-        docker-compose -f samples/bookinfo/eureka/bookinfo.yaml up -d
-        ```
-
+    * To test with Consul, run the following commands:
+      ```bash
+      docker-compose -f samples/bookinfo/consul/bookinfo.yaml up -d
+      docker-compose -f samples/bookinfo/consul/bookinfo.sidecars.yaml up -d
+      ```
+    * To test with Eureka, run the following commands:
+      ```bash
+      docker-compose -f samples/bookinfo/eureka/bookinfo.yaml up -d
+      docker-compose -f samples/bookinfo/eureka/bookinfo.sidecars.yaml up -d
+      ```
 1. Confirm that all docker containers are running:
 
    ```bash
@@ -205,12 +220,12 @@ To start the application, follow the instructions below corresponding to your Is
 
 ## What's next
 
-To confirm that the BookInfo application is running, run the following `curl` command:
+To confirm that the Bookinfo application is running, run the following `curl` command:
 
 ```bash
 curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage
 ```
-```bash
+```
 200
 ```
 
@@ -228,7 +243,7 @@ is a good place to start for beginners.
 
 ## Cleanup
 
-When you're finished experimenting with the BookInfo sample, you can
+When you're finished experimenting with the Bookinfo sample, you can
 uninstall and clean it up using the following instructions.
 
 ### Uninstall from Kubernetes environment
@@ -243,7 +258,7 @@ uninstall and clean it up using the following instructions.
 
    ```bash
    istioctl get routerules   #-- there should be no more routing rules
-   kubectl get pods          #-- the BookInfo pods should be deleted
+   kubectl get pods          #-- the Bookinfo pods should be deleted
    ```
 
 ### Uninstall from Docker environment
@@ -266,5 +281,5 @@ uninstall and clean it up using the following instructions.
 
    ```bash
    istioctl get routerules   #-- there should be no more routing rules
-   docker ps -a              #-- the BookInfo containers should be deleted
+   docker ps -a              #-- the Bookinfo containers should be deleted
    ```

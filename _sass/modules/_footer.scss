@@ -1,114 +1,68 @@
-footer {
-  background: linear-gradient(to right, $mainBrandColor, $secondBrandColor);
-  box-shadow: 0px 500px 0px 500px $footerColor;
-  color: $white;
-  overflow: hidden;
-  padding: 25px 0 30px 0;
-  position: relative;
+div.footer {
+    padding-top: 4em;
 
-  @media (max-width: 767px) {
-    padding: 15px 0 30px;
+    footer {
+        background-image: linear-gradient(to right, $mainBrandColor, $secondBrandColor);
+        color: $textBrandColor;
+        padding: 1.5rem 0 1rem 0;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: $footerHeight;
 
-    ul {
-      &.active li {
-        display: initial;
-      }
+        @media (max-width: $bp-sm) {
+            height: $footerHeight-xs;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            line-height: 1.1em;
+        }
+
+        @media (max-width: $bp-sm) {
+            padding: 1rem 0 1.5rem;
+            text-align: center;
+
+            ul {
+                padding-top: 1.5rem;
+            }
+
+            ul.first {
+                padding-top: 0;
+            }
+        }
+
+        a {
+            color: $textBrandColor;
+            font-weight: 300;
+            font-size: .8em;
+            padding: 0;
+            letter-spacing: .5px;
+            line-height: 1.1em;
+
+            &:hover {
+                text-decoration: underline;
+                color: $textBrandColor;
+            }
+        }
+
+        a.header {
+            font-weight: 400;
+            font-size: 1.1em;
+            letter-spacing: .5px;
+            line-height: 2.0em;
+        }
+
+        p.description {
+            padding-top: 2em;
+            color: $textBrandColorLight;
+            line-height: 1.6em;
+            font-size: 0.7em;
+        }
     }
-  }
-
-  li {
-    line-height: 1.1em;
-  }
-
-  a {
-    color: $white;
-    font-weight: 300;
-    font-size: .8em;
-    padding: 0px;
-    letter-spacing: .5px;
-    line-height: 1.1em;
-
-    &:hover {
-      text-decoration: underline;
-      color: $white;
-    }
-
-    &::after {
-      display: none;
-    }
-  }
-
-  .active {
-    display: initial;
-  }
-
-  .description {
-    padding-top: 20px;
-    color: $light-gray;
-    line-height: 1.6em;
-    font-size: 0.7em;
-  }
-
-  p.header {
-    font-weight: 400;
-    font-size: 1em;
-    letter-spacing: .5px;
-    cursor: auto;
-    padding: 10px 0;
-    position: relative;
-
-    &:after {
-      content: '';
-      background: url('../img/caret.svg') no-repeat center/cover;
-      background-size: contain;
-      height: 45px;
-      width: 35px;
-      position: absolute;
-      right: 0;
-      top: 5px;
-      cursor: pointer;
-    }
-  }
-
-  .footer-sections {
-    display: block;
-    width: 120%;
-    margin: 10px -15px;
-    background-color: rgba(234,234,234,0.1);
-    color: rgba(234,234,234,0.1);
-    border: none;
-    height: 1px;
-
-    @media (min-width: 768px) {
-      display: none;
-    }
-  }
-
-  @mixin social-icon($image-url) {
-    &::before {
-      content: '';
-      display: inline-block;
-      background: url($image-url) no-repeat center/cover;
-      width: 25px;
-      height: 25px;
-      vertical-align: middle;
-      margin: 0 15px 0 0;
-    }
-  }
-
-  .github {
-    @include social-icon('../img/github.png');
-  }
-
-  .group {
-    @include social-icon('../img/group.png');
-  }
-
-  .stack-overflow {
-    @include social-icon('../img/stackoverflow.png');
-  }
-
-  .twitter {
-    @include social-icon('../img/icon_twitter.svg');
-  }
 }

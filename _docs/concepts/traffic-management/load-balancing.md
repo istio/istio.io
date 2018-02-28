@@ -6,6 +6,7 @@ order: 25
 
 layout: docs
 type: markdown
+toc: false
 ---
 
 This page describes how Istio load balances traffic across instances of a
@@ -24,14 +25,18 @@ registry and provides a platform-agnostic service discovery
 interface. Envoy instances in the mesh perform service discovery and 
 dynamically update their load balancing pools accordingly.
 
-<figure><img src="./img/pilot/LoadBalancing.svg" alt="Discovery and Load Balancing" title="Discovery and Load Balancing" />
-<figcaption>Discovery and Load Balancing</figcaption></figure>
+{% include figure.html width='80%' ratio='74.79%'
+    img='./img/pilot/LoadBalancing.svg'
+    alt='Discovery and Load Balancing'
+    title='Discovery and Load Balancing'
+    caption='Discovery and Load Balancing'
+    %}
 
 As illustrated in the figure above, services in the mesh access each other
 using their DNS names. All HTTP traffic bound to a service is automatically
 re-routed through Envoy. Envoy distributes the traffic across instances in
 the load balancing pool. While Envoy supports several
-[sophisticated load balancing algorithms](https://envoyproxy.github.io/envoy/intro/arch_overview/load_balancing.html),
+[sophisticated load balancing algorithms](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing),
 Istio currently allows three load balancing modes:
 round robin, random, and weighted least request.
 

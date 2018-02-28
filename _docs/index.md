@@ -1,19 +1,16 @@
 ---
 title: Welcome
 overview: Istio documentation home page.
-index: true
 
 order: 0
 
-layout: welcome
+layout: docs
 type: markdown
+toc: false
 ---
 {% include home.html %}
 
-# Welcome to Istio
-
-Welcome to Istio's latest documentation home page. From here you can learn all about Istio by following
-the links below:
+From here you can learn all about Istio's architecture and how to deploy and use Istio.
 
 - [Concepts]({{home}}/docs/concepts/). Concepts explain some significant aspect of Istio. This
 is where you can learn about what Istio does and how it does it.
@@ -35,7 +32,7 @@ command-line options, configuration options, API definitions, and procedures.
 
 We're always looking for help improving our documentation, so please don't hesitate to
 [file an issue](https://github.com/istio/istio.github.io/issues/new) if you see some problem.
-Or better yet, submit your own [contributions]({{home}}/docs/reference/contribute/editing.html) to help
+Or better yet, submit your own [contributions]({{home}}/about/contribute/editing.html) to help
 make our docs better.
 
-Follow this link for the archive of [v0.1 documentation](https://istio.io/v-0.1/docs/).
+Follow this link for the archive of the [earlier releases' documentation](https://archive.istio.io/).

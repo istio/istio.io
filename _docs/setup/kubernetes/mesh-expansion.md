@@ -7,6 +7,7 @@ order: 60
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 Instructions for integrating VMs and bare metal hosts into an Istio mesh
 deployed on Kubernetes.
@@ -30,22 +31,16 @@ separate documents will cover these advanced configurations.
 
 Setup consists of preparing the mesh for expansion and installing and configuring each VM.
 
-An example script to help with Kubernetes setup is available in
+An example script to help with Kubernetes setup is available as part of the release bundle and in
 [install/tools/setupMeshEx.sh](https://raw.githubusercontent.com/istio/istio/master/install/tools/setupMeshEx.sh). Check the script content and environment variables supported (like GCP_OPTS).
 
-An example script to help configure a machine is available in [install/tools/setupIstioVM.sh](https://raw.githubusercontent.com/istio/istio/master/install/tools/setupIstioVM.sh).
+An example script to help configure a machine is available as part of the release bundle and in [install/tools/setupIstioVM.sh](https://raw.githubusercontent.com/istio/istio/master/install/tools/setupIstioVM.sh).
 You should customize it based on your provisioning tools and DNS requirements.
 
 ### Preparing the Kubernetes cluster for expansion
 
 * Setup Internal Load Balancers (ILBs) for Kube DNS, Pilot, Mixer and CA. This step is specific to
 each cloud provider, so you may need to edit annotations.
-
-> The yaml file of the 0.2.7 distribution has an incorrect namespace for the DNS ILB.
-Use
-[this one](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/mesh-expansion.yaml)
-instead.
-The `setupMeshEx.sh` also has a typo. Use the latest file from the link above or from cloning [GitHub.com/istio/istio](https://github.com/istio/istio/)
 
 ```
 kubectl apply -f install/kubernetes/mesh-expansion.yaml
@@ -100,12 +95,28 @@ and install the setup:
 
 ```bash
 # Check what the script does to see that it meets your needs.
-# On a Mac, either brew install base64 or set BASE64_DECODE="/usr/bin/base64 -D"
 export GCP_OPTS="--zone MY_ZONE --project MY_PROJECT"
+# change to the namespace you wish to use for VMs but 'vm' is what the bookinfo guide assumes
+export SERVICE_NAMESPACE=vm
 ```
+
+If you are running on a GCE VM, run
+
+```bash
+install/tools/setupMeshEx.sh gceMachineSetup VM_NAME
+```
+
+Otherwise, run
 ```bash
 install/tools/setupMeshEx.sh machineSetup VM_NAME
 ```
+
+GCE provides better user experience since node agent can always relies on
+GCE metadata instance document to authenticate to Istio CA. For everything
+else, e.g., on-prem or raw VM, we have to bootstrap a key/cert as credential,
+which typically has a limited lifetime. And when the cert expires, you have to
+rerun the above command.
+
 
 Or the equivalent manual steps:
 
@@ -187,19 +198,19 @@ The generated files (`key.pem`, `root-cert.pem`, `cert-chain.pem`) must be copie
 Get the debian packages from [github releases](https://github.com/istio/istio/releases) or:
 
   ```bash
-      # Note: This will be replaced with an 'apt-get' command once the repositories are setup.
+  # Note: This will be replaced with an 'apt-get' command once the repositories are setup.
 
-      source istio.VERSION # defines version and URLs env var
-      curl -L ${PILOT_DEBIAN_URL}/istio-agent.deb > ${ISTIO_STAGING}/istio-agent.deb
-      curl -L ${AUTH_DEBIAN_URL}/istio-auth-node-agent.deb > ${ISTIO_STAGING}/istio-auth-node-agent.deb
-      curl -L ${PROXY_DEBIAN_URL}/istio-proxy.deb > ${ISTIO_STAGING}/istio-proxy.deb
+  source istio.VERSION # defines version and URLs env var
+  curl -L ${PILOT_DEBIAN_URL}/istio-agent.deb > ${ISTIO_STAGING}/istio-agent.deb
+  curl -L ${AUTH_DEBIAN_URL}/istio-auth-node-agent.deb > ${ISTIO_STAGING}/istio-auth-node-agent.deb
+  curl -L ${PROXY_DEBIAN_URL}/istio-proxy.deb > ${ISTIO_STAGING}/istio-proxy.deb
 
-      dpkg -i istio-proxy-envoy.deb
-      dpkg -i istio-agent.deb
-      dpkg -i istio-auth-node-agent.deb
+  dpkg -i istio-proxy-envoy.deb
+  dpkg -i istio-agent.deb
+  dpkg -i istio-auth-node-agent.deb
 
-      systemctl start istio
-      systemctl start istio-auth-node-agent
+  systemctl start istio
+  systemctl start istio-auth-node-agent
   ```
 
 ------ Manual setup steps end ------
@@ -208,11 +219,11 @@ After setup, the machine should be able to access services running in the Kubern
 or other mesh expansion machines.
 
 ```bash
-   # Assuming you install bookinfo in 'bookinfo' namespace
-   curl productpage.bookinfo.svc.cluster.local:9080
+# Assuming you install bookinfo in 'bookinfo' namespace
+curl productpage.bookinfo.svc.cluster.local:9080
 ```
 ```
-   ... html content ...
+... html content ...
 ```
 
 Check that the processes are running:
@@ -233,7 +244,7 @@ sudo systemctl status istio-auth-node-agent
 ● istio-auth-node-agent.service - istio-auth-node-agent: The Istio auth node agent
    Loaded: loaded (/lib/systemd/system/istio-auth-node-agent.service; disabled; vendor preset: enabled)
    Active: active (running) since Fri 2017-10-13 21:32:29 UTC; 9s ago
-     Docs: http://istio.io/
+     Docs: https://istio.io/
  Main PID: 6941 (node_agent)
     Tasks: 5
    Memory: 5.9M
@@ -255,24 +266,24 @@ using the ISTIO_INBOUND_PORTS environment variable.
 
   Example (on the VM running the service):
 
-   ```bash
-   echo "ISTIO_INBOUND_PORTS=27017,3306,8080" > /var/lib/istio/envoy/sidecar.env
-   systemctl restart istio
-   ```
+```bash
+echo "ISTIO_INBOUND_PORTS=27017,3306,8080" > /var/lib/istio/envoy/sidecar.env
+systemctl restart istio
+```
 
 * Manually configure a selector-less service and endpoints. The 'selector-less' service is used for
 services that are not backed by Kubernetes pods.
 
    Example, on a machine with permissions to modify Kubernetes services:
-   ```bash
-   # istioctl register servicename machine-ip portname:port
-   istioctl -n onprem register mysql 1.2.3.4 3306
-   istioctl -n onprem register svc1 1.2.3.4 http:7000
-   ```
+```bash
+# istioctl register servicename machine-ip portname:port
+istioctl -n onprem register mysql 1.2.3.4 3306
+istioctl -n onprem register svc1 1.2.3.4 http:7000
+```
 
 After the setup, Kubernetes pods and other mesh expansions should be able to access the
 services running on the machine.
 
 ## Putting it all together
 
-See the [BookInfo Mesh Expansion]({{home}}/docs/guides/integrating-vms.html) guide.
+See the [Bookinfo Mesh Expansion]({{home}}/docs/guides/integrating-vms.html) guide.

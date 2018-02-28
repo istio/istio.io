@@ -16,8 +16,6 @@ A given Istio deployment has a fixed vocabulary of attributes that it understand
 determined by the set of attribute producers being used in the deployment. The primary attribute producer in Istio
 is Envoy, although Mixer and services can also introduce attributes.
 
-## Standard Istio attribute vocabulary
-
 The table below shows the set of canonical attributes and their respective types. Most Istio
 deployments will have agents (Envoy or Mixer adapters) that produce these attributes.
 
@@ -40,7 +38,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | destination.uid | string | Platform-specific unique identifier for the server instance of the destination service. | kubernetes://my-svc-234443-5sffe.my-namespace |
 | destination.labels | map[string, string] | A map of key-value pairs attached to the server instance. | version => v2 |
 | destination.user | string | The user running the destination application. | service-account |
-| request.headers | map[string, string] | HTTP request headers. | |
+| request.headers | map[string, string] | HTTP request headers. For gRPC, its metadata will be here. | |
 | request.id | string | An ID for the request with statistically low probability of collision. | |
 | request.path | string | The HTTP URL path including query string | |
 | request.host | string | HTTP/1.x host header or HTTP/2 authority header. | redis-master:3337 |
@@ -71,3 +69,6 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | request.auth.principal | string | The authenticated principal of the request. This is a string of the issuer (`iss`) and subject (`sub`) claims within a JWT concatenated with “/” with a percent-encoded subject value. | accounts.my-svc.com/104958560606 |
 | request.auth.audiences | string | The intended audience(s) for this authentication information. This should reflect the audience (`aud`) claim within a JWT. | ['my-svc.com', 'scopes/read'] |
 | request.auth.presenter | string | The authorized presenter of the credential. This value should reflect the optional Authorized Presenter (`azp`) claim within a JWT or the OAuth2 client id. | 123456789012.my-svc.com |
+| request.api_key | string | The API key used for the request. | abcde12345 |
+| check.error_code | int64 | The error [code](https://github.com/google/protobuf/blob/master/src/google/protobuf/stubs/status.h#L44) for Mixer Check call. | 5 |
+| check.error_message | string | The error message for Mixer Check call. | Could not find the resource |

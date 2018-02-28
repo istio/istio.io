@@ -27,13 +27,18 @@ CEXL supports the following functions.
 |Operator/Function |Definition |Example | Description
 |-----------------------------------------
 |`==` |Equals |`request.size == 200` 
-|`match` | Glob match |`match(destination.service, "*.ns1.svc.cluster.local")` | Matches prefix or suffix based on the location of `*`
-|`!=` |Not Equals |`request.user != "admin"`
-|`||` |Logical OR | `(request.size == 200) || (request.user == "admin")` 
-|`&&` |Logical AND | `(request.size == 200) && (request.user == "admin")` 
+|`!=` |Not Equals |`request.auth.principal != "admin"`
+|`||` |Logical OR | `(request.size == 200) || (request.auth.principal == "admin")` 
+|`&&` |Logical AND | `(request.size == 200) && (request.auth.principal == "admin")` 
 |`[ ]` |Map Access | `request.headers["x-id"]`
 |`|` |First non empty | `source.labels["app"] | source.labels["svc"] | "unknown"`
+|`match` | Glob match |`match(destination.service, "*.ns1.svc.cluster.local")` | Matches prefix or suffix based on the location of `*`
 |`ip` | Convert a textual IPv4 address into the `IP_ADDRESS` type | `source.ip == ip("10.11.12.13")` | Use the `ip` function to create an `IP_ADDRESS` literal.
+|`timestamp` | Convert a textual timestamp in RFC 3339 format into the `TIMESTAMP` type |`timestamp("2015-01-02T15:04:35Z")` | Use the `timestamp` function to create a `TIMESTAMP` literal.
+|`.matches` | Regular expression match | `"svc.*".matches(destination.service)` | Matches `destination.service` against regular expression pattern `"svc.*"`. 
+|`.startsWith` | string prefix match | `destination.service.startsWith("acme")` | Checks whether `destination.service` starts with `"acme"`.  
+|`.endsWith` | string postfix match | `destination.service.endsWith("acme")`  | Checks whether `destination.service` ends with `"acme"`.
+
 
 ## Type checking
 
@@ -48,14 +53,14 @@ For example, if an operator specifies a *string* label as `request.size | 200`, 
 
 If an expression uses an attribute that is not available during request processing, the expression evaluation fails. Use the `|` operator to provide a default value if an attribute may be missing. 
 
-For example, the expression `request.user == "user1"` fails evaluation if the request.user attribute is missing. The `|` (OR) operator addresses the problem: `(request.user | "nobody" ) == "user1"`.
+For example, the expression `request.auth.principal == "user1"` fails evaluation if the `request.auth.principal` attribute is missing. The `|` (OR) operator addresses the problem: `(request.auth.principal | "nobody" ) == "user1"`.
 
 ## Examples
 
 |Expression |Return Type |Description
 |------------------------------------
-|`request.size| 200` |  **int** | request.size if available, otherwise 200.
-|`request.header["X-FORWARDED-HOST"] == "myhost"`| **boolean** 
-|`(request.header["x-user-group"] == "admin") || (request.user == "admin")`| **boolean**| True if the user is admin or in the admin group.
-|`(request.user | "nobody" ) == "user1"` | **boolean** | True if request.user is "user1", The expression will not error out if request.user is missing.
+|`request.size| 200` |  **int** | `request.size` if available, otherwise 200.
+|`request.headers["X-FORWARDED-HOST"] == "myhost"`| **boolean** 
+|`(request.headers["x-user-group"] == "admin") || (request.auth.principal == "admin")`| **boolean**| True if the user is admin or in the admin group.
+|`(request.auth.principal | "nobody" ) == "user1"` | **boolean** | True if `request.auth.principal` is "user1", The expression will not error out if `request.auth.principal` is missing.
 |`source.labels["app"]=="reviews" && source.labels["version"]=="v3"`| **boolean** | True if app label is reviews and version label is v3, false otherwise.

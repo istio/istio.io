@@ -19,22 +19,19 @@ Istio Auth's aim is to enhance the security of microservices and their communica
 
 *   Providing a key management system to automate key and certificate generation, distribution, rotation, and revocation
 
-*   Upcoming features:
-    *   Powerful authorization mechanisms: [ABAC](https://docs.google.com/document/d/1U2XFmah7tYdmC5lWkk3D43VMAAQ0xkBatKmohf90ICA/edit), [RBAC](https://docs.google.com/document/d/1dKXUEOxrj4TWZKrW7fx_A-nrOdVD4tYolpjgT8DYBTY/edit), Authorization hooks.
-    *   [End-user authentication](https://docs.google.com/document/d/1rU0OgZ0vGNXVlm_WjA-dnfQdS3BsyqmqXnu254pFnZg/edit)
-    *   CA and identity Pluggability
-
 
 ## Architecture
 
 The diagram below shows Istio Auth's architecture, which includes three primary components: identity, key management, and communication security. This diagram describes how Istio Auth is used to secure the service-to-service communication between service 'frontend' running as the service account 'frontend-team' and service 'backend' running as the service account 'backend-team'. Istio supports services running on both Kubernetes containers and VM/bare-metal machines.
 
-<figure><img src="./img/auth/auth.svg" alt="Components making up the Istio auth model." title="Istio Auth Architecture" />
-<figcaption>Istio Auth Architecture</figcaption></figure>
+{% include figure.html width='80%' ratio='56.25%'
+    img='./img/mutual-tls/auth.svg'
+    alt='Components making up the Istio auth model.'
+    title='Istio Auth Architecture'
+    caption='Istio Auth Architecture'
+    %}
 
 As illustrated in the diagram, Istio Auth leverages secret volume mount to deliver keys/certs from Istio CA to Kubernetes containers. For services running on VM/bare-metal machines, we introduce a node agent, which is a process running on each VM/bare-metal machine. It generates the private key and CSR (certificate signing request) locally, sends CSR to Istio CA for signing, and delivers the generated certificate together with the private key to Envoy.
-
-
 
 ## Components
 

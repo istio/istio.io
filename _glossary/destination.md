@@ -2,5 +2,6 @@
 title: Destination
 type: markdown
 ---
-The remote upstream service **Envoy** is talking to on behalf of a **Source** **Workload**.
-There can be one or more **Service Versions** for a given **Service** and Envoy chooses the version based on routing rules.
+The remote upstream service [Envoy](#envoy) is talking to on behalf of a [source](#source) [workload](#workload).
+There can be one or more [service versions](#service-version) for a given [service](#service) and Envoy chooses the version based on
+routing rules.

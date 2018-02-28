@@ -2,10 +2,9 @@ markdown:
   kramdown
 
 kramdown:
+  auto_ids: true
   input: GFM
   hard_wrap: false
-  syntax_highlighter_opts:
-    disable : true
 
 baseurl:
 
@@ -17,11 +16,6 @@ liquid:
 sass:
   style: compressed
 
-paginate: 5
-paginate_path: "/blog/page:num/"
-
-excerpt_separator: <!--end_excerpt-->
-
 compress_html:
   clippings: all
   comments: all
@@ -29,14 +23,20 @@ compress_html:
   profile: false
 
 collections:
-  docs:
-    output: true
   faq:
     output: false
   glossary:
     output: false
+  blog:
+    output: true
+  docs:
+    output: true
+  help:
+    output: true
+  about:
+    output: true
 
-gems:
+plugins:
   - jekyll-redirect-from
   - jekyll-sitemap
 
@@ -51,15 +51,18 @@ exclude:
   - .gitmodules
   - Vagrantfile
   - .vagrant
+  - _blog/posts/post.md.template
   - _docs/concepts/concept.md.template
   - _docs/tasks/task.md.template
   - _docs/guides/sample.md.template
   - _docs/reference/reference.md.template
+  - _docs/setup/setup.md.template
   - scripts/
   - Rakefile
   - Jenkinsfile
   - repos/*.html
   - repos/*.md
+  - vendor/
 
 repository:
   istio/istio.github.io
