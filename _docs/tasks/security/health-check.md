@@ -9,11 +9,12 @@ type: markdown
 ---
 {% include home.html %}
 
-This task shows how to enable Istio CA health check. Note this is an alpha feature after Istio V0.6.
+This task shows how to enable Istio CA health check. Note this is an alpha feature since Istio V0.6.
 
-After Istio V0.6, Istio CA has a health check feature that can be optionally enabled.
+Since Istio V0.6, Istio CA has a health check feature that can be optionally enabled.
+By default, the normal Istio deployment process does not enable this feature.
 Currently, the health check feature is able to detect the failures of the CA CSR signing service,
-by periodically sending CSRs to the service. More health check features are coming shortly.
+by periodically sending CSRs to the API. More health check features are coming shortly.
 
 The Istio CA contains a _prober client_ module that periodically checks the CA's status (currently only the health
 status of the gRPC server).
