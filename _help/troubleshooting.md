@@ -384,3 +384,17 @@ of HTTP 404s (upto 2x the refresh interval) until the Envoy sidecars get all rel
 
 NOTE: The 0.5.0 and 0.5.1 releases are missing scripts to provision webhook certificates. Download the missing files from [here](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/webhook-create-signed-cert.sh) and [here](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/webhook-patch-ca-bundle.sh). Subsqeuent releases (> 0.5.1) should include these missing files.
 
+## Automatic side car injection will fail if the kube-apiserver has proxy settings
+
+This was tested on 0.5.0 with the additional files required as referenced in the above issue.   When the Kube-apiserver included 
+proxy settings such as:
+      env:
+    - name: http_proxy
+      value: http://proxy-wsa.esl.foo.com:80
+    - name: https_proxy
+      value: http://proxy-wsa.esl.foo.com:80
+    - name: no_proxy
+      value: 127.0.0.1,localhost,dockerhub.cisco.com,devhub-docker.foo.com,10.84.100.125,10.84.100.126,10.84.100.127
+
+The sidecar injection would fail.   The only related failure logs was in the kube-apiserver log:
+W0227 21:51:03.156818       1 admission.go:257] Failed calling webhook, failing open sidecar-injector.istio.io: failed calling admission webhook "sidecar-injector.istio.io": Post https://istio-sidecar-injector.istio-system.svc:443/inject: Service Unavailable
