@@ -119,7 +119,7 @@ sleep     1         1         1            1           2h        sleep,istio-pro
 Sidecars can be automatically added to applicable Kubernetes pods using a 
 [mutating webhook admission controller](https://kubernetes.io/docs/admin/admission-controllers/#validatingadmissionwebhook-alpha-in-18-beta-in-19), available in Kubernetes 1.9 and above. Specifically, verify that the kube-apiserver process has the `admission-control` flag set with the `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` admission controllers added and listed in the correct order.
 
-Note that unlike manual injection, automatic injection occurs at the pod-level. You won't see any change to the deployment itself. Instead you'll want to check individual pods (via kubectl describe) to see the injected proxy.
+Note that unlike manual injection, automatic injection occurs at the pod-level. You won't see any change to the deployment itself. Instead you'll want to check individual pods (via `kubectl describe`) to see the injected proxy.
 
 ### Prerequisites
 
