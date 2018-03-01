@@ -15,29 +15,24 @@ number_of_entries: 3
 </thead>
 <tbody>
 <tr>
-<td><code>--aws-root-cert &lt;string&gt;</code></td>
-<td></td>
-<td>Root Certificate file in AWS environment  (default `/etc/certs/root-cert.pem`)</td>
-</tr>
-<tr>
 <td><code>--ca-address &lt;string&gt;</code></td>
 <td></td>
 <td>Istio CA address  (default `istio-ca:8060`)</td>
 </tr>
 <tr>
+<td><code>--cert-chain &lt;string&gt;</code></td>
+<td></td>
+<td>Node Agent identity cert file  (default `/etc/certs/cert-chain.pem`)</td>
+</tr>
+<tr>
 <td><code>--env &lt;string&gt;</code></td>
 <td></td>
-<td>Node Environment : onprem | gcp | aws  (default `onprem`)</td>
+<td>Node Environment : unspecified | onprem | gcp | aws  (default `unspecified`)</td>
 </tr>
 <tr>
-<td><code>--gcp-ca-address &lt;string&gt;</code></td>
+<td><code>--key &lt;string&gt;</code></td>
 <td></td>
-<td>Istio CA address in GCP environment  (default `istio-ca:8060`)</td>
-</tr>
-<tr>
-<td><code>--gcp-root-cert &lt;string&gt;</code></td>
-<td></td>
-<td>Root Certificate file in GCP environment  (default `/etc/certs/root-cert.pem`)</td>
+<td>Node Agent private key file  (default `/etc/certs/key.pem`)</td>
 </tr>
 <tr>
 <td><code>--key-size &lt;int&gt;</code></td>
@@ -90,24 +85,14 @@ number_of_entries: 3
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
-<td><code>--onprem-cert-chain &lt;string&gt;</code></td>
-<td></td>
-<td>Node Agent identity cert file in on premise environment  (default `/etc/certs/cert-chain.pem`)</td>
-</tr>
-<tr>
-<td><code>--onprem-key &lt;string&gt;</code></td>
-<td></td>
-<td>Node identity private key file in on premise environment  (default `/etc/certs/key.pem`)</td>
-</tr>
-<tr>
-<td><code>--onprem-root-cert &lt;string&gt;</code></td>
-<td></td>
-<td>Root Certificate file in on premise environment  (default `/etc/certs/root-cert.pem`)</td>
-</tr>
-<tr>
 <td><code>--org &lt;string&gt;</code></td>
 <td></td>
 <td>Organization for the cert  (default ``)</td>
+</tr>
+<tr>
+<td><code>--root-cert &lt;string&gt;</code></td>
+<td></td>
+<td>Root Certificate file  (default `/etc/certs/root-cert.pem`)</td>
 </tr>
 <tr>
 <td><code>--workload-cert-ttl &lt;duration&gt;</code></td>
