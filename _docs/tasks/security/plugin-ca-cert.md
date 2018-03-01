@@ -2,7 +2,7 @@
 title: Plugging in CA certificate and key
 overview: This task shows how operators can plug existing certificate and key into Istio CA.
 
-order: 40
+order: 60
 
 layout: docs
 type: markdown
@@ -17,9 +17,9 @@ This task demonstrates an example to plug certificate and key into the Istio CA.
 
 ## Before you begin
 
-* Set up Istio on auth-enabled Kubernetes by following the instructions in the
+* Set up Istio by following the instructions in the
   [quick start]({{home}}/docs/setup/kubernetes/quick-start.html).
-  Note that authentication should be enabled at step 4 in the
+  Note that authentication should be enabled at step 5 in the
   [installation steps]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps).
 
 ## Plugging in the existing certificate and key
@@ -35,11 +35,20 @@ which should include the certificates of all the intermediate CAs between the wo
 In this example, it only contains the Istio CA certificate, so `cert-chain.pem` is the same as `ca-cert.pem`.
 Note that if your `ca-cert.pem` is the same as `root-cert.pem`, you can have an empty `cert-chain.pem` file.
 
+   Download the example files:
+   ```bash
+   rm /tmp/ca-cert.pem /tmp/ca-key.pem /tmp/root-cert.pem /tmp/cert-chain.pem
+   wget -P /tmp https://raw.githubusercontent.com/istio/istio/master/security/samples/plugin_ca_certs/ca-cert.pem
+   wget -P /tmp https://raw.githubusercontent.com/istio/istio/master/security/samples/plugin_ca_certs/ca-key.pem
+   wget -P /tmp https://raw.githubusercontent.com/istio/istio/master/security/samples/plugin_ca_certs/root-cert.pem
+   wget -P /tmp https://raw.githubusercontent.com/istio/istio/master/security/samples/plugin_ca_certs/cert-chain.pem
+   ```
+
 The following steps enable plugging in the certificate and key into the Istio CA:
 1. Create a secret `cacert` including all the input files `ca-cert.pem`, `ca-key.pem`, `root-cert.pem` and `cert-chain.pem`:
    ```bash
-   kubectl create secret generic cacerts -n istio-system --from-file=install/kubernetes/ca-cert.pem --from-file=install/kubernetes/ca-key.pem \
-   --from-file=install/kubernetes/root-cert.pem --from-file=install/kubernetes/cert-chain.pem
+   kubectl create secret generic cacerts -n istio-system --from-file=/tmp/ca-cert.pem --from-file=/tmp/ca-key.pem \
+   --from-file=/tmp/root-cert.pem --from-file=/tmp/cert-chain.pem
    ```
 
 1. Redeploy the Istio CA, which reads the certificates and key from the secret-mount files:
@@ -133,7 +142,7 @@ This requires you have `openssl` installed on your machine.
   kubectl delete -f install/kubernetes/istio-auth.yaml
   ```
 
-## Further reading
+## What's next
 
 * Read the [Istio CA arguments](https://github.com/istio/istio/blob/master/security/cmd/istio_ca/main.go).
 * Read [how the sample certificates and keys are generated](https://github.com/istio/istio/blob/master/security/samples/plugin_ca_certs).

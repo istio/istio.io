@@ -2,9 +2,10 @@
 title: Search Results
 layout: search-results
 ---
+
 <script>
     (function() {
-        var cx = '013699703217164175118:veyyqmfmpj4';
+        var cx = '{{site.data.istio.search_engine_id}}';
         var gcse = document.createElement('script');
         gcse.type = 'text/javascript';
         gcse.async = true;

@@ -12,6 +12,7 @@ type: markdown
 
 Quick Start instructions for the setup and configuration of Istio using the Helm package manager.
 
+<span style="color:red">**Warning: Helm charts are currently broken in 0.5.0**</span>
 
 ## Prerequisites
 
@@ -22,19 +23,19 @@ is also required.  Finally this Helm chart **does not** yet implement automatic 
 ## Deploy with Helm
 
 1. If a service account has not already been installed for Helm, please install one:
-  ```bash
-  kubectl create -f install/kubernetes/helm-service-account.yaml
-  ```
+   ```bash
+   kubectl create -f install/kubernetes/helm/helm-service-account.yaml
+   ```
 
 1. Initialize Helm:
-  ```bash
-  helm init --service-account tiller
-  ```
+   ```bash
+   helm init --service-account tiller
+   ```
 
 1. Create the Helm chart:
-  ```bash
-  helm install install/kubernetes/helm/istio --name istio
-  ```
+   ```bash
+   helm install install/kubernetes/helm/istio --name istio
+   ```
 
 ## Customization with Helm
 
@@ -42,7 +43,7 @@ The Helm chart ships with reasonable defaults.  There may be circumstances in wh
 To override Helm values, use `--set key=value` argument during the `helm install` command.  Multiple `--set` operations
 may be used in the same Helm operation.
 
-Helm Charts expose configuration options which are currently in alpha.  The currently exposed options are explained in the
+Helm charts expose configuration options which are currently in alpha.  The currently exposed options are explained in the
 following table:
 
 | Helm Variable                | Possible Values    | Default Value              | Purpose of Key                                 |

@@ -72,4 +72,7 @@
         {% capture my_toc %}{: #{{ include.id }}}
 {{ my_toc | lstrip }}{% endcapture %}
     {% endif %}
-{% endcapture %}{% assign tocWorkspace = '' %}{{ my_toc | markdownify | strip }}
+{% endcapture %}
+{% assign tocWorkspace = '' %}
+{% assign toc = my_toc | markdownify | strip %}
+{% assign emptyTOC = firstHeader %}

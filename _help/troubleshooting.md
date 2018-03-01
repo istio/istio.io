@@ -12,6 +12,38 @@ redirect_from: /troubleshooting
 
 Oh no! You're having trouble? Below is a list of solutions to common problems.
 
+## Verifying connectivity to Istio Pilot
+
+Verifying connectivity to Pilot is a useful troubleshooting step. Every proxy container in the service mesh should be able to communicate with Pilot. This can be accomplished in a few simple steps:
+
+1. Get the name of the Istio Ingress pod:
+```bash
+INGRESS_POD_NAME=$(kubectl get po -n istio-system | grep ingress | awk '{print$1}')
+```
+
+1. Exec into the Istio Ingress pod:
+```bash
+kubectl exec -it $INGRESS_POD_NAME -n istio-system /bin/bash
+```
+
+1. Unless you installed Istio using the debug proxy image (`istioctl kube-inject --debug=true`), you need to
+install curl.
+```bash
+apt-get update && apt-get install -y curl
+```
+
+1. Test connectivity to Pilot using cURL. The following example cURL's the v1 registration API using default Pilot configuration parameters and mTLS enabled:
+```bash
+curl -k --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem --key /etc/certs/key.pem https://istio-pilot:15003/v1/registration
+```
+
+If mTLS is disabled:
+```bash
+curl http://istio-pilot:15003/v1/registration
+```
+
+You should receive a response listing the "service-key" and "hosts" for each service in the mesh.
+
 ## No traces appearing in Zipkin when running Istio locally on Mac
 Istio is installed and everything seems to be working except there are no traces showing up in Zipkin when there
 should be.
@@ -229,7 +261,7 @@ or [manual]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar
       Look for errors related to your configuration or your service in the
       returned logs.
 
-More on viewing Mixer configuration can be found [here]({{home}}/help/faq.html#mixer-self-monitoring)
+More on viewing Mixer configuration can be found [here]({{home}}/help/faq/mixer.html#mixer-self-monitoring)
 
 ### Verify Mixer is sending metric instances to the Prometheus adapter
 
@@ -379,4 +411,8 @@ Make sure to tune these values for your specific deployment.
 *Warning:*: Changes created by routing rules will take up to 2x refresh interval to propagate to the sidecars. 
 While the larger refresh interval will reduce CPU usage, updates caused by routing rules may cause a period 
 of HTTP 404s (upto 2x the refresh interval) until the Envoy sidecars get all relevant configuration. 
+
+## Kubernetes webhook setup script files are missing from 0.5 release package
+
+NOTE: The 0.5.0 and 0.5.1 releases are missing scripts to provision webhook certificates. Download the missing files from [here](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/webhook-create-signed-cert.sh) and [here](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/webhook-patch-ca-bundle.sh). Subsqeuent releases (> 0.5.1) should include these missing files.
 

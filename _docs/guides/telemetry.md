@@ -54,7 +54,7 @@ developers to manually instrument their applications.
 
 ## Cleanup
 
-When you're finished experimenting with the BookInfo sample, you can
+When you're finished experimenting with the Bookinfo sample, you can
 uninstall it by following the
 [Bookinfo cleanup instructions]({{home}}/docs/guides/bookinfo.html#cleanup)
 corresponding to your environment.

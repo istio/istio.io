@@ -2,12 +2,15 @@
     margin: 1.5rem auto;
     display: block;
     padding: .5rem .5rem 0 .5rem;
+    background-color: $figureBackgroundColor;
+    border-radius: 4px 4px 4px 4px;
 
     p {
         text-align: center;
         font-size: $font-size--s;
         font-style: italic;
-        font-weight: 300;
+        font-weight: $figureCaptionWeight;
+        color: $figureCaptionColor;
     }
 
     .wrapper-with-intrinsic-ratio {

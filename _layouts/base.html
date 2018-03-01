@@ -9,23 +9,35 @@ layout: compress
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="title" content="{{page.title}}">
-        <meta name="og:title" content="{{page.title}}">
-        <meta name="og:image" content="{{home}}/img/logo.png"/>
         <meta name="theme-color" content="#466BB0"/>
 
         {% if page.overview == nil %}
-            <meta name="description" content="An open platform to connect, manage, and secure microservices.">
-            <meta name="og:description" content="An open platform to connect, manage, and secure microservices.">
+            {% assign description = "An open platform to connect, manage, and secure microservices." %}
         {% else %}
-            <meta name="description" content="{{page.overview}}">
-            <meta name="og:description" content="{{page.overview}}">
+            {% assign description = page.overview %}
         {% endif %}
 
-        {% if page.title == 'Istio' %}
-            <title>Istio</title>
+        <meta name="title" content="{{page.title}}">
+        <meta name="description" content="{{description}}">
+
+        <!-- Open Graph protocol -->
+        <meta name="og:title" content="{{page.title}}">
+        <meta name="og:description" content="{{description}}">
+        <meta name="og:url" content="{{page.url}}">
+        <meta name="og.site_name" content="Istio">
+
+        {% if site.data.istio.archive %}
+            {% if page.title == 'Istio' %}
+                <title>Istioldie {{site.data.istio.version}}</title>
+            {% else %}
+                <title>Istioldie {{site.data.istio.version}} / {{ page.title }}</title>
+            {% endif %}
         {% else %}
-            <title>Istio / {{ page.title }}</title>
+            {% if page.title == 'Istio' %}
+                <title>Istio</title>
+            {% else %}
+                <title>Istio / {{ page.title }}</title>
+            {% endif %}
         {% endif %}
 
         <!-- Google Analytics -->
@@ -60,11 +72,14 @@ layout: compress
         <!-- style sheets -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="{{home}}/css/all.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
+        <link rel="stylesheet" href="{{home}}/css/light_theme.css" title="light">
+        <link rel="alternate stylesheet" href="{{home}}/css/dark_theme.css" title="dark">
+
+        <script src="{{home}}/js/styleswitcher.js"></script>
     </head>
 
-    <body class="language-unknown">
+    <body class="language-unknown theme-unknown">
         {{ content }}
 
         <!-- libraries we pull in -->

@@ -3,9 +3,8 @@ title: Mixer Client
 overview: Configuration state for the Mixer client library
 location: https://istio.io/docs/reference/config/istio.mixer.v1.config.client.html
 layout: protoc-gen-docs
-number_of_entries: 24
+number_of_entries: 25
 ---
-{% raw %}
 <h2 id="APIKey">APIKey</h2>
 <section>
 <p>APIKey defines the explicit configuration for generating the
@@ -88,7 +87,7 @@ Cookie: X-API-KEY=abcdef12345
 <tbody>
 <tr id="AttributeMatch.clause">
 <td><code>clause</code></td>
-<td><code>map&lt;string, <a href="#StringMatch">StringMatch</a>&gt;</code></td>
+<td><code>map&lt;string,<a href="#StringMatch">StringMatch</a>&gt;</code></td>
 <td>
 <p>Map of attribute names to StringMatch type.
 Each map element specifies one condition to match.</p>
@@ -189,6 +188,9 @@ that should be mapped to the specified service(s).</p>
 </section>
 <h2 id="EndUserAuthenticationPolicySpecReference">EndUserAuthenticationPolicySpecReference</h2>
 <section>
+<p>EndUserAuthenticationPolicySpecReference identifies a
+EndUserAuthenticationPolicySpec that is bound to a set of services.</p>
+
 <table class="message-fields">
 <thead>
 <tr>
@@ -258,11 +260,11 @@ spec:
   - attributes:
       api.operation: findPetById
     httpMethod: GET
-    uriTemplate: /api/pets/{id}
+    uriTemplate: /api/pets/&lbrace;id}
   - attributes:
       api.operation: deletePet
     httpMethod: DELETE
-    uriTemplate: /api/pets/{id}
+    uriTemplate: /api/pets/&lbrace;id}
   api_keys:
   - query: api-key
 </code></pre>
@@ -416,9 +418,9 @@ example: GET, HEAD, POST, PUT, DELETE.</p>
 following are valid URI templates:</p>
 
 <pre><code>/pets
-/pets/{id}
-/dictionary/{term:1}/{term}
-/search{?q*,lang}
+/pets/&lbrace;id}
+/dictionary/&lbrace;term:1}/&lbrace;term}
+/search&lbrace;?q*,lang}
 </code></pre>
 
 </td>
@@ -505,7 +507,7 @@ HTTPAPISpecBinding&rsquo;s metadata namespace field.</p>
 </tr>
 <tr id="HttpClientConfig.service_configs">
 <td><code>serviceConfigs</code></td>
-<td><code>map&lt;string, <a href="#ServiceConfig">ServiceConfig</a>&gt;</code></td>
+<td><code>map&lt;string,<a href="#ServiceConfig">ServiceConfig</a>&gt;</code></td>
 <td>
 <p>Map of control configuration indexed by destination.service. This
 is used to support per-service configuration for cases where a
@@ -593,7 +595,7 @@ The FQDN of the service is composed from the name, namespace, and implementation
 </tr>
 <tr id="IstioService.labels">
 <td><code>labels</code></td>
-<td><code>map&lt;string, string&gt;</code></td>
+<td><code>map&lt;string,string&gt;</code></td>
 <td>
 <p>Optional one or more labels that uniquely identify the service version.</p>
 
@@ -702,6 +704,8 @@ specified.</p>
 <td><code>locations</code></td>
 <td><code><a href="#JWT.Location">JWT.Location[]</a></code></td>
 <td>
+<p>Zero or more locations to search for JWT in an HTTP request.</p>
+
 </td>
 </tr>
 <tr id="JWT.jwks_uri_envoy_cluster">
@@ -760,6 +764,59 @@ format will be x-goog-iap-jwt-assertion: <JWT>.</p>
 query parameter name.</p>
 
 <p>For example, <code>query=jwt_token</code>.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="NetworkFailPolicy">NetworkFailPolicy</h2>
+<section>
+<p>Specifies the behavior when the client is unable to connect to Mixer.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="NetworkFailPolicy.policy">
+<td><code>policy</code></td>
+<td><code><a href="#NetworkFailPolicy.FailPolicy">NetworkFailPolicy.FailPolicy</a></code></td>
+<td>
+<p>Specifies the behavior when the client is unable to connect to Mixer.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="NetworkFailPolicy.FailPolicy">NetworkFailPolicy.FailPolicy</h2>
+<section>
+<p>Describes the policy.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="NetworkFailPolicy.FailPolicy.FAIL_OPEN">
+<td><code>FAIL_OPEN</code></td>
+<td>
+<p>If network connection fails, request is allowed and delivered to the service.</p>
+
+</td>
+</tr>
+<tr id="NetworkFailPolicy.FailPolicy.FAIL_CLOSE">
+<td><code>FAIL_CLOSE</code></td>
+<td>
+<p>If network connection fails, request is rejected.</p>
 
 </td>
 </tr>
@@ -893,6 +950,9 @@ conditions defined in the QuotaSpecs should not overlap.</p>
 </section>
 <h2 id="QuotaSpecBinding.QuotaSpecReference">QuotaSpecBinding.QuotaSpecReference</h2>
 <section>
+<p>QuotaSpecReference uniquely identifies the QuotaSpec used in the
+Binding.</p>
+
 <table class="message-fields">
 <thead>
 <tr>
@@ -982,6 +1042,16 @@ typically includes the &ldquo;destination.service&rdquo; attribute.</p>
 <td><code><a href="#EndUserAuthenticationPolicySpec">EndUserAuthenticationPolicySpec</a></code></td>
 <td>
 <p>End user authentication policy.</p>
+
+</td>
+</tr>
+<tr id="ServiceConfig.network_fail_policy">
+<td><code>networkFailPolicy</code></td>
+<td><code><a href="#NetworkFailPolicy">NetworkFailPolicy</a></code></td>
+<td>
+<p>Specifies the behavior when the client is unable to connect to Mixer.
+This is the service-level policy. It overrides
+<a href="#TransportConfig.network_fail_policy">mesh-level policy</a>.</p>
 
 </td>
 </tr>
@@ -1137,9 +1207,10 @@ should not be less than 1 second, otherwise it will be reset to 1 second.</p>
 </tr>
 <tr id="TransportConfig.network_fail_policy">
 <td><code>networkFailPolicy</code></td>
-<td><code><a href="#TransportConfig.NetworkFailPolicy">TransportConfig.NetworkFailPolicy</a></code></td>
+<td><code><a href="#NetworkFailPolicy">NetworkFailPolicy</a></code></td>
 <td>
-<p>Specifies the policy when failed to connect to Mixer server.</p>
+<p>Specifies the behavior when the client is unable to connect to Mixer.
+This is the mesh level policy. The default value for policy is FAIL_OPEN.</p>
 
 </td>
 </tr>
@@ -1185,33 +1256,6 @@ Istio Grafana dashboards to be reconfigured to use the new name.</p>
 </tbody>
 </table>
 </section>
-<h2 id="TransportConfig.NetworkFailPolicy">TransportConfig.NetworkFailPolicy</h2>
-<section>
-<table class="enum-values">
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="TransportConfig.NetworkFailPolicy.FAIL_OPEN">
-<td><code>FAIL_OPEN</code></td>
-<td>
-<p>If network fails, request is passed to the backend.</p>
-
-</td>
-</tr>
-<tr id="TransportConfig.NetworkFailPolicy.FAIL_CLOSE">
-<td><code>FAIL_CLOSE</code></td>
-<td>
-<p>If network fails, request is rejected.</p>
-
-</td>
-</tr>
-</tbody>
-</table>
-</section>
 <h2 id="istio.mixer.v1.Attributes">istio.mixer.v1.Attributes</h2>
 <section>
 <p>Attributes represents a set of typed name/value pairs. Many of Mixer&rsquo;s
@@ -1236,7 +1280,7 @@ in the deployment. The primary attribute producer in Istio is Envoy, although
 specialized Mixer adapters and services can also generate attributes.</p>
 
 <p>The common baseline set of attributes available in most Istio deployments is defined
-<a href="https://istio.io/docs/reference/config/mixer/attribute-vocabulary.html">here</a>.</p>
+<a href="{{site.baseurl}}/docs/reference/config/mixer/attribute-vocabulary.html">here</a>.</p>
 
 <p>Attributes are strongly typed. The supported attribute types are defined by
 <a href="https://github.com/istio/api/blob/master/mixer/v1/config/descriptor/value_type.proto">ValueType</a>.
@@ -1260,7 +1304,7 @@ Following places may use this message:
 <tbody>
 <tr id="istio.mixer.v1.Attributes.attributes">
 <td><code>attributes</code></td>
-<td><code>map&lt;string, <a href="#istio.mixer.v1.Attributes.AttributeValue">istio.mixer.v1.Attributes.AttributeValue</a>&gt;</code></td>
+<td><code>map&lt;string,<a href="#istio.mixer.v1.Attributes.AttributeValue">istio.mixer.v1.Attributes.AttributeValue</a>&gt;</code></td>
 <td>
 <p>A map of attribute name to its value.</p>
 
@@ -1269,4 +1313,3 @@ Following places may use this message:
 </tbody>
 </table>
 </section>
-{% endraw %}

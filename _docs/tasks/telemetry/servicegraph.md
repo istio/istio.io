@@ -11,10 +11,10 @@ type: markdown
 {% include home.html %}
 
 This task shows you how to generate a graph of services within an Istio mesh.
-As part of this task, you will install the ServiceGraph addon and use
+As part of this task, you will install the Servicegraph addon and use
 the web-based interface for viewing service graph of the service mesh.
 
-The [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application is used as
+The [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application is used as
 the example application throughout this task.
 
 ## Before you begin
@@ -56,7 +56,7 @@ the example application throughout this task.
 
 1. Send traffic to the mesh.
 
-   For the BookInfo sample, visit `http://$GATEWAY_URL/productpage` in your web
+   For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
    browser or issue the following command:
 
    ```bash
@@ -67,7 +67,7 @@ the example application throughout this task.
    small amount of traffic.
 
    Note: `$GATEWAY_URL` is the value set in the
-   [BookInfo]({{home}}/docs/guides/bookinfo.html) guide.
+   [Bookinfo]({{home}}/docs/guides/bookinfo.html) guide.
 
 1. Open the Servicegraph UI.
 
@@ -110,12 +110,12 @@ The Servicegraph example is built on top of Prometheus queries.
 ## Cleanup
 
 * In Kubernetes environments, execute the following command to remove the
-  ServiceGraph add-on:
+  Servicegraph add-on:
 
   ```bash
   kubectl delete -f install/kubernetes/addons/servicegraph.yaml
   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+  [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
   to shutdown the application.

@@ -1,6 +1,6 @@
 ---
-title: Istio Ingress Controller
-overview: Describes how to configure the Istio ingress controller on Kubernetes.
+title: Istio Ingress
+overview: Describes how to configure Istio Ingress on Kubernetes.
 
 order: 30
 
@@ -9,18 +9,22 @@ type: markdown
 ---
 
 This task describes how to configure Istio to expose a service outside of the service mesh cluster.
-In a Kubernetes environment, the [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/services-networking/ingress/)
+In a Kubernetes environment, the [Kubernetes Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/)
 allows users to specify services that should be exposed outside the
-cluster. However, the Ingress Resource specification is very minimal,
-allowing users to specify just hosts, paths and their backing services.
-The following are the known limitations of Istio ingress:
+cluster. It allows one to define a backend service per virtual host and path.
 
-1. Istio supports standard Kubernetes Ingress specification without
-   annotations. There is no support for `ingress.kubernetes.io` annotations
-   in the Ingress resource specifications. Any annotation other than
-   `kubernetes.io/ingress.class: istio` will be ignored.
-2. Regular expressions in paths are not supported.
-3. Fault injection at the Ingress is not supported.
+Once the Istio Ingress specification is defined, the traffic entering the cluster is directed through the `istio-ingress` service. As a result, Istio features, for example, monitoring and route rules, can be applied to the traffic entering the cluster.
+
+The Istio Ingress specification is based on the standard [Kubernetes Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/) specification, with the following differences:
+
+1. Istio Ingress specification contains `kubernetes.io/ingress.class: istio` annotation.
+
+2. All other annotations are ignored.
+
+The following are known limitations of Istio Ingress:
+
+1. Regular expressions in paths are not supported.
+2. Fault injection at the Ingress is not supported.
 
 ## Before you begin
 
@@ -46,7 +50,7 @@ The following are the known limitations of Istio ingress:
 
 ## Configuring ingress (HTTP)
 
-1. Create a basic Ingress Resource for the httpbin service
+1. Create a basic Ingress specification for the httpbin service
 
    ```bash
    cat <<EOF | kubectl create -f -
@@ -173,7 +177,7 @@ The following are the known limitations of Istio ingress:
    kubectl create -n istio-system secret tls istio-ingress-certs --key /tmp/tls.key --cert /tmp/tls.crt
    ```
 
-1. Create the Ingress Resource for the httpbin service
+1. Create the Ingress specification for the httpbin service
 
    ```bash
    cat <<EOF | kubectl create -f -
@@ -288,32 +292,32 @@ The following are the known limitations of Istio ingress:
     these RBAC set up to only allow istio-ingress-service-account to access ingress key/cert.
 
     We can use kubectl to list all secrets in namespace istio-system that we need to protect using RBAC.
-    ```bash
-    kubectl get secrets -n istio-system
-    ```
+   ```bash
+   kubectl get secrets -n istio-system
+   ```
     This produces the following output:
-    ```bash
-    NAME                                        TYPE                                  DATA      AGE
-    istio-ingress-certs                         kubernetes.io/tls                     2         7d
-    istio.istio-ingress-service-account         istio.io/key-and-cert                 3         7d
-    ......
-    ```
+   ```bash
+   NAME                                        TYPE                                  DATA      AGE
+   istio-ingress-certs                         kubernetes.io/tls                     2         7d
+   istio.istio-ingress-service-account         istio.io/key-and-cert                 3         7d
+   ......
+   ```
 
 1. Update RBAC set up for istio-pilot-service-account and istio-mixer-istio-service-account
     
     Record ClusterRole istio-mixer-istio-system and istio-pilot-istio-system. We will refer to 
     these copies when we redefine them to avoid breaking access permissions to other resources.
-    ```bash
-    kubectl describe ClusterRole istio-mixer-istio-system
-    kubectl describe ClusterRole istio-pilot-istio-system
-    ```
+   ```bash
+   kubectl describe ClusterRole istio-mixer-istio-system
+   kubectl describe ClusterRole istio-pilot-istio-system
+   ```
     Delete existing ClusterRoleBindings and ClusterRole.
 
-    ```bash
-    kubectl delete ClusterRoleBinding istio-pilot-admin-role-binding-istio-system
-    kubectl delete ClusterRoleBinding istio-mixer-admin-role-binding-istio-system
-    kubectl delete ClusterRole istio-mixer-istio-system
-    ```
+   ```bash
+   kubectl delete ClusterRoleBinding istio-pilot-admin-role-binding-istio-system
+   kubectl delete ClusterRoleBinding istio-mixer-admin-role-binding-istio-system
+   kubectl delete ClusterRole istio-mixer-istio-system
+   ```
     As istio-pilot-istio-system is also bound to istio-ingress-service-account, we will delete 
     istio-pilot-istio-system in next step. 
     
@@ -321,190 +325,190 @@ The following are the known limitations of Istio ingress:
     istio.io/key-and-cert, and istio.io/ca-root types of secret instances. Refer to the recorded 
     copy of istio-mixer-istio-system and add access permissions to other resources.  
    
-    ```bash
-    kind: ClusterRole
-    apiVersion: rbac.authorization.k8s.io/v1beta1
-    metadata:
-      name: istio-mixer-istio-system
-    rules:  
-    - apiGroups: [""] # "" indicates the core API group
-      resources: ["secrets"]
-      resourceNames: ["istio.istio-ca-service-account"]
-      verbs: ["get", "list", "watch"]
-    - apiGroups: [""] # "" indicates the core API group
-      resources: ["secrets"]
-      resourceNames: ["istio-ca-secret"]
-      verbs: ["get", "list", "watch"]
-    ......   
-    ---
-    kind: ClusterRoleBinding
-    apiVersion: rbac.authorization.k8s.io/v1beta1
-    metadata:
-      name: istio-mixer-admin-role-binding-istio-system
-    subjects:
-    - kind: ServiceAccount
-      name: istio-mixer-service-account
-      namespace: istio-system
-    roleRef:
-      kind: ClusterRole
-      name: istio-mixer-istio-system
-      apiGroup: rbac.authorization.k8s.io
-    ```
+   ```bash
+   kind: ClusterRole
+   apiVersion: rbac.authorization.k8s.io/v1beta1
+   metadata:
+     name: istio-mixer-istio-system
+   rules:  
+   - apiGroups: [""] # "" indicates the core API group
+     resources: ["secrets"]
+     resourceNames: ["istio.istio-ca-service-account"]
+     verbs: ["get", "list", "watch"]
+   - apiGroups: [""] # "" indicates the core API group
+     resources: ["secrets"]
+     resourceNames: ["istio-ca-secret"]
+     verbs: ["get", "list", "watch"]
+   ......   
+   ---
+   kind: ClusterRoleBinding
+   apiVersion: rbac.authorization.k8s.io/v1beta1
+   metadata:
+     name: istio-mixer-admin-role-binding-istio-system
+   subjects:
+   - kind: ServiceAccount
+     name: istio-mixer-service-account
+     namespace: istio-system
+   roleRef:
+     kind: ClusterRole
+     name: istio-mixer-istio-system
+     apiGroup: rbac.authorization.k8s.io
+   ```
    
-    ```bash
-    kubectl apply -f istio-mixer-istio-system.yaml
-    ```
+   ```bash
+   kubectl apply -f istio-mixer-istio-system.yaml
+   ```
 
 1. Update RBAC set up for istio-pilot-service-account and istio-ingress-service-account
 
     Delete existing ClusterRoleBinding and ClusterRole.
    
-    ```bash
-    kubectl delete clusterrolebinding istio-ingress-admin-role-binding-istio-system
-    kubectl delete ClusterRole istio-pilot-istio-system
-    ```
+   ```bash
+   kubectl delete clusterrolebinding istio-ingress-admin-role-binding-istio-system
+   kubectl delete ClusterRole istio-pilot-istio-system
+   ```
     
     Create istio-pilot-istio-system.yaml, which allows istio-pilot-service-account to read 
     istio.io/key-and-cert, and istio.io/ca-root types of secret instances. Refer to the recorded 
     copy of istio-pilot-istio-system and add access permissions to other resources.  
     
-    ```bash
-    kind: ClusterRole
-    apiVersion: rbac.authorization.k8s.io/v1beta1
-    metadata:
-      name: istio-pilot-istio-system
-    rules:  
-    - apiGroups: [""] # "" indicates the core API group
-      resources: ["secrets"]
-      resourceNames: ["istio.istio-ca-service-account"]
-      verbs: ["get", "list", "watch"]
-    - apiGroups: [""] # "" indicates the core API group
-      resources: ["secrets"]
-      resourceNames: ["istio-ca-secret"]
-      verbs: ["get", "list", "watch"]
-    ......   
-    ---
-    kind: ClusterRoleBinding
-    apiVersion: rbac.authorization.k8s.io/v1beta1
-    metadata:
-      name: istio-pilot-admin-role-binding-istio-system
-    subjects:
-    - kind: ServiceAccount
-      name: istio-pilot-service-account
-      namespace: istio-system
-    roleRef:
-      kind: ClusterRole
-      name: istio-pilot-istio-system
-      apiGroup: rbac.authorization.k8s.io
-    ```
+   ```bash
+   kind: ClusterRole
+   apiVersion: rbac.authorization.k8s.io/v1beta1
+   metadata:
+     name: istio-pilot-istio-system
+   rules:  
+   - apiGroups: [""] # "" indicates the core API group
+     resources: ["secrets"]
+     resourceNames: ["istio.istio-ca-service-account"]
+     verbs: ["get", "list", "watch"]
+   - apiGroups: [""] # "" indicates the core API group
+     resources: ["secrets"]
+     resourceNames: ["istio-ca-secret"]
+     verbs: ["get", "list", "watch"]
+   ......   
+   ---
+   kind: ClusterRoleBinding
+   apiVersion: rbac.authorization.k8s.io/v1beta1
+   metadata:
+     name: istio-pilot-admin-role-binding-istio-system
+   subjects:
+   - kind: ServiceAccount
+     name: istio-pilot-service-account
+     namespace: istio-system
+   roleRef:
+     kind: ClusterRole
+     name: istio-pilot-istio-system
+     apiGroup: rbac.authorization.k8s.io
+   ```
    
-    ```bash
-    kubectl apply -f istio-pilot-istio-system.yaml
-    ```     
+   ```bash
+   kubectl apply -f istio-pilot-istio-system.yaml
+   ```     
     
     Create istio-ingress-istio-system.yaml which allows istio-ingress-service-account to read 
     istio-ingress-certs as well as other secret instances. Refer to the recorded copy of 
     istio-pilot-istio-system and add access permissions to other resources.
    
-    ```bash
-    kind: ClusterRole
-    apiVersion: rbac.authorization.k8s.io/v1
-    metadata:
-      name: istio-ingress-istio-system
-    rules: 
-    - apiGroups: [""] # "" indicates the core API group
-      resources: ["secrets"]
-      resourceNames: ["istio.istio-ca-service-account"]
-      verbs: ["get", "list", "watch"]
-    - apiGroups: [""] # "" indicates the core API group
-      resources: ["secrets"]
-      resourceNames: ["istio-ca-secret"]
-      verbs: ["get", "list", "watch"]
-    ......
-    - apiGroups: [""] # "" indicates the core API group
-      resources: ["secrets"]
-      resourceNames: ["istio-ingress-certs"]
-      verbs: ["get", "list", "watch"]
-    ---
-    kind: ClusterRoleBinding
-    apiVersion: rbac.authorization.k8s.io/v1
-    metadata:
-      name: istio-ingress-admin-role-binding-istio-system
-    subjects:
-    - kind: ServiceAccount
-      name: istio-ingress-service-account
-      namespace: istio-system
-    roleRef:
-      kind: ClusterRole
-      name: istio-ingress-istio-system
-      apiGroup: rbac.authorization.k8s.io
-    ```
+   ```bash
+   kind: ClusterRole
+   apiVersion: rbac.authorization.k8s.io/v1
+   metadata:
+     name: istio-ingress-istio-system
+   rules: 
+   - apiGroups: [""] # "" indicates the core API group
+     resources: ["secrets"]
+     resourceNames: ["istio.istio-ca-service-account"]
+     verbs: ["get", "list", "watch"]
+   - apiGroups: [""] # "" indicates the core API group
+     resources: ["secrets"]
+     resourceNames: ["istio-ca-secret"]
+     verbs: ["get", "list", "watch"]
+   ......
+   - apiGroups: [""] # "" indicates the core API group
+     resources: ["secrets"]
+     resourceNames: ["istio-ingress-certs"]
+     verbs: ["get", "list", "watch"]
+   ---
+   kind: ClusterRoleBinding
+   apiVersion: rbac.authorization.k8s.io/v1
+   metadata:
+     name: istio-ingress-admin-role-binding-istio-system
+   subjects:
+   - kind: ServiceAccount
+     name: istio-ingress-service-account
+     namespace: istio-system
+   roleRef:
+     kind: ClusterRole
+     name: istio-ingress-istio-system
+     apiGroup: rbac.authorization.k8s.io
+   ```
    
-    ```bash
-    kubectl apply -f istio-ingress-istio-system.yaml
-    ```
+   ```bash
+   kubectl apply -f istio-ingress-istio-system.yaml
+   ```
    
 1. Update RBAC set up for istio-ca-service-account
 
     Record ClusterRole istio-ca-istio-system.
-    ```bash
-    kubectl describe ClusterRole istio-ca-istio-system
-    ```
+   ```bash
+   kubectl describe ClusterRole istio-ca-istio-system
+   ```
     
     Create istio-ca-istio-system.yaml, which updates existing ClusterRole istio-ca-istio-system 
     that allows istio-ca-service-account to read, create and modify all istio.io/key-and-cert, and 
     istio.io/ca-root types of secrets.
     
-    ```bash
-    kind: ClusterRole
-    apiVersion: rbac.authorization.k8s.io/v1
-    metadata:
+   ```bash
+   kind: ClusterRole
+   apiVersion: rbac.authorization.k8s.io/v1
+   metadata:
+    name: istio-ca-istio-system
+   rules:
+   - apiGroups: [""] # "" indicates the core API group
+    resources: ["secrets"]
+    resourceNames: ["istio.istio-ca-service-account"]
+    verbs: ["get", "list", "watch", "create", "update"]
+   - apiGroups: [""] # "" indicates the core API group
+    resources: ["secrets"]
+    resourceNames: ["istio-ca-secret"]
+    verbs: ["get", "list", "watch", "create", "update"]
+   ......
+   kind: ClusterRoleBinding
+   apiVersion: rbac.authorization.k8s.io/v1
+   metadata:
+     name: istio-ca-role-binding-istio-system
+   subjects:
+   - kind: ServiceAccount
+     name: istio-ca-service-account
+     namespace: istio-system
+   roleRef:
+     kind: ClusterRole
      name: istio-ca-istio-system
-    rules:
-    - apiGroups: [""] # "" indicates the core API group
-     resources: ["secrets"]
-     resourceNames: ["istio.istio-ca-service-account"]
-     verbs: ["get", "list", "watch", "create", "update"]
-    - apiGroups: [""] # "" indicates the core API group
-     resources: ["secrets"]
-     resourceNames: ["istio-ca-secret"]
-     verbs: ["get", "list", "watch", "create", "update"]
-    ......
-    kind: ClusterRoleBinding
-    apiVersion: rbac.authorization.k8s.io/v1
-    metadata:
-      name: istio-ca-role-binding-istio-system
-    subjects:
-    - kind: ServiceAccount
-      name: istio-ca-service-account
-      namespace: istio-system
-    roleRef:
-      kind: ClusterRole
-      name: istio-ca-istio-system
-      apiGroup: rbac.authorization.k8s.io
-    ```
-    ```bash
-    kubectl apply -f istio-ca-istio-system.yaml
-    ```
+     apiGroup: rbac.authorization.k8s.io
+   ```
+   ```bash
+   kubectl apply -f istio-ca-istio-system.yaml
+   ```
 1. Verify that the new ClusterRoles work as expected
    
-    ```bash
-    kubectl auth can-i get secret/istio-ingress-certs --as system:serviceaccount:istio-system:istio-ingress-service-account -n istio-system
-    ```
+   ```bash
+   kubectl auth can-i get secret/istio-ingress-certs --as system:serviceaccount:istio-system:istio-ingress-service-account -n istio-system
+   ```
     whose output should be
-    ```bash
-    yes
-    ```
+   ```bash
+   yes
+   ```
     In this command, we can replace verb "get" with "list" or "watch", and the output should always 
     be "yes". Now let us test with other service accounts.
    
-    ```bash
-    kubectl auth can-i get secret/istio-ingress-certs --as system:serviceaccount:istio-system:istio-pilot-service-account -n istio-system
-    ```    
+   ```bash
+   kubectl auth can-i get secret/istio-ingress-certs --as system:serviceaccount:istio-system:istio-pilot-service-account -n istio-system
+   ```    
     whose output should be
-    ```bash
-    no - Unknown user "system:serviceaccount:istio-system:istio-pilot-service-account"
-    ```
+   ```bash
+   no - Unknown user "system:serviceaccount:istio-system:istio-pilot-service-account"
+   ```
     In this command, we can replace service account with istio-mixer-service-account, or 
     istio-ca-service-account, we can also replace verb "get" with "watch" or "list", and the output 
     should look similarly.
@@ -512,13 +516,13 @@ The following are the known limitations of Istio ingress:
     Accessibility to secret resources except istio-ingress-certs should remain the same for 
     istio-ca-service-account, istio-ingress-service-account, istio-pilot-service-account and 
     istio-mixer-service-account.
-    ```bash
-    kubectl auth can-i get secret/istio-ca-service-account-token-r14xm --as system:serviceaccount:istio-system:istio-ca-service-account -n istio-system
-    ```
+   ```bash
+   kubectl auth can-i get secret/istio-ca-service-account-token-r14xm --as system:serviceaccount:istio-system:istio-ca-service-account -n istio-system
+   ```
     whose output should be
-    ```bash
-    yes
-    ```
+   ```bash
+   yes
+   ```
     
 1. Cleanup
 
@@ -610,7 +614,7 @@ an Istio route rule.
    ```
 
 
-## Further reading
+## What's next
 
 * Learn more about [Ingress Resources](https://kubernetes.io/docs/concepts/services-networking/ingress/).
 

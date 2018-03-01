@@ -21,10 +21,10 @@ For the format of the service account in Istio, please refer to the
 
 * Set up Istio on auth-enabled Kubernetes by following the instructions in the
   [quick start]({{home}}/docs/setup/kubernetes/quick-start.html).
-  Note that authentication should be enabled at step 4 in the
+  Note that authentication should be enabled at step 5 in the
   [installation steps]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps).
 
-* Deploy the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application.
+* Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
 * Run the following command to create service account `bookinfo-productpage`,
   and redeploy the service `productpage` with the service account.
@@ -45,11 +45,11 @@ For the format of the service account in Istio, please refer to the
 
 ## Access control using _denials_
 
-In the [BookInfo]({{home}}/docs/guides/bookinfo.html) sample application, the `productpage` service is accessing
+In the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application, the `productpage` service is accessing
 both the `reviews` service and the `details` service. We would like the `details` service to deny the requests from
 the `productpage` service.
 
-1. Point your browser at the BookInfo `productpage` (http://$GATEWAY_URL/productpage).
+1. Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage).
 
    You should see the "Book Details" section in the lower left part of the page, including type, pages, publisher, etc.
    The `productpage` service obtains the "Book Details" information from the `details` service.
@@ -96,10 +96,10 @@ the `productpage` service.
   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [BookInfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+  [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
   to shutdown the application.
 
-## Further reading
+## What's next
 
 * Learn more about [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html) and [Mixer Config]({{home}}/docs/concepts/policy-and-control/mixer-config.html).
 
