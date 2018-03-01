@@ -12,6 +12,38 @@ redirect_from: /troubleshooting
 
 Oh no! You're having trouble? Below is a list of solutions to common problems.
 
+## Verifying connectivity to Istio Pilot
+
+Verifying connectivity to Pilot is a useful troubleshooting step. Every proxy container in the service mesh should be able to communicate with Pilot. This can be accomplished in a few simple steps:
+
+1. Get the name of the Istio Ingress pod:
+```bash
+INGRESS_POD_NAME=$(kubectl get po -n istio-system | grep ingress | awk '{print$1}')
+```
+
+1. Exec into the Istio Ingress pod:
+```bash
+kubectl exec -it $INGRESS_POD_NAME -n istio-system /bin/bash
+```
+
+1. Unless you installed Istio using the debug proxy image (`istioctl kube-inject --debug=true`), you need to
+install curl.
+```bash
+apt-get update && apt-get install -y curl
+```
+
+1. Test connectivity to Pilot using cURL. The following example cURL's the v1 registration API using default Pilot configuration parameters and mTLS enabled:
+```bash
+curl -k --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem --key /etc/certs/key.pem https://istio-pilot:15003/v1/registration
+```
+
+If mTLS is disabled:
+```bash
+curl http://istio-pilot:15003/v1/registration
+```
+
+You should receive a response listing the "service-key" and "hosts" for each service in the mesh.
+
 ## No traces appearing in Zipkin when running Istio locally on Mac
 Istio is installed and everything seems to be working except there are no traces showing up in Zipkin when there
 should be.
