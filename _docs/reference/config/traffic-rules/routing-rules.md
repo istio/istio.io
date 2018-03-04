@@ -7,6 +7,7 @@ order: 20
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 
 <a name="istio.proxy.v1.config.RouteRule"></a>
