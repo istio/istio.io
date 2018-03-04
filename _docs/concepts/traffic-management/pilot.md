@@ -7,6 +7,7 @@ order: 10
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 Pilot is responsible for the lifecycle of Envoy instances deployed
 across the Istio service mesh.

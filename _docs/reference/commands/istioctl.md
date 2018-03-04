@@ -5,6 +5,7 @@ layout: docs
 order: 1
 type: markdown
 ---
+{% include home.html %}
 
 <a name="istioctl_cmd"></a>
 ## istioctl

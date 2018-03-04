@@ -7,6 +7,7 @@ order: 30
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 This task describes how to configure Istio to expose a service outside of the service mesh cluster.
 In a Kubernetes environment,

@@ -7,6 +7,7 @@ order: 20
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 The page explains Mixer's role and general architecture.
 
