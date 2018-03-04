@@ -7,6 +7,7 @@ order: 20
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 This page describes how requests are routed between services in an Istio service mesh.
 

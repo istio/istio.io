@@ -8,6 +8,8 @@ layout: docs
 type: markdown
 ---
 
+{% include home.html %}
+
 This page provides an overview of how traffic management works
 in Istio, including the benefits of its traffic management
 principles. It assumes that you've already read [What Is Istio?]({{home}}/docs/concepts/what-is-istio/overview.html)
