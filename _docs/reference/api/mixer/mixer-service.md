@@ -272,7 +272,7 @@ parameters for a quota allocation
 <a name="istio.mixer.v1.CheckResponse.PreconditionResult.status"></a>
  <tr>
   <td><code>status</code></td>
-  <td><a href="/docs/reference/api/mixer/status.html">Status</a></td>
+  <td><a href="{{home}}/docs/reference/api/mixer/status.html">Status</a></td>
   <td>A status code of OK indicates all preconditions were satisfied. Any other code indicates not all preconditions were satisfied and details describe why.</td>
  </tr>
 <a name="istio.mixer.v1.CheckResponse.PreconditionResult.validDuration"></a>

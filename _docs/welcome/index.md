@@ -19,8 +19,8 @@ is where you can learn about what Istio does and how it does it.
   the Istio control plane in various environments, as well as instructions
   for installing the sidecar in the application deployment. Quick start
   instructions are available for
-  [Kubernetes]({{docs}}/docs/setup/kubernetes/quick-start.html) and 
-  [Docker Compose w/ Consul]({{docs}}/docs/setup/consul/quick-start.html).
+  [Kubernetes]({{home}}/docs/setup/kubernetes/quick-start.html) and
+  [Docker Compose w/ Consul]({{home}}/docs/setup/consul/quick-start.html).
 
 - [Tasks]({{home}}/docs/tasks/). Tasks show you how to do a single directed activity with Istio.
 

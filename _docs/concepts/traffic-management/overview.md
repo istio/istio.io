@@ -7,6 +7,7 @@ order: 0
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 This page provides an overview of how traffic management works
 in Istio, including the benefits of its traffic management

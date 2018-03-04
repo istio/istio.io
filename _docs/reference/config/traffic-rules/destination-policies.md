@@ -7,6 +7,7 @@ order: 30
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 <a name="istio.proxy.v1.config.DestinationPolicy"></a>
 ### DestinationPolicy
@@ -69,13 +70,13 @@ service version indicated in the destination policy.
 <a name="istio.proxy.v1.config.DestinationPolicy.destination"></a>
  <tr>
   <td><code>destination</code></td>
-  <td><a href="/docs/reference/config/traffic-rules/routing-rules.html#istio.proxy.v1.config.IstioService">IstioService</a></td>
+  <td><a href="{{home}}/docs/reference/config/traffic-rules/routing-rules.html#istio.proxy.v1.config.IstioService">IstioService</a></td>
   <td>Optional: Destination uniquely identifies the destination service associated with this policy.</td>
  </tr>
 <a name="istio.proxy.v1.config.DestinationPolicy.source"></a>
  <tr>
   <td><code>source</code></td>
-  <td><a href="/docs/reference/config/traffic-rules/routing-rules.html#istio.proxy.v1.config.IstioService">IstioService</a></td>
+  <td><a href="{{home}}/docs/reference/config/traffic-rules/routing-rules.html#istio.proxy.v1.config.IstioService">IstioService</a></td>
   <td>Optional: Source uniquely identifies the source service associated with this policy.</td>
  </tr>
 <a name="istio.proxy.v1.config.DestinationPolicy.loadBalancing"></a>
