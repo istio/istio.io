@@ -1,6 +1,6 @@
 ---
-title: Introduction and setup
-overview: This module introduces the tutorial and provides the required setup steps
+title: Setup
+overview: The required setup steps for the learning modules of the tutorial.
 
 order: 00
 
@@ -9,18 +9,17 @@ type: markdown
 ---
 {% include home.html %}
 
-# Introduction to microservices with Bookinfo sample application, Kubernetes and Istio
+1. Install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git), [node.js](https://nodejs.org/en/download/), [docker](https://docs.docker.com/install/)
+and get access to a [Kubernetes](https://kubernetes.io) cluster.
+For example, you can try the [IBM Cloud Container Service](https://console.bluemix.net/docs/containers/container_index.html#container_index).
 
-1. Make yourself familiar with the microservices concept. [The article of James Lewis and Martin Fowler](https://martinfowler.com/articles/microservices.html) is a good place to start.
+1. Follow the [Prerequisites of the Kubernetes Quick Start instructions]({{home}}docs/setup/kubernetes/quick-start.html#prerequisites).
 
-1. Install [node.js](https://nodejs.org/en/download/), [docker](https://docs.docker.com/install/) and get access to a [Kubernetes](https://kubernetes.io) cluster. For example, you can try the [IBM Cloud Container Service](https://console.bluemix.net/docs/containers/container_index.html#container_index).
+1. Follow the steps 1-4 of the [Installation Steps of the Kubernetes Quick Start instructions]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps).
 
-1. Download Istio and Bookinfo source:
+1. This tutorial assumes that you perform the commands of the learning modules in the Istio directory that you downloaded and extracted in the steps 1 and 2 of the [Installation Steps of the Kubernetes Quick Start instructions]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps).
+
+1. Download Istio sources into the Istio directory. **Note** that Istio source code is under [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) license.
    ```bash
-   make setup
+   git clone https://github.com/istio/istio.git istio-sources
    ```
-1. Alias `istioctl`:
-   ```bash
-   alias istioctl=$(pwd)/istio-*/bin/istioctl
-   ```
-2. Go over `modules`, by their prefix number, issuing `cd` to each modules's directory.
