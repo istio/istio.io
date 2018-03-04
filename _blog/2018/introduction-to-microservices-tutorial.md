@@ -1,5 +1,5 @@
 ---
-title: "Introduction to Microservices with Kubernetes and Istio"
+title: "Introduction to microservices with Kubernetes and Istio"
 overview: Step-by-step introductory tutorial to microservices based on the Istio Bookinfo sample.
 publish_date: March 1, 2018
 subtitle: Step-by-step tutorial based on Istio Bookinfo
