@@ -8,6 +8,8 @@ layout: docs
 type: markdown
 ---
 
+{% include home.html %}
+
 This page describes how requests are routed between services in an Istio service mesh.
 
 ## Service model and service versions

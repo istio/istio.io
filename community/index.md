@@ -25,7 +25,7 @@ best approach for different cases.
         Join <a href="https://groups.google.com/forum/#!forum/istio-announce">istio-announce@</a> to hear about the latest
         releases, events, and other happenings.
         Join <a href="https://groups.google.com/forum/#!forum/istio-dev">istio-dev@</a> and
-        our various <a href="https://github.com/istio/istio/blob/master/GROUPS.md#working-groups">working groups</a>
+        our various <a href="https://github.com/istio/istio/blob/master/WORKING-GROUPS.md">working groups</a>
         if you want to hack on Istio.
       </td>
     </tr>

@@ -7,6 +7,8 @@ layout: docs
 type: markdown
 ---
 
+{% include home.html %}
+
 ## Overview
 
 Istio Auth's aim is to enhance the security of microservices and their communication without requiring service code changes. It is responsible for:

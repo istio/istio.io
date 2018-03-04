@@ -8,6 +8,7 @@ layout: docs
 type: markdown
 ---
 
+{% include home.html %}
 
 <a name="istio.proxy.v1.config.EgressRule"></a>
 ### EgressRule
@@ -45,7 +46,7 @@ For example, the following egress rule describes the set of services hosted unde
 <a name="istio.proxy.v1.config.EgressRule.destination"></a>
  <tr>
   <td><code>destination</code></td>
-  <td><a href="/docs/reference/config/traffic-rules/routing-rules.html#istio.proxy.v1.config.IstioService">IstioService</a></td>
+  <td><a href="{{home}}/docs/reference/config/traffic-rules/routing-rules.html#istio.proxy.v1.config.IstioService">IstioService</a></td>
   <td>REQUIRED: Hostname or a wildcard domain name associated with the external service. ONLY the "service" field of destination will be taken into consideration. Name, namespace, domain and labels are ignored. Routing rules and destination policies that refer to these external services must have identical specification for the destination as the corresponding egress rule. Wildcard domain specifications must conform to format allowed by Envoy's Virtual Host specification, such as “*.foo.com” or “*-bar.foo.com”. The character '*' in a domain specification indicates a non-empty string. Hence, a wildcard domain of form “*-bar.foo.com” will match “baz-bar.foo.com” but not “-bar.foo.com”.</td>
  </tr>
 <a name="istio.proxy.v1.config.EgressRule.ports"></a>
