@@ -7,6 +7,7 @@ order: 20
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 {% capture mixerConfig %}{{home}}/docs/concepts/policy-and-control/mixer-config.html{% endcapture %}
 

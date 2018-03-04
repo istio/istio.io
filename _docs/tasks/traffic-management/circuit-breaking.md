@@ -7,6 +7,7 @@ order: 50
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 This task demonstrates the circuit-breaking capability for resilient applications. Circuit breaking allows developers to write applications that limit the impact of failures, latency spikes, and other undesirable effects of network peculiarities. This task will show how to configure circuit breaking for connections, requests, and outlier detection.
 

@@ -6,6 +6,7 @@ order: 10
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 ## Overview
 

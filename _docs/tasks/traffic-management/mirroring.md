@@ -7,6 +7,7 @@ order: 60
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 This task demonstrates the traffic shadowing/mirroring capabilites of Istio. Traffic mirroring is a powerful concept that allows feature teams to bring changes to production with as little risk as possible. Mirroring brings a copy of live traffic to a mirrored service and happens out of band of the critical request path for the primary service.
 
