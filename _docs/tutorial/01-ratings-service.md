@@ -13,7 +13,7 @@ This learning module demonstrates the work on a single microservice, on a local 
 
 1. Review the code of the service. Note the "embedded" Web Server and the aspects related to HTTP, such as the headers, the path, the status code.
    ```
-   cd ../../src/ratings
+   cd istio-sources/samples/bookinfo/src/ratings
    more ratings.js
    ```
 1. Download npm modules
