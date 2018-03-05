@@ -1,13 +1,14 @@
 ---
-title: Canary release with istio
-overview: Overview
+title: Canary release of reviews version 2
+overview: Canary release with Istio
 
 order: 07
 
 layout: docs
 type: markdown
 ---
-{% include home.html %}\n# Canary Release with Istio
+{% include home.html %}
+
 In this step we will deploy a new version of the _reviews_ microservice again,
 this time with Istio enabled. We will release our new version to the `jason` user only (`jason` is our tester). It will allow the `jason` user to test the whole application end-to-end in production, with our new version.
 
