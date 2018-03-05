@@ -53,7 +53,7 @@ Let's deploy a new version of the _reviews_ microservice, the one that will retu
    kubectl delete -f bookinfo-reviews-v2-with-app-label.yaml
    ```
 
-7. Next we will increase the replicas of our new version. We can do it gradually, carefully checking that our number of errors does not increase:
+7. Next we will increase the replicas of our new version. We can do it gradually, carefully checking that the number of errors does not increase:
   ```bash
   kubectl scale deployment reviews-v2 --replicas=3
   ```
