@@ -1,13 +1,13 @@
 ---
-title: Dashboard with istio
-overview: Overview
+title: Dashboard with Istio
+overview: Adding a Grafana dashboard for Istio
 
 order: 14
 
 layout: docs
 type: markdown
 ---
-{% include home.html %}\n# Dashboard with Istio
+{% include home.html %}
 In this step, we will add a [Grafana](https://grafana.com) dashboard on top of our Prometheus instance.
 
 1. Deploy a Graphana instance:
