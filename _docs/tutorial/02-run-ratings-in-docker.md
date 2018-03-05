@@ -24,7 +24,10 @@ This step shows how you create a Docker image and run it locally.
    docker run -d -p 9081:9080 $USER/ratings
    ```
 
-1. Access http://localhost:9081/ratings/7
+1. Access [http://localhost:9080/ratings/7](http://localhost:9080/ratings/7) in your browser or by the _curl_ command:
+   ```bash
+   curl localhost:9080/ratings/7
+   ```
 
 1. Observe the running container:
    ```bash
