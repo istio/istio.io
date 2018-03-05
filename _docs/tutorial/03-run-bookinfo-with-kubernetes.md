@@ -21,7 +21,7 @@ This step shows you an application of four microservices: _productpage_, _detail
    ```
    kubectl get pods
    ```
-1. Edit `ingress.yaml` - specify your host instead of `your host`.
+1. Edit `ingress.yaml` TODO: ADD LINK - specify your host instead of `your host`.
     * For _IBM Cloud Container Service_, get your host by running: `bx cs clusters`, `bx cs cluster-get <your cluster>`, use the `Ingress subdomain` field.
 
 1. Deploy your ingress:
