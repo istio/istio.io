@@ -1,14 +1,15 @@
 ---
 title: Run ratings in Docker
-overview: Overview
+overview: Run a single microservice in a Docker container.
 
 order: 02
 
 layout: docs
 type: markdown
 ---
-{% include home.html %}\n# Run the _ratings_ service in a Docker container.
-This learning module shows how you can create a Docker image and run it locally.
+{% include home.html %}
+
+This learning module shows how you create a Docker image and run it locally.
 
 1. Observe the `Dockerfile`
    ```
