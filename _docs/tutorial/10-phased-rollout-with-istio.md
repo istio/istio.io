@@ -79,3 +79,5 @@ In this step, we will start phased rollout of _reviews v2_. After performing uni
    ```bash
    istioctl delete routerule reviews-default reviews-v2 -n default
    ```
+
+{% include what-is-next-footer.md %}

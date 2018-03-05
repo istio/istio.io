@@ -25,3 +25,5 @@ In this step, we will add [Zipkin distributed trace system](https://zipkin.io) a
    ```
 
 3. Access the Zipkin dashboard on local machine: http://localhost:9411
+
+{% include what-is-next-footer.md %}

@@ -29,3 +29,5 @@ This step demonstrates the work on a single microservice, on a local developer m
    ```bash
    curl localhost:9080/ratings/7
    ```
+
+{% include what-is-next-footer.md %}

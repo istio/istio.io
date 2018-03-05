@@ -23,3 +23,5 @@ For example, you can try the [IBM Cloud Container Service](https://console.bluem
    ```bash
    git clone https://github.com/istio/istio.git istio-sources
    ```
+
+{% include what-is-next-footer.md %}

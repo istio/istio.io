@@ -22,3 +22,5 @@ type: markdown
   ```bash
   kubectl delete -f ../../istio-*/install/kubernetes/istio.yaml
   ```
+
+{% include what-is-next-footer.md %}

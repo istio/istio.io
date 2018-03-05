@@ -24,3 +24,5 @@ In this step, we will add a [Grafana](https://grafana.com) dashboard on top of o
   ```
 
 3. Access the dashboard on local machine:  http://localhost:3000/dashboard/db/istio-dashboard
+
+{% include what-is-next-footer.md %}

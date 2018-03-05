@@ -25,3 +25,5 @@ In this step, we will add service graph generation on top of Prometheus.
   ```
 
 3. Access the generated service graph on the local machine:  http://localhost:8088/dotviz
+
+{% include what-is-next-footer.md %}

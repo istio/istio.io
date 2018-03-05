@@ -23,3 +23,5 @@ Here we assume that we performed all the required testing of _reviews v3_, local
   ```
 
 3. Let's access the webpage of the application and see that now the red stars are displayed roughly every other refresh.
+
+{% include what-is-next-footer.md %}

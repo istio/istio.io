@@ -44,3 +44,5 @@ In this step, we will add collecting logs with Istio to our application.
    ```
 
   Note that the log entries from all the bookinfo microservices appear in one place. We do not have to go after each and every microservice and to display their logs one by one.
+
+{% include what-is-next-footer.md %}

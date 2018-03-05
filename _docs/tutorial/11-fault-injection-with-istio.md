@@ -64,3 +64,5 @@ In this step, we inject a fault, error 418 on the path from the _ratings_ micros
    ```bash
    istioctl replace -f <(cat ../../istio-*/samples/bookinfo/kube/route-rule-ratings-test-delay.yaml | sed 's/7s/2s/g')
    ```
+
+{% include what-is-next-footer.md %}

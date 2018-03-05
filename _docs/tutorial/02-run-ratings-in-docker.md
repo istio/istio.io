@@ -43,3 +43,5 @@ This step shows how you create a Docker image and run it locally.
    ```bash
    popd
    ```
+
+{% include what-is-next-footer.md %}

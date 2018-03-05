@@ -32,3 +32,5 @@ In this step, we will perform traffic shadowing. We will shadow the traffic dest
    ```bash
    istioctl delete -f route-rule-reviews-shadow-v2.yaml
    ```
+
+{% include what-is-next-footer.md %}

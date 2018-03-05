@@ -39,3 +39,5 @@ this time with Istio enabled. We will release our new version to the `jason` use
    ```bash
    istioctl get routerules
    ```
+
+{% include what-is-next-footer.md %}

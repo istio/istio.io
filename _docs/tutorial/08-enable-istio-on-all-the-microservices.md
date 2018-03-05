@@ -51,3 +51,5 @@ Previously we deployed the Istio control plane and enabled Istio on a single mic
    ```bash
    kubectl get pods
    ```
+
+{% include what-is-next-footer.md %}

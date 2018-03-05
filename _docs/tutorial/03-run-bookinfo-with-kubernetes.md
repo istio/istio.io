@@ -35,3 +35,5 @@ This step shows you an application of four microservices: _productpage_, _detail
    ```java
    private final static String ratings_service = "http://ratings:9080/ratings";
    ```
+
+{% include what-is-next-footer.md %}
