@@ -24,7 +24,7 @@ this time with Istio enabled. We will release our new version to the `jason` use
 
 3. Let's access the application's web page multiple times and verify that our new version is not called.
 
-4. Now, let's apply an Istio [route rule]({{home}}/docs/reference/config/istio.routing.v1alpha1.html) to allow `jason` user to access our new version for testing:
+4. Now, let's apply an Istio [route rule]({{home}}/docs/reference/config/istio.routing.v1alpha1.html) to allow the `jason` user to access our new version for testing:
    ```bash
    istioctl create -f ../../istio-*/samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
    ```
