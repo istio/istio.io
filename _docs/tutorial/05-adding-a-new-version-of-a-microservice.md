@@ -33,7 +33,7 @@ Let's deploy a new version of the _reviews_ microservice, the one that will retu
      kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') bash
      for i in {1..10}; do curl -o /dev/null -s -w "%{http_code}\n" <the value of DETAILS_V2_POD_IP>:9080/reviews/7; done
      ```
-4. Now we are rather confident that our new version of _reviews_ will work and we will release it. We will release a single replica of it into production - the real production traffic will arrive to our new version. In the current setting, 75% of the traffic will arrive to the old version (three pods of the old version) and 25% will arrive to the new version (one pod).
+4. Now we are rather confident that our new version of _reviews_ will work and we will release it. We will release a single replica of it into production - the real production traffic will arrive to our new version. With the current setting, 75% of the traffic will arrive to the old version (three pods of the old version) and 25% will arrive to the new version (one pod).
 
   To release _reviews v2_ we will undeploy our new version and redeploy it with the _app_ label, so it will become addressable by the _reviews_ service.
 
