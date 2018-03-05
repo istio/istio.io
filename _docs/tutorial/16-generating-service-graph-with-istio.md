@@ -1,13 +1,13 @@
 ---
-title: Generating service graph with istio
-overview: Overview
+title: A service graph with Istio
+overview: Enable service graph generation
 
 order: 16
 
 layout: docs
 type: markdown
 ---
-{% include home.html %}\n# Generating service graph with Istio
+{% include home.html %}
 In this step, we will add service graph generation on top of Prometheus.
 
 1. Deploy a service graph generation instance:
