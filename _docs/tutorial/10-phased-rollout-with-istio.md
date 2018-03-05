@@ -1,13 +1,13 @@
 ---
-title: Phased rollout with istio
-overview: Overview
+title: Phased rollout with Istio
+overview: Phased rollout with Istio
 
 order: 10
 
 layout: docs
 type: markdown
 ---
-{% include home.html %}\n# Phased rollout with Istio
+{% include home.html %}
 
 In this step, we will start phased rollout of _reviews v2_. After performing unit tests, integration tests, end-to-end tests, tests in the staging environment, and lately canary deployment and traffic shadowing, we are pretty confident. Now we can start directing the live traffic from the real users. We will perform it gradually, first to 10% of the users, then to 20% and so on.
 
