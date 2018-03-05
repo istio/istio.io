@@ -30,6 +30,9 @@ We use the `istiocl kube-inject` command to inject Istio _sidecar proxies_ into 
 
 1. Access the application and verify that the application continues to work. Note that Istio was added **transparently**, the code of the original application did not change.
 
-2. Check the pods of the _productpage_ and see that now each replica has two containers. The first container is the microservice itself, the second is the sidecar proxy attached to it.
+2. Check the pods of the _productpage_ and see that now each replica has two containers. The first container is the microservice itself, the second is the sidecar proxy attached to it:
+  ```bash
+  kubectl get pods
+  ```
 
 3. Note that Kubernetes replaced the original pods of _productpage_ with the Istio-enabled pods, transparently and incrementally, performing what is called [rolling update](https://kubernetes.io/docs/tutorials/kubernetes-basics/update-intro/). Kubernetes terminated an old pod only when a new pod started to run, and it transparently switched the traffic to the new pods, one by one. (To be more precise, it did not terminate more than one pod before a new pod was started.) All this was done to prevent disruption of our application, so it continued to work during the injection of Istio.
