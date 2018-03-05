@@ -1,13 +1,14 @@
 ---
 title: Traffic shadowing with istio
-overview: Overview
+overview: Traffic shadowing with istio
 
 order: 09
 
 layout: docs
 type: markdown
 ---
-{% include home.html %}\n# Traffic Shadowing with Istio
+{% include home.html %}
+
 In this step, we will perform traffic shadowing. We will shadow the traffic destined to _reviews v1_ to _reviews v2_ and see if our new version provides incorrect results or produces any errors.
 
 1. Lets add a route rule to route traffic to _reviews v1_, while shadowing traffic to _reviews 2_ (using the [route rule _mirror_ attribute]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#RouteRule)):
