@@ -32,6 +32,12 @@ layout: compress
             {% else %}
                 <title>Istioldie {{site.data.istio.version}} / {{ page.title }}</title>
             {% endif %}
+        {% elsif site.data.istio.preliminary %}
+            {% if page.title == 'Istio' %}
+                <title>Istio Prelim {{site.data.istio.version}}</title>
+            {% else %}
+                <title>Istio Prelim {{site.data.istio.version}} / {{ page.title }}</title>
+            {% endif %}
         {% else %}
             {% if page.title == 'Istio' %}
                 <title>Istio</title>
