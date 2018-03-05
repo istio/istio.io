@@ -1,13 +1,14 @@
 ---
-title: Add a security policy with istio
-overview: Overview
+title: Security policy with Istio
+overview: Add a whitelist security policy
 
 order: 17
 
 layout: docs
 type: markdown
 ---
-{% include home.html %}\n# Adding a security policy with Istio
+{% include home.html %}
+
 Note that in our setting, any microservice can access any other microservice. If any of the microservices is compromised, it can attack all the other microservices.
 In this step we will add a [security policy]({{home}}/docs/reference/config/istio.mixer.v1.config.html) that states that only _reviews_ microservice can access _ratings_ microservice.
 
