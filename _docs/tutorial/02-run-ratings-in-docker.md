@@ -13,7 +13,6 @@ This step shows how you create a Docker image and run it locally.
 
 1. Observe the `Dockerfile`
    ```bash
-   cd ../../src/ratings
    more Dockerfile
    ```
 1. Build Docker image
@@ -35,4 +34,9 @@ This step shows how you create a Docker image and run it locally.
 1. Stop the running container
    ```bash
    docker stop <container ID>
+   ```
+
+1. Go back to the Istio directory:
+   ```bash
+   popd
    ```
