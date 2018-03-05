@@ -12,9 +12,9 @@ type: markdown
 Let's deploy a new version of the _reviews_ microservice, the one that will return the ratings provided by reviewers, as a number of stars, with the color of stars. In real life, we would perform lint tests, unit tests, integration tests, end-to-end tests and tests in a staging environment.
 
 1. Deploy the new version of the _reviews_ microservice without the `app` label. Without the `app` label, our new version of the microservice will not be selected to provide the _reviews_ service. As such, it will not be called by the production code.
-  ```bash
-  kubectl apply -f samples/bookinfo/istio.io-tutorial/bookinfo-reviews-v2-without-app-label.yaml
-  ```
+   ```bash
+   kubectl apply -f samples/bookinfo/istio.io-tutorial/bookinfo-reviews-v2-without-app-label.yaml
+   ```
 
 2. Let's access our application and see that the deployed microservice did not disrupt it. So far so good.
 
@@ -35,17 +35,17 @@ Let's deploy a new version of the _reviews_ microservice, the one that will retu
      ```
 4. Now we are rather confident that our new version of _reviews_ will work and we will release it. We will release a single replica of it into production - the real production traffic will arrive to our new version. With the current setting, 75% of the traffic will arrive to the old version (three pods of the old version) and 25% will arrive to the new version (one pod).
 
-  To release _reviews v2_ we will undeploy our new version and redeploy it with the _app_ label, so it will become addressable by the _reviews_ service.
+   To release _reviews v2_ we will undeploy our new version and redeploy it with the _app_ label, so it will become addressable by the _reviews_ service.
 
-  ```bash
-  kubectl delete -f samples/bookinfo/istio.io-tutorial/bookinfo-reviews-v2-without-app-label.yaml
-  kubectl apply -f samples/bookinfo/kube/bookinfo-reviews-v2.yaml
-  ```
+   ```bash
+   kubectl delete -f samples/bookinfo/istio.io-tutorial/bookinfo-reviews-v2-without-app-label.yaml
+   kubectl apply -f samples/bookinfo/kube/bookinfo-reviews-v2.yaml
+   ```
 
-  We can check the labels of our pod:
-  ```
-  kubectl get pods --show-labels -l version=v2
-  ```
+   We can check the labels of our pod:
+   ```
+   kubectl get pods --show-labels -l version=v2
+   ```
 5. Now we access the application web page and observe that the black stars appear for ratings! We will hit the page several times and notice that sometimes the page is returned with stars (approximately 25% of the time) and sometimes without stars (approximately 75% of the time).
 
 6. If we encounter any problems we can quickly undeploy the new version, so only the old version will be used:
@@ -54,13 +54,13 @@ Let's deploy a new version of the _reviews_ microservice, the one that will retu
    ```
 
 7. Next we will increase the replicas of our new version. We can do it gradually, carefully checking that the number of errors does not increase:
-  ```bash
-  kubectl scale deployment reviews-v2 --replicas=3
-  ```
+   ```bash
+   kubectl scale deployment reviews-v2 --replicas=3
+   ```
 8. Now we decommission the old version
-  ```bash
-  kubectl delete deployment reviews-v1
-  ```
+   ```bash
+   kubectl delete deployment reviews-v1
+   ```
 
 9. Accessing the web page of the application will return reviews with black stars only.
 
