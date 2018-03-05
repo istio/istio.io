@@ -1,15 +1,14 @@
 ---
 title: Testing in production
-overview: Overview
+overview: Testing a new version of a microservice in production
 
 order: 04
 
 layout: docs
 type: markdown
 ---
-{% include home.html %}\n# Testing a microservice in "production"
 
-Let's perform some testing of our microservice . This step exemplifies that you can test your microservices in production!
+Let's perform some testing of our microservice, in production!
 
 1. Let's send some requests to our microservice from inside the cluster, we will use a dummy pod, `sleep`.
    ```bash
