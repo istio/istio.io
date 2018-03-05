@@ -13,7 +13,7 @@ type: markdown
 and get access to a [Kubernetes](https://kubernetes.io) cluster.
 For example, you can try the [IBM Cloud Container Service](https://console.bluemix.net/docs/containers/container_index.html#container_index).
 
-1. Follow the [Prerequisites of the Kubernetes Quick Start instructions]({{home}}docs/setup/kubernetes/quick-start.html#prerequisites).
+1. Follow the [Prerequisites of the Kubernetes Quick Start instructions]({{home}}/docs/setup/kubernetes/quick-start.html#prerequisites).
 
 1. Follow the steps 1-4 of the [Installation Steps of the Kubernetes Quick Start instructions]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps).
 
