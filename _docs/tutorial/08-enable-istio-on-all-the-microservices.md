@@ -47,4 +47,7 @@ Previously we deployed the Istio control plane and enabled Istio on a single mic
 
 1. Access the application after determining Ingress IP and port. Note that Istio was added **transparently**, the original application did not change. It was added on the fly, without the need to undeploy and redeploy the whole application, without hurting the application's availability.
 
-2. Check the application pods and verify that now each pod has two containers. One container is the microservice itself, the other is the sidecar proxy attached to it.
+2. Check the application pods and verify that now each pod has two containers. One container is the microservice itself, the other is the sidecar proxy attached to it:
+   ```bash
+   kubectl get pods
+   ```
