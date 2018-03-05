@@ -1,13 +1,13 @@
 ---
-title: Ab testing with istio
-overview: Overview
+title: A/B testing with Istio
+overview: A/B testing with Istio
 
 order: 12
 
 layout: docs
 type: markdown
 ---
-{% include home.html %}\n# A/B testing with Istio
+{% include home.html %}
 
 In this step, we deploy a new version of the _reviews_ microservice, _v3_. This version returns review stars in red color, as opposed to the black color of _reviews v2_.
 
