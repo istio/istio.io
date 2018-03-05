@@ -1,6 +1,6 @@
 ---
 title: Phased rollout with Istio
-overview: Phased rollout with Istio
+overview: Incrementally direct the live traffic to the new version of a microservice
 
 order: 10
 
