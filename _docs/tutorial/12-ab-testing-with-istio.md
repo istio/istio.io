@@ -1,6 +1,6 @@
 ---
 title: A/B testing with Istio
-overview: A/B testing with Istio
+overview: Deploy two different versions of a microservice and split the traffic between them
 
 order: 12
 
