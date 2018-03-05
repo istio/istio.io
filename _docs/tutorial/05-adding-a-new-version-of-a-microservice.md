@@ -1,6 +1,6 @@
 ---
-title: Deploy and release a new version of reviews
-overview: Add a new version of a microservice
+title: Add a new version of reviews
+overview: Deploy and release a new version of a microservice
 
 order: 05
 
