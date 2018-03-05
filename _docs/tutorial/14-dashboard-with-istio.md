@@ -8,7 +8,7 @@ layout: docs
 type: markdown
 ---
 {% include home.html %}\n# Dashboard with Istio
-In this learning module, we will add a [Grafana](https://grafana.com) dashboard on top of our Prometheus instance.
+In this step, we will add a [Grafana](https://grafana.com) dashboard on top of our Prometheus instance.
 
 1. Deploy a Graphana instance:
   ```bash

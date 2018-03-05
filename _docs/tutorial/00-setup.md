@@ -1,6 +1,6 @@
 ---
 title: Setup
-overview: The required setup steps for the learning modules of the tutorial.
+overview: The required setup instructions for the tutorial.
 
 order: 00
 
@@ -17,7 +17,7 @@ For example, you can try the [IBM Cloud Container Service](https://console.bluem
 
 1. Follow the steps 1-4 of the [Installation Steps of the Kubernetes Quick Start instructions]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps).
 
-1. This tutorial assumes that you perform the commands of the learning modules in the Istio directory that you downloaded and extracted in the steps 1 and 2 of the [Installation Steps of the Kubernetes Quick Start instructions]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps).
+1. This tutorial assumes that you perform the commands of the steps in the Istio directory that you downloaded and extracted in the steps 1 and 2 of the [Installation Steps of the Kubernetes Quick Start instructions]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps).
 
 1. Download Istio sources into the Istio directory. **Note** that Istio source code is under [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) license.
    ```bash

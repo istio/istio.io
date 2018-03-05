@@ -8,7 +8,7 @@ layout: docs
 type: markdown
 ---
 {% include home.html %}\n# Tutorial summary
-As we saw in the learning modules, Istio provides the following features:
+As we saw in the steps, Istio provides the following features:
 * Control the traffic between the microservices. With Istio you can implement canary deployments, traffic shadowing, phased rollouts and A/B testing.
 * Reporting and Monitoring. With Istio you can collect the logs about the traffic between all the microservices, collect metrics, implement a dashboard and calculate the service graph.
 * Enforce security policies.

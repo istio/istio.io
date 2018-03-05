@@ -9,7 +9,7 @@ type: markdown
 ---
 {% include home.html %}\n# Phased rollout with Istio
 
-In this learning module, we will start phased rollout of _reviews v2_. After performing unit tests, integration tests, end-to-end tests, tests in the staging environment, and lately canary deployment and traffic shadowing, we are pretty confident. Now we can start directing the live traffic from the real users. We will perform it gradually, first to 10% of the users, then to 20% and so on.
+In this step, we will start phased rollout of _reviews v2_. After performing unit tests, integration tests, end-to-end tests, tests in the staging environment, and lately canary deployment and traffic shadowing, we are pretty confident. Now we can start directing the live traffic from the real users. We will perform it gradually, first to 10% of the users, then to 20% and so on.
 
 1. Lets add a route rule distribute the traffic 90:10 between _reviews v1_ and _reviews v2_:
    ```bash

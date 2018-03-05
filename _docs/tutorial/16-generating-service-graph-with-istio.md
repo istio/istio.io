@@ -8,7 +8,7 @@ layout: docs
 type: markdown
 ---
 {% include home.html %}\n# Generating service graph with Istio
-In this learning module, we will add service graph generation on top of Prometheus.
+In this step, we will add service graph generation on top of Prometheus.
 
 1. Deploy a service graph generation instance:
   ```bash

@@ -9,7 +9,7 @@ type: markdown
 ---
 {% include home.html %}\n# Fault injection with Istio
 
-In this learning module, we inject a fault, error 418 on the path from the _ratings_ microservice to the _reviews_ microservice.
+In this step, we inject a fault, error 418 on the path from the _ratings_ microservice to the _reviews_ microservice.
 
 1. Let's add a rule to inject a fault on requests to _reviews_, for our test user `jason`:
    ```bash

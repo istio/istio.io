@@ -8,7 +8,7 @@ layout: docs
 type: markdown
 ---
 {% include home.html %}\n# Distributed tracing with Istio
-In this learning module, we will add [Zipkin distributed trace system](https://zipkin.io) as part of our Istio infrastructure.
+In this step, we will add [Zipkin distributed trace system](https://zipkin.io) as part of our Istio infrastructure.
 
 1. Deploy a Zipkin instance:
    ```bash
