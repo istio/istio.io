@@ -10,7 +10,7 @@ type: markdown
 
 Let's perform some testing of our microservice, in production!
 
-1. Let's send some requests to our microservice from inside the cluster, we will use a dummy pod, `sleep`.
+1. Let's send some requests to our microservice from inside the cluster, we will use a dummy pod, [sleep](https://github.com/istio/istio/tree/master/samples/sleep).
    ```bash
    kubectl apply -f ../../istio-*/samples/sleep/sleep.yaml
    ```
