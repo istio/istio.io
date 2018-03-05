@@ -7,6 +7,7 @@ order: 04
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 Let's perform some testing of our microservice, in production!
 
