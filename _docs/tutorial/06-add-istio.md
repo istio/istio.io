@@ -1,13 +1,13 @@
 ---
-title: Add istio
-overview: Overview
+title: Enable Istio on productpage.
+overview: Deploy the Istio control plane and enable Istio on a single microservice
 
 order: 06
 
 layout: docs
 type: markdown
 ---
-{% include home.html %}\n# In this step we will deploy the Istio control plane. We will enable Istio for a single microservice.
+{% include home.html %}
 
 As we saw in the previous step, Kubernetes does not provide us all the functionality we need for effective operating of our microservices. Istio comes to our help.
 
