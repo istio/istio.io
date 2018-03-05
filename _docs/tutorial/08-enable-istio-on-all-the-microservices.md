@@ -26,7 +26,7 @@ Previously we deployed the Istio control plane and enabled Istio on a single mic
     kubectl apply -f <(istioctl kube-inject -f./../istio-*/samples/sleep/sleep.yaml)
     ```
 
-1. Redeploy Istio-enabled ingress. Note that it is written slightly differently than the ingress we used for Kubernetes without Istio. Istio-enabled ingress has the annotation `kubernetes.io/ingress.class: "istio"`, and it has no host defined. Check [Determining Ingress IP and Port](https://istio.io/docs/guides/bookinfo.html#determining-the-ingress-ip-and-port) for instructions for your cloud.
+1. Redeploy Istio-enabled ingress. Note that it is written slightly differently than the ingress we used for Kubernetes without Istio. Istio-enabled ingress has the annotation `kubernetes.io/ingress.class: "istio"`, and it has no host defined. Check [Determining Ingress IP and Port]({{home}}/docs/guides/bookinfo.html#determining-the-ingress-ip-and-port) for instructions for your cloud.
    ```bash
    kubectl apply -f <(istioctl kube-inject -f ingress-for-istio.yaml)
    ```

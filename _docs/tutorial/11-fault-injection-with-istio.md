@@ -15,7 +15,7 @@ In this step, we inject a fault, error 418 on the path from the _ratings_ micros
    ```bash
     istioctl create -f route-rule-reviews-fault-418.yaml
    ```
-   
+
 1. Let's access the webpage of the application, login as `jason` and see that now an error is displayed instead of the reviews.
 
 1. Also, let's see the error 418 appear in the logs of the sidecar proxy of the `productpage`:
@@ -58,7 +58,7 @@ In this step, we inject a fault, error 418 on the path from the _ratings_ micros
        res = requests.get(url, headers=headers, timeout=3.0)
    ```
 
-   As we can see, the timeout is too low (three seconds), it cannot accommodate the delays of seven seconds. We must increase it. Also note that we can remove the timeouts from the code to make it cleaner, and [handle the timeouts by Istio route rules](https://istio.io/docs/tasks/traffic-management/request-timeouts.html).
+   As we can see, the timeout is too low (three seconds), it cannot accommodate the delays of seven seconds. We must increase it. Also note that we can remove the timeouts from the code to make it cleaner, and [handle the timeouts by Istio route rules]({{home}}/docs/tasks/traffic-management/request-timeouts.html).
 
 1. Let's set the delay to two seconds and see that the current application can handle it:
    ```bash
