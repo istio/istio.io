@@ -1,6 +1,6 @@
 ---
-title: Canary release of reviews version 2
-overview: Canary release with Istio
+title: Canary release with Istio
+overview: Enable a new version of a microservice for a tester, in production
 
 order: 07
 
