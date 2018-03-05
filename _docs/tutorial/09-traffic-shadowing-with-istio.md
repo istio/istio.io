@@ -1,6 +1,6 @@
 ---
-title: Traffic shadowing with istio
-overview: Traffic shadowing with istio
+title: Traffic shadowing with Istio
+overview: Shadow the traffic to a new version of a microservice
 
 order: 09
 
