@@ -14,8 +14,10 @@
             <img class="logo" src="{{home}}/img/istio-logo.svg" alt="Istio Logo"/>
             {% if site.data.istio.archive %}
                 <span class="brand-name">Istioldie {{site.data.istio.version}}</span>
+            {% elsif site.data.istio.preliminary %}
+                <span class="brand-name">Istio Prelim {{site.data.istio.version}}</span>
             {% else %}
-                <span class="brand-name">Istio</span>
+                <span class="brand-name">Istio {{site.data.istio.version}}</span>
             {% endif %}
         </a>
 
