@@ -29,7 +29,7 @@ this time with Istio enabled. We will release our new version to the `jason` use
    istioctl create -f ../../istio-*/samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
    ```
 
-5. Let's login as `jason` (any password would do). We will see that now the reviews have black stars (our new version is used). Now we can let a human tester or a testing tool test our new version on the whole application
+5. Let's login as `jason` (any password would do). We will see that now the reviews have black stars (our new version is used). Now we can let a human tester or a testing tool test our new version on the whole application.
 
 5. We verify that our new version of the _reviews_ microserice works correctly with all other microservices in production. We test the whole application, end-to-end, with the new version of the _reviews_ microservice.
 
