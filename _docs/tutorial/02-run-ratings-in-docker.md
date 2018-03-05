@@ -11,27 +11,27 @@ type: markdown
 
 This step shows how you create a Docker image and run it locally.
 
-1. Observe the [Dockerfile](https://github.com/istio/istio/blob/master/samples/bookinfo/src/ratings/Dockerfile)
+1. Observe the [Dockerfile](https://github.com/istio/istio/blob/master/samples/bookinfo/src/ratings/Dockerfile):
    ```bash
    more Dockerfile
    ```
-1. Build Docker image
+1. Build Docker image:
    ```bash
    docker build -t $USER/ratings .
    ```
-1. Run ratings
+1. Run ratings in Docker:
    ```bash
    docker run -d -p 9081:9080 $USER/ratings
    ```
 
 1. Access http://localhost:9081/ratings/7
 
-1. Observe the running container
+1. Observe the running container:
    ```bash
    docker ps
    ```
 
-1. Stop the running container
+1. Stop the running container:
    ```bash
    docker stop <container ID>
    ```
