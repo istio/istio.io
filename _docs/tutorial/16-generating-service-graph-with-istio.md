@@ -19,10 +19,10 @@ In this step, we will add service graph generation on top of Prometheus.
   kubectl get pods -n istio-system
   ```
 2. Perform port forwarding from the service graph generation instance to the local machine:
-  ```bash
-  kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &   
+   ```bash
+   kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
 
-  ```
+   ```
 
 3. Access the generated service graph on the local machine:  http://localhost:8088/dotviz
 
