@@ -12,12 +12,12 @@ type: markdown
 Let's perform some testing of our microservice . This learning module exemplifies that you can test your microservices in production!
 
 1. Let's send some requests to our microservice from inside the cluster, we will use a dummy pod, `sleep`.
-   ```
+   ```bash
    kubectl apply -f ../../istio-*/samples/sleep/sleep.yaml
    ```
 
    Once the `sleep` pod is ready, we can issue HTTP requests from it to our service and test it
-   ```
+   ```bash
    kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') bash
    curl http://ratings:9080/ratings/7
    ```
