@@ -1,13 +1,13 @@
 ---
-title: Adding a new version of a microservice
-overview: Overview
+title: Deploy and release a new version of reviews
+overview: Add a new version of a microservice
 
 order: 05
 
 layout: docs
 type: markdown
 ---
-{% include home.html %}\n# Deploy and release a new version of _reviews_
+{% include home.html %}
 
 Let's deploy a new version of the _reviews_ microservice, the one that will return the ratings provided by reviewers, as a number of stars, with the color of stars. In the real life, we would perform lint tests, unit tests, integration tests, end-to-end tests and tests in the staging environment.
 
