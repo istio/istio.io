@@ -1,13 +1,14 @@
 ---
-title: Distributed tracing with istio
-overview: Overview
+title: Distributed tracing with Istio
+overview: Add Zipkin distributed trace system
 
 order: 15
 
 layout: docs
 type: markdown
 ---
-{% include home.html %}\n# Distributed tracing with Istio
+{% include home.html %}
+
 In this step, we will add [Zipkin distributed trace system](https://zipkin.io) as part of our Istio infrastructure.
 
 1. Deploy a Zipkin instance:
