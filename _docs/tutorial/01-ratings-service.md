@@ -1,6 +1,6 @@
 ---
 title: Review and run the ratings microservice locally
-overview: This learning module demonstrates the work on a single microservice, on a local developer machine.
+overview: Work on a single microservice, on a local developer machine.
 
 order: 01
 
