@@ -12,7 +12,7 @@ In this step, we will add a [Grafana](https://grafana.com) dashboard on top of o
 
 1. Deploy a Graphana instance:
   ```bash
-  kubectl apply -f ../../istio-*/install/kubernetes/addons/grafana.yaml
+  kubectl apply -f install/kubernetes/addons/grafana.yaml
   ```
 2. Check the pods at istio-system namespaces and wait for the pod of Graphana to start running:
   ```bash

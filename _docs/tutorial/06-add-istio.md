@@ -17,7 +17,7 @@ We use the `istiocl kube-inject` command to inject Istio _sidecar proxies_ into 
 
 1. Install Istio
    ```bash
-   kubectl apply -f ../../istio-*/install/kubernetes/istio.yaml
+   kubectl apply -f install/kubernetes/istio.yaml
    ```
 1. Verify that Istio started correctly, all the pods in `istio-system` namespace are running.
    ```bash
@@ -25,7 +25,7 @@ We use the `istiocl kube-inject` command to inject Istio _sidecar proxies_ into 
    ```
 1. Redeploy _productpage_ application, Istio-enabled
    ```bash
-   kubectl apply -f <(istioctl kube-inject -f ../03-run-bookinfo-with-kubernetes/bookinfo.yaml)
+   kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/istio.io-tutorial/bookinfo-productpage.yaml)
    ```
 
 1. Access the application and verify that the application continues to work. Note that Istio was added **transparently**, the code of the original application did not change.

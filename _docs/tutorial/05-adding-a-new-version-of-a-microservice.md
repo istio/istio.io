@@ -13,7 +13,7 @@ Let's deploy a new version of the _reviews_ microservice, the one that will retu
 
 1. Deploy the new version of the _reviews_ microservice without the `app` label. Without the `app` label, our new version of the microservice will not be selected to provide the _reviews_ service. As such, it will not be called by the production code.
   ```bash
-  kubectl apply -f bookinfo-reviews-v2-without-app-label.yaml
+  kubectl apply -f samples/bookinfo/istio.io-tutorial/bookinfo-reviews-v2-without-app-label.yaml
   ```
 
 2. Let's access our application and see that the deployed microservice did not disrupt it. So far so good.
@@ -38,8 +38,8 @@ Let's deploy a new version of the _reviews_ microservice, the one that will retu
   To release _reviews v2_ we will undeploy our new version and redeploy it with the _app_ label, so it will become addressable by the _reviews_ service.
 
   ```bash
-  kubectl delete -f bookinfo-reviews-v2-without-app-label.yaml
-  kubectl apply -f bookinfo-reviews-v2-with-app-label.yaml
+  kubectl delete -f samples/bookinfo/istio.io-tutorial/bookinfo-reviews-v2-without-app-label.yaml
+  kubectl apply -f samples/bookinfo/kube/bookinfo-reviews-v2.yaml
   ```
 
   We can check the labels of our pod:
@@ -50,7 +50,7 @@ Let's deploy a new version of the _reviews_ microservice, the one that will retu
 
 6. If we encounter any problems we can quickly undeploy the new version, so only the old version will be used:
    ```bash
-   kubectl delete -f bookinfo-reviews-v2-with-app-label.yaml
+   kubectl delete -f samples/bookinfo/kube/bookinfo-reviews-v2.yaml
    ```
 
 7. Next we will increase the replicas of our new version. We can do it gradually, carefully checking that the number of errors does not increase:

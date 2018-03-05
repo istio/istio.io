@@ -13,7 +13,7 @@ In this step, we will add [Zipkin distributed trace system](https://zipkin.io) a
 
 1. Deploy a Zipkin instance:
    ```bash
-   kubectl apply -f ../../istio-*/install/kubernetes/addons/zipkin.yaml
+   kubectl apply -f install/kubernetes/addons/zipkin.yaml
    ```
 2. Check the pods at istio-system namespaces and wait for the pod of Zipkin to start running:
    ```bash

@@ -12,22 +12,22 @@ Previously we deployed the Istio control plane and enabled Istio on a single mic
 
 1. Redeploy the Bookinfo application, Istio-enabled. _productpage_ will not be redeployed since it already has Istio injected, its pods will not be changed.
    ```bash
-   kubectl apply -f <(istioctl kube-inject -f ../03-run-bookinfo-with-kubernetes/bookinfo.yaml)
+   kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/istio.io-tutorial/bookinfo.yaml)
    ```
 
 1. Redeploy _reviews v2_, Istio-enabled:
    ```bash
-    kubectl apply -f <(istioctl kube-inject -f ../05-adding-a-new-version-of-a-microservice/bookinfo-reviews-v2-with-app-label.yaml)
+    kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-reviews-v2.yaml)
     ```
 
 1. Redeploy the _sleep_ pod, Istio-enabled, for testing:
    ```bash
-    kubectl apply -f <(istioctl kube-inject -f./../istio-*/samples/sleep/sleep.yaml)
+    kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
     ```
 
 1. Redeploy Istio-enabled ingress. Note that it is written slightly differently than the ingress we used for Kubernetes without Istio. Istio-enabled ingress has the annotation `kubernetes.io/ingress.class: "istio"`, and it has no host defined. Check [Determining Ingress IP and Port]({{home}}/docs/guides/bookinfo.html#determining-the-ingress-ip-and-port) for instructions for your cloud.
    ```bash
-   kubectl apply -f <(istioctl kube-inject -f ingress-for-istio.yaml)
+   kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/istio.io-tutorial/ingress-for-istio.yaml)
    ```
 
    For _IBM Cloud Container Service_, use the following:

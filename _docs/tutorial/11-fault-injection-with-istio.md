@@ -11,9 +11,9 @@ type: markdown
 
 In this step, we inject a fault, error 418 on the path from the _ratings_ microservice to the _reviews_ microservice.
 
-1. Let's add a rule to inject a fault on requests to _reviews_, for our test user `jason`:
+1. Let's add a rule to inject a fault on requests to _ratings_, for our test user `jason`:
    ```bash
-    istioctl create -f route-rule-reviews-fault-418.yaml
+    istioctl create -f samples/bookinfo/kube/route-rule-ratings-test-abort.yaml
    ```
 
 1. Let's access the webpage of the application, login as `jason` and see that now an error is displayed instead of the reviews.
@@ -30,12 +30,12 @@ In this step, we inject a fault, error 418 on the path from the _ratings_ micros
 
 1. Now let's remove the route rule, login as `jason` and see that everything works OK.
    ```bash
-   istioctl delete -f route-rule-reviews-fault-418.yaml
+   istioctl delete -f samples/bookinfo/kube/route-rule-ratings-test-abort.yaml
    ```
 
 1. Let's check another kind of fault injection - let's insert a delay of seven seconds on requests to _ratings_:
    ```bash
-   istioctl create -f  ../../istio-*/samples/bookinfo/kube/route-rule-ratings-test-delay.yaml
+   istioctl create -f  samples/bookinfo/kube/route-rule-ratings-test-delay.yaml
    ```
 
 1. We will see that now the message "Error fetching product reviews!" is displayed. It means that the application cannot handle the delay of seven seconds between _reviews_ and _ratings_. If we suspect that such delays may happen in production, we should handle the problem now, proactively, before it appears in production.
@@ -62,7 +62,7 @@ In this step, we inject a fault, error 418 on the path from the _ratings_ micros
 
 1. Let's set the delay to two seconds and see that the current application can handle it:
    ```bash
-   istioctl replace -f <(cat ../../istio-*/samples/bookinfo/kube/route-rule-ratings-test-delay.yaml | sed 's/7s/2s/g')
+   istioctl replace -f <(cat samples/bookinfo/kube/route-rule-ratings-test-delay.yaml | sed 's/7s/2s/g')
    ```
 
 {% include what-is-next-footer.md %}

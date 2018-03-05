@@ -13,7 +13,7 @@ In this step, we will start phased rollout of _reviews v2_. After performing uni
 
 1. Let's add a route rule distribute the traffic 90:10 between _reviews v1_ and _reviews v2_:
    ```bash
-   istioctl create -f route-rule-reviews-90-10.yaml  
+   istioctl create -f samples/bookinfo/istio.io-tutorial/route-rule-reviews-90-10.yaml
    ```
 
 2. Let's call reviews 20 times and see that _reviews v2_ is called, part of the times:
@@ -54,16 +54,16 @@ In this step, we will start phased rollout of _reviews v2_. After performing uni
 
 2. Let's increase the rollout of _reviews v2_, this time to 20%:
    ```bash
-   istioctl delete -f route-rule-reviews-90-10.yaml
-   istioctl create -f route-rule-reviews-80-20.yaml  
+   istioctl delete -f samples/bookinfo/istio.io-tutorial/route-rule-reviews-90-10.yaml
+   istioctl create -f samples/bookinfo/istio.io-tutorial/route-rule-reviews-80-20.yaml
    ```
 
 3. Let's send multiple requests again and see that the number of requests sent to _reviews v2_ was increased.
 
 4. Finally, let's direct all the traffic to _reviews v2_.
    ```bash
-   istioctl delete -f route-rule-reviews-80-20.yaml
-   istioctl create -f route-rule-reviews-v2.yaml
+   istioctl delete -f samples/bookinfo/istio.io-tutorial/route-rule-reviews-80-20.yaml
+   istioctl create -f samples/bookinfo/kube/route-rule-reviews-v2.yaml
    ```
 3. Let's check that no more requests were sent to _reviews v1_:
    ```bash

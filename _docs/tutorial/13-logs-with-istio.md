@@ -15,12 +15,12 @@ In this step, we will add collecting logs with Istio to our application.
 
 1. We will deploy [Prometheus time series database and monitoring system](https://prometheus.io) for logs collection.
    ```bash
-   kubectl apply -f ../../istio-*/install/kubernetes/addons/prometheus.yaml
+   kubectl apply -f install/kubernetes/addons/prometheus.yaml
    ```
 
 2. Define a log stream and a metric for Istio to collect into the Prometheus instance:
    ```bash
-   istioctl create -f telemetry.yaml
+   istioctl create -f samples/bookinfo/istio.io-tutorial/telemetry.yaml
    ```
    The metric's name is `istio_bookinfo_request_count`.
 

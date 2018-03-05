@@ -15,7 +15,7 @@ This step shows you an application of four microservices: _productpage_, _detail
 
 1. Deploy to Kubernetes.
    ```
-   kubectl apply -f bookinfo.yaml
+   kubectl apply -f samples/bookinfo/istio.io-tutorial/bookinfo.yaml
    ```
 1. Check the pods status. Notice that each microservice has three pods.
    ```
@@ -26,7 +26,7 @@ This step shows you an application of four microservices: _productpage_, _detail
 
 1. Deploy your ingress:
    ```
-   kubectl apply -f ingress.yaml
+   kubectl apply -f samples/bookinfo/istio.io-tutorial/ingress.yaml
    ```
 
 1. Access `http://<your host>/productpage`.

@@ -15,11 +15,11 @@ Here we assume that we performed all the required testing of _reviews v3_, local
 
 1. Let's deploy _reviews v3_:
   ```bash
-  kubectl apply -f <(istioctl kube-inject -f bookinfo-reviews-v3.yaml)
+  kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/istio.io-tutorial/bookinfo-reviews-v3.yaml)
   ```
 2. Let's add a rule to distribute the traffic 50:50 between _reviews v2_ and _reviews v3_.
   ```bash
-  istioctl create -f  ../../istio-*/samples/bookinfo/kube/route-rule-reviews-v2-v3.yaml
+  istioctl create -f samples/bookinfo/kube/route-rule-reviews-v2-v3.yaml
   ```
 
 3. Let's access the webpage of the application and see that now the red stars are displayed roughly every other refresh.

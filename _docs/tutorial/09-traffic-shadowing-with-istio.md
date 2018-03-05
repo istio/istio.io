@@ -13,7 +13,7 @@ In this step, we will perform traffic shadowing. We will shadow the traffic dest
 
 1. Let's add a route rule to route traffic to _reviews v1_, while shadowing traffic to _reviews 2_ (using the [route rule _mirror_ attribute]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#RouteRule)):
    ```bash
-   istioctl create -f route-rule-reviews-shadow-v2.yaml  
+   istioctl create -f samples/bookinfo/istio.io-tutorial/route-rule-reviews-shadow-v2.yaml
    ```
 
 2. Let's access the webpage of the application a couple of times. We'll see that the review stars are not displayed, it means that _reviews v1_ is called as previously. Let's examine the logs of the sidecar proxy of _reviews v2_:
@@ -30,7 +30,7 @@ In this step, we will perform traffic shadowing. We will shadow the traffic dest
 
 3. Let's remove the rule:
    ```bash
-   istioctl delete -f route-rule-reviews-shadow-v2.yaml
+   istioctl delete -f samples/bookinfo/istio.io-tutorial/route-rule-reviews-shadow-v2.yaml
    ```
 
 {% include what-is-next-footer.md %}

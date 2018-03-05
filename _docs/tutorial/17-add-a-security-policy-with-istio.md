@@ -21,7 +21,7 @@ In this step we will add a [security policy]({{home}}/docs/reference/config/isti
 
 2. Let's define a security policy (a whitelist) that will allow only the _reviews_ microservice to access the _ratings_ microservice:
    ```bash
-   istioctl create -f whitelist-for-ratings.yaml
+   istioctl create -f samples/bookinfo/istio.io-tutorial/whitelist-for-ratings.yaml
    ```
 
 3. Now let's see that the _sleep_ microservice cannot access the _ratings_ microservice, as expected:
