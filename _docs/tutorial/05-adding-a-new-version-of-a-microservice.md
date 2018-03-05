@@ -28,7 +28,7 @@ Let's deploy a new version of the _reviews_ microservice, the one that will retu
     ```bash
     kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- curl $DETAILS_V2_POD_IP:9080/reviews/7
     ```
-  3. Perform a primitive "load testing" - send requests for 10 times in a row:
+  3. Perform primitive _load testing_ by sending a request 10 times in a row:
      ```bash
      kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') bash
      for i in {1..10}; do curl -o /dev/null -s -w "%{http_code}\n" <the value of DETAILS_V2_POD_IP>:9080/reviews/7; done
