@@ -22,7 +22,7 @@ this time with Istio enabled. We will release our new version to the `jason` use
    kubectl apply -f  ../05-adding-a-new-version-of-a-microservice/bookinfo-reviews-v2-with-app-label.yaml
    ```
 
-3. Let' access the application's web page multiple times and verify that our new version is not called.
+3. Let's access the application's web page multiple times and verify that our new version is not called.
 
 4. Now, let's apply an Istio [route rule]({{home}}/docs/reference/config/istio.routing.v1alpha1.html) to allow `jason` user to access our new version for testing:
    ```bash
