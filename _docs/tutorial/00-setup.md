@@ -9,7 +9,7 @@ type: markdown
 ---
 {% include home.html %}
 
-1. Install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git), [curl](https://curl.haxx.se/download.html), [node.js](https://nodejs.org/en/download/), [docker](https://docs.docker.com/install/)
+1. Install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git), [curl](https://curl.haxx.se/download.html), [node.js](https://nodejs.org/en/download/), [Docker](https://docs.docker.com/install/)
 and get access to a [Kubernetes](https://kubernetes.io) cluster.
 For example, you can try the [IBM Cloud Container Service](https://console.bluemix.net/docs/containers/container_index.html#container_index).
 

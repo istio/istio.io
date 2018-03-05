@@ -1,5 +1,5 @@
 ---
-title: Run ratings in docker
+title: Run ratings in Docker
 overview: Overview
 
 order: 02
@@ -7,15 +7,15 @@ order: 02
 layout: docs
 type: markdown
 ---
-{% include home.html %}\n# Run the _ratings_ service in a docker container.
-This learning module shows how you can create a docker image and run it locally.
+{% include home.html %}\n# Run the _ratings_ service in a Docker container.
+This learning module shows how you can create a Docker image and run it locally.
 
 1. Observe the `Dockerfile`
    ```
    cd ../../src/ratings
    more Dockerfile
    ```
-1. Build docker image
+1. Build Docker image
    ```
    docker build -t $USER/ratings .
    ```
