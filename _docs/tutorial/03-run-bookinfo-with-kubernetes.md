@@ -1,13 +1,13 @@
 ---
-title: Run bookinfo with kubernetes
-overview: Overview
+title: Run Bookinfo with Kubernetes
+overview: Deploy Bookinfo application that uses the ratings microservice in Kubernetes
 
 order: 03
 
 layout: docs
 type: markdown
 ---
-{% include home.html %}\n# Deploy Bookinfo application that uses _ratings_ microservice in Kubernetes
+{% include home.html %}
 
 This step shows you an application of four microservices: _productpage_, _details_, _ratings_ and _reviews_. The application is called Bookinfo and is described [here](https://istio.io/docs/guides/bookinfo.html). Consider the application there as the final version, in which the _reviews_ microservice has three versions _v1_, _v2, _v3_. In this step we start with the application with the first version of the _reviews_ microservice, _v1_. In the next steps, we will evolve the application.
 
