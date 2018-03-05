@@ -1,13 +1,13 @@
 ---
 title: Cleanup
-overview: Overview
+overview: Undeploy Bookinfo and the Istio control plane with all the addons
 
 order: 99
 
 layout: docs
 type: markdown
 ---
-{% include home.html %}\n# Tutorial cleanup
+{% include home.html %}
 
 1. Undeploy Bookinfo:
   ```bash
