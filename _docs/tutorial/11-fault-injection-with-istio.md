@@ -1,13 +1,13 @@
 ---
-title: Fault injection with istio
-overview: Overview
+title: Fault injection with Istio
+overview: Fault injection with Istio
 
 order: 11
 
 layout: docs
 type: markdown
 ---
-{% include home.html %}\n# Fault injection with Istio
+{% include home.html %}
 
 In this step, we inject a fault, error 418 on the path from the _ratings_ microservice to the _reviews_ microservice.
 
