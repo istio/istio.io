@@ -23,4 +23,7 @@ type: markdown
   kubectl delete -f ../../istio-*/install/kubernetes/istio.yaml
   ```
 
-{% include what-is-next-footer.md %}
+## What's next
+{% if page.previous.url %}
+Previous step: [{{page.previous.title}}]({{page.previous.url}})
+{% endif %}

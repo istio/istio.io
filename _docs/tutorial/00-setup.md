@@ -24,4 +24,7 @@ For example, you can try the [IBM Cloud Container Service](https://console.bluem
    git clone https://github.com/istio/istio.git istio-sources
    ```
 
-{% include what-is-next-footer.md %}
+## What's next
+{% if page.next.url %}
+Next step:     [{{page.next.title}}]({{page.next.url}})
+{% endif %}
