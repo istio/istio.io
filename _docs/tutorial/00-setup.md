@@ -9,7 +9,7 @@ type: markdown
 ---
 {% include home.html %}
 
-1. Install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git), [curl](https://curl.haxx.se/download.html), [node.js](https://nodejs.org/en/download/), [Docker](https://docs.docker.com/install/)
+1. Install [curl](https://curl.haxx.se/download.html), [node.js](https://nodejs.org/en/download/), [Docker](https://docs.docker.com/install/)
 and get access to a [Kubernetes](https://kubernetes.io) cluster.
 For example, you can try the [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) or [IBM Cloud Container Service](https://console.bluemix.net/docs/containers/container_index.html#container_index).
 
@@ -19,10 +19,24 @@ For example, you can try the [Google Kubernetes Engine](https://cloud.google.com
 
 1. This tutorial assumes that you perform the commands of the steps in the Istio directory that you downloaded and extracted in the steps 1 and 2 of the [Installation Steps of the Kubernetes Quick Start instructions]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps).
 
-1. Download Istio sources into the Istio directory. **Note** that Istio source code is under [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) license.
-   ```bash
-   git clone https://github.com/istio/istio.git istio-sources
-   ```
+1. Download Istio sources from [https://github.com/istio/istio/releases](https://github.com/istio/istio/releases). **Note** that Istio source code is under [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) license. Uncompress the sources into `istio_sources` directory inside the Istio directory (see the previous list item).
+
+1. Check the directory structure.
+   1. Verify the current directory:
+      ```bash
+      basename $(pwd)
+      ```
+      If your downloaded Istio version is {{ site.data.istio.version }}, the output should be:
+      ```bash
+      istio-{{ site.data.istio.version }}
+      ```
+   2. Verify that `istio-sources` is in the current directory:
+      ```bash
+      ls -m
+      ```
+      ```bash
+      LICENSE, README.md, bin, install, istio.VERSION, istio_sources, samples, tools
+      ```
 
 ## What's next
 {% if page.next.url %}
