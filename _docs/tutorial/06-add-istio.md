@@ -23,7 +23,7 @@ We use the `istiocl kube-inject` command to inject Istio _sidecar proxies_ into 
    ```bash
    kubectl get pods -n istio-system
    ```
-1. Redeploy _productpage_ application, Istio-enabled
+1. Redeploy the _productpage_ microservice, Istio-enabled
    ```bash
    kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/istio.io-tutorial/bookinfo-productpage.yaml)
    ```
