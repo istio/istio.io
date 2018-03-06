@@ -21,7 +21,7 @@ Let's perform some testing of our microservice, in production!
    kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') bash
    curl http://ratings:9080/ratings/7
    ```
-1. Let's do some [chaos testing](http://www.boyter.org/2016/07/chaos-testing-engineering/) in production and see how our application reacts. After each chaos operation, access your `http://<your host>/productpage` and see if anything  changed. Also check the pods status with `kubectl get pods`.
+1. Let's do some [chaos testing](http://www.boyter.org/2016/07/chaos-testing-engineering/) in production and see how our application reacts. After each chaos operation, access your `http://<your host>/productpage` and see if anything  changed. Also check the pods' status with `kubectl get pods`.
    1. Let's terminate the _details_ service in one pod.
       ```bash
       kubectl exec -it $(kubectl get pods -l app=details -o jsonpath='{.items[0].metadata.name}') -- pkill ruby
