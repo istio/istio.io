@@ -30,7 +30,7 @@ We use the `istiocl kube-inject` command to inject Istio _sidecar proxies_ into 
 
 1. Access the application and verify that the application continues to work. Note that Istio was added **transparently**, the code of the original application did not change.
 
-2. Check the pods of the _productpage_ and see that now each replica has two containers. The first container is the microservice itself, the second is the sidecar proxy attached to it:
+2. Check the pods of the _productpage_ microservice and see that now each replica has two containers. The first container is the microservice itself, the second is the sidecar proxy attached to it:
   ```bash
   kubectl get pods
   ```
