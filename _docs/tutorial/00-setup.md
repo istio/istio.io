@@ -19,7 +19,7 @@ For example, you can try the [Google Kubernetes Engine](https://cloud.google.com
 
 1. This tutorial assumes that you perform the commands of the steps in the Istio directory that you downloaded and extracted in the steps 1 and 2 of the [Installation Steps of the Kubernetes Quick Start instructions]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps).
 
-1. Download Istio sources from [https://github.com/istio/istio/releases](https://github.com/istio/istio/releases). **Note** that Istio source code is under [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) license. Uncompress the sources into `istio_sources` directory inside the Istio directory (see the previous list item).
+1. Download Istio sources matching your Istio release version from [https://github.com/istio/istio/releases](https://github.com/istio/istio/releases). **Note** that Istio source code is under [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) license. Uncompress the sources into `istio_sources` directory inside the Istio directory (see the previous list item).
 
 1. Check the directory structure.
    1. Verify the current directory:
