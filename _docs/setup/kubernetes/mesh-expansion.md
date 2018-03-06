@@ -201,9 +201,9 @@ Get the debian packages from [github releases](https://github.com/istio/istio/re
   # Note: This will be replaced with an 'apt-get' command once the repositories are setup.
 
   source istio.VERSION # defines version and URLs env var
-  curl -L ${PILOT_DEBIAN_URL}/istio-sidecar.deb > ${ISTIO_STAGING}/istio-sidecar.deb
+  curl -L ${PILOT_DEBIAN_URL}/istio-sidecar.deb > istio-sidecar.deb
 
-  dpkg -i ${ISTIO_STAGING}/istio-sidecar.deb
+  dpkg -i istio-sidecar.deb
 
   systemctl start istio
   systemctl start istio-auth-node-agent
