@@ -91,9 +91,9 @@ curl -L https://git.io/getLatestIstio | sh -
     * The `istioctl` client binary in the `bin/` directory. `istioctl` is used when manually injecting Envoy as a sidecar proxy and for creating routing rules and policies.
     * The `istio.VERSION` configuration file
 
-1. Change directory to istio package. For example, if the package is istio-{{ site.data.istio.version }}
+1. Change directory to istio package. For example, if the package is istio-{{site.data.istio.version}}
 ```bash
-cd istio-{{ site.data.istio.version }}
+cd istio-{{site.data.istio.version}}
 ```
 
 1. Add the `istioctl` client to your PATH.
@@ -191,7 +191,7 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 kubectl delete -f install/kubernetes/istio-sidecar-injector-with-ca-bundle.yaml
 ```
 
-* Uninstall Istio core components. For the {{ site.data.istio.version }} release, the uninstall
+* Uninstall Istio core components. For the {{site.data.istio.version}} release, the uninstall
    deletes the RBAC permissions, the `istio-system` namespace, and hierarchically all resources under it.
    It is safe to ignore errors for non-existent resources because they may have been deleted hierarchically.
 
