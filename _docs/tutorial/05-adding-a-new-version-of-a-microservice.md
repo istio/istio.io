@@ -64,7 +64,7 @@ Let's deploy a new version of the _reviews_ microservice, the one that will retu
 
 9. Accessing the web page of the application will return reviews with black stars only.
 
-We performed the update of _reviews_ pretty well. First, we deployed the new version without directing to it any production traffic. We tested it in the production environment, on test traffic. We checked that the new version does not produce any errors. We released the new version, gradually increasing the production traffic to it. Finally, we decommissioned the old version.
+We performed the update of _reviews_ pretty well. First, we deployed the new version without directing to it any production traffic. We tested it in the production environment, on test traffic. We checked that the new version new version provides correct results. We released the new version, gradually increasing the production traffic to it. Finally, we decommissioned the old version.
 
 It all went well, however we want to improve our release strategy. First, we want to allow our testers to test the new version end-to-end in production. For that we need an ability to drive traffic to our new version by request parameters, for example by the user name stored in a cookie. In addition, we would like to perform _shadowing_ of the production traffic to our new version and checking if our new version provides incorrect results or produces any errors. Finally, we would like to be more fine-grained with our rollout. We would like to release our new version to 10% of the users and then increase it by 10%. Kubernetes is unable to help with any of these tasks in a straightforward way.
 
