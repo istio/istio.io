@@ -12,7 +12,7 @@ type: markdown
 In this step we will deploy a new version of the _reviews_ microservice again,
 this time with Istio enabled. We will release our new version to the `jason` user only (`jason` is our tester). It will allow the `jason` user to test the whole application end-to-end in production, with our new version.
 
-1. Let's specify a routing rule to send all production traffic to the version _v1_ of all the microservices:
+1. Let's specify a routing rule to send all production traffic to version _v1_ of all the microservices:
    ```bash
    istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
    ```
