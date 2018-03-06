@@ -21,20 +21,11 @@ This task shows how to inject delays and test the resiliency of your application
 * Initialize the application version routing by either first doing the
   [request routing](./request-routing.html) task or by running following
   commands:
-  
-  > Note: This assumes you don't have any routes set yet. If you've already created conflicting route rules for the sample, you'll need to use `replace` rather than `create` in one or both of the following commands.
 
   ```bash
-  istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
-  istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+  istioctl create -f samples/bookinfo/routing-rules/route-rule-all-v1.yaml
+  istioctl replace -f samples/bookinfo/routing-rules/route-rule-reviews-test-v2.yaml
   ```
-
-> Note: This task assumes you are deploying the application on Kubernetes.
-  All of the example commands are using the Kubernetes version of the rule yaml files
-  (e.g., `samples/bookinfo/kube/route-rule-all-v1.yaml`). If you are running this
-  task in a different environment, change `kube` to the directory that corresponds
-  to your runtime (e.g., `samples/bookinfo/consul/route-rule-all-v1.yaml` for
-  the Consul-based runtime).
 
 # Fault injection
 
@@ -47,37 +38,37 @@ continue without any errors.
 1. Create a fault injection rule to delay traffic coming from user "jason" (our test user)
 
    ```bash
-   istioctl create -f samples/bookinfo/kube/route-rule-ratings-test-delay.yaml
+   istioctl replace -f samples/bookinfo/routing-rules/route-rule-ratings-test-delay.yaml
    ```
 
    Confirm the rule is created:
 
    ```bash
-   istioctl get routerule ratings-test-delay -o yaml
+   istioctl get virtualservice ratings-route -o yaml
    ```
    ```yaml
-   apiVersion: config.istio.io/v1alpha2
-   kind: RouteRule
+   apiVersion: networking.istio.io/v1alpha3
+   kind: VirtualService
    metadata:
-     name: ratings-test-delay
-     namespace: default
+     name: ratings-route
      ...
    spec:
-     destination:
-       name: ratings
-     httpFault:
-       delay:
-         fixedDelay: 7.000s
-         percent: 100
-     match:
-       request:
-         headers:
+     hosts:
+     - ratings
+     http:
+     - fault:
+         delay:
+           fixedDelay: 7s
+           percent: 100
+       match:
+       - headers:
            cookie:
              regex: ^(.*?;)?(user=jason)(;.*)?$
-     precedence: 2
-     route:
-     - labels:
-         version: v1
+     - route:
+       - destination:
+           name: ratings
+           subset: v1
+         weight: 100
    ```
 
    Allow several seconds to account for rule propagation delay to all pods.
@@ -122,46 +113,40 @@ As another test of resiliency, we will introduce an HTTP abort to the ratings mi
 We expect the page to load immediately unlike the delay example and display the "product ratings not available"
 message.
 
-1. Remove the fault delay injection rule before attempting the fault abort rule
+1. Create a fault injection rule to send an HTTP abort for user "jason"
 
    ```bash
-   istioctl delete -f samples/bookinfo/kube/route-rule-ratings-test-delay.yaml
-   ```
-
-1. Create the fault injection rule to send an HTTP abort for user "jason"
-
-   ```bash
-   istioctl create -f samples/bookinfo/kube/route-rule-ratings-test-abort.yaml
+   istioctl replace -f samples/bookinfo/routing-rules/route-rule-ratings-test-abort.yaml
    ```
 
    Confirm the rule is created
 
    ```bash
-   istioctl get routerules ratings-test-abort -o yaml
+   istioctl get virtualservice ratings-route -o yaml
    ```
    ```yaml
-   apiVersion: config.istio.io/v1alpha2
-   kind: RouteRule
+   apiVersion: networking.istio.io/v1alpha3
+   kind: VirtualService
    metadata:
-     name: ratings-test-abort
-     namespace: default
+     name: ratings-route
      ...
    spec:
-     destination:
-       name: ratings
-     httpFault:
-       abort:
-         httpStatus: 500
-         percent: 100
-     match:
-       request:
-         headers:
+     hosts:
+     - ratings
+     http:
+     - fault:
+         abort:
+           httpStatus: 500
+           percent: 100
+       match:
+       - headers:
            cookie:
              regex: ^(.*?;)?(user=jason)(;.*)?$
-     precedence: 2
-     route:
-     - labels:
-         version: v1
+     - route:
+       - destination:
+           name: ratings
+           subset: v1
+         weight: 100
    ```
 
 1. Observe application behavior
@@ -175,10 +160,7 @@ message.
 * Remove the application routing rules:
 
   ```bash
-  istioctl delete -f samples/bookinfo/kube/route-rule-all-v1.yaml
-  istioctl delete -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
-  istioctl delete -f samples/bookinfo/kube/route-rule-ratings-test-delay.yaml
-  istioctl delete -f samples/bookinfo/kube/route-rule-ratings-test-abort.yaml
+  istioctl delete -f samples/bookinfo/routing-rules/route-rule-all-v1.yaml
   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the

@@ -22,19 +22,12 @@ two steps: 50%, 100%.
 
 * Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
-> Note: This task assumes you are deploying the application on Kubernetes.
-  All of the example commands are using the Kubernetes version of the rule yaml files
-  (e.g., `samples/bookinfo/kube/route-rule-all-v1.yaml`). If you are running this
-  task in a different environment, change `kube` to the directory that corresponds
-  to your runtime (e.g., `samples/bookinfo/consul/route-rule-all-v1.yaml` for
-  the Consul-based runtime).
-
 ## Weight-based version routing
 
 1. Set the default version for all microservices to v1.
 
    ```bash
-   istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
+   istioctl create -f samples/bookinfo/routing-rules/route-rule-all-v1.yaml
    ```
 
 1. Confirm v1 is the active version of the `reviews` service by opening http://$GATEWAY_URL/productpage in your browser.
@@ -42,43 +35,37 @@ two steps: 50%, 100%.
    You should see the Bookinfo application productpage displayed.
    Notice that the `productpage` is displayed with no rating stars since `reviews:v1` does not access the ratings service.
 
-   > Note: If you previously ran the [request routing](./request-routing.html) task, you may need to either log out
-     as test user "jason" or delete the test rules that were created exclusively for him:
-
-   ```bash
-   istioctl delete routerule reviews-test-v2
-   ```
-
 1. First, transfer 50% of the traffic from `reviews:v1` to `reviews:v3` with the following command:
 
    ```bash
-   istioctl replace -f samples/bookinfo/kube/route-rule-reviews-50-v3.yaml
+   istioctl replace -f samples/bookinfo/routing-rules/route-rule-reviews-50-v3.yaml
    ```
-
-   Notice that we are using `istioctl replace` instead of `create`.
 
    Confirm the rule was replaced:
 
    ```bash
-   istioctl get routerule reviews-default -o yaml
+   istioctl get virtualservice reviews-route -o yaml
    ```
    ```yaml
-   apiVersion: config.istio.io/v1alpha2
-   kind: RouteRule
+   apiVersion: networking.istio.io/v1alpha3
+   kind: VirtualService
    metadata:
-     name: reviews-default
-     namespace: default
+     name: reviews-route
+     ...
    spec:
-     destination:
-       name: reviews
-     precedence: 1
-     route:
-     - labels:
-         version: v1
-       weight: 50
-     - labels:
-         version: v3
-       weight: 50
+     hosts:
+     - reviews
+     http:
+     - route:
+       - destination:
+           name: reviews
+           subset: v1
+         weight: 50
+     - route:
+       - destination:
+           name: reviews
+           subset: v3
+         weight: 50
    ```
 
 1. Refresh the `productpage` in your browser and you should now see *red* colored star ratings approximately 50% of the time.
@@ -89,7 +76,7 @@ two steps: 50%, 100%.
 1. When version v3 of the `reviews` microservice is considered stable, we can route 100% of the traffic to `reviews:v3`:
 
    ```bash
-   istioctl replace -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
+   istioctl replace -f samples/bookinfo/routing-rules/route-rule-reviews-v3.yaml
    ```
 
    You can now log into the `productpage` as any user and you should always see book reviews
@@ -109,7 +96,7 @@ For more about version routing with autoscaling, check out [Canary Deployments u
 * Remove the application routing rules.
 
   ```bash
-  istioctl delete -f samples/bookinfo/kube/route-rule-all-v1.yaml
+  istioctl delete -f samples/bookinfo/routing-rules/route-rule-all-v1.yaml
   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
