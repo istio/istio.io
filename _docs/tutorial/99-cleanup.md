@@ -25,5 +25,5 @@ type: markdown
 
 ## What's next
 {% if page.previous.url %}
-Previous step: [{{page.previous.title}}]({{home}}/{{page.previous.url}})
+Previous step: [{{page.previous.title}}]({{page.previous.url}})
 {% endif %}
