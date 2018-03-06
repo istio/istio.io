@@ -39,6 +39,4 @@ For example, you can try the [Google Kubernetes Engine](https://cloud.google.com
       ```
 
 ## What's next
-{% if page.next.url %}
 Next step:     [{{page.next.title}}]({{home}}{{page.next.url}})
-{% endif %}

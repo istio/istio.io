@@ -17,7 +17,7 @@ This tutorial demonstrates a single microservice as a web app, node.js, Docker. 
 
 The ideas and scenarios were taken from the [Production-Ready Microservices](http://shop.oreilly.com/product/0636920053675.do) book of Susan Fowler and from the [istio.io]({{home}}) [guides]({{home}}/docs/guides), [tasks]({{home}}/docs/tasks) and [the istio.io blog]({{home}}/blog).
 
-If you are not yet familiar with the microservices concept, [the article of James Lewis and Martin Fowler](https://martinfowler.com/articles/microservices.html) is a good place to start.
+If you are not yet familiar with the microservices concept, [the article by James Lewis and Martin Fowler](https://martinfowler.com/articles/microservices.html) is a good place to start.
 
 Proceed with the following steps by their order. Each step builds on the previous one.
 
