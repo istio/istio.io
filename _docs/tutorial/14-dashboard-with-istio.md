@@ -1,6 +1,6 @@
 ---
 title: Dashboard with Istio
-overview: Adding a Grafana dashboard for Istio
+overview: Adding a Grafana dashboard for Istio.
 
 order: 14
 

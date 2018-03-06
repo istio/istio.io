@@ -1,6 +1,6 @@
 ---
 title: Logs with Istio
-overview: Add collecting logs to our application
+overview: Add collecting logs to our application.
 
 order: 13
 

@@ -1,6 +1,6 @@
 ---
 title: Enable Istio on productpage
-overview: Deploy the Istio control plane and enable Istio on a single microservice
+overview: Deploy the Istio control plane and enable Istio on a single microservice.
 
 order: 06
 

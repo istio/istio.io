@@ -1,6 +1,6 @@
 ---
 title: A service graph with Istio
-overview: Enable service graph generation
+overview: Enable service graph generation.
 
 order: 16
 

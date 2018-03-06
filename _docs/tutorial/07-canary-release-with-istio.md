@@ -1,6 +1,6 @@
 ---
 title: Canary release with Istio
-overview: Enable a new version of a microservice for a tester, in production
+overview: Enable a new version of a microservice for a tester, in production.
 
 order: 07
 

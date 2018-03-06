@@ -1,6 +1,6 @@
 ---
 title: Security policy with Istio
-overview: Add a whitelist security policy
+overview: Add a whitelist security policy.
 
 order: 17
 
