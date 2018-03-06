@@ -11,7 +11,7 @@ type: markdown
 
 1. Install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git), [curl](https://curl.haxx.se/download.html), [node.js](https://nodejs.org/en/download/), [Docker](https://docs.docker.com/install/)
 and get access to a [Kubernetes](https://kubernetes.io) cluster.
-For example, you can try the [IBM Cloud Container Service](https://console.bluemix.net/docs/containers/container_index.html#container_index).
+For example, you can try the [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) or [IBM Cloud Container Service](https://console.bluemix.net/docs/containers/container_index.html#container_index).
 
 1. Follow the [Prerequisites of the Kubernetes Quick Start instructions]({{home}}/docs/setup/kubernetes/quick-start.html#prerequisites).
 
