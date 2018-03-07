@@ -9,7 +9,7 @@ type: markdown
 ---
 {% include home.html %}
 
-As we saw in the previous step, Kubernetes does not provide us all the functionality we need to effectively operate our microservices. Istio comes to our help.
+As we saw in the previous module, Kubernetes does not provide us all the functionality we need to effectively operate our microservices. Istio comes to our help.
 
 First we deploy the _Istio control plane_. Then we enable Istio on a single microservice, _productpage_. The rest of the application will continue to operate as previously. Note that we can enable Istio gradually, microservice by microservice. Also note that Istio is enabled transparently to the microservices, we do not change the microservices code. And also note that we enable Istio without disrupting our application, it continues to run and serve user requests.
 

@@ -9,7 +9,7 @@ type: markdown
 ---
 {% include home.html %}
 
-In this step, we will add [Zipkin distributed trace system](https://zipkin.io) as part of our Istio infrastructure.
+In this module, we will add [Zipkin distributed trace system](https://zipkin.io) as part of our Istio infrastructure.
 
 1. Deploy a Zipkin instance:
    ```bash

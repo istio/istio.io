@@ -8,7 +8,7 @@ layout: docs
 type: markdown
 ---
 {% include home.html %}
-In this step, we will add a [Grafana](https://grafana.com) dashboard on top of our Prometheus instance.
+In this module, we will add a [Grafana](https://grafana.com) dashboard on top of our Prometheus instance.
 
 1. Deploy a Graphana instance:
   ```bash

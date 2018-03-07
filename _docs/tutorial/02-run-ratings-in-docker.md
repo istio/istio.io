@@ -9,7 +9,7 @@ type: markdown
 ---
 {% include home.html %}
 
-This step shows how you create a Docker image and run it locally.
+This module shows how you create a Docker image and run it locally.
 
 1. Observe the [Dockerfile](https://github.com/istio/istio/blob/master/samples/bookinfo/src/ratings/Dockerfile):
    ```bash

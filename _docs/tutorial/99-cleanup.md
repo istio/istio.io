@@ -24,4 +24,4 @@ type: markdown
   ```
 
 ## What's next
-Previous step: [{{page.previous.title}}]({{home}}{{page.previous.url}})
+Previous module: [{{page.previous.title}}]({{home}}{{page.previous.url}})
