@@ -50,7 +50,7 @@ In this module, we will start phased rollout of _reviews v2_. After performing u
    (standard input)
    perform request 20
    ```
-   In the cases _reviews v2_ is called, the `(standard output)` string is printed. Note that the number of requests sent to _reviews v2_ is about 10%.
+   In the cases _reviews v2_ is called, the `(standard output)` string is printed. Note that the percentage of requests sent to _reviews v2_ is about 10%.
 
 2. Let's increase the rollout of _reviews v2_, this time to 20%:
    ```bash
