@@ -36,7 +36,7 @@ In this module, we will have Istio automatically collect logs for our applicatio
    ```
 4. Access [the Prometheus instance on our localhost](http://localhost:9090/graph#%5B%7B%22range_input%22%3A%221h%22%2C%22expr%22%3A%22istio_bookinfo_request_count%22%2C%22tab%22%3A1%7D%5D) to see our metric values.
 
-5. Swiftch to the `Graph` tab to see a graph of our metric.
+5. Switch to the `Graph` tab to see a graph of our metric.
 
 6. See the collected log:
    ```bash
