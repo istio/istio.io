@@ -26,7 +26,7 @@ In this module, we will perform traffic shadowing. We will shadow the traffic de
    [2018-02-12T12:41:15.228Z] "GET /reviews/0 HTTP/1.1" 200 - 0 379 240 223 "172.30.30.8" "python-requests/2.18.4" "3a17f766-1077-99ab-bb8a-5b3808642ff2" "reviews:9080-shadow" "127.0.0.1:9080"
    ```
 
-   It means that our _reviews v2_ received the shadow traffic and did not crash. Then we would check the microservice logs of _reviews v1_ and _reviews v2_ and would compare the results.
+   It means that our _reviews v2_ received the shadow traffic and did not crash. You can also check the microservice logs of _reviews v1_ and _reviews v2_ and would compare the results.
 
 3. Let's remove the rule:
    ```bash
