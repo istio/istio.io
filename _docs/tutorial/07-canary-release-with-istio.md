@@ -17,7 +17,8 @@ this time with Istio enabled. We will release our new version to the `jason` use
    istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
    ```
 
-2. Let's deploy our new version of the _reviews_ microservice. This time we will deploy it with the _app_ label, since Istio will route the traffic to _v1_ anyway. No traffic will arrive to our new version of the _reviews_ microservice.
+2. Let's deploy our new version of the _reviews_ microservice. This time we will deploy the microservice's pod with the _app_ label, so the Kubernetes _reviews service_ will apply to it. Still, we are safe: no traffic will arrive to our new version of the _reviews_ microservice thanks to the route rule ([samples/bookinfo/kube/route-rule-all-v1.yaml](https://github.com/istio/istio/blob/master/samples/bookinfo/kube/route-rule-all-v1.yaml)) we defined in the previous step.
+
    ```bash
    kubectl apply -f samples/bookinfo/kube/bookinfo-reviews-v2.yaml
    ```
