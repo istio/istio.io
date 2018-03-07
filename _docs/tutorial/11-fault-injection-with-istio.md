@@ -42,7 +42,7 @@ To verify that our microservices behave well under failures, first we inject a f
 
 1. We will see that now the message "Error fetching product reviews!" is displayed. It means that the application cannot handle the delay of seven seconds between _reviews_ and _ratings_. If we suspect that such delays may happen in production, we should handle the problem now, proactively, before it appears in production.
 
-   Let's examine [the code of _reviews_](https://github.com/istio/istio/blob/master/samples/bookinfo/src/reviews/reviews-application/src/main/java/application/rest/LibertyRestEndpoint.java) that calls _ratings_:
+   Let's examine [_reviews_'s code](https://github.com/istio/istio/blob/master/samples/bookinfo/src/reviews/reviews-application/src/main/java/application/rest/LibertyRestEndpoint.java) that calls _ratings_:
 
    ```java
    String timeout = star_color.equals("black") ? "10000" : "2500";
