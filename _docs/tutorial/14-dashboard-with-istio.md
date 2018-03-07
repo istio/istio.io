@@ -14,7 +14,7 @@ In this module, we will add a [Grafana](https://grafana.com) dashboard on top of
   ```bash
   kubectl apply -f install/kubernetes/addons/grafana.yaml
   ```
-2. Check the pods at istio-system namespaces and wait for the pod of Graphana to start running:
+2. Check the pods at istio-system namespaces and wait for the Graphana's pod to start running:
   ```bash
   kubectl get pods -n istio-system
   ```
