@@ -52,7 +52,7 @@ To verify that our microservices behave well under failures, first we inject a f
 
    We can see that the code sets the timeout as 10 seconds, so it should absorb the delay of seven seconds.
 
-   Let's go up the call chain and check the delay between _productpage_ and _reviews_. Let's examime [the code of _productpage_](https://github.com/istio/istio/blob/master/samples/bookinfo/src/productpage/productpage.py):
+   Let's go up the call chain and check the delay between _productpage_ and _reviews_. Let's examime [_productpage_'s code](https://github.com/istio/istio/blob/master/samples/bookinfo/src/productpage/productpage.py):
 
    ```python
    def getProductReviews(product_id, headers):
