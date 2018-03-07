@@ -22,7 +22,7 @@ In this module, we will start phased rollout of _reviews v2_. After performing u
    for i in {1..20}; do echo perform request $i; curl -s http://reviews:9080/reviews/0 | grep -l star; done
    ```
 
-   We will see the output similar to:
+   We will see output similar to:
    ```bash
    perform request 1
    perform request 2
