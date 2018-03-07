@@ -70,7 +70,7 @@ In this module, we will start phased rollout of _reviews v2_. After performing u
    kubectl logs -l app=reviews,version=v1 -c istio-proxy
    ```
 
-4. We examined the logs and saw that no more requests to _reviews v1_ arrived (in reality we would take a while to be sure). Now we can safely decommission _review v1_:
+4. We examined the logs and saw that no more requests to _reviews v1_ arrived (in reality we would take a while to be sure). Now we can safely decommission _reviews v1_:
    ```bash
    kubectl delete deployment reviews-v1
    ```
