@@ -9,7 +9,9 @@ type: markdown
 ---
 {% include home.html %}
 
-In this module, we inject a fault, error 418 on the path from the _ratings_ microservice to the _reviews_ microservice.
+In this module we will perform _fault injection_ on our application. We know that in real life our microservices will fail, we cannot prevent all possible failures. What we can do is to verify that our microservices react to failures in a best possible way. We definitely want to prevent _cascading failures_: a situation when a failure in one microservice causes chain of failures in other microservices.
+
+To verify that our microservices behave well under failures, first we inject a fault, an HTTP error on the path from one microservice to another. Next, we introduce a delay on a path between two microservices. We inspect how our microservices react to the faults we injected.
 
 1. Let's add a rule to inject a fault on requests to _ratings_, for our test user `jason`:
    ```bash
