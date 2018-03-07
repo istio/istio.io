@@ -1,6 +1,6 @@
 ---
 title: Summary
-overview: Tutorial summary and the next steps.
+overview: Tutorial summary and next steps.
 
 order: 98
 
