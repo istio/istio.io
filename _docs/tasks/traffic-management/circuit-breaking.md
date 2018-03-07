@@ -26,7 +26,7 @@ This task demonstrates the circuit-breaking capability for resilient application
 
 Let's set up a scenario to demonstrate the circuit-breaking capabilities of Istio. We should have the `httpbin` service running from the previous section.
 
-1. Create a [destination rule]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#DestinationRule) to specify our circuit breaking settings when calling the `httpbin` service:
+1. Create a [destination rule]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#DestinationRule) to specify our circuit breaking settings when calling the `httpbin` service:
 
    ```bash
    cat <<EOF | istioctl create -f -
@@ -248,4 +248,4 @@ We see `12` for the `upstream_rq_pending_overflow` value which means `12` calls 
 
 ## What's next
 
-Check out the [destination policy]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#CircuitBreaker) reference section for more settings for circuit breaker.
+Check out the [destination rule]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#DestinationRule) reference section for more circuit breaker settings.

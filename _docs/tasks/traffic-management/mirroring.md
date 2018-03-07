@@ -8,7 +8,7 @@ layout: docs
 type: markdown
 ---
 
-This task demonstrates the traffic shadowing/mirroring capabilites of Istio. Traffic mirroring is a powerful concept that allows feature teams to bring changes to production with as little risk as possible. Mirroring brings a copy of live traffic to a mirrored service and happens out of band of the critical request path for the primary service.
+This task demonstrates the traffic shadowing/mirroring capabilities of Istio. Traffic mirroring is a powerful concept that allows feature teams to bring changes to production with as little risk as possible. Mirroring brings a copy of live traffic to a mirrored service and happens out of band of the critical request path for the primary service.
 
 
 ## Before you begin
@@ -127,17 +127,33 @@ Let's set up a scenario to demonstrate the traffic-mirroring capabilities of Ist
 
 ```bash
 cat <<EOF | istioctl create -f -
-apiVersion: config.istio.io/v1alpha2
-kind: RouteRule
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
 metadata:
-  name: httpbin-default-v1
+  name: httpbin-route
 spec:
-  destination:
-    name: httpbin
-  precedence: 5
-  route:
-  - labels:
+  hosts:
+    - httpbin
+  http:
+  - route:
+    - destination:
+        name: httpbin
+        subset: v1
+      weight: 100
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: httpbin-destination
+spec:
+  name: httpbin
+  subsets:
+  - name: v1
+    labels:
       version: v1
+  - name: v2
+    labels:
+      version: v2
 EOF
 ```
 
@@ -146,7 +162,8 @@ Now all traffic should go to `httpbin v1` service. Let's try sending in some tra
 ```bash
 export SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
 kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8080/headers'
-
+```
+```
 {
   "headers": {
     "Accept": "*/*", 
@@ -164,39 +181,45 @@ kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8080/headers
 If we check the logs for `v1` and `v2` of our `httpbin` pods, we should see access log entries for only `v1`:
 
 ```bash
-$  kubectl logs -f httpbin-v1-2113278084-98whj -c httpbin 
-127.0.0.1 - - [07/Feb/2018:00:07:39 +0000] "GET /headers HTTP/1.1" 200 349 "-" "curl/7.35.0" 
+export V1_POD=$(kubectl get pod -l app=httpbin,version=v1 -o jsonpath={.items..metadata.name})
+kubectl logs -f $V1_POD -c httpbin
+```
+```
+127.0.0.1 - - [07/Mar/2018:19:02:43 +0000] "GET /headers HTTP/1.1" 200 321 "-" "curl/7.35.0"
 ```
 
-2. Create a route rule to mirror traffic to v2
+```bash
+export V2_POD=$(kubectl get pod -l app=httpbin,version=v2 -o jsonpath={.items..metadata.name})
+kubectl logs -f $V2_POD -c httpbin
+```
+```
+<none>
+```
+
+2. Change the route rule to mirror traffic to v2
 
 ```bash
-cat <<EOF | istioctl create -f -
-apiVersion: config.istio.io/v1alpha2
-kind: RouteRule
+cat <<EOF | istioctl replace -f -
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
 metadata:
-  name: mirror-traffic-to-httbin-v2
+  name: httpbin-route
 spec:
-  destination:
-    name: httpbin
-  precedence: 11
-  route:
-  - labels:
-      version: v1
-    weight: 100
-  - labels: 
-      version: v2
-    weight: 0
-  mirror:
-    name: httpbin
-    labels:
-      version: v2
+  hosts:
+    - httpbin
+  http:
+  - route:
+    - destination:
+        name: httpbin
+        subset: v1
+      weight: 100
+    mirror:
+      name: httpbin
+      subset: v2
 EOF
 ```
 
-This route rule specifies we route 100% of the traffic to v1 and 0% to v2. At the moment, it's necesary to call out the v2 service explicitly because this is what creates the envoy-cluster definitions in the background. In future versions, we'll work to improve this so we don't have to explicitly specify a 0% weighted routing. 
-
-The last stanza specifies we want to mirror to the `httpbin v2` service. When traffic gets mirrored, the requests are sent to the mirrored service with its Host/Authority header appended with *-shadow*. For example, *cluster-1* becomes *cluster-1-shadow*. Also important to realize is that these requests are mirrored as "fire and forget", i.e., the responses are discarded. 
+This route rule specifies we route 100% of the traffic to v1. The last stanza specifies we want to mirror to the `httpbin v2` service. When traffic gets mirrored, the requests are sent to the mirrored service with its Host/Authority header appended with *-shadow*. For example, *cluster-1* becomes *cluster-1-shadow*. Also important to realize is that these requests are mirrored as "fire and forget", i.e., the responses are discarded. 
 
 
 Now if we send in traffic:
@@ -206,7 +229,21 @@ kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8080/headers
 ```
 
 We should see access logging for both `v1` and `v2`. The access logs created in `v2` is the mirrored requests that are actually going to `v1`.
-   
+
+```bash
+kubectl logs -f $V1_POD -c httpbin
+```
+```
+127.0.0.1 - - [07/Mar/2018:19:02:43 +0000] "GET /headers HTTP/1.1" 200 321 "-" "curl/7.35.0"
+127.0.0.1 - - [07/Mar/2018:19:26:44 +0000] "GET /headers HTTP/1.1" 200 321 "-" "curl/7.35.0"
+```
+
+```bash
+kubectl logs -f $V2_POD -c httpbin
+```
+```
+127.0.0.1 - - [07/Mar/2018:19:26:44 +0000] "GET /headers HTTP/1.1" 200 361 "-" "curl/7.35.0"
+```   
 
 
 ## Cleaning up
@@ -214,8 +251,8 @@ We should see access logging for both `v1` and `v2`. The access logs created in 
 1. Remove the rules.
     
    ```bash
-   istioctl delete routerule mirror-traffic-to-httbin-v2
-   istioctl delete routerule httpbin-default-v1
+   istioctl delete virtualservice httpbin-route
+   istioctl delete destinationrule httpbin-destination
    ```
 
 1. Shutdown the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) service and client.
@@ -227,4 +264,4 @@ We should see access logging for both `v1` and `v2`. The access logs created in 
 
 ## What's next
 
-Check out the [Mirroring configuration]({{home}}/docs/reference/config/istio.routing.v1alpha1.html) reference section for more settings for traffic mirroring.
+Check out the [Mirroring configuration]({{home}}/docs/reference/config/istio.networking.v1alpha3.html) reference section for more settings for traffic mirroring.
