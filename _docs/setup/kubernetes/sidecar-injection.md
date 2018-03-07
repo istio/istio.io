@@ -208,12 +208,23 @@ kops rolling-update cluster
 kops rolling-update cluster --yes
 ```
 
-Validate with a `ps` on master node, you should see new admission controller
+Validate with `kubectl` client on kube-api pod, you should see new admission controller:
+
+With single Master:
 
 ```bash
-/bin/sh -c /usr/local/bin/kube-apiserver --address=127.0.0.1 --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota,Initializers,NodeRestriction,Priority [...]
+ kubectl describe pods -nkube-system `kubectl get pods -nkube-system | grep api | awk '{print $1}'` | grep "/usr/local/bin/kube-apiserver"
+ ```
+
+With multiple Masters:
+```bash
+for i in `kubectl get pods -nkube-system | grep api | awk '{print $1}'` ; do  kubectl describe pods -nkube-system $i | grep "/usr/local/bin/kube-apiserver"  ; done
 ```
-   
+
+Ouput should be:
+```bash
+[...] --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota,Initializers,NodeRestriction,Priority [...]
+```
 
 ### Installing the Webhook 
 
