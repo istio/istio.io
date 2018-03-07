@@ -24,6 +24,6 @@ In this module, we will add [Zipkin distributed trace system](https://zipkin.io)
    kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=zipkin -o jsonpath='{.items[0].metadata.name}') 9411:9411 &
    ```
 
-3. Access the Zipkin dashboard on local machine: http://localhost:9411
+3. Access the Zipkin dashboard on local machine: [http://localhost:9411](http://localhost:9411)
 
 {% include what-is-next-footer.md %}

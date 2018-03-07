@@ -23,6 +23,6 @@ In this module, we will add a [Grafana](https://grafana.com) dashboard on top of
   kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
   ```
 
-3. Access the dashboard on local machine:  http://localhost:3000/dashboard/db/istio-dashboard
+3. Access the dashboard on local machine:  [http://localhost:3000/dashboard/db/istio-dashboard](http://localhost:3000/dashboard/db/istio-dashboard)
 
 {% include what-is-next-footer.md %}
