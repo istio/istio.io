@@ -20,7 +20,7 @@ To verify that our microservices behave well under failures, first we inject a f
 
 1. Let's access the webpage of the application, login as `jason` and observe that now an error is displayed instead of the reviews.
 
-1. Also, let's see the error 418 appear in the logs of the sidecar proxy of the `productpage`:
+1. Also, let's see that the error appears in the logs of the sidecar proxy of the `productpage`:
    ```bash
    kubectl logs -l app=productpage -c istio-proxy
    ```
