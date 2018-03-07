@@ -189,7 +189,6 @@ kubeAPIServer:
     - MutatingAdmissionWebhook
     - ValidatingAdmissionWebhook
     - ResourceQuota
-    - Initializers
     - NodeRestriction
     - Priority
 ```
@@ -223,7 +222,7 @@ for i in `kubectl get pods -nkube-system | grep api | awk '{print $1}'` ; do  ku
 
 Ouput should be:
 ```bash
-[...] --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota,Initializers,NodeRestriction,Priority [...]
+[...] --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota,NodeRestriction,Priority [...]
 ```
 
 ### Installing the Webhook 
