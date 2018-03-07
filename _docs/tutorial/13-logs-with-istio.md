@@ -43,6 +43,6 @@ In this module, we will have Istio automatically collect logs for our applicatio
    kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio=mixer -o jsonpath='{.items[0].metadata.name}') mixer | grep \"instance\":\"newlog.logentry.istio-system\"
    ```
 
-  Note that the log entries from all the bookinfo microservices appear in one place. We do not have to go after each and every microservice and to display their logs one by one.
+  Note that the log entries from all of Bookinfo's microservices appear in one place. We do not have to go after each and every microservice and to display their logs one by one.
 
 {% include what-is-next-footer.md %}
