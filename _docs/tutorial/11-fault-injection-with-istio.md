@@ -60,7 +60,7 @@ To verify that our microservices behave well under failures, first we inject a f
        res = requests.get(url, headers=headers, timeout=3.0)
    ```
 
-   As we can see, the timeout is too low (three seconds), it cannot accommodate the delays of seven seconds. We must increase it. Also note that we can remove the timeouts from the code to make it cleaner, and [handle the timeouts by Istio route rules]({{home}}/docs/tasks/traffic-management/request-timeouts.html).
+   As we can see, the timeout is too low (three seconds), it cannot accommodate the delays of seven seconds. We must increase it. Also note that we can remove the timeouts from the code to make it cleaner, and [handle the timeouts with Istio route rules]({{home}}/docs/tasks/traffic-management/request-timeouts.html).
 
 1. Let's set the delay to two seconds and see that the current application can handle it:
    ```bash
