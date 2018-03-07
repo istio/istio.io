@@ -13,7 +13,7 @@ Logs and monitoring are a very important aspect of microservices architecture. I
 
 In this module, we will have Istio automatically collect logs for our application.
 
-1. We will deploy [Prometheus time series database and monitoring system](https://prometheus.io) for logs collection.
+1. We will deploy the [Prometheus time series database and monitoring system](https://prometheus.io) for logs collection.
    ```bash
    kubectl apply -f install/kubernetes/addons/prometheus.yaml
    ```
