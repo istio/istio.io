@@ -18,7 +18,7 @@ To verify that our microservices behave well under failures, first we inject a f
     istioctl create -f samples/bookinfo/kube/route-rule-ratings-test-abort.yaml
    ```
 
-1. Let's access the webpage of the application, login as `jason` and see that now an error is displayed instead of the reviews.
+1. Let's access the webpage of the application, login as `jason` and observe that now an error is displayed instead of the reviews.
 
 1. Also, let's see the error 418 appear in the logs of the sidecar proxy of the `productpage`:
    ```bash
