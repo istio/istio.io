@@ -15,7 +15,7 @@ In this module, we will add [Zipkin distributed tracing system](https://zipkin.i
    ```bash
    kubectl apply -f install/kubernetes/addons/zipkin.yaml
    ```
-2. Check the pods at istio-system namespaces and wait for the Zipkin's pod to start running:
+2. Check the pods at `istio-system` namespace and wait for the Zipkin's pod to start running:
    ```bash
    kubectl get pods -n istio-system
    ```

@@ -14,7 +14,7 @@ In this module, we will add service graph generation on top of Prometheus.
   ```bash
   kubectl apply -f install/kubernetes/addons/servicegraph.yaml
   ```
-2. Check the pods at istio-system namespaces and wait for the Servicegraph's pod to start running:
+2. Check the pods at `istio-system` namespace and wait for the Servicegraph's pod to start running:
   ```bash
   kubectl get pods -n istio-system
   ```

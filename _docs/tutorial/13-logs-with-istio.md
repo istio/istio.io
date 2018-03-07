@@ -24,7 +24,7 @@ In this module, we will have Istio automatically collect logs for our applicatio
    ```
    The metric's name is `istio_bookinfo_request_count`.
 
-2. Check the pods at istio-system namespaces and wait for the Prometheus' pod to start running:
+2. Check the pods at `istio-system` namespace and wait for the Prometheus' pod to start running:
    ```bash
    kubectl get pods -n istio-system
    ```
