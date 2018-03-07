@@ -172,7 +172,7 @@ The Istio-Sidecar-injector will automatically inject Envoy containers into your 
 
 ```bash
 kubectl label namespace <namespace> istio-injection=enabled
-kubectl create -n <namspace> -f <your-app-spec>.yaml
+kubectl create -n <namespace> -f <your-app-spec>.yaml
 ```
 
 If you do not have the Istio-sidecar-injector installed, you must
