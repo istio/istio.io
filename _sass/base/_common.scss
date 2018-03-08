@@ -146,18 +146,14 @@ thead+tbody tr:first-child td:last-child {
 pre {
     margin: 1em;
     max-height: 31em;
-    border: 1px solid $boxBorderColor;
-    border-left: 7px solid $boxBorderColor;
+    border: 1px solid $codeBlockBorderColor;
+    border-left: 5px solid $codeBlockBorderColor;
     border-radius: 4px;
-    background-image: linear-gradient(transparent 50%, rgba(69,142,209,0.04) 50%);
-    background-size: 3em 3em;
-    background-origin: content-box;
-    background-attachment: local;
     box-shadow: 3px 3px 8px $codeBlockShadowColor;
 
     code {
         display: block;
-        padding-left: 1em;
+        padding: .5em;
     }
 }
 
