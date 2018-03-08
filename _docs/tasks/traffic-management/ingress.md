@@ -238,7 +238,7 @@ The following are known limitations of Istio Ingress:
      169.47.243.100
      ```
 
-     along with the istio-ingress service's nodePort for port 80:
+     along with the istio-ingress service's nodePort for port 443:
 
      ```bash
      kubectl -n istio-system get svc istio-ingress
@@ -250,7 +250,7 @@ The following are known limitations of Istio Ingress:
      ```
 
      ```bash
-     export INGRESS_HOST=169.47.243.100:31486
+     export INGRESS_HOST=169.47.243.100:32254
      ```
 
 1. Access the httpbin service using _curl_:
@@ -274,7 +274,7 @@ The following are known limitations of Istio Ingress:
    see a HTTP 404 error
 
    ```bash
-   curl -I -k http://$INGRESS_HOST/headers
+   curl -I -k https://$INGRESS_HOST/headers
    ```
 
    ```
