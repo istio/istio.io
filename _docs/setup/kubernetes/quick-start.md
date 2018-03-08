@@ -31,7 +31,14 @@ support).
 * Depending on your Kubernetes provider:
 
   * To install Istio locally, install the latest version of
-[Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) (version 0.22.1 or later).
+[Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) (version 0.25.0 or later).
+  ```
+  minikube start \
+  	--extra-config=controller-manager.ClusterSigningCertFile="/var/lib/localkube/certs/ca.crt" \
+  	--extra-config=controller-manager.ClusterSigningKeyFile="/var/lib/localkube/certs/ca.key" \
+  	--extra-config=apiserver.Admission.PluginNames=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota \
+  	--kubernetes-version=v1.9.0
+  ```
 
   * [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/)
 
