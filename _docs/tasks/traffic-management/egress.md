@@ -46,7 +46,7 @@ from within your Istio cluster. In this task we will use
    apiVersion: networking.istio.io/v1alpha3
    kind: ExternalService
    metadata:
-     name: httpbin-external-svc
+     name: httpbin-ext-svc
    spec:
      hosts:
      - httpbin.org
@@ -61,10 +61,10 @@ from within your Istio cluster. In this task we will use
 
    ```bash
    cat <<EOF | istioctl create -f -
-   apiVersion: config.istio.io/v1alpha2 #apiVersion: networking.istio.io/v1alpha3
+   apiVersion: networking.istio.io/v1alpha3
    kind: ExternalService
    metadata:
-     name: google-external-svc
+     name: google-ext-svc
    spec:
      hosts:
      - www.google.com
@@ -73,7 +73,7 @@ from within your Istio cluster. In this task we will use
        name: https
        protocol: http
    ---
-   apiVersion: config.istio.io/v1alpha2 #apiVersion: networking.istio.io/v1alpha3
+   apiVersion: networking.istio.io/v1alpha3
    kind: DestinationRule
    metadata:
      name: google-destination
@@ -84,6 +84,11 @@ from within your Istio cluster. In this task we will use
          mode: SIMPLE # initiates HTTPS when talking to www.google.com
    EOF
    ```
+
+Notice that we also create a corresponding `DestinationRule` to
+initiate TLS for connections to the HTTPS service. 
+Callers must access this service using HTTP on port 443 and Istio will upgrade
+the connection to HTTPS.
 
 ### Make requests to the external services
 
@@ -140,7 +145,7 @@ to set a timeout rule on calls to the httpbin.org service.
    apiVersion: networking.istio.io/v1alpha3
    kind: VirtualService
    metadata:
-     name: httpbin-route
+     name: httpbin-ext-route
    spec:
      hosts:
        - httpbin.org
@@ -170,7 +175,7 @@ to set a timeout rule on calls to the httpbin.org service.
 
 ## Calling external services directly
 
-The Istio egress rules currently only supports HTTP/HTTPS requests.
+The Istio `ExternalService` currently only supports HTTP/HTTPS requests.
 If you want to access services with other protocols (e.g., mongodb://host/database), 
 or if you want to completely bypass Istio for a specific IP range,
 you will need to configure the source service's Envoy sidecar to prevent it from
@@ -268,8 +273,8 @@ cloud provider specific knowledge and configuration.
 1. Remove the rules.
     
    ```bash
-   istioctl delete externalservice httpbin-external-svc google-external-svc
-   istioctl delete virtualservice httpbin-route
+   istioctl delete externalservice httpbin-ext-svc google-ext-svc
+   istioctl delete virtualservice httpbin-ext-route
    ```
 
 1. Shutdown the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) service.
@@ -278,12 +283,12 @@ cloud provider specific knowledge and configuration.
    kubectl delete -f samples/sleep/sleep.yaml
    ```
 
-## Egress Rules and Access Control
-Note that Istio Egress Rules are **not a security feature**. They enable access to external (out of the service mesh) services. It is up to the user to deploy appropriate security mechanisms such as firewalls to prevent unauthorized access to the external services. We are working on adding access control support for the external services.
+## ExternalService and Access Control
+Note that Istio `ExternalService` is **not a security feature**. It enables access to external (out of the service mesh) services. It is up to the user to deploy appropriate security mechanisms such as firewalls to prevent unauthorized access to the external services. We are working on adding access control support for the external services.
 
 ## What's next
 
-* Read more about [egress rules]({{home}}/docs/concepts/traffic-management/rules-configuration.html#egress-rules).
+* Read more about [external services]({{home}}/docs/concepts/traffic-management/rules-configuration.html#external-services).
 
 * Learn how to setup
   [timeouts]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#httptimeout),
