@@ -2,7 +2,7 @@
 title: Per-service mutual TLS authentication enablement
 overview: This task shows how to change mutual TLS authentication for a single service.
 
-order: 40
+order: 50
 
 layout: docs
 type: markdown

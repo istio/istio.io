@@ -8,6 +8,8 @@ layout: docs
 type: markdown
 ---
 
+{% include home.html %}
+
 The page explains Mixer's role and general architecture.
 
 ## Background
@@ -88,7 +90,7 @@ operator is responsible for:
 
 - Configuring a set of *handlers* for Mixer-generated data. Handlers are
   configured adapters (adapters being binary plugins as described
-  [below](#adapters)). Providing a `statsd` adapter with the IP address for a
+  [here](#adapters)). Providing a `statsd` adapter with the IP address for a
   statsd backend is an example of handler configuration.
 
 - Configuring a set of *instances* for Mixer to generate based on attributes and

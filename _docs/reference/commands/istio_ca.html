@@ -15,11 +15,6 @@ number_of_entries: 4
 </thead>
 <tbody>
 <tr>
-<td><code>--alsologtostderr</code></td>
-<td></td>
-<td>log to standard error as well as files </td>
-</tr>
-<tr>
 <td><code>--cert-chain &lt;string&gt;</code></td>
 <td></td>
 <td>Path to the certificate chain file  (default ``)</td>
@@ -65,19 +60,9 @@ number_of_entries: 4
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
-<td></td>
-<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
-</tr>
-<tr>
 <td><code>--log_callers</code></td>
 <td></td>
 <td>Include caller information, useful for debugging </td>
-</tr>
-<tr>
-<td><code>--log_dir &lt;string&gt;</code></td>
-<td></td>
-<td>If non-empty, write log files in this directory  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
@@ -113,11 +98,6 @@ number_of_entries: 4
 <td><code>--log_target &lt;stringArray&gt;</code></td>
 <td></td>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
-</tr>
-<tr>
-<td><code>--logtostderr</code></td>
-<td></td>
-<td>log to standard error instead of files </td>
 </tr>
 <tr>
 <td><code>--max-workload-cert-ttl &lt;duration&gt;</code></td>
@@ -160,11 +140,6 @@ number_of_entries: 4
 <td>Path to the CA signing key file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--stderrthreshold &lt;severity&gt;</code></td>
-<td></td>
-<td>logs at or above this threshold go to stderr  (default `2`)</td>
-</tr>
-<tr>
 <td><code>--upstream-auth &lt;string&gt;</code></td>
 <td></td>
 <td>Specifies how the Istio CA is authenticated to the upstream CA.  (default `mtls`)</td>
@@ -178,16 +153,6 @@ number_of_entries: 4
 <td><code>--upstream-ca-cert-file &lt;string&gt;</code></td>
 <td></td>
 <td>Path to the certificate for authenticating upstream CA.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--v &lt;Level&gt;</code></td>
-<td><code>-v</code></td>
-<td>log level for V logs  (default `0`)</td>
-</tr>
-<tr>
-<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
-<td></td>
-<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 <tr>
 <td><code>--workload-cert-grace-period-ratio &lt;float32&gt;</code></td>
@@ -218,11 +183,6 @@ number_of_entries: 4
 </thead>
 <tbody>
 <tr>
-<td><code>--alsologtostderr</code></td>
-<td></td>
-<td>log to standard error as well as files </td>
-</tr>
-<tr>
 <td><code>--interval &lt;duration&gt;</code></td>
 <td></td>
 <td>Duration used for checking the target file&#39;s last modified time.  (default `0s`)</td>
@@ -233,19 +193,9 @@ number_of_entries: 4
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
-<td></td>
-<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
-</tr>
-<tr>
 <td><code>--log_callers</code></td>
 <td></td>
 <td>Include caller information, useful for debugging </td>
-</tr>
-<tr>
-<td><code>--log_dir &lt;string&gt;</code></td>
-<td></td>
-<td>If non-empty, write log files in this directory  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
@@ -283,29 +233,9 @@ number_of_entries: 4
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
-<td><code>--logtostderr</code></td>
-<td></td>
-<td>log to standard error instead of files </td>
-</tr>
-<tr>
 <td><code>--probe-path &lt;string&gt;</code></td>
 <td></td>
 <td>Path of the file for checking the availability.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--stderrthreshold &lt;severity&gt;</code></td>
-<td></td>
-<td>logs at or above this threshold go to stderr  (default `2`)</td>
-</tr>
-<tr>
-<td><code>--v &lt;Level&gt;</code></td>
-<td><code>-v</code></td>
-<td>log level for V logs  (default `0`)</td>
-</tr>
-<tr>
-<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
-<td></td>
-<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 </tbody>
 </table>
@@ -321,29 +251,14 @@ number_of_entries: 4
 </thead>
 <tbody>
 <tr>
-<td><code>--alsologtostderr</code></td>
-<td></td>
-<td>log to standard error as well as files </td>
-</tr>
-<tr>
 <td><code>--log_as_json</code></td>
 <td></td>
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
-<td></td>
-<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
-</tr>
-<tr>
 <td><code>--log_callers</code></td>
 <td></td>
 <td>Include caller information, useful for debugging </td>
-</tr>
-<tr>
-<td><code>--log_dir &lt;string&gt;</code></td>
-<td></td>
-<td>If non-empty, write log files in this directory  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
@@ -381,29 +296,9 @@ number_of_entries: 4
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
-<td><code>--logtostderr</code></td>
-<td></td>
-<td>log to standard error instead of files </td>
-</tr>
-<tr>
 <td><code>--short</code></td>
 <td><code>-s</code></td>
 <td>Displays a short form of the version information </td>
-</tr>
-<tr>
-<td><code>--stderrthreshold &lt;severity&gt;</code></td>
-<td></td>
-<td>logs at or above this threshold go to stderr  (default `2`)</td>
-</tr>
-<tr>
-<td><code>--v &lt;Level&gt;</code></td>
-<td><code>-v</code></td>
-<td>log level for V logs  (default `0`)</td>
-</tr>
-<tr>
-<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
-<td></td>
-<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 </tbody>
 </table>
