@@ -351,7 +351,7 @@ spec:
 * Disable Istio RBAC:
 
   ```bash
-  kubectl delete -f samples/bookinfo/kube/istio-rbac-enable.ymal
+  kubectl delete -f samples/bookinfo/kube/istio-rbac-enable.yaml
   ```
 
 ## What's next
