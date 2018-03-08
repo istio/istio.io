@@ -104,7 +104,7 @@ operator is responsible for:
   when Mixer will execute the specified actions. Actions specify the set of
   instances to generate and the handlers that should process the generated
   instances. For example, a rule might tell Mixer to send generated
-  `requestcount` instances to a `statsd` handler for all `Report` calls.
+  `request_count` instances to a `statsd` handler for all `Report` calls.
 
 The above configuration state is required to have Mixer know what to do with
 incoming attributes and dispatch to the appropriate infrastructure backends.
