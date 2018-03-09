@@ -6,6 +6,7 @@ order: 30
 
 layout: docs
 type: markdown
+redirect_from: /docs/tasks/ingress.html
 ---
 {% include home.html %}
 
