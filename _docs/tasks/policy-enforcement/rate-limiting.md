@@ -6,6 +6,7 @@ order: 10
 
 layout: docs
 type: markdown
+redirect_from: /docs/tasks/rate-limiting.html
 ---
 {% include home.html %}
 

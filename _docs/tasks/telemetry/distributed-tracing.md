@@ -6,6 +6,7 @@ order: 10
 
 layout: docs
 type: markdown
+redirect_from: /docs/tasks/zipkin-tracing.html
 ---
 {% include home.html %}
 
