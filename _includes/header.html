@@ -3,7 +3,7 @@
 {% assign current = page.url | downcase | split: '/' %}
 
 <header role="banner">
-    <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-dark">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         {% if page.url == "/index.html" or page.url == "/" %}
             {% assign visibility = "hidden" %}
         {% else %}
@@ -45,7 +45,7 @@
 
                 <li class="nav-item dropdown" id="gearDropdown" style="white-space: nowrap">
                     <a href="" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class='fa fa-lg fa-cog'></i>
+                        <i style="width: 1em" class='fa fa-lg fa-cog'></i>
                     </a>
 
                     <ul class="dropdown-menu" aria-labelledby="gearDropdown">

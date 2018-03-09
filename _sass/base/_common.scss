@@ -157,7 +157,11 @@ pre {
     }
 }
 
-button.copy-button {
+div.highlight {
+    position: relative;
+}
+
+button.copy {
     font-size: .8em;
     padding: 0 .5em;
     border-radius: .3em;
@@ -166,24 +170,19 @@ button.copy-button {
     color: $textBrandColor;
     text-decoration: none;
     border: 0;
+
+    position: absolute;
+    top: 3px;
+    right: 1.3em;
+    z-index: 5;
 }
 
-div.copy-hide {
-    position: relative;
-    float: right;
-    top: -2px;
-    right: 38px;
-    z-index: 2;
+button.copy-hide {
     transition: opacity .4s ease-in-out;
     opacity: 0;
 }
 
-div.copy-show {
-    position: relative;
-    float: right;
-    top: -2px;
-    right: 38px;
-    z-index: 2;
+button.copy-show {
     transition: opacity 1.2s ease-in-out;
     opacity: 1;
 }

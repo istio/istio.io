@@ -32,96 +32,108 @@ $(function ($) {
 
         // toggle copy button
         $(document).on('mouseenter', 'pre', function () {
-            $(this).parent().children('div.copy').toggleClass("copy-show", true)
-            $(this).parent().children('div.copy').toggleClass("copy-hide", false)
+            $(this).next().toggleClass("copy-show", true)
+            $(this).next().toggleClass("copy-hide", false)
         });
 
         // toggle copy button
         $(document).on('mouseleave', 'pre', function () {
-            $(this).parent().children('div.copy').toggleClass("copy-show", false)
-            $(this).parent().children('div.copy').toggleClass("copy-hide", true)
+            $(this).next().toggleClass("copy-show", false)
+            $(this).next().toggleClass("copy-hide", true)
         });
 
         // toggle copy button
-        $(document).on('mouseenter', 'div.copy', function () {
-            $(this).parent().children('div.copy').toggleClass("copy-show", true)
-            $(this).parent().children('div.copy').toggleClass("copy-hide", false)
+        $(document).on('mouseenter', 'button.copy', function () {
+            $(this).toggleClass("copy-show", true)
+            $(this).toggleClass("copy-hide", false)
         });
 
         // toggle copy button
-        $(document).on('mouseleave', 'div.copy', function () {
-            $(this).parent().children('div.copy').toggleClass("copy-show", false)
-            $(this).parent().children('div.copy').toggleClass("copy-hide", true)
+        $(document).on('mouseleave', 'button.copy', function () {
+            $(this).toggleClass("copy-show", false)
+            $(this).toggleClass("copy-hide", true)
         });
     });
 }(jQuery));
 
-(function(){
-    var div = "<div class='copy copy-hide'><button title='Copy to clipboard' class='copy-button'>Copy</button></div>";
-    var pre = document.getElementsByTagName('PRE');
-    for (var i = 0; i < pre.length; i++) {
-        pre[i].insertAdjacentHTML('beforebegin', div);
-    };
+// Apply a bunch of systematic modification to the DOM of all pages.
+// Ideally, this stuff could be handled offline as part of preparing the
+// HTML, but alas our current toolchain won't allow that in a clean/simple
+// way.
+function patchDOM() {
+    // Add a Copy button to all PRE blocks
+    function attachCopyButtons() {
+        var pre = document.getElementsByTagName('PRE');
+        for (var i = 0; i < pre.length; i++) {
+            var button = document.createElement("BUTTON");
+            button.title = "Copy to clipboard";
+            button.className = "copy copy-hide";
+            button.innerText = "Copy";
 
-    var copyCode = new Clipboard('.copy-button', {
-        target: function(trigger) {
-            return trigger.parentElement.nextElementSibling;
+            pre[i].parentElement.appendChild(button);
         }
-    });
 
-    // On success:
-    // - Change the "Copy" text to "Done".
-    // - Swap it to "Copy" in 2s.
+        var copyCode = new Clipboard('button.copy', {
+            target: function (trigger) {
+                return trigger.previousElementSibling;
+            }
+        });
 
-    copyCode.on('success', function(event) {
-        event.clearSelection();
-        event.trigger.textContent = 'Done';
-        window.setTimeout(function() {
-            event.trigger.textContent = 'Copy';
-        }, 2000);
-    });
+        // On success:
+        // - Change the "Copy" text to "Done".
+        // - Swap it to "Copy" in 2s.
 
-    // On error (Safari):
-    // - Change to "Not supported"
-    // - Swap it to "Copy" in 2s.
+        copyCode.on('success', function (event) {
+            event.clearSelection();
+            event.trigger.textContent = 'Done';
+            window.setTimeout(function () {
+                event.trigger.textContent = 'Copy';
+            }, 2000);
+        });
 
-    copyCode.on('error', function(event) {
-        event.trigger.textContent = 'Not supported';
-        window.setTimeout(function() {
-            event.trigger.textContent = 'Copy';
-        }, 5000);
-    });
-})();
+        // On error (Safari):
+        // - Change to "Not supported"
+        // - Swap it to "Copy" in 2s.
 
-(function(){
-    function anchorForId(id) {
-        var anchor = document.createElement("a");
-        anchor.className = "header-link";
-        anchor.href      = "#" + id;
-        anchor.innerHTML = "<i class=\"fa fa-link\"></i>";
-        return anchor;
+        copyCode.on('error', function (event) {
+            event.trigger.textContent = 'Not supported';
+            window.setTimeout(function () {
+                event.trigger.textContent = 'Copy';
+            }, 5000);
+        });
     }
 
-    function linkifyAnchors(level, containingElement) {
-        var headers = containingElement.getElementsByTagName("h" + level);
-        for (var h = 0; h < headers.length; h++) {
-            var header = headers[h];
+    // Add a link icon next to each header so people can easily get bookmarks to headers
+    function attachLinksToHeaders() {
+        for (var level = 1; level <= 6; level++) {
+            for (var header in document.getElementsByTagName("h" + level)) {
+                if (typeof header.id !== "undefined" && header.id !== "") {
+                    var i = document.createElement("i");
+                    i.className = "fa fa-link";
 
-            if (typeof header.id !== "undefined" && header.id !== "") {
-                header.appendChild(anchorForId(header.id));
+                    var anchor = document.createElement("a");
+                    anchor.className = "header-link";
+                    anchor.href = "#" + header.id;
+                    anchor.appendChild(i);
+
+                    header.appendChild(anchor);
+                }
             }
         }
     }
 
-    for (var level = 1; level <= 6; level++) {
-        linkifyAnchors(level, document);
-    }
-
-    var links = document.getElementsByTagName("a")
-    for (var i = 0; i < links.length; i++) {
-        var l = links[i]
-        if (l.hostname && l.hostname != location.hostname) {
-            l.setAttribute("target", "_blank")
+    // Make it so each link outside of the current domain opens up in a different window
+    function makeOutsideLinksOpenInTabs() {
+        for (var link in document.getElementsByTagName("a")) {
+            if (link.hostname && link.hostname != location.hostname) {
+                link.setAttribute("target", "_blank")
+            }
         }
     }
-})();
+
+    attachCopyButtons();
+    attachLinksToHeaders();
+    makeOutsideLinksOpenInTabs()
+}
+
+document.addEventListener("DOMContentLoaded", patchDOM)
