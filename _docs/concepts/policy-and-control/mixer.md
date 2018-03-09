@@ -95,7 +95,7 @@ operator is responsible for:
 
 - Configuring a set of *instances* for Mixer to generate based on attributes and
   literal values. They represent a chunk of data that adapter code will operate
-  on. For example, an operator may configure Mixer to generate `request_count`
+  on. For example, an operator may configure Mixer to generate `requestcount`
   metric values from attributes such as `destination.service` and
   `response.code`.
 
