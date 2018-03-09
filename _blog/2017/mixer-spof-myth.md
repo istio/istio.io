@@ -9,7 +9,7 @@ order: 94
 
 layout: blog
 type: markdown
-
+redirect_from: /blog/posts/2017/mixer-spof-myth.html
 ---
 {% include home.html %}
 
