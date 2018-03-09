@@ -49,29 +49,34 @@
                     </a>
 
                     <ul class="dropdown-menu" aria-labelledby="gearDropdown">
+                        {% assign future_release = true %}
                         {% for rel in site.data.releases %}
 
-                            {% assign target = "" %}
-                            {% if current[1] == 'about' %}
-                                {% assign target = "about" %}
-                            {% elsif current[1] == 'blog' %}
-                                {% assign target = "blog" %}
-                            {% elsif current[1] == 'community.html' %}
-                                {% assign target = "community" %}
-                            {% elsif current[1] == 'help' %}
-                                {% assign target = "help" %}
-                            {% elsif current[1] == 'docs' %}
-                                {% assign target = "docs" %}
-                                {% if current[2] == 'reference' %}
-                                    {% assign target = "docs/reference" %}
-                                {% elsif current[2] == 'guides' %}
-                                    {% assign target = "docs/guides" %}
-                                {% elsif current[2] == 'tasks' %}
-                                    {% assign target = "docs/tasks" %}
-                                {% elsif current[2] == 'concepts' %}
-                                    {% assign target = "docs/concepts" %}
-                                {% elsif current[2] == 'setup' %}
-                                    {% assign target = "docs/setup" %}
+                            {% if future_release %}
+                                {% assign target = page.url | remove_first: "/" %}
+                            {% else %}
+                                {% assign target = "" %}
+                                {% if current[1] == 'about' %}
+                                    {% assign target = "about" %}
+                                {% elsif current[1] == 'blog' %}
+                                    {% assign target = "blog" %}
+                                {% elsif current[1] == 'community.html' %}
+                                    {% assign target = "community" %}
+                                {% elsif current[1] == 'help' %}
+                                    {% assign target = "help" %}
+                                {% elsif current[1] == 'docs' %}
+                                    {% assign target = "docs" %}
+                                    {% if current[2] == 'reference' %}
+                                        {% assign target = "docs/reference" %}
+                                    {% elsif current[2] == 'guides' %}
+                                        {% assign target = "docs/guides" %}
+                                    {% elsif current[2] == 'tasks' %}
+                                        {% assign target = "docs/tasks" %}
+                                    {% elsif current[2] == 'concepts' %}
+                                        {% assign target = "docs/concepts" %}
+                                    {% elsif current[2] == 'setup' %}
+                                        {% assign target = "docs/setup" %}
+                                    {% endif %}
                                 {% endif %}
                             {% endif %}
 
@@ -93,11 +98,12 @@
                             <li>
                                 {% if site.data.istio.version == rel.name %}
                                     <i class='fa fa-check'></i>
+                                    {{rel.name}}
+                                    {% assign future_release = false %}
                                 {% else %}
                                     <i style="visibility: hidden;" class='fa fa-check'></i>
+                                    <a href="{{rel.url}}/{{target}}">{{rel.name}}</a>
                                 {% endif %}
-
-                                <a href="{{rel.url}}/{{target}}">{{rel.name}}</a>
                             </li>
                         {% endfor %}
 

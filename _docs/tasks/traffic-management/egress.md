@@ -6,6 +6,7 @@ order: 40
 
 layout: docs
 type: markdown
+redirect_from: /docs/tasks/egress.html
 ---
 {% include home.html %}
 
