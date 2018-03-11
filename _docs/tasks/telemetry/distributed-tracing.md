@@ -185,13 +185,13 @@ When you make downstream calls in your applications, make sure to include these 
 
 * Remove the addon tracing configuration:
 
-  If you are running with Zipkin, run the followign command to cleanup:
+  If you are running with Zipkin, run the following command to cleanup:
 
   ```bash
   kubectl delete -f install/kubernetes/addons/zipkin.yaml
   ```
 
-  If you are running with Jaeger, run the followign command to cleanup:
+  If you are running with Jaeger, run the following command to cleanup:
 
   ```bash
   kubectl delete -f https://raw.githubusercontent.com/jaegertracing/jaeger-kubernetes/master/all-in-one/jaeger-all-in-one-template.yml

@@ -414,7 +414,8 @@ of HTTP 404s (upto 2x the refresh interval) until the Envoy sidecars get all rel
 
 ## Kubernetes webhook setup script files are missing from 0.5 release package
 
-NOTE: The 0.5.0 and 0.5.1 releases are missing scripts to provision webhook certificates. Download the missing files from [here](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/webhook-create-signed-cert.sh) and [here](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/webhook-patch-ca-bundle.sh). Subsqeuent releases (> 0.5.1) should include these missing files.
+NOTE: The 0.5.0 and 0.5.1 releases are missing scripts to provision webhook certificates. Download the missing files from
+[here](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/webhook-create-signed-cert.sh) and [here](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/webhook-patch-ca-bundle.sh). Subsequent releases (> 0.5.1) should include these missing files.
 
 ## Automatic sidecar injection will fail if the kube-apiserver has proxy settings
 
