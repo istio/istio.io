@@ -10,88 +10,71 @@ number_of_entries: 4
 <table class="command-flags">
 <thead>
 <th>Flags</th>
-<th>Shorthand</th>
 <th>Description</th>
 </thead>
 <tbody>
 <tr>
 <td><code>--healthCheckFile &lt;string&gt;</code></td>
-<td></td>
 <td>File that should be periodically updated if health checking is enabled  (default ``)</td>
 </tr>
 <tr>
 <td><code>--healthCheckInterval &lt;duration&gt;</code></td>
-<td></td>
 <td>Configure how frequently the health check file specified by --healhCheckFile should be updated  (default `0s`)</td>
 </tr>
 <tr>
 <td><code>--injectConfig &lt;string&gt;</code></td>
-<td></td>
 <td>File containing the Istio sidecar injection configuration and template  (default `/etc/istio/inject/config`)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
-<td></td>
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
 <td><code>--log_callers</code></td>
-<td></td>
 <td>Include caller information, useful for debugging </td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
 <td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
-<td></td>
 <td>The path for the optional rotating log file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_rotate_max_age &lt;int&gt;</code></td>
-<td></td>
 <td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
-<td></td>
 <td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate_max_size &lt;int&gt;</code></td>
-<td></td>
 <td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td></td>
 <td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
-<td></td>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
 <td><code>--meshConfig &lt;string&gt;</code></td>
-<td></td>
 <td>File containing the Istio mesh configuration  (default `/etc/istio/config/mesh`)</td>
 </tr>
 <tr>
 <td><code>--port &lt;int&gt;</code></td>
-<td></td>
 <td>Webhook port  (default `443`)</td>
 </tr>
 <tr>
 <td><code>--tlsCertFile &lt;string&gt;</code></td>
-<td></td>
 <td>File containing the x509 Certificate for HTTPS.  (default `/etc/istio/certs/cert.pem`)</td>
 </tr>
 <tr>
 <td><code>--tlsKeyFile &lt;string&gt;</code></td>
-<td></td>
 <td>File containing the x509 private key matching --tlsCertFile.  (default `/etc/istio/certs/key.pem`)</td>
 </tr>
 </tbody>
@@ -103,98 +86,79 @@ number_of_entries: 4
 <table class="command-flags">
 <thead>
 <th>Flags</th>
-<th>Shorthand</th>
 <th>Description</th>
 </thead>
 <tbody>
 <tr>
 <td><code>--healthCheckFile &lt;string&gt;</code></td>
-<td></td>
 <td>File that should be periodically updated if health checking is enabled  (default ``)</td>
 </tr>
 <tr>
 <td><code>--healthCheckInterval &lt;duration&gt;</code></td>
-<td></td>
 <td>Configure how frequently the health check file specified by --healhCheckFile should be updated  (default `0s`)</td>
 </tr>
 <tr>
 <td><code>--injectConfig &lt;string&gt;</code></td>
-<td></td>
 <td>File containing the Istio sidecar injection configuration and template  (default `/etc/istio/inject/config`)</td>
 </tr>
 <tr>
 <td><code>--interval &lt;duration&gt;</code></td>
-<td></td>
 <td>Duration used for checking the target file&#39;s last modified time.  (default `0s`)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
-<td></td>
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
 <td><code>--log_callers</code></td>
-<td></td>
 <td>Include caller information, useful for debugging </td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
 <td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
-<td></td>
 <td>The path for the optional rotating log file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_rotate_max_age &lt;int&gt;</code></td>
-<td></td>
 <td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
-<td></td>
 <td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate_max_size &lt;int&gt;</code></td>
-<td></td>
 <td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td></td>
 <td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
-<td></td>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
 <td><code>--meshConfig &lt;string&gt;</code></td>
-<td></td>
 <td>File containing the Istio mesh configuration  (default `/etc/istio/config/mesh`)</td>
 </tr>
 <tr>
 <td><code>--port &lt;int&gt;</code></td>
-<td></td>
 <td>Webhook port  (default `443`)</td>
 </tr>
 <tr>
 <td><code>--probe-path &lt;string&gt;</code></td>
-<td></td>
 <td>Path of the file for checking the availability.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--tlsCertFile &lt;string&gt;</code></td>
-<td></td>
 <td>File containing the x509 Certificate for HTTPS.  (default `/etc/istio/certs/cert.pem`)</td>
 </tr>
 <tr>
 <td><code>--tlsKeyFile &lt;string&gt;</code></td>
-<td></td>
 <td>File containing the x509 private key matching --tlsCertFile.  (default `/etc/istio/certs/key.pem`)</td>
 </tr>
 </tbody>
