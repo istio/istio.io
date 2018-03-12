@@ -63,6 +63,9 @@ exclude:
   - repos/*.html
   - repos/*.md
   - vendor/
+  - js/misc.js
+  - js/styleSwitcher.js
+  - firebase.json
 
 repository:
   istio/istio.github.io
