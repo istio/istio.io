@@ -131,9 +131,27 @@ function patchDOM() {
         }
     }
 
+    // Load the content of any externally-hosted PRE blocks
+    function loadExternalPreBlocks() {
+
+        function fetchFile(elem, url) {
+            fetch(url).then(response => response.text()).then(data => {
+                elem.firstChild.innerText = data;
+            });
+        }
+
+        var pre = document.getElementsByTagName('PRE');
+        for (var i = 0; i < pre.length; i++) {
+            if (pre[i].hasAttribute("data-src")) {
+                fetchFile(pre[i], pre[i].getAttribute("data-src"))
+            }
+        }
+    }
+
     attachCopyButtons();
     attachLinksToHeaders();
-    makeOutsideLinksOpenInTabs()
+    makeOutsideLinksOpenInTabs();
+    loadExternalPreBlocks();
 }
 
 document.addEventListener("DOMContentLoaded", patchDOM)

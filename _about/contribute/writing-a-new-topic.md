@@ -233,6 +233,26 @@ func HelloWorld() {
 You can use `markdown`, `yaml`, `json`, `java`, `javascript`, `c`, `cpp`, `csharp`, `go`, `html`, `protobuf`, 
 `perl`, `docker`, and `bash`.
 
+## Displaying file content
+
+You can pull in an external file and display its content as a preformatted block. This is handy to display a
+config file or a test file. To do so, you use a Jekyll include statement such as:
+
+```html
+{% raw %}{% include file-content.html url='https://raw.githubusercontent.com/istio/istio/master/Makefile' %}{% endraw %}
+```
+
+which produces the following result:
+
+{% include file-content.html url='https://raw.githubusercontent.com/istio/istio/master/Makefile' %}
+
+If the file is from a different origin site, CORS should be enabled on that site. Note that the
+GitHub raw content site (raw.githubusercontent.com) is CORS
+enabled so it may be used here.
+
+Note that unlike normal preformatted blocks, dynamically loaded preformatted blocks unfortunately
+do not get syntax colored.
+
 ## Adding redirects
 
 If you move pages around and would like to ensure existing links continue to work, you can add
