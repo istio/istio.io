@@ -73,13 +73,14 @@ header {
         .btn-search {
             color: #aaa;
             background: $searchButtonColor;
-            cursor: pointer;
             padding-left: .7em;
             font-size: .8em;
             vertical-align: middle;
+            width: 1.8em;
 
             @media (min-height: $bp-md-v) {
                 font-size: 1.2em;
+                width: 2.7em;
             }
         }
     }
