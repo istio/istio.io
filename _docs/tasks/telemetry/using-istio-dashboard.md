@@ -117,7 +117,7 @@ The Istio Dashboard consists of three main sections:
    responses for each individual service within the mesh (HTTP and TCP).
 
 For more on how to create, configure, and edit dashboards, please see the
-[Grafana documentation](http://docs.grafana.org/).
+[Grafana documentation](https://docs.grafana.org/).
 
 ## Cleanup
 

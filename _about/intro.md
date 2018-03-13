@@ -33,4 +33,4 @@ Istio can be deployed on [Kubernetes](https://kubernetes.io),
 [Nomad](https://nomadproject.io) with [Consul](https://www.consul.io/). We
 plan to add support for additional platforms such as
 [Cloud Foundry](https://www.cloudfoundry.org/),
-and [Apache Mesos](http://mesos.apache.org/) in the near future.
+and [Apache Mesos](https://mesos.apache.org/) in the near future.
