@@ -242,7 +242,7 @@ a cert/key pair signed by the Kubernetes' CA. The resulting cert/key file is sto
 secret for the sidecar injector webhook to consume. 
 
 _Note_: Kubernetes CA approval requires permissions to create and approve CSR. See 
-[https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster ](https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster) and 
+[https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster ](https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster/) and 
 [install/kubernetes/webhook-create-signed-cert.sh](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/webhook-create-signed-cert.sh) for more information.
 
 ```bash
