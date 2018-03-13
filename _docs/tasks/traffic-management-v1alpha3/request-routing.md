@@ -59,7 +59,6 @@ route requests to all available versions of a service in a random fashion.
        - destination:
            name: details
            subset: v1
-         weight: 100
    ---
    apiVersion: networking.istio.io/v1alpha3
    kind: VirtualService
@@ -77,7 +76,6 @@ route requests to all available versions of a service in a random fashion.
        - destination:
            name: productpage
            subset: v1
-         weight: 100
    ---
    apiVersion: networking.istio.io/v1alpha3
    kind: VirtualService
@@ -92,7 +90,6 @@ route requests to all available versions of a service in a random fashion.
        - destination:
            name: ratings
            subset: v1
-         weight: 100
    ---
    apiVersion: networking.istio.io/v1alpha3
    kind: VirtualService
@@ -107,7 +104,6 @@ route requests to all available versions of a service in a random fashion.
        - destination:
            name: reviews
            subset: v1
-         weight: 100
    ---
    ```
 
@@ -153,12 +149,10 @@ route requests to all available versions of a service in a random fashion.
        - destination:
            name: reviews
            subset: v2
-         weight: 100
      - route:
        - destination:
            name: reviews
            subset: v1
-         weight: 100
    ```
 
 1. Log in as user "jason" at the `productpage` web page.

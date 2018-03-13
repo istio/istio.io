@@ -48,18 +48,6 @@ to the `ratings` service.
        - destination:
            name: reviews
            subset: v2
-         weight: 100
-   ---
-   apiVersion: networking.istio.io/v1alpha3
-   kind: DestinationRule
-   metadata:
-     name: reviews-destination
-   spec:
-     name: reviews
-     subsets:
-     - name: v2
-       labels:
-         version: v2
    EOF
    ```
 
@@ -79,11 +67,10 @@ to the `ratings` service.
          delay:
            percent: 100
            fixedDelay: 2s
-     - route:
+       route:
        - destination:
            name: ratings
            subset: v1
-         weight: 100
    EOF
    ```
 
@@ -108,7 +95,6 @@ to the `ratings` service.
        - destination:
            name: reviews
            subset: v2
-         weight: 100
        timeout: 1s
    EOF
    ```

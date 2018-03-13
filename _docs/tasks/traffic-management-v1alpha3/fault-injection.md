@@ -64,11 +64,14 @@ continue without any errors.
        - headers:
            cookie:
              regex: ^(.*?;)?(user=jason)(;.*)?$
+       route:
+       - destination:
+           name: ratings
+           subset: v1
      - route:
        - destination:
            name: ratings
            subset: v1
-         weight: 100
    ```
 
    Allow several seconds to account for rule propagation delay to all pods.
@@ -146,7 +149,6 @@ message.
        - destination:
            name: ratings
            subset: v1
-         weight: 100
    ```
 
 1. Observe application behavior
