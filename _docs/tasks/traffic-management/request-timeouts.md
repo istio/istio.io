@@ -21,7 +21,7 @@ This task shows you how to setup request timeouts in Envoy using Istio.
 * Initialize the application version routing by running the following command:
 
   ```bash
-  istioctl create -f samples/bookinfo/routing-rules/route-rule-all-v1.yaml
+  istioctl create -f samples/bookinfo/routing/route-rule-all-v1.yaml
   ```
 
 ## Request timeouts
@@ -39,7 +39,7 @@ to the `ratings` service.
    apiVersion: networking.istio.io/v1alpha3
    kind: VirtualService
    metadata:
-     name: reviews-route
+     name: reviews
    spec:
      hosts:
        - reviews
@@ -70,7 +70,7 @@ to the `ratings` service.
    apiVersion: networking.istio.io/v1alpha3
    kind: VirtualService
    metadata:
-     name: ratings-route
+     name: ratings
    spec:
      hosts:
      - ratings
@@ -99,7 +99,7 @@ to the `ratings` service.
    apiVersion: networking.istio.io/v1alpha3
    kind: VirtualService
    metadata:
-     name: reviews-route
+     name: reviews
    spec:
      hosts:
        - reviews
@@ -149,7 +149,7 @@ the timeout is specified in millisecond (instead of second) units.
 * Remove the application routing rules.
 
   ```bash
-  istioctl delete -f samples/bookinfo/routing-rules/route-rule-all-v1.yaml
+  istioctl delete -f samples/bookinfo/routing/route-rule-all-v1.yaml
   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the

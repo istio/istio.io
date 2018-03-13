@@ -130,7 +130,7 @@ cat <<EOF | istioctl create -f -
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: httpbin-route
+  name: httpbin
 spec:
   hosts:
     - httpbin
@@ -144,7 +144,7 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: httpbin-destination
+  name: httpbin
 spec:
   name: httpbin
   subsets:
@@ -203,7 +203,7 @@ cat <<EOF | istioctl replace -f -
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: httpbin-route
+  name: httpbin
 spec:
   hosts:
     - httpbin
@@ -251,8 +251,8 @@ kubectl logs -f $V2_POD -c httpbin
 1. Remove the rules.
     
    ```bash
-   istioctl delete virtualservice httpbin-route
-   istioctl delete destinationrule httpbin-destination
+   istioctl delete virtualservice httpbin
+   istioctl delete destinationrule httpbin
    ```
 
 1. Shutdown the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) service and client.

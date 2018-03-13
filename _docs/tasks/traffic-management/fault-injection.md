@@ -23,8 +23,8 @@ This task shows how to inject delays and test the resiliency of your application
   commands:
 
   ```bash
-  istioctl create -f samples/bookinfo/routing-rules/route-rule-all-v1.yaml
-  istioctl replace -f samples/bookinfo/routing-rules/route-rule-reviews-test-v2.yaml
+  istioctl create -f samples/bookinfo/routing/route-rule-all-v1.yaml
+  istioctl replace -f samples/bookinfo/routing/route-rule-reviews-test-v2.yaml
   ```
 
 # Fault injection
@@ -38,19 +38,19 @@ continue without any errors.
 1. Create a fault injection rule to delay traffic coming from user "jason" (our test user)
 
    ```bash
-   istioctl replace -f samples/bookinfo/routing-rules/route-rule-ratings-test-delay.yaml
+   istioctl replace -f samples/bookinfo/routing/route-rule-ratings-test-delay.yaml
    ```
 
    Confirm the rule is created:
 
    ```bash
-   istioctl get virtualservice ratings-route -o yaml
+   istioctl get virtualservice ratings -o yaml
    ```
    ```yaml
    apiVersion: networking.istio.io/v1alpha3
    kind: VirtualService
    metadata:
-     name: ratings-route
+     name: ratings
      ...
    spec:
      hosts:
@@ -116,19 +116,19 @@ message.
 1. Create a fault injection rule to send an HTTP abort for user "jason"
 
    ```bash
-   istioctl replace -f samples/bookinfo/routing-rules/route-rule-ratings-test-abort.yaml
+   istioctl replace -f samples/bookinfo/routing/route-rule-ratings-test-abort.yaml
    ```
 
    Confirm the rule is created
 
    ```bash
-   istioctl get virtualservice ratings-route -o yaml
+   istioctl get virtualservice ratings -o yaml
    ```
    ```yaml
    apiVersion: networking.istio.io/v1alpha3
    kind: VirtualService
    metadata:
-     name: ratings-route
+     name: ratings
      ...
    spec:
      hosts:
@@ -160,7 +160,7 @@ message.
 * Remove the application routing rules:
 
   ```bash
-  istioctl delete -f samples/bookinfo/routing-rules/route-rule-all-v1.yaml
+  istioctl delete -f samples/bookinfo/routing/route-rule-all-v1.yaml
   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the

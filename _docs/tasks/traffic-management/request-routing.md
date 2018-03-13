@@ -33,7 +33,7 @@ route requests to all available versions of a service in a random fashion.
 1. Set the default version for all microservices to v1.
 
    ```bash
-   istioctl create -f samples/bookinfo/routing-rules/route-rule-all-v1.yaml
+   istioctl create -f samples/bookinfo/routing/route-rule-all-v1.yaml
    ```
 
    > Note: In a Kubernetes deployment of Istio, you can replace `istioctl`
@@ -49,7 +49,7 @@ route requests to all available versions of a service in a random fashion.
    apiVersion: networking.istio.io/v1alpha3
    kind: VirtualService
    metadata:
-     name: details-route
+     name: details
      ...
    spec:
      hosts:
@@ -64,7 +64,7 @@ route requests to all available versions of a service in a random fashion.
    apiVersion: networking.istio.io/v1alpha3
    kind: VirtualService
    metadata:
-     name: productpage-route
+     name: productpage
      ...
    spec:
      gateways:
@@ -82,7 +82,7 @@ route requests to all available versions of a service in a random fashion.
    apiVersion: networking.istio.io/v1alpha3
    kind: VirtualService
    metadata:
-     name: ratings-route
+     name: ratings
      ...
    spec:
      hosts:
@@ -97,7 +97,7 @@ route requests to all available versions of a service in a random fashion.
    apiVersion: networking.istio.io/v1alpha3
    kind: VirtualService
    metadata:
-     name: reviews-route
+     name: reviews
      ...
    spec:
      hosts:
@@ -127,19 +127,19 @@ route requests to all available versions of a service in a random fashion.
    `reviews:v2` instances.
 
    ```bash
-   istioctl replace -f samples/bookinfo/routing-rules/route-rule-reviews-test-v2.yaml
+   istioctl replace -f samples/bookinfo/routing/route-rule-reviews-test-v2.yaml
    ```
 
    Confirm the rule is created:
 
    ```bash
-   istioctl get virtualservice reviews-route -o yaml
+   istioctl get virtualservice reviews -o yaml
    ```
    ```yaml
    apiVersion: networking.istio.io/v1alpha3
    kind: VirtualService
    metadata:
-     name: reviews-route
+     name: reviews
      ...
    spec:
      hosts:
@@ -180,7 +180,7 @@ all users to v2, optionally in a gradual fashion. We'll explore this in a separa
 * Remove the application routing rules.
 
   ```bash
-  istioctl delete -f samples/bookinfo/routing-rules/route-rule-all-v1.yaml
+  istioctl delete -f samples/bookinfo/routing/route-rule-all-v1.yaml
   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the

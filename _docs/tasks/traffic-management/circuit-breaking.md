@@ -33,7 +33,7 @@ Let's set up a scenario to demonstrate the circuit-breaking capabilities of Isti
    apiVersion: networking.istio.io/v1alpha3
    kind: DestinationRule
    metadata:
-     name: httpbin-destination
+     name: httpbin
    spec:
      name: httpbin
      trafficPolicy:
@@ -55,13 +55,13 @@ Let's set up a scenario to demonstrate the circuit-breaking capabilities of Isti
 2. Verify our destination rule was created correctly:
 
    ```bash
-   istioctl get destinationrule httpbin-destination -o yaml
+   istioctl get destinationrule httpbin -o yaml
    ```
    ```
    apiVersion: networking.istio.io/v1alpha3
    kind: DestinationRule
    metadata:
-     name: httpbin-destination
+     name: httpbin
      ...
    spec:
      name: httpbin
@@ -236,7 +236,7 @@ We see `12` for the `upstream_rq_pending_overflow` value which means `12` calls 
 1. Remove the rules.
     
    ```bash
-   istioctl delete destinationrule httpbin-destination
+   istioctl delete destinationrule httpbin
    ```
 
 1. Shutdown the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) service and client.

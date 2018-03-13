@@ -46,7 +46,7 @@ from within your Istio cluster. In this task we will use
    apiVersion: networking.istio.io/v1alpha3
    kind: ExternalService
    metadata:
-     name: httpbin-ext-svc
+     name: httpbin-ext
    spec:
      hosts:
      - httpbin.org
@@ -64,7 +64,7 @@ from within your Istio cluster. In this task we will use
    apiVersion: networking.istio.io/v1alpha3
    kind: ExternalService
    metadata:
-     name: google-ext-svc
+     name: google-ext
    spec:
      hosts:
      - www.google.com
@@ -76,7 +76,7 @@ from within your Istio cluster. In this task we will use
    apiVersion: networking.istio.io/v1alpha3
    kind: DestinationRule
    metadata:
-     name: google-destination
+     name: google-ext
    spec:
      name: www.google.com
      trafficPolicy:
@@ -145,7 +145,7 @@ to set a timeout rule on calls to the httpbin.org service.
    apiVersion: networking.istio.io/v1alpha3
    kind: VirtualService
    metadata:
-     name: httpbin-ext-route
+     name: httpbin-ext
    spec:
      hosts:
        - httpbin.org
@@ -273,8 +273,9 @@ cloud provider specific knowledge and configuration.
 1. Remove the rules.
     
    ```bash
-   istioctl delete externalservice httpbin-ext-svc google-ext-svc
-   istioctl delete virtualservice httpbin-ext-route
+   istioctl delete externalservice httpbin-ext google-ext
+   istioctl delete destinationrule google-ext
+   istioctl delete virtualservice httpbin-ext
    ```
 
 1. Shutdown the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) service.
