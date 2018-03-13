@@ -18,13 +18,6 @@ This task shows you how to configure dynamic request routing based on weights an
 
 * Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
-> Note: This task assumes you are deploying the application on Kubernetes.
-  All of the example commands are using the Kubernetes version of the rule yaml files
-  (e.g., `samples/bookinfo/kube/route-rule-all-v1.yaml`). If you are running this
-  task in a different environment, change `kube` to the directory that corresponds
-  to your runtime (e.g., `samples/bookinfo/consul/route-rule-all-v1.yaml` for
-  the Consul-based runtime).
-
 ## Content-based routing
 
 Because the Bookinfo sample deploys 3 versions of the reviews microservice,
@@ -35,12 +28,12 @@ This is because without an explicit default version set, Istio will
 route requests to all available versions of a service in a random fashion.
 
 > Note: This task assumes you don't have any routes set yet. If you've already created conflicting route rules for the sample,
-  you'll need to use `replace` rather than `create` in one or both of the following commands.
+  you'll need to use `replace` rather than `create` in the following command.
 
 1. Set the default version for all microservices to v1.
 
    ```bash
-   istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
+   istioctl create -f samples/bookinfo/routing/route-rule-all-v1.yaml
    ```
 
    > Note: In a Kubernetes deployment of Istio, you can replace `istioctl`
@@ -50,66 +43,75 @@ route requests to all available versions of a service in a random fashion.
    You can display the routes that are defined with the following command:
 
    ```bash
-   istioctl get routerules -o yaml
+   istioctl get virtualservices -o yaml
    ```
    ```yaml
-   apiVersion: config.istio.io/v1alpha2
-   kind: RouteRule
+   apiVersion: networking.istio.io/v1alpha3
+   kind: VirtualService
    metadata:
-     name: details-default
-     namespace: default
+     name: details
      ...
    spec:
-     destination:
-       name: details
-     precedence: 1
-     route:
-     - labels:
-         version: v1
+     hosts:
+     - details
+     http:
+     - route:
+       - destination:
+           name: details
+           subset: v1
+         weight: 100
    ---
-   apiVersion: config.istio.io/v1alpha2
-   kind: RouteRule
+   apiVersion: networking.istio.io/v1alpha3
+   kind: VirtualService
    metadata:
-     name: productpage-default
-     namespace: default
+     name: productpage
      ...
    spec:
-     destination:
-       name: productpage
-     precedence: 1
-     route:
-     - labels:
-         version: v1
+     gateways:
+     - bookinfo-gateway
+     - mesh
+     hosts:
+     - productpage
+     http:
+     - route:
+       - destination:
+           name: productpage
+           subset: v1
+         weight: 100
    ---
-   apiVersion: config.istio.io/v1alpha2
-   kind: RouteRule
+   apiVersion: networking.istio.io/v1alpha3
+   kind: VirtualService
    metadata:
-     name: ratings-default
-     namespace: default
+     name: ratings
      ...
    spec:
-     destination:
-       name: ratings
-     precedence: 1
-     route:
-     - labels:
-         version: v1
+     hosts:
+     - ratings
+     http:
+     - route:
+       - destination:
+           name: ratings
+           subset: v1
+         weight: 100
    ---
-   apiVersion: config.istio.io/v1alpha2
-   kind: RouteRule
+   apiVersion: networking.istio.io/v1alpha3
+   kind: VirtualService
    metadata:
-     name: reviews-default
-     namespace: default
+     name: reviews
      ...
    spec:
-     destination:
-       name: reviews
-     precedence: 1
-     route:
-     - labels:
-         version: v1
+     hosts:
+     - reviews
+     http:
+     - route:
+       - destination:
+           name: reviews
+           subset: v1
+         weight: 100
    ---
    ```
+
+   > Note: The corresponding `subset` definitions can be displayed using `istioctl get destinationrules -o yaml`.
 
    Since rule propagation to the proxies is asynchronous, you should wait a few seconds for the rules
    to propagate to all pods before attempting to access the application.
@@ -125,33 +127,38 @@ route requests to all available versions of a service in a random fashion.
    `reviews:v2` instances.
 
    ```bash
-   istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+   istioctl replace -f samples/bookinfo/routing/route-rule-reviews-test-v2.yaml
    ```
 
    Confirm the rule is created:
 
    ```bash
-   istioctl get routerule reviews-test-v2 -o yaml
+   istioctl get virtualservice reviews -o yaml
    ```
    ```yaml
-   apiVersion: config.istio.io/v1alpha2
-   kind: RouteRule
+   apiVersion: networking.istio.io/v1alpha3
+   kind: VirtualService
    metadata:
-     name: reviews-test-v2
-     namespace: default
+     name: reviews
      ...
    spec:
-     destination:
-       name: reviews
-     match:
-       request:
-         headers:
+     hosts:
+     - reviews
+     http:
+     - match:
+       - headers:
            cookie:
              regex: ^(.*?;)?(user=jason)(;.*)?$
-     precedence: 2
-     route:
-     - labels:
-         version: v2
+       route:
+       - destination:
+           name: reviews
+           subset: v2
+         weight: 100
+     - route:
+       - destination:
+           name: reviews
+           subset: v1
+         weight: 100
    ```
 
 1. Log in as user "jason" at the `productpage` web page.
@@ -173,8 +180,7 @@ all users to v2, optionally in a gradual fashion. We'll explore this in a separa
 * Remove the application routing rules.
 
   ```bash
-  istioctl delete -f samples/bookinfo/kube/route-rule-all-v1.yaml
-  istioctl delete -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+  istioctl delete -f samples/bookinfo/routing/route-rule-all-v1.yaml
   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
