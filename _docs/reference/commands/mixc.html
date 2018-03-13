@@ -7,30 +7,6 @@ number_of_entries: 5
 <p>This command lets you interact with a running instance of
 Mixer. Note that you need a pretty good understanding of Mixer&#39;s
 API in order to use this command.</p>
-<table class="command-flags">
-<thead>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</thead>
-<tbody>
-<tr>
-<td><code>--trace_jaeger_url &lt;string&gt;</code></td>
-<td></td>
-<td>URL of Jaeger HTTP collector (example: &#39;http://jaeger:14268/api/traces?format=jaeger.thrift&#39;).  (default ``)</td>
-</tr>
-<tr>
-<td><code>--trace_log_spans</code></td>
-<td></td>
-<td>Whether or not to log trace spans. </td>
-</tr>
-<tr>
-<td><code>--trace_zipkin_url &lt;string&gt;</code></td>
-<td></td>
-<td>URL of Zipkin collector (example: &#39;http://zipkin:9411/api/v1/spans&#39;).  (default ``)</td>
-</tr>
-</tbody>
-</table>
 <h2 id="mixc check">mixc check</h2>
 <p>The Check method is used to perform precondition checks and quota allocations. Mixer
 expects a set of attributes as input, which it uses, along with
@@ -223,21 +199,6 @@ which parameters in order to output the telemetry.</p>
 <td><code>--short</code></td>
 <td><code>-s</code></td>
 <td>Displays a short form of the version information </td>
-</tr>
-<tr>
-<td><code>--trace_jaeger_url &lt;string&gt;</code></td>
-<td></td>
-<td>URL of Jaeger HTTP collector (example: &#39;http://jaeger:14268/api/traces?format=jaeger.thrift&#39;).  (default ``)</td>
-</tr>
-<tr>
-<td><code>--trace_log_spans</code></td>
-<td></td>
-<td>Whether or not to log trace spans. </td>
-</tr>
-<tr>
-<td><code>--trace_zipkin_url &lt;string&gt;</code></td>
-<td></td>
-<td>URL of Zipkin collector (example: &#39;http://zipkin:9411/api/v1/spans&#39;).  (default ``)</td>
 </tr>
 </tbody>
 </table>

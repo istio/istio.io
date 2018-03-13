@@ -105,24 +105,24 @@ export PATH=$PWD/bin:$PATH
 1. Install Istio's core components. Choose one of the two _**mutually exclusive**_ options below or alternately install
    with the [Helm Chart]({{home}}/docs/setup/kubernetes/helm.html):
 
-  a) Install Istio without enabling [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars.
-       Choose this option for clusters with existing applications, applications where services with an
-       Istio sidecar need to be able to communicate with other non-Istio Kubernetes services, and
-       applications that use [liveliness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/),
-       headless services, or StatefulSets.
+    a) Install Istio without enabling [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars.
+         Choose this option for clusters with existing applications, applications where services with an
+         Istio sidecar need to be able to communicate with other non-Istio Kubernetes services, and
+         applications that use [liveliness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/),
+         headless services, or StatefulSets.
 ```bash
 kubectl apply -f install/kubernetes/istio.yaml
 ```
 
-  _**OR**_
+    _**OR**_
 
-  b) Install Istio and enable [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars.:
+    b) Install Istio and enable [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars.:
 ```bash
 kubectl apply -f install/kubernetes/istio-auth.yaml
 ```
 
-  Both options create the `istio-system` namespace along with the required RBAC permissions,
-  and deploy Istio-Pilot, Istio-Mixer, Istio-Ingress, and Istio-CA (Certificate Authority).
+    Both options create the `istio-system` namespace along with the required RBAC permissions,
+    and deploy Istio-Pilot, Istio-Mixer, Istio-Ingress, and Istio-CA (Certificate Authority).
 
 1. *Optional:* If your cluster has Kubernetes version 1.9 or greater, and you wish to enable automatic proxy injection,
 install the [sidecar injector webhook]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection).

@@ -7,6 +7,7 @@ order: 10
 layout: docs
 type: markdown
 toc: false
+redirect_from: /docs/concepts/traffic-management/manager.html
 ---
 {% include home.html %}
 

@@ -52,8 +52,8 @@ Below we show an example "requestcontext".
      namespace: istio-system
    spec:
      subject:
-       user: request.auth.principal | ""
-       groups: request.auth.principal | ""
+       user: source.user | ""
+       groups: ""
        properties:
          service: source.service | ""
          namespace: source.namespace | ""
@@ -98,8 +98,7 @@ Here is an example of a simple role "service-admin", which has full access to al
        methods: ["*"]
 ```
 
-Here is another role "products-viewer", which has read ("GET" and "HEAD") access to service "products.default.svc.cluster.local"
-in "default" namespace.
+Here is another role "products-viewer", which has read ("GET" and "HEAD") access to "products" service in "default" namespace.
 
 ```rule
    apiVersion: "config.istio.io/v1alpha2"
@@ -109,7 +108,7 @@ in "default" namespace.
      namespace: default
    spec:
      rules:
-     - services: ["products.default.svc.cluster.local"]
+     - services: ["products"]
        methods: ["GET", "HEAD"]
 ```
 
@@ -117,7 +116,7 @@ In addition, we support **prefix match** and **suffix match** for all the fields
 has the following permissions in "default" namespace:
 * Full access to all services with prefix "test-" (e.g, "test-bookstore", "test-performance", "test-api.default.svc.cluster.local").
 * Read ("GET") access to all paths with "/reviews" suffix (e.g, "/books/reviews", "/events/booksale/reviews", "/reviews")
-in service "bookstore.default.svc.cluster.local".
+in "bookstore" service.
 
 ```rule
    apiVersion: "config.istio.io/v1alpha2"
@@ -129,7 +128,7 @@ in service "bookstore.default.svc.cluster.local".
      rules:
      - services: ["test-*"]
        methods: ["*"]
-     - services: ["bookstore.default.svc.cluster.local"]
+     - services: ["bookstore"]
        paths: ["*/reviews"]
        methods: ["GET"]
 ```
@@ -150,7 +149,7 @@ being "v1" or "v2". Note that the "version" property is provided by `"action.pro
      namespace: default
    spec:
      rules:
-     - services: ["products.default.svc.cluster.local"]
+     - services: ["products"]
        methods: ["GET", "HEAD"]
        constraints:
        - key: "version"
@@ -169,7 +168,7 @@ instance.
 
 Here is an example of ServiceRoleBinding object "test-binding-products", which binds two subjects to ServiceRole "product-viewer":
 * user "alice@yahoo.com".
-* "reviews.abc.svc.cluster.local" service in "abc" namespace.
+* "reviews" service in "abc" namespace.
 
 ```rule
    apiVersion: "config.istio.io/v1alpha2"
@@ -181,8 +180,25 @@ Here is an example of ServiceRoleBinding object "test-binding-products", which b
      subjects:
      - user: "alice@yahoo.com"
      - properties:
-         service: "reviews.abc.svc.cluster.local"
+         service: "reviews"
          namespace: "abc"
+     roleRef:
+       kind: ServiceRole
+       name: "products-viewer"
+```
+
+In the case that you want to make a service(s) publically accessible, you can use set the subject to `user: "*"`. This will assign a ServiceRole
+to all users/services.
+
+```rule
+   apiVersion: "config.istio.io/v1alpha2"
+   kind: ServiceRoleBinding
+   metadata:
+     name: binding-products-allusers
+     namespace: default
+   spec:
+     subjects:
+     - user: "*"
      roleRef:
        kind: ServiceRole
        name: "products-viewer"
@@ -191,12 +207,17 @@ Here is an example of ServiceRoleBinding object "test-binding-products", which b
 ## Enabling Istio RBAC
 
 Istio RBAC can be enabled by adding the following Mixer adapter rule. The rule has two parts. The first part defines a RBAC handler.
-The `"config_store_url"` parameter specifies where RBAC engine fetches RBAC policies. The default value for "config_store_url" is `"k8s://"`,
-which means Kubernetes API server. Alternatively, if you are testing RBAC policy locally, you may set it to a local directory such as
-`"fs:///tmp/testdata/configroot"`.
+It has two parameters, `"config_store_url"` and `"cache_duration"`.
+* The `"config_store_url"` parameter specifies where RBAC engine fetches RBAC policies. The default value for `"config_store_url"` is
+`"k8s://"`, which means Kubernetes API server. Alternatively, if you are testing RBAC policy locally, you may set it to a local directory
+such as `"fs:///tmp/testdata/configroot"`.
+* The `"cache_duration"` parameter specifies the duration for which the authorization results may be cached on Mixer client (i.e., Istio proxy).
+The default value for `"cache_duration"` is 1 minute.
 
 The second part defines a rule, which specifies that the RBAC handler should be invoked with the "requestcontext" instance [defined
 earlier in the document](#request-context).
+
+In the following example, Istio RBAC is enabled for "default" namespace. And the cache duration is set to 30 seconds.
 
 ```rule
    apiVersion: "config.istio.io/v1alpha2"
@@ -206,6 +227,7 @@ earlier in the document](#request-context).
      namespace: istio-system
    spec:
      config_store_url: "k8s://"
+     cache_duration: "30s"
 
    ---
    apiVersion: "config.istio.io/v1alpha2"
@@ -214,6 +236,7 @@ earlier in the document](#request-context).
      name: rbaccheck
      namespace: istio-system
    spec:
+     match: destination.namespace == "default"
      actions:
      # handler and instance names default to the rule's namespace.
      - handler: handler.rbac
@@ -221,3 +244,7 @@ earlier in the document](#request-context).
        - requestcontext.authorization
    ---
 ```
+
+## What's next
+
+Try out [Istio RBAC with BookInfo Sample]({{home}}/docs/tasks/security/role-based-access-control.html).

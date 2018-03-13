@@ -8,53 +8,43 @@ number_of_entries: 4
 <table class="command-flags">
 <thead>
 <th>Flags</th>
-<th>Shorthand</th>
 <th>Description</th>
 </thead>
 <tbody>
 <tr>
 <td><code>--log_as_json</code></td>
-<td></td>
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
 <td><code>--log_callers</code></td>
-<td></td>
 <td>Include caller information, useful for debugging </td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
 <td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
-<td></td>
 <td>The path for the optional rotating log file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_rotate_max_age &lt;int&gt;</code></td>
-<td></td>
 <td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
-<td></td>
 <td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate_max_size &lt;int&gt;</code></td>
-<td></td>
 <td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td></td>
 <td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
-<td></td>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 </tbody>
@@ -66,158 +56,127 @@ number_of_entries: 4
 <table class="command-flags">
 <thead>
 <th>Flags</th>
-<th>Shorthand</th>
 <th>Description</th>
 </thead>
 <tbody>
 <tr>
 <td><code>--availabilityZone &lt;string&gt;</code></td>
-<td></td>
 <td>Availability zone  (default ``)</td>
 </tr>
 <tr>
 <td><code>--binaryPath &lt;string&gt;</code></td>
-<td></td>
 <td>Path to the proxy binary  (default `/usr/local/bin/envoy`)</td>
 </tr>
 <tr>
 <td><code>--bootstrapv2</code></td>
-<td></td>
 <td>Use bootstrap v2 </td>
 </tr>
 <tr>
 <td><code>--concurrency &lt;int&gt;</code></td>
-<td></td>
 <td>number of worker threads to run  (default `0`)</td>
 </tr>
 <tr>
 <td><code>--configPath &lt;string&gt;</code></td>
-<td></td>
 <td>Path to the generated configuration file directory  (default `/etc/istio/proxy`)</td>
 </tr>
 <tr>
 <td><code>--connectTimeout &lt;duration&gt;</code></td>
-<td></td>
 <td>Connection timeout used by Envoy for supporting services  (default `1s`)</td>
 </tr>
 <tr>
 <td><code>--controlPlaneAuthPolicy &lt;string&gt;</code></td>
-<td></td>
 <td>Control Plane Authentication Policy  (default `NONE`)</td>
 </tr>
 <tr>
 <td><code>--customConfigFile &lt;string&gt;</code></td>
-<td></td>
 <td>Path to the generated configuration file directory  (default ``)</td>
 </tr>
 <tr>
 <td><code>--discoveryAddress &lt;string&gt;</code></td>
-<td></td>
 <td>Address of the discovery service exposing xDS (e.g. istio-pilot:8080)  (default `istio-pilot:15007`)</td>
 </tr>
 <tr>
 <td><code>--discoveryRefreshDelay &lt;duration&gt;</code></td>
-<td></td>
 <td>Polling interval for service discovery (used by EDS, CDS, LDS, but not RDS)  (default `1s`)</td>
 </tr>
 <tr>
 <td><code>--domain &lt;string&gt;</code></td>
-<td></td>
 <td>DNS domain suffix. If not provided uses ${POD_NAMESPACE}.svc.cluster.local  (default ``)</td>
 </tr>
 <tr>
 <td><code>--drainDuration &lt;duration&gt;</code></td>
-<td></td>
 <td>The time in seconds that Envoy will drain connections during a hot restart  (default `2s`)</td>
 </tr>
 <tr>
 <td><code>--id &lt;string&gt;</code></td>
-<td></td>
 <td>Proxy unique ID. If not provided uses ${POD_NAME}.${POD_NAMESPACE} from environment variables  (default ``)</td>
 </tr>
 <tr>
 <td><code>--ip &lt;string&gt;</code></td>
-<td></td>
 <td>Proxy IP address. If not provided uses ${INSTANCE_IP} environment variable.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
-<td></td>
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
 <td><code>--log_callers</code></td>
-<td></td>
 <td>Include caller information, useful for debugging </td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
 <td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
-<td></td>
 <td>The path for the optional rotating log file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_rotate_max_age &lt;int&gt;</code></td>
-<td></td>
 <td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
-<td></td>
 <td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate_max_size &lt;int&gt;</code></td>
-<td></td>
 <td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td></td>
 <td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
-<td></td>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
 <td><code>--parentShutdownDuration &lt;duration&gt;</code></td>
-<td></td>
 <td>The time in seconds that Envoy will wait before shutting down the parent process during a hot restart  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--proxyAdminPort &lt;int&gt;</code></td>
-<td></td>
 <td>Port on which Envoy should listen for administrative commands  (default `15000`)</td>
 </tr>
 <tr>
 <td><code>--proxyLogLevel &lt;string&gt;</code></td>
-<td></td>
 <td>The log level used to start the Envoy proxy (choose from {trace, debug, info, warn, err, critical, off})  (default `info`)</td>
 </tr>
 <tr>
 <td><code>--serviceCluster &lt;string&gt;</code></td>
-<td></td>
 <td>Service cluster  (default `istio-proxy`)</td>
 </tr>
 <tr>
 <td><code>--serviceregistry &lt;string&gt;</code></td>
-<td></td>
 <td>Select the platform for service registry, options are {Kubernetes, Consul, Eureka}  (default `Kubernetes`)</td>
 </tr>
 <tr>
 <td><code>--statsdUdpAddress &lt;string&gt;</code></td>
-<td></td>
 <td>IP Address and Port of a statsd UDP listener (e.g. 10.75.241.127:9125)  (default ``)</td>
 </tr>
 <tr>
 <td><code>--zipkinAddress &lt;string&gt;</code></td>
-<td></td>
 <td>Address of the Zipkin service (e.g. zipkin:9411)  (default ``)</td>
 </tr>
 </tbody>
