@@ -8,6 +8,8 @@ title: Istio
     <div class="container">
         {% if site.data.istio.archive %}
             <h1 class="hero-label">Istio Archive {{site.data.istio.version}}</h1>
+        {% elsif site.data.istio.preliminary %}
+            <h1 class="hero-label">Istio Preliminary {{site.data.istio.version}}</h1>
         {% else %}
             <h1 class="hero-label">Istio</h1>
         {% endif %}

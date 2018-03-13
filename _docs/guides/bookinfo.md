@@ -43,7 +43,7 @@ The end-to-end architecture of the application is shown below.
 
 This application is polyglot, i.e., the microservices are written in different languages.
 It’s worth noting that these services have no dependencies on Istio, but make an interesting
-sevice mesh example, particularly because of the multitude of services, languages and versions
+service mesh example, particularly because of the multitude of services, languages and versions
 for the reviews service.
 
 ## Before you begin
@@ -85,7 +85,7 @@ To start the application, follow the instructions below corresponding to your Is
    use the following command instead:
 
    ```bash
-   kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo.yaml)
+   kubectl apply -f <(istioctl kube-inject --debug -f samples/bookinfo/kube/bookinfo.yaml)
    ```
 
    If you are using a cluster with

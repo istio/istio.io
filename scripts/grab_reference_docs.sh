@@ -74,7 +74,7 @@ done
 # get_command_doc $WORK_DIR/istio/broker/cmd/brks brks
 get_command_doc $WORK_DIR/istio/mixer/cmd/mixc mixc
 get_command_doc $WORK_DIR/istio/mixer/cmd/mixs mixs
-get_command_doc $WORK_DIR/istio/pilot/cmd/istioctl istioctl
+get_command_doc $WORK_DIR/istio/istioctl/cmd/istioctl istioctl
 get_command_doc $WORK_DIR/istio/pilot/cmd/pilot-agent pilot-agent
 get_command_doc $WORK_DIR/istio/pilot/cmd/pilot-discovery pilot-discovery
 get_command_doc $WORK_DIR/istio/pilot/cmd/sidecar-injector sidecar-injector

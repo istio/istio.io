@@ -7,6 +7,7 @@ order: 40
 layout: docs
 type: markdown
 toc: false
+redirect_from: /docs/tasks/istio-auth.html
 ---
 
 {% include section-index.html docs=site.docs %}

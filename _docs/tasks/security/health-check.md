@@ -18,7 +18,7 @@ by periodically sending CSRs to the API. More health check features are coming s
 
 The Istio CA contains a _prober client_ module that periodically checks the CA's status (currently only the health
 status of the gRPC server).
-If the Istio CA is healthy, the _prober client_ updates the _modificate time_ of the _health status file_
+If the Istio CA is healthy, the _prober client_ updates the _modification time_ of the _health status file_
 (the file is always empty). Otherwise, it does nothing. Istio CA relies on a
 [K8s liveness and readiness probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)
 with command line to check the _modification time_ of the _health status file_ on the pod.
@@ -119,7 +119,7 @@ the Istio CA as healthy.
 
 Prolonging `probe-check-interval` will reduce the health check overhead, but there will be a greater lagging for the
 prober to get notified on the unhealthy status.
-To avoid the prober restarting the Istio CA due to temporary unavailablily, the `interval` on the prober can be
+To avoid the prober restarting the Istio CA due to temporary unavailability, the `interval` on the prober can be
 configured to be more than `N` times of the `liveness-probe-interval`. This will allow the prober to tolerate `N-1`
 continuously failed health checks.
 
