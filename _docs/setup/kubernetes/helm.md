@@ -62,7 +62,7 @@ following table:
 | global.mixer.hub             | registry+namespace | release registry/namespace | Specifies the HUB for the mixer image          |
 | global.mixer.tag             | image tag          | release unique hash        | Specifies the TAG for the mixer image          |
 | global.mixer.enabled         | true/false         | true                       | Specifies whether mixer is enabled/disabled    |
-| global.hyperkube.hub         | registry+namesapce | quay.io/coreos/hyperkube   | Specifies the HUB for the hyperkube image      |
+| global.hyperkube.hub         | registry+namespace | quay.io/coreos/hyperkube   | Specifies the HUB for the hyperkube image      |
 | global.hyperkube.tag         | image tag          | v1.7.6_coreos.0            | Specifies the TAG for the hyperkube image      |
 | global.ingress.use_nodeport  | true/false         | false                      | Specifies whether to use nodeport or LB        |
 | global.ingress.nodeport_port | 32000-32767        | 32000                      | If nodeport is used, specifies its port        |

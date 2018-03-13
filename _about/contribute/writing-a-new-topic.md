@@ -55,7 +55,7 @@ is the best fit for your content:
   <tr>
     <td>Setup</td>
     <td>A setup page is similar to a task page, except that it is focused on installation
-    ectivities.
+    activities.
     </td>
   </tr>
   
@@ -108,7 +108,7 @@ matter fields are:
 |`order`        | An integer used to determine the sort order of this page relative to other pages in the same directory.
 |`layout`       | Indicates which of the Jekyll layouts this page uses
 |`index`        | Indicates whether the page should appear in the doc's top nav tabs
-|`draft`        | When true, prevents the page from shownig up in any navigation area
+|`draft`        | When true, prevents the page from showing up in any navigation area
 |`publish_date` | For blog posts, indicates the date of publication of the post
 |`subtitle`     | For blog posts, supplies an optional subtitle to be displayed below the main title
 |`attribution`  | For blog posts, supplies an optional author's name
@@ -233,6 +233,26 @@ func HelloWorld() {
 You can use `markdown`, `yaml`, `json`, `java`, `javascript`, `c`, `cpp`, `csharp`, `go`, `html`, `protobuf`, 
 `perl`, `docker`, and `bash`.
 
+## Displaying file content
+
+You can pull in an external file and display its content as a preformatted block. This is handy to display a
+config file or a test file. To do so, you use a Jekyll include statement such as:
+
+```html
+{% raw %}{% include file-content.html url='https://raw.githubusercontent.com/istio/istio/master/Makefile' %}{% endraw %}
+```
+
+which produces the following result:
+
+{% include file-content.html url='https://raw.githubusercontent.com/istio/istio/master/Makefile' %}
+
+If the file is from a different origin site, CORS should be enabled on that site. Note that the
+GitHub raw content site (raw.githubusercontent.com) is CORS
+enabled so it may be used here.
+
+Note that unlike normal preformatted blocks, dynamically loaded preformatted blocks unfortunately
+do not get syntax colored.
+
 ## Adding redirects
 
 If you move pages around and would like to ensure existing links continue to work, you can add
@@ -249,7 +269,7 @@ For example
 
 ```
 ---
-title: Frequantly Asked Questions
+title: Frequently Asked Questions
 overview: Questions Asked Frequently
 
 order: 12
@@ -268,7 +288,7 @@ You can also add many redirects like so:
     
 ```
 ---
-title: Frequantly Asked Questions
+title: Frequently Asked Questions
 overview: Questions Asked Frequently
 
 order: 12

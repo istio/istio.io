@@ -119,6 +119,8 @@ sleep     1         1         1            1           2h        sleep,istio-pro
 Sidecars can be automatically added to applicable Kubernetes pods using a 
 [mutating webhook admission controller](https://kubernetes.io/docs/admin/admission-controllers/#validatingadmissionwebhook-alpha-in-18-beta-in-19), available in Kubernetes 1.9 and above. Specifically, verify that the kube-apiserver process has the `admission-control` flag set with the `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` admission controllers added and listed in the correct order.
 
+Note that unlike manual injection, automatic injection occurs at the pod-level. You won't see any change to the deployment itself. Instead you'll want to check individual pods (via `kubectl describe`) to see the injected proxy.
+
 ### Prerequisites
 
 A Kubernetes 1.9 cluster is required, with the `admissionregistration.k8s.io/v1beta1` API enabled.  This is enabled by default on most instllations.  If you want to check, you can grep:
@@ -336,6 +338,12 @@ kubectl get pod
 NAME                     READY     STATUS        RESTARTS   AGE
 sleep-776b7bcdcd-7hpnk   1/1       Terminating   0          1m
 sleep-776b7bcdcd-bhn9m   2/2       Running       0          7s
+```
+
+View detailed state of the injected pod. You should see the injected `istio-proxy` container and corresponding volumes. Be sure to substitute the correct name for the `Running` pod below.
+
+```bash
+kubectl describe pod sleep-776b7bcdcd-bhn9m
 ```
 
 Disable injection for the `default` namespace and verify new pods are created without the sidecar.

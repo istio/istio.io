@@ -6,14 +6,16 @@ order: 30
 
 layout: docs
 type: markdown
+redirect_from: /docs/tasks/ingress.html
 ---
+{% include home.html %}
 
 This task describes how to configure Istio to expose a service outside of the service mesh cluster.
 In a Kubernetes environment, the [Kubernetes Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/)
 allows users to specify services that should be exposed outside the
 cluster. It allows one to define a backend service per virtual host and path.
 
-Once the Istio Ingress specification is defined, the traffic entering the cluster is directed through the `istio-ingress` service. As a result, Istio features, for example, monitoring and route rules, can be applied to the traffic entering the cluster.
+Once the Istio Ingress specification is defined, traffic entering the cluster is directed through the `istio-ingress` service. As a result, Istio features, for example, monitoring and route rules, can be applied to the traffic entering the cluster.
 
 The Istio Ingress specification is based on the standard [Kubernetes Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/) specification, with the following differences:
 
@@ -237,7 +239,7 @@ The following are known limitations of Istio Ingress:
      169.47.243.100
      ```
 
-     along with the istio-ingress service's nodePort for port 80:
+     along with the istio-ingress service's nodePort for port 443:
 
      ```bash
      kubectl -n istio-system get svc istio-ingress
@@ -249,7 +251,7 @@ The following are known limitations of Istio Ingress:
      ```
 
      ```bash
-     export INGRESS_HOST=169.47.243.100:31486
+     export INGRESS_HOST=169.47.243.100:32254
      ```
 
 1. Access the httpbin service using _curl_:
@@ -273,7 +275,7 @@ The following are known limitations of Istio Ingress:
    see a HTTP 404 error
 
    ```bash
-   curl -I -k http://$INGRESS_HOST/headers
+   curl -I -k https://$INGRESS_HOST/headers
    ```
 
    ```
