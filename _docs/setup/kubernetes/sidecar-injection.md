@@ -191,7 +191,6 @@ kubeAPIServer:
     - MutatingAdmissionWebhook
     - ValidatingAdmissionWebhook
     - ResourceQuota
-    - Initializers
     - NodeRestriction
     - Priority
 ```
@@ -210,12 +209,23 @@ kops rolling-update cluster
 kops rolling-update cluster --yes
 ```
 
-Validate with a `ps` on master node, you should see new admission controller
+Validate with `kubectl` client on kube-api pod, you should see new admission controller:
+
+With single Master:
 
 ```bash
-/bin/sh -c /usr/local/bin/kube-apiserver --address=127.0.0.1 --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota,Initializers,NodeRestriction,Priority [...]
+ kubectl describe pods -nkube-system `kubectl get pods -nkube-system | grep api | awk '{print $1}'` | grep "/usr/local/bin/kube-apiserver"
+ ```
+
+With multiple Masters:
+```bash
+for i in `kubectl get pods -nkube-system | grep api | awk '{print $1}'` ; do  kubectl describe pods -nkube-system $i | grep "/usr/local/bin/kube-apiserver"  ; done
 ```
-   
+
+Ouput should be:
+```bash
+[...] --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota,NodeRestriction,Priority [...]
+```
 
 ### Installing the Webhook 
 
@@ -232,7 +242,7 @@ a cert/key pair signed by the Kubernetes' CA. The resulting cert/key file is sto
 secret for the sidecar injector webhook to consume. 
 
 _Note_: Kubernetes CA approval requires permissions to create and approve CSR. See 
-[https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster ](https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster) and 
+[https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster ](https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster/) and 
 [install/kubernetes/webhook-create-signed-cert.sh](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/webhook-create-signed-cert.sh) for more information.
 
 ```bash
