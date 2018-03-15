@@ -37,10 +37,10 @@
                     <a class="nav-link {% if current[1] == 'docs' %}active{% endif %}" href="{{home}}/docs/">Docs</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if current[1] == 'help' %}active{% endif %}" href="{{home}}/help">Help</a>
+                    <a class="nav-link {% if current[1] == 'help' %}active{% endif %}" href="{{home}}/help/">Help</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if current[1] == 'community.html' %}active{% endif %}" href="{{home}}/community">Community</a>
+                    <a class="nav-link {% if current[1] == 'community.html' %}active{% endif %}" href="{{home}}/community.html">Community</a>
                 </li>
 
                 <li class="nav-item dropdown" id="gearDropdown" style="white-space: nowrap">
@@ -57,41 +57,53 @@
                             {% else %}
                                 {% assign target = "" %}
                                 {% if current[1] == 'about' %}
-                                    {% assign target = "about" %}
+                                    {% assign target = "about/" %}
                                 {% elsif current[1] == 'blog' %}
-                                    {% assign target = "blog" %}
+                                    {% assign target = "blog/" %}
                                 {% elsif current[1] == 'community.html' %}
                                     {% assign target = "community" %}
                                 {% elsif current[1] == 'help' %}
-                                    {% assign target = "help" %}
+                                    {% assign target = "help/" %}
                                 {% elsif current[1] == 'docs' %}
-                                    {% assign target = "docs" %}
+                                    {% assign target = "docs/" %}
                                     {% if current[2] == 'reference' %}
-                                        {% assign target = "docs/reference" %}
+                                        {% assign target = "docs/reference/" %}
                                     {% elsif current[2] == 'guides' %}
-                                        {% assign target = "docs/guides" %}
+                                        {% assign target = "docs/guides/" %}
                                     {% elsif current[2] == 'tasks' %}
-                                        {% assign target = "docs/tasks" %}
+                                        {% assign target = "docs/tasks/" %}
                                     {% elsif current[2] == 'concepts' %}
-                                        {% assign target = "docs/concepts" %}
+                                        {% assign target = "docs/concepts/" %}
                                     {% elsif current[2] == 'setup' %}
-                                        {% assign target = "docs/setup" %}
+                                        {% assign target = "docs/setup/" %}
                                     {% endif %}
                                 {% endif %}
                             {% endif %}
 
                             {% assign name = rel.name | strip %}
                             {% if name == "0.1" %}
-                                {% if target == "docs/setup" %}
+                                {% if target == "docs/setup/" %}
                                     {% assign target = "docs/tasks/installing-istio" %}
-                                {% elsif target == "docs/guides" %}
-                                    {% assign target = "docs/samples" %}
-                                {% elsif target == "help" %}
+                                {% elsif target == "docs/guides/" %}
+                                    {% assign target = "docs/samples/" %}
+                                {% elsif target == "help/" %}
                                     {% assign target = "faq" %}
                                 {% endif %}
-                            {% else if name == "0.2" %}
-                                {% if target == "help" %}
+                            {% elsif name == "0.2" %}
+                                {% if target == "help/" %}
                                     {% assign target = "faq" %}
+                                {% endif %}
+                            {% elsif name == "0.3" %}
+                                {% if target == "about/" %}
+                                    {% assign target = "about.html" %}
+                                {% elsif target == "help/" %}
+                                    {% assign target = "help.html" %}
+                                {% endif %}
+                            {% elsif name == "0.4" %}
+                                {% if target == "about/" %}
+                                    {% assign target = "about.html" %}
+                                {% elsif target == "help/" %}
+                                    {% assign target = "help.html" %}
                                 {% endif %}
                             {% endif %}
 
