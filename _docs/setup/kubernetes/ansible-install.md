@@ -16,7 +16,7 @@ The Ansible scenario defined within this project will allow you to :
 
 ## Prerequisites
 
-- [Ansible 2.4](http://docs.ansible.com/ansible/latest/intro_installation.html)
+- [Ansible 2.4](https://docs.ansible.com/ansible/latest/intro_installation.html)
 
 Refer to the Ansible Installation Doc on how to install Ansible on your machine.
 To use [Minishift](https://docs.openshift.org/latest/minishift/command-ref/minishift_start.html) or [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) for local clusters, please refer to their respective documentation.

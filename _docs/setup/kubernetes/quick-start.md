@@ -46,7 +46,7 @@ support).
   kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value core/account)
   ```
 
-  * [IBM Cloud Container Service](https://www.ibm.com/cloud-computing/bluemix/containers)
+  * [IBM Cloud Container Service](https://www.ibm.com/cloud/container-service)
 
     * Retrieve your credentials for kubectl (replace `<cluster-name>` with the name of the cluster you want to use):
   ```bash
