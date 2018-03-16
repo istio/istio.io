@@ -8,9 +8,14 @@ type: markdown
 ---
 {% include home.html %}
 
+Fortio (Φορτίο) is Istio's load testing tool. Fortio runs at a specified query per second (qps) and records an histogram of execution time and calculates percentiles (e.g. p99 ie the response time such as 99% of the requests take less than that number (in seconds, SI unit)). It can run for a set duration, for a fixed number of calls, or until interrupted (at a constant target QPS, or max speed/load per connection/thread).
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus mattis dui et mauris rutrum varius. Donec tincidunt purus vitae metus aliquet, quis imperdiet dui blandit. Morbi blandit tincidunt elit in luctus. Praesent et turpis sed dolor posuere tincidunt nec imperdiet urna. Vivamus dictum in mauris eu iaculis. Duis iaculis justo ligula. Aliquam diam urna, aliquam vitae metus nec, tempor varius urna. Donec aliquam elit et ornare posuere. Pellentesque tincidunt et neque a mattis. Sed eleifend sit amet tortor a laoreet. Mauris in mattis ante, non malesuada ante. Vestibulum maximus pulvinar risus, ac commodo ipsum tincidunt et. Interdum et malesuada fames ac ante ipsum primis in faucibus.
+Fortio is a fast, small, reusable, embeddable go library as well as a command line tool and server process, the server includes a simple web UI and graphical representation of the results (both a single latency graph and a multiple results comparative min, max, avg and percentiles graphs).
 
-Donec sed vehicula turpis. Praesent faucibus faucibus lacus nec fringilla. Integer vel tortor et tortor consequat dapibus. Curabitur porta eu urna ac imperdiet. Sed feugiat aliquam urna id vestibulum. Sed sem erat, vulputate id ante vel, facilisis semper nulla. Donec pulvinar ante id pulvinar aliquet. Cras eleifend pulvinar sem, at lobortis justo aliquam et.
+Here is an example of scenario run result graphing the latency distribution for istio-0.6.0 at 400qps between 2 services inside the mesh:
 
-Morbi vel augue sed orci lobortis lacinia vel quis neque. Nunc gravida velit massa, ac aliquet urna consequat ac. Duis dignissim sodales risus. Proin eu nibh at orci dignissim lacinia eu in velit. Nulla ac eleifend nunc, posuere sagittis nulla. Maecenas dignissim tincidunt accumsan. Cras sed eros vel nibh viverra vestibulum id a nisi. Ut ultrices, nisl in mollis eleifend, lorem urna lobortis lorem, egestas convallis nulla massa in dolor. Donec ac tortor lacus. Duis sollicitudin turpis sed felis varius mollis. In eros eros, mollis nec sodales vel, mollis vitae orci. Fusce faucibus ornare augue.
+<iframe src="https://fortio.istio.io/browse?url=2018-03-07-164634_0_6_0_400qps_scenario1_with_cache.json" width="100%" height="1024" scrolling="no"></iframe>
+
+
+You can learn more about [Fortio](https://github.com/istio/fortio/blob/master/README.md#fortio) on GitHub and see results on [https://fortio.istio.io](https://fortio.istio.io).
+
