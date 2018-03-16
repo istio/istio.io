@@ -14,7 +14,7 @@ Fortio is a fast, small, reusable, embeddable go library as well as a command li
 
 Here is an example of scenario run result graphing the latency distribution for istio-0.6.0 at 400qps between 2 services inside the mesh:
 
-<iframe src="https://fortio.istio.io/browse?url=2018-03-07-164634_0_6_0_400qps_scenario1_with_cache.json" width="100%" height="1024" scrolling="no"></iframe>
+<iframe src="https://fortio.istio.io/browse?url=2018-03-07-164634_0_6_0_400qps_scenario1_with_cache.json" width="100%" height="1024" scrolling="no" frameborder="0"></iframe>
 
 
 You can learn more about [Fortio](https://github.com/istio/fortio/blob/master/README.md#fortio) on GitHub and see results on [https://fortio.istio.io](https://fortio.istio.io).
