@@ -75,7 +75,7 @@ installation like [Bookinfo]({{home}}/docs/guides/bookinfo.html).
 
 > Note 1: Since there is no concept of pods in a Docker setup, the Istio
 > sidecar runs in the same container as the application.  We will use 
-> [Registrator](http://gliderlabs.github.io/registrator/latest/) to
+> [Registrator](https://gliderlabs.github.io/registrator/latest/) to
 > automatically register instances of services in the Consul service
 > registry.
 

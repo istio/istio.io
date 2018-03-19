@@ -93,7 +93,9 @@ spec:
 EOF
 ```
 
-This command will create five egress rules, a rule per different block of IPs of `wikipedia.org`. Note the `---` (three dashes) separator between the egress rules. This is the [YAML separator between documents](http://www.yaml.org/spec/1.2/spec.html#id2760395) in a stream. It allows us to create multiple configuration artifacts using a single `istioctl` command.
+This command will create five egress rules, a rule per different block of IPs of `wikipedia.org`. Note the `---` (three dashes) separator between the egress rules. This is the
+[YAML separator between documents](http://www.yaml.org/spec/1.2/spec.html#id2760395) in a stream. It allows us to create multiple configuration artifacts using
+a single `istioctl` command.
 
 ## Access wikipedia.org by HTTPS
 
