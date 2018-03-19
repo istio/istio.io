@@ -36,7 +36,7 @@ or alternatively, to simply bypass the Istio proxy for a specific range of IPs.
 
 Using Istio egress rules, you can access any publicly accessible service
 from within your Istio cluster. In this task we will use 
-[httpbin.org](http://httpbin.org) and [www.google.com](http://www.google.com) as examples.
+[httpbin.org](https://httpbin.org) and [www.google.com](https://www.google.com) as examples.
 
 ### Configuring the external services
 

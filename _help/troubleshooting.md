@@ -65,7 +65,8 @@ To fix the problem, you'll need to shutdown and then restart Docker before reins
 
 ## Envoy won't connect to my HTTP/1.0 service
 
-Envoy requires HTTP/1.1 or HTTP/2 traffic for upstream services. For example, when using [NGINX](https://www.nginx.com/) for serving traffic behind Envoy, you will need to set the [proxy_http_version](http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_http_version) directive in your NGINX config to be "1.1", since the NGINX default is 1.0
+Envoy requires HTTP/1.1 or HTTP/2 traffic for upstream services. For example, when using [NGINX](https://www.nginx.com/) for serving traffic behind Envoy, you
+will need to set the [proxy_http_version](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_http_version) directive in your NGINX config to be "1.1", since the NGINX default is 1.0
 
 Example config:
 
@@ -109,7 +110,7 @@ The expected flow of metrics is:
 1. The instances are handed to Mixer adapters for processing and backend storage.
 1. The backend storage systems record metrics data.
 
-The default installations of Mixer ship with a [Prometheus](http://prometheus.io/)
+The default installations of Mixer ship with a [Prometheus](https://prometheus.io/)
 adapter, as well as configuration for generating a basic set of metric
 values and sending them to the Prometheus adapter. The
 [Prometheus add-on]({{home}}/docs/tasks/telemetry/querying-metrics.html#about-the-prometheus-add-on)
@@ -342,7 +343,7 @@ To debug Istio with `gdb`, you will need to run the debug images of Envoy / Mixe
 1.  gdb -p PID binary
 1.  For go: info goroutines, goroutine x bt
 
-### With [Tcpdump](http://www.tcpdump.org/tcpdump_man.html)
+### With [Tcpdump](https://www.tcpdump.org/tcpdump_man.html)
 
 Tcpdump doesn't work in the sidecar pod - the container doesn't run as root. However any other container in the same pod will see all the packets, since the network namespace is shared. `iptables` will also see the pod-wide config.
 
