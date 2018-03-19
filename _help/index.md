@@ -11,5 +11,5 @@ toc: false
 
 {% include section-index.html docs=site.help %}
 
-And don't forget our vibrant [community]({{home}}/community) that's always ready to lend a hand
+And don't forget our vibrant [community]({{home}}/community.html) that's always ready to lend a hand
 with thorny problems.
