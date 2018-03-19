@@ -84,7 +84,7 @@ the example application throughout this task.
 
    The results will look similar to:
 
-   {% include figure.html width='75%' ratio='100%'
+   {% include figure.html width='75%' ratio='107.7%'
     img='./img/servicegraph-example.png'
     alt='Example Servicegraph'
     title='Example Servicegraph'
