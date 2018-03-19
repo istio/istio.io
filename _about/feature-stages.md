@@ -103,4 +103,4 @@ Below is our list of existing features and their current phases. This informatio
 
 
 > <img src="{{home}}/img/bulb.svg" alt="Bulb" title="Help" style="width: 32px; display:inline" />
-Please get in touch by joining our [community]({{home}}/community) if there are features you'd like to see in our future releases!
+Please get in touch by joining our [community]({{home}}/community.html) if there are features you'd like to see in our future releases!
