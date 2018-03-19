@@ -5,7 +5,7 @@
 "use strict"
 
 function doSearch() {
-    var url = '{{home}}/search?q=' + document.getElementsByName('q')[0].value;
+    var url = '{{home}}/search.html?q=' + document.getElementsByName('q')[0].value;
     window.location.assign(url);
 }
 
