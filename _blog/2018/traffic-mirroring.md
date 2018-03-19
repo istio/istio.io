@@ -46,4 +46,5 @@ A few things to note here:
 * Responses to any mirrored traffic is ignored; traffic is mirrored as "fire-and-forget"
 * You'll need to have the 0-weighted route to hint to Istio to create the proper Envoy cluster under the covers; [this should be ironed out in future releases](https://github.com/istio/istio/issues/3270).
 
-Learn more about mirroring by visiting the [Mirroring Task]({{home}}/docs/tasks/traffic-management/mirroring.html) and see a more [comprehensive treatment of this scenario on my blog](http://blog.christianposta.com/microservices/traffic-shadowing-with-istio-reduce-the-risk-of-code-release/).
+Learn more about mirroring by visiting the [Mirroring Task]({{home}}/docs/tasks/traffic-management/mirroring.html) and see a more
+[comprehensive treatment of this scenario on my blog](https://blog.christianposta.com/microservices/traffic-shadowing-with-istio-reduce-the-risk-of-code-release/).

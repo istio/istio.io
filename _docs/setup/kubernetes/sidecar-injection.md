@@ -117,105 +117,19 @@ sleep     1         1         1            1           2h        sleep,istio-pro
 ## Automatic sidecar injection
 
 Sidecars can be automatically added to applicable Kubernetes pods using a 
-[mutating webhook admission controller](https://kubernetes.io/docs/admin/admission-controllers/#validatingadmissionwebhook-alpha-in-18-beta-in-19), available in Kubernetes 1.9 and above. Specifically, verify that the kube-apiserver process has the `admission-control` flag set with the `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` admission controllers added and listed in the correct order.
-
-Note that unlike manual injection, automatic injection occurs at the pod-level. You won't see any change to the deployment itself. Instead you'll want to check individual pods (via `kubectl describe`) to see the injected proxy.
-
-### Prerequisites
-
-A Kubernetes 1.9 cluster is required, with the `admissionregistration.k8s.io/v1beta1` API enabled.  This is enabled by default on most instllations.  If you want to check, you can grep:
+[mutating webhook admission controller](https://kubernetes.io/docs/admin/admission-controllers/#validatingadmissionwebhook-alpha-in-18-beta-in-19). This feature requires Kubernetes 1.9 or later. Verify that the kube-apiserver process has the `admission-control` flag set with the `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` admission controllers added and listed in the correct order and the admissionregistration API is enabled.
 
 ```bash
 kubectl api-versions | grep admissionregistration
 ```
 
-You should see 
-```
+```bash
 admissionregistration.k8s.io/v1beta1
 ```
 
-#### Google Kubernetes Engine (GKE)
+See the Kubernetes [quick start]({{home}}/docs/setup/kubernetes/quick-start.html) guide for instructions on installing Kubernetes version >= 1.9.
 
-Kubernetes 1.9 is generally available on Google Kubernetes Engine (GKE).  At the time of writing it is not the default version, so to create a cluster:
-
-```bash
-gcloud container clusters create <cluster-name> \
-    --cluster-version=1.9.2-gke.1 
-    --zone <zone>
-    --project <project-name>
-```
-```bash
-gcloud container clusters get-credentials <cluster-name> \
-    --zone <zone> \
-    --project <project-name>
-```
-```bash
-kubectl create clusterrolebinding cluster-admin-binding \
-    --clusterrole=cluster-admin \
-    --user=$(gcloud config get-value core/account)
-```
-
-#### minikube 
-
-Minikube version v0.25.0 or later is required for Kubernetes v1.9. Get the latest version from [https://github.com/kubernetes/minikube/releases](https://github.com/kubernetes/minikube/releases).
-
-```bash
-minikube start \
-	--extra-config=controller-manager.ClusterSigningCertFile="/var/lib/localkube/certs/ca.crt" \
-	--extra-config=controller-manager.ClusterSigningKeyFile="/var/lib/localkube/certs/ca.key" \
-	--extra-config=apiserver.Admission.PluginNames=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota \
-	--kubernetes-version=v1.9.0
-```
-
-### AWS (with Kops)
-
-When you install a new cluster with Kubernetes version 1.9, prerequisite for `admissionregistration.k8s.io/v1beta1` enabled is covered. 
-
-Nevertheless the list of admission controllers needs to be updated.
-
-```bash
-kops edit cluster $YOURCLUSTER
-```
-
-Add following in the configuration file just openned:
-
-```bash
-kubeAPIServer:
-    admissionControl:
-    - NamespaceLifecycle
-    - LimitRanger
-    - ServiceAccount
-    - PersistentVolumeLabel
-    - DefaultStorageClass
-    - DefaultTolerationSeconds
-    - MutatingAdmissionWebhook
-    - ValidatingAdmissionWebhook
-    - ResourceQuota
-    - Initializers
-    - NodeRestriction
-    - Priority
-```
-
-Perform the update
-
-```bash
-kops update cluster
-kops update cluster --yes
-```
-
-Launch the rolling update
-
-```bash
-kops rolling-update cluster
-kops rolling-update cluster --yes
-```
-
-Validate with a `ps` on master node, you should see new admission controller
-
-```bash
-/bin/sh -c /usr/local/bin/kube-apiserver --address=127.0.0.1 --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota,Initializers,NodeRestriction,Priority [...]
-```
-   
+Note that unlike manual injection, automatic injection occurs at the pod-level. You won't see any change to the deployment itself. Instead you'll want to check individual pods (via `kubectl describe`) to see the injected proxy.
 
 ### Installing the Webhook 
 
@@ -232,7 +146,7 @@ a cert/key pair signed by the Kubernetes' CA. The resulting cert/key file is sto
 secret for the sidecar injector webhook to consume. 
 
 _Note_: Kubernetes CA approval requires permissions to create and approve CSR. See 
-[https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster ](https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster) and 
+[https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster ](https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster/) and 
 [install/kubernetes/webhook-create-signed-cert.sh](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/webhook-create-signed-cert.sh) for more information.
 
 ```bash

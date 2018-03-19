@@ -11,7 +11,7 @@ redirect_from: /docs/tasks/zipkin-tracing.html
 {% include home.html %}
 
 This task shows you how Istio-enabled applications 
-can be configured to collect trace spans using [Zipkin](http://zipkin.io) or [Jaeger](https://jaeger.readthedocs.io). 
+can be configured to collect trace spans using [Zipkin](https://zipkin.io) or [Jaeger](https://jaeger.readthedocs.io).
 After completing this task, you should understand all of the assumptions about your
 application and how to have it participate in tracing, regardless of what
 language/framework/platform you use to build your application.
