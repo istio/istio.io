@@ -21,7 +21,7 @@ git clone https://github.com/istio/api.git
 git clone https://github.com/istio/istio.git
 popd
 
-# Given the name of a .pb.html file, exracts the $location marker and then proceeds to
+# Given the name of a .pb.html file, extracts the $location marker and then proceeds to
 # copy the file to that location in the _docs hierarchy.
 locate_file() {
     FILENAME=$1

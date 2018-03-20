@@ -241,6 +241,11 @@ nexus for policy evaluation and telemetry reporting.</p>
 </thead>
 <tbody>
 <tr>
+<td><code>--configStoreURL &lt;string&gt;</code></td>
+<td></td>
+<td>URL of the config store. Use k8s://path_to_kubeconfig or fs:// for file system. If path_to_kubeconfig is empty, in-cluster kubeconfig is used.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--external-admission-webook-name &lt;string&gt;</code></td>
 <td></td>
 <td>the name of the external admission webhook registration. Needs to be a domain with at least three segments separated by dots.  (default `mixer-webhook.istio.io`)</td>
