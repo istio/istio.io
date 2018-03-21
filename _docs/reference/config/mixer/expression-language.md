@@ -16,7 +16,8 @@ This page describes how to use the Mixer config expression language (CEXL).
 
 ## Background
 
-Mixer configuration uses an expression language (CEXL) to specify match expressions and [mapping expressions]({{mixerConfig}}#attribute-expressions). CEXL expressions map a set of typed [attributes]({{home}}/docs/concepts/policy-and-control/attributes.html) and constants to a typed [value](https://github.com/istio/api/blob/master/mixer/v1/config/descriptor/value_type.proto#L23).
+Mixer configuration uses an expression language (CEXL) to specify match expressions and [mapping expressions]({{mixerConfig}}#attribute-expressions). CEXL expressions map a set of typed [attributes]({{home}}/docs/concepts/policy-and-control/attributes.html) and constants to a typed
+[value](https://github.com/istio/api/blob/master/policy/v1beta1/value_type.proto).
   
 ## Syntax
 
