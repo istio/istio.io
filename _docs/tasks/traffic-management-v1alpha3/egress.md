@@ -292,6 +292,6 @@ Note that Istio `ExternalService` is **not a security feature**. It enables acce
 * Read more about [external services]({{home}}/docs/concepts/traffic-management/rules-configuration.html#external-services).
 
 * Learn how to setup
-  [timeouts]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#httptimeout),
-  [retries]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#httpretry),
-  and [circuit breakers]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#circuitbreaker) for egress traffic.
+  [timeouts]({{home}}/docs/reference/config/istio.routing.v1alpha3.html#httproute.timeout),
+  [retries]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#httproute.retries),
+  and [circuit breakers]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#circuitbreaker) for egress traffic.

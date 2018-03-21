@@ -264,4 +264,4 @@ kubectl logs -f $V2_POD -c httpbin
 
 ## What's next
 
-Check out the [Mirroring configuration]({{home}}/docs/reference/config/istio.networking.v1alpha3.html) reference section for more settings for traffic mirroring.
+Check out the [Mirroring configuration]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#httproute.mirror) reference documentation.
