@@ -44,4 +44,4 @@ separator. For example, `request.size` and `source.ip`.
 ## Attribute types
 
 Istio attributes are strongly typed. The supported attribute types are defined by
-[ValueType](https://github.com/istio/api/blob/master/mixer/v1/config/descriptor/value_type.proto).
+[ValueType](https://github.com/istio/api/blob/master/policy/v1beta1/value_type.proto).
