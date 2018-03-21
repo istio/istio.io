@@ -60,10 +60,10 @@
                                     {% assign target = "about/" %}
                                 {% elsif current[1] == 'blog' %}
                                     {% assign target = "blog/" %}
-                                {% elsif current[1] == 'community.html' %}
-                                    {% assign target = "community" %}
                                 {% elsif current[1] == 'help' %}
                                     {% assign target = "help/" %}
+                                {% elsif current[1] == 'community.html' %}
+                                    {% assign target = "community.html" %}
                                 {% elsif current[1] == 'docs' %}
                                     {% assign target = "docs/" %}
                                     {% if current[2] == 'reference' %}
@@ -88,10 +88,14 @@
                                     {% assign target = "docs/samples/" %}
                                 {% elsif target == "help/" %}
                                     {% assign target = "faq" %}
+                                {% elsif target == "community.html" %}
+                                    {% assign target = "community/" %}
                                 {% endif %}
                             {% elsif name == "0.2" %}
                                 {% if target == "help/" %}
                                     {% assign target = "faq" %}
+                                {% elsif target == "community.html" %}
+                                    {% assign target = "community/" %}
                                 {% endif %}
                             {% elsif name == "0.3" %}
                                 {% if target == "about/" %}

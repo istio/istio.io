@@ -16,7 +16,9 @@ Quick Start instructions to install and configure Istio in a Kubernetes cluster.
 ## Prerequisites
 
 The following instructions require you have access to a Kubernetes **1.7.3 or newer** cluster
-with [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/) enabled. You will also need `kubectl` **1.7.3 or newer** installed.  If you wish to enable [automatic sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection), you need Kubernetes version 1.9 or greater.
+with [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/) enabled. You will also need `kubectl` **1.7.3 or newer** installed.  
+
+If you wish to enable [automatic sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection) or server-side configuration validation, you need Kubernetes version 1.9 or greater.
 
   > Note: If you installed Istio 0.1.x,
   > [uninstall](https://archive.istio.io/v0.1/docs/tasks/installing-istio.html#uninstalling)
@@ -30,47 +32,125 @@ support).
 
 * Depending on your Kubernetes provider:
 
-  * To install Istio locally, install the latest version of
-[Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) (version 0.22.1 or later).
+### [Minikube](https://github.com/kubernetes/minikube/releases)
 
-  * [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/)
+  To install Istio locally, install the latest version of
+[Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) (version 0.25.0 or later).
 
-    * Retrieve your credentials for kubectl (replace `<cluster-name>` with the name of the cluster you want to use,
-    and `<zone>` with the zone where that cluster is located):
-  ```bash
-  gcloud container clusters get-credentials <cluster-name> --zone <zone> --project <project-name>
-  ```
+```bash
+  minikube start \
+	--extra-config=controller-manager.ClusterSigningCertFile="/var/lib/localkube/certs/ca.crt" \
+	--extra-config=controller-manager.ClusterSigningKeyFile="/var/lib/localkube/certs/ca.key" \
+	--extra-config=apiserver.Admission.PluginNames=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota \
+	--kubernetes-version=v1.9.0
+```
 
-    * Grant cluster admin permissions to the current user (admin permissions are required to create the necessary RBAC rules for Istio):
-  ```bash
-  kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value core/account)
-  ```
+### [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/)
 
-  * [IBM Cloud Container Service](https://www.ibm.com/cloud/container-service)
+Create a new cluster.
 
-    * Retrieve your credentials for kubectl (replace `<cluster-name>` with the name of the cluster you want to use):
-  ```bash
-  $(bx cs cluster-config <cluster-name>|grep "export KUBECONFIG")
-  ```
+```bash
+gcloud container clusters create <cluster-name> \
+    --cluster-version=1.9.4-gke.1 
+    --zone <zone>
+    --project <project-name>
+```
 
-  * [IBM Cloud Private](https://www.ibm.com/cloud-computing/products/ibm-cloud-private/) version 2.1 or later
+Retrieve your credentials for kubectl.
 
-    * Config `kubectl` CLI based on steps [here](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0/manage_cluster/cfc_cli.html) for how to access the IBM Cloud Private Cluster.
+```bash
+gcloud container clusters get-credentials <cluster-name> \
+    --zone <zone> \
+    --project <project-name>
+```
 
-  * [Openshift Origin](https://www.openshift.org) version 3.7 or later
+ Grant cluster admin permissions to the current user (admin permissions are required to create the necessary RBAC rules for Istio).
+ 
+```bash
+kubectl create clusterrolebinding cluster-admin-binding \
+    --clusterrole=cluster-admin \
+    --user=$(gcloud config get-value core/account)
+```
 
-    * Openshift by default does not allow containers running with UID 0. Enable containers running
+### [IBM Cloud Container Service](https://www.ibm.com/cloud/container-service)
+
+Retrieve your credentials for kubectl (replace `<cluster-name>` with the name of the cluster you want to use):
+
+```bash
+$(bx cs cluster-config <cluster-name>|grep "export KUBECONFIG")
+```
+
+### [IBM Cloud Private](https://www.ibm.com/cloud-computing/products/ibm-cloud-private/) (version 2.1 or later)
+
+Configure `kubectl` CLI based on steps [here](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0/manage_cluster/cfc_cli.html) for how to access the IBM Cloud Private Cluster.
+
+### [Openshift Origin](https://www.openshift.org) (version 3.7 or later)
+   
+Openshift by default does not allow containers running with UID 0. Enable containers running
 with UID 0 for Istio's service accounts for ingress as well the Prometheus and Grafana addons:
+
   ```bash
   oc adm policy add-scc-to-user anyuid -z istio-ingress-service-account -n istio-system
   oc adm policy add-scc-to-user anyuid -z istio-grafana-service-account -n istio-system
   oc adm policy add-scc-to-user anyuid -z istio-prometheus-service-account -n istio-system
   ```
-
-    * Service account that runs application pods need privileged security context constraints as part of sidecar injection.
+Service account that runs application pods need privileged security context constraints as part of sidecar injection.
   ```bash
   oc adm policy add-scc-to-user privileged -z default -n <target-namespace>
   ```
+  
+### AWS (w/Kops)
+
+When you install a new cluster with Kubernetes version 1.9, prerequisite for `admissionregistration.k8s.io/v1beta1` enabled is covered. 
+
+Nevertheless the list of admission controllers needs to be updated.
+
+```bash
+kops edit cluster $YOURCLUSTER
+```
+
+Add following in the configuration file just openned:
+
+```bash
+kubeAPIServer:
+    admissionControl:
+    - NamespaceLifecycle
+    - LimitRanger
+    - ServiceAccount
+    - PersistentVolumeLabel
+    - DefaultStorageClass
+    - DefaultTolerationSeconds
+    - MutatingAdmissionWebhook
+    - ValidatingAdmissionWebhook
+    - ResourceQuota
+    - NodeRestriction
+    - Priority
+```
+
+Perform the update
+
+```bash
+kops update cluster
+kops update cluster --yes
+```
+
+Launch the rolling update
+
+```bash
+kops rolling-update cluster
+kops rolling-update cluster --yes
+```
+
+Validate with `kubectl` client on kube-api pod, you should see new admission controller:
+
+```bash
+for i in `kubectl get pods -nkube-system | grep api | awk '{print $1}'` ; do  kubectl describe pods -nkube-system $i | grep "/usr/local/bin/kube-apiserver"  ; done
+```
+
+Ouput should be:
+```bash
+[...] --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota,NodeRestriction,Priority [...]
+```
 
 ## Installation steps
 
