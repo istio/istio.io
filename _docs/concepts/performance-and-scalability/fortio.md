@@ -1,6 +1,6 @@
 ---
 title: Fortio
-overview: Fortio is our simple synthetic http and grpc bencharking tool.
+overview: Fortio is our simple synthetic http and grpc benchmarking tool.
 order: 30
 
 layout: docs
@@ -18,4 +18,3 @@ Here is an example of scenario run result graphing the latency distribution for 
 
 
 You can learn more about [Fortio](https://github.com/istio/fortio/blob/master/README.md#fortio) on GitHub and see results on [https://fortio.istio.io](https://fortio.istio.io).
-

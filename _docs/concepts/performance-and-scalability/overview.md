@@ -15,7 +15,6 @@ We have a 4 pronged approach for performance:
 
 * Synthetic end to end benchmarks across various scenarios
 
-* Realistic complex app end to end benchmarks across varios settings
+* Realistic complex app end to end benchmarks across various settings
 
 * Automation to ensure performance doesn't regress
-

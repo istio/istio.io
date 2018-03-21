@@ -1,6 +1,6 @@
 ---
 title: Scalability
-overview: Setup of istio components to scale horizontally. High availability.
+overview: Setup of Istio components to scale horizontally. High availability.
 order: 60
 
 layout: docs
