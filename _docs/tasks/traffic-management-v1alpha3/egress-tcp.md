@@ -56,7 +56,7 @@ spec:
 EOF
 ```
 
-This command instructs the Istio proxy to forward requests on port 443 of any `wikipedia.org` IP address to the IP address to which the connection was bound.
+This command instructs the Istio proxy to forward requests on port 443 of any of the `wikipedia.org` IP addresses to the same IP address to which the connection was bound.
 
 ## Access wikipedia.org by HTTPS
 
