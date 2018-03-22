@@ -1,6 +1,6 @@
 ---
 title: Installing with Ansible
-overview: Instructions on using the included Ansible playbook to perform installation.
+overview: Instructions for using the included Ansible playbook to perform installation.
 
 order: 40
 
