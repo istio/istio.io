@@ -77,7 +77,7 @@ The following are known limitations of Istio Ingress:
  
    `/.*` is a special Istio notation that is used to indicate a prefix
    match, specifically a
-   [rule match configuration]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#httpmatchrequest)
+   [rule match configuration]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#HTTPMatchRequest)
    of the form (`prefix: /`).
    
 ### Verifying ingress
