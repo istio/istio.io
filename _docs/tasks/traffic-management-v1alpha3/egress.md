@@ -289,7 +289,7 @@ Note that Istio `ExternalService` is **not a security feature**. It enables acce
 
 ## What's next
 
-* Read more about [external services]({{home}}/docs/concepts/traffic-management/rules-configuration.html#external-services).
+* Read more about [external services]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#ExternalService).
 
 * Learn how to setup
   [timeouts]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#HTTPRoute.timeout),
