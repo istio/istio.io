@@ -1,6 +1,6 @@
 ---
-title: Istio Helm Chart Instructions
-overview: Instructions for the setup and configuration of Istio using the Helm package manager.
+title: Installing with Helm
+overview: Instructions for using the included Helm chart to perform installation.
 
 order: 30
 
@@ -10,7 +10,7 @@ type: markdown
 
 {% include home.html %}
 
-Quick Start instructions for the setup and configuration of Istio using the Helm package manager.
+Quick start instructions for the setup and configuration of Istio using the Helm package manager.
 
 <span style="color:red">**Warning: Helm charts are currently broken in 0.5.0**</span>
 
