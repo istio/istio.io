@@ -74,7 +74,7 @@ configuration from the `istio` ConfigMap. Additional parameter overrides
 are available via flags (see `istioctl kube-inject --help`).
 
 ```bash
-kubectl apply -f <(~istioctl kube-inject -f samples/sleep/sleep.yaml)
+kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
 ```
 
 `kube-inject` can also be run without access to a running Kubernetes
