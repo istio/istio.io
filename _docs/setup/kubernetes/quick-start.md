@@ -100,12 +100,11 @@ Configure `kubectl` CLI based on steps [here](https://www.ibm.com/support/knowle
 OpenShift by default does not allow containers running with UID 0. Enable containers running
 with UID 0 for Istio's service accounts for ingress as well the Prometheus and Grafana addons:
 
-```bash
-oc adm policy add-scc-to-user anyuid -z istio-ingress-service-account -n istio-system
-oc adm policy add-scc-to-user anyuid -z istio-grafana-service-account -n istio-system
-oc adm policy add-scc-to-user anyuid -z istio-prometheus-service-account -n istio-system
-```
-
+  ```bash
+  oc adm policy add-scc-to-user anyuid -z istio-ingress-service-account -n istio-system
+  oc adm policy add-scc-to-user anyuid -z grafana -n istio-system
+  oc adm policy add-scc-to-user anyuid -z prometheus -n istio-system
+  ```
 Service account that runs application pods need privileged security context constraints as part of sidecar injection.
 
 ```bash
