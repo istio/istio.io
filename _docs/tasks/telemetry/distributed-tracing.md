@@ -25,12 +25,15 @@ example application for this task.
 * Setup Istio by following the instructions in the [Installation guide]({{home}}/docs/setup/).
 
   If you didn't start the Zipkin or Jaeger addon during installation,
-  you can run the following command to start it now, for zipkin:
+  you can run the following command to start it now.
+  
+  For zipkin:
   
   ```bash
   kubectl apply -f install/kubernetes/addons/zipkin.yaml
   ```
-  for Jaeger:
+  
+  For Jaeger:
 
   ```bash
   kubectl apply -n istio-system -f https://raw.githubusercontent.com/jaegertracing/jaeger-kubernetes/master/all-in-one/jaeger-all-in-one-template.yml
