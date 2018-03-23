@@ -63,15 +63,25 @@ Note:
         {% assign order = order | slice: 0, len | append: "#####" %}
     {% endif %}
 
-    {% assign a = a | append: "^" | append: order | append: "$" | append: doc.url | append: "$" | append: doc.title | append: "$" | append: doc.overview %}
+    <!-- take the full doc url and replace the last component of it by the document title, and use that for collation such that
+    docs in the same directory end up sorted first by 'order', then by title
+    -->
+    {% assign hackUrl = "" %}
+    {% for i in (1..count) %}
+        {% assign hackUrl = hackUrl | append: "/" | append: components[i] %}
+    {% endfor %}
+    {% assign hackUrl = hackUrl | append: "/" | append: doc.title %}
+
+    {% assign a = a | append: "^" | append: order | append: "$" | append: hackUrl | append: "$" | append: doc.url | append: "$" | append: doc.title |
+    append: "$" | append: doc.overview %}
 {% endfor %}
 
 {% assign sorted = a | split: "^" | sort %}
 {% for s in sorted %}
     {% assign parts = s | split: "$" %}
-    {% assign urls = urls | append: "$" | append: parts[1] %}
-    {% assign titles = titles | append: "$" | append: parts[2] %}
-    {% assign overviews = overviews | append: "$" | append: parts[3] %}
+    {% assign urls = urls | append: "$" | append: parts[2] %}
+    {% assign titles = titles | append: "$" | append: parts[3] %}
+    {% assign overviews = overviews | append: "$" | append: parts[4] %}
 {% endfor %}
 
 {% assign urlslen = urls | size | minus: 2 %}
