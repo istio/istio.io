@@ -53,12 +53,11 @@ The full list of configurable parameters is as follows:
 | `cluster_flavour` | Defines whether the target cluster is a Kubernetes or an Openshift cluster. | Valid values are `k8s` and `ocp` (default) |
 | `github_api_token` | The API token used for authentication when calling the GitHub API | Any valid GitHub API token or empty (default) |
 | `cmd_path` | Can be used when the user does not have the `oc` or `kubectl` binary on the PATH | Defaults to expecting the binary is on the path | 
-| `istio.release_tag_name` | Should be a valid Istio release version. If left empty, the latest Istio release will be installed | `0.2.12`, `0.3.0`, `0.4.0`, `0.5.0`, `0.5.1` |
+| `istio.release_tag_name` | Should be a valid Istio release version. If left empty, the latest Istio release will be installed | `0.2.12`, `0.3.0`, `0.4.0`, ... |
 | `istio.dest` | The directory of the target machine where Istio will be installed | `~/.istio` (default) |
 | `istio.auth` | Boolean value to install Istio using MUTUAL_TLS | `true` and `false` (default) |
 | `istio.namespace` | The namespace where Istio will be installed | `istio-system` (default) |
-| `istio.addon` | Which Istio addons should be installed as well | This field is an array field, which by default contains `grafana`, `prometheus`, `zipkin` and `servicegraph` |
-| `istio.jaeger` | Whether or not Jaeger tracing should also be installed | `true` and `false` (default)|
+| `istio.addon` | Which Istio addons should be installed as well | This field is an array field, which by default contains `grafana`, `prometheus`, `zipkin`, `jaeger` (disables Zipkin if selected), and `servicegraph` |
 | `istio.delete_resources` | Boolean value to delete resources created under the Istio namespace | `true` and `false` (default)|
 | `istio.samples` | Array containing the names of the samples that should be installed | Valid names are: `bookinfo`, `helloworld`, `httpbin`, `sleep`
 
@@ -101,12 +100,12 @@ ansible-playbook main.yml -e '{"cluster_flavour": "k8s", "cmd_path": "~/kubectl"
 
 - User wants to install Istio on Openshift with settings other than the default
 ```bash
-ansible-playbook main.yml -e '{"istio": {"release_tag_name": "0.4.0", "auth": true, "jaeger": true, "delete_resources": true}}'
+ansible-playbook main.yml -e '{"istio": {"release_tag_name": "0.6.0", "auth": true, "delete_resources": true}}'
 ```
 
 - User wants to install Istio on Openshift but with custom add-on settings
 ```bash
-ansible-playbook main.yml -e '{"istio": {"delete_resources": true, "addon": ["grafana", "prometheus"]}}'
+ansible-playbook main.yml -e '{"istio": {"delete_resources": true, "addon": ["grafana", "prometheus", "jaeger"]}}'
 ```
 
 - User wants to install Istio on Openshift and additionally wants to deploy some of the samples
@@ -115,7 +114,6 @@ ansible-playbook main.yml -e '{"istio": {"samples": ["helloworld", "bookinfo"]}}
 ```
 
 The list of available addons can be found at `istio/vars.main.yml` under the name `istio_all_addons`.
-Jaeger is not installed using the `addons` property, but can be installed by enabling `"jaeger": true` like in one of the previous examples.
 It should be noted that when Jaeger is enabled, Zipkin is disabled whether or not it's been selected in the addons section.
 
 ## Adding istioctl to PATH
