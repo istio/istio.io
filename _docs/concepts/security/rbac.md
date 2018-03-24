@@ -98,7 +98,8 @@ Here is an example of a simple role "service-admin", which has full access to al
        methods: ["*"]
 ```
 
-Here is another role "products-viewer", which has read ("GET" and "HEAD") access to "products" service in "default" namespace.
+Here is another role "products-viewer", which has read ("GET" and "HEAD") access to service "products.default.svc.cluster.local"
+in "default" namespace.
 
 ```rule
    apiVersion: "config.istio.io/v1alpha2"
@@ -108,7 +109,7 @@ Here is another role "products-viewer", which has read ("GET" and "HEAD") access
      namespace: default
    spec:
      rules:
-     - services: ["products"]
+     - services: ["products.default.svc.cluster.local"]
        methods: ["GET", "HEAD"]
 ```
 
@@ -116,7 +117,7 @@ In addition, we support **prefix match** and **suffix match** for all the fields
 has the following permissions in "default" namespace:
 * Full access to all services with prefix "test-" (e.g, "test-bookstore", "test-performance", "test-api.default.svc.cluster.local").
 * Read ("GET") access to all paths with "/reviews" suffix (e.g, "/books/reviews", "/events/booksale/reviews", "/reviews")
-in "bookstore" service.
+in service "bookstore.default.svc.cluster.local".
 
 ```rule
    apiVersion: "config.istio.io/v1alpha2"
@@ -128,7 +129,7 @@ in "bookstore" service.
      rules:
      - services: ["test-*"]
        methods: ["*"]
-     - services: ["bookstore"]
+     - services: ["bookstore.default.svc.cluster.local"]
        paths: ["*/reviews"]
        methods: ["GET"]
 ```
@@ -149,7 +150,7 @@ being "v1" or "v2". Note that the "version" property is provided by `"action.pro
      namespace: default
    spec:
      rules:
-     - services: ["products"]
+     - services: ["products.default.svc.cluster.local"]
        methods: ["GET", "HEAD"]
        constraints:
        - key: "version"
@@ -168,7 +169,7 @@ instance.
 
 Here is an example of ServiceRoleBinding object "test-binding-products", which binds two subjects to ServiceRole "product-viewer":
 * user "alice@yahoo.com".
-* "reviews" service in "abc" namespace.
+* "reviews.abc.svc.cluster.local" service in "abc" namespace.
 
 ```rule
    apiVersion: "config.istio.io/v1alpha2"
@@ -180,7 +181,7 @@ Here is an example of ServiceRoleBinding object "test-binding-products", which b
      subjects:
      - user: "alice@yahoo.com"
      - properties:
-         service: "reviews"
+         service: "reviews.abc.svc.cluster.local"
          namespace: "abc"
      roleRef:
        kind: ServiceRole
