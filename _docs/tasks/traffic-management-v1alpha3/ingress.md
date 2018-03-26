@@ -80,7 +80,7 @@ HTTP/TCP connections.
 It configures exposed ports, protocols, etc.,
 but, unlike [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/services-networking/ingress/),
 does not include any traffic routing configuration. Traffic routing for ingress traffic is instead configured
-using Istio routing rules, exactly the same as for internal service requests.
+using Istio routing rules, exactly in the same was as for internal service requests.
 
 ### Configuring a Gateway
 
@@ -143,16 +143,119 @@ using Istio routing rules, exactly the same as for internal service requests.
    EOF
    ``` 
    
-   As you can see, we created a [VirtualService]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#VirtualService)
-   configuration for the `httpbin` service, containing two route rules.
-   The two rules route traffic for path `/status` and `/delay` to the `httpbin` service.
-   All other requests will be rejected with a 404 response.
+   Here we created a [VirtualService]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#VirtualService)
+   configuration for the `httpbin` service, containing two route rules that allow traffic for paths `/status` and `/delay`.
+   The [gateways]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#VirtualService.gateways) field
+   indicates that only requests through our `httpbin-gateway` are allowed. 
+   All other external requests will be rejected with a 404 response.
    
-   TODO: explain `gateways` value `httpbin-gateway`.
-   
+   > Note that in this example internal requests from other services in the mesh are not subject to these rules,
+     but instead will simply default to round-robin routing. To apply these (or other rules) to internal calls,
+     we could add the special value `mesh` to the list of `gateways`.
+        
 ### Verifying a Gateway
    
-TBD
+The Envoy proxies implementing a particular `Gateway` configuration can be specified using the
+[selector]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway.selector) field.
+If not specified, the `Gateway` will be implemented by the default `istio-ingress` controller.
+Therefore, for our example, we will test our `Gateway` using the `istio-ingress` nodePorts.
+
+1. Get the ingress controller pod's hostIP:
+
+   ```bash
+   kubectl -n istio-system get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
+   ```
+
+   ```bash
+   169.47.243.100
+   ```
+
+1. Get the istio-ingress service's nodePort for port 80:
+
+   ```bash
+   kubectl -n istio-system get svc istio-ingress
+   ```
+
+   ```bash
+   NAME            CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
+   istio-ingress   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
+   ```
+
+   ```bash
+   export HTTP_GATEWAY=169.47.243.100:31486
+   ```
+
+1. Get the istio-ingress service's nodePort for port 443:
+
+   ```bash
+   kubectl -n istio-system get svc istio-ingress
+   ```
+
+   ```bash
+   NAME            CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
+   istio-ingress   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
+   ```
+
+   ```bash
+   export HTTPS_GATEWAY=169.47.243.100:32254
+   ```
+
+1. Access the httpbin service with either HTTP or HTTPS using _curl_:
+
+   ```bash
+   curl -I http://$HTTP_GATEWAY/status/200
+   ```
+
+   ```
+   HTTP/1.1 200 OK
+   server: envoy
+   date: Mon, 29 Jan 2018 04:45:49 GMT
+   content-type: text/html; charset=utf-8
+   access-control-allow-origin: *
+   access-control-allow-credentials: true
+   content-length: 0
+   x-envoy-upstream-service-time: 48
+   ```
+
+   ```bash
+   curl -I -k https://$HTTPS_GATEWAY/status/200
+   ```
+
+   ```
+   HTTP/1.1 200 OK
+   server: envoy
+   date: Mon, 29 Jan 2018 04:45:49 GMT
+   content-type: text/html; charset=utf-8
+   access-control-allow-origin: *
+   access-control-allow-credentials: true
+   content-length: 0
+   x-envoy-upstream-service-time: 96
+   ```
+
+1. Access any other URL that has not been explicitly exposed. You should
+   see a HTTP 404 error
+
+   ```bash
+   curl -I http://$HTTP_GATEWAY/headers
+   ```
+
+   ```
+   HTTP/1.1 404 Not Found
+   date: Mon, 29 Jan 2018 04:45:49 GMT
+   server: envoy
+   content-length: 0
+   ```
+
+   ```bash
+   curl -I https://$HTTPS_GATEWAY/headers
+   ```
+
+   ```
+   HTTP/1.1 404 Not Found
+   date: Mon, 29 Jan 2018 04:45:49 GMT
+   server: envoy
+   content-length: 0
+   ```
 
 ## Configuring ingress using a Kubernetes Ingress resource
 
