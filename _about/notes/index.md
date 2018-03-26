@@ -14,7 +14,7 @@ redirect_from:
 toc: false  
 ---
 
-{% include section-index.html docs=site.docs %}
+{% include section-index.html docs=site.about %}
 
 
 - The [latest](https://github.com/istio/istio/releases) Istio monthly release is {{site.data.istio.version}}. It is downloaded when the following is used(*):
