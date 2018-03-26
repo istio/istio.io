@@ -60,10 +60,17 @@ When running Istio with mutual TLS authentication turned on, you can use curl in
 envoy to send request to other services.
 For example, after starting the [Bookinfo]({{home}}/docs/guides/bookinfo.html)
 sample application you can ssh into the envoy container of `productpage` service,
-and send request to other services by curl. 
+and send request to other services by curl.
+
+Note: by default istio proxy image does not have curl installed. To try this
+feature, please add --debug flag when running kube-inject, i.e.,
+
+```bash
+kubectl apply -f <(istioctl kube-inject --debug -f samples/bookinfo/kube/bookinfo.yaml)
+```
 
 There are several steps:
-   
+
 1. get the productpage pod name
    ```bash
    kubectl get pods -l app=productpage
