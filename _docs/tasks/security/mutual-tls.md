@@ -82,21 +82,39 @@ There are several steps:
 
    Make sure the pod is "Running".
 
-1. ssh into the envoy container 
+1. ssh into the envoy container
    ```bash
    kubectl exec -it productpage-v1-4184313719-5mxjc -c istio-proxy /bin/bash
    ```
 
 1. make sure the key/cert is in /etc/certs/ directory
    ```bash
-   ls /etc/certs/ 
+   ls /etc/certs/
    ```
    ```bash
    cert-chain.pem   key.pem   root-cert.pem
-   ``` 
-   
-   Note that cert-chain.pem is envoy's cert that needs to present to the other side. key.pem is envoy's private key paired with cert-chain.pem. root-cert.pem is the root cert to verify the other side's cert. Currently we only have one CA, so all envoys have the same root-cert.pem.  
-   
+   ```
+
+   Note that cert-chain.pem is envoy's cert that needs to present to the other side. key.pem is envoy's private key paired with cert-chain.pem. root-cert.pem is the root cert to verify the other side's cert. Currently we only have one CA, so all envoys have the same root-cert.pem.
+
+1. make sure 'curl' is installed by
+   ```bash
+   curl
+   ```
+   If curl is installed, you should see something like
+   ```bash
+   curl: try 'curl --help' or 'curl --manual' for more information
+   ```
+
+   Note: by default istio proxy image does not have curl installed to make the
+   image compact. However, the proxy debug image does have curl, please add --debug flag during kube-inject, i.e.,
+
+   ```bash
+   kubectl apply -f <(istioctl kube-inject --debug -f samples/bookinfo/kube/bookinfo.yaml)
+   ```
+
+   and start over.
+
 1. send requests to another service, for example, details.
    ```bash
    curl https://details:9080/details/0 -v --key /etc/certs/key.pem --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem -k
