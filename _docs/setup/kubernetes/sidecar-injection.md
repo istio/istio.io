@@ -279,8 +279,8 @@ sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
 
 #### Understanding what happened
 
-[admissionregistration.k8s.io/v1alpha1#MutatingWebhookConfiguration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.9/#mutatingwebhookconfiguration-v1beta1-admissionregistration) 
-configures when the webhook is invoked by Kubernetes. The default 
+An `admissionregistration.k8s.io/v1alpha1#MutatingWebhookConfiguration`
+configures when a webhook is invoked by Kubernetes. The default 
 supplied with Istio selects pods in namespaces with label `istio-injection=enabled`. 
 This can be changed by modifying the MutatingWebhookConfiguration in
 `install/kubernetes/istio-sidecar-injector-with-ca-bundle.yaml`.
