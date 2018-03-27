@@ -1,6 +1,6 @@
 ---
-title: Installing with Ansible
-overview: Instructions for using the included Ansible playbook to perform installation.
+title: Installion with Ansible
+overview: Install Itio with the included Ansible playbook.
 
 order: 40
 
