@@ -27,7 +27,7 @@ rate limits and quotas.
 including cluster ingress and egress.
 
 - Secure service-to-service communication in a cluster with strong 
-identity based authentication and authorization.
+identity-based authentication and authorization.
 
 Istio can be deployed on [Kubernetes](https://kubernetes.io),
 [Nomad](https://nomadproject.io) with [Consul](https://www.consul.io/). We
