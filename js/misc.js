@@ -70,7 +70,20 @@ function patchDOM() {
             button.className = "copy copy-hide";
             button.innerText = "Copy";
 
-            pre[i].parentElement.appendChild(button);
+            var parent = pre[i].parentElement;
+            if (parent.tagName == "DIV") {
+                // This is the case for HTML produced from markdown through Jekyll
+                parent.appendChild(button);
+            } else {
+                // This is the case for HTML produced by protoc-gen-docs from proto sources
+                // we hackily create a DIV on the fly to make this case look like what we get
+                // from Jekyll
+                var div = document.createElement("DIV")
+                div.className = "highlight"
+                parent.insertBefore(div, pre[i])
+                div.appendChild(pre[i])
+                div.appendChild(button)
+            }
         }
 
         var copyCode = new Clipboard('button.copy', {
