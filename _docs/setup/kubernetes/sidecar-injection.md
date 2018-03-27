@@ -11,7 +11,8 @@ type: markdown
 
 _NOTE_: The following requires Istio 0.5.0 or greater. See [https://archive.istio.io/v0.4/docs/setup/kubernetes/sidecar-injection](https://archive.istio.io/v0.4/docs/setup/kubernetes/sidecar-injection) for Istio versions 0.4.0 or older.
 
-_NOTE_: In previous releases, the Kubernetes initializer feature was used for automatic proxy injection. This was an Alpha feature, subject to change/removal, and not enabled by default in Kubernetes. Starting in Kubernetes 1.9 it was replaced by a beta feature called [mutating webhooks](https://kubernetes.io/docs/admin/admission-controllers/#mutatingadmissionwebhook-beta-in-19), which is now enabled by default in Kubernetes 1.9 and beyond. Starting in Istio 0.5.0 the automatic proxy injection uses mutating webhooks, and support for injection by initializer has been removed. Users who cannot uprade to Kubernetes 1.9 should use manual injection.
+_NOTE_: In previous releases, the Kubernetes initializer feature was used for automatic proxy injection. This was an Alpha feature, subject to change/removal, and not enabled by default in Kubernetes. Starting in Kubernetes 1.9 it was replaced by a beta feature called
+[mutating webhooks](https://kubernetes.io/docs/admin/admission-controllers/#mutatingadmissionwebhook-beta-in-19), which is now enabled by default in Kubernetes 1.9 and beyond. Starting in Istio 0.5.0 the automatic proxy injection uses mutating webhooks, and support for injection by initializer has been removed. Users who cannot uprade to Kubernetes 1.9 should use manual injection.
 
 # Pod Spec Requirements
 
@@ -279,8 +280,8 @@ sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
 
 #### Understanding what happened
 
-[admissionregistration.k8s.io/v1alpha1#MutatingWebhookConfiguration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.9/#mutatingwebhookconfiguration-v1beta1-admissionregistration) 
-configures when the webhook is invoked by Kubernetes. The default 
+[admissionregistration.k8s.io/v1beta1#MutatingWebhookConfiguration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#mutatingwebhookconfiguration-v1beta1-admissionregistration)
+configures when the webhook is invoked by Kubernetes. The default
 supplied with Istio selects pods in namespaces with label `istio-injection=enabled`. 
 This can be changed by modifying the MutatingWebhookConfiguration in
 `install/kubernetes/istio-sidecar-injector-with-ca-bundle.yaml`.

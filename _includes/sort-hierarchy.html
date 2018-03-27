@@ -63,9 +63,10 @@ Note:
         {% assign order = order | slice: 0, len | append: "#####" %}
     {% endif %}
 
-    <!-- take the full doc url and replace the last component of it by the document title, and use that for collation such that
-    docs in the same directory end up sorted first by 'order', then by title
-    -->
+    {% comment %}
+        Take the full doc url and replace the last component of it by the document title, and use that for collation such that
+        docs in the same directory end up sorted first by 'order', then by title
+    {% endcomment %}
     {% assign hackUrl = "" %}
     {% for i in (1..count) %}
         {% assign hackUrl = hackUrl | append: "/" | append: components[i] %}
