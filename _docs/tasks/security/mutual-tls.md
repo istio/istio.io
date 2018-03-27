@@ -100,7 +100,7 @@ There are several steps:
    ```
 
    Note: by default istio proxy image does not have curl installed to make the
-   image compact. However, the proxy debug image does have curl, please add --debug flag during kube-inject, i.e.,
+   image compact. However, the proxy debug image does have curl, please add '--debug' flag during kube-inject, i.e.,
 
    ```bash
    kubectl apply -f <(istioctl kube-inject --debug -f samples/bookinfo/kube/bookinfo.yaml)
