@@ -15,10 +15,10 @@ allows users to specify services that should be exposed outside the cluster.
 For traffic entering an Istio service mesh, however, an Istio-aware [ingress controller](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-controllers)
 is needed to allow Istio features, for example, monitoring and route rules, to be applied to traffic entering the cluster.
 
-Istio provides an envoy-based ingress controller that implements very limited support for standard Kubernetes Ingress resources
+Istio provides an envoy-based ingress controller that implements very limited support for standard Kubernetes `Ingress` resources
 as well as full support for an alternative specification,
 [Istio Gateway]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway).
-Using a Gateway is the recommended approach for configuring ingress traffic for Istio services. 
+Using a `Gateway` is the recommended approach for configuring ingress traffic for Istio services. 
 It is significantly more functional, not to mention the only option for non-Kubernetes environments.
 
 This task describes how to configure Istio to expose a service outside of the service mesh using either specification.
@@ -59,7 +59,7 @@ This task describes how to configure Istio to expose a service outside of the se
 
 An [Istio Gateway]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway) is the preferred
 model for configuring ingress traffic in Istio.
-An ingress Gateway describes a load balancer operating at the edge of the mesh receiving incoming
+An ingress `Gateway` describes a load balancer operating at the edge of the mesh receiving incoming
 HTTP/TCP connections. 
 It configures exposed ports, protocols, etc.,
 but, unlike [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/services-networking/ingress/),
@@ -68,7 +68,7 @@ using Istio routing rules, exactly in the same was as for internal service reque
 
 ### Configuring a Gateway
 
-1. Create an Istio Gateway
+1. Create an Istio `Gateway`
 
    ```bash
    cat <<EOF | kubectl create -f -
@@ -91,10 +91,10 @@ using Istio routing rules, exactly in the same was as for internal service reque
    EOF
    ```
    
-   Notice that a single Gateway specification can configure multiple ports, a simple HTTP (port 80) and
+   Notice that a single `Gateway` specification can configure multiple ports, a simple HTTP (port 80) and
    secure HTTPS (port 443) in our case.
    
-1. Configure routes for traffic entering via the Gateway
+1. Configure routes for traffic entering via the `Gateway`
 
    ```bash
    cat <<EOF | kubectl create -f -
@@ -142,7 +142,7 @@ using Istio routing rules, exactly in the same was as for internal service reque
 The proxy instances implementing a particular `Gateway` configuration can be specified using a
 [selector]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway.selector) field.
 If not specified, as in our case, the `Gateway` will be implemented by the default `istio-ingress` controller.
-Therefore, to test our Gateway we will send requests to the `istio-ingress` service.
+Therefore, to test our `Gateway` we will send requests to the `istio-ingress` service.
 
 1. Get the ingress controller pod's hostIP:
 
@@ -229,19 +229,21 @@ Therefore, to test our Gateway we will send requests to the `istio-ingress` serv
 
 ## Configuring ingress using a Kubernetes Ingress resource
 
-An Istio Ingress specification is based on the standard [Kubernetes Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/)
+An Istio `Ingress` specification is based on the standard [Kubernetes Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/)
 specification, with the following differences:
 
-1. Istio Ingress specification contains a `kubernetes.io/ingress.class: istio` annotation.
+1. Istio `Ingress` specification contains a `kubernetes.io/ingress.class: istio` annotation.
 
 2. All other annotations are ignored.
 
-The following are known limitations of Istio Ingress:
+3. Path syntax is [c++11 regex format](http://en.cppreference.com/w/cpp/regex/ecmascript)
 
-1. Regular expressions in paths are not supported.
-2. Fault injection at the Ingress is not supported.
+Note that `Ingress` traffic is not affected by routing rules configured for a backend
+(i.e., an Istio `VirtualService` cannot be combined with an `Ingress` specification). 
+Traffic splitting, fault injection, mirroring, header match, etc., will not work for ingress traffic.
+A `DestinationRule` associated with the backend service will, however, work as expected.
 
-The `servicePort` field in the Ingress specification can take a port number
+The `servicePort` field in the `Ingress` specification can take a port number
 (integer) or a name. The port name must follow the Istio port naming
 conventions (e.g., `grpc-*`, `http2-*`, `http-*`, etc.) in order to
 function properly. The name used must match the port name in the backend
@@ -249,7 +251,7 @@ service declaration.
 
 ### Configuring simple Ingress
 
-1. Create a basic Ingress specification for the httpbin service
+1. Create a basic `Ingress` specification for the httpbin service
 
    ```bash
    cat <<EOF | kubectl create -f -
@@ -263,22 +265,17 @@ service declaration.
      rules:
      - http:
          paths:
-         - path: /status/.*
+         - path: /status/*
            backend:
              serviceName: httpbin
              servicePort: 8000
-         - path: /delay/.*
+         - path: /delay/*
            backend:
              serviceName: httpbin
              servicePort: 8000
    EOF
    ```
  
-   `/.*` is a special Istio notation that is used to indicate a prefix
-   match, specifically a
-   [rule match configuration]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#HTTPMatchRequest)
-   of the form (`prefix: /`).
-
 ### Verifying simple Ingress
    
 1. Determine the ingress URL:
@@ -357,7 +354,7 @@ service declaration.
 
 ### Configuring secure Ingress (HTTPS)
 
-1. Create a Kubernetes Secret to hold the key/cert
+1. Create a Kubernetes `Secret` to hold the key/cert
 
    Create the secret `istio-ingress-certs` in namespace `istio-system` using `kubectl`. The Istio ingress controller
    will automatically load the secret.
@@ -373,7 +370,7 @@ service declaration.
    which risks leaking the key/cert. You can change the Role-Based Access Control (RBAC) rules to protect them.
    See (Link TBD) for details.
    
-1. Create the Ingress specification for the httpbin service
+1. Create the `Ingress` specification for the httpbin service
 
    ```bash
    cat <<EOF | kubectl create -f -
@@ -389,11 +386,11 @@ service declaration.
      rules:
      - http:
          paths:
-         - path: /status/.*
+         - path: /status/*
            backend:
              serviceName: httpbin
              servicePort: 8000
-         - path: /delay/.*
+         - path: /delay/*
            backend:
              serviceName: httpbin
              servicePort: 8000
@@ -479,81 +476,27 @@ service declaration.
    content-length: 0
    ```
 
-## Using Istio routing rules to control ingress traffic
-
-Istio's routing rules can be used to achieve a greater degree of control
-when routing requests to backend services. For example, the following
-command adds a 4s timeout to requests to the httpbin service's
-/delay URL.
-
-```bash
-cat <<EOF | kubectl replace -f -
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: httpbin
-spec:
-  hosts:
-  - httpbin
-  gateways:
-  - httpbin-gateway
-  http:
-  - match:
-      uri:
-        prefix: /status
-    route:
-    - destination:
-        port:
-          number: 8000
-        name: httpbin
-  - match:
-      uri:
-        prefix: /delay
-    route:
-    - destination:
-        port:
-          number: 8000
-        name: httpbin
-    timeout: 4s
-EOF
-```
-
-If you were to make a call to the Ingress/Gateway controller with the URL
-`http://$INGRESS_HOST/delay/10`, you will find that the call returns in 4s
-instead of the expected 10s delay.
-
-You can use other features of the route rules such as redirects, rewrites,
-routing to multiple versions, regular expression based match in HTTP
-headers, websocket upgrades, timeouts, retries, etc. Please refer to
-[routing rules]({{home}}/docs/reference/config/istio.networking.v1alpha3.html)
-for more details.
-
-> Note 1: Fault injection does not currently work for ingress traffic
-
-> Note 2: When matching requests in a routing rule to paths specified in a Kubernetes
-  Ingress configuration, use the same exact path or prefix as the one used in
-  the Ingress specification.
-
 ## Understanding what happened
 
-Gateway or Ingress configuration resources allow external traffic to enter the
+`Gateway` or `Ingress` configuration resources allow external traffic to enter the
 Istio service mesh and make the traffic management and policy features of Istio
 available for edge services.
 
 In the preceding steps we created a service inside the Istio service mesh
 and showed how to expose both HTTP and HTTPS endpoints of the service to
-external traffic. We also showed how to control the ingress traffic using
-an Istio route rule.
+external traffic. Using an Istio `Gateway` provides significantly more functionality
+and is recommended. Using a Kubernetes `Ingress`, however, is also supported
+and may be especially useful when moving existing Kubernetes applications to Istio.
 
 ## Cleanup
 
-1. Remove the Gateway configuration.
+1. Remove the `Gateway` configuration.
     
    ```bash
    kubectl delete gateway httpbin-gateway
    ```
 
-1. Remove the Ingress configuration.
+1. Remove the `Ingress` configuration.
     
    ```bash
    kubectl delete ingress simple-ingress secure-ingress 
