@@ -525,7 +525,7 @@ instead of the expected 10s delay.
 You can use other features of the route rules such as redirects, rewrites,
 routing to multiple versions, regular expression based match in HTTP
 headers, websocket upgrades, timeouts, retries, etc. Please refer to
-[routing rules]({{home}}/docs/reference/config/istio.networking.v1alpha1.html)
+[routing rules]({{home}}/docs/reference/config/istio.networking.v1alpha3.html)
 for more details.
 
 > Note 1: Fault injection does not currently work for ingress traffic
