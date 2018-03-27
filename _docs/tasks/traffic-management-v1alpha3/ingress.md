@@ -53,22 +53,6 @@ This task describes how to configure Istio to expose a service outside of the se
    openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /tmp/tls.key -out /tmp/tls.crt -subj "/CN=foo.bar.com"
    ```
 
-* Create a Kubernetes Secret to hold the key/cert
-
-   Create the secret `istio-ingress-certs` in namespace `istio-system` using `kubectl`. The Istio ingress controller
-   will automatically load the secret.
-
-   > Note: the secret MUST be called `istio-ingress-certs` in the `istio-system` namespace, or it will not
-     be mounted and available to the Istio ingress controller.
-
-   ```bash
-   kubectl create -n istio-system secret tls istio-ingress-certs --key /tmp/tls.key --cert /tmp/tls.crt
-   ```
-
-   Note that by default all service accounts in the `istio-system` namespace can access this ingress key/cert,
-   which risks leaking the key/cert. You can change the Role-Based Access Control (RBAC) rules to protect them.
-   See (Link TBD) for details.
-   
 ## Configuring ingress using an Istio Gateway resource (recommended)
 
 > Note: This is still a WIP and not working yet.
@@ -143,22 +127,22 @@ using Istio routing rules, exactly in the same was as for internal service reque
    EOF
    ``` 
    
-   Here we created a [VirtualService]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#VirtualService)
+   Here we've created a [VirtualService]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#VirtualService)
    configuration for the `httpbin` service, containing two route rules that allow traffic for paths `/status` and `/delay`.
-   The [gateways]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#VirtualService.gateways) field
-   indicates that only requests through our `httpbin-gateway` are allowed. 
+   The [gateways]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#VirtualService.gateways) list
+   specifies that only requests through our `httpbin-gateway` are allowed. 
    All other external requests will be rejected with a 404 response.
    
-   > Note that in this example internal requests from other services in the mesh are not subject to these rules,
-     but instead will simply default to round-robin routing. To apply these (or other rules) to internal calls,
-     we could add the special value `mesh` to the list of `gateways`.
+   Note that in this configuration internal requests from other services in the mesh are not subject to these rules,
+   but instead will simply default to round-robin routing. To apply these (or other rules) to internal calls,
+   we could add the special value `mesh` to the list of `gateways`.
         
 ### Verifying a Gateway
    
-The Envoy proxies implementing a particular `Gateway` configuration can be specified using the
+The proxy instances implementing a particular `Gateway` configuration can be specified using a
 [selector]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway.selector) field.
-If not specified, the `Gateway` will be implemented by the default `istio-ingress` controller.
-Therefore, for our example, we will test our `Gateway` using the `istio-ingress` nodePorts.
+If not specified, as in our case, the `Gateway` will be implemented by the default `istio-ingress` controller.
+Therefore, to test our Gateway we will send requests to the `istio-ingress` service.
 
 1. Get the ingress controller pod's hostIP:
 
@@ -170,7 +154,7 @@ Therefore, for our example, we will test our `Gateway` using the `istio-ingress`
    169.47.243.100
    ```
 
-1. Get the istio-ingress service's nodePort for port 80:
+1. Get the istio-ingress service's nodePorts for port 80 and 443:
 
    ```bash
    kubectl -n istio-system get svc istio-ingress
@@ -182,28 +166,14 @@ Therefore, for our example, we will test our `Gateway` using the `istio-ingress`
    ```
 
    ```bash
-   export HTTP_GATEWAY=169.47.243.100:31486
-   ```
-
-1. Get the istio-ingress service's nodePort for port 443:
-
-   ```bash
-   kubectl -n istio-system get svc istio-ingress
-   ```
-
-   ```bash
-   NAME            CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
-   istio-ingress   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
-   ```
-
-   ```bash
-   export HTTPS_GATEWAY=169.47.243.100:32254
+   export INGRESS_HOST=169.47.243.100:31486
+   export SECURE_INGRESS_HOST=169.47.243.100:32254
    ```
 
 1. Access the httpbin service with either HTTP or HTTPS using _curl_:
 
    ```bash
-   curl -I http://$HTTP_GATEWAY/status/200
+   curl -I http://$INGRESS_HOST/status/200
    ```
 
    ```
@@ -218,7 +188,7 @@ Therefore, for our example, we will test our `Gateway` using the `istio-ingress`
    ```
 
    ```bash
-   curl -I -k https://$HTTPS_GATEWAY/status/200
+   curl -I -k https://$SECURE_INGRESS_HOST/status/200
    ```
 
    ```
@@ -233,10 +203,10 @@ Therefore, for our example, we will test our `Gateway` using the `istio-ingress`
    ```
 
 1. Access any other URL that has not been explicitly exposed. You should
-   see a HTTP 404 error
+   see a HTTP 404 error:
 
    ```bash
-   curl -I http://$HTTP_GATEWAY/headers
+   curl -I http://$INGRESS_HOST/headers
    ```
 
    ```
@@ -247,7 +217,7 @@ Therefore, for our example, we will test our `Gateway` using the `istio-ingress`
    ```
 
    ```bash
-   curl -I https://$HTTPS_GATEWAY/headers
+   curl -I https://$SECURE_INGRESS_HOST/headers
    ```
 
    ```
@@ -387,6 +357,22 @@ service declaration.
 
 ### Configuring secure Ingress (HTTPS)
 
+1. Create a Kubernetes Secret to hold the key/cert
+
+   Create the secret `istio-ingress-certs` in namespace `istio-system` using `kubectl`. The Istio ingress controller
+   will automatically load the secret.
+
+   > Note: the secret MUST be called `istio-ingress-certs` in the `istio-system` namespace, or it will not
+     be mounted and available to the Istio ingress controller.
+
+   ```bash
+   kubectl create -n istio-system secret tls istio-ingress-certs --key /tmp/tls.key --cert /tmp/tls.crt
+   ```
+
+   Note that by default all service accounts in the `istio-system` namespace can access this ingress key/cert,
+   which risks leaking the key/cert. You can change the Role-Based Access Control (RBAC) rules to protect them.
+   See (Link TBD) for details.
+   
 1. Create the Ingress specification for the httpbin service
 
    ```bash
@@ -434,7 +420,7 @@ service declaration.
      ```
 
      ```bash
-     export INGRESS_HOST=130.211.10.121
+     export SECURE_INGRESS_HOST=130.211.10.121
      ```
 
    * If load balancers are not supported, use the ingress controller pod's hostIP:
@@ -459,13 +445,13 @@ service declaration.
      ```
 
      ```bash
-     export INGRESS_HOST=169.47.243.100:32254
+     export SECURE_INGRESS_HOST=169.47.243.100:32254
      ```
 
 1. Access the httpbin service using _curl_:
 
    ```bash
-   curl -I -k https://$INGRESS_HOST/status/200
+   curl -I -k https://$SECURE_INGRESS_HOST/status/200
    ```
 
    ```
@@ -483,7 +469,7 @@ service declaration.
    see a HTTP 404 error
 
    ```bash
-   curl -I -k https://$INGRESS_HOST/headers
+   curl -I -k https://$SECURE_INGRESS_HOST/headers
    ```
 
    ```
