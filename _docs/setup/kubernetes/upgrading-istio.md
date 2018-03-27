@@ -10,7 +10,7 @@ type: markdown
 {% include home.html %}
 
 This guide demonstrates how to upgrade the Istio control plane and data plane
-for Kubernetes environment.
+for the Kubernetes environment.
 
 ## Overview
 
@@ -57,7 +57,7 @@ of sidecar proxy. There are two cases: Manual injection and Automatic injection.
      kubectl apply -f <(istioctl kube-inject -i $ISTIO_NAMESPACE -f $ORIGINAL_DEPLOYMENT_YAML)
      ```
 
-     If the sidecar was injected previously with some customized inject config
+     If the sidecar was previously injected with some customized inject config
      files, you will need to change the version tag in the config files to the new
      version and reinject the sidecar as follows:
 
