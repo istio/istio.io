@@ -29,6 +29,3 @@ find the docs for that release [here](https://archive.istio.io/v0.2/). You can d
 ```
 curl -L https://git.io/getIstio | sh -
 ```
-
-We typically wait to bake the latest release for several weeks and ensure it is more reliable than the previous one before
-promoting it to stable.
