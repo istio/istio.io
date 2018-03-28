@@ -17,7 +17,7 @@ toc: false
 {% include section-index.html docs=site.about %}
 
 The [latest Istio monthly release](https://github.com/istio/istio/releases) is {{site.data.istio.version}} which
-you can download with:
+you can download with(*):
 
 ```
 curl -L https://git.io/getLatestIstio | sh -
@@ -30,4 +30,6 @@ can download with:
 curl -L https://git.io/getIstio | sh -
 ```
 
-[Archived documentation for for 0.2.12 release](https://archive.istio.io/v0.2/).
+[Archived documentation for for 0.2.12 release](https://archive.istio.io/v0.2/docs/).
+
+> (*) Note: As we don't control the git.io domain, please examine the output of the curl command before piping it to a shell if running in any sensitive or non sandboxed environment.
