@@ -219,6 +219,14 @@ Use simple and direct language. Avoid using unnecessary phrases, such as saying 
 |You can create a Deployment by ...     | We'll create a Deployment by ...
 |In the preceding output, you can see...| In the preceding output, we can see ...
 
+### Create useful links
+
+There are good hyperlinks, and bad hyperlinks. The common practice of calling links *here*  or *click here* are examples of
+bad hyperlinks. Check out this excellent article explaining what makes a good hyperlink and try to keep these guidelines in
+mind when creating or reviewing site content.
+
+[Why “click here” is a terrible link, and what to write instead](http://stephanieleary.com/2015/05/why-click-here-is-a-terrible-link-and-what-to-write-instead/).
+
 ## Patterns to avoid
 
 ### Avoid using "we"
