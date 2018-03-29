@@ -27,6 +27,8 @@ is where you can learn about what Istio does and how it does it.
 - [Guides]({{home}}/docs/guides/). Guides are fully working stand-alone examples
 intended to highlight a particular set of Istio's features.
 
+- [Performance and Scalability]({{home}}/docs/performance-and-scalability/). Performance and scalability provides Istio's performance and scalability processes and results.
+
 - [Reference]({{home}}/docs/reference/). Detailed exhaustive lists of
 command-line options, configuration options, API definitions, and procedures.
 
