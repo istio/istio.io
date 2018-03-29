@@ -14,20 +14,19 @@ redirect_from:
 toc: false  
 ---
 
-{% include section-index.html docs=site.about %}
+- The latest Istio monthly release is {{site.data.istio.version}} ([release notes]({{site.data.istio.version}}.html)). You can [download {{site.data.istio.version}}](https://github.com/istio/istio/releases) with(*):
 
-The [latest Istio monthly release](https://github.com/istio/istio/releases) is {{site.data.istio.version}} which
-you can download with:
+  ```
+  curl -L https://git.io/getLatestIstio | sh -
+  ```
 
-```
-curl -L https://git.io/getLatestIstio | sh -
-```
+- The most recent stable release is 0.2.12. You can [download 0.2.12](https://github.com/istio/istio/releases/tag/0.2.12) with:
 
-The most recent stable release is [0.2.12](https://github.com/istio/istio/releases/tag/0.2.12) which you
-can download with:
+  ```
+  curl -L https://git.io/getIstio | sh -
+  ```
 
-```
-curl -L https://git.io/getIstio | sh -
-```
+  [Archived documentation for the 0.2.12 release](https://archive.istio.io/v0.2/docs/).
 
-[Archived documentation for for 0.2.12 release](https://archive.istio.io/v0.2/).
+
+> (*) Note: As we don't control the `git.io` domain, please examine the output of the curl command before piping it to a shell if running in any sensitive or non sandboxed environment.
