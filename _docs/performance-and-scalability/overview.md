@@ -9,7 +9,7 @@ type: markdown
 {% include home.html %}
 
 
-We have a 4 pronged approach for performance:
+We have a 4 pronged approach for Istio's performance characterization, tracking and improvements:
 
 * Code level micro benchmarks
 
