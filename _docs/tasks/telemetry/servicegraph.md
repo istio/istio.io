@@ -77,35 +77,57 @@ the example application throughout this task.
    kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &   
    ```
 
-   Visit [http://localhost:8088/dotviz](http://localhost:8088/dotviz) in your web browser.
+   Visit
+   [http://localhost:8088/force/forcegraph.html](http://localhost:8088/force/forcegraph.html)
+   in your web browser. Try clicking on a service to see details on
+   the service. Real time traffic data is shown in a panel below.
 
    The results will look similar to:
 
-   {% include figure.html width='100%' ratio='63.16%'
+   {% include figure.html width='75%' ratio='107.7%'
     img='./img/servicegraph-example.png'
     alt='Example Servicegraph'
     title='Example Servicegraph'
     caption='Example Servicegraph'
     %}
 
+1. Experiment with Query Parameters
+
+   Visit
+   [http://localhost:8088/force/forcegraph.html?time_horizon=15s&filter_empty=true](http://localhost:8088/force/forcegraph.html?time_horizon=15s&filter_empty=true)
+   in your web browser. Note the query parameters provided.
+
+   `filter_empty=true` will only show services that are currently receiving traffic within the time horizon.
+
+   `time_horizon=15s` affects the filter above, and also affects the
+   reported traffic information when clicking on a service. The
+   traffic information will be aggregated over the specified time
+   horizon.
+
+   The default behavior is to not filter empty services, and use a
+   time horizon of 5 minutes.
+
 ### About the Servicegraph Add-on
 
-The Servicegraph service is an example service that provides endpoints for
-generating and visualizing a graph of services within a mesh. It exposes the
-following endpoints:
+The
+[Servicegraph](https://github.com/istio/istio/tree/master/addons/servicegraph)
+service provides endpoints for generating and visualizing a graph of
+services within a mesh. It exposes the following endpoints:
 
-- `/graph` which provides a JSON serialization of the servicegraph
-- `/dotgraph` which provides a dot serialization of the servicegraph
-- `/dotviz` which provides a visual representation of the servicegraph
+- `/force/forcegraph.html` As explored above, this is an interactive
+  [D3.js](https://d3js.org/) visualization.
+- `/dotviz` is a static [Graphviz](https://www.graphviz.org/)
+  visualization.
+- `/dotgraph` provides a
+  [DOT](https://en.wikipedia.org/wiki/DOT_(graph_description_language))
+  serialization.
+- `/d3graph` provides a JSON serialization for D3 visualization.
+- `/graph` provides a generic JSON serialization.
 
-All endpoints take an optional argument of `time_horizon`, which controls the
-timespan to consider for graph generation.
+All endpoints take the query parameters explored above.
 
-All endpoints also take an optional argument of `filter_empty=true`, which will
-restrict the nodes and edges shown to only those that reflect non-zero traffic
-levels during the specified `time_horizon`.
-
-The Servicegraph example is built on top of Prometheus queries.
+The Servicegraph example is built on top of Prometheus queries and
+depends on the standard Istio metric configuration.
 
 ## Cleanup
 
