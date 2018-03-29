@@ -45,12 +45,12 @@ new version. If there is any issue with the new control plane, you can rollback
 the changes either by applying the old version yaml files.
 
 ### Sidecar upgrade
-After control plane is upgraded, user needs to re-inject the new version
+After control plane is upgraded, you will need to re-inject the new version
 of sidecar proxy. There are two cases: Manual injection and Automatic injection.
 
 1. Manual injection:
 
-     If the sidecar automatic injection is not enabled, you can upgrade the
+     If automatic sidecar injection is not enabled, you can upgrade the
      sidecar manually by running the following command:
 
      ```bash
@@ -68,7 +68,7 @@ of sidecar proxy. There are two cases: Manual injection and Automatic injection.
      ```
 2. Automatic injection:
 
-     If the sidecar automatic injection is enabled, you can upgrade the sidecar
+     If automatic sidecar injection is enabled, you can upgrade the sidecar
      by doing a rolling update for all the pods, so that the new version of
      sidecar will be automatically re-injected
 
