@@ -1,5 +1,5 @@
 ---
-title: Installion with Helm
+title: Installation with Helm
 overview: Install Istio with the included Helm chart.
 
 order: 30

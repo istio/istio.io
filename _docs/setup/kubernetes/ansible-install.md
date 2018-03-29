@@ -1,5 +1,5 @@
 ---
-title: Installion with Ansible
+title: Installation with Ansible
 overview: Install Itio with the included Ansible playbook.
 
 order: 40
