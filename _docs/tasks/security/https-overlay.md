@@ -10,11 +10,11 @@ type: markdown
 {% include home.html %}
 
 This task shows how Istio Mutual TLS works with https services. It includes: 1)
-Deploy a https service without Istio sidecar; 2) Deploy a https service with
-Istio with mTLS disabled; 3) Deploy a https service with mTLS enabled. For each
+Deploy an https service without Istio sidecar; 2) Deploy an https service with
+Istio with mTLS disabled; 3) Deploy an https service with mTLS enabled. For each
 deployment, connect to this service and verify it works.
 
-When Istio sidecar is deployed with a https service, the proxy automatically downgrades
+When Istio sidecar is deployed with an https service, the proxy automatically downgrades
 from L7 to L4 (no matter mTLS is enabled or not), which means it does not terminate the
 original https traffic. And this is the reason Istio can work on https services.
 
@@ -25,7 +25,7 @@ original https traffic. And this is the reason Istio can work on https services.
   Note that authentication should be **disabled** at step 5 in the
   [installation steps]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps).
 
-## Deploy a https service without Istio sidecar
+## Deploy an https service without Istio sidecar
 
 ### Generate certificates
 
@@ -40,7 +40,7 @@ $ kubectl create secret tls nginxsecret --key /tmp/nginx.key --cert /tmp/nginx.c
 secret "nginxsecret" created
 ```
 
-### Create a https service without Istio sidecar
+### Create an https service without Istio sidecar
 
 This subsection creates a nginx-based https service.
 
@@ -97,7 +97,7 @@ $ kubectl exec sleep-847544bbfc-d27jg -c istio-proxy -- curl https://nginxsvc -k
 ...
 ```
 
-### Create a https service with Istio sidecar with mTLS disabled
+### Create an https service with Istio sidecar with mTLS disabled
 
 In "Before you begin" section, the istio control plane is deployed with mTLS
 disabled. So you only need to redeploy the nginx https service with sidecar.
@@ -140,7 +140,7 @@ $ kubectl exec sleep-847544bbfc-d27jg -c istio-proxy -- curl https://nginxsvc -k
 
 Note: this example is borrowed from [kubernetes examples](https://github.com/kubernetes/examples/blob/master/staging/https-nginx/README.md).
 
-### Create a https service with Istio sidecar with mTLS enabled
+### Create an https service with Istio sidecar with mTLS enabled
 
 You need to redeploy the Istio control plane with mTLS enabled.
 
