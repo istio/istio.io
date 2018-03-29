@@ -1,5 +1,5 @@
 ---
-title: Installing Istio Sidecar
+title: Installing the Istio Sidecar
 overview: Instructions for installing the Istio sidecar in application pods automatically using the sidecar injector webhook or manually using istioctl CLI.
 
 order: 50
@@ -14,7 +14,7 @@ _NOTE_: The following requires Istio 0.5.0 or greater. See [https://archive.isti
 _NOTE_: In previous releases, the Kubernetes initializer feature was used for automatic proxy injection. This was an Alpha feature, subject to change/removal, and not enabled by default in Kubernetes. Starting in Kubernetes 1.9 it was replaced by a beta feature called
 [mutating webhooks](https://kubernetes.io/docs/admin/admission-controllers/#mutatingadmissionwebhook-beta-in-19), which is now enabled by default in Kubernetes 1.9 and beyond. Starting in Istio 0.5.0 the automatic proxy injection uses mutating webhooks, and support for injection by initializer has been removed. Users who cannot uprade to Kubernetes 1.9 should use manual injection.
 
-# Pod Spec Requirements
+## Pod spec requirements
 
 In order to be a part of the service mesh, each pod in the Kubernetes
 cluster must satisfy the following requirements:
@@ -132,7 +132,7 @@ See the Kubernetes [quick start]({{home}}/docs/setup/kubernetes/quick-start.html
 
 Note that unlike manual injection, automatic injection occurs at the pod-level. You won't see any change to the deployment itself. Instead you'll want to check individual pods (via `kubectl describe`) to see the injected proxy.
 
-### Installing the Webhook 
+#### Installing the webhook
 
 _NOTE_: The [0.5.0](https://github.com/istio/istio/releases/tag/0.5.0) and [0.5.1](https://github.com/istio/istio/releases/tag/0.5.1) releases are missing scripts to provision webhook certificates. Download the missing files from [here](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/webhook-create-signed-cert.sh) and [here](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/webhook-patch-ca-bundle.sh). Subsqeuent releases (> 0.5.1) should include these missing files.
 
@@ -389,7 +389,7 @@ containers:
  
 when applied over a pod defined by the pod template spec in [samples/sleep/sleep.yaml](https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml).
 
-### Uninstalling the webhook
+#### Uninstalling the webhook
 
 ```bash
 kubectl delete -f install/kubernetes/istio-sidecar-injector-with-ca-bundle.yaml
