@@ -1,0 +1,57 @@
+{% comment %}
+Assigns the next_post_url, next_post_title, previous_post_url, and previous_post_title variables the URLs and titles
+of the next and previous blog posts on the site, relative to the current blog post.
+{% endcomment %}
+
+{% comment %}
+    Find the current page in the sorted set of blog posts we generated for the sidebar
+{% endcomment %}
+
+{% assign index = 0 %}
+{% for u in urls %}
+    {% if u == page.url %}
+        {% assign index = forloop.index0 %}
+        {% break %}
+    {% endif %}
+{% endfor %}
+
+{% assign next_index = index %}
+{% for i in (0..10) %}
+    {% assign next_index = next_index | minus: 1 %}
+
+    {% if next_index < 0 %}
+        {% break %}
+    {% endif
+
+    {% assign YY = "THIS IS NEEDED, OTHERWISE THE URL ASSIGNMENT BELOW DOESN'T HAVE ANY EFFECT!" %}
+
+    {% assign url = urls[next_index] %}
+    {% assign components = url | split: "/" %}
+    {% assign name = components | last %}
+
+    {% if name != "index.html" %}
+        {% assign next_post_url = urls[next_index] %}
+        {% assign next_post_title = titles[next_index] %}
+        {% break %}
+    {% endif %}
+{% endfor %}
+
+{% assign max = urls | size %}
+{% assign prev_index = index %}
+{% for i in (0..10) %}
+    {% assign prev_index = prev_index | plus: 1 %}
+    {% if prev_index >= max %}
+        {% break %}
+    {% endif
+
+    {% assign YY = "THIS IS NEEDED, OTHERWISE THE URL ASSIGNMENT BELOW DOESN'T HAVE ANY EFFECT!" %}
+
+    {% assign url = urls[prev_index] %}
+    {% assign components = url | split: "/" %}
+    {% assign name = components | last %}
+    {% if name != "index.html" %}
+        {% assign prev_post_url = urls[prev_index] %}
+        {% assign prev_post_title = titles[prev_index] %}
+        {% break %}
+    {% endif %}
+{% endfor %}

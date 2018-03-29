@@ -1,5 +1,5 @@
 ---
-title: "Traffic mirroring with Istio for testing in production"
+title: "Traffic Mirroring with Istio for Testing in Production"
 overview: An introduction to safer, lower-risk deployments and release to production
 publish_date: February 8, 2018
 subtitle: Routing rules for HTTP traffic
