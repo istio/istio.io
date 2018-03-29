@@ -87,7 +87,7 @@ evaluation can be found in [Mixer Configuration]({{home}}/docs/concepts/policy-a
 [Pilot]({{home}}/docs/concepts/traffic-management/pilot.html) provides
 service discovery for the Envoy sidecars, traffic management capabilities
 for intelligent routing (e.g., A/B tests, canary deployments, etc.),
-and resiliency (timeouts, retries, circuit breakers, etc.). It converts a
+and resiliency (timeouts, retries, circuit breakers, etc.). It converts
 high level routing rules that control traffic behavior into Envoy-specific
 configurations, and propagates them to the sidecars at runtime. Pilot
 abstracts platform-specifc service discovery mechanisms and synthesizes
