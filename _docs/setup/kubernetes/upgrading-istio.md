@@ -45,7 +45,7 @@ new version. If there is any issue with the new control plane, you can rollback
 the changes either by applying the old version yaml files.
 
 ### Sidecar upgrade
-After control plane is upgraded, you will need to re-inject the new version
+After the control plane is upgraded, you will need to re-inject the new version
 of sidecar proxy. There are two cases: Manual injection and Automatic injection.
 
 1. Manual injection:
