@@ -1,6 +1,6 @@
 ---
 title: Release Notes
-overview: Istio releases information.
+overview: Description of features and improvements for every Istio release.
 
 order: 5
 
@@ -15,7 +15,7 @@ toc: false
 ---
 {% include section-index.html docs=site.about %}
 
-The latest Istio monthly release is {{site.data.istio.version}} ([release notes]({{site.data.istio.version}}.html)). You can [download {{site.data.istio.version}}](https://github.com/istio/istio/releases) with(*):
+The latest Istio monthly release is {{site.data.istio.version}} ([release notes]({{site.data.istio.version}}.html)). You can [download {{site.data.istio.version}}](https://github.com/istio/istio/releases) with:
 
 ```
 curl -L https://git.io/getLatestIstio | sh -
@@ -29,4 +29,4 @@ curl -L https://git.io/getIstio | sh -
 
 [Archived documentation for the 0.2.12 release](https://archive.istio.io/v0.2/docs/).
 
-> (*) Note: As we don't control the `git.io` domain, please examine the output of the `curl` command before piping it to a shell if running in any sensitive or non sandboxed environment.
+> As we don't control the `git.io` domain, please examine the output of the `curl` command before piping it to a shell if running in any sensitive or non sandboxed environment.
