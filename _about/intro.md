@@ -7,7 +7,6 @@ order: 0
 layout: about
 type: markdown
 toc: false
-redirect_from: /about.html
 ---
 
 Istio is an open platform that provides a uniform way to connect, manage,
