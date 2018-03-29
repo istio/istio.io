@@ -48,7 +48,7 @@
                         <i style="width: 1em" class='fa fa-lg fa-cog'></i>
                     </a>
 
-                    <ul class="dropdown-menu" aria-labelledby="gearDropdown">
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="gearDropdown">
                         {% assign future_release = true %}
                         {% for rel in site.data.releases %}
 
@@ -62,6 +62,8 @@
                                     {% assign target = "blog/" %}
                                 {% elsif current[1] == 'help' %}
                                     {% assign target = "help/" %}
+                                {% elsif current[1] == 'community.html' %}
+                                    {% assign target = "community.html" %}
                                 {% elsif current[1] == 'docs' %}
                                     {% assign target = "docs/" %}
                                     {% if current[2] == 'reference' %}
