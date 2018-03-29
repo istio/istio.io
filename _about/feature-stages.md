@@ -13,10 +13,8 @@ redirect_from:
 ---
 {% include home.html %}
 
-Starting with 0.3, Istio releases are delivered on a monthly cadence. You can download the current version by visiting our
-[release page](https://github.com/istio/istio/releases). 
-
-Please note that the phases (alpha, beta, and stable) are applied to individual features
+This page lists the relative maturity and support
+level of every Istio feature. Please note that the phases (Alpha, Beta, and Stable) are applied to individual features
 within the project, not to the project as a whole. Here is a high level description of what these labels means:
 
 ## Feature Phase Definition

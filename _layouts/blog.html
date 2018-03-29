@@ -48,6 +48,24 @@ layout: default
 
                 {{ content}}
             </main>
+
+            {% include blog_post_nav.html %}
+
+            <br/><hr/><br/>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-6">
+                        {% if prev_post_url %}
+                            <a href="{{home}}{{prev_post_url}}"><i class="fa fa-arrow-left"></i> {{prev_post_title}}</a>
+                        {% endif %}
+                    </div>
+                    <div class="col-6" style="text-align: right">
+                        {% if next_post_url %}
+                            <a href="{{home}}{{next_post_url}}">{{next_post_title}} <i class="fa fa-arrow-right"></i></a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>
 
         {% if needTOC %}
