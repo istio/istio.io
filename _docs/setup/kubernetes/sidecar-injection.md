@@ -45,7 +45,7 @@ cluster must satisfy the following requirements:
   CLI tool or automatically using the Istio Initializer.  Note that the
   sidecar is not involved in traffic between containers in the same pod.
   
-# Injection
+## Injection
 
 Manual injection modifies the controller configuration, e.g. deployment. It 
 does this by modifying the pod template spec such that *all* pods for that
@@ -68,7 +68,7 @@ the default injection policy and sidecar injection template. The debug version
 includes debug proxy images and additional logging and core dump functionality using 
 for debugging the sidecar proxy. 
 
-## Manual sidecar injection
+### Manual sidecar injection
 
 Use the built-in defaults template and dynamically fetch the mesh 
 configuration from the `istio` ConfigMap. Additional parameter overrides
@@ -115,7 +115,7 @@ NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE       CONTAINERS     
 sleep     1         1         1            1           2h        sleep,istio-proxy   tutum/curl,unknown/proxy:unknown   app=sleep
 ```
 
-## Automatic sidecar injection
+### Automatic sidecar injection
 
 Sidecars can be automatically added to applicable Kubernetes pods using a 
 [mutating webhook admission controller](https://kubernetes.io/docs/admin/admission-controllers/#validatingadmissionwebhook-alpha-in-18-beta-in-19). This feature requires Kubernetes 1.9 or later. Verify that the kube-apiserver process has the `admission-control` flag set with the `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` admission controllers added and listed in the correct order and the admissionregistration API is enabled.
