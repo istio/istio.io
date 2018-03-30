@@ -25,9 +25,8 @@ original https traffic. And this is the reason Istio can work on https services.
   Note that authentication should be **disabled** at step 5 in the
   [installation steps]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps).
 
-## Deploy an https service without Istio sidecar
 
-### Generate certificates
+### Generate certificates and configmap
 
 You need to have openssl installed to run this command
 
@@ -40,18 +39,16 @@ $ kubectl create secret tls nginxsecret --key /tmp/nginx.key --cert /tmp/nginx.c
 secret "nginxsecret" created
 ```
 
-### Create an https service without Istio sidecar
-
-This subsection creates a nginx-based https service.
-
-First we need to create a configmap:
+Create a configmap used for the https service
 
 ```bash
 $ kubectl create configmap nginxconfigmap --from-file=samples/https/default.conf
 configmap "nginxconfigmap" created
 ```
 
-Then deploy the service:
+## Deploy an https service without Istio sidecar
+
+This section creates a nginx-based https service.
 
 ```bash
 $ kubectl apply -f samples/https/nginx-app.yaml
