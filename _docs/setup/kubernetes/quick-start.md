@@ -183,7 +183,7 @@ export PATH=$PWD/bin:$PATH
 ```
 
 1. Install Istio's core components. Choose one of the two _**mutually exclusive**_ options below or alternately install
-   with the [Helm Chart]({{home}}/docs/setup/kubernetes/helm.html):
+   with the [Helm Chart]({{home}}/docs/setup/kubernetes/helm-install.html):
 
     a) Install Istio without enabling [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars.
          Choose this option for clusters with existing applications, applications where services with an
