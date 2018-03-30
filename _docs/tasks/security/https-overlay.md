@@ -56,7 +56,7 @@ Then deploy the service:
 ```bash
 $ kubectl apply -f samples/https/nginx-app.yaml
 ...
-service "nginxsvc" created
+service "my-nginx" created
 replicationcontroller "my-nginx" created
 ```
 
@@ -80,18 +80,18 @@ Ssh into the istio-proxy container of sleep pod.
 $ kubectl exec -it sleep-847544bbfc-d27jg -c istio-proxy /bin/bash
 ```
 
-Call nginxsvc
+Call my-nginx
 ```bash
-# curl https://nginxsvc -k
+# curl https://my-nginx -k
 ...
 <h1>Welcome to nginx!</h1>
 ...
 ```
 
-You can actually combine the above two command into one:
+You can actually combine the above three command into one:
 
 ```bash
-$ kubectl exec sleep-847544bbfc-d27jg -c istio-proxy -- curl https://nginxsvc -k
+$ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl https://my-nginx -k
 ...
 <h1>Welcome to nginx!</h1>
 ...
@@ -124,7 +124,7 @@ sleep-847544bbfc-d27jg            2/2       Running   0          18h
 
 And run
 ```bash
-$ kubectl exec sleep-847544bbfc-d27jg -c sleep -- curl https://nginxsvc -k
+$ kubectl exec sleep-847544bbfc-d27jg -c sleep -- curl https://my-nginx -k
 ...
 <h1>Welcome to nginx!</h1>
 ...
@@ -132,7 +132,7 @@ $ kubectl exec sleep-847544bbfc-d27jg -c sleep -- curl https://nginxsvc -k
 
 If you run from istio-proxy container, it should work as well
 ```bash
-$ kubectl exec sleep-847544bbfc-d27jg -c istio-proxy -- curl https://nginxsvc -k
+$ kubectl exec sleep-847544bbfc-d27jg -c istio-proxy -- curl https://my-nginx -k
 ...
 <h1>Welcome to nginx!</h1>
 ...
@@ -142,20 +142,22 @@ Note: this example is borrowed from [kubernetes examples](https://github.com/kub
 
 ### Create an https service with Istio sidecar with mTLS enabled
 
-You need to redeploy the Istio control plane with mTLS enabled.
+You need to deploy Istio control plane with mTLS enabled. If you have istio
+control plane with mTLS disabled installed, please delete it:
 
 ```bash
 $ kubectl delete -f install/kubernetes/istio.yaml
 ```
 
-Wait for everything is down, i.e., there is no pod in control plane namespace (istio-system).
+And wait for everything is down, i.e., there is no pod in control plane namespace (istio-system).
 
 ```bash
 $ kubectl get pod -n istio-system
 No resources found.
 ```
 
-Then
+Then deploy the Istio control plane with mTLS enabled:
+
 ```bash
 $ kubectl apply -f install/kubernetes/istio-auth.yaml
 ```
@@ -190,7 +192,7 @@ sleep-77f457bfdd-hdknx            2/2       Running   0          18h
 
 And run
 ```bash
-$ kubectl exec sleep-77f457bfdd-hdknx -c sleep -- curl https://nginxsvc -k
+$ kubectl exec sleep-77f457bfdd-hdknx -c sleep -- curl https://my-nginx -k
 ...
 <h1>Welcome to nginx!</h1>
 ...
@@ -201,7 +203,7 @@ and nginx-proxy. In this case, everthing works fine.
 
 However, if you run this command from istio-proxy container, it will not work.
 ```bash
-$ kubectl exec sleep-77f457bfdd-hdknx -c istio-proxy -- curl https://nginxsvc -k
+$ kubectl exec sleep-77f457bfdd-hdknx -c istio-proxy -- curl https://my-nginx -k
 ...
 curl: (35) gnutls_handshake() failed: Handshake failed
 command terminated with exit code 35
