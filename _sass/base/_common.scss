@@ -28,7 +28,7 @@ body {
     color: $textColor;
     background-color: $backgroundColor;
 
-    @media (min-height: $bp-md-v) {
+    @media (min-height: $bp-md-v) and (min-width: $bp-md) {
         padding-top: $headerHeight;
     }
 
