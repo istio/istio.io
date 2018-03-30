@@ -109,7 +109,7 @@ Nevertheless the list of admission controllers needs to be updated.
 kops edit cluster $YOURCLUSTER
 ```
 
-Add following in the configuration file just openned:
+Add following in the configuration file just opened:
 
 ```bash
 kubeAPIServer:
