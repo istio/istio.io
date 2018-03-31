@@ -18,7 +18,7 @@ In this task, you will learn:
 
 ## Before you begin
 
-* Understand Istio [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) concepts.
+* Understand Isio [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) concepts and [authentication policy]({{home}}/docs/concepts/security/authn-policy.html)
 
 * Familiar with [testing Istio mutual TLS authentication]({{home}}/docs/tasks/security/mutual-tls.html).
 
