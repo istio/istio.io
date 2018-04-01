@@ -97,12 +97,6 @@ Operator installs Istio on Openshift and additionally wants to deploy some of th
 ansible-playbook main.yml -e '{"istio": {"samples": ["helloworld", "bookinfo"]}}'
 ```
 
-Operator installs Jaeger tracing instead of Zipkin tracing:
-
-```bash
-ansible-playbook main.yml -e '{"istio": {"jaeger": true}}'
-```
-
 **When Jaeger is enabled, Zipkin is disabled even when Zipkin is selected in the addons.**
 
 ## Uninstalling
