@@ -2,49 +2,39 @@
     <footer>
         <div class="container-fluid">
             <div class="row">
-                <div class="col-sm-2 d-none d-sm-block"></div>
+                <div class="col-6 col-lg-4" role="navigation">
+                    <div class="container-fluid">
+                        <div class="row justify-content-start">
+                            <div class="icon">
+                                <a title="Join the istio-users@ mailing list to participate in discussions and get help troubleshooting problems"
+                                   href="https://groups.google.com/forum/#!forum/istio-users">
+                                    {% include icons/mailing-list.svg %}
+                                </a>
+                            </div>
 
-                <nav class="col-sm-3 d-none d-sm-block" role="navigation">
-                    <ul class="first">
-                        <li><a class="header" href="{{home}}/docs/">Docs</a></li>
-                        <li><a href="{{home}}/docs/concepts/">Concepts</a></li>
-                        <li><a href="{{home}}/docs/setup/">Setup</a></li>
-                        <li><a href="{{home}}/docs/tasks/">Tasks</a></li>
-                        <li><a href="{{home}}/docs/guides/">Guides</a></li>
-                        <li><a href="{{home}}/docs/reference/">Reference</a></li>
-                    </ul>
-                </nav>
+                            <div class="icon">
+                                <a title="Follow us on Twitter to get the latest news"
+                                   href="https://twitter.com/IstioMesh">
+                                    {% include icons/twitter.svg %}
+                                </a>
+                            </div>
 
-                <nav class="col-sm-3 d-none d-sm-block" role="navigation">
-                    <ul>
-                        <li><a class="header" href="{{home}}/help/">Help</a></li>
-                        <li><a href="{{home}}/help/faq/index.html">FAQ</a></li>
-                        <li><a href="{{home}}/help/glossary.html">Glossary</a></li>
-                        <li><a href="{{home}}/help/troubleshooting.html">Troubleshooting</a></li>
-                        <li><a href="{{home}}/help/bugs.html">Report Bugs</a></li>
-                        <li><a href="https://github.com/istio/istio.github.io/issues/new?title=Issue with {{page.path}}" target="_blank" rel="noopener">Doc Bugs & Gaps</a></li>
-                        <li><a href="https://github.com/istio/istio.github.io/edit/master/{{page.path}}" target="_blank" rel="noopener">Edit This Page</a></li>
-                    </ul>
-                </nav>
+                            <div class="icon">
+                                <a title="Stack Overflow is where you can ask questions and find curated answers on deploying, configuring, and using Istio"
+                                   href="https://stackoverflow.com/questions/tagged/istio">
+                                    {% include icons/stackoverflow.svg %}
+                                </a>
+                            </div>
+                        </div>
 
-                <nav class="col-sm-3 d-none d-sm-block" role="navigation">
-                    <ul>
-                        <li><a class="header" href="{{home}}/community.html">Community</a></li>
-                        <li>
-                            <a href="https://groups.google.com/forum/#!forum/istio-users" target="_blank" rel="noopener">User</a> |
-                            <a href="https://groups.google.com/forum/#!forum/istio-dev" target="_blank" rel="noopener">Dev Mailing Lists</a>
-                        </li>
-                        <li><a href="https://twitter.com/IstioMesh" target="_blank" rel="noopener">Twitter</a></li>
-                        <li><a href="https://stackoverflow.com/questions/tagged/istio" target="_blank" rel="noopener">Stack Overflow</a></li>
-                        <li><a href="https://github.com/istio/community/" target="_blank" rel="noopener">GitHub</a></li>
-                        <li><a href="https://github.com/istio/community/blob/master/WORKING-GROUPS.md" target="_blank" rel="noopener">Working Groups</a></li>
-                    </ul>
-                </nav>
-            </div>
+                        <div class="row justify-content-start d-none d-lg-flex">
+                            <p class="tag">for users</p>
+                        </div>
+                    </div>
+                </div>
 
-            <div class="row">
-                <div class="col-12">
-                    <p class="description text-center" role="contentinfo">
+                <div class="col-6 col-lg-4">
+                    <p class="text-center copyright" role="contentinfo">
                         Istio
                         {% if site.data.istio.archive %}
                             Archive
@@ -58,6 +48,51 @@
                             This site was built on {{site.time | date_to_string | split: ' ' | join: '-'}}
                         {% endif %}
                     </p>
+                </div>
+
+                <div class="col-6 col-lg-4 d-none d-lg-flex" role="navigation">
+                    <div class="container-fluid">
+                        <div class="row justify-content-end">
+                            <div class="icon">
+                                <a title="Join the istio-dev@ mailing list to discuss development issues around the Istio project"
+                                   href="https://groups.google.com/forum/#!forum/istio-dev">
+                                    {% include icons/mailing-list.svg %}
+                                </a>
+                            </div>
+
+                            <div class="icon">
+                                <a title="GitHub is where development takes place on Istio code"
+                                   href="https://github.com/istio/community">
+                                    {% include icons/github.svg %}
+                                </a>
+                            </div>
+
+                            <div class="icon">
+                                <a title="Access our team drive if you'd like to take a look at the Istio technical design documents"
+                                    href="https://groups.google.com/forum/#!forum/istio-team-drive-access">
+                                    {% include icons/drive.svg %}
+                                </a>
+                            </div>
+
+                            <div class="icon">
+                                <a title="If you'd like to contribute to the Istio project, consider participating in our working groups"
+                                   href="https://github.com/istio/community/blob/master/WORKING-GROUPS.md">
+                                    {% include icons/working-groups.svg %}
+                                </a>
+                            </div>
+
+                            <div class="icon">
+                                <a title="Interactively discuss development issues with the Istio community on Slack (invitation-only)"
+                                        href="https://istio.slack.com">
+                                    {% include icons/slack.svg %}
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-end text-right">
+                            <p class="text-right tag">for developers</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
