@@ -127,17 +127,20 @@ install one:
 1. Install the Helm chart:
 
    ```bash
-   helm install install/kubernetes/helm/istio-remote --name istio-remote --set pilotIp=pod_ip_of_pilot_master --set mixerIp=pod_ip_of_mixer_master`
+   helm install install/kubernetes/helm/istio-remote --name istio-remote --set pilotEndpoint=pod_ip_of_pilot_master --set mixerEndpoint=pod_ip_of_mixer_master`
    ```
 
 ### Mandatory Helm configuration parameters
 
 The isito-remote Helm chart requires the configuration of two specific variables defined in the following table:
 
+**Note** The `pilotEndpoint` and `mixerEndpoint` can also use DNS resolution, assuming DNS is setup to resolve
+these IPs.
+
 | Helm Variable | Accepted Values | Default | Purpose of Value |
 | --- | --- | --- | --- |
-| `global.pilotIp` | A valid IPv4 address | none | Specifies the Istio control plane's pilot Pod IP address |
-| `global.mixerIp` | A valid IPv4 address | none | Specifies the Istio control plane's mixer Pod IP address |
+| `global.pilotEndpoint` | A valid IPv4 address | none | Specifies the Istio control plane's pilot Pod IP address |
+| `global.mixerEndpoint` | A valid IPv4 address | none | Specifies the Istio control plane's mixer Pod IP address |
 
 ## Uninstalling
 
