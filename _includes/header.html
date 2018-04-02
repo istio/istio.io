@@ -3,7 +3,7 @@
 {% assign current = page.url | downcase | split: '/' %}
 
 <header role="banner">
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-dark">
         {% if page.url == "/index.html" or page.url == "/" %}
             {% assign visibility = "hidden" %}
         {% else %}
@@ -28,19 +28,19 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link {% if current[1] == 'about' %}active{% endif %}" href="{{home}}/about/">About</a>
+                    <a class="nav-link {% if current[1] == 'docs' %}active{% endif %}" href="{{home}}/docs/">Docs</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if current[1] == 'blog' %}active{% endif %}" href="{{latest_blog_post}}">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if current[1] == 'docs' %}active{% endif %}" href="{{home}}/docs/">Docs</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if current[1] == 'help' %}active{% endif %}" href="{{home}}/help/">Help</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if current[1] == 'community.html' %}active{% endif %}" href="{{home}}/community.html">Community</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if current[1] == 'about' %}active{% endif %}" href="{{home}}/about/">About</a>
                 </li>
 
                 <li class="nav-item dropdown" id="gearDropdown" style="white-space: nowrap">
