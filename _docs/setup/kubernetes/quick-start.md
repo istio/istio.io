@@ -72,7 +72,21 @@ kubectl create clusterrolebinding cluster-admin-binding \
     --user=$(gcloud config get-value core/account)
 ```
 
-### [IBM Cloud Container Service](https://www.ibm.com/cloud/container-service)
+### [IBM Cloud Container Service (IKS)](https://www.ibm.com/cloud/container-service)
+
+Kubernetes 1.9 is generallly available on IBM Cloud Container Service (IKS). 
+
+At the time of writing it is not the default version, so to create a new lite cluster:
+
+```bash
+bx cs cluster-create --name <cluster-name> --kube-version 1.9.3
+```
+
+Or create a new paid cluster:
+
+```bash
+bx cs cluster-create --location location --machine-type u2c.2x4 --name <cluster-name> --kube-version 1.9.3
+```
 
 Retrieve your credentials for kubectl (replace `<cluster-name>` with the name of the cluster you want to use):
 
