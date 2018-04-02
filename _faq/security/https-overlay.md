@@ -5,4 +5,4 @@ type: markdown
 ---
 {% include home.html %}
 
-Yes, you can. It works both with mutual TLS enabled and disabled. Refer [here]({{home}}/docs/tasks/security/https-overlay.html) for more information.
+Yes, you can. It works both with mutual TLS enabled and disabled. Refer [how Istio mTLS works with https services]({{home}}/docs/tasks/security/https-overlay.html) for more information.
