@@ -12,9 +12,9 @@ type: markdown
 ## Overview
 Istio authentication policy enables admin to specify authentication requirements for a service (or services). Istio authentication policy is composed of two-part authentication:
 
-* Peer: verifies the party that make the connection. The common authentication mechanism for this is [mutual TLS]({{home}}/docs/concepts/security/mutual-tls.html). Istio will be responsible to manage both client and server sides to enforce the policy.
+* Peer: verifies the party, the direct client, that makes the connection. The common authentication mechanism for this is [mutual TLS]({{home}}/docs/concepts/security/mutual-tls.html). Istio will be responsible to manage both client and server sides to enforce the policy.
 
-* Origin: verifies the party that make the request (e.g end-users, devices etc). JWT is the only supported mechanism for origin authentication at the moment. Istio will config server side to perform authentication, but will not enforce the client side to send the required certificate.
+* Origin: verifies the party, the original client, that makes the request (e.g end-users, devices etc). JWT is the only supported mechanism for origin authentication at the moment. Istio will config server side to perform authentication, but will not enforce the client side to send the required certificate.
 
 
 Identities from both authentication parts, if applicable, will be output to the next layer (e.g authorization, mixer). To simplify the authorization rules, the policy can also specifies which identity (peer or origin) should be used as 'the principal'. By default, it is set to peer's identity.

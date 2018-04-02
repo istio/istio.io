@@ -250,7 +250,7 @@ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 }
 ```
 
-Now, let's add a policy that require end-user JWT for httpbin.foo. If you follow previous section, the 'httpbin' authentication policy might areadly exist (run `kubectl get policies.authentication.istio.io -n foo` to confirm). To avoid create conflicting policies for the same service, we run istio replace for the same policy name (httpbin):
+Now, let's add a policy that require end-user JWT for httpbin.foo. If you follow previous section, the 'httpbin' authentication policy might areadly exist (run `kubectl get policies.authentication.istio.io -n foo` to confirm). To avoid create conflicting policies for the same service, we run istio replace for the same policy name (httpbin). Note in the example policy below, peer authentication (mTLS) is kept, but it can be removed independently from origin authencation settings.
 
 ```
 cat <<EOF | istioctl replace -n foo -f -
@@ -261,6 +261,8 @@ metadata:
 spec:
   targets:
   - name: httpbin
+  peers:
+  - mtls:
   origins:
   - jwt:
       issuer: "https://www.googleapis.com"
