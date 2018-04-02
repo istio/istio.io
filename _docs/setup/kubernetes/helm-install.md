@@ -14,7 +14,7 @@ type: markdown
 
 Quick start instructions for the setup and configuration of Istio using the Helm package manager.
 
-<span style="color:red">**Warning: Helm charts are currently broken in 0.5.0**</span>
+*Installation with Helm prior to Istio version 0.7 is unstable and not recommended.*
 
 ## Prerequisites
 
