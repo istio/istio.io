@@ -50,7 +50,7 @@ There are quite a few ways to get plugged in with the Istio community:
     </tr>
     
     <tr>
-      <td class="logo"><img src="{{home}}/img/drive.png" alt="Team Dive"/></td>
+      <td class="logo"><img src="{{home}}/img/drive.png" alt="Team Drive"/></td>
       <td class="desc">
         If you want to get into the nuts and bolts of Istio, check out our growing collection
         of design documents. To access these, simply join the

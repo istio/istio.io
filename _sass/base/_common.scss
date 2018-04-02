@@ -23,14 +23,10 @@ html {
 
 body {
     padding-top: $headerHeight;
-    margin-bottom: $footerHeight-xs;
+    margin-bottom: $footerHeight;
     font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: $textColor;
     background-color: $backgroundColor;
-
-    @media (min-width: $bp-sm) {
-        margin-bottom: $footerHeight;
-    }
 }
 
 a {
