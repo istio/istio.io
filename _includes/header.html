@@ -3,7 +3,7 @@
 {% assign current = page.url | downcase | split: '/' %}
 
 <header role="banner">
-    <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-dark">
+    <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-dark justify-content-between">
         {% if page.url == "/index.html" or page.url == "/" %}
             {% assign visibility = "hidden" %}
         {% else %}
@@ -26,7 +26,7 @@
         </button>
 
         <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
-            <ul class="navbar-nav">
+            <ul id="navbar-links" class="navbar-nav active">
                 <li class="nav-item">
                     <a class="nav-link {% if current[1] == 'docs' %}active{% endif %}" href="{{home}}/docs/">Docs</a>
                 </li>
@@ -44,7 +44,7 @@
                 </li>
 
                 <li class="nav-item dropdown" id="gearDropdown" style="white-space: nowrap">
-                    <a href="" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a href="" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i style="width: 1em" class='fa fa-lg fa-cog'></i>
                     </a>
 
@@ -136,16 +136,18 @@
                         </li>
                     </ul>
                 </li>
+
+                <li class="nav-item">
+                    <a id="search_show" class="nav-link" href=""><i style="width: 1em" class="fa fa-lg fa-search"></i></a>
+                </li>
             </ul>
 
-            <form name="cse" id="searchbox" class="form-inline justify-content-end" role="search">
+            <form name="cse" id="search_form" class="form-inline mr-sm-2" role="search">
                 <input type="hidden" name="cx" value="{{site.data.istio.search_engine_id}}" />
                 <input type="hidden" name="ie" value="utf-8" />
                 <input type="hidden" name="hl" value="en" />
-                <div class="input-group">
-                    <input name="q" class="form-control search-box" type="text" size="30" />
-                    <button class="btn btn-search input-group-addon my-2 my-sm-0 fa fa-search" type="submit"></button>
-                </div>
+                <input id="search_textbox" class="form-control" name="q" type="text" />
+                <button id="search_close" type="reset"><i class="far fa-lg fa-times-circle"></i></button>
             </form>
         </div>
     </nav>
