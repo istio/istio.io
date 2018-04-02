@@ -52,7 +52,7 @@ deploy multiple Istio control planes (one per tenant) on a single Kubernetes clu
 ### Multiple Istio control planes
 Deploying multiple Istio control planes starts by replacing all `namespace` references
 in a manifest file with the desired namespace. Using istio.yaml as an example, if two tenant
-level istio control planes are required; the first can use the istio.yaml default name of
+level Istio control planes are required; the first can use the istio.yaml default name of
 *istio-system* and a second control plane can be created by generating a new yaml file with
 a different namespace.
 ```bash
@@ -60,7 +60,7 @@ cat istio.yaml | sed s/istio-system/istio-system1/g > istio-system1.yaml
 ```
 Note that the execution of these two yaml files is the responsibility of the cluster
 administrator, not the tenant level adminstrator. Additional RBAC restrictions will also
-need to be configured and applied by the cluster administator, limiting the tenant
+need to be configured and applied by the cluster administrator, limiting the tenant
 administrator to only the assigned namespace.
 
 If the Istio [addons]({{home}}/docs/tasks/telemetry/) are required then the manifests must
@@ -83,7 +83,7 @@ To restrict a tenant administrator to a single Istio namespace, the cluster
 administrator would create a manifest containing, at a minimum, a `Role` and `RoleBinding`
 similar to the one below. In this example, a tenant administrator named *sales-admin*
 is limited to the namespace *istio-system1*. A completed manifest would contain many
-more `apiGroups` under the `Role` providing resource access to the tenant administator.
+more `apiGroups` under the `Role` providing resource access to the tenant administrator.
 ```yaml
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
@@ -113,7 +113,7 @@ roleRef:
 
 ### Watching specific namespaces for service discovery
 In addition to creating RBAC rules limiting the tenant administrator access to a specific Istio
-control plane, the istio manifest must be updated to specify the application namespace that
+control plane, the Istio manifest must be updated to specify the application namespace that
 Pilot should watch for creation of its xDS cache. This is done by starting the Pilot component
 with the additional command line arguments `--appNamespace, ns-1`.  Where *ns-1* is the
 namespace that the tenant’s application will be deployed in. An example snippet from the
@@ -169,8 +169,8 @@ metadata:
   namespace: ns-1
 ```
 Although not shown, the application namespaces will also have RBAC settings limiting access
-to certain resources. These RBAC settings could be set by the cluster administator and/or
-the tenant administator.
+to certain resources. These RBAC settings could be set by the cluster administrator and/or
+the tenant administrator.
 
 ### Using Istioctl commands in a multitenant environment
 When defining [route rules]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#RouteRule)
@@ -179,7 +179,7 @@ it is necessary to ensure that the `istioctl` command is scoped to
 the namespace the Istio control plane is running in to ensure the resource is created
 in the proper namespace. Additionally, the rule itself must be scoped to the tenant's namespace
 so that it will be applied properly to that tenant's mesh.  The *-i* option is used to create
-(or get or describe) the rule in the namespace that the istio control plane is deployed in.
+(or get or describe) the rule in the namespace that the Istio control plane is deployed in.
 The *-n* option will scope the rule to the tenant's mesh and should be set to the namespace that
 the tenant's app is deployed in. Note that the *-n* option can be skipped on the command line if
 the .yaml file for the resource scopes it properly instead.
@@ -267,7 +267,7 @@ that traffic seen from that tenant's application namespace.
 
 ## Conclusion
 The evaluation performed indicates Istio has sufficient capabilities and security to meet a
-small number of multitenant use cases. It also shows that Istio and Kubernetes can __not__
+small number of multitenant use cases. It also shows that Istio and Kubernetes __cannot__
 provide sufficient capabilities and security for many other use cases, especially those use
 cases that require complete security and isolation between untrusted tenants. The improvements
 required to reach a more secure model of security and isolation require work in container
@@ -282,14 +282,14 @@ Kubernetes. A [document](https://docs.google.com/document/d/14Hb07gSrfVt5KX9qNi7
 has been started within the Istio community to define additional use cases and the
 Istio functionality required to support those use cases.
 
-## Issues, Limitiations or Caveats
-### Known Issues 
+## Issues, limitiations or caveats
+### Known issues 
 * The CA (Certificate Authority) and mixer Istio pod logs from one tenant's Istio control
 plane (ex. *istio-system* `namespace`) contained 'info' messages from a second tenant's
 Istio control plane (ex *istio-system1* `namespace`).
-### Challenges with the Different Models
+### Challenges with the different models
 At the beginning of this blog a few different models of multitenancy were described.  This section will
-breifly discuss some of challenges with those models with the current state of Istio or Kubernetes 
+briefly discuss some of challenges with those models with the current state of Istio or Kubernetes 
 code. 
 
 Current Istio capabilities are poorly suited to support the first model as it lacks
