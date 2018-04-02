@@ -35,7 +35,7 @@ which should include the certificates of all the intermediate CAs between the wo
 In this example, it only contains the Istio CA certificate, so `cert-chain.pem` is the same as `ca-cert.pem`.
 Note that if your `ca-cert.pem` is the same as `root-cert.pem`, you can have an empty `cert-chain.pem` file.
 
-These files are ready to use in install/kubernetes/ directory.
+These files are ready to use in the install/kubernetes/ directory.
 
 The following steps enable plugging in the certificate and key into the Istio CA:
 1. Create a secret `cacert` including all the input files `ca-cert.pem`, `ca-key.pem`, `root-cert.pem` and `cert-chain.pem`:
