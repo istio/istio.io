@@ -22,15 +22,11 @@ html {
 }
 
 body {
-    padding-top: $headerHeight-xs;
+    padding-top: $headerHeight;
     margin-bottom: $footerHeight-xs;
     font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: $textColor;
     background-color: $backgroundColor;
-
-    @media (min-height: $bp-md-v) and (min-width: $bp-md) {
-        padding-top: $headerHeight;
-    }
 
     @media (min-width: $bp-sm) {
         margin-bottom: $footerHeight;
