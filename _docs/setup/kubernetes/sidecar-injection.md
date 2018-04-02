@@ -1,5 +1,5 @@
 ---
-title: Installing Istio Sidecar
+title: Installing the Istio Sidecar
 overview: Instructions for installing the Istio sidecar in application pods automatically using the sidecar injector webhook or manually using istioctl CLI.
 
 order: 50
@@ -11,9 +11,10 @@ type: markdown
 
 _NOTE_: The following requires Istio 0.5.0 or greater. See [https://archive.istio.io/v0.4/docs/setup/kubernetes/sidecar-injection](https://archive.istio.io/v0.4/docs/setup/kubernetes/sidecar-injection) for Istio versions 0.4.0 or older.
 
-_NOTE_: In previous releases, the Kubernetes initializer feature was used for automatic proxy injection. This was an Alpha feature, subject to change/removal, and not enabled by default in Kubernetes. Starting in Kubernetes 1.9 it was replaced by a beta feature called [mutating webhooks](https://kubernetes.io/docs/admin/admission-controllers/#mutatingadmissionwebhook-beta-in-19), which is now enabled by default in Kubernetes 1.9 and beyond. Starting in Istio 0.5.0 the automatic proxy injection uses mutating webhooks, and support for injection by initializer has been removed. Users who cannot uprade to Kubernetes 1.9 should use manual injection.
+_NOTE_: In previous releases, the Kubernetes initializer feature was used for automatic proxy injection. This was an Alpha feature, subject to change/removal, and not enabled by default in Kubernetes. Starting in Kubernetes 1.9 it was replaced by a beta feature called
+[mutating webhooks](https://kubernetes.io/docs/admin/admission-controllers/#mutatingadmissionwebhook-beta-in-19), which is now enabled by default in Kubernetes 1.9 and beyond. Starting in Istio 0.5.0 the automatic proxy injection uses mutating webhooks, and support for injection by initializer has been removed. Users who cannot uprade to Kubernetes 1.9 should use manual injection.
 
-# Pod Spec Requirements
+## Pod spec requirements
 
 In order to be a part of the service mesh, each pod in the Kubernetes
 cluster must satisfy the following requirements:
@@ -44,7 +45,7 @@ cluster must satisfy the following requirements:
   CLI tool or automatically using the Istio Initializer.  Note that the
   sidecar is not involved in traffic between containers in the same pod.
   
-# Injection
+## Injection
 
 Manual injection modifies the controller configuration, e.g. deployment. It 
 does this by modifying the pod template spec such that *all* pods for that
@@ -67,7 +68,7 @@ the default injection policy and sidecar injection template. The debug version
 includes debug proxy images and additional logging and core dump functionality using 
 for debugging the sidecar proxy. 
 
-## Manual sidecar injection
+### Manual sidecar injection
 
 Use the built-in defaults template and dynamically fetch the mesh 
 configuration from the `istio` ConfigMap. Additional parameter overrides
@@ -114,7 +115,7 @@ NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE       CONTAINERS     
 sleep     1         1         1            1           2h        sleep,istio-proxy   tutum/curl,unknown/proxy:unknown   app=sleep
 ```
 
-## Automatic sidecar injection
+### Automatic sidecar injection
 
 Sidecars can be automatically added to applicable Kubernetes pods using a 
 [mutating webhook admission controller](https://kubernetes.io/docs/admin/admission-controllers/#validatingadmissionwebhook-alpha-in-18-beta-in-19). This feature requires Kubernetes 1.9 or later. Verify that the kube-apiserver process has the `admission-control` flag set with the `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` admission controllers added and listed in the correct order and the admissionregistration API is enabled.
@@ -131,9 +132,9 @@ See the Kubernetes [quick start]({{home}}/docs/setup/kubernetes/quick-start.html
 
 Note that unlike manual injection, automatic injection occurs at the pod-level. You won't see any change to the deployment itself. Instead you'll want to check individual pods (via `kubectl describe`) to see the injected proxy.
 
-### Installing the Webhook 
+#### Installing the webhook
 
-_NOTE_: The [0.5.0](https://github.com/istio/istio/releases/tag/0.5.0) and [0.5.1](https://github.com/istio/istio/releases/tag/0.5.1) releases are missing scripts to provision webhook certificates. Download the missing files from [here](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/webhook-create-signed-cert.sh) and [here](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/webhook-patch-ca-bundle.sh). Subsqeuent releases (> 0.5.1) should include these missing files.
+_NOTE_: The [0.5.0](https://github.com/istio/istio/releases/tag/0.5.0) and [0.5.1](https://github.com/istio/istio/releases/tag/0.5.1) releases are missing scripts to provision webhook certificates. Download the missing files from [here](https://raw.githubusercontent.com/istio/istio/release-0.7/install/kubernetes/webhook-create-signed-cert.sh) and [here](https://raw.githubusercontent.com/istio/istio/release-0.7/install/kubernetes/webhook-patch-ca-bundle.sh). Subsqeuent releases (> 0.5.1) should include these missing files.
 
 Install base Istio.
 
@@ -147,7 +148,7 @@ secret for the sidecar injector webhook to consume.
 
 _Note_: Kubernetes CA approval requires permissions to create and approve CSR. See 
 [https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster ](https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster/) and 
-[install/kubernetes/webhook-create-signed-cert.sh](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/webhook-create-signed-cert.sh) for more information.
+[install/kubernetes/webhook-create-signed-cert.sh](https://raw.githubusercontent.com/istio/istio/release-0.7/install/kubernetes/webhook-create-signed-cert.sh) for more information.
 
 ```bash
 ./install/kubernetes/webhook-create-signed-cert.sh \
@@ -279,8 +280,8 @@ sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
 
 #### Understanding what happened
 
-[admissionregistration.k8s.io/v1alpha1#MutatingWebhookConfiguration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.9/#mutatingwebhookconfiguration-v1beta1-admissionregistration) 
-configures when the webhook is invoked by Kubernetes. The default 
+[admissionregistration.k8s.io/v1beta1#MutatingWebhookConfiguration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#mutatingwebhookconfiguration-v1beta1-admissionregistration)
+configures when the webhook is invoked by Kubernetes. The default
 supplied with Istio selects pods in namespaces with label `istio-injection=enabled`. 
 This can be changed by modifying the MutatingWebhookConfiguration in
 `install/kubernetes/istio-sidecar-injector-with-ca-bundle.yaml`.
@@ -388,7 +389,7 @@ containers:
  
 when applied over a pod defined by the pod template spec in [samples/sleep/sleep.yaml](https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml).
 
-### Uninstalling the webhook
+#### Uninstalling the webhook
 
 ```bash
 kubectl delete -f install/kubernetes/istio-sidecar-injector-with-ca-bundle.yaml

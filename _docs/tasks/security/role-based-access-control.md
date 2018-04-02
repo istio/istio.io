@@ -67,8 +67,10 @@ Run the following command to enable Istio RBAC for "default" namespace.
 
 
 ```bash
-kubectl apply -f samples/bookinfo/kube/istio-rbac-enable.yaml
+istioctl create -f samples/bookinfo/kube/istio-rbac-enable.yaml
 ```
+
+  > Note: if you have conflicting rules that you set in previous tasks, use `istioctl replace` instead of `istioctl create`.
 
 It also defines "requestcontext", which is an instance of the
 [authorization template](https://github.com/istio/istio/blob/master/mixer/template/authorization/template.proto).
@@ -92,7 +94,7 @@ is accessible by services in the same namespace (i.e., "default" namespace) and 
 
 Run the following command to create a namespace-level access control policy.
 ```bash
-kubectl apply -f samples/bookinfo/kube/istio-rbac-namespace.yaml
+istioctl create -f samples/bookinfo/kube/istio-rbac-namespace.yaml
 ```
 
 The policy does the following:
@@ -151,7 +153,7 @@ with "Book Details" section in the lower left part and "Book Reviews" section in
 Remove the following configuration before you proceed to the next task:
 
 ```bash
-kubectl delete -f samples/bookinfo/kube/istio-rbac-namespace.yaml
+istioctl delete -f samples/bookinfo/kube/istio-rbac-namespace.yaml
 ```
 
 ## Service-level access control
@@ -170,7 +172,7 @@ In this step, we will create a policy that allows external requests to view `pro
 
 Run the following command:
 ```bash
-kubectl apply -f samples/bookinfo/kube/istio-rbac-productpage.yaml
+istioctl create -f samples/bookinfo/kube/istio-rbac-productpage.yaml
 ```
 
 The policy does the following:
@@ -184,7 +186,7 @@ The policy does the following:
     namespace: default
   spec:
     rules:
-    - services: ["productpage"]
+    - services: ["productpage.default.svc.cluster.local"]
       methods: ["GET"]
   ```
 
@@ -219,7 +221,7 @@ We will create a policy to allow "productpage" service to read "details" and "re
 
 Run the following command:
 ```bash
-kubectl apply -f samples/bookinfo/kube/istio-rbac-details-reviews.yaml
+istioctl create -f samples/bookinfo/kube/istio-rbac-details-reviews.yaml
 ```
 
 The policy does the following:
@@ -233,7 +235,7 @@ The policy does the following:
     namespace: default
   spec:
     rules:
-    - services: ["details", "reviews"]
+    - services: ["details.default.svc.cluster.local", "reviews.default.svc.cluster.local"]
       methods: ["GET"]
   ```
 
@@ -272,7 +274,7 @@ We will create a policy to allow "reviews" service to read "ratings" service. No
 Run the following command to create a policy that allows "reviews" service to read "ratings" service.
 
 ```bash
-kubectl apply -f samples/bookinfo/kube/istio-rbac-ratings.yaml
+istioctl create -f samples/bookinfo/kube/istio-rbac-ratings.yaml
 ```
 
 The policy does the following:
@@ -286,7 +288,7 @@ The policy does the following:
     namespace: default
   spec:
     rules:
-    - services: ["ratings"]
+    - services: ["ratings.default.svc.cluster.local"]
       methods: ["GET"]
   ```
 
@@ -336,9 +338,9 @@ spec:
 * Remove Istio RBAC policy configuration:
 
   ```bash
-  kubectl delete -f samples/bookinfo/kube/istio-rbac-ratings.yaml
-  kubectl delete -f samples/bookinfo/kube/istio-rbac-details-reviews.yaml
-  kubectl delete -f samples/bookinfo/kube/istio-rbac-productpage.yaml
+  istioctl delete -f samples/bookinfo/kube/istio-rbac-ratings.yaml
+  istioctl delete -f samples/bookinfo/kube/istio-rbac-details-reviews.yaml
+  istioctl delete -f samples/bookinfo/kube/istio-rbac-productpage.yaml
   ```
 
   Alternatively, you can delete all ServiceRole and ServiceRoleBinding objects by running the following commands:
@@ -351,7 +353,7 @@ spec:
 * Disable Istio RBAC:
 
   ```bash
-  kubectl delete -f samples/bookinfo/kube/istio-rbac-enable.yaml
+  istioctl delete -f samples/bookinfo/kube/istio-rbac-enable.yaml
   ```
 
 ## What's next

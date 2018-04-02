@@ -1,8 +1,10 @@
 ---
-title: Istio Helm Chart Instructions
-overview: Instructions for the setup and configuration of Istio using the Helm package manager.
+title: Installation with Helm
+overview: Install Istio with the included Helm chart.
 
 order: 30
+
+redirect_from: /docs/setup/kubernetes/helm.html
 
 layout: docs
 type: markdown
@@ -10,9 +12,9 @@ type: markdown
 
 {% include home.html %}
 
-Quick Start instructions for the setup and configuration of Istio using the Helm package manager.
+Quick start instructions for the setup and configuration of Istio using the Helm package manager.
 
-<span style="color:red">**Warning: Helm charts are currently broken in 0.5.0**</span>
+*Installation with Helm prior to Istio version 0.7 is unstable and not recommended.*
 
 ## Prerequisites
 

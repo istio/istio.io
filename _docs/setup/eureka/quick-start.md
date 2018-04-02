@@ -69,7 +69,7 @@ installation like [Bookinfo]({{home}}/docs/guides/bookinfo.html).
 > Note 1: Since there is no concept of pods in a Docker setup, the Istio
 > sidecar runs in the same container as the application.  We will use 
 > [Registrator](https://gliderlabs.github.io/registrator/latest/) to
-> automatically register instances of services in the Consul service
+> automatically register instances of services in the Eureka service
 > registry.
 
 > Note 2: the application must use HTTP/1.1 or HTTP/2.0 protocol for all its HTTP traffic because HTTP/1.0 is not supported.

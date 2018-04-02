@@ -70,7 +70,20 @@ function patchDOM() {
             button.className = "copy copy-hide";
             button.innerText = "Copy";
 
-            pre[i].parentElement.appendChild(button);
+            var parent = pre[i].parentElement;
+            if (parent.tagName == "DIV") {
+                // This is the case for HTML produced from markdown through Jekyll
+                parent.appendChild(button);
+            } else {
+                // This is the case for HTML produced by protoc-gen-docs from proto sources
+                // we hackily create a DIV on the fly to make this case look like what we get
+                // from Jekyll
+                var div = document.createElement("DIV")
+                div.className = "highlight"
+                parent.insertBefore(div, pre[i])
+                div.appendChild(pre[i])
+                div.appendChild(button)
+            }
         }
 
         var copyCode = new Clipboard('button.copy', {
@@ -103,28 +116,47 @@ function patchDOM() {
         });
     }
 
+    function attachLink(node) {
+        var i = document.createElement("i");
+        i.className = "fa fa-link";
+
+        var anchor = document.createElement("a");
+        anchor.className = "header-link";
+        anchor.href = "#" + node.id;
+        anchor.appendChild(i);
+
+        node.appendChild(anchor);
+    }
+
     // Add a link icon next to each header so people can easily get bookmarks to headers
     function attachLinksToHeaders() {
         for (var level = 1; level <= 6; level++) {
-            for (var header in document.getElementsByTagName("h" + level)) {
-                if (typeof header.id !== "undefined" && header.id !== "") {
-                    var i = document.createElement("i");
-                    i.className = "fa fa-link";
-
-                    var anchor = document.createElement("a");
-                    anchor.className = "header-link";
-                    anchor.href = "#" + header.id;
-                    anchor.appendChild(i);
-
-                    header.appendChild(anchor);
+            var headers = document.getElementsByTagName("h" + level);
+            for (var i = 0; i < headers.length; i++) {
+                var header = headers[i]
+                if (header.id !== "") {
+                    attachLink(header);
                 }
+            }
+        }
+    }
+
+    // Add a link icon next to each define term so people can easily get bookmarks to them in the glossary
+    function attachLinksToDefinedTerms() {
+        var terms = document.getElementsByTagName("dt");
+        for (var i = 0; i < terms.length; i++) {
+            var term = terms[i]
+            if (term.id !== "") {
+                attachLink(term);
             }
         }
     }
 
     // Make it so each link outside of the current domain opens up in a different window
     function makeOutsideLinksOpenInTabs() {
-        for (var link in document.getElementsByTagName("a")) {
+        var links = document.getElementsByTagName("a");
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
             if (link.hostname && link.hostname != location.hostname) {
                 link.setAttribute("target", "_blank")
             }
@@ -150,6 +182,7 @@ function patchDOM() {
 
     attachCopyButtons();
     attachLinksToHeaders();
+    attachLinksToDefinedTerms();
     makeOutsideLinksOpenInTabs();
     loadExternalPreBlocks();
 }
