@@ -22,7 +22,7 @@ Identities from both authentication parts, if applicable, will be output to the 
 
 ## Architecture
 
-Authentication policies are saved in Istio config store (current implementation using Kubernetes CRD), and distributed by Pilot. Pilot will watch the config store. Upon any change, it will fetch the new policy and translate it into appropriate (sidecar) configs that are needed to enforce the policy. These configs are sent down to sidecar via regular discovery service APIs. Depends on the size of the mesh, this process may take few seconds to few minutes. During this transition, it might expect traffic lost (e.g when enable/disable mTLS), or inconsistent authentication results. These shortcomings will be addressed with better config rollout infrastructure, but it's not in the scope of the authentication policy itself.
+Authentication policies are saved in Istio config store (in 0.7, the storage implementation using Kubernetes CRD), and distributed by Pilot. Pilot continously monitors the config store. Upon any change, it fetches the new policy and translates it into appropriate (sidecar) configs that are needed to enforce the policy. These configs are sent down to sidecar via regular discovery service APIs. Depends on the size of the mesh, this process may take few seconds to few minutes. During the transition, it might expect traffic lost or inconsistent authentication results.
 
 {% include figure.html width='80%' ratio='100%'
     img='./img/authn.png'
@@ -33,12 +33,18 @@ Authentication policies are saved in Istio config store (current implementation 
 
 
 
-Policy is scoped at namespace level, with (optional) target selector rules to narrow down the set of services (within the same namespace as the policy) on which the policy should be applied. This also aligns with the ACL model based on Kubernetes RBAC. More specifically, only admin of the namespace can set policies for services in that namespace.
+Policy is scoped at namespace level, with (optional) target selector rules to narrow down the set of services (within the same namespace as the policy) on which the policy should be applied. This aligns with the ACL model based on Kubernetes RBAC. More specifically, only admin of the namespace can set policies for services in that namespace.
 
 
-Authentication engine is implemented on sidecar. With Envoy sidecar, it is a combination of SSL settings and filters. If authentication fails, request will be rejected (either with SLL handshake error code, or http 401, depends on the type of authencation mechanism). If success, following authenticated attributes will be generated:
+Authentication engine is implemented on sidecar. For example, with Envoy sidecar, it is a combination of SSL settings and HTTP filters. If authentication fails, request will be rejected (either with SLL handshake error code, or http 401, depends on the type of authencation mechanism). If success, following authenticated attributes will be generated:
 
-TBD
+- **source.principal**: peer principal. If peer authentiation is not used, the attribute is not set.
+- **request.auth.principal**: depends on the policy principal binding, this could be peer principal (if USE_PEER) or origin principal (if USE_ORIGIN).
+- **request.auth.aud**: reflect the audience (*aud*) claim within the origin-JWT (JWT that is used for origin authentication)
+- **request.auth.presenter**: similarly, reflect the authorize presenter (*azp*) claim.
+- **request.auth.claims**: all raw string claims from origin-JWT.
+
+Origin principal is not explicitely output. In general, it can always be reconstructed from issuer (*iss*) and subject (*sub*) claims. If principal binding is USE_ORIGIN, it is also the same as **request.auth.principal**.
 
 
 ## Anatomy of the policy
