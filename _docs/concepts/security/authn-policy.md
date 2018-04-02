@@ -93,7 +93,7 @@ origins:
 
 ### Principal binding
 
-Defines what is the principal from the authentiation. By default, it will use the value of peer's principal (and if peer authentication is not applied, it would be left unset). Policy writer can chose to overwrite it with USE_ORIGIN. In future, we will also support *conditional-binding* (e.g USE_PEER when peer is X, otherwise USE_ORIGIN)
+Defines what is the principal from the authentiation. By default, it will use the value of peer's principal (and if peer authentication is not applied, it would be left unset). Policy writer can choose to overwrite it with USE_ORIGIN. In future, we will also support *conditional-binding* (e.g USE_PEER when peer is X, otherwise USE_ORIGIN)
 
 ## What's next
 
