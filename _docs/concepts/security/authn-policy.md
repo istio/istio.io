@@ -10,19 +10,19 @@ type: markdown
 {% include home.html %}
 
 ## Overview
-Istio authentication policy enables admin to specify authentication requirements for a service (or services). Istio authentication policy is composed of two-part authentication:
+Istio authentication policy enables admin to specify authentication requirements for a service (or services). Istio authentication policy is composed of two-parts authentication:
 
-* Peer: verifies the party, the direct client, that makes the connection. The common authentication mechanism for this is [mutual TLS]({{home}}/docs/concepts/security/mutual-tls.html). Istio will be responsible to manage both client and server sides to enforce the policy.
+* Peer: verifies the party, the direct client, that makes the connection. The common authentication mechanism for this is [mutual TLS]({{home}}/docs/concepts/security/mutual-tls.html). Istio will be responsible for managing both client and server sides to enforce the policy.
 
-* Origin: verifies the party, the original client, that makes the request (e.g end-users, devices etc). JWT is the only supported mechanism for origin authentication at the moment. Istio will config server side to perform authentication, but will not enforce the client side to send the required certificate.
+* Origin: verifies the party, the original client, that makes the request (e.g end-users, devices etc). JWT is the only supported mechanism for origin authentication at the moment. Istio will configure the server side to perform authentication, but will not enforce the client side to send the required token.
 
 
-Identities from both authentication parts, if applicable, will be output to the next layer (e.g authorization, mixer). To simplify the authorization rules, the policy can also specifies which identity (peer or origin) should be used as 'the principal'. By default, it is set to peer's identity.
+Identities from both authentication parts, if applicable, will be output to the next layer (e.g authorization, mixer). To simplify the authorization rules, the policy can also specify which identity (peer or origin) should be used as 'the principal'. By default, it is set to the peer's identity.
 
 
 ## Architecture
 
-Authentication policies are saved in Istio config store (in 0.7, the storage implementation using Kubernetes CRD), and distributed by Pilot. Pilot continously monitors the config store. Upon any change, it fetches the new policy and translates it into appropriate (sidecar) configs that are needed to enforce the policy. These configs are sent down to sidecar via regular discovery service APIs. Depends on the size of the mesh, this process may take few seconds to few minutes. During the transition, it might expect traffic lost or inconsistent authentication results.
+Authentication policies are saved in Istio config store (in 0.7, the storage implementation uses Kubernetes CRD), and distributed by Pilot. Pilot continously monitors the config store. Upon any change, it fetches the new policy and translates it into appropriate (sidecar) configs that are needed to enforce the policy. These configs are sent down to sidecar via regular discovery service APIs. Depending on the size of the mesh, this process may take a few seconds to a few minutes. During the transition, it might expect traffic lost or inconsistent authentication results.
 
 {% include figure.html width='80%' ratio='100%'
     img='./img/authn.png'
@@ -36,7 +36,7 @@ Authentication policies are saved in Istio config store (in 0.7, the storage imp
 Policy is scoped at namespace level, with (optional) target selector rules to narrow down the set of services (within the same namespace as the policy) on which the policy should be applied. This aligns with the ACL model based on Kubernetes RBAC. More specifically, only admin of the namespace can set policies for services in that namespace.
 
 
-Authentication engine is implemented on sidecar. For example, with Envoy sidecar, it is a combination of SSL settings and HTTP filters. If authentication fails, request will be rejected (either with SLL handshake error code, or http 401, depends on the type of authencation mechanism). If success, following authenticated attributes will be generated:
+Authentication engine is implemented on sidecars. For example, with Envoy sidecar, it is a combination of SSL settings and HTTP filters. If authentication fails, requests will be rejected (either with SLL handshake error code, or http 401, depending on the type of authencation mechanism). If authentication succeeds, the following authenticated attributes will be generated:
 
 - **source.principal**: peer principal. If peer authentiation is not used, the attribute is not set.
 - **request.auth.principal**: depends on the policy principal binding, this could be peer principal (if USE_PEER) or origin principal (if USE_ORIGIN).
@@ -51,10 +51,10 @@ Origin principal is not explicitely output. In general, it can always be reconst
 
 ### Target selectors
 
-Defines rule to find service(s) on which policy should be applied. If no rule provided, the policy will be matched to all services in the namespace, so call namespace-level policy (as opposed to service-level policy are those that have non-empty selector rules). Istio (pilot) will pick the service-level policy if available, otherwise fallback to namespace-level policy. If none define, it uses the default policy based on service mesh config.
+Defines rule to find service(s) on which policy should be applied. If no rule provided, the policy will be matched to all services in the namespace, so call namespace-level policy (as opposed to service-level policies which have non-empty selector rules). Istio (pilot) will pick the service-level policy if available, otherwise fallback to namespace-level policy. If neither is define, it uses the default policy based on service mesh config.
 
 
-Operators are responsible to avoid conflict, e.g create more than one service-level policy that match to the same service(s) (or more than one namespace-level policy on the same namespace).
+Operators are responsible to avoid conflicts, e.g create more than one service-level policy that match to the same service(s) (or more than one namespace-level policy on the same namespace).
 
 
 Example: rule to select product-page service (on any port), and reviews:9000.
@@ -70,7 +70,7 @@ Example: rule to select product-page service (on any port), and reviews:9000.
 ### Peer authentication
 
 
-Defines authentication methods (and associated parameters) that are supported for for peer authentication. It can list more than one methods; only one of them need to be satisfied for the authentication pass. However, in the early releases, only mutual TLS is supported. Omitting this if peer authentication is not needed.
+Defines authentication methods (and associated parameters) that are supported for peer authentication. It can list more than one methods; only one of them needs to be satisfied for the authentication to pass. However, in 0.7 releases, only mutual TLS is supported. Omitting this if peer authentication is not needed.
 
 
 Example of peer authentiation using mutual TLS:
