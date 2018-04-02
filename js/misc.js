@@ -4,18 +4,60 @@
 
 "use strict"
 
-function doSearch() {
-    var url = '{{home}}/search.html?q=' + document.getElementsByName('q')[0].value;
-    window.location.assign(url);
-}
-
 $(function ($) {
-    $(document).ready(function() {
-        $('.btn-search').on('click', function(e) {
-            e.preventDefault();
-            doSearch();
-        });
+    // Show the navbar links, hide the search box
+    function showLinks() {
+        var $form = $('#search_form')
+        var $textbox = $('#search_textbox');
+        var $links = $('#navbar-links')
 
+        $form.removeClass('active');
+        $links.addClass('active');
+        $textbox.val('');
+        $textbox.removeClass("grow");
+    }
+
+    // Show the navbar search box, hide the links
+    function showSearchBox() {
+        var $form = $('#search_form')
+        var $textbox = $('#search_textbox');
+        var $links = $('#navbar-links')
+
+        $form.addClass('active');
+        $links.removeClass('active');
+        $textbox.addClass("grow");
+        $textbox.focus();
+    }
+
+    // Hide the search box when the user hits the ESC key
+    $('body').on('keyup', function(event) {
+        if (event.which == 27) {
+            showLinks();
+        }
+    });
+
+    // Show the search box
+    $('#search_show').on('click', function(event) {
+        event.preventDefault();
+        showSearchBox();
+    });
+
+    // Hide the search box
+    $('#search_close').on('click', function(event) {
+        event.preventDefault();
+        showLinks();
+    });
+
+    // When the user submits the search form, initiate a search
+    $('#search_form').submit(function(event) {
+        event.preventDefault();
+        var $textbox = $('#search_textbox');
+        var url = '{{home}}/search.html?q=' + $textbox.val();
+        showLinks();
+        window.location.assign(url);
+    });
+
+    $(document).ready(function() {
         // toggle sidebar on/off
         $('[data-toggle="offcanvas"]').on('click', function () {
             $('.row-offcanvas').toggleClass('active')
