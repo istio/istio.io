@@ -16,19 +16,19 @@ Instructions for the installation and configuration of Istio using Ansible.
 
 The following instructions require [Ansible 2.4](https://docs.ansible.com/ansible/latest/intro_installation.html). Additionally Kubernetes **1.7.3 or newer** is required.
 
-The following prerequisites must be met if using Openshift.
+The following prerequisites must be met if using OpenShift.
 
 * Minimum Version: **3.7.0**
 * **oc** configured to be able to access the cluster
 * User has logged in to the cluster
-* User has `admin` role on Openshift
+* User has `admin` role on OpenShift
 
 ## Deploy with Ansible
 
 **Important**: All execution of the Ansible playbooks must take place in the `install/ansible` path of Istio.
 
 This playbook will download and install Istio locally on your machine. To deploy the default settings of
-Istio on Openshift, the following command may be used:
+Istio on OpenShift, the following command may be used:
 
 ```bash
 ansible-playbook main.yml
@@ -55,7 +55,7 @@ The currently exposed options are explained in the following table:
 
 ## Default installation
 
-Operator installs Istio using all defaults on Openshift:
+Operator installs Istio using all defaults on OpenShift:
 
 ```bash
 ansible-playbook main.yml
@@ -79,19 +79,19 @@ Operator installs Istio on Kubernetes and the path to `kubectl` is explicitly se
 ansible-playbook main.yml -e '{"cluster_flavour": "k8s", "cmd_path": "~/kubectl"}'
 ```
 
-Operator installs Istio on Openshift with settings other than the default:
+Operator installs Istio on OpenShift with settings other than the default:
 
 ```bash
 ansible-playbook main.yml -e '{"istio": {"release_tag_name": "0.6.0", "auth": true, "delete_resources": true}}'
 ```
 
-Operator installs Istio on Openshift with customized addons:
+Operator installs Istio on OpenShift with customized addons:
 
 ```bash
 ansible-playbook main.yml -e '{"istio": {"delete_resources": true, "addon": ["grafana", "prometheus", "jaeger"]}}'
 ```
 
-Operator installs Istio on Openshift and additionally wants to deploy some of the samples:
+Operator installs Istio on OpenShift and additionally wants to deploy some of the samples:
 
 ```bash
 ansible-playbook main.yml -e '{"istio": {"samples": ["helloworld", "bookinfo"]}}'
