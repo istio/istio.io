@@ -1,6 +1,6 @@
 ---
-title: Basic Istio authentication policy
-overview: This task shows you how to use Istio authentication policy to setup mutual TLS and simple end-user authentication.
+title: Basic Istio Authentication Policy
+overview: Shows you how to use Istio authentication policy to setup mutual TLS and simple end-user authentication.
 
 order: 10
 
@@ -11,9 +11,9 @@ type: markdown
 
 Through this task, you will learn how to:
 
-* Using authentication policy to setup mutual TLS.
+* Use authentication policy to setup mutual TLS.
 
-* Using authentication policy to do end-user authentication.
+* Use authentication policy to do end-user authentication.
 
 
 ## Before you begin
@@ -79,7 +79,7 @@ kubectl get policies.authentication.istio.io -n bar
 No resources found.
 ```
 
-## Enable mTLS for all services in namespace `foo`.
+## Enable mTLS for all services in namespace `foo`
 
 Run this command to set namespace-level policy for namespace `foo`.
 
@@ -122,7 +122,7 @@ command terminated with exit code 56
 sleep.legacy to httpbin.bar: 200
 ```
 
-## Enable mTLS for single service httpbin.bar.
+## Enable mTLS for single service `httpbin.bar`
 
 Run this command to set another policy for only for `httpbin.bar` service. Note in this example, we do **not** specify namespace in metadata but put it in commandline (`-n bar`). They should work the same.
 
@@ -277,7 +277,7 @@ spec:
   - mtls:
   origins:
   - jwt:
-      issuer: "frod@gserviceaccount.com"
+      issuer: "YOUR_SERVICE_ACCOUNT_EMAIL"
       jwksUri: $JWKS
   principalBinding: USE_ORIGIN
 EOF  

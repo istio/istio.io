@@ -1,5 +1,5 @@
 ---
-title: Istio authentication policy
+title: Istio Authentication Policy
 overview: Describes Istio Authentication policy
 
 order: 10
@@ -10,14 +10,14 @@ type: markdown
 {% include home.html %}
 
 ## Overview
-Istio authentication policy enables admin to specify authentication requirements for a service (or services). Istio authentication policy is composed of two-parts authentication:
+Istio authentication policy enables operators to specify authentication requirements for a service (or services). Istio authentication policy is composed of two parts authentication:
 
-* Peer: verifies the party, the direct client, that makes the connection. The common authentication mechanism for this is [mutual TLS]({{home}}/docs/concepts/security/mutual-tls.html). Istio will be responsible for managing both client and server sides to enforce the policy.
+* Peer: verifies the party, the direct client, that makes the connection. The common authentication mechanism for this is [mutual TLS]({{home}}/docs/concepts/security/mutual-tls.html). Istio is responsible for managing both client and server sides to enforce the policy.
 
-* Origin: verifies the party, the original client, that makes the request (e.g end-users, devices etc). JWT is the only supported mechanism for origin authentication at the moment. Istio will configure the server side to perform authentication, but will not enforce the client side to send the required token.
+* Origin: verifies the party, the original client, that makes the request (e.g end-users, devices etc). JWT is the only supported mechanism for origin authentication at the moment. Istio configures the server side to perform authentication, but doesn't enforce that the client side sends the required token.
 
 
-Identities from both authentication parts, if applicable, will be output to the next layer (e.g authorization, mixer). To simplify the authorization rules, the policy can also specify which identity (peer or origin) should be used as 'the principal'. By default, it is set to the peer's identity.
+Identities from both authentication parts, if applicable, will be output to the next layer (e.g authorization, Mixer). To simplify the authorization rules, the policy can also specify which identity (peer or origin) should be used as 'the principal'. By default, it is set to the peer's identity.
 
 
 ## Architecture
@@ -25,7 +25,7 @@ Identities from both authentication parts, if applicable, will be output to the 
 Authentication policies are saved in Istio config store (in 0.7, the storage implementation uses Kubernetes CRD), and distributed by Pilot. Pilot continously monitors the config store. Upon any change, it fetches the new policy and translates it into appropriate (sidecar) configs that are needed to enforce the policy. These configs are sent down to sidecar via regular discovery service APIs. Depending on the size of the mesh, this process may take a few seconds to a few minutes. During the transition, it might expect traffic lost or inconsistent authentication results.
 
 {% include figure.html width='80%' ratio='100%'
-    img='./img/authn.png'
+    img='./img/authn.svg'
     alt='Istio authentication policy architecture'
     title='Istio authentication policy architecture'
     caption='Istio authentication policy architecture'
