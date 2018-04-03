@@ -13,7 +13,7 @@ Through this task, you will learn how to:
 
 * Using authentication policy to setup mutual TLS.
 
-* Using authentication policy to end-user authentication.
+* Using authentication policy to do end-user authentication.
 
 
 ## Before you begin
@@ -22,7 +22,7 @@ Through this task, you will learn how to:
 
 * Know how to verify mTLS setup (recommend to walk through [testing Istio mutual TLS authentication]({{home}}/docs/tasks/security/mutual-tls.html))
 
-* Have a Kubernetes cluster with Istio installed (either with or without mTLS, but preferred without as the tasks will show the way to enable mTLS with policy)
+* Have a Kubernetes cluster with Istio installed, without mTLS. See [the Istio installation task]({{home}}/docs/setup/kubernetes/quick-start.html) and follow step 5a.
 
 * For demo, create two namespaces `foo` and `bar`, and deploy [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) and [sleep](https://github.com/istio/istio/tree/master/samples/sleep) with sidecar on both of them. Also, run another sleep app without sidecar (to keep it separate, run it in `legacy` namespace)
 
@@ -40,7 +40,7 @@ kubectl apply -f samples/sleep/sleep.yaml -n legacy
 
 ```
 
-* Verifying setup by sending an http request (using curl command) from any sleep pod (among those in namespace `foo`, `bar` or `legacy`) to either `httpbin.foo` or `httpbin.bar`. If Istio was installed with mTLS-disable, all requests should success with http code 200 (on the contrary, if Istio was installed wiht mTLS-enable, all excepts request from `sleep.legacy` should success).
+* Verifying setup by sending an http request (using curl command) from any sleep pod (among those in namespace `foo`, `bar` or `legacy`) to either `httpbin.foo` or `httpbin.bar`. All requests should success with http code 200.
 
 For example, here is a command to check `sleep.bar` to `httpbin.foo` reachability:
 
@@ -124,7 +124,7 @@ sleep.legacy to httpbin.bar: 200
 
 ## Enable mTLS for single service httpbin.bar.
 
-Run this command to set another policy for only for `httpbin.bar` service. Note in this example, we don't specify namespace in metadata but as part of the commandline (`-n bar`). They should work the same.
+Run this command to set another policy for only for `httpbin.bar` service. Note in this example, we do **not** specify namespace in metadata but put it in commandline (`-n bar`). They should work the same.
 
 ```
 cat <<EOF | istioctl create -n bar -f -
@@ -148,7 +148,7 @@ sleep.legacy to httpbin.bar: 000
 command terminated with exit code 56
 ```
 
-If we have more services in namespace `bar`, we should see traffic to them won't be affected. Instead of adding more services to demonstrate this behavior, we edit the policy sligthtly:
+If we have more services in namespace `bar`, we should see traffic to them won't be affected. Instead of adding more services to demonstrate this behavior, we edit the policy slightly:
 
 ```
 cat <<EOF | istioctl replace -n bar -f -
@@ -166,7 +166,7 @@ spec:
 EOF
 ```
 
-This new policy will apply only to `httpbin` service on port `1234`. As the result, mTLS is disabled (again) on port `8000` and request from `sleep.legacy` will resume working.
+This new policy will apply only to `httpbin` service on port `1234`. As a result, mTLS is disabled (again) on port `8000` and request from `sleep.legacy` will resume working.
 
 ```
 kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metadata.name}) -c sleep -n legacy -- curl http://httpbin.bar:8000/ip -s -o /dev/null -w "%{http_code}\n"

@@ -36,25 +36,24 @@ Authentication policies are saved in Istio config store (in 0.7, the storage imp
 Policy is scoped at namespace level, with (optional) target selector rules to narrow down the set of services (within the same namespace as the policy) on which the policy should be applied. This aligns with the ACL model based on Kubernetes RBAC. More specifically, only admin of the namespace can set policies for services in that namespace.
 
 
-Authentication engine is implemented on sidecars. For example, with Envoy sidecar, it is a combination of SSL settings and HTTP filters. If authentication fails, requests will be rejected (either with SLL handshake error code, or http 401, depending on the type of authencation mechanism). If authentication succeeds, the following authenticated attributes will be generated:
+Authentication engine is implemented on sidecars. For example, with Envoy sidecar, it is a combination of SSL settings and HTTP filters. If authentication fails, requests will be rejected (either with SSL handshake error code, or http 401, depending on the type of authencation mechanism). If authentication succeeds, the following authenticated attributes will be generated:
 
 - **source.principal**: peer principal. If peer authentiation is not used, the attribute is not set.
 - **request.auth.principal**: depends on the policy principal binding, this could be peer principal (if USE_PEER) or origin principal (if USE_ORIGIN).
-- **request.auth.aud**: reflect the audience (*aud*) claim within the origin-JWT (JWT that is used for origin authentication)
-- **request.auth.presenter**: similarly, reflect the authorize presenter (*azp*) claim.
+- **request.auth.audience**: reflect the audience (`aud`) claim within the origin-JWT (JWT that is used for origin authentication)
+- **request.auth.presenter**: similarly, reflect the authorized presenter (`azp`) claim of the origin-JWT.
 - **request.auth.claims**: all raw string claims from origin-JWT.
 
-Origin principal is not explicitely output. In general, it can always be reconstructed from issuer (*iss*) and subject (*sub*) claims. If principal binding is USE_ORIGIN, it is also the same as **request.auth.principal**.
+Origin principal is not explicitely output. In general, it can always be reconstructed by joining (`iss`) and subject (`sub`) claims with "/" seperator (for example, if `iss` and `sub` claims are "*googleapis.com*" and "*123456*" respectively, then origin principal is "*googleapis.com/123456*"). On the other hand, if principal binding is USE_ORIGIN, **request.auth.principal** carries the same value as origin principal.
 
 
 ## Anatomy of the policy
 
 ### Target selectors
 
-Defines rule to find service(s) on which policy should be applied. If no rule provided, the policy will be matched to all services in the namespace, so call namespace-level policy (as opposed to service-level policies which have non-empty selector rules). Istio (pilot) will pick the service-level policy if available, otherwise fallback to namespace-level policy. If neither is define, it uses the default policy based on service mesh config.
+Defines rule to find service(s) on which policy should be applied. If no rule provided, the policy will be matched to all services in the namespace, so call namespace-level policy (as opposed to service-level policies which have non-empty selector rules). Istio (pilot) will pick the service-level policy if available, otherwise fallback to namespace-level policy. If neither is defined, it uses the default policy based on service mesh config and/or service annotation, which can only set mutual TLS setting (these are pre-0.7 mechanisms to config mutual TLS for Istio service mesh). See [testing Istio nutual TLS]({{home}}/docs/tasks/security/mutual-tls.html) and [per-service mutual TLS enablement]({{home}}/docs/tasks/security/per-service-mtls.html) for more details.
 
-
-Operators are responsible to avoid conflicts, e.g create more than one service-level policy that match to the same service(s) (or more than one namespace-level policy on the same namespace).
+Operators are responsible for avoiding conflicts, e.g create more than one service-level policy that match to the same service(s) (or more than one namespace-level policy on the same namespace).
 
 
 Example: rule to select product-page service (on any port), and reviews:9000.
@@ -80,9 +79,11 @@ Example of peer authentiation using mutual TLS:
   - mtls:
 ```  
 
+Note: in 0.7, mtls settings doesn't require any parameter (hence `- mtls:` or `- mtls: null` declaration is sufficient). In future, it may carry arguments to provide different mTLS implementations.
+
 ### Origin authentication
 
-Defines authentication methods (and associated parameters) that are supported for for origin authentication. Only JWT is supported for this, however, the policy can list multiple JWTs by diffrent issuers. Same as peers authentication, only one of the listed methods need to be satisfied for the authenticaiton pass.
+Defines authentication methods (and associated parameters) that are supported for for origin authentication. Only JWT is supported for this, however, the policy can list multiple JWTs by diffrent issuers. Same as peers authentication, only one of the listed methods need to be satisfied for the authenticaiton to pass.
 
 ```
 origins:
