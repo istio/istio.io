@@ -277,7 +277,7 @@ spec:
   - mtls:
   origins:
   - jwt:
-      issuer: "https://www.googleapis.com"
+      issuer: "frod@gserviceaccount.com"
       jwksUri: $JWKS
   principalBinding: USE_ORIGIN
 EOF  
