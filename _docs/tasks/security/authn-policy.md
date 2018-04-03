@@ -26,7 +26,7 @@ Through this task, you will learn how to:
 
 * For demo, create two namespaces `foo` and `bar`, and deploy [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) and [sleep](https://github.com/istio/istio/tree/master/samples/sleep) with sidecar on both of them. Also, run another sleep app without sidecar (to keep it separate, run it in `legacy` namespace)
 
-```
+```bash
 kubectl create ns foo
 kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml) -n foo
 kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml) -n foo
@@ -44,7 +44,7 @@ kubectl apply -f samples/sleep/sleep.yaml -n legacy
 
 For example, here is a command to check `sleep.bar` to `httpbin.foo` reachability:
 
-```
+```bash
 kubectl exec $(kubectl get pod -l app=sleep -n bar -o jsonpath={.items..metadata.name}) -c sleep -n bar -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
 ```
 ```
@@ -53,7 +53,7 @@ kubectl exec $(kubectl get pod -l app=sleep -n bar -o jsonpath={.items..metadata
 
 Conveniently, this one-liner command iterates through all combinations:
 
-```
+```bash
 for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 ```
 
@@ -69,7 +69,7 @@ sleep.legacy to httpbin.bar: 200
 
 * Also verify that there are no authencation policy in the system
 
-```
+```bash
 kubectl get policies.authentication.istio.io -n foo
 
 kubectl get policies.authentication.istio.io -n bar
@@ -83,7 +83,7 @@ No resources found.
 
 Run this command to set namespace-level policy for namespace `foo`.
 
-```
+```bash
 cat <<EOF | istioctl create -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
@@ -97,7 +97,7 @@ EOF
 ```
 
 And verify policy is added:
-```
+```bash
 kubectl get policies.authentication.istio.io -n foo
 ```
 
@@ -108,7 +108,7 @@ enable-mtls   1m
 
 Run the same testing command above. We should see request from `sleep.legacy` to `httpbin.foo` start to fail, as the result of enabling mTLS for `httpbin.foo` but `sleep.legacy` doesn't have sidecar to support it. On the other hand, for clients with sidecar (`sleep.foo` and `sleep.bar`), Istio automatically configures them to using mTLS where talking `http.foo`, so they continue to work. Also, requests to `httpbin.bar` are not affected as policy is effective on `foo` namespace only.
 
-```
+```bash
 for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 ```
 
@@ -126,7 +126,7 @@ sleep.legacy to httpbin.bar: 200
 
 Run this command to set another policy for only for `httpbin.bar` service. Note in this example, we do **not** specify namespace in metadata but put it in commandline (`-n bar`). They should work the same.
 
-```
+```bash
 cat <<EOF | istioctl create -n bar -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
@@ -150,7 +150,7 @@ command terminated with exit code 56
 
 If we have more services in namespace `bar`, we should see traffic to them won't be affected. Instead of adding more services to demonstrate this behavior, we edit the policy slightly:
 
-```
+```bash
 cat <<EOF | istioctl replace -n bar -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
@@ -168,7 +168,7 @@ EOF
 
 This new policy will apply only to `httpbin` service on port `1234`. As a result, mTLS is disabled (again) on port `8000` and request from `sleep.legacy` will resume working.
 
-```
+```bash
 kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metadata.name}) -c sleep -n legacy -- curl http://httpbin.bar:8000/ip -s -o /dev/null -w "%{http_code}\n"
 ```
 
@@ -180,7 +180,7 @@ kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metad
 
 Assuming we already add the namespace-level policy that enables mTLS for all services in namespace `foo` and observe that request from `sleep.legacy` to `httpbin.foo` are failing (see above). Now add another policy that disables mTLS (peers section is empty) specifically for `httpbin` service:
 
-```
+```bash
 cat <<EOF | istioctl create -n foo -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
@@ -194,7 +194,7 @@ EOF
 
 Re-run request from `sleep.legacy`, we should see a success return code again (200), confirming service-level policy overrules the namespace-level policy.
 
-```
+```bash
 kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metadata.name}) -c sleep -n legacy -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
 ```
 
@@ -203,19 +203,19 @@ kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metad
 ```
 
 
-## Setup end-user Authentication
+## Setup end-user authentication
 
 You will need a valid JWT (corresponding to the JWKS endpoint you want to use for the demo). Please follow the instruction [here](https://github.com/istio/istio/tree/master/security/tools/jwt) to create one. You can also use your own JWT/JWKS endpoint for the demo. Once you have that, let's export to some enviroment variables.
 
 
-```
+```bash
 export JWKS=https://www.googleapis.com/service_accounts/v1/jwk/<YOUR-SVC-ACCOUNT>
 export TOKEN=<YOUR-TOKEN>
 ```
 
 Also, for convenience, let's expose `httpbin.foo` via ingress (for more details, see [ingress task]({{home}}/docs/tasks/traffic-management/ingress.html)).
 
-```
+```bash
 cat <<EOF | kubectl apply -f -
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -236,12 +236,12 @@ EOF
 ```
 
 Get ingress IP
-```
+```bash
 export INGRESS_HOST=$(kubectl get ing -n foo -o=jsonpath='{.items[0].status.loadBalancer.ingress[0].ip}')
 ```
 
 And run test query
-```
+```bash
 curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 ```
 
@@ -264,7 +264,7 @@ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 
 Now, let's add a policy that requires end-user JWT for `httpbin.foo`. The next command assume policy with name "httpbin" already exists (which should be if you follow previous sections). You can run `kubectl get policies.authentication.istio.io -n foo` to confirm, and use `istio create` (instead of `istio replace`) if resource is not found. Also note in this policy, peer authentication (mTLS) is also set, though it can be removed without affecting origin authencation settings.
 
-```
+```bash
 cat <<EOF | istioctl replace -n foo -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
@@ -284,7 +284,7 @@ EOF
 ```
 
 The same curl command before will return with 401 error code, as a result of sever is expecting JWT but none provide:
-```
+```bash
 curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 ```
 ```
@@ -292,7 +292,7 @@ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 ```
 
 Attaching the valid token generate above will return success:
-```
+```bash
 curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 ```
 

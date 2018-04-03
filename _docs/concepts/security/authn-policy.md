@@ -33,14 +33,14 @@ Authentication policies are saved in Istio config store (in 0.7, the storage imp
 
 
 
-Policy is scoped at namespace level, with (optional) target selector rules to narrow down the set of services (within the same namespace as the policy) on which the policy should be applied. This aligns with the ACL model based on Kubernetes RBAC. More specifically, only admin of the namespace can set policies for services in that namespace.
+Policy is scoped to namespaces, with (optional) target selector rules to narrow down the set of services (within the same namespace as the policy) on which the policy should be applied. This aligns with the ACL model based on Kubernetes RBAC. More specifically, only admin of the namespace can set policies for services in that namespace.
 
 
-Authentication engine is implemented on sidecars. For example, with Envoy sidecar, it is a combination of SSL settings and HTTP filters. If authentication fails, requests will be rejected (either with SSL handshake error code, or http 401, depending on the type of authencation mechanism). If authentication succeeds, the following authenticated attributes will be generated:
+Authentication is implemented by the Istio sidecars. For example, with Envoy sidecar, it is a combination of SSL settings and HTTP filters. If authentication fails, requests will be rejected (either with SSL handshake error code, or http 401, depending on the type of authencation mechanism). If authentication succeeds, the following authenticated attributes will be generated:
 
 - **source.principal**: peer principal. If peer authentiation is not used, the attribute is not set.
 - **request.auth.principal**: depends on the policy principal binding, this could be peer principal (if USE_PEER) or origin principal (if USE_ORIGIN).
-- **request.auth.audience**: reflect the audience (`aud`) claim within the origin-JWT (JWT that is used for origin authentication)
+- **request.auth.audiences**: reflect the audience (`aud`) claim within the origin-JWT (JWT that is used for origin authentication)
 - **request.auth.presenter**: similarly, reflect the authorized presenter (`azp`) claim of the origin-JWT.
 - **request.auth.claims**: all raw string claims from origin-JWT.
 
