@@ -1,122 +1,109 @@
 ---
 title: Installation with Ansible
-overview: Install Itio with the included Ansible playbook.
+overview: Install Istio with the included Ansible playbook.
 
 order: 40
 
 layout: docs
 type: markdown
 ---
+
 {% include home.html %}
 
-The Ansible scenario defined within this project will allow you to : 
-
-- Deploy Istio on Kubernetes or Openshift by specifying different parameters (version, enable auth, deploy bookinfo, ...)
-- Specify the addons to be deployed such as `Grafana`, `Prometheus`, `Servicegraph`, `Zipkin` or `Jaeger`
+Instructions for the installation and configuration of Istio using Ansible.
 
 ## Prerequisites
 
-- [Ansible 2.4](https://docs.ansible.com/ansible/latest/intro_installation.html)
+The following instructions require [Ansible 2.4](https://docs.ansible.com/ansible/latest/intro_installation.html). Additionally Kubernetes **1.7.3 or newer** is required.
 
-Refer to the Ansible Installation Doc on how to install Ansible on your machine.
-To use [Minishift](https://docs.openshift.org/latest/minishift/command-ref/minishift_start.html) or [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) for local clusters, please refer to their respective documentation.
+The following prerequisites must be met if using OpenShift.
 
-Furthermore, the following requirements must be met for the respective clusters 
-* Kubernetes:
-    - Minimum Version: `1.7.2`
-    - `kubectl` configured to be able to access the cluster
-* Openshift 
-    - Minimum Version: `3.7.0` 
-    - `oc` configured to be able to access the cluster
-    - User has logged in to the cluster
-    - User has `admin` role on the Openshift platform    
+* Minimum Version: **3.7.0**
+* **oc** configured to be able to access the cluster
+* User has logged in to the cluster
+* User has `admin` role on OpenShift
 
-## Execution
+## Deploy with Ansible
 
-**Important**: All invocations of the Ansible playbooks need to take place at the `install/ansible` path of the project.
-Failing to do so will result in unexpected errors 
+**Important**: All execution of the Ansible playbooks must take place in the `install/ansible` path of Istio.
 
-The simplest execution command looks like the following:
- 
+This playbook will download and install Istio locally on your machine. To deploy the default settings of
+Istio on OpenShift, the following command may be used:
+
 ```bash
 ansible-playbook main.yml
 ```
 
-Remarks:
-- This Ansible playbook is idempotent. If you find examples of lacking idempotency please file a bug.   
-- The default parameters that apply to this role can be found in `istio/defaults/main.yml`.
+## Customization with Ansible
 
-The full list of configurable parameters is as follows:
+The Ansible playbook ships with reasonable defaults.
 
-| Parameter | Description | Values |
-| --- | --- | --- |
-| `cluster_flavour` | Defines whether the target cluster is a Kubernetes or an Openshift cluster. | Valid values are `k8s` and `ocp` (default) |
-| `github_api_token` | The API token used for authentication when calling the GitHub API | Any valid GitHub API token or empty (default) |
-| `cmd_path` | Can be used when the user does not have the `oc` or `kubectl` binary on the PATH | Defaults to expecting the binary is on the path | 
-| `istio.release_tag_name` | Should be a valid Istio release version. If left empty, the latest Istio release will be installed | `0.2.12`, `0.3.0`, `0.4.0`, ... |
-| `istio.dest` | The directory of the target machine where Istio will be installed | `~/.istio` (default) |
-| `istio.auth` | Boolean value to install Istio using MUTUAL_TLS | `true` and `false` (default) |
-| `istio.namespace` | The namespace where Istio will be installed | `istio-system` (default) |
-| `istio.addon` | Which Istio addons should be installed as well | This field is an array field, which by default contains `grafana`, `prometheus`, `zipkin`, `jaeger` (disables Zipkin if selected), and `servicegraph` |
-| `istio.delete_resources` | Boolean value to delete resources created under the Istio namespace | `true` and `false` (default)|
-| `istio.samples` | Array containing the names of the samples that should be installed | Valid names are: `bookinfo`, `helloworld`, `httpbin`, `sleep`
+The currently exposed options are explained in the following table:
 
+| Parameter | Description | Values | Default |
+| --- | --- | --- | --- |
+| `cluster_flavour` | Define the target cluster type | `k8s` or `ocp` | `ocp` |
+| `github_api_token` | A valid Github API authentication token used for authenticating with Github | A valid Github API token | empty |
+| `cmd_path` | Override the path to `kubectl` or `oc` | A valid path to a `kubectl` or `oc` binary | `$PATH/oc` |
+| `istio.release_tag_name` | Istio release version to install | Any valid Istio release version | the latest Istio release version |
+| `istio.dest` | The directory of the target machine where Istio will be installed | Any directory with read+write permissions | `~/.istio` |
+| `istio.auth` | Install with mutual TLS | `true` or `false` | `false` |
+| `istio.namespace` | Kubernetes namespace where Istio will be installed | any namespace may be specified | `istio-system` |
+| `istio.addon` | Istio addons to install | array containing any of `grafana`, `prometheus`, `zipkin`, `jaeger`, or `servicegraph` | all addons are enabled by default |
+| `istio.delete_resources` | Delete resources created under Istio namespace | `true` or `false` | false |
+| `istio.samples` | Array containing the names of the samples that should be installed | `bookinfo`, `helloworld`, `httpbin`, `sleep` | none |
 
-An example of an invocation where we want to deploy Jaeger instead of Zipkin would be:
-```bash
-ansible-playbook main.yml -e '{"istio": {"jaeger": true}}'
-```
+## Default installation
 
+Operator installs Istio using all defaults on OpenShift:
 
-This playbook will take care of downloading and installing Istio locally on your machine, before deploying the necessary Kubernetes / Openshift
-pods, services etc. on to the cluster.
-
-### Note on istio.delete_resources
-
-Activating the `istio.delete_resources` flag will result in any Istio related resources being deleted from the cluster before Istio is reinstalled.
-
-In order to avoid any inconsistency issues, this flag should only be used to reinstall the same version of Istio on a cluster. If a new version
-of Istio need to be reinstalled, then it is advisable to delete the `istio-system` namespace before executing the playbook (in which case the 
-`istio.delete_resources` flag does not need to be activated)  
-
-## Typical use cases
-
-The following commands are some examples of how a user could install Istio using this Ansible role:
-
-- User executes installs Istio accepting all defaults
 ```bash
 ansible-playbook main.yml
 ```
 
-- User installs Istio on to a Kubernetes cluster 
+## Operational overrides
+
+There may be circumstances in which defaults require overrides.
+
+The following commands describe how an operator could use overrides with this Ansible playbook:
+
+Operator installs Istio on Kubernetes:
+
 ```bash
-ansible-playbook main.yml -e '{"cluster_flavour": "k8s"}' 
+ansible-playbook main.yml -e '{"cluster_flavour": "k8s"}'
 ```
 
-- User installs Istio on to a Kubernetes cluster and the path to `kubectl` is expicitly set (perhaps it's not on the PATH)
+Operator installs Istio on Kubernetes and the path to `kubectl` is explicitly set:
+
 ```bash
-ansible-playbook main.yml -e '{"cluster_flavour": "k8s", "cmd_path": "~/kubectl"}' 
+ansible-playbook main.yml -e '{"cluster_flavour": "k8s", "cmd_path": "~/kubectl"}'
 ```
 
-- User wants to install Istio on Openshift with settings other than the default
+Operator installs Istio on OpenShift with settings other than the default:
+
 ```bash
 ansible-playbook main.yml -e '{"istio": {"release_tag_name": "0.6.0", "auth": true, "delete_resources": true}}'
 ```
 
-- User wants to install Istio on Openshift but with custom add-on settings
+Operator installs Istio on OpenShift with customized addons:
+
 ```bash
 ansible-playbook main.yml -e '{"istio": {"delete_resources": true, "addon": ["grafana", "prometheus", "jaeger"]}}'
 ```
 
-- User wants to install Istio on Openshift and additionally wants to deploy some of the samples
+Operator installs Istio on OpenShift and additionally wants to deploy some of the samples:
+
 ```bash
 ansible-playbook main.yml -e '{"istio": {"samples": ["helloworld", "bookinfo"]}}'
 ```
 
-The list of available addons can be found at `istio/vars.main.yml` under the name `istio_all_addons`.
-It should be noted that when Jaeger is enabled, Zipkin is disabled whether or not it's been selected in the addons section.
+**When Jaeger is enabled, Zipkin is disabled even when Zipkin is selected in the addons.**
 
-## Adding istioctl to PATH
+## Uninstalling
 
-After executing the playbook if it is desired that the `istioctl` command line tool be added to the PATH,
-search for `Add Istio to PATH` in the output and execute the commands that are outputted  
+If a different version of Istio is desired, delete the `istio-system` namespace before executing the playbook.
+In this case, the `istio.delete_resources` flag does not need to be set.
+
+Setting `istio.delete_resources` to true will delete the Istio control plane from the cluster.
+
+**In order to avoid any inconsistencies, this flag should only be used to reinstall the same version of Istio on a cluster.**
