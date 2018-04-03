@@ -117,12 +117,26 @@ directory. This search engine will be used to perform version-specific searches 
 `archive` field to true, the `archive_date` field to the current date, and the `search_engine_id` field
 to the ID of the search engine you created in the prior step.
 
-1. Switch to the istio/admin-sites repo. In this repo, navigate to the archive.istio.io directory and run
-the `build.sh` script. Once the script completes, run 'firebase deploy'. Running the script and deploying the
-results will update archive.istio.io to contain the right set of archives, based on the above steps.
+1. Switch to the istio/admin-sites repo. In this repo:
 
-1. Still in the istio/admin-sites repo, navigate to the current.istio.io directory, run the `build.sh` script, followed by `firebase deploy`
-This will update the content of istio.io to reflect what in the new release branch you created.
+  1. Navigate to the archive.istio.io directory and edit the `build.sh` script to add the newest archive version (in this case
+  release-0.6) to the `TOBUILD` variable.
+
+  1. Commit the previous edit to GitHub.
+
+  1. Run the `build.sh` script.
+
+  1. Once the script completes, run 'firebase deploy'. This will update archive.istio.io to contain the
+  right set of archives, based on the above steps.
+
+  1. Navigate to the current.istio.io directory
+
+  1. Edit the build.sh script to set the `BRANCH` variable to the current release branch (in this case release-0.7)
+
+  1. Run the `build.sh` script.
+
+  1. Once the script completes, run 'firebase deploy`. This will update the content of istio.io to reflect what is the new release
+  branch you created.
 
 Once all this is done, browse the three sites (preliminary.istio.io, istio.io, and archive.istio.io) to make sure
 everything looks good.

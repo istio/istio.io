@@ -88,7 +88,7 @@ kubectl create -f install/kubernetes/istio-sidecar-injector-configmap-release.ya
     
 kubectl -n istio-system get configmap istio -o=jsonpath='{.data.mesh}' > mesh-config.yaml
 ```
-  `
+
 Run `kube-inject` over the input file.
 
 ```bash

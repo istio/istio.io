@@ -1,3 +1,7 @@
+g.icon {
+    fill: red;
+}
+
 div.footer {
     padding-top: 4em;
 
@@ -9,60 +13,80 @@ div.footer {
         bottom: 0;
         width: 100%;
         height: $footerHeight;
-
-        @media (max-width: $bp-sm) {
-            height: $footerHeight-xs;
-        }
-
-        ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        li {
-            line-height: 1.1em;
-        }
+        overflow: hidden;
 
         @media (max-width: $bp-sm) {
             padding: 1rem 0 1.5rem;
             text-align: center;
-
-            ul {
-                padding-top: 1.5rem;
-            }
-
-            ul.first {
-                padding-top: 0;
-            }
         }
 
-        a {
+        div.icon {
+            position: relative;
+            display: inline-flex;
+            padding: 4px;
+            border-width: 2px;
+            border-color: rgba(0, 0, 0, 0);
+            border-style: solid;
+            border-radius: 2px;
             color: $textBrandColor;
-            font-weight: 300;
-            font-size: .8em;
-            padding: 0;
-            letter-spacing: .5px;
-            line-height: 1.1em;
+
+            a {
+                &:hover {
+                    text-decoration: none;
+                }
+            }
+
+            svg {
+                width: 35px;
+                height: 35px;
+                fill: $textBrandColor;
+            }
 
             &:hover {
-                text-decoration: underline;
-                color: $textBrandColor;
+                border-color: white;
+                border-radius: 25px;
+                box-shadow: 0 0 2px 2px $textBrandColor;
+                transition: border-radius 1s, border-color 1s ease;
             }
         }
 
-        a.header {
-            font-weight: 400;
-            font-size: 1.1em;
-            letter-spacing: .5px;
-            line-height: 2.0em;
-        }
-
-        p.description {
-            padding-top: 2em;
+        p.copyright {
+            padding: 0;
+            margin: 0;
             color: $textBrandColorLight;
             line-height: 1.6em;
             font-size: 0.7em;
+
+            @media (max-width: $bp-lg) {
+                text-align: right!important;
+            }
+        }
+
+        p.tag {
+            padding: 0;
+            font-style: italic;
+            margin: 0;
+            line-height: 1.6em;
+            font-size: 0.8em;
+        }
+
+        .icon .tip {
+            opacity: 0;
+            background-color: transparent;
+            color: $textBrandColor;
+            text-align: center;
+            position: absolute;
+            z-index: 1;
+            width: 200px;
+            left: -78px;
+            top: -23px;
+            font-size: 75%;
+        }
+
+        /* Show the tooltip text when you mouse over the tooltip container */
+        .icon:hover .tip {
+            opacity: 1;
+            transition: opacity .5s;
         }
     }
 }
