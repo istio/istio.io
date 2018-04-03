@@ -113,7 +113,6 @@ There are several steps:
    ```bash
    kubectl apply -f <(istioctl kube-inject --debug -f samples/bookinfo/kube/bookinfo.yaml)
    ```
-   Note: istio proxy image does not have curl installed while the debug image does. The "--debug" flag in above command redeploys the service with debug image.
 
 1. send requests to another service, for example, details.
    ```bash
