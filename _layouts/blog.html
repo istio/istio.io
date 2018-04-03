@@ -46,6 +46,14 @@ layout: default
                     </p>
                 {% endif %}
 
+                {% if needTOC %}
+                    <nav class="toc-inlined d-lg-none">
+                        <div class="directory" role="directory">
+                            {{ toc }}
+                        </div>
+                    </nav>
+                {% endif %}
+
                 {{ content}}
             </main>
 
