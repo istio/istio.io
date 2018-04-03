@@ -37,7 +37,7 @@ stored in `$HOME/.kube/config`) copied to
 `$HOME/multicluster/${UNIQUE_IDENTIFIER}.kube.conf`.
 
 * A [deployed Istio control plane]({{home}}/docs/setup/kubernetes/quick-start.html)
-on **one** Kubernetes cluster.  Note that Iatio must be [deployed with Helm]({{home}}/docs/setup/kubernetes/helm-install.html) using the `--set global.multicluster.enabled=true` flag.  This is currently mandatory.
+on **one** Kubernetes cluster.  Note that Istio must be [deployed with Helm]({{home}}/docs/setup/kubernetes/helm-install.html) using the `--set global.multicluster.enabled=true` flag.  This is currently mandatory.
 
 * Currently only [manual sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html)
 has been validated with multicluster.
