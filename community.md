@@ -50,11 +50,12 @@ There are quite a few ways to get plugged in with the Istio community:
     </tr>
     
     <tr>
-      <td class="logo"><img src="{{home}}/img/drive.png" alt="Team Dive"/></td>
+      <td class="logo"><img src="{{home}}/img/drive.png" alt="Team Drive"/></td>
       <td class="desc">
         If you want to get into the nuts and bolts of Istio, check out our growing collection
-        of design documents. Join any of the Istio mailing lists mentioned above, and you'll
-        be able to access our
+        of design documents. To access these, simply join the
+        <a href="https://groups.google.com/forum/#!forum/istio-team-drive-access">istio-team-drive-access@</a> mailing list.
+        Once you've done that, you can head straight to our
         <a href="https://drive.google.com/corp/drive/u/0/folders/0AIS5p3eW9BCtUk9PVA" target="_blank" rel="noopener">folder full of technical goodies</a>.
       </td>
     </tr>

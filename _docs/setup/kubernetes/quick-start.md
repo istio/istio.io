@@ -72,7 +72,21 @@ kubectl create clusterrolebinding cluster-admin-binding \
     --user=$(gcloud config get-value core/account)
 ```
 
-### [IBM Cloud Container Service](https://www.ibm.com/cloud/container-service)
+### [IBM Cloud Container Service (IKS)](https://www.ibm.com/cloud/container-service)
+
+Kubernetes 1.9 is generallly available on IBM Cloud Container Service (IKS). 
+
+At the time of writing it is not the default version, so to create a new lite cluster:
+
+```bash
+bx cs cluster-create --name <cluster-name> --kube-version 1.9.3
+```
+
+Or create a new paid cluster:
+
+```bash
+bx cs cluster-create --location location --machine-type u2c.2x4 --name <cluster-name> --kube-version 1.9.3
+```
 
 Retrieve your credentials for kubectl (replace `<cluster-name>` with the name of the cluster you want to use):
 
@@ -109,7 +123,7 @@ Nevertheless the list of admission controllers needs to be updated.
 kops edit cluster $YOURCLUSTER
 ```
 
-Add following in the configuration file just openned:
+Add following in the configuration file just opened:
 
 ```bash
 kubeAPIServer:
@@ -183,7 +197,7 @@ export PATH=$PWD/bin:$PATH
 ```
 
 1. Install Istio's core components. Choose one of the two _**mutually exclusive**_ options below or alternately install
-   with the [Helm Chart]({{home}}/docs/setup/kubernetes/helm.html):
+   with the [Helm Chart]({{home}}/docs/setup/kubernetes/helm-install.html):
 
     a) Install Istio without enabling [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars.
          Choose this option for clusters with existing applications, applications where services with an

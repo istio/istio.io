@@ -45,7 +45,7 @@ cluster must satisfy the following requirements:
   CLI tool or automatically using the Istio Initializer.  Note that the
   sidecar is not involved in traffic between containers in the same pod.
   
-# Injection
+## Injection
 
 Manual injection modifies the controller configuration, e.g. deployment. It 
 does this by modifying the pod template spec such that *all* pods for that
@@ -68,7 +68,7 @@ the default injection policy and sidecar injection template. The debug version
 includes debug proxy images and additional logging and core dump functionality using 
 for debugging the sidecar proxy. 
 
-## Manual sidecar injection
+### Manual sidecar injection
 
 Use the built-in defaults template and dynamically fetch the mesh 
 configuration from the `istio` ConfigMap. Additional parameter overrides
@@ -88,7 +88,7 @@ kubectl create -f install/kubernetes/istio-sidecar-injector-configmap-release.ya
     
 kubectl -n istio-system get configmap istio -o=jsonpath='{.data.mesh}' > mesh-config.yaml
 ```
-  `
+
 Run `kube-inject` over the input file.
 
 ```bash
@@ -115,7 +115,7 @@ NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE       CONTAINERS     
 sleep     1         1         1            1           2h        sleep,istio-proxy   tutum/curl,unknown/proxy:unknown   app=sleep
 ```
 
-## Automatic sidecar injection
+### Automatic sidecar injection
 
 Sidecars can be automatically added to applicable Kubernetes pods using a 
 [mutating webhook admission controller](https://kubernetes.io/docs/admin/admission-controllers/#validatingadmissionwebhook-alpha-in-18-beta-in-19). This feature requires Kubernetes 1.9 or later. Verify that the kube-apiserver process has the `admission-control` flag set with the `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` admission controllers added and listed in the correct order and the admissionregistration API is enabled.
@@ -134,7 +134,7 @@ Note that unlike manual injection, automatic injection occurs at the pod-level. 
 
 #### Installing the webhook
 
-_NOTE_: The [0.5.0](https://github.com/istio/istio/releases/tag/0.5.0) and [0.5.1](https://github.com/istio/istio/releases/tag/0.5.1) releases are missing scripts to provision webhook certificates. Download the missing files from [here](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/webhook-create-signed-cert.sh) and [here](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/webhook-patch-ca-bundle.sh). Subsqeuent releases (> 0.5.1) should include these missing files.
+_NOTE_: The [0.5.0](https://github.com/istio/istio/releases/tag/0.5.0) and [0.5.1](https://github.com/istio/istio/releases/tag/0.5.1) releases are missing scripts to provision webhook certificates. Download the missing files from [here](https://raw.githubusercontent.com/istio/istio/release-0.7/install/kubernetes/webhook-create-signed-cert.sh) and [here](https://raw.githubusercontent.com/istio/istio/release-0.7/install/kubernetes/webhook-patch-ca-bundle.sh). Subsqeuent releases (> 0.5.1) should include these missing files.
 
 Install base Istio.
 
@@ -148,7 +148,7 @@ secret for the sidecar injector webhook to consume.
 
 _Note_: Kubernetes CA approval requires permissions to create and approve CSR. See 
 [https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster ](https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster/) and 
-[install/kubernetes/webhook-create-signed-cert.sh](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/webhook-create-signed-cert.sh) for more information.
+[install/kubernetes/webhook-create-signed-cert.sh](https://raw.githubusercontent.com/istio/istio/release-0.7/install/kubernetes/webhook-create-signed-cert.sh) for more information.
 
 ```bash
 ./install/kubernetes/webhook-create-signed-cert.sh \
