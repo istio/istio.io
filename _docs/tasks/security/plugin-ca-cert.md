@@ -28,12 +28,13 @@ Suppose we want to have Istio CA use the existing certificate `ca-cert.pem` and 
 Furthermore, the certificate `ca-cert.pem` is signed by the root certificate `root-cert.pem`,
 and we would like to use `root-cert.pem` as the root certificate for Istio workloads.
 
-In this example, because the Istio CA certificate (`ca-cert.pem`) is not set as the workloads' root certificate (`root-cert.pem`),
-the workload cannot validate the workload certificates directly from the root certificate.
+In the following example,
+the Istio CA certificate (`ca-cert.pem`) is different from the workloads' root certificate (`root-cert.pem`),
+so the workload cannot validate the workload certificates directly from the root certificate.
 The workload needs a `cert-chain.pem` file to specify the chain of trust,
 which should include the certificates of all the intermediate CAs between the workloads and the root CA.
-In this example, it only contains the Istio CA certificate, so `cert-chain.pem` is the same as `ca-cert.pem`.
-Note that if your `ca-cert.pem` is the same as `root-cert.pem`, you can have an empty `cert-chain.pem` file.
+In the example, it contains the Istio CA certificate, so `cert-chain.pem` is the same as `ca-cert.pem`.
+Note that if your `ca-cert.pem` is the same as `root-cert.pem`, the `cert-chain.pem` file should be empty.
 
 These files are ready to use in the install/kubernetes/ directory.
 
@@ -50,7 +51,7 @@ The following steps enable plugging in the certificate and key into the Istio CA
    kubectl apply -f install/kubernetes/istio-ca-plugin-certs.yaml
    ```
    > Note: if you are using different certificate/key file or secret names,
-   you need to change corresponding arguments in `istio-ca-plugin-certs.yaml`.
+   you need to change corresponding volume mounts and arguments in `istio-ca-plugin-certs.yaml`.
 
 
 1. To make sure the workloads obtain the new certificates promptly,
@@ -68,9 +69,9 @@ This requires you have `openssl` installed on your machine.
 1. Deploy the bookinfo application following the [instructions]({{home}}/docs/guides/bookinfo.html).
 
 1. Retrieve the mounted certificates.
-   In the following, we take the ratings pod as an example, and verify the mounted certificates.
+   In the following, we take the ratings pod as an example, and verify the certificates mounted on the pod.
 
-   Set the pod name to _RATINGSPOD_:
+   Set the pod name to `RATINGSPOD`:
    ```bash
    RATINGSPOD=`kubectl get pods -l app=ratings -o jsonpath='{.items[0].metadata.name}'`
    ```
@@ -85,7 +86,7 @@ This requires you have `openssl` installed on your machine.
    ```bash
    kubectl exec -it $RATINGSPOD -c istio-proxy -- /bin/cat /etc/certs/cert-chain.pem > /tmp/pod-cert-chain.pem
    ```
-   The file `/tmp/pod-cert-chain.pem` should contain the workload certificate and the CA certificate.
+   The file `/tmp/pod-cert-chain.pem` contains the workload certificate and the CA certificate propagated to the pod.
 
 1. Verify the root certificate is the same as the one specified by operator:
    ```bash
@@ -93,6 +94,8 @@ This requires you have `openssl` installed on your machine.
    openssl x509 -in /tmp/pod-root-cert.pem -text -noout > /tmp/pod-root-cert.crt.txt
    diff /tmp/root-cert.crt.txt /tmp/pod-root-cert.crt.txt
    ```
+   Expect the output to be empty.
+
 
 1. Verify the CA certificate is the same as the one specified by operator:
    ```bash
@@ -101,7 +104,7 @@ This requires you have `openssl` installed on your machine.
    openssl x509 -in /tmp/pod-cert-chain-ca.pem -text -noout > /tmp/pod-cert-chain-ca.crt.txt
    diff /tmp/ca-cert.crt.txt /tmp/pod-cert-chain-ca.crt.txt
    ```
-   Expect that the output to be empty.
+   Expect the output to be empty.
 
 1. Verify the certificate chain from the root certificate to the workload certificate:
    ```bash
