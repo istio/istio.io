@@ -9,12 +9,12 @@ type: markdown
 {% include home.html %}
 
 
-We have a 4 pronged approach for Istio's performance characterization, tracking and improvements:
+The Performance and Scalability working group has a 4 pronged approach for Istio's performance characterization, tracking and improvements:
 
 * Code level micro benchmarks
 
-* Synthetic end to end benchmarks across various scenarios
+* Synthetic end-to-end benchmarks across various scenarios
 
-* Realistic complex app end to end benchmarks across various settings
+* Realistic complex app end-to-end benchmarks across various settings
 
 * Automation to ensure performance doesn't regress
