@@ -283,7 +283,7 @@ spec:
 EOF
 ```
 
-The same curl command from before will return with 401 error code, as a result of sever is expecting JWT but none provide:
+The same curl command from before will return with 401 error code, as a result of server is expecting JWT but none was provided:
 ```bash
 curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 ```

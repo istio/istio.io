@@ -65,12 +65,6 @@ For example, after starting the [Bookinfo]({{home}}/docs/guides/bookinfo.html)
 sample application you can ssh into the Envoy container of `productpage` service,
 and send request to other services by curl.
 
-> By default, istio proxy image does not have `curl` installed. To try this
-feature, please add the `--debug` flag when running kube-inject, i.e.,
-
-```bash
-kubectl apply -f <(istioctl kube-inject --debug -f samples/bookinfo/kube/bookinfo.yaml)
-```
 
 There are several steps:
 
@@ -113,6 +107,8 @@ There are several steps:
    ```bash
    kubectl apply -f <(istioctl kube-inject --debug -f samples/bookinfo/kube/bookinfo.yaml)
    ```
+
+> Istio proxy image does not have curl installed while the debug image does. The "--debug" flag in above command redeploys the service with debug image.
 
 1. send requests to another service, for example, details.
    ```bash
