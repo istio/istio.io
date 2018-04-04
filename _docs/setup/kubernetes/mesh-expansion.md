@@ -117,7 +117,6 @@ else, e.g., on-prem or raw VM, we have to bootstrap a key/cert as credential,
 which typically has a limited lifetime. And when the cert expires, you have to
 rerun the above command.
 
-
 Or the equivalent manual steps:
 
 ------ Manual setup steps begin ------
@@ -175,7 +174,6 @@ curl 'http://istio-pilot.istio-system:8080/v1/registration/istio-pilot.istio-sys
 curl 'http://10.60.1.4:8080/v1/registration/istio-pilot.istio-system.svc.cluster.local|http-discovery'
 ```
 
-
 * Extract the initial Istio authentication secrets and copy them to the machine. The default
 installation of Istio includes Istio CA and will generate Istio secrets even if
 the automatic 'mTLS'
@@ -195,7 +193,7 @@ install/tools/setupMeshEx.sh machineCerts ACCOUNT NAMESPACE
 The generated files (`key.pem`, `root-cert.pem`, `cert-chain.pem`) must be copied to /etc/certs on each machine, readable by istio-proxy.
 
 * Install Istio Debian files and start 'istio' and 'istio-auth-node-agent' services.
-Get the debian packages from [github releases](https://github.com/istio/istio/releases) or:
+Get the debian packages from [GitHub releases](https://github.com/istio/istio/releases) or:
 
   ```bash
   # Note: This will be replaced with an 'apt-get' command once the repositories are setup.
@@ -226,7 +224,7 @@ Check that the processes are running:
 ```bash
 ps aux |grep istio
 ```
-```
+```xxx
 root      6941  0.0  0.2  75392 16820 ?        Ssl  21:32   0:00 /usr/local/istio/bin/node_agent --logtostderr
 root      6955  0.0  0.0  49344  3048 ?        Ss   21:32   0:00 su -s /bin/bash -c INSTANCE_IP=10.150.0.5 POD_NAME=demo-vm-1 POD_NAMESPACE=default exec /usr/local/bin/pilot-agent proxy > /var/log/istio/istio.log istio-proxy
 istio-p+  7016  0.0  0.1 215172 12096 ?        Ssl  21:32   0:00 /usr/local/bin/pilot-agent proxy
@@ -236,7 +234,7 @@ Istio auth node agent is healthy:
 ```bash
 sudo systemctl status istio-auth-node-agent
 ```
-```
+```xxx
 ● istio-auth-node-agent.service - istio-auth-node-agent: The Istio auth node agent
    Loaded: loaded (/lib/systemd/system/istio-auth-node-agent.service; disabled; vendor preset: enabled)
    Active: active (running) since Fri 2017-10-13 21:32:29 UTC; 9s ago

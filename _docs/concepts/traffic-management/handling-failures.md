@@ -14,18 +14,22 @@ that can be taken advantage of by the services in an application. Features
 include:
 
 1. Timeouts
-2. Bounded retries with timeout budgets and variable jitter between retries
-3. Limits on number of concurrent connections and requests to upstream services
-4. Active (periodic) health checks on each member of the load balancing pool
-5. Fine-grained circuit breakers (passive health checks) -- applied per
-   instance in the load balancing pool
+
+1. Bounded retries with timeout budgets and variable jitter between retries
+
+1. Limits on number of concurrent connections and requests to upstream services
+
+1. Active (periodic) health checks on each member of the load balancing pool
+
+1. Fine-grained circuit breakers (passive health checks) -- applied per
+instance in the load balancing pool
 
 These features can be dynamically configured at runtime through
 [Istio's traffic management rules](./rules-configuration.html).
 
 The jitter between retries minimizes the impact of retries on an overloaded
 upstream service, while timeout budgets ensure that the calling service
-gets a response (success/failure) within a predictable timeframe.
+gets a response (success/failure) within a predictable time frame.
 
 A combination of active and passive health checks (4 and 5 above)
 minimizes the chances of accessing an unhealthy instance in the load
@@ -37,7 +41,7 @@ mesh, minimizing the request failures and impact on latency.
 Together, these features enable the service mesh to tolerate failing nodes
 and prevent localized failures from cascading instability to other nodes.
 
-## Fine tuning 
+## Fine tuning
 
 Istio's traffic management rules allow
 operators to set global defaults for failure recovery per
@@ -48,7 +52,7 @@ and
 defaults by providing request-level overrides through special HTTP headers.
 With the Envoy proxy implementation, the headers are "x-envoy-upstream-rq-timeout-ms" and
 "x-envoy-max-retries", respectively.
- 
+
 
 ## FAQ
 
@@ -61,15 +65,15 @@ a load balancing pool have failed, Envoy will return HTTP 503. It is the
 responsibility of the application to implement any fallback logic that is
 needed to handle the HTTP 503 error code from an upstream service.
 
-_2. Will Envoy's failure recovery features break applications that already
+_1. Will Envoy's failure recovery features break applications that already
 use fault tolerance libraries (e.g., [Hystrix](https://github.com/Netflix/Hystrix))?_
 
 No. Envoy is completely transparent to the application. A failure response
 returned by Envoy would not be distinguishable from a failure response
 returned by the upstream service to which the call was made.
 
-_3. How will failures be handled when using application-level libraries and
-Envoy at the same time?_ 
+_1. How will failures be handled when using application-level libraries and
+Envoy at the same time?_
 
 Given two failure recovery policies for the same destination service (e.g.,
 two timeouts -- one set in Envoy and another in application's library), **the

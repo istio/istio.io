@@ -63,7 +63,7 @@ the example application throughout this task.
    In Kubernetes environments, execute the following command:
 
    ```bash
-   kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &   
+   kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
    ```
 
    Visit [http://localhost:9090/graph](http://localhost:9090/graph) in your web browser.
@@ -95,7 +95,7 @@ the example application throughout this task.
       ```
       istio_request_count{destination_service="reviews.default.svc.cluster.local", destination_version="v3"}
       ```
-       
+
       This query returns the current total count of all requests to the v3 of the reviews service.
 
     - Rate of requests over the past 5 minutes to all `productpage` services:
@@ -108,9 +108,9 @@ the example application throughout this task.
 
 Mixer comes with a built-in [Prometheus](https://prometheus.io) adapter that
 exposes an endpoint serving generated metric values. The Prometheus add-on is a
-Prometheus server that comes pre-configured to scrape Mixer endpoints to collect
+Prometheus server that comes preconfigured to scrape Mixer endpoints to collect
 the exposed metrics. It provides a mechanism for persistent storage and querying
-of Istio metrics. 
+of Istio metrics.
 
 The configured Prometheus add-on scrapes three endpoints:
 1. *istio-mesh* (`istio-mixer.istio-system:42422`): all Mixer-generated mesh

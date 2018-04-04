@@ -22,12 +22,12 @@ two steps: 50%, 100%.
 
 * Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
-> Note: This task assumes you are deploying the application on Kubernetes.
-  All of the example commands are using the Kubernetes version of the rule yaml files
-  (e.g., `samples/bookinfo/kube/route-rule-all-v1.yaml`). If you are running this
-  task in a different environment, change `kube` to the directory that corresponds
-  to your runtime (e.g., `samples/bookinfo/consul/route-rule-all-v1.yaml` for
-  the Consul-based runtime).
+> This task assumes you are deploying the application on Kubernetes.
+All of the example commands are using the Kubernetes version of the rule yaml files
+(e.g., `samples/bookinfo/kube/route-rule-all-v1.yaml`). If you are running this
+task in a different environment, change `kube` to the directory that corresponds
+to your runtime (e.g., `samples/bookinfo/consul/route-rule-all-v1.yaml` for
+the Consul-based runtime).
 
 ## Weight-based version routing
 
@@ -42,8 +42,8 @@ two steps: 50%, 100%.
    You should see the Bookinfo application productpage displayed.
    Notice that the `productpage` is displayed with no rating stars since `reviews:v1` does not access the ratings service.
 
-   > Note: If you previously ran the [request routing](./request-routing.html) task, you may need to either log out
-     as test user "jason" or delete the test rules that were created exclusively for him:
+   > If you previously ran the [request routing](./request-routing.html) task, you may need to either log out
+   as test user "jason" or delete the test rules that were created exclusively for him:
 
    ```bash
    istioctl delete routerule reviews-test-v2
@@ -83,7 +83,7 @@ two steps: 50%, 100%.
 
 1. Refresh the `productpage` in your browser and you should now see *red* colored star ratings approximately 50% of the time.
 
-   > Note: With the current Envoy sidecar implementation, you may need to refresh the `productpage` very many times
+   > With the current Envoy sidecar implementation, you may need to refresh the `productpage` very many times
    > to see the proper distribution. It may require 15 refreshes or more before you see any change. You can modify the rules to route 90% of the traffic to v3 to see red stars more often.
 
 1. When version v3 of the `reviews` microservice is considered stable, we can route 100% of the traffic to `reviews:v3`:

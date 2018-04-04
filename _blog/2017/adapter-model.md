@@ -26,11 +26,11 @@ In addition to insulating application-level code from the details of infrastruct
 Given that individual infrastructure backends each have different interfaces and operational models, Mixer needs custom
 code to deal with each and we call these custom bundles of code [*adapters*](https://github.com/istio/istio/blob/master/mixer/doc/adapters.md).
 
-Adapters are Go packages that are directly linked into the Mixer binary. It’s fairly simple to create custom Mixer binaries linked with specialized sets of adapters, in case the default set of adapters is not sufficient for specific use cases. 
+Adapters are Go packages that are directly linked into the Mixer binary. It’s fairly simple to create custom Mixer binaries linked with specialized sets of adapters, in case the default set of adapters is not sufficient for specific use cases.
 
 ## Philosophy
 
-Mixer is essentially an attribute processing and routing machine. The proxy sends it [attributes]({{home}}/docs/concepts/policy-and-control/attributes.html) as part of doing precondition checks and telemetry reports, which it turns into a series of calls into adapters. The operator supplies configuration which describes how to map incoming attributes to inputs for the adapters. 
+Mixer is essentially an attribute processing and routing machine. The proxy sends it [attributes]({{home}}/docs/concepts/policy-and-control/attributes.html) as part of doing precondition checks and telemetry reports, which it turns into a series of calls into adapters. The operator supplies configuration which describes how to map incoming attributes to inputs for the adapters.
 
 {% assign url = home | append: "/docs/concepts/policy-and-control/img/mixer-config/machine.svg" %}
 {% include figure.html width='60%' ratio='42.60%'
@@ -46,7 +46,7 @@ Configuration is a complex task. In fact, evidence shows that the overwhelming m
 
 Each adapter that Mixer uses requires some configuration to operate. Typically, adapters need things like the URL to their backend, credentials, caching options, and so forth. Each adapter defines the exact configuration data it needs via a [protobuf](https://developers.google.com/protocol-buffers/) message.
 
-You configure each adapter by creating [*handlers*]({{home}}/docs/concepts/policy-and-control/mixer-config.html#handlers) for them. A handler is a 
+You configure each adapter by creating [*handlers*]({{home}}/docs/concepts/policy-and-control/mixer-config.html#handlers) for them. A handler is a
 configuration resource which represents a fully configured adapter ready for use. There can be any number of handlers for a single adapter, making it possible to reuse an adapter in different scenarios.
 
 ## Templates: adapter input schema
@@ -54,9 +54,9 @@ configuration resource which represents a fully configured adapter ready for use
 Mixer is typically invoked twice for every incoming request to a mesh service, once for precondition checks and once for telemetry reporting. For every such call, Mixer invokes one or more adapters. Different adapters need different pieces of data as input in order to do their work. A logging adapter needs a log entry, a metric adapter needs a metric, an authorization adapter needs credentials, etc.
 Mixer [*templates*]({{home}}/docs/reference/config/template/) are used to describe the exact data that an adapter consumes at request time.
 
-Each template is specified as a [protobuf](https://developers.google.com/protocol-buffers/) message. A single template describes a bundle of data that is delivered to one or more adapters at runtime. Any given adapter can be designed to support any number of templates, the specific templates the adapter supports is determined by the adapter developer. 
+Each template is specified as a [protobuf](https://developers.google.com/protocol-buffers/) message. A single template describes a bundle of data that is delivered to one or more adapters at runtime. Any given adapter can be designed to support any number of templates, the specific templates the adapter supports is determined by the adapter developer.
 
-[metric]({{home}}/docs/reference/config/template/metric.html) and [logentry]({{home}}/docs/reference/config/template/logentry.html) are two of the most essential templates used within Istio. They represent respectively the payload to report a single metric and a single log entry to appropriate backends. 
+[metric]({{home}}/docs/reference/config/template/metric.html) and [logentry]({{home}}/docs/reference/config/template/logentry.html) are two of the most essential templates used within Istio. They represent respectively the payload to report a single metric and a single log entry to appropriate backends.
 
 ## Instances: attribute mapping
 
@@ -75,10 +75,10 @@ to a string field.  This kind of strong typing is designed to minimize the risk 
 ## Rules: delivering data to adapters
 
 The last piece to the puzzle is telling Mixer which instances to send to which handler and when. This is done by
-creating [*rules*]({{home}}/docs/concepts/policy-and-control/mixer-config.html#rules). Each rule identifies a specific handler and the set of 
+creating [*rules*]({{home}}/docs/concepts/policy-and-control/mixer-config.html#rules). Each rule identifies a specific handler and the set of
 instances to send to that handler. Whenever Mixer processes an incoming call, it invokes the indicated handler and gives it the specific set of instances for processing.
 
-Rules contain matching predicates. A predicate is an attribute expression which returns a true/false value. A rule only takes effect if its predicate expression returns true. Otherwise, it’s like the rule didn’t exist and the indicated handler isn’t invoked. 
+Rules contain matching predicates. A predicate is an attribute expression which returns a true/false value. A rule only takes effect if its predicate expression returns true. Otherwise, it’s like the rule didn’t exist and the indicated handler isn’t invoked.
 
 ## Future
 

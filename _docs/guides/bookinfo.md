@@ -75,7 +75,7 @@ To start the application, follow the instructions below corresponding to your Is
 
 ### Running on Kubernetes
 
-> Note: If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If you use Minikube, please ensure you have at least 4GB RAM.
+> If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If you use Minikube, please ensure you have at least 4GB RAM.
 
 1. Change directory to the root of the Istio installation directory.
 
@@ -113,7 +113,7 @@ To start the application, follow the instructions below corresponding to your Is
    ```
 
    which produces the following output:
-   
+
    ```bash
    NAME                       CLUSTER-IP   EXTERNAL-IP   PORT(S)              AGE
    details                    10.0.0.31    <none>        9080/TCP             6m
@@ -128,9 +128,9 @@ To start the application, follow the instructions below corresponding to your Is
    ```bash
    kubectl get pods
    ```
-   
+
    which produces
-   
+
    ```bash
    NAME                                        READY     STATUS    RESTARTS   AGE
    details-v1-1520924117-48z17                 2/2       Running   0          6m
@@ -157,7 +157,7 @@ To start the application, follow the instructions below corresponding to your Is
    ```
 
    The address of the ingress service would then be
-   
+
    ```bash
    export GATEWAY_URL=130.211.10.121:80
    ```
@@ -183,7 +183,7 @@ To start the application, follow the instructions below corresponding to your Is
    ```
 
 1. _Minikube:_ External load balancers are not supported in Minikube. You can use the host IP of the ingress service, along with the NodePort, to access the ingress.
-   
+
    ```bash
    export GATEWAY_URL=$(kubectl get po -l istio=ingress -n istio-system -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}')
    ```
@@ -194,12 +194,12 @@ To start the application, follow the instructions below corresponding to your Is
 
 1. Bring up the application containers.
 
-    * To test with Consul, run the following commands:
+    - To test with Consul, run the following commands:
       ```bash
       docker-compose -f samples/bookinfo/consul/bookinfo.yaml up -d
       docker-compose -f samples/bookinfo/consul/bookinfo.sidecars.yaml up -d
       ```
-    * To test with Eureka, run the following commands:
+    - To test with Eureka, run the following commands:
       ```bash
       docker-compose -f samples/bookinfo/eureka/bookinfo.yaml up -d
       docker-compose -f samples/bookinfo/eureka/bookinfo.sidecars.yaml up -d
@@ -225,7 +225,7 @@ To confirm that the Bookinfo application is running, run the following `curl` co
 ```bash
 curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage
 ```
-```
+```xxx
 200
 ```
 
@@ -236,7 +236,7 @@ stars, black stars, no stars), since we haven't yet used Istio to control the
 version routing.
 
 You can now use this sample to experiment with Istio's features for
-traffic routing, fault injection, rate limitting, etc..
+traffic routing, fault injection, rate limiting, etc..
 To proceed, refer to one or more of the [Istio Guides]({{home}}/docs/guides),
 depending on your interest. [Intelligent Routing]({{home}}/docs/guides/intelligent-routing.html)
 is a good place to start for beginners.
@@ -270,14 +270,14 @@ uninstall and clean it up using the following instructions.
    ```bash
    samples/bookinfo/consul/cleanup.sh
    ```
-   
+
    1. In a Eureka setup, run the following command:
-   
+
    ```bash
    samples/bookinfo/eureka/cleanup.sh
    ```
 
-2. Confirm cleanup
+1. Confirm cleanup
 
    ```bash
    istioctl get routerules   #-- there should be no more routing rules

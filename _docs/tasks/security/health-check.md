@@ -9,9 +9,9 @@ type: markdown
 ---
 {% include home.html %}
 
-This task shows how to enable Istio CA health check. Note this is an alpha feature since Istio V0.6.
+This task shows how to enable Istio CA health check. Note this is an alpha feature since Istio 0.6.
 
-Since Istio V0.6, Istio CA has a health check feature that can be optionally enabled.
+Since Istio 0.6, Istio CA has a health check feature that can be optionally enabled.
 By default, the normal Istio deployment process does not enable this feature.
 Currently, the health check feature is able to detect the failures of the CA CSR signing service,
 by periodically sending CSRs to the API. More health check features are coming shortly.
@@ -64,7 +64,7 @@ EOF
 
 ## Verifying the health checker is working
 
-Isito CA will log the health check results. Run the following in command line:
+Istio CA will log the health check results. Run the following in command line:
 
 ```bash
 kubectl logs `kubectl get po -n istio-system | grep istio-ca | awk '{print $1}'` -n istio-system
@@ -115,7 +115,7 @@ the `liveness-probe-interval` is the interval to update the health status file, 
 the `probe-check-interval` is the interval for the Istio CA health check.
 The `interval` is the maximum time elapsed since the last update of the health status file, for the prober to consider
 the Istio CA as healthy.
-`initialDelaySeconds` and `periodSeconds` are the intial delay and the probe running period.
+`initialDelaySeconds` and `periodSeconds` are the initial delay and the probe running period.
 
 Prolonging `probe-check-interval` will reduce the health check overhead, but there will be a greater lagging for the
 prober to get notified on the unhealthy status.

@@ -16,11 +16,11 @@ Quick Start instructions to install and configure Istio in a Kubernetes cluster.
 ## Prerequisites
 
 The following instructions require you have access to a Kubernetes **1.7.3 or newer** cluster
-with [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/) enabled. You will also need `kubectl` **1.7.3 or newer** installed.  
+with [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/) enabled. You will also need `kubectl` **1.7.3 or newer** installed.
 
 If you wish to enable [automatic sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection) or server-side configuration validation, you need Kubernetes version 1.9 or greater.
 
-  > Note: If you installed Istio 0.1.x,
+  > If you installed Istio 0.1.x,
   > [uninstall](https://archive.istio.io/v0.1/docs/tasks/installing-istio.html#uninstalling)
   > it completely before installing the newer version (including the Istio sidecar
   > for all Istio enabled application pods).
@@ -51,12 +51,12 @@ Create a new cluster.
 
 ```bash
 gcloud container clusters create <cluster-name> \
-    --cluster-version=1.9.4-gke.1 
+    --cluster-version=1.9.4-gke.1
     --zone <zone>
     --project <project-name>
 ```
 
-Retrieve your credentials for kubectl.
+Retrieve your credentials for `kubectl`.
 
 ```bash
 gcloud container clusters get-credentials <cluster-name> \
@@ -65,7 +65,7 @@ gcloud container clusters get-credentials <cluster-name> \
 ```
 
  Grant cluster admin permissions to the current user (admin permissions are required to create the necessary RBAC rules for Istio).
- 
+
 ```bash
 kubectl create clusterrolebinding cluster-admin-binding \
     --clusterrole=cluster-admin \
@@ -74,7 +74,7 @@ kubectl create clusterrolebinding cluster-admin-binding \
 
 ### [IBM Cloud Container Service (IKS)](https://www.ibm.com/cloud/container-service)
 
-Kubernetes 1.9 is generallly available on IBM Cloud Container Service (IKS). 
+Kubernetes 1.9 is generally available on IBM Cloud Container Service (IKS).
 
 At the time of writing it is not the default version, so to create a new lite cluster:
 
@@ -88,7 +88,7 @@ Or create a new paid cluster:
 bx cs cluster-create --location location --machine-type u2c.2x4 --name <cluster-name> --kube-version 1.9.3
 ```
 
-Retrieve your credentials for kubectl (replace `<cluster-name>` with the name of the cluster you want to use):
+Retrieve your credentials for `kubectl` (replace `<cluster-name>` with the name of the cluster you want to use):
 
 ```bash
 $(bx cs cluster-config <cluster-name>|grep "export KUBECONFIG")
@@ -98,9 +98,9 @@ $(bx cs cluster-config <cluster-name>|grep "export KUBECONFIG")
 
 Configure `kubectl` CLI based on steps [here](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0/manage_cluster/cfc_cli.html) for how to access the IBM Cloud Private Cluster.
 
-### [Openshift Origin](https://www.openshift.org) (version 3.7 or later)
-   
-Openshift by default does not allow containers running with UID 0. Enable containers running
+### [OpenShift Origin](https://www.openshift.org) (version 3.7 or later)
+
+OpenShift by default does not allow containers running with UID 0. Enable containers running
 with UID 0 for Istio's service accounts for ingress as well the Prometheus and Grafana addons:
 
   ```bash
@@ -112,10 +112,10 @@ Service account that runs application pods need privileged security context cons
   ```bash
   oc adm policy add-scc-to-user privileged -z default -n <target-namespace>
   ```
-  
+
 ### AWS (w/Kops)
 
-When you install a new cluster with Kubernetes version 1.9, prerequisite for `admissionregistration.k8s.io/v1beta1` enabled is covered. 
+When you install a new cluster with Kubernetes version 1.9, prerequisite for `admissionregistration.k8s.io/v1beta1` enabled is covered.
 
 Nevertheless the list of admission controllers needs to be updated.
 
@@ -161,7 +161,7 @@ Validate with `kubectl` client on kube-api pod, you should see new admission con
 for i in `kubectl get pods -nkube-system | grep api | awk '{print $1}'` ; do  kubectl describe pods -nkube-system $i | grep "/usr/local/bin/kube-apiserver"  ; done
 ```
 
-Ouput should be:
+Output should be:
 ```bash
 [...] --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota,NodeRestriction,Priority [...]
 ```
@@ -260,7 +260,7 @@ installation like [Bookinfo]({{home}}/docs/guides/bookinfo.html).
 Note: the application must use HTTP/1.1 or HTTP/2.0 protocol for all its HTTP traffic because HTTP/1.0 is not supported.
 
 If you started the [Istio-sidecar-injector]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection),
-as shown above, you can deploy the application directly using `kubectl create`. 
+as shown above, you can deploy the application directly using `kubectl create`.
 
 The Istio-Sidecar-injector will automatically inject Envoy containers into your application pods assuming running in namespaces labeled with `istio-injection=enabled`
 
@@ -271,7 +271,8 @@ kubectl create -n <namespace> -f <your-app-spec>.yaml
 
 If you do not have the Istio-sidecar-injector installed, you must
 use [istioctl kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl kube-inject) to
-manuallly inject Envoy containers in your application pods before deploying them:
+manually inject Envoy containers in your application pods before deploying them:
+
 ```bash
 kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 ```
