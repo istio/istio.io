@@ -65,8 +65,8 @@ For example, after starting the [Bookinfo]({{home}}/docs/guides/bookinfo.html)
 sample application you can ssh into the Envoy container of `productpage` service,
 and send request to other services by curl.
 
-> By default istio proxy image does not have curl installed. To try this
-feature, please add --debug flag when running kube-inject, i.e.,
+> By default, istio proxy image does not have `curl` installed. To try this
+feature, please add the `--debug` flag when running kube-inject, i.e.,
 
 ```bash
 kubectl apply -f <(istioctl kube-inject --debug -f samples/bookinfo/kube/bookinfo.yaml)

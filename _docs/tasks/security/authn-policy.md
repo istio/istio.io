@@ -280,10 +280,10 @@ spec:
       issuer: "YOUR_SERVICE_ACCOUNT_EMAIL"
       jwksUri: $JWKS
   principalBinding: USE_ORIGIN
-EOF  
+EOF
 ```
 
-The same curl command before will return with 401 error code, as a result of sever is expecting JWT but none provide:
+The same curl command from before will return with 401 error code, as a result of sever is expecting JWT but none provide:
 ```bash
 curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 ```
@@ -291,10 +291,10 @@ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 401
 ```
 
-Attaching the valid token generate above will return success:
+Attaching the valid token generated above returns success:
 ```bash
 curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 ```
 
 
-You may want to try to modify token and/or policy (e.g change issuer, audiences, expiry date etc) to observe other aspect of JWT validation.
+You may want to try to modify token or policy (e.g change issuer, audiences, expiry date etc) to observe other aspects of JWT validation.
