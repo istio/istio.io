@@ -321,7 +321,7 @@ spec:
 ##### _**template**_
    
 The sidecar injection template uses [https://golang.org/pkg/text/template](https://golang.org/pkg/text/template) which, 
-when parsed and exectuted, is decoded to the following 
+when parsed and executed, is decoded to the following 
 struct containing the list of containers and volumes to inject into the pod. 
    
 ```golang
