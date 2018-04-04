@@ -99,7 +99,7 @@ This requires you have `openssl` installed on your machine.
 
 1. Verify the root certificate is the same as the one specified by operator:
    ```bash
-   openssl x509 -in /tmp/root-cert.pem -text -noout > /tmp/root-cert.crt.txt
+   openssl x509 -in install/kubernetes/root-cert.pem -text -noout > /tmp/root-cert.crt.txt
    openssl x509 -in /tmp/pod-root-cert.pem -text -noout > /tmp/pod-root-cert.crt.txt
    diff /tmp/root-cert.crt.txt /tmp/pod-root-cert.crt.txt
    ```
@@ -107,7 +107,7 @@ This requires you have `openssl` installed on your machine.
 1. Verify that the CA certificate is the same as the one specified by operator:
    ```bash
    tail /tmp/pod-cert-chain.pem -n 22 > /tmp/pod-cert-chain-ca.pem
-   openssl x509 -in /tmp/ca-cert.pem -text -noout > /tmp/ca-cert.crt.txt
+   openssl x509 -in install/kubernetes/ca-cert.pem -text -noout > /tmp/ca-cert.crt.txt
    openssl x509 -in /tmp/pod-cert-chain-ca.pem -text -noout > /tmp/pod-cert-chain-ca.crt.txt
    diff /tmp/ca-cert.crt.txt /tmp/pod-cert-chain-ca.crt.txt
    ```
@@ -116,7 +116,7 @@ This requires you have `openssl` installed on your machine.
 1. Verify the certificate chain from the root certificate to the workload certificate:
    ```bash
    head /tmp/pod-cert-chain.pem -n 18 > /tmp/pod-cert-chain-workload.pem
-   openssl verify -CAfile <(cat /tmp/ca-cert.pem /tmp/root-cert.pem) /tmp/pod-cert-chain-workload.pem
+   openssl verify -CAfile <(cat install/kubernetes/ca-cert.pem install/kubernetes/root-cert.pem) /tmp/pod-cert-chain-workload.pem
    ```
    Expect the following output:
    ```bash
