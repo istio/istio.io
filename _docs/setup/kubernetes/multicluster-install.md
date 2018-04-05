@@ -14,13 +14,18 @@ Instructions for the installation of Istio multicluster.
 
 ## Prerequisites
 
-* Individual cluster Pod CIDR ranges and service CIDR ranges must be unique
+* Two or more Kubernetes clusters.
+
+* The usage of a RFC1918 network, VPN, or other more advanced network techniques
+to meet the following requirements:
+
+    * Individual cluster Pod CIDR ranges and service CIDR ranges must be unique
 across the multicluster environment and may not overlap.
 
-* All nodes' pod CIDR in every cluster must be routable to every other nodes'
+    * All nodes' pod CIDR in every cluster must be routable to every other nodes'
 pod CIDR.
 
-* All Kubernetes control planes must be routeable to each other.
+    * All Kubernetes control plane API servers must be routeable to each other.
 
 * Helm **2.7.2 or newer**.  The use of Tiller is optional.
 
@@ -45,10 +50,14 @@ has been validated with multicluster.
 ## Install a multicluster configmap on the Istio control plane
 
 **Important**: Pilot will not start until the configmap in these instructions
-is created.  This is normal behavior but different from what is seen without
-multicluster enabled.
+is created.  This is normal behavior but different from what is seen with
+multicluster disabled.
 
-Create a clusterregistry blob per Kubernetes cluster in $HOME/multicluster:
+Create a clusterregistry descriptor to describe each Kubernetes cluster's role
+in the multicluster environment.  These files should be stored in the directory
+$HOME/multicluster, have a `.yaml` extension, and have a unique filename.
+
+An example clusterregistry configuration descriptor is shown below:
 
 ```yaml
 apiVersion: clusterregistry.k8s.io/v1alpha1
@@ -67,16 +76,17 @@ metadata:
           serverAddress: "10.23.230.11"
 ```
 
-A unique configmap is required for each cluster.  In the above example,
+A unique security context is required to describe how to securely access
+each Kubernetes cluster in the system.  In the above example,
 `falkor07.kube.conf` is the Istio control plane credential file. The
 config.istio.io/pilotCfgStore = `True` since this is the Istio control plane.
 For remotes, pilotCfgStore should = `False`.
 
-**Important**: The impelementation only uses the
+**Important**: The implementation only uses the
 `config.istio.io/pilotCfgStore` and `config.istio.io/accessConfigFile`
 annotations, although every other annotation and spec is validated for
-correct syntax.  They may be set to dummy values, as long as they can
-be validated correctly.
+correct syntax.  They may be set to dummy values, as long as they are
+syntactically correct.
 
 If the prequisites are met, the credentials for each Kubernetes cluster
 will also be present in `$HOME/multicluster`.
@@ -109,7 +119,7 @@ Kubernetes clusters may be attached to the **one** Istio control plane.
    kubectl create -f $HOME/istio-remote.yaml
    ```
 
-### Use Helm and Tiller to connect the remote cluster
+### Alternatively use Helm and Tiller to connect the remote cluster
 
 1. If a service account has not already been installed for Helm, please
 install one:
@@ -134,8 +144,8 @@ install one:
 
 The isito-remote Helm chart requires the configuration of two specific variables defined in the following table:
 
-**Note** The `pilotEndpoint` and `mixerEndpoint` can also use DNS resolution, assuming DNS is setup to resolve
-these IPs.
+**Note** The `pilotEndpoint` and `mixerEndpoint` need to be resolvable via
+Kubernetes.
 
 | Helm Variable | Accepted Values | Default | Purpose of Value |
 | --- | --- | --- | --- |
@@ -144,7 +154,7 @@ these IPs.
 
 ## Uninstalling
 
-** Note the uninstallation method must match the installation method (Helm or kubectl based) **
+** Note the uninstallation method must match the installation method (`kubectl` or `tiller` based) **
 
 ### Using kubectl to uninstall the istio-remote
 
