@@ -1,6 +1,6 @@
 ---
-title: Mutual TLS over https services
-overview: This task shows how to enable mTLS on https services.
+title: Mutual TLS over HTTPS services
+overview: This task shows how to enable mTLS on HTTPS services.
 
 order: 80
 
@@ -9,14 +9,14 @@ type: markdown
 ---
 {% include home.html %}
 
-This task shows how Istio Mutual TLS works with https services. It includes: 1)
-Deploy an https service without Istio sidecar; 2) Deploy an https service with
-Istio with mTLS disabled; 3) Deploy an https service with mTLS enabled. For each
+This task shows how Istio Mutual TLS works with HTTPS services. It includes: 1)
+Deploy an HTTPS service without Istio sidecar; 2) Deploy an HTTPS service with
+Istio with mTLS disabled; 3) Deploy an HTTPS service with mTLS enabled. For each
 deployment, connect to this service and verify it works.
 
-When Istio sidecar is deployed with an https service, the proxy automatically downgrades
+When the Istio sidecar is deployed with an HTTPS service, the proxy automatically downgrades
 from L7 to L4 (no matter mTLS is enabled or not), which means it does not terminate the
-original https traffic. And this is the reason Istio can work on https services.
+original HTTPS traffic. And this is the reason Istio can work on HTTPS services.
 
 ## Before you begin
 
@@ -25,39 +25,32 @@ original https traffic. And this is the reason Istio can work on https services.
   Note that authentication should be **disabled** at step 5 in the
   [installation steps]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps).
 
-
 ### Generate certificates and configmap
 
 You need to have openssl installed to run this command
 
 ```bash
-openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /tmp/nginx.key -out /tmp/nginx.crt -subj "/CN=my-nginx/O=my-nginx"
+$ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /tmp/nginx.key -out /tmp/nginx.crt -subj "/CN=my-nginx/O=my-nginx"
 ```
 
 ```bash
-kubectl create secret tls nginxsecret --key /tmp/nginx.key --cert /tmp/nginx.crt
-```
-```bash
+$ kubectl create secret tls nginxsecret --key /tmp/nginx.key --cert /tmp/nginx.crt
 secret "nginxsecret" created
 ```
 
-Create a configmap used for the https service
+Create a configmap used for the HTTPS service
 
 ```bash
-kubectl create configmap nginxconfigmap --from-file=samples/https/default.conf
-```
-```bash
+$ kubectl create configmap nginxconfigmap --from-file=samples/https/default.conf
 configmap "nginxconfigmap" created
 ```
 
-## Deploy an https service without Istio sidecar
+## Deploy an HTTPS service without Istio sidecar
 
-This section creates a nginx-based https service.
+This section creates a NGINX-based HTTPS service.
 
 ```bash
-kubectl apply -f samples/https/nginx-app.yaml
-```
-```bash
+$ kubectl apply -f samples/https/nginx-app.yaml
 ...
 service "my-nginx" created
 replicationcontroller "my-nginx" created
@@ -74,7 +67,7 @@ Get the pods
 ```bash
 kubectl get pod
 ```
-```bash
+```xxx
 NAME                              READY     STATUS    RESTARTS   AGE
 my-nginx-jwwck                    2/2       Running   0          1h
 sleep-847544bbfc-d27jg            2/2       Running   0          18h
@@ -89,7 +82,7 @@ Call my-nginx
 ```bash
 curl https://my-nginx -k
 ```
-```bash
+```xxx
 ...
 <h1>Welcome to nginx!</h1>
 ...
@@ -100,23 +93,24 @@ You can actually combine the above three command into one:
 ```bash
 kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl https://my-nginx -k
 ```
-```bash
+```xxx
 ...
 <h1>Welcome to nginx!</h1>
 ...
 ```
 
-### Create an https service with Istio sidecar with mTLS disabled
+### Create an HTTPS service with the Istio sidecar and mTLS disabled
 
-In "Before you begin" section, the istio control plane is deployed with mTLS
-disabled. So you only need to redeploy the nginx https service with sidecar.
+In "Before you begin" section, the Istio control plane is deployed with mTLS
+disabled. So you only need to redeploy the NGINX HTTPS service with sidecar.
 
-Delete the https service.
+Delete the HTTPS service.
+
 ```bash
 kubectl delete -f nginx-app.yaml
 ```
 
-Deploy it with sidecar
+Deploy it with a sidecar
 
 ```bash
 kubectl apply -f <(bin/istioctl kube-inject --debug -f samples/https/nginx-app.yaml)
@@ -127,7 +121,7 @@ Make sure the pod is up and running
 ```bash
 kubectl get pod
 ```
-```bash
+```xxx
 NAME                              READY     STATUS    RESTARTS   AGE
 my-nginx-6svcc                    2/2       Running   0          1h
 sleep-847544bbfc-d27jg            2/2       Running   0          18h
@@ -137,7 +131,7 @@ And run
 ```bash
 kubectl exec sleep-847544bbfc-d27jg -c sleep -- curl https://my-nginx -k
 ```
-```bash
+```xxx
 ...
 <h1>Welcome to nginx!</h1>
 ...
@@ -147,7 +141,7 @@ If you run from istio-proxy container, it should work as well
 ```bash
 kubectl exec sleep-847544bbfc-d27jg -c istio-proxy -- curl https://my-nginx -k
 ```
-```bash
+```xxx
 ...
 <h1>Welcome to nginx!</h1>
 ...
@@ -155,7 +149,7 @@ kubectl exec sleep-847544bbfc-d27jg -c istio-proxy -- curl https://my-nginx -k
 
 Note: this example is borrowed from [kubernetes examples](https://github.com/kubernetes/examples/blob/master/staging/https-nginx/README.md).
 
-### Create an https service with Istio sidecar with mTLS enabled
+### Create an HTTPS service with Istio sidecar with mTLS enabled
 
 You need to deploy Istio control plane with mTLS enabled. If you have istio
 control plane with mTLS disabled installed, please delete it:
@@ -169,7 +163,7 @@ And wait for everything is down, i.e., there is no pod in control plane namespac
 ```bash
 kubectl get pod -n istio-system
 ```
-```bash
+```xxx
 No resources found.
 ```
 
@@ -183,7 +177,7 @@ Make sure everything is up and running:
 ```bash
 kubectl get po -n istio-system
 ```
-```bash
+```xxx
 NAME                             READY     STATUS    RESTARTS   AGE
 istio-ca-58c5856966-k6nm4        1/1       Running   0          2m
 istio-ingress-5789d889bc-xzdg2   1/1       Running   0          2m
@@ -191,7 +185,7 @@ istio-mixer-65c55bc5bf-8n95w     3/3       Running   0          2m
 istio-pilot-6954dcd96d-phh5z     2/2       Running   0          2m
 ```
 
-Then redeploy the https service and sleep service
+Then redeploy the HTTPS service and sleep service
 
 ```bash
 kubectl delete -f <(bin/istioctl kube-inject --debug -f samples/sleep/sleep.yaml)
@@ -215,21 +209,21 @@ And run
 ```bash
 kubectl exec sleep-77f457bfdd-hdknx -c sleep -- curl https://my-nginx -k
 ```
-```bash
+```xxx
 ...
 <h1>Welcome to nginx!</h1>
 ...
 ```
 The reason is that for the workflow "sleep -> sleep-proxy -> nginx-proxy -> nginx",
 the whole flow is L7 traffic, and there is a L4 mTLS encryption between sleep-proxy
-and nginx-proxy. In this case, everthing works fine.
+and nginx-proxy. In this case, everything works fine.
 
 However, if you run this command from istio-proxy container, it will not work.
+
 ```bash
 kubectl exec sleep-77f457bfdd-hdknx -c istio-proxy -- curl https://my-nginx -k
 ```
-```bash
-...
+```xxx
 curl: (35) gnutls_handshake() failed: Handshake failed
 command terminated with exit code 35
 ```

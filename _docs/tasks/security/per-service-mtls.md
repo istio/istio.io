@@ -18,7 +18,7 @@ In this tutorial, you will learn:
 
 ## Before you begin
 
-* Understand Isio [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) concepts.
+* Understand Istio [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) concepts.
 
 * Familiar with [testing Istio mutual TLS authentication]({{home}}/docs/tasks/security/mutual-tls.html).
 
@@ -109,7 +109,7 @@ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
 }
 ```
 
-Now, run `kubectl edit configmap istio -n istio-system` and clear mtlsExcludedServices and restart pilot after done:
+Now, run `kubectl edit configmap istio -n istio-system` and clear `mtlsExcludedServices` and restart Pilot after done:
 
 ```bash
 kubectl get pod $(kubectl get pod -l istio=pilot -n istio-system -o jsonpath={.items..metadata.name}) -n istio-system -o yaml | kubectl replace --force -f -

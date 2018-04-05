@@ -27,7 +27,7 @@ as the example application throughout this task.
   example configuration and commands.
 
 * Install the Prometheus add-on. Prometheus
-  will be used to verify task success. 
+  will be used to verify task success.
   ```bash
   kubectl apply -f install/kubernetes/addons/prometheus.yaml
   ```
@@ -201,7 +201,7 @@ as the example application throughout this task.
    ```
 
    View values for the new metric via the [Prometheus UI](http://localhost:9090/graph#%5B%7B%22range_input%22%3A%221h%22%2C%22expr%22%3A%22istio_mongo_received_bytes%22%2C%22tab%22%3A1%7D%5D).
-   
+
    The provided link opens the Prometheus UI and executes a query for values of
    the `istio_mongo_received_bytes` metric. The table displayed in the
    **Console** tab includes entries similar to:
@@ -229,7 +229,7 @@ configuration consisted of _instances_, a _handler_, and a _rule_. Please see
 that Task for a complete description of the components of metric collection.
 
 Metrics collection for TCP services differs only in the limited set of
-attributes that are available for use in _instances_. 
+attributes that are available for use in _instances_.
 
 ### TCP Attributes
 
@@ -272,9 +272,6 @@ protocols within policies.
 
 * Discover the full [Attribute
   Vocabulary]({{home}}/docs/reference/config/mixer/attribute-vocabulary.html).
-
-* Read the reference guide to [Writing
-  Config]({{home}}/docs/reference/writing-config.html).
 
 * Refer to the [In-Depth Telemetry]({{home}}/docs/guides/telemetry.html) guide.
 

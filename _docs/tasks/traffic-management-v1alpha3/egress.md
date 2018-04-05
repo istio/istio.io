@@ -12,7 +12,7 @@ type: markdown
 By default, Istio-enabled services are unable to access URLs outside of the cluster because
 iptables is used in the pod to transparently redirect all outbound traffic to the sidecar proxy,
 which only handles intra-cluster destinations.
-  
+
 This task describes how to configure Istio to expose external services to Istio-enabled clients.
 You'll learn how to enable access to external services by defining `ExternalService` configurations,
 or alternatively, to simply bypass the Istio proxy for a specific range of IPs.
@@ -24,7 +24,7 @@ or alternatively, to simply bypass the Istio proxy for a specific range of IPs.
 
 * Start the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) sample
   which will be used as a test source for external calls.
-  
+
   ```bash
   kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
   ```
@@ -34,7 +34,7 @@ or alternatively, to simply bypass the Istio proxy for a specific range of IPs.
 ## Configuring Istio external services
 
 Using Istio `ExternalService` configurations, you can access any publicly accessible service
-from within your Istio cluster. In this task we will use 
+from within your Istio cluster. In this task we will use
 [httpbin.org](http://httpbin.org) and [www.google.com](http://www.google.com) as examples.
 
 ### Configuring the external services
@@ -57,7 +57,7 @@ from within your Istio cluster. In this task we will use
    EOF
    ```
 
-2. Create an `ExternalService` to allow access to an external HTTPS service:
+1. Create an `ExternalService` to allow access to an external HTTPS service:
 
    ```bash
    cat <<EOF | istioctl create -f -
@@ -86,7 +86,7 @@ from within your Istio cluster. In this task we will use
    ```
 
 Notice that we also create a corresponding `DestinationRule` to
-initiate TLS for connections to the HTTPS service. 
+initiate TLS for connections to the HTTPS service.
 Callers must access this service using HTTP on port 443 and Istio will upgrade
 the connection to HTTPS.
 
@@ -94,19 +94,19 @@ the connection to HTTPS.
 
 1. Exec into the pod being used as the test source. For example,
    if you are using the sleep service, run the following commands:
-   
+
    ```bash
    export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
    kubectl exec -it $SOURCE_POD -c sleep bash
    ```
 
-2. Make a request to the external HTTP service:
+1. Make a request to the external HTTP service:
 
    ```bash
    curl http://httpbin.org/headers
    ```
 
-3. Make a request to the external HTTPS service.
+1. Make a request to the external HTTPS service.
    External services of type HTTPS must be accessed over HTTP with the port specified in the request:
 
    ```bash
@@ -172,11 +172,10 @@ to set a timeout rule on calls to the httpbin.org service.
    This time a 504 (Gateway Timeout) appears after 3 seconds.
    Although httpbin.org was waiting 5 seconds, Istio cut off the request at 3 seconds.
 
-
 ## Calling external services directly
 
 The Istio `ExternalService` currently only supports HTTP/HTTPS requests.
-If you want to access services with other protocols (e.g., mongodb://host/database), 
+If you want to access services with other protocols (e.g., mongodb://host/database),
 or if you want to completely bypass Istio for a specific IP range,
 you will need to configure the source service's Envoy sidecar to prevent it from
 [intercepting]({{home}}/docs/concepts/traffic-management/request-routing.html#communication-between-services)
@@ -187,7 +186,7 @@ when starting the service.
 The simplest way to use the `--includeIPRanges` option is to pass it the IP range(s)
 used for internal cluster services, thereby excluding external IPs from being redirected
 to the sidecar proxy.
-The values used for internal IP range(s), however, depends on where your cluster is running. 
+The values used for internal IP range(s), however, depends on where your cluster is running.
 For example, with Minikube the range is 10.0.0.1/24, so you would start the sleep service like this:
 
 ```bash
@@ -204,7 +203,7 @@ On IBM Cloud Private, use:
 
    A sample output is as following:
 
-   ```
+   ```xxx
    service_cluster_ip_range: 10.0.0.1/24
    ```
 
@@ -226,7 +225,7 @@ need to run the `gcloud container clusters describe` command to determine the ra
 ```bash
 gcloud container clusters describe XXXXXXX --zone=XXXXXX | grep -e clusterIpv4Cidr -e servicesIpv4Cidr
 ```
-```
+```xxx
 clusterIpv4Cidr: 10.4.0.0/14
 servicesIpv4Cidr: 10.7.240.0/20
 ```
@@ -240,7 +239,6 @@ On Azure Container Service(ACS), use:
 kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=10.244.0.0/16,10.240.0.0/16)
 ```
 
-
 After starting your service this way, the Istio sidecar will only intercept and manage internal requests
 within the cluster. Any external request will simply bypass the sidecar and go straight to its intended
 destination.
@@ -250,28 +248,26 @@ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.n
 kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
 ```
 
-
 ## Understanding what happened
 
-In this task we looked at two ways to call external services from within an Istio cluster:
+In this task we looked at two ways to call external services from an Istio mesh:
 
 1. Using an `ExternalService` (recommended)
 
-2. Configuring the Istio sidecar to exclude external IPs from its remapped IP table
+1. Configuring the Istio sidecar to exclude external IPs from its remapped IP table
 
 The first approach (`ExternalService`) only supports HTTP(S) requests, but allows
-you to use all of the same Istio service mesh features for calls to services within or outside 
+you to use all of the same Istio service mesh features for calls to services within or outside
 of the cluster. We demonstrated this by setting a timeout rule for calls to an external service.
 
 The second approach bypasses the Istio sidecar proxy, giving your services direct access to any
 external URL. However, configuring the proxy this way does require
 cloud provider specific knowledge and configuration.
 
-
 ## Cleanup
 
 1. Remove the rules.
-    
+
    ```bash
    istioctl delete externalservice httpbin-ext google-ext
    istioctl delete destinationrule google-ext
@@ -284,7 +280,8 @@ cloud provider specific knowledge and configuration.
    kubectl delete -f samples/sleep/sleep.yaml
    ```
 
-## ExternalService and Access Control
+## `ExternalService` and Access Control
+
 Note that Istio `ExternalService` is **not a security feature**. It enables access to external (out of the service mesh) services. It is up to the user to deploy appropriate security mechanisms such as firewalls to prevent unauthorized access to the external services. We are working on adding access control support for the external services.
 
 ## What's next

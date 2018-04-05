@@ -16,6 +16,6 @@ kubectl edit configmap -n istio-system istio
 kubectl delete pods -n istio-system -l istio=pilot
 ```
 
-> Note: DO NOT use this approach to disable mTLS for services that are managed
+> Do not use this approach to disable mTLS for services that are managed
 by Istio (i.e. using Istio sidecar). Instead, use service-level annotations
 to overwrite the authentication policy (see above).

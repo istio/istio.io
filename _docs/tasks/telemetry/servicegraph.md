@@ -49,7 +49,7 @@ the example application throughout this task.
 
    The output will be similar to:
 
-   ```
+   ```xxx
    NAME           CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
    servicegraph   10.59.253.165   <none>        8088/TCP   30s
    ```
@@ -66,7 +66,7 @@ the example application throughout this task.
    Refresh the page a few times (or send the command a few times) to generate a
    small amount of traffic.
 
-   Note: `$GATEWAY_URL` is the value set in the
+   > `$GATEWAY_URL` is the value set in the
    [Bookinfo]({{home}}/docs/guides/bookinfo.html) guide.
 
 1. Open the Servicegraph UI.
@@ -74,11 +74,10 @@ the example application throughout this task.
    In Kubernetes environments, execute the following command:
 
    ```bash
-   kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &   
+   kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
    ```
 
-   Visit
-   [http://localhost:8088/force/forcegraph.html](http://localhost:8088/force/forcegraph.html)
+   Visit [http://localhost:8088/force/forcegraph.html](http://localhost:8088/force/forcegraph.html)
    in your web browser. Try clicking on a service to see details on
    the service. Real time traffic data is shown in a panel below.
 
@@ -109,20 +108,23 @@ the example application throughout this task.
 
 ### About the Servicegraph Add-on
 
-The
-[Servicegraph](https://github.com/istio/istio/tree/master/addons/servicegraph)
+The [Servicegraph](https://github.com/istio/istio/tree/master/addons/servicegraph)
 service provides endpoints for generating and visualizing a graph of
 services within a mesh. It exposes the following endpoints:
 
-- `/force/forcegraph.html` As explored above, this is an interactive
+* `/force/forcegraph.html` As explored above, this is an interactive
   [D3.js](https://d3js.org/) visualization.
-- `/dotviz` is a static [Graphviz](https://www.graphviz.org/)
+
+* `/dotviz` is a static [Graphviz](https://www.graphviz.org/)
   visualization.
-- `/dotgraph` provides a
+
+* `/dotgraph` provides a
   [DOT](https://en.wikipedia.org/wiki/DOT_(graph_description_language))
   serialization.
-- `/d3graph` provides a JSON serialization for D3 visualization.
-- `/graph` provides a generic JSON serialization.
+
+* `/d3graph` provides a JSON serialization for D3 visualization.
+
+* `/graph` provides a generic JSON serialization.
 
 All endpoints take the query parameters explored above.
 
