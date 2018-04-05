@@ -636,7 +636,7 @@ istioctl delete routerule productpage-default
 <tr>
 <td><code>--hyperkube-tag &lt;Hyperkube&gt;</code></td>
 <td></td>
-<td>The tag to use to pull the Hyperkube container  (default `0.4.0`)</td>
+<td>The tag to use to pull the Hyperkube container  (default `0.7.1`)</td>
 </tr>
 <tr>
 <td><code>--ingress-node-port &lt;uint16&gt;</code></td>
@@ -862,6 +862,16 @@ file/configmap created with a new Istio release.
 <td>Emit sidecar template based on parameterized flags </td>
 </tr>
 <tr>
+<td><code>--excludeIPRanges &lt;string&gt;</code></td>
+<td></td>
+<td>Comma separated list of IP ranges in CIDR form. If set, outbound traffic will not beredirected to Envoy for IP ranges. Only applies if redirecting all outbound traffic by default.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--excludeInboundPorts &lt;string&gt;</code></td>
+<td></td>
+<td>Comma separated list of inbound ports for which traffic should not be redirected to Envoy. Only applies if redirecting all inbound traffic by default.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--filename &lt;string&gt;</code></td>
 <td><code>-f</code></td>
 <td>Input Kubernetes resource filename  (default ``)</td>
@@ -880,6 +890,11 @@ file/configmap created with a new Istio release.
 <td><code>--includeIPRanges &lt;string&gt;</code></td>
 <td></td>
 <td>Comma separated list of IP ranges in CIDR form. If set, only redirect outbound traffic to Envoy for IP ranges. Otherwise all outbound traffic is redirected  (default ``)</td>
+</tr>
+<tr>
+<td><code>--includeInboundPorts &lt;string&gt;</code></td>
+<td></td>
+<td>Comma separated list of inbound ports for which traffic is to be redirected to Envoy. If not specified, all inbound traffic will be redirected.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--injectConfigFile &lt;string&gt;</code></td>
@@ -1012,10 +1027,11 @@ istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml --injectConf
 </code></pre>
 <h2 id="istioctl proxy-config">istioctl proxy-config</h2>
 <p>
-Retrieves the static/bootstrap proxy configuration for the specified pod when running in Kubernetes.
-Support for other environments to follow.
-</p>
-<pre class="language-bash"><code>istioctl proxy-config &lt;pod-name&gt; [flags]
+Retrieves the local proxy configuration for the specified pod when running in Kubernetes.</p>
+<p>Available configuration types:</p>
+<p>	[clusters listeners routes static]</p>
+<p></p>
+<pre class="language-bash"><code>istioctl proxy-config &lt;pod-name&gt; [&lt;configuration-type&gt;] [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -1092,8 +1108,14 @@ Support for other environments to follow.
 </tbody>
 </table>
 <h3 id="istioctl proxy-config Examples">Examples</h3>
-<pre class="language-bash"><code># Retrieve config for productpage-v1-bb8d5cbc7-k7qbm pod
+<pre class="language-bash"><code># Retrieve all config for productpage-v1-bb8d5cbc7-k7qbm pod
 istioctl proxy-config productpage-v1-bb8d5cbc7-k7qbm
+
+# Retrieve cluster config for productpage-v1-bb8d5cbc7-k7qbm pod
+istioctl proxy-config productpage-v1-bb8d5cbc7-k7qbm clusters
+
+# Retrieve static config for productpage-v1-bb8d5cbc7-k7qbm pod in the application namespace
+istioctl proxy-config -n application productpage-v1-bb8d5cbc7-k7qbm static
 </code></pre>
 <h2 id="istioctl register">istioctl register</h2>
 <p>Registers a service instance (e.g. VM) joining the mesh</p>
