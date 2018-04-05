@@ -103,7 +103,6 @@ to the `ratings` service.
 
    You should now see that it returns in 1 second (instead of 2), but the reviews are unavailable.
 
-
 ## Understanding what happened
 
 In this task, you used Istio to set the request timeout for calls to the `reviews`

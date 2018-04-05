@@ -18,6 +18,7 @@ The [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application is used
 as the example application throughout this task.
 
 ## Before you begin
+
 * [Install Istio]({{home}}/docs/setup/) in your cluster and deploy an
   application. This task assumes that Mixer is setup in a default configuration
   (`--configDefaultNamespace=istio-system`). If you use a different
@@ -25,9 +26,11 @@ as the example application throughout this task.
 
 * Install the Prometheus add-on. Prometheus
   will be used to verify task success.
+
   ```bash
   kubectl apply -f install/kubernetes/addons/prometheus.yaml
   ```
+
   See [Prometheus](https://prometheus.io) for details.
 
 ## Collecting new telemetry data
@@ -36,6 +39,7 @@ as the example application throughout this task.
    stream that Istio will generate and collect automatically.
 
    Save the following as `new_telemetry.yaml`:
+
    ```yaml
    # Configuration for metric instances
    apiVersion: "config.istio.io/v1alpha2"
@@ -130,7 +134,8 @@ as the example application throughout this task.
    ```
 
    The expected output is similar to:
-   ```
+
+   ```xxx
    Created config metric/istio-system/doublerequestcount at revision 1973035
    Created config prometheus/istio-system/doublehandler at revision 1973036
    Created config rule/istio-system/doubleprom at revision 1973037

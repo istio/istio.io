@@ -280,46 +280,45 @@ service declaration.
 
 1. Determine the ingress URL:
 
-   - If your cluster is running in an environment that supports external load balancers,
-     use the ingress' external address:
+   * If your cluster is running in an environment that supports external load balancers, use the ingress' external address:
 
-     ```bash
-     kubectl get ingress simple-ingress -o wide
-     ```
+   ```bash
+   kubectl get ingress simple-ingress -o wide
+   ```
 
-     ```xxx
-     NAME             HOSTS     ADDRESS                 PORTS     AGE
-     simple-ingress   *         130.211.10.121          80        1d
-     ```
+   ```xxx
+   NAME             HOSTS     ADDRESS                 PORTS     AGE
+   simple-ingress   *         130.211.10.121          80        1d
+   ```
 
-     ```bash
-     export INGRESS_HOST=130.211.10.121
-     ```
+   ```bash
+   export INGRESS_HOST=130.211.10.121
+   ```
 
    * If load balancers are not supported, use the ingress controller pod's hostIP:
 
-     ```bash
-     kubectl -n istio-system get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
-     ```
+   ```bash
+   kubectl -n istio-system get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
+   ```
 
-     ```xxx
-     169.47.243.100
-     ```
+   ```xxx
+   169.47.243.100
+   ```
 
-     along with the istio-ingress service's nodePort for port 80:
+   along with the istio-ingress service's nodePort for port 80:
 
-     ```bash
-     kubectl -n istio-system get svc istio-ingress
-     ```
+   ```bash
+   kubectl -n istio-system get svc istio-ingress
+   ```
 
-     ```xxx
-     NAME            CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
-     istio-ingress   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
-     ```
+   ```xxx
+   NAME            CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
+   istio-ingress   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
+   ```
 
-     ```bash
-     export INGRESS_HOST=169.47.243.100:31486
-     ```
+   ```bash
+   export INGRESS_HOST=169.47.243.100:31486
+   ```
 
 1. Access the httpbin service using _curl_:
 
@@ -405,45 +404,45 @@ service declaration.
 1. Determine the ingress URL:
 
    * If your cluster is running in an environment that supports external load balancers,
-     use the ingress' external address:
+   use the ingress' external address:
 
-     ```bash
-     kubectl get ingress secure-ingress -o wide
-     ```
+   ```bash
+   kubectl get ingress secure-ingress -o wide
+   ```
 
-     ```xxx
-     NAME             HOSTS     ADDRESS                 PORTS     AGE
-     secure-ingress   *         130.211.10.121          80        1d
-     ```
+   ```xxx
+   NAME             HOSTS     ADDRESS                 PORTS     AGE
+   secure-ingress   *         130.211.10.121          80        1d
+   ```
 
-     ```bash
-     export SECURE_INGRESS_HOST=130.211.10.121
-     ```
+   ```bash
+   export SECURE_INGRESS_HOST=130.211.10.121
+   ```
 
    * If load balancers are not supported, use the ingress controller pod's hostIP:
 
-     ```bash
-     kubectl -n istio-system get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
-     ```
+   ```bash
+   kubectl -n istio-system get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
+   ```
 
-     ```xxx
-     169.47.243.100
-     ```
+   ```xxx
+   169.47.243.100
+   ```
 
-     along with the istio-ingress service's nodePort for port 443:
+   along with the istio-ingress service's nodePort for port 443:
 
-     ```bash
-     kubectl -n istio-system get svc istio-ingress
-     ```
+   ```bash
+   kubectl -n istio-system get svc istio-ingress
+   ```
 
-     ```xxx
-     NAME            CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
-     istio-ingress   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
-     ```
+   ```xxx
+   NAME            CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
+   istio-ingress   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
+   ```
 
-     ```bash
-     export SECURE_INGRESS_HOST=169.47.243.100:32254
-     ```
+   ```bash
+   export SECURE_INGRESS_HOST=169.47.243.100:32254
+   ```
 
 1. Access the httpbin service using _curl_:
 

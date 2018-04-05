@@ -18,16 +18,17 @@ The [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application is used as
 the example application throughout this task.
 
 ## Before you begin
+
 * [Install Istio]({{home}}/docs/setup/) in your cluster and deploy an
   application.
 
 * Install the Prometheus add-on.
 
-  ```bash
-  kubectl apply -f install/kubernetes/addons/prometheus.yaml
-  ```
+   ```bash
+   kubectl apply -f install/kubernetes/addons/prometheus.yaml
+   ```
 
-  Use of the Prometheus add-on is _required_ for the Istio Dashboard.
+   Use of the Prometheus add-on is _required_ for the Istio Dashboard.
 
 ## Viewing the Istio Dashboard
 
@@ -49,7 +50,7 @@ the example application throughout this task.
 
    The output will be similar to:
 
-   ```
+   ```xxx
    NAME      CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
    grafana   10.59.247.103   <none>        3000/TCP   2m
    ```
@@ -95,8 +96,7 @@ the example application throughout this task.
     caption='Istio Dashboard With Traffic'
     %}
 
-   Note: `$GATEWAY_URL` is the value set in the
-   [Bookinfo]({{home}}/docs/guides/bookinfo.html) guide.
+   > `$GATEWAY_URL` is the value set in the [Bookinfo]({{home}}/docs/guides/bookinfo.html) guide.
 
 ### About the Grafana add-on
 
@@ -122,18 +122,18 @@ For more on how to create, configure, and edit dashboards, please see the
 ## Cleanup
 
 * In Kubernetes environments, execute the following command to remove the Grafana
-  add-on:
+add-on:
 
-  ```bash
-  kubectl delete -f install/kubernetes/addons/grafana.yaml
-  ```
+   ```bash
+   kubectl delete -f install/kubernetes/addons/grafana.yaml
+   ```
 
 * Remove any `kubectl port-forward` processes that may be running:
 
-  ```bash
-  killall kubectl
-  ```
+   ```bash
+   killall kubectl
+   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
-  to shutdown the application.
+[Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+to shutdown the application.

@@ -20,28 +20,28 @@ original HTTPS traffic. And this is the reason Istio can work on HTTPS services.
 
 ## Before you begin
 
-* Set up Istio by following the instructions in the
-  [quick start]({{home}}/docs/setup/kubernetes/quick-start.html).
-  Note that authentication should be **disabled** at step 5 in the
-  [installation steps]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps).
+Set up Istio by following the instructions in the
+[quick start]({{home}}/docs/setup/kubernetes/quick-start.html).
+Note that authentication should be **disabled** at step 5 in the
+[installation steps]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps).
 
 ### Generate certificates and configmap
 
 You need to have openssl installed to run this command
 
 ```bash
-$ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /tmp/nginx.key -out /tmp/nginx.crt -subj "/CN=my-nginx/O=my-nginx"
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /tmp/nginx.key -out /tmp/nginx.crt -subj "/CN=my-nginx/O=my-nginx"
 ```
 
 ```bash
-$ kubectl create secret tls nginxsecret --key /tmp/nginx.key --cert /tmp/nginx.crt
+kubectl create secret tls nginxsecret --key /tmp/nginx.key --cert /tmp/nginx.crt
 secret "nginxsecret" created
 ```
 
 Create a configmap used for the HTTPS service
 
 ```bash
-$ kubectl create configmap nginxconfigmap --from-file=samples/https/default.conf
+kubectl create configmap nginxconfigmap --from-file=samples/https/default.conf
 configmap "nginxconfigmap" created
 ```
 
@@ -50,8 +50,10 @@ configmap "nginxconfigmap" created
 This section creates a NGINX-based HTTPS service.
 
 ```bash
-$ kubectl apply -f samples/https/nginx-app.yaml
-...
+kubectl apply -f samples/https/nginx-app.yaml
+```
+
+```xxx
 service "my-nginx" created
 replicationcontroller "my-nginx" created
 ```
@@ -67,6 +69,7 @@ Get the pods
 ```bash
 kubectl get pod
 ```
+
 ```xxx
 NAME                              READY     STATUS    RESTARTS   AGE
 my-nginx-jwwck                    2/2       Running   0          1h
@@ -74,14 +77,17 @@ sleep-847544bbfc-d27jg            2/2       Running   0          18h
 ```
 
 Ssh into the istio-proxy container of sleep pod.
+
 ```bash
 kubectl exec -it sleep-847544bbfc-d27jg -c istio-proxy /bin/bash
 ```
 
 Call my-nginx
+
 ```bash
 curl https://my-nginx -k
 ```
+
 ```xxx
 ...
 <h1>Welcome to nginx!</h1>
@@ -93,6 +99,7 @@ You can actually combine the above three command into one:
 ```bash
 kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl https://my-nginx -k
 ```
+
 ```xxx
 ...
 <h1>Welcome to nginx!</h1>
@@ -121,6 +128,7 @@ Make sure the pod is up and running
 ```bash
 kubectl get pod
 ```
+
 ```xxx
 NAME                              READY     STATUS    RESTARTS   AGE
 my-nginx-6svcc                    2/2       Running   0          1h
@@ -128,9 +136,11 @@ sleep-847544bbfc-d27jg            2/2       Running   0          18h
 ```
 
 And run
+
 ```bash
 kubectl exec sleep-847544bbfc-d27jg -c sleep -- curl https://my-nginx -k
 ```
+
 ```xxx
 ...
 <h1>Welcome to nginx!</h1>
@@ -138,16 +148,18 @@ kubectl exec sleep-847544bbfc-d27jg -c sleep -- curl https://my-nginx -k
 ```
 
 If you run from istio-proxy container, it should work as well
+
 ```bash
 kubectl exec sleep-847544bbfc-d27jg -c istio-proxy -- curl https://my-nginx -k
 ```
+
 ```xxx
 ...
 <h1>Welcome to nginx!</h1>
 ...
 ```
 
-Note: this example is borrowed from [kubernetes examples](https://github.com/kubernetes/examples/blob/master/staging/https-nginx/README.md).
+> This example is borrowed from [kubernetes examples](https://github.com/kubernetes/examples/blob/master/staging/https-nginx/README.md).
 
 ### Create an HTTPS service with Istio sidecar with mTLS enabled
 
@@ -163,6 +175,7 @@ And wait for everything is down, i.e., there is no pod in control plane namespac
 ```bash
 kubectl get pod -n istio-system
 ```
+
 ```xxx
 No resources found.
 ```
@@ -174,9 +187,11 @@ kubectl apply -f install/kubernetes/istio-auth.yaml
 ```
 
 Make sure everything is up and running:
+
 ```bash
 kubectl get po -n istio-system
 ```
+
 ```xxx
 NAME                             READY     STATUS    RESTARTS   AGE
 istio-ca-58c5856966-k6nm4        1/1       Running   0          2m
@@ -199,21 +214,25 @@ Make sure the pod is up and running
 ```bash
 kubectl get pod
 ```
-```bash
+
+```xxx
 NAME                              READY     STATUS    RESTARTS   AGE
 my-nginx-9dvet                    2/2       Running   0          1h
 sleep-77f457bfdd-hdknx            2/2       Running   0          18h
 ```
 
 And run
+
 ```bash
 kubectl exec sleep-77f457bfdd-hdknx -c sleep -- curl https://my-nginx -k
 ```
+
 ```xxx
 ...
 <h1>Welcome to nginx!</h1>
 ...
 ```
+
 The reason is that for the workflow "sleep -> sleep-proxy -> nginx-proxy -> nginx",
 the whole flow is L7 traffic, and there is a L4 mTLS encryption between sleep-proxy
 and nginx-proxy. In this case, everything works fine.
@@ -223,6 +242,7 @@ However, if you run this command from istio-proxy container, it will not work.
 ```bash
 kubectl exec sleep-77f457bfdd-hdknx -c istio-proxy -- curl https://my-nginx -k
 ```
+
 ```xxx
 curl: (35) gnutls_handshake() failed: Handshake failed
 command terminated with exit code 35
