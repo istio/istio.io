@@ -14,6 +14,10 @@ number_of_entries: 4
 </thead>
 <tbody>
 <tr>
+<td><code>--caCertFile &lt;string&gt;</code></td>
+<td>File containing the x509 Certificate for HTTPS.  (default `/etc/istio/certs/root-cert.pem`)</td>
+</tr>
+<tr>
 <td><code>--healthCheckFile &lt;string&gt;</code></td>
 <td>File that should be periodically updated if health checking is enabled  (default ``)</td>
 </tr>
@@ -24,6 +28,10 @@ number_of_entries: 4
 <tr>
 <td><code>--injectConfig &lt;string&gt;</code></td>
 <td>File containing the Istio sidecar injection configuration and template  (default `/etc/istio/inject/config`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td>Specifies path to kubeconfig file. This must be specified when not running inside a Kubernetes pod.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -71,11 +79,19 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--tlsCertFile &lt;string&gt;</code></td>
-<td>File containing the x509 Certificate for HTTPS.  (default `/etc/istio/certs/cert.pem`)</td>
+<td>File containing the x509 Certificate for HTTPS.  (default `/etc/istio/certs/cert-chain.pem`)</td>
 </tr>
 <tr>
 <td><code>--tlsKeyFile &lt;string&gt;</code></td>
 <td>File containing the x509 private key matching --tlsCertFile.  (default `/etc/istio/certs/key.pem`)</td>
+</tr>
+<tr>
+<td><code>--webhookConfigName &lt;string&gt;</code></td>
+<td>Name of the mutatingwebhookconfiguration resource in Kubernete.  (default `istio-sidecar-injector`)</td>
+</tr>
+<tr>
+<td><code>--webhookName &lt;string&gt;</code></td>
+<td>Name of the webhook entry in the webhook config.  (default `sidecar-injector.istio.io`)</td>
 </tr>
 </tbody>
 </table>
@@ -89,6 +105,10 @@ number_of_entries: 4
 <th>Description</th>
 </thead>
 <tbody>
+<tr>
+<td><code>--caCertFile &lt;string&gt;</code></td>
+<td>File containing the x509 Certificate for HTTPS.  (default `/etc/istio/certs/root-cert.pem`)</td>
+</tr>
 <tr>
 <td><code>--healthCheckFile &lt;string&gt;</code></td>
 <td>File that should be periodically updated if health checking is enabled  (default ``)</td>
@@ -104,6 +124,10 @@ number_of_entries: 4
 <tr>
 <td><code>--interval &lt;duration&gt;</code></td>
 <td>Duration used for checking the target file&#39;s last modified time.  (default `0s`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td>Specifies path to kubeconfig file. This must be specified when not running inside a Kubernetes pod.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -155,11 +179,19 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--tlsCertFile &lt;string&gt;</code></td>
-<td>File containing the x509 Certificate for HTTPS.  (default `/etc/istio/certs/cert.pem`)</td>
+<td>File containing the x509 Certificate for HTTPS.  (default `/etc/istio/certs/cert-chain.pem`)</td>
 </tr>
 <tr>
 <td><code>--tlsKeyFile &lt;string&gt;</code></td>
 <td>File containing the x509 private key matching --tlsCertFile.  (default `/etc/istio/certs/key.pem`)</td>
+</tr>
+<tr>
+<td><code>--webhookConfigName &lt;string&gt;</code></td>
+<td>Name of the mutatingwebhookconfiguration resource in Kubernete.  (default `istio-sidecar-injector`)</td>
+</tr>
+<tr>
+<td><code>--webhookName &lt;string&gt;</code></td>
+<td>Name of the webhook entry in the webhook config.  (default `sidecar-injector.istio.io`)</td>
 </tr>
 </tbody>
 </table>
@@ -175,6 +207,11 @@ number_of_entries: 4
 </thead>
 <tbody>
 <tr>
+<td><code>--caCertFile &lt;string&gt;</code></td>
+<td></td>
+<td>File containing the x509 Certificate for HTTPS.  (default `/etc/istio/certs/root-cert.pem`)</td>
+</tr>
+<tr>
 <td><code>--healthCheckFile &lt;string&gt;</code></td>
 <td></td>
 <td>File that should be periodically updated if health checking is enabled  (default ``)</td>
@@ -188,6 +225,11 @@ number_of_entries: 4
 <td><code>--injectConfig &lt;string&gt;</code></td>
 <td></td>
 <td>File containing the Istio sidecar injection configuration and template  (default `/etc/istio/inject/config`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td></td>
+<td>Specifies path to kubeconfig file. This must be specified when not running inside a Kubernetes pod.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -252,12 +294,22 @@ number_of_entries: 4
 <tr>
 <td><code>--tlsCertFile &lt;string&gt;</code></td>
 <td></td>
-<td>File containing the x509 Certificate for HTTPS.  (default `/etc/istio/certs/cert.pem`)</td>
+<td>File containing the x509 Certificate for HTTPS.  (default `/etc/istio/certs/cert-chain.pem`)</td>
 </tr>
 <tr>
 <td><code>--tlsKeyFile &lt;string&gt;</code></td>
 <td></td>
 <td>File containing the x509 private key matching --tlsCertFile.  (default `/etc/istio/certs/key.pem`)</td>
+</tr>
+<tr>
+<td><code>--webhookConfigName &lt;string&gt;</code></td>
+<td></td>
+<td>Name of the mutatingwebhookconfiguration resource in Kubernete.  (default `istio-sidecar-injector`)</td>
+</tr>
+<tr>
+<td><code>--webhookName &lt;string&gt;</code></td>
+<td></td>
+<td>Name of the webhook entry in the webhook config.  (default `sidecar-injector.istio.io`)</td>
 </tr>
 </tbody>
 </table>
