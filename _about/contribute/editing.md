@@ -1,7 +1,7 @@
 ---
 title: Editing Docs
 overview: Lets you start editing this site's documentation.
-              
+
 order: 10
 
 layout: about
@@ -10,7 +10,7 @@ redirect_from: /docs/welcome/contribute/editing.html
 ---
 
 Click the button below to visit the GitHub repository for this whole web site. You can then click the
-**Fork** button in the upper-right area of the screen to 
+**Fork** button in the upper-right area of the screen to
 create a copy of our site in your GitHub account called a _fork_. Make any changes you want in your fork, and when you
 are ready to send those changes to us, go to the index page for your fork and click **New Pull Request** to let us know about it.
 

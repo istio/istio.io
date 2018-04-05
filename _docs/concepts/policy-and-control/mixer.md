@@ -1,7 +1,7 @@
 ---
 title: Mixer
 overview: Architectural deep-dive into the design of Mixer, which provides the policy and control mechanisms within the service mesh.
-              
+
 order: 20
 
 layout: docs
@@ -147,4 +147,4 @@ phases:
 
 ## What's next
 
-* Read the [blog post]({{home}}/blog/2017/adapter-model.html) describing Mixer's adapter model.
+- Read the [blog post]({{home}}/blog/2017/adapter-model.html) describing Mixer's adapter model.

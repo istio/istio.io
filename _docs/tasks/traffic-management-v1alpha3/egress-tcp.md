@@ -27,6 +27,7 @@ This task describes how to configure Istio to expose external TCP services to ap
   **Note**: any pod that you can execute `curl` from is good enough.
 
 ## Using Istio external services for external TCP traffic
+
 In this task we access `wikipedia.org` by HTTPS originated by the application. This task demonstrates the use case where an application cannot use HTTP with TLS origination by the sidecar proxy. Using HTTP with TLS origination by the sidecar proxy is described in the [Control Egress Traffic]({{home}}/docs/tasks/traffic-management-v1alpha3/egress.html) task. In that task, `https://google.com` was accessed by issuing HTTP requests to `http://www.google.com:443`.
 
 The HTTPS traffic originated by the application will be treated by Istio as _opaque_ TCP. To enable such traffic, we define a TCP external service on port 443. In TCP external services, as opposed to HTTP-based external services, the destinations are specified by IPs or by blocks of IPs in [CIDR notation](https://tools.ietf.org/html/rfc2317).
@@ -34,7 +35,9 @@ The HTTPS traffic originated by the application will be treated by Istio as _opa
 Let's assume for the sake of this example that we want to access `wikipedia.org` by the domain name. This means that we have to specify all the IPs of `wikipedia.org` in our TCP external service. Fortunately, the IPs of `wikipedia.org` are published [here]( https://www.mediawiki.org/wiki/Wikipedia_Zero/IP_Addresses). It is a list of IP blocks in [CIDR notation](https://tools.ietf.org/html/rfc2317): `91.198.174.192/27`, `103.102.166.224/27`, and more.
 
 ## Creating an external service
+
 Let's create an external service to enable TCP access to `wikipedia.org`:
+
 ```bash
 cat <<EOF | istioctl create -f -
 apiVersion: networking.istio.io/v1alpha3
@@ -66,25 +69,25 @@ This command instructs the Istio proxy to forward requests on port 443 of any of
    kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep bash
    ```
 
-2. Make a request and verify that we can access https://www.wikipedia.org successfully:
+1. Make a request and verify that we can access https://www.wikipedia.org successfully:
 
    ```bash
    curl -o /dev/null -s -w "%{http_code}\n" https://www.wikipedia.org
    ```
-   ```bash
+   ```xxx
    200
    ```
 
    We should see `200` printed as the output, which is the HTTP code _OK_.
 
-3. Now let's fetch the current number of the articles available on Wikipedia in the English language:
+1. Now let's fetch the current number of the articles available on Wikipedia in the English language:
    ```bash
    curl -s https://en.wikipedia.org/wiki/Main_Page | grep articlecount | grep 'Special:Statistics'
    ```
 
    The output should be similar to:
 
-   ```bash
+   ```xxx
    <div id="articlecount" style="font-size:85%;"><a href="/wiki/Special:Statistics" title="Special:Statistics">5,563,121</a> articles in <a  href="/wiki/English_language" title="English language">English</a></div>
    ```
 

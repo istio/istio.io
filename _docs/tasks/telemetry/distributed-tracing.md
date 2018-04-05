@@ -10,7 +10,7 @@ redirect_from: /docs/tasks/zipkin-tracing.html
 ---
 {% include home.html %}
 
-This task shows you how Istio-enabled applications 
+This task shows you how Istio-enabled applications
 can be configured to collect trace spans using [Zipkin](https://zipkin.io) or [Jaeger](https://jaeger.readthedocs.io).
 After completing this task, you should understand all of the assumptions about your
 application and how to have it participate in tracing, regardless of what
@@ -19,20 +19,19 @@ language/framework/platform you use to build your application.
 The [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample is used as the
 example application for this task.
 
-
 ## Before you begin
 
 * Setup Istio by following the instructions in the [Installation guide]({{home}}/docs/setup/).
 
   If you didn't start the Zipkin or Jaeger addon during installation,
   you can run the following command to start it now.
-  
-  For zipkin:
-  
+
+  For Zipkin:
+
   ```bash
   kubectl apply -f install/kubernetes/addons/zipkin.yaml
   ```
-  
+
   For Jaeger:
 
   ```bash
@@ -40,7 +39,6 @@ example application for this task.
   ```
 
 * Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application.
-
 
 ## Accessing the dashboard
 
@@ -63,7 +61,6 @@ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=ja
 ```
 
 Then open your browser at [http://localhost:16686](http://localhost:16686)
-
 
 ## Generating traces using the Bookinfo sample
 
@@ -161,7 +158,7 @@ def getForwardHeaders(request):
 ```
 
 The reviews application (Java) does something similar:
- 
+
 ```java
 @GET
 @Path("/reviews")
@@ -178,12 +175,11 @@ public Response bookReviews(@CookieParam("user") Cookie user,
 
   if(ratings_enabled){
     JsonObject ratings = getRatings(user, xreq, xtraceid, xspanid, xparentspanid, xsampled, xflags, xotspan);
-``` 
+```
 
 When you make downstream calls in your applications, make sure to include these headers.
 
 ## Cleanup
-
 
 * Remove the addon tracing configuration:
 
