@@ -53,11 +53,11 @@ has been validated with multicluster.
 is created.  This is normal behavior but different from what is seen with
 multicluster disabled.
 
-Create a clusterregistry descriptor to describe each Kubernetes cluster's role
+Create a `clusterregistry.k8s.io` descriptor to describe each Kubernetes cluster's role
 in the multicluster environment.  These files should be stored in the directory
 $HOME/multicluster, have a `.yaml` extension, and have a unique filename.
 
-An example clusterregistry configuration descriptor is shown below:
+An example `clusterregistry.k8s.io` configuration descriptor is shown below:
 
 ```yaml
 apiVersion: clusterregistry.k8s.io/v1alpha1
@@ -80,7 +80,7 @@ A unique security context is required to describe how to securely access
 each Kubernetes cluster in the system.  In the above example,
 `falkor07.kube.conf` is the Istio control plane credential file. The
 `config.istio.io/pilotCfgStore: True` flag is set in the condition this
-clusterregistry descriptor describes the Istio control plane Kubernetes
+`clusterregistry.k8s.io` descriptor describes the Istio control plane Kubernetes
 cluster.  For remotes, please set `pilotCfgStore: False`.
 
 **Important**: The implementation only uses the
@@ -89,7 +89,7 @@ annotations, although every other annotation and spec is validated for
 correct syntax.  They may be set to dummy values, as long as they are
 syntactically correct.
 
-If the prerequisities are met, the credentials for each Kubernetes cluster
+If the prerequisites are met, the credentials for each Kubernetes cluster
 will also be present in `$HOME/multicluster`.
 
 Assemble and create the configmap from these files in the Kubernetes cluster
