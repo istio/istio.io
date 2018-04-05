@@ -23,15 +23,19 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--grpc-hostname &lt;string&gt;</code></td>
-<td>The hostname for GRPC server.  (default `localhost`)</td>
+<td>The hostname for GRPC server.  (default `istio-ca`)</td>
 </tr>
 <tr>
 <td><code>--grpc-port &lt;int&gt;</code></td>
-<td>The port number for GRPC server. If unspecified, Istio CA will not server GRPC request.  (default `0`)</td>
+<td>The port number for GRPC server. If unspecified, Istio CA will not server GRPC request.  (default `8060`)</td>
 </tr>
 <tr>
 <td><code>--istio-ca-storage-namespace &lt;string&gt;</code></td>
 <td>Namespace where the Istio CA pods is running. Will not be used if explicit file or other storage mechanism is specified.  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--key-size &lt;int&gt;</code></td>
+<td>Size of generated private key  (default `2048`)</td>
 </tr>
 <tr>
 <td><code>--kube-config &lt;string&gt;</code></td>
@@ -87,11 +91,23 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--max-workload-cert-ttl &lt;duration&gt;</code></td>
-<td>The max TTL of issued workload certificates  (default `168h0m0s`)</td>
+<td>The max TTL of issued workload certificates  (default `2160h0m0s`)</td>
+</tr>
+<tr>
+<td><code>--multicluster-ca</code></td>
+<td>Whether the CA is a multicluster CA </td>
+</tr>
+<tr>
+<td><code>--org &lt;string&gt;</code></td>
+<td>Organization for the cert  (default ``)</td>
 </tr>
 <tr>
 <td><code>--probe-check-interval &lt;duration&gt;</code></td>
 <td>Interval of checking the liveness of the CA.  (default `30s`)</td>
+</tr>
+<tr>
+<td><code>--requested-ca-cert-ttl &lt;duration&gt;</code></td>
+<td>The requested TTL for the workload  (default `8760h0m0s`)</td>
 </tr>
 <tr>
 <td><code>--root-cert &lt;string&gt;</code></td>
@@ -118,16 +134,8 @@ number_of_entries: 4
 <td>Path to the CA signing key file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--upstream-auth &lt;string&gt;</code></td>
-<td>Specifies how the Istio CA is authenticated to the upstream CA.  (default `mtls`)</td>
-</tr>
-<tr>
 <td><code>--upstream-ca-address &lt;string&gt;</code></td>
 <td>The IP:port address of the upstream CA. When set, the CA will rely on the upstream Istio CA to provision its own certificate.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--upstream-ca-cert-file &lt;string&gt;</code></td>
-<td>Path to the certificate for authenticating upstream CA.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--workload-cert-grace-period-ratio &lt;float32&gt;</code></td>
@@ -139,7 +147,7 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--workload-cert-ttl &lt;duration&gt;</code></td>
-<td>The TTL of issued workload certificates  (default `19h0m0s`)</td>
+<td>The TTL of issued workload certificates  (default `2160h0m0s`)</td>
 </tr>
 </tbody>
 </table>
