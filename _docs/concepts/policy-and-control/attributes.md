@@ -11,7 +11,13 @@ type: markdown
 
 The page describes Istio attributes, what they are and how they are used.
 
+
+
+
 ## Background
+
+
+
 
 Istio uses *attributes* to control the runtime behavior of services running in the mesh.
 Attributes are named and typed pieces of metadata describing ingress and egress traffic and the
