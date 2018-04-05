@@ -18,8 +18,9 @@ The [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application is used as
 the example application throughout this task.
 
 ## Before you begin
-* [Install Istio]({{home}}/docs/setup/) in your cluster and deploy an
-  application.
+
+[Install Istio]({{home}}/docs/setup/) in your cluster and deploy an
+application.
 
 ## Querying Istio Metrics
 
@@ -41,7 +42,7 @@ the example application throughout this task.
 
    The output will be similar to:
 
-   ```
+   ```xxx
    NAME         CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
    prometheus   10.59.241.54   <none>        9090/TCP   2m
    ```
@@ -55,8 +56,7 @@ the example application throughout this task.
    curl http://$GATEWAY_URL/productpage
    ```
 
-   Note: `$GATEWAY_URL` is the value set in the
-   [Bookinfo]({{home}}/docs/guides/bookinfo.html) guide.
+   > `$GATEWAY_URL` is the value set in the [Bookinfo]({{home}}/docs/guides/bookinfo.html) guide.
 
 1. Open the Prometheus UI.
 
@@ -70,10 +70,10 @@ the example application throughout this task.
 
 1. Execute a Prometheus query.
 
-    In the "Expression" input box at the top of the web page, enter the text:
-    `istio_request_count`. Then, click the **Execute** button.
+   In the "Expression" input box at the top of the web page, enter the text:
+   `istio_request_count`. Then, click the **Execute** button.
 
-    The results will be similar to:
+   The results will be similar to:
 
 {% include figure.html width='100%' ratio='39.36%'
     img='./img/prometheus_query_result.png'
@@ -104,7 +104,7 @@ the example application throughout this task.
       rate(istio_request_count{destination_service=~"productpage.*", response_code="200"}[5m])
       ```
 
-### About the Prometheus Add-on
+### About the Prometheus add-on
 
 Mixer comes with a built-in [Prometheus](https://prometheus.io) adapter that
 exposes an endpoint serving generated metric values. The Prometheus add-on is a
@@ -128,15 +128,15 @@ docs](https://prometheus.io/docs/querying/basics/).
 * In Kubernetes environments, execute the following command to remove the
   Prometheus add-on:
 
-  ```bash
-  kubectl delete -f install/kubernetes/addons/prometheus.yaml
-  ```
+   ```bash
+   kubectl delete -f install/kubernetes/addons/prometheus.yaml
+   ```
 
 * Remove any `kubectl port-forward` processes that may still be running:
 
-  ```bash
-  killall kubectl
-  ```
+   ```bash
+   killall kubectl
+   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
   [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions

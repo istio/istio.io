@@ -97,7 +97,7 @@ Operator installs Istio on OpenShift and additionally wants to deploy some of th
 ansible-playbook main.yml -e '{"istio": {"samples": ["helloworld", "bookinfo"]}}'
 ```
 
-**When Jaeger is enabled, Zipkin is disabled even when Zipkin is selected in the addons.**
+> When Jaeger is enabled, Zipkin is disabled even when Zipkin is selected in the addons.
 
 ## Uninstalling
 
@@ -106,4 +106,4 @@ In this case, the `istio.delete_resources` flag does not need to be set.
 
 Setting `istio.delete_resources` to true will delete the Istio control plane from the cluster.
 
-**In order to avoid any inconsistencies, this flag should only be used to reinstall the same version of Istio on a cluster.**
+> In order to avoid any inconsistencies, this flag should only be used to reinstall the same version of Istio on a cluster.

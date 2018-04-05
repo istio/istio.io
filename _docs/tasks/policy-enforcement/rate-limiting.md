@@ -27,8 +27,8 @@ This task shows you how to use Istio to dynamically limit the traffic to a servi
   istioctl create -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
   ```
 
-  > If you have conflicting rule that you set in previous tasks,
-    use `istioctl replace` instead of `istioctl create`.
+> If you have conflicting rule that you set in previous tasks,
+use `istioctl replace` instead of `istioctl create`.
 
 ## Rate limits
 
@@ -187,7 +187,7 @@ If you would like the above policies enforced for a given namespace instead of t
 
 * Remove the application routing rules:
 
-  ```
+  ```bash
   istioctl delete -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
   istioctl delete -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
   ```

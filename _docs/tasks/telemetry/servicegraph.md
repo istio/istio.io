@@ -66,8 +66,7 @@ the example application throughout this task.
    Refresh the page a few times (or send the command a few times) to generate a
    small amount of traffic.
 
-   > `$GATEWAY_URL` is the value set in the
-   [Bookinfo]({{home}}/docs/guides/bookinfo.html) guide.
+   > `$GATEWAY_URL` is the value set in the [Bookinfo]({{home}}/docs/guides/bookinfo.html) guide.
 
 1. Open the Servicegraph UI.
 
@@ -134,12 +133,12 @@ depends on the standard Istio metric configuration.
 ## Cleanup
 
 * In Kubernetes environments, execute the following command to remove the
-  Servicegraph add-on:
+Servicegraph add-on:
 
-  ```bash
-  kubectl delete -f install/kubernetes/addons/servicegraph.yaml
-  ```
+   ```bash
+   kubectl delete -f install/kubernetes/addons/servicegraph.yaml
+   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
-  to shutdown the application.
+[Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+to shutdown the application.

@@ -1,5 +1,5 @@
 ---
-title: Per-service mutual TLS authentication enablement
+title: Per-service mutual TLS authentication control
 overview: This task shows how to change mutual TLS authentication for a single service.
 
 order: 50
@@ -11,7 +11,7 @@ type: markdown
 
 In the [Installation guide]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps), we show how to enable [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars. The settings will be applied to all sidecars in the mesh.
 
-In this tutorial, you will learn:
+In this task, you will learn:
 
 * Annotate Kubernetes service to disable (or enable) mutual TLS authentication for a selective service(s).
 * Modify Istio mesh config to exclude mutual TLS authentication for control services.
@@ -39,7 +39,7 @@ In this initial setup, we expect the sleep instance in default namespace can tal
 kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl http://httpbin.default:8000/ip -s
 ```
 
-```bash
+```json
 {
   "origin": "127.0.0.1"
 }
@@ -49,16 +49,16 @@ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
 kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name} -n legacy) -n legacy -- curl http://httpbin.default:8000/ip -s
 ```
 
-```bash
+```xxx
 command terminated with exit code 56
 ```
 
-## Disable mutual TLS authentication for "httpbin" service.
+## Disable mutual TLS authentication for httpbin
 
 If we want to disable mTLS only for httpbin (on port 8000), without changing the mesh authentication settings,
 we can do that by adding this annotations to the httpbin service definition.
 
-```bash
+```xxx
 annotations:
   auth.istio.io/8000: NONE
 ```
@@ -72,7 +72,7 @@ Note:
 
 * Annotations can also be used for a (server) service that *does not have sidecar*, to instruct Istio do not apply mTLS for the client when making a call to that service. In fact, if a system has some services that are not managed by Istio (i.e without sidecar), this is a recommended solution to fix communication problem with those services.
 
-## Disable mutual TLS authentication for control services.
+## Disable mutual TLS authentication for control services
 
 As we cannot annotate control services, such as API server, in Istio 0.3, we introduced [mtls_excluded_services](https://github.com/istio/api/blob/master/mesh/v1alpha1/config.proto#L200:19) to the mesh configuration to specify the list of services for which mTLS should not be used. If your application needs to communicate to any control service, it's fully-qualified domain name should be listed there.
 
@@ -94,7 +94,7 @@ It's then expected that request to kubernetes.default service should be possible
 kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl https://kubernetes.default:443/api/ -k -s
 ```
 
-```bash
+```json
 {
   "kind": "APIVersions",
   "versions": [
@@ -121,6 +121,6 @@ The same test request above now fail with code 35, as sleep's sidecar starts usi
 kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl https://kubernetes.default:443/api/ -k -s
 ```
 
-```bash
+```xxx
 command terminated with exit code 35
 ```
