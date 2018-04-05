@@ -65,12 +65,19 @@ bundle exec jekyll serve
 You should run `scripts/linters.sh` prior to checking in your changes.
 This will run 3 tests:
 
-- HTML proofing, which ensures all your links are valid along with other checks.
+* HTML proofing, which ensures all your links are valid along with other checks.
 
-- Spell checking. If errors are reported, you either need to correct the errors, or add new works to the
-exception dictionary which is in the file `./.spelling`.
+* Spell checking.
 
-- Style checking, which makes sure your markdown file complies with some common style rules.
+* Style checking, which makes sure your markdown file complies with some common style rules.
+
+If you get a spelling error, you have three choices to address it:
+
+* It's a real typo, so fix your markdown.
+
+* It's a command/field/symbol name, so stick some `backticks` around it.
+
+* It's really valid, so go add the word to the .spelling file at the root of the repo.
 
 ## Versions and releases
 
