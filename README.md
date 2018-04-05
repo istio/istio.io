@@ -9,6 +9,7 @@ contribute to any of the Istio components, please
 see the Istio [contribution guidelines](https://github.com/istio/community/blob/master/CONTRIBUTING.md).
 
 * [Working with the site](#building-the-site)
+* [Linting](#linting)
 * [Versions and releases](#versions-and-releases)
   * [How versioning works](#how-versioning-works)
   * [Creating a version](#creating-a-version)
@@ -58,6 +59,18 @@ bundle install
 bundle exec rake test
 bundle exec jekyll serve
 ```
+
+## Linting
+
+You should run `scripts/linters.sh` prior to checking in your changes.
+This will run 3 tests:
+
+- HTML proofing, which ensures all your links are valid along with other checks.
+
+- Spell checking. If errors are reported, you either need to correct the errors, or add new works to the
+exception dictionary which is in the file `./.spelling`.
+
+- Style checking, which makes sure your markdown file complies with some common style rules.
 
 ## Versions and releases
 

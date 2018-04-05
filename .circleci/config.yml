@@ -17,28 +17,48 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v3-dependencies-{{ checksum "Gemfile.lock" }}
+          - v4-dependencies-{{ checksum "Gemfile.lock" }}
           # fallback to using the latest cache if no exact match is found
-          - v3-dependencies-
+          - v4-dependencies-
 
       - run:
-          name: install dependencies
+          name: Installing proofer dependencies
           command: |
             gem install bundler
-            bundle install --jobs=4 --retry=3 --path vendor/bundle
+            bundle install --jobs=4 --retry=3 --path .vendor/bundle
 
       - save_cache:
           paths:
-            - ./vendor/bundle
-          key: v3-dependencies-{{ checksum "Gemfile.lock" }}
+            - ./.vendor/bundle
+          key: v4-dependencies-{{ checksum "Gemfile.lock" }}
 
       - restore_cache:
           keys:
           - htmlproofer-cache-v3
-      # Run the test/html checker
-      - run: bundle exec rake test
+
+      - run:
+          name: Proofing HTML
+          command:
+            bundle exec rake test
+
       # save the external URLs cache
       - save_cache:
           key: htmlproofer-cache-v3
           paths:
             - tmp/.htmlproofer
+
+      - run:
+          name: Installing speller dependencies
+          command: |
+            mkdir -p .vendor/node
+            npm install --prefix .vendor/node markdown-spellcheck
+
+      - run:
+          name: Checking markdown spelling
+          command:
+            .vendor/node/node_modules/markdown-spellcheck/bin/mdspell --en-us --ignore-acronyms --ignore-numbers --no-suggestions --report *.md */*.md */*/*.md */*/*/*.md */*/*/*/*.md
+
+      - run:
+          name: Checking markdown style
+          command:
+            mdl --ignore-front-matter --style mdl_style.rb .
