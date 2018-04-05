@@ -22,10 +22,10 @@ to meet the following requirements:
     * Individual cluster Pod CIDR ranges and service CIDR ranges must be unique
 across the multicluster environment and may not overlap.
 
-    * All nodes' pod CIDR in every cluster must be routeable to every other nodes'
+    * All nodes' pod CIDR in every cluster must be routable to every other nodes'
 pod CIDR.
 
-    * All Kubernetes control plane API servers must be routeable to each other.
+    * All Kubernetes control plane API servers must be routable to each other.
 
 * Helm **2.7.2 or newer**.  The use of Tiller is optional.
 
