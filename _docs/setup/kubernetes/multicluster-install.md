@@ -22,7 +22,7 @@ to meet the following requirements:
     * Individual cluster Pod CIDR ranges and service CIDR ranges must be unique
 across the multicluster environment and may not overlap.
 
-    * All nodes' pod CIDR in every cluster must be routable to every other nodes'
+    * All nodes' pod CIDR in every cluster must be routeable to every other nodes'
 pod CIDR.
 
     * All Kubernetes control plane API servers must be routeable to each other.
@@ -88,7 +88,7 @@ annotations, although every other annotation and spec is validated for
 correct syntax.  They may be set to dummy values, as long as they are
 syntactically correct.
 
-If the prequisites are met, the credentials for each Kubernetes cluster
+If the prerequisities are met, the credentials for each Kubernetes cluster
 will also be present in `$HOME/multicluster`.
 
 Assemble and create the configmap from these files in the Kubernetes cluster
@@ -154,7 +154,7 @@ Kubernetes.
 
 ## Uninstalling
 
-** Note the uninstallation method must match the installation method (`kubectl` or `tiller` based) **
+** Note the uninstall method must match the installation method (`kubectl` or `tiller` based) **
 
 ### Using kubectl to uninstall the istio-remote
 
