@@ -91,6 +91,8 @@ Memquota
 Mesos
 Minikube
 MongoDB
+Multicloud
+Multicluster
 MutatingWebhookConfiguration
 MySQL
 Mysql
@@ -349,6 +351,8 @@ mixer-spof-myth-1
 mixer-spof-myth-2
 mongodb
 mtls_excluded_services
+multicloud
+multicluster
 mutual-tls
 my-svc
 my-svc-234443-5sffe
@@ -435,6 +439,7 @@ roadmap
 roleRef
 rollout
 rollouts
+routeable
 runtime
 runtimes
 sa
