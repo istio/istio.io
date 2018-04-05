@@ -79,8 +79,9 @@ metadata:
 A unique security context is required to describe how to securely access
 each Kubernetes cluster in the system.  In the above example,
 `falkor07.kube.conf` is the Istio control plane credential file. The
-config.istio.io/pilotCfgStore = `True` since this is the Istio control plane.
-For remotes, pilotCfgStore should = `False`.
+`config.istio.io/pilotCfgStore: True` flag is set in the condition this
+clusterregistry descriptor describes the Istio control plane Kubernetes
+cluster.  For remotes, please set `pilotCfgStore: False`.
 
 **Important**: The implementation only uses the
 `config.istio.io/pilotCfgStore` and `config.istio.io/accessConfigFile`
@@ -142,7 +143,7 @@ install one:
 
 ### Mandatory Helm configuration parameters
 
-The isito-remote Helm chart requires the configuration of two specific variables defined in the following table:
+The `isito-remote` Helm chart requires the configuration of two specific variables defined in the following table:
 
 **Note** The `pilotEndpoint` and `mixerEndpoint` need to be resolvable via
 Kubernetes.
@@ -156,7 +157,7 @@ Kubernetes.
 
 ** Note the uninstall method must match the installation method (`kubectl` or `tiller` based) **
 
-### Using kubectl to uninstall the istio-remote
+### Using kubectl to uninstall istio-remote
 
 * Uninstall an Istio remote:
 
