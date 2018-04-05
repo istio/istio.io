@@ -10,12 +10,10 @@ type: markdown
 
 {% include home.html %}
 
-
 Quick Start instructions to install and run Istio in [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) (GKE) using [Google Cloud Deployment Manager](https://cloud.google.com/deployment-manager/).
 
 This Quick Start creates a new GKE [zonal cluster](https://cloud.google.com/kubernetes-engine/versioning-and-upgrades#versions_available_for_new_cluster_masters), installs Istio and then deploys the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample
 application.  It uses Deployment Manager to automate the steps detailed in the [Istio on Kubernetes setup guide]({{home}}/docs/setup/kubernetes/quick-start.html) for Kubernetes Engine
-
 
 ## Prerequisites
 
@@ -46,16 +44,16 @@ application.  It uses Deployment Manager to automate the steps detailed in the [
 
    - [Istio GKE Deployment Manager](https://accounts.google.com/signin/v2/identifier?service=cloudconsole&continue=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/master/install/gcp/deployment_manager/istio-cluster.jinja&followup=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/master/install/gcp/deployment_manager/istio-cluster.jinja&flowName=GlifWebSignIn&flowEntry=ServiceLogin)
 
-   We recommend that you leave the default settings as the rest of this tutorial shows how to access the installed features. By default the tool creates a 
+   We recommend that you leave the default settings as the rest of this tutorial shows how to access the installed features. By default the tool creates a
    GKE alpha cluster with the specified settings, then installs the Istio [control plane]({{home}}/docs/concepts/what-is-istio/overview.html#architecture), the
    [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample app,
    [Grafana]({{home}}/docs/tasks/telemetry/using-istio-dashboard.html) with
    [Prometheus]({{home}}/docs/tasks/telemetry/querying-metrics.html),
    [ServiceGraph]({{home}}/docs/tasks/telemetry/servicegraph.html),
    and [Zipkin]({{home}}/docs/tasks/telemetry/distributed-tracing.html#zipkin).
-   You'll find out more about how to access all of these below.  This script will enable istio auto-injection on the ```default``` namespace only.
+   You'll find out more about how to access all of these below.  This script will enable Istio auto-injection on the ```default``` namespace only.
 
-2. Click **Deploy**:
+1. Click **Deploy**:
 
    {% include figure.html width="100%" ratio="67.17%"
     img='./img/dm_launcher.png'
@@ -70,23 +68,22 @@ application.  It uses Deployment Manager to automate the steps detailed in the [
 
 Once deployment is complete, do the following on the workstation where you've installed `gcloud`:
 
-1. Bootstrap kubectl for the cluster you just created and confirm the cluster is
-  running and istio is enabled
+1. Bootstrap `kubectl` for the cluster you just created and confirm the cluster is
+  running and Istio is enabled
 
-   ```
+   ```bash
    gcloud container clusters list
    ```
-
-   ```
+   ```xxx
    NAME           ZONE           MASTER_VERSION                    MASTER_IP       MACHINE_TYPE   NODE_VERSION  NUM_NODES  STATUS
    istio-cluster  us-central1-a  v1.9.2-gke.1                      130.211.216.64  n1-standard-2  v1.9.2-gke.1  3          RUNNING
    ```
 
    In this case, the cluster name is ```istio-cluster```
 
-2. Now acquire the credentials for this cluster
+1. Now acquire the credentials for this cluster
 
-   ```
+   ```bash
    gcloud container clusters get-credentials istio-cluster --zone=us-central1-a
    ```
 
@@ -97,7 +94,7 @@ Verify Istio is installed in its own namespace
 ```bash
 kubectl get deployments,ing -n istio-system
 ```
-```
+```xxx
 NAME                       DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 deploy/grafana             1         1         1            1           3m
 deploy/istio-ca            1         1         1            1           3m
@@ -109,15 +106,12 @@ deploy/prometheus          1         1         1            1           3m
 deploy/servicegraph        1         1         1            1           3m
 deploy/zipkin              1         1         1            1           3m
 ```
-
-
 Now confirm that the Bookinfo sample application is also installed:
-
 
 ```bash
 kubectl get deployments,ing
 ```
-```
+```xxx
 NAME                    DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 deploy/details-v1       1         1         1            1           3m
 deploy/productpage-v1   1         1         1            1           3m
@@ -152,7 +146,7 @@ You can also view the installation using the ***Kubernetes Engine -> Workloads**
    export GATEWAY_URL=35.202.120.89
    ```
 
-2. Verify you can access the Bookinfo ```http://${GATEWAY_URL}/productpage```:
+1. Verify you can access the Bookinfo ```http://${GATEWAY_URL}/productpage```:
 
    {% include figure.html width="100%" ratio="45.04%"
     img='./img/dm_bookinfo.png'
@@ -161,7 +155,7 @@ You can also view the installation using the ***Kubernetes Engine -> Workloads**
     caption='Bookinfo'
     %}
 
-3. Now send some traffic to it:
+1. Now send some traffic to it:
    ```bash
    for i in {1..100}; do curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage; done
    ```
@@ -170,7 +164,7 @@ You can also view the installation using the ***Kubernetes Engine -> Workloads**
 
 Once you have verified that the Istio control plane and sample application are working, try accessing the installed Istio plugins.
 
-If you are using Cloud Shell rather than the installed `gcloud` client, you can port forward and proxy using its [Web Preview](https://cloud.google.com/shell/docs/using-web-preview#previewing_the_application) feature.  For example, to access Grafana from Cloud Shell, change the kubectl port mapping from 3000:3000 to 8080:3000.  You can simultaneously preview four other consoles via Web Preview proxied on ranges 8080 to 8084.  
+If you are using Cloud Shell rather than the installed `gcloud` client, you can port forward and proxy using its [Web Preview](https://cloud.google.com/shell/docs/using-web-preview#previewing_the_application) feature.  For example, to access Grafana from Cloud Shell, change the `kubectl` port mapping from 3000:3000 to 8080:3000.  You can simultaneously preview four other consoles via Web Preview proxied on ranges 8080 to 8084.
 
 ### Grafana
 
@@ -180,7 +174,7 @@ Set up a tunnel to Grafana:
 kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
 ```
 then
-```
+```xxx
 http://localhost:3000/dashboard/db/istio-dashboard
 ```
 You should see some statistics for the requests you sent earlier.
@@ -193,7 +187,6 @@ You should see some statistics for the requests you sent earlier.
     %}
 
 For more details about using Grafana, see [About the Grafana Add-on]({{home}}/docs/tasks/telemetry/using-istio-dashboard.html#about-the-grafana-add-on).
-
 
 ### Prometheus
 
@@ -225,9 +218,10 @@ Set up a tunnel to ServiceGraph:
 ```bash
 kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
 ```
+
 You should see the Bookinfo service topology at
 
-```
+```xxx
 http://localhost:8088/dotviz
 ```
 
@@ -250,7 +244,7 @@ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=zi
 
 You should see the trace statistics sent earlier:
 
-```
+```xxx
 http://localhost:9411
 ```
 
@@ -274,6 +268,7 @@ on our workstation or within Cloud Shell.
 
 1. Navigate to the Deployments section of the Cloud Console at [https://console.cloud.google.com/deployments](https://console.cloud.google.com/deployments)
 
-2. Select the deployment and click **Delete**.
+1. Select the deployment and click **Delete**.
 
-3. Deployment Manager will remove all the deployed GKE artifacts - however, items such as Ingress and LoadBalancers will remain. You can delete those artifacts by again going to the cloud console under [**Network Services** -> **LoadBalancers**](https://console.cloud.google.com/net-services/loadbalancing/loadBalancers/list)
+1. Deployment Manager will remove all the deployed GKE artifacts - however, items such as Ingress and LoadBalancers will remain. You can delete those artifacts
+by again going to the cloud console under [**Network Services** -> **LoadBalancers**](https://console.cloud.google.com/net-services/loadbalancing/loadBalancers/list)

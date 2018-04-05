@@ -38,12 +38,12 @@ ansible-playbook main.yml
 
 The Ansible playbook ships with reasonable defaults.
 
-The currently exposed options are explained in the following table:
+The currently exposed options are:
 
 | Parameter | Description | Values | Default |
 | --- | --- | --- | --- |
 | `cluster_flavour` | Define the target cluster type | `k8s` or `ocp` | `ocp` |
-| `github_api_token` | A valid Github API authentication token used for authenticating with Github | A valid Github API token | empty |
+| `github_api_token` | A valid GitHub API authentication token used for authenticating with GitHub | A valid GitHub API token | empty |
 | `cmd_path` | Override the path to `kubectl` or `oc` | A valid path to a `kubectl` or `oc` binary | `$PATH/oc` |
 | `istio.release_tag_name` | Istio release version to install | Any valid Istio release version | the latest Istio release version |
 | `istio.dest` | The directory of the target machine where Istio will be installed | Any directory with read+write permissions | `~/.istio` |

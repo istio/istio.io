@@ -8,13 +8,13 @@ layout: docs
 type: markdown
 ---
 
-> Note: Setup on Nomad has not been tested.
+> Setup on Nomad has not been tested.
 
-Using Istio in a non-kubernetes environment involves a few key tasks:
+Using Istio in a non-Kubernetes environment involves a few key tasks:
 
 1. Setting up the Istio control plane with the Istio API server
-2. Adding the Istio sidecar to every instance of a service
-3. Ensuring requests are routed through the sidecars
+1. Adding the Istio sidecar to every instance of a service
+1. Ensuring requests are routed through the sidecars
 
 ## Setting up the Control Plane
 
@@ -29,7 +29,7 @@ server requires an
 [etcd cluster](https://kubernetes.io/docs/getting-started-guides/scratch/#etcd)
 as a persistent store. Detailed instructions for setting up the API server can
 be found
-[here](https://kubernetes.io/docs/getting-started-guides/scratch/#apiserver-controller-manager-and-scheduler). 
+[here](https://kubernetes.io/docs/getting-started-guides/scratch/#apiserver-controller-manager-and-scheduler).
 Documentation on set of startup options for the Kubernetes API server can be found [here](https://kubernetes.io/docs/admin/kube-apiserver/)
 
 #### Local Install
@@ -71,14 +71,13 @@ services:
     environment:
       - SERVICE_IGNORE=1
     command: [
-               "kube-apiserver", "--etcd-servers", "http://etcd:2379", 
-               "--service-cluster-ip-range", "10.99.0.0/16", 
-               "--insecure-port", "8080", 
-               "-v", "2", 
+               "kube-apiserver", "--etcd-servers", "http://etcd:2379",
+               "--service-cluster-ip-range", "10.99.0.0/16",
+               "--insecure-port", "8080",
+               "-v", "2",
                "--insecure-bind-address", "0.0.0.0"
              ]
 ```
-
 
 ### Other Istio Components
 
@@ -93,7 +92,6 @@ achieve high availability, each control plane service could be run as a
 Nomad, where the
 [service stanza](https://www.nomadproject.io/docs/job-specification/service.html)
 can be used to describe the desired properties of the control plane services.
-
 
 ## Adding Sidecars to Service Instances
 
@@ -124,5 +122,5 @@ the Istio sidecars. The IP table script to setup such forwarding can be
 found in the
 [here](https://raw.githubusercontent.com/istio/istio/master/tools/deb/istio-iptables.sh).
 
-> Note: This script must be executed before starting the application or
-> the sidecar process. 
+> This script must be executed before starting the application or
+> the sidecar process.

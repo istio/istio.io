@@ -53,8 +53,8 @@ Quick Start instructions to install and configure Istio in a Docker Compose setu
    ```bash
    docker ps -a
    ```
-   > If the Istio Pilot container terminates, ensure that you run the `istioctl context-create` comamnd and re-run the command from the previous step.
-    
+   > If the Istio Pilot container terminates, ensure that you run the `istioctl context-create` command and re-run the command from the previous step.
+
 1. Configure `istioctl` to use mapped local port for the Istio API server:
 
    ```bash
@@ -67,7 +67,7 @@ You can now deploy your own application or one of the sample applications provid
 installation like [Bookinfo]({{home}}/docs/guides/bookinfo.html).
 
 > Note 1: Since there is no concept of pods in a Docker setup, the Istio
-> sidecar runs in the same container as the application.  We will use 
+> sidecar runs in the same container as the application.  We will use
 > [Registrator](https://gliderlabs.github.io/registrator/latest/) to
 > automatically register instances of services in the Eureka service
 > registry.

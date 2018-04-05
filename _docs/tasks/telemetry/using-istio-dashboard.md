@@ -26,12 +26,12 @@ the example application throughout this task.
   ```bash
   kubectl apply -f install/kubernetes/addons/prometheus.yaml
   ```
-  
+
   Use of the Prometheus add-on is _required_ for the Istio Dashboard.
 
 ## Viewing the Istio Dashboard
 
-1. To view Istio metrics in a graphical dashboard install the Grafana add-on. 
+1. To view Istio metrics in a graphical dashboard install the Grafana add-on.
 
    In Kubernetes environments, execute the following command:
 
@@ -100,7 +100,7 @@ the example application throughout this task.
 
 ### About the Grafana add-on
 
-The Grafana add-on is a pre-configured instance of Grafana. The base image
+The Grafana add-on is a preconfigured instance of Grafana. The base image
 ([`grafana/grafana:4.1.2`](https://hub.docker.com/r/grafana/grafana/)) has been
 modified to start with both a Prometheus data source and the Istio Dashboard
 installed. The base install files for Istio, and Mixer in particular, ship with
