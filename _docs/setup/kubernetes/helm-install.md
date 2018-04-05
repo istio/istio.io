@@ -14,7 +14,7 @@ type: markdown
 
 Quick start instructions for the setup and configuration of Istio using the Helm package manager.
 
-*Installation with Helm prior to Istio 0.7 is unstable and not recommended.*
+* Installation with Helm prior to Istio 0.7 is unstable and not recommended.*
 
 ## Prerequisites
 

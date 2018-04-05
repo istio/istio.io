@@ -14,7 +14,7 @@ This task shows you how to configure dynamic request routing based on weights an
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide]({{home}}/docs/setup/).
+[Installation guide]({{home}}/docs/setup/).
 
 * Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
@@ -28,7 +28,7 @@ This is because without an explicit default version set, Istio will
 route requests to all available versions of a service in a random fashion.
 
 > This task assumes you don't have any routes set yet. If you've already created conflicting route rules for the sample,
-  you'll need to use `replace` rather than `create` in the following command.
+you'll need to use `replace` rather than `create` in the following command.
 
 1. Set the default version for all microservices to v1.
 
@@ -45,6 +45,7 @@ route requests to all available versions of a service in a random fashion.
    ```bash
    istioctl get virtualservices -o yaml
    ```
+
    ```yaml
    apiVersion: networking.istio.io/v1alpha3
    kind: VirtualService

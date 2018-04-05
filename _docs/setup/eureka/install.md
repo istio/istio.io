@@ -11,8 +11,8 @@ type: markdown
 Using Istio in a non-Kubernetes environment involves a few key tasks:
 
 1. Setting up the Istio control plane with the Istio API server
-2. Adding the Istio sidecar to every instance of a service
-3. Ensuring requests are routed through the sidecars
+1. Adding the Istio sidecar to every instance of a service
+1. Ensuring requests are routed through the sidecars
 
 ## Setting up the control plane
 
@@ -77,7 +77,6 @@ services:
              ]
 ```
 
-
 ### Other Istio components
 
 Debian packages for Istio Pilot, Mixer, and CA are available through the
@@ -86,7 +85,6 @@ containers (docker.io/istio/pilot, docker.io/istio/mixer,
 docker.io/istio/istio-ca). Note that these components are stateless and can
 be scaled horizontally. Each of these components depends on the Istio API
 server, which in turn depends on the etcd cluster for persistence.
-
 
 ## Adding sidecars to service instances
 
@@ -97,7 +95,7 @@ into these components.  For example, if your infrastructure uses VMs, the
 Istio sidecar process must be run on each VM that needs to be part of the
 service mesh.
 
-## Routing traffic through Istio Sidecar
+## Routing traffic through the Istio sidecar
 
 Part of the sidecar installation should involve setting up appropriate IP
 Table rules to transparently route application's network traffic through

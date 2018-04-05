@@ -42,7 +42,7 @@ application.  It uses Deployment Manager to automate the steps detailed in the [
 
 1. Once you have an account and project enabled, click the following link to open the Deployment Manager.
 
-   - [Istio GKE Deployment Manager](https://accounts.google.com/signin/v2/identifier?service=cloudconsole&continue=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/master/install/gcp/deployment_manager/istio-cluster.jinja&followup=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/master/install/gcp/deployment_manager/istio-cluster.jinja&flowName=GlifWebSignIn&flowEntry=ServiceLogin)
+   [Istio GKE Deployment Manager](https://accounts.google.com/signin/v2/identifier?service=cloudconsole&continue=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/master/install/gcp/deployment_manager/istio-cluster.jinja&followup=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/master/install/gcp/deployment_manager/istio-cluster.jinja&flowName=GlifWebSignIn&flowEntry=ServiceLogin)
 
    We recommend that you leave the default settings as the rest of this tutorial shows how to access the installed features. By default the tool creates a
    GKE alpha cluster with the specified settings, then installs the Istio [control plane]({{home}}/docs/concepts/what-is-istio/overview.html#architecture), the
@@ -69,11 +69,12 @@ application.  It uses Deployment Manager to automate the steps detailed in the [
 Once deployment is complete, do the following on the workstation where you've installed `gcloud`:
 
 1. Bootstrap `kubectl` for the cluster you just created and confirm the cluster is
-  running and Istio is enabled
+running and Istio is enabled
 
    ```bash
    gcloud container clusters list
    ```
+
    ```xxx
    NAME           ZONE           MASTER_VERSION                    MASTER_IP       MACHINE_TYPE   NODE_VERSION  NUM_NODES  STATUS
    istio-cluster  us-central1-a  v1.9.2-gke.1                      130.211.216.64  n1-standard-2  v1.9.2-gke.1  3          RUNNING
@@ -94,6 +95,7 @@ Verify Istio is installed in its own namespace
 ```bash
 kubectl get deployments,ing -n istio-system
 ```
+
 ```xxx
 NAME                       DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 deploy/grafana             1         1         1            1           3m
@@ -106,11 +108,13 @@ deploy/prometheus          1         1         1            1           3m
 deploy/servicegraph        1         1         1            1           3m
 deploy/zipkin              1         1         1            1           3m
 ```
+
 Now confirm that the Bookinfo sample application is also installed:
 
 ```bash
 kubectl get deployments,ing
 ```
+
 ```xxx
 NAME                    DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 deploy/details-v1       1         1         1            1           3m
@@ -198,7 +202,7 @@ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=pr
 
 View the console at:
 
-```
+```xxx
 http://localhost:9090/graph
 ```
 

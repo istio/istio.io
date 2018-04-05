@@ -30,6 +30,7 @@ This task shows how to inject delays and test the resiliency of your application
 # Fault injection
 
 ## Fault injection using HTTP delay
+
 To test our Bookinfo application microservices for resiliency, we will _inject a 7s delay_
 between the reviews:v2 and ratings microservices, for user "jason". Since the _reviews:v2_ service has a
 10s timeout for its calls to the ratings service, we expect the end-to-end flow to
@@ -46,6 +47,7 @@ continue without any errors.
    ```bash
    istioctl get virtualservice ratings -o yaml
    ```
+
    ```yaml
    apiVersion: networking.istio.io/v1alpha3
    kind: VirtualService
@@ -88,30 +90,31 @@ continue without any errors.
 
 ## Understanding what happened
 
-   The reason that the entire reviews service has failed is because our Bookinfo application
-   has a bug. The timeout between the productpage and reviews service is less (3s + 1 retry = 6s total)
-   than the timeout between the reviews and ratings service (10s). These kinds of bugs can occur in
-   typical enterprise applications where different teams develop different microservices
-   independently. Istio's fault injection rules help you identify such anomalies without
-   impacting end users.
+The reason that the entire reviews service has failed is because our Bookinfo application
+has a bug. The timeout between the productpage and reviews service is less (3s + 1 retry = 6s total)
+than the timeout between the reviews and ratings service (10s). These kinds of bugs can occur in
+typical enterprise applications where different teams develop different microservices
+independently. Istio's fault injection rules help you identify such anomalies without
+impacting end users.
 
-   > Notice that we are restricting the failure impact to user "jason" only. If you login
-   > as any other user, you would not experience any delays.
+> Notice that we are restricting the failure impact to user "jason" only. If you login
+> as any other user, you would not experience any delays.
 
-  **Fixing the bug:** At this point we would normally fix the problem by either increasing the
-  productpage timeout or decreasing the reviews to ratings service timeout,
-  terminate and restart the fixed microservice, and then confirm that the `productpage`
-  returns its response without any errors.
+**Fixing the bug:** At this point we would normally fix the problem by either increasing the
+productpage timeout or decreasing the reviews to ratings service timeout,
+terminate and restart the fixed microservice, and then confirm that the `productpage`
+returns its response without any errors.
 
-  However, we already have this fix running in v3 of the reviews service, so we can simply
-  fix the problem by migrating all
-  traffic to `reviews:v3` as described in the
-  [traffic shifting]({{home}}/docs/tasks/traffic-management/traffic-shifting.html) task.
+However, we already have this fix running in v3 of the reviews service, so we can simply
+fix the problem by migrating all
+traffic to `reviews:v3` as described in the
+[traffic shifting]({{home}}/docs/tasks/traffic-management/traffic-shifting.html) task.
 
-  (Left as an exercise for the reader - change the delay rule to
-  use a 2.8 second delay and then run it against the v3 version of reviews.)
+(Left as an exercise for the reader - change the delay rule to
+use a 2.8 second delay and then run it against the v3 version of reviews.)
 
 ## Fault injection using HTTP Abort
+
 As another test of resiliency, we will introduce an HTTP abort to the ratings microservices for the user "jason".
 We expect the page to load immediately unlike the delay example and display the "product ratings not available"
 message.
@@ -127,6 +130,7 @@ message.
    ```bash
    istioctl get virtualservice ratings -o yaml
    ```
+
    ```yaml
    apiVersion: networking.istio.io/v1alpha3
    kind: VirtualService

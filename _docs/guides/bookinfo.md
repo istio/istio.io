@@ -103,7 +103,7 @@ To start the application, follow the instructions below corresponding to your Is
    ingress resource as illustrated in the above diagram.
    All 3 versions of the reviews service, v1, v2, and v3, are started.
 
-   > Note that in a realistic deployment, new versions of a microservice are deployed
+   > In a realistic deployment, new versions of a microservice are deployed
    over time instead of deploying all versions simultaneously.
 
 1. Confirm all services and pods are correctly defined and running:
@@ -194,16 +194,20 @@ To start the application, follow the instructions below corresponding to your Is
 
 1. Bring up the application containers.
 
-    - To test with Consul, run the following commands:
-      ```bash
-      docker-compose -f samples/bookinfo/consul/bookinfo.yaml up -d
-      docker-compose -f samples/bookinfo/consul/bookinfo.sidecars.yaml up -d
-      ```
-    - To test with Eureka, run the following commands:
-      ```bash
-      docker-compose -f samples/bookinfo/eureka/bookinfo.yaml up -d
-      docker-compose -f samples/bookinfo/eureka/bookinfo.sidecars.yaml up -d
-      ```
+   To test with Consul, run the following commands:
+
+   ```bash
+   docker-compose -f samples/bookinfo/consul/bookinfo.yaml up -d
+   docker-compose -f samples/bookinfo/consul/bookinfo.sidecars.yaml up -d
+    ```
+
+   To test with Eureka, run the following commands:
+
+   ```bash
+   docker-compose -f samples/bookinfo/eureka/bookinfo.yaml up -d
+   docker-compose -f samples/bookinfo/eureka/bookinfo.sidecars.yaml up -d
+   ```
+
 1. Confirm that all docker containers are running:
 
    ```bash
@@ -225,6 +229,7 @@ To confirm that the Bookinfo application is running, run the following `curl` co
 ```bash
 curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage
 ```
+
 ```xxx
 200
 ```
@@ -265,13 +270,13 @@ uninstall and clean it up using the following instructions.
 
 1. Delete the routing rules and application containers
 
-    1. In a Consul setup, run the following command:
+   In a Consul setup, run the following command:
 
    ```bash
    samples/bookinfo/consul/cleanup.sh
    ```
 
-   1. In a Eureka setup, run the following command:
+   In a Eureka setup, run the following command:
 
    ```bash
    samples/bookinfo/eureka/cleanup.sh
