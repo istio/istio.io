@@ -2,7 +2,7 @@
 
 {% assign current = page.url | downcase | split: '/' %}
 
-<header role="banner">
+<header>
     <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-dark justify-content-between">
         {% if page.url == "/index.html" or page.url == "/" %}
             {% assign visibility = "hidden" %}
@@ -44,7 +44,7 @@
                 </li>
 
                 <li class="nav-item dropdown" id="gearDropdown" style="white-space: nowrap">
-                    <a href="" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a href="" class="nav-link" data-toggle="dropdown" aria-label="Tools" aria-haspopup="true" aria-expanded="false">
                         <i style="width: 1em" class='fa fa-lg fa-cog'></i>
                     </a>
 
@@ -137,13 +137,13 @@
 
                         <li class="dropdown-divider"></li>
 
-                        <li><a href="https://github.com/istio/istio.github.io/issues/new?title=Issue with {{page.path}}">Report Site Bugs</a></li>
+                        <li><a href="https://github.com/istio/istio.github.io/issues/new?title=Issue%20with%20{{page.path}}">Report Site Bugs</a></li>
                         <li><a href="https://github.com/istio/istio.github.io/edit/master/{{page.path}}">Edit this Page on GitHub</a></li>
                    </ul>
                 </li>
 
                 <li class="nav-item">
-                    <a id="search_show" class="nav-link" href=""><i style="width: 1em" class="fa fa-lg fa-search"></i></a>
+                    <a id="search_show" class="nav-link" href="" aria-label="Search"><i style="width: 1em" class="fa fa-lg fa-search"></i></a>
                 </li>
             </ul>
 
@@ -151,8 +151,8 @@
                 <input type="hidden" name="cx" value="{{site.data.istio.search_engine_id}}" />
                 <input type="hidden" name="ie" value="utf-8" />
                 <input type="hidden" name="hl" value="en" />
-                <input id="search_textbox" class="form-control" name="q" type="text" />
-                <button id="search_close" type="reset"><i class="far fa-lg fa-times-circle"></i></button>
+                <input id="search_textbox" class="form-control" name="q" type="text" aria-label="Search this site"/>
+                <button id="search_close" type="reset" aria-label="Cancel Search"><i class="far fa-lg fa-times-circle"></i></button>
             </form>
         </div>
     </nav>
