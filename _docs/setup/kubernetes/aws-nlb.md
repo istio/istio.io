@@ -14,7 +14,8 @@ Instructions to use and configure ingress istio with aws NLB.
 
 ## Prerequisites
 The following instructions require you have access to a Kubernetes **1.9.0 or newer** cluster
-*Warning:* This is an alpha feature and not recommended for production clusters yet.
+
+**Warning:** This is an alpha feature and not recommended for production clusters yet.
 
 
 ## IAM Policy
