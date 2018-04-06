@@ -30,8 +30,8 @@ layout: default
                 </label>
             </p>
 
-            <main role="main">
-                <h1>{{page.title}}</h1>
+            <main aria-labelledby="title">
+                <h1 id="title">{{page.title}}</h1>
 
                 {% if page.subtitle != nil %}
                     <p class="subtitle">{{page.subtitle}}</p>
@@ -64,12 +64,12 @@ layout: default
                 <div class="row">
                     <div class="col-6">
                         {% if prev_post_url %}
-                            <a href="{{home}}{{prev_post_url}}"><i class="fa fa-arrow-left"></i> {{prev_post_title}}</a>
+                            <a alt="Previous blog post" href="{{home}}{{prev_post_url}}"><i class="fa fa-arrow-left"></i> {{prev_post_title}}</a>
                         {% endif %}
                     </div>
                     <div class="col-6" style="text-align: right">
                         {% if next_post_url %}
-                            <a href="{{home}}{{next_post_url}}">{{next_post_title}} <i class="fa fa-arrow-right"></i></a>
+                            <a alt="Next blog post" href="{{home}}{{next_post_url}}">{{next_post_title}} <i class="fa fa-arrow-right"></i></a>
                         {% endif %}
                     </div>
                 </div>
