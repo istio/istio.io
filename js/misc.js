@@ -111,6 +111,7 @@ function patchDOM() {
             button.title = "Copy to clipboard";
             button.className = "copy copy-hide";
             button.innerText = "Copy";
+            button.setAttribute("aria-label", "Copy to clipboard");
 
             var parent = pre[i].parentElement;
             if (parent.tagName == "DIV") {
@@ -165,6 +166,7 @@ function patchDOM() {
         var anchor = document.createElement("a");
         anchor.className = "header-link";
         anchor.href = "#" + node.id;
+        anchor.setAttribute("aria-hidden", "true");
         anchor.appendChild(i);
 
         node.appendChild(anchor);
@@ -183,7 +185,7 @@ function patchDOM() {
         }
     }
 
-    // Add a link icon next to each define term so people can easily get bookmarks to them in the glossary
+    // Add a link icon next to each defined term so people can easily get bookmarks to them in the glossary
     function attachLinksToDefinedTerms() {
         var terms = document.getElementsByTagName("dt");
         for (var i = 0; i < terms.length; i++) {
