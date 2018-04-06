@@ -8,11 +8,11 @@ layout: docs
 type: markdown
 ---
 
-Using Istio in a non-kubernetes environment involves a few key tasks:
+Using Istio in a non-Kubernetes environment involves a few key tasks:
 
 1. Setting up the Istio control plane with the Istio API server
-2. Adding the Istio sidecar to every instance of a service
-3. Ensuring requests are routed through the sidecars
+1. Adding the Istio sidecar to every instance of a service
+1. Ensuring requests are routed through the sidecars
 
 ## Setting up the control plane
 
@@ -27,7 +27,7 @@ server requires an
 [etcd cluster](https://kubernetes.io/docs/getting-started-guides/scratch/#etcd)
 as a persistent store. Detailed instructions for setting up the API server can
 be found
-[here](https://kubernetes.io/docs/getting-started-guides/scratch/#apiserver-controller-manager-and-scheduler). 
+[here](https://kubernetes.io/docs/getting-started-guides/scratch/#apiserver-controller-manager-and-scheduler).
 Documentation on set of startup options for the Kubernetes API server can be found
 [here](https://kubernetes.io/docs/admin/kube-apiserver/)
 
@@ -69,14 +69,13 @@ services:
     environment:
       - SERVICE_IGNORE=1
     command: [
-               "kube-apiserver", "--etcd-servers", "http://etcd:2379", 
-               "--service-cluster-ip-range", "10.99.0.0/16", 
-               "--insecure-port", "8080", 
-               "-v", "2", 
+               "kube-apiserver", "--etcd-servers", "http://etcd:2379",
+               "--service-cluster-ip-range", "10.99.0.0/16",
+               "--insecure-port", "8080",
+               "-v", "2",
                "--insecure-bind-address", "0.0.0.0"
              ]
 ```
-
 
 ### Other Istio components
 
@@ -87,7 +86,6 @@ docker.io/istio/istio-ca). Note that these components are stateless and can
 be scaled horizontally. Each of these components depends on the Istio API
 server, which in turn depends on the etcd cluster for persistence.
 
-
 ## Adding sidecars to service instances
 
 Each instance of a service in an application must be accompanied by the
@@ -97,12 +95,12 @@ into these components.  For example, if your infrastructure uses VMs, the
 Istio sidecar process must be run on each VM that needs to be part of the
 service mesh.
 
-## Routing traffic through Istio Sidecar
+## Routing traffic through the Istio sidecar
 
 Part of the sidecar installation should involve setting up appropriate IP
 Table rules to transparently route application's network traffic through
 the Istio sidecars. The IP table script to setup such forwarding can be
 found [here](https://raw.githubusercontent.com/istio/istio/master/tools/deb/istio-iptables.sh).
 
-> Note: This script must be executed before starting the application or
-> the sidecar process. 
+> This script must be executed before starting the application or
+> the sidecar process.

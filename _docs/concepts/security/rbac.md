@@ -9,15 +9,20 @@ type: markdown
 {% include home.html %}
 
 ## Overview
-Istio Role-Based Access Control (RBAC) provides namespace-level, service-level, method-level access control for services in Istio Mesh.
+
+Istio Role-Based Access Control (RBAC) provides namespace-level, service-level, method-level access control for services in the Istio Mesh.
 It features:
+
 * Role-Based semantics, which is simple and easy to use.
+
 * Service-to-service and endUser-to-Service authorization.
+
 * Flexibility through custom properties support in roles and role-bindings.
 
 ## Architecture
 
-The diagram below shows Istio RBAC architecture. The admins specify Istio RBAC policies. The policies are saved in Istio config store.
+The diagram below shows the Istio RBAC architecture. Operators specify Istio RBAC policies. The policies are saved in
+the Istio config store.
 
 {% include figure.html width='80%' ratio='56.25%'
     img='./img/IstioRBAC.svg'
@@ -26,14 +31,14 @@ The diagram below shows Istio RBAC architecture. The admins specify Istio RBAC p
     caption='Istio RBAC Architecture'
     %}
 
-Istio RBAC engine does two things:
+The Istio RBAC engine does two things:
 * **Fetch RBAC policy.** Istio RBAC engine watches for changes on RBAC policy. It fetches the updated RBAC policy if it sees any changes.
 * **Authorize Requests.** At runtime, when a request comes, the request context is passed to Istio RBAC engine. RBAC engine evaluates the
 request context against the RBAC policies, and returns the authorization result (ALLOW or DENY).
 
-### Request Context
+### Request context
 
-In the current release, Istio RBAC engine is implemented as a [Mixer adapter]({{home}}/docs/concepts/policy-and-control/mixer.html#adapters).
+In the current release, the Istio RBAC engine is implemented as a [Mixer adapter]({{home}}/docs/concepts/policy-and-control/mixer.html#adapters).
 The request context is provided as an instance of the
 [authorization template](https://github.com/istio/istio/blob/master/mixer/template/authorization/template.proto). The request context
  contains all the information about the request and the environment that an authorization module needs to know. In particular, it has two parts:
@@ -44,7 +49,7 @@ or any additional properties about the subject such as namespace, service name.
 and any additional properties about the action.
 
 Below we show an example "requestcontext".
-```rule
+```yaml
    apiVersion: "config.istio.io/v1alpha2"
    kind: authorization
    metadata:
@@ -66,27 +71,27 @@ Below we show an example "requestcontext".
          version: request.headers["version"] | ""
 ```
 
-## Istio RBAC Policy
+## Istio RBAC policy
 
-Istio RBAC introduces ServiceRole and ServiceRoleBinding, both of which are defined as Kubernetes CustomResourceDefinition (CRD) objects.
+Istio RBAC introduces `ServiceRole` and `ServiceRoleBinding`, both of which are defined as Kubernetes CustomResourceDefinition (CRD) objects.
 
-* **ServiceRole** defines a role for access to services in the mesh.
-* **ServiceRoleBinding** grants a role to subjects (e.g., a user, a group, a service).
+* **`ServiceRole`** defines a role for access to services in the mesh.
+* **`ServiceRoleBinding`** grants a role to subjects (e.g., a user, a group, a service).
 
-### ServiceRole
+### `ServiceRole`
 
-A ServiceRole specification includes a list of rules. Each rule has the following standard fields:
+A `ServiceRole` specification includes a list of rules. Each rule has the following standard fields:
 * **services**: A list of service names, which are matched against the `action.service` field of the "requestcontext".
 * **methods**: A list of method names which are matched against the `action.method` field of the "requestcontext". In the above "requestcontext",
 this is the HTTP or gRPC method. Note that gRPC methods are formatted in the form of "packageName.serviceName/methodName" (case sensitive).
 * **paths**: A list of HTTP paths which are matched against the `action.path` field of the "requestcontext". It is ignored in gRPC case.
 
-A ServiceRole specification only applies to the **namespace** specified in `"metadata"` section. The "services" and "methods" are required
+A `ServiceRole` specification only applies to the **namespace** specified in `"metadata"` section. The "services" and "methods" are required
 fields in a rule. "paths" is optional. If not specified or set to "*", it applies to "any" instance.
 
 Here is an example of a simple role "service-admin", which has full access to all services in "default" namespace.
 
-```rule
+```yaml
    apiVersion: "config.istio.io/v1alpha2"
    kind: ServiceRole
    metadata:
@@ -101,7 +106,7 @@ Here is an example of a simple role "service-admin", which has full access to al
 Here is another role "products-viewer", which has read ("GET" and "HEAD") access to service "products.default.svc.cluster.local"
 in "default" namespace.
 
-```rule
+```yaml
    apiVersion: "config.istio.io/v1alpha2"
    kind: ServiceRole
    metadata:
@@ -113,13 +118,13 @@ in "default" namespace.
        methods: ["GET", "HEAD"]
 ```
 
-In addition, we support **prefix match** and **suffix match** for all the fields in a rule. For example, you can define a "tester" role that
+In addition, we support **prefix matching** and **suffix matching** for all the fields in a rule. For example, you can define a "tester" role that
 has the following permissions in "default" namespace:
 * Full access to all services with prefix "test-" (e.g, "test-bookstore", "test-performance", "test-api.default.svc.cluster.local").
 * Read ("GET") access to all paths with "/reviews" suffix (e.g, "/books/reviews", "/events/booksale/reviews", "/reviews")
 in service "bookstore.default.svc.cluster.local".
 
-```rule
+```yaml
    apiVersion: "config.istio.io/v1alpha2"
    kind: ServiceRole
    metadata:
@@ -134,15 +139,15 @@ in service "bookstore.default.svc.cluster.local".
        methods: ["GET"]
 ```
 
-In ServiceRole, the combination of "namespace"+"services"+"paths"+"methods" defines "how a service (services) is allowed to be accessed".
+In `ServiceRole`, the combination of "namespace"+"services"+"paths"+"methods" defines "how a service (services) is allowed to be accessed".
 In some situations, you may need to specify additional constraints that a rule applies to. For example, a rule may only applies to a
 certain "version" of a service, or only applies to services that are labeled "foo". You can easily specify these constraints using
 custom fields.
 
-For example, the following ServiceRole definition extends the previous "products-viewer" role by adding a constraint on service "version"
+For example, the following `ServiceRole` definition extends the previous "products-viewer" role by adding a constraint on service "version"
 being "v1" or "v2". Note that the "version" property is provided by `"action.properties.version"` in "requestcontext".
 
-```rule
+```yaml
    apiVersion: "config.istio.io/v1alpha2"
    kind: ServiceRole
    metadata:
@@ -157,21 +162,21 @@ being "v1" or "v2". Note that the "version" property is provided by `"action.pro
          values: ["v1", "v2"]
 ```
 
-### ServiceRoleBinding
+### `ServiceRoleBinding`
 
-A ServiceRoleBinding specification includes two parts:
-* **roleRef** refers to a ServiceRole object **in the same namespace**.
+A `ServiceRoleBinding` specification includes two parts:
+* **roleRef** refers to a `ServiceRole` resource **in the same namespace**.
 * A list of **subjects** that are assigned the role.
 
 A subject can either be a "user", or a "group", or is represented with a set of "properties". Each entry ("user" or "group" or an entry
 in "properties") must match one of fields ("user" or "groups" or an entry in "properties") in the "subject" part of the "requestcontext"
 instance.
 
-Here is an example of ServiceRoleBinding object "test-binding-products", which binds two subjects to ServiceRole "product-viewer":
+Here is an example of `ServiceRoleBinding` resource "test-binding-products", which binds two subjects to ServiceRole "product-viewer":
 * user "alice@yahoo.com".
 * "reviews.abc.svc.cluster.local" service in "abc" namespace.
 
-```rule
+```yaml
    apiVersion: "config.istio.io/v1alpha2"
    kind: ServiceRoleBinding
    metadata:
@@ -185,13 +190,13 @@ Here is an example of ServiceRoleBinding object "test-binding-products", which b
          namespace: "abc"
      roleRef:
        kind: ServiceRole
-       name: "products-viewer"
+       name: "products-vieweqr"
 ```
 
-In the case that you want to make a service(s) publically accessible, you can use set the subject to `user: "*"`. This will assign a ServiceRole
+In the case that you want to make a service(s) publicly accessible, you can use set the subject to `user: "*"`. This will assign a `ServiceRole`
 to all users/services.
 
-```rule
+```yaml
    apiVersion: "config.istio.io/v1alpha2"
    kind: ServiceRoleBinding
    metadata:
@@ -220,7 +225,7 @@ earlier in the document](#request-context).
 
 In the following example, Istio RBAC is enabled for "default" namespace. And the cache duration is set to 30 seconds.
 
-```rule
+```yaml
    apiVersion: "config.istio.io/v1alpha2"
    kind: rbac
    metadata:
@@ -248,4 +253,4 @@ In the following example, Istio RBAC is enabled for "default" namespace. And the
 
 ## What's next
 
-Try out [Istio RBAC with BookInfo Sample]({{home}}/docs/tasks/security/role-based-access-control.html).
+Try out the [Istio RBAC with Bookinfo]({{home}}/docs/tasks/security/role-based-access-control.html) sample.

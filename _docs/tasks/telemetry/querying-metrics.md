@@ -18,8 +18,9 @@ The [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application is used as
 the example application throughout this task.
 
 ## Before you begin
-* [Install Istio]({{home}}/docs/setup/) in your cluster and deploy an
-  application.
+
+[Install Istio]({{home}}/docs/setup/) in your cluster and deploy an
+application.
 
 ## Querying Istio Metrics
 
@@ -41,7 +42,7 @@ the example application throughout this task.
 
    The output will be similar to:
 
-   ```
+   ```xxx
    NAME         CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
    prometheus   10.59.241.54   <none>        9090/TCP   2m
    ```
@@ -55,25 +56,24 @@ the example application throughout this task.
    curl http://$GATEWAY_URL/productpage
    ```
 
-   Note: `$GATEWAY_URL` is the value set in the
-   [Bookinfo]({{home}}/docs/guides/bookinfo.html) guide.
+   > `$GATEWAY_URL` is the value set in the [Bookinfo]({{home}}/docs/guides/bookinfo.html) guide.
 
 1. Open the Prometheus UI.
 
    In Kubernetes environments, execute the following command:
 
    ```bash
-   kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &   
+   kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
    ```
 
    Visit [http://localhost:9090/graph](http://localhost:9090/graph) in your web browser.
 
 1. Execute a Prometheus query.
 
-    In the "Expression" input box at the top of the web page, enter the text:
-    `istio_request_count`. Then, click the **Execute** button.
+   In the "Expression" input box at the top of the web page, enter the text:
+   `istio_request_count`. Then, click the **Execute** button.
 
-    The results will be similar to:
+   The results will be similar to:
 
 {% include figure.html width='100%' ratio='39.36%'
     img='./img/prometheus_query_result.png'
@@ -95,7 +95,7 @@ the example application throughout this task.
       ```
       istio_request_count{destination_service="reviews.default.svc.cluster.local", destination_version="v3"}
       ```
-       
+
       This query returns the current total count of all requests to the v3 of the reviews service.
 
     - Rate of requests over the past 5 minutes to all `productpage` services:
@@ -104,13 +104,13 @@ the example application throughout this task.
       rate(istio_request_count{destination_service=~"productpage.*", response_code="200"}[5m])
       ```
 
-### About the Prometheus Add-on
+### About the Prometheus add-on
 
 Mixer comes with a built-in [Prometheus](https://prometheus.io) adapter that
 exposes an endpoint serving generated metric values. The Prometheus add-on is a
-Prometheus server that comes pre-configured to scrape Mixer endpoints to collect
+Prometheus server that comes preconfigured to scrape Mixer endpoints to collect
 the exposed metrics. It provides a mechanism for persistent storage and querying
-of Istio metrics. 
+of Istio metrics.
 
 The configured Prometheus add-on scrapes three endpoints:
 1. *istio-mesh* (`istio-mixer.istio-system:42422`): all Mixer-generated mesh
@@ -128,15 +128,15 @@ docs](https://prometheus.io/docs/querying/basics/).
 * In Kubernetes environments, execute the following command to remove the
   Prometheus add-on:
 
-  ```bash
-  kubectl delete -f install/kubernetes/addons/prometheus.yaml
-  ```
+   ```bash
+   kubectl delete -f install/kubernetes/addons/prometheus.yaml
+   ```
 
 * Remove any `kubectl port-forward` processes that may still be running:
 
-  ```bash
-  killall kubectl
-  ```
+   ```bash
+   killall kubectl
+   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
   [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions

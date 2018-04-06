@@ -28,8 +28,17 @@ layout: default
                 </label>
             </p>
 
-            <main role="main">
-                <h1>{{page.title}}</h1>
+            <main aria-labelledby="title">
+                <h1 id="title">{{page.title}}</h1>
+
+                {% if needTOC %}
+                    <nav class="toc-inlined d-lg-none">
+                        <div class="directory" role="directory">
+                            {{ toc }}
+                        </div>
+                    </nav>
+                {% endif %}
+
                 {{content}}
             </main>
         </div>

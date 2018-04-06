@@ -33,7 +33,7 @@ header {
             font-size: .9em;
 
             &:hover {
-                color: #de7d40;
+                color: $textBrandHighlightColor;
             }
         }
 
@@ -56,11 +56,11 @@ header {
         color: $textBrandColor;
 
         &:hover {
-            color: #de7d40;
+            color: $textBrandHighlightColor;
         }
 
         &:active {
-            color: #de7d40;
+            color: $textBrandHighlightColor;
         }
     }
 
@@ -127,7 +127,7 @@ body.theme-light {
     cursor: pointer;
 
     &:hover {
-        color: #de7d40;
+        color:  $textBrandHighlightColor;
     }
 }
 

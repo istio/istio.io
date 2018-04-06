@@ -1,7 +1,7 @@
 ---
 title: Pilot
 overview: Introduces Pilot, the component responsible for managing a distributed deployment of Envoy proxies in the service mesh.
-              
+
 order: 10
 
 layout: docs
@@ -37,6 +37,6 @@ and [routing tables](https://www.envoyproxy.io/docs/envoy/latest/configuration/h
 These APIs decouple Envoy from platform-specific nuances, simplifying the
 design and increasing portability across platforms.
 
-Operators can specify high-level traffic management rules through 
+Operators can specify high-level traffic management rules through
 [Pilot's Rules API]({{home}}/docs/reference/config/istio.routing.v1alpha1.html). These rules are translated into low-level
 configurations and distributed to Envoy instances via the discovery API.
