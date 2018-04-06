@@ -16,7 +16,7 @@ Instructions for the installation of Istio multicluster.
 
 * Two or more Kubernetes clusters.
 
-* The usage of a RFC1918 network, VPN, or other more advanced network techniques
+* The usage of an RFC1918 network, VPN, or other more advanced network techniques
 to meet the following requirements:
 
     * Individual cluster Pod CIDR ranges and service CIDR ranges must be unique
@@ -30,7 +30,7 @@ pod CIDR.
 * Helm **2.7.2 or newer**.  The use of Tiller is optional.
 
 * If using Tiller, the ability to modify RBAC rules required to install Helm
-or alternatively Helm should already installed.
+or alternatively Helm should already be installed.
 
 * Kubernetes **1.7.3 or newer**.
 
@@ -42,20 +42,20 @@ stored in `$HOME/.kube/config`) copied to
 `$HOME/multicluster/${UNIQUE_IDENTIFIER}.kube.conf`.
 
 * A [deployed Istio control plane]({{home}}/docs/setup/kubernetes/quick-start.html)
-on **one** Kubernetes cluster.  Note that Istio must be [deployed with Helm]({{home}}/docs/setup/kubernetes/helm-install.html) using the `--set global.multicluster.enabled=true` flag.  This is currently mandatory.
+on **one** Kubernetes cluster.  Istio must be [deployed with Helm]({{home}}/docs/setup/kubernetes/helm-install.html) using the `--set global.multicluster.enabled=true` flag.  This is currently mandatory.
 
-* Currently only [manual sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html)
+* Currently only [manual sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar-injection)
 has been validated with multicluster.
 
 ## Install a multicluster configmap on the Istio control plane
 
-**Important**: Pilot will not start until the configmap in these instructions
+> Pilot will not start until the configmap in these instructions
 is created.  This is normal behavior but different from what is seen with
 multicluster disabled.
 
 Create a `clusterregistry.k8s.io` descriptor to describe each Kubernetes cluster's role
 in the multicluster environment.  These files should be stored in the directory
-$HOME/multicluster, have a `.yaml` extension, and have a unique filename.
+`$HOME/multicluster`, have a `.yaml` extension, and have a unique filename.
 
 An example `clusterregistry.k8s.io` configuration descriptor is shown below:
 
@@ -79,11 +79,11 @@ metadata:
 A unique security context is required to describe how to securely access
 each Kubernetes cluster in the system.  In the above example,
 `falkor07.kube.conf` is the Istio control plane credential file. The
-`config.istio.io/pilotCfgStore: True` flag is set in the condition this
+`config.istio.io/pilotCfgStore: True` flag is set in the condition. This
 `clusterregistry.k8s.io` descriptor describes the Istio control plane Kubernetes
 cluster.  For remotes, please set `pilotCfgStore: False`.
 
-**Important**: The implementation only uses the
+> The implementation only uses the
 `config.istio.io/pilotCfgStore` and `config.istio.io/accessConfigFile`
 annotations, although every other annotation and spec is validated for
 correct syntax.  They may be set to dummy values, as long as they are
@@ -145,28 +145,25 @@ install one:
 
 The `isito-remote` Helm chart requires the configuration of two specific variables defined in the following table:
 
-**Note** The `pilotEndpoint` and `mixerEndpoint` need to be resolvable via
-Kubernetes.
+> The `pilotEndpoint` and `mixerEndpoint` need to be resolvable via Kubernetes.
 
 | Helm Variable | Accepted Values | Default | Purpose of Value |
 | --- | --- | --- | --- |
-| `global.pilotEndpoint` | A valid IPv4 address | none | Specifies the Istio control plane's pilot Pod IP address |
-| `global.mixerEndpoint` | A valid IPv4 address | none | Specifies the Istio control plane's mixer Pod IP address |
+| `global.pilotEndpoint` | A valid IP address | none | Specifies the Istio control plane's pilot Pod IP address |
+| `global.mixerEndpoint` | A valid IP address | none | Specifies the Istio control plane's mixer Pod IP address |
 
 ## Uninstalling
 
-** Note the uninstall method must match the installation method (`kubectl` or `tiller` based) **
+> The uninstall method must match the installation method (`kubectl` or `tiller` based)
 
 ### Using kubectl to uninstall istio-remote
 
-* Uninstall an Istio remote:
-
-  ```bash
-  kubectl delete -f $HOME/istio-remote.yaml
-  ```
+```bash
+kubectl delete -f $HOME/istio-remote.yaml
+```
 
 ### Using tiller to uninstall the istio-remote
 
-  ```bash
-  helm delete --purge istio-remote
-  ```
+```bash
+helm delete --purge istio-remote
+```
