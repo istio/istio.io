@@ -9,8 +9,7 @@ type: markdown
 ---
 {% include home.html %}
 
-## Overview
-Istio authentication policy enables operators to specify authentication requirements for a service (or services). Istio authentication policy is composed of two parts authentication:
+Istio authentication policy enables operators to specify authentication requirements for a service (or services). Istio authentication policy is composed of two parts:
 
 * Peer: verifies the party, the direct client, that makes the connection. The common authentication mechanism for this is [mutual TLS]({{home}}/docs/concepts/security/mutual-tls.html). Istio is responsible for managing both client and server sides to enforce the policy.
 
@@ -22,7 +21,7 @@ Identities from both authentication parts, if applicable, are output to the next
 
 ## Architecture
 
-Authentication policies are saved in Istio config store (in 0.7, the storage implementation uses Kubernetes CRD), and distributed by control plane. Depending on the size of the mesh, configs propagation may take a few seconds to a few minutes. During the transition, it might expect traffic lost or inconsistent authentication results.
+Authentication policies are saved in Istio config store (in 0.7, the storage implementation uses Kubernetes CRD), and distributed by control plane. Depending on the size of the mesh, configs propagation may take a few seconds to a few minutes. During the transition, you can expect traffic lost or inconsistent authentication results.
 
 {% include figure.html width='80%' ratio='100%'
     img='./img/authn.svg'
@@ -69,7 +68,7 @@ Example: rule to select product-page service (on any port), and reviews:9000.
 ### Peer authentication
 
 
-Defines authentication methods (and associated parameters) that are supported for peer authentication. It can list more than one method; only one of them needs to be satisfied for the authentication to pass. However, starting with the 0.7 release, only mutual TLS is supported. Omitting this if peer authentication is not needed.
+Defines authentication methods (and associated parameters) that are supported for peer authentication. It can list more than one method; only one of them needs to be satisfied for the authentication to pass. However, starting with the 0.7 release, only mutual TLS is supported. Omit this if peer authentication is not needed.
 
 
 Example of peer authentiation using mutual TLS:
@@ -79,11 +78,11 @@ Example of peer authentiation using mutual TLS:
   - mtls:
 ```  
 
-> Starting with the  0.7 release, mtls settings doesn't require any parameter (hence `- mtls:` or `- mtls: null` declaration is sufficient). In future, it may carry arguments to provide different mTLS implementations.
+> Starting with Istio 0.7, the `mtls` settings doesn't require any parameters (hence `-mtls: {}`, `- mtls:` or `- mtls: null` declaration is sufficient). In future, it may carry arguments to provide different mTLS implementations.
 
 ### Origin authentication
 
-Defines authentication methods (and associated parameters) that are supported for origin authentication. Only JWT is supported for this, however, the policy can list multiple JWTs by diffrent issuers. Similar to peer authentication, only one of the listed methods need to be satisfied for the authenticaiton to pass.
+Defines authentication methods (and associated parameters) that are supported for origin authentication. Only JWT is supported for this, however, the policy can list multiple JWTs by diffrent issuers. Similar to peer authentication, only one of the listed methods needs to be satisfied for the authenticaiton to pass.
 
 ```
 origins:
@@ -94,7 +93,7 @@ origins:
 
 ### Principal binding
 
-Defines what is the principal from the authentiation. By default, this will be the peer's principal (and if peer authentication is not applied, it would be left unset). Policy writer can choose to overwrite it with USE_ORIGIN. In future, we will also support *conditional-binding* (e.g USE_PEER when peer is X, otherwise USE_ORIGIN)
+Defines what is the principal from the authentiation. By default, this will be the peer's principal (and if peer authentication is not applied, it will be left unset). Policy writers can choose to overwrite it with USE_ORIGIN. In future, we will also support *conditional-binding* (e.g USE_PEER when peer is X, otherwise USE_ORIGIN)
 
 ## What's next
 
