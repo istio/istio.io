@@ -10,16 +10,16 @@ type: markdown
 
 {% include home.html %}
 
-Instructions to use and configure ingress istio with aws NLB.
+Instructions to use and configure ingress istio with aws nlb.
 
 ## Prerequisites
-The following instructions require you have access to a Kubernetes **1.9.0 or newer** cluster
+The following instructions require you have access to a Kubernetes **1.9.0 or newer** cluster.
 
 **Warning:** This is an alpha feature and not recommended for production clusters yet.
 
 
 ## IAM Policy
-You need to apply policy in the master roles in order to be able to provition network load balancer
+You need to apply policy in the master role in order to be able to provision network load balancer.
 
 ```JSON
 {
@@ -61,7 +61,7 @@ You need to apply policy in the master roles in order to be able to provition ne
 ```
 
 ## Rewrite Istio Ingress Service
-You need to rewrite ingress service with folowing values:
+You need to rewrite ingress service with following values:
 
 ```YAML
 apiVersion: v1
@@ -90,4 +90,4 @@ spec:
   ```
 
 ## What's next
-You can find aditonal information on [kubernetes website](https://kubernetes.io/docs/concepts/services-networking/service)
+You can find additonal information on [kubernetes website](https://kubernetes.io/docs/concepts/services-networking/service)
