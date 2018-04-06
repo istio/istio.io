@@ -337,3 +337,24 @@ code {
 .card-header {
     border-bottom-color: $dividerBarColor;
 }
+
+#scroll-to-top {
+    display: none;
+    position: fixed;
+    top: $headerHeight;
+    right: 10px;
+    z-index: 99;
+    outline: none;
+    background-color: rgba($backgroundColor, .7);
+    color: $mainBrandColor;
+    cursor: pointer;
+    padding: 3px 5px;
+    border-radius: 10px;
+    font-size: 1rem;
+    border: 0;
+    box-shadow: 0 0 2px 2px $mainBrandColor;
+
+    &:hover {
+        color: $textBrandHighlightColor;
+    }
+}
