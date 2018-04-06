@@ -187,7 +187,7 @@ curl -L https://git.io/getLatestIstio | sh -
 
 1. Change directory to istio package. For example, if the package is istio-{{site.data.istio.version}}
 ```bash
-cd istio-{{site.data.istio.version}}
+cd istio-0.7.1
 ```
 
 1. Add the `istioctl` client to your PATH.
