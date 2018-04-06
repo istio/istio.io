@@ -156,13 +156,13 @@ The `isito-remote` Helm chart requires the configuration of two specific variabl
 
 > The uninstall method must match the installation method (`kubectl` or `tiller` based)
 
-### Using kubectl to uninstall istio-remote
+### Use kubectl to uninstall istio-remote
 
 ```bash
 kubectl delete -f $HOME/istio-remote.yaml
 ```
 
-### Using tiller to uninstall the istio-remote
+### Alternatively use Helm and Tiller to uninstall istio-remote
 
 ```bash
 helm delete --purge istio-remote
