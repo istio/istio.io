@@ -18,7 +18,7 @@ Through this task, you will learn how to:
 
 ## Before you begin
 
-* Understand Isio [authentication policy]({{home}}/docs/concepts/security/authn-policy.html) and related [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) concepts.
+* Understand Istio [authentication policy]({{home}}/docs/concepts/security/authn-policy.html) and related [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) concepts.
 
 * Know how to verify mTLS setup (recommend to walk through [testing Istio mutual TLS authentication]({{home}}/docs/tasks/security/mutual-tls.html))
 
@@ -63,7 +63,7 @@ Through this task, you will learn how to:
     sleep.legacy to httpbin.bar: 200
     ```
 
-* Also verify that there are no authencation policy in the system
+* Also verify that there are no authentication policy in the system
 
    ```bash
    kubectl get policies.authentication.istio.io -n foo
@@ -257,7 +257,7 @@ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 }
 ```
 
-Now, let's add a policy that requires end-user JWT for `httpbin.foo`. The next command assumes policy with name "httpbin" already exists (which should be if you follow previous sections). You can run `kubectl get policies.authentication.istio.io -n foo` to confirm, and use `istio create` (instead of `istio replace`) if resource is not found. Also note in this policy, peer authentication (mTLS) is also set, though it can be removed without affecting origin authencation settings.
+Now, let's add a policy that requires end-user JWT for `httpbin.foo`. The next command assumes policy with name "httpbin" already exists (which should be if you follow previous sections). You can run `kubectl get policies.authentication.istio.io -n foo` to confirm, and use `istio create` (instead of `istio replace`) if resource is not found. Also note in this policy, peer authentication (mTLS) is also set, though it can be removed without affecting origin authentication settings.
 
 ```bash
 cat <<EOF | istioctl replace -n foo -f -
