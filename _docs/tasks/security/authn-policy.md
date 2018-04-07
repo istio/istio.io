@@ -30,16 +30,14 @@ Through this task, you will learn how to:
    kubectl create ns foo
    kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml) -n foo
    kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml) -n foo
-
    kubectl create ns bar
    kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml) -n bar
    kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml) -n bar
-
    kubectl create ns legacy
    kubectl apply -f samples/sleep/sleep.yaml -n legacy
    ```
 
-* Verifying setup by sending an http request (using curl command) from any sleep pod (among those in namespace `foo`, `bar` or `legacy`) to either `httpbin.foo` or `httpbin.bar`. All requests should success with http code 200.
+* Verifying setup by sending an http request (using curl command) from any sleep pod (among those in namespace `foo`, `bar` or `legacy`) to either `httpbin.foo` or `httpbin.bar`. All requests should success with HTTP code 200.
 
     For example, here is a command to check `sleep.bar` to `httpbin.foo` reachability:
 
@@ -173,7 +171,7 @@ kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metad
 200
 ```
 
-## Having both namespace-level and service-level policy.
+## Having both namespace-level and service-level policy
 
 Assuming we already added the namespace-level policy that enables mTLS for all services in namespace `foo` and observe that request from `sleep.legacy` to `httpbin.foo` are failing (see above). Now add another policy that disables mTLS (peers section is empty) specifically for the `httpbin` service:
 
