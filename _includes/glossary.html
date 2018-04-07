@@ -1,7 +1,7 @@
 <div class="glossary">
     {% assign words = include.glossary | sort: "title" %}
 
-    <div class="trampolines">
+    <div class="trampolines d-print-none">
         {% assign previous = "-" %}
         {% for w in words %}
             {% assign first = w.title | slice: 0 | upcase %}

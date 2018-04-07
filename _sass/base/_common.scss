@@ -259,7 +259,7 @@ h4 {
     + p {
         margin: 10px 0;
 
-        @media (max-width: 768px) {
+        @media (max-width: $bp-md) {
             margin: 5px 0;
         }
     }
@@ -358,13 +358,13 @@ code {
     z-index: 99;
     outline: none;
     background-color: rgba($backgroundColor, .7);
-    color: $mainBrandColor;
+    color: $floatingButtonColor;
     cursor: pointer;
     padding: 3px 5px;
     border-radius: 10px;
     font-size: 1rem;
     border: 0;
-    box-shadow: 0 0 2px 2px $mainBrandColor;
+    box-shadow: 0 0 2px 2px $floatingButtonColor;
 
     &:hover {
         color: $textBrandHighlightColor;
