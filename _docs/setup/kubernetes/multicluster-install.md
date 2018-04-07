@@ -29,7 +29,7 @@ pod CIDR.
 
 * Helm **2.7.2 or newer**.  The use of Tiller is optional.
 
-* If using Tiller, the ability to modify RBAC rules required to install Helm
+* If using Tiller, the ability to modify RBAC rules is required to install Helm
 or alternatively Helm should already be installed.
 
 * Kubernetes **1.7.3 or newer**.
@@ -49,7 +49,8 @@ has been validated with multicluster.
 
 ## Install a multicluster configmap on the Istio control plane
 
-> Pilot will not start until the configmap in these instructions
+<img src="{{home}}/img/exclamation-mark.svg" alt="Important" title="Important" style="width: 32px; display:inline" />
+Pilot will not start until the configmap in these instructions
 is created.  This is normal behavior but different from what is seen with
 multicluster disabled.
 
@@ -106,6 +107,9 @@ that participate in multicluster.  Multicluster uses **one** Kubernetes
 cluster to run the Istio control plane.  **Any reasonable** number of remote
 Kubernetes clusters may be attached to the **one** Istio control plane.
 
+<img src="{{home}}/img/exclamation-mark.svg" alt="Important" title="Important" style="width: 32px; display:inline" />
+The istio-remote component must be deployed to each remote Kubernetes cluster.
+
 ### Use kubectl with Helm to connect the remote cluster
 
 1. Use the helm template command on a remote to specify the Istio control plane:
@@ -145,16 +149,16 @@ install one:
 
 The `isito-remote` Helm chart requires the configuration of two specific variables defined in the following table:
 
-> The `pilotEndpoint` and `mixerEndpoint` need to be resolvable via Kubernetes.
-
 | Helm Variable | Accepted Values | Default | Purpose of Value |
 | --- | --- | --- | --- |
 | `global.pilotEndpoint` | A valid IP address | none | Specifies the Istio control plane's pilot Pod IP address |
 | `global.mixerEndpoint` | A valid IP address | none | Specifies the Istio control plane's mixer Pod IP address |
 
+> The `pilotEndpoint` and `mixerEndpoint` need to be resolvable via Kubernetes.
+
 ## Uninstalling
 
-> The uninstall method must match the installation method (`kubectl` or `tiller` based)
+> The uninstall method must match the installation method (`Helm and kubectl` or `Helm and Tiller` based).
 
 ### Use kubectl to uninstall istio-remote
 
