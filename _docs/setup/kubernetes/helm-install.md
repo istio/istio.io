@@ -70,26 +70,27 @@ may be used in the same Helm operation.
 Helm charts expose configuration options which are currently in alpha.  The currently exposed options are explained in the
 following table:
 
-| Helm Variable                | Possible Values    | Default Value              | Purpose of Key                                 |
-|------------------------------|--------------------|----------------------------|------------------------------------------------|
-| global.namespace             | any Kubernetes ns  | istio-system               | Specifies the namespace for Istio              |
-| global.initializer.enabled   | true/false         | true                       | Specifies whether to use the Initializer       |
-| global.proxy.hub             | registry+namespace | release registry/namespace | Specifies the HUB for the proxy image          |
-| global.proxy.tag             | image tag          | release unique hash        | Specifies the TAG for the proxy image          |
-| global.proxy.debug           | true/false         | false                      | Specifies whether proxy is run in debug mode   |
-| global.pilot.hub             | registry+namespace | release registry/namespace | Specifies the HUB for the pilot image          |
-| global.pilot.tag             | image tag          | release unique hash        | Specifies the TAG for the pilot image          |
-| global.pilot.enabled         | true/false         | true                       | Specifies whether pilot is enabled/disabled    |
-| global.security.hub          | registry+namespace | release registry/namespace | Specifies the HUB for the ca image             |
-| global.security.tag          | image tag          | release unique hash        | Specifies the TAG for the ca image             |
-| global.security.enabled      | true/false         | false                      | Specifies whether security is enabled/disabled |
-| global.mixer.hub             | registry+namespace | release registry/namespace | Specifies the HUB for the mixer image          |
-| global.mixer.tag             | image tag          | release unique hash        | Specifies the TAG for the mixer image          |
-| global.mixer.enabled         | true/false         | true                       | Specifies whether mixer is enabled/disabled    |
-| global.hyperkube.hub         | registry+namespace | quay.io/coreos/hyperkube   | Specifies the HUB for the hyperkube image      |
-| global.hyperkube.tag         | image tag          | v1.7.6_coreos.0            | Specifies the TAG for the hyperkube image      |
-| global.ingress.use_nodeport  | true/false         | false                      | Specifies whether to use nodeport or LB        |
-| global.ingress.nodeport_port | 32000-32767        | 32000                      | If nodeport is used, specifies its port        |
+| Parameter | Description | Values | Default |
+| --- | --- | --- | --- |
+| global.hub | Specifies the HUB for most images used by Istio | registry/namespace | docker.io/istionightly |
+| global.tag | Specifies the TAG for most images used by Istio | valid image tag | circleci-nightly |
+| global.proxy.image | Specifies the proxy image name | valid proxy name | proxy |
+| global.imagePullPolicy | Specifies the image pull policy | valid image pull policy | IfNotPresent |
+| global.securityEnabled | Specifies whether Istio CA should be installed | true/false | true |
+| global.controlPlaneSecurityEnabled | Specifies whether control plane mTLS is enabled | true/false | false |
+| global.mtls.enabled | Specifies whether mTLS is enabled by default between services | true/false | false |
+| global.mtls.mtlsExcludedServices | List of FQDNs to exclude from mTLS | a list of FQDNs | - kubernetes.default.svc.cluster.local |
+| global.rbacEnabled | Specifies whether to create Istio RBAC rules or not | true/false | true |
+| global.refreshInterval | Specifies the mesh discovery refresh interval | integer followed by s | 10s |
+| global.arch.amd64 | Specifies the scheduling policy for amd64 architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | 2 |
+| global.arch.s390x | Specifies the scheduling policy for amd64 architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | 2 |
+| global.arch.ppc64le | Specifies the scheduling policy for amd64 architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | 2 |
+
+<img src="{{home}}/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" />
+The Helm chart also offers singificant customization options per individual
+service.  Customize these per-service options at your own risk.
+The per-service options are exposed via the
+[values.yaml file](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/helm/istio/values.yaml).
 
 ## Uninstalling
 
