@@ -24,7 +24,16 @@ Installation of Istio prior to version 0.8.0 with Helm is unstable and not recom
 * If you want to manage Istio releases with [Tiller](https://github.com/kubernetes/helm#helm-in-a-handbasket),
 the capability to modify RBAC rules is required.
 
-## Render Kubernetes manifest with Helm and deploy with kubectl
+## Deploy Istio using Helm
+
+There are two techniques for using Helm to deploy Istio.  The first
+technique is to use `helm template` to render a manifest and use `kubectl`
+to create it.
+
+The second technique uses Helm's Tiller service to manage the lifecycle
+of Istio.
+
+### Render Kubernetes manifest with Helm and deploy with kubectl
 
 This is the most heavily tested method of deploying Istio.  During the
 continuous integration automated testing and release process, the
@@ -41,7 +50,7 @@ produced for Istio.
    kubectl create -f $HOME/istio-auth.yaml
    ```
 
-## Alternatively, use Helm and Tiller to manage the Istio deployment
+### Alternatively, use Helm and Tiller to manage the Istio deployment
 
 <img src="{{home}}/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" />
 Upgrading Istio using Helm is not validated.
