@@ -24,6 +24,23 @@ Installation of Istio prior to version 0.8.0 with Helm is unstable and not recom
 * If you want to manage Istio releases with [Tiller](https://github.com/kubernetes/helm#helm-in-a-handbasket),
 the capability to modify RBAC rules is required.
 
+## Render Kubernetes manifest with Helm and deploy with kubectl
+
+This is the most heavily tested method of deploying Istio.  During the
+continuous integration automated testing and release process, the
+`helm` binary in `template` mode is used to render the various manifests
+produced for Istio.
+
+1. Create an `istio-auth.yaml` Kubernetes manifest:
+   ```bash
+   helm template install/kubernetes/helm/istio --name istio --set global.controlPlaneSecurityEnabled=true global.mtls.enabled=true global.rbacEnabled=true prometheus.enabled=true > $HOME/istio-auth.yaml
+   ```
+
+1. Create the Istio control plane from `istio-auth.yaml` manifest:
+   ```bash
+   kubectl create -f $HOME/istio-auth.yaml
+   ```
+
 ## Deploy with Helm
 
 1. If a service account has not already been installed for Helm, please install one:
