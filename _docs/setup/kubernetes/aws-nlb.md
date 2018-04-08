@@ -2,7 +2,7 @@
 title: AWS NLB
 overview: Instructions to use and configure ingress istio with aws NLB.
 
-order: 12
+order: 80
 
 layout: docs
 type: markdown
@@ -16,7 +16,7 @@ Instructions to use and configure ingress istio with `aws nlb`.
 
 The following instructions require you have access to a Kubernetes **1.9.0 or newer** cluster.
 
-**Warning:** This is an alpha feature and not recommended for production clusters yet.
+<img src="{{home}}/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" />  This is an alpha feature and not recommended for production clusters.
 
 ## IAM Policy
 
