@@ -41,7 +41,10 @@ produced for Istio.
    kubectl create -f $HOME/istio-auth.yaml
    ```
 
-## Deploy with Helm
+## Alternatively, use Helm and Tiller to manage the Istio deployment
+
+<img src="{{home}}/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" />
+Upgrading Istio using Helm is not validated.
 
 1. If a service account has not already been installed for Helm, please install one:
    ```bash
