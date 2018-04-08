@@ -14,13 +14,15 @@ type: markdown
 
 Quick start instructions for the setup and configuration of Istio using the Helm package manager.
 
-* Installation with Helm prior to Istio 0.7 is unstable and not recommended.*
+<img src="{{home}}/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" />
+Installation of Istio prior to version 0.8.0 with Helm is unstable and not recommended.
 
 ## Prerequisites
 
-The following instructions require you have access to Helm **2.7.2 or newer** in your Kubernetes environment or
-alternately the ability to modify RBAC rules required to install Helm.  Additionally Kubernetes **1.7.3 or newer**
-is also required.
+* Kubernetes **1.7.3 or newer** is required.
+* Helm **2.7.2 or newer** is required.
+* If you want to manage Istio releases with [Tiller](https://github.com/kubernetes/helm#helm-in-a-handbasket),
+the capability to modify RBAC rules is required.
 
 ## Deploy with Helm
 
