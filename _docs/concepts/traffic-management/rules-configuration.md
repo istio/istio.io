@@ -37,7 +37,7 @@ spec:
 
 The destination is the name of the service to which the traffic is being
 routed. The route *labels* identify the specific service instances that will
-recieve traffic. For example, in a Kubernetes deployment of Istio, the route
+receive traffic. For example, in a Kubernetes deployment of Istio, the route
 *label* "version: v1" indicates that only pods containing the label "version: v1"
 will receive traffic.
 
@@ -76,7 +76,7 @@ domain name (FQDN). It is used by Istio Pilot for matching rules to services.
 Normally, the FQDN of the service is composed from three components: *name*,
 *namespace*, and *domain*:
 
-```
+```xxx
 FQDN = name + "." + namespace + "." + domain
 ```
 

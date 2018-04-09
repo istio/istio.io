@@ -7,7 +7,7 @@
             {% assign first = w.title | slice: 0 | upcase %}
             {% if first != previous %}
                 {% if previous != "-" %}|{% endif %}
-                <a href="#{{first}}">{{first}}</a>
+                <a href="#{{first}}" aria-label="Words starting with the letter {{first}}">{{first}}</a>
                 {% assign previous = first %}
             {% endif %}
         {% endfor %}
@@ -28,7 +28,7 @@
 
             {% assign name = w.path | downcase | split: '/' | last | remove: ".md" %}
             <dt id="{{name}}">{{w.title}}</dt>
-            <dd role="definition" aria-labelledby="{{name}}">{{w.content}}</dd>
+            <dd aria-labelledby="{{name}}">{{w.content}}</dd>
         {% endfor %}
         </dl>
     </div>

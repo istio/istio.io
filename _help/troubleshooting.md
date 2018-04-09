@@ -45,6 +45,7 @@ curl http://istio-pilot:15003/v1/registration
 You should receive a response listing the "service-key" and "hosts" for each service in the mesh.
 
 ## No traces appearing in Zipkin when running Istio locally on Mac
+
 Istio is installed and everything seems to be working except there are no traces showing up in Zipkin when there
 should be.
 
@@ -70,7 +71,7 @@ will need to set the [proxy_http_version](https://nginx.org/en/docs/http/ngx_htt
 
 Example config:
 
-```
+```xxxx
 upstream http_backend {
     server 127.0.0.1:8080;
 
@@ -89,7 +90,7 @@ server {
 }
 ```
 
-## No grafana output when connecting from a local web client to Istio remotely hosted
+## No Grafana output when connecting from a local web client to Istio remotely hosted
 
 Validate the client and server date and time match.
 
@@ -142,7 +143,7 @@ Check these metrics.
 
    You should see something like:
 
-   ```
+   ```xxxx
    grpc_server_handled_total{grpc_code="OK",grpc_method="Report",grpc_service="istio.mixer.v1.Mixer",grpc_type="unary"} 68
    ```
 
@@ -165,7 +166,7 @@ or [manual]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar
 
    With the default configuration, you should see something like:
 
-   ```
+   ```bash
    NAMESPACE      NAME        KIND
    istio-system   promhttp    rule.v1alpha2.config.istio.io
    istio-system   promtcp     rule.v1alpha2.config.istio.io
@@ -188,7 +189,7 @@ or [manual]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar
 
    The expected output is:
 
-   ```
+   ```bash
    NAMESPACE      NAME           KIND
    istio-system   handler        prometheus.v1alpha2.config.istio.io
    ```
@@ -207,7 +208,7 @@ or [manual]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar
 
    The expected output is:
 
-   ```
+   ```bash
    NAMESPACE      NAME                         KIND
    istio-system   requestcount                 metric.v1alpha2.config.istio.io
    istio-system   requestduration              metric.v1alpha2.config.istio.io
@@ -237,7 +238,7 @@ or [manual]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar
 
       You should find something like:
 
-      ```
+      ```bash
       mixer_config_resolve_count{error="false",target="details.default.svc.cluster.local"} 56
       mixer_config_resolve_count{error="false",target="ingress.istio-system.svc.cluster.local"} 67
       mixer_config_resolve_count{error="false",target="mongodb.default.svc.cluster.local"} 18
@@ -276,7 +277,7 @@ More on viewing Mixer configuration can be found [here]({{home}}/help/faq/mixer.
 
    You should find something like:
 
-   ```
+   ```xxxx
    mixer_adapter_dispatch_count{adapter="prometheus",error="false",handler="handler.prometheus.istio-system",meshFunction="metric",response_code="OK"} 114
    mixer_adapter_dispatch_count{adapter="prometheus",error="true",handler="handler.prometheus.default",meshFunction="metric",response_code="INTERNAL"} 4
    mixer_adapter_dispatch_count{adapter="stdio",error="false",handler="handler.stdio.istio-system",meshFunction="logentry",response_code="OK"} 104
@@ -338,10 +339,13 @@ More on viewing Mixer configuration can be found [here]({{home}}/help/faq/mixer.
 
 To debug Istio with `gdb`, you will need to run the debug images of Envoy / Mixer / Pilot. A recent `gdb` and the golang extensions (for Mixer/Pilot or other golang components) is required.
 
-1.  `kubectl exec -it PODNAME -c [proxy | mixer | pilot]`
-1.  Find process ID: ps ax
-1.  gdb -p PID binary
-1.  For go: info goroutines, goroutine x bt
+1. `kubectl exec -it PODNAME -c [proxy | mixer | pilot]`
+
+1. Find process ID: ps ax
+
+1. gdb -p PID binary
+
+1. For go: info goroutines, goroutine x bt
 
 ### With [Tcpdump](https://www.tcpdump.org/tcpdump_man.html)
 
@@ -370,8 +374,8 @@ happening, you will need to disable mTLS and the `istio-ca` deployment.
 
 First, edit your istio config to disable mTLS
 
-```
-# comment out or uncomment out authPolicy: MUTUAL_TLS to toggle mTLS and then
+```bash
+# comment out or uncomment authPolicy: MUTUAL_TLS to toggle mTLS and then
 kubectl edit configmap -n istio-system istio
 
 # restart pilot and wait a few minutes
@@ -380,11 +384,11 @@ kubectl delete pods -n istio-system -l istio=pilot
 
 Next, scale down the `istio-ca` deployment to disable Envoy restarts.
 
-```
+```bash
 kubectl scale --replicas=0 deploy/istio-ca -n istio-system
 ```
 
-This should stop istio from restarting Envoy and disconnecting TCP connections.
+This should stop Istio from restarting Envoy and disconnecting TCP connections.
 
 ## Envoy Process High CPU Usage
 
@@ -394,7 +398,7 @@ CPU usage, even when Envoy isn't doing anything. In order to bring the
 CPU usage down for larger deployments, increase the refresh interval for
 Envoy to something higher, like 30 seconds.
 
-```
+```bash
 # increase the field rdsRefreshDelay in the mesh and defaultConfig section
 # set the refresh interval to 30s
 kubectl edit configmap -n istio-system istio
@@ -409,19 +413,20 @@ their configuration needs to be updated as well.
 Afterwards, you should see CPU usage fall back to 0-1% while idling.
 Make sure to tune these values for your specific deployment.
 
-*Warning:*: Changes created by routing rules will take up to 2x refresh interval to propagate to the sidecars. 
-While the larger refresh interval will reduce CPU usage, updates caused by routing rules may cause a period 
-of HTTP 404s (upto 2x the refresh interval) until the Envoy sidecars get all relevant configuration. 
+*Warning:*: Changes created by routing rules will take up to 2x refresh interval to propagate to the sidecars.
+While the larger refresh interval will reduce CPU usage, updates caused by routing rules may cause a period
+of HTTP 404s (up to 2x the refresh interval) until the Envoy sidecars get all relevant configuration.
 
 ## Kubernetes webhook setup script files are missing from 0.5 release package
 
-NOTE: The 0.5.0 and 0.5.1 releases are missing scripts to provision webhook certificates. Download the missing files from
-[here](https://raw.githubusercontent.com/istio/istio/release-0.7/install/kubernetes/webhook-create-signed-cert.sh) and [here](https://raw.githubusercontent.com/istio/istio/release-0.7/install/kubernetes/webhook-patch-ca-bundle.sh). Subsequent releases (> 0.5.1) include these files.
+> The 0.5.0 and 0.5.1 releases are missing scripts to provision webhook certificates. Download the missing files
+from [here](https://raw.githubusercontent.com/istio/istio/release-0.7/install/kubernetes/webhook-create-signed-cert.sh) and [here](https://raw.githubusercontent.com/istio/istio/release-0.7/install/kubernetes/webhook-patch-ca-bundle.sh). Subsequent releases (> 0.5.1) include these files.
 
 ## Automatic sidecar injection will fail if the kube-apiserver has proxy settings
 
-This was tested on 0.5.0 with the additional files required as referenced in the above issue.   When the Kube-apiserver included 
+This was tested on 0.5.0 with the additional files required as referenced in the above issue. When the Kube-apiserver included
 proxy settings such as:
+
 ```yaml
 env:
   - name: http_proxy
@@ -432,12 +437,14 @@ env:
   value: 127.0.0.1,localhost,dockerhub.foo.com,devhub-docker.foo.com,10.84.100.125,10.84.100.126,10.84.100.127
 ```
 The sidecar injection would fail.   The only related failure logs was in the kube-apiserver log:
+
 ```bash
 W0227 21:51:03.156818       1 admission.go:257] Failed calling webhook, failing open sidecar-injector.istio.io: failed calling admission webhook "sidecar-injector.istio.io": Post https://istio-sidecar-injector.istio-system.svc:443/inject: Service Unavailable
 ```
+
 Make sure both pod and service CIDRs are not proxied according to *_proxy variables.  Check the kube-apiserver files and logs to verify the configuration and whether any requests are being proxied.
 
-A workaround is to remove the proxy settings from the kube-apiserver manifest and restart the server or use a later version of kubernetes. 
+A workaround is to remove the proxy settings from the kube-apiserver manifest and restart the server or use a later version of kubernetes.
 
 An issue was filed in kubernetes related to this and has since been closed.   [https://github.com/kubernetes/kubeadm/issues/666](https://github.com/kubernetes/kubeadm/issues/666)
 [https://github.com/kubernetes/kubernetes/pull/58698#discussion_r163879443](https://github.com/kubernetes/kubernetes/pull/58698#discussion_r163879443)

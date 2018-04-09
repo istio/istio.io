@@ -111,6 +111,7 @@ function patchDOM() {
             button.title = "Copy to clipboard";
             button.className = "copy copy-hide";
             button.innerText = "Copy";
+            button.setAttribute("aria-label", "Copy to clipboard");
 
             var parent = pre[i].parentElement;
             if (parent.tagName == "DIV") {
@@ -165,6 +166,7 @@ function patchDOM() {
         var anchor = document.createElement("a");
         anchor.className = "header-link";
         anchor.href = "#" + node.id;
+        anchor.setAttribute("aria-hidden", "true");
         anchor.appendChild(i);
 
         node.appendChild(anchor);
@@ -183,7 +185,7 @@ function patchDOM() {
         }
     }
 
-    // Add a link icon next to each define term so people can easily get bookmarks to them in the glossary
+    // Add a link icon next to each defined term so people can easily get bookmarks to them in the glossary
     function attachLinksToDefinedTerms() {
         var terms = document.getElementsByTagName("dt");
         for (var i = 0; i < terms.length; i++) {
@@ -229,4 +231,20 @@ function patchDOM() {
     loadExternalPreBlocks();
 }
 
-document.addEventListener("DOMContentLoaded", patchDOM)
+// Based on the scroll position, make the "scroll to top" button visible or not
+function controlScrollToTopButton() {
+    if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        document.getElementById("scroll-to-top").style.display = "block";
+    } else {
+        document.getElementById("scroll-to-top").style.display = "none";
+    }
+}
+
+// Scroll the document to the top
+function scrollToTop() {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
+
+document.addEventListener("DOMContentLoaded", patchDOM);
+window.onscroll = controlScrollToTopButton;

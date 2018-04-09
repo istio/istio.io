@@ -14,7 +14,7 @@ This task shows you how to configure dynamic request routing based on weights an
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide]({{home}}/docs/setup/).
+[Installation guide]({{home}}/docs/setup/).
 
 * Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
@@ -27,8 +27,8 @@ star ratings.
 This is because without an explicit default version set, Istio will
 route requests to all available versions of a service in a random fashion.
 
-> Note: This task assumes you don't have any routes set yet. If you've already created conflicting route rules for the sample,
-  you'll need to use `replace` rather than `create` in the following command.
+> This task assumes you don't have any routes set yet. If you've already created conflicting route rules for the sample,
+you'll need to use `replace` rather than `create` in the following command.
 
 1. Set the default version for all microservices to v1.
 
@@ -36,7 +36,7 @@ route requests to all available versions of a service in a random fashion.
    istioctl create -f samples/bookinfo/routing/route-rule-all-v1.yaml
    ```
 
-   > Note: In a Kubernetes deployment of Istio, you can replace `istioctl`
+   > In a Kubernetes deployment of Istio, you can replace `istioctl`
    > with `kubectl` in the above, and for all other CLI commands.
    > Note, however, that `kubectl` currently does not provide input validation.
 
@@ -45,6 +45,7 @@ route requests to all available versions of a service in a random fashion.
    ```bash
    istioctl get virtualservices -o yaml
    ```
+
    ```yaml
    apiVersion: networking.istio.io/v1alpha3
    kind: VirtualService
@@ -107,7 +108,7 @@ route requests to all available versions of a service in a random fashion.
    ---
    ```
 
-   > Note: The corresponding `subset` definitions can be displayed using `istioctl get destinationrules -o yaml`.
+   > The corresponding `subset` definitions can be displayed using `istioctl get destinationrules -o yaml`.
 
    Since rule propagation to the proxies is asynchronous, you should wait a few seconds for the rules
    to propagate to all pods before attempting to access the application.

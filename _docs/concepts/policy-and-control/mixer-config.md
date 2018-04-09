@@ -1,7 +1,7 @@
 ---
 title: Mixer Configuration
 overview: An overview of the key concepts used to configure Mixer.
-              
+
 order: 30
 
 layout: docs
@@ -81,18 +81,18 @@ metadata:
   namespace: istio-system
 spec:
   # kind specific configuration.
-``` 
+```
 - **apiVersion** - A constant for an Istio release.
 - **kind** - A Mixer assigned unique "kind" for every adapter and template.
 - **name** - The configuration resource name.
-- **namespace** - The namespace in which the configuration resource is applicable. 
+- **namespace** - The namespace in which the configuration resource is applicable.
 - **spec** - The `kind`-specific configuration.
 
 ### Handlers
 
 [Adapters](./mixer.html#adapters) encapsulate the logic necessary to interface Mixer with specific external infrastructure
 backends such as [Prometheus](https://prometheus.io), [New Relic](https://newrelic.com), or [Stackdriver](https://cloud.google.com/logging).
-Individual adapters generally need operational parameters in order to do their work. For example, a logging adapter may require 
+Individual adapters generally need operational parameters in order to do their work. For example, a logging adapter may require
 the IP address and port of the log sink.
 
 Here is an example showing how to configure an adapter of kind = `listchecker`. The listchecker adapter checks an input value against a list.
@@ -109,7 +109,7 @@ spec:
   blacklist: false
 ```
 
-`{metadata.name}.{kind}.{metadata.namespace}` is the fully qualified name of a handler. The fully qualified name of the above handler is 
+`{metadata.name}.{kind}.{metadata.namespace}` is the fully qualified name of a handler. The fully qualified name of the above handler is
 `staticversion.listchecker.istio-system` and it must be unique.
 The schema of the data in the `spec` stanza depends on the specific adapter being configured.
 
@@ -189,8 +189,8 @@ spec:
     instances:
     - requestduration.metric.istio-system
 ```
-A rule contains a `match` predicate expression and a list of actions to perform if the predicate is true. 
-An action specifies the list of instances to be delivered to a handler. 
+A rule contains a `match` predicate expression and a list of actions to perform if the predicate is true.
+An action specifies the list of instances to be delivered to a handler.
 A rule must use the fully qualified names of handlers and instances.
 If the rule, handlers, and instances are all in the same namespace, the namespace suffix can be elided from the fully qualified name as seen in `handler.prometheus`.
 
@@ -221,7 +221,7 @@ destination_version: destination.labels["version"] | "unknown"
 With the above, the `destination_version` label is assigned the value of `destination.labels["version"]`. However if that attribute
 is not present, the literal `"unknown"` is used.
 
-The attributes that can be used in attribute expressions must be defined in an 
+The attributes that can be used in attribute expressions must be defined in an
 [*attribute manifest*](#manifests) for the deployment. Within the manifest, each attribute has
 a type which represents the kind of data that the attribute carries. In the
 same way, attribute expressions are also typed, and their type is derived from
@@ -244,9 +244,9 @@ Mixer goes through the following steps to arrive at the set of `actions`.
 
 1. Extract the value of the identity attribute from the request.
 
-2. Extract the service namespace from the identity attribute.
+1. Extract the service namespace from the identity attribute.
 
-3. Evaluate the `match` predicate for all rules in the `configDefaultNamespace` and the service namespace.
+1. Evaluate the `match` predicate for all rules in the `configDefaultNamespace` and the service namespace.
 
 The actions resulting from these steps are performed by Mixer.
 
@@ -291,4 +291,4 @@ configuration](https://github.com/istio/istio/blob/master/mixer/testdata/config)
 
 ## What's next
 
-* Read the [blog post]({{home}}/blog/mixer-adapter-model.html) describing Mixer's adapter model.
+-Read the [blog post]({{home}}/blog/mixer-adapter-model.html) describing Mixer's adapter model.
