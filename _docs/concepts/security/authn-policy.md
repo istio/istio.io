@@ -35,7 +35,7 @@ Authentication policies are saved in Istio config store (in 0.7, the storage imp
 Policy is scoped to namespaces, with (optional) target selector rules to narrow down the set of services (within the same namespace as the policy) on which the policy should be applied. This aligns with the ACL model based on Kubernetes RBAC. More specifically, only the admin of the namespace can set policies for services in that namespace.
 
 
-Authentication is implemented by the Istio sidecars. For example, with an Envoy sidecar, it is a combination of SSL settings and HTTP filters. If authentication fails, requests will be rejected (either with SSL handshake error code, or http 401, depending on the type of authentication mechanism). If authentication succeeds, the following authenticated attributes will be generated:
+Authentication is implemented by the Istio sidecars. For example, with an Envoy sidecar, it is a combination of SSL setting and HTTP filters. If authentication fails, requests will be rejected (either with SSL handshake error code, or http 401, depending on the type of authentication mechanism). If authentication succeeds, the following authenticated attributes will be generated:
 
 - **source.principal**: peer principal. If peer authentication is not used, the attribute is not set.
 - **request.auth.principal**: depends on the policy principal binding, this could be peer principal (if USE_PEER) or origin principal (if USE_ORIGIN).

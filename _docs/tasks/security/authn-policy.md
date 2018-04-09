@@ -88,7 +88,7 @@ metadata:
 spec:
   peers:
   - mtls:
-EOF  
+EOF
 ```
 
 And verify the policy was added:
@@ -101,7 +101,7 @@ NAME          AGE
 enable-mtls   1m
 ```
 
-Run the same testing command above. We should see request from `sleep.legacy` to `httpbin.foo` start to fail, as the result of enabling mTLS for `httpbin.foo` but `sleep.legacy` doesn't have sidecar to support it. On the other hand, for clients with sidecar (`sleep.foo` and `sleep.bar`), Istio automatically configures them to using mTLS where talking to `http.foo`, so they continue to work. Also, requests to `httpbin.bar` are not affected as the policy is effective on `foo` namespace only.
+Run the same testing command above. We should see request from `sleep.legacy` to `httpbin.foo` start to fail, as the result of enabling mTLS for `httpbin.foo` but `sleep.legacy` doesn't have sidecar to support it. On the other hand, for clients with sidecar (`sleep.foo` and `sleep.bar`), Istio automatically configures them to using mTLS where talking to `http.foo`, so they continue to work. Also, requests to `httpbin.bar` are not affected as the policy is effective on the `foo` namespace only.
 
 ```bash
 for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
@@ -119,7 +119,7 @@ sleep.legacy to httpbin.bar: 200
 
 ## Enable mTLS for single service `httpbin.bar`
 
-Run this command to set another policy only for `httpbin.bar` service. Note in this example, we do **not** specify namespace in metadata but put it in commandline (`-n bar`). They should work the same.
+Run this command to set another policy only for `httpbin.bar` service. Note in this example, we do **not** specify namespace in metadata but put it in the command line (`-n bar`). They should work the same.
 
 ```bash
 cat <<EOF | istioctl create -n bar -f -
@@ -132,7 +132,7 @@ spec:
   - name: httpbin
   peers:
   - mtls:
-EOF  
+EOF
 ```
 
 Again, run the probing command. As expected, request from `sleep.legacy` to `httpbin.bar` starts failing with the same reasons.
@@ -161,7 +161,7 @@ spec:
 EOF
 ```
 
-This new policy will apply only to the `httpbin` service on port `1234`. As a result, mTLS is disabled (again) on port `8000` and request from `sleep.legacy` will resume working.
+This new policy will apply only to the `httpbin` service on port `1234`. As a result, mTLS is disabled (again) on port `8000` and requests from `sleep.legacy` will resume working.
 
 ```bash
 kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metadata.name}) -c sleep -n legacy -- curl http://httpbin.bar:8000/ip -s -o /dev/null -w "%{http_code}\n"
@@ -171,7 +171,7 @@ kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metad
 200
 ```
 
-## Having both namespace-level and service-level policy
+## Having both namespace-level and service-level policies
 
 Assuming we already added the namespace-level policy that enables mTLS for all services in namespace `foo` and observe that request from `sleep.legacy` to `httpbin.foo` are failing (see above). Now add another policy that disables mTLS (peers section is empty) specifically for the `httpbin` service:
 
@@ -200,7 +200,7 @@ kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metad
 
 ## Setup end-user authentication
 
-You will need a valid JWT (corresponding to the JWKS endpoint you want to use for the demo). Please follow the instructions [here](https://github.com/istio/istio/tree/master/security/tools/jwt) to create one. You can also use your own JWT/JWKS endpoint for the demo. Once you have that, export to some enviroment variables.
+You will need a valid JWT (corresponding to the JWKS endpoint you want to use for the demo). Please follow the instructions [here](https://github.com/istio/istio/tree/master/security/tools/jwt) to create one. You can also use your own JWT/JWKS endpoint for the demo. Once you have that, export to some environment variables.
 
 
 ```bash
@@ -227,7 +227,7 @@ spec:
         backend:
           serviceName: httpbin
           servicePort: 8000
-EOF          
+EOF
 ```
 
 Get ingress IP
@@ -235,7 +235,7 @@ Get ingress IP
 export INGRESS_HOST=$(kubectl get ing -n foo -o=jsonpath='{.items[0].status.loadBalancer.ingress[0].ip}')
 ```
 
-And a run test query
+And run a test query
 ```bash
 curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 ```
