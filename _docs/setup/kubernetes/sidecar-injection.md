@@ -148,7 +148,7 @@ to install Istio with the option sidecar-injector.enabled set to true. E.g.
 helm install --namespace=istio-system --set sidecar-injector.enabled=true install/kubernetes/helm/istio
 ```
 
-You can also use Helm to generate the yaml file and install it manually. E.g.
+Alternatively, you can also use Helm to generate the yaml file and install it manually. E.g.
 ```bash
 helm template --namespace=istio-system --set sidecar-injector.enabled=true install/kubernetes/helm/istio > istio.yaml
 ```
@@ -157,9 +157,9 @@ helm template --namespace=istio-system --set sidecar-injector.enabled=true insta
 kubectl apply -f istio.yaml
 ```
 
-In addtion, there are some other configuration parameters defined for sidecar
-injector webhook service in values.yaml. You can overide the default values to
-customize the installation.
+In addition, there are some other configuration parameters defined for sidecar
+injector webhook service in ```values.yaml```. You can override the default
+values to customize the installation.
 
 ##### For versions before 0.8.0
 
