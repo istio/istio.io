@@ -102,7 +102,7 @@ interface for traffic management.
 [Security]({{home}}/docs/concepts/security/) provides strong service-to-service and end-user authentication, with built-in identity and
 credential management. It can be used to upgrade unencrypted traffic in the service mesh, and provides operators the ability to enforce
 policy based on service identity rather than network controls. Starting from release 0.5, Istio supports
-[role-based access control]({{home}}/docs/concepts/security/rbac.html) to control who can access your services, API, or resource. Future
+[role-based access control]({{home}}/docs/concepts/security/rbac.html) to control who can access your services. Future
 releases of Istio will add service auditing feature.
 
 ## What's next
