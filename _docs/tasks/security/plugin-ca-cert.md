@@ -25,25 +25,25 @@ This task demonstrates an example to plug certificate and key into the Istio CA.
 ## Plugging in the existing certificate and key
 
 Suppose we want to have Istio CA use the existing certificate `ca-cert.pem` and key `ca-key.pem`.
-Furthermore, the certificate `ca-cert.pem` is signed by the root certificate `root-cert.pem`,
-and we would like to use `root-cert.pem` as the root certificate for Istio workloads.
+Furthermore, the certificate `ca-cert.pem` is signed by the root certificate `root-cert.pem`.
+We would like to use `root-cert.pem` as the root certificate for Istio workloads.
 
 In the following example,
 the Istio CA certificate (`ca-cert.pem`) is different from the workloads' root certificate (`root-cert.pem`),
 so the workload cannot validate the workload certificates directly from the root certificate.
 The workload needs a `cert-chain.pem` file to specify the chain of trust,
 which should include the certificates of all the intermediate CAs between the workloads and the root CA.
-In the example, it contains the Istio CA certificate, so `cert-chain.pem` is the same as `ca-cert.pem`.
+In our example, it contains the Istio CA certificate, so `cert-chain.pem` is the same as `ca-cert.pem`.
 Note that if your `ca-cert.pem` is the same as `root-cert.pem`, the `cert-chain.pem` file should be empty.
 
-These files are ready to use in the install/kubernetes/ directory.
+These files are ready to use in the `samples/certs/` directory.
 
 The following steps enable plugging in the certificate and key into the Istio CA:
 1. Create a secret `cacert` including all the input files `ca-cert.pem`, `ca-key.pem`, `root-cert.pem` and `cert-chain.pem`:
    ```bash
-   kubectl create secret generic cacerts -n istio-system --from-file=install/kubernetes/ca-cert.pem \
-   --from-file=install/kubernetes/ca-key.pem --from-file=install/kubernetes/root-cert.pem \
-   --from-file=install/kubernetes/cert-chain.pem
+   kubectl create secret generic cacerts -n istio-system --from-file=samples/certs/ca-cert.pem \
+   --from-file=samples/certs/ca-key.pem --from-file=samples/certs/root-cert.pem \
+   --from-file=samples/certs/cert-chain.pem
    ```
 
 1. Redeploy the Istio CA, which reads the certificates and key from the secret-mount files:
@@ -90,7 +90,7 @@ This requires you have `openssl` installed on your machine.
 
 1. Verify the root certificate is the same as the one specified by operator:
    ```bash
-   openssl x509 -in install/kubernetes/root-cert.pem -text -noout > /tmp/root-cert.crt.txt
+   openssl x509 -in samples/certs/root-cert.pem -text -noout > /tmp/root-cert.crt.txt
    openssl x509 -in /tmp/pod-root-cert.pem -text -noout > /tmp/pod-root-cert.crt.txt
    diff /tmp/root-cert.crt.txt /tmp/pod-root-cert.crt.txt
    ```
@@ -100,7 +100,7 @@ This requires you have `openssl` installed on your machine.
 1. Verify the CA certificate is the same as the one specified by operator:
    ```bash
    tail -n 22 /tmp/pod-cert-chain.pem > /tmp/pod-cert-chain-ca.pem
-   openssl x509 -in install/kubernetes/ca-cert.pem -text -noout > /tmp/ca-cert.crt.txt
+   openssl x509 -in samples/certs/ca-cert.pem -text -noout > /tmp/ca-cert.crt.txt
    openssl x509 -in /tmp/pod-cert-chain-ca.pem -text -noout > /tmp/pod-cert-chain-ca.crt.txt
    diff /tmp/ca-cert.crt.txt /tmp/pod-cert-chain-ca.crt.txt
    ```
@@ -108,8 +108,8 @@ This requires you have `openssl` installed on your machine.
 
 1. Verify the certificate chain from the root certificate to the workload certificate:
    ```bash
-   head -n 18 /tmp/pod-cert-chain.pem > /tmp/pod-cert-chain-workload.pem
-   openssl verify -CAfile <(cat install/kubernetes/ca-cert.pem install/kubernetes/root-cert.pem) /tmp/pod-cert-chain-workload.pem
+   head -n 21 /tmp/pod-cert-chain.pem > /tmp/pod-cert-chain-workload.pem
+   openssl verify -CAfile <(cat samples/certs/ca-cert.pem samples/certs/root-cert.pem) /tmp/pod-cert-chain-workload.pem
    ```
    Expect the following output:
    ```bash
