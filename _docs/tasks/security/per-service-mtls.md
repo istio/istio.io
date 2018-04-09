@@ -9,6 +9,8 @@ type: markdown
 ---
 {% include home.html %}
 
+> If you are using Istio 0.7 or later, please refer to [authentication policy task]({{home}}/docs/tasks/security/authn-policy.html) for alternative (recommended) solution using authentication policy.
+
 In the [Installation guide]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps), we show how to enable [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars. The settings will be applied to all sidecars in the mesh.
 
 In this task, you will learn:
@@ -18,7 +20,7 @@ In this task, you will learn:
 
 ## Before you begin
 
-* Understand Istio [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) concepts.
+* Understand Istio [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) concepts and [authentication policy]({{home}}/docs/concepts/security/authn-policy.html)
 
 * Familiar with [testing Istio mutual TLS authentication]({{home}}/docs/tasks/security/mutual-tls.html).
 

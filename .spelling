@@ -76,6 +76,8 @@ IstioMesh
 IstioRBAC.svg
 Istiofied
 JSON-formatted
+JWT
+JWTs
 Kibana
 Kops
 Kube
@@ -126,6 +128,9 @@ TLS-secured
 Tcpdump
 Tigera
 TrafficManagementOverview.svg
+USE_ORIGIN
+USE_ORIGIN
+USE_PEER
 Undeploy
 VM-based
 VMs
@@ -166,6 +171,7 @@ arch.svg
 archive.istio.io
 archive.istio.io.
 auth.svg
+authn.svg
 autoscaler
 autoscalers
 autoscaling
@@ -405,6 +411,7 @@ radis
 ratelimit-handler
 raw.githubusercontent.com
 raw.githubusercontent.com)
+reachability
 readinessProbe
 redis
 redis-master-2353460263-1ecey
@@ -414,6 +421,7 @@ reinject
 repo
 request.api_key
 request.auth.audiences
+request.auth.claims
 request.auth.presenter
 request.auth.principal
 request.headers
@@ -460,6 +468,7 @@ source.ip
 source.labels
 source.name
 source.namespace
+source.principal
 source.service
 source.uid
 source.user
