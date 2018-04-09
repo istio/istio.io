@@ -21,7 +21,7 @@ Identities from both authentication parts, if applicable, are output to the next
 
 ## Architecture
 
-Authentication policies are saved in Istio config store (in 0.7, the storage implementation uses Kubernetes CRD), and distributed by control plane. Depending on the size of the mesh, configs propagation may take a few seconds to a few minutes. During the transition, you can expect traffic lost or inconsistent authentication results.
+Authentication policies are saved in Istio config store (in 0.7, the storage implementation uses Kubernetes CRD), and distributed by control plane. Depending on the size of the mesh, config propagation may take a few seconds to a few minutes. During the transition, you can expect traffic lost or inconsistent authentication results.
 
 {% include figure.html width='80%' ratio='100%'
     img='./img/authn.svg'
@@ -39,8 +39,8 @@ Authentication is implemented by the Istio sidecars. For example, with an Envoy 
 
 - **source.principal**: peer principal. If peer authentication is not used, the attribute is not set.
 - **request.auth.principal**: depends on the policy principal binding, this could be peer principal (if USE_PEER) or origin principal (if USE_ORIGIN).
-- **request.auth.audiences**: reflect the audience (`aud`) claim within the origin-JWT (JWT that is used for origin authentication)
-- **request.auth.presenter**: similarly, reflect the authorized presenter (`azp`) claim of the origin-JWT.
+- **request.auth.audiences**: reflect the audience (`aud`) claim within the origin JWT (JWT that is used for origin authentication)
+- **request.auth.presenter**: similarly, reflect the authorized presenter (`azp`) claim of the origin JWT.
 - **request.auth.claims**: all raw string claims from origin-JWT.
 
 Origin principal (principal from origin authentication) is not explicitly output. In general, it can always be reconstructed by joining (`iss`) and subject (`sub`) claims with a "/" separator (for example, if `iss` and `sub` claims are "*googleapis.com*" and "*123456*" respectively, then origin principal is "*googleapis.com/123456*"). On the other hand, if principal binding is USE_ORIGIN, **request.auth.principal** carries the same value as origin principal.
@@ -50,7 +50,7 @@ Origin principal (principal from origin authentication) is not explicitly output
 
 ### Target selectors
 
-Defines rule to find service(s) on which policy should be applied. If no rule is provided, the policy is matched to all services in the namespace, so-called namespace-level policy (as opposed to service-level policies which have non-empty selector rules). Istio uses the service-level policy if available, otherwise it falls back to namespace-level policy. If neither is defined, it uses the default policy based on service mesh config and/or service annotation, which can only set mutual TLS setting (these are pre-0.7 mechanisms to config mutual TLS for Istio service mesh). See [testing Istio mutual TLS]({{home}}/docs/tasks/security/mutual-tls.html) and [per-service mutual TLS enablement]({{home}}/docs/tasks/security/per-service-mtls.html) for more details.
+Defines rule to find service(s) on which policy should be applied. If no rule is provided, the policy is matched to all services in the namespace, so-called namespace-level policy (as opposed to service-level policies which have non-empty selector rules). Istio uses the service-level policy if available, otherwise it falls back to namespace-level policy. If neither is defined, it uses the default policy based on service mesh config and/or service annotation, which can only set mutual TLS setting (these are mechanisms before Istio 0.7 to config mutual TLS for Istio service mesh). See [testing Istio mutual TLS]({{home}}/docs/tasks/security/mutual-tls.html) and [per-service mutual TLS enablement]({{home}}/docs/tasks/security/per-service-mtls.html) for more details.
 
 Operators are responsible for avoiding conflicts, e.g create more than one service-level policy that matches to the same service(s) (or more than one namespace-level policy on the same namespace).
 
