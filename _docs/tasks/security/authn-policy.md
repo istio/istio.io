@@ -15,7 +15,6 @@ Through this task, you will learn how to:
 
 * Use authentication policy to do end-user authentication.
 
-
 ## Before you begin
 
 * Understand Istio [authentication policy]({{home}}/docs/concepts/security/authn-policy.html) and related [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) concepts.
@@ -70,7 +69,7 @@ Through this task, you will learn how to:
    kubectl get policies.authentication.istio.io -n bar
    ```
 
-   ```
+   ```xxx
    No resources found.
    ```
 
@@ -96,7 +95,7 @@ And verify the policy was added:
 kubectl get policies.authentication.istio.io -n foo
 ```
 
-```
+```xxx
 NAME          AGE
 enable-mtls   1m
 ```
@@ -107,7 +106,7 @@ Run the same testing command above. We should see request from `sleep.legacy` to
 for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 ```
 
-```
+```xxx
 sleep.foo to httpbin.foo: 200
 sleep.foo to httpbin.bar: 200
 sleep.bar to httpbin.foo: 200
@@ -137,7 +136,7 @@ EOF
 
 Again, run the probing command. As expected, request from `sleep.legacy` to `httpbin.bar` starts failing with the same reasons.
 
-```
+```xxx
 ...
 sleep.legacy to httpbin.bar: 000
 command terminated with exit code 56
@@ -167,7 +166,7 @@ This new policy will apply only to the `httpbin` service on port `1234`. As a re
 kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metadata.name}) -c sleep -n legacy -- curl http://httpbin.bar:8000/ip -s -o /dev/null -w "%{http_code}\n"
 ```
 
-```
+```xxx
 200
 ```
 
@@ -193,15 +192,13 @@ Re-run the request from `sleep.legacy`, we should see a success return code agai
 kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metadata.name}) -c sleep -n legacy -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
 ```
 
-```
+```xxx
 200
 ```
-
 
 ## Setup end-user authentication
 
 You will need a valid JWT (corresponding to the JWKS endpoint you want to use for the demo). Please follow the instructions [here](https://github.com/istio/istio/tree/master/security/tools/jwt) to create one. You can also use your own JWT/JWKS endpoint for the demo. Once you have that, export to some environment variables.
-
 
 ```bash
 export JWKS=https://www.googleapis.com/service_accounts/v1/jwk/<YOUR-SVC-ACCOUNT>
@@ -240,7 +237,7 @@ And run a test query
 curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 ```
 
-```
+```json
 {
   "headers": {
     "Accept": "*/*",
@@ -290,6 +287,5 @@ Attaching the valid token generated above returns success:
 ```bash
 curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 ```
-
 
 You may want to try to modify token or policy (e.g change issuer, audiences, expiry date etc) to observe other aspects of JWT validation.

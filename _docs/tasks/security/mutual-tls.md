@@ -24,7 +24,6 @@ This task assumes you have a Kubernetes cluster:
 Note to choose "enable Istio mutual TLS Authentication feature" at step 5 in
 "[Installation steps]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps)".
 
-
 > Starting with Istio  0.7, you can use [authentication policy]({{home}}/docs/concepts/security/authn-policy.html) to config mTLS for all/selected services in a namespace (repeated for all namespaces to get global setting). See [authentication policy task]({{home}}/docs/tasks/security/authn-policy.html)
 
 ## Verifying Istio's mutual TLS authentication setup
@@ -64,7 +63,6 @@ Envoy to send request to other services.
 For example, after starting the [Bookinfo]({{home}}/docs/guides/bookinfo.html)
 sample application you can ssh into the Envoy container of `productpage` service,
 and send request to other services by curl.
-
 
 There are several steps:
 
