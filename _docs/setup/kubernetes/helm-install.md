@@ -103,8 +103,13 @@ The per-service options are exposed via the
 
 ## Uninstalling
 
-* Uninstall Istio:
+* Uninstall using kubectl:
+  ```bash
+  kubectl delete -f $HOME/istio-auth.yaml
+  ```
 
+
+* Uninstall using Helm:
   ```bash
   helm delete --purge istio
   ```
