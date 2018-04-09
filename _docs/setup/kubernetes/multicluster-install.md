@@ -47,6 +47,11 @@ on **one** Kubernetes cluster.  Istio must be [deployed with Helm]({{home}}/docs
 * Currently only [manual sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar-injection)
 has been validated with multicluster.
 
+## Caveats and known problems
+
+<img src="{{home}}/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" />
+All known caveats and known problems with multicluster for the 0.8 release are [tracked here](https://github.com/istio/istio/issues/4822).
+
 ## Install a multicluster configmap on the Istio control plane
 
 <img src="{{home}}/img/exclamation-mark.svg" alt="Important" title="Important" style="width: 32px; display:inline" />
