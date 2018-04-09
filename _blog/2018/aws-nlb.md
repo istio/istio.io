@@ -13,7 +13,7 @@ redirect_from: "/blog/aws-nlb.html"
 ---
 {% include home.html %}
 
-Network load balancer (NLB) could be used instead of classical load balancer. You can find comparison between different AWS loadbalancer [here](https://aws.amazon.com/elasticloadbalancing/details/#compare).
+Network load balancer (NLB) could be used instead of classical load balancer. You can find comparison between different AWS `loadbalancer` [here](https://aws.amazon.com/elasticloadbalancing/details/#compare).
 
 This blog entry will provide instructions to use and configure ingress Istio with [AWS Network Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html).
 
@@ -30,17 +30,17 @@ You need to apply policy on the master role in order to be able to provision net
 1. In AWS `iam` console click on policies and click on create a new one:
 
 {% include figure.html width='80%' ratio='60%'
-    img='./img/create_policy_start.png'
+    img='./img/createpolicystart.png'
     alt='Create a new policy'
     title='Create a new policy'
     caption='Create a new policy'
     %}
 
 {:start="2"}
-2. Select json:
+2. Select `json`:
 
 {% include figure.html width='80%' ratio='60%'
-    img='./img/create_policy_json.png'
+    img='./img/createpolicyjson.png'
     alt='Select json'
     title='Select json'
     caption='Select json'
