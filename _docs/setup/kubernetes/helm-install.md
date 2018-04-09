@@ -101,14 +101,14 @@ service.  Customize these per-service options at your own risk.
 The per-service options are exposed via the
 [`values.yaml` file](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/helm/istio/values.yaml).
 
-## Uninstalling
+## Uninstall Istio
 
-### Uninstall using kubectl:
+### Uninstall using kubectl
 
 ```bash
 kubectl delete -f $HOME/istio-auth.yaml
 ```
-### Uninstall using Helm:
+### Uninstall using Helm
 
 ```bash
 helm delete --purge istio
