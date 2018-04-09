@@ -108,8 +108,6 @@ The per-service options are exposed via the
 ```bash
 kubectl delete -f $HOME/istio-auth.yaml
 ```
-
-
 ### Uninstall using Helm:
 
 ```bash
