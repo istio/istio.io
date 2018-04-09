@@ -1,12 +1,11 @@
 ---
 title: "Configure Istio Ingress with AWS NLB"
-overview: Describes how to configure istio ingress with an external load balancer NLB on AWS
-publish_date: April 08, 2018
-subtitle: Ingress AWS NLB
+overview: Describes how to configure Istio ingress with an external load balancer Network Load Balancer on AWS
+publish_date: April 10, 2018
+subtitle: Ingress AWS Network Load Balancer
 attribution: Julien SENON
 
-order: 94
-
+order: 90
 
 layout: blog
 type: markdown
@@ -14,19 +13,43 @@ redirect_from: "/blog/aws-nlb.html"
 ---
 {% include home.html %}
 
-Instructions to use and configure ingress istio with `aws nlb`.
+Network load balancer (NLB) could be used instead of classical load balancer. You can find comparison between different AWS loadbalancer [here](https://aws.amazon.com/elasticloadbalancing/details/#compare).
+
+This blog entry will provide instructions to use and configure ingress Istio with [AWS Network Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html).
 
 ## Prerequisites
 
-The following instructions require you have access to a Kubernetes **1.9.0 or newer** cluster.
+The following instructions require a Kubernetes **1.9.0 or newer** cluster.
 
-<img src="{{home}}/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" />  This is an alpha feature and not recommended for production clusters.
+<img src="{{home}}/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" />  Usage of AWS `nlb` on kubernetes is an alpha feature and not recommended for production clusters.
 
 ## IAM Policy
 
-You need to apply policy in the master role in order to be able to provision network load balancer.
+You need to apply policy on the master role in order to be able to provision network load balancer.
 
-```JSON
+1. In AWS `iam` console click on policies and click on create a new one:
+
+{% include figure.html width='80%' ratio='60%'
+    img='./img/create_policy_start.png'
+    alt='Create a new policy'
+    title='Create a new policy'
+    caption='Create a new policy'
+    %}
+
+{:start="2"}
+2. Select json:
+
+{% include figure.html width='80%' ratio='60%'
+    img='./img/create_policy_json.png'
+    alt='Select json'
+    title='Select json'
+    caption='Select json'
+    %}
+
+{:start="3"}
+3. Copy/paste text bellow:
+
+```json
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -65,11 +88,34 @@ You need to apply policy in the master role in order to be able to provision net
 }
 ```
 
+{:start="4"}
+4. Click review policy, fill all fields and click create policy:
+
+{% include figure.html width='80%' ratio='60%'
+    img='./img/create_policy.png'
+    alt='Validate policy'
+    title='Validate policy'
+    caption='Validate policy'
+    %}
+
+{:start="5"}
+5. Click on roles, select you master role nodes, and click attach policy:
+
+{% include figure.html width='100%' ratio='35%'
+    img='./img/roles_summary.png'
+    alt='Attach policy'
+    title='Attach policy'
+    caption='Attach policy'
+    %}
+
+{:start="6"}
+6. Your policy is now attach to your master node.
+
 ## Rewrite Istio Ingress Service
 
 You need to rewrite ingress service with following values:
 
-```YAML
+```yaml
 apiVersion: v1
 kind: Service
 metadata:
