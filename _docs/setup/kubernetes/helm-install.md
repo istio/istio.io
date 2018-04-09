@@ -91,9 +91,9 @@ following table:
 | `global.mtls.mtlsExcludedServices` | List of FQDNs to exclude from mTLS | a list of FQDNs | `- kubernetes.default.svc.cluster.local` |
 | `global.rbacEnabled` | Specifies whether to create Istio RBAC rules or not | true/false | `true` |
 | `global.refreshInterval` | Specifies the mesh discovery refresh interval | integer followed by s | `10s` |
-| `global.arch.amd64` | Specifies the scheduling policy for amd64 architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | `2` |
-| `global.arch.s390x` | Specifies the scheduling policy for amd64 architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | `2` |
-| `global.arch.ppc64le` | Specifies the scheduling policy for amd64 architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | `2` |
+| `global.arch.amd64` | Specifies the scheduling policy for `amd64` architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | `2` |
+| `global.arch.s390x` | Specifies the scheduling policy for `s390x` architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | `2` |
+| `global.arch.ppc64le` | Specifies the scheduling policy for `ppc64le` architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | `2` |
 
 <img src="{{home}}/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" />
 The Helm chart also offers significant customization options per individual
