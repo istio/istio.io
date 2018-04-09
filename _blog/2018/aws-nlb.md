@@ -36,8 +36,7 @@ You need to apply policy on the master role in order to be able to provision net
     caption='Create a new policy'
     %}
 
-{:start="2"}
-2. Select `json`:
+1. Select `json`:
 
 {% include figure.html width='80%' ratio='60%'
     img='./img/createpolicyjson.png'
@@ -46,8 +45,7 @@ You need to apply policy on the master role in order to be able to provision net
     caption='Select json'
     %}
 
-{:start="3"}
-3. Copy/paste text bellow:
+1. Copy/paste text bellow:
 
 ```json
 {
@@ -88,8 +86,7 @@ You need to apply policy on the master role in order to be able to provision net
 }
 ```
 
-{:start="4"}
-4. Click review policy, fill all fields and click create policy:
+1. Click review policy, fill all fields and click create policy:
 
 {% include figure.html width='80%' ratio='60%'
     img='./img/create_policy.png'
@@ -98,8 +95,7 @@ You need to apply policy on the master role in order to be able to provision net
     caption='Validate policy'
     %}
 
-{:start="5"}
-5. Click on roles, select you master role nodes, and click attach policy:
+1. Click on roles, select you master role nodes, and click attach policy:
 
 {% include figure.html width='100%' ratio='35%'
     img='./img/roles_summary.png'
@@ -108,8 +104,7 @@ You need to apply policy on the master role in order to be able to provision net
     caption='Attach policy'
     %}
 
-{:start="6"}
-6. Your policy is now attach to your master node.
+1. Your policy is now attach to your master node.
 
 ## Rewrite Istio Ingress Service
 
