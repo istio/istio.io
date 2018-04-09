@@ -81,25 +81,25 @@ following table:
 
 | Parameter | Description | Values | Default |
 | --- | --- | --- | --- |
-| global.hub | Specifies the HUB for most images used by Istio | registry/namespace | docker.io/istionightly |
-| global.tag | Specifies the TAG for most images used by Istio | valid image tag | circleci-nightly |
-| global.proxy.image | Specifies the proxy image name | valid proxy name | proxy |
-| global.imagePullPolicy | Specifies the image pull policy | valid image pull policy | IfNotPresent |
-| global.securityEnabled | Specifies whether Istio CA should be installed | true/false | true |
-| global.controlPlaneSecurityEnabled | Specifies whether control plane mTLS is enabled | true/false | false |
-| global.mtls.enabled | Specifies whether mTLS is enabled by default between services | true/false | false |
-| global.mtls.mtlsExcludedServices | List of FQDNs to exclude from mTLS | a list of FQDNs | - kubernetes.default.svc.cluster.local |
-| global.rbacEnabled | Specifies whether to create Istio RBAC rules or not | true/false | true |
-| global.refreshInterval | Specifies the mesh discovery refresh interval | integer followed by s | 10s |
-| global.arch.amd64 | Specifies the scheduling policy for amd64 architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | 2 |
-| global.arch.s390x | Specifies the scheduling policy for amd64 architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | 2 |
-| global.arch.ppc64le | Specifies the scheduling policy for amd64 architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | 2 |
+| `global.hub` | Specifies the HUB for most images used by Istio | registry/namespace | `docker.io/istionightly` |
+| `global.tag` | Specifies the TAG for most images used by Istio | valid image tag | `circleci-nightly` |
+| `global.proxy.image` | Specifies the proxy image name | valid proxy name | `proxy` |
+| `global.imagePullPolicy` | Specifies the image pull policy | valid image pull policy | `IfNotPresent` |
+| `global.securityEnabled` | Specifies whether Istio CA should be installed | true/false | `true` |
+| `global.controlPlaneSecurityEnabled` | Specifies whether control plane mTLS is enabled | true/false | `false` |
+| `global.mtls.enabled` | Specifies whether mTLS is enabled by default between services | true/false | `false` |
+| `global.mtls.mtlsExcludedServices` | List of FQDNs to exclude from mTLS | a list of FQDNs | `- kubernetes.default.svc.cluster.local` |
+| `global.rbacEnabled` | Specifies whether to create Istio RBAC rules or not | true/false | `true` |
+| `global.refreshInterval` | Specifies the mesh discovery refresh interval | integer followed by s | `10s` |
+| `global.arch.amd64` | Specifies the scheduling policy for amd64 architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | `2` |
+| `global.arch.s390x` | Specifies the scheduling policy for amd64 architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | `2` |
+| `global.arch.ppc64le` | Specifies the scheduling policy for amd64 architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | `2` |
 
 <img src="{{home}}/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" />
-The Helm chart also offers singificant customization options per individual
+The Helm chart also offers significant customization options per individual
 service.  Customize these per-service options at your own risk.
 The per-service options are exposed via the
-[values.yaml file](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/helm/istio/values.yaml).
+[`values.yaml` file](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/helm/istio/values.yaml).
 
 ## Uninstalling
 
