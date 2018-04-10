@@ -23,6 +23,7 @@ Installation of Istio prior to version 0.8.0 with Helm is unstable and not recom
 * Helm **2.7.2 or newer** is required.
 * If you want to manage Istio releases with [Tiller](https://github.com/kubernetes/helm#helm-in-a-handbasket),
 the capability to modify RBAC rules is required.
+* Using [automatic sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection) describes Kubernetes environmental requirements.
 
 ## Deploy Istio using Helm
 
