@@ -103,7 +103,7 @@ Here is an example of a simple role "service-admin", which has full access to al
        methods: ["*"]
 ```
 
-Here is another role "products-viewer", which has read ("GET" and "HEAD") access to service "products.default.svc.cluster.local"
+Here is another role "products-viewer", which has read ("GET" and "READ") access to service "products.default.svc.cluster.local"
 in "default" namespace.
 
 ```yaml
@@ -115,7 +115,7 @@ in "default" namespace.
    spec:
      rules:
      - services: ["products.default.svc.cluster.local"]
-       methods: ["GET", "HEAD"]
+       methods: ["GET", "READ"]
 ```
 
 In addition, we support **prefix matching** and **suffix matching** for all the fields in a rule. For example, you can define a "tester" role that
@@ -156,7 +156,7 @@ being "v1" or "v2". Note that the "version" property is provided by `"action.pro
    spec:
      rules:
      - services: ["products.default.svc.cluster.local"]
-       methods: ["GET", "HEAD"]
+       methods: ["GET", "READ"]
        constraints:
        - key: "version"
          values: ["v1", "v2"]
