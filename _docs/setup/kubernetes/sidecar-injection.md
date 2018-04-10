@@ -158,7 +158,7 @@ kubectl apply -f istio.yaml
 ```
 
 In addition, there are some other configuration parameters defined for sidecar
-injector webhook service in ```values.yaml```. You can override the default
+injector webhook service in `values.yaml`. You can override the default
 values to customize the installation.
 
 ##### For versions before 0.8.0
