@@ -139,6 +139,30 @@ Note that unlike manual injection, automatic injection occurs at the pod-level. 
 
 #### Installing the webhook
 
+##### For version 0.8.0 and later
+
+To enable the sidecar injection webhook, you can use [Helm]({{home}}/docs/setup/kubernetes/helm-install.html)
+to install Istio with the option sidecar-injector.enabled set to true. E.g.
+
+```bash
+helm install --namespace=istio-system --set sidecar-injector.enabled=true install/kubernetes/helm/istio
+```
+
+Alternatively, you can also use Helm to generate the yaml file and install it manually. E.g.
+```bash
+helm template --namespace=istio-system --set sidecar-injector.enabled=true install/kubernetes/helm/istio > istio.yaml
+```
+
+```bash
+kubectl apply -f istio.yaml
+```
+
+In addition, there are some other configuration parameters defined for sidecar
+injector webhook service in `values.yaml`. You can override the default
+values to customize the installation.
+
+##### For versions before 0.8.0
+
 > The [0.5.0](https://github.com/istio/istio/releases/tag/0.5.0) and [0.5.1](https://github.com/istio/istio/releases/tag/0.5.1) releases are missing scripts to
 provision webhook certificates. Download the missing files from [here](https://raw.githubusercontent.com/istio/istio/release-0.7/install/kubernetes/webhook-create-signed-cert.sh) and [here](https://raw.githubusercontent.com/istio/istio/release-0.7/install/kubernetes/webhook-patch-ca-bundle.sh).
 Subsequent releases (> 0.5.1) should include these missing files.
