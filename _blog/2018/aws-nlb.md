@@ -1,6 +1,6 @@
 ---
-title: "Configure Istio Ingress with AWS NLB"
-overview: Describes how to configure Istio ingress with an external load balancer Network Load Balancer on AWS
+title: "Configuring Istio Ingress with AWS NLB"
+overview: Describes how to configure Istio ingress with a network load balancer on AWS
 publish_date: April 10, 2018
 subtitle: Ingress AWS Network Load Balancer
 attribution: Julien SENON
@@ -13,9 +13,9 @@ redirect_from: "/blog/aws-nlb.html"
 ---
 {% include home.html %}
 
-Network load balancer (NLB) could be used instead of classical load balancer. You can find comparison between different AWS `loadbalancer` [here](https://aws.amazon.com/elasticloadbalancing/details/#compare).
-
 This blog entry will provide instructions to use and configure ingress Istio with [AWS Network Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html).
+
+Network load balancer (NLB) could be used instead of classical load balancer. You can find [comparison](https://aws.amazon.com/elasticloadbalancing/details/#compare) between different AWS `loadbalancer` for more explanation.
 
 ## Prerequisites
 
@@ -98,7 +98,7 @@ You need to apply policy on the master role in order to be able to provision net
 
 ## Rewrite Istio Ingress Service
 
-You need to rewrite ingress service with following values:
+You need to rewrite ingress service with the following:
 
 ```yaml
 apiVersion: v1
@@ -128,4 +128,4 @@ spec:
 
 ## What's next
 
-You can find additional information on [kubernetes website](https://kubernetes.io/docs/concepts/services-networking/service)
+Kubernetes [service networking](https://kubernetes.io/docs/concepts/services-networking/service) should be consulted if further information is needed.
