@@ -41,14 +41,14 @@ continuous integration automated testing and release process, the
 `helm` binary in `template` mode is used to render the various manifests
 produced for Istio.
 
-1. Create an `istio-auth.yaml` Kubernetes manifest:
+1. Create an `istio.yaml` Kubernetes manifest:
    ```bash
-   helm template install/kubernetes/helm/istio --name istio --set global.controlPlaneSecurityEnabled=true global.mtls.enabled=true global.rbacEnabled=true prometheus.enabled=true > $HOME/istio-auth.yaml
+   helm template install/kubernetes/helm/istio --name istio --set prometheus.enabled=true > $HOME/istio.yaml
    ```
 
-1. Create the Istio control plane from `istio-auth.yaml` manifest:
+1. Create the Istio control plane from `istio.yaml` manifest:
    ```bash
-   kubectl create -f $HOME/istio-auth.yaml
+   kubectl create -f $HOME/istio.yaml
    ```
 
 ### Alternatively, use Helm and Tiller to manage the Istio deployment
@@ -107,7 +107,7 @@ The per-service options are exposed via the
 ### Uninstall using kubectl
 
 ```bash
-kubectl delete -f $HOME/istio-auth.yaml
+kubectl delete -f $HOME/istio.yaml
 ```
 ### Uninstall using Helm
 
