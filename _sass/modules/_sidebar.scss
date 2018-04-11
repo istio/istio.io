@@ -1,23 +1,15 @@
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 767px), print {
     .row-offcanvas {
         position: relative;
         transition: all .25s ease-out;
-    }
-
-    .row-offcanvas-right {
-        right: 0;
     }
 
     .row-offcanvas-left {
         left: 0;
     }
 
-    .row-offcanvas-right .sidebar-offcanvas {
+    .sidebar-offcanvas {
         right: -100%; /* 12 columns */
-    }
-
-    .row-offcanvas-right.active .sidebar-offcanvas {
-        right: -50%; /* 6 columns */
     }
 
     .row-offcanvas-left .sidebar-offcanvas {
@@ -26,10 +18,6 @@
 
     .row-offcanvas-left.active .sidebar-offcanvas {
         left: -50%; /* 6 columns */
-    }
-
-    .row-offcanvas-right.active {
-        right: 50%; /* 6 columns */
     }
 
     .row-offcanvas-left.active {
@@ -161,6 +149,10 @@
     color: $togglerColor;
     border: 1px solid $togglerColor;
     border-radius: 0 10px 10px 0;
+
+    @media print {
+        display: none;
+    }
 }
 
 .sidebar-toggler:hover {
