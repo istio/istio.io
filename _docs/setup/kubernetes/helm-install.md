@@ -96,20 +96,20 @@ following table:
 | `global.arch.s390x` | Specifies the scheduling policy for `s390x` architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | `2` |
 | `global.arch.ppc64le` | Specifies the scheduling policy for `ppc64le` architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | `2` |
 
-<img src="{{home}}/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" />
-The Helm chart also offers significant customization options per individual
+> The Helm chart also offers significant customization options per individual
 service.  Customize these per-service options at your own risk.
 The per-service options are exposed via the
 [`values.yaml` file](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/helm/istio/values.yaml).
 
 ## Uninstall Istio
 
-### Uninstall using kubectl
+* Uninstall using kubectl:
 
 ```bash
 kubectl delete -f $HOME/istio.yaml
 ```
-### Uninstall using Helm
+
+*  Uninstall using Helm:
 
 ```bash
 helm delete --purge istio
