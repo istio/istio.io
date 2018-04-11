@@ -149,6 +149,10 @@ pre {
         display: block;
         padding: .5em;
     }
+
+    @media print {
+        max-height: unset;
+    }
 }
 
 div.highlight {
@@ -396,7 +400,7 @@ code {
         max-width: 100% !important;
     }
 
-    pre, blockquote, ul, ol, img {
+    pre, blockquote, img {
         page-break-inside: avoid;
     }
 }
