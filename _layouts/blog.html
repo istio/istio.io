@@ -47,7 +47,7 @@ layout: default
                 {% endif %}
 
                 {% if needTOC %}
-                    <nav class="toc-inlined d-lg-none">
+                    <nav class="toc-inlined d-lg-none d-print-none">
                         <div class="directory" role="directory">
                             {{ toc }}
                         </div>
@@ -59,8 +59,9 @@ layout: default
 
             {% include blog_post_nav.html %}
 
-            <br/><hr/><br/>
-            <div class="container-fluid">
+            <div class="container-fluid d-print-none">
+                <br/><hr/><br/>
+
                 <div class="row">
                     <div class="col-6">
                         {% if prev_post_url %}
@@ -74,10 +75,16 @@ layout: default
                     </div>
                 </div>
             </div>
+
+
+            <div class="d-none d-print-block">
+                <h2>Links</h2>
+                <ol id="endnotes"></ol>
+            </div>
         </div>
 
         {% if needTOC %}
-            <div class="col-12 col-md-2 d-none d-lg-block">
+            <div class="col-12 col-md-2 d-none d-lg-block d-print-none">
                 <nav class="toc">
                     <div class="spacer"></div>
                     <div class="directory" role="directory">
