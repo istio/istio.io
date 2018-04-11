@@ -32,7 +32,7 @@ layout: default
                 <h1 id="title">{{page.title}}</h1>
 
                 {% if needTOC %}
-                    <nav class="toc-inlined d-lg-none">
+                    <nav class="toc-inlined d-lg-none d-print-none">
                         <div class="directory" role="directory">
                             {{ toc }}
                         </div>
@@ -41,10 +41,15 @@ layout: default
 
                 {{ content}}
             </main>
+
+            <div class="d-none d-print-block">
+                <h2>Links</h2>
+                <ol id="endnotes"></ol>
+            </div>
         </div>
 
         {% if needTOC %}
-            <div class="col-12 col-md-2 d-none d-lg-block">
+            <div class="col-12 col-md-2 d-none d-lg-block d-print-none">
                 <nav class="toc">
                     <div class="spacer"></div>
                     <div class="directory" role="directory">
