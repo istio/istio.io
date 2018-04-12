@@ -97,13 +97,13 @@ This loose coupling allows Istio to run on multiple environments
 (e.g., Kubernetes, Consul/Nomad) while maintaining the same operator
 interface for traffic management.
 
-### Istio-Auth
+### Security
 
-[Istio-Auth]({{home}}/docs/concepts/security/mutual-tls.html) provides strong service-to-service and end-user authentication using mutual TLS, with built-in identity and credential management.
-It can be used to upgrade unencrypted traffic in the service mesh, and provides operators the ability to enforce policy based
-on service identity rather than network controls. Future releases of Istio will add fine-grained access control and auditing to control
-and monitor who accesses your service, API, or resource, using a variety of access control mechanisms, including attribute and
-role-based access control as well as authorization hooks.
+[Security]({{home}}/docs/concepts/security/) provides strong service-to-service and end-user authentication, with built-in identity and
+credential management. It can be used to upgrade unencrypted traffic in the service mesh, and provides operators the ability to enforce
+policy based on service identity rather than network controls. Starting from release 0.5, Istio supports
+[role-based access control]({{home}}/docs/concepts/security/rbac.html) to control who can access your services. Future
+releases of Istio will add service auditing feature.
 
 ## What's next
 
