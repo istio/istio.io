@@ -108,7 +108,7 @@ The per-service options are exposed via the
 kubectl delete -f $HOME/istio.yaml
 ```
 
-*  Uninstall using Helm:
+* Uninstall using Helm:
 ```bash
 helm delete --purge istio
 ```
