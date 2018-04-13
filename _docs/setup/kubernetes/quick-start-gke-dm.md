@@ -99,7 +99,7 @@ kubectl get deployments,ing -n istio-system
 ```xxx
 NAME                       DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 deploy/grafana             1         1         1            1           3m
-deploy/istio-ca            1         1         1            1           3m
+deploy/istio-citadel       1         1         1            1           3m
 deploy/istio-ingress       1         1         1            1           3m
 deploy/istio-initializer   1         1         1            1           3m
 deploy/istio-mixer         1         1         1            1           3m
