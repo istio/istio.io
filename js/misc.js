@@ -61,8 +61,7 @@ $(function ($) {
         // toggle sidebar on/off
         $('[data-toggle="offcanvas"]').on('click', function () {
             $('.row-offcanvas').toggleClass('active')
-            $(this).children('i.fa').toggleClass('fa-chevron-right');
-            $(this).children('i.fa').toggleClass('fa-chevron-left');
+            $(this).children('i.fa').toggleClass('fa-flip-horizontal');
         })
 
         // toggle category tree in sidebar
