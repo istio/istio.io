@@ -1,6 +1,6 @@
 ---
-title: Enabling Istio Citadel health check
-overview: This task shows how to enable Istio Citadel health check.
+title: Enabling Citadel health check
+overview: This task shows how to enable Citadel health check.
 
 order: 70
 
@@ -9,22 +9,22 @@ type: markdown
 ---
 {% include home.html %}
 
-This task shows how to enable Istio Citadel health check. Note this is an alpha feature since Istio 0.6.
+This task shows how to enable Citadel health check. Note this is an alpha feature since Istio 0.6.
 
-Since Istio 0.6, Istio Citadel has a health check feature that can be optionally enabled.
+Since Istio 0.6, Citadel has a health check feature that can be optionally enabled.
 By default, the normal Istio deployment process does not enable this feature.
 Currently, the health check feature is able to detect the failures of the Citadel CSR signing service,
 by periodically sending CSRs to the API. More health check features are coming shortly.
 
-The Istio Citadel contains a _prober client_ module that periodically checks Citadel's status (currently only the health
+The Citadel contains a _prober client_ module that periodically checks Citadel's status (currently only the health
 status of the gRPC server).
-If Istio Citadel is healthy, the _prober client_ updates the _modification time_ of the _health status file_
-(the file is always empty). Otherwise, it does nothing. Istio Citadel relies on a
+If Citadel is healthy, the _prober client_ updates the _modification time_ of the _health status file_
+(the file is always empty). Otherwise, it does nothing. Citadel relies on a
 [K8s liveness and readiness probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)
 with command line to check the _modification time_ of the _health status file_ on the pod.
 If the file is not updated for a period, the probe will be triggered and Kubelet will restart the Citadel container.
 
-Note: because the Istio Citadel health check currently only monitors the health status of CSR service API,
+Note: because the Citadel health check currently only monitors the health status of CSR service API,
 this feature is not needed if the production setup is not using the
 [Istio Mesh Expansion]({{home}}/docs/setup/kubernetes/mesh-expansion.html) (which requires the CSR service API).
 
@@ -35,9 +35,9 @@ this feature is not needed if the production setup is not using the
   Note that authentication should be enabled at step 5 in the
   [installation steps]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps).
 
-## Deploying Istio Citadel with health check
+## Deploying Citadel with health check
 
-Deploy the Istio Citadel with health check enabled.
+Deploy the Citadel with health check enabled.
 
 ```bash
 kubectl apply -f install/kubernetes/istio-citadel-with-health-check.yaml
@@ -64,7 +64,7 @@ EOF
 
 ## Verifying the health checker is working
 
-Istio Citadel will log the health check results. Run the following in command line:
+Citadel will log the health check results. Run the following in command line:
 
 ```bash
 kubectl logs `kubectl get po -n istio-system | grep istio-citadel | awk '{print $1}'` -n istio-system
@@ -109,29 +109,29 @@ livenessProbe:
 ...
 ```
 
-The `liveness-probe-path` and `probe-path` are the path to the health status file, configured at Istio Citadel and the
+The `liveness-probe-path` and `probe-path` are the path to the health status file, configured at Citadel and the
 prober;
-the `liveness-probe-interval` is the interval to update the health status file, if Istio Citadel is healthy;
-the `probe-check-interval` is the interval for Istio Citadel health check.
+the `liveness-probe-interval` is the interval to update the health status file, if Citadel is healthy;
+the `probe-check-interval` is the interval for Citadel health check.
 The `interval` is the maximum time elapsed since the last update of the health status file, for the prober to consider
-Istio Citadel as healthy.
+Citadel as healthy.
 `initialDelaySeconds` and `periodSeconds` are the initial delay and the probe running period.
 
 Prolonging `probe-check-interval` will reduce the health check overhead, but there will be a greater lagging for the
 prober to get notified on the unhealthy status.
-To avoid the prober restarting Istio Citadel due to temporary unavailability, the `interval` on the prober can be
+To avoid the prober restarting Citadel due to temporary unavailability, the `interval` on the prober can be
 configured to be more than `N` times of the `liveness-probe-interval`. This will allow the prober to tolerate `N-1`
 continuously failed health checks.
 
 ## Cleanup
 
-* To disable health check on Istio Citadel:
+* To disable health check on Citadel:
   ```bash
   kubectl apply -f install/kubernetes/istio-auth.yaml
   kubectl delete svc istio-citadel -n istio-system
   ```
 
-* To remove Istio Citadel:
+* To remove Citadel:
 
   ```bash
   kubectl delete -f install/kubernetes/istio-citadel-with-health-check.yaml
@@ -140,4 +140,4 @@ continuously failed health checks.
 
 ## What's next
 
-* Read the [Istio Citadel arguments](https://github.com/istio/istio/blob/master/security/cmd/istio_ca/main.go).
+* Read the [Citadel arguments](https://github.com/istio/istio/blob/master/security/cmd/istio_ca/main.go).

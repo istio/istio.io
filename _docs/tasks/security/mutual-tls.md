@@ -31,7 +31,7 @@ Note to choose "enable Istio mutual TLS Authentication feature" at step 5 in
 The following commands assume the services are deployed in the default namespace.
 Use the parameter *-n yournamespace* to specify a namespace other than the default one.
 
-### Verifying Istio Citadel
+### Verifying Citadel
 
 Verify the cluster-level Citadel is running:
 
@@ -44,7 +44,7 @@ NAME            DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 istio-citadel   1         1         1            1           1m
 ```
 
-Istio Citadel is up if the "AVAILABLE" column is 1.
+Citadel is up if the "AVAILABLE" column is 1.
 
 ### Verifying service configuration
 

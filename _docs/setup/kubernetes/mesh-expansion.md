@@ -113,7 +113,7 @@ install/tools/setupMeshEx.sh machineSetup VM_NAME
 ```
 
 GCE provides better user experience since node agent can always relies on
-GCE metadata instance document to authenticate to Istio Citadel. For everything
+GCE metadata instance document to authenticate to Citadel. For everything
 else, e.g., on-prem or raw VM, we have to bootstrap a key/cert as credential,
 which typically has a limited lifetime. And when the cert expires, you have to
 rerun the above command.
@@ -189,7 +189,7 @@ names and connect to pilot, for example:
    ```
 
 * Extract the initial Istio authentication secrets and copy them to the machine. The default
-installation of Istio includes Istio Citadel and will generate Istio secrets even if
+installation of Istio includes Citadel and will generate Istio secrets even if
 the automatic 'mTLS'
 setting is disabled (it creates secret for each service account, and the secret
 is named as `istio.<serviceaccount>`). It is recommended that you perform this
