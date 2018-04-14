@@ -11,11 +11,4 @@ Check out the [documentation]({{home}}/docs/) right here on istio.io. The docs i
 [guides]({{home}}/docs/guides/),
 and the [complete reference documentation]({{home}}/docs/reference/).
 
-Detailed developer-level documentation is maintained for each component in GitHub, alongside the code. Please visit each repository for those docs:
-
-* [Envoy](https://envoyproxy.github.io/envoy/)
-
-* [Pilot](https://github.com/istio/istio/tree/master/pilot/doc)
-
-* [Mixer](https://github.com/istio/istio/tree/master/mixer/doc)
-
+Detailed developer-level documentation is maintained on our [Wiki](https://github.com/istio/istio/wiki)
