@@ -36,14 +36,14 @@ and destination policies.</p>
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_callers</code></td>
+<td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Include caller information, useful for debugging </td>
+<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -68,7 +68,7 @@ and destination policies.</p>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -124,14 +124,14 @@ and destination policies.</p>
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_callers</code></td>
+<td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Include caller information, useful for debugging </td>
+<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -156,7 +156,7 @@ and destination policies.</p>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -212,14 +212,14 @@ istioctl context-create --api-server http://127.0.0.1:8080
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_callers</code></td>
+<td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Include caller information, useful for debugging </td>
+<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -244,7 +244,7 @@ istioctl context-create --api-server http://127.0.0.1:8080
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -298,14 +298,14 @@ istioctl context-create --api-server http://127.0.0.1:8080
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_callers</code></td>
+<td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Include caller information, useful for debugging </td>
+<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -330,7 +330,7 @@ istioctl context-create --api-server http://127.0.0.1:8080
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -384,14 +384,14 @@ istioctl delete routerule productpage-default
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_callers</code></td>
+<td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Include caller information, useful for debugging </td>
+<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -416,7 +416,7 @@ istioctl delete routerule productpage-default
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -460,14 +460,14 @@ istioctl delete routerule productpage-default
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_callers</code></td>
+<td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Include caller information, useful for debugging </td>
+<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -492,7 +492,7 @@ istioctl delete routerule productpage-default
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -543,14 +543,14 @@ istioctl delete routerule productpage-default
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_callers</code></td>
+<td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Include caller information, useful for debugging </td>
+<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -575,7 +575,7 @@ istioctl delete routerule productpage-default
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -636,7 +636,7 @@ istioctl delete routerule productpage-default
 <tr>
 <td><code>--hyperkube-tag &lt;Hyperkube&gt;</code></td>
 <td></td>
-<td>The tag to use to pull the Hyperkube container  (default `0.7.1`)</td>
+<td>The tag to use to pull the Hyperkube container  (default `v1.7.6_coreos.0`)</td>
 </tr>
 <tr>
 <td><code>--ingress-node-port &lt;uint16&gt;</code></td>
@@ -659,14 +659,14 @@ istioctl delete routerule productpage-default
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_callers</code></td>
+<td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Include caller information, useful for debugging </td>
+<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -691,7 +691,7 @@ istioctl delete routerule productpage-default
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -750,14 +750,14 @@ istioctl delete routerule productpage-default
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_callers</code></td>
+<td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Include caller information, useful for debugging </td>
+<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -782,7 +782,7 @@ istioctl delete routerule productpage-default
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -864,12 +864,12 @@ file/configmap created with a new Istio release.
 <tr>
 <td><code>--excludeIPRanges &lt;string&gt;</code></td>
 <td></td>
-<td>Comma separated list of IP ranges in CIDR form. If set, outbound traffic will not beredirected to Envoy for IP ranges. Only applies if redirecting all outbound traffic by default.  (default ``)</td>
+<td>Comma separated list of IP ranges in CIDR form. If set, outbound traffic will not be redirected for these IP ranges. Exclusions are only applied if configured to redirect all outbound traffic. By default, no IP ranges are excluded.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--excludeInboundPorts &lt;string&gt;</code></td>
 <td></td>
-<td>Comma separated list of inbound ports for which traffic should not be redirected to Envoy. Only applies if redirecting all inbound traffic by default.  (default ``)</td>
+<td>Comma separated list of inbound ports. If set, inbound traffic will not be redirected for those ports. Exclusions are only applied if configured to redirect all inbound traffic. By default, no ports are excluded.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--filename &lt;string&gt;</code></td>
@@ -889,12 +889,12 @@ file/configmap created with a new Istio release.
 <tr>
 <td><code>--includeIPRanges &lt;string&gt;</code></td>
 <td></td>
-<td>Comma separated list of IP ranges in CIDR form. If set, only redirect outbound traffic to Envoy for IP ranges. Otherwise all outbound traffic is redirected  (default ``)</td>
+<td>Comma separated list of IP ranges in CIDR form. If set, only redirect outbound traffic to Envoy for these IP ranges. All outbound traffic can be redirected with the wildcard character &#39;*&#39;. Defaults to &#39;*&#39;.  (default `*`)</td>
 </tr>
 <tr>
 <td><code>--includeInboundPorts &lt;string&gt;</code></td>
 <td></td>
-<td>Comma separated list of inbound ports for which traffic is to be redirected to Envoy. If not specified, all inbound traffic will be redirected.  (default ``)</td>
+<td>Comma separated list of inbound ports for which traffic is to be redirected to Envoy. All ports can be redirected with the wildcard character &#39;*&#39;. Defaults to &#39;*&#39;.  (default `*`)</td>
 </tr>
 <tr>
 <td><code>--injectConfigFile &lt;string&gt;</code></td>
@@ -922,14 +922,14 @@ file/configmap created with a new Istio release.
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_callers</code></td>
+<td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Include caller information, useful for debugging </td>
+<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -954,7 +954,7 @@ file/configmap created with a new Istio release.
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -1056,14 +1056,14 @@ Retrieves the local proxy configuration for the specified pod when running in Ku
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_callers</code></td>
+<td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Include caller information, useful for debugging </td>
+<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -1088,7 +1088,7 @@ Retrieves the local proxy configuration for the specified pod when running in Ku
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -1154,14 +1154,14 @@ istioctl proxy-config -n application productpage-v1-bb8d5cbc7-k7qbm static
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_callers</code></td>
+<td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Include caller information, useful for debugging </td>
+<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -1186,7 +1186,7 @@ istioctl proxy-config -n application productpage-v1-bb8d5cbc7-k7qbm static
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -1242,14 +1242,14 @@ istioctl proxy-config -n application productpage-v1-bb8d5cbc7-k7qbm static
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_callers</code></td>
+<td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Include caller information, useful for debugging </td>
+<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -1274,7 +1274,7 @@ istioctl proxy-config -n application productpage-v1-bb8d5cbc7-k7qbm static
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -1323,14 +1323,14 @@ istioctl proxy-config -n application productpage-v1-bb8d5cbc7-k7qbm static
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_callers</code></td>
+<td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Include caller information, useful for debugging </td>
+<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -1355,7 +1355,7 @@ istioctl proxy-config -n application productpage-v1-bb8d5cbc7-k7qbm static
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>

@@ -6,4 +6,4 @@ type: markdown
 {% include home.html %}
 
 Learn how to implement a new adapter for Mixer by consulting the
-[Adapter Developer's Guide](https://github.com/istio/istio/blob/master/mixer/doc/adapters.md).
+[Adapter Developer's Guide](https://github.com/istio/istio/wiki/Mixer-Adapter-Dev-Guide).
