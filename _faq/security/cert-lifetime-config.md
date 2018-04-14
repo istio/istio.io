@@ -35,7 +35,7 @@ spec:
         ...
         args:
           - --workload-cert-ttl=1h # Lifetime of certificates issued to workloads in Kubernetes.
-          - --max-workload-cert-ttl=48h # Maximum lifetime of certificates issued to workloads by the Citadel.
+          - --max-workload-cert-ttl=48h # Maximum lifetime of certificates issued to workloads by Citadel.
 ```
 
 For the workloads running on VMs and bare metal hosts, the lifetime of their Istio certificates is specified by the

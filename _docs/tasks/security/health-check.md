@@ -13,10 +13,10 @@ This task shows how to enable Citadel health check. Note this is an alpha featur
 
 Since Istio 0.6, Citadel has a health check feature that can be optionally enabled.
 By default, the normal Istio deployment process does not enable this feature.
-Currently, the health check feature is able to detect the failures of the Citadel CSR signing service,
+Currently, the health check feature is able to detect the failures of Citadel CSR signing service,
 by periodically sending CSRs to the API. More health check features are coming shortly.
 
-The Citadel contains a _prober client_ module that periodically checks Citadel's status (currently only the health
+Citadel contains a _prober client_ module that periodically checks Citadel's status (currently only the health
 status of the gRPC server).
 If Citadel is healthy, the _prober client_ updates the _modification time_ of the _health status file_
 (the file is always empty). Otherwise, it does nothing. Citadel relies on a
@@ -24,7 +24,7 @@ If Citadel is healthy, the _prober client_ updates the _modification time_ of th
 with command line to check the _modification time_ of the _health status file_ on the pod.
 If the file is not updated for a period, the probe will be triggered and Kubelet will restart the Citadel container.
 
-Note: because the Citadel health check currently only monitors the health status of CSR service API,
+Note: because Citadel health check currently only monitors the health status of CSR service API,
 this feature is not needed if the production setup is not using the
 [Istio Mesh Expansion]({{home}}/docs/setup/kubernetes/mesh-expansion.html) (which requires the CSR service API).
 
@@ -37,7 +37,7 @@ this feature is not needed if the production setup is not using the
 
 ## Deploying Citadel with health check
 
-Deploy the Citadel with health check enabled.
+Deploy Citadel with health check enabled.
 
 ```bash
 kubectl apply -f install/kubernetes/istio-citadel-with-health-check.yaml
