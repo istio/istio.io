@@ -35,7 +35,7 @@ In addition, you might find these links interesting:
 - The latest Istio monthly release is {{site.data.istio.version}}: [download {{site.data.istio.version}}](https://github.com/istio/istio/releases),
 [release notes]({{home}}/about/notes/{{site.data.istio.version}}.html).
 
-- Nostalgic for the days gone by? We keep an [archive of the earlier releases' documentation](https://archive.istio.io/).
+- Nostalgic for days gone by? We keep an [archive of the earlier releases' documentation](https://archive.istio.io/).
 
 - We're always looking for help improving our documentation, so please don't hesitate to
 [file an issue](https://github.com/istio/istio.github.io/issues/new) if you see some problem.
