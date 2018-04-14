@@ -97,202 +97,227 @@ $(function ($) {
     });
 }(jQuery));
 
-// Apply a bunch of systematic modification to the DOM of all pages.
-// Ideally, this stuff could be handled offline as part of preparing the
-// HTML, but alas our current toolchain won't allow that in a clean/simple
-// way.
-function patchDOM() {
-    // Add a Copy button to all PRE blocks
-    function attachCopyButtons() {
-        var pre = document.getElementsByTagName('PRE');
-        for (var i = 0; i < pre.length; i++) {
-            var button = document.createElement("BUTTON");
-            button.title = "Copy to clipboard";
-            button.className = "copy copy-hide";
-            button.innerText = "Copy";
-            button.setAttribute("aria-label", "Copy to clipboard");
-
-            var parent = pre[i].parentElement;
-            if (parent.tagName == "DIV") {
-                // This is the case for HTML produced from markdown through Jekyll
-                parent.appendChild(button);
-            } else {
-                // This is the case for HTML produced by protoc-gen-docs from proto sources
-                // we hackily create a DIV on the fly to make this case look like what we get
-                // from Jekyll
-                var div = document.createElement("DIV")
-                div.className = "highlight"
-                parent.insertBefore(div, pre[i])
-                div.appendChild(pre[i])
-                div.appendChild(button)
-            }
-        }
-
-        var copyCode = new Clipboard('button.copy', {
-            target: function (trigger) {
-                return trigger.previousElementSibling;
-            }
-        });
-
-        // On success:
-        // - Change the "Copy" text to "Done".
-        // - Swap it to "Copy" in 2s.
-
-        copyCode.on('success', function (event) {
-            event.clearSelection();
-            event.trigger.textContent = 'Done';
-            window.setTimeout(function () {
-                event.trigger.textContent = 'Copy';
-            }, 2000);
-        });
-
-        // On error (Safari):
-        // - Change to "Not supported"
-        // - Swap it to "Copy" in 2s.
-
-        copyCode.on('error', function (event) {
-            event.trigger.textContent = 'Not supported';
-            window.setTimeout(function () {
-                event.trigger.textContent = 'Copy';
-            }, 5000);
-        });
-    }
-
-    function attachLink(node) {
-        var i = document.createElement("i");
-        i.className = "fa fa-link";
-
-        var anchor = document.createElement("a");
-        anchor.className = "header-link";
-        anchor.href = "#" + node.id;
-        anchor.setAttribute("aria-hidden", "true");
-        anchor.appendChild(i);
-
-        node.appendChild(anchor);
-    }
-
-    // Add a link icon next to each header so people can easily get bookmarks to headers
-    function attachLinksToHeaders() {
-        for (var level = 1; level <= 6; level++) {
-            var headers = document.getElementsByTagName("h" + level);
-            for (var i = 0; i < headers.length; i++) {
-                var header = headers[i]
-                if (header.id !== "") {
-                    attachLink(header);
-                }
-            }
-        }
-    }
-
-    // Add a link icon next to each defined term so people can easily get bookmarks to them in the glossary
-    function attachLinksToDefinedTerms() {
-        var terms = document.getElementsByTagName("dt");
-        for (var i = 0; i < terms.length; i++) {
-            var term = terms[i]
-            if (term.id !== "") {
-                attachLink(term);
-            }
-        }
-    }
-
-    // Make it so each link outside of the current domain opens up in a different window
-    function makeOutsideLinksOpenInTabs() {
-        var links = document.getElementsByTagName("a");
-        for (var i = 0; i < links.length; i++) {
-            var link = links[i];
-            if (link.hostname && link.hostname != location.hostname) {
-                link.setAttribute("target", "_blank")
-            }
-        }
-    }
-
-    // Load the content of any externally-hosted PRE blocks
-    function loadExternalPreBlocks() {
-
-        function fetchFile(elem, url) {
-            fetch(url).then(response => response.text()).then(data => {
-                elem.firstChild.innerText = data;
-            });
-        }
-
-        var pre = document.getElementsByTagName('PRE');
-        for (var i = 0; i < pre.length; i++) {
-            if (pre[i].hasAttribute("data-src")) {
-                fetchFile(pre[i], pre[i].getAttribute("data-src"))
-            }
-        }
-    }
-
-    function createEndnotes() {
-        var notes = document.getElementById("endnotes");
-        if (notes == undefined) {
-            return;
-        }
-
-        // look for anchors in the main section of the doc only (skip headers, footers, tocs, nav bars, etc)
-        var main = document.getElementsByTagName("main")[0];
-        var links = main.getElementsByTagName("a");
-        var count = 1;
-        for (var i = 0; i < links.length; i++) {
-            var link = links[i];
-            if (link.pathname == location.pathname) {
-                // skip links on the current page
-                continue;
-            }
-
-            if (link.pathname.endsWith("/") && link.hash != "") {
-                // skip links on the current page
-                continue;
-            }
-
-            if (link.parentElement.tagName == "FIGURE") {
-                // skip links inside figures
-                continue;
-            }
-
-            // add the superscript reference
-            link.insertAdjacentHTML("afterend", "<sup class='endnote-ref'>" + count + "</sup>");
-
-            // and add a list entry for the link
-            var li = document.createElement("li");
-            li.innerText = link.href;
-            notes.appendChild(li);
-            count++;
-        }
-    }
-
-    attachCopyButtons();
-    attachLinksToHeaders();
-    attachLinksToDefinedTerms();
-    makeOutsideLinksOpenInTabs();
-    loadExternalPreBlocks();
-    createEndnotes();
+// Scroll the document to the top
+function scrollToTop() {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
 
-// initialized after the DOM has been loaded
+// initialized after the DOM has been loaded by getDOMTopology
 var scrollToTopButton;
 var tocLinks;
 var tocHeadings;
 
-// discover a few DOM elements up front so we don't need to do it a zillion times for the life of the page
-function getDOMTopology() {
-    scrollToTopButton = document.getElementById("scroll-to-top");
+// post-processing we do once the DOM has loaded
+function handleDOMLoaded() {
 
-    var toc = document.getElementById("toc");
-    if (toc != undefined) {
-        tocLinks = toc.getElementsByTagName("A");
-        tocHeadings = new Array(tocLinks.length);
+    // Apply a bunch of systematic modification to the DOM of all pages.
+    // Ideally, this stuff could be handled offline as part of preparing the
+    // HTML, but alas our current toolchain won't allow that in a clean/simple
+    // way.
+    function patchDOM() {
+        // Add a Copy button to all PRE blocks
+        function attachCopyButtons() {
+            var pre = document.getElementsByTagName('PRE');
+            for (var i = 0; i < pre.length; i++) {
+                var button = document.createElement("BUTTON");
+                button.title = "Copy to clipboard";
+                button.className = "copy copy-hide";
+                button.innerText = "Copy";
+                button.setAttribute("aria-label", "Copy to clipboard");
 
-        for (var i = 0; i < tocLinks.length; i++) {
-            tocHeadings[i] = document.getElementById(tocLinks[i].hash.substring(1));
+                var parent = pre[i].parentElement;
+                if (parent.tagName == "DIV") {
+                    // This is the case for HTML produced from markdown through Jekyll
+                    parent.appendChild(button);
+                } else {
+                    // This is the case for HTML produced by protoc-gen-docs from proto sources
+                    // we hackily create a DIV on the fly to make this case look like what we get
+                    // from Jekyll
+                    var div = document.createElement("DIV")
+                    div.className = "highlight"
+                    parent.insertBefore(div, pre[i])
+                    div.appendChild(pre[i])
+                    div.appendChild(button)
+                }
+
+                // apply syntax highlighting
+                Prism.highlightElement(pre[i].firstChild, false)
+            }
+
+            var copyCode = new Clipboard('button.copy', {
+                target: function (trigger) {
+                    return trigger.previousElementSibling;
+                }
+            });
+
+            // On success:
+            // - Change the "Copy" text to "Done".
+            // - Swap it to "Copy" in 2s.
+
+            copyCode.on('success', function (event) {
+                event.clearSelection();
+                event.trigger.textContent = 'Done';
+                window.setTimeout(function () {
+                    event.trigger.textContent = 'Copy';
+                }, 2000);
+            });
+
+            // On error (Safari):
+            // - Change to "Not supported"
+            // - Swap it to "Copy" in 2s.
+
+            copyCode.on('error', function (event) {
+                event.trigger.textContent = 'Not supported';
+                window.setTimeout(function () {
+                    event.trigger.textContent = 'Copy';
+                }, 5000);
+            });
+        }
+
+        function applySyntaxColoring() {
+            var pre = document.getElementsByTagName('PRE');
+            for (var i = 0; i < pre.length; i++) {
+                Prism.highlightElement(pre[i].firstChild, false)
+            }
+        }
+
+        function attachLink(node) {
+            var i = document.createElement("i");
+            i.className = "fa fa-link";
+
+            var anchor = document.createElement("a");
+            anchor.className = "header-link";
+            anchor.href = "#" + node.id;
+            anchor.setAttribute("aria-hidden", "true");
+            anchor.appendChild(i);
+
+            node.appendChild(anchor);
+        }
+
+        // Add a link icon next to each header so people can easily get bookmarks to headers
+        function attachLinksToHeaders() {
+            for (var level = 1; level <= 6; level++) {
+                var headers = document.getElementsByTagName("h" + level);
+                for (var i = 0; i < headers.length; i++) {
+                    var header = headers[i]
+                    if (header.id !== "") {
+                        attachLink(header);
+                    }
+                }
+            }
+        }
+
+        // Add a link icon next to each defined term so people can easily get bookmarks to them in the glossary
+        function attachLinksToDefinedTerms() {
+            var terms = document.getElementsByTagName("dt");
+            for (var i = 0; i < terms.length; i++) {
+                var term = terms[i]
+                if (term.id !== "") {
+                    attachLink(term);
+                }
+            }
+        }
+
+        // Make it so each link outside of the current domain opens up in a different window
+        function makeOutsideLinksOpenInTabs() {
+            var links = document.getElementsByTagName("a");
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i];
+                if (link.hostname && link.hostname != location.hostname) {
+                    link.setAttribute("target", "_blank")
+                }
+            }
+        }
+
+        // Load the content of any externally-hosted PRE blocks
+        function loadExternalPreBlocks() {
+
+            function fetchFile(elem, url) {
+                fetch(url).then(response => response.text()).then(data => {
+                    elem.firstChild.innerText = data;
+                });
+            }
+
+            var pre = document.getElementsByTagName('PRE');
+            for (var i = 0; i < pre.length; i++) {
+                if (pre[i].hasAttribute("data-src")) {
+                    fetchFile(pre[i], pre[i].getAttribute("data-src"))
+                }
+            }
+        }
+
+        function createEndnotes() {
+            var notes = document.getElementById("endnotes");
+            if (notes == undefined) {
+                return;
+            }
+
+            // look for anchors in the main section of the doc only (skip headers, footers, tocs, nav bars, etc)
+            var main = document.getElementsByTagName("main")[0];
+            var links = main.getElementsByTagName("a");
+            var count = 1;
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i];
+                if (link.pathname == location.pathname) {
+                    // skip links on the current page
+                    continue;
+                }
+
+                if (link.pathname.endsWith("/") && link.hash != "") {
+                    // skip links on the current page
+                    continue;
+                }
+
+                if (link.parentElement.tagName == "FIGURE") {
+                    // skip links inside figures
+                    continue;
+                }
+
+                // add the superscript reference
+                link.insertAdjacentHTML("afterend", "<sup class='endnote-ref'>" + count + "</sup>");
+
+                // and add a list entry for the link
+                var li = document.createElement("li");
+                li.innerText = link.href;
+                notes.appendChild(li);
+                count++;
+            }
+        }
+
+        attachCopyButtons();
+        applySyntaxColoring();
+        attachLinksToHeaders();
+        attachLinksToDefinedTerms();
+        makeOutsideLinksOpenInTabs();
+        loadExternalPreBlocks();
+        createEndnotes();
+    }
+
+    // discover a few DOM elements up front so we don't need to do it a zillion times for the life of the page
+    function getDOMTopology() {
+        scrollToTopButton = document.getElementById("scroll-to-top");
+
+        var toc = document.getElementById("toc");
+        if (toc != undefined) {
+            tocLinks = toc.getElementsByTagName("A");
+            tocHeadings = new Array(tocLinks.length);
+
+            for (var i = 0; i < tocLinks.length; i++) {
+                tocHeadings[i] = document.getElementById(tocLinks[i].hash.substring(1));
+            }
         }
     }
 
+    patchDOM();
+    getDOMTopology();
+
     // one forced call here to make sure everything looks right
-    handleScroll();
+    handlePageScroll();
 }
 
-function handleScroll() {
+// What we do when the user scrolls the page
+function handlePageScroll() {
     // Based on the scroll position, make the "scroll to top" button visible or not
     function controlScrollToTopButton() {
         if (scrollToTopButton) {
@@ -346,12 +371,5 @@ function handleScroll() {
     controlTOCActivation();
 }
 
-// Scroll the document to the top
-function scrollToTop() {
-    document.body.scrollTop = 0; // For Safari
-    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-}
-
-document.addEventListener("DOMContentLoaded", patchDOM);
-document.addEventListener("DOMContentLoaded", getDOMTopology);
-window.addEventListener("scroll", handleScroll);
+document.addEventListener("DOMContentLoaded", handleDOMLoaded);
+window.addEventListener("scroll", handlePageScroll);
