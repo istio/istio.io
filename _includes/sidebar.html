@@ -3,11 +3,12 @@ Purpose:
     Generates a sidebar providing access to a document hierarchy.
 
 Usage:
-    {% include sidebar docs='<doc collection>' singlecard='true|false' %}
+    {% include sidebar.html collection='<doc collection>' singlecard='true|false' bloghack='true|false' %}
 
     Parameters:
-        * docs       (collection) - the document collection containing the docs to index
+        * collection (collection) - the document collection containing the docs to index
         * singlecard (boolean) - an optional boolean indicating whether the whole hierarchy should be in a single card
+        * bloghack (boolean) - an optional boolean indicating to do special treatment for blogs
 {% endcomment %}
 
 {% include home.html %}
@@ -16,7 +17,7 @@ Usage:
     <div class="spacer"></div>
     <div class="directory" role="tablist">
 
-        {% include sort-hierarchy.html docs=include.docs prefix='' %}
+        {% include sort-hierarchy.html docs=include.collection prefix='' %}
 
         {% assign pageComponents = page.url | split: "/" %}
 

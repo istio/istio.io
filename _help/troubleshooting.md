@@ -7,6 +7,7 @@ order: 40
 layout: help
 type: markdown
 redirect_from: /troubleshooting
+force_inline_toc: true
 ---
 {% include home.html %}
 
