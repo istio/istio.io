@@ -90,7 +90,7 @@ There are several steps:
    cert-chain.pem   key.pem   root-cert.pem
    ```
 
-   Note that cert-chain.pem is Envoy's cert that needs to present to the other side. key.pem is Envoy's private key paired with cert-chain.pem. root-cert.pem is the root cert to verify the other side's cert. Currently we only have one CA, so all Envoys have the same root-cert.pem.
+   > cert-chain.pem is Envoy's cert that needs to present to the other side. key.pem is Envoy's private key paired with cert-chain.pem. root-cert.pem is the root cert to verify the other side's cert. Currently we only have one CA, so all Envoys have the same root-cert.pem.
 
 1. make sure 'curl' is installed by
    ```bash
@@ -106,7 +106,7 @@ There are several steps:
    kubectl apply -f <(istioctl kube-inject --debug -f samples/bookinfo/kube/bookinfo.yaml)
    ```
 
-> Istio proxy image does not have curl installed while the debug image does. The "--debug" flag in above command redeploys the service with debug image.
+   > Istio proxy image does not have curl installed while the debug image does. The "--debug" flag in above command redeploys the service with debug image.
 
 1. send requests to another service, for example, details.
    ```bash
