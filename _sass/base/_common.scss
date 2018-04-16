@@ -1,32 +1,34 @@
-// This is a hack such that when we link to a fragment on a page, the page
-// scrolls correctly in relation to the fixed header. Without this hack, the
-// page scrolls with the fragment at the top of the page, below the header!
-*[id]:before {
-      display: block;
-      content: ' ';
-      margin-top: -1.8em;
-      height: 1.8em;
-      visibility: hidden;
-}
+@media screen {
+    // This is a hack such that when we link to a fragment on a page, the page
+    // scrolls correctly in relation to the fixed header. Without this hack, the
+    // page scrolls with the fragment at the top of the page, below the header!
+    *[id]:before {
+          display: block;
+          content: ' ';
+          margin-top: -1.8em;
+          height: 1.8em;
+          visibility: hidden;
+    }
 
-// This is here to undo the effect of the above for table rows. Otherwise,
-// table rows with ids don't render properly
-tr[id]:before {
-    content: normal;
-}
+    // This is here to undo the effect of the above for table rows. Otherwise,
+    // table rows with ids don't render properly
+    tr[id]:before {
+        content: normal;
+    }
 
-html {
-    overflow-y: scroll;
-    position: relative;
-    min-height: 100%;
-}
+    html {
+        overflow-y: scroll;
+        position: relative;
+        min-height: 100%;
+    }
 
-body {
-    padding-top: $headerHeight;
-    margin-bottom: $footerHeight;
-    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: $textColor;
-    background-color: $backgroundColor;
+    body {
+        padding-top: $headerHeight;
+        margin-bottom: $footerHeight;
+        font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        color: $textColor;
+        background-color: $backgroundColor;
+    }
 }
 
 a {
@@ -147,6 +149,10 @@ pre {
         display: block;
         padding: .5em;
     }
+
+    @media print {
+        max-height: unset;
+    }
 }
 
 div.highlight {
@@ -253,7 +259,7 @@ h4 {
     + p {
         margin: 10px 0;
 
-        @media (max-width: 768px) {
+        @media (max-width: $bp-md) {
             margin: 5px 0;
         }
     }
@@ -287,6 +293,12 @@ h6:hover .header-link,
 dt:hover .header-link {
     transition: opacity .4s ease-in-out;
     opacity: 1;
+}
+
+@media print {
+    .header-link {
+        display: none;
+    }
 }
 
 em {
@@ -346,15 +358,49 @@ code {
     z-index: 99;
     outline: none;
     background-color: rgba($backgroundColor, .7);
-    color: $mainBrandColor;
+    color: $floatingButtonColor;
     cursor: pointer;
     padding: 3px 5px;
     border-radius: 10px;
     font-size: 1rem;
     border: 0;
-    box-shadow: 0 0 2px 2px $mainBrandColor;
+    box-shadow: 0 0 2px 2px $floatingButtonColor;
 
     &:hover {
         color: $textBrandHighlightColor;
+    }
+}
+
+@media screen {
+    .endnote-ref {
+        display: none;
+    }
+}
+
+@media print {
+    // Soak up space used up by the TOC when printing
+    .col-md-9, .col-lg-7, .col-xl-8 {
+        max-width: 83.2%;
+        flex: 0 0 83.2%;
+    }
+
+    // Soak up space used up by the TOC when printing
+    .col-12 {
+        max-width: 100%;
+        flex: 0 0 100%;
+    }
+
+    h1, h2, h3 {
+        color: #000;
+        background: none;
+        page-break-after: avoid;
+    }
+
+    img {
+        max-width: 100% !important;
+    }
+
+    pre, blockquote, img {
+        page-break-inside: avoid;
     }
 }

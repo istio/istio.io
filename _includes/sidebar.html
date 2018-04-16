@@ -12,7 +12,7 @@ Usage:
 
 {% include home.html %}
 
-<nav class="sidebar">
+<nav class="sidebar d-print-none">
     <div class="spacer"></div>
     <div class="directory" role="tablist">
 
@@ -122,7 +122,7 @@ Usage:
         </ul></div></div></div>
 
         {% if include.bloghack %}
-            <div class="text-center" style="margin-top: 1em; font-size: 1.2em;" >
+            <div class="text-center subscribe" >
                 <a href="{{home}}/feed.xml">
                     <img style="width: 1.4em;" src="{{home}}/img/rss.svg" alt="RSS"/> Subscribe
                 </a>

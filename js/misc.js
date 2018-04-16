@@ -61,8 +61,7 @@ $(function ($) {
         // toggle sidebar on/off
         $('[data-toggle="offcanvas"]').on('click', function () {
             $('.row-offcanvas').toggleClass('active')
-            $(this).children('i.fa').toggleClass('fa-chevron-right');
-            $(this).children('i.fa').toggleClass('fa-chevron-left');
+            $(this).children('i.fa').toggleClass('fa-flip-horizontal');
         })
 
         // toggle category tree in sidebar
@@ -224,11 +223,50 @@ function patchDOM() {
         }
     }
 
+    function createEndnotes() {
+        var notes = document.getElementById("endnotes");
+        if (notes == undefined) {
+            return;
+        }
+
+        // look for anchors in the main section of the doc only (skip headers, footers, tocs, nav bars, etc)
+        var main = document.getElementsByTagName("main")[0];
+        var links = main.getElementsByTagName("a");
+        var count = 1;
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            if (link.pathname == location.pathname) {
+                // skip links on the current page
+                continue;
+            }
+
+            if (link.pathname.endsWith("/") && link.hash != "") {
+                // skip links on the current page
+                continue;
+            }
+
+            if (link.parentElement.tagName == "FIGURE") {
+                // skip links inside figures
+                continue;
+            }
+
+            // add the superscript reference
+            link.insertAdjacentHTML("afterend", "<sup class='endnote-ref'>" + count + "</sup>");
+
+            // and add a list entry for the link
+            var li = document.createElement("li");
+            li.innerText = link.href;
+            notes.appendChild(li);
+            count++;
+        }
+    }
+
     attachCopyButtons();
     attachLinksToHeaders();
     attachLinksToDefinedTerms();
     makeOutsideLinksOpenInTabs();
     loadExternalPreBlocks();
+    createEndnotes();
 }
 
 // Based on the scroll position, make the "scroll to top" button visible or not
