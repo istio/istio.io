@@ -31,20 +31,20 @@ Note to choose "enable Istio mutual TLS Authentication feature" at step 5 in
 The following commands assume the services are deployed in the default namespace.
 Use the parameter *-n yournamespace* to specify a namespace other than the default one.
 
-### Verifying Istio CA
+### Verifying Citadel
 
-Verify the cluster-level CA is running:
+Verify the cluster-level Citadel is running:
 
 ```bash
-kubectl get deploy -l istio=istio-ca -n istio-system
+kubectl get deploy -l istio=istio-citadel -n istio-system
 ```
 
 ```bash
-NAME       DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-istio-ca   1         1         1            1           1m
+NAME            DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+istio-citadel   1         1         1            1           1m
 ```
 
-Istio CA is up if the "AVAILABLE" column is 1.
+Citadel is up if the "AVAILABLE" column is 1.
 
 ### Verifying service configuration
 
@@ -90,7 +90,9 @@ There are several steps:
    cert-chain.pem   key.pem   root-cert.pem
    ```
 
-   > cert-chain.pem is Envoy's cert that needs to present to the other side. key.pem is Envoy's private key paired with cert-chain.pem. root-cert.pem is the root cert to verify the other side's cert. Currently we only have one CA, so all Envoys have the same root-cert.pem.
+   > `cert-chain.pem` is Envoy's cert that needs to present to the other side. `key.pem` is Envoy's private key
+   paired with Envoy's cert in `cert-chain.pem`. `root-cert.pem` is the root cert to verify the peer's cert.
+   In this example, we only have one Citadel in a cluster, so all Envoys have the same `root-cert.pem`.
 
 1. make sure 'curl' is installed by
    ```bash
