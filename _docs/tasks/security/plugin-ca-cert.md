@@ -1,6 +1,6 @@
 ---
 title: Plugging in root certificate, signing certificate and key
-overview: This task shows how operators can plug existing root certificate, signing certificate and key into Citadel.
+overview: This task shows how operators can configure Citadel with existing root certificate, signing certificate and key.
 
 order: 60
 
@@ -9,7 +9,7 @@ type: markdown
 ---
 {% include home.html %}
 
-This task shows how operators can plug existing root certificate, signing certificate and key into Citadel.
+This task shows how operators can configure Citadel with existing root certificate, signing certificate and key.
 
 By default, Citadel generates self-signed root certificate and key, and uses them to sign the workload certificates.
 Citadel can also use the operator-specified certificate and key to sign workload certificates, with
@@ -24,7 +24,7 @@ operator-specified root certificate. This task demonstrates an example to plug c
 
 ## Plugging in the existing certificate and key
 
-Suppose we want to have Citadel use the existing singing (CA) certificate `ca-cert.pem` and key `ca-key.pem`.
+Suppose we want to have Citadel use the existing signing (CA) certificate `ca-cert.pem` and key `ca-key.pem`.
 Furthermore, the certificate `ca-cert.pem` is signed by the root certificate `root-cert.pem`.
 We would like to use `root-cert.pem` as the root certificate for Istio workloads.
 
@@ -129,5 +129,5 @@ This requires you have `openssl` installed on your machine.
 
 ## What's next
 
-* Read the [Citadel arguments](https://github.com/istio/istio/blob/master/security/cmd/istio_ca/main.go).
+* Read more about [Citadel (current code name is istio_ca) arguments]({{home}}/docs/reference/commands/istio_ca).
 * Read [how the sample certificates and keys are generated](https://github.com/istio/istio/blob/master/security/samples/plugin_ca_certs).

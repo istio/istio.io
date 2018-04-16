@@ -11,7 +11,7 @@ type: markdown
 
 ## Overview
 
-Istio Security's aim is to enhance the security of microservices and their communication without requiring service code changes. It is responsible for:
+Istio's aim is to enhance the security of microservices and their communication without requiring service code changes. It is responsible for:
 
 * Providing each service with a strong identity that represents its role to enable interoperability across clusters and clouds
 
@@ -21,8 +21,8 @@ Istio Security's aim is to enhance the security of microservices and their commu
 
 ## Architecture
 
-The diagram below shows Istio Security's architecture, which includes three primary components: identity, key management, and communication
-security. This diagram describes how Istio Security is used to secure the service-to-service communication between service 'frontend' running
+The diagram below shows the architecture of Istio Security, which includes three primary components: identity, key management, and communication
+security. This diagram describes how Istio is used to secure the service-to-service communication between service 'frontend' running
 as the service account 'frontend-team' and service 'backend' running as the service account 'backend-team'. Istio supports services running
 on both Kubernetes containers and VM/bare-metal machines.
 
@@ -33,7 +33,7 @@ on both Kubernetes containers and VM/bare-metal machines.
     caption='Istio Security Architecture'
     %}
 
-As illustrated in the diagram, Istio Security leverages secret volume mount to deliver keys/certs from Citadel to Kubernetes containers. For services running on
+As illustrated in the diagram, Istio leverages secret volume mount to deliver keys/certs from Citadel to Kubernetes containers. For services running on
 VM/bare-metal machines, we introduce a node agent, which is a process running on each VM/bare-metal machine. It generates the private key and CSR (certificate
 signing request) locally, sends CSR to Citadel for signing, and delivers the generated certificate together with the private key to Envoy.
 
@@ -41,7 +41,7 @@ signing request) locally, sends CSR to Citadel for signing, and delivers the gen
 
 ### Identity
 
-Istio Security uses [Kubernetes service accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) to identify who runs the service:
+Istio uses [Kubernetes service accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) to identify who runs the service:
 
 * A service account in Istio has the format "spiffe://\<_domain_\>/ns/\<_namespace_>/sa/\<_serviceaccount_\>".
 
@@ -76,7 +76,7 @@ Service-to-service communication is tunneled through the client side [Envoy](htt
 
 Istio 0.2 supports services running on both Kubernetes pods and VM/bare-metal machines. We use different key provisioning mechanisms for each scenario.
 
-For services running on Kubernetes pods, the per-cluster Citadel (acting as Certificate Authority) automates the key & certificate management process. It mainly performs four critical operations :
+For services running on Kubernetes pods, the per-cluster Citadel (acting as Certificate Authority) automates the key & certificate management process. It mainly performs four critical operations:
 
 * Generate a [SPIFFE](https://spiffe.github.io/docs/svid) key and certificate pair for each service account
 
@@ -90,11 +90,15 @@ For services running on VM/bare-metal machines, the above four operations are pe
 
 ## Workflow
 
-The Istio Security workflow consists of two phases, deployment and runtime. For the deployment phase, we discuss the two scenarios (i.e., in Kubernetes and VM/bare-metal machines) separately since they are different. Once the key and certificate are deployed, the runtime phase is the same for the two scenarios. We briefly cover the workflow in this section.
+The Istio Security workflow consists of two phases, deployment and runtime. For the deployment phase, we discuss the two
+scenarios (i.e., in Kubernetes and VM/bare-metal machines) separately since they are different. Once the key and
+certificate are deployed, the runtime phase is the same for the two scenarios. We briefly cover the workflow in this
+section.
 
 ### Deployment phase (Kubernetes Scenario)
 
-1. Citadel watches Kubernetes API Server, creates a [SPIFFE](https://spiffe.github.io/docs/svid) key and certificate pair for each of the existing and new service accounts, and sends them to API Server.
+1. Citadel watches the Kubernetes API Server, creates a [SPIFFE](https://spiffe.github.io/docs/svid) key and certificate
+pair for each of the existing and new service accounts, and sends them to the API Server.
 
 1. When a pod is created, API Server mounts the key and certificate pair according to the service account using [Kubernetes secrets](https://kubernetes.io/docs/concepts/configuration/secret/).
 
