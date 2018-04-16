@@ -3,7 +3,7 @@
 {% assign current = page.url | downcase | split: '/' %}
 
 <header>
-    <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-dark justify-content-between">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark justify-content-between">
         {% if page.url == "/index.html" or page.url == "/" %}
             {% assign visibility = "hidden" %}
         {% else %}
@@ -11,7 +11,8 @@
         {% endif %}
 
         <a class="navbar-brand" href="{{home}}/" style="visibility: {{visibility}}">
-            <img class="logo" src="{{home}}/img/istio-logo.svg" alt="Istio Logo"/>
+            <span class="logo">{% include icons/istio-logo-blue-background-round.svg %}</span>
+
             {% if site.data.istio.archive %}
                 <span class="brand-name">Istioldie {{site.data.istio.version}}</span>
             {% elsif site.data.istio.preliminary %}

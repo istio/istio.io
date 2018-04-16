@@ -1,4 +1,4 @@
-@media screen and (max-width: 767px) {
+@media screen {
     .row-offcanvas .sidebar-offcanvas {
         transition: all .4s ease;
         z-index: 42;
@@ -10,6 +10,12 @@
 
     .row-offcanvas.active .sidebar-offcanvas {
         left: 2rem;
+    }
+
+    @media (min-width: $bp-md) {
+        .row-offcanvas .sidebar-offcanvas {
+            position: unset;
+        }
     }
 }
 

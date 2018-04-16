@@ -112,6 +112,8 @@ matter fields are:
 |`publish_date` | For blog posts, indicates the date of publication of the post
 |`subtitle`     | For blog posts, supplies an optional subtitle to be displayed below the main title
 |`attribution`  | For blog posts, supplies an optional author's name
+|`toc`          | Set this to false to prevent the page from having a table of contents generated for it
+|`force_inline_toc` | Set this to true to force the generated table of contents from being inserted inline in the text instead of in a sidebar
 
 ## Choosing a directory
 
