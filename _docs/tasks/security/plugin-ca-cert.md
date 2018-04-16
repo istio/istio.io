@@ -129,5 +129,5 @@ This requires you have `openssl` installed on your machine.
 
 ## What's next
 
-* Read more about [Citadel (codename is istio_ca) arguments]({{home}}/docs/reference/commands/istio_ca.html).
+* Read more about [Citadel (codename is istio\_ca) arguments]({{home}}/docs/reference/commands/istio_ca.html).
 * Read [how the sample certificates and keys are generated](https://github.com/istio/istio/blob/master/security/samples/plugin_ca_certs).

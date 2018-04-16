@@ -140,4 +140,4 @@ continuously failed health checks.
 
 ## What's next
 
-* Read more about [Citadel (codename is istio_ca) arguments]({{home}}/docs/reference/commands/istio_ca.html).
+* Read more about [Citadel (codename is istio\_ca) arguments]({{home}}/docs/reference/commands/istio_ca.html).
