@@ -6,8 +6,21 @@ header {
         padding-bottom: .2em;
 
         .logo {
-            width: .9em;
-            height: 1.4em;
+            width: 2em;
+            top: 3px;
+            left: 1.3em;
+            position: fixed;
+            fill: $textBrandColor;
+
+            circle {
+                fill: $mainBrandColor;
+                stroke: $textBrandColor;
+            }
+
+            @media (min-width: $bp-md) {
+                width: 3em;
+                left: 0.8em;
+            }
         }
 
         .brand-name {
@@ -16,7 +29,7 @@ header {
             font-weight: 400;
             vertical-align: bottom;
             line-height: 1.1em;
-            margin-left: .7em;
+            margin-left: 3.7em;
         }
 
         a {
@@ -99,62 +112,67 @@ body.theme-light {
 }
 
 #navbar-links {
-    position: absolute;
-    right: -700px;
-    transition: right 0.5s;
-}
-
-#navbar-links.active {
-    right: 1rem;
-    transition: right 0.5s;
+    position: static;
 }
 
 #search_form {
-    position: absolute;
-    right: -700px;
-    transition: right 0.5s;
-}
-
-#search_form.active {
-    right: 1rem;
-    transition: right 0.5s;
+    position: static;
+    display: flex;
 }
 
 #search_close {
-    background-color: rgba(0, 0, 0, 0);
-    color: $textBrandColor;
-    border-width: 0;
-    cursor: pointer;
+    display: none;
+}
 
-    &:hover {
-        color:  $textBrandHighlightColor;
-    }
+#search_show {
+    display: none;
 }
 
 #search_textbox {
     margin: 4px 0 5px 0;
-    width: calc(1rem * 22);
+    width: 100%;
 }
 
-@media (max-width: $bp-sm) {
+@media (min-width: $bp-sm) {
     #navbar-links {
-        position: static;
+        position: absolute;
+        right: -700px;
+        transition: right 0.5s;
+    }
+
+    #navbar-links.active {
+        right: 1rem;
+        transition: right 0.5s;
     }
 
     #search_form {
-        position: static;
-        display: flex;
+        position: absolute;
+        right: -700px;
+        transition: right 0.5s;
+    }
+
+    #search_form.active {
+        right: 1rem;
+        transition: right 0.5s;
     }
 
     #search_close {
-        display: none;
+        display: block;
+        background-color: rgba(0, 0, 0, 0);
+        color: $textBrandColor;
+        border-width: 0;
+        cursor: pointer;
+
+        &:hover {
+            color:  $textBrandHighlightColor;
+        }
     }
 
     #search_show {
-        display: none;
+        display: block;
     }
 
     #search_textbox {
-        width: 100%;
+        width: calc(1rem * 22);
     }
 }
