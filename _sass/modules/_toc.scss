@@ -31,6 +31,15 @@
 
         li {
             font-size: .9rem;
+
+            a {
+                font-weight: $tocLinkWeight;
+            }
+
+            a.current {
+                color: $linkActiveColor;
+                font-weight: bold;
+            }
         }
 
         ul {
@@ -42,15 +51,13 @@
             ul {
                 padding-left: 1em;
             }
-
-            a {
-                font-weight: $tocLinkWeight;
-            }
         }
     }
 }
 
 .toc-inlined {
+    padding-bottom: 1em;
+
     .directory {
         border-left: 0;
 
