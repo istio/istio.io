@@ -21,7 +21,7 @@ Istio's aim is to enhance the security of microservices and their communication 
 
 ## Architecture
 
-The diagram below shows the architecture of Istio Security, which includes three primary components: identity, key management, and communication
+The diagram below shows Istio's security-related architecture, which includes three primary components: identity, key management, and communication
 security. This diagram describes how Istio is used to secure the service-to-service communication between service 'frontend' running
 as the service account 'frontend-team' and service 'backend' running as the service account 'backend-team'. Istio supports services running
 on both Kubernetes containers and VM/bare-metal machines.
