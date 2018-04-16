@@ -13,16 +13,16 @@ There are quite a few ways to get plugged in with the Istio community:
 
 <table>
   <tbody>
-    
+
     <tr>
       <td class="logo"><img src="{{home}}/img/list.png" alt="Mailing Lists"/></td>
       <td class="desc">
-        Join the <a href="https://groups.google.com/forum/#!forum/istio-users" target="_blank" rel="noopener">istio-users@</a> mailing list to participate in
+        Join the <a href="https://groups.google.com/forum/#!forum/istio-users">istio-users@</a> mailing list to participate in
          discussions
         and get help troubleshooting problems.
-        Join <a href="https://groups.google.com/forum/#!forum/istio-announce" target="_blank" rel="noopener">istio-announce@</a> to hear about the latest
+        Join <a href="https://groups.google.com/forum/#!forum/istio-announce">istio-announce@</a> to hear about the latest
         releases, events, and other happenings.
-        There's also the <a href="https://groups.google.com/forum/#!forum/istio-dev" target="_blank" rel="noopener">istio-dev@</a> mailing list which
+        There's also the <a href="https://groups.google.com/forum/#!forum/istio-dev">istio-dev@</a> mailing list which
         is used to discuss development issues around the Istio project.
       </td>
     </tr>
@@ -30,14 +30,14 @@ There are quite a few ways to get plugged in with the Istio community:
     <tr>
       <td class="logo"><img src="{{home}}/img/twitter.svg" alt="Twitter"/></td>
       <td class="desc">
-        Follow us on <a href="https://twitter.com/IstioMesh" target="_blank" rel="noopener">Twitter</a> to get the latest news.
+        Follow us on <a href="https://twitter.com/IstioMesh">Twitter</a> to get the latest news.
       </td>
     </tr>
 
     <tr>
       <td class="logo"><img src="{{home}}/img/stackoverflow.svg" alt="Stack Overflow"/></td>
       <td class="desc">
-        <a href="https://stackoverflow.com/questions/tagged/istio" target="_blank" rel="noopener">Stack Overflow</a> is for practical questions and curated answers
+        <a href="https://stackoverflow.com/questions/tagged/istio">Stack Overflow</a> is for practical questions and curated answers
         on deploying, configuring, and using Istio.
       </td>
     </tr>
@@ -45,10 +45,10 @@ There are quite a few ways to get plugged in with the Istio community:
     <tr>
       <td class="logo"><img src="{{home}}/img/github.png" alt="GitHub"/></td>
       <td class="desc">
-        <a href="https://github.com/istio/community" target="_blank" rel="noopener">GitHub</a> is where development takes place on Istio code.
+        <a href="https://github.com/istio/community">GitHub</a> is where development takes place on Istio code.
       </td>
     </tr>
-    
+
     <tr>
       <td class="logo"><img src="{{home}}/img/drive.png" alt="Team Drive"/></td>
       <td class="desc">
@@ -56,15 +56,15 @@ There are quite a few ways to get plugged in with the Istio community:
         of design documents. To access these, simply join the
         <a href="https://groups.google.com/forum/#!forum/istio-team-drive-access">istio-team-drive-access@</a> mailing list.
         Once you've done that, you can head straight to our
-        <a href="https://drive.google.com/corp/drive/u/0/folders/0AIS5p3eW9BCtUk9PVA" target="_blank" rel="noopener">folder full of technical goodies</a>.
+        <a href="https://drive.google.com/corp/drive/u/0/folders/0AIS5p3eW9BCtUk9PVA">folder full of technical goodies</a>.
       </td>
     </tr>
-        
+
     <tr>
       <td class="logo"><img src="{{home}}/img/group.svg" alt="Working Groups"/></td>
       <td class="desc">
-        If you'd like to contribute to the Istio project, consider participating in our 
-        <a href="https://github.com/istio/community/blob/master/WORKING-GROUPS.md" target="_blank" rel="noopener">working groups</a>.
+        If you'd like to contribute to the Istio project, consider participating in our
+        <a href="https://github.com/istio/community/blob/master/WORKING-GROUPS.md">working groups</a>.
       </td>
     </tr>
   </tbody>

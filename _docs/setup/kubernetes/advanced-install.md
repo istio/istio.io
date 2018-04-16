@@ -20,7 +20,6 @@ L7 routing capabilities such as version-aware routing, header based
 routing, gRPC/HTTP2 proxying, tracing, etc. Deploy Istio Pilot only and
 disable other components. Do not deploy the Istio initializer.
 
-
 ## Ingress Controller with Telemetry & Policies
 
 By deploying Istio Pilot and Mixer, the Ingress controller configuration

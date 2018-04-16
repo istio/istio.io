@@ -43,7 +43,7 @@ For the workloads running on VMs and bare metal hosts, the lifetime of their Ist
 `max-workload-cert-ttl` of the Istio CA.
 
 To customize this configuration, the argument for the node agent service should be modified.
-After [setting up th machines]({{home}}/docs/setup/kubernetes/mesh-expansion.html#setting-up-the-machines) for Istio
+After [setting up the machines]({{home}}/docs/setup/kubernetes/mesh-expansion.html#setting-up-the-machines) for Istio
 mesh expansion, modify the file `/lib/systemd/system/istio-auth-node-agent.service` on the VMs or bare metal hosts:
 
 ```bash
@@ -56,7 +56,7 @@ RestartSec=10
 ...
 ```
 
-The above configuraiton specifies that the Istio certificates for workloads running on this VM or bare metal host
+The above configuration specifies that the Istio certificates for workloads running on this VM or bare metal host
 will have 24 hours lifetime.
 
 After configuring the service, restart the node agent by running `systemctl daemon-reload`.

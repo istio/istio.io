@@ -24,9 +24,10 @@ This task describes how to configure Istio to expose external TCP services to ap
   kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
   ```
 
-  **Note**: any pod that you can execute `curl` from is good enough.
+  > any pod that you can execute `curl` from is good enough.
 
 ## Using Istio egress rules for external TCP traffic
+
 In this task we access `wikipedia.org` by HTTPS originated by the application. This task demonstrates the use case when the application cannot use HTTP with TLS origination by the sidecar proxy. Using HTTP with TLS origination by the sidecar proxy is described in the [Control Egress Traffic]({{home}}/docs/tasks/traffic-management/egress.html) task. In that task, `https://google.com` was accessed by issuing HTTP requests to `http://www.google.com:443`.
 
 The HTTPS traffic originated by the application will be treated by Istio as _opaque_ TCP. To enable such traffic, we define a TCP egress rule on port 443.
@@ -38,7 +39,9 @@ Let's assume for the sake of the example that we want to access `wikipedia.org` 
 Alternatively, if we want to access `wikipedia.org` by an IP, just a single egress rule for that IP must be defined.
 
 ## Creating egress rules
+
 Let's create egress rules to enable TCP access to `wikipedia.org`:
+
 ```bash
 cat <<EOF | istioctl create -f -
 kind: EgressRule
@@ -105,7 +108,7 @@ a single `istioctl` command.
    kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep bash
    ```
 
-2. Make a request and verify that we can access https://www.wikipedia.org successfully:
+1. Make a request and verify that we can access https://www.wikipedia.org successfully:
 
    ```bash
    curl -o /dev/null -s -w "%{http_code}\n" https://www.wikipedia.org
@@ -116,7 +119,7 @@ a single `istioctl` command.
 
    We should see `200` printed as the output, which is the HTTP code _OK_.
 
-3. Now let's fetch the current number of the articles available on Wikipedia in the English language:
+1. Now let's fetch the current number of the articles available on Wikipedia in the English language:
    ```bash
    curl -s https://en.wikipedia.org/wiki/Main_Page | grep articlecount | grep 'Special:Statistics'
    ```
