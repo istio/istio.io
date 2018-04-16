@@ -61,8 +61,7 @@ $(function ($) {
         // toggle sidebar on/off
         $('[data-toggle="offcanvas"]').on('click', function () {
             $('.row-offcanvas').toggleClass('active')
-            $(this).children('i.fa').toggleClass('fa-chevron-right');
-            $(this).children('i.fa').toggleClass('fa-chevron-left');
+            $(this).children('i.fa').toggleClass('fa-flip-horizontal');
         })
 
         // toggle category tree in sidebar
@@ -224,20 +223,127 @@ function patchDOM() {
         }
     }
 
+    function createEndnotes() {
+        var notes = document.getElementById("endnotes");
+        if (notes == undefined) {
+            return;
+        }
+
+        // look for anchors in the main section of the doc only (skip headers, footers, tocs, nav bars, etc)
+        var main = document.getElementsByTagName("main")[0];
+        var links = main.getElementsByTagName("a");
+        var count = 1;
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            if (link.pathname == location.pathname) {
+                // skip links on the current page
+                continue;
+            }
+
+            if (link.pathname.endsWith("/") && link.hash != "") {
+                // skip links on the current page
+                continue;
+            }
+
+            if (link.parentElement.tagName == "FIGURE") {
+                // skip links inside figures
+                continue;
+            }
+
+            // add the superscript reference
+            link.insertAdjacentHTML("afterend", "<sup class='endnote-ref'>" + count + "</sup>");
+
+            // and add a list entry for the link
+            var li = document.createElement("li");
+            li.innerText = link.href;
+            notes.appendChild(li);
+            count++;
+        }
+    }
+
     attachCopyButtons();
     attachLinksToHeaders();
     attachLinksToDefinedTerms();
     makeOutsideLinksOpenInTabs();
     loadExternalPreBlocks();
+    createEndnotes();
 }
 
-// Based on the scroll position, make the "scroll to top" button visible or not
-function controlScrollToTopButton() {
-    if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-        document.getElementById("scroll-to-top").style.display = "block";
-    } else {
-        document.getElementById("scroll-to-top").style.display = "none";
+// initialized after the DOM has been loaded
+var scrollToTopButton;
+var tocLinks;
+var tocHeadings;
+
+// discover a few DOM elements up front so we don't need to do it a zillion times for the life of the page
+function getDOMTopology() {
+    scrollToTopButton = document.getElementById("scroll-to-top");
+
+    var toc = document.getElementById("toc");
+    if (toc != undefined) {
+        tocLinks = toc.getElementsByTagName("A");
+        tocHeadings = new Array(tocLinks.length);
+
+        for (var i = 0; i < tocLinks.length; i++) {
+            tocHeadings[i] = document.getElementById(tocLinks[i].hash.substring(1));
+        }
     }
+
+    // one forced call here to make sure everything looks right
+    handleScroll();
+}
+
+function handleScroll() {
+    // Based on the scroll position, make the "scroll to top" button visible or not
+    function controlScrollToTopButton() {
+        if (scrollToTopButton) {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                scrollToTopButton.style.display = "block";
+            } else {
+                scrollToTopButton.style.display = "none";
+            }
+        }
+    }
+
+    // Based on the scroll position, activate a TOC entry
+    function controlTOCActivation() {
+        if (tocLinks) {
+            var closestHeadingBelowTop = -1;
+            var closestHeadingBelowTopPos = 1000000;
+            var closestHeadingAboveTop = -1;
+            var closestHeadingAboveTopPos = -1000000;
+
+            for (var i = 0; i < tocLinks.length; i++) {
+                var cbr = tocHeadings[i].getBoundingClientRect();
+
+                if (cbr.width || cbr.height) {
+                    if ((cbr.top >= 0) && (cbr.top < window.innerHeight)) {
+                        // heading is on the screen
+                        if (cbr.top < closestHeadingBelowTopPos) {
+                            closestHeadingBelowTop = i;
+                            closestHeadingBelowTopPos = cbr.top;
+                        }
+                    } else if (cbr.top < 0) {
+                        // heading is above the screen
+                        if (cbr.top > closestHeadingAboveTopPos) {
+                            closestHeadingAboveTop = i;
+                            closestHeadingAboveTopPos = cbr.top;
+                        }
+                    }
+                }
+
+                tocLinks[i].classList.remove("current");
+            }
+
+            if (closestHeadingBelowTop >= 0) {
+                tocLinks[closestHeadingBelowTop].classList.add("current");
+            } else if (closestHeadingAboveTop >= 0) {
+                tocLinks[closestHeadingAboveTop].classList.add("current");
+            }
+        }
+    }
+
+    controlScrollToTopButton();
+    controlTOCActivation();
 }
 
 // Scroll the document to the top
@@ -247,4 +353,5 @@ function scrollToTop() {
 }
 
 document.addEventListener("DOMContentLoaded", patchDOM);
-window.onscroll = controlScrollToTopButton;
+document.addEventListener("DOMContentLoaded", getDOMTopology);
+window.addEventListener("scroll", handleScroll);

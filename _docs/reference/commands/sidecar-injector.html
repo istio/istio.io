@@ -38,12 +38,12 @@ number_of_entries: 4
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_callers</code></td>
-<td>Include caller information, useful for debugging </td>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -63,7 +63,7 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -87,7 +87,7 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--webhookConfigName &lt;string&gt;</code></td>
-<td>Name of the mutatingwebhookconfiguration resource in Kubernete.  (default `istio-sidecar-injector`)</td>
+<td>Name of the mutatingwebhookconfiguration resource in Kubernetes.  (default `istio-sidecar-injector`)</td>
 </tr>
 <tr>
 <td><code>--webhookName &lt;string&gt;</code></td>
@@ -134,12 +134,12 @@ number_of_entries: 4
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_callers</code></td>
-<td>Include caller information, useful for debugging </td>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -159,7 +159,7 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -187,7 +187,7 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--webhookConfigName &lt;string&gt;</code></td>
-<td>Name of the mutatingwebhookconfiguration resource in Kubernete.  (default `istio-sidecar-injector`)</td>
+<td>Name of the mutatingwebhookconfiguration resource in Kubernetes.  (default `istio-sidecar-injector`)</td>
 </tr>
 <tr>
 <td><code>--webhookName &lt;string&gt;</code></td>
@@ -237,14 +237,14 @@ number_of_entries: 4
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_callers</code></td>
+<td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Include caller information, useful for debugging </td>
+<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -269,7 +269,7 @@ number_of_entries: 4
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -304,7 +304,7 @@ number_of_entries: 4
 <tr>
 <td><code>--webhookConfigName &lt;string&gt;</code></td>
 <td></td>
-<td>Name of the mutatingwebhookconfiguration resource in Kubernete.  (default `istio-sidecar-injector`)</td>
+<td>Name of the mutatingwebhookconfiguration resource in Kubernetes.  (default `istio-sidecar-injector`)</td>
 </tr>
 <tr>
 <td><code>--webhookName &lt;string&gt;</code></td>

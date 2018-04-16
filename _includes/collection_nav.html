@@ -1,6 +1,6 @@
 {% comment %}
-Assigns the next_post_url, next_post_title, previous_post_url, and previous_post_title variables the URLs and titles
-of the next and previous blog posts on the site, relative to the current blog post.
+Assigns the next_page_url, next_page_title, next_page_overview, prev_page_url, prev_page_title, and prev_page_overview variables the
+URLs, titles and overviews of the next and previous pages within the current collection, relative to the current page.
 {% endcomment %}
 
 {% comment %}
@@ -30,8 +30,9 @@ of the next and previous blog posts on the site, relative to the current blog po
     {% assign name = components | last %}
 
     {% if name != "index.html" %}
-        {% assign next_post_url = urls[next_index] %}
-        {% assign next_post_title = titles[next_index] %}
+        {% assign next_page_url = urls[next_index] %}
+        {% assign next_page_title = titles[next_index] %}
+        {% assign next_page_overview = overviews[next_index] %}
         {% break %}
     {% endif %}
 {% endfor %}
@@ -50,8 +51,9 @@ of the next and previous blog posts on the site, relative to the current blog po
     {% assign components = url | split: "/" %}
     {% assign name = components | last %}
     {% if name != "index.html" %}
-        {% assign prev_post_url = urls[prev_index] %}
-        {% assign prev_post_title = titles[prev_index] %}
+        {% assign prev_page_url = urls[prev_index] %}
+        {% assign prev_page_title = titles[prev_index] %}
+        {% assign prev_page_overview = overviews[prev_index] %}
         {% break %}
     {% endif %}
 {% endfor %}

@@ -66,6 +66,7 @@ exclude:
   - js/misc.js
   - js/styleSwitcher.js
   - firebase.json
+  - _rakesite
 
 repository:
   istio/istio.github.io
