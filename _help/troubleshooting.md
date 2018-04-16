@@ -366,12 +366,12 @@ Make sure to raise your ulimit. Example: `ulimit -n 16384`
 
 ## Headless TCP Services Losing Connection from Istiofied Containers
 
-If `istio-ca` is deployed, Envoy is restarted every 15 minutes to refresh certificates.
+If `istio-citadel` is deployed, Envoy is restarted every 15 minutes to refresh certificates.
 This causes the disconnection of TCP streams or long-running connections between services.
 
 You should build resilience into your application for this type of
 disconnect, but if you still want to prevent the disconnects from
-happening, you will need to disable mTLS and the `istio-ca` deployment.
+happening, you will need to disable mTLS and the `istio-citadel` deployment.
 
 First, edit your istio config to disable mTLS
 
@@ -383,10 +383,10 @@ kubectl edit configmap -n istio-system istio
 kubectl delete pods -n istio-system -l istio=pilot
 ```
 
-Next, scale down the `istio-ca` deployment to disable Envoy restarts.
+Next, scale down the `istio-citadel` deployment to disable Envoy restarts.
 
 ```bash
-kubectl scale --replicas=0 deploy/istio-ca -n istio-system
+kubectl scale --replicas=0 deploy/istio-citadel -n istio-system
 ```
 
 This should stop Istio from restarting Envoy and disconnecting TCP connections.

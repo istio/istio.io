@@ -245,7 +245,7 @@ install the [sidecar injector webhook]({{home}}/docs/setup/kubernetes/sidecar-in
    application using the service NodePort, or use port-forwarding instead.
 
 1. Ensure the corresponding Kubernetes pods are deployed and all containers are up and running:
-`istio-pilot-*`, `istio-mixer-*`, `istio-ingress-*`, `istio-ca-*`,
+`istio-pilot-*`, `istio-mixer-*`, `istio-ingress-*`, `istio-citadel-*`,
 and, optionally, `istio-sidecar-injector-*`.
 
    ```bash
@@ -253,7 +253,7 @@ and, optionally, `istio-sidecar-injector-*`.
    ```
 
    ```xxx
-   istio-ca-3657790228-j21b9                1/1       Running   0          5h
+   istio-citadel-3657790228-j21b9           1/1       Running   0          5h
    istio-ingress-1842462111-j3vcs           1/1       Running   0          5h
    istio-sidecar-injector-184129454-zdgf5   1/1       Running   0          5h
    istio-pilot-2275554717-93c43             1/1       Running   0          5h
