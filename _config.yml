@@ -5,10 +5,12 @@ kramdown:
   auto_ids: true
   input: GFM
   hard_wrap: false
+  syntax_highlighter_opts:
+    disable : true
 
 baseurl:
 
-highlighter: rouge
+highlighter: none
 
 liquid:
   error_mode: strict
