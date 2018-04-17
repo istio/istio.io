@@ -137,17 +137,35 @@ thead+tbody tr:first-child td:last-child {
     border-radius: 0;
 }
 
+code {
+    color: $textCodeColor;
+    font-size: 80%;
+    font-weight: $textCodeWeight;
+    word-break: normal;
+}
+
 pre {
     margin: 1em;
     max-height: 31em;
-    border: 1px solid $codeBlockBorderColor;
-    border-left: 5px solid $codeBlockBorderColor;
+    border: 1px solid $preBlockBorderColor;
+    border-left: 5px solid $preBlockBorderColor;
     border-radius: 4px;
-    box-shadow: 3px 3px 8px $codeBlockShadowColor;
+    box-shadow: 3px 3px 8px $preBlockShadowColor;
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+	tab-size: 4;
+	hyphens: none;
+	background: $preBlockBackgroundColor;
 
     code {
         display: block;
         padding: .5em;
+        color: $textColor;
     }
 
     @media print {
@@ -320,13 +338,6 @@ blockquote {
     padding-right: 1em;
     background-color: $blockQuoteBackgroundColor;
     border-radius: 4px 4px 4px 4px;
-}
-
-code {
-    color: $textCodeColor;
-    font-size: 80%;
-    font-weight: $textCodeWeight;
-    word-break: normal;
 }
 
 .spacer {
