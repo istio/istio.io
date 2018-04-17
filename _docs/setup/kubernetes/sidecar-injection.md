@@ -115,7 +115,7 @@ Verify that the sidecar has been injected into the deployment.
 ```bash
 kubectl get deployment sleep -o wide
 ```
-```bash
+```xxx
 NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE       CONTAINERS          IMAGES                             SELECTOR
 sleep     1         1         1            1           2h        sleep,istio-proxy   tutum/curl,unknown/proxy:unknown   app=sleep
 ```
@@ -129,7 +129,7 @@ Sidecars can be automatically added to applicable Kubernetes pods using a
 kubectl api-versions | grep admissionregistration
 ```
 
-```bash
+```xxx
 admissionregistration.k8s.io/v1beta1
 ```
 
