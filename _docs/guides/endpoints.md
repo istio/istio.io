@@ -72,14 +72,14 @@ Adding `"--http_port=8081"` in the ESP deployment arguments and expose a HTTP po
 Update the mesh service deployment.
 
 1. Turn on mTLS in Istio. By using the following command:
-```bash
-kubectl edit cm istio -n istio-system
-```
-
-And uncomment the line:
-```yaml
-authPolicy: MUTUAL_TLS
-```
+   ```bash
+   kubectl edit cm istio -n istio-system
+   ```
+   
+   And uncomment the line:
+   ```yaml
+   authPolicy: MUTUAL_TLS
+   ```
 
 1. After this, you will find access `EXTERNAL_IP` no longer works because istio proxy only accept secure mesh connections.
 Accessing through Ingress still works because Ingress does HTTP terminations.
