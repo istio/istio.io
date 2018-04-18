@@ -204,7 +204,7 @@ with the [Helm Chart]({{home}}/docs/setup/kubernetes/helm-install.html):
    a) Install Istio without enabling [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars.
    Choose this option for clusters with existing applications, applications where services with an
    Istio sidecar need to be able to communicate with other non-Istio Kubernetes services, and
-   applications that use [liveliness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/),
+   applications that use [liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/),
    headless services, or StatefulSets.
 
    ```bash

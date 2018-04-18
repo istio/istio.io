@@ -52,6 +52,7 @@ xcode-select --install
 sudo xcodebuild -license
 brew install ruby
 gem update --system
+gem install mdspell
 gem install bundler
 gem install jekyll
 cd istio.github.io
