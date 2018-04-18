@@ -1,6 +1,6 @@
 ---
 title: Install Istio for Google Cloud Endpoints Services
-overview: Guideline to manually integrate Google Cloud Endpoints services with Istio.
+overview: Explains how to manually integrate Google Cloud Endpoints services with Istio.
 
 order: 42
 layout: docs
@@ -8,12 +8,14 @@ type: markdown
 ---
 {% include home.html %}
 
-This document provides a guideline to manually integrate Istio with existing
+This document shows how to manually integrate Istio with existing
 Google Cloud Endpoints services.
 
 ## Before you begin
 
-You need to follow the instruction to setup an Endpoints service on GKE [instructions](https://cloud.google.com/endpoints/docs/openapi/get-started-kubernetes-engine).
+If you don't have an Endpoints service and want to try it out, you can follow
+the instruction to setup an Endpoints service on GKE
+[instructions](https://cloud.google.com/endpoints/docs/openapi/get-started-kubernetes-engine).
 After setup, you should be able to get an API key and store it in `ENDPOINTS_KEY` environment variable and the external IP address `EXTERNAL_IP`.
 You may test the service using the following command:
 ```bash
@@ -24,10 +26,10 @@ You need to install Istio with [instructions]({{home}}/docs/setup/kubernetes/qui
 
 ## HTTP Endpoints service
 
-1. Inject the service into Istio mesh using `--includeIPRanges` so that Egress is allowed to call external services directly.
+1. Inject the service into mesh using `--includeIPRanges` so that Egress is allowed to call external services directly.
 Otherwise, ESP won't be able to access Google cloud service control. Follow the [instructions]({{home}}/docs/tasks/traffic-management/egress.html#calling-external-services-directly).
 
-1. After injection, the same testing command by calling ESP directly continue to work.
+1. After injection, issue the same test command as above to insure calling ESP continues to work.
 
 1. If you want to access the service through Ingress, create the following ingress service:
 ```bash
@@ -89,11 +91,12 @@ Accessing through Ingress still works because Ingress does HTTP terminations.
 curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "https://${INGRESS_HOST}/echo?key=${ENDPOINTS_KEY}" -k
 ```
 
-## HTTPS Endpoint service using `LoadBalancer EXTERNAL_IP`
+## HTTPS Endpoints service using `LoadBalancer EXTERNAL_IP`
 
-This solution uses Istio proxy as a TCP bypassing. The traffic is secured through ESP. This is not a recommended way.
+This solution uses Istio proxy for TCP bypassing. The traffic is secured through ESP. This is not a recommended way.
+See port naming rules [here]({{home}}/docs/setup/kubernetes/sidecar-injection.html#pod-spec-requirements).
 
-1. Modify the name of HTTP port to be `tcp`
+1. Modify the name of the HTTP port to be `tcp`
 ```yaml
   - port: 80
     targetPort: 8081
@@ -102,8 +105,11 @@ This solution uses Istio proxy as a TCP bypassing. The traffic is secured throug
 ```
 Update the mesh service deployment.
 
-1. You may verify accessing the Endpoints service through secure Ingress:
+1. You can verify access to the Endpoints service through secure Ingress:
 ```bash
 curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "https://${EXTERNAL_IP}/echo?key=${ENDPOINTS_KEY}" -k
 ```
 
+## Additional readings
+
+1. GCP Endpoints [website](https://cloud.google.com/endpoints/docs/).
