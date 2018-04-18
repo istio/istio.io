@@ -109,6 +109,6 @@ Update the mesh service deployment.
 curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "https://${EXTERNAL_IP}/echo?key=${ENDPOINTS_KEY}" -k
 ```
 
-## Additional readings
+## What next?
 
-1. GCP Endpoints [website](https://cloud.google.com/endpoints/docs/).
+Learn more about [GCP Endpoints](https://cloud.google.com/endpoints/docs/).
