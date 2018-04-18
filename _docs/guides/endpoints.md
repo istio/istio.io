@@ -26,14 +26,14 @@ You need to install Istio with [instructions]({{home}}/docs/setup/kubernetes/qui
 
 ## HTTP Endpoints service
 
-1. Inject the service into mesh using `--includeIPRanges` by following the
+1. Inject the service into the mesh using `--includeIPRanges` by following the
 [instructions]({{home}}/docs/tasks/traffic-management/egress.html#calling-external-services-directly)
 so that Egress is allowed to call external services directly.
 Otherwise, ESP won't be able to access Google cloud service control. 
 
 1. After injection, issue the same test command as above to ensure that calling ESP continues to work.
 
-1. If you want to access the service through Ingress, create the following Ingress service:
+1. If you want to access the service through Ingress, create the following Ingress definition:
 
    ```bash
    cat <<EOF | istioctl create -f -
@@ -62,10 +62,10 @@ curl --request POST --header "content-type:application/json" --data '{"message":
 
 ## HTTPS Endpoints service using secured Ingress
 
-The recommended way to securely access a mesh Endpoints service is through secured Ingress with a mTLS enabled mesh.
+The recommended way to securely access a mesh Endpoints service is through an ingress configured with mutual TLS.
 
-1. Expose HTTP port in your mesh service.
-Adding `"--http_port=8081"` in the ESP deployment arguments and expose a HTTP port through Service ports:
+1. Expose the HTTP port in your mesh service.
+Adding `"--http_port=8081"` in the ESP deployment arguments and expose the HTTP port:
 ```yaml
   - port: 80
     targetPort: 8081
@@ -83,7 +83,7 @@ And uncomment the line:
 authPolicy: MUTUAL_TLS
 ```
 
-1. After this, you will find access `EXTERNAL_IP` no longer works because istio proxy only accept secure mesh connections.
+1. After this, you will find access to `EXTERNAL_IP` no longer works because istio proxy only accept secure mesh connections.
 Accessing through Ingress works because Ingress does HTTP terminations.
 
 1. To secure the access at Ingress, following the [instructions]({{home}}/docs/tasks/traffic-management/ingress.html#configuring-secure-ingress-https).
