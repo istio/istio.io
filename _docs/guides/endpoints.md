@@ -29,7 +29,7 @@ You need to install Istio with [instructions]({{home}}/docs/setup/kubernetes/qui
 1. Inject the service into the mesh using `--includeIPRanges` by following the
 [instructions]({{home}}/docs/tasks/traffic-management/egress.html#calling-external-services-directly)
 so that Egress is allowed to call external services directly.
-Otherwise, ESP won't be able to access Google cloud service control. 
+Otherwise, ESP won't be able to access Google cloud service control.
 
 1. After injection, issue the same test command as above to ensure that calling ESP continues to work.
 
