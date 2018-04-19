@@ -178,7 +178,9 @@ function handleDOMLoaded() {
         function applySyntaxColoring() {
             var pre = document.getElementsByTagName('PRE');
             for (var i = 0; i < pre.length; i++) {
-                Prism.highlightElement(pre[i].firstChild, false)
+                if (!pre[i].hasAttribute("data-src")) {
+                    Prism.highlightElement(pre[i].firstChild, false)
+                }
             }
         }
 
@@ -236,6 +238,7 @@ function handleDOMLoaded() {
             function fetchFile(elem, url) {
                 fetch(url).then(response => response.text()).then(data => {
                     elem.firstChild.innerText = data;
+                    Prism.highlightElement(elem.firstChild, false)
                 });
             }
 
@@ -256,7 +259,7 @@ function handleDOMLoaded() {
             // look for anchors in the main section of the doc only (skip headers, footers, tocs, nav bars, etc)
             var main = document.getElementsByTagName("main")[0];
             var links = main.getElementsByTagName("a");
-            var count = 1;
+            var map = new Map(null)
             for (var i = 0; i < links.length; i++) {
                 var link = links[i];
                 if (link.pathname == location.pathname) {
@@ -274,14 +277,19 @@ function handleDOMLoaded() {
                     continue;
                 }
 
+                var count = map.get(link.href);
+                if (count == undefined) {
+                    count = map.size + 1;
+                    map.set(link.href, count);
+
+                    // add a list entry for the link
+                    var li = document.createElement("li");
+                    li.innerText = link.href;
+                    notes.appendChild(li);
+                }
+
                 // add the superscript reference
                 link.insertAdjacentHTML("afterend", "<sup class='endnote-ref'>" + count + "</sup>");
-
-                // and add a list entry for the link
-                var li = document.createElement("li");
-                li.innerText = link.href;
-                notes.appendChild(li);
-                count++;
             }
         }
 
