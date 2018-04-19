@@ -204,7 +204,7 @@ with the [Helm Chart]({{home}}/docs/setup/kubernetes/helm-install.html):
    a) Install Istio without enabling [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars.
    Choose this option for clusters with existing applications, applications where services with an
    Istio sidecar need to be able to communicate with other non-Istio Kubernetes services, and
-   applications that use [liveliness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/),
+   applications that use [liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/),
    headless services, or StatefulSets.
 
    ```bash
@@ -245,7 +245,7 @@ install the [sidecar injector webhook]({{home}}/docs/setup/kubernetes/sidecar-in
    application using the service NodePort, or use port-forwarding instead.
 
 1. Ensure the corresponding Kubernetes pods are deployed and all containers are up and running:
-`istio-pilot-*`, `istio-mixer-*`, `istio-ingress-*`, `istio-ca-*`,
+`istio-pilot-*`, `istio-mixer-*`, `istio-ingress-*`, `istio-citadel-*`,
 and, optionally, `istio-sidecar-injector-*`.
 
    ```bash
@@ -253,7 +253,7 @@ and, optionally, `istio-sidecar-injector-*`.
    ```
 
    ```xxx
-   istio-ca-3657790228-j21b9                1/1       Running   0          5h
+   istio-citadel-3657790228-j21b9           1/1       Running   0          5h
    istio-ingress-1842462111-j3vcs           1/1       Running   0          5h
    istio-sidecar-injector-184129454-zdgf5   1/1       Running   0          5h
    istio-pilot-2275554717-93c43             1/1       Running   0          5h

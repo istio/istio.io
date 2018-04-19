@@ -194,7 +194,7 @@ kubectl get po -n istio-system
 
 ```xxx
 NAME                             READY     STATUS    RESTARTS   AGE
-istio-ca-58c5856966-k6nm4        1/1       Running   0          2m
+istio-citadel-58c5856966-k6nm4   1/1       Running   0          2m
 istio-ingress-5789d889bc-xzdg2   1/1       Running   0          2m
 istio-mixer-65c55bc5bf-8n95w     3/3       Running   0          2m
 istio-pilot-6954dcd96d-phh5z     2/2       Running   0          2m

@@ -52,6 +52,7 @@ xcode-select --install
 sudo xcodebuild -license
 brew install ruby
 gem update --system
+gem install mdspell
 gem install bundler
 gem install jekyll
 cd istio.github.io
@@ -152,7 +153,7 @@ release-0.6) to the `TOBUILD` variable.
 
 1. Run the `build.sh` script.
 
-1. Once the script completes, run 'firebase deploy'. This will update archive.istio.io to contain the
+1. Once the script completes, run `firebase deploy`. This will update archive.istio.io to contain the
 right set of archives, based on the above steps.
 
 1. Navigate to the current.istio.io directory.

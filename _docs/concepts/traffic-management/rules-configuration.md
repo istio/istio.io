@@ -409,7 +409,8 @@ spec:
   match:
     request:
       headers:
-        Foo: bar
+        Foo:
+          exact: bar
   route:
   - labels:
       version: v2

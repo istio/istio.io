@@ -15,7 +15,7 @@ There are quite a few ways to get plugged in with the Istio community:
   <tbody>
 
     <tr>
-      <td class="logo"><img src="{{home}}/img/list.png" alt="Mailing Lists"/></td>
+      <td class="logo"><img src="{{home}}/img/mailing-list.svg" alt="Mailing Lists"/></td>
       <td class="desc">
         Join the <a href="https://groups.google.com/forum/#!forum/istio-users">istio-users@</a> mailing list to participate in
          discussions
@@ -39,6 +39,13 @@ There are quite a few ways to get plugged in with the Istio community:
       <td class="desc">
         <a href="https://stackoverflow.com/questions/tagged/istio">Stack Overflow</a> is for practical questions and curated answers
         on deploying, configuring, and using Istio.
+      </td>
+    </tr>
+
+    <tr>
+      <td class="logo"><img src="{{home}}/img/rocket-chat.svg" alt="Rocket Chat"/></td>
+      <td class="desc">
+        Chat with members of the Istio community on <a href="https://istio.rocket.chat">Rocket Chat</a>.
       </td>
     </tr>
 

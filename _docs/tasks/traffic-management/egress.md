@@ -208,7 +208,7 @@ On Google Container Engine (GKE) the ranges are not fixed, so you will
 need to run the `gcloud container clusters describe` command to determine the ranges to use. For example:
 
 ```bash
-gcloud container clusters describe XXXXXXX --zone=XXXXXX | grep -e clusterIpv4Cidr -e servicesIpv4Cidr
+gcloud container clusters describe <cluster_name> --zone <zone> | grep -e clusterIpv4Cidr -e servicesIpv4Cidr
 ```
 ```xxx
 clusterIpv4Cidr: 10.4.0.0/14
