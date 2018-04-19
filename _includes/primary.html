@@ -65,31 +65,31 @@ Usage:
                 {% endif %}
 
                 {{content}}
+            </main>
 
-                {% include collection_nav.html %}
+            {% include collection_nav.html %}
 
-                <div class="container-fluid d-print-none">
-                    <br/><hr/><br/>
+            <div class="container-fluid d-print-none">
+                <br/><hr/><br/>
 
-                    <div class="row">
-                        <div class="col-6">
-                            {% if next_page_url %}
-                                <a title="{{next_page_overview}}" href="{{home}}{{next_page_url}}"><i class="fa fa-arrow-left"></i>{{next_page_title}}</a>
-                            {% endif %}
-                        </div>
-                        <div class="col-6" style="text-align: right">
-                            {% if prev_page_url %}
-                                <a title="{{prev_page_overview}}" href="{{home}}{{prev_page_url}}">{{prev_page_title}} <i class="fa fa-arrow-right"></i></a>
-                            {% endif %}
-                        </div>
+                <div class="row">
+                    <div class="col-6">
+                        {% if next_page_url %}
+                            <a title="{{next_page_overview}}" href="{{home}}{{next_page_url}}"><i class="fa fa-arrow-left"></i>{{next_page_title}}</a>
+                        {% endif %}
+                    </div>
+                    <div class="col-6" style="text-align: right">
+                        {% if prev_page_url %}
+                            <a title="{{prev_page_overview}}" href="{{home}}{{prev_page_url}}">{{prev_page_title}} <i class="fa fa-arrow-right"></i></a>
+                        {% endif %}
                     </div>
                 </div>
+            </div>
 
-                <div class="d-none d-print-block" aria-hidden="true">
-                    <h2>Links</h2>
-                    <ol id="endnotes"></ol>
-                </div>
-            </main>
+            <div class="d-none d-print-block" aria-hidden="true">
+                <h2>Links</h2>
+                <ol id="endnotes"></ol>
+            </div>
         </div>
 
         {% if needTOC and page.force_inline_toc != true %}
