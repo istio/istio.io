@@ -3,9 +3,9 @@ title: "Introducing the Istio v1alpha3 routing API"
 overview: Introduction, motivation and design principles for the Istio v1alpha3 routing API. 
 publish_date: April 19, 2018
 subtitle:
-attribution: Frank Budinsky
+attribution: Frank Budinsky and Shriram Rajagopalan
 
-order: 94
+order: 90
 
 layout: blog
 type: markdown
@@ -133,8 +133,8 @@ As you can see, both of the rules for the `reviews` service are consolidated in 
 seem preferable. However, if you look closer at this new model, you’ll see there are fundamental differences that make
 `v1alpha3` vastly more functional.
 
-First of all, notice that the destination service for the `VirtualService` is specified using a hosts field (repeated field,
-in fact) and is then again specified in a destination field of each of the route specifications. This is a very important
+First of all, notice that the destination service for the `VirtualService` is specified using a `hosts` field (repeated field,
+in fact) and is then again specified in a `destination` field of each of the route specifications. This is a very important
 difference from the previous model.
 
 A `VirtualService` describes the mapping between one, or more, user-addressable destinations to the actual destination services (workloads) inside the mesh. In our example, they are the same, however, the user-addressed hosts can be any DNS
@@ -169,7 +169,7 @@ spec:
   ...
 ```
 
-The `hosts` of a `VirtualService` do not actually have to be part of the service registry, they are simply virtual
+The hosts of a `VirtualService` do not actually have to be part of the service registry, they are simply virtual
 destinations. This allows users to model traffic for virtual hosts that do not have routable entries inside the mesh.
 These hosts can be exposed outside the mesh by binding the `VirtualService` to a `Gateway` configuration for the same host
 (see [Gateway](#gateway), below).
