@@ -173,6 +173,7 @@ apiVersion
 arch.svg
 archive.istio.io
 archive.istio.io.
+attach_policies.png
 auth.svg
 authn.svg
 autoscaler
@@ -208,6 +209,9 @@ containerID
 context.protocol
 context.time
 coreos
+create_policy.png
+createpolicyjson.png
+createpolicystart.png
 current.istio.io
 current.istio.io.
 datastore
@@ -310,6 +314,7 @@ istioctl
 jaeger_dashboard.png
 jaeger_trace.png
 jason
+json
 k8s
 key.pem
 kube-api
@@ -431,6 +436,7 @@ response.time
 reviews.abc.svc.cluster.local
 roadmap
 roleRef
+roles_summary.png
 rollout
 rollouts
 routable
