@@ -121,11 +121,11 @@ spec:
           regex: "^(.*?;)?(user=jason)(;.*)?$"
     route:
     - destination:
-        name: reviews
+        host: reviews
         subset: v2
   - route:
     - destination:
-        name: reviews
+        host: reviews
         subset: v1
 ```
 
@@ -159,13 +159,13 @@ spec:
         prefix: /reviews
     route:
     - destination:
-        name: reviews
+        host: reviews
   - match:
     - uri:
         prefix: /ratings
     route:
     - destination:
-        name: ratings
+        host: ratings
   ...
 ```
 
