@@ -21,7 +21,7 @@ The API has allowed users to route requests to specific versions of services, in
 testing, add timeouts and circuit breakers, and more, all without changing the application code itself.
 
 While this functionality has proven to be a very compelling part of Istio, user feedback has also shown that this API does
-have some shortcoming, specifically when using it to manage very large applications containing thousands of services, and
+have some shortcomings, specifically when using it to manage very large applications containing thousands of services, and
 when working with protocols other than HTTP. Furthermore, the use of Kubernetes `Ingress` resources to configure external
 traffic has proven to be woefully insufficient for our needs.
 
@@ -142,7 +142,7 @@ names with optional wildcard prefix or CIDR prefix that will be used to address 
 useful in facilitating turning monoliths into a composite service built out of distinct microservices without requiring the
 consumers of the service to adapt to the transition.
 
-For example, the following rule allows users to address both the reviews and ratings services of the Bookinfo application
+For example, the following rule allows users to address both the `reviews` and `ratings` services of the Bookinfo application
 as if they are parts of a bigger (virtual) service at `http://bookinfo.com/`:
 
 ```yaml
@@ -323,6 +323,24 @@ within the mesh and multiple different gateway implementations can co-exist. In 
 to a particular workload by specifying the set of workload (pod) labels as part of the configuration, allowing users to
 reuse off the shelf network appliances by writing a simple gateway controller. `Gateway` is much more general purpose than
 simply an ingress replacement.
+
+## Creating and deleting v1alpha3 route rules
+
+Because all route rules for a given destination are now stored together as an ordered
+list in a single `VirtualService` resource, adding subsequent rules for a particular destination
+is no longer done by creating a new (`RouteRule`) resource, but instead by updating the one-and-only `VirtualService`
+resource for the destination.
+
+old routing rules:
+```
+istioctl create -f my-second-rule-for-destination-abc.yaml
+```
+`v1alpha3` routing rules:
+```
+istioctl replace -f my-updated-rules-for-destination-abc.yaml
+```
+
+Deleting route rules other than the last one for a particular destination is also done using `istioctl replace`.
 
 ## Summary
 
