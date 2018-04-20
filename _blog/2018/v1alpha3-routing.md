@@ -21,7 +21,7 @@ The API has allowed users to route requests to specific versions of services, in
 testing, add timeouts and circuit breakers, and more, all without changing the application code itself.
 
 While this functionality has proven to be a very compelling part of Istio, user feedback has also shown that this API does
-have some shortcoming, specifically when using it manage very large applications containing thousands of services, and
+have some shortcoming, specifically when using it to manage very large applications containing thousands of services, and
 when working with protocols other than HTTP. Furthermore, the use of Kubernetes `Ingress` resources to configure external
 traffic has proven to be woefully insufficient for our needs.
 
@@ -29,14 +29,14 @@ To address these, and other concerns, a new traffic management API, a.k.a. `v1al
 completely replace the previous API going forward. Although the `v1alpha3` model is fundamentally the same, it is not
 backward compatible and will require manual conversion from the old API. A
 [conversion tool]({{home}}/docs/reference/commands/istioctl.html#istioctl%20experimental%20convert-networking-config)
-is included in the the next few releases of Istio to help with the transition.
+is included in the next few releases of Istio to help with the transition.
 
 To justify this disruption, the `v1alpha3` API has gone through a long and painstaking community
 review process that has hopefully resulted in a greatly improved API that will stand the test of time. In this article,
 we will introduce the new configuration model and attempt to explain some of the motivation and design principles that
 influenced it.
 
-## Design Principles
+## Design principles
 
 A few key design principles played a role in the routing model redesign:
 
@@ -46,7 +46,7 @@ A few key design principles played a role in the routing model redesign:
   rules associated with a particular host are configured together, instead of individually.
 * Clear separation of routing from post-routing behaviors.
 
-## Configuration Resources in v1alpha3
+## Configuration resources in v1alpha3
 
 The routing configuration resources in v1alpha3 have changed as follows:
 
@@ -137,13 +137,13 @@ First of all, notice that the destination service for the `VirtualService` is sp
 in fact) and is then again specified in a `destination` field of each of the route specifications. This is a very important
 difference from the previous model.
 
-A `VirtualService` describes the mapping between one, or more, user-addressable destinations to the actual destination services (workloads) inside the mesh. In our example, they are the same, however, the user-addressed hosts can be any DNS
+A `VirtualService` describes the mapping between one or more user-addressable destinations to the actual destination workloads inside the mesh. In our example, they are the same, however, the user-addressed hosts can be any DNS
 names with optional wildcard prefix or CIDR prefix that will be used to address the service. This can be particularly
 useful in facilitating turning monoliths into a composite service built out of distinct microservices without requiring the
 consumers of the service to adapt to the transition.
 
 For example, the following rule allows users to address both the reviews and ratings services of the Bookinfo application
-as if they are parts of a bigger (virtual) service at http://bookinfo.com/:
+as if they are parts of a bigger (virtual) service at `http://bookinfo.com/`:
 
 ```yaml
 apiVersion: networking.istio.io/v1alpha3
@@ -237,8 +237,8 @@ Replacing `EgressRule` from the previous API, `ExternalService` provides several
 
 1. Individual service ports and service discovery mode are now configurable.
 2. One or more (different) external endpoints can be configured to implement a “virtual” external service.
-3. Secure HTTP services (automatic TLS upgrade) can now be accessed using standard https (e.g., https://secureservice.com/
-   instead of http://secureservice.com:443/.
+3. Secure HTTP services (automatic TLS upgrade) can now be accessed using standard https (e.g., `https://secureservice.com/`
+   instead of `http://secureservice.com:443/`.
 4. Multiple CIDR subsets can now be included in a single `ExternalService` configuration.
 
 Because an `ExternalService` configuration simply adds an external destination to the internal service registry, it can be
@@ -247,7 +247,7 @@ used in conjunction with a `VirtualService` and/or `DestinationRule`, just like 
 ### Gateway
 
 It all started with ingress. The Istio ingress feature inherited the Kubernetes `Ingress` resource model for expediency, but
-unfortunately it is not able to express all of the routing capabilities of Istio. The `Ingress` APIs are inadequate to model
+unfortunately it is not able to express all of Istio's routing capabilities. The `Ingress` APIs are inadequate to model
 ingress traffic for several key Istio use-cases such as:
 
 * Split traffic across different versions of a service based on labelling
@@ -318,7 +318,7 @@ allow traffic in the mesh to exit. A `Gateway` can also model a proxy that is en
 either by sidecars or by a middle proxy.  Ingress and egress gateways can also expose non HTTP services with the same
 ease.
 
-A `Gateway` simply configures a loadbalancer, regardless of where it will be running. Any number of gateways can exist
+A `Gateway` simply configures a load balancer, regardless of where it will be running. Any number of gateways can exist
 within the mesh and multiple different gateway implementations can co-exist. In fact, a gateway configuration can be bound
 to a particular workload by specifying the set of workload (pod) labels as part of the configuration, allowing users to
 reuse off the shelf network appliances by writing a simple gateway controller. `Gateway` is much more general purpose than
@@ -332,3 +332,16 @@ and `EgressRule`, will no longer be available or supported. For external traffic
 configuration will still be supported (in the Kubernetes environment), but with limited functionality. The new Istio
 `Gateway` API is significantly more functional and a highly recommended `Ingress` replacement.
 
+## Acknowledgments
+
+Credit for the routing model redesign and implementation work go to the following people (in alphabetical order):
+
+* Frank Budinsky
+* Zack Butcher
+* Greg Hanson
+* Costin Manolache
+* Martin Ostrowski
+* Shriram Rajagopalan
+* Louis Ryan
+* Isaiah Snell-Feikema
+* Kuat Yessenov
