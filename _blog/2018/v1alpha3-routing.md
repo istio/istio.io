@@ -332,11 +332,11 @@ is no longer done by creating a new (`RouteRule`) resource, but instead by updat
 resource for the destination.
 
 old routing rules:
-```
+```bash
 istioctl create -f my-second-rule-for-destination-abc.yaml
 ```
 `v1alpha3` routing rules:
-```
+```bash
 istioctl replace -f my-updated-rules-for-destination-abc.yaml
 ```
 
@@ -344,8 +344,8 @@ Deleting route rules other than the last one for a particular destination is als
 
 ## Summary
 
-The Istio `v1alpha3` routing API is significantly more functional than its predecessor, but unfortunately not backwards
-compatible, requiring a one time manual conversion. The previous configuration resources, `RouteRule`, `DesintationPolicy`,
+The Istio `v1alpha3` routing API has significantly more functionality than its predecessor, but unfortunately is not backwards compatible, requiring a one time manual conversion.
+The previous configuration resources, `RouteRule`, `DesintationPolicy`,
 and `EgressRule`, will no longer be available or supported. For external traffic control, however, the previous `Ingress`
 configuration will still be supported (in the Kubernetes environment), but with limited functionality. The new Istio
 `Gateway` API is significantly more functional and a highly recommended `Ingress` replacement.
