@@ -27,8 +27,9 @@ $dividerBarColor: rgba(0, 0, 0, .1);
 $glossaryHeaderColor: lighten($gray, 35%);
 $blockQuoteBackgroundColor: $light-gray;
 $deprecatedBackgroundColor: silver;
-$codeBlockShadowColor: #a7a7a7;
-$codeBlockBorderColor: #dddddd;
+$preBlockShadowColor: #a7a7a7;
+$preBlockBorderColor: #dddddd;
+$preBlockBackgroundColor: $backgroundColor;
 $boxBorderColor: $secondBrandColor;
 
 $headerLightShadowColor: rgba(0, 0, 0, .14);

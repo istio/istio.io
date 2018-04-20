@@ -53,6 +53,7 @@ ExecAction
 Exfiltrating
 ExternalName
 Fluentd
+FQDNs
 GATEWAY_URL
 GCP-IAM
 GCP_OPTS
@@ -81,6 +82,7 @@ JWTs
 Kibana
 Kops
 Kube
+Kubecon
 Kubelet
 Kubernetes
 L3-4
@@ -105,6 +107,7 @@ OP_QUERY
 OpenID_Connect
 OpenSSL
 OpenShift
+PaaS
 Papertrail
 PilotAdapters.svg
 RawVM
@@ -263,24 +266,6 @@ gcloud
 gdb
 getPetsById
 git
-global.hyperkube.hub
-global.hyperkube.tag
-global.ingress.nodeport_port
-global.ingress.use_nodeport
-global.initializer.enabled
-global.mixer.enabled
-global.mixer.hub
-global.mixer.tag
-global.namespace
-global.pilot.enabled
-global.pilot.hub
-global.pilot.tag
-global.proxy.debug
-global.proxy.hub
-global.proxy.tag
-global.security.enabled
-global.security.hub
-global.security.tag
 golang
 googleapis.com
 googlegroups.com
@@ -314,6 +299,7 @@ ip_address
 iptables
 istio
 istio-apiserver
+istio-system1
 istio.github.io
 istio.github.io.
 istio.io
@@ -503,6 +489,7 @@ ulimit
 uncomment
 uncommented
 unencrypted
+untrusted
 uptime
 url
 user
@@ -529,6 +516,7 @@ withistio.svg
 www.google.com
 x-envoy-upstream-rq-timeout-ms
 x.509
+xDS
 yaml
 yamls
 yournamespace
