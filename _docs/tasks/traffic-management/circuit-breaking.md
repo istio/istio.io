@@ -40,26 +40,7 @@ Let's set up a scenario to demonstrate the circuit-breaking capabilities of Isti
 calling `httpbin` service:
 
    ```bash
-   cat <<EOF | istioctl create -f -
-   apiVersion: config.istio.io/v1beta1
-   kind: DestinationPolicy
-   metadata:
-     name: httpbin-circuit-breaker
-   spec:
-     destination:
-       name: httpbin
-       labels:
-         version: v1
-     circuitBreaker:
-       simpleCb:
-         maxConnections: 1
-         httpMaxPendingRequests: 1
-         sleepWindow: 3m
-         httpDetectionInterval: 1s
-         httpMaxEjectionPercent: 100
-         httpConsecutiveErrors: 1
-         httpMaxRequestsPerConnection: 1
-   EOF
+   istioctl create -f samples/httpbin/destinationpolicies/httpbin-circuit-breaker.yaml
    ```
 
 1. Verify our destination policy was created correctly:
