@@ -16,6 +16,7 @@ This sample demonstrates how to obtain uniform metrics, logs, traces across diff
 Placeholder.
 
 ## Before you begin
+
 * Describe installation options.
 
 * Install Istio control plane in a Kubernetes cluster by following the quick start instructions in the

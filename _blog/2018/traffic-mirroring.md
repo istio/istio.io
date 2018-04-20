@@ -1,5 +1,5 @@
 ---
-title: "Traffic mirroring with Istio for testing in production"
+title: "Traffic Mirroring with Istio for Testing in Production"
 overview: An introduction to safer, lower-risk deployments and release to production
 publish_date: February 8, 2018
 subtitle: Routing rules for HTTP traffic
@@ -13,10 +13,9 @@ redirect_from: "/blog/traffic-mirroring.html"
 ---
 {% include home.html %}
 
-Trying to enumerate all the possible combinations of test cases for testing services in non-production/test environments can be daunting. In some cases, you'll find that all of the effort that goes into cataloging these use cases doesn't match up to real production use cases. Ideally, we could use live production use cases and traffic to help illuminate all of the feature areas of the service under test that we might miss in more contrived testing environments. 
+Trying to enumerate all the possible combinations of test cases for testing services in non-production/test environments can be daunting. In some cases, you'll find that all of the effort that goes into cataloging these use cases doesn't match up to real production use cases. Ideally, we could use live production use cases and traffic to help illuminate all of the feature areas of the service under test that we might miss in more contrived testing environments.
 
 Istio can help here. With the release of [Istio 0.5.0]({{home}}/about/notes/0.5.html), Istio can mirror traffic to help test your services. You can write route rules similar to the following to enable traffic mirroring:
-
 
 ```yaml
 apiVersion: config.istio.io/v1alpha2
@@ -31,14 +30,14 @@ spec:
   - labels:
       version: v1
     weight: 100
-  - labels: 
+  - labels:
       version: v2
     weight: 0
   mirror:
     name: httpbin
     labels:
       version: v2
-``` 
+```
 
 A few things to note here:
 

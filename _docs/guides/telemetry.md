@@ -49,7 +49,7 @@ developers to manually instrument their applications.
    applications.
 
 1. [Using the Istio Dashboard]({{home}}/docs/tasks/telemetry/using-istio-dashboard.html)
-   This task installs the Grafana add-on with a pre-configured dashboard
+   This task installs the Grafana add-on with a preconfigured dashboard
    for monitoring mesh traffic.
 
 ## Cleanup
