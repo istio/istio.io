@@ -55,7 +55,7 @@ This task describes how to configure Istio to expose a service outside of the se
 
 ## Configuring ingress using an Istio Gateway resource (recommended)
 
-> Note: This is still a WIP and not working yet.
+> This is still a work in progress and is **not available** in the most recent Istio release (0.7.1). The current way of enabling inbound cluster traffic via Kubernetes Ingress resource is outlined [below](#configuring-ingress-using-a-kubernetes-ingress-resource).
 
 An [Istio Gateway]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway) is the preferred
 model for configuring ingress traffic in Istio.
@@ -64,7 +64,7 @@ HTTP/TCP connections.
 It configures exposed ports, protocols, etc.,
 but, unlike [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/services-networking/ingress/),
 does not include any traffic routing configuration. Traffic routing for ingress traffic is instead configured
-using Istio routing rules, exactly in the same was as for internal service requests.
+using Istio routing rules, exactly in the same way as for internal service requests.
 
 ### Configuring a Gateway
 
