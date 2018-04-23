@@ -272,8 +272,8 @@ function handleDOMLoaded() {
                     continue;
                 }
 
-                if (link.parentElement.tagName == "FIGURE") {
-                    // skip links inside figures
+                if (link.classList.contains("not-for-endnotes")) {
+                    // skip links that don't want to be included
                     continue;
                 }
 
