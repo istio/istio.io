@@ -32,11 +32,6 @@ pod CIDR.
 
 * Helm **2.7.2 or newer**.  The use of Tiller is optional.
 
-* All remote Kubernetes cluster credentials (typically stored in `$HOME/.kube/config`)
-copied to `$HOME/multicluster/${CLUSTER_NAME}`.  All files in `$HOME/multicluster`
-directory must have their cluster name set properly.  Many Kubernetes installers do
-not name the cluster, so editing the file by hand may be necessary.
-
 * Currently only [manual sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar-injection)
 has been validated with multicluster.
 
@@ -55,17 +50,27 @@ context typically located in `$HOME/.kube/config`.
 
 ## Gather credential files from remote
 
+> ${CLUSTER_NAME} here is defined as the name of the remote
+cluster used and must be unique across the mesh.  Some Kubernetes
+installers do not set this value uniquely.  In this case, manual
+modification of the `${CLUSTER_NAME}` fields must be done.
+
 For each remote cluster, execute the following steps:
 
-1. Copy the credentials file on the remote to the Istio control
-plane cluster to `$HOME/multicluster/${CLUSTER_NAME}`.  The
-`${CLUSTER_NAME}` should be unique per remote.
+1. Determine a name for the remote cluster that is unique across
+all clusters in the mesh.  Substitute the chosen name for the
+remaining steps in `${CLUSTER_NAME}`.
 
-1. Modify the name of the remote cluster's credentials file field
-`clusters.name` to the desired name of the cluster.
+1. Copy the credentials file form the remote Kubernetes cluster
+to the local Istio control plane cluster directory
+`$HOME/multicluster/${CLUSTER_NAME}`.  The `${CLUSTER_NAME}` must
+be unique per remote.
 
 1. Modify the name of the remote cluster's credential file field
-`contexts.context.cluster` to match the cluster name.
+`clusters.cluster.name` to match `${CLUSTER_NAME}`.
+
+1. Modify the name of the remote cluster's credential file field
+`contexts.context.cluster` to match `${CLUSTER_NAME}`.
 
 ## Instantiate the credentials for each remote cluster
 
@@ -91,22 +96,22 @@ popd
 the Istio control plane.  Creating secrets after Istio is started will not register the
 secrets with Istio properly.
 
-## Deploy the Istio control plane
+## Deploy the local Istio control plane
 
 Install the [Istio control plane]({{home}}/docs/setup/kubernetes/quick-start.html)
 on **one** Kubernetes cluster.
 
-## Install the Istio remote on every remote
+## Install the Istio remote on every remote cluster
 
 <img src="{{home}}/img/exclamation-mark.svg" alt="Important" title="Important" style="width: 32px; display:inline" />
 The istio-remote component must be deployed to each remote Kubernetes cluster.
 
-### Use kubectl with Helm to connect the remote cluster
+### Use kubectl with Helm to connect the remote cluster to the local
 
-1. Use the helm template command on a remote to specify the Istio control plane:
+1. Use the helm template command on a remote to specify the Istio control plane service endpoints:
 
    ```bash
-   helm template install/kubernetes/helm/istio-remote --name istio-remote --set pilotEndpoint=`pod_ip_of_pilot_local` --set policyEndpoint=`pod_ip_of_policy_local --set statsdEndpoint=`pod_ip_of_statsd_local` > $HOME/istio-remote.yaml
+   helm template install/kubernetes/helm/istio-remote --name istio-remote --set pilotEndpoint=`pod_ip_of_pilot_local` --set policyEndpoint=`pod_ip_of_policy_local` --set statsdEndpoint=`pod_ip_of_statsd_local` > $HOME/istio-remote.yaml
     ```
 
 1. Instantiate the remote cluster's connection to the Istio control plane:
@@ -115,7 +120,7 @@ The istio-remote component must be deployed to each remote Kubernetes cluster.
    kubectl create -f $HOME/istio-remote.yaml
    ```
 
-### Alternatively use Helm and Tiller to connect the remote cluster
+### Alternatively use Helm and Tiller to connect the remote cluster to the local
 
 1. If a service account has not already been installed for Helm, please
 install one:
@@ -133,7 +138,7 @@ install one:
 1. Install the Helm chart:
 
    ```bash
-   helm install install/kubernetes/helm/istio-remote --name istio-remote --set pilotEndpoint=`pod_ip_of_pilot_local` --set policyEndpoint=`pod_ip_of_policy_local --set statsdEndpoint=`pod_ip_of_statsd_local` > $HOME/istio-remote.yaml -n istio-system
+   helm install install/kubernetes/helm/istio-remote --name istio-remote --set pilotEndpoint=`pod_ip_of_pilot_local` --set policyEndpoint=`pod_ip_of_policy_local` --set statsdEndpoint=`pod_ip_of_statsd_local` > $HOME/istio-remote.yaml -n istio-system
    ```
 
 ### Helm configuration parameters
