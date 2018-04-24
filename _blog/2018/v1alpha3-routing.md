@@ -1,7 +1,7 @@
 ---
 title: "Introducing the Istio v1alpha3 routing API"
 overview: Introduction, motivation and design principles for the Istio v1alpha3 routing API. 
-publish_date: April 23, 2018
+publish_date: April 25, 2018
 subtitle:
 attribution: Frank Budinsky (IBM) and Shriram Rajagopalan (VMware)
 
@@ -42,40 +42,41 @@ A few key design principles played a role in the routing model redesign:
 
 * Explicitly model infrastructure as well as intent. For example, in addition to configuring an ingress gateway, the
   component (controller) implementing it can also be specified.
-* The authoring model should be "producer oriented" and "host-centric" as opposed to compositional. For example, all
+* The authoring model should be "producer oriented" and "host centric" as opposed to compositional. For example, all
   rules associated with a particular host are configured together, instead of individually.
 * Clear separation of routing from post-routing behaviors.
 
 ## Configuration resources in v1alpha3
 
 A typical mesh will have one or more load balancers (we call them gateways)
-that terminate TLS from external networks. Traffic then flows through
-internal services. It is also common for applications to consume external
-services (e.g., Google Maps API). In certain deployments, all traffic
-exiting the mesh may be forced through dedicated egress gateways. The
-following figure depicts this mental model.
+that terminate TLS from external networks and allow traffic into the mesh.
+Traffic then flows through internal services via sidecar gateways.
+It is also common for applications to consume external
+services (e.g., Google Maps API). These may be called directly or, in certain deployments, all traffic
+exiting the mesh may be forced through dedicated egress gateways. The following figure depicts
+this mental model.
 
 {% include figure.html width='80%' ratio='65.16%'
     img='./img/gateways.svg'
     alt='Role of gateways in the mesh'
-    title='Gateway configuration resource in v1alpha3'
-    caption='Gateway configuration resource in v1alpha3'
+    title='Gateways in an Istio service mesh'
+    caption='Gateways in an Istio service mesh'
     %}
 
-With the above setup in mind, v1alpha3 introduces the following new
-configuration resources to control traffic routing into and out of the mesh.
+With the above setup in mind, `v1alpha3` introduces the following new
+configuration resources to control traffic routing into, within, and out of the mesh.
 
-4. [Gateway]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway)
-1. [VirtualService]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#VirtualService)
-2. [DestinationRule]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#DestinationRule)
-3. [ExternalService]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#ExternalService)
+1. `Gateway`
+2. `VirtualService`
+3. `DestinationRule`
+4. `ExternalService`
 
-VirtualService, DestinationRule, and ExternalService replace `RouteRule`,
-`DestinationPolicy`, and `EgressRule` respectively. The Gateway is a
+`VirtualService`, `DestinationRule`, and `ExternalService` replace `RouteRule`,
+`DestinationPolicy`, and `EgressRule` respectively. The `Gateway` is a
 platform independent abstraction to model the traffic flowing into
-dedicated middleboxes such as LoadBalancers.
+dedicated middleboxes.
 
-The figure below depicts the flow of control across different configuration
+The figure below depicts the flow of control across configuration
 resources.
 
 {% include figure.html width='80%' ratio='65.16%'
@@ -87,7 +88,8 @@ resources.
 
 ### Gateway
 
-A `Gateway` configures a load balancer for HTTP/TCP traffic, regardless of
+A [Gateway]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway)
+configures a load balancer for HTTP/TCP traffic, regardless of
 where it will be running.  Any number of gateways can exist within the mesh
 and multiple different gateway implementations can co-exist. In fact, a
 gateway configuration can be bound to a particular workload by specifying
@@ -96,21 +98,21 @@ users to reuse off the shelf network appliances by writing a simple gateway
 controller.
 
 You might ask: _Why not reuse Kubernetes Ingress APIs_? The Ingress APIs
-proved to be woefully inadequate to express Istio's routing needs. By
+proved to be incapable of expressing Istio's routing needs. By
 trying to draw a common denominator across different HTTP proxies, the
 Ingress is only able to support the most basic HTTP routing and ends up
 pushing every other feature of modern proxies into non-portable
 annotations.
 
 Istio `Gateway` overcomes the `Ingress` shortcomings by separating the
-L4-L6 spec from L7.  It only configures the L4-L6 functions (e.g., ports to
+L4-L6 spec from L7. It only configures the L4-L6 functions (e.g., ports to
 expose, TLS configuration) that are uniformly implemented by all good L7
-proxies. Users can then use standard Istio route rules to control HTTP
+proxies. Users can then use standard Istio rules to control HTTP
 requests as well as TCP traffic entering a `Gateway` by binding a
 `VirtualService` to it.
 
-For example, the following simple `Gateway` could be used to allow external
-https traffic to the bookinfo.com `VirtualService`, described earlier:
+For example, the following simple `Gateway` configures a load balancer
+to allow external https traffic for host `bookinfo.com` into the mesh:
 
 ```yaml
 apiVersion: networking.istio.io/v1alpha3
@@ -131,9 +133,9 @@ spec:
       privateKey: /tmp/tls.key
 ```
 
-To configure the corresponding routes, the bookinfo `VirtualService` needs
-to be bound to the `Gateway` by adding an additional `gateways` field to
-the configuration:
+To configure the corresponding routes, a `VirtualService` (described below)
+must be defined for the same host and bound to the `Gateway` with
+a `gateways` field to in the configuration:
 
 ```yaml
 apiVersion: networking.istio.io/v1alpha3
@@ -154,8 +156,8 @@ spec:
 ```
 
 The `Gateway` can be used to model an edge-proxy or a purely internal proxy
-as shown in the first figure. Irrespective of the location, the gateways
-can be configured and controlled in the same manner.
+as shown in the first figure. Irrespective of the location, all gateways
+can be configured and controlled in the same way.
 
 ### VirtualService
 
@@ -166,7 +168,8 @@ scalability issues with the previous model.
 In effect, what has changed is that instead of configuring routing using a set of individual configuration resources
 (rules) for a particular destination service, each containing a precedence field to control the order of evaluation, we
 now configure the (virtual) destination itself, with all of its rules in an ordered list within a corresponding
-`VirtualService` resource. For example, where previously we had two `RouteRule` resources for the
+[VirtualService]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#VirtualService) resource.
+For example, where previously we had two `RouteRule` resources for the
 [Bookinfo]({{home}}/docs/guides/bookinfo.html) application’s `reviews` service, like this:
 
 ```yaml
@@ -229,9 +232,8 @@ As you can see, both of the rules for the `reviews` service are consolidated in 
 seem preferable. However, if you look closer at this new model, you’ll see there are fundamental differences that make
 `v1alpha3` vastly more functional.
 
-First of all, notice that the destination service for the `VirtualService` is specified using a `hosts` field (repeated field,
-in fact) and is then again specified in a `destination` field of each of the route specifications. This is a very important
-difference from the previous model.
+First of all, notice that the destination service for the `VirtualService` is specified using a `hosts` field (repeated field, in fact) and is then again specified in a `destination` field of each of the route specifications. This is a
+very important difference from the previous model.
 
 A `VirtualService` describes the mapping between one or more user-addressable destinations to the actual destination workloads inside the mesh. In our example, they are the same, however, the user-addressed hosts can be any DNS
 names with optional wildcard prefix or CIDR prefix that will be used to address the service. This can be particularly
@@ -268,7 +270,7 @@ spec:
 The hosts of a `VirtualService` do not actually have to be part of the service registry, they are simply virtual
 destinations. This allows users to model traffic for virtual hosts that do not have routable entries inside the mesh.
 These hosts can be exposed outside the mesh by binding the `VirtualService` to a `Gateway` configuration for the same host
-(see [Gateway](#gateway), below).
+(as described previously in the [Gateway](#gateway) section).
 
 In addition to this fundamental restructuring, `VirtualService` includes several other important changes:
 
@@ -282,8 +284,8 @@ In addition to this fundamental restructuring, `VirtualService` includes several
 
 ### DestinationRule
 
-A `DestinationRule` configures the set of policies to be applied while
-forwarding traffic to a service. They are
+A [DestinationRule]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#DestinationRule)
+configures the set of policies to be applied while forwarding traffic to a service. They are
 intended to be authored by service owners, describing the circuit breakers, load balancer settings, TLS settings, etc.. 
 `DestinationRule` is more or less the same as its predecessor, `DestinationPolicy`, with the following exceptions:
 
@@ -326,7 +328,8 @@ Notice that, unlike `DestinationPolicy`, multiple policies (e.g., default and v2
 
 ### ExternalService
 
-`ExternalService` is used to add additional entries into the service registry that Istio maintains internally. This allows
+[ExternalService]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#ExternalService)
+is used to add additional entries into the service registry that Istio maintains internally. This allows
 one to model traffic to external dependencies of the mesh such as APIs consumed from the web or traffic to services in
 legacy infrastructure.
 
@@ -344,7 +347,7 @@ used in conjunction with a `VirtualService` and/or `DestinationRule`, just like 
 ## Creating and deleting v1alpha3 route rules
 
 Because all route rules for a given destination are now stored together as an ordered
-list in a single `VirtualService` resource, adding subsequent rules for a particular destination
+list in a single `VirtualService` resource, adding a second and subsequent rules for a particular destination
 is no longer done by creating a new (`RouteRule`) resource, but instead by updating the one-and-only `VirtualService`
 resource for the destination.
 
@@ -368,14 +371,20 @@ one time manual conversion.  The previous configuration resources,
 from Istio 0.9 onwards. Kubernetes users can continue to use `Ingress` to
 configure their edge load balancers for basic routing. However, advanced
 routing features (e.g., traffic split across two versions) will require use
-of `Gateway`, that is significantly more functional and a highly
+of `Gateway`, a significantly more functional and highly
 recommended `Ingress` replacement.
 
 ## Acknowledgments
 
-Credit for the routing model redesign and implementation work go to the
+Credit for the routing model redesign and implementation work goes to the
 following people (in alphabetical order):
 
-* Frank Budinsky, Greg Hanson, Isaiah Snell-Feikema (IBM)
-* Zack Butcher, Costin Manolache, Martin Ostrowski, Louis Ryan, Kuat Yessenov (Google)
+* Frank Budinsky (IBM)
+* Zack Butcher (Google)
+* Greg Hanson (IBM)
+* Costin Manolache (Google)
+* Martin Ostrowski (Google)
 * Shriram Rajagopalan (VMware)
+* Louis Ryan (Google)
+* Isaiah Snell-Feikema (IBM)
+* Kuat Yessenov (Google)
