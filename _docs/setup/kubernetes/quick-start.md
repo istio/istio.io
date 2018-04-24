@@ -227,17 +227,24 @@ install the [sidecar injector webhook]({{home}}/docs/setup/kubernetes/sidecar-in
 
 ## Verifying the installation
 
-1. Ensure the following Kubernetes services are deployed: `istio-pilot`, `istio-mixer`,
-`istio-ingress`.
+1. Ensure the following Kubernetes services are deployed: `istio-pilot`, `istio-ingress`,
+`istio-policy`, `istio-telemetry`, `prometheus`.
 
    ```bash
    kubectl get svc -n istio-system
    ```
    ```xxx
-   NAME            CLUSTER-IP      EXTERNAL-IP       PORT(S)                       AGE
-   istio-ingress   10.83.245.171   35.184.245.62     80:32730/TCP,443:30574/TCP    5h
-   istio-pilot     10.83.251.173   <none>            8080/TCP,8081/TCP             5h
-   istio-mixer     10.83.244.253   <none>            9091/TCP,9094/TCP,42422/TCP   5h
+   NAME                       TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)                                                               AGE
+   citadel-ilb                LoadBalancer   10.35.251.104   10.138.0.43     8060:32031/TCP                                                        47m
+   istio-citadel              ClusterIP      10.35.253.23    <none>          8060/TCP,9093/TCP                                                     47m
+   istio-ingress              LoadBalancer   10.35.245.4     35.203.191.37   80:32765/TCP,443:32304/TCP                                            47m
+   istio-pilot                ClusterIP      10.35.255.168   <none>          15003/TCP,15005/TCP,15007/TCP,15010/TCP,15011/TCP,8080/TCP,9093/TCP   47m
+   istio-pilot-ilb            LoadBalancer   10.35.252.183   10.138.0.40     15005:30035/TCP,8080:30494/TCP                                        47m
+   istio-policy               ClusterIP      10.35.247.90    <none>          9091/TCP,15004/TCP,9093/TCP                                           47m
+   istio-statsd-prom-bridge   ClusterIP      10.35.243.13    <none>          9102/TCP,9125/UDP                                                     47m
+   istio-telemetry            ClusterIP      10.35.248.71    <none>          9091/TCP,15004/TCP,9093/TCP,42422/TCP                                 47m
+   mixer-ilb                  LoadBalancer   10.35.240.250   10.138.0.42     15004:30427/TCP                                                       47m
+   prometheus                 ClusterIP      10.35.255.10    <none>          9090/TCP                                                              47m
    ```
 
    > If your cluster is running in an environment that does not support an external load balancer
@@ -253,11 +260,13 @@ and, optionally, `istio-sidecar-injector-*`.
    ```
 
    ```xxx
-   istio-citadel-3657790228-j21b9           1/1       Running   0          5h
-   istio-ingress-1842462111-j3vcs           1/1       Running   0          5h
-   istio-sidecar-injector-184129454-zdgf5   1/1       Running   0          5h
-   istio-pilot-2275554717-93c43             1/1       Running   0          5h
-   istio-mixer-2104784889-20rm8             2/2       Running   0          5h
+   istio-citadel-b454d647d-92jrv               1/1       Running   0          46m
+   istio-ingress-768b9fb68b-jdxfk              1/1       Running   0          46m
+   istio-pilot-b87b8c56b-kggmk                 2/2       Running   0          46m
+   istio-policy-58f9bfc796-8vlq4               2/2       Running   0          46m
+   istio-statsd-prom-bridge-6dbb7dcc7f-gzlq7   1/1       Running   0          46m
+   istio-telemetry-55b8c8b44f-fwb69            2/2       Running   0          46m
+   prometheus-586d95b8d9-grk6j                 1/1       Running   0          46m
    ```
 
 ## Deploy your application
