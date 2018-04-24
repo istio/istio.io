@@ -270,7 +270,7 @@ spec:
 The hosts of a `VirtualService` do not actually have to be part of the service registry, they are simply virtual
 destinations. This allows users to model traffic for virtual hosts that do not have routable entries inside the mesh.
 These hosts can be exposed outside the mesh by binding the `VirtualService` to a `Gateway` configuration for the same host
-(as described previously in the [Gateway](#gateway) section).
+(as described in the [previous section](#gateway)).
 
 In addition to this fundamental restructuring, `VirtualService` includes several other important changes:
 
