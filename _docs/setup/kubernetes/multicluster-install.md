@@ -50,7 +50,7 @@ context typically located in `$HOME/.kube/config`.
 
 ## Gather credential files from remote
 
-> ${CLUSTER_NAME} here is defined as the name of the remote
+> `${CLUSTER_NAME}` here is defined as the name of the remote
 cluster used and must be unique across the mesh.  Some Kubernetes
 installers do not set this value uniquely.  In this case, manual
 modification of the `${CLUSTER_NAME}` fields must be done.
