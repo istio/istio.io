@@ -3,7 +3,7 @@ title: "Introducing the Istio v1alpha3 routing API"
 overview: Introduction, motivation and design principles for the Istio v1alpha3 routing API. 
 publish_date: April 23, 2018
 subtitle:
-attribution: Frank Budinsky and Shriram Rajagopalan
+attribution: Frank Budinsky (IBM) and Shriram Rajagopalan (VMware)
 
 order: 88
 
@@ -48,18 +48,114 @@ A few key design principles played a role in the routing model redesign:
 
 ## Configuration resources in v1alpha3
 
-The routing configuration resources in v1alpha3 have changed as follows:
+A typical mesh will have one or more load balancers (we call them gateways)
+that terminate TLS from external networks. Traffic then flows through
+internal services. It is also common for applications to consume external
+services (e.g., Google Maps API). In certain deployments, all traffic
+exiting the mesh may be forced through dedicated egress gateways. The
+following figure depicts this mental model.
 
-1. [VirtualService]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#VirtualService) replaces `RouteRule`
-2. [DestinationRule]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#DestinationRule) replaces
-   `DestinationPolicy`
-3. [ExternalService]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#ExternalService) replaces `EgressRule`
-4. [Gateway]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway) is the recommended replacement
-   for (Kubernetes) `Ingress`
+{% include figure.html width='80%' ratio='65.16%'
+    img='./img/gateways.svg'
+    alt='Role of gateways in the mesh'
+    title='Gateway configuration resource in v1alpha3'
+    caption='Gateway configuration resource in v1alpha3'
+    %}
 
-The old `RouteRule`, `DestinationPolicy`, and `EgressRule` configuration resources will be completely removed and no longer
-available in future releases of Istio. Istio `Ingress`, however, will continue to be available but using a `Gateway` provides
-significantly more functionality and is the recommended API for configuring external traffic going forward.
+With the above setup in mind, v1alpha3 introduces the following new
+configuration resources to control traffic routing into and out of the mesh.
+
+4. [Gateway]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway)
+1. [VirtualService]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#VirtualService)
+2. [DestinationRule]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#DestinationRule)
+3. [ExternalService]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#ExternalService)
+
+VirtualService, DestinationRule, and ExternalService replace `RouteRule`,
+`DestinationPolicy`, and `EgressRule` respectively. The Gateway is a
+platform independent abstraction to model the traffic flowing into
+dedicated middleboxes such as LoadBalancers.
+
+The figure below depicts the flow of control across different configuration
+resources.
+
+{% include figure.html width='80%' ratio='65.16%'
+    img='./img/virtualservices-destrules.svg'
+    alt='Relationship between different v1alpha3 elements'
+    title='Relationship between different v1alpha3 elements'
+    caption='Relationship between different v1alpha3 elements'
+    %}
+
+### Gateway
+
+A `Gateway` configures a load balancer for HTTP/TCP traffic, regardless of
+where it will be running.  Any number of gateways can exist within the mesh
+and multiple different gateway implementations can co-exist. In fact, a
+gateway configuration can be bound to a particular workload by specifying
+the set of workload (pod) labels as part of the configuration, allowing
+users to reuse off the shelf network appliances by writing a simple gateway
+controller.
+
+You might ask: _Why not reuse Kubernetes Ingress APIs_? The Ingress APIs
+proved to be woefully inadequate to express Istio's routing needs. By
+trying to draw a common denominator across different HTTP proxies, the
+Ingress is only able to support the most basic HTTP routing and ends up
+pushing every other feature of modern proxies into non-portable
+annotations.
+
+Istio `Gateway` overcomes the `Ingress` shortcomings by separating the
+L4-L6 spec from L7.  It only configures the L4-L6 functions (e.g., ports to
+expose, TLS configuration) that are uniformly implemented by all good L7
+proxies. Users can then use standard Istio route rules to control HTTP
+requests as well as TCP traffic entering a `Gateway` by binding a
+`VirtualService` to it.
+
+For example, the following simple `Gateway` could be used to allow external
+https traffic to the bookinfo.com `VirtualService`, described earlier:
+
+```yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: bookinfo-gateway
+spec:
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    hosts:
+    - bookinfo.com
+    tls:
+      mode: SIMPLE
+      serverCertificate: /tmp/tls.crt
+      privateKey: /tmp/tls.key
+```
+
+To configure the corresponding routes, the bookinfo `VirtualService` needs
+to be bound to the `Gateway` by adding an additional `gateways` field to
+the configuration:
+
+```yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: bookinfo
+spec:
+  hosts:
+    - bookinfo.com
+  gateways:
+  - bookinfo-gateway # <---- bind to gateway
+  http:
+  - match:
+    - uri:
+        prefix: /reviews
+    route:
+    ...
+```
+
+The `Gateway` can be used to model an edge-proxy or a purely internal proxy
+as shown in the first figure. Irrespective of the location, the gateways
+can be configured and controlled in the same manner.
 
 ### VirtualService
 
@@ -186,7 +282,8 @@ In addition to this fundamental restructuring, `VirtualService` includes several
 
 ### DestinationRule
 
-A `DestinationRule` configures the set of policies to be applied at a destination after routing has occurred. They are
+A `DestinationRule` configures the set of policies to be applied while
+forwarding traffic to a service. They are
 intended to be authored by service owners, describing the circuit breakers, load balancer settings, TLS settings, etc.. 
 `DestinationRule` is more or less the same as its predecessor, `DestinationPolicy`, with the following exceptions:
 
@@ -244,86 +341,6 @@ Replacing `EgressRule` from the previous API, `ExternalService` provides several
 Because an `ExternalService` configuration simply adds an external destination to the internal service registry, it can be
 used in conjunction with a `VirtualService` and/or `DestinationRule`, just like any other service in the registry.
 
-### Gateway
-
-It all started with ingress. The Istio ingress feature inherited the Kubernetes `Ingress` resource model for expediency, but
-unfortunately it is not able to express all of Istio's routing capabilities. The `Ingress` APIs are inadequate to model
-ingress traffic for several key Istio use-cases such as:
-
-* Split traffic across different versions of a service based on labelling
-* Route traffic based on complex matching criteria on headers and other properties of the call.
-* Apply transformations such as rewrites, header mutations, etc.
-* Define resilience features such as retry & circuit breaking behavior
-* Load balance TCP traffic
-
-Another problem with the `Ingress` specification is that it tries to draw a common denominator across different L7 proxies.
-This results in a least common denominator that uses the most basic HTTP routing and discards every other feature of the
-proxy, which end up in annotations that are not portable.
-
-So the `Gateway` effort started. Istio `Gateway` overcomes the `Ingress` shortcomings by separating the L4-L6 spec from L7.
-It only configures the L4-L6 functions (e.g., ports to expose, TLS configuration) that are uniformly implemented by all good
-L7 proxies. Users can then use standard Istio route rules to control HTTP requests & TCP traffic entering a `Gateway` by
-binding a `VirtualService` to it. The route rules will be applied at the gateway if and only if one of the `VirtualService's`
-hosts corresponds to one of the hosts configured in the `Gateway`.
-
-For example, the following simple `Gateway` could be used to allow external https traffic to the bookinfo.com
-`VirtualService`, described earlier:
-
-```yaml
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: bookinfo-gateway
-spec:
-  servers:
-  - port:
-      number: 443
-      name: https
-      protocol: HTTPS
-    hosts:
-    - bookinfo.com
-    tls:
-      mode: SIMPLE
-      serverCertificate: /tmp/tls.crt
-      privateKey: /tmp/tls.key
-```
-
-In this example, the `hosts` field specifies bookinfo.com concretely, but in general the binding can be much more flexible.
-A single `Gateway` can bind to multiple `VirtualServices` or a single `VirtualService` can be exposed on more than one
-`Gateway`.
-
-To configure the corresponding routes, the bookinfo `VirtualService` needs to be bound to the `Gateway` by adding an
-additional `gateways` field to the configuration:
-
-```yaml
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: bookinfo
-spec:
-  hosts:
-    - bookinfo.com
-  gateways:
-  - bookinfo-gateway # <---- bind to gateway
-  http:
-  - match:
-    - uri:
-        prefix: /reviews
-    route:
-    ...
-```
-
-Although primarily used as an ingress allowing external traffic into the mesh, a `Gateway` can also act as an egress to
-allow traffic in the mesh to exit. A `Gateway` can also model a proxy that is entirely internal to the mesh and implemented
-either by sidecars or by a middle proxy.  Ingress and egress gateways can also expose non HTTP services with the same
-ease.
-
-A `Gateway` simply configures a load balancer, regardless of where it will be running. Any number of gateways can exist
-within the mesh and multiple different gateway implementations can co-exist. In fact, a gateway configuration can be bound
-to a particular workload by specifying the set of workload (pod) labels as part of the configuration, allowing users to
-reuse off the shelf network appliances by writing a simple gateway controller. `Gateway` is much more general purpose than
-simply an ingress replacement.
-
 ## Creating and deleting v1alpha3 route rules
 
 Because all route rules for a given destination are now stored together as an ordered
@@ -344,22 +361,21 @@ Deleting route rules other than the last one for a particular destination is als
 
 ## Summary
 
-The Istio `v1alpha3` routing API has significantly more functionality than its predecessor, but unfortunately is not backwards compatible, requiring a one time manual conversion.
-The previous configuration resources, `RouteRule`, `DesintationPolicy`,
-and `EgressRule`, will no longer be available or supported. For external traffic control, however, the previous `Ingress`
-configuration will still be supported (in the Kubernetes environment), but with limited functionality. The new Istio
-`Gateway` API is significantly more functional and a highly recommended `Ingress` replacement.
+The Istio `v1alpha3` routing API has significantly more functionality than
+its predecessor, but unfortunately is not backwards compatible, requiring a
+one time manual conversion.  The previous configuration resources,
+`RouteRule`, `DesintationPolicy`, and `EgressRule`, will not be supported
+from Istio 0.9 onwards. Kubernetes users can continue to use `Ingress` to
+configure their edge load balancers for basic routing. However, advanced
+routing features (e.g., traffic split across two versions) will require use
+of `Gateway`, that is significantly more functional and a highly
+recommended `Ingress` replacement.
 
 ## Acknowledgments
 
-Credit for the routing model redesign and implementation work go to the following people (in alphabetical order):
+Credit for the routing model redesign and implementation work go to the
+following people (in alphabetical order):
 
-* Frank Budinsky
-* Zack Butcher
-* Greg Hanson
-* Costin Manolache
-* Martin Ostrowski
-* Shriram Rajagopalan
-* Louis Ryan
-* Isaiah Snell-Feikema
-* Kuat Yessenov
+* Frank Budinsky, Greg Hanson, Isaiah Snell-Feikema (IBM)
+* Zack Butcher, Costin Manolache, Martin Ostrowski, Louis Ryan, Kuat Yessenov (Google)
+* Shriram Rajagopalan (VMware)
