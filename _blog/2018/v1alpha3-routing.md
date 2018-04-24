@@ -134,8 +134,8 @@ spec:
 ```
 
 To configure the corresponding routes, a `VirtualService` (described below)
-must be defined for the same host and bound to the `Gateway` with
-a `gateways` field to in the configuration:
+must be defined for the same host and bound to the `Gateway` using
+the `gateways` field in the configuration:
 
 ```yaml
 apiVersion: networking.istio.io/v1alpha3
