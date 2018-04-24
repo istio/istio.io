@@ -373,16 +373,9 @@ recommended `Ingress` replacement.
 
 ## Acknowledgments
 
-Credit for the routing model redesign and implementation work go to the following people:
+Credit for the routing model redesign and implementation work go to the
+following people (in alphabetical order):
 
-* Frank Budinsky (IBM)
-* Greg Hanson (IBM)
-* Isaiah Snell-Feikema (IBM)
-
-* Zack Butcher (Google)
-* Costin Manolache (Google)
-* Martin Ostrowski (Google)
-* Louis Ryan (Google)
-* Kuat Yessenov (Google)
-
+* Frank Budinsky, Greg Hanson, Isaiah Snell-Feikema (IBM)
+* Zack Butcher, Costin Manolache, Martin Ostrowski, Louis Ryan, Kuat Yessenov (Google)
 * Shriram Rajagopalan (VMware)
