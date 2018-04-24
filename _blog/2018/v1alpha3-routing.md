@@ -53,7 +53,7 @@ that terminate TLS from external networks and allow traffic into the mesh.
 Traffic then flows through internal services via sidecar gateways.
 It is also common for applications to consume external
 services (e.g., Google Maps API). These may be called directly or, in certain deployments, all traffic
-exiting the mesh may be forced through dedicated egress gateways. The following figure depicts
+exiting the mesh may be forced through dedicated egress gateways. The following diagram depicts
 this mental model.
 
 {% include figure.html width='80%' ratio='65.16%'
@@ -133,7 +133,7 @@ spec:
       privateKey: /tmp/tls.key
 ```
 
-To configure the corresponding routes, a `VirtualService` (described below)
+To configure the corresponding routes, a `VirtualService` (described in the [following section](#virtualservice))
 must be defined for the same host and bound to the `Gateway` using
 the `gateways` field in the configuration:
 
