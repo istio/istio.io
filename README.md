@@ -25,7 +25,7 @@ To run the site locally with Docker, use the following command from the top leve
 
 ```bash
 # First time: (slow)
-docker run --name istio-jekyll --volume=$(pwd):/srv/jekyll  -it -p 4000:4000 jekyll/jekyll:3.7.3 sh -c "bundle install && rake test && bundle exec jekyll serve --incremental --host 0.0.0.0"
+docker run --name istio-jekyll --volume=$(pwd):/srv/jekyll -w $(pwd) -it -p 4000:4000 jekyll/jekyll:3.7.3 sh -c "bundle install && rake test && bundle exec jekyll serve --incremental --host 0.0.0.0"
 # Then open browser with url 127.0.0.1:4000 to see the change.
 # Subsequent, each time you want to see a new change and you stopped the previous run by ctrl+c: (much faster)
 docker start istio-jekyll -a -i
