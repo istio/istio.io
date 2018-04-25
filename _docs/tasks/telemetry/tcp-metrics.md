@@ -27,15 +27,6 @@ application.
 namespace. If you use a different namespace, you will need to update the
 example configuration and commands.
 
-* Install the Prometheus add-on. Prometheus
-will be used to verify task success.
-
-   ```bash
-   kubectl apply -f install/kubernetes/addons/prometheus.yaml
-   ```
-
-   See [Prometheus](https://prometheus.io) for details.
-
 ## Collecting new telemetry data
 
 1. Create a new YAML file to hold configuration for the new metrics that Istio
