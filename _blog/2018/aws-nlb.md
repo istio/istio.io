@@ -128,4 +128,4 @@ spec:
 
 ## What's next
 
-Kubernetes [service networking](https://kubernetes.io/docs/concepts/services-networking/service) should be consulted if further information is needed.
+Kubernetes [service networking](https://kubernetes.io/docs/concepts/services-networking/service/) should be consulted if further information is needed.
