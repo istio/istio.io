@@ -47,12 +47,12 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | request.referer | string | The HTTP referer header. | |
 | request.scheme | string | URI Scheme of the request | |
 | request.size | int64 | Size of the request in bytes. For HTTP requests this is equivalent to the Content-Length header. | |
-| request.total_size | int64 | Total size of request received, including request headers, body, and trailers. | |
+| request.total_size | int64 | Total size of HTTP request in bytes, including request headers, body and trailers. | |
 | request.time | timestamp | The timestamp when the destination receives the request. This should be equivalent to Firebase "now". | |
 | request.useragent | string | The HTTP User-Agent header. | |
 | response.headers | map[string, string] | HTTP response headers. | |
 | response.size | int64 | Size of the response body in bytes | |
-| response.total_size | int64 | Total size of response sent, including response headers and body. | |
+| response.total_size | int64 | Total size of HTTP response in bytes, including response headers and body. | |
 | response.time | timestamp | The timestamp when the destination produced the response. | |
 | response.duration | duration | The amount of time the response took to generate. | |
 | response.code | int64 | The response's HTTP status code. | |
