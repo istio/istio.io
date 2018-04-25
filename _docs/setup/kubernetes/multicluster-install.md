@@ -14,9 +14,12 @@ Instructions for the installation of Istio multicluster.
 
 ## Prerequisites
 
-* Two or more Kubernetes clusters.
+* Two or more Kubernetes clusters with **1.7.3 or newer**.
 
-* The usage of an RFC1918 network, VPN, or other more advanced network techniques
+* The ability to deploy the [Istio control plane]({{home}}/docs/setup/kubernetes/quick-start.html)
+on **one** Kubernetes cluster.
+
+* The usage of an RFC1918 network, VPN, or alternative more advanced network techniques
 to meet the following requirements:
 
     * Individual cluster Pod CIDR ranges and service CIDR ranges must be unique
@@ -29,21 +32,6 @@ pod CIDR.
 
 * Helm **2.7.2 or newer**.  The use of Tiller is optional.
 
-* If using Tiller, the ability to modify RBAC rules is required to install Helm
-or alternatively Helm should already be installed.
-
-* Kubernetes **1.7.3 or newer**.
-
-* Istio secret `istio.default` replicated to all remote Kubernetes clusters
-from the Istio control plane per application namespace.
-
-* The local cluster and all remote Kubernetes cluster credentials (typically
-stored in `$HOME/.kube/config`) copied to
-`$HOME/multicluster/${UNIQUE_IDENTIFIER}.kube.conf`.
-
-* A [deployed Istio control plane]({{home}}/docs/setup/kubernetes/quick-start.html)
-on **one** Kubernetes cluster.  Istio must be [deployed with Helm]({{home}}/docs/setup/kubernetes/helm-install.html) using the `--set global.multicluster.enabled=true` flag.  This is currently mandatory.
-
 * Currently only [manual sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar-injection)
 has been validated with multicluster.
 
@@ -52,75 +40,78 @@ has been validated with multicluster.
 <img src="{{home}}/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" />
 All known caveats and known problems with multicluster for the 0.8 release are [tracked here](https://github.com/istio/istio/issues/4822).
 
-## Install a multicluster configmap on the Istio control plane
+## Deploy all Kubernetes clusters to be used in the mesh
 
-<img src="{{home}}/img/exclamation-mark.svg" alt="Important" title="Important" style="width: 32px; display:inline" />
-Pilot will not start until the configmap in these instructions
-is created.  This is normal behavior but different from what is seen with
-multicluster disabled.
+Use your desired technique to deploy all Kubernetes clusters
+that are to participate in the mesh with only Kubernetes and
+the CNI of choice. Once the remote clusters are deployed, each
+one will have a credentials file associated with the admin
+context typically located in `$HOME/.kube/config`.
 
-Create a `clusterregistry.k8s.io` descriptor to describe each Kubernetes cluster's role
-in the multicluster environment.  These files should be stored in the directory
-`$HOME/multicluster`, have a `.yaml` extension, and have a unique filename.
+## Gather credential files from remote
 
-An example `clusterregistry.k8s.io` configuration descriptor is shown below:
+> `${CLUSTER_NAME}` here is defined as the name of the remote
+cluster used and must be unique across the mesh.  Some Kubernetes
+installers do not set this value uniquely.  In this case, manual
+modification of the `${CLUSTER_NAME}` fields must be done.
 
-```yaml
-apiVersion: clusterregistry.k8s.io/v1alpha1
-kind: Cluster
-metadata:
-  name: "falkor07"
-  annotations:
-    config.istio.io/pilotEndpoint: "192.168.1.1:9080"
-    config.istio.io/platform: "Kubernetes"
-    config.istio.io/pilotCfgStore: True
-    config.istio.io/accessConfigFile: "falkor07.kube.conf"
-  spec:
-    kubernetesApiEndpoints:
-      serverEndpoints:
-        - clientCIDR: "10.23.230.0/28"
-          serverAddress: "10.23.230.11"
-```
+For each remote cluster, execute the following steps:
 
-A unique security context is required to describe how to securely access
-each Kubernetes cluster in the system.  In the above example,
-`falkor07.kube.conf` is the Istio control plane credential file. The
-`config.istio.io/pilotCfgStore: True` flag is set in the condition. This
-`clusterregistry.k8s.io` descriptor describes the Istio control plane Kubernetes
-cluster.  For remotes, please set `pilotCfgStore: False`.
+1. Determine a name for the remote cluster that is unique across
+all clusters in the mesh.  Substitute the chosen name for the
+remaining steps in `${CLUSTER_NAME}`.
 
-> The implementation only uses the
-`config.istio.io/pilotCfgStore` and `config.istio.io/accessConfigFile`
-annotations, although every other annotation and spec is validated for
-correct syntax.  They may be set to dummy values, as long as they are
-syntactically correct.
+1. Copy the credentials file form the remote Kubernetes cluster
+to the local Istio control plane cluster directory
+`$HOME/multicluster/${CLUSTER_NAME}`.  The `${CLUSTER_NAME}` must
+be unique per remote.
 
-If the prerequisites are met, the credentials for each Kubernetes cluster
-will also be present in `$HOME/multicluster`.
+1. Modify the name of the remote cluster's credential file field
+`clusters.cluster.name` to match `${CLUSTER_NAME}`.
 
-Assemble and create the configmap from these files in the Kubernetes cluster
-where the Istio control plane is operational:
+1. Modify the name of the remote cluster's credential file field
+`contexts.context.cluster` to match `${CLUSTER_NAME}`.
+
+## Instantiate the credentials for each remote cluster
+
+Execute this work on the cluster intended to run the Istio control
+plane.
+
+Create a namespace for instantiating the secrets:
 
 ```bash
-kubectl create configmap -n istio-system multicluster -f $HOME/multicluster
+kubectl create ns istio-system
 ```
 
-## Deploy on the remote cluster
+Create a secret and label it properly for each remote cluster:
 
-Multicluster makes **one** Istio service mesh from all Kubernetes clusters
-that participate in multicluster.  Multicluster uses **one** Kubernetes
-cluster to run the Istio control plane.  **Any reasonable** number of remote
-Kubernetes clusters may be attached to the **one** Istio control plane.
+```bash
+pushd $HOME/multicluster
+kubectl create secret generic ${CLUSTER_NAME} --from-file ${CLUSTER_NAME} -n istio-system
+kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n istio-system
+popd
+```
+
+<img src="{{home}}/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" />Ordering currently matters.  Secrets must be created prior to the deployment of
+the Istio control plane.  Creating secrets after Istio is started will not register the
+secrets with Istio properly.
+
+## Deploy the local Istio control plane
+
+Install the [Istio control plane]({{home}}/docs/setup/kubernetes/quick-start.html)
+on **one** Kubernetes cluster.
+
+## Install the Istio remote on every remote cluster
 
 <img src="{{home}}/img/exclamation-mark.svg" alt="Important" title="Important" style="width: 32px; display:inline" />
 The istio-remote component must be deployed to each remote Kubernetes cluster.
 
-### Use kubectl with Helm to connect the remote cluster
+### Use kubectl with Helm to connect the remote cluster to the local
 
-1. Use the helm template command on a remote to specify the Istio control plane:
+1. Use the helm template command on a remote to specify the Istio control plane service endpoints:
 
    ```bash
-   helm template install/kubernetes/helm/istio-remote --name istio-remote --set pilotEndpoint=`pod_ip_of_pilot_master` --set mixerEndpoint=`pod_ip_of_mixer_master` > $HOME/istio-remote.yaml
+   helm template install/kubernetes/helm/istio-remote --name istio-remote --set pilotEndpoint=`pod_ip_of_pilot_local` --set policyEndpoint=`pod_ip_of_policy_local` --set statsdEndpoint=`pod_ip_of_statsd_local` > $HOME/istio-remote.yaml
     ```
 
 1. Instantiate the remote cluster's connection to the Istio control plane:
@@ -129,7 +120,7 @@ The istio-remote component must be deployed to each remote Kubernetes cluster.
    kubectl create -f $HOME/istio-remote.yaml
    ```
 
-### Alternatively use Helm and Tiller to connect the remote cluster
+### Alternatively use Helm and Tiller to connect the remote cluster to the local
 
 1. If a service account has not already been installed for Helm, please
 install one:
@@ -147,19 +138,20 @@ install one:
 1. Install the Helm chart:
 
    ```bash
-   helm install install/kubernetes/helm/istio-remote --name istio-remote --set pilotEndpoint=pod_ip_of_pilot_master --set mixerEndpoint=pod_ip_of_mixer_master`
+   helm install install/kubernetes/helm/istio-remote --name istio-remote --set pilotEndpoint=`pod_ip_of_pilot_local` --set policyEndpoint=`pod_ip_of_policy_local` --set statsdEndpoint=`pod_ip_of_statsd_local` > $HOME/istio-remote.yaml -n istio-system
    ```
 
-### Mandatory Helm configuration parameters
+### Helm configuration parameters
 
 The `isito-remote` Helm chart requires the configuration of two specific variables defined in the following table:
 
 | Helm Variable | Accepted Values | Default | Purpose of Value |
 | --- | --- | --- | --- |
-| `global.pilotEndpoint` | A valid IP address | none | Specifies the Istio control plane's pilot Pod IP address |
-| `global.mixerEndpoint` | A valid IP address | none | Specifies the Istio control plane's mixer Pod IP address |
+| `global.pilotEndpoint` | A valid IP address | istio-pilot.istio-system | Specifies the Istio control plane's pilot Pod IP address |
+| `global.policyEndpoint` | A valid IP address | istio-policy.istio-system | Specifies the Istio control plane's policy Pod IP address |
+| `global.statsdEndpoint` | A valid IP address | istio-statsd-prom-bridge.istio-system | Specifies the Istio control plane's statsd Pod IP address |
 
-> The `pilotEndpoint` and `mixerEndpoint` need to be resolvable via Kubernetes.
+> The `pilotEndpoint`, `policyEndpoint`, `statsdEndpoint` need to be resolvable via Kubernetes.
 
 ## Uninstalling
 
