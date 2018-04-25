@@ -10,14 +10,17 @@ objects.</p>
 
 <p>A ServiceRole specification includes a list of rules (permissions). Each rule has
 the following standard fields:
-* services: a list of services.
-* methods: HTTP methods. In the case of gRPC, this field is ignored because the value is always &ldquo;POST&rdquo;.
-* paths: HTTP paths or gRPC methods. Note that gRPC methods should be
-  presented in the form of &ldquo;packageName.serviceName/methodName&rdquo;.</p>
+<ul>
+  <li><p><em>services</em>: a list of services.</p></li>
+  <li><p><em>methods</em>: HTTP methods. In the case of gRPC, this field is ignored because the value is always &ldquo;POST&rdquo;.</p></li>
+  <li><p><em>paths</em>: HTTP paths or gRPC methods. Note that gRPC methods should be presented in the form of
+    &ldquo;packageName.serviceName/methodName&rdquo;.</p></li>
+</ul>
 
 <p>In addition to the standard fields, operators can use custom fields in the &ldquo;constraints&rdquo;
 section. The name of a custom field must match one of the &ldquo;properties&rdquo; in the &ldquo;action&rdquo; part
-of the &ldquo;authorization&rdquo; template (https://github.com/istio/istio/blob/master/mixer/template/authorization/template.proto).</p>
+of the &ldquo;<a href="https://github.com/istio/istio/blob/master/mixer/template/authorization/template.proto">authorization</a>&rdquo; template.</p>
+
 
 <p>For example, suppose we define an instance of the &ldquo;authorization&rdquo; template, named &ldquo;requestcontext&rdquo;.</p>
 
@@ -65,8 +68,7 @@ spec:
 * A list of &ldquo;subjects&rdquo; that are assigned the roles.</p>
 
 <p>A subject is represented with a set of &ldquo;properties&rdquo;. The name of a property must match one of
-the fields (&ldquo;user&rdquo; or &ldquo;groups&rdquo; or one of the &ldquo;properties&rdquo;) in the &ldquo;subject&rdquo; part of the &ldquo;authorization&rdquo;
-template (https://github.com/istio/istio/blob/master/mixer/template/authorization/template.proto).</p>
+the fields (&ldquo;user&rdquo; or &ldquo;groups&rdquo; or one of the &ldquo;properties&rdquo;) in the &ldquo;subject&rdquo; part of the &ldquo;<a href="https://github.com/istio/istio/blob/master/mixer/template/authorization/template.proto">authorization</a>&rdquo; template.</p>
 
 <p>Below is an example of ServiceRoleBinding object &ldquo;test-binding-products&rdquo;, which binds two subjects
 to ServiceRole &ldquo;product-viewer&rdquo;:
@@ -155,8 +157,7 @@ The above ServiceRole examples shows an example of constraint &ldquo;version&rdq
 <h2 id="AccessRule.Constraint">AccessRule.Constraint</h2>
 <section>
 <p>Definition of a custom constraint. The key of a custom constraint must match
-one of the &ldquo;properties&rdquo; in the &ldquo;action&rdquo; part of the &ldquo;authorization&rdquo; template
-(https://github.com/istio/istio/blob/master/mixer/template/authorization/template.proto).</p>
+one of the &ldquo;properties&rdquo; in the &ldquo;action&rdquo; part of the &ldquo;<a href="https://github.com/istio/istio/blob/master/mixer/template/authorization/template.proto">authorization</a>&rdquo; template.</p>
 
 <table class="message-fields">
 <thead>
@@ -290,8 +291,7 @@ object.</p>
 <section>
 <p>Subject defines an identity or a group of identities. The identity is either a user or
 a group or identified by a set of &ldquo;properties&rdquo;. The name of the &ldquo;properties&rdquo; must match
-the &ldquo;properties&rdquo; in the &ldquo;subject&rdquo; part of the &ldquo;authorization&rdquo; template
-(https://github.com/istio/istio/blob/master/mixer/template/authorization/template.proto).</p>
+the &ldquo;properties&rdquo; in the &ldquo;subject&rdquo; part of the &ldquo;<a href="https://github.com/istio/istio/blob/master/mixer/template/authorization/template.proto">authorization</a>&rdquo; template.</p>
 
 <table class="message-fields">
 <thead>
