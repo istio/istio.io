@@ -57,7 +57,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | response.duration | duration | The amount of time the response took to generate. | |
 | response.code | int64 | The response's HTTP status code. | |
 | connection.id | string | An ID for a TCP connection with statistically low probability of collision. | |
-| connection.event | string | Status of a TCP connection, including open, continue and close. | |
+| connection.event | string | Status of a TCP connection, its value is one of "open", "continue" and "close". | |
 | connection.received.bytes | int64 | Number of bytes received by a destination service on a connection since the last Report() for a connection. | |
 | connection.received.bytes_total | int64 | Total number of bytes received by a destination service during the lifetime of a connection. | |
 | connection.sent.bytes | int64 | Number of bytes sent by a destination service on a connection since the last Report() for a connection. | |
