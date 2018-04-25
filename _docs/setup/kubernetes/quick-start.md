@@ -205,7 +205,6 @@ You should see:
       --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,DenyEscalatingExec,Initializers,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota
 ```
 
-
 ## Installation steps
 
 Starting with the 0.2 release, Istio is installed in its own `istio-system`
