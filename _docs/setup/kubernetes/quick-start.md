@@ -200,9 +200,9 @@ In order to check if the deploy of the right flags for Istio was successful depl
 ```bash
 kubectl describe pod --namespace kube-system $(kubectl get pods --namespace kube-system | grep api | cut -d ' ' -f 1) | grep admission-control
 ```
-You should see:
+You should see `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` flags:
 ```bash
-      --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,DenyEscalatingExec,Initializers,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota
+      --admission-control=...,MutatingAdmissionWebhook,...,ValidatingAdmissionWebhook,...
 ```
 
 ## Installation steps
