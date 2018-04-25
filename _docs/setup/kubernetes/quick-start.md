@@ -167,7 +167,7 @@ Output should be:
 
 ### Azure
 
-You need to use ACS-Engine to deploy you cluster. After following [this instructions](https://github.com/Azure/acs-engine/blob/master/docs/acsengine.md#install) for get and install acs-engine binary, use the following command to download Istio api model definition:
+You need to use ACS-Engine to deploy you cluster. After following [this instructions](https://github.com/Azure/acs-engine/blob/master/docs/acsengine.md#install) to get and install acs-engine binary, use the following command to download Istio api model definition:
 
 ```bash
 wget https://raw.githubusercontent.com/Azure/acs-engine/master/examples/service-mesh/istio.json
