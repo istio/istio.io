@@ -69,9 +69,9 @@ configuration resources to control traffic routing into, within, and out of the 
 1. `Gateway`
 2. `VirtualService`
 3. `DestinationRule`
-4. `ExternalService`
+4. `ServiceEntry`
 
-`VirtualService`, `DestinationRule`, and `ExternalService` replace `RouteRule`,
+`VirtualService`, `DestinationRule`, and `ServiceEntry` replace `RouteRule`,
 `DestinationPolicy`, and `EgressRule` respectively. The `Gateway` is a
 platform independent abstraction to model the traffic flowing into
 dedicated middleboxes.
@@ -326,23 +326,65 @@ spec:
 Notice that, unlike `DestinationPolicy`, multiple policies (e.g., default and v2-specific) are specified in a single
 `DestinationRule` configuration.
 
-### ExternalService
+### ServiceEntry
 
-[ExternalService]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#ExternalService)
-is used to add additional entries into the service registry that Istio maintains internally. This allows
-one to model traffic to external dependencies of the mesh such as APIs consumed from the web or traffic to services in
-legacy infrastructure.
+[ServiceEntry]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#ServiceEntry)
+is used to add additional entries into the service registry that Istio maintains internally.
+It is most commonly used to allow one to model traffic to external dependencies of the mesh
+such as APIs consumed from the web or traffic to services in legacy infrastructure.
 
-Replacing `EgressRule` from the previous API, `ExternalService` provides several significant improvements, such as:
+Everything you could previously configure using an `EgressRule` can just as easily be done with a `ServiceEntry`.
+For example, access to a simple external service from inside the mesh can be enabled using a configuration
+something like this:
 
-1. Individual service ports and service discovery mode are now configurable.
+```yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: foo-ext
+spec:
+  hosts:
+  - foo.com
+  ports:
+  - number: 80
+    name: http
+    protocol: HTTP
+```
+
+That said, `ServiceEntry` has significantly more functionality than its predecessor.
+First of all, `ServiceEntry` is not limited to external service configuration.
+It can also be used to explicitly add services as part of expanding the service mesh with unmanaged infrastructure
+(e.g., VMs added to a Kubernetes based service mesh). Such entries are treated just like all other internal services,
+unlike external ones where Istio's mTLS authentication is disabled and policy enforcement is
+performed on the client-side as opposed to server-side.
+
+Because a `ServiceEntry` configuration simply adds a destination to the internal service registry, it can be
+used in conjunction with a `VirtualService` and/or `DestinationRule`, just like any other service in the registry.
+The following `DestinationRule`, for example, can be used to initiate mTLS connections an external service:
+
+```yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: foo-ext
+spec:
+  name: foo.com
+  trafficPolicy:
+    tls:
+      mode: MUTUAL
+      clientCertificate: /etc/certs/myclientcert.pem
+      privateKey: /etc/certs/client_private_key.pem
+      caCertificates: /etc/certs/rootcacerts.pem
+```
+
+In addition to its expanded generality, `ServiceEntry` includes several other improvements over `EgressRule`
+including the following:
+
+1. The resolution mode for a service is now configurable (`PASSTHROUGH`, `STATIC`, or `DNS`).
 2. One or more (different) external endpoints can be configured to implement a “virtual” external service.
 3. Secure HTTP services (automatic TLS upgrade) can now be accessed using standard https (e.g., `https://secureservice.com/`
    instead of `http://secureservice.com:443/`.
 4. Multiple CIDR subsets can now be included in a single `ExternalService` configuration.
-
-Because an `ExternalService` configuration simply adds an external destination to the internal service registry, it can be
-used in conjunction with a `VirtualService` and/or `DestinationRule`, just like any other service in the registry.
 
 ## Creating and deleting v1alpha3 route rules
 
