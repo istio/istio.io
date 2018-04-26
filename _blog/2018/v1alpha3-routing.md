@@ -353,14 +353,14 @@ spec:
 
 That said, `ServiceEntry` has significantly more functionality than its predecessor.
 First of all, `ServiceEntry` is not limited to external service configuration.
-It can also be used to explicitly add services as part of expanding the service mesh with unmanaged infrastructure
-(e.g., VMs added to a Kubernetes based service mesh). Such entries are treated just like all other internal services,
+It can also be used to explicitly add services as part of expanding the service mesh to include unmanaged infrastructure
+(e.g., VMs added to a Kubernetes-based service mesh). Such entries are treated just like all other internal services,
 unlike external ones where Istio's mTLS authentication is disabled and policy enforcement is
 performed on the client-side as opposed to server-side.
 
 Because a `ServiceEntry` configuration simply adds a destination to the internal service registry, it can be
 used in conjunction with a `VirtualService` and/or `DestinationRule`, just like any other service in the registry.
-The following `DestinationRule`, for example, can be used to initiate mTLS connections an external service:
+The following `DestinationRule`, for example, can be used to initiate mTLS connections for an external service:
 
 ```yaml
 apiVersion: networking.istio.io/v1alpha3
@@ -380,11 +380,11 @@ spec:
 In addition to its expanded generality, `ServiceEntry` includes several other improvements over `EgressRule`
 including the following:
 
-1. The resolution mode for a service is now configurable (`PASSTHROUGH`, `STATIC`, or `DNS`).
-2. One or more (different) external endpoints can be configured to implement a “virtual” external service.
+1. A single `ServiceEntry` can configure multiple service endpoints, which previously would have required multiple
+   `EgressRules`.
+2. The resolution mode for the endpoints is now configurable (`PASSTHROUGH`, `STATIC`, or `DNS`).
 3. Secure HTTP services (automatic TLS upgrade) can now be accessed using standard https (e.g., `https://secureservice.com/`
    instead of `http://secureservice.com:443/`.
-4. Multiple CIDR subsets can now be included in a single `ExternalService` configuration.
 
 ## Creating and deleting v1alpha3 route rules
 
