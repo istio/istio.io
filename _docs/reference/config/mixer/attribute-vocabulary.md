@@ -28,7 +28,8 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | source.domain | string | The domain suffix part of the source service, excluding the name and the namespace. | svc.cluster.local |
 | source.uid | string | Platform-specific unique identifier for the client instance of the source service. | kubernetes://redis-master-2353460263-1ecey.my-namespace |
 | source.labels | map[string, string] | A map of key-value pairs attached to the client instance. | version => v1 |
-| source.user | string | The identity of the immediate sender of the request, authenticated by mTLS. | service-account-foo |
+| source.user | string | To be deprecated, please refer to the attribute `source.principal`. | service-account-foo |
+| source.principal | string | The identity of the immediate sender of the request, authenticated by mTLS. | service-account-foo |
 | destination.ip | ip_address | Server IP address. | 10.0.0.104 |
 | destination.port | int64 | The recipient port on the server IP address. | 8080 |
 | destination.service | string | The fully qualified name of the service that the server belongs to. | my-svc.my-namespace.svc.cluster.local |
@@ -66,9 +67,10 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | api.version | string | The API version. | v1alpha1 |
 | api.operation | string | Unique string used to identify the operation. The id is unique among all operations described in a specific <service, version>. | getPetsById |
 | api.protocol | string | The protocol type of the API call. Mainly for monitoring/analytics. Note that this is the frontend protocol exposed to the client, not the protocol implemented by the backend service. | "http", “https”, or "grpc" |
-| request.auth.principal | string | The authenticated principal of the request. This is a string of the issuer (`iss`) and subject (`sub`) claims within a JWT concatenated with “/” with a percent-encoded subject value. | accounts.my-svc.com/104958560606 |
+| request.auth.principal | string | The authenticated principal of the request. This is a string of the issuer (`iss`) and subject (`sub`) claims within a JWT concatenated with “/” with a percent-encoded subject value. This attribute may come from the peer or the origin in the Istio authentication policy, depending on the binding rule defined in the Istio authentication policy. | accounts.my-svc.com/104958560606 |
 | request.auth.audiences | string | The intended audience(s) for this authentication information. This should reflect the audience (`aud`) claim within a JWT. | ['my-svc.com', 'scopes/read'] |
 | request.auth.presenter | string | The authorized presenter of the credential. This value should reflect the optional Authorized Presenter (`azp`) claim within a JWT or the OAuth2 client id. | 123456789012.my-svc.com |
+| request.auth.claims | map[string, string] | all raw string claims from the `origin` JWT | `iss`: `issuer@foo.com`, `sub`: `sub@foo.com`, `aud`: `aud1` |
 | request.api_key | string | The API key used for the request. | abcde12345 |
 | check.error_code | int64 | The error [code](https://github.com/google/protobuf/blob/master/src/google/protobuf/stubs/status.h#L44) for Mixer Check call. | 5 |
 | check.error_message | string | The error message for Mixer Check call. | Could not find the resource |
