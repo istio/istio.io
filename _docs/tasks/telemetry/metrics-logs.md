@@ -24,15 +24,6 @@ as the example application throughout this task.
   (`--configDefaultNamespace=istio-system`). If you use a different
   value, update the configuration and commands in this task to match the value.
 
-* Install the Prometheus add-on. Prometheus
-  will be used to verify task success.
-
-  ```bash
-  kubectl apply -f install/kubernetes/addons/prometheus.yaml
-  ```
-
-  See [Prometheus](https://prometheus.io) for details.
-
 ## Collecting new telemetry data
 
 1. Create a new YAML file to hold configuration for the new metric and log
