@@ -48,14 +48,17 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | request.referer | string | The HTTP referer header. | |
 | request.scheme | string | URI Scheme of the request | |
 | request.size | int64 | Size of the request in bytes. For HTTP requests this is equivalent to the Content-Length header. | |
+| `request.total_size` | int64 | Total size of HTTP request in bytes, including request headers, body and trailers. | |
 | request.time | timestamp | The timestamp when the destination receives the request. This should be equivalent to Firebase "now". | |
 | request.useragent | string | The HTTP User-Agent header. | |
 | response.headers | map[string, string] | HTTP response headers. | |
 | response.size | int64 | Size of the response body in bytes | |
+| `response.total_size` | int64 | Total size of HTTP response in bytes, including response headers and body. | |
 | response.time | timestamp | The timestamp when the destination produced the response. | |
 | response.duration | duration | The amount of time the response took to generate. | |
 | response.code | int64 | The response's HTTP status code. | |
 | connection.id | string | An ID for a TCP connection with statistically low probability of collision. | |
+| `connection.event` | string | Status of a TCP connection, its value is one of "open", "continue" and "close". | |
 | connection.received.bytes | int64 | Number of bytes received by a destination service on a connection since the last Report() for a connection. | |
 | connection.received.bytes_total | int64 | Total number of bytes received by a destination service during the lifetime of a connection. | |
 | connection.sent.bytes | int64 | Number of bytes sent by a destination service on a connection since the last Report() for a connection. | |
@@ -74,3 +77,5 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | request.api_key | string | The API key used for the request. | abcde12345 |
 | check.error_code | int64 | The error [code](https://github.com/google/protobuf/blob/master/src/google/protobuf/stubs/status.h#L44) for Mixer Check call. | 5 |
 | check.error_message | string | The error message for Mixer Check call. | Could not find the resource |
+| `check.cache_hit` | boolean | Indicates whether Mixer check call hits local cache. | |
+| `quota.cache_hit` | boolean | Indicates whether Mixer quota call hits local cache. | |
