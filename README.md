@@ -8,7 +8,7 @@ file to learn about the overall Istio project and how to get in touch with us. T
 contribute to any of the Istio components, please
 see the Istio [contribution guidelines](https://github.com/istio/community/blob/master/CONTRIBUTING.md).
 
-* [Working with the site](#building-the-site)
+* [Working with the site](#working-with-the-site)
 * [Linting](#linting)
 * [Versions and releases](#versions-and-releases)
   * [How versioning works](#how-versioning-works)
