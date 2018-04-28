@@ -53,6 +53,7 @@ ExecAction
 Exfiltrating
 ExternalName
 Fluentd
+FQDNs
 GATEWAY_URL
 GCP-IAM
 GCP_OPTS
@@ -76,9 +77,12 @@ IstioMesh
 IstioRBAC.svg
 Istiofied
 JSON-formatted
+JWT
+JWTs
 Kibana
 Kops
 Kube
+Kubecon
 Kubelet
 Kubernetes
 L3-4
@@ -91,6 +95,8 @@ Memquota
 Mesos
 Minikube
 MongoDB
+Multicloud
+Multicluster
 MutatingWebhookConfiguration
 MySQL
 Mysql
@@ -101,6 +107,7 @@ OP_QUERY
 OpenID_Connect
 OpenSSL
 OpenShift
+PaaS
 Papertrail
 PilotAdapters.svg
 RawVM
@@ -124,6 +131,9 @@ TLS-secured
 Tcpdump
 Tigera
 TrafficManagementOverview.svg
+USE_ORIGIN
+USE_ORIGIN
+USE_PEER
 Undeploy
 VM-based
 VMs
@@ -163,7 +173,9 @@ apiVersion
 arch.svg
 archive.istio.io
 archive.istio.io.
+attach_policies.png
 auth.svg
+authn.svg
 autoscaler
 autoscalers
 autoscaling
@@ -197,6 +209,9 @@ containerID
 context.protocol
 context.time
 coreos
+create_policy.png
+createpolicyjson.png
+createpolicystart.png
 current.istio.io
 current.istio.io.
 datastore
@@ -251,24 +266,6 @@ gcloud
 gdb
 getPetsById
 git
-global.hyperkube.hub
-global.hyperkube.tag
-global.ingress.nodeport_port
-global.ingress.use_nodeport
-global.initializer.enabled
-global.mixer.enabled
-global.mixer.hub
-global.mixer.tag
-global.namespace
-global.pilot.enabled
-global.pilot.hub
-global.pilot.tag
-global.proxy.debug
-global.proxy.hub
-global.proxy.tag
-global.security.enabled
-global.security.hub
-global.security.tag
 golang
 googleapis.com
 googlegroups.com
@@ -302,6 +299,7 @@ ip_address
 iptables
 istio
 istio-apiserver
+istio-system1
 istio.github.io
 istio.github.io.
 istio.io
@@ -316,6 +314,7 @@ istioctl
 jaeger_dashboard.png
 jaeger_trace.png
 jason
+json
 k8s
 key.pem
 kube-api
@@ -349,6 +348,8 @@ mixer-spof-myth-1
 mixer-spof-myth-2
 mongodb
 mtls_excluded_services
+multicloud
+multicluster
 mutual-tls
 my-svc
 my-svc-234443-5sffe
@@ -401,6 +402,7 @@ radis
 ratelimit-handler
 raw.githubusercontent.com
 raw.githubusercontent.com)
+reachability
 readinessProbe
 redis
 redis-master-2353460263-1ecey
@@ -410,6 +412,7 @@ reinject
 repo
 request.api_key
 request.auth.audiences
+request.auth.claims
 request.auth.presenter
 request.auth.principal
 request.headers
@@ -433,8 +436,10 @@ response.time
 reviews.abc.svc.cluster.local
 roadmap
 roleRef
+roles_summary.png
 rollout
 rollouts
+routable
 runtime
 runtimes
 sa
@@ -455,6 +460,7 @@ source.ip
 source.labels
 source.name
 source.namespace
+source.principal
 source.service
 source.uid
 source.user
@@ -483,6 +489,7 @@ ulimit
 uncomment
 uncommented
 unencrypted
+untrusted
 uptime
 url
 user
@@ -509,6 +516,7 @@ withistio.svg
 www.google.com
 x-envoy-upstream-rq-timeout-ms
 x.509
+xDS
 yaml
 yamls
 yournamespace

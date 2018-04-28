@@ -28,7 +28,7 @@ upgraded in the same namespace ISTIO\_NAMESPACE.
 
 ### Control plane upgrade
 
-The Istio control plane components include: CA, Ingress, Pilot, Mixer, and
+The Istio control plane components include: Citadel, Ingress, Pilot, Mixer, and
 Sidecar injector. We can use Kubernetes’ rolling update mechanism to upgrade the
 control plane components. It can be done by simply applying the new version
 yaml file directly, e.g.

@@ -18,7 +18,7 @@ Using Istio in a non-Kubernetes environment involves a few key tasks:
 
 ## Setting up the Control Plane
 
-Istio control plane consists of four main services: Pilot, Mixer, CA, and
+Istio control plane consists of four main services: Pilot, Mixer, Citadel, and
 the API server.
 
 ### API Server
@@ -81,10 +81,10 @@ services:
 
 ### Other Istio Components
 
-Debian packages for Istio Pilot, Mixer, and CA are available through the
+Debian packages for Istio Pilot, Mixer, and Citadel are available through the
 Istio release. Alternatively, these components can be run as Docker
 containers (docker.io/istio/pilot, docker.io/istio/mixer,
-docker.io/istio/istio-ca). Note that these components are stateless and can
+docker.io/istio/citadel). Note that these components are stateless and can
 be scaled horizontally. Each of these components depends on the Istio API
 server, which in turn depends on the etcd cluster for persistence. To
 achieve high availability, each control plane service could be run as a

@@ -22,12 +22,6 @@ the example application throughout this task.
 * [Install Istio]({{home}}/docs/setup/) in your cluster and deploy an
   application.
 
-* Install the Prometheus add-on. Directions for install of this add-on are
-  supplied as part of the [Querying
-  Metrics]({{home}}/docs/tasks/telemetry/querying-metrics.html) Task.
-
-  Use of the Prometheus add-on is _required_ for the service graph.
-
 ## Generating a Service Graph
 
 1. To view a graphical representation of your service mesh, install the

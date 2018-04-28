@@ -106,6 +106,12 @@ To start the application, follow the instructions below corresponding to your Is
    > In a realistic deployment, new versions of a microservice are deployed
    over time instead of deploying all versions simultaneously.
 
+1. Define the ingress gateway for the application:
+
+   ```bash
+   kubectl apply -f samples/bookinfo/kube/bookinfo-gateway.yaml
+   ```
+
 1. Confirm all services and pods are correctly defined and running:
 
    ```bash

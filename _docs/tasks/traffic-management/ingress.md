@@ -334,11 +334,11 @@ The following are known limitations of Istio Ingress:
    rules:
    - apiGroups: [""] # "" indicates the core API group
      resources: ["secrets"]
-     resourceNames: ["istio.istio-ca-service-account"]
+     resourceNames: ["istio.istio-citadel-service-account"]
      verbs: ["get", "list", "watch"]
    - apiGroups: [""] # "" indicates the core API group
      resources: ["secrets"]
-     resourceNames: ["istio-ca-secret"]
+     resourceNames: ["istio-citadel-secret"]
      verbs: ["get", "list", "watch"]
    ......
    ---
@@ -381,11 +381,11 @@ The following are known limitations of Istio Ingress:
    rules:
    - apiGroups: [""] # "" indicates the core API group
      resources: ["secrets"]
-     resourceNames: ["istio.istio-ca-service-account"]
+     resourceNames: ["istio.istio-citadel-service-account"]
      verbs: ["get", "list", "watch"]
    - apiGroups: [""] # "" indicates the core API group
      resources: ["secrets"]
-     resourceNames: ["istio-ca-secret"]
+     resourceNames: ["istio-citadel-secret"]
      verbs: ["get", "list", "watch"]
    ......
    ---
@@ -419,11 +419,11 @@ The following are known limitations of Istio Ingress:
    rules:
    - apiGroups: [""] # "" indicates the core API group
      resources: ["secrets"]
-     resourceNames: ["istio.istio-ca-service-account"]
+     resourceNames: ["istio.istio-citadel-service-account"]
      verbs: ["get", "list", "watch"]
    - apiGroups: [""] # "" indicates the core API group
      resources: ["secrets"]
-     resourceNames: ["istio-ca-secret"]
+     resourceNames: ["istio-citadel-secret"]
      verbs: ["get", "list", "watch"]
    ......
    - apiGroups: [""] # "" indicates the core API group
@@ -449,47 +449,47 @@ The following are known limitations of Istio Ingress:
    kubectl apply -f istio-ingress-istio-system.yaml
    ```
 
-1. Update RBAC set up for istio-ca-service-account
+1. Update RBAC set up for istio-citadel-service-account
 
-    Record `ClusterRole` istio-ca-istio-system.
+    Record `ClusterRole` istio-citadel-istio-system.
    ```bash
-   kubectl describe ClusterRole istio-ca-istio-system
+   kubectl describe ClusterRole istio-citadel-istio-system
    ```
 
-    Create istio-ca-istio-system.yaml, which updates existing `ClusterRole` istio-ca-istio-system
-    that allows istio-ca-service-account to read, create and modify all istio.io/key-and-cert, and
+    Create istio-citadel-istio-system.yaml, which updates existing `ClusterRole` istio-citadel-istio-system
+    that allows istio-citadel-service-account to read, create and modify all istio.io/key-and-cert, and
     istio.io/ca-root types of secrets.
 
    ```yaml
    kind: ClusterRole
    apiVersion: rbac.authorization.k8s.io/v1
    metadata:
-    name: istio-ca-istio-system
+    name: istio-citadel-istio-system
    rules:
    - apiGroups: [""] # "" indicates the core API group
     resources: ["secrets"]
-    resourceNames: ["istio.istio-ca-service-account"]
+    resourceNames: ["istio.istio-citadel-service-account"]
     verbs: ["get", "list", "watch", "create", "update"]
    - apiGroups: [""] # "" indicates the core API group
     resources: ["secrets"]
-    resourceNames: ["istio-ca-secret"]
+    resourceNames: ["istio-citadel-secret"]
     verbs: ["get", "list", "watch", "create", "update"]
    ......
    kind: ClusterRoleBinding
    apiVersion: rbac.authorization.k8s.io/v1
    metadata:
-     name: istio-ca-role-binding-istio-system
+     name: istio-citadel-role-binding-istio-system
    subjects:
    - kind: ServiceAccount
-     name: istio-ca-service-account
+     name: istio-citadel-service-account
      namespace: istio-system
    roleRef:
      kind: ClusterRole
-     name: istio-ca-istio-system
+     name: istio-citadel-istio-system
      apiGroup: rbac.authorization.k8s.io
    ```
    ```bash
-   kubectl apply -f istio-ca-istio-system.yaml
+   kubectl apply -f istio-citadel-istio-system.yaml
    ```
 1. Verify that the new `ClusterRoles` work as expected
 
@@ -511,14 +511,14 @@ The following are known limitations of Istio Ingress:
    no - Unknown user "system:serviceaccount:istio-system:istio-pilot-service-account"
    ```
     In this command, we can replace service account with istio-mixer-service-account, or
-    istio-ca-service-account, we can also replace verb "get" with "watch" or "list", and the output
+    istio-citadel-service-account, we can also replace verb "get" with "watch" or "list", and the output
     should look similarly.
 
     Accessibility to secret resources except istio-ingress-certs should remain the same for
-    istio-ca-service-account, istio-ingress-service-account, istio-pilot-service-account and
+    istio-citadel-service-account, istio-ingress-service-account, istio-pilot-service-account and
     istio-mixer-service-account.
    ```bash
-   kubectl auth can-i get secret/istio-ca-service-account-token-r14xm --as system:serviceaccount:istio-system:istio-ca-service-account -n istio-system
+   kubectl auth can-i get secret/istio-citadel-service-account-token-r14xm --as system:serviceaccount:istio-system:istio-citadel-service-account -n istio-system
    ```
     whose output should be
    ```xxx

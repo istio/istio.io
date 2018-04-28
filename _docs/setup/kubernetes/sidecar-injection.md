@@ -115,7 +115,7 @@ Verify that the sidecar has been injected into the deployment.
 ```bash
 kubectl get deployment sleep -o wide
 ```
-```bash
+```xxx
 NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE       CONTAINERS          IMAGES                             SELECTOR
 sleep     1         1         1            1           2h        sleep,istio-proxy   tutum/curl,unknown/proxy:unknown   app=sleep
 ```
@@ -129,7 +129,7 @@ Sidecars can be automatically added to applicable Kubernetes pods using a
 kubectl api-versions | grep admissionregistration
 ```
 
-```bash
+```xxx
 admissionregistration.k8s.io/v1beta1
 ```
 
@@ -138,6 +138,30 @@ See the Kubernetes [quick start]({{home}}/docs/setup/kubernetes/quick-start.html
 Note that unlike manual injection, automatic injection occurs at the pod-level. You won't see any change to the deployment itself. Instead you'll want to check individual pods (via `kubectl describe`) to see the injected proxy.
 
 #### Installing the webhook
+
+##### For version 0.8.0 and later
+
+To enable the sidecar injection webhook, you can use [Helm]({{home}}/docs/setup/kubernetes/helm-install.html)
+to install Istio with the option sidecar-injector.enabled set to true. E.g.
+
+```bash
+helm install --namespace=istio-system --set sidecar-injector.enabled=true install/kubernetes/helm/istio
+```
+
+Alternatively, you can also use Helm to generate the yaml file and install it manually. E.g.
+```bash
+helm template --namespace=istio-system --set sidecar-injector.enabled=true install/kubernetes/helm/istio > istio.yaml
+```
+
+```bash
+kubectl apply -f istio.yaml
+```
+
+In addition, there are some other configuration parameters defined for sidecar
+injector webhook service in `values.yaml`. You can override the default
+values to customize the installation.
+
+##### For versions before 0.8.0
 
 > The [0.5.0](https://github.com/istio/istio/releases/tag/0.5.0) and [0.5.1](https://github.com/istio/istio/releases/tag/0.5.1) releases are missing scripts to
 provision webhook certificates. Download the missing files from [here](https://raw.githubusercontent.com/istio/istio/release-0.7/install/kubernetes/webhook-create-signed-cert.sh) and [here](https://raw.githubusercontent.com/istio/istio/release-0.7/install/kubernetes/webhook-patch-ca-bundle.sh).

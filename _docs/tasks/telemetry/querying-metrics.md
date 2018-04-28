@@ -11,8 +11,7 @@ type: markdown
 {% include home.html %}
 
 This task shows you how to query for Istio Metrics using Prometheus. As part of
-this task, you will install the Prometheus Istio addon and use the web-based
-interface for querying metric values.
+this task, you will use the web-based interface for querying metric values.
 
 The [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application is used as
 the example application throughout this task.
@@ -24,15 +23,8 @@ application.
 
 ## Querying Istio Metrics
 
-1. To query the metrics provided by Mixer, first install the Prometheus add-on.
-
-   In Kubernetes environments, execute the following command:
-
-   ```bash
-   kubectl apply -f install/kubernetes/addons/prometheus.yaml
-   ```
-
-1. Verify that the service is running in your cluster.
+1. Verify that the prometheus service is running in your cluster (since 0.8 the
+   prometheus setup is included in istio.yaml and istio-auth.yaml by default)
 
    In Kubernetes environments, execute the following command:
 
@@ -124,13 +116,6 @@ For more on querying Prometheus, please read their [querying
 docs](https://prometheus.io/docs/querying/basics/).
 
 ## Cleanup
-
-* In Kubernetes environments, execute the following command to remove the
-  Prometheus add-on:
-
-   ```bash
-   kubectl delete -f install/kubernetes/addons/prometheus.yaml
-   ```
 
 * Remove any `kubectl port-forward` processes that may still be running:
 

@@ -8,7 +8,7 @@ file to learn about the overall Istio project and how to get in touch with us. T
 contribute to any of the Istio components, please
 see the Istio [contribution guidelines](https://github.com/istio/community/blob/master/CONTRIBUTING.md).
 
-* [Working with the site](#building-the-site)
+* [Working with the site](#working-with-the-site)
 * [Linting](#linting)
 * [Versions and releases](#versions-and-releases)
   * [How versioning works](#how-versioning-works)
@@ -25,7 +25,7 @@ To run the site locally with Docker, use the following command from the top leve
 
 ```bash
 # First time: (slow)
-docker run --name istio-jekyll --volume=$(pwd):/srv/jekyll  -it -p 4000:4000 jekyll/jekyll:3.7.3 sh -c "bundle install && rake test && bundle exec jekyll serve --incremental --host 0.0.0.0"
+docker run --name istio-jekyll --volume=$(pwd):/srv/jekyll -w /srv/jekyll -it -p 4000:4000 jekyll/jekyll:3.7.3 sh -c "bundle install && rake test && bundle exec jekyll serve --incremental --host 0.0.0.0"
 # Then open browser with url 127.0.0.1:4000 to see the change.
 # Subsequent, each time you want to see a new change and you stopped the previous run by ctrl+c: (much faster)
 docker start istio-jekyll -a -i
@@ -52,6 +52,7 @@ xcode-select --install
 sudo xcodebuild -license
 brew install ruby
 gem update --system
+gem install mdspell
 gem install bundler
 gem install jekyll
 cd istio.github.io
@@ -152,7 +153,7 @@ release-0.6) to the `TOBUILD` variable.
 
 1. Run the `build.sh` script.
 
-1. Once the script completes, run 'firebase deploy'. This will update archive.istio.io to contain the
+1. Once the script completes, run `firebase deploy`. This will update archive.istio.io to contain the
 right set of archives, based on the above steps.
 
 1. Navigate to the current.istio.io directory.

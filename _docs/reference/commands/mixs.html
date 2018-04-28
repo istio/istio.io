@@ -2,7 +2,7 @@
 title: mixs
 overview: Mixer is Istio&#39;s abstraction on top of infrastructure backends.
 layout: pkg-collateral-docs
-number_of_entries: 10
+number_of_entries: 9
 ---
 <p>Mixer is Istio&#39;s point of integration with infrastructure backends and is the
 nexus for policy evaluation and telemetry reporting.</p>
@@ -39,12 +39,12 @@ nexus for policy evaluation and telemetry reporting.</p>
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_callers</code></td>
-<td>Include caller information, useful for debugging </td>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default, attributes, adapters]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [default, attributes, adapters] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -64,7 +64,7 @@ nexus for policy evaluation and telemetry reporting.</p>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [default, attributes, adapters] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -123,14 +123,14 @@ nexus for policy evaluation and telemetry reporting.</p>
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_callers</code></td>
+<td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Include caller information, useful for debugging </td>
+<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default, attributes, adapters]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [default, attributes, adapters] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -155,7 +155,7 @@ nexus for policy evaluation and telemetry reporting.</p>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [default, attributes, adapters] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -216,64 +216,6 @@ nexus for policy evaluation and telemetry reporting.</p>
 <td><code>--trace_zipkin_url &lt;string&gt;</code></td>
 <td></td>
 <td>URL of Zipkin collector (example: &#39;http://zipkin:9411/api/v1/spans&#39;).  (default ``)</td>
-</tr>
-</tbody>
-</table>
-<h2 id="mixs validator">mixs validator</h2>
-<p>Runs an https server for validations. Works as an external admission webhook for k8s</p>
-<pre class="language-bash"><code>mixs validator [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</thead>
-<tbody>
-<tr>
-<td><code>--configStoreURL &lt;string&gt;</code></td>
-<td></td>
-<td>URL of the config store. Use k8s://path_to_kubeconfig or fs:// for file system. If path_to_kubeconfig is empty, in-cluster kubeconfig is used.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--external-admission-webook-name &lt;string&gt;</code></td>
-<td></td>
-<td>the name of the external admission webhook registration. Needs to be a domain with at least three segments separated by dots.  (default `mixer-webhook.istio.io`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td></td>
-<td>Use a Kubernetes configuration file instead of in-cluster configuration  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td></td>
-<td>the namespace where this webhook is deployed  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--port &lt;int&gt;</code></td>
-<td><code>-p</code></td>
-<td>the port number of the webhook  (default `9099`)</td>
-</tr>
-<tr>
-<td><code>--registration-delay &lt;duration&gt;</code></td>
-<td></td>
-<td>Time to delay webhook registration after starting webhook server  (default `5s`)</td>
-</tr>
-<tr>
-<td><code>--secret-name &lt;string&gt;</code></td>
-<td></td>
-<td>The name of k8s secret where the certificates are stored  (default ``)</td>
-</tr>
-<tr>
-<td><code>--target-namespaces &lt;stringArray&gt;</code></td>
-<td></td>
-<td>the list of namespaces where changes should be validated. Empty means to validate everything. Used for test only.  (default `[]`)</td>
-</tr>
-<tr>
-<td><code>--webhook-name &lt;string&gt;</code></td>
-<td></td>
-<td>the name of the webhook  (default `istio-mixer-webhook`)</td>
 </tr>
 </tbody>
 </table>
