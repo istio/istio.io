@@ -106,12 +106,27 @@ on **one** Kubernetes cluster.
 <img src="{{home}}/img/exclamation-mark.svg" alt="Important" title="Important" style="width: 32px; display:inline" />
 The istio-remote component must be deployed to each remote Kubernetes cluster.
 
+### Set environment variables for Pod IPs from Istio control plane needed by remote
+
+> Please wait for the Istio control plane to finish initializing before proceeding to steps
+in this section.
+
+```bash
+export PILOT_POD_IP=$(kubectl -n istio-system get pod -l istio=pilot -o jsonpath='{.items[0].status.podIP}')
+export POLICY_POD_IP=$(kubectl -n istio-system get pod -l istio=mixer -o jsonpath='{.items[0].status.podIP}')
+export STATSD_POD_IP=$(kubectl -n istio-system get pod -l istio=statsd-prom-bridge -o jsonpath='{.items[0].status.podIP}')
+```
+
+> These variables will only be exported on the Istio control plane cluster.  If Helm is used
+with Tiller on each remote, take care to copy the environment variables to each node before running
+`helm install`.
+
 ### Use kubectl with Helm to connect the remote cluster to the local
 
 1. Use the helm template command on a remote to specify the Istio control plane service endpoints:
 
    ```bash
-   helm template install/kubernetes/helm/istio-remote --name istio-remote --set pilotEndpoint=`pod_ip_of_pilot_local` --set policyEndpoint=`pod_ip_of_policy_local` --set statsdEndpoint=`pod_ip_of_statsd_local` > $HOME/istio-remote.yaml
+   helm template install/kubernetes/helm/istio-remote --name istio-remote --set global.pilotEndpoint=${PILOT_POD_IP} --set global.policyEndpoint=$(POLICY_POD_IP} --set global.statsdEndpoint=${STATSD_POD_IP} > $HOME/istio-remote.yaml
     ```
 
 1. Instantiate the remote cluster's connection to the Istio control plane:
@@ -138,7 +153,7 @@ install one:
 1. Install the Helm chart:
 
    ```bash
-   helm install install/kubernetes/helm/istio-remote --name istio-remote --set pilotEndpoint=`pod_ip_of_pilot_local` --set policyEndpoint=`pod_ip_of_policy_local` --set statsdEndpoint=`pod_ip_of_statsd_local` > $HOME/istio-remote.yaml -n istio-system
+   helm install install/kubernetes/helm/istio-remote --name istio-remote --set global.pilotEndpoint=${PILOT_POD_IP} --set global.policyEndpoint=${POLICY_POD_IP} --set global.statsdEndpoint=${STATSD_POD_IP} --namespace istio-system
    ```
 
 ### Helm configuration parameters
