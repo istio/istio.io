@@ -68,7 +68,7 @@ Upgrading Istio using Helm is not validated.
 
 1. Create the Helm chart:
    ```bash
-   helm install install/kubernetes/helm/istio --name istio
+   helm install install/kubernetes/helm/istio --name istio --namespace istio-system
    ```
 
 ## Customization with Helm
