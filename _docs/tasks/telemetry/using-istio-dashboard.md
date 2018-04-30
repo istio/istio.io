@@ -22,14 +22,6 @@ the example application throughout this task.
 * [Install Istio]({{home}}/docs/setup/) in your cluster and deploy an
   application.
 
-* Install the Prometheus add-on.
-
-   ```bash
-   kubectl apply -f install/kubernetes/addons/prometheus.yaml
-   ```
-
-   Use of the Prometheus add-on is _required_ for the Istio Dashboard.
-
 ## Viewing the Istio Dashboard
 
 1. To view Istio metrics in a graphical dashboard install the Grafana add-on.
