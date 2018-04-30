@@ -67,9 +67,9 @@ With the above setup in mind, `v1alpha3` introduces the following new
 configuration resources to control traffic routing into, within, and out of the mesh.
 
 1. `Gateway`
-2. `VirtualService`
-3. `DestinationRule`
-4. `ServiceEntry`
+1. `VirtualService`
+1. `DestinationRule`
+1. `ServiceEntry`
 
 `VirtualService`, `DestinationRule`, and `ServiceEntry` replace `RouteRule`,
 `DestinationPolicy`, and `EgressRule` respectively. The `Gateway` is a
@@ -275,10 +275,10 @@ These hosts can be exposed outside the mesh by binding the `VirtualService` to a
 In addition to this fundamental restructuring, `VirtualService` includes several other important changes:
 
 1. Multiple match conditions can be expressed inside the `VirtualService` configuration, reducing the need for redundant
-   rules. 
-2. Each service version has a name (called a service subset). The set of pods/VMs belonging to a subset is defined in a
+   rules.
+1. Each service version has a name (called a service subset). The set of pods/VMs belonging to a subset is defined in a
    `DestinationRule`, described in the following section.
-3. `VirtualService` hosts can be specified using wildcard DNS prefixes to create a single rule for all matching services.
+1. `VirtualService` hosts can be specified using wildcard DNS prefixes to create a single rule for all matching services.
    For example, in Kubernetes, to apply the same rewrite rule for all services in the `foo` namespace, the `VirtualService`
    would use `*.foo.svc.cluster.local` as the host.
 
@@ -286,12 +286,12 @@ In addition to this fundamental restructuring, `VirtualService` includes several
 
 A [DestinationRule]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#DestinationRule)
 configures the set of policies to be applied while forwarding traffic to a service. They are
-intended to be authored by service owners, describing the circuit breakers, load balancer settings, TLS settings, etc.. 
+intended to be authored by service owners, describing the circuit breakers, load balancer settings, TLS settings, etc..
 `DestinationRule` is more or less the same as its predecessor, `DestinationPolicy`, with the following exceptions:
 
 1. The `host` of a `DestinationRule` can include wildcard prefixes, allowing a single rule to be specified for many actual
    services.
-2. A `DestinationRule` defines addressable `subsets` (i.e., named versions) of the corresponding destination host. These
+1. A `DestinationRule` defines addressable `subsets` (i.e., named versions) of the corresponding destination host. These
    subsets are used in `VirtualService` route specifications when sending traffic to specific versions of the service.
    Naming versions this way allows us to cleanly refer to them across different virtual services, simplify the stats that
    Istio proxies emit, and to encode subsets in SNI headers.
@@ -382,8 +382,8 @@ including the following:
 
 1. A single `ServiceEntry` can configure multiple service endpoints, which previously would have required multiple
    `EgressRules`.
-2. The resolution mode for the endpoints is now configurable (`PASSTHROUGH`, `STATIC`, or `DNS`).
-3. Secure HTTP services (automatic TLS upgrade) can now be accessed using standard https (e.g., `https://secureservice.com/`
+1. The resolution mode for the endpoints is now configurable (`PASSTHROUGH`, `STATIC`, or `DNS`).
+1. Secure HTTP services (automatic TLS upgrade) can now be accessed using standard https (e.g., `https://secureservice.com/`
    instead of `http://secureservice.com:443/`.
 
 ## Creating and deleting v1alpha3 route rules
