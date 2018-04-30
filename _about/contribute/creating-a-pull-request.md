@@ -17,7 +17,7 @@ repository. This page shows the steps necessary to create a pull request.
 
 1. Create a [GitHub account](https://github.com).
 
-1. Sign the [Contributor License Agreement](https://github.com/istio/community/blob/master/CONTRIBUTING.md#contributor-license-agreements)
+1. Sign the [Contributor License Agreement](https://github.com/istio/community/blob/master/CONTRIBUTING.md#contributor-license-agreements).
 
 Documentation will be published under the [Apache 2.0](https://github.com/istio/istio.github.io/blob/master/LICENSE) license.
 
@@ -57,3 +57,6 @@ repository. This opens a page that shows the status of your pull request.
 1. During the next few days, check your pull request for reviewer comments.
 If needed, revise your pull request by committing changes to your
 new branch in your fork.
+
+> Once your changes have been committed, they will show up immediately on [preliminary.istio.io](https://preliminary.istio.io), but
+will only show up on [istio.io](http://istio.io) the next time we produce a new release, which happens around once a month.
