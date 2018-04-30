@@ -5,7 +5,7 @@ publish_date: April 19, 2018
 subtitle: Using multiple Istio control planes and RBAC to create multi-tenancy
 attribution: John Joyce and Rich Curran
 
-order: 92
+order: 90
 
 layout: blog
 type: markdown
