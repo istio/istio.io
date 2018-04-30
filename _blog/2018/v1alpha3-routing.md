@@ -97,9 +97,9 @@ the set of workload (pod) labels as part of the configuration, allowing
 users to reuse off the shelf network appliances by writing a simple gateway
 controller.
 
-You might ask: _Why not reuse Kubernetes Ingress APIs_? The Ingress APIs
-proved to be incapable of expressing Istio's routing needs. By
-trying to draw a common denominator across different HTTP proxies, the
+For ingress traffic management, you might ask: _Why not reuse Kubernetes Ingress APIs_?
+The Ingress APIs proved to be incapable of expressing Istio's routing needs.
+By trying to draw a common denominator across different HTTP proxies, the
 Ingress is only able to support the most basic HTTP routing and ends up
 pushing every other feature of modern proxies into non-portable
 annotations.
@@ -403,6 +403,10 @@ istioctl replace -f my-updated-rules-for-destination-abc.yaml
 ```
 
 Deleting route rules other than the last one for a particular destination is also done using `istioctl replace`.
+
+When adding or removing routes that refer to service versions, the `subsets` will need to be updated in
+the service's corresponding `DestinationRule`.
+As you might have guessed, this is also done using `istioctl replace`.
 
 ## Summary
 
