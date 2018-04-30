@@ -1,7 +1,7 @@
 ## istio.github.io
 
 This repository contains the source code for the [istio.io](https://istio.io),
-[preliminary.istio.io](https://preliminary.istio.io) and [archive.istio.io](https://archive.istio.io) websites.
+[preliminary.istio.io](https://preliminary.istio.io) and [archive.istio.io](https://archive.istio.io) sites.
 
 Please see the main Istio [README](https://github.com/istio/istio/blob/master/README.md)
 file to learn about the overall Istio project and how to get in touch with us. To learn how you can
@@ -12,12 +12,12 @@ see the Istio [contribution guidelines](https://github.com/istio/community/blob/
 * [Linting](#linting)
 * [Versions and releases](#versions-and-releases)
   * [How versioning works](#how-versioning-works)
+  * [Publishing content immediately](#publishing-content-immediately)
   * [Creating a version](#creating-a-version)
 
 ## Working with the site
 
-The website uses [Jekyll](https://jekyllrb.com/) templates Please make sure you are
-familiar with these before editing.
+We use [Jekyll](https://jekyllrb.com/) to generate our sites.
 
 To run the site locally with Docker, use the following command from the top level directory for this git repo
 (e.g. pwd must be `~/github/istio.github.io` if you were in `~/github` when you issued
@@ -40,8 +40,6 @@ HTML-Proofer finished successfully.
 ```
 
 in the output
-
-> In some cases the `--incremental` may not work properly and you might have to remove it.
 
 Alternatively, if you just want to develop locally w/o Docker/Kubernetes/Minikube, you can try installing Jekyll locally.
 You may need to install other prerequisites manually (which is where using the docker image shines). Here's an example of doing
@@ -82,16 +80,16 @@ If you get a spelling error, you have three choices to address it:
 
 ## Versions and releases
 
-Istio maintains three variations of its public website:
+Istio maintains three variations of its public site:
 
-* istio.io is the main site, showing documentation for the current release of the product.
+* [istio.io](https://istio.io) is the main site, showing documentation for the current release of the product.
 This site is currently hosted on Firebase.
 
-* archive.istio.io contains snapshots of the documentation for previous releases of the product.
+* [archive.istio.io](https://archive.istio.io) contains snapshots of the documentation for previous releases of the product.
 This is useful for customers still using these older releases.
 This site is currently hosted on Firebase.
 
-* preliminary.istio.io contains the actively updated documentation for the next release of the product.
+* [preliminary.istio.io](https://preliminary.istio.io) contains the actively updated documentation for the next release of the product.
 This site is hosted by GitHub Pages.
 
 The user can trivially navigate between the different variations of the site using the gear menu in the top right
@@ -112,6 +110,13 @@ are included on archive.istio.io is determined by the `TOBUILD` variable in this
 > The above means that if you want to do a change to the main istio.io site, you will need
 to make the change in the master branch of istio.github.io and then merge that change into the
 release branch.
+
+### Publishing content immediately
+
+Checking in updates to the master branch will automatically update preliminary.istio.io, and will only be reflected on
+istio.io the next time a release is created, which can be several weeks in the future. If you'd like some changes to be
+immediately reflected on istio.io, you need to check your changes both to the master branch and to the
+current release branch (named release-XXX such as release-0.7).
 
 ### Creating a version
 
