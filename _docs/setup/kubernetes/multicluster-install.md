@@ -97,6 +97,11 @@ the deployment of the Istio control plane.  Creating secrets
 after Istio is started will not register the secrets with Istio
 properly.
 
+> The local cluster running the Istio control plane does not need
+it's secrets stored and labeled. The local node is always aware of
+it's Kubernetes credentials, but the local node is not aware of
+the remote nodes' credentials.
+
 Create a secret and label it properly for each remote cluster:
 
 ```bash
@@ -123,7 +128,8 @@ kubectl.
 > Please wait for the Istio control plane to finish initializing
 before proceeding to steps in this section.
 
-> These operions must be run on the Istio control plane cluster.
+> These operations must be run on the Istio control plane cluster
+to capture the Pilot, Policy, and Statsd Pod IP endpoints.
 
 > If Helm is used with Tiller on each remote, copy the environment
 variables to each node before using Helm to connect the remote
@@ -172,9 +178,12 @@ install one:
 
 ### Helm configuration parameters
 
-The `isito-remote` Helm chart requires the configuration of two specific variables defined in the following table:
-
 > The `pilotEndpoint`, `policyEndpoint`, `statsdEndpoint` need to be resolvable via Kubernetes.
+The simplest approach to enabling resolution for these variables is to specify the Pod IP of
+the various services.  One problem with this is Pod IP's change during the lifetime of the
+service.
+
+The `isito-remote` Helm chart requires the three specific variables to be configured as defined in the following table:
 
 | Helm Variable | Accepted Values | Default | Purpose of Value |
 | --- | --- | --- | --- |
