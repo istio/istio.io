@@ -43,11 +43,12 @@ produced for Istio.
 
 1. Create an `istio.yaml` Kubernetes manifest:
    ```bash
-   helm template install/kubernetes/helm/istio --name istio --set prometheus.enabled=true > $HOME/istio.yaml
+   helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set prometheus.enabled=true > $HOME/istio.yaml
    ```
 
 1. Create the Istio control plane from `istio.yaml` manifest:
    ```bash
+   kubectl create ns istio-system
    kubectl create -f $HOME/istio.yaml
    ```
 
@@ -68,7 +69,7 @@ Upgrading Istio using Helm is not validated.
 
 1. Create the Helm chart:
    ```bash
-   helm install install/kubernetes/helm/istio --name istio
+   helm install install/kubernetes/helm/istio --name istio --namespace istio-system
    ```
 
 ## Customization with Helm
