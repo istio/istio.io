@@ -146,8 +146,27 @@ function handleDOMLoaded() {
             }
 
             var copyCode = new Clipboard('button.copy', {
-                target: function (trigger) {
-                    return trigger.previousElementSibling;
+                text: function (trigger) {
+                    var commands = trigger.previousElementSibling.getElementsByClassName("command");
+                    if ((commands != undefined) && (commands.length > 0)) {
+                        var lines = commands[0].innerText.split("\n");
+                        var cmd = "";
+                        for (var i = 0; i < lines.length; i++) {
+                            if (lines[i].startsWith("$ ")) {
+                                lines[i] = lines[i].substring(2);
+                            }
+
+                            if (cmd != "") {
+                                cmd = cmd + "\n";
+                            }
+
+                            cmd = cmd + lines[i];
+                        }
+
+                        return cmd;
+                    }
+
+                    return trigger.previousElementSibling.innerText;
                 }
             });
 
@@ -178,8 +197,57 @@ function handleDOMLoaded() {
         function applySyntaxColoring() {
             var pre = document.getElementsByTagName('PRE');
             for (var i = 0; i < pre.length; i++) {
-                if (!pre[i].hasAttribute("data-src")) {
-                    Prism.highlightElement(pre[i].firstChild, false)
+                var code = pre[i].firstChild;
+
+                if (code.classList.contains("language-command")) {
+                    var text = code.innerText;
+                    var lines = text.split("\n");
+
+                    var bottom = false;
+                    var cmd = "";
+                    var output = "";
+                    var escape = false;
+                    for (var j = 0; j < lines.length; j++) {
+                        if (bottom) {
+                            output = output + "\n" + lines[j]
+                        } else {
+                            if (lines[j].startsWith("$ ")) {
+                                // line is definitely a command
+                            } else if (escape) {
+                                // continuation
+                            } else {
+                                bottom = true;
+                                output = lines[j];
+                                continue;
+                            }
+
+                            escape = (lines[j].endsWith("\\"));
+
+                            if (cmd != "") {
+                                cmd = cmd + "\n";
+                            }
+                            cmd = cmd + lines[j]
+                        }
+                    }
+
+                    var colored = Prism.highlight(cmd, Prism.languages["bash"], "bash");
+                    var html = "<div class='command'>" + colored + "</div>";
+
+                    if (output != "") {
+                        html = html + "<div class='output'>" + output + "</div>";
+                    }
+
+                    code.innerHTML = html;
+                    code.classList.remove("language-command");
+                    code.classList.add("command-output");
+                } else {
+                    Prism.highlightElement(code, false);
+                    var code = pre[i].firstChild;
+                    var div = document.createElement("DIV");
+                    div.className = "code-plain";
+                    parent = code.parentElement;
+                    parent.insertBefore(div, code);
+                    div.appendChild(code);
                 }
             }
         }
@@ -238,7 +306,6 @@ function handleDOMLoaded() {
             function fetchFile(elem, url) {
                 fetch(url).then(response => response.text()).then(data => {
                     elem.firstChild.innerText = data;
-                    Prism.highlightElement(elem.firstChild, false)
                 });
             }
 
