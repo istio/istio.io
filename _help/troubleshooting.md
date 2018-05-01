@@ -19,7 +19,7 @@ Verifying connectivity to Pilot is a useful troubleshooting step. Every proxy co
 
 1. Get the name of the Istio Ingress pod:
 ```bash
-INGRESS_POD_NAME=$(kubectl get po -n istio-system | grep ingress | awk '{print$1}')
+INGRESS_POD_NAME=$(kubectl get po -n istio-system | grep ingress\- | awk '{print$1}')
 ```
 
 1. Exec into the Istio Ingress pod:
