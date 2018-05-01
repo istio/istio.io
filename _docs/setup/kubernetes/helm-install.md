@@ -34,6 +34,13 @@ to create it.
 The second technique uses Helm's Tiller service to manage the lifecycle
 of Istio.
 
+For both technique, we recommend you create the `istio-system` namespace first so that you can deploy istio to the `istio-system` namespace:
+
+   ```bash
+   kubectl create ns istio-system
+   ```
+
+
 ### Render Kubernetes manifest with Helm and deploy with kubectl
 
 This is the most heavily tested method of deploying Istio.  During the
