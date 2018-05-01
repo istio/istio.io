@@ -23,19 +23,27 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--citadel-storage-namespace &lt;string&gt;</code></td>
-<td>Namespace where the Istio CA pods is running. Will not be used if explicit file or other storage mechanism is specified.  (default `istio-system`)</td>
+<td>Namespace where the Citadel pod is running. Will not be used if explicit file or other storage mechanism is specified.  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--custom-dns-names &lt;string&gt;</code></td>
+<td>The list of account.namespace:customdns names, separated by comma.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--enable-profiling</code></td>
+<td>Enabling profiling when monitoring Citadel. </td>
 </tr>
 <tr>
 <td><code>--grpc-host-identities &lt;string&gt;</code></td>
-<td>The list of hostnames for istio ca server, separated by comma.  (default `istio-citadel`)</td>
+<td>The list of hostnames for istio ca server, separated by comma.  (default `istio-ca,istio-citadel`)</td>
 </tr>
 <tr>
 <td><code>--grpc-hostname &lt;string&gt;</code></td>
-<td>The hostname for GRPC server.  (default `istio-citadel`)</td>
+<td>DEPRECATED, use --grpc-host-identites.  (default `istio-ca`)</td>
 </tr>
 <tr>
 <td><code>--grpc-port &lt;int&gt;</code></td>
-<td>The port number for GRPC server. If unspecified, Istio CA will not server GRPC request.  (default `8060`)</td>
+<td>The port number for Citadel GRPC server. If unspecified, Citadel will not serve GRPC requests.  (default `8060`)</td>
 </tr>
 <tr>
 <td><code>--key-size &lt;int&gt;</code></td>
@@ -47,7 +55,7 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--listened-namespace &lt;string&gt;</code></td>
-<td>Select a namespace for the CA to listen to. If unspecified, Istio CA tries to use the ${NAMESPACE} environment variable. If neither is set, Istio CA listens to all namespaces.  (default ``)</td>
+<td>Select a namespace for the CA to listen to. If unspecified, Citadel tries to use the ${NAMESPACE} environment variable. If neither is set, Citadel listens to all namespaces.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--liveness-probe-interval &lt;duration&gt;</code></td>
@@ -98,6 +106,10 @@ number_of_entries: 4
 <td>The max TTL of issued workload certificates  (default `2160h0m0s`)</td>
 </tr>
 <tr>
+<td><code>--monitoring-port &lt;int&gt;</code></td>
+<td>The port number for monitoring Citadel. If unspecified, Citadel will disable monitoring.  (default `9093`)</td>
+</tr>
+<tr>
 <td><code>--org &lt;string&gt;</code></td>
 <td>Organization for the cert  (default ``)</td>
 </tr>
@@ -127,7 +139,7 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--sign-ca-certs</code></td>
-<td>Whether the CA signs certificates for other CAs </td>
+<td>Whether Citadel signs certificates for other CAs </td>
 </tr>
 <tr>
 <td><code>--signing-cert &lt;string&gt;</code></td>
@@ -139,7 +151,7 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--upstream-ca-address &lt;string&gt;</code></td>
-<td>The IP:port address of the upstream CA. When set, the CA will rely on the upstream Istio CA to provision its own certificate.  (default ``)</td>
+<td>The IP:port address of the upstream CA. When set, the CA will rely on the upstream Citadel to provision its own certificate.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--workload-cert-grace-period-ratio &lt;float32&gt;</code></td>

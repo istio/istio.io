@@ -9,7 +9,7 @@ type: markdown
 ---
 {% include home.html %}
 
-The [Control Egress Traffic]({{home}}/docs/tasks/traffic-management-v1alpha3/egress.html) task demonstrated how external (outside the Kubernetes cluster) HTTP and HTTPS services can be accessed from applications inside the mesh. A quick reminder: by default, Istio-enabled applications are unable to access URLs outside the cluster. To enable such access, an [external service]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#ExternalService) must be defined, or, alternatively, [direct access to external services]({{home}}/docs/tasks/traffic-management-v1alpha3/egress.html#calling-external-services-directly) must be configured.
+The [Control Egress Traffic]({{home}}/docs/tasks/traffic-management-v1alpha3/egress.html) task demonstrated how external (outside the Kubernetes cluster) HTTP and HTTPS services can be accessed from applications inside the mesh. A quick reminder: by default, Istio-enabled applications are unable to access URLs outside the cluster. To enable such access, an [external service]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#ServiceEntry) must be defined, or, alternatively, [direct access to external services]({{home}}/docs/tasks/traffic-management-v1alpha3/egress.html#calling-external-services-directly) must be configured.
 
 This task describes how to configure Istio to expose external TCP services to applications inside the Istio service mesh.
 
@@ -41,7 +41,7 @@ Let's create an external service to enable TCP access to `wikipedia.org`:
 ```bash
 cat <<EOF | istioctl create -f -
 apiVersion: networking.istio.io/v1alpha3
-kind: ExternalService
+kind: ServiceEntry
 metadata:
   name: wikipedia-ext
 spec:
@@ -98,7 +98,7 @@ This command instructs the Istio proxy to forward requests on port 443 of any of
 1. Remove the external service we created.
 
    ```bash
-   istioctl delete externalservice wikipedia-ext
+   istioctl delete ServiceEntry wikipedia-ext
    ```
 
 1. Shutdown the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) application.
@@ -109,6 +109,6 @@ This command instructs the Istio proxy to forward requests on port 443 of any of
 
 ## What's next
 
-* The [External Services]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#ExternalService) reference.
+* The [External Services]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#ServiceEntry) reference.
 
 * The [Control Egress Traffic]({{home}}/docs/tasks/traffic-management-v1alpha3/egress.html) task, for HTTP and HTTPS.

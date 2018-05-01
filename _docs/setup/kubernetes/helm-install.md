@@ -95,6 +95,7 @@ following table:
 | `global.arch.amd64` | Specifies the scheduling policy for `amd64` architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | `2` |
 | `global.arch.s390x` | Specifies the scheduling policy for `s390x` architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | `2` |
 | `global.arch.ppc64le` | Specifies the scheduling policy for `ppc64le` architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | `2` |
+| `galley.enabled` | Specifies whether Galley should be installed for server-side config validation. Requires k8s >= 1.9 | true/false | `false` |
 
 > The Helm chart also offers significant customization options per individual
 service.  Customize these per-service options at your own risk.

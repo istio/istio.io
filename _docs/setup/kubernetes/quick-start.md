@@ -91,7 +91,7 @@ Retrieve your credentials for `kubectl` (replace `<cluster-name>` with the name 
 $(bx cs cluster-config <cluster-name>|grep "export KUBECONFIG")
 ```
 
-### [IBM Cloud Private](https://www.ibm.com/cloud-computing/products/ibm-cloud-private/) (version 2.1 or later)
+### [IBM Cloud Private](https://www.ibm.com/us-en/marketplace/ibm-cloud-private) (version 2.1 or later)
 
 Configure `kubectl` CLI based on steps [here](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0/manage_cluster/cfc_cli.html) for how to access the IBM Cloud Private Cluster.
 

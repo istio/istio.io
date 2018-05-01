@@ -11,7 +11,7 @@ type: markdown
 
 This document introduces Istio: an open platform to connect, manage, and secure microservices. Istio provides an easy way to create a network of deployed services with load balancing, service-to-service authentication, monitoring, and more, without requiring any changes in service code. You add Istio support to services by deploying a special sidecar proxy throughout your environment that intercepts all network communication between microservices, configured and managed using Istio's control plane functionality.
 
-Istio currently only supports service deployment on Kubernetes, though other environments will be supported in future versions.
+Istio currently supports service deployment on Kubernetes, as well as services registered with Consul or Eureka and services running on individual VMs.
 
 For detailed conceptual information about Istio components see our other [Concepts]({{home}}/docs/concepts/) guides.
 

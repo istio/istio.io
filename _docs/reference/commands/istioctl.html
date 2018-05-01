@@ -2,7 +2,7 @@
 title: istioctl
 overview: Istio control interface
 layout: pkg-collateral-docs
-number_of_entries: 16
+number_of_entries: 19
 ---
 <p>
 Istio configuration command line utility.</p>
@@ -525,7 +525,7 @@ istioctl delete routerule productpage-default
 <tr>
 <td><code>--filenames &lt;stringSlice&gt;</code></td>
 <td><code>-f</code></td>
-<td>Input filename  (default `[]`)</td>
+<td>Input filenames  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -601,6 +601,297 @@ istioctl delete routerule productpage-default
 </table>
 <h3 id="istioctl experimental convert-networking-config Examples">Examples</h3>
 <pre class="language-bash"><code>istioctl experimental convert-networking-config -f v1alpha1/default-route.yaml -f v1alpha1/header-delay.yaml
+</code></pre>
+<h2 id="istioctl experimental metrics">istioctl experimental metrics</h2>
+<p>
+Prints the metrics for the specified service(s) when running in Kubernetes.</p>
+<p>This command finds a Prometheus pod running in the specified istio system 
+namespace. It then executes a series of queries per requested service to
+find the following top-level service metrics: total requests per second,
+error rate, and request latency at p50, p90, and p99 percentiles. The 
+query results are printed to the console, organized by service name.</p>
+<p>All metrics returned are from server-side reports. This means that latencies
+and error rates are from the perspective of the service itself and not of an
+individual client (or aggregate set of clients). Rates and latencies are
+calculated over a time interval of 1 minute.
+</p>
+<pre class="language-bash"><code>istioctl experimental metrics &lt;service name&gt;...
+</code></pre>
+<table class="command-flags">
+<thead>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--platform &lt;string&gt;</code></td>
+<td><code>-p</code></td>
+<td>Istio host platform  (default `kube`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl experimental metrics Examples">Examples</h3>
+<pre class="language-bash"><code>
+# Retrieve service metrics for productpage service
+istioctl experimental metrics productpage
+
+# Retrieve service metrics for various services in the different namespaces
+istioctl experimental metrics productpage.foo reviews.bar ratings.baz
+
+</code></pre>
+<h2 id="istioctl experimental rbac">istioctl experimental rbac</h2>
+<p>
+A group of commands used to interact with Istio RBAC policies. For example, Query whether a specific
+request is allowed or denied under the current Istio RBAC policies.</p>
+<table class="command-flags">
+<thead>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--platform &lt;string&gt;</code></td>
+<td><code>-p</code></td>
+<td>Istio host platform  (default `kube`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl experimental rbac Examples">Examples</h3>
+<pre class="language-bash"><code># Query if user test is allowed to GET /v1/health of service rating.
+istioctl experimental rbac can -u test GET rating /v1/health
+</code></pre>
+<h2 id="istioctl experimental rbac can">istioctl experimental rbac can</h2>
+<p>
+This command lets you query whether a specific request will be allowed or denied under current Istio
+RBAC policies. It constructs a fake request with the custom subject and action specified in the command
+line to check if your Istio RBAC policies are working as expected. Note the fake request is only used
+locally to evaluate the effect of the Istio RBAC policies, no actual request will be issued.</p>
+<p>METHOD is the HTTP method being taken, like GET, POST, etc. SERVICE is the short service name the action
+is being taken on. PATH is the HTTP path within the service.</p>
+<pre class="language-bash"><code>istioctl experimental rbac can METHOD SERVICE PATH [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+<td><code>--action-properties &lt;stringArray&gt;</code></td>
+<td><code>-a</code></td>
+<td>[Action] Additional data about the action. Specified as name1=value1,name2=value2,...  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--groups &lt;string&gt;</code></td>
+<td><code>-g</code></td>
+<td>[Subject] Group name/ID that the subject represents.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--platform &lt;string&gt;</code></td>
+<td><code>-p</code></td>
+<td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--subject-properties &lt;stringArray&gt;</code></td>
+<td><code>-s</code></td>
+<td>[Subject] Additional data about the subject. Specified as name1=value1,name2=value2,...  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--user &lt;string&gt;</code></td>
+<td><code>-u</code></td>
+<td>[Subject] User name/ID that the subject represents.  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl experimental rbac can Examples">Examples</h3>
+<pre class="language-bash"><code># Query if user test is allowed to GET /v1/health of service rating.
+istioctl experimental rbac can -u test GET rating /v1/health
+
+# Query if service product-page is allowed to POST to /data of service rating with label version=dev.
+istioctl experimental rbac can -s service=product-page POST rating /data -a version=dev
 </code></pre>
 <h2 id="istioctl gen-deploy">istioctl gen-deploy</h2>
 <p>istioctl gen-deploy produces deployment files to run the minimum Istio control for the set of features requested by the --feature flag. If no features are provided, we create deployments for the default control plane: Pilot, Mixer, CA, and Ingress Proxies, with mTLS enabled.</p>
@@ -1027,11 +1318,15 @@ istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml --injectConf
 </code></pre>
 <h2 id="istioctl proxy-config">istioctl proxy-config</h2>
 <p>
-Retrieves the local proxy configuration for the specified pod when running in Kubernetes.</p>
+Retrieves proxy configuration for the specified pod from the endpoint proxy or Pilot when running in Kubernetes.
+It is also able to retrieve the state of the entire mesh by using mesh instead of &lt;pod-name&gt;. This is only available when querying Pilot.</p>
 <p>Available configuration types:</p>
-<p>	[clusters listeners routes static]</p>
+<p>	Endpoint:
+	[clusters listeners routes static]</p>
+<p>	Pilot:
+	[ads eds]</p>
 <p></p>
-<pre class="language-bash"><code>istioctl proxy-config &lt;pod-name&gt; [&lt;configuration-type&gt;] [flags]
+<pre class="language-bash"><code>istioctl proxy-config &lt;endpoint|pilot&gt; &lt;pod-name|mesh&gt; [&lt;configuration-type&gt;] [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -1108,14 +1403,17 @@ Retrieves the local proxy configuration for the specified pod when running in Ku
 </tbody>
 </table>
 <h3 id="istioctl proxy-config Examples">Examples</h3>
-<pre class="language-bash"><code># Retrieve all config for productpage-v1-bb8d5cbc7-k7qbm pod
-istioctl proxy-config productpage-v1-bb8d5cbc7-k7qbm
+<pre class="language-bash"><code># Retrieve all config for productpage-v1-bb8d5cbc7-k7qbm pod from the endpoint proxy
+istioctl proxy-config endpoint productpage-v1-bb8d5cbc7-k7qbm
 
-# Retrieve cluster config for productpage-v1-bb8d5cbc7-k7qbm pod
-istioctl proxy-config productpage-v1-bb8d5cbc7-k7qbm clusters
+# Retrieve eds config for productpage-v1-bb8d5cbc7-k7qbm pod from Pilot
+istioctl proxy-config pilot productpage-v1-bb8d5cbc7-k7qbm eds
 
-# Retrieve static config for productpage-v1-bb8d5cbc7-k7qbm pod in the application namespace
-istioctl proxy-config -n application productpage-v1-bb8d5cbc7-k7qbm static
+# Retrieve ads config for the mesh from Pilot
+istioctl proxy-config pilot mesh ads
+
+# Retrieve static config for productpage-v1-bb8d5cbc7-k7qbm pod in the application namespace from the endpoint proxy
+istioctl proxy-config endpoint -n application productpage-v1-bb8d5cbc7-k7qbm static
 </code></pre>
 <h2 id="istioctl register">istioctl register</h2>
 <p>Registers a service instance (e.g. VM) joining the mesh</p>

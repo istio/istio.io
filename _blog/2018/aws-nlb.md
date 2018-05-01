@@ -5,7 +5,7 @@ publish_date: April 20, 2018
 subtitle: Ingress AWS Network Load Balancer
 attribution: Julien SENON
 
-order: 90
+order: 89
 
 layout: blog
 type: markdown

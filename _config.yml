@@ -10,7 +10,7 @@ kramdown:
 
 baseurl:
 
-highlighter: none
+highlighter: rouge
 
 liquid:
   error_mode: strict
