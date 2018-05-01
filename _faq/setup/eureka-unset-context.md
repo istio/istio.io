@@ -1,7 +1,6 @@
 ---
 title: Eureka - How do I unset the context changed by `istioctl` at the end?
-order: 70
-type: markdown
+weight: 70
 ---
 {% include home.html %}
 

@@ -1,11 +1,9 @@
 ---
 title: Policies and Control
-overview: Introduces the policy control mechanisms.
+description: Introduces the policy control mechanisms.
 
-order: 40
+weight: 40
 
-layout: docs
-type: markdown
 toc: false
 ---
 

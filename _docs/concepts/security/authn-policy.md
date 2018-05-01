@@ -1,11 +1,9 @@
 ---
 title: Istio Authentication Policy
-overview: Describes Istio authentication policy
+description: Describes Istio authentication policy
 
-order: 10
+weight: 10
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 

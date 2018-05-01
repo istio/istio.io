@@ -1,11 +1,9 @@
 ---
 title: Reporting Bugs
-overview: What to do about bugs
+description: What to do about bugs
 
-order: 35
+weight: 35
 
-layout: help
-type: markdown
 redirect_from: /bugs
 toc: false
 ---

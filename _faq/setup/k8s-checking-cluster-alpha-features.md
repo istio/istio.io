@@ -1,7 +1,6 @@
 ---
 title: Kubernetes - How do I check if my cluster has enabled the alpha features required for automatic sidecar injection?
-order: 10
-type: markdown
+weight: 10
 ---
 {% include home.html %}
 

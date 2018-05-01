@@ -1,7 +1,6 @@
 ---
 title: Does Istio Auth support authorization?
-order: 110
-type: markdown
+weight: 110
 ---
 {% include home.html %}
 

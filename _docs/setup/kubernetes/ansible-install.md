@@ -1,11 +1,9 @@
 ---
 title: Installation with Ansible
-overview: Install Istio with the included Ansible playbook.
+description: Install Istio with the included Ansible playbook.
 
-order: 40
+weight: 40
 
-layout: docs
-type: markdown
 ---
 
 {% include home.html %}

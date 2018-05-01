@@ -1,6 +1,5 @@
 ---
 title: Attribute
-type: markdown
 ---
 {% include home.html %}
 

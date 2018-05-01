@@ -1,6 +1,5 @@
 ---
 title: Workload ID
-type: markdown
 ---
 A unique identifier for an individual instance of a [workload](#workload).
 Like [workload name](#workload-name), the workload ID is not a strongly verified property and should not be used

@@ -1,11 +1,9 @@
 ---
 title: Configuring Request Routing
-overview: This task shows you how to configure dynamic request routing based on weights and HTTP headers.
+description: This task shows you how to configure dynamic request routing based on weights and HTTP headers.
 
-order: 10
+weight: 10
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 

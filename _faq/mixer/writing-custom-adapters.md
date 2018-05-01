@@ -1,7 +1,6 @@
 ---
 title: How can I write a custom adapter for Mixer?
-order: 40
-type: markdown
+weight: 40
 ---
 {% include home.html %}
 
