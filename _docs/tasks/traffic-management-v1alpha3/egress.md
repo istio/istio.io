@@ -14,7 +14,7 @@ iptables is used in the pod to transparently redirect all outbound traffic to th
 which only handles intra-cluster destinations.
 
 This task describes how to configure Istio to expose external services to Istio-enabled clients.
-You'll learn how to enable access to external services by defining `ExternalService` configurations,
+You'll learn how to enable access to external services by defining `ServiceEntry` configurations,
 or alternatively, to simply bypass the Istio proxy for a specific range of IPs.
 
 ## Before you begin
@@ -33,18 +33,18 @@ or alternatively, to simply bypass the Istio proxy for a specific range of IPs.
 
 ## Configuring Istio external services
 
-Using Istio `ExternalService` configurations, you can access any publicly accessible service
+Using Istio `ServiceEntry` configurations, you can access any publicly accessible service
 from within your Istio cluster. In this task we will use
 [httpbin.org](http://httpbin.org) and [www.google.com](http://www.google.com) as examples.
 
 ### Configuring the external services
 
-1. Create an `ExternalService` to allow access to an external HTTP service:
+1. Create an `ServiceEntry` to allow access to an external HTTP service:
 
    ```bash
    cat <<EOF | istioctl create -f -
    apiVersion: networking.istio.io/v1alpha3
-   kind: ExternalService
+   kind: ServiceEntry
    metadata:
      name: httpbin-ext
    spec:
@@ -57,12 +57,12 @@ from within your Istio cluster. In this task we will use
    EOF
    ```
 
-1. Create an `ExternalService` to allow access to an external HTTPS service:
+1. Create an `ServiceEntry` to allow access to an external HTTPS service:
 
    ```bash
    cat <<EOF | istioctl create -f -
    apiVersion: networking.istio.io/v1alpha3
-   kind: ExternalService
+   kind: ServiceEntry
    metadata:
      name: google-ext
    spec:
@@ -117,7 +117,7 @@ the connection to HTTPS.
 
 Similar to inter-cluster requests, Istio
 [routing rules]({{home}}/docs/concepts/traffic-management/rules-configuration.html)
-can also be set for external services that are accessed using `ExternalService` configurations.
+can also be set for external services that are accessed using `ServiceEntry` configurations.
 To illustrate we will use [istioctl]({{home}}/docs/reference/commands/istioctl.html)
 to set a timeout rule on calls to the httpbin.org service.
 
@@ -174,7 +174,7 @@ to set a timeout rule on calls to the httpbin.org service.
 
 ## Calling external services directly
 
-The Istio `ExternalService` currently only supports HTTP/HTTPS requests.
+The Istio `ServiceEntry` currently only supports HTTP/HTTPS requests.
 If you want to access services with other protocols (e.g., mongodb://host/database),
 or if you want to completely bypass Istio for a specific IP range,
 you will need to configure the source service's Envoy sidecar to prevent it from
@@ -252,11 +252,11 @@ kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
 
 In this task we looked at two ways to call external services from an Istio mesh:
 
-1. Using an `ExternalService` (recommended)
+1. Using an `ServiceEntry` (recommended)
 
 1. Configuring the Istio sidecar to exclude external IPs from its remapped IP table
 
-The first approach (`ExternalService`) only supports HTTP(S) requests, but allows
+The first approach (`ServiceEntry`) only supports HTTP(S) requests, but allows
 you to use all of the same Istio service mesh features for calls to services within or outside
 of the cluster. We demonstrated this by setting a timeout rule for calls to an external service.
 
@@ -269,7 +269,7 @@ cloud provider specific knowledge and configuration.
 1. Remove the rules.
 
    ```bash
-   istioctl delete externalservice httpbin-ext google-ext
+   istioctl delete ServiceEntry httpbin-ext google-ext
    istioctl delete destinationrule google-ext
    istioctl delete virtualservice httpbin-ext
    ```
@@ -280,13 +280,13 @@ cloud provider specific knowledge and configuration.
    kubectl delete -f samples/sleep/sleep.yaml
    ```
 
-## `ExternalService` and Access Control
+## `ServiceEntry` and Access Control
 
-Note that Istio `ExternalService` is **not a security feature**. It enables access to external (out of the service mesh) services. It is up to the user to deploy appropriate security mechanisms such as firewalls to prevent unauthorized access to the external services. We are working on adding access control support for the external services.
+Note that Istio `ServiceEntry` is **not a security feature**. It enables access to external (out of the service mesh) services. It is up to the user to deploy appropriate security mechanisms such as firewalls to prevent unauthorized access to the external services. We are working on adding access control support for the external services.
 
 ## What's next
 
-* Read more about [external services]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#ExternalService).
+* Read more about [external services]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#ServiceEntry).
 
 * Learn how to setup
   [timeouts]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#HTTPRoute.timeout),
