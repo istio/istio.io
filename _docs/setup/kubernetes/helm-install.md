@@ -43,7 +43,7 @@ produced for Istio.
 
 1. Create an `istio.yaml` Kubernetes manifest:
    ```bash
-   helm template install/kubernetes/helm/istio --name istio --set prometheus.enabled=true > $HOME/istio.yaml
+   helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set prometheus.enabled=true > $HOME/istio.yaml
    ```
 
 1. Create the Istio control plane from `istio.yaml` manifest:
