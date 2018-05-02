@@ -152,21 +152,21 @@ Execute the following command to determine if your Kubernetes cluster is running
 kubectl get svc istio-ingressgateway -n istio-system
 ```
 
-whose output should be similar to
+The output should be similar to
 
 ```bash
-NAME                   TYPE       CLUSTER-IP       EXTERNAL-IP     PORT(S)                                      AGE
-istio-ingressgateway   NodePort   172.21.109.129   130.211.10.121  80:31380/TCP,443:31390/TCP,31400:31400/TCP   17h
+NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)                                      AGE
+istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/TCP,443:31390/TCP,31400:31400/TCP   17h
 ```
 
-If the `EXTERNAL-IP` value is not `<none>`, your environment has an external load balancer that you can use for the ingress gateway
+If the `EXTERNAL-IP` value is set, your environment has an external load balancer that you can use for the ingress gateway
 
 ```bash
 export GATEWAY_URL=130.211.10.121:80
 ```
 
-If the `EXTERNAL-IP` value is `<none>`, your environment does not support external load balancers.
-In this case, you can access the gateway using the service NodePort.
+If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not support external load balancers.
+In this case, you can access the gateway using the service `nodePort`.
 
 1. _GKE:_
 
