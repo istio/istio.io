@@ -1,11 +1,9 @@
 ---
 title: Distributed Tracing
-overview: How to configure the proxies to send tracing requests to Zipkin or Jaeger
+description: How to configure the proxies to send tracing requests to Zipkin or Jaeger
 
-order: 10
+weight: 10
 
-layout: docs
-type: markdown
 redirect_from: /docs/tasks/zipkin-tracing.html
 ---
 {% include home.html %}

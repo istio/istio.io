@@ -1,11 +1,9 @@
 ---
 title: FAQ
-overview: Frequently Asked Questions about Istio.
+description: Frequently Asked Questions about Istio.
 
-order: 20
+weight: 20
 
-layout: help
-type: markdown
 toc: false
 
 redirect_from:

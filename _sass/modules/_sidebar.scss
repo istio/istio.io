@@ -4,9 +4,14 @@
         z-index: 42;
         left: -1500px;
         width: auto;
-        max-width: 80%;
         top: $headerHeight;
         position: absolute;
+    }
+
+    @media (max-width: calc($bp-md - 1)) {
+        .row-offcanvas .sidebar-offcanvas {
+            max-width: 80%;
+        }
     }
 
     .row-offcanvas.active .sidebar-offcanvas {
@@ -24,7 +29,7 @@
     order: 0;
     font-size: 85%;
 
-    @media (min-width: $bp-lg) {
+    @media (min-width: $bp-xl) {
         font-size: 100%;
     }
 
@@ -110,11 +115,7 @@
         @media (min-width: $bp-lg) {
             .card-body {
                 padding-left: 1.25rem;
-                padding-right: 1.25rem;
-            }
-
-            li {
-                font-size: 100%;
+                padding-right: 0.5rem;
             }
 
             ul {

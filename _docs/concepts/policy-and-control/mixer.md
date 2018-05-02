@@ -1,11 +1,9 @@
 ---
 title: Mixer
-overview: Architectural deep-dive into the design of Mixer, which provides the policy and control mechanisms within the service mesh.
+description: Architectural deep-dive into the design of Mixer, which provides the policy and control mechanisms within the service mesh.
 
-order: 20
+weight: 20
 
-layout: docs
-type: markdown
 ---
 
 {% include home.html %}

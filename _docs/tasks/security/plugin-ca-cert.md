@@ -1,11 +1,9 @@
 ---
 title: Plugging in root certificate, signing certificate and key
-overview: This task shows how operators can configure Citadel with existing root certificate, signing certificate and key.
+description: This task shows how operators can configure Citadel with existing root certificate, signing certificate and key.
 
-order: 60
+weight: 60
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 

@@ -1,11 +1,9 @@
 ---
 title: Control Egress TCP Traffic
-overview: Describes how to configure Istio to route TCP traffic from services in the mesh to external services.
+description: Describes how to configure Istio to route TCP traffic from services in the mesh to external services.
 
-order: 41
+weight: 41
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 

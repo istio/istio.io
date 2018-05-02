@@ -1,11 +1,9 @@
 ---
 1;95;0ctitle: Bookinfo Sample Application
-overview: This guide deploys a sample application composed of four separate microservices which will be used to demonstrate various features of the Istio service mesh.
+description: This guide deploys a sample application composed of four separate microservices which will be used to demonstrate various features of the Istio service mesh.
 
-order: 10
+weight: 10
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 

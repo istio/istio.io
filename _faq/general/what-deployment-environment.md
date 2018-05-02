@@ -1,7 +1,6 @@
 ---
 title: What deployment environments are supported?
-order: 60
-type: markdown
+weight: 60
 ---
 {% include home.html %}
 

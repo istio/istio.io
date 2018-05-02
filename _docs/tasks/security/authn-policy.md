@@ -1,11 +1,9 @@
 ---
 title: Basic Istio Authentication Policy
-overview: Shows you how to use Istio authentication policy to setup mutual TLS and simple end-user authentication.
+description: Shows you how to use Istio authentication policy to setup mutual TLS and simple end-user authentication.
 
-order: 10
+weight: 10
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 

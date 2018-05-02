@@ -1,11 +1,9 @@
 ---
 title: Control Ingress Traffic
-overview: Describes how to configure Istio to expose a service outside of the service mesh.
+description: Describes how to configure Istio to expose a service outside of the service mesh.
 
-order: 30
+weight: 30
 
-layout: docs
-type: markdown
 redirect_from: /docs/tasks/ingress.html
 ---
 {% include home.html %}

@@ -1,6 +1,6 @@
 {% comment %}
 Purpose:
-    Sorts a document hierarchy by the 'order' front-matter entry of each doc.
+    Sorts a document hierarchy by the 'weight' front-matter entry of each doc.
     This is hard since Liquid doesn't have functions, recursion, scoped variables,
     or data structures. Oh, and Liquid is very slow too.
 
@@ -13,11 +13,11 @@ Parameters:
 Results:
     * urls      (string array) - the sorted document urls
     * titles    (string array) - the sorted document titles
-    * overviews (string array) - the sorted document overviews
+    * descriptions (string array) - the sorted document descriptions
 
 Note:
     This code uses $ and ^ as magic string markers. If any document's
-    URL, title, or overview contain these characters, then this code
+    URL, title, or description contain these characters, then this code
     will get confused and return gibberish.
 
 {% endcomment %}
@@ -34,9 +34,9 @@ Note:
         {% continue %}
     {% endif %}
 
-    {% assign o = "00000" | append: doc.order %}
+    {% assign o = "00000" | append: doc.weight %}
     {% assign start = o | size | minus: 5 %}
-    {% assign order = o | slice: start, 5 %}
+    {% assign weight = o | slice: start, 5 %}
 
     {% assign components = doc.url | split: "/" %}
     {% assign count = components | size | minus:2 %}
@@ -49,9 +49,9 @@ Note:
 
         {% for sub in include.docs %}
             {% if sub.url == p %}
-                {% assign o = "00000" | append: sub.order %}
+                {% assign o = "00000" | append: sub.weight %}
                 {% assign start = o | size | minus: 5 %}
-                {% assign order = o | slice: start, 5 | append:"/" | append: order %}
+                {% assign weight = o | slice: start, 5 | append:"/" | append: weight %}
                 {% break %}
             {% endif %}
         {% endfor %}
@@ -59,13 +59,13 @@ Note:
 
     {% assign name = components | last %}
     {% if name == "index.html" %}
-        {% assign len = order | size | minus: 5 %}
-        {% assign order = order | slice: 0, len | append: "#####" %}
+        {% assign len = weight | size | minus: 5 %}
+        {% assign weight = weight | slice: 0, len | append: "#####" %}
     {% endif %}
 
     {% comment %}
         Take the full doc url and replace the last component of it by the document title, and use that for collation such that
-        docs in the same directory end up sorted first by 'order', then by title
+        docs in the same directory end up sorted first by 'weight', then by title
     {% endcomment %}
     {% assign hackUrl = "" %}
     {% for i in (1..count) %}
@@ -73,8 +73,8 @@ Note:
     {% endfor %}
     {% assign hackUrl = hackUrl | append: "/" | append: doc.title %}
 
-    {% assign a = a | append: "^" | append: order | append: "$" | append: hackUrl | append: "$" | append: doc.url | append: "$" | append: doc.title |
-    append: "$" | append: doc.overview %}
+    {% assign a = a | append: "^" | append: weight | append: "$" | append: hackUrl | append: "$" | append: doc.url | append: "$" | append: doc.title |
+    append: "$" | append: doc.description %}
 {% endfor %}
 
 {% assign sorted = a | split: "^" | sort %}
@@ -82,13 +82,13 @@ Note:
     {% assign parts = s | split: "$" %}
     {% assign urls = urls | append: "$" | append: parts[2] %}
     {% assign titles = titles | append: "$" | append: parts[3] %}
-    {% assign overviews = overviews | append: "$" | append: parts[4] %}
+    {% assign descriptions = descriptions | append: "$" | append: parts[4] %}
 {% endfor %}
 
 {% assign urlslen = urls | size | minus: 2 %}
 {% assign titleslen = titles | size | minus: 2 %}
-{% assign overviewslen = overviews | size | minus: 2 %}
+{% assign descriptionslen = descriptions | size | minus: 2 %}
 
 {% assign urls = urls | slice: 2, urlslen | split: "$" %}
 {% assign titles = titles | slice: 2, titleslen | split: "$" %}
-{% assign overviews = overviews | slice: 2, overviewslen | split: "$" %}
+{% assign descriptions = descriptions | slice: 2, descriptionslen | split: "$" %}

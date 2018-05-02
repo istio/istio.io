@@ -1,6 +1,5 @@
 ---
 title: Source
-type: markdown
 ---
 The downstream client of the [Envoy](#envoy) proxy.
 Within the [service mesh](#service-mesh) a source is typically a

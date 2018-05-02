@@ -1,11 +1,9 @@
 ---
 title: Enabling Rate Limits
-overview: This task shows you how to use Istio to dynamically limit the traffic to a service.
+description: This task shows you how to use Istio to dynamically limit the traffic to a service.
 
-order: 10
+weight: 10
 
-layout: docs
-type: markdown
 redirect_from: /docs/tasks/rate-limiting.html
 ---
 {% include home.html %}

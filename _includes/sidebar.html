@@ -36,7 +36,7 @@ Usage:
             {% endif %}
 
             {% assign title = titles[forloop.index0] %}
-            {% assign overview = overviews[forloop.index0] %}
+            {% assign description = descriptions[forloop.index0] %}
 
             {% assign components = url | split: "/" %}
             {% assign numComponents = components | size %}
@@ -67,11 +67,11 @@ Usage:
                     <div class="card">
                         <div class="card-header" role="tab" id="header{{forloop.index0}}">
                             {% if include.singlecard %}
-                                <div title="{{overview}}">
+                                <div title="{{description}}">
                                     {{title}}
                                 </div>
                             {% else %}
-                                <a data-toggle="collapse" href="#collapse{{forloop.index0}}" title="{{overview}}" role="button"
+                                <a data-toggle="collapse" href="#collapse{{forloop.index0}}" title="{{description}}" role="button"
                                    aria-controls="collapse{{forloop.index0}}">
                                     <div>
                                         {{title}}
@@ -97,7 +97,7 @@ Usage:
                                 <i class='fa fa-lg fa-caret-right'></i>
                             {% endif %}
                             {% assign niceurl = url | remove: "/index.html" %}
-                            <a class="{% if url == page.url %}current{% endif %}" title="{{overview}}" href="{{home}}{{niceurl}}">{{title}}</a>
+                            <a class="{% if url == page.url %}current{% endif %}" title="{{description}}" href="{{home}}{{niceurl}}">{{title}}</a>
                         </label>
                         <ul class="tree{% if parent == false %} collapse{% endif %}">
                 {% endif %}
@@ -108,9 +108,9 @@ Usage:
                 {% endfor %}
                 <li>
                     {% if url == page.url %}
-                        <span class="current" title="{{overview}}">{{title}}</span>
+                        <span class="current" title="{{description}}">{{title}}</span>
                     {% else %}
-                        <a title="{{overview}}" href="{{home}}{{url}}">{{title}}</a>
+                        <a title="{{description}}" href="{{home}}{{url}}">{{title}}</a>
                     {% endif %}
                 </li>
             {% endif %}
