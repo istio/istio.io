@@ -96,7 +96,7 @@ This command instructs the Istio proxy to forward requests on port 443 of any of
 1. Remove the external service we created.
 
    ```bash
-   istioctl delete ServiceEntry wikipedia-ext
+   istioctl delete serviceentry wikipedia-ext
    ```
 
 1. Shutdown the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) application.
@@ -107,6 +107,6 @@ This command instructs the Istio proxy to forward requests on port 443 of any of
 
 ## What's next
 
-* The [External Services]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#ServiceEntry) reference.
+* The [ServiceEntry]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#ServiceEntry) reference.
 
 * The [Control Egress Traffic]({{home}}/docs/tasks/traffic-management-v1alpha3/egress.html) task, for HTTP and HTTPS.

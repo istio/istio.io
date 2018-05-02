@@ -76,7 +76,7 @@ from within your Istio cluster. In this task we will use
    metadata:
      name: google-ext
    spec:
-     name: www.google.com
+     host: www.google.com
      trafficPolicy:
        tls:
          mode: SIMPLE # initiates HTTPS when talking to www.google.com
@@ -267,7 +267,7 @@ cloud provider specific knowledge and configuration.
 1. Remove the rules.
 
    ```bash
-   istioctl delete ServiceEntry httpbin-ext google-ext
+   istioctl delete serviceentry httpbin-ext google-ext
    istioctl delete destinationrule google-ext
    istioctl delete virtualservice httpbin-ext
    ```
@@ -284,7 +284,7 @@ Note that Istio `ServiceEntry` is **not a security feature**. It enables access 
 
 ## What's next
 
-* Read more about [external services]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#ServiceEntry).
+* Read more about [ServiceEntry]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#ServiceEntry).
 
 * Learn how to setup
   [timeouts]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#HTTPRoute.timeout),
