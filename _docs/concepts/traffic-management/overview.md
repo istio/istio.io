@@ -1,11 +1,9 @@
 ---
 title: Overview
-overview: Provides a conceptual overview of traffic management in Istio and the features it enables.
+description: Provides a conceptual overview of traffic management in Istio and the features it enables.
 
-order: 0
+weight: 1
 
-layout: docs
-type: markdown
 ---
 
 {% include home.html %}

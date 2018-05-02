@@ -1,11 +1,9 @@
 ---
 title: Overview
-overview: Provides a conceptual introduction to Istio, including the problems it solves and its high-level architecture.
+description: Provides a conceptual introduction to Istio, including the problems it solves and its high-level architecture.
 
-order: 15
+weight: 15
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 

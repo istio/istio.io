@@ -1,11 +1,9 @@
 ---
 title: Expression Language
-overview: Mixer config expression language reference.
+description: Mixer config expression language reference.
 
-order: 20
+weight: 20
 
-layout: docs
-type: markdown
 ---
 
 {% include home.html %}

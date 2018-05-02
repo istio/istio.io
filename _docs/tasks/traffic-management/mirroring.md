@@ -1,11 +1,9 @@
 ---
 title: Mirroring
-overview: Demonstrates Istio's traffic shadowing/mirroring capabilities
+description: Demonstrates Istio's traffic shadowing/mirroring capabilities
 
-order: 60
+weight: 60
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 

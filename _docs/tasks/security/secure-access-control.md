@@ -1,11 +1,9 @@
 ---
 title: Setting up Secure Access Control
-overview: This task shows how to securely control access to a service using service accounts.
+description: This task shows how to securely control access to a service using service accounts.
 
-order: 30
+weight: 30
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 
