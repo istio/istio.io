@@ -69,6 +69,7 @@ exclude:
   - js/styleSwitcher.js
   - firebase.json
   - _rakesite
+  - mdl_style.rb
 
 repository:
   istio/istio.github.io
