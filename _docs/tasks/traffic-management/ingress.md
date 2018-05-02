@@ -1,11 +1,9 @@
 ---
 title: Istio Ingress
-overview: Describes how to configure Istio Ingress on Kubernetes.
+description: Describes how to configure Istio Ingress on Kubernetes.
 
-order: 30
+weight: 30
 
-layout: docs
-type: markdown
 redirect_from: /docs/tasks/ingress.html
 ---
 {% include home.html %}

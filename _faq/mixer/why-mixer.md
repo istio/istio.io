@@ -1,7 +1,6 @@
 ---
 title: Why does Istio need Mixer?
-order: 0
-type: markdown
+weight: 1
 ---
 {% include home.html %}
 

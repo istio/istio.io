@@ -1,11 +1,9 @@
 ---
 title: Installation
-overview: Instructions for installing the Istio control plane in Cloud Foundry.
+description: Instructions for installing the Istio control plane in Cloud Foundry.
 
-order: 10
+weight: 10
 
-layout: docs
-type: markdown
 ---
 
 We are working with the Cloud Foundry developers to integrate Istio

@@ -1,11 +1,9 @@
 ---
 title: Per-service mutual TLS authentication control
-overview: This task shows how to change mutual TLS authentication for a single service.
+description: This task shows how to change mutual TLS authentication for a single service.
 
-order: 50
+weight: 50
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 

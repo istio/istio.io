@@ -1,11 +1,9 @@
 ---
 title: Installing the Istio Sidecar
-overview: Instructions for installing the Istio sidecar in application pods automatically using the sidecar injector webhook or manually using istioctl CLI.
+description: Instructions for installing the Istio sidecar in application pods automatically using the sidecar injector webhook or manually using istioctl CLI.
 
-order: 50
+weight: 50
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 

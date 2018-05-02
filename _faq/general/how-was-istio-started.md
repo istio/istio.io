@@ -1,7 +1,6 @@
 ---
 title: How was Istio started?
-order: 50
-type: markdown
+weight: 50
 ---
 {% include home.html %}
 

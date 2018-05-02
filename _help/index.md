@@ -1,11 +1,9 @@
 ---
 title: Help!
-overview: A bunch of resources to help you deploy, configure and use Istio.
+description: A bunch of resources to help you deploy, configure and use Istio.
 
-order: 10
+weight: 10
 
-layout: help
-type: markdown
 toc: false
 ---
 {% include home.html %}
