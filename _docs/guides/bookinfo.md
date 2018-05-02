@@ -148,7 +148,7 @@ To start the application, follow the instructions below corresponding to your Is
 
 #### Determining the ingress IP and Port
 
-Execute the following command to determine if your Kuberentes cluster is running in an environment that supports external load balancers
+Execute the following command to determine if your Kubernetes cluster is running in an environment that supports external load balancers
 
 ```bash
 kubectl get svc istio-ingressgateway -n istio-system
