@@ -87,7 +87,7 @@ To start the application, follow the instructions below corresponding to your Is
      ```bash
      kubectl apply -f <(istioctl kube-inject --debug -f samples/bookinfo/kube/bookinfo.yaml)
      ```
-   
+
      The `istioctl kube-inject` command is used to manually modify the `bookinfo.yaml`
      file before creating the deployments as documented [here]({{home}}/docs/reference/commands/istioctl.html#istioctl kube-inject).
 
@@ -110,7 +110,7 @@ To start the application, follow the instructions below corresponding to your Is
    ```bash
    istioctl create -f samples/bookinfo/routing/bookinfo-gateway.yaml
    ```
-   
+
 1. Confirm all services and pods are correctly defined and running:
 
    ```bash
