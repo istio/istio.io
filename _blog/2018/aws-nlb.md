@@ -1,14 +1,12 @@
 ---
-title: "Configuring Istio Ingress with AWS NLB"
-overview: Describes how to configure Istio ingress with a network load balancer on AWS
+title: Configuring Istio Ingress with AWS NLB
+description: Describes how to configure Istio ingress with a network load balancer on AWS
 publish_date: April 20, 2018
 subtitle: Ingress AWS Network Load Balancer
 attribution: Julien SENON
 
-order: 89
+weight: 89
 
-layout: blog
-type: markdown
 redirect_from: "/blog/aws-nlb.html"
 ---
 {% include home.html %}

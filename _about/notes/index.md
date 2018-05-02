@@ -1,11 +1,9 @@
 ---
 title: Release Notes
-overview: Description of features and improvements for every Istio release.
+description: Description of features and improvements for every Istio release.
 
-order: 5
+weight: 5
 
-layout: about
-type: markdown
 redirect_from:
   - "/docs/reference/release-notes.html"
   - "/release-notes"

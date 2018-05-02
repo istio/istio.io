@@ -1,11 +1,9 @@
 ---
 title: Creating a Pull Request
-overview: Shows you how to create a GitHub pull request in order to submit your docs for approval.
+description: Shows you how to create a GitHub pull request in order to submit your docs for approval.
 
-order: 20
+weight: 20
 
-layout: about
-type: markdown
 redirect_from: /docs/welcome/contribute/creating-a-pull-request.html
 ---
 

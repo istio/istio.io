@@ -1,11 +1,9 @@
 ---
 title: Setting up Basic Access Control
-overview: This task shows how to control access to a service using the Kubernetes labels.
+description: This task shows how to control access to a service using the Kubernetes labels.
 
-order: 20
+weight: 20
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 

@@ -1,11 +1,9 @@
 ---
 title: Mutual TLS over HTTPS services
-overview: This task shows how to enable mTLS on HTTPS services.
+description: This task shows how to enable mTLS on HTTPS services.
 
-order: 80
+weight: 80
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 

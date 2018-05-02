@@ -1,14 +1,12 @@
 ---
-title: "Mixer and the SPOF Myth"
-overview: Improving availability and reducing latency
+title: Mixer and the SPOF Myth
+description: Improving availability and reducing latency
 publish_date: December 7, 2017
 subtitle: Improving availability and reducing latency
 attribution: Martin Taillefer
 
-order: 94
+weight: 94
 
-layout: blog
-type: markdown
 redirect_from: /blog/posts/2017/mixer-spof-myth.html
 ---
 {% include home.html %}

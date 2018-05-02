@@ -1,11 +1,9 @@
 ---
 title: Traffic Shifting
-overview: This task shows you how to migrate traffic from an old to new version of a service.
+description: This task shows you how to migrate traffic from an old to new version of a service.
 
-order: 25
+weight: 25
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 

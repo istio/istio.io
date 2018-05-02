@@ -1,7 +1,6 @@
 ---
 title: What is the full set of attribute expressions Mixer supports?
-order: 20
-type: markdown
+weight: 20
 ---
 {% include home.html %}
 

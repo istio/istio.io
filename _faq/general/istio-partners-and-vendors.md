@@ -1,7 +1,6 @@
 ---
 title: How can I discover more about Partner and Vendor opportunities?
-order: 75
-type: markdown
+weight: 75
 ---
 {% include home.html %}
 

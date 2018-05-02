@@ -1,11 +1,9 @@
 ---
 title: Glossary
-overview: A glossary of common Istio terms.
+description: A glossary of common Istio terms.
 
-order: 30
+weight: 30
 
-layout: help
-type: markdown
 redirect_from:
   - "/glossary"
   - "/docs/welcome/glossary.html"

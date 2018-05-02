@@ -1,13 +1,11 @@
 ---
 title: Installation with Helm
-overview: Install Istio with the included Helm chart.
+description: Install Istio with the included Helm chart.
 
-order: 30
+weight: 30
 
 redirect_from: /docs/setup/kubernetes/helm.html
 
-layout: docs
-type: markdown
 ---
 
 {% include home.html %}

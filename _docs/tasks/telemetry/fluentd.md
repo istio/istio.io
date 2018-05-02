@@ -1,12 +1,10 @@
 ---
 title: Logging with Fluentd
 
-overview: This task shows you how to configure Istio to log to a Fluentd daemon
+description: This task shows you how to configure Istio to log to a Fluentd daemon
 
-order: 60
+weight: 60
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 
