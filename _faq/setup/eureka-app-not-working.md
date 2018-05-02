@@ -1,7 +1,6 @@
 ---
 title: Eureka - My application isn't working, where can I troubleshoot this?
-order: 60
-type: markdown
+weight: 60
 ---
 {% include home.html %}
 

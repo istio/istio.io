@@ -1,10 +1,8 @@
 ---
 title: Mutual TLS Authentication
-overview: Describes Istio's mutual TLS authentication architecture which provides a strong service identity and secure communication channels between services.
-order: 10
+description: Describes Istio's mutual TLS authentication architecture which provides a strong service identity and secure communication channels between services.
+weight: 10
 
-layout: docs
-type: markdown
 ---
 
 {% include home.html %}

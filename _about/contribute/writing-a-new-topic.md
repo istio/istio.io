@@ -1,11 +1,9 @@
 ---
 title: Writing a New Topic
-overview: Explains the mechanics of creating new documentation pages.
+description: Explains the mechanics of creating new documentation pages.
 
-order: 30
+weight: 30
 
-layout: about
-type: markdown
 redirect_from: /docs/welcome/contribute/writing-a-new-topic.html
 ---
 {% include home.html %}
@@ -88,12 +86,9 @@ chunk of front matter you should start with:
 ```yaml
 ---
 title: <title>
-overview: <overview>
+description: <overview>
 
-order: <order>
-
-layout: docs
-type: markdown
+weight: <order>
 ---
 ```
 
@@ -272,12 +267,10 @@ For example
 ```xxx
 ---
 title: Frequently Asked Questions
-overview: Questions Asked Frequently
+description: Questions Asked Frequently
 
-order: 12
+weight: 12
 
-layout: docs
-type: markdown
 redirect_from: /faq
 ---
 
@@ -291,12 +284,10 @@ You can also add many redirects like so:
 ```xxx
 ---
 title: Frequently Asked Questions
-overview: Questions Asked Frequently
+description: Questions Asked Frequently
 
-order: 12
+weight: 12
 
-layout: docs
-type: markdown
 redirect_from:
     - /faq
     - /faq2

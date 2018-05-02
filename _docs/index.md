@@ -1,11 +1,9 @@
 ---
 title: Welcome
-overview: Istio documentation home page.
+description: Istio documentation home page.
 
-order: 0
+weight: 1
 
-layout: docs
-type: markdown
 toc: false
 ---
 {% include home.html %}

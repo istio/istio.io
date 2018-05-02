@@ -1,11 +1,9 @@
 ---
 title: Metrics, Logs, and Traces
-overview: Describes tasks that demonstrate how to collect telemetry information from the service mesh.
+description: Describes tasks that demonstrate how to collect telemetry information from the service mesh.
 
-order: 30
+weight: 30
 
-layout: docs
-type: markdown
 toc: false
 ---
 

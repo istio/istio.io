@@ -1,10 +1,8 @@
 ---
 title: Istio Role-Based Access Control (RBAC)
-overview: Describes Istio RBAC which provides access control for services in Istio Mesh.
-order: 20
+description: Describes Istio RBAC which provides access control for services in Istio Mesh.
+weight: 20
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 

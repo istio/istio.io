@@ -1,11 +1,9 @@
 ---
 title: Quick Start
-overview: Quick start instructions to setup the Istio service mesh in a Kubernetes cluster.
+description: Quick start instructions to setup the Istio service mesh in a Kubernetes cluster.
 
-order: 10
+weight: 10
 
-layout: docs
-type: markdown
 ---
 
 {% include home.html %}

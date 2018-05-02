@@ -1,7 +1,6 @@
 ---
 title: Can I install Istio sidecar for HTTPS services?
-order: 170
-type: markdown
+weight: 170
 ---
 {% include home.html %}
 

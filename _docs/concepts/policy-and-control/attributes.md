@@ -1,11 +1,9 @@
 ---
 title: Attributes
-overview: Explains the important notion of attributes, which is a central mechanism for how policies and control are applied to services within the mesh.
+description: Explains the important notion of attributes, which is a central mechanism for how policies and control are applied to services within the mesh.
 
-order: 10
+weight: 10
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 

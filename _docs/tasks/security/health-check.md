@@ -1,11 +1,9 @@
 ---
 title: Enabling Citadel health checking
-overview: This task shows how to enable Citadel health checking.
+description: This task shows how to enable Citadel health checking.
 
-order: 70
+weight: 70
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 

@@ -1,11 +1,9 @@
 ---
 title: Attribute Vocabulary
-overview: Describes the base attribute vocabulary used for policy and control.
+description: Describes the base attribute vocabulary used for policy and control.
 
-order: 10
+weight: 10
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 

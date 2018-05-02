@@ -1,6 +1,5 @@
 ---
 title: Workload Principal
-type: markdown
 ---
 Identifies the verifiable authority under which a [workload](#workload) runs.
 Istio's service-to-service authentication is used to produce the workload principal.

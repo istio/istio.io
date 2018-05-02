@@ -1,7 +1,6 @@
 ---
 title: Is the secret encrypted for workload key and cert?
-order: 125
-type: markdown
+weight: 125
 ---
 {% include home.html %}
 

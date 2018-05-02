@@ -1,7 +1,6 @@
 ---
 title: Does Istio Auth use Kubernetes secrets?
-order: 120
-type: markdown
+weight: 120
 ---
 {% include home.html %}
 

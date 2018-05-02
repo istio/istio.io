@@ -1,11 +1,9 @@
 ---
 title: Troubleshooting Guide
-overview: Practical advice on practical problems with Istio
+description: Practical advice on practical problems with Istio
 
-order: 40
+weight: 40
 
-layout: help
-type: markdown
 redirect_from: /troubleshooting
 force_inline_toc: true
 ---
