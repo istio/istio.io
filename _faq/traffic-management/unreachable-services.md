@@ -1,7 +1,6 @@
 ---
 title: How come some of my services are unreachable after creating route rules?
-order: 30
-type: markdown
+weight: 30
 ---
 {% include home.html %}
 

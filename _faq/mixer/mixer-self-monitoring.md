@@ -1,7 +1,6 @@
 ---
 title: Does Mixer provide any self-monitoring?
-order: 30
-type: markdown
+weight: 30
 ---
 {% include home.html %}
 

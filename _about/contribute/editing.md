@@ -1,11 +1,9 @@
 ---
 title: Editing Docs
-overview: Lets you start editing this site's documentation.
+description: Lets you start editing this site's documentation.
 
-order: 10
+weight: 10
 
-layout: about
-type: markdown
 redirect_from: /docs/welcome/contribute/editing.html
 ---
 

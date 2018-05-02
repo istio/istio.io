@@ -1,11 +1,9 @@
 ---
 title: About Istio
-overview: All about Istio.
+description: All about Istio.
 
-order: 15
+weight: 15
 
-layout: about
-type: markdown
 toc: false
 ---
 {% include home.html %}

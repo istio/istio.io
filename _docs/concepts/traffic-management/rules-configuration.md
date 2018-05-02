@@ -1,11 +1,9 @@
 ---
 title: Rules Configuration
-overview: Provides a high-level overview of the domain-specific language used by Istio to configure traffic management rules in the service mesh.
+description: Provides a high-level overview of the domain-specific language used by Istio to configure traffic management rules in the service mesh.
 
-order: 50
+weight: 50
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 

@@ -1,11 +1,9 @@
 ---
 title: Quick Start on Docker
-overview: Quick Start instructions to setup the Istio service mesh with Docker Compose.
+description: Quick Start instructions to setup the Istio service mesh with Docker Compose.
 
-order: 10
+weight: 10
 
-layout: docs
-type: markdown
 ---
 
 {% include home.html %}

@@ -5,7 +5,7 @@ Assigns the latest_blog_post variable the URL of the latest blog post on the sit
 {% include home.html %}
 {% assign latest_year = "0" %}
 
-{% assign sorted = site.blog | sort: "order" %}
+{% assign sorted = site.blog | sort: "weight" %}
 {% for d in sorted %}
   {% if d.draft == true %}
     {% continue %}

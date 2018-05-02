@@ -1,6 +1,5 @@
 ---
 title: Workload Name
-type: markdown
 ---
 A unique name for a [workload](#workload), identifying it within the [service mesh](#service-mesh).
 Unlike the [service name](#service-name) and the [workload principal], the workload name is not a
