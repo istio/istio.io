@@ -1,11 +1,9 @@
 ---
 title: Discovery & Load Balancing
-overview: Describes how traffic is load balanced across instances of a service in the mesh.
+description: Describes how traffic is load balanced across instances of a service in the mesh.
 
-order: 25
+weight: 25
 
-layout: docs
-type: markdown
 toc: false
 ---
 

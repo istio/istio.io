@@ -1,11 +1,9 @@
 ---
 title: Style Guide
-overview: Explains the dos and donts of writing Istio docs.
+description: Explains the dos and donts of writing Istio docs.
 
-order: 70
+weight: 70
 
-layout: about
-type: markdown
 redirect_from: /docs/welcome/contribute/style-guide.html
 ---
 

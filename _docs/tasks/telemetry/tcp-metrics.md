@@ -1,12 +1,10 @@
 ---
 title: Collecting Metrics for TCP services
 
-overview: This task shows you how to configure Istio to collect metrics for TCP services.
+description: This task shows you how to configure Istio to collect metrics for TCP services.
 
-order: 25
+weight: 25
 
-layout: docs
-type: markdown
 ---
 
 {% include home.html %}

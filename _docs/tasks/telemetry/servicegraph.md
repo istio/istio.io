@@ -1,12 +1,10 @@
 ---
 title: Generating a Service Graph
 
-overview: This task shows you how to generate a graph of services within an Istio mesh.
+description: This task shows you how to generate a graph of services within an Istio mesh.
 
-order: 50
+weight: 50
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 

@@ -1,11 +1,9 @@
 ---
 title: Feature Status
-overview: List of features and their release stages.
+description: List of features and their release stages.
 
-order: 10
+weight: 10
 
-layout: about
-type: markdown
 redirect_from:
   - "/docs/reference/release-roadmap.html"
   - "/docs/reference/feature-stages.html"

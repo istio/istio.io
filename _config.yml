@@ -42,6 +42,32 @@ plugins:
   - jekyll-redirect-from
   - jekyll-sitemap
 
+defaults:
+  -
+    scope:
+      path: ""
+      type: "about"
+    values:
+      layout: "about"
+  -
+    scope:
+      path: ""
+      type: "docs"
+    values:
+      layout: "docs"
+  -
+    scope:
+      path: ""
+      type: "help"
+    values:
+      layout: "help"
+  -
+    scope:
+      path: ""
+      type: "blog"
+    values:
+      layout: "blog"
+
 exclude:
   - README.md
   - LICENSE

@@ -1,7 +1,6 @@
 ---
 title: Kubernetes - Can I migrate an existing installation from Istio 0.1.x to 0.2.x?
-order: 30
-type: markdown
+weight: 30
 ---
 {% include home.html %}
 

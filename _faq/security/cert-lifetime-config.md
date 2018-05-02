@@ -1,7 +1,6 @@
 ---
 title: How to configure the lifetime for Istio certificates?
-order: 70
-type: markdown
+weight: 70
 ---
 {% include home.html %}
 

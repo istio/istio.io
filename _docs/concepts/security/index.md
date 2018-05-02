@@ -1,11 +1,9 @@
 ---
 title: Security
-overview: Describes Istio's authorization and authentication functionality.
+description: Describes Istio's authorization and authentication functionality.
 
-order: 30
+weight: 30
 
-layout: docs
-type: markdown
 toc: false
 ---
 

@@ -1,11 +1,9 @@
 ---
 title: Mixer Configuration
-overview: An overview of the key concepts used to configure Mixer.
+description: An overview of the key concepts used to configure Mixer.
 
-order: 30
+weight: 30
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 

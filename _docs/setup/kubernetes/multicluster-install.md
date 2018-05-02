@@ -1,11 +1,9 @@
 ---
 title: Istio Multicluster
-overview: Install Istio with multicluster support.
+description: Install Istio with multicluster support.
 
-order: 65
+weight: 65
 
-layout: docs
-type: markdown
 ---
 
 {% include home.html %}

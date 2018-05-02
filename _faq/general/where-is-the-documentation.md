@@ -1,7 +1,6 @@
 ---
 title: Where is the documentation?
-order: 80
-type: markdown
+weight: 80
 ---
 {% include home.html %}
 
