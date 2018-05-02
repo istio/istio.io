@@ -53,8 +53,6 @@ This task describes how to configure Istio to expose a service outside of the se
 
 ## Configuring ingress using an Istio Gateway resource (recommended)
 
-> This is still a work in progress and is not yet functional.
-
 An [Istio Gateway]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway) is the preferred
 model for configuring ingress traffic in Istio.
 An ingress `Gateway` describes a load balancer operating at the edge of the mesh receiving incoming
