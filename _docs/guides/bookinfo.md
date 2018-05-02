@@ -79,26 +79,25 @@ To start the application, follow the instructions below corresponding to your Is
 
 1. Bring up the application containers:
 
-   If you are using [manual sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar-injection),
-   use the following command instead:
+   * If you are using [manual sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar-injection),
+     use the following command
 
-   ```bash
-   kubectl apply -f <(istioctl kube-inject --debug -f samples/bookinfo/kube/bookinfo.yaml)
-   ```
+     ```bash
+     kubectl apply -f <(istioctl kube-inject --debug -f samples/bookinfo/kube/bookinfo.yaml)
+     ```
 
-   If you are using a cluster with
-   [automatic sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection)
-   enabled, simply deploy the services using `kubectl`:
+     The `istioctl kube-inject` command is used to manually modify the `bookinfo.yaml`
+     file before creating the deployments as documented [here]({{home}}/docs/reference/commands/istioctl.html#istioctl kube-inject).
 
-   ```bash
-   kubectl apply -f samples/bookinfo/kube/bookinfo.yaml
-   ```
+   * If you are using a cluster with
+     [automatic sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection)
+     enabled, simply deploy the services using `kubectl`
 
-   The `istioctl kube-inject` command is used to manually modify the `bookinfo.yaml`
-   file before creating the deployments as documented [here]({{home}}/docs/reference/commands/istioctl.html#istioctl kube-inject).
+     ```bash
+     kubectl apply -f samples/bookinfo/kube/bookinfo.yaml
+     ```
 
-   Either of the above commands launches all four microservices and creates the gateway
-   ingress resource as illustrated in the above diagram.
+   Either of the above commands launches all four microservices as illustrated in the above diagram.
    All 3 versions of the reviews service, v1, v2, and v3, are started.
 
    > In a realistic deployment, new versions of a microservice are deployed
@@ -107,7 +106,7 @@ To start the application, follow the instructions below corresponding to your Is
 1. Define the ingress gateway for the application:
 
    ```bash
-   kubectl apply -f samples/bookinfo/kube/bookinfo-gateway.yaml
+   istioctl create -f samples/bookinfo/routing/bookinfo-gateway.yaml
    ```
 
 1. Confirm all services and pods are correctly defined and running:
@@ -116,7 +115,7 @@ To start the application, follow the instructions below corresponding to your Is
    kubectl get services
    ```
 
-   which produces the following output:
+   which produces the following output
 
    ```bash
    NAME                       CLUSTER-IP   EXTERNAL-IP   PORT(S)              AGE
@@ -147,49 +146,46 @@ To start the application, follow the instructions below corresponding to your Is
 
 #### Determining the ingress IP and Port
 
-1. If your Kubernetes cluster is running in an environment that supports external load balancers, the IP address of ingress can be  obtained by the following command:
+Execute the following command to determine if your Kubernetes cluster is running in an environment that supports external load balancers
+
+```bash
+kubectl get svc istio-ingressgateway -n istio-system
+```
+
+The output should be similar to
+
+```bash
+NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)                                      AGE
+istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/TCP,443:31390/TCP,31400:31400/TCP   17h
+```
+
+If the `EXTERNAL-IP` value is set, your environment has an external load balancer that you can use for the ingress gateway
+
+```bash
+export GATEWAY_URL=130.211.10.121:80
+```
+
+If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not support external load balancers.
+In this case, you can access the gateway using the service `nodePort`.
+
+1. _GKE:_
 
    ```bash
-   kubectl get ingress -o wide
+   export GATEWAY_URL=<workerNodeAddress>:$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
+   gcloud compute firewall-rules create allow-book --allow tcp:$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
    ```
 
-   whose output should be similar to
-
-   ```bash
-   NAME      HOSTS     ADDRESS                 PORTS     AGE
-   gateway   *         130.211.10.121          80        1d
-   ```
-
-   The address of the ingress service would then be
-
-   ```bash
-   export GATEWAY_URL=130.211.10.121:80
-   ```
-
-1. _GKE:_ Sometimes when the service is unable to obtain an external IP, `kubectl get ingress -o wide` may display a list of worker node addresses. In this case, you can use any of the addresses, along with the NodePort, to access the ingress. If the cluster has a firewall, you will also need to create a firewall rule to allow TCP traffic to the NodePort.
-
-   ```bash
-   export GATEWAY_URL=<workerNodeAddress>:$(kubectl get svc istio-ingress -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
-   gcloud compute firewall-rules create allow-book --allow tcp:$(kubectl get svc istio-ingress -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
-   ```
-
-1. _IBM Cloud Container Service Free Tier:_ External load balancer is not available for kubernetes clusters in the free tier. You can use the public IP of the worker node, along with the NodePort, to access the ingress. The public IP of the worker node can be obtained from the output of the following command:
+1. _IBM Cloud Container Service Free Tier:_
 
    ```bash
    bx cs workers <cluster-name or id>
-   export GATEWAY_URL=<public IP of the worker node>:$(kubectl get svc istio-ingress -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
+   export GATEWAY_URL=<public IP of the worker node>:$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
    ```
 
-1. _IBM Cloud Private:_ External load balancers are not supported in IBM Cloud Private. You can use the host IP of the ingress service, along with the NodePort, to access the ingress.
+1. _Other environments (e.g., minikube):_
 
    ```bash
-   export GATEWAY_URL=$(kubectl get po -l istio=ingress -n istio-system -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}')
-   ```
-
-1. _Minikube:_ External load balancers are not supported in Minikube. You can use the host IP of the ingress service, along with the NodePort, to access the ingress.
-
-   ```bash
-   export GATEWAY_URL=$(kubectl get po -l istio=ingress -n istio-system -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}')
+   export GATEWAY_URL=$(kubectl get po -l istio=ingressgateway -n istio-system -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingressgateway -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}')
    ```
 
 ### Running on Docker with Consul or Eureka
@@ -266,8 +262,8 @@ uninstall and clean it up using the following instructions.
 1. Confirm shutdown
 
    ```bash
-   istioctl get routerules   #-- there should be no more routing rules
-   kubectl get pods          #-- the Bookinfo pods should be deleted
+   istioctl get virtualservices   #-- there should be no more routing rules
+   kubectl get pods               #-- the Bookinfo pods should be deleted
    ```
 
 ### Uninstall from Docker environment
@@ -289,6 +285,6 @@ uninstall and clean it up using the following instructions.
 1. Confirm cleanup
 
    ```bash
-   istioctl get routerules   #-- there should be no more routing rules
-   docker ps -a              #-- the Bookinfo containers should be deleted
+   istioctl get virtualservices   #-- there should be no more routing rules
+   docker ps -a                   #-- the Bookinfo containers should be deleted
    ```
