@@ -251,7 +251,7 @@ with the [Helm Chart]({{home}}/docs/setup/kubernetes/helm-install.html):
 
    _**OR**_
 
-   b) Install Istio and enable [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars.:
+   b) Install Istio and enable [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars. This option is mostly for new clusters, i.e., all applications have sidecars injected during their deployment. For existing applications, please choose the above option and enable mutual TLS using [authentication policy]({{home}}/docs/tasks/security/authn-policy.html):
 
    ```bash
    kubectl apply -f install/kubernetes/istio-auth.yaml
