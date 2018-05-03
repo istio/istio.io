@@ -350,11 +350,14 @@ spec:
 ```
 
 That said, `ServiceEntry` has significantly more functionality than its predecessor.
-First of all, `ServiceEntry` is not limited to external service configuration.
-It can also be used to explicitly add services as part of expanding the service mesh to include unmanaged infrastructure
-(e.g., VMs added to a Kubernetes-based service mesh). Such entries are treated just like all other internal services,
-unlike external ones where Istio's mTLS authentication is disabled and policy enforcement is
-performed on the client-side as opposed to server-side.
+First of all, a `ServiceEntry` is not limited to external service configuration,
+it can be of two types: mesh-internal or mesh-external.
+Mesh-internal entries are like all other internal services but are used to explicitly add services
+to the mesh. They can be used to add services as part of expanding the service mesh to include unmanaged infrastructure
+(e.g., VMs added to a Kubernetes-based service mesh).
+Mesh-external entries represent services external to the mesh.
+For them, mTLS authentication is disabled and policy enforcement is performed on the client-side,
+instead of on the usual server-side for internal service requests.
 
 Because a `ServiceEntry` configuration simply adds a destination to the internal service registry, it can be
 used in conjunction with a `VirtualService` and/or `DestinationRule`, just like any other service in the registry.
@@ -380,7 +383,7 @@ including the following:
 
 1. A single `ServiceEntry` can configure multiple service endpoints, which previously would have required multiple
    `EgressRules`.
-1. The resolution mode for the endpoints is now configurable (`PASSTHROUGH`, `STATIC`, or `DNS`).
+1. The resolution mode for the endpoints is now configurable (`NONE`, `STATIC`, or `DNS`).
 1. Secure HTTP services (automatic TLS upgrade) can now be accessed using standard https (e.g., `https://secureservice.com/`
    instead of `http://secureservice.com:443/`.
 
