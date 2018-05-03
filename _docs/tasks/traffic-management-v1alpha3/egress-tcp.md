@@ -53,7 +53,6 @@ spec:
   - number: 443
     name: tcp
     protocol: TCP
-  discovery: NONE
 EOF
 ```
 
