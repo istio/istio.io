@@ -10,7 +10,7 @@ kramdown:
 
 baseurl:
 
-highlighter: none
+highlighter: rouge
 
 liquid:
   error_mode: strict
@@ -42,6 +42,32 @@ plugins:
   - jekyll-redirect-from
   - jekyll-sitemap
 
+defaults:
+  -
+    scope:
+      path: ""
+      type: "about"
+    values:
+      layout: "about"
+  -
+    scope:
+      path: ""
+      type: "docs"
+    values:
+      layout: "docs"
+  -
+    scope:
+      path: ""
+      type: "help"
+    values:
+      layout: "help"
+  -
+    scope:
+      path: ""
+      type: "blog"
+    values:
+      layout: "blog"
+
 exclude:
   - README.md
   - LICENSE
@@ -69,6 +95,7 @@ exclude:
   - js/styleSwitcher.js
   - firebase.json
   - _rakesite
+  - mdl_style.rb
 
 repository:
   istio/istio.github.io

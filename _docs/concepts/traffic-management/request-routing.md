@@ -1,11 +1,9 @@
 ---
 title: Request Routing
-overview: Describes how requests are routed between services in an Istio service mesh.
+description: Describes how requests are routed between services in an Istio service mesh.
 
-order: 20
+weight: 20
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 

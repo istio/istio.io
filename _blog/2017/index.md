@@ -1,11 +1,9 @@
 ---
 title: 2017 Posts
-overview: Blog posts for 2017
+description: Blog posts for 2017
 
-order: 20
+weight: 20
 
-layout: blog
-type: markdown
 toc: false
 ---
 

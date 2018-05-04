@@ -1,7 +1,6 @@
 ---
 title: Why would I want to use Istio?
-order: 20
-type: markdown
+weight: 20
 ---
 {% include home.html %}
 

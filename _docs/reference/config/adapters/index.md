@@ -1,11 +1,9 @@
 ---
 title: Adapters
-overview: Documentation for Mixer's adapters.
+description: Documentation for Mixer's adapters.
 
-order: 40
+weight: 40
 
-layout: docs
-type: markdown
 toc: false
 ---
 

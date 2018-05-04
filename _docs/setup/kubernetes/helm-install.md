@@ -1,13 +1,11 @@
 ---
 title: Installation with Helm
-overview: Install Istio with the included Helm chart.
+description: Install Istio with the included Helm chart.
 
-order: 30
+weight: 30
 
 redirect_from: /docs/setup/kubernetes/helm.html
 
-layout: docs
-type: markdown
 ---
 
 {% include home.html %}
@@ -43,11 +41,12 @@ produced for Istio.
 
 1. Create an `istio.yaml` Kubernetes manifest:
    ```bash
-   helm template install/kubernetes/helm/istio --name istio --set prometheus.enabled=true > $HOME/istio.yaml
+   helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set prometheus.enabled=true > $HOME/istio.yaml
    ```
 
 1. Create the Istio control plane from `istio.yaml` manifest:
    ```bash
+   kubectl create ns istio-system
    kubectl create -f $HOME/istio.yaml
    ```
 
@@ -68,7 +67,7 @@ Upgrading Istio using Helm is not validated.
 
 1. Create the Helm chart:
    ```bash
-   helm install install/kubernetes/helm/istio --name istio
+   helm install install/kubernetes/helm/istio --name istio --namespace istio-system
    ```
 
 ## Customization with Helm
@@ -95,6 +94,7 @@ following table:
 | `global.arch.amd64` | Specifies the scheduling policy for `amd64` architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | `2` |
 | `global.arch.s390x` | Specifies the scheduling policy for `s390x` architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | `2` |
 | `global.arch.ppc64le` | Specifies the scheduling policy for `ppc64le` architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | `2` |
+| `galley.enabled` | Specifies whether Galley should be installed for server-side config validation. Requires k8s >= 1.9 | true/false | `false` |
 
 > The Helm chart also offers significant customization options per individual
 service.  Customize these per-service options at your own risk.

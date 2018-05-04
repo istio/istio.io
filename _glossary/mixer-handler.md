@@ -1,6 +1,5 @@
 ---
 title: Mixer Handler
-type: markdown
 ---
 {% include home.html %}
 

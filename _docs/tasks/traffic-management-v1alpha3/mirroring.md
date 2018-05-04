@@ -1,11 +1,9 @@
 ---
 title: Mirroring
-overview: This task demonstrates the traffic shadowing/mirroring capabilities of Istio
+description: This task demonstrates the traffic shadowing/mirroring capabilities of Istio
 
-order: 60
+weight: 60
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 

@@ -1,11 +1,9 @@
 ---
 title: Troubleshooting Guide
-overview: Practical advice on practical problems with Istio
+description: Practical advice on practical problems with Istio
 
-order: 40
+weight: 40
 
-layout: help
-type: markdown
 redirect_from: /troubleshooting
 force_inline_toc: true
 ---
@@ -19,7 +17,7 @@ Verifying connectivity to Pilot is a useful troubleshooting step. Every proxy co
 
 1. Get the name of the Istio Ingress pod:
 ```bash
-INGRESS_POD_NAME=$(kubectl get po -n istio-system | grep ingress | awk '{print$1}')
+INGRESS_POD_NAME=$(kubectl get po -n istio-system | grep ingress\- | awk '{print$1}')
 ```
 
 1. Exec into the Istio Ingress pod:

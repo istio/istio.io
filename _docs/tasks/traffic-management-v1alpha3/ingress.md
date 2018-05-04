@@ -1,11 +1,9 @@
 ---
 title: Control Ingress Traffic
-overview: Describes how to configure Istio to expose a service outside of the service mesh.
+description: Describes how to configure Istio to expose a service outside of the service mesh.
 
-order: 30
+weight: 30
 
-layout: docs
-type: markdown
 redirect_from: /docs/tasks/ingress.html
 ---
 {% include home.html %}
@@ -54,8 +52,6 @@ This task describes how to configure Istio to expose a service outside of the se
    ```
 
 ## Configuring ingress using an Istio Gateway resource (recommended)
-
-> This is still a work in progress and is not yet functional.
 
 An [Istio Gateway]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway) is the preferred
 model for configuring ingress traffic in Istio.

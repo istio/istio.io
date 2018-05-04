@@ -1,6 +1,5 @@
 ---
 title: Adapters
-type: markdown
 ---
 {% include home.html %}
 

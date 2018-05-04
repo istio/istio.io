@@ -1,7 +1,6 @@
 ---
 title: How can I contribute?
-order: 70
-type: markdown
+weight: 70
 ---
 {% include home.html %}
 

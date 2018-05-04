@@ -1,11 +1,9 @@
 ---
 title: Design Goals
-overview: Describes the core principles that Istio's design adheres to.
+description: Describes the core principles that Istio's design adheres to.
 
-order: 20
+weight: 20
 
-layout: docs
-type: markdown
 ---
 
 This page outlines the core principles that guide Istio's design.

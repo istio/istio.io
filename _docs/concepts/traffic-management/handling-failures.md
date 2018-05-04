@@ -1,11 +1,9 @@
 ---
 title: Handling Failures
-overview: An overview of failure recovery capabilities in Envoy that can be leveraged by unmodified applications to improve robustness and prevent cascading failures.
+description: An overview of failure recovery capabilities in Envoy that can be leveraged by unmodified applications to improve robustness and prevent cascading failures.
 
-order: 30
+weight: 30
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 

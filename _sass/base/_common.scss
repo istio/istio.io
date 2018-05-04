@@ -164,8 +164,28 @@ pre {
 
     code {
         display: block;
-        padding: .5em;
         color: $textColor;
+        padding: .5em;
+    }
+
+    code.command-output {
+        padding: 0;
+
+        .command {
+            padding: .5em .5em 0 .5em;
+        }
+
+        .output {
+            color: $preBlockCommandOutputTextColor;
+            background-color: $preBlockCommandOutputBackgroundColor;
+            font-style: italic;
+            padding: 0 .5em .5em .5em;
+        }
+
+        // if the output div is empty, we need extra padding
+        div:only-of-type {
+            padding: .5em;
+        }
     }
 
     @media print {
@@ -173,6 +193,7 @@ pre {
     }
 }
 
+// this is necessary in order for proper positioning of the Copy button
 div.highlight {
     position: relative;
 }

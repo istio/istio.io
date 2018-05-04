@@ -1,15 +1,13 @@
 ---
 title: Per-service mutual TLS authentication control
-overview: This task shows how to change mutual TLS authentication for a single service.
+description: This task shows how to change mutual TLS authentication for a single service.
 
-order: 50
+weight: 50
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 
-> If you are using Istio 0.7 or later, please refer to [authentication policy task]({{home}}/docs/tasks/security/authn-policy.html) for alternative (recommended) solution using authentication policy.
+> This feature will soon be deprecated. If you are using Istio 0.7 or later, please refer to [authentication policy task]({{home}}/docs/tasks/security/authn-policy.html) for the recommended approach moving forward.
 
 In the [Installation guide]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps), we show how to enable [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars. The settings will be applied to all sidecars in the mesh.
 

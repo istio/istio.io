@@ -1,7 +1,6 @@
 ---
 title: How do I see all Mixer's configuration?
-order: 10
-type: markdown
+weight: 10
 ---
 {% include home.html %}
 

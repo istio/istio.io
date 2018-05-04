@@ -1,11 +1,9 @@
 ---
 title: Quick Start with Google Kubernetes Engine
-overview: Quick Start instructions to setup the Istio service using Google Kubernetes Engine (GKE)
+description: Quick Start instructions to setup the Istio service using Google Kubernetes Engine (GKE)
 
-order: 11
+weight: 11
 
-layout: docs
-type: markdown
 ---
 
 {% include home.html %}

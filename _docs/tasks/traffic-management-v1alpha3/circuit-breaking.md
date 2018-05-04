@@ -1,11 +1,9 @@
 ---
 title: Circuit Breaking
-overview: This task demonstrates the circuit-breaking capability for resilient applications
+description: This task demonstrates the circuit-breaking capability for resilient applications
 
-order: 50
+weight: 50
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 
