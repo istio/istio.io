@@ -1,27 +1,22 @@
 @media screen {
     .row-offcanvas .sidebar-offcanvas {
-        transition: all .4s ease;
-        z-index: 42;
-        left: -1500px;
-        width: auto;
-        top: $headerHeight;
-        position: absolute;
-    }
+        @media (max-width: $bp-md - 1) {
+            position: absolute;
+            width: 80%;
+            transition: all .4s ease;
+            z-index: 42;
+            left: -$bp-md;
+            top: $headerHeight;
+        }
 
-    @media (max-width: calc($bp-md - 1)) {
-        .row-offcanvas .sidebar-offcanvas {
-            max-width: 80%;
+        @media (min-width: $bp-md) {
+            position: unset;
+            width: auto;
         }
     }
 
     .row-offcanvas.active .sidebar-offcanvas {
         left: 2rem;
-    }
-
-    @media (min-width: $bp-md) {
-        .row-offcanvas .sidebar-offcanvas {
-            position: unset;
-        }
     }
 }
 
