@@ -84,11 +84,11 @@ $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
 `kube-inject` can also be run without access to a running Kubernetes
 cluster. Create local copies of the injection and mesh configmap.
 
-```command
-$ kubectl create -f install/kubernetes/istio-sidecar-injector-configmap-release.yaml \
-    --dry-run \
-    -o=jsonpath='{.data.config}' > inject-config.yaml
-$ kubectl -n istio-system get configmap istio -o=jsonpath='{.data.mesh}' > mesh-config.yaml
+```bash
+istioctl kube-inject --emitTemplate > inject-config.yaml
+
+kubectl -n istio-system get configmap istio -o=jsonpath='{.data.mesh}' > mesh-config.yaml
+
 ```
 
 Run `kube-inject` over the input file.
