@@ -55,6 +55,7 @@ spec:
     - number: 443
       protocol: TCP
       name: tcp-port
+  resolution: NONE
 EOF
 ```
 
