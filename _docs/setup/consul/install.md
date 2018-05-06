@@ -28,7 +28,7 @@ server requires an
 as a persistent store. Detailed instructions for setting up the API server can
 be found
 [here](https://kubernetes.io/docs/getting-started-guides/scratch/#apiserver-controller-manager-and-scheduler).
-Documentation on set of startup options for the Kubernetes API server can be found [here](https://kubernetes.io/docs/admin/kube-apiserver/)
+See the [documentation on the startup options for the Kubernetes API server](https://kubernetes.io/docs/admin/kube-apiserver/).
 
 #### Local Install
 

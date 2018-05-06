@@ -82,8 +82,8 @@ To start the application, follow the instructions below corresponding to your Is
    * If you are using [manual sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar-injection),
      use the following command
 
-     ```bash
-     kubectl apply -f <(istioctl kube-inject --debug -f samples/bookinfo/kube/bookinfo.yaml)
+     ```command
+     $ kubectl apply -f <(istioctl kube-inject --debug -f samples/bookinfo/kube/bookinfo.yaml)
      ```
 
      The `istioctl kube-inject` command is used to manually modify the `bookinfo.yaml`
@@ -93,8 +93,8 @@ To start the application, follow the instructions below corresponding to your Is
      [automatic sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection)
      enabled, simply deploy the services using `kubectl`
 
-     ```bash
-     kubectl apply -f samples/bookinfo/kube/bookinfo.yaml
+     ```command
+     $ kubectl apply -f samples/bookinfo/kube/bookinfo.yaml
      ```
 
    Either of the above commands launches all four microservices as illustrated in the above diagram.
@@ -105,19 +105,14 @@ To start the application, follow the instructions below corresponding to your Is
 
 1. Define the ingress gateway for the application:
 
-   ```bash
-   istioctl create -f samples/bookinfo/routing/bookinfo-gateway.yaml
+   ```command
+   $ istioctl create -f samples/bookinfo/routing/bookinfo-gateway.yaml
    ```
 
 1. Confirm all services and pods are correctly defined and running:
 
-   ```bash
-   kubectl get services
-   ```
-
-   which produces the following output
-
-   ```bash
+   ```command
+   $ kubectl get services
    NAME                       CLUSTER-IP   EXTERNAL-IP   PORT(S)              AGE
    details                    10.0.0.31    <none>        9080/TCP             6m
    kubernetes                 10.0.0.1     <none>        443/TCP              7d
@@ -128,13 +123,8 @@ To start the application, follow the instructions below corresponding to your Is
 
    and
 
-   ```bash
-   kubectl get pods
-   ```
-
-   which produces
-
-   ```bash
+   ```command
+   $ kubectl get pods
    NAME                                        READY     STATUS    RESTARTS   AGE
    details-v1-1520924117-48z17                 2/2       Running   0          6m
    productpage-v1-560495357-jk1lz              2/2       Running   0          6m
@@ -148,21 +138,16 @@ To start the application, follow the instructions below corresponding to your Is
 
 Execute the following command to determine if your Kubernetes cluster is running in an environment that supports external load balancers
 
-```bash
-kubectl get svc istio-ingressgateway -n istio-system
-```
-
-The output should be similar to
-
-```bash
+```command
+$ kubectl get svc istio-ingressgateway -n istio-system
 NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)                                      AGE
 istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/TCP,443:31390/TCP,31400:31400/TCP   17h
 ```
 
 If the `EXTERNAL-IP` value is set, your environment has an external load balancer that you can use for the ingress gateway
 
-```bash
-export GATEWAY_URL=130.211.10.121:80
+```command
+$ export GATEWAY_URL=130.211.10.121:80
 ```
 
 If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not support external load balancers.
@@ -170,22 +155,22 @@ In this case, you can access the gateway using the service `nodePort`.
 
 1. _GKE:_
 
-   ```bash
-   export GATEWAY_URL=<workerNodeAddress>:$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
-   gcloud compute firewall-rules create allow-book --allow tcp:$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
+   ```command
+   $ export GATEWAY_URL=<workerNodeAddress>:$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
+   $ gcloud compute firewall-rules create allow-book --allow tcp:$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
    ```
 
 1. _IBM Cloud Container Service Free Tier:_
 
-   ```bash
-   bx cs workers <cluster-name or id>
-   export GATEWAY_URL=<public IP of the worker node>:$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
+   ```command
+   $ bx cs workers <cluster-name or id>
+   $ export GATEWAY_URL=<public IP of the worker node>:$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
    ```
 
 1. _Other environments (e.g., minikube):_
 
-   ```bash
-   export GATEWAY_URL=$(kubectl get po -l istio=ingressgateway -n istio-system -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingressgateway -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}')
+   ```command
+   $ export GATEWAY_URL=$(kubectl get po -l istio=ingressgateway -n istio-system -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingressgateway -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}')
    ```
 
 ### Running on Docker with Consul or Eureka
@@ -196,41 +181,38 @@ In this case, you can access the gateway using the service `nodePort`.
 
    To test with Consul, run the following commands:
 
-   ```bash
-   docker-compose -f samples/bookinfo/consul/bookinfo.yaml up -d
-   docker-compose -f samples/bookinfo/consul/bookinfo.sidecars.yaml up -d
-    ```
+   ```command
+   $ docker-compose -f samples/bookinfo/consul/bookinfo.yaml up -d
+   $ docker-compose -f samples/bookinfo/consul/bookinfo.sidecars.yaml up -d
+   ```
 
    To test with Eureka, run the following commands:
 
-   ```bash
-   docker-compose -f samples/bookinfo/eureka/bookinfo.yaml up -d
-   docker-compose -f samples/bookinfo/eureka/bookinfo.sidecars.yaml up -d
+   ```command
+   $ docker-compose -f samples/bookinfo/eureka/bookinfo.yaml up -d
+   $ docker-compose -f samples/bookinfo/eureka/bookinfo.sidecars.yaml up -d
    ```
 
 1. Confirm that all docker containers are running:
 
-   ```bash
-   docker ps -a
+   ```command
+   $ docker ps -a
    ```
 
    > If the Istio Pilot container terminates, re-run the command from the previous step.
 
 1. Set the GATEWAY_URL:
 
-   ```bash
-   export GATEWAY_URL=localhost:9081
+   ```command
+   $ export GATEWAY_URL=localhost:9081
    ```
 
 ## What's next
 
 To confirm that the Bookinfo application is running, run the following `curl` command:
 
-```bash
-curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage
-```
-
-```xxx
+```command
+$ curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage
 200
 ```
 
@@ -255,15 +237,15 @@ uninstall and clean it up using the following instructions.
 
 1. Delete the routing rules and terminate the application pods
 
-   ```bash
-   samples/bookinfo/kube/cleanup.sh
+   ```command
+   $ samples/bookinfo/kube/cleanup.sh
    ```
 
 1. Confirm shutdown
 
-   ```bash
-   istioctl get virtualservices   #-- there should be no more routing rules
-   kubectl get pods               #-- the Bookinfo pods should be deleted
+   ```command
+   $ istioctl get virtualservices   #-- there should be no more routing rules
+   $ kubectl get pods               #-- the Bookinfo pods should be deleted
    ```
 
 ### Uninstall from Docker environment
@@ -272,19 +254,19 @@ uninstall and clean it up using the following instructions.
 
    In a Consul setup, run the following command:
 
-   ```bash
-   samples/bookinfo/consul/cleanup.sh
+   ```command
+   $ samples/bookinfo/consul/cleanup.sh
    ```
 
    In a Eureka setup, run the following command:
 
-   ```bash
-   samples/bookinfo/eureka/cleanup.sh
+   ```command
+   $ samples/bookinfo/eureka/cleanup.sh
    ```
 
 1. Confirm cleanup
 
-   ```bash
-   istioctl get virtualservices   #-- there should be no more routing rules
-   docker ps -a                   #-- the Bookinfo containers should be deleted
+   ```command
+   $ istioctl get virtualservices   #-- there should be no more routing rules
+   $ docker ps -a                   #-- the Bookinfo containers should be deleted
    ```

@@ -137,10 +137,9 @@ EOF
 
 Now all traffic should go to `httpbin v1` service. Let's try sending in some traffic:
 
-```bash
-export SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
-kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8080/headers'
-
+```command-output-as-json
+$ export SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+$ kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8080/headers'
 {
   "headers": {
     "Accept": "*/*",
@@ -157,10 +156,8 @@ kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8080/headers
 
 If we check the logs for `v1` and `v2` of our `httpbin` pods, we should see access log entries for only `v1`:
 
-```bash
-kubectl logs -f httpbin-v1-2113278084-98whj -c httpbin
-```
-```xxx
+```command
+$ kubectl logs -f httpbin-v1-2113278084-98whj -c httpbin
 127.0.0.1 - - [07/Feb/2018:00:07:39 +0000] "GET /headers HTTP/1.1" 200 349 "-" "curl/7.35.0"
 ```
 
@@ -197,8 +194,8 @@ The last stanza specifies we want to mirror to the `httpbin v2` service. When tr
 
 Now if we send in traffic:
 
-```bash
-kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8080/headers'
+```command
+$ kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8080/headers'
 ```
 
 We should see access logging for both `v1` and `v2`. The access logs created in `v2` is the mirrored requests that are actually going to `v1`.
@@ -207,16 +204,16 @@ We should see access logging for both `v1` and `v2`. The access logs created in 
 
 1. Remove the rules.
 
-   ```bash
-   istioctl delete routerule mirror-traffic-to-httbin-v2
-   istioctl delete routerule httpbin-default-v1
+   ```command
+   $ istioctl delete routerule mirror-traffic-to-httbin-v2
+   $ istioctl delete routerule httpbin-default-v1
    ```
 
 1. Shutdown the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) service and client.
 
-   ```bash
-   kubectl delete deploy httpbin-v1 httpbin-v2 sleep
-   kubectl delete svc httpbin
+   ```command
+   $ kubectl delete deploy httpbin-v1 httpbin-v2 sleep
+   $ kubectl delete svc httpbin
    ```
 
 ## What's next

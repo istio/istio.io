@@ -23,8 +23,8 @@ or alternatively, to simply bypass the Istio proxy for a specific range of IPs.
 * Start the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) sample
   which will be used as a test source for external calls.
 
-  ```bash
-  kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
+  ```command
+  $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
   ```
 
   Note that any pod that you can `exec` and `curl` from would do.
@@ -93,22 +93,22 @@ the connection to HTTPS.
 1. Exec into the pod being used as the test source. For example,
    if you are using the sleep service, run the following commands:
 
-   ```bash
-   export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
-   kubectl exec -it $SOURCE_POD -c sleep bash
+   ```command
+   $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+   $ kubectl exec -it $SOURCE_POD -c sleep bash
    ```
 
 1. Make a request to the external HTTP service:
 
-   ```bash
-   curl http://httpbin.org/headers
+   ```command
+   $ curl http://httpbin.org/headers
    ```
 
 1. Make a request to the external HTTPS service.
    External services of type HTTPS must be accessed over HTTP with the port specified in the request:
 
-   ```bash
-   curl http://www.google.com:443
+   ```command
+   $ curl http://www.google.com:443
    ```
 
 ### Setting route rules on an external service
@@ -121,12 +121,9 @@ to set a timeout rule on calls to the httpbin.org service.
 
 1. From inside the pod being used as the test source, invoke the `/delay` endpoint of the httpbin.org external service:
 
-   ```bash
-   kubectl exec -it $SOURCE_POD -c sleep bash
-   time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
-   ```
-
-   ```bash
+   ```command
+   $ kubectl exec -it $SOURCE_POD -c sleep bash
+   $ time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
    200
 
    real    0m5.024s
@@ -154,12 +151,9 @@ to set a timeout rule on calls to the httpbin.org service.
 
 1. Wait a few seconds, then issue the _curl_ request again:
 
-   ```bash
-   kubectl exec -it $SOURCE_POD -c sleep bash
-   time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
-   ```
-
-   ```bash
+   ```command
+   $ kubectl exec -it $SOURCE_POD -c sleep bash
+   $ time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
    504
 
    real    0m3.149s
@@ -187,63 +181,61 @@ to the sidecar proxy.
 The values used for internal IP range(s), however, depends on where your cluster is running.
 For example, with Minikube the range is 10.0.0.1/24, so you would start the sleep service like this:
 
-```bash
-kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=10.0.0.1/24)
+```command
+$ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=10.0.0.1/24)
 ```
 
 On IBM Cloud Private, use:
 
 1. Get your `service_cluster_ip_range` from IBM Cloud Private configuration file under `cluster/config.yaml`.
 
-   ```bash
-   cat cluster/config.yaml | grep service_cluster_ip_range
+   ```command
+   $ cat cluster/config.yaml | grep service_cluster_ip_range
    ```
 
    A sample output is as following:
 
-   ```xxx
+   ```plain
    service_cluster_ip_range: 10.0.0.1/24
    ```
 
 1. Inject the `service_cluster_ip_range` to your application profile via `--includeIPRanges` to limit Istio's traffic interception to the service cluster IP range.
 
-   ```bash
-   kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=10.0.0.1/24)
+   ```command
+   $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=10.0.0.1/24)
    ```
 
 On IBM Cloud Container Service, use:
 
-```bash
-kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=172.30.0.0/16,172.20.0.0/16,10.10.10.0/24)
+```command
+$ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=172.30.0.0/16,172.20.0.0/16,10.10.10.0/24)
 ```
 
 On Google Container Engine (GKE) the ranges are not fixed, so you will
 need to run the `gcloud container clusters describe` command to determine the ranges to use. For example:
 
-```bash
-gcloud container clusters describe XXXXXXX --zone=XXXXXX | grep -e clusterIpv4Cidr -e servicesIpv4Cidr
-```
-```xxx
+```command
+$ gcloud container clusters describe XXXXXXX --zone=XXXXXX | grep -e clusterIpv4Cidr -e servicesIpv4Cidr
 clusterIpv4Cidr: 10.4.0.0/14
 servicesIpv4Cidr: 10.7.240.0/20
 ```
-```bash
-kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=10.4.0.0/14,10.7.240.0/20)
+```command
+$ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=10.4.0.0/14,10.7.240.0/20)
 ```
 
 On Azure Container Service(ACS), use:
 
-```bash
-kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=10.244.0.0/16,10.240.0.0/16)
+```command
+$ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=10.244.0.0/16,10.240.0.0/16)
 ```
 
 After starting your service this way, the Istio sidecar will only intercept and manage internal requests
 within the cluster. Any external request will simply bypass the sidecar and go straight to its intended
 destination.
 
-```bash
-export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
-kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
+```command
+$ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+$ kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
 ```
 
 ## Understanding what happened
@@ -266,16 +258,16 @@ cloud provider specific knowledge and configuration.
 
 1. Remove the rules.
 
-   ```bash
-   istioctl delete serviceentry httpbin-ext google-ext
-   istioctl delete destinationrule google-ext
-   istioctl delete virtualservice httpbin-ext
+   ```command
+   $ istioctl delete serviceentry httpbin-ext google-ext
+   $ istioctl delete destinationrule google-ext
+   $ istioctl delete virtualservice httpbin-ext
    ```
 
 1. Shutdown the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) service.
 
-   ```bash
-   kubectl delete -f samples/sleep/sleep.yaml
+   ```command
+   $ kubectl delete -f samples/sleep/sleep.yaml
    ```
 
 ## `ServiceEntry` and Access Control

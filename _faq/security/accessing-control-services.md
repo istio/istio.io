@@ -10,9 +10,9 @@ already contains `kubernetes.default.svc.cluster.local`, which is the default
 service name of the Kubernetes API server.
 
 For a quick reference, here are commands to edit Istio configmap and to restart pilot.
-```bash
-kubectl edit configmap -n istio-system istio
-kubectl delete pods -n istio-system -l istio=pilot
+```command
+$ kubectl edit configmap -n istio-system istio
+$ kubectl delete pods -n istio-system -l istio=pilot
 ```
 
 > Do not use this approach to disable mTLS for services that are managed

@@ -40,14 +40,14 @@ continuous integration automated testing and release process, the
 produced for Istio.
 
 1. Create an `istio.yaml` Kubernetes manifest:
-   ```bash
-   helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set prometheus.enabled=true > $HOME/istio.yaml
+   ```command
+   $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set prometheus.enabled=true > $HOME/istio.yaml
    ```
 
 1. Create the Istio control plane from `istio.yaml` manifest:
-   ```bash
-   kubectl create ns istio-system
-   kubectl create -f $HOME/istio.yaml
+   ```command
+   $ kubectl create ns istio-system
+   $ kubectl create -f $HOME/istio.yaml
    ```
 
 ### Alternatively, use Helm and Tiller to manage the Istio deployment
@@ -56,18 +56,18 @@ produced for Istio.
 Upgrading Istio using Helm is not validated.
 
 1. If a service account has not already been installed for Helm, please install one:
-   ```bash
-   kubectl create -f install/kubernetes/helm/helm-service-account.yaml
+   ```command
+   $ kubectl create -f install/kubernetes/helm/helm-service-account.yaml
    ```
 
 1. Initialize Helm:
-   ```bash
-   helm init --service-account tiller
+   ```command
+   $ helm init --service-account tiller
    ```
 
 1. Create the Helm chart:
-   ```bash
-   helm install install/kubernetes/helm/istio --name istio --namespace istio-system
+   ```command
+   $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
    ```
 
 ## Customization with Helm
@@ -104,11 +104,11 @@ The per-service options are exposed via the
 ## Uninstall Istio
 
 * Uninstall using kubectl:
-```bash
-kubectl delete -f $HOME/istio.yaml
+```command
+$ kubectl delete -f $HOME/istio.yaml
 ```
 
 * Uninstall using Helm:
-```bash
-helm delete --purge istio
+```command
+$ helm delete --purge istio
 ```

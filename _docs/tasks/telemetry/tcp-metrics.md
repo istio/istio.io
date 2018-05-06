@@ -104,13 +104,8 @@ will generate and collect automatically.
 
 1. Push the new configuration.
 
-   ```bash
-   istioctl create -f tcp_telemetry.yaml
-   ```
-
-   The expected output is similar to:
-
-   ```xxx
+   ```command
+   $ istioctl create -f tcp_telemetry.yaml
    Created config metric/default/mongosentbytes at revision 3852843
    Created config metric/default/mongoreceivedbytes at revision 3852844
    Created config prometheus/default/mongohandler at revision 3852845
@@ -124,19 +119,14 @@ will generate and collect automatically.
       If you are using a cluster with automatic sidecar injection enabled,
       simply deploy the services using `kubectl`:
 
-      ```bash
-      kubectl apply -f samples/bookinfo/kube/bookinfo-ratings-v2.yaml
+      ```command
+      $ kubectl apply -f samples/bookinfo/kube/bookinfo-ratings-v2.yaml
       ```
 
       If you are using manual sidecar injection, use the following command instead:
 
-      ```bash
-      kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-ratings-v2.yaml)
-      ```
-
-      Expected output:
-
-      ```xxx
+      ```command
+      $ kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-ratings-v2.yaml)
       deployment "ratings-v2" configured
       ```
 
@@ -145,32 +135,22 @@ will generate and collect automatically.
       If you are using a cluster with automatic sidecar injection enabled,
       simply deploy the services using `kubectl`:
 
-      ```bash
-      kubectl apply -f samples/bookinfo/kube/bookinfo-db.yaml
+      ```command
+      $ kubectl apply -f samples/bookinfo/kube/bookinfo-db.yaml
       ```
 
       If you are using manual sidecar injection, use the following command instead:
 
-      ```bash
-      kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-db.yaml)
-      ```
-
-      Expected output:
-
-      ```xxx
+      ```command
+      $ kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-db.yaml)
       service "mongodb" configured
       deployment "mongodb-v1" configured
       ```
 
    1. Add routing rules to send traffic to `v2` of the `ratings` service:
 
-      ```bash
-      istioctl create -f samples/bookinfo/kube/route-rule-ratings-db.yaml
-      ```
-
-      Expected output:
-
-      ```xxxx
+      ```command
+      $ istioctl create -f samples/bookinfo/kube/route-rule-ratings-db.yaml
       Created config route-rule//ratings-test-v2 at revision 7216403
       Created config route-rule//reviews-test-ratings-v2 at revision 7216404
       ```
@@ -180,8 +160,8 @@ will generate and collect automatically.
    For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
    browser or issue the following command:
 
-   ```bash
-   curl http://$GATEWAY_URL/productpage
+   ```command
+   $ curl http://$GATEWAY_URL/productpage
    ```
 
 1. Verify that the new metric values are being generated and collected.
@@ -189,8 +169,8 @@ will generate and collect automatically.
    In a Kubernetes environment, setup port-forwarding for Prometheus by
    executing the following command:
 
-   ```bash
-   kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
+   ```command
+   $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
    ```
 
    View values for the new metric via the [Prometheus UI](http://localhost:9090/graph#%5B%7B%22range_input%22%3A%221h%22%2C%22expr%22%3A%22istio_mongo_received_bytes%22%2C%22tab%22%3A1%7D%5D).
@@ -199,7 +179,7 @@ will generate and collect automatically.
    the `istio_mongo_received_bytes` metric. The table displayed in the
    **Console** tab includes entries similar to:
 
-   ```xxx
+   ```plain
    istio_mongo_received_bytes{destination_version="v1",instance="istio-mixer.istio-system:42422",job="istio-mesh",source_service="ratings.default.svc.cluster.local",source_version="v2"} 2317
    ```
 
@@ -241,14 +221,14 @@ protocols within policies.
 
 * Remove the new telemetry configuration:
 
-   ```bash
-   istioctl delete -f tcp_telemetry.yaml
+   ```command
+   $ istioctl delete -f tcp_telemetry.yaml
    ```
 
 * Remove the `port-forward` process:
 
-   ```bash
-   killall kubectl
+   ```command
+   $ killall kubectl
    ```
 
 * If you are not planning to explore any follow-on tasks, refer to the

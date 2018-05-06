@@ -20,9 +20,9 @@ This task shows you how to use Istio to dynamically limit the traffic to a servi
 * Initialize the application version routing to direct `reviews` service requests from
   test user "jason" to version v2 and requests from any other user to v3.
 
-  ```bash
-  istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
-  istioctl create -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
+  ```command
+  $ istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+  $ istioctl create -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
   ```
 
 > If you have conflicting rule that you set in previous tasks,
@@ -74,8 +74,8 @@ Using Istio we can ensure that `1qps` is not breached.
 
    and then run the following command:
 
-   ```bash
-   istioctl create -f ratelimit-handler.yaml
+   ```command
+   $ istioctl create -f ratelimit-handler.yaml
    ```
 
    This configuration specifies a default 5000 qps rate limit. Traffic reaching the ratings service via
@@ -114,14 +114,14 @@ Using Istio we can ensure that `1qps` is not breached.
 
    Save the configuration as `ratelimit-rule.yaml` and run the following command:
 
-   ```bash
-   istioctl create -f ratelimit-rule.yaml
+   ```command
+   $ istioctl create -f ratelimit-rule.yaml
    ```
 
 1. Generate load on the `productpage` with the following command:
 
-   ```bash
-   while true; do curl -s -o /dev/null http://$GATEWAY_URL/productpage; done
+   ```command
+   $ while true; do curl -s -o /dev/null http://$GATEWAY_URL/productpage; done
    ```
 
 1. Refresh the `productpage` in your browser.
@@ -178,16 +178,16 @@ If you would like the above policies enforced for a given namespace instead of t
 
 * Remove the rate limit configuration:
 
-  ```bash
-  istioctl delete -f ratelimit-handler.yaml
-  istioctl delete -f ratelimit-rule.yaml
+  ```command
+  $ istioctl delete -f ratelimit-handler.yaml
+  $ istioctl delete -f ratelimit-rule.yaml
   ```
 
 * Remove the application routing rules:
 
-  ```bash
-  istioctl delete -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
-  istioctl delete -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
+  ```command
+  $ istioctl delete -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+  $ istioctl delete -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
