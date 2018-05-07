@@ -33,22 +33,22 @@ This task describes how to configure Istio to expose a service outside of the se
 
   If you installed the [Istio-Initializer]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection), do
 
-  ```bash
-  kubectl apply -f samples/httpbin/httpbin.yaml
+  ```command
+  $ kubectl apply -f samples/httpbin/httpbin.yaml
   ```
 
   Without the Istio-Initializer:
 
-  ```bash
-  kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml)
+  ```command
+  $ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml)
   ```
 
 * Generate a certificate and key that will be used to demonstrate a TLS-secured gateway
 
    A private key and certificate can be created for testing using [OpenSSL](https://www.openssl.org/).
 
-   ```bash
-   openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /tmp/tls.key -out /tmp/tls.crt -subj "/CN=foo.bar.com"
+   ```command
+   $ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /tmp/tls.key -out /tmp/tls.crt -subj "/CN=foo.bar.com"
    ```
 
 ## Configuring ingress using an Istio Gateway resource (recommended)
@@ -142,37 +142,28 @@ Therefore, to test our `Gateway` we will send requests to the `istio-ingress` se
 
 1. Get the ingress controller pod's hostIP:
 
-   ```bash
-   kubectl -n istio-system get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
-   ```
-
-   ```bash
+   ```command
+   $ kubectl -n istio-system get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
    169.47.243.100
    ```
 
 1. Get the istio-ingress service's nodePorts for port 80 and 443:
 
-   ```bash
-   kubectl -n istio-system get svc istio-ingress
-   ```
-
-   ```bash
+   ```command
+   $ kubectl -n istio-system get svc istio-ingress
    NAME            CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
    istio-ingress   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
    ```
 
-   ```bash
-   export INGRESS_HOST=169.47.243.100:31486
-   export SECURE_INGRESS_HOST=169.47.243.100:32254
+   ```command
+   $ export INGRESS_HOST=169.47.243.100:31486
+   $ export SECURE_INGRESS_HOST=169.47.243.100:32254
    ```
 
 1. Access the httpbin service with either HTTP or HTTPS using _curl_:
 
-   ```bash
-   curl -I http://$INGRESS_HOST/status/200
-   ```
-
-   ```xxx
+   ```command
+   $ curl -I http://$INGRESS_HOST/status/200
    HTTP/1.1 200 OK
    server: envoy
    date: Mon, 29 Jan 2018 04:45:49 GMT
@@ -183,11 +174,8 @@ Therefore, to test our `Gateway` we will send requests to the `istio-ingress` se
    x-envoy-upstream-service-time: 48
    ```
 
-   ```bash
-   curl -I -k https://$SECURE_INGRESS_HOST/status/200
-   ```
-
-   ```xxx
+   ```command
+   $ curl -I -k https://$SECURE_INGRESS_HOST/status/200
    HTTP/1.1 200 OK
    server: envoy
    date: Mon, 29 Jan 2018 04:45:49 GMT
@@ -201,22 +189,16 @@ Therefore, to test our `Gateway` we will send requests to the `istio-ingress` se
 1. Access any other URL that has not been explicitly exposed. You should
    see a HTTP 404 error:
 
-   ```bash
-   curl -I http://$INGRESS_HOST/headers
-   ```
-
-   ```xxx
+   ```command
+   $ curl -I http://$INGRESS_HOST/headers
    HTTP/1.1 404 Not Found
    date: Mon, 29 Jan 2018 04:45:49 GMT
    server: envoy
    content-length: 0
    ```
 
-   ```bash
-   curl -I https://$SECURE_INGRESS_HOST/headers
-   ```
-
-   ```xxx
+   ```command
+   $ curl -I https://$SECURE_INGRESS_HOST/headers
    HTTP/1.1 404 Not Found
    date: Mon, 29 Jan 2018 04:45:49 GMT
    server: envoy
@@ -278,51 +260,39 @@ service declaration.
 
    * If your cluster is running in an environment that supports external load balancers, use the ingress' external address:
 
-   ```bash
-   kubectl get ingress simple-ingress -o wide
-   ```
-
-   ```xxx
+   ```command
+   $ kubectl get ingress simple-ingress -o wide
    NAME             HOSTS     ADDRESS                 PORTS     AGE
    simple-ingress   *         130.211.10.121          80        1d
    ```
 
-   ```bash
-   export INGRESS_HOST=130.211.10.121
+   ```command
+   $ export INGRESS_HOST=130.211.10.121
    ```
 
    * If load balancers are not supported, use the ingress controller pod's hostIP:
 
-   ```bash
-   kubectl -n istio-system get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
-   ```
-
-   ```xxx
+   ```command
+   $ kubectl -n istio-system get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
    169.47.243.100
    ```
 
    along with the istio-ingress service's nodePort for port 80:
 
-   ```bash
-   kubectl -n istio-system get svc istio-ingress
-   ```
-
-   ```xxx
+   ```command
+   $ kubectl -n istio-system get svc istio-ingress
    NAME            CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
    istio-ingress   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
    ```
 
-   ```bash
-   export INGRESS_HOST=169.47.243.100:31486
+   ```command
+   $ export INGRESS_HOST=169.47.243.100:31486
    ```
 
 1. Access the httpbin service using _curl_:
 
-   ```bash
-   curl -I http://$INGRESS_HOST/status/200
-   ```
-
-   ```xxx
+   ```command
+   $ curl -I http://$INGRESS_HOST/status/200
    HTTP/1.1 200 OK
    server: envoy
    date: Mon, 29 Jan 2018 04:45:49 GMT
@@ -336,11 +306,8 @@ service declaration.
 1. Access any other URL that has not been explicitly exposed. You should
    see a HTTP 404 error
 
-   ```bash
-   curl -I http://$INGRESS_HOST/headers
-   ```
-
-   ```xxx
+   ```command
+   $ curl -I http://$INGRESS_HOST/headers
    HTTP/1.1 404 Not Found
    date: Mon, 29 Jan 2018 04:45:49 GMT
    server: envoy
@@ -357,8 +324,8 @@ service declaration.
    > The secret MUST be called `istio-ingress-certs` in the `istio-system` namespace, or it will not
    be mounted and available to the Istio ingress controller.
 
-   ```bash
-   kubectl create -n istio-system secret tls istio-ingress-certs --key /tmp/tls.key --cert /tmp/tls.crt
+   ```command
+   $ kubectl create -n istio-system secret tls istio-ingress-certs --key /tmp/tls.key --cert /tmp/tls.crt
    ```
 
    Note that by default all service accounts in the `istio-system` namespace can access this ingress key/cert,
@@ -402,51 +369,39 @@ service declaration.
    * If your cluster is running in an environment that supports external load balancers,
    use the ingress' external address:
 
-   ```bash
-   kubectl get ingress secure-ingress -o wide
-   ```
-
-   ```xxx
+   ```command
+   $ kubectl get ingress secure-ingress -o wide
    NAME             HOSTS     ADDRESS                 PORTS     AGE
    secure-ingress   *         130.211.10.121          80        1d
    ```
 
-   ```bash
-   export SECURE_INGRESS_HOST=130.211.10.121
+   ```command
+   $ export SECURE_INGRESS_HOST=130.211.10.121
    ```
 
    * If load balancers are not supported, use the ingress controller pod's hostIP:
 
-   ```bash
-   kubectl -n istio-system get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
-   ```
-
-   ```xxx
+   ```command
+   $ kubectl -n istio-system get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
    169.47.243.100
    ```
 
    along with the istio-ingress service's nodePort for port 443:
 
-   ```bash
-   kubectl -n istio-system get svc istio-ingress
-   ```
-
-   ```xxx
+   ```command
+   $ kubectl -n istio-system get svc istio-ingress
    NAME            CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
    istio-ingress   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
    ```
 
-   ```bash
-   export SECURE_INGRESS_HOST=169.47.243.100:32254
+   ```command
+   $ export SECURE_INGRESS_HOST=169.47.243.100:32254
    ```
 
 1. Access the httpbin service using _curl_:
 
-   ```bash
-   curl -I -k https://$SECURE_INGRESS_HOST/status/200
-   ```
-
-   ```xxx
+   ```command
+   $ curl -I -k https://$SECURE_INGRESS_HOST/status/200
    HTTP/1.1 200 OK
    server: envoy
    date: Mon, 29 Jan 2018 04:45:49 GMT
@@ -460,11 +415,8 @@ service declaration.
 1. Access any other URL that has not been explicitly exposed. You should
    see a HTTP 404 error
 
-   ```bash
-   curl -I -k https://$SECURE_INGRESS_HOST/headers
-   ```
-
-   ```xxx
+   ```command
+   $ curl -I -k https://$SECURE_INGRESS_HOST/headers
    HTTP/1.1 404 Not Found
    date: Mon, 29 Jan 2018 04:45:49 GMT
    server: envoy
@@ -487,27 +439,27 @@ and may be especially useful when moving existing Kubernetes applications to Ist
 
 1. Remove the `Gateway` configuration.
 
-   ```bash
-   kubectl delete gateway httpbin-gateway
+   ```command
+   $ kubectl delete gateway httpbin-gateway
    ```
 
 1. Remove the `Ingress` configuration.
 
-   ```bash
-   kubectl delete ingress simple-ingress secure-ingress
+   ```command
+   $ kubectl delete ingress simple-ingress secure-ingress
    ```
 
 1. Remove the routing rule and secret.
 
-   ```bash
-   istioctl delete virtualservice httpbin
-   kubectl delete -n istio-system secret istio-ingress-certs
+   ```command
+   $ istioctl delete virtualservice httpbin
+   $ kubectl delete -n istio-system secret istio-ingress-certs
    ```
 
 1. Shutdown the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) service.
 
-   ```bash
-   kubectl delete -f samples/httpbin/httpbin.yaml
+   ```command
+   $ kubectl delete -f samples/httpbin/httpbin.yaml
    ```
 
 ## What's next

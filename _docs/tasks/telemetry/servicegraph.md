@@ -27,21 +27,16 @@ the example application throughout this task.
 
    In Kubernetes environments, execute the following command:
 
-   ```bash
-   kubectl apply -f install/kubernetes/addons/servicegraph.yaml
+   ```command
+   $ kubectl apply -f install/kubernetes/addons/servicegraph.yaml
    ```
 
 1. Verify that the service is running in your cluster.
 
    In Kubernetes environments, execute the following command:
 
-   ```bash
-   kubectl -n istio-system get svc servicegraph
-   ```
-
-   The output will be similar to:
-
-   ```xxx
+   ```command
+   $ kubectl -n istio-system get svc servicegraph
    NAME           CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
    servicegraph   10.59.253.165   <none>        8088/TCP   30s
    ```
@@ -51,8 +46,8 @@ the example application throughout this task.
    For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
    browser or issue the following command:
 
-   ```bash
-   curl http://$GATEWAY_URL/productpage
+   ```command
+   $ curl http://$GATEWAY_URL/productpage
    ```
 
    Refresh the page a few times (or send the command a few times) to generate a
@@ -64,8 +59,8 @@ the example application throughout this task.
 
    In Kubernetes environments, execute the following command:
 
-   ```bash
-   kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
+   ```command
+   $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
    ```
 
    Visit [http://localhost:8088/force/forcegraph.html](http://localhost:8088/force/forcegraph.html)
@@ -127,8 +122,8 @@ depends on the standard Istio metric configuration.
 * In Kubernetes environments, execute the following command to remove the
 Servicegraph add-on:
 
-   ```bash
-   kubectl delete -f install/kubernetes/addons/servicegraph.yaml
+   ```command
+   $ kubectl delete -f install/kubernetes/addons/servicegraph.yaml
    ```
 
 * If you are not planning to explore any follow-on tasks, refer to the

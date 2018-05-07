@@ -16,8 +16,9 @@ the [instructions](https://cloud.google.com/endpoints/docs/openapi/get-started-k
 to setup an Endpoints service on GKE.
 After setup, you should be able to get an API key and store it in `ENDPOINTS_KEY` environment variable and the external IP address `EXTERNAL_IP`.
 You may test the service using the following command:
-```bash
-curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${EXTERNAL_IP}:80/echo?key=${ENDPOINTS_KEY}"
+
+```command
+$ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${EXTERNAL_IP}:80/echo?key=${ENDPOINTS_KEY}"
 ```
 
 You need to install Istio with [instructions]({{home}}/docs/setup/kubernetes/quick-start.html#google-kubernetes-engine).
@@ -54,8 +55,8 @@ Otherwise, ESP won't be able to access Google cloud service control.
 
 1. Get the Ingress IP through [instructions]({{home}}/docs/tasks/traffic-management/ingress.html#verifying-http-ingress).
 You can verify accessing the Endpoints service through Ingress:
-```bash
-curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${INGRESS_HOST}:80/echo?key=${ENDPOINTS_KEY}"i
+```command
+$ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${INGRESS_HOST}:80/echo?key=${ENDPOINTS_KEY}"i
 ```
 
 ## HTTPS Endpoints service using secured Ingress
@@ -73,8 +74,8 @@ Adding `"--http_port=8081"` in the ESP deployment arguments and expose the HTTP 
 Update the mesh service deployment.
 
 1. Turn on mTLS in Istio by using the following command:
-```bash
-kubectl edit cm istio -n istio-system
+```command
+$ kubectl edit cm istio -n istio-system
 ```
 And uncomment the line:
 ```yaml
@@ -87,8 +88,8 @@ Accessing through Ingress works because Ingress does HTTP terminations.
 1. To secure the access at Ingress, following the [instructions]({{home}}/docs/tasks/traffic-management/ingress.html#configuring-secure-ingress-https).
 
 1. You can verify accessing the Endpoints service through secure Ingress:
-```bash
-curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "https://${INGRESS_HOST}/echo?key=${ENDPOINTS_KEY}" -k
+```command
+$ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "https://${INGRESS_HOST}/echo?key=${ENDPOINTS_KEY}" -k
 ```
 
 ## HTTPS Endpoints service using `LoadBalancer EXTERNAL_IP`
@@ -106,10 +107,10 @@ Update the mesh service deployment. See further readings on port naming rules
 [here]({{home}}/docs/setup/kubernetes/sidecar-injection.html#pod-spec-requirements).
 
 1. You can verify access to the Endpoints service through secure Ingress:
-```bash
-curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "https://${EXTERNAL_IP}/echo?key=${ENDPOINTS_KEY}" -k
+```command
+$ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "https://${EXTERNAL_IP}/echo?key=${ENDPOINTS_KEY}" -k
 ```
 
-## What next?
+## What's next
 
 Learn more about [GCP Endpoints](https://cloud.google.com/endpoints/docs/).

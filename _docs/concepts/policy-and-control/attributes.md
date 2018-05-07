@@ -17,7 +17,7 @@ environment this traffic occurs in. An Istio attribute carries a specific piece
 of information such as the error code of an API request, the latency of an API request, or the
 original IP address of a TCP connection. For example:
 
-```xxx
+```plain
 request.path: xyz/abc
 request.size: 234
 request.time: 12:34:56.789 04/17/2017

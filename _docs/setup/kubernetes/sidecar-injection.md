@@ -84,11 +84,9 @@ $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
 `kube-inject` can also be run without access to a running Kubernetes
 cluster. Create local copies of the injection and mesh configmap.
 
-```bash
-istioctl kube-inject --emitTemplate > inject-config.yaml
-
-kubectl -n istio-system get configmap istio -o=jsonpath='{.data.mesh}' > mesh-config.yaml
-
+```command
+$ istioctl kube-inject --emitTemplate > inject-config.yaml
+$ kubectl -n istio-system get configmap istio -o=jsonpath='{.data.mesh}' > mesh-config.yaml
 ```
 
 Run `kube-inject` over the input file.
@@ -143,9 +141,6 @@ Alternatively, you can also use Helm to generate the yaml file and install it ma
 
 ```command
 $ helm template --namespace=istio-system --set sidecar-injector.enabled=true install/kubernetes/helm/istio > istio.yaml
-```
-
-```command
 $ kubectl apply -f istio.yaml
 ```
 
@@ -159,8 +154,6 @@ Deploy sleep app. Verify both deployment and pod have a single container.
 
 ```command
 $ kubectl apply -f samples/sleep/sleep.yaml
-```
-```command
 $ kubectl get deployment -o wide
 NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE       CONTAINERS   IMAGES       SELECTOR
 sleep     1         1         1            1           12m       sleep        tutum/curl   app=sleep
@@ -257,7 +250,7 @@ The sidecar injection template uses [https://golang.org/pkg/text/template](https
 when parsed and executed, is decoded to the following
 struct containing the list of containers and volumes to inject into the pod.
 
-```golang
+```go
 type SidecarInjectionSpec struct {
       InitContainers []v1.Container `yaml:"initContainers"`
       Containers     []v1.Container `yaml:"containers"`
@@ -267,7 +260,7 @@ type SidecarInjectionSpec struct {
 
 The template is applied to the following data structure at runtime.
 
-```golang
+```go
 type SidecarTemplateData struct {
     ObjectMeta  *metav1.ObjectMeta
     Spec        *v1.PodSpec

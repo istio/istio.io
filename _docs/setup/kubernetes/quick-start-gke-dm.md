@@ -69,11 +69,8 @@ Once deployment is complete, do the following on the workstation where you've in
 1. Bootstrap `kubectl` for the cluster you just created and confirm the cluster is
 running and Istio is enabled
 
-   ```bash
-   gcloud container clusters list
-   ```
-
-   ```xxx
+   ```command
+   $ gcloud container clusters list
    NAME           ZONE           MASTER_VERSION                    MASTER_IP       MACHINE_TYPE   NODE_VERSION  NUM_NODES  STATUS
    istio-cluster  us-central1-a  v1.9.2-gke.1                      130.211.216.64  n1-standard-2  v1.9.2-gke.1  3          RUNNING
    ```
@@ -82,19 +79,16 @@ running and Istio is enabled
 
 1. Now acquire the credentials for this cluster
 
-   ```bash
-   gcloud container clusters get-credentials istio-cluster --zone=us-central1-a
+   ```command
+   $ gcloud container clusters get-credentials istio-cluster --zone=us-central1-a
    ```
 
 ## Verify installation
 
 Verify Istio is installed in its own namespace
 
-```bash
-kubectl get deployments,ing -n istio-system
-```
-
-```xxx
+```command
+$kubectl get deployments,ing -n istio-system
 NAME                       DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 deploy/grafana             1         1         1            1           3m
 deploy/istio-citadel       1         1         1            1           3m
@@ -109,11 +103,8 @@ deploy/zipkin              1         1         1            1           3m
 
 Now confirm that the Bookinfo sample application is also installed:
 
-```bash
-kubectl get deployments,ing
-```
-
-```xxx
+```command
+$ kubectl get deployments,ing
 NAME                    DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 deploy/details-v1       1         1         1            1           3m
 deploy/productpage-v1   1         1         1            1           3m
@@ -141,11 +132,9 @@ You can also view the installation using the ***Kubernetes Engine -> Workloads**
 
 1. Set up an environment variable for Bookinfo's external IP address:
 
-   ```bash
-   kubectl get ingress -o wide
-   ```
-   ```bash
-   export GATEWAY_URL=35.202.120.89
+   ```command
+   $ kubectl get ingress -o wide
+   $ export GATEWAY_URL=35.202.120.89
    ```
 
 1. Verify you can access the Bookinfo ```http://${GATEWAY_URL}/productpage```:
@@ -158,8 +147,8 @@ You can also view the installation using the ***Kubernetes Engine -> Workloads**
     %}
 
 1. Now send some traffic to it:
-   ```bash
-   for i in {1..100}; do curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage; done
+   ```command
+   $ for i in {1..100}; do curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage; done
    ```
 
 ## Verify installed Istio plugins
@@ -172,11 +161,11 @@ If you are using Cloud Shell rather than the installed `gcloud` client, you can 
 
 Set up a tunnel to Grafana:
 
-```bash
-kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
+```command
+$ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
 ```
 then
-```xxx
+```plain
 http://localhost:3000/dashboard/db/istio-dashboard
 ```
 You should see some statistics for the requests you sent earlier.
@@ -194,13 +183,13 @@ For more details about using Grafana, see [About the Grafana Add-on]({{home}}/do
 
 Prometheus is installed with Grafana. You can view Istio and application metrics using the console as follows:
 
-```bash
-kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
+```command
+$ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
 ```
 
 View the console at:
 
-```xxx
+```plain
 http://localhost:9090/graph
 ```
 
@@ -217,13 +206,13 @@ For more details, see [About the Prometheus Add-on]({{home}}/docs/tasks/telemetr
 
 Set up a tunnel to ServiceGraph:
 
-```bash
-kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
+```command
+$ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
 ```
 
 You should see the Bookinfo service topology at
 
-```xxx
+```plain
 http://localhost:8088/dotviz
 ```
 
@@ -240,13 +229,13 @@ For more details, see [About the ServiceGraph Add-on]({{home}}/docs/tasks/teleme
 
 Set up a tunnel to Zipkin:
 
-```bash
-kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=zipkin -o jsonpath='{.items[0].metadata.name}') 9411:9411 &
+```command
+$ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=zipkin -o jsonpath='{.items[0].metadata.name}') 9411:9411 &
 ```
 
 You should see the trace statistics sent earlier:
 
-```xxx
+```plain
 http://localhost:9411
 ```
 

@@ -33,11 +33,8 @@ Use the parameter *-n yournamespace* to specify a namespace other than the defau
 
 Verify the cluster-level Citadel is running:
 
-```bash
-kubectl get deploy -l istio=istio-citadel -n istio-system
-```
-
-```bash
+```command
+$ kubectl get deploy -l istio=istio-citadel -n istio-system
 NAME            DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 istio-citadel   1         1         1            1           1m
 ```
@@ -48,8 +45,8 @@ Citadel is up if the "AVAILABLE" column is 1.
 
 1. Verify AuthPolicy setting in ConfigMap.
 
-   ```bash
-   kubectl get configmap istio -o yaml -n istio-system | grep authPolicy | head -1
+   ```command
+   $ kubectl get configmap istio -o yaml -n istio-system | grep authPolicy | head -1
    ```
 
    Istio mutual TLS authentication is enabled if the line `authPolicy: MUTUAL_TLS` is uncommented (doesn't have a `#`).
@@ -65,10 +62,8 @@ and send request to other services by curl.
 There are several steps:
 
 1. get the productpage pod name
-   ```bash
-   kubectl get pods -l app=productpage
-   ```
-   ```bash
+   ```command
+   $ kubectl get pods -l app=productpage
    NAME                              READY     STATUS    RESTARTS   AGE
    productpage-v1-4184313719-5mxjc   2/2       Running   0          23h
    ```
@@ -76,15 +71,13 @@ There are several steps:
    Make sure the pod is "Running".
 
 1. ssh into the Envoy container
-   ```bash
-   kubectl exec -it productpage-v1-4184313719-5mxjc -c istio-proxy /bin/bash
+   ```command
+   $ kubectl exec -it productpage-v1-4184313719-5mxjc -c istio-proxy /bin/bash
    ```
 
 1. make sure the key/cert is in /etc/certs/ directory
-   ```bash
-   ls /etc/certs/
-   ```
-   ```bash
+   ```command
+   $ ls /etc/certs/
    cert-chain.pem   key.pem   root-cert.pem
    ```
 
@@ -93,26 +86,24 @@ There are several steps:
    In this example, we only have one Citadel in a cluster, so all Envoys have the same `root-cert.pem`.
 
 1. make sure 'curl' is installed by
-   ```bash
-   curl
+   ```command
+   $ curl
    ```
    If curl is installed, you should see something like
-   ```bash
+   ```plain
    curl: try 'curl --help' or 'curl --manual' for more information
    ```
 
-   Otherwise run below command to start over
-   ```bash
-   kubectl apply -f <(istioctl kube-inject --debug -f samples/bookinfo/kube/bookinfo.yaml)
+   Otherwise run the command below to start over
+   ```command
+   $ kubectl apply -f <(istioctl kube-inject --debug -f samples/bookinfo/kube/bookinfo.yaml)
    ```
 
    > Istio proxy image does not have curl installed while the debug image does. The "--debug" flag in above command redeploys the service with debug image.
 
 1. send requests to another service, for example, details.
-   ```bash
-   curl https://details:9080/details/0 -v --key /etc/certs/key.pem --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem -k
-   ```
-   ```bash
+   ```command
+   $ curl https://details:9080/details/0 -v --key /etc/certs/key.pem --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem -k
    ...
    error fetching CN from cert:The requested data were not available.
    ...

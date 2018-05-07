@@ -278,13 +278,8 @@ spec:
 
 Create the resources:
 
-```bash
-kubectl apply -f logging-stack.yaml
-```
-
-You should see the following:
-
-```xxx
+```command
+$ kubectl apply -f logging-stack.yaml
 namespace "logging" created
 service "elasticsearch" created
 deployment "elasticsearch" created
@@ -349,12 +344,8 @@ spec:
 
 Create the resources:
 
-```bash
-istioctl create -f fluentd-istio.yaml
-```
-
-The expected output is similar to:
-```
+```command
+$ istioctl create -f fluentd-istio.yaml
 Created config logentry/istio-system/newlog at revision 22374
 Created config fluentd/istio-system/handler at revision 22375
 Created config rule/istio-system/newlogtofluentd at revision 22376
@@ -373,18 +364,18 @@ example stack.
    sample, visit `http://$GATEWAY_URL/productpage` in your web browser
    or issue the following command:
 
-   ```bash
-   curl http://$GATEWAY_URL/productpage
+   ```command
+   $ curl http://$GATEWAY_URL/productpage
    ```
 
 1. In a Kubernetes environment, setup port-forwarding for Kibana by
    executing the following command:
 
-   ```bash
-   kubectl -n logging port-forward $(kubectl -n logging get pod -l app=kibana -o jsonpath='{.items[0].metadata.name}') 5601:5601
+   ```command
+   $ kubectl -n logging port-forward $(kubectl -n logging get pod -l app=kibana -o jsonpath='{.items[0].metadata.name}') 5601:5601
    ```
 
-    Leave the command running. Press Ctrl-C to exit when done accessing the Kibana UI.
+   Leave the command running. Press Ctrl-C to exit when done accessing the Kibana UI.
 
 1. Navigate to the [Kibana UI](http://localhost:5601/) and click the "Set up index patterns" in the top right.
 
@@ -398,14 +389,14 @@ example stack.
 
 * Remove the new telemetry configuration:
 
-  ```bash
-  istioctl delete -f fluentd-istio.yaml
+  ```command
+  $ istioctl delete -f fluentd-istio.yaml
   ```
 
 * Remove the example Fluentd, Elasticsearch, Kibana stack:
 
-  ```bash
-  kubectl delete -f logging-stack.yaml
+  ```command
+  $ kubectl delete -f logging-stack.yaml
   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
