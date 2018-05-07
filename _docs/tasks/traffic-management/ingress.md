@@ -38,14 +38,14 @@ The following are known limitations of Istio Ingress:
 
   If you installed the [Istio-Initializer]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection), do
 
-  ```bash
-  kubectl apply -f samples/httpbin/httpbin.yaml
+  ```command
+  $ kubectl apply -f samples/httpbin/httpbin.yaml
   ```
 
   Without the Istio-Initializer:
 
-  ```bash
-  kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml)
+  ```command
+  $ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml)
   ```
 
 ## Configuring ingress (HTTP)
@@ -86,51 +86,39 @@ The following are known limitations of Istio Ingress:
 
    * If your cluster is running in an environment that supports external load balancers, use the ingress' external address:
 
-   ```bash
-   kubectl get ingress simple-ingress -o wide
-   ```
-
-   ```xxx
+   ```command
+   $ kubectl get ingress simple-ingress -o wide
    NAME             HOSTS     ADDRESS                 PORTS     AGE
    simple-ingress   *         130.211.10.121          80        1d
    ```
 
-   ```bash
-   export INGRESS_HOST=130.211.10.121
+   ```command
+   $ export INGRESS_HOST=130.211.10.121
    ```
 
    * If load balancers are not supported, use the ingress controller pod's hostIP:
 
-   ```bash
-   kubectl -n istio-system get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
-   ```
-
-   ```xxx
+   ```command
+   $ kubectl -n istio-system get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
    169.47.243.100
    ```
 
    along with the istio-ingress service's nodePort for port 80:
 
-   ```bash
-   kubectl -n istio-system get svc istio-ingress
-   ```
-
-   ```xxx
+   ```command
+   $ kubectl -n istio-system get svc istio-ingress
    NAME            CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
    istio-ingress   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
    ```
 
-   ```bash
-   export INGRESS_HOST=169.47.243.100:31486
+   ```command
+   $ export INGRESS_HOST=169.47.243.100:31486
    ```
 
 1. Access the httpbin service using _curl_:
 
-   ```bash
-   curl -I http://$INGRESS_HOST/status/200
-   ```
-
-   ```xxx
+   ```command
+   $ curl -I http://$INGRESS_HOST/status/200
    HTTP/1.1 200 OK
    server: envoy
    date: Mon, 29 Jan 2018 04:45:49 GMT
@@ -144,11 +132,8 @@ The following are known limitations of Istio Ingress:
 1. Access any other URL that has not been explicitly exposed. You should
    see a HTTP 404 error
 
-   ```bash
-   curl -I http://$INGRESS_HOST/headers
-   ```
-
-   ```xxx
+   ```command
+   $ curl -I http://$INGRESS_HOST/headers
    HTTP/1.1 404 Not Found
    date: Mon, 29 Jan 2018 04:45:49 GMT
    server: envoy
@@ -161,8 +146,8 @@ The following are known limitations of Istio Ingress:
 
    A private key and certificate can be created for testing using [OpenSSL](https://www.openssl.org/).
 
-   ```bash
-   openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /tmp/tls.key -out /tmp/tls.crt -subj "/CN=foo.bar.com"
+   ```command
+   $ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /tmp/tls.key -out /tmp/tls.crt -subj "/CN=foo.bar.com"
    ```
 
 1. Create the secret
@@ -172,8 +157,8 @@ The following are known limitations of Istio Ingress:
 
    > The secret must be called `istio-ingress-certs` in `istio-system` namespace, for it to be mounted on Istio Ingress.
 
-   ```bash
-   kubectl create -n istio-system secret tls istio-ingress-certs --key /tmp/tls.key --cert /tmp/tls.crt
+   ```command
+   $ kubectl create -n istio-system secret tls istio-ingress-certs --key /tmp/tls.key --cert /tmp/tls.crt
    ```
 
 1. Create the Ingress specification for the httpbin service
@@ -213,51 +198,39 @@ The following are known limitations of Istio Ingress:
    * If your cluster is running in an environment that supports external load balancers,
      use the ingress' external address:
 
-     ```bash
-     kubectl get ingress secure-ingress -o wide
-     ```
-
-     ```xxx
+     ```command
+     $ kubectl get ingress secure-ingress -o wide
      NAME             HOSTS     ADDRESS                 PORTS     AGE
      secure-ingress   *         130.211.10.121          80        1d
      ```
 
-     ```bash
-     export INGRESS_HOST=130.211.10.121
+     ```command
+     $ export INGRESS_HOST=130.211.10.121
      ```
 
    * If load balancers are not supported, use the ingress controller pod's hostIP:
 
-     ```bash
-     kubectl -n istio-system get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
-     ```
-
-     ```xxx
+     ```command
+     $ kubectl -n istio-system get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
      169.47.243.100
      ```
 
      along with the istio-ingress service's nodePort for port 443:
 
-     ```bash
-     kubectl -n istio-system get svc istio-ingress
-     ```
-
-     ```xxx
+     ```command
+     $ kubectl -n istio-system get svc istio-ingress
      NAME            CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
      istio-ingress   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
      ```
 
-     ```bash
-     export INGRESS_HOST=169.47.243.100:32254
+     ```command
+     $ export INGRESS_HOST=169.47.243.100:32254
      ```
 
 1. Access the httpbin service using _curl_:
 
-   ```bash
-   curl -I -k https://$INGRESS_HOST/status/200
-   ```
-
-   ```xxx
+   ```command
+   $ curl -I -k https://$INGRESS_HOST/status/200
    HTTP/1.1 200 OK
    server: envoy
    date: Mon, 29 Jan 2018 04:45:49 GMT
@@ -271,11 +244,8 @@ The following are known limitations of Istio Ingress:
 1. Access any other URL that has not been explicitly exposed. You should
    see a HTTP 404 error
 
-   ```bash
-   curl -I -k https://$INGRESS_HOST/headers
-   ```
-
-   ```xxx
+   ```command
+   $ curl -I -k https://$INGRESS_HOST/headers
    HTTP/1.1 404 Not Found
    date: Mon, 29 Jan 2018 04:45:49 GMT
    server: envoy
@@ -291,11 +261,8 @@ The following are known limitations of Istio Ingress:
     these RBAC set up to only allow istio-ingress-service-account to access ingress key/cert.
 
     We can use `kubectl` to list all secrets in namespace istio-system that we need to protect using RBAC.
-   ```bash
-   kubectl get secrets -n istio-system
-   ```
-    This produces the following output:
-   ```xxx
+   ```command
+   $ kubectl get secrets -n istio-system
    NAME                                        TYPE                                  DATA      AGE
    istio-ingress-certs                         kubernetes.io/tls                     2         7d
    istio.istio-ingress-service-account         istio.io/key-and-cert                 3         7d
@@ -306,16 +273,16 @@ The following are known limitations of Istio Ingress:
 
     Record `ClusterRole` istio-mixer-istio-system and istio-pilot-istio-system. We will refer to
     these copies when we redefine them to avoid breaking access permissions to other resources.
-   ```bash
-   kubectl describe ClusterRole istio-mixer-istio-system
-   kubectl describe ClusterRole istio-pilot-istio-system
+   ```command
+   $ kubectl describe ClusterRole istio-mixer-istio-system
+   $ kubectl describe ClusterRole istio-pilot-istio-system
    ```
     Delete existing `ClusterRoleBindings` and `ClusterRole`.
 
-   ```bash
-   kubectl delete ClusterRoleBinding istio-pilot-admin-role-binding-istio-system
-   kubectl delete ClusterRoleBinding istio-mixer-admin-role-binding-istio-system
-   kubectl delete ClusterRole istio-mixer-istio-system
+   ```command
+   $ kubectl delete ClusterRoleBinding istio-pilot-admin-role-binding-istio-system
+   $ kubectl delete ClusterRoleBinding istio-mixer-admin-role-binding-istio-system
+   $ kubectl delete ClusterRole istio-mixer-istio-system
    ```
     As istio-pilot-istio-system is also bound to istio-ingress-service-account, we will delete
     istio-pilot-istio-system in next step.
@@ -354,17 +321,17 @@ The following are known limitations of Istio Ingress:
      apiGroup: rbac.authorization.k8s.io
    ```
 
-   ```bash
-   kubectl apply -f istio-mixer-istio-system.yaml
+   ```command
+   $ kubectl apply -f istio-mixer-istio-system.yaml
    ```
 
 1. Update RBAC set up for istio-pilot-service-account and istio-ingress-service-account
 
     Delete existing `ClusterRoleBinding` and `ClusterRole`.
 
-   ```bash
-   kubectl delete clusterrolebinding istio-ingress-admin-role-binding-istio-system
-   kubectl delete ClusterRole istio-pilot-istio-system
+   ```command
+   $ kubectl delete clusterrolebinding istio-ingress-admin-role-binding-istio-system
+   $ kubectl delete ClusterRole istio-pilot-istio-system
    ```
 
     Create istio-pilot-istio-system.yaml, which allows istio-pilot-service-account to read
@@ -401,8 +368,8 @@ The following are known limitations of Istio Ingress:
      apiGroup: rbac.authorization.k8s.io
    ```
 
-   ```bash
-   kubectl apply -f istio-pilot-istio-system.yaml
+   ```command
+   $ kubectl apply -f istio-pilot-istio-system.yaml
    ```
 
     Create istio-ingress-istio-system.yaml which allows istio-ingress-service-account to read
@@ -443,15 +410,15 @@ The following are known limitations of Istio Ingress:
      apiGroup: rbac.authorization.k8s.io
    ```
 
-   ```bash
-   kubectl apply -f istio-ingress-istio-system.yaml
+   ```command
+   $ kubectl apply -f istio-ingress-istio-system.yaml
    ```
 
 1. Update RBAC set up for istio-citadel-service-account
 
     Record `ClusterRole` istio-citadel-istio-system.
-   ```bash
-   kubectl describe ClusterRole istio-citadel-istio-system
+   ```command
+   $ kubectl describe ClusterRole istio-citadel-istio-system
    ```
 
     Create istio-citadel-istio-system.yaml, which updates existing `ClusterRole` istio-citadel-istio-system
@@ -486,26 +453,20 @@ The following are known limitations of Istio Ingress:
      name: istio-citadel-istio-system
      apiGroup: rbac.authorization.k8s.io
    ```
-   ```bash
-   kubectl apply -f istio-citadel-istio-system.yaml
+   ```command
+   $ kubectl apply -f istio-citadel-istio-system.yaml
    ```
 1. Verify that the new `ClusterRoles` work as expected
 
-   ```bash
-   kubectl auth can-i get secret/istio-ingress-certs --as system:serviceaccount:istio-system:istio-ingress-service-account -n istio-system
-   ```
-    whose output should be
-   ```xxx
+   ```command
+   $ kubectl auth can-i get secret/istio-ingress-certs --as system:serviceaccount:istio-system:istio-ingress-service-account -n istio-system
    yes
    ```
     In this command, we can replace verb "get" with "list" or "watch", and the output should always
     be "yes". Now let us test with other service accounts.
 
-   ```bash
-   kubectl auth can-i get secret/istio-ingress-certs --as system:serviceaccount:istio-system:istio-pilot-service-account -n istio-system
-   ```
-    whose output should be
-   ```xxx
+   ```command
+   $ kubectl auth can-i get secret/istio-ingress-certs --as system:serviceaccount:istio-system:istio-pilot-service-account -n istio-system
    no - Unknown user "system:serviceaccount:istio-system:istio-pilot-service-account"
    ```
     In this command, we can replace service account with istio-mixer-service-account, or
@@ -515,11 +476,8 @@ The following are known limitations of Istio Ingress:
     Accessibility to secret resources except istio-ingress-certs should remain the same for
     istio-citadel-service-account, istio-ingress-service-account, istio-pilot-service-account and
     istio-mixer-service-account.
-   ```bash
-   kubectl auth can-i get secret/istio-citadel-service-account-token-r14xm --as system:serviceaccount:istio-system:istio-citadel-service-account -n istio-system
-   ```
-    whose output should be
-   ```xxx
+   ```command
+   $ kubectl auth can-i get secret/istio-citadel-service-account-token-r14xm --as system:serviceaccount:istio-system:istio-citadel-service-account -n istio-system
    yes
    ```
 
@@ -600,15 +558,15 @@ an Istio route rule.
 
 1. Remove the secret and Ingress Resource definitions.
 
-   ```bash
-   kubectl delete ingress simple-ingress secure-ingress
-   kubectl delete -n istio-system secret istio-ingress-certs
+   ```command
+   $ kubectl delete ingress simple-ingress secure-ingress
+   $ kubectl delete -n istio-system secret istio-ingress-certs
    ```
 
 1. Shutdown the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) service.
 
-   ```bash
-   kubectl delete -f samples/httpbin/httpbin.yaml
+   ```command
+   $ kubectl delete -f samples/httpbin/httpbin.yaml
    ```
 
 ## What's next

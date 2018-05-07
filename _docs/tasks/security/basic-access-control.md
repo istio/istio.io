@@ -19,9 +19,9 @@ This task shows how to control access to a service using the Kubernetes labels.
 * Initialize the application version routing to direct `reviews` service requests from
   test user "jason" to version v2 and requests from any other user to v3.
 
-  ```bash
-  istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
-  istioctl create -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
+  ```command
+  $ istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+  $ istioctl create -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
   ```
 
   > If you have conflicting rules that you set in previous tasks,
@@ -50,13 +50,8 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
 
    Run the following command to set up the deny rule along with a handler and an instance.
 
-   ```bash
-   istioctl create -f samples/bookinfo/kube/mixer-rule-deny-label.yaml
-   ```
-
-   You can expect to see the output similar to the following:
-
-   ```bash
+   ```command
+   $ istioctl create -f samples/bookinfo/kube/mixer-rule-deny-label.yaml
    Created config denier/default/denyreviewsv3handler at revision 2882105
    Created config checknothing/default/denyreviewsv3request at revision 2882106
    Created config rule/default/denyreviewsv3 at revision 2882107
@@ -64,7 +59,7 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
 
    Notice the following in the `denyreviewsv3` rule:
 
-   ```xxx
+   ```plain
    match: destination.labels["app"] == "ratings" && source.labels["app"]=="reviews" && source.labels["version"] == "v3"
    ```
 
@@ -89,8 +84,8 @@ Istio also supports attribute-based whitelists and blacklists. The following whi
 
 1. Remove the denier configuration that you added in the previous section.
 
-   ```bash
-   istioctl delete -f samples/bookinfo/kube/mixer-rule-deny-label.yaml
+   ```command
+   $ istioctl delete -f samples/bookinfo/kube/mixer-rule-deny-label.yaml
    ```
 
 1. Verify that when you access the Bookinfo `productpage` (http://$GATEWAY_URL/productpage) without logging in, you see red stars.
@@ -114,8 +109,8 @@ Istio also supports attribute-based whitelists and blacklists. The following whi
 
    and then run the following command:
 
-   ```bash
-   istioctl create -f whitelist-handler.yaml
+   ```command
+   $ istioctl create -f whitelist-handler.yaml
    ```
 
 1. Extract the version label by creating an instance of the [`listentry`]({{home}}/docs/reference/config/template/listentry.html) template.
@@ -132,8 +127,8 @@ Save the following YAML snippet as `appversion-instance.yaml`:
 
    and then run the following command:
 
-   ```bash
-   istioctl create -f appversion-instance.yaml
+   ```command
+   $ istioctl create -f appversion-instance.yaml
    ```
 
 1. Enable `whitelist` checking for the ratings service.
@@ -154,8 +149,8 @@ Save the following YAML snippet as `checkversion-rule.yaml`:
 
    and then run the following command:
 
-   ```bash
-   istioctl create -f checkversion-rule.yaml
+   ```command
+   $ istioctl create -f checkversion-rule.yaml
    ```
 
 1. Verify that when you access the Bookinfo `productpage` (http://$GATEWAY_URL/productpage) without logging in, you see **no** stars.
@@ -165,17 +160,17 @@ Verify that after logging in as "jason" you see black stars.
 
 * Remove the mixer configuration:
 
-  ```bash
-  istioctl delete -f checkversion-rule.yaml
-  istioctl delete -f appversion-instance.yaml
-  istioctl delete -f whitelist-handler.yaml
+  ```command
+  $ istioctl delete -f checkversion-rule.yaml
+  $ istioctl delete -f appversion-instance.yaml
+  $ istioctl delete -f whitelist-handler.yaml
   ```
 
 * Remove the application routing rules:
 
-  ```bash
-  istioctl delete -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
-  istioctl delete -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
+  ```command
+  $ istioctl delete -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+  $ istioctl delete -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
