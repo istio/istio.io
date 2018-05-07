@@ -47,8 +47,8 @@ represents.
 
 1. Display information about a pod:
 
-   ```bash
-   kubectl describe pod <pod-name>
+   ```command
+   $ kubectl describe pod <pod-name>
    ```
 
   where `<pod-name>` is the name of one of your pods.
@@ -122,12 +122,8 @@ except if a word is a proper noun or an acronym.
 
 Verify that the pod is running on your chosen node:
 
-```bash
-kubectl get pods --output=wide
-```
-The output is similar to this:
-
-```xxx
+```command
+$ kubectl get pods --output=wide
 NAME     READY     STATUS    RESTARTS   AGE    IP           NODE
 nginx    1/1       Running   0          13s    10.200.0.4   worker0
 ```

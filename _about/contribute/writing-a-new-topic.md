@@ -194,7 +194,7 @@ current hierarchy:
 
 You can embed blocks of preformatted content using the normal markdown technique:
 
-<pre class="language-markdown"><code>```
+<pre class="language-markdown"><code>```plain
 func HelloWorld() {
   fmt.Println("Hello World")
 }
@@ -203,14 +203,14 @@ func HelloWorld() {
 
 The above produces this kind of output:
 
-```xxx
+```plain
 func HelloWorld() {
   fmt.Println("Hello World")
 }
 ```
 
-In general, you should indicate the nature of the content in the preformatted block. You do this
-by appending a name after the initial set of tick marks
+You must indicate the nature of the content in the preformatted block by appending a name after the initial set of tick
+marks:
 
 <pre class="language-markdown"><code>```go
 func HelloWorld() {
@@ -228,7 +228,55 @@ func HelloWorld() {
 ```
 
 You can use `markdown`, `yaml`, `json`, `java`, `javascript`, `c`, `cpp`, `csharp`, `go`, `html`, `protobuf`,
-`perl`, `docker`, and `bash`.
+`perl`, `docker`, and `bash`, along with `command` and its variants described below.
+
+### Showing commands and command output
+
+If you want to show one or more bash command-lines with some output, you use the `command` indicator:
+
+<pre class="language-markdown"><code>```command
+$ echo "Hello"
+Hello
+```
+</code></pre>
+
+which produces:
+
+```command
+$ echo "Hello"
+Hello
+```
+
+You can have as many command-lines as you want, but only one chunk of output is recognized.
+
+<pre class="language-markdown"><code>```command
+$ echo "Hello" >file.txt
+$ cat file.txt
+Hello
+```
+</code></pre>
+
+which yields:
+
+```command
+$ echo "Hello" >file.txt
+$ cat file.txt
+Hello
+```
+
+You can also use line continuation in your command-lines:
+
+```command
+$ echo "Hello" \
+    >file.txt
+$ echo "There" >>file.txt
+$ cat file.txt
+Hello
+There
+```
+
+If the output is the command is JSON or YAML, you can use `command-output-as-json` and `command-output-as-yaml`
+instead of merely `command` in order to apply syntax coloring to the command's output.
 
 ## Displaying file content
 
@@ -258,13 +306,13 @@ redirects to the site very easily.
 In the page that is the target of the redirect (where you'd like users to land), you simply add the
 following to the front-matter:
 
-```xxx
+```plain
 redirect_from: <url>
 ```
 
 For example
 
-```xxx
+```plain
 ---
 title: Frequently Asked Questions
 description: Questions Asked Frequently
@@ -281,7 +329,7 @@ to istio.io/help/faq as normal, as well as istio.io/faq.
 
 You can also add many redirects like so:
 
-```xxx
+```plain
 ---
 title: Frequently Asked Questions
 description: Questions Asked Frequently

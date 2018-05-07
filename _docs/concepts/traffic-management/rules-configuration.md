@@ -74,7 +74,7 @@ domain name (FQDN). It is used by Istio Pilot for matching rules to services.
 Normally, the FQDN of the service is composed from three components: *name*,
 *namespace*, and *domain*:
 
-```xxx
+```plain
 FQDN = name + "." + namespace + "." + domain
 ```
 

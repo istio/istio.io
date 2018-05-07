@@ -16,14 +16,14 @@ toc: false
 The latest Istio monthly release is {{site.data.istio.version}} ([release notes]({{site.data.istio.version}}.html)). You can
 [download {{site.data.istio.version}}](https://github.com/istio/istio/releases) with:
 
-```bash
-curl -L https://git.io/getLatestIstio | sh -
+```command
+$ curl -L https://git.io/getLatestIstio | sh -
 ```
 
 The most recent stable release is 0.2.12. You can [download 0.2.12](https://github.com/istio/istio/releases/tag/0.2.12) with:
 
-```bash
-curl -L https://git.io/getIstio | sh -
+```command
+$ curl -L https://git.io/getIstio | sh -
 ```
 
 [Archived documentation for the 0.2.12 release](https://archive.istio.io/v0.2/docs/).

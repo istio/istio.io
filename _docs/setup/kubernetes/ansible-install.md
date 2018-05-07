@@ -28,8 +28,8 @@ The following prerequisites must be met if using OpenShift.
 This playbook will download and install Istio locally on your machine. To deploy the default settings of
 Istio on OpenShift, the following command may be used:
 
-```bash
-ansible-playbook main.yml
+```command
+$ ansible-playbook main.yml
 ```
 
 ## Customization with Ansible
@@ -55,8 +55,8 @@ The currently exposed options are:
 
 Operator installs Istio using all defaults on OpenShift:
 
-```bash
-ansible-playbook main.yml
+```command
+$ ansible-playbook main.yml
 ```
 
 ## Operational overrides
@@ -67,32 +67,32 @@ The following commands describe how an operator could use overrides with this An
 
 Operator installs Istio on Kubernetes:
 
-```bash
-ansible-playbook main.yml -e '{"cluster_flavour": "k8s"}'
+```command
+$ ansible-playbook main.yml -e '{"cluster_flavour": "k8s"}'
 ```
 
 Operator installs Istio on Kubernetes and the path to `kubectl` is explicitly set:
 
-```bash
-ansible-playbook main.yml -e '{"cluster_flavour": "k8s", "cmd_path": "~/kubectl"}'
+```command
+$ ansible-playbook main.yml -e '{"cluster_flavour": "k8s", "cmd_path": "~/kubectl"}'
 ```
 
 Operator installs Istio on OpenShift with settings other than the default:
 
-```bash
-ansible-playbook main.yml -e '{"istio": {"release_tag_name": "0.6.0", "auth": true, "delete_resources": true}}'
+```command
+$ ansible-playbook main.yml -e '{"istio": {"release_tag_name": "0.6.0", "auth": true, "delete_resources": true}}'
 ```
 
 Operator installs Istio on OpenShift with customized addons:
 
-```bash
-ansible-playbook main.yml -e '{"istio": {"delete_resources": true, "addon": ["grafana", "prometheus", "jaeger"]}}'
+```command
+$ ansible-playbook main.yml -e '{"istio": {"delete_resources": true, "addon": ["grafana", "prometheus", "jaeger"]}}'
 ```
 
 Operator installs Istio on OpenShift and additionally wants to deploy some of the samples:
 
-```bash
-ansible-playbook main.yml -e '{"istio": {"samples": ["helloworld", "bookinfo"]}}'
+```command
+$ ansible-playbook main.yml -e '{"istio": {"samples": ["helloworld", "bookinfo"]}}'
 ```
 
 > When Jaeger is enabled, Zipkin is disabled even when Zipkin is selected in the addons.

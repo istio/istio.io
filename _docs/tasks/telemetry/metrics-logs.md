@@ -118,13 +118,8 @@ as the example application throughout this task.
 
 1. Push the new configuration.
 
-   ```bash
-   istioctl create -f new_telemetry.yaml
-   ```
-
-   The expected output is similar to:
-
-   ```xxx
+   ```command
+   $ istioctl create -f new_telemetry.yaml
    Created config metric/istio-system/doublerequestcount at revision 1973035
    Created config prometheus/istio-system/doublehandler at revision 1973036
    Created config rule/istio-system/doubleprom at revision 1973037
@@ -138,8 +133,8 @@ as the example application throughout this task.
    For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
    browser or issue the following command:
 
-   ```bash
-   curl http://$GATEWAY_URL/productpage
+   ```command
+   $ curl http://$GATEWAY_URL/productpage
    ```
 
 1. Verify that the new metric values are being generated and collected.
@@ -147,8 +142,8 @@ as the example application throughout this task.
    In a Kubernetes environment, setup port-forwarding for Prometheus by
    executing the following command:
 
-   ```bash
-   kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
+   ```command
+   $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
    ```
 
    View values for the new metric via the [Prometheus UI](http://localhost:9090/graph#%5B%7B%22range_input%22%3A%221h%22%2C%22expr%22%3A%22istio_double_request_count%22%2C%22tab%22%3A1%7D%5D).
@@ -157,7 +152,7 @@ as the example application throughout this task.
    the `istio_double_request_count` metric. The table displayed in the
    **Console** tab includes entries similar to:
 
-   ```xxx
+   ```plain
    istio_double_request_count{destination="details.default.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="productpage.default.svc.cluster.local"} 2
    istio_double_request_count{destination="ingress.istio-system.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="unknown"} 2
    istio_double_request_count{destination="productpage.default.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="ingress.istio-system.svc.cluster.local"} 2
@@ -173,13 +168,8 @@ as the example application throughout this task.
    In a Kubernetes environment, search through the logs for the Mixer pod as
    follows:
 
-   ```bash
-   kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio=mixer -o jsonpath='{.items[0].metadata.name}') mixer | grep \"instance\":\"newlog.logentry.istio-system\"
-   ```
-
-   The expected output is similar to:
-
-   ```json
+   ```command-output-as-json
+   $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio=mixer -o jsonpath='{.items[0].metadata.name}') mixer | grep \"instance\":\"newlog.logentry.istio-system\"
    {"level":"warn","ts":"2017-09-21T04:33:31.249Z","instance":"newlog.logentry.istio-system","destination":"details","latency":"6.848ms","responseCode":200,"responseSize":178,"source":"productpage","user":"unknown"}
    {"level":"warn","ts":"2017-09-21T04:33:31.291Z","instance":"newlog.logentry.istio-system","destination":"ratings","latency":"6.753ms","responseCode":200,"responseSize":48,"source":"reviews","user":"unknown"}
    {"level":"warn","ts":"2017-09-21T04:33:31.263Z","instance":"newlog.logentry.istio-system","destination":"reviews","latency":"39.848ms","responseCode":200,"responseSize":379,"source":"productpage","user":"unknown"}
@@ -300,8 +290,8 @@ here to illustrate how to use `match` expressions to control rule execution.
 
 * Remove the new telemetry configuration:
 
-  ```bash
-  istioctl delete -f new_telemetry.yaml
+  ```command
+  $ istioctl delete -f new_telemetry.yaml
   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the

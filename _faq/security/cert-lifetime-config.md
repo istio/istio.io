@@ -16,7 +16,7 @@ Modify the `istio-auth.yaml` file to customize the Citadel configuration.
 The following modification specifies that the Istio certificates for workloads running in Kubernetes
 has 1 hours lifetime. Besides that, the maximum allowed Istio certificate lifetime is 48 hours.
 
-```bash
+```plain
 ...
 kind: Deployment
 ...
@@ -45,7 +45,7 @@ To customize this configuration, the argument for the node agent service should 
 After [setting up the machines]({{home}}/docs/setup/kubernetes/mesh-expansion.html#setting-up-the-machines) for Istio
 mesh expansion, modify the file `/lib/systemd/system/istio-auth-node-agent.service` on the VMs or bare metal hosts:
 
-```bash
+```plain
 ...
 [Service]
 ExecStart=/usr/local/bin/node_agent --workload-cert-ttl=24h # Specify certificate lifetime for workloads on this machine.

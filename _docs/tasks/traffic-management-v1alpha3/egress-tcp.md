@@ -18,8 +18,8 @@ This task describes how to configure Istio to expose external TCP services to ap
 
 * Start the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) sample application which will be used as a test source for external calls.
 
-  ```bash
-  kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
+  ```command
+  $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
   ```
 
   **Note**: any pod that you can execute `curl` from is good enough.
@@ -63,29 +63,23 @@ This command instructs the Istio proxy to forward requests on port 443 of any of
 
 1. `kubectl exec` into the pod to be used as the test source. If you are using the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) application, run the following command:
 
-   ```bash
-   kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep bash
+   ```command
+   $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep bash
    ```
 
 1. Make a request and verify that we can access https://www.wikipedia.org successfully:
 
-   ```bash
-   curl -o /dev/null -s -w "%{http_code}\n" https://www.wikipedia.org
-   ```
-   ```xxx
+   ```command
+   $ curl -o /dev/null -s -w "%{http_code}\n" https://www.wikipedia.org
    200
    ```
 
    We should see `200` printed as the output, which is the HTTP code _OK_.
 
 1. Now let's fetch the current number of the articles available on Wikipedia in the English language:
-   ```bash
-   curl -s https://en.wikipedia.org/wiki/Main_Page | grep articlecount | grep 'Special:Statistics'
-   ```
 
-   The output should be similar to:
-
-   ```xxx
+   ```command
+   $ curl -s https://en.wikipedia.org/wiki/Main_Page | grep articlecount | grep 'Special:Statistics'
    <div id="articlecount" style="font-size:85%;"><a href="/wiki/Special:Statistics" title="Special:Statistics">5,563,121</a> articles in <a  href="/wiki/English_language" title="English language">English</a></div>
    ```
 
@@ -95,14 +89,14 @@ This command instructs the Istio proxy to forward requests on port 443 of any of
 
 1. Remove the external service we created.
 
-   ```bash
-   istioctl delete serviceentry wikipedia-ext
+   ```command
+   $ istioctl delete serviceentry wikipedia-ext
    ```
 
 1. Shutdown the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) application.
 
-   ```bash
-   kubectl delete -f samples/sleep/sleep.yaml
+   ```command
+   $ kubectl delete -f samples/sleep/sleep.yaml
    ```
 
 ## What's next
