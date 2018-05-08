@@ -9,14 +9,14 @@ uninstalling and re-installing Istio.
 
 If you are an advanced user and understand the risks you can also do the following:
 
-```bash
-kubectl edit configmap -n istio-system istio
+```command
+$ kubectl edit configmap -n istio-system istio
 ```
 
 comment out or uncomment `authPolicy: MUTUAL_TLS` to toggle mTLS and then
 
-```bash
-kubectl delete pods -n istio-system -l istio=pilot
+```command
+$ kubectl delete pods -n istio-system -l istio=pilot
 ```
 
 to restart Pilot, after a few seconds (depending on your `*RefreshDelay`) your

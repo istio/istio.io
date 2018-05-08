@@ -86,8 +86,8 @@ istio-system.
 
 Create a namespace for instantiating the secrets:
 
-```bash
-kubectl create ns istio-system
+```command
+$ kubectl create ns istio-system
 ```
 
 > Ordering currently matters.  Secrets must be created prior to
@@ -102,11 +102,11 @@ the remote nodes' credentials.
 
 Create a secret and label it properly for each remote cluster:
 
-```bash
-pushd $HOME/multicluster
-kubectl create secret generic ${CLUSTER_NAME} --from-file ${CLUSTER_NAME} -n istio-system
-kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n istio-system
-popd
+```command
+$ pushd $HOME/multicluster
+$ kubectl create secret generic ${CLUSTER_NAME} --from-file ${CLUSTER_NAME} -n istio-system
+$ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n istio-system
+$ popd
 ```
 
 ## Deploy the local Istio control plane
@@ -133,24 +133,24 @@ to capture the Pilot, Policy, and Statsd Pod IP endpoints.
 variables to each node before using Helm to connect the remote
 cluster to the Istio control plane.
 
-```bash
-export PILOT_POD_IP=$(kubectl -n istio-system get pod -l istio=pilot -o jsonpath='{.items[0].status.podIP}')
-export POLICY_POD_IP=$(kubectl -n istio-system get pod -l istio=mixer -o jsonpath='{.items[0].status.podIP}')
-export STATSD_POD_IP=$(kubectl -n istio-system get pod -l istio=statsd-prom-bridge -o jsonpath='{.items[0].status.podIP}')
+```command
+$ export PILOT_POD_IP=$(kubectl -n istio-system get pod -l istio=pilot -o jsonpath='{.items[0].status.podIP}')
+$ export POLICY_POD_IP=$(kubectl -n istio-system get pod -l istio=mixer -o jsonpath='{.items[0].status.podIP}')
+$ export STATSD_POD_IP=$(kubectl -n istio-system get pod -l istio=statsd-prom-bridge -o jsonpath='{.items[0].status.podIP}')
 ```
 
 ### Use kubectl with Helm to connect the remote cluster to the local
 
 1. Use the helm template command on a remote to specify the Istio control plane service endpoints:
 
-   ```bash
-   helm template install/kubernetes/helm/istio-remote --name istio-remote --set global.pilotEndpoint=${PILOT_POD_IP} --set global.policyEndpoint=${POLICY_POD_IP} --set global.statsdEndpoint=${STATSD_POD_IP} > $HOME/istio-remote.yaml
-    ```
+   ```command
+   $ helm template install/kubernetes/helm/istio-remote --name istio-remote --set global.pilotEndpoint=${PILOT_POD_IP} --set global.policyEndpoint=${POLICY_POD_IP} --set global.statsdEndpoint=${STATSD_POD_IP} > $HOME/istio-remote.yaml
+   ```
 
 1. Instantiate the remote cluster's connection to the Istio control plane:
 
-   ```bash
-   kubectl create -f $HOME/istio-remote.yaml
+   ```command
+   $ kubectl create -f $HOME/istio-remote.yaml
    ```
 
 ### Alternatively use Helm and Tiller to connect the remote cluster to the local
@@ -158,20 +158,20 @@ export STATSD_POD_IP=$(kubectl -n istio-system get pod -l istio=statsd-prom-brid
 1. If a service account has not already been installed for Helm, please
 install one:
 
-   ```bash
-   kubectl create -f install/kubernetes/helm/helm-service-account.yaml
+   ```command
+   $ kubectl create -f install/kubernetes/helm/helm-service-account.yaml
    ```
 
 1. Initialize Helm:
 
-   ```bash
-   helm init --service-account tiller
+   ```command
+   $ helm init --service-account tiller
    ```
 
 1. Install the Helm chart:
 
-   ```bash
-   helm install install/kubernetes/helm/istio-remote --name istio-remote --set global.pilotEndpoint=${PILOT_POD_IP} --set global.policyEndpoint=${POLICY_POD_IP} --set global.statsdEndpoint=${STATSD_POD_IP} --namespace istio-system
+   ```command
+   $ helm install install/kubernetes/helm/istio-remote --name istio-remote --set global.pilotEndpoint=${PILOT_POD_IP} --set global.policyEndpoint=${POLICY_POD_IP} --set global.statsdEndpoint=${STATSD_POD_IP} --namespace istio-system
    ```
 
 ### Helm configuration parameters
@@ -195,12 +195,12 @@ The `isito-remote` Helm chart requires the three specific variables to be config
 
 ### Use kubectl to uninstall istio-remote
 
-```bash
-kubectl delete -f $HOME/istio-remote.yaml
+```command
+$ kubectl delete -f $HOME/istio-remote.yaml
 ```
 
 ### Alternatively use Helm and Tiller to uninstall istio-remote
 
-```bash
-helm delete --purge istio-remote
+```command
+$ helm delete --purge istio-remote
 ```

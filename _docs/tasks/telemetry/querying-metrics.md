@@ -26,13 +26,8 @@ application.
 
    In Kubernetes environments, execute the following command:
 
-   ```bash
-   kubectl -n istio-system get svc prometheus
-   ```
-
-   The output will be similar to:
-
-   ```xxx
+   ```command
+   $ kubectl -n istio-system get svc prometheus
    NAME         CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
    prometheus   10.59.241.54   <none>        9090/TCP   2m
    ```
@@ -42,8 +37,8 @@ application.
    For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
    browser or issue the following command:
 
-   ```bash
-   curl http://$GATEWAY_URL/productpage
+   ```command
+   $ curl http://$GATEWAY_URL/productpage
    ```
 
    > `$GATEWAY_URL` is the value set in the [Bookinfo]({{home}}/docs/guides/bookinfo.html) guide.
@@ -52,8 +47,8 @@ application.
 
    In Kubernetes environments, execute the following command:
 
-   ```bash
-   kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
+   ```command
+   $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
    ```
 
    Visit [http://localhost:9090/graph](http://localhost:9090/graph) in your web browser.
@@ -117,8 +112,8 @@ docs](https://prometheus.io/docs/querying/basics/).
 
 * Remove any `kubectl port-forward` processes that may still be running:
 
-   ```bash
-   killall kubectl
+   ```command
+   $ killall kubectl
    ```
 
 * If you are not planning to explore any follow-on tasks, refer to the

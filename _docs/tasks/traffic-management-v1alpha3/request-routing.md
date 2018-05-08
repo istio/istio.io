@@ -30,8 +30,8 @@ you'll need to use `replace` rather than `create` in the following command.
 
 1. Set the default version for all microservices to v1.
 
-   ```bash
-   istioctl create -f samples/bookinfo/routing/route-rule-all-v1.yaml
+   ```command
+   $ istioctl create -f samples/bookinfo/routing/route-rule-all-v1.yaml
    ```
 
    > In a Kubernetes deployment of Istio, you can replace `istioctl`
@@ -40,11 +40,8 @@ you'll need to use `replace` rather than `create` in the following command.
 
    You can display the routes that are defined with the following command:
 
-   ```bash
-   istioctl get virtualservices -o yaml
-   ```
-
-   ```yaml
+   ```command-output-as-yaml
+   $ istioctl get virtualservices -o yaml
    apiVersion: networking.istio.io/v1alpha3
    kind: VirtualService
    metadata:
@@ -121,16 +118,14 @@ you'll need to use `replace` rather than `create` in the following command.
    Lets enable the ratings service for test user "jason" by routing productpage traffic to
    `reviews:v2` instances.
 
-   ```bash
-   istioctl replace -f samples/bookinfo/routing/route-rule-reviews-test-v2.yaml
+   ```command
+   $ istioctl replace -f samples/bookinfo/routing/route-rule-reviews-test-v2.yaml
    ```
 
    Confirm the rule is created:
 
-   ```bash
-   istioctl get virtualservice reviews -o yaml
-   ```
-   ```yaml
+   ```command-output-as-yaml
+   $ istioctl get virtualservice reviews -o yaml
    apiVersion: networking.istio.io/v1alpha3
    kind: VirtualService
    metadata:
@@ -172,8 +167,8 @@ all users to v2, optionally in a gradual fashion. We'll explore this in a separa
 
 * Remove the application routing rules.
 
-  ```bash
-  istioctl delete -f samples/bookinfo/routing/route-rule-all-v1.yaml
+  ```command
+  $ istioctl delete -f samples/bookinfo/routing/route-rule-all-v1.yaml
   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the

@@ -396,12 +396,12 @@ is no longer done by creating a new (`RouteRule`) resource, but instead by updat
 resource for the destination.
 
 old routing rules:
-```bash
-istioctl create -f my-second-rule-for-destination-abc.yaml
+```command
+$ istioctl create -f my-second-rule-for-destination-abc.yaml
 ```
 `v1alpha3` routing rules:
-```bash
-istioctl replace -f my-updated-rules-for-destination-abc.yaml
+```command
+$ istioctl replace -f my-updated-rules-for-destination-abc.yaml
 ```
 
 Deleting route rules other than the last one for a particular destination is also done using `istioctl replace`.

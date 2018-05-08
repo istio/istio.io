@@ -153,11 +153,9 @@ EOF
 
 Now all traffic should go to `httpbin v1` service. Let's try sending in some traffic:
 
-```bash
-export SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
-kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8080/headers'
-```
-```xxx
+```command-output-as-json
+$ export SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+$ kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8080/headers'
 {
   "headers": {
     "Accept": "*/*",
@@ -174,19 +172,15 @@ kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8080/headers
 
 If we check the logs for `v1` and `v2` of our `httpbin` pods, we should see access log entries for only `v1`:
 
-```bash
-export V1_POD=$(kubectl get pod -l app=httpbin,version=v1 -o jsonpath={.items..metadata.name})
-kubectl logs -f $V1_POD -c httpbin
-```
-```xxx
+```command
+$ export V1_POD=$(kubectl get pod -l app=httpbin,version=v1 -o jsonpath={.items..metadata.name})
+$ kubectl logs -f $V1_POD -c httpbin
 127.0.0.1 - - [07/Mar/2018:19:02:43 +0000] "GET /headers HTTP/1.1" 200 321 "-" "curl/7.35.0"
 ```
 
-```bash
-export V2_POD=$(kubectl get pod -l app=httpbin,version=v2 -o jsonpath={.items..metadata.name})
-kubectl logs -f $V2_POD -c httpbin
-```
-```xxx
+```command
+$ export V2_POD=$(kubectl get pod -l app=httpbin,version=v2 -o jsonpath={.items..metadata.name})
+$ kubectl logs -f $V2_POD -c httpbin
 <none>
 ```
 
@@ -217,24 +211,20 @@ This route rule specifies we route 100% of the traffic to v1. The last stanza sp
 
 Now if we send in traffic:
 
-```bash
-kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8080/headers'
+```command
+$ kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8080/headers'
 ```
 
 We should see access logging for both `v1` and `v2`. The access logs created in `v2` is the mirrored requests that are actually going to `v1`.
 
-```bash
-kubectl logs -f $V1_POD -c httpbin
-```
-```xxx
+```command
+$ kubectl logs -f $V1_POD -c httpbin
 127.0.0.1 - - [07/Mar/2018:19:02:43 +0000] "GET /headers HTTP/1.1" 200 321 "-" "curl/7.35.0"
 127.0.0.1 - - [07/Mar/2018:19:26:44 +0000] "GET /headers HTTP/1.1" 200 321 "-" "curl/7.35.0"
 ```
 
-```bash
-kubectl logs -f $V2_POD -c httpbin
-```
-```xxx
+```command
+$ kubectl logs -f $V2_POD -c httpbin
 127.0.0.1 - - [07/Mar/2018:19:26:44 +0000] "GET /headers HTTP/1.1" 200 361 "-" "curl/7.35.0"
 ```
 
@@ -242,16 +232,16 @@ kubectl logs -f $V2_POD -c httpbin
 
 1. Remove the rules.
 
-   ```bash
-   istioctl delete virtualservice httpbin
-   istioctl delete destinationrule httpbin
+   ```command
+   $ istioctl delete virtualservice httpbin
+   $ istioctl delete destinationrule httpbin
    ```
 
 1. Shutdown the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) service and client.
 
-   ```bash
-   kubectl delete deploy httpbin-v1 httpbin-v2 sleep
-   kubectl delete svc httpbin
+   ```command
+   $ kubectl delete deploy httpbin-v1 httpbin-v2 sleep
+   $ kubectl delete svc httpbin
    ```
 
 ## What's next

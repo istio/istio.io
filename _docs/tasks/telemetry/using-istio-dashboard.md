@@ -26,21 +26,16 @@ the example application throughout this task.
 
    In Kubernetes environments, execute the following command:
 
-   ```bash
-   kubectl apply -f install/kubernetes/addons/grafana.yaml
+   ```command
+   $ kubectl apply -f install/kubernetes/addons/grafana.yaml
    ```
 
 1. Verify that the service is running in your cluster.
 
    In Kubernetes environments, execute the following command:
 
-   ```bash
-   kubectl -n istio-system get svc grafana
-   ```
-
-   The output will be similar to:
-
-   ```xxx
+   ```command
+   $ kubectl -n istio-system get svc grafana
    NAME      CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
    grafana   10.59.247.103   <none>        3000/TCP   2m
    ```
@@ -49,8 +44,8 @@ the example application throughout this task.
 
    In Kubernetes environments, execute the following command:
 
-   ```bash
-   kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
+   ```command
+   $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
    ```
 
    Visit [http://localhost:3000/dashboard/db/istio-dashboard](http://localhost:3000/dashboard/db/istio-dashboard) in your web browser.
@@ -69,8 +64,8 @@ the example application throughout this task.
    For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
    browser or issue the following command:
 
-   ```bash
-   curl http://$GATEWAY_URL/productpage
+   ```command
+   $ curl http://$GATEWAY_URL/productpage
    ```
 
    Refresh the page a few times (or send the command a few times) to generate a
@@ -114,14 +109,14 @@ For more on how to create, configure, and edit dashboards, please see the
 * In Kubernetes environments, execute the following command to remove the Grafana
 add-on:
 
-   ```bash
-   kubectl delete -f install/kubernetes/addons/grafana.yaml
+   ```command
+   $ kubectl delete -f install/kubernetes/addons/grafana.yaml
    ```
 
 * Remove any `kubectl port-forward` processes that may be running:
 
-   ```bash
-   killall kubectl
+   ```command
+   $ killall kubectl
    ```
 
 * If you are not planning to explore any follow-on tasks, refer to the

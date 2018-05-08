@@ -31,8 +31,8 @@ Sidecar injector. We can use Kubernetes’ rolling update mechanism to upgrade t
 control plane components. It can be done by simply applying the new version
 yaml file directly, e.g.
 
-```bash
-kubectl apply -f istio.yaml (or istio-auth.yaml)
+```command
+$ kubectl apply -f istio.yaml (or istio-auth.yaml)
 ```
 
 > If you have used [Helm](https://istio.io/docs/setup/kubernetes/helm.html)
@@ -53,16 +53,16 @@ of sidecar proxy. There are two cases: Manual injection and Automatic injection.
    If automatic sidecar injection is not enabled, you can upgrade the
    sidecar manually by running the following command:
 
-   ```bash
-   kubectl apply -f <(istioctl kube-inject -i $ISTIO_NAMESPACE -f $ORIGINAL_DEPLOYMENT_YAML)
+   ```command
+   $ kubectl apply -f <(istioctl kube-inject -i $ISTIO_NAMESPACE -f $ORIGINAL_DEPLOYMENT_YAML)
    ```
 
    If the sidecar was previously injected with some customized inject config
    files, you will need to change the version tag in the config files to the new
    version and reinject the sidecar as follows:
 
-   ```bash
-   kubectl apply -f <(istioctl kube-inject \
+   ```command
+   $ kubectl apply -f <(istioctl kube-inject \
         --injectConfigFile inject-config.yaml \
         --filename $ORIGINAL_DEPLOYMENT_YAML)
    ```

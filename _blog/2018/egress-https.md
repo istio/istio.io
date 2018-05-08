@@ -40,8 +40,8 @@ Here is a copy of the end-to-end architecture of the application from the origin
 
 Let's add a new version of the _details_ microservice, _v2_, that fetches the book details from [Google Books APIs](https://developers.google.com/books/docs/v1/getting_started).
 
-```bash
-kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-details-v2.yaml)
+```command
+$ kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-details-v2.yaml)
 ```
 
 The updated architecture of the application now looks as follows:
@@ -120,28 +120,20 @@ Now accessing the web page of the application displays the book details without 
 Note that our egress rule allows traffic to any domain matching _*.googleapis.com_, on port 443, using the HTTPS protocol. Let's assume for the sake of the example that the applications in our Istio service mesh must access multiple subdomains of _googleapis.com_, for example _www.googleapis.com_ and also _fcm.googleapis.com_. Our rule allows traffic to both _www.googleapis.com_ and _fcm.googleapis.com_, since they both match  _*.googleapis.com_. This **wildcard** feature allows us to enable traffic to multiple domains using a single egress rule.
 
 We can query our egress rules:
-```bash
-istioctl get egressrules
-```
-
-and see our new egress rule in the output:
-
-```bash
+```command
+$ istioctl get egressrules
 NAME        KIND                                NAMESPACE
 googleapis  EgressRule.v1alpha2.config.istio.io default
 ```
 
 We can delete our egress rule:
 
-```bash
-istioctl delete egressrule googleapis -n default
-```
-
-and see in the output of _istioctl delete_ that the egress rule is deleted:
-
-```bash
+```command
+$ istioctl delete egressrule googleapis -n default
 Deleted config: egressrule googleapis
 ```
+
+and see in the output that the egress rule is deleted.
 
 Accessing the web page after deleting the egress rule produces the same error that we experienced before, namely _Error fetching product details_. As we can see, the egress rules are defined **dynamically**, as many other Istio configuration artifacts. The Istio operators can decide dynamically which domains they allow the microservices to access. They can enable and disable traffic to the external domains on the fly, without redeploying the microservices.
 

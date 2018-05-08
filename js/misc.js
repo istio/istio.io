@@ -199,7 +199,15 @@ function handleDOMLoaded() {
             for (var i = 0; i < pre.length; i++) {
                 var code = pre[i].firstChild;
 
-                if (code.classList.contains("language-command")) {
+                var cl = "";
+                for (var j = 0; j < code.classList.length; j++) {
+                    if (code.classList.item(j).startsWith("language-command")) {
+                        cl = code.classList.item(j);
+                        break;
+                    }
+                }
+
+                if (cl != "") {
                     var text = code.innerText;
                     var lines = text.split("\n");
 
@@ -230,15 +238,29 @@ function handleDOMLoaded() {
                         }
                     }
 
+                    // in case someone forgot the $, treat everything as a command instead of as output
+                    if (cmd == "") {
+                        cmd = output;
+                        output = "";
+                    }
+
                     var colored = Prism.highlight(cmd, Prism.languages["bash"], "bash");
                     var html = "<div class='command'>" + colored + "</div>";
 
                     if (output != "") {
+
+                        // apply formatting to the output?
+                        var prefix = "language-command-output-as-";
+                        if (cl.length > prefix.length) {
+                            var lang = cl.substr(prefix.length);
+                            output = Prism.highlight(output, Prism.languages[lang], lang);
+                        }
+
                         html = html + "<div class='output'>" + output + "</div>";
                     }
 
                     code.innerHTML = html;
-                    code.classList.remove("language-command");
+                    code.classList.remove(cl);
                     code.classList.add("command-output");
                 } else {
                     Prism.highlightElement(code, false);
