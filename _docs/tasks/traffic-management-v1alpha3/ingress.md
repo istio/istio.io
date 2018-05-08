@@ -67,23 +67,31 @@ using Istio routing rules, exactly in the same was as for internal service reque
 1. Create an Istio `Gateway`
 
    ```bash
-   cat <<EOF | kubectl create -f -
+   cat <<EOF | istioctl create -f -
    apiVersion: networking.istio.io/v1alpha3
    kind: Gateway
    metadata:
      name: httpbin-gateway
    spec:
+     selector:
+       istio: ingressgateway # use istio default controller
      servers:
      - port:
          number: 80
          name: http
+         protocol: HTTP
+       hosts:
+       - "*"
      - port:
          number: 443
          name: https
+         protocol: HTTPS
        tls:
          mode: SIMPLE
          serverCertificate: /tmp/tls.crt
          privateKey: /tmp/tls.key
+       hosts:
+       - "*"
    EOF
    ```
 
@@ -93,33 +101,27 @@ using Istio routing rules, exactly in the same was as for internal service reque
 1. Configure routes for traffic entering via the `Gateway`
 
    ```bash
-   cat <<EOF | kubectl create -f -
+   cat <<EOF | istioctl create -f -
    apiVersion: networking.istio.io/v1alpha3
    kind: VirtualService
    metadata:
      name: httpbin
    spec:
      hosts:
-     - httpbin
+     - "*"
      gateways:
      - httpbin-gateway
      http:
      - match:
-         uri:
+       - uri:
            prefix: /status
-       route:
-       - destination:
-           port:
-             number: 8000
-           name: httpbin
-     - match:
-         uri:
+       - uri:
            prefix: /delay
        route:
        - destination:
            port:
              number: 8000
-           name: httpbin
+           host: httpbin
    EOF
    ```
 
@@ -137,22 +139,23 @@ using Istio routing rules, exactly in the same was as for internal service reque
 
 The proxy instances implementing a particular `Gateway` configuration can be specified using a
 [selector]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway.selector) field.
-If not specified, as in our case, the `Gateway` will be implemented by the default `istio-ingress` controller.
-Therefore, to test our `Gateway` we will send requests to the `istio-ingress` service.
+In our case, we have set the selector value to `istio: ingressgateway` to use the default
+`istio-ingressgateway` controller. Therefore, to test our `Gateway` we will send requests to
+the `istio-ingressgateway` service.
 
-1. Get the ingress controller pod's hostIP:
+1. Get the ingressgateway controller pod's hostIP:
 
    ```command
-   $ kubectl -n istio-system get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
+   $ kubectl -n istio-system get po -l istio=ingressgateway -o jsonpath='{.items[0].status.hostIP}'
    169.47.243.100
    ```
 
 1. Get the istio-ingress service's nodePorts for port 80 and 443:
 
    ```command
-   $ kubectl -n istio-system get svc istio-ingress
-   NAME            CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
-   istio-ingress   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
+   $ kubectl -n istio-system get svc istio-ingressgateway
+   NAME                   CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
+   istio-ingressgateway   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
    ```
 
    ```command
