@@ -60,16 +60,9 @@ unmodified. Sidecars can be updated selectively by manually deleting a pods or
 systematically with a deployment rolling update.
 
 Manual and automatic injection use the same templated configuration. Automatic
-injection loads the configuration from the `istio-inject` ConfigMap in the
+injection loads the configuration from the `istio-sidecar-injector` ConfigMap in the
 `istio-system` namespace. Manual injection can load from a local file or from
 the ConfigMap.
-
-Two variants of the injection configuration are provided with the default
-install: `istio-sidecar-injector-configmap-release.yaml`
-and `istio-sidecar-injector-configmap-debug.yaml`. The injection configmap includes
-the default injection policy and sidecar injection template. The debug version
-includes debug proxy images and additional logging and core dump functionality used
-for debugging the sidecar proxy.
 
 ### Manual sidecar injection
 
@@ -212,7 +205,7 @@ supplied with Istio selects pods in namespaces with label `istio-injection=enabl
 This can be changed by modifying the MutatingWebhookConfiguration in
 `install/kubernetes/istio-sidecar-injector-with-ca-bundle.yaml`.
 
-The `istio-inject` ConfigMap in the `istio-system` namespace the default
+The `istio-sidecar-injector` ConfigMap in the `istio-system` namespace has the default
 injection policy and sidecar injection template.
 
 ##### _**policy**_
