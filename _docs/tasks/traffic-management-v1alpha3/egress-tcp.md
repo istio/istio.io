@@ -46,15 +46,15 @@ spec:
   hosts:
   - wikipedia.org
   addresses:
-    - 91.198.174.192/27
-    - 103.102.166.224/27
-    - 198.35.26.96/27
-    - 208.80.153.224/27
-    - 208.80.154.224/27
+  - 91.198.174.192/27
+  - 103.102.166.224/27
+  - 198.35.26.96/27
+  - 208.80.153.224/27
+  - 208.80.154.224/27
   ports:
-    - number: 443
-      protocol: TCP
-      name: tcp-port
+  - number: 443
+    protocol: TCP
+    name: tcp-port
   resolution: NONE
 EOF
 ```
