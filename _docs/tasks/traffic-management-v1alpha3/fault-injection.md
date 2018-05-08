@@ -22,7 +22,6 @@ This task shows how to inject delays and test the resiliency of your application
 
   ```command
   $ istioctl create -f samples/bookinfo/routing/route-rule-all-v1.yaml
-  $ istioctl replace -f samples/bookinfo/routing/route-rule-reviews-test-v2.yaml
   ```
 
 # Fault injection
@@ -64,11 +63,11 @@ continue without any errors.
        route:
        - destination:
            name: ratings
-           subset: v1
+           subset: v2
      - route:
        - destination:
            name: ratings
-           subset: v1
+           subset: v2
    ```
 
    Allow several seconds to account for rule propagation delay to all pods.
@@ -141,10 +140,14 @@ message.
        - headers:
            cookie:
              regex: ^(.*?;)?(user=jason)(;.*)?$
+       route:
+       - destination:
+           name: ratings
+           subset: v2
      - route:
        - destination:
            name: ratings
-           subset: v1
+           subset: v2
    ```
 
 1. Observe application behavior
