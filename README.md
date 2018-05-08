@@ -39,7 +39,7 @@ The `rake test` part is to make sure you are not introducing HTML errors or bad 
 HTML-Proofer finished successfully.
 ```
 
-in the output
+in the output.
 
 Alternatively, if you just want to develop locally w/o Docker/Kubernetes/Minikube, you can try installing Jekyll locally.
 You may need to install other prerequisites manually (which is where using the docker image shines). Here's an example of doing
