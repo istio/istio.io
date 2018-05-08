@@ -378,14 +378,15 @@ spec:
       caCertificates: /etc/certs/rootcacerts.pem
 ```
 
-In addition to its expanded generality, `ServiceEntry` includes several other improvements over `EgressRule`
+In addition to its expanded generality, `ServiceEntry` provides several other improvements over `EgressRule`
 including the following:
 
 1. A single `ServiceEntry` can configure multiple service endpoints, which previously would have required multiple
    `EgressRules`.
 1. The resolution mode for the endpoints is now configurable (`NONE`, `STATIC`, or `DNS`).
-1. Secure HTTP services (automatic TLS upgrade) can now be accessed using standard https (e.g., `https://secureservice.com/`
-   instead of `http://secureservice.com:443/`.
+1. Additionally, we are working on addressing another pain point: the need to access secure external services over plain
+   text ports (e.g., `http://google.com:443`). This should be fixed in the coming weeks, allowing you to directly access
+   `https://google.com` from your application. Stay tuned for an Istio patch release (0.8.x) that addresses this limitation.
 
 ## Creating and deleting v1alpha3 route rules
 
@@ -395,12 +396,12 @@ is no longer done by creating a new (`RouteRule`) resource, but instead by updat
 resource for the destination.
 
 old routing rules:
-```bash
-istioctl create -f my-second-rule-for-destination-abc.yaml
+```command
+$ istioctl create -f my-second-rule-for-destination-abc.yaml
 ```
 `v1alpha3` routing rules:
-```bash
-istioctl replace -f my-updated-rules-for-destination-abc.yaml
+```command
+$ istioctl replace -f my-updated-rules-for-destination-abc.yaml
 ```
 
 Deleting route rules other than the last one for a particular destination is also done using `istioctl replace`.

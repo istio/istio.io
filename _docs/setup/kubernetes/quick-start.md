@@ -32,8 +32,8 @@ support).
 To install Istio locally, install the latest version of
 [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) (version 0.25.0 or later).
 
-```bash
-  minikube start \
+```command
+$ minikube start \
     --extra-config=controller-manager.ClusterSigningCertFile="/var/lib/localkube/certs/ca.crt" \
     --extra-config=controller-manager.ClusterSigningKeyFile="/var/lib/localkube/certs/ca.key" \
     --extra-config=apiserver.Admission.PluginNames=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota \
@@ -44,25 +44,25 @@ To install Istio locally, install the latest version of
 
 Create a new cluster.
 
-```bash
-gcloud container clusters create <cluster-name> \
-    --cluster-version=1.9.4-gke.1
-    --zone <zone>
+```command
+$ gcloud container clusters create <cluster-name> \
+    --cluster-version=1.9.4-gke.1 \
+    --zone <zone> \
     --project <project-name>
 ```
 
 Retrieve your credentials for `kubectl`.
 
-```bash
-gcloud container clusters get-credentials <cluster-name> \
+```command
+$ gcloud container clusters get-credentials <cluster-name> \
     --zone <zone> \
     --project <project-name>
 ```
 
 Grant cluster admin permissions to the current user (admin permissions are required to create the necessary RBAC rules for Istio).
 
-```bash
-kubectl create clusterrolebinding cluster-admin-binding \
+```command
+$ kubectl create clusterrolebinding cluster-admin-binding \
     --clusterrole=cluster-admin \
     --user=$(gcloud config get-value core/account)
 ```
@@ -73,14 +73,14 @@ Kubernetes 1.9 is generally available on IBM Cloud Container Service (IKS).
 
 At the time of writing it is not the default version, so to create a new lite cluster:
 
-```bash
-bx cs cluster-create --name <cluster-name> --kube-version 1.9.3
+```command
+$ bx cs cluster-create --name <cluster-name> --kube-version 1.9.3
 ```
 
 Or create a new paid cluster:
 
-```bash
-bx cs cluster-create --location location --machine-type u2c.2x4 --name <cluster-name> --kube-version 1.9.3
+```command
+$ bx cs cluster-create --location location --machine-type u2c.2x4 --name <cluster-name> --kube-version 1.9.3
 ```
 
 Retrieve your credentials for `kubectl` (replace `<cluster-name>` with the name of the cluster you want to use):
@@ -98,15 +98,16 @@ Configure `kubectl` CLI based on steps [here](https://www.ibm.com/support/knowle
 OpenShift by default does not allow containers running with UID 0. Enable containers running
 with UID 0 for Istio's service accounts for ingress as well the Prometheus and Grafana addons:
 
-  ```bash
-  oc adm policy add-scc-to-user anyuid -z istio-ingress-service-account -n istio-system
-  oc adm policy add-scc-to-user anyuid -z grafana -n istio-system
-  oc adm policy add-scc-to-user anyuid -z prometheus -n istio-system
-  ```
+```command
+$ oc adm policy add-scc-to-user anyuid -z istio-ingress-service-account -n istio-system
+$ oc adm policy add-scc-to-user anyuid -z grafana -n istio-system
+$ oc adm policy add-scc-to-user anyuid -z prometheus -n istio-system
+```
+
 Service account that runs application pods need privileged security context constraints as part of sidecar injection.
 
-```bash
-oc adm policy add-scc-to-user privileged -z default -n <target-namespace>
+```command
+$ oc adm policy add-scc-to-user privileged -z default -n <target-namespace>
 ```
 
 ### AWS (w/Kops)
@@ -115,13 +116,13 @@ When you install a new cluster with Kubernetes version 1.9, prerequisite for `ad
 
 Nevertheless the list of admission controllers needs to be updated.
 
-```bash
-kops edit cluster $YOURCLUSTER
+```command
+$ kops edit cluster $YOURCLUSTER
 ```
 
 Add following in the configuration file just opened:
 
-```xxx
+```yaml
 kubeAPIServer:
     admissionControl:
     - NamespaceLifecycle
@@ -139,27 +140,27 @@ kubeAPIServer:
 
 Perform the update
 
-```bash
-kops update cluster
-kops update cluster --yes
+```command
+$ kops update cluster
+$ kops update cluster --yes
 ```
 
 Launch the rolling update
 
-```bash
-kops rolling-update cluster
-kops rolling-update cluster --yes
+```command
+$ kops rolling-update cluster
+$ kops rolling-update cluster --yes
 ```
 
 Validate with `kubectl` client on kube-api pod, you should see new admission controller:
 
-```bash
-for i in `kubectl get pods -nkube-system | grep api | awk '{print $1}'` ; do  kubectl describe pods -nkube-system $i | grep "/usr/local/bin/kube-apiserver"  ; done
+```command
+$ for i in `kubectl get pods -nkube-system | grep api | awk '{print $1}'` ; do  kubectl describe pods -nkube-system $i | grep "/usr/local/bin/kube-apiserver"  ; done
 ```
 
 Output should be:
 
-```xxx
+```plain
 [...] --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota,NodeRestriction,Priority [...]
 ```
 
@@ -167,8 +168,8 @@ Output should be:
 
 You need to use `ACS-Engine` to deploy you cluster. After following [these instructions](https://github.com/Azure/acs-engine/blob/master/docs/acsengine.md#install) to get and install the `acs-engine` binary, use the following command to download Istio `api model definition`:
 
-```bash
-wget https://raw.githubusercontent.com/Azure/acs-engine/master/examples/service-mesh/istio.json
+```command
+$ wget https://raw.githubusercontent.com/Azure/acs-engine/master/examples/service-mesh/istio.json
 ```
 
 Use the following command to deploy your cluster using the `istio.json` template. You can find references to the parameters in the [official docs](https://github.com/Azure/acs-engine/blob/master/docs/kubernetes/deploy.md#step-3-edit-your-cluster-definition).
@@ -179,27 +180,30 @@ Use the following command to deploy your cluster using the `istio.json` template
 | `dns_prefix`                          | Cluster DNS Prefix         |
 | `location`                            | Cluster Location           |
 
-```bash
-acs-engine deploy --subscription-id <subscription_id> --dns-prefix <dns_prefix> --location <location> --auto-suffix --api-model istio.json
+```command
+$ acs-engine deploy --subscription-id <subscription_id> --dns-prefix <dns_prefix> --location <location> --auto-suffix --api-model istio.json
 ```
 
 After a few minutes you should find your cluster on your Azure subscription in a resource group called `<dns_prefix>-<id>`. Let's say my `dns-prefix` is `myclustername`, a valid resource group and unique cluster id would be `mycluster-5adfba82`. Using this `<dns_prefix>-<id>` cluster id you can copy your `kubeconfig` file to your machine from the `_output` folder generated by `acs-engine`:
 
-```bash
-cp _output/<dns_prefix>-<id>/kubeconfig/kubeconfig.<location>.json ~/.kube/config
+```command
+$ cp _output/<dns_prefix>-<id>/kubeconfig/kubeconfig.<location>.json ~/.kube/config
 ```
 
 For example:
-```bash
-cp _output/mycluster-5adfba82/kubeconfig/kubeconfig.westus2.json ~/.kube/config
+
+```command
+$ cp _output/mycluster-5adfba82/kubeconfig/kubeconfig.westus2.json ~/.kube/config
 ```
 
 To check if the right Istio flags were deployed, use:
-```bash
-kubectl describe pod --namespace kube-system $(kubectl get pods --namespace kube-system | grep api | cut -d ' ' -f 1) | grep admission-control
+```command
+$ kubectl describe pod --namespace kube-system $(kubectl get pods --namespace kube-system | grep api | cut -d ' ' -f 1) | grep admission-control
 ```
+
 You should see `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` flags:
-```bash
+
+```plain
       --admission-control=...,MutatingAdmissionWebhook,...,ValidatingAdmissionWebhook,...
 ```
 
@@ -212,8 +216,8 @@ namespace, and can manage services from all other namespaces.
 installation file corresponding to your OS. If you are using a MacOS or Linux system, you can also
 run the following command to download and extract the latest release automatically:
 
-   ```bash
-   curl -L https://git.io/getLatestIstio | sh -
+   ```command
+   $ curl -L https://git.io/getLatestIstio | sh -
    ```
 
 1. Extract the installation file and change the directory to the file location. The
@@ -225,15 +229,15 @@ installation directory contains:
 
 1. Change directory to istio package. For example, if the package is istio-{{site.data.istio.version}}
 
-   ```bash
-   cd istio-{{site.data.istio.version}}
+   ```command
+   $ cd istio-{{site.data.istio.version}}
    ```
 
 1. Add the `istioctl` client to your PATH.
 For example, run the following command on a MacOS or Linux system:
 
-   ```bash
-   export PATH=$PWD/bin:$PATH
+   ```command
+   $ export PATH=$PWD/bin:$PATH
    ```
 
 1. Install Istio's core components. Choose one of the two _**mutually exclusive**_ options below or alternately install
@@ -245,16 +249,16 @@ with the [Helm Chart]({{home}}/docs/setup/kubernetes/helm-install.html):
    applications that use [liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/),
    headless services, or StatefulSets.
 
-   ```bash
-   kubectl apply -f install/kubernetes/istio.yaml
+   ```command
+   $ kubectl apply -f install/kubernetes/istio.yaml
    ```
 
    _**OR**_
 
    b) Install Istio and enable [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars. This option is mostly for new clusters, i.e., all applications have sidecars injected during their deployment. For existing applications, please choose the above option and enable mutual TLS using [authentication policy]({{home}}/docs/tasks/security/authn-policy.html):
 
-   ```bash
-   kubectl apply -f install/kubernetes/istio-auth.yaml
+   ```command
+   $ kubectl apply -f install/kubernetes/istio-auth.yaml
    ```
 
    Both options create the `istio-system` namespace along with the required RBAC permissions,
@@ -268,10 +272,8 @@ install the [sidecar injector webhook]({{home}}/docs/setup/kubernetes/sidecar-in
 1. Ensure the following Kubernetes services are deployed: `istio-pilot`, `istio-ingress`,
 `istio-policy`, `istio-telemetry`, `prometheus`.
 
-   ```bash
-   kubectl get svc -n istio-system
-   ```
-   ```xxx
+   ```command
+   $ kubectl get svc -n istio-system
    NAME                       TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)                                                               AGE
    citadel-ilb                LoadBalancer   10.35.251.104   10.138.0.43     8060:32031/TCP                                                        47m
    istio-citadel              ClusterIP      10.35.253.23    <none>          8060/TCP,9093/TCP                                                     47m
@@ -293,11 +295,8 @@ install the [sidecar injector webhook]({{home}}/docs/setup/kubernetes/sidecar-in
 `istio-pilot-*`, `istio-mixer-*`, `istio-ingress-*`, `istio-citadel-*`,
 and, optionally, `istio-sidecar-injector-*`.
 
-   ```bash
-   kubectl get pods -n istio-system
-   ```
-
-   ```xxx
+   ```command
+   $ kubectl get pods -n istio-system
    istio-citadel-b454d647d-92jrv               1/1       Running   0          46m
    istio-ingress-768b9fb68b-jdxfk              1/1       Running   0          46m
    istio-pilot-b87b8c56b-kggmk                 2/2       Running   0          46m
@@ -318,17 +317,17 @@ as shown above, you can deploy the application directly using `kubectl create`.
 
 The Istio-Sidecar-injector will automatically inject Envoy containers into your application pods assuming running in namespaces labeled with `istio-injection=enabled`
 
-```bash
-kubectl label namespace <namespace> istio-injection=enabled
-kubectl create -n <namespace> -f <your-app-spec>.yaml
+```command
+$ kubectl label namespace <namespace> istio-injection=enabled
+$ kubectl create -n <namespace> -f <your-app-spec>.yaml
 ```
 
 If you do not have the Istio-sidecar-injector installed, you must
 use [istioctl kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl kube-inject) to
 manually inject Envoy containers in your application pods before deploying them:
 
-```bash
-kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
+```command
+$ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 ```
 
 ## Uninstalling
@@ -337,8 +336,8 @@ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 
    If you installed Istio with sidecar injector enabled, uninstall it:
 
-   ```bash
-   kubectl delete -f install/kubernetes/istio-sidecar-injector-with-ca-bundle.yaml
+   ```command
+   $ kubectl delete -f install/kubernetes/istio-sidecar-injector-with-ca-bundle.yaml
    ```
 
 * Uninstall Istio core components. For the {{site.data.istio.version}} release, the uninstall
@@ -347,16 +346,16 @@ It is safe to ignore errors for non-existent resources because they may have bee
 
    a) If you installed Istio with mutual TLS authentication disabled:
 
-   ```bash
-   kubectl delete -f install/kubernetes/istio.yaml
+   ```command
+   $ kubectl delete -f install/kubernetes/istio.yaml
    ```
 
    _**OR**_
 
    b) If you installed Istio with mutual TLS authentication enabled:
 
-   ```bash
-   kubectl delete -f install/kubernetes/istio-auth.yaml
+   ```command
+   $ kubectl delete -f install/kubernetes/istio-auth.yaml
    ```
 
 ## What's next

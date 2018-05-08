@@ -21,8 +21,8 @@ Quick Start instructions to install and configure Istio in a Docker Compose setu
    installation file corresponding to your OS. If you are using a MacOS or Linux system, you can also
    run the following command to download and extract the latest release automatically:
 
-   ```bash
-   curl -L https://git.io/getLatestIstio | sh -
+   ```command
+   $ curl -L https://git.io/getLatestIstio | sh -
    ```
 
 1. Extract the installation file and change the directory to the file location. The
@@ -35,36 +35,36 @@ installation directory contains:
 1. Add the `istioctl` client to your PATH.
 For example, run the following command on a MacOS or Linux system:
 
-   ```bash
-   export PATH=$PWD/bin:$PATH
+   ```command
+   $ export PATH=$PWD/bin:$PATH
    ```
 
 1. For Linux users, configure the `DOCKER_GATEWAY` environment variable
 
-   ```bash
-   export DOCKER_GATEWAY=172.28.0.1:
+   ```command
+   $ export DOCKER_GATEWAY=172.28.0.1:
    ```
 
 1. Change directory to the root of the Istio installation directory.
 
 1. Bring up the Istio control plane containers:
 
-   ```bash
-   docker-compose -f install/consul/istio.yaml up -d
+   ```command
+   $ docker-compose -f install/consul/istio.yaml up -d
    ```
 
 1. Confirm that all docker containers are running:
 
-   ```bash
-   docker ps -a
+   ```command
+   $ docker ps -a
    ```
 
    > If the Istio Pilot container terminates, ensure that you run the `istioctl context-create` command and re-run the command from the previous step.
 
 1. Configure `istioctl` to use mapped local port for the Istio API server:
 
-   ```bash
-   istioctl context-create --api-server http://localhost:8080
+   ```command
+   $ istioctl context-create --api-server http://localhost:8080
    ```
 
 ## Deploy your application
@@ -80,16 +80,16 @@ installation like [Bookinfo]({{home}}/docs/guides/bookinfo.html).
 >
 > The application must use HTTP/1.1 or HTTP/2.0 protocol for all its HTTP traffic because HTTP/1.0 is not supported.
 
-```bash
-docker-compose -f <your-app-spec>.yaml up -d
+```command
+$ docker-compose -f <your-app-spec>.yaml up -d
 ```
 
 ## Uninstalling
 
 Uninstall Istio core components by removing the docker containers:
 
-```bash
-docker-compose -f install/consul/istio.yaml down
+```command
+$ docker-compose -f install/consul/istio.yaml down
 ```
 
 ## What's next
