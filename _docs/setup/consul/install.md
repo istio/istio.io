@@ -25,10 +25,8 @@ Istio's API server (based on Kubernetes' API server) provides key functions
 such as configuration management and Role-Based Access Control. The API
 server requires an
 [etcd cluster](https://kubernetes.io/docs/getting-started-guides/scratch/#etcd)
-as a persistent store. Detailed instructions for setting up the API server can
-be found
-[here](https://kubernetes.io/docs/getting-started-guides/scratch/#apiserver-controller-manager-and-scheduler).
-See the [documentation on the startup options for the Kubernetes API server](https://kubernetes.io/docs/admin/kube-apiserver/).
+as a persistent store. See the
+[instructions for setting up the API server](https://kubernetes.io/docs/getting-started-guides/scratch/#apiserver-controller-manager-and-scheduler).
 
 #### Local Install
 
