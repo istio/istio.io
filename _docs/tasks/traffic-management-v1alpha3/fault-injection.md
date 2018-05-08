@@ -20,8 +20,8 @@ This task shows how to inject delays and test the resiliency of your application
   [request routing](./request-routing.html) task or by running following
   commands:
 
-  ```bash
-  istioctl create -f samples/bookinfo/routing/route-rule-all-v1.yaml
+  ```command
+  $ istioctl create -f samples/bookinfo/routing/route-rule-all-v1.yaml
   ```
 
 # Fault injection
@@ -35,17 +35,14 @@ continue without any errors.
 
 1. Create a fault injection rule to delay traffic coming from user "jason" (our test user)
 
-   ```bash
-   istioctl replace -f samples/bookinfo/routing/route-rule-ratings-test-delay.yaml
+   ```command
+   $ istioctl replace -f samples/bookinfo/routing/route-rule-ratings-test-delay.yaml
    ```
 
    Confirm the rule is created:
 
-   ```bash
-   istioctl get virtualservice ratings -o yaml
-   ```
-
-   ```yaml
+   ```command-output-as-yaml
+   $ istioctl get virtualservice ratings -o yaml
    apiVersion: networking.istio.io/v1alpha3
    kind: VirtualService
    metadata:
@@ -118,17 +115,14 @@ message.
 
 1. Create a fault injection rule to send an HTTP abort for user "jason"
 
-   ```bash
-   istioctl replace -f samples/bookinfo/routing/route-rule-ratings-test-abort.yaml
+   ```command
+   $ istioctl replace -f samples/bookinfo/routing/route-rule-ratings-test-abort.yaml
    ```
 
    Confirm the rule is created
 
-   ```bash
-   istioctl get virtualservice ratings -o yaml
-   ```
-
-   ```yaml
+   ```command-output-as-yaml
+   $ istioctl get virtualservice ratings -o yaml
    apiVersion: networking.istio.io/v1alpha3
    kind: VirtualService
    metadata:
@@ -166,8 +160,8 @@ message.
 
 * Remove the application routing rules:
 
-  ```bash
-  istioctl delete -f samples/bookinfo/routing/route-rule-all-v1.yaml
+  ```command
+  $ istioctl delete -f samples/bookinfo/routing/route-rule-all-v1.yaml
   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the

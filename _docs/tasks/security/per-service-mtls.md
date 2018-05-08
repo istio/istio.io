@@ -26,30 +26,23 @@ In this task, you will learn:
 
 * Start [httpbin demo](https://github.com/istio/istio/tree/master/samples/httpbin) with Istio sidecar. Also, for testing purpose, run two instances of [sleep](https://github.com/istio/istio/tree/master/samples/sleep), one with sidecar and one without (in different namespace). Below are commands to help you start these services.
 
-```bash
-kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml)
-kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
-
-kubectl create ns legacy && kubectl apply -f samples/sleep/sleep.yaml -n legacy
+```command
+$ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml)
+$ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
+$ kubectl create ns legacy && kubectl apply -f samples/sleep/sleep.yaml -n legacy
 ```
 
 In this initial setup, we expect the sleep instance in default namespace can talk to httpbin service, but the one in legacy namespace cannot, as it doesn't have sidecar to facilitate mTLS.
 
-```bash
-kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl http://httpbin.default:8000/ip -s
-```
-
-```json
+```command-output-as-json
+$ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl http://httpbin.default:8000/ip -s
 {
   "origin": "127.0.0.1"
 }
 ```
 
-```bash
-kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name} -n legacy) -n legacy -- curl http://httpbin.default:8000/ip -s
-```
-
-```xxx
+```command
+$ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name} -n legacy) -n legacy -- curl http://httpbin.default:8000/ip -s
 command terminated with exit code 56
 ```
 
@@ -58,7 +51,7 @@ command terminated with exit code 56
 If we want to disable mTLS only for httpbin (on port 8000), without changing the mesh authentication settings,
 we can do that by adding this annotations to the httpbin service definition.
 
-```xxx
+```plain
 annotations:
   auth.istio.io/8000: NONE
 ```
@@ -80,21 +73,15 @@ In the part of the demo, we will show the impact of this field.
 
 By default (0.3 or later), this list contains `kubernetes.default.svc.cluster.local` (which is the name of the API server service in common setup). You can verify it by running this command:
 
-```bash
-kubectl get configmap -n istio-system istio -o yaml | grep mtlsExcludedServices
-```
-
-```bash
+```command
+$ kubectl get configmap -n istio-system istio -o yaml | grep mtlsExcludedServices
 mtlsExcludedServices: ["kubernetes.default.svc.cluster.local"]
 ```
 
 It's then expected that request to kubernetes.default service should be possible:
 
-```bash
-kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl https://kubernetes.default:443/api/ -k -s
-```
-
-```json
+```command-output-as-json
+$ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl https://kubernetes.default:443/api/ -k -s
 {
   "kind": "APIVersions",
   "versions": [
@@ -111,16 +98,13 @@ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
 
 Now, run `kubectl edit configmap istio -n istio-system` and clear `mtlsExcludedServices` and restart Pilot after done:
 
-```bash
-kubectl get pod $(kubectl get pod -l istio=pilot -n istio-system -o jsonpath={.items..metadata.name}) -n istio-system -o yaml | kubectl replace --force -f -
+```command
+$ kubectl get pod $(kubectl get pod -l istio=pilot -n istio-system -o jsonpath={.items..metadata.name}) -n istio-system -o yaml | kubectl replace --force -f -
 ```
 
 The same test request above now fail with code 35, as sleep's sidecar starts using mTLS again:
 
-```bash
-kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl https://kubernetes.default:443/api/ -k -s
-```
-
-```xxx
+```command
+$ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl https://kubernetes.default:443/api/ -k -s
 command terminated with exit code 35
 ```

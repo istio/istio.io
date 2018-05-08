@@ -47,24 +47,23 @@ level Istio control planes are required; the first can use the istio.yaml defaul
 *istio-system* and a second control plane can be created by generating a new yaml file with
 a different namespace. As an example, the following command creates a yaml file with
 the Istio namespace of *istio-system1*.
-```bash
-cat istio.yaml | sed s/istio-system/istio-system1/g > istio-system1.yaml
+
+```command
+$ cat istio.yaml | sed s/istio-system/istio-system1/g > istio-system1.yaml
 ```
 
 The istio yaml file contains the details of the Istio control plane deployment, including the
 pods that make up the control plane (mixer, pilot, ingress, CA). Deploying the two Istio
 control plane yaml files:
-```bash
-kubectl apply -f install/kubernetes/istio.yaml
-```
-```bash
-kubectl apply -f install/kubernetes/istio-system1.yaml
+
+```command
+$ kubectl apply -f install/kubernetes/istio.yaml
+$ kubectl apply -f install/kubernetes/istio-system1.yaml
 ```
 Results in two Istio control planes running in two namespaces.
-```bash
-kubectl get pods --all-namespaces
-```
-```bash
+
+```command
+$ kubectl get pods --all-namespaces
 NAMESPACE       NAME                                       READY     STATUS    RESTARTS   AGE
 istio-system    istio-ca-ffbb75c6f-98w6x                   1/1       Running   0          15d
 istio-system    istio-ingress-68d65fc5c6-dnvfl             1/1       Running   0          15d
@@ -104,6 +103,7 @@ administrator would create a manifest containing, at a minimum, a `Role` and `Ro
 similar to the one below. In this example, a tenant administrator named *sales-admin*
 is limited to the namespace *istio-system1*. A completed manifest would contain many
 more `apiGroups` under the `Role` providing resource access to the tenant administrator.
+
 ```yaml
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
@@ -138,6 +138,7 @@ that Pilot should watch for creation of its xDS cache. This is done by starting 
 component with the additional command line arguments `--appNamespace, ns-1`.  Where *ns-1*
 is the namespace that the tenant’s application will be deployed in. An example snippet from
 the istio-system1.yaml file is included below.
+
 ```yaml
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -207,20 +208,19 @@ the .yaml file for the resource scopes it properly instead.
 
 For example, the following command would be required to add a route rule to the *istio-system1*
 namespace:
-```bash
-istioctl –i istio-system1 create -n ns-1 -f route_rule_v2.yaml
+```command
+$ istioctl –i istio-system1 create -n ns-1 -f route_rule_v2.yaml
 ```
 And can be displayed using the command:
-```bash
-istioctl -i istio-system1 -n ns-1 get routerule
-```
-```bash
+```command
+$ istioctl -i istio-system1 -n ns-1 get routerule
 NAME                  KIND                                  NAMESPACE
 details-Default       RouteRule.v1alpha2.config.istio.io    ns-1
 productpage-default   RouteRule.v1alpha2.config.istio.io    ns-1
 ratings-default       RouteRule.v1alpha2.config.istio.io    ns-1
 reviews-default       RouteRule.v1alpha2.config.istio.io    ns-1
 ```
+
 See the [Multiple Istio control planes]({{home}}/blog/2018/soft-multitenancy.html#multiple-istio-control-planes) section of this document for more details on `namespace` requirements in a
 multi-tenant environment.
 
@@ -231,10 +231,9 @@ via RBAC and namespaces, what a tenant administrator can deploy.
 
 After deployment, accessing the Istio control plane pods assigned to a specific tenant
 administrator is permitted:
-```bash
-kubectl get pods -n istio-system
-```
-```bash
+
+```command
+$ kubectl get pods -n istio-system
 NAME                                      READY     STATUS    RESTARTS   AGE
 grafana-78d649479f-8pqk9                  1/1       Running   0          1d
 istio-ca-ffbb75c6f-98w6x                  1/1       Running   0          1d
@@ -246,17 +245,16 @@ prometheus-cf8456855-hdcq7                1/1       Running   0          1d
 servicegraph-75ff8f7c95-wcjs7             1/1       Running   0          1d
 ```
 However, accessing all the cluster's pods is not permitted:
-```bash
-kubectl get pods --all-namespaces
-```
-```bash
+
+```command
+$ kubectl get pods --all-namespaces
 Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list pods at the cluster scope
 ```
+
 And neither is accessing another tenant's namespace:
-```bash
-kubectl get pods -n istio-system1
-```
-```bash
+
+```command
+$ kubectl get pods -n istio-system1
 Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list pods in the namespace "istio-system1"
 ```
 
@@ -264,10 +262,9 @@ The tenant administrator can deploy applications in the application namespace co
 that tenant. As an example, updating the [Bookinfo]({{home}}/docs/guides/bookinfo.html)
 manifests and then deploying under the tenant's application namespace of *ns-0*, listing the
 pods in use by this tenant's namespace is permitted:
-```bash
-kubectl get pods -n ns-0
-```
-```bash
+
+```command
+$ kubectl get pods -n ns-0
 NAME                              READY     STATUS    RESTARTS   AGE
 details-v1-64b86cd49-b7rkr        2/2       Running   0          1d
 productpage-v1-84f77f8747-rf2mt   2/2       Running   0          1d
@@ -276,11 +273,11 @@ reviews-v1-ff6bdb95b-pm5lb        2/2       Running   0          1d
 reviews-v2-5799558d68-b989t       2/2       Running   0          1d
 reviews-v3-58ff7d665b-lw5j9       2/2       Running   0          1d
 ```
+
 But accessing another tenant's application namespace is not:
-```bash
-kubectl get pods -n ns-1
-```
-```bash
+
+```command
+$ kubectl get pods -n ns-1
 Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list pods in the namespace "ns-1"
 ```
 

@@ -60,16 +60,9 @@ unmodified. Sidecars can be updated selectively by manually deleting a pods or
 systematically with a deployment rolling update.
 
 Manual and automatic injection use the same templated configuration. Automatic
-injection loads the configuration from the `istio-inject` ConfigMap in the
+injection loads the configuration from the `istio-sidecar-injector` ConfigMap in the
 `istio-system` namespace. Manual injection can load from a local file or from
 the ConfigMap.
-
-Two variants of the injection configuration are provided with the default
-install: `istio-sidecar-injector-configmap-release.yaml`
-and `istio-sidecar-injector-configmap-debug.yaml`. The injection configmap includes
-the default injection policy and sidecar injection template. The debug version
-includes debug proxy images and additional logging and core dump functionality used
-for debugging the sidecar proxy.
 
 ### Manual sidecar injection
 
@@ -84,11 +77,9 @@ $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
 `kube-inject` can also be run without access to a running Kubernetes
 cluster. Create local copies of the injection and mesh configmap.
 
-```bash
-istioctl kube-inject --emitTemplate > inject-config.yaml
-
-kubectl -n istio-system get configmap istio -o=jsonpath='{.data.mesh}' > mesh-config.yaml
-
+```command
+$ istioctl kube-inject --emitTemplate > inject-config.yaml
+$ kubectl -n istio-system get configmap istio -o=jsonpath='{.data.mesh}' > mesh-config.yaml
 ```
 
 Run `kube-inject` over the input file.
@@ -143,9 +134,6 @@ Alternatively, you can also use Helm to generate the yaml file and install it ma
 
 ```command
 $ helm template --namespace=istio-system --set sidecar-injector.enabled=true install/kubernetes/helm/istio > istio.yaml
-```
-
-```command
 $ kubectl apply -f istio.yaml
 ```
 
@@ -159,8 +147,6 @@ Deploy sleep app. Verify both deployment and pod have a single container.
 
 ```command
 $ kubectl apply -f samples/sleep/sleep.yaml
-```
-```command
 $ kubectl get deployment -o wide
 NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE       CONTAINERS   IMAGES       SELECTOR
 sleep     1         1         1            1           12m       sleep        tutum/curl   app=sleep
@@ -219,7 +205,7 @@ supplied with Istio selects pods in namespaces with label `istio-injection=enabl
 This can be changed by modifying the MutatingWebhookConfiguration in
 `install/kubernetes/istio-sidecar-injector-with-ca-bundle.yaml`.
 
-The `istio-inject` ConfigMap in the `istio-system` namespace the default
+The `istio-sidecar-injector` ConfigMap in the `istio-system` namespace has the default
 injection policy and sidecar injection template.
 
 ##### _**policy**_
@@ -257,7 +243,7 @@ The sidecar injection template uses [https://golang.org/pkg/text/template](https
 when parsed and executed, is decoded to the following
 struct containing the list of containers and volumes to inject into the pod.
 
-```golang
+```go
 type SidecarInjectionSpec struct {
       InitContainers []v1.Container `yaml:"initContainers"`
       Containers     []v1.Container `yaml:"containers"`
@@ -267,7 +253,7 @@ type SidecarInjectionSpec struct {
 
 The template is applied to the following data structure at runtime.
 
-```golang
+```go
 type SidecarTemplateData struct {
     ObjectMeta  *metav1.ObjectMeta
     Spec        *v1.PodSpec
