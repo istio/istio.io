@@ -151,7 +151,7 @@ message.
 
    Login as user "jason". If the rule propagated successfully to all pods, you should see the page load
    immediately with the "product ratings not available" message. Logout from user "jason" and you should
-   see the ratings v2 show up successfully on the productpage web page.
+   see the ratings v1 show up successfully on the productpage web page.
 
 ## Cleanup
 
