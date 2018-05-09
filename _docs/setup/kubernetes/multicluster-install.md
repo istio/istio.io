@@ -147,7 +147,7 @@ $ export STATSD_POD_IP=$(kubectl -n istio-system get pod -l istio=statsd-prom-br
    $ helm template install/kubernetes/helm/istio-remote --name istio-remote --set global.pilotEndpoint=${PILOT_POD_IP} --set global.policyEndpoint=${POLICY_POD_IP} --set global.statsdEndpoint=${STATSD_POD_IP} > $HOME/istio-remote.yaml
    ```
 
-1. Create a namespace for remote istio.
+1. Create a namespace for remote Istio.
    ```command
    $ kubectl create ns istio-system
    ```
