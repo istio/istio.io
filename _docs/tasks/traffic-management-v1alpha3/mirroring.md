@@ -131,7 +131,7 @@ spec:
   http:
   - route:
     - destination:
-        name: httpbin
+        host: httpbin
         subset: v1
       weight: 100
 ---
@@ -140,7 +140,7 @@ kind: DestinationRule
 metadata:
   name: httpbin
 spec:
-  name: httpbin
+  host: httpbin
   subsets:
   - name: v1
     labels:
@@ -198,11 +198,11 @@ spec:
   http:
   - route:
     - destination:
-        name: httpbin
+        host: httpbin
         subset: v1
       weight: 100
     mirror:
-      name: httpbin
+      host: httpbin
       subset: v2
 EOF
 ```

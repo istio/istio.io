@@ -101,4 +101,4 @@ For more about version routing with autoscaling, check out [Canary Deployments u
 
 ## What's next
 
-* Learn more about [request routing]({{home}}/docs/concepts/traffic-management/rules-configuration.html).
+* Learn more about [request routing]({{home}}/docs/concepts/traffic-management/request-routing.html).
