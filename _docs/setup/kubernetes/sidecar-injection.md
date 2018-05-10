@@ -134,6 +134,7 @@ Alternatively, you can also use Helm to generate the yaml file and install it ma
 
 ```command
 $ helm template --namespace=istio-system --set sidecar-injector.enabled=true install/kubernetes/helm/istio > istio.yaml
+$ kubectl create ns istio-system
 $ kubectl apply -f istio.yaml
 ```
 
