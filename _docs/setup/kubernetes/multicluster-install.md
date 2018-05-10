@@ -144,7 +144,7 @@ $ export STATSD_POD_IP=$(kubectl -n istio-system get pod -l istio=statsd-prom-br
 1. Use the helm template command on a remote to specify the Istio control plane service endpoints:
 
    ```command
-   $ helm template install/kubernetes/helm/istio-remote --name istio-remote --set global.pilotEndpoint=${PILOT_POD_IP} --set global.policyEndpoint=${POLICY_POD_IP} --set global.statsdEndpoint=${STATSD_POD_IP} > $HOME/istio-remote.yaml
+   $ helm template install/kubernetes/helm/istio-remote --namespace istio-system --name istio-remote --set global.pilotEndpoint=${PILOT_POD_IP} --set global.policyEndpoint=${POLICY_POD_IP} --set global.statsdEndpoint=${STATSD_POD_IP} > $HOME/istio-remote.yaml
    ```
 
 1. Create a namespace for remote Istio.
