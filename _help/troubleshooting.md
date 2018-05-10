@@ -327,6 +327,28 @@ More on viewing Mixer configuration can be found [here]({{home}}/help/faq/mixer.
 
 ## How can I debug issues with the service mesh?
 
+### With [istioctl](https://preliminary.istio.io/docs/reference/commands/istioctl.html#istioctl%20proxy-config)
+
+Istioctl allows you to inspect the current xDS of a given Envoy from its admin interface (locally) or from Pilot using the `proxy-config` or `pc` command.
+
+For example, to retrieve the configured clusters in an Envoy via the admin interface run the following command:
+
+```command
+istioctl proxy-config endpoint <pod-name> clusters
+```
+
+To retrieve endpoints for a given pod in the application namespace from Pilot run the following command:
+
+```command
+istioctl proxy-config pilot -n application <pod-name> eds
+```
+
+The `proxy-config` command also allows you to retrieve the state of the entire mesh from Pilot using the following command:
+
+```command
+istioctl proxy-config pilot mesh ads
+```
+
 ### With [GDB](https://www.gnu.org/software/gdb/)
 
 To debug Istio with `gdb`, you will need to run the debug images of Envoy / Mixer / Pilot. A recent `gdb` and the golang extensions (for Mixer/Pilot or other golang components) is required.
