@@ -6,8 +6,8 @@ weight: 10
 
 Configuration for *instances*, *handlers*, and *rules* is stored as Kubernetes
 [Custom Resources](https://kubernetes.io/docs/concepts/api-extension/custom-resources/).
-Configuration may be accessed by using `kubectl` to query the Kubernetes [API
-server](https://kubernetes.io/docs/admin/kube-apiserver/) for the resources.
+Configuration may be accessed by using `kubectl` to query the Kubernetes
+API server for the resources.
 
 ## Rules
 
