@@ -48,25 +48,25 @@ and any additional properties about the action.
 
 Below we show an example "requestcontext".
 ```yaml
-   apiVersion: "config.istio.io/v1alpha2"
-   kind: authorization
-   metadata:
-     name: requestcontext
-     namespace: istio-system
-   spec:
-     subject:
-       user: source.user | ""
-       groups: ""
-       properties:
-         service: source.service | ""
-         namespace: source.namespace | ""
-     action:
-       namespace: destination.namespace | ""
-       service: destination.service | ""
-       method: request.method | ""
-       path: request.path | ""
-       properties:
-         version: request.headers["version"] | ""
+apiVersion: "config.istio.io/v1alpha2"
+kind: authorization
+metadata:
+  name: requestcontext
+  namespace: istio-system
+spec:
+  subject:
+    user: source.user | ""
+    groups: ""
+    properties:
+      service: source.service | ""
+      namespace: source.namespace | ""
+  action:
+    namespace: destination.namespace | ""
+    service: destination.service | ""
+    method: request.method | ""
+    path: request.path | ""
+    properties:
+      version: request.headers["version"] | ""
 ```
 
 ## Istio RBAC policy
@@ -90,30 +90,30 @@ fields in a rule. "paths" is optional. If not specified or set to "*", it applie
 Here is an example of a simple role "service-admin", which has full access to all services in "default" namespace.
 
 ```yaml
-   apiVersion: "config.istio.io/v1alpha2"
-   kind: ServiceRole
-   metadata:
-     name: service-admin
-     namespace: default
-   spec:
-     rules:
-     - services: ["*"]
-       methods: ["*"]
+apiVersion: "config.istio.io/v1alpha2"
+kind: ServiceRole
+metadata:
+  name: service-admin
+  namespace: default
+spec:
+  rules:
+  - services: ["*"]
+    methods: ["*"]
 ```
 
 Here is another role "products-viewer", which has read ("GET" and "HEAD") access to service "products.default.svc.cluster.local"
 in "default" namespace.
 
 ```yaml
-   apiVersion: "config.istio.io/v1alpha2"
-   kind: ServiceRole
-   metadata:
-     name: products-viewer
-     namespace: default
-   spec:
-     rules:
-     - services: ["products.default.svc.cluster.local"]
-       methods: ["GET", "HEAD"]
+apiVersion: "config.istio.io/v1alpha2"
+kind: ServiceRole
+metadata:
+  name: products-viewer
+  namespace: default
+spec:
+  rules:
+  - services: ["products.default.svc.cluster.local"]
+    methods: ["GET", "HEAD"]
 ```
 
 In addition, we support **prefix matching** and **suffix matching** for all the fields in a rule. For example, you can define a "tester" role that
@@ -123,18 +123,18 @@ has the following permissions in "default" namespace:
 in service "bookstore.default.svc.cluster.local".
 
 ```yaml
-   apiVersion: "config.istio.io/v1alpha2"
-   kind: ServiceRole
-   metadata:
-     name: tester
-     namespace: default
-   spec:
-     rules:
-     - services: ["test-*"]
-       methods: ["*"]
-     - services: ["bookstore.default.svc.cluster.local"]
-       paths: ["*/reviews"]
-       methods: ["GET"]
+apiVersion: "config.istio.io/v1alpha2"
+kind: ServiceRole
+metadata:
+  name: tester
+  namespace: default
+spec:
+  rules:
+  - services: ["test-*"]
+    methods: ["*"]
+  - services: ["bookstore.default.svc.cluster.local"]
+    paths: ["*/reviews"]
+    methods: ["GET"]
 ```
 
 In `ServiceRole`, the combination of "namespace"+"services"+"paths"+"methods" defines "how a service (services) is allowed to be accessed".
@@ -146,18 +146,18 @@ For example, the following `ServiceRole` definition extends the previous "produc
 being "v1" or "v2". Note that the "version" property is provided by `"action.properties.version"` in "requestcontext".
 
 ```yaml
-   apiVersion: "config.istio.io/v1alpha2"
-   kind: ServiceRole
-   metadata:
-     name: products-viewer-version
-     namespace: default
-   spec:
-     rules:
-     - services: ["products.default.svc.cluster.local"]
-       methods: ["GET", "HEAD"]
-       constraints:
-       - key: "version"
-         values: ["v1", "v2"]
+apiVersion: "config.istio.io/v1alpha2"
+kind: ServiceRole
+metadata:
+  name: products-viewer-version
+  namespace: default
+spec:
+  rules:
+  - services: ["products.default.svc.cluster.local"]
+    methods: ["GET", "HEAD"]
+    constraints:
+    - key: "version"
+      values: ["v1", "v2"]
 ```
 
 ### `ServiceRoleBinding`
@@ -175,37 +175,37 @@ Here is an example of `ServiceRoleBinding` resource "test-binding-products", whi
 * "reviews.abc.svc.cluster.local" service in "abc" namespace.
 
 ```yaml
-   apiVersion: "config.istio.io/v1alpha2"
-   kind: ServiceRoleBinding
-   metadata:
-     name: test-binding-products
-     namespace: default
-   spec:
-     subjects:
-     - user: "alice@yahoo.com"
-     - properties:
-         service: "reviews.abc.svc.cluster.local"
-         namespace: "abc"
-     roleRef:
-       kind: ServiceRole
-       name: "products-vieweqr"
+apiVersion: "config.istio.io/v1alpha2"
+kind: ServiceRoleBinding
+metadata:
+  name: test-binding-products
+  namespace: default
+spec:
+  subjects:
+  - user: "alice@yahoo.com"
+  - properties:
+      service: "reviews.abc.svc.cluster.local"
+      namespace: "abc"
+  roleRef:
+    kind: ServiceRole
+    name: "products-viewer"
 ```
 
 In the case that you want to make a service(s) publicly accessible, you can use set the subject to `user: "*"`. This will assign a `ServiceRole`
 to all users/services.
 
 ```yaml
-   apiVersion: "config.istio.io/v1alpha2"
-   kind: ServiceRoleBinding
-   metadata:
-     name: binding-products-allusers
-     namespace: default
-   spec:
-     subjects:
-     - user: "*"
-     roleRef:
-       kind: ServiceRole
-       name: "products-viewer"
+apiVersion: "config.istio.io/v1alpha2"
+kind: ServiceRoleBinding
+metadata:
+  name: binding-products-allusers
+  namespace: default
+spec:
+  subjects:
+  - user: "*"
+  roleRef:
+    kind: ServiceRole
+    name: "products-viewer"
 ```
 
 ## Enabling Istio RBAC
@@ -224,29 +224,27 @@ earlier in the document](#request-context).
 In the following example, Istio RBAC is enabled for "default" namespace. And the cache duration is set to 30 seconds.
 
 ```yaml
-   apiVersion: "config.istio.io/v1alpha2"
-   kind: rbac
-   metadata:
-     name: handler
-     namespace: istio-system
-   spec:
-     config_store_url: "k8s://"
-     cache_duration: "30s"
-
-   ---
-   apiVersion: "config.istio.io/v1alpha2"
-   kind: rule
-   metadata:
-     name: rbaccheck
-     namespace: istio-system
-   spec:
-     match: destination.namespace == "default"
-     actions:
-     # handler and instance names default to the rule's namespace.
-     - handler: handler.rbac
-       instances:
-       - requestcontext.authorization
-   ---
+apiVersion: "config.istio.io/v1alpha2"
+kind: rbac
+metadata:
+  name: handler
+  namespace: istio-system
+spec:
+  config_store_url: "k8s://"
+  cache_duration: "30s"
+---
+apiVersion: "config.istio.io/v1alpha2"
+kind: rule
+metadata:
+  name: rbaccheck
+  namespace: istio-system
+spec:
+  match: destination.namespace == "default"
+  actions:
+  # handler and instance names default to the rule's namespace.
+  - handler: handler.rbac
+    instances:
+    - requestcontext.authorization
 ```
 
 ## What's next
