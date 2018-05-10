@@ -29,9 +29,18 @@ application.  It uses Deployment Manager to automate the steps detailed in the [
 
    {% include figure.html width="100%" ratio="30%"
     img='./img/dm_gcp_iam.png'
-    alt='GCP-IAM Permissions'
-    title='GCP-IAM Permissions'
-    caption='GKE-IAM Permissions'
+    alt='GCP-IAM Service'
+    title='GCP-IAM Service'
+    caption='GKE-IAM Service'
+    %}
+
+Then add the ```Kubernetes Engine Admin``` Role
+
+   {% include figure.html width="100%" ratio="37%"
+    img='./img/dm_gcp_iam_role.png'
+    alt='GCP-IAM Role'
+    title='GCP-IAM Role'
+    caption='GKE-IAM Role'
     %}
 
 ## Setup
