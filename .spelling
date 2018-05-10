@@ -246,6 +246,7 @@ destination.user
 dev
 dm_bookinfo.png
 dm_gcp_iam.png
+dm_gcp_iam_role.png
 dm_grafana.png
 dm_kubernetes.png
 dm_kubernetes_workloads.png
@@ -307,6 +308,7 @@ https_from_the_app.svg
 hyperkube
 i.e.
 img
+ingressgateway
 initializer
 initializers
 int64
@@ -352,6 +354,7 @@ listchecker
 liveness
 mTLS
 machine.svg
+machineSetup
 memcached
 memquota
 mesos-dns
