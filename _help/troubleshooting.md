@@ -327,7 +327,7 @@ More on viewing Mixer configuration can be found [here]({{home}}/help/faq/mixer.
 
 ## How can I debug issues with the service mesh?
 
-### With [istioctl](https://preliminary.istio.io/docs/reference/commands/istioctl.html#istioctl%20proxy-config)
+### With [istioctl](https://istio.io/docs/reference/commands/istioctl.html#istioctl%20proxy-config)
 
 Istioctl allows you to inspect the current xDS of a given Envoy from its admin interface (locally) or from Pilot using the `proxy-config` or `pc` command.
 
