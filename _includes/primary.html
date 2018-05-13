@@ -47,12 +47,12 @@ Usage:
                     <p class="subtitle">{{page.subtitle}}</p>
                 {% endif %}
 
-                {% if page.attribution != nil or page.publish_date != nil %}
+                {% if page.attribution != nil or page.publishdate != nil %}
                     <p class="byline">
                         {% if page.attribution != nil %}
                             By <span class="attribution">{{page.attribution}}</span> /
                         {% endif %}
-                        <span class="publish_date">{{page.publish_date}}</span>
+                        <span class="publish_date">{{page.publishdate | date: "%B %e, %Y"}}</span>
                     </p>
                 {% endif %}
 
