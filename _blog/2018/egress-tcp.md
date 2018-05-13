@@ -1,7 +1,7 @@
 ---
 title: Consuming External TCP Services
 description: Describes a simple scenario based on Istio Bookinfo sample
-publish_date: February 6, 2018
+publishdate: 2018-02-06
 subtitle: Egress rules for TCP traffic
 attribution: Vadim Eisenberg
 

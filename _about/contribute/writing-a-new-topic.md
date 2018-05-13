@@ -102,7 +102,7 @@ matter fields are:
 |`weight`       | An integer used to determine the sort order of this page relative to other pages in the same directory.
 |`layout`       | Indicates which of the Jekyll layouts this page uses
 |`draft`        | When true, prevents the page from showing up in any navigation area
-|`publish_date` | For blog posts, indicates the date of publication of the post
+|`publishdate` | For blog posts, indicates the date of publication of the post
 |`subtitle`     | For blog posts, supplies an optional subtitle to be displayed below the main title
 |`attribution`  | For blog posts, supplies an optional author's name
 |`toc`          | Set this to false to prevent the page from having a table of contents generated for it

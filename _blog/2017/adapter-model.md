@@ -1,7 +1,7 @@
 ---
 title: Mixer Adapter Model
 description: Provides an overview of the Mixer plug-in architecture
-publish_date: November 3, 2017
+publishdate: 2017-11-03
 subtitle: Extending Istio to integrate with a world of infrastructure backends
 attribution: Martin Taillefer
 
