@@ -12,11 +12,10 @@ redirect_from: /docs/concepts/traffic-management/manager.html
 Pilot is responsible for the lifecycle of Envoy instances deployed
 across the Istio service mesh.
 
-{% include figure.html width='60%' ratio='72.17%'
-    img='./img/pilot/PilotAdapters.svg'
+{% include image.html width="60%" ratio="72.17%"
+    link="./img/pilot/PilotAdapters.svg"
     alt="Pilot's overall architecture."
-    title='Pilot Architecture'
-    caption='Pilot Architecture'
+    caption="Pilot Architecture"
     %}
 
 As illustrated in the figure above, Pilot maintains a canonical

@@ -26,18 +26,14 @@ The following instructions require a Kubernetes **1.9.0 or newer** cluster.
 You need to apply policy on the master role in order to be able to provision network load balancer.
 
 1. In AWS `iam` console click on policies and click on create a new one:
-{% include figure.html width='80%' ratio='60%'
-    img='./img/createpolicystart.png'
-    alt='Create a new policy'
-    title='Create a new policy'
-    caption='Create a new policy'
+{% include image.html width="80%" ratio="60%"
+    link="./img/createpolicystart.png"
+    caption="Create a new policy"
     %}
 1. Select `json`:
-{% include figure.html width='80%' ratio='60%'
-    img='./img/createpolicyjson.png'
-    alt='Select json'
-    title='Select json'
-    caption='Select json'
+{% include image.html width="80%" ratio="60%"
+    link="./img/createpolicyjson.png"
+    caption="Select json"
     %}
 1. Copy/paste text bellow:
 ```json
@@ -79,18 +75,14 @@ You need to apply policy on the master role in order to be able to provision net
 }
 ```
 1. Click review policy, fill all fields and click create policy:
-{% include figure.html width='80%' ratio='60%'
-    img='./img/create_policy.png'
-    alt='Validate policy'
-    title='Validate policy'
-    caption='Validate policy'
+{% include image.html width="80%" ratio="60%"
+    link="./img/create_policy.png"
+    caption="Validate policy"
     %}
 1. Click on roles, select you master role nodes, and click attach policy:
-{% include figure.html width='100%' ratio='35%'
-    img='./img/roles_summary.png'
-    alt='Attach policy'
-    title='Attach policy'
-    caption='Attach policy'
+{% include image.html width="100%" ratio="35%"
+    link="./img/roles_summary.png"
+    caption="Attach policy"
     %}
 1. Your policy is now attach to your master node.
 

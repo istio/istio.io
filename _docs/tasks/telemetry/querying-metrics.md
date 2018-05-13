@@ -60,11 +60,9 @@ application.
 
    The results will be similar to:
 
-{% include figure.html width='100%' ratio='39.36%'
-    img='./img/prometheus_query_result.png'
-    alt='Prometheus Query Result'
-    title='Prometheus Query Result'
-    caption='Prometheus Query Result'
+{% include image.html width="100%" ratio="39.36%"
+    link="./img/prometheus_query_result.png"
+    caption="Prometheus Query Result"
     %}
 
     Other queries to try:

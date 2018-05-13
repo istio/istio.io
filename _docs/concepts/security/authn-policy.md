@@ -19,11 +19,9 @@ Identities from both authentication parts, if applicable, are output to the next
 
 Authentication policies are saved in Istio config store (in 0.7, the storage implementation uses Kubernetes CRD), and distributed by control plane. Depending on the size of the mesh, config propagation may take a few seconds to a few minutes. During the transition, you can expect traffic lost or inconsistent authentication results.
 
-{% include figure.html width='80%' ratio='100%'
-    img='./img/authn.svg'
-    alt='Istio authentication policy architecture'
-    title='Istio authentication policy architecture'
-    caption='Istio authentication policy architecture'
+{% include image.html width="80%" ratio="100%"
+    link="./img/authn.svg"
+    caption="Istio authentication policy architecture"
     %}
 
 Policy is scoped to namespaces, with (optional) target selector rules to narrow down the set of services (within the same namespace as the policy) on which the policy should be applied. This aligns with the ACL model based on Kubernetes RBAC. More specifically, only the admin of the namespace can set policies for services in that namespace.
