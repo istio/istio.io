@@ -31,11 +31,9 @@ Adapters are Go packages that are directly linked into the Mixer binary. It’s 
 Mixer is essentially an attribute processing and routing machine. The proxy sends it [attributes]({{home}}/docs/concepts/policy-and-control/attributes.html) as part of doing precondition checks and telemetry reports, which it turns into a series of calls into adapters. The operator supplies configuration which describes how to map incoming attributes to inputs for the adapters.
 
 {% assign url = home | append: "/docs/concepts/policy-and-control/img/mixer-config/machine.svg" %}
-{% include figure.html width='60%' ratio='42.60%'
-    img=url
-    alt='Attribute Machine'
-    title='Attribute Machine'
-    caption='Attribute Machine'
+{% include image.html width="60%" ratio="42.60%"
+    link=url
+    caption="Attribute Machine"
     %}
 
 Configuration is a complex task. In fact, evidence shows that the overwhelming majority of service outages are caused by configuration errors. To help combat this, Mixer’s configuration model enforces a number of constraints designed to avoid errors. For example, the configuration model uses strong typing to ensure that only meaningful attributes or attribute expressions are used in any given context.

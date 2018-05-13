@@ -34,10 +34,9 @@ In 2014, we started an initiative to create a replacement architecture that woul
 
 The older system was built around a centralized fleet of fairly heavy proxies into which all incoming traffic would flow, before being forwarded to the services where the real work was done. The newer architecture jettisons the shared proxy design and instead consists of a very lean and efficient distributed sidecar proxy sitting next to service instances, along with a shared fleet of sharded control plane intermediaries:
 
-{% include figure.html width='75%' ratio='74.79%'
-    img='./img/mixer-spof-myth-1.svg'
-    alt='Google System Topology'
-    title='Google System Topology'
+{% include image.html width="75%" ratio="74.79%"
+    link="./img/mixer-spof-myth-1.svg"
+    title="Google System Topology"
     caption="Google's API & Service Management System"
     %}
 
@@ -47,10 +46,8 @@ Look familiar? Of course: it’s just like Istio! Istio was conceived as a secon
 
 As shown in the diagram below, Mixer sits between the mesh and the infrastructure backends that support it:
 
-{% include figure.html width='75%' ratio='65.89%'
-    img='./img/mixer-spof-myth-2.svg'
-    alt='Istio Topology'
-    title='Istio Topology'
+{% include image.html width="75%" ratio="65.89%"
+    link="./img/mixer-spof-myth-2.svg"
     caption="Istio Topology"
     %}
 

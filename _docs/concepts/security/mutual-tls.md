@@ -24,11 +24,10 @@ security. This diagram describes how Istio is used to secure the service-to-serv
 as the service account 'frontend-team' and service 'backend' running as the service account 'backend-team'. Istio supports services running
 on both Kubernetes containers and VM/bare-metal machines.
 
-{% include figure.html width='80%' ratio='56.25%'
-    img='./img/mutual-tls/auth.svg'
-    alt='Components making up the Istio auth model.'
-    title='Istio Security Architecture'
-    caption='Istio Security Architecture'
+{% include image.html width="80%" ratio="56.25%"
+    link="./img/mutual-tls/auth.svg"
+    alt="Components making up the Istio auth model."
+    caption="Istio Security Architecture"
     %}
 
 As illustrated in the diagram, Istio leverages secret volume mount to deliver keys/certs from Citadel to Kubernetes containers. For services running on
