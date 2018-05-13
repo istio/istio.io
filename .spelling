@@ -272,7 +272,6 @@ failovers
 faq
 faq.md
 fcm.googleapis.com
-figure.html
 filename
 filenames
 fluentd
@@ -307,6 +306,7 @@ https
 https_from_the_app.svg
 hyperkube
 i.e.
+image.html
 img
 ingressgateway
 initializer

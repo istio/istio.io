@@ -27,20 +27,16 @@ application.  It uses Deployment Manager to automate the steps detailed in the [
 
    To set this, navigate to the **IAM** section of the [Cloud Console](https://console.cloud.google.com/iam-admin/iam/project) as shown below and find your default GCE/GKE service account in the following form: `projectNumber-compute@developer.gserviceaccount.com`: by default it should just have the **Editor** role. Then in the **Roles** drop-down list for that account, find the **Kubernetes Engine** group and select the role **Kubernetes Engine Admin**. The **Roles** listing for your account will change to **Multiple**.
 
-   {% include figure.html width="100%" ratio="30%"
-    img='./img/dm_gcp_iam.png'
-    alt='GCP-IAM Service'
-    title='GCP-IAM Service'
-    caption='GKE-IAM Service'
+   {% include image.html width="100%" ratio="30%"
+    link="./img/dm_gcp_iam.png"
+    caption="GKE-IAM Service"
     %}
 
 Then add the ```Kubernetes Engine Admin``` Role
 
-   {% include figure.html width="100%" ratio="37%"
-    img='./img/dm_gcp_iam_role.png'
-    alt='GCP-IAM Role'
-    title='GCP-IAM Role'
-    caption='GKE-IAM Role'
+   {% include image.html width="100%" ratio="37%"
+    link="./img/dm_gcp_iam_role.png"
+    caption="GKE-IAM Role"
     %}
 
 ## Setup
@@ -62,11 +58,9 @@ Then add the ```Kubernetes Engine Admin``` Role
 
 1. Click **Deploy**:
 
-   {% include figure.html width="100%" ratio="67.17%"
-    img='./img/dm_launcher.png'
-    alt='GKE-Istio Launcher'
-    title='GKE-Istio Launcher'
-    caption='GKE-Istio Launcher'
+   {% include image.html width="100%" ratio="67.17%"
+    link="./img/dm_launcher.png"
+    caption="GKE-Istio Launcher"
     %}
 
    Wait until Istio is fully deployed. Note that this can take up to five minutes.
@@ -130,11 +124,9 @@ Note down the IP and Port assigned to Bookinfo product page. (in the example abo
 
 You can also view the installation using the ***Kubernetes Engine -> Workloads** section on the [Cloud Console](https://console.cloud.google.com/kubernetes/workload):
 
-{% include figure.html width="100%" ratio="65.37%"
-    img='./img/dm_kubernetes_workloads.png'
-    alt='GKE-Workloads'
-    title='GKE-Workloads'
-    caption='GKE-Workloads'
+{% include image.html width="100%" ratio="65.37%"
+    link="./img/dm_kubernetes_workloads.png"
+    caption="GKE-Workloads"
     %}
 
 ### Access the Bookinfo sample
@@ -148,11 +140,9 @@ You can also view the installation using the ***Kubernetes Engine -> Workloads**
 
 1. Verify you can access the Bookinfo ```http://${GATEWAY_URL}/productpage```:
 
-   {% include figure.html width="100%" ratio="45.04%"
-    img='./img/dm_bookinfo.png'
-    alt='Bookinfo'
-    title='Bookinfo'
-    caption='Bookinfo'
+   {% include image.html width="100%" ratio="45.04%"
+    link="./img/dm_bookinfo.png"
+    caption="Bookinfo"
     %}
 
 1. Now send some traffic to it:
@@ -179,11 +169,9 @@ http://localhost:3000/dashboard/db/istio-dashboard
 ```
 You should see some statistics for the requests you sent earlier.
 
-{% include figure.html width="100%" ratio="48.49%"
-    img='./img/dm_grafana.png'
-    alt='Grafana'
-    title='Grafana'
-    caption='Grafana'
+{% include image.html width="100%" ratio="48.49%"
+    link="./img/dm_grafana.png"
+    caption="Grafana"
     %}
 
 For more details about using Grafana, see [About the Grafana Add-on]({{home}}/docs/tasks/telemetry/using-istio-dashboard.html#about-the-grafana-add-on).
@@ -202,11 +190,9 @@ View the console at:
 http://localhost:9090/graph
 ```
 
-{% include figure.html width="100%" ratio="43.88%"
-    img='./img/dm_prometheus.png'
-    alt='Prometheus'
-    title='Prometheus'
-    caption='Prometheus'
+{% include image.html width="100%" ratio="43.88%"
+    link="./img/dm_prometheus.png"
+    caption="Prometheus"
     %}
 
 For more details, see [About the Prometheus Add-on]({{home}}/docs/tasks/telemetry/querying-metrics.html#about-the-prometheus-add-on).
@@ -225,11 +211,9 @@ You should see the Bookinfo service topology at
 http://localhost:8088/dotviz
 ```
 
-{% include figure.html width="100%" ratio="53.33%"
-    img='./img/dm_servicegraph.png'
-    alt='ServiceGraph'
-    title='ServiceGraph'
-    caption='ServiceGraph'
+{% include image.html width="100%" ratio="53.33%"
+    link="./img/dm_servicegraph.png"
+    caption="ServiceGraph"
     %}
 
 For more details, see [About the ServiceGraph Add-on]({{home}}/docs/tasks/telemetry/servicegraph.html#about-the-servicegraph-add-on).
@@ -248,11 +232,9 @@ You should see the trace statistics sent earlier:
 http://localhost:9411
 ```
 
-{% include figure.html width="100%" ratio="57.00%"
-    img='./img/dm_zipkin.png'
-    alt='Zipkin'
-    title='Zipkin'
-    caption='Zipkin'
+{% include image.html width="100%" ratio="57.00%"
+    link="./img/dm_zipkin.png"
+    caption="Zipkin"
     %}
 
 For more details on tracing see [Understanding what happened]({{home}}/docs/tasks/telemetry/distributed-tracing.html#understanding-what-happened).
