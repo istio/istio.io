@@ -118,11 +118,9 @@ The example commands in this blog post work with Istio 0.3+, with or without [Mu
 As a reminder, here is the end-to-end architecture of the application from the [Bookinfo Guide]({{home}}/docs/guides/bookinfo.html).
 
 {% assign url = home | append: "/docs/guides/img/bookinfo/withistio.svg" %}
-{% include figure.html width='80%' ratio='59.08%'
-    img=url
-    alt='The original Bookinfo application'
-    title='The original Bookinfo application'
-    caption='The original Bookinfo application'
+{% include image.html width="80%" ratio="59.08%"
+    link=url
+    caption="The original Bookinfo application"
     %}
 
 ### Use the database for ratings data in Bookinfo application
@@ -159,11 +157,9 @@ service. In addition, I route all the traffic destined to the _ratings_ service 
 
 The updated architecture appears below. Note that the blue arrows inside the mesh mark the traffic configured according to the route rules we added. According to the route rules, the traffic is sent to _reviews v3_ and _ratings v2-mysql_.
 
-{% include figure.html width='80%' ratio='59.31%'
-    img='./img/bookinfo-ratings-v2-mysql-external.svg'
-    alt='The Bookinfo application with ratings v2-mysql and an external MySQL database'
-    title='The Bookinfo application with ratings v2-mysql and an external MySQL database'
-    caption='The Bookinfo application with ratings v2-mysql and an external MySQL database'
+{% include image.html width="80%" ratio="59.31%"
+    link="./img/bookinfo-ratings-v2-mysql-external.svg"
+    caption="The Bookinfo application with ratings v2-mysql and an external MySQL database"
     %}
 
 Note that the MySQL database is outside the Istio service mesh, or more precisely outside the Kubernetes cluster. The boundary of the service mesh is marked by a dashed line.
@@ -174,11 +170,9 @@ Let's access the webpage of the application, after [determining the ingress IP a
 
 We have a problem... Instead of the rating stars, the message _"Ratings service is currently unavailable"_ is currently displayed below each review:
 
-{% include figure.html width='80%' ratio='36.19%'
-    img='./img/errorFetchingBookRating.png'
-    alt='The Ratings service error messages'
-    title='The Ratings service error messages'
-    caption='The Ratings service error messages'
+{% include image.html width="80%" ratio="36.19%"
+    link="./img/errorFetchingBookRating.png"
+    caption="The Ratings service error messages"
     %}
 
 As in [Consuming External Web Services]({{home}}/blog/2018/egress-https.html), we experience **graceful service degradation**, which is good. The application did not crash due to the error in the _ratings_ microservice. The webpage of the application correctly displayed the book information, the details, and the reviews, just without the rating stars.
@@ -213,11 +207,9 @@ Note that for a TCP egress rule, we specify `tcp` as the protocol of a port of t
 
 It worked! Accessing the web page of the application displays the ratings without error:
 
-{% include figure.html width='80%' ratio='36.69%'
-    img='./img/externalMySQLRatings.png'
-    alt='Book Ratings Displayed Correctly'
-    title='Book Ratings Displayed Correctly'
-    caption='Book Ratings Displayed Correctly'
+{% include image.html width="80%" ratio="36.69%"
+    link="./img/externalMySQLRatings.png"
+    caption="Book Ratings Displayed Correctly"
     %}
 
 Note that we see a one-star rating for both displayed reviews, as expected. I changed the ratings to be one star to provide us with a visual clue that our external database is indeed being used.

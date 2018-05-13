@@ -87,22 +87,20 @@ chunk of front matter you should start with:
 ---
 title: <title>
 description: <overview>
-
 weight: <order>
 ---
 ```
 
 Copy the above at the start of your new markdown file and update
-the `<title>`, `<overview>` and `<order>` fields for your particular file. The available front
+the `<title>`, `<description>` and `<weight>` fields for your particular file. The available front
 matter fields are:
 
 |Field          | Description
 |---------------|------------
 |`title`        | The short title of the page
-|`overview`     | A one-line description of what the topic is about
-|`order`        | An integer used to determine the sort order of this page relative to other pages in the same directory.
+|`description`  | A one-line description of what the topic is about
+|`weight`       | An integer used to determine the sort order of this page relative to other pages in the same directory.
 |`layout`       | Indicates which of the Jekyll layouts this page uses
-|`index`        | Indicates whether the page should appear in the doc's top nav tabs
 |`draft`        | When true, prevents the page from showing up in any navigation area
 |`publish_date` | For blog posts, indicates the date of publication of the post
 |`subtitle`     | For blog posts, supplies an optional subtitle to be displayed below the main title
@@ -139,17 +137,21 @@ Within markdown, use the following sequence to add the image:
 
 ```html
 {% raw %}
-{% include figure.html width='75%' ratio='69.52%'
-    img='./img/myfile.svg'
-    alt='Alternate text to display when the image is not available'
-    title='A tooltip displayed when hovering over the image'
-    caption='A caption displayed under the image'
+{% include image.html width="75%" ratio="69.52%"
+    link="./img/myfile.svg"
+    alt="Alternate text to display when the image is not available"
+    title="A tooltip displayed when hovering over the image"
+    caption="A caption displayed under the image"
     %}
 {% endraw %}
 ```
 
-You need to fill in all the values. The width represents the percentage of space used by the image
-relative to the surrounding text. The ratio is (image height / image width) * 100.
+The `width`, `ratio`, `link` and `caption` values are required. If the `title` value isn't
+supplied, it'll default to the same as `caption`. If the `alt` value is not supplied, it'll
+default to `title` or if that's not defined, to `caption`.
+
+`width` represents the percentage of space used by the image
+relative to the surrounding text. `ratio` (image height / image width) * 100.
 
 ## Linking to other pages
 

@@ -22,11 +22,10 @@ It features:
 The diagram below shows the Istio RBAC architecture. Operators specify Istio RBAC policies. The policies are saved in
 the Istio config store.
 
-{% include figure.html width='80%' ratio='56.25%'
-    img='./img/IstioRBAC.svg'
-    alt='Istio RBAC'
-    title='Istio RBAC Architecture'
-    caption='Istio RBAC Architecture'
+{% include image.html width="80%" ratio="56.25%"
+    link="./img/IstioRBAC.svg"
+    alt="Istio RBAC"
+    caption="Istio RBAC Architecture"
     %}
 
 The Istio RBAC engine does two things:

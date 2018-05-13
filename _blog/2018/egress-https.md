@@ -29,11 +29,9 @@ The Bookinfo configuration files reside in the `samples/bookinfo/kube` directory
 Here is a copy of the end-to-end architecture of the application from the original [Bookinfo Guide]({{home}}/docs/guides/bookinfo.html).
 
 {% assign url = home | append: "/docs/guides/img/bookinfo/withistio.svg" %}
-{% include figure.html width='80%' ratio='59.08%'
-    img=url
-    alt='The Original Bookinfo Application'
-    title='The Original Bookinfo Application'
-    caption='The Original Bookinfo Application'
+{% include image.html width="80%" ratio="59.08%"
+    link=url
+    caption="The Original Bookinfo Application"
     %}
 
 ### Bookinfo with details version 2
@@ -46,11 +44,9 @@ $ kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-deta
 
 The updated architecture of the application now looks as follows:
 
-{% include figure.html width='80%' ratio='65.16%'
-    img='./img/bookinfo-details-v2.svg'
-    alt='The Bookinfo Application with details V2'
-    title='The Bookinfo Application with details V2'
-    caption='The Bookinfo Application with details V2'
+{% include image.html width="80%" ratio="65.16%"
+    link="./img/bookinfo-details-v2.svg"
+    caption="The Bookinfo Application with details V2"
     %}
 
 Note that the Google Books web service is outside the Istio service mesh, the boundary of which is marked by a dashed line.
@@ -77,11 +73,9 @@ Let's access the web page of the application, after [determining the ingress IP 
 
 Oops... Instead of the book details we have the _Error fetching product details_ message displayed:
 
-{% include figure.html width='80%' ratio='36.01%'
-    img='./img/errorFetchingBookDetails.png'
-    alt='The Error Fetching Product Details Message'
-    title='The Error Fetching Product Details Message'
-    caption='The Error Fetching Product Details Message'
+{% include image.html width="80%" ratio="36.01%"
+    link="./img/errorFetchingBookDetails.png"
+    caption="The Error Fetching Product Details Message"
     %}
 
 The good news is that our application did not crash. With a good microservice design, we do not have **failure propagation**. In our case, the failing _details_ microservice does not cause the _productpage_ microservice to fail. Most of the functionality of the application is still provided, despite the failure in the _details_ microservice. We have **graceful service degradation**: as you can see, the reviews and the ratings are displayed correctly, and the application is still useful.
@@ -110,11 +104,9 @@ EOF
 
 Now accessing the web page of the application displays the book details without error:
 
-{% include figure.html width='80%' ratio='34.82%'
-    img='./img/externalBookDetails.png'
-    alt='Book Details Displayed Correctly'
-    title='Book Details Displayed Correctly'
-    caption='Book Details Displayed Correctly'
+{% include image.html width="80%" ratio="34.82%"
+    link="./img/externalBookDetails.png"
+    caption="Book Details Displayed Correctly"
     %}
 
 Note that our egress rule allows traffic to any domain matching _*.googleapis.com_, on port 443, using the HTTPS protocol. Let's assume for the sake of the example that the applications in our Istio service mesh must access multiple subdomains of _googleapis.com_, for example _www.googleapis.com_ and also _fcm.googleapis.com_. Our rule allows traffic to both _www.googleapis.com_ and _fcm.googleapis.com_, since they both match  _*.googleapis.com_. This **wildcard** feature allows us to enable traffic to multiple domains using a single egress rule.
@@ -148,11 +140,9 @@ To allow Istio to perform filtering of egress requests based on domains, the mic
 The diagram below shows how the HTTPS traffic to external services is performed. On the top, a microservice outside an Istio service mesh
 sends regular HTTPS requests, encrypted end-to-end. On the bottom, the same microservice inside an Istio service mesh must send unencrypted HTTP requests inside a pod, which are intercepted by the sidecar Envoy proxy. The sidecar proxy performs TLS origination, so the traffic between the pod and the external service is encrypted.
 
-{% include figure.html width='80%' ratio='65.16%'
-    img='./img/https_from_the_app.svg'
-    alt='HTTPS traffic to external services, from outside vs. from inside an Istio service mesh'
-    title='HTTPS traffic to external services, from outside vs. from inside an Istio service mesh'
-    caption='HTTPS traffic to external services, from outside vs. from inside an Istio service mesh'
+{% include image.html width="80%" ratio="65.16%"
+    link="./img/https_from_the_app.svg"
+    caption="HTTPS traffic to external services, from outside vs. from inside an Istio service mesh"
     %}
 
 Here is how we code this behavior in the [the Bookinfo details microservice code](https://github.com/istio/istio/blob/master/samples/bookinfo/src/details/details.rb), using the Ruby [net/http module](https://docs.ruby-lang.org/en/2.0.0/Net/HTTP.html):

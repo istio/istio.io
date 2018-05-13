@@ -67,36 +67,28 @@ With the Bookinfo application up and running, generate trace information by acce
 
 If you now look at the dashboard, you should see something similar to the following:
 
-{% include figure.html width='100%' ratio='44.28%'
-    img='./img/zipkin_dashboard.png'
-    alt='Zipkin Dashboard'
-    title='Zipkin Dashboard'
-    caption='Zipkin Dashboard'
+{% include image.html width="100%" ratio="44.28%"
+    link="./img/zipkin_dashboard.png"
+    caption="Zipkin Dashboard"
     %}
 
-{% include figure.html width='100%' ratio='42.35%'
-    img='./img/jaeger_dashboard.png'
-    alt='Jaeger Dashboard'
-    title='Jaeger Dashboard'
-    caption='Jaeger Dashboard'
+{% include image.html width="100%" ratio="42.35%"
+    link="./img/jaeger_dashboard.png"
+    caption="Jaeger Dashboard"
     %}
 
 If you click on the top (most recent) trace, you should see the details corresponding to your
 latest refresh of the `/productpage`.
 The page should look something like this:
 
-{% include figure.html width='100%' ratio='19.70%'
-    img='./img/zipkin_span.png'
-    alt='Zipkin Trace View'
-    title='Zipkin Trace View'
-    caption='Zipkin Trace View'
+{% include image.html width="100%" ratio="19.70%"
+    link="./img/zipkin_span.png"
+    caption="Zipkin Trace View"
     %}
 
-{% include figure.html width='100%' ratio='26.99%'
-    img='./img/jaeger_trace.png'
-    alt='Jaeger Trace View'
-    title='Jaeger Trace View'
-    caption='Jaeger Trace View'
+{% include image.html width="100%" ratio="26.99%"
+    link="./img/jaeger_trace.png"
+    caption="Jaeger Trace View"
     %}
 
 As you can see, the trace is comprised of spans,

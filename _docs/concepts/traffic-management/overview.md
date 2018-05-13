@@ -43,11 +43,9 @@ of traffic for a particular service to go to a canary version irrespective
 of the size of the canary deployment, or send traffic to a particular version
 depending on the content of the request.
 
-{% include figure.html width='85%' ratio='69.52%'
-    img='./img/pilot/TrafficManagementOverview.svg'
-    alt='Traffic Management with Istio'
-    title='Traffic Management with Istio'
-    caption='Traffic Management with Istio'
+{% include image.html width="85%" ratio="69.52%"
+    link="./img/pilot/TrafficManagementOverview.svg"
+    caption="Traffic Management with Istio"
     %}
 
 Decoupling traffic flow from infrastructure scaling like this allows Istio
