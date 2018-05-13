@@ -1,7 +1,7 @@
 ---
 title: Istio Soft Multi-tenancy Support
 description: Using Kubernetes namespace and RBAC to create an Istio soft multi-tenancy environment
-publish_date: April 19, 2018
+publishdate: 2018-04-19
 subtitle: Using multiple Istio control planes and RBAC to create multi-tenancy
 attribution: John Joyce and Rich Curran
 
