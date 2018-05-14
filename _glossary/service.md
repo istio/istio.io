@@ -1,6 +1,5 @@
 ---
 title: Service
-type: markdown
 ---
 A delineated group of related behaviors within a [service mesh](#service-mesh). Services are identified using a
 [service name](#service-name),

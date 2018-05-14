@@ -1,11 +1,9 @@
 ---
-title: Setting up Secure Access Control
-overview: This task shows how to securely control access to a service using service accounts.
+title: Secure Access Control
+description: Shows how to securely control access to a service using service accounts.
 
-order: 30
+weight: 30
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 
@@ -29,19 +27,13 @@ For the format of the service account in Istio, please refer to the
 * Run the following command to create service account `bookinfo-productpage`,
   and redeploy the service `productpage` with the service account.
 
-  ```bash
-  kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-add-serviceaccount.yaml)
-  ```
-
-  You can expect to see the output similar to the following:
-  ```bash
+  ```command
+  $ kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-add-serviceaccount.yaml)
   serviceaccount "bookinfo-productpage" created
   deployment "productpage-v1" configured
   ```
-
-
-  > Note: if you are using a namespace other than `default`,
-    use `istioctl -n namespace ...` to specify the namespace.
+> If you are using a namespace other than `default`,
+use `istioctl -n namespace ...` to specify the namespace.
 
 ## Access control using _denials_
 
@@ -57,25 +49,23 @@ the `productpage` service.
 1. Explicitly deny the requests from `productpage` to `details`.
 
    Run the following command to set up the deny rule along with a handler and an instance.
-   ```bash
-   istioctl create -f samples/bookinfo/kube/mixer-rule-deny-serviceaccount.yaml
-   ```
-   You can expect to see the output similar to the following:
-   ```bash
+   ```command
+   $ istioctl create -f samples/bookinfo/kube/mixer-rule-deny-serviceaccount.yaml
    Created config denier/default/denyproductpagehandler at revision 2877836
    Created config checknothing/default/denyproductpagerequest at revision 2877837
    Created config rule/default/denyproductpage at revision 2877838
    ```
    Notice the following in the `denyproductpage` rule:
-   ```
+   ```plain
    match: destination.labels["app"] == "details" && source.user == "cluster.local/ns/default/sa/bookinfo-productpage"
    ```
-   It matches requests coming from the serivce account
+   It matches requests coming from the service account
    "_cluster.local/ns/default/sa/bookinfo-productpage_" on the `details` service.
-   > Note:  If you are using a namespace other than `default`, replace the `default` with your namespace in the value of `source.user`.
+
+   > If you are using a namespace other than `default`, replace the `default` with your namespace in the value of `source.user`.
 
    This rule uses the `denier` adapter to deny these requests.
-   The adapter always denies requests with a pre-configured status code and message.
+   The adapter always denies requests with a preconfigured status code and message.
    The status code and message are specified in the [denier]({{home}}/docs/reference/config/adapters/denier.html)
    adapter configuration.
 
@@ -91,8 +81,8 @@ the `productpage` service.
 
 * Remove the mixer configuration:
 
-  ```bash
-  istioctl delete -f samples/bookinfo/kube/mixer-rule-deny-serviceaccount.yaml
+  ```command
+  $ istioctl delete -f samples/bookinfo/kube/mixer-rule-deny-serviceaccount.yaml
   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
@@ -104,8 +94,6 @@ the `productpage` service.
 * Learn more about [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html) and [Mixer Config]({{home}}/docs/concepts/policy-and-control/mixer-config.html).
 
 * Discover the full [Attribute Vocabulary]({{home}}/docs/reference/config/mixer/attribute-vocabulary.html).
-
-* Read the reference guide to [Writing Config]({{home}}/docs/reference/writing-config.html).
 
 * Understand the differences between Kubernetes network policies and Istio
   access control policies from this

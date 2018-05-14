@@ -1,12 +1,12 @@
 ---
 title: Mixer
-overview: Architectural deep-dive into the design of Mixer, which provides the policy and control mechanisms within the service mesh.
-              
-order: 20
+description: Architectural deep-dive into the design of Mixer, which provides the policy and control mechanisms within the service mesh.
 
-layout: docs
-type: markdown
+weight: 20
+
 ---
+
+{% include home.html %}
 
 The page explains Mixer's role and general architecture.
 
@@ -29,11 +29,10 @@ Mixer is designed to change the boundaries between layers in order to reduce
 systemic complexity, eliminating policy logic from service code and giving
 control to operators instead.
 
-{% include figure.html width='60%' ratio='59%'
-    img='./img/mixer/traffic.svg'
-    alt='Showing the flow of traffic through Mixer.'
-    title='Mixer Traffic Flow'
-    caption='Mixer Traffic Flow'
+{% include image.html width="60%" ratio="59%"
+    link="./img/mixer/traffic.svg"
+    alt="Showing the flow of traffic through Mixer."
+    caption="Mixer Traffic Flow"
     %}
 
 Mixer provides three core features:
@@ -72,11 +71,10 @@ single consistent API, independent of the backends in use. The exact set of
 adapters used at runtime is determined through configuration and can easily be
 extended to target new or custom infrastructure backends.
 
-{% include figure.html width='35%' ratio='138%'
-    img='./img/mixer/adapters.svg'
-    alt='Showing Mixer with adapters.'
-    title='Mixer and its Adapters'
-    caption='Mixer and its Adapters'
+{% include image.html width="35%" ratio="138%"
+    link="./img/mixer/adapters.svg"
+    alt="Showing Mixer with adapters."
+    caption="Mixer and its Adapters"
     %}
 
 ## Configuration state
@@ -88,12 +86,12 @@ operator is responsible for:
 
 - Configuring a set of *handlers* for Mixer-generated data. Handlers are
   configured adapters (adapters being binary plugins as described
-  [below](#adapters)). Providing a `statsd` adapter with the IP address for a
+  [here](#adapters)). Providing a `statsd` adapter with the IP address for a
   statsd backend is an example of handler configuration.
 
 - Configuring a set of *instances* for Mixer to generate based on attributes and
   literal values. They represent a chunk of data that adapter code will operate
-  on. For example, an operator may configure Mixer to generate `request_count`
+  on. For example, an operator may configure Mixer to generate `requestcount`
   metric values from attributes such as `destination.service` and
   `response.code`.
 
@@ -136,13 +134,12 @@ phases:
   parameters. The Adapter Dispatching phase invokes the adapters associated with
   each aspect and passes them those parameters.
 
-{% include figure.html width='50%' ratio='144%'
-    img='./img/mixer/phases.svg'
-    alt='Phases of Mixer request processing.'
-    title='Request Phases'
-    caption='Request Phases'
+{% include image.html width="50%" ratio="144%"
+    link="./img/mixer/phases.svg"
+    alt="Phases of Mixer request processing."
+    caption="Request Phases"
     %}
 
 ## What's next
 
-* Read the [blog post]({{home}}/blog/2017/adapter-model.html) describing Mixer's adapter model.
+- Read the [blog post]({{home}}/blog/2017/adapter-model.html) describing Mixer's adapter model.

@@ -1,7 +1,6 @@
 ---
 title: Why does Istio need Mixer?
-order: 0
-type: markdown
+weight: 1
 ---
 {% include home.html %}
 
@@ -18,7 +17,7 @@ requirements. Keeping the components separate enables independent component-appr
 
 - *Resource Usage*.
 Istio depends on being able to deploy many instances of its proxy, making it important to minimize the
-cost of each individual instance. Moving Mixer's complex logic into a distinct component makes it 
+cost of each individual instance. Moving Mixer's complex logic into a distinct component makes it
 possible for Envoy to remain svelte and agile.
 
 - *Reliability*.
@@ -28,7 +27,7 @@ it creates distinct failure domains which enables Envoy to continue operating ev
 fails, preventing outages.
 
 - *Isolation*.
-Mixer provides a level of insulation between Istio and the infrastructure backends. Each Envoy instance can be configured to have a 
+Mixer provides a level of insulation between Istio and the infrastructure backends. Each Envoy instance can be configured to have a
 very narrow scope of interaction, limiting the impact of potential attacks.
 
 - *Extensibility*.

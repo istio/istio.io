@@ -1,15 +1,13 @@
 ---
-title: "Mixer and the SPOF Myth"
-overview: Improving availability and reducing latency
-publish_date: December 7, 2017
+title: Mixer and the SPOF Myth
+description: Improving availability and reducing latency
+publishdate: 2017-12-07
 subtitle: Improving availability and reducing latency
 attribution: Martin Taillefer
 
-order: 94
+weight: 94
 
-layout: blog
-type: markdown
-
+redirect_from: /blog/posts/2017/mixer-spof-myth.html
 ---
 {% include home.html %}
 
@@ -17,7 +15,7 @@ As [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html) is in the reque
 overall system availability and latency. A common refrain we hear when people first glance at Istio architecture diagrams is
 "Isn't this just introducing a single point of failure?"
 
-In this post, we’ll dig deeper and cover the design principles that underpin Mixer and the surprising fact Mixer actually 
+In this post, we’ll dig deeper and cover the design principles that underpin Mixer and the surprising fact Mixer actually
 increases overall mesh availability and reduces average request latency.
 
 Istio's use of Mixer has two main benefits in terms of overall system availability and latency:
@@ -36,23 +34,20 @@ In 2014, we started an initiative to create a replacement architecture that woul
 
 The older system was built around a centralized fleet of fairly heavy proxies into which all incoming traffic would flow, before being forwarded to the services where the real work was done. The newer architecture jettisons the shared proxy design and instead consists of a very lean and efficient distributed sidecar proxy sitting next to service instances, along with a shared fleet of sharded control plane intermediaries:
 
-{% include figure.html width='75%' ratio='74.79%'
-    img='./img/mixer-spof-myth-1.svg'
-    alt='Google System Topology'
-    title='Google System Topology'
+{% include image.html width="75%" ratio="74.79%"
+    link="./img/mixer-spof-myth-1.svg"
+    title="Google System Topology"
     caption="Google's API & Service Management System"
     %}
 
-Look familiar? Of course: it’s just like Istio! Istio was conceived as a second generation of this distributed proxy architecture. We took the core lessons from this internal system, generalized many of the concepts by working with our partners, and created Istio. 
+Look familiar? Of course: it’s just like Istio! Istio was conceived as a second generation of this distributed proxy architecture. We took the core lessons from this internal system, generalized many of the concepts by working with our partners, and created Istio.
 
 ## Architecture recap
 
 As shown in the diagram below, Mixer sits between the mesh and the infrastructure backends that support it:
 
-{% include figure.html width='75%' ratio='65.89%'
-    img='./img/mixer-spof-myth-2.svg'
-    alt='Istio Topology'
-    title='Istio Topology'
+{% include image.html width="75%" ratio="65.89%"
+    link="./img/mixer-spof-myth-2.svg"
     caption="Istio Topology"
     %}
 
@@ -95,7 +90,7 @@ We have opportunities ahead to continue improving the system in many ways.
 
 ### Config canaries
 
-Mixer is highly scaled so it is generally resistant to individual instance failures. However, Mixer is still susceptible to cascading failures in the case when a poison configuration is deployed which causes all Mixer instances to crash basically at the same time (yeah, that would be a bad day). To prevent this from happening, config changes can be canaried to a small set of Mixer instances, and then more broadly rolled out. 
+Mixer is highly scaled so it is generally resistant to individual instance failures. However, Mixer is still susceptible to cascading failures in the case when a poison configuration is deployed which causes all Mixer instances to crash basically at the same time (yeah, that would be a bad day). To prevent this from happening, config changes can be canaried to a small set of Mixer instances, and then more broadly rolled out.
 
 Mixer doesn’t yet do canarying of config changes, but we expect this to come online as part of Istio’s ongoing work on reliable config distribution.
 
@@ -112,17 +107,17 @@ At the moment, each Mixer instance operates independently of all other instances
 In very large meshes, the load on Mixer can be great. There can be a large number of Mixer instances, each straining to keep caches primed to
 satisfy incoming traffic. We expect to eventually introduce intelligent sharding such that Mixer instances become slightly specialized in
 handling particular data streams in order to increase the likelihood of cache hits. In other words, sharding helps improve cache
-efficiency by routing related traffic to the same Mixer instance over time, rather than randomly dispatching to 
+efficiency by routing related traffic to the same Mixer instance over time, rather than randomly dispatching to
 any available Mixer instance.
 
 ## Conclusion
 
 Practical experience at Google showed that the model of a slim sidecar proxy and a large shared caching control plane intermediary hits a sweet
-spot, delivering excellent perceived availability and latency. We’ve taken the lessons learned there and applied them to create more sophisticated and 
+spot, delivering excellent perceived availability and latency. We’ve taken the lessons learned there and applied them to create more sophisticated and
 effective caching, prefetching, and buffering strategies in Istio. We’ve also optimized the communication protocols to reduce overhead when a cache miss does occur.
 
-Mixer is still young. As of Istio 0.3, we haven’t really done significant performance work within Mixer itself. This means when a request misses the sidecar 
-cache, we spend more time in Mixer to respond to requests than we should. We’re doing a lot of work to improve this in coming months to reduce the overhead 
+Mixer is still young. As of Istio 0.3, we haven’t really done significant performance work within Mixer itself. This means when a request misses the sidecar
+cache, we spend more time in Mixer to respond to requests than we should. We’re doing a lot of work to improve this in coming months to reduce the overhead
 that Mixer imparts in the synchronous precondition check case.
 
 We hope this post makes you appreciate the inherent benefits that Mixer brings to Istio.

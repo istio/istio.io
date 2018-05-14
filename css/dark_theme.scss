@@ -3,6 +3,8 @@
 
 {% if site.data.istio.archive %}
 @import "base/brand_colors_archive";
+{% elsif site.data.istio.preliminary %}
+@import "base/brand_colors_preliminary";
 {% else %}
 @import "base/brand_colors_normal";
 {% endif %}

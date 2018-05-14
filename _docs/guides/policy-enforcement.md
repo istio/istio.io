@@ -1,11 +1,9 @@
 ---
 title: Policy Enforcement
-overview: This sample uses the Bookinfo application to demonstrate policy enforcement using Istio Mixer.
+description: This sample uses the Bookinfo application to demonstrate policy enforcement using Istio Mixer.
 
-order: 40
+weight: 40
 draft: true
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 
@@ -18,6 +16,7 @@ features are important, and so on. This is not a task, but a feature of
 Istio.
 
 ## Before you begin
+
 * Describe installation options.
 
 * Install Istio control plane in a Kubernetes cluster by following the quick start instructions in the
