@@ -1,6 +1,6 @@
 ---
-title: Mutual TLS over HTTPS services
-description: This task shows how to enable mTLS on HTTPS services.
+title: Mutual TLS over HTTPS
+description: Shows how to enable mTLS on HTTPS services.
 
 weight: 80
 

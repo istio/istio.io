@@ -1,6 +1,6 @@
 ---
-title: Setting up Istio Role-Based Access Control
-description: This task shows how to set up role-based access control for services in Istio mesh.
+title: Role-Based Access Control
+description: Shows how to set up role-based access control for services in Istio mesh.
 
 weight: 40
 
