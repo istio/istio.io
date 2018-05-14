@@ -1,9 +1,11 @@
 ---
 title: Mixer
-description: Detailed information on configuration and API exposed by Mixer.
+overview: Detailed information on configuration and API exposed by Mixer.
 
-weight: 30
+order: 30
 
+layout: docs
+type: markdown
 toc: false
 ---
 

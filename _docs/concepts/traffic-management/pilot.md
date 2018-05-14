@@ -1,21 +1,23 @@
 ---
 title: Pilot
-description: Introduces Pilot, the component responsible for managing a distributed deployment of Envoy proxies in the service mesh.
+overview: Introduces Pilot, the component responsible for managing a distributed deployment of Envoy proxies in the service mesh.
+              
+order: 10
 
-weight: 10
-
+layout: docs
+type: markdown
 toc: false
-redirect_from: /docs/concepts/traffic-management/manager.html
 ---
 {% include home.html %}
 
 Pilot is responsible for the lifecycle of Envoy instances deployed
 across the Istio service mesh.
 
-{% include image.html width="60%" ratio="72.17%"
-    link="./img/pilot/PilotAdapters.svg"
+{% include figure.html width='60%' ratio='72.17%'
+    img='./img/pilot/PilotAdapters.svg'
     alt="Pilot's overall architecture."
-    caption="Pilot Architecture"
+    title='Pilot Architecture'
+    caption='Pilot Architecture'
     %}
 
 As illustrated in the figure above, Pilot maintains a canonical
@@ -34,6 +36,6 @@ and [routing tables](https://www.envoyproxy.io/docs/envoy/latest/configuration/h
 These APIs decouple Envoy from platform-specific nuances, simplifying the
 design and increasing portability across platforms.
 
-Operators can specify high-level traffic management rules through
+Operators can specify high-level traffic management rules through 
 [Pilot's Rules API]({{home}}/docs/reference/config/istio.routing.v1alpha1.html). These rules are translated into low-level
 configurations and distributed to Envoy instances via the discovery API.

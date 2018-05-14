@@ -1,6 +1,7 @@
 ---
 title: How can I enable/disable mTLS encryption after I installed Istio?
-weight: 10
+order: 10
+type: markdown
 ---
 {% include home.html %}
 
@@ -9,14 +10,14 @@ uninstalling and re-installing Istio.
 
 If you are an advanced user and understand the risks you can also do the following:
 
-```command
-$ kubectl edit configmap -n istio-system istio
+```bash
+kubectl edit configmap -n istio-system istio
 ```
 
-comment out or uncomment `authPolicy: MUTUAL_TLS` to toggle mTLS and then
+comment out or uncomment out `authPolicy: MUTUAL_TLS` to toggle mTLS and then
 
-```command
-$ kubectl delete pods -n istio-system -l istio=pilot
+```bash
+kubectl delete pods -n istio-system -l istio=pilot
 ```
 
 to restart Pilot, after a few seconds (depending on your `*RefreshDelay`) your

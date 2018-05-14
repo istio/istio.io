@@ -1,9 +1,11 @@
 ---
 title: Advanced Install Options
-description: Instructions for customizing the Istio installation.
+overview: Instructions for customizing the Istio installation.
 
-weight: 20
+order: 20
 draft: true
+layout: docs
+type: markdown
 ---
 
 {% include home.html %}
@@ -17,6 +19,7 @@ It is possible to use Istio as an Ingress controller, leveraging advanced
 L7 routing capabilities such as version-aware routing, header based
 routing, gRPC/HTTP2 proxying, tracing, etc. Deploy Istio Pilot only and
 disable other components. Do not deploy the Istio initializer.
+
 
 ## Ingress Controller with Telemetry & Policies
 

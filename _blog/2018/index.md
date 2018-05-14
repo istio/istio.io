@@ -1,9 +1,11 @@
 ---
 title: 2018 Posts
-description: Blog posts for 2018
+overview: Blog posts for 2018
 
-weight: 10
+order: 10
 
+layout: blog
+type: markdown
 toc: false
 ---
 

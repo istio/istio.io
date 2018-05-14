@@ -1,11 +1,12 @@
 ---
 title: Request Routing
-description: Describes how requests are routed between services in an Istio service mesh.
+overview: Describes how requests are routed between services in an Istio service mesh.
+              
+order: 20
 
-weight: 20
-
+layout: docs
+type: markdown
 ---
-{% include home.html %}
 
 This page describes how requests are routed between services in an Istio service mesh.
 
@@ -19,6 +20,7 @@ etc.). Platform-specific adapters are responsible for populating the
 internal model representation with various fields from the metadata found
 in the platform.
 
+
 Istio introduces the concept of a service version, which is a finer-grained
 way to subdivide service instances by versions (`v1`, `v2`) or environment
 (`staging`, `prod`). These variants are not necessarily different API
@@ -30,10 +32,11 @@ additional control over traffic between services.
 
 ## Communication between services
 
-{% include image.html width="60%" ratio="100.42%"
-    link="./img/pilot/ServiceModel_Versions.svg"
-    alt="Showing how service versions are handled."
-    caption="Service Versions"
+{% include figure.html width='60%' ratio='100.42%'
+    img='./img/pilot/ServiceModel_Versions.svg'
+    alt='Showing how service versions are handled.'
+    title='Service Versions'
+    caption='Service Versions'
     %}
 
 As illustrated in the figure above, clients of a service have no knowledge
@@ -70,9 +73,10 @@ via the sidecar Envoy, operators can add failure recovery features such as
 timeouts, retries, circuit breakers, etc., and obtain detailed metrics on
 the connections to these services.
 
-{% include image.html width="60%" ratio="28.88%"
-    link="./img/pilot/ServiceModel_RequestFlow.svg"
-    alt="Ingress and Egress through Envoy."
-    caption="Request Flow"
+{% include figure.html width='60%' ratio='28.88%'
+    img='./img/pilot/ServiceModel_RequestFlow.svg'
+    alt='Ingress and Egress through Envoy.'
+    title='Request Flow'
+    caption='Request Flow'
     %}
 

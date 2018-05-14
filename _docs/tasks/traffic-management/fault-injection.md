@@ -1,9 +1,11 @@
 ---
 title: Fault Injection
-description: This task shows how to inject delays and test the resiliency of your application.
+overview: This task shows how to inject delays and test the resiliency of your application.
 
-weight: 20
+order: 20
 
+layout: docs
+type: markdown
 ---
 {% include home.html %}
 
@@ -19,25 +21,24 @@ This task shows how to inject delays and test the resiliency of your application
 * Initialize the application version routing by either first doing the
   [request routing](./request-routing.html) task or by running following
   commands:
+  
+  > Note: This assumes you don't have any routes set yet. If you've already created conflicting route rules for the sample, you'll need to use `replace` rather than `create` in one or both of the following commands.
 
-  > This assumes you don't have any routes set yet. If you've already created conflicting route rules for the sample, you'll need to use `replace` rather than `create` in one or both of the following commands.
-
-  ```command
-  $ istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
-  $ istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+  ```bash
+  istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
+  istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
   ```
 
-> This task assumes you are deploying the application on Kubernetes.
-All of the example commands are using the Kubernetes version of the rule yaml files
-(e.g., `samples/bookinfo/kube/route-rule-all-v1.yaml`). If you are running this
-task in a different environment, change `kube` to the directory that corresponds
-to your runtime (e.g., `samples/bookinfo/consul/route-rule-all-v1.yaml` for
-the Consul-based runtime).
+> Note: This task assumes you are deploying the application on Kubernetes.
+  All of the example commands are using the Kubernetes version of the rule yaml files
+  (e.g., `samples/bookinfo/kube/route-rule-all-v1.yaml`). If you are running this
+  task in a different environment, change `kube` to the directory that corresponds
+  to your runtime (e.g., `samples/bookinfo/consul/route-rule-all-v1.yaml` for
+  the Consul-based runtime).
 
 # Fault injection
 
 ## Fault injection using HTTP delay
-
 To test our Bookinfo application microservices for resiliency, we will _inject a 7s delay_
 between the reviews:v2 and ratings microservices, for user "jason". Since the _reviews:v2_ service has a
 10s timeout for its calls to the ratings service, we expect the end-to-end flow to
@@ -45,14 +46,16 @@ continue without any errors.
 
 1. Create a fault injection rule to delay traffic coming from user "jason" (our test user)
 
-   ```command
-   $ istioctl create -f samples/bookinfo/kube/route-rule-ratings-test-delay.yaml
+   ```bash
+   istioctl create -f samples/bookinfo/kube/route-rule-ratings-test-delay.yaml
    ```
 
    Confirm the rule is created:
 
-   ```command-output-as-yaml
-   $ istioctl get routerule ratings-test-delay -o yaml
+   ```bash
+   istioctl get routerule ratings-test-delay -o yaml
+   ```
+   ```yaml
    apiVersion: config.istio.io/v1alpha2
    kind: RouteRule
    metadata:
@@ -115,27 +118,28 @@ continue without any errors.
   use a 2.8 second delay and then run it against the v3 version of reviews.)
 
 ## Fault injection using HTTP Abort
-
 As another test of resiliency, we will introduce an HTTP abort to the ratings microservices for the user "jason".
 We expect the page to load immediately unlike the delay example and display the "product ratings not available"
 message.
 
 1. Remove the fault delay injection rule before attempting the fault abort rule
 
-   ```command
-   $ istioctl delete -f samples/bookinfo/kube/route-rule-ratings-test-delay.yaml
+   ```bash
+   istioctl delete -f samples/bookinfo/kube/route-rule-ratings-test-delay.yaml
    ```
 
 1. Create the fault injection rule to send an HTTP abort for user "jason"
 
-   ```command
-   $ istioctl create -f samples/bookinfo/kube/route-rule-ratings-test-abort.yaml
+   ```bash
+   istioctl create -f samples/bookinfo/kube/route-rule-ratings-test-abort.yaml
    ```
 
    Confirm the rule is created
 
-   ```command-output-as-yaml
-   $ istioctl get routerules ratings-test-abort -o yaml
+   ```bash
+   istioctl get routerules ratings-test-abort -o yaml
+   ```
+   ```yaml
    apiVersion: config.istio.io/v1alpha2
    kind: RouteRule
    metadata:
@@ -170,11 +174,11 @@ message.
 
 * Remove the application routing rules:
 
-  ```command
-  $ istioctl delete -f samples/bookinfo/kube/route-rule-all-v1.yaml
-  $ istioctl delete -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
-  $ istioctl delete -f samples/bookinfo/kube/route-rule-ratings-test-delay.yaml
-  $ istioctl delete -f samples/bookinfo/kube/route-rule-ratings-test-abort.yaml
+  ```bash
+  istioctl delete -f samples/bookinfo/kube/route-rule-all-v1.yaml
+  istioctl delete -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+  istioctl delete -f samples/bookinfo/kube/route-rule-ratings-test-delay.yaml
+  istioctl delete -f samples/bookinfo/kube/route-rule-ratings-test-abort.yaml
   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the

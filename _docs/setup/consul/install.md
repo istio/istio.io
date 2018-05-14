@@ -1,22 +1,24 @@
 ---
 title: Installation
-description: Instructions for installing the Istio control plane in a Consul based environment, with or without Nomad.
+overview: Instructions for installing the Istio control plane in a Consul based environment, with or without Nomad.
 
-weight: 30
+order: 30
 
+layout: docs
+type: markdown
 ---
 
-> Setup on Nomad has not been tested.
+> Note: Setup on Nomad has not been tested.
 
-Using Istio in a non-Kubernetes environment involves a few key tasks:
+Using Istio in a non-kubernetes environment involves a few key tasks:
 
 1. Setting up the Istio control plane with the Istio API server
-1. Adding the Istio sidecar to every instance of a service
-1. Ensuring requests are routed through the sidecars
+2. Adding the Istio sidecar to every instance of a service
+3. Ensuring requests are routed through the sidecars
 
 ## Setting up the Control Plane
 
-Istio control plane consists of four main services: Pilot, Mixer, Citadel, and
+Istio control plane consists of four main services: Pilot, Mixer, CA, and
 the API server.
 
 ### API Server
@@ -25,8 +27,10 @@ Istio's API server (based on Kubernetes' API server) provides key functions
 such as configuration management and Role-Based Access Control. The API
 server requires an
 [etcd cluster](https://kubernetes.io/docs/getting-started-guides/scratch/#etcd)
-as a persistent store. See the
-[instructions for setting up the API server](https://kubernetes.io/docs/getting-started-guides/scratch/#apiserver-controller-manager-and-scheduler).
+as a persistent store. Detailed instructions for setting up the API server can
+be found
+[here](https://kubernetes.io/docs/getting-started-guides/scratch/#apiserver-controller-manager-and-scheduler). 
+Documentation on set of startup options for the Kubernetes API server can be found [here](https://kubernetes.io/docs/admin/kube-apiserver/)
 
 #### Local Install
 
@@ -67,20 +71,21 @@ services:
     environment:
       - SERVICE_IGNORE=1
     command: [
-               "kube-apiserver", "--etcd-servers", "http://etcd:2379",
-               "--service-cluster-ip-range", "10.99.0.0/16",
-               "--insecure-port", "8080",
-               "-v", "2",
+               "kube-apiserver", "--etcd-servers", "http://etcd:2379", 
+               "--service-cluster-ip-range", "10.99.0.0/16", 
+               "--insecure-port", "8080", 
+               "-v", "2", 
                "--insecure-bind-address", "0.0.0.0"
              ]
 ```
 
+
 ### Other Istio Components
 
-Debian packages for Istio Pilot, Mixer, and Citadel are available through the
+Debian packages for Istio Pilot, Mixer, and CA are available through the
 Istio release. Alternatively, these components can be run as Docker
 containers (docker.io/istio/pilot, docker.io/istio/mixer,
-docker.io/istio/citadel). Note that these components are stateless and can
+docker.io/istio/istio-ca). Note that these components are stateless and can
 be scaled horizontally. Each of these components depends on the Istio API
 server, which in turn depends on the etcd cluster for persistence. To
 achieve high availability, each control plane service could be run as a
@@ -88,6 +93,7 @@ achieve high availability, each control plane service could be run as a
 Nomad, where the
 [service stanza](https://www.nomadproject.io/docs/job-specification/service.html)
 can be used to describe the desired properties of the control plane services.
+
 
 ## Adding Sidecars to Service Instances
 
@@ -116,7 +122,7 @@ Part of the sidecar installation should involve setting up appropriate IP
 Table rules to transparently route application's network traffic through
 the Istio sidecars. The IP table script to setup such forwarding can be
 found in the
-[here](https://raw.githubusercontent.com/istio/istio/master/tools/deb/istio-iptables.sh).
+[here](https://github.com/istio/istio/blob/master/pilot/docker/prepare_proxy.sh). 
 
-> This script must be executed before starting the application or
-> the sidecar process.
+> Note: This script must be executed before starting the application or
+> the sidecar process. 

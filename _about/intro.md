@@ -1,10 +1,13 @@
 ---
 title: What is Istio?
-description: Context about what problems Istio is designed to solve.
+overview: Context about what problems Istio is designed to solve.
 
-weight: 1
+order: 0
 
+layout: about
+type: markdown
 toc: false
+redirect_from: /about.html
 ---
 
 Istio is an open platform that provides a uniform way to connect, manage,
@@ -23,11 +26,11 @@ rate limits and quotas.
 - Automatic metrics, logs, and traces for all traffic within a cluster,
 including cluster ingress and egress.
 
-- Secure service-to-service communication in a cluster with strong
-identity-based authentication and authorization.
+- Secure service-to-service authentication with strong identity assertions
+between services in a cluster.
 
 Istio can be deployed on [Kubernetes](https://kubernetes.io),
 [Nomad](https://nomadproject.io) with [Consul](https://www.consul.io/). We
 plan to add support for additional platforms such as
 [Cloud Foundry](https://www.cloudfoundry.org/),
-and [Apache Mesos](https://mesos.apache.org/) in the near future.
+and [Apache Mesos](http://mesos.apache.org/) in the near future.

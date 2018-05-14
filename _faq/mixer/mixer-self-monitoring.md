@@ -1,6 +1,7 @@
 ---
 title: Does Mixer provide any self-monitoring?
-weight: 30
+order: 30
+type: markdown
 ---
 {% include home.html %}
 
@@ -16,8 +17,8 @@ function:
 
 Mixer logs can be accessed via a `kubectl logs` command, as follows:
 
-```command
-$ kubectl -n istio-system logs $(kubectl -n istio-system get pods -listio=mixer -o jsonpath='{.items[0].metadata.name}') mixer
+```bash
+kubectl -n istio-system logs $(kubectl -n istio-system get pods -listio=mixer -o jsonpath='{.items[0].metadata.name}') mixer
 ```
 Mixer trace generation is controlled by the command-line flag `traceOutput`. If
 the flag value is set to `STDOUT` or `STDERR` trace data will be written

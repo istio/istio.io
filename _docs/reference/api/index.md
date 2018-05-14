@@ -1,9 +1,11 @@
 ---
 title: API
-description: Detailed information on API parameters.
+overview: Detailed information on API parameters.
 
-weight: 10
+order: 10
 
+layout: docs
+type: markdown
 toc: false
 ---
 

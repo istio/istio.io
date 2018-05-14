@@ -1,8 +1,10 @@
 ---
 title: Intelligent Routing
-description: This guide demonstrates how to use various traffic management capabilities of an Istio service mesh.
+overview: This guide demonstrates how to use various traffic management capabilities of an Istio service mesh.
 
-weight: 20
+order: 20
+layout: docs
+type: markdown
 ---
 {% include home.html %}
 

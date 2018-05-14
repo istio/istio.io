@@ -1,9 +1,11 @@
 ---
 title: What is Istio?
-description: A broad overview of the Istio system.
+overview: A broad overview of the Istio system.
 
-weight: 10
+order: 10
 
+layout: docs
+type: markdown
 toc: false
 ---
 

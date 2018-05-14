@@ -11,10 +11,10 @@ layout: compress
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="theme-color" content="#466BB0"/>
 
-        {% if page.description == nil %}
+        {% if page.overview == nil %}
             {% assign description = "An open platform to connect, manage, and secure microservices." %}
         {% else %}
-            {% assign description = page.description %}
+            {% assign description = page.overview %}
         {% endif %}
 
         <meta name="title" content="{{page.title}}">
@@ -31,12 +31,6 @@ layout: compress
                 <title>Istioldie {{site.data.istio.version}}</title>
             {% else %}
                 <title>Istioldie {{site.data.istio.version}} / {{ page.title }}</title>
-            {% endif %}
-        {% elsif site.data.istio.preliminary %}
-            {% if page.title == 'Istio' %}
-                <title>Istio Prelim {{site.data.istio.version}}</title>
-            {% else %}
-                <title>Istio Prelim {{site.data.istio.version}} / {{ page.title }}</title>
             {% endif %}
         {% else %}
             {% if page.title == 'Istio' %}
@@ -82,24 +76,20 @@ layout: compress
         <link rel="stylesheet" href="{{home}}/css/light_theme.css" title="light">
         <link rel="alternate stylesheet" href="{{home}}/css/dark_theme.css" title="dark">
 
-        <script src="{{home}}/js/styleSwitcher.min.js"></script>
+        <script src="{{home}}/js/styleswitcher.js"></script>
     </head>
 
     <body class="language-unknown theme-unknown">
         {{ content }}
 
-        <div class="d-xl-none d-print-none">
-            <button id="scroll-to-top" aria-hidden="true" onclick="scrollToTop()" title="Back to top"><i class="fa fa-lg fa-arrow-up"></i></button>
-        </div>
-
         <!-- libraries we pull in -->
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
-        <script src="https://www.google.com/cse/brand?form=search_form"></script>
+        <script src="https://www.google.com/cse/brand?form=searchbox"></script>
 
         <!-- our own scripts -->
-        <script src="{{home}}/js/misc.min.js"></script>
-        <script src="{{home}}/js/prism.min.js" data-manual></script>
+        <script src="{{home}}/js/misc.js"></script>
     </body>
 </html>

@@ -1,5 +1,5 @@
 
-{% assign faqs = site.faq | sort: "weight" %}
+{% assign faqs = site.faq | sort: "order" %}
 {% for q in faqs %}
     {% assign comp = q.path | split: '/' %}
     {% assign qcat = comp[1] %}

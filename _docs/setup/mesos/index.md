@@ -1,9 +1,11 @@
 ---
 title: Mesos
-description: Instructions for installing the Istio control plane in Apache Mesos.
+overview: Instructions for installing the Istio control plane in Apache Mesos.
 
-weight: 50
+order: 50
 
+layout: docs
+type: markdown
 toc: false
 ---
 

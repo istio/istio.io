@@ -1,6 +1,7 @@
 ---
 title: How do I get started using Istio?
-weight: 30
+order: 30
+type: markdown
 ---
 {% include home.html %}
 

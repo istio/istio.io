@@ -1,9 +1,11 @@
 ---
 title: Policy Enforcement
-description: Describes tasks that demonstrate policy enforcement features.
+overview: Describes tasks that demonstrate policy enforcement features.
 
-weight: 20
+order: 20
 
+layout: docs
+type: markdown
 toc: false
 ---
 

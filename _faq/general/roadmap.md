@@ -1,6 +1,7 @@
 ---
 title: What is Istio's roadmap?
-weight: 140
+order: 140
+type: markdown
 ---
 {% include home.html %}
 

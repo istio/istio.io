@@ -1,9 +1,11 @@
 ---
 title: Rules Configuration
-description: Provides a high-level overview of the domain-specific language used by Istio to configure traffic management rules in the service mesh.
+overview: Provides a high-level overview of the domain-specific language used by Istio to configure traffic management rules in the service mesh.
 
-weight: 50
+order: 50
 
+layout: docs
+type: markdown
 ---
 {% include home.html %}
 
@@ -35,7 +37,7 @@ spec:
 
 The destination is the name of the service to which the traffic is being
 routed. The route *labels* identify the specific service instances that will
-receive traffic. For example, in a Kubernetes deployment of Istio, the route
+recieve traffic. For example, in a Kubernetes deployment of Istio, the route
 *label* "version: v1" indicates that only pods containing the label "version: v1"
 will receive traffic.
 
@@ -74,7 +76,7 @@ domain name (FQDN). It is used by Istio Pilot for matching rules to services.
 Normally, the FQDN of the service is composed from three components: *name*,
 *namespace*, and *domain*:
 
-```plain
+```
 FQDN = name + "." + namespace + "." + domain
 ```
 
@@ -407,8 +409,7 @@ spec:
   match:
     request:
       headers:
-        Foo:
-          exact: bar
+        Foo: bar
   route:
   - labels:
       version: v2

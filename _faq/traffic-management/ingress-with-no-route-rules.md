@@ -1,6 +1,7 @@
 ---
 title: Can I use standard Ingress specification without any route rules?
-weight: 40
+order: 40
+type: markdown
 ---
 {% include home.html %}
 

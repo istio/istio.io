@@ -1,9 +1,11 @@
 ---
 title: Tasks
-description: Tasks show you how to do a single specific targeted activity with the Istio system.
+overview: Tasks show you how to do a single specific targeted activity with the Istio system.
 
-weight: 20
+order: 20
 
+layout: docs
+type: markdown
 toc: false
 ---
 

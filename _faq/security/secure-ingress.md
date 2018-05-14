@@ -1,6 +1,7 @@
 ---
 title: How to configure Istio Ingress to only accept TLS traffic?
-weight: 130
+order: 130
+type: markdown
 ---
 {% include home.html %}
 

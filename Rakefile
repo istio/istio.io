@@ -1,9 +1,7 @@
 require 'html-proofer'
 
 task :test do
-  sh "rm -fr _rakesite"
-  sh "mkdir _rakesite"
-  sh "bundle exec jekyll build --config _config.yml,_rake_config_override.yml"
+  sh "bundle exec jekyll build --incremental"
   typhoeus_configuration = {
   :timeout => 30,
 #  :verbose => true
@@ -19,5 +17,5 @@ task :test do
               :url_ignore => [/localhost|github\.com\/istio\/istio\.github\.io\/edit\/master\//],
               :typhoeus => typhoeus_configuration,
              }
-  HTMLProofer.check_directory("./_rakesite", options).run
+  HTMLProofer.check_directory("./_site", options).run
 end

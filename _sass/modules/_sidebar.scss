@@ -1,22 +1,45 @@
-@media screen {
-    .row-offcanvas .sidebar-offcanvas {
-        @media (max-width: $bp-md - 1) {
-            position: absolute;
-            width: 80%;
-            transition: all .4s ease;
-            z-index: 42;
-            left: -$bp-md;
-            top: $headerHeight;
-        }
-
-        @media (min-width: $bp-md) {
-            position: unset;
-            width: auto;
-        }
+@media screen and (max-width: 767px) {
+    .row-offcanvas {
+        position: relative;
+        transition: all .25s ease-out;
     }
 
-    .row-offcanvas.active .sidebar-offcanvas {
-        left: 2rem;
+    .row-offcanvas-right {
+        right: 0;
+    }
+
+    .row-offcanvas-left {
+        left: 0;
+    }
+
+    .row-offcanvas-right .sidebar-offcanvas {
+        right: -100%; /* 12 columns */
+    }
+
+    .row-offcanvas-right.active .sidebar-offcanvas {
+        right: -50%; /* 6 columns */
+    }
+
+    .row-offcanvas-left .sidebar-offcanvas {
+        left: -100%; /* 12 columns */
+    }
+
+    .row-offcanvas-left.active .sidebar-offcanvas {
+        left: -50%; /* 6 columns */
+    }
+
+    .row-offcanvas-right.active {
+        right: 50%; /* 6 columns */
+    }
+
+    .row-offcanvas-left.active {
+        left: 50%; /* 6 columns */
+    }
+
+    .sidebar-offcanvas {
+        position: absolute;
+        top: 0;
+        width: 50%; /* 6 columns */
     }
 }
 
@@ -24,7 +47,7 @@
     order: 0;
     font-size: 85%;
 
-    @media (min-width: $bp-xl) {
+    @media (min-width: $bp-lg) {
         font-size: 100%;
     }
 
@@ -40,16 +63,18 @@
             max-height: calc(100vh - 9rem);
         }
 
-        @media (min-width: $bp-xl) {
+        @media (min-width: 1200px) {
             max-width: 25em;
         }
 
-        @media (min-width: $bp-md) {
+        @media (min-width: 768px) {
             @supports ((position:-webkit-sticky) or (position:sticky)) {
                 max-height: calc(100vh - 9rem);
                 overflow-y: auto;
             }
+        }
 
+        @media (min-width: 768px) {
             display: block !important;
         }
 
@@ -110,7 +135,11 @@
         @media (min-width: $bp-lg) {
             .card-body {
                 padding-left: 1.25rem;
-                padding-right: 0.5rem;
+                padding-right: 1.25rem;
+            }
+
+            li {
+                font-size: 100%;
             }
 
             ul {
@@ -126,25 +155,15 @@
 }
 
 .sidebar-toggler {
-    position: absolute;
-    top: 0;
-    left: 10px;
-    z-index: 99;
-    outline: none;
-    background-color: rgba($backgroundColor, .7);
-    color: $floatingButtonColor;
-    cursor: pointer;
-    padding: 3px 5px;
-    border-radius: 10px;
     font-size: 1rem;
-    border: 0;
-    box-shadow: 0 0 2px 2px $floatingButtonColor;
+    line-height: 1rem;
+    padding: .5rem;
+    color: $togglerColor;
+    border: 1px solid $togglerColor;
+    border-radius: 0 10px 10px 0;
+}
 
-    &:hover {
-        color: $textBrandHighlightColor;
-    }
-
-    @media print {
-        display: none;
-    }
+.sidebar-toggler:hover {
+    cursor: pointer;
+	color: $linkHoverColor;
 }

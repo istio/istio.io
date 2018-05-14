@@ -1,10 +1,12 @@
 ---
 title: Reference
-description: The Reference section contains detailed authoritative reference material such as command-line options, configuration options, and API calling parameters.
+overview: The Reference section contains detailed authoritative reference material such as command-line options, configuration options, and API calling parameters.
 index: true
 
-weight: 60
+order: 60
 
+layout: docs
+type: markdown
 toc: false
 ---
 

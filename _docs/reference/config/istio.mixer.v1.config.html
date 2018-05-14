@@ -1,18 +1,17 @@
 ---
 title: Policy and Telemetry Rules
-description: Describes the rules used to configure Mixer's policy and telemetry features.
-location: https://istio.io/docs/reference/config/istio.policy.v1beta1.html
+overview: Describes the rules used to configure Mixer's policy and telemetry features.
+location: https://istio.io/docs/reference/config/istio.mixer.v1.config.html
 layout: protoc-gen-docs
-number_of_entries: 9
+redirect_from: /docs/reference/config/mixer/policy-and-telemetry-rules.html
+number_of_entries: 7
 ---
-<p>Describes the rules used to configure Mixer&rsquo;s policy and telemetry features.</p>
-
 <h2 id="Action">Action</h2>
 <section>
 <p>Action describes which <a href="#Handler">Handler</a> to invoke and what data to pass to it for processing.</p>
 
 <p>The following example instructs Mixer to invoke &lsquo;prometheus-handler&rsquo; handler and pass it the object
-constructed using the instance &lsquo;RequestCountByService&rsquo;.</p>
+constructed using the instance &lsquo;RequestCountByService&rsquo;</p>
 
 <pre><code class="language-yaml">  handler: prometheus-handler
   instances:
@@ -85,7 +84,7 @@ the proxy (with the canonical name &ldquo;istio-proxy&rdquo;) or the name of an
 </tr>
 <tr id="AttributeManifest.attributes">
 <td><code>attributes</code></td>
-<td><code>map&lt;string,&nbsp;<a href="#AttributeManifest.AttributeInfo">AttributeManifest.AttributeInfo</a>&gt;</code></td>
+<td><code>map&lt;string,<a href="#AttributeManifest.AttributeInfo">AttributeManifest.AttributeInfo</a>&gt;</code></td>
 <td>
 <p>The set of attributes this Istio component will be responsible for producing at runtime.
 We map from attribute name to the attribute&rsquo;s specification. The name of an attribute,
@@ -100,7 +99,7 @@ match the regular expression <code>[\.-]</code>.</p>
 <p>Attribute names must be unique within a single Istio deployment. The set of canonical
 attributes are described at https://istio.io/docs/reference/attribute-vocabulary.html.
 Attributes not in that list should be named with a component-specific suffix such as
-request.count-my.component.</p>
+request.count-my.component</p>
 
 </td>
 </tr>
@@ -170,34 +169,9 @@ encoding scheme will be decided later.</p>
 </tr>
 <tr id="AttributeManifest.AttributeInfo.value_type">
 <td><code>valueType</code></td>
-<td><code><a href="#ValueType">ValueType</a></code></td>
+<td><code><a href="{{site.baseurl}}/docs/reference/config/mixer/istio.mixer.v1.config.descriptor.html#ValueType">istio.mixer.v1.config.descriptor.ValueType</a></code></td>
 <td>
 <p>Required. The type of data carried by this attribute.</p>
-
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="Connection">Connection</h2>
-<section>
-<p>Connection allows the operator to specify the endpoint for out-of-process infrastructure backend.
-Connection is part of the handler custom resource and is specified alongside adapter specific configuration.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="Connection.address">
-<td><code>address</code></td>
-<td><code>string</code></td>
-<td>
-<p>The address of the backend.</p>
 
 </td>
 </tr>
@@ -209,52 +183,12 @@ Connection is part of the handler custom resource and is specified alongside ada
 <p>Handler allows the operator to configure a specific adapter implementation.
 Each adapter implementation defines its own <code>params</code> proto.</p>
 
-<p>In the following example we define a <code>metrics</code> handler for the <code>prometheus</code> adapter.
-The example is in the form of a kubernetes resource:
-* The <code>metadata.name</code> is the name of the handler
-* The <code>kind</code> refers to the adapter name
-* The <code>spec</code> block represents adapter-specific configuration as well as the connection information</p>
+<p>In the following example we define a <code>metrics</code> handler using the Mixer&rsquo;s prepackaged
+prometheus adapter. This handler doesn&rsquo;t require any parameters.</p>
 
-<pre><code class="language-yaml">### Sample-1: No connection specified (for compiled in adapters)
-### Note: if connection information is not specified, the adapter configuration is directly inside
-### `spec` block. This is going to be DEPRECATED in favor of Sample-2
-apiVersion: &quot;config.istio.io/v1alpha2&quot;
-kind: prometheus
-metadata:
-  name: handler
-  namespace: istio-system
-spec:
-  metrics:
-  - name: request_count
-    instance_name: requestcount.metric.istio-system
-    kind: COUNTER
-    label_names:
-    - source_service
-    - source_version
-    - destination_service
-    - destination_version
----
-### Sample-2: With connection information (for out-of-process adapters)
-### Note: Unlike sample-1, the adapter configuration is parallel to `connection` and is nested inside `param` block.
-apiVersion: &quot;config.istio.io/v1alpha2&quot;
-kind: prometheus
-metadata:
-  name: handler
-  namespace: istio-system
-spec:
-  param:
-    metrics:
-    - name: request_count
-      instance_name: requestcount.metric.istio-system
-      kind: COUNTER
-      label_names:
-      - source_service
-      - source_version
-      - destination_service
-      - destination_version
-  connection:
-    address: localhost:8090
----
+<pre><code class="language-yaml">name: prometheus-handler
+adapter: prometheus
+params:
 </code></pre>
 
 <table class="message-fields">
@@ -293,15 +227,6 @@ proto defined by the adapter implementation; this varies depending on the value 
 
 </td>
 </tr>
-<tr id="Handler.connection">
-<td><code>connection</code></td>
-<td><code><a href="#Connection">Connection</a></code></td>
-<td>
-<p>Optional. Information on how to connect to the out-of-process adapter.
-This is used if the adapter is not compiled into Mixer binary and is running as a separate process.</p>
-
-</td>
-</tr>
 </tbody>
 </table>
 </section>
@@ -316,7 +241,7 @@ instances of the specified template at runtime.</p>
 <p>The following example instructs Mixer to construct an instance associated with template
 &lsquo;istio.mixer.adapter.metric.Metric&rsquo;. It provides a mapping from the template&rsquo;s fields to expressions.
 Instances produced with this instance can be referenced by <a href="#Action">Actions</a> using name
-&lsquo;RequestCountByService&rsquo;</p>
+&lsquo;RequestCountByService&rsquo;.</p>
 
 <pre><code class="language-yaml">- name: RequestCountByService
   template: istio.mixer.adapter.metric.Metric
@@ -423,108 +348,6 @@ name starts with &ldquo;ratings&rdquo;</li>
 </tbody>
 </table>
 </section>
-<h2 id="ValueType">ValueType</h2>
-<section>
-<p>ValueType describes the types that values in the Istio system can take. These
-are used to describe the type of Attributes at run time, describe the type of
-the result of evaluating an expression, and to describe the runtime type of
-fields of other descriptors.</p>
-
-<table class="enum-values">
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="ValueType.VALUE_TYPE_UNSPECIFIED">
-<td><code>VALUE_TYPE_UNSPECIFIED</code></td>
-<td>
-<p>Invalid, default value.</p>
-
-</td>
-</tr>
-<tr id="ValueType.STRING">
-<td><code>STRING</code></td>
-<td>
-<p>An undiscriminated variable-length string.</p>
-
-</td>
-</tr>
-<tr id="ValueType.INT64">
-<td><code>INT64</code></td>
-<td>
-<p>An undiscriminated 64-bit signed integer.</p>
-
-</td>
-</tr>
-<tr id="ValueType.DOUBLE">
-<td><code>DOUBLE</code></td>
-<td>
-<p>An undiscriminated 64-bit floating-point value.</p>
-
-</td>
-</tr>
-<tr id="ValueType.BOOL">
-<td><code>BOOL</code></td>
-<td>
-<p>An undiscriminated boolean value.</p>
-
-</td>
-</tr>
-<tr id="ValueType.TIMESTAMP">
-<td><code>TIMESTAMP</code></td>
-<td>
-<p>A point in time.</p>
-
-</td>
-</tr>
-<tr id="ValueType.IP_ADDRESS">
-<td><code>IP_ADDRESS</code></td>
-<td>
-<p>An IP address.</p>
-
-</td>
-</tr>
-<tr id="ValueType.EMAIL_ADDRESS">
-<td><code>EMAIL_ADDRESS</code></td>
-<td>
-<p>An email address.</p>
-
-</td>
-</tr>
-<tr id="ValueType.URI">
-<td><code>URI</code></td>
-<td>
-<p>A URI.</p>
-
-</td>
-</tr>
-<tr id="ValueType.DNS_NAME">
-<td><code>DNS_NAME</code></td>
-<td>
-<p>A DNS name.</p>
-
-</td>
-</tr>
-<tr id="ValueType.DURATION">
-<td><code>DURATION</code></td>
-<td>
-<p>A span between two points in time.</p>
-
-</td>
-</tr>
-<tr id="ValueType.STRING_MAP">
-<td><code>STRING_MAP</code></td>
-<td>
-<p>A map string -&gt; string, typically used by headers.</p>
-
-</td>
-</tr>
-</tbody>
-</table>
-</section>
 <h2 id="google.protobuf.Struct">google.protobuf.Struct</h2>
 <section>
 <p><code>Struct</code> represents a structured data value, consisting of fields
@@ -547,7 +370,7 @@ with the proto support for the language.</p>
 <tbody>
 <tr id="google.protobuf.Struct.fields">
 <td><code>fields</code></td>
-<td><code>map&lt;string,&nbsp;<a href="#google.protobuf.Value">google.protobuf.Value</a>&gt;</code></td>
+<td><code>map&lt;string,<a href="#google.protobuf.Value">google.protobuf.Value</a>&gt;</code></td>
 <td>
 <p>Unordered map of dynamically typed values.</p>
 

@@ -1,6 +1,6 @@
 ---
 title: node_agent
-description: Istio security per-node agent
+overview: Istio security per-node agent
 layout: pkg-collateral-docs
 number_of_entries: 3
 ---
@@ -10,80 +10,109 @@ number_of_entries: 3
 <table class="command-flags">
 <thead>
 <th>Flags</th>
+<th>Shorthand</th>
 <th>Description</th>
 </thead>
 <tbody>
 <tr>
-<td><code>--ca-address &lt;string&gt;</code></td>
-<td>Istio CA address  (default `istio-citadel:8060`)</td>
+<td><code>--aws-root-cert &lt;string&gt;</code></td>
+<td></td>
+<td>Root Certificate file in AWS environment  (default `/etc/certs/root-cert.pem`)</td>
 </tr>
 <tr>
-<td><code>--cert-chain &lt;string&gt;</code></td>
-<td>Node Agent identity cert file  (default `/etc/certs/cert-chain.pem`)</td>
+<td><code>--ca-address &lt;string&gt;</code></td>
+<td></td>
+<td>Istio CA address  (default `istio-ca:8060`)</td>
 </tr>
 <tr>
 <td><code>--env &lt;string&gt;</code></td>
-<td>Node Environment : unspecified | onprem | gcp | aws  (default `unspecified`)</td>
+<td></td>
+<td>Node Environment : onprem | gcp | aws  (default `onprem`)</td>
 </tr>
 <tr>
-<td><code>--key &lt;string&gt;</code></td>
-<td>Node Agent private key file  (default `/etc/certs/key.pem`)</td>
+<td><code>--gcp-ca-address &lt;string&gt;</code></td>
+<td></td>
+<td>Istio CA address in GCP environment  (default `istio-ca:8060`)</td>
+</tr>
+<tr>
+<td><code>--gcp-root-cert &lt;string&gt;</code></td>
+<td></td>
+<td>Root Certificate file in GCP environment  (default `/etc/certs/root-cert.pem`)</td>
 </tr>
 <tr>
 <td><code>--key-size &lt;int&gt;</code></td>
+<td></td>
 <td>Size of generated private key  (default `2048`)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
+<td></td>
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
+<td><code>--log_callers</code></td>
+<td></td>
+<td>Include caller information, useful for debugging </td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td></td>
+<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
 <td>The path for the optional rotating log file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
 <td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
 <td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
 <td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td></td>
+<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
+<td><code>--onprem-cert-chain &lt;string&gt;</code></td>
+<td></td>
+<td>Node Agent identity cert file in on premise environment  (default `/etc/certs/cert-chain.pem`)</td>
+</tr>
+<tr>
+<td><code>--onprem-key &lt;string&gt;</code></td>
+<td></td>
+<td>Node identity private key file in on premise environment  (default `/etc/certs/key.pem`)</td>
+</tr>
+<tr>
+<td><code>--onprem-root-cert &lt;string&gt;</code></td>
+<td></td>
+<td>Root Certificate file in on premise environment  (default `/etc/certs/root-cert.pem`)</td>
+</tr>
+<tr>
 <td><code>--org &lt;string&gt;</code></td>
+<td></td>
 <td>Organization for the cert  (default ``)</td>
 </tr>
 <tr>
-<td><code>--platform &lt;string&gt;</code></td>
-<td>The platform istio runs on: vm | k8s  (default `vm`)</td>
-</tr>
-<tr>
-<td><code>--root-cert &lt;string&gt;</code></td>
-<td>Root Certificate file  (default `/etc/certs/root-cert.pem`)</td>
-</tr>
-<tr>
 <td><code>--workload-cert-ttl &lt;duration&gt;</code></td>
-<td>The requested TTL for the workload  (default `2160h0m0s`)</td>
+<td></td>
+<td>The requested TTL for the workload  (default `19h0m0s`)</td>
 </tr>
 </tbody>
 </table>
@@ -104,14 +133,14 @@ number_of_entries: 3
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_caller &lt;string&gt;</code></td>
+<td><code>--log_callers</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
+<td>Include caller information, useful for debugging </td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -136,7 +165,7 @@ number_of_entries: 3
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>

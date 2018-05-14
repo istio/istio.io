@@ -1,9 +1,11 @@
 ---
 title: Eureka
-description: Instructions for installing the Istio control plane in a Eureka based environment.
+overview: Instructions for installing the Istio control plane in a Eureka based environment.
 
-weight: 30
+order: 30
 
+layout: docs
+type: markdown
 toc: false
 ---
 

@@ -1,9 +1,11 @@
 ---
 title: Style Guide
-description: Explains the dos and donts of writing Istio docs.
+overview: Explains the dos and donts of writing Istio docs.
+              
+order: 70
 
-weight: 70
-
+layout: about
+type: markdown
 redirect_from: /docs/welcome/contribute/style-guide.html
 ---
 
@@ -27,18 +29,18 @@ objects use
 [camelCase](https://en.wikipedia.org/wiki/Camel_case).
 
 Don't split the API object name into separate words. For example, use
-`PodTemplateList`, not Pod Template List.
+PodTemplateList, not Pod Template List.
 
 Refer to API objects without saying "object," unless omitting "object"
 leads to an awkward construction.
 
 |Do                                          |Don't
 |--------------------------------------------|------
-|The `Pod` has two Containers.                 |The pod has two containers.
-|The `Deployment` is responsible for ...       |The `Deployment` object is responsible for ...
-|A `PodList` is a list of Pods.                |A Pod List is a list of pods.
-|The two `ContainerPorts` ...                  |The two `ContainerPort` objects ...
-|The two `ContainerStateTerminated` objects ...|The two `ContainerStateTerminated` ...
+|The Pod has two Containers.                 |The pod has two containers.
+|The Deployment is responsible for ...       |The Deployment object is responsible for ...
+|A PodList is a list of Pods.                |A Pod List is a list of pods.
+|The two ContainerPorts ...                  |The two ContainerPort objects ...
+|The two ContainerStateTerminated objects ...|The two ContainerStateTerminateds ...
 
 ### Use angle brackets for placeholders
 
@@ -47,10 +49,10 @@ represents.
 
 1. Display information about a pod:
 
-   ```command
-   $ kubectl describe pod <pod-name>
+   ```bash
+   kubectl describe pod <pod-name>
    ```
-
+   
   where `<pod-name>` is the name of one of your pods.
 
 ### Use **bold** for user interface elements
@@ -79,7 +81,7 @@ represents.
 
 |Do                          | Don't
 |----------------------------|------
-|The `kubectl run` command creates a `Deployment`.|The "kubectl run" command creates a `Deployment`.
+|The `kubectl run` command creates a Deployment.|The "kubectl run" command creates a Deployment.
 |For declarative management, use `kubectl apply`.|For declarative management, use "kubectl apply".
 
 ### Use `code` style for object field names
@@ -95,20 +97,19 @@ For field values of type string or integer, use normal style without quotation m
 
 |Do                                            | Don't
 |----------------------------------------------|------
-|Set the value of `imagePullPolicy` to Always. | Set the value of `imagePullPolicy` to "Always".
-|Set the value of `image` to nginx:1.8.        | Set the value of `image` to `nginx:1.8`.
+|Set the value of `imagePullPolicy` to Always. | Set the value of `imagePullPolicy` to "Always".|Set the value of `image` to nginx:1.8.        | Set the value of `image` to `nginx:1.8`.
 |Set the value of the `replicas` field to 2.   | Set the value of the `replicas` field to `2`.
 
 ### Only capitalize the first letter of headings
 
 For any headings, only apply an uppercase letter to the first word of the heading,
-except if a word is a proper noun or an acronym.
+except is a word is a proper noun or an acronym.
 
 |Do                      | Don't
 |------------------------|-----
 |Configuring rate limits | Configuring Rate Limits
 |Using Envoy for ingress | Using envoy for ingress
-|Using HTTPS             | Using https
+|Using HTTPS             | Using https 
 
 ## Code snippet formatting
 
@@ -122,8 +123,12 @@ except if a word is a proper noun or an acronym.
 
 Verify that the pod is running on your chosen node:
 
-```command
-$ kubectl get pods --output=wide
+```bash
+kubectl get pods --output=wide
+```
+The output is similar to this:
+
+```bash
 NAME     READY     STATUS    RESTARTS   AGE    IP           NODE
 nginx    1/1       Running   0          13s    10.200.0.4   worker0
 ```
@@ -145,7 +150,7 @@ Synonyms:
 - “Sidecar”  -- mostly restricted to conceptual docs
 - “Proxy -- only if context is obvious
 
-Related Terms:
+Related Terms
 
 - Proxy agent  - This is a minor infrastructural component and should only show up in low-level detail documentation.
 It is not a proper noun.
@@ -166,7 +171,7 @@ forms of configuration.
 
 No dash, it's *load balancing* not *load-balancing*.
 
-### Service mesh
+### Service mesh 
 
 Not a proper noun. Use in place of service fabric.
 
@@ -203,7 +208,7 @@ Use simple and direct language. Avoid using unnecessary phrases, such as saying 
 
 |Do                          | Don't
 |----------------------------|------
-|To create a `ReplicaSet`, ... | In order to create a `ReplicaSet`, ...
+|To create a ReplicaSet, ... | In order to create a ReplicaSet, ...
 |See the configuration file. | Please see the configuration file.
 |View the Pods.              | With this next command, we'll view the Pods.
 
@@ -211,16 +216,8 @@ Use simple and direct language. Avoid using unnecessary phrases, such as saying 
 
 |Do                                     | Don't
 |---------------------------------------|------
-|You can create a `Deployment` by ...     | We'll create a `Deployment` by ...
+|You can create a Deployment by ...     | We'll create a Deployment by ...
 |In the preceding output, you can see...| In the preceding output, we can see ...
-
-### Create useful links
-
-There are good hyperlinks, and bad hyperlinks. The common practice of calling links *here*  or *click here* are examples of
-bad hyperlinks. Check out this excellent article explaining what makes a good hyperlink and try to keep these guidelines in
-mind when creating or reviewing site content.
-
-[Why “click here” is a terrible link, and what to write instead](http://stephanieleary.com/2015/05/why-click-here-is-a-terrible-link-and-what-to-write-instead/).
 
 ## Patterns to avoid
 
@@ -232,7 +229,7 @@ whether they're part of the "we" you're describing.
 |Do                                        | Don't
 |------------------------------------------|------
 |Version 1.4 includes ...                  | In version 1.4, we have added ...
-|Istio provides a new feature for ... | We provide a new feature ...
+|Kubernetes provides a new feature for ... | We provide a new feature ...
 |This page teaches you how to use pods.    | In this page, we are going to learn about pods.
 
 ### Avoid jargon and idioms

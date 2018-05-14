@@ -1,9 +1,11 @@
 ---
 title: Concepts
-description: Concepts help you learn about the different parts of the Istio system and the abstractions it uses.
+overview: Concepts help you learn about the different parts of the Istio system and the abstractions it uses.
 
-weight: 10
+order: 10
 
+layout: docs
+type: markdown
 toc: false
 ---
 

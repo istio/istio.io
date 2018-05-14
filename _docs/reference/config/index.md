@@ -1,9 +1,11 @@
 ---
 title: Configuration
-description: Detailed information on configuration options.
+overview: Detailed information on configuration options.
 
-weight: 20
+order: 20
 
+layout: docs
+type: markdown
 toc: false
 ---
 

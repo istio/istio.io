@@ -1,9 +1,11 @@
 ---
 title: Templates
-description: Generated documentation for Mixer's Templates.
+overview: Generated documentation for Mixer's Templates.
 
-weight: 50
+order: 50
 
+layout: docs
+type: markdown
 toc: false
 ---
 

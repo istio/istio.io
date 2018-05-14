@@ -1,9 +1,11 @@
 ---
 title: Traffic Management
-description: Describes the various Istio features focused on traffic routing and control.
+overview: Describes the various Istio features focused on traffic routing and control.
 
-weight: 20
+order: 20
 
+layout: docs
+type: markdown
 toc: false
 ---
 

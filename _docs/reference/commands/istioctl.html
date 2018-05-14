@@ -1,8 +1,8 @@
 ---
 title: istioctl
-description: Istio control interface
+overview: Istio control interface
 layout: pkg-collateral-docs
-number_of_entries: 19
+number_of_entries: 14
 ---
 <p>
 Istio configuration command line utility.</p>
@@ -36,14 +36,19 @@ and destination policies.</p>
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_caller &lt;string&gt;</code></td>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
+<td><code>--log_callers</code></td>
+<td></td>
+<td>Include caller information, useful for debugging </td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -68,7 +73,7 @@ and destination policies.</p>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -84,6 +89,16 @@ and destination policies.</p>
 <td><code>--platform &lt;string&gt;</code></td>
 <td><code>-p</code></td>
 <td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 </tbody>
 </table>
@@ -124,14 +139,19 @@ and destination policies.</p>
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_caller &lt;string&gt;</code></td>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
+<td><code>--log_callers</code></td>
+<td></td>
+<td>Include caller information, useful for debugging </td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -156,7 +176,7 @@ and destination policies.</p>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -172,6 +192,16 @@ and destination policies.</p>
 <td><code>--platform &lt;string&gt;</code></td>
 <td><code>-p</code></td>
 <td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 </tbody>
 </table>
@@ -212,14 +242,19 @@ istioctl context-create --api-server http://127.0.0.1:8080
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_caller &lt;string&gt;</code></td>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
+<td><code>--log_callers</code></td>
+<td></td>
+<td>Include caller information, useful for debugging </td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -244,7 +279,7 @@ istioctl context-create --api-server http://127.0.0.1:8080
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -260,6 +295,16 @@ istioctl context-create --api-server http://127.0.0.1:8080
 <td><code>--platform &lt;string&gt;</code></td>
 <td><code>-p</code></td>
 <td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 </tbody>
 </table>
@@ -298,14 +343,19 @@ istioctl context-create --api-server http://127.0.0.1:8080
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_caller &lt;string&gt;</code></td>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
+<td><code>--log_callers</code></td>
+<td></td>
+<td>Include caller information, useful for debugging </td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -330,7 +380,7 @@ istioctl context-create --api-server http://127.0.0.1:8080
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -346,6 +396,16 @@ istioctl context-create --api-server http://127.0.0.1:8080
 <td><code>--platform &lt;string&gt;</code></td>
 <td><code>-p</code></td>
 <td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 </tbody>
 </table>
@@ -384,14 +444,19 @@ istioctl delete routerule productpage-default
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_caller &lt;string&gt;</code></td>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
+<td><code>--log_callers</code></td>
+<td></td>
+<td>Include caller information, useful for debugging </td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -416,7 +481,7 @@ istioctl delete routerule productpage-default
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -433,466 +498,18 @@ istioctl delete routerule productpage-default
 <td><code>-p</code></td>
 <td>Istio host platform  (default `kube`)</td>
 </tr>
-</tbody>
-</table>
-<h2 id="istioctl experimental">istioctl experimental</h2>
-<p>Experimental commands that may be modified or deprecated</p>
-<table class="command-flags">
-<thead>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</thead>
-<tbody>
 <tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
 </tr>
 <tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
-</tr>
-<tr>
-<td><code>--log_as_json</code></td>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
 <td></td>
-<td>Whether to format output as JSON or in plain console-friendly format </td>
-</tr>
-<tr>
-<td><code>--log_caller &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate &lt;string&gt;</code></td>
-<td></td>
-<td>The path for the optional rotating log file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
-<td></td>
-<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
-<td></td>
-<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
-<td></td>
-<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
-</tr>
-<tr>
-<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
-</tr>
-<tr>
-<td><code>--log_target &lt;stringArray&gt;</code></td>
-<td></td>
-<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--platform &lt;string&gt;</code></td>
-<td><code>-p</code></td>
-<td>Istio host platform  (default `kube`)</td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl experimental convert-networking-config">istioctl experimental convert-networking-config</h2>
-<p>Converts sets of v1alpha1 configs to v1alpha3 equivalents on a best effort basis. The output should be considered a starting point for your v1alpha3 configs and probably require some minor modification. Warnings will (hopefully) be generated where configs cannot be converted perfectly, or in certain edge cases. The input must be the set of configs that would be in place in an environment at a given time. This allows the command to attempt to create and merge output configs intelligently.Output configs are given the namespace and domain of the first input config so it is recommended that input configs be part of the same namespace and domain.</p>
-<pre class="language-bash"><code>istioctl experimental convert-networking-config [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</thead>
-<tbody>
-<tr>
-<td><code>--filenames &lt;stringSlice&gt;</code></td>
-<td><code>-f</code></td>
-<td>Input filenames  (default `[]`)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
-</tr>
-<tr>
-<td><code>--log_as_json</code></td>
-<td></td>
-<td>Whether to format output as JSON or in plain console-friendly format </td>
-</tr>
-<tr>
-<td><code>--log_caller &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate &lt;string&gt;</code></td>
-<td></td>
-<td>The path for the optional rotating log file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
-<td></td>
-<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
-<td></td>
-<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
-<td></td>
-<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
-</tr>
-<tr>
-<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
-</tr>
-<tr>
-<td><code>--log_target &lt;stringArray&gt;</code></td>
-<td></td>
-<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--output &lt;string&gt;</code></td>
-<td><code>-o</code></td>
-<td>Output filename  (default `-`)</td>
-</tr>
-<tr>
-<td><code>--platform &lt;string&gt;</code></td>
-<td><code>-p</code></td>
-<td>Istio host platform  (default `kube`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl experimental convert-networking-config Examples">Examples</h3>
-<pre class="language-bash"><code>istioctl experimental convert-networking-config -f v1alpha1/default-route.yaml -f v1alpha1/header-delay.yaml
-</code></pre>
-<h2 id="istioctl experimental metrics">istioctl experimental metrics</h2>
-<p>
-Prints the metrics for the specified service(s) when running in Kubernetes.</p>
-<p>This command finds a Prometheus pod running in the specified istio system 
-namespace. It then executes a series of queries per requested service to
-find the following top-level service metrics: total requests per second,
-error rate, and request latency at p50, p90, and p99 percentiles. The 
-query results are printed to the console, organized by service name.</p>
-<p>All metrics returned are from server-side reports. This means that latencies
-and error rates are from the perspective of the service itself and not of an
-individual client (or aggregate set of clients). Rates and latencies are
-calculated over a time interval of 1 minute.
-</p>
-<pre class="language-bash"><code>istioctl experimental metrics &lt;service name&gt;...
-</code></pre>
-<table class="command-flags">
-<thead>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</thead>
-<tbody>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
-</tr>
-<tr>
-<td><code>--log_as_json</code></td>
-<td></td>
-<td>Whether to format output as JSON or in plain console-friendly format </td>
-</tr>
-<tr>
-<td><code>--log_caller &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate &lt;string&gt;</code></td>
-<td></td>
-<td>The path for the optional rotating log file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
-<td></td>
-<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
-<td></td>
-<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
-<td></td>
-<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
-</tr>
-<tr>
-<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
-</tr>
-<tr>
-<td><code>--log_target &lt;stringArray&gt;</code></td>
-<td></td>
-<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--platform &lt;string&gt;</code></td>
-<td><code>-p</code></td>
-<td>Istio host platform  (default `kube`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl experimental metrics Examples">Examples</h3>
-<pre class="language-bash"><code>
-# Retrieve service metrics for productpage service
-istioctl experimental metrics productpage
-
-# Retrieve service metrics for various services in the different namespaces
-istioctl experimental metrics productpage.foo reviews.bar ratings.baz
-
-</code></pre>
-<h2 id="istioctl experimental rbac">istioctl experimental rbac</h2>
-<p>
-A group of commands used to interact with Istio RBAC policies. For example, Query whether a specific
-request is allowed or denied under the current Istio RBAC policies.</p>
-<table class="command-flags">
-<thead>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</thead>
-<tbody>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
-</tr>
-<tr>
-<td><code>--log_as_json</code></td>
-<td></td>
-<td>Whether to format output as JSON or in plain console-friendly format </td>
-</tr>
-<tr>
-<td><code>--log_caller &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate &lt;string&gt;</code></td>
-<td></td>
-<td>The path for the optional rotating log file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
-<td></td>
-<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
-<td></td>
-<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
-<td></td>
-<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
-</tr>
-<tr>
-<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
-</tr>
-<tr>
-<td><code>--log_target &lt;stringArray&gt;</code></td>
-<td></td>
-<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--platform &lt;string&gt;</code></td>
-<td><code>-p</code></td>
-<td>Istio host platform  (default `kube`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl experimental rbac Examples">Examples</h3>
-<pre class="language-bash"><code># Query if user test is allowed to GET /v1/health of service rating.
-istioctl experimental rbac can -u test GET rating /v1/health
-</code></pre>
-<h2 id="istioctl experimental rbac can">istioctl experimental rbac can</h2>
-<p>
-This command lets you query whether a specific request will be allowed or denied under current Istio
-RBAC policies. It constructs a fake request with the custom subject and action specified in the command
-line to check if your Istio RBAC policies are working as expected. Note the fake request is only used
-locally to evaluate the effect of the Istio RBAC policies, no actual request will be issued.</p>
-<p>METHOD is the HTTP method being taken, like GET, POST, etc. SERVICE is the short service name the action
-is being taken on. PATH is the HTTP path within the service.</p>
-<pre class="language-bash"><code>istioctl experimental rbac can METHOD SERVICE PATH [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</thead>
-<tbody>
-<tr>
-<td><code>--action-properties &lt;stringArray&gt;</code></td>
-<td><code>-a</code></td>
-<td>[Action] Additional data about the action. Specified as name1=value1,name2=value2,...  (default `[]`)</td>
-</tr>
-<tr>
-<td><code>--groups &lt;string&gt;</code></td>
-<td><code>-g</code></td>
-<td>[Subject] Group name/ID that the subject represents.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
-</tr>
-<tr>
-<td><code>--log_as_json</code></td>
-<td></td>
-<td>Whether to format output as JSON or in plain console-friendly format </td>
-</tr>
-<tr>
-<td><code>--log_caller &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate &lt;string&gt;</code></td>
-<td></td>
-<td>The path for the optional rotating log file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
-<td></td>
-<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
-<td></td>
-<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
-<td></td>
-<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
-</tr>
-<tr>
-<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
-</tr>
-<tr>
-<td><code>--log_target &lt;stringArray&gt;</code></td>
-<td></td>
-<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--platform &lt;string&gt;</code></td>
-<td><code>-p</code></td>
-<td>Istio host platform  (default `kube`)</td>
-</tr>
-<tr>
-<td><code>--subject-properties &lt;stringArray&gt;</code></td>
-<td><code>-s</code></td>
-<td>[Subject] Additional data about the subject. Specified as name1=value1,name2=value2,...  (default `[]`)</td>
-</tr>
-<tr>
-<td><code>--user &lt;string&gt;</code></td>
-<td><code>-u</code></td>
-<td>[Subject] User name/ID that the subject represents.  (default ``)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl experimental rbac can Examples">Examples</h3>
-<pre class="language-bash"><code># Query if user test is allowed to GET /v1/health of service rating.
-istioctl experimental rbac can -u test GET rating /v1/health
-
-# Query if service product-page is allowed to POST to /data of service rating with label version=dev.
-istioctl experimental rbac can -s service=product-page POST rating /data -a version=dev
-</code></pre>
 <h2 id="istioctl gen-deploy">istioctl gen-deploy</h2>
 <p>istioctl gen-deploy produces deployment files to run the minimum Istio control for the set of features requested by the --feature flag. If no features are provided, we create deployments for the default control plane: Pilot, Mixer, CA, and Ingress Proxies, with mTLS enabled.</p>
 <pre class="language-bash"><code>istioctl gen-deploy [flags]
@@ -927,7 +544,7 @@ istioctl experimental rbac can -s service=product-page POST rating /data -a vers
 <tr>
 <td><code>--hyperkube-tag &lt;Hyperkube&gt;</code></td>
 <td></td>
-<td>The tag to use to pull the Hyperkube container  (default `v1.7.6_coreos.0`)</td>
+<td>The tag to use to pull the Hyperkube container  (default `0.4.0`)</td>
 </tr>
 <tr>
 <td><code>--ingress-node-port &lt;uint16&gt;</code></td>
@@ -950,14 +567,19 @@ istioctl experimental rbac can -s service=product-page POST rating /data -a vers
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_caller &lt;string&gt;</code></td>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
+<td><code>--log_callers</code></td>
+<td></td>
+<td>Include caller information, useful for debugging </td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -982,7 +604,7 @@ istioctl experimental rbac can -s service=product-page POST rating /data -a vers
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -1005,9 +627,19 @@ istioctl experimental rbac can -s service=product-page POST rating /data -a vers
 <td>Istio host platform  (default `kube`)</td>
 </tr>
 <tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
 <td><code>--values &lt;string&gt;</code></td>
 <td></td>
 <td>Path to the Helm values.yaml file used to render YAML deployments locally when --out=yaml. Flag values are ignored in favor of using the file directly.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 </tbody>
 </table>
@@ -1041,14 +673,19 @@ istioctl experimental rbac can -s service=product-page POST rating /data -a vers
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_caller &lt;string&gt;</code></td>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
+<td><code>--log_callers</code></td>
+<td></td>
+<td>Include caller information, useful for debugging </td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -1073,7 +710,7 @@ istioctl experimental rbac can -s service=product-page POST rating /data -a vers
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -1094,6 +731,16 @@ istioctl experimental rbac can -s service=product-page POST rating /data -a vers
 <td><code>--platform &lt;string&gt;</code></td>
 <td><code>-p</code></td>
 <td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 </tbody>
 </table>
@@ -1153,16 +800,6 @@ file/configmap created with a new Istio release.
 <td>Emit sidecar template based on parameterized flags </td>
 </tr>
 <tr>
-<td><code>--excludeIPRanges &lt;string&gt;</code></td>
-<td></td>
-<td>Comma separated list of IP ranges in CIDR form. If set, outbound traffic will not be redirected for these IP ranges. Exclusions are only applied if configured to redirect all outbound traffic. By default, no IP ranges are excluded.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--excludeInboundPorts &lt;string&gt;</code></td>
-<td></td>
-<td>Comma separated list of inbound ports. If set, inbound traffic will not be redirected for those ports. Exclusions are only applied if configured to redirect all inbound traffic. By default, no ports are excluded.  (default ``)</td>
-</tr>
-<tr>
 <td><code>--filename &lt;string&gt;</code></td>
 <td><code>-f</code></td>
 <td>Input Kubernetes resource filename  (default ``)</td>
@@ -1180,12 +817,7 @@ file/configmap created with a new Istio release.
 <tr>
 <td><code>--includeIPRanges &lt;string&gt;</code></td>
 <td></td>
-<td>Comma separated list of IP ranges in CIDR form. If set, only redirect outbound traffic to Envoy for these IP ranges. All outbound traffic can be redirected with the wildcard character &#39;*&#39;. Defaults to &#39;*&#39;.  (default `*`)</td>
-</tr>
-<tr>
-<td><code>--includeInboundPorts &lt;string&gt;</code></td>
-<td></td>
-<td>Comma separated list of inbound ports for which traffic is to be redirected to Envoy. All ports can be redirected with the wildcard character &#39;*&#39;. Defaults to &#39;*&#39;.  (default `*`)</td>
+<td>Comma separated list of IP ranges in CIDR form. If set, only redirect outbound traffic to Envoy for IP ranges. Otherwise all outbound traffic is redirected  (default ``)</td>
 </tr>
 <tr>
 <td><code>--injectConfigFile &lt;string&gt;</code></td>
@@ -1213,14 +845,19 @@ file/configmap created with a new Istio release.
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_caller &lt;string&gt;</code></td>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
+<td><code>--log_callers</code></td>
+<td></td>
+<td>Include caller information, useful for debugging </td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -1245,7 +882,7 @@ file/configmap created with a new Istio release.
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -1293,9 +930,19 @@ file/configmap created with a new Istio release.
 <td>Docker tag  (default `unknown`)</td>
 </tr>
 <tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
 <td><code>--verbosity &lt;int&gt;</code></td>
 <td></td>
 <td>Runtime verbosity  (default `2`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 </tbody>
 </table>
@@ -1318,15 +965,10 @@ istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml --injectConf
 </code></pre>
 <h2 id="istioctl proxy-config">istioctl proxy-config</h2>
 <p>
-Retrieves proxy configuration for the specified pod from the endpoint proxy or Pilot when running in Kubernetes.
-It is also able to retrieve the state of the entire mesh by using mesh instead of &lt;pod-name&gt;. This is only available when querying Pilot.</p>
-<p>Available configuration types:</p>
-<p>	Endpoint:
-	[clusters listeners routes static]</p>
-<p>	Pilot:
-	[ads eds]</p>
-<p></p>
-<pre class="language-bash"><code>istioctl proxy-config &lt;endpoint|pilot&gt; &lt;pod-name|mesh&gt; [&lt;configuration-type&gt;] [flags]
+Retrieves the static/bootstrap proxy configuration for the specified pod when running in Kubernetes.
+Support for other environments to follow.
+</p>
+<pre class="language-bash"><code>istioctl proxy-config &lt;pod-name&gt; [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -1351,14 +993,19 @@ It is also able to retrieve the state of the entire mesh by using mesh instead o
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_caller &lt;string&gt;</code></td>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
+<td><code>--log_callers</code></td>
+<td></td>
+<td>Include caller information, useful for debugging </td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -1383,7 +1030,7 @@ It is also able to retrieve the state of the entire mesh by using mesh instead o
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -1400,20 +1047,21 @@ It is also able to retrieve the state of the entire mesh by using mesh instead o
 <td><code>-p</code></td>
 <td>Istio host platform  (default `kube`)</td>
 </tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl proxy-config Examples">Examples</h3>
-<pre class="language-bash"><code># Retrieve all config for productpage-v1-bb8d5cbc7-k7qbm pod from the endpoint proxy
-istioctl proxy-config endpoint productpage-v1-bb8d5cbc7-k7qbm
-
-# Retrieve eds config for productpage-v1-bb8d5cbc7-k7qbm pod from Pilot
-istioctl proxy-config pilot productpage-v1-bb8d5cbc7-k7qbm eds
-
-# Retrieve ads config for the mesh from Pilot
-istioctl proxy-config pilot mesh ads
-
-# Retrieve static config for productpage-v1-bb8d5cbc7-k7qbm pod in the application namespace from the endpoint proxy
-istioctl proxy-config endpoint -n application productpage-v1-bb8d5cbc7-k7qbm static
+<pre class="language-bash"><code># Retrieve config for productpage-v1-bb8d5cbc7-k7qbm pod
+istioctl proxy-config productpage-v1-bb8d5cbc7-k7qbm
 </code></pre>
 <h2 id="istioctl register">istioctl register</h2>
 <p>Registers a service instance (e.g. VM) joining the mesh</p>
@@ -1452,14 +1100,19 @@ istioctl proxy-config endpoint -n application productpage-v1-bb8d5cbc7-k7qbm sta
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_caller &lt;string&gt;</code></td>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
+<td><code>--log_callers</code></td>
+<td></td>
+<td>Include caller information, useful for debugging </td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -1484,7 +1137,7 @@ istioctl proxy-config endpoint -n application productpage-v1-bb8d5cbc7-k7qbm sta
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -1505,6 +1158,16 @@ istioctl proxy-config endpoint -n application productpage-v1-bb8d5cbc7-k7qbm sta
 <td><code>--serviceaccount &lt;string&gt;</code></td>
 <td><code>-s</code></td>
 <td>Service account to link to the service  (default `default`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 </tbody>
 </table>
@@ -1540,14 +1203,19 @@ istioctl proxy-config endpoint -n application productpage-v1-bb8d5cbc7-k7qbm sta
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_caller &lt;string&gt;</code></td>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
+<td><code>--log_callers</code></td>
+<td></td>
+<td>Include caller information, useful for debugging </td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -1572,7 +1240,7 @@ istioctl proxy-config endpoint -n application productpage-v1-bb8d5cbc7-k7qbm sta
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -1588,6 +1256,16 @@ istioctl proxy-config endpoint -n application productpage-v1-bb8d5cbc7-k7qbm sta
 <td><code>--platform &lt;string&gt;</code></td>
 <td><code>-p</code></td>
 <td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 </tbody>
 </table>
@@ -1621,14 +1299,19 @@ istioctl proxy-config endpoint -n application productpage-v1-bb8d5cbc7-k7qbm sta
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_caller &lt;string&gt;</code></td>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
+<td><code>--log_callers</code></td>
+<td></td>
+<td>Include caller information, useful for debugging </td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -1653,7 +1336,7 @@ istioctl proxy-config endpoint -n application productpage-v1-bb8d5cbc7-k7qbm sta
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -1674,6 +1357,16 @@ istioctl proxy-config endpoint -n application productpage-v1-bb8d5cbc7-k7qbm sta
 <td><code>--short</code></td>
 <td><code>-s</code></td>
 <td>Displays a short form of the version information </td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 </tbody>
 </table>

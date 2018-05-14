@@ -1,9 +1,11 @@
 ---
 title: Nomad & Consul
-description: Instructions for installing the Istio control plane in a Consul based environment, with or without Nomad.
+overview: Instructions for installing the Istio control plane in a Consul based environment, with or without Nomad.
 
-weight: 20
+order: 20
 
+layout: docs
+type: markdown
 toc: false
 ---
 

@@ -1,14 +1,16 @@
 ---
 title: Doc Issues
-description: Explains the process involved in accepting documentation updates.
+overview: Explains the process involved in accepting documentation updates.
+              
+order: 60
 
-weight: 60
-
+layout: about
+type: markdown
 redirect_from: /docs/welcome/contribute/reviewing-doc-issues.html
 ---
 
 This page explains how documentation issues are reviewed and prioritized for the
-[istio/istio.github.io](https://github.com/istio/istio.github.io) repository.
+[istio/istio.github.io](https://github.com/istio/istio.github.io){: target="_blank"} repository.
 The purpose is to provide a way to organize issues and make it easier to contribute to
 Istio documentation. The following should be used as the standard way of prioritizing,
 labeling, and interacting with issues.
@@ -23,7 +25,7 @@ the issue with your reasoning for the change.
     <td>P1</td>
     <td><ul>
         <li>Major content errors affecting more than 1 page</li>
-        <li>Broken code sample on a heavily trafficked page</li>
+        <li>Broken code sample on a heavily trafficked page</li>  
         <li>Errors on a “getting started” page</li>
         <li>Well known or highly publicized customer pain points</li>
         <li>Automation issues</li>
@@ -50,7 +52,7 @@ the issue with your reasoning for the change.
 
 ## Handling special issue types
 
-If a single problem has one or more issues open for it, the problem should be consolidated into a single issue. You should decide which issue to keep open
+If a single problem has one or more issues open for it, the problem should be consolidated into a single issue. You should decide which issue to keep open 
 (or open a new issue), port over all relevant information, link related issues, and close all the other issues that describe the same problem. Only having
 a single issue to work on will help reduce confusion and avoid duplicating work on the same problem.
 

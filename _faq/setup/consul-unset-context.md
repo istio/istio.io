@@ -1,6 +1,7 @@
 ---
 title: Consul - How do I unset the context changed by istioctl at the end?
-weight: 50
+order: 50
+type: markdown
 ---
 {% include home.html %}
 

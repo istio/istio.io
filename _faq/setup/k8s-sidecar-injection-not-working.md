@@ -1,6 +1,7 @@
 ---
 title: Kubernetes - How can I debug problems with automatic sidecar injection?
-weight: 20
+order: 20
+type: markdown
 ---
 {% include home.html %}
 

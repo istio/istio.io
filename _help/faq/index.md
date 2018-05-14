@@ -1,9 +1,11 @@
 ---
 title: FAQ
-description: Frequently Asked Questions about Istio.
+overview: Frequently Asked Questions about Istio.
 
-weight: 20
+order: 20
 
+layout: help
+type: markdown
 toc: false
 
 redirect_from:
@@ -37,7 +39,7 @@ You've got questions? We've got answers!
                             {% if cat == qcat %}
                                 {% assign name = q.path | downcase | split: '/' | last | remove: ".md" %}
 
-                                <a href="{{qcat}}.html#{{name}}">{{q.title}}</a><br/>
+                                <a href="{{qcat}}#{{name}}">{{q.title}}</a><br/>
                             {% endif %}
                         {% endfor %}
                     </div>

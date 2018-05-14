@@ -1,5 +1,6 @@
 ---
 title: Mixer
+type: markdown
 ---
 {% include home.html %}
 

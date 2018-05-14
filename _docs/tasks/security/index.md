@@ -1,11 +1,12 @@
 ---
 title: Security
-description: Describes tasks that help securing the service mesh traffic.
+overview: Describes tasks that help securing the service mesh traffic.
 
-weight: 40
+order: 40
 
+layout: docs
+type: markdown
 toc: false
-redirect_from: /docs/tasks/istio-auth.html
 ---
 
 {% include section-index.html docs=site.docs %}

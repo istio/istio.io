@@ -1,8 +1,10 @@
 ---
 title: In-Depth Telemetry
-description: This sample demonstrates how to obtain uniform metrics, logs, traces across different services using Istio Mixer and Istio sidecar.
+overview: This sample demonstrates how to obtain uniform metrics, logs, traces across different services using Istio Mixer and Istio sidecar.
 
-weight: 30
+order: 30
+layout: docs
+type: markdown
 ---
 {% include home.html %}
 
@@ -47,7 +49,7 @@ developers to manually instrument their applications.
    applications.
 
 1. [Using the Istio Dashboard]({{home}}/docs/tasks/telemetry/using-istio-dashboard.html)
-   This task installs the Grafana add-on with a preconfigured dashboard
+   This task installs the Grafana add-on with a pre-configured dashboard
    for monitoring mesh traffic.
 
 ## Cleanup

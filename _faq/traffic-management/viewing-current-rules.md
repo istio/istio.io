@@ -1,6 +1,7 @@
 ---
 title: How can I view the current route rules I have configured with Istio?
-weight: 10
+order: 10
+type: markdown
 ---
 {% include home.html %}
 

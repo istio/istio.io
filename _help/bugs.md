@@ -1,15 +1,17 @@
 ---
 title: Reporting Bugs
-description: What to do about bugs
+overview: What to do about bugs
 
-weight: 35
+order: 35
 
+layout: help
+type: markdown
 redirect_from: /bugs
 toc: false
 ---
 {% include home.html %}
 
-Oh no! You found a bug?
+Oh no! You found a bug? 
 
 Search our [issue database](https://github.com/istio/issues/issues/) to see if we already know about
 your problem and learn about when
