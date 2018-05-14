@@ -31,13 +31,13 @@ This task describes how to configure Istio to expose a service outside of the se
 * Start the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) sample,
   which will be used as the destination service to be exposed externally.
 
-  If you installed the [Istio-Initializer]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection), do
+  If you installed  [Istio-Initializer]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection), do
 
   ```command
   $ kubectl apply -f samples/httpbin/httpbin.yaml
   ```
 
-  Without the Istio-Initializer:
+  Without Istio-Initializer:
 
   ```command
   $ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml)
@@ -62,7 +62,7 @@ but, unlike [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/s
 does not include any traffic routing configuration. Traffic routing for ingress traffic is instead configured
 using Istio routing rules, exactly in the same was as for internal service requests.
 
-In the following subsections we configure a Gateway on port 80 for unencrypted HTTP traffic. Then we add a secure port 443 for HTTPS traffic.
+In the following subsections we configure a Gateway on port 80 for unencrypted HTTP traffic first. Then we add a secure port 443 for HTTPS traffic.
 
 ### Configuring unencrypted Gateway
 
@@ -152,7 +152,7 @@ the `istio-ingressgateway` service.
    $ export INGRESS_PORT=31486
    ```
 
-1. Access the _httpbin_ service using _curl_. Note the `--resolve` flag of _curl_ that allows to access an IP address by using an arbitrary domain name. In our case we access our ingress Gateway by "foo.bar.com".
+1. Access the _httpbin_ service using _curl_. Note the `--resolve` flag of _curl_ that allows to access an IP address by using an arbitrary domain name. In our case we access our ingress Gateway by "foo.bar.com". Note that we specified "foo.bar.com" as a host handled by our `Gateway`.
 
    ```command
    $ curl --resolve foo.bar.com:$INGRESS_PORT:$INGRESS_HOST -I http://foo.bar.com:$INGRESS_PORT/status/200
@@ -177,85 +177,87 @@ the `istio-ingressgateway` service.
    content-length: 0
    ```
 
-   ### Add a secure port for our gateway
-   In this subsection, we add the port 443 to receive the HTTPS traffic. We  redeploy the pod of the Istio gateway with our private key and certificate to use for TLS traffic. Then we replace the previous Gateway definition with a definition that contains a server on the port 443, in addition to the previously defined server on the port 80.
+### Add a secure port for our gateway
+In this subsection we add the port 443 to handle the HTTPS traffic. We redeploy the pod of the Istio gateway with our private key and certificate to use for TLS traffic. Then we replace the previous Gateway definition with a definition that contains a server on the port 443, in addition to the previously defined server on the port 80.
 
-   #### Inject our private key and certificate into the pod of the Istio gateway.
-   1. Create a Kubernetes secret of the type `tls` from the private key and the certificate we created in the [Before you begin](#before-you-begin) section. We can use any name as the name of the secret, let's call it _my-ingress-cert_.
+#### Inject our private key and certificate into the pod of the Istio gateway.
 
-      ```command
-      kubectl create -n istio-system secret tls my-ingress-cert --key /tmp/tls.key --cert /tmp/tls.crtkubectl create -n istio-system secret tls my-ingress-cert --key /tmp/tls.key --cert /tmp/tls.crt
-      ```  
+1. Create a Kubernetes secret of the type `tls` from the private key and the certificate we created in the [Before you begin](#before-you-begin) section. We can use any name as the name of the secret, let's call it _my-ingress-cert_.
 
-  1. Render the Kubernetes manifest of the pod of the Istio gateway with Helm:
-     ```
-     helm template install/kubernetes/helm/istio --name istio --namespace istio-system -x charts/ingressgateway/templates/deployment.yaml > $HOME/istio-ingressgateway-deployment.yaml
-      ```
+   ```command
+   kubectl create -n istio-system secret tls my-ingress-cert --key /tmp/tls.key --cert /tmp/tls.crt
+   ```  
 
-  1. Edit the rendered manifest - add a Kubernetes  _volume_ to the list of the pods volumes. We can use any name for the volume name.
+1. Render the Kubernetes manifest of the pod of `istio-ingressgateway` with Helm:
 
-     ```
-     volumes:
+   ```command
+   helm template install/kubernetes/helm/istio --name istio --namespace istio-system -x charts/ingressgateway/templates/deployment.yaml > $HOME/istio-ingressgateway-deployment.yaml
+   ```
+
+1. Edit the rendered manifest - add a Kubernetes  _volume_ to the list of the pod's volumes. We can use any name for the volume name.
+
+   ```
+   volumes:
+   - name: my-ingress-cert
+     secret:
+       secretName: "my-ingress-cert"
+         optional: true
+   ...
+   ```
+
+1. Add a _volumeMount_ for our volume to the `ingressgateway` container. For the _volumeMount_ name use the volume name from the previous step. We can use any path for mounting our volume, let's use _/etc/my-ingress-cert_:
+
+   ```
+   volumeMounts:
      - name: my-ingress-cert
-       secret:
-         secretName: "my-ingress-cert"
-           optional: true
-       ...
-     ```
+       mountPath: /etc/my-ingress-cert
+       readOnly: true
+   ...
+   ```
 
-  1. Add a _volumeMount_ for our volume to the `ingressgateway` container. For the _volumeMount_ name use the volume name from the previous step. We can use any path for mounting our volume, let's use _/etc/my-ingress-cert_:
+1. Redeploy `istio-ingressgateway`:
 
-     ```
-     volumeMounts:
-        - name: my-ingress-cert
-          mountPath: /etc/my-ingress-cert
-          readOnly: true
-     ...
-     ```
+   ```command
+   kubectl apply -f $HOME/istio-ingressgateway-deployment.yaml
+   ```
 
-  1. Redeploy the Istio Gateway:
+1. Verify that the Gateway still works for the port 80 and accepts unencrypted HTTP traffic as before. We do it by accessing the _httpbin_ service, port 80, as described in the [Verifying unencrypted Gateway](#verifying-unencrypted-gateway) subsection.
 
-     ```command
-     kubectl apply -f $HOME/istio-ingressgateway-deployment.yaml
-     ```
+#### Add a secure server on the port 443 to our Gateway.
 
-  1. Verify that the previous unencrypted Gateway still works, by accessing the _httpbin_ service, port 80, as described in the [Verifying unencrypted Gateway](#verifying-unencrypted-gateway) subsection.
+1. Replace the previous `Gateway` definition with a server section for the port 443. Specify the locations of the certificate and the private key we mounted in the previous subsection.
 
-  #### Add a secure server on the port 443 to our Gateway.
-
-  1. Replace the previous `Gateway` definition with a server section for the port 443. Specify the locations of the certificate and the private key we
-
-    ```command
-    cat <<EOF | istioctl replace -f -
-    apiVersion: networking.istio.io/v1alpha3
-    kind: Gateway
-    metadata:
-      name: httpbin-gateway
-    spec:
-      selector:
-        istio: ingressgateway # use istio default controller
-      servers:
-      - port:
-          number: 80
-          name: http
-          protocol: HTTP
-        hosts:
-        - "foo.bar.com"
-      - port:
-          number: 443
-          name: https
-          protocol: HTTPS
-        tls:
-          mode: SIMPLE
-          serverCertificate: /etc/my-ingress-cert/tls.crt
-          privateKey: /etc/my-ingress-cert/tls.key
-        hosts:
-        - "foo.bar.com"  
-    EOF
-    ```
+  ```command
+  cat <<EOF | istioctl replace -f -
+  apiVersion: networking.istio.io/v1alpha3
+  kind: Gateway
+  metadata:
+    name: httpbin-gateway
+  spec:
+    selector:
+      istio: ingressgateway # use istio default controller
+    servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+      - "foo.bar.com"
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      tls:
+        mode: SIMPLE
+        serverCertificate: /etc/my-ingress-cert/tls.crt
+        privateKey: /etc/my-ingress-cert/tls.key
+      hosts:
+      - "foo.bar.com"  
+  EOF
+  ```
 
 ### Verifying secure Gateway
-1. Get the istio-ingressgateway service's _nodePort_ for the port 443:
+1. Get the `istio-ingressgateway` service's _nodePort_ for the port 443:
 
    ```command
    $ kubectl -n istio-system get svc istio-ingressgateway
@@ -266,7 +268,7 @@ the `istio-ingressgateway` service.
    ```command
    $ export SECURE_INGRESS_PORT=32254
    ```
-2. Access the _httpbin_ service by HTTPS. Here we use _curl_'s `-k` option to instruct _curl_ not to check our certificate (since it is a fake certificate we created for testing the Gateway only, _curl_ is not aware about this certificate.)
+2. Access the _httpbin_ service by HTTPS. Here we use _curl_'s `-k` option to instruct _curl_ not to check our certificate (since it is a fake certificate we created for testing the Gateway only, _curl_ is not aware about it).
 
 ```command
 $ curl --resolve foo.bar.com:$SECURE_INGRESS_PORT:$INGRESS_HOST -I -k https://foo.bar.com:$SECURE_INGRESS_PORT/status/200
