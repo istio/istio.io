@@ -1,11 +1,9 @@
 ---
 title: Guides
-overview: Guides include a variety of fully working example uses for Istio that you can experiment with.
+description: Guides include a variety of fully working example uses for Istio that you can experiment with.
 
-order: 30
+weight: 30
 
-layout: docs
-type: markdown
 toc: false
 ---
 

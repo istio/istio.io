@@ -4,23 +4,64 @@
 
 "use strict"
 
-function doSearch() {
-    var url = '{{home}}/search?q=' + document.getElementsByName('q')[0].value;
-    window.location.assign(url);
-}
-
 $(function ($) {
-    $(document).ready(function() {
-        $('.btn-search').on('click', function(e) {
-            e.preventDefault();
-            doSearch();
-        });
+    // Show the navbar links, hide the search box
+    function showLinks() {
+        var $form = $('#search_form')
+        var $textbox = $('#search_textbox');
+        var $links = $('#navbar-links')
 
+        $form.removeClass('active');
+        $links.addClass('active');
+        $textbox.val('');
+        $textbox.removeClass("grow");
+    }
+
+    // Show the navbar search box, hide the links
+    function showSearchBox() {
+        var $form = $('#search_form')
+        var $textbox = $('#search_textbox');
+        var $links = $('#navbar-links')
+
+        $form.addClass('active');
+        $links.removeClass('active');
+        $textbox.addClass("grow");
+        $textbox.focus();
+    }
+
+    // Hide the search box when the user hits the ESC key
+    $('body').on('keyup', function(event) {
+        if (event.which == 27) {
+            showLinks();
+        }
+    });
+
+    // Show the search box
+    $('#search_show').on('click', function(event) {
+        event.preventDefault();
+        showSearchBox();
+    });
+
+    // Hide the search box
+    $('#search_close').on('click', function(event) {
+        event.preventDefault();
+        showLinks();
+    });
+
+    // When the user submits the search form, initiate a search
+    $('#search_form').submit(function(event) {
+        event.preventDefault();
+        var $textbox = $('#search_textbox');
+        var url = '{{home}}/search.html?q=' + $textbox.val();
+        showLinks();
+        window.location.assign(url);
+    });
+
+    $(document).ready(function() {
         // toggle sidebar on/off
         $('[data-toggle="offcanvas"]').on('click', function () {
             $('.row-offcanvas').toggleClass('active')
-            $(this).children('i.fa').toggleClass('fa-chevron-right');
-            $(this).children('i.fa').toggleClass('fa-chevron-left');
+            $(this).children('i.fa').toggleClass('fa-flip-horizontal');
         })
 
         // toggle category tree in sidebar
@@ -32,96 +73,400 @@ $(function ($) {
 
         // toggle copy button
         $(document).on('mouseenter', 'pre', function () {
-            $(this).parent().children('div.copy').toggleClass("copy-show", true)
-            $(this).parent().children('div.copy').toggleClass("copy-hide", false)
+            $(this).next().toggleClass("copy-show", true)
+            $(this).next().toggleClass("copy-hide", false)
         });
 
         // toggle copy button
         $(document).on('mouseleave', 'pre', function () {
-            $(this).parent().children('div.copy').toggleClass("copy-show", false)
-            $(this).parent().children('div.copy').toggleClass("copy-hide", true)
+            $(this).next().toggleClass("copy-show", false)
+            $(this).next().toggleClass("copy-hide", true)
         });
 
         // toggle copy button
-        $(document).on('mouseenter', 'div.copy', function () {
-            $(this).parent().children('div.copy').toggleClass("copy-show", true)
-            $(this).parent().children('div.copy').toggleClass("copy-hide", false)
+        $(document).on('mouseenter', 'button.copy', function () {
+            $(this).toggleClass("copy-show", true)
+            $(this).toggleClass("copy-hide", false)
         });
 
         // toggle copy button
-        $(document).on('mouseleave', 'div.copy', function () {
-            $(this).parent().children('div.copy').toggleClass("copy-show", false)
-            $(this).parent().children('div.copy').toggleClass("copy-hide", true)
+        $(document).on('mouseleave', 'button.copy', function () {
+            $(this).toggleClass("copy-show", false)
+            $(this).toggleClass("copy-hide", true)
         });
     });
 }(jQuery));
 
-(function(){
-    var div = "<div class='copy copy-hide'><button title='Copy to clipboard' class='copy-button'>Copy</button></div>";
-    var pre = document.getElementsByTagName('PRE');
-    for (var i = 0; i < pre.length; i++) {
-        pre[i].insertAdjacentHTML('beforebegin', div);
-    };
+// Scroll the document to the top
+function scrollToTop() {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
 
-    var copyCode = new Clipboard('.copy-button', {
-        target: function(trigger) {
-            return trigger.parentElement.nextElementSibling;
+// initialized after the DOM has been loaded by getDOMTopology
+var scrollToTopButton;
+var tocLinks;
+var tocHeadings;
+
+// post-processing we do once the DOM has loaded
+function handleDOMLoaded() {
+
+    // Apply a bunch of systematic modification to the DOM of all pages.
+    // Ideally, this stuff could be handled offline as part of preparing the
+    // HTML, but alas our current toolchain won't allow that in a clean/simple
+    // way.
+    function patchDOM() {
+        // Add a Copy button to all PRE blocks
+        function attachCopyButtons() {
+            var pre = document.getElementsByTagName('PRE');
+            for (var i = 0; i < pre.length; i++) {
+                var button = document.createElement("BUTTON");
+                button.title = "Copy to clipboard";
+                button.className = "copy copy-hide";
+                button.innerText = "Copy";
+                button.setAttribute("aria-label", "Copy to clipboard");
+
+                var parent = pre[i].parentElement;
+                if (parent.tagName == "DIV") {
+                    // This is the case for HTML produced from markdown through Jekyll
+                    parent.appendChild(button);
+                } else {
+                    // This is the case for HTML produced by protoc-gen-docs from proto sources
+                    // we hackily create a DIV on the fly to make this case look like what we get
+                    // from Jekyll
+                    var div = document.createElement("DIV")
+                    div.className = "highlight"
+                    parent.insertBefore(div, pre[i])
+                    div.appendChild(pre[i])
+                    div.appendChild(button)
+                }
+
+                // apply syntax highlighting
+                Prism.highlightElement(pre[i].firstChild, false)
+            }
+
+            var copyCode = new Clipboard('button.copy', {
+                text: function (trigger) {
+                    var commands = trigger.previousElementSibling.getElementsByClassName("command");
+                    if ((commands != undefined) && (commands.length > 0)) {
+                        var lines = commands[0].innerText.split("\n");
+                        var cmd = "";
+                        for (var i = 0; i < lines.length; i++) {
+                            if (lines[i].startsWith("$ ")) {
+                                lines[i] = lines[i].substring(2);
+                            }
+
+                            if (cmd != "") {
+                                cmd = cmd + "\n";
+                            }
+
+                            cmd = cmd + lines[i];
+                        }
+
+                        return cmd;
+                    }
+
+                    return trigger.previousElementSibling.innerText;
+                }
+            });
+
+            // On success:
+            // - Change the "Copy" text to "Done".
+            // - Swap it to "Copy" in 2s.
+
+            copyCode.on('success', function (event) {
+                event.clearSelection();
+                event.trigger.textContent = 'Done';
+                window.setTimeout(function () {
+                    event.trigger.textContent = 'Copy';
+                }, 2000);
+            });
+
+            // On error (Safari):
+            // - Change to "Not supported"
+            // - Swap it to "Copy" in 2s.
+
+            copyCode.on('error', function (event) {
+                event.trigger.textContent = 'Not supported';
+                window.setTimeout(function () {
+                    event.trigger.textContent = 'Copy';
+                }, 5000);
+            });
         }
-    });
 
-    // On success:
-    // - Change the "Copy" text to "Done".
-    // - Swap it to "Copy" in 2s.
+        function applySyntaxColoring() {
+            var pre = document.getElementsByTagName('PRE');
+            for (var i = 0; i < pre.length; i++) {
+                var code = pre[i].firstChild;
 
-    copyCode.on('success', function(event) {
-        event.clearSelection();
-        event.trigger.textContent = 'Done';
-        window.setTimeout(function() {
-            event.trigger.textContent = 'Copy';
-        }, 2000);
-    });
+                var cl = "";
+                for (var j = 0; j < code.classList.length; j++) {
+                    if (code.classList.item(j).startsWith("language-command")) {
+                        cl = code.classList.item(j);
+                        break;
+                    }
+                }
 
-    // On error (Safari):
-    // - Change to "Not supported"
-    // - Swap it to "Copy" in 2s.
+                if (cl != "") {
+                    var text = code.innerText;
+                    var lines = text.split("\n");
 
-    copyCode.on('error', function(event) {
-        event.trigger.textContent = 'Not supported';
-        window.setTimeout(function() {
-            event.trigger.textContent = 'Copy';
-        }, 5000);
-    });
-})();
+                    var bottom = false;
+                    var cmd = "";
+                    var output = "";
+                    var escape = false;
+                    for (var j = 0; j < lines.length; j++) {
+                        if (bottom) {
+                            output = output + "\n" + lines[j]
+                        } else {
+                            if (lines[j].startsWith("$ ")) {
+                                // line is definitely a command
+                            } else if (escape) {
+                                // continuation
+                            } else {
+                                bottom = true;
+                                output = lines[j];
+                                continue;
+                            }
 
-(function(){
-    function anchorForId(id) {
-        var anchor = document.createElement("a");
-        anchor.className = "header-link";
-        anchor.href      = "#" + id;
-        anchor.innerHTML = "<i class=\"fa fa-link\"></i>";
-        return anchor;
+                            escape = (lines[j].endsWith("\\"));
+
+                            if (cmd != "") {
+                                cmd = cmd + "\n";
+                            }
+                            cmd = cmd + lines[j]
+                        }
+                    }
+
+                    // in case someone forgot the $, treat everything as a command instead of as output
+                    if (cmd == "") {
+                        cmd = output;
+                        output = "";
+                    }
+
+                    var colored = Prism.highlight(cmd, Prism.languages["bash"], "bash");
+                    var html = "<div class='command'>" + colored + "</div>";
+
+                    if (output != "") {
+
+                        // apply formatting to the output?
+                        var prefix = "language-command-output-as-";
+                        if (cl.length > prefix.length) {
+                            var lang = cl.substr(prefix.length);
+                            output = Prism.highlight(output, Prism.languages[lang], lang);
+                        }
+
+                        html = html + "<div class='output'>" + output + "</div>";
+                    }
+
+                    code.innerHTML = html;
+                    code.classList.remove(cl);
+                    code.classList.add("command-output");
+                } else {
+                    Prism.highlightElement(code, false);
+                    var code = pre[i].firstChild;
+                    var div = document.createElement("DIV");
+                    div.className = "code-plain";
+                    parent = code.parentElement;
+                    parent.insertBefore(div, code);
+                    div.appendChild(code);
+                }
+            }
+        }
+
+        function attachLink(node) {
+            var i = document.createElement("i");
+            i.className = "fa fa-link";
+
+            var anchor = document.createElement("a");
+            anchor.className = "header-link";
+            anchor.href = "#" + node.id;
+            anchor.setAttribute("aria-hidden", "true");
+            anchor.appendChild(i);
+
+            node.appendChild(anchor);
+        }
+
+        // Add a link icon next to each header so people can easily get bookmarks to headers
+        function attachLinksToHeaders() {
+            for (var level = 1; level <= 6; level++) {
+                var headers = document.getElementsByTagName("h" + level);
+                for (var i = 0; i < headers.length; i++) {
+                    var header = headers[i]
+                    if (header.id !== "") {
+                        attachLink(header);
+                    }
+                }
+            }
+        }
+
+        // Add a link icon next to each defined term so people can easily get bookmarks to them in the glossary
+        function attachLinksToDefinedTerms() {
+            var terms = document.getElementsByTagName("dt");
+            for (var i = 0; i < terms.length; i++) {
+                var term = terms[i]
+                if (term.id !== "") {
+                    attachLink(term);
+                }
+            }
+        }
+
+        // Make it so each link outside of the current domain opens up in a different window
+        function makeOutsideLinksOpenInTabs() {
+            var links = document.getElementsByTagName("a");
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i];
+                if (link.hostname && link.hostname != location.hostname) {
+                    link.setAttribute("target", "_blank")
+                }
+            }
+        }
+
+        // Load the content of any externally-hosted PRE blocks
+        function loadExternalPreBlocks() {
+
+            function fetchFile(elem, url) {
+                fetch(url).then(response => response.text()).then(data => {
+                    elem.firstChild.innerText = data;
+                });
+            }
+
+            var pre = document.getElementsByTagName('PRE');
+            for (var i = 0; i < pre.length; i++) {
+                if (pre[i].hasAttribute("data-src")) {
+                    fetchFile(pre[i], pre[i].getAttribute("data-src"))
+                }
+            }
+        }
+
+        function createEndnotes() {
+            var notes = document.getElementById("endnotes");
+            if (notes == undefined) {
+                return;
+            }
+
+            // look for anchors in the main section of the doc only (skip headers, footers, tocs, nav bars, etc)
+            var main = document.getElementsByTagName("main")[0];
+            var links = main.getElementsByTagName("a");
+            var map = new Map(null)
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i];
+                if (link.pathname == location.pathname) {
+                    // skip links on the current page
+                    continue;
+                }
+
+                if (link.pathname.endsWith("/") && link.hash != "") {
+                    // skip links on the current page
+                    continue;
+                }
+
+                if (link.classList.contains("not-for-endnotes")) {
+                    // skip links that don't want to be included
+                    continue;
+                }
+
+                var count = map.get(link.href);
+                if (count == undefined) {
+                    count = map.size + 1;
+                    map.set(link.href, count);
+
+                    // add a list entry for the link
+                    var li = document.createElement("li");
+                    li.innerText = link.href;
+                    notes.appendChild(li);
+                }
+
+                // add the superscript reference
+                link.insertAdjacentHTML("afterend", "<sup class='endnote-ref'>" + count + "</sup>");
+            }
+        }
+
+        attachCopyButtons();
+        applySyntaxColoring();
+        attachLinksToHeaders();
+        attachLinksToDefinedTerms();
+        makeOutsideLinksOpenInTabs();
+        loadExternalPreBlocks();
+        createEndnotes();
     }
 
-    function linkifyAnchors(level, containingElement) {
-        var headers = containingElement.getElementsByTagName("h" + level);
-        for (var h = 0; h < headers.length; h++) {
-            var header = headers[h];
+    // discover a few DOM elements up front so we don't need to do it a zillion times for the life of the page
+    function getDOMTopology() {
+        scrollToTopButton = document.getElementById("scroll-to-top");
 
-            if (typeof header.id !== "undefined" && header.id !== "") {
-                header.appendChild(anchorForId(header.id));
+        var toc = document.getElementById("toc");
+        if (toc != undefined) {
+            tocLinks = toc.getElementsByTagName("A");
+            tocHeadings = new Array(tocLinks.length);
+
+            for (var i = 0; i < tocLinks.length; i++) {
+                tocHeadings[i] = document.getElementById(tocLinks[i].hash.substring(1));
             }
         }
     }
 
-    for (var level = 1; level <= 6; level++) {
-        linkifyAnchors(level, document);
-    }
+    patchDOM();
+    getDOMTopology();
 
-    var links = document.getElementsByTagName("a")
-    for (var i = 0; i < links.length; i++) {
-        var l = links[i]
-        if (l.hostname && l.hostname != location.hostname) {
-            l.setAttribute("target", "_blank")
+    // one forced call here to make sure everything looks right
+    handlePageScroll();
+}
+
+// What we do when the user scrolls the page
+function handlePageScroll() {
+    // Based on the scroll position, make the "scroll to top" button visible or not
+    function controlScrollToTopButton() {
+        if (scrollToTopButton) {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                scrollToTopButton.style.display = "block";
+            } else {
+                scrollToTopButton.style.display = "none";
+            }
         }
     }
-})();
+
+    // Based on the scroll position, activate a TOC entry
+    function controlTOCActivation() {
+        if (tocLinks) {
+            var closestHeadingBelowTop = -1;
+            var closestHeadingBelowTopPos = 1000000;
+            var closestHeadingAboveTop = -1;
+            var closestHeadingAboveTopPos = -1000000;
+
+            for (var i = 0; i < tocLinks.length; i++) {
+                var cbr = tocHeadings[i].getBoundingClientRect();
+
+                if (cbr.width || cbr.height) {
+                    if ((cbr.top >= 0) && (cbr.top < window.innerHeight)) {
+                        // heading is on the screen
+                        if (cbr.top < closestHeadingBelowTopPos) {
+                            closestHeadingBelowTop = i;
+                            closestHeadingBelowTopPos = cbr.top;
+                        }
+                    } else if (cbr.top < 0) {
+                        // heading is above the screen
+                        if (cbr.top > closestHeadingAboveTopPos) {
+                            closestHeadingAboveTop = i;
+                            closestHeadingAboveTopPos = cbr.top;
+                        }
+                    }
+                }
+
+                tocLinks[i].classList.remove("current");
+            }
+
+            if (closestHeadingBelowTop >= 0) {
+                tocLinks[closestHeadingBelowTop].classList.add("current");
+            } else if (closestHeadingAboveTop >= 0) {
+                tocLinks[closestHeadingAboveTop].classList.add("current");
+            }
+        }
+    }
+
+    controlScrollToTopButton();
+    controlTOCActivation();
+}
+
+document.addEventListener("DOMContentLoaded", handleDOMLoaded);
+window.addEventListener("scroll", handlePageScroll);

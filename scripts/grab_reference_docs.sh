@@ -19,9 +19,10 @@ COMMAND_DIR=$ISTIO_BASE/_docs/reference/commands
 pushd $WORK_DIR
 git clone https://github.com/istio/api.git
 git clone https://github.com/istio/istio.git
+rm -fr istio/vendor
 popd
 
-# Given the name of a .pb.html file, exracts the $location marker and then proceeds to
+# Given the name of a .pb.html file, extracts the $location marker and then proceeds to
 # copy the file to that location in the _docs hierarchy.
 locate_file() {
     FILENAME=$1
@@ -36,7 +37,7 @@ locate_file() {
     FNP=${LOCATION:31}
     FN=$(echo $FNP | rev | cut -d'/' -f1 | rev)
     PP=$(echo $FNP | rev | cut -d'/' -f2- | rev)
-    sed -e 's/href="https:\/\/istio.io/href="{{site.baseurl}}/g' ${FILENAME} >_docs/${PP}/${FN}
+    sed -e 's/href="https:\/\/istio.io/href="{{site.baseurl}}/g' ${FILENAME} >_docs${PP}/${FN}
 }
 
 # Given the path and name to an Istio command, builds the command and then
@@ -74,7 +75,7 @@ done
 # get_command_doc $WORK_DIR/istio/broker/cmd/brks brks
 get_command_doc $WORK_DIR/istio/mixer/cmd/mixc mixc
 get_command_doc $WORK_DIR/istio/mixer/cmd/mixs mixs
-get_command_doc $WORK_DIR/istio/pilot/cmd/istioctl istioctl
+get_command_doc $WORK_DIR/istio/istioctl/cmd/istioctl istioctl
 get_command_doc $WORK_DIR/istio/pilot/cmd/pilot-agent pilot-agent
 get_command_doc $WORK_DIR/istio/pilot/cmd/pilot-discovery pilot-discovery
 get_command_doc $WORK_DIR/istio/pilot/cmd/sidecar-injector sidecar-injector

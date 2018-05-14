@@ -1,0 +1,11 @@
+{% comment %}
+Purpose:
+    Inserts preformatted block whose content is sources from an external URL.
+
+Usage:
+    {% include file-content.html url='<url of file>' %}
+{% endcomment %}
+
+<div class="highlight">
+    <pre data-src="{{include.url}}"><code></code></pre>
+</div>

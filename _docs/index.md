@@ -1,11 +1,9 @@
 ---
 title: Welcome
-overview: Istio documentation home page.
+description: Istio documentation home page.
 
-order: 0
+weight: 1
 
-layout: docs
-type: markdown
 toc: false
 ---
 {% include home.html %}
@@ -19,8 +17,8 @@ is where you can learn about what Istio does and how it does it.
   the Istio control plane in various environments, as well as instructions
   for installing the sidecar in the application deployment. Quick start
   instructions are available for
-  [Kubernetes]({{docs}}/docs/setup/kubernetes/quick-start.html) and 
-  [Docker Compose w/ Consul]({{docs}}/docs/setup/consul/quick-start.html).
+  [Kubernetes]({{home}}/docs/setup/kubernetes/quick-start.html) and
+  [Docker Compose w/ Consul]({{home}}/docs/setup/consul/quick-start.html).
 
 - [Tasks]({{home}}/docs/tasks/). Tasks show you how to do a single directed activity with Istio.
 
@@ -30,9 +28,14 @@ intended to highlight a particular set of Istio's features.
 - [Reference]({{home}}/docs/reference/). Detailed exhaustive lists of
 command-line options, configuration options, API definitions, and procedures.
 
-We're always looking for help improving our documentation, so please don't hesitate to
+In addition, you might find these links interesting:
+
+- The latest Istio monthly release is {{site.data.istio.version}}: [download {{site.data.istio.version}}](https://github.com/istio/istio/releases),
+[release notes]({{home}}/about/notes/{{site.data.istio.version}}.html).
+
+- Nostalgic for days gone by? We keep an [archive of the earlier releases' documentation](https://archive.istio.io/).
+
+- We're always looking for help improving our documentation, so please don't hesitate to
 [file an issue](https://github.com/istio/istio.github.io/issues/new) if you see some problem.
 Or better yet, submit your own [contributions]({{home}}/about/contribute/editing.html) to help
 make our docs better.
-
-Follow this link for the archive of the [earlier releases' documentation](https://archive.istio.io/).

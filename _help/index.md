@@ -1,15 +1,22 @@
 ---
 title: Help!
-overview: A bunch of resources to help you deploy, configure and use Istio.
+description: A bunch of resources to help you deploy, configure and use Istio.
 
-order: 10
+weight: 10
 
-layout: help
-type: markdown
 toc: false
 ---
+{% include home.html %}
 
-{% include section-index.html docs=site.help %}
+Here are some resources to help you deploy, configure and use Istio.
 
-And don't forget our vibrant [community]({{home}}/community) that's always ready to lend a hand
+- [Frequently Asked Questions]({{home}}/help/faq/). You ask 'em, we'll answer 'em.
+
+- [Glossary]({{home}}/help/glossary.html). A glossary of common Istio terms.
+
+- [Reporting Bugs]({{home}}/help/bugs.html). What to do when you find a bug.
+
+- [Troubleshooting Guide]({{home}}/help/troubleshooting.html). Practical advice on practical problems with Istio.
+
+And don't forget our vibrant [community]({{home}}/community.html) that's always ready to lend a hand
 with thorny problems.

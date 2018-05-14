@@ -1,11 +1,9 @@
 ---
 title: Control Egress TCP Traffic
-overview: Describes how to configure Istio to route TCP traffic from services in the mesh to external services.
+description: Describes how to configure Istio to route TCP traffic from services in the mesh to external services.
 
-order: 41
+weight: 41
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 
@@ -20,13 +18,14 @@ This task describes how to configure Istio to expose external TCP services to ap
 
 * Start the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) sample application which will be used as a test source for external calls.
 
-  ```bash
-  kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
+  ```command
+  $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
   ```
 
-  **Note**: any pod that you can execute `curl` from is good enough.
+  > any pod that you can execute `curl` from is good enough.
 
 ## Using Istio egress rules for external TCP traffic
+
 In this task we access `wikipedia.org` by HTTPS originated by the application. This task demonstrates the use case when the application cannot use HTTP with TLS origination by the sidecar proxy. Using HTTP with TLS origination by the sidecar proxy is described in the [Control Egress Traffic]({{home}}/docs/tasks/traffic-management/egress.html) task. In that task, `https://google.com` was accessed by issuing HTTP requests to `http://www.google.com:443`.
 
 The HTTPS traffic originated by the application will be treated by Istio as _opaque_ TCP. To enable such traffic, we define a TCP egress rule on port 443.
@@ -38,7 +37,9 @@ Let's assume for the sake of the example that we want to access `wikipedia.org` 
 Alternatively, if we want to access `wikipedia.org` by an IP, just a single egress rule for that IP must be defined.
 
 ## Creating egress rules
+
 Let's create egress rules to enable TCP access to `wikipedia.org`:
+
 ```bash
 cat <<EOF | istioctl create -f -
 kind: EgressRule
@@ -93,35 +94,30 @@ spec:
 EOF
 ```
 
-This command will create five egress rules, a rule per different block of IPs of `wikipedia.org`. Note the `---` (three dashes) separator between the egress rules. This is the [YAML separator between documents](http://www.yaml.org/spec/1.2/spec.html#id2760395) in a stream. It allows us to create multiple configuration artifacts using a single `istioctl` command.
+This command will create five egress rules, a rule per different block of IPs of `wikipedia.org`. Note the `---` (three dashes) separator between the egress rules. This is the
+[YAML separator between documents](http://yaml.org/spec/1.2/spec.html#id2760395) in a stream. It allows us to create multiple configuration artifacts using
+a single `istioctl` command.
 
 ## Access wikipedia.org by HTTPS
 
 1. `kubectl exec` into the pod to be used as the test source. If you are using the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) application, run the following command:
 
-   ```bash
-   kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep bash
+   ```command
+   $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep bash
    ```
 
-2. Make a request and verify that we can access https://www.wikipedia.org successfully:
+1. Make a request and verify that we can access https://www.wikipedia.org successfully:
 
-   ```bash
-   curl -o /dev/null -s -w "%{http_code}\n" https://www.wikipedia.org
-   ```
-   ```bash
+   ```command
+   $ curl -o /dev/null -s -w "%{http_code}\n" https://www.wikipedia.org
    200
    ```
 
    We should see `200` printed as the output, which is the HTTP code _OK_.
 
-3. Now let's fetch the current number of the articles available on Wikipedia in the English language:
-   ```bash
-   curl -s https://en.wikipedia.org/wiki/Main_Page | grep articlecount | grep 'Special:Statistics'
-   ```
-
-   The output should be similar to:
-
-   ```bash
+1. Now let's fetch the current number of the articles available on Wikipedia in the English language:
+   ```command
+   $ curl -s https://en.wikipedia.org/wiki/Main_Page | grep articlecount | grep 'Special:Statistics'
    <div id="articlecount" style="font-size:85%;"><a href="/wiki/Special:Statistics" title="Special:Statistics">5,563,121</a> articles in <a  href="/wiki/English_language" title="English language">English</a></div>
    ```
 
@@ -131,14 +127,14 @@ This command will create five egress rules, a rule per different block of IPs of
 
 1. Remove the egress rules we created.
 
-   ```bash
-   istioctl delete egressrule wikipedia-range1 wikipedia-range2 wikipedia-range3 wikipedia-range4 wikipedia-range5 -n default
+   ```command
+   $ istioctl delete egressrule wikipedia-range1 wikipedia-range2 wikipedia-range3 wikipedia-range4 wikipedia-range5 -n default
    ```
 
 1. Shutdown the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) application.
 
-   ```bash
-   kubectl delete -f samples/sleep/sleep.yaml
+   ```command
+   $ kubectl delete -f samples/sleep/sleep.yaml
    ```
 
 ## What's next

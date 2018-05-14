@@ -1,6 +1,5 @@
 ---
 title: Adapters
-type: markdown
 ---
 {% include home.html %}
 
@@ -10,4 +9,4 @@ monitoring, quotas, ACL checking, and more.
 The exact set of adapters used at runtime is determined through configuration and can easily be
 extended to target new or custom infrastructure backends.
 
-[Learn more about adapters]({{home}}/docs/concepts/policy-and-control/mixer.html#adapters). 
+[Learn more about adapters]({{home}}/docs/concepts/policy-and-control/mixer.html#adapters).

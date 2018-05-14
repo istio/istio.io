@@ -21,7 +21,7 @@ Parameters:
 
 {% include sort-hierarchy.html docs=include.docs prefix=prefix %}
 
-<p>{{page.overview}}</p>
+<p>{{page.description}}</p>
 
 {% assign pageComponents = page.url | split: "/" %}
 
@@ -36,7 +36,7 @@ Parameters:
     {% endif %}
 
     {% assign title = titles[forloop.index0] %}
-    {% assign overview = overviews[forloop.index0] %}
+    {% assign description = descriptions[forloop.index0] %}
 
     {% assign components = url | split: "/" %}
     {% assign numComponents = components | size %}
@@ -48,7 +48,7 @@ Parameters:
         {% endfor %}
 
         <li class="directory">
-            <span title="{{overview}}">{{title}}</span>
+            <span title="{{description}}">{{title}}</span>
             <ul>
 
     {% else %}
@@ -57,7 +57,7 @@ Parameters:
             </ul></li>
         {% endfor %}
         <li class="file">
-            <a href="{{home}}{{url}}">{{title}}</a>. {{ overview }}
+            <a href="{{home}}{{url}}">{{title}}</a>. {{ description }}
         </li>
     {% endif %}
     {% assign depth = numComponents %}

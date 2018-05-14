@@ -1,69 +1,62 @@
 ---
-title: Plugging in CA certificate and key
-overview: This task shows how operators can plug existing certificate and key into Istio CA.
+title: Plugging in external CA key and certificate
+description: Shows how operators can configure Citadel with existing root certificate, signing certificate and key.
 
-order: 40
+weight: 60
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 
-This task shows how operators can plug existing certificate and key into Istio CA.
+This task shows how operators can configure Citadel with existing root certificate, signing certificate and key.
 
-By default, the Istio CA generates self-signed CA certificate and key and uses them to sign the workload certificates.
-The Istio CA can also use the operator-specified certificate and key to sign workload certificates.
-This task demonstrates an example to plug certificate and key into the Istio CA.
+By default, Citadel generates self-signed root certificate and key, and uses them to sign the workload certificates.
+Citadel can also use the operator-specified certificate and key to sign workload certificates, with
+operator-specified root certificate. This task demonstrates an example to plug certificates and key into Citadel.
 
 ## Before you begin
 
-* Set up Istio on auth-enabled Kubernetes by following the instructions in the
+* Set up Istio by following the instructions in the
   [quick start]({{home}}/docs/setup/kubernetes/quick-start.html).
-  Note that authentication should be enabled at step 4 in the
+  Note that authentication should be enabled at step 5 in the
   [installation steps]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps).
 
 ## Plugging in the existing certificate and key
 
-Suppose we want to have Istio CA use the existing certificate `ca-cert.pem` and key `ca-key.pem`.
-Furthermore, the certificate `ca-cert.pem` is signed by the root certificate `root-cert.pem`,
-and we would like to use `root-cert.pem` as the root certificate for Istio workloads.
+Suppose we want to have Citadel use the existing signing (CA) certificate `ca-cert.pem` and key `ca-key.pem`.
+Furthermore, the certificate `ca-cert.pem` is signed by the root certificate `root-cert.pem`.
+We would like to use `root-cert.pem` as the root certificate for Istio workloads.
 
-In this example, because the Istio CA certificate (`ca-cert.pem`) is not set as the workloads' root certificate (`root-cert.pem`),
-the workload cannot validate the workload certificates directly from the root certificate.
+In the following example,
+Citadel's signing (CA) certificate (`ca-cert.pem`) is different from root certificate (`root-cert.pem`),
+so the workload cannot validate the workload certificates directly from the root certificate.
 The workload needs a `cert-chain.pem` file to specify the chain of trust,
 which should include the certificates of all the intermediate CAs between the workloads and the root CA.
-In this example, it only contains the Istio CA certificate, so `cert-chain.pem` is the same as `ca-cert.pem`.
-Note that if your `ca-cert.pem` is the same as `root-cert.pem`, you can have an empty `cert-chain.pem` file.
+In our example, it contains Citadel's signing certificate, so `cert-chain.pem` is the same as `ca-cert.pem`.
+Note that if your `ca-cert.pem` is the same as `root-cert.pem`, the `cert-chain.pem` file should be empty.
 
-   Download the example files:
-   ```bash
-   rm /tmp/ca-cert.pem /tmp/ca-key.pem /tmp/root-cert.pem /tmp/cert-chain.pem
-   wget -P /tmp https://raw.githubusercontent.com/istio/istio/master/security/samples/plugin_ca_certs/ca-cert.pem
-   wget -P /tmp https://raw.githubusercontent.com/istio/istio/master/security/samples/plugin_ca_certs/ca-key.pem
-   wget -P /tmp https://raw.githubusercontent.com/istio/istio/master/security/samples/plugin_ca_certs/root-cert.pem
-   wget -P /tmp https://raw.githubusercontent.com/istio/istio/master/security/samples/plugin_ca_certs/cert-chain.pem
-   ```
+These files are ready to use in the `samples/certs/` directory.
 
-The following steps enable plugging in the certificate and key into the Istio CA:
+The following steps enable plugging in the certificates and key into Citadel:
 1. Create a secret `cacert` including all the input files `ca-cert.pem`, `ca-key.pem`, `root-cert.pem` and `cert-chain.pem`:
-   ```bash
-   kubectl create secret generic cacerts -n istio-system --from-file=/tmp/ca-cert.pem --from-file=/tmp/ca-key.pem \
-   --from-file=/tmp/root-cert.pem --from-file=/tmp/cert-chain.pem
+   ```command
+   $ kubectl create secret generic cacerts -n istio-system --from-file=samples/certs/ca-cert.pem \
+       --from-file=samples/certs/ca-key.pem --from-file=samples/certs/root-cert.pem \
+       --from-file=samples/certs/cert-chain.pem
    ```
 
-1. Redeploy the Istio CA, which reads the certificates and key from the secret-mount files:
-   ```bash
-   kubectl apply -f install/kubernetes/istio-ca-plugin-certs.yaml
+1. Redeploy Citadel, which reads the certificates and key from the secret-mount files:
+   ```command
+   $ kubectl apply -f install/kubernetes/istio-citadel-plugin-certs.yaml
    ```
+   > Note: if you are using different certificate/key file or secret names,
+   you need to change corresponding volume mounts and arguments in `istio-citadel-plugin-certs.yaml`.
 
 1. To make sure the workloads obtain the new certificates promptly,
-   delete the secrets generated by Istio CA (named as istio.\*).
-   In this example, `istio.default`. The Istio CA will issue new certificates for the workloads.
-   ```bash
-   kubectl delete secret istio.default
+   delete the secrets generated by Citadel (named as istio.\*).
+   In this example, `istio.default`. Citadel will issue new certificates for the workloads.
+   ```command
+   $ kubectl delete secret istio.default
    ```
-Note that if you are using different certificate/key file or secret names,
-you need to change corresponding arguments in `istio-ca-plugin-certs.yaml`.
 
 ## Verifying the new certificates
 
@@ -73,59 +66,49 @@ This requires you have `openssl` installed on your machine.
 1. Deploy the bookinfo application following the [instructions]({{home}}/docs/guides/bookinfo.html).
 
 1. Retrieve the mounted certificates.
+   In the following, we take the ratings pod as an example, and verify the certificates mounted on the pod.
 
-   Get the pods:
-   ```bash
-   kubectl get pods
+   Set the pod name to `RATINGSPOD`:
+   ```command
+   $ RATINGSPOD=`kubectl get pods -l app=ratings -o jsonpath='{.items[0].metadata.name}'`
    ```
 
-   which produces:
-   ```bash
-   NAME                                        READY     STATUS    RESTARTS   AGE
-   details-v1-1520924117-48z17                 2/2       Running   0          6m
-   productpage-v1-560495357-jk1lz              2/2       Running   0          6m
-   ratings-v1-734492171-rnr5l                  2/2       Running   0          6m
-   reviews-v1-874083890-f0qf0                  2/2       Running   0          6m
-   reviews-v2-1343845940-b34q5                 2/2       Running   0          6m
-   reviews-v3-1813607990-8ch52                 2/2       Running   0          6m
-   ```
-
-   In the following, we take the pod `ratings-v1-734492171-rnr5l` as an example, and verify the mounted certificates.
    Run the following commands to retrieve the certificates mounted on the proxy:
 
-   ```bash
-   kubectl exec -it ratings-v1-734492171-rnr5l -c istio-proxy -- /bin/cat /etc/certs/root-cert.pem > /tmp/pod-root-cert.pem
+   ```command
+   $ kubectl exec -it $RATINGSPOD -c istio-proxy -- /bin/cat /etc/certs/root-cert.pem > /tmp/pod-root-cert.pem
    ```
-   The file `/tmp/pod-root-cert.pem` should contain the root certificate specified by the operator.
+   The file `/tmp/pod-root-cert.pem` contains the root certificate propagated to the pod.
 
-   ```bash
-   kubectl exec -it ratings-v1-734492171-rnr5l -c istio-proxy -- /bin/cat /etc/certs/cert-chain.pem > /tmp/pod-cert-chain.pem
+   ```command
+   $ kubectl exec -it $RATINGSPOD -c istio-proxy -- /bin/cat /etc/certs/cert-chain.pem > /tmp/pod-cert-chain.pem
    ```
-   The file `/tmp/pod-cert-chain.pem` should contain the workload certificate and the CA certificate.
+   The file `/tmp/pod-cert-chain.pem` contains the workload certificate and the CA certificate propagated to the pod.
 
 1. Verify the root certificate is the same as the one specified by operator:
-   ```bash
-   openssl x509 -in /tmp/root-cert.pem -text -noout > /tmp/root-cert.crt.txt
+   ```command
+   openssl x509 -in samples/certs/root-cert.pem -text -noout > /tmp/root-cert.crt.txt
    openssl x509 -in /tmp/pod-root-cert.pem -text -noout > /tmp/pod-root-cert.crt.txt
    diff /tmp/root-cert.crt.txt /tmp/pod-root-cert.crt.txt
    ```
+   Expect the output to be empty.
 
-1. Verify that the CA certificate is the same as the one specified by operator:
-   ```bash
-   tail /tmp/pod-cert-chain.pem -n 22 > /tmp/pod-cert-chain-ca.pem
-   openssl x509 -in /tmp/ca-cert.pem -text -noout > /tmp/ca-cert.crt.txt
-   openssl x509 -in /tmp/pod-cert-chain-ca.pem -text -noout > /tmp/pod-cert-chain-ca.crt.txt
-   diff /tmp/ca-cert.crt.txt /tmp/pod-cert-chain-ca.crt.txt
+1. Verify the CA certificate is the same as the one specified by operator:
+   ```command
+   $ tail -n 22 /tmp/pod-cert-chain.pem > /tmp/pod-cert-chain-ca.pem
+   $ openssl x509 -in samples/certs/ca-cert.pem -text -noout > /tmp/ca-cert.crt.txt
+   $ openssl x509 -in /tmp/pod-cert-chain-ca.pem -text -noout > /tmp/pod-cert-chain-ca.crt.txt
+   $ diff /tmp/ca-cert.crt.txt /tmp/pod-cert-chain-ca.crt.txt
    ```
-   Expect that the output to be empty.
+   Expect the output to be empty.
 
 1. Verify the certificate chain from the root certificate to the workload certificate:
-   ```bash
-   head /tmp/pod-cert-chain.pem -n 18 > /tmp/pod-cert-chain-workload.pem
-   openssl verify -CAfile <(cat /tmp/ca-cert.pem /tmp/root-cert.pem) /tmp/pod-cert-chain-workload.pem
+   ```command
+   $ head -n 21 /tmp/pod-cert-chain.pem > /tmp/pod-cert-chain-workload.pem
+   $ openssl verify -CAfile <(cat samples/certs/ca-cert.pem samples/certs/root-cert.pem) /tmp/pod-cert-chain-workload.pem
    ```
    Expect the following output:
-   ```bash
+   ```command
    /tmp/pod-cert-chain-workload.pem: OK
    ```
 
@@ -133,16 +116,16 @@ This requires you have `openssl` installed on your machine.
 
 * To remove the secret `cacerts`:
 
-  ```bash
-  kubectl delete secret cacerts -n istio-system
+  ```command
+  $ kubectl delete secret cacerts -n istio-system
   ```
 
 * To remove the Istio components:
-  ```bash
-  kubectl delete -f install/kubernetes/istio-auth.yaml
+  ```command
+  $ kubectl delete -f install/kubernetes/istio-auth.yaml
   ```
 
 ## What's next
 
-* Read the [Istio CA arguments](https://github.com/istio/istio/blob/master/security/cmd/istio_ca/main.go).
+* Read more about [Citadel (codename is istio\_ca) arguments]({{home}}/docs/reference/commands/istio_ca.html).
 * Read [how the sample certificates and keys are generated](https://github.com/istio/istio/blob/master/security/samples/plugin_ca_certs).

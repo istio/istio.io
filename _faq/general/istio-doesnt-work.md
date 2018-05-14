@@ -1,7 +1,6 @@
 ---
 title: Istio doesn't work - what do I do?
-order: 90
-type: markdown
+weight: 90
 ---
 {% include home.html %}
 
