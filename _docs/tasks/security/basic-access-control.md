@@ -67,7 +67,7 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
 
     This rule uses the `denier` adapter to deny requests coming from version `v3` of the reviews service.
     The adapter always denies requests with a preconfigured status code and message.
-    The status code and the message is specified in the [denier]({{home}}/docs/reference/config/adapters/denier.html)
+    The status code and the message is specified in the [denier]({{home}}/docs/reference/config/policy-and-telemetry/adapters/denier.html)
     adapter configuration.
 
 1.  Refresh the `productpage` in your browser.
@@ -91,7 +91,7 @@ Istio also supports attribute-based whitelists and blacklists. The following whi
 1. Verify that when you access the Bookinfo `productpage` (http://$GATEWAY_URL/productpage) without logging in, you see red stars.
    After performing the following steps you will no longer be able to see stars unless you are logged in as "jason".
 
-1.  Create configuration for the [`list`]({{home}}/docs/reference/config/adapters/list.html)
+1.  Create configuration for the [`list`]({{home}}/docs/reference/config/policy-and-telemetry/adapters/list.html)
     adapter that lists versions `v1, v2`.
     Save the following YAML snippet as `whitelist-handler.yaml`:
 
@@ -113,7 +113,7 @@ Istio also supports attribute-based whitelists and blacklists. The following whi
     $ istioctl create -f whitelist-handler.yaml
     ```
 
-1.  Extract the version label by creating an instance of the [`listentry`]({{home}}/docs/reference/config/template/listentry.html) template.
+1.  Extract the version label by creating an instance of the [`listentry`]({{home}}/docs/reference/config/policy-and-telemetry/templates/listentry.html) template.
 Save the following YAML snippet as `appversion-instance.yaml`:
 
     ```yaml
@@ -183,7 +183,7 @@ Verify that after logging in as "jason" you see black stars.
 
 * Learn more about [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html) and [Mixer Config]({{home}}/docs/concepts/policy-and-control/mixer-config.html).
 
-* Discover the full [Attribute Vocabulary]({{home}}/docs/reference/config/mixer/attribute-vocabulary.html).
+* Discover the full [Attribute Vocabulary]({{home}}/docs/reference/config/policy-and-telemetry/attribute-vocabulary.html).
 
 * Understand the differences between Kubernetes network policies and Istio
 access control policies from this

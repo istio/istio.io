@@ -67,7 +67,7 @@ the `productpage` service.
 
     This rule uses the `denier` adapter to deny these requests.
     The adapter always denies requests with a preconfigured status code and message.
-    The status code and message are specified in the [denier]({{home}}/docs/reference/config/adapters/denier.html)
+    The status code and message are specified in the [denier]({{home}}/docs/reference/config/policy-and-telemetry/adapters/denier.html)
     adapter configuration.
 
 1.  Refresh the `productpage` in your browser.
@@ -94,7 +94,7 @@ the `productpage` service.
 
 * Learn more about [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html) and [Mixer Config]({{home}}/docs/concepts/policy-and-control/mixer-config.html).
 
-* Discover the full [Attribute Vocabulary]({{home}}/docs/reference/config/mixer/attribute-vocabulary.html).
+* Discover the full [Attribute Vocabulary]({{home}}/docs/reference/config/policy-and-telemetry/attribute-vocabulary.html).
 
 * Understand the differences between Kubernetes network policies and Istio
   access control policies from this

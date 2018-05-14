@@ -140,7 +140,7 @@ spec:
 ```
 
 Each adapter defines its own particular format of configuration data. The exhaustive set of
-adapters and their specific configuration formats can be found [here]({{home}}/docs/reference/config/adapters/).
+adapters and their specific configuration formats can be found [here]({{home}}/docs/reference/config/policy-and-telemetry/adapters/).
 
 ### Instances
 
@@ -164,7 +164,7 @@ spec:
 Note that all the dimensions expected in the handler configuration are specified in the mapping.
 
 Each template defines its own particular format of configuration data. The exhaustive set of
-templates and their specific configuration formats can be found [here]({{home}}/docs/reference/config/template/).
+templates and their specific configuration formats can be found [here]({{home}}/docs/reference/config/policy-and-telemetry/templates/).
 
 ### Rules
 
@@ -223,7 +223,7 @@ a type which represents the kind of data that the attribute carries. In the
 same way, attribute expressions are also typed, and their type is derived from
 the attributes in the expression and the operators applied to these attributes.
 
-Refer to the [attribute expression reference]({{home}}/docs/reference/config/mixer/expression-language.html) for details.
+Refer to the [attribute expression reference]({{home}}/docs/reference/config/policy-and-telemetry/expression-language.html) for details.
 
 ### Resolution
 
