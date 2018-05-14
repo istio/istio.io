@@ -76,7 +76,7 @@ Below is our list of existing features and their current phases. This informatio
 | [VM: Service Credential Distribution]({{home}}/docs/concepts/security/mutual-tls.html)         | Alpha
 | [OPA Checker](https://github.com/istio/istio/blob/41a8aa4f75f31bf0c1911d844a18da4cff8ac584/mixer/adapter/opa/README.md)    | Alpha
 | RBAC Mixer Adapter     | Alpha
-| [API Keys]({{home}}/docs/reference/config/istio.mixer.v1.config.client.html) | Alpha
+| [API Keys]({{home}}/docs/reference/config/template/apikey.html) | Alpha
 
 ### Core
 
