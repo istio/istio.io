@@ -1,13 +1,13 @@
 ---
-title: Enabling Citadel health checking
-description: This task shows how to enable Citadel health checking.
+title: Citadel health checking
+description: Shows how to enable Citadel health checking with Kubernetes.
 
 weight: 70
 
 ---
 {% include home.html %}
 
-This task shows how to enable Citadel health checking. Note this is an Alpha feature since Istio 0.6.
+This task shows how to enable Kubernetes health checking for Citadel. Note this is an Alpha feature.
 
 Since Istio 0.6, Citadel has a health checking feature that can be optionally enabled.
 By default, the normal Istio deployment process does not enable this feature.
