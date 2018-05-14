@@ -19,7 +19,7 @@ offer technical assistance. Separately, 3rd parties and partners may offer longe
 |Daily Build   | No support                                            | Dangerous, may not be fully reliable. Useful to experiment with.
 |Alpha Release | Support is provided for the latest Alpha release only | Expected to be quite stable, but use in production should be limited to an as-needed basis. Usually only adopted by bleeding edge users, or users seeking specific features.
 |LTS Release   | Support is provided until 3 months after the next LTS | Safe to deploy in production. Users are encouraged to upgrade to these releases as soon as possible.
-|Patch         | Same as corresponding Alpha/LTS release               | Users are encourage to adopt patch releases as soon as they are available for a given release
+|Patches       | Same as corresponding Alpha/LTS release               | Users are encouraged to adopt patch releases as soon as they are available for a given release
 
 You can find available releases on the [releases page](https://github.com/istio/istio/releases),
 and if you're the adventurous type, you can get learn about our daily build on the [daily builds wiki](https://github.com/istio/istio/wiki/Daily-builds).
@@ -41,9 +41,9 @@ current LTS release.
 For Alpha releases, our numbering scheme is:
 
 ```plain
-<major>.<minor>.<patch level>-alpha<alpha count>
+<major>.<minor>.<patch level>-alpha.<alpha count>
 ```
 
-where `minor` represents the number of the next LTS release, `patch level` counts the number of
-patches for the Alpha release, and `alpha count` increases by one for every Alpha release leading up
+where `major` and `minor` represent the number of the next LTS release, `patch level` counts the number of
+patches for the Alpha release, and `alpha count` starts at 0 and increases for every Alpha release leading up
 to the next LTS.
