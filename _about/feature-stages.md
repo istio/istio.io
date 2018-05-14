@@ -43,7 +43,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Routing Rules: Circuit Break]({{home}}/docs/tasks/traffic-management/request-routing.html)      | Alpha
 | [Routing Rules: Header Rewrite]({{home}}/docs/tasks/traffic-management/request-routing.html)      | Alpha
 | [Routing Rules: Traffic Splitting]({{home}}/docs/tasks/traffic-management/request-routing.html)      | Alpha
-| Improved Routing Rules: Composite Service | Alpha
+| [Improved Routing Rules: Composite Service]({{home}}/docs/reference/config/istio.networking.v1alpha3.html) | Alpha
 | [Quota / Redis Rate Limiting (Adapter and Server)]({{home}}/docs/tasks/policy-enforcement/rate-limiting.html) | Alpha
 | [Memquota Implementation and Integration]({{home}}/docs/tasks/telemetry/metrics-logs.html) | Stable
 | [Ingress TLS]({{home}}/docs/tasks/traffic-management/ingress.html) | Alpha
@@ -61,7 +61,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Service Graph]({{home}}/docs/tasks/telemetry/servicegraph.html) | Alpha
 | [Distributed Tracing to Zipkin / Jaeger]({{home}}/docs/tasks/telemetry/distributed-tracing.html) | Alpha
 | [Istio Component Dashboard in Grafana]({{home}}/docs/tasks/telemetry/using-istio-dashboard.html) | Beta
-| Service Tracing | Alpha
+| [Service Tracing]({{home}}/docs/tasks/telemetry/distributed-tracing.html) | Alpha
 
 ### Security
 
@@ -76,7 +76,7 @@ Below is our list of existing features and their current phases. This informatio
 | [VM: Service Credential Distribution]({{home}}/docs/concepts/security/mutual-tls.html)         | Alpha
 | [OPA Checker](https://github.com/istio/istio/blob/41a8aa4f75f31bf0c1911d844a18da4cff8ac584/mixer/adapter/opa/README.md)    | Alpha
 | RBAC Mixer Adapter     | Alpha
-| API Keys | Alpha
+| [API Keys]({{home}}/docs/reference/config/template/apikey.html) | Alpha
 
 ### Core
 
@@ -96,7 +96,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Pilot Integration into Cloud Foundry Service Discovery]({{home}}/docs/setup/consul/quick-start.html)    | Alpha
 | [Basic Config Resource Validation](https://github.com/istio/istio/issues/1894) | Alpha
 | Mixer Telemetry Collection (Tracing, Logging, Monitoring) | Alpha
-| Custom Mixer Build Model | Alpha
+| [Custom Mixer Build Model](https://github.com/istio/istio/wiki/Mixer-Adapter-Dev-Guide) | Alpha
 | Enable API attributes using an IDL | Alpha
 | [Helm]({{home}}/docs/setup/kubernetes/helm-install.html) | Alpha
 | [Multicluster Mesh]({{home}}/docs/setup/kubernetes/multicluster-install.html) | Alpha
