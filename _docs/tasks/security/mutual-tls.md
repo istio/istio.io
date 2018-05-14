@@ -1,6 +1,6 @@
 ---
-title: Testing Istio mutual TLS authentication
-description: This task shows you how to verify and test Istio's automatic mutual TLS authentication.
+title: Testing mutual TLS
+description: Shows you how to verify and test Istio's automatic mutual TLS authentication.
 
 weight: 10
 
