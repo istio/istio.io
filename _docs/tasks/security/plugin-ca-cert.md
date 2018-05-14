@@ -1,6 +1,6 @@
 ---
-title: Plugging in root certificate, signing certificate and key
-description: This task shows how operators can configure Citadel with existing root certificate, signing certificate and key.
+title: Plugging in external CA key and certificate
+description: Shows how operators can configure Citadel with existing root certificate, signing certificate and key.
 
 weight: 60
 
