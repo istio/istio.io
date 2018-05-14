@@ -54,7 +54,7 @@ services (e.g., Google Maps API). These may be called directly or, in certain de
 exiting the mesh may be forced through dedicated egress gateways. The following diagram depicts
 this mental model.
 
-{% include image.html width="80%" ratio="65.16%"
+{% include image.html width="80%" ratio="35.20%"
     link="./img/gateways.svg"
     alt="Role of gateways in the mesh"
     caption="Gateways in an Istio service mesh"
@@ -76,7 +76,7 @@ dedicated middleboxes.
 The figure below depicts the flow of control across configuration
 resources.
 
-{% include image.html width="80%" ratio="65.16%"
+{% include image.html width="80%" ratio="41.16%"
     link="./img/virtualservices-destrules.svg"
     caption="Relationship between different v1alpha3 elements"
     %}
