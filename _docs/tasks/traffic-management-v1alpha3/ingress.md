@@ -13,7 +13,7 @@ allows users to specify services that should be exposed outside the cluster.
 For traffic entering an Istio service mesh, however, an Istio-aware [ingress controller](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-controllers)
 is needed to allow Istio features, for example, monitoring and route rules, to be applied to traffic entering the cluster.
 
-Istio provides an envoy-based ingress controller that implements very limited support for standard Kubernetes `Ingress` resources
+Istio provides an Envoy-based ingress controller that implements very limited support for standard Kubernetes `Ingress` resources
 as well as full support for an alternative specification,
 [Istio Gateway]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway).
 Using a `Gateway` is the recommended approach for configuring ingress traffic for Istio services.
@@ -62,7 +62,9 @@ but, unlike [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/s
 does not include any traffic routing configuration. Traffic routing for ingress traffic is instead configured
 using Istio routing rules, exactly in the same was as for internal service requests.
 
-### Configuring a Gateway
+In the following subsections we configure a Gateway on port 80 for unencrypted HTTP traffic. Then we add a secure port 443 for HTTPS traffic.
+
+### Configuring unencrypted Gateway
 
 1. Create an Istio `Gateway`
 
@@ -81,22 +83,9 @@ using Istio routing rules, exactly in the same was as for internal service reque
          name: http
          protocol: HTTP
        hosts:
-       - "*"
-     - port:
-         number: 443
-         name: https
-         protocol: HTTPS
-       tls:
-         mode: SIMPLE
-         serverCertificate: /tmp/tls.crt
-         privateKey: /tmp/tls.key
-       hosts:
-       - "*"
+       - "foo.bar.com"
    EOF
    ```
-
-   Notice that a single `Gateway` specification can configure multiple ports, a simple HTTP (port 80) and
-   secure HTTPS (port 443) in our case.
 
 1. Configure routes for traffic entering via the `Gateway`
 
@@ -135,7 +124,7 @@ using Istio routing rules, exactly in the same was as for internal service reque
    but instead will simply default to round-robin routing. To apply these (or other rules) to internal calls,
    we could add the special value `mesh` to the list of `gateways`.
 
-### Verifying a Gateway
+### Verifying unencrypted Gateway
 
 The proxy instances implementing a particular `Gateway` configuration can be specified using a
 [selector]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway.selector) field.
@@ -150,7 +139,7 @@ the `istio-ingressgateway` service.
    169.47.243.100
    ```
 
-1. Get the istio-ingress service's nodePorts for port 80 and 443:
+1. Get the istio-ingressgateway service's _nodePort_ for port 80:
 
    ```command
    $ kubectl -n istio-system get svc istio-ingressgateway
@@ -159,14 +148,14 @@ the `istio-ingressgateway` service.
    ```
 
    ```command
-   $ export INGRESS_HOST=169.47.243.100:31486
-   $ export SECURE_INGRESS_HOST=169.47.243.100:32254
+   $ export INGRESS_HOST=169.47.243.100
+   $ export INGRESS_PORT=31486
    ```
 
-1. Access the httpbin service with either HTTP or HTTPS using _curl_:
+1. Access the _httpbin_ service using _curl_. Note the `--resolve` flag of _curl_ that allows to access an IP address by using an arbitrary domain name. In our case we access our ingress Gateway by "foo.bar.com".
 
    ```command
-   $ curl -I http://$INGRESS_HOST/status/200
+   $ curl --resolve foo.bar.com:$INGRESS_PORT:$INGRESS_HOST -I http://foo.bar.com:$INGRESS_PORT/status/200
    HTTP/1.1 200 OK
    server: envoy
    date: Mon, 29 Jan 2018 04:45:49 GMT
@@ -177,36 +166,119 @@ the `istio-ingressgateway` service.
    x-envoy-upstream-service-time: 48
    ```
 
-   ```command
-   $ curl -I -k https://$SECURE_INGRESS_HOST/status/200
-   HTTP/1.1 200 OK
-   server: envoy
-   date: Mon, 29 Jan 2018 04:45:49 GMT
-   content-type: text/html; charset=utf-8
-   access-control-allow-origin: *
-   access-control-allow-credentials: true
-   content-length: 0
-   x-envoy-upstream-service-time: 96
-   ```
-
 1. Access any other URL that has not been explicitly exposed. You should
-   see a HTTP 404 error:
+   see an HTTP 404 error:
 
    ```command
-   $ curl -I http://$INGRESS_HOST/headers
+   $ curl --resolve foo.bar.com:$INGRESS_PORT:$INGRESS_HOST -I http://foo.bar.com:$INGRESS_PORT/headers
    HTTP/1.1 404 Not Found
    date: Mon, 29 Jan 2018 04:45:49 GMT
    server: envoy
    content-length: 0
    ```
 
+   ### Add a secure port for our gateway
+   In this subsection, we add the port 443 to receive the HTTPS traffic. We  redeploy the pod of the Istio gateway with our private key and certificate to use for TLS traffic. Then we replace the previous Gateway definition with a definition that contains a server on the port 443, in addition to the previously defined server on the port 80.
+
+   #### Inject our private key and certificate into the pod of the Istio gateway.
+   1. Create a Kubernetes secret of the type `tls` from the private key and the certificate we created in the [Before you begin](#before-you-begin) section. We can use any name as the name of the secret, let's call it _my-ingress-cert_.
+
+      ```command
+      kubectl create -n istio-system secret tls my-ingress-cert --key /tmp/tls.key --cert /tmp/tls.crtkubectl create -n istio-system secret tls my-ingress-cert --key /tmp/tls.key --cert /tmp/tls.crt
+      ```  
+
+  1. Render the Kubernetes manifest of the pod of the Istio gateway with Helm:
+     ```
+     helm template install/kubernetes/helm/istio --name istio --namespace istio-system -x charts/ingressgateway/templates/deployment.yaml > $HOME/istio-ingressgateway-deployment.yaml
+      ```
+
+  1. Edit the rendered manifest - add a Kubernetes  _volume_ to the list of the pods volumes. We can use any name for the volume name.
+
+     ```
+     volumes:
+     - name: my-ingress-cert
+       secret:
+         secretName: "my-ingress-cert"
+           optional: true
+       ...
+     ```
+
+  1. Add a _volumeMount_ for our volume to the `ingressgateway` container. For the _volumeMount_ name use the volume name from the previous step. We can use any path for mounting our volume, let's use _/etc/my-ingress-cert_:
+
+     ```
+     volumeMounts:
+        - name: my-ingress-cert
+          mountPath: /etc/my-ingress-cert
+          readOnly: true
+     ...
+     ```
+
+  1. Redeploy the Istio Gateway:
+
+     ```command
+     kubectl apply -f $HOME/istio-ingressgateway-deployment.yaml
+     ```
+
+  1. Verify that the previous unencrypted Gateway still works, by accessing the _httpbin_ service, port 80, as described in the [Verifying unencrypted Gateway](#verifying-unencrypted-gateway) subsection.
+
+  #### Add a secure server on the port 443 to our Gateway.
+
+  1. Replace the previous `Gateway` definition with a server section for the port 443. Specify the locations of the certificate and the private key we
+
+    ```command
+    cat <<EOF | istioctl replace -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: httpbin-gateway
+    spec:
+      selector:
+        istio: ingressgateway # use istio default controller
+      servers:
+      - port:
+          number: 80
+          name: http
+          protocol: HTTP
+        hosts:
+        - "foo.bar.com"
+      - port:
+          number: 443
+          name: https
+          protocol: HTTPS
+        tls:
+          mode: SIMPLE
+          serverCertificate: /etc/my-ingress-cert/tls.crt
+          privateKey: /etc/my-ingress-cert/tls.key
+        hosts:
+        - "foo.bar.com"  
+    EOF
+    ```
+
+### Verifying secure Gateway
+1. Get the istio-ingressgateway service's _nodePort_ for the port 443:
+
    ```command
-   $ curl -I https://$SECURE_INGRESS_HOST/headers
-   HTTP/1.1 404 Not Found
-   date: Mon, 29 Jan 2018 04:45:49 GMT
-   server: envoy
-   content-length: 0
+   $ kubectl -n istio-system get svc istio-ingressgateway
+   NAME                   CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
+   istio-ingressgateway   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
    ```
+
+   ```command
+   $ export SECURE_INGRESS_PORT=32254
+   ```
+2. Access the _httpbin_ service by HTTPS. Here we use _curl_'s `-k` option to instruct _curl_ not to check our certificate (since it is a fake certificate we created for testing the Gateway only, _curl_ is not aware about this certificate.)
+
+```command
+$ curl --resolve foo.bar.com:$SECURE_INGRESS_PORT:$INGRESS_HOST -I -k https://foo.bar.com:$SECURE_INGRESS_PORT/status/200
+HTTP/2 200
+server: envoy
+date: Mon, 14 May 2018 13:54:53 GMT
+content-type: text/html; charset=utf-8
+access-control-allow-origin: *
+access-control-allow-credentials: true
+content-length: 0
+x-envoy-upstream-service-time: 6
+```
 
 ## Configuring ingress using a Kubernetes Ingress resource
 
