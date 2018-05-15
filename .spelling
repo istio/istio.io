@@ -58,6 +58,7 @@ ExecAction
 Exfiltrating
 ExternalName
 Fluentd
+foo.bar.com
 FQDNs
 GATEWAY_URL
 GCP-IAM
