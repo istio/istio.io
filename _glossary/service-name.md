@@ -1,6 +1,5 @@
 ---
 title: Service Name
-type: markdown
 ---
 A unique name for a [service](#service), identifying it within the [service mesh](#service-mesh).
 A service may not be renamed and maintain its identity, each service name is unique.

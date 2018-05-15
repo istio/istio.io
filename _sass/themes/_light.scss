@@ -25,11 +25,13 @@ $h2UnderlineColor: $gray;
 $buttonActiveColor: #b05464;
 $dividerBarColor: rgba(0, 0, 0, .1);
 $glossaryHeaderColor: lighten($gray, 35%);
-$searchButtonColor: $light-gray;
 $blockQuoteBackgroundColor: $light-gray;
 $deprecatedBackgroundColor: silver;
-$codeBlockShadowColor: #a7a7a7;
-$codeBlockBorderColor: #dddddd;
+$preBlockShadowColor: #a7a7a7;
+$preBlockBorderColor: #dddddd;
+$preBlockBackgroundColor: $backgroundColor;
+$preBlockCommandOutputTextColor: $textColor;
+$preBlockCommandOutputBackgroundColor: lighten($gray, 50%);
 $boxBorderColor: $secondBrandColor;
 
 $headerLightShadowColor: rgba(0, 0, 0, .14);
@@ -41,7 +43,7 @@ $figureCaptionColor: $textColor;
 $landingBackgroundColor1: $white;
 $landingBackgroundColor2: #f8f8f8;
 
-$togglerColor: rgba(0, 0, 0, .4);
+$floatingButtonColor: rgba(0, 0, 0, .4);
 
 $textWeight: 400;
 $linkWeight: 400;

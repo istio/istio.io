@@ -1,11 +1,9 @@
 ---
 title: Configuring Request Routing
-overview: This task shows you how to configure dynamic request routing based on weights and HTTP headers.
+description: This task shows you how to configure dynamic request routing based on weights and HTTP headers.
 
-order: 10
+weight: 10
 
-layout: docs
-type: markdown
 redirect_from: /docs/tasks/request-routing.html
 ---
 {% include home.html %}
@@ -19,12 +17,12 @@ This task shows you how to configure dynamic request routing based on weights an
 
 * Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
-> Note: This task assumes you are deploying the application on Kubernetes.
-  All of the example commands are using the Kubernetes version of the rule yaml files
-  (e.g., `samples/bookinfo/kube/route-rule-all-v1.yaml`). If you are running this
-  task in a different environment, change `kube` to the directory that corresponds
-  to your runtime (e.g., `samples/bookinfo/consul/route-rule-all-v1.yaml` for
-  the Consul-based runtime).
+> This task assumes you are deploying the application on Kubernetes.
+All of the example commands are using the Kubernetes version of the rule yaml files
+(e.g., `samples/bookinfo/kube/route-rule-all-v1.yaml`). If you are running this
+task in a different environment, change `kube` to the directory that corresponds
+to your runtime (e.g., `samples/bookinfo/consul/route-rule-all-v1.yaml` for
+the Consul-based runtime).
 
 ## Content-based routing
 
@@ -35,25 +33,23 @@ star ratings.
 This is because without an explicit default version set, Istio will
 route requests to all available versions of a service in a random fashion.
 
-> Note: This task assumes you don't have any routes set yet. If you've already created conflicting route rules for the sample,
-  you'll need to use `replace` rather than `create` in one or both of the following commands.
+> This task assumes you don't have any routes set yet. If you've already created conflicting route rules for the sample,
+you'll need to use `replace` rather than `create` in one or both of the following commands.
 
 1. Set the default version for all microservices to v1.
 
-   ```bash
-   istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
+   ```command
+   $ istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
    ```
 
-   > Note: In a Kubernetes deployment of Istio, you can replace `istioctl`
+   > In a Kubernetes deployment of Istio, you can replace `istioctl`
    > with `kubectl` in the above, and for all other CLI commands.
    > Note, however, that `kubectl` currently does not provide input validation.
 
    You can display the routes that are defined with the following command:
 
-   ```bash
-   istioctl get routerules -o yaml
-   ```
-   ```yaml
+   ```command-output-as-yaml
+   $ istioctl get routerules -o yaml
    apiVersion: config.istio.io/v1alpha2
    kind: RouteRule
    metadata:
@@ -125,16 +121,14 @@ route requests to all available versions of a service in a random fashion.
    Lets enable the ratings service for test user "jason" by routing productpage traffic to
    `reviews:v2` instances.
 
-   ```bash
-   istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+   ```command
+   $ istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
    ```
 
    Confirm the rule is created:
 
-   ```bash
-   istioctl get routerule reviews-test-v2 -o yaml
-   ```
-   ```yaml
+   ```command-output-as-yaml
+   $ istioctl get routerule reviews-test-v2 -o yaml
    apiVersion: config.istio.io/v1alpha2
    kind: RouteRule
    metadata:
@@ -173,9 +167,9 @@ all users to v2, optionally in a gradual fashion. We'll explore this in a separa
 
 * Remove the application routing rules.
 
-  ```bash
-  istioctl delete -f samples/bookinfo/kube/route-rule-all-v1.yaml
-  istioctl delete -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+  ```command
+  $ istioctl delete -f samples/bookinfo/kube/route-rule-all-v1.yaml
+  $ istioctl delete -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the

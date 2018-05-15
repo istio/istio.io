@@ -1,11 +1,9 @@
 ---
 title: What is Istio?
-overview: Context about what problems Istio is designed to solve.
+description: Context about what problems Istio is designed to solve.
 
-order: 0
+weight: 1
 
-layout: about
-type: markdown
 toc: false
 ---
 
@@ -25,7 +23,7 @@ rate limits and quotas.
 - Automatic metrics, logs, and traces for all traffic within a cluster,
 including cluster ingress and egress.
 
-- Secure service-to-service communication in a cluster with strong 
+- Secure service-to-service communication in a cluster with strong
 identity-based authentication and authorization.
 
 Istio can be deployed on [Kubernetes](https://kubernetes.io),

@@ -1,12 +1,10 @@
 ---
 title: Generating a Service Graph
 
-overview: This task shows you how to generate a graph of services within an Istio mesh.
+description: This task shows you how to generate a graph of services within an Istio mesh.
 
-order: 50
+weight: 50
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 
@@ -22,12 +20,6 @@ the example application throughout this task.
 * [Install Istio]({{home}}/docs/setup/) in your cluster and deploy an
   application.
 
-* Install the Prometheus add-on. Directions for install of this add-on are
-  supplied as part of the [Querying
-  Metrics]({{home}}/docs/tasks/telemetry/querying-metrics.html) Task.
-
-  Use of the Prometheus add-on is _required_ for the service graph.
-
 ## Generating a Service Graph
 
 1. To view a graphical representation of your service mesh, install the
@@ -35,21 +27,16 @@ the example application throughout this task.
 
    In Kubernetes environments, execute the following command:
 
-   ```bash
-   kubectl apply -f install/kubernetes/addons/servicegraph.yaml
+   ```command
+   $ kubectl apply -f install/kubernetes/addons/servicegraph.yaml
    ```
 
 1. Verify that the service is running in your cluster.
 
    In Kubernetes environments, execute the following command:
 
-   ```bash
-   kubectl -n istio-system get svc servicegraph
-   ```
-
-   The output will be similar to:
-
-   ```
+   ```command
+   $ kubectl -n istio-system get svc servicegraph
    NAME           CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
    servicegraph   10.59.253.165   <none>        8088/TCP   30s
    ```
@@ -59,36 +46,32 @@ the example application throughout this task.
    For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
    browser or issue the following command:
 
-   ```bash
-   curl http://$GATEWAY_URL/productpage
+   ```command
+   $ curl http://$GATEWAY_URL/productpage
    ```
 
    Refresh the page a few times (or send the command a few times) to generate a
    small amount of traffic.
 
-   Note: `$GATEWAY_URL` is the value set in the
-   [Bookinfo]({{home}}/docs/guides/bookinfo.html) guide.
+   > `$GATEWAY_URL` is the value set in the [Bookinfo]({{home}}/docs/guides/bookinfo.html) guide.
 
 1. Open the Servicegraph UI.
 
    In Kubernetes environments, execute the following command:
 
-   ```bash
-   kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &   
+   ```command
+   $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
    ```
 
-   Visit
-   [http://localhost:8088/force/forcegraph.html](http://localhost:8088/force/forcegraph.html)
+   Visit [http://localhost:8088/force/forcegraph.html](http://localhost:8088/force/forcegraph.html)
    in your web browser. Try clicking on a service to see details on
    the service. Real time traffic data is shown in a panel below.
 
    The results will look similar to:
 
-   {% include figure.html width='75%' ratio='107.7%'
-    img='./img/servicegraph-example.png'
-    alt='Example Servicegraph'
-    title='Example Servicegraph'
-    caption='Example Servicegraph'
+   {% include image.html width="75%" ratio="107.7%"
+    link="./img/servicegraph-example.png"
+    caption="Example Servicegraph"
     %}
 
 1. Experiment with Query Parameters
@@ -109,20 +92,23 @@ the example application throughout this task.
 
 ### About the Servicegraph Add-on
 
-The
-[Servicegraph](https://github.com/istio/istio/tree/master/addons/servicegraph)
+The [Servicegraph](https://github.com/istio/istio/tree/master/addons/servicegraph)
 service provides endpoints for generating and visualizing a graph of
 services within a mesh. It exposes the following endpoints:
 
-- `/force/forcegraph.html` As explored above, this is an interactive
+* `/force/forcegraph.html` As explored above, this is an interactive
   [D3.js](https://d3js.org/) visualization.
-- `/dotviz` is a static [Graphviz](https://www.graphviz.org/)
+
+* `/dotviz` is a static [Graphviz](https://www.graphviz.org/)
   visualization.
-- `/dotgraph` provides a
+
+* `/dotgraph` provides a
   [DOT](https://en.wikipedia.org/wiki/DOT_(graph_description_language))
   serialization.
-- `/d3graph` provides a JSON serialization for D3 visualization.
-- `/graph` provides a generic JSON serialization.
+
+* `/d3graph` provides a JSON serialization for D3 visualization.
+
+* `/graph` provides a generic JSON serialization.
 
 All endpoints take the query parameters explored above.
 
@@ -132,12 +118,12 @@ depends on the standard Istio metric configuration.
 ## Cleanup
 
 * In Kubernetes environments, execute the following command to remove the
-  Servicegraph add-on:
+Servicegraph add-on:
 
-  ```bash
-  kubectl delete -f install/kubernetes/addons/servicegraph.yaml
-  ```
+   ```command
+   $ kubectl delete -f install/kubernetes/addons/servicegraph.yaml
+   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
-  to shutdown the application.
+[Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+to shutdown the application.

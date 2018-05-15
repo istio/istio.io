@@ -1,9 +1,8 @@
 ---
 title: How can I write a custom adapter for Mixer?
-order: 40
-type: markdown
+weight: 40
 ---
 {% include home.html %}
 
 Learn how to implement a new adapter for Mixer by consulting the
-[Adapter Developer's Guide](https://github.com/istio/istio/blob/master/mixer/doc/adapters.md).
+[Adapter Developer's Guide](https://github.com/istio/istio/wiki/Mixer-Adapter-Dev-Guide).

@@ -1,11 +1,9 @@
 ---
 title: Writing a New Topic
-overview: Explains the mechanics of creating new documentation pages.
-              
-order: 30
+description: Explains the mechanics of creating new documentation pages.
 
-layout: about
-type: markdown
+weight: 30
+
 redirect_from: /docs/welcome/contribute/writing-a-new-topic.html
 ---
 {% include home.html %}
@@ -25,7 +23,7 @@ is the best fit for your content:
 <table>
   <tr>
     <td>Concept</td>
-    <td>A concept page explains some significant aspect of Istio. For example, a concept page might describe the 
+    <td>A concept page explains some significant aspect of Istio. For example, a concept page might describe the
     Mixer's configuration model and explain some of its subtleties.
     Typically, concept pages don't include sequences of steps, but instead provide links to
     tasks that do.</td>
@@ -58,7 +56,7 @@ is the best fit for your content:
     activities.
     </td>
   </tr>
-  
+
   <tr>
     <td>Blog Post</td>
     <td>
@@ -79,50 +77,47 @@ all in lower case.
 
 ## Updating the front matter
 
-Every documentation file needs to start with Jekyll 
+Every documentation file needs to start with Jekyll
 [front matter](https://jekyllrb.com/docs/frontmatter/).
 The front matter is a block of YAML that is between the
 triple-dashed lines at the top of each file. Here's the
 chunk of front matter you should start with:
 
-```
+```yaml
 ---
 title: <title>
-overview: <overview>
-
-order: <order>
-
-layout: docs
-type: markdown
+description: <overview>
+weight: <order>
 ---
 ```
 
 Copy the above at the start of your new markdown file and update
-the `<title>`, `<overview>` and `<order>` fields for your particular file. The available front
+the `<title>`, `<description>` and `<weight>` fields for your particular file. The available front
 matter fields are:
 
 |Field          | Description
 |---------------|------------
 |`title`        | The short title of the page
-|`overview`     | A one-line description of what the topic is about
-|`order`        | An integer used to determine the sort order of this page relative to other pages in the same directory.
+|`description`  | A one-line description of what the topic is about
+|`weight`       | An integer used to determine the sort order of this page relative to other pages in the same directory.
 |`layout`       | Indicates which of the Jekyll layouts this page uses
-|`index`        | Indicates whether the page should appear in the doc's top nav tabs
 |`draft`        | When true, prevents the page from showing up in any navigation area
-|`publish_date` | For blog posts, indicates the date of publication of the post
+|`publishdate` | For blog posts, indicates the date of publication of the post
 |`subtitle`     | For blog posts, supplies an optional subtitle to be displayed below the main title
 |`attribution`  | For blog posts, supplies an optional author's name
+|`toc`          | Set this to false to prevent the page from having a table of contents generated for it
+|`force_inline_toc` | Set this to true to force the generated table of contents from being inserted inline in the text instead of in a sidebar
 
 ## Choosing a directory
 
 Depending on your page type, put your new file in a subdirectory of one of these:
 
-* _blog/
-* _docs/concepts/
-* _docs/guides/
-* _docs/reference/
-* _docs/setup/
-* _docs/tasks/
+- _blog/
+- _docs/concepts/
+- _docs/guides/
+- _docs/reference/
+- _docs/setup/
+- _docs/tasks/
 
 You can put your file in an existing subdirectory, or you can create a new
 subdirectory. For blog posts, put the file into a subdirectory for the current
@@ -135,24 +130,28 @@ Put image files in an `img` subdirectory of where you put your markdown file. Th
 If you must use a PNG or JPEG file instead, and the file
 was generated from an original SVG file, please include the
 SVG file in the repository even if it isn't used in the web
-site itself. This is so we can update the imagery over time 
+site itself. This is so we can update the imagery over time
 if needed.
 
 Within markdown, use the following sequence to add the image:
 
 ```html
 {% raw %}
-{% include figure.html width='75%' ratio='69.52%'
-    img='./img/myfile.svg'
-    alt='Alternate text to display when the image is not available'
-    title='A tooltip displayed when hovering over the image'
-    caption='A caption displayed under the image'
+{% include image.html width="75%" ratio="69.52%"
+    link="./img/myfile.svg"
+    alt="Alternate text to display when the image is not available"
+    title="A tooltip displayed when hovering over the image"
+    caption="A caption displayed under the image"
     %}
 {% endraw %}
 ```
 
-You need to fill in all the values. The width represents the percentage of space used by the image
-relative to the surrounding text. The ratio is (image height / image width) * 100.
+The `width`, `ratio`, `link` and `caption` values are required. If the `title` value isn't
+supplied, it'll default to the same as `caption`. If the `alt` value is not supplied, it'll
+default to `title` or if that's not defined, to `caption`.
+
+`width` represents the percentage of space used by the image
+relative to the surrounding text. `ratio` (image height / image width) * 100.
 
 ## Linking to other pages
 
@@ -181,10 +180,10 @@ current hierarchy:
   {% raw %}[see here]({{home}}/docs/adir/afile.html){% endraw %}
   ```
 
-  In order to use \{\{home\}\} in a file, 
+  In order to use \{\{home\}\} in a file,
   you need to make sure that the file contains the following
   line of boilerplate right after the block of front matter:
-    
+
   ```markdown
   ...
   ---
@@ -197,7 +196,7 @@ current hierarchy:
 
 You can embed blocks of preformatted content using the normal markdown technique:
 
-<pre class="language-markdown"><code>```
+<pre class="language-markdown"><code>```plain
 func HelloWorld() {
   fmt.Println("Hello World")
 }
@@ -206,14 +205,14 @@ func HelloWorld() {
 
 The above produces this kind of output:
 
-```
+```plain
 func HelloWorld() {
   fmt.Println("Hello World")
 }
 ```
 
-In general, you should indicate the nature of the content in the preformatted block. You do this
-by appending a name after the initial set of tick marks
+You must indicate the nature of the content in the preformatted block by appending a name after the initial set of tick
+marks:
 
 <pre class="language-markdown"><code>```go
 func HelloWorld() {
@@ -230,8 +229,56 @@ func HelloWorld() {
 }
 ```
 
-You can use `markdown`, `yaml`, `json`, `java`, `javascript`, `c`, `cpp`, `csharp`, `go`, `html`, `protobuf`, 
-`perl`, `docker`, and `bash`.
+You can use `markdown`, `yaml`, `json`, `java`, `javascript`, `c`, `cpp`, `csharp`, `go`, `html`, `protobuf`,
+`perl`, `docker`, and `bash`, along with `command` and its variants described below.
+
+### Showing commands and command output
+
+If you want to show one or more bash command-lines with some output, you use the `command` indicator:
+
+<pre class="language-markdown"><code>```command
+$ echo "Hello"
+Hello
+```
+</code></pre>
+
+which produces:
+
+```command
+$ echo "Hello"
+Hello
+```
+
+You can have as many command-lines as you want, but only one chunk of output is recognized.
+
+<pre class="language-markdown"><code>```command
+$ echo "Hello" >file.txt
+$ cat file.txt
+Hello
+```
+</code></pre>
+
+which yields:
+
+```command
+$ echo "Hello" >file.txt
+$ cat file.txt
+Hello
+```
+
+You can also use line continuation in your command-lines:
+
+```command
+$ echo "Hello" \
+    >file.txt
+$ echo "There" >>file.txt
+$ cat file.txt
+Hello
+There
+```
+
+If the output is the command is JSON or YAML, you can use `command-output-as-json` and `command-output-as-yaml`
+instead of merely `command` in order to apply syntax coloring to the command's output.
 
 ## Displaying file content
 
@@ -261,44 +308,40 @@ redirects to the site very easily.
 In the page that is the target of the redirect (where you'd like users to land), you simply add the
 following to the front-matter:
 
-```
+```plain
 redirect_from: <url>
 ```
 
 For example
 
-```
+```plain
 ---
 title: Frequently Asked Questions
-overview: Questions Asked Frequently
+description: Questions Asked Frequently
 
-order: 12
+weight: 12
 
-layout: docs
-type: markdown
 redirect_from: /faq
 ---
 
-```    
+```
 
 With the above in a page saved as _help/faq.md, the user will be able to access the page by going
 to istio.io/help/faq as normal, as well as istio.io/faq.
 
 You can also add many redirects like so:
-    
-```
+
+```plain
 ---
 title: Frequently Asked Questions
-overview: Questions Asked Frequently
+description: Questions Asked Frequently
 
-order: 12
+weight: 12
 
-layout: docs
-type: markdown
 redirect_from:
     - /faq
     - /faq2
     - /faq3
 ---
 
-```    
+```

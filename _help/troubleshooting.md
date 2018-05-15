@@ -1,12 +1,11 @@
 ---
 title: Troubleshooting Guide
-overview: Practical advice on practical problems with Istio
+description: Practical advice on practical problems with Istio
 
-order: 40
+weight: 40
 
-layout: help
-type: markdown
 redirect_from: /troubleshooting
+force_inline_toc: true
 ---
 {% include home.html %}
 
@@ -17,34 +16,40 @@ Oh no! You're having trouble? Below is a list of solutions to common problems.
 Verifying connectivity to Pilot is a useful troubleshooting step. Every proxy container in the service mesh should be able to communicate with Pilot. This can be accomplished in a few simple steps:
 
 1. Get the name of the Istio Ingress pod:
-```bash
-INGRESS_POD_NAME=$(kubectl get po -n istio-system | grep ingress | awk '{print$1}')
+
+```command
+$ INGRESS_POD_NAME=$(kubectl get po -n istio-system | grep ingress\- | awk '{print$1}')
 ```
 
 1. Exec into the Istio Ingress pod:
-```bash
-kubectl exec -it $INGRESS_POD_NAME -n istio-system /bin/bash
+
+```command
+$ kubectl exec -it $INGRESS_POD_NAME -n istio-system /bin/bash
 ```
 
 1. Unless you installed Istio using the debug proxy image (`istioctl kube-inject --debug=true`), you need to
 install curl.
-```bash
-apt-get update && apt-get install -y curl
+
+```command
+$ apt-get update && apt-get install -y curl
 ```
 
 1. Test connectivity to Pilot using cURL. The following example cURL's the v1 registration API using default Pilot configuration parameters and mTLS enabled:
-```bash
-curl -k --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem --key /etc/certs/key.pem https://istio-pilot:15003/v1/registration
+
+```command
+$ curl -k --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem --key /etc/certs/key.pem https://istio-pilot:15003/v1/registration
 ```
 
 If mTLS is disabled:
-```bash
-curl http://istio-pilot:15003/v1/registration
+
+```command
+$ curl http://istio-pilot:15003/v1/registration
 ```
 
 You should receive a response listing the "service-key" and "hosts" for each service in the mesh.
 
 ## No traces appearing in Zipkin when running Istio locally on Mac
+
 Istio is installed and everything seems to be working except there are no traces showing up in Zipkin when there
 should be.
 
@@ -54,10 +59,13 @@ when you select a very long date range in Zipkin you will see the traces appeari
 
 You can also confirm this problem by comparing the date inside a docker container to outside:
 
-```bash
-docker run --entrypoint date gcr.io/istio-testing/ubuntu-16-04-slave:latest
+```command
+$ docker run --entrypoint date gcr.io/istio-testing/ubuntu-16-04-slave:latest
 Sun Jun 11 11:44:18 UTC 2017
-date -u
+```
+
+```command
+$ date -u
 Thu Jun 15 02:25:42 UTC 2017
 ```
 
@@ -70,7 +78,7 @@ will need to set the [proxy_http_version](https://nginx.org/en/docs/http/ngx_htt
 
 Example config:
 
-```
+```plain
 upstream http_backend {
     server 127.0.0.1:8080;
 
@@ -89,7 +97,7 @@ server {
 }
 ```
 
-## No grafana output when connecting from a local web client to Istio remotely hosted
+## No Grafana output when connecting from a local web client to Istio remotely hosted
 
 Validate the client and server date and time match.
 
@@ -131,8 +139,8 @@ Check these metrics.
 
    In Kubernetes environments, execute the following command:
 
-   ```bash
-   kubectl -n istio-system port-forward <mixer pod> 9093 &
+   ```command
+   $ kubectl -n istio-system port-forward <mixer pod> 9093 &
    ```
 
 1. Verify successful report calls.
@@ -142,7 +150,7 @@ Check these metrics.
 
    You should see something like:
 
-   ```
+   ```plain
    grpc_server_handled_total{grpc_code="OK",grpc_method="Report",grpc_service="istio.mixer.v1.Mixer",grpc_type="unary"} 68
    ```
 
@@ -159,13 +167,8 @@ or [manual]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar
 
    In Kubernetes environments, issue the following command:
 
-   ```bash
-   kubectl get rules --all-namespaces
-   ```
-
-   With the default configuration, you should see something like:
-
-   ```
+   ```command
+   $ kubectl get rules --all-namespaces
    NAMESPACE      NAME        KIND
    istio-system   promhttp    rule.v1alpha2.config.istio.io
    istio-system   promtcp     rule.v1alpha2.config.istio.io
@@ -182,13 +185,8 @@ or [manual]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar
 
    In Kubernetes environments, issue the following command:
 
-   ```bash
-   kubectl get prometheuses.config.istio.io --all-namespaces
-   ```
-
-   The expected output is:
-
-   ```
+   ```command
+   $ kubectl get prometheuses.config.istio.io --all-namespaces
    NAMESPACE      NAME           KIND
    istio-system   handler        prometheus.v1alpha2.config.istio.io
    ```
@@ -201,13 +199,8 @@ or [manual]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar
 
    In Kubernetes environments, issue the following command:
 
-   ```bash
-   kubectl get metrics.config.istio.io --all-namespaces
-   ```
-
-   The expected output is:
-
-   ```
+   ```command
+   $ kubectl get metrics.config.istio.io --all-namespaces
    NAMESPACE      NAME                         KIND
    istio-system   requestcount                 metric.v1alpha2.config.istio.io
    istio-system   requestduration              metric.v1alpha2.config.istio.io
@@ -237,7 +230,7 @@ or [manual]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar
 
       You should find something like:
 
-      ```
+      ```plain
       mixer_config_resolve_count{error="false",target="details.default.svc.cluster.local"} 56
       mixer_config_resolve_count{error="false",target="ingress.istio-system.svc.cluster.local"} 67
       mixer_config_resolve_count{error="false",target="mongodb.default.svc.cluster.local"} 18
@@ -255,8 +248,8 @@ or [manual]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar
 
       In Kubernetes environments, retrieve the Mixer logs via:
 
-      ```bash
-      kubectl -n istio-system logs <mixer pod> mixer
+      ```command
+      $ kubectl -n istio-system logs <mixer pod> mixer
       ```
 
       Look for errors related to your configuration or your service in the
@@ -276,7 +269,7 @@ More on viewing Mixer configuration can be found [here]({{home}}/help/faq/mixer.
 
    You should find something like:
 
-   ```
+   ```plain
    mixer_adapter_dispatch_count{adapter="prometheus",error="false",handler="handler.prometheus.istio-system",meshFunction="metric",response_code="OK"} 114
    mixer_adapter_dispatch_count{adapter="prometheus",error="true",handler="handler.prometheus.default",meshFunction="metric",response_code="INTERNAL"} 4
    mixer_adapter_dispatch_count{adapter="stdio",error="false",handler="handler.stdio.istio-system",meshFunction="logentry",response_code="OK"} 104
@@ -295,8 +288,8 @@ More on viewing Mixer configuration can be found [here]({{home}}/help/faq/mixer.
 
    In Kubernetes environment, check the Mixer logs via:
 
-   ```bash
-   kubectl -n istio-system logs <mixer pod> mixer
+   ```command
+   $ kubectl -n istio-system logs <mixer pod> mixer
    ```
 
    Filter for lines including something like `Report 0 returned with: INTERNAL
@@ -310,8 +303,8 @@ More on viewing Mixer configuration can be found [here]({{home}}/help/faq/mixer.
 
    In Kubernetes environments, setup port-forwarding as follows:
 
-   ```bash
-   kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
+   ```command
+   $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
    ```
 
 1. Visit [http://localhost:9090/config](http://localhost:9090/config).
@@ -334,14 +327,39 @@ More on viewing Mixer configuration can be found [here]({{home}}/help/faq/mixer.
 
 ## How can I debug issues with the service mesh?
 
+### With [istioctl](https://istio.io/docs/reference/commands/istioctl.html#istioctl%20proxy-config)
+
+Istioctl allows you to inspect the current xDS of a given Envoy from its admin interface (locally) or from Pilot using the `proxy-config` or `pc` command.
+
+For example, to retrieve the configured clusters in an Envoy via the admin interface run the following command:
+
+```command
+istioctl proxy-config endpoint <pod-name> clusters
+```
+
+To retrieve endpoints for a given pod in the application namespace from Pilot run the following command:
+
+```command
+istioctl proxy-config pilot -n application <pod-name> eds
+```
+
+The `proxy-config` command also allows you to retrieve the state of the entire mesh from Pilot using the following command:
+
+```command
+istioctl proxy-config pilot mesh ads
+```
+
 ### With [GDB](https://www.gnu.org/software/gdb/)
 
 To debug Istio with `gdb`, you will need to run the debug images of Envoy / Mixer / Pilot. A recent `gdb` and the golang extensions (for Mixer/Pilot or other golang components) is required.
 
-1.  `kubectl exec -it PODNAME -c [proxy | mixer | pilot]`
-1.  Find process ID: ps ax
-1.  gdb -p PID binary
-1.  For go: info goroutines, goroutine x bt
+1. `kubectl exec -it PODNAME -c [proxy | mixer | pilot]`
+
+1. Find process ID: ps ax
+
+1. gdb -p PID binary
+
+1. For go: info goroutines, goroutine x bt
 
 ### With [Tcpdump](https://www.tcpdump.org/tcpdump_man.html)
 
@@ -353,7 +371,7 @@ Communication between Envoy and the app happens on 127.0.0.1, and is not encrypt
 
 Check your `ulimit -a`. Many systems have a 1024 open file descriptor limit by default which will cause Envoy to assert and crash with:
 
-```bash
+```plain
 [2017-05-17 03:00:52.735][14236][critical][assert] assert failure: fd_ != -1: external/envoy/source/common/network/connection_impl.cc:58
 ```
 
@@ -361,30 +379,27 @@ Make sure to raise your ulimit. Example: `ulimit -n 16384`
 
 ## Headless TCP Services Losing Connection from Istiofied Containers
 
-If `istio-ca` is deployed, Envoy is restarted every 15 minutes to refresh certificates.
+If `istio-citadel` is deployed, Envoy is restarted every 15 minutes to refresh certificates.
 This causes the disconnection of TCP streams or long-running connections between services.
 
 You should build resilience into your application for this type of
 disconnect, but if you still want to prevent the disconnects from
-happening, you will need to disable mTLS and the `istio-ca` deployment.
+happening, you will need to disable mTLS and the `istio-citadel` deployment.
 
 First, edit your istio config to disable mTLS
 
-```
-# comment out or uncomment out authPolicy: MUTUAL_TLS to toggle mTLS and then
-kubectl edit configmap -n istio-system istio
-
-# restart pilot and wait a few minutes
-kubectl delete pods -n istio-system -l istio=pilot
+```command
+$ kubectl edit configmap -n istio-system istio
+$ kubectl delete pods -n istio-system -l istio=pilot
 ```
 
-Next, scale down the `istio-ca` deployment to disable Envoy restarts.
+Next, scale down the `istio-citadel` deployment to disable Envoy restarts.
 
-```
-kubectl scale --replicas=0 deploy/istio-ca -n istio-system
+```command
+$ kubectl scale --replicas=0 deploy/istio-citadel -n istio-system
 ```
 
-This should stop istio from restarting Envoy and disconnecting TCP connections.
+This should stop Istio from restarting Envoy and disconnecting TCP connections.
 
 ## Envoy Process High CPU Usage
 
@@ -394,13 +409,9 @@ CPU usage, even when Envoy isn't doing anything. In order to bring the
 CPU usage down for larger deployments, increase the refresh interval for
 Envoy to something higher, like 30 seconds.
 
-```
-# increase the field rdsRefreshDelay in the mesh and defaultConfig section
-# set the refresh interval to 30s
-kubectl edit configmap -n istio-system istio
-
-# restart pilot and wait a few minutes
-kubectl delete pods -n istio-system -l istio=pilot
+```command
+$ kubectl edit configmap -n istio-system istio
+$ kubectl delete pods -n istio-system -l istio=pilot
 ```
 
 Also make sure to reinject the sidecar into all of your pods, as
@@ -409,19 +420,20 @@ their configuration needs to be updated as well.
 Afterwards, you should see CPU usage fall back to 0-1% while idling.
 Make sure to tune these values for your specific deployment.
 
-*Warning:*: Changes created by routing rules will take up to 2x refresh interval to propagate to the sidecars. 
-While the larger refresh interval will reduce CPU usage, updates caused by routing rules may cause a period 
-of HTTP 404s (upto 2x the refresh interval) until the Envoy sidecars get all relevant configuration. 
+*Warning:*: Changes created by routing rules will take up to 2x refresh interval to propagate to the sidecars.
+While the larger refresh interval will reduce CPU usage, updates caused by routing rules may cause a period
+of HTTP 404s (up to 2x the refresh interval) until the Envoy sidecars get all relevant configuration.
 
 ## Kubernetes webhook setup script files are missing from 0.5 release package
 
-NOTE: The 0.5.0 and 0.5.1 releases are missing scripts to provision webhook certificates. Download the missing files from
-[here](https://raw.githubusercontent.com/istio/istio/release-0.7/install/kubernetes/webhook-create-signed-cert.sh) and [here](https://raw.githubusercontent.com/istio/istio/release-0.7/install/kubernetes/webhook-patch-ca-bundle.sh). Subsequent releases (> 0.5.1) include these files.
+> The 0.5.0 and 0.5.1 releases are missing scripts to provision webhook certificates. Download the missing files
+from [here](https://raw.githubusercontent.com/istio/istio/release-0.7/install/kubernetes/webhook-create-signed-cert.sh) and [here](https://raw.githubusercontent.com/istio/istio/release-0.7/install/kubernetes/webhook-patch-ca-bundle.sh). Subsequent releases (> 0.5.1) include these files.
 
 ## Automatic sidecar injection will fail if the kube-apiserver has proxy settings
 
-This was tested on 0.5.0 with the additional files required as referenced in the above issue.   When the Kube-apiserver included 
+This was tested on 0.5.0 with the additional files required as referenced in the above issue. When the Kube-apiserver included
 proxy settings such as:
+
 ```yaml
 env:
   - name: http_proxy
@@ -431,13 +443,15 @@ env:
   - name: no_proxy
   value: 127.0.0.1,localhost,dockerhub.foo.com,devhub-docker.foo.com,10.84.100.125,10.84.100.126,10.84.100.127
 ```
-The sidecar injection would fail.   The only related failure logs was in the kube-apiserver log:
-```bash
+The sidecar injection would fail. The only related failure logs was in the kube-apiserver log:
+
+```plain
 W0227 21:51:03.156818       1 admission.go:257] Failed calling webhook, failing open sidecar-injector.istio.io: failed calling admission webhook "sidecar-injector.istio.io": Post https://istio-sidecar-injector.istio-system.svc:443/inject: Service Unavailable
 ```
+
 Make sure both pod and service CIDRs are not proxied according to *_proxy variables.  Check the kube-apiserver files and logs to verify the configuration and whether any requests are being proxied.
 
-A workaround is to remove the proxy settings from the kube-apiserver manifest and restart the server or use a later version of kubernetes. 
+A workaround is to remove the proxy settings from the kube-apiserver manifest and restart the server or use a later version of kubernetes.
 
 An issue was filed in kubernetes related to this and has since been closed.   [https://github.com/kubernetes/kubeadm/issues/666](https://github.com/kubernetes/kubeadm/issues/666)
 [https://github.com/kubernetes/kubernetes/pull/58698#discussion_r163879443](https://github.com/kubernetes/kubernetes/pull/58698#discussion_r163879443)

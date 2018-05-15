@@ -1,7 +1,6 @@
 ---
 title: What does the word 'Istio' mean?
-order: 160
-type: markdown
+weight: 160
 ---
 {% include home.html %}
 

@@ -5,18 +5,21 @@ header {
         padding-top: .2em;
         padding-bottom: .2em;
 
-        @media (min-height: $bp-md-v) and (min-width: $bp-md) {
-            padding-top: .5em;
-            padding-bottom: .5em;
-        }
-
         .logo {
-            width: .8em;
-            height: 1.2em;
+            width: 2em;
+            top: 3px;
+            left: 1.3em;
+            position: fixed;
+            fill: $textBrandColor;
 
-            @media (min-height: $bp-md-v) and (min-width: $bp-md) {
-                width: 2em;
-                height: 3em;
+            circle {
+                fill: $mainBrandColor;
+                stroke: $textBrandColor;
+            }
+
+            @media (min-width: $bp-md) {
+                width: 3em;
+                left: 0.8em;
             }
         }
 
@@ -26,13 +29,7 @@ header {
             font-weight: 400;
             vertical-align: bottom;
             line-height: 1.1em;
-            margin-left: .7em;
-
-            @media (min-height: $bp-md-v) and (min-width: $bp-md) {
-                font-size: 1.7em;
-                line-height: 1.5em;
-                font-family: "Verdana";
-            }
+            margin-left: 3.7em;
         }
 
         a {
@@ -46,9 +43,10 @@ header {
 
         a.nav-link {
             color: $textBrandColor;
+            font-size: .9em;
 
             &:hover {
-                color: #de7d40;
+                color: $textBrandHighlightColor;
             }
         }
 
@@ -65,35 +63,17 @@ header {
                 color: $textColor;
             }
         }
-
-        #searchbox {
-            margin-left: 1.5em;
-        }
-
-        .btn-search {
-            color: #aaa;
-            background: $searchButtonColor;
-            padding-left: .7em;
-            font-size: .8em;
-            vertical-align: middle;
-            width: 1.8em;
-
-            @media (min-height: $bp-md-v) and (min-width: $bp-md) {
-                font-size: 1.2em;
-                width: 2.7em;
-            }
-        }
     }
 
     .navbar-dark .navbar-nav .nav-link {
         color: $textBrandColor;
 
         &:hover {
-            color: #de7d40;
+            color: $textBrandHighlightColor;
         }
 
         &:active {
-            color: #de7d40;
+            color: $textBrandHighlightColor;
         }
     }
 
@@ -128,5 +108,71 @@ body.theme-light {
 
     i.light {
         visibility: visible;
+    }
+}
+
+#navbar-links {
+    position: static;
+}
+
+#search_form {
+    position: static;
+    display: flex;
+}
+
+#search_close {
+    display: none;
+}
+
+#search_show {
+    display: none;
+}
+
+#search_textbox {
+    margin: 4px 0 5px 0;
+    width: 100%;
+}
+
+@media (min-width: $bp-md) {
+    #navbar-links {
+        position: absolute;
+        right: -700px;
+        transition: right 0.5s;
+    }
+
+    #navbar-links.active {
+        right: 1rem;
+        transition: right 0.5s;
+    }
+
+    #search_form {
+        position: absolute;
+        right: -700px;
+        transition: right 0.5s;
+    }
+
+    #search_form.active {
+        right: 1rem;
+        transition: right 0.5s;
+    }
+
+    #search_close {
+        display: block;
+        background-color: rgba(0, 0, 0, 0);
+        color: $textBrandColor;
+        border-width: 0;
+        cursor: pointer;
+
+        &:hover {
+            color:  $textBrandHighlightColor;
+        }
+    }
+
+    #search_show {
+        display: block;
+    }
+
+    #search_textbox {
+        width: calc(1rem * 22);
     }
 }

@@ -1,7 +1,6 @@
 ---
 title: Can I access the Kubernetes API Server with Auth enabled?
-order: 50
-type: markdown
+weight: 50
 ---
 The Kubernetes API server does not support mutual TLS authentication, so
 strictly speaking: no. However, if you use version 0.3 or later, see next

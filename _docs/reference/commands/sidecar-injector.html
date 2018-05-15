@@ -1,6 +1,6 @@
 ---
 title: sidecar-injector
-overview: Kubernetes webhook for automatic Istio sidecar injection
+description: Kubernetes webhook for automatic Istio sidecar injection
 layout: pkg-collateral-docs
 number_of_entries: 4
 ---
@@ -14,28 +14,36 @@ number_of_entries: 4
 </thead>
 <tbody>
 <tr>
+<td><code>--caCertFile &lt;string&gt;</code></td>
+<td>File containing the x509 Certificate for HTTPS.  (default `/etc/istio/certs/root-cert.pem`)</td>
+</tr>
+<tr>
 <td><code>--healthCheckFile &lt;string&gt;</code></td>
 <td>File that should be periodically updated if health checking is enabled  (default ``)</td>
 </tr>
 <tr>
 <td><code>--healthCheckInterval &lt;duration&gt;</code></td>
-<td>Configure how frequently the health check file specified by --healhCheckFile should be updated  (default `0s`)</td>
+<td>Configure how frequently the health check file specified by --healthCheckFile should be updated  (default `0s`)</td>
 </tr>
 <tr>
 <td><code>--injectConfig &lt;string&gt;</code></td>
 <td>File containing the Istio sidecar injection configuration and template  (default `/etc/istio/inject/config`)</td>
 </tr>
 <tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td>Specifies path to kubeconfig file. This must be specified when not running inside a Kubernetes pod.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--log_as_json</code></td>
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_callers</code></td>
-<td>Include caller information, useful for debugging </td>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -55,7 +63,7 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -71,11 +79,19 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--tlsCertFile &lt;string&gt;</code></td>
-<td>File containing the x509 Certificate for HTTPS.  (default `/etc/istio/certs/cert.pem`)</td>
+<td>File containing the x509 Certificate for HTTPS.  (default `/etc/istio/certs/cert-chain.pem`)</td>
 </tr>
 <tr>
 <td><code>--tlsKeyFile &lt;string&gt;</code></td>
 <td>File containing the x509 private key matching --tlsCertFile.  (default `/etc/istio/certs/key.pem`)</td>
+</tr>
+<tr>
+<td><code>--webhookConfigName &lt;string&gt;</code></td>
+<td>Name of the mutatingwebhookconfiguration resource in Kubernetes.  (default `istio-sidecar-injector`)</td>
+</tr>
+<tr>
+<td><code>--webhookName &lt;string&gt;</code></td>
+<td>Name of the webhook entry in the webhook config.  (default `sidecar-injector.istio.io`)</td>
 </tr>
 </tbody>
 </table>
@@ -90,12 +106,16 @@ number_of_entries: 4
 </thead>
 <tbody>
 <tr>
+<td><code>--caCertFile &lt;string&gt;</code></td>
+<td>File containing the x509 Certificate for HTTPS.  (default `/etc/istio/certs/root-cert.pem`)</td>
+</tr>
+<tr>
 <td><code>--healthCheckFile &lt;string&gt;</code></td>
 <td>File that should be periodically updated if health checking is enabled  (default ``)</td>
 </tr>
 <tr>
 <td><code>--healthCheckInterval &lt;duration&gt;</code></td>
-<td>Configure how frequently the health check file specified by --healhCheckFile should be updated  (default `0s`)</td>
+<td>Configure how frequently the health check file specified by --healthCheckFile should be updated  (default `0s`)</td>
 </tr>
 <tr>
 <td><code>--injectConfig &lt;string&gt;</code></td>
@@ -106,16 +126,20 @@ number_of_entries: 4
 <td>Duration used for checking the target file&#39;s last modified time.  (default `0s`)</td>
 </tr>
 <tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td>Specifies path to kubeconfig file. This must be specified when not running inside a Kubernetes pod.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--log_as_json</code></td>
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_callers</code></td>
-<td>Include caller information, useful for debugging </td>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -135,7 +159,7 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -155,11 +179,19 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--tlsCertFile &lt;string&gt;</code></td>
-<td>File containing the x509 Certificate for HTTPS.  (default `/etc/istio/certs/cert.pem`)</td>
+<td>File containing the x509 Certificate for HTTPS.  (default `/etc/istio/certs/cert-chain.pem`)</td>
 </tr>
 <tr>
 <td><code>--tlsKeyFile &lt;string&gt;</code></td>
 <td>File containing the x509 private key matching --tlsCertFile.  (default `/etc/istio/certs/key.pem`)</td>
+</tr>
+<tr>
+<td><code>--webhookConfigName &lt;string&gt;</code></td>
+<td>Name of the mutatingwebhookconfiguration resource in Kubernetes.  (default `istio-sidecar-injector`)</td>
+</tr>
+<tr>
+<td><code>--webhookName &lt;string&gt;</code></td>
+<td>Name of the webhook entry in the webhook config.  (default `sidecar-injector.istio.io`)</td>
 </tr>
 </tbody>
 </table>
@@ -175,6 +207,11 @@ number_of_entries: 4
 </thead>
 <tbody>
 <tr>
+<td><code>--caCertFile &lt;string&gt;</code></td>
+<td></td>
+<td>File containing the x509 Certificate for HTTPS.  (default `/etc/istio/certs/root-cert.pem`)</td>
+</tr>
+<tr>
 <td><code>--healthCheckFile &lt;string&gt;</code></td>
 <td></td>
 <td>File that should be periodically updated if health checking is enabled  (default ``)</td>
@@ -182,7 +219,7 @@ number_of_entries: 4
 <tr>
 <td><code>--healthCheckInterval &lt;duration&gt;</code></td>
 <td></td>
-<td>Configure how frequently the health check file specified by --healhCheckFile should be updated  (default `0s`)</td>
+<td>Configure how frequently the health check file specified by --healthCheckFile should be updated  (default `0s`)</td>
 </tr>
 <tr>
 <td><code>--injectConfig &lt;string&gt;</code></td>
@@ -190,19 +227,24 @@ number_of_entries: 4
 <td>File containing the Istio sidecar injection configuration and template  (default `/etc/istio/inject/config`)</td>
 </tr>
 <tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td></td>
+<td>Specifies path to kubeconfig file. This must be specified when not running inside a Kubernetes pod.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--log_as_json</code></td>
 <td></td>
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
-<td><code>--log_callers</code></td>
+<td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Include caller information, useful for debugging </td>
+<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level of messages to output, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `info`)</td>
+<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -227,7 +269,7 @@ number_of_entries: 4
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of &#34;debug&#34;, &#34;info&#34;, &#34;warn&#34;, &#34;error&#34;, or &#34;none&#34;  (default `none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -252,12 +294,22 @@ number_of_entries: 4
 <tr>
 <td><code>--tlsCertFile &lt;string&gt;</code></td>
 <td></td>
-<td>File containing the x509 Certificate for HTTPS.  (default `/etc/istio/certs/cert.pem`)</td>
+<td>File containing the x509 Certificate for HTTPS.  (default `/etc/istio/certs/cert-chain.pem`)</td>
 </tr>
 <tr>
 <td><code>--tlsKeyFile &lt;string&gt;</code></td>
 <td></td>
 <td>File containing the x509 private key matching --tlsCertFile.  (default `/etc/istio/certs/key.pem`)</td>
+</tr>
+<tr>
+<td><code>--webhookConfigName &lt;string&gt;</code></td>
+<td></td>
+<td>Name of the mutatingwebhookconfiguration resource in Kubernetes.  (default `istio-sidecar-injector`)</td>
+</tr>
+<tr>
+<td><code>--webhookName &lt;string&gt;</code></td>
+<td></td>
+<td>Name of the webhook entry in the webhook config.  (default `sidecar-injector.istio.io`)</td>
 </tr>
 </tbody>
 </table>

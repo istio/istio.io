@@ -1,16 +1,14 @@
 ---
 title: Distributed Tracing
-overview: How to configure the proxies to send tracing requests to Zipkin or Jaeger
+description: How to configure the proxies to send tracing requests to Zipkin or Jaeger
 
-order: 10
+weight: 10
 
-layout: docs
-type: markdown
 redirect_from: /docs/tasks/zipkin-tracing.html
 ---
 {% include home.html %}
 
-This task shows you how Istio-enabled applications 
+This task shows you how Istio-enabled applications
 can be configured to collect trace spans using [Zipkin](https://zipkin.io) or [Jaeger](https://jaeger.readthedocs.io).
 After completing this task, you should understand all of the assumptions about your
 application and how to have it participate in tracing, regardless of what
@@ -19,28 +17,26 @@ language/framework/platform you use to build your application.
 The [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample is used as the
 example application for this task.
 
-
 ## Before you begin
 
 * Setup Istio by following the instructions in the [Installation guide]({{home}}/docs/setup/).
 
   If you didn't start the Zipkin or Jaeger addon during installation,
   you can run the following command to start it now.
-  
-  For zipkin:
-  
-  ```bash
-  kubectl apply -f install/kubernetes/addons/zipkin.yaml
+
+  For Zipkin:
+
+  ```command
+  $ kubectl apply -f install/kubernetes/addons/zipkin.yaml
   ```
-  
+
   For Jaeger:
 
-  ```bash
-  kubectl apply -n istio-system -f https://raw.githubusercontent.com/jaegertracing/jaeger-kubernetes/master/all-in-one/jaeger-all-in-one-template.yml
+  ```command
+  $ kubectl apply -n istio-system -f https://raw.githubusercontent.com/jaegertracing/jaeger-kubernetes/master/all-in-one/jaeger-all-in-one-template.yml
   ```
 
 * Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application.
-
 
 ## Accessing the dashboard
 
@@ -48,8 +44,8 @@ example application for this task.
 
 Setup access to the Zipkin dashboard URL using port-forwarding:
 
-```bash
-kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=zipkin -o jsonpath='{.items[0].metadata.name}') 9411:9411 &
+```command
+$ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=zipkin -o jsonpath='{.items[0].metadata.name}') 9411:9411 &
 ```
 
 Then open your browser at [http://localhost:9411](http://localhost:9411)
@@ -58,12 +54,11 @@ Then open your browser at [http://localhost:9411](http://localhost:9411)
 
 Setup access to the Jaeger dashboard URL using port-forwarding:
 
-```bash
-kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 16686:16686 &
+```command
+$ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 16686:16686 &
 ```
 
 Then open your browser at [http://localhost:16686](http://localhost:16686)
-
 
 ## Generating traces using the Bookinfo sample
 
@@ -72,36 +67,28 @@ With the Bookinfo application up and running, generate trace information by acce
 
 If you now look at the dashboard, you should see something similar to the following:
 
-{% include figure.html width='100%' ratio='44.28%'
-    img='./img/zipkin_dashboard.png'
-    alt='Zipkin Dashboard'
-    title='Zipkin Dashboard'
-    caption='Zipkin Dashboard'
+{% include image.html width="100%" ratio="44.28%"
+    link="./img/zipkin_dashboard.png"
+    caption="Zipkin Dashboard"
     %}
 
-{% include figure.html width='100%' ratio='42.35%'
-    img='./img/jaeger_dashboard.png'
-    alt='Jaeger Dashboard'
-    title='Jaeger Dashboard'
-    caption='Jaeger Dashboard'
+{% include image.html width="100%" ratio="42.35%"
+    link="./img/jaeger_dashboard.png"
+    caption="Jaeger Dashboard"
     %}
 
 If you click on the top (most recent) trace, you should see the details corresponding to your
 latest refresh of the `/productpage`.
 The page should look something like this:
 
-{% include figure.html width='100%' ratio='19.70%'
-    img='./img/zipkin_span.png'
-    alt='Zipkin Trace View'
-    title='Zipkin Trace View'
-    caption='Zipkin Trace View'
+{% include image.html width="100%" ratio="19.70%"
+    link="./img/zipkin_span.png"
+    caption="Zipkin Trace View"
     %}
 
-{% include figure.html width='100%' ratio='26.99%'
-    img='./img/jaeger_trace.png'
-    alt='Jaeger Trace View'
-    title='Jaeger Trace View'
-    caption='Jaeger Trace View'
+{% include image.html width="100%" ratio="26.99%"
+    link="./img/jaeger_trace.png"
+    caption="Jaeger Trace View"
     %}
 
 As you can see, the trace is comprised of spans,
@@ -161,7 +148,7 @@ def getForwardHeaders(request):
 ```
 
 The reviews application (Java) does something similar:
- 
+
 ```java
 @GET
 @Path("/reviews")
@@ -178,25 +165,24 @@ public Response bookReviews(@CookieParam("user") Cookie user,
 
   if(ratings_enabled){
     JsonObject ratings = getRatings(user, xreq, xtraceid, xspanid, xparentspanid, xsampled, xflags, xotspan);
-``` 
+```
 
 When you make downstream calls in your applications, make sure to include these headers.
 
 ## Cleanup
 
-
 * Remove the addon tracing configuration:
 
   If you are running with Zipkin, run the following command to cleanup:
 
-  ```bash
-  kubectl delete -f install/kubernetes/addons/zipkin.yaml
+  ```command
+  $ kubectl delete -f install/kubernetes/addons/zipkin.yaml
   ```
 
   If you are running with Jaeger, run the following command to cleanup:
 
-  ```bash
-  kubectl delete -f https://raw.githubusercontent.com/jaegertracing/jaeger-kubernetes/master/all-in-one/jaeger-all-in-one-template.yml
+  ```command
+  $ kubectl delete -f https://raw.githubusercontent.com/jaegertracing/jaeger-kubernetes/master/all-in-one/jaeger-all-in-one-template.yml
   ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
