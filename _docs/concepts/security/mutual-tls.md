@@ -40,17 +40,17 @@ signing request) locally, sends CSR to Citadel for signing, and delivers the gen
 
 Istio uses [Kubernetes service accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) to identify who runs the service:
 
-* A service account in Istio has the format "spiffe://\<_domain_\>/ns/\<_namespace_>/sa/\<_serviceaccount_\>".
+*   A service account in Istio has the format "spiffe://\<_domain_\>/ns/\<_namespace_>/sa/\<_serviceaccount_\>".
 
-  * _domain_ is currently _cluster.local_. We will support customization of domain in the near future.
-  * _namespace_ is the namespace of the Kubernetes service account.
-  * _serviceaccount_ is the Kubernetes service account name.
+    * _domain_ is currently _cluster.local_. We will support customization of domain in the near future.
+    * _namespace_ is the namespace of the Kubernetes service account.
+    * _serviceaccount_ is the Kubernetes service account name.
 
-* A service account is **the identity (or role) a workload runs as**, which represents that workload's privileges. For systems requiring strong security, the
+*   A service account is **the identity (or role) a workload runs as**, which represents that workload's privileges. For systems requiring strong security, the
 amount of privilege for a workload should not be identified by a random string (i.e., service name, label, etc), or by the binary that is deployed.
 
-  * For example, let's say we have a workload pulling data from a multi-tenant database. If Alice ran this workload, she will be able to pull
-  a different set of data than if Bob ran this workload.
+    * For example, let's say we have a workload pulling data from a multi-tenant database. If Alice ran this workload, she will be able to pull
+    a different set of data than if Bob ran this workload.
 
 * Service accounts enable strong security policies by offering the flexibility to identify a machine, a user, a workload, or a group of workloads (different
 workloads can run as the same service account).
