@@ -62,7 +62,7 @@ but, unlike [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/s
 does not include any traffic routing configuration. Traffic routing for ingress traffic is instead configured
 using Istio routing rules, exactly in the same was as for internal service requests.
 
-In the following subsections we configure a Gateway on port 80 for unencrypted HTTP traffic first. Then we add a secure port 443 for HTTPS traffic.
+In the following subsections we configure a `Gateway` on port 80 for unencrypted HTTP traffic first. Then we add a secure port 443 for HTTPS traffic.
 
 ### Configuring unencrypted gateway (HTTP)
 
