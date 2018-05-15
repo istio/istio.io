@@ -197,23 +197,7 @@ In this subsection we add the port 443 to handle the HTTPS traffic. We redeploy 
   -x charts/ingressgateway/templates/deployment.yaml > $HOME/istio-ingressgateway-deployment.yaml
    ```
 
-   **Alternative 1**: we can manually edit the default manifest at `install/kubernetes/istio-ingressgateway-deployment.yaml`, adding a Kubernetes  _volume_ to the list of the pod's volumes and a _volumeMount_ for our volume to the `ingressgateway` container.
-
-   ```yaml
-     volumeMounts:
-       - name: my-ingress-cert-volume
-         mountPath: "/etc/my-ingress-cert"
-         readOnly: true
-   ...
-   volumes:
-   - name: my-ingress-cert-volume
-     secret:
-       secretName: "my-ingress-cert"
-         optional: true
-   ...
-   ```
-
-    **Alternative 2**: if we deployed Istio by Helm, we can upgrade our release, see the next step.
+    **Alternative: if we deployed Istio by Helm, we can upgrade our release, see the next step.
 
 1. Redeploy the rendered `istio-ingressgateway`:
 
@@ -221,13 +205,7 @@ In this subsection we add the port 443 to handle the HTTPS traffic. We redeploy 
    kubectl apply -f $HOME/istio-ingressgateway-deployment.yaml
    ```
 
-   **Alternative 1**: if we manually edited `install/kubernetes/istio-ingressgateway-deployment.yaml`, let's deploy it:
-
-   ```command
-   kubectl apply -f install/kubernetes/istio-ingressgateway-deployment.yaml
-   ```
-
-   **Alternative 2**: if we deployed Istio by Helm, we can _upgrade_ our release, setting the value of `ingressgateway.deployment.secretVolumes`:
+   **Alternative: if we deployed Istio by Helm, we _upgrade_ our release, setting the value of `ingressgateway.deployment.secretVolumes`:
 
    ```command
    helm upgrade istio install/kubernetes/helm/istio --namespace istio-system \
