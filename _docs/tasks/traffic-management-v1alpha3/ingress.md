@@ -64,7 +64,7 @@ using Istio routing rules, exactly in the same was as for internal service reque
 
 In the following subsections we configure a Gateway on port 80 for unencrypted HTTP traffic first. Then we add a secure port 443 for HTTPS traffic.
 
-### Configuring unencrypted Gateway (HTTP)
+### Configuring unencrypted gateway (HTTP)
 
 1. Create an Istio `Gateway`
 
@@ -124,22 +124,22 @@ In the following subsections we configure a Gateway on port 80 for unencrypted H
    but instead will simply default to round-robin routing. To apply these (or other rules) to internal calls,
    we could add the special value `mesh` to the list of `gateways`.
 
-### Verifying unencrypted Gateway
+### Verifying unencrypted gateway
 
 The proxy instances implementing a particular `Gateway` configuration can be specified using a
 [selector]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway.selector) field.
 In our case, we have set the selector value to `istio: ingressgateway` to use the default
-`istio-ingressgateway` controller. Therefore, to test our `Gateway` we will send requests to
-the `istio-ingressgateway` service.
+`istio-ingressgateway` controller. Therefore, to test our gateway we will send requests to
+the default `istio-ingressgateway` service.
 
-1. Get the ingressgateway controller pod's hostIP:
+1. Get the `ingressgateway` controller pod's hostIP:
 
    ```command
    $ kubectl -n istio-system get po -l istio=ingressgateway -o jsonpath='{.items[0].status.hostIP}'
    169.47.243.100
    ```
 
-1. Get the istio-ingressgateway service's _nodePort_ for port 80:
+1. Get the `istio-ingressgateway` service's _nodePort_ for port 80:
 
    ```command
    $ kubectl -n istio-system get svc istio-ingressgateway
@@ -178,9 +178,9 @@ the `istio-ingressgateway` service.
    ```
 
 ### Add a secure port (HTTPS) to our gateway
-In this subsection we add the port 443 to handle the HTTPS traffic. We redeploy the pod of the Istio gateway with our private key and certificate to use for TLS traffic. Then we replace the previous Gateway definition with a definition that contains a server on the port 443, in addition to the previously defined server on the port 80.
+In this subsection we add the port 443 to handle the HTTPS traffic. We redeploy the pod of the Istio ingress gateway controller with our private key and certificate to use for TLS traffic. Then we replace the previous `Gateway` definition with a definition that contains a server on the port 443, in addition to the previously defined server on the port 80.
 
-#### Inject our private key and certificate into the pod of the Istio gateway.
+#### Inject our private key and certificate into the pod of the Istio ingress gateway controller.
 
 1. Create a Kubernetes secret of the type `tls` from the private key and the certificate we created in the [Before you begin](#before-you-begin) section. We can use any name as the name of the secret, let's call it _my-ingress-cert_.
 
@@ -188,7 +188,7 @@ In this subsection we add the port 443 to handle the HTTPS traffic. We redeploy 
    kubectl create -n istio-system secret tls my-ingress-cert --key /tmp/tls.key --cert /tmp/tls.crt
    ```
 
-1. Render the Kubernetes manifest of the pod of `istio-ingressgateway` with Helm:
+1. Render the Kubernetes manifest of the pod of `istio-ingressgateway` (the default ingress gateway controller) with Helm:
 
    ```command
    helm template install/kubernetes/helm/istio --name istio --namespace istio-system -x charts/ingressgateway/templates/deployment.yaml > $HOME/istio-ingressgateway-deployment.yaml
@@ -221,9 +221,9 @@ In this subsection we add the port 443 to handle the HTTPS traffic. We redeploy 
    kubectl apply -f $HOME/istio-ingressgateway-deployment.yaml
    ```
 
-1. Verify that the Gateway still works for the port 80 and accepts unencrypted HTTP traffic as before. We do it by accessing the _httpbin_ service, port 80, as described in the [Verifying unencrypted Gateway](#verifying-unencrypted-gateway) subsection.
+1. Verify that our gateway still works for the port 80 and accepts unencrypted HTTP traffic as before. We do it by accessing the _httpbin_ service, port 80, as described in the [Verifying unencrypted gateway](#verifying-unencrypted-gateway) subsection.
 
-#### Add a secure server on the port 443 to our Gateway
+#### Add a secure server on the port 443 to our Gateway definition
 
 1. Replace the previous `Gateway` definition with a server section for the port 443. Specify the locations of the certificate and the private key we mounted in the previous subsection.
 
@@ -256,7 +256,7 @@ In this subsection we add the port 443 to handle the HTTPS traffic. We redeploy 
    EOF
    ```
 
-### Verifying secure Gateway
+### Verifying secure gateway
 1. Get the `istio-ingressgateway` service's _nodePort_ for the port 443:
 
    ```command
