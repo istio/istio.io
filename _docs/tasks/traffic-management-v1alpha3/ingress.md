@@ -189,37 +189,49 @@ In this subsection we add the port 443 to handle the HTTPS traffic. We redeploy 
    kubectl create -n istio-system secret tls my-ingress-cert --key /tmp/tls.key --cert /tmp/tls.crt
    ```
 
-1. Render the Kubernetes manifest of the pod of `istio-ingressgateway` (the default ingress gateway controller) with Helm:
+1. Render the Kubernetes manifest of the pod of `istio-ingressgateway` (the default ingress gateway controller) with Helm. Add a volume to the pod from the secret we created in the previous step. To perform this, we set the value of `ingressgateway.deployment.secretVolumes` to a list of volumes we want to mount. We can specify any name for the volume and any mount path. Let's call our volume _my-ingress-cert-volume_ and mount it at _/etc/my-ingress-cert_. We use Helm's syntax for passing values as parameters by `--set` option. In particular, we can pass a list of volumes to mount, by specifying indexes of the `ingressgateway.deployment.secretVolumes` value: `ingressgateway.deployment.secretVolumes[0]`, `ingressgateway.deployment.secretVolumes[1]` etc.
 
    ```command
-   helm template install/kubernetes/helm/istio --name istio --namespace istio-system -x charts/ingressgateway/templates/deployment.yaml > $HOME/istio-ingressgateway-deployment.yaml
+   helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
+   --set ingressgateway.deployment.secretVolumes[0].name=my-ingress-cert-volume,ingressgateway.deployment.secretVolumes[0].secretName=my-ingress-cert,ingressgateway.deployment.secretVolumes[0].mountPath=/etc/my-ingress-cert
+  -x charts/ingressgateway/templates/deployment.yaml > $HOME/istio-ingressgateway-deployment.yaml
    ```
 
-1. Edit the rendered manifest - add a Kubernetes  _volume_ to the list of the pod's volumes. We can use any name for the volume name.
+   **Alternative 1**: we can manually edit the default manifest at `install/kubernetes/istio-ingressgateway-deployment.yaml`, adding a Kubernetes  _volume_ to the list of the pod's volumes and a _volumeMount_ for our volume to the `ingressgateway` container.
 
    ```yaml
+     volumeMounts:
+       - name: my-ingress-cert-volume
+         mountPath: "/etc/my-ingress-cert"
+         readOnly: true
+   ...
    volumes:
-   - name: my-ingress-cert
+   - name: my-ingress-cert-volume
      secret:
        secretName: "my-ingress-cert"
          optional: true
    ...
    ```
 
-1. Add a _volumeMount_ for our volume to the `ingressgateway` container. For the _volumeMount_ name use the volume name from the previous step. We can use any path for mounting our volume, let's use _/etc/my-ingress-cert_:
+    **Alternative 2**: if we deployed Istio by Helm, we can upgrade our release, see the next step.
 
-   ```yaml
-   volumeMounts:
-     - name: my-ingress-cert
-       mountPath: /etc/my-ingress-cert
-       readOnly: true
-   ...
-   ```
-
-1. Redeploy `istio-ingressgateway`:
+1. Redeploy the rendered `istio-ingressgateway`:
 
    ```command
    kubectl apply -f $HOME/istio-ingressgateway-deployment.yaml
+   ```
+
+   **Alternative 1**: if we manually edited `install/kubernetes/istio-ingressgateway-deployment.yaml`, let's deploy it:
+
+   ```command
+   kubectl apply -f install/kubernetes/istio-ingressgateway-deployment.yaml
+   ```
+
+   **Alternative 2**: if we deployed Istio by Helm, we can _upgrade_ our release, setting the value of `ingressgateway.deployment.secretVolumes`:
+
+   ```command
+   helm upgrade istio install/kubernetes/helm/istio --namespace istio-system \
+   --set ingressgateway.deployment.secretVolumes[0].name=my-ingress-cert-volume,ingressgateway.deployment.secretVolumes[0].secretName=my-ingress-cert,ingressgateway.deployment.secretVolumes[0].mountPath=/etc/my-ingress-cert
    ```
 
 1. Verify that our gateway still works for the port 80 and accepts unencrypted HTTP traffic as before. We do it by accessing the _httpbin_ service, port 80, as described in the [Verifying unencrypted gateway](#verifying-unencrypted-gateway) subsection.
