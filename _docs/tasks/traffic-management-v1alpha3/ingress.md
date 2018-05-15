@@ -64,7 +64,7 @@ using Istio routing rules, exactly in the same was as for internal service reque
 
 In the following subsections we configure a Gateway on port 80 for unencrypted HTTP traffic first. Then we add a secure port 443 for HTTPS traffic.
 
-### Configuring unencrypted Gateway
+### Configuring unencrypted Gateway (HTTP)
 
 1. Create an Istio `Gateway`
 
@@ -177,7 +177,7 @@ the `istio-ingressgateway` service.
    content-length: 0
    ```
 
-### Add a secure port for our gateway
+### Add a secure port (HTTPS) to our gateway
 In this subsection we add the port 443 to handle the HTTPS traffic. We redeploy the pod of the Istio gateway with our private key and certificate to use for TLS traffic. Then we replace the previous Gateway definition with a definition that contains a server on the port 443, in addition to the previously defined server on the port 80.
 
 #### Inject our private key and certificate into the pod of the Istio gateway.
@@ -223,11 +223,11 @@ In this subsection we add the port 443 to handle the HTTPS traffic. We redeploy 
 
 1. Verify that the Gateway still works for the port 80 and accepts unencrypted HTTP traffic as before. We do it by accessing the _httpbin_ service, port 80, as described in the [Verifying unencrypted Gateway](#verifying-unencrypted-gateway) subsection.
 
-#### Add a secure server on the port 443 to our Gateway.
+#### Add a secure server on the port 443 to our Gateway
 
 1. Replace the previous `Gateway` definition with a server section for the port 443. Specify the locations of the certificate and the private key we mounted in the previous subsection.
 
-  ```command
+  ```bash
   cat <<EOF | istioctl replace -f -
   apiVersion: networking.istio.io/v1alpha3
   kind: Gateway
