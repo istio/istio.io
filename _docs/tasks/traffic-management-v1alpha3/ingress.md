@@ -541,6 +541,4 @@ and may be especially useful when moving existing Kubernetes applications to Ist
 
 ## What's next
 
-* Learn more about [Ingress Control](https://kubernetes.io/docs/concepts/services-networking/ingress/).
-
 * Learn more about [Traffic Routing]({{home}}/docs/reference/config/istio.networking.v1alpha3.html).
