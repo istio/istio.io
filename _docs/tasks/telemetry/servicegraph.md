@@ -117,12 +117,12 @@ depends on the standard Istio metric configuration.
 
 ## Cleanup
 
-* In Kubernetes environments, execute the following command to remove the
+*   In Kubernetes environments, execute the following command to remove the
 Servicegraph add-on:
 
-   ```command
-   $ kubectl delete -f install/kubernetes/addons/servicegraph.yaml
-   ```
+    ```command
+    $ kubectl delete -f install/kubernetes/addons/servicegraph.yaml
+    ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
 [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
