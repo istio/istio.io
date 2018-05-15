@@ -186,7 +186,7 @@ In this subsection we add the port 443 to handle the HTTPS traffic. We redeploy 
 
    ```command
    kubectl create -n istio-system secret tls my-ingress-cert --key /tmp/tls.key --cert /tmp/tls.crt
-   ```  
+   ```
 
 1. Render the Kubernetes manifest of the pod of `istio-ingressgateway` with Helm:
 
@@ -227,34 +227,34 @@ In this subsection we add the port 443 to handle the HTTPS traffic. We redeploy 
 
 1. Replace the previous `Gateway` definition with a server section for the port 443. Specify the locations of the certificate and the private key we mounted in the previous subsection.
 
-  ```bash
-  cat <<EOF | istioctl replace -f -
-  apiVersion: networking.istio.io/v1alpha3
-  kind: Gateway
-  metadata:
-    name: httpbin-gateway
-  spec:
-    selector:
-      istio: ingressgateway # use istio default controller
-    servers:
-    - port:
-        number: 80
-        name: http
-        protocol: HTTP
-      hosts:
-      - "foo.bar.com"
-    - port:
-        number: 443
-        name: https
-        protocol: HTTPS
-      tls:
-        mode: SIMPLE
-        serverCertificate: /etc/my-ingress-cert/tls.crt
-        privateKey: /etc/my-ingress-cert/tls.key
-      hosts:
-      - "foo.bar.com"  
-  EOF
-  ```
+   ```bash
+   cat <<EOF | istioctl replace -f -
+   apiVersion: networking.istio.io/v1alpha3
+   kind: Gateway
+   metadata:
+     name: httpbin-gateway
+   spec:
+     selector:
+       istio: ingressgateway # use istio default controller
+     servers:
+     - port:
+         number: 80
+         name: http
+         protocol: HTTP
+       hosts:
+       - "foo.bar.com"
+     - port:
+         number: 443
+         name: https
+         protocol: HTTPS
+       tls:
+         mode: SIMPLE
+         serverCertificate: /etc/my-ingress-cert/tls.crt
+         privateKey: /etc/my-ingress-cert/tls.key
+       hosts:
+       - "foo.bar.com"
+   EOF
+   ```
 
 ### Verifying secure Gateway
 1. Get the `istio-ingressgateway` service's _nodePort_ for the port 443:
