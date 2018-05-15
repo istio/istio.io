@@ -197,7 +197,7 @@ In this subsection we add the port 443 to handle the HTTPS traffic. We redeploy 
   -x charts/ingressgateway/templates/deployment.yaml > $HOME/istio-ingressgateway-deployment.yaml
    ```
 
-    **Alternative: if we deployed Istio by Helm, we can upgrade our release, see the next step.
+    **Alternative**: if we deployed Istio by Helm, we can upgrade our release, see the next step.
 
 1. Redeploy the rendered `istio-ingressgateway`:
 
@@ -205,7 +205,7 @@ In this subsection we add the port 443 to handle the HTTPS traffic. We redeploy 
    kubectl apply -f $HOME/istio-ingressgateway-deployment.yaml
    ```
 
-   **Alternative: if we deployed Istio by Helm, we _upgrade_ our release, setting the value of `ingressgateway.deployment.secretVolumes`:
+   **Alternative**: if we deployed Istio by Helm, we _upgrade_ our release, setting the value of `ingressgateway.deployment.secretVolumes`:
 
    ```command
    helm upgrade istio install/kubernetes/helm/istio --namespace istio-system \
