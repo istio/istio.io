@@ -178,9 +178,10 @@ the default `istio-ingressgateway` service.
    ```
 
 ### Add a secure port (HTTPS) to our gateway
+
 In this subsection we add the port 443 to handle the HTTPS traffic. We redeploy the pod of the Istio ingress gateway controller with our private key and certificate to use for TLS traffic. Then we replace the previous `Gateway` definition with a definition that contains a server on the port 443, in addition to the previously defined server on the port 80.
 
-#### Inject our private key and certificate into the pod of the Istio ingress gateway controller.
+#### Inject our private key and certificate into the pod of the Istio ingress gateway controller
 
 1. Create a Kubernetes secret of the type `tls` from the private key and the certificate we created in the [Before you begin](#before-you-begin) section. We can use any name as the name of the secret, let's call it _my-ingress-cert_.
 
@@ -196,7 +197,7 @@ In this subsection we add the port 443 to handle the HTTPS traffic. We redeploy 
 
 1. Edit the rendered manifest - add a Kubernetes  _volume_ to the list of the pod's volumes. We can use any name for the volume name.
 
-   ```
+   ```yaml
    volumes:
    - name: my-ingress-cert
      secret:
@@ -207,7 +208,7 @@ In this subsection we add the port 443 to handle the HTTPS traffic. We redeploy 
 
 1. Add a _volumeMount_ for our volume to the `ingressgateway` container. For the _volumeMount_ name use the volume name from the previous step. We can use any path for mounting our volume, let's use _/etc/my-ingress-cert_:
 
-   ```
+   ```yaml
    volumeMounts:
      - name: my-ingress-cert
        mountPath: /etc/my-ingress-cert
@@ -257,6 +258,7 @@ In this subsection we add the port 443 to handle the HTTPS traffic. We redeploy 
    ```
 
 ### Verifying secure gateway
+
 1. Get the `istio-ingressgateway` service's _nodePort_ for the port 443:
 
    ```command
@@ -270,17 +272,17 @@ In this subsection we add the port 443 to handle the HTTPS traffic. We redeploy 
    ```
 2. Access the _httpbin_ service by HTTPS. Here we use _curl_'s `-k` option to instruct _curl_ not to check our certificate (since it is a fake certificate we created for testing the Gateway only, _curl_ is not aware about it).
 
-```command
-$ curl --resolve foo.bar.com:$SECURE_INGRESS_PORT:$INGRESS_HOST -I -k https://foo.bar.com:$SECURE_INGRESS_PORT/status/200
-HTTP/2 200
-server: envoy
-date: Mon, 14 May 2018 13:54:53 GMT
-content-type: text/html; charset=utf-8
-access-control-allow-origin: *
-access-control-allow-credentials: true
-content-length: 0
-x-envoy-upstream-service-time: 6
-```
+   ```command
+   $ curl --resolve foo.bar.com:$SECURE_INGRESS_PORT:$INGRESS_HOST -I -k https://foo.bar.com:$SECURE_INGRESS_PORT/status/200
+   HTTP/2 200
+   server: envoy
+   date: Mon, 14 May 2018 13:54:53 GMT
+   content-type: text/html; charset=utf-8
+   access-control-allow-origin: *
+   access-control-allow-credentials: true
+   content-length: 0
+   x-envoy-upstream-service-time: 6
+   ```
 
 ## Configuring ingress using a Kubernetes Ingress resource
 
