@@ -3,6 +3,7 @@ title: Build & Release Cadence
 description: How we manage, number, and support Istio releases.
 weight: 5
 ---
+{% include home.html %}
 
 We produce new builds of Istio on a daily basis. Around once a month or so, we take one of these daily
 builds and run it through a number of additional qualification tests and tag the build as a Snapshot release.
@@ -33,24 +34,25 @@ we will increase the product's version number only for LTS releases.
 Our naming scheme for LTS releases is:
 
 ```plain
-<major>.<minor>.<patch level>
+<major>.<minor>.<LTS patch level>
 ```
 
-where `minor` is increased for every LTS release, and `patch level` counts the number of patches for the
+where `minor` is increased for every LTS release, and `LTS patch level` counts the number of patches for the
 current LTS release.
 
 For Snapshot releases, our numbering scheme is:
 
 ```plain
-<major>.<minor>.<patch level>-snapshot.<snaoshot count>
+<major>.<minor>.<LTS patch level>-snapshot.<snapshot count>
 ```
 
-where `major` and `minor` represent the number of the next LTS release, `patch level` counts the number of
-patches for the Snapshot release, and `snapshot count` starts at 0 and increases for every Snapshot release leading up
-to the next LTS.
+where `major` and `minor` and `LTS patch level` represent the next LTS, and
+`snapshot count` starts at 0 and increases for every Snapshot leading up to the
+next LTS.
 
-In the unlikely event we need to issue a patch to a snapshot release, it is numbered as:
+In the unlikely event we need to issue a patch to a snapshot, it is numbered as:
 
 ```plain
-<major>.<minor>.<patch level>-snapshot.<snaoshot count>.<snapshot patch level>
+<major>.<minor>.<LTS patch level>-snapshot.<snaoshot count>.<snapshot patch level>
 ```
+S
