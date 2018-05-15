@@ -149,7 +149,7 @@ USE_ORIGIN
 USE_ORIGIN
 USE_PEER
 Undeploy
-VolumeMount
+volumeMount
 VMware
 VM-based
 VMs
