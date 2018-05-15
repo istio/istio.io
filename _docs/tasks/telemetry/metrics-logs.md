@@ -288,11 +288,11 @@ here to illustrate how to use `match` expressions to control rule execution.
 
 ## Cleanup
 
-* Remove the new telemetry configuration:
+*   Remove the new telemetry configuration:
 
-  ```command
-  $ istioctl delete -f new_telemetry.yaml
-  ```
+    ```command
+    $ istioctl delete -f new_telemetry.yaml
+    ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
   [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
@@ -301,10 +301,8 @@ here to illustrate how to use `match` expressions to control rule execution.
 ## What's next
 
 * Learn more about [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html)
-  and [Mixer
-  Config]({{home}}/docs/concepts/policy-and-control/mixer-config.html).
+  and [Mixer Config]({{home}}/docs/concepts/policy-and-control/mixer-config.html).
 
-* Discover the full [Attribute
-  Vocabulary]({{home}}/docs/reference/config/mixer/attribute-vocabulary.html).
+* Discover the full [Attribute Vocabulary]({{home}}/docs/reference/config/mixer/attribute-vocabulary.html).
 
 * Refer to the [In-Depth Telemetry]({{home}}/docs/guides/telemetry.html) guide.

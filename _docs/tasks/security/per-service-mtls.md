@@ -24,13 +24,13 @@ In this task, you will learn:
 
 * Install Istio with mutual TLS authentication by following the instructions in the [Installation guide]({{home}}/docs/setup/kubernetes/).
 
-* Start [httpbin demo](https://github.com/istio/istio/tree/master/samples/httpbin) with Istio sidecar. Also, for testing purpose, run two instances of [sleep](https://github.com/istio/istio/tree/master/samples/sleep), one with sidecar and one without (in different namespace). Below are commands to help you start these services.
+*   Start [httpbin demo](https://github.com/istio/istio/tree/master/samples/httpbin) with Istio sidecar. Also, for testing purpose, run two instances of [sleep](https://github.com/istio/istio/tree/master/samples/sleep), one with sidecar and one without (in different namespace). Below are commands to help you start these services.
 
-```command
-$ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml)
-$ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
-$ kubectl create ns legacy && kubectl apply -f samples/sleep/sleep.yaml -n legacy
-```
+    ```command
+    $ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml)
+    $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
+    $ kubectl create ns legacy && kubectl apply -f samples/sleep/sleep.yaml -n legacy
+    ```
 
 In this initial setup, we expect the sleep instance in default namespace can talk to httpbin service, but the one in legacy namespace cannot, as it doesn't have sidecar to facilitate mTLS.
 

@@ -24,16 +24,17 @@ For the format of the service account in Istio, please refer to the
 
 * Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
-* Run the following command to create service account `bookinfo-productpage`,
-  and redeploy the service `productpage` with the service account.
+*   Run the following command to create service account `bookinfo-productpage`,
+    and redeploy the service `productpage` with the service account.
 
-  ```command
-  $ kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-add-serviceaccount.yaml)
-  serviceaccount "bookinfo-productpage" created
-  deployment "productpage-v1" configured
-  ```
+    ```command
+    $ kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-add-serviceaccount.yaml)
+    serviceaccount "bookinfo-productpage" created
+    deployment "productpage-v1" configured
+    ```
+
 > If you are using a namespace other than `default`,
-use `istioctl -n namespace ...` to specify the namespace.
+use `$ istioctl -n namespace ...` to specify the namespace.
 
 ## Access control using _denials_
 
@@ -41,49 +42,49 @@ In the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application, the `p
 both the `reviews` service and the `details` service. We would like the `details` service to deny the requests from
 the `productpage` service.
 
-1. Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage).
+1.  Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage).
 
-   You should see the "Book Details" section in the lower left part of the page, including type, pages, publisher, etc.
-   The `productpage` service obtains the "Book Details" information from the `details` service.
+    You should see the "Book Details" section in the lower left part of the page, including type, pages, publisher, etc.
+    The `productpage` service obtains the "Book Details" information from the `details` service.
 
-1. Explicitly deny the requests from `productpage` to `details`.
+1.  Explicitly deny the requests from `productpage` to `details`.
 
-   Run the following command to set up the deny rule along with a handler and an instance.
-   ```command
-   $ istioctl create -f samples/bookinfo/kube/mixer-rule-deny-serviceaccount.yaml
-   Created config denier/default/denyproductpagehandler at revision 2877836
-   Created config checknothing/default/denyproductpagerequest at revision 2877837
-   Created config rule/default/denyproductpage at revision 2877838
-   ```
-   Notice the following in the `denyproductpage` rule:
-   ```plain
-   match: destination.labels["app"] == "details" && source.user == "cluster.local/ns/default/sa/bookinfo-productpage"
-   ```
-   It matches requests coming from the service account
-   "_cluster.local/ns/default/sa/bookinfo-productpage_" on the `details` service.
+    Run the following command to set up the deny rule along with a handler and an instance.
+    ```command
+    $ istioctl create -f samples/bookinfo/kube/mixer-rule-deny-serviceaccount.yaml
+    Created config denier/default/denyproductpagehandler at revision 2877836
+    Created config checknothing/default/denyproductpagerequest at revision 2877837
+    Created config rule/default/denyproductpage at revision 2877838
+    ```
+    Notice the following in the `denyproductpage` rule:
+    ```plain
+    match: destination.labels["app"] == "details" && source.user == "cluster.local/ns/default/sa/bookinfo-productpage"
+    ```
+    It matches requests coming from the service account
+    "_cluster.local/ns/default/sa/bookinfo-productpage_" on the `details` service.
 
-   > If you are using a namespace other than `default`, replace the `default` with your namespace in the value of `source.user`.
+    > If you are using a namespace other than `default`, replace the `default` with your namespace in the value of `source.user`.
 
-   This rule uses the `denier` adapter to deny these requests.
-   The adapter always denies requests with a preconfigured status code and message.
-   The status code and message are specified in the [denier]({{home}}/docs/reference/config/adapters/denier.html)
-   adapter configuration.
+    This rule uses the `denier` adapter to deny these requests.
+    The adapter always denies requests with a preconfigured status code and message.
+    The status code and message are specified in the [denier]({{home}}/docs/reference/config/adapters/denier.html)
+    adapter configuration.
 
-1. Refresh the `productpage` in your browser.
+1.  Refresh the `productpage` in your browser.
 
-   You will see the message
+    You will see the message
 
-   "_Error fetching product details! Sorry, product details are currently unavailable for this book._"
+    "_Error fetching product details! Sorry, product details are currently unavailable for this book._"
 
-   in the lower left section of the page. This validates that the access from `productpage` to `details` is denied.
+    in the lower left section of the page. This validates that the access from `productpage` to `details` is denied.
 
 ## Cleanup
 
-* Remove the mixer configuration:
+*   Remove the mixer configuration:
 
-  ```command
-  $ istioctl delete -f samples/bookinfo/kube/mixer-rule-deny-serviceaccount.yaml
-  ```
+    ```command
+    $ istioctl delete -f samples/bookinfo/kube/mixer-rule-deny-serviceaccount.yaml
+    ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
   [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
