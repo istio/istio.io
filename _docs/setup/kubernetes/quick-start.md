@@ -332,31 +332,31 @@ $ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 
 ## Uninstalling
 
-* Uninstall Istio sidecar injector:
+*   Uninstall Istio sidecar injector:
 
-   If you installed Istio with sidecar injector enabled, uninstall it:
+    If you installed Istio with sidecar injector enabled, uninstall it:
 
-   ```command
-   $ kubectl delete -f install/kubernetes/istio-sidecar-injector-with-ca-bundle.yaml
-   ```
+    ```command
+    $ kubectl delete -f install/kubernetes/istio-sidecar-injector-with-ca-bundle.yaml
+    ```
 
-* Uninstall Istio core components. For the {{site.data.istio.version}} release, the uninstall
+*   Uninstall Istio core components. For the {{site.data.istio.version}} release, the uninstall
 deletes the RBAC permissions, the `istio-system` namespace, and hierarchically all resources under it.
 It is safe to ignore errors for non-existent resources because they may have been deleted hierarchically.
 
-   a) If you installed Istio with mutual TLS authentication disabled:
+    a) If you installed Istio with mutual TLS authentication disabled:
 
-   ```command
-   $ kubectl delete -f install/kubernetes/istio.yaml
-   ```
+    ```command
+    $ kubectl delete -f install/kubernetes/istio.yaml
+    ```
 
-   _**OR**_
+    _**OR**_
 
-   b) If you installed Istio with mutual TLS authentication enabled:
+    b) If you installed Istio with mutual TLS authentication enabled:
 
-   ```command
-   $ kubectl delete -f install/kubernetes/istio-auth.yaml
-   ```
+    ```command
+    $ kubectl delete -f install/kubernetes/istio-auth.yaml
+    ```
 
 ## What's next
 

@@ -27,168 +27,168 @@ example configuration and commands.
 
 ## Collecting new telemetry data
 
-1. Create a new YAML file to hold configuration for the new metrics that Istio
+1.  Create a new YAML file to hold configuration for the new metrics that Istio
 will generate and collect automatically.
 
-   Save the following as `tcp_telemetry.yaml`:
+    Save the following as `tcp_telemetry.yaml`:
 
-   ```yaml
-   # Configuration for a metric measuring bytes sent from a server
-   # to a client
-   apiVersion: "config.istio.io/v1alpha2"
-   kind: metric
-   metadata:
-     name: mongosentbytes
-     namespace: default
-   spec:
-     value: connection.sent.bytes | 0 # uses a TCP-specific attribute
-     dimensions:
-       source_service: source.service | "unknown"
-       source_version: source.labels["version"] | "unknown"
-       destination_version: destination.labels["version"] | "unknown"
-     monitoredResourceType: '"UNSPECIFIED"'
-   ---
-   # Configuration for a metric measuring bytes sent from a client
-   # to a server
-   apiVersion: "config.istio.io/v1alpha2"
-   kind: metric
-   metadata:
-     name: mongoreceivedbytes
-     namespace: default
-   spec:
-     value: connection.received.bytes | 0 # uses a TCP-specific attribute
-     dimensions:
-       source_service: source.service | "unknown"
-       source_version: source.labels["version"] | "unknown"
-       destination_version: destination.labels["version"] | "unknown"
-     monitoredResourceType: '"UNSPECIFIED"'
-   ---
-   # Configuration for a Prometheus handler
-   apiVersion: "config.istio.io/v1alpha2"
-   kind: prometheus
-   metadata:
-     name: mongohandler
-     namespace: default
-   spec:
-     metrics:
-     - name: mongo_sent_bytes # Prometheus metric name
-       instance_name: mongosentbytes.metric.default # Mixer instance name (fully-qualified)
-       kind: COUNTER
-       label_names:
-       - source_service
-       - source_version
-       - destination_version
-     - name: mongo_received_bytes # Prometheus metric name
-       instance_name: mongoreceivedbytes.metric.default # Mixer instance name (fully-qualified)
-       kind: COUNTER
-       label_names:
-       - source_service
-       - source_version
-       - destination_version
-   ---
-   # Rule to send metric instances to a Prometheus handler
-   apiVersion: "config.istio.io/v1alpha2"
-   kind: rule
-   metadata:
-     name: mongoprom
-     namespace: default
-   spec:
-     match: context.protocol == "tcp"
-            && destination.service == "mongodb.default.svc.cluster.local"
-     actions:
-     - handler: mongohandler.prometheus
-       instances:
-       - mongoreceivedbytes.metric
-       - mongosentbytes.metric
-   ```
+    ```yaml
+    # Configuration for a metric measuring bytes sent from a server
+    # to a client
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: metric
+    metadata:
+      name: mongosentbytes
+      namespace: default
+    spec:
+      value: connection.sent.bytes | 0 # uses a TCP-specific attribute
+      dimensions:
+        source_service: source.service | "unknown"
+        source_version: source.labels["version"] | "unknown"
+        destination_version: destination.labels["version"] | "unknown"
+      monitoredResourceType: '"UNSPECIFIED"'
+    ---
+    # Configuration for a metric measuring bytes sent from a client
+    # to a server
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: metric
+    metadata:
+      name: mongoreceivedbytes
+      namespace: default
+    spec:
+      value: connection.received.bytes | 0 # uses a TCP-specific attribute
+      dimensions:
+        source_service: source.service | "unknown"
+        source_version: source.labels["version"] | "unknown"
+        destination_version: destination.labels["version"] | "unknown"
+      monitoredResourceType: '"UNSPECIFIED"'
+    ---
+    # Configuration for a Prometheus handler
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: prometheus
+    metadata:
+      name: mongohandler
+      namespace: default
+    spec:
+      metrics:
+      - name: mongo_sent_bytes # Prometheus metric name
+        instance_name: mongosentbytes.metric.default # Mixer instance name (fully-qualified)
+        kind: COUNTER
+        label_names:
+        - source_service
+        - source_version
+        - destination_version
+      - name: mongo_received_bytes # Prometheus metric name
+        instance_name: mongoreceivedbytes.metric.default # Mixer instance name (fully-qualified)
+        kind: COUNTER
+        label_names:
+        - source_service
+        - source_version
+        - destination_version
+    ---
+    # Rule to send metric instances to a Prometheus handler
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: rule
+    metadata:
+      name: mongoprom
+      namespace: default
+    spec:
+      match: context.protocol == "tcp"
+             && destination.service == "mongodb.default.svc.cluster.local"
+      actions:
+      - handler: mongohandler.prometheus
+        instances:
+        - mongoreceivedbytes.metric
+        - mongosentbytes.metric
+    ```
 
-1. Push the new configuration.
+1.  Push the new configuration.
 
-   ```command
-   $ istioctl create -f tcp_telemetry.yaml
-   Created config metric/default/mongosentbytes at revision 3852843
-   Created config metric/default/mongoreceivedbytes at revision 3852844
-   Created config prometheus/default/mongohandler at revision 3852845
-   Created config rule/default/mongoprom at revision 3852846
-   ```
+    ```command
+    $ istioctl create -f tcp_telemetry.yaml
+    Created config metric/default/mongosentbytes at revision 3852843
+    Created config metric/default/mongoreceivedbytes at revision 3852844
+    Created config prometheus/default/mongohandler at revision 3852845
+    Created config rule/default/mongoprom at revision 3852846
+    ```
 
-1. Setup Bookinfo to use MongoDB.
+1.  Setup Bookinfo to use MongoDB.
 
-   1. Install `v2` of the `ratings` service.
+    1.  Install `v2` of the `ratings` service.
 
-      If you are using a cluster with automatic sidecar injection enabled,
-      simply deploy the services using `kubectl`:
+        If you are using a cluster with automatic sidecar injection enabled,
+        simply deploy the services using `kubectl`:
 
-      ```command
-      $ kubectl apply -f samples/bookinfo/kube/bookinfo-ratings-v2.yaml
-      ```
+        ```command
+        $ kubectl apply -f samples/bookinfo/kube/bookinfo-ratings-v2.yaml
+        ```
 
-      If you are using manual sidecar injection, use the following command instead:
+        If you are using manual sidecar injection, use the following command instead:
 
-      ```command
-      $ kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-ratings-v2.yaml)
-      deployment "ratings-v2" configured
-      ```
+        ```command
+        $ kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-ratings-v2.yaml)
+        deployment "ratings-v2" configured
+        ```
 
-   1. Install the `mongodb` service:
+    1.  Install the `mongodb` service:
 
-      If you are using a cluster with automatic sidecar injection enabled,
-      simply deploy the services using `kubectl`:
+        If you are using a cluster with automatic sidecar injection enabled,
+        simply deploy the services using `kubectl`:
 
-      ```command
-      $ kubectl apply -f samples/bookinfo/kube/bookinfo-db.yaml
-      ```
+        ```command
+        $ kubectl apply -f samples/bookinfo/kube/bookinfo-db.yaml
+        ```
 
-      If you are using manual sidecar injection, use the following command instead:
+        If you are using manual sidecar injection, use the following command instead:
 
-      ```command
-      $ kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-db.yaml)
-      service "mongodb" configured
-      deployment "mongodb-v1" configured
-      ```
+        ```command
+        $ kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-db.yaml)
+        service "mongodb" configured
+        deployment "mongodb-v1" configured
+        ```
 
-   1. Add routing rules to send traffic to `v2` of the `ratings` service:
+    1.  Add routing rules to send traffic to `v2` of the `ratings` service:
 
-      ```command
-      $ istioctl create -f samples/bookinfo/kube/route-rule-ratings-db.yaml
-      Created config route-rule//ratings-test-v2 at revision 7216403
-      Created config route-rule//reviews-test-ratings-v2 at revision 7216404
-      ```
+        ```command
+        $ istioctl create -f samples/bookinfo/kube/route-rule-ratings-db.yaml
+        Created config route-rule//ratings-test-v2 at revision 7216403
+        Created config route-rule//reviews-test-ratings-v2 at revision 7216404
+        ```
 
-1. Send traffic to the sample application.
+1.  Send traffic to the sample application.
 
-   For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
-   browser or issue the following command:
+    For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
+    browser or issue the following command:
 
-   ```command
-   $ curl http://$GATEWAY_URL/productpage
-   ```
+    ```command
+    $ curl http://$GATEWAY_URL/productpage
+    ```
 
-1. Verify that the new metric values are being generated and collected.
+1.  Verify that the new metric values are being generated and collected.
 
-   In a Kubernetes environment, setup port-forwarding for Prometheus by
-   executing the following command:
+    In a Kubernetes environment, setup port-forwarding for Prometheus by
+    executing the following command:
 
-   ```command
-   $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
-   ```
+    ```command
+    $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
+    ```
 
-   View values for the new metric via the [Prometheus UI](http://localhost:9090/graph#%5B%7B%22range_input%22%3A%221h%22%2C%22expr%22%3A%22istio_mongo_received_bytes%22%2C%22tab%22%3A1%7D%5D).
+    View values for the new metric via the [Prometheus UI](http://localhost:9090/graph#%5B%7B%22range_input%22%3A%221h%22%2C%22expr%22%3A%22istio_mongo_received_bytes%22%2C%22tab%22%3A1%7D%5D).
 
-   The provided link opens the Prometheus UI and executes a query for values of
-   the `istio_mongo_received_bytes` metric. The table displayed in the
-   **Console** tab includes entries similar to:
+    The provided link opens the Prometheus UI and executes a query for values of
+    the `istio_mongo_received_bytes` metric. The table displayed in the
+    **Console** tab includes entries similar to:
 
-   ```plain
-   istio_mongo_received_bytes{destination_version="v1",instance="istio-mixer.istio-system:42422",job="istio-mesh",source_service="ratings.default.svc.cluster.local",source_version="v2"} 2317
-   ```
+    ```plain
+    istio_mongo_received_bytes{destination_version="v1",instance="istio-mixer.istio-system:42422",job="istio-mesh",source_service="ratings.default.svc.cluster.local",source_version="v2"} 2317
+    ```
 
-   > Istio also collects protocol-specific statistics for MongoDB. For
-   > example, the value of total OP_QUERY messages sent from the `ratings` service
-   > is collected in the following metric:
-   > `envoy_mongo_mongo_collection_ratings_query_total` (click
-   > (click [here](http://localhost:9090/graph#%5B%7B%22range_input%22%3A%221h%22%2C%22expr%22%3A%22envoy_mongo_mongo_collection_ratings_query_total%22%2C%22tab%22%3A1%7D%5D)
-   > to execute the query).
+    > Istio also collects protocol-specific statistics for MongoDB. For
+    > example, the value of total OP_QUERY messages sent from the `ratings` service
+    > is collected in the following metric:
+    > `envoy_mongo_mongo_collection_ratings_query_total` (click
+    > (click [here](http://localhost:9090/graph#%5B%7B%22range_input%22%3A%221h%22%2C%22expr%22%3A%22envoy_mongo_mongo_collection_ratings_query_total%22%2C%22tab%22%3A1%7D%5D)
+    > to execute the query).
 
 ## Understanding TCP telemetry collection
 
@@ -218,17 +218,17 @@ protocols within policies.
 
 ## Cleanup
 
-* Remove the new telemetry configuration:
+*   Remove the new telemetry configuration:
 
-   ```command
-   $ istioctl delete -f tcp_telemetry.yaml
-   ```
+    ```command
+    $ istioctl delete -f tcp_telemetry.yaml
+    ```
 
-* Remove the `port-forward` process:
+*   Remove the `port-forward` process:
 
-   ```command
-   $ killall kubectl
-   ```
+    ```command
+    $ killall kubectl
+    ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
   [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions

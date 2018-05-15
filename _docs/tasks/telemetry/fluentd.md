@@ -387,17 +387,17 @@ example stack.
 
 ## Cleanup
 
-* Remove the new telemetry configuration:
+*   Remove the new telemetry configuration:
 
-  ```command
-  $ istioctl delete -f fluentd-istio.yaml
-  ```
+    ```command
+    $ istioctl delete -f fluentd-istio.yaml
+    ```
 
-* Remove the example Fluentd, Elasticsearch, Kibana stack:
+*   Remove the example Fluentd, Elasticsearch, Kibana stack:
 
-  ```command
-  $ kubectl delete -f logging-stack.yaml
-  ```
+    ```command
+    $ kubectl delete -f logging-stack.yaml
+    ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
   [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions

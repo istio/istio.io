@@ -14,12 +14,12 @@ This task demonstrates the circuit-breaking capability for resilient application
 * Setup Istio by following the instructions in the
   [Installation guide]({{home}}/docs/setup/).
 
-* Start the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) sample
-  which will be used as the backend service for our task
+*   Start the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) sample
+    which will be used as the backend service for our task
 
-  ```command
-  $ kubectl apply -f <(istioctl kube-inject --debug -f samples/httpbin/httpbin.yaml)
-  ```
+    ```command
+    $ kubectl apply -f <(istioctl kube-inject --debug -f samples/httpbin/httpbin.yaml)
+    ```
 
 ## Circuit breaker
 
@@ -28,26 +28,26 @@ Let's set up a scenario to demonstrate the circuit-breaking capabilities of Isti
 
 ### Creating circuit breaking policies
 
-1. Create a default route rule to route all traffic to `v1` of our `httpbin` service:
+1.  Create a default route rule to route all traffic to `v1` of our `httpbin` service:
 
-   ```command
-   $ istioctl create -f samples/httpbin/routerules/httpbin-v1.yaml
-   ```
+    ```command
+    $ istioctl create -f samples/httpbin/routerules/httpbin-v1.yaml
+    ```
 
-1. Create a [destination policy]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#CircuitBreaker) to specify our circuit breaking settings when
+1.  Create a [destination policy]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#CircuitBreaker) to specify our circuit breaking settings when
 calling `httpbin` service:
 
-   ```command
-   $ istioctl create -f samples/httpbin/destinationpolicies/httpbin-circuit-breaker.yaml
-   ```
+    ```command
+    $ istioctl create -f samples/httpbin/destinationpolicies/httpbin-circuit-breaker.yaml
+    ```
 
-1. Verify our destination policy was created correctly:
+1.  Verify our destination policy was created correctly:
 
-   ```command
-   $ istioctl get destinationpolicy
-   NAME                    KIND                                            NAMESPACE
-   httpbin-circuit-breaker DestinationPolicy.v1alpha2.config.istio.io      istio-samples
-   ```
+    ```command
+    $ istioctl get destinationpolicy
+    NAME                    KIND                                            NAMESPACE
+    httpbin-circuit-breaker DestinationPolicy.v1alpha2.config.istio.io      istio-samples
+    ```
 
 ### Setting up our client
 
@@ -194,19 +194,19 @@ We see `12` for the `upstream_rq_pending_overflow` value which means `12` calls 
 
 ## Cleaning up
 
-1. Remove the rules.
+1.  Remove the rules.
 
-   ```command
-   $ istioctl delete routerule httpbin-default-v1
-   $ istioctl delete destinationpolicy httpbin-circuit-breaker
-   ```
+    ```command
+    $ istioctl delete routerule httpbin-default-v1
+    $ istioctl delete destinationpolicy httpbin-circuit-breaker
+    ```
 
-1. Shutdown the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) service and client.
+1.  Shutdown the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) service and client.
 
-   ```command
-   $ kubectl delete deploy httpbin fortio-deploy
-   $ kubectl delete svc httpbin
-   ```
+    ```command
+    $ kubectl delete deploy httpbin fortio-deploy
+    $ kubectl delete svc httpbin
+    ```
 
 ## What's next
 

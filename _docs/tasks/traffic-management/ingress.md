@@ -33,226 +33,226 @@ The following are known limitations of Istio Ingress:
 
 * Make sure your current directory is the `istio` directory.
 
-* Start the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) sample,
-  which will be used as the destination service to be exposed externally.
+*   Start the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) sample,
+which will be used as the destination service to be exposed externally.
 
-  If you installed the [Istio-Initializer]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection), do
+    If you installed the [Istio-Initializer]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection), do
 
-  ```command
-  $ kubectl apply -f samples/httpbin/httpbin.yaml
-  ```
+    ```command
+    $ kubectl apply -f samples/httpbin/httpbin.yaml
+    ```
 
-  Without the Istio-Initializer:
+    Without the Istio-Initializer:
 
-  ```command
-  $ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml)
-  ```
+    ```command
+    $ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml)
+    ```
 
 ## Configuring ingress (HTTP)
 
-1. Create a basic Ingress specification for the httpbin service
+1.  Create a basic Ingress specification for the httpbin service
 
-   ```bash
-   cat <<EOF | kubectl create -f -
-   apiVersion: extensions/v1beta1
-   kind: Ingress
-   metadata:
-     name: simple-ingress
-     annotations:
-       kubernetes.io/ingress.class: istio
-   spec:
-     rules:
-     - http:
-         paths:
-         - path: /status/.*
-           backend:
-             serviceName: httpbin
-             servicePort: 8000
-         - path: /delay/.*
-           backend:
-             serviceName: httpbin
-             servicePort: 8000
-   EOF
-   ```
+    ```bash
+    cat <<EOF | kubectl create -f -
+    apiVersion: extensions/v1beta1
+    kind: Ingress
+    metadata:
+      name: simple-ingress
+      annotations:
+        kubernetes.io/ingress.class: istio
+    spec:
+      rules:
+      - http:
+          paths:
+          - path: /status/.*
+            backend:
+              serviceName: httpbin
+              servicePort: 8000
+          - path: /delay/.*
+            backend:
+              serviceName: httpbin
+              servicePort: 8000
+    EOF
+    ```
 
-   `/.*` is a special Istio notation that is used to indicate a prefix
-   match, specifically a
-   [rule match configuration]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#matchcondition)
-   of the form (`prefix: /`).
+    `/.*` is a special Istio notation that is used to indicate a prefix
+    match, specifically a
+    [rule match configuration]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#matchcondition)
+    of the form (`prefix: /`).
 
 ### Verifying HTTP ingress
 
-1. Determine the ingress URL:
+1.  Determine the ingress URL:
 
-   * If your cluster is running in an environment that supports external load balancers, use the ingress' external address:
+    *   If your cluster is running in an environment that supports external load balancers, use the ingress' external address:
 
-   ```command
-   $ kubectl get ingress simple-ingress -o wide
-   NAME             HOSTS     ADDRESS                 PORTS     AGE
-   simple-ingress   *         130.211.10.121          80        1d
-   ```
+        ```command
+        $ kubectl get ingress simple-ingress -o wide
+        NAME             HOSTS     ADDRESS                 PORTS     AGE
+        simple-ingress   *         130.211.10.121          80        1d
+        ```
 
-   ```command
-   $ export INGRESS_HOST=130.211.10.121
-   ```
+        ```command
+        $ export INGRESS_HOST=130.211.10.121
+        ```
 
-   * If load balancers are not supported, use the ingress controller pod's hostIP:
+    *   If load balancers are not supported, use the ingress controller pod's hostIP:
 
-   ```command
-   $ kubectl -n istio-system get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
-   169.47.243.100
-   ```
+        ```command
+        $ kubectl -n istio-system get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
+        169.47.243.100
+        ```
 
-   along with the istio-ingress service's nodePort for port 80:
+        along with the istio-ingress service's nodePort for port 80:
 
-   ```command
-   $ kubectl -n istio-system get svc istio-ingress
-   NAME            CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
-   istio-ingress   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
-   ```
+        ```command
+        $ kubectl -n istio-system get svc istio-ingress
+        NAME            CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
+        istio-ingress   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
+        ```
 
-   ```command
-   $ export INGRESS_HOST=169.47.243.100:31486
-   ```
+        ```command
+        $ export INGRESS_HOST=169.47.243.100:31486
+        ```
 
-1. Access the httpbin service using _curl_:
+1.  Access the httpbin service using _curl_:
 
-   ```command
-   $ curl -I http://$INGRESS_HOST/status/200
-   HTTP/1.1 200 OK
-   server: envoy
-   date: Mon, 29 Jan 2018 04:45:49 GMT
-   content-type: text/html; charset=utf-8
-   access-control-allow-origin: *
-   access-control-allow-credentials: true
-   content-length: 0
-   x-envoy-upstream-service-time: 48
-   ```
+    ```command
+    $ curl -I http://$INGRESS_HOST/status/200
+    HTTP/1.1 200 OK
+    server: envoy
+    date: Mon, 29 Jan 2018 04:45:49 GMT
+    content-type: text/html; charset=utf-8
+    access-control-allow-origin: *
+    access-control-allow-credentials: true
+    content-length: 0
+    x-envoy-upstream-service-time: 48
+    ```
 
-1. Access any other URL that has not been explicitly exposed. You should
-   see a HTTP 404 error
+1.  Access any other URL that has not been explicitly exposed. You should
+see a HTTP 404 error
 
-   ```command
-   $ curl -I http://$INGRESS_HOST/headers
-   HTTP/1.1 404 Not Found
-   date: Mon, 29 Jan 2018 04:45:49 GMT
-   server: envoy
-   content-length: 0
-   ```
+    ```command
+    $ curl -I http://$INGRESS_HOST/headers
+    HTTP/1.1 404 Not Found
+    date: Mon, 29 Jan 2018 04:45:49 GMT
+    server: envoy
+    content-length: 0
+    ```
 
 ## Configuring secure ingress (HTTPS)
 
-1. Generate certificate and key for the ingress
+1.  Generate certificate and key for the ingress
 
-   A private key and certificate can be created for testing using [OpenSSL](https://www.openssl.org/).
+    A private key and certificate can be created for testing using [OpenSSL](https://www.openssl.org/).
 
-   ```command
-   $ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /tmp/tls.key -out /tmp/tls.crt -subj "/CN=foo.bar.com"
-   ```
+    ```command
+    $ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /tmp/tls.key -out /tmp/tls.crt -subj "/CN=foo.bar.com"
+    ```
 
-1. Create the secret
+1.  Create the secret
 
-   Create the secret `istio-ingress-certs` in namespace `istio-system` using `kubectl`. The Istio Ingress will automatically
-   load the secret.
+    Create the secret `istio-ingress-certs` in namespace `istio-system` using `kubectl`. The Istio Ingress will automatically
+    load the secret.
 
-   > The secret must be called `istio-ingress-certs` in `istio-system` namespace, for it to be mounted on Istio Ingress.
+    > The secret must be called `istio-ingress-certs` in `istio-system` namespace, for it to be mounted on Istio Ingress.
 
-   ```command
-   $ kubectl create -n istio-system secret tls istio-ingress-certs --key /tmp/tls.key --cert /tmp/tls.crt
-   ```
+    ```command
+    $ kubectl create -n istio-system secret tls istio-ingress-certs --key /tmp/tls.key --cert /tmp/tls.crt
+    ```
 
-1. Create the Ingress specification for the httpbin service
+1.  Create the Ingress specification for the httpbin service
 
-   ```bash
-   cat <<EOF | kubectl create -f -
-   apiVersion: extensions/v1beta1
-   kind: Ingress
-   metadata:
-     name: secure-ingress
-     annotations:
-       kubernetes.io/ingress.class: istio
-   spec:
-     tls:
-       - secretName: istio-ingress-certs # currently ignored
-     rules:
-     - http:
-         paths:
-         - path: /status/.*
-           backend:
-             serviceName: httpbin
-             servicePort: 8000
-         - path: /delay/.*
-           backend:
-             serviceName: httpbin
-             servicePort: 8000
-   EOF
-   ```
+    ```bash
+    cat <<EOF | kubectl create -f -
+    apiVersion: extensions/v1beta1
+    kind: Ingress
+    metadata:
+      name: secure-ingress
+      annotations:
+        kubernetes.io/ingress.class: istio
+    spec:
+      tls:
+        - secretName: istio-ingress-certs # currently ignored
+      rules:
+      - http:
+          paths:
+          - path: /status/.*
+            backend:
+              serviceName: httpbin
+              servicePort: 8000
+          - path: /delay/.*
+            backend:
+              serviceName: httpbin
+              servicePort: 8000
+    EOF
+    ```
 
-   > Because SNI is not yet supported, Envoy currently only allows a single TLS secret in the ingress.
-   > That means the secretName field in ingress resource is not used.
+    > Because SNI is not yet supported, Envoy currently only allows a single TLS secret in the ingress.
+    > That means the secretName field in ingress resource is not used.
 
 ### Verifying HTTPS ingress
 
-1. Determine the ingress URL:
+1.  Determine the ingress URL:
 
-   * If your cluster is running in an environment that supports external load balancers,
-     use the ingress' external address:
+    *   If your cluster is running in an environment that supports external load balancers,
+    use the ingress' external address:
 
-     ```command
-     $ kubectl get ingress secure-ingress -o wide
-     NAME             HOSTS     ADDRESS                 PORTS     AGE
-     secure-ingress   *         130.211.10.121          80        1d
-     ```
+        ```command
+        $ kubectl get ingress secure-ingress -o wide
+        NAME             HOSTS     ADDRESS                 PORTS     AGE
+        secure-ingress   *         130.211.10.121          80        1d
+        ```
 
-     ```command
-     $ export INGRESS_HOST=130.211.10.121
-     ```
+        ```command
+        $ export INGRESS_HOST=130.211.10.121
+        ```
 
-   * If load balancers are not supported, use the ingress controller pod's hostIP:
+    *   If load balancers are not supported, use the ingress controller pod's hostIP:
 
-     ```command
-     $ kubectl -n istio-system get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
-     169.47.243.100
-     ```
+        ```command
+        $ kubectl -n istio-system get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}'
+        169.47.243.100
+        ```
 
-     along with the istio-ingress service's nodePort for port 443:
+        along with the istio-ingress service's nodePort for port 443:
 
-     ```command
-     $ kubectl -n istio-system get svc istio-ingress
-     NAME            CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
-     istio-ingress   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
-     ```
+        ```command
+        $ kubectl -n istio-system get svc istio-ingress
+        NAME            CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
+        istio-ingress   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
+        ```
 
-     ```command
-     $ export INGRESS_HOST=169.47.243.100:32254
-     ```
+        ```command
+        $ export INGRESS_HOST=169.47.243.100:32254
+        ```
 
-1. Access the httpbin service using _curl_:
+1.  Access the httpbin service using _curl_:
 
-   ```command
-   $ curl -I -k https://$INGRESS_HOST/status/200
-   HTTP/1.1 200 OK
-   server: envoy
-   date: Mon, 29 Jan 2018 04:45:49 GMT
-   content-type: text/html; charset=utf-8
-   access-control-allow-origin: *
-   access-control-allow-credentials: true
-   content-length: 0
-   x-envoy-upstream-service-time: 96
-   ```
+    ```command
+    $ curl -I -k https://$INGRESS_HOST/status/200
+    HTTP/1.1 200 OK
+    server: envoy
+    date: Mon, 29 Jan 2018 04:45:49 GMT
+    content-type: text/html; charset=utf-8
+    access-control-allow-origin: *
+    access-control-allow-credentials: true
+    content-length: 0
+    x-envoy-upstream-service-time: 96
+    ```
 
-1. Access any other URL that has not been explicitly exposed. You should
-   see a HTTP 404 error
+1.  Access any other URL that has not been explicitly exposed. You should
+see a HTTP 404 error
 
-   ```command
-   $ curl -I -k https://$INGRESS_HOST/headers
-   HTTP/1.1 404 Not Found
-   date: Mon, 29 Jan 2018 04:45:49 GMT
-   server: envoy
-   content-length: 0
-   ```
+    ```command
+    $ curl -I -k https://$INGRESS_HOST/headers
+    HTTP/1.1 404 Not Found
+    date: Mon, 29 Jan 2018 04:45:49 GMT
+    server: envoy
+    content-length: 0
+    ```
 
-1. Configuring RBAC for ingress key/cert
+1.  Configuring RBAC for ingress key/cert
 
     There are service accounts which can access this ingress key/cert, and this leads to risks of
     leaking key/cert. We can set up Role-Based Access Control ("RBAC") to protect it.
@@ -261,29 +261,33 @@ The following are known limitations of Istio Ingress:
     these RBAC set up to only allow istio-ingress-service-account to access ingress key/cert.
 
     We can use `kubectl` to list all secrets in namespace istio-system that we need to protect using RBAC.
-   ```command
-   $ kubectl get secrets -n istio-system
-   NAME                                        TYPE                                  DATA      AGE
-   istio-ingress-certs                         kubernetes.io/tls                     2         7d
-   istio.istio-ingress-service-account         istio.io/key-and-cert                 3         7d
-   ......
-   ```
 
-1. Update RBAC set up for istio-pilot-service-account and istio-mixer-istio-service-account
+    ```command
+    $ kubectl get secrets -n istio-system
+    NAME                                        TYPE                                  DATA      AGE
+    istio-ingress-certs                         kubernetes.io/tls                     2         7d
+    istio.istio-ingress-service-account         istio.io/key-and-cert                 3         7d
+    ......
+    ```
+
+1.  Update RBAC set up for istio-pilot-service-account and istio-mixer-istio-service-account
 
     Record `ClusterRole` istio-mixer-istio-system and istio-pilot-istio-system. We will refer to
     these copies when we redefine them to avoid breaking access permissions to other resources.
-   ```command
-   $ kubectl describe ClusterRole istio-mixer-istio-system
-   $ kubectl describe ClusterRole istio-pilot-istio-system
-   ```
+
+    ```command
+    $ kubectl describe ClusterRole istio-mixer-istio-system
+    $ kubectl describe ClusterRole istio-pilot-istio-system
+    ```
+
     Delete existing `ClusterRoleBindings` and `ClusterRole`.
 
-   ```command
-   $ kubectl delete ClusterRoleBinding istio-pilot-admin-role-binding-istio-system
-   $ kubectl delete ClusterRoleBinding istio-mixer-admin-role-binding-istio-system
-   $ kubectl delete ClusterRole istio-mixer-istio-system
-   ```
+    ```command
+    $ kubectl delete ClusterRoleBinding istio-pilot-admin-role-binding-istio-system
+    $ kubectl delete ClusterRoleBinding istio-mixer-admin-role-binding-istio-system
+    $ kubectl delete ClusterRole istio-mixer-istio-system
+    ```
+
     As istio-pilot-istio-system is also bound to istio-ingress-service-account, we will delete
     istio-pilot-istio-system in next step.
 
@@ -291,184 +295,189 @@ The following are known limitations of Istio Ingress:
     istio.io/key-and-cert, and istio.io/ca-root types of secret instances. Refer to the recorded
     copy of istio-mixer-istio-system and add access permissions to other resources.
 
-   ```yaml
-   kind: ClusterRole
-   apiVersion: rbac.authorization.k8s.io/v1beta1
-   metadata:
-     name: istio-mixer-istio-system
-   rules:
-   - apiGroups: [""] # "" indicates the core API group
-     resources: ["secrets"]
-     resourceNames: ["istio.istio-citadel-service-account"]
-     verbs: ["get", "list", "watch"]
-   - apiGroups: [""] # "" indicates the core API group
-     resources: ["secrets"]
-     resourceNames: ["istio-citadel-secret"]
-     verbs: ["get", "list", "watch"]
-   ......
-   ---
-   kind: ClusterRoleBinding
-   apiVersion: rbac.authorization.k8s.io/v1beta1
-   metadata:
-     name: istio-mixer-admin-role-binding-istio-system
-   subjects:
-   - kind: ServiceAccount
-     name: istio-mixer-service-account
-     namespace: istio-system
-   roleRef:
-     kind: ClusterRole
-     name: istio-mixer-istio-system
-     apiGroup: rbac.authorization.k8s.io
-   ```
+    ```yaml
+    kind: ClusterRole
+    apiVersion: rbac.authorization.k8s.io/v1beta1
+    metadata:
+      name: istio-mixer-istio-system
+    rules:
+    - apiGroups: [""] # "" indicates the core API group
+      resources: ["secrets"]
+      resourceNames: ["istio.istio-citadel-service-account"]
+      verbs: ["get", "list", "watch"]
+    - apiGroups: [""] # "" indicates the core API group
+      resources: ["secrets"]
+      resourceNames: ["istio-citadel-secret"]
+      verbs: ["get", "list", "watch"]
+    ......
+    ---
+    kind: ClusterRoleBinding
+    apiVersion: rbac.authorization.k8s.io/v1beta1
+    metadata:
+      name: istio-mixer-admin-role-binding-istio-system
+    subjects:
+    - kind: ServiceAccount
+      name: istio-mixer-service-account
+      namespace: istio-system
+    roleRef:
+      kind: ClusterRole
+      name: istio-mixer-istio-system
+      apiGroup: rbac.authorization.k8s.io
+    ```
 
-   ```command
-   $ kubectl apply -f istio-mixer-istio-system.yaml
-   ```
+    ```command
+    $ kubectl apply -f istio-mixer-istio-system.yaml
+    ```
 
-1. Update RBAC set up for istio-pilot-service-account and istio-ingress-service-account
+1.  Update RBAC set up for istio-pilot-service-account and istio-ingress-service-account
 
     Delete existing `ClusterRoleBinding` and `ClusterRole`.
 
-   ```command
-   $ kubectl delete clusterrolebinding istio-ingress-admin-role-binding-istio-system
-   $ kubectl delete ClusterRole istio-pilot-istio-system
-   ```
+    ```command
+    $ kubectl delete clusterrolebinding istio-ingress-admin-role-binding-istio-system
+    $ kubectl delete ClusterRole istio-pilot-istio-system
+    ```
 
     Create istio-pilot-istio-system.yaml, which allows istio-pilot-service-account to read
     istio.io/key-and-cert, and istio.io/ca-root types of secret instances. Refer to the recorded
     copy of istio-pilot-istio-system and add access permissions to other resources.
 
-   ```yaml
-   kind: ClusterRole
-   apiVersion: rbac.authorization.k8s.io/v1beta1
-   metadata:
-     name: istio-pilot-istio-system
-   rules:
-   - apiGroups: [""] # "" indicates the core API group
-     resources: ["secrets"]
-     resourceNames: ["istio.istio-citadel-service-account"]
-     verbs: ["get", "list", "watch"]
-   - apiGroups: [""] # "" indicates the core API group
-     resources: ["secrets"]
-     resourceNames: ["istio-citadel-secret"]
-     verbs: ["get", "list", "watch"]
-   ......
-   ---
-   kind: ClusterRoleBinding
-   apiVersion: rbac.authorization.k8s.io/v1beta1
-   metadata:
-     name: istio-pilot-admin-role-binding-istio-system
-   subjects:
-   - kind: ServiceAccount
-     name: istio-pilot-service-account
-     namespace: istio-system
-   roleRef:
-     kind: ClusterRole
-     name: istio-pilot-istio-system
-     apiGroup: rbac.authorization.k8s.io
-   ```
+    ```yaml
+    kind: ClusterRole
+    apiVersion: rbac.authorization.k8s.io/v1beta1
+    metadata:
+      name: istio-pilot-istio-system
+    rules:
+    - apiGroups: [""] # "" indicates the core API group
+      resources: ["secrets"]
+      resourceNames: ["istio.istio-citadel-service-account"]
+      verbs: ["get", "list", "watch"]
+    - apiGroups: [""] # "" indicates the core API group
+      resources: ["secrets"]
+      resourceNames: ["istio-citadel-secret"]
+      verbs: ["get", "list", "watch"]
+    ......
+    ---
+    kind: ClusterRoleBinding
+    apiVersion: rbac.authorization.k8s.io/v1beta1
+    metadata:
+      name: istio-pilot-admin-role-binding-istio-system
+    subjects:
+    - kind: ServiceAccount
+      name: istio-pilot-service-account
+      namespace: istio-system
+    roleRef:
+      kind: ClusterRole
+      name: istio-pilot-istio-system
+      apiGroup: rbac.authorization.k8s.io
+    ```
 
-   ```command
-   $ kubectl apply -f istio-pilot-istio-system.yaml
-   ```
+    ```command
+    $ kubectl apply -f istio-pilot-istio-system.yaml
+    ```
 
     Create istio-ingress-istio-system.yaml which allows istio-ingress-service-account to read
     istio-ingress-certs as well as other secret instances. Refer to the recorded copy of
     istio-pilot-istio-system and add access permissions to other resources.
 
-   ```yaml
-   kind: ClusterRole
-   apiVersion: rbac.authorization.k8s.io/v1
-   metadata:
-     name: istio-ingress-istio-system
-   rules:
-   - apiGroups: [""] # "" indicates the core API group
-     resources: ["secrets"]
-     resourceNames: ["istio.istio-citadel-service-account"]
-     verbs: ["get", "list", "watch"]
-   - apiGroups: [""] # "" indicates the core API group
-     resources: ["secrets"]
-     resourceNames: ["istio-citadel-secret"]
-     verbs: ["get", "list", "watch"]
-   ......
-   - apiGroups: [""] # "" indicates the core API group
-     resources: ["secrets"]
-     resourceNames: ["istio-ingress-certs"]
-     verbs: ["get", "list", "watch"]
-   ---
-   kind: ClusterRoleBinding
-   apiVersion: rbac.authorization.k8s.io/v1
-   metadata:
-     name: istio-ingress-admin-role-binding-istio-system
-   subjects:
-   - kind: ServiceAccount
-     name: istio-ingress-service-account
-     namespace: istio-system
-   roleRef:
-     kind: ClusterRole
-     name: istio-ingress-istio-system
-     apiGroup: rbac.authorization.k8s.io
-   ```
+    ```yaml
+    kind: ClusterRole
+    apiVersion: rbac.authorization.k8s.io/v1
+    metadata:
+      name: istio-ingress-istio-system
+    rules:
+    - apiGroups: [""] # "" indicates the core API group
+      resources: ["secrets"]
+      resourceNames: ["istio.istio-citadel-service-account"]
+      verbs: ["get", "list", "watch"]
+    - apiGroups: [""] # "" indicates the core API group
+      resources: ["secrets"]
+      resourceNames: ["istio-citadel-secret"]
+      verbs: ["get", "list", "watch"]
+    ......
+    - apiGroups: [""] # "" indicates the core API group
+      resources: ["secrets"]
+      resourceNames: ["istio-ingress-certs"]
+      verbs: ["get", "list", "watch"]
+    ---
+    kind: ClusterRoleBinding
+    apiVersion: rbac.authorization.k8s.io/v1
+    metadata:
+      name: istio-ingress-admin-role-binding-istio-system
+    subjects:
+    - kind: ServiceAccount
+      name: istio-ingress-service-account
+      namespace: istio-system
+    roleRef:
+      kind: ClusterRole
+      name: istio-ingress-istio-system
+      apiGroup: rbac.authorization.k8s.io
+    ```
 
-   ```command
-   $ kubectl apply -f istio-ingress-istio-system.yaml
-   ```
+    ```command
+    $ kubectl apply -f istio-ingress-istio-system.yaml
+    ```
 
-1. Update RBAC set up for istio-citadel-service-account
+1.  Update RBAC set up for istio-citadel-service-account
 
     Record `ClusterRole` istio-citadel-istio-system.
-   ```command
-   $ kubectl describe ClusterRole istio-citadel-istio-system
-   ```
+
+    ```command
+    $ kubectl describe ClusterRole istio-citadel-istio-system
+    ```
 
     Create istio-citadel-istio-system.yaml, which updates existing `ClusterRole` istio-citadel-istio-system
     that allows istio-citadel-service-account to read, create and modify all istio.io/key-and-cert, and
     istio.io/ca-root types of secrets.
 
-   ```yaml
-   kind: ClusterRole
-   apiVersion: rbac.authorization.k8s.io/v1
-   metadata:
-    name: istio-citadel-istio-system
-   rules:
-   - apiGroups: [""] # "" indicates the core API group
-    resources: ["secrets"]
-    resourceNames: ["istio.istio-citadel-service-account"]
-    verbs: ["get", "list", "watch", "create", "update"]
-   - apiGroups: [""] # "" indicates the core API group
-    resources: ["secrets"]
-    resourceNames: ["istio-citadel-secret"]
-    verbs: ["get", "list", "watch", "create", "update"]
-   ......
-   kind: ClusterRoleBinding
-   apiVersion: rbac.authorization.k8s.io/v1
-   metadata:
-     name: istio-citadel-role-binding-istio-system
-   subjects:
-   - kind: ServiceAccount
-     name: istio-citadel-service-account
-     namespace: istio-system
-   roleRef:
-     kind: ClusterRole
+    ```yaml
+    kind: ClusterRole
+    apiVersion: rbac.authorization.k8s.io/v1
+    metadata:
      name: istio-citadel-istio-system
-     apiGroup: rbac.authorization.k8s.io
-   ```
-   ```command
-   $ kubectl apply -f istio-citadel-istio-system.yaml
-   ```
-1. Verify that the new `ClusterRoles` work as expected
+    rules:
+    - apiGroups: [""] # "" indicates the core API group
+     resources: ["secrets"]
+     resourceNames: ["istio.istio-citadel-service-account"]
+     verbs: ["get", "list", "watch", "create", "update"]
+    - apiGroups: [""] # "" indicates the core API group
+     resources: ["secrets"]
+     resourceNames: ["istio-citadel-secret"]
+     verbs: ["get", "list", "watch", "create", "update"]
+    ......
+    kind: ClusterRoleBinding
+    apiVersion: rbac.authorization.k8s.io/v1
+    metadata:
+      name: istio-citadel-role-binding-istio-system
+    subjects:
+    - kind: ServiceAccount
+      name: istio-citadel-service-account
+      namespace: istio-system
+    roleRef:
+      kind: ClusterRole
+      name: istio-citadel-istio-system
+      apiGroup: rbac.authorization.k8s.io
+    ```
 
-   ```command
-   $ kubectl auth can-i get secret/istio-ingress-certs --as system:serviceaccount:istio-system:istio-ingress-service-account -n istio-system
-   yes
-   ```
+    ```command
+    $ kubectl apply -f istio-citadel-istio-system.yaml
+    ```
+
+1.  Verify that the new `ClusterRoles` work as expected
+
+    ```command
+    $ kubectl auth can-i get secret/istio-ingress-certs --as system:serviceaccount:istio-system:istio-ingress-service-account -n istio-system
+    yes
+    ```
+
     In this command, we can replace verb "get" with "list" or "watch", and the output should always
     be "yes". Now let us test with other service accounts.
 
-   ```command
-   $ kubectl auth can-i get secret/istio-ingress-certs --as system:serviceaccount:istio-system:istio-pilot-service-account -n istio-system
-   no - Unknown user "system:serviceaccount:istio-system:istio-pilot-service-account"
-   ```
+    ```command
+    $ kubectl auth can-i get secret/istio-ingress-certs --as system:serviceaccount:istio-system:istio-pilot-service-account -n istio-system
+    no - Unknown user "system:serviceaccount:istio-system:istio-pilot-service-account"
+    ```
+
     In this command, we can replace service account with istio-mixer-service-account, or
     istio-citadel-service-account, we can also replace verb "get" with "watch" or "list", and the output
     should look similarly.
@@ -476,17 +485,18 @@ The following are known limitations of Istio Ingress:
     Accessibility to secret resources except istio-ingress-certs should remain the same for
     istio-citadel-service-account, istio-ingress-service-account, istio-pilot-service-account and
     istio-mixer-service-account.
-   ```command
-   $ kubectl auth can-i get secret/istio-citadel-service-account-token-r14xm --as system:serviceaccount:istio-system:istio-citadel-service-account -n istio-system
-   yes
-   ```
 
-1. Cleanup
+    ```command
+    $ kubectl auth can-i get secret/istio-citadel-service-account-token-r14xm --as system:serviceaccount:istio-system:istio-citadel-service-account -n istio-system
+    yes
+    ```
+
+1.  Cleanup
 
     We can delete these newly defined `ClusterRoles` and `ClusterRoleBindings`, and restore original
     `ClusterRoles` and `ClusterRoleBindings` according to those recorded copies.
 
-## Using Istio Routing Rules with Ingress
+## Using routing rules with ingress
 
 Istio's routing rules can be used to achieve a greater degree of control
 when routing requests to backend services. For example, the following
@@ -556,18 +566,18 @@ an Istio route rule.
 
 ## Cleanup
 
-1. Remove the secret and Ingress Resource definitions.
+1.  Remove the secret and Ingress Resource definitions.
 
-   ```command
-   $ kubectl delete ingress simple-ingress secure-ingress
-   $ kubectl delete -n istio-system secret istio-ingress-certs
-   ```
+    ```command
+    $ kubectl delete ingress simple-ingress secure-ingress
+    $ kubectl delete -n istio-system secret istio-ingress-certs
+    ```
 
-1. Shutdown the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) service.
+1.  Shutdown the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) service.
 
-   ```command
-   $ kubectl delete -f samples/httpbin/httpbin.yaml
-   ```
+    ```command
+    $ kubectl delete -f samples/httpbin/httpbin.yaml
+    ```
 
 ## What's next
 

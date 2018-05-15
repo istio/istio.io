@@ -108,11 +108,11 @@ docs](https://prometheus.io/docs/querying/basics/).
 
 ## Cleanup
 
-* Remove any `kubectl port-forward` processes that may still be running:
+*   Remove any `kubectl port-forward` processes that may still be running:
 
-   ```command
-   $ killall kubectl
-   ```
+    ```command
+    $ killall kubectl
+    ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
   [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions

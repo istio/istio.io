@@ -21,70 +21,71 @@ application.  It uses Deployment Manager to automate the steps detailed in the [
 
 - You must install and configure the [gcloud command line tool](https://cloud.google.com/sdk/docs/) and include the `kubectl` component (`gcloud components install kubectl`).  If you don't want to install the `gcloud` client on your own machine, you can use `gcloud` via [Google Cloud Shell](https://cloud.google.com/shell/docs/) to perform the same tasks.
 
-- <img src="{{home}}/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" /> You must set your default compute service account to include:
-> - ```roles/container.admin```  (Kubernetes Engine Admin)
-> - ```Editor```  (on by default)
+-   <img src="{{home}}/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" /> You must set your default compute service account to include:
 
-   To set this, navigate to the **IAM** section of the [Cloud Console](https://console.cloud.google.com/iam-admin/iam/project) as shown below and find your default GCE/GKE service account in the following form: `projectNumber-compute@developer.gserviceaccount.com`: by default it should just have the **Editor** role. Then in the **Roles** drop-down list for that account, find the **Kubernetes Engine** group and select the role **Kubernetes Engine Admin**. The **Roles** listing for your account will change to **Multiple**.
+    - ```roles/container.admin```  (Kubernetes Engine Admin)
+    - ```Editor```  (on by default)
 
-   {% include image.html width="100%" ratio="30%"
-    link="./img/dm_gcp_iam.png"
-    caption="GKE-IAM Service"
-    %}
+To set this up, navigate to the **IAM** section of the [Cloud Console](https://console.cloud.google.com/iam-admin/iam/project) as shown below and find your default GCE/GKE service account in the following form: `projectNumber-compute@developer.gserviceaccount.com`: by default it should just have the **Editor** role. Then in the **Roles** drop-down list for that account, find the **Kubernetes Engine** group and select the role **Kubernetes Engine Admin**. The **Roles** listing for your account will change to **Multiple**.
 
-Then add the ```Kubernetes Engine Admin``` Role
+{% include image.html width="100%" ratio="22.94%"
+link="./img/dm_gcp_iam.png"
+caption="GKE-IAM Service"
+%}
 
-   {% include image.html width="100%" ratio="37%"
-    link="./img/dm_gcp_iam_role.png"
-    caption="GKE-IAM Role"
-    %}
+Then add the `Kubernetes Engine Admin` role:
+
+{% include image.html width="70%" ratio="65.04%"
+link="./img/dm_gcp_iam_role.png"
+caption="GKE-IAM Role"
+%}
 
 ## Setup
 
 ### Launch Deployment Manager
 
-1. Once you have an account and project enabled, click the following link to open the Deployment Manager.
+1.  Once you have an account and project enabled, click the following link to open the Deployment Manager.
 
-   [Istio GKE Deployment Manager](https://accounts.google.com/signin/v2/identifier?service=cloudconsole&continue=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/master/install/gcp/deployment_manager/istio-cluster.jinja&followup=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/master/install/gcp/deployment_manager/istio-cluster.jinja&flowName=GlifWebSignIn&flowEntry=ServiceLogin)
+    [Istio GKE Deployment Manager](https://accounts.google.com/signin/v2/identifier?service=cloudconsole&continue=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/master/install/gcp/deployment_manager/istio-cluster.jinja&followup=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/master/install/gcp/deployment_manager/istio-cluster.jinja&flowName=GlifWebSignIn&flowEntry=ServiceLogin)
 
-   We recommend that you leave the default settings as the rest of this tutorial shows how to access the installed features. By default the tool creates a
-   GKE alpha cluster with the specified settings, then installs the Istio [control plane]({{home}}/docs/concepts/what-is-istio/overview.html#architecture), the
-   [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample app,
-   [Grafana]({{home}}/docs/tasks/telemetry/using-istio-dashboard.html) with
-   [Prometheus]({{home}}/docs/tasks/telemetry/querying-metrics.html),
-   [ServiceGraph]({{home}}/docs/tasks/telemetry/servicegraph.html),
-   and [Zipkin]({{home}}/docs/tasks/telemetry/distributed-tracing.html#zipkin).
-   You'll find out more about how to access all of these below.  This script will enable Istio auto-injection on the ```default``` namespace only.
+    We recommend that you leave the default settings as the rest of this tutorial shows how to access the installed features. By default the tool creates a
+    GKE alpha cluster with the specified settings, then installs the Istio [control plane]({{home}}/docs/concepts/what-is-istio/overview.html#architecture), the
+    [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample app,
+    [Grafana]({{home}}/docs/tasks/telemetry/using-istio-dashboard.html) with
+    [Prometheus]({{home}}/docs/tasks/telemetry/querying-metrics.html),
+    [ServiceGraph]({{home}}/docs/tasks/telemetry/servicegraph.html),
+    and [Zipkin]({{home}}/docs/tasks/telemetry/distributed-tracing.html#zipkin).
+    You'll find out more about how to access all of these below.  This script will enable Istio auto-injection on the ```default``` namespace only.
 
-1. Click **Deploy**:
+1.  Click **Deploy**:
 
-   {% include image.html width="100%" ratio="67.17%"
+    {% include image.html width="100%" ratio="67.17%"
     link="./img/dm_launcher.png"
     caption="GKE-Istio Launcher"
     %}
 
-   Wait until Istio is fully deployed. Note that this can take up to five minutes.
+Wait until Istio is fully deployed. Note that this can take up to five minutes.
 
 ### Bootstrap gcloud
 
 Once deployment is complete, do the following on the workstation where you've installed `gcloud`:
 
-1. Bootstrap `kubectl` for the cluster you just created and confirm the cluster is
+1.  Bootstrap `kubectl` for the cluster you just created and confirm the cluster is
 running and Istio is enabled
 
-   ```command
-   $ gcloud container clusters list
-   NAME           ZONE           MASTER_VERSION                    MASTER_IP       MACHINE_TYPE   NODE_VERSION  NUM_NODES  STATUS
-   istio-cluster  us-central1-a  v1.9.2-gke.1                      130.211.216.64  n1-standard-2  v1.9.2-gke.1  3          RUNNING
-   ```
+    ```command
+    $ gcloud container clusters list
+    NAME           ZONE           MASTER_VERSION                    MASTER_IP       MACHINE_TYPE   NODE_VERSION  NUM_NODES  STATUS
+    istio-cluster  us-central1-a  v1.9.2-gke.1                      130.211.216.64  n1-standard-2  v1.9.2-gke.1  3          RUNNING
+    ```
 
-   In this case, the cluster name is ```istio-cluster```
+    In this case, the cluster name is ```istio-cluster```
 
-1. Now acquire the credentials for this cluster
+1.  Now acquire the credentials for this cluster
 
-   ```command
-   $ gcloud container clusters get-credentials istio-cluster --zone=us-central1-a
-   ```
+    ```command
+    $ gcloud container clusters get-credentials istio-cluster --zone=us-central1-a
+    ```
 
 ## Verify installation
 
@@ -131,24 +132,25 @@ You can also view the installation using the ***Kubernetes Engine -> Workloads**
 
 ### Access the Bookinfo sample
 
-1. Set up an environment variable for Bookinfo's external IP address:
+1.  Set up an environment variable for Bookinfo's external IP address:
 
-   ```command
-   $ kubectl get ingress -o wide
-   $ export GATEWAY_URL=35.202.120.89
-   ```
+    ```command
+    $ kubectl get ingress -o wide
+    $ export GATEWAY_URL=35.202.120.89
+    ```
 
-1. Verify you can access the Bookinfo ```http://${GATEWAY_URL}/productpage```:
+1.  Verify you can access the Bookinfo ```http://${GATEWAY_URL}/productpage```:
 
-   {% include image.html width="100%" ratio="45.04%"
+    {% include image.html width="100%" ratio="45.04%"
     link="./img/dm_bookinfo.png"
     caption="Bookinfo"
     %}
 
-1. Now send some traffic to it:
-   ```command
-   $ for i in {1..100}; do curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage; done
-   ```
+1.  Now send some traffic to it:
+
+    ```command
+    $ for i in {1..100}; do curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage; done
+    ```
 
 ## Verify installed Istio plugins
 

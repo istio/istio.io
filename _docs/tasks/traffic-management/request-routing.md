@@ -36,123 +36,123 @@ route requests to all available versions of a service in a random fashion.
 > This task assumes you don't have any routes set yet. If you've already created conflicting route rules for the sample,
 you'll need to use `replace` rather than `create` in one or both of the following commands.
 
-1. Set the default version for all microservices to v1.
+1.  Set the default version for all microservices to v1.
 
-   ```command
-   $ istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
-   ```
+    ```command
+    $ istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
+    ```
 
-   > In a Kubernetes deployment of Istio, you can replace `istioctl`
-   > with `kubectl` in the above, and for all other CLI commands.
-   > Note, however, that `kubectl` currently does not provide input validation.
+    > In a Kubernetes deployment of Istio, you can replace `istioctl`
+    > with `kubectl` in the above, and for all other CLI commands.
+    > Note, however, that `kubectl` currently does not provide input validation.
 
-   You can display the routes that are defined with the following command:
+    You can display the routes that are defined with the following command:
 
-   ```command-output-as-yaml
-   $ istioctl get routerules -o yaml
-   apiVersion: config.istio.io/v1alpha2
-   kind: RouteRule
-   metadata:
-     name: details-default
-     namespace: default
-     ...
-   spec:
-     destination:
-       name: details
-     precedence: 1
-     route:
-     - labels:
-         version: v1
-   ---
-   apiVersion: config.istio.io/v1alpha2
-   kind: RouteRule
-   metadata:
-     name: productpage-default
-     namespace: default
-     ...
-   spec:
-     destination:
-       name: productpage
-     precedence: 1
-     route:
-     - labels:
-         version: v1
-   ---
-   apiVersion: config.istio.io/v1alpha2
-   kind: RouteRule
-   metadata:
-     name: ratings-default
-     namespace: default
-     ...
-   spec:
-     destination:
-       name: ratings
-     precedence: 1
-     route:
-     - labels:
-         version: v1
-   ---
-   apiVersion: config.istio.io/v1alpha2
-   kind: RouteRule
-   metadata:
-     name: reviews-default
-     namespace: default
-     ...
-   spec:
-     destination:
-       name: reviews
-     precedence: 1
-     route:
-     - labels:
-         version: v1
-   ---
-   ```
+    ```command-output-as-yaml
+    $ istioctl get routerules -o yaml
+    apiVersion: config.istio.io/v1alpha2
+    kind: RouteRule
+    metadata:
+      name: details-default
+      namespace: default
+      ...
+    spec:
+      destination:
+        name: details
+      precedence: 1
+      route:
+      - labels:
+          version: v1
+    ---
+    apiVersion: config.istio.io/v1alpha2
+    kind: RouteRule
+    metadata:
+      name: productpage-default
+      namespace: default
+      ...
+    spec:
+      destination:
+        name: productpage
+      precedence: 1
+      route:
+      - labels:
+          version: v1
+    ---
+    apiVersion: config.istio.io/v1alpha2
+    kind: RouteRule
+    metadata:
+      name: ratings-default
+      namespace: default
+      ...
+    spec:
+      destination:
+        name: ratings
+      precedence: 1
+      route:
+      - labels:
+          version: v1
+    ---
+    apiVersion: config.istio.io/v1alpha2
+    kind: RouteRule
+    metadata:
+      name: reviews-default
+      namespace: default
+      ...
+    spec:
+      destination:
+        name: reviews
+      precedence: 1
+      route:
+      - labels:
+          version: v1
+    ---
+    ```
 
-   Since rule propagation to the proxies is asynchronous, you should wait a few seconds for the rules
-   to propagate to all pods before attempting to access the application.
+    Since rule propagation to the proxies is asynchronous, you should wait a few seconds for the rules
+    to propagate to all pods before attempting to access the application.
 
-1. Open the Bookinfo URL (http://$GATEWAY_URL/productpage) in your browser
+1.  Open the Bookinfo URL (http://$GATEWAY_URL/productpage) in your browser
 
-   You should see the Bookinfo application productpage displayed.
-   Notice that the `productpage` is displayed with no rating stars since `reviews:v1` does not access the ratings service.
+    You should see the Bookinfo application productpage displayed.
+    Notice that the `productpage` is displayed with no rating stars since `reviews:v1` does not access the ratings service.
 
-1. Route a specific user to `reviews:v2`
+1.  Route a specific user to `reviews:v2`
 
-   Lets enable the ratings service for test user "jason" by routing productpage traffic to
-   `reviews:v2` instances.
+    Lets enable the ratings service for test user "jason" by routing productpage traffic to
+    `reviews:v2` instances.
 
-   ```command
-   $ istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
-   ```
+    ```command
+    $ istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+    ```
 
-   Confirm the rule is created:
+    Confirm the rule is created:
 
-   ```command-output-as-yaml
-   $ istioctl get routerule reviews-test-v2 -o yaml
-   apiVersion: config.istio.io/v1alpha2
-   kind: RouteRule
-   metadata:
-     name: reviews-test-v2
-     namespace: default
-     ...
-   spec:
-     destination:
-       name: reviews
-     match:
-       request:
-         headers:
-           cookie:
-             regex: ^(.*?;)?(user=jason)(;.*)?$
-     precedence: 2
-     route:
-     - labels:
-         version: v2
-   ```
+    ```command-output-as-yaml
+    $ istioctl get routerule reviews-test-v2 -o yaml
+    apiVersion: config.istio.io/v1alpha2
+    kind: RouteRule
+    metadata:
+      name: reviews-test-v2
+      namespace: default
+      ...
+    spec:
+      destination:
+        name: reviews
+      match:
+        request:
+          headers:
+            cookie:
+              regex: ^(.*?;)?(user=jason)(;.*)?$
+      precedence: 2
+      route:
+      - labels:
+          version: v2
+    ```
 
-1. Log in as user "jason" at the `productpage` web page.
+1.  Log in as user "jason" at the `productpage` web page.
 
-   You should now see ratings (1-5 stars) next to each review. Notice that if you log in as
-   any other user, you will continue to see `reviews:v1`.
+    You should now see ratings (1-5 stars) next to each review. Notice that if you log in as
+    any other user, you will continue to see `reviews:v1`.
 
 ## Understanding what happened
 
@@ -165,12 +165,12 @@ all users to v2, optionally in a gradual fashion. We'll explore this in a separa
 
 ## Cleanup
 
-* Remove the application routing rules.
+*   Remove the application routing rules.
 
-  ```command
-  $ istioctl delete -f samples/bookinfo/kube/route-rule-all-v1.yaml
-  $ istioctl delete -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
-  ```
+    ```command
+    $ istioctl delete -f samples/bookinfo/kube/route-rule-all-v1.yaml
+    $ istioctl delete -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+    ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
   [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
