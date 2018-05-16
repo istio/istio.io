@@ -39,36 +39,41 @@ continuous integration automated testing and release process, the
 `helm` binary in `template` mode is used to render the various manifests
 produced for Istio.
 
-1. Create an `istio.yaml` Kubernetes manifest:
-   ```command
-   $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set prometheus.enabled=true > $HOME/istio.yaml
-   ```
+1.  Create an `istio.yaml` Kubernetes manifest:
 
-1. Create the Istio control plane from `istio.yaml` manifest:
-   ```command
-   $ kubectl create ns istio-system
-   $ kubectl create -f $HOME/istio.yaml
-   ```
+    ```command
+    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set prometheus.enabled=true > $HOME/istio.yaml
+    ```
+
+1.  Create the Istio control plane from `istio.yaml` manifest:
+
+    ```command
+    $ kubectl create ns istio-system
+    $ kubectl create -f $HOME/istio.yaml
+    ```
 
 ### Alternatively, use Helm and Tiller to manage the Istio deployment
 
 <img src="{{home}}/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" />
 Upgrading Istio using Helm is not validated.
 
-1. If a service account has not already been installed for Helm, please install one:
-   ```command
-   $ kubectl create -f install/kubernetes/helm/helm-service-account.yaml
-   ```
+1.  If a service account has not already been installed for Helm, please install one:
 
-1. Initialize Helm:
-   ```command
-   $ helm init --service-account tiller
-   ```
+    ```command
+    $ kubectl create -f install/kubernetes/helm/helm-service-account.yaml
+    ```
 
-1. Create the Helm chart:
-   ```command
-   $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
-   ```
+1.  Initialize Helm:
+
+    ```command
+    $ helm init --service-account tiller
+    ```
+
+1.  Create the Helm chart:
+
+    ```command
+    $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
+    ```
 
 ## Customization with Helm
 
@@ -96,19 +101,20 @@ following table:
 | `global.arch.ppc64le` | Specifies the scheduling policy for `ppc64le` architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | `2` |
 | `galley.enabled` | Specifies whether Galley should be installed for server-side config validation. Requires k8s >= 1.9 | true/false | `false` |
 
-> The Helm chart also offers significant customization options per individual
-service.  Customize these per-service options at your own risk.
-The per-service options are exposed via the
-[`values.yaml`](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/helm/istio/values.yaml) file.
+The Helm chart also offers significant customization options per individual
+service. Customize these per-service options at your own risk. The per-service options are exposed via
+the [`values.yaml`](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/helm/istio/values.yaml) file.
 
 ## Uninstall Istio
 
-* Uninstall using kubectl:
-```command
-$ kubectl delete -f $HOME/istio.yaml
-```
+*   Uninstall using kubectl:
 
-* Uninstall using Helm:
-```command
-$ helm delete --purge istio
-```
+    ```command
+    $ kubectl delete -f $HOME/istio.yaml
+    ```
+
+*   Uninstall using Helm:
+
+    ```command
+    $ helm delete --purge istio
+    ```
