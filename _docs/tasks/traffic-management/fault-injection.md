@@ -93,8 +93,8 @@ continue without any errors.
 
 The reason that the entire reviews service has failed is because our Bookinfo application
 has a bug. The timeout between the productpage and reviews service is less (3s + 1 retry = 6s total)
-than the timeout between the reviews and ratings service (hard-coded connection timeout is 10s). These 
-kinds of bugs can occur in typical enterprise applications where different teams develop different 
+than the timeout between the reviews and ratings service (hard-coded connection timeout is 10s). These
+kinds of bugs can occur in typical enterprise applications where different teams develop different
 microservices independently. Istio's fault injection rules help you identify such anomalies without
 impacting end users.
 
