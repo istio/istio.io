@@ -110,7 +110,7 @@ Service account that runs application pods need privileged security context cons
 $ oc adm policy add-scc-to-user privileged -z default -n <target-namespace>
 ```
 
-Note:-  Check for selinux [discussion](https://github.com/istio/issues/issues/34)  w.r.t istio in case you see issues bringing up envoy sidecar.
+Note:-  Check for selinux [discussion](https://github.com/istio/issues/issues/34)  with respect to Istio in case you see issues bringing up the Envoy.
 
 ### AWS (w/Kops)
 
