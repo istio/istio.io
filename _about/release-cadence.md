@@ -38,7 +38,7 @@ Our naming scheme for LTS releases is:
 ```
 
 where `minor` is increased for every LTS release, and `LTS patch level` counts the number of patches for the
-current LTS release.
+current LTS release. A patch is usually a small change relative to the LTS.
 
 For snapshot releases, our numbering scheme is:
 
@@ -46,7 +46,7 @@ For snapshot releases, our numbering scheme is:
 <major>.<minor>.0-snapshot.<snapshot count>
 ```
 
-where `major`, `minor` and `LTS patch level` represent the next LTS, and
+where `major`, `minor` represent the next LTS, and
 `snapshot count` starts at 0 and increases for every snapshot leading up to the
 next LTS.
 
