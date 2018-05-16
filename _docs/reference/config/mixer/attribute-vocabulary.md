@@ -62,6 +62,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | connection.sent.bytes | int64 | Number of bytes sent by a destination service on a connection since the last Report() for a connection. | |
 | connection.sent.bytes_total | int64 | Total number of bytes sent by a destination service during the lifetime of a connection. | |
 | connection.duration | duration | The total amount of time a connection has been open. | |
+| `connection.mtls` | boolean | Indicates whether a request is received over a mTLS enabled downstream connection. | |
 | context.protocol | string | Protocol of the request or connection being proxied. | tcp |
 | context.time | timestamp | The timestamp of Mixer operation. | |
 | api.service | string | The public service name. This is different than the in-mesh service identity and reflects the name of the service exposed to the client. | my-svc.com |
