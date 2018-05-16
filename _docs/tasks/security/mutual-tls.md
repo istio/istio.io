@@ -43,13 +43,13 @@ Citadel is up if the "AVAILABLE" column is 1.
 
 ### Verifying service configuration
 
-1. Verify AuthPolicy setting in ConfigMap.
+1.  Verify AuthPolicy setting in ConfigMap.
 
-   ```command
-   $ kubectl get configmap istio -o yaml -n istio-system | grep authPolicy | head -1
-   ```
+    ```command
+    $ kubectl get configmap istio -o yaml -n istio-system | grep authPolicy | head -1
+    ```
 
-   Istio mutual TLS authentication is enabled if the line `authPolicy: MUTUAL_TLS` is uncommented (doesn't have a `#`).
+    Istio mutual TLS authentication is enabled if the line `authPolicy: MUTUAL_TLS` is uncommented (doesn't have a `#`).
 
 ## Testing the authentication setup
 

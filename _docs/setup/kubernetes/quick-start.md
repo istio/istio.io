@@ -212,99 +212,100 @@ You should see `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` flags
 Starting with the 0.2 release, Istio is installed in its own `istio-system`
 namespace, and can manage services from all other namespaces.
 
-1. Go to the [Istio release](https://github.com/istio/istio/releases) page to download the
+1.  Go to the [Istio release](https://github.com/istio/istio/releases) page to download the
 installation file corresponding to your OS. If you are using a MacOS or Linux system, you can also
 run the following command to download and extract the latest release automatically:
 
-   ```command
-   $ curl -L https://git.io/getLatestIstio | sh -
-   ```
+    ```command
+    $ curl -L https://git.io/getLatestIstio | sh -
+    ```
 
-1. Extract the installation file and change the directory to the file location. The
+1.  Extract the installation file and change the directory to the file location. The
 installation directory contains:
-   * Installation `.yaml` files for Kubernetes in `install/`
-   * Sample applications in `samples/`
-   * The `istioctl` client binary in the `bin/` directory. `istioctl` is used when manually injecting Envoy as a sidecar proxy and for creating routing rules and policies.
-   * The `istio.VERSION` configuration file
 
-1. Change directory to istio package. For example, if the package is istio-{{site.data.istio.version}}
+    * Installation `.yaml` files for Kubernetes in `install/`
+    * Sample applications in `samples/`
+    * The `istioctl` client binary in the `bin/` directory. `istioctl` is used when manually injecting Envoy as a sidecar proxy and for creating routing rules and policies.
+    * The `istio.VERSION` configuration file
 
-   ```command
-   $ cd istio-{{site.data.istio.version}}
-   ```
+1.  Change directory to istio package. For example, if the package is istio-{{site.data.istio.version}}
 
-1. Add the `istioctl` client to your PATH.
+    ```command
+    $ cd istio-{{site.data.istio.version}}
+    ```
+
+1.  Add the `istioctl` client to your PATH.
 For example, run the following command on a MacOS or Linux system:
 
-   ```command
-   $ export PATH=$PWD/bin:$PATH
-   ```
+    ```command
+    $ export PATH=$PWD/bin:$PATH
+    ```
 
-1. Install Istio's core components. Choose one of the two _**mutually exclusive**_ options below or alternately install
+1.  Install Istio's core components. Choose one of the two _**mutually exclusive**_ options below or alternately install
 with the [Helm Chart]({{home}}/docs/setup/kubernetes/helm-install.html):
 
-   a) Install Istio without enabling [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars.
-   Choose this option for clusters with existing applications, applications where services with an
-   Istio sidecar need to be able to communicate with other non-Istio Kubernetes services, and
-   applications that use [liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/),
-   headless services, or StatefulSets.
+    a)  Install Istio without enabling [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars.
+    Choose this option for clusters with existing applications, applications where services with an
+    Istio sidecar need to be able to communicate with other non-Istio Kubernetes services, and
+    applications that use [liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/),
+    headless services, or StatefulSets.
 
-   ```command
-   $ kubectl apply -f install/kubernetes/istio.yaml
-   ```
+        ```command
+        $ kubectl apply -f install/kubernetes/istio.yaml
+        ```
 
-   _**OR**_
+    _**OR**_
 
-   b) Install Istio and enable [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars. This option is mostly for new clusters, i.e., all applications have sidecars injected during their deployment. For existing applications, please choose the above option and enable mutual TLS using [authentication policy]({{home}}/docs/tasks/security/authn-policy.html):
+    b)  Install Istio and enable [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars. This option is mostly for new clusters, i.e., all applications have sidecars injected during their deployment. For existing applications, please choose the above option and enable mutual TLS using [authentication policy]({{home}}/docs/tasks/security/authn-policy.html):
 
-   ```command
-   $ kubectl apply -f install/kubernetes/istio-auth.yaml
-   ```
+        ```command
+        $ kubectl apply -f install/kubernetes/istio-auth.yaml
+        ```
 
-   Both options create the `istio-system` namespace along with the required RBAC permissions,
-   and deploy Istio-Pilot, Istio-Mixer, Istio-Ingress, and Istio-CA (Certificate Authority).
+    Both options create the `istio-system` namespace along with the required RBAC permissions,
+    and deploy Istio-Pilot, Istio-Mixer, Istio-Ingress, and Istio-CA (Certificate Authority).
 
 1. *Optional:* If your cluster has Kubernetes version 1.9 or greater, and you wish to enable automatic proxy injection,
 install the [sidecar injector webhook]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection).
 
 ## Verifying the installation
 
-1. Ensure the following Kubernetes services are deployed: `istio-pilot`, `istio-ingress`,
+1.  Ensure the following Kubernetes services are deployed: `istio-pilot`, `istio-ingress`,
 `istio-policy`, `istio-telemetry`, `prometheus`.
 
-   ```command
-   $ kubectl get svc -n istio-system
-   NAME                       TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)                                                               AGE
-   citadel-ilb                LoadBalancer   10.35.251.104   10.138.0.43     8060:32031/TCP                                                        47m
-   istio-citadel              ClusterIP      10.35.253.23    <none>          8060/TCP,9093/TCP                                                     47m
-   istio-ingress              LoadBalancer   10.35.245.4     35.203.191.37   80:32765/TCP,443:32304/TCP                                            47m
-   istio-pilot                ClusterIP      10.35.255.168   <none>          15003/TCP,15005/TCP,15007/TCP,15010/TCP,15011/TCP,8080/TCP,9093/TCP   47m
-   istio-pilot-ilb            LoadBalancer   10.35.252.183   10.138.0.40     15005:30035/TCP,8080:30494/TCP                                        47m
-   istio-policy               ClusterIP      10.35.247.90    <none>          9091/TCP,15004/TCP,9093/TCP                                           47m
-   istio-statsd-prom-bridge   ClusterIP      10.35.243.13    <none>          9102/TCP,9125/UDP                                                     47m
-   istio-telemetry            ClusterIP      10.35.248.71    <none>          9091/TCP,15004/TCP,9093/TCP,42422/TCP                                 47m
-   mixer-ilb                  LoadBalancer   10.35.240.250   10.138.0.42     15004:30427/TCP                                                       47m
-   prometheus                 ClusterIP      10.35.255.10    <none>          9090/TCP                                                              47m
-   ```
+    ```command
+    $ kubectl get svc -n istio-system
+    NAME                       TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)                                                               AGE
+    citadel-ilb                LoadBalancer   10.35.251.104   10.138.0.43     8060:32031/TCP                                                        47m
+    istio-citadel              ClusterIP      10.35.253.23    <none>          8060/TCP,9093/TCP                                                     47m
+    istio-ingress              LoadBalancer   10.35.245.4     35.203.191.37   80:32765/TCP,443:32304/TCP                                            47m
+    istio-pilot                ClusterIP      10.35.255.168   <none>          15003/TCP,15005/TCP,15007/TCP,15010/TCP,15011/TCP,8080/TCP,9093/TCP   47m
+    istio-pilot-ilb            LoadBalancer   10.35.252.183   10.138.0.40     15005:30035/TCP,8080:30494/TCP                                        47m
+    istio-policy               ClusterIP      10.35.247.90    <none>          9091/TCP,15004/TCP,9093/TCP                                           47m
+    istio-statsd-prom-bridge   ClusterIP      10.35.243.13    <none>          9102/TCP,9125/UDP                                                     47m
+    istio-telemetry            ClusterIP      10.35.248.71    <none>          9091/TCP,15004/TCP,9093/TCP,42422/TCP                                 47m
+    mixer-ilb                  LoadBalancer   10.35.240.250   10.138.0.42     15004:30427/TCP                                                       47m
+    prometheus                 ClusterIP      10.35.255.10    <none>          9090/TCP                                                              47m
+    ```
 
-   > If your cluster is running in an environment that does not support an external load balancer
-   (e.g., minikube), the `EXTERNAL-IP` of `istio-ingress` says `<pending>`. You must access the
-   application using the service NodePort, or use port-forwarding instead.
+    > If your cluster is running in an environment that does not support an external load balancer
+    (e.g., minikube), the `EXTERNAL-IP` of `istio-ingress` says `<pending>`. You must access the
+    application using the service NodePort, or use port-forwarding instead.
 
-1. Ensure the corresponding Kubernetes pods are deployed and all containers are up and running:
+1.  Ensure the corresponding Kubernetes pods are deployed and all containers are up and running:
 `istio-pilot-*`, `istio-mixer-*`, `istio-ingress-*`, `istio-citadel-*`,
 and, optionally, `istio-sidecar-injector-*`.
 
-   ```command
-   $ kubectl get pods -n istio-system
-   istio-citadel-b454d647d-92jrv               1/1       Running   0          46m
-   istio-ingress-768b9fb68b-jdxfk              1/1       Running   0          46m
-   istio-pilot-b87b8c56b-kggmk                 2/2       Running   0          46m
-   istio-policy-58f9bfc796-8vlq4               2/2       Running   0          46m
-   istio-statsd-prom-bridge-6dbb7dcc7f-gzlq7   1/1       Running   0          46m
-   istio-telemetry-55b8c8b44f-fwb69            2/2       Running   0          46m
-   prometheus-586d95b8d9-grk6j                 1/1       Running   0          46m
-   ```
+    ```command
+    $ kubectl get pods -n istio-system
+    istio-citadel-b454d647d-92jrv               1/1       Running   0          46m
+    istio-ingress-768b9fb68b-jdxfk              1/1       Running   0          46m
+    istio-pilot-b87b8c56b-kggmk                 2/2       Running   0          46m
+    istio-policy-58f9bfc796-8vlq4               2/2       Running   0          46m
+    istio-statsd-prom-bridge-6dbb7dcc7f-gzlq7   1/1       Running   0          46m
+    istio-telemetry-55b8c8b44f-fwb69            2/2       Running   0          46m
+    prometheus-586d95b8d9-grk6j                 1/1       Running   0          46m
+    ```
 
 ## Deploy your application
 
