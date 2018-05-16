@@ -357,25 +357,25 @@ example stack.
 
 ## View the new logs
 
-1. Send traffic to the sample application.
+1.  Send traffic to the sample application.
 
-   For the
-   [Bookinfo]({{home}}/docs/guides/bookinfo.html#determining-the-ingress-ip-and-port)
-   sample, visit `http://$GATEWAY_URL/productpage` in your web browser
-   or issue the following command:
+    For the
+    [Bookinfo]({{home}}/docs/guides/bookinfo.html#determining-the-ingress-ip-and-port)
+    sample, visit `http://$GATEWAY_URL/productpage` in your web browser
+    or issue the following command:
 
-   ```command
-   $ curl http://$GATEWAY_URL/productpage
-   ```
+    ```command
+    $ curl http://$GATEWAY_URL/productpage
+    ```
 
-1. In a Kubernetes environment, setup port-forwarding for Kibana by
-   executing the following command:
+1.  In a Kubernetes environment, setup port-forwarding for Kibana by
+    executing the following command:
 
-   ```command
-   $ kubectl -n logging port-forward $(kubectl -n logging get pod -l app=kibana -o jsonpath='{.items[0].metadata.name}') 5601:5601
-   ```
+    ```command
+    $ kubectl -n logging port-forward $(kubectl -n logging get pod -l app=kibana -o jsonpath='{.items[0].metadata.name}') 5601:5601
+    ```
 
-   Leave the command running. Press Ctrl-C to exit when done accessing the Kibana UI.
+    Leave the command running. Press Ctrl-C to exit when done accessing the Kibana UI.
 
 1. Navigate to the [Kibana UI](http://localhost:5601/) and click the "Set up index patterns" in the top right.
 

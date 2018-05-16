@@ -15,36 +15,36 @@ Oh no! You're having trouble? Below is a list of solutions to common problems.
 
 Verifying connectivity to Pilot is a useful troubleshooting step. Every proxy container in the service mesh should be able to communicate with Pilot. This can be accomplished in a few simple steps:
 
-1. Get the name of the Istio Ingress pod:
+1.  Get the name of the Istio Ingress pod:
 
-```command
-$ INGRESS_POD_NAME=$(kubectl get po -n istio-system | grep ingress\- | awk '{print$1}')
-```
+    ```command
+    $ INGRESS_POD_NAME=$(kubectl get po -n istio-system | grep ingress\- | awk '{print$1}')
+    ```
 
-1. Exec into the Istio Ingress pod:
+1.  Exec into the Istio Ingress pod:
 
-```command
-$ kubectl exec -it $INGRESS_POD_NAME -n istio-system /bin/bash
-```
+    ```command
+    $ kubectl exec -it $INGRESS_POD_NAME -n istio-system /bin/bash
+    ```
 
-1. Unless you installed Istio using the debug proxy image (`istioctl kube-inject --debug=true`), you need to
+1.  Unless you installed Istio using the debug proxy image (`istioctl kube-inject --debug=true`), you need to
 install curl.
 
-```command
-$ apt-get update && apt-get install -y curl
-```
+    ```command
+    $ apt-get update && apt-get install -y curl
+    ```
 
-1. Test connectivity to Pilot using cURL. The following example cURL's the v1 registration API using default Pilot configuration parameters and mTLS enabled:
+1.  Test connectivity to Pilot using cURL. The following example cURL's the v1 registration API using default Pilot configuration parameters and mTLS enabled:
 
-```command
-$ curl -k --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem --key /etc/certs/key.pem https://istio-pilot:15003/v1/registration
-```
+    ```command
+    $ curl -k --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem --key /etc/certs/key.pem https://istio-pilot:15003/v1/registration
+    ```
 
-If mTLS is disabled:
+    If mTLS is disabled:
 
-```command
-$ curl http://istio-pilot:15003/v1/registration
-```
+    ```command
+    $ curl http://istio-pilot:15003/v1/registration
+    ```
 
 You should receive a response listing the "service-key" and "hosts" for each service in the mesh.
 
@@ -135,24 +135,24 @@ those steps.
 Mixer generates metrics for monitoring the behavior of Mixer itself.
 Check these metrics.
 
-1. Establish a connection to the Mixer self-monitoring endpoint.
+1.  Establish a connection to the Mixer self-monitoring endpoint.
 
-   In Kubernetes environments, execute the following command:
+    In Kubernetes environments, execute the following command:
 
-   ```command
-   $ kubectl -n istio-system port-forward <mixer pod> 9093 &
-   ```
+    ```command
+    $ kubectl -n istio-system port-forward <mixer pod> 9093 &
+    ```
 
-1. Verify successful report calls.
+1.  Verify successful report calls.
 
-   On the [Mixer self-monitoring endpoint](http://localhost:9093/metrics),
-   search for `grpc_server_handled_total`.
+    On the [Mixer self-monitoring endpoint](http://localhost:9093/metrics),
+    search for `grpc_server_handled_total`.
 
-   You should see something like:
+    You should see something like:
 
-   ```plain
-   grpc_server_handled_total{grpc_code="OK",grpc_method="Report",grpc_service="istio.mixer.v1.Mixer",grpc_type="unary"} 68
-   ```
+    ```plain
+    grpc_server_handled_total{grpc_code="OK",grpc_method="Report",grpc_service="istio.mixer.v1.Mixer",grpc_type="unary"} 68
+    ```
 
 If you do not see any data for `grpc_server_handled_total` with a
 `grpc_method="Report"`, then Mixer is not being called by Envoy to report
@@ -163,167 +163,167 @@ or [manual]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar
 
 ### Verify Mixer metrics configuration exists
 
-1. Verify Mixer rules exist.
+1.  Verify Mixer rules exist.
 
-   In Kubernetes environments, issue the following command:
+    In Kubernetes environments, issue the following command:
 
-   ```command
-   $ kubectl get rules --all-namespaces
-   NAMESPACE      NAME        KIND
-   istio-system   promhttp    rule.v1alpha2.config.istio.io
-   istio-system   promtcp     rule.v1alpha2.config.istio.io
-   istio-system   stdio       rule.v1alpha2.config.istio.io
-   ```
+    ```command
+    $ kubectl get rules --all-namespaces
+    NAMESPACE      NAME        KIND
+    istio-system   promhttp    rule.v1alpha2.config.istio.io
+    istio-system   promtcp     rule.v1alpha2.config.istio.io
+    istio-system   stdio       rule.v1alpha2.config.istio.io
+    ```
 
-   If you do not see anything named `promhttp` or `promtcp`, then there is
-   no Mixer configuration for sending metric instances to a Prometheus adapter.
-   You will need to supply configuration for rules that connect Mixer metric
-   instances to a Prometheus handler.
+    If you do not see anything named `promhttp` or `promtcp`, then there is
+    no Mixer configuration for sending metric instances to a Prometheus adapter.
+    You will need to supply configuration for rules that connect Mixer metric
+    instances to a Prometheus handler.
 <!-- todo replace ([example](https://github.com/istio/istio/blob/master/install/kubernetes/istio.yaml#L892)). -->
 
-1. Verify Prometheus handler config exists.
+1.  Verify Prometheus handler config exists.
 
-   In Kubernetes environments, issue the following command:
+    In Kubernetes environments, issue the following command:
 
-   ```command
-   $ kubectl get prometheuses.config.istio.io --all-namespaces
-   NAMESPACE      NAME           KIND
-   istio-system   handler        prometheus.v1alpha2.config.istio.io
-   ```
+    ```command
+    $ kubectl get prometheuses.config.istio.io --all-namespaces
+    NAMESPACE      NAME           KIND
+    istio-system   handler        prometheus.v1alpha2.config.istio.io
+    ```
 
-   If there are no prometheus handlers configured, you will need to reconfigure
-   Mixer with the appropriate handler configuration.
+    If there are no prometheus handlers configured, you will need to reconfigure
+    Mixer with the appropriate handler configuration.
 <!-- todo replace ([example](https://github.com/istio/istio/blob/master/install/kubernetes/istio.yaml#L819)) -->
 
-1. Verify Mixer metric instances config exists.
+1.  Verify Mixer metric instances config exists.
 
-   In Kubernetes environments, issue the following command:
+    In Kubernetes environments, issue the following command:
 
-   ```command
-   $ kubectl get metrics.config.istio.io --all-namespaces
-   NAMESPACE      NAME                         KIND
-   istio-system   requestcount                 metric.v1alpha2.config.istio.io
-   istio-system   requestduration              metric.v1alpha2.config.istio.io
-   istio-system   requestsize                  metric.v1alpha2.config.istio.io
-   istio-system   responsesize                 metric.v1alpha2.config.istio.io
-   istio-system   stackdriverrequestcount      metric.v1alpha2.config.istio.io
-   istio-system   stackdriverrequestduration   metric.v1alpha2.config.istio.io
-   istio-system   stackdriverrequestsize       metric.v1alpha2.config.istio.io
-   istio-system   stackdriverresponsesize      metric.v1alpha2.config.istio.io
-   istio-system   tcpbytereceived              metric.v1alpha2.config.istio.io
-   istio-system   tcpbytesent                  metric.v1alpha2.config.istio.io
-   ```
+    ```command
+    $ kubectl get metrics.config.istio.io --all-namespaces
+    NAMESPACE      NAME                         KIND
+    istio-system   requestcount                 metric.v1alpha2.config.istio.io
+    istio-system   requestduration              metric.v1alpha2.config.istio.io
+    istio-system   requestsize                  metric.v1alpha2.config.istio.io
+    istio-system   responsesize                 metric.v1alpha2.config.istio.io
+    istio-system   stackdriverrequestcount      metric.v1alpha2.config.istio.io
+    istio-system   stackdriverrequestduration   metric.v1alpha2.config.istio.io
+    istio-system   stackdriverrequestsize       metric.v1alpha2.config.istio.io
+    istio-system   stackdriverresponsesize      metric.v1alpha2.config.istio.io
+    istio-system   tcpbytereceived              metric.v1alpha2.config.istio.io
+    istio-system   tcpbytesent                  metric.v1alpha2.config.istio.io
+    ```
 
-   If there are no metric instances configured, you will need to reconfigure
-   Mixer with the appropriate instance configuration.
+    If there are no metric instances configured, you will need to reconfigure
+    Mixer with the appropriate instance configuration.
 <!-- todo replace ([example](https://github.com/istio/istio/blob/master/install/kubernetes/istio.yaml#L727)) -->
 
-1. Verify Mixer configuration resolution is working for your service.
+1.  Verify Mixer configuration resolution is working for your service.
 
-   1. Establish a connection to the Mixer self-monitoring endpoint.
+    1.  Establish a connection to the Mixer self-monitoring endpoint.
 
-      Setup a `port-forward` to the Mixer self-monitoring port as described in
-      [Verify Mixer is receiving Report calls](#verify-mixer-is-receiving-report-calls).
+        Setup a `port-forward` to the Mixer self-monitoring port as described in
+        [Verify Mixer is receiving Report calls](#verify-mixer-is-receiving-report-calls).
 
-   1. On the [Mixer self-monitoring port](http://localhost:9093/metrics), search
-      for `mixer_config_resolve_count`.
+    1.  On the [Mixer self-monitoring port](http://localhost:9093/metrics), search
+        for `mixer_config_resolve_count`.
 
-      You should find something like:
+        You should find something like:
 
-      ```plain
-      mixer_config_resolve_count{error="false",target="details.default.svc.cluster.local"} 56
-      mixer_config_resolve_count{error="false",target="ingress.istio-system.svc.cluster.local"} 67
-      mixer_config_resolve_count{error="false",target="mongodb.default.svc.cluster.local"} 18
-      mixer_config_resolve_count{error="false",target="productpage.default.svc.cluster.local"} 59
-      mixer_config_resolve_count{error="false",target="ratings.default.svc.cluster.local"} 26
-      mixer_config_resolve_count{error="false",target="reviews.default.svc.cluster.local"} 54
-      ```
+        ```plain
+        mixer_config_resolve_count{error="false",target="details.default.svc.cluster.local"} 56
+        mixer_config_resolve_count{error="false",target="ingress.istio-system.svc.cluster.local"} 67
+        mixer_config_resolve_count{error="false",target="mongodb.default.svc.cluster.local"} 18
+        mixer_config_resolve_count{error="false",target="productpage.default.svc.cluster.local"} 59
+        mixer_config_resolve_count{error="false",target="ratings.default.svc.cluster.local"} 26
+        mixer_config_resolve_count{error="false",target="reviews.default.svc.cluster.local"} 54
+        ```
 
-   1. Validate that there are values for `mixer_config_resolve_count` where
-      `target="<your service>"` and `error="false"`.
+    1.  Validate that there are values for `mixer_config_resolve_count` where
+        `target="<your service>"` and `error="false"`.
 
-      If there are only instances where `error="true"` where `target=<your service>`,
-      there is likely an issue with Mixer configuration for your service. Logs
-      information is needed to further debug.
+        If there are only instances where `error="true"` where `target=<your service>`,
+        there is likely an issue with Mixer configuration for your service. Logs
+        information is needed to further debug.
 
-      In Kubernetes environments, retrieve the Mixer logs via:
+        In Kubernetes environments, retrieve the Mixer logs via:
 
-      ```command
-      $ kubectl -n istio-system logs <mixer pod> mixer
-      ```
+        ```command
+        $ kubectl -n istio-system logs <mixer pod> mixer
+        ```
 
-      Look for errors related to your configuration or your service in the
-      returned logs.
+        Look for errors related to your configuration or your service in the
+        returned logs.
 
 More on viewing Mixer configuration can be found [here]({{home}}/help/faq/mixer.html#mixer-self-monitoring)
 
 ### Verify Mixer is sending metric instances to the Prometheus adapter
 
-1. Establish a connection to the Mixer self-monitoring endpoint.
+1.  Establish a connection to the Mixer self-monitoring endpoint.
 
-   Setup a `port-forward` to the Mixer self-monitoring port as described in
-   [Verify Mixer is receiving Report calls](#verify-mixer-is-receiving-report-calls).
+    Setup a `port-forward` to the Mixer self-monitoring port as described in
+    [Verify Mixer is receiving Report calls](#verify-mixer-is-receiving-report-calls).
 
-1. On the [Mixer self-monitoring port](http://localhost:9093/metrics), search
-   for `mixer_adapter_dispatch_count`.
+1.  On the [Mixer self-monitoring port](http://localhost:9093/metrics), search
+    for `mixer_adapter_dispatch_count`.
 
-   You should find something like:
+    You should find something like:
 
-   ```plain
-   mixer_adapter_dispatch_count{adapter="prometheus",error="false",handler="handler.prometheus.istio-system",meshFunction="metric",response_code="OK"} 114
-   mixer_adapter_dispatch_count{adapter="prometheus",error="true",handler="handler.prometheus.default",meshFunction="metric",response_code="INTERNAL"} 4
-   mixer_adapter_dispatch_count{adapter="stdio",error="false",handler="handler.stdio.istio-system",meshFunction="logentry",response_code="OK"} 104
-   ```
+    ```plain
+    mixer_adapter_dispatch_count{adapter="prometheus",error="false",handler="handler.prometheus.istio-system",meshFunction="metric",response_code="OK"} 114
+    mixer_adapter_dispatch_count{adapter="prometheus",error="true",handler="handler.prometheus.default",meshFunction="metric",response_code="INTERNAL"} 4
+    mixer_adapter_dispatch_count{adapter="stdio",error="false",handler="handler.stdio.istio-system",meshFunction="logentry",response_code="OK"} 104
+    ```
 
-1. Validate that there are values for `mixer_adapter_dispatch_count` where
-   `adapter="prometheus"` and `error="false"`.
+1.  Validate that there are values for `mixer_adapter_dispatch_count` where
+    `adapter="prometheus"` and `error="false"`.
 
-   If there are are no recorded dispatches to the Prometheus adapter, there
-   is likely a configuration issue. Please see
-   [Verify Mixer metrics configuration exists](#verify-mixer-metrics-configuration-exists).
+    If there are are no recorded dispatches to the Prometheus adapter, there
+    is likely a configuration issue. Please see
+    [Verify Mixer metrics configuration exists](#verify-mixer-metrics-configuration-exists).
 
-   If dispatches to the Prometheus adapter are reporting errors, check the
-   Mixer logs to determine the source of the error. Most likely, there is a
-   configuration issue for the handler listed in `mixer_adapter_dispatch_count`.
+    If dispatches to the Prometheus adapter are reporting errors, check the
+    Mixer logs to determine the source of the error. Most likely, there is a
+    configuration issue for the handler listed in `mixer_adapter_dispatch_count`.
 
-   In Kubernetes environment, check the Mixer logs via:
+    In Kubernetes environment, check the Mixer logs via:
 
-   ```command
-   $ kubectl -n istio-system logs <mixer pod> mixer
-   ```
+    ```command
+    $ kubectl -n istio-system logs <mixer pod> mixer
+    ```
 
-   Filter for lines including something like `Report 0 returned with: INTERNAL
-   (1 error occurred:` (with some surrounding context) to find more information
-   regarding Report dispatch failures.
+    Filter for lines including something like `Report 0 returned with: INTERNAL
+    (1 error occurred:` (with some surrounding context) to find more information
+    regarding Report dispatch failures.
 
 ### Verify Prometheus configuration
 
-1. Connect to the Prometheus UI and verify that it can successfully
-   scrape Mixer.
+1.  Connect to the Prometheus UI and verify that it can successfully
+    scrape Mixer.
 
-   In Kubernetes environments, setup port-forwarding as follows:
+    In Kubernetes environments, setup port-forwarding as follows:
 
-   ```command
-   $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
-   ```
+    ```command
+    $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
+    ```
 
-1. Visit [http://localhost:9090/config](http://localhost:9090/config).
+1.  Visit [http://localhost:9090/config](http://localhost:9090/config).
 
-   Confirm that an entry exists that looks like:
+    Confirm that an entry exists that looks like:
 
-   ```yaml
-   - job_name: 'istio-mesh'
-     # Override the global default and scrape targets from this job every 5 seconds.
-     scrape_interval: 5s
-     # metrics_path defaults to '/metrics'
-     # scheme defaults to 'http'.
-     static_configs:
-     - targets: ['istio-mixer.istio-system:42422']
-   ```
+    ```yaml
+    - job_name: 'istio-mesh'
+      # Override the global default and scrape targets from this job every 5 seconds.
+      scrape_interval: 5s
+      # metrics_path defaults to '/metrics'
+      # scheme defaults to 'http'.
+      static_configs:
+      - targets: ['istio-mixer.istio-system:42422']
+    ```
 
-1. Visit [http://localhost:9090/targets](http://localhost:9090/targets).
+1.  Visit [http://localhost:9090/targets](http://localhost:9090/targets).
 
-   Confirm that target `istio-mesh` has a status of **UP**.
+    Confirm that target `istio-mesh` has a status of **UP**.
 
 ## How can I debug issues with the service mesh?
 
@@ -334,19 +334,19 @@ Istioctl allows you to inspect the current xDS of a given Envoy from its admin i
 For example, to retrieve the configured clusters in an Envoy via the admin interface run the following command:
 
 ```command
-istioctl proxy-config endpoint <pod-name> clusters
+$ istioctl proxy-config endpoint <pod-name> clusters
 ```
 
 To retrieve endpoints for a given pod in the application namespace from Pilot run the following command:
 
 ```command
-istioctl proxy-config pilot -n application <pod-name> eds
+$ istioctl proxy-config pilot -n application <pod-name> eds
 ```
 
 The `proxy-config` command also allows you to retrieve the state of the entire mesh from Pilot using the following command:
 
 ```command
-istioctl proxy-config pilot mesh ads
+$ istioctl proxy-config pilot mesh ads
 ```
 
 ### With [GDB](https://www.gnu.org/software/gdb/)

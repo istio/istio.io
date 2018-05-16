@@ -271,8 +271,10 @@ In addition to this fundamental restructuring, `VirtualService` includes several
 
 1. Multiple match conditions can be expressed inside the `VirtualService` configuration, reducing the need for redundant
    rules.
+
 1. Each service version has a name (called a service subset). The set of pods/VMs belonging to a subset is defined in a
    `DestinationRule`, described in the following section.
+
 1. `VirtualService` hosts can be specified using wildcard DNS prefixes to create a single rule for all matching services.
    For example, in Kubernetes, to apply the same rewrite rule for all services in the `foo` namespace, the `VirtualService`
    would use `*.foo.svc.cluster.local` as the host.
