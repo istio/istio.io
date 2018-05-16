@@ -43,11 +43,9 @@ The set of attributes determines which backend Mixer calls for a given request a
 each is given. In order to hide the details of individual backends, Mixer uses modules
 known as [*adapters*](./mixer.html#adapters).
 
-{% include figure.html width='60%' ratio='42.60%'
-    img='./img/mixer-config/machine.svg'
-    alt='Attribute Machine'
-    title='Attribute Machine'
-    caption='Attribute Machine'
+{% include image.html width="60%" ratio="42.60%"
+    link="./img/mixer-config/machine.svg"
+    caption="Attribute Machine"
     %}
 
 Mixer's configuration has the following central responsibilities:

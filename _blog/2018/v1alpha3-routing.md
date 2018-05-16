@@ -1,7 +1,7 @@
 ---
 title: Introducing the Istio v1alpha3 routing API
 description: Introduction, motivation and design principles for the Istio v1alpha3 routing API.
-publish_date: April 25, 2018
+publishdate: 2018-04-25
 subtitle:
 attribution: Frank Budinsky (IBM) and Shriram Rajagopalan (VMware)
 
@@ -54,11 +54,10 @@ services (e.g., Google Maps API). These may be called directly or, in certain de
 exiting the mesh may be forced through dedicated egress gateways. The following diagram depicts
 this mental model.
 
-{% include figure.html width='80%' ratio='65.16%'
-    img='./img/gateways.svg'
-    alt='Role of gateways in the mesh'
-    title='Gateways in an Istio service mesh'
-    caption='Gateways in an Istio service mesh'
+{% include image.html width="80%" ratio="35.20%"
+    link="./img/gateways.svg"
+    alt="Role of gateways in the mesh"
+    caption="Gateways in an Istio service mesh"
     %}
 
 With the above setup in mind, `v1alpha3` introduces the following new
@@ -77,11 +76,9 @@ dedicated middleboxes.
 The figure below depicts the flow of control across configuration
 resources.
 
-{% include figure.html width='80%' ratio='65.16%'
-    img='./img/virtualservices-destrules.svg'
-    alt='Relationship between different v1alpha3 elements'
-    title='Relationship between different v1alpha3 elements'
-    caption='Relationship between different v1alpha3 elements'
+{% include image.html width="80%" ratio="41.16%"
+    link="./img/virtualservices-destrules.svg"
+    caption="Relationship between different v1alpha3 elements"
     %}
 
 ### Gateway

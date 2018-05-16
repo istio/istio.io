@@ -19,22 +19,22 @@ example application for this task.
 
 ## Before you begin
 
-* Setup Istio by following the instructions in the [Installation guide]({{home}}/docs/setup/).
+*   Setup Istio by following the instructions in the [Installation guide]({{home}}/docs/setup/).
 
-  If you didn't start the Zipkin or Jaeger addon during installation,
-  you can run the following command to start it now.
+    If you didn't start the Zipkin or Jaeger addon during installation,
+    you can run the following command to start it now.
 
-  For Zipkin:
+    For Zipkin:
 
-  ```command
-  $ kubectl apply -f install/kubernetes/addons/zipkin.yaml
-  ```
+    ```command
+    $ kubectl apply -f install/kubernetes/addons/zipkin.yaml
+    ```
 
-  For Jaeger:
+    For Jaeger:
 
-  ```command
-  $ kubectl apply -n istio-system -f https://raw.githubusercontent.com/jaegertracing/jaeger-kubernetes/master/all-in-one/jaeger-all-in-one-template.yml
-  ```
+    ```command
+    $ kubectl apply -n istio-system -f https://raw.githubusercontent.com/jaegertracing/jaeger-kubernetes/master/all-in-one/jaeger-all-in-one-template.yml
+    ```
 
 * Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
@@ -67,36 +67,28 @@ With the Bookinfo application up and running, generate trace information by acce
 
 If you now look at the dashboard, you should see something similar to the following:
 
-{% include figure.html width='100%' ratio='44.28%'
-    img='./img/zipkin_dashboard.png'
-    alt='Zipkin Dashboard'
-    title='Zipkin Dashboard'
-    caption='Zipkin Dashboard'
+{% include image.html width="100%" ratio="44.28%"
+    link="./img/zipkin_dashboard.png"
+    caption="Zipkin Dashboard"
     %}
 
-{% include figure.html width='100%' ratio='42.35%'
-    img='./img/jaeger_dashboard.png'
-    alt='Jaeger Dashboard'
-    title='Jaeger Dashboard'
-    caption='Jaeger Dashboard'
+{% include image.html width="100%" ratio="42.35%"
+    link="./img/jaeger_dashboard.png"
+    caption="Jaeger Dashboard"
     %}
 
 If you click on the top (most recent) trace, you should see the details corresponding to your
 latest refresh of the `/productpage`.
 The page should look something like this:
 
-{% include figure.html width='100%' ratio='19.70%'
-    img='./img/zipkin_span.png'
-    alt='Zipkin Trace View'
-    title='Zipkin Trace View'
-    caption='Zipkin Trace View'
+{% include image.html width="100%" ratio="19.70%"
+    link="./img/zipkin_span.png"
+    caption="Zipkin Trace View"
     %}
 
-{% include figure.html width='100%' ratio='26.99%'
-    img='./img/jaeger_trace.png'
-    alt='Jaeger Trace View'
-    title='Jaeger Trace View'
-    caption='Jaeger Trace View'
+{% include image.html width="100%" ratio="26.99%"
+    link="./img/jaeger_trace.png"
+    caption="Jaeger Trace View"
     %}
 
 As you can see, the trace is comprised of spans,
@@ -179,19 +171,19 @@ When you make downstream calls in your applications, make sure to include these 
 
 ## Cleanup
 
-* Remove the addon tracing configuration:
+*   Remove the addon tracing configuration:
 
-  If you are running with Zipkin, run the following command to cleanup:
+    If you are running with Zipkin, run the following command to cleanup:
 
-  ```command
-  $ kubectl delete -f install/kubernetes/addons/zipkin.yaml
-  ```
+    ```command
+    $ kubectl delete -f install/kubernetes/addons/zipkin.yaml
+    ```
 
-  If you are running with Jaeger, run the following command to cleanup:
+    If you are running with Jaeger, run the following command to cleanup:
 
-  ```command
-  $ kubectl delete -f https://raw.githubusercontent.com/jaegertracing/jaeger-kubernetes/master/all-in-one/jaeger-all-in-one-template.yml
-  ```
+    ```command
+    $ kubectl delete -f https://raw.githubusercontent.com/jaegertracing/jaeger-kubernetes/master/all-in-one/jaeger-all-in-one-template.yml
+    ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
   [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
