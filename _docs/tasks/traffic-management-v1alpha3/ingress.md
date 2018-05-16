@@ -231,6 +231,7 @@ In this subsection we add to our gateway the port 443 to handle the HTTPS traffi
    ```
 
 ### Verifying secure gateway
+
 1. Verify that our gateway still works for the port 80 and accepts unencrypted HTTP traffic as before. We do it by accessing the _httpbin_ service, port 80, as described in the [Verifying unencrypted gateway](#verifying-unencrypted-gateway) subsection.
 
 1. Get the `istio-ingressgateway` service's _nodePort_ for the port 443:
