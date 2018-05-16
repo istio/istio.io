@@ -99,7 +99,7 @@ following table:
 > The Helm chart also offers significant customization options per individual
 service.  Customize these per-service options at your own risk.
 The per-service options are exposed via the
-[`values.yaml` file](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/helm/istio/values.yaml).
+[`values.yaml`](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/helm/istio/values.yaml) file.
 
 ## Uninstall Istio
 
