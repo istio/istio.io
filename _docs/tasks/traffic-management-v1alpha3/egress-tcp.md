@@ -16,13 +16,13 @@ This task describes how to configure Istio to expose external TCP services to ap
 * Setup Istio by following the instructions in the
   [Installation guide]({{home}}/docs/setup/).
 
-* Start the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) sample application which will be used as a test source for external calls.
+*   Start the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) sample application which will be used as a test source for external calls.
 
-  ```command
-  $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
-  ```
+    ```command
+    $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
+    ```
 
-  **Note**: any pod that you can execute `curl` from is good enough.
+    **Note**: any pod that you can execute `curl` from is good enough.
 
 ## Using Istio external services for external TCP traffic
 
@@ -63,43 +63,43 @@ This command instructs the Istio proxy to forward requests on port 443 of any of
 
 ## Access wikipedia.org by HTTPS
 
-1. `kubectl exec` into the pod to be used as the test source. If you are using the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) application, run the following command:
+1.  `kubectl exec` into the pod to be used as the test source. If you are using the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) application, run the following command:
 
-   ```command
-   $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep bash
-   ```
+    ```command
+    $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep bash
+    ```
 
-1. Make a request and verify that we can access https://www.wikipedia.org successfully:
+1.  Make a request and verify that we can access https://www.wikipedia.org successfully:
 
-   ```command
-   $ curl -o /dev/null -s -w "%{http_code}\n" https://www.wikipedia.org
-   200
-   ```
+    ```command
+    $ curl -o /dev/null -s -w "%{http_code}\n" https://www.wikipedia.org
+    200
+    ```
 
-   We should see `200` printed as the output, which is the HTTP code _OK_.
+    We should see `200` printed as the output, which is the HTTP code _OK_.
 
-1. Now let's fetch the current number of the articles available on Wikipedia in the English language:
+1.  Now let's fetch the current number of the articles available on Wikipedia in the English language:
 
-   ```command
-   $ curl -s https://en.wikipedia.org/wiki/Main_Page | grep articlecount | grep 'Special:Statistics'
-   <div id="articlecount" style="font-size:85%;"><a href="/wiki/Special:Statistics" title="Special:Statistics">5,563,121</a> articles in <a  href="/wiki/English_language" title="English language">English</a></div>
-   ```
+    ```command
+    $ curl -s https://en.wikipedia.org/wiki/Main_Page | grep articlecount | grep 'Special:Statistics'
+    <div id="articlecount" style="font-size:85%;"><a href="/wiki/Special:Statistics" title="Special:Statistics">5,563,121</a> articles in <a  href="/wiki/English_language" title="English language">English</a></div>
+    ```
 
-  This means there were 5,563,121 articles in Wikipedia in English when this task was written.
+    This means there were 5,563,121 articles in Wikipedia in English when this task was written.
 
 ## Cleanup
 
-1. Remove the external service we created.
+1.  Remove the external service we created.
 
-   ```command
-   $ istioctl delete serviceentry wikipedia-ext
-   ```
+    ```command
+    $ istioctl delete serviceentry wikipedia-ext
+    ```
 
-1. Shutdown the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) application.
+1.  Shutdown the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) application.
 
-   ```command
-   $ kubectl delete -f samples/sleep/sleep.yaml
-   ```
+    ```command
+    $ kubectl delete -f samples/sleep/sleep.yaml
+    ```
 
 ## What's next
 
