@@ -244,7 +244,7 @@ For example, run the following command on a MacOS or Linux system:
 1.  Install Istio's core components. Choose one of the two _**mutually exclusive**_ options below or alternately install
 with the [Helm Chart]({{home}}/docs/setup/kubernetes/helm-install.html):
 
-    If you already have Istio installed with version 0.7 or older, please make sure delete legacy service and deployments by running
+    If you already have Istio installed with version 0.7 or older, please delete the legacy service and deployments by running
         ```command
         $ kubectl delete service istio-mixer -n istio-system
         $ kubectl delete deploy istio-mixer istio-ca -n istio-system
