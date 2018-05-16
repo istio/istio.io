@@ -53,6 +53,5 @@ next LTS.
 In the unlikely event we need to issue a patch to a snapshot, it is numbered as:
 
 ```plain
-<major>.<minor>.<LTS patch level>-snapshot.<snaoshot count>.<snapshot patch level>
+<major>.<minor>.<LTS patch level>-snapshot.<snapshot count>.<snapshot patch level>
 ```
-S
