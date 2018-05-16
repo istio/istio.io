@@ -178,4 +178,4 @@ all users to v2, optionally in a gradual fashion. We'll explore this in a separa
 
 ## What's next
 
-* Learn more about [request routing]({{home}}/docs/concepts/traffic-management/rules-configuration.html).
+* Learn more about [request routing]({{home}}/docs/concepts/traffic-management/request-routing.html).
