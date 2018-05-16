@@ -55,7 +55,7 @@ Create a new cluster.
 
 ```command
 $ gcloud container clusters create <cluster-name> \
-    --cluster-version=1.9.7-gke.1 \
+    --cluster-version=1.10.2-gke.1 \
     --zone <zone> \
     --project <project-name>
 ```
@@ -76,7 +76,7 @@ $ kubectl create clusterrolebinding cluster-admin-binding \
     --user=$(gcloud config get-value core/account)
 ```
 
-### IBM Cloud Kubernetes Service (IKS)
+### [IBM Cloud Container Service (IKS)](https://console.bluemix.net/docs/containers/cs_tutorials.html#cs_cluster_tutorial)
 
 Create a new lite cluster.
 
@@ -100,7 +100,7 @@ $(bx cs cluster-config <cluster-name>|grep "export KUBECONFIG")
 
 Configure `kubectl` CLI based on steps [here](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0/manage_cluster/cfc_cli.html) for how to access the IBM Cloud Private Cluster.
 
-### OpenShift Origin
+### [OpenShift Origin](https://github.com/openshift/origin/blob/master/docs/cluster_up_down.md) (version 3.7 or later)
 
 OpenShift by default does not allow containers running with UID 0. Enable containers running
 with UID 0 for Istio's service accounts:
@@ -129,7 +129,7 @@ $ oc adm policy add-scc-to-user privileged -z default -n <target-namespace>
 
 > Check for `SELINUX` in this [discussion](https://github.com/istio/issues/issues/34)  with respect to Istio in case you see issues bringing up the Envoy.
 
-### AWS (w/Kops)
+### [AWS (w/Kops)](https://aws.amazon.com/blogs/compute/kubernetes-clusters-aws-kops/)
 
 When you install a new cluster with Kubernetes version 1.9, prerequisite for `admissionregistration.k8s.io/v1beta1` enabled is covered.
 
