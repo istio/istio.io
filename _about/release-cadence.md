@@ -15,16 +15,16 @@ The different types (Daily, Snapshot, LTS) represent different product quality l
 from the Istio team. In this context, *support* means that we will produce patch releases for critical issues and
 offer technical assistance. Separately, 3rd parties and partners may offer longer-term support solutions.
 
-|Type             | Support Level                                         | Quality and Recommended Use
-|-----------------+-------------------------------------------------------+----------------------------
-|Daily Build      | No support                                            | Dangerous, may not be fully reliable. Useful to experiment with.
+|Type             | Support Level                                            | Quality and Recommended Use
+|-----------------+----------------------------------------------------------+----------------------------
+|Daily Build      | No support                                               | Dangerous, may not be fully reliable. Useful to experiment with.
 |Snapshot Release | Support is provided for the latest snapshot release only | Expected to be quite stable, but use in production should be limited to an as-needed basis. Usually only adopted by bleeding edge users, or users seeking specific features.
-|LTS Release      | Support is provided until 3 months after the next LTS | Safe to deploy in production. Users are encouraged to upgrade to these releases as soon as possible.
-|Patches          | Same as corresponding Snapshot/LTS release            | Users are encouraged to adopt patch releases as soon as they are available for a given release.
+|LTS Release      | Support is provided until 3 months after the next LTS    | Safe to deploy in production. Users are encouraged to upgrade to these releases as soon as possible.
+|Patches          | Same as the corresponding Snapshot/LTS release           | Users are encouraged to adopt patch releases as soon as they are available for a given release.
 
 You can find available releases on the [releases page](https://github.com/istio/istio/releases),
 and if you're the adventurous type, you can get learn about our daily build on the [daily builds wiki](https://github.com/istio/istio/wiki/Daily-builds).
-You can find high-level releases notes for each LTS release [here]({{nome}}/about/notes).
+You can find high-level releases notes for each LTS release [here]({{home}}/about/notes).
 
 ## Naming Scheme
 
@@ -43,7 +43,7 @@ current LTS release.
 For snapshot releases, our numbering scheme is:
 
 ```plain
-<major>.<minor>.<LTS patch level>-snapshot.<snapshot count>
+<major>.<minor>.0-snapshot.<snapshot count>
 ```
 
 where `major`, `minor` and `LTS patch level` represent the next LTS, and
@@ -53,5 +53,5 @@ next LTS.
 In the unlikely event we need to issue a patch to a snapshot, it is numbered as:
 
 ```plain
-<major>.<minor>.<LTS patch level>-snapshot.<snapshot count>.<snapshot patch level>
+<major>.<minor>.0-snapshot.<snapshot count>.<snapshot patch level>
 ```
