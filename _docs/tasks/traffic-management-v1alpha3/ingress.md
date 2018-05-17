@@ -9,17 +9,15 @@ redirect_from: /docs/tasks/ingress.html
 {% include home.html %}
 
 In a Kubernetes environment, the [Kubernetes Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/)
-allows users to specify services that should be exposed outside the cluster.
-For traffic entering an Istio service mesh, however, an Istio-aware [ingress controller](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-controllers)
-is needed to allow Istio features, for example, monitoring and route rules, to be applied to traffic entering the cluster.
+allows specifying services that should be exposed outside the cluster.
 
-Istio provides an Envoy-based ingress controller that implements very limited support for standard Kubernetes `Ingress` resources
-as well as full support for an alternative specification,
-[Istio Gateway]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway).
-Using a `Gateway` is the recommended approach for configuring ingress traffic for Istio services.
-It is significantly more functional, not to mention the only option for non-Kubernetes environments.
+In Istio Service mesh, a different concept is applied, namely [Istio Gateway]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway). It allows Istio features, for example, monitoring and route rules, to be applied to traffic entering the cluster.
 
-This task describes how to configure Istio to expose a service outside of the service mesh using either specification.
+An alternative approach, applied in Istio before the 0.8 version, is an Istio-aware Envoy-based [ingress controller](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-controllers).
+
+Starting from Istio 0.8, the recommended approach (and the only possible one for non-Kubernetes environments) is to use [Istio Gateway]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway).
+
+This task describes how to configure Istio to expose a service outside of the service mesh using either approach.
 
 ## Before you begin
 
