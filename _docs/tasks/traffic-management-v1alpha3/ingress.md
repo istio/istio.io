@@ -250,7 +250,6 @@ In this subsection we add to our gateway the port 443 to handle the HTTPS traffi
    content-length: 0
    x-envoy-upstream-service-time: 6
    ```
-=======
 
 ## Configuring ingress using a Kubernetes Ingress resource
 
