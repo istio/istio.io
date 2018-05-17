@@ -34,7 +34,7 @@ Use the parameter *-n yournamespace* to specify a namespace other than the defau
 Verify the cluster-level Citadel is running:
 
 ```command
-$ kubectl get deploy -l istio=istio-citadel -n istio-system
+$ kubectl get deploy -l istio=citadel -n istio-system
 NAME            DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 istio-citadel   1         1         1            1           1m
 ```
