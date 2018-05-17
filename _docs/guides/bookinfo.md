@@ -7,6 +7,12 @@ weight: 10
 ---
 {% include home.html %}
 
+> Note: This guide assumes you will be using the new [v1alpha3 traffic management API]({{home}}/blog/2018/v1alpha3-routing.html).
+The old API has been deprecated and will be removed in the next Istio release.
+If you need to use the old version, you can follow the old instructions [here](https://archive.istio.io/v0.6/docs/guides/bookinfo.html),
+but note that on Kubernetes you will need to run an additional command (`kubectl apply -f samples/bookinfo/kube/bookinfo-gateway.yaml`)
+to define the Ingress, which previously was included in `bookinfo.yaml`.
+
 This guide deploys a sample application composed of four separate microservices which will be used
 to demonstrate various features of the Istio service mesh.
 
