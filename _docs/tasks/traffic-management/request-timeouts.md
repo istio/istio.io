@@ -7,6 +7,8 @@ weight: 28
 ---
 {% include home.html %}
 
+> Note: This task uses the new [v1alpha3 traffic management API]({{home}}/blog/2018/v1alpha3-routing.html). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.6/docs/tasks/).
+
 This task shows you how to setup request timeouts in Envoy using Istio.
 
 ## Before you begin
@@ -19,15 +21,8 @@ This task shows you how to setup request timeouts in Envoy using Istio.
 *   Initialize the application version routing by running the following command:
 
     ```command
-    $ istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
+    $ istioctl create -f samples/bookinfo/routing/route-rule-all-v1.yaml
     ```
-
-> This task assumes you are deploying the application on Kubernetes.
-All of the example commands are using the Kubernetes version of the rule yaml files
-(e.g., `samples/bookinfo/kube/route-rule-all-v1.yaml`). If you are running this
-task in a different environment, change `kube` to the directory that corresponds
-to your runtime (e.g., `samples/bookinfo/consul/route-rule-all-v1.yaml` for
-the Consul-based runtime).
 
 ## Request timeouts
 
@@ -41,16 +36,18 @@ to the `ratings` service.
 
     ```bash
     cat <<EOF | istioctl replace -f -
-    apiVersion: config.istio.io/v1alpha2
-    kind: RouteRule
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
     metadata:
-      name: reviews-default
+      name: reviews
     spec:
-      destination:
-        name: reviews
-      route:
-      - labels:
-          version: v2
+      hosts:
+        - reviews
+      http:
+      - route:
+        - destination:
+            name: reviews
+            subset: v2
     EOF
     ```
 
@@ -58,20 +55,22 @@ to the `ratings` service.
 
     ```bash
     cat <<EOF | istioctl replace -f -
-    apiVersion: config.istio.io/v1alpha2
-    kind: RouteRule
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
     metadata:
-      name: ratings-default
+      name: ratings
     spec:
-      destination:
-        name: ratings
-      route:
-      - labels:
-          version: v1
-      httpFault:
-        delay:
-          percent: 100
-          fixedDelay: 2s
+      hosts:
+      - ratings
+      http:
+      - fault:
+          delay:
+            percent: 100
+            fixedDelay: 2s
+        route:
+        - destination:
+            name: ratings
+            subset: v1
     EOF
     ```
 
@@ -84,19 +83,19 @@ to the `ratings` service.
 
     ```bash
     cat <<EOF | istioctl replace -f -
-    apiVersion: config.istio.io/v1alpha2
-    kind: RouteRule
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
     metadata:
-      name: reviews-default
+      name: reviews
     spec:
-      destination:
-        name: reviews
-      route:
-      - labels:
-          version: v2
-      httpReqTimeout:
-        simpleTimeout:
-          timeout: 1s
+      hosts:
+        - reviews
+      http:
+      - route:
+        - destination:
+            name: reviews
+            subset: v2
+        timeout: 1s
     EOF
     ```
 
@@ -135,7 +134,7 @@ the timeout is specified in millisecond (instead of second) units.
 *   Remove the application routing rules.
 
     ```command
-    $ istioctl delete -f samples/bookinfo/kube/route-rule-all-v1.yaml
+    $ istioctl delete -f samples/bookinfo/routing/route-rule-all-v1.yaml
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the

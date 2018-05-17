@@ -4,16 +4,17 @@ description: Describes how to configure Istio to route traffic from services in 
 
 weight: 40
 
-redirect_from: /docs/tasks/egress.html
 ---
 {% include home.html %}
+
+> Note: This task uses the new [v1alpha3 traffic management API]({{home}}/blog/2018/v1alpha3-routing.html). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.6/docs/tasks/).
 
 By default, Istio-enabled services are unable to access URLs outside of the cluster because
 iptables is used in the pod to transparently redirect all outbound traffic to the sidecar proxy,
 which only handles intra-cluster destinations.
 
 This task describes how to configure Istio to expose external services to Istio-enabled clients.
-You'll learn how to enable access to external services using egress rules,
+You'll learn how to enable access to external services by defining `ServiceEntry` configurations,
 or alternatively, to simply bypass the Istio proxy for a specific range of IPs.
 
 ## Before you begin
@@ -30,47 +31,64 @@ or alternatively, to simply bypass the Istio proxy for a specific range of IPs.
 
     Note that any pod that you can `exec` and `curl` from would do.
 
-## Using Istio egress rules
+## Configuring Istio external services
 
-Using Istio egress rules, you can access any publicly accessible service
+Using Istio `ServiceEntry` configurations, you can access any publicly accessible service
 from within your Istio cluster. In this task we will use
-[httpbin.org](https://httpbin.org) and [www.google.com](https://www.google.com) as examples.
+[httpbin.org](http://httpbin.org) and [www.google.com](http://www.google.com) as examples.
 
 ### Configuring the external services
 
-1.  Create an egress rule to allow access to an external HTTP service:
+1.  Create an `ServiceEntry` to allow access to an external HTTP service:
 
     ```bash
     cat <<EOF | istioctl create -f -
-    apiVersion: config.istio.io/v1alpha2
-    kind: EgressRule
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
     metadata:
-      name: httpbin-egress-rule
+      name: httpbin-ext
     spec:
-      destination:
-        service: httpbin.org
+      hosts:
+      - httpbin.org
       ports:
-        - port: 80
-          protocol: http
+      - number: 80
+        name: http
+        protocol: http
     EOF
     ```
 
-1.  Create an egress rule to allow access to an external HTTPS service:
+1.  Create an `ServiceEntry` to allow access to an external HTTPS service:
 
     ```bash
     cat <<EOF | istioctl create -f -
-    apiVersion: config.istio.io/v1alpha2
-    kind: EgressRule
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
     metadata:
-      name: google-egress-rule
+      name: google-ext
     spec:
-      destination:
-        service: www.google.com
+      hosts:
+      - www.google.com
       ports:
-        - port: 443
-          protocol: https
+      - number: 443
+        name: https
+        protocol: http
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: google-ext
+    spec:
+      host: www.google.com
+      trafficPolicy:
+        tls:
+          mode: SIMPLE # initiates HTTPS when talking to www.google.com
     EOF
     ```
+
+Notice that we also create a corresponding `DestinationRule` to
+initiate TLS for connections to the HTTPS service.
+Callers must access this service using HTTP on port 443 and Istio will upgrade
+the connection to HTTPS.
 
 ### Make requests to the external services
 
@@ -99,7 +117,7 @@ from within your Istio cluster. In this task we will use
 
 Similar to inter-cluster requests, Istio
 [routing rules]({{home}}/docs/concepts/traffic-management/rules-configuration.html)
-can also be set for external services that are accessed using egress rules.
+can also be set for external services that are accessed using `ServiceEntry` configurations.
 To illustrate we will use [istioctl]({{home}}/docs/reference/commands/istioctl.html)
 to set a timeout rule on calls to the httpbin.org service.
 
@@ -121,16 +139,15 @@ to set a timeout rule on calls to the httpbin.org service.
 
     ```bash
     cat <<EOF | istioctl create -f -
-    apiVersion: config.istio.io/v1alpha2
-    kind: RouteRule
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
     metadata:
-      name: httpbin-timeout-rule
+      name: httpbin-ext
     spec:
-      destination:
-        service: httpbin.org
-      http_req_timeout:
-        simple_timeout:
-          timeout: 3s
+      hosts:
+        - httpbin.org
+      http:
+      - timeout: 3s
     EOF
     ```
 
@@ -151,7 +168,7 @@ to set a timeout rule on calls to the httpbin.org service.
 
 ## Calling external services directly
 
-The Istio egress rules currently only supports HTTP/HTTPS requests.
+The Istio `ServiceEntry` currently only supports HTTP/HTTPS requests.
 If you want to access services with other protocols (e.g., mongodb://host/database),
 or if you want to completely bypass Istio for a specific IP range,
 you will need to configure the source service's Envoy sidecar to prevent it from
@@ -176,6 +193,11 @@ On IBM Cloud Private, use:
 
     ```command
     $ cat cluster/config.yaml | grep service_cluster_ip_range
+    ```
+
+    A sample output is as following:
+
+    ```plain
     service_cluster_ip_range: 10.0.0.1/24
     ```
 
@@ -195,11 +217,10 @@ On Google Container Engine (GKE) the ranges are not fixed, so you will
 need to run the `gcloud container clusters describe` command to determine the ranges to use. For example:
 
 ```command
-$ gcloud container clusters describe <cluster_name> --zone <zone> | grep -e clusterIpv4Cidr -e servicesIpv4Cidr
+$ gcloud container clusters describe XXXXXXX --zone=XXXXXX | grep -e clusterIpv4Cidr -e servicesIpv4Cidr
 clusterIpv4Cidr: 10.4.0.0/14
 servicesIpv4Cidr: 10.7.240.0/20
 ```
-
 ```command
 $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=10.4.0.0/14,10.7.240.0/20)
 ```
@@ -221,13 +242,13 @@ $ kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
 
 ## Understanding what happened
 
-In this task we looked at two ways to call external services from within an Istio cluster:
+In this task we looked at two ways to call external services from an Istio mesh:
 
-1. Using an egress rule (recommended)
+1. Using an `ServiceEntry` (recommended)
 
 1. Configuring the Istio sidecar to exclude external IPs from its remapped IP table
 
-The first approach (egress rule) currently only supports HTTP(S) requests, but allows
+The first approach (`ServiceEntry`) only supports HTTP(S) requests, but allows
 you to use all of the same Istio service mesh features for calls to services within or outside
 of the cluster. We demonstrated this by setting a timeout rule for calls to an external service.
 
@@ -240,8 +261,9 @@ cloud provider specific knowledge and configuration.
 1.  Remove the rules.
 
     ```command
-    $ istioctl delete egressrule httpbin-egress-rule google-egress-rule
-    $ istioctl delete routerule httpbin-timeout-rule
+    $ istioctl delete serviceentry httpbin-ext google-ext
+    $ istioctl delete destinationrule google-ext
+    $ istioctl delete virtualservice httpbin-ext
     ```
 
 1.  Shutdown the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) service.
@@ -250,15 +272,15 @@ cloud provider specific knowledge and configuration.
     $ kubectl delete -f samples/sleep/sleep.yaml
     ```
 
-## Egress Rules and Access Control
+## `ServiceEntry` and Access Control
 
-Note that Istio Egress Rules are **not a security feature**. They enable access to external (out of the service mesh) services. It is up to the user to deploy appropriate security mechanisms such as firewalls to prevent unauthorized access to the external services. We are working on adding access control support for the external services.
+Note that Istio `ServiceEntry` is **not a security feature**. It enables access to external (out of the service mesh) services. It is up to the user to deploy appropriate security mechanisms such as firewalls to prevent unauthorized access to the external services. We are working on adding access control support for the external services.
 
 ## What's next
 
-* Read more about [egress rules]({{home}}/docs/concepts/traffic-management/rules-configuration.html#egress-rules).
+* Read more about [ServiceEntry]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#ServiceEntry).
 
 * Learn how to setup
-  [timeouts]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#httptimeout),
-  [retries]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#httpretry),
-  and [circuit breakers]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#circuitbreaker) for egress traffic.
+  [timeouts]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#HTTPRoute.timeout),
+  [retries]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#HTTPRoute.retries),
+  and [circuit breakers]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#OutlierDetection) for egress traffic.
