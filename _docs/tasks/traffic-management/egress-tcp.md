@@ -7,7 +7,7 @@ weight: 41
 ---
 {% include home.html %}
 
-> Note: This task uses the new [v1alpha3 traffic management API]({{home}}/blog/2018/v1alpha3-routing.html). The old api has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.6/docs/tasks/).
+> Note: This task uses the new [v1alpha3 traffic management API]({{home}}/blog/2018/v1alpha3-routing.html). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.6/docs/tasks/).
 
 The [Control Egress Traffic]({{home}}/docs/tasks/traffic-management/egress.html) task demonstrated how external (outside the Kubernetes cluster) HTTP and HTTPS services can be accessed from applications inside the mesh. A quick reminder: by default, Istio-enabled applications are unable to access URLs outside the cluster. To enable such access, an [external service]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#ServiceEntry) must be defined, or, alternatively, [direct access to external services]({{home}}/docs/tasks/traffic-management/egress.html#calling-external-services-directly) must be configured.
 
