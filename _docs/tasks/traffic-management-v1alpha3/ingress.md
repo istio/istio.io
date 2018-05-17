@@ -494,20 +494,14 @@ and may be especially useful when moving existing Kubernetes applications to Ist
 1.  Remove the `Gateway` configuration.
 
     ```command
-    $ kubectl delete gateway httpbin-gateway
+    $ istioctl delete gateway httpbin-gateway
     ```
 
-1.  Remove the `Ingress` configuration.
-
-    ```command
-    $ kubectl delete ingress simple-ingress secure-ingress
-    ```
-
-1.  Remove the routing rule and secret.
+1.  Remove the `VirtualService` and secret.
 
     ```command
     $ istioctl delete virtualservice httpbin
-    $ kubectl delete -n istio-system secret istio-ingress-certs
+    $ kubectl delete -n istio-system secret istio-ingressgateway-certs
     ```
 
 1.  Shutdown the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) service.
