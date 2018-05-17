@@ -12,19 +12,19 @@ Quick start instructions to install and configure Istio in a Kubernetes cluster.
 
 ## Prerequisites
 
-The following instructions require you have access to a Kubernetes **1.7.3 or newer** cluster
-with [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/) enabled. You will also need `kubectl` **1.7.3 or newer** installed.
+The following instructions recommend you have access to a Kubernetes **1.9 or newer** cluster
+with [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/) enabled. You will also need `kubectl` **1.9 or newer** installed.
 
-If you wish to enable [automatic sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection) or server-side configuration validation, you need Kubernetes version 1.9 or greater.
+If you wish to enable [automatic sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection) or server-side configuration validation, you must use Kubernetes version 1.9 or greater.
 
-  > If you installed Istio 0.1.x,
-  > [uninstall](https://archive.istio.io/v0.1/docs/tasks/installing-istio.html#uninstalling)
+  > If you installed Istio 0.2.x,
+  > [uninstall](https://archive.istio.io/v0.2/docs/setup/kubernetes/quick-start#uninstalling)
   > it completely before installing the newer version (including the Istio sidecar
   > for all Istio enabled application pods).
 
 * Install or upgrade the Kubernetes CLI
 [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) to
-match the version supported by your cluster (version 1.7 or later for CRD
+match the version supported by your cluster (version 1.9 or later for CRD
 support).
 
 ### [Minikube](https://github.com/kubernetes/minikube/releases)
@@ -69,18 +69,16 @@ $ kubectl create clusterrolebinding cluster-admin-binding \
 
 ### [IBM Cloud Container Service (IKS)](https://www.ibm.com/cloud/container-service)
 
-Kubernetes 1.9 is generally available on IBM Cloud Container Service (IKS).
-
-At the time of writing it is not the default version, so to create a new lite cluster:
+Create a new lite cluster.
 
 ```command
-$ bx cs cluster-create --name <cluster-name> --kube-version 1.9.3
+$ bx cs cluster-create --name <cluster-name> --kube-version 1.9.7
 ```
 
 Or create a new paid cluster:
 
 ```command
-$ bx cs cluster-create --location location --machine-type u2c.2x4 --name <cluster-name> --kube-version 1.9.3
+$ bx cs cluster-create --location location --machine-type u2c.2x4 --name <cluster-name> --kube-version 1.9.7
 ```
 
 Retrieve your credentials for `kubectl` (replace `<cluster-name>` with the name of the cluster you want to use):
@@ -207,7 +205,7 @@ You should see `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` flags
       --admission-control=...,MutatingAdmissionWebhook,...,ValidatingAdmissionWebhook,...
 ```
 
-## Installation steps
+## Download and prepare for the installation
 
 Starting with the 0.2 release, Istio is installed in its own `istio-system`
 namespace, and can manage services from all other namespaces.
@@ -241,15 +239,13 @@ For example, run the following command on a MacOS or Linux system:
     $ export PATH=$PWD/bin:$PATH
     ```
 
-1.  Install Istio's core components. Choose one of the two _**mutually exclusive**_ options below or alternately install
-with the [Helm Chart]({{home}}/docs/setup/kubernetes/helm-install.html):
 
-    If you already have Istio installed with version 0.7 or older, please delete the legacy service and deployments by running
-        ```command
-        $ kubectl delete service istio-mixer -n istio-system
-        $ kubectl delete deploy istio-mixer istio-ca -n istio-system
-        ```
+## Installation steps
 
+1.  Install Istio's core components. Choose one of the two _**mutually exclusive**_ options below fo quick install.  However, we recommend you to install with the [Helm Chart]({{home}}/docs/setup/kubernetes/helm-install.html) for production installation of Istio to leverage all the params to config and customize Istio to your need.
+
+    If you already have Istio installed with version 0.7 or older, follow the uninstallation instruction to uninstall Istio.
+ 
     a)  Install Istio without enabling [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars.
     Choose this option for clusters with existing applications, applications where services with an
     Istio sidecar need to be able to communicate with other non-Istio Kubernetes services, and
