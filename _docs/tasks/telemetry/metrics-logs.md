@@ -303,6 +303,6 @@ here to illustrate how to use `match` expressions to control rule execution.
 * Learn more about [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html)
   and [Mixer Config]({{home}}/docs/concepts/policy-and-control/mixer-config.html).
 
-* Discover the full [Attribute Vocabulary]({{home}}/docs/reference/config/mixer/attribute-vocabulary.html).
+* Discover the full [Attribute Vocabulary]({{home}}/docs/reference/config/policy-and-telemetry/attribute-vocabulary.html).
 
 * Refer to the [In-Depth Telemetry]({{home}}/docs/guides/telemetry.html) guide.
