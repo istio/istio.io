@@ -244,6 +244,12 @@ For example, run the following command on a MacOS or Linux system:
 1.  Install Istio's core components. Choose one of the two _**mutually exclusive**_ options below or alternately install
 with the [Helm Chart]({{home}}/docs/setup/kubernetes/helm-install.html):
 
+    If you already have Istio installed with version 0.7 or older, please delete the legacy service and deployments by running
+        ```command
+        $ kubectl delete service istio-mixer -n istio-system
+        $ kubectl delete deploy istio-mixer istio-ca -n istio-system
+        ```
+
     a)  Install Istio without enabling [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars.
     Choose this option for clusters with existing applications, applications where services with an
     Istio sidecar need to be able to communicate with other non-Istio Kubernetes services, and
