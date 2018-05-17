@@ -45,12 +45,9 @@ This task describes how to configure Istio to expose a service outside of the se
     $ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /tmp/tls.key -out /tmp/tls.crt -subj "/CN=foo.bar.com"
     ```
 
-## Configuring ingress using an Istio Gateway resource (recommended)
+## Configuring ingress using an Istio Gateway resource
 
-An [Istio Gateway]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway) is the preferred
-model for configuring ingress traffic in Istio.
-An ingress `Gateway` describes a load balancer operating at the edge of the mesh receiving incoming
-HTTP/TCP connections.
+An ingress [Gateway]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway) describes a load balancer operating at the edge of the mesh receiving incoming HTTP/TCP connections.
 It configures exposed ports, protocols, etc.,
 but, unlike [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/services-networking/ingress/),
 does not include any traffic routing configuration. Traffic routing for ingress traffic is instead configured
