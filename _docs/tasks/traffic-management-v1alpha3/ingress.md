@@ -183,14 +183,14 @@ In this subsection we add to our gateway the port 443 to handle the HTTPS traffi
 
 1. Create a Kubernetes `Secret` to hold the key/cert
 
-   Create the secret `istio-ingress-certs` in namespace `istio-system` using `kubectl`. The Istio ingress controller
+   Create the secret `istio-ingressgateway-certs` in namespace `istio-system` using `kubectl`. The Istio ingress controller
    will automatically load the secret.
 
-   > The secret MUST be called `istio-ingress-certs` in the `istio-system` namespace, or it will not
+   > The secret MUST be called `istio-ingressgateway-certs` in the `istio-system` namespace, or it will not
    be mounted and available to the Istio ingress controller.
 
    ```command
-   $ kubectl create -n istio-system secret tls istio-ingress-certs --key /tmp/tls.key --cert /tmp/tls.crt
+   $ kubectl create -n istio-system secret tls istio-ingressgateway-certs --key /tmp/tls.key --cert /tmp/tls.crt
    ```
 
    Note that by default all service accounts in the `istio-system` namespace can access this ingress key/cert,
@@ -199,7 +199,7 @@ In this subsection we add to our gateway the port 443 to handle the HTTPS traffi
 
 1. Replace the previous `Gateway` definition with a server section for the port 443.
 
-   > The location of the certificate and the private key MUST be `/etc/istio/ingress-certs`, or the gateway will fail to load them.
+   > The location of the certificate and the private key MUST be `/etc/istio/ingressgateway-certs`, or the gateway will fail to load them.
 
    ```bash
    cat <<EOF | istioctl replace -f -
@@ -223,8 +223,8 @@ In this subsection we add to our gateway the port 443 to handle the HTTPS traffi
          protocol: HTTPS
        tls:
          mode: SIMPLE
-         serverCertificate: /etc/istio/ingress-certs/tls.crt
-         privateKey: /etc/istio/ingress-certs/tls.key
+         serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+         privateKey: /etc/istio/ingressgateway-certs/tls.key
        hosts:
        - "foo.bar.com"
    EOF
