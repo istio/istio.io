@@ -7,6 +7,8 @@ weight: 20
 ---
 {% include home.html %}
 
+> Note: This task uses the new [v1alpha3 traffic management API]({{home}}/blog/2018/v1alpha3-routing.html). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.6/docs/tasks/).
+
 This task shows how to inject delays and test the resiliency of your application.
 
 ## Before you begin
@@ -17,22 +19,13 @@ This task shows how to inject delays and test the resiliency of your application
 * Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
 *   Initialize the application version routing by either first doing the
-[request routing](./request-routing.html) task or by running following
-commands:
-
-    > This assumes you don't have any routes set yet. If you've already created conflicting route rules for the sample, you'll need to use `replace` rather than `create` in one or both of the following commands.
+    [request routing](./request-routing.html) task or by running following
+    commands:
 
     ```command
-    $ istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
-    $ istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+    $ istioctl create -f samples/bookinfo/routing/route-rule-all-v1.yaml
+    $ istioctl replace -f samples/bookinfo/routing/route-rule-reviews-test-v2.yaml
     ```
-
-> This task assumes you are deploying the application on Kubernetes.
-All of the example commands are using the Kubernetes version of the rule yaml files
-(e.g., `samples/bookinfo/kube/route-rule-all-v1.yaml`). If you are running this
-task in a different environment, change `kube` to the directory that corresponds
-to your runtime (e.g., `samples/bookinfo/consul/route-rule-all-v1.yaml` for
-the Consul-based runtime).
 
 # Fault injection
 
@@ -46,35 +39,38 @@ continue without any errors.
 1.  Create a fault injection rule to delay traffic coming from user "jason" (our test user)
 
     ```command
-    $ istioctl create -f samples/bookinfo/kube/route-rule-ratings-test-delay.yaml
+    $ istioctl replace -f samples/bookinfo/routing/route-rule-ratings-test-delay.yaml
     ```
 
     Confirm the rule is created:
 
     ```command-output-as-yaml
-    $ istioctl get routerule ratings-test-delay -o yaml
-    apiVersion: config.istio.io/v1alpha2
-    kind: RouteRule
+    $ istioctl get virtualservice ratings -o yaml
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
     metadata:
-      name: ratings-test-delay
-      namespace: default
+      name: ratings
       ...
     spec:
-      destination:
-        name: ratings
-      httpFault:
-        delay:
-          fixedDelay: 7.000s
-          percent: 100
-      match:
-        request:
-          headers:
+      hosts:
+      - ratings
+      http:
+      - fault:
+          delay:
+            fixedDelay: 7s
+            percent: 100
+        match:
+        - headers:
             cookie:
               regex: ^(.*?;)?(user=jason)(;.*)?$
-      precedence: 2
-      route:
-      - labels:
-          version: v1
+        route:
+        - destination:
+            name: ratings
+            subset: v1
+      - route:
+        - destination:
+            name: ratings
+            subset: v1
     ```
 
     Allow several seconds to account for rule propagation delay to all pods.
@@ -120,61 +116,55 @@ As another test of resiliency, we will introduce an HTTP abort to the ratings mi
 We expect the page to load immediately unlike the delay example and display the "product ratings not available"
 message.
 
-1.  Remove the fault delay injection rule before attempting the fault abort rule
+1.  Create a fault injection rule to send an HTTP abort for user "jason"
 
     ```command
-    $ istioctl delete -f samples/bookinfo/kube/route-rule-ratings-test-delay.yaml
-    ```
-
-1.  Create the fault injection rule to send an HTTP abort for user "jason"
-
-    ```command
-    $ istioctl create -f samples/bookinfo/kube/route-rule-ratings-test-abort.yaml
+    $ istioctl replace -f samples/bookinfo/routing/route-rule-ratings-test-abort.yaml
     ```
 
     Confirm the rule is created
 
     ```command-output-as-yaml
-    $ istioctl get routerules ratings-test-abort -o yaml
-    apiVersion: config.istio.io/v1alpha2
-    kind: RouteRule
+    $ istioctl get virtualservice ratings -o yaml
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
     metadata:
-      name: ratings-test-abort
-      namespace: default
+      name: ratings
       ...
     spec:
-      destination:
-        name: ratings
-      httpFault:
-        abort:
-          httpStatus: 500
-          percent: 100
-      match:
-        request:
-          headers:
+      hosts:
+      - ratings
+      http:
+      - fault:
+          abort:
+            httpStatus: 500
+            percent: 100
+        match:
+        - headers:
             cookie:
               regex: ^(.*?;)?(user=jason)(;.*)?$
-      precedence: 2
-      route:
-      - labels:
-          version: v1
+        route:
+        - destination:
+            name: ratings
+            subset: v1
+      - route:
+        - destination:
+            name: ratings
+            subset: v1
     ```
 
 1.  Observe application behavior
 
     Login as user "jason". If the rule propagated successfully to all pods, you should see the page load
     immediately with the "product ratings not available" message. Logout from user "jason" and you should
-    see the ratings v2 show up successfully on the productpage web page.
+    see reviews with rating stars show up successfully on the productpage web page.
 
 ## Cleanup
 
 *   Remove the application routing rules:
 
     ```command
-    $ istioctl delete -f samples/bookinfo/kube/route-rule-all-v1.yaml
-    $ istioctl delete -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
-    $ istioctl delete -f samples/bookinfo/kube/route-rule-ratings-test-delay.yaml
-    $ istioctl delete -f samples/bookinfo/kube/route-rule-ratings-test-abort.yaml
+    $ istioctl delete -f samples/bookinfo/routing/route-rule-all-v1.yaml
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the

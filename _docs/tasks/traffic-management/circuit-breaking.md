@@ -7,6 +7,8 @@ weight: 50
 ---
 {% include home.html %}
 
+> Note: This task uses the new [v1alpha3 traffic management API]({{home}}/blog/2018/v1alpha3-routing.html). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.6/docs/tasks/).
+
 This task demonstrates the circuit-breaking capability for resilient applications. Circuit breaking allows developers to write applications that limit the impact of failures, latency spikes, and other undesirable effects of network peculiarities. This task will show how to configure circuit breaking for connections, requests, and outlier detection.
 
 ## Before you begin
@@ -23,30 +25,58 @@ This task demonstrates the circuit-breaking capability for resilient application
 
 ## Circuit breaker
 
-Let's set up a scenario to demonstrate the circuit-breaking capabilities of Istio. We should have the `httpbin` service running from the previous section. We'll want to make sure we set some route rules to route all traffic to `httpbin` with `version=v1`. We'll be setting the circuit-breaking settings by creating an Istio
-[destination policy]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#CircuitBreaker) but for destination policies to take effect, there needs to be a route rule for the destination first. Let's create the route rule:
+Let's set up a scenario to demonstrate the circuit-breaking capabilities of Istio. We should have the `httpbin` service running from the previous section.
 
-### Creating circuit breaking policies
+1.  Create a [destination rule]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#DestinationRule) to specify our circuit breaking settings when calling the `httpbin` service:
 
-1.  Create a default route rule to route all traffic to `v1` of our `httpbin` service:
-
-    ```command
-    $ istioctl create -f samples/httpbin/routerules/httpbin-v1.yaml
+    ```bash
+    cat <<EOF | istioctl create -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: httpbin
+    spec:
+      name: httpbin
+      trafficPolicy:
+        connectionPool:
+          tcp:
+            maxConnections: 100
+          http:
+            http1MaxPendingRequests: 1
+            maxRequestsPerConnection: 1
+        outlierDetection:
+          http:
+            consecutiveErrors: 1
+            interval: 1s
+            baseEjectionTime: 3m
+            maxEjectionPercent: 100
+    EOF
     ```
 
-1.  Create a [destination policy]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#CircuitBreaker) to specify our circuit breaking settings when
-calling `httpbin` service:
+1.  Verify our destination rule was created correctly:
 
-    ```command
-    $ istioctl create -f samples/httpbin/destinationpolicies/httpbin-circuit-breaker.yaml
-    ```
-
-1.  Verify our destination policy was created correctly:
-
-    ```command
-    $ istioctl get destinationpolicy
-    NAME                    KIND                                            NAMESPACE
-    httpbin-circuit-breaker DestinationPolicy.v1alpha2.config.istio.io      istio-samples
+    ```command-output-as-yaml
+    $ istioctl get destinationrule httpbin -o yaml
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: httpbin
+      ...
+    spec:
+      name: httpbin
+      trafficPolicy:
+        connectionPool:
+          http:
+            http1MaxPendingRequests: 1
+            maxRequestsPerConnection: 1
+          tcp:
+            maxConnections: 100
+        outlierDetection:
+          http:
+            baseEjectionTime: 180.000s
+            consecutiveErrors: 1
+            interval: 1.000s
+            maxEjectionPercent: 100
     ```
 
 ### Setting up our client
@@ -92,7 +122,7 @@ You can see the request succeeded! Now, let's break something.
 
 ### Tripping the circuit breaker
 
-In the circuit-breaking settings, we specified `maxConnections: 1` and `httpMaxPendingRequests: 1`. This should mean that if we exceed more than one connection and request concurrently, we should see the istio-proxy open the circuit for further requests/connections. Let's try with two concurrent connections (`-c 2`) and send 20 requests (`-n 20`)
+In the circuit-breaking settings, we specified `maxConnections: 1` and `http1MaxPendingRequests: 1`. This should mean that if we exceed more than one connection and request concurrently, we should see the istio-proxy open the circuit for further requests/connections. Let's try with two concurrent connections (`-c 2`) and send 20 requests (`-n 20`)
 
 ```command
 $ kubectl exec -it $FORTIO_POD  -c fortio /usr/local/bin/fortio -- load -c 2 -qps 0 -n 20 -loglevel Warning http://httpbin:8000/get
@@ -197,8 +227,7 @@ We see `12` for the `upstream_rq_pending_overflow` value which means `12` calls 
 1.  Remove the rules.
 
     ```command
-    $ istioctl delete routerule httpbin-default-v1
-    $ istioctl delete destinationpolicy httpbin-circuit-breaker
+    $ istioctl delete destinationrule httpbin
     ```
 
 1.  Shutdown the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) service and client.
@@ -210,4 +239,4 @@ We see `12` for the `upstream_rq_pending_overflow` value which means `12` calls 
 
 ## What's next
 
-Check out the [destination policy]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#CircuitBreaker) reference section for more settings for circuit breaker.
+Check out the [destination rule]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#DestinationRule) reference section for more circuit breaker settings.

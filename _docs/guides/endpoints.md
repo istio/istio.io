@@ -53,7 +53,7 @@ Otherwise, ESP won't be able to access Google cloud service control.
     EOF
     ```
 
-1.  Get the Ingress IP through [instructions]({{home}}/docs/tasks/traffic-management/ingress.html#verifying-http-ingress).
+1.  Get the Ingress IP through [instructions]({{home}}/docs/tasks/traffic-management/ingress.html#verifying-simple-ingress).
 You can verify accessing the Endpoints service through Ingress:
 
     ```command
