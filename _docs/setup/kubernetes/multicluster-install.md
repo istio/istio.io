@@ -17,7 +17,7 @@ Instructions for the installation of Istio multicluster.
 * The ability to deploy the [Istio control plane]({{home}}/docs/setup/kubernetes/quick-start.html)
 on **one** Kubernetes cluster.
 
-* The usage of an RFC1918 network, VPN, or alternative more advanced network techniques
+*   The usage of an RFC1918 network, VPN, or alternative more advanced network techniques
 to meet the following requirements:
 
     * Individual cluster Pod CIDR ranges and service CIDR ranges must be unique
@@ -141,42 +141,44 @@ $ export STATSD_POD_IP=$(kubectl -n istio-system get pod -l istio=statsd-prom-br
 
 ### Use kubectl with Helm to connect the remote cluster to the local
 
-1. Use the helm template command on a remote to specify the Istio control plane service endpoints:
+1.  Use the helm template command on a remote to specify the Istio control plane service endpoints:
 
-   ```command
-   $ helm template install/kubernetes/helm/istio-remote --namespace istio-system --name istio-remote --set global.pilotEndpoint=${PILOT_POD_IP} --set global.policyEndpoint=${POLICY_POD_IP} --set global.statsdEndpoint=${STATSD_POD_IP} > $HOME/istio-remote.yaml
-   ```
+    ```command
+    $ helm template install/kubernetes/helm/istio-remote --namespace istio-system --name istio-remote --set global.pilotEndpoint=${PILOT_POD_IP} --set global.policyEndpoint=${POLICY_POD_IP} --set global.statsdEndpoint=${STATSD_POD_IP} > $HOME/istio-remote.yaml
+    ```
 
-1. Create a namespace for remote Istio.
-   ```command
-   $ kubectl create ns istio-system
-   ```
-1. Instantiate the remote cluster's connection to the Istio control plane:
+1.  Create a namespace for remote Istio.
 
-   ```command
-   $ kubectl create -f $HOME/istio-remote.yaml
-   ```
+    ```command
+    $ kubectl create ns istio-system
+    ```
+
+1.  Instantiate the remote cluster's connection to the Istio control plane:
+
+    ```command
+    $ kubectl create -f $HOME/istio-remote.yaml
+    ```
 
 ### Alternatively use Helm and Tiller to connect the remote cluster to the local
 
-1. If a service account has not already been installed for Helm, please
+1.  If a service account has not already been installed for Helm, please
 install one:
 
-   ```command
-   $ kubectl create -f install/kubernetes/helm/helm-service-account.yaml
-   ```
+    ```command
+    $ kubectl create -f install/kubernetes/helm/helm-service-account.yaml
+    ```
 
-1. Initialize Helm:
+1.  Initialize Helm:
 
-   ```command
-   $ helm init --service-account tiller
-   ```
+    ```command
+    $ helm init --service-account tiller
+    ```
 
-1. Install the Helm chart:
+1.  Install the Helm chart:
 
-   ```command
-   $ helm install install/kubernetes/helm/istio-remote --name istio-remote --set global.pilotEndpoint=${PILOT_POD_IP} --set global.policyEndpoint=${POLICY_POD_IP} --set global.statsdEndpoint=${STATSD_POD_IP} --namespace istio-system
-   ```
+    ```command
+    $ helm install install/kubernetes/helm/istio-remote --name istio-remote --set global.pilotEndpoint=${PILOT_POD_IP} --set global.policyEndpoint=${POLICY_POD_IP} --set global.statsdEndpoint=${STATSD_POD_IP} --namespace istio-system
+    ```
 
 ### Helm configuration parameters
 

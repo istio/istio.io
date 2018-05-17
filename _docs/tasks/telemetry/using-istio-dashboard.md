@@ -22,62 +22,62 @@ the example application throughout this task.
 
 ## Viewing the Istio Dashboard
 
-1. To view Istio metrics in a graphical dashboard install the Grafana add-on.
+1.  To view Istio metrics in a graphical dashboard install the Grafana add-on.
 
-   In Kubernetes environments, execute the following command:
+    In Kubernetes environments, execute the following command:
 
-   ```command
-   $ kubectl apply -f install/kubernetes/addons/grafana.yaml
-   ```
+    ```command
+    $ kubectl apply -f install/kubernetes/addons/grafana.yaml
+    ```
 
-1. Verify that the service is running in your cluster.
+1.  Verify that the service is running in your cluster.
 
-   In Kubernetes environments, execute the following command:
+    In Kubernetes environments, execute the following command:
 
-   ```command
-   $ kubectl -n istio-system get svc grafana
-   NAME      CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
-   grafana   10.59.247.103   <none>        3000/TCP   2m
-   ```
+    ```command
+    $ kubectl -n istio-system get svc grafana
+    NAME      CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+    grafana   10.59.247.103   <none>        3000/TCP   2m
+    ```
 
-1. Open the Istio Dashboard via the Grafana UI.
+1.  Open the Istio Dashboard via the Grafana UI.
 
-   In Kubernetes environments, execute the following command:
+    In Kubernetes environments, execute the following command:
 
-   ```command
-   $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
-   ```
+    ```command
+    $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
+    ```
 
-   Visit [http://localhost:3000/dashboard/db/istio-dashboard](http://localhost:3000/dashboard/db/istio-dashboard) in your web browser.
+    Visit [http://localhost:3000/dashboard/db/istio-dashboard](http://localhost:3000/dashboard/db/istio-dashboard) in your web browser.
 
-   The Istio Dashboard will look similar to:
+    The Istio Dashboard will look similar to:
 
-   {% include image.html width="100%" ratio="56.57%"
+    {% include image.html width="100%" ratio="56.57%"
         link="./img/grafana-istio-dashboard.png"
         caption="Istio Dashboard"
         %}
 
-1. Send traffic to the mesh.
+1.  Send traffic to the mesh.
 
-   For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
-   browser or issue the following command:
+    For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
+    browser or issue the following command:
 
-   ```command
-   $ curl http://$GATEWAY_URL/productpage
-   ```
+    ```command
+    $ curl http://$GATEWAY_URL/productpage
+    ```
 
-   Refresh the page a few times (or send the command a few times) to generate a
-   small amount of traffic.
+    Refresh the page a few times (or send the command a few times) to generate a
+    small amount of traffic.
 
-   Look at the Istio Dashboard again. It should reflect the traffic that was
-   generated. It will look similar to:
+    Look at the Istio Dashboard again. It should reflect the traffic that was
+    generated. It will look similar to:
 
-   {% include image.html width="100%" ratio="56.57%"
+    {% include image.html width="100%" ratio="56.57%"
     link="./img/dashboard-with-traffic.png"
     caption="Istio Dashboard With Traffic"
     %}
 
-   > `$GATEWAY_URL` is the value set in the [Bookinfo]({{home}}/docs/guides/bookinfo.html) guide.
+> `$GATEWAY_URL` is the value set in the [Bookinfo]({{home}}/docs/guides/bookinfo.html) guide.
 
 ### About the Grafana add-on
 
@@ -102,18 +102,18 @@ For more on how to create, configure, and edit dashboards, please see the
 
 ## Cleanup
 
-* In Kubernetes environments, execute the following command to remove the Grafana
+*   In Kubernetes environments, execute the following command to remove the Grafana
 add-on:
 
-   ```command
-   $ kubectl delete -f install/kubernetes/addons/grafana.yaml
-   ```
+    ```command
+    $ kubectl delete -f install/kubernetes/addons/grafana.yaml
+    ```
 
-* Remove any `kubectl port-forward` processes that may be running:
+*   Remove any `kubectl port-forward` processes that may be running:
 
-   ```command
-   $ killall kubectl
-   ```
+    ```command
+    $ killall kubectl
+    ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
 [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions

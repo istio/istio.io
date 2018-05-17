@@ -123,18 +123,19 @@ continuously failed health checks.
 
 ## Cleanup
 
-* To disable health checking on Citadel:
-  ```command
-  kubectl apply -f install/kubernetes/istio-auth.yaml
-  kubectl delete svc istio-citadel -n istio-system
-  ```
+*   To disable health checking on Citadel:
 
-* To remove Citadel:
+    ```command
+    $ kubectl apply -f install/kubernetes/istio-auth.yaml
+    $ kubectl delete svc istio-citadel -n istio-system
+    ```
 
-  ```command
-  $ kubectl delete -f install/kubernetes/istio-citadel-with-health-check.yaml
-  $ kubectl delete svc istio-citadel -n istio-system
-  ```
+*   To remove Citadel:
+
+    ```command
+    $ kubectl delete -f install/kubernetes/istio-citadel-with-health-check.yaml
+    $ kubectl delete svc istio-citadel -n istio-system
+    ```
 
 ## What's next
 

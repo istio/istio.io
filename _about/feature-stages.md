@@ -55,9 +55,9 @@ Below is our list of existing features and their current phases. This informatio
 |-------------------|-------------------
 | [Prometheus Integration]({{home}}/docs/guides/telemetry.html) | Beta
 | [Local Logging (STDIO)]({{home}}/docs/guides/telemetry.html) | Stable
-| [Statsd Integration]({{home}}/docs/reference/config/adapters/statsd.html) | Stable
+| [Statsd Integration]({{home}}/docs/reference/config/policy-and-telemetry/adapters/statsd.html) | Stable
 | [Service Dashboard in Grafana]({{home}}/docs/tasks/telemetry/using-istio-dashboard.html) | Beta
-| [Stackdriver Integration]({{home}}/docs/reference/config/adapters/stackdriver.html) | Alpha
+| [Stackdriver Integration]({{home}}/docs/reference/config/policy-and-telemetry/adapters/stackdriver.html) | Alpha
 | [Service Graph]({{home}}/docs/tasks/telemetry/servicegraph.html) | Alpha
 | [Distributed Tracing to Zipkin / Jaeger]({{home}}/docs/tasks/telemetry/distributed-tracing.html) | Alpha
 | [Istio Component Dashboard in Grafana]({{home}}/docs/tasks/telemetry/using-istio-dashboard.html) | Beta
@@ -67,8 +67,8 @@ Below is our list of existing features and their current phases. This informatio
 
 | Feature           | Phase
 |-------------------|-------------------
-| [Deny Checker]({{home}}/docs/reference/config/adapters/denier.html)         | Stable
-| [List Checker]({{home}}/docs/reference/config/adapters/list.html)        | Stable
+| [Deny Checker]({{home}}/docs/reference/config/policy-and-telemetry/adapters/denier.html)         | Stable
+| [List Checker]({{home}}/docs/reference/config/policy-and-telemetry/adapters/list.html)        | Stable
 | [Kubernetes: Service Credential Distribution]({{home}}/docs/concepts/security/mutual-tls.html)   | Stable
 | [Pluggable Key/Cert Support for Istio CA]({{home}}/docs/tasks/security/plugin-ca-cert.html)        | Stable
 | [Service-to-service mutual TLS]({{home}}/docs/concepts/security/mutual-tls.html)         | Stable
@@ -76,7 +76,7 @@ Below is our list of existing features and their current phases. This informatio
 | [VM: Service Credential Distribution]({{home}}/docs/concepts/security/mutual-tls.html)         | Alpha
 | [OPA Checker](https://github.com/istio/istio/blob/41a8aa4f75f31bf0c1911d844a18da4cff8ac584/mixer/adapter/opa/README.md)    | Alpha
 | RBAC Mixer Adapter     | Alpha
-| [API Keys]({{home}}/docs/reference/config/template/apikey.html) | Alpha
+| [API Keys]({{home}}/docs/reference/config/policy-and-telemetry/templates/apikey.html) | Alpha
 
 ### Core
 
@@ -85,7 +85,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Kubernetes: Envoy Installation and Traffic Interception]({{home}}/docs/setup/kubernetes/)        | Beta
 | [Kubernetes: Istio Control Plane Installation]({{home}}/docs/setup/kubernetes/) | Beta
 | [Pilot Integration into Kubernetes Service Discovery]({{home}}/docs/setup/kubernetes/)         | Stable
-| [Attribute Expression Language]({{home}}/docs/reference/config/mixer/expression-language.html)        | Stable
+| [Attribute Expression Language]({{home}}/docs/reference/config/policy-and-telemetry/expression-language.html)        | Stable
 | [Mixer Adapter Authoring Model]({{home}}/blog/2017/adapter-model.html)        | Stable
 | [VM: Envoy Installation, Traffic Interception and Service Registration]({{home}}/docs/guides/integrating-vms.html)    | Alpha
 | [VM: Istio Control Plane Installation and Upgrade (Galley, Mixer, Pilot, CA)](https://github.com/istio/istio/issues/2083)  | Alpha

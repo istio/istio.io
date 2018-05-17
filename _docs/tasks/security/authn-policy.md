@@ -21,20 +21,20 @@ Through this task, you will learn how to:
 
 * Have a Kubernetes cluster with Istio installed, without mTLS. See [the Istio installation task]({{home}}/docs/setup/kubernetes/quick-start.html) and follow step 5.
 
-* For demo, create two namespaces `foo` and `bar`, and deploy [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) and [sleep](https://github.com/istio/istio/tree/master/samples/sleep) with sidecar on both of them. Also, run another sleep app without sidecar (to keep it separate, run it in `legacy` namespace)
+*   For demo, create two namespaces `foo` and `bar`, and deploy [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) and [sleep](https://github.com/istio/istio/tree/master/samples/sleep) with sidecar on both of them. Also, run another sleep app without sidecar (to keep it separate, run it in `legacy` namespace)
 
-   ```command
-   $ kubectl create ns foo
-   $ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml) -n foo
-   $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml) -n foo
-   $ kubectl create ns bar
-   $ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml) -n bar
-   $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml) -n bar
-   $ kubectl create ns legacy
-   $ kubectl apply -f samples/sleep/sleep.yaml -n legacy
-   ```
+    ```command
+    $ kubectl create ns foo
+    $ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml) -n foo
+    $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml) -n foo
+    $ kubectl create ns bar
+    $ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml) -n bar
+    $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml) -n bar
+    $ kubectl create ns legacy
+    $ kubectl apply -f samples/sleep/sleep.yaml -n legacy
+    ```
 
-* Verifying setup by sending an http request (using curl command) from any sleep pod (among those in namespace `foo`, `bar` or `legacy`) to either `httpbin.foo` or `httpbin.bar`. All requests should success with HTTP code 200.
+*   Verifying setup by sending an http request (using curl command) from any sleep pod (among those in namespace `foo`, `bar` or `legacy`) to either `httpbin.foo` or `httpbin.bar`. All requests should success with HTTP code 200.
 
     For example, here is a command to check `sleep.bar` to `httpbin.foo` reachability:
 
@@ -55,13 +55,13 @@ Through this task, you will learn how to:
     sleep.legacy to httpbin.bar: 200
     ```
 
-* Also verify that there are no authentication policy in the system
+*   Also verify that there are no authentication policy in the system
 
-   ```command
-   $ kubectl get policies.authentication.istio.io -n foo
-   $ kubectl get policies.authentication.istio.io -n bar
-   No resources found.
-   ```
+    ```command
+    $ kubectl get policies.authentication.istio.io -n foo
+    $ kubectl get policies.authentication.istio.io -n bar
+    No resources found.
+    ```
 
 ## Enable mTLS for all services in namespace `foo`
 
@@ -81,6 +81,7 @@ EOF
 ```
 
 And verify the policy was added:
+
 ```command
 $ kubectl get policies.authentication.istio.io -n foo
 NAME          AGE
@@ -211,6 +212,7 @@ export INGRESS_HOST=$(kubectl get ing -n foo -o=jsonpath='{.items[0].status.load
 ```
 
 And run a test query
+
 ```command-output-as-json
 $ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 {
@@ -251,6 +253,7 @@ EOF
 ```
 
 The same curl command from before will return with 401 error code, as a result of server is expecting JWT but none was provided:
+
 ```command
 $ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 401

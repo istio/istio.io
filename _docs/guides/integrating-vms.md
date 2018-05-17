@@ -29,6 +29,7 @@ VMs cannot initiate any direct communication to Kubernetes Pods even when using 
   [Installation guide]({{home}}/docs/setup/kubernetes/quick-start.html).
 
 * Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application (in the `bookinfo` namespace).
+
 * Create a VM named 'vm-1' in the same project as Istio cluster, and [Join the Mesh]({{home}}/docs/setup/kubernetes/mesh-expansion.html).
 
 ## Running MySQL on the VM

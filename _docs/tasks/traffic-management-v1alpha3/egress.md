@@ -20,14 +20,14 @@ or alternatively, to simply bypass the Istio proxy for a specific range of IPs.
 * Setup Istio by following the instructions in the
   [Installation guide]({{home}}/docs/setup/).
 
-* Start the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) sample
-  which will be used as a test source for external calls.
+*   Start the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) sample
+    which will be used as a test source for external calls.
 
-  ```command
-  $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
-  ```
+    ```command
+    $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
+    ```
 
-  Note that any pod that you can `exec` and `curl` from would do.
+    Note that any pod that you can `exec` and `curl` from would do.
 
 ## Configuring Istio external services
 
@@ -37,51 +37,51 @@ from within your Istio cluster. In this task we will use
 
 ### Configuring the external services
 
-1. Create an `ServiceEntry` to allow access to an external HTTP service:
+1.  Create an `ServiceEntry` to allow access to an external HTTP service:
 
-   ```bash
-   cat <<EOF | istioctl create -f -
-   apiVersion: networking.istio.io/v1alpha3
-   kind: ServiceEntry
-   metadata:
-     name: httpbin-ext
-   spec:
-     hosts:
-     - httpbin.org
-     ports:
-     - number: 80
-       name: http
-       protocol: http
-   EOF
-   ```
+    ```bash
+    cat <<EOF | istioctl create -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: httpbin-ext
+    spec:
+      hosts:
+      - httpbin.org
+      ports:
+      - number: 80
+        name: http
+        protocol: http
+    EOF
+    ```
 
-1. Create an `ServiceEntry` to allow access to an external HTTPS service:
+1.  Create an `ServiceEntry` to allow access to an external HTTPS service:
 
-   ```bash
-   cat <<EOF | istioctl create -f -
-   apiVersion: networking.istio.io/v1alpha3
-   kind: ServiceEntry
-   metadata:
-     name: google-ext
-   spec:
-     hosts:
-     - www.google.com
-     ports:
-     - number: 443
-       name: https
-       protocol: http
-   ---
-   apiVersion: networking.istio.io/v1alpha3
-   kind: DestinationRule
-   metadata:
-     name: google-ext
-   spec:
-     host: www.google.com
-     trafficPolicy:
-       tls:
-         mode: SIMPLE # initiates HTTPS when talking to www.google.com
-   EOF
-   ```
+    ```bash
+    cat <<EOF | istioctl create -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: google-ext
+    spec:
+      hosts:
+      - www.google.com
+      ports:
+      - number: 443
+        name: https
+        protocol: http
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: google-ext
+    spec:
+      host: www.google.com
+      trafficPolicy:
+        tls:
+          mode: SIMPLE # initiates HTTPS when talking to www.google.com
+    EOF
+    ```
 
 Notice that we also create a corresponding `DestinationRule` to
 initiate TLS for connections to the HTTPS service.
@@ -90,26 +90,26 @@ the connection to HTTPS.
 
 ### Make requests to the external services
 
-1. Exec into the pod being used as the test source. For example,
-   if you are using the sleep service, run the following commands:
+1.  Exec into the pod being used as the test source. For example,
+    if you are using the sleep service, run the following commands:
 
-   ```command
-   $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
-   $ kubectl exec -it $SOURCE_POD -c sleep bash
-   ```
+    ```command
+    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+    $ kubectl exec -it $SOURCE_POD -c sleep bash
+    ```
 
-1. Make a request to the external HTTP service:
+1.  Make a request to the external HTTP service:
 
-   ```command
-   $ curl http://httpbin.org/headers
-   ```
+    ```command
+    $ curl http://httpbin.org/headers
+    ```
 
-1. Make a request to the external HTTPS service.
-   External services of type HTTPS must be accessed over HTTP with the port specified in the request:
+1.  Make a request to the external HTTPS service.
+    External services of type HTTPS must be accessed over HTTP with the port specified in the request:
 
-   ```command
-   $ curl http://www.google.com:443
-   ```
+    ```command
+    $ curl http://www.google.com:443
+    ```
 
 ### Setting route rules on an external service
 
@@ -119,50 +119,50 @@ can also be set for external services that are accessed using `ServiceEntry` con
 To illustrate we will use [istioctl]({{home}}/docs/reference/commands/istioctl.html)
 to set a timeout rule on calls to the httpbin.org service.
 
-1. From inside the pod being used as the test source, invoke the `/delay` endpoint of the httpbin.org external service:
+1.  From inside the pod being used as the test source, invoke the `/delay` endpoint of the httpbin.org external service:
 
-   ```command
-   $ kubectl exec -it $SOURCE_POD -c sleep bash
-   $ time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
-   200
+    ```command
+    $ kubectl exec -it $SOURCE_POD -c sleep bash
+    $ time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
+    200
 
-   real    0m5.024s
-   user    0m0.003s
-   sys     0m0.003s
-   ```
+    real    0m5.024s
+    user    0m0.003s
+    sys     0m0.003s
+    ```
 
-   The request should return 200 (OK) in approximately 5 seconds.
+    The request should return 200 (OK) in approximately 5 seconds.
 
-1. Exit the source pod and use `istioctl` to set a 3s timeout on calls to the httpbin.org external service:
+1.  Exit the source pod and use `istioctl` to set a 3s timeout on calls to the httpbin.org external service:
 
-   ```bash
-   cat <<EOF | istioctl create -f -
-   apiVersion: networking.istio.io/v1alpha3
-   kind: VirtualService
-   metadata:
-     name: httpbin-ext
-   spec:
-     hosts:
-       - httpbin.org
-     http:
-     - timeout: 3s
-   EOF
-   ```
+    ```bash
+    cat <<EOF | istioctl create -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: httpbin-ext
+    spec:
+      hosts:
+        - httpbin.org
+      http:
+      - timeout: 3s
+    EOF
+    ```
 
-1. Wait a few seconds, then issue the _curl_ request again:
+1.  Wait a few seconds, then issue the _curl_ request again:
 
-   ```command
-   $ kubectl exec -it $SOURCE_POD -c sleep bash
-   $ time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
-   504
+    ```command
+    $ kubectl exec -it $SOURCE_POD -c sleep bash
+    $ time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
+    504
 
-   real    0m3.149s
-   user    0m0.004s
-   sys     0m0.004s
-   ```
+    real    0m3.149s
+    user    0m0.004s
+    sys     0m0.004s
+    ```
 
-   This time a 504 (Gateway Timeout) appears after 3 seconds.
-   Although httpbin.org was waiting 5 seconds, Istio cut off the request at 3 seconds.
+    This time a 504 (Gateway Timeout) appears after 3 seconds.
+    Although httpbin.org was waiting 5 seconds, Istio cut off the request at 3 seconds.
 
 ## Calling external services directly
 
@@ -187,23 +187,23 @@ $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeI
 
 On IBM Cloud Private, use:
 
-1. Get your `service_cluster_ip_range` from IBM Cloud Private configuration file under `cluster/config.yaml`.
+1.  Get your `service_cluster_ip_range` from IBM Cloud Private configuration file under `cluster/config.yaml`.
 
-   ```command
-   $ cat cluster/config.yaml | grep service_cluster_ip_range
-   ```
+    ```command
+    $ cat cluster/config.yaml | grep service_cluster_ip_range
+    ```
 
-   A sample output is as following:
+    A sample output is as following:
 
-   ```plain
-   service_cluster_ip_range: 10.0.0.1/24
-   ```
+    ```plain
+    service_cluster_ip_range: 10.0.0.1/24
+    ```
 
-1. Inject the `service_cluster_ip_range` to your application profile via `--includeIPRanges` to limit Istio's traffic interception to the service cluster IP range.
+1.  Inject the `service_cluster_ip_range` to your application profile via `--includeIPRanges` to limit Istio's traffic interception to the service cluster IP range.
 
-   ```command
-   $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=10.0.0.1/24)
-   ```
+    ```command
+    $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=10.0.0.1/24)
+    ```
 
 On IBM Cloud Container Service, use:
 
@@ -256,19 +256,19 @@ cloud provider specific knowledge and configuration.
 
 ## Cleanup
 
-1. Remove the rules.
+1.  Remove the rules.
 
-   ```command
-   $ istioctl delete serviceentry httpbin-ext google-ext
-   $ istioctl delete destinationrule google-ext
-   $ istioctl delete virtualservice httpbin-ext
-   ```
+    ```command
+    $ istioctl delete serviceentry httpbin-ext google-ext
+    $ istioctl delete destinationrule google-ext
+    $ istioctl delete virtualservice httpbin-ext
+    ```
 
-1. Shutdown the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) service.
+1.  Shutdown the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) service.
 
-   ```command
-   $ kubectl delete -f samples/sleep/sleep.yaml
-   ```
+    ```command
+    $ kubectl delete -f samples/sleep/sleep.yaml
+    ```
 
 ## `ServiceEntry` and Access Control
 

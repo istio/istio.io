@@ -37,47 +37,47 @@ You should customize it based on your provisioning tools and DNS requirements.
 
 ### Preparing the Kubernetes cluster for expansion
 
-* Setup Internal Load Balancers (ILBs) for Kube DNS, Pilot, Mixer and Citadel. This step is specific to
+*   Setup Internal Load Balancers (ILBs) for Kube DNS, Pilot, Mixer and Citadel. This step is specific to
 each cloud provider, so you may need to edit annotations.
 
-   ```command
-   $ kubectl apply -f install/kubernetes/mesh-expansion.yaml
-   ```
+    ```command
+    $ kubectl apply -f install/kubernetes/mesh-expansion.yaml
+    ```
 
-* Generate the Istio 'cluster.env' configuration to be deployed in the VMs. This file contains
+*   Generate the Istio 'cluster.env' configuration to be deployed in the VMs. This file contains
 the cluster IP address ranges to intercept.
 
-   ```command
-   $ export GCP_OPTS="--zone MY_ZONE --project MY_PROJECT"
-   $ install/tools/setupMeshEx.sh generateClusterEnv MY_CLUSTER_NAME
-   ```
+    ```command
+    $ export GCP_OPTS="--zone MY_ZONE --project MY_PROJECT"
+    $ install/tools/setupMeshEx.sh generateClusterEnv MY_CLUSTER_NAME
+    ```
 
-   Here's an example generated file
+    Here's an example generated file
 
-   ```command
-   $ cat cluster.env
-   ISTIO_SERVICE_CIDR=10.63.240.0/20
-   ```
+    ```command
+    $ cat cluster.env
+    ISTIO_SERVICE_CIDR=10.63.240.0/20
+    ```
 
-* Generate DNS configuration file to be used in the VMs. This will allow apps on the VM to resolve
+*   Generate DNS configuration file to be used in the VMs. This will allow apps on the VM to resolve
 cluster service names, which will be intercepted by the sidecar and forwarded.
 
-   ```command
-   $ install/tools/setupMeshEx.sh generateDnsmasq
-   ```
+    ```command
+    $ install/tools/setupMeshEx.sh generateDnsmasq
+    ```
 
-   Here's an example generated file
+    Here's an example generated file
 
-   ```command
-   $ cat kubedns
-   server=/svc.cluster.local/10.150.0.7
-   address=/istio-mixer/10.150.0.8
-   address=/istio-pilot/10.150.0.6
-   address=/istio-citadel/10.150.0.9
-   address=/istio-mixer.istio-system/10.150.0.8
-   address=/istio-pilot.istio-system/10.150.0.6
-   address=/istio-citadel.istio-system/10.150.0.9
-   ```
+    ```command
+    $ cat kubedns
+    server=/svc.cluster.local/10.150.0.7
+    address=/istio-mixer/10.150.0.8
+    address=/istio-pilot/10.150.0.6
+    address=/istio-citadel/10.150.0.9
+    address=/istio-mixer.istio-system/10.150.0.8
+    address=/istio-pilot.istio-system/10.150.0.6
+    address=/istio-citadel.istio-system/10.150.0.9
+    ```
 
 ### Setting up the machines
 
@@ -114,70 +114,70 @@ Or the equivalent manual steps:
 * Copy the configuration files and Istio Debian files to each machine joining the cluster.
 Save the files as `/etc/dnsmasq.d/kubedns` and `/var/lib/istio/envoy/cluster.env`.
 
-* Configure and verify DNS settings. This may require installing `dnsmasq` and either
+*   Configure and verify DNS settings. This may require installing `dnsmasq` and either
 adding it to `/etc/resolv.conf` directly or via DHCP scripts. To verify, check that the VM can resolve
 names and connect to pilot, for example:
 
-   On the VM/external host:
+    On the VM/external host:
 
-   ```command
-   $ host istio-pilot.istio-system
-   ```
+    ```command
+    $ host istio-pilot.istio-system
+    ```
 
-   Example generated message:
+    Example generated message:
 
-   ```plain
-   $ istio-pilot.istio-system has address 10.150.0.6
-   ```
+    ```plain
+    $ istio-pilot.istio-system has address 10.150.0.6
+    ```
 
-   Check that you can resolve cluster IPs. The actual address will depend on your deployment.
+    Check that you can resolve cluster IPs. The actual address will depend on your deployment.
 
-   ```command
-   $ host istio-pilot.istio-system.svc.cluster.local.
-   ```
+    ```command
+    $ host istio-pilot.istio-system.svc.cluster.local.
+    ```
 
-   Example generated message:
+    Example generated message:
 
-   ```plain
-   istio-pilot.istio-system.svc.cluster.local has address 10.63.247.248
-   ```
+    ```plain
+    istio-pilot.istio-system.svc.cluster.local has address 10.63.247.248
+    ```
 
-   Check istio-ingress similarly:
+    Check istio-ingress similarly:
 
-   ```command
-   $ host istio-ingress.istio-system.svc.cluster.local.
-   ```
+    ```command
+    $ host istio-ingress.istio-system.svc.cluster.local.
+    ```
 
-   Example generated message:
+    Example generated message:
 
-   ```plain
-   istio-ingress.istio-system.svc.cluster.local has address 10.63.243.30
-   ```
+    ```plain
+    istio-ingress.istio-system.svc.cluster.local has address 10.63.243.30
+    ```
 
-* Verify connectivity by checking whether the VM can connect to Pilot and to an endpoint.
+*   Verify connectivity by checking whether the VM can connect to Pilot and to an endpoint.
 
-   ```command
-   $ curl 'http://istio-pilot.istio-system:8080/v1/registration/istio-pilot.istio-system.svc.cluster.local|http-discovery'
-   ```
+    ```command
+    $ curl 'http://istio-pilot.istio-system:8080/v1/registration/istio-pilot.istio-system.svc.cluster.local|http-discovery'
+    ```
 
-   ```json
-   {
-     "hosts": [
-      {
-       "ip_address": "10.60.1.4",
-       "port": 8080
-      }
-     ]
-   }
-   ```
+    ```json
+    {
+      "hosts": [
+       {
+        "ip_address": "10.60.1.4",
+        "port": 8080
+       }
+      ]
+    }
+    ```
 
-   On the VM, use the address above. It will directly connect to the pod running istio-pilot.
+    On the VM, use the address above. It will directly connect to the pod running istio-pilot.
 
-   ```command
-   $ curl 'http://10.60.1.4:8080/v1/registration/istio-pilot.istio-system.svc.cluster.local|http-discovery'
-   ```
+    ```command
+    $ curl 'http://10.60.1.4:8080/v1/registration/istio-pilot.istio-system.svc.cluster.local|http-discovery'
+    ```
 
-* Extract the initial Istio authentication secrets and copy them to the machine. The default
+*   Extract the initial Istio authentication secrets and copy them to the machine. The default
 installation of Istio includes Citadel and will generate Istio secrets even if
 the automatic 'mTLS'
 setting is disabled (it creates secret for each service account, and the secret
@@ -185,27 +185,27 @@ is named as `istio.<serviceaccount>`). It is recommended that you perform this
 step to make it easy to enable mTLS in the future and to upgrade to a future version
 that will have mTLS enabled by default.
 
-   `ACCOUNT` defaults to 'default', or `SERVICE_ACCOUNT` environment variable
-   `NAMESPACE` defaults to current namespace, or `SERVICE_NAMESPACE` environment variable
-   (this step is done by machineSetup)
-   On a Mac either `brew install base64` or `set BASE64_DECODE="/usr/bin/base64 -D"`
+    `ACCOUNT` defaults to 'default', or `SERVICE_ACCOUNT` environment variable
+    `NAMESPACE` defaults to current namespace, or `SERVICE_NAMESPACE` environment variable
+    (this step is done by machineSetup)
+    On a Mac either `brew install base64` or `set BASE64_DECODE="/usr/bin/base64 -D"`
 
-   ```command
-   install/tools/setupMeshEx.sh machineCerts ACCOUNT NAMESPACE
-   ```
+    ```command
+    install/tools/setupMeshEx.sh machineCerts ACCOUNT NAMESPACE
+    ```
 
-   The generated files (`key.pem`, `root-cert.pem`, `cert-chain.pem`) must be copied to /etc/certs on each machine, readable by istio-proxy.
+    The generated files (`key.pem`, `root-cert.pem`, `cert-chain.pem`) must be copied to /etc/certs on each machine, readable by istio-proxy.
 
-* Install Istio Debian files and start 'istio' and 'istio-auth-node-agent' services.
+*   Install Istio Debian files and start 'istio' and 'istio-auth-node-agent' services.
 Get the debian packages from [GitHub releases](https://github.com/istio/istio/releases) or:
 
-  ```command
-  $ source istio.VERSION # defines version and URLs env var
-  $ curl -L ${PILOT_DEBIAN_URL}/istio-sidecar.deb > istio-sidecar.deb
-  $ dpkg -i istio-sidecar.deb
-  $ systemctl start istio
-  $ systemctl start istio-auth-node-agent
-  ```
+    ```command
+    $ source istio.VERSION # defines version and URLs env var
+    $ curl -L ${PILOT_DEBIAN_URL}/istio-sidecar.deb > istio-sidecar.deb
+    $ dpkg -i istio-sidecar.deb
+    $ systemctl start istio
+    $ systemctl start istio-auth-node-agent
+    ```
 
 ------ Manual setup steps end ------
 
@@ -253,25 +253,25 @@ Oct 13 21:32:29 demo-vm-1 node_agent[6941]: I1013 21:32:29.862575    6941 nodeag
 
 ## Running services on a mesh expansion machine
 
-* Configure the sidecar to intercept the port. This is configured in ``/var/lib/istio/envoy/sidecar.env`,
+*   Configure the sidecar to intercept the port. This is configured in ``/var/lib/istio/envoy/sidecar.env`,
 using the ISTIO_INBOUND_PORTS environment variable.
 
-   Example (on the VM running the service):
+    Example (on the VM running the service):
 
-   ```command
-   $ echo "ISTIO_INBOUND_PORTS=27017,3306,8080" > /var/lib/istio/envoy/sidecar.env
-   $ systemctl restart istio
+    ```command
+    $ echo "ISTIO_INBOUND_PORTS=27017,3306,8080" > /var/lib/istio/envoy/sidecar.env
+    $ systemctl restart istio
    ```
 
-* Manually configure a selector-less service and endpoints. The 'selector-less' service is used for
+*   Manually configure a selector-less service and endpoints. The 'selector-less' service is used for
 services that are not backed by Kubernetes pods.
 
-   Example, on a machine with permissions to modify Kubernetes services:
+    Example, on a machine with permissions to modify Kubernetes services:
 
-   ```command
-   $ istioctl -n onprem register mysql 1.2.3.4 3306
-   $ istioctl -n onprem register svc1 1.2.3.4 http:7000
-   ```
+    ```command
+    $ istioctl -n onprem register mysql 1.2.3.4 3306
+    $ istioctl -n onprem register svc1 1.2.3.4 http:7000
+    ```
 
 After the setup, Kubernetes pods and other mesh expansions should be able to access the
 services running on the machine.

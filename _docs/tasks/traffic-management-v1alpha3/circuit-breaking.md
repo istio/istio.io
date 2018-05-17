@@ -14,68 +14,68 @@ This task demonstrates the circuit-breaking capability for resilient application
 * Setup Istio by following the instructions in the
   [Installation guide]({{home}}/docs/setup/).
 
-* Start the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) sample
-  which will be used as the backend service for our task
+*   Start the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) sample
+    which will be used as the backend service for our task
 
-  ```command
-  $ kubectl apply -f <(istioctl kube-inject --debug -f samples/httpbin/httpbin.yaml)
-  ```
+    ```command
+    $ kubectl apply -f <(istioctl kube-inject --debug -f samples/httpbin/httpbin.yaml)
+    ```
 
 ## Circuit breaker
 
 Let's set up a scenario to demonstrate the circuit-breaking capabilities of Istio. We should have the `httpbin` service running from the previous section.
 
-1. Create a [destination rule]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#DestinationRule) to specify our circuit breaking settings when calling the `httpbin` service:
+1.  Create a [destination rule]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#DestinationRule) to specify our circuit breaking settings when calling the `httpbin` service:
 
-   ```bash
-   cat <<EOF | istioctl create -f -
-   apiVersion: networking.istio.io/v1alpha3
-   kind: DestinationRule
-   metadata:
-     name: httpbin
-   spec:
-     name: httpbin
-     trafficPolicy:
-       connectionPool:
-         tcp:
-           maxConnections: 100
-         http:
-           http1MaxPendingRequests: 1
-           maxRequestsPerConnection: 1
-       outlierDetection:
-         http:
-           consecutiveErrors: 1
-           interval: 1s
-           baseEjectionTime: 3m
-           maxEjectionPercent: 100
-   EOF
-   ```
+    ```bash
+    cat <<EOF | istioctl create -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: httpbin
+    spec:
+      name: httpbin
+      trafficPolicy:
+        connectionPool:
+          tcp:
+            maxConnections: 100
+          http:
+            http1MaxPendingRequests: 1
+            maxRequestsPerConnection: 1
+        outlierDetection:
+          http:
+            consecutiveErrors: 1
+            interval: 1s
+            baseEjectionTime: 3m
+            maxEjectionPercent: 100
+    EOF
+    ```
 
-1. Verify our destination rule was created correctly:
+1.  Verify our destination rule was created correctly:
 
-   ```command-output-as-yaml
-   $ istioctl get destinationrule httpbin -o yaml
-   apiVersion: networking.istio.io/v1alpha3
-   kind: DestinationRule
-   metadata:
-     name: httpbin
-     ...
-   spec:
-     name: httpbin
-     trafficPolicy:
-       connectionPool:
-         http:
-           http1MaxPendingRequests: 1
-           maxRequestsPerConnection: 1
-         tcp:
-           maxConnections: 100
-       outlierDetection:
-         http:
-           baseEjectionTime: 180.000s
-           consecutiveErrors: 1
-           interval: 1.000s
-           maxEjectionPercent: 100
-   ```
+    ```command-output-as-yaml
+    $ istioctl get destinationrule httpbin -o yaml
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: httpbin
+      ...
+    spec:
+      name: httpbin
+      trafficPolicy:
+        connectionPool:
+          http:
+            http1MaxPendingRequests: 1
+            maxRequestsPerConnection: 1
+          tcp:
+            maxConnections: 100
+        outlierDetection:
+          http:
+            baseEjectionTime: 180.000s
+            consecutiveErrors: 1
+            interval: 1.000s
+            maxEjectionPercent: 100
+    ```
 
 ### Setting up our client
 
@@ -222,18 +222,18 @@ We see `12` for the `upstream_rq_pending_overflow` value which means `12` calls 
 
 ## Cleaning up
 
-1. Remove the rules.
+1.  Remove the rules.
 
-   ```command
-   $ istioctl delete destinationrule httpbin
-   ```
+    ```command
+    $ istioctl delete destinationrule httpbin
+    ```
 
-1. Shutdown the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) service and client.
+1.  Shutdown the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) service and client.
 
-   ```command
-   $ kubectl delete deploy httpbin fortio-deploy
-   $ kubectl delete svc httpbin
-   ```
+    ```command
+    $ kubectl delete deploy httpbin fortio-deploy
+    $ kubectl delete svc httpbin
+    ```
 
 ## What's next
 

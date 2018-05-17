@@ -16,14 +16,14 @@ This task shows how to inject delays and test the resiliency of your application
 
 * Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
-* Initialize the application version routing by either first doing the
-  [request routing](./request-routing.html) task or by running following
-  commands:
+*   Initialize the application version routing by either first doing the
+    [request routing](./request-routing.html) task or by running following
+    commands:
 
-  ```command
-  $ istioctl create -f samples/bookinfo/routing/route-rule-all-v1.yaml
-  $ istioctl replace -f samples/bookinfo/routing/route-rule-reviews-test-v2.yaml
-  ```
+    ```command
+    $ istioctl create -f samples/bookinfo/routing/route-rule-all-v1.yaml
+    $ istioctl replace -f samples/bookinfo/routing/route-rule-reviews-test-v2.yaml
+    ```
 
 # Fault injection
 
@@ -34,54 +34,54 @@ between the reviews:v2 and ratings microservices, for user "jason". Since the _r
 10s timeout for its calls to the ratings service, we expect the end-to-end flow to
 continue without any errors.
 
-1. Create a fault injection rule to delay traffic coming from user "jason" (our test user)
+1.  Create a fault injection rule to delay traffic coming from user "jason" (our test user)
 
-   ```command
-   $ istioctl replace -f samples/bookinfo/routing/route-rule-ratings-test-delay.yaml
-   ```
+    ```command
+    $ istioctl replace -f samples/bookinfo/routing/route-rule-ratings-test-delay.yaml
+    ```
 
-   Confirm the rule is created:
+    Confirm the rule is created:
 
-   ```command-output-as-yaml
-   $ istioctl get virtualservice ratings -o yaml
-   apiVersion: networking.istio.io/v1alpha3
-   kind: VirtualService
-   metadata:
-     name: ratings
-     ...
-   spec:
-     hosts:
-     - ratings
-     http:
-     - fault:
-         delay:
-           fixedDelay: 7s
-           percent: 100
-       match:
-       - headers:
-           cookie:
-             regex: ^(.*?;)?(user=jason)(;.*)?$
-       route:
-       - destination:
-           name: ratings
-           subset: v1
-     - route:
-       - destination:
-           name: ratings
-           subset: v1
-   ```
+    ```command-output-as-yaml
+    $ istioctl get virtualservice ratings -o yaml
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: ratings
+      ...
+    spec:
+      hosts:
+      - ratings
+      http:
+      - fault:
+          delay:
+            fixedDelay: 7s
+            percent: 100
+        match:
+        - headers:
+            cookie:
+              regex: ^(.*?;)?(user=jason)(;.*)?$
+        route:
+        - destination:
+            name: ratings
+            subset: v1
+      - route:
+        - destination:
+            name: ratings
+            subset: v1
+    ```
 
-   Allow several seconds to account for rule propagation delay to all pods.
+    Allow several seconds to account for rule propagation delay to all pods.
 
-1. Observe application behavior
+1.  Observe application behavior
 
-   Log in as user "jason". If the application's front page was set to correctly handle delays, we expect it
-   to load within approximately 7 seconds. To see the web page response times, open the
-   *Developer Tools* menu in IE, Chrome or Firefox (typically, key combination _Ctrl+Shift+I_
-   or _Alt+Cmd+I_), tab Network, and reload the `productpage` web page.
+    Log in as user "jason". If the application's front page was set to correctly handle delays, we expect it
+    to load within approximately 7 seconds. To see the web page response times, open the
+    *Developer Tools* menu in IE, Chrome or Firefox (typically, key combination _Ctrl+Shift+I_
+    or _Alt+Cmd+I_), tab Network, and reload the `productpage` web page.
 
-   You will see that the webpage loads in about 6 seconds. The reviews section will show
-   *Sorry, product reviews are currently unavailable for this book*.
+    You will see that the webpage loads in about 6 seconds. The reviews section will show
+    *Sorry, product reviews are currently unavailable for this book*.
 
 ## Understanding what happened
 
@@ -114,56 +114,56 @@ As another test of resiliency, we will introduce an HTTP abort to the ratings mi
 We expect the page to load immediately unlike the delay example and display the "product ratings not available"
 message.
 
-1. Create a fault injection rule to send an HTTP abort for user "jason"
+1.  Create a fault injection rule to send an HTTP abort for user "jason"
 
-   ```command
-   $ istioctl replace -f samples/bookinfo/routing/route-rule-ratings-test-abort.yaml
-   ```
+    ```command
+    $ istioctl replace -f samples/bookinfo/routing/route-rule-ratings-test-abort.yaml
+    ```
 
-   Confirm the rule is created
+    Confirm the rule is created
 
-   ```command-output-as-yaml
-   $ istioctl get virtualservice ratings -o yaml
-   apiVersion: networking.istio.io/v1alpha3
-   kind: VirtualService
-   metadata:
-     name: ratings
-     ...
-   spec:
-     hosts:
-     - ratings
-     http:
-     - fault:
-         abort:
-           httpStatus: 500
-           percent: 100
-       match:
-       - headers:
-           cookie:
-             regex: ^(.*?;)?(user=jason)(;.*)?$
-       route:
-       - destination:
-           name: ratings
-           subset: v1
-     - route:
-       - destination:
-           name: ratings
-           subset: v1
-   ```
+    ```command-output-as-yaml
+    $ istioctl get virtualservice ratings -o yaml
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: ratings
+      ...
+    spec:
+      hosts:
+      - ratings
+      http:
+      - fault:
+          abort:
+            httpStatus: 500
+            percent: 100
+        match:
+        - headers:
+            cookie:
+              regex: ^(.*?;)?(user=jason)(;.*)?$
+        route:
+        - destination:
+            name: ratings
+            subset: v1
+      - route:
+        - destination:
+            name: ratings
+            subset: v1
+    ```
 
-1. Observe application behavior
+1.  Observe application behavior
 
-   Login as user "jason". If the rule propagated successfully to all pods, you should see the page load
-   immediately with the "product ratings not available" message. Logout from user "jason" and you should
-   see reviews with rating stars show up successfully on the productpage web page.
+    Login as user "jason". If the rule propagated successfully to all pods, you should see the page load
+    immediately with the "product ratings not available" message. Logout from user "jason" and you should
+    see reviews with rating stars show up successfully on the productpage web page.
 
 ## Cleanup
 
-* Remove the application routing rules:
+*   Remove the application routing rules:
 
-  ```command
-  $ istioctl delete -f samples/bookinfo/routing/route-rule-all-v1.yaml
-  ```
+    ```command
+    $ istioctl delete -f samples/bookinfo/routing/route-rule-all-v1.yaml
+    ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
   [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions

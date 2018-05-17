@@ -40,11 +40,11 @@ nexus for policy evaluation and telemetry reporting.</p>
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [adapters, default, attributes]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [adapters, attributes, default]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [adapters, default, attributes] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [adapters, attributes, default] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -64,7 +64,7 @@ nexus for policy evaluation and telemetry reporting.</p>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [adapters, default, attributes] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [adapters, attributes, default] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -91,6 +91,11 @@ nexus for policy evaluation and telemetry reporting.</p>
 <td><code>--adapterWorkerPoolSize &lt;int&gt;</code></td>
 <td></td>
 <td>Max number of goroutines in the adapter worker pool  (default `1024`)</td>
+</tr>
+<tr>
+<td><code>--address &lt;string&gt;</code></td>
+<td></td>
+<td>Address to use for Mixer&#39;s gRPC API, e.g. tcp://127.0.0.1:9092 or unix:///path/to/file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--apiWorkerPoolSize &lt;int&gt;</code></td>
@@ -130,12 +135,12 @@ nexus for policy evaluation and telemetry reporting.</p>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [adapters, default, attributes]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [adapters, attributes, default]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [adapters, default, attributes] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [adapters, attributes, default] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -160,7 +165,7 @@ nexus for policy evaluation and telemetry reporting.</p>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [adapters, default, attributes] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [adapters, attributes, default] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -185,7 +190,7 @@ nexus for policy evaluation and telemetry reporting.</p>
 <tr>
 <td><code>--port &lt;uint16&gt;</code></td>
 <td><code>-p</code></td>
-<td>TCP port to use for Mixer&#39;s gRPC API  (default `9091`)</td>
+<td>TCP port to use for Mixer&#39;s gRPC API, if the address option is not specified  (default `9091`)</td>
 </tr>
 <tr>
 <td><code>--profile</code></td>
