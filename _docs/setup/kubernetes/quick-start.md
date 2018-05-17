@@ -245,10 +245,11 @@ For example, run the following command on a MacOS or Linux system:
 with the [Helm Chart]({{home}}/docs/setup/kubernetes/helm-install.html):
 
     If you already have Istio installed with version 0.7 or older, please delete the legacy service and deployments by running
-        ```command
-        $ kubectl delete service istio-mixer -n istio-system
-        $ kubectl delete deploy istio-mixer istio-ca -n istio-system
-        ```
+
+    ```command
+    $ kubectl delete service istio-mixer -n istio-system
+    $ kubectl delete deploy istio-mixer istio-ca -n istio-system
+    ```
 
     a)  Install Istio without enabling [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars.
     Choose this option for clusters with existing applications, applications where services with an
@@ -256,17 +257,17 @@ with the [Helm Chart]({{home}}/docs/setup/kubernetes/helm-install.html):
     applications that use [liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/),
     headless services, or StatefulSets.
 
-        ```command
-        $ kubectl apply -f install/kubernetes/istio.yaml
-        ```
+    ```command
+    $ kubectl apply -f install/kubernetes/istio.yaml
+    ```
 
     _**OR**_
 
     b)  Install Istio and enable [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars. This option is mostly for new clusters, i.e., all applications have sidecars injected during their deployment. For existing applications, please choose the above option and enable mutual TLS using [authentication policy]({{home}}/docs/tasks/security/authn-policy.html):
 
-        ```command
-        $ kubectl apply -f install/kubernetes/istio-auth.yaml
-        ```
+    ```command
+    $ kubectl apply -f install/kubernetes/istio-auth.yaml
+    ```
 
     Both options create the `istio-system` namespace along with the required RBAC permissions,
     and deploy Istio-Pilot, Istio-Mixer, Istio-Ingress, and Istio-CA (Certificate Authority).
