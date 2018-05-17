@@ -92,7 +92,7 @@ running and Istio is enabled
 Verify Istio is installed in its own namespace
 
 ```command
-$kubectl get deployments,ing -n istio-system
+$ kubectl get deployments,ing -n istio-system
 NAME                       DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 deploy/grafana             1         1         1            1           3m
 deploy/istio-citadel       1         1         1            1           3m
