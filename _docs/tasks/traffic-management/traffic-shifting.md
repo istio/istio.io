@@ -7,7 +7,7 @@ weight: 25
 ---
 {% include home.html %}
 
-> Note: This task uses the new [v1alpha3 traffic management api]({{home}}/blog/2018/v1alpha3-routing.html). The old api has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.6/docs/tasks/).
+> Note: This task uses the new [v1alpha3 traffic management API]({{home}}/blog/2018/v1alpha3-routing.html). The old api has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.6/docs/tasks/).
 
 This task shows you how to gradually migrate traffic from an old to new version of a service.
 With Istio, we can migrate the traffic in a gradual fashion by using a sequence of rules
