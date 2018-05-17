@@ -231,6 +231,7 @@ createpolicyjson.png
 createpolicystart.png
 current.istio.io
 current.istio.io.
+dataplane
 datastore
 debian
 default.svc.cluster.local
