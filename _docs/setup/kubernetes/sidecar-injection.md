@@ -130,13 +130,7 @@ Note that unlike manual injection, automatic injection occurs at the pod-level. 
 #### Installing the webhook
 
 To enable the sidecar injection webhook, you can use [Helm]({{home}}/docs/setup/kubernetes/helm-install.html)
-to install Istio with the option sidecar-injector.enabled set to true. E.g.
-
-```command
-$ helm install --namespace=istio-system --set sidecar-injector.enabled=true install/kubernetes/helm/istio
-```
-
-Alternatively, you can also use Helm to generate the yaml file and install it manually. E.g.
+to generate an updated istio.yaml with the option sidecar-injector.enabled set to true. E.g.
 
 ```command
 $ helm template --namespace=istio-system --set sidecar-injector.enabled=true install/kubernetes/helm/istio > istio.yaml
