@@ -253,15 +253,13 @@ In this subsection we add to our gateway the port 443 to handle the HTTPS traffi
 
 ## Understanding what happened
 
-`Gateway` or `Ingress` configuration resources allow external traffic to enter the
+The `Gateway` configuration resources allow external traffic to enter the
 Istio service mesh and make the traffic management and policy features of Istio
 available for edge services.
 
 In the preceding steps we created a service inside the Istio service mesh
 and showed how to expose both HTTP and HTTPS endpoints of the service to
-external traffic. Using an Istio `Gateway` provides significantly more functionality
-and is recommended. Using a Kubernetes `Ingress`, however, is also supported
-and may be especially useful when moving existing Kubernetes applications to Istio.
+external traffic.
 
 ## Cleanup
 
