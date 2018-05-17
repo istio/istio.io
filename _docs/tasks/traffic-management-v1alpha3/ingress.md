@@ -62,7 +62,7 @@ using Istio routing rules, exactly in the same was as for internal service reque
 
 In the following subsections we configure a `Gateway` on port 80 for unencrypted HTTP traffic first. Then we add a secure port 443 for HTTPS traffic.
 
-### Configuring unencrypted gateway (HTTP)
+### Configuring a gateway for HTTP
 
 1. Create an Istio `Gateway`
 
