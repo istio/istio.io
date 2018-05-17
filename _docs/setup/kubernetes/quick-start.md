@@ -93,22 +93,24 @@ $(bx cs cluster-config <cluster-name>|grep "export KUBECONFIG")
 
 Configure `kubectl` CLI based on steps [here](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0/manage_cluster/cfc_cli.html) for how to access the IBM Cloud Private Cluster.
 
-### [OpenShift Origin](https://www.openshift.org) (version 3.7 or later)
+### [OpenShift Origin](https://www.openshift.org) (version 3.9)
 
 OpenShift by default does not allow containers running with UID 0. Enable containers running
 with UID 0 for Istio's service accounts for ingress as well the Prometheus and Grafana addons:
 
-```command
-$ oc adm policy add-scc-to-user anyuid -z istio-ingress-service-account -n istio-system
-$ oc adm policy add-scc-to-user anyuid -z grafana -n istio-system
-$ oc adm policy add-scc-to-user anyuid -z prometheus -n istio-system
-```
-
+  ```bash
+ oc adm policy add-scc-to-user anyuid -z istio-ingress-service-account -n istio-system
+ oc adm policy add-scc-to-user anyuid -z default -n istio-system 
+ oc adm policy add-scc-to-user anyuid -z grafana -n istio-system
+ oc adm policy add-scc-to-user anyuid -z prometheus -n istio-system
+  ```
 Service account that runs application pods need privileged security context constraints as part of sidecar injection.
 
 ```command
 $ oc adm policy add-scc-to-user privileged -z default -n <target-namespace>
 ```
+
+Note:-  Check for selinux [discussion](https://github.com/istio/issues/issues/34)  with respect to Istio in case you see issues bringing up the Envoy.
 
 ### AWS (w/Kops)
 
