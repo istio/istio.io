@@ -134,6 +134,16 @@ number_of_entries: 5
 <td>Directory to watch for updates to config yaml files. If specified, the files will be used as the source of config, rather than a CRD client.  (default ``)</td>
 </tr>
 <tr>
+<td><code>--consulserverInterval &lt;duration&gt;</code></td>
+<td></td>
+<td>Interval (in seconds) for polling the Consul service registry  (default `2s`)</td>
+</tr>
+<tr>
+<td><code>--consulserverURL &lt;string&gt;</code></td>
+<td></td>
+<td>URL for the Consul server  (default ``)</td>
+</tr>
+<tr>
 <td><code>--discovery_cache</code></td>
 <td></td>
 <td>Enable caching discovery service responses </td>
@@ -142,6 +152,16 @@ number_of_entries: 5
 <td><code>--domain &lt;string&gt;</code></td>
 <td></td>
 <td>DNS domain suffix  (default `cluster.local`)</td>
+</tr>
+<tr>
+<td><code>--eurekaserverInterval &lt;duration&gt;</code></td>
+<td></td>
+<td>Interval (in seconds) for polling the Eureka service registry  (default `2s`)</td>
+</tr>
+<tr>
+<td><code>--eurekaserverURL &lt;string&gt;</code></td>
+<td></td>
+<td>URL for the Eureka server  (default ``)</td>
 </tr>
 <tr>
 <td><code>--grpcAddr &lt;string&gt;</code></td>
