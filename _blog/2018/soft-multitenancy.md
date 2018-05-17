@@ -304,12 +304,15 @@ Istio control plane (ex *istio-system1* `namespace`).
 ## Challenges with other multi-tenancy models
 
 Other multi-tenancy deployment models were considered:
+
 1. A single mesh with multiple applications, one for each tenant on the mesh. The cluster
 administrator gets control and visibility mesh wide and across all applications, while the
 tenant administrator only gets control of a specific application.
+
 1. A single Istio control plane with multiple meshes, one mesh per tenant. The cluster
 administrator gets control and visibility across the entire Istio control plane and all
 meshes, while the tenant administrator only gets control of a specific mesh.
+
 1. A single cloud environment (cluster controlled), but multiple Kubernetes control planes
 (tenant controlled).
 

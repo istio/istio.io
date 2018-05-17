@@ -48,30 +48,30 @@ the changes either by applying the old version yaml files.
 After the control plane is upgraded, you will need to re-inject the new version
 of sidecar proxy. There are two cases: Manual injection and Automatic injection.
 
-1. Manual injection:
+1.  Manual injection:
 
-   If automatic sidecar injection is not enabled, you can upgrade the
-   sidecar manually by running the following command:
+    If automatic sidecar injection is not enabled, you can upgrade the
+    sidecar manually by running the following command:
 
-   ```command
-   $ kubectl apply -f <(istioctl kube-inject -i $ISTIO_NAMESPACE -f $ORIGINAL_DEPLOYMENT_YAML)
-   ```
+    ```command
+    $ kubectl apply -f <(istioctl kube-inject -i $ISTIO_NAMESPACE -f $ORIGINAL_DEPLOYMENT_YAML)
+    ```
 
-   If the sidecar was previously injected with some customized inject config
-   files, you will need to change the version tag in the config files to the new
-   version and reinject the sidecar as follows:
+    If the sidecar was previously injected with some customized inject config
+    files, you will need to change the version tag in the config files to the new
+    version and reinject the sidecar as follows:
 
-   ```command
-   $ kubectl apply -f <(istioctl kube-inject \
-        --injectConfigFile inject-config.yaml \
-        --filename $ORIGINAL_DEPLOYMENT_YAML)
-   ```
+    ```command
+    $ kubectl apply -f <(istioctl kube-inject \
+         --injectConfigFile inject-config.yaml \
+         --filename $ORIGINAL_DEPLOYMENT_YAML)
+    ```
 
-1. Automatic injection:
+1.  Automatic injection:
 
-   If automatic sidecar injection is enabled, you can upgrade the sidecar
-   by doing a rolling update for all the pods, so that the new version of
-   sidecar will be automatically re-injected
+    If automatic sidecar injection is enabled, you can upgrade the sidecar
+    by doing a rolling update for all the pods, so that the new version of
+    sidecar will be automatically re-injected
 
-   There are some tricks to reload all pods. E.g. There is a [bash script](https://gist.github.com/jmound/ff6fa539385d1a057c82fa9fa739492e)
-   which triggers the rolling update by patching the grace termination period.
+    There are some tricks to reload all pods. E.g. There is a [bash script](https://gist.github.com/jmound/ff6fa539385d1a057c82fa9fa739492e)
+    which triggers the rolling update by patching the grace termination period.

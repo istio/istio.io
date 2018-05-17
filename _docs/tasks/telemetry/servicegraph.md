@@ -22,75 +22,75 @@ the example application throughout this task.
 
 ## Generating a Service Graph
 
-1. To view a graphical representation of your service mesh, install the
-   Servicegraph add-on.
+1.  To view a graphical representation of your service mesh, install the
+    Servicegraph add-on.
 
-   In Kubernetes environments, execute the following command:
+    In Kubernetes environments, execute the following command:
 
-   ```command
-   $ kubectl apply -f install/kubernetes/addons/servicegraph.yaml
-   ```
+    ```command
+    $ kubectl apply -f install/kubernetes/addons/servicegraph.yaml
+    ```
 
-1. Verify that the service is running in your cluster.
+1.  Verify that the service is running in your cluster.
 
-   In Kubernetes environments, execute the following command:
+    In Kubernetes environments, execute the following command:
 
-   ```command
-   $ kubectl -n istio-system get svc servicegraph
-   NAME           CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
-   servicegraph   10.59.253.165   <none>        8088/TCP   30s
-   ```
+    ```command
+    $ kubectl -n istio-system get svc servicegraph
+    NAME           CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+    servicegraph   10.59.253.165   <none>        8088/TCP   30s
+    ```
 
-1. Send traffic to the mesh.
+1.  Send traffic to the mesh.
 
-   For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
-   browser or issue the following command:
+    For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
+    browser or issue the following command:
 
-   ```command
-   $ curl http://$GATEWAY_URL/productpage
-   ```
+    ```command
+    $ curl http://$GATEWAY_URL/productpage
+    ```
 
-   Refresh the page a few times (or send the command a few times) to generate a
-   small amount of traffic.
+    Refresh the page a few times (or send the command a few times) to generate a
+    small amount of traffic.
 
-   > `$GATEWAY_URL` is the value set in the [Bookinfo]({{home}}/docs/guides/bookinfo.html) guide.
+    > `$GATEWAY_URL` is the value set in the [Bookinfo]({{home}}/docs/guides/bookinfo.html) guide.
 
-1. Open the Servicegraph UI.
+1.  Open the Servicegraph UI.
 
-   In Kubernetes environments, execute the following command:
+    In Kubernetes environments, execute the following command:
 
-   ```command
-   $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
-   ```
+    ```command
+    $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
+    ```
 
-   Visit [http://localhost:8088/force/forcegraph.html](http://localhost:8088/force/forcegraph.html)
-   in your web browser. Try clicking on a service to see details on
-   the service. Real time traffic data is shown in a panel below.
+    Visit [http://localhost:8088/force/forcegraph.html](http://localhost:8088/force/forcegraph.html)
+    in your web browser. Try clicking on a service to see details on
+    the service. Real time traffic data is shown in a panel below.
 
-   The results will look similar to:
+    The results will look similar to:
 
-   {% include image.html width="75%" ratio="107.7%"
+    {% include image.html width="75%" ratio="107.7%"
     link="./img/servicegraph-example.png"
     caption="Example Servicegraph"
     %}
 
-1. Experiment with Query Parameters
+1.  Experiment with Query Parameters
 
-   Visit
-   [http://localhost:8088/force/forcegraph.html?time_horizon=15s&filter_empty=true](http://localhost:8088/force/forcegraph.html?time_horizon=15s&filter_empty=true)
-   in your web browser. Note the query parameters provided.
+    Visit
+    [http://localhost:8088/force/forcegraph.html?time_horizon=15s&filter_empty=true](http://localhost:8088/force/forcegraph.html?time_horizon=15s&filter_empty=true)
+    in your web browser. Note the query parameters provided.
 
-   `filter_empty=true` will only show services that are currently receiving traffic within the time horizon.
+    `filter_empty=true` will only show services that are currently receiving traffic within the time horizon.
 
-   `time_horizon=15s` affects the filter above, and also affects the
-   reported traffic information when clicking on a service. The
-   traffic information will be aggregated over the specified time
-   horizon.
+    `time_horizon=15s` affects the filter above, and also affects the
+    reported traffic information when clicking on a service. The
+    traffic information will be aggregated over the specified time
+    horizon.
 
-   The default behavior is to not filter empty services, and use a
-   time horizon of 5 minutes.
+    The default behavior is to not filter empty services, and use a
+    time horizon of 5 minutes.
 
-### About the Servicegraph Add-on
+### About the Servicegraph add-on
 
 The [Servicegraph](https://github.com/istio/istio/tree/master/addons/servicegraph)
 service provides endpoints for generating and visualizing a graph of
