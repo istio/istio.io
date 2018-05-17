@@ -243,8 +243,6 @@ For example, run the following command on a MacOS or Linux system:
 ## Installation steps
 
 1.  Install Istio's core components. Choose one of the two _**mutually exclusive**_ options below fo quick install.  However, we recommend you to install with the [Helm Chart]({{home}}/docs/setup/kubernetes/helm-install.html) for production installation of Istio to leverage all the params to config and customize Istio to your need.
-
-    If you already have Istio installed with version 0.7 or older, follow the uninstallation instruction to uninstall Istio.
  
     a)  Install Istio without enabling [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars.
     Choose this option for clusters with existing applications, applications where services with an
@@ -252,17 +250,17 @@ For example, run the following command on a MacOS or Linux system:
     applications that use [liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/),
     headless services, or StatefulSets.
 
-        ```command
-        $ kubectl apply -f install/kubernetes/istio.yaml
-        ```
+    ```command
+    $ kubectl apply -f install/kubernetes/istio.yaml
+    ```
 
     _**OR**_
 
     b)  Install Istio and enable [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars. This option is mostly for new clusters, i.e., all applications have sidecars injected during their deployment. For existing applications, please choose the above option and enable mutual TLS using [authentication policy]({{home}}/docs/tasks/security/authn-policy.html):
 
-        ```command
-        $ kubectl apply -f install/kubernetes/istio-auth.yaml
-        ```
+    ```command
+    $ kubectl apply -f install/kubernetes/istio-auth.yaml
+    ```
 
     Both options create the `istio-system` namespace along with the required RBAC permissions,
     and deploy Istio-Pilot, Istio-Mixer, Istio-Ingress, and Istio-CA (Certificate Authority).
