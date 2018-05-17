@@ -74,7 +74,7 @@ In the following subsections we configure a `Gateway` on port 80 for unencrypted
      name: httpbin-gateway
    spec:
      selector:
-       istio: ingressgateway # use istio default controller
+       istio: ingressgateway # use Istio default gateway implementation
      servers:
      - port:
          number: 80
@@ -122,12 +122,12 @@ In the following subsections we configure a `Gateway` on port 80 for unencrypted
    but instead will simply default to round-robin routing. To apply these (or other rules) to internal calls,
    we could add the special value `mesh` to the list of `gateways`.
 
-### Verifying unencrypted gateway
+### Verifying the gateway for HTTP
 
 The proxy instances implementing a particular `Gateway` configuration can be specified using a
 [selector]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway.selector) field.
 In our case, we have set the selector value to `istio: ingressgateway` to use the default
-`istio-ingressgateway` controller. Therefore, to test our gateway we will send requests to
+`istio-ingressgateway` implementation. Therefore, to test our gateway we will send requests to
 the default `istio-ingressgateway` service.
 
 1. Get the `ingressgateway` controller pod's hostIP:
@@ -181,11 +181,11 @@ In this subsection we add to our gateway the port 443 to handle the HTTPS traffi
 
 1. Create a Kubernetes `Secret` to hold the key/cert
 
-   Create the secret `istio-ingressgateway-certs` in namespace `istio-system` using `kubectl`. The Istio ingress controller
+   Create the secret `istio-ingressgateway-certs` in namespace `istio-system` using `kubectl`. The Istio gateway
    will automatically load the secret.
 
    > The secret MUST be called `istio-ingressgateway-certs` in the `istio-system` namespace, or it will not
-   be mounted and available to the Istio ingress controller.
+   be mounted and available to the Istio gateway.
 
    ```command
    $ kubectl create -n istio-system secret tls istio-ingressgateway-certs --key /tmp/tls.key --cert /tmp/tls.crt
@@ -207,7 +207,7 @@ In this subsection we add to our gateway the port 443 to handle the HTTPS traffi
      name: httpbin-gateway
    spec:
      selector:
-       istio: ingressgateway # use istio default controller
+       istio: ingressgateway # use istio default ingress gateway
      servers:
      - port:
          number: 80
