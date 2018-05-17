@@ -69,7 +69,15 @@ Upgrading Istio using Helm is not validated.
     $ helm init --service-account tiller
     ```
 
-1.  Create the Helm chart:
+1.  Install Istio:
+
+    1. With [automatic sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection) (requires Kubernetes >=1.9.0):
+
+    ```command
+    $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set sidecar-injector.enabled=true
+    ```
+
+    1. Without sidecar injection:
 
     ```command
     $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
