@@ -248,7 +248,6 @@ with the [Helm Chart]({{home}}/docs/setup/kubernetes/helm-install.html):
         ```command
         $ kubectl delete service istio-mixer -n istio-system
         $ kubectl delete deploy istio-mixer istio-ca -n istio-system
-
         ```
 
     a)  Install Istio without enabling [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars.
