@@ -240,7 +240,7 @@ protocols within policies.
 and [Mixer Config]({{home}}/docs/concepts/policy-and-control/mixer-config.html).
 
 * Discover the full [Attribute
-Vocabulary]({{home}}/docs/reference/config/mixer/attribute-vocabulary.html).
+Vocabulary]({{home}}/docs/reference/config/policy-and-telemetry/attribute-vocabulary.html).
 
 * Refer to the [In-Depth Telemetry]({{home}}/docs/guides/telemetry.html) guide.
 

@@ -198,4 +198,4 @@ If you would like the above policies enforced for a given namespace instead of t
 
 * Learn more about [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html) and [Mixer Config]({{home}}/docs/concepts/policy-and-control/mixer-config.html).
 
-* Discover the full [Attribute Vocabulary]({{home}}/docs/reference/config/mixer/attribute-vocabulary.html).
+* Discover the full [Attribute Vocabulary]({{home}}/docs/reference/config/policy-and-telemetry/attribute-vocabulary.html).
