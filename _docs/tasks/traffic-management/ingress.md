@@ -251,6 +251,41 @@ In this subsection we add to our gateway the port 443 to handle the HTTPS traffi
    x-envoy-upstream-service-time: 6
    ```
 
+### Disable the HTTP port
+
+If we want allow HTTPS traffic only into our service mesh, we can remove the HTTP port from our gateway.
+
+1.  Redefine the `Gateway` without the HTTP port:
+
+    ```bash
+    cat <<EOF | istioctl replace -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: httpbin-gateway
+    spec:
+      selector:
+        istio: ingressgateway # use istio default ingress gateway
+      servers:
+      - port:
+          number: 443
+          name: https
+          protocol: HTTPS
+        tls:
+          mode: SIMPLE
+          serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+          privateKey: /etc/istio/ingressgateway-certs/tls.key
+        hosts:
+        - "httpbin.example.com"
+    EOF
+    ```
+
+1.  Access the HTTP port and verify that it is not accessible (an error is returned):
+
+    ```command
+    $ curl --resolve httpbin.example.com:$INGRESS_PORT:$INGRESS_HOST -I http://httpbin.example.com:$INGRESS_PORT/status/200
+    ```
+
 ## Understanding what happened
 
 The `Gateway` configuration resources allow external traffic to enter the
