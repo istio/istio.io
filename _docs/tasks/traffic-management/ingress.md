@@ -42,7 +42,7 @@ This task describes how to configure Istio to expose a service outside of the se
     A private key and certificate can be created for testing using [OpenSSL](https://www.openssl.org/).
 
     ```command
-    $ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /tmp/tls.key -out /tmp/tls.crt -subj "/CN=foo.bar.com"
+    $ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /tmp/tls.key -out /tmp/tls.crt -subj "/CN=httpbin.example.com"
     ```
 
 ## Configuring ingress using an Istio Gateway
@@ -74,7 +74,7 @@ In the following subsections we configure a `Gateway` on port 80 for unencrypted
           name: http
           protocol: HTTP
         hosts:
-        - "foo.bar.com"
+        - "httpbin.example.com"
     EOF
     ```
 
@@ -145,10 +145,10 @@ the default `istio-ingressgateway` service.
     $ export INGRESS_PORT=31486
     ```
 
-1.  Access the _httpbin_ service using _curl_. Note the `--resolve` flag of _curl_ that allows to access an IP address by using an arbitrary domain name. In our case we access our ingress Gateway by "foo.bar.com". Note that we specified "foo.bar.com" as a host handled by our `Gateway`.
+1.  Access the _httpbin_ service using _curl_. Note the `--resolve` flag of _curl_ that allows to access an IP address by using an arbitrary domain name. In our case we access our ingress Gateway by "httpbin.example.com". Note that we specified "httpbin.example.com" as a host handled by our `Gateway`.
 
     ```command
-    $ curl --resolve foo.bar.com:$INGRESS_PORT:$INGRESS_HOST -I http://foo.bar.com:$INGRESS_PORT/status/200
+    $ curl --resolve httpbin.example.com:$INGRESS_PORT:$INGRESS_HOST -I http://httpbin.example.com:$INGRESS_PORT/status/200
     HTTP/1.1 200 OK
     server: envoy
     date: Mon, 29 Jan 2018 04:45:49 GMT
@@ -162,7 +162,7 @@ the default `istio-ingressgateway` service.
 1.  Access any other URL that has not been explicitly exposed. You should see an HTTP 404 error:
 
     ```command
-    $ curl --resolve foo.bar.com:$INGRESS_PORT:$INGRESS_HOST -I http://foo.bar.com:$INGRESS_PORT/headers
+    $ curl --resolve httpbin.example.com:$INGRESS_PORT:$INGRESS_HOST -I http://httpbin.example.com:$INGRESS_PORT/headers
     HTTP/1.1 404 Not Found
     date: Mon, 29 Jan 2018 04:45:49 GMT
     server: envoy
@@ -208,7 +208,7 @@ In this subsection we add to our gateway the port 443 to handle the HTTPS traffi
          name: http
          protocol: HTTP
        hosts:
-       - "foo.bar.com"
+       - "httpbin.example.com"
      - port:
          number: 443
          name: https
@@ -218,7 +218,7 @@ In this subsection we add to our gateway the port 443 to handle the HTTPS traffi
          serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
          privateKey: /etc/istio/ingressgateway-certs/tls.key
        hosts:
-       - "foo.bar.com"
+       - "httpbin.example.com"
    EOF
    ```
 
@@ -240,7 +240,7 @@ In this subsection we add to our gateway the port 443 to handle the HTTPS traffi
 1. Access the _httpbin_ service by HTTPS. Here we use _curl_'s `-k` option to instruct _curl_ not to check our certificate (since it is a fake certificate we created for testing the Gateway only, _curl_ is not aware of it).
 
    ```command
-   $ curl --resolve foo.bar.com:$SECURE_INGRESS_PORT:$INGRESS_HOST -I -k https://foo.bar.com:$SECURE_INGRESS_PORT/status/200
+   $ curl --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST -I -k https://httpbin.example.com:$SECURE_INGRESS_PORT/status/200
    HTTP/2 200
    server: envoy
    date: Mon, 14 May 2018 13:54:53 GMT
