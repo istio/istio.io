@@ -40,7 +40,7 @@ Follow the [instruction]({{home}}/docs/setup/kubernetes/quick-start.html#downloa
 
 Choose one of the options below to install Istio with Helm.
 
-### Option 1: Render Kubernetes manifest with Helm and deploy with kubectl
+### Render Kubernetes manifest with Helm and deploy with kubectl
 
 This is the most heavily tested method of deploying Istio.  During the continuous integration testing and release process, the `helm` binary in `template` mode is used to render the various manifests produced for Istio.  
 
@@ -57,7 +57,7 @@ This is the most heavily tested method of deploying Istio.  During the continuou
     $ kubectl create -f $HOME/istio.yaml
     ```
 
-### Option 2: Use Helm and Tiller to manage the Istio deployment
+### Alternatively, use Helm and Tiller to manage the Istio deployment
 
 <img src="{{home}}/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" />
 Upgrading Istio using Helm is not validated.
