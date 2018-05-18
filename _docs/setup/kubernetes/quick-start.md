@@ -108,7 +108,7 @@ Service account that runs application pods need privileged security context cons
 $ oc adm policy add-scc-to-user privileged -z default -n <target-namespace>
 ```
 
-Note:-  Check for selinux [discussion](https://github.com/istio/issues/issues/34)  with respect to Istio in case you see issues bringing up the Envoy.
+> Check for `SELINUX` in this [discussion](https://github.com/istio/issues/issues/34)  with respect to Istio in case you see issues bringing up the Envoy.
 
 ### AWS (w/Kops)
 
@@ -244,7 +244,9 @@ For example, run the following command on a MacOS or Linux system:
 
 ## Installation steps
 
-1.  Install Istio's core components. Choose one of the three _**mutually exclusive**_ options below fo quick install.  However, we recommend you to install with the [Helm Chart]({{home}}/docs/setup/kubernetes/helm-install.html) for production installation of Istio to leverage all the params to config and customize Istio to your need.
+1.  Install Istio's core components. Choose one of the three _**mutually exclusive**_ options below fo quick install.  However, we recommend you to install
+with the [Helm Chart]({{home}}/docs/setup/kubernetes/helm-install.html) for production installations of Istio to leverage all the options to configure and
+customize Istio to your needs.
  
     a)  Quick install Istio using without enabling [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars.
     Choose this option for clusters with existing applications, applications where services with an
