@@ -15,13 +15,13 @@ This task shows you how to use Istio to dynamically limit the traffic to a servi
 
 * Deploy the [Bookinfo](/docs/guides/bookinfo/) sample application.
 
-*   Initialize the application version routing to direct `reviews` service requests from
-    test user "jason" to version v2 and requests from any other user to v3.
+* Initialize the application version routing to direct `reviews` service requests from
+  test user "jason" to version v2 and requests from any other user to v3.
 
-    ```command
-    $ istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
-    $ istioctl create -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
-    ```
+  ```command
+  $ istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+  $ istioctl create -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
+  ```
 
 > If you have conflicting rule that you set in previous tasks,
 use `istioctl replace` instead of `istioctl create`.
@@ -43,14 +43,14 @@ Using Istio we can ensure that `1qps` is not breached.
 
 1. Configure `memquota`, `quota`, `rule`, `QuotaSpec`, `QuotaSpecBinding` to enable rate limiting.
 
-   ```bash
-   istioctl create -f samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml
+   ```command
+   $ istioctl create -f samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml
    ```
 
 1. Confirm the `memquota` was created:
 
-    ```bash
-    kubectl -n istio-system get memquota handler -o yaml
+    ```command
+    $ kubectl -n istio-system get memquota handler -o yaml
     ```
 
     ```yaml
@@ -80,8 +80,8 @@ Using Istio we can ensure that `1qps` is not breached.
     The `memquota` defines 3 different rate limit schemes. The default, if no overrides match, is `5000` requests per `1s`. Two overrides are also defined. The first is `1` request every `5s` if the `destination` is `ratings`, the source is `reviews`, and the sourceVersion is `v3`. The second is `5` request every `10s` if the `destination` is `ratings`. The first matching override is picked (reading from top to bottom).
 
 1. Confirm the `quota` was created:
-    ```bash
-    kubectl -n istio-system get quotas requestcount -o yaml
+    ```command
+    $ kubectl -n istio-system get quotas requestcount -o yaml
     ```
 
     ```yaml
@@ -101,8 +101,8 @@ Using Istio we can ensure that `1qps` is not breached.
   The `quota` template defines 4 `dimensions` that are used by `memquota` to set overrides on request that match certain attributes. Destination will be set to the requests destinations app label attribute if it exists. If not it will be the destinations service attribute if it exists. If not it will be set to "unknown". More info on expressions can be found [here]({{home}}/docs/reference/config/mixer/expression-language.html)
 
 1. Confirm the `rule` was created:
-    ```bash
-    kubectl -n istio-system get rules quota -o yaml
+    ```command
+    $ kubectl -n istio-system get rules quota -o yaml
     ```
 
     ```yaml
@@ -121,8 +121,8 @@ Using Istio we can ensure that `1qps` is not breached.
     The `rule` tells mixer to invoke `handler.memquota` handler (created above) and pass it the object constructed using the instance `requestcount.quota` (also created above). This effectively maps the dimensions from the `quota` template to `memquota` handler.
 
 1. Confirm the `QuotaSpec` was created:
-    ```bash
-    kubectl -n istio-system get QuotaSpec request-count -o yaml
+    ```command
+    $ kubectl -n istio-system get QuotaSpec request-count -o yaml
     ```
 
     ```yaml
@@ -141,8 +141,8 @@ Using Istio we can ensure that `1qps` is not breached.
     This `QuotaSpec` defines the requestcount `quota` we created above with a charge of `1`
 
 1. Confirm the `QuotaSpecBinding` was created:
-    ```bash
-    kubectl -n istio-system get QuotaSpecBinding request-count -o yaml
+    ```command
+    $ kubectl -n istio-system get QuotaSpecBinding request-count -o yaml
     ```
 
     ```yaml
@@ -219,18 +219,18 @@ If you would like the above policies enforced for a given namespace instead of t
 
 ## Cleanup
 
-*   Remove the rate limit configuration:
+* Remove the rate limit configuration:
 
-  ```bash
-  istioctl delete -f samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml
+  ```command
+  $ istioctl delete -f samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml
   ```
 
-*   Remove the application routing rules:
+* Remove the application routing rules:
 
-    ```command
-    $ istioctl delete -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
-    $ istioctl delete -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
-    ```
+  ```command
+  $ istioctl delete -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+  $ istioctl delete -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
+  ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
   [Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions
