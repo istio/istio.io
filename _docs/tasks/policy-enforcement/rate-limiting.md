@@ -48,7 +48,7 @@ Using Istio we can ensure that `1qps` is not breached.
    $ istioctl create -f samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml
    ```
    The file looks like this:
-   {% include file-content.html url='https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml %}
+   {% include file-content.html url='https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml' %}
 
 1. Confirm the `memquota` was created:
 
