@@ -53,7 +53,7 @@ Otherwise, ESP won't be able to access Google cloud service control.
     EOF
     ```
 
-1.  Get the Ingress IP through [instructions]({{home}}/docs/tasks/traffic-management/ingress.html#verifying-simple-ingress).
+1.  Get the Ingress IP through [instructions]({{home}}/docs/tasks/traffic-management/ingress.html#verifying-the-gateway-for-http).
 You can verify accessing the Endpoints service through Ingress:
 
     ```command
@@ -89,7 +89,7 @@ Adding `"--http_port=8081"` in the ESP deployment arguments and expose the HTTP 
 1. After this, you will find access to `EXTERNAL_IP` no longer works because istio proxy only accept secure mesh connections.
 Accessing through Ingress works because Ingress does HTTP terminations.
 
-1. To secure the access at Ingress, following the [instructions]({{home}}/docs/tasks/traffic-management/ingress.html#configuring-secure-ingress-https).
+1. To secure the access at Ingress, following the [instructions]({{home}}/docs/tasks/traffic-management/ingress.html#add-a-secure-port-https-to-our-gateway).
 
 1.  You can verify accessing the Endpoints service through secure Ingress:
 
