@@ -53,7 +53,7 @@ This is the most heavily tested method of deploying Istio.  During the continuou
     $ kubectl create -f $HOME/istio.yaml
     ```
 
-### Option 2: Use Helm and Tiller to manage the Istio deployment
+### Alternatively, use Helm and Tiller to manage the Istio deployment
 
 <img src="{{home}}/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" />
 Upgrading Istio using Helm is not validated.
