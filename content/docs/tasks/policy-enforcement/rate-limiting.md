@@ -42,10 +42,14 @@ Using Istio we can ensure that `1qps` is not breached.
    indicating that the `ratings` service is being called by the "v3" version of the `reviews` service.
 
 1. Configure `memquota`, `quota`, `rule`, `QuotaSpec`, `QuotaSpecBinding` to enable rate limiting.
-
    ```command
    $ istioctl create -f samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml
    ```
+   The file looks like this:
+   {% include file-content.html url='https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml %}
+
+    The file looks like:
+    {{< file_content url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml" >}}
 
 1. Confirm the `memquota` was created:
 
@@ -98,7 +102,7 @@ Using Istio we can ensure that `1qps` is not breached.
         destinationVersion: destination.labels["version"] | "unknown"
     ```
 
-  The `quota` template defines 4 `dimensions` that are used by `memquota` to set overrides on request that match certain attributes. Destination will be set to the requests destinations app label attribute if it exists. If not it will be the destinations service attribute if it exists. If not it will be set to "unknown". More info on expressions can be found [here]({{home}}/docs/reference/config/mixer/expression-language.html)
+  The `quota` template defines 4 `dimensions` that are used by `memquota` to set overrides on request that match certain attributes. `destination` will be set to the first non-empty value in `destination.labels["app"]`, `destination.service`, or `"unknown"`. More info on expressions can be found [here]({{home}}/docs/reference/config/mixer/expression-language.html)
 
 1. Confirm the `rule` was created:
     ```command
