@@ -19,6 +19,8 @@ the example application throughout this task.
 
 * [Install Istio]({{home}}/docs/setup/) in your cluster and deploy an
   application.
+* [Install the Prometheus add-on]({{home}}/docs/tasks/telemetry/querying-metrics.html)
+  in your cluster and deploy an application.
 
 ## Viewing the Istio Dashboard
 

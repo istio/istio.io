@@ -149,7 +149,7 @@ istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/
 If the `EXTERNAL-IP` value is set, your environment has an external load balancer that you can use for the ingress gateway
 
 ```command
-$ export GATEWAY_URL=130.211.10.121:80
+$ export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 ```
 
 If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not support external load balancers.
@@ -162,14 +162,14 @@ In this case, you can access the gateway using the service `nodePort`.
     $ gcloud compute firewall-rules create allow-book --allow tcp:$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
     ```
 
-1.  _IBM Cloud Container Service Free Tier:_
+1.  _IBM Cloud Kubernetes Service Free Tier:_
 
     ```command
     $ bx cs workers <cluster-name or id>
     $ export GATEWAY_URL=<public IP of the worker node>:$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
     ```
 
-1.  _Other environments (e.g., minikube):_
+1.  _Other environments (e.g., minikube, IBM Cloud Private etc):_
 
     ```command
     $ export GATEWAY_URL=$(kubectl get po -l istio=ingressgateway -n istio-system -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingressgateway -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}')

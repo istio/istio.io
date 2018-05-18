@@ -22,7 +22,7 @@ application.
 ## Querying Istio Metrics
 
 1.  Verify that the prometheus service is running in your cluster (since 0.8 the
-    prometheus setup is included in istio.yaml and istio-auth.yaml by default)
+    prometheus setup is included in istio-demo.yaml and istio-demo-auth.yaml by default)
 
     In Kubernetes environments, execute the following command:
 
