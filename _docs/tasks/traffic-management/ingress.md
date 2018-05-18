@@ -9,7 +9,7 @@ redirect_from: /docs/tasks/ingress.html
 {% include home.html %}
 
 In a Kubernetes environment, the [Kubernetes Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/)
-allows specifying services that should be exposed outside the cluster.
+is used to specify services that should be exposed outside the cluster.
 
 In Istio Service mesh, on top of Kubernetes and other environments, a different concept is applied, namely [Istio Gateway]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway). It allows Istio features, for example, monitoring and route rules, to be applied to traffic entering the cluster.
 
