@@ -385,7 +385,7 @@ spec:
 
 To see fault injection in action, see the [fault injection task]({{home}}/docs/tasks/traffic-management/fault-injection.html).
 
-### Route rules have order of precedence
+### HTTP route rules have precedence
 
 When there are multiple rules for a given destination,
 they are evaluated in the order they appear
