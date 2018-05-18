@@ -13,7 +13,7 @@ is used to specify services that should be exposed outside the cluster.
 
 In an Istio service mesh, a better approach (which also works in both Kubernetes and other environments) is to use a different configuration model, namely [Istio Gateway]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway). It allows Istio features, for example, monitoring and route rules, to be applied to traffic entering the cluster.
 
-This task describes how to configure Istio to expose a service outside of the service mesh using [Istio Gateway]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway).
+This task describes how to configure Istio to expose a service outside of the service mesh using an [Istio Gateway]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway).
 
 ## Before you begin
 
