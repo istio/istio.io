@@ -96,12 +96,13 @@ Configure `kubectl` CLI based on steps [here](https://www.ibm.com/support/knowle
 OpenShift by default does not allow containers running with UID 0. Enable containers running
 with UID 0 for Istio's service accounts for ingress as well the Prometheus and Grafana addons:
 
-  ```bash
- oc adm policy add-scc-to-user anyuid -z istio-ingress-service-account -n istio-system
- oc adm policy add-scc-to-user anyuid -z default -n istio-system 
- oc adm policy add-scc-to-user anyuid -z grafana -n istio-system
- oc adm policy add-scc-to-user anyuid -z prometheus -n istio-system
-  ```
+```command
+$ oc adm policy add-scc-to-user anyuid -z istio-ingress-service-account -n istio-system
+$ oc adm policy add-scc-to-user anyuid -z default -n istio-system
+$ oc adm policy add-scc-to-user anyuid -z grafana -n istio-system
+$ oc adm policy add-scc-to-user anyuid -z prometheus -n istio-system
+```
+
 Service account that runs application pods need privileged security context constraints as part of sidecar injection.
 
 ```command
@@ -241,13 +242,12 @@ For example, run the following command on a MacOS or Linux system:
     $ export PATH=$PWD/bin:$PATH
     ```
 
-
 ## Installation steps
 
 1.  Install Istio's core components. Choose one of the three _**mutually exclusive**_ options below fo quick install.  However, we recommend you to install
 with the [Helm Chart]({{home}}/docs/setup/kubernetes/helm-install.html) for production installations of Istio to leverage all the options to configure and
 customize Istio to your needs.
- 
+
     a)  Quick install Istio using without enabling [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars.
     Choose this option for clusters with existing applications, applications where services with an
     Istio sidecar need to be able to communicate with other non-Istio Kubernetes services, and
@@ -260,12 +260,12 @@ customize Istio to your needs.
 
     _**OR**_
 
-    b)  [Render Kubernetes manifest with Helm and deploy with kubectl]({{home}}/docs/setup/kubernetes/helm-install.html#render-kubernetes-manifest-with-helm-and-deploy-with-kubectl).   
+    b)  [Render Kubernetes manifest with Helm and deploy with kubectl]({{home}}/docs/setup/kubernetes/helm-install.html#render-kubernetes-manifest-with-helm-and-deploy-with-kubectl).
 
     _**OR**_
-    
-    c)  [Use Helm and Tiller to manage the Istio deployment]({{home}}/docs/setup/kubernetes/helm-install.html#alternatively-use-helm-and-tiller-to-manage-the-istio-deployment).   
-    
+   
+    c)  [Use Helm and Tiller to manage the Istio deployment]({{home}}/docs/setup/kubernetes/helm-install.html#alternatively-use-helm-and-tiller-to-manage-the-istio-deployment).
+
 1. *Optional:* If your cluster has Kubernetes version 1.9 or greater, and you wish to enable automatic proxy injection,
 install the [sidecar injector webhook]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection).
 
