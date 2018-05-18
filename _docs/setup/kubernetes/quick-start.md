@@ -93,22 +93,24 @@ $(bx cs cluster-config <cluster-name>|grep "export KUBECONFIG")
 
 Configure `kubectl` CLI based on steps [here](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0/manage_cluster/cfc_cli.html) for how to access the IBM Cloud Private Cluster.
 
-### [OpenShift Origin](https://www.openshift.org) (version 3.7 or later)
+### [OpenShift Origin](https://www.openshift.org) (version 3.9)
 
 OpenShift by default does not allow containers running with UID 0. Enable containers running
 with UID 0 for Istio's service accounts for ingress as well the Prometheus and Grafana addons:
 
-```command
-$ oc adm policy add-scc-to-user anyuid -z istio-ingress-service-account -n istio-system
-$ oc adm policy add-scc-to-user anyuid -z grafana -n istio-system
-$ oc adm policy add-scc-to-user anyuid -z prometheus -n istio-system
-```
-
+  ```bash
+ oc adm policy add-scc-to-user anyuid -z istio-ingress-service-account -n istio-system
+ oc adm policy add-scc-to-user anyuid -z default -n istio-system 
+ oc adm policy add-scc-to-user anyuid -z grafana -n istio-system
+ oc adm policy add-scc-to-user anyuid -z prometheus -n istio-system
+  ```
 Service account that runs application pods need privileged security context constraints as part of sidecar injection.
 
 ```command
 $ oc adm policy add-scc-to-user privileged -z default -n <target-namespace>
 ```
+
+Note:-  Check for selinux [discussion](https://github.com/istio/issues/issues/34)  with respect to Istio in case you see issues bringing up the Envoy.
 
 ### AWS (w/Kops)
 
@@ -245,10 +247,11 @@ For example, run the following command on a MacOS or Linux system:
 with the [Helm Chart]({{home}}/docs/setup/kubernetes/helm-install.html):
 
     If you already have Istio installed with version 0.7 or older, please delete the legacy service and deployments by running
-        ```command
-        $ kubectl delete service istio-mixer -n istio-system
-        $ kubectl delete deploy istio-mixer istio-ca -n istio-system
-        ```
+
+    ```command
+    $ kubectl delete service istio-mixer -n istio-system
+    $ kubectl delete deploy istio-mixer istio-ca -n istio-system
+    ```
 
     a)  Install Istio without enabling [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars.
     Choose this option for clusters with existing applications, applications where services with an
@@ -256,17 +259,17 @@ with the [Helm Chart]({{home}}/docs/setup/kubernetes/helm-install.html):
     applications that use [liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/),
     headless services, or StatefulSets.
 
-        ```command
-        $ kubectl apply -f install/kubernetes/istio.yaml
-        ```
+    ```command
+    $ kubectl apply -f install/kubernetes/istio.yaml
+    ```
 
     _**OR**_
 
     b)  Install Istio and enable [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars. This option is mostly for new clusters, i.e., all applications have sidecars injected during their deployment. For existing applications, please choose the above option and enable mutual TLS using [authentication policy]({{home}}/docs/tasks/security/authn-policy.html):
 
-        ```command
-        $ kubectl apply -f install/kubernetes/istio-auth.yaml
-        ```
+    ```command
+    $ kubectl apply -f install/kubernetes/istio-auth.yaml
+    ```
 
     Both options create the `istio-system` namespace along with the required RBAC permissions,
     and deploy Istio-Pilot, Istio-Mixer, Istio-Ingress, and Istio-CA (Certificate Authority).
