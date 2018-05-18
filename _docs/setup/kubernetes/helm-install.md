@@ -22,7 +22,7 @@ There are two options for using Helm to deploy Istio.
 1. Use `helm template` to render a manifest and use `kubectl`
 to create it.
 
-1. Use Helm's Tiller service to manage the lifecycle
+1. Use Helm's [Tiller](https://github.com/kubernetes/helm#helm-in-a-handbasket) service to manage the lifecycle
 of Istio this requires tiller to be installed in your Kubernetes cluster.
 
 ## Prerequisites
