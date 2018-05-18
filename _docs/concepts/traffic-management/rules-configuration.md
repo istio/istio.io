@@ -555,7 +555,7 @@ unable to match the subset policy to the request.
 You can fix the above example in one of two ways. You can either move the
 traffic policy up a level to make it apply to any version:
 
-```
+```yaml
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -639,7 +639,7 @@ instead of on the usual server-side for internal service requests.
 Service entries work well in conjunction with virtual services
 and destination rules as long as they refer to the services using matching
 `hosts`. For example, the following rule can be used in conjunction with
-the above `ServiceEntry` rule to set a 10s timeout for calls to 
+the above `ServiceEntry` rule to set a 10s timeout for calls to
 the external service at `bar.foo.com`.
 
 ```yaml
