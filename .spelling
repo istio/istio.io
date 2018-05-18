@@ -58,6 +58,7 @@ ExecAction
 Exfiltrating
 ExternalName
 Fluentd
+httpbin.example.com
 FQDNs
 GATEWAY_URL
 GCP-IAM
@@ -470,6 +471,7 @@ sa
 sayin
 schemas
 secretName
+selinux
 serviceaccount
 servicegraph-example
 setupIstioVM.sh
