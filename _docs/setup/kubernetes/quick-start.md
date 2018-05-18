@@ -301,7 +301,6 @@ and, optionally, `istio-sidecar-injector-*`.
     istio-citadel-dcb7955f6-vdcjk              1/1       Running     0          11h
     istio-egressgateway-56b7758b44-l5fm5       1/1       Running     0          11h
     istio-ingressgateway-56cfddbd5b-xbdcx      1/1       Running     0          11h
-    istio-mixer-create-cr-jwtrz                0/1       Completed   0          11h
     istio-pilot-cbd6bfd97-wgw9b                2/2       Running     0          11h
     istio-policy-699fbb45cf-bc44r              2/2       Running     0          11h
     istio-statsd-prom-bridge-949999c4c-nws5j   1/1       Running     0          11h
