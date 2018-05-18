@@ -17,7 +17,7 @@ Installation of Istio prior to version 0.8.0 with Helm is unstable and not recom
 
 ## Deploy Istio using Helm
 
-There are two options for using Helm to deploy Istio.  
+There are two options for using Helm to deploy Istio.
 
 1. Use `helm template` to render a manifest and use `kubectl`
 to create it.
@@ -41,7 +41,7 @@ Choose one of the options below to install Istio with Helm.
 
 ### Render Kubernetes manifest with Helm and deploy with kubectl
 
-This is the most heavily tested method of deploying Istio.  During the continuous integration testing and release process, the `helm` binary in `template` mode is used to render the various manifests produced for Istio.  
+This is the most heavily tested method of deploying Istio.  During the continuous integration testing and release process, the `helm` binary in `template` mode is used to render the various manifests produced for Istio.
 
 1.  Create an `istio.yaml` Kubernetes manifest:
 
