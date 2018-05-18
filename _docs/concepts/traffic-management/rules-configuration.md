@@ -1,159 +1,154 @@
 ---
 title: Rules Configuration
-description: Provides a high-level overview of the domain-specific language used by Istio to configure traffic management rules in the service mesh.
+description: Provides a high-level overview of the configuration model used by Istio to configure traffic management rules in the service mesh.
 
 weight: 50
 
 ---
 {% include home.html %}
 
-Istio provides a simple Domain-specific language (DSL) to
+Istio provides a simple configuration model to
 control how API calls and layer-4 traffic flow across various
-services in the application deployment. The DSL allows the operator to
+services in an application deployment. The configuration model allows an operator to
 configure service-level properties such as circuit breakers, timeouts,
 retries, as well as set up common continuous deployment tasks such as
 canary rollouts, A/B testing, staged rollouts with %-based traffic splits,
-etc. See [routing rules reference]({{home}}/docs/reference/config/istio.routing.v1alpha1.html) for detailed information.
+etc.
 
-For example, a simple rule to send 100% of incoming traffic for a "reviews"
-service to version "v1" can be described using the Rules DSL as
+For example, a simple rule to send 100% of incoming traffic for a *reviews*
+service to version "v1" can be described using a configuration as
 follows:
 
 ```yaml
-apiVersion: config.istio.io/v1alpha2
-kind: RouteRule
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
 metadata:
-  name: reviews-default
+  name: reviews
 spec:
-  destination:
-    name: reviews
-  route:
-  - labels:
-      version: v1
-    weight: 100
+  hosts:
+  - reviews
+  http:
+  - route:
+    - destination:
+        host: reviews
+        subset: v1
 ```
 
-The destination is the name of the service to which the traffic is being
-routed. The route *labels* identify the specific service instances that will
-receive traffic. For example, in a Kubernetes deployment of Istio, the route
-*label* "version: v1" indicates that only pods containing the label "version: v1"
-will receive traffic.
+This configuration says that traffic sent to the *reviews* service
+(specified in the `hosts` field) should be routed to the v1 subset
+of the underlying *reviews* service instances.
+The route `subset` specifies the name of a defined subset in
+a corresponding destination rule configuration:
+
+```yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: reviews
+spec:
+  host: reviews
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
+```
+
+A subset specifies one or more labels that identify version-specific instances.
+For example, in a Kubernetes deployment of Istio, "version: v1" indicates that
+only pods containing the label "version: v1" will receive traffic.
 
 Rules can be configured using the
 [istioctl CLI]({{home}}/docs/reference/commands/istioctl.html), or in a Kubernetes
-deployment using the `kubectl` command instead. See the
-[configuring request routing task]({{home}}/docs/tasks/traffic-management/request-routing.html) for
-examples.
+deployment using the `kubectl` command instead, although only `istioctl` will
+perform model validation and is recommended. See the
+[configuring request routing task]({{home}}/docs/tasks/traffic-management/request-routing.html)
+for examples.
 
-There are three kinds of traffic management rules in Istio: **Route Rules**, **Destination
-Policies** (these are not the same as Mixer policies), and **Egress Rules**. All three
-kinds of rules control how requests are routed to a destination service.
+There are four traffic management configuration resources in Istio:
+**VirtualService**, **DestinationRule**, **ServiceEntry**, and **Gateway**.
+A few important aspects of these resources are described below.
+See [networking reference]({{home}}/docs/reference/config/istio.networking.v1alpha3.html)
+for detailed information.
 
-## Route Rules
+## Virtual Services
 
-Route rules control how requests are routed within an Istio service mesh.
-For example, a route rule could route requests to different versions of a service.
-Requests can be routed based on the source and destination, HTTP
-header fields, and weights associated with individual service versions. The
-following important aspects must be kept in mind while writing route rules:
+A [VirtualService]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#VirtualService)
+defines the rules that control how requests for a service are routed within an Istio service mesh.
+For example, a virtual service could route requests to different versions of a service or, in fact,
+to a completely different service than was requested.
+Requests can be routed based on the request source and destination, HTTP paths and
+header fields, and weights associated with individual service versions.
 
-### Qualify rules by destination
+### Rule destinations
 
-Every rule corresponds to some destination service identified by a
-*destination* field in the rule. For example, rules that apply to calls
-to the "reviews" service will typically include at least the following.
-
-```yaml
-destination:
-  name: reviews
-```
-
-The *destination* value specifies, implicitly or explicitly, a fully qualified
-domain name (FQDN). It is used by Istio Pilot for matching rules to services.
-
-Normally, the FQDN of the service is composed from three components: *name*,
-*namespace*, and *domain*:
-
-```plain
-FQDN = name + "." + namespace + "." + domain
-```
-
-These fields can be explicitly specified as follows.
+Routing rules correspond to one or more request destination hosts that are specified in
+a `VirtualService` configuration. These hosts may or may not be the same as the actual
+destination workload and may not even correspond to an actual routable service in the mesh.
+For example, to define routing rules for requests to the *reviews* service using its internal
+mesh name `reviews` or via host `bookinfo.com`, a `VirtualService` could have a `hosts` field
+something like this:
 
 ```yaml
-destination:
-  name: reviews
-  namespace: default
-  domain: svc.cluster.local
+hosts:
+  - reviews
+  - bookinfo.com
 ```
 
-More commonly, to simplify and maximize reuse of the rule (for example, to use
-the same rule in more than one namespace or domain), the rule destination
-specifies only the *name* field, relying on defaults for the other
-two.
-
-The default value for the *namespace* is the namespace of the rule
-itself, which can be specified in the *metadata* field of the rule,
-or during rule install using the `istioctl -n <namespace> create`
-or `kubectl -n <namespace> create` command.  The default value of
-the *domain* field is implementation specific. In Kubernetes, for example,
-the default value is `svc.cluster.local`.
-
-In some cases, such as when referring to external services in egress rules or
-on platforms where *namespace* and *domain* are not meaningful, an alternative
-*service* field can be used to explicitly specify the destination:
-
-```yaml
-destination:
-  service: my-service.com
-```
-
-When the *service* field is specified, all other implicit or explicit values of the
-other fields are ignored.
+The `hosts` field specifies, implicitly or explicitly, one or more fully qualified
+domain names (FQDN). The short name `reviews`, above, would implicitly
+expand to an implementation specific FQDN. For example, in a Kubernetes environment
+the full name is derived from the cluster and namespace of the `VirtualSevice`
+(e.g., `reviews.default.svc.cluster.local`).
 
 ### Qualify rules by source/headers
 
 Rules can optionally be qualified to only apply to requests that match some
 specific criteria such as the following:
 
-_1. Restrict to a specific caller_.  For example, the following rule only
-applies to calls from the "reviews" service.
+_1. Restrict to a specific caller_.  For example, a rule
+can indicate that it only applies to calls from workloads (pods) implementing
+the *reviews* service.
 
 ```yaml
-apiVersion: config.istio.io/v1alpha2
-kind: RouteRule
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
 metadata:
-  name: reviews-to-ratings
+  name: ratings
 spec:
-  destination:
-    name: ratings
-  match:
-    source:
-      name: reviews
-  ...
+  hosts:
+  - ratings
+  http:
+  - match:
+      sourceLabels:
+        app: reviews
+    ...
 ```
 
-The *source* value, just like *destination*, specifies a FQDN of a service,
-either implicitly or explicitly.
+The value of `sourceLabels` depends on the implementation of the service.
+In Kubernetes, for example, it would probably be the same labels that are used
+in the pod selector of the corresponding Kubernetes service.
 
 _2. Restrict to specific versions of the caller_. For example, the following
 rule refines the previous example to only apply to calls from version "v2"
-of the "reviews" service.
+of the *reviews* service.
 
 ```yaml
-apiVersion: config.istio.io/v1alpha2
-kind: RouteRule
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
 metadata:
-  name: reviews-v2-to-ratings
+  name: ratings
 spec:
-  destination:
-    name: ratings
-  match:
-    source:
-      name: reviews
-      labels:
+  hosts:
+  - ratings
+  http:
+  - match:
+    - sourceLabels:
+        app: reviews
         version: v2
-  ...
+    ...
 ```
 
 _3. Select rule based on HTTP headers_. For example, the following rule will
@@ -161,47 +156,70 @@ only apply to an incoming request if it includes a "cookie" header that
 contains the substring "user=jason".
 
 ```yaml
-apiVersion: config.istio.io/v1alpha2
-kind: RouteRule
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
 metadata:
-  name: ratings-jason
+  name: reviews
 spec:
-  destination:
-    name: reviews
-  match:
-    request:
-      headers:
+  hosts:
+    - reviews
+  http:
+  - match:
+    - headers:
         cookie:
           regex: "^(.*?;)?(user=jason)(;.*)?$"
-  ...
+    ...
 ```
 
 If more than one header is provided, then all of the
 corresponding headers must match for the rule to apply.
 
-Multiple criteria can be set simultaneously. In such a case, AND semantics
-apply. For example, the following rule only applies if the source of the
+Multiple criteria can be set simultaneously. In such a case, AND or OR
+semantics apply, depending on the nesting.
+If multiple criteria are nested in a single match clause, then the conditions
+are ANDed. For example, the following rule only applies if the source of the
 request is "reviews:v2" AND the "cookie" header containing "user=jason" is
 present.
 
 ```yaml
-apiVersion: config.istio.io/v1alpha2
-kind: RouteRule
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
 metadata:
-  name: ratings-reviews-jason
+  name: ratings
 spec:
-  destination:
-    name: ratings
-  match:
-    source:
-      name: reviews
-      labels:
+  hosts:
+  - ratings
+  http:
+  - match:
+    - sourceLabels:
+        app: reviews
         version: v2
-    request:
       headers:
         cookie:
           regex: "^(.*?;)?(user=jason)(;.*)?$"
-  ...
+    ...
+```
+
+If instead, the criteria appear in separate match clauses, then only one
+of the conditions must apply (OR semantics):
+
+```yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+spec:
+  hosts:
+  - ratings
+  http:
+  - match:
+    - sourceLabels:
+        app: reviews
+        version: v2
+    - headers:
+        cookie:
+          regex: "^(.*?;)?(user=jason)(;.*)?$"
+    ...
 ```
 
 ### Split traffic between service versions
@@ -209,29 +227,31 @@ spec:
 Each route rule identifies one or more weighted backends to call when the rule is activated.
 Each backend corresponds to a specific version of the destination service,
 where versions can be expressed using _labels_.
-
-If there are multiple registered instances with the specified tag(s),
+If there are multiple registered instances with the specified label(s),
 they will be routed to based on the load balancing policy configured for the service,
 or round-robin by default.
 
-For example, the following rule will route 25% of traffic for the "reviews" service to instances with
-the "v2" tag and the remaining traffic (i.e., 75%) to "v1".
+For example, the following rule will route 25% of traffic for the *reviews* service to instances with
+the "v2" label and the remaining traffic (i.e., 75%) to "v1".
 
 ```yaml
-apiVersion: config.istio.io/v1alpha2
-kind: RouteRule
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
 metadata:
-  name: reviews-v2-rollout
+  name: reviews
 spec:
-  destination:
-    name: reviews
-  route:
-  - labels:
-      version: v2
-    weight: 25
-  - labels:
-      version: v1
-    weight: 75
+  hosts:
+    - reviews
+  http:
+  - route:
+    - destination:
+        host: reviews
+        subset: v1
+      weight: 75
+    - destination:
+        host: reviews
+        subset: v2
+      weight: 25
 ```
 
 ### Timeouts and retries
@@ -240,19 +260,19 @@ By default, the timeout for http requests is 15 seconds,
 but this can be overridden in a route rule as follows:
 
 ```yaml
-apiVersion: config.istio.io/v1alpha2
-kind: RouteRule
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
 metadata:
-  name: ratings-timeout
+  name: ratings
 spec:
-  destination:
-    name: ratings
-  route:
-  - labels:
-      version: v1
-  httpReqTimeout:
-    simpleTimeout:
-      timeout: 10s
+  hosts:
+    - ratings
+  http:
+  - route:
+    - destination:
+        name: ratings
+        subset: v1
+    timeout: 10s
 ```
 
 The number of retries for a given http request can also be specified in a route rule.
@@ -260,19 +280,21 @@ The maximum number of attempts, or as many as possible within the default or ove
 can be set as follows:
 
 ```yaml
-apiVersion: config.istio.io/v1alpha2
-kind: RouteRule
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
 metadata:
-  name: ratings-retry
+  name: ratings
 spec:
-  destination:
-    name: ratings
-  route:
-  - labels:
-      version: v1
-  httpReqRetries:
-    simpleRetry:
+  hosts:
+    - ratings
+  http:
+  - route:
+    - destination:
+        name: ratings
+        subset: v1
+    retries:
       attempts: 3
+      perTryTimeout: 2s
 ```
 
 Note that request timeouts and retries can also be
@@ -286,148 +308,133 @@ A route rule can specify one or more faults to inject
 while forwarding http requests to the rule's corresponding request destination.
 The faults can be either delays or aborts.
 
-The following example will introduce a 5 second delay in 10% of the requests to the "v1" version of the "reviews" microservice.
+The following example will introduce a 5 second delay in 10% of the requests to the "v1" version of the *reviews* microservice.
 
 ```yaml
-apiVersion: config.istio.io/v1alpha2
-kind: RouteRule
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
 metadata:
-  name: ratings-delay
+  name: ratings
 spec:
-  destination:
-    name: reviews
-  route:
-  - labels:
-      version: v1
-  httpFault:
-    delay:
-      percent: 10
-      fixedDelay: 5s
+  hosts:
+  - ratings
+  http:
+  - fault:
+      delay:
+        percent: 10
+        fixedDelay: 5s
+    route:
+    - destination:
+        host: ratings
+        subset: v1
 ```
 
 The other kind of fault, abort, can be used to prematurely terminate a request,
 for example, to simulate a failure.
 
 The following example will return an HTTP 400 error code for 10%
-of the requests to the "ratings" service "v1".
+of the requests to the *ratings* service "v1".
 
 ```yaml
-apiVersion: config.istio.io/v1alpha2
-kind: RouteRule
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
 metadata:
-  name: ratings-abort
+  name: ratings
 spec:
-   destination:
-     name: ratings
-   route:
-   - labels:
-       version: v1
-   httpFault:
-     abort:
-       percent: 10
-       httpStatus: 400
+  hosts:
+  - ratings
+  http:
+  - fault:
+      abort:
+        percent: 10
+        httpStatus: 400
+    route:
+    - destination:
+        host: ratings
+        subset: v1
 ```
 
 Sometimes delays and abort faults are used together. For example, the following rule will delay
-by 5 seconds all requests from the "reviews" service "v2" to the "ratings" service "v1" and
+by 5 seconds all requests from the *reviews* service "v2" to the *ratings* service "v1" and
 then abort 10 percent of them:
 
 ```yaml
-apiVersion: config.istio.io/v1alpha2
-kind: RouteRule
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
 metadata:
-  name: ratings-delay-abort
+  name: ratings
 spec:
-  destination:
-    name: ratings
-  match:
-    source:
-      name: reviews
-      labels:
+  hosts:
+  - ratings
+  http:
+  - match:
+    - sourceLabels:
+        app: reviews
         version: v2
-  route:
-  - labels:
-      version: v1
-  httpFault:
-    delay:
-      fixedDelay: 5s
-    abort:
-      percent: 10
-      httpStatus: 400
+    fault:
+      delay:
+        fixedDelay: 5s
+      abort:
+        percent: 10
+        httpStatus: 400
+    route:
+    - destination:
+        host: ratings
+        subset: v1
 ```
 
 To see fault injection in action, see the [fault injection task]({{home}}/docs/tasks/traffic-management/fault-injection.html).
 
-### Rules have precedence
+### HTTP route rules have precedence
 
-Multiple route rules could be applied to the same destination. The order of
-evaluation of rules corresponding to a given destination, when there is
-more than one, can be specified by setting the *precedence* field of the
-rule.
+When there are multiple rules for a given destination,
+they are evaluated in the order they appear
+in the `VirtualService`, i.e., the first rule
+in the list has highest priority.
 
-```yaml
-destination:
-  name: reviews
-precedence: 1
-```
-
-The precedence field is an optional integer value, 0 by default.  Rules
-with higher precedence values are evaluated first. _If there is more than
-one rule with the same precedence value the order of evaluation is
-undefined._
-
-**When is precedence useful?** Whenever the routing story for a particular
-service is purely weight based, it can be specified in a single rule,
-as shown in the earlier example.  When, on the other hand, other criteria
+**Why is priority important?** Whenever the routing story for a particular
+service is purely weight based, it can be specified in a single rule.
+When, on the other hand, other criteria
 (e.g., requests from a specific user) are being used to route traffic, more
 than one rule will be needed to specify the routing.  This is where the
-rule *precedence* field must be set to make sure that the rules are
+rule priority must be carefully considered to make sure that the rules are
 evaluated in the right order.
 
 A common pattern for generalized route specification is to provide one or
-more higher priority rules that qualify rules by source/headers to specific
-destinations, and then provide a single weight-based rule with no match
-criteria at the lowest priority to provide the weighted distribution of
+more higher priority rules that qualify rules by source/headers,
+and then provide a single weight-based rule with no match
+criteria last to provide the weighted distribution of
 traffic for all other cases.
 
-For example, the following 2 rules, together, specify that all requests for
-the "reviews" service that includes a header named "Foo" with the value
-"bar" will be sent to the "v2" instances.  All remaining requests will be
-sent to "v1".
+For example, the following `VirtualService` contains 2 rules that, together,
+specify that all requests for the *reviews* service that includes a header
+named "Foo" with the value "bar" will be sent to the "v2" instances.
+All remaining requests will be sent to "v1".
 
 ```yaml
-apiVersion: config.istio.io/v1alpha2
-kind: RouteRule
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
 metadata:
-  name: reviews-foo-bar
+  name: reviews
 spec:
-  destination:
-    name: reviews
-  precedence: 2
-  match:
-    request:
-      headers:
+  hosts:
+  - reviews
+  http:
+  - match:
+    - headers:
         Foo:
           exact: bar
-  route:
-  - labels:
-      version: v2
----
-apiVersion: config.istio.io/v1alpha2
-kind: RouteRule
-metadata:
-  name: reviews-default
-spec:
-  destination:
-    name: reviews
-  precedence: 1
-  route:
-  - labels:
-      version: v1
-    weight: 100
+    route:
+    - destination:
+        host: reviews
+        subset: v2
+  - route:
+    - destination:
+        host: reviews
+        subset: v1
 ```
 
-Notice that the header-based rule has the higher precedence (2 vs. 1). If
+Notice that the header-based rule has the higher priority. If
 it was lower, these rules wouldn't work as expected since the weight-based
 rule, with no specific match criteria, would be evaluated first which would
 then simply route all traffic to "v1", even requests that include the
@@ -436,182 +443,289 @@ request, it will be executed and the rule-evaluation process will
 terminate. That's why it's very important to carefully consider the
 priorities of each rule when there is more than one.
 
-## Destination policies
+## Destination Rules
 
-Destination policies describe various routing related policies associated
-with a particular service or version, such as the load balancing algorithm,
-the configuration of circuit breakers, health checks, etc.
+A [DestinationRule]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#DestinationRule)
+configures the set of policies to be applied to a request after `VirtualService` routing has occurred. They are
+intended to be authored by service owners, describing the circuit breakers, load balancer settings, TLS settings, etc..
 
-Unlike route rules, destination policies cannot be qualified based on attributes
-of a request other than the calling service, but they can be restricted to
-apply to requests that are routed to destination backends with specific labels.
-For example, the following load balancing policy will only apply to requests
-targeting the "v1" version of the "ratings" microservice that are called
-from version "v2" of the "reviews" service.
+A `DestinationRule` also defines addressable `subsets` (i.e., named versions) of the corresponding destination host.
+These subsets are used in `VirtualService` route specifications when sending traffic to specific versions of the service.
+
+The following `DestinationRule` configures policies and subsets for the reviews service:
 
 ```yaml
-apiVersion: config.istio.io/v1alpha2
-kind: DestinationPolicy
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
 metadata:
-  name: ratings-lb-policy
+  name: reviews
 spec:
-  source:
-    name: reviews
-    labels:
-      version: v2
-  destination:
-    name: ratings
+  host: reviews
+  trafficPolicy:
+    loadBalancer:
+      simple: RANDOM
+  subsets:
+  - name: v1
     labels:
       version: v1
-  loadBalancing:
-    name: ROUND_ROBIN
+  - name: v2
+    labels:
+      version: v2
+    trafficPolicy:
+      loadBalancer:
+        simple: ROUND_ROBIN
+  - name: v3
+    labels:
+      version: v3
 ```
+
+Notice that multiple policies (e.g., default and v2-specific) can be
+specified in a single `DestinationRule` configuration.
 
 ### Circuit breakers
 
 A simple circuit breaker can be set based on a number of criteria such as connection and request limits.
 
-For example, the following destination policy
-sets a limit of 100 connections to "reviews" service version "v1" backends.
+For example, the following `DestinationRule`
+sets a limit of 100 connections to *reviews* service version "v1" backends.
 
 ```yaml
-apiVersion: config.istio.io/v1alpha2
-kind: DestinationPolicy
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
 metadata:
-  name: reviews-v1-cb
+  name: reviews
 spec:
-  destination:
-    name: reviews
+  name: reviews
+  subsets:
+  - name: v1
     labels:
       version: v1
-  circuitBreaker:
-    simpleCb:
-       maxConnections: 100
+    trafficPolicy:
+      connectionPool:
+        tcp:
+          maxConnections: 100
 ```
 
-The complete set of simple circuit breaker fields can be found
-[here]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#CircuitBreaker).
+See the [circuit-breaking task]({{home}}/docs/tasks/traffic-management/circuit-breaking.html) for a demonstration of circuit breaker control.
 
-### Destination policy evaluation
+### DestinationRule evaluation
 
-Similar to route rules, destination policies are associated with a
-particular *destination* however if they also include *labels* their
+Similar to route rules, policies are associated with a
+particular *host* however if they are subset specific,
 activation depends on route rule evaluation results.
 
-The first step in the rule evaluation process evaluates the route rules for
-a *destination*, if any are defined, to determine the labels (i.e., specific
+The first step in the rule evaluation process evaluates the route rules in
+the `VirtualService` corresponding to the requested *host*, if there are any defined,
+to determine the subset (i.e., specific
 version) of the destination service that the current request will be routed
-to. Next, the set of destination policies, if any, are evaluated to
-determine if they apply.
+to. Next, the set of policies corresponding to the selected subset, if any,
+are evaluated to determine if they apply.
 
 **NOTE:** One subtlety of the algorithm to keep in mind is that policies
-that are defined for specific tagged destinations will only be applied if
-the corresponding tagged instances are explicitly routed to. For example,
-consider the following rule, as the one and only rule defined for the
-"reviews" service.
+that are defined for specific subsets will only be applied if
+the corresponding subset is explicitly routed to. For example,
+consider the following configuration, as the one and only rule defined for the
+*reviews* service (i.e., there are no route rules in a corresponding `VirtualService`.
 
 ```yaml
-apiVersion: config.istio.io/v1alpha2
-kind: DestinationPolicy
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
 metadata:
-  name: reviews-v1-cb
+  name: reviews
 spec:
-  destination:
-    name: reviews
+  name: reviews
+  subsets:
+  - name: v1
     labels:
       version: v1
-  circuitBreaker:
-    simpleCb:
-      maxConnections: 100
+    trafficPolicy:
+      connectionPool:
+        tcp:
+          maxConnections: 100
 ```
 
-Since there is no specific route rule defined for the "reviews"
+Since there is no specific route rule defined for the *reviews*
 service, default round-robin routing behavior will apply, which will
 presumably call "v1" instances on occasion, maybe even always if "v1" is
 the only running version. Nevertheless, the above policy will never be
 invoked since the default routing is done at a lower level. The rule
 evaluation engine will be unaware of the final destination and therefore
-unable to match the destination policy to the request.
+unable to match the subset policy to the request.
 
-You can fix the above example in one of two ways. You can either remove the
-`labels:` from the rule, if "v1" is the only instance anyway, or, better yet,
-define proper route rules for the service. For example, you can add a
-simple route rule for "reviews:v1".
+You can fix the above example in one of two ways. You can either move the
+traffic policy up a level to make it apply to any version:
 
 ```yaml
-apiVersion: config.istio.io/v1alpha2
-kind: RouteRule
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
 metadata:
-  name: reviews-default
+  name: reviews
 spec:
-  destination:
-    name: reviews
-  route:
-  - labels:
+  host: reviews
+  trafficPolicy:
+    connectionPool:
+      tcp:
+        maxConnections: 100
+  subsets:
+  - name: v1
+    labels:
       version: v1
 ```
 
-Although the default Istio behavior conveniently sends traffic from all
-versions of a source service to all versions of a destination service
+or, better yet, define proper route rules for the service.
+For example, you can add a simple route rule for "reviews:v1".
+
+```yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: reviews
+spec:
+  hosts:
+  - reviews
+  http:
+  - route:
+    - destination:
+        host: reviews
+        subset: v1
+```
+
+Although the default Istio behavior conveniently sends traffic from any
+source to all versions of a destination service
 without any rules being set, as soon as version discrimination is desired
 rules are going to be needed.
 Therefore, setting a default rule for every service, right from the
 start, is generally considered a best practice in Istio.
 
-## Egress Rules
+## Service Entries
 
-Egress rules are used to enable requests to services outside of an Istio service mesh.
-For example, the following rule can be used to allow external calls to services hosted
+A [ServiceEntry]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#ServiceEntry)
+is used to add additional entries into the service registry that Istio maintains internally.
+It is most commonly used to enable requests to services outside of an Istio service mesh.
+For example, the following `ServiceEntry` can be used to allow external calls to services hosted
 under the `*.foo.com` domain.
 
 ```yaml
-apiVersion: config.istio.io/v1alpha2
-kind: EgressRule
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
 metadata:
-  name: foo-egress-rule
+  name: foo-ext-svc
 spec:
-  destination:
-    service: *.foo.com
+  hosts:
+  - *.foo.com
   ports:
-    - port: 80
-      protocol: http
-    - port: 443
-      protocol: https
+  - number: 80
+    name: http
+    protocol: HTTP
+  - number: 443
+    name: https
+    protocol: HTTPS
 ```
 
-The destination of an egress rule is specified using the *service* field, which
+The destination of a `ServiceEntry` is specified using the `hosts` field, which
 can be either a fully qualified or wildcard domain name.
-It represents a white listed set of one or more external services that services
-in the mesh are allowed to access. The supported wildcard syntax can be found
-[here]({{home}}/docs/reference/config/istio.routing.v1alpha1.html).
+It represents a white listed set of one or more services that services
+in the mesh are allowed to access.
 
-Currently, only HTTP-based services can be expressed using an egress rule, however,
-TLS origination from the sidecar can be achieved by setting the protocol of
-the associated service port to "https", as shown in the above example.
-The service must be accessed over HTTP
-(e.g., `http://secure-service.foo.com:443`, instead of `https://secure-service.foo.com`),
-however, the sidecar will upgrade the connection to TLS in this case.
+A `ServiceEntry` is not limited to external service configuration,
+it can be of two types: mesh-internal or mesh-external.
+Mesh-internal entries are like all other internal services but are used to explicitly add services
+to the mesh. They can be used to add services as part of expanding the service mesh to include unmanaged infrastructure
+(e.g., VMs added to a Kubernetes-based service mesh).
+Mesh-external entries represent services external to the mesh.
+For them, mTLS authentication is disabled and policy enforcement is performed on the client-side,
+instead of on the usual server-side for internal service requests.
 
-Egress rules work well in conjunction with route rules and destination
-policies as long as they refer to the external services using the exact same
-specification for the destination service as the corresponding egress rule.
-For example, the following rule can be used in conjunction with the above egress
-rule to set a 10s timeout for calls to the external services.
+Service entries work well in conjunction with virtual services
+and destination rules as long as they refer to the services using matching
+`hosts`. For example, the following rule can be used in conjunction with
+the above `ServiceEntry` rule to set a 10s timeout for calls to
+the external service at `bar.foo.com`.
 
 ```yaml
-apiVersion: config.istio.io/v1alpha2
-kind: RouteRule
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
 metadata:
-  name: foo-timeout-rule
+  name: bar-foo-ext-svc
 spec:
-  destination:
-    service: *.foo.com
-  httpReqTimeout:
-    simpleTimeout:
-      timeout: 10s
+  hosts:
+    - bar.foo.com
+  http:
+  - route:
+    - destination:
+        name: ratings
+        subset: v1
+    timeout: 10s
 ```
 
-Destination policies and route rules to redirect and forward traffic, to define retry,
+Rules to redirect and forward traffic, to define retry,
 timeout and fault injection policies are all supported for external destinations.
 Weighted (version-based) routing is not possible, however, since there is no notion
 of multiple versions of an external service.
+
+See the [egress task]({{home}}/docs/tasks/traffic-management/egress.html) for a more
+about accessing external services.
+
+## Gateways
+
+A [Gateway]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway)
+configure a load balancer for HTTP/TCP traffic, most commonly operating at the edge of the
+mesh to enable ingress traffic for an application.
+
+Unlike Kubernetes Ingress, Istio `Gateway` only configures the L4-L6 functions
+(e.g., ports to  expose, TLS configuration). Users then can use standard Istio rules
+to control HTTP requests as well as TCP traffic entering a `Gateway` by binding a
+`VirtualService` to it.
+
+For example, the following simple `Gateway` configures a load balancer
+to allow external https traffic for host `bookinfo.com` into the mesh:
+
+```yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: bookinfo-gateway
+spec:
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    hosts:
+    - bookinfo.com
+    tls:
+      mode: SIMPLE
+      serverCertificate: /tmp/tls.crt
+      privateKey: /tmp/tls.key
+```
+
+To configure the corresponding routes, a `VirtualService`
+must be defined for the same host and bound to the `Gateway` using
+the `gateways` field in the configuration:
+
+```yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: bookinfo
+spec:
+  hosts:
+    - bookinfo.com
+  gateways:
+  - bookinfo-gateway # <---- bind to gateway
+  http:
+  - match:
+    - uri:
+        prefix: /reviews
+    route:
+    ...
+```
+
+See the [ingress task]({{home}}/docs/tasks/traffic-management/egress.html) for a
+complete ingress gateway example.
+
+Although primarily used to manage ingress traffic, a `Gateway` can also be used to model
+a purely internal or egress proxy. Irrespective of the location, all gateways
+can be configured and controlled in the same way. Refer to the
+[gateway reference]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway)
+for details.
