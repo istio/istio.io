@@ -149,7 +149,7 @@ istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/
 If the `EXTERNAL-IP` value is set, your environment has an external load balancer that you can use for the ingress gateway
 
 ```command
-$ export GATEWAY_URL=130.211.10.121:80
+$ export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 ```
 
 If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not support external load balancers.
