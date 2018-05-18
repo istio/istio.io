@@ -31,7 +31,6 @@ of Istio this requires tiller to be installed in your Kubernetes cluster.
 * Helm **2.7.2 or newer** is required.  Follow the [instruction](https://docs.helm.sh/using_helm/#installing-helm) to install Helm.
 * If you are interested in option 2, Helm [Tiller](https://github.com/kubernetes/helm#helm-in-a-handbasket) must be installed in your Kubernetes cluster.
 
-
 ## Download and prepare for Istio install
 
 Follow the [instruction]({{home}}/docs/setup/kubernetes/quick-start.html#download-and-prepare-for-the-installation) to download the Istio release binary and install `istioctl`.
