@@ -162,14 +162,14 @@ In this case, you can access the gateway using the service `nodePort`.
     $ gcloud compute firewall-rules create allow-book --allow tcp:$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
     ```
 
-1.  _IBM Cloud Container Service Free Tier:_
+1.  _IBM Cloud Kubernetes Service Free Tier:_
 
     ```command
     $ bx cs workers <cluster-name or id>
     $ export GATEWAY_URL=<public IP of the worker node>:$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
     ```
 
-1.  _Other environments (e.g., minikube):_
+1.  _Other environments (e.g., minikube, IBM Cloud Private etc):_
 
     ```command
     $ export GATEWAY_URL=$(kubectl get po -l istio=ingressgateway -n istio-system -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingressgateway -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}')
