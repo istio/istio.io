@@ -471,6 +471,7 @@ sa
 sayin
 schemas
 secretName
+selinux
 serviceaccount
 servicegraph-example
 setupIstioVM.sh
