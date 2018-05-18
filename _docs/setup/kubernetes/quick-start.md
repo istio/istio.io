@@ -264,8 +264,8 @@ customize Istio to your needs.
 
     _**OR**_
     
-    c)  [Use Helm and Tiller to manage the Istio deployment]({{home}}/docs/setup/kubernetes/helm-install.html#alternatively-use-helm-and-tiller-to-manage-the-istio-deployment).   
-    
+    c)  [Use Helm and Tiller to manage the Istio deployment]({{home}}/docs/setup/kubernetes/helm-install.html#alternatively-use-helm-and-tiller-to-manage-the-istio-deployment).
+
 1. *Optional:* If your cluster has Kubernetes version 1.9 or greater, and you wish to enable automatic proxy injection,
 install the [sidecar injector webhook]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection).
 
