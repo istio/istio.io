@@ -10,7 +10,7 @@ redirect_from: /docs/setup/kubernetes/helm.html
 
 {% include home.html %}
 
-Quick start instructions for the setup and configuration of Istio using the Helm package manager.  This is recommended install method for deploying Istio to your production environment as it offers rich customization to the Istio control plane and the side cars for the Istio data plane.
+Quick start instructions for the setup and configuration of Istio using the Helm package manager.  This is the recommended install method for deploying Istio to your production environment as it offers rich customization to the Istio control plane and the side cars for the Istio data plane.
 
 <img src="{{home}}/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" />
 Installation of Istio prior to version 0.8.0 with Helm is unstable and not recommended.
