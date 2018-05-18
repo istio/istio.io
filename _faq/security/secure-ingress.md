@@ -4,5 +4,5 @@ weight: 130
 ---
 {% include home.html %}
 
-By following the instructions on [Configuring secure ingress]({{home}}/docs/tasks/traffic-management/ingress.html#configuring-secure-ingress-https),
+By following the instructions on [Adding a secure port to a gateway]({{home}}/docs/tasks/traffic-management/ingress.html#add-a-secure-port-https-to-our-gateway) and on [Disabling an HTTP port in a gateway]({{home}}/docs/tasks/traffic-management/ingress.html#disable-the-http-port)
 Istio Ingress can be secured to only accept TLS traffic.
