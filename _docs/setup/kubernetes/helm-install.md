@@ -17,11 +17,9 @@ Installation of Istio prior to version 0.8.0 with Helm is unstable and not recom
 
 ## Prerequisites
 
-* Kubernetes **1.7.3 or newer** is required.
-* Helm **2.7.2 or newer** is required.
-* If you want to manage Istio releases with [Tiller](https://github.com/kubernetes/helm#helm-in-a-handbasket),
-the capability to install service accounts is required.
-* Using [automatic sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection) describes Kubernetes environmental requirements.
+* Kubernetes **1.9 or newer** is recommended.
+* Helm **2.7.2 or newer** is required.  Follow the [instruction](https://docs.helm.sh/using_helm/#installing-helm) to install Helm.
+* If you want to manage Istio releases with [Tiller](https://github.com/kubernetes/helm#helm-in-a-handbasket), Helm tiller must be installed in your Kubernetes cluster.
 
 ## Deploy Istio using Helm
 
@@ -30,19 +28,23 @@ technique is to use `helm template` to render a manifest and use `kubectl`
 to create it.
 
 The second technique uses Helm's Tiller service to manage the lifecycle
-of Istio.
+of Istio this requires tiller to be installed in your Kubernetes cluster.
+
+### Download and prepare for Istio install
+
+Follow the [instruction]({{home}}/docs/setup/kubernetes/quick-start.html#download-and-prepare-for-the-installation) to download the Istio release binary and install `istioctl`.
 
 ### Render Kubernetes manifest with Helm and deploy with kubectl
 
 This is the most heavily tested method of deploying Istio.  During the
-continuous integration automated testing and release process, the
+continuous integration testing and release process, the
 `helm` binary in `template` mode is used to render the various manifests
 produced for Istio.
 
 1.  Create an `istio.yaml` Kubernetes manifest:
 
     ```command
-    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set prometheus.enabled=true > $HOME/istio.yaml
+    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set global.proxy.image=proxyv2 > $HOME/istio.yaml
     ```
 
 1.  Create the Istio control plane from `istio.yaml` manifest:
@@ -74,13 +76,13 @@ Upgrading Istio using Helm is not validated.
     1. With [automatic sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection) (requires Kubernetes >=1.9.0):
 
     ```command
-    $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set sidecar-injector.enabled=true
+    $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set sidecar-injector.enabled=true --set global.proxy.image=proxyv2
     ```
 
     1. Without sidecar injection:
 
     ```command
-    $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
+    $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set global.proxy.image=proxyv2
     ```
 
 ## Customization with Helm

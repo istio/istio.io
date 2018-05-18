@@ -96,19 +96,20 @@ Configure `kubectl` CLI based on steps [here](https://www.ibm.com/support/knowle
 OpenShift by default does not allow containers running with UID 0. Enable containers running
 with UID 0 for Istio's service accounts for ingress as well the Prometheus and Grafana addons:
 
-  ```bash
- oc adm policy add-scc-to-user anyuid -z istio-ingress-service-account -n istio-system
- oc adm policy add-scc-to-user anyuid -z default -n istio-system 
- oc adm policy add-scc-to-user anyuid -z grafana -n istio-system
- oc adm policy add-scc-to-user anyuid -z prometheus -n istio-system
-  ```
+```command
+$ oc adm policy add-scc-to-user anyuid -z istio-ingress-service-account -n istio-system
+$ oc adm policy add-scc-to-user anyuid -z default -n istio-system
+$ oc adm policy add-scc-to-user anyuid -z grafana -n istio-system
+$ oc adm policy add-scc-to-user anyuid -z prometheus -n istio-system
+```
+
 Service account that runs application pods need privileged security context constraints as part of sidecar injection.
 
 ```command
 $ oc adm policy add-scc-to-user privileged -z default -n <target-namespace>
 ```
 
-Note:-  Check for selinux [discussion](https://github.com/istio/issues/issues/34)  with respect to Istio in case you see issues bringing up the Envoy.
+> Check for `SELINUX` in this [discussion](https://github.com/istio/issues/issues/34)  with respect to Istio in case you see issues bringing up the Envoy.
 
 ### AWS (w/Kops)
 
@@ -241,11 +242,12 @@ For example, run the following command on a MacOS or Linux system:
     $ export PATH=$PWD/bin:$PATH
     ```
 
-
 ## Installation steps
 
-1.  Install Istio's core components. Choose one of the three _**mutually exclusive**_ options below fo quick install.  However, we recommend you to install with the [Helm Chart]({{home}}/docs/setup/kubernetes/helm-install.html) for production installation of Istio to leverage all the params to config and customize Istio to your need.
- 
+1.  Install Istio's core components. Choose one of the three _**mutually exclusive**_ options below fo quick install.  However, we recommend you to install
+with the [Helm Chart]({{home}}/docs/setup/kubernetes/helm-install.html) for production installations of Istio to leverage all the options to configure and
+customize Istio to your needs.
+
     a)  Quick install Istio using without enabling [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars.
     Choose this option for clusters with existing applications, applications where services with an
     Istio sidecar need to be able to communicate with other non-Istio Kubernetes services, and
@@ -258,7 +260,7 @@ For example, run the following command on a MacOS or Linux system:
 
     _**OR**_
 
-    b)  [Render Kubernetes manifest with Helm and deploy with kubectl]({{home}}/docs/setup/kubernetes/helm-install.html#render-kubernetes-manifest-with-helm-and-deploy-with-kubectl).   
+    b)  [Render Kubernetes manifest with Helm and deploy with kubectl]({{home}}/docs/setup/kubernetes/helm-install.html#render-kubernetes-manifest-with-helm-and-deploy-with-kubectl).
 
     _**OR**_
     
