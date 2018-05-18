@@ -263,7 +263,7 @@ customize Istio to your needs.
     b)  [Render Kubernetes manifest with Helm and deploy with kubectl]({{home}}/docs/setup/kubernetes/helm-install.html#render-kubernetes-manifest-with-helm-and-deploy-with-kubectl).
 
     _**OR**_
-   
+
     c)  [Use Helm and Tiller to manage the Istio deployment]({{home}}/docs/setup/kubernetes/helm-install.html#alternatively-use-helm-and-tiller-to-manage-the-istio-deployment).
 
 1. *Optional:* If your cluster has Kubernetes version 1.9 or greater, and you wish to enable automatic proxy injection,
@@ -277,15 +277,12 @@ install the [sidecar injector webhook]({{home}}/docs/setup/kubernetes/sidecar-in
     ```command
     $ kubectl get svc -n istio-system
     NAME                       TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)                                                               AGE
-    citadel-ilb                LoadBalancer   10.35.251.104   10.138.0.43     8060:32031/TCP                                                        47m
     istio-citadel              ClusterIP      10.35.253.23    <none>          8060/TCP,9093/TCP                                                     47m
     istio-ingress              LoadBalancer   10.35.245.4     35.203.191.37   80:32765/TCP,443:32304/TCP                                            47m
     istio-pilot                ClusterIP      10.35.255.168   <none>          15003/TCP,15005/TCP,15007/TCP,15010/TCP,15011/TCP,8080/TCP,9093/TCP   47m
-    istio-pilot-ilb            LoadBalancer   10.35.252.183   10.138.0.40     15005:30035/TCP,8080:30494/TCP                                        47m
     istio-policy               ClusterIP      10.35.247.90    <none>          9091/TCP,15004/TCP,9093/TCP                                           47m
     istio-statsd-prom-bridge   ClusterIP      10.35.243.13    <none>          9102/TCP,9125/UDP                                                     47m
     istio-telemetry            ClusterIP      10.35.248.71    <none>          9091/TCP,15004/TCP,9093/TCP,42422/TCP                                 47m
-    mixer-ilb                  LoadBalancer   10.35.240.250   10.138.0.42     15004:30427/TCP                                                       47m
     prometheus                 ClusterIP      10.35.255.10    <none>          9090/TCP                                                              47m
     ```
 
