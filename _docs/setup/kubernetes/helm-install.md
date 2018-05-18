@@ -32,9 +32,13 @@ of Istio this requires tiller to be installed in your Kubernetes cluster.
 * If you are interested in option 2, Helm [Tiller](https://github.com/kubernetes/helm#helm-in-a-handbasket) must be installed in your Kubernetes cluster.
 
 
-### Download and prepare for Istio install
+## Download and prepare for Istio install
 
 Follow the [instruction]({{home}}/docs/setup/kubernetes/quick-start.html#download-and-prepare-for-the-installation) to download the Istio release binary and install `istioctl`.
+
+## Install Istio with Helm
+
+Choose one of the options below to install Istio with Helm.
 
 ### Option 1: Render Kubernetes manifest with Helm and deploy with kubectl
 
