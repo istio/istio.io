@@ -200,7 +200,7 @@ spec:
     ...
 ```
 
-If instead, the criteria appear in seperate match clauses, then only one
+If instead, the criteria appear in separate match clauses, then only one
 of the conditions must apply (OR semantics):
 
 ```yaml
@@ -672,7 +672,7 @@ A [Gateway]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gatewa
 configure a load balancer for HTTP/TCP traffic, most commonly operating at the edge of the
 mesh to enable ingress traffic for an application.
 
-Unlike Kubernetes Igress, Istio `Gateway` only configures the L4-L6 functions
+Unlike Kubernetes Ingress, Istio `Gateway` only configures the L4-L6 functions
 (e.g., ports to  expose, TLS configuration). Users then can use standard Istio rules
 to control HTTP requests as well as TCP traffic entering a `Gateway` by binding a
 `VirtualService` to it.
@@ -724,7 +724,7 @@ spec:
 See the [ingress task]({{home}}/docs/tasks/traffic-management/egress.html) for a
 complete ingress gateway example.
 
-Altrough primarily used to manage ingress traffic, a `Gateway` can also be used to model
+Although primarily used to manage ingress traffic, a `Gateway` can also be used to model
 a purely internal or egress proxy. Irrespective of the location, all gateways
 can be configured and controlled in the same way. Refer to the
 [gateway reference]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway)
