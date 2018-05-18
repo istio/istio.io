@@ -53,7 +53,7 @@ from within your Istio cluster. In this task we will use
       ports:
       - number: 80
         name: http
-        protocol: http
+        protocol: HTTP
     EOF
     ```
 
@@ -71,7 +71,7 @@ from within your Istio cluster. In this task we will use
       ports:
       - number: 443
         name: https
-        protocol: http
+        protocol: HTTP
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
@@ -168,10 +168,8 @@ to set a timeout rule on calls to the httpbin.org service.
 
 ## Calling external services directly
 
-The Istio `ServiceEntry` currently only supports HTTP/HTTPS requests.
-If you want to access services with other protocols (e.g., mongodb://host/database),
-or if you want to completely bypass Istio for a specific IP range,
-you will need to configure the source service's Envoy sidecar to prevent it from
+If you want to completely bypass Istio for a specific IP range,
+you can configure the source service's Envoy sidecar to prevent it from
 [intercepting]({{home}}/docs/concepts/traffic-management/request-routing.html#communication-between-services)
 the external requests. This can be done using the `--includeIPRanges` option of
 [istioctl kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl kube-inject)
@@ -244,11 +242,11 @@ $ kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
 
 In this task we looked at two ways to call external services from an Istio mesh:
 
-1. Using an `ServiceEntry` (recommended)
+1. Using a `ServiceEntry` (recommended)
 
 1. Configuring the Istio sidecar to exclude external IPs from its remapped IP table
 
-The first approach (`ServiceEntry`) only supports HTTP(S) requests, but allows
+The first approach (`ServiceEntry`) allows
 you to use all of the same Istio service mesh features for calls to services within or outside
 of the cluster. We demonstrated this by setting a timeout rule for calls to an external service.
 
@@ -271,10 +269,6 @@ cloud provider specific knowledge and configuration.
     ```command
     $ kubectl delete -f samples/sleep/sleep.yaml
     ```
-
-## `ServiceEntry` and Access Control
-
-Note that Istio `ServiceEntry` is **not a security feature**. It enables access to external (out of the service mesh) services. It is up to the user to deploy appropriate security mechanisms such as firewalls to prevent unauthorized access to the external services. We are working on adding access control support for the external services.
 
 ## What's next
 
