@@ -67,7 +67,7 @@ $ kubectl create clusterrolebinding cluster-admin-binding \
     --user=$(gcloud config get-value core/account)
 ```
 
-### [IBM Cloud Container Service (IKS)](https://www.ibm.com/cloud/container-service)
+### [IBM Cloud Kubernetes Service (IKS)](https://www.ibm.com/cloud/container-service)
 
 Create a new lite cluster.
 
@@ -242,29 +242,26 @@ For example, run the following command on a MacOS or Linux system:
 
 ## Installation steps
 
-1.  Install Istio's core components. Choose one of the two _**mutually exclusive**_ options below fo quick install.  However, we recommend you to install with the [Helm Chart]({{home}}/docs/setup/kubernetes/helm-install.html) for production installation of Istio to leverage all the params to config and customize Istio to your need.
+1.  Install Istio's core components. Choose one of the three _**mutually exclusive**_ options below fo quick install.  However, we recommend you to install with the [Helm Chart]({{home}}/docs/setup/kubernetes/helm-install.html) for production installation of Istio to leverage all the params to config and customize Istio to your need.
  
-    a)  Install Istio without enabling [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars.
+    a)  Quick install Istio using without enabling [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars.
     Choose this option for clusters with existing applications, applications where services with an
     Istio sidecar need to be able to communicate with other non-Istio Kubernetes services, and
     applications that use [liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/),
     headless services, or StatefulSets.
 
     ```command
-    $ kubectl apply -f install/kubernetes/istio.yaml
+    $ kubectl apply -f install/kubernetes/istio-demo.yaml
     ```
 
     _**OR**_
 
-    b)  Install Istio and enable [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars. This option is mostly for new clusters, i.e., all applications have sidecars injected during their deployment. For existing applications, please choose the above option and enable mutual TLS using [authentication policy]({{home}}/docs/tasks/security/authn-policy.html):
+    b)  [Render Kubernetes manifest with Helm and deploy with kubectl]({{home}}/docs/setup/kubernetes/helm-install.html#render-kubernetes-manifest-with-helm-and-deploy-with-kubectl).   
 
-    ```command
-    $ kubectl apply -f install/kubernetes/istio-auth.yaml
-    ```
-
-    Both options create the `istio-system` namespace along with the required RBAC permissions,
-    and deploy Istio-Pilot, Istio-Mixer, Istio-Ingress, and Istio-CA (Certificate Authority).
-
+   _**OR**_
+   
+    c)  [Use Helm and Tiller to manage the Istio deployment]({{home}}/docs/setup/kubernetes/helm-install.html#ralternatively-use-helm-and-tiller-to-manage-the-istio-deployment).   
+    
 1. *Optional:* If your cluster has Kubernetes version 1.9 or greater, and you wish to enable automatic proxy injection,
 install the [sidecar injector webhook]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection).
 
