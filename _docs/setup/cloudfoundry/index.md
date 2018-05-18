@@ -3,7 +3,7 @@ title: Cloud Foundry
 description: Instructions for installing the Istio control plane in Cloud Foundry.
 
 weight: 40
-
+draft: true
 toc: false
 ---
 
