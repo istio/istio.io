@@ -1,10 +1,11 @@
 ---
 title: Troubleshooting Guide
 description: Practical advice on practical problems with Istio
-
 weight: 40
-
-redirect_from: /troubleshooting
+redirect_from:
+    - /troubleshooting.html
+    - /troubleshooting/index.html
+    - /help/troubleshooting/index.html
 force_inline_toc: true
 ---
 {% include home.html %}

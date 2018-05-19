@@ -1,14 +1,12 @@
 ---
 title: Release Notes
 description: Description of features and improvements for every Istio release.
-
 weight: 5
-
 redirect_from:
-  - "/docs/reference/release-notes.html"
-  - "/release-notes"
-  - "/docs/welcome/notes/index.html"
-  - "/docs/references/notes"
+  - /docs/reference/release-notes.html
+  - /release-notes
+  - /docs/welcome/notes/index.html
+  - /docs/references/notes
 toc: false
 ---
 {% include section-index.html docs=site.about %}

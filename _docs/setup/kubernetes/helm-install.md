@@ -1,11 +1,10 @@
 ---
 title: Installation with Helm
 description: Install Istio with the included Helm chart.
-
 weight: 30
-
-redirect_from: /docs/setup/kubernetes/helm.html
-
+redirect_from:
+    - /docs/setup/kubernetes/helm.html
+    - /docs/tasks/integrating-services-into-istio.html
 ---
 
 {% include home.html %}

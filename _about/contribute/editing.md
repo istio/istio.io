@@ -1,10 +1,9 @@
 ---
 title: Editing Docs
 description: Lets you start editing this site's documentation.
-
 weight: 10
-
-redirect_from: /docs/welcome/contribute/editing.html
+redirect_from:
+    - /docs/welcome/contribute/editing.html
 ---
 
 Click the button below to visit the GitHub repository for this whole web site. You can then click the
