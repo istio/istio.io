@@ -92,7 +92,7 @@ the `productpage` service.
 
 ## What's next
 
-* Learn more about [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html) and [Mixer Config]({{home}}/docs/concepts/policy-and-control/mixer-config.html).
+* Learn more about [Mixer]({{home}}/docs/concepts/policies-and-telemetry/overview.html) and [Mixer Config]({{home}}/docs/concepts/policies-and-telemetry/config.html).
 
 * Discover the full [Attribute Vocabulary]({{home}}/docs/reference/config/policy-and-telemetry/attribute-vocabulary.html).
 
