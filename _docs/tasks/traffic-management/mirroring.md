@@ -1,9 +1,9 @@
 ---
 title: Mirroring
 description: This task demonstrates the traffic shadowing/mirroring capabilities of Istio
-
 weight: 60
-
+redirect_from:
+    - /docs/tasks/traffic-management/mirroring/index.html
 ---
 {% include home.html %}
 

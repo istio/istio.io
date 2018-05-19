@@ -7,7 +7,8 @@ attribution: Martin Taillefer
 
 weight: 95
 
-redirect_from: "/blog/mixer-adapter-model.html"
+redirect_from: 
+    - /blog/mixer-adapter-model.html
 ---
 {% include home.html %}
 

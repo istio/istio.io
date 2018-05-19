@@ -1,9 +1,9 @@
 ---
 title: Istio Authentication Policy
 description: Describes Istio authentication policy
-
 weight: 10
-
+redirect_from:
+    - /docs/concepts/network-and-auth/auth.html
 ---
 {% include home.html %}
 

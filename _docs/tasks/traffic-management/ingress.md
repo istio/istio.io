@@ -1,10 +1,9 @@
 ---
 title: Control Ingress Traffic
 description: Describes how to configure Istio to expose a service outside of the service mesh.
-
 weight: 30
-
-redirect_from: /docs/tasks/ingress.html
+redirect_from:
+     - /docs/tasks/ingress.html
 ---
 {% include home.html %}
 

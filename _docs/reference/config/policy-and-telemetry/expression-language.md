@@ -1,9 +1,9 @@
 ---
 title: Expression Language
 description: Mixer config expression language reference.
-
 weight: 20
-redirect_from: /docs/reference/config/policy-and-telemetry/expression-language.html
+redirect_from:
+    - /docs/reference/config/policy-and-telemetry/expression-language.html
 ---
 
 {% include home.html %}

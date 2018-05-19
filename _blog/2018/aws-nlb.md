@@ -4,10 +4,7 @@ description: Describes how to configure Istio ingress with a network load balanc
 publishdate: 2018-04-20
 subtitle: Ingress AWS Network Load Balancer
 attribution: Julien SENON
-
 weight: 89
-
-redirect_from: "/blog/aws-nlb.html"
 ---
 {% include home.html %}
 

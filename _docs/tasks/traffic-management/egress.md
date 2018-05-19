@@ -1,9 +1,9 @@
 ---
 title: Control Egress Traffic
 description: Describes how to configure Istio to route traffic from services in the mesh to external services.
-
 weight: 40
-
+redirect_from:
+    - /docs/tasks/traffic-management/egress/index.html
 ---
 {% include home.html %}
 

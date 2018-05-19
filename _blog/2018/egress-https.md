@@ -4,10 +4,7 @@ description: Describes a simple scenario based on Istio Bookinfo sample
 publishdate: 2018-01-31
 subtitle: Egress Rules for HTTPS traffic
 attribution: Vadim Eisenberg
-
 weight: 93
-
-redirect_from: "/blog/egress-https.html"
 ---
 {% include home.html %}
 

@@ -4,7 +4,9 @@ description: Explains the dos and donts of writing Istio docs.
 
 weight: 70
 
-redirect_from: /docs/welcome/contribute/style-guide.html
+redirect_from:
+    - /docs/welcome/contribute/style-guide.html
+    - /docs/reference/contribute/style-guide.html
 ---
 
 TBD: This needs to be updated with Istio examples instead of Kubernetes examples.

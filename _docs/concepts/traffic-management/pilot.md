@@ -5,7 +5,8 @@ description: Introduces Pilot, the component responsible for managing a distribu
 weight: 10
 
 toc: false
-redirect_from: /docs/concepts/traffic-management/manager.html
+redirect_from:
+    - /docs/concepts/traffic-management/manager.html
 ---
 {% include home.html %}
 
