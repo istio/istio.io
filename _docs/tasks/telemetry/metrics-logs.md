@@ -1,10 +1,9 @@
 ---
 title: Collecting Metrics and Logs
-
 description: This task shows you how to configure Istio to collect metrics and logs.
-
 weight: 20
-
+redirect_from:
+    - /docs/tasks/metrics-logs.html
 ---
 {% include home.html %}
 

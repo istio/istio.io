@@ -1,9 +1,9 @@
 ---
 title: Traffic Shifting
 description: This task shows you how to migrate traffic from an old to new version of a service.
-
 weight: 25
-
+redirect_from:
+    - /docs/tasks/traffic-management/version-migration.html
 ---
 {% include home.html %}
 
