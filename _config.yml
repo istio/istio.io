@@ -9,6 +9,7 @@ kramdown:
     disable : true
 
 baseurl:
+url: https://istio.io
 
 highlighter: rouge
 
