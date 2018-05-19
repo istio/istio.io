@@ -7,7 +7,9 @@ attribution: Martin Taillefer
 
 weight: 94
 
-redirect_from: /blog/posts/2017/mixer-spof-myth.html
+redirect_from:
+    - /blog/posts/2017/mixer-spof-myth.html
+    - /blog/mixer-spof-myth.html
 ---
 {% include home.html %}
 

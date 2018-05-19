@@ -1,10 +1,9 @@
 ---
 title: Writing a New Topic
 description: Explains the mechanics of creating new documentation pages.
-
 weight: 30
-
-redirect_from: /docs/welcome/contribute/writing-a-new-topic.html
+redirect_from:
+    - /docs/welcome/contribute/writing-a-new-topic.html
 ---
 {% include home.html %}
 
@@ -300,7 +299,7 @@ enabled so it may be used here.
 Note that unlike normal preformatted blocks, dynamically loaded preformatted blocks unfortunately
 do not get syntax colored.
 
-## Adding redirects
+## Renaming or moving pages
 
 If you move pages around and would like to ensure existing links continue to work, you can add
 redirects to the site very easily.
@@ -309,7 +308,8 @@ In the page that is the target of the redirect (where you'd like users to land),
 following to the front-matter:
 
 ```plain
-redirect_from: <url>
+redirect_from:
+    - <url>
 ```
 
 For example
@@ -318,10 +318,9 @@ For example
 ---
 title: Frequently Asked Questions
 description: Questions Asked Frequently
-
 weight: 12
-
-redirect_from: /faq
+redirect_from:
+    - /faq
 ---
 
 ```
@@ -335,9 +334,7 @@ You can also add many redirects like so:
 ---
 title: Frequently Asked Questions
 description: Questions Asked Frequently
-
 weight: 12
-
 redirect_from:
     - /faq
     - /faq2

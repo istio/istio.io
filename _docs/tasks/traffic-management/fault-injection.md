@@ -1,9 +1,9 @@
 ---
 title: Fault Injection
 description: This task shows how to inject delays and test the resiliency of your application.
-
 weight: 20
-
+redirect_from:
+    - /docs/tasks/fault-injection.html
 ---
 {% include home.html %}
 

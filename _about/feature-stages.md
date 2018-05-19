@@ -1,13 +1,11 @@
 ---
 title: Feature Status
 description: List of features and their release stages.
-
 weight: 10
-
 redirect_from:
-  - "/docs/reference/release-roadmap.html"
-  - "/docs/reference/feature-stages.html"
-  - "/docs/welcome/feature-stages.html"
+  - /docs/reference/release-roadmap.html
+  - /docs/reference/feature-stages.html
+  - /docs/welcome/feature-stages.html
 ---
 {% include home.html %}
 

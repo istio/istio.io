@@ -1,9 +1,9 @@
 ---
 title: Attribute Vocabulary
 description: Describes the base attribute vocabulary used for policy and control.
-
 weight: 10
-redirect_from: /docs/reference/config/policy-and-telemetry/attribute-vocabulary.html
+redirect_from:
+    - /docs/reference/config/policy-and-telemetry/attribute-vocabulary.html
 ---
 {% include home.html %}
 
