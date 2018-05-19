@@ -32,7 +32,7 @@ support).
 To install Istio locally, install the latest version of
 [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) (version 0.25.0 or later).
 
-For kubernetes 1.9.x
+For kubernetes 1.9
 
 ```command
 $ minikube start \
@@ -42,12 +42,12 @@ $ minikube start \
     --kubernetes-version=v1.9.0
 ```
 
-For kubernetes 1.10.x
+For kubernetes 1.10
 
 ```command
 $ minikube start \
-	--extra-config=controller-manager.cluster-signing-cert-file="/var/lib/localkube/certs/ca.crt" \
-	--extra-config=controller-manager.cluster-signing-key-file="/var/lib/localkube/certs/ca.key" \
+    --extra-config=controller-manager.cluster-signing-cert-file="/var/lib/localkube/certs/ca.crt" \
+    --extra-config=controller-manager.cluster-signing-key-file="/var/lib/localkube/certs/ca.key" \
     --extra-config=apiserver.admission-control="NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota" \
     --kubernetes-version=v1.10.0
 ```
