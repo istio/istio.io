@@ -23,7 +23,7 @@ offer technical assistance. Separately, 3rd parties and partners may offer longe
 |Patches          | Same as the corresponding Snapshot/LTS release           | Users are encouraged to adopt patch releases as soon as they are available for a given release.
 
 You can find available releases on the [releases page](https://github.com/istio/istio/releases),
-and if you're the adventurous type, you can get learn about our daily build on the [daily builds wiki](https://github.com/istio/istio/wiki/Daily-builds).
+and if you're the adventurous type, you can learn about our daily builds on the [daily builds wiki](https://github.com/istio/istio/wiki/Daily-builds).
 You can find high-level releases notes for each LTS release [here]({{home}}/about/notes).
 
 ## Naming Scheme
