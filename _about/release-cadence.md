@@ -16,7 +16,7 @@ from the Istio team. In this context, *support* means that we will produce patch
 offer technical assistance. Separately, 3rd parties and partners may offer longer-term support solutions.
 
 |Type             | Support Level                                            | Quality and Recommended Use
-|-----------------+----------------------------------------------------------+----------------------------
+|-----------------|----------------------------------------------------------|----------------------------
 |Daily Build      | No support                                               | Dangerous, may not be fully reliable. Useful to experiment with.
 |Snapshot Release | Support is provided for the latest snapshot release only | Expected to be quite stable, but use in production should be limited to an as-needed basis. Usually only adopted by bleeding edge users, or users seeking specific features.
 |LTS Release      | Support is provided until 3 months after the next LTS    | Safe to deploy in production. Users are encouraged to upgrade to these releases as soon as possible.
