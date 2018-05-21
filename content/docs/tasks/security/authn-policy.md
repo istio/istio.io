@@ -16,9 +16,7 @@ Through this task, you will learn how to:
 
 * Understand Istio [authentication policy](/docs/concepts/security/authn-policy/) and related [mutual TLS authentication](/docs/concepts/security/mutual-tls/) concepts.
 
-* Know how to verify mTLS setup (recommend to walk through [testing Istio mutual TLS authentication](/docs/tasks/security/mutual-tls/))
-
-* Have a Kubernetes cluster with Istio installed, without mTLS. See [the Istio installation task](/docs/setup/kubernetes/quick-start/) and follow step 5.
+* Have a Kubernetes cluster with Istio installed, without global mTLS enabled (e.g use `install/kubernetes/istio-demo.yaml` as described in [installation steps]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps), or set `global.mtls.enabled` to false using [Helm]({{home}}/docs/setup/kubernetes/helm-install.html)).
 
 *   For demo, create two namespaces `foo` and `bar`, and deploy [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) and [sleep](https://github.com/istio/istio/tree/master/samples/sleep) with sidecar on both of them. Also, run another sleep app without sidecar (to keep it separate, run it in `legacy` namespace)
 
@@ -87,6 +85,31 @@ NAME          AGE
 enable-mtls   1m
 ```
 
+Add this destination rule to config client side to use mTLS:
+
+```bash
+cat <<EOF | istioctl create -f -
+apiVersion: "networking.istio.io/v1alpha3"
+kind: "DestinationRule"
+metadata:
+  name: "enable-mtls"
+  namespace: "foo"
+spec:
+  host: *.foo.svc.local.cluster
+  trafficPolicy:
+    tls:
+      mode: MUTUAL
+      clientCertificate: /etc/certs/cert-chain.pem
+      privateKey: /etc/certs/key.pem
+      caCertificates: /etc/certs/root-cert.pem
+EOF
+```
+
+> Note:
+* This rule is based on the assumption that there is no other destination rule in the system. If it's not the case, you need to modify traffic policy in existing rule accordingly.
+* `*.foo.svc.local.cluster` matches all services in namespace `foo`.
+* You can also use the mode `ISTIO_MUTUAL` and let Istio to assign the path for key and certificates automatically.
+
 Run the same testing command above. We should see request from `sleep.legacy` to `httpbin.foo` start to fail, as the result of enabling mTLS for `httpbin.foo` but `sleep.legacy` doesn't have sidecar to support it. On the other hand, for clients with sidecar (`sleep.foo` and `sleep.bar`), Istio automatically configures them to using mTLS where talking to `http.foo`, so they continue to work. Also, requests to `httpbin.bar` are not affected as the policy is effective on the `foo` namespace only.
 
 ```command
@@ -99,6 +122,8 @@ sleep.legacy to httpbin.foo: 000
 command terminated with exit code 56
 sleep.legacy to httpbin.bar: 200
 ```
+
+> If destination rule above is not created, all requests to `httpbin.foo` will fail as client side are not configured correctly to switch to use mTLS.
 
 ## Enable mTLS for single service `httpbin.bar`
 
@@ -115,6 +140,25 @@ spec:
   - name: httpbin
   peers:
   - mtls:
+EOF
+```
+
+And destination rule:
+
+```bash
+cat <<EOF | istioctl create -n bar -f -
+apiVersion: "networking.istio.io/v1alpha3"
+kind: "DestinationRule"
+metadata:
+  name: "enable-mtls"
+spec:
+host: httpbin.bar.svc.local.cluster
+trafficPolicy:
+  tls:
+    mode: MUTUAL
+    clientCertificate: /etc/certs/cert-chain.pem
+    privateKey: /etc/certs/key.pem
+    caCertificates: /etc/certs/root-cert.pem
 EOF
 ```
 
@@ -164,6 +208,20 @@ metadata:
 spec:
   targets:
   - name: httpbin
+EOF
+```
+
+and destination rule:
+
+```bash
+cat <<EOF | istioctl create -n foo -f -
+apiVersion: "networking.istio.io/v1alpha3"
+kind: "DestinationRule"
+metadata:
+  name: "httbin-disable-mtls"
+spec:
+host: httpbin.foo.svc.local.cluster
+trafficPolicy:
 EOF
 ```
 
