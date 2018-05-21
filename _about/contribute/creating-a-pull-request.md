@@ -1,10 +1,9 @@
 ---
 title: Creating a Pull Request
 description: Shows you how to create a GitHub pull request in order to submit your docs for approval.
-
 weight: 20
-
-redirect_from: /docs/welcome/contribute/creating-a-pull-request.html
+redirect_from:
+    - /docs/welcome/contribute/creating-a-pull-request.html
 ---
 
 To contribute to Istio documentation, create a pull request against the

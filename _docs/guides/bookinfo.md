@@ -1,11 +1,17 @@
 ---
-1;95;0ctitle: Bookinfo Sample Application
+title: Bookinfo Sample Application
 description: This guide deploys a sample application composed of four separate microservices which will be used to demonstrate various features of the Istio service mesh.
-
 weight: 10
-
+redirect_from:
+    - /docs/samples/bookinfo.html
 ---
 {% include home.html %}
+
+> Note: This guide assumes you will be using the new [v1alpha3 traffic management API]({{home}}/blog/2018/v1alpha3-routing.html).
+The old API has been deprecated and will be removed in the next Istio release.
+If you need to use the old version, you can follow the old instructions [here](https://archive.istio.io/v0.6/docs/guides/bookinfo.html),
+but note that on Kubernetes you will need to run an additional command (`kubectl apply -f samples/bookinfo/kube/bookinfo-gateway.yaml`)
+to define the Ingress, which previously was included in `bookinfo.yaml`.
 
 This guide deploys a sample application composed of four separate microservices which will be used
 to demonstrate various features of the Istio service mesh.
@@ -79,7 +85,7 @@ To start the application, follow the instructions below corresponding to your Is
         use the following command
 
         ```command
-        $ kubectl apply -f <(istioctl kube-inject --debug -f samples/bookinfo/kube/bookinfo.yaml)
+        $ kubectl apply -f <(ISTIO_PROXY_IMAGE=proxyv2 istioctl kube-inject --debug -f samples/bookinfo/kube/bookinfo.yaml)
         ```
 
         The `istioctl kube-inject` command is used to manually modify the `bookinfo.yaml`
@@ -143,7 +149,12 @@ istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/
 If the `EXTERNAL-IP` value is set, your environment has an external load balancer that you can use for the ingress gateway
 
 ```command
-$ export GATEWAY_URL=130.211.10.121:80
+$ export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+```
+
+If the default service port of `istio-ingressgateway` is not `80` (Default value is 80), get external load balancer as follows
+```command
+$ export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}'):$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[0].port}')
 ```
 
 If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not support external load balancers.
@@ -156,14 +167,14 @@ In this case, you can access the gateway using the service `nodePort`.
     $ gcloud compute firewall-rules create allow-book --allow tcp:$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
     ```
 
-1.  _IBM Cloud Container Service Free Tier:_
+1.  _IBM Cloud Kubernetes Service Free Tier:_
 
     ```command
     $ bx cs workers <cluster-name or id>
     $ export GATEWAY_URL=<public IP of the worker node>:$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
     ```
 
-1.  _Other environments (e.g., minikube):_
+1.  _Other environments (e.g., minikube, IBM Cloud Private etc):_
 
     ```command
     $ export GATEWAY_URL=$(kubectl get po -l istio=ingressgateway -n istio-system -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingressgateway -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}')

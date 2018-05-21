@@ -4,7 +4,8 @@ description: Explains the process involved in accepting documentation updates.
 
 weight: 60
 
-redirect_from: /docs/welcome/contribute/reviewing-doc-issues.html
+redirect_from:
+    - /docs/welcome/contribute/reviewing-doc-issues.html
 ---
 
 This page explains how documentation issues are reviewed and prioritized for the

@@ -4,10 +4,7 @@ description: Introduction, motivation and design principles for the Istio v1alph
 publishdate: 2018-04-25
 subtitle:
 attribution: Frank Budinsky (IBM) and Shriram Rajagopalan (VMware)
-
 weight: 88
-
-redirect_from: "/blog/v1alpha3-routing.html"
 ---
 
 {% include home.html %}

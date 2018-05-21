@@ -12,19 +12,19 @@ Quick start instructions to install and configure Istio in a Kubernetes cluster.
 
 ## Prerequisites
 
-The following instructions require you have access to a Kubernetes **1.7.3 or newer** cluster
-with [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/) enabled. You will also need `kubectl` **1.7.3 or newer** installed.
+The following instructions recommend you have access to a Kubernetes **1.9 or newer** cluster
+with [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/) enabled. You will also need `kubectl` **1.9 or newer** installed.
 
-If you wish to enable [automatic sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection) or server-side configuration validation, you need Kubernetes version 1.9 or greater.
+If you wish to enable [automatic sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection) or server-side configuration validation, you must use Kubernetes version 1.9 or greater.
 
-  > If you installed Istio 0.1.x,
-  > [uninstall](https://archive.istio.io/v0.1/docs/tasks/installing-istio.html#uninstalling)
+  > If you installed Istio 0.2.x,
+  > [uninstall](https://archive.istio.io/v0.2/docs/setup/kubernetes/quick-start#uninstalling)
   > it completely before installing the newer version (including the Istio sidecar
   > for all Istio enabled application pods).
 
 * Install or upgrade the Kubernetes CLI
 [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) to
-match the version supported by your cluster (version 1.7 or later for CRD
+match the version supported by your cluster (version 1.9 or later for CRD
 support).
 
 ### [Minikube](https://github.com/kubernetes/minikube/releases)
@@ -32,12 +32,24 @@ support).
 To install Istio locally, install the latest version of
 [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) (version 0.25.0 or later).
 
+For kubernetes 1.9
+
 ```command
 $ minikube start \
     --extra-config=controller-manager.ClusterSigningCertFile="/var/lib/localkube/certs/ca.crt" \
     --extra-config=controller-manager.ClusterSigningKeyFile="/var/lib/localkube/certs/ca.key" \
     --extra-config=apiserver.Admission.PluginNames=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota \
     --kubernetes-version=v1.9.0
+```
+
+For kubernetes 1.10
+
+```command
+$ minikube start \
+    --extra-config=controller-manager.cluster-signing-cert-file="/var/lib/localkube/certs/ca.crt" \
+    --extra-config=controller-manager.cluster-signing-key-file="/var/lib/localkube/certs/ca.key" \
+    --extra-config=apiserver.admission-control="NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota" \
+    --kubernetes-version=v1.10.0
 ```
 
 ### [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/)
@@ -67,20 +79,18 @@ $ kubectl create clusterrolebinding cluster-admin-binding \
     --user=$(gcloud config get-value core/account)
 ```
 
-### [IBM Cloud Container Service (IKS)](https://www.ibm.com/cloud/container-service)
+### [IBM Cloud Kubernetes Service (IKS)](https://www.ibm.com/cloud/container-service)
 
-Kubernetes 1.9 is generally available on IBM Cloud Container Service (IKS).
-
-At the time of writing it is not the default version, so to create a new lite cluster:
+Create a new lite cluster.
 
 ```command
-$ bx cs cluster-create --name <cluster-name> --kube-version 1.9.3
+$ bx cs cluster-create --name <cluster-name> --kube-version 1.9.7
 ```
 
 Or create a new paid cluster:
 
 ```command
-$ bx cs cluster-create --location location --machine-type u2c.2x4 --name <cluster-name> --kube-version 1.9.3
+$ bx cs cluster-create --location location --machine-type u2c.2x4 --name <cluster-name> --kube-version 1.9.7
 ```
 
 Retrieve your credentials for `kubectl` (replace `<cluster-name>` with the name of the cluster you want to use):
@@ -93,13 +103,14 @@ $(bx cs cluster-config <cluster-name>|grep "export KUBECONFIG")
 
 Configure `kubectl` CLI based on steps [here](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0/manage_cluster/cfc_cli.html) for how to access the IBM Cloud Private Cluster.
 
-### [OpenShift Origin](https://www.openshift.org) (version 3.7 or later)
+### [OpenShift Origin](https://www.openshift.org) (version 3.9)
 
 OpenShift by default does not allow containers running with UID 0. Enable containers running
 with UID 0 for Istio's service accounts for ingress as well the Prometheus and Grafana addons:
 
 ```command
 $ oc adm policy add-scc-to-user anyuid -z istio-ingress-service-account -n istio-system
+$ oc adm policy add-scc-to-user anyuid -z default -n istio-system
 $ oc adm policy add-scc-to-user anyuid -z grafana -n istio-system
 $ oc adm policy add-scc-to-user anyuid -z prometheus -n istio-system
 ```
@@ -109,6 +120,8 @@ Service account that runs application pods need privileged security context cons
 ```command
 $ oc adm policy add-scc-to-user privileged -z default -n <target-namespace>
 ```
+
+> Check for `SELINUX` in this [discussion](https://github.com/istio/issues/issues/34)  with respect to Istio in case you see issues bringing up the Envoy.
 
 ### AWS (w/Kops)
 
@@ -207,7 +220,7 @@ You should see `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` flags
       --admission-control=...,MutatingAdmissionWebhook,...,ValidatingAdmissionWebhook,...
 ```
 
-## Installation steps
+## Download and prepare for the installation
 
 Starting with the 0.2 release, Istio is installed in its own `istio-system`
 namespace, and can manage services from all other namespaces.
@@ -241,29 +254,29 @@ For example, run the following command on a MacOS or Linux system:
     $ export PATH=$PWD/bin:$PATH
     ```
 
-1.  Install Istio's core components. Choose one of the two _**mutually exclusive**_ options below or alternately install
-with the [Helm Chart]({{home}}/docs/setup/kubernetes/helm-install.html):
+## Installation steps
 
-    a)  Install Istio without enabling [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars.
+1.  Install Istio's core components. Choose one of the three _**mutually exclusive**_ options below fo quick install.  However, we recommend you to install
+with the [Helm Chart]({{home}}/docs/setup/kubernetes/helm-install.html) for production installations of Istio to leverage all the options to configure and
+customize Istio to your needs.
+
+    a)  Quick install Istio using without enabling [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars.
     Choose this option for clusters with existing applications, applications where services with an
     Istio sidecar need to be able to communicate with other non-Istio Kubernetes services, and
     applications that use [liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/),
     headless services, or StatefulSets.
 
-        ```command
-        $ kubectl apply -f install/kubernetes/istio.yaml
-        ```
+    ```command
+    $ kubectl apply -f install/kubernetes/istio-demo.yaml
+    ```
 
     _**OR**_
 
-    b)  Install Istio and enable [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars. This option is mostly for new clusters, i.e., all applications have sidecars injected during their deployment. For existing applications, please choose the above option and enable mutual TLS using [authentication policy]({{home}}/docs/tasks/security/authn-policy.html):
+    b)  [Render Kubernetes manifest with Helm and deploy with kubectl]({{home}}/docs/setup/kubernetes/helm-install.html#render-kubernetes-manifest-with-helm-and-deploy-with-kubectl).
 
-        ```command
-        $ kubectl apply -f install/kubernetes/istio-auth.yaml
-        ```
+    _**OR**_
 
-    Both options create the `istio-system` namespace along with the required RBAC permissions,
-    and deploy Istio-Pilot, Istio-Mixer, Istio-Ingress, and Istio-CA (Certificate Authority).
+    c)  [Use Helm and Tiller to manage the Istio deployment]({{home}}/docs/setup/kubernetes/helm-install.html#alternatively-use-helm-and-tiller-to-manage-the-istio-deployment).
 
 1. *Optional:* If your cluster has Kubernetes version 1.9 or greater, and you wish to enable automatic proxy injection,
 install the [sidecar injector webhook]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection).
@@ -275,17 +288,15 @@ install the [sidecar injector webhook]({{home}}/docs/setup/kubernetes/sidecar-in
 
     ```command
     $ kubectl get svc -n istio-system
-    NAME                       TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)                                                               AGE
-    citadel-ilb                LoadBalancer   10.35.251.104   10.138.0.43     8060:32031/TCP                                                        47m
-    istio-citadel              ClusterIP      10.35.253.23    <none>          8060/TCP,9093/TCP                                                     47m
-    istio-ingress              LoadBalancer   10.35.245.4     35.203.191.37   80:32765/TCP,443:32304/TCP                                            47m
-    istio-pilot                ClusterIP      10.35.255.168   <none>          15003/TCP,15005/TCP,15007/TCP,15010/TCP,15011/TCP,8080/TCP,9093/TCP   47m
-    istio-pilot-ilb            LoadBalancer   10.35.252.183   10.138.0.40     15005:30035/TCP,8080:30494/TCP                                        47m
-    istio-policy               ClusterIP      10.35.247.90    <none>          9091/TCP,15004/TCP,9093/TCP                                           47m
-    istio-statsd-prom-bridge   ClusterIP      10.35.243.13    <none>          9102/TCP,9125/UDP                                                     47m
-    istio-telemetry            ClusterIP      10.35.248.71    <none>          9091/TCP,15004/TCP,9093/TCP,42422/TCP                                 47m
-    mixer-ilb                  LoadBalancer   10.35.240.250   10.138.0.42     15004:30427/TCP                                                       47m
-    prometheus                 ClusterIP      10.35.255.10    <none>          9090/TCP                                                              47m
+    NAME                       TYPE           CLUSTER-IP   EXTERNAL-IP     PORT(S)                                                               AGE
+    istio-citadel              ClusterIP      30.0.0.119   <none>          8060/TCP,9093/TCP                                                     7h
+    istio-egressgateway        ClusterIP      30.0.0.11    <none>          80/TCP,443/TCP                                                        7h
+    istio-ingressgateway       LoadBalancer   30.0.0.39    9.111.255.245   80:31380/TCP,443:31390/TCP,31400:31400/TCP                            7h
+    istio-pilot                ClusterIP      30.0.0.136   <none>          15003/TCP,15005/TCP,15007/TCP,15010/TCP,15011/TCP,8080/TCP,9093/TCP   7h
+    istio-policy               ClusterIP      30.0.0.242   <none>          9091/TCP,15004/TCP,9093/TCP                                           7h
+    istio-statsd-prom-bridge   ClusterIP      30.0.0.111   <none>          9102/TCP,9125/UDP                                                     7h
+    istio-telemetry            ClusterIP      30.0.0.246   <none>          9091/TCP,15004/TCP,9093/TCP,42422/TCP                                 7h
+    prometheus                 ClusterIP      30.0.0.253   <none>          9090/TCP                                                              7h
     ```
 
     > If your cluster is running in an environment that does not support an external load balancer
@@ -298,13 +309,15 @@ and, optionally, `istio-sidecar-injector-*`.
 
     ```command
     $ kubectl get pods -n istio-system
-    istio-citadel-b454d647d-92jrv               1/1       Running   0          46m
-    istio-ingress-768b9fb68b-jdxfk              1/1       Running   0          46m
-    istio-pilot-b87b8c56b-kggmk                 2/2       Running   0          46m
-    istio-policy-58f9bfc796-8vlq4               2/2       Running   0          46m
-    istio-statsd-prom-bridge-6dbb7dcc7f-gzlq7   1/1       Running   0          46m
-    istio-telemetry-55b8c8b44f-fwb69            2/2       Running   0          46m
-    prometheus-586d95b8d9-grk6j                 1/1       Running   0          46m
+    NAME                                       READY     STATUS      RESTARTS   AGE
+    istio-citadel-dcb7955f6-vdcjk              1/1       Running     0          11h
+    istio-egressgateway-56b7758b44-l5fm5       1/1       Running     0          11h
+    istio-ingressgateway-56cfddbd5b-xbdcx      1/1       Running     0          11h
+    istio-pilot-cbd6bfd97-wgw9b                2/2       Running     0          11h
+    istio-policy-699fbb45cf-bc44r              2/2       Running     0          11h
+    istio-statsd-prom-bridge-949999c4c-nws5j   1/1       Running     0          11h
+    istio-telemetry-55b675d8c-kfvvj            2/2       Running     0          11h
+    prometheus-86cb6dd77c-5j48h                1/1       Running     0          11h
     ```
 
 ## Deploy your application
@@ -333,31 +346,19 @@ $ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 
 ## Uninstalling
 
-*   Uninstall Istio sidecar injector:
-
-    If you installed Istio with sidecar injector enabled, uninstall it:
-
-    ```command
-    $ kubectl delete -f install/kubernetes/istio-sidecar-injector-with-ca-bundle.yaml
-    ```
-
 *   Uninstall Istio core components. For the {{site.data.istio.version}} release, the uninstall
 deletes the RBAC permissions, the `istio-system` namespace, and hierarchically all resources under it.
 It is safe to ignore errors for non-existent resources because they may have been deleted hierarchically.
 
-    a) If you installed Istio with mutual TLS authentication disabled:
+    a) If you installed Istio with `istio-demo.yaml`:
 
     ```command
-    $ kubectl delete -f install/kubernetes/istio.yaml
+    $ kubectl delete -f install/kubernetes/istio-demo.yaml
     ```
 
     _**OR**_
 
-    b) If you installed Istio with mutual TLS authentication enabled:
-
-    ```command
-    $ kubectl delete -f install/kubernetes/istio-auth.yaml
-    ```
+    b) : [Uninstall Istio with helm]({{home}}/docs/setup/kubernetes/helm-install.html#uninstall-istio).
 
 ## What's next
 

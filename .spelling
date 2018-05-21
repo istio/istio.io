@@ -24,6 +24,7 @@
 7Mb
 7s
 ACLs
+ANDed
 API
 APIs
 Ansible
@@ -58,6 +59,7 @@ ExecAction
 Exfiltrating
 ExternalName
 Fluentd
+httpbin.example.com
 FQDNs
 GATEWAY_URL
 GCP-IAM
@@ -231,6 +233,7 @@ createpolicyjson.png
 createpolicystart.png
 current.istio.io
 current.istio.io.
+dataplane
 datastore
 debian
 default.svc.cluster.local
@@ -469,6 +472,7 @@ sa
 sayin
 schemas
 secretName
+selinux
 serviceaccount
 servicegraph-example
 setupIstioVM.sh

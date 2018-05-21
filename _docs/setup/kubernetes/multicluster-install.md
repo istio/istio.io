@@ -90,10 +90,8 @@ Create a namespace for instantiating the secrets:
 $ kubectl create ns istio-system
 ```
 
-> Ordering currently matters.  Secrets must be created prior to
-the deployment of the Istio control plane.  Creating secrets
-after Istio is started will not register the secrets with Istio
-properly.
+> You can create the secrets either before or after deploying the Istio control
+plane. Creating secrets will register the secrets with Istio properly.
 
 > The local cluster running the Istio control plane does not need
 it's secrets stored and labeled. The local node is always aware of

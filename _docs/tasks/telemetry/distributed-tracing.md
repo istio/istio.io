@@ -1,10 +1,9 @@
 ---
 title: Distributed Tracing
 description: How to configure the proxies to send tracing requests to Zipkin or Jaeger
-
 weight: 10
-
-redirect_from: /docs/tasks/zipkin-tracing.html
+redirect_from:
+    - /docs/tasks/zipkin-tracing.html
 ---
 {% include home.html %}
 

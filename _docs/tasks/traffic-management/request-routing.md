@@ -4,25 +4,19 @@ description: This task shows you how to configure dynamic request routing based 
 
 weight: 10
 
-redirect_from: /docs/tasks/request-routing.html
 ---
 {% include home.html %}
+
+> Note: This task uses the new [v1alpha3 traffic management API]({{home}}/blog/2018/v1alpha3-routing.html). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.6/docs/tasks/).
 
 This task shows you how to configure dynamic request routing based on weights and HTTP headers.
 
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide]({{home}}/docs/setup/).
+[Installation guide]({{home}}/docs/setup/).
 
 * Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application.
-
-> This task assumes you are deploying the application on Kubernetes.
-All of the example commands are using the Kubernetes version of the rule yaml files
-(e.g., `samples/bookinfo/kube/route-rule-all-v1.yaml`). If you are running this
-task in a different environment, change `kube` to the directory that corresponds
-to your runtime (e.g., `samples/bookinfo/consul/route-rule-all-v1.yaml` for
-the Consul-based runtime).
 
 ## Content-based routing
 
@@ -34,12 +28,12 @@ This is because without an explicit default version set, Istio will
 route requests to all available versions of a service in a random fashion.
 
 > This task assumes you don't have any routes set yet. If you've already created conflicting route rules for the sample,
-you'll need to use `replace` rather than `create` in one or both of the following commands.
+you'll need to use `replace` rather than `create` in the following command.
 
 1.  Set the default version for all microservices to v1.
 
     ```command
-    $ istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
+    $ istioctl create -f samples/bookinfo/routing/route-rule-all-v1.yaml
     ```
 
     > In a Kubernetes deployment of Istio, you can replace `istioctl`
@@ -49,64 +43,69 @@ you'll need to use `replace` rather than `create` in one or both of the followin
     You can display the routes that are defined with the following command:
 
     ```command-output-as-yaml
-    $ istioctl get routerules -o yaml
-    apiVersion: config.istio.io/v1alpha2
-    kind: RouteRule
+    $ istioctl get virtualservices -o yaml
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
     metadata:
-      name: details-default
-      namespace: default
+      name: details
       ...
     spec:
-      destination:
-        name: details
-      precedence: 1
-      route:
-      - labels:
-          version: v1
+      hosts:
+      - details
+      http:
+      - route:
+        - destination:
+            name: details
+            subset: v1
     ---
-    apiVersion: config.istio.io/v1alpha2
-    kind: RouteRule
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
     metadata:
-      name: productpage-default
-      namespace: default
+      name: productpage
       ...
     spec:
-      destination:
-        name: productpage
-      precedence: 1
-      route:
-      - labels:
-          version: v1
+      gateways:
+      - bookinfo-gateway
+      - mesh
+      hosts:
+      - productpage
+      http:
+      - route:
+        - destination:
+            name: productpage
+            subset: v1
     ---
-    apiVersion: config.istio.io/v1alpha2
-    kind: RouteRule
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
     metadata:
-      name: ratings-default
-      namespace: default
+      name: ratings
       ...
     spec:
-      destination:
-        name: ratings
-      precedence: 1
-      route:
-      - labels:
-          version: v1
+      hosts:
+      - ratings
+      http:
+      - route:
+        - destination:
+            name: ratings
+            subset: v1
     ---
-    apiVersion: config.istio.io/v1alpha2
-    kind: RouteRule
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
     metadata:
-      name: reviews-default
-      namespace: default
+      name: reviews
       ...
     spec:
-      destination:
-        name: reviews
-      precedence: 1
-      route:
-      - labels:
-          version: v1
+      hosts:
+      - reviews
+      http:
+      - route:
+        - destination:
+            name: reviews
+            subset: v1
     ---
     ```
+
+    > The corresponding `subset` definitions can be displayed using `istioctl get destinationrules -o yaml`.
 
     Since rule propagation to the proxies is asynchronous, you should wait a few seconds for the rules
     to propagate to all pods before attempting to access the application.
@@ -122,31 +121,34 @@ you'll need to use `replace` rather than `create` in one or both of the followin
     `reviews:v2` instances.
 
     ```command
-    $ istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+    $ istioctl replace -f samples/bookinfo/routing/route-rule-reviews-test-v2.yaml
     ```
 
     Confirm the rule is created:
 
     ```command-output-as-yaml
-    $ istioctl get routerule reviews-test-v2 -o yaml
-    apiVersion: config.istio.io/v1alpha2
-    kind: RouteRule
+    $ istioctl get virtualservice reviews -o yaml
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
     metadata:
-      name: reviews-test-v2
-      namespace: default
+      name: reviews
       ...
     spec:
-      destination:
-        name: reviews
-      match:
-        request:
-          headers:
+      hosts:
+      - reviews
+      http:
+      - match:
+        - headers:
             cookie:
               regex: ^(.*?;)?(user=jason)(;.*)?$
-      precedence: 2
-      route:
-      - labels:
-          version: v2
+        route:
+        - destination:
+            name: reviews
+            subset: v2
+      - route:
+        - destination:
+            name: reviews
+            subset: v1
     ```
 
 1.  Log in as user "jason" at the `productpage` web page.
@@ -168,8 +170,7 @@ all users to v2, optionally in a gradual fashion. We'll explore this in a separa
 *   Remove the application routing rules.
 
     ```command
-    $ istioctl delete -f samples/bookinfo/kube/route-rule-all-v1.yaml
-    $ istioctl delete -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+    $ istioctl delete -f samples/bookinfo/routing/route-rule-all-v1.yaml
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the

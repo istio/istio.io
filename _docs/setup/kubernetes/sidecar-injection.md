@@ -1,9 +1,9 @@
 ---
 title: Installing the Istio Sidecar
 description: Instructions for installing the Istio sidecar in application pods automatically using the sidecar injector webhook or manually using istioctl CLI.
-
 weight: 50
-
+redirect_from:
+    - /docs/setup/kubernetes/automatic-sidecar-inject.html
 ---
 {% include home.html %}
 
@@ -77,6 +77,12 @@ $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
 `kube-inject` can also be run without access to a running Kubernetes
 cluster. Create local copies of the injection and mesh configmap.
 
+> The `istioctl kube-inject` operation may not be repeated on the output
+> from a previous `kube-inject`.  The `kube-inject` operation is not idempotent.
+> For upgrade purposes, if using manual injection, it is recommended to keep
+> the original non-injected `yaml` file so that the dataplane sidecars may be
+> updated.
+
 ```command
 $ istioctl kube-inject --emitTemplate > inject-config.yaml
 $ kubectl -n istio-system get configmap istio -o=jsonpath='{.data.mesh}' > mesh-config.yaml
@@ -124,13 +130,7 @@ Note that unlike manual injection, automatic injection occurs at the pod-level. 
 #### Installing the webhook
 
 To enable the sidecar injection webhook, you can use [Helm]({{home}}/docs/setup/kubernetes/helm-install.html)
-to install Istio with the option sidecar-injector.enabled set to true. E.g.
-
-```command
-$ helm install --namespace=istio-system --set sidecar-injector.enabled=true install/kubernetes/helm/istio
-```
-
-Alternatively, you can also use Helm to generate the yaml file and install it manually. E.g.
+to generate an updated istio.yaml with the option sidecar-injector.enabled set to true. E.g.
 
 ```command
 $ helm template --namespace=istio-system --set sidecar-injector.enabled=true install/kubernetes/helm/istio > istio.yaml
