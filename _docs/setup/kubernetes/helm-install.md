@@ -101,7 +101,6 @@ following table:
 | `global.tag` | Specifies the TAG for most images used by Istio | valid image tag | `circleci-nightly` |
 | `global.proxy.image` | Specifies the proxy image name | valid proxy name | `proxy` |
 | `global.imagePullPolicy` | Specifies the image pull policy | valid image pull policy | `IfNotPresent` |
-| `global.securityEnabled` | Specifies whether Istio CA should be installed | true/false | `true` |
 | `global.controlPlaneSecurityEnabled` | Specifies whether control plane mTLS is enabled | true/false | `false` |
 | `global.mtls.enabled` | Specifies whether mTLS is enabled by default between services | true/false | `false` |
 | `global.mtls.mtlsExcludedServices` | List of FQDNs to exclude from mTLS | a list of FQDNs | `- kubernetes.default.svc.cluster.local` |
