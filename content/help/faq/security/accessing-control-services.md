@@ -1,7 +1,9 @@
 ---
-title: How to disable Auth on clients to access the Kubernetes API Server (or any control services that don't have Istio sidecar)?
+title: How to disable mTLS on clients to access the Kubernetes API Server (or any control services that don't have Istio sidecar)?
 weight: 60
 ---
+
+> This issue occurs when Istio is installed with global mTLS enabled. Using authentication policy, mTLS can be enabled selectively per service, hence can avoid this problem. Discussion below are for releases before 0.8.
 
 Starting with release 0.3, edit the `mtlsExcludedServices` list in Istio config
 map to contain the fully-qualified name of the API server (and any other

@@ -3,7 +3,10 @@ title: How can I enable/disable mTLS encryption after I installed Istio?
 weight: 10
 ---
 
-The most straightforward way to enable/disable mTLS is by entirely
+Starting Istio 0.8, [authentication policy]({{home}}/docs/concepts/security/authn-policy.html) can be used to change mTLS setting at run time, without reinstall Istio.
+
+
+Before 0.8, the most straightforward way to enable/disable mTLS is by entirely
 uninstalling and re-installing Istio.
 
 If you are an advanced user and understand the risks you can also do the following:
@@ -21,5 +24,3 @@ $ kubectl delete pods -n istio-system -l istio=pilot
 to restart Pilot, after a few seconds (depending on your `*RefreshDelay`) your
 Envoy proxies will have picked up the change from Pilot. During that time your
 services may be unavailable.
-
-We are working on a smoother solution.
