@@ -33,7 +33,7 @@ This task shows how to inject delays and test the resiliency of your application
 
 To test our Bookinfo application microservices for resiliency, we will _inject a 7s delay_
 between the reviews:v2 and ratings microservices, for user "jason". Since the _reviews:v2_ service has a
-10s timeout for its calls to the ratings service, we expect the end-to-end flow to
+10s hard-coded connection timeout for its calls to the ratings service, we expect the end-to-end flow to
 continue without any errors.
 
 1.  Create a fault injection rule to delay traffic coming from user "jason" (our test user)
@@ -89,9 +89,9 @@ continue without any errors.
 
 The reason that the entire reviews service has failed is because our Bookinfo application
 has a bug. The timeout between the productpage and reviews service is less (3s + 1 retry = 6s total)
-than the timeout between the reviews and ratings service (10s). These kinds of bugs can occur in
-typical enterprise applications where different teams develop different microservices
-independently. Istio's fault injection rules help you identify such anomalies without
+than the timeout between the reviews and ratings service (hard-coded connection timeout is 10s). These
+kinds of bugs can occur in typical enterprise applications where different teams develop different
+microservices independently. Istio's fault injection rules help you identify such anomalies without
 impacting end users.
 
 > Notice that we are restricting the failure impact to user "jason" only. If you login
