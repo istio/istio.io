@@ -152,6 +152,11 @@ If the `EXTERNAL-IP` value is set, your environment has an external load balance
 $ export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 ```
 
+If the default service port of `istio-ingressgateway` is not `80` (Default value is 80), get external load balancer as follows
+```command
+$ export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}'):$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[0].port}')
+```
+
 If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not support external load balancers.
 In this case, you can access the gateway using the service `nodePort`.
 
