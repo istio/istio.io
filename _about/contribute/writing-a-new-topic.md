@@ -1,7 +1,7 @@
 ---
 title: Writing a New Topic
 overview: Explains the mechanics of creating new documentation pages.
-              
+
 order: 30
 
 layout: about
@@ -25,7 +25,7 @@ is the best fit for your content:
 <table>
   <tr>
     <td>Concept</td>
-    <td>A concept page explains some significant aspect of Istio. For example, a concept page might describe the 
+    <td>A concept page explains some significant aspect of Istio. For example, a concept page might describe the
     Mixer's configuration model and explain some of its subtleties.
     Typically, concept pages don't include sequences of steps, but instead provide links to
     tasks that do.</td>
@@ -58,7 +58,7 @@ is the best fit for your content:
     activities.
     </td>
   </tr>
-  
+
   <tr>
     <td>Blog Post</td>
     <td>
@@ -79,13 +79,13 @@ all in lower case.
 
 ## Updating the front matter
 
-Every documentation file needs to start with Jekyll 
+Every documentation file needs to start with Jekyll
 [front matter](https://jekyllrb.com/docs/frontmatter/).
 The front matter is a block of YAML that is between the
 triple-dashed lines at the top of each file. Here's the
 chunk of front matter you should start with:
 
-```
+```yaml
 ---
 title: <title>
 overview: <overview>
@@ -112,17 +112,19 @@ matter fields are:
 |`publish_date` | For blog posts, indicates the date of publication of the post
 |`subtitle`     | For blog posts, supplies an optional subtitle to be displayed below the main title
 |`attribution`  | For blog posts, supplies an optional author's name
+|`toc`          | Set this to false to prevent the page from having a table of contents generated for it
+|`force_inline_toc` | Set this to true to force the generated table of contents from being inserted inline in the text instead of in a sidebar
 
 ## Choosing a directory
 
 Depending on your page type, put your new file in a subdirectory of one of these:
 
-* _blog/
-* _docs/concepts/
-* _docs/guides/
-* _docs/reference/
-* _docs/setup/
-* _docs/tasks/
+- _blog/
+- _docs/concepts/
+- _docs/guides/
+- _docs/reference/
+- _docs/setup/
+- _docs/tasks/
 
 You can put your file in an existing subdirectory, or you can create a new
 subdirectory. For blog posts, put the file into a subdirectory for the current
@@ -135,7 +137,7 @@ Put image files in an `img` subdirectory of where you put your markdown file. Th
 If you must use a PNG or JPEG file instead, and the file
 was generated from an original SVG file, please include the
 SVG file in the repository even if it isn't used in the web
-site itself. This is so we can update the imagery over time 
+site itself. This is so we can update the imagery over time
 if needed.
 
 Within markdown, use the following sequence to add the image:
@@ -181,10 +183,10 @@ current hierarchy:
   {% raw %}[see here]({{home}}/docs/adir/afile.html){% endraw %}
   ```
 
-  In order to use \{\{home\}\} in a file, 
+  In order to use \{\{home\}\} in a file,
   you need to make sure that the file contains the following
   line of boilerplate right after the block of front matter:
-    
+
   ```markdown
   ...
   ---
@@ -206,7 +208,7 @@ func HelloWorld() {
 
 The above produces this kind of output:
 
-```
+```xxx
 func HelloWorld() {
   fmt.Println("Hello World")
 }
@@ -230,7 +232,7 @@ func HelloWorld() {
 }
 ```
 
-You can use `markdown`, `yaml`, `json`, `java`, `javascript`, `c`, `cpp`, `csharp`, `go`, `html`, `protobuf`, 
+You can use `markdown`, `yaml`, `json`, `java`, `javascript`, `c`, `cpp`, `csharp`, `go`, `html`, `protobuf`,
 `perl`, `docker`, and `bash`.
 
 ## Displaying file content
@@ -261,13 +263,13 @@ redirects to the site very easily.
 In the page that is the target of the redirect (where you'd like users to land), you simply add the
 following to the front-matter:
 
-```
+```xxx
 redirect_from: <url>
 ```
 
 For example
 
-```
+```xxx
 ---
 title: Frequently Asked Questions
 overview: Questions Asked Frequently
@@ -279,14 +281,14 @@ type: markdown
 redirect_from: /faq
 ---
 
-```    
+```
 
 With the above in a page saved as _help/faq.md, the user will be able to access the page by going
 to istio.io/help/faq as normal, as well as istio.io/faq.
 
 You can also add many redirects like so:
-    
-```
+
+```xxx
 ---
 title: Frequently Asked Questions
 overview: Questions Asked Frequently
@@ -301,4 +303,4 @@ redirect_from:
     - /faq3
 ---
 
-```    
+```

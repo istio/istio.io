@@ -1,30 +1,31 @@
-# istio.github.io
+## istio.github.io
 
 This repository contains the source code for the [istio.io](https://istio.io),
-[preliminary.istio.io](https://preliminary.istio.io) and [archive.istio.io](https://archive.istio.io) websites.
+[preliminary.istio.io](https://preliminary.istio.io) and [archive.istio.io](https://archive.istio.io) sites.
 
 Please see the main Istio [README](https://github.com/istio/istio/blob/master/README.md)
 file to learn about the overall Istio project and how to get in touch with us. To learn how you can
 contribute to any of the Istio components, please
 see the Istio [contribution guidelines](https://github.com/istio/community/blob/master/CONTRIBUTING.md).
 
-* [Working with the site](#building-the-site)
+* [Working with the site](#working-with-the-site)
+* [Linting](#linting)
 * [Versions and releases](#versions-and-releases)
   * [How versioning works](#how-versioning-works)
+  * [Publishing content immediately](#publishing-content-immediately)
   * [Creating a version](#creating-a-version)
 
 ## Working with the site
 
-The website uses [Jekyll](https://jekyllrb.com/) templates Please make sure you are
-familiar with these before editing.
+We use [Jekyll](https://jekyllrb.com/) to generate our sites.
 
-To run the site locally with Docker, use the following command from the toplevel directory for this git repo
+To run the site locally with Docker, use the following command from the top level directory for this git repo
 (e.g. pwd must be `~/github/istio.github.io` if you were in `~/github` when you issued
 `git clone https://github.com/istio/istio.github.io.git`)
 
 ```bash
 # First time: (slow)
-docker run --name istio-jekyll --volume=$(pwd):/srv/jekyll  -it -p 4000:4000 jekyll/jekyll:3.5.2 sh -c "bundle install && rake test && bundle exec jekyll serve --incremental --host 0.0.0.0"
+docker run --name istio-jekyll --volume=$(pwd):/srv/jekyll -w /srv/jekyll -it -p 4000:4000 jekyll/jekyll:3.7.3 sh -c "bundle install && rake test && bundle exec jekyll serve --incremental --host 0.0.0.0"
 # Then open browser with url 127.0.0.1:4000 to see the change.
 # Subsequent, each time you want to see a new change and you stopped the previous run by ctrl+c: (much faster)
 docker start istio-jekyll -a -i
@@ -32,21 +33,24 @@ docker start istio-jekyll -a -i
 docker rm istio-jekyll
 ```
 
-The `rake test` part is to make sure you are not introducing html errors or bad links, you should see
-```
+The `rake test` part is to make sure you are not introducing HTML errors or bad links, you should see
+
+```bash
 HTML-Proofer finished successfully.
 ```
+
 in the output
 
-> In some cases the `--incremental` may not work properly and you might have to remove it.
-
-Alternatively, if you just want to develop locally w/o Docker/Kubernetes/Minikube, you can try installing Jekyll locally. You may need to install other prerequisites manually (which is where using the docker image shines). Here's an example of doing so for Mac OS X:
+Alternatively, if you just want to develop locally w/o Docker/Kubernetes/Minikube, you can try installing Jekyll locally.
+You may need to install other prerequisites manually (which is where using the docker image shines). Here's an example of doing
+so for Mac OS X:
 
 ```bash
 xcode-select --install
 sudo xcodebuild -license
 brew install ruby
 gem update --system
+gem install mdspell
 gem install bundler
 gem install jekyll
 cd istio.github.io
@@ -55,18 +59,37 @@ bundle exec rake test
 bundle exec jekyll serve
 ```
 
+## Linting
+
+You should run `scripts/linters.sh` prior to checking in your changes.
+This will run 3 tests:
+
+* HTML proofing, which ensures all your links are valid along with other checks.
+
+* Spell checking.
+
+* Style checking, which makes sure your markdown file complies with some common style rules.
+
+If you get a spelling error, you have three choices to address it:
+
+* It's a real typo, so fix your markdown.
+
+* It's a command/field/symbol name, so stick some `backticks` around it.
+
+* It's really valid, so go add the word to the .spelling file at the root of the repo.
+
 ## Versions and releases
 
-Istio maintains three variations of its public website:
+Istio maintains three variations of its public site:
 
-* istio.io is the main site, showing documentation for the current release of the product.
+* [istio.io](https://istio.io) is the main site, showing documentation for the current release of the product.
 This site is currently hosted on Firebase.
 
-* archive.istio.io contains snapshots of the documentation for previous releases of the product.
+* [archive.istio.io](https://archive.istio.io) contains snapshots of the documentation for previous releases of the product.
 This is useful for customers still using these older releases.
 This site is currently hosted on Firebase.
 
-* preliminary.istio.io contains the actively updated documentation for the next release of the product.
+* [preliminary.istio.io](https://preliminary.istio.io) contains the actively updated documentation for the next release of the product.
 This site is hosted by GitHub Pages.
 
 The user can trivially navigate between the different variations of the site using the gear menu in the top right
@@ -87,6 +110,13 @@ are included on archive.istio.io is determined by the `TOBUILD` variable in this
 > The above means that if you want to do a change to the main istio.io site, you will need
 to make the change in the master branch of istio.github.io and then merge that change into the
 release branch.
+
+### Publishing content immediately
+
+Checking in updates to the master branch will automatically update preliminary.istio.io, and will only be reflected on
+istio.io the next time a release is created, which can be several weeks in the future. If you'd like some changes to be
+immediately reflected on istio.io, you need to check your changes both to the master branch and to the
+current release branch (named release-XXX such as release-0.7).
 
 ### Creating a version
 
@@ -110,33 +140,35 @@ and subsequent entries should point to archive.istio.io.
 
 1. Commit the previous edit to GitHub.
 
-1. Go to the Google Search Console and create a new search engine that searches the archive.istio.io/V<major>.<minor>
+1. Go to the Google Search Console and create a new search engine that searches the archive.istio.io/V&lt;major&gt;.&lt;minor&gt;
 directory. This search engine will be used to perform version-specific searches on archive.istio.io.
 
 1. In the **previous release's** branch (in this case release-0.6), edit the file `_data/istio.yml`. Set the
 `archive` field to true, the `archive_date` field to the current date, and the `search_engine_id` field
 to the ID of the search engine you created in the prior step.
 
-1. Switch to the istio/admin-sites repo. In this repo:
+1. Switch to the istio/admin-sites repo.
 
-  1. Navigate to the archive.istio.io directory and edit the `build.sh` script to add the newest archive version (in this case
-  release-0.6) to the `TOBUILD` variable.
+1. Navigate to the archive.istio.io directory.
 
-  1. Commit the previous edit to GitHub.
+1. Edit the `build.sh` script to add the newest archive version (in this case
+release-0.6) to the `TOBUILD` variable.
 
-  1. Run the `build.sh` script.
+1. Commit the previous edit to GitHub.
 
-  1. Once the script completes, run 'firebase deploy'. This will update archive.istio.io to contain the
-  right set of archives, based on the above steps.
+1. Run the `build.sh` script.
 
-  1. Navigate to the current.istio.io directory
+1. Once the script completes, run `firebase deploy`. This will update archive.istio.io to contain the
+right set of archives, based on the above steps.
 
-  1. Edit the build.sh script to set the `BRANCH` variable to the current release branch (in this case release-0.7)
+1. Navigate to the current.istio.io directory.
 
-  1. Run the `build.sh` script.
+1. Edit the `build.sh` script to set the `BRANCH` variable to the current release branch (in this case release-0.7)
 
-  1. Once the script completes, run 'firebase deploy`. This will update the content of istio.io to reflect what is the new release
-  branch you created.
+1. Run the `build.sh` script.
+
+1. Once the script completes, run 'firebase deploy`. This will update the content of istio.io to reflect what is the new release
+branch you created.
 
 Once all this is done, browse the three sites (preliminary.istio.io, istio.io, and archive.istio.io) to make sure
 everything looks good.

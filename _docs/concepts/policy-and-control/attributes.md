@@ -1,7 +1,7 @@
 ---
 title: Attributes
 overview: Explains the important notion of attributes, which is a central mechanism for how policies and control are applied to services within the mesh.
-              
+
 order: 10
 
 layout: docs
@@ -19,11 +19,13 @@ environment this traffic occurs in. An Istio attribute carries a specific piece
 of information such as the error code of an API request, the latency of an API request, or the
 original IP address of a TCP connection. For example:
 
-	request.path: xyz/abc
-	request.size: 234
-	request.time: 12:34:56.789 04/17/2017
-	source.ip: 192.168.0.1
-	destination.service: example
+```xxx
+request.path: xyz/abc
+request.size: 234
+request.time: 12:34:56.789 04/17/2017
+source.ip: 192.168.0.1
+destination.service: example
+```
 
 ## Attribute vocabulary
 

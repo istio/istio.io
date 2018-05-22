@@ -70,7 +70,7 @@ two steps: 50%, 100%.
 
 1. Refresh the `productpage` in your browser and you should now see *red* colored star ratings approximately 50% of the time.
 
-   > Note: With the current Envoy sidecar implementation, you may need to refresh the `productpage` very many times
+   > With the current Envoy sidecar implementation, you may need to refresh the `productpage` very many times
    > to see the proper distribution. It may require 15 refreshes or more before you see any change. You can modify the rules to route 90% of the traffic to v3 to see red stars more often.
 
 1. When version v3 of the `reviews` microservice is considered stable, we can route 100% of the traffic to `reviews:v3`:

@@ -1,7 +1,7 @@
 ---
 title: Discovery & Load Balancing
 overview: Describes how traffic is load balanced across instances of a service in the mesh.
-              
+
 order: 25
 
 layout: docs
@@ -22,7 +22,7 @@ applications.
 
 **Service Discovery:** Pilot consumes information from the service
 registry and provides a platform-agnostic service discovery
-interface. Envoy instances in the mesh perform service discovery and 
+interface. Envoy instances in the mesh perform service discovery and
 dynamically update their load balancing pools accordingly.
 
 {% include figure.html width='80%' ratio='74.79%'
@@ -39,7 +39,6 @@ the load balancing pool. While Envoy supports several
 [sophisticated load balancing algorithms](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing),
 Istio currently allows three load balancing modes:
 round robin, random, and weighted least request.
-
 
 In addition to load balancing, Envoy periodically checks the health of each
 instance in the pool. Envoy follows a circuit breaker style pattern to

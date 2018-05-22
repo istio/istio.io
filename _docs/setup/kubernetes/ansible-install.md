@@ -38,12 +38,12 @@ ansible-playbook main.yml
 
 The Ansible playbook ships with reasonable defaults.
 
-The currently exposed options are explained in the following table:
+The currently exposed options are:
 
 | Parameter | Description | Values | Default |
 | --- | --- | --- | --- |
 | `cluster_flavour` | Define the target cluster type | `k8s` or `ocp` | `ocp` |
-| `github_api_token` | A valid Github API authentication token used for authenticating with Github | A valid Github API token | empty |
+| `github_api_token` | A valid GitHub API authentication token used for authenticating with GitHub | A valid GitHub API token | empty |
 | `cmd_path` | Override the path to `kubectl` or `oc` | A valid path to a `kubectl` or `oc` binary | `$PATH/oc` |
 | `istio.release_tag_name` | Istio release version to install | Any valid Istio release version | the latest Istio release version |
 | `istio.dest` | The directory of the target machine where Istio will be installed | Any directory with read+write permissions | `~/.istio` |
@@ -97,7 +97,7 @@ Operator installs Istio on OpenShift and additionally wants to deploy some of th
 ansible-playbook main.yml -e '{"istio": {"samples": ["helloworld", "bookinfo"]}}'
 ```
 
-**When Jaeger is enabled, Zipkin is disabled even when Zipkin is selected in the addons.**
+> When Jaeger is enabled, Zipkin is disabled even when Zipkin is selected in the addons.
 
 ## Uninstalling
 
@@ -106,4 +106,4 @@ In this case, the `istio.delete_resources` flag does not need to be set.
 
 Setting `istio.delete_resources` to true will delete the Istio control plane from the cluster.
 
-**In order to avoid any inconsistencies, this flag should only be used to reinstall the same version of Istio on a cluster.**
+> In order to avoid any inconsistencies, this flag should only be used to reinstall the same version of Istio on a cluster.

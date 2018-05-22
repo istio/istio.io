@@ -18,17 +18,11 @@ The [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application is used
 as the example application throughout this task.
 
 ## Before you begin
+
 * [Install Istio]({{home}}/docs/setup/) in your cluster and deploy an
   application. This task assumes that Mixer is setup in a default configuration
   (`--configDefaultNamespace=istio-system`). If you use a different
   value, update the configuration and commands in this task to match the value.
-
-* Install the Prometheus add-on. Prometheus
-  will be used to verify task success. 
-  ```bash
-  kubectl apply -f install/kubernetes/addons/prometheus.yaml
-  ```
-  See [Prometheus](https://prometheus.io) for details.
 
 ## Collecting new telemetry data
 
@@ -36,6 +30,7 @@ as the example application throughout this task.
    stream that Istio will generate and collect automatically.
 
    Save the following as `new_telemetry.yaml`:
+
    ```yaml
    # Configuration for metric instances
    apiVersion: "config.istio.io/v1alpha2"
@@ -130,7 +125,8 @@ as the example application throughout this task.
    ```
 
    The expected output is similar to:
-   ```
+
+   ```xxx
    Created config metric/istio-system/doublerequestcount at revision 1973035
    Created config prometheus/istio-system/doublehandler at revision 1973036
    Created config rule/istio-system/doubleprom at revision 1973037
@@ -158,16 +154,16 @@ as the example application throughout this task.
    ```
 
    View values for the new metric via the [Prometheus UI](http://localhost:9090/graph#%5B%7B%22range_input%22%3A%221h%22%2C%22expr%22%3A%22istio_double_request_count%22%2C%22tab%22%3A1%7D%5D).
-   
+
    The provided link opens the Prometheus UI and executes a query for values of
    the `istio_double_request_count` metric. The table displayed in the
    **Console** tab includes entries similar to:
 
-   ```
-   istio_double_request_count{destination="details.default.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="productpage.default.svc.cluster.local"}	2
-   istio_double_request_count{destination="ingress.istio-system.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="unknown"}	2
-   istio_double_request_count{destination="productpage.default.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="ingress.istio-system.svc.cluster.local"}	2
-   istio_double_request_count{destination="reviews.default.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="productpage.default.svc.cluster.local"}	2
+   ```xxx
+   istio_double_request_count{destination="details.default.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="productpage.default.svc.cluster.local"} 2
+   istio_double_request_count{destination="ingress.istio-system.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="unknown"} 2
+   istio_double_request_count{destination="productpage.default.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="ingress.istio-system.svc.cluster.local"} 2
+   istio_double_request_count{destination="reviews.default.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="productpage.default.svc.cluster.local"} 2
    ```
 
    For more on querying Prometheus for metric values, see the [Querying Istio
@@ -200,10 +196,13 @@ automatically generate and report a new metric and a new log stream for all
 traffic within the mesh.
 
 The added configuration controlled three pieces of Mixer functionality:
+
 1. Generation of *instances* (in this example, metric values and log entries)
    from Istio attributes
+
 1. Creation of *handlers* (configured Mixer adapters) capable of processing
    generated *instances*
+
 1. Dispatch of *instances* to *handlers* according to a set of *rules*
 
 ### Understanding the metrics configuration
@@ -241,7 +240,7 @@ translates received metric instances into prometheus-formatted values that can
 be processed by a Prometheus backend. This configuration specified a new
 Prometheus metric named `double_request_count`. The Prometheus adapter prepends
 the `istio_` namespace to all metric names, therefore this metric will show up
-in Promethus as `istio_double_request_count`. The metric has three labels
+in Prometheus as `istio_double_request_count`. The metric has three labels
 matching the dimensions configured for `doublerequestcount.metric` instances.
 
 For `kind: prometheus` handlers, Mixer instances are matched to Prometheus
@@ -249,10 +248,10 @@ metrics via the `instance_name` parameter. The `instance_name` values must be
 the fully-qualified name for Mixer instances (example:
 `doublerequestcount.metric.istio-system`).
 
-The `kind: rule` stanza of config defines a new *rule* named `doubleprom`. The 
+The `kind: rule` stanza of config defines a new *rule* named `doubleprom`. The
 rule directs Mixer to send all `doublerequestcount.metric` instances to the
-`doublehandler.prometheus` handler. Because there is no `match` clause in the 
-rule, and because the rule is in the configured default configuration namespace 
+`doublehandler.prometheus` handler. Because there is no `match` clause in the
+rule, and because the rule is in the configured default configuration namespace
 (`istio-system`), the rule is executed for all requests in the mesh.
 
 ### Understanding the logs configuration
@@ -319,8 +318,5 @@ here to illustrate how to use `match` expressions to control rule execution.
 
 * Discover the full [Attribute
   Vocabulary]({{home}}/docs/reference/config/mixer/attribute-vocabulary.html).
-
-* Read the reference guide to [Writing
-  Config]({{home}}/docs/reference/writing-config.html).
 
 * Refer to the [In-Depth Telemetry]({{home}}/docs/guides/telemetry.html) guide.

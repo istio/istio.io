@@ -18,6 +18,7 @@ features are important, and so on. This is not a task, but a feature of
 Istio.
 
 ## Before you begin
+
 * Describe installation options.
 
 * Install Istio control plane in a Kubernetes cluster by following the quick start instructions in the

@@ -24,6 +24,7 @@ The [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application is used
 as the example application throughout this task.
 
 ## Before you begin
+
 * [Install Istio]({{home}}/docs/setup/) in your cluster and deploy an
   application. This task assumes that Mixer is setup in a default configuration
   (`--configDefaultNamespace=istio-system`). If you use a different
@@ -48,7 +49,7 @@ connect to a running Fluentd daemon, you may need to add a
 for Fluentd. The Fluentd configuration to listen for forwarded logs
 is:
 
-```
+```xml
 <source>
   type forward
 </source>
@@ -71,7 +72,7 @@ called `logging`.
 
 Save the following as `logging-stack.yaml`.
 
-```
+```yaml
 # Logging Namespace. All below are a part of this namespace.
 apiVersion: v1
 kind: Namespace
@@ -285,7 +286,7 @@ kubectl apply -f logging-stack.yaml
 
 You should see the following:
 
-```
+```xxx
 namespace "logging" created
 service "elasticsearch" created
 deployment "elasticsearch" created
@@ -305,7 +306,7 @@ Istio will generate and collect automatically.
 
 Save the following as `fluentd-istio.yaml`:
 
-```
+```yaml
 # Configuration for logentry instances
 apiVersion: "config.istio.io/v1alpha2"
 kind: logentry
@@ -393,7 +394,7 @@ example stack.
 
 1. Select `@timestamp` as the Time Filter field name, and click "Create index pattern."
 
-1. Now click "Discover" on the left menu, and start exploring the logs generated 
+1. Now click "Discover" on the left menu, and start exploring the logs generated
 
 ## Cleanup
 
@@ -422,5 +423,3 @@ example stack.
   and [Mixer Config]({{home}}/docs/concepts/policy-and-control/mixer-config.html).
 
 * Discover the full [Attribute Vocabulary]({{home}}/docs/reference/config/mixer/attribute-vocabulary.html).
-
-* Read the reference guide to [Writing Config]({{home}}/docs/reference/writing-config.html).

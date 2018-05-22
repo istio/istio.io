@@ -1,14 +1,14 @@
 ---
 title: Fault Injection
 overview: Introduces the idea of systematic fault injection that can be used to uncover conflicting failure recovery policies across services.
-                
+
 order: 40
 
 layout: docs
 type: markdown
 toc: false
 ---
- 
+
 While Envoy sidecar/proxy provides a host of
 [failure recovery mechanisms](./handling-failures.html) to services running
 on Istio, it is still
@@ -25,12 +25,12 @@ regardless of network level failures, and that more meaningful failures can
 be injected at the application layer (e.g., HTTP error codes) to exercise
 the resilience of an application.
 
-Operators can configure faults to be injected into requests that match 
+Operators can configure faults to be injected into requests that match
 specific criteria. Operators can further restrict the percentage of
 requests that should be subjected to faults. Two types of faults can be
 injected: delays and aborts. Delays are timing failures, mimicking
 increased network latency, or an overloaded upstream service. Aborts are
-crash failures that mimick failures in upstream services. Aborts usually
+crash failures that mimic failures in upstream services. Aborts usually
 manifest in the form of HTTP error codes, or TCP connection failures.
 
 Refer to [Istio's traffic management rules](./rules-configuration.html) for more details.

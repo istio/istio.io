@@ -24,25 +24,27 @@ This task assumes you have a Kubernetes cluster:
 Note to choose "enable Istio mutual TLS Authentication feature" at step 5 in
 "[Installation steps]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps)".
 
+> Starting with Istio  0.7, you can use [authentication policy]({{home}}/docs/concepts/security/authn-policy.html) to config mTLS for all/selected services in a namespace (repeated for all namespaces to get global setting). See [authentication policy task]({{home}}/docs/tasks/security/authn-policy.html)
+
 ## Verifying Istio's mutual TLS authentication setup
 
 The following commands assume the services are deployed in the default namespace.
 Use the parameter *-n yournamespace* to specify a namespace other than the default one.
 
-### Verifying Istio CA
+### Verifying Citadel
 
-Verify the cluster-level CA is running:
+Verify the cluster-level Citadel is running:
 
 ```bash
-kubectl get deploy -l istio=istio-ca -n istio-system
+kubectl get deploy -l istio=istio-citadel -n istio-system
 ```
 
 ```bash
-NAME       DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-istio-ca   1         1         1            1           1m
+NAME            DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+istio-citadel   1         1         1            1           1m
 ```
 
-Istio CA is up if the "AVAILABLE" column is 1.
+Citadel is up if the "AVAILABLE" column is 1.
 
 ### Verifying service configuration
 
@@ -88,7 +90,9 @@ There are several steps:
    cert-chain.pem   key.pem   root-cert.pem
    ```
 
-   Note that cert-chain.pem is Envoy's cert that needs to present to the other side. key.pem is Envoy's private key paired with cert-chain.pem. root-cert.pem is the root cert to verify the other side's cert. Currently we only have one CA, so all Envoys have the same root-cert.pem.
+   > `cert-chain.pem` is Envoy's cert that needs to present to the other side. `key.pem` is Envoy's private key
+   paired with Envoy's cert in `cert-chain.pem`. `root-cert.pem` is the root cert to verify the peer's cert.
+   In this example, we only have one Citadel in a cluster, so all Envoys have the same `root-cert.pem`.
 
 1. make sure 'curl' is installed by
    ```bash
@@ -103,7 +107,8 @@ There are several steps:
    ```bash
    kubectl apply -f <(istioctl kube-inject --debug -f samples/bookinfo/kube/bookinfo.yaml)
    ```
-   Note: istio proxy image does not have curl installed while the debug image does. The "--debug" flag in above command redeploys the service with debug image.
+
+   > Istio proxy image does not have curl installed while the debug image does. The "--debug" flag in above command redeploys the service with debug image.
 
 1. send requests to another service, for example, details.
    ```bash
@@ -124,14 +129,14 @@ There are several steps:
 
 The service name and port are defined [here](https://github.com/istio/istio/blob/master/samples/bookinfo/kube/bookinfo.yaml).
 
-Note that Istio uses [Kubernetes service account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/)
+Note that Istio uses [Kubernetes service accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/)
 as service identity, which offers stronger security than service name
 (refer [here]({{home}}/docs/concepts/security/mutual-tls.html#identity) for more information).
-Thus the certificates used in Istio do not have service name, which is the information that curl needs to verify
-server identity. As a result, we use curl option '-k' to prevent the curl client from aborting when failing to
+Thus the certificates used in Istio do not have service names, which is the information that `curl` needs to verify
+server identity. As a result, we use `curl` option `-k` to prevent the `curl` client from aborting when failing to
 find and verify the server name (i.e., productpage.ns.svc.cluster.local) in the certificate provided by the server.
 
-Please check secure naming [here]({{home}}/docs/concepts/security/mutual-tls.html#workflow) for more information
+Please check [secure naming]({{home}}/docs/concepts/security/mutual-tls.html#workflow) for more information
 about how the client verifies the server's identity in Istio.
 
 What we are demonstrating and verifying above is that the server accepts the connection from the client. Try not giving the client `--key` and `--cert` and observe you are not allowed to connect and you do not get an HTTP 200.

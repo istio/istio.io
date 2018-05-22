@@ -5,6 +5,8 @@ kramdown:
   auto_ids: true
   input: GFM
   hard_wrap: false
+  syntax_highlighter_opts:
+    disable : true
 
 baseurl:
 
@@ -66,6 +68,7 @@ exclude:
   - js/misc.js
   - js/styleSwitcher.js
   - firebase.json
+  - _rakesite
 
 repository:
   istio/istio.github.io

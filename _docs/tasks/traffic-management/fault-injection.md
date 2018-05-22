@@ -21,24 +21,25 @@ This task shows how to inject delays and test the resiliency of your application
 * Initialize the application version routing by either first doing the
   [request routing](./request-routing.html) task or by running following
   commands:
-  
-  > Note: This assumes you don't have any routes set yet. If you've already created conflicting route rules for the sample, you'll need to use `replace` rather than `create` in one or both of the following commands.
+
+  > This assumes you don't have any routes set yet. If you've already created conflicting route rules for the sample, you'll need to use `replace` rather than `create` in one or both of the following commands.
 
   ```bash
   istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
   istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
   ```
 
-> Note: This task assumes you are deploying the application on Kubernetes.
-  All of the example commands are using the Kubernetes version of the rule yaml files
-  (e.g., `samples/bookinfo/kube/route-rule-all-v1.yaml`). If you are running this
-  task in a different environment, change `kube` to the directory that corresponds
-  to your runtime (e.g., `samples/bookinfo/consul/route-rule-all-v1.yaml` for
-  the Consul-based runtime).
+> This task assumes you are deploying the application on Kubernetes.
+All of the example commands are using the Kubernetes version of the rule yaml files
+(e.g., `samples/bookinfo/kube/route-rule-all-v1.yaml`). If you are running this
+task in a different environment, change `kube` to the directory that corresponds
+to your runtime (e.g., `samples/bookinfo/consul/route-rule-all-v1.yaml` for
+the Consul-based runtime).
 
 # Fault injection
 
 ## Fault injection using HTTP delay
+
 To test our Bookinfo application microservices for resiliency, we will _inject a 7s delay_
 between the reviews:v2 and ratings microservices, for user "jason". Since the _reviews:v2_ service has a
 10s timeout for its calls to the ratings service, we expect the end-to-end flow to
@@ -118,6 +119,7 @@ continue without any errors.
   use a 2.8 second delay and then run it against the v3 version of reviews.)
 
 ## Fault injection using HTTP Abort
+
 As another test of resiliency, we will introduce an HTTP abort to the ratings microservices for the user "jason".
 We expect the page to load immediately unlike the delay example and display the "product ratings not available"
 message.

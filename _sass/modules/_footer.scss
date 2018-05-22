@@ -1,76 +1,39 @@
-g.icon {
-    fill: red;
-}
+footer {
+    background-image: linear-gradient(to right, $mainBrandColor, $secondBrandColor);
+    color: $textBrandColor;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: $footerHeight;
+    overflow: hidden;
+    padding: 1rem 0 1.5rem;
+    text-align: center;
 
-div.footer {
-    padding-top: 4em;
-
-    footer {
-        background-image: linear-gradient(to right, $mainBrandColor, $secondBrandColor);
-        color: $textBrandColor;
+    @media (min-width: $bp-sm) {
         padding: 1.5rem 0 1rem 0;
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        height: $footerHeight;
-        overflow: hidden;
+    }
 
-        @media (max-width: $bp-sm) {
-            padding: 1rem 0 1.5rem;
-            text-align: center;
+    .icon {
+        position: relative;
+        display: inline-flex;
+        padding: 4px;
+        border-width: 2px;
+        border-color: rgba(0, 0, 0, 0);
+        border-style: solid;
+        border-radius: 2px;
+        color: $textBrandColor;
+
+        a {
+            text-decoration: none;
         }
 
-        div.icon {
-            position: relative;
-            display: inline-flex;
-            padding: 4px;
-            border-width: 2px;
-            border-color: rgba(0, 0, 0, 0);
-            border-style: solid;
-            border-radius: 2px;
-            color: $textBrandColor;
-
-            a {
-                &:hover {
-                    text-decoration: none;
-                }
-            }
-
-            svg {
-                width: 35px;
-                height: 35px;
-                fill: $textBrandColor;
-            }
-
-            &:hover {
-                border-color: white;
-                border-radius: 25px;
-                box-shadow: 0 0 2px 2px $textBrandColor;
-                transition: border-radius 1s, border-color 1s ease;
-            }
+        svg {
+            width: 35px;
+            height: 35px;
+            fill: $textBrandColor;
         }
 
-        p.copyright {
-            padding: 0;
-            margin: 0;
-            color: $textBrandColorLight;
-            line-height: 1.6em;
-            font-size: 0.7em;
-
-            @media (max-width: $bp-lg) {
-                text-align: right!important;
-            }
-        }
-
-        p.tag {
-            padding: 0;
-            font-style: italic;
-            margin: 0;
-            line-height: 1.6em;
-            font-size: 0.8em;
-        }
-
-        .icon .tip {
+        span {
             opacity: 0;
             background-color: transparent;
             color: $textBrandColor;
@@ -83,10 +46,37 @@ div.footer {
             font-size: 75%;
         }
 
-        /* Show the tooltip text when you mouse over the tooltip container */
-        .icon:hover .tip {
-            opacity: 1;
-            transition: opacity .5s;
+        &:hover {
+            border-color: white;
+            border-radius: 25px;
+            box-shadow: 0 0 2px 2px $textBrandColor;
+            transition: border-radius 1s, border-color 1s ease;
+
+            span {
+                opacity: 1;
+                transition: opacity .5s;
+            }
         }
+    }
+
+    .copyright {
+        padding: 0;
+        margin: 0;
+        color: $textBrandColorLight;
+        line-height: 1.6em;
+        font-size: 0.7em;
+        text-align: right!important;
+
+        @media (min-width: $bp-lg) {
+            text-align: center!important;
+        }
+    }
+
+    .tag {
+        padding: 0;
+        font-style: italic;
+        margin: 0;
+        line-height: 1.6em;
+        font-size: 0.8em;
     }
 }

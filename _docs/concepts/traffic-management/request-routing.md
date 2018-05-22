@@ -1,7 +1,7 @@
 ---
 title: Request Routing
 overview: Describes how requests are routed between services in an Istio service mesh.
-              
+
 order: 20
 
 layout: docs
@@ -20,7 +20,6 @@ platform (Kubernetes, Mesos, Cloud Foundry,
 etc.). Platform-specific adapters are responsible for populating the
 internal model representation with various fields from the metadata found
 in the platform.
-
 
 Istio introduces the concept of a service version, which is a finer-grained
 way to subdivide service instances by versions (`v1`, `v2`) or environment

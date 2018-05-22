@@ -1,45 +1,22 @@
-@media screen and (max-width: 767px) {
-    .row-offcanvas {
-        position: relative;
-        transition: all .25s ease-out;
-    }
-
-    .row-offcanvas-right {
-        right: 0;
-    }
-
-    .row-offcanvas-left {
-        left: 0;
-    }
-
-    .row-offcanvas-right .sidebar-offcanvas {
-        right: -100%; /* 12 columns */
-    }
-
-    .row-offcanvas-right.active .sidebar-offcanvas {
-        right: -50%; /* 6 columns */
-    }
-
-    .row-offcanvas-left .sidebar-offcanvas {
-        left: -100%; /* 12 columns */
-    }
-
-    .row-offcanvas-left.active .sidebar-offcanvas {
-        left: -50%; /* 6 columns */
-    }
-
-    .row-offcanvas-right.active {
-        right: 50%; /* 6 columns */
-    }
-
-    .row-offcanvas-left.active {
-        left: 50%; /* 6 columns */
-    }
-
-    .sidebar-offcanvas {
+@media screen {
+    .row-offcanvas .sidebar-offcanvas {
+        transition: all .4s ease;
+        z-index: 42;
+        left: -1500px;
+        width: auto;
+        max-width: 80%;
+        top: $headerHeight;
         position: absolute;
-        top: 0;
-        width: 50%; /* 6 columns */
+    }
+
+    .row-offcanvas.active .sidebar-offcanvas {
+        left: 2rem;
+    }
+
+    @media (min-width: $bp-md) {
+        .row-offcanvas .sidebar-offcanvas {
+            position: unset;
+        }
     }
 }
 
@@ -63,18 +40,16 @@
             max-height: calc(100vh - 9rem);
         }
 
-        @media (min-width: 1200px) {
+        @media (min-width: $bp-xl) {
             max-width: 25em;
         }
 
-        @media (min-width: 768px) {
+        @media (min-width: $bp-md) {
             @supports ((position:-webkit-sticky) or (position:sticky)) {
                 max-height: calc(100vh - 9rem);
                 overflow-y: auto;
             }
-        }
 
-        @media (min-width: 768px) {
             display: block !important;
         }
 
@@ -155,15 +130,25 @@
 }
 
 .sidebar-toggler {
-    font-size: 1rem;
-    line-height: 1rem;
-    padding: .5rem;
-    color: $togglerColor;
-    border: 1px solid $togglerColor;
-    border-radius: 0 10px 10px 0;
-}
-
-.sidebar-toggler:hover {
+    position: absolute;
+    top: 0;
+    left: 10px;
+    z-index: 99;
+    outline: none;
+    background-color: rgba($backgroundColor, .7);
+    color: $floatingButtonColor;
     cursor: pointer;
-	color: $linkHoverColor;
+    padding: 3px 5px;
+    border-radius: 10px;
+    font-size: 1rem;
+    border: 0;
+    box-shadow: 0 0 2px 2px $floatingButtonColor;
+
+    &:hover {
+        color: $textBrandHighlightColor;
+    }
+
+    @media print {
+        display: none;
+    }
 }
