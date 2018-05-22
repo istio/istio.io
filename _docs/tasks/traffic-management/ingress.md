@@ -124,25 +124,54 @@ In our case, we have set the selector value to `istio: ingressgateway` to use th
 `istio-ingressgateway` implementation. Therefore, to test our gateway we will send requests to
 the default `istio-ingressgateway` service.
 
-1.  Get the `ingressgateway` controller pod's hostIP:
+1. Determine the ingressgateway URL:
 
-    ```command
-    $ kubectl -n istio-system get po -l istio=ingressgateway -o jsonpath='{.items[0].status.hostIP}'
-    169.47.243.100
-    ```
+   * If your cluster is running in an environment that supports external load balancers, use the ingressgateway external address:
 
-1.  Get the `istio-ingressgateway` service's _nodePort_ for port 80:
+   ```command
+   $ kubectl -n istio-system get svc istio-ingressgateway
+   NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)                                      AGE
+   istio-ingressgateway   LoadBalancer   172.21.232.178   130.211.10.121  80:31380/TCP,443:31390/TCP,31400:31400/TCP   1h
+   ```
 
-    ```command
-    $ kubectl -n istio-system get svc istio-ingressgateway
-    NAME                   CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
-    istio-ingressgateway   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
-    ```
+   ```command
+   $ export INGRESS_HOST=130.211.10.121
+   $ export INGRESS_PORT=80
+   ```
 
-    ```command
-    $ export INGRESS_HOST=169.47.243.100
-    $ export INGRESS_PORT=31486
-    ```
+   * If load balancers are not supported, use the ingressgateway controller pod's hostIP:
+
+       *  _GKE:_
+       
+           ```command
+           $ export INGRESS_HOST=<workerNodeAddress>:$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
+           $ gcloud compute firewall-rules create allow-book --allow tcp:$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
+           ```
+   
+       *  _IBM Cloud Kubernetes Service Free Tier:_
+       
+           ```command
+           $ bx cs workers <cluster-name or id>
+           $ export INGRESS_HOST=<public IP of the worker node>:$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
+           ```
+       
+       *  _Other environments (e.g., minikube, IBM Cloud Private etc):_
+       
+           ```command
+           $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingressgateway -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}')
+           ```
+
+       *  Get the `istio-ingressgateway` service's _nodePort_ for port 80:
+    
+            ```command
+            $ kubectl -n istio-system get svc istio-ingressgateway
+            NAME                   CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
+            istio-ingressgateway   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
+            ```
+        
+            ```command
+            $ export INGRESS_PORT=31486
+            ```
 
 1.  Access the _httpbin_ service using _curl_. Note the `--resolve` flag of _curl_ that allows to access an IP address by using an arbitrary domain name. In our case we access our ingress Gateway by "httpbin.example.com". Note that we specified "httpbin.example.com" as a host handled by our `Gateway`.
 
@@ -225,7 +254,12 @@ In this subsection we add to our gateway the port 443 to handle the HTTPS traffi
 
 1. Verify that our gateway still works for the port 80 and accepts unencrypted HTTP traffic as before. We do it by accessing the _httpbin_ service, port 80, as described in the [Verifying the gateway for HTTP](#verifying-the-gateway-for-http) subsection.
 
-1. Get the `istio-ingressgateway` service's _nodePort_ for the port 443:
+1. If your cluster is running in an environment that supports external load balancers, use the default 443 port:
+
+   ```command
+   $ export SECURE_INGRESS_PORT=443
+   ```
+1. If load balancers are not supported, get the `istio-ingressgateway` service's _nodePort_ for the port 443:
 
    ```command
    $ kubectl -n istio-system get svc istio-ingressgateway
