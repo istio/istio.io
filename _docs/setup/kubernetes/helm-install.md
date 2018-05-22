@@ -32,7 +32,7 @@ of Istio this requires tiller to be installed in your Kubernetes cluster.
 
 ## Download and prepare for Istio install
 
-Follow the [instruction]({{home}}/docs/setup/kubernetes/quick-start.html#download-and-prepare-for-the-installation) to download the Istio release binary and install `istioctl`.
+Follow the [instruction]({{home}}/docs/quick-start/kubernetes.html#download-and-prepare-for-the-installation) to download the Istio release binary and install `istioctl`.
 
 ## Install Istio with Helm
 

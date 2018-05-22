@@ -26,7 +26,7 @@ VMs cannot initiate any direct communication to Kubernetes Pods even when using 
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide]({{home}}/docs/setup/kubernetes/quick-start.html).
+  [Installation guide]({{home}}/docs/quick-start/kubernetes.html).
 
 * Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application (in the `bookinfo` namespace).
 

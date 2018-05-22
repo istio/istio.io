@@ -2,7 +2,7 @@
 title: Kubernetes
 description: Quick start instructions to setup the Istio service mesh in a Kubernetes cluster.
 redirect_from:
-    - /docs/setup/kubernetes/quick-start.html
+    - /docs/quick-start/kubernetes.html
 
 weight: 2
 

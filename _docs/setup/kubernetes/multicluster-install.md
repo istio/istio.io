@@ -14,7 +14,7 @@ Instructions for the installation of Istio multicluster.
 
 * Two or more Kubernetes clusters with **1.7.3 or newer**.
 
-* The ability to deploy the [Istio control plane]({{home}}/docs/setup/kubernetes/quick-start.html)
+* The ability to deploy the [Istio control plane]({{home}}/docs/quick-start/kubernetes.html)
 on **one** Kubernetes cluster.
 
 *   The usage of an RFC1918 network, VPN, or alternative more advanced network techniques
@@ -109,7 +109,7 @@ $ popd
 
 ## Deploy the local Istio control plane
 
-Install the [Istio control plane]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps)
+Install the [Istio control plane]({{home}}/docs/quick-start/kubernetes.html#installation-steps)
 on **one** Kubernetes cluster.
 
 ## Install the Istio remote on every remote cluster

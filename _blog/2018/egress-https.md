@@ -16,7 +16,7 @@ In this blog post, I modify the [Istio Bookinfo Sample Application]({{home}}/doc
 
 ### Initial setting
 
-To demonstrate the scenario of consuming an external web service, I start with a Kubernetes cluster with [Istio installed]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps). Then I deploy [Istio Bookinfo Sample Application]({{home}}/docs/guides/bookinfo.html). This application uses the _details_ microservice to fetch book details, such as the number of pages and the publisher. The original _details_ microservice provides the book details without consulting any external service.
+To demonstrate the scenario of consuming an external web service, I start with a Kubernetes cluster with [Istio installed]({{home}}/docs/quick-start/kubernetes.html#installation-steps). Then I deploy [Istio Bookinfo Sample Application]({{home}}/docs/guides/bookinfo.html). This application uses the _details_ microservice to fetch book details, such as the number of pages and the publisher. The original _details_ microservice provides the book details without consulting any external service.
 
 The example commands in this blog post work with Istio 0.2+, with or without [Mutual TLS]({{home}}/docs/concepts/security/mutual-tls.html) enabled.
 

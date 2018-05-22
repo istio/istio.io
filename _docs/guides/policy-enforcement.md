@@ -20,7 +20,7 @@ Istio.
 * Describe installation options.
 
 * Install Istio control plane in a Kubernetes cluster by following the quick start instructions in the
-[Installation guide]({{home}}/docs/setup/kubernetes/quick-start.html).
+[Installation guide]({{home}}/docs/quick-start/kubernetes.html).
 
 ## Application Setup
 

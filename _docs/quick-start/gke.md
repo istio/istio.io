@@ -13,7 +13,7 @@ weight: 1
 Quick Start instructions to install and run Istio in [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) (GKE) using [Google Cloud Deployment Manager](https://cloud.google.com/deployment-manager/).
 
 This Quick Start creates a new GKE [zonal cluster](https://cloud.google.com/kubernetes-engine/versioning-and-upgrades#versions_available_for_new_cluster_masters), installs Istio and then deploys the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample
-application.  It uses Deployment Manager to automate the steps detailed in the [Istio on Kubernetes setup guide]({{home}}/docs/setup/kubernetes/quick-start.html) for Kubernetes Engine
+application.  It uses Deployment Manager to automate the steps detailed in the [Istio on Kubernetes setup guide]({{home}}/docs/quick-start/kubernetes.html) for Kubernetes Engine
 
 ## Prerequisites
 
@@ -247,7 +247,7 @@ For more details on tracing see [Understanding what happened]({{home}}/docs/task
 
 You can further explore the Bookinfo app and Istio functionality by following any of the tutorials in the
 [Guides]({{home}}/docs/guides/) section. However, to do this you need to install `istioctl` to interact
-with Istio. You can either [install]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps) it directly
+with Istio. You can either [install]({{home}}/docs/quick-start/kubernetes.html#installation-steps) it directly
 on our workstation or within Cloud Shell.
 
 ## Uninstalling
