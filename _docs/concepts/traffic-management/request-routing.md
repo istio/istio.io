@@ -1,11 +1,9 @@
 ---
 title: Request Routing
-overview: Describes how requests are routed between services in an Istio service mesh.
+description: Describes how requests are routed between services in an Istio service mesh.
 
-order: 20
+weight: 20
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 
@@ -32,11 +30,10 @@ additional control over traffic between services.
 
 ## Communication between services
 
-{% include figure.html width='60%' ratio='100.42%'
-    img='./img/pilot/ServiceModel_Versions.svg'
-    alt='Showing how service versions are handled.'
-    title='Service Versions'
-    caption='Service Versions'
+{% include image.html width="60%" ratio="100.42%"
+    link="./img/pilot/ServiceModel_Versions.svg"
+    alt="Showing how service versions are handled."
+    caption="Service Versions"
     %}
 
 As illustrated in the figure above, clients of a service have no knowledge
@@ -73,10 +70,9 @@ via the sidecar Envoy, operators can add failure recovery features such as
 timeouts, retries, circuit breakers, etc., and obtain detailed metrics on
 the connections to these services.
 
-{% include figure.html width='60%' ratio='28.88%'
-    img='./img/pilot/ServiceModel_RequestFlow.svg'
-    alt='Ingress and Egress through Envoy.'
-    title='Request Flow'
-    caption='Request Flow'
+{% include image.html width="60%" ratio="28.88%"
+    link="./img/pilot/ServiceModel_RequestFlow.svg"
+    alt="Ingress and Egress through Envoy."
+    caption="Request Flow"
     %}
 

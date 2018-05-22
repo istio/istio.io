@@ -1,12 +1,9 @@
 ---
 title: Editing Docs
-overview: Lets you start editing this site's documentation.
-
-order: 10
-
-layout: about
-type: markdown
-redirect_from: /docs/welcome/contribute/editing.html
+description: Lets you start editing this site's documentation.
+weight: 10
+redirect_from:
+    - /docs/welcome/contribute/editing.html
 ---
 
 Click the button below to visit the GitHub repository for this whole web site. You can then click the

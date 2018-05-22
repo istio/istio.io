@@ -5,6 +5,7 @@
 # where filename is relative to this configuration file
 0.1.x
 0.2.x
+0.8.x
 1.x
 10s
 123456789012.my
@@ -23,6 +24,7 @@
 7Mb
 7s
 ACLs
+ANDed
 API
 APIs
 Ansible
@@ -40,6 +42,7 @@ Costin
 CSRs
 Chrony
 Circonus
+CloudWatch
 Cmd
 Config
 ConfigMap
@@ -56,6 +59,7 @@ ExecAction
 Exfiltrating
 ExternalName
 Fluentd
+httpbin.example.com
 FQDNs
 GATEWAY_URL
 GCP-IAM
@@ -229,6 +233,7 @@ createpolicyjson.png
 createpolicystart.png
 current.istio.io
 current.istio.io.
+dataplane
 datastore
 debian
 default.svc.cluster.local
@@ -244,6 +249,7 @@ destination.user
 dev
 dm_bookinfo.png
 dm_gcp_iam.png
+dm_gcp_iam_role.png
 dm_grafana.png
 dm_kubernetes.png
 dm_kubernetes_workloads.png
@@ -269,7 +275,6 @@ failovers
 faq
 faq.md
 fcm.googleapis.com
-figure.html
 filename
 filenames
 fluentd
@@ -304,7 +309,9 @@ https
 https_from_the_app.svg
 hyperkube
 i.e.
+image.html
 img
+ingressgateway
 initializer
 initializers
 int64
@@ -350,6 +357,7 @@ listchecker
 liveness
 mTLS
 machine.svg
+machineSetup
 memcached
 memquota
 mesos-dns
@@ -464,6 +472,7 @@ sa
 sayin
 schemas
 secretName
+selinux
 serviceaccount
 servicegraph-example
 setupIstioVM.sh

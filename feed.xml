@@ -28,8 +28,8 @@ layout: null
 
       <item>
         <title>{{ post.title | xml_escape }}</title>
-        <description>{{ post.overview | xml_escape }}</description>
-        <pubDate>{{ post.publish_date | date_to_xmlschema }}</pubDate>
+        <description>{{ post.description | xml_escape }}</description>
+        <pubDate>{{ post.publishdate | date_to_xmlschema }}</pubDate>
         <link>{{root}}{{ post.url }}</link>
         <author>{{ post.attribution }}</author>
         <guid isPermaLink="true">{{root}}{{ post.url }}</guid>

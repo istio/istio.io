@@ -1,16 +1,14 @@
 ---
 title: FAQ
-overview: Frequently Asked Questions about Istio.
-
-order: 20
-
-layout: help
-type: markdown
+description: Frequently Asked Questions about Istio.
+weight: 20
 toc: false
-
 redirect_from:
-  - "/faq"
-  - "/docs/welcome/faq.html"
+  - /faq.html
+  - /faq/index.html
+  - /docs/welcome/faq.html
+  - /docs/welcome/faq/index.html
+  - /help/faq.html
 ---
 {% include home.html %}
 

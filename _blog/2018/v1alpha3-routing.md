@@ -1,15 +1,10 @@
 ---
-title: "Introducing the Istio v1alpha3 routing API"
-overview: Introduction, motivation and design principles for the Istio v1alpha3 routing API. 
-publish_date: April 25, 2018
+title: Introducing the Istio v1alpha3 routing API
+description: Introduction, motivation and design principles for the Istio v1alpha3 routing API.
+publishdate: 2018-04-25
 subtitle:
 attribution: Frank Budinsky (IBM) and Shriram Rajagopalan (VMware)
-
-order: 88
-
-layout: blog
-type: markdown
-redirect_from: "/blog/v1alpha3-routing.html"
+weight: 88
 ---
 
 {% include home.html %}
@@ -56,11 +51,10 @@ services (e.g., Google Maps API). These may be called directly or, in certain de
 exiting the mesh may be forced through dedicated egress gateways. The following diagram depicts
 this mental model.
 
-{% include figure.html width='80%' ratio='65.16%'
-    img='./img/gateways.svg'
-    alt='Role of gateways in the mesh'
-    title='Gateways in an Istio service mesh'
-    caption='Gateways in an Istio service mesh'
+{% include image.html width="80%" ratio="35.20%"
+    link="./img/gateways.svg"
+    alt="Role of gateways in the mesh"
+    caption="Gateways in an Istio service mesh"
     %}
 
 With the above setup in mind, `v1alpha3` introduces the following new
@@ -79,11 +73,9 @@ dedicated middleboxes.
 The figure below depicts the flow of control across configuration
 resources.
 
-{% include figure.html width='80%' ratio='65.16%'
-    img='./img/virtualservices-destrules.svg'
-    alt='Relationship between different v1alpha3 elements'
-    title='Relationship between different v1alpha3 elements'
-    caption='Relationship between different v1alpha3 elements'
+{% include image.html width="80%" ratio="41.16%"
+    link="./img/virtualservices-destrules.svg"
+    caption="Relationship between different v1alpha3 elements"
     %}
 
 ### Gateway
@@ -276,8 +268,10 @@ In addition to this fundamental restructuring, `VirtualService` includes several
 
 1. Multiple match conditions can be expressed inside the `VirtualService` configuration, reducing the need for redundant
    rules.
+
 1. Each service version has a name (called a service subset). The set of pods/VMs belonging to a subset is defined in a
    `DestinationRule`, described in the following section.
+
 1. `VirtualService` hosts can be specified using wildcard DNS prefixes to create a single rule for all matching services.
    For example, in Kubernetes, to apply the same rewrite rule for all services in the `foo` namespace, the `VirtualService`
    would use `*.foo.svc.cluster.local` as the host.
@@ -352,11 +346,14 @@ spec:
 ```
 
 That said, `ServiceEntry` has significantly more functionality than its predecessor.
-First of all, `ServiceEntry` is not limited to external service configuration.
-It can also be used to explicitly add services as part of expanding the service mesh to include unmanaged infrastructure
-(e.g., VMs added to a Kubernetes-based service mesh). Such entries are treated just like all other internal services,
-unlike external ones where Istio's mTLS authentication is disabled and policy enforcement is
-performed on the client-side as opposed to server-side.
+First of all, a `ServiceEntry` is not limited to external service configuration,
+it can be of two types: mesh-internal or mesh-external.
+Mesh-internal entries are like all other internal services but are used to explicitly add services
+to the mesh. They can be used to add services as part of expanding the service mesh to include unmanaged infrastructure
+(e.g., VMs added to a Kubernetes-based service mesh).
+Mesh-external entries represent services external to the mesh.
+For them, mTLS authentication is disabled and policy enforcement is performed on the client-side,
+instead of on the usual server-side for internal service requests.
 
 Because a `ServiceEntry` configuration simply adds a destination to the internal service registry, it can be
 used in conjunction with a `VirtualService` and/or `DestinationRule`, just like any other service in the registry.
@@ -377,14 +374,15 @@ spec:
       caCertificates: /etc/certs/rootcacerts.pem
 ```
 
-In addition to its expanded generality, `ServiceEntry` includes several other improvements over `EgressRule`
+In addition to its expanded generality, `ServiceEntry` provides several other improvements over `EgressRule`
 including the following:
 
 1. A single `ServiceEntry` can configure multiple service endpoints, which previously would have required multiple
    `EgressRules`.
-1. The resolution mode for the endpoints is now configurable (`PASSTHROUGH`, `STATIC`, or `DNS`).
-1. Secure HTTP services (automatic TLS upgrade) can now be accessed using standard https (e.g., `https://secureservice.com/`
-   instead of `http://secureservice.com:443/`.
+1. The resolution mode for the endpoints is now configurable (`NONE`, `STATIC`, or `DNS`).
+1. Additionally, we are working on addressing another pain point: the need to access secure external services over plain
+   text ports (e.g., `http://google.com:443`). This should be fixed in the coming weeks, allowing you to directly access
+   `https://google.com` from your application. Stay tuned for an Istio patch release (0.8.x) that addresses this limitation.
 
 ## Creating and deleting v1alpha3 route rules
 
@@ -394,12 +392,12 @@ is no longer done by creating a new (`RouteRule`) resource, but instead by updat
 resource for the destination.
 
 old routing rules:
-```bash
-istioctl create -f my-second-rule-for-destination-abc.yaml
+```command
+$ istioctl create -f my-second-rule-for-destination-abc.yaml
 ```
 `v1alpha3` routing rules:
-```bash
-istioctl replace -f my-updated-rules-for-destination-abc.yaml
+```command
+$ istioctl replace -f my-updated-rules-for-destination-abc.yaml
 ```
 
 Deleting route rules other than the last one for a particular destination is also done using `istioctl replace`.

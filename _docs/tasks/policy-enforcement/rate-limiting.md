@@ -1,12 +1,9 @@
 ---
 title: Enabling Rate Limits
-overview: This task shows you how to use Istio to dynamically limit the traffic to a service.
-
-order: 10
-
-layout: docs
-type: markdown
-redirect_from: /docs/tasks/rate-limiting.html
+description: This task shows you how to use Istio to dynamically limit the traffic to a service.
+weight: 10
+redirect_from:
+    - /docs/tasks/rate-limiting.html
 ---
 {% include home.html %}
 
@@ -19,13 +16,13 @@ This task shows you how to use Istio to dynamically limit the traffic to a servi
 
 * Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
-* Initialize the application version routing to direct `reviews` service requests from
-  test user "jason" to version v2 and requests from any other user to v3.
+*   Initialize the application version routing to direct `reviews` service requests from
+    test user "jason" to version v2 and requests from any other user to v3.
 
-  ```bash
-  istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
-  istioctl create -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
-  ```
+    ```command
+    $ istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+    $ istioctl create -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
+    ```
 
 > If you have conflicting rule that you set in previous tasks,
 use `istioctl replace` instead of `istioctl create`.
@@ -37,101 +34,101 @@ Istio enables users to rate limit traffic to a service.
 Consider `ratings` as an external paid service like Rotten Tomatoes® with `1qps` free quota.
 Using Istio we can ensure that `1qps` is not breached.
 
-1. Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage).
+1.  Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage).
 
-   If you log in as user "jason", you should see black ratings stars with each review,
-   indicating that the `ratings` service is being called by the "v2" version of the `reviews` service.
+    If you log in as user "jason", you should see black ratings stars with each review,
+    indicating that the `ratings` service is being called by the "v2" version of the `reviews` service.
 
-   If you log in as any other user (or logout) you should see red ratings stars with each review,
-   indicating that the `ratings` service is being called by the "v3" version of the `reviews` service.
+    If you log in as any other user (or logout) you should see red ratings stars with each review,
+    indicating that the `ratings` service is being called by the "v3" version of the `reviews` service.
 
-1. Configure a `memquota` adapter with rate limits.
+1.  Configure a `memquota` adapter with rate limits.
 
-   Save the following YAML snippet as `ratelimit-handler.yaml`.
+    Save the following YAML snippet as `ratelimit-handler.yaml`.
 
-   ```yaml
-   apiVersion: config.istio.io/v1alpha2
-   kind: memquota
-   metadata:
-     name: handler
-     namespace: istio-system
-   spec:
-     quotas:
-     - name: requestcount.quota.istio-system
-       # default rate limit is 5000qps
-       maxAmount: 5000
-       validDuration: 1s
-       # The first matching override is applied.
-       # A requestcount instance is checked against override dimensions.
-       overrides:
-       # The following override applies to traffic from 'rewiews' version v2,
-       # destined for the ratings service. The destinationVersion dimension is ignored.
-       - dimensions:
-           destination: ratings
-           source: reviews
-           sourceVersion: v2
-         maxAmount: 1
-         validDuration: 1s
-   ```
+    ```yaml
+    apiVersion: config.istio.io/v1alpha2
+    kind: memquota
+    metadata:
+      name: handler
+      namespace: istio-system
+    spec:
+      quotas:
+      - name: requestcount.quota.istio-system
+        # default rate limit is 5000qps
+        maxAmount: 5000
+        validDuration: 1s
+        # The first matching override is applied.
+        # A requestcount instance is checked against override dimensions.
+        overrides:
+        # The following override applies to traffic from 'rewiews' version v2,
+        # destined for the ratings service. The destinationVersion dimension is ignored.
+        - dimensions:
+            destination: ratings
+            source: reviews
+            sourceVersion: v2
+          maxAmount: 1
+          validDuration: 1s
+    ```
 
-   and then run the following command:
+    and then run the following command:
 
-   ```bash
-   istioctl create -f ratelimit-handler.yaml
-   ```
+    ```command
+    $ istioctl create -f ratelimit-handler.yaml
+    ```
 
-   This configuration specifies a default 5000 qps rate limit. Traffic reaching the ratings service via
-   reviews-v2 is subject to a 1qps rate limit. In our example user "jason" is routed via reviews-v2 and is therefore subject
-   to the 1qps rate limit.
+    This configuration specifies a default 5000 qps rate limit. Traffic reaching the ratings service via
+    reviews-v2 is subject to a 1qps rate limit. In our example user "jason" is routed via reviews-v2 and is therefore subject
+    to the 1qps rate limit.
 
-1. Configure rate limit instance and rule
+1.  Configure rate limit instance and rule
 
-   Create a quota instance named `requestcount` that maps incoming attributes to quota dimensions,
-   and create a rule that uses it with the memquota handler.
+    Create a quota instance named `requestcount` that maps incoming attributes to quota dimensions,
+    and create a rule that uses it with the memquota handler.
 
-   ```yaml
-   apiVersion: config.istio.io/v1alpha2
-   kind: quota
-   metadata:
-     name: requestcount
-     namespace: istio-system
-   spec:
-     dimensions:
-       source: source.labels["app"] | source.service | "unknown"
-       sourceVersion: source.labels["version"] | "unknown"
-       destination: destination.labels["app"] | destination.service | "unknown"
-       destinationVersion: destination.labels["version"] | "unknown"
-   ---
-   apiVersion: config.istio.io/v1alpha2
-   kind: rule
-   metadata:
-     name: quota
-     namespace: istio-system
-   spec:
-     actions:
-     - handler: handler.memquota
-       instances:
-       - requestcount.quota
-   ```
+    ```yaml
+    apiVersion: config.istio.io/v1alpha2
+    kind: quota
+    metadata:
+      name: requestcount
+      namespace: istio-system
+    spec:
+      dimensions:
+        source: source.labels["app"] | source.service | "unknown"
+        sourceVersion: source.labels["version"] | "unknown"
+        destination: destination.labels["app"] | destination.service | "unknown"
+        destinationVersion: destination.labels["version"] | "unknown"
+    ---
+    apiVersion: config.istio.io/v1alpha2
+    kind: rule
+    metadata:
+      name: quota
+      namespace: istio-system
+    spec:
+      actions:
+      - handler: handler.memquota
+        instances:
+        - requestcount.quota
+    ```
 
-   Save the configuration as `ratelimit-rule.yaml` and run the following command:
+    Save the configuration as `ratelimit-rule.yaml` and run the following command:
 
-   ```bash
-   istioctl create -f ratelimit-rule.yaml
-   ```
+    ```command
+    $ istioctl create -f ratelimit-rule.yaml
+    ```
 
-1. Generate load on the `productpage` with the following command:
+1.  Generate load on the `productpage` with the following command:
 
-   ```bash
-   while true; do curl -s -o /dev/null http://$GATEWAY_URL/productpage; done
-   ```
+    ```command
+    $ while true; do curl -s -o /dev/null http://$GATEWAY_URL/productpage; done
+    ```
 
-1. Refresh the `productpage` in your browser.
+1.  Refresh the `productpage` in your browser.
 
-   If you log in as user "jason" while the load generator is running (i.e., generating more than 1 req/s),
-   the traffic generated by your browser will be rate limited to 1qps.
-   The reviews-v2 service is unable to access the ratings service and you stop seeing stars.
-   For all other users the default 5000qps rate limit will apply and you will continue seeing red stars.
+    If you log in as user "jason" while the load generator is running (i.e., generating more than 1 req/s),
+    the traffic generated by your browser will be rate limited to 1qps.
+    The reviews-v2 service is unable to access the ratings service and you stop seeing stars.
+    For all other users the default 5000qps rate limit will apply and you will continue seeing red stars.
 
 ## Conditional rate limits
 
@@ -178,19 +175,19 @@ If you would like the above policies enforced for a given namespace instead of t
 
 ## Cleanup
 
-* Remove the rate limit configuration:
+*   Remove the rate limit configuration:
 
-  ```bash
-  istioctl delete -f ratelimit-handler.yaml
-  istioctl delete -f ratelimit-rule.yaml
-  ```
+    ```command
+    $ istioctl delete -f ratelimit-handler.yaml
+    $ istioctl delete -f ratelimit-rule.yaml
+    ```
 
-* Remove the application routing rules:
+*   Remove the application routing rules:
 
-  ```bash
-  istioctl delete -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
-  istioctl delete -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
-  ```
+    ```command
+    $ istioctl delete -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+    $ istioctl delete -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
+    ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
   [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
@@ -200,4 +197,4 @@ If you would like the above policies enforced for a given namespace instead of t
 
 * Learn more about [Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html) and [Mixer Config]({{home}}/docs/concepts/policy-and-control/mixer-config.html).
 
-* Discover the full [Attribute Vocabulary]({{home}}/docs/reference/config/mixer/attribute-vocabulary.html).
+* Discover the full [Attribute Vocabulary]({{home}}/docs/reference/config/policy-and-telemetry/attribute-vocabulary.html).

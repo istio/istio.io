@@ -1,12 +1,10 @@
 ---
 title: Generating a Service Graph
 
-overview: This task shows you how to generate a graph of services within an Istio mesh.
+description: This task shows you how to generate a graph of services within an Istio mesh.
 
-order: 50
+weight: 50
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 
@@ -24,82 +22,75 @@ the example application throughout this task.
 
 ## Generating a Service Graph
 
-1. To view a graphical representation of your service mesh, install the
-   Servicegraph add-on.
+1.  To view a graphical representation of your service mesh, install the
+    Servicegraph add-on.
 
-   In Kubernetes environments, execute the following command:
+    In Kubernetes environments, execute the following command:
 
-   ```bash
-   kubectl apply -f install/kubernetes/addons/servicegraph.yaml
-   ```
+    ```command
+    $ kubectl apply -f install/kubernetes/addons/servicegraph.yaml
+    ```
 
-1. Verify that the service is running in your cluster.
+1.  Verify that the service is running in your cluster.
 
-   In Kubernetes environments, execute the following command:
+    In Kubernetes environments, execute the following command:
 
-   ```bash
-   kubectl -n istio-system get svc servicegraph
-   ```
+    ```command
+    $ kubectl -n istio-system get svc servicegraph
+    NAME           CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+    servicegraph   10.59.253.165   <none>        8088/TCP   30s
+    ```
 
-   The output will be similar to:
+1.  Send traffic to the mesh.
 
-   ```xxx
-   NAME           CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
-   servicegraph   10.59.253.165   <none>        8088/TCP   30s
-   ```
+    For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
+    browser or issue the following command:
 
-1. Send traffic to the mesh.
+    ```command
+    $ curl http://$GATEWAY_URL/productpage
+    ```
 
-   For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
-   browser or issue the following command:
+    Refresh the page a few times (or send the command a few times) to generate a
+    small amount of traffic.
 
-   ```bash
-   curl http://$GATEWAY_URL/productpage
-   ```
+    > `$GATEWAY_URL` is the value set in the [Bookinfo]({{home}}/docs/guides/bookinfo.html) guide.
 
-   Refresh the page a few times (or send the command a few times) to generate a
-   small amount of traffic.
+1.  Open the Servicegraph UI.
 
-   > `$GATEWAY_URL` is the value set in the [Bookinfo]({{home}}/docs/guides/bookinfo.html) guide.
+    In Kubernetes environments, execute the following command:
 
-1. Open the Servicegraph UI.
+    ```command
+    $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
+    ```
 
-   In Kubernetes environments, execute the following command:
+    Visit [http://localhost:8088/force/forcegraph.html](http://localhost:8088/force/forcegraph.html)
+    in your web browser. Try clicking on a service to see details on
+    the service. Real time traffic data is shown in a panel below.
 
-   ```bash
-   kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
-   ```
+    The results will look similar to:
 
-   Visit [http://localhost:8088/force/forcegraph.html](http://localhost:8088/force/forcegraph.html)
-   in your web browser. Try clicking on a service to see details on
-   the service. Real time traffic data is shown in a panel below.
-
-   The results will look similar to:
-
-   {% include figure.html width='75%' ratio='107.7%'
-    img='./img/servicegraph-example.png'
-    alt='Example Servicegraph'
-    title='Example Servicegraph'
-    caption='Example Servicegraph'
+    {% include image.html width="75%" ratio="107.7%"
+    link="./img/servicegraph-example.png"
+    caption="Example Servicegraph"
     %}
 
-1. Experiment with Query Parameters
+1.  Experiment with Query Parameters
 
-   Visit
-   [http://localhost:8088/force/forcegraph.html?time_horizon=15s&filter_empty=true](http://localhost:8088/force/forcegraph.html?time_horizon=15s&filter_empty=true)
-   in your web browser. Note the query parameters provided.
+    Visit
+    [http://localhost:8088/force/forcegraph.html?time_horizon=15s&filter_empty=true](http://localhost:8088/force/forcegraph.html?time_horizon=15s&filter_empty=true)
+    in your web browser. Note the query parameters provided.
 
-   `filter_empty=true` will only show services that are currently receiving traffic within the time horizon.
+    `filter_empty=true` will only show services that are currently receiving traffic within the time horizon.
 
-   `time_horizon=15s` affects the filter above, and also affects the
-   reported traffic information when clicking on a service. The
-   traffic information will be aggregated over the specified time
-   horizon.
+    `time_horizon=15s` affects the filter above, and also affects the
+    reported traffic information when clicking on a service. The
+    traffic information will be aggregated over the specified time
+    horizon.
 
-   The default behavior is to not filter empty services, and use a
-   time horizon of 5 minutes.
+    The default behavior is to not filter empty services, and use a
+    time horizon of 5 minutes.
 
-### About the Servicegraph Add-on
+### About the Servicegraph add-on
 
 The [Servicegraph](https://github.com/istio/istio/tree/master/addons/servicegraph)
 service provides endpoints for generating and visualizing a graph of
@@ -126,12 +117,12 @@ depends on the standard Istio metric configuration.
 
 ## Cleanup
 
-* In Kubernetes environments, execute the following command to remove the
+*   In Kubernetes environments, execute the following command to remove the
 Servicegraph add-on:
 
-   ```bash
-   kubectl delete -f install/kubernetes/addons/servicegraph.yaml
-   ```
+    ```command
+    $ kubectl delete -f install/kubernetes/addons/servicegraph.yaml
+    ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
 [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions

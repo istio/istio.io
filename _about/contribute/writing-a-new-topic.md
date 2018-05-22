@@ -1,12 +1,9 @@
 ---
 title: Writing a New Topic
-overview: Explains the mechanics of creating new documentation pages.
-
-order: 30
-
-layout: about
-type: markdown
-redirect_from: /docs/welcome/contribute/writing-a-new-topic.html
+description: Explains the mechanics of creating new documentation pages.
+weight: 30
+redirect_from:
+    - /docs/welcome/contribute/writing-a-new-topic.html
 ---
 {% include home.html %}
 
@@ -88,28 +85,23 @@ chunk of front matter you should start with:
 ```yaml
 ---
 title: <title>
-overview: <overview>
-
-order: <order>
-
-layout: docs
-type: markdown
+description: <overview>
+weight: <order>
 ---
 ```
 
 Copy the above at the start of your new markdown file and update
-the `<title>`, `<overview>` and `<order>` fields for your particular file. The available front
+the `<title>`, `<description>` and `<weight>` fields for your particular file. The available front
 matter fields are:
 
 |Field          | Description
 |---------------|------------
 |`title`        | The short title of the page
-|`overview`     | A one-line description of what the topic is about
-|`order`        | An integer used to determine the sort order of this page relative to other pages in the same directory.
+|`description`  | A one-line description of what the topic is about
+|`weight`       | An integer used to determine the sort order of this page relative to other pages in the same directory.
 |`layout`       | Indicates which of the Jekyll layouts this page uses
-|`index`        | Indicates whether the page should appear in the doc's top nav tabs
 |`draft`        | When true, prevents the page from showing up in any navigation area
-|`publish_date` | For blog posts, indicates the date of publication of the post
+|`publishdate` | For blog posts, indicates the date of publication of the post
 |`subtitle`     | For blog posts, supplies an optional subtitle to be displayed below the main title
 |`attribution`  | For blog posts, supplies an optional author's name
 |`toc`          | Set this to false to prevent the page from having a table of contents generated for it
@@ -144,62 +136,66 @@ Within markdown, use the following sequence to add the image:
 
 ```html
 {% raw %}
-{% include figure.html width='75%' ratio='69.52%'
-    img='./img/myfile.svg'
-    alt='Alternate text to display when the image is not available'
-    title='A tooltip displayed when hovering over the image'
-    caption='A caption displayed under the image'
+{% include image.html width="75%" ratio="69.52%"
+    link="./img/myfile.svg"
+    alt="Alternate text to display when the image is not available"
+    title="A tooltip displayed when hovering over the image"
+    caption="A caption displayed under the image"
     %}
 {% endraw %}
 ```
 
-You need to fill in all the values. The width represents the percentage of space used by the image
-relative to the surrounding text. The ratio is (image height / image width) * 100.
+The `width`, `ratio`, `link` and `caption` values are required. If the `title` value isn't
+supplied, it'll default to the same as `caption`. If the `alt` value is not supplied, it'll
+default to `title` or if that's not defined, to `caption`.
+
+`width` represents the percentage of space used by the image
+relative to the surrounding text. `ratio` (image height / image width) * 100.
 
 ## Linking to other pages
 
 There are three types of links that can be included in documentation. Each uses a different
 way to indicate the link target:
 
-- **Internet Link**. You use classic URL syntax, preferably with the HTTPS protocol, to reference
+-   **Internet Link**. You use classic URL syntax, preferably with the HTTPS protocol, to reference
 files on the Internet:
 
-  ```markdown
-  [see here](https://mysite/myfile.html)
-  ```
+    ```markdown
+    [see here](https://mysite/myfile.html)
+    ```
 
-- **Relative Link**. You use relative links that start with a period to
+-   **Relative Link**. You use relative links that start with a period to
 reference any content that is at the same level as the current file, or below within
 the hierarchy of the site:
 
-  ```markdown
-  [see here](./adir/anotherfile.html)
-  ```
+    ```markdown
+    [see here](./adir/anotherfile.html)
+    ```
 
-- **Absolute Link**. You use absolute links with the special \{\{home\}\} notation to reference content outside of the
+-   **Absolute Link**. You use absolute links with the special \{\{home\}\} notation to reference content outside of the
 current hierarchy:
 
-  ```markdown
-  {% raw %}[see here]({{home}}/docs/adir/afile.html){% endraw %}
-  ```
+    ```markdown
+    {% raw %}[see here]({{home}}/docs/adir/afile.html){% endraw %}
+    ```
 
-  In order to use \{\{home\}\} in a file,
-  you need to make sure that the file contains the following
-  line of boilerplate right after the block of front matter:
+    In order to use \{\{home\}\} in a file,
+    you need to make sure that the file contains the following
+    line of boilerplate right after the block of front matter:
 
-  ```markdown
-  ...
-  ---
-  {% raw %}{% include home.html %}{% endraw %}
-  ```
+    ```markdown
+    ...
+    ---
+    {% raw %}{% include home.html %}{% endraw %}
+    ```
 
-  Adding this include statement is what defines the `home` variable that is used in the link target.
+    Adding this include statement is what defines the `home` variable that is used in the link target.
 
 ## Embedding preformatted blocks
 
 You can embed blocks of preformatted content using the normal markdown technique:
 
-<pre class="language-markdown"><code>```
+<pre class="language-markdown"><code>```plain
 func HelloWorld() {
   fmt.Println("Hello World")
 }
@@ -208,14 +204,14 @@ func HelloWorld() {
 
 The above produces this kind of output:
 
-```xxx
+```plain
 func HelloWorld() {
   fmt.Println("Hello World")
 }
 ```
 
-In general, you should indicate the nature of the content in the preformatted block. You do this
-by appending a name after the initial set of tick marks
+You must indicate the nature of the content in the preformatted block by appending a name after the initial set of tick
+marks:
 
 <pre class="language-markdown"><code>```go
 func HelloWorld() {
@@ -233,7 +229,55 @@ func HelloWorld() {
 ```
 
 You can use `markdown`, `yaml`, `json`, `java`, `javascript`, `c`, `cpp`, `csharp`, `go`, `html`, `protobuf`,
-`perl`, `docker`, and `bash`.
+`perl`, `docker`, and `bash`, along with `command` and its variants described below.
+
+### Showing commands and command output
+
+If you want to show one or more bash command-lines with some output, you use the `command` indicator:
+
+<pre class="language-markdown"><code>```command
+$ echo "Hello"
+Hello
+```
+</code></pre>
+
+which produces:
+
+```command
+$ echo "Hello"
+Hello
+```
+
+You can have as many command-lines as you want, but only one chunk of output is recognized.
+
+<pre class="language-markdown"><code>```command
+$ echo "Hello" >file.txt
+$ cat file.txt
+Hello
+```
+</code></pre>
+
+which yields:
+
+```command
+$ echo "Hello" >file.txt
+$ cat file.txt
+Hello
+```
+
+You can also use line continuation in your command-lines:
+
+```command
+$ echo "Hello" \
+    >file.txt
+$ echo "There" >>file.txt
+$ cat file.txt
+Hello
+There
+```
+
+If the output is the command is JSON or YAML, you can use `command-output-as-json` and `command-output-as-yaml`
+instead of merely `command` in order to apply syntax coloring to the command's output.
 
 ## Displaying file content
 
@@ -255,7 +299,7 @@ enabled so it may be used here.
 Note that unlike normal preformatted blocks, dynamically loaded preformatted blocks unfortunately
 do not get syntax colored.
 
-## Adding redirects
+## Renaming or moving pages
 
 If you move pages around and would like to ensure existing links continue to work, you can add
 redirects to the site very easily.
@@ -263,22 +307,20 @@ redirects to the site very easily.
 In the page that is the target of the redirect (where you'd like users to land), you simply add the
 following to the front-matter:
 
-```xxx
-redirect_from: <url>
+```plain
+redirect_from:
+    - <url>
 ```
 
 For example
 
-```xxx
+```plain
 ---
 title: Frequently Asked Questions
-overview: Questions Asked Frequently
-
-order: 12
-
-layout: docs
-type: markdown
-redirect_from: /faq
+description: Questions Asked Frequently
+weight: 12
+redirect_from:
+    - /faq
 ---
 
 ```
@@ -288,15 +330,11 @@ to istio.io/help/faq as normal, as well as istio.io/faq.
 
 You can also add many redirects like so:
 
-```xxx
+```plain
 ---
 title: Frequently Asked Questions
-overview: Questions Asked Frequently
-
-order: 12
-
-layout: docs
-type: markdown
+description: Questions Asked Frequently
+weight: 12
 redirect_from:
     - /faq
     - /faq2

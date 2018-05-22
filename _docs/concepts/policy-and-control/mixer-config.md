@@ -1,11 +1,9 @@
 ---
 title: Mixer Configuration
-overview: An overview of the key concepts used to configure Mixer.
+description: An overview of the key concepts used to configure Mixer.
 
-order: 30
+weight: 30
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 
@@ -45,11 +43,9 @@ The set of attributes determines which backend Mixer calls for a given request a
 each is given. In order to hide the details of individual backends, Mixer uses modules
 known as [*adapters*](./mixer.html#adapters).
 
-{% include figure.html width='60%' ratio='42.60%'
-    img='./img/mixer-config/machine.svg'
-    alt='Attribute Machine'
-    title='Attribute Machine'
-    caption='Attribute Machine'
+{% include image.html width="60%" ratio="42.60%"
+    link="./img/mixer-config/machine.svg"
+    caption="Attribute Machine"
     %}
 
 Mixer's configuration has the following central responsibilities:
@@ -144,7 +140,7 @@ spec:
 ```
 
 Each adapter defines its own particular format of configuration data. The exhaustive set of
-adapters and their specific configuration formats can be found [here]({{home}}/docs/reference/config/adapters/).
+adapters and their specific configuration formats can be found [here]({{home}}/docs/reference/config/policy-and-telemetry/adapters/).
 
 ### Instances
 
@@ -168,7 +164,7 @@ spec:
 Note that all the dimensions expected in the handler configuration are specified in the mapping.
 
 Each template defines its own particular format of configuration data. The exhaustive set of
-templates and their specific configuration formats can be found [here]({{home}}/docs/reference/config/template/).
+templates and their specific configuration formats can be found [here]({{home}}/docs/reference/config/policy-and-telemetry/templates/).
 
 ### Rules
 
@@ -227,7 +223,7 @@ a type which represents the kind of data that the attribute carries. In the
 same way, attribute expressions are also typed, and their type is derived from
 the attributes in the expression and the operators applied to these attributes.
 
-Refer to the [attribute expression reference]({{home}}/docs/reference/config/mixer/expression-language.html) for details.
+Refer to the [attribute expression reference]({{home}}/docs/reference/config/policy-and-telemetry/expression-language.html) for details.
 
 ### Resolution
 

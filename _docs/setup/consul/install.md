@@ -1,11 +1,9 @@
 ---
 title: Installation
-overview: Instructions for installing the Istio control plane in a Consul based environment, with or without Nomad.
+description: Instructions for installing the Istio control plane in a Consul based environment, with or without Nomad.
 
-order: 30
+weight: 30
 
-layout: docs
-type: markdown
 ---
 
 > Setup on Nomad has not been tested.
@@ -27,10 +25,8 @@ Istio's API server (based on Kubernetes' API server) provides key functions
 such as configuration management and Role-Based Access Control. The API
 server requires an
 [etcd cluster](https://kubernetes.io/docs/getting-started-guides/scratch/#etcd)
-as a persistent store. Detailed instructions for setting up the API server can
-be found
-[here](https://kubernetes.io/docs/getting-started-guides/scratch/#apiserver-controller-manager-and-scheduler).
-Documentation on set of startup options for the Kubernetes API server can be found [here](https://kubernetes.io/docs/admin/kube-apiserver/)
+as a persistent store. See the
+[instructions for setting up the API server](https://kubernetes.io/docs/getting-started-guides/scratch/#apiserver-controller-manager-and-scheduler).
 
 #### Local Install
 

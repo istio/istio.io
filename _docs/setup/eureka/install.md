@@ -1,11 +1,9 @@
 ---
 title: Installation
-overview: Instructions for installing the Istio control plane in an Eureka based environment.
+description: Instructions for installing the Istio control plane in an Eureka based environment.
 
-order: 30
+weight: 30
 
-layout: docs
-type: markdown
 ---
 
 Using Istio in a non-Kubernetes environment involves a few key tasks:
@@ -28,8 +26,6 @@ server requires an
 as a persistent store. Detailed instructions for setting up the API server can
 be found
 [here](https://kubernetes.io/docs/getting-started-guides/scratch/#apiserver-controller-manager-and-scheduler).
-Documentation on set of startup options for the Kubernetes API server can be found
-[here](https://kubernetes.io/docs/admin/kube-apiserver/)
 
 #### Local install
 

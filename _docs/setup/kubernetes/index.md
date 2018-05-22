@@ -1,12 +1,10 @@
 ---
 title: Kubernetes
-overview: Instructions for installing the Istio control plane on Kubernetes and adding VMs into the mesh.
-
-order: 10
-
-layout: docs
-type: markdown
-redirect_from: "/docs/tasks/installing-istio.html"
+description: Instructions for installing the Istio control plane on Kubernetes and adding VMs into the mesh.
+weight: 10
+redirect_from:
+    - /docs/tasks/installing-istio.html
+    - /docs/setup/install-kubernetes.html
 toc: false
 ---
 

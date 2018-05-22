@@ -1,7 +1,6 @@
 ---
 title: What is the license?
-order: 40
-type: markdown
+weight: 40
 ---
 {% include home.html %}
 

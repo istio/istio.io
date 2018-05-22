@@ -1,13 +1,13 @@
 ---
 title: Setting Request Timeouts
-overview: This task shows you how to setup request timeouts in Envoy using Istio.
-
-order: 28
-
-layout: docs
-type: markdown
+description: This task shows you how to setup request timeouts in Envoy using Istio.
+weight: 28
+redirect_from:
+    - /docs/tasks/traffic-management/request-timeouts/index.html
 ---
 {% include home.html %}
+
+> Note: This task uses the new [v1alpha3 traffic management API]({{home}}/blog/2018/v1alpha3-routing.html). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.6/docs/tasks/).
 
 This task shows you how to setup request timeouts in Envoy using Istio.
 
@@ -18,18 +18,11 @@ This task shows you how to setup request timeouts in Envoy using Istio.
 
 * Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application.
 
-* Initialize the application version routing by running the following command:
+*   Initialize the application version routing by running the following command:
 
-  ```bash
-  istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
-  ```
-
-> This task assumes you are deploying the application on Kubernetes.
-All of the example commands are using the Kubernetes version of the rule yaml files
-(e.g., `samples/bookinfo/kube/route-rule-all-v1.yaml`). If you are running this
-task in a different environment, change `kube` to the directory that corresponds
-to your runtime (e.g., `samples/bookinfo/consul/route-rule-all-v1.yaml` for
-the Consul-based runtime).
+    ```command
+    $ istioctl create -f samples/bookinfo/routing/route-rule-all-v1.yaml
+    ```
 
 ## Request timeouts
 
@@ -39,72 +32,76 @@ timeout to 1 second.
 To see its effect, however, we'll also introduce an artificial 2 second delay in calls
 to the `ratings` service.
 
-1. Route requests to v2 of the `reviews` service, i.e., a version that calls the `ratings` service
+1.  Route requests to v2 of the `reviews` service, i.e., a version that calls the `ratings` service
 
-   ```bash
-   cat <<EOF | istioctl replace -f -
-   apiVersion: config.istio.io/v1alpha2
-   kind: RouteRule
-   metadata:
-     name: reviews-default
-   spec:
-     destination:
-       name: reviews
-     route:
-     - labels:
-         version: v2
-   EOF
-   ```
+    ```bash
+    cat <<EOF | istioctl replace -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: reviews
+    spec:
+      hosts:
+        - reviews
+      http:
+      - route:
+        - destination:
+            name: reviews
+            subset: v2
+    EOF
+    ```
 
-1. Add a 2 second delay to calls to the `ratings` service:
+1.  Add a 2 second delay to calls to the `ratings` service:
 
-   ```bash
-   cat <<EOF | istioctl replace -f -
-   apiVersion: config.istio.io/v1alpha2
-   kind: RouteRule
-   metadata:
-     name: ratings-default
-   spec:
-     destination:
-       name: ratings
-     route:
-     - labels:
-         version: v1
-     httpFault:
-       delay:
-         percent: 100
-         fixedDelay: 2s
-   EOF
-   ```
+    ```bash
+    cat <<EOF | istioctl replace -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: ratings
+    spec:
+      hosts:
+      - ratings
+      http:
+      - fault:
+          delay:
+            percent: 100
+            fixedDelay: 2s
+        route:
+        - destination:
+            name: ratings
+            subset: v1
+    EOF
+    ```
 
-1. Open the Bookinfo URL (http://$GATEWAY_URL/productpage) in your browser
+1.  Open the Bookinfo URL (http://$GATEWAY_URL/productpage) in your browser
 
-   You should see the Bookinfo application working normally (with ratings stars displayed),
-   but there is a 2 second delay whenever you refresh the page.
+    You should see the Bookinfo application working normally (with ratings stars displayed),
+    but there is a 2 second delay whenever you refresh the page.
 
-1. Now add a 1 second request timeout for calls to the `reviews` service
+1.  Now add a 1 second request timeout for calls to the `reviews` service
 
-   ```bash
-   cat <<EOF | istioctl replace -f -
-   apiVersion: config.istio.io/v1alpha2
-   kind: RouteRule
-   metadata:
-     name: reviews-default
-   spec:
-     destination:
-       name: reviews
-     route:
-     - labels:
-         version: v2
-     httpReqTimeout:
-       simpleTimeout:
-         timeout: 1s
-   EOF
-   ```
+    ```bash
+    cat <<EOF | istioctl replace -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: reviews
+    spec:
+      hosts:
+        - reviews
+      http:
+      - route:
+        - destination:
+            name: reviews
+            subset: v2
+        timeout: 1s
+    EOF
+    ```
 
-1. Refresh the Bookinfo web page
+1.  Refresh the Bookinfo web page
 
-   You should now see that it returns in 1 second (instead of 2), but the reviews are unavailable.
+    You should now see that it returns in 1 second (instead of 2), but the reviews are unavailable.
 
 ## Understanding what happened
 
@@ -134,11 +131,11 @@ the timeout is specified in millisecond (instead of second) units.
 
 ## Cleanup
 
-* Remove the application routing rules.
+*   Remove the application routing rules.
 
-  ```bash
-  istioctl delete -f samples/bookinfo/kube/route-rule-all-v1.yaml
-  ```
+    ```command
+    $ istioctl delete -f samples/bookinfo/routing/route-rule-all-v1.yaml
+    ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
   [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions

@@ -1,12 +1,10 @@
 ---
 title: Querying Metrics from Prometheus
 
-overview: This task shows you how to query for Istio Metrics using Prometheus.
+description: This task shows you how to query for Istio Metrics using Prometheus.
 
-order: 30
+weight: 30
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 
@@ -23,78 +21,71 @@ application.
 
 ## Querying Istio Metrics
 
-1. Verify that the prometheus service is running in your cluster (since 0.8 the
-   prometheus setup is included in istio.yaml and istio-auth.yaml by default)
+1.  Verify that the prometheus service is running in your cluster (since 0.8 the
+    prometheus setup is included in istio-demo.yaml and istio-demo-auth.yaml by default)
 
-   In Kubernetes environments, execute the following command:
+    In Kubernetes environments, execute the following command:
 
-   ```bash
-   kubectl -n istio-system get svc prometheus
-   ```
+    ```command
+    $ kubectl -n istio-system get svc prometheus
+    NAME         CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
+    prometheus   10.59.241.54   <none>        9090/TCP   2m
+    ```
 
-   The output will be similar to:
+1.  Send traffic to the mesh.
 
-   ```xxx
-   NAME         CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
-   prometheus   10.59.241.54   <none>        9090/TCP   2m
-   ```
+    For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
+    browser or issue the following command:
 
-1. Send traffic to the mesh.
+    ```command
+    $ curl http://$GATEWAY_URL/productpage
+    ```
 
-   For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
-   browser or issue the following command:
+    > `$GATEWAY_URL` is the value set in the [Bookinfo]({{home}}/docs/guides/bookinfo.html) guide.
 
-   ```bash
-   curl http://$GATEWAY_URL/productpage
-   ```
+1.  Open the Prometheus UI.
 
-   > `$GATEWAY_URL` is the value set in the [Bookinfo]({{home}}/docs/guides/bookinfo.html) guide.
+    In Kubernetes environments, execute the following command:
 
-1. Open the Prometheus UI.
+    ```command
+    $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
+    ```
 
-   In Kubernetes environments, execute the following command:
+    Visit [http://localhost:9090/graph](http://localhost:9090/graph) in your web browser.
 
-   ```bash
-   kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
-   ```
+1.  Execute a Prometheus query.
 
-   Visit [http://localhost:9090/graph](http://localhost:9090/graph) in your web browser.
+    In the "Expression" input box at the top of the web page, enter the text:
+    `istio_request_count`. Then, click the **Execute** button.
 
-1. Execute a Prometheus query.
+The results will be similar to:
 
-   In the "Expression" input box at the top of the web page, enter the text:
-   `istio_request_count`. Then, click the **Execute** button.
-
-   The results will be similar to:
-
-{% include figure.html width='100%' ratio='39.36%'
-    img='./img/prometheus_query_result.png'
-    alt='Prometheus Query Result'
-    title='Prometheus Query Result'
-    caption='Prometheus Query Result'
+{% include image.html width="100%" ratio="39.36%"
+    link="./img/prometheus_query_result.png"
+    caption="Prometheus Query Result"
     %}
 
-    Other queries to try:
+Other queries to try:
 
-    - Total count of all requests to `productpage` service:
+-   Total count of all requests to `productpage` service:
 
-      ```
-      istio_request_count{destination_service="productpage.default.svc.cluster.local"}
-      ```
+    ```
+    istio_request_count{destination_service="productpage.default.svc.cluster.local"}
+    ```
 
-    - Total count of all requests to `v3` of the `reviews` service:
+- Total count of all requests to `v3` of the `reviews` service:
 
-      ```
-      istio_request_count{destination_service="reviews.default.svc.cluster.local", destination_version="v3"}
-      ```
+    ```
+    istio_request_count{destination_service="reviews.default.svc.cluster.local", destination_version="v3"}
+    ```
 
-      This query returns the current total count of all requests to the v3 of the reviews service.
+    This query returns the current total count of all requests to the v3 of the reviews service.
 
-    - Rate of requests over the past 5 minutes to all `productpage` services:
+-   Rate of requests over the past 5 minutes to all `productpage` services:
 
-      ```
-      rate(istio_request_count{destination_service=~"productpage.*", response_code="200"}[5m])
-      ```
+    ```
+    rate(istio_request_count{destination_service=~"productpage.*", response_code="200"}[5m])
+    ```
 
 ### About the Prometheus add-on
 
@@ -117,16 +108,16 @@ docs](https://prometheus.io/docs/querying/basics/).
 
 ## Cleanup
 
-* Remove any `kubectl port-forward` processes that may still be running:
+-   Remove any `kubectl port-forward` processes that may still be running:
 
-   ```bash
-   killall kubectl
-   ```
+    ```command
+    $ killall kubectl
+    ```
 
-* If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
-  to shutdown the application.
+-   If you are not planning to explore any follow-on tasks, refer to the
+    [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+    to shutdown the application.
 
 ## What's next
 
-* Refer to the [In-Depth Telemetry]({{home}}/docs/guides/telemetry.html) guide.
+-   Refer to the [In-Depth Telemetry]({{home}}/docs/guides/telemetry.html) guide.

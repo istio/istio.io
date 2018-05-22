@@ -1,11 +1,9 @@
 ---
 title: Attributes
-overview: Explains the important notion of attributes, which is a central mechanism for how policies and control are applied to services within the mesh.
+description: Explains the important notion of attributes, which is a central mechanism for how policies and control are applied to services within the mesh.
 
-order: 10
+weight: 10
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 
@@ -19,7 +17,7 @@ environment this traffic occurs in. An Istio attribute carries a specific piece
 of information such as the error code of an API request, the latency of an API request, or the
 original IP address of a TCP connection. For example:
 
-```xxx
+```plain
 request.path: xyz/abc
 request.size: 234
 request.time: 12:34:56.789 04/17/2017
@@ -35,7 +33,7 @@ in the deployment. The primary attribute producer in Istio is Envoy, although
 specialized Mixer adapters can also generate attributes.
 
 The common baseline set of attributes available in most Istio deployments is defined
-[here]({{home}}/docs/reference/config/mixer/attribute-vocabulary.html).
+[here]({{home}}/docs/reference/config/policy-and-telemetry/attribute-vocabulary.html).
 
 ## Attribute names
 

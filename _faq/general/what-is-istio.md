@@ -1,7 +1,6 @@
 ---
 title: What is Istio?
-order: 10
-type: markdown
+weight: 10
 ---
 {% include home.html %}
 

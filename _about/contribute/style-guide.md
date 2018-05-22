@@ -1,12 +1,12 @@
 ---
 title: Style Guide
-overview: Explains the dos and donts of writing Istio docs.
+description: Explains the dos and donts of writing Istio docs.
 
-order: 70
+weight: 70
 
-layout: about
-type: markdown
-redirect_from: /docs/welcome/contribute/style-guide.html
+redirect_from:
+    - /docs/welcome/contribute/style-guide.html
+    - /docs/reference/contribute/style-guide.html
 ---
 
 TBD: This needs to be updated with Istio examples instead of Kubernetes examples.
@@ -47,13 +47,13 @@ leads to an awkward construction.
 Use angle brackets for placeholders. Tell the reader what a placeholder
 represents.
 
-1. Display information about a pod:
+1.  Display information about a pod:
 
-   ```bash
-   kubectl describe pod <pod-name>
-   ```
+    ```command
+    $ kubectl describe pod <pod-name>
+    ```
 
-  where `<pod-name>` is the name of one of your pods.
+    where `<pod-name>` is the name of one of your pods.
 
 ### Use **bold** for user interface elements
 
@@ -124,12 +124,8 @@ except if a word is a proper noun or an acronym.
 
 Verify that the pod is running on your chosen node:
 
-```bash
-kubectl get pods --output=wide
-```
-The output is similar to this:
-
-```xxx
+```command
+$ kubectl get pods --output=wide
 NAME     READY     STATUS    RESTARTS   AGE    IP           NODE
 nginx    1/1       Running   0          13s    10.200.0.4   worker0
 ```

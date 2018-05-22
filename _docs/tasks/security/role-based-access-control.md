@@ -1,11 +1,9 @@
 ---
-title: Setting up Istio Role-Based Access Control
-overview: This task shows how to set up role-based access control for services in Istio mesh.
+title: Role-Based Access Control
+description: Shows how to set up role-based access control for services in Istio mesh.
 
-order: 40
+weight: 40
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 
@@ -27,27 +25,23 @@ need to copy the following configuration files from <https://github.com/istio/is
 `bookinfo-add-serviceaccount.yaml`, `istio-rbac-enable.yaml`, `istio-rbac-namespace.yaml`, `istio-rbac-productpage.yaml`,
 `istio-rbac-details-reviews.yaml`, `istio-rbac-ratings.yaml`.
 
-* In this task, we will enable access control based on Service Accounts, which are cryptographically authenticated in the Istio mesh.
+*   In this task, we will enable access control based on Service Accounts, which are cryptographically authenticated in the Istio mesh.
 In order to give different microservices different access privileges, we will create some service accounts and redeploy Bookinfo
 microservices running under them.
 
-  Run the following command to
-  * Create service account `bookinfo-productpage`, and redeploy the service `productpage` with the service account.
-  * Create service account `bookinfo-reviews`, and redeploy the services `reviews` (deployments `reviews-v2` and `reviews-v3`)
-  with the service account.
+    Run the following command to
+    * Create service account `bookinfo-productpage`, and redeploy the service `productpage` with the service account.
+    * Create service account `bookinfo-reviews`, and redeploy the services `reviews` (deployments `reviews-v2` and `reviews-v3`)
+    with the service account.
 
-  ```bash
-  kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-add-serviceaccount.yaml)
-  ```
-
-  You can expect to see the output similar to the following:
-  ```bash
-  serviceaccount "bookinfo-productpage" created
-  deployment "productpage-v1" configured
-  serviceaccount "bookinfo-reviews" created
-  deployment "reviews-v2" configured
-  deployment "reviews-v3" configured
-  ```
+    ```command
+    $ kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-add-serviceaccount.yaml)
+    serviceaccount "bookinfo-productpage" created
+    deployment "productpage-v1" configured
+    serviceaccount "bookinfo-reviews" created
+    deployment "reviews-v2" configured
+    deployment "reviews-v3" configured
+    ```
 
 > If you are using a namespace other than `default`, use `istioctl -n namespace ...` to specify the namespace.
 
@@ -63,8 +57,8 @@ Run the following command to enable Istio RBAC for "default" namespace.
 and specify the namespace, say `"your-namespace"`, in the `match` statement in `rule` spec
 `"match: destination.namespace == "your-namespace"`.
 
-```bash
-istioctl create -f samples/bookinfo/kube/istio-rbac-enable.yaml
+```command
+$ istioctl create -f samples/bookinfo/kube/istio-rbac-enable.yaml
 ```
 
 > If you have conflicting rules that you set in previous tasks, use `istioctl replace` instead of `istioctl create`.
@@ -90,52 +84,52 @@ any service in "default" namespace that has "app" label set to one of the values
 is accessible by services in the same namespace (i.e., "default" namespace) and services in "istio-system" namespace.
 
 Run the following command to create a namespace-level access control policy.
-```bash
-istioctl create -f samples/bookinfo/kube/istio-rbac-namespace.yaml
+```command
+$ istioctl create -f samples/bookinfo/kube/istio-rbac-namespace.yaml
 ```
 
 The policy does the following:
-* Creates a `ServiceRole` "service-viewer" which allows read access to any service in "default" namespace that has "app" label
+*   Creates a `ServiceRole` "service-viewer" which allows read access to any service in "default" namespace that has "app" label
 set to one of the values in ["productpage", "details", "reviews", "ratings"]. Note that there is a "constraint" specifying that
 the services must have one of the listed "app" labels.
 
-  ```bash
-  apiVersion: "config.istio.io/v1alpha2"
-  kind: ServiceRole
-  metadata:
-    name: service-viewer
-    namespace: default
-  spec:
-    rules:
-    - services: ["*"]
-      methods: ["GET"]
-      constraints:
-      - key: "app"
-        values: ["productpage", "details", "reviews", "ratings"]
-  ```
+    ```yaml
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: ServiceRole
+    metadata:
+      name: service-viewer
+      namespace: default
+    spec:
+      rules:
+      - services: ["*"]
+        methods: ["GET"]
+        constraints:
+        - key: "app"
+          values: ["productpage", "details", "reviews", "ratings"]
+    ```
 
-* Creates a `ServiceRoleBinding` that assign the "service-viewer" role to all services in "istio-system" and "default" namespaces.
+*   Creates a `ServiceRoleBinding` that assign the "service-viewer" role to all services in "istio-system" and "default" namespaces.
 
-  ```bash
-  apiVersion: "config.istio.io/v1alpha2"
-  kind: ServiceRoleBinding
-  metadata:
-    name: bind-service-viewer
-    namespace: default
-  spec:
-    subjects:
-    - properties:
-        namespace: "istio-system"
-    - properties:
-        namespace: "default"
-    roleRef:
-      kind: ServiceRole
-      name: "service-viewer"
-  ```
+    ```yaml
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: ServiceRoleBinding
+    metadata:
+      name: bind-service-viewer
+      namespace: default
+    spec:
+      subjects:
+      - properties:
+          namespace: "istio-system"
+      - properties:
+          namespace: "default"
+      roleRef:
+        kind: ServiceRole
+        name: "service-viewer"
+    ```
 
-You can expect to see the output similar to the following:
+You can expect to see output similar to the following:
 
-```bash
+```plain
 servicerole "service-viewer" created
 servicerolebinding "bind-service-viewer" created
 ```
@@ -149,8 +143,8 @@ with "Book Details" section in the lower left part and "Book Reviews" section in
 
 Remove the following configuration before you proceed to the next task:
 
-```bash
-istioctl delete -f samples/bookinfo/kube/istio-rbac-namespace.yaml
+```command
+$ istioctl delete -f samples/bookinfo/kube/istio-rbac-namespace.yaml
 ```
 
 ## Service-level access control
@@ -168,47 +162,48 @@ access to the services in Bookinfo sample.
 In this step, we will create a policy that allows external requests to view `productpage` service via Ingress.
 
 Run the following command:
-```bash
-istioctl create -f samples/bookinfo/kube/istio-rbac-productpage.yaml
+```command
+$ istioctl create -f samples/bookinfo/kube/istio-rbac-productpage.yaml
 ```
 
 The policy does the following:
-* Creates a `ServiceRole` "productpage-viewer" which allows read access to "productpage" service.
 
-  ```bash
-  apiVersion: "config.istio.io/v1alpha2"
-  kind: ServiceRole
-  metadata:
-    name: productpage-viewer
-    namespace: default
-  spec:
-    rules:
-    - services: ["productpage.default.svc.cluster.local"]
-      methods: ["GET"]
-  ```
+*   Creates a `ServiceRole` "productpage-viewer" which allows read access to "productpage" service.
 
-* Creates a `ServiceRoleBinding` "bind-productpager-viewer" which assigns "productpage-viewer" role to all users/services.
+    ```yaml
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: ServiceRole
+    metadata:
+      name: productpage-viewer
+      namespace: default
+    spec:
+      rules:
+      - services: ["productpage.default.svc.cluster.local"]
+        methods: ["GET"]
+    ```
 
-  ```bash
-  apiVersion: "config.istio.io/v1alpha2"
-  kind: ServiceRoleBinding
-  metadata:
-    name: bind-productpager-viewer
-    namespace: default
-  spec:
-    subjects:
-    - user: "*"
-    roleRef:
-      kind: ServiceRole
-      name: "productpage-viewer"
-  ```
+*   Creates a `ServiceRoleBinding` "bind-productpager-viewer" which assigns "productpage-viewer" role to all users/services.
+
+    ```yaml
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: ServiceRoleBinding
+    metadata:
+      name: bind-productpager-viewer
+      namespace: default
+    spec:
+      subjects:
+      - user: "*"
+      roleRef:
+        kind: ServiceRole
+        name: "productpage-viewer"
+    ```
 
 Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage). Now you should see "Bookinfo Sample"
 page. But there are errors `"Error fetching product details"` and `"Error fetching product reviews"` on the page. These errors
 are expected because we have not granted "productpage" service to access "details" and "reviews" services. We will fix the errors
 in the following steps.
 
-  > There may be delay due to caching on browser and Istio proxy.
+> There may be delay due to caching on browser and Istio proxy.
 
 ### Step 2. allowing "productpage" service to access "details" and "reviews" services
 
@@ -217,41 +212,43 @@ We will create a policy to allow "productpage" service to read "details" and "re
 "bookinfo-productpage" service account is the authenticated identify for "productpage" service.
 
 Run the following command:
-```bash
-istioctl create -f samples/bookinfo/kube/istio-rbac-details-reviews.yaml
+
+```command
+$ istioctl create -f samples/bookinfo/kube/istio-rbac-details-reviews.yaml
 ```
 
 The policy does the following:
-* Creates a `ServiceRole` "details-reviews-viewer" which allows read access to "details" and "reviews" services.
 
-  ```bash
-  apiVersion: "config.istio.io/v1alpha2"
-  kind: ServiceRole
-  metadata:
-    name: details-reviews-viewer
-    namespace: default
-  spec:
-    rules:
-    - services: ["details.default.svc.cluster.local", "reviews.default.svc.cluster.local"]
-      methods: ["GET"]
-  ```
+*   Creates a `ServiceRole` "details-reviews-viewer" which allows read access to "details" and "reviews" services.
 
-* Creates a `ServiceRoleBinding` "bind-details-reviews" which assigns "details-reviews-viewer" role to service
+    ```yaml
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: ServiceRole
+    metadata:
+      name: details-reviews-viewer
+      namespace: default
+    spec:
+      rules:
+      - services: ["details.default.svc.cluster.local", "reviews.default.svc.cluster.local"]
+        methods: ["GET"]
+    ```
+
+*   Creates a `ServiceRoleBinding` "bind-details-reviews" which assigns "details-reviews-viewer" role to service
 account "cluster.local/ns/default/sa/bookinfo-productpage" (representing the "productpage" service).
 
-  ```bash
-  apiVersion: "config.istio.io/v1alpha2"
-  kind: ServiceRoleBinding
-  metadata:
-    name: bind-details-reviews
-    namespace: default
-  spec:
-    subjects:
-    - user: "cluster.local/ns/default/sa/bookinfo-productpage"
-    roleRef:
-      kind: ServiceRole
-      name: "details-reviews-viewer"
-  ```
+    ```yaml
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: ServiceRoleBinding
+    metadata:
+      name: bind-details-reviews
+      namespace: default
+    spec:
+      subjects:
+      - user: "cluster.local/ns/default/sa/bookinfo-productpage"
+      roleRef:
+        kind: ServiceRole
+        name: "details-reviews-viewer"
+    ```
 
 Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage). Now you should see "Bookinfo Sample"
 page with "Book Details" on the lower left part, and "Book Reviews" on the lower right part. However, in "Book Reviews" section,
@@ -269,52 +266,52 @@ We will create a policy to allow "reviews" service to read "ratings" service. No
 
 Run the following command to create a policy that allows "reviews" service to read "ratings" service.
 
-```bash
-istioctl create -f samples/bookinfo/kube/istio-rbac-ratings.yaml
+```command
+$ istioctl create -f samples/bookinfo/kube/istio-rbac-ratings.yaml
 ```
 
 The policy does the following:
 
-* Creates a `ServiceRole` "ratings-viewer" which allows read access to "ratings" service.
+*   Creates a `ServiceRole` "ratings-viewer" which allows read access to "ratings" service.
 
-  ```bash
-  apiVersion: "config.istio.io/v1alpha2"
-  kind: ServiceRole
-  metadata:
-    name: ratings-viewer
-    namespace: default
-  spec:
-    rules:
-    - services: ["ratings.default.svc.cluster.local"]
-      methods: ["GET"]
-  ```
+    ```yaml
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: ServiceRole
+    metadata:
+      name: ratings-viewer
+      namespace: default
+    spec:
+      rules:
+      - services: ["ratings.default.svc.cluster.local"]
+        methods: ["GET"]
+    ```
 
-* Creates a `ServiceRoleBinding` "bind-ratings" which assigns "ratings-viewer" role to service
+*   Creates a `ServiceRoleBinding` "bind-ratings" which assigns "ratings-viewer" role to service
 account "cluster.local/ns/default/sa/bookinfo-reviews", which represents the "reviews" services.
 
-  ```bash
-  apiVersion: "config.istio.io/v1alpha2"
-  kind: ServiceRoleBinding
-  metadata:
-    name: bind-ratings
-    namespace: default
-  spec:
-    subjects:
-    - user: "cluster.local/ns/default/sa/bookinfo-reviews"
-    roleRef:
-      kind: ServiceRole
-      name: "ratings-viewer"
-  ```
+    ```yaml
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: ServiceRoleBinding
+    metadata:
+      name: bind-ratings
+      namespace: default
+    spec:
+      subjects:
+      - user: "cluster.local/ns/default/sa/bookinfo-reviews"
+      roleRef:
+        kind: ServiceRole
+        name: "ratings-viewer"
+    ```
 
 Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage). Now you should see
 the "black" and "red" ratings in "Book Reviews" section.
 
-  > There may be delay due to caching on browser and Istio proxy.
+> There may be delay due to caching on browser and Istio proxy.
 
 If you would like to only see "red" ratings in "Book Reviews" section, you can do that by specifying that only "reviews"
 service at version "v3" can access "ratings" service.
 
-```bash
+```yaml
 apiVersion: "config.istio.io/v1alpha2"
 kind: ServiceRoleBinding
 metadata:
@@ -332,26 +329,26 @@ spec:
 
 ## Cleanup
 
-* Remove Istio RBAC policy configuration:
+*   Remove Istio RBAC policy configuration:
 
-  ```bash
-  istioctl delete -f samples/bookinfo/kube/istio-rbac-ratings.yaml
-  istioctl delete -f samples/bookinfo/kube/istio-rbac-details-reviews.yaml
-  istioctl delete -f samples/bookinfo/kube/istio-rbac-productpage.yaml
-  ```
+    ```command
+    $ istioctl delete -f samples/bookinfo/kube/istio-rbac-ratings.yaml
+    $ istioctl delete -f samples/bookinfo/kube/istio-rbac-details-reviews.yaml
+    $ istioctl delete -f samples/bookinfo/kube/istio-rbac-productpage.yaml
+    ```
 
-  Alternatively, you can delete all `ServiceRole` and `ServiceRoleBinding` resources by running the following commands:
+    Alternatively, you can delete all `ServiceRole` and `ServiceRoleBinding` resources by running the following commands:
 
-  ```bash
-  kubectl delete servicerole --all
-  kubectl delete servicerolebinding --all
-  ```
+    ```command
+    $ kubectl delete servicerole --all
+    $ kubectl delete servicerolebinding --all
+    ```
 
-* Disable Istio RBAC:
+*   Disable Istio RBAC:
 
-  ```bash
-  istioctl delete -f samples/bookinfo/kube/istio-rbac-enable.yaml
-  ```
+    ```command
+    $ istioctl delete -f samples/bookinfo/kube/istio-rbac-enable.yaml
+    ```
 
 ## What's next
 

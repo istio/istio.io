@@ -1,12 +1,11 @@
 ---
 title: Staging Your Changes
-overview: Explains how to test your changes locally before submitting them.
+description: Explains how to test your changes locally before submitting them.
 
-order: 40
+weight: 40
 
-layout: about
-type: markdown
-redirect_from: /docs/welcome/contribute/staging-your-changes.html
+redirect_from:
+    - /docs/welcome/contribute/staging-your-changes.html
 ---
 
 This page shows how to stage content that you want to contribute

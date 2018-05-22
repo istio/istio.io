@@ -30,6 +30,8 @@ $deprecatedBackgroundColor: silver;
 $preBlockShadowColor: #a7a7a7;
 $preBlockBorderColor: #dddddd;
 $preBlockBackgroundColor: $backgroundColor;
+$preBlockCommandOutputTextColor: $textColor;
+$preBlockCommandOutputBackgroundColor: lighten($gray, 50%);
 $boxBorderColor: $secondBrandColor;
 
 $headerLightShadowColor: rgba(0, 0, 0, .14);

@@ -1,12 +1,11 @@
 ---
 title: Doc Issues
-overview: Explains the process involved in accepting documentation updates.
+description: Explains the process involved in accepting documentation updates.
 
-order: 60
+weight: 60
 
-layout: about
-type: markdown
-redirect_from: /docs/welcome/contribute/reviewing-doc-issues.html
+redirect_from:
+    - /docs/welcome/contribute/reviewing-doc-issues.html
 ---
 
 This page explains how documentation issues are reviewed and prioritized for the

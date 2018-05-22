@@ -1,8 +1,9 @@
 ---
 title: Community
-overview: Information on the various ways to participate and interact with the Istio community.
+description: Information on the various ways to participate and interact with the Istio community.
 layout: community
-type: markdown
+redirect_from:
+    - /community/index.html
 ---
 {% include home.html %}
 

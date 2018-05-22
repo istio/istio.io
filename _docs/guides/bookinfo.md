@@ -1,13 +1,17 @@
 ---
-1;95;0ctitle: Bookinfo Sample Application
-overview: This guide deploys a sample application composed of four separate microservices which will be used to demonstrate various features of the Istio service mesh.
-
-order: 10
-
-layout: docs
-type: markdown
+title: Bookinfo Sample Application
+description: This guide deploys a sample application composed of four separate microservices which will be used to demonstrate various features of the Istio service mesh.
+weight: 10
+redirect_from:
+    - /docs/samples/bookinfo.html
 ---
 {% include home.html %}
+
+> Note: This guide assumes you will be using the new [v1alpha3 traffic management API]({{home}}/blog/2018/v1alpha3-routing.html).
+The old API has been deprecated and will be removed in the next Istio release.
+If you need to use the old version, you can follow the old instructions [here](https://archive.istio.io/v0.6/docs/guides/bookinfo.html),
+but note that on Kubernetes you will need to run an additional command (`kubectl apply -f samples/bookinfo/kube/bookinfo-gateway.yaml`)
+to define the Ingress, which previously was included in `bookinfo.yaml`.
 
 This guide deploys a sample application composed of four separate microservices which will be used
 to demonstrate various features of the Istio service mesh.
@@ -34,11 +38,9 @@ There are 3 versions of the reviews microservice:
 
 The end-to-end architecture of the application is shown below.
 
-{% include figure.html width='80%' ratio='68.52%'
-    img='./img/bookinfo/noistio.svg'
-    alt='Bookinfo Application without Istio'
-    title='Bookinfo Application without Istio'
-    caption='Bookinfo Application without Istio'
+{% include image.html width="80%" ratio="68.52%"
+    link="./img/bookinfo/noistio.svg"
+    caption="Bookinfo Application without Istio"
     %}
 
 This application is polyglot, i.e., the microservices are written in different languages.
@@ -59,11 +61,9 @@ Istio-enabled environment, with Envoy sidecars injected along side each service.
 The needed commands and configuration vary depending on the runtime environment
 although in all cases the resulting deployment will look like this:
 
-{% include figure.html width='80%' ratio='59.08%'
-    img='./img/bookinfo/withistio.svg'
-    alt='Bookinfo Application'
-    title='Bookinfo Application'
-    caption='Bookinfo Application'
+{% include image.html width="80%" ratio="59.08%"
+    link="./img/bookinfo/withistio.svg"
+    caption="Bookinfo Application"
     %}
 
 All of the microservices will be packaged with an Envoy sidecar that intercepts incoming
@@ -79,164 +79,147 @@ To start the application, follow the instructions below corresponding to your Is
 
 1. Change directory to the root of the Istio installation directory.
 
-1. Bring up the application containers:
+1.  Bring up the application containers:
 
-   If you are using [manual sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar-injection),
-   use the following command instead:
+    *   If you are using [manual sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar-injection),
+        use the following command
 
-   ```bash
-   kubectl apply -f <(istioctl kube-inject --debug -f samples/bookinfo/kube/bookinfo.yaml)
-   ```
+        ```command
+        $ kubectl apply -f <(ISTIO_PROXY_IMAGE=proxyv2 istioctl kube-inject --debug -f samples/bookinfo/kube/bookinfo.yaml)
+        ```
 
-   If you are using a cluster with
-   [automatic sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection)
-   enabled, simply deploy the services using `kubectl`:
+        The `istioctl kube-inject` command is used to manually modify the `bookinfo.yaml`
+        file before creating the deployments as documented [here]({{home}}/docs/reference/commands/istioctl.html#istioctl kube-inject).
 
-   ```bash
-   kubectl apply -f samples/bookinfo/kube/bookinfo.yaml
-   ```
+    *   If you are using a cluster with
+        [automatic sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection)
+        enabled, simply deploy the services using `kubectl`
 
-   The `istioctl kube-inject` command is used to manually modify the `bookinfo.yaml`
-   file before creating the deployments as documented [here]({{home}}/docs/reference/commands/istioctl.html#istioctl kube-inject).
+        ```command
+        $ kubectl apply -f samples/bookinfo/kube/bookinfo.yaml
+        ```
 
-   Either of the above commands launches all four microservices and creates the gateway
-   ingress resource as illustrated in the above diagram.
-   All 3 versions of the reviews service, v1, v2, and v3, are started.
+    Either of the above commands launches all four microservices as illustrated in the above diagram.
+    All 3 versions of the reviews service, v1, v2, and v3, are started.
 
-   > In a realistic deployment, new versions of a microservice are deployed
-   over time instead of deploying all versions simultaneously.
+    > In a realistic deployment, new versions of a microservice are deployed
+    over time instead of deploying all versions simultaneously.
 
-1. Define the ingress gateway for the application:
+1.  Define the ingress gateway for the application:
 
-   ```bash
-   kubectl apply -f samples/bookinfo/kube/bookinfo-gateway.yaml
-   ```
+    ```command
+    $ istioctl create -f samples/bookinfo/routing/bookinfo-gateway.yaml
+    ```
 
-1. Confirm all services and pods are correctly defined and running:
+1.  Confirm all services and pods are correctly defined and running:
 
-   ```bash
-   kubectl get services
-   ```
+    ```command
+    $ kubectl get services
+    NAME                       CLUSTER-IP   EXTERNAL-IP   PORT(S)              AGE
+    details                    10.0.0.31    <none>        9080/TCP             6m
+    kubernetes                 10.0.0.1     <none>        443/TCP              7d
+    productpage                10.0.0.120   <none>        9080/TCP             6m
+    ratings                    10.0.0.15    <none>        9080/TCP             6m
+    reviews                    10.0.0.170   <none>        9080/TCP             6m
+    ```
 
-   which produces the following output:
+    and
 
-   ```bash
-   NAME                       CLUSTER-IP   EXTERNAL-IP   PORT(S)              AGE
-   details                    10.0.0.31    <none>        9080/TCP             6m
-   kubernetes                 10.0.0.1     <none>        443/TCP              7d
-   productpage                10.0.0.120   <none>        9080/TCP             6m
-   ratings                    10.0.0.15    <none>        9080/TCP             6m
-   reviews                    10.0.0.170   <none>        9080/TCP             6m
-   ```
-
-   and
-
-   ```bash
-   kubectl get pods
-   ```
-
-   which produces
-
-   ```bash
-   NAME                                        READY     STATUS    RESTARTS   AGE
-   details-v1-1520924117-48z17                 2/2       Running   0          6m
-   productpage-v1-560495357-jk1lz              2/2       Running   0          6m
-   ratings-v1-734492171-rnr5l                  2/2       Running   0          6m
-   reviews-v1-874083890-f0qf0                  2/2       Running   0          6m
-   reviews-v2-1343845940-b34q5                 2/2       Running   0          6m
-   reviews-v3-1813607990-8ch52                 2/2       Running   0          6m
-   ```
+    ```command
+    $ kubectl get pods
+    NAME                                        READY     STATUS    RESTARTS   AGE
+    details-v1-1520924117-48z17                 2/2       Running   0          6m
+    productpage-v1-560495357-jk1lz              2/2       Running   0          6m
+    ratings-v1-734492171-rnr5l                  2/2       Running   0          6m
+    reviews-v1-874083890-f0qf0                  2/2       Running   0          6m
+    reviews-v2-1343845940-b34q5                 2/2       Running   0          6m
+    reviews-v3-1813607990-8ch52                 2/2       Running   0          6m
+    ```
 
 #### Determining the ingress IP and Port
 
-1. If your Kubernetes cluster is running in an environment that supports external load balancers, the IP address of ingress can be  obtained by the following command:
+Execute the following command to determine if your Kubernetes cluster is running in an environment that supports external load balancers
 
-   ```bash
-   kubectl get ingress -o wide
-   ```
+```command
+$ kubectl get svc istio-ingressgateway -n istio-system
+NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)                                      AGE
+istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/TCP,443:31390/TCP,31400:31400/TCP   17h
+```
 
-   whose output should be similar to
+If the `EXTERNAL-IP` value is set, your environment has an external load balancer that you can use for the ingress gateway
 
-   ```bash
-   NAME      HOSTS     ADDRESS                 PORTS     AGE
-   gateway   *         130.211.10.121          80        1d
-   ```
+```command
+$ export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+```
 
-   The address of the ingress service would then be
+If the default service port of `istio-ingressgateway` is not `80` (Default value is 80), get external load balancer as follows
+```command
+$ export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}'):$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[0].port}')
+```
 
-   ```bash
-   export GATEWAY_URL=130.211.10.121:80
-   ```
+If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not support external load balancers.
+In this case, you can access the gateway using the service `nodePort`.
 
-1. _GKE:_ Sometimes when the service is unable to obtain an external IP, `kubectl get ingress -o wide` may display a list of worker node addresses. In this case, you can use any of the addresses, along with the NodePort, to access the ingress. If the cluster has a firewall, you will also need to create a firewall rule to allow TCP traffic to the NodePort.
+1.  _GKE:_
 
-   ```bash
-   export GATEWAY_URL=<workerNodeAddress>:$(kubectl get svc istio-ingress -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
-   gcloud compute firewall-rules create allow-book --allow tcp:$(kubectl get svc istio-ingress -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
-   ```
+    ```command
+    $ export GATEWAY_URL=<workerNodeAddress>:$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
+    $ gcloud compute firewall-rules create allow-book --allow tcp:$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
+    ```
 
-1. _IBM Cloud Container Service Free Tier:_ External load balancer is not available for kubernetes clusters in the free tier. You can use the public IP of the worker node, along with the NodePort, to access the ingress. The public IP of the worker node can be obtained from the output of the following command:
+1.  _IBM Cloud Kubernetes Service Free Tier:_
 
-   ```bash
-   bx cs workers <cluster-name or id>
-   export GATEWAY_URL=<public IP of the worker node>:$(kubectl get svc istio-ingress -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
-   ```
+    ```command
+    $ bx cs workers <cluster-name or id>
+    $ export GATEWAY_URL=<public IP of the worker node>:$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
+    ```
 
-1. _IBM Cloud Private:_ External load balancers are not supported in IBM Cloud Private. You can use the host IP of the ingress service, along with the NodePort, to access the ingress.
+1.  _Other environments (e.g., minikube, IBM Cloud Private etc):_
 
-   ```bash
-   export GATEWAY_URL=$(kubectl get po -l istio=ingress -n istio-system -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}')
-   ```
-
-1. _Minikube:_ External load balancers are not supported in Minikube. You can use the host IP of the ingress service, along with the NodePort, to access the ingress.
-
-   ```bash
-   export GATEWAY_URL=$(kubectl get po -l istio=ingress -n istio-system -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}')
-   ```
+    ```command
+    $ export GATEWAY_URL=$(kubectl get po -l istio=ingressgateway -n istio-system -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingressgateway -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}')
+    ```
 
 ### Running on Docker with Consul or Eureka
 
 1. Change directory to the root of the Istio installation directory.
 
-1. Bring up the application containers.
+1.  Bring up the application containers.
 
-   To test with Consul, run the following commands:
+    To test with Consul, run the following commands:
 
-   ```bash
-   docker-compose -f samples/bookinfo/consul/bookinfo.yaml up -d
-   docker-compose -f samples/bookinfo/consul/bookinfo.sidecars.yaml up -d
+    ```command
+    $ docker-compose -f samples/bookinfo/consul/bookinfo.yaml up -d
+    $ docker-compose -f samples/bookinfo/consul/bookinfo.sidecars.yaml up -d
     ```
 
-   To test with Eureka, run the following commands:
+    To test with Eureka, run the following commands:
 
-   ```bash
-   docker-compose -f samples/bookinfo/eureka/bookinfo.yaml up -d
-   docker-compose -f samples/bookinfo/eureka/bookinfo.sidecars.yaml up -d
-   ```
+    ```command
+    $ docker-compose -f samples/bookinfo/eureka/bookinfo.yaml up -d
+    $ docker-compose -f samples/bookinfo/eureka/bookinfo.sidecars.yaml up -d
+    ```
 
-1. Confirm that all docker containers are running:
+1.  Confirm that all docker containers are running:
 
-   ```bash
-   docker ps -a
-   ```
+    ```command
+    $ docker ps -a
+    ```
 
-   > If the Istio Pilot container terminates, re-run the command from the previous step.
+    > If the Istio Pilot container terminates, re-run the command from the previous step.
 
-1. Set the GATEWAY_URL:
+1.  Set the GATEWAY_URL:
 
-   ```bash
-   export GATEWAY_URL=localhost:9081
-   ```
+    ```command
+    $ export GATEWAY_URL=localhost:9081
+    ```
 
 ## What's next
 
 To confirm that the Bookinfo application is running, run the following `curl` command:
 
-```bash
-curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage
-```
-
-```xxx
+```command
+$ curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage
 200
 ```
 
@@ -259,38 +242,38 @@ uninstall and clean it up using the following instructions.
 
 ### Uninstall from Kubernetes environment
 
-1. Delete the routing rules and terminate the application pods
+1.  Delete the routing rules and terminate the application pods
 
-   ```bash
-   samples/bookinfo/kube/cleanup.sh
-   ```
+    ```command
+    $ samples/bookinfo/kube/cleanup.sh
+    ```
 
-1. Confirm shutdown
+1.  Confirm shutdown
 
-   ```bash
-   istioctl get routerules   #-- there should be no more routing rules
-   kubectl get pods          #-- the Bookinfo pods should be deleted
-   ```
+    ```command
+    $ istioctl get virtualservices   #-- there should be no more routing rules
+    $ kubectl get pods               #-- the Bookinfo pods should be deleted
+    ```
 
 ### Uninstall from Docker environment
 
-1. Delete the routing rules and application containers
+1.  Delete the routing rules and application containers
 
-   In a Consul setup, run the following command:
+    In a Consul setup, run the following command:
 
-   ```bash
-   samples/bookinfo/consul/cleanup.sh
-   ```
+    ```command
+    $ samples/bookinfo/consul/cleanup.sh
+    ```
 
-   In a Eureka setup, run the following command:
+    In a Eureka setup, run the following command:
 
-   ```bash
-   samples/bookinfo/eureka/cleanup.sh
-   ```
+    ```command
+    $ samples/bookinfo/eureka/cleanup.sh
+    ```
 
-1. Confirm cleanup
+1.  Confirm cleanup
 
-   ```bash
-   istioctl get routerules   #-- there should be no more routing rules
-   docker ps -a              #-- the Bookinfo containers should be deleted
-   ```
+    ```command
+    $ istioctl get virtualservices   #-- there should be no more routing rules
+    $ docker ps -a                   #-- the Bookinfo containers should be deleted
+    ```

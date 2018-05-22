@@ -1,11 +1,9 @@
 ---
 title: Integrating with External Services
-overview: This sample integrates third party services with Bookinfo and demonstrates how to use Istio service mesh to provide metrics, and routing functions for these services.
+description: This sample integrates third party services with Bookinfo and demonstrates how to use Istio service mesh to provide metrics, and routing functions for these services.
 
-order: 50
+weight: 50
 draft: true
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 

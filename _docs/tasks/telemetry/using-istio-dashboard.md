@@ -1,12 +1,10 @@
 ---
 title: Visualizing Metrics with Grafana
 
-overview: This task shows you how to setup and use the Istio Dashboard to monitor mesh traffic.
+description: This task shows you how to setup and use the Istio Dashboard to monitor mesh traffic.
 
-order: 40
+weight: 40
 
-layout: docs
-type: markdown
 ---
 {% include home.html %}
 
@@ -21,74 +19,67 @@ the example application throughout this task.
 
 * [Install Istio]({{home}}/docs/setup/) in your cluster and deploy an
   application.
+* [Install the Prometheus add-on]({{home}}/docs/tasks/telemetry/querying-metrics.html)
+  in your cluster and deploy an application.
 
 ## Viewing the Istio Dashboard
 
-1. To view Istio metrics in a graphical dashboard install the Grafana add-on.
+1.  To view Istio metrics in a graphical dashboard install the Grafana add-on.
 
-   In Kubernetes environments, execute the following command:
+    In Kubernetes environments, execute the following command:
 
-   ```bash
-   kubectl apply -f install/kubernetes/addons/grafana.yaml
-   ```
+    ```command
+    $ kubectl apply -f install/kubernetes/addons/grafana.yaml
+    ```
 
-1. Verify that the service is running in your cluster.
+1.  Verify that the service is running in your cluster.
 
-   In Kubernetes environments, execute the following command:
+    In Kubernetes environments, execute the following command:
 
-   ```bash
-   kubectl -n istio-system get svc grafana
-   ```
+    ```command
+    $ kubectl -n istio-system get svc grafana
+    NAME      CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+    grafana   10.59.247.103   <none>        3000/TCP   2m
+    ```
 
-   The output will be similar to:
+1.  Open the Istio Dashboard via the Grafana UI.
 
-   ```xxx
-   NAME      CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
-   grafana   10.59.247.103   <none>        3000/TCP   2m
-   ```
+    In Kubernetes environments, execute the following command:
 
-1. Open the Istio Dashboard via the Grafana UI.
+    ```command
+    $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
+    ```
 
-   In Kubernetes environments, execute the following command:
+    Visit [http://localhost:3000/dashboard/db/istio-dashboard](http://localhost:3000/dashboard/db/istio-dashboard) in your web browser.
 
-   ```bash
-   kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
-   ```
+    The Istio Dashboard will look similar to:
 
-   Visit [http://localhost:3000/dashboard/db/istio-dashboard](http://localhost:3000/dashboard/db/istio-dashboard) in your web browser.
-
-   The Istio Dashboard will look similar to:
-
-   {% include figure.html width='100%' ratio='56.57%'
-        img='./img/grafana-istio-dashboard.png'
-        alt='Istio Dashboard'
-        title='Istio Dashboard'
-        caption='Istio Dashboard'
+    {% include image.html width="100%" ratio="56.57%"
+        link="./img/grafana-istio-dashboard.png"
+        caption="Istio Dashboard"
         %}
 
-1. Send traffic to the mesh.
+1.  Send traffic to the mesh.
 
-   For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
-   browser or issue the following command:
+    For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
+    browser or issue the following command:
 
-   ```bash
-   curl http://$GATEWAY_URL/productpage
-   ```
+    ```command
+    $ curl http://$GATEWAY_URL/productpage
+    ```
 
-   Refresh the page a few times (or send the command a few times) to generate a
-   small amount of traffic.
+    Refresh the page a few times (or send the command a few times) to generate a
+    small amount of traffic.
 
-   Look at the Istio Dashboard again. It should reflect the traffic that was
-   generated. It will look similar to:
+    Look at the Istio Dashboard again. It should reflect the traffic that was
+    generated. It will look similar to:
 
-   {% include figure.html width='100%' ratio='56.57%'
-    img='./img/dashboard-with-traffic.png'
-    alt='Istio Dashboard With Traffic'
-    title='Istio Dashboard With Traffic'
-    caption='Istio Dashboard With Traffic'
+    {% include image.html width="100%" ratio="56.57%"
+    link="./img/dashboard-with-traffic.png"
+    caption="Istio Dashboard With Traffic"
     %}
 
-   > `$GATEWAY_URL` is the value set in the [Bookinfo]({{home}}/docs/guides/bookinfo.html) guide.
+> `$GATEWAY_URL` is the value set in the [Bookinfo]({{home}}/docs/guides/bookinfo.html) guide.
 
 ### About the Grafana add-on
 
@@ -113,18 +104,18 @@ For more on how to create, configure, and edit dashboards, please see the
 
 ## Cleanup
 
-* In Kubernetes environments, execute the following command to remove the Grafana
+*   In Kubernetes environments, execute the following command to remove the Grafana
 add-on:
 
-   ```bash
-   kubectl delete -f install/kubernetes/addons/grafana.yaml
-   ```
+    ```command
+    $ kubectl delete -f install/kubernetes/addons/grafana.yaml
+    ```
 
-* Remove any `kubectl port-forward` processes that may be running:
+*   Remove any `kubectl port-forward` processes that may be running:
 
-   ```bash
-   killall kubectl
-   ```
+    ```command
+    $ killall kubectl
+    ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
 [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions

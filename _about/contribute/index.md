@@ -1,13 +1,10 @@
 ---
 title: Contributing to the Docs
-overview: Learn how to contribute to improve and expand the Istio documentation.
-
-order: 100
-
-layout: about
-type: markdown
+description: Learn how to contribute to improve and expand the Istio documentation.
+weight: 100
 toc: false
-redirect_from: /docs/welcome/contribute/index.html
+redirect_from:
+    - /docs/welcome/contribute/index.html
 ---
 
 {% include section-index.html docs=site.about %}

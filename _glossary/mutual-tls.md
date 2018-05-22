@@ -1,6 +1,5 @@
 ---
 title: Mutual TLS Authentication
-type: markdown
 ---
 {% include home.html %}
 

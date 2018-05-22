@@ -1,15 +1,14 @@
 ---
-title: "Mixer Adapter Model"
-overview: Provides an overview of the Mixer plug-in architecture
-publish_date: November 3, 2017
+title: Mixer Adapter Model
+description: Provides an overview of the Mixer plug-in architecture
+publishdate: 2017-11-03
 subtitle: Extending Istio to integrate with a world of infrastructure backends
 attribution: Martin Taillefer
 
-order: 95
+weight: 95
 
-layout: blog
-type: markdown
-redirect_from: "/blog/mixer-adapter-model.html"
+redirect_from: 
+    - /blog/mixer-adapter-model.html
 ---
 {% include home.html %}
 
@@ -33,11 +32,9 @@ Adapters are Go packages that are directly linked into the Mixer binary. It’s 
 Mixer is essentially an attribute processing and routing machine. The proxy sends it [attributes]({{home}}/docs/concepts/policy-and-control/attributes.html) as part of doing precondition checks and telemetry reports, which it turns into a series of calls into adapters. The operator supplies configuration which describes how to map incoming attributes to inputs for the adapters.
 
 {% assign url = home | append: "/docs/concepts/policy-and-control/img/mixer-config/machine.svg" %}
-{% include figure.html width='60%' ratio='42.60%'
-    img=url
-    alt='Attribute Machine'
-    title='Attribute Machine'
-    caption='Attribute Machine'
+{% include image.html width="60%" ratio="42.60%"
+    link=url
+    caption="Attribute Machine"
     %}
 
 Configuration is a complex task. In fact, evidence shows that the overwhelming majority of service outages are caused by configuration errors. To help combat this, Mixer’s configuration model enforces a number of constraints designed to avoid errors. For example, the configuration model uses strong typing to ensure that only meaningful attributes or attribute expressions are used in any given context.
@@ -52,11 +49,11 @@ configuration resource which represents a fully configured adapter ready for use
 ## Templates: adapter input schema
 
 Mixer is typically invoked twice for every incoming request to a mesh service, once for precondition checks and once for telemetry reporting. For every such call, Mixer invokes one or more adapters. Different adapters need different pieces of data as input in order to do their work. A logging adapter needs a log entry, a metric adapter needs a metric, an authorization adapter needs credentials, etc.
-Mixer [*templates*]({{home}}/docs/reference/config/template/) are used to describe the exact data that an adapter consumes at request time.
+Mixer [*templates*]({{home}}/docs/reference/config/policy-and-telemetry/templates/) are used to describe the exact data that an adapter consumes at request time.
 
 Each template is specified as a [protobuf](https://developers.google.com/protocol-buffers/) message. A single template describes a bundle of data that is delivered to one or more adapters at runtime. Any given adapter can be designed to support any number of templates, the specific templates the adapter supports is determined by the adapter developer.
 
-[metric]({{home}}/docs/reference/config/template/metric.html) and [logentry]({{home}}/docs/reference/config/template/logentry.html) are two of the most essential templates used within Istio. They represent respectively the payload to report a single metric and a single log entry to appropriate backends.
+[metric]({{home}}/docs/reference/config/policy-and-telemetry/templates/metric.html) and [logentry]({{home}}/docs/reference/config/policy-and-telemetry/templates/logentry.html) are two of the most essential templates used within Istio. They represent respectively the payload to report a single metric and a single log entry to appropriate backends.
 
 ## Instances: attribute mapping
 
@@ -93,5 +90,5 @@ The refreshed Mixer adapter model is designed to provide a flexible framework to
 Handlers provide configuration data for individual adapters, templates determine exactly what kind of data different adapters want to consume at runtime, instances let operators prepare this data, rules direct the data to one or more handlers.
 
 You can learn more about Mixer's overall architecture [here]({{home}}/docs/concepts/policy-and-control/), and learn the specifics of templates, handlers,
-and rules [here]({{home}}/docs/reference/config/mixer/). You can find many examples of Mixer configuration resources in the Bookinfo sample
+and rules [here]({{home}}/docs/reference/config/policy-and-telemetry). You can find many examples of Mixer configuration resources in the Bookinfo sample
 [here](https://github.com/istio/istio/tree/master/samples/bookinfo/kube).
