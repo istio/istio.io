@@ -13,12 +13,13 @@ From here you can learn all about Istio's architecture and how to deploy and use
 - [Concepts]({{home}}/docs/concepts/). Concepts explain some significant aspect of Istio. This
 is where you can learn about what Istio does and how it does it.
 
+- [Quick Start]({{home}}/docs/quick-start/). Quick Start guides you through
+  rapidly deploying a cluster with Istio and an example application for your
+  experimentation.
+
 - [Setup]({{home}}/docs/setup/). Setup contains instructions for installing
   the Istio control plane in various environments, as well as instructions
-  for installing the sidecar in the application deployment. Quick start
-  instructions are available for
-  [Kubernetes]({{home}}/docs/setup/kubernetes/quick-start.html) and
-  [Docker Compose w/ Consul]({{home}}/docs/setup/consul/quick-start.html).
+  for installing the sidecar in the application deployment.
 
 - [Tasks]({{home}}/docs/tasks/). Tasks show you how to do a single directed activity with Istio.
 
