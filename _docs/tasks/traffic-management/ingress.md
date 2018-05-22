@@ -141,8 +141,8 @@ the default `istio-ingressgateway` service.
 
    * If load balancers are not supported, use the ingressgateway controller pod's hostIP:
 
-        *  _GKE:_
-   
+       *  _GKE:_
+       
            ```command
            $ export INGRESS_HOST=<workerNodeAddress>:$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
            $ gcloud compute firewall-rules create allow-book --allow tcp:$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
