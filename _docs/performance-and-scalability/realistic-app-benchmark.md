@@ -1,7 +1,7 @@
 ---
 title: Realistic Application Benchmark
 overview: Performance measurement through realistic micro service application tests.
-order: 40
+weight: 40
 
 layout: docs
 type: markdown

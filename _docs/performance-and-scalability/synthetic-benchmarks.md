@@ -1,7 +1,7 @@
 ---
 title: Synthetic End to End benchmarks
 overview: Fortio is our simple synthetic http and grpc benchmarking tool.
-order: 30
+weight: 30
 
 layout: docs
 type: markdown

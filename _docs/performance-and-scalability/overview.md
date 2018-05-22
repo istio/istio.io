@@ -1,7 +1,7 @@
 ---
 title: Overview
 overview: Provides a conceptual introduction to Istio's Performance and Scalability
-order: 10
+weight: 10
 
 layout: docs
 type: markdown

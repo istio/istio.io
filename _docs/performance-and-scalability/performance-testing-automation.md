@@ -1,7 +1,7 @@
 ---
 title: Automation
 overview: How we ensure performance is tracked and improves or does not regress across releases.
-order: 50
+weight: 50
 
 layout: docs
 type: markdown
