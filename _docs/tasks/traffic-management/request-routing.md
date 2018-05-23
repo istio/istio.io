@@ -55,7 +55,7 @@ you'll need to use `replace` rather than `create` in the following command.
       http:
       - route:
         - destination:
-            name: details
+            host: details
             subset: v1
     ---
     apiVersion: networking.istio.io/v1alpha3
@@ -72,7 +72,7 @@ you'll need to use `replace` rather than `create` in the following command.
       http:
       - route:
         - destination:
-            name: productpage
+            host: productpage
             subset: v1
     ---
     apiVersion: networking.istio.io/v1alpha3
@@ -86,7 +86,7 @@ you'll need to use `replace` rather than `create` in the following command.
       http:
       - route:
         - destination:
-            name: ratings
+            host: ratings
             subset: v1
     ---
     apiVersion: networking.istio.io/v1alpha3
@@ -100,7 +100,7 @@ you'll need to use `replace` rather than `create` in the following command.
       http:
       - route:
         - destination:
-            name: reviews
+            host: reviews
             subset: v1
     ---
     ```
@@ -143,11 +143,11 @@ you'll need to use `replace` rather than `create` in the following command.
               regex: ^(.*?;)?(user=jason)(;.*)?$
         route:
         - destination:
-            name: reviews
+            host: reviews
             subset: v2
       - route:
         - destination:
-            name: reviews
+            host: reviews
             subset: v1
     ```
 
