@@ -270,7 +270,7 @@ spec:
   http:
   - route:
     - destination:
-        name: ratings
+        host: ratings
         subset: v1
     timeout: 10s
 ```
@@ -290,7 +290,7 @@ spec:
   http:
   - route:
     - destination:
-        name: ratings
+        host: ratings
         subset: v1
     retries:
       attempts: 3
@@ -495,7 +495,7 @@ kind: DestinationRule
 metadata:
   name: reviews
 spec:
-  name: reviews
+  host: reviews
   subsets:
   - name: v1
     labels:
@@ -533,7 +533,7 @@ kind: DestinationRule
 metadata:
   name: reviews
 spec:
-  name: reviews
+  host: reviews
   subsets:
   - name: v1
     labels:
@@ -653,7 +653,7 @@ spec:
   http:
   - route:
     - destination:
-        name: ratings
+        host: ratings
         subset: v1
     timeout: 10s
 ```
