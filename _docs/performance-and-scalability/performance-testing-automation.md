@@ -11,5 +11,7 @@ type: markdown
 Both the synthetic benchmarks (fortio based) and the realistic application (Blueperf)
 are part of the nightly release pipeline and you can see the results on:
 
-* https://fortio-daily.istio.io/
-* https://ibmcloud-perf.istio.io/regpatrol/
+* [https://fortio-daily.istio.io/](https://fortio-daily.istio.io/)
+* [https://ibmcloud-perf.istio.io/regpatrol/](https://ibmcloud-perf.istio.io/regpatrol/)
+
+This enables us to catch regression early and track improvements over time.

@@ -12,9 +12,16 @@ We use Fortio (Φορτίο) as Istio's synthetic end to end load testing tool. 
 
 Fortio is a fast, small, reusable, embeddable go library as well as a command line tool and server process, the server includes a simple web UI and graphical representation of the results (both a single latency graph and a multiple results comparative min, max, avg and percentiles graphs).
 
-Here is an example of scenario run result graphing the latency distribution for istio-0.6.0 at 400qps between 2 services inside the mesh:
+Here is an example of scenario (one out of the 8 scenarios we run for every build) result graphing the latency distribution for istio-0.7.1 at 400qps between 2 services inside the mesh (with mTLS, Mixer Checks and Telemetry):
 
-<iframe src="https://fortio.istio.io/browse?url=2018-03-07-164634_0_6_0_400qps_scenario1_with_cache.json" width="100%" height="1024" scrolling="no" frameborder="0"></iframe>
+<iframe src="https://fortio.istio.io/?sel=qps_400-s1_to_s2-0.7.1-2018-04-05-22-06" width="100%" height="1024" scrolling="no" frameborder="0"></iframe>
 
+Comparing 0.6.0 and 0.7.1 for the same scenario:
+
+<iframe src="https://fortio.istio.io/?sel=qps_400-s1_to_s2-0.7.1-2018-04-05-22-06&sel=qps_400-s1_to_s2-0.6.0-2018-04-05-22-33" width="100%" height="1024" scrolling="no" frameborder="0"></iframe>
+
+And tracking the progress across all the tested releases for that scenario:
+
+<iframe src="https://fortio.istio.io/?s=qps_400-s1_to_s2" width="100%" height="1024" scrolling="no" frameborder="0"></iframe>
 
 You can learn more about [Fortio](https://github.com/istio/fortio/blob/master/README.md#fortio) on GitHub and see results on [https://fortio.istio.io](https://fortio.istio.io).
