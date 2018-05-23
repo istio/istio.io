@@ -136,49 +136,13 @@ To start the application, follow the instructions below corresponding to your Is
     reviews-v3-1813607990-8ch52                 2/2       Running   0          6m
     ```
 
-#### Determining the ingress IP and Port
+#### Determining the ingress IP and port
 
-Execute the following command to determine if your Kubernetes cluster is running in an environment that supports external load balancers
-
-```command
-$ kubectl get svc istio-ingressgateway -n istio-system
-NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)                                      AGE
-istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/TCP,443:31390/TCP,31400:31400/TCP   17h
-```
-
-If the `EXTERNAL-IP` value is set, your environment has an external load balancer that you can use for the ingress gateway
+Follow [the instructions]({{home}}/docs/tasks/traffic-management/ingress.html#determining-the-ingress-ip-and-ports) to set the `INGRESS_HOST` and `INGRESS_PORT` variables. Set `GATEWAY_URL`:
 
 ```command
-$ export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+$ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
 ```
-
-If the default service port of `istio-ingressgateway` is not `80` (Default value is 80), get external load balancer as follows
-```command
-$ export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}'):$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[0].port}')
-```
-
-If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not support external load balancers.
-In this case, you can access the gateway using the service `nodePort`.
-
-1.  _GKE:_
-
-    ```command
-    $ export GATEWAY_URL=<workerNodeAddress>:$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
-    $ gcloud compute firewall-rules create allow-book --allow tcp:$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
-    ```
-
-1.  _IBM Cloud Kubernetes Service Free Tier:_
-
-    ```command
-    $ bx cs workers <cluster-name or id>
-    $ export GATEWAY_URL=<public IP of the worker node>:$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.spec.ports[0].nodePort}')
-    ```
-
-1.  _Other environments (e.g., minikube, IBM Cloud Private etc):_
-
-    ```command
-    $ export GATEWAY_URL=$(kubectl get po -l istio=ingressgateway -n istio-system -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingressgateway -n istio-system -o 'jsonpath={.spec.ports[0].nodePort}')
-    ```
 
 ### Running on Docker with Consul or Eureka
 
@@ -208,7 +172,7 @@ In this case, you can access the gateway using the service `nodePort`.
 
     > If the Istio Pilot container terminates, re-run the command from the previous step.
 
-1.  Set the GATEWAY_URL:
+1.  Set GATEWAY_URL:
 
     ```command
     $ export GATEWAY_URL=localhost:9081
