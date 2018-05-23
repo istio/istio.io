@@ -495,7 +495,7 @@ kind: DestinationRule
 metadata:
   name: reviews
 spec:
-  name: reviews
+  host: reviews
   subsets:
   - name: v1
     labels:
@@ -533,7 +533,7 @@ kind: DestinationRule
 metadata:
   name: reviews
 spec:
-  name: reviews
+  host: reviews
   subsets:
   - name: v1
     labels:

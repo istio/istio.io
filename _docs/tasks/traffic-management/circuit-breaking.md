@@ -36,7 +36,7 @@ Let's set up a scenario to demonstrate the circuit-breaking capabilities of Isti
     metadata:
       name: httpbin
     spec:
-      name: httpbin
+      host: httpbin
       trafficPolicy:
         connectionPool:
           tcp:
@@ -63,7 +63,7 @@ Let's set up a scenario to demonstrate the circuit-breaking capabilities of Isti
       name: httpbin
       ...
     spec:
-      name: httpbin
+      host: httpbin
       trafficPolicy:
         connectionPool:
           http:
