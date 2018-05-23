@@ -98,17 +98,31 @@ spec:
   host: *.foo.svc.local.cluster
   trafficPolicy:
     tls:
-      mode: MUTUAL
-      clientCertificate: /etc/certs/cert-chain.pem
-      privateKey: /etc/certs/key.pem
-      caCertificates: /etc/certs/root-cert.pem
+      mode: ISTIO_MUTUAL      
 EOF
 ```
 
 > Note:
-* This rule is based on the assumption that there is no other destination rule in the system. If it's not the case, you need to modify traffic policy in existing rule accordingly.
+* This rule is based on the assumption that there is no other destination rule in the system. If it's not the case, you need to modify traffic policy in existing rules accordingly.
 * `*.foo.svc.local.cluster` matches all services in namespace `foo`.
-* You can also use the mode `ISTIO_MUTUAL` and let Istio to assign the path for key and certificates automatically.
+* You can also use the mode `MUTUAL` and fill in the paths for key and certificates as below. This is mainly to illustrate the settings that Istio uses behind the scene. In production environment, it's recommended to use `ISTIO_MUTUAL` mode.
+    ```bash
+    cat <<EOF | istioctl create -f -
+    apiVersion: "networking.istio.io/v1alpha3"
+    kind: "DestinationRule"
+    metadata:
+      name: "enable-mtls"
+      namespace: "foo"
+    spec:
+      host: *.foo.svc.local.cluster
+      trafficPolicy:
+        tls:
+          mode: MUTUAL
+          clientCertificate: /etc/certs/cert-chain.pem
+          privateKey: /etc/certs/key.pem
+          caCertificates: /etc/certs/root-cert.pem
+    EOF
+    ```
 
 Run the same testing command above. We should see request from `sleep.legacy` to `httpbin.foo` start to fail, as the result of enabling mTLS for `httpbin.foo` but `sleep.legacy` doesn't have sidecar to support it. On the other hand, for clients with sidecar (`sleep.foo` and `sleep.bar`), Istio automatically configures them to using mTLS where talking to `http.foo`, so they continue to work. Also, requests to `httpbin.bar` are not affected as the policy is effective on the `foo` namespace only.
 
@@ -155,10 +169,7 @@ spec:
 host: httpbin.bar.svc.local.cluster
 trafficPolicy:
   tls:
-    mode: MUTUAL
-    clientCertificate: /etc/certs/cert-chain.pem
-    privateKey: /etc/certs/key.pem
-    caCertificates: /etc/certs/root-cert.pem
+    mode: ISTIO_MUTUAL
 EOF
 ```
 
@@ -185,6 +196,25 @@ spec:
     - number: 1234
   peers:
   - mtls:
+EOF
+```
+
+And corresponding change in destination rule:
+
+```bash
+cat <<EOF | istioctl create -n bar -f -
+apiVersion: "networking.istio.io/v1alpha3"
+kind: "DestinationRule"
+metadata:
+  name: "enable-mtls"
+spec:
+host: httpbin.bar.svc.local.cluster
+trafficPolicy:
+  portLevelSettings:
+  - port:
+      number: 1234
+    tls:
+      mode: ISTIO_MUTUAL
 EOF
 ```
 
