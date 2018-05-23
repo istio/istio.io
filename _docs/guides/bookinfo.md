@@ -172,7 +172,7 @@ $ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
 
     > If the Istio Pilot container terminates, re-run the command from the previous step.
 
-1.  Set the GATEWAY_URL:
+1.  Set GATEWAY_URL:
 
     ```command
     $ export GATEWAY_URL=localhost:9081
