@@ -46,7 +46,7 @@ to the `ratings` service.
       http:
       - route:
         - destination:
-            name: reviews
+            host: reviews
             subset: v2
     EOF
     ```
@@ -69,7 +69,7 @@ to the `ratings` service.
             fixedDelay: 2s
         route:
         - destination:
-            name: ratings
+            host: ratings
             subset: v1
     EOF
     ```
@@ -93,7 +93,7 @@ to the `ratings` service.
       http:
       - route:
         - destination:
-            name: reviews
+            host: reviews
             subset: v2
         timeout: 1s
     EOF

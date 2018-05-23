@@ -56,12 +56,12 @@ two steps: 50%, 100%.
       http:
       - route:
         - destination:
-            name: reviews
+            host: reviews
             subset: v1
           weight: 50
       - route:
         - destination:
-            name: reviews
+            host: reviews
             subset: v3
           weight: 50
     ```

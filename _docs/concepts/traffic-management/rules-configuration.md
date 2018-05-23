@@ -270,7 +270,7 @@ spec:
   http:
   - route:
     - destination:
-        name: ratings
+        host: ratings
         subset: v1
     timeout: 10s
 ```
@@ -290,7 +290,7 @@ spec:
   http:
   - route:
     - destination:
-        name: ratings
+        host: ratings
         subset: v1
     retries:
       attempts: 3
@@ -653,7 +653,7 @@ spec:
   http:
   - route:
     - destination:
-        name: ratings
+        host: ratings
         subset: v1
     timeout: 10s
 ```

@@ -65,11 +65,11 @@ continue without any errors.
               regex: ^(.*?;)?(user=jason)(;.*)?$
         route:
         - destination:
-            name: ratings
+            host: ratings
             subset: v1
       - route:
         - destination:
-            name: ratings
+            host: ratings
             subset: v1
     ```
 
@@ -145,11 +145,11 @@ message.
               regex: ^(.*?;)?(user=jason)(;.*)?$
         route:
         - destination:
-            name: ratings
+            host: ratings
             subset: v1
       - route:
         - destination:
-            name: ratings
+            host: ratings
             subset: v1
     ```
 
