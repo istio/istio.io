@@ -8,9 +8,12 @@ type: markdown
 ---
 {% include home.html %}
 
+We use Go’s native tools to write targeted micro-benchmarks in performance sensitive areas. Our main goal with this approach is to provide easy-to-use microbenchmarks that developers can use to perform quick before/after performance comparisons for their changes.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus mattis dui et mauris rutrum varius. Donec tincidunt purus vitae metus aliquet, quis imperdiet dui blandit. Morbi blandit tincidunt elit in luctus. Praesent et turpis sed dolor posuere tincidunt nec imperdiet urna. Vivamus dictum in mauris eu iaculis. Duis iaculis justo ligula. Aliquam diam urna, aliquam vitae metus nec, tempor varius urna. Donec aliquam elit et ornare posuere. Pellentesque tincidunt et neque a mattis. Sed eleifend sit amet tortor a laoreet. Mauris in mattis ante, non malesuada ante. Vestibulum maximus pulvinar risus, ac commodo ipsum tincidunt et. Interdum et malesuada fames ac ante ipsum primis in faucibus.
+[Here](https://github.com/istio/istio/blob/master/mixer/test/perf/singlecheck_test.go) is a sample micro-benchmark for Mixer that measures the performance of attribute processing code.
 
-Donec sed vehicula turpis. Praesent faucibus faucibus lacus nec fringilla. Integer vel tortor et tortor consequat dapibus. Curabitur porta eu urna ac imperdiet. Sed feugiat aliquam urna id vestibulum. Sed sem erat, vulputate id ante vel, facilisis semper nulla. Donec pulvinar ante id pulvinar aliquet. Cras eleifend pulvinar sem, at lobortis justo aliquam et.
+The developers can also utilize a golden-files approach to capture the state of their benchmark results in the source tree for keeping track and  referencing purposes. [Here](https://github.com/istio/istio/blob/master/mixer/test/perf/bench.baseline) is a baseline file.
 
-Morbi vel augue sed orci lobortis lacinia vel quis neque. Nunc gravida velit massa, ac aliquet urna consequat ac. Duis dignissim sodales risus. Proin eu nibh at orci dignissim lacinia eu in velit. Nulla ac eleifend nunc, posuere sagittis nulla. Maecenas dignissim tincidunt accumsan. Cras sed eros vel nibh viverra vestibulum id a nisi. Ut ultrices, nisl in mollis eleifend, lorem urna lobortis lorem, egestas convallis nulla massa in dolor. Donec ac tortor lacus. Duis sollicitudin turpis sed felis varius mollis. In eros eros, mollis nec sodales vel, mollis vitae orci. Fusce faucibus ornare augue.
+Due to the nature of this testing type, there is a high-variance in latency numbers across machines. It is recommended that microbenchmark numbers captured in this way are compared only against the previous runs on the same machine.
+
+The [perfcheck.sh](https://github.com/istio/istio/blob/master/bin/perfcheck.sh) script can be used to quickly run benchmarks in a sub-folder and compare its results against the co-located baseline files.
