@@ -218,7 +218,7 @@ function handleDOMLoaded() {
                     for (var j = 0; j < lines.length; j++) {
                         var line = lines[j].trim();
                         if (bottom) {
-                            output = output + "\n" + line
+                            output = output + "\n" + line;
                         } else {
                             if (line.startsWith("$ ")) {
                                 // line is definitely a command
@@ -235,7 +235,7 @@ function handleDOMLoaded() {
                             if (cmd != "") {
                                 cmd = cmd + "\n";
                             }
-                            cmd = cmd + line
+                            cmd = cmd + line;
                         }
                     }
 
