@@ -173,32 +173,6 @@ In the following subsections we configure a `Gateway` on port 80 for unencrypted
 
 ### Verifying the gateway for HTTP
 
-The proxy instances implementing a particular `Gateway` configuration can be specified using a
-[selector]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway.selector) field.
-In our case, we have set the selector value to `istio: ingressgateway` to use the default
-`istio-ingressgateway` implementation. Therefore, to test our gateway we will send requests to
-the default `istio-ingressgateway` service.
-
-1.  Get the `ingressgateway` controller pod's hostIP:
-
-    ```command
-    $ kubectl -n istio-system get po -l istio=ingressgateway -o jsonpath='{.items[0].status.hostIP}'
-    169.47.243.100
-    ```
-
-1.  Get the `istio-ingressgateway` service's _nodePort_ for port 80:
-
-    ```command
-    $ kubectl -n istio-system get svc istio-ingressgateway
-    NAME                   CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
-    istio-ingressgateway   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
-    ```
-
-    ```command
-    $ export INGRESS_HOST=169.47.243.100
-    $ export INGRESS_PORT=31486
-    ```
-
 1.  Access the _httpbin_ service using _curl_. Note the `--resolve` flag of _curl_ that allows to access an IP address by using an arbitrary domain name. In our case we access our ingress Gateway by "httpbin.example.com". Note that we specified "httpbin.example.com" as a host handled by our `Gateway`.
 
     ```command
@@ -280,18 +254,9 @@ In this subsection we add to our gateway the port 443 to handle the HTTPS traffi
 
 1. Verify that our gateway still works for the port 80 and accepts unencrypted HTTP traffic as before. We do it by accessing the _httpbin_ service, port 80, as described in the [Verifying the gateway for HTTP](#verifying-the-gateway-for-http) subsection.
 
-1. Get the `istio-ingressgateway` service's _nodePort_ for the port 443:
-
-   ```command
-   $ kubectl -n istio-system get svc istio-ingressgateway
-   NAME                   CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
-   istio-ingressgateway   10.10.10.155   <pending>     80:31486/TCP,443:32254/TCP   32m
-   ```
-
-   ```command
-   $ export SECURE_INGRESS_PORT=32254
-   ```
-1. Access the _httpbin_ service by HTTPS. Here we use _curl_'s `-k` option to instruct _curl_ not to check our certificate (since it is a fake certificate we created for testing the Gateway only, _curl_ is not aware of it).
+1. Access the _httpbin_ service by HTTPS, sending an HTTPS request by _curl_ to `SECURE_INGRESS_PORT`.
+Here we use _curl_'s `-k` option to instruct _curl_ not to check our certificate
+(since it is a fake certificate we created for testing the Gateway only, _curl_ is not aware of it).
 
    ```command
    $ curl --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST -I -k https://httpbin.example.com:$SECURE_INGRESS_PORT/status/200
