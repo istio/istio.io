@@ -16,10 +16,9 @@ This task describes how to configure Istio to expose a service outside of the se
 
 ## Before you begin
 
-* Setup Istio by following the instructions in the
-  [Installation guide]({{home}}/docs/setup/).
+*   Setup Istio by following the instructions in the [Installation guide]({{home}}/docs/setup/).
 
-* Make sure your current directory is the `istio` directory.
+*   Make sure your current directory is the `istio` directory.
 
 *   Start the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) sample,
     which will be used as the destination service to be exposed externally.
@@ -30,18 +29,74 @@ This task describes how to configure Istio to expose a service outside of the se
     $ kubectl apply -f samples/httpbin/httpbin.yaml
     ```
 
-    Without Istio-Initializer:
-
-    ```command
-    $ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml)
-    ```
-
-*   Generate a certificate and key that will be used to demonstrate a TLS-secured gateway
-
-    A private key and certificate can be created for testing using [OpenSSL](https://www.openssl.org/).
+*   A private key and certificate can be created for testing using [OpenSSL](https://www.openssl.org/).
 
     ```command
     $ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /tmp/tls.key -out /tmp/tls.crt -subj "/CN=httpbin.example.com"
+    ```
+*   Determine the ingress IP and ports, see the next subsection.
+
+### Determining the ingress IP and ports
+
+Execute the following command to determine if your Kubernetes cluster is running in an environment that supports external load balancers.
+
+```command
+$ kubectl get svc istio-ingressgateway -n istio-system
+NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)                                      AGE
+istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/TCP,443:31390/TCP,31400:31400/TCP   17h
+```
+
+If the `EXTERNAL-IP` value is set, your environment has an external load balancer that you can use for the ingress gateway
+
+#### Determining the ingress IP and ports for a load balancer ingress gateway
+
+```command
+$ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+$ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http")].port}')
+$ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
+```
+
+If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not provide an external load balancer for the ingress gateway.
+In this case, you can access the gateway using the service .
+
+#### Determining the ingress IP and ports for a `nodePort` ingress gateway
+
+Determine the ports:
+```command
+$ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http")].nodePort}')
+$ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
+```
+
+The ingress IP is determined depending on the cluster provider.
+
+1.  _GKE:_
+
+    ```command
+    $ export INGRESS_HOST=<workerNodeAddress>
+    ```
+
+    You need to create firewall rules to allow the TCP traffic to the _ingressgateway_ service's ports.
+    Run the following commands to allow the traffic for the HTTP port, the secure port (HTTPS) or both.
+
+    ```command
+    $ gcloud compute firewall-rules create allow-book --allow tcp:$INGRESS_PORT
+    ```
+
+    ```command
+    $ gcloud compute firewall-rules create allow-book --allow tcp:$SECURE_INGRESS_PORT
+    ```
+
+1.  _IBM Cloud Kubernetes Service Free Tier:_
+
+    ```command
+    $ bx cs workers <cluster-name or id>
+    $ export INGRESS_HOST=<public IP of one of the worker nodes>
+    ```
+
+1.  _Other environments (e.g., minikube, IBM Cloud Private etc):_
+
+    ```command
+    $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o 'jsonpath={.items[0].status.hostIP}')
     ```
 
 ## Configuring ingress using an Istio Gateway
