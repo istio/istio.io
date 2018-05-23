@@ -12,6 +12,8 @@ We use Fortio (Φορτίο) as Istio's synthetic end to end load testing tool. 
 
 Fortio is a fast, small, reusable, embeddable go library as well as a command line tool and server process, the server includes a simple web UI and graphical representation of the results (both a single latency graph and a multiple results comparative min, max, avg and percentiles graphs).
 
+Fortio is also 100% opensource and with no external dependencies beside go and gRPC so you can reproduce all our results easily and add your own variants or scenarios you are interested in exploring.
+
 Here is an example of scenario (one out of the 8 scenarios we run for every build) result graphing the latency distribution for istio-0.7.1 at 400qps between 2 services inside the mesh (with mTLS, Mixer Checks and Telemetry):
 
 <iframe src="https://fortio.istio.io/?sel=qps_400-s1_to_s2-0.7.1-2018-04-05-22-06" width="100%" height="1024" scrolling="no" frameborder="0"></iframe>
