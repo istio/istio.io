@@ -18,9 +18,9 @@ Here is an example of scenario (one out of the 8 scenarios we run for every buil
 
 <iframe src="https://fortio.istio.io/?sel=qps_400-s1_to_s2-0.7.1-2018-04-05-22-06" width="100%" height="1024" scrolling="no" frameborder="0"></iframe>
 
-Comparing 0.6.0 and 0.7.1 for the same scenario:
+Comparing 0.6.0 and 0.7.1 histograms/response time distribution for the same scenario, clearly showing 0.7 improvements:
 
-<iframe src="https://fortio.istio.io/?sel=qps_400-s1_to_s2-0.7.1-2018-04-05-22-06&sel=qps_400-s1_to_s2-0.6.0-2018-04-05-22-33" width="100%" height="1024" scrolling="no" frameborder="0"></iframe>
+<iframe src="https://fortio.istio.io/?xMin=2&xMax=110&xLog=true&sel=qps_400-s1_to_s2-0.7.1-2018-04-05-22-06&sel=qps_400-s1_to_s2-0.6.0-2018-04-05-22-33" width="100%" height="1024" scrolling="no" frameborder="0"></iframe>
 
 And tracking the progress across all the tested releases for that scenario:
 
