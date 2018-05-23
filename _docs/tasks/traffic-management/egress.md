@@ -148,6 +148,10 @@ to set a timeout rule on calls to the httpbin.org service.
         - httpbin.org
       http:
       - timeout: 3s
+        route:
+          - destination:
+              host: httpbin.org
+            weight: 100
     EOF
     ```
 
