@@ -46,7 +46,7 @@ Envoy determines its actual choice of service version dynamically
 based on the routing rules specified by the operator using Pilot. This
 model enables the application code to decouple itself from the evolution of its dependent
 services, while providing other benefits as well (see
-[Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html)). Routing
+[Mixer]({{home}}/docs/concepts/policies-and-telemetry/overview.html)). Routing
 rules allow Envoy to select a version based
 on criteria such as headers, tags associated with
 source/destination, and/or by weights assigned to each version.

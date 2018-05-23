@@ -1,8 +1,8 @@
 ---
 title: Security
-description: Describes tasks that help securing the service mesh traffic.
+description: Demonstrates how to secure the mesh.
 
-weight: 40
+weight: 19
 
 toc: false
 redirect_from:

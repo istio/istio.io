@@ -1,6 +1,6 @@
 ---
-title: Policy Enforcement
-description: Describes tasks that demonstrate policy enforcement features.
+title: Policies
+description: Demonstrates policy enforcement features.
 
 weight: 20
 
