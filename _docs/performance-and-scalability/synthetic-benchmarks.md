@@ -16,7 +16,7 @@ Fortio is also 100% opensource and with no external dependencies beside go and g
 
 Here is an example of scenario (one out of the 8 scenarios we run for every build) result graphing the latency distribution for istio-0.7.1 at 400qps between 2 services inside the mesh (with mTLS, Mixer Checks and Telemetry):
 
-<iframe src="https://fortio.istio.io/?sel=qps_400-s1_to_s2-0.7.1-2018-04-05-22-06" width="100%" height="1024" scrolling="no" frameborder="0"></iframe>
+<iframe src="https://fortio.istio.io/browse?url=qps_400-s1_to_s2-0.7.1-2018-04-05-22-06.json&xMax=105&yLog=true" width="100%" height="1024" scrolling="no" frameborder="0"></iframe>
 
 Comparing 0.6.0 and 0.7.1 histograms/response time distribution for the same scenario, clearly showing 0.7 improvements:
 
