@@ -140,7 +140,7 @@ Let's consider a 3-tier application with three services: photo-frontend, photo-b
 In this scenario, a cluster admin creates 3 namespaces: istio-citadel-ns, photo-ns, and datastore-ns. Admin has access to all namespaces, and each team only has
 access to its own namespace. The photo SRE team creates 2 service accounts to run photo-frontend and photo-backend respectively in namespace photo-ns. The
 datastore SRE team creates 1 service account to run the datastore service in namespace datastore-ns. Moreover, we need to enforce the service access control
-in [Istio Mixer]({{home}}/docs/concepts/policy-and-control/mixer.html) such that photo-frontend cannot access datastore.
+in [Istio Mixer]({{home}}/docs/concepts/policies-and-telemetry/overview.html) such that photo-frontend cannot access datastore.
 
 In this setup, Citadel is able to provide keys and certificates management for all namespaces, and isolate
 microservice deployments from each other.

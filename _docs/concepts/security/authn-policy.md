@@ -19,9 +19,9 @@ Identities from both authentication parts, if applicable, are output to the next
 
 Authentication policies are saved in Istio config store (in 0.7, the storage implementation uses Kubernetes CRD), and distributed by control plane. Depending on the size of the mesh, config propagation may take a few seconds to a few minutes. During the transition, you can expect traffic lost or inconsistent authentication results.
 
-{% include image.html width="80%" ratio="100%"
+{% include image.html width="80%" ratio="75%"
     link="./img/authn.svg"
-    caption="Istio authentication policy architecture"
+    caption="Authentication Policy Architecture"
     %}
 
 Policy is scoped to namespaces, with (optional) target selector rules to narrow down the set of services (within the same namespace as the policy) on which the policy should be applied. This aligns with the ACL model based on Kubernetes RBAC. More specifically, only the admin of the namespace can set policies for services in that namespace.
@@ -36,7 +36,7 @@ Authentication is implemented by the Istio sidecars. For example, with an Envoy 
 
 Origin principal (principal from origin authentication) is not explicitly output. In general, it can always be reconstructed by joining (`iss`) and subject (`sub`) claims with a "/" separator (for example, if `iss` and `sub` claims are "*googleapis.com*" and "*123456*" respectively, then origin principal is "*googleapis.com/123456*"). On the other hand, if principal binding is USE_ORIGIN, **request.auth.principal** carries the same value as origin principal.
 
-## Anatomy of the policy
+## Anatomy of a policy
 
 ### Target selectors
 
