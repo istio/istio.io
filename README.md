@@ -8,75 +8,91 @@ file to learn about the overall Istio project and how to get in touch with us. T
 contribute to any of the Istio components, please
 see the Istio [contribution guidelines](https://github.com/istio/community/blob/master/CONTRIBUTING.md).
 
-* [Working with the site](#working-with-the-site)
+* [Editing and testing content](#editing-and-testing-content)
 * [Linting](#linting)
+* [Site infrastructure](#site-infrastructure)
 * [Versions and releases](#versions-and-releases)
   * [How versioning works](#how-versioning-works)
   * [Publishing content immediately](#publishing-content-immediately)
   * [Creating a version](#creating-a-version)
 
-## Working with the site
+## Editing and testing content
 
-We use [Jekyll](https://jekyllrb.com/) to generate our sites.
-
-To run the site locally with Docker, use the following command from the top level directory for this git repo
-(e.g. pwd must be `~/github/istio.github.io` if you were in `~/github` when you issued
-`git clone https://github.com/istio/istio.github.io.git`)
+We use [Hugo](https://gohugo.io/) to generate our sites. To build and test the site locally,
+install Hugo, go to the root of the repo and do:
 
 ```bash
-# First time: (slow)
-docker run --name istio-jekyll --volume=$(pwd):/srv/jekyll -w /srv/jekyll -it -p 4000:4000 jekyll/jekyll:3.7.3 sh -c "bundle install && rake test && bundle exec jekyll serve --incremental --host 0.0.0.0"
-# Then open browser with url 127.0.0.1:4000 to see the change.
-# Subsequent, each time you want to see a new change and you stopped the previous run by ctrl+c: (much faster)
-docker start istio-jekyll -a -i
-# Clean up, only needed if you won't be previewing website changes for a long time or you want to start over:
-docker rm istio-jekyll
+$ hugo serve
 ```
 
-The `rake test` part is to make sure you are not introducing HTML errors or bad links, you should see
+This will build the site and start a web server hosting the site. You can then connect to the web server
+at `http://localhost:1313`.
+
+All normal content for the site is located in the `content` directory. To
+create a new content file, go to the root of the repo and do:
 
 ```bash
-HTML-Proofer finished successfully.
+$ hugo new <path to new file>
 ```
 
-in the output.
-
-Alternatively, if you just want to develop locally w/o Docker/Kubernetes/Minikube, you can try installing Jekyll locally.
-You may need to install other prerequisites manually (which is where using the docker image shines). Here's an example of doing
-so for Mac OS X:
+This will create a fresh content file, ready for editing. The path you specify is relative to the `content` directory. For
+example:
 
 ```bash
-xcode-select --install
-sudo xcodebuild -license
-brew install ruby
-gem update --system
-gem install mdspell
-gem install bundler
-gem install jekyll
-cd istio.github.io
-bundle install
-bundle exec rake test
-bundle exec jekyll serve
+$ hugo new docs/tasks/traffic-management/foo.md
 ```
+
+Will create the file `content/docs/tasks/traffic-management/foo.md` which you can then add your markdown to.
 
 ## Linting
 
-You should run `scripts/linters.sh` prior to checking in your changes.
-This will run 3 tests:
+We use linters to ensure some base quality to the site's content. We currently
+run 3 linters as a precommit requirement:
 
 * HTML proofing, which ensures all your links are valid along with other checks.
 
 * Spell checking.
 
-* Style checking, which makes sure your markdown file complies with some common style rules.
+* Style checking, which makes sure your markdown files comply with our common style rules.
 
-If you get a spelling error, you have three choices to address it:
+You can run these linters locally using:
+
+```bash
+$ make prep_lint
+$ make lint
+```
+
+The `prep_lint` step installs a bunch of Ruby and Node.js tools in a local directory. You only need to do
+this once. Afterwards, just use the `lint` target to run the linters.
+
+If you get spelling errors, you have three choices to address it:
 
 * It's a real typo, so fix your markdown.
 
 * It's a command/field/symbol name, so stick some `backticks` around it.
 
-* It's really valid, so go add the word to the .spelling file at the root of the repo.
+* It's really valid, so go add the word to the `.spelling` file at the root of the repo.
+
+## Site infrastructure
+
+Here's how things work:
+
+* Primary site content is in the `content` directory. This is mostly
+markdown files which Hugo processes into HTML.
+
+* Additional site content is in the `static` directory. These are files that
+Hugo directly copies to the site without any processing.
+
+*   The `src` directory contains the source material for certain files from the
+`static` directory. You use
+
+    ```bash
+    $ make prep_build
+    $ make build
+    ```
+
+    to build the material from the `src` directory and refresh what's in the `static`
+    directory.
 
 ## Versions and releases
 
@@ -126,24 +142,24 @@ version of Istio is 0.6 and you wish to introduce 0.7 which has been under devel
 1. Create a new release branch off of master, named as release-*major*.*minor*, which in this case would be
 release-0.7. There is one such branch for every release.
 
-1. In the **master** branch, edit the file `_data/istio.yml` and update the `version` field to have the version
+1. In the **master** branch, edit the file `data/args.yml` and update the `version` field to have the version
 of the next release of Istio. In this case, you would set the field to 0.8.
 
-1. In the **master** branch, edit the file `_data/releases.yml` and add a new entry at the top of the file
+1. In the **master** branch, edit the file `data/releases.yml` and add a new entry at the top of the file
 for version 0.8. You'll need to make sure the URLs are updated for the first few entries. The top
 entry (0.8) should point to preliminary.istio.io. The second entry (0.7) should point to istio.io. The third
 and subsequent entries should point to archive.istio.io.
 
 1. Commit the previous two edits to GitHub.
 
-1. In the **release** branch you created, edit the file `_data/istio.yml`. Set the `preliminary` field to `false`.
+1. In the **release** branch you created, edit the file `data/args.yml`. Set the `preliminary` field to `false`.
 
 1. Commit the previous edit to GitHub.
 
 1. Go to the Google Search Console and create a new search engine that searches the archive.istio.io/V&lt;major&gt;.&lt;minor&gt;
 directory. This search engine will be used to perform version-specific searches on archive.istio.io.
 
-1. In the **previous release's** branch (in this case release-0.6), edit the file `_data/istio.yml`. Set the
+1. In the **previous release's** branch (in this case release-0.6), edit the file `data/args.yml`. Set the
 `archive` field to true, the `archive_date` field to the current date, and the `search_engine_id` field
 to the ID of the search engine you created in the prior step.
 

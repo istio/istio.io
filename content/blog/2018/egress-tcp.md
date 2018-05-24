@@ -6,13 +6,12 @@ subtitle: Egress rules for TCP traffic
 attribution: Vadim Eisenberg
 weight: 92
 ---
-{% include home.html %}
 
-In my previous blog post, [Consuming External Web Services]({{home}}/blog/2018/egress-https.html), I described how external services can be consumed by in-mesh Istio applications via HTTPS. In this post, I demonstrate consuming external services over TCP. I use the [Istio Bookinfo sample application]({{home}}/docs/guides/bookinfo.html), the version in which the book ratings data is persisted in a MySQL database. I deploy this database outside the cluster and configure the _ratings_ microservice to use it. I define an [egress rule]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#EgressRule) to allow the in-mesh applications to access the external database.
+In my previous blog post, [Consuming External Web Services](/blog/2018/egress-https/), I described how external services can be consumed by in-mesh Istio applications via HTTPS. In this post, I demonstrate consuming external services over TCP. I use the [Istio Bookinfo sample application](/docs/guides/bookinfo/), the version in which the book ratings data is persisted in a MySQL database. I deploy this database outside the cluster and configure the _ratings_ microservice to use it. I define an [egress rule](/docs/reference/config/istio.routing.v1alpha1/#EgressRule) to allow the in-mesh applications to access the external database.
 
 ## Bookinfo sample application with external ratings database
 
-First, I set up a MySQL database instance to hold book ratings data, outside my Kubernetes cluster. Then I modify the [Bookinfo sample application]({{home}}/docs/guides/bookinfo.html) to use my database.
+First, I set up a MySQL database instance to hold book ratings data, outside my Kubernetes cluster. Then I modify the [Bookinfo sample application](/docs/guides/bookinfo/) to use my database.
 
 ### Setting up the database for ratings data
 
@@ -118,17 +117,16 @@ Now I am ready to deploy a version of the Bookinfo application that will use my 
 
 ### Initial setting of Bookinfo application
 
-To demonstrate the scenario of using an external database, I start with a Kubernetes cluster with [Istio installed]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps). Then I deploy the [Istio Bookinfo sample application]({{home}}/docs/guides/bookinfo.html). This application uses the _ratings_ microservice to fetch book ratings, a number between 1 and 5. The ratings are displayed as stars for each review. There are several versions of the _ratings_ microservice. Some use [MongoDB](https://www.mongodb.com), others use [MySQL](https://www.mysql.com) as their database.
+To demonstrate the scenario of using an external database, I start with a Kubernetes cluster with [Istio installed](/docs/setup/kubernetes/quick-start/#installation-steps). Then I deploy the [Istio Bookinfo sample application](/docs/guides/bookinfo/). This application uses the _ratings_ microservice to fetch book ratings, a number between 1 and 5. The ratings are displayed as stars for each review. There are several versions of the _ratings_ microservice. Some use [MongoDB](https://www.mongodb.com), others use [MySQL](https://www.mysql.com) as their database.
 
-The example commands in this blog post work with Istio 0.3+, with or without [Mutual TLS]({{home}}/docs/concepts/security/mutual-tls.html) enabled.
+The example commands in this blog post work with Istio 0.3+, with or without [Mutual TLS](/docs/concepts/security/mutual-tls/) enabled.
 
-As a reminder, here is the end-to-end architecture of the application from the [Bookinfo Guide]({{home}}/docs/guides/bookinfo.html).
+As a reminder, here is the end-to-end architecture of the application from the [Bookinfo Guide](/docs/guides/bookinfo/).
 
-{% assign url = home | append: "/docs/guides/img/bookinfo/withistio.svg" %}
-{% include image.html width="80%" ratio="59.08%"
-    link=url
+{{< image width="80%" ratio="59.08%"
+    link="/docs/guides/img/bookinfo/withistio.svg"
     caption="The original Bookinfo application"
-    %}
+    >}}
 
 ### Use the database for ratings data in Bookinfo application
 
@@ -155,7 +153,7 @@ As a reminder, here is the end-to-end architecture of the application from the [
     ```
 
 1.  I route all the traffic destined to the _reviews_ service to its _v3_ version. I do this to ensure that the _reviews_ service always calls the _ratings_
-service. In addition, I route all the traffic destined to the _ratings_ service to _ratings v2-mysql_ that uses my database. I add routing for both services above by adding two [route rules]({{home}}/docs/reference/config/istio.routing.v1alpha1.html). These rules are specified in `samples/bookinfo/kube/route-rule-ratings-mysql.yaml` of an Istio release archive.
+service. In addition, I route all the traffic destined to the _ratings_ service to _ratings v2-mysql_ that uses my database. I add routing for both services above by adding two [route rules](/docs/reference/config/istio.routing.v1alpha1/). These rules are specified in `samples/bookinfo/kube/route-rule-ratings-mysql.yaml` of an Istio release archive.
 
     ```command
     $ istioctl create -f samples/bookinfo/kube/route-rule-ratings-mysql.yaml
@@ -165,27 +163,27 @@ service. In addition, I route all the traffic destined to the _ratings_ service 
 
 The updated architecture appears below. Note that the blue arrows inside the mesh mark the traffic configured according to the route rules we added. According to the route rules, the traffic is sent to _reviews v3_ and _ratings v2-mysql_.
 
-{% include image.html width="80%" ratio="59.31%"
-    link="./img/bookinfo-ratings-v2-mysql-external.svg"
+{{< image width="80%" ratio="59.31%"
+    link="../img/bookinfo-ratings-v2-mysql-external.svg"
     caption="The Bookinfo application with ratings v2-mysql and an external MySQL database"
-    %}
+    >}}
 
 Note that the MySQL database is outside the Istio service mesh, or more precisely outside the Kubernetes cluster. The boundary of the service mesh is marked by a dashed line.
 
 ### Access the webpage
 
-Let's access the webpage of the application, after [determining the ingress IP and port]({{home}}/docs/guides/bookinfo.html#determining-the-ingress-ip-and-port).
+Let's access the webpage of the application, after [determining the ingress IP and port](/docs/guides/bookinfo/#determining-the-ingress-ip-and-port).
 
 We have a problem... Instead of the rating stars, the message _"Ratings service is currently unavailable"_ is currently displayed below each review:
 
-{% include image.html width="80%" ratio="36.19%"
-    link="./img/errorFetchingBookRating.png"
+{{< image width="80%" ratio="36.19%"
+    link="../img/errorFetchingBookRating.png"
     caption="The Ratings service error messages"
-    %}
+    >}}
 
-As in [Consuming External Web Services]({{home}}/blog/2018/egress-https.html), we experience **graceful service degradation**, which is good. The application did not crash due to the error in the _ratings_ microservice. The webpage of the application correctly displayed the book information, the details, and the reviews, just without the rating stars.
+As in [Consuming External Web Services](/blog/2018/egress-https/), we experience **graceful service degradation**, which is good. The application did not crash due to the error in the _ratings_ microservice. The webpage of the application correctly displayed the book information, the details, and the reviews, just without the rating stars.
 
-We have the same problem as in [Consuming External Web Services]({{home}}/blog/2018/egress-https.html), namely all the traffic outside the Kubernetes cluster, both TCP and HTTP, is blocked by default by the sidecar proxies. To enable such traffic for TCP, an egress rule for TCP must be defined.
+We have the same problem as in [Consuming External Web Services](/blog/2018/egress-https/), namely all the traffic outside the Kubernetes cluster, both TCP and HTTP, is blocked by default by the sidecar proxies. To enable such traffic for TCP, an egress rule for TCP must be defined.
 
 ### Egress rule for an external MySQL instance
 
@@ -215,10 +213,10 @@ Note that for a TCP egress rule, we specify `tcp` as the protocol of a port of t
 
 It worked! Accessing the web page of the application displays the ratings without error:
 
-{% include image.html width="80%" ratio="36.69%"
-    link="./img/externalMySQLRatings.png"
+{{< image width="80%" ratio="36.69%"
+    link="../img/externalMySQLRatings.png"
     caption="Book Ratings Displayed Correctly"
-    %}
+    >}}
 
 Note that we see a one-star rating for both displayed reviews, as expected. I changed the ratings to be one star to provide us with a visual clue that our external database is indeed being used.
 
@@ -228,7 +226,7 @@ As with egress rules for HTTP/HTTPS, we can delete and create egress rules for T
 
 Some in-mesh Istio applications must access external services, for example legacy systems. In many cases, the access is not performed over HTTP or HTTPS protocols. Other TCP protocols are used, such as database-specific protocols like [MongoDB Wire Protocol](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/) and [MySQL Client/Server Protocol](https://dev.mysql.com/doc/internals/en/client-server-protocol.html) to communicate with external databases.
 
-Note that in case of access to external HTTPS services, as described in the [Control Egress TCP Traffic]({{home}}/docs/tasks/traffic-management/egress.html) task, an application must issue HTTP requests to the external service. The Envoy sidecar proxy attached to the pod or the VM, will intercept the requests and open an HTTPS connection to the external service. The traffic will be unencrypted inside the pod or the VM, but it will leave the pod or the VM encrypted.
+Note that in case of access to external HTTPS services, as described in the [Control Egress TCP Traffic](/docs/tasks/traffic-management/egress/) task, an application must issue HTTP requests to the external service. The Envoy sidecar proxy attached to the pod or the VM, will intercept the requests and open an HTTPS connection to the external service. The traffic will be unencrypted inside the pod or the VM, but it will leave the pod or the VM encrypted.
 
 However, sometimes this approach cannot work due to the following reasons:
 
@@ -252,17 +250,17 @@ To enable TCP traffic to an external service by its hostname, all the IPs of the
 
 Note that all the IPs of an external service are not always known. To enable TCP traffic by IPs, as opposed to the traffic by a hostname, only the IPs that are used by the applications must be specified.
 
-Also note that the IPs of an external service are not always static, for example in the case of [CDNs](https://en.wikipedia.org/wiki/Content_delivery_network). Sometimes the IPs are static most of the time, but can be changed from time to time, for example due to infrastructure changes. In these cases, if the range of the possible IPs is known, you should specify the range by CIDR blocks (even by multiple egress rules if needed). As an example, see the approach we used in the case of `wikipedia.org`,  described in [Control Egress TCP Traffic Task]({{home}}/docs/tasks/traffic-management/egress-tcp.html). If the range of the possible IPs is not known, egress rules for TCP cannot be used and [the external services must be called directly]({{home}}/docs/tasks/traffic-management/egress.html#calling-external-services-directly), circumventing the sidecar proxies.
+Also note that the IPs of an external service are not always static, for example in the case of [CDNs](https://en.wikipedia.org/wiki/Content_delivery_network). Sometimes the IPs are static most of the time, but can be changed from time to time, for example due to infrastructure changes. In these cases, if the range of the possible IPs is known, you should specify the range by CIDR blocks (even by multiple egress rules if needed). As an example, see the approach we used in the case of `wikipedia.org`,  described in [Control Egress TCP Traffic Task](/docs/tasks/traffic-management/egress-tcp/). If the range of the possible IPs is not known, egress rules for TCP cannot be used and [the external services must be called directly](/docs/tasks/traffic-management/egress/#calling-external-services-directly), circumventing the sidecar proxies.
 
 ## Relation to mesh expansion
 
 Note that the scenario described in this post is different from the mesh expansion scenario, described in the
-[Integrating Virtual Machines]({{home}}/docs/guides/integrating-vms.html) guide. In that scenario, a MySQL instance runs on an external
+[Integrating Virtual Machines](/docs/guides/integrating-vms/) guide. In that scenario, a MySQL instance runs on an external
 (outside the cluster) machine (a bare metal or a VM), integrated with the Istio service mesh. The MySQL service becomes a first-class citizen of the mesh with all the beneficial features of Istio applicable. Among other things, the service becomes addressable by a local cluster domain name, for example by `mysqldb.vm.svc.cluster.local`, and the communication to it can be secured by
-[mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html). There is no need to create an egress rule to access this service; however, the
+[mutual TLS authentication](/docs/concepts/security/mutual-tls/). There is no need to create an egress rule to access this service; however, the
 service must be registered with Istio. To enable such integration, Istio components (_Envoy proxy_, _node-agent_, _istio-agent_) must be
 installed on the machine and the Istio control plane (_Pilot_, _Mixer_, _CA_) must be accessible from it. See the
-[Istio Mesh Expansion]({{home}}/docs/setup/kubernetes/mesh-expansion.html) instructions for more details.
+[Istio Mesh Expansion](/docs/setup/kubernetes/mesh-expansion/) instructions for more details.
 
 In our case, the MySQL instance can run on any machine or can be provisioned as a service by a cloud provider. There is no requirement to integrate the machine
 with Istio. The Istio control plane does not have to be accessible from the machine. In the case of MySQL as a service, the machine which MySQL runs on may be not accessible and installing on it the required components may be impossible. In our case, the MySQL instance is addressable by its global domain name, which could be beneficial if the consuming applications expect to use that domain name. This is especially relevant when that expected domain name cannot be changed in the deployment configuration of the consuming applications.
@@ -318,6 +316,6 @@ In this blog post, I demonstrated how the microservices in an Istio service mesh
 
 To read more about Istio egress traffic control:
 
-* for TCP, see [Control Egress TCP Traffic Task]({{home}}/docs/tasks/traffic-management/egress-tcp.html)
+* for TCP, see [Control Egress TCP Traffic Task](/docs/tasks/traffic-management/egress-tcp/)
 
-* for HTTP/HTTPS, see [Control Egress Traffic Task]({{home}}/docs/tasks/traffic-management/egress.html)
+* for HTTP/HTTPS, see [Control Egress Traffic Task](/docs/tasks/traffic-management/egress/)

@@ -1,23 +1,19 @@
 ---
 title: Generating a Service Graph
-
 description: This task shows you how to generate a graph of services within an Istio mesh.
-
 weight: 50
-
 ---
-{% include home.html %}
 
 This task shows you how to generate a graph of services within an Istio mesh.
 As part of this task, you will install the Servicegraph addon and use
 the web-based interface for viewing service graph of the service mesh.
 
-The [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application is used as
+The [Bookinfo](/docs/guides/bookinfo/) sample application is used as
 the example application throughout this task.
 
 ## Before you begin
 
-* [Install Istio]({{home}}/docs/setup/) in your cluster and deploy an
+* [Install Istio](/docs/setup/) in your cluster and deploy an
   application.
 
 ## Generating a Service Graph
@@ -53,7 +49,7 @@ the example application throughout this task.
     Refresh the page a few times (or send the command a few times) to generate a
     small amount of traffic.
 
-    > `$GATEWAY_URL` is the value set in the [Bookinfo]({{home}}/docs/guides/bookinfo.html) guide.
+    > `$GATEWAY_URL` is the value set in the [Bookinfo](/docs/guides/bookinfo/) guide.
 
 1.  Open the Servicegraph UI.
 
@@ -69,10 +65,10 @@ the example application throughout this task.
 
     The results will look similar to:
 
-    {% include image.html width="75%" ratio="107.7%"
-    link="./img/servicegraph-example.png"
+    {{< image width="75%" ratio="107.7%"
+    link="../img/servicegraph-example.png"
     caption="Example Servicegraph"
-    %}
+    >}}
 
 1.  Experiment with Query Parameters
 
@@ -125,5 +121,5 @@ Servicegraph add-on:
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-[Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+[Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions
 to shutdown the application.

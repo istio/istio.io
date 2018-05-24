@@ -2,19 +2,18 @@
 title: Enabling Rate Limits
 description: This task shows you how to use Istio to dynamically limit the traffic to a service.
 weight: 10
-redirect_from:
+aliases:
     - /docs/tasks/rate-limiting.html
 ---
-{% include home.html %}
 
 This task shows you how to use Istio to dynamically limit the traffic to a service.
 
 ## Before you begin
 
 * Setup Istio in a Kubernetes cluster by following the quick start instructions in the
-  [Installation guide]({{home}}/docs/setup/kubernetes/quick-start.html).
+  [Installation guide](/docs/setup/kubernetes/quick-start/).
 
-* Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application.
+* Deploy the [Bookinfo](/docs/guides/bookinfo/) sample application.
 
 *   Initialize the application version routing to direct `reviews` service requests from
     test user "jason" to version v2 and requests from any other user to v3.
@@ -190,11 +189,11 @@ If you would like the above policies enforced for a given namespace instead of t
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+  [Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions
   to shutdown the application.
 
 ## What's next
 
-* Learn more about [Mixer]({{home}}/docs/concepts/policies-and-telemetry/overview.html) and [Mixer Config]({{home}}/docs/concepts/policies-and-telemetry/config.html).
+* Learn more about [Mixer](/docs/concepts/policies-and-telemetry/overview/) and [Mixer Config](/docs/concepts/policies-and-telemetry/config/).
 
-* Discover the full [Attribute Vocabulary]({{home}}/docs/reference/config/policy-and-telemetry/attribute-vocabulary.html).
+* Discover the full [Attribute Vocabulary](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/).

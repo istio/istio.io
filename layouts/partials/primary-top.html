@@ -1,0 +1,51 @@
+<div class="container-fluid">
+    <div class="row row-offcanvas">
+        <div class="col-0 col-md-3 col-xl-2 sidebar-offcanvas">
+            {{ $section := .Site.GetPage "section" .Section }}
+            {{ if $section.Params.sidebar_multicard }}
+                {{ partial "sidebar-multicard.html" . }}
+            {{ else if $section.Params.sidebar_none }}
+            {{ else }}
+                {{ partial "sidebar-singlecard.html" . }}
+            {{ end }}
+        </div>
+
+        {{ $toc := (trim .TableOfContents " ") }}
+        {{ $needTOC := .Params.toc | (ne $toc "") }}
+
+        {{ if and $needTOC (ne .Params.force_inline_toc true) }}
+            <div class="col-12 col-md-9 col-xl-8">
+        {{ else }}
+            <div class="col-12 col-md-9 col-xl-10">
+        {{ end }}
+
+            <p class="d-md-none">
+                <label class="sidebar-toggler" data-toggle="offcanvas">
+                    <i class="fa fa-sign-out-alt"></i>
+                </label>
+            </p>
+
+            <main aria-labelledby="title">
+                <h1 id="title">{{ .Title }}</h1>
+
+                {{ if .Params.subtitle }}
+                    <p class="subtitle">{{ .Params.subtitle }}</p>
+                {{ end }}
+
+                {{ if .Params.attribution }}
+                    <p class="byline">
+                        {{ if .Params.attribution }}
+                            By <span class="attribution">{{ .Params.attribution }}</span> /
+                        {{ end }}
+                        <span class="publish_date">{{ .PublishDate.Format "January 2, 2006" }}</span>
+                    </p>
+                {{ end }}
+
+                {{ if $needTOC }}
+                    <nav class="toc-inlined d-xl-none d-print-none" {{ if .Params.force_inline_toc }}style="display:block!important" {{ end }}>
+                        <div class="directory" role="directory">
+                            {{ $t := replace .TableOfContents "TableOfContents" "InlinedTableOfContents" }}
+                            {{ safeHTML $t }}
+                        </div>
+                    </nav>
+                {{ end }}

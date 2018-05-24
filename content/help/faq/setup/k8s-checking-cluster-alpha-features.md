@@ -2,7 +2,6 @@
 title: Kubernetes - How do I check if my cluster has enabled the alpha features required for automatic sidecar injection?
 weight: 10
 ---
-{% include home.html %}
 
 Automatic sidecar injection requires the
 [initializer alpha feature](https://kubernetes.io/docs/admin/extensible-admission-controllers/#enable-initializers-alpha-feature).

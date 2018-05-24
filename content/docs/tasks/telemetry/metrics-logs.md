@@ -2,21 +2,20 @@
 title: Collecting Metrics and Logs
 description: This task shows you how to configure Istio to collect metrics and logs.
 weight: 20
-redirect_from:
+aliases:
     - /docs/tasks/metrics-logs.html
 ---
-{% include home.html %}
 
 This task shows how to configure Istio to automatically gather telemetry for
 services in a mesh. At the end of this task, a new metric and a new log stream
 will be enabled for calls to services within your mesh.
 
-The [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application is used
+The [Bookinfo](/docs/guides/bookinfo/) sample application is used
 as the example application throughout this task.
 
 ## Before you begin
 
-* [Install Istio]({{home}}/docs/setup/) in your cluster and deploy an
+* [Install Istio](/docs/setup/) in your cluster and deploy an
   application. This task assumes that Mixer is setup in a default configuration
   (`--configDefaultNamespace=istio-system`). If you use a different
   value, update the configuration and commands in this task to match the value.
@@ -159,7 +158,7 @@ as the example application throughout this task.
     ```
 
     For more on querying Prometheus for metric values, see the
-    [Querying Istio Metrics]({{home}}/docs/tasks/telemetry/querying-metrics.html) task.
+    [Querying Istio Metrics](/docs/tasks/telemetry/querying-metrics/) task.
 
 1.  Verify that the logs stream has been created and is being populated for
     requests.
@@ -294,14 +293,14 @@ here to illustrate how to use `match` expressions to control rule execution.
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+  [Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions
   to shutdown the application.
 
 ## What's next
 
-* Learn more about [Mixer]({{home}}/docs/concepts/policies-and-telemetry/overview.html)
-  and [Mixer Config]({{home}}/docs/concepts/policies-and-telemetry/config.html).
+* Learn more about [Mixer](/docs/concepts/policies-and-telemetry/overview/)
+  and [Mixer Config](/docs/concepts/policies-and-telemetry/config/).
 
-* Discover the full [Attribute Vocabulary]({{home}}/docs/reference/config/policy-and-telemetry/attribute-vocabulary.html).
+* Discover the full [Attribute Vocabulary](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/).
 
-* Refer to the [In-Depth Telemetry]({{home}}/docs/guides/telemetry.html) guide.
+* Refer to the [In-Depth Telemetry](/docs/guides/telemetry/) guide.

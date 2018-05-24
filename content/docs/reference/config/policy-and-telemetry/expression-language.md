@@ -2,19 +2,15 @@
 title: Expression Language
 description: Mixer config expression language reference.
 weight: 20
-redirect_from:
+aliases:
     - /docs/reference/config/policy-and-telemetry/expression-language.html
 ---
-
-{% include home.html %}
-
-{% capture mixerConfig %}{{home}}/docs/concepts/policies-and-telemetry/config.html{% endcapture %}
 
 This page describes how to use the Mixer config expression language (CEXL).
 
 ## Background
 
-Mixer configuration uses an expression language (CEXL) to specify match expressions and [mapping expressions]({{mixerConfig}}#attribute-expressions). CEXL expressions map a set of typed [attributes]({{home}}/docs/concepts/policies-and-telemetry/config.html#attributes) and constants to a typed
+Mixer configuration uses an expression language (CEXL) to specify match expressions and [mapping expressions](/docs/concepts/policies-and-telemetry/config/#attribute-expressions). CEXL expressions map a set of typed [attributes](/docs/concepts/policies-and-telemetry/config/#attributes) and constants to a typed
 [value](https://github.com/istio/api/blob/master/policy/v1beta1/value_type.proto).
 
 ## Syntax
@@ -45,7 +41,7 @@ CEXL supports the following functions.
 
 ## Type checking
 
-CEXL variables are attributes from the typed [attribute vocabulary]({{home}}/docs/reference/config/policy-and-telemetry/attribute-vocabulary.html), constants are implicitly typed and, functions are explicitly typed.
+CEXL variables are attributes from the typed [attribute vocabulary](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/), constants are implicitly typed and, functions are explicitly typed.
 
 Mixer validates a CEXL expression and resolves it to a type during config validation.
 Selectors must resolve to a boolean value and mapping expressions must resolve to the type they are mapping into. Config validation fails if a selector fails to resolve to a boolean or if a mapping expression resolves to an incorrect type.

@@ -2,13 +2,11 @@
 title: Troubleshooting Guide
 description: Practical advice on practical problems with Istio
 weight: 40
-redirect_from:
+aliases:
     - /troubleshooting.html
     - /troubleshooting/index.html
-    - /help/troubleshooting/index.html
 force_inline_toc: true
 ---
-{% include home.html %}
 
 Oh no! You're having trouble? Below is a list of solutions to common problems.
 
@@ -122,7 +120,7 @@ The expected flow of metrics is:
 The default installations of Mixer ship with a [Prometheus](https://prometheus.io/)
 adapter, as well as configuration for generating a basic set of metric
 values and sending them to the Prometheus adapter. The
-[Prometheus add-on]({{home}}/docs/tasks/telemetry/querying-metrics.html#about-the-prometheus-add-on)
+[Prometheus add-on](/docs/tasks/telemetry/querying-metrics/#about-the-prometheus-add-on)
 also supplies configuration for an instance of Prometheus to scrape
 Mixer for metrics.
 
@@ -159,8 +157,8 @@ If you do not see any data for `grpc_server_handled_total` with a
 `grpc_method="Report"`, then Mixer is not being called by Envoy to report
 telemetry. In this case, ensure that the services have been properly
 integrated into the mesh (either by via
-[automatic]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection)
-or [manual]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar-injection) sidecar injection).
+[automatic](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)
+or [manual](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection) sidecar injection).
 
 ### Verify Mixer metrics configuration exists
 
@@ -256,7 +254,7 @@ or [manual]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar
         Look for errors related to your configuration or your service in the
         returned logs.
 
-More on viewing Mixer configuration can be found [here]({{home}}/help/faq/mixer.html#mixer-self-monitoring)
+More on viewing Mixer configuration can be found [here](/help/faq/mixer/#mixer-self-monitoring)
 
 ### Verify Mixer is sending metric instances to the Prometheus adapter
 
@@ -328,7 +326,7 @@ More on viewing Mixer configuration can be found [here]({{home}}/help/faq/mixer.
 
 ## How can I debug issues with the service mesh?
 
-### With [istioctl](https://istio.io/docs/reference/commands/istioctl.html#istioctl%20proxy-config)
+### With istioctl
 
 Istioctl allows you to inspect the current xDS of a given Envoy from its admin interface (locally) or from Pilot using the `proxy-config` or `pc` command.
 
@@ -350,7 +348,7 @@ The `proxy-config` command also allows you to retrieve the state of the entire m
 $ istioctl proxy-config pilot mesh ads
 ```
 
-### With [GDB](https://www.gnu.org/software/gdb/)
+### With GDB
 
 To debug Istio with `gdb`, you will need to run the debug images of Envoy / Mixer / Pilot. A recent `gdb` and the golang extensions (for Mixer/Pilot or other golang components) is required.
 
@@ -362,7 +360,7 @@ To debug Istio with `gdb`, you will need to run the debug images of Envoy / Mixe
 
 1. For go: info goroutines, goroutine x bt
 
-### With [Tcpdump](https://www.tcpdump.org/tcpdump_man.html)
+### With Tcpdump
 
 Tcpdump doesn't work in the sidecar pod - the container doesn't run as root. However any other container in the same pod will see all the packets, since the network namespace is shared. `iptables` will also see the pod-wide config.
 
@@ -378,7 +376,7 @@ Check your `ulimit -a`. Many systems have a 1024 open file descriptor limit by d
 
 Make sure to raise your ulimit. Example: `ulimit -n 16384`
 
-## Headless TCP Services Losing Connection from Istiofied Containers
+## Headless TCP services losing connection from Istiofied containers
 
 If `istio-citadel` is deployed, Envoy is restarted every 15 minutes to refresh certificates.
 This causes the disconnection of TCP streams or long-running connections between services.

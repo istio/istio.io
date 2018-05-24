@@ -1,10 +1,8 @@
 ---
 title: Doc Issues
 description: Explains the process involved in accepting documentation updates.
-
 weight: 60
-
-redirect_from:
+aliases:
     - /docs/welcome/contribute/reviewing-doc-issues.html
 ---
 

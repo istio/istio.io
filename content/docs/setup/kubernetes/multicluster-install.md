@@ -1,12 +1,8 @@
 ---
 title: Istio Multicluster
 description: Install Istio with multicluster support.
-
 weight: 65
-
 ---
-
-{% include home.html %}
 
 Instructions for the installation of Istio multicluster.
 
@@ -14,7 +10,7 @@ Instructions for the installation of Istio multicluster.
 
 * Two or more Kubernetes clusters with **1.7.3 or newer**.
 
-* The ability to deploy the [Istio control plane]({{home}}/docs/setup/kubernetes/quick-start.html)
+* The ability to deploy the [Istio control plane](/docs/setup/kubernetes/quick-start/)
 on **one** Kubernetes cluster.
 
 *   The usage of an RFC1918 network, VPN, or alternative more advanced network techniques
@@ -29,12 +25,12 @@ across the multicluster environment and may not overlap.
 
 * Helm **2.7.2 or newer**.  The use of Tiller is optional.
 
-* Currently only [manual sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar-injection)
+* Currently only [manual sidecar injection](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection)
 has been validated with multicluster.
 
 ## Caveats and known problems
 
-<img src="{{home}}/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" />
+<img src="/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" />
 All known caveats and known problems with multicluster for the 0.8 release are [tracked here](https://github.com/istio/istio/issues/4822).
 
 ## Overview
@@ -109,7 +105,7 @@ $ popd
 
 ## Deploy the local Istio control plane
 
-Install the [Istio control plane]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps)
+Install the [Istio control plane](/docs/setup/kubernetes/quick-start/#installation-steps)
 on **one** Kubernetes cluster.
 
 ## Install the Istio remote on every remote cluster

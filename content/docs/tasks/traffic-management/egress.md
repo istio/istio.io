@@ -2,12 +2,9 @@
 title: Control Egress Traffic
 description: Describes how to configure Istio to route traffic from services in the mesh to external services.
 weight: 40
-redirect_from:
-    - /docs/tasks/traffic-management/egress/index.html
 ---
-{% include home.html %}
 
-> Note: This task uses the new [v1alpha3 traffic management API]({{home}}/blog/2018/v1alpha3-routing.html). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.6/docs/tasks/).
+> This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.6/docs/tasks/).
 
 By default, Istio-enabled services are unable to access URLs outside of the cluster because
 iptables is used in the pod to transparently redirect all outbound traffic to the sidecar proxy,
@@ -15,13 +12,13 @@ which only handles intra-cluster destinations.
 
 This task describes how to configure Istio to expose external services to Istio-enabled clients.
 You'll learn how to enable access to external services by defining
-[ServiceEntry]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#ServiceEntry) configurations,
+[ServiceEntry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) configurations,
 or alternatively, to simply bypass the Istio proxy for a specific range of IPs.
 
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide]({{home}}/docs/setup/).
+  [Installation guide](/docs/setup/).
 
 *   Start the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) sample
     which will be used as a test source for external calls.
@@ -117,9 +114,9 @@ the connection to HTTPS.
 ### Setting route rules on an external service
 
 Similar to inter-cluster requests, Istio
-[routing rules]({{home}}/docs/concepts/traffic-management/rules-configuration.html)
+[routing rules](/docs/concepts/traffic-management/rules-configuration/)
 can also be set for external services that are accessed using `ServiceEntry` configurations.
-To illustrate we will use [istioctl]({{home}}/docs/reference/commands/istioctl.html)
+To illustrate we will use [istioctl](/docs/reference/commands/istioctl/)
 to set a timeout rule on calls to the httpbin.org service.
 
 1.  From inside the pod being used as the test source, invoke the `/delay` endpoint of the httpbin.org external service:
@@ -175,9 +172,9 @@ to set a timeout rule on calls to the httpbin.org service.
 
 If you want to completely bypass Istio for a specific IP range,
 you can configure the source service's Envoy sidecar to prevent it from
-[intercepting]({{home}}/docs/concepts/traffic-management/request-routing.html#communication-between-services)
+[intercepting](/docs/concepts/traffic-management/request-routing/#communication-between-services)
 the external requests. This can be done using the `--includeIPRanges` option of
-[istioctl kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl kube-inject)
+[istioctl kube-inject](/docs/reference/commands/istioctl/#istioctl kube-inject)
 when starting the service.
 
 The simplest way to use the `--includeIPRanges` option is to pass it the IP range(s)
@@ -277,9 +274,9 @@ cloud provider specific knowledge and configuration.
 
 ## What's next
 
-* Learn more about [service entries]({{home}}/docs/concepts/traffic-management/rules-configuration.html#service-entries).
+* Learn more about [service entries](/docs/concepts/traffic-management/rules-configuration/#service-entries).
 
 * Learn how to setup
-  [timeouts]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#HTTPRoute.timeout),
-  [retries]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#HTTPRoute.retries),
-  and [circuit breakers]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#OutlierDetection) for egress traffic.
+  [timeouts](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute.timeout),
+  [retries](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute.retries),
+  and [circuit breakers](/docs/reference/config/istio.networking.v1alpha3/#OutlierDetection) for egress traffic.

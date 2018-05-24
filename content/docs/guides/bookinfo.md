@@ -2,12 +2,11 @@
 title: Bookinfo Sample Application
 description: This guide deploys a sample application composed of four separate microservices which will be used to demonstrate various features of the Istio service mesh.
 weight: 10
-redirect_from:
+aliases:
     - /docs/samples/bookinfo.html
 ---
-{% include home.html %}
 
-> Note: This guide assumes you will be using the new [v1alpha3 traffic management API]({{home}}/blog/2018/v1alpha3-routing.html).
+> Note: This guide assumes you will be using the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/).
 The old API has been deprecated and will be removed in the next Istio release.
 If you need to use the old version, you can follow the old instructions [here](https://archive.istio.io/v0.6/docs/guides/bookinfo.html),
 but note that on Kubernetes you will need to run an additional command (`kubectl apply -f samples/bookinfo/kube/bookinfo-gateway.yaml`)
@@ -38,10 +37,10 @@ There are 3 versions of the reviews microservice:
 
 The end-to-end architecture of the application is shown below.
 
-{% include image.html width="80%" ratio="68.52%"
-    link="./img/bookinfo/noistio.svg"
+{{< image width="80%" ratio="68.52%"
+    link="../img/bookinfo/noistio.svg"
     caption="Bookinfo Application without Istio"
-    %}
+    >}}
 
 This application is polyglot, i.e., the microservices are written in different languages.
 It’s worth noting that these services have no dependencies on Istio, but make an interesting
@@ -51,7 +50,7 @@ for the reviews service.
 ## Before you begin
 
 If you haven't already done so, setup Istio by following the instructions
-corresponding to your platform [installation guide]({{home}}/docs/setup/).
+corresponding to your platform [installation guide](/docs/setup/).
 
 ## Deploying the application
 
@@ -61,10 +60,10 @@ Istio-enabled environment, with Envoy sidecars injected along side each service.
 The needed commands and configuration vary depending on the runtime environment
 although in all cases the resulting deployment will look like this:
 
-{% include image.html width="80%" ratio="59.08%"
-    link="./img/bookinfo/withistio.svg"
+{{< image width="80%" ratio="59.08%"
+    link="../img/bookinfo/withistio.svg"
     caption="Bookinfo Application"
-    %}
+    >}}
 
 All of the microservices will be packaged with an Envoy sidecar that intercepts incoming
 and outgoing calls for the services, providing the hooks needed to externally control,
@@ -81,7 +80,7 @@ To start the application, follow the instructions below corresponding to your Is
 
 1.  Bring up the application containers:
 
-    *   If you are using [manual sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#manual-sidecar-injection),
+    *   If you are using [manual sidecar injection](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection),
         use the following command
 
         ```command
@@ -89,10 +88,10 @@ To start the application, follow the instructions below corresponding to your Is
         ```
 
         The `istioctl kube-inject` command is used to manually modify the `bookinfo.yaml`
-        file before creating the deployments as documented [here]({{home}}/docs/reference/commands/istioctl.html#istioctl kube-inject).
+        file before creating the deployments as documented [here](/docs/reference/commands/istioctl/#istioctl kube-inject).
 
     *   If you are using a cluster with
-        [automatic sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection)
+        [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)
         enabled, simply deploy the services using `kubectl`
 
         ```command
@@ -138,7 +137,7 @@ To start the application, follow the instructions below corresponding to your Is
 
 #### Determining the ingress IP and port
 
-Follow [the instructions]({{home}}/docs/tasks/traffic-management/ingress.html#determining-the-ingress-ip-and-ports) to set the `INGRESS_HOST` and `INGRESS_PORT` variables. Set `GATEWAY_URL`:
+Follow [the instructions](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports) to set the `INGRESS_HOST` and `INGRESS_PORT` variables. Set `GATEWAY_URL`:
 
 ```command
 $ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
@@ -195,8 +194,8 @@ version routing.
 
 You can now use this sample to experiment with Istio's features for
 traffic routing, fault injection, rate limiting, etc..
-To proceed, refer to one or more of the [Istio Guides]({{home}}/docs/guides),
-depending on your interest. [Intelligent Routing]({{home}}/docs/guides/intelligent-routing.html)
+To proceed, refer to one or more of the [Istio Guides](/docs/guides),
+depending on your interest. [Intelligent Routing](/docs/guides/intelligent-routing/)
 is a good place to start for beginners.
 
 ## Cleanup

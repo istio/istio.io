@@ -1,17 +1,14 @@
 ---
 title: Overview
 description: Provides a conceptual introduction to Istio, including the problems it solves and its high-level architecture.
-
 weight: 15
-
 ---
-{% include home.html %}
 
 This document introduces Istio: an open platform to connect, manage, and secure microservices. Istio provides an easy way to create a network of deployed services with load balancing, service-to-service authentication, monitoring, and more, without requiring any changes in service code. You add Istio support to services by deploying a special sidecar proxy throughout your environment that intercepts all network communication between microservices, configured and managed using Istio's control plane functionality.
 
 Istio currently supports service deployment on Kubernetes, as well as services registered with Consul or Eureka and services running on individual VMs.
 
-For detailed conceptual information about Istio components see our other [Concepts]({{home}}/docs/concepts/) guides.
+For detailed conceptual information about Istio components see our other [Concepts](/docs/concepts/) guides.
 
 ## Why use Istio?
 
@@ -60,11 +57,11 @@ configuring proxies to route traffic, and configuring Mixers to enforce policies
 
 The following diagram shows the different components that make up each plane:
 
-{% include image.html width="80%" ratio="56.25%"
-    link="./img/overview/arch.svg"
+{{< image width="80%" ratio="56.25%"
+    link="../img/overview/arch.svg"
     alt="The overall architecture of an Istio-based application."
     caption="Istio Architecture"
-    %}
+    >}}
 
 ### Envoy
 
@@ -72,17 +69,17 @@ Istio uses an extended version of the [Envoy](https://envoyproxy.github.io/envoy
 Istio leverages Envoy’s many built-in features such as dynamic service discovery, load balancing, TLS termination, HTTP/2 & gRPC proxying, circuit breakers,
 health checks, staged rollouts with %-based traffic split, fault injection, and rich metrics.
 
-Envoy is deployed as a **sidecar** to the relevant service in the same Kubernetes pod. This allows Istio to extract a wealth of signals about traffic behavior as [attributes]({{home}}/docs/concepts/policies-and-telemetry/config.html#attributes), which in turn it can use in [Mixer]({{home}}/docs/concepts/policies-and-telemetry/overview.html) to enforce policy decisions, and be sent to monitoring systems to provide information about the behavior of the entire mesh. The sidecar proxy model also allows you to add Istio capabilities to an existing deployment with no need to rearchitect or rewrite code. You can read more about why we chose this approach in our [Design Goals]({{home}}/docs/concepts/what-is-istio/goals.html).
+Envoy is deployed as a **sidecar** to the relevant service in the same Kubernetes pod. This allows Istio to extract a wealth of signals about traffic behavior as [attributes](/docs/concepts/policies-and-telemetry/config/#attributes), which in turn it can use in [Mixer](/docs/concepts/policies-and-telemetry/overview/) to enforce policy decisions, and be sent to monitoring systems to provide information about the behavior of the entire mesh. The sidecar proxy model also allows you to add Istio capabilities to an existing deployment with no need to rearchitect or rewrite code. You can read more about why we chose this approach in our [Design Goals](/docs/concepts/what-is-istio/goals/).
 
 ### Mixer
 
-[Mixer]({{home}}/docs/concepts/policies-and-telemetry/overview.html) is a platform-independent component responsible for enforcing access control and usage policies across the service mesh and collecting telemetry data from the Envoy proxy and other
-services. The proxy extracts request level [attributes]({{home}}/docs/concepts/policies-and-telemetry/config.html#attributes), which are sent to Mixer for evaluation. More information on this attribute extraction and policy
-evaluation can be found in [Mixer Configuration]({{home}}/docs/concepts/policies-and-telemetry/config.html). Mixer includes a flexible plugin model enabling it to interface with a variety of host environments and infrastructure backends, abstracting the Envoy proxy and Istio-managed services from these details.
+[Mixer](/docs/concepts/policies-and-telemetry/overview/) is a platform-independent component responsible for enforcing access control and usage policies across the service mesh and collecting telemetry data from the Envoy proxy and other
+services. The proxy extracts request level [attributes](/docs/concepts/policies-and-telemetry/config/#attributes), which are sent to Mixer for evaluation. More information on this attribute extraction and policy
+evaluation can be found in [Mixer Configuration](/docs/concepts/policies-and-telemetry/config/). Mixer includes a flexible plugin model enabling it to interface with a variety of host environments and infrastructure backends, abstracting the Envoy proxy and Istio-managed services from these details.
 
 ### Pilot
 
-[Pilot]({{home}}/docs/concepts/traffic-management/pilot.html) provides
+[Pilot](/docs/concepts/traffic-management/pilot/) provides
 service discovery for the Envoy sidecars, traffic management capabilities
 for intelligent routing (e.g., A/B tests, canary deployments, etc.),
 and resiliency (timeouts, retries, circuit breakers, etc.). It converts
@@ -97,17 +94,17 @@ interface for traffic management.
 
 ### Citadel
 
-[Citadel]({{home}}/docs/concepts/security/) provides strong service-to-service and end-user authentication, with built-in identity and
+[Citadel](/docs/concepts/security/) provides strong service-to-service and end-user authentication, with built-in identity and
 credential management. It can be used to upgrade unencrypted traffic in the service mesh, and provides operators the ability to enforce
 policy based on service identity rather than network controls. Starting from release 0.5, Istio supports
-[role-based access control]({{home}}/docs/concepts/security/rbac.html) to control who can access your services.
+[role-based access control](/docs/concepts/security/rbac/) to control who can access your services.
 
 ## What's next
 
-- Learn about Istio's [design goals]({{home}}/docs/concepts/what-is-istio/goals.html).
+- Learn about Istio's [design goals](/docs/concepts/what-is-istio/goals/).
 
-- Explore our [Guides]({{home}}/docs/guides/).
+- Explore our [Guides](/docs/guides/).
 
-- Read about Istio components in detail in our other [Concepts]({{home}}/docs/concepts/) guides.
+- Read about Istio components in detail in our other [Concepts](/docs/concepts/) guides.
 
-- Learn how to deploy Istio with your own services using our [Tasks]({{home}}/docs/tasks/) guides.
+- Learn how to deploy Istio with your own services using our [Tasks](/docs/tasks/) guides.

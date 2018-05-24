@@ -2,40 +2,33 @@
 title: Control Ingress Traffic
 description: Describes how to configure Istio to expose a service outside of the service mesh.
 weight: 30
-redirect_from:
-     - /docs/tasks/ingress.html
+aliases:
+    - /docs/tasks/ingress.html
 ---
-{% include home.html %}
 
-> Note: This task uses the new [v1alpha3 traffic management API]({{home}}/blog/2018/v1alpha3-routing.html). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.6/docs/tasks/).
+> Note: This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.6/docs/tasks/).
 
 In a Kubernetes environment, the [Kubernetes Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/)
 is used to specify services that should be exposed outside the cluster.
 In an Istio service mesh, a better approach (which also works in both Kubernetes and other environments) is to use a
-different configuration model, namely [Istio Gateway]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway).
+different configuration model, namely [Istio Gateway](/docs/reference/config/istio.networking.v1alpha3/#Gateway).
 A `Gateway` allows Istio features, for example, monitoring and route rules, to be applied to traffic entering the cluster.
 
 This task describes how to configure Istio to expose a service outside of the service mesh using an Istio `Gateway`.
 
 ## Before you begin
 
-*   Setup Istio by following the instructions in the [Installation guide]({{home}}/docs/setup/).
+*   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
 
 *   Make sure your current directory is the `istio` directory.
 
 *   Start the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) sample,
     which will be used as the destination service to be exposed externally.
 
-    If you installed  [Istio-Initializer]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection), do
+    If you installed  [Istio-Initializer](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), do
 
     ```command
     $ kubectl apply -f samples/httpbin/httpbin.yaml
-    ```
-
-    Without _Istio-Initializer_:
-
-    ```command
-    $ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml)
     ```
 
 *   A private key and certificate can be created for testing using [OpenSSL](https://www.openssl.org/).
@@ -109,7 +102,7 @@ Determining the ingress IP depends on the cluster provider.
 
 ## Configuring ingress using an Istio Gateway
 
-An ingress [Gateway]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway) describes a load balancer operating at the edge of the mesh receiving incoming HTTP/TCP connections.
+An ingress [Gateway](/docs/reference/config/istio.networking.v1alpha3/#Gateway) describes a load balancer operating at the edge of the mesh receiving incoming HTTP/TCP connections.
 It configures exposed ports, protocols, etc.,
 but, unlike [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/services-networking/ingress/),
 does not include any traffic routing configuration. Traffic routing for ingress traffic is instead configured
@@ -119,7 +112,7 @@ In the following subsections we configure a `Gateway` on port 80 for unencrypted
 
 ### Configuring a gateway for HTTP
 
-1.  Create an Istio `Gateway`:
+1.  Create an Istio `Gateway`
 
     ```bash
     cat <<EOF | istioctl create -f -
@@ -140,7 +133,7 @@ In the following subsections we configure a `Gateway` on port 80 for unencrypted
     EOF
     ```
 
-1.  Configure routes for traffic entering via the `Gateway`:
+1.  Configure routes for traffic entering via the `Gateway`
 
     ```bash
     cat <<EOF | istioctl create -f -
@@ -167,11 +160,11 @@ In the following subsections we configure a `Gateway` on port 80 for unencrypted
     EOF
     ```
 
-    Here we've created a [virtual service]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#VirtualService)
+    Here we've created a [virtual service](/docs/reference/config/istio.networking.v1alpha3/#VirtualService)
     configuration for the `httpbin` service, containing two route rules that allow traffic for paths `/status` and
     `/delay`.
 
-    The [gateways]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#VirtualService.gateways) list
+    The [gateways](/docs/reference/config/istio.networking.v1alpha3/#VirtualService.gateways) list
     specifies that only requests through our `httpbin-gateway` are allowed.
     All other external requests will be rejected with a 404 response.
 
@@ -209,7 +202,7 @@ In the following subsections we configure a `Gateway` on port 80 for unencrypted
 
 In this subsection we add to our gateway the port 443 to handle the HTTPS traffic. We create a secret with a certificate and a private key. Then we replace the previous `Gateway` definition with a definition that contains a server on the port 443, in addition to the previously defined server on the port 80.
 
-1. Create a Kubernetes `Secret` to hold the key/certificate pair.
+1. Create a Kubernetes `Secret` to hold the key/cert
 
    Create the secret `istio-ingressgateway-certs` in namespace `istio-system` using `kubectl`. The Istio gateway
    will automatically load the secret.
@@ -346,4 +339,4 @@ external traffic.
 
 ## What's next
 
-* Learn more about [Traffic Routing]({{home}}/docs/reference/config/istio.networking.v1alpha3.html).
+* Learn more about [Traffic Routing](/docs/reference/config/istio.networking.v1alpha3/).

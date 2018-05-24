@@ -4,13 +4,10 @@ description: Provides an overview of the Mixer plug-in architecture
 publishdate: 2017-11-03
 subtitle: Extending Istio to integrate with a world of infrastructure backends
 attribution: Martin Taillefer
-
 weight: 95
-
-redirect_from: 
+aliases: 
     - /blog/mixer-adapter-model.html
 ---
-{% include home.html %}
 
 Istio 0.2 introduced a new Mixer adapter model which is intended to increase Mixer’s flexibility to address a varied set of infrastructure backends. This post intends to put the adapter model in context and explain how it works.
 
@@ -29,13 +26,12 @@ Adapters are Go packages that are directly linked into the Mixer binary. It’s 
 
 ## Philosophy
 
-Mixer is essentially an attribute processing and routing machine. The proxy sends it [attributes]({{home}}/docs/concepts/policies-and-telemetry/config.html#attributes) as part of doing precondition checks and telemetry reports, which it turns into a series of calls into adapters. The operator supplies configuration which describes how to map incoming attributes to inputs for the adapters.
+Mixer is essentially an attribute processing and routing machine. The proxy sends it [attributes](/docs/concepts/policies-and-telemetry/config/#attributes) as part of doing precondition checks and telemetry reports, which it turns into a series of calls into adapters. The operator supplies configuration which describes how to map incoming attributes to inputs for the adapters.
 
-{% assign url = home | append: "/docs/concepts/policies-and-telemetry/img/machine.svg" %}
-{% include image.html width="60%" ratio="42.60%"
-    link=url
+{{< image width="60%" ratio="42.60%"
+    link="/docs/concepts/policies-and-telemetry/img/machine.svg"
     caption="Attribute Machine"
-    %}
+    >}}
 
 Configuration is a complex task. In fact, evidence shows that the overwhelming majority of service outages are caused by configuration errors. To help combat this, Mixer’s configuration model enforces a number of constraints designed to avoid errors. For example, the configuration model uses strong typing to ensure that only meaningful attributes or attribute expressions are used in any given context.
 
@@ -43,26 +39,26 @@ Configuration is a complex task. In fact, evidence shows that the overwhelming m
 
 Each adapter that Mixer uses requires some configuration to operate. Typically, adapters need things like the URL to their backend, credentials, caching options, and so forth. Each adapter defines the exact configuration data it needs via a [protobuf](https://developers.google.com/protocol-buffers/) message.
 
-You configure each adapter by creating [*handlers*]({{home}}/docs/concepts/policies-and-telemetry/config.html#handlers) for them. A handler is a
+You configure each adapter by creating [*handlers*](/docs/concepts/policies-and-telemetry/config/#handlers) for them. A handler is a
 configuration resource which represents a fully configured adapter ready for use. There can be any number of handlers for a single adapter, making it possible to reuse an adapter in different scenarios.
 
 ## Templates: adapter input schema
 
 Mixer is typically invoked twice for every incoming request to a mesh service, once for precondition checks and once for telemetry reporting. For every such call, Mixer invokes one or more adapters. Different adapters need different pieces of data as input in order to do their work. A logging adapter needs a log entry, a metric adapter needs a metric, an authorization adapter needs credentials, etc.
-Mixer [*templates*]({{home}}/docs/reference/config/policy-and-telemetry/templates/) are used to describe the exact data that an adapter consumes at request time.
+Mixer [*templates*](/docs/reference/config/policy-and-telemetry/templates/) are used to describe the exact data that an adapter consumes at request time.
 
 Each template is specified as a [protobuf](https://developers.google.com/protocol-buffers/) message. A single template describes a bundle of data that is delivered to one or more adapters at runtime. Any given adapter can be designed to support any number of templates, the specific templates the adapter supports is determined by the adapter developer.
 
-[metric]({{home}}/docs/reference/config/policy-and-telemetry/templates/metric.html) and [logentry]({{home}}/docs/reference/config/policy-and-telemetry/templates/logentry.html) are two of the most essential templates used within Istio. They represent respectively the payload to report a single metric and a single log entry to appropriate backends.
+[`metric`](/docs/reference/config/policy-and-telemetry/templates/metric/) and [`logentry`](/docs/reference/config/policy-and-telemetry/templates/logentry/) are two of the most essential templates used within Istio. They represent respectively the payload to report a single metric and a single log entry to appropriate backends.
 
 ## Instances: attribute mapping
 
 You control which data is delivered to individual adapters by creating
-[*instances*]({{home}}/docs/concepts/policies-and-telemetry/config.html#instances).
-Instances control how Mixer uses the [attributes]({{home}}/docs/concepts/policies-and-telemetry/config.html#attributes) delivered
+[*instances*](/docs/concepts/policies-and-telemetry/config/#instances).
+Instances control how Mixer uses the [attributes](/docs/concepts/policies-and-telemetry/config/#attributes) delivered
 by the proxy into individual bundles of data that can be routed to different adapters.
 
-Creating instances generally requires using [attribute expressions]({{home}}/docs/concepts/policies-and-telemetry/config.html#attribute-expressions). The point of these expressions is to use any attribute or literal value in order to produce a result that can be assigned to an instance’s field.
+Creating instances generally requires using [attribute expressions](/docs/concepts/policies-and-telemetry/config/#attribute-expressions). The point of these expressions is to use any attribute or literal value in order to produce a result that can be assigned to an instance’s field.
 
 Every instance field has a type, as defined in the template, every attribute has a
 [type](https://github.com/istio/api/blob/master/policy/v1beta1/value_type.proto), and every attribute expression has a type.
@@ -72,7 +68,7 @@ to a string field.  This kind of strong typing is designed to minimize the risk 
 ## Rules: delivering data to adapters
 
 The last piece to the puzzle is telling Mixer which instances to send to which handler and when. This is done by
-creating [*rules*]({{home}}/docs/concepts/policies-and-telemetry/config.html#rules). Each rule identifies a specific handler and the set of
+creating [*rules*](/docs/concepts/policies-and-telemetry/config/#rules). Each rule identifies a specific handler and the set of
 instances to send to that handler. Whenever Mixer processes an incoming call, it invokes the indicated handler and gives it the specific set of instances for processing.
 
 Rules contain matching predicates. A predicate is an attribute expression which returns a true/false value. A rule only takes effect if its predicate expression returns true. Otherwise, it’s like the rule didn’t exist and the indicated handler isn’t invoked.
@@ -89,6 +85,6 @@ The refreshed Mixer adapter model is designed to provide a flexible framework to
 
 Handlers provide configuration data for individual adapters, templates determine exactly what kind of data different adapters want to consume at runtime, instances let operators prepare this data, rules direct the data to one or more handlers.
 
-You can learn more about Mixer's overall architecture [here]({{home}}/docs/concepts/policies-and-telemetry/), and learn the specifics of templates, handlers,
-and rules [here]({{home}}/docs/reference/config/policy-and-telemetry). You can find many examples of Mixer configuration resources in the Bookinfo sample
+You can learn more about Mixer's overall architecture [here](/docs/concepts/policies-and-telemetry/), and learn the specifics of templates, handlers,
+and rules [here](/docs/reference/config/policy-and-telemetry). You can find many examples of Mixer configuration resources in the Bookinfo sample
 [here](https://github.com/istio/istio/tree/master/samples/bookinfo/kube).

@@ -1,15 +1,11 @@
 ---
 title: Reporting Bugs
 description: What to do about bugs
-
 weight: 35
-
-redirect_from:
+aliases:
     - /bugs.html
     - /bugs/index.html
-toc: false
 ---
-{% include home.html %}
 
 Oh no! You found a bug?
 

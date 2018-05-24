@@ -2,10 +2,9 @@
 title: Distributed Tracing
 description: How to configure the proxies to send tracing requests to Zipkin or Jaeger
 weight: 10
-redirect_from:
+aliases:
     - /docs/tasks/zipkin-tracing.html
 ---
-{% include home.html %}
 
 This task shows you how Istio-enabled applications
 can be configured to collect trace spans using [Zipkin](https://zipkin.io) or [Jaeger](https://jaeger.readthedocs.io).
@@ -13,12 +12,12 @@ After completing this task, you should understand all of the assumptions about y
 application and how to have it participate in tracing, regardless of what
 language/framework/platform you use to build your application.
 
-The [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample is used as the
+The [Bookinfo](/docs/guides/bookinfo/) sample is used as the
 example application for this task.
 
 ## Before you begin
 
-*   Setup Istio by following the instructions in the [Installation guide]({{home}}/docs/setup/).
+*   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
 
     If you didn't start the Zipkin or Jaeger addon during installation,
     you can run the following command to start it now.
@@ -35,7 +34,7 @@ example application for this task.
     $ kubectl apply -n istio-system -f https://raw.githubusercontent.com/jaegertracing/jaeger-kubernetes/master/all-in-one/jaeger-all-in-one-template.yml
     ```
 
-* Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application.
+* Deploy the [Bookinfo](/docs/guides/bookinfo/) sample application.
 
 ## Accessing the dashboard
 
@@ -66,29 +65,29 @@ With the Bookinfo application up and running, generate trace information by acce
 
 If you now look at the dashboard, you should see something similar to the following:
 
-{% include image.html width="100%" ratio="44.28%"
-    link="./img/zipkin_dashboard.png"
+{{< image width="100%" ratio="44.28%"
+    link="../img/zipkin_dashboard.png"
     caption="Zipkin Dashboard"
-    %}
+    >}}
 
-{% include image.html width="100%" ratio="42.35%"
-    link="./img/jaeger_dashboard.png"
+{{< image width="100%" ratio="42.35%"
+    link="../img/jaeger_dashboard.png"
     caption="Jaeger Dashboard"
-    %}
+    >}}
 
 If you click on the top (most recent) trace, you should see the details corresponding to your
 latest refresh of the `/productpage`.
 The page should look something like this:
 
-{% include image.html width="100%" ratio="19.70%"
-    link="./img/zipkin_span.png"
+{{< image width="100%" ratio="19.70%"
+    link="../img/zipkin_span.png"
     caption="Zipkin Trace View"
-    %}
+    >}}
 
-{% include image.html width="100%" ratio="26.99%"
-    link="./img/jaeger_trace.png"
+{{< image width="100%" ratio="26.99%"
+    link="../img/jaeger_trace.png"
     caption="Jaeger Trace View"
-    %}
+    >}}
 
 As you can see, the trace is comprised of spans,
 where each span corresponds to a Bookinfo service invoked during the execution of a `/productpage` request.
@@ -185,9 +184,9 @@ When you make downstream calls in your applications, make sure to include these 
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+  [Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions
   to shutdown the application.
 
 ## What's next
 
-* Learn more about [Metrics and Logs]({{home}}/docs/tasks/telemetry/metrics-logs.html)
+* Learn more about [Metrics and Logs](/docs/tasks/telemetry/metrics-logs/)

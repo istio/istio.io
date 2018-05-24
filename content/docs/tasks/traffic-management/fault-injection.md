@@ -2,24 +2,23 @@
 title: Fault Injection
 description: This task shows how to inject delays and test the resiliency of your application.
 weight: 20
-redirect_from:
+aliases:
     - /docs/tasks/fault-injection.html
 ---
-{% include home.html %}
 
-> Note: This task uses the new [v1alpha3 traffic management API]({{home}}/blog/2018/v1alpha3-routing.html). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.6/docs/tasks/).
+> Note: This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.6/docs/tasks/).
 
 This task shows how to inject delays and test the resiliency of your application.
 
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide]({{home}}/docs/setup/).
+  [Installation guide](/docs/setup/).
 
-* Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application.
+* Deploy the [Bookinfo](/docs/guides/bookinfo/) sample application.
 
 *   Initialize the application version routing by either first doing the
-    [request routing](./request-routing.html) task or by running following
+    [request routing](/docs/tasks/traffic-management/request-routing/) task or by running following
     commands:
 
     ```command
@@ -105,7 +104,7 @@ returns its response without any errors.
 However, we already have this fix running in v3 of the reviews service, so we can simply
 fix the problem by migrating all
 traffic to `reviews:v3` as described in the
-[traffic shifting]({{home}}/docs/tasks/traffic-management/traffic-shifting.html) task.
+[traffic shifting](/docs/tasks/traffic-management/traffic-shifting/) task.
 
 (Left as an exercise for the reader - change the delay rule to
 use a 2.8 second delay and then run it against the v3 version of reviews.)
@@ -168,9 +167,9 @@ message.
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+  [Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions
   to shutdown the application.
 
 ## What's next
 
-* Learn more about [fault injection]({{home}}/docs/concepts/traffic-management/fault-injection.html).
+* Learn more about [fault injection](/docs/concepts/traffic-management/fault-injection/).

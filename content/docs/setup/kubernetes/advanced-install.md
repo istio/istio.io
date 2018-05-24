@@ -6,8 +6,6 @@ weight: 20
 draft: true
 ---
 
-{% include home.html %}
-
 This section provides options for piecemeal installation of Istio
 components.
 

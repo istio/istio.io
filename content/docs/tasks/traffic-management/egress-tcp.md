@@ -1,22 +1,19 @@
 ---
 title: Control Egress TCP Traffic
 description: Describes how to configure Istio to route TCP traffic from services in the mesh to external services.
-
 weight: 41
-
 ---
-{% include home.html %}
 
-> Note: This task uses the new [v1alpha3 traffic management API]({{home}}/blog/2018/v1alpha3-routing.html). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.6/docs/tasks/).
+> This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.6/docs/tasks/).
 
-The [Control Egress Traffic]({{home}}/docs/tasks/traffic-management/egress.html) task demonstrates how external (outside the Kubernetes cluster) HTTP and HTTPS services can be accessed from applications inside the mesh. A quick reminder: by default, Istio-enabled applications are unable to access URLs outside the cluster. To enable such access, a [ServiceEntry]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#ServiceEntry) for the external service must be defined, or, alternatively, [direct access to external services]({{home}}/docs/tasks/traffic-management/egress.html#calling-external-services-directly) must be configured.
+The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task demonstrates how external (outside the Kubernetes cluster) HTTP and HTTPS services can be accessed from applications inside the mesh. A quick reminder: by default, Istio-enabled applications are unable to access URLs outside the cluster. To enable such access, a [ServiceEntry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) for the external service must be defined, or, alternatively, [direct access to external services](/docs/tasks/traffic-management/egress/#calling-external-services-directly) must be configured.
 
 This task describes how to configure Istio to expose external TCP services to applications inside the Istio service mesh.
 
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide]({{home}}/docs/setup/).
+  [Installation guide](/docs/setup/).
 
 *   Start the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) sample application which will be used as a test source for external calls.
 
@@ -28,7 +25,7 @@ This task describes how to configure Istio to expose external TCP services to ap
 
 ## Using Istio service entries to enable external TCP traffic
 
-In this task we access `wikipedia.org` by HTTPS originated from the application. This task demonstrates the use case where an application cannot use HTTP with TLS origination by the sidecar proxy. Using HTTP with TLS origination by the sidecar proxy is described in the [Control Egress Traffic]({{home}}/docs/tasks/traffic-management/egress.html) task. In that task, `https://google.com` was accessed by issuing HTTP requests to `http://www.google.com:443`.
+In this task we access `wikipedia.org` by HTTPS originated from the application. This task demonstrates the use case where an application cannot use HTTP with TLS origination by the sidecar proxy. Using HTTP with TLS origination by the sidecar proxy is described in the [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task. In that task, `https://google.com` was accessed by issuing HTTP requests to `http://www.google.com:443`.
 
 The HTTPS traffic originated from the application will be treated by Istio as _opaque_ TCP. To enable such traffic, we define a TCP `ServiceEntry` on port 443. In TCP service entries, as opposed to HTTP-based ones, the destinations are specified by IPs or by blocks of IPs in [CIDR notation](https://tools.ietf.org/html/rfc2317).
 
@@ -105,4 +102,4 @@ This command instructs the Istio proxy to forward requests on port 443 of any of
 
 ## What's next
 
-* Learn more about [service entries]({{home}}/docs/concepts/traffic-management/rules-configuration.html#service-entries).
+* Learn more about [service entries](/docs/concepts/traffic-management/rules-configuration/#service-entries).

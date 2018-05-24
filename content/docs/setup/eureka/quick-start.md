@@ -1,12 +1,8 @@
 ---
 title: Quick Start on Docker
 description: Quick Start instructions to setup the Istio service mesh with Docker Compose.
-
 weight: 10
-
 ---
-
-{% include home.html %}
 
 Quick Start instructions to install and configure Istio in a Docker Compose setup.
 
@@ -64,7 +60,7 @@ For example, run the following command on a MacOS or Linux system:
 ## Deploy your application
 
 You can now deploy your own application or one of the sample applications provided with the
-installation like [Bookinfo]({{home}}/docs/guides/bookinfo.html).
+installation like [Bookinfo](/docs/guides/bookinfo/).
 
 > Since there is no concept of pods in a Docker setup, the Istio
 > sidecar runs in the same container as the application.  We will
@@ -88,4 +84,4 @@ $ docker-compose -f install/eureka/istio.yaml down
 
 ## What's next
 
-* See the sample [Bookinfo]({{home}}/docs/guides/bookinfo.html) application.
+* See the sample [Bookinfo](/docs/guides/bookinfo/) application.

@@ -6,7 +6,7 @@ subtitle: Using multiple Istio control planes and RBAC to create multi-tenancy
 attribution: John Joyce and Rich Curran
 weight: 90
 ---
-{% include home.html %}
+
 Multi-tenancy is commonly used in many environments across many different applications,
 but the implementation details and functionality provided on a per tenant basis does not
 follow one model in all environments.  The [Kubernetes multi-tenancy working group](
@@ -31,7 +31,7 @@ Potential future Istio multi-tenant deployment models are described at the botto
 blog.
 
 >Note: This blog is a high-level description of how to deploy Istio in a
-limited multi-tenancy environment. The [docs]({{home}}/docs/) section will be updated
+limited multi-tenancy environment. The [docs](/docs/) section will be updated
 when official multi-tenancy support is provided.
 
 ## Deployment
@@ -71,8 +71,8 @@ istio-system1   istio-ingress-68d65fc5c6-2vldg             1/1       Running   0
 istio-system1   istio-mixer-7d4f7b9968-66z44               3/3       Running   0          15d
 istio-system1   istio-pilot-5bb6b7669c-779vb               2/2       Running   0          15d
 ```
-The Istio [sidecar]({{home}}/docs/setup/kubernetes/sidecar-injection.html) and
-[addons]({{home}}/docs/tasks/telemetry/), if required, manifests must also
+The Istio [sidecar](/docs/setup/kubernetes/sidecar-injection/) and
+[addons](/docs/tasks/telemetry/), if required, manifests must also
 be deployed to match the configured `namespace` in use by the tenant's Istio control plane.
 
 The execution of these two yaml files is the responsibility of the cluster
@@ -192,8 +192,8 @@ the tenant administrator.
 
 ### Using `istioctl` in a multi-tenant environment
 
-When defining [route rules]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#RouteRule)
-or [destination policies]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#DestinationPolicy),
+When defining [route rules](/docs/reference/config/istio.routing.v1alpha1/#RouteRule)
+or [destination policies](/docs/reference/config/istio.routing.v1alpha1/#DestinationPolicy),
 it is necessary to ensure that the `istioctl` command is scoped to
 the namespace the Istio control plane is running in to ensure the resource is created
 in the proper namespace. Additionally, the rule itself must be scoped to the tenant's namespace
@@ -218,7 +218,7 @@ ratings-default       RouteRule.v1alpha2.config.istio.io    ns-1
 reviews-default       RouteRule.v1alpha2.config.istio.io    ns-1
 ```
 
-See the [Multiple Istio control planes]({{home}}/blog/2018/soft-multitenancy.html#multiple-istio-control-planes) section of this document for more details on `namespace` requirements in a
+See the [Multiple Istio control planes](/blog/2018/soft-multitenancy/#multiple-istio-control-planes) section of this document for more details on `namespace` requirements in a
 multi-tenant environment.
 
 ### Test results
@@ -256,7 +256,7 @@ Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list p
 ```
 
 The tenant administrator can deploy applications in the application namespace configured for
-that tenant. As an example, updating the [Bookinfo]({{home}}/docs/guides/bookinfo.html)
+that tenant. As an example, updating the [Bookinfo](/docs/guides/bookinfo/)
 manifests and then deploying under the tenant's application namespace of *ns-0*, listing the
 pods in use by this tenant's namespace is permitted:
 
@@ -278,8 +278,8 @@ $ kubectl get pods -n ns-1
 Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list pods in the namespace "ns-1"
 ```
 
-If the [addon tools]({{home}}/docs/tasks/telemetry/), example
-[prometheus]({{home}}/docs/tasks/telemetry//querying-metrics.html), are deployed
+If the [addon tools](/docs/tasks/telemetry/), example
+[prometheus](/docs/tasks/telemetry//querying-metrics/), are deployed
 (also limited by an Istio `namespace`) the statistical results returned would represent only
 that traffic seen from that tenant's application namespace.
 

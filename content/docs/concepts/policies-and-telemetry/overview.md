@@ -2,11 +2,9 @@
 title: Overview
 description: Describes the design of the policy and telemetry mechanisms.
 weight: 5
-redirect_from:
+aliases:
     - /docs/concepts/policy-and-control/mixer.html
 ---
-
-{% include home.html %}
 
 Istio provides a flexible model to enforce authorization policies and collect telemetry for the
 services in a mesh.
@@ -26,10 +24,10 @@ control to operators.
 
 Mixer is the Istio component responsible for providing policy controls and telemetry collection:
 
-{% include image.html width="75%" ratio="49.26%"
-    link="./img/topology-without-cache.svg"
+{{< image width="75%" ratio="49.26%"
+    link="../img/topology-without-cache.svg"
     caption="Mixer Topology"
-    %}
+    >}}
 
 The Envoy sidecar logically calls Mixer before each request to perform precondition checks, and after each request to report telemetry.
 The sidecar has local caching such that a relatively large percentage of precondition checks can be performed from cache. Additionally, the
@@ -61,11 +59,11 @@ monitoring, quotas, ACL checking, and more. The exact set of
 adapters used at runtime is determined through configuration and can easily be
 extended to target new or custom infrastructure backends.
 
-{% include image.html width="35%" ratio="138%"
-    link="./img/adapters.svg"
+{{< image width="35%" ratio="138%"
+    link="../img/adapters.svg"
     alt="Showing Mixer with adapters."
     caption="Mixer and its Adapters"
-    %}
+    >}}
 
 ## Reliability and latency
 
@@ -82,10 +80,10 @@ The sidecar proxies that sit next to each service instance in the mesh must nece
 caching and buffering. Mixer, however, lives independently and can use considerably larger caches and output buffers. Mixer thus acts as a highly-scaled and highly-available second-level
 cache for the sidecars.
 
-{% include image.html width="75%" ratio="65.89%"
-    link="./img/topology-with-cache.svg"
+{{< image width="75%" ratio="65.89%"
+    link="../img/topology-with-cache.svg"
     caption="Mixer Topology"
-    %}
+    >}}
 
 Since Mixer’s expected availability is considerably higher than most infrastructure backends (those often have availability of perhaps 99.9%). Mixer's local
 caches and buffers not only contribute to reduce latency, they also help mask infrastructure backend failures by being able to continue operating
@@ -96,4 +94,4 @@ sent to backends (through local aggregation). Both of these can reduce operation
 
 ## What's next
 
-* Read the [Mixer adapter model]({{home}}/blog/2017/adapter-model.html) blog post.
+* Read the [Mixer adapter model](/blog/2017/adapter-model/) blog post.
