@@ -24,22 +24,22 @@ In the following steps, we assume that the Istio components are installed and up
 
 The Istio control plane components include: Citadel, Ingress gateway, Egress gateway, Pilot, Policy, Telemetry and
 Sidecar injector. We can use Kubernetes’ rolling update mechanism to upgrade the
-control plane components.  
+control plane components.
 
 First, generate the desired istio control plane yaml file, e.g.
 
 ```command
 helm template  --set global.proxy.image=proxy \
-		  --values install/kubernetes/helm/istio/values-istio.yaml \
-		  install/kubernetes/helm/istio >> install/kubernetes/istio.yaml
+  --values install/kubernetes/helm/istio/values-istio.yaml \
+  install/kubernetes/helm/istio >> install/kubernetes/istio.yaml
 ```
 
 or
 
 ```command
 helm template  --set global.proxy.image=proxy \
-		  --values install/kubernetes/helm/istio/values-istio-auth.yaml \
-		  install/kubernetes/helm/istio >> install/kubernetes/istio-auth.yaml
+  --values install/kubernetes/helm/istio/values-istio-auth.yaml \
+  install/kubernetes/helm/istio >> install/kubernetes/istio-auth.yaml
 ```
 
 > If you have used [Helm](https://istio.io/docs/setup/kubernetes/helm.html)
@@ -52,13 +52,13 @@ Second, simply apply the new version of the desired istio control plane yaml fil
 $ kubectl apply -f install/kubernetes/istio.yaml
 ```
 
-or 
+or
 
 ```command
 $ kubectl apply -f install/kubernetes/istio-auth.yaml
 ```
 
-The rolling update process will upgrade all deployments and configmaps to the new version. After this process finishes, your Istio control plane should be updated to the new version and the control plane itself should be using the new Envoy v2 proxy. Your existing application should continue to work without any change, using the Envoy v1 proxy and the v1alpha1 route rules.  In any case if there is any critical issue with the new control plane, you can simply rollback the changes either by applying the old version yaml files.   
+The rolling update process will upgrade all deployments and configmaps to the new version. After this process finishes, your Istio control plane should be updated to the new version and the control plane itself should be using the new Envoy v2 proxy. Your existing application should continue to work without any change, using the Envoy v1 proxy and the v1alpha1 route rules.  In any case if there is any critical issue with the new control plane, you can simply rollback the changes either by applying the old version yaml files.
 
 ### Sidecar upgrade
 
