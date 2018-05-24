@@ -17,3 +17,5 @@ The Performance and Scalability working group has a 4 pronged approach for Istio
 * Realistic complex app end-to-end benchmarks across various settings
 
 * Automation to ensure performance doesn't regress
+
+We also aim to provide guidance for sizing and configuration of Istio installation in production and how to ensure scalability.
