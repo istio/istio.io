@@ -179,7 +179,7 @@ pre {
             color: $preBlockCommandOutputTextColor;
             background-color: $preBlockCommandOutputBackgroundColor;
             font-style: italic;
-            padding: .5em;
+            padding: 0 .5em .5em .5em;
         }
 
         // if the output div is empty, we need extra padding
