@@ -1,0 +1,95 @@
+{{ $posts := (where .Site.AllPages "Section" "blog").ByPublishDate.Reverse }}
+{{ $latest_post := index $posts 0 }}
+{{ $version := .Site.Data.args.version }}
+
+{{/* Need to set the specialized targets for the dropdown menu versions */}}
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark justify-content-between">
+        <a class="navbar-brand" href="/">
+            <span class="logo">{{ partial "icons/istio-logo-blue-background-round.svg" }}</span>
+
+            {{ if .Site.Data.args.archive }}
+                <span class="brand-name">Istioldie {{ .Site.Data.args.version }}</span>
+            {{ else if .Site.Data.args.preliminary }}
+                <span class="brand-name">Istio Prelim {{ .Site.Data.args.version }}</span>
+            {{ else }}
+                <span class="brand-name">Istio {{ .Site.Data.args.version }}</span>
+            {{ end }}
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
+            <ul id="navbar-links" class="navbar-nav active">
+                <li class="nav-item">
+                    <a class="nav-link {{ if eq .Section "docs" }}active{{ end }}" href="{{ (.Site.GetPage "section" "docs").URL  }}">Docs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ if eq .Section "blog" }}active{{ end }}" href="{{ $latest_post.URL }}">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ if eq .Section "help" }}active{{ end }}" href="{{ (.Site.GetPage "section" "help").URL  }}">Help</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ if eq .Section "community" }}active{{ end }}" href="{{ (.Site.GetPage "section" "community").URL  }}">Community</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ if eq .Section "about" }}active{{ end }}" href="{{ (.Site.GetPage "section" "about").URL  }}">About</a>
+                </li>
+
+                <li class="nav-item dropdown" id="gearDropdown" style="white-space: nowrap">
+                    <a href="" class="nav-link" data-toggle="dropdown" aria-label="Tools" aria-haspopup="true" aria-expanded="false">
+                        <i style="width: 1em" class='fa fa-lg fa-cog'></i>
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="gearDropdown">
+                        {{ range $rel := .Site.Data.releases }}
+                            <li>
+                                {{ if eq $version $rel.name }}
+                                    <i class='fa fa-check'></i>
+                                    {{ $rel.name }}
+                                {{ else }}
+                                    <i style="visibility: hidden;" class='fa fa-check'></i>
+                                    <a href="{{ $rel.url }}">{{ $rel.name }}</a>
+                                {{ end }}
+                            </li>
+                        {{ end }}
+
+                        <li class="dropdown-divider"></li>
+
+                        <li>
+                            <i class='fa fa-check light'></i>
+                            <a href="" onclick="setActiveStyleSheet('light');return false;">Light Theme</a>
+                        </li>
+
+                        <li>
+                            <i class='fa fa-check dark'></i>
+                            <a href="" onclick="setActiveStyleSheet('dark');return false;">Dark Theme</a>
+                        </li>
+
+                        <li class="dropdown-divider"></li>
+
+                        <li><a href="https://github.com/istio/istio.github.io/issues/new?title=Issue%20with%20{{ .Page.Path}}">Report Site Bugs</a></li>
+                        <li><a href="https://github.com/istio/istio.github.io/edit/master/{{ .Page.Path }}">Edit this Page on GitHub</a></li>
+                   </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a id="search_show" class="nav-link" href="" aria-label="Search"><i style="width: 1em" class="fa fa-lg fa-search"></i></a>
+                </li>
+            </ul>
+
+            <form name="cse" id="search_form" class="form-inline mr-sm-2" role="search">
+                <input type="hidden" name="cx" value="{{ .Site.Data.args.search_engine_id }}" />
+                <input type="hidden" name="ie" value="utf-8" />
+                <input type="hidden" name="hl" value="en" />
+                <input type="hidden" id="search_page_url" value="{{ .Site.BaseURL }}/search.html" />
+                <input id="search_textbox" class="form-control" name="q" type="text" aria-label="Search this site"/>
+                <button id="search_close" type="reset" aria-label="Cancel Search"><i class="far fa-lg fa-times-circle"></i></button>
+            </form>
+        </div>
+    </nav>
+</header>

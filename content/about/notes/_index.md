@@ -2,17 +2,17 @@
 title: Release Notes
 description: Description of features and improvements for every Istio release.
 weight: 5
-redirect_from:
+type: section-index
+aliases:
   - /docs/reference/release-notes.html
   - /release-notes
   - /docs/welcome/notes/index.html
   - /docs/references/notes
 toc: false
 ---
-{% include section-index.html docs=site.about %}
 
-The latest Istio monthly release is {{site.data.istio.version}} ([release notes]({{site.data.istio.version}}.html)). You can
-[download {{site.data.istio.version}}](https://github.com/istio/istio/releases) with:
+The latest Istio snapshot release is {{< istio_version >}} ([release notes](/about/notes/{{< istio_version >}}/)). You can
+[download {{< istio_version >}}](https://github.com/istio/istio/releases) with:
 
 ```command
 $ curl -L https://git.io/getLatestIstio | sh -

@@ -2,10 +2,9 @@
 title: Basic Authentication Policy
 description: Shows you how to use Istio authentication policy to setup mutual TLS and basic end-user authentication.
 weight: 10
-redirect_from:
+aliases:
     - /docs/tasks/security/istio-auth.html
 ---
-{% include home.html %}
 
 Through this task, you will learn how to:
 
@@ -15,11 +14,11 @@ Through this task, you will learn how to:
 
 ## Before you begin
 
-* Understand Istio [authentication policy]({{home}}/docs/concepts/security/authn-policy.html) and related [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) concepts.
+* Understand Istio [authentication policy](/docs/concepts/security/authn-policy/) and related [mutual TLS authentication](/docs/concepts/security/mutual-tls/) concepts.
 
-* Know how to verify mTLS setup (recommend to walk through [testing Istio mutual TLS authentication]({{home}}/docs/tasks/security/mutual-tls.html))
+* Know how to verify mTLS setup (recommend to walk through [testing Istio mutual TLS authentication](/docs/tasks/security/mutual-tls/))
 
-* Have a Kubernetes cluster with Istio installed, without mTLS. See [the Istio installation task]({{home}}/docs/setup/kubernetes/quick-start.html) and follow step 5.
+* Have a Kubernetes cluster with Istio installed, without mTLS. See [the Istio installation task](/docs/setup/kubernetes/quick-start/) and follow step 5.
 
 *   For demo, create two namespaces `foo` and `bar`, and deploy [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) and [sleep](https://github.com/istio/istio/tree/master/samples/sleep) with sidecar on both of them. Also, run another sleep app without sidecar (to keep it separate, run it in `legacy` namespace)
 
@@ -184,7 +183,7 @@ $ export JWKS=https://www.googleapis.com/service_accounts/v1/jwk/<YOUR-SVC-ACCOU
 $ export TOKEN=<YOUR-TOKEN>
 ```
 
-Also, for convenience, expose `httpbin.foo` via ingress (for more details, see [ingress task]({{home}}/docs/tasks/traffic-management/ingress.html)).
+Also, for convenience, expose `httpbin.foo` via ingress (for more details, see [ingress task](/docs/tasks/traffic-management/ingress/)).
 
 ```bash
 cat <<EOF | kubectl apply -f -

@@ -1,11 +1,8 @@
 ---
 title: Testing mutual TLS
 description: Shows you how to verify and test Istio's automatic mutual TLS authentication.
-
 weight: 10
-
 ---
-{% include home.html %}
 
 Through this task, you will learn how to:
 
@@ -18,11 +15,11 @@ Through this task, you will learn how to:
 This task assumes you have a Kubernetes cluster:
 
 * Installed Istio with mutual TLS authentication by following
-[the Istio installation task]({{home}}/docs/setup/kubernetes/quick-start.html).
+[the Istio installation task](/docs/setup/kubernetes/quick-start/).
 Note to choose "enable Istio mutual TLS Authentication feature" at step 5 in
-"[Installation steps]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps)".
+"[Installation steps](/docs/setup/kubernetes/quick-start/#installation-steps)".
 
-> Starting with Istio  0.7, you can use [authentication policy]({{home}}/docs/concepts/security/authn-policy.html) to config mTLS for all/selected services in a namespace (repeated for all namespaces to get global setting). See [authentication policy task]({{home}}/docs/tasks/security/authn-policy.html)
+> Starting with Istio  0.7, you can use [authentication policy](/docs/concepts/security/authn-policy/) to config mTLS for all/selected services in a namespace (repeated for all namespaces to get global setting). See [authentication policy task](/docs/tasks/security/authn-policy/)
 
 ## Verifying Istio's mutual TLS authentication setup
 
@@ -55,7 +52,7 @@ Citadel is up if the "AVAILABLE" column is 1.
 
 When running Istio with mutual TLS authentication turned on, you can use curl in one service's
 Envoy to send request to other services.
-For example, after starting the [Bookinfo]({{home}}/docs/guides/bookinfo.html)
+For example, after starting the [Bookinfo](/docs/guides/bookinfo/)
 sample application you can ssh into the Envoy container of `productpage` service,
 and send request to other services by curl.
 
@@ -120,12 +117,12 @@ The service name and port are defined [here](https://github.com/istio/istio/blob
 
 Note that Istio uses [Kubernetes service accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/)
 as service identity, which offers stronger security than service name
-(refer [here]({{home}}/docs/concepts/security/mutual-tls.html#identity) for more information).
+(refer [here](/docs/concepts/security/mutual-tls/#identity) for more information).
 Thus the certificates used in Istio do not have service names, which is the information that `curl` needs to verify
 server identity. As a result, we use `curl` option `-k` to prevent the `curl` client from aborting when failing to
 find and verify the server name (i.e., productpage.ns.svc.cluster.local) in the certificate provided by the server.
 
-Please check [secure naming]({{home}}/docs/concepts/security/mutual-tls.html#workflow) for more information
+Please check [secure naming](/docs/concepts/security/mutual-tls/#workflow) for more information
 about how the client verifies the server's identity in Istio.
 
 What we are demonstrating and verifying above is that the server accepts the connection from the client. Try not giving the client `--key` and `--cert` and observe you are not allowed to connect and you do not get an HTTP 200.
@@ -133,5 +130,4 @@ What we are demonstrating and verifying above is that the server accepts the con
 ## What's next
 
 * Learn more about the design principles behind Istio's automatic mTLS authentication
-  between all services in this
-  [blog]({{home}}/blog/istio-auth-for-microservices.html).
+  between all services in this [blog](/blog/2017/0.1-auth/).

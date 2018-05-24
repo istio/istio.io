@@ -1,10 +1,7 @@
 ---
 title: What is Istio?
 description: Context about what problems Istio is designed to solve.
-
 weight: 1
-
-toc: false
 ---
 
 Istio is an open platform that provides a uniform way to connect, manage,

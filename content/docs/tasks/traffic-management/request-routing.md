@@ -1,22 +1,19 @@
 ---
 title: Configuring Request Routing
 description: This task shows you how to configure dynamic request routing based on weights and HTTP headers.
-
 weight: 10
-
 ---
-{% include home.html %}
 
-> Note: This task uses the new [v1alpha3 traffic management API]({{home}}/blog/2018/v1alpha3-routing.html). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.6/docs/tasks/).
+> This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.6/docs/tasks/).
 
 This task shows you how to configure dynamic request routing based on weights and HTTP headers.
 
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-[Installation guide]({{home}}/docs/setup/).
+[Installation guide](/docs/setup/).
 
-* Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application.
+* Deploy the [Bookinfo](/docs/guides/bookinfo/) sample application.
 
 ## Content-based routing
 
@@ -174,9 +171,9 @@ all users to v2, optionally in a gradual fashion. We'll explore this in a separa
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+  [Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions
   to shutdown the application.
 
 ## What's next
 
-* Learn more about [request routing]({{home}}/docs/concepts/traffic-management/request-routing.html).
+* Learn more about [request routing](/docs/concepts/traffic-management/request-routing/).

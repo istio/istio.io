@@ -1,25 +1,21 @@
 ---
 title: Visualizing Metrics with Grafana
-
 description: This task shows you how to setup and use the Istio Dashboard to monitor mesh traffic.
-
 weight: 40
-
 ---
-{% include home.html %}
 
 This task shows you how to setup and use the Istio Dashboard to monitor mesh
 traffic. As part of this task, you will install the Grafana Istio addon and use
 the web-based interface for viewing service mesh traffic data.
 
-The [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application is used as
+The [Bookinfo](/docs/guides/bookinfo/) sample application is used as
 the example application throughout this task.
 
 ## Before you begin
 
-* [Install Istio]({{home}}/docs/setup/) in your cluster and deploy an
+* [Install Istio](/docs/setup/) in your cluster and deploy an
   application.
-* [Install the Prometheus add-on]({{home}}/docs/tasks/telemetry/querying-metrics.html).
+* [Install the Prometheus add-on](/docs/tasks/telemetry/querying-metrics/).
 
 ## Viewing the Istio Dashboard
 
@@ -53,10 +49,10 @@ the example application throughout this task.
 
     The Istio Dashboard will look similar to:
 
-    {% include image.html width="100%" ratio="56.57%"
-        link="./img/grafana-istio-dashboard.png"
+    {{< image width="100%" ratio="56.57%"
+        link="../img/grafana-istio-dashboard.png"
         caption="Istio Dashboard"
-        %}
+        >}}
 
 1.  Send traffic to the mesh.
 
@@ -73,12 +69,12 @@ the example application throughout this task.
     Look at the Istio Dashboard again. It should reflect the traffic that was
     generated. It will look similar to:
 
-    {% include image.html width="100%" ratio="56.57%"
-    link="./img/dashboard-with-traffic.png"
+    {{< image width="100%" ratio="56.57%"
+    link="../img/dashboard-with-traffic.png"
     caption="Istio Dashboard With Traffic"
-    %}
+    >}}
 
-> `$GATEWAY_URL` is the value set in the [Bookinfo]({{home}}/docs/guides/bookinfo.html) guide.
+> `$GATEWAY_URL` is the value set in the [Bookinfo](/docs/guides/bookinfo/) guide.
 
 ### About the Grafana add-on
 
@@ -117,5 +113,5 @@ add-on:
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-[Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+[Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions
 to shutdown the application.

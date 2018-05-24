@@ -1,15 +1,12 @@
 ---
 title: Per-service mutual TLS authentication control
 description: Shows how to change mutual TLS authentication for a single service.
-
 weight: 50
-
 ---
-{% include home.html %}
 
-> This feature will soon be deprecated. If you are using Istio 0.7 or later, please refer to [authentication policy task]({{home}}/docs/tasks/security/authn-policy.html) for the recommended approach moving forward.
+> This feature will soon be deprecated. If you are using Istio 0.7 or later, please refer to [authentication policy task](/docs/tasks/security/authn-policy/) for the recommended approach moving forward.
 
-In the [Installation guide]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps), we show how to enable [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars. The settings will be applied to all sidecars in the mesh.
+In the [Installation guide](/docs/setup/kubernetes/quick-start/#installation-steps), we show how to enable [mutual TLS authentication](/docs/concepts/security/mutual-tls/) between sidecars. The settings will be applied to all sidecars in the mesh.
 
 In this task, you will learn:
 
@@ -18,11 +15,11 @@ In this task, you will learn:
 
 ## Before you begin
 
-* Understand Istio [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) concepts and [authentication policy]({{home}}/docs/concepts/security/authn-policy.html)
+* Understand Istio [mutual TLS authentication](/docs/concepts/security/mutual-tls/) concepts and [authentication policy](/docs/concepts/security/authn-policy/)
 
-* Familiar with [testing Istio mutual TLS authentication]({{home}}/docs/tasks/security/mutual-tls.html).
+* Familiar with [testing Istio mutual TLS authentication](/docs/tasks/security/mutual-tls/).
 
-* Install Istio with mutual TLS authentication by following the instructions in the [Installation guide]({{home}}/docs/setup/kubernetes/).
+* Install Istio with mutual TLS authentication by following the instructions in the [Installation guide](/docs/setup/kubernetes/).
 
 *   Start [httpbin demo](https://github.com/istio/istio/tree/master/samples/httpbin) with Istio sidecar. Also, for testing purpose, run two instances of [sleep](https://github.com/istio/istio/tree/master/samples/sleep), one with sidecar and one without (in different namespace). Below are commands to help you start these services.
 

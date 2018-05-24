@@ -1,9 +1,7 @@
 ---
 title: Installation
 description: Instructions for installing the Istio control plane in an Eureka based environment.
-
 weight: 30
-
 ---
 
 Using Istio in a non-Kubernetes environment involves a few key tasks:

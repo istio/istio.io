@@ -1,12 +1,8 @@
 ---
 title: Quick Start
 description: Quick start instructions to setup the Istio service mesh in a Kubernetes cluster.
-
 weight: 10
-
 ---
-
-{% include home.html %}
 
 Quick start instructions to install and configure Istio in a Kubernetes cluster.
 
@@ -15,7 +11,7 @@ Quick start instructions to install and configure Istio in a Kubernetes cluster.
 The following instructions recommend you have access to a Kubernetes **1.9 or newer** cluster
 with [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/) enabled. You will also need `kubectl` **1.9 or newer** installed.
 
-If you wish to enable [automatic sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection) or server-side configuration validation, you must use Kubernetes version 1.9 or greater.
+If you wish to enable [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection) or server-side configuration validation, you must use Kubernetes version 1.9 or greater.
 
   > If you installed Istio 0.2.x,
   > [uninstall](https://archive.istio.io/v0.2/docs/setup/kubernetes/quick-start#uninstalling)
@@ -27,7 +23,7 @@ If you wish to enable [automatic sidecar injection]({{home}}/docs/setup/kubernet
 match the version supported by your cluster (version 1.9 or later for CRD
 support).
 
-### [Minikube](https://github.com/kubernetes/minikube/releases)
+### Minikube
 
 To install Istio locally, install the latest version of
 [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) (version 0.25.0 or later).
@@ -52,7 +48,7 @@ $ minikube start \
     --kubernetes-version=v1.10.0
 ```
 
-### [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/)
+### Google Kubernetes Engine
 
 Create a new cluster.
 
@@ -79,7 +75,7 @@ $ kubectl create clusterrolebinding cluster-admin-binding \
     --user=$(gcloud config get-value core/account)
 ```
 
-### [IBM Cloud Kubernetes Service (IKS)](https://www.ibm.com/cloud/container-service)
+### IBM Cloud Kubernetes Service (IKS)
 
 Create a new lite cluster.
 
@@ -99,11 +95,11 @@ Retrieve your credentials for `kubectl` (replace `<cluster-name>` with the name 
 $(bx cs cluster-config <cluster-name>|grep "export KUBECONFIG")
 ```
 
-### [IBM Cloud Private](https://www.ibm.com/us-en/marketplace/ibm-cloud-private) (version 2.1 or later)
+### IBM Cloud Private
 
 Configure `kubectl` CLI based on steps [here](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0/manage_cluster/cfc_cli.html) for how to access the IBM Cloud Private Cluster.
 
-### [OpenShift Origin](https://www.openshift.org) (version 3.9)
+### OpenShift Origin
 
 OpenShift by default does not allow containers running with UID 0. Enable containers running
 with UID 0 for Istio's service accounts for ingress as well the Prometheus and Grafana addons:
@@ -257,10 +253,10 @@ For example, run the following command on a MacOS or Linux system:
 ## Installation steps
 
 1.  Install Istio's core components. Choose one of the three _**mutually exclusive**_ options below fo quick install.  However, we recommend you to install
-with the [Helm Chart]({{home}}/docs/setup/kubernetes/helm-install.html) for production installations of Istio to leverage all the options to configure and
+with the [Helm Chart](/docs/setup/kubernetes/helm-install/) for production installations of Istio to leverage all the options to configure and
 customize Istio to your needs.
 
-    a)  Quick install Istio using without enabling [mutual TLS authentication]({{home}}/docs/concepts/security/mutual-tls.html) between sidecars.
+    a)  Quick install Istio using without enabling [mutual TLS authentication](/docs/concepts/security/mutual-tls/) between sidecars.
     Choose this option for clusters with existing applications, applications where services with an
     Istio sidecar need to be able to communicate with other non-Istio Kubernetes services, and
     applications that use [liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/),
@@ -272,14 +268,14 @@ customize Istio to your needs.
 
     _**OR**_
 
-    b)  [Render Kubernetes manifest with Helm and deploy with kubectl]({{home}}/docs/setup/kubernetes/helm-install.html#option-1-install-with-helm-via-helm-template).
+    b)  [Render Kubernetes manifest with Helm and deploy with kubectl](/docs/setup/kubernetes/helm-install/#option-1-install-with-helm-via-helm-template).
 
     _**OR**_
 
-    c)  [Use Helm and Tiller to manage the Istio deployment]({{home}}/docs/setup/kubernetes/helm-install.html#option-2-install-with-helm-and-tiller-via-helm-install).
+    c)  [Use Helm and Tiller to manage the Istio deployment](/docs/setup/kubernetes/helm-install/#option-2-install-with-helm-and-tiller-via-helm-install).
 
 1. *Optional:* If your cluster has Kubernetes version 1.9 or greater, and you wish to enable automatic proxy injection,
-install the [sidecar injector webhook]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection).
+install the [sidecar injector webhook](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection).
 
 ## Verifying the installation
 
@@ -323,10 +319,10 @@ and, optionally, `istio-sidecar-injector-*`.
 ## Deploy your application
 
 You can now deploy your own application or one of the sample applications provided with the
-installation like [Bookinfo]({{home}}/docs/guides/bookinfo.html).
+installation like [Bookinfo](/docs/guides/bookinfo/).
 Note: the application must use HTTP/1.1 or HTTP/2.0 protocol for all its HTTP traffic because HTTP/1.0 is not supported.
 
-If you started the [Istio-sidecar-injector]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection),
+If you started the [Istio-sidecar-injector](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection),
 as shown above, you can deploy the application directly using `kubectl create`.
 
 The Istio-Sidecar-injector will automatically inject Envoy containers into your application pods assuming running in namespaces labeled with `istio-injection=enabled`
@@ -337,7 +333,7 @@ $ kubectl create -n <namespace> -f <your-app-spec>.yaml
 ```
 
 If you do not have the Istio-sidecar-injector installed, you must
-use [istioctl kube-inject]({{home}}/docs/reference/commands/istioctl.html#istioctl kube-inject) to
+use [istioctl kube-inject](/docs/reference/commands/istioctl/#istioctl kube-inject) to
 manually inject Envoy containers in your application pods before deploying them:
 
 ```command
@@ -358,10 +354,10 @@ It is safe to ignore errors for non-existent resources because they may have bee
 
     _**OR**_
 
-    b) : [Uninstall Istio with Helm]({{home}}/docs/setup/kubernetes/helm-install.html#uninstall).
+    b) : [Uninstall Istio with Helm](/docs/setup/kubernetes/helm-install/#uninstall).
 
 ## What's next
 
-* See the sample [Bookinfo]({{home}}/docs/guides/bookinfo.html) application.
+* See the sample [Bookinfo](/docs/guides/bookinfo/) application.
 
-* See how to [test mutual TLS authentication]({{home}}/docs/tasks/security/mutual-tls.html).
+* See how to [test mutual TLS authentication](/docs/tasks/security/mutual-tls/).

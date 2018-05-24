@@ -2,19 +2,18 @@
 title: Basic Access Control
 description: Shows how to control access to a service using the Kubernetes labels.
 weight: 20
-redirect_from:
+aliases:
     - /docs/tasks/basic-access-control.html
 ---
-{% include home.html %}
 
 This task shows how to control access to a service using the Kubernetes labels.
 
 ## Before you begin
 
 * Set up Istio on Kubernetes by following the instructions in the
-  [Installation guide]({{home}}/docs/setup/kubernetes/).
+  [Installation guide](/docs/setup/kubernetes/).
 
-* Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application.
+* Deploy the [Bookinfo](/docs/guides/bookinfo/) sample application.
 
 *   Initialize the application version routing to direct `reviews` service requests from
     test user "jason" to version v2 and requests from any other user to v3.
@@ -35,7 +34,7 @@ This task shows how to control access to a service using the Kubernetes labels.
 Using Istio you can control access to a service based on any attributes that are available within Mixer.
 This simple form of access control is based on conditionally denying requests using Mixer selectors.
 
-Consider the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application where the `ratings` service is accessed by multiple versions
+Consider the [Bookinfo](/docs/guides/bookinfo/) sample application where the `ratings` service is accessed by multiple versions
 of the `reviews` service. We would like to cut off access to version `v3` of the `reviews` service.
 
 1.  Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage).
@@ -67,7 +66,7 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
 
     This rule uses the `denier` adapter to deny requests coming from version `v3` of the reviews service.
     The adapter always denies requests with a preconfigured status code and message.
-    The status code and the message is specified in the [denier]({{home}}/docs/reference/config/policy-and-telemetry/adapters/denier.html)
+    The status code and the message is specified in the [denier](/docs/reference/config/policy-and-telemetry/adapters/denier/)
     adapter configuration.
 
 1.  Refresh the `productpage` in your browser.
@@ -91,7 +90,7 @@ Istio also supports attribute-based whitelists and blacklists. The following whi
 1. Verify that when you access the Bookinfo `productpage` (http://$GATEWAY_URL/productpage) without logging in, you see red stars.
    After performing the following steps you will no longer be able to see stars unless you are logged in as "jason".
 
-1.  Create configuration for the [`list`]({{home}}/docs/reference/config/policy-and-telemetry/adapters/list.html)
+1.  Create configuration for the [`list`](/docs/reference/config/policy-and-telemetry/adapters/list/)
     adapter that lists versions `v1, v2`.
     Save the following YAML snippet as `whitelist-handler.yaml`:
 
@@ -113,7 +112,7 @@ Istio also supports attribute-based whitelists and blacklists. The following whi
     $ istioctl create -f whitelist-handler.yaml
     ```
 
-1.  Extract the version label by creating an instance of the [`listentry`]({{home}}/docs/reference/config/policy-and-telemetry/templates/listentry.html) template.
+1.  Extract the version label by creating an instance of the [`listentry`](/docs/reference/config/policy-and-telemetry/templates/listentry/) template.
 Save the following YAML snippet as `appversion-instance.yaml`:
 
     ```yaml
@@ -174,17 +173,17 @@ Verify that after logging in as "jason" you see black stars.
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+  [Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions
   to shutdown the application.
 
 ## What's next
 
-* Learn how to securely control access based on the service account [here]({{home}}/docs/tasks/security/secure-access-control.html).
+* Learn how to securely control access based on the service account [here](/docs/tasks/security/secure-access-control/).
 
-* Learn more about [Mixer]({{home}}/docs/concepts/policies-and-telemetry/overview.html) and [Mixer Config]({{home}}/docs/concepts/policies-and-telemetry/config.html).
+* Learn more about [Mixer](/docs/concepts/policies-and-telemetry/overview/) and [Mixer Config](/docs/concepts/policies-and-telemetry/config/).
 
-* Discover the full [Attribute Vocabulary]({{home}}/docs/reference/config/policy-and-telemetry/attribute-vocabulary.html).
+* Discover the full [Attribute Vocabulary](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/).
 
 * Understand the differences between Kubernetes network policies and Istio
 access control policies from this
-[blog]({{home}}/blog/using-network-policy-in-concert-with-istio.html).
+[blog](/blog/2017/0.1-using-network-policy/).

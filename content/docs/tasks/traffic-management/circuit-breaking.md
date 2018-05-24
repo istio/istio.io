@@ -1,20 +1,17 @@
 ---
 title: Circuit Breaking
 description: This task demonstrates the circuit-breaking capability for resilient applications
-
 weight: 50
-
 ---
-{% include home.html %}
 
-> Note: This task uses the new [v1alpha3 traffic management API]({{home}}/blog/2018/v1alpha3-routing.html). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.6/docs/tasks/).
+> This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.6/docs/tasks/).
 
 This task demonstrates the circuit-breaking capability for resilient applications. Circuit breaking allows developers to write applications that limit the impact of failures, latency spikes, and other undesirable effects of network peculiarities. This task will show how to configure circuit breaking for connections, requests, and outlier detection.
 
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide]({{home}}/docs/setup/).
+  [Installation guide](/docs/setup/).
 
 *   Start the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) sample
     which will be used as the backend service for our task
@@ -27,7 +24,7 @@ This task demonstrates the circuit-breaking capability for resilient application
 
 Let's set up a scenario to demonstrate the circuit-breaking capabilities of Istio. We should have the `httpbin` service running from the previous section.
 
-1.  Create a [destination rule]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#DestinationRule) to specify our circuit breaking settings when calling the `httpbin` service:
+1.  Create a [destination rule](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule) to specify our circuit breaking settings when calling the `httpbin` service:
 
     ```bash
     cat <<EOF | istioctl create -f -
@@ -239,4 +236,4 @@ We see `12` for the `upstream_rq_pending_overflow` value which means `12` calls 
 
 ## What's next
 
-Check out the [destination rule]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#DestinationRule) reference section for more circuit breaker settings.
+Check out the [destination rule](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule) reference section for more circuit breaker settings.

@@ -7,8 +7,6 @@ attribution: Frank Budinsky (IBM) and Shriram Rajagopalan (VMware)
 weight: 88
 ---
 
-{% include home.html %}
-
 Up until now, Istio has provided a simple API for traffic management using four configuration resources:
 `RouteRule`, `DestinationPolicy`, `EgressRule`, and (Kubernetes) `Ingress`.
 With this API, users have been able to easily manage the flow of traffic in an Istio service mesh.
@@ -23,7 +21,7 @@ traffic has proven to be woefully insufficient for our needs.
 To address these, and other concerns, a new traffic management API, a.k.a. `v1alpha3`, is being introduced, which will
 completely replace the previous API going forward. Although the `v1alpha3` model is fundamentally the same, it is not
 backward compatible and will require manual conversion from the old API. A
-[conversion tool]({{home}}/docs/reference/commands/istioctl.html#istioctl%20experimental%20convert-networking-config)
+[conversion tool](/docs/reference/commands/istioctl/#istioctl%20experimental%20convert-networking-config)
 is included in the next few releases of Istio to help with the transition.
 
 To justify this disruption, the `v1alpha3` API has gone through a long and painstaking community
@@ -51,11 +49,11 @@ services (e.g., Google Maps API). These may be called directly or, in certain de
 exiting the mesh may be forced through dedicated egress gateways. The following diagram depicts
 this mental model.
 
-{% include image.html width="80%" ratio="35.20%"
-    link="./img/gateways.svg"
+{{< image width="80%" ratio="35.20%"
+    link="../img/gateways.svg"
     alt="Role of gateways in the mesh"
     caption="Gateways in an Istio service mesh"
-    %}
+    >}}
 
 With the above setup in mind, `v1alpha3` introduces the following new
 configuration resources to control traffic routing into, within, and out of the mesh.
@@ -73,14 +71,14 @@ dedicated middleboxes.
 The figure below depicts the flow of control across configuration
 resources.
 
-{% include image.html width="80%" ratio="41.16%"
-    link="./img/virtualservices-destrules.svg"
+{{< image width="80%" ratio="41.16%"
+    link="../img/virtualservices-destrules.svg"
     caption="Relationship between different v1alpha3 elements"
-    %}
+    >}}
 
 ### Gateway
 
-A [Gateway]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway)
+A [Gateway](/docs/reference/config/istio.networking.v1alpha3/#Gateway)
 configures a load balancer for HTTP/TCP traffic, regardless of
 where it will be running.  Any number of gateways can exist within the mesh
 and multiple different gateway implementations can co-exist. In fact, a
@@ -160,9 +158,9 @@ scalability issues with the previous model.
 In effect, what has changed is that instead of configuring routing using a set of individual configuration resources
 (rules) for a particular destination service, each containing a precedence field to control the order of evaluation, we
 now configure the (virtual) destination itself, with all of its rules in an ordered list within a corresponding
-[VirtualService]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#VirtualService) resource.
+[VirtualService](/docs/reference/config/istio.networking.v1alpha3/#VirtualService) resource.
 For example, where previously we had two `RouteRule` resources for the
-[Bookinfo]({{home}}/docs/guides/bookinfo.html) application’s `reviews` service, like this:
+[Bookinfo](/docs/guides/bookinfo/) application’s `reviews` service, like this:
 
 ```yaml
 apiVersion: config.istio.io/v1alpha2
@@ -278,7 +276,7 @@ In addition to this fundamental restructuring, `VirtualService` includes several
 
 ### DestinationRule
 
-A [DestinationRule]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#DestinationRule)
+A [DestinationRule](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule)
 configures the set of policies to be applied while forwarding traffic to a service. They are
 intended to be authored by service owners, describing the circuit breakers, load balancer settings, TLS settings, etc..
 `DestinationRule` is more or less the same as its predecessor, `DestinationPolicy`, with the following exceptions:
@@ -322,7 +320,7 @@ Notice that, unlike `DestinationPolicy`, multiple policies (e.g., default and v2
 
 ### ServiceEntry
 
-[ServiceEntry]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#ServiceEntry)
+[ServiceEntry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry)
 is used to add additional entries into the service registry that Istio maintains internally.
 It is most commonly used to allow one to model traffic to external dependencies of the mesh
 such as APIs consumed from the web or traffic to services in legacy infrastructure.

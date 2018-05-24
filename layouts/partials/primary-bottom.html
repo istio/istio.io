@@ -1,0 +1,42 @@
+{{ $toc := (trim .TableOfContents " ") }}
+{{ $needTOC := .Params.toc | (ne $toc "") }}
+
+            </main>
+
+            {{ if or .NextInSection .PrevInSection }}
+                <div class="container-fluid d-print-none">
+                    <br/><hr/><br/>
+
+                    <div class="row">
+                        <div class="col-6">
+                            {{ if .NextInSection }}
+                                <a title="{{ .NextInSection.Description }}" href="{{ .NextInSection.URL }}"><i class="fa fa-arrow-left"></i> {{ .NextInSection.Title }}</a>
+                            {{ end }}
+                        </div>
+                        <div class="col-6" style="text-align: right">
+                            {{ if .PrevInSection }}
+                                <a title="{{ .PrevInSection.Description }}" href="{{ .PrevInSection.URL }}">{{ .PrevInSection.Title }} <i class="fa fa-arrow-right"></i></a>
+                            {{ end }}
+                        </div>
+                    </div>
+                </div>
+            {{ end }}
+
+            <div class="d-none d-print-block" aria-hidden="true">
+                <h2>Links</h2>
+                <ol id="endnotes"></ol>
+            </div>
+        </div>
+
+        {{ if and $needTOC (not .Params.force_inline_toc) }}
+            <div class="col-12 col-md-2 d-none d-xl-block d-print-none">
+                <nav class="toc">
+                    <div class="spacer"></div>
+                    <div id="toc" class="directory" role="directory">
+                        {{ .TableOfContents }}
+                    </div>
+                </nav>
+            </div>
+        {{ end }}
+    </div>
+</div>

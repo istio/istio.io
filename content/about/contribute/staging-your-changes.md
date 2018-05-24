@@ -1,10 +1,8 @@
 ---
 title: Staging Your Changes
 description: Explains how to test your changes locally before submitting them.
-
 weight: 40
-
-redirect_from:
+aliases:
     - /docs/welcome/contribute/staging-your-changes.html
 ---
 
@@ -14,30 +12,17 @@ to the Istio documentation.
 ## Before you begin
 
 Create a fork of the Istio documentation repository as described in
-[Creating a Doc Pull Request](./creating-a-pull-request.html).
+[Creating a Doc Pull Request](/about/contribute/creating-a-pull-request/).
 
 ## Staging locally
 
 See [Detailed instructions and options on GitHub](https://github.com/istio/istio.github.io/blob/master/README.md)
 
-Once Jekyll is running, you can open a web browser and go to `http://localhost:4000` to see your
+Once Hugo is running, you can open a web browser and go to `http://localhost:1313` to see your
 changes. You can make further changes to the content in your repo and just refresh your browser page to see
-the results, no need to restart Jekyll all the time.
+the results, no need to restart Hugo all the time.
 
 ## Staging from your GitHub account
 
-> Hey, you know, you're much better off staging locally using the above procedure. Just sayin'...
-
-GitHub provides staging of content in your master branch. Note that you
-might not want to merge your changes into your master branch. If that is
-the case, choose another option for staging your content.
-
-1. In your GitHub account, in your fork, merge your changes into
-the master branch.
-
-1. Change the name of your repository to `<your-username>.github.io`, where
-`<your-username>` is the username of your GitHub account.
-
-1. Delete the `CNAME` file.
-
-1. View your staged content at this URL: `https://<your-username>.github.io`
+Once you push a PR from your fork to the istio.github.io's master branch, your PR page on GitHub will show a link to a staging site
+built automatically for your PR. This is useful for folks trying to review your changes.

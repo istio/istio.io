@@ -1,11 +1,8 @@
 ---
 title: Plugging in external CA key and certificate
 description: Shows how operators can configure Citadel with existing root certificate, signing certificate and key.
-
 weight: 60
-
 ---
-{% include home.html %}
 
 This task shows how operators can configure Citadel with existing root certificate, signing certificate and key.
 
@@ -16,9 +13,9 @@ operator-specified root certificate. This task demonstrates an example to plug c
 ## Before you begin
 
 * Set up Istio by following the instructions in the
-  [quick start]({{home}}/docs/setup/kubernetes/quick-start.html).
+  [quick start](/docs/setup/kubernetes/quick-start/).
   Note that authentication should be enabled at step 5 in the
-  [installation steps]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps).
+  [installation steps](/docs/setup/kubernetes/quick-start/#installation-steps).
 
 ## Plugging in the existing certificate and key
 
@@ -68,7 +65,7 @@ The following steps enable plugging in the certificates and key into Citadel:
 In this section, we verify that the new workload certificates and root certificates are propagated.
 This requires you have `openssl` installed on your machine.
 
-1. Deploy the bookinfo application following the [instructions]({{home}}/docs/guides/bookinfo.html).
+1. Deploy the bookinfo application following the [instructions](/docs/guides/bookinfo/).
 
 1.  Retrieve the mounted certificates.
     In the following, we take the ratings pod as an example, and verify the certificates mounted on the pod.
@@ -143,5 +140,5 @@ This requires you have `openssl` installed on your machine.
 
 ## What's next
 
-* Read more about [Citadel (codename is istio\_ca) arguments]({{home}}/docs/reference/commands/istio_ca.html).
+* Read more about [Citadel (codename is istio\_ca) arguments](/docs/reference/commands/istio_ca/).
 * Read [how the sample certificates and keys are generated](https://github.com/istio/istio/blob/master/security/samples/plugin_ca_certs).

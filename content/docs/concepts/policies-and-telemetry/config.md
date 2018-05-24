@@ -2,11 +2,10 @@
 title: Configuration
 description: An overview of the key concepts used to configure Istio's policy enforcement and telemetry collection features.
 weight: 30
-redirect_from:
+aliases:
     - /docs/concepts/policy-and-control/mixer-config.html
     - /docs/concepts/policy-and-control/attributes.html
 ---
-{% include home.html %}
 
 Istio's policy and telemetry features are configured through a common model designed to
 put operators in control of every aspect of authorization policy and telemetry collection.
@@ -41,10 +40,10 @@ every request, giving Mixer a set of attributes that describe the request and th
 around the request. Based on its configuration and the specific set of attributes it was
 given, Mixer generates calls to a variety of infrastructure backends.
 
-{% include image.html width="60%" ratio="42.60%"
-    link="./img/machine.svg"
+{{< image width="60%" ratio="42.60%"
+    link="../img/machine.svg"
     caption="Attribute Machine"
-    %}
+    >}}
 
 ### Attribute vocabulary
 
@@ -54,7 +53,7 @@ in the deployment. The primary attribute producer in Istio is Envoy, although
 specialized Mixer adapters can also generate attributes.
 
 The common baseline set of attributes available in most Istio deployments is defined
-[here]({{home}}/docs/reference/config/policy-and-telemetry/attribute-vocabulary.html).
+[here](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/).
 
 ## Configuration model
 
@@ -137,7 +136,7 @@ spec:
 ```
 
 Each adapter defines its own particular format of configuration data. The exhaustive set of
-adapters and their specific configuration formats can be found [here]({{home}}/docs/reference/config/policy-and-telemetry/adapters/).
+adapters and their specific configuration formats can be found [here](/docs/reference/config/policy-and-telemetry/adapters/).
 
 ## Instances
 
@@ -160,7 +159,7 @@ spec:
 ```
 Note that all the dimensions expected in the handler configuration are specified in the mapping.
 Templates define the specific required content of individual instances. The exhaustive set of
-templates and their specific configuration formats can be found [here]({{home}}/docs/reference/config/policy-and-telemetry/templates/).
+templates and their specific configuration formats can be found [here](/docs/reference/config/policy-and-telemetry/templates/).
 
 ## Rules
 
@@ -208,14 +207,14 @@ destination_version: destination.labels["version"] | "unknown"
 With the above, the `destination_version` label is assigned the value of `destination.labels["version"]`. However if that attribute
 is not present, the literal `"unknown"` is used.
 
-Refer to the [attribute expression reference]({{home}}/docs/reference/config/policy-and-telemetry/expression-language.html) for details.
+Refer to the [attribute expression reference](/docs/reference/config/policy-and-telemetry/expression-language/) for details.
 
 ## What's next
 
-- Learn how to [configure telemetry collection]({{home}}/docs/tasks/telemetry).
+- Learn how to [configure telemetry collection](/docs/tasks/telemetry/).
 
-- Learn how to [configure policy enforcement]({{home}}/docs/tasks/policy-enforcement).
+- Learn how to [configure policy enforcement](/docs/tasks/policy-enforcement/).
 
-- Learn about the set of [supported adapters]({{home}}/docs/reference/config/policy-and-telemetry/adapters).
+- Learn about the set of [supported adapters](/docs/reference/config/policy-and-telemetry/adapters/).
 
-- See the blog post describing [Mixer's adapter model]({{home}}/blog/mixer-adapter-model.html).
+- See the blog post describing [Mixer's adapter model](/blog/2017/adapter-model/).
