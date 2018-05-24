@@ -8,7 +8,7 @@ type: markdown
 ---
 {% include home.html %}
 
-Both the synthetic benchmarks (fortio based) and the realistic application (Blueperf)
+Both the synthetic benchmarks (fortio based) and the realistic application (BluePerf)
 are part of the nightly release pipeline and you can see the results on:
 
 * [https://fortio-daily.istio.io/](https://fortio-daily.istio.io/)
