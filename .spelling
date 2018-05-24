@@ -551,8 +551,11 @@ yamls
 yournamespace
 zipkin_dashboard.png
 zipkin_span.png
-
 qcc
  - search.md
 searchresults
 gcse
+Perf
+p99
+embeddable
+perfcheck.sh
