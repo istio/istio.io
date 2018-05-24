@@ -1,18 +1,15 @@
 ---
 title: Mesh Expansion
 description: Instructions for integrating VMs and bare metal hosts into an Istio mesh deployed on Kubernetes.
-
 weight: 60
-
 ---
-{% include home.html %}
 
 Instructions for integrating VMs and bare metal hosts into an Istio mesh
 deployed on Kubernetes.
 
 ## Prerequisites
 
-* Setup Istio on Kubernetes by following the instructions in the [Installation guide](quick-start.html).
+* Setup Istio on Kubernetes by following the instructions in the [Installation guide](/docs/setup/kubernetes/quick-start/).
 
 * The machine must have IP connectivity to the endpoints in the mesh. This
 typically requires a VPC or a VPN, as well as a container network that
@@ -278,4 +275,4 @@ services running on the machine.
 
 ## What's next
 
-* See the [Bookinfo Mesh Expansion]({{home}}/docs/guides/integrating-vms.html) guide.
+* See the [Bookinfo Mesh Expansion](/docs/guides/integrating-vms/) guide.

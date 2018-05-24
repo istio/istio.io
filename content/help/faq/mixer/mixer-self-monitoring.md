@@ -2,7 +2,6 @@
 title: Does Mixer provide any self-monitoring?
 weight: 30
 ---
-{% include home.html %}
 
 Mixer exposes a monitoring endpoint (default port: `9093`). There are a few
 useful paths to investigate Mixer performance and audit

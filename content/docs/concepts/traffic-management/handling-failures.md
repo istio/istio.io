@@ -1,11 +1,8 @@
 ---
 title: Handling Failures
 description: An overview of failure recovery capabilities in Envoy that can be leveraged by unmodified applications to improve robustness and prevent cascading failures.
-
 weight: 30
-
 ---
-{% include home.html %}
 
 Envoy provides a set of out-of-the-box _opt-in_ failure recovery features
 that can be taken advantage of by the services in an application. Features
@@ -23,7 +20,7 @@ include:
 instance in the load balancing pool
 
 These features can be dynamically configured at runtime through
-[Istio's traffic management rules](./rules-configuration.html).
+[Istio's traffic management rules](/docs/concepts/traffic-management/rules-configuration/).
 
 The jitter between retries minimizes the impact of retries on an overloaded
 upstream service, while timeout budgets ensure that the calling service
@@ -44,9 +41,9 @@ and prevent localized failures from cascading instability to other nodes.
 Istio's traffic management rules allow
 operators to set global defaults for failure recovery per
 service/version. However, consumers of a service can also override
-[timeout]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#HTTPTimeout)
+[timeout](/docs/reference/config/istio.routing.v1alpha1/#HTTPTimeout)
 and
-[retry]({{home}}/docs/reference/config/istio.routing.v1alpha1.html#HTTPRetry)
+[retry](/docs/reference/config/istio.routing.v1alpha1/#HTTPRetry)
 defaults by providing request-level overrides through special HTTP headers.
 With the Envoy proxy implementation, the headers are `x-envoy-upstream-rq-timeout-ms` and
 `x-envoy-max-retries`, respectively.

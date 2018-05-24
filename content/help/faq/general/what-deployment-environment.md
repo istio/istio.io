@@ -2,7 +2,6 @@
 title: What deployment environments are supported?
 weight: 60
 ---
-{% include home.html %}
 
 Istio is designed and built to be platform-independent. For our
 {{site.data.istio.version}} release, Istio supports environments running

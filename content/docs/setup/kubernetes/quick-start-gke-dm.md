@@ -1,17 +1,13 @@
 ---
 title: Quick Start with Google Kubernetes Engine
 description: Quick Start instructions to setup the Istio service using Google Kubernetes Engine (GKE)
-
 weight: 11
-
 ---
-
-{% include home.html %}
 
 Quick Start instructions to install and run Istio in [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) (GKE) using [Google Cloud Deployment Manager](https://cloud.google.com/deployment-manager/).
 
-This Quick Start creates a new GKE [zonal cluster](https://cloud.google.com/kubernetes-engine/versioning-and-upgrades#versions_available_for_new_cluster_masters), installs Istio and then deploys the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample
-application.  It uses Deployment Manager to automate the steps detailed in the [Istio on Kubernetes setup guide]({{home}}/docs/setup/kubernetes/quick-start.html) for Kubernetes Engine
+This Quick Start creates a new GKE [zonal cluster](https://cloud.google.com/kubernetes-engine/versioning-and-upgrades#versions_available_for_new_cluster_masters), installs Istio and then deploys the [Bookinfo](/docs/guides/bookinfo/) sample
+application.  It uses Deployment Manager to automate the steps detailed in the [Istio on Kubernetes setup guide](/docs/setup/kubernetes/quick-start/) for Kubernetes Engine
 
 ## Prerequisites
 
@@ -21,24 +17,24 @@ application.  It uses Deployment Manager to automate the steps detailed in the [
 
 - You must install and configure the [gcloud command line tool](https://cloud.google.com/sdk/docs/) and include the `kubectl` component (`gcloud components install kubectl`).  If you don't want to install the `gcloud` client on your own machine, you can use `gcloud` via [Google Cloud Shell](https://cloud.google.com/shell/docs/) to perform the same tasks.
 
--   <img src="{{home}}/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" /> You must set your default compute service account to include:
+-   <img src="/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" /> You must set your default compute service account to include:
 
     - ```roles/container.admin```  (Kubernetes Engine Admin)
     - ```Editor```  (on by default)
 
 To set this up, navigate to the **IAM** section of the [Cloud Console](https://console.cloud.google.com/iam-admin/iam/project) as shown below and find your default GCE/GKE service account in the following form: `projectNumber-compute@developer.gserviceaccount.com`: by default it should just have the **Editor** role. Then in the **Roles** drop-down list for that account, find the **Kubernetes Engine** group and select the role **Kubernetes Engine Admin**. The **Roles** listing for your account will change to **Multiple**.
 
-{% include image.html width="100%" ratio="22.94%"
-link="./img/dm_gcp_iam.png"
+{{< image width="100%" ratio="22.94%"
+link="../img/dm_gcp_iam.png"
 caption="GKE-IAM Service"
-%}
+>}}
 
 Then add the `Kubernetes Engine Admin` role:
 
-{% include image.html width="70%" ratio="65.04%"
-link="./img/dm_gcp_iam_role.png"
+{{< image width="70%" ratio="65.04%"
+link="../img/dm_gcp_iam_role.png"
 caption="GKE-IAM Role"
-%}
+>}}
 
 ## Setup
 
@@ -49,20 +45,20 @@ caption="GKE-IAM Role"
     [Istio GKE Deployment Manager](https://accounts.google.com/signin/v2/identifier?service=cloudconsole&continue=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/master/install/gcp/deployment_manager/istio-cluster.jinja&followup=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/master/install/gcp/deployment_manager/istio-cluster.jinja&flowName=GlifWebSignIn&flowEntry=ServiceLogin)
 
     We recommend that you leave the default settings as the rest of this tutorial shows how to access the installed features. By default the tool creates a
-    GKE alpha cluster with the specified settings, then installs the Istio [control plane]({{home}}/docs/concepts/what-is-istio/overview.html#architecture), the
-    [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample app,
-    [Grafana]({{home}}/docs/tasks/telemetry/using-istio-dashboard.html) with
-    [Prometheus]({{home}}/docs/tasks/telemetry/querying-metrics.html),
-    [ServiceGraph]({{home}}/docs/tasks/telemetry/servicegraph.html),
-    and [Zipkin]({{home}}/docs/tasks/telemetry/distributed-tracing.html#zipkin).
+    GKE alpha cluster with the specified settings, then installs the Istio [control plane](/docs/concepts/what-is-istio/overview/#architecture), the
+    [Bookinfo](/docs/guides/bookinfo/) sample app,
+    [Grafana](/docs/tasks/telemetry/using-istio-dashboard/) with
+    [Prometheus](/docs/tasks/telemetry/querying-metrics/),
+    [ServiceGraph](/docs/tasks/telemetry/servicegraph/),
+    and [Zipkin](/docs/tasks/telemetry/distributed-tracing/#zipkin).
     You'll find out more about how to access all of these below.  This script will enable Istio auto-injection on the ```default``` namespace only.
 
 1.  Click **Deploy**:
 
-    {% include image.html width="100%" ratio="67.17%"
-    link="./img/dm_launcher.png"
+    {{< image width="100%" ratio="67.17%"
+    link="../img/dm_launcher.png"
     caption="GKE-Istio Launcher"
-    %}
+    >}}
 
 Wait until Istio is fully deployed. Note that this can take up to five minutes.
 
@@ -125,10 +121,10 @@ Note down the IP and Port assigned to Bookinfo product page. (in the example abo
 
 You can also view the installation using the ***Kubernetes Engine -> Workloads** section on the [Cloud Console](https://console.cloud.google.com/kubernetes/workload):
 
-{% include image.html width="100%" ratio="65.37%"
-    link="./img/dm_kubernetes_workloads.png"
+{{< image width="100%" ratio="65.37%"
+    link="../img/dm_kubernetes_workloads.png"
     caption="GKE-Workloads"
-    %}
+    >}}
 
 ### Access the Bookinfo sample
 
@@ -141,10 +137,10 @@ You can also view the installation using the ***Kubernetes Engine -> Workloads**
 
 1.  Verify you can access the Bookinfo ```http://${GATEWAY_URL}/productpage```:
 
-    {% include image.html width="100%" ratio="45.04%"
-    link="./img/dm_bookinfo.png"
+    {{< image width="100%" ratio="45.04%"
+    link="../img/dm_bookinfo.png"
     caption="Bookinfo"
-    %}
+    >}}
 
 1.  Now send some traffic to it:
 
@@ -171,12 +167,12 @@ http://localhost:3000/dashboard/db/istio-dashboard
 ```
 You should see some statistics for the requests you sent earlier.
 
-{% include image.html width="100%" ratio="48.49%"
-    link="./img/dm_grafana.png"
+{{< image width="100%" ratio="48.49%"
+    link="../img/dm_grafana.png"
     caption="Grafana"
-    %}
+    >}}
 
-For more details about using Grafana, see [About the Grafana Add-on]({{home}}/docs/tasks/telemetry/using-istio-dashboard.html#about-the-grafana-add-on).
+For more details about using Grafana, see [About the Grafana Add-on](/docs/tasks/telemetry/using-istio-dashboard/#about-the-grafana-add-on).
 
 ### Prometheus
 
@@ -192,12 +188,12 @@ View the console at:
 http://localhost:9090/graph
 ```
 
-{% include image.html width="100%" ratio="43.88%"
-    link="./img/dm_prometheus.png"
+{{< image width="100%" ratio="43.88%"
+    link="../img/dm_prometheus.png"
     caption="Prometheus"
-    %}
+    >}}
 
-For more details, see [About the Prometheus Add-on]({{home}}/docs/tasks/telemetry/querying-metrics.html#about-the-prometheus-add-on).
+For more details, see [About the Prometheus Add-on](/docs/tasks/telemetry/querying-metrics/#about-the-prometheus-add-on).
 
 ### ServiceGraph
 
@@ -213,12 +209,12 @@ You should see the Bookinfo service topology at
 http://localhost:8088/dotviz
 ```
 
-{% include image.html width="100%" ratio="53.33%"
-    link="./img/dm_servicegraph.png"
+{{< image width="100%" ratio="53.33%"
+    link="../img/dm_servicegraph.png"
     caption="ServiceGraph"
-    %}
+    >}}
 
-For more details, see [About the ServiceGraph Add-on]({{home}}/docs/tasks/telemetry/servicegraph.html#about-the-servicegraph-add-on).
+For more details, see [About the ServiceGraph Add-on](/docs/tasks/telemetry/servicegraph/#about-the-servicegraph-add-on).
 
 ## Tracing
 
@@ -234,18 +230,18 @@ You should see the trace statistics sent earlier:
 http://localhost:9411
 ```
 
-{% include image.html width="100%" ratio="57.00%"
-    link="./img/dm_zipkin.png"
+{{< image width="100%" ratio="57.00%"
+    link="../img/dm_zipkin.png"
     caption="Zipkin"
-    %}
+    >}}
 
-For more details on tracing see [Understanding what happened]({{home}}/docs/tasks/telemetry/distributed-tracing.html#understanding-what-happened).
+For more details on tracing see [Understanding what happened](/docs/tasks/telemetry/distributed-tracing/#understanding-what-happened).
 
 ## What's next
 
 You can further explore the Bookinfo app and Istio functionality by following any of the tutorials in the
-[Guides]({{home}}/docs/guides/) section. However, to do this you need to install `istioctl` to interact
-with Istio. You can either [install]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps) it directly
+[Guides](/docs/guides/) section. However, to do this you need to install `istioctl` to interact
+with Istio. You can either [install](/docs/setup/kubernetes/quick-start/#installation-steps) it directly
 on our workstation or within Cloud Shell.
 
 ## Uninstalling

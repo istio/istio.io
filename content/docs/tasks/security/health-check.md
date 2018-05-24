@@ -1,11 +1,8 @@
 ---
 title: Citadel health checking
 description: Shows how to enable Citadel health checking with Kubernetes.
-
 weight: 70
-
 ---
-{% include home.html %}
 
 This task shows how to enable Kubernetes health checking for Citadel. Note this is an Alpha feature.
 
@@ -24,14 +21,14 @@ If the file is not updated for a period, the probe will be triggered and Kubelet
 
 Note: because Citadel health checking currently only monitors the health status of CSR service API,
 this feature is not needed if the production setup is not using the
-[Istio Mesh Expansion]({{home}}/docs/setup/kubernetes/mesh-expansion.html) (which requires the CSR service API).
+[Istio Mesh Expansion](/docs/setup/kubernetes/mesh-expansion/) (which requires the CSR service API).
 
 ## Before you begin
 
 * Set up Istio by following the instructions in the
-  [quick start]({{home}}/docs/setup/kubernetes/quick-start.html).
+  [quick start](/docs/setup/kubernetes/quick-start/).
   Note that authentication should be enabled at step 5 in the
-  [installation steps]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps).
+  [installation steps](/docs/setup/kubernetes/quick-start/#installation-steps).
 
 ## Deploying Citadel with health checking
 
@@ -139,4 +136,4 @@ continuously failed health checks.
 
 ## What's next
 
-* Read more about [Citadel (codename is istio\_ca) arguments]({{home}}/docs/reference/commands/istio_ca.html).
+* Read more about [Citadel (codename is istio\_ca) arguments](/docs/reference/commands/istio_ca/).

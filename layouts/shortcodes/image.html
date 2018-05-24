@@ -1,0 +1,41 @@
+{{/*
+Purpose:
+Inserts a figure into a page. The user of this shortcode specifies the
+relative width of the figure in percentage, and an aspect ratio value in
+lieu of the Y coordinate. Through CSS trickery, these two values let us
+calculate the actual width and height of the image at render time in such
+a way that it avoids the typical 'shifting text' problem as images are
+loaded asynchronously.
+
+Usage:
+
+{[< image width='<NN>%' ratio='<NN>%'
+    link='<path to image file>'
+    alt='<text to display when the image is not available>'
+    title='<text to display when hovering over the image>'
+    caption='<text to display below the image>'
+>}}
+
+If you omit the alt parameter, it will take on the value of the title parameter.
+If you omit the title parameter, it will take on the value of the caption parameter.
+
+In other words, if all three strings are the same, you can just supply the caption
+parameter.
+
+*/}}
+
+{{ $width := .Get "width" }}
+{{ $ratio := .Get "ratio" }}
+{{ $link := .Get "link" }}
+{{ $caption := .Get "caption" }}
+{{ $title := or (.Get "title") (.Get "caption") }}
+{{ $alt := or (.Get "alt") (.Get "title") (.Get "caption") }}
+
+<figure style="width: {{ $width }}">
+    <div class="wrapper-with-intrinsic-ratio" style="padding-bottom: {{ $ratio }}">
+        <a class="not-for-endnotes" href="{{ $link }}">
+            <img class="element-to-stretch" src="{{ $link }}" alt="{{ $alt }}" title="{{ $title }}" />
+        </a>
+    </div>
+    <figcaption>{{ $caption }}</figcaption>
+</figure>

@@ -2,21 +2,18 @@
 title: Setting Request Timeouts
 description: This task shows you how to setup request timeouts in Envoy using Istio.
 weight: 28
-redirect_from:
-    - /docs/tasks/traffic-management/request-timeouts/index.html
 ---
-{% include home.html %}
 
-> Note: This task uses the new [v1alpha3 traffic management API]({{home}}/blog/2018/v1alpha3-routing.html). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.6/docs/tasks/).
+> This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.6/docs/tasks/).
 
 This task shows you how to setup request timeouts in Envoy using Istio.
 
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide]({{home}}/docs/setup/).
+  [Installation guide](/docs/setup/).
 
-* Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application.
+* Deploy the [Bookinfo](/docs/guides/bookinfo/) sample application.
 
 *   Initialize the application version routing by running the following command:
 
@@ -117,12 +114,12 @@ instead of displaying reviews, displayed
 the message: Sorry, product reviews are currently unavailable for this book.
 This was the result of it receiving the timeout error from the `reviews` service.
 
-If you check out the [fault injection task](./fault-injection.html), you'll find out that the `productpage`
+If you check out the [fault injection task](/docs/tasks/traffic-management/fault-injection/), you'll find out that the `productpage`
 microservice also has its own application-level timeout (3 seconds) for calls to the `reviews` microservice.
 Notice that in this task we used an Istio route rule to set the timeout to 1 second.
 Had you instead set the timeout to something greater than 3 seconds (e.g., 4 seconds) the timeout
 would have had no effect since the more restrictive of the two will take precedence.
-More details can be found [here]({{home}}/docs/concepts/traffic-management/handling-failures.html#faq).
+More details can be found [here](/docs/concepts/traffic-management/handling-failures/#faq).
 
 One more thing to note about timeouts in Istio is that in addition to overriding them in route rules,
 as you did in this task, they can also be overridden on a per-request basis if the application adds
@@ -138,11 +135,11 @@ the timeout is specified in millisecond (instead of second) units.
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+  [Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions
   to shutdown the application.
 
 ## What's next
 
-* Learn more about [failure handling]({{home}}/docs/concepts/traffic-management/handling-failures.html).
+* Learn more about [failure handling](/docs/concepts/traffic-management/handling-failures/).
 
-* Learn more about [routing rules]({{home}}/docs/concepts/traffic-management/rules-configuration.html).
+* Learn more about [routing rules](/docs/concepts/traffic-management/rules-configuration/).

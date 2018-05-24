@@ -1,11 +1,8 @@
 ---
 title: Secure Access Control
 description: Shows how to securely control access to a service using service accounts.
-
 weight: 30
-
 ---
-{% include home.html %}
 
 This task shows how to securely control access to a service,
 using the service accounts provided by Istio authentication.
@@ -13,16 +10,16 @@ using the service accounts provided by Istio authentication.
 When Istio mutual TLS authentication is enabled, the server authenticates the client according to its certificate, and obtains the client's
 service account from the certificate. The service account is in the `source.user` attribute.
 For the format of the service account in Istio, please refer to the
-[Istio auth identity]({{home}}/docs/concepts/security/mutual-tls.html#identity).
+[Istio auth identity](/docs/concepts/security/mutual-tls/#identity).
 
 ## Before you begin
 
 * Set up Istio on auth-enabled Kubernetes by following the instructions in the
-  [quick start]({{home}}/docs/setup/kubernetes/quick-start.html).
+  [quick start](/docs/setup/kubernetes/quick-start/).
   Note that authentication should be enabled at step 5 in the
-  [installation steps]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps).
+  [installation steps](/docs/setup/kubernetes/quick-start/#installation-steps).
 
-* Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application.
+* Deploy the [Bookinfo](/docs/guides/bookinfo/) sample application.
 
 *   Run the following command to create service account `bookinfo-productpage`,
     and redeploy the service `productpage` with the service account.
@@ -38,7 +35,7 @@ use `$ istioctl -n namespace ...` to specify the namespace.
 
 ## Access control using _denials_
 
-In the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application, the `productpage` service is accessing
+In the [Bookinfo](/docs/guides/bookinfo/) sample application, the `productpage` service is accessing
 both the `reviews` service and the `details` service. We would like the `details` service to deny the requests from
 the `productpage` service.
 
@@ -67,7 +64,7 @@ the `productpage` service.
 
     This rule uses the `denier` adapter to deny these requests.
     The adapter always denies requests with a preconfigured status code and message.
-    The status code and message are specified in the [denier]({{home}}/docs/reference/config/policy-and-telemetry/adapters/denier.html)
+    The status code and message are specified in the [denier](/docs/reference/config/policy-and-telemetry/adapters/denier/)
     adapter configuration.
 
 1.  Refresh the `productpage` in your browser.
@@ -87,15 +84,15 @@ the `productpage` service.
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+  [Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions
   to shutdown the application.
 
 ## What's next
 
-* Learn more about [Mixer]({{home}}/docs/concepts/policies-and-telemetry/overview.html) and [Mixer Config]({{home}}/docs/concepts/policies-and-telemetry/config.html).
+* Learn more about [Mixer](/docs/concepts/policies-and-telemetry/overview/) and [Mixer Config](/docs/concepts/policies-and-telemetry/config/).
 
-* Discover the full [Attribute Vocabulary]({{home}}/docs/reference/config/policy-and-telemetry/attribute-vocabulary.html).
+* Discover the full [Attribute Vocabulary](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/).
 
 * Understand the differences between Kubernetes network policies and Istio
   access control policies from this
-  [blog]({{home}}/blog/using-network-policy-in-concert-with-istio.html).
+  [blog](/blog/2017/0.1-using-network-policy/).

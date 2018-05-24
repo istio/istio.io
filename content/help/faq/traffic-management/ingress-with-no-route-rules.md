@@ -2,7 +2,6 @@
 title: Can I use standard Ingress specification without any route rules?
 weight: 40
 ---
-{% include home.html %}
 
 Simple ingress specifications, with host, TLS, and exact path based
 matches will work out of the box without the need for route

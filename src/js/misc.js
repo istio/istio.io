@@ -1,15 +1,11 @@
----
----
-{% include home.html %}
-
-"use strict"
+"use strict";
 
 $(function ($) {
     // Show the navbar links, hide the search box
     function showLinks() {
-        var $form = $('#search_form')
+        var $form = $('#search_form');
         var $textbox = $('#search_textbox');
-        var $links = $('#navbar-links')
+        var $links = $('#navbar-links');
 
         $form.removeClass('active');
         $links.addClass('active');
@@ -19,9 +15,9 @@ $(function ($) {
 
     // Show the navbar search box, hide the links
     function showSearchBox() {
-        var $form = $('#search_form')
+        var $form = $('#search_form');
         var $textbox = $('#search_textbox');
-        var $links = $('#navbar-links')
+        var $links = $('#navbar-links');
 
         $form.addClass('active');
         $links.removeClass('active');
@@ -31,7 +27,7 @@ $(function ($) {
 
     // Hide the search box when the user hits the ESC key
     $('body').on('keyup', function(event) {
-        if (event.which == 27) {
+        if (event.which === 27) {
             showLinks();
         }
     });
@@ -52,7 +48,8 @@ $(function ($) {
     $('#search_form').submit(function(event) {
         event.preventDefault();
         var $textbox = $('#search_textbox');
-        var url = '{{home}}/search.html?q=' + $textbox.val();
+        var $search_page_url = $('#search_page_url');
+        var url = $search_page_url.val() + '?q=' + $textbox.val();
         showLinks();
         window.location.assign(url);
     });
@@ -60,9 +57,9 @@ $(function ($) {
     $(document).ready(function() {
         // toggle sidebar on/off
         $('[data-toggle="offcanvas"]').on('click', function () {
-            $('.row-offcanvas').toggleClass('active')
+            $('.row-offcanvas').toggleClass('active');
             $(this).children('i.fa').toggleClass('fa-flip-horizontal');
-        })
+        });
 
         // toggle category tree in sidebar
         $(document).on('click', '.tree-toggle', function () {
@@ -73,25 +70,25 @@ $(function ($) {
 
         // toggle copy button
         $(document).on('mouseenter', 'pre', function () {
-            $(this).next().toggleClass("copy-show", true)
+            $(this).next().toggleClass("copy-show", true);
             $(this).next().toggleClass("copy-hide", false)
         });
 
         // toggle copy button
         $(document).on('mouseleave', 'pre', function () {
-            $(this).next().toggleClass("copy-show", false)
+            $(this).next().toggleClass("copy-show", false);
             $(this).next().toggleClass("copy-hide", true)
         });
 
         // toggle copy button
         $(document).on('mouseenter', 'button.copy', function () {
-            $(this).toggleClass("copy-show", true)
+            $(this).toggleClass("copy-show", true);
             $(this).toggleClass("copy-hide", false)
         });
 
         // toggle copy button
         $(document).on('mouseleave', 'button.copy', function () {
-            $(this).toggleClass("copy-show", false)
+            $(this).toggleClass("copy-show", false);
             $(this).toggleClass("copy-hide", true)
         });
     });
@@ -126,29 +123,21 @@ function handleDOMLoaded() {
                 button.innerText = "Copy";
                 button.setAttribute("aria-label", "Copy to clipboard");
 
-                var parent = pre[i].parentElement;
-                if (parent.tagName == "DIV") {
-                    // This is the case for HTML produced from markdown through Jekyll
-                    parent.appendChild(button);
-                } else {
-                    // This is the case for HTML produced by protoc-gen-docs from proto sources
-                    // we hackily create a DIV on the fly to make this case look like what we get
-                    // from Jekyll
-                    var div = document.createElement("DIV")
-                    div.className = "highlight"
-                    parent.insertBefore(div, pre[i])
-                    div.appendChild(pre[i])
-                    div.appendChild(button)
-                }
+                // wrap the PRE block in a DIV so we have a place to attach the copy button
+                var div = document.createElement("DIV");
+                div.className = "copy";
+                pre[i].parentElement.insertBefore(div, pre[i]);
+                div.appendChild(pre[i]);
+                div.appendChild(button);
 
                 // apply syntax highlighting
-                Prism.highlightElement(pre[i].firstChild, false)
+                Prism.highlightElement(pre[i].firstChild, false);
             }
 
             var copyCode = new Clipboard('button.copy', {
                 text: function (trigger) {
                     var commands = trigger.previousElementSibling.getElementsByClassName("command");
-                    if ((commands != undefined) && (commands.length > 0)) {
+                    if ((commands !== null) && (commands.length > 0)) {
                         var lines = commands[0].innerText.split("\n");
                         var cmd = "";
                         for (var i = 0; i < lines.length; i++) {
@@ -156,11 +145,11 @@ function handleDOMLoaded() {
                                 lines[i] = lines[i].substring(2);
                             }
 
-                            if (cmd != "") {
+                            if (cmd !== "") {
                                 cmd = cmd + "\n";
                             }
 
-                            cmd = cmd + lines[i];
+                            cmd += lines[i];
                         }
 
                         return cmd;
@@ -207,7 +196,7 @@ function handleDOMLoaded() {
                     }
                 }
 
-                if (cl != "") {
+                if (cl !== "") {
                     var text = code.innerText;
                     var lines = text.split("\n");
 
@@ -217,10 +206,11 @@ function handleDOMLoaded() {
                     var escape = false;
                     for (var j = 0; j < lines.length; j++) {
                         var line = lines[j];
+
                         if (bottom) {
                             output = output + "\n" + line;
                         } else {
-                            if (line.trim().startsWith("$ ")) {
+                            if (line.startsWith("$ ")) {
                                 // line is definitely a command
                             } else if (escape) {
                                 // continuation
@@ -232,7 +222,7 @@ function handleDOMLoaded() {
 
                             escape = (line.endsWith("\\"));
 
-                            if (cmd != "") {
+                            if (cmd !== "") {
                                 cmd = cmd + "\n";
                             }
                             cmd = cmd + line;
@@ -240,7 +230,7 @@ function handleDOMLoaded() {
                     }
 
                     // in case someone forgot the $, treat everything as a command instead of as output
-                    if (cmd == "") {
+                    if (cmd === "") {
                         cmd = output;
                         output = "";
                     }
@@ -248,8 +238,7 @@ function handleDOMLoaded() {
                     var colored = Prism.highlight(cmd, Prism.languages["bash"], "bash");
                     var html = "<div class='command'>" + colored + "</div>";
 
-                    if (output != "") {
-
+                    if (output !== "") {
                         // apply formatting to the output?
                         var prefix = "language-command-output-as-";
                         if (cl.length > prefix.length) {
@@ -257,7 +246,7 @@ function handleDOMLoaded() {
                             output = Prism.highlight(output, Prism.languages[lang], lang);
                         }
 
-                        html = html + "<div class='output'>" + output + "</div>";
+                        html += "<div class='output'>" + output + "</div>";
                     }
 
                     code.innerHTML = html;
@@ -265,12 +254,6 @@ function handleDOMLoaded() {
                     code.classList.add("command-output");
                 } else {
                     Prism.highlightElement(code, false);
-                    var code = pre[i].firstChild;
-                    var div = document.createElement("DIV");
-                    div.className = "code-plain";
-                    parent = code.parentElement;
-                    parent.insertBefore(div, code);
-                    div.appendChild(code);
                 }
             }
         }
@@ -293,7 +276,7 @@ function handleDOMLoaded() {
             for (var level = 1; level <= 6; level++) {
                 var headers = document.getElementsByTagName("h" + level);
                 for (var i = 0; i < headers.length; i++) {
-                    var header = headers[i]
+                    var header = headers[i];
                     if (header.id !== "") {
                         attachLink(header);
                     }
@@ -305,7 +288,7 @@ function handleDOMLoaded() {
         function attachLinksToDefinedTerms() {
             var terms = document.getElementsByTagName("dt");
             for (var i = 0; i < terms.length; i++) {
-                var term = terms[i]
+                var term = terms[i];
                 if (term.id !== "") {
                     attachLink(term);
                 }
@@ -317,8 +300,9 @@ function handleDOMLoaded() {
             var links = document.getElementsByTagName("a");
             for (var i = 0; i < links.length; i++) {
                 var link = links[i];
-                if (link.hostname && link.hostname != location.hostname) {
-                    link.setAttribute("target", "_blank")
+                if (link.hostname && link.hostname !== location.hostname) {
+                    link.setAttribute("target", "_blank");
+                    link.setAttribute("rel", "noopener");
                 }
             }
         }
@@ -327,8 +311,11 @@ function handleDOMLoaded() {
         function loadExternalPreBlocks() {
 
             function fetchFile(elem, url) {
-                fetch(url).then(response => response.text()).then(data => {
+                fetch(url).then(function (response) {
+                    return response.text();
+                }).then(function (data) {
                     elem.firstChild.innerText = data;
+                    Prism.highlightElement(elem.firstChild, false);
                 });
             }
 
@@ -342,22 +329,22 @@ function handleDOMLoaded() {
 
         function createEndnotes() {
             var notes = document.getElementById("endnotes");
-            if (notes == undefined) {
+            if (notes === null) {
                 return;
             }
 
             // look for anchors in the main section of the doc only (skip headers, footers, tocs, nav bars, etc)
             var main = document.getElementsByTagName("main")[0];
             var links = main.getElementsByTagName("a");
-            var map = new Map(null)
+            var map = new Map(null);
             for (var i = 0; i < links.length; i++) {
                 var link = links[i];
-                if (link.pathname == location.pathname) {
+                if (link.pathname === location.pathname) {
                     // skip links on the current page
                     continue;
                 }
 
-                if (link.pathname.endsWith("/") && link.hash != "") {
+                if (link.pathname.endsWith("/") && link.hash !== "") {
                     // skip links on the current page
                     continue;
                 }
@@ -368,7 +355,7 @@ function handleDOMLoaded() {
                 }
 
                 var count = map.get(link.href);
-                if (count == undefined) {
+                if (count === undefined) {
                     count = map.size + 1;
                     map.set(link.href, count);
 
@@ -397,7 +384,7 @@ function handleDOMLoaded() {
         scrollToTopButton = document.getElementById("scroll-to-top");
 
         var toc = document.getElementById("toc");
-        if (toc != undefined) {
+        if (toc !== null) {
             tocLinks = toc.getElementsByTagName("A");
             tocHeadings = new Array(tocLinks.length);
 

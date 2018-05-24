@@ -2,7 +2,6 @@
 title: How can I enable/disable mTLS encryption after I installed Istio?
 weight: 10
 ---
-{% include home.html %}
 
 The most straightforward way to enable/disable mTLS is by entirely
 uninstalling and re-installing Istio.

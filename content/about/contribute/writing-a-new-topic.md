@@ -2,17 +2,16 @@
 title: Writing a New Topic
 description: Explains the mechanics of creating new documentation pages.
 weight: 30
-redirect_from:
+aliases:
     - /docs/welcome/contribute/writing-a-new-topic.html
 ---
-{% include home.html %}
 
 This page shows how to create a new Istio documentation topic.
 
 ## Before you begin
 
 You first need to create a fork of the Istio documentation repository as described in
-[Creating a Doc Pull Request](./creating-a-pull-request.html).
+[Creating a Doc Pull Request](/about/contribute/creating-a-pull-request/).
 
 ## Choosing a page type
 
@@ -76,8 +75,8 @@ all in lower case.
 
 ## Updating the front matter
 
-Every documentation file needs to start with Jekyll
-[front matter](https://jekyllrb.com/docs/frontmatter/).
+Every documentation file needs to start with
+[front matter](https://gohugo.io/content-management/front-matter/).
 The front matter is a block of YAML that is between the
 triple-dashed lines at the top of each file. Here's the
 chunk of front matter you should start with:
@@ -99,9 +98,8 @@ matter fields are:
 |`title`        | The short title of the page
 |`description`  | A one-line description of what the topic is about
 |`weight`       | An integer used to determine the sort order of this page relative to other pages in the same directory.
-|`layout`       | Indicates which of the Jekyll layouts this page uses
 |`draft`        | When true, prevents the page from showing up in any navigation area
-|`publishdate` | For blog posts, indicates the date of publication of the post
+|`publishdate`  | For blog posts, indicates the date of publication of the post
 |`subtitle`     | For blog posts, supplies an optional subtitle to be displayed below the main title
 |`attribution`  | For blog posts, supplies an optional author's name
 |`toc`          | Set this to false to prevent the page from having a table of contents generated for it
@@ -135,14 +133,12 @@ if needed.
 Within markdown, use the following sequence to add the image:
 
 ```html
-{% raw %}
-{% include image.html width="75%" ratio="69.52%"
+{{</* image width="75%" ratio="69.52%"
     link="./img/myfile.svg"
     alt="Alternate text to display when the image is not available"
     title="A tooltip displayed when hovering over the image"
     caption="A caption displayed under the image"
-    %}
-{% endraw %}
+    */>}}
 ```
 
 The `width`, `ratio`, `link` and `caption` values are required. If the `title` value isn't
@@ -157,14 +153,14 @@ relative to the surrounding text. `ratio` (image height / image width) * 100.
 There are three types of links that can be included in documentation. Each uses a different
 way to indicate the link target:
 
--   **Internet Link**. You use classic URL syntax, preferably with the HTTPS protocol, to reference
+1. **Internet Link**. You use classic URL syntax, preferably with the HTTPS protocol, to reference
 files on the Internet:
 
     ```markdown
     [see here](https://mysite/myfile.html)
     ```
 
--   **Relative Link**. You use relative links that start with a period to
+1. **Relative Link**. You use relative links that start with a period to
 reference any content that is at the same level as the current file, or below within
 the hierarchy of the site:
 
@@ -172,24 +168,12 @@ the hierarchy of the site:
     [see here](./adir/anotherfile.html)
     ```
 
--   **Absolute Link**. You use absolute links with the special \{\{home\}\} notation to reference content outside of the
+1. **Absolute Link**. You use absolute links that start with a `/` to reference content outside of the
 current hierarchy:
 
     ```markdown
-    {% raw %}[see here]({{home}}/docs/adir/afile.html){% endraw %}
+    [see here](/docs/adir/afile/)
     ```
-
-    In order to use \{\{home\}\} in a file,
-    you need to make sure that the file contains the following
-    line of boilerplate right after the block of front matter:
-
-    ```markdown
-    ...
-    ---
-    {% raw %}{% include home.html %}{% endraw %}
-    ```
-
-    Adding this include statement is what defines the `home` variable that is used in the link target.
 
 ## Embedding preformatted blocks
 
@@ -282,15 +266,14 @@ instead of merely `command` in order to apply syntax coloring to the command's o
 ## Displaying file content
 
 You can pull in an external file and display its content as a preformatted block. This is handy to display a
-config file or a test file. To do so, you use a Jekyll include statement such as:
+config file or a test file. To do so, you use a statement such as:
 
-```html
-{% raw %}{% include file-content.html url='https://raw.githubusercontent.com/istio/istio/master/Makefile' %}{% endraw %}
+```markdown
+{{</* file_content url="https://raw.githubusercontent.com/istio/istio/master/Makefile" */>}}
 ```
-
 which produces the following result:
 
-{% include file-content.html url='https://raw.githubusercontent.com/istio/istio/master/Makefile' %}
+{{< file_content url="https://raw.githubusercontent.com/istio/istio/master/Makefile" >}}
 
 If the file is from a different origin site, CORS should be enabled on that site. Note that the
 GitHub raw content site (raw.githubusercontent.com) is CORS
@@ -308,7 +291,7 @@ In the page that is the target of the redirect (where you'd like users to land),
 following to the front-matter:
 
 ```plain
-redirect_from:
+aliases:
     - <url>
 ```
 
@@ -319,14 +302,14 @@ For example
 title: Frequently Asked Questions
 description: Questions Asked Frequently
 weight: 12
-redirect_from:
+aliases:
     - /faq
 ---
 
 ```
 
 With the above in a page saved as _help/faq.md, the user will be able to access the page by going
-to istio.io/help/faq as normal, as well as istio.io/faq.
+to `istio.io/help/faq/` as normal, as well as `istio.io/faq/`.
 
 You can also add many redirects like so:
 
@@ -335,7 +318,7 @@ You can also add many redirects like so:
 title: Frequently Asked Questions
 description: Questions Asked Frequently
 weight: 12
-redirect_from:
+aliases:
     - /faq
     - /faq2
     - /faq3

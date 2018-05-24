@@ -1,15 +1,14 @@
 ---
-title: Istio Authentication Policy
-description: Describes Istio authentication policy
+title: Authentication Policy
+description: Describes Istio's authentication policy
 weight: 10
-redirect_from:
+aliases:
     - /docs/concepts/network-and-auth/auth.html
 ---
-{% include home.html %}
 
 Istio authentication policy enables operators to specify authentication requirements for a service (or services). Istio authentication policy is composed of two parts:
 
-* Peer: verifies the party, the direct client, that makes the connection. The common authentication mechanism for this is [mutual TLS]({{home}}/docs/concepts/security/mutual-tls.html). Istio is responsible for managing both client and server sides to enforce the policy.
+* Peer: verifies the party, the direct client, that makes the connection. The common authentication mechanism for this is [mutual TLS](/docs/concepts/security/mutual-tls/). Istio is responsible for managing both client and server sides to enforce the policy.
 
 * Origin: verifies the party, the original client, that makes the request (e.g end-users, devices etc). JWT is the only supported mechanism for origin authentication at the moment. Istio configures the server side to perform authentication, but doesn't enforce that the client side sends the required token.
 
@@ -19,10 +18,10 @@ Identities from both authentication parts, if applicable, are output to the next
 
 Authentication policies are saved in Istio config store (in 0.7, the storage implementation uses Kubernetes CRD), and distributed by control plane. Depending on the size of the mesh, config propagation may take a few seconds to a few minutes. During the transition, you can expect traffic lost or inconsistent authentication results.
 
-{% include image.html width="80%" ratio="75%"
-    link="./img/authn.svg"
+{{< image width="80%" ratio="75%"
+    link="../img/authn.svg"
     caption="Authentication Policy Architecture"
-    %}
+    >}}
 
 Policy is scoped to namespaces, with (optional) target selector rules to narrow down the set of services (within the same namespace as the policy) on which the policy should be applied. This aligns with the ACL model based on Kubernetes RBAC. More specifically, only the admin of the namespace can set policies for services in that namespace.
 
@@ -40,7 +39,7 @@ Origin principal (principal from origin authentication) is not explicitly output
 
 ### Target selectors
 
-Defines rule to find service(s) on which policy should be applied. If no rule is provided, the policy is matched to all services in the namespace, so-called namespace-level policy (as opposed to service-level policies which have non-empty selector rules). Istio uses the service-level policy if available, otherwise it falls back to namespace-level policy. If neither is defined, it uses the default policy based on service mesh config and/or service annotation, which can only set mutual TLS setting (these are mechanisms before Istio 0.7 to config mutual TLS for Istio service mesh). See [testing Istio mutual TLS]({{home}}/docs/tasks/security/mutual-tls.html) and [per-service mutual TLS enablement]({{home}}/docs/tasks/security/per-service-mtls.html) for more details.
+Defines rule to find service(s) on which policy should be applied. If no rule is provided, the policy is matched to all services in the namespace, so-called namespace-level policy (as opposed to service-level policies which have non-empty selector rules). Istio uses the service-level policy if available, otherwise it falls back to namespace-level policy. If neither is defined, it uses the default policy based on service mesh config and/or service annotation, which can only set mutual TLS setting (these are mechanisms before Istio 0.7 to config mutual TLS for Istio service mesh). See [testing Istio mutual TLS](/docs/tasks/security/mutual-tls/) and [per-service mutual TLS enablement](/docs/tasks/security/per-service-mtls/) for more details.
 
 Operators are responsible for avoiding conflicts, e.g create more than one service-level policy that matches to the same service(s) (or more than one namespace-level policy on the same namespace).
 
@@ -84,4 +83,4 @@ Defines what is the principal from the authentication. By default, this will be 
 
 ## What's next
 
-Try out the [Basic Istio authentication policy]({{home}}/docs/tasks/security/authn-policy.html) tutorial.
+Try out the [Basic Istio authentication policy](/docs/tasks/security/authn-policy/) tutorial.

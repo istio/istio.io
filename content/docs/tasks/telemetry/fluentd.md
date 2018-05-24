@@ -1,12 +1,8 @@
 ---
 title: Logging with Fluentd
-
 description: This task shows you how to configure Istio to log to a Fluentd daemon
-
 weight: 60
-
 ---
-{% include home.html %}
 
 This task shows how to configure Istio to create custom log entries
 and send them to a [Fluentd](https://www.fluentd.org/) daemon. Fluentd
@@ -18,12 +14,12 @@ architecture. One popular logging backend is
 end of this task, a new log stream will be enabled sending logs to an
 example Fluentd / Elasticsearch / Kibana stack.
 
-The [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application is used
+The [Bookinfo](/docs/guides/bookinfo/) sample application is used
 as the example application throughout this task.
 
 ## Before you begin
 
-* [Install Istio]({{home}}/docs/setup/) in your cluster and deploy an
+* [Install Istio](/docs/setup/) in your cluster and deploy an
   application. This task assumes that Mixer is setup in a default configuration
   (`--configDefaultNamespace=istio-system`). If you use a different
   value, update the configuration and commands in this task to match the value.
@@ -360,7 +356,7 @@ example stack.
 1.  Send traffic to the sample application.
 
     For the
-    [Bookinfo]({{home}}/docs/guides/bookinfo.html#determining-the-ingress-ip-and-port)
+    [Bookinfo](/docs/guides/bookinfo/#determining-the-ingress-ip-and-port)
     sample, visit `http://$GATEWAY_URL/productpage` in your web browser
     or issue the following command:
 
@@ -400,15 +396,15 @@ example stack.
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+  [Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions
   to shutdown the application.
 
 ## What's next
 
-* [Collecting Metrics and Logs]({{home}}/docs/tasks/telemetry/metrics-logs.html) for a detailed
+* [Collecting Metrics and Logs](/docs/tasks/telemetry/metrics-logs/) for a detailed
   explanation of the log configurations.
 
-* Learn more about [Mixer]({{home}}/docs/concepts/policies-and-telemetry/overview.html)
-  and [Mixer Config]({{home}}/docs/concepts/policies-and-telemetry/config.html).
+* Learn more about [Mixer](/docs/concepts/policies-and-telemetry/overview/)
+  and [Mixer Config](/docs/concepts/policies-and-telemetry/config/).
 
-* Discover the full [Attribute Vocabulary]({{home}}/docs/reference/config/policy-and-telemetry/attribute-vocabulary.html).
+* Discover the full [Attribute Vocabulary](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/).

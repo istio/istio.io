@@ -2,19 +2,16 @@
 title: Mirroring
 description: This task demonstrates the traffic shadowing/mirroring capabilities of Istio
 weight: 60
-redirect_from:
-    - /docs/tasks/traffic-management/mirroring/index.html
 ---
-{% include home.html %}
 
-> Note: This task uses the new [v1alpha3 traffic management API]({{home}}/blog/2018/v1alpha3-routing.html). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.6/docs/tasks/).
+> This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.6/docs/tasks/).
 
 This task demonstrates the traffic shadowing/mirroring capabilities of Istio. Traffic mirroring is a powerful concept that allows feature teams to bring changes to production with as little risk as possible. Mirroring brings a copy of live traffic to a mirrored service and happens out of band of the critical request path for the primary service.
 
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide]({{home}}/docs/setup/).
+  [Installation guide](/docs/setup/).
 
 *   Start two versions of the `httpbin` service that have access logging enabled
 
@@ -249,4 +246,4 @@ Let's set up a scenario to demonstrate the traffic-mirroring capabilities of Ist
 
 ## What's next
 
-Check out the [Mirroring configuration]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#HTTPRoute.mirror) reference documentation.
+Check out the [Mirroring configuration](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute.mirror) reference documentation.

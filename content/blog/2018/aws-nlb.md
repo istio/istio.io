@@ -6,9 +6,8 @@ subtitle: Ingress AWS Network Load Balancer
 attribution: Julien SENON
 weight: 89
 ---
-{% include home.html %}
 
-This blog entry will provide instructions to use and configure ingress Istio with [AWS Network Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html).
+This post provides instructions to use and configure ingress Istio with [AWS Network Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html).
 
 Network load balancer (NLB) could be used instead of classical load balancer. You can find [comparison](https://aws.amazon.com/elasticloadbalancing/details/#compare) between different AWS `loadbalancer` for more explanation.
 
@@ -16,71 +15,81 @@ Network load balancer (NLB) could be used instead of classical load balancer. Yo
 
 The following instructions require a Kubernetes **1.9.0 or newer** cluster.
 
-<img src="{{home}}/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" />  Usage of AWS `nlb` on kubernetes is an alpha feature and not recommended for production clusters.
+<img src="/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" />  Usage of AWS `nlb` on kubernetes is an alpha feature and not recommended for production clusters.
 
 ## IAM Policy
 
 You need to apply policy on the master role in order to be able to provision network load balancer.
 
 1. In AWS `iam` console click on policies and click on create a new one:
-{% include image.html width="80%" ratio="60%"
-    link="./img/createpolicystart.png"
+
+    {{< image width="80%" ratio="60%"
+    link="../img/createpolicystart.png"
     caption="Create a new policy"
-    %}
+    >}}
+
 1. Select `json`:
-{% include image.html width="80%" ratio="60%"
-    link="./img/createpolicyjson.png"
+
+    {{< image width="80%" ratio="60%"
+    link="../img/createpolicyjson.png"
     caption="Select json"
-    %}
-1. Copy/paste text bellow:
-```json
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "kopsK8sNLBMasterPermsRestrictive",
-            "Effect": "Allow",
-            "Action": [
-                "ec2:DescribeVpcs",
-                "elasticloadbalancing:AddTags",
-                "elasticloadbalancing:CreateListener",
-                "elasticloadbalancing:CreateTargetGroup",
-                "elasticloadbalancing:DeleteListener",
-                "elasticloadbalancing:DeleteTargetGroup",
-                "elasticloadbalancing:DescribeListeners",
-                "elasticloadbalancing:DescribeLoadBalancerPolicies",
-                "elasticloadbalancing:DescribeTargetGroups",
-                "elasticloadbalancing:DescribeTargetHealth",
-                "elasticloadbalancing:ModifyListener",
-                "elasticloadbalancing:ModifyTargetGroup",
-                "elasticloadbalancing:RegisterTargets",
-                "elasticloadbalancing:SetLoadBalancerPoliciesOfListener"
-            ],
-            "Resource": [
-                "*"
-            ]
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "ec2:DescribeVpcs",
-                "ec2:DescribeRegions"
-            ],
-            "Resource": "*"
-        }
-    ]
-}
-```
+    >}}
+
+1. Copy/paste text below:
+
+    ```json
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "kopsK8sNLBMasterPermsRestrictive",
+                "Effect": "Allow",
+                "Action": [
+                    "ec2:DescribeVpcs",
+                    "elasticloadbalancing:AddTags",
+                    "elasticloadbalancing:CreateListener",
+                    "elasticloadbalancing:CreateTargetGroup",
+                    "elasticloadbalancing:DeleteListener",
+                    "elasticloadbalancing:DeleteTargetGroup",
+                    "elasticloadbalancing:DescribeListeners",
+                    "elasticloadbalancing:DescribeLoadBalancerPolicies",
+                    "elasticloadbalancing:DescribeTargetGroups",
+                    "elasticloadbalancing:DescribeTargetHealth",
+                    "elasticloadbalancing:ModifyListener",
+                    "elasticloadbalancing:ModifyTargetGroup",
+                    "elasticloadbalancing:RegisterTargets",
+                    "elasticloadbalancing:SetLoadBalancerPoliciesOfListener"
+                ],
+                "Resource": [
+                    "*"
+                ]
+            },
+            {
+                "Effect": "Allow",
+                "Action": [
+                    "ec2:DescribeVpcs",
+                    "ec2:DescribeRegions"
+                ],
+                "Resource": "*"
+            }
+        ]
+    }
+    ```
+
 1. Click review policy, fill all fields and click create policy:
-{% include image.html width="80%" ratio="60%"
-    link="./img/create_policy.png"
-    caption="Validate policy"
-    %}
+
+    {{< image width="80%" ratio="60%"
+        link="../img/create_policy.png"
+        caption="Validate policy"
+        >}}
+
 1. Click on roles, select you master role nodes, and click attach policy:
-{% include image.html width="100%" ratio="35%"
-    link="./img/roles_summary.png"
+
+    {{< image width="100%" ratio="35%"
+    link="../img/roles_summary.png"
     caption="Attach policy"
-    %}
+    >}}
+
 1. Your policy is now attach to your master node.
 
 ## Rewrite Istio Ingress Service

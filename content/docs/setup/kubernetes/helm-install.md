@@ -2,25 +2,23 @@
 title: Installation with Helm
 description: Install Istio with the included Helm chart.
 weight: 30
-redirect_from:
+aliases:
     - /docs/setup/kubernetes/helm.html
     - /docs/tasks/integrating-services-into-istio.html
 ---
-
-{% include home.html %}
 
 Quick start instructions for the setup and configuration of Istio using Helm.
 This is the recommended install method for installing Istio to your
 production environment as it offers rich customization to the Istio control
 plane and the sidecars for the Istio data plane.
 
-<img src="{{home}}/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" />
+<img src="/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" />
 Installation of Istio prior to version 0.8.0 with Helm is unstable and not
 recommended.
 
 ## Prerequisites
 
-1. [Download]({{home}}/docs/setup/kubernetes/quick-start.html#download-and-prepare-for-the-installation)
+1. [Download](/docs/setup/kubernetes/quick-start/#download-and-prepare-for-the-installation)
    the latest Istio release.
 
 1. [Install the Helm client](https://docs.helm.sh/using_helm/#installing-helm).
@@ -29,7 +27,7 @@ recommended.
 
 1. Render Istio's core components to a Kubernetes manifest called `istio.yaml`:
 
-   * With [automatic sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection)
+   * With [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)
      (requires Kubernetes >=1.9.0):
 
     ```command
@@ -55,7 +53,7 @@ This option allows Helm and
 [Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components)
 to manage the lifecycle of Istio.
 
-<img src="{{home}}/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" />
+<img src="/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" />
 Upgrading Istio using Helm is not validated.
 
 1. If a service account has not already been installed for Tiller, install one:
@@ -72,7 +70,7 @@ Upgrading Istio using Helm is not validated.
 
 1. Install Istio:
 
-   * With [automatic sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection) (requires Kubernetes >=1.9.0):
+   * With [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection) (requires Kubernetes >=1.9.0):
 
      ```command
      $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set global.proxy.image=proxyv2
@@ -115,7 +113,7 @@ the [`values.yaml`](https://raw.githubusercontent.com/istio/istio/master/install
 
 ## What's next
 
-See the sample [Bookinfo]({{home}}/docs/guides/bookinfo.html) application.
+See the sample [Bookinfo](/docs/guides/bookinfo/) application.
 
 ## Uninstall
 

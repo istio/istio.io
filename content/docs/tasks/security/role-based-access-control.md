@@ -1,23 +1,20 @@
 ---
 title: Role-Based Access Control
 description: Shows how to set up role-based access control for services in Istio mesh.
-
 weight: 40
-
 ---
-{% include home.html %}
 
 This task shows how to set up role-based access control (RBAC) for services in Istio mesh. You can read more about Istio
-RBAC from [Istio RBAC concept page]({{home}}/docs/concepts/security/rbac.html).
+RBAC from [Istio RBAC concept page](/docs/concepts/security/rbac/).
 
 ## Before you begin
 
 * Set up Istio on auth-enabled Kubernetes by following the instructions in the
-  [quick start]({{home}}/docs/setup/kubernetes/quick-start.html).
+  [quick start](/docs/setup/kubernetes/quick-start/).
   Note that authentication should be enabled at step 5 in the
-  [installation steps]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps).
+  [installation steps](/docs/setup/kubernetes/quick-start/#installation-steps).
 
-* Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application.
+* Deploy the [Bookinfo](/docs/guides/bookinfo/) sample application.
 
 > The current Istio release may not have the up-to-date Istio RBAC samples. So before you continue, you
 need to copy the following configuration files from <https://github.com/istio/istio/tree/master/samples/bookinfo/kube> to
@@ -352,4 +349,4 @@ spec:
 
 ## What's next
 
-* Learn more about [Istio RBAC]({{home}}/docs/concepts/security/rbac.html).
+* Learn more about [Istio RBAC](/docs/concepts/security/rbac/).

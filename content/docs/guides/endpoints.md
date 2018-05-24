@@ -1,10 +1,8 @@
 ---
 title: Install Istio for Google Cloud Endpoints Services
 description: Explains how to manually integrate Google Cloud Endpoints services with Istio.
-
 weight: 42
 ---
-{% include home.html %}
 
 This document shows how to manually integrate Istio with existing
 Google Cloud Endpoints services.
@@ -21,12 +19,12 @@ You may test the service using the following command:
 $ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${EXTERNAL_IP}:80/echo?key=${ENDPOINTS_KEY}"
 ```
 
-You need to install Istio with [instructions]({{home}}/docs/setup/kubernetes/quick-start.html#google-kubernetes-engine).
+You need to install Istio with [instructions](/docs/setup/kubernetes/quick-start/#google-kubernetes-engine).
 
 ## HTTP Endpoints service
 
 1. Inject the service into the mesh using `--includeIPRanges` by following the
-[instructions]({{home}}/docs/tasks/traffic-management/egress.html#calling-external-services-directly)
+[instructions](/docs/tasks/traffic-management/egress/#calling-external-services-directly)
 so that Egress is allowed to call external services directly.
 Otherwise, ESP won't be able to access Google cloud service control.
 
@@ -53,7 +51,7 @@ Otherwise, ESP won't be able to access Google cloud service control.
     EOF
     ```
 
-1.  Get the Ingress IP through [instructions]({{home}}/docs/tasks/traffic-management/ingress.html#verifying-the-gateway-for-http).
+1.  Get the Ingress IP through [instructions](/docs/tasks/traffic-management/ingress/#verifying-the-gateway-for-http).
 You can verify accessing the Endpoints service through Ingress:
 
     ```command
@@ -89,7 +87,7 @@ Adding `"--http_port=8081"` in the ESP deployment arguments and expose the HTTP 
 1. After this, you will find access to `EXTERNAL_IP` no longer works because istio proxy only accept secure mesh connections.
 Accessing through Ingress works because Ingress does HTTP terminations.
 
-1. To secure the access at Ingress, following the [instructions]({{home}}/docs/tasks/traffic-management/ingress.html#add-a-secure-port-https-to-our-gateway).
+1. To secure the access at Ingress, following the [instructions](/docs/tasks/traffic-management/ingress/#add-a-secure-port-https-to-our-gateway).
 
 1.  You can verify accessing the Endpoints service through secure Ingress:
 
@@ -111,7 +109,7 @@ This solution uses Istio proxy for TCP bypassing. The traffic is secured through
     ```
 
 1.  Update the mesh service deployment. See further readings on port naming rules
-[here]({{home}}/docs/setup/kubernetes/sidecar-injection.html#pod-spec-requirements).
+[here](/docs/setup/kubernetes/sidecar-injection/#pod-spec-requirements).
 
 1.  You can verify access to the Endpoints service through secure Ingress:
 

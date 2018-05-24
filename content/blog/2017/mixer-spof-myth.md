@@ -4,16 +4,13 @@ description: Improving availability and reducing latency
 publishdate: 2017-12-07
 subtitle: Improving availability and reducing latency
 attribution: Martin Taillefer
-
 weight: 94
-
-redirect_from:
+aliases:
     - /blog/posts/2017/mixer-spof-myth.html
     - /blog/mixer-spof-myth.html
 ---
-{% include home.html %}
 
-As [Mixer]({{home}}/docs/concepts/policies-and-telemetry/overview.html) is in the request path, it is natural to question how it impacts
+As [Mixer](/docs/concepts/policies-and-telemetry/overview/) is in the request path, it is natural to question how it impacts
 overall system availability and latency. A common refrain we hear when people first glance at Istio architecture diagrams is
 "Isn't this just introducing a single point of failure?"
 
@@ -36,11 +33,11 @@ In 2014, we started an initiative to create a replacement architecture that woul
 
 The older system was built around a centralized fleet of fairly heavy proxies into which all incoming traffic would flow, before being forwarded to the services where the real work was done. The newer architecture jettisons the shared proxy design and instead consists of a very lean and efficient distributed sidecar proxy sitting next to service instances, along with a shared fleet of sharded control plane intermediaries:
 
-{% include image.html width="75%" ratio="74.79%"
-    link="./img/mixer-spof-myth-1.svg"
+{{< image width="75%" ratio="74.79%"
+    link="../img/mixer-spof-myth-1.svg"
     title="Google System Topology"
     caption="Google's API & Service Management System"
-    %}
+    >}}
 
 Look familiar? Of course: it’s just like Istio! Istio was conceived as a second generation of this distributed proxy architecture. We took the core lessons from this internal system, generalized many of the concepts by working with our partners, and created Istio.
 
@@ -48,10 +45,10 @@ Look familiar? Of course: it’s just like Istio! Istio was conceived as a secon
 
 As shown in the diagram below, Mixer sits between the mesh and the infrastructure backends that support it:
 
-{% include image.html width="75%" ratio="65.89%"
-    link="./img/mixer-spof-myth-2.svg"
+{{< image width="75%" ratio="65.89%"
+    link="../img/mixer-spof-myth-2.svg"
     caption="Istio Topology"
-    %}
+    >}}
 
 The Envoy sidecar logically calls Mixer before each request to perform precondition checks, and after each request to report telemetry.
 The sidecar has local caching such that a relatively large percentage of precondition checks can be performed from cache. Additionally, the
@@ -123,5 +120,5 @@ cache, we spend more time in Mixer to respond to requests than we should. We’r
 that Mixer imparts in the synchronous precondition check case.
 
 We hope this post makes you appreciate the inherent benefits that Mixer brings to Istio.
-Don’t hesitate to post comments or questions to [istio-integrations@](https://groups.google.com/forum/#!forum/istio-integrations).
+Don’t hesitate to post comments or questions to [istio-policies-and-telemetry@](https://groups.google.com/forum/#!forum/istio-policies-and-telemetry).
 

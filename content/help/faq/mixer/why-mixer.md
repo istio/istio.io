@@ -2,7 +2,6 @@
 title: Why does Istio need Mixer?
 weight: 1
 ---
-{% include home.html %}
 
 Mixer provides a rich intermediation layer between the Istio components as well as Istio-based services,
 and the infrastructure backends used to perform access control checks and telemetry capture. This
