@@ -551,11 +551,13 @@ yamls
 yournamespace
 zipkin_dashboard.png
 zipkin_span.png
+BluePerf
+Perf
+embeddable
+p99
+perfcheck.sh
+
 qcc
  - search.md
 searchresults
 gcse
-Perf
-p99
-embeddable
-perfcheck.sh
