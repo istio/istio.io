@@ -1,6 +1,6 @@
 ---
-title: Scalability
-overview: Setup of Istio components to scale horizontally. High availability.
+title: Scalability and Sizing Guide
+overview: Setup of Istio components to scale horizontally. High availability. Sizing guide.
 weight: 60
 
 layout: docs
