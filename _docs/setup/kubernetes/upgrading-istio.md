@@ -22,7 +22,7 @@ In the following steps, we assume that the Istio components are installed and up
 
 ### Control plane upgrade
 
-The Istio control plane components include: Citadel, Ingress gateway, Egress gateway, Pilot, Policy, Telemtry and
+The Istio control plane components include: Citadel, Ingress gateway, Egress gateway, Pilot, Policy, Telemetry and
 Sidecar injector. We can use Kubernetes’ rolling update mechanism to upgrade the
 control plane components.  
 
