@@ -272,11 +272,11 @@ customize Istio to your needs.
 
     _**OR**_
 
-    b)  [Render Kubernetes manifest with Helm and deploy with kubectl]({{home}}/docs/setup/kubernetes/helm-install.html#render-kubernetes-manifest-with-helm-and-deploy-with-kubectl).
+    b)  [Render Kubernetes manifest with Helm and deploy with kubectl]({{home}}/docs/setup/kubernetes/helm-install.html#option-1-install-with-helm-via-helm-template).
 
     _**OR**_
 
-    c)  [Use Helm and Tiller to manage the Istio deployment]({{home}}/docs/setup/kubernetes/helm-install.html#alternatively-use-helm-and-tiller-to-manage-the-istio-deployment).
+    c)  [Use Helm and Tiller to manage the Istio deployment]({{home}}/docs/setup/kubernetes/helm-install.html#option-2-install-with-helm-and-tiller-via-helm-install).
 
 1. *Optional:* If your cluster has Kubernetes version 1.9 or greater, and you wish to enable automatic proxy injection,
 install the [sidecar injector webhook]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection).
@@ -358,7 +358,7 @@ It is safe to ignore errors for non-existent resources because they may have bee
 
     _**OR**_
 
-    b) : [Uninstall Istio with helm]({{home}}/docs/setup/kubernetes/helm-install.html#uninstall-istio).
+    b) : [Uninstall Istio with Helm]({{home}}/docs/setup/kubernetes/helm-install.html#uninstall).
 
 ## What's next
 
