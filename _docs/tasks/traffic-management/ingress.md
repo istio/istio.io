@@ -29,6 +29,12 @@ This task describes how to configure Istio to expose a service outside of the se
     $ kubectl apply -f samples/httpbin/httpbin.yaml
     ```
 
+    Without _Istio-Initializer_:
+
+    ```command
+    $ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml)
+    ```
+
 *   A private key and certificate can be created for testing using [OpenSSL](https://www.openssl.org/).
 
     ```command
@@ -46,7 +52,7 @@ NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)  
 istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/TCP,443:31390/TCP,31400:31400/TCP   17h
 ```
 
-If the `EXTERNAL-IP` value is set, your environment has an external load balancer that you can use for the ingress gateway
+If the `EXTERNAL-IP` value is set, your environment has an external load balancer that you can use for the ingress gateway.
 
 #### Determining the ingress IP and ports for a load balancer ingress gateway
 
@@ -57,7 +63,7 @@ $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingress
 ```
 
 If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not provide an external load balancer for the ingress gateway.
-In this case, you can access the gateway using the service .
+In this case, you can access the gateway using the service.
 
 #### Determining the ingress IP and ports for a `nodePort` ingress gateway
 
@@ -111,7 +117,7 @@ In the following subsections we configure a `Gateway` on port 80 for unencrypted
 
 ### Configuring a gateway for HTTP
 
-1.  Create an Istio `Gateway`
+1.  Create an Istio `Gateway`:
 
     ```bash
     cat <<EOF | istioctl create -f -
@@ -132,7 +138,7 @@ In the following subsections we configure a `Gateway` on port 80 for unencrypted
     EOF
     ```
 
-1.  Configure routes for traffic entering via the `Gateway`
+1.  Configure routes for traffic entering via the `Gateway`:
 
     ```bash
     cat <<EOF | istioctl create -f -
@@ -201,7 +207,7 @@ In the following subsections we configure a `Gateway` on port 80 for unencrypted
 
 In this subsection we add to our gateway the port 443 to handle the HTTPS traffic. We create a secret with a certificate and a private key. Then we replace the previous `Gateway` definition with a definition that contains a server on the port 443, in addition to the previously defined server on the port 80.
 
-1. Create a Kubernetes `Secret` to hold the key/cert
+1. Create a Kubernetes `Secret` to hold the key/certificate pair.
 
    Create the secret `istio-ingressgateway-certs` in namespace `istio-system` using `kubectl`. The Istio gateway
    will automatically load the secret.
