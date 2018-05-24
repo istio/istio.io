@@ -216,25 +216,26 @@ function handleDOMLoaded() {
                     var output = "";
                     var escape = false;
                     for (var j = 0; j < lines.length; j++) {
+                        var line = lines[j].trim();
                         if (bottom) {
-                            output = output + "\n" + lines[j]
+                            output = output + "\n" + line;
                         } else {
-                            if (lines[j].startsWith("$ ")) {
+                            if (line.startsWith("$ ")) {
                                 // line is definitely a command
                             } else if (escape) {
                                 // continuation
                             } else {
                                 bottom = true;
-                                output = lines[j];
+                                output = line;
                                 continue;
                             }
 
-                            escape = (lines[j].endsWith("\\"));
+                            escape = (line.endsWith("\\"));
 
                             if (cmd != "") {
                                 cmd = cmd + "\n";
                             }
-                            cmd = cmd + lines[j]
+                            cmd = cmd + line;
                         }
                     }
 
