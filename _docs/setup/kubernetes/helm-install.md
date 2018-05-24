@@ -80,10 +80,10 @@ Upgrading Istio using Helm is not validated.
     $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set global.proxy.image=proxyv2
     ```
 
-    * Without sidecar injection:
+    * Without sidecar injection webhook:
 
     ```command
-    $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set global.proxy.image=proxyv2
+    $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set sidecarInjectorWebhook.enabled=false --set global.proxy.image=proxyv2
     ```
 
 ## Customization with Helm
