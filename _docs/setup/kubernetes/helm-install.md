@@ -113,6 +113,10 @@ The Helm chart also offers significant customization options per individual
 service. Customize these per-service options at your own risk. The per-service options are exposed via
 the [`values.yaml`](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/helm/istio/values.yaml) file.
 
+## What's next
+
+See the sample [Bookinfo]({{home}}/docs/guides/bookinfo.html) application.
+
 ## Uninstall
 
 * For option 1, uninstall using kubectl:
