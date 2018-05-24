@@ -207,7 +207,7 @@ In the following subsections we configure a `Gateway` on port 80 for unencrypted
 
 In this subsection we add to our gateway the port 443 to handle the HTTPS traffic. We create a secret with a certificate and a private key. Then we replace the previous `Gateway` definition with a definition that contains a server on the port 443, in addition to the previously defined server on the port 80.
 
-1. Create a Kubernetes `Secret` to hold the key/cert
+1. Create a Kubernetes `Secret` to hold the key/certificate pair.
 
    Create the secret `istio-ingressgateway-certs` in namespace `istio-system` using `kubectl`. The Istio gateway
    will automatically load the secret.
