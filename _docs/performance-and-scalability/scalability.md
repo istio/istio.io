@@ -22,9 +22,9 @@ type: markdown
 
 Current recommendations (when using all Istio features):
 
-* 1 vCPU per peak thousand requests per seconds for the sidecar(s)
+* 1 vCPU per peak thousand requests per second for the sidecar(s)
 
-* Assuming typical cache hit ratio (>80%) for mixer checks: 0.5 vCPU per peak thousand uncached requests per seconds for the mixer pods.
+* Assuming typical cache hit ratio (>80%) for mixer checks: 0.5 vCPU per peak thousand requests per second for the mixer pods.
 
 We plan on providing more granular guidance for customers adopting Istio "A la carte".
 
