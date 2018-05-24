@@ -1,11 +1,8 @@
 ---
 title: Mutual TLS over HTTPS
 description: Shows how to enable mTLS on HTTPS services.
-
 weight: 80
-
 ---
-{% include home.html %}
 
 This task shows how Istio Mutual TLS works with HTTPS services. It includes: 1)
 Deploy an HTTPS service without Istio sidecar; 2) Deploy an HTTPS service with
@@ -19,9 +16,9 @@ original HTTPS traffic. And this is the reason Istio can work on HTTPS services.
 ## Before you begin
 
 Set up Istio by following the instructions in the
-[quick start]({{home}}/docs/setup/kubernetes/quick-start.html).
+[quick start](/docs/setup/kubernetes/quick-start/).
 Note that authentication should be **disabled** at step 5 in the
-[installation steps]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps).
+[installation steps](/docs/setup/kubernetes/quick-start/#installation-steps).
 
 ### Generate certificates and configmap
 

@@ -2,10 +2,9 @@
 title: Installing the Istio Sidecar
 description: Instructions for installing the Istio sidecar in application pods automatically using the sidecar injector webhook or manually using istioctl CLI.
 weight: 50
-redirect_from:
+aliases:
     - /docs/setup/kubernetes/automatic-sidecar-inject.html
 ---
-{% include home.html %}
 
 > The following requires Istio 0.5 or greater. See
 > [https://archive.istio.io/v0.4/docs/setup/kubernetes/sidecar-injection](https://archive.istio.io/v0.4/docs/setup/kubernetes/sidecar-injection)
@@ -123,14 +122,14 @@ admissionregistration.k8s.io/v1beta1
 admissionregistration.k8s.io/v2beta2
 ```
 
-See the Kubernetes [quick start]({{home}}/docs/setup/kubernetes/quick-start.html) guide for instructions on installing Kubernetes version >= 1.9.
+See the Kubernetes [quick start](/docs/setup/kubernetes/quick-start/) guide for instructions on installing Kubernetes version >= 1.9.
 
 Note that unlike manual injection, automatic injection occurs at the pod-level. You won't see any change to the deployment itself. Instead you'll want to check individual pods (via `kubectl describe`) to see the injected proxy.
 
 #### Disabling or updating the webhook
 
 The sidecar injecting webhook is enabled by default. If you wish to disable the webhook, you can
-use [Helm]({{home}}/docs/setup/kubernetes/helm-install.html) to generate an updated istio.yaml
+use [Helm](/docs/setup/kubernetes/helm-install/) to generate an updated istio.yaml
 with the option `sidecarInjectorWebhook.enabled` set to `false`. E.g.
 
 ```command
@@ -269,8 +268,7 @@ define injected containers and volumes with this data.
 
 For example, the following template snippet from `install/kubernetes/istio-sidecar-injector-configmap-release.yaml`
 
-{% raw %}
-```yaml
+```plain
 containers:
 - name: istio-proxy
   image: istio.io/proxy:0.5.0
@@ -288,7 +286,6 @@ containers:
   - "istio-proxy"
   {{ end -}}
 ```
-{% endraw %}
 
 expands to
 

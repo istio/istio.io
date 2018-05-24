@@ -1,11 +1,8 @@
 ---
 title: Rules Configuration
 description: Provides a high-level overview of the configuration model used by Istio to configure traffic management rules in the service mesh.
-
 weight: 50
-
 ---
-{% include home.html %}
 
 Istio provides a simple configuration model to
 control how API calls and layer-4 traffic flow across various
@@ -61,21 +58,21 @@ For example, in a Kubernetes deployment of Istio, "version: v1" indicates that
 only pods containing the label "version: v1" will receive traffic.
 
 Rules can be configured using the
-[istioctl CLI]({{home}}/docs/reference/commands/istioctl.html), or in a Kubernetes
+[istioctl CLI](/docs/reference/commands/istioctl/), or in a Kubernetes
 deployment using the `kubectl` command instead, although only `istioctl` will
 perform model validation and is recommended. See the
-[configuring request routing task]({{home}}/docs/tasks/traffic-management/request-routing.html)
+[configuring request routing task](/docs/tasks/traffic-management/request-routing/)
 for examples.
 
 There are four traffic management configuration resources in Istio:
 **VirtualService**, **DestinationRule**, **ServiceEntry**, and **Gateway**.
 A few important aspects of these resources are described below.
-See [networking reference]({{home}}/docs/reference/config/istio.networking.v1alpha3.html)
+See [networking reference](/docs/reference/config/istio.networking.v1alpha3/)
 for detailed information.
 
 ## Virtual Services
 
-A [VirtualService]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#VirtualService)
+A [VirtualService](/docs/reference/config/istio.networking.v1alpha3/#VirtualService)
 defines the rules that control how requests for a service are routed within an Istio service mesh.
 For example, a virtual service could route requests to different versions of a service or, in fact,
 to a completely different service than was requested.
@@ -298,9 +295,9 @@ spec:
 ```
 
 Note that request timeouts and retries can also be
-[overridden on a per-request basis](./handling-failures.html#fine-tuning).
+[overridden on a per-request basis](/docs/concepts/traffic-management/handling-failures#fine-tuning).
 
-See the [request timeouts task]({{home}}/docs/tasks/traffic-management/request-timeouts.html) for a demonstration of timeout control.
+See the [request timeouts task](/docs/tasks/traffic-management/request-timeouts/) for a demonstration of timeout control.
 
 ### Injecting faults in the request path
 
@@ -383,7 +380,7 @@ spec:
         subset: v1
 ```
 
-To see fault injection in action, see the [fault injection task]({{home}}/docs/tasks/traffic-management/fault-injection.html).
+To see fault injection in action, see the [fault injection task](/docs/tasks/traffic-management/fault-injection/).
 
 ### HTTP route rules have precedence
 
@@ -445,7 +442,7 @@ priorities of each rule when there is more than one.
 
 ## Destination Rules
 
-A [DestinationRule]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#DestinationRule)
+A [DestinationRule](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule)
 configures the set of policies to be applied to a request after `VirtualService` routing has occurred. They are
 intended to be authored by service owners, describing the circuit breakers, load balancer settings, TLS settings, etc..
 
@@ -506,7 +503,7 @@ spec:
           maxConnections: 100
 ```
 
-See the [circuit-breaking task]({{home}}/docs/tasks/traffic-management/circuit-breaking.html) for a demonstration of circuit breaker control.
+See the [circuit-breaking task](/docs/tasks/traffic-management/circuit-breaking/) for a demonstration of circuit breaker control.
 
 ### DestinationRule evaluation
 
@@ -599,7 +596,7 @@ start, is generally considered a best practice in Istio.
 
 ## Service Entries
 
-A [ServiceEntry]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#ServiceEntry)
+A [ServiceEntry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry)
 is used to add additional entries into the service registry that Istio maintains internally.
 It is most commonly used to enable requests to services outside of an Istio service mesh.
 For example, the following `ServiceEntry` can be used to allow external calls to services hosted
@@ -663,12 +660,12 @@ timeout and fault injection policies are all supported for external destinations
 Weighted (version-based) routing is not possible, however, since there is no notion
 of multiple versions of an external service.
 
-See the [egress task]({{home}}/docs/tasks/traffic-management/egress.html) for a more
+See the [egress task](/docs/tasks/traffic-management/egress/) for a more
 about accessing external services.
 
 ## Gateways
 
-A [Gateway]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway)
+A [Gateway](/docs/reference/config/istio.networking.v1alpha3/#Gateway)
 configure a load balancer for HTTP/TCP traffic, most commonly operating at the edge of the
 mesh to enable ingress traffic for an application.
 
@@ -721,11 +718,11 @@ spec:
     ...
 ```
 
-See the [ingress task]({{home}}/docs/tasks/traffic-management/ingress.html) for a
+See the [ingress task](/docs/tasks/traffic-management/ingress/) for a
 complete ingress gateway example.
 
 Although primarily used to manage ingress traffic, a `Gateway` can also be used to model
 a purely internal or egress proxy. Irrespective of the location, all gateways
 can be configured and controlled in the same way. Refer to the
-[gateway reference]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway)
+[gateway reference](/docs/reference/config/istio.networking.v1alpha3/#Gateway)
 for details.

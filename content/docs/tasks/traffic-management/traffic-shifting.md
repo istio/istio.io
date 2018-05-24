@@ -1,13 +1,12 @@
 ---
 title: Traffic Shifting
-description: This task shows you how to migrate traffic from an old to new version of a service.
+description: Shows you how to migrate traffic from an old to new version of a service.
 weight: 25
-redirect_from:
+aliases:
     - /docs/tasks/traffic-management/version-migration.html
 ---
-{% include home.html %}
 
-> Note: This task uses the new [v1alpha3 traffic management API]({{home}}/blog/2018/v1alpha3-routing.html). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.6/docs/tasks/).
+> This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.6/docs/tasks/).
 
 This task shows you how to gradually migrate traffic from an old to new version of a service.
 With Istio, we can migrate the traffic in a gradual fashion by using a sequence of rules
@@ -18,9 +17,9 @@ two steps: 50%, 100%.
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide]({{home}}/docs/setup/).
+  [Installation guide](/docs/setup/).
 
-* Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application.
+* Deploy the [Bookinfo](/docs/guides/bookinfo/) sample application.
 
 ## Weight-based version routing
 
@@ -87,7 +86,7 @@ weighted routing feature. Note that this is very different than version migratio
 of container orchestration platforms, which use instance scaling to manage the traffic.
 With Istio, we can allow the two versions of the `reviews` service to scale up and down independently,
 without affecting the traffic distribution between them.
-For more about version routing with autoscaling, check out [Canary Deployments using Istio]({{home}}/blog/canary-deployments-using-istio.html).
+For more about version routing with autoscaling, check out [Canary Deployments using Istio](/blog/2017/0.1-canary/).
 
 ## Cleanup
 
@@ -98,9 +97,9 @@ For more about version routing with autoscaling, check out [Canary Deployments u
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+  [Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions
   to shutdown the application.
 
 ## What's next
 
-* Learn more about [request routing]({{home}}/docs/concepts/traffic-management/request-routing.html).
+* Learn more about [request routing](/docs/concepts/traffic-management/request-routing/).

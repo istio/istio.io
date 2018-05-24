@@ -1,10 +1,8 @@
 ---
 title: Integrating Virtual Machines
 description: This sample deploys the Bookinfo services across Kubernetes and a set of virtual machines, and illustrates how to use the Istio service mesh to control this infrastructure as a single mesh.
-
 weight: 60
 ---
-{% include home.html %}
 
 This sample deploys the Bookinfo services across Kubernetes and a set of
 Virtual Machines, and illustrates how to use Istio service mesh to control
@@ -16,21 +14,21 @@ VMs cannot initiate any direct communication to Kubernetes Pods even when using 
 
 ## Overview
 
-{% include image.html width="80%" ratio="56.78%"
-    link="./img/mesh-expansion.svg"
+{{< image width="80%" ratio="56.78%"
+    link="../img/mesh-expansion.svg"
     caption="Bookinfo Application with Istio Mesh Expansion"
-    %}
+    >}}
 
 <!-- source of the drawing https://docs.google.com/drawings/d/1gQp1OTusiccd-JUOHktQ9RFZaqREoQbwl2Vb-P3XlRQ/edit -->
 
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide]({{home}}/docs/setup/kubernetes/quick-start.html).
+  [Installation guide](/docs/setup/kubernetes/quick-start/).
 
-* Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application (in the `bookinfo` namespace).
+* Deploy the [Bookinfo](/docs/guides/bookinfo/) sample application (in the `bookinfo` namespace).
 
-* Create a VM named 'vm-1' in the same project as Istio cluster, and [Join the Mesh]({{home}}/docs/setup/kubernetes/mesh-expansion.html).
+* Create a VM named 'vm-1' in the same project as Istio cluster, and [Join the Mesh](/docs/setup/kubernetes/mesh-expansion/).
 
 ## Running MySQL on the VM
 

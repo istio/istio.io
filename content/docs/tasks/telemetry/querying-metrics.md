@@ -1,22 +1,18 @@
 ---
 title: Querying Metrics from Prometheus
-
 description: This task shows you how to query for Istio Metrics using Prometheus.
-
 weight: 30
-
 ---
-{% include home.html %}
 
 This task shows you how to query for Istio Metrics using Prometheus. As part of
 this task, you will use the web-based interface for querying metric values.
 
-The [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application is used as
+The [Bookinfo](/docs/guides/bookinfo/) sample application is used as
 the example application throughout this task.
 
 ## Before you begin
 
-[Install Istio]({{home}}/docs/setup/) in your cluster and deploy an
+[Install Istio](/docs/setup/) in your cluster and deploy an
 application.
 
 ## Querying Istio Metrics
@@ -41,7 +37,7 @@ application.
     $ curl http://$GATEWAY_URL/productpage
     ```
 
-    > `$GATEWAY_URL` is the value set in the [Bookinfo]({{home}}/docs/guides/bookinfo.html) guide.
+    > `$GATEWAY_URL` is the value set in the [Bookinfo](/docs/guides/bookinfo/) guide.
 
 1.  Open the Prometheus UI.
 
@@ -60,10 +56,10 @@ application.
 
 The results will be similar to:
 
-{% include image.html width="100%" ratio="39.36%"
-    link="./img/prometheus_query_result.png"
+{{< image width="100%" ratio="39.36%"
+    link="../img/prometheus_query_result.png"
     caption="Prometheus Query Result"
-    %}
+    >}}
 
 Other queries to try:
 
@@ -115,9 +111,9 @@ docs](https://prometheus.io/docs/querying/basics/).
     ```
 
 -   If you are not planning to explore any follow-on tasks, refer to the
-    [Bookinfo cleanup]({{home}}/docs/guides/bookinfo.html#cleanup) instructions
+    [Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions
     to shutdown the application.
 
 ## What's next
 
--   Refer to the [In-Depth Telemetry]({{home}}/docs/guides/telemetry.html) guide.
+-   Refer to the [In-Depth Telemetry](/docs/guides/telemetry/) guide.

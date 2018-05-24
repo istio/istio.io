@@ -2,7 +2,7 @@
 title: Creating a Pull Request
 description: Shows you how to create a GitHub pull request in order to submit your docs for approval.
 weight: 20
-redirect_from:
+aliases:
     - /docs/welcome/contribute/creating-a-pull-request.html
 ---
 
@@ -35,8 +35,8 @@ documentation repository in your GitHub account. The copy is called a *fork*.
 a new branch to use for your contribution.
 
 1. In your new branch, make your changes and commit them. If you want to
-[write a new topic](./writing-a-new-topic.html),
-choose the [page-type](./writing-a-new-topic.html#choosing-a-page-type)
+[write a new topic](/about/contribute/writing-a-new-topic/),
+choose the [page-type](/about/contribute/writing-a-new-topic/#choosing-a-page-type)
 that is the best fit for your content.
 
 ## Submitting a pull request
@@ -56,4 +56,4 @@ If needed, revise your pull request by committing changes to your
 new branch in your fork.
 
 > Once your changes have been committed, they will show up immediately on [preliminary.istio.io](https://preliminary.istio.io), but
-will only show up on [istio.io](http://istio.io) the next time we produce a new release, which happens around once a month.
+will only show up on [istio.io](https://istio.io) the next time we produce a new release, which happens around once a month.

@@ -1,9 +1,7 @@
 ---
 title: Design Goals
 description: Describes the core principles that Istio's design adheres to.
-
 weight: 20
-
 ---
 
 This page outlines the core principles that guide Istio's design.

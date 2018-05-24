@@ -2,7 +2,6 @@
 title: How do I see all Mixer's configuration?
 weight: 10
 ---
-{% include home.html %}
 
 Configuration for *instances*, *handlers*, and *rules* is stored as Kubernetes
 [Custom Resources](https://kubernetes.io/docs/concepts/api-extension/custom-resources/).

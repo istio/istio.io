@@ -1,0 +1,35 @@
+{{ $pages := .pages }}
+{{ $parent := .parent }}
+{{ $current := .current }}
+{{ $collapse := .collapse }}
+
+<ul class="tree{{ if $collapse }} collapse{{ end }}">
+    {{ range $pages }}
+        {{ if eq .Parent $parent }}
+            {{ if not .IsPage }}
+                <li class="sublist">
+                    {{ $collapse := not (.IsAncestor $current) }}
+
+                    <label class='tree-toggle'>
+                        {{ if $collapse }}
+                            <i class='fa fa-lg fa-caret-right'></i>
+                        {{ else }}
+                            <i class='fa fa-lg fa-caret-down'></i>
+                        {{ end }}
+                        <a {{ if eq $current.URL .URL }}class="current"{{ end }} title="{{ .Description }}" href="{{ .URL }}">{{ .Title}} </a>
+                    </label>
+
+                    {{ partial "sidebar-level.html" (dict "pages" $pages "parent" . "current" $current "collapse" $collapse) }}
+                </li>
+            {{ else }}
+                <li>
+                    {{ if eq $current.URL .URL }}
+                        <span class="current" title="{{ .Description }}">{{ .Title }}</span>
+                    {{ else }}
+                        <a title="{{ .Description }}" href="{{ .URL }}">{{ .Title }}</a>
+                    {{ end }}
+                </li>
+             {{ end }}
+        {{ end }}
+    {{ end }}
+</ul>
