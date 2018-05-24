@@ -26,6 +26,8 @@ Current recommendations (when using all Istio features):
 
 * Assuming typical cache hit ratio (>80%) for mixer checks: 0.5 vCPU per peak thousand requests per second for the mixer pods.
 
+* Latency cost/overhead is about [14 millisecond](https://fortio.istio.io/browse?url=qps_400-s1_to_s2-0.7.1-2018-04-05-22-06.json) for service-to-service (2 proxies involved, mixer telemetry and checks) as of 0.7.1, we are working on bringing this down to a low single digit ms.
+
 We plan on providing more granular guidance for customers adopting Istio "A la carte".
 
 The goal for 2018 for Istio is for the overhead/cost of adding it to your application to be less than 15% extra virtual hardware required, we currently (as of 0.7.1) are at around 50% overhead.
