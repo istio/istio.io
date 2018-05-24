@@ -7,12 +7,15 @@ redirect_from:
 ---
 {% include home.html %}
 
+> Note: This task uses the new [v1alpha3 traffic management API]({{home}}/blog/2018/v1alpha3-routing.html). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.6/docs/tasks/).
+
 In a Kubernetes environment, the [Kubernetes Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/)
 is used to specify services that should be exposed outside the cluster.
+In an Istio service mesh, a better approach (which also works in both Kubernetes and other environments) is to use a
+different configuration model, namely [Istio Gateway]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway).
+A `Gateway` allows Istio features, for example, monitoring and route rules, to be applied to traffic entering the cluster.
 
-In an Istio service mesh, a better approach (which also works in both Kubernetes and other environments) is to use a different configuration model, namely [Istio Gateway]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway). It allows Istio features, for example, monitoring and route rules, to be applied to traffic entering the cluster.
-
-This task describes how to configure Istio to expose a service outside of the service mesh using an [Istio Gateway]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#Gateway).
+This task describes how to configure Istio to expose a service outside of the service mesh using an Istio `Gateway`.
 
 ## Before you begin
 
@@ -53,6 +56,8 @@ istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/
 ```
 
 If the `EXTERNAL-IP` value is set, your environment has an external load balancer that you can use for the ingress gateway.
+If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not provide an external load balancer for the ingress gateway.
+In this case, you can access the gateway using the service `nodePort`.
 
 #### Determining the ingress IP and ports for a load balancer ingress gateway
 
@@ -62,9 +67,6 @@ $ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway
 $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
 ```
 
-If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not provide an external load balancer for the ingress gateway.
-In this case, you can access the gateway using the service.
-
 #### Determining the ingress IP and ports for a `nodePort` ingress gateway
 
 Determine the ports:
@@ -73,7 +75,7 @@ $ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway
 $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
 ```
 
-The ingress IP is determined depending on the cluster provider.
+Determining the ingress IP depends on the cluster provider.
 
 1.  _GKE:_
 
@@ -223,7 +225,7 @@ In this subsection we add to our gateway the port 443 to handle the HTTPS traffi
    which risks leaking the key/cert. You can change the Role-Based Access Control (RBAC) rules to protect them.
    See (Link TBD) for details.
 
-1. Replace the previous `Gateway` definition with a server section for the port 443.
+1. Add to the previous `Gateway` definition a server section for the port 443.
 
    > The location of the certificate and the private key MUST be `/etc/istio/ingressgateway-certs`, or the gateway will fail to load them.
 
@@ -278,7 +280,7 @@ Here we use _curl_'s `-k` option to instruct _curl_ not to check our certificate
 
 ### Disable the HTTP port
 
-If we want allow HTTPS traffic only into our service mesh, we can remove the HTTP port from our gateway.
+If we want to only allow HTTPS traffic into our service mesh, we can remove the HTTP port from our gateway.
 
 1.  Redefine the `Gateway` without the HTTP port:
 
