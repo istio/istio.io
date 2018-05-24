@@ -29,6 +29,12 @@ This task describes how to configure Istio to expose a service outside of the se
     $ kubectl apply -f samples/httpbin/httpbin.yaml
     ```
 
+    Without _Istio-Initializer_:
+
+    ```command
+    $ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml)
+    ```
+
 *   A private key and certificate can be created for testing using [OpenSSL](https://www.openssl.org/).
 
     ```command
