@@ -77,7 +77,7 @@ Upgrading Istio using Helm is not validated.
     * With [automatic sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection) (requires Kubernetes >=1.9.0):
 
     ```command
-    $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set sidecar-injector.enabled=true --set global.proxy.image=proxyv2
+    $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set global.proxy.image=proxyv2
     ```
 
     * Without sidecar injection:
