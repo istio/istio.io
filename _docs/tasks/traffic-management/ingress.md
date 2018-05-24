@@ -148,7 +148,7 @@ In the following subsections we configure a `Gateway` on port 80 for unencrypted
       name: httpbin
     spec:
       hosts:
-      - "*"
+      - "httpbin.example.com"
       gateways:
       - httpbin-gateway
       http:
