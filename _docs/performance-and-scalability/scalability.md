@@ -30,4 +30,4 @@ Current recommendations (when using all Istio features):
 
 We plan on providing more granular guidance for customers adopting Istio "A la carte".
 
-The goal for 2018 for Istio is for the overhead/cost of adding it to your application to be less than 15% extra virtual hardware required, we currently (as of 0.7.1) are at around 50% overhead.
+The goal for 2018 for Istio is to reduce both the CPU overhead and latency of adding Istio to your application but please note that if you application is handling its own telemetry, policy, security, network routing, a/b testing, etc... all that code and cost can be removed and that should offset most if not all of the Istio overhead.
