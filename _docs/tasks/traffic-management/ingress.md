@@ -87,11 +87,11 @@ Determining the ingress IP depends on the cluster provider.
     Run the following commands to allow the traffic for the HTTP port, the secure port (HTTPS) or both.
 
     ```command
-    $ gcloud compute firewall-rules create allow-book --allow tcp:$INGRESS_PORT
+    $ gcloud compute firewall-rules create allow-gateway-http --allow tcp:$INGRESS_PORT
     ```
 
     ```command
-    $ gcloud compute firewall-rules create allow-book --allow tcp:$SECURE_INGRESS_PORT
+    $ gcloud compute firewall-rules create allow-gateway-https --allow tcp:$SECURE_INGRESS_PORT
     ```
 
 1.  _IBM Cloud Kubernetes Service Free Tier:_
