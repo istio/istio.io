@@ -9,82 +9,80 @@ redirect_from:
 
 {% include home.html %}
 
-Quick start instructions for the setup and configuration of Istio using the Helm package manager.  This is the recommended install method for installing Istio to your production environment as it offers rich customization to the Istio control plane and the side cars for the Istio data plane.
+Quick start instructions for the setup and configuration of Istio using Helm.
+This is the recommended install method for installing Istio to your
+production environment as it offers rich customization to the Istio control
+plane and the sidecars for the Istio data plane.
 
 <img src="{{home}}/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" />
-Installation of Istio prior to version 0.8.0 with Helm is unstable and not recommended.
-
-## Deploy Istio using Helm
-
-There are two options for using Helm to deploy Istio.
-
-1. Use `helm template` to render a manifest and use `kubectl`
-to create it.
-
-1. Use Helm's [Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components) service to manage the lifecycle
-of Istio this requires tiller to be installed in your Kubernetes cluster.
+Installation of Istio prior to version 0.8.0 with Helm is unstable and not
+recommended.
 
 ## Prerequisites
 
-* Kubernetes **1.9 or newer** is recommended.
-* Helm **2.7.2 or newer** is required.  Follow the [instruction](https://docs.helm.sh/using_helm/#installing-helm) to install Helm.
-* If you are interested in option 2, Helm [Tiller](https://github.com/kubernetes/helm#helm-in-a-handbasket) must be installed in your Kubernetes cluster.
+1. [Download]({{home}}/docs/setup/kubernetes/quick-start.html#download-and-prepare-for-the-installation)
+   the latest Istio release.
 
-## Download and prepare for Istio install
+1. [Install the Helm client](https://docs.helm.sh/using_helm/#installing-helm).
 
-Follow the [instruction]({{home}}/docs/setup/kubernetes/quick-start.html#download-and-prepare-for-the-installation) to download the Istio release binary and install `istioctl`.
+## Option 1: Install with Helm via `helm template`
 
-## Install Istio with Helm
+1. Render Istio's core components to a Kubernetes manifest called `istio.yaml`:
 
-Choose one of the options below to install Istio with Helm.
+   * With [automatic sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection)
+     (requires Kubernetes >=1.9.0):
 
-### Render Kubernetes manifest with Helm and deploy with kubectl
+    ```command
+    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set sidecar-injector.enabled=true --set global.proxy.image=proxyv2
+    ```
 
-This is the most heavily tested method of deploying Istio.  During the continuous integration testing and release process, the `helm` binary in `template` mode is used to render the various manifests produced for Istio.
-
-1.  Create an `istio.yaml` Kubernetes manifest:
+   * Without sidecar injection:
 
     ```command
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system > $HOME/istio.yaml
     ```
 
-1.  Install Istio's core components from `istio.yaml` manifest:
+1. Install the components via the manifest:
 
     ```command
-    $ kubectl create ns istio-system
+    $ kubectl create namespace istio-system
     $ kubectl create -f $HOME/istio.yaml
     ```
 
-### Alternatively, use Helm and Tiller to manage the Istio deployment
+## Option 2: Install with Helm and Tiller via `helm install`
+
+This option allows Helm and
+[Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components)
+to manage the lifecycle of Istio.
 
 <img src="{{home}}/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" />
 Upgrading Istio using Helm is not validated.
 
-1.  If a service account has not already been installed for Helm, please install one:
+1. If a service account has not already been installed for Tiller, install one:
 
-    ```command
-    $ kubectl create -f install/kubernetes/helm/helm-service-account.yaml
-    ```
+   ```command
+   $ kubectl create -f install/kubernetes/helm/helm-service-account.yaml
+   ```
 
-1.  Initialize Helm:
+1. Install Tiller on your cluster with the service account:
 
-    ```command
-    $ helm init --service-account tiller
-    ```
+   ```command
+   $ helm init --service-account tiller
+   ```
 
-1.  Install Istio:
+1. Install Istio:
 
-    * With [automatic sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection) (requires Kubernetes >=1.9.0):
+   * With [automatic sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection) (requires Kubernetes >=1.9.0):
 
-    ```command
-    $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set sidecar-injector.enabled=true
-    ```
+     ```command
+     $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set sidecar-injector.enabled=true
+     ```
 
-    * Without sidecar injection:
+   * Without sidecar injection:
 
-    ```command
-    $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
-    ```
+     ```command
+     $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
+     ```
 
 ## Customization with Helm
 
@@ -115,16 +113,20 @@ The Helm chart also offers significant customization options per individual
 service. Customize these per-service options at your own risk. The per-service options are exposed via
 the [`values.yaml`](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/helm/istio/values.yaml) file.
 
-## Uninstall Istio
+## What's next
 
-*   For option 1, uninstall using kubectl:
+See the sample [Bookinfo]({{home}}/docs/guides/bookinfo.html) application.
 
-    ```command
-    $ kubectl delete -f $HOME/istio.yaml
-    ```
+## Uninstall
 
-*   For option 2, uninstall using Helm:
+* For option 1, uninstall using kubectl:
 
-    ```command
-    $ helm delete --purge istio
-    ```
+  ```command
+  $ kubectl delete -f $HOME/istio.yaml
+  ```
+
+* For option 2, uninstall using Helm:
+
+  ```command
+  $ helm delete --purge istio
+  ```
