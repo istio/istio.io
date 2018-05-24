@@ -8,7 +8,6 @@ type: markdown
 ---
 {% include home.html %}
 
-
 For realistic application benchmarks we use [IBM's BluePerf](https://github.com/blueperf).
 
 The results for each build are published automatically on the [Istio Regression Patrol](https://ibmcloud-perf.istio.io/regpatrol/) site.

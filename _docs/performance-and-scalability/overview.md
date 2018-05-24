@@ -8,7 +8,6 @@ type: markdown
 ---
 {% include home.html %}
 
-
 The Performance and Scalability working group has a 4 pronged approach for Istio's performance characterization, tracking and improvements:
 
 * Code level micro-benchmarks
