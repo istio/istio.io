@@ -45,7 +45,7 @@ This is the most heavily tested method of deploying Istio.  During the continuou
 1.  Create an `istio.yaml` Kubernetes manifest:
 
     ```command
-    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set global.proxy.image=proxyv2 > $HOME/istio.yaml
+    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system > $HOME/istio.yaml
     ```
 
 1.  Install Istio's core components from `istio.yaml` manifest:
@@ -77,13 +77,13 @@ Upgrading Istio using Helm is not validated.
     * With [automatic sidecar injection]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection) (requires Kubernetes >=1.9.0):
 
     ```command
-    $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set sidecar-injector.enabled=true --set global.proxy.image=proxyv2
+    $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set sidecar-injector.enabled=true
     ```
 
     * Without sidecar injection:
 
     ```command
-    $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set global.proxy.image=proxyv2
+    $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
     ```
 
 ## Customization with Helm
@@ -99,7 +99,7 @@ following table:
 | --- | --- | --- | --- |
 | `global.hub` | Specifies the HUB for most images used by Istio | registry/namespace | `docker.io/istionightly` |
 | `global.tag` | Specifies the TAG for most images used by Istio | valid image tag | `circleci-nightly` |
-| `global.proxy.image` | Specifies the proxy image name | valid proxy name | `proxy` |
+| `global.proxy.image` | Specifies the proxy image name | valid proxy name | `proxyv2` |
 | `global.imagePullPolicy` | Specifies the image pull policy | valid image pull policy | `IfNotPresent` |
 | `global.controlPlaneSecurityEnabled` | Specifies whether control plane mTLS is enabled | true/false | `false` |
 | `global.mtls.enabled` | Specifies whether mTLS is enabled by default between services | true/false | `false` |
