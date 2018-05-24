@@ -12,7 +12,7 @@ deployed on Kubernetes.
 
 ## Prerequisites
 
-* Setup Istio on Kubernetes by following the instructions in the [Installation guide](quick-start.html).
+* Setup Istio on Kubernetes by following the instructions in the [Installation guide](index.html).
 
 * The machine must have IP connectivity to the endpoints in the mesh. This
 typically requires a VPC or a VPN, as well as a container network that

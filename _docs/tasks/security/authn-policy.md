@@ -19,7 +19,7 @@ Through this task, you will learn how to:
 
 * Know how to verify mTLS setup (recommend to walk through [testing Istio mutual TLS authentication]({{home}}/docs/tasks/security/mutual-tls.html))
 
-* Have a Kubernetes cluster with Istio installed, without mTLS. See [the Istio installation task]({{home}}/docs/setup/kubernetes/quick-start.html) and follow step 5.
+* Have a Kubernetes cluster with Istio installed, without mTLS. See [the Istio installation task]({{home}}/docs/quick-start/kubernetes.html) and follow step 5.
 
 *   For demo, create two namespaces `foo` and `bar`, and deploy [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) and [sleep](https://github.com/istio/istio/tree/master/samples/sleep) with sidecar on both of them. Also, run another sleep app without sidecar (to keep it separate, run it in `legacy` namespace)
 

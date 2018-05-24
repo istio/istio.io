@@ -1,8 +1,10 @@
 ---
-title: Quick Start on Docker
+title: Eureka
 description: Quick Start instructions to setup the Istio service mesh with Docker Compose.
+redirect_from:
+    - /docs/setup/eureka/quick-start.html
 
-weight: 10
+weight: 4
 
 ---
 

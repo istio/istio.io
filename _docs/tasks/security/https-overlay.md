@@ -19,9 +19,9 @@ original HTTPS traffic. And this is the reason Istio can work on HTTPS services.
 ## Before you begin
 
 Set up Istio by following the instructions in the
-[quick start]({{home}}/docs/setup/kubernetes/quick-start.html).
+[quick start]({{home}}/docs/quick-start/kubernetes.html).
 Note that authentication should be **disabled** at step 5 in the
-[installation steps]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps).
+[installation steps]({{home}}/docs/quick-start/kubernetes.html#installation-steps).
 
 ### Generate certificates and configmap
 

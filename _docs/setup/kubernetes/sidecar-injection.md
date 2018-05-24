@@ -123,7 +123,7 @@ admissionregistration.k8s.io/v1beta1
 admissionregistration.k8s.io/v2beta2
 ```
 
-See the Kubernetes [quick start]({{home}}/docs/setup/kubernetes/quick-start.html) guide for instructions on installing Kubernetes version >= 1.9.
+See the Kubernetes [quick start]({{home}}/docs/quick-start/kubernetes.html) guide for instructions on installing Kubernetes version >= 1.9.
 
 Note that unlike manual injection, automatic injection occurs at the pod-level. You won't see any change to the deployment itself. Instead you'll want to check individual pods (via `kubectl describe`) to see the injected proxy.
 

@@ -12,7 +12,7 @@ This task shows you how to use Istio to dynamically limit the traffic to a servi
 ## Before you begin
 
 * Setup Istio in a Kubernetes cluster by following the quick start instructions in the
-  [Installation guide]({{home}}/docs/setup/kubernetes/quick-start.html).
+  [Installation guide]({{home}}/docs/quick-start/kubernetes.html).
 
 * Deploy the [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application.
 

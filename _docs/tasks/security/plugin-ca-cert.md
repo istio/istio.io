@@ -16,9 +16,9 @@ operator-specified root certificate. This task demonstrates an example to plug c
 ## Before you begin
 
 * Set up Istio by following the instructions in the
-  [quick start]({{home}}/docs/setup/kubernetes/quick-start.html).
+  [quick start]({{home}}/docs/quick-start/kubernetes.html).
   Note that authentication should be enabled at step 5 in the
-  [installation steps]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps).
+  [installation steps]({{home}}/docs/quick-start/kubernetes.html#installation-steps).
 
 ## Plugging in the existing certificate and key
 

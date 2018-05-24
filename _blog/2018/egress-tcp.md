@@ -118,7 +118,7 @@ Now I am ready to deploy a version of the Bookinfo application that will use my 
 
 ### Initial setting of Bookinfo application
 
-To demonstrate the scenario of using an external database, I start with a Kubernetes cluster with [Istio installed]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps). Then I deploy the [Istio Bookinfo sample application]({{home}}/docs/guides/bookinfo.html). This application uses the _ratings_ microservice to fetch book ratings, a number between 1 and 5. The ratings are displayed as stars for each review. There are several versions of the _ratings_ microservice. Some use [MongoDB](https://www.mongodb.com), others use [MySQL](https://www.mysql.com) as their database.
+To demonstrate the scenario of using an external database, I start with a Kubernetes cluster with [Istio installed]({{home}}/docs/quick-start/kubernetes.html#installation-steps). Then I deploy the [Istio Bookinfo sample application]({{home}}/docs/guides/bookinfo.html). This application uses the _ratings_ microservice to fetch book ratings, a number between 1 and 5. The ratings are displayed as stars for each review. There are several versions of the _ratings_ microservice. Some use [MongoDB](https://www.mongodb.com), others use [MySQL](https://www.mysql.com) as their database.
 
 The example commands in this blog post work with Istio 0.3+, with or without [Mutual TLS]({{home}}/docs/concepts/security/mutual-tls.html) enabled.
 
