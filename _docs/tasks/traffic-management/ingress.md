@@ -52,7 +52,7 @@ NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)  
 istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/TCP,443:31390/TCP,31400:31400/TCP   17h
 ```
 
-If the `EXTERNAL-IP` value is set, your environment has an external load balancer that you can use for the ingress gateway
+If the `EXTERNAL-IP` value is set, your environment has an external load balancer that you can use for the ingress gateway.
 
 #### Determining the ingress IP and ports for a load balancer ingress gateway
 
@@ -63,7 +63,7 @@ $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingress
 ```
 
 If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not provide an external load balancer for the ingress gateway.
-In this case, you can access the gateway using the service .
+In this case, you can access the gateway using the service.
 
 #### Determining the ingress IP and ports for a `nodePort` ingress gateway
 
@@ -117,7 +117,7 @@ In the following subsections we configure a `Gateway` on port 80 for unencrypted
 
 ### Configuring a gateway for HTTP
 
-1.  Create an Istio `Gateway`
+1.  Create an Istio `Gateway`:
 
     ```bash
     cat <<EOF | istioctl create -f -
@@ -138,7 +138,7 @@ In the following subsections we configure a `Gateway` on port 80 for unencrypted
     EOF
     ```
 
-1.  Configure routes for traffic entering via the `Gateway`
+1.  Configure routes for traffic entering via the `Gateway`:
 
     ```bash
     cat <<EOF | istioctl create -f -
