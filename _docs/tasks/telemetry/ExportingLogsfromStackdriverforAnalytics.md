@@ -53,28 +53,28 @@ In the above configuration sinkInfo contains information about the sink where yo
 
 Once you configure this stackdriver handler in your istio system, you will see logs flowing to stackdriver and subsequently to the sink you configured.
 
-##Setting up Various Log Sinks
+## Setting up Various Log Sinks
 Common setup for all sinks:
 1. Enable StackDriver Monitoring API for the project
 1. Make sure principalEmail that would be setting up the sink has write access to the project and Logging Admin role permissions.
 
-###BigQuery
+### BigQuery
 1. Create a bigquery dataset where you would like logs to get exported in bigquery
 1. Note down it’s id to be passed to stackdriver handler as destination for the sink. It would be of the form 
 *bigquery.googleapis.com/projects/[PROJECT_ID]/datasets/[DATASET_ID]*
 1. Give sink’s writer identity: cloud-logs@system.gserviceaccount.com  bigquery data editor role in IAM
 
-###GCS
+### GCS
 1. Create a GCS bucket where you would like logs to get exported in bigquery.
 1. Note down it’s id to be passed to stackdriver handler as destination for the sink. It would be of the form 
 *storage.googleapis.com/[BUCKET_ID*
 1. Give sink’s writer identity: cloud-logs@system.gserviceaccount.com  storage object creator role in IAM
 
-###Pubsub
+### Pubsub
 1. Create a topic where you would like logs to get exported in Pubsub
 1. Note down it’s id to be passed to stackdriver handler as destination for the sink. It would be of the form 
 *pubsub.googleapis.com/projects/[PROJECT_ID]/topics/[TOPIC_ID]*
 1. Give sink’s writer identity: cloud-logs@system.gserviceaccount.com  Pub Sub/Publisher role in IAM
 
-##Availability of logs in Export Sinks
+## Availability of logs in Export Sinks
 Export to BigQuery is within minutes(we see it to be almost instant), GCS can have a delay of 2-12 hours and PubSub is almost instant. 
