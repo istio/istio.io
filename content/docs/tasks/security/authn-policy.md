@@ -98,7 +98,7 @@ spec:
   host: *.foo.svc.local.cluster
   trafficPolicy:
     tls:
-      mode: ISTIO_MUTUAL      
+      mode: ISTIO_MUTUAL
 EOF
 ```
 
@@ -106,6 +106,7 @@ EOF
 * This rule is based on the assumption that there is no other destination rule in the system. If it's not the case, you need to modify traffic policy in existing rules accordingly.
 * `*.foo.svc.local.cluster` matches all services in namespace `foo`.
 * You can also use the mode `MUTUAL` and fill in the paths for key and certificates as below. This is mainly to illustrate the settings that Istio uses behind the scene. In production environment, it's recommended to use `ISTIO_MUTUAL` mode.
+
     ```bash
     cat <<EOF | istioctl create -f -
     apiVersion: "networking.istio.io/v1alpha3"
@@ -353,3 +354,7 @@ $ curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/headers -s -o /dev/
 ```
 
 You may want to try to modify token or policy (e.g change issuer, audiences, expiry date etc) to observe other aspects of JWT validation.
+
+## What's next
+
+* Learn more about verifying mTLS setup [testing Istio mutual TLS authentication]({{home}}/docs/tasks/security/mutual-tls.html)

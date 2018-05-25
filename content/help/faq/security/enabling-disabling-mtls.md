@@ -5,7 +5,6 @@ weight: 10
 
 Starting Istio 0.8, [authentication policy]({{home}}/docs/concepts/security/authn-policy.html) can be used to change mTLS setting at run time, without reinstall Istio.
 
-
 Before 0.8, the most straightforward way to enable/disable mTLS is by entirely
 uninstalling and re-installing Istio.
 

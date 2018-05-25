@@ -31,9 +31,7 @@ This task assumes you have a Kubernetes cluster:
     ```
     > Use `--debug` to inject sidecar container with proxy-debug image, which is needed to run `curl` command from istio-proxy container later in the demo.
 
-
 ## Verifying Istio's mutual TLS authentication setup
-
 
 ### Verifying Citadel
 
@@ -49,7 +47,7 @@ Citadel is up if the "AVAILABLE" column is 1.
 
 ### Verifying service configuration
 
-1.  Verify AuthPolicy setting in ConfigMap.
+* Check installation mode. If mTLS is enabled by default (e.g `istio-auth.yaml` was used when installing Istio), it's expected to see uncommented `authPolicy: MUTUAL_TLS` in configmap.
 
     ```command
     $ kubectl get configmap istio -o yaml -n istio-system | grep authPolicy | head -1
@@ -105,7 +103,6 @@ Please check [secure naming](/docs/concepts/security/mutual-tls.html#workflow) f
 ## Testing the authentication setup
 
 Assuming mutual TLS authentication is properly turned on, it should not affect communication from one service to another when both sides have Envoy sidecar. However, request from pod without sidecar, or request directly from sidecar without client certificate would fail. Examples below illustrates this behavior.
-
 
 1. Request from `sleep` app container to `httpbin` service should success (return `200`)
    ```command
