@@ -216,11 +216,11 @@ function handleDOMLoaded() {
                     var output = "";
                     var escape = false;
                     for (var j = 0; j < lines.length; j++) {
-                        var line = lines[j].trim();
+                        var line = lines[j];
                         if (bottom) {
                             output = output + "\n" + line;
                         } else {
-                            if (line.startsWith("$ ")) {
+                            if (line.trim().startsWith("$ ")) {
                                 // line is definitely a command
                             } else if (escape) {
                                 // continuation
