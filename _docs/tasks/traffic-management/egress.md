@@ -14,7 +14,8 @@ iptables is used in the pod to transparently redirect all outbound traffic to th
 which only handles intra-cluster destinations.
 
 This task describes how to configure Istio to expose external services to Istio-enabled clients.
-You'll learn how to enable access to external services by defining `ServiceEntry` configurations,
+You'll learn how to enable access to external services by defining
+[ServiceEntry]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#ServiceEntry) configurations,
 or alternatively, to simply bypass the Istio proxy for a specific range of IPs.
 
 ## Before you begin
@@ -276,7 +277,7 @@ cloud provider specific knowledge and configuration.
 
 ## What's next
 
-* Read more about [ServiceEntry]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#ServiceEntry).
+* Learn more about [service entries]({{home}}/docs/concepts/traffic-management/rules-configuration.html#service-entries).
 
 * Learn how to setup
   [timeouts]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#HTTPRoute.timeout),
