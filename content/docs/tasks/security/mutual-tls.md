@@ -102,7 +102,7 @@ Please check [secure naming](/docs/concepts/security/mutual-tls.html#workflow) f
 
 ## Testing the authentication setup
 
-Assuming mutual TLS authentication is properly turned on, it should not affect communication from one service to another when both sides have Envoy sidecar. However, request from pod without sidecar, or request directly from sidecar without client certificate would fail. Examples below illustrates this behavior.
+Assuming mutual TLS authentication is properly turned on, it should not affect communication from one service to another when both sides have the Envoy sidecar. However, request from pod without sidecar, or request directly from sidecar without a client certificate would fail. Examples below illustrates this behavior.
 
 1. Request from `sleep` app container to `httpbin` service should success (return `200`)
    ```command
@@ -135,7 +135,7 @@ Assuming mutual TLS authentication is properly turned on, it should not affect c
     $ kubectl create ns legacy
     $ kubectl apply -f samples/sleep/sleep.yaml -n legacy
     ```
-Wait after the pod status change to `Running`, issue the familiar `curl` command. Request should fail as the pod doesn't have sidecar to help initiating TLS communication.
+Wait after the pod status changes to `Running`, issue the familiar `curl` command. The request should fail as the pod doesn't have a sidecar to help initiate TLS communication.
     ```command
     kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name} -n legacy) -c sleep -n legacy -- curl httpbin.default:8000/headers -o /dev/null -s -w '%{http_code}\n'
     000

@@ -16,7 +16,7 @@ Through this task, you will learn how to:
 
 * Understand Istio [authentication policy](/docs/concepts/security/authn-policy/) and related [mutual TLS authentication](/docs/concepts/security/mutual-tls/) concepts.
 
-* Have a Kubernetes cluster with Istio installed, without global mTLS enabled (e.g use `install/kubernetes/istio-demo.yaml` as described in [installation steps]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps), or set `global.mtls.enabled` to false using [Helm]({{home}}/docs/setup/kubernetes/helm-install.html)).
+* Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (e.g use `install/kubernetes/istio-demo.yaml` as described in [installation steps]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps), or set `global.mtls.enabled` to false using [Helm]({{home}}/docs/setup/kubernetes/helm-install.html)).
 
 *   For demo, create two namespaces `foo` and `bar`, and deploy [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) and [sleep](https://github.com/istio/istio/tree/master/samples/sleep) with sidecar on both of them. Also, run another sleep app without sidecar (to keep it separate, run it in `legacy` namespace)
 
@@ -60,7 +60,7 @@ Through this task, you will learn how to:
     No resources found.
     ```
 
-## Enable mTLS for all services in namespace `foo`
+## Enable mutual TLS for all services in namespace `foo`
 
 Run this command to set namespace-level policy for namespace `foo`.
 
@@ -85,7 +85,7 @@ NAME          AGE
 enable-mtls   1m
 ```
 
-Add this destination rule to config client side to use mTLS:
+Add this destination rule to configure client side to use mutual TLS:
 
 ```bash
 cat <<EOF | istioctl create -f -
@@ -107,7 +107,7 @@ EOF
 * `*.foo.svc.local.cluster` matches all services in namespace `foo`.
 * With `ISTIO_MUTUAL` TLS mode, Istio will set the path for key and certificates (e.g `clientCertificate`, `privateKey` and `caCertificates`) according to its internal implementation.
 
-Run the same testing command above. We should see request from `sleep.legacy` to `httpbin.foo` start to fail, as the result of enabling mTLS for `httpbin.foo` but `sleep.legacy` doesn't have sidecar to support it. On the other hand, for clients with sidecar (`sleep.foo` and `sleep.bar`), Istio automatically configures them to using mTLS where talking to `http.foo`, so they continue to work. Also, requests to `httpbin.bar` are not affected as the policy is effective on the `foo` namespace only.
+Run the same testing command above. We should see request from `sleep.legacy` to `httpbin.foo` start to fail, as the result of enabling mutual TLS for `httpbin.foo` but `sleep.legacy` doesn't have sidecar to support it. On the other hand, for clients with sidecar (`sleep.foo` and `sleep.bar`), Istio automatically configures them to using mTLS where talking to `http.foo`, so they continue to work. Also, requests to `httpbin.bar` are not affected as the policy is effective on the `foo` namespace only.
 
 ```command
 $ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
@@ -120,9 +120,9 @@ command terminated with exit code 56
 sleep.legacy to httpbin.bar: 200
 ```
 
-> If destination rule above is not created, all requests to `httpbin.foo` will fail as client side are not configured correctly to switch to use mTLS.
+> If destination rule above is not created, all requests to `httpbin.foo` will fail as client side are not configured correctly to switch to use mutual TLS.
 
-## Enable mTLS for single service `httpbin.bar`
+## Enable mutual TLS for single service `httpbin.bar`
 
 Run this command to set another policy only for `httpbin.bar` service. Note in this example, we do **not** specify namespace in metadata but put it in the command line (`-n bar`). They should work the same.
 
@@ -210,7 +210,7 @@ $ kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..met
 
 ## Having both namespace-level and service-level policies
 
-Assuming we already added the namespace-level policy that enables mTLS for all services in namespace `foo` and observe that request from `sleep.legacy` to `httpbin.foo` are failing (see above). Now add another policy that disables mTLS (peers section is empty) specifically for the `httpbin` service:
+Assuming we already added the namespace-level policy that enables mutual TLS for all services in namespace `foo` and observe that request from `sleep.legacy` to `httpbin.foo` are failing (see above). Now add another policy that disables mutual TLS (peers section is empty) specifically for the `httpbin` service:
 
 ```bash
 cat <<EOF | istioctl create -n foo -f -
@@ -339,4 +339,4 @@ You may want to try to modify token or policy (e.g change issuer, audiences, exp
 
 ## What's next
 
-* Learn more about verifying mTLS setup [testing Istio mutual TLS authentication]({{home}}/docs/tasks/security/mutual-tls.html)
+* Learn more about verifying mutual TLS setup [testing Istio mutual TLS authentication]({{home}}/docs/tasks/security/mutual-tls.html)

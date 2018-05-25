@@ -6,8 +6,8 @@ weight: 30
 
 Starting with Istio 0.8, you can use [authentication policy]({{home}}/docs/concepts/security/authn-policy.html) to enable (or disable) mTLS per service. For example, the policy below will disable mTLS on port 9080 for service `details`
 
-```command
-$ cat <<EOF | istioctl create -f -
+```bash
+cat <<EOF | istioctl create -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
@@ -21,7 +21,7 @@ spec:
 EOF
 ```
 
-For older version of Istio (but newer than 0.3), you can use service-level annotations to disable (or enable) Istio Auth for particular service-port.
+For older versions of Istio (but newer than 0.3), you can use service-level annotations to disable (or enable) Istio Auth for a particular service and port pair.
 The annotation key should be `auth.istio.io/{port_number}`, and the value should be `NONE` (to disable), or `MUTUAL_TLS` (to enable).
 
   Example: disable Istio Auth on port 9080 for service `details`.
