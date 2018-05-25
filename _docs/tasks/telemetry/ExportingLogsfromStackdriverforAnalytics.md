@@ -17,8 +17,7 @@ Config proto for stackdriver can be found [here](https://github.com/istio/istio/
 Handler is configured based on this proto.
 
 *Few key points*:
-Add a handler of kind stackdriver
-1. Ex:
+1. Add a handler of kind stackdriver
    ```
    apiVersion: "config.istio.io/v1alpha2"
    kind: stackdriver
@@ -41,7 +40,7 @@ Add a handler of kind stackdriver
             destination: '<sink_destination>'
             filter: '<log_filter>'
     ```
-In the above configuration sinkInfo contains information about the sink where you want the logs to get exported to. For more information on how this gets filled for different sinks please refer here.
+    In the above configuration sinkInfo contains information about the sink where you want the logs to get exported to. For  more information on how this gets filled for different sinks please refer here.
 1. Add a rule for stackdriver 
    ```
    apiVersion: "config.istio.io/v1alpha2"
