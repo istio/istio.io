@@ -127,20 +127,20 @@ See the Kubernetes [quick start]({{home}}/docs/setup/kubernetes/quick-start.html
 
 Note that unlike manual injection, automatic injection occurs at the pod-level. You won't see any change to the deployment itself. Instead you'll want to check individual pods (via `kubectl describe`) to see the injected proxy.
 
-#### Installing the webhook
+#### Disabling or updating the webhook
 
-To enable the sidecar injection webhook, you can use [Helm]({{home}}/docs/setup/kubernetes/helm-install.html)
-to generate an updated istio.yaml with the option sidecar-injector.enabled set to true. E.g.
+The sidecar injecting webhook is enabled by default. If you wish to disable the webhook, you can
+use [Helm]({{home}}/docs/setup/kubernetes/helm-install.html) to generate an updated istio.yaml
+with the option `sidecarInjectorWebhook.enabled` set to `false`. E.g.
 
 ```command
-$ helm template --namespace=istio-system --set sidecar-injector.enabled=true install/kubernetes/helm/istio > istio.yaml
+$ helm template --namespace=istio-system --set sidecarInjectorWebhook.enabled=false install/kubernetes/helm/istio > istio.yaml
 $ kubectl create ns istio-system
 $ kubectl apply -f istio.yaml
 ```
 
-In addition, there are some other configuration parameters defined for sidecar
-injector webhook service in `values.yaml`. You can override the default
-values to customize the installation.
+In addition, there are some other configuration parameters defined for the sidecar injector webhook
+service in `values.yaml`. You can override the default values to customize the installation.
 
 #### Deploying an app
 
