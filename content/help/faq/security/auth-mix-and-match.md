@@ -2,6 +2,8 @@
 title: Can I enable Istio Auth with some services while disable others in the same cluster?
 weight: 30
 ---
+{% include home.html %}
+
 Starting with Istio 0.8, you can use [authentication policy]({{home}}/docs/concepts/security/authn-policy.html) to enable (or disable) mTLS per service. For example, the policy below will disable mTLS on port 9080 for service `details`
 
 ```command
