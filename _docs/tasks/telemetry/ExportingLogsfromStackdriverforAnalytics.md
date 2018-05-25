@@ -8,7 +8,7 @@ A user can do analytics on data through Istio using logs flowing from Istio to S
 Istio exports logs through logentry template configured for mixer as [accesslog entry](https://github.com/istio/istio/blob/master/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml#L134:9).
 This specifies all the variables that would be available for analysis. It contains information like source service, destination service, auth metrics(coming..) among others.
 Following is a diagram of the pipeline:
-
+<img src="Istio Analytics using StackDriver.png">
 
 
 Istio supports exporting logs to stackdriver which can be extended to export logs to your favorite sink like BigQuery, PubSub or GCS.
@@ -19,12 +19,15 @@ Handler is configured based on this proto.
 *Few key points*:
 Add a handler of kind stackdriver
 1. Ex:
+   ```
    apiVersion: "config.istio.io/v1alpha2"
    kind: stackdriver
    metadata:
      name: handler
      namespace: <your defined namespace>
+   ```
 1. Add logInfo in spec:
+   ```
    spec:
      logInfo:
        accesslog.logentry.istio-system:
@@ -37,8 +40,10 @@ Add a handler of kind stackdriver
             id: '<sink_id>'
             destination: '<sink_destination>'
             filter: '<log_filter>'
+    ```
 In the above configuration sinkInfo contains information about the sink where you want the logs to get exported to. For more information on how this gets filled for different sinks please refer here.
 1. Add a rule for stackdriver 
+   ```
    apiVersion: "config.istio.io/v1alpha2"
      kind: rule
      metadata:
@@ -50,7 +55,7 @@ In the above configuration sinkInfo contains information about the sink where yo
          - handler: handler.stackdriver
            instances:
            - accesslog.logentry
-
+     ```
 Once you configure this stackdriver handler in your istio system, you will see logs flowing to stackdriver and subsequently to the sink you configured.
 
 ## Setting up Various Log Sinks
