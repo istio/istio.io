@@ -96,7 +96,7 @@ Below is our list of existing features and their current phases. This informatio
 | Mixer Telemetry Collection (Tracing, Logging, Monitoring) | Alpha
 | [Custom Mixer Build Model](https://github.com/istio/istio/wiki/Mixer-Adapter-Dev-Guide) | Alpha
 | Enable API attributes using an IDL | Alpha
-| [Helm]({{home}}/docs/setup/kubernetes/helm-install.html) | Alpha
+| [Helm]({{home}}/docs/setup/kubernetes/helm-install.html) | Beta
 | [Multicluster Mesh]({{home}}/docs/setup/kubernetes/multicluster-install.html) | Alpha
 
 > <img src="{{home}}/img/bulb.svg" alt="Bulb" title="Help" style="width: 32px; display:inline" />
