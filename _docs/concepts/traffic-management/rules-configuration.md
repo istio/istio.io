@@ -721,7 +721,7 @@ spec:
     ...
 ```
 
-See the [ingress task]({{home}}/docs/tasks/traffic-management/egress.html) for a
+See the [ingress task]({{home}}/docs/tasks/traffic-management/ingress.html) for a
 complete ingress gateway example.
 
 Although primarily used to manage ingress traffic, a `Gateway` can also be used to model
