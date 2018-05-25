@@ -35,7 +35,7 @@ You should customize it based on your provisioning tools and DNS requirements.
 ### Preparing the Kubernetes cluster for expansion
 
 *   Setup Internal Load Balancers (ILBs) for Kube DNS, Pilot, Mixer and Citadel. This step is specific to
-each cloud provider, so you may need to edit annotations. You can use an ILB based on keeplived at
+each cloud provider, so you may need to edit annotations. You can use an ILB based on keepalived at
 [here](https://github.com/gyliu513/work/tree/master/k8s/charts/keepalived) for test.
 
     ```command
