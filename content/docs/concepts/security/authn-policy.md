@@ -41,9 +41,9 @@ Origin principal (principal from origin authentication) is not explicitly output
 
 ### Target selectors
 
-Defines rule to find service(s) on which policy should be applied. If no rule is provided, the policy is matched to all services in the namespace, so-called namespace-level policy (as opposed to service-level policies which have non-empty selector rules). Istio uses the service-level policy if available, otherwise it falls back to namespace-level policy. If neither is defined, it uses the default policy based on service mesh config and/or service annotation, which can only set mutual TLS setting (these are mechanisms before Istio 0.7 to config mutual TLS for Istio service mesh). See [testing Istio mutual TLS]({{home}}/docs/tasks/security/mutual-tls.html).
+Defines rule to find service(s) on which policy should be applied. If no rule is provided, the policy is matched to all services in the same namespace of the policy, so-called namespace-level policy (as opposed to service-level policies which have non-empty selector rules). Istio uses the service-level policy if available, otherwise it falls back to namespace-level policy. If neither is defined, it uses the default policy based on service mesh config and/or service annotation, which can only set mutual TLS setting (these are mechanisms before Istio 0.7 to config mutual TLS for Istio service mesh). See [testing Istio mutual TLS]({{home}}/docs/tasks/security/mutual-tls.html).
 
-> Starting 0.8, authentication policy is a recommended way to enable/disable mTLS per service. Option to use service annotation will be removed in future release.
+> Starting from 0.8, authentication policy is the recommended way to enable/disable mTLS per service. Option to use service annotation will be removed in future release.
 
 Operators are responsible for avoiding conflicts, e.g create more than one service-level policy that matches to the same service(s) (or more than one namespace-level policy on the same namespace).
 

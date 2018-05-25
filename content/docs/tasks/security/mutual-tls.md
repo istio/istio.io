@@ -59,7 +59,7 @@ Citadel is up if the "AVAILABLE" column is 1.
     $ kubectl get policies.authentication.istio.io -n default -o yaml
     ```
 
-* Check destination rule. Starting Istio 0.8, destination rule (to be precise, the traffic policy part of destination rule) is used to configure client side to use (or not use) mTLS. For backward compatibility, the _default_ traffic policy is inferred from configmap flag (i.e, if `authPolicy: MUTUAL_TLS`, _default_ traffic policy also be `MUTUAL_TLS`). If there is authentication policy overrules this setting for some services, it should accompany with the appropriate destination rule(s). Similar to authentication policy, the only way to verify the settings is to manually check all rules:
+* Check destination rule. Starting Istio 0.8, destination rule's [traffic policy]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#TrafficPolicy) is used to configure client side to use (or not use) mTLS. For backward compatibility, the _default_ traffic policy is inferred from configmap flag (i.e, if `authPolicy: MUTUAL_TLS`, _default_ traffic policy also be `MUTUAL_TLS`). If there is authentication policy overrules this setting for some services, it should accompany with the appropriate destination rule(s). Similar to authentication policy, the only way to verify the settings is to manually check all rules:
 
     ```command
     $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml
