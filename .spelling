@@ -55,6 +55,7 @@ Datawire
 DestinationRule
 EgressRule
 Elasticsearch
+emojis
 ExecAction
 Exfiltrating
 ExternalName

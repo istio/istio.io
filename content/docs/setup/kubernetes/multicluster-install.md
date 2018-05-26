@@ -30,7 +30,7 @@ has been validated with multicluster.
 
 ## Caveats and known problems
 
-<img src="/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" />
+{{< warning_icon >}}
 All known caveats and known problems with multicluster for the 0.8 release are [tracked here](https://github.com/istio/istio/issues/4822).
 
 ## Overview

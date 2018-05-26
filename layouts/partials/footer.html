@@ -54,7 +54,7 @@
                 {{ if .Site.Data.args.archive }}
                     Archived on {{ .Site.Data.args.archive_date.Format "January 2, 2006"}}
                 {{ else }}
-                    Built on {{ now.Format "January 2, 2006" }}
+                    This page was last modified on {{ .Page.Lastmod.Format "January 2, 2006" }}
                 {{ end }}
             </p>
         </div>

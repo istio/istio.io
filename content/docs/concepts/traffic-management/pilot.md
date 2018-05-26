@@ -2,7 +2,6 @@
 title: Pilot
 description: Introduces Pilot, the component responsible for managing a distributed deployment of Envoy proxies in the service mesh.
 weight: 10
-toc: false
 aliases:
     - /docs/concepts/traffic-management/manager.html
 ---

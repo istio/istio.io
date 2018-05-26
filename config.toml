@@ -9,6 +9,8 @@ pluralizeListTitles = false
 canonifyURLs = false
 disableKinds = ["taxonomy", "taxonomyTerm"]
 anchor = "smart"
+enableGitInfo = true
+enableEmoji = true
 
 # MARKDOWN
 ## Configuration for BlackFriday markdown parser: https://github.com/russross/blackfriday
