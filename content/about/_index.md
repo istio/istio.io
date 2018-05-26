@@ -1,10 +1,7 @@
 ---
 title: About Istio
 description: All about Istio.
-
 weight: 15
-
-toc: false
 ---
 
 Get a bit more in-depth info about the Istio project.
