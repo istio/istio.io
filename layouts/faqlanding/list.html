@@ -1,0 +1,32 @@
+{{ define "main" }}
+
+{{ partial "primary-top.html" . }}
+
+{{ .Content }}
+
+<div class="faq">
+    <div class="row">
+        {{ range .Data.Pages.ByWeight }}
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        {{ .Title }}
+                    </div>
+
+                    <div class="card-body">
+                        {{ $questions := .Resources.ByType "page" }}
+                        {{ $sorted_questions := sort $questions ".Params.weight" }}
+                        {{ $url := .URL }}
+                        {{ range $q := $sorted_questions }}
+                            <a href="{{ $url }}#{{ $q.File.BaseFileName | urlize }}">{{ $q.Title }}</a><br/>
+                        {{ end }}
+                    </div>
+                </div>
+            </div>
+        {{ end }}
+    </div>
+</div>
+
+{{ partial "primary-bottom.html" . }}
+
+{{ end }}

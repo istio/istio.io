@@ -1,0 +1,112 @@
+<footer class="d-print-none container-fluid">
+    <div class="row">
+        <div class="col-6 col-lg-4" role="navigation">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="icon">
+                        <span>istio-users@</span>
+                        <a title="Join the istio-users@ mailing list to participate in discussions and get help troubleshooting problems"
+                           href="https://groups.google.com/forum/#!forum/istio-users" aria-label="istio-users mailing list">
+                            {{ partial "icons/mailing-list.svg" }}
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>twitter</span>
+                        <a title="Follow us on Twitter to get the latest news"
+                           href="https://twitter.com/IstioMesh" aria-label="Twitter">
+                            {{ partial "icons/twitter.svg" }}
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>stack overflow</span>
+                        <a title="Stack Overflow is where you can ask questions and find curated answers on deploying, configuring, and using Istio"
+                           href="https://stackoverflow.com/questions/tagged/istio" aria-label="Stack Overflow">
+                            {{ partial "icons/stackoverflow.svg" }}
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>rocket chat</span>
+                        <a title="Interactively chat with members of the Istio community."
+                           href="https://istio.rocket.chat" aria-label="Rocket Chat">
+                            {{ partial "icons/rocket-chat.svg" }}
+                        </a>
+                    </div>
+                </div>
+
+                <div class="tag row d-none d-lg-flex">
+                    for users
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6 col-lg-4">
+            <p class="text-center copyright" role="contentinfo">
+                Istio
+                {{ if .Site.Data.args.archive }}
+                    Archive
+                {{ else if .Site.Data.args.preliminary }}
+                    Preliminary
+                {{ end }}
+                {{ .Site.Data.args.version }}<br>&copy; 2018 Istio Authors, <a href="https://policies.google.com/privacy">Privacy Policy</a><br>
+                {{ if .Site.Data.args.archive }}
+                    Archived on {{ .Site.Data.args.archive_date.Format "January 2, 2006"}}
+                {{ else }}
+                    Built on {{ now.Format "January 2, 2006" }}
+                {{ end }}
+            </p>
+        </div>
+
+        <div class="col-6 col-lg-4 d-none d-lg-flex" role="navigation">
+            <div class="container-fluid">
+                <div class="row justify-content-end">
+                    <div class="icon">
+                        <span>istio-dev@</span>
+                        <a title="Join the istio-dev@ mailing list to discuss development issues around the Istio project"
+                           href="https://groups.google.com/forum/#!forum/istio-dev" aria-label="istio-dev mailing list">
+                            {{ partial "icons/mailing-list.svg" }}
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>github</span>
+                        <a title="GitHub is where development takes place on Istio code"
+                           href="https://github.com/istio/community" aria-label="GitHub">
+                            {{ partial "icons/github.svg" }}
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>drive</span>
+                        <a title="Access our team drive if you'd like to take a look at the Istio technical design documents"
+                            href="https://groups.google.com/forum/#!forum/istio-team-drive-access" aria-label="team drive">
+                            {{ partial "icons/drive.svg" }}
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>working groups</span>
+                        <a title="If you'd like to contribute to the Istio project, consider participating in our working groups"
+                           href="https://github.com/istio/community/blob/master/WORKING-GROUPS.md" aria-label="working groups">
+                            {{ partial "icons/working-groups.svg" }}
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>slack</span>
+                        <a title="Interactively discuss development issues with the Istio community on Slack (invitation-only)"
+                                href="https://istio.slack.com" aria-label="slack">
+                            {{ partial "icons/slack.svg" }}
+                        </a>
+                    </div>
+                </div>
+
+                <div class="tag row justify-content-end text-right">
+                    for developers
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
