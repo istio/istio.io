@@ -2,6 +2,7 @@
 title: Quick Start on Docker
 description: Quick Start instructions to setup the Istio service mesh with Docker Compose.
 weight: 10
+keywords: [eureka]
 ---
 
 Quick Start instructions to install and configure Istio in a Docker Compose setup.

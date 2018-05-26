@@ -2,6 +2,7 @@
 title: Role-Based Access Control
 description: Shows how to set up role-based access control for services in Istio mesh.
 weight: 40
+keywords: [security,access-control,rbac]
 ---
 
 This task shows how to set up role-based access control (RBAC) for services in Istio mesh. You can read more about Istio

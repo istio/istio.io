@@ -2,6 +2,7 @@
 title: Querying Metrics from Prometheus
 description: This task shows you how to query for Istio Metrics using Prometheus.
 weight: 30
+keywords: [telemetry,metrics]
 ---
 
 This task shows you how to query for Istio Metrics using Prometheus. As part of

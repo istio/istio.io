@@ -2,6 +2,7 @@
 title: Overview
 description: Describes the design of the policy and telemetry mechanisms.
 weight: 5
+keywords: [policies,telemetry,control]
 aliases:
     - /docs/concepts/policy-and-control/mixer.html
 ---

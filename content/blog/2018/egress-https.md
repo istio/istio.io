@@ -5,6 +5,7 @@ publishdate: 2018-01-31
 subtitle: Egress Rules for HTTPS traffic
 attribution: Vadim Eisenberg
 weight: 93
+keywords: [traffic-management,egress,https]
 ---
 
 In many cases, not all the parts of a microservices-based application reside in a _service mesh_. Sometimes, the microservices-based applications use functionality provided by legacy systems that reside outside the mesh. We may want to migrate these systems to the service mesh gradually. Until these systems are migrated, they must be accessed by the applications inside the mesh. In other cases, the applications use web services provided by external organizations, often over the World Wide Web.
