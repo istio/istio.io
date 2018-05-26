@@ -19,7 +19,7 @@ see the Istio [contribution guidelines](https://github.com/istio/community/blob/
 ## Editing and testing content
 
 We use [Hugo](https://gohugo.io/) to generate our sites. To build and test the site locally,
-install Hugo, go to the root of the repo and do:
+install Hugo, go to the root of the repo and run:
 
 ```bash
 $ hugo serve
