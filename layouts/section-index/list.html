@@ -1,0 +1,15 @@
+{{ define "main" }}
+
+{{ partial "primary-top.html" . }}
+
+<p>{{ .Description }}</p>
+
+<div class="section-index">
+    {{ $pages := (where .Site.AllPages "Section" .Section).ByWeight }}
+    {{ partial "section-index-level.html" (dict "pages" $pages "parent" . ) }}
+</div>
+
+{{ .Content }}
+
+{{ partial "primary-bottom.html" . }}
+{{ end }}
