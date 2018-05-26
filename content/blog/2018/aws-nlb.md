@@ -9,13 +9,13 @@ weight: 89
 
 This post provides instructions to use and configure ingress Istio with [AWS Network Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html).
 
-Network load balancer (NLB) could be used instead of classical load balancer. You can find [comparison](https://aws.amazon.com/elasticloadbalancing/details/#compare) between different AWS `loadbalancer` for more explanation.
+Network load balancer (NLB) could be used instead of classical load balancer. You can see the [comparison](https://aws.amazon.com/elasticloadbalancing/details/#compare) between different AWS `loadbalancer` for more explanation.
 
 ## Prerequisites
 
 The following instructions require a Kubernetes **1.9.0 or newer** cluster.
 
-<img src="/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" />  Usage of AWS `nlb` on kubernetes is an alpha feature and not recommended for production clusters.
+{{< warning_icon >}} Usage of AWS `nlb` on kubernetes is an alpha feature and not recommended for production clusters.
 
 ## IAM Policy
 

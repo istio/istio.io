@@ -98,5 +98,5 @@ Below is our list of existing features and their current phases. This informatio
 | [Helm](/docs/setup/kubernetes/helm-install/) | Alpha
 | [Multicluster Mesh](/docs/setup/kubernetes/multicluster-install/) | Alpha
 
-> <img src="/img/bulb.svg" alt="Bulb" title="Help" style="width: 32px; display:inline" />
+> {{< idea_icon >}}
 Please get in touch by joining our [community](/community/) if there are features you'd like to see in our future releases!

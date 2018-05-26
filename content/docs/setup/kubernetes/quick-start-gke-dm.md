@@ -17,7 +17,7 @@ application.  It uses Deployment Manager to automate the steps detailed in the [
 
 - You must install and configure the [gcloud command line tool](https://cloud.google.com/sdk/docs/) and include the `kubectl` component (`gcloud components install kubectl`).  If you don't want to install the `gcloud` client on your own machine, you can use `gcloud` via [Google Cloud Shell](https://cloud.google.com/shell/docs/) to perform the same tasks.
 
--   <img src="/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 32px; display:inline" /> You must set your default compute service account to include:
+- {{< warning_icon >}} You must set your default compute service account to include:
 
     - ```roles/container.admin```  (Kubernetes Engine Admin)
     - ```Editor```  (on by default)
