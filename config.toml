@@ -1,0 +1,25 @@
+defaultContentLanguage = "en"
+languageCode = "en-us"
+metaDataFormat = "yaml"
+title = "Istio"
+uglyURLs = false
+enableRobotsTXT = true
+googleAnalytics = "UA-98480406-1"
+pluralizeListTitles = false
+canonifyURLs = false
+disableKinds = ["taxonomy", "taxonomyTerm"]
+anchor = "smart"
+
+# MARKDOWN
+## Configuration for BlackFriday markdown parser: https://github.com/russross/blackfriday
+[blackfriday]
+	plainIDAnchors = true
+    # See https://github.com/gohugoio/hugo/issues/2424
+	hrefTargetBlank = false
+    angledQuotes = false
+    latexDashes = true
+    extensions = [""]
+
+[outputs]
+  home = ["HTML"]
+  section = ["HTML"]
