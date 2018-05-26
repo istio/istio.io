@@ -8,7 +8,6 @@ aliases:
   - /release-notes
   - /docs/welcome/notes/index.html
   - /docs/references/notes
-toc: false
 ---
 
 The latest Istio snapshot release is {{< istio_version >}} ([release notes](/about/notes/{{< istio_version >}}/)). You can

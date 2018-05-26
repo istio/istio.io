@@ -148,6 +148,20 @@ default to `title` or if that's not defined, to `caption`.
 `width` represents the percentage of space used by the image
 relative to the surrounding text. `ratio` (image height / image width) * 100.
 
+## Adding icons & emojis
+
+You can embed some common icons in your content using:
+
+```markdown
+{{</* warning_icon */>}}
+{{</* idea_icon */>}}
+```
+
+which look like {{< warning_icon >}} and {{< idea_icon >}}
+
+In addition, you can embed an emoji in your content using a sequence such as <code>:</code><code>sailboat</code><code>:</code>
+which looks like :sailboat:. Here's a handy [cheat sheet of the supported emojis](https://www.webpagefx.com/tools/emoji-cheat-sheet/).
+
 ## Linking to other pages
 
 There are three types of links that can be included in documentation. Each uses a different

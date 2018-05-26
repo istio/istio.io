@@ -1,5 +1,5 @@
 ---
-title: Collecting Metrics for TCP services\
+title: Collecting Metrics for TCP services
 description: This task shows you how to configure Istio to collect metrics for TCP services.
 weight: 25
 ---

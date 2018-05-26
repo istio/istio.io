@@ -6,5 +6,4 @@ type: section-index
 aliases:
     - /docs/tasks/installing-istio.html
     - /docs/setup/install-kubernetes.html
-toc: false
 ---
