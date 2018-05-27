@@ -297,8 +297,8 @@ More on viewing Mixer configuration can be found [here](/help/faq/mixer/#mixer-s
 
 ### Verify Prometheus configuration
 
-1.  Connect to the Prometheus UI and verify that it can successfully
-    scrape Mixer.
+1. Connect to the Prometheus UI and verify that it can successfully
+scrape Mixer.
 
     In Kubernetes environments, setup port-forwarding as follows:
 
@@ -306,23 +306,19 @@ More on viewing Mixer configuration can be found [here](/help/faq/mixer/#mixer-s
     $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
     ```
 
-1.  Visit [http://localhost:9090/config](http://localhost:9090/config).
+1. Visit [http://localhost:9090/targets](http://localhost:9090/targets) and confirm that the target `istio-mesh` has a status of **UP**.
 
-    Confirm that an entry exists that looks like:
+1. Visit [http://localhost:9090/config](http://localhost:9090/config) and confirm that an entry exists that looks like:
 
-    ```yaml
-    - job_name: 'istio-mesh'
-      # Override the global default and scrape targets from this job every 5 seconds.
-      scrape_interval: 5s
-      # metrics_path defaults to '/metrics'
-      # scheme defaults to 'http'.
-      static_configs:
-      - targets: ['istio-mixer.istio-system:42422']
-    ```
-
-1.  Visit [http://localhost:9090/targets](http://localhost:9090/targets).
-
-    Confirm that target `istio-mesh` has a status of **UP**.
+```yaml
+- job_name: 'istio-mesh'
+  # Override the global default and scrape targets from this job every 5 seconds.
+  scrape_interval: 5s
+  # metrics_path defaults to '/metrics'
+  # scheme defaults to 'http'.
+  static_configs:
+  - targets: ['istio-mixer.istio-system:42422']
+```
 
 ## How can I debug issues with the service mesh?
 
