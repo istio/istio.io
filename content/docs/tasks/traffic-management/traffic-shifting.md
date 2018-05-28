@@ -43,26 +43,26 @@ two steps: 50%, 100%.
     Confirm the rule was replaced:
 
     ```command-output-as-yaml
-    $ istioctl get virtualservice reviews -o yaml
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: reviews
-      ...
-    spec:
-      hosts:
-      - reviews
-      http:
-      - route:
-        - destination:
-            host: reviews
-            subset: v1
-          weight: 50
-      - route:
-        - destination:
-            host: reviews
-            subset: v3
-          weight: 50
+        $ istioctl get virtualservice reviews -o yaml
+        apiVersion: networking.istio.io/v1alpha3
+        kind: VirtualService
+        metadata:
+          name: reviews
+          ...
+        spec:
+          hosts:
+          - reviews
+          http:
+          - route:
+            - destination:
+                host: reviews
+                subset: v1
+              weight: 50
+          - route:
+            - destination:
+                host: reviews
+                subset: v3
+              weight: 50
     ```
 
 1.  Refresh the `productpage` in your browser and you should now see *red* colored star ratings approximately 50% of the time.

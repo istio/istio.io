@@ -310,15 +310,15 @@ scrape Mixer.
 
 1. Visit [http://localhost:9090/config](http://localhost:9090/config) and confirm that an entry exists that looks like:
 
-```yaml
-- job_name: 'istio-mesh'
-  # Override the global default and scrape targets from this job every 5 seconds.
-  scrape_interval: 5s
-  # metrics_path defaults to '/metrics'
-  # scheme defaults to 'http'.
-  static_configs:
-  - targets: ['istio-mixer.istio-system:42422']
-```
+    ```yaml
+        - job_name: 'istio-mesh'
+          # Override the global default and scrape targets from this job every 5 seconds.
+          scrape_interval: 5s
+          # metrics_path defaults to '/metrics'
+          # scheme defaults to 'http'.
+          static_configs:
+          - targets: ['istio-mixer.istio-system:42422']
+    ```
 
 ## How can I debug issues with the service mesh?
 
