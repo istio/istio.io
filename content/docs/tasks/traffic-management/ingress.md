@@ -115,49 +115,49 @@ In the following subsections we configure a `Gateway` on port 80 for unencrypted
 1.  Create an Istio `Gateway`
 
     ```bash
-    cat <<EOF | istioctl create -f -
-    apiVersion: networking.istio.io/v1alpha3
-    kind: Gateway
-    metadata:
-      name: httpbin-gateway
-    spec:
-      selector:
-        istio: ingressgateway # use Istio default gateway implementation
-      servers:
-      - port:
-          number: 80
-          name: http
-          protocol: HTTP
-        hosts:
-        - "httpbin.example.com"
-    EOF
+        cat <<EOF | istioctl create -f -
+        apiVersion: networking.istio.io/v1alpha3
+        kind: Gateway
+        metadata:
+          name: httpbin-gateway
+        spec:
+          selector:
+            istio: ingressgateway # use Istio default gateway implementation
+          servers:
+          - port:
+              number: 80
+              name: http
+              protocol: HTTP
+            hosts:
+            - "httpbin.example.com"
+        EOF
     ```
 
 1.  Configure routes for traffic entering via the `Gateway`
 
     ```bash
-    cat <<EOF | istioctl create -f -
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: httpbin
-    spec:
-      hosts:
-      - "httpbin.example.com"
-      gateways:
-      - httpbin-gateway
-      http:
-      - match:
-        - uri:
-            prefix: /status
-        - uri:
-            prefix: /delay
-        route:
-        - destination:
-            port:
-              number: 8000
-            host: httpbin
-    EOF
+        cat <<EOF | istioctl create -f -
+        apiVersion: networking.istio.io/v1alpha3
+        kind: VirtualService
+        metadata:
+          name: httpbin
+        spec:
+          hosts:
+          - "httpbin.example.com"
+          gateways:
+          - httpbin-gateway
+          http:
+          - match:
+            - uri:
+                prefix: /status
+            - uri:
+                prefix: /delay
+            route:
+            - destination:
+                port:
+                  number: 8000
+                host: httpbin
+        EOF
     ```
 
     Here we've created a [virtual service](/docs/reference/config/istio.networking.v1alpha3/#VirtualService)
@@ -223,32 +223,32 @@ In this subsection we add to our gateway the port 443 to handle the HTTPS traffi
    > The location of the certificate and the private key MUST be `/etc/istio/ingressgateway-certs`, or the gateway will fail to load them.
 
    ```bash
-   cat <<EOF | istioctl replace -f -
-   apiVersion: networking.istio.io/v1alpha3
-   kind: Gateway
-   metadata:
-     name: httpbin-gateway
-   spec:
-     selector:
-       istio: ingressgateway # use istio default ingress gateway
-     servers:
-     - port:
-         number: 80
-         name: http
-         protocol: HTTP
-       hosts:
-       - "httpbin.example.com"
-     - port:
-         number: 443
-         name: https
-         protocol: HTTPS
-       tls:
-         mode: SIMPLE
-         serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
-         privateKey: /etc/istio/ingressgateway-certs/tls.key
-       hosts:
-       - "httpbin.example.com"
-   EOF
+       cat <<EOF | istioctl replace -f -
+       apiVersion: networking.istio.io/v1alpha3
+       kind: Gateway
+       metadata:
+         name: httpbin-gateway
+       spec:
+         selector:
+           istio: ingressgateway # use istio default ingress gateway
+         servers:
+         - port:
+             number: 80
+             name: http
+             protocol: HTTP
+           hosts:
+           - "httpbin.example.com"
+         - port:
+             number: 443
+             name: https
+             protocol: HTTPS
+           tls:
+             mode: SIMPLE
+             serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+             privateKey: /etc/istio/ingressgateway-certs/tls.key
+           hosts:
+           - "httpbin.example.com"
+       EOF
    ```
 
 ### Verifying the gateway for HTTPS
@@ -278,26 +278,26 @@ If we want to only allow HTTPS traffic into our service mesh, we can remove the 
 1.  Redefine the `Gateway` without the HTTP port:
 
     ```bash
-    cat <<EOF | istioctl replace -f -
-    apiVersion: networking.istio.io/v1alpha3
-    kind: Gateway
-    metadata:
-      name: httpbin-gateway
-    spec:
-      selector:
-        istio: ingressgateway # use istio default ingress gateway
-      servers:
-      - port:
-          number: 443
-          name: https
-          protocol: HTTPS
-        tls:
-          mode: SIMPLE
-          serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
-          privateKey: /etc/istio/ingressgateway-certs/tls.key
-        hosts:
-        - "httpbin.example.com"
-    EOF
+        cat <<EOF | istioctl replace -f -
+        apiVersion: networking.istio.io/v1alpha3
+        kind: Gateway
+        metadata:
+          name: httpbin-gateway
+        spec:
+          selector:
+            istio: ingressgateway # use istio default ingress gateway
+          servers:
+          - port:
+              number: 443
+              name: https
+              protocol: HTTPS
+            tls:
+              mode: SIMPLE
+              serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+              privateKey: /etc/istio/ingressgateway-certs/tls.key
+            hosts:
+            - "httpbin.example.com"
+        EOF
     ```
 
 1.  Access the HTTP port and verify that it is not accessible (an error is returned):

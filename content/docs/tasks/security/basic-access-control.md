@@ -134,16 +134,16 @@ Save the following YAML snippet as `appversion-instance.yaml`:
 Save the following YAML snippet as `checkversion-rule.yaml`:
 
     ```yaml
-    apiVersion: config.istio.io/v1alpha2
-    kind: rule
-    metadata:
-      name: checkversion
-    spec:
-      match: destination.labels["app"] == "ratings"
-      actions:
-      - handler: whitelist.listchecker
-        instances:
-        - appversion.listentry
+        apiVersion: config.istio.io/v1alpha2
+        kind: rule
+        metadata:
+          name: checkversion
+        spec:
+          match: destination.labels["app"] == "ratings"
+          actions:
+          - handler: whitelist.listchecker
+            instances:
+            - appversion.listentry
     ```
 
     and then run the following command:
