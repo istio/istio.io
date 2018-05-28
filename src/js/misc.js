@@ -113,6 +113,26 @@ function handleDOMLoaded() {
     // HTML, but alas our current toolchain won't allow that in a clean/simple
     // way.
     function patchDOM() {
+
+        // To compensate for https://github.com/gohugoio/hugo/issues/4785, certain code blocks are
+        // indented in markdown by four spaces. This removes these four spaces so that the visuals
+        // are correct.
+        function compensateForHugoBug() {
+            var code = document.getElementsByTagName('CODE');
+            for (var i = 0; i < code.length; i++) {
+                var text = code[i].innerText;
+                var lines = text.split("\n");
+                if ((lines.length > 0) && lines[0].startsWith("    ")) {
+                    for (var j = 0; j < lines.length; j++) {
+                        if (lines[j].startsWith("    ")) {
+                            lines[j] = lines[j].slice(4);
+                        }
+                    }
+                    code[i].innerText = lines.join('\n');
+                }
+            }
+        }
+
         // Add a Copy button to all PRE blocks
         function attachCopyButtons() {
             var pre = document.getElementsByTagName('PRE');
@@ -370,6 +390,7 @@ function handleDOMLoaded() {
             }
         }
 
+        compensateForHugoBug();
         attachCopyButtons();
         applySyntaxColoring();
         attachLinksToHeaders();

@@ -46,28 +46,28 @@ Using Istio we can ensure that `1qps` is not breached.
     Save the following YAML snippet as `ratelimit-handler.yaml`.
 
     ```yaml
-    apiVersion: config.istio.io/v1alpha2
-    kind: memquota
-    metadata:
-      name: handler
-      namespace: istio-system
-    spec:
-      quotas:
-      - name: requestcount.quota.istio-system
-        # default rate limit is 5000qps
-        maxAmount: 5000
-        validDuration: 1s
-        # The first matching override is applied.
-        # A requestcount instance is checked against override dimensions.
-        overrides:
-        # The following override applies to traffic from 'rewiews' version v2,
-        # destined for the ratings service. The destinationVersion dimension is ignored.
-        - dimensions:
-            destination: ratings
-            source: reviews
-            sourceVersion: v2
-          maxAmount: 1
-          validDuration: 1s
+        apiVersion: config.istio.io/v1alpha2
+        kind: memquota
+        metadata:
+          name: handler
+          namespace: istio-system
+        spec:
+          quotas:
+          - name: requestcount.quota.istio-system
+            # default rate limit is 5000qps
+            maxAmount: 5000
+            validDuration: 1s
+            # The first matching override is applied.
+            # A requestcount instance is checked against override dimensions.
+            overrides:
+            # The following override applies to traffic from 'rewiews' version v2,
+            # destined for the ratings service. The destinationVersion dimension is ignored.
+            - dimensions:
+                destination: ratings
+                source: reviews
+                sourceVersion: v2
+              maxAmount: 1
+              validDuration: 1s
     ```
 
     and then run the following command:
@@ -86,28 +86,28 @@ Using Istio we can ensure that `1qps` is not breached.
     and create a rule that uses it with the memquota handler.
 
     ```yaml
-    apiVersion: config.istio.io/v1alpha2
-    kind: quota
-    metadata:
-      name: requestcount
-      namespace: istio-system
-    spec:
-      dimensions:
-        source: source.labels["app"] | source.service | "unknown"
-        sourceVersion: source.labels["version"] | "unknown"
-        destination: destination.labels["app"] | destination.service | "unknown"
-        destinationVersion: destination.labels["version"] | "unknown"
-    ---
-    apiVersion: config.istio.io/v1alpha2
-    kind: rule
-    metadata:
-      name: quota
-      namespace: istio-system
-    spec:
-      actions:
-      - handler: handler.memquota
-        instances:
-        - requestcount.quota
+        apiVersion: config.istio.io/v1alpha2
+        kind: quota
+        metadata:
+          name: requestcount
+          namespace: istio-system
+        spec:
+          dimensions:
+            source: source.labels["app"] | source.service | "unknown"
+            sourceVersion: source.labels["version"] | "unknown"
+            destination: destination.labels["app"] | destination.service | "unknown"
+            destinationVersion: destination.labels["version"] | "unknown"
+        ---
+        apiVersion: config.istio.io/v1alpha2
+        kind: rule
+        metadata:
+          name: quota
+          namespace: istio-system
+        spec:
+          actions:
+          - handler: handler.memquota
+            instances:
+            - requestcount.quota
     ```
 
     Save the configuration as `ratelimit-rule.yaml` and run the following command:
@@ -141,15 +141,14 @@ For example, consider the following configuration:
 apiVersion: config.istio.io/v1alpha2
 kind: rule
 metadata:
- name: quota
- namespace: istio-system
+  name: quota
+  namespace: istio-system
 spec:
- match: source.namespace != destination.namespace
- actions:
- - handler: handler.memquota
-   instances:
-   - requestcount.quota
-
+  match: source.namespace != destination.namespace
+  actions:
+  - handler: handler.memquota
+    instances:
+    - requestcount.quota
 ```
 
 This configuration applies the quota rule to requests whose source and destination namespaces are different.
