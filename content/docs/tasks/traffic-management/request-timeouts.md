@@ -32,43 +32,43 @@ to the `ratings` service.
 1.  Route requests to v2 of the `reviews` service, i.e., a version that calls the `ratings` service
 
     ```bash
-    cat <<EOF | istioctl replace -f -
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: reviews
-    spec:
-      hosts:
-        - reviews
-      http:
-      - route:
-        - destination:
-            host: reviews
-            subset: v2
-    EOF
+        cat <<EOF | istioctl replace -f -
+        apiVersion: networking.istio.io/v1alpha3
+        kind: VirtualService
+        metadata:
+          name: reviews
+        spec:
+          hosts:
+            - reviews
+          http:
+          - route:
+            - destination:
+                host: reviews
+                subset: v2
+        EOF
     ```
 
 1.  Add a 2 second delay to calls to the `ratings` service:
 
     ```bash
-    cat <<EOF | istioctl replace -f -
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: ratings
-    spec:
-      hosts:
-      - ratings
-      http:
-      - fault:
-          delay:
-            percent: 100
-            fixedDelay: 2s
-        route:
-        - destination:
-            host: ratings
-            subset: v1
-    EOF
+        cat <<EOF | istioctl replace -f -
+        apiVersion: networking.istio.io/v1alpha3
+        kind: VirtualService
+        metadata:
+          name: ratings
+        spec:
+          hosts:
+          - ratings
+          http:
+          - fault:
+              delay:
+                percent: 100
+                fixedDelay: 2s
+            route:
+            - destination:
+                host: ratings
+                subset: v1
+        EOF
     ```
 
 1.  Open the Bookinfo URL (http://$GATEWAY_URL/productpage) in your browser
@@ -79,21 +79,21 @@ to the `ratings` service.
 1.  Now add a 1 second request timeout for calls to the `reviews` service
 
     ```bash
-    cat <<EOF | istioctl replace -f -
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: reviews
-    spec:
-      hosts:
-        - reviews
-      http:
-      - route:
-        - destination:
-            host: reviews
-            subset: v2
-        timeout: 1s
-    EOF
+            cat <<EOF | istioctl replace -f -
+            apiVersion: networking.istio.io/v1alpha3
+            kind: VirtualService
+            metadata:
+              name: reviews
+            spec:
+              hosts:
+                - reviews
+              http:
+              - route:
+                - destination:
+                    host: reviews
+                    subset: v2
+                timeout: 1s
+        EOF
     ```
 
 1.  Refresh the Bookinfo web page

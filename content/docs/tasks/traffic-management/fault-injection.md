@@ -44,32 +44,32 @@ continue without any errors.
     Confirm the rule is created:
 
     ```command-output-as-yaml
-    $ istioctl get virtualservice ratings -o yaml
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: ratings
-      ...
-    spec:
-      hosts:
-      - ratings
-      http:
-      - fault:
-          delay:
-            fixedDelay: 7s
-            percent: 100
-        match:
-        - headers:
-            cookie:
-              regex: ^(.*?;)?(user=jason)(;.*)?$
-        route:
-        - destination:
-            host: ratings
-            subset: v1
-      - route:
-        - destination:
-            host: ratings
-            subset: v1
+        $ istioctl get virtualservice ratings -o yaml
+        apiVersion: networking.istio.io/v1alpha3
+        kind: VirtualService
+        metadata:
+          name: ratings
+          ...
+        spec:
+          hosts:
+          - ratings
+          http:
+          - fault:
+              delay:
+                fixedDelay: 7s
+                percent: 100
+            match:
+            - headers:
+                cookie:
+                  regex: ^(.*?;)?(user=jason)(;.*)?$
+            route:
+            - destination:
+                host: ratings
+                subset: v1
+          - route:
+            - destination:
+                host: ratings
+                subset: v1
     ```
 
     Allow several seconds to account for rule propagation delay to all pods.
@@ -124,32 +124,32 @@ message.
     Confirm the rule is created
 
     ```command-output-as-yaml
-    $ istioctl get virtualservice ratings -o yaml
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: ratings
-      ...
-    spec:
-      hosts:
-      - ratings
-      http:
-      - fault:
-          abort:
-            httpStatus: 500
-            percent: 100
-        match:
-        - headers:
-            cookie:
-              regex: ^(.*?;)?(user=jason)(;.*)?$
-        route:
-        - destination:
-            host: ratings
-            subset: v1
-      - route:
-        - destination:
-            host: ratings
-            subset: v1
+        $ istioctl get virtualservice ratings -o yaml
+        apiVersion: networking.istio.io/v1alpha3
+        kind: VirtualService
+        metadata:
+          name: ratings
+          ...
+        spec:
+          hosts:
+          - ratings
+          http:
+          - fault:
+              abort:
+                httpStatus: 500
+                percent: 100
+            match:
+            - headers:
+                cookie:
+                  regex: ^(.*?;)?(user=jason)(;.*)?$
+            route:
+            - destination:
+                host: ratings
+                subset: v1
+          - route:
+            - destination:
+                host: ratings
+                subset: v1
     ```
 
 1.  Observe application behavior

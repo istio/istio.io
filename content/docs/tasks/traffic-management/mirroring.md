@@ -18,72 +18,72 @@ This task demonstrates the traffic shadowing/mirroring capabilities of Istio. Tr
     httpbin-v1:
 
     ```bash
-    cat <<EOF | istioctl kube-inject -f - | kubectl create -f -
-    apiVersion: extensions/v1beta1
-    kind: Deployment
-    metadata:
-      name: httpbin-v1
-    spec:
-      replicas: 1
-      template:
+        cat <<EOF | istioctl kube-inject -f - | kubectl create -f -
+        apiVersion: extensions/v1beta1
+        kind: Deployment
         metadata:
-          labels:
-            app: httpbin
-            version: v1
+          name: httpbin-v1
         spec:
-          containers:
-          - image: docker.io/kennethreitz/httpbin
-            imagePullPolicy: IfNotPresent
-            name: httpbin
-            command: ["gunicorn", "--access-logfile", "-", "-b", "0.0.0.0:8080", "httpbin:app"]
-            ports:
-            - containerPort: 8080
-    EOF
+          replicas: 1
+          template:
+            metadata:
+              labels:
+                app: httpbin
+                version: v1
+            spec:
+              containers:
+              - image: docker.io/kennethreitz/httpbin
+                imagePullPolicy: IfNotPresent
+                name: httpbin
+                command: ["gunicorn", "--access-logfile", "-", "-b", "0.0.0.0:8080", "httpbin:app"]
+                ports:
+                - containerPort: 8080
+        EOF
     ```
 
     httpbin-v2:
 
     ```bash
-    cat <<EOF | istioctl kube-inject -f - | kubectl create -f -
-    apiVersion: extensions/v1beta1
-    kind: Deployment
-    metadata:
-      name: httpbin-v2
-    spec:
-      replicas: 1
-      template:
+        cat <<EOF | istioctl kube-inject -f - | kubectl create -f -
+        apiVersion: extensions/v1beta1
+        kind: Deployment
         metadata:
-          labels:
-            app: httpbin
-            version: v2
+          name: httpbin-v2
         spec:
-          containers:
-          - image: docker.io/kennethreitz/httpbin
-            imagePullPolicy: IfNotPresent
-            name: httpbin
-            command: ["gunicorn", "--access-logfile", "-", "-b", "0.0.0.0:8080", "httpbin:app"]
-            ports:
-            - containerPort: 8080
-    EOF
+          replicas: 1
+          template:
+            metadata:
+              labels:
+                app: httpbin
+                version: v2
+            spec:
+              containers:
+              - image: docker.io/kennethreitz/httpbin
+                imagePullPolicy: IfNotPresent
+                name: httpbin
+                command: ["gunicorn", "--access-logfile", "-", "-b", "0.0.0.0:8080", "httpbin:app"]
+                ports:
+                - containerPort: 8080
+        EOF
     ```
 
     httpbin Kubernetes service:
 
     ```bash
-    cat <<EOF | kubectl create -f -
-    apiVersion: v1
-    kind: Service
-    metadata:
-      name: httpbin
-      labels:
-        app: httpbin
-    spec:
-      ports:
-      - name: http
-        port: 8080
-      selector:
-        app: httpbin
-    EOF
+        cat <<EOF | kubectl create -f -
+        apiVersion: v1
+        kind: Service
+        metadata:
+          name: httpbin
+          labels:
+            app: httpbin
+        spec:
+          ports:
+          - name: http
+            port: 8080
+          selector:
+            app: httpbin
+        EOF
     ```
 
 *   Start the `sleep` service so we can use `curl` to provide load
@@ -91,24 +91,24 @@ This task demonstrates the traffic shadowing/mirroring capabilities of Istio. Tr
     sleep service:
 
     ```bash
-    cat <<EOF | istioctl kube-inject -f - | kubectl create -f -
-    apiVersion: extensions/v1beta1
-    kind: Deployment
-    metadata:
-      name: sleep
-    spec:
-      replicas: 1
-      template:
+        cat <<EOF | istioctl kube-inject -f - | kubectl create -f -
+        apiVersion: extensions/v1beta1
+        kind: Deployment
         metadata:
-          labels:
-            app: sleep
+          name: sleep
         spec:
-          containers:
-          - name: sleep
-            image: tutum/curl
-            command: ["/bin/sleep","infinity"]
-            imagePullPolicy: IfNotPresent
-    EOF
+          replicas: 1
+          template:
+            metadata:
+              labels:
+                app: sleep
+            spec:
+              containers:
+              - name: sleep
+                image: tutum/curl
+                command: ["/bin/sleep","infinity"]
+                imagePullPolicy: IfNotPresent
+        EOF
     ```
 
 ## Mirroring
@@ -120,35 +120,35 @@ Let's set up a scenario to demonstrate the traffic-mirroring capabilities of Ist
 1.  Create a default route rule to route all traffic to `v1` of our `httpbin` service:
 
     ```bash
-    cat <<EOF | istioctl create -f -
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: httpbin
-    spec:
-      hosts:
-        - httpbin
-      http:
-      - route:
-        - destination:
-            host: httpbin
-            subset: v1
-          weight: 100
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
-      name: httpbin
-    spec:
-      host: httpbin
-      subsets:
-      - name: v1
-        labels:
-          version: v1
-      - name: v2
-        labels:
-          version: v2
-    EOF
+        cat <<EOF | istioctl create -f -
+        apiVersion: networking.istio.io/v1alpha3
+        kind: VirtualService
+        metadata:
+          name: httpbin
+        spec:
+          hosts:
+            - httpbin
+          http:
+          - route:
+            - destination:
+                host: httpbin
+                subset: v1
+              weight: 100
+        ---
+        apiVersion: networking.istio.io/v1alpha3
+        kind: DestinationRule
+        metadata:
+          name: httpbin
+        spec:
+          host: httpbin
+          subsets:
+          - name: v1
+            labels:
+              version: v1
+          - name: v2
+            labels:
+              version: v2
+        EOF
     ```
 
     Now all traffic should go to `httpbin v1` service. Let's try sending in some traffic:
@@ -187,24 +187,24 @@ Let's set up a scenario to demonstrate the traffic-mirroring capabilities of Ist
 1.  Change the route rule to mirror traffic to v2
 
     ```bash
-    cat <<EOF | istioctl replace -f -
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: httpbin
-    spec:
-      hosts:
-        - httpbin
-      http:
-      - route:
-        - destination:
-            host: httpbin
-            subset: v1
-          weight: 100
-        mirror:
-          host: httpbin
-          subset: v2
-    EOF
+        cat <<EOF | istioctl replace -f -
+        apiVersion: networking.istio.io/v1alpha3
+        kind: VirtualService
+        metadata:
+          name: httpbin
+        spec:
+          hosts:
+            - httpbin
+          http:
+          - route:
+            - destination:
+                host: httpbin
+                subset: v1
+              weight: 100
+            mirror:
+              host: httpbin
+              subset: v2
+        EOF
     ```
 
     This route rule specifies we route 100% of the traffic to v1. The last stanza specifies we want to mirror to the `httpbin v2` service. When traffic gets mirrored, the requests are sent to the mirrored service with its Host/Authority header appended with *-shadow*. For example, *cluster-1* becomes *cluster-1-shadow*. Also important to realize is that these requests are mirrored as "fire and forget", i.e., the responses are discarded.

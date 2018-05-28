@@ -40,66 +40,66 @@ you'll need to use `replace` rather than `create` in the following command.
     You can display the routes that are defined with the following command:
 
     ```command-output-as-yaml
-    $ istioctl get virtualservices -o yaml
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: details
-      ...
-    spec:
-      hosts:
-      - details
-      http:
-      - route:
-        - destination:
-            host: details
-            subset: v1
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: productpage
-      ...
-    spec:
-      gateways:
-      - bookinfo-gateway
-      - mesh
-      hosts:
-      - productpage
-      http:
-      - route:
-        - destination:
-            host: productpage
-            subset: v1
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: ratings
-      ...
-    spec:
-      hosts:
-      - ratings
-      http:
-      - route:
-        - destination:
-            host: ratings
-            subset: v1
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: reviews
-      ...
-    spec:
-      hosts:
-      - reviews
-      http:
-      - route:
-        - destination:
-            host: reviews
-            subset: v1
-    ---
+        $ istioctl get virtualservices -o yaml
+        apiVersion: networking.istio.io/v1alpha3
+        kind: VirtualService
+        metadata:
+          name: details
+          ...
+        spec:
+          hosts:
+          - details
+          http:
+          - route:
+            - destination:
+                host: details
+                subset: v1
+        ---
+        apiVersion: networking.istio.io/v1alpha3
+        kind: VirtualService
+        metadata:
+          name: productpage
+          ...
+        spec:
+          gateways:
+          - bookinfo-gateway
+          - mesh
+          hosts:
+          - productpage
+          http:
+          - route:
+            - destination:
+                host: productpage
+                subset: v1
+        ---
+        apiVersion: networking.istio.io/v1alpha3
+        kind: VirtualService
+        metadata:
+          name: ratings
+          ...
+        spec:
+          hosts:
+          - ratings
+          http:
+          - route:
+            - destination:
+                host: ratings
+                subset: v1
+        ---
+        apiVersion: networking.istio.io/v1alpha3
+        kind: VirtualService
+        metadata:
+          name: reviews
+          ...
+        spec:
+          hosts:
+          - reviews
+          http:
+          - route:
+            - destination:
+                host: reviews
+                subset: v1
+        ---
     ```
 
     > The corresponding `subset` definitions can be displayed using `istioctl get destinationrules -o yaml`.
@@ -124,28 +124,28 @@ you'll need to use `replace` rather than `create` in the following command.
     Confirm the rule is created:
 
     ```command-output-as-yaml
-    $ istioctl get virtualservice reviews -o yaml
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: reviews
-      ...
-    spec:
-      hosts:
-      - reviews
-      http:
-      - match:
-        - headers:
-            cookie:
-              regex: ^(.*?;)?(user=jason)(;.*)?$
-        route:
-        - destination:
-            host: reviews
-            subset: v2
-      - route:
-        - destination:
-            host: reviews
-            subset: v1
+        $ istioctl get virtualservice reviews -o yaml
+        apiVersion: networking.istio.io/v1alpha3
+        kind: VirtualService
+        metadata:
+          name: reviews
+          ...
+        spec:
+          hosts:
+          - reviews
+          http:
+          - match:
+            - headers:
+                cookie:
+                  regex: ^(.*?;)?(user=jason)(;.*)?$
+            route:
+            - destination:
+                host: reviews
+                subset: v2
+          - route:
+            - destination:
+                host: reviews
+                subset: v1
     ```
 
 1.  Log in as user "jason" at the `productpage` web page.

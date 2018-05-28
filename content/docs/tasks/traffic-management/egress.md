@@ -40,47 +40,47 @@ from within your Istio cluster. In this task we will use
 1.  Create an `ServiceEntry` to allow access to an external HTTP service:
 
     ```bash
-    cat <<EOF | istioctl create -f -
-    apiVersion: networking.istio.io/v1alpha3
-    kind: ServiceEntry
-    metadata:
-      name: httpbin-ext
-    spec:
-      hosts:
-      - httpbin.org
-      ports:
-      - number: 80
-        name: http
-        protocol: HTTP
-    EOF
+        cat <<EOF | istioctl create -f -
+        apiVersion: networking.istio.io/v1alpha3
+        kind: ServiceEntry
+        metadata:
+          name: httpbin-ext
+        spec:
+          hosts:
+          - httpbin.org
+          ports:
+          - number: 80
+            name: http
+            protocol: HTTP
+        EOF
     ```
 
 1.  Create an `ServiceEntry` to allow access to an external HTTPS service:
 
     ```bash
-    cat <<EOF | istioctl create -f -
-    apiVersion: networking.istio.io/v1alpha3
-    kind: ServiceEntry
-    metadata:
-      name: google-ext
-    spec:
-      hosts:
-      - www.google.com
-      ports:
-      - number: 443
-        name: https
-        protocol: HTTP
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
-      name: google-ext
-    spec:
-      host: www.google.com
-      trafficPolicy:
-        tls:
-          mode: SIMPLE # initiates HTTPS when talking to www.google.com
-    EOF
+        cat <<EOF | istioctl create -f -
+        apiVersion: networking.istio.io/v1alpha3
+        kind: ServiceEntry
+        metadata:
+          name: google-ext
+        spec:
+          hosts:
+          - www.google.com
+          ports:
+          - number: 443
+            name: https
+            protocol: HTTP
+        ---
+        apiVersion: networking.istio.io/v1alpha3
+        kind: DestinationRule
+        metadata:
+          name: google-ext
+        spec:
+          host: www.google.com
+          trafficPolicy:
+            tls:
+              mode: SIMPLE # initiates HTTPS when talking to www.google.com
+        EOF
     ```
 
 Notice that we also create a corresponding `DestinationRule` to
@@ -136,21 +136,21 @@ to set a timeout rule on calls to the httpbin.org service.
 1.  Exit the source pod and use `istioctl` to set a 3s timeout on calls to the httpbin.org external service:
 
     ```bash
-    cat <<EOF | istioctl create -f -
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: httpbin-ext
-    spec:
-      hosts:
-        - httpbin.org
-      http:
-      - timeout: 3s
-        route:
-          - destination:
-              host: httpbin.org
-            weight: 100
-    EOF
+        cat <<EOF | istioctl create -f -
+        apiVersion: networking.istio.io/v1alpha3
+        kind: VirtualService
+        metadata:
+          name: httpbin-ext
+        spec:
+          hosts:
+            - httpbin.org
+          http:
+          - timeout: 3s
+            route:
+              - destination:
+                  host: httpbin.org
+                weight: 100
+        EOF
     ```
 
 1.  Wait a few seconds, then issue the _curl_ request again:
