@@ -75,6 +75,9 @@ Determining the ingress IP depends on the cluster provider.
     ```command
     $ export INGRESS_HOST=<workerNodeAddress>
     ```
+    ```command
+    export INGRESS_PORT=$(kubectl get svc -l istio=ingressgateway -n istio-system -o 'jsonpath={.items[0].spec.ports[0].nodePort}')
+    ```
 
     You need to create firewall rules to allow the TCP traffic to the _ingressgateway_ service's ports.
     Run the following commands to allow the traffic for the HTTP port, the secure port (HTTPS) or both.
@@ -93,11 +96,17 @@ Determining the ingress IP depends on the cluster provider.
     $ bx cs workers <cluster-name or id>
     $ export INGRESS_HOST=<public IP of one of the worker nodes>
     ```
+    ```command
+    export INGRESS_PORT=$(kubectl get svc -l istio=ingressgateway -n istio-system -o 'jsonpath={.items[0].spec.ports[0].nodePort}')
+    ```
 
 1.  _Other environments (e.g., minikube, IBM Cloud Private etc):_
 
     ```command
     $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o 'jsonpath={.items[0].status.hostIP}')
+    ```
+    ```command
+    export INGRESS_PORT=$(kubectl get svc -l istio=ingressgateway -n istio-system -o 'jsonpath={.items[0].spec.ports[0].nodePort}')
     ```
 
 ## Configuring ingress using an Istio Gateway
