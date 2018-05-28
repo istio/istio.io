@@ -133,14 +133,14 @@ As a reminder, here is the end-to-end architecture of the application from the [
 1.  I modify the deployment spec of a version of the _ratings_ microservice that uses a MySQL database, to use my database instance. The spec is in `samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml` of an Istio release archive. I edit the following lines:
 
     ```yaml
-    - name: MYSQL_DB_HOST
-      value: mysqldb
-    - name: MYSQL_DB_PORT
-      value: "3306"
-    - name: MYSQL_DB_USER
-      value: root
-    - name: MYSQL_DB_PASSWORD
-      value: password
+        - name: MYSQL_DB_HOST
+          value: mysqldb
+        - name: MYSQL_DB_PORT
+          value: "3306"
+        - name: MYSQL_DB_USER
+          value: root
+        - name: MYSQL_DB_PASSWORD
+          value: password
     ```
 
     I replace the values in the snippet above, specifying the database host, port, user, and password. Note that the correct way to work with passwords in container's environment variables in Kubernetes is [to use secrets](https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables). For this example task only, I write the password directly in the deployment spec. **Do not do it** in a real environment! I also assume everyone realizes that `"password"` should not be used as a password...
