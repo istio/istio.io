@@ -114,7 +114,7 @@ In the following subsections we configure a `Gateway` on port 80 for unencrypted
 
 1.  Create an Istio `Gateway`
 
-    ```bash
+    ```command
     cat <<EOF | istioctl create -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -135,7 +135,7 @@ In the following subsections we configure a `Gateway` on port 80 for unencrypted
 
 1.  Configure routes for traffic entering via the `Gateway`
 
-    ```bash
+    ```command
     cat <<EOF | istioctl create -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
