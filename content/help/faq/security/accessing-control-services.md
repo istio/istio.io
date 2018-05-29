@@ -1,5 +1,5 @@
 ---
-title: How to disable mTLS on clients to access the Kubernetes API Server (or any control services that don't have Istio sidecar)?
+title: How to disable mutual TLS on clients to access the Kubernetes API Server (or any control services that don't have Istio sidecar)?
 weight: 60
 ---
 

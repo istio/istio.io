@@ -182,7 +182,7 @@ spec:
 EOF
 ```
 
-And corresponding change in destination rule:
+And ca orresponding change to the destination rule:
 
 ```bash
 cat <<EOF | istioctl create -n bar -f -

@@ -29,7 +29,7 @@ This task assumes you have a Kubernetes cluster:
     $ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml --debug)
     $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --debug)
     ```
-    > Use `--debug` to inject sidecar container with proxy-debug image, which is needed to run `curl` command from istio-proxy container later in the demo.
+    > Use `--debug` to inject the sidecar container with proxy-debug image, which is needed to run `curl` command from istio-proxy container later in the demo.
 
 ## Verifying Istio's mutual TLS authentication setup
 
@@ -47,7 +47,7 @@ Citadel is up if the "AVAILABLE" column is 1.
 
 ### Verifying service configuration
 
-* Check installation mode. If mTLS is enabled by default (e.g `istio-auth.yaml` was used when installing Istio), it's expected to see uncommented `authPolicy: MUTUAL_TLS` in configmap.
+* Check installation mode. If mutual TLS is enabled by default (e.g `istio-auth.yaml` was used when installing Istio), you can expect to see uncommented `authPolicy: MUTUAL_TLS` in configmap.
 
     ```command
     $ kubectl get configmap istio -o yaml -n istio-system | grep authPolicy | head -1
@@ -65,11 +65,11 @@ Citadel is up if the "AVAILABLE" column is 1.
     $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml
     ```
 
-    > Note that destination rules scope model does not limit by namespace. Thus, it's necessary to examine rules in all namespaces.
+    > Note that the destination rules scoping model is not limited to namespaces. Thus, it's necessary to examine rules in all namespaces.
 
 ### Verifying keys and certificates installation
 
-Istio automatically installs necessary keys and certificates for mTLS authentication in all sidecar containers.
+Istio automatically installs necessary keys and certificates for mutual TLS authentication in all sidecar containers.
 
     ```command
     $ kubectl exec $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.name}) -c istio-proxy -- ls /etc/certs
@@ -78,11 +78,11 @@ Istio automatically installs necessary keys and certificates for mTLS authentica
     root-cert.pem
     ```
 
-    > `cert-chain.pem` is Envoy's cert that needs to present to the other side. `key.pem` is Envoy's private key
+    > `cert-chain.pem` is Envoy's cert that needs to be presented to the other side. `key.pem` is Envoy's private key
     paired with Envoy's cert in `cert-chain.pem`. `root-cert.pem` is the root cert to verify the peer's cert.
     In this example, we only have one Citadel in a cluster, so all Envoys have the same `root-cert.pem`.
 
-Use `oppenssl` tool to check if certificate is valid (current time should be in between `Not Before` and `Not After`)
+Use the `oppenssl` tool to check if certificate is valid (current time should be in between `Not Before` and `Not After`)
     ```command
     $ kubectl exec $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.name}) -c istio-proxy -- cat /etc/certs/cert-chain.pem | openssl x509 -text -noout  | grep Validity -A 2
     Validity
@@ -101,9 +101,9 @@ Please check [secure naming](/docs/concepts/security/mutual-tls/#workflow) for m
 
 ## Testing the authentication setup
 
-Assuming mutual TLS authentication is properly turned on, it should not affect communication from one service to another when both sides have the Envoy sidecar. However, request from pod without sidecar, or request directly from sidecar without a client certificate would fail. Examples below illustrates this behavior.
+Assuming mutual TLS authentication is properly turned on, it should not affect communication from one service to another when both sides have the Envoy sidecar. However, requests from pod without sidecar, or requests directly from sidecar without a client certificate should fail. Examples below illustrates this behavior.
 
-1. Request from `sleep` app container to `httpbin` service should success (return `200`)
+1. Request from `sleep` app container to `httpbin` service should succeed (return `200`)
    ```command
    $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl httpbin:8000/headers -o /dev/null -s -w '%{http_code}\n'
    200
