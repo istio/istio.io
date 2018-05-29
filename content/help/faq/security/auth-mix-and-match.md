@@ -2,7 +2,25 @@
 title: Can I enable Istio Auth with some services while disable others in the same cluster?
 weight: 30
 ---
-Starting with release 0.3, you can use service-level annotations to disable (or enable) Istio Auth for particular service-port.
+
+Starting with Istio 0.8, you can use [authentication policy](/docs/concepts/security/authn-policy/) to enable (or disable) mutual TLS per service. For example, the policy below will disable mutual TLS on port 9080 for service `details`
+
+```bash
+cat <<EOF | istioctl create -f -
+apiVersion: "authentication.istio.io/v1alpha1"
+kind: "Policy"
+metadata:
+  name: "example"
+spec:
+  targets:
+  - name: details
+    ports:
+    - number: 9080
+  peers:
+EOF
+```
+
+For older versions of Istio (but newer than 0.3), you can use service-level annotations to disable (or enable) Istio Auth for a particular service and port pair.
 The annotation key should be `auth.istio.io/{port_number}`, and the value should be `NONE` (to disable), or `MUTUAL_TLS` (to enable).
 
   Example: disable Istio Auth on port 9080 for service `details`.
