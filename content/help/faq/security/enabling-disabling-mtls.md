@@ -3,7 +3,7 @@ title: How can I enable/disable mTLS encryption after I installed Istio?
 weight: 10
 ---
 
-Starting with Istio 0.8, [authentication policy](/docs/concepts/security/authn-policy.html) can be used to change mTLS setting at run time, without reinstall Istio.
+Starting with Istio 0.8, [authentication policy](/docs/concepts/security/authn-policy/) can be used to change mTLS setting at run time, without reinstall Istio.
 
 Before 0.8, the most straightforward way to enable/disable mTLS is by entirely
 uninstalling and re-installing Istio.
