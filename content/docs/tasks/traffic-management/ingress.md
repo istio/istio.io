@@ -208,7 +208,7 @@ In this subsection we add to our gateway the port 443 to handle the HTTPS traffi
     will automatically load the secret.
 
     > The secret MUST be called `istio-ingressgateway-certs` in the `istio-system` namespace, or it will not
-    be mounted and available to the Istio gateway.
+    > be mounted and available to the Istio gateway.
 
     ```command
     $ kubectl create -n istio-system secret tls istio-ingressgateway-certs --key /tmp/tls.key --cert /tmp/tls.crt
