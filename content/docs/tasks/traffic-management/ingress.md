@@ -204,52 +204,52 @@ In this subsection we add to our gateway the port 443 to handle the HTTPS traffi
 
 1. Create a Kubernetes `Secret` to hold the key/cert
 
-   Create the secret `istio-ingressgateway-certs` in namespace `istio-system` using `kubectl`. The Istio gateway
-   will automatically load the secret.
+    Create the secret `istio-ingressgateway-certs` in namespace `istio-system` using `kubectl`. The Istio gateway
+    will automatically load the secret.
 
-   > The secret MUST be called `istio-ingressgateway-certs` in the `istio-system` namespace, or it will not
-   be mounted and available to the Istio gateway.
+    > The secret MUST be called `istio-ingressgateway-certs` in the `istio-system` namespace, or it will not
+    be mounted and available to the Istio gateway.
 
-   ```command
-   $ kubectl create -n istio-system secret tls istio-ingressgateway-certs --key /tmp/tls.key --cert /tmp/tls.crt
-   ```
+    ```command
+    $ kubectl create -n istio-system secret tls istio-ingressgateway-certs --key /tmp/tls.key --cert /tmp/tls.crt
+    ```
 
-   Note that by default all service accounts in the `istio-system` namespace can access this ingress key/cert,
-   which risks leaking the key/cert. You can change the Role-Based Access Control (RBAC) rules to protect them.
-   See (Link TBD) for details.
+    Note that by default all service accounts in the `istio-system` namespace can access this ingress key/cert,
+    which risks leaking the key/cert. You can change the Role-Based Access Control (RBAC) rules to protect them.
+    See (Link TBD) for details.
 
 1. Add to the previous `Gateway` definition a server section for the port 443.
 
-   > The location of the certificate and the private key MUST be `/etc/istio/ingressgateway-certs`, or the gateway will fail to load them.
+    > The location of the certificate and the private key MUST be `/etc/istio/ingressgateway-certs`, or the gateway will fail to load them.
 
-   ```bash
-       cat <<EOF | istioctl replace -f -
-       apiVersion: networking.istio.io/v1alpha3
-       kind: Gateway
-       metadata:
-         name: httpbin-gateway
-       spec:
-         selector:
-           istio: ingressgateway # use istio default ingress gateway
-         servers:
-         - port:
-             number: 80
-             name: http
-             protocol: HTTP
-           hosts:
-           - "httpbin.example.com"
-         - port:
-             number: 443
-             name: https
-             protocol: HTTPS
-           tls:
-             mode: SIMPLE
-             serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
-             privateKey: /etc/istio/ingressgateway-certs/tls.key
-           hosts:
-           - "httpbin.example.com"
-       EOF
-   ```
+    ```bash
+        cat <<EOF | istioctl replace -f -
+        apiVersion: networking.istio.io/v1alpha3
+        kind: Gateway
+        metadata:
+          name: httpbin-gateway
+        spec:
+          selector:
+            istio: ingressgateway # use istio default ingress gateway
+          servers:
+          - port:
+              number: 80
+              name: http
+              protocol: HTTP
+            hosts:
+            - "httpbin.example.com"
+          - port:
+              number: 443
+              name: https
+              protocol: HTTPS
+            tls:
+              mode: SIMPLE
+              serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+              privateKey: /etc/istio/ingressgateway-certs/tls.key
+            hosts:
+            - "httpbin.example.com"
+        EOF
+    ```
 
 ### Verifying the gateway for HTTPS
 
@@ -259,17 +259,17 @@ In this subsection we add to our gateway the port 443 to handle the HTTPS traffi
 Here we use _curl_'s `-k` option to instruct _curl_ not to check our certificate
 (since it is a fake certificate we created for testing the Gateway only, _curl_ is not aware of it).
 
-   ```command
-   $ curl --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST -I -k https://httpbin.example.com:$SECURE_INGRESS_PORT/status/200
-   HTTP/2 200
-   server: envoy
-   date: Mon, 14 May 2018 13:54:53 GMT
-   content-type: text/html; charset=utf-8
-   access-control-allow-origin: *
-   access-control-allow-credentials: true
-   content-length: 0
-   x-envoy-upstream-service-time: 6
-   ```
+    ```command
+    $ curl --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST -I -k https://httpbin.example.com:$SECURE_INGRESS_PORT/status/200
+    HTTP/2 200
+    server: envoy
+    date: Mon, 14 May 2018 13:54:53 GMT
+    content-type: text/html; charset=utf-8
+    access-control-allow-origin: *
+    access-control-allow-credentials: true
+    content-length: 0
+    x-envoy-upstream-service-time: 6
+    ```
 
 ### Disable the HTTP port
 
