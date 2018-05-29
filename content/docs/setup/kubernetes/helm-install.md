@@ -27,18 +27,18 @@ recommended.
 
 1. Render Istio's core components to a Kubernetes manifest called `istio.yaml`:
 
-   * With [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)
-     (requires Kubernetes >=1.9.0):
+    * With [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)
+      (requires Kubernetes >=1.9.0):
 
-    ```command
-    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set sidecar-injector.enabled=true --set global.proxy.image=proxyv2
-    ```
+        ```command
+        $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set sidecar-injector.enabled=true --set global.proxy.image=proxyv2
+        ```
 
-   * Without sidecar injection:
+    * Without sidecar injection:
 
-    ```command
-    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system > $HOME/istio.yaml
-    ```
+        ```command
+        $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system > $HOME/istio.yaml
+        ```
 
 1. Install the components via the manifest:
 
@@ -57,29 +57,29 @@ to manage the lifecycle of Istio.
 
 1. If a service account has not already been installed for Tiller, install one:
 
-   ```command
-   $ kubectl create -f install/kubernetes/helm/helm-service-account.yaml
-   ```
+    ```command
+    $ kubectl create -f install/kubernetes/helm/helm-service-account.yaml
+    ```
 
 1. Install Tiller on your cluster with the service account:
 
-   ```command
-   $ helm init --service-account tiller
-   ```
+    ```command
+    $ helm init --service-account tiller
+    ```
 
 1. Install Istio:
 
-   * With [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection) (requires Kubernetes >=1.9.0):
+    * With [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection) (requires Kubernetes >=1.9.0):
 
-     ```command
-     $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set global.proxy.image=proxyv2
-     ```
+        ```command
+        $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set global.proxy.image=proxyv2
+        ```
 
-   * Without the sidecar injection webhook:
+    * Without the sidecar injection webhook:
 
-     ```command
-     $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set sidecarInjectorWebhook.enabled=false --set global.proxy.image=proxyv2
-     ```
+        ```command
+        $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set sidecarInjectorWebhook.enabled=false --set global.proxy.image=proxyv2
+        ```
 
 ## Customization with Helm
 
@@ -118,12 +118,12 @@ See the sample [Bookinfo](/docs/guides/bookinfo/) application.
 
 * For option 1, uninstall using kubectl:
 
-  ```command
-  $ kubectl delete -f $HOME/istio.yaml
-  ```
+    ```command
+    $ kubectl delete -f $HOME/istio.yaml
+    ```
 
 * For option 2, uninstall using Helm:
 
-  ```command
-  $ helm delete --purge istio
-  ```
+    ```command
+    $ helm delete --purge istio
+    ```

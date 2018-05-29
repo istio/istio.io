@@ -59,59 +59,67 @@ and send request to other services by curl.
 There are several steps:
 
 1. get the productpage pod name
-   ```command
-   $ kubectl get pods -l app=productpage
-   NAME                              READY     STATUS    RESTARTS   AGE
-   productpage-v1-4184313719-5mxjc   2/2       Running   0          23h
-   ```
+   
+    ```command
+    $ kubectl get pods -l app=productpage
+    NAME                              READY     STATUS    RESTARTS   AGE
+    productpage-v1-4184313719-5mxjc   2/2       Running   0          23h
+    ```
 
-   Make sure the pod is "Running".
+    Make sure the pod is "Running".
 
 1. ssh into the Envoy container
-   ```command
-   $ kubectl exec -it productpage-v1-4184313719-5mxjc -c istio-proxy /bin/bash
-   ```
+   
+    ```command
+    $ kubectl exec -it productpage-v1-4184313719-5mxjc -c istio-proxy /bin/bash
+    ```
 
 1. make sure the key/cert is in /etc/certs/ directory
-   ```command
-   $ ls /etc/certs/
-   cert-chain.pem   key.pem   root-cert.pem
-   ```
+   
+    ```command
+    $ ls /etc/certs/
+    cert-chain.pem   key.pem   root-cert.pem
+    ```
 
-   > `cert-chain.pem` is Envoy's cert that needs to present to the other side. `key.pem` is Envoy's private key
-   paired with Envoy's cert in `cert-chain.pem`. `root-cert.pem` is the root cert to verify the peer's cert.
-   In this example, we only have one Citadel in a cluster, so all Envoys have the same `root-cert.pem`.
+    > `cert-chain.pem` is Envoy's cert that needs to present to the other side. `key.pem` is Envoy's private key
+    paired with Envoy's cert in `cert-chain.pem`. `root-cert.pem` is the root cert to verify the peer's cert.
+    In this example, we only have one Citadel in a cluster, so all Envoys have the same `root-cert.pem`.
 
 1. make sure 'curl' is installed by
-   ```command
-   $ curl
-   ```
-   If curl is installed, you should see something like
-   ```plain
-   curl: try 'curl --help' or 'curl --manual' for more information
-   ```
+   
+    ```command
+    $ curl
+    ```
+    
+    If curl is installed, you should see something like
+   
+    ```plain
+    curl: try 'curl --help' or 'curl --manual' for more information
+    ```
 
-   Otherwise run the command below to start over
-   ```command
-   $ kubectl apply -f <(istioctl kube-inject --debug -f samples/bookinfo/kube/bookinfo.yaml)
-   ```
+    Otherwise run the command below to start over
+   
+    ```command
+    $ kubectl apply -f <(istioctl kube-inject --debug -f samples/bookinfo/kube/bookinfo.yaml)
+    ```
 
-   > Istio proxy image does not have curl installed while the debug image does. The "--debug" flag in above command redeploys the service with debug image.
+    > Istio proxy image does not have curl installed while the debug image does. The "--debug" flag in above command redeploys the service with debug image.
 
 1. send requests to another service, for example, details.
-   ```command
-   $ curl https://details:9080/details/0 -v --key /etc/certs/key.pem --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem -k
-   ...
-   error fetching CN from cert:The requested data were not available.
-   ...
-   < HTTP/1.1 200 OK
-   < content-type: text/html; charset=utf-8
-   < content-length: 1867
-   < server: envoy
-   < date: Thu, 11 May 2017 18:59:42 GMT
-   < x-envoy-upstream-service-time: 2
-   ...
-   ```
+   
+    ```command
+    $ curl https://details:9080/details/0 -v --key /etc/certs/key.pem --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem -k
+    ...
+    error fetching CN from cert:The requested data were not available.
+    ...
+    < HTTP/1.1 200 OK
+    < content-type: text/html; charset=utf-8
+    < content-length: 1867
+    < server: envoy
+    < date: Thu, 11 May 2017 18:59:42 GMT
+    < x-envoy-upstream-service-time: 2
+    ...
+    ```
 
 The service name and port are defined [here](https://github.com/istio/istio/blob/master/samples/bookinfo/kube/bookinfo.yaml).
 
