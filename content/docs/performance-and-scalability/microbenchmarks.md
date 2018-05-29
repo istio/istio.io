@@ -6,9 +6,9 @@ weight: 20
 
 We use Go’s native tools to write targeted micro-benchmarks in performance sensitive areas. Our main goal with this approach is to provide easy-to-use micro-benchmarks that developers can use to perform quick before/after performance comparisons for their changes.
 
-[Here](https://github.com/istio/istio/blob/master/mixer/test/perf/singlecheck_test.go) is a sample micro-benchmark for Mixer that measures the performance of attribute processing code.
+See the [sample micro-benchmark](https://github.com/istio/istio/blob/master/mixer/test/perf/singlecheck_test.go) for Mixer that measures the performance of attribute processing code.
 
-The developers can also utilize a golden-files approach to capture the state of their benchmark results in the source tree for keeping track and  referencing purposes. [Here](https://github.com/istio/istio/blob/master/mixer/test/perf/bench.baseline) is a baseline file.
+The developers can also utilize a golden-files approach to capture the state of their benchmark results in the source tree for keeping track and  referencing purposes. Github has this [baseline file](https://github.com/istio/istio/blob/master/mixer/test/perf/bench.baseline).
 
 Due to the nature of this testing type, there is a high-variance in latency numbers across machines. It is recommended that micro-benchmark numbers captured in this way are compared only against the previous runs on the same machine.
 
