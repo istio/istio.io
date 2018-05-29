@@ -25,7 +25,8 @@ intended to highlight a particular set of Istio's features.
 - [Performance and Scalability](/docs/performance-and-scalability/).
 Information about Istio's performance and scalability processes and results.
 
-- [Reference](/docs/reference/). Detailed exhaustive lists ofcommand-line options, configuration options, API definitions, and procedures.
+- [Reference](/docs/reference/). Detailed exhaustive lists of
+command-line options, configuration options, API definitions, and procedures.
 
 In addition, you might find these links interesting:
 
