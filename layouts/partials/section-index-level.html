@@ -1,0 +1,19 @@
+{{ $pages := .pages }}
+{{ $parent := .parent }}
+
+<ul>
+    {{ range $pages }}
+        {{ if eq .Parent $parent }}
+            {{ if .IsPage }}
+                <li class="file">
+                    <a href="{{ .URL }}">{{ .Title }}</a>. {{ .Description }}
+                </li>
+            {{ else }}
+                <li class="directory">
+                    <span title="{{ .Description }}">{{ .Title }}</span>
+                    {{ partial "section-index-level.html" (dict "pages" $pages "parent" . ) }}
+                </li>
+             {{ end }}
+        {{ end }}
+    {{ end }}
+</ul>

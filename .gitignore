@@ -1,15 +1,11 @@
-_site
-_rakesite
-_static_site
-.bundle
-config_override.yml
-.jekyll-metadata
 # Eclipse artifacts
 .project
 .pydevproject
 *.iml
 .idea/
-.bundle/
 tmp/
 *.bak
 .DS_Store
+.tools
+.htmlproofer
+public
