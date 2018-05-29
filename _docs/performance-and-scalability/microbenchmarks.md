@@ -6,6 +6,7 @@ weight: 20
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 We use Go’s native tools to write targeted micro-benchmarks in performance sensitive areas. Our main goal with this approach is to provide easy-to-use micro-benchmarks that developers can use to perform quick before/after performance comparisons for their changes.
 

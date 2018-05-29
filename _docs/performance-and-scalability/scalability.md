@@ -6,6 +6,7 @@ weight: 60
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 * Setup multiple replicas of the control plane components.
 

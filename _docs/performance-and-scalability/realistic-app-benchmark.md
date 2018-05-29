@@ -6,6 +6,7 @@ weight: 40
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 For realistic application benchmarks we use [IBM's BluePerf](https://github.com/blueperf).
 

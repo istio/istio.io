@@ -6,6 +6,7 @@ weight: 30
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 We use Fortio (Φορτίο) as Istio's synthetic end to end load testing tool. Fortio runs at a specified query per second (qps) and records an histogram of execution time and calculates percentiles (e.g. p99 i.e. the response time such as 99% of the requests take less than that number (in seconds, SI unit)). It can run for a set duration, for a fixed number of calls, or until interrupted (at a constant target QPS, or max speed/load per connection/thread).
 

@@ -6,6 +6,7 @@ weight: 50
 layout: docs
 type: markdown
 ---
+{% include home.html %}
 
 Both the synthetic benchmarks (fortio based) and the realistic application (BluePerf)
 are part of the nightly release pipeline and you can see the results on:
