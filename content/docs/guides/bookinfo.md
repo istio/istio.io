@@ -214,7 +214,8 @@ uninstall and clean it up using the following instructions.
 1.  Confirm shutdown
 
     ```command
-    $ istioctl get virtualservices   #-- there should be no more routing rules
+    $ istioctl get gateway           #-- there should be no more gateway
+    $ istioctl get virtualservices   #-- there should be no more virtual services
     $ kubectl get pods               #-- the Bookinfo pods should be deleted
     ```
 
