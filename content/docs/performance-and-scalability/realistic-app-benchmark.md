@@ -2,9 +2,6 @@
 title: Realistic Application Benchmark
 overview: Performance measurement through realistic micro service application tests.
 weight: 40
-
-layout: docs
-type: markdown
 ---
 
 For realistic application benchmarks we use [IBM's BluePerf](https://github.com/blueperf).

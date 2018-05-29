@@ -2,9 +2,6 @@
 title: Automation
 overview: How we ensure performance is tracked and improves or does not regress across releases.
 weight: 50
-
-layout: docs
-type: markdown
 ---
 
 Both the synthetic benchmarks (fortio based) and the realistic application (BluePerf)

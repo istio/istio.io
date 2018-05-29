@@ -1,12 +1,7 @@
 ---
 title: Testing scenarios
 overview: The different scenarios we are tracking for performance and scalability.
-
-weight: 15
-
-layout: docs
-type: markdown
-toc: false
+weight: 25
 ---
 
 {{< image width="75%" ratio="61.44%"

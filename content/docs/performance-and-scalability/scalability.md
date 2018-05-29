@@ -2,9 +2,6 @@
 title: Scalability and Sizing Guide
 overview: Setup of Istio components to scale horizontally. High availability. Sizing guide.
 weight: 60
-
-layout: docs
-type: markdown
 ---
 
 * Setup multiple replicas of the control plane components.

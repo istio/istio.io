@@ -2,9 +2,6 @@
 title: Overview
 overview: Provides a conceptual introduction to Istio's Performance and Scalability
 weight: 10
-
-layout: docs
-type: markdown
 ---
 
 The Performance and Scalability working group has a 4 pronged approach for Istio's performance characterization, tracking and improvements:
