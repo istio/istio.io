@@ -5,7 +5,7 @@ weight: 10
 
 Starting with Istio 0.8, [authentication policy](/docs/concepts/security/authn-policy/) can be used to change mutual TLS setting at run time, without needing to reinstall Istio.
 
-Before 0.8, the most straightforward way to enable/disable mTLS is by entirely
+Before 0.8, the most straightforward way to enable/disable mutual TLS is by entirely
 uninstalling and re-installing Istio.
 
 If you are an advanced user and understand the risks you can also do the following:

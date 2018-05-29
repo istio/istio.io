@@ -16,14 +16,14 @@ This task assumes you have a Kubernetes cluster:
 
 * Installed Istio with global mTLS enabled:
     ```command
-    kubectl apply -f install/kubernetes/istio-auth.yaml
+    $ kubectl apply -f install/kubernetes/istio-auth.yaml
     ```
     _**OR**_
     Using [Helm](/docs/setup/kubernetes/helm-install/) with `global.mtls.enabled` to `true`.
 
 > Starting with Istio  0.7, you can use [authentication policy](/docs/concepts/security/authn-policy/) to config mTLS for all/selected services in a namespace (repeated for all namespaces to get global setting). See [authentication policy task](/docs/tasks/security/authn-policy/)
 
-* For demo, deploy [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) and [sleep](https://github.com/istio/istio/tree/master/samples/sleep) with Envoy sidecar. For simplicity, the demo is setup in the `default` namespace. If you wish to use different namespace,  please add `-n yournamespace` appropriately to the example commands in the next section.
+* For demo, deploy [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) and [sleep](https://github.com/istio/istio/tree/master/samples/sleep) with Envoy sidecar. For simplicity, the demo is setup in the `default` namespace. If you wish to use a different namespace,  please add `-n yournamespace` appropriately to the example commands in the next section.
 
     ```command
     $ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml --debug)
@@ -59,7 +59,7 @@ Citadel is up if the "AVAILABLE" column is 1.
     $ kubectl get policies.authentication.istio.io -n default -o yaml
     ```
 
-* Check destination rule. Starting Istio 0.8, destination rule's [traffic policy](/docs/reference/config/istio.networking.v1alpha3/#TrafficPolicy) is used to configure client side to use (or not use) mTLS. For backward compatibility, the _default_ traffic policy is inferred from configmap flag (i.e, if `authPolicy: MUTUAL_TLS`, _default_ traffic policy also be `MUTUAL_TLS`). If there is authentication policy overrules this setting for some services, it should accompany with the appropriate destination rule(s). Similar to authentication policy, the only way to verify the settings is to manually check all rules:
+* Check destination rule. Starting with Istio 0.8, destination rule's [traffic policy](/docs/reference/config/istio.networking.v1alpha3/#TrafficPolicy) is used to configure client side to use (or not use) mutual TLS. For backward compatibility, the _default_ traffic policy is inferred from configmap flag (i.e, if `authPolicy: MUTUAL_TLS`, _default_ traffic policy also be `MUTUAL_TLS`). If there is authentication policy overrules this setting for some services, it should accompany with the appropriate destination rule(s). Similar to authentication policy, the only way to verify the settings is to manually check all rules:
 
     ```command
     $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml
