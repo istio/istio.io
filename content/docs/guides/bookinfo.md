@@ -84,7 +84,7 @@ To start the application, follow the instructions below corresponding to your Is
         use the following command
 
         ```command
-        $ kubectl apply -f <(ISTIO_PROXY_IMAGE=proxyv2 istioctl kube-inject --debug -f samples/bookinfo/kube/bookinfo.yaml)
+        $ kubectl apply -f <(istioctl kube-inject --debug -f samples/bookinfo/kube/bookinfo.yaml)
         ```
 
         The `istioctl kube-inject` command is used to manually modify the `bookinfo.yaml`
@@ -214,7 +214,8 @@ uninstall and clean it up using the following instructions.
 1.  Confirm shutdown
 
     ```command
-    $ istioctl get virtualservices   #-- there should be no more routing rules
+    $ istioctl get gateway           #-- there should be no more gateway
+    $ istioctl get virtualservices   #-- there should be no more virtual services
     $ kubectl get pods               #-- the Bookinfo pods should be deleted
     ```
 
