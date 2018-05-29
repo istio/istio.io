@@ -16,7 +16,7 @@ Through this task, you will learn how to:
 
 * Understand Istio [authentication policy](/docs/concepts/security/authn-policy/) and related [mutual TLS authentication](/docs/concepts/security/mutual-tls/) concepts.
 
-* Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (e.g use `install/kubernetes/istio-demo.yaml` as described in [installation steps]({{home}}/docs/setup/kubernetes/quick-start.html#installation-steps), or set `global.mtls.enabled` to false using [Helm]({{home}}/docs/setup/kubernetes/helm-install.html)).
+* Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (e.g use `install/kubernetes/istio-demo.yaml` as described in [installation steps](/docs/setup/kubernetes/quick-start.html#installation-steps), or set `global.mtls.enabled` to false using [Helm](/docs/setup/kubernetes/helm-install.html)).
 
 *   For demo, create two namespaces `foo` and `bar`, and deploy [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) and [sleep](https://github.com/istio/istio/tree/master/samples/sleep) with sidecar on both of them. Also, run another sleep app without sidecar (to keep it separate, run it in `legacy` namespace)
 
@@ -339,4 +339,4 @@ You may want to try to modify token or policy (e.g change issuer, audiences, exp
 
 ## What's next
 
-* Learn more about verifying mutual TLS setup [testing Istio mutual TLS authentication]({{home}}/docs/tasks/security/mutual-tls.html)
+* Learn more about verifying mutual TLS setup [testing Istio mutual TLS authentication](/docs/tasks/security/mutual-tls.html)

@@ -19,9 +19,9 @@ This task assumes you have a Kubernetes cluster:
     kubectl apply -f install/kubernetes/istio-auth.yaml
     ```
     _**OR**_
-    Using [Helm](/docs/setup/kubernetes/helm-install.html) with `global.mtls.enabled` to `true`.     
+    Using [Helm](/docs/setup/kubernetes/helm-install.html) with `global.mtls.enabled` to `true`.
 
-> Starting with Istio  0.7, you can use [authentication policy](/docs/concepts/security/authn-policy.html) to config mTLS for all/selected services in a namespace (repeated for all namespaces to get global setting). See [authentication policy task]({{home}}/docs/tasks/security/authn-policy.html)
+> Starting with Istio  0.7, you can use [authentication policy](/docs/concepts/security/authn-policy.html) to config mTLS for all/selected services in a namespace (repeated for all namespaces to get global setting). See [authentication policy task](/docs/tasks/security/authn-policy.html)
 
 * For demo, deploy [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) and [sleep](https://github.com/istio/istio/tree/master/samples/sleep) with Envoy sidecar. For simplicity, the demo is setup in the `default` namespace. If you wish to use different namespace,  please add `-n yournamespace` appropriately to the example commands in the next section.
 
@@ -59,7 +59,7 @@ Citadel is up if the "AVAILABLE" column is 1.
     $ kubectl get policies.authentication.istio.io -n default -o yaml
     ```
 
-* Check destination rule. Starting Istio 0.8, destination rule's [traffic policy]({{home}}/docs/reference/config/istio.networking.v1alpha3.html#TrafficPolicy) is used to configure client side to use (or not use) mTLS. For backward compatibility, the _default_ traffic policy is inferred from configmap flag (i.e, if `authPolicy: MUTUAL_TLS`, _default_ traffic policy also be `MUTUAL_TLS`). If there is authentication policy overrules this setting for some services, it should accompany with the appropriate destination rule(s). Similar to authentication policy, the only way to verify the settings is to manually check all rules:
+* Check destination rule. Starting Istio 0.8, destination rule's [traffic policy](/docs/reference/config/istio.networking.v1alpha3.html#TrafficPolicy) is used to configure client side to use (or not use) mTLS. For backward compatibility, the _default_ traffic policy is inferred from configmap flag (i.e, if `authPolicy: MUTUAL_TLS`, _default_ traffic policy also be `MUTUAL_TLS`). If there is authentication policy overrules this setting for some services, it should accompany with the appropriate destination rule(s). Similar to authentication policy, the only way to verify the settings is to manually check all rules:
 
     ```command
     $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml
@@ -128,7 +128,7 @@ Assuming mutual TLS authentication is properly turned on, it should not affect c
     200
     ```
 
-    >  Istio uses [Kubernetes service accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) as service identity, which offers stronger security than service name (refer [here]({{home}}/docs/concepts/security/mutual-tls.html#identity) for more information). Thus the certificates used in Istio do not have service names, which is the information that `curl` needs to verify server identity. As a result, we use `curl` option `-k` to prevent the `curl` client from aborting when failing to find and verify the server name (i.e., httpbin.ns.svc.cluster.local) in the certificate provided by the server.
+    >  Istio uses [Kubernetes service accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) as service identity, which offers stronger security than service name (refer [here](/docs/concepts/security/mutual-tls.html#identity) for more information). Thus the certificates used in Istio do not have service names, which is the information that `curl` needs to verify server identity. As a result, we use `curl` option `-k` to prevent the `curl` client from aborting when failing to find and verify the server name (i.e., httpbin.ns.svc.cluster.local) in the certificate provided by the server.
 
 1. Request from pod without sidecar. For this demo, let's install another `sleep` service without sidecar. To avoid name conflicts, we put it in different namespace.
     ```command
