@@ -268,7 +268,7 @@ customize Istio to your needs.
 
     _**OR**_
 
-    b) Install Istio and enable mutual TLS authenticaiton globally between sidecars. This option is only recommended for new clusters, and all applications are installed with sidecars. Otherwise, we recommend option a) and incrementally adopt Istio mutual TLS.
+    b) Install Istio and enable mutual TLS authenticaiton globally between sidecars. This option is only recommended for new clusters, and all applications are installed with sidecars. Otherwise, we recommend to choose option a) and incrementally adopt Istio mutual TLS later on.
 
     ```command
     $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
