@@ -109,7 +109,7 @@ Assuming mutual TLS authentication is properly turned on, it should not affect c
    200
    ```
 
-1. Request from `sleep` _proxy_ container to `httpbin` service on the other hand fails, as request does not use TLS nor provide client certificate
+1. Request from `sleep` _proxy_ container to `httpbin` service on the other hand fails, as request does not use TLS nor provide a client certificate
    ```command
    $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl httpbin:8000/headers -o /dev/null -s -w '%{http_code}\n'
    000

@@ -60,7 +60,7 @@ Through this task, you will learn how to:
     No resources found.
     ```
 
-## Enable mutual TLS for all services in namespace `foo`
+## Enable mutual TLS for all services in a namespace
 
 Run this command to set namespace-level policy for namespace `foo`.
 
@@ -107,7 +107,7 @@ EOF
 * `*.foo.svc.local.cluster` matches all services in namespace `foo`.
 * With `ISTIO_MUTUAL` TLS mode, Istio will set the path for key and certificates (e.g `clientCertificate`, `privateKey` and `caCertificates`) according to its internal implementation.
 
-Run the same testing command above. We should see request from `sleep.legacy` to `httpbin.foo` start to fail, as the result of enabling mutual TLS for `httpbin.foo` but `sleep.legacy` doesn't have sidecar to support it. On the other hand, for clients with sidecar (`sleep.foo` and `sleep.bar`), Istio automatically configures them to using mTLS where talking to `http.foo`, so they continue to work. Also, requests to `httpbin.bar` are not affected as the policy is effective on the `foo` namespace only.
+Run the same testing command as above. You should see request from `sleep.legacy` to `httpbin.foo` start to fail, as the result of enabling mutual TLS for `httpbin.foo` but `sleep.legacy` doesn't have sidecar to support it. On the other hand, for clients with sidecar (`sleep.foo` and `sleep.bar`), Istio automatically configures them to using mTLS where talking to `http.foo`, so they continue to work. Also, requests to `httpbin.bar` are not affected as the policy is only effective on the `foo` namespace.
 
 ```command
 $ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
@@ -140,7 +140,7 @@ spec:
 EOF
 ```
 
-And destination rule:
+And a destination rule:
 
 ```bash
 cat <<EOF | istioctl create -n bar -f -
