@@ -86,42 +86,43 @@ $ istioctl create -f samples/bookinfo/kube/istio-rbac-namespace.yaml
 ```
 
 The policy does the following:
+
 *   Creates a `ServiceRole` "service-viewer" which allows read access to any service in "default" namespace that has "app" label
 set to one of the values in ["productpage", "details", "reviews", "ratings"]. Note that there is a "constraint" specifying that
 the services must have one of the listed "app" labels.
 
     ```yaml
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: ServiceRole
-    metadata:
-      name: service-viewer
-      namespace: default
-    spec:
-      rules:
-      - services: ["*"]
-        methods: ["GET"]
-        constraints:
-        - key: "app"
-          values: ["productpage", "details", "reviews", "ratings"]
+        apiVersion: "config.istio.io/v1alpha2"
+        kind: ServiceRole
+        metadata:
+          name: service-viewer
+          namespace: default
+        spec:
+          rules:
+          - services: ["*"]
+            methods: ["GET"]
+            constraints:
+            - key: "app"
+              values: ["productpage", "details", "reviews", "ratings"]
     ```
 
 *   Creates a `ServiceRoleBinding` that assign the "service-viewer" role to all services in "istio-system" and "default" namespaces.
 
     ```yaml
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: ServiceRoleBinding
-    metadata:
-      name: bind-service-viewer
-      namespace: default
-    spec:
-      subjects:
-      - properties:
-          namespace: "istio-system"
-      - properties:
-          namespace: "default"
-      roleRef:
-        kind: ServiceRole
-        name: "service-viewer"
+        apiVersion: "config.istio.io/v1alpha2"
+        kind: ServiceRoleBinding
+        metadata:
+          name: bind-service-viewer
+          namespace: default
+        spec:
+          subjects:
+          - properties:
+              namespace: "istio-system"
+          - properties:
+              namespace: "default"
+          roleRef:
+            kind: ServiceRole
+            name: "service-viewer"
     ```
 
 You can expect to see output similar to the following:
@@ -168,31 +169,31 @@ The policy does the following:
 *   Creates a `ServiceRole` "productpage-viewer" which allows read access to "productpage" service.
 
     ```yaml
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: ServiceRole
-    metadata:
-      name: productpage-viewer
-      namespace: default
-    spec:
-      rules:
-      - services: ["productpage.default.svc.cluster.local"]
-        methods: ["GET"]
+        apiVersion: "config.istio.io/v1alpha2"
+        kind: ServiceRole
+        metadata:
+          name: productpage-viewer
+          namespace: default
+        spec:
+          rules:
+          - services: ["productpage.default.svc.cluster.local"]
+            methods: ["GET"]
     ```
 
 *   Creates a `ServiceRoleBinding` "bind-productpager-viewer" which assigns "productpage-viewer" role to all users/services.
 
     ```yaml
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: ServiceRoleBinding
-    metadata:
-      name: bind-productpager-viewer
-      namespace: default
-    spec:
-      subjects:
-      - user: "*"
-      roleRef:
-        kind: ServiceRole
-        name: "productpage-viewer"
+        apiVersion: "config.istio.io/v1alpha2"
+        kind: ServiceRoleBinding
+        metadata:
+          name: bind-productpager-viewer
+          namespace: default
+        spec:
+          subjects:
+          - user: "*"
+          roleRef:
+            kind: ServiceRole
+            name: "productpage-viewer"
     ```
 
 Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage). Now you should see "Bookinfo Sample"
@@ -219,32 +220,32 @@ The policy does the following:
 *   Creates a `ServiceRole` "details-reviews-viewer" which allows read access to "details" and "reviews" services.
 
     ```yaml
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: ServiceRole
-    metadata:
-      name: details-reviews-viewer
-      namespace: default
-    spec:
-      rules:
-      - services: ["details.default.svc.cluster.local", "reviews.default.svc.cluster.local"]
-        methods: ["GET"]
+        apiVersion: "config.istio.io/v1alpha2"
+        kind: ServiceRole
+        metadata:
+          name: details-reviews-viewer
+          namespace: default
+        spec:
+          rules:
+          - services: ["details.default.svc.cluster.local", "reviews.default.svc.cluster.local"]
+            methods: ["GET"]
     ```
 
 *   Creates a `ServiceRoleBinding` "bind-details-reviews" which assigns "details-reviews-viewer" role to service
 account "cluster.local/ns/default/sa/bookinfo-productpage" (representing the "productpage" service).
 
     ```yaml
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: ServiceRoleBinding
-    metadata:
-      name: bind-details-reviews
-      namespace: default
-    spec:
-      subjects:
-      - user: "cluster.local/ns/default/sa/bookinfo-productpage"
-      roleRef:
-        kind: ServiceRole
-        name: "details-reviews-viewer"
+        apiVersion: "config.istio.io/v1alpha2"
+        kind: ServiceRoleBinding
+        metadata:
+          name: bind-details-reviews
+          namespace: default
+        spec:
+          subjects:
+          - user: "cluster.local/ns/default/sa/bookinfo-productpage"
+          roleRef:
+            kind: ServiceRole
+            name: "details-reviews-viewer"
     ```
 
 Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage). Now you should see "Bookinfo Sample"
@@ -272,32 +273,32 @@ The policy does the following:
 *   Creates a `ServiceRole` "ratings-viewer" which allows read access to "ratings" service.
 
     ```yaml
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: ServiceRole
-    metadata:
-      name: ratings-viewer
-      namespace: default
-    spec:
-      rules:
-      - services: ["ratings.default.svc.cluster.local"]
-        methods: ["GET"]
+        apiVersion: "config.istio.io/v1alpha2"
+        kind: ServiceRole
+        metadata:
+          name: ratings-viewer
+          namespace: default
+        spec:
+          rules:
+          - services: ["ratings.default.svc.cluster.local"]
+            methods: ["GET"]
     ```
 
 *   Creates a `ServiceRoleBinding` "bind-ratings" which assigns "ratings-viewer" role to service
 account "cluster.local/ns/default/sa/bookinfo-reviews", which represents the "reviews" services.
 
     ```yaml
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: ServiceRoleBinding
-    metadata:
-      name: bind-ratings
-      namespace: default
-    spec:
-      subjects:
-      - user: "cluster.local/ns/default/sa/bookinfo-reviews"
-      roleRef:
-        kind: ServiceRole
-        name: "ratings-viewer"
+        apiVersion: "config.istio.io/v1alpha2"
+        kind: ServiceRoleBinding
+        metadata:
+          name: bind-ratings
+          namespace: default
+        spec:
+          subjects:
+          - user: "cluster.local/ns/default/sa/bookinfo-reviews"
+          roleRef:
+            kind: ServiceRole
+            name: "ratings-viewer"
     ```
 
 Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage). Now you should see
