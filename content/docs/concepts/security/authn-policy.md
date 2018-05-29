@@ -8,9 +8,11 @@ aliases:
 
 Istio authentication policy enables operators to specify authentication requirements for a service (or services). Istio authentication policy is composed of two parts:
 
-* Peer: verifies the party, the direct client, that makes the connection. The common authentication mechanism for this is [mutual TLS](/docs/concepts/security/mutual-tls/). Istio is responsible for managing both client and server sides to enforce the policy.
+* Peer: verifies the party, the direct client, that makes the connection. The common authentication mechanism for this is [mutual TLS](/docs/concepts/security/mutual-tls/).
 
-* Origin: verifies the party, the original client, that makes the request (e.g end-users, devices etc). JWT is the only supported mechanism for origin authentication at the moment. Istio configures the server side to perform authentication, but doesn't enforce that the client side sends the required token.
+* Origin: verifies the party, the original client, that makes the request (e.g end-users, devices etc). JWT is the only supported mechanism for origin authentication at the moment.
+
+Istio configures the server side to perform authentication, however, it does not enforce the policy on the client side. For mutual TLS authentication, users can use [destination rules](/docs/concepts/traffic-management/rules-configuration/#destination-rules) to configure client side to follow the expected protocol. For other cases, the application is responsible to acquire and attach the credential (e.g JWT) to the request.
 
 Identities from both authentication parts, if applicable, are output to the next layer (e.g authorization, Mixer). To simplify the authorization rules, the policy can also specify which identity (peer or origin) should be used as 'the principal'. By default, it is set to the peer's identity.
 
@@ -39,7 +41,9 @@ Origin principal (principal from origin authentication) is not explicitly output
 
 ### Target selectors
 
-Defines rule to find service(s) on which policy should be applied. If no rule is provided, the policy is matched to all services in the namespace, so-called namespace-level policy (as opposed to service-level policies which have non-empty selector rules). Istio uses the service-level policy if available, otherwise it falls back to namespace-level policy. If neither is defined, it uses the default policy based on service mesh config and/or service annotation, which can only set mutual TLS setting (these are mechanisms before Istio 0.7 to config mutual TLS for Istio service mesh). See [testing Istio mutual TLS](/docs/tasks/security/mutual-tls/) and [per-service mutual TLS enablement](/docs/tasks/security/per-service-mtls/) for more details.
+Defines rules to find service(s) on which policy should be applied. If no rule is provided, the policy is matched to all services in the same namespace of the policy, so-called namespace-level policy (as opposed to service-level policies which have non-empty selector rules). Istio uses the service-level policy if available, otherwise it falls back to namespace-level policy. If neither is defined, it uses the default policy based on service mesh config and/or service annotation, which can only set mutual TLS setting (these are mechanisms before Istio 0.7 to configure mutual TLS for Istio service mesh). See [testing Istio mutual TLS](/docs/tasks/security/mutual-tls/).
+
+> Starting with 0.8, authentication policy is the recommended way to enable/disable mutual TLS per service. The option to use service annotation will be removed in a future release.
 
 Operators are responsible for avoiding conflicts, e.g create more than one service-level policy that matches to the same service(s) (or more than one namespace-level policy on the same namespace).
 
@@ -64,7 +68,7 @@ Example of peer authentication using mutual TLS:
   - mtls:
 ```
 
-> Starting with Istio 0.7, the `mtls` settings doesn't require any parameters (hence `-mtls: {}`, `- mtls:` or `- mtls: null` declaration is sufficient). In future, it may carry arguments to provide different mTLS implementations.
+> Starting with Istio 0.7, the `mtls` settings doesn't require any parameters (hence `-mtls: {}`, `- mtls:` or `- mtls: null` declaration is sufficient). In future, it may carry arguments to provide different mutual TLS implementations.
 
 ### Origin authentication
 
