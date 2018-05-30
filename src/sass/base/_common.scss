@@ -2,18 +2,12 @@
     // This is a hack such that when we link to a fragment on a page, the page
     // scrolls correctly in relation to the fixed header. Without this hack, the
     // page scrolls with the fragment at the top of the page, below the header!
-    *[id]:before {
+    h2[id]:before, h3[id]:before, h4[id]:before, h5[id]:before, h6[id]:before {
           display: block;
           content: ' ';
           margin-top: -1.8em;
           height: 1.8em;
           visibility: hidden;
-    }
-
-    // This is here to undo the effect of the above for table rows. Otherwise,
-    // table rows with ids don't render properly
-    tr[id]:before {
-        content: normal;
     }
 
     html {

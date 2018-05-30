@@ -63,6 +63,29 @@ header {
                 color: $textColor;
             }
         }
+
+        .dropdown-item.active {
+            font-weight: 500;
+            background-color: transparent;
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='black' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: .4rem .6rem;
+            background-size: .75rem .75rem;
+            border: 0;
+
+            &:hover {
+                background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='white' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3E%3C/svg%3E");
+            }
+        }
+
+        .dropdown-item {
+            color: $textColor;
+
+            &:hover {
+                color: $textBrandColor;
+                background-color: $mainBrandColor;
+            }
+        }
     }
 
     .navbar-dark .navbar-nav .nav-link {
@@ -88,26 +111,6 @@ header {
         &:active {
             color: $textBrandColor;
         }
-    }
-}
-
-body.theme-dark {
-    i.dark {
-        visibility: visible;
-    }
-
-    i.light {
-        visibility: hidden;
-    }
-}
-
-body.theme-light {
-    i.dark {
-        visibility: hidden;
-    }
-
-    i.light {
-        visibility: visible;
     }
 }
 
