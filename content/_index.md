@@ -1,6 +1,42 @@
 ---
 title: Istio
 ---
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "Organization",
+        "url": "https://istio.io",
+        "logo": "https://istio.io/img/logo.png",
+        "sameAs": [
+            "https://twitter.com/IstioMesh"
+            "https://istio.rocket.chat/"
+        ]
+    }
+</script>
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "WebSite",
+        "url": "https://istio.io/",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://istio.io/search.html?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+</script>
+<script type="application/ld+json">
+    {
+      "@context": "http://schema.org/",
+      "@type": "Product",
+      "name": "Istio",
+      "image": [
+          "https://istio.io/img/logo.png"
+       ],
+      "description": "Istio is an open platform to connect, manage, and secure microservices."
+    }
+</script>
+
 <main class="landing">
     <div class="hero">
         <div class="container">
