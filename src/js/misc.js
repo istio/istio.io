@@ -114,21 +114,48 @@ function handleDOMLoaded() {
     // way.
     function patchDOM() {
 
+         var escapeChars = {
+            '¢' : 'cent',
+            '£' : 'pound',
+            '¥' : 'yen',
+            '€': 'euro',
+            '©' :'copy',
+            '®' : 'reg',
+            '<' : 'lt',
+            '>' : 'gt',
+            '"' : 'quot',
+            '&' : 'amp',
+            '\'' : '#39'
+        };
+
+        var regexString = '[';
+        for(var key in escapeChars) {
+            regexString += key;
+        }
+        regexString += ']';
+
+        var regex = new RegExp(regexString, 'g');
+
+        function escapeHTML(str) {
+            return str.replace(regex, function(m) {
+                return '&' + escapeChars[m] + ';';
+            });
+        }
+
         // To compensate for https://github.com/gohugoio/hugo/issues/4785, certain code blocks are
         // indented in markdown by four spaces. This removes these four spaces so that the visuals
         // are correct.
         function compensateForHugoBug() {
             var code = document.getElementsByTagName('CODE');
             for (var i = 0; i < code.length; i++) {
-                var text = code[i].innerText;
-                var lines = text.split("\n");
+                var lines = code[i].innerText.split("\n");
                 if ((lines.length > 0) && lines[0].startsWith("    ")) {
                     for (var j = 0; j < lines.length; j++) {
                         if (lines[j].startsWith("    ")) {
-                            lines[j] = lines[j].slice(4);
+                            lines[j] = lines[j].substr(4);
                         }
                     }
-                    code[i].innerText = lines.join('\n');
+                    code[i].innerHTML = escapeHTML(lines.join('\n'));
                 }
             }
         }
@@ -149,9 +176,6 @@ function handleDOMLoaded() {
                 pre[i].parentElement.insertBefore(div, pre[i]);
                 div.appendChild(pre[i]);
                 div.appendChild(button);
-
-                // apply syntax highlighting
-                Prism.highlightElement(pre[i].firstChild, false);
             }
 
             var copyCode = new Clipboard('button.copy', {
@@ -217,62 +241,66 @@ function handleDOMLoaded() {
                 }
 
                 if (cl !== "") {
-                    var text = code.innerText;
-                    var lines = text.split("\n");
-
-                    var bottom = false;
+                    var bottomStart = 0;
+                    var lines = code.innerText.split("\n");
                     var cmd = "";
-                    var output = "";
                     var escape = false;
+                    var tmp = "";
                     for (var j = 0; j < lines.length; j++) {
                         var line = lines[j];
 
-                        if (bottom) {
-                            output = output + "\n" + line;
+                        if (line.startsWith("$ ")) {
+                            if (tmp !== "") {
+                                cmd += "$ " + Prism.highlight(tmp, Prism.languages["bash"], "bash") + "\n";
+                            }
+
+                            tmp = line.slice(2);
+                        } else if (escape) {
+                            // continuation
+                            tmp += "\n" + line;
                         } else {
-                            if (line.startsWith("$ ")) {
-                                // line is definitely a command
-                            } else if (escape) {
-                                // continuation
-                            } else {
-                                bottom = true;
-                                output = line;
-                                continue;
-                            }
-
-                            escape = (line.endsWith("\\"));
-
-                            if (cmd !== "") {
-                                cmd = cmd + "\n";
-                            }
-                            cmd = cmd + line;
-                        }
-                    }
-
-                    // in case someone forgot the $, treat everything as a command instead of as output
-                    if (cmd === "") {
-                        cmd = output;
-                        output = "";
-                    }
-
-                    var colored = Prism.highlight(cmd, Prism.languages["bash"], "bash");
-                    var html = "<div class='command'>" + colored + "</div>";
-
-                    if (output !== "") {
-                        // apply formatting to the output?
-                        var prefix = "language-command-output-as-";
-                        if (cl.length > prefix.length) {
-                            var lang = cl.substr(prefix.length);
-                            output = Prism.highlight(output, Prism.languages[lang], lang);
+                            bottomStart = j;
+                            break;
                         }
 
-                        html += "<div class='output'>" + output + "</div>";
+                        escape = line.endsWith("\\");
                     }
 
-                    code.innerHTML = html;
-                    code.classList.remove(cl);
-                    code.classList.add("command-output");
+                    if (tmp !== "") {
+                        cmd += "$ " + Prism.highlight(tmp, Prism.languages["bash"], "bash") + "\n";
+                    }
+
+                    if (cmd !== "") {
+                        var html = "<div class='command'>" + cmd + "</div>";
+
+                        var output = "";
+                        for (var j = bottomStart; j < lines.length; j++) {
+                            if (output !== "") {
+                                output += "\n";
+                            }
+                            output += lines[j];
+                        }
+
+                        if (output !== "") {
+                            // apply formatting to the output?
+                            var prefix = "language-command-output-as-";
+                            if (cl.length > prefix.length) {
+                                var lang = cl.substr(prefix.length);
+                                output = Prism.highlight(output, Prism.languages[lang], lang);
+                            }
+
+                            html += "<div class='output'>" + output + "</div>";
+                        }
+
+                        code.innerHTML = html;
+                        code.classList.remove(cl);
+                        code.classList.add("command-output");
+                    } else {
+                        // someone probably forgot to start a block with $, so let's just treat the whole thing as being a `bash` block
+                        Prism.highlightElement(code, false);
+                    }
                 } else {
+                    // this isn't one of our special code blocks, so handle normally
                     Prism.highlightElement(code, false);
                 }
             }
