@@ -276,8 +276,8 @@ d)  [Use Helm and Tiller to manage the Istio deployment](/docs/setup/kubernetes/
 
 ## Verifying the installation
 
-1.  Ensure the following Kubernetes services are deployed: `istio-pilot`, `istio-ingress`,
-`istio-policy`, `istio-telemetry`, `prometheus`.
+1.  Ensure the following Kubernetes services are deployed: `istio-pilot`, `istio-ingressgateway`, `istio-egressgateway`, 
+`istio-policy`, `istio-telemetry`, `istio-policy`, `prometheus`.
 
     ```command
     $ kubectl get svc -n istio-system
