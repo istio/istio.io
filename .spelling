@@ -558,6 +558,7 @@ embeddable
 p99
 perfcheck.sh
 vCPU
+AES-NI
 
 qcc
  - search.md
