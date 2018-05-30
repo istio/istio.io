@@ -553,6 +553,12 @@ yamls
 yournamespace
 zipkin_dashboard.png
 zipkin_span.png
+BluePerf
+embeddable
+p99
+perfcheck.sh
+vCPU
+AES-NI
 
 qcc
  - search.md
