@@ -83,7 +83,7 @@ cluster. Create local copies of the injection and mesh configmap.
 > updated.
 
 ```command
-$ istioctl kube-inject --emitTemplate > inject-config.yaml
+$ kubectl -n istio-system get configmap istio-sidecar-injector -o=jsonpath='{.data.config}' > inject-config.yaml
 $ kubectl -n istio-system get configmap istio -o=jsonpath='{.data.mesh}' > mesh-config.yaml
 ```
 
@@ -135,7 +135,7 @@ with the option `sidecarInjectorWebhook.enabled` set to `false`. E.g.
 ```command
 $ helm template --namespace=istio-system --set sidecarInjectorWebhook.enabled=false install/kubernetes/helm/istio > istio.yaml
 $ kubectl create ns istio-system
-$ kubectl apply -f istio.yaml
+$ kubectl apply -n istio-system -f istio.yaml
 ```
 
 In addition, there are some other configuration parameters defined for the sidecar injector webhook
