@@ -262,7 +262,7 @@ a)  Quick install Istio using without enabling [mutual TLS authentication](/docs
 
 _**OR**_
 
-b) Quick install Istio and enforce mutual TLS authentication between sidecars by default. Use this option only on a fresh kubernetes cluster where newly deployed workloads are guaranteed to have Istio sidecars installed.
+b)  Quick install Istio and enforce mutual TLS authentication between sidecars by default. Use this option only on a fresh kubernetes cluster where newly deployed workloads are guaranteed to have Istio sidecars installed.
     
     ```command
     $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
