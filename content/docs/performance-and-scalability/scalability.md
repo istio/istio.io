@@ -18,13 +18,13 @@ weight: 60
 
 Current recommendations (when using all Istio features):
 
-* 1 vCPU per peak thousand requests per second for the sidecar(s) with access logging and 0.5 without.
+* 1 vCPU per peak thousand requests per second for the sidecar(s) with access logging (which is on by default) and 0.5 without, `fluentd` on the node is a big contributor to that cost as it captures and uploads logs.
 
 * Assuming typical cache hit ratio (>80%) for mixer checks: 0.5 vCPU per peak thousand requests per second for the mixer pods.
 
 * Latency cost/overhead is about [14 millisecond](https://fortio.istio.io/browse?url=qps_400-s1_to_s2-0.7.1-2018-04-05-22-06.json) for service-to-service (2 proxies involved, mixer telemetry and checks) as of 0.7.1, we are working on bringing this down to a low single digit ms.
 
-* mTLS cost is negligible.
+* mTLS costs are negligible on AES-NI capable hardware in terms of both CPU and latency.
 
 We plan on providing more granular guidance for customers adopting Istio "A la carte".
 
