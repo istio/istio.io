@@ -252,9 +252,7 @@ For example, run the following command on a MacOS or Linux system:
 
 ## Installation steps
 
-1.  Install Istio's core components. Choose one of the three _**mutually exclusive**_ options below fo quick install.  However, we recommend you to install
-with the [Helm Chart](/docs/setup/kubernetes/helm-install/) for production installations of Istio to leverage all the options to configure and
-customize Istio to your needs.
+Install Istio's core components. Choose one of the four _**mutually exclusive**_ options below fo quick installation.  However, we recommend you to install with the [Helm Chart](/docs/setup/kubernetes/helm-install/) for production installations of Istio to leverage all the options to configure and customize Istio to your needs.
 
     a)  Quick install Istio using without enabling [mutual TLS authentication](/docs/concepts/security/mutual-tls/) between sidecars.
     Choose this option for clusters with existing applications, applications where services with an
@@ -268,7 +266,7 @@ customize Istio to your needs.
 
     _**OR**_
 
-    b) Install Istio and enforce mutual TLS authentication between sidecars by default. Use this option only on a fresh kubernetes cluster where newly deployed workloads are guaranteed to have Istio sidecars installed.
+    b) Quick install Istio and enforce mutual TLS authentication between sidecars by default. Use this option only on a fresh kubernetes cluster where newly deployed workloads are guaranteed to have Istio sidecars installed.
 
     ```command
     $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
@@ -281,9 +279,6 @@ customize Istio to your needs.
     _**OR**_
 
     d)  [Use Helm and Tiller to manage the Istio deployment](/docs/setup/kubernetes/helm-install/#option-2-install-with-helm-and-tiller-via-helm-install).
-
-1. *Optional:* If your cluster has Kubernetes version 1.9 or greater, and you wish to enable automatic proxy injection,
-install the [sidecar injector webhook](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection).
 
 ## Verifying the installation
 
