@@ -45,36 +45,24 @@
                         <i style="width: 1em" class='fa fa-lg fa-cog'></i>
                     </a>
 
-                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="gearDropdown">
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gearDropdown">
                         {{ range $rel := .Site.Data.releases }}
-                            <li>
-                                {{ if eq $version $rel.name }}
-                                    <i class='fa fa-check'></i>
-                                    {{ $rel.name }}
-                                {{ else }}
-                                    <i style="visibility: hidden;" class='fa fa-check'></i>
-                                    <a href="{{ $rel.url }}">{{ $rel.name }}</a>
-                                {{ end }}
-                            </li>
+                            <a href="{{ $rel.url }}" class="dropdown-item {{ if eq $version $rel.name }}active{{ end }}">{{ $rel.name }}</a>
                         {{ end }}
 
-                        <li class="dropdown-divider"></li>
+                        <div class="dropdown-divider"></div>
 
-                        <li>
-                            <i class='fa fa-check light'></i>
-                            <a href="" onclick="setActiveStyleSheet('light');return false;">Light Theme</a>
-                        </li>
+                        <a class="dropdown-item" id="light-theme-item" href="" onclick="setActiveStyleSheet('light');return false;">Light Theme</a>
+                        <a class="dropdown-item" id="dark-theme-item" href="" onclick="setActiveStyleSheet('dark');return false;">Dark Theme</a>
 
-                        <li>
-                            <i class='fa fa-check dark'></i>
-                            <a href="" onclick="setActiveStyleSheet('dark');return false;">Dark Theme</a>
-                        </li>
+                        <div class="dropdown-divider"></div>
 
-                        <li class="dropdown-divider"></li>
+                        <a class="dropdown-item" href="https://github.com/istio/istio.github.io/issues/new?title=Issue%20with%20{{ .Page.Path}}">Report Site Bugs</a>
 
-                        <li><a href="https://github.com/istio/istio.github.io/issues/new?title=Issue%20with%20{{ .Page.Path}}">Report Site Bugs</a></li>
-                        <li><a href="https://github.com/istio/istio.github.io/edit/master/{{ .Page.Path }}">Edit this Page on GitHub</a></li>
-                   </ul>
+                        {{ if ne .Page.Params.generator "" }}
+                            <a class="dropdown-item" href="https://github.com/istio/istio.github.io/edit/master/{{ .Page.Path }}">Edit this Page on GitHub</a>
+                        {{ end }}
+                   </div>
                 </li>
 
                 <li class="nav-item">
