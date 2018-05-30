@@ -1,7 +1,7 @@
 ---
 title: istioctl
 description: Istio control interface
-layout: pkg-collateral-docs
+generator: pkg-collateral-docs
 number_of_entries: 19
 ---
 <p>
@@ -9,9 +9,10 @@ Istio configuration command line utility.</p>
 <p>Create, list, modify, and delete configuration resources in the Istio
 system.</p>
 <p>Available routing and traffic management configuration types:</p>
-<p>	[routerule ingressrule egressrule destinationpolicy]</p>
-<p>See https://istio.io/docs/reference/ for an overview of routing rules
-and destination policies.</p>
+<p>	[virtualservice gateway destinationrule serviceentry httpapispec httpapispecbinding quotaspec quotaspecbinding servicerole servicerolebinding policy]</p>
+<p>Legacy routing and traffic management configuration types:</p>
+<p>	[routerule egressrule destinationpolicy]</p>
+<p>See https://istio.io/docs/reference/ for an overview of Istio routing.</p>
 <p></p>
 <table class="command-flags">
 <thead>
@@ -353,8 +354,8 @@ istioctl context-create --api-server http://127.0.0.1:8080
 <pre class="language-bash"><code># Delete a rule using the definition in example-routing.yaml.
 istioctl delete -f example-routing.yaml
 
-# Delete the rule productpage-default
-istioctl delete routerule productpage-default
+# Delete the virtual service bookinfo
+istioctl delete virtualservice bookinfo
 
 </code></pre>
 <h2 id="istioctl deregister">istioctl deregister</h2>
@@ -894,7 +895,7 @@ istioctl experimental rbac can -u test GET rating /v1/health
 istioctl experimental rbac can -s service=product-page POST rating /data -a version=dev
 </code></pre>
 <h2 id="istioctl gen-deploy">istioctl gen-deploy</h2>
-<p>istioctl gen-deploy produces deployment files to run the minimum Istio control for the set of features requested by the --feature flag. If no features are provided, we create deployments for the default control plane: Pilot, Mixer, CA, and Ingress Proxies, with mTLS enabled.</p>
+<p>istioctl gen-deploy produces deployment files to run the Istio.</p>
 <pre class="language-bash"><code>istioctl gen-deploy [flags]
 </code></pre>
 <table class="command-flags">
@@ -908,11 +909,6 @@ istioctl experimental rbac can -s service=product-page POST rating /data -a vers
 <td><code>--debug</code></td>
 <td></td>
 <td>If true, uses debug images instead of release images </td>
-</tr>
-<tr>
-<td><code>--features &lt;stringArray&gt;</code></td>
-<td><code>-f</code></td>
-<td>List of Istio features to enable. Accepts any combination of &#34;mtls&#34;, &#34;telemetry&#34;, &#34;routing&#34;, &#34;ingress&#34;, &#34;policy&#34;, &#34;sidecar-injector&#34;.  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--helm-chart-dir &lt;string&gt;</code></td>
@@ -995,11 +991,6 @@ istioctl experimental rbac can -s service=product-page POST rating /data -a vers
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
-<td><code>--out &lt;string&gt;</code></td>
-<td><code>-o</code></td>
-<td>Output format. Acceptable values are&#39;helm&#39; to produce contents of values.yaml or &#39;helm&#39; to produces Kubernetes deployments  (default `helm`)</td>
-</tr>
-<tr>
 <td><code>--platform &lt;string&gt;</code></td>
 <td><code>-p</code></td>
 <td>Istio host platform  (default `kube`)</td>
@@ -1012,7 +1003,7 @@ istioctl experimental rbac can -s service=product-page POST rating /data -a vers
 </tbody>
 </table>
 <h3 id="istioctl gen-deploy Examples">Examples</h3>
-<pre class="language-bash"><code>istioctl gen-deploy --features routing,policy,sidecar-injector -o helm
+<pre class="language-bash"><code>istioctl gen-deploy --values myvalues.yaml
 </code></pre>
 <h2 id="istioctl get">istioctl get</h2>
 <p>Retrieve policies and rules</p>
@@ -1098,14 +1089,14 @@ istioctl experimental rbac can -s service=product-page POST rating /data -a vers
 </tbody>
 </table>
 <h3 id="istioctl get Examples">Examples</h3>
-<pre class="language-bash"><code># List all route rules
-istioctl get routerules
+<pre class="language-bash"><code># List all virtual services
+istioctl get virtualservices
 
-# List all destination policies
-istioctl get destinationpolicies
+# List all destination rules
+istioctl get destinationrules
 
-# Get a specific rule named productpage-default
-istioctl get routerule productpage-default
+# Get a specific virtual service named bookinfo
+istioctl get virtualservice bookinfo
 
 </code></pre>
 <h2 id="istioctl kube-inject">istioctl kube-inject</h2>
@@ -1138,54 +1129,9 @@ file/configmap created with a new Istio release.
 </thead>
 <tbody>
 <tr>
-<td><code>--coreDump</code></td>
-<td></td>
-<td>Enable/Disable core dumps in injected Envoy sidecar (--coreDump=true affects all pods in a node and should only be used the cluster admin) </td>
-</tr>
-<tr>
-<td><code>--debug</code></td>
-<td></td>
-<td>Use debug images and settings for the sidecar </td>
-</tr>
-<tr>
-<td><code>--emitTemplate</code></td>
-<td></td>
-<td>Emit sidecar template based on parameterized flags </td>
-</tr>
-<tr>
-<td><code>--excludeIPRanges &lt;string&gt;</code></td>
-<td></td>
-<td>Comma separated list of IP ranges in CIDR form. If set, outbound traffic will not be redirected for these IP ranges. Exclusions are only applied if configured to redirect all outbound traffic. By default, no IP ranges are excluded.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--excludeInboundPorts &lt;string&gt;</code></td>
-<td></td>
-<td>Comma separated list of inbound ports. If set, inbound traffic will not be redirected for those ports. Exclusions are only applied if configured to redirect all inbound traffic. By default, no ports are excluded.  (default ``)</td>
-</tr>
-<tr>
 <td><code>--filename &lt;string&gt;</code></td>
 <td><code>-f</code></td>
 <td>Input Kubernetes resource filename  (default ``)</td>
-</tr>
-<tr>
-<td><code>--hub &lt;string&gt;</code></td>
-<td></td>
-<td>Docker hub  (default `unknown`)</td>
-</tr>
-<tr>
-<td><code>--imagePullPolicy &lt;string&gt;</code></td>
-<td></td>
-<td>Sets the container image pull policy. Valid options are Always,IfNotPresent,Never.The default policy is IfNotPresent.  (default `IfNotPresent`)</td>
-</tr>
-<tr>
-<td><code>--includeIPRanges &lt;string&gt;</code></td>
-<td></td>
-<td>Comma separated list of IP ranges in CIDR form. If set, only redirect outbound traffic to Envoy for these IP ranges. All outbound traffic can be redirected with the wildcard character &#39;*&#39;. Defaults to &#39;*&#39;.  (default `*`)</td>
-</tr>
-<tr>
-<td><code>--includeInboundPorts &lt;string&gt;</code></td>
-<td></td>
-<td>Comma separated list of inbound ports for which traffic is to be redirected to Envoy. All ports can be redirected with the wildcard character &#39;*&#39;. Defaults to &#39;*&#39;.  (default `*`)</td>
 </tr>
 <tr>
 <td><code>--injectConfigFile &lt;string&gt;</code></td>
@@ -1195,7 +1141,7 @@ file/configmap created with a new Istio release.
 <tr>
 <td><code>--injectConfigMapName &lt;string&gt;</code></td>
 <td></td>
-<td>ConfigMap name for Istio sidecar injection, key should be &#34;config&#34;.This option overrides any other sidecar injection config options, eg. --hub  (default ``)</td>
+<td>ConfigMap name for Istio sidecar injection, key should be &#34;config&#34;.This option overrides any other sidecar injection config options, eg. --hub  (default `istio-sidecar-injector`)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -1276,26 +1222,6 @@ file/configmap created with a new Istio release.
 <td><code>--platform &lt;string&gt;</code></td>
 <td><code>-p</code></td>
 <td>Istio host platform  (default `kube`)</td>
-</tr>
-<tr>
-<td><code>--setVersionString &lt;string&gt;</code></td>
-<td></td>
-<td>Override version info injected into resource  (default ``)</td>
-</tr>
-<tr>
-<td><code>--sidecarProxyUID &lt;uint&gt;</code></td>
-<td></td>
-<td>Envoy sidecar UID  (default `1337`)</td>
-</tr>
-<tr>
-<td><code>--tag &lt;string&gt;</code></td>
-<td></td>
-<td>Docker tag  (default `unknown`)</td>
-</tr>
-<tr>
-<td><code>--verbosity &lt;int&gt;</code></td>
-<td></td>
-<td>Runtime verbosity  (default `2`)</td>
 </tr>
 </tbody>
 </table>
