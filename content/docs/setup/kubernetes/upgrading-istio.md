@@ -57,7 +57,7 @@ The rolling update process will upgrade all deployments and configmaps to the ne
 
 ### Sidecar upgrade
 
-The applications already running istio will still using the sidecar from 0.7.1 and will continueto work. After the control plane is upgraded, you will need to re-inject so they run with the new version of sidecar proxy. There are two cases: Manual injection and Automatic injection.
+The applications already running istio will still using the sidecar from 0.7.1 and will continue to work. After the control plane is upgraded, you will need to re-inject so they run with the new version of sidecar proxy. There are two cases: Manual injection and Automatic injection.
 
 1.  Manual injection:
 
