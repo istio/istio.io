@@ -1,19 +1,19 @@
 #!/bin/bash
 
 # This script copies generated .pb.html files, which contain reference docs for protos, and installs
-# them in their targeted location within the _docs/reference tree of this repo. Each .pb.html file contains a
+# them in their targeted location within the content/docs/reference tree of this repo. Each .pb.html file contains a
 # line that indicates the target directory location. The line is of the form:
 #
 #  location: https://istio.io/docs/reference/...
 #
 # Additionally, this script also builds Istio components and runs them to extract their command-line docs which it
-# copies to _docs/reference/commands.
+# copies to content/docs/reference/commands.
 
 #set -e
 
 ISTIO_BASE=$(cd "$(dirname "$0")" ; pwd -P)/..
 WORK_DIR=$(mktemp -d)
-COMMAND_DIR=$ISTIO_BASE/_docs/reference/commands
+COMMAND_DIR=$ISTIO_BASE/content/docs/reference/commands
 
 # Get the source code
 pushd $WORK_DIR
@@ -37,7 +37,7 @@ locate_file() {
     FNP=${LOCATION:31}
     FN=$(echo $FNP | rev | cut -d'/' -f1 | rev)
     PP=$(echo $FNP | rev | cut -d'/' -f2- | rev)
-    sed -e 's/href="https:\/\/istio.io/href="/g' ${FILENAME} >_docs${PP}/${FN}
+    sed -e 's/href="https:\/\/istio.io/href="/g' ${FILENAME} >content/docs${PP}/${FN}
 }
 
 # Given the path and name to an Istio command, builds the command and then
@@ -60,13 +60,13 @@ get_command_doc() {
 # First delete all the current generated files so that any stale files are removed
 find _docs/reference -name '*.html' -type f|xargs rm
 
-for f in `find $WORK_DIR/api -type f -name '*.pb.html'`
+for f in `find ../api -type f -name '*.pb.html'`
 do
     echo "processing $f"
     locate_file $f
 done
 
-for f in `find $WORK_DIR/istio -type f -name '*.pb.html'`
+for f in `find ../istio -type f -name '*.pb.html'`
 do
     echo "processing $f"
     locate_file $f
