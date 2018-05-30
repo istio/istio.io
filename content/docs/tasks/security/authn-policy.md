@@ -95,7 +95,7 @@ metadata:
   name: "enable-mtls"
   namespace: "foo"
 spec:
-  host: *.foo.svc.local.cluster
+  host: *.foo.svc.cluster.local
   trafficPolicy:
     tls:
       mode: ISTIO_MUTUAL
@@ -104,7 +104,7 @@ EOF
 
 > Note:
 * This rule is based on the assumption that there is no other destination rule in the system. If it's not the case, you need to modify traffic policy in existing rules accordingly.
-* `*.foo.svc.local.cluster` matches all services in namespace `foo`.
+* `*.foo.svc.cluster.local` matches all services in namespace `foo`.
 * With `ISTIO_MUTUAL` TLS mode, Istio will set the path for key and certificates (e.g `clientCertificate`, `privateKey` and `caCertificates`) according to its internal implementation.
 
 Run the same testing command as above. You should see requests from `sleep.legacy` to `httpbin.foo` start to fail, as the result of enabling mutual TLS for `httpbin.foo` but `sleep.legacy` doesn't have a sidecar to support it. On the other hand, for clients with sidecar (`sleep.foo` and `sleep.bar`), Istio automatically configures them to using mTLS where talking to `http.foo`, so they continue to work. Also, requests to `httpbin.bar` are not affected as the policy is only effective on the `foo` namespace.
@@ -191,7 +191,7 @@ kind: "DestinationRule"
 metadata:
   name: "enable-mtls"
 spec:
-host: httpbin.bar.svc.local.cluster
+host: httpbin.bar.svc.cluster.local
 trafficPolicy:
   portLevelSettings:
   - port:
@@ -233,7 +233,7 @@ kind: "DestinationRule"
 metadata:
   name: "httbin-disable-mtls"
 spec:
-host: httpbin.foo.svc.local.cluster
+host: httpbin.foo.svc.cluster.local
 trafficPolicy:
 EOF
 ```
