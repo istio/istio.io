@@ -36,7 +36,9 @@ You should customize it based on your provisioning tools and DNS requirements.
 
 *   Setup Internal Load Balancers (ILBs) for Kube DNS, Pilot, Mixer and Citadel. This step is specific to
 each cloud provider, so you may need to edit annotations. You can use an ILB based on keepalived at
-[here](https://github.com/gyliu513/work/tree/master/k8s/charts/keepalived) for test.
+[here](https://github.com/gyliu513/work/tree/master/k8s/charts/keepalived) for demo or test in case where
+the cloud provider or private cloud (for example IBM Cloud Private) doesn't have load balancer service
+support out of box.
 
     ```command
     $ kubectl apply -f install/kubernetes/mesh-expansion.yaml
