@@ -45,8 +45,6 @@ Using Istio we can ensure that `1qps` is not breached.
    ```command
    $ istioctl create -f samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml
    ```
-   The file looks like this:
-   {% include file-content.html url='https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml' %}
 
     The file looks like:
     {{< file_content url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml" >}}
@@ -102,7 +100,7 @@ Using Istio we can ensure that `1qps` is not breached.
         destinationVersion: destination.labels["version"] | "unknown"
     ```
 
-  The `quota` template defines 4 `dimensions` that are used by `memquota` to set overrides on request that match certain attributes. `destination` will be set to the first non-empty value in `destination.labels["app"]`, `destination.service`, or `"unknown"`. More info on expressions can be found [here]({{home}}/docs/reference/config/mixer/expression-language.html)
+  The `quota` template defines 4 `dimensions` that are used by `memquota` to set overrides on request that match certain attributes. `destination` will be set to the first non-empty value in `destination.labels["app"]`, `destination.service`, or `"unknown"`. More info on expressions can be found [here](/docs/reference/config/policy-and-telemetry/expression-language)
 
 1. Confirm the `rule` was created:
     ```command
