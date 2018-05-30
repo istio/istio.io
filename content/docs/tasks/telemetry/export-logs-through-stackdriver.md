@@ -21,8 +21,10 @@ application.
 Istio exports logs through logentry template configured for Mixer as [accesslog entry](https://github.com/istio/istio/blob/master/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml#L134:9).
 This specifies all the variables that would be available for analysis. It contains information like source service, destination service, auth metrics(coming..) among others.
 Following is a diagram of the pipeline:
+
 {{< image width="75%" ratio="69.52%"
     link="./img/istio-analytics-using-stackdriver.png"
+    alt="Image is not available"
     title="Diagram of exporting logs from Istio to StackDriver for analysis"
     >}}
 
