@@ -260,7 +260,7 @@ a)  Quickly install Istio without enabling [mutual TLS authentication](/docs/con
     $ kubectl apply -f install/kubernetes/istio-demo.yaml
     ```
 
-__*OR*__
+*OR*
 
 b)  Quickly install Istio and enforce mutual TLS authentication between sidecars by default. Use this option only on a fresh kubernetes cluster where newly deployed workloads are guaranteed to have Istio sidecars installed.
 
@@ -268,11 +268,11 @@ b)  Quickly install Istio and enforce mutual TLS authentication between sidecars
     $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
     ```
 
-__*OR*__
+*OR*
 
 c)  [Render Kubernetes manifest with Helm and deploy with kubectl](/docs/setup/kubernetes/helm-install/#option-1-install-with-helm-via-helm-template).
 
-__*OR*__
+*OR*
 
 d)  [Use Helm and Tiller to manage the Istio deployment](/docs/setup/kubernetes/helm-install/#option-2-install-with-helm-and-tiller-via-helm-install).
 
