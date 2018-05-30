@@ -22,7 +22,7 @@ Current recommendations (when using all Istio features):
 
 * Assuming typical cache hit ratio (>80%) for mixer checks: 0.5 vCPU per peak thousand requests per second for the mixer pods.
 
-* Latency cost/overhead is about [14 millisecond](https://fortio.istio.io/browse?url=qps_400-s1_to_s2-0.7.1-2018-04-05-22-06.json) for service-to-service (2 proxies involved, mixer telemetry and checks) as of 0.7.1, we are working on bringing this down to a low single digit ms.
+* Latency cost/overhead is approximately [10 millisecond](https://fortio.istio.io/browse?url=qps_400-s1_to_s2-0.7.1-2018-04-05-22-06.json) for service-to-service (2 proxies involved, mixer telemetry and checks) as of 0.7.1, we expect to bring this down to a low single digit ms.
 
 * mTLS costs are negligible on AES-NI capable hardware in terms of both CPU and latency.
 
