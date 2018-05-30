@@ -70,6 +70,15 @@ footer {
         @media (min-width: $bp-lg) {
             text-align: center!important;
         }
+
+        a {
+            color: $textBrandColorLight;
+            text-decoration: underline;
+
+            &:hover {
+                color: $textBrandColorLight;
+            }
+        }
     }
 
     .tag {
