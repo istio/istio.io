@@ -102,4 +102,4 @@ spec:
 
 ```
 
-When all your applications have been migrated and tested, you can repeat the istio upgrade process, removing the '--set global.proxy.image=proxy' option. 
+When all your applications have been migrated and tested, you can repeat the istio upgrade process, removing the `--set global.proxy.image=proxy` option. 
