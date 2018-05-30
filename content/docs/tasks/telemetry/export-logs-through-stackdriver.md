@@ -94,39 +94,39 @@ Handler is configured based on this proto.
 	      kind: 2 # DELTA
 	      value: 5 # DISTRIBUTION
 	      buckets:
-		explicit_buckets:
-		  bounds: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10]
+	        explicit_buckets:
+	          bounds: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10]
 	    requestsize.metric.istio-system:
 	      kind: 2 # DELTA
 	      value: 5 # DISTRIBUTION
 	      buckets:
-		exponentialBuckets:
-		  numFiniteBuckets: 8
-		  scale: 1
-		  growthFactor: 10
+	        exponentialBuckets:
+	          numFiniteBuckets: 8
+	          scale: 1
+	          growthFactor: 10
 	    responsesize.metric.istio-system:
 	      kind: 2 # DELTA
 	      value: 5 # DISTRIBUTION
 	      buckets:
-		exponentialBuckets:
-		  numFiniteBuckets: 8
-		  scale: 1
-		  growthFactor: 10
+	        exponentialBuckets:
+	          numFiniteBuckets: 8
+	          scale: 1
+	          growthFactor: 10
 	  # Describes how to map Istio logs into Stackdriver.
 	  logInfo:
 	    accesslog.logentry.istio-system:
 	      payloadTemplate: '{{or (.sourceIp) "-"}} - {{or (.sourceUser) "-"}} [{{or (.timestamp.Format "02/Jan/2006:15:04:05 -0700") "-"}}] "{{or (.method) "-"}} {{or (.url) "-"}} {{or (.protocol) "-"}}" {{or (.responseCode) "-"}} {{or (.responseSize) "-"}}'
 	      httpMapping:
-		url: url
-		status: responseCode
-		requestSize: requestSize
-		responseSize: responseSize
-		latency: latency
-		localIp: sourceIp
-		remoteIp: destinationIp
-		method: method
-		userAgent: userAgent
-		referer: referer
+	        url: url
+	        status: responseCode
+	        requestSize: requestSize
+	        responseSize: responseSize
+	        latency: latency
+	        localIp: sourceIp
+	        remoteIp: destinationIp
+	        method: method
+	        userAgent: userAgent
+	        referer: referer
 	      labelNames:
 	      - sourceIp
 	      - destinationIp
@@ -152,9 +152,9 @@ Handler is configured based on this proto.
 	      - sentBytes
 	      - referer
 	      sinkInfo:
-		id: '<sink_id>'
-		destination: '<sink_destination>'
-		filter: '<log_filter>'
+	        id: '<sink_id>'
+	        destination: '<sink_destination>'
+	        filter: '<log_filter>'
 	---
 	apiVersion: "config.istio.io/v1alpha2"
 	kind: rule
