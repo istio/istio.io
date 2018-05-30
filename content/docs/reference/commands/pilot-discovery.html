@@ -1,7 +1,7 @@
 ---
 title: pilot-discovery
 description: Istio Pilot
-layout: pkg-collateral-docs
+generator: pkg-collateral-docs
 number_of_entries: 5
 ---
 <p>Istio Pilot provides fleet-wide traffic management capabilities in the Istio Service Mesh.</p>
@@ -12,16 +12,24 @@ number_of_entries: 5
 </thead>
 <tbody>
 <tr>
+<td><code>--ctrlz_address &lt;string&gt;</code></td>
+<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `127.0.0.1`)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_port &lt;uint16&gt;</code></td>
+<td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
+</tr>
+<tr>
 <td><code>--log_as_json</code></td>
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -41,7 +49,7 @@ number_of_entries: 5
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -60,16 +68,24 @@ number_of_entries: 5
 </thead>
 <tbody>
 <tr>
+<td><code>--ctrlz_address &lt;string&gt;</code></td>
+<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `127.0.0.1`)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_port &lt;uint16&gt;</code></td>
+<td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
+</tr>
+<tr>
 <td><code>--log_as_json</code></td>
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -89,7 +105,7 @@ number_of_entries: 5
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -144,6 +160,16 @@ number_of_entries: 5
 <td>URL for the Consul server  (default ``)</td>
 </tr>
 <tr>
+<td><code>--ctrlz_address &lt;string&gt;</code></td>
+<td></td>
+<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `127.0.0.1`)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_port &lt;uint16&gt;</code></td>
+<td></td>
+<td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
+</tr>
+<tr>
 <td><code>--discovery_cache</code></td>
 <td></td>
 <td>Enable caching discovery service responses </td>
@@ -181,12 +207,12 @@ number_of_entries: 5
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -211,7 +237,7 @@ number_of_entries: 5
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -277,6 +303,16 @@ number_of_entries: 5
 </thead>
 <tbody>
 <tr>
+<td><code>--ctrlz_address &lt;string&gt;</code></td>
+<td></td>
+<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `127.0.0.1`)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_port &lt;uint16&gt;</code></td>
+<td></td>
+<td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
+</tr>
+<tr>
 <td><code>--log_as_json</code></td>
 <td></td>
 <td>Whether to format output as JSON or in plain console-friendly format </td>
@@ -284,12 +320,12 @@ number_of_entries: 5
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -314,7 +350,7 @@ number_of_entries: 5
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
