@@ -55,8 +55,7 @@ Through this task, you will learn how to:
 *   Also verify that there are no authentication policy in the system
 
     ```command
-    $ kubectl get policies.authentication.istio.io -n foo
-    $ kubectl get policies.authentication.istio.io -n bar
+    $ kubectl get policies.authentication.istio.io --all-namespaces
     No resources found.
     ```
 
@@ -69,7 +68,7 @@ cat <<EOF | istioctl create -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
-  name: "enable-mtls"
+  name: "example-1"
   namespace: "foo"
 spec:
   peers:
@@ -92,10 +91,10 @@ cat <<EOF | istioctl create -f -
 apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:
-  name: "enable-mtls"
+  name: "example-1"
   namespace: "foo"
 spec:
-  host: *.foo.svc.local.cluster
+  host: "*.foo.svc.cluster.local"
   trafficPolicy:
     tls:
       mode: ISTIO_MUTUAL
@@ -104,7 +103,7 @@ EOF
 
 > Note:
 * This rule is based on the assumption that there is no other destination rule in the system. If it's not the case, you need to modify traffic policy in existing rules accordingly.
-* `*.foo.svc.local.cluster` matches all services in namespace `foo`.
+* `*.foo.svc.cluster.local` matches all services in namespace `foo`.
 * With `ISTIO_MUTUAL` TLS mode, Istio will set the path for key and certificates (e.g `clientCertificate`, `privateKey` and `caCertificates`) according to its internal implementation.
 
 Run the same testing command as above. You should see requests from `sleep.legacy` to `httpbin.foo` start to fail, as the result of enabling mutual TLS for `httpbin.foo` but `sleep.legacy` doesn't have a sidecar to support it. On the other hand, for clients with sidecar (`sleep.foo` and `sleep.bar`), Istio automatically configures them to using mTLS where talking to `http.foo`, so they continue to work. Also, requests to `httpbin.bar` are not affected as the policy is only effective on the `foo` namespace.
@@ -131,7 +130,7 @@ cat <<EOF | istioctl create -n bar -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
-  name: "enable-mtls"
+  name: "example-2"
 spec:
   targets:
   - name: httpbin
@@ -147,12 +146,12 @@ cat <<EOF | istioctl create -n bar -f -
 apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:
-  name: "enable-mtls"
+  name: "example-2"
 spec:
-host: httpbin.bar.svc.local.cluster
-trafficPolicy:
-  tls:
-    mode: ISTIO_MUTUAL
+  host: "httpbin.bar.svc.cluster.local"
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
 EOF
 ```
 
@@ -171,7 +170,7 @@ cat <<EOF | istioctl replace -n bar -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
-  name: "enable-mtls"
+  name: "example-2"
 spec:
   targets:
   - name: httpbin
@@ -185,19 +184,21 @@ EOF
 And a corresponding change to the destination rule:
 
 ```bash
-cat <<EOF | istioctl create -n bar -f -
+cat <<EOF | istioctl replace -n bar -f -
 apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:
-  name: "enable-mtls"
+  name: "example-2"
 spec:
-host: httpbin.bar.svc.local.cluster
-trafficPolicy:
-  portLevelSettings:
-  - port:
-      number: 1234
+  host: httpbin.bar.svc.cluster.local
+  trafficPolicy:
     tls:
-      mode: ISTIO_MUTUAL
+      mode: DISABLE
+    portLevelSettings:
+    - port:
+        number: 1234
+      tls:
+        mode: ISTIO_MUTUAL
 EOF
 ```
 
@@ -217,7 +218,7 @@ cat <<EOF | istioctl create -n foo -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
-  name: "httpbin"
+  name: "example-3"
 spec:
   targets:
   - name: httpbin
@@ -231,10 +232,12 @@ cat <<EOF | istioctl create -n foo -f -
 apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:
-  name: "httbin-disable-mtls"
+  name: "example-3"
 spec:
-host: httpbin.foo.svc.local.cluster
-trafficPolicy:
+  host: httpbin.foo.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: DISABLE
 EOF
 ```
 
@@ -250,7 +253,8 @@ $ kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..met
 You will need a valid JWT (corresponding to the JWKS endpoint you want to use for the demo). Please follow the instructions [here](https://github.com/istio/istio/tree/master/security/tools/jwt) to create one. You can also use your own JWT/JWKS endpoint for the demo. Once you have that, export to some environment variables.
 
 ```command
-$ export JWKS=https://www.googleapis.com/service_accounts/v1/jwk/<YOUR-SVC-ACCOUNT>
+$ export SVC_ACCOUNT="example@my-project.iam.gserviceaccount.com"
+$ export JWKS=https://www.googleapis.com/service_accounts/v1/jwk/${SVC_ACCOUNT}
 $ export TOKEN=<YOUR-TOKEN>
 ```
 
@@ -283,22 +287,9 @@ export INGRESS_HOST=$(kubectl get ing -n foo -o=jsonpath='{.items[0].status.load
 
 And run a test query
 
-```command-output-as-json
+```command
 $ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
-{
-  "headers": {
-    "Accept": "*/*",
-    "Content-Length": "0",
-    "Host": "35.230.123.105",
-    "User-Agent": "curl/7.58.0",
-    "X-B3-Sampled": "1",
-    "X-B3-Spanid": "d729acfa46c072ba",
-    "X-B3-Traceid": "d729acfa46c072ba",
-    "X-Envoy-Internal": "true",
-    "X-Ot-Span-Context": "d729acfa46c072ba;d729acfa46c072ba;0000000000000000",
-    "X-Request-Id": "8f232322-7c73-9470-8481-5ab64233adf9"
-  }
-}
+200
 ```
 
 Now, let's add a policy that requires end-user JWT for `httpbin.foo`. The next command assumes policy with name "httpbin" already exists (which should be if you follow previous sections). You can run `kubectl get policies.authentication.istio.io -n foo` to confirm, and use `istio create` (instead of `istio replace`) if resource is not found. Also note in this policy, peer authentication (mTLS) is also set, though it can be removed without affecting origin authentication settings.
@@ -308,7 +299,7 @@ cat <<EOF | istioctl replace -n foo -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
-  name: "httpbin"
+  name: "example-3"
 spec:
   targets:
   - name: httpbin
@@ -316,7 +307,7 @@ spec:
   - mtls:
   origins:
   - jwt:
-      issuer: "YOUR_SERVICE_ACCOUNT_EMAIL"
+      issuer: $SVC_ACCOUNT
       jwksUri: $JWKS
   principalBinding: USE_ORIGIN
 EOF
@@ -333,6 +324,7 @@ Attaching the valid token generated above returns success:
 
 ```command
 $ curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
+200
 ```
 
 You may want to try to modify token or policy (e.g change issuer, audiences, expiry date etc) to observe other aspects of JWT validation.
