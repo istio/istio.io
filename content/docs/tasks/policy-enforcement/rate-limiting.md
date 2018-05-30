@@ -89,7 +89,7 @@ Consider `ratings` as an external paid service like Rotten Tomatoes® with
   The `memquota` defines 3 different rate limit schemes. The default, if no
   overrides match, is `5000` requests per `1s`. Two overrides are also
   defined. The first is `1` request every `5s` if the `destination` is
-  `ratings`, the source is `reviews`, and the sourceVersion is `v3`. The
+  `ratings`, the source is `reviews`, and the `sourceVersion` is `v3`. The
   second is `5` request every `10s` if the `destination` is `ratings`. The
   first matching override is picked (reading from top to bottom).
 
@@ -253,8 +253,8 @@ The `maxAmount` in the adapter configuration sets the default limit for all
 counters associated with a quota instance. This default limit applies if a
 quota override does not match the request. Memquota selects the first
 override that matches a request. An override need not specify all quota
-dimensions. In the mixer-rule-ratings-ratelimit.yaml example, the `0.2qps`
-override is selected by matching only three out of four quota dimensions.
+dimensions. In the example, the `0.2qps` override is selected by matching
+only three out of four quota dimensions.
 
 If you would like the above policies enforced for a given namespace instead
 of the entire Istio mesh, you can replace all occurrences of istio-system
