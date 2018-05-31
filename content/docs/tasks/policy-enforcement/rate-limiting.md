@@ -25,12 +25,12 @@ service.
     $ istioctl create -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
     ```
 
-> If you have conflicting rule that you set in previous tasks,
+> If you have a conflicting rule that you set in previous tasks,
 use `istioctl replace` instead of `istioctl create`.
 
 ## Rate limits
 
-Istio enables users to rate limit traffic to a service.
+Istio enables you to rate limit traffic to a service.
 
 Consider `ratings` as an external paid service like Rotten Tomatoes® with
 `1qps` free quota. Using Istio we can ensure that `1qps` is not breached.
@@ -54,37 +54,35 @@ Consider `ratings` as an external paid service like Rotten Tomatoes® with
     ```
 
     The file looks like:
-    {{< file_content url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml" >}}
+
+    {{< file_content url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml" lang="yaml" >}}
 
 1. Confirm the `memquota` was created:
 
-    ```command
-    $ kubectl -n istio-system get memquota handler -o yaml
+    ```command-output-as-yaml
+        $ kubectl -n istio-system get memquota handler -o yaml
+        apiVersion: config.istio.io/v1alpha2
+        kind: memquota
+        metadata:
+          name: handler
+          namespace: istio-system
+        spec:
+          quotas:
+          - name: requestcount.quota.istio-system
+            maxAmount: 5000
+            validDuration: 1s
+            overrides:
+            - dimensions:
+                destination: ratings
+                source: reviews
+                sourceVersion: v3
+              maxAmount: 1
+              validDuration: 5s
+            - dimensions:
+                destination: ratings
+              maxAmount: 5
+              validDuration: 10s
     ```
-
-      ```yaml
-      apiVersion: config.istio.io/v1alpha2
-      kind: memquota
-      metadata:
-        name: handler
-        namespace: istio-system
-      spec:
-        quotas:
-        - name: requestcount.quota.istio-system
-          maxAmount: 5000
-          validDuration: 1s
-          overrides:
-          - dimensions:
-              destination: ratings
-              source: reviews
-              sourceVersion: v3
-            maxAmount: 1
-            validDuration: 5s
-          - dimensions:
-              destination: ratings
-            maxAmount: 5
-            validDuration: 10s
-      ```
 
   The `memquota` defines 3 different rate limit schemes. The default, if no
   overrides match, is `5000` requests per `1s`. Two overrides are also
@@ -95,23 +93,20 @@ Consider `ratings` as an external paid service like Rotten Tomatoes® with
 
 1. Confirm the `quota` was created:
 
-    ```command
-    $ kubectl -n istio-system get quotas requestcount -o yaml
+    ```command-output-as-yaml
+        $ kubectl -n istio-system get quotas requestcount -o yaml
+        apiVersion: config.istio.io/v1alpha2
+        kind: quota
+        metadata:
+          name: requestcount
+          namespace: istio-system
+        spec:
+          dimensions:
+            source: source.labels["app"] | source.service | "unknown"
+            sourceVersion: source.labels["version"] | "unknown"
+            destination: destination.labels["app"] | destination.service | "unknown"
+            destinationVersion: destination.labels["version"] | "unknown"
     ```
-
-      ```yaml
-      apiVersion: config.istio.io/v1alpha2
-      kind: quota
-      metadata:
-        name: requestcount
-        namespace: istio-system
-      spec:
-        dimensions:
-          source: source.labels["app"] | source.service | "unknown"
-          sourceVersion: source.labels["version"] | "unknown"
-          destination: destination.labels["app"] | destination.service | "unknown"
-          destinationVersion: destination.labels["version"] | "unknown"
-      ```
 
     The `quota` template defines 4 `dimensions` that are used by `memquota` to
     set overrides on request that match certain attributes. `destination` will
@@ -122,22 +117,19 @@ Consider `ratings` as an external paid service like Rotten Tomatoes® with
 
 1. Confirm the `rule` was created:
 
-    ```command
-    $ kubectl -n istio-system get rules quota -o yaml
+    ```command-output-as-yaml
+        $ kubectl -n istio-system get rules quota -o yaml
+        apiVersion: config.istio.io/v1alpha2
+        kind: rule
+        metadata:
+          name: quota
+          namespace: istio-system
+        spec:
+          actions:
+          - handler: handler.memquota
+            instances:
+            - requestcount.quota
     ```
-
-      ```yaml
-      apiVersion: config.istio.io/v1alpha2
-      kind: rule
-      metadata:
-        name: quota
-        namespace: istio-system
-      spec:
-        actions:
-        - handler: handler.memquota
-          instances:
-          - requestcount.quota
-      ```
 
     The `rule` tells mixer to invoke `handler.memquota` handler (created
     above) and pass it the object constructed using the instance
@@ -146,51 +138,45 @@ Consider `ratings` as an external paid service like Rotten Tomatoes® with
 
 1. Confirm the `QuotaSpec` was created:
 
-    ```command
-    $ kubectl -n istio-system get QuotaSpec request-count -o yaml
+    ```command-output-as-yaml
+        $ kubectl -n istio-system get QuotaSpec request-count -o yaml
+        apiVersion: config.istio.io/v1alpha2
+        kind: QuotaSpec
+        metadata:
+          name: request-count
+          namespace: istio-system
+        spec:
+          rules:
+          - quotas:
+            - charge: "1"
+              quota: requestcount
     ```
-
-      ```yaml
-      apiVersion: config.istio.io/v1alpha2
-      kind: QuotaSpec
-      metadata:
-        name: request-count
-        namespace: istio-system
-      spec:
-        rules:
-        - quotas:
-          - charge: "1"
-            quota: requestcount
-      ```
 
     This `QuotaSpec` defines the requestcount `quota` we created above with a
     charge of `1`.
 
 1. Confirm the `QuotaSpecBinding` was created:
 
-    ```command
-    $ kubectl -n istio-system get QuotaSpecBinding request-count -o yaml
-    ```
-
-      ```yaml
-      kind: QuotaSpecBinding
-      metadata:
-        name: request-count
-        namespace: istio-system
-      spec:
-        quotaSpecs:
-        - name: request-count
+    ```command-output-as-yaml
+        $ kubectl -n istio-system get QuotaSpecBinding request-count -o yaml
+        kind: QuotaSpecBinding
+        metadata:
+          name: request-count
           namespace: istio-system
-        services:
-        - name: ratings
-          namespace: default
-        - name: reviews
-          namespace: default
-        - name: details
-          namespace: default
-        - name: productpage
-          namespace: default
-      ```
+        spec:
+          quotaSpecs:
+          - name: request-count
+            namespace: istio-system
+          services:
+          - name: ratings
+            namespace: default
+          - name: reviews
+            namespace: default
+          - name: details
+            namespace: default
+          - name: productpage
+            namespace: default
+    ```
 
     This `QuotaSpecBinding` binds the `QuotaSpec` we created above to the
     services we want to apply it to. Note we have to define the namespace for
