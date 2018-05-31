@@ -3,7 +3,7 @@ title: Expression Language
 description: Mixer config expression language reference.
 weight: 20
 aliases:
-    - /docs/reference/config/policy-and-telemetry/expression-language.html
+    - /docs/reference/config/mixer/expression-language.html
 ---
 
 This page describes how to use the Mixer config expression language (CEXL).
