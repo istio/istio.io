@@ -9,7 +9,7 @@ aliases:
 Pilot is responsible for the lifecycle of Envoy instances deployed
 across the Istio service mesh.
 
-{{< image width='60%' ratio="72.17%"
+{{< image width="60%" ratio="72.17%"
     link="../img/pilot/PilotAdapters.svg"
     caption="Pilot Architecture"
     >}}
