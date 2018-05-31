@@ -279,7 +279,7 @@ d)  [Use Helm and Tiller to manage the Istio deployment](/docs/setup/kubernetes/
 ## Verifying the installation
 
 1.  Ensure the following Kubernetes services are deployed: `istio-pilot`, `istio-ingressgateway`, `istio-egressgateway`,
- `istio-policy`, `istio-telemetry`, `istio-policy`, `prometheus`.
+ `istio-telemetry`, `istio-citadel`, `prometheus` and, optionally, `istio-sidecar-injector`.
 
     ```command
     $ kubectl get svc -n istio-system
@@ -299,8 +299,7 @@ d)  [Use Helm and Tiller to manage the Istio deployment](/docs/setup/kubernetes/
     application using the service NodePort, or use port-forwarding instead.
 
 1.  Ensure the corresponding Kubernetes pods are deployed and all containers are up and running:
-`istio-pilot-*`, `istio-mixer-*`, `istio-ingress-*`, `istio-citadel-*`,
-and, optionally, `istio-sidecar-injector-*`.
+`istio-pilot-*`, `istio-ingressgateway-*`, `istio-egressgateway-*`, `istio-policy-*`, `istio-telemtry-*`, `istio-citadel-*`, `prometheus-*` and, optionally, `istio-sidecar-injector-*`.
 
     ```command
     $ kubectl get pods -n istio-system
