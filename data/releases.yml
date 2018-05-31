@@ -1,7 +1,9 @@
-- name: 0.8
+- name: 1.0
   url: https://preliminary.istio.io
-- name: 0.7
+- name: 0.8
   url: https://istio.io
+- name: 0.7
+  url: https://archive.istio.io/v0.7
 - name: 0.6
   url: https://archive.istio.io/v0.6
 - name: 0.5
