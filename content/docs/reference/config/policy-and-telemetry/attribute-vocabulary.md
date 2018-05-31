@@ -2,8 +2,6 @@
 title: Attribute Vocabulary
 description: Describes the base attribute vocabulary used for policy and control.
 weight: 10
-aliases:
-    - /docs/reference/config/policy-and-telemetry/attribute-vocabulary.html
 ---
 
 Attributes are a central concept used throughout Istio. You can find a description of what attributes are
