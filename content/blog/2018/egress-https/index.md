@@ -40,7 +40,7 @@ $ kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-deta
 The updated architecture of the application now looks as follows:
 
 {{< image width="80%" ratio="65.16%"
-    link="../img/bookinfo-details-v2.svg"
+    link="bookinfo-details-v2.svg"
     caption="The Bookinfo Application with details V2"
     >}}
 
