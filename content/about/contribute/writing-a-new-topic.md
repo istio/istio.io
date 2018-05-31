@@ -283,18 +283,15 @@ You can pull in an external file and display its content as a preformatted block
 config file or a test file. To do so, you use a statement such as:
 
 ```markdown
-{{</* file_content url="https://raw.githubusercontent.com/istio/istio/master/Makefile" */>}}
+{{</* file_content url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml" lang="yaml" */>}}
 ```
 which produces the following result:
 
-{{< file_content url="https://raw.githubusercontent.com/istio/istio/master/Makefile" >}}
+{{< file_content url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml" lang="yaml" >}}
 
 If the file is from a different origin site, CORS should be enabled on that site. Note that the
 GitHub raw content site (raw.githubusercontent.com) is CORS
 enabled so it may be used here.
-
-Note that unlike normal preformatted blocks, dynamically loaded preformatted blocks unfortunately
-do not get syntax colored.
 
 ## Renaming or moving pages
 
