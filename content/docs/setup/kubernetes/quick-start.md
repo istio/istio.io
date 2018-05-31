@@ -254,25 +254,25 @@ For example, run the following command on a MacOS or Linux system:
 
 Install Istio's core components. Choose one of the four _**mutually exclusive**_ options below fo quick installation.  However, we recommend you to install with the [Helm Chart](/docs/setup/kubernetes/helm-install/) for production installations of Istio to leverage all the options to configure and customize Istio to your needs.
 
-a)  Quickly install Istio without enabling [mutual TLS authentication](/docs/concepts/security/mutual-tls/) between     sidecars. Choose this option for clusters with existing applications, applications where services with an Istio sidecar need to be able to communicate with other non-Istio Kubernetes services, and applications that use [liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/), headless services, or StatefulSets.
+a)  Install Istio without enabling [mutual TLS authentication](/docs/concepts/security/mutual-tls/) between     sidecars. Choose this option for clusters with existing applications, applications where services with an Istio sidecar need to be able to communicate with other non-Istio Kubernetes services, and applications that use [liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/), headless services, or StatefulSets.
 
     ```command
     $ kubectl apply -f install/kubernetes/istio-demo.yaml
     ```
 
-*OR*
+   __*OR*__
 
-b)  Quickly install Istio and enforce mutual TLS authentication between sidecars by default. Use this option only on a fresh kubernetes cluster where newly deployed workloads are guaranteed to have Istio sidecars installed.
+b)  Install Istio and enforce mutual TLS authentication between sidecars by default. Use this option only on a fresh kubernetes cluster where newly deployed workloads are guaranteed to have Istio sidecars installed.
 
     ```command
     $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
     ```
 
-*OR*
+   __*OR*__
 
 c)  [Render Kubernetes manifest with Helm and deploy with kubectl](/docs/setup/kubernetes/helm-install/#option-1-install-with-helm-via-helm-template).
 
-*OR*
+   __*OR*__
 
 d)  [Use Helm and Tiller to manage the Istio deployment](/docs/setup/kubernetes/helm-install/#option-2-install-with-helm-and-tiller-via-helm-install).
 
