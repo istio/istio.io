@@ -139,6 +139,10 @@ current release branch (named release-XXX such as release-0.7).
 Here are the steps necessary to create a new documentation version. Let's assume the current
 version of Istio is 0.6 and you wish to introduce 0.7 which has been under development.
 
+#### Updating branches
+
+1. Switch to the istio/istio.github.io repo and make sure everything is up to date.
+
 1. Create a new release branch off of master, named as release-*major*.*minor*, which in this case would be
 release-0.7. There is one such branch for every release.
 
@@ -156,12 +160,19 @@ and subsequent entries should point to archive.istio.io.
 
 1. Commit the previous edit to GitHub.
 
-1. Go to the Google Search Console and create a new search engine that searches the archive.istio.io/V&lt;major&gt;.&lt;minor&gt;
+1. Go to the [Google Custom Search Engine](https://cse.google.com) and create a new search engine that searches the archive.istio.io/V&lt;major&gt;.&lt;minor&gt;
 directory. This search engine will be used to perform version-specific searches on archive.istio.io.
+
+1. Once the search engine is created, download the CSE context XML file and set the nonprofit property from false to true. Upload the
+edited CSE context file back to the web site.
 
 1. In the **previous release's** branch (in this case release-0.6), edit the file `data/args.yml`. Set the
 `archive` field to true, the `archive_date` field to the current date, and the `search_engine_id` field
 to the ID of the search engine you created in the prior step.
+
+1. Commit the previous edit to GitHub.
+
+#### Updating archive.istio.io
 
 1. Switch to the istio/admin-sites repo.
 
@@ -177,14 +188,21 @@ release-0.6) to the `TOBUILD` variable.
 1. Once the script completes, run `firebase deploy`. This will update archive.istio.io to contain the
 right set of archives, based on the above steps.
 
+1. Once deployment is done, browse archive.istio.io and make sure everything looks good.
+
+#### Updating istio.io
+
+1. Switch to the istio/admin-sites repo.
+
 1. Navigate to the current.istio.io directory.
 
 1. Edit the `build.sh` script to set the `BRANCH` variable to the current release branch (in this case release-0.7)
+
+1. Commit the previous edit to GitHub.
 
 1. Run the `build.sh` script.
 
 1. Once the script completes, run 'firebase deploy`. This will update the content of istio.io to reflect what is the new release
 branch you created.
 
-Once all this is done, browse the three sites (preliminary.istio.io, istio.io, and archive.istio.io) to make sure
-everything looks good.
+1. Once deployment is done, browse istio.io and make sure everything looks good.
