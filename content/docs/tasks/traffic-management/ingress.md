@@ -271,6 +271,8 @@ Here we use _curl_'s `-k` option to instruct _curl_ not to check our certificate
     x-envoy-upstream-service-time: 6
     ```
 
+    > Note that it may take time for the new gateway defintion to propagate and you may get the following error: `Failed to connect to httpbin.example.com port <your secure port>: Connection refused`. Wait for a minute and retry the `curl` call again.
+
 ### Disable the HTTP port
 
 If we want to only allow HTTPS traffic into our service mesh, we can remove the HTTP port from our gateway.
