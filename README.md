@@ -154,7 +154,10 @@ for version 0.8. You'll need to make sure the URLs are updated for the first few
 entry (0.8) should point to preliminary.istio.io. The second entry (0.7) should point to istio.io. The third
 and subsequent entries should point to archive.istio.io.
 
-1. Commit the previous two edits to GitHub.
+1. In the **master** branch, add a placeholder markdown file for the next release's release notes as
+`content/about/notes/&lt;major&gt;.&lt;minor&gt;`.
+
+1. Commit the previous three edits to GitHub.
 
 1. In the **release** branch you created, edit the file `data/args.yml`. Set the `preliminary` field to `false`.
 
