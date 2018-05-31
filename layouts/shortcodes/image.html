@@ -31,6 +31,23 @@ parameter.
 {{ $title := or (.Get "title") (.Get "caption") }}
 {{ $alt := or (.Get "alt") (.Get "title") (.Get "caption") }}
 
+{{/* Turn relative values for $link into absolute URLs */}}
+{{ .Scratch.Set "link" $link }}
+
+{{ $prefix := slicestr $link 0 1 }}
+{{ if (ne $prefix "/") }}
+    {{ $prefix := slicestr $link 0 8 }}
+    {{ if (ne $prefix "https://") }}
+        {{ $prefix := slicestr $link 0 3 }}
+        {{ if (eq $prefix "../") }}
+            {{ .Scratch.Set "link" (printf "/%s%s" .Page.Dir (slicestr $link 3)) }}
+        {{ else }}
+            {{ .Scratch.Set "link" (printf "/%s%s" .Page.Dir $link) }}
+        {{ end }}
+    {{ end }}
+{{ end }}
+{{ $link := .Scratch.Get "link" }}
+
 <figure style="width: {{ $width }}">
     <div class="wrapper-with-intrinsic-ratio" style="padding-bottom: {{ $ratio }}">
         <a class="not-for-endnotes" href="{{ $link }}">
