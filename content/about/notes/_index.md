@@ -17,7 +17,7 @@ The latest Istio snapshot release is {{< istio_version >}} ([release notes](/abo
 $ curl -L https://git.io/getLatestIstio | sh -
 ```
 
-The most recent stable release is 0.8. You can [download 0.8](https://github.com/istio/istio/releases/tag/0.8) with:
+The most recent stable release is 0.8. You can download 0.8 with:
 
 ```command
 $ curl -L https://git.io/getIstio | sh -
