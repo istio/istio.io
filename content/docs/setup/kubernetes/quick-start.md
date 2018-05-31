@@ -282,7 +282,7 @@ Install Istio's core components. Choose one of the four _**mutually exclusive**_
 
 ## Verifying the installation
 
-1.  Ensure the following Kubernetes services are deployed: `istio-pilot`, `istio-ingress`,
+1.  Ensure the following Kubernetes services are deployed: `istio-pilot`, `istio-ingressgateway`,
 `istio-policy`, `istio-telemetry`, `prometheus`.
 
     ```command
