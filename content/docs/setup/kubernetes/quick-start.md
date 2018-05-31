@@ -282,20 +282,20 @@ Install Istio's core components. Choose one of the four _**mutually exclusive**_
 
 ## Verifying the installation
 
-1.  Ensure the following Kubernetes services are deployed: `istio-pilot`, `istio-ingress`,
+1.  Ensure the following Kubernetes services are deployed: `istio-pilot`, `istio-ingressgateway`,
 `istio-policy`, `istio-telemetry`, `prometheus`.
 
     ```command
     $ kubectl get svc -n istio-system
-    NAME                       TYPE           CLUSTER-IP   EXTERNAL-IP     PORT(S)                                                               AGE
-    istio-citadel              ClusterIP      30.0.0.119   <none>          8060/TCP,9093/TCP                                                     7h
-    istio-egressgateway        ClusterIP      30.0.0.11    <none>          80/TCP,443/TCP                                                        7h
-    istio-ingressgateway       LoadBalancer   30.0.0.39    9.111.255.245   80:31380/TCP,443:31390/TCP,31400:31400/TCP                            7h
-    istio-pilot                ClusterIP      30.0.0.136   <none>          15003/TCP,15005/TCP,15007/TCP,15010/TCP,15011/TCP,8080/TCP,9093/TCP   7h
-    istio-policy               ClusterIP      30.0.0.242   <none>          9091/TCP,15004/TCP,9093/TCP                                           7h
-    istio-statsd-prom-bridge   ClusterIP      30.0.0.111   <none>          9102/TCP,9125/UDP                                                     7h
-    istio-telemetry            ClusterIP      30.0.0.246   <none>          9091/TCP,15004/TCP,9093/TCP,42422/TCP                                 7h
-    prometheus                 ClusterIP      30.0.0.253   <none>          9090/TCP                                                              7h
+    NAME                       TYPE           CLUSTER-IP       EXTERNAL-IP        PORT(S)                                                               AGE
+    istio-citadel              ClusterIP      100.66.252.72    <none>             8060/TCP,9093/TCP                                                     2d
+    istio-egressgateway        ClusterIP      100.67.131.45    <none>             80/TCP,443/TCP                                                        2d
+    istio-ingressgateway       LoadBalancer   100.67.88.207    ac75b5b826267...   80:31380/TCP,443:31390/TCP,31400:31400/TCP                            2d
+    istio-pilot                ClusterIP      100.70.198.117   <none>             15003/TCP,15005/TCP,15007/TCP,15010/TCP,15011/TCP,8080/TCP,9093/TCP   2d
+    istio-policy               ClusterIP      100.64.225.187   <none>             9091/TCP,15004/TCP,9093/TCP                                           2d
+    istio-statsd-prom-bridge   ClusterIP      100.66.246.222   <none>             9102/TCP,9125/UDP                                                     2d
+    istio-telemetry            ClusterIP      100.66.81.170    <none>             9091/TCP,15004/TCP,9093/TCP,42422/TCP                                 2d
+    prometheus                 ClusterIP      100.70.122.115   <none>             9090/TCP                                                              2d
     ```
 
     > If your cluster is running in an environment that does not support an external load balancer
@@ -309,14 +309,15 @@ and, optionally, `istio-sidecar-injector-*`.
     ```command
     $ kubectl get pods -n istio-system
     NAME                                       READY     STATUS      RESTARTS   AGE
-    istio-citadel-dcb7955f6-vdcjk              1/1       Running     0          11h
-    istio-egressgateway-56b7758b44-l5fm5       1/1       Running     0          11h
-    istio-ingressgateway-56cfddbd5b-xbdcx      1/1       Running     0          11h
-    istio-pilot-cbd6bfd97-wgw9b                2/2       Running     0          11h
-    istio-policy-699fbb45cf-bc44r              2/2       Running     0          11h
-    istio-statsd-prom-bridge-949999c4c-nws5j   1/1       Running     0          11h
-    istio-telemetry-55b675d8c-kfvvj            2/2       Running     0          11h
-    prometheus-86cb6dd77c-5j48h                1/1       Running     0          11h
+    istio-citadel-5d49895567-dphn9             1/1       Running     0          2d
+    istio-egressgateway-5dd68f856f-t9hft       1/1       Running     0          2d
+    istio-ingressgateway-54cd9976f-r9c8p       1/1       Running     0          2d
+    istio-mixer-create-cr-bvv97                0/1       Completed   0          2d
+    istio-pilot-848f656fc5-4sqkm               2/2       Running     0          2d
+    istio-policy-879468865-xdhfl               2/2       Running     0          2d
+    istio-statsd-prom-bridge-949999c4c-7drlv   1/1       Running     0          2d
+    istio-telemetry-5b97fdb67c-85h99           2/2       Running     0          2d
+    prometheus-86cb6dd77c-tppjk                1/1       Running     0          2d
     ```
 
 ## Deploy your application
