@@ -500,6 +500,7 @@ stdout
 struct
 subdomains
 substring
+svc
 svc.cluster.local
 svc.com
 svg
