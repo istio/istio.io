@@ -135,4 +135,4 @@ The applications already running istio will still using the sidecar from 0.7.1 a
     $ kubectl replace -f UPDATED_NETWORK_CONFIG.yaml
     ```
 
-When all your applications have been migrated and tested, you can repeat the istio upgrade process, removing the `--set global.proxy.image=proxy` option.  This will set the default proxy to `docker.io/istio/proxyv2` for all future to be injected side cars.
+When all your applications have been migrated and tested, you can repeat the istio upgrade process, removing the `--set global.proxy.image=proxy` option.  This will set the default proxy to `docker.io/istio/proxyv2` for all future to be injected sidecars.
