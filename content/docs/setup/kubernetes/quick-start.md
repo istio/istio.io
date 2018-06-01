@@ -54,7 +54,7 @@ Create a new cluster.
 
 ```command
 $ gcloud container clusters create <cluster-name> \
-    --cluster-version=1.9.4-gke.1 \
+    --cluster-version=1.9.7-gke.1 \
     --zone <zone> \
     --project <project-name>
 ```
