@@ -1,6 +1,6 @@
 ---
 title: Mixer
-overview: Mixer Q&amp;A
+description: Mixer Q & A
 weight: 40
 type: faq
 ---

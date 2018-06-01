@@ -1,6 +1,6 @@
 ---
 title: Micro Benchmarks
-overview: Performance measurement through code level micro-benchmarks.
+description: Performance measurement through code level micro-benchmarks.
 weight: 20
 ---
 
