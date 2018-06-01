@@ -119,7 +119,7 @@ The applications already running istio will still using the sidecar from 0.7.1 a
 
 2.  Use `istioctl experimental convert-networking-config` to convert your existing ingress or route rules.  
 
-    i. If your yaml file contains more than the ingress definition such as deployment or service definition, move the ingress  defintion out to a separate yaml file for the `istioctl experimental convert-networking-config` tool to process.
+    i. If your yaml file contains more than the ingress definition such as deployment or service definition, move the ingress defintion out to a separate yaml file for the `istioctl experimental convert-networking-config` tool to process.
 
     ii. Execute the following to generate the new network config file, where replacing FILE*.yaml with your ingress file or deprecated route rule files.  *Tip: Make sure to feed all the files using `-f` for 1 or more deployments.*
 
