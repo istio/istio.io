@@ -91,7 +91,7 @@ The applications already running istio will still using the sidecar from 0.7.1 a
 
 1.  Once you upgrade the control plane, you can gradually update your deployment to use the new Envoy side car.  You can do this by using one of the options below:
 
-    i. Add the following to your pod annotation for your deployment:
+    a) Add the following to your pod annotation for your deployment:
 
     ```yaml
 
@@ -111,13 +111,13 @@ The applications already running istio will still using the sidecar from 0.7.1 a
 
     *OR*
 
-    ii. Use an `injectConfigFile` that has `docker.io/istio/proxyv2:0.8.0` as the proxyImage.  If you don't have an injectConfigFile, you can [generate one](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection).   `injectConfigFile` is recommended if you need to add the `sidecar.istio.io/proxyImage` annotations in multiple deployment definitions.
+    b) Use an `injectConfigFile` that has `docker.io/istio/proxyv2:0.8.0` as the proxyImage.  If you don't have an injectConfigFile, you can [generate one](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection).   `injectConfigFile` is recommended if you need to add the `sidecar.istio.io/proxyImage` annotations in multiple deployment definitions.
 
     ```command
     $ kubectl replace -f <(istioctl kube-inject --injectConfigFile inject-config.yaml -f $ORIGINAL_DEPLOYMENT_YAML)
     ```
 
-2.  Use `istioctl experimental convert-networking-config` to convert your existing ingress or route rules.  
+1.  Use `istioctl experimental convert-networking-config` to convert your existing ingress or route rules.
 
     i. If your yaml file contains more than the ingress definition such as deployment or service definition, move the ingress definition out to a separate yaml file for the `istioctl experimental convert-networking-config` tool to process.
 
