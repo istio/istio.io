@@ -65,7 +65,7 @@ The applications already running istio will still using the sidecar from 0.7.1 a
     sidecar manually by running the following command:
 
     ```command
-    $ kubectl apply -f <(istioctl kube-inject -f $ORIGINAL_DEPLOYMENT_YAML)
+    $ kubectl replace -f <(istioctl kube-inject -f $ORIGINAL_DEPLOYMENT_YAML)
     ```
 
     If the sidecar was previously injected with some customized inject config
@@ -73,7 +73,7 @@ The applications already running istio will still using the sidecar from 0.7.1 a
     version and reinject the sidecar as follows:
 
     ```command
-    $ kubectl apply -f <(istioctl kube-inject \
+    $ kubectl replace -f <(istioctl kube-inject \
          --injectConfigFile inject-config.yaml \
          --filename $ORIGINAL_DEPLOYMENT_YAML)
     ```
