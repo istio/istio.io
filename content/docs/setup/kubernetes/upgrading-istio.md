@@ -65,7 +65,7 @@ The applications already running istio will still using the sidecar from 0.7.1 a
     sidecar manually by running the following command:
 
     ```command
-    $ kubectl apply -f <(istioctl kube-inject -f $ORIGINAL_DEPLOYMENT_YAML)
+    $ kubectl replace -f <(istioctl kube-inject -f $ORIGINAL_DEPLOYMENT_YAML)
     ```
 
     If the sidecar was previously injected with some customized inject config
@@ -73,7 +73,7 @@ The applications already running istio will still using the sidecar from 0.7.1 a
     version and reinject the sidecar as follows:
 
     ```command
-    $ kubectl apply -f <(istioctl kube-inject \
+    $ kubectl replace -f <(istioctl kube-inject \
          --injectConfigFile inject-config.yaml \
          --filename $ORIGINAL_DEPLOYMENT_YAML)
     ```
@@ -89,17 +89,50 @@ The applications already running istio will still using the sidecar from 0.7.1 a
 
 ### Migrating to the new networking APIs
 
-Once you upgrade the control plane, you can gradually move pods to use the new API version by adding:
+1.  Once you upgrade the control plane, you can gradually update your deployment to use the new Envoy side car.  You can do this by using one of the options below:
 
-```yaml
+    i. Add the following to your pod annotation for your deployment:
 
-kind: Deployment
-...
-spec:
-  template:
-    annotations:
-       sidecar.istio.io/proxyImage: istio/proxyv2:0.8.latest
+    ```yaml
 
-```
+    kind: Deployment
+    ...
+    spec:
+      template:
+        annotations:
+           sidecar.istio.io/proxyImage: docker.io/istio/proxyv2:0.8.0
 
-When all your applications have been migrated and tested, you can repeat the istio upgrade process, removing the `--set global.proxy.image=proxy` option.
+    ```
+
+    Then replace your deployment with your updated application yaml file:
+    ```command
+    $ kubectl replace -f $UPDATED_DEPLOYMENT_YAML
+    ```
+
+    *OR*
+
+    ii. Use an `injectConfigFile` that has `docker.io/istio/proxyv2:0.8.0` as the proxyImage.  If you don't have an injectConfigFile, you can [generate one](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection).   `injectConfigFile` is recommended if you need to add the `sidecar.istio.io/proxyImage` annotations in multiple deployment definitions.
+
+    ```command
+    $ kubectl replace -f <(istioctl kube-inject --injectConfigFile inject-config.yaml -f $ORIGINAL_DEPLOYMENT_YAML)
+    ```
+
+2.  Use `istioctl experimental convert-networking-config` to convert your existing ingress or route rules.  
+
+    i. If your yaml contains more than the ingress definition such as deployment or service definition, move the ingress defintion to a seperate yaml file.
+
+    ii. Execute the following to generate the new network config file, where replacing FILE*.yaml with your ingress file or deprecated route rule files.  *Tip: Make sure to feed all the files using `-f` for 1 or more deployments.*
+
+    ```command
+    $ istioctl experimental convert-networking-config -f FILE1.yaml -f FILE2.yaml -f FILE3.yaml > UPDATED_NETWORK_CONFIG.yaml
+    ```
+
+    iii. Open up UPDATED_NETWORK_CONFIG.yaml with your favorite editor, and update all namespace references to your desired namespace.   There is a known issue with the `convert-networking-config` tool where the `istio-system` namespace is used incorrectly.  Further, ensure the `hosts` value is the desired `hosts` value.
+
+    iiii. Deploy the updated network config file.
+
+    ```command
+    $ kubectl replace -f UPDATED_NETWORK_CONFIG.yaml
+    ```
+
+When all your applications have been migrated and tested, you can repeat the istio upgrade process, removing the `--set global.proxy.image=proxy` option.  This will set the default proxy to `docker.io/istio/proxyv2` for all future to be injected side cars.
