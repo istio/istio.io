@@ -59,8 +59,10 @@
 
                         <a class="dropdown-item" href="https://github.com/istio/istio.github.io/issues/new?title=Issue%20with%20{{ .Page.Path}}">Report Site Bugs</a>
 
-                        {{ if not .Page.Params.generator }}
-                            <a class="dropdown-item" href="https://github.com/istio/istio.github.io/edit/master/content/{{ .Page.Path }}">Edit this Page on GitHub</a>
+                        {{ if not .Site.Data.args.archive }}
+                            {{ if not .Page.Params.generator }}
+                                <a class="dropdown-item" href="https://github.com/istio/istio.github.io/edit/master/content/{{ .Page.Path }}">Edit this Page on GitHub</a>
+                            {{ end }}
                         {{ end }}
                     </div>
                 </li>
