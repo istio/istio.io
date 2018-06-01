@@ -103,3 +103,79 @@ spec:
 ```
 
 When all your applications have been migrated and tested, you can repeat the istio upgrade process, removing the `--set global.proxy.image=proxy` option.
+
+### Migrating per-service mutual TLS enablement via annotation to authentication policy
+
+If you use service annotation to overwrite global mutual TLS enablement for a service, you will need to replace it with [authentication policy](/docs/concepts/security/authn-policy/) and [destination rules](/docs/concepts/traffic-management/rules-configuration/#destination-rules).
+
+For example, if you install Istio with mutual TLS enabled, and disable it for service `foo` using service annotation like below:
+
+```yaml
+kind: Service
+metadata:
+  name: foo
+  namespace: bar
+  annotations:
+    auth.istio.io/8000: NONE
+```
+
+You will need to replace this with these authentication policy and destination rule (deleting the old annotation is optional)
+
+```yaml
+apiVersion: "authentication.istio.io/v1alpha1"
+kind: "Policy"
+metadata:
+  name: "disable-mTLS-foo"
+  namespace: bar
+spec:
+  targets:
+  - name: foo
+    ports:
+    - number: 8000
+  peers:
+---
+apiVersion: "networking.istio.io/v1alpha3"
+kind: "DestinationRule"
+metadata:
+  name: "disable-mTLS-foo"
+  namespace: "bar"
+spec:
+  host: "foo"
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+    portLevelSettings:
+    - port:
+        number: 8000
+      tls:
+        mode: DISABLE
+```
+
+> * If you already have destination rules for `foo`, you must edit that rule instead of creating a new one.
+> * When create new destination rule, make sure to include other settings, i.e `load balancer`, `connection pool` and `outlier detection` if necessary.
+> * If `foo` doesn't have sidecar, you can skip authentication policy, but still need to add destination rule.
+
+If 8000 is the only port that service `foo` provides (or you want to disable mutual TLS for all ports), the policies can be simplified as:
+
+```yaml
+apiVersion: "authentication.istio.io/v1alpha1"
+kind: "Policy"
+metadata:
+  name: "disable-mTLS-foo"
+    namespace: bar
+  spec:
+    targets:
+    - name: foo
+    peers:
+---
+apiVersion: "networking.istio.io/v1alpha3"
+kind: "DestinationRule"
+metadata:
+  name: "disable-mTLS-foo"
+  namespace: "bar"
+spec:
+  host: "foo"
+trafficPolicy:
+  tls:
+    mode: DISABLE
+```
