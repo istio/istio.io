@@ -305,7 +305,7 @@ A route rule can specify one or more faults to inject
 while forwarding http requests to the rule's corresponding request destination.
 The faults can be either delays or aborts.
 
-The following example will introduce a 5 second delay in 10% of the requests to the "v1" version of the *reviews* microservice.
+The following example will introduce a 5 second delay in 10% of the requests to the "v1" version of the *ratings* microservice.
 
 ```yaml
 apiVersion: networking.istio.io/v1alpha3
@@ -650,8 +650,7 @@ spec:
   http:
   - route:
     - destination:
-        host: ratings
-        subset: v1
+        host: bar.foo.com
     timeout: 10s
 ```
 
