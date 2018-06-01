@@ -27,7 +27,7 @@ additional control over traffic between services.
 
 ## Communication between services
 
-{{< image width='60%' ratio="100.42%"
+{{< image width="60%" ratio="100.42%"
     link="../img/pilot/ServiceModel_Versions.svg"
     alt="Showing how service versions are handled."
     caption="Service Versions"
