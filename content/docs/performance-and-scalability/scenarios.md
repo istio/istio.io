@@ -1,6 +1,6 @@
 ---
 title: Testing scenarios
-overview: The different scenarios we are tracking for performance and scalability.
+description: The different scenarios we are tracking for performance and scalability.
 weight: 25
 ---
 

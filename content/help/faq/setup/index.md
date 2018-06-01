@@ -1,6 +1,6 @@
 ---
 title: Setup
-overview: Setup Q&amp;A
+description: Setup Q & A
 weight: 20
 type: faq
 ---
