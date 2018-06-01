@@ -1,6 +1,6 @@
 ---
 title: General
-overview: General Q&amp;A
+description: General Q & A
 weight: 10
 type: faq
 ---
