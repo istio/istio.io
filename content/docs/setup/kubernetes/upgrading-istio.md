@@ -179,3 +179,20 @@ trafficPolicy:
   tls:
     mode: DISABLE
 ```
+
+### Migrating `mtls_excluded_services` config to destination rules
+
+If you install Istio with mutual TLS enable, and use mesh config `mtls_excluded_services` to disable using mutual TLS when connecting to these services (e.g kubernetes API server), you will need to add a destination rule to replace that. For example:
+
+```yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: "kubernetes-master"
+  namespace: "default"
+spec:
+  host: "kubernetes.default.svc.cluster.local"
+  trafficPolicy:
+    tls:
+      mode: DISABLE
+```
