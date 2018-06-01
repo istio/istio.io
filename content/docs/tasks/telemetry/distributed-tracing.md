@@ -41,7 +41,7 @@ With the Bookinfo application up and running, generate trace information by acce
 If you now look at the dashboard, you should see something similar to the following:
 
 {{< image width="100%" ratio="42.35%"
-    link="../img/jaeger_dashboard.png"
+    link="../img/istio-tracing-list.png"
     caption="Tracing Dashboard"
     >}}
 
@@ -49,8 +49,8 @@ If you click on the top (most recent) trace, you should see the details correspo
 latest refresh of the `/productpage`.
 The page should look something like this:
 
-{{< image width="100%" ratio="26.99%"
-    link="../img/jaeger_trace.png"
+{{< image width="100%" ratio="42.35%"
+    link="../img/istio-tracing-details.png"
     caption="Detailed Trace View"
     >}}
 
