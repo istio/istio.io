@@ -140,10 +140,10 @@ You can also view the installation using the ***Kubernetes Engine -> Workloads**
 1.  Set up an environment variable for Bookinfo's external IP address:
 
     ```command
-    $ export GATEWAY_IP=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 
-    $ echo $GATEWAY_URL
-        ```
+    echo $GATEWAY_URL
+    ```
 
 1.  Verify you can access the Bookinfo ```http://${GATEWAY_URL}/productpage```:
 
