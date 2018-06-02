@@ -52,7 +52,7 @@
                 {{ end }}
                 {{ .Site.Data.args.version }}<br>&copy; 2018 Istio Authors, <a href="https://policies.google.com/privacy">Privacy Policy</a><br>
                 {{ if .Site.Data.args.archive }}
-                    Archived on {{ .Site.Data.args.archive_date.Format "January 2, 2006"}}
+                    Archived on {{ dateFormat "January 2, 2006" .Site.Data.args.archive_date }}
                 {{ else }}
                     This page was last modified on {{ .Page.Lastmod.Format "January 2, 2006" }}
                 {{ end }}
