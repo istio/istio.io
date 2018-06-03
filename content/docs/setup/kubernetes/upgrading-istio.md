@@ -138,7 +138,7 @@ When all your applications have been migrated and tested, you can repeat the Ist
 `--set global.proxy.image=proxy` option.  This will set the default proxy to `docker.io/istio/proxyv2` for all
 sidecars injected in the future.
 
-### Migrating per-service mutual TLS enablement via annotations to authentication policy
+## Migrating per-service mutual TLS enablement via annotations to authentication policy
 
 If you use service annotations to override global mutual TLS enablement for a service, you need to replace it with [authentication policy](/docs/concepts/security/authn-policy/) and [destination rules](/docs/concepts/traffic-management/rules-configuration/#destination-rules).
 
@@ -214,7 +214,7 @@ trafficPolicy:
     mode: DISABLE
 ```
 
-### Migrating `mtls_excluded_services` config to destination rules
+## Migrating `mtls_excluded_services` config to destination rules
 
 If you installed Istio with mutual TLS enabled, and used mesh config `mtls_excluded_services` to disable mutual TLS when connecting to these services (e.g kubernetes API server), you need to replace this by adding a destination rule. For example:
 
