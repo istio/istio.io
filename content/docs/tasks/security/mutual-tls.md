@@ -1,5 +1,5 @@
 ---
-title: Testing mutual TLS
+title: Testing Mutual TLS
 description: Shows you how to verify and test Istio's automatic mutual TLS authentication.
 weight: 10
 ---
@@ -15,6 +15,7 @@ Through this task, you will learn how to:
 This task assumes you have a Kubernetes cluster:
 
 * Installed Istio with global mTLS enabled:
+
     ```command
     $ kubectl apply -f install/kubernetes/istio-auth.yaml
     ```
@@ -71,31 +72,33 @@ Citadel is up if the "AVAILABLE" column is 1.
 
 Istio automatically installs necessary keys and certificates for mutual TLS authentication in all sidecar containers.
 
-    ```command
-    $ kubectl exec $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.name}) -c istio-proxy -- ls /etc/certs
-    cert-chain.pem
-    key.pem
-    root-cert.pem
-    ```
+```command
+$ kubectl exec $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.name}) -c istio-proxy -- ls /etc/certs
+cert-chain.pem
+key.pem
+root-cert.pem
+```
 
-    > `cert-chain.pem` is Envoy's cert that needs to be presented to the other side. `key.pem` is Envoy's private key
-    paired with Envoy's cert in `cert-chain.pem`. `root-cert.pem` is the root cert to verify the peer's cert.
-    In this example, we only have one Citadel in a cluster, so all Envoys have the same `root-cert.pem`.
+> `cert-chain.pem` is Envoy's cert that needs to be presented to the other side. `key.pem` is Envoy's private key
+paired with Envoy's cert in `cert-chain.pem`. `root-cert.pem` is the root cert to verify the peer's cert.
+In this example, we only have one Citadel in a cluster, so all Envoys have the same `root-cert.pem`.
 
 Use the `oppenssl` tool to check if certificate is valid (current time should be in between `Not Before` and `Not After`)
-    ```command
-    $ kubectl exec $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.name}) -c istio-proxy -- cat /etc/certs/cert-chain.pem | openssl x509 -text -noout  | grep Validity -A 2
-    Validity
-            Not Before: May 17 23:02:11 2018 GMT
-            Not After : Aug 15 23:02:11 2018 GMT
-    ```
+
+```command
+$ kubectl exec $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.name}) -c istio-proxy -- cat /etc/certs/cert-chain.pem | openssl x509 -text -noout  | grep Validity -A 2
+Validity
+        Not Before: May 17 23:02:11 2018 GMT
+        Not After : Aug 15 23:02:11 2018 GMT
+```
 
 You can also check the _identity_ of the client certificate:
-    ```command
-    $kubectl exec $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.name}) -c istio-proxy -- cat /etc/certs/cert-chain.pem | openssl x509 -text -noout  | grep 'Subject Alternative Name' -A 1
-            X509v3 Subject Alternative Name:
-                URI:spiffe://cluster.local/ns/default/sa/default
-    ```
+
+```command
+$ kubectl exec $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.name}) -c istio-proxy -- cat /etc/certs/cert-chain.pem | openssl x509 -text -noout  | grep 'Subject Alternative Name' -A 1
+        X509v3 Subject Alternative Name:
+            URI:spiffe://cluster.local/ns/default/sa/default
+```
 
 Please check [secure naming](/docs/concepts/security/mutual-tls/#workflow) for more information about  _service identity_ in Istio.
 
@@ -104,24 +107,27 @@ Please check [secure naming](/docs/concepts/security/mutual-tls/#workflow) for m
 Assuming mutual TLS authentication is properly turned on, it should not affect communication from one service to another when both sides have the Envoy sidecar. However, requests from pod without sidecar, or requests directly from sidecar without a client certificate should fail. Examples below illustrates this behavior.
 
 1. Request from `sleep` app container to `httpbin` service should succeed (return `200`)
-   ```command
-   $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl httpbin:8000/headers -o /dev/null -s -w '%{http_code}\n'
-   200
-   ```
+
+    ```command
+    $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl httpbin:8000/headers -o /dev/null -s -w '%{http_code}\n'
+    200
+    ```
 
 1. Request from `sleep` _proxy_ container to `httpbin` service on the other hand fails, as request does not use TLS nor provide a client certificate
-   ```command
-   $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl httpbin:8000/headers -o /dev/null -s -w '%{http_code}\n'
-   000
-   command terminated with exit code 56
-   ```
-   ```command
-   $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl https://httpbin:8000/headers -o /dev/null -s -w '%{http_code}\n'
-   000
-   command terminated with exit code 77
-   ```
+
+    ```command
+    $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl httpbin:8000/headers -o /dev/null -s -w '%{http_code}\n'
+    000
+    command terminated with exit code 56
+    ```
+    ```command
+    $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl https://httpbin:8000/headers -o /dev/null -s -w '%{http_code}\n'
+    000
+    command terminated with exit code 77
+    ```
 
 1. However, request will success if client certificate is provided
+
     ```command
     $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl https://httpbin:8000/headers -o /dev/null -s -w '%{http_code}\n' --key /etc/certs/key.pem --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem -k'
     200
@@ -130,16 +136,20 @@ Assuming mutual TLS authentication is properly turned on, it should not affect c
     > Istio uses [Kubernetes service accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) as service identity, which offers stronger security than service name (refer [here](/docs/concepts/security/mutual-tls/#identity) for more information). Thus the certificates used in Istio do not have service names, which is the information that `curl` needs to verify server identity. As a result, we use `curl` option `-k` to prevent the `curl` client from aborting when failing to find and verify the server name (i.e., httpbin.ns.svc.cluster.local) in the certificate provided by the server.
 
 1. Request from pod without sidecar. For this demo, let's install another `sleep` service without sidecar. To avoid name conflicts, we put it in different namespace.
+
     ```command
     $ kubectl create ns legacy
     $ kubectl apply -f samples/sleep/sleep.yaml -n legacy
     ```
-Wait after the pod status changes to `Running`, issue the familiar `curl` command. The request should fail as the pod doesn't have a sidecar to help initiate TLS communication.
+
+1. Wait after the pod status changes to `Running`, issue the familiar `curl` command. The request should fail as the pod doesn't have a sidecar to help initiate TLS communication.
+
     ```command
     kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name} -n legacy) -c sleep -n legacy -- curl httpbin.default:8000/headers -o /dev/null -s -w '%{http_code}\n'
     000
     command terminated with exit code 56
     ```
+
 ## What's next
 
 * Learn more about the design principles behind Istio's automatic mTLS authentication
