@@ -321,7 +321,7 @@ function handleDOMLoaded() {
 
         // Add a link icon next to each header so people can easily get bookmarks to headers
         function attachLinksToHeaders() {
-            for (var level = 1; level <= 6; level++) {
+            for (var level = 2; level <= 6; level++) {
                 var headers = document.getElementsByTagName("h" + level);
                 for (var i = 0; i < headers.length; i++) {
                     var header = headers[i];
