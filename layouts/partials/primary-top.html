@@ -1,3 +1,6 @@
+{{ $toc := partial "toc.html" (dict "page" .) }}
+{{ $needTOC := .Scratch.Get "needTOC" }}
+
 <div class="container-fluid">
     <div class="row row-offcanvas">
         <div class="col-0 col-md-3 col-xl-2 sidebar-offcanvas">
@@ -9,9 +12,6 @@
                 {{ partial "sidebar-singlecard.html" . }}
             {{ end }}
         </div>
-
-        {{ $toc := (trim .TableOfContents " ") }}
-        {{ $needTOC := .Params.toc | (ne $toc "") }}
 
         {{ if and $needTOC (ne .Params.force_inline_toc true) }}
             <div class="col-12 col-md-9 col-xl-8">
@@ -44,8 +44,7 @@
                 {{ if $needTOC }}
                     <nav class="toc-inlined d-xl-none d-print-none" {{ if .Params.force_inline_toc }}style="display:block!important" {{ end }}>
                         <div class="directory" role="directory">
-                            {{ $t := replace .TableOfContents "TableOfContents" "InlinedTableOfContents" }}
-                            {{ safeHTML $t }}
+                            {{ replace $toc "TableOfContents" "InlinedTableOfContents" | safeHTML }}
                         </div>
                     </nav>
                 {{ end }}
