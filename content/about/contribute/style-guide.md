@@ -1,44 +1,22 @@
 ---
 title: Style Guide
-description: Explains the dos and donts of writing Istio docs.
+description: Explains the dos and donts of writing Istio documentation.
 weight: 70
 aliases:
     - /docs/welcome/contribute/style-guide.html
     - /docs/reference/contribute/style-guide.html
 ---
 
-TBD: This needs to be updated with Istio examples instead of Kubernetes examples.
-
-This page gives writing style guidelines for the Istio documentation.
-These are guidelines, not rules. Use your best judgment, and feel free to
+This page provides content guidelines for the Istio documentation.
+These are guidelines, not rules, so use your best judgment, and feel free to
 propose changes to this document in a pull request.
-
-For additional information on creating new content for the Istio
-docs, follow the instructions on
-[Creating a Doc Pull Request](/about/contribute/creating-a-pull-request/).
 
 ## Formatting standards
 
-### Use camelCase for API objects
+### Use consistent capitalization
 
-When you refer to an API object, use the same uppercase and lowercase letters
-that are used in the actual object name. Typically, the names of API
-objects use
-[camelCase](https://en.wikipedia.org/wiki/Camel_case).
-
-Don't split the API object name into separate words. For example, use
-`PodTemplateList`, not Pod Template List.
-
-Refer to API objects without saying "object," unless omitting "object"
-leads to an awkward construction.
-
-|Do                                          |Don't
-|--------------------------------------------|------
-|The `Pod` has two Containers.                 |The pod has two containers.
-|The `Deployment` is responsible for ...       |The `Deployment` object is responsible for ...
-|A `PodList` is a list of Pods.                |A Pod List is a list of pods.
-|The two `ContainerPorts` ...                  |The two `ContainerPort` objects ...
-|The two `ContainerStateTerminated` objects ...|The two `ContainerStateTerminated` ...
+Don't split configuration type names into separate words and follow the original capitalization. For
+example, use `IstioRoleBinding`, not `Istio Role Binding` or `istio role binding`.
 
 ### Use angle brackets for placeholders
 
@@ -71,9 +49,9 @@ represents.
 
 |Do                                   | Don't
 |-------------------------------------|------
-|Open the `envars.yaml` file.         | Open the envars.yaml file.
-|Go to the `/_docs/tasks` directory.  | Go to the /docs/tasks directory.
-|Open the `_data/concepts.yaml` file. | Open the /_data/concepts.yaml file.
+|Open the `istio.yaml` file.         | Open the istio.yaml file.
+|Go to the `/content/docs/tasks` directory.  | Go to the /content/docs/tasks directory.
+|Open the `/data/args.yaml` file. | Open the /data/args.yaml file.
 
 ### Use `code` style for inline code and commands
 
@@ -86,18 +64,8 @@ represents.
 
 |Do                                                               | Don't
 |-----------------------------------------------------------------|------
-|Set the value of the `replicas` field in the configuration file. | Set the value of the "replicas" field in the configuration file.
-|The value of the `exec` field is an ExecAction object.           | The value of the "exec" field is an ExecAction object.
-
-### Use normal style for string and integer field values
-
-For field values of type string or integer, use normal style without quotation marks.
-
-|Do                                            | Don't
-|----------------------------------------------|------
-|Set the value of `imagePullPolicy` to Always. | Set the value of `imagePullPolicy` to "Always".
-|Set the value of `image` to nginx:1.8.        | Set the value of `image` to `nginx:1.8`.
-|Set the value of the `replicas` field to 2.   | Set the value of the `replicas` field to `2`.
+|Set the value of the `ports` field in the configuration file. | Set the value of the "ports" field in the configuration file.
+|The value of the `rule` field is a `Rule` object.           | The value of the "rule" field is a `Rule` object.
 
 ### Only capitalize the first letter of headings
 
@@ -109,24 +77,6 @@ except if a word is a proper noun or an acronym.
 |Configuring rate limits | Configuring Rate Limits
 |Using Envoy for ingress | Using envoy for ingress
 |Using HTTPS             | Using https
-
-## Code snippet formatting
-
-### Don't include the command prompt
-
-|Do               | Don't
-|-----------------|------
-|`kubectl get pods` | `$ kubectl get pods`
-
-### Separate commands from output
-
-Verify that the pod is running on your chosen node:
-
-```command
-$ kubectl get pods --output=wide
-NAME     READY     STATUS    RESTARTS   AGE    IP           NODE
-nginx    1/1       Running   0          13s    10.200.0.4   worker0
-```
 
 ## Terminology standards
 
@@ -175,9 +125,7 @@ Not a proper noun. Use in place of service fabric.
 Use in the context of routing and multiple finer-grained versions of a service. Avoid using “service tags” or “service labels”
 which are the mechanism to identify the service versions, not the thing itself.
 
-## Content best practices
-
-This section contains suggested best practices for clear, concise, and consistent content.
+## Best practices
 
 ### Use present tense
 
@@ -222,8 +170,6 @@ mind when creating or reviewing site content.
 
 [Why “click here” is a terrible link, and what to write instead](http://stephanieleary.com/2015/05/why-click-here-is-a-terrible-link-and-what-to-write-instead/).
 
-## Patterns to avoid
-
 ### Avoid using "we"
 
 Using "we" in a sentence can be confusing, because the reader might not know
@@ -259,3 +205,9 @@ considered new in a few months.
 |------------------------------------|------
 |In version 1.4, ...                 | In the current version, ...
 |The Federation feature provides ... | The new Federation feature provides ...
+
+## What's next
+
+- Learn about [creating a new documentation topic](/about/contribute/writing-a-new-topic/).
+
+- Learn about [creating a documentation pull request](/about/contribute/creating-a-pull-request/).
