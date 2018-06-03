@@ -181,7 +181,7 @@ The simplest way to use the `--includeIPRanges` option is to pass it the IP rang
 used for internal cluster services, thereby excluding external IPs from being redirected
 to the sidecar proxy.
 The values used for internal IP range(s), however, depends on where your cluster is running.
-For example, with Minikube the range is 10.0.0.1/24, so you would start the sleep service like this:
+For example, with Minikube the range is 10.0.0.1&#47;24, so you would start the sleep service like this:
 
 ```command
 $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=10.0.0.1/24)
