@@ -30,7 +30,7 @@ This task describes how to configure Istio to expose a service outside of the se
     ```command
     $ kubectl apply -f samples/httpbin/httpbin.yaml
     ```
-    otherwise, you have to manually inject sidecar before deploying the `httpbin` application:
+    otherwise, you have to manually inject the sidecar before deploying the `httpbin` application:
 
     ```command
     $ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml)
