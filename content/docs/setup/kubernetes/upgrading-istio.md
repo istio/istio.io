@@ -92,8 +92,9 @@ one of the options below:
     ...
     spec:
       template:
-        annotations:
-           sidecar.istio.io/proxyImage: docker.io/istio/proxyv2:0.8.0
+        metadata:
+          annotations:
+            sidecar.istio.io/proxyImage: docker.io/istio/proxyv2:0.8.0
     ```
 
     Then replace your deployment with your updated application yaml file:
