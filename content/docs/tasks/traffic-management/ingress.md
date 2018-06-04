@@ -325,24 +325,14 @@ external traffic.
 
 ## Cleanup
 
-1.  Remove the `Gateway` configuration.
+Delete the `Gateway` configuration, the `VirtualService` and the secret, and shutdown the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) service:
 
-    ```command
-    $ istioctl delete gateway httpbin-gateway
-    ```
-
-1.  Remove the `VirtualService` and secret.
-
-    ```command
-    $ istioctl delete virtualservice httpbin
-    $ kubectl delete -n istio-system secret istio-ingressgateway-certs
-    ```
-
-1.  Shutdown the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) service.
-
-    ```command
-    $ kubectl delete -f samples/httpbin/httpbin.yaml
-    ```
+```command
+$ istioctl delete gateway httpbin-gateway
+$ istioctl delete virtualservice httpbin
+$ kubectl delete --ignore-not-found=true -n istio-system secret istio-ingressgateway-certs
+$ kubectl delete --ignore-not-found=true -f samples/httpbin/httpbin.yaml
+```
 
 ## What's next
 
