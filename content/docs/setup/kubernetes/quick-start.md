@@ -237,10 +237,10 @@ installation directory contains:
     * The `istioctl` client binary in the `bin/` directory. `istioctl` is used when manually injecting Envoy as a sidecar proxy and for creating routing rules and policies.
     * The `istio.VERSION` configuration file
 
-1.  Change directory to istio package. For example, if the package is istio-{{site.data.istio.version}}
+1.  Change directory to istio package. For example, if the package is istio-{{< istio_version >}}
 
     ```command
-    $ cd istio-{{site.data.istio.version}}
+    $ cd istio-{{< istio_version >}}
     ```
 
 1.  Add the `istioctl` client to your PATH.
