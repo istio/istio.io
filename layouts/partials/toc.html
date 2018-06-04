@@ -20,7 +20,7 @@
                     {{ if gt $level $current }}
                         <ul>
                     {{ else if lt $level $current }}
-                        {{ $delta := sub ($page.Scratch.Get "level") $level }}
+                        {{ $delta := sub (sub ($page.Scratch.Get "level") $level) 1 }}
                         {{ range $index, $num := (seq $delta) }}
                             </ul>
                         {{ end }}
