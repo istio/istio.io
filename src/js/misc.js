@@ -100,6 +100,18 @@ function scrollToTop() {
     document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
 
+String.prototype.escapeHTML = function() {
+    var tagsToReplace = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;'
+    };
+
+    return this.replace(/[&<>]/g, function(tag) {
+        return tagsToReplace[tag] || tag;
+    });
+};
+
 // initialized after the DOM has been loaded by getDOMTopology
 var scrollToTopButton;
 var tocLinks;
@@ -284,9 +296,11 @@ function handleDOMLoaded() {
                         if (output !== "") {
                             // apply formatting to the output?
                             var prefix = "language-command-output-as-";
-                            if (cl.length > prefix.length) {
+                            if (cl.startsWith(prefix)) {
                                 var lang = cl.substr(prefix.length);
                                 output = Prism.highlight(output, Prism.languages[lang], lang);
+                            } else {
+                                output = output.escapeHTML();
                             }
 
                             html += "<div class='output'>" + output + "</div>";
