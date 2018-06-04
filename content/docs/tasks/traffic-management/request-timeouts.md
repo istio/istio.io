@@ -79,20 +79,20 @@ to the `ratings` service.
 1.  Now add a 1 second request timeout for calls to the `reviews` service
 
     ```bash
-            cat <<EOF | istioctl replace -f -
-            apiVersion: networking.istio.io/v1alpha3
-            kind: VirtualService
-            metadata:
-              name: reviews
-            spec:
-              hosts:
-                - reviews
-              http:
-              - route:
-                - destination:
-                    host: reviews
-                    subset: v2
-                timeout: 1s
+        cat <<EOF | istioctl replace -f -
+        apiVersion: networking.istio.io/v1alpha3
+        kind: VirtualService
+        metadata:
+          name: reviews
+        spec:
+          hosts:
+          - reviews
+          http:
+          - route:
+            - destination:
+                host: reviews
+                subset: v2
+            timeout: 1s
         EOF
     ```
 
