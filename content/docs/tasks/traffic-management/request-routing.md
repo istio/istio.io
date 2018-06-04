@@ -107,7 +107,7 @@ you'll need to use `replace` rather than `create` in the following command.
     Since rule propagation to the proxies is asynchronous, you should wait a few seconds for the rules
     to propagate to all pods before attempting to access the application.
 
-1.  Open the Bookinfo URL (http://$GATEWAY_URL/productpage) in your browser
+1.  Open the Bookinfo URL (http://$GATEWAY_URL/productpage) in your browser.  If `$GATEWAY_URL` isn't set, follow the [instruction](/docs/guides/bookinfo/#determining-the-ingress-ip-and-port).
 
     You should see the Bookinfo application productpage displayed.
     Notice that the `productpage` is displayed with no rating stars since `reviews:v1` does not access the ratings service.
