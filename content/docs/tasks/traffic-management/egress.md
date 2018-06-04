@@ -207,7 +207,7 @@ On IBM Cloud Private, use:
     $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=10.0.0.1/24)
     ```
 
-On IBM Cloud Container Service, use:
+On IBM Cloud Kubernetes Service, use:
 
 ```command
 $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=172.30.0.0/16,172.20.0.0/16,10.10.10.0/24)
