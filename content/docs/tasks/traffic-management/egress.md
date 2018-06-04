@@ -4,7 +4,7 @@ description: Describes how to configure Istio to route traffic from services in 
 weight: 40
 ---
 
-> This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.6/docs/tasks/).
+> This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.7/docs/tasks/traffic-management/).
 
 By default, Istio-enabled services are unable to access URLs outside of the cluster because
 iptables is used in the pod to transparently redirect all outbound traffic to the sidecar proxy,
