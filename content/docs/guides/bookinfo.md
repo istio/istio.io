@@ -137,11 +137,13 @@ To start the application, follow the instructions below corresponding to your Is
 
 #### Determining the ingress IP and port
 
-Follow [the instructions](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports) to set the `INGRESS_HOST` and `INGRESS_PORT` variables. Set `GATEWAY_URL`:
+1. Follow [these instructions](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports) to set the `INGRESS_HOST` and `INGRESS_PORT` variables.
 
-```command
-$ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
-```
+1. Set `GATEWAY_URL`:
+
+   ```command
+   $ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
+   ```
 
 ### Running on Docker with Consul or Eureka
 
