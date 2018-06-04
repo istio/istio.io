@@ -35,13 +35,16 @@ You should customize it based on your provisioning tools and DNS requirements.
 ### Preparing the Kubernetes cluster for expansion
 
 *   Setup Internal Load Balancers (ILBs) for Kube DNS, Pilot, Mixer and Citadel. This step is specific to
-each cloud provider, so you may need to edit annotations.
+each cloud provider, so you may need to edit annotations. You can use an ILB based on Keepalived at
+[here](https://github.com/gyliu513/work/tree/master/k8s/charts/keepalived) for demo or test in case where
+the cloud provider or private cloud (for example IBM Cloud Private) doesn't have load balancer service
+support out of box.
 
     ```command
     $ kubectl apply -f install/kubernetes/mesh-expansion.yaml
     ```
 
-*   Generate the Istio 'cluster.env' configuration to be deployed in the VMs. This file contains
+*   Generate the Istio `cluster.env` configuration to be deployed in the VMs. This file contains
 the cluster IP address ranges to intercept.
 
     ```command
@@ -250,17 +253,17 @@ Oct 13 21:32:29 demo-vm-1 node_agent[6941]: I1013 21:32:29.862575    6941 nodeag
 
 ## Running services on a mesh expansion machine
 
-*   Configure the sidecar to intercept the port. This is configured in ``/var/lib/istio/envoy/sidecar.env`,
+*   Configure the sidecar to intercept the port. This is configured in `/var/lib/istio/envoy/sidecar.env`,
 using the ISTIO_INBOUND_PORTS environment variable.
 
     Example (on the VM running the service):
 
     ```command
-    $ echo "ISTIO_INBOUND_PORTS=27017,3306,8080" > /var/lib/istio/envoy/sidecar.env
+    $ echo "ISTIO_INBOUND_PORTS=3306,8080" > /var/lib/istio/envoy/sidecar.env
     $ systemctl restart istio
    ```
 
-*   Manually configure a selector-less service and endpoints. The 'selector-less' service is used for
+*   Manually configure a selector-less service and endpoints. The `selector-less` service is used for
 services that are not backed by Kubernetes pods.
 
     Example, on a machine with permissions to modify Kubernetes services:
