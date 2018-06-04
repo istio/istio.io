@@ -50,7 +50,7 @@ caption="GKE-IAM Role"
     [Grafana](/docs/tasks/telemetry/using-istio-dashboard/) with
     [Prometheus](/docs/tasks/telemetry/querying-metrics/),
     [ServiceGraph](/docs/tasks/telemetry/servicegraph/),
-    and [Zipkin](/docs/tasks/telemetry/distributed-tracing/#zipkin).
+    and [Tracing](/docs/tasks/telemetry/distributed-tracing/).
     You'll find out more about how to access all of these below.  This script will enable Istio auto-injection on the ```default``` namespace only.
 
 1.  Click **Deploy**:
@@ -218,21 +218,17 @@ For more details, see [About the ServiceGraph Add-on](/docs/tasks/telemetry/serv
 
 ## Tracing
 
-Set up a tunnel to Zipkin:
+Set up a tunnel to the tracing dashboard:
 
 ```command
-$ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=zipkin -o jsonpath='{.items[0].metadata.name}') 9411:9411 &
+$ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 16686:16686 &
 ```
 
-You should see the trace statistics sent earlier:
+You should see the trace statistics sent earlier on [http://localhost:16686](http://localhost:16686)
 
-```plain
-http://localhost:9411
-```
-
-{{< image width="100%" ratio="57.00%"
-    link="../img/dm_zipkin.png"
-    caption="Zipkin"
+{{< image width="100%" ratio="42.35%"
+    link="../img/dm-tracing.png"
+    caption="Tracing Dashboard"
     >}}
 
 For more details on tracing see [Understanding what happened](/docs/tasks/telemetry/distributed-tracing/#understanding-what-happened).
