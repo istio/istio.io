@@ -182,6 +182,7 @@ Note that you should use the same Helm command you used [to install Istio](/docs
 Redeploy the _sleep_ application as described in the [Before you begin](/docs/tasks/traffic-management/egress/#before-you-begin) section.
 
 ### Determine the value of `global.proxy.includeIPRanges`
+
 Set the value of `global.proxy.includeIPRanges` according to your cluster provider.
 
 #### IBM Cloud Private
@@ -224,7 +225,7 @@ Use `--set global.proxy.includeIPRanges="10.244.0.0/16\,10.240.0.0/16`
 
 Use `--set global.proxy.includeIPRanges="10.0.0.1/24"`
 
-### Make requests to the external services
+### Access the external services
 
 After updating the `ConfigMap` _istio-sidecar-injector_ and redeploying the _sleep_ application,
 the Istio sidecar will only intercept and manage internal requests
