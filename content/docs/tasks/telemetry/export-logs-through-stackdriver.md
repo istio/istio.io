@@ -202,12 +202,12 @@ Handler is configured based on this proto.
 1.  Verify that logs are flowing through Stackdriver and further to the sink configured.
 
     *	Stackdriver: Navigate to [Stackdriver Logs Viewer](https://pantheon.corp.google.com/logs/viewer) for your project
-    	and look under "GKE Container" -> "Cluster Name" -> "Namespace Id" for Istio Access logs.
+        and look under "GKE Container" -> "Cluster Name" -> "Namespace Id" for Istio Access logs.
     *	BigQuery: Navigate to [BigQuery Interface](https://bigquery.cloud.google.com/) for your project and you should find
-    	a table with prefix `accesslog_logentry_istio` in your sink dataset.
+        a table with prefix `accesslog_logentry_istio` in your sink dataset.
     *	GCS: Navigate to [Storage Browser](https://pantheon.corp.google.com/storage/browser/) for your project and you should
-    	find a bucket named `accesslog.logentry.istio-system` in your sink bucket.
-    *	Pub/Sub: Navigate to [Pub/Sub TopicList](https://pantheon.corp.google.com/cloudpubsub/topicList) for your project and 	    you should find a topic for `accesslog` in your sink topic.
+        find a bucket named `accesslog.logentry.istio-system` in your sink bucket.
+    *	Pub/Sub: Navigate to [Pub/Sub TopicList](https://pantheon.corp.google.com/cloudpubsub/topicList) for your project and 	      you should find a topic for `accesslog` in your sink topic.
 
 ## Understanding what happened
 
@@ -228,7 +228,7 @@ where these logs could be exported. In detail as follows:
      logInfo:
        accesslog.logentry.istio-system:
          labelNames:
-		      - sourceIp
+          - sourceIp
           - destinationIp
           ...
           ...
