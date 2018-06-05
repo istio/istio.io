@@ -207,7 +207,7 @@ Handler is configured based on this proto.
         a table with prefix `accesslog_logentry_istio` in your sink dataset.
     *   GCS: Navigate to [Storage Browser](https://pantheon.corp.google.com/storage/browser/) for your project and you should
         find a bucket named `accesslog.logentry.istio-system` in your sink bucket.
-    *   Pub/Sub: Navigate to [Pub/Sub TopicList](https://pantheon.corp.google.com/cloudpubsub/topicList) for your project and 	      you should find a topic for `accesslog` in your sink topic.
+    *   Pub/Sub: Navigate to [Pub/Sub TopicList](https://pantheon.corp.google.com/cloudpubsub/topicList) for your project and         you should find a topic for `accesslog` in your sink topic.
 
 ## Understanding what happened
 
