@@ -16,7 +16,7 @@ This is a COUNTER metric incremented for a new request to Istio.
 It is labeled based on source service, source version, destination service, destination version, connection mtls and response code of the request. 
 This is exported by default by prometheus adapter and can be configured to be exported by other mixer adapters.
 
-### RequestDuration
+### Request Duration
 This is a DISTRIBUTION metric which measures the duration of the request. 
 This metric is obtained from envoy proxy. It is labeled based on source service, source version, destination service, destination version, connection mtls and response code of the request. This is exported by default by prometheus adapter using explicit bucket configuration of [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10]. 
 It can be configured to be exported by other mixer adapters.
@@ -46,7 +46,7 @@ This is exported by default by prometheus adapter and can be exported by other m
 ### Source Service
 This identifies the source service responsible for an incoming request. 
 This label is obtained from kubernetes cluster metadata. This is also the FQDN for a source service. 
-Ex: "reviews.default.svc.cluster.local".
+Ex: `reviews.default.svc.cluster.local`.
 
 ### Source Version
 This identifies the version of the source service of the request. 
@@ -55,7 +55,7 @@ This label is obtained from kubernetes cluster metadata source.labels[“version
 ### Destination Service
 This identifies the destination service responsible for an incoming request. 
 This label is obtained from kubernetes cluster metadata. 
-This is also the FQDN for a source service. Ex: "details.default.svc.cluster.local".
+This is also the FQDN for a source service. Ex: `details.default.svc.cluster.local`.
 
 ### Destination Version
 This identifies the version of the source service of the request. 
