@@ -23,6 +23,13 @@ or alternatively, to simply bypass the Istio proxy for a specific range of IPs.
 *   Start the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) sample
     which will be used as a test source for external calls.
 
+    If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), do
+
+    ```command
+    $ kubectl apply -f samples/sleep/sleep.yaml
+    ```
+    otherwise, you have to manually inject the sidecar before deploying the `sleep` application:
+
     ```command
     $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
     ```
