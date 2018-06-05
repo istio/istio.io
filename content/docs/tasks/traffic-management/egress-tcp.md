@@ -15,10 +15,10 @@ This task describes how to configure Istio to expose external TCP services to ap
 * Setup Istio by following the instructions in the
   [Installation guide](/docs/setup/).
 
-*   Start the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) sample application which will be used as a test source for external calls.
+*   Start the [sleep](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/sleep) sample application which will be used as a test source for external calls.
 
     ```command
-    $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
     ```
 
     **Note**: any pod that you can execute `curl` from is good enough.
@@ -62,7 +62,7 @@ This command instructs the Istio proxy to forward requests on port 443 of any of
 
 ## Access wikipedia.org by HTTPS
 
-1.  `kubectl exec` into the pod to be used as the test source. If you are using the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) application, run the following command:
+1.  `kubectl exec` into the pod to be used as the test source. If you are using the [sleep](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/sleep) application, run the following command:
 
     ```command
     $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep bash
@@ -94,10 +94,10 @@ This command instructs the Istio proxy to forward requests on port 443 of any of
     $ istioctl delete serviceentry wikipedia-ext
     ```
 
-1.  Shutdown the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) application.
+1.  Shutdown the [sleep](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/sleep) application.
 
     ```command
-    $ kubectl delete -f samples/sleep/sleep.yaml
+    $ kubectl delete -f @samples/sleep/sleep.yaml@
     ```
 
 ## What's next

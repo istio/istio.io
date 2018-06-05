@@ -42,7 +42,7 @@ $ configmap "nginxconfigmap" created
 This section creates a NGINX-based HTTPS service.
 
 ```command
-$ kubectl apply -f samples/https/nginx-app.yaml
+$ kubectl apply -f @samples/https/nginx-app.yaml@
 service "my-nginx" created
 replicationcontroller "my-nginx" created
 ```
@@ -50,7 +50,7 @@ replicationcontroller "my-nginx" created
 Then, create another pod to call this service.
 
 ```command
-$ kubectl apply -f <(bin/istioctl kube-inject --debug -f samples/sleep/sleep.yaml)
+$ kubectl apply -f <(bin/istioctl kube-inject --debug -f @samples/sleep/sleep.yaml@)
 ```
 
 Get the pods
@@ -100,7 +100,7 @@ $ kubectl delete -f nginx-app.yaml
 Deploy it with a sidecar
 
 ```command
-$ kubectl apply -f <(bin/istioctl kube-inject --debug -f samples/https/nginx-app.yaml)
+$ kubectl apply -f <(bin/istioctl kube-inject --debug -f @samples/https/nginx-app.yaml@)
 ```
 
 Make sure the pod is up and running
@@ -138,7 +138,7 @@ You need to deploy Istio control plane with mTLS enabled. If you have istio
 control plane with mTLS disabled installed, please delete it:
 
 ```command
-$ kubectl delete -f install/kubernetes/istio.yaml
+$ kubectl delete -f @install/kubernetes/istio.yaml@
 ```
 
 And wait for everything is down, i.e., there is no pod in control plane namespace (istio-system).
@@ -151,7 +151,7 @@ No resources found.
 Then deploy the Istio control plane with mTLS enabled:
 
 ```command
-$ kubectl apply -f install/kubernetes/istio-auth.yaml
+$ kubectl apply -f @install/kubernetes/istio-auth.yaml@
 ```
 
 Make sure everything is up and running:
@@ -168,10 +168,10 @@ istio-pilot-6954dcd96d-phh5z     2/2       Running   0          2m
 Then redeploy the HTTPS service and sleep service
 
 ```command
-$ kubectl delete -f <(bin/istioctl kube-inject --debug -f samples/sleep/sleep.yaml)
-$ kubectl apply -f <(bin/istioctl kube-inject --debug -f samples/sleep/sleep.yaml)
-$ kubectl delete -f <(bin/istioctl kube-inject --debug -f samples/https/nginx-app.yaml)
-$ kubectl apply -f <(bin/istioctl kube-inject --debug -f samples/https/nginx-app.yaml)
+$ kubectl delete -f <(bin/istioctl kube-inject --debug -f @samples/sleep/sleep.yaml@)
+$ kubectl apply -f <(bin/istioctl kube-inject --debug -f @samples/sleep/sleep.yaml@)
+$ kubectl delete -f <(bin/istioctl kube-inject --debug -f @samples/https/nginx-app.yaml@)
+$ kubectl apply -f <(bin/istioctl kube-inject --debug -f @samples/https/nginx-app.yaml@)
 ```
 
 Make sure the pod is up and running

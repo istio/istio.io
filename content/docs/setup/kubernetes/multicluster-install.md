@@ -159,7 +159,7 @@ $ export STATSD_POD_IP=$(kubectl -n istio-system get pod -l istio=statsd-prom-br
 install one:
 
     ```command
-    $ kubectl create -f install/kubernetes/helm/helm-service-account.yaml
+    $ kubectl create -f @install/kubernetes/helm/helm-service-account.yaml@
     ```
 
 1.  Initialize Helm:

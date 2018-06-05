@@ -48,6 +48,10 @@
         <script async src='https://www.google-analytics.com/analytics.js'></script>
         <!-- End Google Analytics -->
 
+        <script>
+            var branchName = "{{ .Site.Data.args.branch_name }}";
+        </script>
+
         <!-- RSS -->
         <link rel="alternate" type="application/rss+xml" title="Istio Blog" href="/feed.xml">
 
