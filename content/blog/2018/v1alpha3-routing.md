@@ -363,7 +363,7 @@ kind: DestinationRule
 metadata:
   name: foo-ext
 spec:
-  name: foo.com
+  host: foo.com
   trafficPolicy:
     tls:
       mode: MUTUAL
