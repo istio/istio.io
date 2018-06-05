@@ -1,6 +1,6 @@
 ---
 title: Security
-overview: Security Q&amp;A
+description: Security Q & A
 weight: 30
 type: faq
 ---

@@ -1,5 +1,5 @@
-{{ $toc := (trim .TableOfContents " ") }}
-{{ $needTOC := .Params.toc | (ne $toc "") }}
+{{ $toc := partial "toc.html" (dict "page" .) }}
+{{ $needTOC := .Scratch.Get "needTOC" }}
 
             </main>
 
@@ -33,7 +33,7 @@
                 <nav class="toc">
                     <div class="spacer"></div>
                     <div id="toc" class="directory" role="directory">
-                        {{ .TableOfContents }}
+                        {{ $toc }}
                     </div>
                 </nav>
             </div>

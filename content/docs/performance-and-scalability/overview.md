@@ -1,6 +1,6 @@
 ---
 title: Overview
-overview: Provides a conceptual introduction to Istio's Performance and Scalability
+description: Provides a conceptual introduction to Istio's Performance and Scalability
 weight: 10
 ---
 

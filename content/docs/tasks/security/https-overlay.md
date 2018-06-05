@@ -22,13 +22,10 @@ Note that authentication should be **disabled** at step 5 in the
 
 ### Generate certificates and configmap
 
-You need to have openssl installed to run this command
+You need to have openssl installed to run these commands:
 
 ```command
 $ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /tmp/nginx.key -out /tmp/nginx.crt -subj "/CN=my-nginx/O=my-nginx"
-```
-
-```command
 $ kubectl create secret tls nginxsecret --key /tmp/nginx.key --cert /tmp/nginx.crt
 $ secret "nginxsecret" created
 ```
