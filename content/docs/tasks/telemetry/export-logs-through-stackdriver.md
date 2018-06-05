@@ -35,7 +35,7 @@ in Istio.
 
 ### Setting up various log sinks
 
-Common setup for all sinks: 
+Common setup for all sinks:
 
 1. Enable StackDriver Monitoring API for the project
 1. Make sure `principalEmail` that would be setting up the sink has write access
@@ -238,7 +238,7 @@ Handler is configured based on this proto.
 StackDriver and then added a sink configuration where these logs could be
 exported. In detail as follows:
 
-1.  Added a handler of kind stackdriver 
+1.  Added a handler of kind stackdriver
 
     ```yaml
         apiVersion: "config.istio.io/v1alpha2"
@@ -247,39 +247,39 @@ exported. In detail as follows:
           name: handler
           namespace: <your defined namespace>
     ```
-    
+
 1.  Added logInfo in spec
 
     ```yaml
-        spec: 
+        spec:
           logInfo: accesslog.logentry.istio-system:
-            labelNames: 
-            - sourceIp 
-            - destinationIp 
+            labelNames:
+            - sourceIp
+            - destinationIp
+            ...
             ... 
-            ... 
-            sinkInfo: 
+            sinkInfo:
               id: '<sink_id>'
-              destination: '<sink_destination>' 
+              destination: '<sink_destination>'
               filter: '<log_filter>'
     ```yaml
-    
+
     In the above configuration sinkInfo contains information about the sink where you want
     the logs to get exported to. For more information on how this gets filled for different sinks please refer
     [here](https://cloud.google.com/logging/docs/export/#sink-terms).
-    
-1.  Added a rule for Stackdriver 
+
+1.  Added a rule for Stackdriver
 
     ```yaml
         apiVersion: "config.istio.io/v1alpha2"
-        kind: rule 
-        metadata: 
-          name: stackdriver 
-          namespace: istio-system spec: 
+        kind: rule
+        metadata:
+          name: stackdriver
+          namespace: istio-system spec:
           match: "true" # If omitted match is true
-        actions: 
+        actions:
         - handler: handler.stackdriver
-          instances: 
+          instances:
           - accesslog.logentry
      ```yaml
 
