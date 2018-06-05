@@ -127,7 +127,7 @@ See the sample [Bookinfo](/docs/guides/bookinfo/) application.
     ```command
     $ helm delete --purge istio
     ```
-    Note: If your helm version is < 2.9.0, then you need to manually cleanup extra job resource before redeploying new version of istio chart by executing:
+    Note: If your helm version is less than 2.9.0, then you need to manually cleanup extra job resource before redeploy new version of Istio chart:
     
     ```command
     $ kubectl -n istio-system delete job --all
