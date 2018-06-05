@@ -237,7 +237,7 @@ installation directory contains:
     * The `istioctl` client binary in the `bin/` directory. `istioctl` is used when manually injecting Envoy as a sidecar proxy and for creating routing rules and policies.
     * The `istio.VERSION` configuration file
 
-1.  Change directory to the istio package. For example, if the package is istio-{{< istio_version >}}.0;
+1.  Change directory to the istio package. For example, if the package is istio-{{< istio_version >}}.0:
 
     ```command
     $ cd istio-{{< istio_version >}}.0
@@ -295,8 +295,8 @@ OR
     ```
 
     > If your cluster is running in an environment that does not support an external load balancer
-    (e.g., minikube), the `EXTERNAL-IP` of `istio-ingress` says `<pending>`. You must access the
-    application using the service NodePort, or use port-forwarding instead.
+    (e.g., minikube), the `EXTERNAL-IP` of `istio-ingressgateway` will say `<pending>`. You will need to access
+    it using the service NodePort, or use port-forwarding instead.
 
 1.  Ensure the corresponding Kubernetes pods are deployed and all containers are up and running:
 `istio-pilot-*`, `istio-ingressgateway-*`, `istio-egressgateway-*`, `istio-policy-*`, `istio-telemtry-*`, `istio-citadel-*`, `prometheus-*` and, optionally, `istio-sidecar-injector-*`.
