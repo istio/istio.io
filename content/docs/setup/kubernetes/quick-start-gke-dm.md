@@ -70,7 +70,7 @@ Once deployment is complete, do the following on the workstation where you've in
 running and Istio is enabled
 
     ```command
-    gcloud container clusters list
+    $ gcloud container clusters list
     NAME           LOCATION       MASTER_VERSION  MASTER_IP      MACHINE_TYPE   NODE_VERSION  NUM_NODES  STATUS
     istio-cluster  us-central1-a  1.9.7-gke.1     35.232.222.60  n1-standard-2  1.9.7-gke.1   4          RUNNING
     ```
@@ -88,7 +88,7 @@ running and Istio is enabled
 Verify Istio is installed in its own namespace
 
 ```command
-  kubectl get deployments,ing -n istio-system
+$  kubectl get deployments,ing -n istio-system
 NAME                              DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 deploy/grafana                    1         1         1            1           4m
 deploy/istio-citadel              1         1         1            1           4m
@@ -119,7 +119,7 @@ deploy/reviews-v3       1         1         1            1           7m
 
 Now get the ```istio-ingressgateway``` IP:
 
-```
+```command
 $ kubectl get svc istio-ingressgateway -n istio-system
 NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)                                      AGE
 istio-ingressgateway   LoadBalancer   10.59.251.109   35.194.26.85   80:31380/TCP,443:31390/TCP,31400:31400/TCP   6m
@@ -138,10 +138,10 @@ You can also view the installation using the ***Kubernetes Engine -> Workloads**
 
 1.  Set up an environment variable for Bookinfo's external IP address:
 
-    ```bash
-    export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    ```command
+    $ export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 
-    echo $GATEWAY_URL
+    $ echo $GATEWAY_URL
     ```
 
 1.  Verify you can access the Bookinfo ```http://${GATEWAY_URL}/productpage```:
@@ -153,7 +153,7 @@ You can also view the installation using the ***Kubernetes Engine -> Workloads**
 
 1.  Now send some traffic to it:
 
-    ```bash
+    ```command
     $ for i in {1..100}; do curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage; done
     ```
 
