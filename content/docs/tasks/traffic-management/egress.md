@@ -165,7 +165,7 @@ If you want to completely bypass Istio for a specific IP range,
 you can configure the Envoy sidecars to prevent them from
 [intercepting](/docs/concepts/traffic-management/request-routing/#communication-between-services)
 the external requests. This can be done by setting the `global.proxy.includeIPRanges` variable of
-[Helm](https://istio.io/docs/setup/kubernetes/helm-install/#customization-with-helm) and updating the `ConfigMap` _istio-sidecar-injector_ by `kubectl apply`. After _istio-sidecar-injector_ is updated, the value of `global.proxy.includeIPRanges` will affect all the future deployments of the application pods.
+[Helm](/docs/setup/kubernetes/helm-install/#customization-with-helm) and updating the `ConfigMap` _istio-sidecar-injector_ by `kubectl apply`. After _istio-sidecar-injector_ is updated, the value of `global.proxy.includeIPRanges` will affect all the future deployments of the application pods.
 
 The simplest way to use the `global.proxy.includeIPRanges` variable is to pass it the IP range(s)
 used for internal cluster services, thereby excluding external IPs from being redirected
@@ -177,9 +177,9 @@ For example, with Minikube the range is 10.0.0.1&#47;24, so you would update you
 $ helm install install/kubernetes/helm/istio <the flags you used to install Istio> --set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml | kubectl apply -f -
 ```
 
-Note that you should use the same Helm command you used [to install Istio](https://istio.io/docs/setup/kubernetes/helm-install), plus the flags `--set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml`.
+Note that you should use the same Helm command you used [to install Istio](/docs/setup/kubernetes/helm-install), plus the flags `--set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml`.
 
-Redeploy the _sleep_ application as described in the [Before you begin](https://istio.io/docs/tasks/traffic-management/egress/#before-you-begin) section.
+Redeploy the _sleep_ application as described in the [Before you begin](/docs/tasks/traffic-management/egress/#before-you-begin) section.
 
 ### Determine the value of `global.proxy.includeIPRanges`
 Set the value of `global.proxy.includeIPRanges` according to your cluster provider.
