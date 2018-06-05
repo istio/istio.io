@@ -268,11 +268,11 @@ cloud provider specific knowledge and configuration.
     $ kubectl delete -f samples/sleep/sleep.yaml
     ```
 
-1. Update the `ConfigMap` _istio-sidecar-injector_ to redirect all outbound traffic to the sidecar proxies:
+1.  Update the `ConfigMap` _istio-sidecar-injector_ to redirect all outbound traffic to the sidecar proxies:
 
-   ```plain
-   helm install install/kubernetes/helm/istio <the flags you used to install Istio> -x templates/sidecar-injector-configmap.yaml | kubectl apply -f -
-   ```
+    ```plain
+    $ helm install install/kubernetes/helm/istio <the flags you used to install Istio> -x templates/sidecar-injector-configmap.yaml | kubectl apply -f -
+    ```
 ## What's next
 
 * Learn more about [service entries](/docs/concepts/traffic-management/rules-configuration/#service-entries).
