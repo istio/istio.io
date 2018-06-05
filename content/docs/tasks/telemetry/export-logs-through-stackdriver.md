@@ -28,7 +28,7 @@ Following is a diagram of the pipeline:
     title="Diagram of exporting logs from Istio to StackDriver for analysis"
     >}}
 
-Istio supports exporting logs to Stackdriver which can be extended to export logs to your favorite sink like BigQuery, PubSub or GCS. Please follow steps below to setup your favorite sink for exporting logs first and then Stackdriver in Istio.
+Istio supports exporting logs to Stackdriver which can be extended to export logs to your favorite sink like BigQuery, Pub/Sub or GCS. Please follow steps below to setup your favorite sink for exporting logs first and then Stackdriver in Istio.
 
 ### Setting up various log sinks
 Common setup for all sinks:
@@ -36,13 +36,13 @@ Common setup for all sinks:
 1. Make sure `principalEmail` that would be setting up the sink has write access to the project and Logging Admin role permissions.
 
 #### BigQuery
-1. Create a BigQuery dataset where you would like logs to get exported in bigquery
+1. Create a BigQuery dataset where you would like logs to get exported in BigQuery
 1. Note down it’s id to be passed to Stackdriver handler as destination for the sink. It would be of the form 
 `bigquery.googleapis.com/projects/[PROJECT_ID]/datasets/[DATASET_ID]`
 1. Give sink’s writer identity: cloud-logs@system.gserviceaccount.com  BigQuery data editor role in IAM
 
 #### GCS
-1. Create a GCS bucket where you would like logs to get exported in bigquery.
+1. Create a GCS bucket where you would like logs to get exported in BigQuery.
 1. Note down it’s id to be passed to Stackdriver handler as destination for the sink. It would be of the form 
 `storage.googleapis.com/[BUCKET_ID`
 1. Give sink’s writer identity: cloud-logs@system.gserviceaccount.com  storage object creator role in IAM
@@ -205,7 +205,7 @@ Handler is configured based on this proto.
     *	Pub/Sub: Navigate to [Pub/Sub TopicList](https://pantheon.corp.google.com/cloudpubsub/topicList) for your project and 	    you should find a topic for `accesslog` in your sink topic.
     
 ## Understanding what happened
-Stackdriver.yaml file above configured Istio to send metric and accesslog to StackDriver and then added a sink configuration
+`Stackdriver.yaml` file above configured Istio to send metric and accesslog to StackDriver and then added a sink configuration
 where these logs could be exported. In detail as follows:
 
 1. Added a handler of kind stackdriver
