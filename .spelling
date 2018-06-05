@@ -363,6 +363,7 @@ lifecycle
 listchecker
 liveness
 logentry
+logInfo
 mTLS
 machine.svg
 machineSetup
@@ -490,6 +491,7 @@ setupMeshEx.sh
 sharded
 sharding
 sidecar.env
+sinkInfo
 sleep.legacy
 sleep.yaml
 source.domain
