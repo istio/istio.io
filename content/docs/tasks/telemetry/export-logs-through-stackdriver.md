@@ -1,12 +1,12 @@
 ---
-title: Exporting Istio Access Logs to Bigquery/GCS/Pubsub through Stackdriver
-description: How to export Istio Access Logs to different sinks like Bigquery/GCS/Pubsub through Stackdriver.
+title: Exporting Istio Access Logs to BigQuery, GCS, Pub/Sub through Stackdriver
+description: How to export Istio Access Logs to different sinks like BigQuery, GCS, Pub/Sub through Stackdriver.
 weight: 70
 ---
 {% include home.html %}
 
-This task shows how to export Istio Access Logs to different sinks like Bigquery/GCS/Pubsub through Stackdriver
-A user can do analytics on data through Istio using logs flowing from Istio to StackDriver and then exporting these logs to various configured sinks like BigQuery, PubSub or GCS. 
+This task shows how to export Istio Access Logs to different sinks like BigQuery, GCS, Pub/Sub through Stackdriver
+A user can do analytics on data through Istio using logs flowing from Istio to StackDriver and then exporting these logs to various configured sinks like BigQuery, Pub/Sub or GCS. 
 
 The [Bookinfo]({{home}}/docs/guides/bookinfo.html) sample application is used as
 the example application throughout this task.
@@ -33,25 +33,25 @@ Istio supports exporting logs to Stackdriver which can be extended to export log
 ### Setting up various log sinks
 Common setup for all sinks:
 1. Enable StackDriver Monitoring API for the project
-1. Make sure principalEmail that would be setting up the sink has write access to the project and Logging Admin role permissions.
+1. Make sure `principalEmail` that would be setting up the sink has write access to the project and Logging Admin role permissions.
 
 #### BigQuery
-1. Create a bigquery dataset where you would like logs to get exported in bigquery
+1. Create a BigQuery dataset where you would like logs to get exported in bigquery
 1. Note down it’s id to be passed to Stackdriver handler as destination for the sink. It would be of the form 
-*bigquery.googleapis.com/projects/[PROJECT_ID]/datasets/[DATASET_ID]*
-1. Give sink’s writer identity: cloud-logs@system.gserviceaccount.com  bigquery data editor role in IAM
+`bigquery.googleapis.com/projects/[PROJECT_ID]/datasets/[DATASET_ID]`
+1. Give sink’s writer identity: cloud-logs@system.gserviceaccount.com  BigQuery data editor role in IAM
 
 #### GCS
 1. Create a GCS bucket where you would like logs to get exported in bigquery.
 1. Note down it’s id to be passed to Stackdriver handler as destination for the sink. It would be of the form 
-*storage.googleapis.com/[BUCKET_ID*
+`storage.googleapis.com/[BUCKET_ID`
 1. Give sink’s writer identity: cloud-logs@system.gserviceaccount.com  storage object creator role in IAM
 
-#### Pubsub
-1. Create a topic where you would like logs to get exported in Pubsub
+#### Pub/Sub
+1. Create a topic where you would like logs to get exported in Pub/Sub
 1. Note down it’s id to be passed to Stackdriver handler as destination for the sink. It would be of the form 
-*pubsub.googleapis.com/projects/[PROJECT_ID]/topics/[TOPIC_ID]*
-1. Give sink’s writer identity: cloud-logs@system.gserviceaccount.com  Pub Sub/Publisher role in IAM
+`pubsub.googleapis.com/projects/[PROJECT_ID]/topics/[TOPIC_ID]`
+1. Give sink’s writer identity: cloud-logs@system.gserviceaccount.com  Pub/Sub Publisher role in IAM
 
 ### Setting up Stackdriver
 
@@ -59,7 +59,7 @@ To configure exporting logs to Stackdriver, you have to write a handler for Stac
 Config proto for Stackdriver can be found [here](https://github.com/istio/istio/blob/master/mixer/adapter/stackdriver/config/config.proto). 
 Handler is configured based on this proto.
 
-1. Save following yaml file as `stackdriver.yaml`. Replace <project_id>, <sink_id>, <sink_destination>, <log_filter> with
+1. Save following yaml file as `stackdriver.yaml`. Replace `<project_id>, <sink_id>, <sink_destination>, <log_filter>` with
    their specific values.
 
 	```yaml
@@ -202,7 +202,7 @@ Handler is configured based on this proto.
     	a table with prefix `accesslog_logentry_istio` in your sink dataset.
     *	GCS: Navigate to [Storage Browser](https://pantheon.corp.google.com/storage/browser/) for your project and you should
     	find a bucket named `accesslog.logentry.istio-system` in your sink bucket.
-    *	PubSub: Navigate to [PubSub TopicList](https://pantheon.corp.google.com/cloudpubsub/topicList) for your project and 	    you should find a topic for `accesslog` in your sink topic.
+    *	Pub/Sub: Navigate to [Pub/Sub TopicList](https://pantheon.corp.google.com/cloudpubsub/topicList) for your project and 	    you should find a topic for `accesslog` in your sink topic.
     
 ## Understanding what happened
 Stackdriver.yaml file above configured Istio to send metric and accesslog to StackDriver and then added a sink configuration
@@ -260,4 +260,4 @@ where these logs could be exported. In detail as follows:
   to shutdown the application.
 
 ## Availability of logs in export sinks
-Export to BigQuery is within minutes(we see it to be almost instant), GCS can have a delay of 2-12 hours and PubSub is almost instant. 
+Export to BigQuery is within minutes(we see it to be almost instant), GCS can have a delay of 2-12 hours and Pub/Sub is almost instant. 
