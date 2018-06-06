@@ -38,36 +38,30 @@ in Istio.
 
 Common setup for all sinks:
 
-1. Enable StackDriver Monitoring API for the project
-1. Make sure `principalEmail` that would be setting up the sink has write access
+1. Enable StackDriver Monitoring API for the project.
+1. Make sure `principalEmail` that would be setting up the sink has write access.
 to the project and Logging Admin role permissions.
 
 #### BigQuery
 
-1.  Create a BigQuery dataset where you would like logs to get exported in
-    BigQuery
-1.  Note down it’s id to be passed to Stackdriver handler as destination for the
-    sink. It would be of the form
-    `bigquery.googleapis.com/projects/[PROJECT_ID]/datasets/[DATASET_ID]`
-1.  Give sink’s writer identity: cloud-logs@system.gserviceaccount.com BigQuery
-    data editor role in IAM
+1.  Create a BigQuery dataset as a destination for the logs export.
+1.  Record the ID of the dataset. It will be needed to configure the Stackdriver handler.
+    It would be of the form `bigquery.googleapis.com/projects/[PROJECT_ID]/datasets/[DATASET_ID]`
+1.  Give [sink’s writer identity](https://cloud.google.com/logging/docs/api/tasks/exporting-logs#writing_to_the_destination):     `cloud-logs@system.gserviceaccount.com` BigQuery Data Editor role in IAM.
 
-#### GCS
+#### Google Cloud Storage (GCS)
 
-1.  Create a GCS bucket where you would like logs to get exported in BigQuery.
-1.  Note down it’s id to be passed to Stackdriver handler as destination for the
-    sink. It would be of the form `storage.googleapis.com/[BUCKET_ID`
-1.  Give sink’s writer identity: cloud-logs@system.gserviceaccount.com storage
-    object creator role in IAM
+1.  Create a GCS bucket where you would like logs to get exported in GCS.
+1.  Recode the ID of the bucket. It will be needed to configure Stackdriver.
+    It would be of the form `storage.googleapis.com/[BUCKET_ID]`
+1.  Give [sink’s writer identity](https://cloud.google.com/logging/docs/api/tasks/exporting-logs#writing_to_the_destination):     `cloud-logs@system.gserviceaccount.com` Storage Object Creator role in IAM.
 
-#### Pub/Sub
+#### Google Cloud Pub/Sub
 
-1.  Create a topic where you would like logs to get exported in Pub/Sub
-1.  Note down it’s id to be passed to Stackdriver handler as destination for the
-    sink. It would be of the form
-    `pubsub.googleapis.com/projects/[PROJECT_ID]/topics/[TOPIC_ID]`
-1.  Give sink’s writer identity: cloud-logs@system.gserviceaccount.com Pub/Sub
-    Publisher role in IAM
+1.  Create a topic where you would like logs to get exported in Google Cloud Pub/Sub.
+1.  Recode the ID of the topic. It will be needed to configure Stackdriver.
+    It would be of the form `pubsub.googleapis.com/projects/[PROJECT_ID]/topics/[TOPIC_ID]`
+1.  Give [sink’s writer identity](https://cloud.google.com/logging/docs/api/tasks/exporting-logs#writing_to_the_destination):     `cloud-logs@system.gserviceaccount.com` Pub/Sub Publisher role in IAM.
 
 ### Setting up Stackdriver
 
