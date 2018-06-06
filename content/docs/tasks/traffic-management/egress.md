@@ -33,7 +33,7 @@ or alternatively, to simply bypass the Istio proxy for a specific range of IPs.
 
 Using Istio `ServiceEntry` configurations, you can access any publicly accessible service
 from within your Istio cluster. In this task we will use
-[httpbin.org](http://httpbin.org) and [www.google.com](http://www.google.com) as examples.
+[httpbin.org](http://httpbin.org) and [www.google.com](https://www.google.com) as examples.
 
 ### Configuring the external services
 
@@ -69,24 +69,9 @@ from within your Istio cluster. In this task we will use
           ports:
           - number: 443
             name: https
-            protocol: HTTP
-        ---
-        apiVersion: networking.istio.io/v1alpha3
-        kind: DestinationRule
-        metadata:
-          name: google-ext
-        spec:
-          host: www.google.com
-          trafficPolicy:
-            tls:
-              mode: SIMPLE # initiates HTTPS when talking to www.google.com
+            protocol: HTTPS
         EOF
     ```
-
-Notice that we also create a corresponding `DestinationRule` to
-initiate TLS for connections to the HTTPS service.
-Callers must access this service using HTTP on port 443 and Istio will upgrade
-the connection to HTTPS.
 
 ### Make requests to the external services
 
@@ -104,11 +89,10 @@ the connection to HTTPS.
     $ curl http://httpbin.org/headers
     ```
 
-1.  Make a request to the external HTTPS service.
-    External services of type HTTPS must be accessed over HTTP with the port specified in the request:
+1.  Make a request to the external HTTPS service:
 
     ```command
-    $ curl http://www.google.com:443
+    $ curl https://www.google.com
     ```
 
 ### Setting route rules on an external service
@@ -262,7 +246,6 @@ cloud provider specific knowledge and configuration.
 
     ```command
     $ istioctl delete serviceentry httpbin-ext google-ext
-    $ istioctl delete destinationrule google-ext
     $ istioctl delete virtualservice httpbin-ext
     ```
 
