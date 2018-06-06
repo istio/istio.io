@@ -70,7 +70,7 @@ configuration from the `istio` ConfigMap. Additional parameter overrides
 are available via flags (see `istioctl kube-inject --help`).
 
 ```command
-$ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
+$ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
 ```
 
 `kube-inject` can also be run without access to a running Kubernetes
@@ -93,7 +93,7 @@ Run `kube-inject` over the input file.
 $ istioctl kube-inject \
     --injectConfigFile inject-config.yaml \
     --meshConfigFile mesh-config.yaml \
-    --filename samples/sleep/sleep.yaml \
+    --filename @samples/sleep/sleep.yaml@ \
     --output sleep-injected.yaml
 ```
 
@@ -133,7 +133,7 @@ use [Helm](/docs/setup/kubernetes/helm-install/) to generate an updated istio.ya
 with the option `sidecarInjectorWebhook.enabled` set to `false`. E.g.
 
 ```command
-$ helm template --namespace=istio-system --set sidecarInjectorWebhook.enabled=false install/kubernetes/helm/istio > istio.yaml
+$ helm template --namespace=istio-system --set sidecarInjectorWebhook.enabled=false @install/kubernetes/helm/istio@ > istio.yaml
 $ kubectl create ns istio-system
 $ kubectl apply -n istio-system -f istio.yaml
 ```
@@ -146,7 +146,7 @@ service in `values.yaml`. You can override the default values to customize the i
 Deploy sleep app. Verify both deployment and pod have a single container.
 
 ```command
-$ kubectl apply -f samples/sleep/sleep.yaml
+$ kubectl apply -f @samples/sleep/sleep.yaml@
 $ kubectl get deployment -o wide
 NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE       CONTAINERS   IMAGES       SELECTOR
 sleep     1         1         1            1           12m       sleep        tutum/curl   app=sleep
@@ -304,12 +304,12 @@ containers:
   - sleep
 ```
 
-when applied over a pod defined by the pod template spec in [samples/sleep/sleep.yaml](https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml).
+when applied over a pod defined by the pod template spec in [samples/sleep/sleep.yaml](https://raw.githubusercontent.com/istio/istio/{{<branch_name>}}/samples/sleep/sleep.yaml).
 
 #### Uninstalling the webhook
 
 ```command
-$ kubectl delete -f install/kubernetes/istio-sidecar-injector-with-ca-bundle.yaml
+$ kubectl delete -f @install/kubernetes/istio-sidecar-injector-with-ca-bundle.yaml@
 ```
 
 The above command will not remove the injected sidecars from

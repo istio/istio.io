@@ -277,6 +277,22 @@ There
 If the output is the command is JSON or YAML, you can use `command-output-as-json` and `command-output-as-yaml`
 instead of merely `command` in order to apply syntax coloring to the command's output.
 
+### Showing references to Istio GitHub files
+
+If your code block references a file from Istio's GitHub repo, you can surround the relative path name of the file with a pair
+of @ symbols. These indicate the path should be rendered as a link to the file from the current branch. For example:
+
+<pre class="language-markdown"><code>```command
+$ istioctl create -f @samples/bookinfo/kube/route-rule-reviews-v3.yaml@
+```
+</code></pre>
+
+This will be rendered as:
+
+```command
+$ istioctl create -f @samples/bookinfo/kube/route-rule-reviews-v3.yaml@
+```
+
 ## Displaying file content
 
 You can pull in an external file and display its content as a preformatted block. This is handy to display a
@@ -285,13 +301,22 @@ config file or a test file. To do so, you use a statement such as:
 ```markdown
 {{</* file_content url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml" lang="yaml" */>}}
 ```
+
 which produces the following result:
 
 {{< file_content url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml" lang="yaml" >}}
 
 If the file is from a different origin site, CORS should be enabled on that site. Note that the
-GitHub raw content site (raw.githubusercontent.com) is CORS
-enabled so it may be used here.
+GitHub raw content site (raw.githubusercontent.com) is may be used here.
+
+## Referencing GitHub files
+
+When referencing files from Istio's GitHub repo, it is best to reference a specific branch in the repo. To reference the specific
+branch that the documentation site is currently targeting, you use the annotation {{</* branch_name */>}}. For example:
+
+```maerdown
+See this [source file](https://github.com/istio/istio/blob/{{</* branch_name */>}}/mixer/cmd/mixs/cmd/server.go)/
+```
 
 ## Renaming or moving pages
 

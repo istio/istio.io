@@ -84,7 +84,7 @@ To start the application, follow the instructions below corresponding to your Is
         use the following command
 
         ```command
-        $ kubectl apply -f <(istioctl kube-inject --debug -f samples/bookinfo/kube/bookinfo.yaml)
+        $ kubectl apply -f <(istioctl kube-inject --debug -f @samples/bookinfo/kube/bookinfo.yaml@)
         ```
 
         The `istioctl kube-inject` command is used to manually modify the `bookinfo.yaml`
@@ -95,7 +95,7 @@ To start the application, follow the instructions below corresponding to your Is
         enabled, simply deploy the services using `kubectl`
 
         ```command
-        $ kubectl apply -f samples/bookinfo/kube/bookinfo.yaml
+        $ kubectl apply -f @samples/bookinfo/kube/bookinfo.yaml@
         ```
 
     Either of the above commands launches all four microservices as illustrated in the above diagram.
@@ -107,7 +107,7 @@ To start the application, follow the instructions below corresponding to your Is
 1.  Define the ingress gateway for the application:
 
     ```command
-    $ istioctl create -f samples/bookinfo/routing/bookinfo-gateway.yaml
+    $ istioctl create -f @samples/bookinfo/routing/bookinfo-gateway.yaml@
     ```
 
 1.  Confirm all services and pods are correctly defined and running:
@@ -154,15 +154,15 @@ To start the application, follow the instructions below corresponding to your Is
     To test with Consul, run the following commands:
 
     ```command
-    $ docker-compose -f samples/bookinfo/consul/bookinfo.yaml up -d
-    $ docker-compose -f samples/bookinfo/consul/bookinfo.sidecars.yaml up -d
+    $ docker-compose -f @samples/bookinfo/consul/bookinfo.yaml@ up -d
+    $ docker-compose -f @samples/bookinfo/consul/bookinfo.sidecars.yaml@ up -d
     ```
 
     To test with Eureka, run the following commands:
 
     ```command
-    $ docker-compose -f samples/bookinfo/eureka/bookinfo.yaml up -d
-    $ docker-compose -f samples/bookinfo/eureka/bookinfo.sidecars.yaml up -d
+    $ docker-compose -f @samples/bookinfo/eureka/bookinfo.yaml@ up -d
+    $ docker-compose -f @samples/bookinfo/eureka/bookinfo.sidecars.yaml@ up -d
     ```
 
 1.  Confirm that all docker containers are running:
@@ -210,7 +210,7 @@ uninstall and clean it up using the following instructions.
 1.  Delete the routing rules and terminate the application pods
 
     ```command
-    $ samples/bookinfo/kube/cleanup.sh
+    $ @samples/bookinfo/kube/cleanup.sh@
     ```
 
 1.  Confirm shutdown
@@ -228,13 +228,13 @@ uninstall and clean it up using the following instructions.
     In a Consul setup, run the following command:
 
     ```command
-    $ samples/bookinfo/consul/cleanup.sh
+    $ @samples/bookinfo/consul/cleanup.sh@
     ```
 
     In a Eureka setup, run the following command:
 
     ```command
-    $ samples/bookinfo/eureka/cleanup.sh
+    $ @samples/bookinfo/eureka/cleanup.sh@
     ```
 
 1.  Confirm cleanup

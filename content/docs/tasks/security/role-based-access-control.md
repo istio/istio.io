@@ -17,7 +17,7 @@ RBAC from [Istio RBAC concept page](/docs/concepts/security/rbac/).
 * Deploy the [Bookinfo](/docs/guides/bookinfo/) sample application.
 
 > The current Istio release may not have the up-to-date Istio RBAC samples. So before you continue, you
-need to copy the following configuration files from <https://github.com/istio/istio/tree/master/samples/bookinfo/kube> to
+need to copy these [configuration files](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/bookinfo/kube) to
 `samples/bookinfo/kube` directory under where you installed Istio, and replace the original ones. The files include
 `bookinfo-add-serviceaccount.yaml`, `istio-rbac-enable.yaml`, `istio-rbac-namespace.yaml`, `istio-rbac-productpage.yaml`,
 `istio-rbac-details-reviews.yaml`, `istio-rbac-ratings.yaml`.
@@ -32,7 +32,7 @@ microservices running under them.
     with the service account.
 
     ```command
-    $ kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-add-serviceaccount.yaml)
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/kube/bookinfo-add-serviceaccount.yaml@)
     serviceaccount "bookinfo-productpage" created
     deployment "productpage-v1" configured
     serviceaccount "bookinfo-reviews" created
@@ -55,13 +55,13 @@ and specify the namespace, say `"your-namespace"`, in the `match` statement in `
 `"match: destination.namespace == "your-namespace"`.
 
 ```command
-$ istioctl create -f samples/bookinfo/kube/istio-rbac-enable.yaml
+$ istioctl create -f @samples/bookinfo/kube/istio-rbac-enable.yaml@
 ```
 
 > If you have conflicting rules that you set in previous tasks, use `istioctl replace` instead of `istioctl create`.
 
 It also defines "requestcontext", which is an instance of the
-[authorization template](https://github.com/istio/istio/blob/master/mixer/template/authorization/template.proto).
+[authorization template](/docs/reference/config/policy-and-telemetry/templates/authorization/).
 "requestcontext" defines the input to the RBAC engine at runtime.
 
 Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage). Now you should see
@@ -81,8 +81,9 @@ any service in "default" namespace that has "app" label set to one of the values
 is accessible by services in the same namespace (i.e., "default" namespace) and services in "istio-system" namespace.
 
 Run the following command to create a namespace-level access control policy.
+
 ```command
-$ istioctl create -f samples/bookinfo/kube/istio-rbac-namespace.yaml
+$ istioctl create -f @samples/bookinfo/kube/istio-rbac-namespace.yaml@
 ```
 
 The policy does the following:
@@ -142,7 +143,7 @@ with "Book Details" section in the lower left part and "Book Reviews" section in
 Remove the following configuration before you proceed to the next task:
 
 ```command
-$ istioctl delete -f samples/bookinfo/kube/istio-rbac-namespace.yaml
+$ istioctl delete -f @samples/bookinfo/kube/istio-rbac-namespace.yaml@
 ```
 
 ## Service-level access control
@@ -160,8 +161,9 @@ access to the services in Bookinfo sample.
 In this step, we will create a policy that allows external requests to view `productpage` service via Ingress.
 
 Run the following command:
+
 ```command
-$ istioctl create -f samples/bookinfo/kube/istio-rbac-productpage.yaml
+$ istioctl create -f @samples/bookinfo/kube/istio-rbac-productpage.yaml@
 ```
 
 The policy does the following:
@@ -212,7 +214,7 @@ We will create a policy to allow "productpage" service to read "details" and "re
 Run the following command:
 
 ```command
-$ istioctl create -f samples/bookinfo/kube/istio-rbac-details-reviews.yaml
+$ istioctl create -f @samples/bookinfo/kube/istio-rbac-details-reviews.yaml@
 ```
 
 The policy does the following:
@@ -265,7 +267,7 @@ We will create a policy to allow "reviews" service to read "ratings" service. No
 Run the following command to create a policy that allows "reviews" service to read "ratings" service.
 
 ```command
-$ istioctl create -f samples/bookinfo/kube/istio-rbac-ratings.yaml
+$ istioctl create -f @samples/bookinfo/kube/istio-rbac-ratings.yaml@
 ```
 
 The policy does the following:
@@ -330,9 +332,9 @@ spec:
 *   Remove Istio RBAC policy configuration:
 
     ```command
-    $ istioctl delete -f samples/bookinfo/kube/istio-rbac-ratings.yaml
-    $ istioctl delete -f samples/bookinfo/kube/istio-rbac-details-reviews.yaml
-    $ istioctl delete -f samples/bookinfo/kube/istio-rbac-productpage.yaml
+    $ istioctl delete -f @samples/bookinfo/kube/istio-rbac-ratings.yaml@
+    $ istioctl delete -f @samples/bookinfo/kube/istio-rbac-details-reviews.yaml@
+    $ istioctl delete -f @samples/bookinfo/kube/istio-rbac-productpage.yaml@
     ```
 
     Alternatively, you can delete all `ServiceRole` and `ServiceRoleBinding` resources by running the following commands:
@@ -345,7 +347,7 @@ spec:
 *   Disable Istio RBAC:
 
     ```command
-    $ istioctl delete -f samples/bookinfo/kube/istio-rbac-enable.yaml
+    $ istioctl delete -f @samples/bookinfo/kube/istio-rbac-enable.yaml@
     ```
 
 ## What's next

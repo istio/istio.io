@@ -25,7 +25,7 @@ For the format of the service account in Istio, please refer to the
     and redeploy the service `productpage` with the service account.
 
     ```command
-    $ kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-add-serviceaccount.yaml)
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/kube/bookinfo-add-serviceaccount.yaml@)
     serviceaccount "bookinfo-productpage" created
     deployment "productpage-v1" configured
     ```
@@ -48,7 +48,7 @@ the `productpage` service.
 
     Run the following command to set up the deny rule along with a handler and an instance.
     ```command
-    $ istioctl create -f samples/bookinfo/kube/mixer-rule-deny-serviceaccount.yaml
+    $ istioctl create -f @samples/bookinfo/kube/mixer-rule-deny-serviceaccount.yaml@
     Created config denier/default/denyproductpagehandler at revision 2877836
     Created config checknothing/default/denyproductpagerequest at revision 2877837
     Created config rule/default/denyproductpage at revision 2877838
@@ -80,7 +80,7 @@ the `productpage` service.
 *   Remove the mixer configuration:
 
     ```command
-    $ istioctl delete -f samples/bookinfo/kube/mixer-rule-deny-serviceaccount.yaml
+    $ istioctl delete -f @samples/bookinfo/kube/mixer-rule-deny-serviceaccount.yaml@
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the

@@ -34,7 +34,7 @@ Here is a copy of the end-to-end architecture of the application from the origin
 Let's add a new version of the _details_ microservice, _v2_, that fetches the book details from [Google Books APIs](https://developers.google.com/books/docs/v1/getting_started).
 
 ```command
-$ kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-details-v2.yaml)
+$ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/kube/bookinfo-details-v2.yaml@)
 ```
 
 The updated architecture of the application now looks as follows:
@@ -140,7 +140,7 @@ sends regular HTTPS requests, encrypted end-to-end. On the bottom, the same micr
     caption="HTTPS traffic to external services, from outside vs. from inside an Istio service mesh"
     >}}
 
-Here is how we code this behavior in the [the Bookinfo details microservice code](https://github.com/istio/istio/blob/master/samples/bookinfo/src/details/details.rb), using the Ruby [net/http module](https://docs.ruby-lang.org/en/2.0.0/Net/HTTP.html):
+Here is how we code this behavior in the [Bookinfo details microservice code](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/bookinfo/src/details/details.rb), using the Ruby [net/http module](https://docs.ruby-lang.org/en/2.0.0/Net/HTTP.html):
 
 ```ruby
 uri = URI.parse('https://www.googleapis.com/books/v1/volumes?q=isbn:' + isbn)
@@ -156,7 +156,7 @@ Note that the port is derived by the `URI.parse` from the URI's schema (https://
 When the `WITH_ISTIO` environment variable is defined, the request is performed without SSL (plain HTTP).
 
 We set the `WITH_ISTIO` environment variable to _"true"_ in the
-[Kubernetes deployment spec of details v2](https://github.com/istio/istio/blob/master/samples/bookinfo/kube/bookinfo-details-v2.yaml),
+[Kubernetes deployment spec of details v2](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/bookinfo/kube/bookinfo-details-v2.yaml),
 the `container` section:
 
 ```yaml

@@ -22,18 +22,18 @@ This task describes how to configure Istio to expose a service outside of the se
 
 *   Make sure your current directory is the `istio` directory.
 
-*   Start the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) sample,
+*   Start the [httpbin](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/httpbin) sample,
     which will be used as the destination service to be exposed externally.
 
     If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), do
 
     ```command
-    $ kubectl apply -f samples/httpbin/httpbin.yaml
+    $ kubectl apply -f @samples/httpbin/httpbin.yaml@
     ```
     otherwise, you have to manually inject the sidecar before deploying the `httpbin` application:
 
     ```command
-    $ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml)
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@)
     ```
 
 *   A private key and certificate can be created for testing using [OpenSSL](https://www.openssl.org/).
@@ -330,13 +330,13 @@ external traffic.
 
 ## Cleanup
 
-Delete the `Gateway` configuration, the `VirtualService` and the secret, and shutdown the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) service:
+Delete the `Gateway` configuration, the `VirtualService` and the secret, and shutdown the [httpbin](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/httpbin) service:
 
 ```command
 $ istioctl delete gateway httpbin-gateway
 $ istioctl delete virtualservice httpbin
 $ kubectl delete --ignore-not-found=true -n istio-system secret istio-ingressgateway-certs
-$ kubectl delete --ignore-not-found=true -f samples/httpbin/httpbin.yaml
+$ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
 ```
 
 ## What's next
