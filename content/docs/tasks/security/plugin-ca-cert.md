@@ -46,7 +46,7 @@ The following steps enable plugging in the certificates and key into Citadel:
 1.  Redeploy Citadel, which reads the certificates and key from the secret-mount files:
 
     ```command
-    $ kubectl apply -f install/kubernetes/istio-citadel-plugin-certs.yaml
+    $ kubectl apply -f @install/kubernetes/istio-citadel-plugin-certs.yaml@
     ```
 
     > Note: if you are using different certificate/key file or secret names,
@@ -93,9 +93,9 @@ This requires you have `openssl` installed on your machine.
 1.  Verify the root certificate is the same as the one specified by operator:
 
     ```command
-    openssl x509 -in samples/certs/root-cert.pem -text -noout > /tmp/root-cert.crt.txt
-    openssl x509 -in /tmp/pod-root-cert.pem -text -noout > /tmp/pod-root-cert.crt.txt
-    diff /tmp/root-cert.crt.txt /tmp/pod-root-cert.crt.txt
+    $ openssl x509 -in @samples/certs/root-cert.pem@ -text -noout > /tmp/root-cert.crt.txt
+    $ openssl x509 -in /tmp/pod-root-cert.pem -text -noout > /tmp/pod-root-cert.crt.txt
+    $ diff /tmp/root-cert.crt.txt /tmp/pod-root-cert.crt.txt
     ```
 
     Expect the output to be empty.
@@ -104,7 +104,7 @@ This requires you have `openssl` installed on your machine.
 
     ```command
     $ tail -n 22 /tmp/pod-cert-chain.pem > /tmp/pod-cert-chain-ca.pem
-    $ openssl x509 -in samples/certs/ca-cert.pem -text -noout > /tmp/ca-cert.crt.txt
+    $ openssl x509 -in @samples/certs/ca-cert.pem@ -text -noout > /tmp/ca-cert.crt.txt
     $ openssl x509 -in /tmp/pod-cert-chain-ca.pem -text -noout > /tmp/pod-cert-chain-ca.crt.txt
     $ diff /tmp/ca-cert.crt.txt /tmp/pod-cert-chain-ca.crt.txt
     ```
@@ -115,12 +115,7 @@ This requires you have `openssl` installed on your machine.
 
     ```command
     $ head -n 21 /tmp/pod-cert-chain.pem > /tmp/pod-cert-chain-workload.pem
-    $ openssl verify -CAfile <(cat samples/certs/ca-cert.pem samples/certs/root-cert.pem) /tmp/pod-cert-chain-workload.pem
-    ```
-
-    Expect the following output:
-
-    ```command
+    $ openssl verify -CAfile <(cat @samples/certs/ca-cert.pem@ @samples/certs/root-cert.pem@) /tmp/pod-cert-chain-workload.pem
     /tmp/pod-cert-chain-workload.pem: OK
     ```
 
@@ -135,10 +130,10 @@ This requires you have `openssl` installed on your machine.
 *   To remove the Istio components:
 
     ```command
-    $ kubectl delete -f install/kubernetes/istio-auth.yaml
+    $ kubectl delete -f @install/kubernetes/istio-auth.yaml@
     ```
 
 ## What's next
 
 * Read more about [Citadel (codename is istio\_ca) arguments](/docs/reference/commands/istio_ca/).
-* Read [how the sample certificates and keys are generated](https://github.com/istio/istio/blob/master/security/samples/plugin_ca_certs).
+* Read [how the sample certificates and keys are generated](https://github.com/istio/istio/blob/{{<branch_name>}}/security/samples/plugin_ca_certs).

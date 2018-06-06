@@ -31,13 +31,13 @@ recommended.
       (requires Kubernetes >=1.9.0):
 
         ```command
-        $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system > $HOME/istio.yaml
+        $ helm template @install/kubernetes/helm/istio@ --name istio --namespace istio-system > $HOME/istio.yaml
         ```
 
     * Without the sidecar injection webhook:
 
         ```command
-        $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set sidecarInjectorWebhook.enabled=false > $HOME/istio.yaml
+        $ helm template @install/kubernetes/helm/istio@ --name istio --namespace istio-system --set sidecarInjectorWebhook.enabled=false > $HOME/istio.yaml
         ```
 
 1. Install the components via the manifest:
@@ -58,7 +58,7 @@ to manage the lifecycle of Istio.
 1. If a service account has not already been installed for Tiller, install one:
 
     ```command
-    $ kubectl create -f install/kubernetes/helm/helm-service-account.yaml
+    $ kubectl create -f @install/kubernetes/helm/helm-service-account.yaml@
     ```
 
 1. Install Tiller on your cluster with the service account:
@@ -72,13 +72,13 @@ to manage the lifecycle of Istio.
     * With [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection) (requires Kubernetes >=1.9.0):
 
         ```command
-        $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
+        $ helm install @install/kubernetes/helm/istio@ --name istio --namespace istio-system
         ```
 
     * Without the sidecar injection webhook:
 
         ```command
-        $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set sidecarInjectorWebhook.enabled=false
+        $ helm install @install/kubernetes/helm/istio@ --name istio --namespace istio-system --set sidecarInjectorWebhook.enabled=false
         ```
 
 ## Customization with Helm
@@ -108,7 +108,7 @@ following table:
 
 The Helm chart also offers significant customization options per individual
 service. Customize these per-service options at your own risk. The per-service options are exposed via
-the [`values.yaml`](https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/helm/istio/values.yaml) file.
+the [`values.yaml`](https://raw.githubusercontent.com/istio/istio/{{<branch_name>}}/install/kubernetes/helm/istio/values.yaml) file.
 
 ## What's next
 

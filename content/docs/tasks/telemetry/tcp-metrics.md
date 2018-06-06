@@ -115,13 +115,13 @@ will generate and collect automatically.
         simply deploy the services using `kubectl`:
 
         ```command
-        $ kubectl apply -f samples/bookinfo/kube/bookinfo-ratings-v2.yaml
+        $ kubectl apply -f @samples/bookinfo/kube/bookinfo-ratings-v2.yaml@
         ```
 
         If you are using manual sidecar injection, use the following command instead:
 
         ```command
-        $ kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-ratings-v2.yaml)
+        $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/kube/bookinfo-ratings-v2.yaml@)
         deployment "ratings-v2" configured
         ```
 
@@ -131,13 +131,13 @@ will generate and collect automatically.
         simply deploy the services using `kubectl`:
 
         ```command
-        $ kubectl apply -f samples/bookinfo/kube/bookinfo-db.yaml
+        $ kubectl apply -f @samples/bookinfo/kube/bookinfo-db.yaml@
         ```
 
         If you are using manual sidecar injection, use the following command instead:
 
         ```command
-        $ kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-db.yaml)
+        $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/kube/bookinfo-db.yaml@)
         service "mongodb" configured
         deployment "mongodb-v1" configured
         ```
@@ -145,7 +145,7 @@ will generate and collect automatically.
     1.  Add routing rules to send traffic to `v2` of the `ratings` service:
 
         ```command
-        $ istioctl create -f samples/bookinfo/kube/route-rule-ratings-db.yaml
+        $ istioctl create -f @samples/bookinfo/kube/route-rule-ratings-db.yaml@
         Created config route-rule//ratings-test-v2 at revision 7216403
         Created config route-rule//reviews-test-ratings-v2 at revision 7216404
         ```
