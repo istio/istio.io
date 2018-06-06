@@ -7,7 +7,7 @@ weight: 70
 This task shows how to export Istio Access Logs to different sinks like
 BigQuery, GCS, Pub/Sub through Stackdriver A user can do analytics on data
 through Istio using logs flowing from Istio to StackDriver and then exporting
-these logs to various configured sinks like BigQuery, Pub/Sub or GCS.
+these logs to various configured sinks like BigQuery, GCS or Pub/Sub.
 
 The [Bookinfo](/docs/guides/bookinfo/) sample application is used as the example
 application throughout this task.
