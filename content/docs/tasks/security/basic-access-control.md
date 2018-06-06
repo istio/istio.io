@@ -19,8 +19,8 @@ This task shows how to control access to a service using the Kubernetes labels.
     test user "jason" to version v2 and requests from any other user to v3.
 
     ```command
-    $ istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
-    $ istioctl create -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
+    $ istioctl create -f @samples/bookinfo/kube/route-rule-reviews-test-v2.yaml@
+    $ istioctl create -f @samples/bookinfo/kube/route-rule-reviews-v3.yaml@
     ```
 
     > If you have conflicting rules that you set in previous tasks,
@@ -50,7 +50,7 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
     Run the following command to set up the deny rule along with a handler and an instance.
 
     ```command
-    $ istioctl create -f samples/bookinfo/kube/mixer-rule-deny-label.yaml
+    $ istioctl create -f @samples/bookinfo/kube/mixer-rule-deny-label.yaml@
     Created config denier/default/denyreviewsv3handler at revision 2882105
     Created config checknothing/default/denyreviewsv3request at revision 2882106
     Created config rule/default/denyreviewsv3 at revision 2882107
@@ -84,7 +84,7 @@ Istio also supports attribute-based whitelists and blacklists. The following whi
 1.  Remove the denier configuration that you added in the previous section.
 
     ```command
-    $ istioctl delete -f samples/bookinfo/kube/mixer-rule-deny-label.yaml
+    $ istioctl delete -f @samples/bookinfo/kube/mixer-rule-deny-label.yaml@
     ```
 
 1. Verify that when you access the Bookinfo `productpage` (http://$GATEWAY_URL/productpage) without logging in, you see red stars.
@@ -168,8 +168,8 @@ Verify that after logging in as "jason" you see black stars.
 *   Remove the application routing rules:
 
     ```command
-    $ istioctl delete -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
-    $ istioctl delete -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
+    $ istioctl delete -f @samples/bookinfo/kube/route-rule-reviews-test-v2.yaml@
+    $ istioctl delete -f @samples/bookinfo/kube/route-rule-reviews-v3.yaml@
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
