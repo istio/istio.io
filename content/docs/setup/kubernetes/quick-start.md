@@ -118,8 +118,7 @@ $ oc adm policy add-scc-to-user anyuid -z istio-pilot-service-account -n istio-s
 $ oc adm policy add-scc-to-user anyuid -z istio-sidecar-injector-service-account -n istio-system
 ```
 
-The list above covers the default Istio service accounts.  
-If you enabled other Istio service (e.g. _grafana_) you will need to cover its service account in a similar command.
+The list above covers the default Istio service accounts. If you enabled other Istio service (e.g. _grafana_) you will need to cover its service account in a similar command.
 
 Service account that runs application pods need privileged security context constraints as part of sidecar injection.
 
