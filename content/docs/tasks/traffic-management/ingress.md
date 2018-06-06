@@ -179,10 +179,10 @@ In the following subsections we configure a `Gateway` on port 80 for unencrypted
 
 ### Verifying the gateway for HTTP
 
-1.  Access the _httpbin_ service using _curl_. Note the `--resolve` flag of _curl_ that allows to access an IP address by using an arbitrary domain name. In our case we access our ingress Gateway by "httpbin.example.com". Note that we specified "httpbin.example.com" as a host handled by our `Gateway`.
+1.  Access the _httpbin_ service using _curl_. Note the `--resolve` flag of _curl_ that allows to access an IP address by using an arbitrary domain name. In our case we access our ingress Gateway by "httpbin.example.com", which we specified as a host handled by our `Gateway`. Also note `--HHost:httpbin.example.com` flag that sets the _Host_ HTTP Header to "httpbin.example.com".
 
     ```command
-    $ curl --resolve httpbin.example.com:$INGRESS_PORT:$INGRESS_HOST -I http://httpbin.example.com:$INGRESS_PORT/status/200
+    $ curl --resolve httpbin.example.com:$INGRESS_PORT:$INGRESS_HOST -HHost:httpbin.example.com -I http://httpbin.example.com:$INGRESS_PORT/status/200
     HTTP/1.1 200 OK
     server: envoy
     date: Mon, 29 Jan 2018 04:45:49 GMT
@@ -196,7 +196,7 @@ In the following subsections we configure a `Gateway` on port 80 for unencrypted
 1.  Access any other URL that has not been explicitly exposed. You should see an HTTP 404 error:
 
     ```command
-    $ curl --resolve httpbin.example.com:$INGRESS_PORT:$INGRESS_HOST -I http://httpbin.example.com:$INGRESS_PORT/headers
+    $ curl --resolve httpbin.example.com:$INGRESS_PORT:$INGRESS_HOST -HHost:httpbin.example.com -I http://httpbin.example.com:$INGRESS_PORT/headers
     HTTP/1.1 404 Not Found
     date: Mon, 29 Jan 2018 04:45:49 GMT
     server: envoy
@@ -265,7 +265,7 @@ Here we use _curl_'s `-k` option to instruct _curl_ not to check our certificate
 (since it is a fake certificate we created for testing the Gateway only, _curl_ is not aware of it).
 
     ```command
-    $ curl --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST -I -k https://httpbin.example.com:$SECURE_INGRESS_PORT/status/200
+    $ curl --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST -HHost:httpbin.example.com -I -k https://httpbin.example.com:$SECURE_INGRESS_PORT/status/200
     HTTP/2 200
     server: envoy
     date: Mon, 14 May 2018 13:54:53 GMT
@@ -276,7 +276,7 @@ Here we use _curl_'s `-k` option to instruct _curl_ not to check our certificate
     x-envoy-upstream-service-time: 6
     ```
 
-    > Note that it may take time for the new gateway defintion to propagate and you may get the following error: `Failed to connect to httpbin.example.com port <your secure port>: Connection refused`. Wait for a minute and retry the `curl` call again.
+    > Note that it may take time for the new gateway definition to propagate and you may get the following error: `Failed to connect to httpbin.example.com port <your secure port>: Connection refused`. Wait for a minute and retry the `curl` call again.
 
 ### Disable the HTTP port
 
@@ -310,8 +310,13 @@ If we want to only allow HTTPS traffic into our service mesh, we can remove the 
 1.  Access the HTTP port and verify that it is not accessible (an error is returned):
 
     ```command
-    $ curl --resolve httpbin.example.com:$INGRESS_PORT:$INGRESS_HOST -I http://httpbin.example.com:$INGRESS_PORT/status/200
+    $ curl --resolve httpbin.example.com:$INGRESS_PORT:$INGRESS_HOST -HHost:httpbin.example.com -I http://httpbin.example.com:$INGRESS_PORT/status/200
     ```
+## Accessing Istio service mesh by a browser
+
+Currently, accessing the mesh by a browser is fully supported only for load balancer ingress gateways, and only for the standard ports (80 and 443). You must omit the port when specifying the URL of the Gateway.
+
+For `NodePort` ingress gateways, access by a browser is supported partially: only for the `*` hosts in the definition of the `VirtualService`.
 
 ## Understanding what happened
 
