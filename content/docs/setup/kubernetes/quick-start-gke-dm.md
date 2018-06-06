@@ -6,7 +6,7 @@ weight: 11
 
 Quick Start instructions to install and run Istio in [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) (GKE) using [Google Cloud Deployment Manager](https://cloud.google.com/deployment-manager/).
 
-This Quick Start creates a new GKE [zonal cluster](https://cloud.google.com/kubernetes-engine/versioning-and-upgrades#versions_available_for_new_cluster_masters), installs Istio and then deploys the [Bookinfo](/docs/guides/bookinfo/) sample
+This Quick Start creates a new GKE [zonal cluster](https://cloud.google.com/kubernetes-engine/versioning-and-upgrades#versions_available_for_new_cluster_masters), installs the current release version of Istio and then deploys the [Bookinfo](/docs/guides/bookinfo/) sample
 application.  It uses Deployment Manager to automate the steps detailed in the [Istio on Kubernetes setup guide](/docs/setup/kubernetes/quick-start/) for Kubernetes Engine
 
 ## Prerequisites
@@ -71,8 +71,8 @@ running and Istio is enabled
 
     ```command
     $ gcloud container clusters list
-    NAME           ZONE           MASTER_VERSION                    MASTER_IP       MACHINE_TYPE   NODE_VERSION  NUM_NODES  STATUS
-    istio-cluster  us-central1-a  v1.9.2-gke.1                      130.211.216.64  n1-standard-2  v1.9.2-gke.1  3          RUNNING
+    NAME           LOCATION       MASTER_VERSION  MASTER_IP      MACHINE_TYPE   NODE_VERSION  NUM_NODES  STATUS
+    istio-cluster  us-central1-a  1.9.7-gke.1     35.232.222.60  n1-standard-2  1.9.7-gke.1   4          RUNNING
     ```
 
     In this case, the cluster name is ```istio-cluster```
@@ -89,16 +89,19 @@ Verify Istio is installed in its own namespace
 
 ```command
 $ kubectl get deployments,ing -n istio-system
-NAME                       DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-deploy/grafana             1         1         1            1           3m
-deploy/istio-citadel       1         1         1            1           3m
-deploy/istio-ingress       1         1         1            1           3m
-deploy/istio-initializer   1         1         1            1           3m
-deploy/istio-mixer         1         1         1            1           3m
-deploy/istio-pilot         1         1         1            1           3m
-deploy/prometheus          1         1         1            1           3m
-deploy/servicegraph        1         1         1            1           3m
-deploy/zipkin              1         1         1            1           3m
+NAME                              DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+deploy/grafana                    1         1         1            1           4m
+deploy/istio-citadel              1         1         1            1           4m
+deploy/istio-egressgateway        1         1         1            1           4m
+deploy/istio-ingress              1         1         1            1           4m
+deploy/istio-ingressgateway       1         1         1            1           4m
+deploy/istio-pilot                1         1         1            1           4m
+deploy/istio-policy               1         1         1            1           4m
+deploy/istio-sidecar-injector     1         1         1            1           4m
+deploy/istio-statsd-prom-bridge   1         1         1            1           4m
+deploy/istio-telemetry            1         1         1            1           4m
+deploy/prometheus                 1         1         1            1           4m
+deploy/servicegraph               1         1         1            1           4m
 ```
 
 Now confirm that the Bookinfo sample application is also installed:
@@ -106,22 +109,27 @@ Now confirm that the Bookinfo sample application is also installed:
 ```command
 $ kubectl get deployments,ing
 NAME                    DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-deploy/details-v1       1         1         1            1           3m
-deploy/productpage-v1   1         1         1            1           3m
-deploy/ratings-v1       1         1         1            1           3m
-deploy/reviews-v1       1         1         1            1           3m
-deploy/reviews-v2       1         1         1            1           3m
-deploy/reviews-v3       1         1         1            1           3m
+deploy/details-v1       1         1         1            1           7m
+deploy/productpage-v1   1         1         1            1           7m
+deploy/ratings-v1       1         1         1            1           7m
+deploy/reviews-v1       1         1         1            1           7m
+deploy/reviews-v2       1         1         1            1           7m
+deploy/reviews-v3       1         1         1            1           7m
+```
 
-NAME          HOSTS     ADDRESS         PORTS     AGE
-ing/gateway   *         35.202.120.89   80        3m
+Now get the ```istio-ingressgateway``` IP:
+
+```command
+$ kubectl get svc istio-ingressgateway -n istio-system
+NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)                                      AGE
+istio-ingressgateway   LoadBalancer   10.59.251.109   35.194.26.85   80:31380/TCP,443:31390/TCP,31400:31400/TCP   6m
 ```
 
 Note down the IP and Port assigned to Bookinfo product page. (in the example above, its ```35.202.120.89:80```.
 
 You can also view the installation using the ***Kubernetes Engine -> Workloads** section on the [Cloud Console](https://console.cloud.google.com/kubernetes/workload):
 
-{{< image width="100%" ratio="65.37%"
+{{< image width="70%" ratio="80.37%"
     link="../img/dm_kubernetes_workloads.png"
     caption="GKE-Workloads"
     >}}
@@ -131,8 +139,9 @@ You can also view the installation using the ***Kubernetes Engine -> Workloads**
 1.  Set up an environment variable for Bookinfo's external IP address:
 
     ```command
-    $ kubectl get ingress -o wide
-    $ export GATEWAY_URL=35.202.120.89
+    $ export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+
+    $ echo $GATEWAY_URL
     ```
 
 1.  Verify you can access the Bookinfo ```http://${GATEWAY_URL}/productpage```:
