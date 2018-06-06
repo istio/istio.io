@@ -177,7 +177,8 @@ For example, with Minikube the range is 10.0.0.1&#47;24, so you would update you
 $ helm template install/kubernetes/helm/istio <the flags you used to install Istio> --set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml | kubectl apply -f -
 ```
 
-Note that you should use the same Helm command you used [to install Istio](/docs/setup/kubernetes/helm-install), plus the flags `--set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml`.
+Note that you should use the same Helm command you used [to install Istio](/docs/setup/kubernetes/helm-install),
+in particular, the same value of the `--namespace` flag. In addition to the flags you used to install Istio, add `--set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml`.
 
 Redeploy the _sleep_ application as described in the [Before you begin](/docs/tasks/traffic-management/egress/#before-you-begin) section.
 
