@@ -99,7 +99,7 @@ We will describe metrics first and then the labels for each metric.
 
 ## Example
 
-Request Count metric would look as follows:
+Request Count metric instance would look as follows:
 
 ```
 istio_request_count
