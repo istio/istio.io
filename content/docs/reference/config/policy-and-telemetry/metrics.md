@@ -101,7 +101,7 @@ We will describe metrics first and then the labels for each metric.
 
 Request Count metric instance would look as follows:
 
-```
+```yaml
 istio_request_count
 {
   connection_mtls="false",
