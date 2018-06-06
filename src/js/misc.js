@@ -283,6 +283,8 @@ function handleDOMLoaded() {
                     }
 
                     if (cmd !== "") {
+                        cmd = cmd.replace(/@(.*?)@/g, "<a href='https://raw.githubusercontent.com/istio/istio/" + branchName + "/$1'>$1</a>");
+
                         var html = "<div class='command'>" + cmd + "</div>";
 
                         var output = "";

@@ -20,11 +20,11 @@ or alternatively, to simply bypass the Istio proxy for a specific range of IPs.
 * Setup Istio by following the instructions in the
   [Installation guide](/docs/setup/).
 
-*   Start the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) sample
+*   Start the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/samples/sleep) sample
     which will be used as a test source for external calls.
 
     ```command
-    $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
     ```
 
     Note that any pod that you can `exec` and `curl` from would do.
@@ -168,7 +168,7 @@ The values used for internal IP range(s), however, depends on where your cluster
 For example, with Minikube the range is 10.0.0.1&#47;24, so you would start the sleep service like this:
 
 ```command
-$ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=10.0.0.1/24)
+$ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@ --includeIPRanges=10.0.0.1/24)
 ```
 
 On IBM Cloud Private, use:
@@ -188,13 +188,13 @@ On IBM Cloud Private, use:
 1.  Inject the `service_cluster_ip_range` to your application profile via `--includeIPRanges` to limit Istio's traffic interception to the service cluster IP range.
 
     ```command
-    $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=10.0.0.1/24)
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@ --includeIPRanges=10.0.0.1/24)
     ```
 
 On IBM Cloud Kubernetes Service, use:
 
 ```command
-$ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=172.30.0.0/16,172.20.0.0/16,10.10.10.0/24)
+$ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@ --includeIPRanges=172.30.0.0/16,172.20.0.0/16,10.10.10.0/24)
 ```
 
 On Google Container Engine (GKE) the ranges are not fixed, so you will
@@ -206,13 +206,13 @@ clusterIpv4Cidr: 10.4.0.0/14
 servicesIpv4Cidr: 10.7.240.0/20
 ```
 ```command
-$ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=10.4.0.0/14,10.7.240.0/20)
+$ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@ --includeIPRanges=10.4.0.0/14,10.7.240.0/20)
 ```
 
 On Azure Container Service(ACS), use:
 
 ```command
-$ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=10.244.0.0/16,10.240.0.0/16)
+$ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@ --includeIPRanges=10.244.0.0/16,10.240.0.0/16)
 ```
 
 After starting your service this way, the Istio sidecar will only intercept and manage internal requests
@@ -249,10 +249,10 @@ cloud provider specific knowledge and configuration.
     $ istioctl delete virtualservice httpbin-ext
     ```
 
-1.  Shutdown the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) service.
+1.  Shutdown the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/samples/sleep) service.
 
     ```command
-    $ kubectl delete -f samples/sleep/sleep.yaml
+    $ kubectl delete -f @samples/sleep/sleep.yaml@
     ```
 
 ## What's next

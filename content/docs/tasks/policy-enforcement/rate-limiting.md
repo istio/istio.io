@@ -21,8 +21,8 @@ service.
   user to v3.
 
     ```command
-    $ istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
-    $ istioctl create -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
+    $ istioctl create -f @samples/bookinfo/kube/route-rule-reviews-test-v2.yaml@
+    $ istioctl create -f @samples/bookinfo/kube/route-rule-reviews-v3.yaml@
     ```
 
 > If you have a conflicting rule that you set in previous tasks,
@@ -50,12 +50,8 @@ Consider `ratings` as an external paid service like Rotten Tomatoes® with
    enable rate limiting.
 
     ```command
-    $ istioctl create -f samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml
+    $ istioctl create -f @samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml@
     ```
-
-    The file looks like:
-
-    {{< file_content url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml" lang="yaml" >}}
 
 1. Confirm the `memquota` was created:
 
@@ -251,14 +247,14 @@ with the given namespace.
 * Remove the rate limit configuration:
 
     ```command
-    $ istioctl delete -f samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml
+    $ istioctl delete -f @samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml@
     ```
 
 * Remove the application routing rules:
 
     ```command
-    $ istioctl delete -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
-    $ istioctl delete -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
+    $ istioctl delete -f @samples/bookinfo/kube/route-rule-reviews-test-v2.yaml@
+    $ istioctl delete -f @samples/bookinfo/kube/route-rule-reviews-v3.yaml@
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
