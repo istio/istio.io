@@ -17,18 +17,18 @@ This task assumes you have a Kubernetes cluster:
 * Installed Istio with global mTLS enabled:
 
     ```command
-    $ kubectl apply -f install/kubernetes/istio-auth.yaml
+    $ kubectl apply -f @install/kubernetes/istio-auth.yaml@
     ```
     _**OR**_
     Using [Helm](/docs/setup/kubernetes/helm-install/) with `global.mtls.enabled` to `true`.
 
 > Starting with Istio  0.7, you can use [authentication policy](/docs/concepts/security/authn-policy/) to config mTLS for all/selected services in a namespace (repeated for all namespaces to get global setting). See [authentication policy task](/docs/tasks/security/authn-policy/)
 
-* For demo, deploy [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) and [sleep](https://github.com/istio/istio/tree/master/samples/sleep) with Envoy sidecar. For simplicity, the demo is setup in the `default` namespace. If you wish to use a different namespace,  please add `-n yournamespace` appropriately to the example commands in the next section.
+* For demo, deploy [httpbin](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/httpbin) and [sleep](https://github.com/istio/istio/tree/master/samples/sleep) with Envoy sidecar. For simplicity, the demo is setup in the `default` namespace. If you wish to use a different namespace,  please add `-n yournamespace` appropriately to the example commands in the next section.
 
     ```command
-    $ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml --debug)
-    $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --debug)
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@ --debug)
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@ --debug)
     ```
     > Use `--debug` to inject the sidecar container with proxy-debug image, which is needed to run `curl` command from istio-proxy container later in the demo.
 
@@ -139,7 +139,7 @@ Assuming mutual TLS authentication is properly turned on, it should not affect c
 
     ```command
     $ kubectl create ns legacy
-    $ kubectl apply -f samples/sleep/sleep.yaml -n legacy
+    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n legacy
     ```
 
 1. Wait after the pod status changes to `Running`, issue the familiar `curl` command. The request should fail as the pod doesn't have a sidecar to help initiate TLS communication.

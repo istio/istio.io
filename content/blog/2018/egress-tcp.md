@@ -20,7 +20,7 @@ For this task I set up an instance of [MySQL](https://www.mysql.com). You can us
 1.  To initialize the database, I run the following command entering the password when prompted. The command is performed with the credentials of the  `admin` user, created by default by [Compose for MySQL](https://www.ibm.com/cloud/compose/mysql).
 
     ```command
-    $ curl -s https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/src/mysql/mysqldb-init.sql | \
+    $ curl -s https://raw.githubusercontent.com/istio/istio/{{<branch_name>}}/samples/bookinfo/src/mysql/mysqldb-init.sql | \
     mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host <the database host> --port <the database port>
     ```
 
@@ -29,7 +29,7 @@ For this task I set up an instance of [MySQL](https://www.mysql.com). You can us
     When using the `mysql` client and a local MySQL database, I would run:
 
     ```command
-    $ curl -s https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/src/mysql/mysqldb-init.sql | \
+    $ curl -s https://raw.githubusercontent.com/istio/istio/{{<branch_name>}}/samples/bookinfo/src/mysql/mysqldb-init.sql | \
     mysql -u root -p
     ```
 
@@ -148,7 +148,7 @@ As a reminder, here is the end-to-end architecture of the application from the [
 1.  I apply the modified spec to deploy the version of the _ratings_ microservice, _v2-mysql_, that will use my database.
 
     ```command
-    $ kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml)
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml@)
     deployment "ratings-v2-mysql" created
     ```
 
@@ -156,7 +156,7 @@ As a reminder, here is the end-to-end architecture of the application from the [
 service. In addition, I route all the traffic destined to the _ratings_ service to _ratings v2-mysql_ that uses my database. I add routing for both services above by adding two [route rules](/docs/reference/config/istio.routing.v1alpha1/). These rules are specified in `samples/bookinfo/kube/route-rule-ratings-mysql.yaml` of an Istio release archive.
 
     ```command
-    $ istioctl create -f samples/bookinfo/kube/route-rule-ratings-mysql.yaml
+    $ istioctl create -f @samples/bookinfo/kube/route-rule-ratings-mysql.yaml@
     Created config route-rule/default/ratings-test-v2-mysql at revision 1918799
     Created config route-rule/default/reviews-test-ratings-v2 at revision 1918800
     ```
@@ -285,7 +285,7 @@ with Istio. The Istio control plane does not have to be accessible from the mach
 1.  Remove the route rules:
 
     ```command
-    $ istioctl delete -f samples/bookinfo/kube/route-rule-ratings-mysql.yaml
+    $ istioctl delete -f @samples/bookinfo/kube/route-rule-ratings-mysql.yaml@
     Deleted config: route-rule/default/ratings-test-v2-mysql
     Deleted config: route-rule/default/reviews-test-ratings-v2
     ```
@@ -293,7 +293,7 @@ with Istio. The Istio control plane does not have to be accessible from the mach
 1.  Undeploy _ratings v2-mysql_:
 
     ```command
-    $ kubectl delete -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml)
+    $ kubectl delete -f <(istioctl kube-inject -f @samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml@)
     deployment "ratings-v2-mysql" deleted
     ```
 

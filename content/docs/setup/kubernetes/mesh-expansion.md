@@ -27,9 +27,9 @@ separate documents will cover these advanced configurations.
 Setup consists of preparing the mesh for expansion and installing and configuring each VM.
 
 An example script to help with Kubernetes setup is available as part of the release bundle and in
-[install/tools/setupMeshEx.sh](https://raw.githubusercontent.com/istio/istio/master/install/tools/setupMeshEx.sh). Check the script content and environment variables supported (like GCP_OPTS).
+[install/tools/setupMeshEx.sh](https://raw.githubusercontent.com/istio/istio/{{<branch_name>}}/install/tools/setupMeshEx.sh). Check the script content and environment variables supported (like GCP_OPTS).
 
-An example script to help configure a machine is available as part of the release bundle and in [install/tools/setupIstioVM.sh](https://raw.githubusercontent.com/istio/istio/master/install/tools/setupIstioVM.sh).
+An example script to help configure a machine is available as part of the release bundle and in [install/tools/setupIstioVM.sh](https://raw.githubusercontent.com/istio/istio/{{<branch_name>}}/install/tools/setupIstioVM.sh).
 You should customize it based on your provisioning tools and DNS requirements.
 
 ### Preparing the Kubernetes cluster for expansion
@@ -41,7 +41,7 @@ the cloud provider or private cloud (for example IBM Cloud Private) doesn't have
 support out of box.
 
     ```command
-    $ kubectl apply -f install/kubernetes/mesh-expansion.yaml
+    $ kubectl apply -f @install/kubernetes/mesh-expansion.yaml@
     ```
 
 *   Generate the Istio `cluster.env` configuration to be deployed in the VMs. This file contains
@@ -49,7 +49,7 @@ the cluster IP address ranges to intercept.
 
     ```command
     $ export GCP_OPTS="--zone MY_ZONE --project MY_PROJECT"
-    $ install/tools/setupMeshEx.sh generateClusterEnv MY_CLUSTER_NAME
+    $ @install/tools/setupMeshEx.sh@ generateClusterEnv MY_CLUSTER_NAME
     ```
 
     Here's an example generated file
@@ -63,7 +63,7 @@ the cluster IP address ranges to intercept.
 cluster service names, which will be intercepted by the sidecar and forwarded.
 
     ```command
-    $ install/tools/setupMeshEx.sh generateDnsmasq
+    $ @install/tools/setupMeshEx.sh@ generateDnsmasq
     ```
 
     Here's an example generated file
@@ -92,13 +92,13 @@ $ export SERVICE_NAMESPACE=vm
 If you are running on a GCE VM, run
 
 ```command
-$ install/tools/setupMeshEx.sh gceMachineSetup VM_NAME
+$ @install/tools/setupMeshEx.sh@ gceMachineSetup VM_NAME
 ```
 
 Otherwise, run
 
 ```command
-$ install/tools/setupMeshEx.sh machineSetup VM_NAME
+$ @install/tools/setupMeshEx.sh@ machineSetup VM_NAME
 ```
 
 GCE provides better user experience since node agent can always relies on
@@ -191,7 +191,7 @@ that will have mTLS enabled by default.
     On a Mac either `brew install base64` or `set BASE64_DECODE="/usr/bin/base64 -D"`
 
     ```command
-    install/tools/setupMeshEx.sh machineCerts ACCOUNT NAMESPACE
+    $ @install/tools/setupMeshEx.sh@ machineCerts ACCOUNT NAMESPACE
     ```
 
     The generated files (`key.pem`, `root-cert.pem`, `cert-chain.pem`) must be copied to /etc/certs on each machine, readable by istio-proxy.

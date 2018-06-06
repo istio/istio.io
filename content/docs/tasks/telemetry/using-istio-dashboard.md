@@ -24,7 +24,7 @@ the example application throughout this task.
     In Kubernetes environments, execute the following command:
 
     ```command
-    $ kubectl apply -f install/kubernetes/addons/grafana.yaml
+    $ kubectl apply -f @install/kubernetes/addons/grafana.yaml@
     ```
 
 1.  Verify that the service is running in your cluster.
@@ -103,7 +103,7 @@ For more on how to create, configure, and edit dashboards, please see the
 add-on:
 
     ```command
-    $ kubectl delete -f install/kubernetes/addons/grafana.yaml
+    $ kubectl delete -f @install/kubernetes/addons/grafana.yaml@
     ```
 
 *   Remove any `kubectl port-forward` processes that may be running:
