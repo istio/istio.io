@@ -23,6 +23,13 @@ or alternatively, to simply bypass the Istio proxy for a specific range of IPs.
 *   Start the [sleep](https://github.com/istio/istio/tree/master/samples/sleep) sample
     which will be used as a test source for external calls.
 
+    If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), do
+
+    ```command
+    $ kubectl apply -f samples/sleep/sleep.yaml
+    ```
+    otherwise, you have to manually inject the sidecar before deploying the `sleep` application:
+
     ```command
     $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
     ```
@@ -33,7 +40,7 @@ or alternatively, to simply bypass the Istio proxy for a specific range of IPs.
 
 Using Istio `ServiceEntry` configurations, you can access any publicly accessible service
 from within your Istio cluster. In this task we will use
-[httpbin.org](http://httpbin.org) and [www.google.com](http://www.google.com) as examples.
+[httpbin.org](http://httpbin.org) and [www.google.com](https://www.google.com) as examples.
 
 ### Configuring the external services
 
@@ -69,24 +76,9 @@ from within your Istio cluster. In this task we will use
           ports:
           - number: 443
             name: https
-            protocol: HTTP
-        ---
-        apiVersion: networking.istio.io/v1alpha3
-        kind: DestinationRule
-        metadata:
-          name: google-ext
-        spec:
-          host: www.google.com
-          trafficPolicy:
-            tls:
-              mode: SIMPLE # initiates HTTPS when talking to www.google.com
+            protocol: HTTPS
         EOF
     ```
-
-Notice that we also create a corresponding `DestinationRule` to
-initiate TLS for connections to the HTTPS service.
-Callers must access this service using HTTP on port 443 and Istio will upgrade
-the connection to HTTPS.
 
 ### Make requests to the external services
 
@@ -104,11 +96,10 @@ the connection to HTTPS.
     $ curl http://httpbin.org/headers
     ```
 
-1.  Make a request to the external HTTPS service.
-    External services of type HTTPS must be accessed over HTTP with the port specified in the request:
+1.  Make a request to the external HTTPS service:
 
     ```command
-    $ curl http://www.google.com:443
+    $ curl https://www.google.com
     ```
 
 ### Setting route rules on an external service
@@ -171,23 +162,31 @@ to set a timeout rule on calls to the httpbin.org service.
 ## Calling external services directly
 
 If you want to completely bypass Istio for a specific IP range,
-you can configure the source service's Envoy sidecar to prevent it from
+you can configure the Envoy sidecars to prevent them from
 [intercepting](/docs/concepts/traffic-management/request-routing/#communication-between-services)
-the external requests. This can be done using the `--includeIPRanges` option of
-[istioctl kube-inject](/docs/reference/commands/istioctl/#istioctl kube-inject)
-when starting the service.
+the external requests. This can be done by setting the `global.proxy.includeIPRanges` variable of
+[Helm](/docs/setup/kubernetes/helm-install/#customization-with-helm) and updating the `ConfigMap` _istio-sidecar-injector_ by `kubectl apply`. After _istio-sidecar-injector_ is updated, the value of `global.proxy.includeIPRanges` will affect all the future deployments of the application pods.
 
-The simplest way to use the `--includeIPRanges` option is to pass it the IP range(s)
+The simplest way to use the `global.proxy.includeIPRanges` variable is to pass it the IP range(s)
 used for internal cluster services, thereby excluding external IPs from being redirected
 to the sidecar proxy.
 The values used for internal IP range(s), however, depends on where your cluster is running.
-For example, with Minikube the range is 10.0.0.1&#47;24, so you would start the sleep service like this:
+For example, with Minikube the range is 10.0.0.1&#47;24, so you would update your `ConfigMap` _istio-sidecar-injector_ like this:
 
-```command
-$ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=10.0.0.1/24)
+```plain
+$ helm template install/kubernetes/helm/istio <the flags you used to install Istio> --set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml | kubectl apply -f -
 ```
 
-On IBM Cloud Private, use:
+Note that you should use the same Helm command you used [to install Istio](/docs/setup/kubernetes/helm-install),
+in particular, the same value of the `--namespace` flag. In addition to the flags you used to install Istio, add `--set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml`.
+
+Redeploy the _sleep_ application as described in the [Before you begin](/docs/tasks/traffic-management/egress/#before-you-begin) section.
+
+### Determine the value of `global.proxy.includeIPRanges`
+
+Set the value of `global.proxy.includeIPRanges` according to your cluster provider.
+
+#### IBM Cloud Private
 
 1.  Get your `service_cluster_ip_range` from IBM Cloud Private configuration file under `cluster/config.yaml`.
 
@@ -201,37 +200,36 @@ On IBM Cloud Private, use:
     service_cluster_ip_range: 10.0.0.1/24
     ```
 
-1.  Inject the `service_cluster_ip_range` to your application profile via `--includeIPRanges` to limit Istio's traffic interception to the service cluster IP range.
+1.  Use `--set global.proxy.includeIPRanges="10.0.0.1/24"`
 
-    ```command
-    $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=10.0.0.1/24)
-    ```
+#### IBM Cloud Kubernetes Service
 
-On IBM Cloud Kubernetes Service, use:
+Use `--set global.proxy.includeIPRanges="172.30.0.0/16\,172.20.0.0/16\,10.10.10.0/24"`
 
-```command
-$ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=172.30.0.0/16,172.20.0.0/16,10.10.10.0/24)
-```
+#### Google Container Engine (GKE)
 
-On Google Container Engine (GKE) the ranges are not fixed, so you will
-need to run the `gcloud container clusters describe` command to determine the ranges to use. For example:
+The ranges are not fixed, so you will need to run the `gcloud container clusters describe` command to determine the ranges to use. For example:
 
 ```command
 $ gcloud container clusters describe XXXXXXX --zone=XXXXXX | grep -e clusterIpv4Cidr -e servicesIpv4Cidr
 clusterIpv4Cidr: 10.4.0.0/14
 servicesIpv4Cidr: 10.7.240.0/20
 ```
-```command
-$ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=10.4.0.0/14,10.7.240.0/20)
-```
 
-On Azure Container Service(ACS), use:
+Use `--set global.proxy.includeIPRanges="10.4.0.0/14\,10.7.240.0/20"`
 
-```command
-$ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=10.244.0.0/16,10.240.0.0/16)
-```
+#### Azure Container Service(ACS)
 
-After starting your service this way, the Istio sidecar will only intercept and manage internal requests
+Use `--set global.proxy.includeIPRanges="10.244.0.0/16\,10.240.0.0/16`
+
+#### Minikube
+
+Use `--set global.proxy.includeIPRanges="10.0.0.1/24"`
+
+### Access the external services
+
+After updating the `ConfigMap` _istio-sidecar-injector_ and redeploying the _sleep_ application,
+the Istio sidecar will only intercept and manage internal requests
 within the cluster. Any external request will simply bypass the sidecar and go straight to its intended
 destination.
 
@@ -262,7 +260,6 @@ cloud provider specific knowledge and configuration.
 
     ```command
     $ istioctl delete serviceentry httpbin-ext google-ext
-    $ istioctl delete destinationrule google-ext
     $ istioctl delete virtualservice httpbin-ext
     ```
 
@@ -272,6 +269,11 @@ cloud provider specific knowledge and configuration.
     $ kubectl delete -f samples/sleep/sleep.yaml
     ```
 
+1.  Update the `ConfigMap` _istio-sidecar-injector_ to redirect all outbound traffic to the sidecar proxies:
+
+    ```plain
+    $ helm template install/kubernetes/helm/istio <the flags you used to install Istio> -x templates/sidecar-injector-configmap.yaml | kubectl apply -f -
+    ```
 ## What's next
 
 * Learn more about [service entries](/docs/concepts/traffic-management/rules-configuration/#service-entries).
