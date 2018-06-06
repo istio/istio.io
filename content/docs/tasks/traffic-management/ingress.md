@@ -6,7 +6,7 @@ aliases:
     - /docs/tasks/ingress.html
 ---
 
-> Note: This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.6/docs/tasks/).
+> Note: This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.7/docs/tasks/traffic-management/).
 
 In a Kubernetes environment, the [Kubernetes Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/)
 is used to specify services that should be exposed outside the cluster.
@@ -25,10 +25,15 @@ This task describes how to configure Istio to expose a service outside of the se
 *   Start the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) sample,
     which will be used as the destination service to be exposed externally.
 
-    If you installed  [Istio-Initializer](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), do
+    If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), do
 
     ```command
     $ kubectl apply -f samples/httpbin/httpbin.yaml
+    ```
+    otherwise, you have to manually inject the sidecar before deploying the `httpbin` application:
+
+    ```command
+    $ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml)
     ```
 
 *   A private key and certificate can be created for testing using [OpenSSL](https://www.openssl.org/).
@@ -50,7 +55,7 @@ istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/
 
 If the `EXTERNAL-IP` value is set, your environment has an external load balancer that you can use for the ingress gateway.
 If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not provide an external load balancer for the ingress gateway.
-In this case, you can access the gateway using the service `nodePort`.
+In this case, you can access the gateway using the service's [node port](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport).
 
 #### Determining the ingress IP and ports for a load balancer ingress gateway
 
@@ -60,7 +65,7 @@ $ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway
 $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
 ```
 
-#### Determining the ingress IP and ports for a `nodePort` ingress gateway
+#### Determining the ingress IP and ports for a `NodePort` ingress gateway
 
 Determine the ports:
 ```command
@@ -320,24 +325,14 @@ external traffic.
 
 ## Cleanup
 
-1.  Remove the `Gateway` configuration.
+Delete the `Gateway` configuration, the `VirtualService` and the secret, and shutdown the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) service:
 
-    ```command
-    $ istioctl delete gateway httpbin-gateway
-    ```
-
-1.  Remove the `VirtualService` and secret.
-
-    ```command
-    $ istioctl delete virtualservice httpbin
-    $ kubectl delete -n istio-system secret istio-ingressgateway-certs
-    ```
-
-1.  Shutdown the [httpbin](https://github.com/istio/istio/tree/master/samples/httpbin) service.
-
-    ```command
-    $ kubectl delete -f samples/httpbin/httpbin.yaml
-    ```
+```command
+$ istioctl delete gateway httpbin-gateway
+$ istioctl delete virtualservice httpbin
+$ kubectl delete --ignore-not-found=true -n istio-system secret istio-ingressgateway-certs
+$ kubectl delete --ignore-not-found=true -f samples/httpbin/httpbin.yaml
+```
 
 ## What's next
 

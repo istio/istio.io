@@ -4,7 +4,7 @@ description: This task shows you how to configure dynamic request routing based 
 weight: 10
 ---
 
-> This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.6/docs/tasks/).
+> This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.7/docs/tasks/traffic-management/).
 
 This task shows you how to configure dynamic request routing based on weights and HTTP headers.
 
@@ -107,7 +107,9 @@ you'll need to use `replace` rather than `create` in the following command.
     Since rule propagation to the proxies is asynchronous, you should wait a few seconds for the rules
     to propagate to all pods before attempting to access the application.
 
-1.  Open the Bookinfo URL (http://$GATEWAY_URL/productpage) in your browser
+1.  Open the Bookinfo URL (`http://$GATEWAY_URL/productpage`) in your browser. Recall that `GATEWAY_URL`
+    should have been set using [these instructions](/docs/guides/bookinfo/#determining-the-ingress-ip-and-port)
+    when the Bookinfo sample was deployed.
 
     You should see the Bookinfo application productpage displayed.
     Notice that the `productpage` is displayed with no rating stars since `reviews:v1` does not access the ratings service.

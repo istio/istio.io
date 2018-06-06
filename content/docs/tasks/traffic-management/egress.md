@@ -4,7 +4,7 @@ description: Describes how to configure Istio to route traffic from services in 
 weight: 40
 ---
 
-> This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.6/docs/tasks/).
+> This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.7/docs/tasks/traffic-management/).
 
 By default, Istio-enabled services are unable to access URLs outside of the cluster because
 iptables is used in the pod to transparently redirect all outbound traffic to the sidecar proxy,
@@ -33,7 +33,7 @@ or alternatively, to simply bypass the Istio proxy for a specific range of IPs.
 
 Using Istio `ServiceEntry` configurations, you can access any publicly accessible service
 from within your Istio cluster. In this task we will use
-[httpbin.org](http://httpbin.org) and [www.google.com](http://www.google.com) as examples.
+[httpbin.org](http://httpbin.org) and [www.google.com](https://www.google.com) as examples.
 
 ### Configuring the external services
 
@@ -69,24 +69,9 @@ from within your Istio cluster. In this task we will use
           ports:
           - number: 443
             name: https
-            protocol: HTTP
-        ---
-        apiVersion: networking.istio.io/v1alpha3
-        kind: DestinationRule
-        metadata:
-          name: google-ext
-        spec:
-          host: www.google.com
-          trafficPolicy:
-            tls:
-              mode: SIMPLE # initiates HTTPS when talking to www.google.com
+            protocol: HTTPS
         EOF
     ```
-
-Notice that we also create a corresponding `DestinationRule` to
-initiate TLS for connections to the HTTPS service.
-Callers must access this service using HTTP on port 443 and Istio will upgrade
-the connection to HTTPS.
 
 ### Make requests to the external services
 
@@ -104,11 +89,10 @@ the connection to HTTPS.
     $ curl http://httpbin.org/headers
     ```
 
-1.  Make a request to the external HTTPS service.
-    External services of type HTTPS must be accessed over HTTP with the port specified in the request:
+1.  Make a request to the external HTTPS service:
 
     ```command
-    $ curl http://www.google.com:443
+    $ curl https://www.google.com
     ```
 
 ### Setting route rules on an external service
@@ -181,7 +165,7 @@ The simplest way to use the `--includeIPRanges` option is to pass it the IP rang
 used for internal cluster services, thereby excluding external IPs from being redirected
 to the sidecar proxy.
 The values used for internal IP range(s), however, depends on where your cluster is running.
-For example, with Minikube the range is 10.0.0.1/24, so you would start the sleep service like this:
+For example, with Minikube the range is 10.0.0.1&#47;24, so you would start the sleep service like this:
 
 ```command
 $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=10.0.0.1/24)
@@ -207,7 +191,7 @@ On IBM Cloud Private, use:
     $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=10.0.0.1/24)
     ```
 
-On IBM Cloud Container Service, use:
+On IBM Cloud Kubernetes Service, use:
 
 ```command
 $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml --includeIPRanges=172.30.0.0/16,172.20.0.0/16,10.10.10.0/24)
@@ -262,7 +246,6 @@ cloud provider specific knowledge and configuration.
 
     ```command
     $ istioctl delete serviceentry httpbin-ext google-ext
-    $ istioctl delete destinationrule google-ext
     $ istioctl delete virtualservice httpbin-ext
     ```
 

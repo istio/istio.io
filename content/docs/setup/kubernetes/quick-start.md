@@ -129,7 +129,7 @@ Nevertheless the list of admission controllers needs to be updated.
 $ kops edit cluster $YOURCLUSTER
 ```
 
-Add following in the configuration file just opened:
+Add the following in the configuration file:
 
 ```yaml
 kubeAPIServer:
@@ -237,10 +237,10 @@ installation directory contains:
     * The `istioctl` client binary in the `bin/` directory. `istioctl` is used when manually injecting Envoy as a sidecar proxy and for creating routing rules and policies.
     * The `istio.VERSION` configuration file
 
-1.  Change directory to istio package. For example, if the package is istio-{{site.data.istio.version}}
+1.  Change directory to the istio package. For example, if the package is istio-{{< istio_version >}}.0:
 
     ```command
-    $ cd istio-{{site.data.istio.version}}
+    $ cd istio-{{< istio_version >}}.0
     ```
 
 1.  Add the `istioctl` client to your PATH.
@@ -254,27 +254,27 @@ For example, run the following command on a MacOS or Linux system:
 
 Install Istio's core components. Choose one of the four _**mutually exclusive**_ options below fo quick installation.  However, we recommend you to install with the [Helm Chart](/docs/setup/kubernetes/helm-install/) for production installations of Istio to leverage all the options to configure and customize Istio to your needs.
 
-a)  Install Istio without enabling [mutual TLS authentication](/docs/concepts/security/mutual-tls/) between     sidecars. Choose this option for clusters with existing applications, applications where services with an Istio sidecar need to be able to communicate with other non-Istio Kubernetes services, and applications that use [liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/), headless services, or StatefulSets.
+*  Install Istio without enabling [mutual TLS authentication](/docs/concepts/security/mutual-tls/) between sidecars. Choose this option for clusters with existing applications, applications where services with an Istio sidecar need to be able to communicate with other non-Istio Kubernetes services, and applications that use [liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/), headless services, or StatefulSets.
 
-    ```command
-    $ kubectl apply -f install/kubernetes/istio-demo.yaml
-    ```
-
-OR
-
-b)  Install Istio and enforce mutual TLS authentication between sidecars by default. Use this option only on a fresh kubernetes cluster where newly deployed workloads are guaranteed to have Istio sidecars installed.
-
-    ```command
-    $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
-    ```
+```command
+$ kubectl apply -f install/kubernetes/istio-demo.yaml
+```
 
 OR
 
-c)  [Render Kubernetes manifest with Helm and deploy with kubectl](/docs/setup/kubernetes/helm-install/#option-1-install-with-helm-via-helm-template).
+*  Install Istio and enforce mutual TLS authentication between sidecars by default. Use this option only on a fresh kubernetes cluster where newly deployed workloads are guaranteed to have Istio sidecars installed.
+
+```command
+$ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
+```
 
 OR
 
-d)  [Use Helm and Tiller to manage the Istio deployment](/docs/setup/kubernetes/helm-install/#option-2-install-with-helm-and-tiller-via-helm-install).
+*  [Render Kubernetes manifest with Helm and deploy with kubectl](/docs/setup/kubernetes/helm-install/#option-1-install-with-helm-via-helm-template).
+
+OR
+
+*  [Use Helm and Tiller to manage the Istio deployment](/docs/setup/kubernetes/helm-install/#option-2-install-with-helm-and-tiller-via-helm-install).
 
 ## Verifying the installation
 
@@ -295,8 +295,8 @@ d)  [Use Helm and Tiller to manage the Istio deployment](/docs/setup/kubernetes/
     ```
 
     > If your cluster is running in an environment that does not support an external load balancer
-    (e.g., minikube), the `EXTERNAL-IP` of `istio-ingress` says `<pending>`. You must access the
-    application using the service NodePort, or use port-forwarding instead.
+    (e.g., minikube), the `EXTERNAL-IP` of `istio-ingressgateway` will say `<pending>`. You will need to access
+    it using the service NodePort, or use port-forwarding instead.
 
 1.  Ensure the corresponding Kubernetes pods are deployed and all containers are up and running:
 `istio-pilot-*`, `istio-ingressgateway-*`, `istio-egressgateway-*`, `istio-policy-*`, `istio-telemtry-*`, `istio-citadel-*`, `prometheus-*` and, optionally, `istio-sidecar-injector-*`.
@@ -340,19 +340,17 @@ $ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 
 ## Uninstalling
 
-*   Uninstall Istio core components. For the {{site.data.istio.version}} release, the uninstall
+*   Uninstall Istio core components. For this release, the uninstall
 deletes the RBAC permissions, the `istio-system` namespace, and hierarchically all resources under it.
 It is safe to ignore errors for non-existent resources because they may have been deleted hierarchically.
 
-    a) If you installed Istio with `istio-demo.yaml`:
+If you installed Istio with `istio-demo.yaml`:
 
-    ```command
-    $ kubectl delete -f install/kubernetes/istio-demo.yaml
-    ```
+```command
+$ kubectl delete -f install/kubernetes/istio-demo.yaml
+```
 
-    _**OR**_
-
-    b) : [Uninstall Istio with Helm](/docs/setup/kubernetes/helm-install/#uninstall).
+otherwise [uninstall Istio with Helm](/docs/setup/kubernetes/helm-install/#uninstall).
 
 ## What's next
 
