@@ -7,7 +7,7 @@ weight: 50
 Istio exports metrics through Mixer. They can be found
 [here](https://github.com/istio/istio/blob/master/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml)
 under the section with “kind: metric”. It uses [metric
-template](templates/metric.html) to define these metrics.
+template](/docs/reference/config/policy-and-telemetry/templates/metric/) to define these metrics.
 
 We will describe metrics first and then the labels for each metric.
 
