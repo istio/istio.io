@@ -1,13 +1,14 @@
 ---
-title: Exporting Istio Access Logs to BigQuery, GCS, Pub/Sub through Stackdriver
+title: Exporting Logs to BigQuery, GCS, Pub/Sub through Stackdriver
 description: How to export Istio Access Logs to different sinks like BigQuery, GCS, Pub/Sub through Stackdriver.
 weight: 70
 ---
 
-This task shows how to export Istio Access Logs to different sinks like
-BigQuery, GCS, Pub/Sub through Stackdriver A user can do analytics on data
-through Istio using logs flowing from Istio to StackDriver and then exporting
-these logs to various configured sinks like BigQuery, GCS or Pub/Sub.
+This task shows how Istio data using logs can flow from Istio to [Stackdriver](https://cloud.google.com/stackdriver/)
+and export those logs to various configured sinks such as such as
+[BigQuery](https://cloud.google.com/bigquery/), [Google Cloud Storage(GCS)](https://cloud.google.com/storage/)
+or [Cloud Pub/Sub](https://cloud.google.com/pubsub/). At the end of this task you can perform
+analytics on Istio data from your favorite places such as BigQuery, GCS or Cloud Pub/Sub.
 
 The [Bookinfo](/docs/guides/bookinfo/) sample application is used as the example
 application throughout this task.
@@ -18,9 +19,9 @@ application throughout this task.
 
 ## Configuring Istio for exporting logs to various sinks
 
-Istio exports logs through logentry template configured for Mixer as [accesslog
+Istio exports logs using the logentry template configured for Mixer as [accesslog
 entry](https://github.com/istio/istio/blob/master/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml#L134:9).
-This specifies all the variables that would be available for analysis. It
+This specifies all the variables that are available for analysis. It
 contains information like source service, destination service, auth
 metrics(coming..) among others. Following is a diagram of the pipeline:
 
@@ -70,8 +71,9 @@ to the project and Logging Admin role permissions.
 
 ### Setting up Stackdriver
 
-To configure exporting logs to Stackdriver, you have to write a handler for
-Stackdriver. Config proto for Stackdriver can be found
+A Stackdriver handler must be created to export data to Stackdriver. The configuration schema
+for a Stackdriver handler can be found [here](https://github.com/istio/api/blob/0142cbd81f9dc723c57c1d43b1e07d3cb0817253/policy/v1beta1/cfg.proto#L243:9).
+Config proto for Stackdriver can be found
 [here](https://github.com/istio/istio/blob/master/mixer/adapter/stackdriver/config/config.proto).
 Handler is configured based on this proto.
 
@@ -96,38 +98,6 @@ Handler is configured based on this proto.
           # appCredentials:
           # apiKey:
           # serviceAccountPath:
-          # Describes how to map Istio metrics into Stackdriver.
-          # Note: most of this config is copied over from prometheus.yaml to keep our metrics consistent across backends
-          metricInfo:
-            requestcount.metric.istio-system:
-              # Due to a bug in gogoproto deserialization, Enums in maps must be
-              # specified by their integer value, not variant name. See
-              # https://github.com/googleapis/googleapis/blob/master/google/api/metric.proto
-              # MetricKind and ValueType for the values to provide.
-              kind: 2 # DELTA
-              value: 2 # INT64
-            requestduration.metric.istio-system:
-              kind: 2 # DELTA
-              value: 5 # DISTRIBUTION
-              buckets:
-                explicit_buckets:
-                  bounds: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10]
-            requestsize.metric.istio-system:
-              kind: 2 # DELTA
-              value: 5 # DISTRIBUTION
-              buckets:
-                exponentialBuckets:
-                  numFiniteBuckets: 8
-                  scale: 1
-                  growthFactor: 10
-            responsesize.metric.istio-system:
-              kind: 2 # DELTA
-              value: 5 # DISTRIBUTION
-              buckets:
-                exponentialBuckets:
-                  numFiniteBuckets: 8
-                  scale: 1
-                  growthFactor: 10
           # Describes how to map Istio logs into Stackdriver.
           logInfo:
             accesslog.logentry.istio-system:
@@ -182,10 +152,6 @@ Handler is configured based on this proto.
           actions:
           - handler: handler.stackdriver
             instances:
-            - requestcount.metric
-            - requestduration.metric
-            - requestsize.metric
-            - responsesize.metric
             - accesslog.logentry
         ---
     ```
@@ -212,8 +178,7 @@ Handler is configured based on this proto.
     $ curl http://$GATEWAY_URL/productpage
     ```
 
-1.  Verify that logs are flowing through Stackdriver and further to the sink
-    configured.
+1.  Verify that logs are flowing through Stackdriver to the configured sink.
 
     *   Stackdriver: Navigate to [Stackdriver Logs
         Viewer](https://pantheon.corp.google.com/logs/viewer) for your project
