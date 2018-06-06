@@ -32,6 +32,7 @@ this feature is not needed if the production setup is not using the
     $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
     ```
     _**OR**_
+
     Using [Helm](/docs/setup/kubernetes/helm-install/) with `global.mtls.enabled` to `true`.
 
 > Starting with Istio 0.7, you can use [authentication policy](/docs/concepts/security/authn-policy/) to configure mutual TLS for all/selected services in a namespace (repeated for all namespaces to get global setting). See [authentication policy task](/docs/tasks/security/authn-policy/)
@@ -41,7 +42,7 @@ this feature is not needed if the production setup is not using the
 Deploy Citadel with health checking enabled.
 
 ```command
-$ kubectl apply -f @install/kubernetes/istio-citadel-with-health-check.yaml@
+$ kubectl apply -f install/kubernetes/istio-citadel-with-health-check.yaml
 ```
 
 Deploy the `istio-citadel` service so that the CSR service can be found by the health checker.
@@ -126,18 +127,10 @@ continuously failed health checks.
 
 ## Cleanup
 
-*   To disable health checking on Citadel:
+*   To disable health checking on Citadel (with global mutual TLS enabled):
 
     ```command
-    $ kubectl apply -f @install/kubernetes/istio-auth.yaml@
-    $ kubectl delete svc istio-citadel -n istio-system
-    ```
-
-*   To remove Citadel:
-
-    ```command
-    $ kubectl delete -f @install/kubernetes/istio-citadel-with-health-check.yaml@
-    $ kubectl delete svc istio-citadel -n istio-system
+    $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
     ```
 
 ## What's next
