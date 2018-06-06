@@ -278,8 +278,8 @@ OR
 
 ## Verifying the installation
 
-1.  Ensure the following Kubernetes services are deployed: `istio-pilot`, `istio-ingressgateway`, `istio-egressgateway`,
- `istio-telemetry`, `istio-policy`, `istio-citadel`, `prometheus` and, optionally, `istio-sidecar-injector`.
+1.  Ensure the following Kubernetes services are deployed: `istio-pilot`, `istio-ingressgateway`,
+`istio-policy`, `istio-telemetry`, `prometheus` and, optionally, `istio-sidecar-injector`.
 
     ```command
     $ kubectl get svc -n istio-system
