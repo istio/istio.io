@@ -33,7 +33,7 @@ you'll need to use `replace` rather than `create` in the following command.
     $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
     ```
 
-    If you enabled `mTLS`, please instead run
+    If you enabled `mTLS`, please run the following instead
 
     ```command
     $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1-mtls.yaml@
@@ -178,7 +178,7 @@ all users to v2, optionally in a gradual fashion. We'll explore this in a separa
     $ istioctl delete -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
     ```
 
-    If you enabled `mTLS`, please instead run
+    If you enabled `mTLS`, please run the following instead
 
     ```command
     $ istioctl delete -f @samples/bookinfo/routing/route-rule-all-v1-mtls.yaml@
