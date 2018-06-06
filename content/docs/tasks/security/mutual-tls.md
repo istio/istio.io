@@ -14,7 +14,7 @@ Through this task, you will learn how to:
 
 This task assumes you have a Kubernetes cluster:
 
-* Installed Istio with global mTLS enabled:
+* Installed Istio with global mutual TLS enabled:
 
     ```command
     $ kubectl apply -f @install/kubernetes/istio-auth.yaml@
@@ -22,7 +22,7 @@ This task assumes you have a Kubernetes cluster:
     _**OR**_
     Using [Helm](/docs/setup/kubernetes/helm-install/) with `global.mtls.enabled` to `true`.
 
-> Starting with Istio  0.7, you can use [authentication policy](/docs/concepts/security/authn-policy/) to config mTLS for all/selected services in a namespace (repeated for all namespaces to get global setting). See [authentication policy task](/docs/tasks/security/authn-policy/)
+> Starting with Istio 0.7, you can use [authentication policy](/docs/concepts/security/authn-policy/) to configure mutual TLS for all/selected services in a namespace (repeated for all namespaces to get global setting). See [authentication policy task](/docs/tasks/security/authn-policy/)
 
 * For demo, deploy [httpbin](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/httpbin) and [sleep](https://github.com/istio/istio/tree/master/samples/sleep) with Envoy sidecar. For simplicity, the demo is setup in the `default` namespace. If you wish to use a different namespace,  please add `-n yournamespace` appropriately to the example commands in the next section.
 
@@ -47,13 +47,13 @@ Citadel is up if the "AVAILABLE" column is 1.
 
 ### Verifying service configuration
 
-* Check installation mode. If mutual TLS is enabled by default (e.g `istio-auth.yaml` was used when installing Istio), you can expect to see uncommented `authPolicy: MUTUAL_TLS` in configmap.
+* Check installation mode. If mutual TLS is enabled by default (e.g `istio-demo-auth.yaml` was used when installing Istio), you can expect to see uncommented `authPolicy: MUTUAL_TLS` in the configmap.
 
     ```command
     $ kubectl get configmap istio -o yaml -n istio-system | grep authPolicy | head -1
     ```
 
-* Check authentication policies. mTLS can also be enabled (or disabled) per service(s) by authentication policy. A policy, if exist, will overwrite the configmap setting for the targeted services. Unfortunately, there is no quick way to get relevant policies for a service, other than examining all policies in the applicable namespace:
+* Check authentication policies. Mutual TLS can also be enabled (or disabled) per service(s) by authentication policy. A policy, if exist, will overwrite the configmap setting for the targeted services. Unfortunately, there is no quick way to get relevant policies for a service, other than examining all policies in the applicable namespace:
 
     ```command
     $ kubectl get policies.authentication.istio.io -n default -o yaml
@@ -151,5 +151,5 @@ Assuming mutual TLS authentication is properly turned on, it should not affect c
 
 ## What's next
 
-* Learn more about the design principles behind Istio's automatic mTLS authentication
+* Learn more about the design principles behind Istio's automatic mutual TLS authentication
   between all services in this [blog](/blog/2017/0.1-auth/).
