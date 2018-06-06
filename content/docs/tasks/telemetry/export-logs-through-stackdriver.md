@@ -262,7 +262,7 @@ exported. In detail as follows:
               id: '<sink_id>'
               destination: '<sink_destination>'
               filter: '<log_filter>'
-    ```yaml
+    ```
 
     In the above configuration sinkInfo contains information about the sink where you want
     the logs to get exported to. For more information on how this gets filled for different sinks please refer
@@ -281,7 +281,7 @@ exported. In detail as follows:
         - handler: handler.stackdriver
           instances:
           - accesslog.logentry
-     ```yaml
+     ```
 
 ## Cleanup
 
