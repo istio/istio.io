@@ -1,16 +1,16 @@
 ---
 title: Mutual TLS over HTTPS
-description: Shows how to enable mTLS on HTTPS services.
+description: Shows how to enable mutual TLS on HTTPS services.
 weight: 80
 ---
 
 This task shows how Istio Mutual TLS works with HTTPS services. It includes: 1)
 Deploy an HTTPS service without Istio sidecar; 2) Deploy an HTTPS service with
-Istio with mTLS disabled; 3) Deploy an HTTPS service with mTLS enabled. For each
+Istio with mutual TLS disabled; 3) Deploy an HTTPS service with mutual TLS enabled. For each
 deployment, connect to this service and verify it works.
 
 When the Istio sidecar is deployed with an HTTPS service, the proxy automatically downgrades
-from L7 to L4 (no matter mTLS is enabled or not), which means it does not terminate the
+from L7 to L4 (no matter mutual TLS is enabled or not), which means it does not terminate the
 original HTTPS traffic. And this is the reason Istio can work on HTTPS services.
 
 ## Before you begin
@@ -86,9 +86,9 @@ $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name
 ...
 ```
 
-### Create an HTTPS service with the Istio sidecar and mTLS disabled
+### Create an HTTPS service with the Istio sidecar and mutual TLS disabled
 
-In "Before you begin" section, the Istio control plane is deployed with mTLS
+In "Before you begin" section, the Istio control plane is deployed with mutual TLS
 disabled. So you only need to redeploy the NGINX HTTPS service with sidecar.
 
 Delete the HTTPS service.
@@ -132,10 +132,10 @@ $ kubectl exec sleep-847544bbfc-d27jg -c istio-proxy -- curl https://my-nginx -k
 
 > This example is borrowed from [kubernetes examples](https://github.com/kubernetes/examples/blob/master/staging/https-nginx/README.md).
 
-### Create an HTTPS service with Istio sidecar with mTLS enabled
+### Create an HTTPS service with Istio sidecar with mutual TLS enabled
 
-You need to deploy Istio control plane with mTLS enabled. If you have istio
-control plane with mTLS disabled installed, please delete it:
+You need to deploy Istio control plane with mutual TLS enabled. If you have istio
+control plane with mutual TLS disabled installed, please delete it:
 
 ```command
 $ kubectl delete -f @install/kubernetes/istio.yaml@
@@ -148,7 +148,7 @@ $ kubectl get pod -n istio-system
 No resources found.
 ```
 
-Then deploy the Istio control plane with mTLS enabled:
+Then deploy the Istio control plane with mutual TLS enabled:
 
 ```command
 $ kubectl apply -f @install/kubernetes/istio-auth.yaml@
@@ -193,7 +193,7 @@ $ kubectl exec sleep-77f457bfdd-hdknx -c sleep -- curl https://my-nginx -k
 ```
 
 The reason is that for the workflow "sleep -> sleep-proxy -> nginx-proxy -> nginx",
-the whole flow is L7 traffic, and there is a L4 mTLS encryption between sleep-proxy
+the whole flow is L7 traffic, and there is a L4 mutual TLS encryption between sleep-proxy
 and nginx-proxy. In this case, everything works fine.
 
 However, if you run this command from istio-proxy container, it will not work.
@@ -205,7 +205,7 @@ command terminated with exit code 35
 ```
 
 The reason is that for the workflow "sleep-proxy -> nginx-proxy -> nginx",
-nginx-proxy is expected mTLS traffic from sleep-proxy. In the command above,
+nginx-proxy is expected mutual TLS traffic from sleep-proxy. In the command above,
 sleep-proxy does not provide client cert. As a result, it won't work. Moreover,
 even sleep-proxy provides client cert in above command, it won't work either
 since the traffic will be downgraded to http from nginx-proxy to nginx.
