@@ -37,13 +37,6 @@ Verifying connectivity to Pilot is a useful troubleshooting step. Every proxy co
     $ kubectl exec -it $INGRESS_POD_NAME -n istio-system /bin/bash
     ```
 
-1.  Unless you installed Istio using the debug proxy image (`istioctl kube-inject --debug=true`), you need to
-install curl.
-
-    ```command
-    $ apt-get update && apt-get install -y curl
-    ```
-
 1.  Test connectivity to Pilot using cURL. The following example cURL's the v1 registration API using default Pilot configuration parameters and mTLS enabled:
 
     ```command

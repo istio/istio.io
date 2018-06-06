@@ -84,7 +84,7 @@ To start the application, follow the instructions below corresponding to your Is
         use the following command
 
         ```command
-        $ kubectl apply -f <(istioctl kube-inject --debug -f @samples/bookinfo/kube/bookinfo.yaml@)
+        $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/kube/bookinfo.yaml@)
         ```
 
         The `istioctl kube-inject` command is used to manually modify the `bookinfo.yaml`
