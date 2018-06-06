@@ -27,10 +27,9 @@ This task assumes you have a Kubernetes cluster:
 * For demo, deploy [httpbin](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/httpbin) and [sleep](https://github.com/istio/istio/tree/master/samples/sleep) with Envoy sidecar. For simplicity, the demo is setup in the `default` namespace. If you wish to use a different namespace,  please add `-n yournamespace` appropriately to the example commands in the next section.
 
     ```command
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@ --debug)
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@ --debug)
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@)
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
     ```
-    > Use `--debug` to inject the sidecar container with proxy-debug image, which is needed to run `curl` command from istio-proxy container later in the demo.
 
 ## Verifying Istio's mutual TLS authentication setup
 

@@ -50,7 +50,7 @@ replicationcontroller "my-nginx" created
 Then, create another pod to call this service.
 
 ```command
-$ kubectl apply -f <(bin/istioctl kube-inject --debug -f @samples/sleep/sleep.yaml@)
+$ kubectl apply -f <(bin/istioctl kube-inject -f @samples/sleep/sleep.yaml@)
 ```
 
 Get the pods
@@ -100,7 +100,7 @@ $ kubectl delete -f nginx-app.yaml
 Deploy it with a sidecar
 
 ```command
-$ kubectl apply -f <(bin/istioctl kube-inject --debug -f @samples/https/nginx-app.yaml@)
+$ kubectl apply -f <(bin/istioctl kube-inject -f @samples/https/nginx-app.yaml@)
 ```
 
 Make sure the pod is up and running
@@ -168,10 +168,10 @@ istio-pilot-6954dcd96d-phh5z     2/2       Running   0          2m
 Then redeploy the HTTPS service and sleep service
 
 ```command
-$ kubectl delete -f <(bin/istioctl kube-inject --debug -f @samples/sleep/sleep.yaml@)
-$ kubectl apply -f <(bin/istioctl kube-inject --debug -f @samples/sleep/sleep.yaml@)
-$ kubectl delete -f <(bin/istioctl kube-inject --debug -f @samples/https/nginx-app.yaml@)
-$ kubectl apply -f <(bin/istioctl kube-inject --debug -f @samples/https/nginx-app.yaml@)
+$ kubectl delete -f <(bin/istioctl kube-inject -f @samples/sleep/sleep.yaml@)
+$ kubectl apply -f <(bin/istioctl kube-inject -f @samples/sleep/sleep.yaml@)
+$ kubectl delete -f <(bin/istioctl kube-inject -f @samples/https/nginx-app.yaml@)
+$ kubectl apply -f <(bin/istioctl kube-inject -f @samples/https/nginx-app.yaml@)
 ```
 
 Make sure the pod is up and running
