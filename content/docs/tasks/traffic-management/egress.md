@@ -176,7 +176,7 @@ The values used for internal IP range(s), however, depends on where your cluster
 For example, with Minikube the range is 10.0.0.1&#47;24, so you would update your `ConfigMap` _istio-sidecar-injector_ like this:
 
 ```plain
-$ helm template install/kubernetes/helm/istio <the flags you used to install Istio> --set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml | kubectl apply -f -
+$ helm template @install/kubernetes/helm/istio@ <the flags you used to install Istio> --set global.proxy.includeIPRanges="10.0.0.1/24" -x @templates/sidecar-injector-configmap.yaml@ | kubectl apply -f -
 ```
 
 Note that you should use the same Helm command you used [to install Istio](/docs/setup/kubernetes/helm-install),
@@ -274,7 +274,7 @@ cloud provider specific knowledge and configuration.
 1.  Update the `ConfigMap` _istio-sidecar-injector_ to redirect all outbound traffic to the sidecar proxies:
 
     ```plain
-    $ helm template install/kubernetes/helm/istio <the flags you used to install Istio> -x @templates/sidecar-injector-configmap.yaml@ | kubectl apply -f -
+    $ helm template @install/kubernetes/helm/istio@ <the flags you used to install Istio> -x @templates/sidecar-injector-configmap.yaml@ | kubectl apply -f -
     ```
 ## What's next
 
