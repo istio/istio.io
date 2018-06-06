@@ -1,6 +1,6 @@
 ---
 title: Istio Metrics
-overview: Metrics exported from Istio through Mixer.
+description: Metrics exported from Istio through Mixer.
 weight: 50
 ---
 
