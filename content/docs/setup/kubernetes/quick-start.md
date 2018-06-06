@@ -102,14 +102,23 @@ Configure `kubectl` CLI based on steps [here](https://www.ibm.com/support/knowle
 ### OpenShift Origin
 
 OpenShift by default does not allow containers running with UID 0. Enable containers running
-with UID 0 for Istio's service accounts for ingress as well the Prometheus and Grafana addons:
+with UID 0 for Istio's service accounts:
 
 ```command
 $ oc adm policy add-scc-to-user anyuid -z istio-ingress-service-account -n istio-system
 $ oc adm policy add-scc-to-user anyuid -z default -n istio-system
-$ oc adm policy add-scc-to-user anyuid -z grafana -n istio-system
 $ oc adm policy add-scc-to-user anyuid -z prometheus -n istio-system
+$ oc adm policy add-scc-to-user anyuid -z istio-egressgateway-service-account -n istio-system
+$ oc adm policy add-scc-to-user anyuid -z istio-citadel-service-account -n istio-system
+$ oc adm policy add-scc-to-user anyuid -z istio-ingressgateway-service-account -n istio-system
+$ oc adm policy add-scc-to-user anyuid -z istio-cleanup-old-ca-service-account -n istio-system
+$ oc adm policy add-scc-to-user anyuid -z istio-mixer-post-install-account -n istio-system
+$ oc adm policy add-scc-to-user anyuid -z istio-mixer-service-account -n istio-system
+$ oc adm policy add-scc-to-user anyuid -z istio-pilot-service-account -n istio-system
+$ oc adm policy add-scc-to-user anyuid -z istio-sidecar-injector-service-account -n istio-system
 ```
+
+The list above covers the default Istio service accounts. If you enabled other Istio services (e.g. _Grafana_) you will need to cover its service account in a similar command.
 
 Service account that runs application pods need privileged security context constraints as part of sidecar injection.
 
