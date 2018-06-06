@@ -8,7 +8,7 @@ title: Istio
         "url": "https://istio.io",
         "logo": "https://istio.io/img/logo.png",
         "sameAs": [
-            "https://twitter.com/IstioMesh"
+            "https://twitter.com/IstioMesh",
             "https://istio.rocket.chat/"
         ]
     }

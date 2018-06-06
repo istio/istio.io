@@ -95,6 +95,7 @@ following table:
 | `global.hub` | Specifies the HUB for most images used by Istio | registry/namespace | `docker.io/istionightly` |
 | `global.tag` | Specifies the TAG for most images used by Istio | valid image tag | `circleci-nightly` |
 | `global.proxy.image` | Specifies the proxy image name | valid proxy name | `proxyv2` |
+| `global.proxy.includeIPRanges` | Specifies the IP ranges for which outbound traffic is redirected to Envoy | List of IP ranges in CIDR notation separated by the escaped comma `\,` . Use `*` to redirect all outbound traffic to Envoy | `*` |
 | `global.imagePullPolicy` | Specifies the image pull policy | valid image pull policy | `IfNotPresent` |
 | `global.controlPlaneSecurityEnabled` | Specifies whether control plane mTLS is enabled | true/false | `false` |
 | `global.mtls.enabled` | Specifies whether mTLS is enabled by default between services | true/false | `false` |
@@ -126,4 +127,9 @@ See the sample [Bookinfo](/docs/guides/bookinfo/) application.
 
     ```command
     $ helm delete --purge istio
+    ```
+If your helm version is less than 2.9.0, then you need to manually cleanup extra job resource before redeploy new version of Istio chart:
+
+    ```command
+    $ kubectl -n istio-system delete job --all
     ```
