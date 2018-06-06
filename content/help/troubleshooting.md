@@ -10,7 +10,7 @@ force_inline_toc: true
 
 Oh no! You're having trouble? Below is a list of solutions to common problems.
 
-## Route rules have no affect on my application
+## Route rules have no effect on my application
 
 If route rules are working perfectly for the [Bookinfo](/docs/guides/bookinfo/) sample,
 but similar version routing rules have no effect on your own application, it may be that
