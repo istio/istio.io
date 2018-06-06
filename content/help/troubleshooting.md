@@ -10,6 +10,17 @@ force_inline_toc: true
 
 Oh no! You're having trouble? Below is a list of solutions to common problems.
 
+## Route rules have no effect on my application
+
+If route rules are working perfectly for the [Bookinfo](/docs/guides/bookinfo/) sample,
+but similar version routing rules have no effect on your own application, it may be that
+your Kubernetes services need to be changed slightly.
+
+Kubernetes services must adhere to certain restrictions in order to take advantage of
+Istio's L7 routing features.
+Refer to the [sidecar injection documentation](/docs/setup/kubernetes/sidecar-injection/#pod-spec-requirements)
+for details.
+
 ## Verifying connectivity to Istio Pilot
 
 Verifying connectivity to Pilot is a useful troubleshooting step. Every proxy container in the service mesh should be able to communicate with Pilot. This can be accomplished in a few simple steps:
