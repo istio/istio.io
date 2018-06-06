@@ -20,7 +20,7 @@ This task shows you how to setup request timeouts in Envoy using Istio.
 *   Initialize the application version routing by running the following command:
 
     ```command
-    $ istioctl create -f samples/bookinfo/routing/route-rule-all-v1.yaml
+    $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
     ```
 
 ## Request timeouts
@@ -133,7 +133,7 @@ the timeout is specified in millisecond (instead of second) units.
 *   Remove the application routing rules.
 
     ```command
-    $ istioctl delete -f samples/bookinfo/routing/route-rule-all-v1.yaml
+    $ istioctl delete -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the

@@ -21,16 +21,16 @@ First, generate the desired Istio control plane yaml file, e.g.
 
 ```command
 $ helm template --namespace istio-system --set global.proxy.image=proxy \
-  --values install/kubernetes/helm/istio/values-istio.yaml \
-  install/kubernetes/helm/istio >> install/kubernetes/istio.yaml
+  --values @install/kubernetes/helm/istio/values-istio.yaml@ \
+  @install/kubernetes/helm/istio@ >> install/kubernetes/istio.yaml
 ```
 
 or
 
 ```command
 $ helm template --namespace istio-system --set global.proxy.image=proxy \
-  --values install/kubernetes/helm/istio/values-istio-auth.yaml \
-  install/kubernetes/helm/istio >> install/kubernetes/istio-auth.yaml
+  --values @install/kubernetes/helm/istio/values-istio-auth.yaml@ \
+  @install/kubernetes/helm/istio@ >> install/kubernetes/istio-auth.yaml
 ```
 
 If using Kubernetes versions prior to 1.9, you should add `--set sidecarInjectorWebhook.enabled=false`.
@@ -38,13 +38,13 @@ If using Kubernetes versions prior to 1.9, you should add `--set sidecarInjector
 Second, simply apply the new version of the desired Istio control plane yaml file directly, e.g.
 
 ```command
-$ kubectl apply -f install/kubernetes/istio.yaml
+$ kubectl apply -f @install/kubernetes/istio.yaml@
 ```
 
 or
 
 ```command
-$ kubectl apply -f install/kubernetes/istio-auth.yaml
+$ kubectl apply -f @install/kubernetes/istio-auth.yaml@
 ```
 
 The rolling update process will upgrade all deployments and configmaps to the new version. After this process finishes,

@@ -32,7 +32,7 @@ you'll need to use `replace` rather than `create` in the following command.
 1.  Set the default version for all microservices to v1.
 
     ```command
-    $ istioctl create -f samples/bookinfo/routing/route-rule-all-v1.yaml
+    $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
     ```
 
     > In a Kubernetes deployment of Istio, you can replace `istioctl`
@@ -122,7 +122,7 @@ you'll need to use `replace` rather than `create` in the following command.
     `reviews:v2` instances.
 
     ```command
-    $ istioctl replace -f samples/bookinfo/routing/route-rule-reviews-test-v2.yaml
+    $ istioctl replace -f @samples/bookinfo/routing/route-rule-reviews-test-v2.yaml@
     ```
 
     Confirm the rule is created:
@@ -171,7 +171,7 @@ all users to v2, optionally in a gradual fashion. We'll explore this in a separa
 *   Remove the application routing rules.
 
     ```command
-    $ istioctl delete -f samples/bookinfo/routing/route-rule-all-v1.yaml
+    $ istioctl delete -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the

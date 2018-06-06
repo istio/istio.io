@@ -22,8 +22,8 @@ This task shows how to inject delays and test the resiliency of your application
     commands:
 
     ```command
-    $ istioctl create -f samples/bookinfo/routing/route-rule-all-v1.yaml
-    $ istioctl replace -f samples/bookinfo/routing/route-rule-reviews-test-v2.yaml
+    $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
+    $ istioctl replace -f @samples/bookinfo/routing/route-rule-reviews-test-v2.yaml@
     ```
 
 # Fault injection
@@ -38,7 +38,7 @@ continue without any errors.
 1.  Create a fault injection rule to delay traffic coming from user "jason" (our test user)
 
     ```command
-    $ istioctl replace -f samples/bookinfo/routing/route-rule-ratings-test-delay.yaml
+    $ istioctl replace -f @samples/bookinfo/routing/route-rule-ratings-test-delay.yaml@
     ```
 
     Confirm the rule is created:
@@ -118,7 +118,7 @@ message.
 1.  Create a fault injection rule to send an HTTP abort for user "jason"
 
     ```command
-    $ istioctl replace -f samples/bookinfo/routing/route-rule-ratings-test-abort.yaml
+    $ istioctl replace -f @samples/bookinfo/routing/route-rule-ratings-test-abort.yaml@
     ```
 
     Confirm the rule is created
@@ -163,7 +163,7 @@ message.
 *   Remove the application routing rules:
 
     ```command
-    $ istioctl delete -f samples/bookinfo/routing/route-rule-all-v1.yaml
+    $ istioctl delete -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
