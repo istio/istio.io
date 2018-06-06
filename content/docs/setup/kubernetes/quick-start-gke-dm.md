@@ -6,7 +6,7 @@ weight: 11
 
 Quick Start instructions to install and run Istio in [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) (GKE) using [Google Cloud Deployment Manager](https://cloud.google.com/deployment-manager/).
 
-This Quick Start creates a new GKE [zonal cluster](https://cloud.google.com/kubernetes-engine/versioning-and-upgrades#versions_available_for_new_cluster_masters), installs Istio and then deploys the [Bookinfo](/docs/guides/bookinfo/) sample
+This Quick Start creates a new GKE [zonal cluster](https://cloud.google.com/kubernetes-engine/versioning-and-upgrades#versions_available_for_new_cluster_masters), installs the current release version of Istio and then deploys the [Bookinfo](/docs/guides/bookinfo/) sample
 application.  It uses Deployment Manager to automate the steps detailed in the [Istio on Kubernetes setup guide](/docs/setup/kubernetes/quick-start/) for Kubernetes Engine
 
 ## Prerequisites
@@ -88,7 +88,7 @@ running and Istio is enabled
 Verify Istio is installed in its own namespace
 
 ```command
-$  kubectl get deployments,ing -n istio-system
+$ kubectl get deployments,ing -n istio-system
 NAME                              DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 deploy/grafana                    1         1         1            1           4m
 deploy/istio-citadel              1         1         1            1           4m
