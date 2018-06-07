@@ -47,7 +47,6 @@ Below is our list of existing features and their current phases. This informatio
 | [Ingress TLS](/docs/tasks/traffic-management/ingress/) | Alpha
 | Egress Policy and Telemetry | Alpha
 
-
 ### Observability
 
 | Feature           | Phase
@@ -76,7 +75,6 @@ Below is our list of existing features and their current phases. This informatio
 | [VM: Service Credential Distribution](/docs/concepts/security/mutual-tls/)         | Beta
 | [OPA Checker](https://github.com/istio/istio/blob/{{<branch_name>}}/mixer/adapter/opa/README.md)    | Alpha
 | [RBAC Mixer Adapter](/docs/concepts/security/rbac/)   | Alpha
-
 
 ### Core
 
