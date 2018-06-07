@@ -39,8 +39,7 @@ in Istio.
 Common setup for all sinks:
 
 1. Enable StackDriver Monitoring API for the project.
-1. Make sure `principalEmail` that would be setting up the sink has write access.
-to the project and Logging Admin role permissions.
+1. Make sure `principalEmail` that would be setting up the sink has write access to the project and Logging Admin role permissions.
 
 #### BigQuery
 
