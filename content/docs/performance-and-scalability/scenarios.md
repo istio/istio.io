@@ -4,7 +4,7 @@ description: The different scenarios we are tracking for performance and scalabi
 weight: 25
 ---
 
-{{< image width="75%" ratio="61.44%"
+{{< image width="100%" ratio="75%"
     link="https://raw.githubusercontent.com/istio/istio/master/tools/perf_setup.svg?sanitize=true"
     alt="Performance scenarios diagram"
     caption="Performance scenarios diagram"
