@@ -14,7 +14,14 @@ This task demonstrates the circuit-breaking capability for resilient application
   [Installation guide](/docs/setup/).
 
 *   Start the [httpbin](https://github.com/istio/istio/tree/{{<branch_name>}}/samples/httpbin) sample
-    which will be used as the backend service for our task
+    which will be used as the backend service for our task.
+
+    If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), do
+
+    ```command
+    $ kubectl apply -f @samples/httpbin/httpbin.yaml@
+    ```
+    otherwise, you have to manually inject the sidecar before deploying the `httpbin` application:
 
     ```command
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@)
