@@ -33,14 +33,15 @@ Below is our list of existing features and their current phases. This informatio
 | [Protocols: HTTP 1.1](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/http_connection_management.html#http-protocols)  | Beta
 | [Protocols: HTTP 2.0](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/http_connection_management.html#http-protocols)  | Alpha
 | [Protocols: gRPC](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/grpc)   | Alpha
-| [Protocols: TCP](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/tcp_proxy)    | Alpha
-| [Protocols: WebSocket](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/websocket)      | Alpha
 | [Protocols: MongoDB](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/mongo)      | Alpha
-| [Routing Rules: Retry](/docs/tasks/traffic-management/request-routing/)      | Alpha
-| [Routing Rules: Timeout](/docs/tasks/traffic-management/request-routing/)      | Alpha
-| [Routing Rules: Circuit Break](/docs/tasks/traffic-management/request-routing/)      | Alpha
-| [Routing Rules: Header Rewrite](/docs/tasks/traffic-management/request-routing/)      | Alpha
-| [Routing Rules: Traffic Splitting](/docs/tasks/traffic-management/request-routing/)      | Alpha
+| [Request Routing](/docs/tasks/traffic-management/request-routing/)      | Alpha
+| [Fault Injection](/docs/tasks/traffic-management/fault-injection/)      | Alpha
+| [Traffic Shifting](/docs/tasks/traffic-management/traffic-shifting/)      | Alpha
+| [Circuit Break](/docs/tasks/traffic-management/circuit-breaking/)      | Alpha
+| [Mirroring](/docs/tasks/traffic-management/mirroring/)      | Alpha
+| [Ingress Traffic](/docs/tasks/traffic-management/ingress/)      | Alpha
+| [Egress Traffic](/docs/tasks/traffic-management/egress/)      | Alpha
+| [Egress TCP Traffic](/docs/tasks/traffic-management/egress-tcp/)      | Alpha
 | [Improved Routing Rules: Composite Service](/docs/reference/config/istio.networking.v1alpha3/) | Alpha
 | [Quota / Redis Rate Limiting (Adapter and Server)](/docs/tasks/policy-enforcement/rate-limiting/) | Alpha
 | [Memquota Implementation and Integration](/docs/tasks/telemetry/metrics-logs/) | Stable
@@ -51,7 +52,7 @@ Below is our list of existing features and their current phases. This informatio
 
 | Feature           | Phase
 |-------------------|-------------------
-| [Prometheus Integration](/docs/guides/telemetry/) | Beta
+| [Prometheus Integration](/docs/tasks/telemetry/querying-metrics/) | Beta
 | [Local Logging (STDIO)](/docs/guides/telemetry/) | Stable
 | [Statsd Integration](/docs/reference/config/policy-and-telemetry/adapters/statsd/) | Stable
 | [Service Dashboard in Grafana](/docs/tasks/telemetry/using-istio-dashboard/) | Beta
@@ -60,6 +61,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Distributed Tracing to Zipkin / Jaeger](/docs/tasks/telemetry/distributed-tracing/) | Alpha
 | [Istio Component Dashboard in Grafana](/docs/tasks/telemetry/using-istio-dashboard/) | Beta
 | [Service Tracing](/docs/tasks/telemetry/distributed-tracing/) | Alpha
+| [Logging with Fluentd](/docs/tasks/telemetry/fluentd/) | Alpha
 
 ### Security
 
@@ -71,10 +73,9 @@ Below is our list of existing features and their current phases. This informatio
 | [Pluggable Key/Cert Support for Istio CA](/docs/tasks/security/plugin-ca-cert/)        | Stable
 | [Service-to-service mutual TLS](/docs/concepts/security/mutual-tls/)         | Stable
 | [Authentication policy](/docs/concepts/security/authn-policy/)  | Alpha
-| [VM: Service Credential Distribution](/docs/concepts/security/mutual-tls/)         | Alpha
+| [VM: Service Credential Distribution](/docs/concepts/security/mutual-tls/)         | Beta
 | [OPA Checker](https://github.com/istio/istio/blob/{{<branch_name>}}/mixer/adapter/opa/README.md)    | Alpha
-| RBAC Mixer Adapter     | Alpha
-| [API Keys](/docs/reference/config/policy-and-telemetry/templates/apikey/) | Alpha
+| [RBAC Mixer Adapter](/docs/concepts/security/rbac/)   | Alpha
 
 ### Core
 
@@ -82,13 +83,13 @@ Below is our list of existing features and their current phases. This informatio
 |-------------------|-------------------
 | [Kubernetes: Envoy Installation and Traffic Interception](/docs/setup/kubernetes/)        | Beta
 | [Kubernetes: Istio Control Plane Installation](/docs/setup/kubernetes/) | Beta
+| [Kubernetes: Istio Control Plane Upgrade](/docs/setup/kubernetes/) | Beta
 | [Pilot Integration into Kubernetes Service Discovery](/docs/setup/kubernetes/)         | Stable
 | [Attribute Expression Language](/docs/reference/config/policy-and-telemetry/expression-language/)        | Stable
 | [Mixer Adapter Authoring Model](/blog/2017/adapter-model/)        | Stable
 | [VM: Envoy Installation, Traffic Interception and Service Registration](/docs/guides/integrating-vms/)    | Alpha
 | [VM: Istio Control Plane Installation and Upgrade (Galley, Mixer, Pilot, CA)](https://github.com/istio/istio/issues/2083)  | Alpha
 | VM: Ansible Envoy Installation, Interception and Registration  | Alpha
-| [Kubernetes: Istio Control Plane Upgrade](/docs/setup/kubernetes/) | Beta
 | [Pilot Integration into Consul](/docs/setup/consul/quick-start/) | Alpha
 | [Pilot Integration into Eureka](/docs/setup/consul/quick-start/) | Alpha
 | [Pilot Integration into Cloud Foundry Service Discovery](/docs/setup/consul/quick-start/)    | Alpha
