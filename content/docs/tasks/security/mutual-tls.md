@@ -17,7 +17,7 @@ This task assumes you have a Kubernetes cluster:
 * Installed Istio with global mutual TLS enabled:
 
     ```command
-    $ kubectl apply -f @install/kubernetes/istio-auth.yaml@
+    $ kubectl apply -f @install/kubernetes/istio-demo-auth.yaml@
     ```
     _**OR**_
     Using [Helm](/docs/setup/kubernetes/helm-install/) with `global.mtls.enabled` to `true`.
@@ -128,7 +128,7 @@ Assuming mutual TLS authentication is properly turned on, it should not affect c
 1. However, request will success if client certificate is provided
 
     ```command
-    $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl https://httpbin:8000/headers -o /dev/null -s -w '%{http_code}\n' --key /etc/certs/key.pem --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem -k'
+    $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl https://httpbin:8000/headers -o /dev/null -s -w '%{http_code}\n' --key /etc/certs/key.pem --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem -k
     200
     ```
 
@@ -148,6 +148,14 @@ Assuming mutual TLS authentication is properly turned on, it should not affect c
     000
     command terminated with exit code 56
     ```
+
+## Cleanup
+
+```command
+$ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
+$ kubectl delete --ignore-not-found=true -f @samples/sleep/sleep.yaml@
+$ kubectl delete --ignore-not-found=true ns legacy
+```
 
 ## What's next
 
