@@ -35,6 +35,12 @@ you'll need to use `replace` rather than `create` in the following command.
     $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
     ```
 
+    If you enabled `mTLS`, please run the following instead
+
+    ```command
+    $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1-mtls.yaml@
+    ```
+
     > In a Kubernetes deployment of Istio, you can replace `istioctl`
     > with `kubectl` in the above, and for all other CLI commands.
     > Note, however, that `kubectl` currently does not provide input validation.
@@ -172,6 +178,12 @@ all users to v2, optionally in a gradual fashion. We'll explore this in a separa
 
     ```command
     $ istioctl delete -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
+    ```
+
+    If you enabled `mTLS`, please run the following instead
+
+    ```command
+    $ istioctl delete -f @samples/bookinfo/routing/route-rule-all-v1-mtls.yaml@
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
