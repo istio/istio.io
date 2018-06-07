@@ -80,8 +80,8 @@ And verify the policy was added:
 
 ```command
 $ kubectl get policies.authentication.istio.io -n foo
-NAME          AGE
-enable-mtls   1m
+NAME        AGE
+example-1   1m
 ```
 
 Add this destination rule to configure client side to use mutual TLS:
@@ -328,6 +328,14 @@ $ curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/headers -s -o /dev/
 ```
 
 You may want to try to modify token or policy (e.g change issuer, audiences, expiry date etc) to observe other aspects of JWT validation.
+
+## Cleanup
+
+Remove all resources.
+
+```command
+$ kubectl delete ns foo bar legacy
+```
 
 ## What's next
 
