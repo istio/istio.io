@@ -170,7 +170,7 @@ kube-public    Active    1h
 kube-system    Active    1h
 ```
 
-Injection occurs at pod creation time. Kill the running pod and verify a new pod is created with the injected sidecar. The original pod has 1/1 READY containers and the pod with injected sidecar has 2/2 READY containers.
+Injection occurs at pod creation time. Kill the running pod and verify a new pod is created with the injected sidecar. The original pod has 1&#47;1 READY containers and the pod with injected sidecar has 2&#47;2 READY containers.
 
 ```command
 $ kubectl delete pod sleep-776b7bcdcd-7hpnk
