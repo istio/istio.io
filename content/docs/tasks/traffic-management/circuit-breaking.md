@@ -37,7 +37,7 @@ Let's set up a scenario to demonstrate the circuit-breaking capabilities of Isti
       trafficPolicy:
         connectionPool:
           tcp:
-            maxConnections: 100
+            maxConnections: 1
           http:
             http1MaxPendingRequests: 1
             maxRequestsPerConnection: 1
