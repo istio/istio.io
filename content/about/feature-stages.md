@@ -32,17 +32,15 @@ Below is our list of existing features and their current phases. This informatio
 | [Protocols: HTTP 1.1](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/http_connection_management.html#http-protocols)  | Beta
 | [Protocols: HTTP 2.0](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/http_connection_management.html#http-protocols)  | Alpha
 | [Protocols: gRPC](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/grpc)   | Alpha
-| [Protocols: TCP](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/tcp_proxy)    | Alpha
-| [Protocols: WebSocket](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/websocket)      | Alpha
 | [Protocols: MongoDB](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/mongo)      | Alpha
-| [Request Routing](https://istio.io/docs/tasks/traffic-management/request-routing/)      | Alpha
-| [Fault Injection](https://istio.io/docs/tasks/traffic-management/fault-injection/)      | Alpha
-| [Traffic Shifting](https://istio.io/docs/tasks/traffic-management/traffic-shifting/)      | Alpha
-| [Circuit Break](https://istio.io/docs/tasks/traffic-management/circuit-breaking/)      | Alpha
-| [Mirroring](https://istio.io/docs/tasks/traffic-management/mirroring/)      | Alpha
-| [Ingress Traffic](https://istio.io/docs/tasks/traffic-management/ingress/)      | Alpha
-| [Egress Traffic](https://istio.io/docs/tasks/traffic-management/egress/)      | Alpha
-| [Egress TCP Traffic](https://istio.io/docs/tasks/traffic-management/egress-tcp/)      | Alpha
+| [Request Routing](/docs/tasks/traffic-management/request-routing/)      | Alpha
+| [Fault Injection](/docs/tasks/traffic-management/fault-injection/)      | Alpha
+| [Traffic Shifting](/docs/tasks/traffic-management/traffic-shifting/)      | Alpha
+| [Circuit Break](/docs/tasks/traffic-management/circuit-breaking/)      | Alpha
+| [Mirroring](/docs/tasks/traffic-management/mirroring/)      | Alpha
+| [Ingress Traffic](/docs/tasks/traffic-management/ingress/)      | Alpha
+| [Egress Traffic](/docs/tasks/traffic-management/egress/)      | Alpha
+| [Egress TCP Traffic](/docs/tasks/traffic-management/egress-tcp/)      | Alpha
 | [Improved Routing Rules: Composite Service](/docs/reference/config/istio.networking.v1alpha3/) | Alpha
 | [Quota / Redis Rate Limiting (Adapter and Server)](/docs/tasks/policy-enforcement/rate-limiting/) | Alpha
 | [Memquota Implementation and Integration](/docs/tasks/telemetry/metrics-logs/) | Stable
@@ -54,7 +52,7 @@ Below is our list of existing features and their current phases. This informatio
 
 | Feature           | Phase
 |-------------------|-------------------
-| [Prometheus Integration](https://istio.io/docs/tasks/telemetry/querying-metrics/) | Beta
+| [Prometheus Integration](/docs/tasks/telemetry/querying-metrics/) | Beta
 | [Local Logging (STDIO)](/docs/guides/telemetry/) | Stable
 | [Statsd Integration](/docs/reference/config/policy-and-telemetry/adapters/statsd/) | Stable
 | [Service Dashboard in Grafana](/docs/tasks/telemetry/using-istio-dashboard/) | Beta
@@ -63,7 +61,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Distributed Tracing to Zipkin / Jaeger](/docs/tasks/telemetry/distributed-tracing/) | Alpha
 | [Istio Component Dashboard in Grafana](/docs/tasks/telemetry/using-istio-dashboard/) | Beta
 | [Service Tracing](/docs/tasks/telemetry/distributed-tracing/) | Alpha
-| [Logging with Fluentd](https://istio.io/docs/tasks/telemetry/fluentd/) | Alpha
+| [Logging with Fluentd](/docs/tasks/telemetry/fluentd/) | Alpha
 
 ### Security
 
@@ -77,7 +75,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Authentication policy](/docs/concepts/security/authn-policy/)  | Alpha
 | [VM: Service Credential Distribution](/docs/concepts/security/mutual-tls/)         | Beta
 | [OPA Checker](https://github.com/istio/istio/blob/{{<branch_name>}}/mixer/adapter/opa/README.md)    | Alpha
-| [RBAC Mixer Adapter](https://istio.io/docs/concepts/security/rbac/)   | Alpha
+| [RBAC Mixer Adapter](/docs/concepts/security/rbac/)   | Alpha
 
 
 ### Core
@@ -85,7 +83,7 @@ Below is our list of existing features and their current phases. This informatio
 | Feature           | Phase
 |-------------------|-------------------
 | [Kubernetes: Envoy Installation and Traffic Interception](/docs/setup/kubernetes/)        | Beta
-| [Kubernetes: Istio Control Plane Installation](/docs/setup/kubernetes/) | Alpha
+| [Kubernetes: Istio Control Plane Installation](/docs/setup/kubernetes/) | Beta
 | [Kubernetes: Istio Control Plane Upgrade](/docs/setup/kubernetes/) | Beta
 | [Pilot Integration into Kubernetes Service Discovery](/docs/setup/kubernetes/)         | Stable
 | [Attribute Expression Language](/docs/reference/config/policy-and-telemetry/expression-language/)        | Stable
@@ -102,7 +100,6 @@ Below is our list of existing features and their current phases. This informatio
 | Enable API attributes using an IDL | Alpha
 | [Helm](/docs/setup/kubernetes/helm-install/) | Beta
 | [Multicluster Mesh](/docs/setup/kubernetes/multicluster-install/) | Alpha
-| Custom Envoy Filters | Alpha
 
 > {{< idea_icon >}}
 Please get in touch by joining our [community](/community/) if there are features you'd like to see in our future releases!
