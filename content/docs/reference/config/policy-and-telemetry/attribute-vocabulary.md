@@ -25,8 +25,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | source.domain | string | The domain suffix part of the source service, excluding the name and the namespace. | svc.cluster.local |
 | source.uid | string | Platform-specific unique identifier for the client instance of the source service. | kubernetes://redis-master-2353460263-1ecey.my-namespace |
 | source.labels | map[string, string] | A map of key-value pairs attached to the client instance. | version => v1 |
-| source.user | string | To be deprecated, please refer to the attribute `source.principal`. | service-account-foo |
-| source.principal | string | The identity of the immediate sender of the request, authenticated by mTLS. | service-account-foo |
+| source.user | string | The identity of the immediate sender of the request, authenticated by mTLS. | service-account-foo |
 | destination.ip | ip_address | Server IP address. | 10.0.0.104 |
 | destination.port | int64 | The recipient port on the server IP address. | 8080 |
 | destination.service | string | The fully qualified name of the service that the server belongs to. | my-svc.my-namespace.svc.cluster.local |
