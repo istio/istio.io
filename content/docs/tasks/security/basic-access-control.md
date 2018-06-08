@@ -22,7 +22,7 @@ This task shows how to control access to a service using the Kubernetes labels.
     $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
     ```
 
-    Save the following YAML snippet as `route-rule-reviews-jason-v2-v3.yaml.yaml`:
+    Save the following YAML snippet as `route-rule-reviews-jason-v2-v3.yaml`:
 
     ```yaml
     apiVersion: networking.istio.io/v1alpha3
@@ -50,7 +50,7 @@ This task shows how to control access to a service using the Kubernetes labels.
     and then run the following command:
 
     ```command
-    $ istioctl replace -f route-rule-reviews-jason-v2-v3.yaml.yaml
+    $ istioctl replace -f route-rule-reviews-jason-v2-v3.yaml
     ```
 
     > If you have conflicting rules that you set in previous tasks,
