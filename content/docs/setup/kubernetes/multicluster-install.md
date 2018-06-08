@@ -43,35 +43,71 @@ Istio control plane, Envoy can then communicate with the **single**
 Istio control plane and form a mesh network across multiple Kubernetes
 clusters.
 
-## Deploy all Kubernetes clusters to be used in the mesh
+## Create service account in remote clusters
 
-After deployment of remote clusters, each one will have a
-credentials file associated with the admin context typically
-located in `$HOME/.kube/config`.
+The Istio control plane requires access to all clusters in the mesh to
+discover services, endpoints, and pod attributes.  The following
+describes how to create a Kubernetes service account with the minimal
+RBAC access required.  The procedure then generates a `kubeconfig` file
+for the cluster using the credentials of the service account.
 
-## Gather credential files from remote
+Perform these steps for each remote cluster in the mesh:
 
-> `${CLUSTER_NAME}` here is defined as the name of the remote
-cluster used and must be unique across the mesh.  Some Kubernetes
-installers do not set this value uniquely.  In this case, manual
-modification of the `${CLUSTER_NAME}` fields must be done.
+1. Create `ClusterRole`, `istio-reader`, for the Istio control plane access:
 
-For each remote cluster, execute the following steps:
+     ```command
+      cat <<EOF | kubectl  create -f -
+      kind: ClusterRole
+      apiVersion: rbac.authorization.k8s.io/v1
+      metadata:
+        name: istio-reader
+      rules:
+         - apiGroups: ['']
+           resources: ['nodes', 'pods', 'services', 'endpoints']
+           verbs: ['get', 'watch', 'list']
+    EOF
+    ```
 
-1. Determine a name for the remote cluster that is unique across
-all clusters in the mesh.  Substitute the chosen name for the
-remaining steps in `${CLUSTER_NAME}`.
+1.  Create `ServiceAccount`, `istio-multi`, for the Istio control plane:
 
-1. Copy the credentials file form the remote Kubernetes cluster
-to the local Istio control plane cluster directory
-`$HOME/multicluster/${CLUSTER_NAME}`.  The `${CLUSTER_NAME}` must
-be unique per remote.
+    ```command
+    $ export SERVICE_ACCOUNT=istio-multi
+    $ kubectl create sa ${SERVICE_ACCOUNT}
+    ```
 
-1. Modify the name of the remote cluster's credential file field
-`clusters.cluster.name` to match `${CLUSTER_NAME}`.
+1.  Bind `ServiceAccount`, `istio-multi`, to `ClusterRole` `istio-reader`:
 
-1. Modify the name of the remote cluster's credential file field
-`contexts.context.cluster` to match `${CLUSTER_NAME}`.
+    ```command
+    $ kubectl create clusterrolebinding istio-multi --clusterrole=istio-reader --serviceaccount=default:${SERVICE_ACCOUNT}
+    ```
+
+1.  Create a `kubeconfig` file in the current directory for the `ServiceAccount` `istio-multi`:
+
+    ```command
+    $ export WORK_DIR=$(pwd)
+    $ CLUSTER_NAME=$(kubectl config view --minify=true -o "jsonpath={.clusters[].name}")
+    $ export KUBECFG_FILE=${WORK_DIR}/${CLUSTER_NAME}
+    $ SERVER=$(kubectl config view --minify=true -o "jsonpath={.clusters[].cluster.server}")
+    $ SECRET_NAME=$(kubectl get sa ${SERVICE_ACCOUNT} -o jsonpath='{.secrets[].name}')
+    $ kubectl get secret ${SECRET_NAME} -o "jsonpath={.data['ca\.crt']}" | base64 --decode > ${WORK_DIR}/${CLUSTER_NAME}_ca.crt
+    $ kubectl config set-cluster "${CLUSTER_NAME}" \
+      --kubeconfig=${KUBECFG_FILE} \
+      --server="${SERVER}" \
+      --certificate-authority="${WORK_DIR}/${CLUSTER_NAME}_ca.crt" \
+      --embed-certs=true
+    $ USER_TOKEN=$(kubectl get secret ${SECRET_NAME} -o "jsonpath={.data['token']}" | base64 --decode)
+    $ kubectl config set-credentials ${CLUSTER_NAME} \
+      --kubeconfig=${KUBECFG_FILE} \
+      --token=${USER_TOKEN}
+    $ kubectl config set-context ${CLUSTER_NAME} \
+      --kubeconfig=${KUBECFG_FILE} \
+      --cluster=${CLUSTER_NAME} \
+      --user=${CLUSTER_NAME}
+    $ kubectl config use-context ${CLUSTER_NAME} --kubeconfig=${KUBECFG_FILE}
+    ```
+
+At this point, the remote clusters' `kubeconfig` files have been created in the current dir.
+The filename for a cluster is the same as the original `kubeconfig` cluster name.
 
 ## Instantiate the credentials for each remote cluster
 
