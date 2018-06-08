@@ -91,17 +91,13 @@ Verify Istio is installed in its own namespace
 $ kubectl get deployments,ing -n istio-system
 NAME                              DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 deploy/grafana                    1         1         1            1           4m
-deploy/istio-citadel              1         1         1            1           4m
-deploy/istio-egressgateway        1         1         1            1           4m
-deploy/istio-ingress              1         1         1            1           4m
-deploy/istio-ingressgateway       1         1         1            1           4m
+deploy/istio-ca                   1         1         1            1           4m
+deploy/istio-mixer                1         1         1            1           4m
 deploy/istio-pilot                1         1         1            1           4m
-deploy/istio-policy               1         1         1            1           4m
 deploy/istio-sidecar-injector     1         1         1            1           4m
-deploy/istio-statsd-prom-bridge   1         1         1            1           4m
-deploy/istio-telemetry            1         1         1            1           4m
 deploy/prometheus                 1         1         1            1           4m
 deploy/servicegraph               1         1         1            1           4m
+deploy/zipkin                     1         1         1            1           4m
 ```
 
 Now confirm that the Bookinfo sample application is also installed:
@@ -115,14 +111,17 @@ deploy/ratings-v1       1         1         1            1           7m
 deploy/reviews-v1       1         1         1            1           7m
 deploy/reviews-v2       1         1         1            1           7m
 deploy/reviews-v3       1         1         1            1           7m
+
+NAME          HOSTS     ADDRESS        PORTS     AGE
+ing/gateway   *         35.194.26.85   80        7m
 ```
 
-Now get the ```istio-ingressgateway``` IP:
+Now get the ```istio-ingress``` IP:
 
 ```command
-$ kubectl get svc istio-ingressgateway -n istio-system
-NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)                                      AGE
-istio-ingressgateway   LoadBalancer   10.59.251.109   35.194.26.85   80:31380/TCP,443:31390/TCP,31400:31400/TCP   6m
+$ kubectl get svc -n istio-system istio-ingress
+NAME            TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)                      AGE
+istio-ingress   LoadBalancer   10.39.243.230   35.202.120.89  80:32332/TCP,443:30071/TCP   6m
 ```
 
 Note down the IP and Port assigned to Bookinfo product page. (in the example above, its ```35.202.120.89:80```.
@@ -139,7 +138,7 @@ You can also view the installation using the ***Kubernetes Engine -> Workloads**
 1.  Set up an environment variable for Bookinfo's external IP address:
 
     ```command
-    $ export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    $ export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingress -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 
     $ echo $GATEWAY_URL
     ```
@@ -230,7 +229,7 @@ For more details, see [About the ServiceGraph Add-on](/docs/tasks/telemetry/serv
 Set up a tunnel to the tracing dashboard:
 
 ```command
-$ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 16686:16686 &
+$ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=zipkin -o jsonpath='{.items[0].metadata.name}') 9411:9411 &
 ```
 
 You should see the trace statistics sent earlier on [http://localhost:16686](http://localhost:16686)
