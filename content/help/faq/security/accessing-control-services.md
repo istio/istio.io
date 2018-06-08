@@ -11,6 +11,8 @@ control services for that matter). The default value of `mtlsExcludedServices`
 already contains `kubernetes.default.svc.cluster.local`, which is the default
 service name of the Kubernetes API server.
 
+This parameter was removed in release 1.0.
+
 For a quick reference, here are commands to edit Istio configmap and to restart pilot.
 ```command
 $ kubectl edit configmap -n istio-system istio
