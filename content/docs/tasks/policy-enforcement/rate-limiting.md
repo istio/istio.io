@@ -24,7 +24,7 @@ service.
   $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
   ```
 
-  Save the following YAML snippet as `route-rule-reviews-jason-v2-v3.yaml.yaml`:
+  Save the following YAML snippet as `route-rule-reviews-jason-v2-v3.yaml`:
 
   ```yaml
   apiVersion: networking.istio.io/v1alpha3
@@ -52,7 +52,7 @@ service.
   and then run the following command:
 
   ```command
-  $ istioctl replace -f route-rule-reviews-jason-v2-v3.yaml.yaml
+  $ istioctl replace -f route-rule-reviews-jason-v2-v3.yaml
   ```
 
 > If you have a conflicting rule that you set in previous tasks,
