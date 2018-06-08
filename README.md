@@ -160,8 +160,9 @@ and subsequent entries should point to archive.istio.io.
 directory. This search engine will be used to perform version-specific searches on archive.istio.io.
 
 1. In the **previous release's** branch (in this case release-0.6), edit the file `data/args.yml`. Set the
-`archive` field to true, the `archive_date` field to the current date, and the `search_engine_id` field
-to the ID of the search engine you created in the prior step.
+`archive` field to true, the `archive_date` field to the current date, the `search_engine_id` field
+to the ID of the search engine you created in the prior step, and the `branch_name` field to the 
+name of the branch.
 
 1. Switch to the istio/admin-sites repo.
 
