@@ -46,7 +46,7 @@ service.
     - route:
       - destination:
           host: reviews
-          subset: v1
+          subset: v3
   ```
 
   and then run the following command:
