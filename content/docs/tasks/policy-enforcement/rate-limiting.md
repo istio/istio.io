@@ -20,10 +20,40 @@ service.
   requests from test user "jason" to version v2 and requests from any other
   user to v3.
 
-    ```command
-    $ istioctl create -f @samples/bookinfo/kube/route-rule-reviews-test-v2.yaml@
-    $ istioctl create -f @samples/bookinfo/kube/route-rule-reviews-v3.yaml@
-    ```
+  ```command
+  $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
+  ```
+
+  Save the following YAML snippet as `route-rule-reviews-jason-v2-v3.yaml`:
+
+  ```yaml
+  apiVersion: networking.istio.io/v1alpha3
+  kind: VirtualService
+  metadata:
+    name: reviews
+  spec:
+    hosts:
+      - reviews
+    http:
+    - match:
+      - headers:
+          cookie:
+            regex: "^(.*?;)?(user=jason)(;.*)?$"
+      route:
+      - destination:
+          host: reviews
+          subset: v2
+    - route:
+      - destination:
+          host: reviews
+          subset: v3
+  ```
+
+  and then run the following command:
+
+  ```command
+  $ istioctl replace -f route-rule-reviews-jason-v2-v3.yaml
+  ```
 
 > If you have a conflicting rule that you set in previous tasks,
 use `istioctl replace` instead of `istioctl create`.
@@ -50,7 +80,7 @@ Consider `ratings` as an external paid service like Rotten Tomatoes® with
    enable rate limiting.
 
     ```command
-    $ istioctl create -f @samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml@
+    $ istioctl create -f @samples/bookinfo/routing/mixer-rule-ratings-ratelimit.yaml@
     ```
 
 1. Confirm the `memquota` was created:
@@ -247,14 +277,13 @@ with the given namespace.
 * Remove the rate limit configuration:
 
     ```command
-    $ istioctl delete -f @samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml@
+    $ istioctl delete -f @samples/bookinfo/routing/mixer-rule-ratings-ratelimit.yaml@
     ```
 
 * Remove the application routing rules:
 
     ```command
-    $ istioctl delete -f @samples/bookinfo/kube/route-rule-reviews-test-v2.yaml@
-    $ istioctl delete -f @samples/bookinfo/kube/route-rule-reviews-v3.yaml@
+    $ istioctl delete -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
