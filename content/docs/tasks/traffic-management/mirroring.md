@@ -155,7 +155,7 @@ Let's set up a scenario to demonstrate the traffic-mirroring capabilities of Ist
 
     ```command-output-as-json
     $ export SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
-    $ kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8080/headers'
+    $ kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8080/headers' | python -m json.tool
     {
       "headers": {
         "Accept": "*/*",
@@ -212,7 +212,7 @@ Let's set up a scenario to demonstrate the traffic-mirroring capabilities of Ist
     Now if we send in traffic:
 
     ```command
-    $ kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8080/headers'
+    $ kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8080/headers' | python -m json.tool
     ```
 
     We should see access logging for both `v1` and `v2`. The access logs created in `v2` is the mirrored requests that are actually going to `v1`.
