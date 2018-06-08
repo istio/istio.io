@@ -6,11 +6,11 @@ weight: 80
 
 This task shows how Istio Mutual TLS works with HTTPS services. It includes:
 
-* Deploy an HTTPS service without Istio sidecar
+* Deploying an HTTPS service without Istio sidecar
 
-* Deploy an HTTPS service with Istio with mutual TLS disabled
+* Deploying an HTTPS service with Istio with mutual TLS disabled
 
-* Deploy an HTTPS service with mutual TLS enabled. For each deployment, connect to this service and verify it works.
+* Deploying an HTTPS service with mutual TLS enabled. For each deployment, connect to this service and verify it works.
 
 When the Istio sidecar is deployed with an HTTPS service, the proxy automatically downgrades
 from L7 to L4 (no matter mutual TLS is enabled or not), which means it does not terminate the
