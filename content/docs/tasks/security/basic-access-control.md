@@ -19,8 +19,38 @@ This task shows how to control access to a service using the Kubernetes labels.
     test user "jason" to version v2 and requests from any other user to v3.
 
     ```command
-    $ istioctl create -f @samples/bookinfo/kube/route-rule-reviews-test-v2.yaml@
-    $ istioctl create -f @samples/bookinfo/kube/route-rule-reviews-v3.yaml@
+    $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
+    ```
+
+    Save the following YAML snippet as `route-rule-reviews-jason-v2-v3.yaml`:
+
+    ```yaml
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: reviews
+    spec:
+      hosts:
+        - reviews
+      http:
+      - match:
+        - headers:
+            cookie:
+              regex: "^(.*?;)?(user=jason)(;.*)?$"
+        route:
+        - destination:
+            host: reviews
+            subset: v2
+      - route:
+        - destination:
+            host: reviews
+            subset: v3
+    ```
+
+    and then run the following command:
+
+    ```command
+    $ istioctl replace -f route-rule-reviews-jason-v2-v3.yaml
     ```
 
     > If you have conflicting rules that you set in previous tasks,
@@ -168,8 +198,7 @@ Verify that after logging in as "jason" you see black stars.
 *   Remove the application routing rules:
 
     ```command
-    $ istioctl delete -f @samples/bookinfo/kube/route-rule-reviews-test-v2.yaml@
-    $ istioctl delete -f @samples/bookinfo/kube/route-rule-reviews-v3.yaml@
+    $ istioctl delete -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
