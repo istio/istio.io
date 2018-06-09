@@ -13,6 +13,7 @@ The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task demons
 This task describes how to configure Istio to perform TLS origination for egress traffic.
 
 ## Use case
+
 Consider a legacy application that performs HTTP calls to external sites. Suppose the organization that operates the application receives a new requirement which states that all the external traffic must be encrypted. With Istio, such a requirement can be achieved just by configuration, without changing the code of the application.
 
 In this task we show how to configure Istio to open HTTPS connections to external services in cases the original traffic was HTTP. The application will send unencrypted HTTP requests as previously and Istio will encrypt the requests for the application.
@@ -45,6 +46,7 @@ If we used the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/sam
     ```
 
 ## Configuring HTTP and HTTPS external services
+
 First, we configure access to _cnn.com_ in the same way as in the [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task.
 Note that we use a wild card `*` in our `hosts` definition: `*.cnn.com`. Using the wild card we allow access to  _www.cnn.com_ as well as to _edition.cnn.com_.
 
@@ -69,7 +71,7 @@ Note that we use a wild card `*` in our `hosts` definition: `*.cnn.com`. Using t
         EOF
     ```
 
-2.  Make a request to the external HTTP service:
+1.  Make a request to the external HTTP service:
 
     ```command
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -IL http://edition.cnn.com/politics
@@ -194,7 +196,6 @@ Also note that even for HTTPS originated by the application, the attackers could
     $ istioctl delete virtualservice rewrite-port-for-edition-cnn-com
     $ istioctl delete destinationrule originate-tls-for-edition-cnn-com
     ```
-
 
 1.  Shutdown the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/samples/sleep) service:
 
