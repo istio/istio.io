@@ -130,3 +130,9 @@ Also note that Istio itself *cannot securely enforce* that all the egress traffi
     ```command
     $ kubectl delete -f @samples/sleep/sleep.yaml@
     ```
+
+## What's next
+
+* Learn more about [service entries](/docs/concepts/traffic-management/rules-configuration/#service-entries), [virtual services](/docs/concepts/traffic-management/rules-configuration/#virtual-services),
+[destination rules](/docs/concepts/traffic-management/rules-configuration/#destination-rules)
+and [gateways](/docs/concepts/traffic-management/rules-configuration/#gateways).
