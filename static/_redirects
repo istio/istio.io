@@ -1,0 +1,7 @@
+/istio/* go-get=1 /golang/istio.html 200
+/fortio/* go-get=1 /golang/fortio.html 200
+/api/* go-get=1 /golang/api.html 200
+/gogo-genproto/* go-get=1 /golang/gogo-genproto.html 200
+/extensions/* go-get=1 /golang/extensions.html 200
+/contrib/* go-get=1 /golang/contrib.html 200
+/test-infra/* go-get=1 /golang/test-infra.html 200
