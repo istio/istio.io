@@ -200,3 +200,7 @@ Also note that even for HTTPS originated by the application, the attackers could
     ```command
     $ kubectl delete -f @samples/sleep/sleep.yaml@
     ```
+
+## What's next
+
+* Learn more about [service entries](/docs/concepts/traffic-management/rules-configuration/#service-entries), [virtual services](/docs/concepts/traffic-management/rules-configuration/#virtual-services) and [destination rules](/docs/concepts/traffic-management/rules-configuration/#destination-rules).
