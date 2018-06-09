@@ -9,7 +9,7 @@ prep_generate:
 	npm install --prefix .tools/node html-minifier
 
 generate:
-	hugo --baseURL $(DEPLOY_URL)
+	hugo --baseURL $(URL)
 	.tools/node/node_modules/html-minifier/cli.js --input-dir public --output-dir public --file-ext html --collapse-whitespace --minify-js --minify-css --sort-attributes --sort-class-name --remove-attribute-quotes --remove-comments
 
 ##########
