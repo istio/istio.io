@@ -22,23 +22,34 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
+        {{ $section := .Section }}
         <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
             <ul id="navbar-links" class="navbar-nav active">
-                <li class="nav-item">
-                    <a class="nav-link {{ if eq .Section "docs" }}active{{ end }}" href="{{ (.Site.GetPage "section" "docs").URL  }}">Docs</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ if eq .Section "blog" }}active{{ end }}" href="{{ $latest_post.URL }}">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ if eq .Section "help" }}active{{ end }}" href="{{ (.Site.GetPage "section" "help").URL  }}">Help</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ if eq .Section "community" }}active{{ end }}" href="{{ (.Site.GetPage "section" "community").URL  }}">Community</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ if eq .Section "about" }}active{{ end }}" href="{{ (.Site.GetPage "section" "about").URL  }}">About</a>
-                </li>
+                {{ with (.Site.GetPage "section" "docs") }}
+                    <li class="nav-item">
+                        <a class="nav-link {{ if eq $section "docs" }}active{{ end }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
+                    </li>
+                {{ end }}
+                {{ with $latest_post }}
+                    <li class="nav-item">
+                        <a class="nav-link {{ if eq $section "blog" }}active{{ end }}" href="{{ .Permalink }}">{{ (.Site.GetPage "section" "blog").LinkTitle }}</a>
+                    </li>
+                {{ end }}
+                {{ with (.Site.GetPage "section" "help") }}
+                    <li class="nav-item">
+                        <a class="nav-link {{ if eq $section "help" }}active{{ end }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
+                    </li>
+                {{ end }}
+                {{ with (.Site.GetPage "section" "community") }}
+                    <li class="nav-item">
+                        <a class="nav-link {{ if eq $section "community" }}active{{ end }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
+                    </li>
+                {{ end }}
+                {{ with (.Site.GetPage "section" "about") }}
+                    <li class="nav-item">
+                        <a class="nav-link {{ if eq $section "about" }}active{{ end }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
+                    </li>
+                {{ end }}
 
                 <li class="nav-item dropdown" id="gearDropdown" style="white-space: nowrap">
                     <a href="" class="nav-link" data-toggle="dropdown" aria-label="Tools" aria-haspopup="true" aria-expanded="false">
@@ -58,10 +69,10 @@
                         {{ if not .Site.Data.args.archive }}
                             <div class="dropdown-divider"></div>
 
-                            <a class="dropdown-item" href="https://github.com/istio/istio.github.io/issues/new?title=Issue%20with%20{{ .Page.Path}}">Report Site Bugs</a>
+                            <a class="dropdown-item" href="https://github.com/istio/istio.github.io/issues/new?title=Issue%20with%20{{ .Path}}">Report Site Bugs</a>
 
-                            {{ if not .Page.Params.generator }}
-                                <a class="dropdown-item" href="https://github.com/istio/istio.github.io/edit/master/content/{{ .Page.Path }}">Edit this Page on GitHub</a>
+                            {{ if not .Params.generator }}
+                                <a class="dropdown-item" href="https://github.com/istio/istio.github.io/edit/master/content/{{ .Path }}">Edit this Page on GitHub</a>
                             {{ end }}
                         {{ end }}
                     </div>

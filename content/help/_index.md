@@ -1,5 +1,5 @@
 ---
-title: Help!
+title: Help
 description: A bunch of resources to help you deploy, configure and use Istio.
 weight: 10
 ---

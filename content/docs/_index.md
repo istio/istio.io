@@ -1,5 +1,6 @@
 ---
 title: Welcome
+linktitle: Docs
 description: Istio documentation home page.
 weight: 1
 sidebar_multicard: true
