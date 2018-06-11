@@ -488,7 +488,12 @@ function handlePageScroll() {
             var closestHeadingAboveTopPos = -1000000;
 
             for (var i = 0; i < tocLinks.length; i++) {
-                var cbr = tocHeadings[i].getBoundingClientRect();
+                var heading = tocHeadings[i];
+                if (heading === null) {
+                    continue;
+                }
+
+                var cbr = heading.getBoundingClientRect();
 
                 if (cbr.width || cbr.height) {
                     if ((cbr.top >= 0) && (cbr.top < window.innerHeight)) {
