@@ -29,8 +29,8 @@ contains information like source service, destination service, auth
 metrics (coming..) among others. Following is a diagram of the pipeline:
 
 {{< image width="75%" ratio="75%"
-link="../img/istio-analytics-using-stackdriver.png" caption="Image is not available"
-title="Diagram of exporting logs from Istio to StackDriver for analysis" >}}
+link="../img/istio-analytics-using-stackdriver.png"
+caption="Diagram of exporting logs from Istio to StackDriver for analysis" >}}
 
 Istio supports exporting logs to Stackdriver which can be configured to export
 logs to your favorite sink like BigQuery, Pub/Sub or GCS. Please follow the steps
