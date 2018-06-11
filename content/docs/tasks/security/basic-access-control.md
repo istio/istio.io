@@ -2,6 +2,7 @@
 title: Basic Access Control
 description: Shows how to control access to a service using the Kubernetes labels.
 weight: 20
+keywords: [security,access-control]
 aliases:
     - /docs/tasks/basic-access-control.html
 ---

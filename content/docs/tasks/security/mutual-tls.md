@@ -2,6 +2,7 @@
 title: Testing Mutual TLS
 description: Shows you how to verify and test Istio's automatic mutual TLS authentication.
 weight: 10
+keywords: [security,mutual-tls]
 ---
 
 Through this task, you will learn how to:

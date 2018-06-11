@@ -2,6 +2,7 @@
 title: Secure Access Control
 description: Shows how to securely control access to a service using service accounts.
 weight: 30
+keywords: [security,access-control]
 ---
 
 This task shows how to securely control access to a service,

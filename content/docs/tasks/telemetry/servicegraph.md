@@ -2,6 +2,7 @@
 title: Generating a Service Graph
 description: This task shows you how to generate a graph of services within an Istio mesh.
 weight: 50
+keywords: [telemetry,visualization]
 ---
 
 This task shows you how to generate a graph of services within an Istio mesh.

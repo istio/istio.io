@@ -2,6 +2,7 @@
 title: Installing the Istio Sidecar
 description: Instructions for installing the Istio sidecar in application pods automatically using the sidecar injector webhook or manually using istioctl CLI.
 weight: 50
+keywords: [kubernetes,sidecar,sidecar-injection]
 aliases:
     - /docs/setup/kubernetes/automatic-sidecar-inject.html
 ---

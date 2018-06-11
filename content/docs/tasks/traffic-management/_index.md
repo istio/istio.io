@@ -1,6 +1,6 @@
 ---
 title: Traffic Management
-description: Describes tasks that demonstrate traffic routing features of Istio service mesh.
+description: Tasks that demonstrate Istio's traffic routing features.
 weight: 15
 type: section-index
 ---

@@ -13,6 +13,12 @@
         <meta name="title" content="{{ .Title }}">
         <meta name="description" content="{{ template "description" . }}">
 
+        {{ if .Page.Params.keywords }}
+            <meta name="keywords" content="microservices,services,mesh,{{ delimit .Page.Params.keywords "," }}">
+        {{ else }}
+            <meta name="keywords" content="microservices,services,mesh">
+        {{ end }}
+
         <!-- Open Graph protocol -->
         <meta name="og:title" content="{{ .Title }}">
         <meta name="og:description" content="{{ template "description" . }}">

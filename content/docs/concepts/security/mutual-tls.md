@@ -1,6 +1,7 @@
 ---
 title: Mutual TLS Authentication
 description: Describes Istio's mutual TLS authentication architecture which provides a strong service identity and secure communication channels between services.
+keywords: [security,mutual-tls]
 weight: 10
 ---
 
