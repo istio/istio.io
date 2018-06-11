@@ -2,7 +2,7 @@
 {{ $latest_post := index $posts 0 }}
 {{ $version := .Site.Data.args.version }}
 
-{{/* Need to set the specialized targets for the dropdown menu versions */}}
+{{/* TODO: Need to set the specialized targets for the dropdown menu versions */}}
 
 <header>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark justify-content-between">
@@ -27,32 +27,33 @@
             <ul id="navbar-links" class="navbar-nav active">
                 {{ with (.Site.GetPage "section" "docs") }}
                     <li class="nav-item">
-                        <a class="nav-link {{ if eq $section "docs" }}active{{ end }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
+                        <a class="nav-link {{ if eq $section "docs" }}active{{ end }}" title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
                     </li>
                 {{ end }}
                 {{ with $latest_post }}
                     <li class="nav-item">
-                        <a class="nav-link {{ if eq $section "blog" }}active{{ end }}" href="{{ .Permalink }}">{{ (.Site.GetPage "section" "blog").LinkTitle }}</a>
+                        {{ $blog_home := .Site.GetPage "section" "blog" }}
+                        <a class="nav-link {{ if eq $section "blog" }}active{{ end }}" title="{{ $blog_home.Description }}" href="{{ .Permalink }}">{{ $blog_home.LinkTitle }}</a>
                     </li>
                 {{ end }}
                 {{ with (.Site.GetPage "section" "help") }}
                     <li class="nav-item">
-                        <a class="nav-link {{ if eq $section "help" }}active{{ end }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
+                        <a class="nav-link {{ if eq $section "help" }}active{{ end }}" title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
                     </li>
                 {{ end }}
                 {{ with (.Site.GetPage "section" "community") }}
                     <li class="nav-item">
-                        <a class="nav-link {{ if eq $section "community" }}active{{ end }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
+                        <a class="nav-link {{ if eq $section "community" }}active{{ end }}" title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
                     </li>
                 {{ end }}
                 {{ with (.Site.GetPage "section" "about") }}
                     <li class="nav-item">
-                        <a class="nav-link {{ if eq $section "about" }}active{{ end }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
+                        <a class="nav-link {{ if eq $section "about" }}active{{ end }}" title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
                     </li>
                 {{ end }}
 
                 <li class="nav-item dropdown" id="gearDropdown" style="white-space: nowrap">
-                    <a href="" class="nav-link" data-toggle="dropdown" aria-label="Tools" aria-haspopup="true" aria-expanded="false">
+                    <a title='{{ i18n "options_menu" }}' href="" class="nav-link" data-toggle="dropdown" aria-label="Tools" aria-haspopup="true" aria-expanded="false">
                         <i style="width: 1em" class='fa fa-lg fa-cog'></i>
                     </a>
 
@@ -63,23 +64,23 @@
 
                         <div class="dropdown-divider"></div>
 
-                        <a class="dropdown-item" id="light-theme-item" href="" onclick="setActiveStyleSheet('light');return false;">Light Theme</a>
-                        <a class="dropdown-item" id="dark-theme-item" href="" onclick="setActiveStyleSheet('dark');return false;">Dark Theme</a>
+                        <a class="dropdown-item" id="light-theme-item" href="" onclick="setActiveStyleSheet('light');return false;">{{ i18n "light_theme" }}</a>
+                        <a class="dropdown-item" id="dark-theme-item" href="" onclick="setActiveStyleSheet('dark');return false;">{{ i18n "dark_theme" }}</a>
 
                         {{ if not .Site.Data.args.archive }}
                             <div class="dropdown-divider"></div>
 
-                            <a class="dropdown-item" href="https://github.com/istio/istio.github.io/issues/new?title=Issue%20with%20{{ .Path}}">Report Site Bugs</a>
+                            <a class="dropdown-item" href="https://github.com/istio/istio.github.io/issues/new?title=Issue%20with%20{{ .Path}}">{{ i18n "report_site_bugs" }}</a>
 
                             {{ if not .Params.generator }}
-                                <a class="dropdown-item" href="https://github.com/istio/istio.github.io/edit/master/content/{{ .Path }}">Edit this Page on GitHub</a>
+                                <a class="dropdown-item" href="https://github.com/istio/istio.github.io/edit/master/content/{{ .Path }}">{{ i18n "edit_on_github" }}</a>
                             {{ end }}
                         {{ end }}
                     </div>
                 </li>
 
                 <li class="nav-item">
-                    <a id="search_show" class="nav-link" href="" aria-label="Search"><i style="width: 1em" class="fa fa-lg fa-search"></i></a>
+                    <a id="search_show" class="nav-link" href="" title='{{ i18n "search" }}' aria-label="Search"><i style="width: 1em" class="fa fa-lg fa-search"></i></a>
                 </li>
             </ul>
 

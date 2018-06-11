@@ -1,7 +1,7 @@
 ---
 title: Welcome
 linktitle: Docs
-description: Istio documentation home page.
+description: Learn how to deploy, use, and operate Istio.
 weight: 1
 sidebar_multicard: true
 ---
