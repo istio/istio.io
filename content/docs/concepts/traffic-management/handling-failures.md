@@ -2,6 +2,7 @@
 title: Handling Failures
 description: An overview of failure recovery capabilities in Envoy that can be leveraged by unmodified applications to improve robustness and prevent cascading failures.
 weight: 30
+keywords: [traffic-management,handling-failures]
 ---
 
 Envoy provides a set of out-of-the-box _opt-in_ failure recovery features

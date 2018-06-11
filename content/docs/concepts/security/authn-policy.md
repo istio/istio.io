@@ -2,6 +2,7 @@
 title: Authentication Policy
 description: Describes Istio's authentication policy
 weight: 10
+keywords: [security,authentication]
 aliases:
     - /docs/concepts/network-and-auth/auth.html
 ---

@@ -2,6 +2,7 @@
 title: Configuration
 description: An overview of the key concepts used to configure Istio's policy enforcement and telemetry collection features.
 weight: 30
+keywords: [policies,telemetry,control,config]
 aliases:
     - /docs/concepts/policy-and-control/mixer-config.html
     - /docs/concepts/policy-and-control/attributes.html

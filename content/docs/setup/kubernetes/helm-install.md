@@ -2,6 +2,7 @@
 title: Installation with Helm
 description: Install Istio with the included Helm chart.
 weight: 30
+keywords: [kubernetes,helm]
 aliases:
     - /docs/setup/kubernetes/helm.html
     - /docs/tasks/integrating-services-into-istio.html

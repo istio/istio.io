@@ -2,6 +2,7 @@
 title: Request Routing
 description: Describes how requests are routed between services in an Istio service mesh.
 weight: 20
+keywords: [traffic-management,routing]
 ---
 
 This page describes how requests are routed between services in an Istio service mesh.
