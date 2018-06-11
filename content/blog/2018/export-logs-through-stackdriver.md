@@ -3,7 +3,7 @@ title: Exporting Logs to BigQuery, GCS, Pub/Sub through Stackdriver
 description: How to export Istio Access Logs to different sinks like BigQuery, GCS, Pub/Sub through Stackdriver.
 publishdate: 2018-06-18
 subtitle:
-attribution: Douglas Reid
+attribution: Nupur Garg and Douglas Reid
 weight: 70
 ---
 
