@@ -47,9 +47,31 @@ If we used the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/sam
     $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
     ```
 
-## Configuring an HTTP external service with TLS origination
+## Define an egress `Gateway` and direct the traffic through it
 
-1.  Define the required `ServiceEntry`, `VirtualService` and `DestinationRule`
+1.  Create an egress `Gateway` for _edition.cnn.com_, port 443:
+
+    ```bash
+        cat <<EOF | istioctl create -f -
+        kind: Gateway
+        metadata:
+          name: istio-egressgateway
+        spec:
+          selector:
+            istio: egressgateway
+          servers:
+          - port:
+              number: 443
+              name: http
+              protocol: HTTP
+            hosts:
+            - "edition.cnn.com"
+    EOF
+    ```
+
+1.  Define the `ServiceEntry`, the `VirtualService` and the `DestinationRule` as in
+the <TBD> Perform TLS Origination for Egress Traffic task, with one difference.
+
     ```bash
         cat <<EOF | istioctl create -f -
         apiVersion: networking.istio.io/v1alpha3
@@ -78,11 +100,21 @@ If we used the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/sam
           http:
           - match:
               - port: 80
+              - gateways:
+                - mesh
+            route:
+            - destination:
+                host: istio-egressgateway.istio-system.svc.cluster.local
+                port:
+                  number: 443
+              weight: 100
+          - match:
+            - gateways:
+              - istio-egressgateway
             route:
             - destination:
                 host: edition.cnn.com
-                port:
-                  number: 443
+              weight: 100
         ---
         apiVersion: networking.istio.io/v1alpha3
         kind: DestinationRule
@@ -101,14 +133,21 @@ If we used the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/sam
         EOF
     ```
 
-1. Send an HTTP request to http://edition.cnn.com/politics, as in the previous section.
+1.  Send an HTTP request to http://edition.cnn.com/politics.
 
     ```command
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -IL http://edition.cnn.com/politics
     ```
 
-## Define egress `Gateway` and direct the traffic through it
+    The output should be the same as in the <TBD> Perform TLS Origination for Egress Traffic task.
 
+    ```plain
+    HTTP/1.1 200 OK
+    Content-Type: text/html; charset=utf-8
+    ...
+    Content-Length: 151654
+    ...
+    ```
 ## Additional security considerations
 
 Note that defining an egress `Gateway` in Istio does not in itself provides any special treatment for the nodes on which the egress gateway service runs. It is up to the Istio operator or the cloud provider to deploy the egress gateways on dedicated nodes and to introduce additional security measures to make these nodes more secure than the rest of the mesh.
@@ -120,6 +159,7 @@ Also note that Istio itself *cannot securely enforce* that all the egress traffi
 1.  Remove the Istio configuration items we created:
 
     ```command
+    $ istioctl delete gateway istio-egressgateway
     $ istioctl delete serviceentry cnn
     $ istioctl delete virtualservice rewrite-port-for-edition-cnn-com
     $ istioctl delete destinationrule originate-tls-for-edition-cnn-com
