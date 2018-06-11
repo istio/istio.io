@@ -1,0 +1,50 @@
+[rocket_chat_desc]
+other = "Interactively chat with members of the Istio community."
+
+[istio_users_desc]
+other = "Join the istio-users@ mailing list to participate in discussions and get help troubleshooting problems"
+
+[twitter_desc]
+other = "Follow us on Twitter to get the latest news"
+
+[stackoverflow_desc]
+other = "Stack Overflow is where you can ask questions and find curated answers on deploying, configuring, and using Istio"
+
+[for_users]
+other = "for users"
+
+[for_developers]
+other = "for developers"
+
+[istio_dev_desc]
+other = "Join the istio-dev@ mailing list to discuss development issues around the Istio project"
+
+[github_desc]
+other = "GitHub is where development takes place on Istio code"
+
+[team_drive_desc]
+other = "Access our team drive if you'd like to take a look at the Istio technical design documents"
+
+[working_group_desc]
+other = "If you'd like to contribute to the Istio project, consider participating in our working groups"
+
+[slack_desc]
+other = "Interactively discuss development issues with the Istio community on Slack (invitation-only)"
+
+[report_site_bugs]
+other = "Report Site Bugs"
+
+[edit_on_github]
+other = "Edit this Page on GitHub"
+
+[light_theme]
+other = "Light Theme"
+
+[dark_theme]
+other = "Dark Theme"
+
+[options_menu]
+other = "Options and Settings"
+
+[search]
+other = "Search istio.io"
