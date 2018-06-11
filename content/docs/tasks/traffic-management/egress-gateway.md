@@ -61,7 +61,7 @@ If we used the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/sam
             istio: egressgateway
           servers:
           - port:
-              number: 443
+              number: 80
               name: http
               protocol: HTTP
             hosts:
@@ -106,7 +106,7 @@ the <TBD> Perform TLS Origination for Egress Traffic task, with one difference.
             - destination:
                 host: istio-egressgateway.istio-system.svc.cluster.local
                 port:
-                  number: 443
+                  number: 80
               weight: 100
           - match:
             - gateways:
@@ -127,9 +127,7 @@ the <TBD> Perform TLS Origination for Egress Traffic task, with one difference.
               simple: ROUND_ROBIN
             portLevelSettings:
             - port:
-                number: 443
-              tls:
-                mode: SIMPLE # initiates HTTPS when talking to edition.cnn.com
+                number: 80
         EOF
     ```
 
