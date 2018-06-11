@@ -4,7 +4,7 @@ description: How to export Istio Access Logs to different sinks like BigQuery, G
 publishdate: 2018-06-18
 subtitle:
 attribution: Nupur Garg and Douglas Reid
-weight: 70
+weight: 94
 ---
 
 This post shows how to direct Istio logs to [Stackdriver](https://cloud.google.com/stackdriver/)
@@ -22,7 +22,7 @@ application throughout this task.
 
 ## Configuring Istio to export logs
 
-Istio exports logs using the `[logentry](/docs/reference/config/policy-and-telemetry/templates/logentry)` template configured for Mixer as [accesslog
+Istio exports logs using the `logentry` [template](/docs/reference/config/policy-and-telemetry/templates/logentry) configured for Mixer as [accesslog
 entry](https://github.com/istio/istio/blob/{{<branch_name>}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml#L134:9).
 This specifies all the variables that are available for analysis. It
 contains information like source service, destination service, auth
