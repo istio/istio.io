@@ -2,6 +2,7 @@
 title: Upgrading Istio
 description: This guide demonstrates how to upgrade the Istio control plane and data plane independently.
 weight: 70
+keywords: [kubernetes,upgrading]
 ---
 
 This page describes how to upgrade an existing Istio deployment (including both control plane and sidecar proxy) to a new release of Istio.

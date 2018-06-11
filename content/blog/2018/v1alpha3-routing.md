@@ -5,6 +5,7 @@ publishdate: 2018-04-25
 subtitle:
 attribution: Frank Budinsky (IBM) and Shriram Rajagopalan (VMware)
 weight: 88
+keywords: [traffic-management]
 ---
 
 Up until now, Istio has provided a simple API for traffic management using four configuration resources:

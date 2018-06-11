@@ -5,6 +5,7 @@ publishdate: 2018-04-20
 subtitle: Ingress AWS Network Load Balancer
 attribution: Julien SENON
 weight: 89
+keywords: [ingress,traffic-management,aws]
 ---
 
 This post provides instructions to use and configure ingress Istio with [AWS Network Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html).

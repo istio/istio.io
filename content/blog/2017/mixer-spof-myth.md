@@ -4,6 +4,7 @@ description: Improving availability and reducing latency
 publishdate: 2017-12-07
 subtitle: Improving availability and reducing latency
 attribution: Martin Taillefer
+keywords: [adapters,mixer,policies,telemetry,availability,latency]
 weight: 94
 aliases:
     - /blog/posts/2017/mixer-spof-myth.html

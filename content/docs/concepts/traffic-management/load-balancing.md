@@ -2,6 +2,7 @@
 title: Discovery & Load Balancing
 description: Describes how traffic is load balanced across instances of a service in the mesh.
 weight: 25
+keywords: [traffic-management,load-balancing]
 ---
 
 This page describes how Istio load balances traffic across instances of a
