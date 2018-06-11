@@ -20,29 +20,25 @@ We will describe metrics first and then the labels for each metric.
 *   **Request Duration**: This is a `DISTRIBUTION`
     [metric](https://github.com/istio/istio/blob/{{<branch_name>}}/install/kubernetes/templates/istio-mixer.yaml.tmpl#L802:9)
     which measures the duration of the request (as observed by the server-side
-    proxy). This metric is obtained from envoy proxy.
+    proxy).
 
 *   **Request Size**: This is a `DISTRIBUTION`
     [metric](https://github.com/istio/istio/blob/{{<branch_name>}}/install/kubernetes/templates/istio-mixer.yaml.tmpl#L818:9)
-    which measures the size of the HTTP request’s body size. This metric is
-    obtained from envoy proxy.
+    which measures the size of the HTTP request’s body size.
 
 *   **Response Size**: This is a `DISTRIBUTION`
     [metric](https://github.com/istio/istio/blob/{{<branch_name>}}/install/kubernetes/templates/istio-mixer.yaml.tmpl#L834:9)
-    which measures the size of the HTTP response body size. This metric is
-    obtained from envoy proxy.
+    which measures the size of the HTTP response body size.
 
 *   **Tcp Byte Sent**: This is a `COUNTER`
     [metric](https://github.com/istio/istio/blob/{{<branch_name>}}/install/kubernetes/templates/istio-mixer.yaml.tmpl#L850:9)
     which measures the size of total bytes sent during response in case of a TCP
-    connection as measured by the server-side proxy. This metric is obtained
-    from envoy proxy.
+    connection as measured by the server-side proxy.
 
 *   **Tcp Byte Received**: This is a `COUNTER`
     [metric](https://github.com/istio/istio/blob/{{<branch_name>}}/install/kubernetes/templates/istio-mixer.yaml.tmpl#L867:9)
     which measures the size of total bytes received during request in case of a
-    TCP connection as measured by the server-side proxy. This metric is obtained
-    from envoy proxy.
+    TCP connection as measured by the server-side proxy.
 
 ## Labels
 
