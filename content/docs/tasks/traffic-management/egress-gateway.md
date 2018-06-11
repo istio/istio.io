@@ -114,8 +114,6 @@ the <TBD> Perform TLS Origination for Egress Traffic task, with one difference.
           - match:
             - gateways:
               - istio-egressgateway
-              authority:
-                exact: edition.cnn.com
               port: 80
             route:
             - destination:
