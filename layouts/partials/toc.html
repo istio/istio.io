@@ -18,9 +18,12 @@
                     {{ $current := $page.Scratch.Get "level" | int }}
 
                     {{ if gt $level $current }}
-                        <ul>
+                        {{ $delta := sub $level $current }}
+                        {{ range $index, $num := (seq $delta) }}
+                            <ul>
+                        {{ end }}
                     {{ else if lt $level $current }}
-                        {{ $delta := sub ($page.Scratch.Get "level") $level }}
+                        {{ $delta := sub $current $level }}
                         {{ range $index, $num := (seq $delta) }}
                             </ul>
                         {{ end }}
