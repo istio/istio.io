@@ -43,15 +43,17 @@ Istio control plane, Envoy can then communicate with the **single**
 Istio control plane and form a mesh network across multiple Kubernetes
 clusters.
 
-## Create service account in remote clusters
+## Create service account in remote clusters and generate `kubeconfigs`
 
 The Istio control plane requires access to all clusters in the mesh to
 discover services, endpoints, and pod attributes.  The following
-describes how to create a Kubernetes service account with the minimal
-RBAC access required.  The procedure then generates a `kubeconfig` file
-for the cluster using the credentials of the service account.
+describes how to create a Kubernetes service account in a remote cluster with
+the minimal RBAC access required.  The procedure then generates a `kubeconfig`
+file for the remote cluster using the credentials of the service account.
 
-Perform these steps for each remote cluster in the mesh:
+The following procedure should be performed on each remote cluster to be
+added to the service mesh.  The procedure requires cluster-admin user access
+to the remote cluster.
 
 1. Create `ClusterRole`, `istio-reader`, for the Istio control plane access:
 
@@ -72,13 +74,15 @@ Perform these steps for each remote cluster in the mesh:
 
     ```command
     $ export SERVICE_ACCOUNT=istio-multi
-    $ kubectl create sa ${SERVICE_ACCOUNT}
+    $ export NAMESPACE=istio-system
+    $ kubectl create ns ${NAMESPACE}
+    $ kubectl create sa ${SERVICE_ACCOUNT} -n ${NAMESPACE}
     ```
 
 1.  Bind `ServiceAccount`, `istio-multi`, to `ClusterRole` `istio-reader`:
 
     ```command
-    $ kubectl create clusterrolebinding istio-multi --clusterrole=istio-reader --serviceaccount=default:${SERVICE_ACCOUNT}
+    $ kubectl create clusterrolebinding istio-multi --clusterrole=istio-reader --serviceaccount=${NAMESPACE}:${SERVICE_ACCOUNT}
     ```
 
 1.  Create a `kubeconfig` file in the current directory for the `ServiceAccount` `istio-multi`:
@@ -88,14 +92,14 @@ Perform these steps for each remote cluster in the mesh:
     $ CLUSTER_NAME=$(kubectl config view --minify=true -o "jsonpath={.clusters[].name}")
     $ export KUBECFG_FILE=${WORK_DIR}/${CLUSTER_NAME}
     $ SERVER=$(kubectl config view --minify=true -o "jsonpath={.clusters[].cluster.server}")
-    $ SECRET_NAME=$(kubectl get sa ${SERVICE_ACCOUNT} -o jsonpath='{.secrets[].name}')
-    $ kubectl get secret ${SECRET_NAME} -o "jsonpath={.data['ca\.crt']}" | base64 --decode > ${WORK_DIR}/${CLUSTER_NAME}_ca.crt
+    $ SECRET_NAME=$(kubectl get sa ${SERVICE_ACCOUNT} -n ${NAMESPACE} -o jsonpath='{.secrets[].name}')
+    $ kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o "jsonpath={.data['ca\.crt']}" | base64 --decode > ${WORK_DIR}/${CLUSTER_NAME}_ca.crt
     $ kubectl config set-cluster "${CLUSTER_NAME}" \
       --kubeconfig=${KUBECFG_FILE} \
       --server="${SERVER}" \
       --certificate-authority="${WORK_DIR}/${CLUSTER_NAME}_ca.crt" \
       --embed-certs=true
-    $ USER_TOKEN=$(kubectl get secret ${SECRET_NAME} -o "jsonpath={.data['token']}" | base64 --decode)
+    $ USER_TOKEN=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o "jsonpath={.data['token']}" | base64 --decode)
     $ kubectl config set-credentials ${CLUSTER_NAME} \
       --kubeconfig=${KUBECFG_FILE} \
       --token=${USER_TOKEN}
@@ -106,7 +110,7 @@ Perform these steps for each remote cluster in the mesh:
     $ kubectl config use-context ${CLUSTER_NAME} --kubeconfig=${KUBECFG_FILE}
     ```
 
-At this point, the remote clusters' `kubeconfig` files have been created in the current dir.
+At this point, the remote clusters' `kubeconfig` files have been created in the current directory.
 The filename for a cluster is the same as the original `kubeconfig` cluster name.
 
 ## Instantiate the credentials for each remote cluster
@@ -128,17 +132,23 @@ plane. Creating secrets will register the secrets with Istio properly.
 
 > The local cluster running the Istio control plane does not need
 it's secrets stored and labeled. The local node is always aware of
-it's Kubernetes credentials, but the local node is not aware of
+its Kubernetes credentials, but the local node is not aware of
 the remote nodes' credentials.
 
 Create a secret and label it properly for each remote cluster:
 
 ```command
-$ pushd $HOME/multicluster
+$ pushd $WORK_DIR
 $ kubectl create secret generic ${CLUSTER_NAME} --from-file ${CLUSTER_NAME} -n istio-system
 $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n istio-system
 $ popd
 ```
+
+{{< warning_icon >}}
+The secret name and the corresponding file name need to be the same.  Kubernetes secret
+data keys have to conform to `DNS-1123 subdomain` format, so the filename can't have
+underscores for example.  To resolve any issue you can simply change the filename and
+secret name to conform to the format.
 
 ## Deploy the local Istio control plane
 
