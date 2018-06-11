@@ -76,7 +76,9 @@ $ kubectl create clusterrolebinding cluster-admin-binding \
     --user=$(gcloud config get-value core/account)
 ```
 
-### [IBM Cloud Container Service (IKS)](https://console.bluemix.net/docs/containers/cs_tutorials.html#cs_cluster_tutorial)
+### IBM Cloud Container Service (IKS)
+
+Create a cluster using [IBM Cloud Container Service (IKS)](https://console.bluemix.net/docs/containers/cs_tutorials.html#cs_cluster_tutorial).
 
 Create a new lite cluster.
 
@@ -100,7 +102,9 @@ $(bx cs cluster-config <cluster-name>|grep "export KUBECONFIG")
 
 Configure `kubectl` CLI based on steps [here](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0/manage_cluster/cfc_cli.html) for how to access the IBM Cloud Private Cluster.
 
-### [OpenShift Origin](https://github.com/openshift/origin/blob/master/docs/cluster_up_down.md) (version 3.7 or later)
+### OpenShift Origin
+
+Install the latest version of [OpenShift](https://github.com/openshift/origin/blob/master/docs/cluster_up_down.md) (version 3.7 or later).
 
 OpenShift by default does not allow containers running with UID 0. Enable containers running
 with UID 0 for Istio's service accounts:
@@ -129,7 +133,9 @@ $ oc adm policy add-scc-to-user privileged -z default -n <target-namespace>
 
 > Check for `SELINUX` in this [discussion](https://github.com/istio/issues/issues/34)  with respect to Istio in case you see issues bringing up the Envoy.
 
-### [AWS (w/Kops)](https://aws.amazon.com/blogs/compute/kubernetes-clusters-aws-kops/)
+### AWS
+
+Create a Kubernetes cluster using [Kops](https://aws.amazon.com/blogs/compute/kubernetes-clusters-aws-kops/) or [AWS Elastic Kubernetes Service (EKS)](https://docs.aws.amazon.com/eks/latest/userguide/getting-started.html).
 
 When you install a new cluster with Kubernetes version 1.9, prerequisite for `admissionregistration.k8s.io/v1beta1` enabled is covered.
 
@@ -184,6 +190,8 @@ Output should be:
 ```
 
 ### Azure
+
+Create a [Azure Kubernetes Service (ASK)](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough) cluster.
 
 You need to use `ACS-Engine` to deploy you cluster. After following [these instructions](https://github.com/Azure/acs-engine/blob/master/docs/acsengine.md#install) to get and install the `acs-engine` binary, use the following command to download Istio `api model definition`:
 
