@@ -84,7 +84,7 @@ the <TBD> Perform TLS Origination for Egress Traffic task, with one difference.
           ports:
           - number: 80
             name: http-port
-            protocol: HTTP2
+            protocol: HTTP
           - number: 443
             name: http-port-for-tls-origination
             protocol: HTTP
@@ -97,11 +97,14 @@ the <TBD> Perform TLS Origination for Egress Traffic task, with one difference.
         spec:
           hosts:
           - edition.cnn.com
+          gateways:
+          - istio-egressgateway
+          - mesh
           http:
           - match:
-              - port: 80
-              - gateways:
-                - mesh
+            - gateways:
+              - mesh
+              port: 80
             route:
             - destination:
                 host: istio-egressgateway.istio-system.svc.cluster.local
@@ -111,23 +114,15 @@ the <TBD> Perform TLS Origination for Egress Traffic task, with one difference.
           - match:
             - gateways:
               - istio-egressgateway
+              authority:
+                exact: edition.cnn.com
+              port: 80
             route:
             - destination:
                 host: edition.cnn.com
+                port:
+                  number: 80
               weight: 100
-        ---
-        apiVersion: networking.istio.io/v1alpha3
-        kind: DestinationRule
-        metadata:
-          name: originate-tls-for-edition-cnn-com
-        spec:
-          host: edition.cnn.com
-          trafficPolicy:
-            loadBalancer:
-              simple: ROUND_ROBIN
-            portLevelSettings:
-            - port:
-                number: 80
         EOF
     ```
 
