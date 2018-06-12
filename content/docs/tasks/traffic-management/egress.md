@@ -282,6 +282,6 @@ cloud provider specific knowledge and configuration.
 * Learn more about [service entries](/docs/concepts/traffic-management/rules-configuration/#service-entries).
 
 * Learn how to setup
-  [timeouts](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute.timeout),
-  [retries](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute.retries),
+  [timeouts](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute-timeout),
+  [retries](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute-retries),
   and [circuit breakers](/docs/reference/config/istio.networking.v1alpha3/#OutlierDetection) for egress traffic.
