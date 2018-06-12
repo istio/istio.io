@@ -15,49 +15,48 @@ This task shows how to control access to a service using the Kubernetes labels.
 
 * Deploy the [Bookinfo](/docs/guides/bookinfo/) sample application.
 
-*   Initialize the application version routing to direct `reviews` service requests from
-    test user "jason" to version v2 and requests from any other user to v3.
-
-    ```command
-    $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
-    ```
-
-    Save the following YAML snippet as `route-rule-reviews-jason-v2-v3.yaml`:
-
-    ```yaml
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: reviews
-    spec:
-      hosts:
-        - reviews
-      http:
-      - match:
-        - headers:
-            cookie:
-              regex: "^(.*?;)?(user=jason)(;.*)?$"
-        route:
-        - destination:
-            host: reviews
-            subset: v2
-      - route:
-        - destination:
-            host: reviews
-            subset: v3
-    ```
-
-    and then run the following command:
-
-    ```command
-    $ istioctl replace -f route-rule-reviews-jason-v2-v3.yaml
-    ```
-
-    > If you have conflicting rules that you set in previous tasks,
-    > use `istioctl replace` instead of `istioctl create`.
-    >
-    > If you are using a namespace other than `default`,
-    > use `istioctl -n namespace ...` to specify the namespace.
+* Initialize the application version routing to direct `reviews` service requests from 
+  test user "jason" to version v2 and requests from any other user to v3.
+  
+  ```command
+  $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
+  ```
+  
+  Save the following YAML snippet as `route-rule-reviews-jason-v2-v3.yaml`:
+  ```yaml
+  apiVersion: networking.istio.io/v1alpha3
+  kind: VirtualService
+  metadata:
+    name: reviews
+  spec:
+    hosts:
+    - reviews
+    http:
+    - match:
+      - headers:
+          cookie:
+            regex: "^(.*?;)?(user=jason)(;.*)?$"
+      route:
+      - destination:
+          host: reviews
+          subset: v2
+    - route:
+      - destination:
+          host: reviews
+          subset: v3
+  ```
+  
+  and then run the following command:
+  
+  ```command
+  $ istioctl replace -f route-rule-reviews-jason-v2-v3.yaml
+  ```
+  
+  > If you have conflicting rules that you set in previous tasks,
+  > use `istioctl replace` instead of `istioctl create`.
+  >
+  > If you are using a namespace other than `default`,
+  > use `istioctl -n namespace ...` to specify the namespace.
 
 ## Access control using _denials_
 
