@@ -92,20 +92,15 @@ the server responded with a redirect response ([301 Moved Permanently](https://t
 
 While for the user of `curl` this redirection happens transparently, there are two issues here. The first issue is the redundant first request, which doubles the latency of fetching the content of http://edition.cnn.com/politics. The second issue is that the path of the URL, _politics_ in this case, is sent in clear text. If there is an attacker who sniffs the communication between our application and _cnn.com_, the attacker would know which specific topics and articles of _cnn.com_ our application fetched. Due to the privacy reasons we may want to prevent such disclosure from the attacker.
 
-In the next section we configure Istio to perform TLS origination to resolve the two issues above.
+In the next section we configure Istio to perform TLS origination to resolve the two issues above. Let's clean our configuration before proceeding to the next section:
+
+```command
+$ istioctl delete serviceentry cnn
+```
 
 ## TLS origination for Egress traffic
 
-Let's redefine the `ServiceEntry` we defined previously, add a `VirtualService` to perform
-request port rewriting and add a `DestinationRule` for TLS origination.
-
-1.  Delete the previous definition of the `ServiceEntry`:
-
-    ```command
-    $ istioctl delete serviceentry cnn
-    ```
-
-1.  Redefine the `ServiceEntry`, the `VirtualService` and the `DestinationRule`. This time use HTTP protocol for the port 443 of the `ServiceEntry`, since the clients will use HTTP protocol and Istio will perform TLS origination for them. Note two additional changes in our `VirtualService`. First, we have to use a specific host `edition.cnn.com`, this is because the Envoy proxy has to know exactly which host and port it should access by HTTPS. The second change is `resolution` `DNS`, the change is required according to Envoy's configuration specifics.
+1.  Define a `ServiceEntry` to allow traffic to _edition.cnn.com_, a `VirtualService` to perform request port rewriting, and a `DestinationRule` for TLS origination. This time use HTTP protocol for the port 443 of the `ServiceEntry`, since the clients will use HTTP protocol and Istio will perform TLS origination for them. Note two additional changes in our `VirtualService`. First, we have to use a specific host `edition.cnn.com`, this is because the Envoy proxy has to know exactly which host and port it should access by HTTPS. The second change is `resolution` `DNS`, the change is required according to Envoy's configuration specifics.
 
     ```bash
         cat <<EOF | istioctl create -f -
