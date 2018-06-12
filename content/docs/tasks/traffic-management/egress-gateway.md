@@ -47,9 +47,11 @@ If we used the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/sam
     $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
     ```
 
-## Define an egress `Gateway` and direct the traffic through it
+## Define an egress `Gateway` and direct HTTP traffic through it
 
-1.  Create an egress `Gateway` for _edition.cnn.com_, port 443:
+First let's direct HTTP traffic without TLS origination
+
+1.  Create an egress `Gateway` for _edition.cnn.com_, port 80:
 
     ```bash
         cat <<EOF | istioctl create -f -
@@ -69,8 +71,8 @@ If we used the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/sam
     EOF
     ```
 
-1.  Define the `ServiceEntry`, the `VirtualService` and the `DestinationRule` as in
-the <TBD> Perform TLS Origination for Egress Traffic task, with one difference.
+1.  Define a `ServiceEntry` for `edition.cnn.com` and a `VirtualService` to direct
+the traffic through the egress gateway:
 
     ```bash
         cat <<EOF | istioctl create -f -
@@ -86,14 +88,14 @@ the <TBD> Perform TLS Origination for Egress Traffic task, with one difference.
             name: http-port
             protocol: HTTP
           - number: 443
-            name: http-port-for-tls-origination
-            protocol: HTTP
+            name: https
+            protocol: HTTPS
           resolution: DNS
         ---
         apiVersion: networking.istio.io/v1alpha3
         kind: VirtualService
         metadata:
-          name: rewrite-port-for-edition-cnn-com
+          name: direct-thru-egress-gateway
         spec:
           hosts:
           - edition.cnn.com
@@ -128,17 +130,24 @@ the <TBD> Perform TLS Origination for Egress Traffic task, with one difference.
 
     ```command
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -IL http://edition.cnn.com/politics
-    ```
+    HTTP/1.1 301 Moved Permanently
+    ...
+    location: https://edition.cnn.com/politics
+    ...
 
-    The output should be the same as in the <TBD> Perform TLS Origination for Egress Traffic task.
-
-    ```plain
     HTTP/1.1 200 OK
     Content-Type: text/html; charset=utf-8
     ...
     Content-Length: 151654
     ...
     ```
+
+    The output should be the same as in the <TBD> Perform TLS Origination for Egress Traffic task, without TLS origination.
+
+## Perform TLS origination by the egress `Gateway`
+
+
+
 ## Additional security considerations
 
 Note that defining an egress `Gateway` in Istio does not in itself provides any special treatment for the nodes on which the egress gateway service runs. It is up to the Istio operator or the cloud provider to deploy the egress gateways on dedicated nodes and to introduce additional security measures to make these nodes more secure than the rest of the mesh.
