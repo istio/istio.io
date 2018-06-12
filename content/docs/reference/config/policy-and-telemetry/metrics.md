@@ -47,16 +47,14 @@ We will describe metrics first and then the labels for each metric.
     "reviews.default.svc.cluster.local".
 
     ```yaml
-       #Default Attribute Expression
-       source_service: source.service | "unknown"
+    source_service: source.service | "unknown"
     ```
 
 *   **Source Version**: This identifies the version of the source service of the
     request.
 
     ```yaml
-       #Default Attribute Expression
-       source_version: source.labels["version"] | "unknown"
+    source_version: source.labels["version"] | "unknown"
     ```
 
 *   **Destination Service**: This identifies the destination service responsible
@@ -64,24 +62,21 @@ We will describe metrics first and then the labels for each metric.
     "details.default.svc.cluster.local".
 
     ```yaml
-       #Default Attribute Expression
-       destination_service: destination.service | "unknown"
+    destination_service: destination.service | "unknown"
     ```
 
 *   **Destination Version**: This identifies the version of the source service
     of the request.
 
     ```yaml
-       #Default Attribute Expression
-       destination_version: destination.labels["version"] | "unknown"
+    destination_version: destination.labels["version"] | "unknown"
     ```
 
 *   **Response Code**: This identifies the response code of the request. This
     label is present only on HTTP metrics.
 
     ```yaml
-       #Default Attribute Expression
-       response_code: response.code | 200
+    response_code: response.code | 200
     ```
 
 *   **Connection mTLS**: This identifies the service authentication policy of
@@ -89,6 +84,5 @@ We will describe metrics first and then the labels for each metric.
     communications.
 
     ```yaml
-       #Default Attribute Expression
-       connection_mtls: connection.mtls | false
+    connection_mtls: connection.mtls | false
     ```
