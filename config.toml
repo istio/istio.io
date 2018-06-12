@@ -43,3 +43,8 @@ enableEmoji = true
     [[related.indices]]
         name  = "tags"
         weight = 100
+
+# internationalization
+[languages]
+  [languages.cn]
+    contentDir = "content_cn"
