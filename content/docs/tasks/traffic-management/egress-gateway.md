@@ -95,7 +95,7 @@ the traffic through the egress gateway:
         apiVersion: networking.istio.io/v1alpha3
         kind: VirtualService
         metadata:
-          name: direct-thru-egress-gateway
+          name: direct-through-egress-gateway
         spec:
           hosts:
           - edition.cnn.com
@@ -144,9 +144,33 @@ the traffic through the egress gateway:
 
     The output should be the same as in the <TBD> Perform TLS Origination for Egress Traffic task, without TLS origination.
 
+2.  Check the log of _istio-egressgateway_ pod and see a line corresponding to our request. If Istio is deployed to the `istio-system` namespace, the command to print the log is:
+
+    ```command
+    $ kubectl logs $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') egressgateway -n istio-system | tail
+    ```
+
+    We should see a line related to our request, similar to the following:
+
+    ```plain
+    [2018-06-12T12:44:05.051Z] "HEAD /politics HTTP/1.1" 301 - 0 0 3 1 "172.30.146.87" "curl/7.35.0" "d5e39f43-dff2-9576-9d3f-01cecf29cda2" "edition.cnn.com" "151.101.65.67:80"
+    ```
+
+    Note that we redirected only the traffic from the port 80 to the egress gateway, the HTTPS traffic to the port 443 went directly to _edition.cnn.com_.
+
+### Cleanup
+
+Let's remove the previous definitions before proceeding to the next step:
+
+```command
+$ istioctl delete gateway istio-egressgateway
+$ istioctl delete serviceentry cnn
+$ istioctl delete virtualservice direct-through-egress-gateway
+```
+
 ## Perform TLS origination by the egress `Gateway`
 
-
+Let's peform TLS origination by the egress `Gateway`, similar to the <TBD> Perform TLS Origination for Egress Traffic task
 
 ## Additional security considerations
 
