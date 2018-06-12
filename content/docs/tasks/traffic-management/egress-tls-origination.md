@@ -122,7 +122,7 @@ request port rewriting and add a `DestinationRule` for TLS origination.
           ports:
           - number: 80
             name: http-port
-            protocol: HTTP2
+            protocol: HTTP
           - number: 443
             name: http-port-for-tls-origination
             protocol: HTTP
