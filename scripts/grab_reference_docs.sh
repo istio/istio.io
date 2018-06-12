@@ -58,7 +58,7 @@ get_command_doc() {
 }
 
 # First delete all the current generated files so that any stale files are removed
-find _docs/reference -name '*.html' -type f|xargs rm
+find content/docs/reference -name '*.html' -type f|xargs rm
 
 for f in `find $WORK_DIR/istio -type f -name '*.pb.html'`
 do

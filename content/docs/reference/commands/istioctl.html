@@ -1313,7 +1313,7 @@ Retrieves proxy configuration for the specified pod from the endpoint proxy or P
 It is also able to retrieve the state of the entire mesh by using mesh instead of &lt;pod-name&gt;. This is only available when querying Pilot.</p>
 <p>Available configuration types:</p>
 <p>	Endpoint:
-	[clusters listeners routes static]</p>
+	[clusters listeners routes bootstrap]</p>
 <p>	Pilot:
 	[ads eds]</p>
 <p></p>
@@ -1408,8 +1408,8 @@ istioctl proxy-config pilot productpage-v1-bb8d5cbc7-k7qbm eds
 # Retrieve ads config for the mesh from Pilot
 istioctl proxy-config pilot mesh ads
 
-# Retrieve static config for productpage-v1-bb8d5cbc7-k7qbm pod in the application namespace from the endpoint proxy
-istioctl proxy-config endpoint -n application productpage-v1-bb8d5cbc7-k7qbm static
+# Retrieve bootstrap config for productpage-v1-bb8d5cbc7-k7qbm pod in the application namespace from the endpoint proxy
+istioctl proxy-config endpoint -n application productpage-v1-bb8d5cbc7-k7qbm bootstrap
 </code></pre>
 <h2 id="istioctl-register">istioctl register</h2>
 <p>Registers a service instance (e.g. VM) joining the mesh</p>
