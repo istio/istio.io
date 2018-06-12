@@ -249,6 +249,7 @@ destination.port
 destination.service
 destination.uid
 destination.user
+details.default.svc.cluster.local
 dev
 dm_bookinfo.png
 dm_gcp_iam.png
@@ -464,6 +465,7 @@ response.headers
 response.size
 response.time
 reviews.abc.svc.cluster.local
+reviews.default.svc.cluster.local
 roadmap
 roleRef
 roles_summary.png
