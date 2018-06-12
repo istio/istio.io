@@ -88,7 +88,7 @@ To start the application, follow the instructions below corresponding to your Is
         ```
 
         The `istioctl kube-inject` command is used to manually modify the `bookinfo.yaml`
-        file before creating the deployments as documented [here](/docs/reference/commands/istioctl/#istioctl kube-inject).
+        file before creating the deployments as documented [here](/docs/reference/commands/istioctl/#istioctl-kube-inject).
 
     *   If you are using a cluster with
         [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)

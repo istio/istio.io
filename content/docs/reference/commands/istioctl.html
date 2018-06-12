@@ -22,6 +22,11 @@ system.</p>
 </thead>
 <tbody>
 <tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
 <td><code>-i</code></td>
 <td>Istio system namespace  (default `istio-system`)</td>
@@ -29,7 +34,7 @@ system.</p>
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
+<td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -88,7 +93,7 @@ system.</p>
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl context-create">istioctl context-create</h2>
+<h2 id="istioctl-context-create">istioctl context-create</h2>
 <p>Create a kubeconfig file suitable for use with istioctl in a non kubernetes environment</p>
 <pre class="language-bash"><code>istioctl context-create --api-server http://&lt;ip&gt;:&lt;port&gt; [flags]
 </code></pre>
@@ -107,7 +112,7 @@ system.</p>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
-<td>Kubernetes configuration file context name  (default `istio`)</td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -117,7 +122,7 @@ system.</p>
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
+<td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -176,12 +181,12 @@ system.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl context-create Examples">Examples</h3>
+<h3 id="istioctl-context-create Examples">Examples</h3>
 <pre class="language-bash"><code># Create a config file for the api server.
 istioctl context-create --api-server http://127.0.0.1:8080
 
 </code></pre>
-<h2 id="istioctl create">istioctl create</h2>
+<h2 id="istioctl-create">istioctl create</h2>
 <p>Create policies and rules</p>
 <pre class="language-bash"><code>istioctl create [flags]
 </code></pre>
@@ -193,6 +198,11 @@ istioctl context-create --api-server http://127.0.0.1:8080
 </thead>
 <tbody>
 <tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
 <td><code>--file &lt;string&gt;</code></td>
 <td><code>-f</code></td>
 <td>Input file with the content of the configuration objects (if not set, command reads from the standard input)  (default ``)</td>
@@ -205,7 +215,7 @@ istioctl context-create --api-server http://127.0.0.1:8080
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
+<td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -264,10 +274,10 @@ istioctl context-create --api-server http://127.0.0.1:8080
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl create Examples">Examples</h3>
+<h3 id="istioctl-create Examples">Examples</h3>
 <pre class="language-bash"><code>istioctl create -f example-routing.yaml
 </code></pre>
-<h2 id="istioctl delete">istioctl delete</h2>
+<h2 id="istioctl-delete">istioctl delete</h2>
 <p>Delete policies or rules</p>
 <pre class="language-bash"><code>istioctl delete &lt;type&gt; &lt;name&gt; [&lt;name2&gt; ... &lt;nameN&gt;] [flags]
 </code></pre>
@@ -279,6 +289,11 @@ istioctl context-create --api-server http://127.0.0.1:8080
 </thead>
 <tbody>
 <tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
 <td><code>--file &lt;string&gt;</code></td>
 <td><code>-f</code></td>
 <td>Input file with the content of the configuration objects (if not set, command reads from the standard input)  (default ``)</td>
@@ -291,7 +306,7 @@ istioctl context-create --api-server http://127.0.0.1:8080
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
+<td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -350,7 +365,7 @@ istioctl context-create --api-server http://127.0.0.1:8080
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl delete Examples">Examples</h3>
+<h3 id="istioctl-delete Examples">Examples</h3>
 <pre class="language-bash"><code># Delete a rule using the definition in example-routing.yaml.
 istioctl delete -f example-routing.yaml
 
@@ -358,7 +373,7 @@ istioctl delete -f example-routing.yaml
 istioctl delete virtualservice bookinfo
 
 </code></pre>
-<h2 id="istioctl deregister">istioctl deregister</h2>
+<h2 id="istioctl-deregister">istioctl deregister</h2>
 <p>De-registers a service instance</p>
 <pre class="language-bash"><code>istioctl deregister &lt;svcname&gt; &lt;ip&gt; [flags]
 </code></pre>
@@ -370,6 +385,11 @@ istioctl delete virtualservice bookinfo
 </thead>
 <tbody>
 <tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
 <td><code>-i</code></td>
 <td>Istio system namespace  (default `istio-system`)</td>
@@ -377,7 +397,7 @@ istioctl delete virtualservice bookinfo
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
+<td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -436,7 +456,7 @@ istioctl delete virtualservice bookinfo
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl experimental">istioctl experimental</h2>
+<h2 id="istioctl-experimental">istioctl experimental</h2>
 <p>Experimental commands that may be modified or deprecated</p>
 <table class="command-flags">
 <thead>
@@ -446,6 +466,11 @@ istioctl delete virtualservice bookinfo
 </thead>
 <tbody>
 <tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
 <td><code>-i</code></td>
 <td>Istio system namespace  (default `istio-system`)</td>
@@ -453,7 +478,7 @@ istioctl delete virtualservice bookinfo
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
+<td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -512,7 +537,7 @@ istioctl delete virtualservice bookinfo
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl experimental convert-networking-config">istioctl experimental convert-networking-config</h2>
+<h2 id="istioctl-experimental-convert-networking-config">istioctl experimental convert-networking-config</h2>
 <p>Converts sets of v1alpha1 configs to v1alpha3 equivalents on a best effort basis. The output should be considered a starting point for your v1alpha3 configs and probably require some minor modification. Warnings will (hopefully) be generated where configs cannot be converted perfectly, or in certain edge cases. The input must be the set of configs that would be in place in an environment at a given time. This allows the command to attempt to create and merge output configs intelligently.Output configs are given the namespace and domain of the first input config so it is recommended that input configs be part of the same namespace and domain.</p>
 <pre class="language-bash"><code>istioctl experimental convert-networking-config [flags]
 </code></pre>
@@ -523,6 +548,11 @@ istioctl delete virtualservice bookinfo
 <th>Description</th>
 </thead>
 <tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
 <tr>
 <td><code>--filenames &lt;stringSlice&gt;</code></td>
 <td><code>-f</code></td>
@@ -536,7 +566,7 @@ istioctl delete virtualservice bookinfo
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
+<td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -600,10 +630,10 @@ istioctl delete virtualservice bookinfo
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl experimental convert-networking-config Examples">Examples</h3>
+<h3 id="istioctl-experimental-convert-networking-config Examples">Examples</h3>
 <pre class="language-bash"><code>istioctl experimental convert-networking-config -f v1alpha1/default-route.yaml -f v1alpha1/header-delay.yaml
 </code></pre>
-<h2 id="istioctl experimental metrics">istioctl experimental metrics</h2>
+<h2 id="istioctl-experimental-metrics">istioctl experimental metrics</h2>
 <p>
 Prints the metrics for the specified service(s) when running in Kubernetes.</p>
 <p>This command finds a Prometheus pod running in the specified istio system 
@@ -626,6 +656,11 @@ calculated over a time interval of 1 minute.
 </thead>
 <tbody>
 <tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
 <td><code>-i</code></td>
 <td>Istio system namespace  (default `istio-system`)</td>
@@ -633,7 +668,7 @@ calculated over a time interval of 1 minute.
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
+<td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -692,7 +727,7 @@ calculated over a time interval of 1 minute.
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl experimental metrics Examples">Examples</h3>
+<h3 id="istioctl-experimental-metrics Examples">Examples</h3>
 <pre class="language-bash"><code>
 # Retrieve service metrics for productpage service
 istioctl experimental metrics productpage
@@ -701,7 +736,7 @@ istioctl experimental metrics productpage
 istioctl experimental metrics productpage.foo reviews.bar ratings.baz
 
 </code></pre>
-<h2 id="istioctl experimental rbac">istioctl experimental rbac</h2>
+<h2 id="istioctl-experimental-rbac">istioctl experimental rbac</h2>
 <p>
 A group of commands used to interact with Istio RBAC policies. For example, Query whether a specific
 request is allowed or denied under the current Istio RBAC policies.</p>
@@ -713,6 +748,11 @@ request is allowed or denied under the current Istio RBAC policies.</p>
 </thead>
 <tbody>
 <tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
 <td><code>-i</code></td>
 <td>Istio system namespace  (default `istio-system`)</td>
@@ -720,7 +760,7 @@ request is allowed or denied under the current Istio RBAC policies.</p>
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
+<td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -779,11 +819,11 @@ request is allowed or denied under the current Istio RBAC policies.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl experimental rbac Examples">Examples</h3>
+<h3 id="istioctl-experimental-rbac Examples">Examples</h3>
 <pre class="language-bash"><code># Query if user test is allowed to GET /v1/health of service rating.
 istioctl experimental rbac can -u test GET rating /v1/health
 </code></pre>
-<h2 id="istioctl experimental rbac can">istioctl experimental rbac can</h2>
+<h2 id="istioctl-experimental-rbac-can">istioctl experimental rbac can</h2>
 <p>
 This command lets you query whether a specific request will be allowed or denied under current Istio
 RBAC policies. It constructs a fake request with the custom subject and action specified in the command
@@ -806,6 +846,11 @@ is being taken on. PATH is the HTTP path within the service.</p>
 <td>[Action] Additional data about the action. Specified as name1=value1,name2=value2,...  (default `[]`)</td>
 </tr>
 <tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
 <td><code>--groups &lt;string&gt;</code></td>
 <td><code>-g</code></td>
 <td>[Subject] Group name/ID that the subject represents.  (default ``)</td>
@@ -818,7 +863,7 @@ is being taken on. PATH is the HTTP path within the service.</p>
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
+<td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -887,14 +932,14 @@ is being taken on. PATH is the HTTP path within the service.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl experimental rbac can Examples">Examples</h3>
+<h3 id="istioctl-experimental-rbac-can Examples">Examples</h3>
 <pre class="language-bash"><code># Query if user test is allowed to GET /v1/health of service rating.
 istioctl experimental rbac can -u test GET rating /v1/health
 
 # Query if service product-page is allowed to POST to /data of service rating with label version=dev.
 istioctl experimental rbac can -s service=product-page POST rating /data -a version=dev
 </code></pre>
-<h2 id="istioctl gen-deploy">istioctl gen-deploy</h2>
+<h2 id="istioctl-gen-deploy">istioctl gen-deploy</h2>
 <p>istioctl gen-deploy produces deployment files to run the Istio.</p>
 <pre class="language-bash"><code>istioctl gen-deploy [flags]
 </code></pre>
@@ -905,6 +950,11 @@ istioctl experimental rbac can -s service=product-page POST rating /data -a vers
 <th>Description</th>
 </thead>
 <tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
 <tr>
 <td><code>--debug</code></td>
 <td></td>
@@ -938,7 +988,7 @@ istioctl experimental rbac can -s service=product-page POST rating /data -a vers
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
+<td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -1002,10 +1052,10 @@ istioctl experimental rbac can -s service=product-page POST rating /data -a vers
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl gen-deploy Examples">Examples</h3>
+<h3 id="istioctl-gen-deploy Examples">Examples</h3>
 <pre class="language-bash"><code>istioctl gen-deploy --values myvalues.yaml
 </code></pre>
-<h2 id="istioctl get">istioctl get</h2>
+<h2 id="istioctl-get">istioctl get</h2>
 <p>Retrieve policies and rules</p>
 <pre class="language-bash"><code>istioctl get &lt;type&gt; [&lt;name&gt;] [flags]
 </code></pre>
@@ -1017,6 +1067,16 @@ istioctl experimental rbac can -s service=product-page POST rating /data -a vers
 </thead>
 <tbody>
 <tr>
+<td><code>--all-namespaces</code></td>
+<td></td>
+<td>If present, list the requested object(s) across all namespaces. Namespace in current context is ignored even if specified with --namespace. </td>
+</tr>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
 <td><code>-i</code></td>
 <td>Istio system namespace  (default `istio-system`)</td>
@@ -1024,7 +1084,7 @@ istioctl experimental rbac can -s service=product-page POST rating /data -a vers
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
+<td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -1088,7 +1148,7 @@ istioctl experimental rbac can -s service=product-page POST rating /data -a vers
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl get Examples">Examples</h3>
+<h3 id="istioctl-get Examples">Examples</h3>
 <pre class="language-bash"><code># List all virtual services
 istioctl get virtualservices
 
@@ -1099,7 +1159,7 @@ istioctl get destinationrules
 istioctl get virtualservice bookinfo
 
 </code></pre>
-<h2 id="istioctl kube-inject">istioctl kube-inject</h2>
+<h2 id="istioctl-kube-inject">istioctl kube-inject</h2>
 <p></p>
 <p>kube-inject manually injects envoy sidecar into kubernetes
 workloads. Unsupported resources are left unmodified so it is safe to
@@ -1129,6 +1189,11 @@ file/configmap created with a new Istio release.
 </thead>
 <tbody>
 <tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
 <td><code>--filename &lt;string&gt;</code></td>
 <td><code>-f</code></td>
 <td>Input Kubernetes resource filename  (default ``)</td>
@@ -1151,7 +1216,7 @@ file/configmap created with a new Istio release.
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
+<td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -1225,7 +1290,7 @@ file/configmap created with a new Istio release.
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl kube-inject Examples">Examples</h3>
+<h3 id="istioctl-kube-inject Examples">Examples</h3>
 <pre class="language-bash"><code>
 # Update resources on the fly before applying.
 kubectl apply -f &lt;(istioctl kube-inject -f &lt;resource.yaml&gt;)
@@ -1242,7 +1307,7 @@ kubectl get deployment -o yaml | istioctl kube-inject -f - | kubectl apply -f -
 istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml --injectConfigMapName istio-inject
 
 </code></pre>
-<h2 id="istioctl proxy-config">istioctl proxy-config</h2>
+<h2 id="istioctl-proxy-config">istioctl proxy-config</h2>
 <p>
 Retrieves proxy configuration for the specified pod from the endpoint proxy or Pilot when running in Kubernetes.
 It is also able to retrieve the state of the entire mesh by using mesh instead of &lt;pod-name&gt;. This is only available when querying Pilot.</p>
@@ -1262,6 +1327,11 @@ It is also able to retrieve the state of the entire mesh by using mesh instead o
 </thead>
 <tbody>
 <tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
 <td><code>-i</code></td>
 <td>Istio system namespace  (default `istio-system`)</td>
@@ -1269,7 +1339,7 @@ It is also able to retrieve the state of the entire mesh by using mesh instead o
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
+<td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -1328,7 +1398,7 @@ It is also able to retrieve the state of the entire mesh by using mesh instead o
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl proxy-config Examples">Examples</h3>
+<h3 id="istioctl-proxy-config Examples">Examples</h3>
 <pre class="language-bash"><code># Retrieve all config for productpage-v1-bb8d5cbc7-k7qbm pod from the endpoint proxy
 istioctl proxy-config endpoint productpage-v1-bb8d5cbc7-k7qbm
 
@@ -1341,7 +1411,7 @@ istioctl proxy-config pilot mesh ads
 # Retrieve static config for productpage-v1-bb8d5cbc7-k7qbm pod in the application namespace from the endpoint proxy
 istioctl proxy-config endpoint -n application productpage-v1-bb8d5cbc7-k7qbm static
 </code></pre>
-<h2 id="istioctl register">istioctl register</h2>
+<h2 id="istioctl-register">istioctl register</h2>
 <p>Registers a service instance (e.g. VM) joining the mesh</p>
 <pre class="language-bash"><code>istioctl register &lt;svcname&gt; &lt;ip&gt; [name1:]port1 [name2:]port2 ... [flags]
 </code></pre>
@@ -1358,6 +1428,11 @@ istioctl proxy-config endpoint -n application productpage-v1-bb8d5cbc7-k7qbm sta
 <td>List of string annotations to apply if creating a service/endpoint; e.g. -a foo=bar,test,x=y  (default `[]`)</td>
 </tr>
 <tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
 <td><code>-i</code></td>
 <td>Istio system namespace  (default `istio-system`)</td>
@@ -1365,7 +1440,7 @@ istioctl proxy-config endpoint -n application productpage-v1-bb8d5cbc7-k7qbm sta
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
+<td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--labels &lt;stringSlice&gt;</code></td>
@@ -1434,7 +1509,7 @@ istioctl proxy-config endpoint -n application productpage-v1-bb8d5cbc7-k7qbm sta
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl replace">istioctl replace</h2>
+<h2 id="istioctl-replace">istioctl replace</h2>
 <p>Replace existing policies and rules</p>
 <pre class="language-bash"><code>istioctl replace [flags]
 </code></pre>
@@ -1445,6 +1520,11 @@ istioctl proxy-config endpoint -n application productpage-v1-bb8d5cbc7-k7qbm sta
 <th>Description</th>
 </thead>
 <tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
 <tr>
 <td><code>--file &lt;string&gt;</code></td>
 <td><code>-f</code></td>
@@ -1458,7 +1538,7 @@ istioctl proxy-config endpoint -n application productpage-v1-bb8d5cbc7-k7qbm sta
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
+<td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -1517,10 +1597,10 @@ istioctl proxy-config endpoint -n application productpage-v1-bb8d5cbc7-k7qbm sta
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl replace Examples">Examples</h3>
+<h3 id="istioctl-replace Examples">Examples</h3>
 <pre class="language-bash"><code>istioctl replace -f example-routing.yaml
 </code></pre>
-<h2 id="istioctl version">istioctl version</h2>
+<h2 id="istioctl-version">istioctl version</h2>
 <p>Prints out build version information</p>
 <pre class="language-bash"><code>istioctl version [flags]
 </code></pre>
@@ -1532,6 +1612,11 @@ istioctl proxy-config endpoint -n application productpage-v1-bb8d5cbc7-k7qbm sta
 </thead>
 <tbody>
 <tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
 <td><code>-i</code></td>
 <td>Istio system namespace  (default `istio-system`)</td>
@@ -1539,7 +1624,7 @@ istioctl proxy-config endpoint -n application productpage-v1-bb8d5cbc7-k7qbm sta
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default `$KUBECONFIG else $HOME/.kube/config`)</td>
+<td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>

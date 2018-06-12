@@ -247,4 +247,4 @@ Let's set up a scenario to demonstrate the traffic-mirroring capabilities of Ist
 
 ## What's next
 
-Check out the [Mirroring configuration](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute.mirror) reference documentation.
+Check out the [Mirroring configuration](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute-mirror) reference documentation.
