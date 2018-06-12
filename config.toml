@@ -48,3 +48,5 @@ enableEmoji = true
 [languages]
   [languages.cn]
     contentDir = "content_cn"
+  [languages.en]
+    contentDir = "content"

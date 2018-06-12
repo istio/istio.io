@@ -1,6 +1,6 @@
 ---
 title: 关于Istio
-linktitle: About
+linktitle: 关于
 description: 关于Istio的说明
 weight: 15
 ---
