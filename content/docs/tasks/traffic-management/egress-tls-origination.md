@@ -73,11 +73,6 @@ Note that we use a wild card `*` in our `hosts` definition: `*.cnn.com`. Using t
 
     ```command
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -IL http://edition.cnn.com/politics
-    ```
-
-    The output should be similar to the following (the unimportant details replaced by ellipsis):
-
-    ```plain
     HTTP/1.1 301 Moved Permanently
     ...
     location: https://edition.cnn.com/politics
@@ -89,6 +84,8 @@ Note that we use a wild card `*` in our `hosts` definition: `*.cnn.com`. Using t
     Content-Length: 151654
     ...
     ```
+
+    The output should be similar to the above (unimportant details replaced by ellipsis):
 
 Note the `-L` flag of `curl`. It instructs `curl` to follow redirects. In this case,
 the server responded with a redirect response ([301 Moved Permanently](https://tools.ietf.org/html/rfc2616#section-10.3.2)) to an HTTP request to http://edition.cnn.com/politics. The redirect response instructs the client to send an additional request, this time by HTTPS to https://edition.cnn.com/politics. For the second request, the server responds with the requested content and _200 OK_ status code.
@@ -165,9 +162,6 @@ request port rewriting and add a `DestinationRule` for TLS origination.
 
     ```command
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -IL http://edition.cnn.com/politics
-    ```
-
-    ```plain
     HTTP/1.1 200 OK
     Content-Type: text/html; charset=utf-8
     ...
