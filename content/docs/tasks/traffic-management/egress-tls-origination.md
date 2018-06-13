@@ -156,7 +156,7 @@ proxy needs to know exactly which host to access using HTTPS.
             - port:
                 number: 443
               tls:
-                mode: SIMPLE # initiates HTTPS when talking to edition.cnn.com
+                mode: SIMPLE # initiates HTTPS when accessing edition.cnn.com
         EOF
     ```
 
