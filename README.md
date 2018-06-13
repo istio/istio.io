@@ -99,14 +99,14 @@ Hugo directly copies to the site without any processing.
 Istio maintains three variations of its public site:
 
 * [istio.io](https://istio.io) is the main site, showing documentation for the current release of the product.
-This site is currently hosted on Firebase.
+This site is currently hosted on Netlify.
 
 * [archive.istio.io](https://archive.istio.io) contains snapshots of the documentation for previous releases of the product.
 This is useful for customers still using these older releases.
 This site is currently hosted on Firebase.
 
 * [preliminary.istio.io](https://preliminary.istio.io) contains the actively updated documentation for the next release of the product.
-This site is hosted by GitHub Pages.
+This site is hosted on Netlify.
 
 The user can trivially navigate between the different variations of the site using the gear menu in the top right
 of each page.
@@ -117,7 +117,7 @@ of each page.
 are automatically reflected on preliminary.istio.io.
 
 * The content of istio.io is taken from the latest release-XXX branch. The specific branch that
-is used is determined by the `BRANCH` variable in this [script](https://github.com/istio/admin-sites/blob/master/current.istio.io/build.sh)
+is used is determined by the istio.io [Netlify](https://netlify.com) project's configuration.
 
 * The content of archive.istio.io is taken from the older release-XXX branches. The set of branches that
 are included on archive.istio.io is determined by the `TOBUILD` variable in this
@@ -125,7 +125,7 @@ are included on archive.istio.io is determined by the `TOBUILD` variable in this
 
 > The above means that if you want to do a change to the main istio.io site, you will need
 to make the change in the master branch of istio.github.io and then merge that change into the
-release branch.
+current release branch.
 
 ### Publishing content immediately
 
@@ -196,17 +196,10 @@ right set of archives, based on the above steps.
 
 #### Updating istio.io
 
-1. Switch to the istio/admin-sites repo.
+1. Go to the istio.io project on [Netlify](https://netlify.com)
 
-1. Navigate to the current.istio.io directory.
+1. Change the branch that is built from the old release branch to the new release branch
 
-1. Edit the `build.sh` script to set the `BRANCH` variable to the current release branch (in this case release-0.7)
-
-1. Commit the previous edit to GitHub.
-
-1. Run the `build.sh` script.
-
-1. Once the script completes, run 'firebase deploy`. This will update the content of istio.io to reflect what is the new release
-branch you created.
+1. Select the option to trigger an immediate rebuild and redeployment.
 
 1. Once deployment is done, browse istio.io and make sure everything looks good.
