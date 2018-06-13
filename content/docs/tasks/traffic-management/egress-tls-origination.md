@@ -48,7 +48,7 @@ If we used the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/sam
 First, we configure access to _cnn.com_ in the same way as in the [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task.
 Note that we use a wildcard `*` in our `hosts` definition: `*.cnn.com`. Using the wildcard we allow access to  _www.cnn.com_ as well as to _edition.cnn.com_.
 
-1.  Create an `ServiceEntry` to allow access to an external HTTP and HTTPS services:
+1.  Create a `ServiceEntry` to allow access to an external HTTP and HTTPS services:
 
     ```bash
         cat <<EOF | istioctl create -f -
