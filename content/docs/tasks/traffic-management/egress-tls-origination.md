@@ -72,7 +72,7 @@ Note that we use a wildcard `*` in our `hosts` definition: `*.cnn.com`. Using th
 1.  Make a request to the external HTTP service:
 
     ```command
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -IL http://edition.cnn.com/politics
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
     HTTP/1.1 301 Moved Permanently
     ...
     location: https://edition.cnn.com/politics
@@ -163,7 +163,7 @@ proxy needs to know exactly which host to access using HTTPS.
 1. Send an HTTP request to http://edition.cnn.com/politics, as in the previous section.
 
     ```command
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -IL http://edition.cnn.com/politics
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
     HTTP/1.1 200 OK
     Content-Type: text/html; charset=utf-8
     ...
