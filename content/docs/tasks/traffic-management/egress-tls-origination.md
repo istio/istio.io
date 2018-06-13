@@ -1,5 +1,5 @@
 ---
-title: Perform TLS Origination for Egress Traffic
+title: TLS Origination for Egress Traffic
 description: Describes how to configure Istio to perform TLS origination for traffic to external services
 weight: 42
 ---
