@@ -62,7 +62,7 @@ title: Istio
             </div>
         </div>
     </div>
-    
+
     <div class="container-fluid resilience color2">
         <div class="row align-items-center justify-content-center">
             <div class="col-12 col-md-5">
@@ -77,7 +77,7 @@ title: Istio
             </div>
         </div>
     </div>
-    
+
     <div class="container-fluid policy color1">
         <div class="row align-items-center justify-content-center">
             <div class="col-12 col-md-5">
@@ -92,7 +92,7 @@ title: Istio
             </div>
         </div>
     </div>
-    
+
     <div class="container-fluid reporting color2">
         <div class="row align-items-center justify-content-center">
             <div class="col-12 col-md-5">
@@ -107,7 +107,7 @@ title: Istio
             </div>
         </div>
     </div>
-    
+
     <div class="container-fluid call color1">
         <div class="row no-gutters">
             <div class="col-12 col-md-6">
@@ -115,7 +115,7 @@ title: Istio
                 <p>了解Istio的概念和运行Bookinfo示例来快速开始</p>
                 <a class="btn btn-istio" href="/docs/">快速开始</a>
             </div>
-    
+
             <div class="col-12 col-md-6">
                 <h2>准备好开始了吗？</h2>
                 <p>下载最新版本</p>
@@ -123,16 +123,16 @@ title: Istio
             </div>
         </div>
     </div>
-    
+
     <style>
         header .navbar {
             box-shadow: none;
         }
-    
+
         body {
             padding-top: 2.8rem;
         }
-    
+
         .navbar-brand {
             visibility: hidden;
         }

@@ -13,61 +13,61 @@ sidebar_none: true
         border: 0;
         padding: 0;
     }
-    
+
     table {
         margin-left: .5em;
         margin-right: 0;
     }
-    
+
     table p:first-of-type {
         margin-top: 0;
     }
-    
+
     table p:last-of-type {
         margin-bottom: 0
     }
-    
+
     tr.oneof>td {
         border: 0;
     }
-    
+
     table {
         border-collapse: collapse;
         border-spacing: 0;
     }
-    
+
     tr:first-child th:first-child {
         border: 0;
     }
-    
+
     tr:first-child td:first-child {
         border: 0;
     }
-    
+
     tr:first-child th:last-child {
         border: 0;
     }
-    
+
     tr:first-child td:last-child {
         border: 0;
     }
-    
+
     tr:last-child td {
         border: 0;
     }
-    
+
     tr:last-child td:first-child {
         border: 0;
     }
-    
+
     tr:last-child td:last-child {
         border: 0;
     }
-    
+
     tr th:last-child {
         border: 0;
     }
-    
+
     tr td:last-child {
         border: 0;
     }
