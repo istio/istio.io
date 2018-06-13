@@ -170,7 +170,121 @@ $ istioctl delete virtualservice direct-through-egress-gateway
 
 ## Perform TLS origination by the egress `Gateway`
 
-Let's peform TLS origination by the egress `Gateway`, similar to the <TBD> Perform TLS Origination for Egress Traffic task
+Let's peform TLS origination by the egress `Gateway`, similar to the <TBD> Perform TLS Origination for Egress Traffic task.
+
+1.  Create an egress `Gateway` for _edition.cnn.com_, port 80:
+
+    ```bash
+        cat <<EOF | istioctl create -f -
+        kind: Gateway
+        metadata:
+          name: istio-egressgateway
+        spec:
+          selector:
+            istio: egressgateway
+          servers:
+          - port:
+              number: 443
+              name: http-port-for-tls-origination
+              protocol: HTTP
+            hosts:
+            - "edition.cnn.com"
+    EOF
+    ```
+
+1.  Define a `ServiceEntry` for `edition.cnn.com` and a `VirtualService` to direct
+the traffic through the egress gateway:
+
+    ```bash
+        cat <<EOF | istioctl create -f -
+        apiVersion: networking.istio.io/v1alpha3
+        kind: ServiceEntry
+        metadata:
+          name: cnn
+        spec:
+          hosts:
+          - edition.cnn.com
+          ports:
+          - number: 80
+            name: http-port
+            protocol: HTTP
+          - number: 443
+            name: http-port-for-tls-origination
+            protocol: HTTP
+          resolution: DNS
+        ---
+        apiVersion: networking.istio.io/v1alpha3
+        kind: VirtualService
+        metadata:
+          name: direct-through-egress-gateway
+        spec:
+          hosts:
+          - edition.cnn.com
+          gateways:
+          - istio-egressgateway
+          - mesh
+          http:
+          - match:
+            - gateways:
+              - mesh
+              port: 80
+            route:
+            - destination:
+                host: istio-egressgateway.istio-system.svc.cluster.local
+                port:
+                  number: 443
+              weight: 100
+          - match:
+            - gateways:
+              - istio-egressgateway
+              port: 443
+            route:
+            - destination:
+                host: edition.cnn.com
+                port:
+                  number: 443
+              weight: 100
+        ---
+        apiVersion: networking.istio.io/v1alpha3
+        kind: DestinationRule
+        metadata:
+          name: originate-tls-for-edition-cnn-com
+        spec:
+          host: edition.cnn.com
+          trafficPolicy:
+            loadBalancer:
+              simple: ROUND_ROBIN
+            portLevelSettings:
+            - port:
+                number: 443
+              tls:
+                mode: SIMPLE # initiates HTTPS for connections to edition.cnn.com
+        EOF
+    ```
+
+1.  Send an HTTP request to http://edition.cnn.com/politics.
+
+    ```command
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -IL http://edition.cnn.com/politics
+    HTTP/1.1 200 OK
+    ...
+    content-length: 150793
+    ...
+    ```
+
+    The output should be the same as in the <TBD> Perform TLS Origination for Egress Traffic task, with TLS origination: without the _301 Moved Permanently_ message.
+
+2.  Check the log of _istio-egressgateway_ pod and see a line corresponding to our request. If Istio is deployed to the `istio-system` namespace, the command to print the log is:
+
+    ```command
+    $ kubectl logs $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') egressgateway -n istio-system | tail
+    ```
+
+    We should see a line related to our request, similar to the following:
+
+    ```plain
+    [2018-06-12T18:23:09.500Z] "HEAD /politics HTTP/1.1" 200 - 0 0 5007 7 "172.30.146.87" "curl/7.35.0" "4134ff12-edc8-908d-9c99-c6302d4177ff" "edition.cnn.com" "151.101.65.67:443"
+    ```
 
 ## Additional security considerations
 
