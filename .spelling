@@ -45,6 +45,7 @@ CSRs
 Chrony
 Circonus
 CloudWatch
+cnn.com
 Cmd
 Config
 ConfigMap
@@ -55,6 +56,7 @@ DaemonSet
 Datadog
 Datawire
 DestinationRule
+edition.cnn.com
 EgressRule
 Elasticsearch
 emojis
@@ -125,6 +127,7 @@ Ostrowski
 PaaS
 Papertrail
 PilotAdapters.svg
+programmatically
 Pub/Sub
 Rajagopalan
 RawVM
