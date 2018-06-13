@@ -100,7 +100,14 @@ $ istioctl delete serviceentry cnn
 
 ## TLS origination for Egress traffic
 
-1.  Define a `ServiceEntry` to allow traffic to _edition.cnn.com_, a `VirtualService` to perform request port rewriting, and a `DestinationRule` for TLS origination. This time use HTTP protocol for the port 443 of the `ServiceEntry`, since the clients will use HTTP protocol and Istio will perform TLS origination for them. Note two additional changes in our `VirtualService`. First, we have to use a specific host `edition.cnn.com`, this is because the Envoy proxy has to know exactly which host and port it should access by HTTPS. The second change is `resolution` `DNS`, the change is required according to Envoy's configuration specifics.
+1.  Define a `ServiceEntry` to allow traffic to _edition.cnn.com_, a `VirtualService` to perform request port rewriting, and a `DestinationRule` for TLS origination.
+
+    Unlike the ServiceEntry in the previous section, here we use HTTP for the protocol on port 433, since clients
+will send HTTP requests and Istio will perform TLS origination for them. Also, the resolution must be set
+to DNS to correctly configure Envoy in this case.
+
+    Finally, note that the VirtualService uses a specific host _edition.cnn.com_ (no wildcard) because the Envoy
+proxy needs to know exactly which host to access using HTTPS.
 
     ```bash
         cat <<EOF | istioctl create -f -
