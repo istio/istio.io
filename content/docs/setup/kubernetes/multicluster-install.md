@@ -55,7 +55,7 @@ The following procedure should be performed on each remote cluster to be
 added to the service mesh.  The procedure requires cluster-admin user access
 to the remote cluster.
 
-1. Create `ClusterRole`, `istio-reader`, for the Istio control plane access:
+1. Create a `ClusterRole` named `istio-reader` for the Istio control plane access:
 
      ```command
       cat <<EOF | kubectl  create -f -
@@ -70,7 +70,7 @@ to the remote cluster.
     EOF
     ```
 
-1.  Create `ServiceAccount`, `istio-multi`, for the Istio control plane:
+1.  Create a `ServiceAccount` named `istio-multi` for the Istio control plane:
 
     ```command
     $ export SERVICE_ACCOUNT=istio-multi
@@ -79,13 +79,13 @@ to the remote cluster.
     $ kubectl create sa ${SERVICE_ACCOUNT} -n ${NAMESPACE}
     ```
 
-1.  Bind `ServiceAccount`, `istio-multi`, to `ClusterRole` `istio-reader`:
+1.  Bind the `ServiceAccount` named `istio-multi` to the `ClusterRole` named `istio-reader`:
 
     ```command
     $ kubectl create clusterrolebinding istio-multi --clusterrole=istio-reader --serviceaccount=${NAMESPACE}:${SERVICE_ACCOUNT}
     ```
 
-1.  Create a `kubeconfig` file in the current directory for the `ServiceAccount` `istio-multi`:
+1.  Prepare environment variables for building the `kubeconfig` file for `ServiceAccount` `istio-multi`:
 
     ```command
     $ export WORK_DIR=$(pwd)
@@ -93,21 +93,35 @@ to the remote cluster.
     $ export KUBECFG_FILE=${WORK_DIR}/${CLUSTER_NAME}
     $ SERVER=$(kubectl config view --minify=true -o "jsonpath={.clusters[].cluster.server}")
     $ SECRET_NAME=$(kubectl get sa ${SERVICE_ACCOUNT} -n ${NAMESPACE} -o jsonpath='{.secrets[].name}')
-    $ kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o "jsonpath={.data['ca\.crt']}" | base64 --decode > ${WORK_DIR}/${CLUSTER_NAME}_ca.crt
-    $ kubectl config set-cluster "${CLUSTER_NAME}" \
-      --kubeconfig=${KUBECFG_FILE} \
-      --server="${SERVER}" \
-      --certificate-authority="${WORK_DIR}/${CLUSTER_NAME}_ca.crt" \
-      --embed-certs=true
-    $ USER_TOKEN=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o "jsonpath={.data['token']}" | base64 --decode)
-    $ kubectl config set-credentials ${CLUSTER_NAME} \
-      --kubeconfig=${KUBECFG_FILE} \
-      --token=${USER_TOKEN}
-    $ kubectl config set-context ${CLUSTER_NAME} \
-      --kubeconfig=${KUBECFG_FILE} \
-      --cluster=${CLUSTER_NAME} \
-      --user=${CLUSTER_NAME}
-    $ kubectl config use-context ${CLUSTER_NAME} --kubeconfig=${KUBECFG_FILE}
+    $ CA_DATA=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o "jsonpath={.data['ca\.crt']}")
+    $ TOKEN=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o "jsonpath={.data['token']}" | base64 --decode)
+    ```
+
+    __NOTE__: An alternative to `base64 --decode` is `openssl enc -d -base64 -A` on many systems.
+
+1. Create a `kubeconfig` file in the working directory for the `ServiceAccount` `istio-multi`:
+
+     ```command
+      cat <<EOF > ${KUBECFG_FILE}
+      apiVersion: v1
+      clusters:
+         - cluster:
+             certificate-authority-data: ${CA_DATA}
+             server: ${SERVER}
+           name: ${CLUSTER_NAME}
+      contexts:
+         - context:
+             cluster: ${CLUSTER_NAME}
+             user: ${CLUSTER_NAME}
+           name: ${CLUSTER_NAME}
+      current-context: ${CLUSTER_NAME}
+      kind: Config
+      preferences: {}
+      users:
+         - name: ${CLUSTER_NAME}
+           user:
+             token: ${TOKEN}
+    EOF
     ```
 
 At this point, the remote clusters' `kubeconfig` files have been created in the current directory.
@@ -138,15 +152,15 @@ the remote nodes' credentials.
 Create a secret and label it properly for each remote cluster:
 
 ```command
-$ pushd $WORK_DIR
+$ cd $WORK_DIR
 $ kubectl create secret generic ${CLUSTER_NAME} --from-file ${CLUSTER_NAME} -n istio-system
 $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n istio-system
-$ popd
 ```
 
 {{< warning_icon >}}
 The secret name and the corresponding file name need to be the same.  Kubernetes secret
-data keys have to conform to `DNS-1123 subdomain` format, so the filename can't have
+data keys have to conform to `DNS-1123 subdomain`
+[format](https://tools.ietf.org/html/rfc1123#page-13), so the filename can't have
 underscores for example.  To resolve any issue you can simply change the filename and
 secret name to conform to the format.
 
