@@ -18,7 +18,7 @@ Consider an organization that has strict security requirements. According to the
 
 Istio 0.8 introduced the concept of [ingress and egress gateways](/docs/reference/config/istio.networking.v1alpha3/#Gateway). Ingress gateways allow defining entrance points into the service mesh so all the incoming traffic flows through these entrance points. _Egress gateway_ is a symmetrical concept, it defines exit points for the mesh. An egress gateway allows Istio features, for example, monitoring and route rules, to be applied to traffic exiting the mesh.
 
-Additional use case is a cluster where the application nodes do not have public IPs. Defining an Egress gateway, directing all the egress traffic through it and allocating public IPs to the egress gateway nodes lets the application nodes access external services in a controlled way.
+Additional use case is a cluster where the application nodes do not have public IPs. Defining an egress gateway, directing all the egress traffic through it and allocating public IPs to the egress gateway nodes allows the application nodes access external services in a controlled way.
 
 ## Before you begin
 
