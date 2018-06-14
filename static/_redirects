@@ -9,3 +9,6 @@
 
 # Redirect default Netlify subdomain to primary domain
 https://istio.netlify.com/* https://istio.io/:splat 301!
+
+# Redirect to translated sites
+/  /cn   302  Language=zh
