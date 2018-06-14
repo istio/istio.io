@@ -314,8 +314,4 @@ In this blog post, I demonstrated how the microservices in an Istio service mesh
 
 ## What's next
 
-To read more about Istio egress traffic control:
-
-* for TCP, see [Control Egress TCP Traffic Task](/docs/tasks/traffic-management/egress-tcp/)
-
-* for HTTP/HTTPS, see [Control Egress Traffic Task](/docs/tasks/traffic-management/egress/)
+To read more about Istio egress traffic control, see [Control Egress Traffic Task](/docs/tasks/traffic-management/egress/).
