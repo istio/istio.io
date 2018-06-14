@@ -72,7 +72,7 @@ for the application as a whole.
 
 To start the application, follow the instructions below corresponding to your Istio runtime environment.
 
-### Running on Kubernetes
+### If you are running on Kubernetes
 
 > If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If you use Minikube, please ensure you have at least 4GB RAM.
 
@@ -145,7 +145,9 @@ To start the application, follow the instructions below corresponding to your Is
    $ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
    ```
 
-### Running on Docker with Consul or Eureka
+1. Proceed to [What's next](#what-s-next), below.
+
+### If you are running on Docker with Consul or Eureka
 
 1. Change directory to the root of the Istio installation directory.
 
