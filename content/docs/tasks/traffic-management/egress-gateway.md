@@ -144,7 +144,7 @@ the traffic through the egress gateway:
 
     The output should be the same as in the [TLS Origination for Egress Traffic](docs/tasks/traffic-management/egress-tls-origination/) task, without TLS origination.
 
-2.  Check the log of the _istio-egressgateway_ pod and see a line corresponding to our request. If Istio is deployed to the `istio-system` namespace, the command to print the log is:
+1.  Check the log of the _istio-egressgateway_ pod and see a line corresponding to our request. If Istio is deployed to the `istio-system` namespace, the command to print the log is:
 
     ```command
     $ kubectl logs $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') egressgateway -n istio-system | tail
@@ -274,7 +274,7 @@ the traffic through the egress gateway:
 
     The output should be the same as in the [TLS Origination for Egress Traffic](docs/tasks/traffic-management/egress-tls-origination/) task, with TLS origination: without the _301 Moved Permanently_ message.
 
-2.  Check the log of _istio-egressgateway_ pod and see a line corresponding to our request. If Istio is deployed to the `istio-system` namespace, the command to print the log is:
+1.  Check the log of _istio-egressgateway_ pod and see a line corresponding to our request. If Istio is deployed to the `istio-system` namespace, the command to print the log is:
 
     ```command
     $ kubectl logs $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') egressgateway -n istio-system | tail
