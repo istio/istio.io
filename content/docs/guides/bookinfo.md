@@ -145,7 +145,7 @@ To start the application, follow the instructions below corresponding to your Is
    $ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
    ```
 
-1. Proceed to [## What's next](#what-s-next), below.
+1. Proceed to [What's next](#what-s-next), below.
 
 ### If you are running on Docker with Consul or Eureka
 
