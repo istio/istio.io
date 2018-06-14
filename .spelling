@@ -32,6 +32,7 @@ AppOptics
 args.yaml
 AuthPolicy
 Autoscalers
+BigQuery
 Bookinfo
 Budinsky
 CAP_NET_ADMIN
@@ -44,6 +45,7 @@ CSRs
 Chrony
 Circonus
 CloudWatch
+cnn.com
 Cmd
 Config
 ConfigMap
@@ -54,6 +56,7 @@ DaemonSet
 Datadog
 Datawire
 DestinationRule
+edition.cnn.com
 EgressRule
 Elasticsearch
 emojis
@@ -124,6 +127,8 @@ Ostrowski
 PaaS
 Papertrail
 PilotAdapters.svg
+programmatically
+Pub/Sub
 Rajagopalan
 RawVM
 Redis
@@ -148,6 +153,7 @@ TCP-level
 TLS-secured
 Tcpdump
 Tigera
+TopicList
 TrafficManagementOverview.svg
 USE_ORIGIN
 USE_ORIGIN
@@ -179,6 +185,8 @@ _v3_
 a.k.a.
 abc
 abcde12345
+accesslog
+accesslogs
 accounts.my
 adapters.svg
 addon
@@ -237,6 +245,7 @@ createpolicystart.png
 current.istio.io
 current.istio.io.
 dataplane
+dataset
 datastore
 debian
 default.svc.cluster.local
@@ -359,6 +368,8 @@ learnings
 lifecycle
 listchecker
 liveness
+logentry
+logInfo
 mTLS
 machine.svg
 machineSetup
@@ -486,6 +497,7 @@ setupMeshEx.sh
 sharded
 sharding
 sidecar.env
+sinkInfo
 sleep.legacy
 sleep.yaml
 source.domain

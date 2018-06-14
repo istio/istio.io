@@ -10,7 +10,7 @@
                 </div>
             </div>
 
-            {{ $pages := (where .Site.AllPages "Section" .Section).ByWeight }}
+            {{ $pages := (where .Site.Pages "Section" .Section).ByWeight }}
 
             <div role="tabpanel" aria-labelledby="header0">
                 <div class="card-body">
