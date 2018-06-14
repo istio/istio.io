@@ -4,6 +4,7 @@ RUN apk add --no-cache \
     nodejs \
     ruby \
     ruby-dev \
+    hugo \
     build-base \
     gcc \
     libc-dev \
