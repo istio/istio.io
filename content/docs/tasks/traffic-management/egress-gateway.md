@@ -129,7 +129,7 @@ the traffic through the egress gateway:
 1.  Send an HTTP request to http://edition.cnn.com/politics.
 
     ```command
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -IL http://edition.cnn.com/politics
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
     HTTP/1.1 301 Moved Permanently
     ...
     location: https://edition.cnn.com/politics
@@ -153,7 +153,7 @@ the traffic through the egress gateway:
     We should see a line related to our request, similar to the following:
 
     ```plain
-    [2018-06-12T12:44:05.051Z] "HEAD /politics HTTP/1.1" 301 - 0 0 3 1 "172.30.146.87" "curl/7.35.0" "d5e39f43-dff2-9576-9d3f-01cecf29cda2" "edition.cnn.com" "151.101.65.67:80"
+    [2018-06-14T11:46:23.596Z] "GET /politics HTTP/1.1" 301 - 0 0 3 1 "172.30.146.87" "curl/7.35.0" "ab7be694-e367-94c5-83d1-086eca996dae" "edition.cnn.com" "151.101.193.67:80"
     ```
 
     Note that we redirected only the traffic from the port 80 to the egress gateway, the HTTPS traffic to the port 443 went directly to _edition.cnn.com_.
@@ -172,7 +172,7 @@ $ istioctl delete virtualservice direct-through-egress-gateway
 
 Let's perform TLS origination by the egress `Gateway`, similar to the [TLS Origination for Egress Traffic](docs/tasks/traffic-management/egress-tls-origination/) task.
 
-1.  Create an egress `Gateway` for _edition.cnn.com_, port 80:
+1.  Create an egress `Gateway` for _edition.cnn.com_, port 443:
 
     ```bash
         cat <<EOF | istioctl create -f -
@@ -265,7 +265,7 @@ the traffic through the egress gateway:
 1.  Send an HTTP request to http://edition.cnn.com/politics.
 
     ```command
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -IL http://edition.cnn.com/politics
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
     HTTP/1.1 200 OK
     ...
     content-length: 150793
@@ -283,7 +283,7 @@ the traffic through the egress gateway:
     We should see a line related to our request, similar to the following:
 
     ```plain
-    [2018-06-12T18:23:09.500Z] "HEAD /politics HTTP/1.1" 200 - 0 0 5007 7 "172.30.146.87" "curl/7.35.0" "4134ff12-edc8-908d-9c99-c6302d4177ff" "edition.cnn.com" "151.101.65.67:443"
+    "[2018-06-14T13:49:36.340Z] "GET /politics HTTP/1.1" 200 - 0 148528 5096 90 "172.30.146.87" "curl/7.35.0" "c6bfdfc3-07ec-9c30-8957-6904230fd037" "edition.cnn.com" "151.101.65.67:443"
     ```
 
 ## Additional security considerations
