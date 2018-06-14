@@ -2,6 +2,7 @@
 title: Integrating Virtual Machines
 description: This sample deploys the Bookinfo services across Kubernetes and a set of virtual machines, and illustrates how to use the Istio service mesh to control this infrastructure as a single mesh.
 weight: 60
+keywords: [vms]
 ---
 
 This sample deploys the Bookinfo services across Kubernetes and a set of

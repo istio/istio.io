@@ -25,3 +25,28 @@ enableEmoji = true
 [outputs]
   home = ["HTML"]
   section = ["HTML"]
+
+[related]
+    # Only include matches with rank >= threshold. This is a normalized rank between 0 and 100.
+    threshold = 80
+
+    # To get stable "See also" sections we, by default, exclude newer related pages.
+    includeNewer = true
+
+    # Will lower case keywords in both queries and in the indexes.
+    toLower = false
+
+    [[related.indices]]
+        name = "keywords"
+        weight = 150
+
+    [[related.indices]]
+        name  = "tags"
+        weight = 100
+
+# internationalization
+[languages]
+  [languages.zh]
+    contentDir = "content_zh"
+  [languages.en]
+    contentDir = "content"

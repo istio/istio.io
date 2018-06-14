@@ -4,6 +4,7 @@ description: Describes how to configure Istio to route traffic from services in 
 weight: 40
 aliases:
     - /docs/tasks/egress.html
+keywords: [traffic-management,egress]
 ---
 
 > This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.7/docs/tasks/traffic-management/).
@@ -281,6 +282,6 @@ cloud provider specific knowledge and configuration.
 * Learn more about [service entries](/docs/concepts/traffic-management/rules-configuration/#service-entries).
 
 * Learn how to setup
-  [timeouts](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute.timeout),
-  [retries](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute.retries),
+  [timeouts](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute-timeout),
+  [retries](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute-retries),
   and [circuit breakers](/docs/reference/config/istio.networking.v1alpha3/#OutlierDetection) for egress traffic.

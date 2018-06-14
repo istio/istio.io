@@ -2,6 +2,7 @@
 title: Rules Configuration
 description: Provides a high-level overview of the configuration model used by Istio to configure traffic management rules in the service mesh.
 weight: 50
+keywords: [traffic-management,rules]
 ---
 
 Istio provides a simple configuration model to
@@ -665,7 +666,7 @@ about accessing external services.
 ## Gateways
 
 A [Gateway](/docs/reference/config/istio.networking.v1alpha3/#Gateway)
-configure a load balancer for HTTP/TCP traffic, most commonly operating at the edge of the
+configures a load balancer for HTTP/TCP traffic, most commonly operating at the edge of the
 mesh to enable ingress traffic for an application.
 
 Unlike Kubernetes Ingress, Istio `Gateway` only configures the L4-L6 functions

@@ -84,20 +84,21 @@ chunk of front matter you should start with:
 ```yaml
 ---
 title: <title>
-description: <overview>
-weight: <order>
+description: <description>
+weight: <weight>
+keywords: [keyword1,keyword2,...]
 ---
 ```
 
-Copy the above at the start of your new markdown file and update
-the `<title>`, `<description>` and `<weight>` fields for your particular file. The available front
-matter fields are:
+Copy the above at the start of your new markdown file and update the information fields.
+The available front matter fields are:
 
 |Field          | Description
 |---------------|------------
 |`title`        | The short title of the page
 |`description`  | A one-line description of what the topic is about
-|`weight`       | An integer used to determine the sort order of this page relative to other pages in the same directory.
+|`weight`       | An integer used to determine the sort order of this page relative to other pages in the same directory
+|`keywords`     | An array of keywords describing the page, used to create the web of See Also links
 |`draft`        | When true, prevents the page from showing up in any navigation area
 |`publishdate`  | For blog posts, indicates the date of publication of the post
 |`subtitle`     | For blog posts, supplies an optional subtitle to be displayed below the main title

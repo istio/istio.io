@@ -9,8 +9,8 @@ aliases:
 
 Oh no! You found a bug?
 
-Search our [issue database](https://github.com/istio/issues/issues/) to see if we already know about
+Search our [issue database](https://github.com/istio/istio/issues/) to see if we already know about
 your problem and learn about when
-we think we can fix it. If you don't find your problem in the database, please open a [new issue](https://github.com/istio/issues/issues/new)
+we think we can fix it. If you don't find your problem in the database, please open a [new issue](https://github.com/istio/istio/issues/new/choose)
 and let us know what's
 going on.

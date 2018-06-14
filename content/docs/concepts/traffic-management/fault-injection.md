@@ -2,6 +2,7 @@
 title: Fault Injection
 description: Introduces the idea of systematic fault injection that can be used to uncover conflicting failure recovery policies across services.
 weight: 40
+keywords: [traffic-management,fault-injection]
 ---
 
 While Envoy sidecar/proxy provides a host of

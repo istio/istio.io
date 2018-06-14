@@ -2,6 +2,7 @@
 title: Installation
 description: Instructions for installing the Istio control plane in a Consul based environment, with or without Nomad.
 weight: 30
+keywords: [consul]
 ---
 
 > Setup on Nomad has not been tested.

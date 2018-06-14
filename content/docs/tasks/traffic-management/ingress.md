@@ -2,6 +2,7 @@
 title: Control Ingress Traffic
 description: Describes how to configure Istio to expose a service outside of the service mesh.
 weight: 30
+keywords: [traffic-management,ingress]
 aliases:
     - /docs/tasks/ingress.html
 ---
@@ -169,7 +170,7 @@ In the following subsections we configure a `Gateway` on port 80 for unencrypted
     configuration for the `httpbin` service, containing two route rules that allow traffic for paths `/status` and
     `/delay`.
 
-    The [gateways](/docs/reference/config/istio.networking.v1alpha3/#VirtualService.gateways) list
+    The [gateways](/docs/reference/config/istio.networking.v1alpha3/#VirtualService-gateways) list
     specifies that only requests through our `httpbin-gateway` are allowed.
     All other external requests will be rejected with a 404 response.
 

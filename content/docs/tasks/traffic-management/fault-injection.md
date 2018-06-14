@@ -2,6 +2,7 @@
 title: Fault Injection
 description: This task shows how to inject delays and test the resiliency of your application.
 weight: 20
+keywords: [traffic-management,fault-injection]
 aliases:
     - /docs/tasks/fault-injection.html
 ---
@@ -167,7 +168,3 @@ message.
 * If you are not planning to explore any follow-on tasks, refer to the
   [Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions
   to shutdown the application.
-
-## What's next
-
-* Learn more about [fault injection](/docs/concepts/traffic-management/fault-injection/).
