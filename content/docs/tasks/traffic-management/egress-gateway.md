@@ -158,7 +158,7 @@ the traffic through the egress gateway:
 
     Note that we redirected only the traffic from the port 80 to the egress gateway, the HTTPS traffic to the port 443 went directly to _edition.cnn.com_.
 
-### Cleanup
+### Let's clean up
 
 Let's remove the previous definitions before proceeding to the next step:
 
