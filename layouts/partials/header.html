@@ -1,4 +1,4 @@
-{{ $posts := (where .Site.AllPages "Section" "blog").ByPublishDate.Reverse }}
+{{ $posts := (where .Site.Pages "Section" "blog").ByPublishDate.Reverse }}
 {{ $latest_post := index $posts 0 }}
 {{ $version := .Site.Data.args.version }}
 
@@ -6,7 +6,9 @@
 
 <header>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark justify-content-between">
-        <a class="navbar-brand" href="/">
+        {{ $home := .Site.GetPage "home" }}
+
+        <a class="navbar-brand" href="{{ $home.Permalink }}">
             <span class="logo">{{ partial "icons/istio-logo-blue-background-round.svg" }}</span>
 
             {{ if .Site.Data.args.archive }}
@@ -61,6 +63,11 @@
                         {{ range $rel := .Site.Data.releases }}
                             <a href="{{ $rel.url }}" class="dropdown-item {{ if eq $version $rel.name }}active{{ end }}">{{ $rel.name }}</a>
                         {{ end }}
+
+                        <div class="dropdown-divider"></div>
+
+                        <a href="/" class="dropdown-item {{ if eq $home.Lang "en" }}active{{ end }}">English</a>
+                        <a href="/cn" class="dropdown-item {{ if eq $home.Lang "cn" }}active{{ end }}">中文</a>
 
                         <div class="dropdown-divider"></div>
 
