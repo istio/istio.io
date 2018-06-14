@@ -8,9 +8,9 @@ weight: 43
 
 The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task demonstrates how external (outside the Kubernetes cluster) HTTP and HTTPS services can be accessed from applications inside the mesh. A quick reminder: by default, Istio-enabled applications are unable to access URLs outside the cluster. To enable such access, a [ServiceEntry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) for the external service must be defined, or, alternatively, [direct access to external services](/docs/tasks/traffic-management/egress/#calling-external-services-directly) must be configured.
 
-The <TBD> Perform TLS Origination for Egress Traffic task demonstrates how to allow the applications to send HTTP requests to external servers that require HTTPS.
+The [TLS Origination for Egress Traffic](docs/tasks/traffic-management/egress-tls-origination/) task demonstrates how to allow the applications to send HTTP requests to external servers that require HTTPS.
 
-This task describes how to configure Istio to direct the egress traffic through a dedicated service called Egress Gateway. We extend the use case described in the <TBD> Perform TLS Origination for Egress Traffic task.
+This task describes how to configure Istio to direct the egress traffic through a dedicated service called Egress Gateway. We extend the use case described in the [TLS Origination for Egress Traffic](docs/tasks/traffic-management/egress-tls-origination/) task.
 
 ## Use case
 
@@ -142,7 +142,7 @@ the traffic through the egress gateway:
     ...
     ```
 
-    The output should be the same as in the <TBD> Perform TLS Origination for Egress Traffic task, without TLS origination.
+    The output should be the same as in the [TLS Origination for Egress Traffic](docs/tasks/traffic-management/egress-tls-origination/) task, without TLS origination.
 
 2.  Check the log of _istio-egressgateway_ pod and see a line corresponding to our request. If Istio is deployed to the `istio-system` namespace, the command to print the log is:
 
@@ -170,7 +170,7 @@ $ istioctl delete virtualservice direct-through-egress-gateway
 
 ## Perform TLS origination by the egress `Gateway`
 
-Let's peform TLS origination by the egress `Gateway`, similar to the <TBD> Perform TLS Origination for Egress Traffic task.
+Let's perform TLS origination by the egress `Gateway`, similar to the [TLS Origination for Egress Traffic](docs/tasks/traffic-management/egress-tls-origination/) task.
 
 1.  Create an egress `Gateway` for _edition.cnn.com_, port 80:
 
@@ -272,7 +272,7 @@ the traffic through the egress gateway:
     ...
     ```
 
-    The output should be the same as in the <TBD> Perform TLS Origination for Egress Traffic task, with TLS origination: without the _301 Moved Permanently_ message.
+    The output should be the same as in the [TLS Origination for Egress Traffic](docs/tasks/traffic-management/egress-tls-origination/) task, with TLS origination: without the _301 Moved Permanently_ message.
 
 2.  Check the log of _istio-egressgateway_ pod and see a line corresponding to our request. If Istio is deployed to the `istio-system` namespace, the command to print the log is:
 
