@@ -5,7 +5,7 @@
 <p>{{ .Description }}</p>
 
 <div class="section-index">
-    {{ $pages := (where .Site.AllPages "Section" .Section).ByWeight }}
+    {{ $pages := (where .Site.Pages "Section" .Section).ByWeight }}
     {{ partial "section-index-level.html" (dict "pages" $pages "parent" . ) }}
 </div>
 
