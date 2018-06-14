@@ -25,26 +25,26 @@ This task shows how to control access to a service using the Kubernetes labels.
     Save the following YAML snippet as `route-rule-reviews-jason-v2-v3.yaml`:
 
     ```yaml
-      apiVersion: networking.istio.io/v1alpha3
-      kind: VirtualService
-      metadata:
-        name: reviews
-      spec:
-        hosts:
-        - reviews
-        http:
-        - match:
-          - headers:
-              cookie:
-                regex: "^(.*?;)?(user=jason)(;.*)?$"
-          route:
-          - destination:
-              host: reviews
-              subset: v2
-        - route:
-          - destination:
-              host: reviews
-              subset: v3
+        apiVersion: networking.istio.io/v1alpha3
+        kind: VirtualService
+        metadata:
+          name: reviews
+        spec:
+          hosts:
+          - reviews
+          http:
+          - match:
+            - headers:
+                cookie:
+                  regex: "^(.*?;)?(user=jason)(;.*)?$"
+            route:
+            - destination:
+                host: reviews
+                subset: v2
+          - route:
+            - destination:
+                host: reviews
+                subset: v3
     ```
 
     and then run the following command:
