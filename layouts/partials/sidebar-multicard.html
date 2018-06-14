@@ -3,7 +3,7 @@
     <div class="directory" role="tablist">
         {{ $section := .Site.GetPage "section" .Section }}
 
-        {{ $pages := (where .Site.AllPages "Section" .Section).ByWeight }}
+        {{ $pages := (where .Site.Pages "Section" .Section).ByWeight }}
         {{ $current := . }}
 
         {{ range $count, $page := $pages }}
