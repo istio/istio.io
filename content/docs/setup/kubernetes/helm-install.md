@@ -112,7 +112,7 @@ The Helm chart also offers significant customization options per individual
 service. Customize these per-service options at your own risk. The per-service options are exposed via
 the [`values.yaml`](https://raw.githubusercontent.com/istio/istio/{{<branch_name>}}/install/kubernetes/helm/istio/values.yaml) file.
 
-## Customization Example: Traffic Management Minimal Set
+## Customization example: traffic management minimal set
 
 Istio is equipped with a rich and powerful set of features and some users may need only subset of those. For instance, users might be interested only
 in installing the minimal set required to Istio's traffic management.
