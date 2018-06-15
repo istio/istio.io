@@ -230,12 +230,12 @@ $ kubectl describe pod --namespace kube-system $(kubectl get pods --namespace ku
 
 1. 解压安装文件，切换到文件所在目录。安装文件目录下包含：
 
-  - `install/` 目录下是 kubernetes 使用的 `.yaml` 安装文件
-  - `samples/` 目录下是示例程序
-  - `istioctl` 客户端二进制文件在`bin`目录下。`istioctl`文件用户手动注入Envoy sidecar代理、创建路由和策略等
-  - `istio.VERSION` 配置文件
+    * `install/` 目录下是 kubernetes 使用的 `.yaml` 安装文件
+    * `samples/` 目录下是示例程序
+    * `istioctl` 客户端二进制文件在`bin`目录下。`istioctl`文件用户手动注入Envoy sidecar代理、创建路由和策略等
+    * `istio.VERSION` 配置文件
 
-1.  切换到Istio包的解压目录。例如istio-{{< istio_version >}}.0：
+1. 切换到Istio包的解压目录。例如istio-{{< istio_version >}}.0：
 
     ```command
     $ cd istio-{{< istio_version >}}.0
