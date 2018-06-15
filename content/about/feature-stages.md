@@ -41,7 +41,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Mirroring](/docs/tasks/traffic-management/mirroring/)      | Alpha
 | [Ingress Traffic](/docs/tasks/traffic-management/ingress/)      | Alpha
 | [Egress Traffic](/docs/tasks/traffic-management/egress/)      | Alpha
-| [Egress TCP Traffic](/docs/tasks/traffic-management/egress-tcp/)      | Alpha
+| [Egress TCP Traffic](/blog/2018/egress-tcp/)      | Alpha
 | [Improved Routing Rules: Composite Service](/docs/reference/config/istio.networking.v1alpha3/) | Alpha
 | [Quota / Redis Rate Limiting (Adapter and Server)](/docs/tasks/policy-enforcement/rate-limiting/) | Alpha
 | [Memquota Implementation and Integration](/docs/tasks/telemetry/metrics-logs/) | Stable
