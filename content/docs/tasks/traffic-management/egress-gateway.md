@@ -1,5 +1,5 @@
 ---
-title: Direct Egress Traffic through Egress Gateway
+title: Configure Egress Gateway
 description: Describes how to configure Istio to traffic to external services through a dedicated gateway service
 weight: 43
 ---
