@@ -168,9 +168,9 @@ $ istioctl delete serviceentry cnn
 $ istioctl delete virtualservice direct-through-egress-gateway
 ```
 
-## Perform TLS origination by the egress `Gateway`
+## Perform TLS origination with the egress `Gateway`
 
-Let's perform TLS origination by the egress `Gateway`, similar to the [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress-tls-origination/) task.
+Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress-tls-origination/) task.  Note that in this case the TLS origination will be done by the egress Gateway server, as opposed to by the sidecar in the previous task.
 
 1.  Create an egress `Gateway` for _edition.cnn.com_, port 443:
 
