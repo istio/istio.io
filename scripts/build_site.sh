@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
+set -e
 
 sass src/sass/light_theme_archive.scss light_theme_archive.css -s compressed
 sass src/sass/light_theme_normal.scss light_theme_normal.css -s compressed
