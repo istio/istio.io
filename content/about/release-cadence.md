@@ -1,7 +1,7 @@
 ---
 title: Build & Release Cadence
 description: How we manage, number, and support Istio releases.
-weight: 5
+weight: 6
 ---
 
 We produce new builds of Istio on a daily basis. Around once a month or so, we take one of these daily
