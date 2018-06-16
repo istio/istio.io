@@ -1,6 +1,6 @@
 ---
 type: feed
-url: /feed.xml
+url: /zh/feed.xml
 outputs:
     - rss
 ---

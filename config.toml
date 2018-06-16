@@ -46,7 +46,7 @@ enableEmoji = true
 
 # internationalization
 [languages]
-  [languages.cn]
-    contentDir = "content_cn"
+  [languages.zh]
+    contentDir = "content_zh"
   [languages.en]
     contentDir = "content"

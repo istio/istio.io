@@ -19,11 +19,13 @@
             <div class="col-12 col-md-9 col-xl-10">
         {{ end }}
 
-            <p class="d-md-none">
-                <label class="sidebar-toggler" data-toggle="offcanvas">
-                    <i class="fa fa-sign-out-alt"></i>
-                </label>
-            </p>
+            {{ if or $section.Params.sidebar_singlecard $section.Params.sidebar_multicard }}
+                <p class="d-md-none">
+                    <label class="sidebar-toggler" data-toggle="offcanvas">
+                        <i class="fa fa-sign-out-alt"></i>
+                    </label>
+                </p>
+            {{ end }}
 
             <main aria-labelledby="title">
                 <h1 id="title">{{ .Title }}</h1>
