@@ -17,5 +17,3 @@ serve:
 netlify:
 	npm install -g html-minifier
 	scripts/gen_site.sh "$(DEPLOY_PRIME_URL)"
-
-all: netlify
