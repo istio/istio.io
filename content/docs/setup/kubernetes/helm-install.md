@@ -93,8 +93,8 @@ following table:
 
 | Parameter | Description | Values | Default |
 | --- | --- | --- | --- |
-| `global.hub` | Specifies the HUB for most images used by Istio | registry/namespace | `docker.io/istionightly` |
-| `global.tag` | Specifies the TAG for most images used by Istio | valid image tag | `circleci-nightly` |
+| `global.hub` | Specifies the HUB for most images used by Istio | registry/namespace | `docker.io/istio` |
+| `global.tag` | Specifies the TAG for most images used by Istio | valid image tag | `0.8.0` |
 | `global.proxy.image` | Specifies the proxy image name | valid proxy name | `proxyv2` |
 | `global.proxy.includeIPRanges` | Specifies the IP ranges for which outbound traffic is redirected to Envoy | List of IP ranges in CIDR notation separated by the escaped comma `\,` . Use `*` to redirect all outbound traffic to Envoy | `*` |
 | `global.imagePullPolicy` | Specifies the image pull policy | valid image pull policy | `IfNotPresent` |
