@@ -28,4 +28,22 @@ This blog post describes how to configure Istio for monitoring and access polici
 
 ## Before you begin
 
-Follow the steps in the <TBD> TLS Origination with Egress gateway, without the <TBD> Cleanup step. After you accomplish this, you will be able to access [edition.cnn.com/politics](https://edition.cnn.com/politics) from an in-mesh container that has _curl_ installed. In the instructions of this blog post we assume that the `SOURCE_POD` environment variable contains the pod name.
+The instructions in this blog post are valid for Istio 0.8.0 or later. Follow the steps in the <TBD> TLS Origination with Egress gateway, without the <TBD> Cleanup step. After you accomplish this, you will be able to access [edition.cnn.com/politics](https://edition.cnn.com/politics) from an in-mesh container that has _curl_ installed. In the instructions of this blog post we assume that the `SOURCE_POD` environment variable contains the pod name.
+
+## Configure monitoring and access policies
+
+Note that since want to accomplish that in a _secure way_, we must direct egress traffic through _egress gateway_, as described in the <TBD> Configure an Egress Gateway task. The _secure way_ here means that we want to prevent malicious applications from bypassing Istio monitoring and policy enforcement.
+
+In our scenario, the organization performed the instructions in the [Before you begin]() section. It enabled traffic to _edition.cnn.com_ and configured that traffic to pass through the egress gateway. Now it is ready to configure Istio for monitoring and access policies for the traffic to _edition.cnn.com_.
+
+### Logging
+
+### Dashboard
+
+### Access control by routing
+
+### Access control by Mixer policy checks
+
+## Comparison with HTTPS egress traffic control
+
+## Summary
