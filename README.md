@@ -144,7 +144,12 @@ and subsequent entries should point to archive.istio.io.
 
 1. In the **release** branch you created, edit the file `data/args.yml`. Set the `preliminary` field to `false`.
 
-1. Commit the previous edit to GitHub.
+1. In the **release** branch, edit the file `data/releases.yml` and add a new entry at the top of the file
+for version 0.8. You'll need to make sure the URLs are updated for the first few entries. The top
+entry (0.8) should point to preliminary.istio.io. The second entry (0.7) should point to istio.io. The third
+and subsequent entries should point to archive.istio.io.
+
+1. Commit the previous two edits to GitHub.
 
 1. Go to the [Google Custom Search Engine](https://cse.google.com) and create a new search engine that searches the archive.istio.io/V&lt;major&gt;.&lt;minor&gt;
 directory. This search engine will be used to perform version-specific searches on archive.istio.io.
