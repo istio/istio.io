@@ -1,6 +1,6 @@
 ---
-title: Telemetry and Access Control for Egress Traffic
-description: Describes how to configure Istio to direct egress traffic through a dedicated service, for collecting telemetry for egress traffic and applying access control to egress traffic.
+title: Monitoring and Access Policies for HTTP Egress Traffic
+description: Describes how to configure Istio for monitoring and access policies of HTTP egress traffic.
 publishdate: 2018-06-20
 subtitle:
 attribution: Vadim Eisenberg and Ronen Schaffer
