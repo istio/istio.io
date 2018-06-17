@@ -1,7 +1,11 @@
 ---
 title: Telemetry and Access Control for Egress Traffic
 description: Describes how to configure Istio to direct egress traffic through a dedicated service, for collecting telemetry for egress traffic and applying access control to egress traffic.
-weight: 44
+publishdate: 2018-06-20
+subtitle:
+attribution: Vadim Eisenberg and Ronen Schaffer
+weight: 86
+keywords: [egress, access-control, monitoring]
 ---
 > This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.7/docs/tasks/traffic-management/). Note that this task introduces a new concept, namely Egress Gateway, that was not present in previous Istio versions.
 
