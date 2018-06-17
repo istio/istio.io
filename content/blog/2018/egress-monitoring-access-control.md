@@ -27,3 +27,5 @@ The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task demons
 This task describes how to configure Istio to collect telemetry for egress traffic and to apply access control on egress traffic. Note that if we want to accomplish that in a _secure way_, we must direct egress traffic through _egress gateway_, as described in the <TBD> Configure an Egress Gateway task. The _secure way_ here means that we want to prevent malicious applications from bypassing Istio monitoring and policy enforcement.
 
 ## Before you begin
+
+Follow the steps in the <TBD> TLS Origination with Egress gateway, without the <TBD> Cleanup step. After you accomplish this, you will be able to access [edition.cnn.com/politics](https://edition.cnn.com/politics) from an in-mesh container that has _curl_ installed. In the instructions of this blog post we assume that the `SOURCE_POD` environment variable contains the pod name.
