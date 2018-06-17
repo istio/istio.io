@@ -79,20 +79,17 @@ Hugo directly copies to the site without any processing.
 
 ## Versions and releases
 
-Istio maintains three variations of its public site:
+Istio maintains three variations of its public site.
 
 * [istio.io](https://istio.io) is the main site, showing documentation for the current release of the product.
-This site is currently hosted on Netlify.
 
 * [archive.istio.io](https://archive.istio.io) contains snapshots of the documentation for previous releases of the product.
 This is useful for customers still using these older releases.
-This site is currently hosted on Firebase.
 
 * [preliminary.istio.io](https://preliminary.istio.io) contains the actively updated documentation for the next release of the product.
-This site is hosted on Netlify.
 
 The user can trivially navigate between the different variations of the site using the gear menu in the top right
-of each page.
+of each page. All three sites are hosted on [Netlify](https://netlify.com).
 
 ### How versioning works
 
