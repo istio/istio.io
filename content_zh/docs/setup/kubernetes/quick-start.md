@@ -194,7 +194,7 @@ $ wget https://raw.githubusercontent.com/Azure/acs-engine/master/examples/servic
 $ acs-engine deploy --subscription-id <subscription_id> --dns-prefix <dns_prefix> --location <location> --auto-suffix --api-model istio.json
 ```
 
-几分钟后，您应该在名为`<dns_prefix>-<id>`的资源组中找到您的Azure订阅集群。假设我的`dns-prifex`是`myclustername`，有效的资源组和唯一的集群ID是`mycluster-5adfba82`。使用这个`<dns_prefix>-<id>`集群ID，您可以将`acs-engine`生成的kubeconfig文件从`_output`文件夹复制到您的机器中：
+几分钟后，您应该在名为`<dns_prefix>-<id>`的资源组中找到您的Azure订阅集群。假设我的`dns_prifex` 是 `myclustername`，有效的资源组和唯一的集群ID是`mycluster-5adfba82`。使用这个`<dns_prefix>-<id>`集群ID，您可以将`acs-engine`生成的`kubeconfig`文件从`_output`文件夹复制到您的机器中：
 
 ```command
 $ cp _output/<dns_prefix>-<id>/kubeconfig/kubeconfig.<location>.json ~/.kube/config
@@ -252,7 +252,7 @@ $ kubectl describe pod --namespace kube-system $(kubectl get pods --namespace ku
 
 安装Istio的核心部分。从以下四种_**非手动**_部署方式中选择一种方式安装。然而，我们推荐您在生产环境时使用[Helm Chart](/docs/setup/kubernetes/helm-install/)来安装Istio，这样可以按需定制配置选项。
 
-*  安装Istio而不启用sidecar之间的[双向TLS验证](/docs/concepts/security/mutual-tls/)。对于现有应用程序的集群，使用Istio siecar的服务需要能够与其他非Istio Kubernetes服务以及使用[存活和就绪探针](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)、headless服务或StatefulSet的应用程序通信的应用程序选择此选项。
+*  安装Istio而不启用sidecar之间的[双向TLS验证](/docs/concepts/security/mutual-tls/)。对于现有应用程序的集群，使用Istio sidecar的服务需要能够与其他非Istio Kubernetes服务以及使用[存活和就绪探针](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)、headless服务或StatefulSets的应用程序通信的应用程序选择此选项。
 
 ```command
 $ kubectl apply -f install/kubernetes/istio-demo.yaml
