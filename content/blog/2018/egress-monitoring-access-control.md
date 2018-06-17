@@ -20,7 +20,7 @@ To achieve that goal, the organization's operations people will monitor the acce
 
 The organization is resolved to prevent any tampering with the new policy. It decided to put mechanisms in place that will prevent any possibility for a malicious application to access the forbidden topic.
 
-## Related Istio tasks
+## Related tasks
 
 The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task demonstrates how external (outside the Kubernetes cluster) HTTP and HTTPS services can be accessed from applications inside the mesh. The [TLS Origination for Egress Traffic](docs/tasks/traffic-management/egress-tls-origination/) task demonstrates how to allow the applications to send HTTP requests to external servers that require HTTPS. The <TBD> Configure an Egress Gateway task describes how to configure Istio to direct egress traffic through a dedicated gateway service called _egress gateway_.
 
