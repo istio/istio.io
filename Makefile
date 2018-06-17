@@ -2,6 +2,10 @@
 img := gcr.io/istio-testing/website-builder:2018-06-15
 docker := docker run -t -i --sig-proxy=true --rm -v $(shell pwd):/site -w /site $(img)
 
+ifeq ($(CONTEXT),production)
+baseurl := $(URL)
+endif
+
 build:
 	$(docker) scripts/build_site.sh
 
@@ -16,4 +20,4 @@ serve:
 
 netlify:
 	npm install -g html-minifier
-	scripts/gen_site.sh "$(DEPLOY_PRIME_URL)"
+	scripts/gen_site.sh "$(baseurl)"
