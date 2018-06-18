@@ -49,9 +49,10 @@ Automatic injection injects at pod creation time. The controller resource is
 unmodified. Sidecars can be updated selectively by manually deleting a pods or
 systematically with a deployment rolling update.
 
-Manual and automatic injection both use the configuration from the 
-`istio-sidecar-injector` and `istio` ConfigMaps in the `istio-system` namespace. 
-Manual injection can also optionally load configuration from local files.
+Manual and automatic injection both use the configuration from the
+`istio-sidecar-injector` and `istio` ConfigMaps in the `istio-system`
+namespace.  Manual injection can also optionally load configuration
+from local files.
 
 ### Manual sidecar injection
 
@@ -182,8 +183,11 @@ sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
 
 [admissionregistration.k8s.io/v1beta1#MutatingWebhookConfiguration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#mutatingwebhookconfiguration-v1beta1-admissionregistration)
 configures when the webhook is invoked by Kubernetes. The default
-supplied with Istio selects pods in namespaces with label `istio-injection=enabled`.
-The set of namespaces in which injection is applied can be changed by editing the MutatingWebhookConfiguration with `kubectl edit mutatingwebhookconfiguration istio-sidecar-injector`. 
+supplied with Istio selects pods in namespaces with label
+`istio-injection=enabled`.  The set of namespaces in which injection
+is applied can be changed by editing the MutatingWebhookConfiguration
+with `kubectl edit mutatingwebhookconfiguration
+istio-sidecar-injector`.
 
 > {{< warning_icon >}} The sidecar injector pod(s) should be restarted after modifying the mutatingwebhookconfiguration.
 
@@ -300,11 +304,11 @@ $ kubectl delete clusterrole istio-sidecar-injector-istio-system
 $ kubectl delete clusterrolebinding istio-sidecar-injector-admin-role-binding-istio-system
 ```
 
-The above command will not remove the injected sidecars from
-Pods. A rolling update or simply deleting the pods and forcing
-the deployment to create them is required.
+The above command will not remove the injected sidecars from Pods. A
+rolling update or simply deleting the pods and forcing the deployment
+to create them is required.
 
-Optionally, if may also be desirable to clean-up other resources that were modified in this task. 
+Optionally, if may also be desirable to clean-up other resources that were modified in this task.
 
 ```command
 $ kubectl label namespace default istio-injection-
