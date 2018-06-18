@@ -63,7 +63,7 @@ $ istioctl kube-inject -f @samples/sleep/sleep.yaml@ | kubectl apply -f -
 
 Alternatively, inject using local copies of the configuration.
 
-> NOTE: The `istioctl kube-inject` operation may not be repeated on the output
+> The `istioctl kube-inject` operation may not be repeated on the output
 > from a previous `kube-inject`.  The `kube-inject` operation is not idempotent.
 > For upgrade purposes, if using manual injection, it is recommended to keep
 > the original non-injected `yaml` file so that the dataplane sidecars may be
@@ -185,7 +185,7 @@ configures when the webhook is invoked by Kubernetes. The default
 supplied with Istio selects pods in namespaces with label `istio-injection=enabled`.
 The set of namespaces in which injection is applied can be changed by editing the MutatingWebhookConfiguration with `kubectl edit mutatingwebhookconfiguration istio-sidecar-injector`. 
 
-> NOTE: The sidecar injector pod(s) should be restarted after modifying the mutatingwebhookconfiguration.
+> {{< warning_icon >}} The sidecar injector pod(s) should be restarted after modifying the mutatingwebhookconfiguration.
 
 The `istio-sidecar-injector` ConfigMap in the `istio-system` namespace has the default
 injection policy and sidecar injection template.
