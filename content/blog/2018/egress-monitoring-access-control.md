@@ -37,11 +37,12 @@ Note that since want to accomplish that in a _secure way_, we must direct egress
 In our scenario, the organization performed the instructions in the [Before you begin]() section. It enabled traffic to _edition.cnn.com_ and configured that traffic to pass through the egress gateway. Now it is ready to configure Istio for monitoring and access policies for the traffic to _edition.cnn.com_.
 
 ### Logging
-1.  Let's define a new log entry to be applied to `istio-egressgateway` service:
+
+1.  Let's configure Istio to log access to _*.cnn.com_. We create a `logentry` and two `stdio` handlers, one for logging forbidden access (_error_ log level) and another one for logging all access to _*.cnn.com_ (_info_ log level). Then we create `rules` to direct our `logentries` to our handlers. One rule directs access to _*.cnn.com/politics_ to the handler for logging forbidden access, another rule directs log entries to the handler that outputs each access to _*.cnn.com_ as an _info_ log entry.
 
     ```bash
         cat <<EOF | kubectl create -f -
-        # Configuration for logentry instances
+        # Log entry for egress access
         apiVersion: "config.istio.io/v1alpha2"
         kind: logentry
         metadata:
@@ -59,30 +60,53 @@ In our scenario, the organization performed the instructions in the [Before you 
             responseSize: response.size | 0
           monitored_resource_type: '"UNSPECIFIED"'
         ---
-        # Configuration for a stdio handler
+        # Handler for error egress access entries
         apiVersion: "config.istio.io/v1alpha2"
         kind: stdio
         metadata:
-          name: egress-handler
+          name: egress-error-handler
           namespace: istio-system
         spec:
          severity_levels:
-           info: 0 # Params.Level.INFO
-           warning: 1 # Params.Level.WARNING
+           info: 2 # output log level as error
          outputAsJson: true
         ---
-        # Rule to send logentry instances to an stdio handler
+        # Rule to send egress access to cnn.com/politics to egress error handler
         apiVersion: "config.istio.io/v1alpha2"
         kind: rule
         metadata:
-          name: egress-stdio
+          name: report-politics
           namespace: istio-system
         spec:
-          match: "true" # match for all requests
+          match: request.host.endsWith("cnn.com") && request.path.startsWith("/politics")
           actions:
-           - handler: egress-handler.stdio
-             instances:
-             - egress-access.logentry
+          - handler: egress-error-handler.stdio
+            instances:
+            - egress-access.logentry
+        ---
+        # Handler for info egress access entries
+        apiVersion: "config.istio.io/v1alpha2"
+        kind: stdio
+        metadata:
+          name: egress-access-handler
+          namespace: istio-system
+        spec:
+          severity_levels:
+            info: 0 # output log level as info
+          outputAsJson: true
+        ---
+        # Rule to send egress access to cnn.com/politics to egress error handler
+        apiVersion: "config.istio.io/v1alpha2"
+        kind: rule
+        metadata:
+          name: report-cnn-access
+          namespace: istio-system
+        spec:
+          match: request.host.endsWith(".cnn.com")
+          actions:
+          - handler: egress-access-handler.stdio
+            instances:
+              - egress-access.logentry
         EOF
 ```
 
@@ -92,10 +116,22 @@ In our scenario, the organization performed the instructions in the [Before you 
     $ kubectl exec -it $SOURCE_POD -c sleep -- bash -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
     ```
 
-3.  Let's query the Mixer log and see that the requests appear:
+3.  Let's query the Mixer log and see that the information about the requests appear in the log:
     ```command
     $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') mixer | grep egress-access | grep cnn
     ```
+
+    The output should be similar to the following:
+
+    ```plain
+    {"level":"info","time":"2018-06-18T13:22:58.317448Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","responseCode":200,"responseSize":150448,"source":"sleep","user":"unknown"}
+    {"level":"error","time":"2018-06-18T13:22:58.317448Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","responseCode":200,"responseSize":150448,"source":"sleep","user":"unknown"}
+    {"level":"info","time":"2018-06-18T13:22:59.234426Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/sport","responseCode":200,"responseSize":358651,"source":"sleep","user":"unknown"}
+    {"level":"info","time":"2018-06-18T13:22:59.354943Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/health","responseCode":200,"responseSize":332218,"source":"sleep","user":"unknown"}
+    ```
+
+    We see four log entries related to our three requests. Three _info_ entries about the access to _edition.cnn.com_ and one _error_ entry about the access to _edition.cnn.com/politics_. The service mesh operators can see all the accesses, and can also `grep` the log for _error_ log entries that reflect forbidden access. This is the first security measure the organization can apply before blocking the forbidden access automatically, namely logging all the forbidden access as errors.
+
 ### Dashboard
 
 ### Access control by routing
@@ -114,6 +150,8 @@ In our scenario, the organization performed the instructions in the [Before you 
 
     ```command
     $ kubectl delete logentry egress-access -n istio-system
-    $ kubectl delete stdio egress-handler -n istio-system
-    $ kubectl delete rule egress-stdio -n istio-system
+    $ kubectl delete stdio egress-error-handler -n istio-system
+    $ kubectl delete stdio egress-access-handler -n istio-system
+    $ kubectl delete rule report-politics -n istio-system
+    $ kubectl delete rule report-cnn-access -n istio-system
     ```
