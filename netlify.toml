@@ -1,0 +1,6 @@
+[build]
+    publish = "public"
+    command = "make netlify"
+
+[build.environment]
+    HUGO_VERSION = "0.42.1"

@@ -43,6 +43,18 @@ other = "Light Theme"
 [dark_theme]
 other = "Dark Theme"
 
+[other_versions_of_site]
+other = "Other versions of this site"
+
+[current_release]
+other = "Current Release (%s)"
+
+[next_release]
+other = "Next Release (Preliminary %s)"
+
+[archived_releases]
+other = "Older Releases"
+
 [options_menu]
 other = "Options and Settings"
 

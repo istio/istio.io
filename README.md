@@ -18,31 +18,18 @@ see the Istio [contribution guidelines](https://github.com/istio/community/blob/
 
 ## Editing and testing content
 
-We use [Hugo](https://gohugo.io/) to generate our sites. To build and test the site locally,
-install Hugo, go to the root of the repo and do:
+We use [Hugo](https://gohugo.io/) to generate our sites. To build and test the site locally, we use a docker
+image that contains Hugo. To build and serve the site, simply go to the root of the tree and do:
 
 ```bash
-$ hugo serve
+$ make serve
 ```
 
 This will build the site and start a web server hosting the site. You can then connect to the web server
 at `http://localhost:1313`.
 
-All normal content for the site is located in the `content` directory. To
-create a new content file, go to the root of the repo and do:
-
-```bash
-$ hugo new <path to new file>
-```
-
-This will create a fresh content file, ready for editing. The path you specify is relative to the `content` directory. For
-example:
-
-```bash
-$ hugo new docs/tasks/traffic-management/foo.md
-```
-
-Will create the file `content/docs/tasks/traffic-management/foo.md` which you can then add your markdown to.
+All normal content for the site is located in the `content` directory, as well as in sibling translated
+directories such as content_zh.
 
 ## Linting
 
@@ -58,12 +45,9 @@ run 3 linters as a precommit requirement:
 You can run these linters locally using:
 
 ```bash
-$ make prep_lint
+$ make build
 $ make lint
 ```
-
-The `prep_lint` step installs a bunch of Ruby and Node.js tools in a local directory. You only need to do
-this once. Afterwards, just use the `lint` target to run the linters.
 
 If you get spelling errors, you have three choices to address it:
 
@@ -87,7 +71,6 @@ Hugo directly copies to the site without any processing.
 `static` directory. You use
 
     ```bash
-    $ make prep_build
     $ make build
     ```
 
@@ -96,20 +79,17 @@ Hugo directly copies to the site without any processing.
 
 ## Versions and releases
 
-Istio maintains three variations of its public site:
+Istio maintains three variations of its public site.
 
 * [istio.io](https://istio.io) is the main site, showing documentation for the current release of the product.
-This site is currently hosted on Netlify.
 
 * [archive.istio.io](https://archive.istio.io) contains snapshots of the documentation for previous releases of the product.
 This is useful for customers still using these older releases.
-This site is currently hosted on Firebase.
 
 * [preliminary.istio.io](https://preliminary.istio.io) contains the actively updated documentation for the next release of the product.
-This site is hosted on Netlify.
 
 The user can trivially navigate between the different variations of the site using the gear menu in the top right
-of each page.
+of each page. All three sites are hosted on [Netlify](https://netlify.com).
 
 ### How versioning works
 
@@ -161,7 +141,12 @@ and subsequent entries should point to archive.istio.io.
 
 1. In the **release** branch you created, edit the file `data/args.yml`. Set the `preliminary` field to `false`.
 
-1. Commit the previous edit to GitHub.
+1. In the **release** branch, edit the file `data/releases.yml` and add a new entry at the top of the file
+for version 0.8. You'll need to make sure the URLs are updated for the first few entries. The top
+entry (0.8) should point to preliminary.istio.io. The second entry (0.7) should point to istio.io. The third
+and subsequent entries should point to archive.istio.io.
+
+1. Commit the previous two edits to GitHub.
 
 1. Go to the [Google Custom Search Engine](https://cse.google.com) and create a new search engine that searches the archive.istio.io/V&lt;major&gt;.&lt;minor&gt;
 directory. This search engine will be used to perform version-specific searches on archive.istio.io.
