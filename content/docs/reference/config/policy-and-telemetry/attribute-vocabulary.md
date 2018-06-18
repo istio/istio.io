@@ -21,6 +21,8 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `source.uid`                | string | Platform-specific unique identifier for the client instance. | kubernetes://redis-master-2353460263-1ecey.my-namespace |
 | `source.ip`                 | ip_address | Client instance IP address. | 10.0.0.117 |
 | `source.labels`             | map[string, string] | A map of key-value pairs attached to the client instance. | version => v1 |
+| `source.name`               | string | Client workload instance name. | redis-master-2353460263-1ecey |
+| `source.namespace`          | string | Client workload instnace namespace. | my-namespace |
 | `source.principal`          | string | The identity of the immediate sender of the request, authenticated by mTLS. | service-account-foo |
 | `source.owner`              | string | Reference to the workload controlling the source workload instance. | `kubernetes://apis/extensions/v1beta1/namespaces/istio-system/deployments/istio-policy` |
 | `source.workload.uid`       | string | Unique identifier of the source workload. | istio://istio-system/workloads/istio-policy |
@@ -99,13 +101,12 @@ The following attributes have been renamed. We strongly encourage to use the rep
 |`destination.name`     |`destination.service.name`|
 |`destination.namespace`|`destination.service.namespace`|
 
+Attribute `source.name` has been re-purposed to refer to the source workload instance name instead of the source service name.
 
 The following attributes have been deprecated and will be removed in subsequent releases:
 
 | Name | Type | Description | Kubernetes Example |
 |------|------|-------------|--------------------|
 | `source.service` | string | The fully qualified name of the service that the client belongs to. | redis-master.my-namespace.svc.cluster.local |
-| `source.name` | string | The short name part of the source service. | redis-master |
-| `source.namespace` | string | The namespace part of the source service. | my-namespace |
 | `source.domain` | string | The domain suffix part of the source service, excluding the name and the namespace. | svc.cluster.local |
 | `destination.domain`            | string | The domain suffix part of the destination service, excluding the name and the namespace. | svc.cluster.local |
