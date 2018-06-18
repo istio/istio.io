@@ -183,7 +183,7 @@ sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
 [admissionregistration.k8s.io/v1beta1#MutatingWebhookConfiguration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#mutatingwebhookconfiguration-v1beta1-admissionregistration)
 configures when the webhook is invoked by Kubernetes. The default
 supplied with Istio selects pods in namespaces with label `istio-injection=enabled`.
-This can be changed by modifying the MutatingWebhookConfiguration with `kubectl edit mutatingwebhookconfiguration istio-sidecar-injector`. 
+The set of namespaces in which injection is applied can be changed by editing the MutatingWebhookConfiguration with `kubectl edit mutatingwebhookconfiguration istio-sidecar-injector`. 
 
 > NOTE: The sidecar injector pod(s) should be restarted after modifying the mutatingwebhookconfiguration.
 
@@ -230,7 +230,7 @@ type SidecarInjectionSpec struct {
       InitContainers   []v1.Container `yaml:"initContainers"`
       Containers       []v1.Container `yaml:"containers"`
       Volumes          []v1.Volume    `yaml:"volumes"`
-      ImagePullSecrets []corev1.LocalObjectReference `yaml:"imagePullSecrets"
+      ImagePullSecrets []corev1.LocalObjectReference `yaml:"imagePullSecrets"`
 }
 ```
 
