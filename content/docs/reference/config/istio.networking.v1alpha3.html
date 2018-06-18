@@ -1397,8 +1397,7 @@ subject to further routing rules based on the protocol selected.</p>
 <td><code>timeout</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">google.protobuf.Duration</a></code></td>
 <td>
-<p>Timeout for HTTP requests.</p>
-
+<p>Timeout for a HTTP requests. Includes retries as well. Default 15s. Format: 1h/1m/1s/1ms. Must be >=1ms.</p>
 </td>
 </tr>
 <tr id="HTTPRoute-retries">
