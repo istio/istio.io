@@ -91,7 +91,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 
 ## Deprecated attributes
 
-The following attributes have been renamed. We strongly encourage to use the replacement attributes:
+The following attributes have been renamed. We strongly encourage to use the replacement attributes, as the original names will be removed in subsequent releases:
 
 | Name | Replacement |
 |------|-------------|
