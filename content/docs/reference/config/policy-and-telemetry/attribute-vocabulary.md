@@ -22,7 +22,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `source.ip`                 | ip_address | Client instance IP address. | 10.0.0.117 |
 | `source.labels`             | map[string, string] | A map of key-value pairs attached to the client instance. | version => v1 |
 | `source.principal`          | string | The identity of the immediate sender of the request, authenticated by mTLS. | service-account-foo |
-| `source.owner`              | string | Reference to the workload controlling the source workload instance. | kubernetes://apis/extensions/v1beta1/namespaces/istio-system/deployments/istio-policy |
+| `source.owner`              | string | Reference to the workload controlling the source workload instance. | `kubernetes://apis/extensions/v1beta1/namespaces/istio-system/deployments/istio-policy` |
 | `source.workload.uid`       | string | Unique identifier of the source workload. | istio://istio-system/workloads/istio-policy |
 | `source.workload.name`      | string | Source workload name. | istio-policy |
 | `source.workload.namespace` | string | Source workload namespace.  | istio-system |
@@ -31,12 +31,12 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `destination.port`              | int64 | The recipient port on the server IP address. | 8080 |
 | `destination.labels`            | map[string, string] | A map of key-value pairs attached to the server instance. | version => v2 |
 | `destination.principal`         | string | The user running the destination application. | service-account |
-| `destination.owner`             | string | Reference to the workload controlling the destination workload instance.| kubernetes://apis/extensions/v1beta1/namespaces/istio-system/deployments/istio-telemetry |
+| `destination.owner`             | string | Reference to the workload controlling the destination workload instance.| `kubernetes://apis/extensions/v1beta1/namespaces/istio-system/deployments/istio-telemetry` |
 | `destination.workload.uid`      | string | Unique identifier of the destination workload. | istio://istio-system/workloads/istio-telemetry |
 | `destination.workload.name`     | string | Destination workload name. | istio-telemetry |
 | `destination.workload.namespace`| string | Destination workload namespace. | istio-system |
 | `destination.container.name`    | string | Container name of the server workload instance. | mixer |
-| `destination.container.image`   | string | Image source for the destination container. | gcr.io/istio-testing/mixer:0.8.0 |
+| `destination.container.image`   | string | Image source for the destination container. | `gcr.io/istio-testing/mixer:0.8.0` |
 | `destination.service.host`      | string | Destination host address. | istio-telemetry.istio-system.svc.cluster.local |
 | `destination.service.uid`       | string | Unique identifier of the destination service. | istio://istio-system/services/istio-telemetry |
 | `destination.service.name`      | string | Destination service name. | istio-telemetry |
