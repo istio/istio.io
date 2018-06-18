@@ -304,7 +304,7 @@ The above command will not remove the injected sidecars from
 Pods. A rolling update or simply deleting the pods and forcing
 the deployment to create them is required.
 
-Optionally, if may be also be desirable to clean-up other resources that were modified in this task. 
+Optionally, if may also be desirable to clean-up other resources that were modified in this task. 
 
 ```command
 $ kubectl label namespace default istio-injection-
