@@ -95,22 +95,9 @@ may be used in the same Helm operation.
 Helm charts expose configuration options which are currently in alpha.  The currently exposed options are explained in the
 following table:
 
-| Parameter | Description | Values | Default |
-| --- | --- | --- | --- |
-| `global.hub` | Specifies the HUB for most images used by Istio | registry/namespace | `docker.io/istio` |
-| `global.tag` | Specifies the TAG for most images used by Istio | valid image tag | `0.8.0` |
-| `global.proxy.image` | Specifies the proxy image name | valid proxy name | `proxyv2` |
-| `global.proxy.includeIPRanges` | Specifies the IP ranges for which outbound traffic is redirected to Envoy | List of IP ranges in CIDR notation separated by the escaped comma `\,` . Use `*` to redirect all outbound traffic to Envoy | `*` |
-| `global.proxy.envoyStatsd` | Specifies the Statsd server that Envoy should send its stats to | host/IP and port | `istio-statsd-prom-bridge:9125` |
-| `global.imagePullPolicy` | Specifies the image pull policy | valid image pull policy | `IfNotPresent` |
-| `global.controlPlaneSecurityEnabled` | Specifies whether control plane mTLS is enabled | true/false | `false` |
-| `global.mtls.enabled` | Specifies whether mTLS is enabled by default between services | true/false | `false` |
-| `global.rbacEnabled` | Specifies whether to create Istio RBAC rules or not | true/false | `true` |
-| `global.refreshInterval` | Specifies the mesh discovery refresh interval | integer followed by s | `10s` |
-| `global.arch.amd64` | Specifies the scheduling policy for `amd64` architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | `2` |
-| `global.arch.s390x` | Specifies the scheduling policy for `s390x` architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | `2` |
-| `global.arch.ppc64le` | Specifies the scheduling policy for `ppc64le` architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | `2` |
-| `galley.enabled` | Specifies whether Galley should be installed for server-side config validation. Requires Kubernetes 1.9 or greater | true/false | `true` |
+<!-- AUTO-GENERATED-START -->
+
+<!-- AUTO-GENERATED-END -->
 
 The Helm chart also offers significant customization options per individual
 service. Customize these per-service options at your own risk. The per-service options are exposed via
@@ -166,4 +153,9 @@ Of course that if no ingress is expected and sidecar is to be [injected manually
 
     {{< text bash >}}
     $ kubectl -n istio-system delete job --all
+<<<<<<< HEAD:content/docs/setup/kubernetes/helm-install/index.md
     {{< /text >}}
+=======
+    ```
+
+>>>>>>> 662f6dd... Updated table generator:content/docs/setup/kubernetes/helm-install.md
