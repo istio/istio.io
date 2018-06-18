@@ -105,3 +105,15 @@ In our scenario, the organization performed the instructions in the [Before you 
 ## Comparison with HTTPS egress traffic control
 
 ## Summary
+
+## Cleanup
+
+1.  Perform the TBD cleanup section of the Configure an Egress Gateway task.
+
+2. Clean the artifacts we created in this blog post:
+
+    ```command
+    $ kubectl delete logentry egress-access -n istio-system
+    $ kubectl delete stdio egress-handler -n istio-system
+    $ kubectl delete rule egress-stdio -n istio-system
+    ```
