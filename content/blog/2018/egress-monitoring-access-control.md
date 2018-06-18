@@ -1,7 +1,7 @@
 ---
 title: Monitoring and Access Policies for HTTP Egress Traffic
 description: Describes how to configure Istio for monitoring and access policies of HTTP egress traffic.
-publishdate: 2018-06-20
+publishdate: 2018-06-15
 subtitle:
 attribution: Vadim Eisenberg and Ronen Schaffer
 weight: 86
@@ -37,7 +37,65 @@ Note that since want to accomplish that in a _secure way_, we must direct egress
 In our scenario, the organization performed the instructions in the [Before you begin]() section. It enabled traffic to _edition.cnn.com_ and configured that traffic to pass through the egress gateway. Now it is ready to configure Istio for monitoring and access policies for the traffic to _edition.cnn.com_.
 
 ### Logging
+1.  Let's define a new log entry to be applied to `istio-egressgateway` service:
 
+    ```bash
+        cat <<EOF | kubectl create -f -
+        # Configuration for logentry instances
+        apiVersion: "config.istio.io/v1alpha2"
+        kind: logentry
+        metadata:
+          name: egress-access
+          namespace: istio-system
+        spec:
+          severity: '"info"'
+          timestamp: request.time
+          variables:
+            destination: request.host | "unknown"
+            path: request.path | "unknown"
+            source: source.labels["app"] | source.service | "unknown"
+            user: source.user | "unknown"
+            responseCode: response.code | 0
+            responseSize: response.size | 0
+          monitored_resource_type: '"UNSPECIFIED"'
+        ---
+        # Configuration for a stdio handler
+        apiVersion: "config.istio.io/v1alpha2"
+        kind: stdio
+        metadata:
+          name: egress-handler
+          namespace: istio-system
+        spec:
+         severity_levels:
+           info: 0 # Params.Level.INFO
+           warning: 1 # Params.Level.WARNING
+         outputAsJson: true
+        ---
+        # Rule to send logentry instances to an stdio handler
+        apiVersion: "config.istio.io/v1alpha2"
+        kind: rule
+        metadata:
+          name: egress-stdio
+          namespace: istio-system
+        spec:
+          match: "true" # match for all requests
+          actions:
+           - handler: egress-handler.stdio
+             instances:
+             - egress-access.logentry
+        EOF
+```
+
+1.  Let's send three HTTP requests to _cnn.com_. All three should return _200 OK_.
+
+    ```command
+    $ kubectl exec -it $SOURCE_POD -c sleep -- bash -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
+    ```
+
+3.  Let's query the Mixer log and see that the requests appear:
+    ```command
+    $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') mixer | grep egress-access | grep cnn
+    ```
 ### Dashboard
 
 ### Access control by routing
