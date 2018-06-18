@@ -1,4 +1,4 @@
-#!/bin/python
+#!/usr/bin/python
 
 # Copyright 2017,2018 Istio Authors. All Rights Reserved.
 #
@@ -38,7 +38,7 @@ def endOfTheList(context, lineNum, lastLineNum, totalNum):
 
     for nextLineNum in range(lineNum + 1, totalNum):
         nextLine = context[nextLineNum]
-        if '#' not in nextLine and ':' in nextLine:
+        if  len(nextLine.lstrip()) != 0 and '#' != nextLine.lstrip()[0] and ':' in nextLine:
             if whitespaces >= (len(nextLine) - len(nextLine.lstrip())) / 2:
                 if flag == 0:
                     valueList.append(currentLine.split(':', 1)[1].strip())
@@ -47,11 +47,14 @@ def endOfTheList(context, lineNum, lastLineNum, totalNum):
                     return True, valueList
             else:
                 return False, valueList
-        elif '#' not in nextLine and ':' not in nextLine and len(nextLine.strip()) != 0:
+        elif len(nextLine.lstrip()) != 0 and '#' !=  nextLine.lstrip()[0] and ':' not in nextLine and len(nextLine.strip()) != 0:
             value = nextLine.replace(' ', '')
             valueList.append(value.lstrip('-').strip())
             flag += 1;
         nextLineNum += 1
+
+    if lastLineNum == totalNum - 1 and len(currentLine.lstrip()) != 0 and '#' != currentLine.lstrip()[0]:
+        valueList.append(currentLine.split(':', 1)[1].strip())
 
     return True, valueList
 
@@ -76,12 +79,12 @@ def decode_helm_yaml(s):
     for lineNum in range(0, totalNum):
         if  context[lineNum].strip().startswith('- '):
             pass
-        elif '#' in context[lineNum]:
+        elif '#' in context[lineNum] and '#' == context[lineNum].lstrip()[0]:
             if "Description: " in context[lineNum]:
                 desc = context[lineNum].split(':', 1)[1].strip()
             elif "Possible Values: " in context[lineNum]:
                 possible = context[lineNum].split(':', 1)[1].strip()
-        elif ':' in context[lineNum] and '#' not in context[lineNum]:
+        elif ':' in context[lineNum] and '#' != context[lineNum].lstrip()[0]:
             lastLineNum = lineNum
             if flag == 1:
                 whitespaces = (len(context[lineNum]) - len(context[lineNum].lstrip())) / 2
@@ -96,31 +99,48 @@ def decode_helm_yaml(s):
             if isEnd == True:
                 flag = 1;
 
+        if  len(context[lastLineNum].lstrip()) != 0 and '#' != context[lastLineNum].lstrip()[0]:
+            isEnd, ValueList  = endOfTheList(context, lineNum, lastLineNum, totalNum)
+            if (isEnd == True):
+                keysplit = key.split('.')
+                for kv in keysplit:
+                    if kv != '':
+                        newkey = newkey + '.' + kv
+                newkey = newkey.lstrip('.')
 
-        isEnd, ValueList  = endOfTheList(context, lineNum, lastLineNum, totalNum)
-        if (isEnd == True):
-            keysplit = key.split('.')
-            for kv in keysplit:
-                if kv != '':
-                    newkey = newkey + '.' + kv
-            newkey = newkey.lstrip('.')
+                ValueStr = (' ').join(ValueList)
 
-            ValueStr = (' ').join(ValueList)
+                print ("| %s | %s | %s | %s |" % (newkey, ValueStr, desc, possible))
+                desc = ''
+                possible = ''
 
-            print ("| %s | %s | %s | %s |" % (newkey, ValueStr, desc, possible))
-            desc = ''
-            possible = ''
-
-            key = newkey
-            newkey = ''
+                key = newkey
+                newkey = ''
 
         lineNum += 1
 
     return ret_val
 
-with open('values.yaml', 'r') as f:
-    data = f.read()
-    yaml = YAML()
-    code = yaml.load(data)
-    yaml.explicit_start = True
-    yaml.dump(code, sys.stdout, transform=decode_helm_yaml)
+with open('helm-install.md', 'r') as f:
+    endReached = False
+
+    data = f.read().split('\n')
+    for d in data:
+        print d
+        if "<!-- AUTO-GENERATED-START -->" in d:
+            print '| Parameter | Default | Description | Values |'
+            print '| --- | --- | --- | --- |'
+            break
+
+    with open('values.yaml', 'r') as f_v:
+        d_v = f_v.read()
+        yaml = YAML()
+        code = yaml.load(d_v)
+        yaml.explicit_start = True
+        yaml.dump(code, sys.stdout, transform=decode_helm_yaml)
+
+    for d in data:
+        if "<!-- AUTO-GENERATED-END -->" in d:
+            endReached = True
+        if endReached:
+            print d
