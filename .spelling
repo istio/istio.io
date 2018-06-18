@@ -390,6 +390,7 @@ mongodb
 mtls_excluded_services
 multicloud
 multicluster
+mutatingwebhookconfiguration
 mutual-tls
 my-svc
 my-svc-234443-5sffe
