@@ -315,8 +315,6 @@ If we want to only allow HTTPS traffic into our service mesh, we can remove the 
     ```
 ## Accessing Istio service mesh by a browser
 
-Currently, accessing the mesh by a browser is fully supported only for load balancer ingress gateways, and only for the standard ports (80 and 443). You must omit the port when specifying the URL of the Gateway.
-
 For `NodePort` ingress gateways, access by a browser is supported partially: only for the `*` hosts in the definition of the `VirtualService`.
 
 ## Understanding what happened
