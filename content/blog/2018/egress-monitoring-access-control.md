@@ -315,6 +315,8 @@ In this step let's use a Mixer [Listcheker adapter](https://istio.io/docs/refere
         EOF
     ```
 
+    Note that we reuse the same policy rule for both logging and access policy check.
+
 1.  Let's perform our usual test by sending HTTP requests to
  [edition.cnn.com/politics](https://edition.cnn.com/politics), [edition.cnn.com/sport](https://edition.cnn.com/sport) and [edition.cnn.com/health](https://edition.cnn.com/health). As expected, the request to [edition.cnn.com/politics](https://edition.cnn.com/politics) returns _404_.
 
