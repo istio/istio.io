@@ -117,6 +117,7 @@ MutatingWebhookConfiguration
 MySQL
 Mysql
 NamespaceSelector
+networking.istio.io
 NodePort
 OAuth2
 OP_QUERY
