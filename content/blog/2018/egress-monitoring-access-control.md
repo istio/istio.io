@@ -28,135 +28,7 @@ The [Collecting Metrics and Logs](/docs/tasks/telemetry/metrics-logs/) task desc
 
 ## Before you begin
 
-Let's install Istio with mutual TLS (since the organization in our use case requires strict security). Then we direct HTTP egress traffic sent to _edition.cnn.com_ to an egress gateway, which will perform TLS origination.
-
-1.  Let's use `istio-demo-auth.yaml` shipped with Istio releases.
-
-    ```command
-    $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
-    ```
-
-1.  Start the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/samples/sleep) sample
-which will be used as a test source for external calls.
-
-    If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), do
-
-    ```command
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
-    ```
-
-    otherwise, you have to manually inject the sidecar before deploying the `sleep` application:
-
-    ```command
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
-    ```
-
-    Note that any pod that you can `exec` and `curl` from would do.
-
-1.  Define a shell variable to hold the name of the source pod for sending requests to external services.
-    If we used the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/samples/sleep) sample, we run:
-
-    ```command
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
-    ```
-
-1.  Create an egress `Gateway` for _edition.cnn.com_,  a `ServiceEntry` for `edition.cnn.com` and a `VirtualService` to direct the traffic through the egress gateway, as described in the [Configure an Egress Gateway](/docs/tasks/traffic-management/egress-gateway/) task:
-
-    ```bash
-        cat <<EOF | istioctl create -f -
-        kind: Gateway
-        metadata:
-          name: istio-egressgateway
-        spec:
-          selector:
-            istio: egressgateway
-          servers:
-          - port:
-              number: 443
-              name: https-istio-mtls-for-tls-origination
-              protocol: HTTP
-            hosts:
-            - "edition.cnn.com"
-        ---
-        apiVersion: networking.istio.io/v1alpha3
-        kind: ServiceEntry
-        metadata:
-          name: cnn
-        spec:
-          hosts:
-          - edition.cnn.com
-          ports:
-          - number: 80
-            name: http-port
-            protocol: HTTP
-          - number: 443
-            name: http-port-for-tls-origination
-            protocol: HTTP
-          resolution: DNS
-        ---
-        apiVersion: networking.istio.io/v1alpha3
-        kind: VirtualService
-        metadata:
-          name: direct-through-egress-gateway
-        spec:
-          hosts:
-          - edition.cnn.com
-          gateways:
-          - istio-egressgateway
-          - mesh
-          http:
-          - match:
-            - gateways:
-              - mesh
-              port: 80
-            route:
-            - destination:
-                host: istio-egressgateway.istio-system.svc.cluster.local
-                port:
-                  number: 443
-              weight: 100
-          - match:
-            - gateways:
-              - istio-egressgateway
-              port: 443
-            route:
-            - destination:
-                host: edition.cnn.com
-                port:
-                  number: 443
-              weight: 100
-        ---
-        apiVersion: networking.istio.io/v1alpha3
-        kind: DestinationRule
-        metadata:
-          name: originate-tls-for-edition-cnn-com
-        spec:
-          host: edition.cnn.com
-          trafficPolicy:
-            loadBalancer:
-              simple: ROUND_ROBIN
-            portLevelSettings:
-            - port:
-                number: 443
-              tls:
-                mode: SIMPLE # initiates HTTPS for connections to edition.cnn.com
-        ---
-        apiVersion: networking.istio.io/v1alpha3
-        kind: DestinationRule
-        metadata:
-          name: mutual-tls-for-egressgateway
-        spec:
-          host: istio-egressgateway.istio-system.svc.cluster.local
-          trafficPolicy:
-            loadBalancer:
-              simple: ROUND_ROBIN
-            portLevelSettings:
-            - port:
-                number: 443
-              tls:
-                mode: ISTIO_MUTUAL
-        EOF
-    ```
+The instructions in this blog post are valid for Istio 0.8.0 or later. Follow the steps in the [Configure an Egress Gateway](/docs/tasks/traffic-management/egress-gateway/) task, without the [Cleanup](/docs/tasks/traffic-management/egress-gateway/#cleanup) step. After you accomplish this, you will be able to access [edition.cnn.com/politics](https://edition.cnn.com/politics) from an in-mesh container that has _curl_ installed. In the instructions of this blog post we assume that the `SOURCE_POD` environment variable contains the pod name.
 
 ## Configure monitoring and access policies
 
@@ -261,11 +133,11 @@ In our scenario, the organization performed the instructions in the [Before you 
 
     We see four log entries related to our three requests. Three _info_ entries about the access to _edition.cnn.com_ and one _error_ entry about the access to _edition.cnn.com/politics_. The service mesh operators can see all the accesses, and can also `grep` the log for _error_ log entries that reflect forbidden access. This is the first security measure the organization can apply before blocking the forbidden access automatically, namely logging all the forbidden access as errors. In some settings this can be a sufficient security measure.
 
+### Dashboard
+
 ### Access control by routing
 
 ### Access control by Mixer policy checks
-
-### Dashboard
 
 ## Comparison with HTTPS egress traffic control
 
@@ -273,17 +145,9 @@ In our scenario, the organization performed the instructions in the [Before you 
 
 ## Cleanup
 
-1.  Delete the artifacts related to egress traffic configuration:
+1.  Perform the [Cleanup](/docs/tasks/traffic-management/egress-gateway/#cleanup) section of the [Configure an Egress Gateway](/docs/tasks/traffic-management/egress-gateway/) task.
 
-    ```command
-    $ istioctl delete gateway istio-egressgateway
-    $ istioctl delete serviceentry cnn
-    $ istioctl delete virtualservice direct-through-egress-gateway
-    $ istioctl delete destinationrule originate-tls-for-edition-cnn-com
-    $ istioctl delete destinationrule mutual-tls-for-egressgateway
-    ```
-
-1.  Delete the artifacts related to egress monitoring and access policies:
+2.  Clean the artifacts we created in this blog post:
 
     ```command
     $ kubectl delete logentry egress-access -n istio-system
@@ -291,10 +155,4 @@ In our scenario, the organization performed the instructions in the [Before you 
     $ kubectl delete stdio egress-access-handler -n istio-system
     $ kubectl delete rule report-politics -n istio-system
     $ kubectl delete rule report-cnn-access -n istio-system
-    ```
-
-1.  Shutdown the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/samples/sleep) service:
-
-    ```command
-    $ kubectl delete -f @samples/sleep/sleep.yaml@
     ```
