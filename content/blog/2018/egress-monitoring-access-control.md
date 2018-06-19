@@ -72,11 +72,11 @@ In our scenario, the organization performed the instructions in the [Before you 
            info: 2 # output log level as error
          outputAsJson: true
         ---
-        # Rule to send egress access to cnn.com/politics to egress error handler
+        # Rule to handle access to *.cnn.com/politics
         apiVersion: "config.istio.io/v1alpha2"
         kind: rule
         metadata:
-          name: report-politics
+          name: handle-politics
           namespace: istio-system
         spec:
           match: request.host.endsWith("cnn.com") && request.path.startsWith("/politics")
@@ -96,11 +96,11 @@ In our scenario, the organization performed the instructions in the [Before you 
             info: 0 # output log level as info
           outputAsJson: true
         ---
-        # Rule to send egress access to cnn.com/politics to egress error handler
+        # Rule to handle access to *.cnn.com
         apiVersion: "config.istio.io/v1alpha2"
         kind: rule
         metadata:
-          name: report-cnn-access
+          name: handle-cnn-access
           namespace: istio-system
         spec:
           match: request.host.endsWith(".cnn.com")
@@ -332,8 +332,8 @@ In this step let's use a Mixer [Listcheker adapter](https://istio.io/docs/refere
     $ kubectl delete logentry egress-access -n istio-system
     $ kubectl delete stdio egress-error-handler -n istio-system
     $ kubectl delete stdio egress-access-handler -n istio-system
-    $ kubectl delete rule report-politics -n istio-system
-    $ kubectl delete rule report-cnn-access -n istio-system
+    $ kubectl delete rule handle-politics -n istio-system
+    $ kubectl delete rule handle-cnn-access -n istio-system
     ```
 
 3.  Delete the mixer check's configuration
