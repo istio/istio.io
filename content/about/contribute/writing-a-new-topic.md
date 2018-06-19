@@ -362,3 +362,78 @@ aliases:
 ---
 
 ```
+
+## Things to watch for
+
+There are unfortunately a few complications around writing content for istio.io. You need to know about these in order for your
+content to be handled correctly by the site infrastructure:
+
+- Many example blocks in Istio start out with a `cat` command. When using `cat`, do not annotate the block as
+
+    <pre><code>```command
+    $ cat &lt;&lt;EOF | istioctl create -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: wikipedia-ext
+    spec:
+    </code></pre>
+
+    Instead use:
+
+    <pre><code>```bash
+    cat &lt;&lt;EOF | istioctl create -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: wikipedia-ext
+    spec:
+    </code></pre>
+
+    This is because the parser that handles `command` blocks will treat the multi-line input to
+    the `cat` command as command output, yielding incorrect formatting.
+
+- Example blocks that are indented within a list, contain yaml, and one of the lines of yaml starts with a `-` will confuse the markdown
+parser horribly, producing garbage output. To solve this, indent the content by another four characters, relative to the <code>```</code> annotation:
+
+    <pre class="language-markdown"><code>    - This is a bullet item
+
+            ```yaml
+                apiVersion: "config.istio.io/v1alpha2"
+                kind: stackdriver
+                metadata:
+                  name: handler
+                  namespace: istio-system
+                spec:
+                  project_id: "<project_id>"
+                  logInfo:
+                    accesslog.logentry.istio-system:
+                      payloadTemplate: '{{or (.sourceIp) "-"}} - {{or (.sourceUser) "-"}} [{{or (.timestamp.Format "02/Jan/2006:15:04:05 -0700") "-"}}] "{{or (.method) "-"}} {{or (.url) "-"}} {{or (.protocol) "-"}}" {{or (.responseCode) "-"}} {{or (.responseSize) "-"}}'
+                      httpMapping:
+                        url: url
+                        status: responseCode
+                        requestSize: requestSize
+                        responseSize: responseSize
+                        latency: latency
+                        localIp: sourceIp
+                        remoteIp: destinationIp
+                        method: method
+                        userAgent: userAgent
+                        referer: referer
+                      labelNames:
+                      - sourceIp
+                      - destinationIp
+                      - sourceService
+            ```
+    </code></pre>
+
+- Make sure code blocks are always indented by a multiple of 4 spaces. Otherwise, the
+indent of the code block in the rendered page will be off, and there will be spaces inserted
+in the code block itself, making cut & paste not work right.
+
+- Make sure all images have valid width and aspect ratios. Otherwise, they will render
+in odd ways, depending on screen size.
+
+- The special syntax to insert links in code blocks using `@@` annotations produces links
+which are unchecked. So you can put bad links in there and tooling won't stop you. So be
+careful.
