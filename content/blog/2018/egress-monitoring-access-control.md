@@ -270,7 +270,7 @@ Let's cancel the access control by routing we used in this section and implement
 
 In this step let's use a Mixer [Listcheker adapter](https://istio.io/docs/reference/config/policy-and-telemetry/adapters/list/), in its whitelist variant.
 
-1.  Define a `listentry` for the `listchecker` to check, and a `rule` to route the instances of the `listentry` to the `listchecker`:
+1.  Define a `listentry` for the `listchecker` to check:
 
     ```bash
         cat <<EOF | istioctl create -f -
@@ -290,19 +290,28 @@ In this step let's use a Mixer [Listcheker adapter](https://istio.io/docs/refere
           namespace: istio-system
         spec:
           value: request.path
+        EOF
+    ```
 
-        ---
+2.  Modify the `handle-cnn-access` policy rule to send `request-path` list entries to the `pathchecker` `listchecker`:
+
+    ```bash
+        cat <<EOF | istioctl replace -f -
+        # Rule handle egress access to cnn.com
         apiVersion: "config.istio.io/v1alpha2"
         kind: rule
         metadata:
-            name: check-path
-            namespace: istio-system
+          name: handle-cnn-access
+          namespace: istio-system
         spec:
           match: request.host.endsWith(".cnn.com")
           actions:
+          - handler: egress-access-handler.stdio
+            instances:
+              - egress-access.logentry
           - handler: path-checker.listchecker
             instances:
-            - request-path.listentry
+              - request-path.listentry
         EOF
     ```
 
@@ -341,5 +350,4 @@ In this step let's use a Mixer [Listcheker adapter](https://istio.io/docs/refere
     ```command
     $ kubectl delete -n istio-system listchecker path-checker
     $ kubectl delete -n istio-system listentry request-path
-    $ kubectl delete -n istio-system rule check-path
     ```
