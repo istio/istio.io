@@ -81,5 +81,6 @@ get_command_doc $WORK_DIR/istio/pilot/cmd/pilot-discovery pilot-discovery
 get_command_doc $WORK_DIR/istio/pilot/cmd/sidecar-injector sidecar-injector
 get_command_doc $WORK_DIR/istio/security/cmd/istio_ca istio_ca
 get_command_doc $WORK_DIR/istio/security/cmd/node_agent node_agent
+get_command_doc $WORK_DIR/istio/galley/cmd/gals gals
 
 rm -fr $WORK_DIR
