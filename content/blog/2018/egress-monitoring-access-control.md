@@ -270,7 +270,7 @@ Let's cancel the access control by routing we used in this section and implement
 
 In this step let's use a Mixer [Listcheker adapter](https://istio.io/docs/reference/config/policy-and-telemetry/adapters/list/), in its whitelist variant.
 
-1.  Define a `listentry` for the `listchecker` to check:
+1.  Define a `listentry` with the URL path of the request and the `listchecker` to check the `listentry` using a static list of allowed URL paths, specified by the `overrides` field. For an external Identity and Access Management](https://en.wikipedia.org/wiki/Identity_management) system, use the `providerurl` field instead.
 
     ```bash
         cat <<EOF | istioctl create -f -
