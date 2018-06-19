@@ -185,6 +185,7 @@ After enabling logging of access to _edition.cnn.com_, let's enable automatic ac
     section of the `VirtualService`, since the egress gateway is a secure component (see [egress gateway security considerations](http://localhost:1313/docs/tasks/traffic-management/egress-gateway/#additional-security-considerations)). We don't want any tampering with our policies.
 
 1.  Let's send the previous three HTTP requests to _cnn.com_:
+
     ```command
     $ kubectl exec -it $SOURCE_POD -c sleep -- bash -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
     404
