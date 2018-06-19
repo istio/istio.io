@@ -28,7 +28,7 @@ The [Collecting Metrics and Logs](/docs/tasks/telemetry/metrics-logs/) task desc
 
 ## Before you begin
 
-The instructions in this blog post are valid for Istio 0.8.0 or later. Follow the steps in the [Configure an Egress Gateway](/docs/tasks/traffic-management/egress-gateway/) task, without the [Cleanup](/docs/tasks/traffic-management/egress-gateway/#cleanup) step. After you accomplish this, you will be able to access [edition.cnn.com/politics](https://edition.cnn.com/politics) from an in-mesh container that has _curl_ installed. In the instructions of this blog post we assume that the `SOURCE_POD` environment variable contains the pod name.
+Follow the steps in the [Configure an Egress Gateway](/docs/tasks/traffic-management/egress-gateway/) task, without the [Cleanup](/docs/tasks/traffic-management/egress-gateway/#cleanup) step. After you accomplish this, you will be able to access [edition.cnn.com/politics](https://edition.cnn.com/politics) from an in-mesh container that has _curl_ installed. In the instructions of this blog post we assume that the `SOURCE_POD` environment variable contains the pod name.
 
 ## Configure monitoring and access policies
 
