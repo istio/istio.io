@@ -138,6 +138,133 @@ In our scenario, the organization performed the instructions in the [Before you 
 
 ### Access control by routing
 
+After enabling logging of access to _edition.cnn.com_, let's enable automatic access policy, namely allow accessing _/health_ and _/sport_ URL paths only. Such a simple policy control can be implemented by Istio routing.
+
+1.  Let's redefine our `VirtualService` for _edition.cnn.com_:
+
+    ```bash
+        cat <<EOF | istioctl replace -f -
+        apiVersion: networking.istio.io/v1alpha3
+        kind: VirtualService
+        metadata:
+          name: direct-through-egress-gateway
+        spec:
+          hosts:
+          - edition.cnn.com
+          gateways:
+          - istio-egressgateway
+          - mesh
+          http:
+          - match:
+            - gateways:
+              - mesh
+              port: 80
+            route:
+            - destination:
+                host: istio-egressgateway.istio-system.svc.cluster.local
+                port:
+                  number: 443
+              weight: 100
+          - match:
+            - gateways:
+              - istio-egressgateway
+              port: 443
+              uri:
+                regex: "/health|/sport"
+            route:
+            - destination:
+                host: edition.cnn.com
+                port:
+                  number: 443
+              weight: 100
+        EOF
+    ```
+
+    Note that we added a `match` by `uri` condition that checks that the URL path is
+    either _/health_ or _/sport_. Also note that this condition is added to the `istio-egressgateway`
+    section of the `VirtualService`, since the egress gateway is a secure component (see [egress gateway security considerations](http://localhost:1313/docs/tasks/traffic-management/egress-gateway/#additional-security-considerations)). We don't want any tampering with our policies.
+
+1.  Let's send the previous three HTTP requests to _cnn.com_:
+    ```command
+    $ kubectl exec -it $SOURCE_POD -c sleep -- bash -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
+    404
+    200
+    200
+    ```
+
+    The request to [edition.cnn.com/politics](https://edition.cnn.com/politics) returned _404 Not Found_, while requests to [edition.cnn.com/sport](https://edition.cnn.com/sport) and  [edition.cnn.com/health](https://edition.cnn.com/health) returned _200 OK_, as expected.
+
+3.  Let's query the Mixer log and see that the information about the requests appear again in the log:
+
+    ```command
+    $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') mixer | grep egress-access | grep cnn | tail -4
+    ```
+
+    This time output should be similar to the following:
+
+    ```plain
+    {"level":"info","time":"2018-06-19T12:39:48.050666Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","responseCode":404,"responseSize":0,"source":"sleep","sourceNamespace":"default","user":"unknown"}
+    {"level":"error","time":"2018-06-19T12:39:48.050666Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","responseCode":404,"responseSize":0,"source":"sleep","sourceNamespace":"default","user":"unknown"}
+    {"level":"info","time":"2018-06-19T12:39:48.091268Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/health","responseCode":200,"responseSize":334027,"source":"sleep","sourceNamespace":"default","user":"unknown"}
+    {"level":"info","time":"2018-06-19T12:39:48.063812Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/sport","responseCode":200,"responseSize":355267,"source":"sleep","sourceNamespace":"default","user":"unknown"}
+    ```
+
+    We still get info and error messages regarding access to [edition.cnn.com/politics](https://edition.cnn.com/politics), however this time the `responseCode` is `404`, as expected.
+
+While implementing access control by Istio routing worked for us in this simple case, it would not suffice for more complex cases. For example, the organization may want to allow access to [edition.cnn.com/politics](https://edition.cnn.com/politics) under certain conditions, so more complex policy logic than just filtering by URL paths will be required. We may want to apply [Istio Mixer Adapters](/blog/2017/adapter-model/), for example [white lists](/docs/tasks/security/basic-access-control/#access-control-using-whitelists) or [black lists](/docs/tasks/security/basic-access-control/#access-control-using-denials) of allowed/forbidden URL paths, respectively. More advanced users may want to apply [Istio Role-Based Access Control](/docs/concepts/security/rbac/).
+
+Additional issue is integration with remote access policy systems. If the organization in our use case operates some [Identity and Access Management](https://en.wikipedia.org/wiki/Identity_management) system, we may want to configure Istio to use policy access information from such a system. We implement this integration by applying [Istio Mixer Adapters](/blog/2017/adapter-model/).
+
+Let's cancel the access control by routing we used in this section and implement access control by Mixer policy checks in the next section.
+
+1.  Replace the `VirtualService` for _edition.cnn.com_ with our previous version from the [Configure an Egress Gateway](/docs/tasks/traffic-management/egress-gateway/#perform-tls-origination-with-the-egress-gateway) task:
+
+    ```bash
+        cat <<EOF | istioctl replace -f -
+        apiVersion: networking.istio.io/v1alpha3
+        kind: VirtualService
+        metadata:
+          name: direct-through-egress-gateway
+        spec:
+          hosts:
+          - edition.cnn.com
+          gateways:
+          - istio-egressgateway
+          - mesh
+          http:
+          - match:
+            - gateways:
+              - mesh
+              port: 80
+            route:
+            - destination:
+                host: istio-egressgateway.istio-system.svc.cluster.local
+                port:
+                  number: 443
+              weight: 100
+          - match:
+            - gateways:
+              - istio-egressgateway
+              port: 443
+            route:
+            - destination:
+                host: edition.cnn.com
+                port:
+                  number: 443
+              weight: 100
+        EOF
+    ```
+
+1.  Let's send the previous three HTTP requests to _cnn.com_, this time we should get three _200 OK_ responses as previously:
+
+    ```command
+    $ kubectl exec -it $SOURCE_POD -c sleep -- bash -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
+    200
+    200
+    200
+    ```
+> Note that we may need to wait several seconds for the update of the `VirtualService` to propagate to the egress gateway.
+
 ### Access control by Mixer policy checks
 
 ### Dashboard
