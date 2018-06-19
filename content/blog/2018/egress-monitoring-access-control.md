@@ -146,7 +146,7 @@ In our scenario, the organization performed the instructions in the [Before you 
 
 1.  Perform the TBD cleanup section of the Configure an Egress Gateway task.
 
-2. Clean the artifacts we created in this blog post:
+2.  Clean the artifacts we created in this blog post:
 
     ```command
     $ kubectl delete logentry egress-access -n istio-system
