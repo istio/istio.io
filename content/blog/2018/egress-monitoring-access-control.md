@@ -122,7 +122,7 @@ In our scenario, the organization performed the instructions in the [Before you 
 
 3.  Let's query the Mixer log and see that the information about the requests appear in the log:
     ```command
-    $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') mixer | grep egress-access | grep cnn
+    $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') mixer | grep egress-access | grep cnn | tail -4
     ```
 
     The output should be similar to the following:
