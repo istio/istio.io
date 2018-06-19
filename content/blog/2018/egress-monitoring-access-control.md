@@ -268,6 +268,54 @@ Let's cancel the access control by routing we used in this section and implement
 
 ### Access control by Mixer policy checks
 
+In this step let's use a Mixer [Listcheker adapter](https://istio.io/docs/reference/config/policy-and-telemetry/adapters/list/), in its whitelist variant.
+
+1.  Define a `listentry` for the `listchecker` to check, and a `rule` to route the instances of the `listentry` to the `listchecker`:
+
+    ```bash
+        cat <<EOF | istioctl create -f -
+        apiVersion: "config.istio.io/v1alpha2"
+        kind: listchecker
+        metadata:
+          name: path-checker
+          namespace: istio-system
+        spec:
+          overrides: ["/health", "/sport"]  # overrides provide a static list
+          blacklist: false
+        ---
+        apiVersion: "config.istio.io/v1alpha2"
+        kind: listentry
+        metadata:
+          name: request-path
+          namespace: istio-system
+        spec:
+          value: request.path
+
+        ---
+        apiVersion: "config.istio.io/v1alpha2"
+        kind: rule
+        metadata:
+            name: check-path
+            namespace: istio-system
+        spec:
+          match: request.host.endsWith(".cnn.com")
+          actions:
+          - handler: path-checker.listchecker
+            instances:
+            - request-path.listentry
+        EOF
+    ```
+
+1.  Let's perform our usual test by sending HTTP requests to
+ [edition.cnn.com/politics](https://edition.cnn.com/politics), [edition.cnn.com/sport](https://edition.cnn.com/sport) and [edition.cnn.com/health](https://edition.cnn.com/health). As expected, the request to [edition.cnn.com/politics](https://edition.cnn.com/politics) returns _404_.
+
+    ```command
+    $ kubectl exec -it $SOURCE_POD -c sleep -- bash -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
+    404
+    200
+    200
+    ```
+
 ### Dashboard
 
 ## Comparison with HTTPS egress traffic control
@@ -278,7 +326,7 @@ Let's cancel the access control by routing we used in this section and implement
 
 1.  Perform the [Cleanup](/docs/tasks/traffic-management/egress-gateway/#cleanup) section of the [Configure an Egress Gateway](/docs/tasks/traffic-management/egress-gateway/) task.
 
-2.  Clean the artifacts we created in this blog post:
+2.  Delete the logging configuration:
 
     ```command
     $ kubectl delete logentry egress-access -n istio-system
@@ -286,4 +334,12 @@ Let's cancel the access control by routing we used in this section and implement
     $ kubectl delete stdio egress-access-handler -n istio-system
     $ kubectl delete rule report-politics -n istio-system
     $ kubectl delete rule report-cnn-access -n istio-system
+    ```
+
+3.  Delete the mixer check's configuration
+
+    ```command
+    $ kubectl delete -n istio-system listchecker path-checker
+    $ kubectl delete -n istio-system listentry request-path
+    $ kubectl delete -n istio-system rule check-path
     ```
