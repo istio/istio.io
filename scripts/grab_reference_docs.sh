@@ -12,14 +12,15 @@
 #set -e
 
 ISTIO_BASE=$(cd "$(dirname "$0")" ; pwd -P)/..
-WORK_DIR=$(mktemp -d)
+export GOPATH=$(mktemp -d)
+WORK_DIR=${GOPATH}/src/istio.io
 COMMAND_DIR=$ISTIO_BASE/content/docs/reference/commands
 
 # Get the source code
+mkdir -p ${WORK_DIR}
 pushd $WORK_DIR
 git clone https://github.com/istio/api.git
 git clone https://github.com/istio/istio.git
-rm -fr istio/vendor
 popd
 
 # Given the name of a .pb.html file, extracts the $location marker and then proceeds to
@@ -53,12 +54,12 @@ get_command_doc() {
     pushd $COMMAND_PATH
     go build
     ./$COMMAND collateral -o $COMMAND_DIR --jekyll_html
-    rm $COMMAND
+    rm $COMMAND 2>/dev/null
     popd
 }
 
-# First delete all the current generated files so that any stale files are removed
-find content/docs/reference -name '*.html' -type f|xargs rm
+# # First delete all the current generated files so that any stale files are removed
+find content/docs/reference -name '*.html' -type f|xargs rm 2>/dev/null
 
 for f in `find $WORK_DIR/istio -type f -name '*.pb.html'`
 do
