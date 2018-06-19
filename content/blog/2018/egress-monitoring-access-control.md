@@ -111,7 +111,7 @@ In our scenario, the organization performed the instructions in the [Before you 
         EOF
 ```
 
-1.  Let's send three HTTP requests to _cnn.com_. All three should return _200 OK_.
+1.  Let's send three HTTP requests to _cnn.com_, to [edition.cnn.com/politics](https://edition.cnn.com/politics), [edition.cnn.com/sport](https://edition.cnn.com/sport) and [edition.cnn.com/health](https://edition.cnn.com/health). All three should return _200 OK_.
 
     ```command
     $ kubectl exec -it $SOURCE_POD -c sleep -- bash -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
