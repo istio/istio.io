@@ -133,11 +133,11 @@ In our scenario, the organization performed the instructions in the [Before you 
 
     We see four log entries related to our three requests. Three _info_ entries about the access to _edition.cnn.com_ and one _error_ entry about the access to _edition.cnn.com/politics_. The service mesh operators can see all the accesses, and can also `grep` the log for _error_ log entries that reflect forbidden access. This is the first security measure the organization can apply before blocking the forbidden access automatically, namely logging all the forbidden access as errors. In some settings this can be a sufficient security measure.
 
-### Dashboard
-
 ### Access control by routing
 
 ### Access control by Mixer policy checks
+
+### Dashboard
 
 ## Comparison with HTTPS egress traffic control
 
