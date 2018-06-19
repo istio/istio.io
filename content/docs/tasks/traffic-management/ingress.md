@@ -100,7 +100,13 @@ Determining the ingress IP depends on the cluster provider.
     $ export INGRESS_HOST=<public IP of one of the worker nodes>
     ```
 
-1.  _Other environments (e.g., minikube, IBM Cloud Private etc):_
+1.  _Minikube:_
+
+    ```command
+    $ export INGRESS_HOST=$(minikube ip)
+    ```
+
+1.  _Other environments (e.g., IBM Cloud Private etc):_
 
     ```command
     $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o 'jsonpath={.items[0].status.hostIP}')
