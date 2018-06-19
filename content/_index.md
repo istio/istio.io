@@ -125,18 +125,4 @@ title: Istio
             </div>
         </div>
     </div>
-
-    <style>
-        header .navbar {
-            box-shadow: none;
-        }
-
-        body {
-            padding-top: 2.8rem;
-        }
-
-        .navbar-brand {
-            visibility: hidden;
-        }
-    </style>
 </main>

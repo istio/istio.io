@@ -57,7 +57,7 @@ number_of_entries: 5
 </tr>
 </tbody>
 </table>
-<h2 id="pilot-discovery debug">pilot-discovery debug</h2>
+<h2 id="pilot-discovery-debug">pilot-discovery debug</h2>
 <p>Retrieve the configuration for the specified proxy</p>
 <pre class="language-bash"><code>pilot-discovery debug &lt;proxyID&gt; &lt;configuration-type&gt; [flags]
 </code></pre>
@@ -113,7 +113,7 @@ number_of_entries: 5
 </tr>
 </tbody>
 </table>
-<h2 id="pilot-discovery discovery">pilot-discovery discovery</h2>
+<h2 id="pilot-discovery-discovery">pilot-discovery discovery</h2>
 <p>Start Istio proxy discovery service</p>
 <pre class="language-bash"><code>pilot-discovery discovery [flags]
 </code></pre>
@@ -195,6 +195,11 @@ number_of_entries: 5
 <td>Discovery service grpc address  (default `:15010`)</td>
 </tr>
 <tr>
+<td><code>--httpAddr &lt;string&gt;</code></td>
+<td></td>
+<td>Discovery service HTTP address  (default `:8080`)</td>
+</tr>
+<tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td></td>
 <td>Use a Kubernetes configuration file instead of in-cluster configuration  (default ``)</td>
@@ -250,19 +255,14 @@ number_of_entries: 5
 <td>File name for Istio mesh configuration. If not specified, a default mesh will be used.  (default `/etc/istio/config/mesh`)</td>
 </tr>
 <tr>
-<td><code>--monitoringPort &lt;int&gt;</code></td>
+<td><code>--monitoringAddr &lt;string&gt;</code></td>
 <td></td>
-<td>HTTP port to use for the exposing pilot self-monitoring information  (default `9093`)</td>
+<td>HTTP address to use for the exposing pilot self-monitoring information  (default `:9093`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Select a namespace where the controller resides. If not set, uses ${POD_NAMESPACE} environment variable  (default ``)</td>
-</tr>
-<tr>
-<td><code>--port &lt;int&gt;</code></td>
-<td></td>
-<td>Discovery service port  (default `8080`)</td>
 </tr>
 <tr>
 <td><code>--profile</code></td>
@@ -272,7 +272,7 @@ number_of_entries: 5
 <tr>
 <td><code>--registries &lt;stringSlice&gt;</code></td>
 <td></td>
-<td>Comma separated list of platform service registries to read from (choose one or more from {Kubernetes, Consul, Eureka, CloudFoundry, Mock})  (default `[Kubernetes]`)</td>
+<td>Comma separated list of platform service registries to read from (choose one or more from {Kubernetes, Consul, Eureka, CloudFoundry, Mock, Config})  (default `[Kubernetes]`)</td>
 </tr>
 <tr>
 <td><code>--resync &lt;duration&gt;</code></td>
@@ -291,7 +291,7 @@ number_of_entries: 5
 </tr>
 </tbody>
 </table>
-<h2 id="pilot-discovery version">pilot-discovery version</h2>
+<h2 id="pilot-discovery-version">pilot-discovery version</h2>
 <p>Prints out build version information</p>
 <pre class="language-bash"><code>pilot-discovery version [flags]
 </code></pre>

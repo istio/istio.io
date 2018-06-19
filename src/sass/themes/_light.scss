@@ -33,6 +33,7 @@ $preBlockBackgroundColor: $backgroundColor;
 $preBlockCommandOutputTextColor: $textColor;
 $preBlockCommandOutputBackgroundColor: lighten($gray, 50%);
 $boxBorderColor: $secondBrandColor;
+$dropdownBorderColor: black;
 
 $headerLightShadowColor: rgba(0, 0, 0, .14);
 $headerDarkShadowColor: rgba(0, 0, 0, .28);

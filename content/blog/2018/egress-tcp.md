@@ -7,6 +7,7 @@ attribution: Vadim Eisenberg
 weight: 92
 aliases:
   - /docs/tasks/traffic-management/egress-tcp/
+keywords: [traffic-management,egress,tcp]
 ---
 
 In my previous blog post, [Consuming External Web Services](/blog/2018/egress-https/), I described how external services can be consumed by in-mesh Istio applications via HTTPS. In this post, I demonstrate consuming external services over TCP. I use the [Istio Bookinfo sample application](/docs/guides/bookinfo/), the version in which the book ratings data is persisted in a MySQL database. I deploy this database outside the cluster and configure the _ratings_ microservice to use it. I define an [egress rule](/docs/reference/config/istio.routing.v1alpha1/#EgressRule) to allow the in-mesh applications to access the external database.

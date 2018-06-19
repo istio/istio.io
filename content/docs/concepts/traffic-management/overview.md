@@ -2,6 +2,7 @@
 title: Overview
 description: Provides a conceptual overview of traffic management in Istio and the features it enables.
 weight: 1
+keywords: [traffic-management]
 ---
 
 This page provides an overview of how traffic management works

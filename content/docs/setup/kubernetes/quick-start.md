@@ -2,6 +2,7 @@
 title: Quick Start
 description: Quick start instructions to setup the Istio service mesh in a Kubernetes cluster.
 weight: 10
+keywords: [kubernetes]
 ---
 
 Quick start instructions to install and configure Istio in a Kubernetes cluster.
@@ -266,7 +267,7 @@ Install Istio's core components. Choose one of the four _**mutually exclusive**_
 *  Install Istio without enabling [mutual TLS authentication](/docs/concepts/security/mutual-tls/) between sidecars. Choose this option for clusters with existing applications, applications where services with an Istio sidecar need to be able to communicate with other non-Istio Kubernetes services, and applications that use [liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/), headless services, or StatefulSets.
 
 ```command
-$ kubectl apply -f @install/kubernetes/istio-demo.yaml@
+$ kubectl apply -f install/kubernetes/istio-demo.yaml
 ```
 
 OR
@@ -274,7 +275,7 @@ OR
 *  Install Istio and enforce mutual TLS authentication between sidecars by default. Use this option only on a fresh kubernetes cluster where newly deployed workloads are guaranteed to have Istio sidecars installed.
 
 ```command
-$ kubectl apply -f @install/kubernetes/istio-demo-auth.yaml@
+$ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
 ```
 
 OR
@@ -340,7 +341,7 @@ $ kubectl create -n <namespace> -f <your-app-spec>.yaml
 ```
 
 If you do not have the Istio-sidecar-injector installed, you must
-use [istioctl kube-inject](/docs/reference/commands/istioctl/#istioctl kube-inject) to
+use [istioctl kube-inject](/docs/reference/commands/istioctl/#istioctl-kube-inject) to
 manually inject Envoy containers in your application pods before deploying them:
 
 ```command
@@ -356,7 +357,7 @@ It is safe to ignore errors for non-existent resources because they may have bee
 If you installed Istio with `istio-demo.yaml`:
 
 ```command
-$ kubectl delete -f @install/kubernetes/istio-demo.yaml@
+$ kubectl delete -f install/kubernetes/istio-demo.yaml
 ```
 
 otherwise [uninstall Istio with Helm](/docs/setup/kubernetes/helm-install/#uninstall).

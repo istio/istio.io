@@ -2,6 +2,7 @@
 title: Mirroring
 description: This task demonstrates the traffic shadowing/mirroring capabilities of Istio
 weight: 60
+keywords: [traffic-management,mirroring]
 ---
 
 > This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.7/docs/tasks/traffic-management/).
@@ -151,6 +152,8 @@ Let's set up a scenario to demonstrate the traffic-mirroring capabilities of Ist
         EOF
     ```
 
+    > NOTE: If you installed/configured istio with mTLS Authentication enabled, you must add the [TLSSettings.TLSmode]( /docs/reference/config/istio.networking.v1alpha3/#TLSSettings-TLSmode), `mode: ISTIO_MUTUAL` as noted in the [TLSSettings](/docs/reference/config/istio.networking.v1alpha3/#TLSSettings) reference.
+
     Now all traffic should go to `httpbin v1` service. Let's try sending in some traffic:
 
     ```command-output-as-json
@@ -246,4 +249,4 @@ Let's set up a scenario to demonstrate the traffic-mirroring capabilities of Ist
 
 ## What's next
 
-Check out the [Mirroring configuration](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute.mirror) reference documentation.
+Check out the [Mirroring configuration](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute-mirror) reference documentation.

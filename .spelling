@@ -32,6 +32,7 @@ AppOptics
 args.yaml
 AuthPolicy
 Autoscalers
+BigQuery
 Bookinfo
 Budinsky
 CAP_NET_ADMIN
@@ -127,6 +128,7 @@ PaaS
 Papertrail
 PilotAdapters.svg
 programmatically
+Pub/Sub
 Rajagopalan
 RawVM
 Redis
@@ -151,6 +153,7 @@ TCP-level
 TLS-secured
 Tcpdump
 Tigera
+TopicList
 TrafficManagementOverview.svg
 USE_ORIGIN
 USE_ORIGIN
@@ -182,6 +185,8 @@ _v3_
 a.k.a.
 abc
 abcde12345
+accesslog
+accesslogs
 accounts.my
 adapters.svg
 addon
@@ -240,6 +245,7 @@ createpolicystart.png
 current.istio.io
 current.istio.io.
 dataplane
+dataset
 datastore
 debian
 default.svc.cluster.local
@@ -252,6 +258,7 @@ destination.port
 destination.service
 destination.uid
 destination.user
+details.default.svc.cluster.local
 dev
 dm_bookinfo.png
 dm_gcp_iam.png
@@ -361,6 +368,8 @@ learnings
 lifecycle
 listchecker
 liveness
+logentry
+logInfo
 mTLS
 machine.svg
 machineSetup
@@ -381,6 +390,7 @@ mongodb
 mtls_excluded_services
 multicloud
 multicluster
+mutatingwebhookconfiguration
 mutual-tls
 my-svc
 my-svc-234443-5sffe
@@ -467,6 +477,7 @@ response.headers
 response.size
 response.time
 reviews.abc.svc.cluster.local
+reviews.default.svc.cluster.local
 roadmap
 roleRef
 roles_summary.png
@@ -487,6 +498,7 @@ setupMeshEx.sh
 sharded
 sharding
 sidecar.env
+sinkInfo
 sleep.legacy
 sleep.yaml
 source.domain

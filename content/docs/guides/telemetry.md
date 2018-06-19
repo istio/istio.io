@@ -2,6 +2,7 @@
 title: In-Depth Telemetry
 description: This sample demonstrates how to obtain uniform metrics, logs, traces across different services using Istio Mixer and Istio sidecar.
 weight: 30
+keywords: [telemetry]
 ---
 
 This sample demonstrates how to obtain uniform metrics, logs, traces across different services using Istio Mixer and Istio sidecar.

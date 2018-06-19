@@ -2,6 +2,7 @@
 title: Installation with Helm
 description: Install Istio with the included Helm chart.
 weight: 30
+keywords: [kubernetes,helm]
 aliases:
     - /docs/setup/kubernetes/helm.html
     - /docs/tasks/integrating-services-into-istio.html
@@ -92,14 +93,13 @@ following table:
 
 | Parameter | Description | Values | Default |
 | --- | --- | --- | --- |
-| `global.hub` | Specifies the HUB for most images used by Istio | registry/namespace | `docker.io/istionightly` |
-| `global.tag` | Specifies the TAG for most images used by Istio | valid image tag | `circleci-nightly` |
+| `global.hub` | Specifies the HUB for most images used by Istio | registry/namespace | `docker.io/istio` |
+| `global.tag` | Specifies the TAG for most images used by Istio | valid image tag | `0.8.0` |
 | `global.proxy.image` | Specifies the proxy image name | valid proxy name | `proxyv2` |
 | `global.proxy.includeIPRanges` | Specifies the IP ranges for which outbound traffic is redirected to Envoy | List of IP ranges in CIDR notation separated by the escaped comma `\,` . Use `*` to redirect all outbound traffic to Envoy | `*` |
 | `global.imagePullPolicy` | Specifies the image pull policy | valid image pull policy | `IfNotPresent` |
 | `global.controlPlaneSecurityEnabled` | Specifies whether control plane mTLS is enabled | true/false | `false` |
 | `global.mtls.enabled` | Specifies whether mTLS is enabled by default between services | true/false | `false` |
-| `global.mtls.mtlsExcludedServices` | List of FQDNs to exclude from mTLS | a list of FQDNs | `- kubernetes.default.svc.cluster.local` |
 | `global.rbacEnabled` | Specifies whether to create Istio RBAC rules or not | true/false | `true` |
 | `global.refreshInterval` | Specifies the mesh discovery refresh interval | integer followed by s | `10s` |
 | `global.arch.amd64` | Specifies the scheduling policy for `amd64` architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | `2` |

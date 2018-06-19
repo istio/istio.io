@@ -13,7 +13,7 @@
       <link>{{ $home }}</link>
     </image>
 
-    {{ $pages := (where .Site.AllPages "Section" "blog").ByPublishDate }}
+    {{ $pages := (where .Site.Pages "Section" "blog").ByPublishDate }}
 
     {{ range $post := $pages }}
       {{ if and (not $post.Draft) $post.IsPage }}
