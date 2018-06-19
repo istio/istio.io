@@ -34,7 +34,7 @@ The instructions in this blog post are valid for Istio 0.8.0 or later. Follow th
 
 Note that since want to accomplish our tasks in a _secure way_, we must direct egress traffic through _egress gateway_, as described in the [Configure an Egress Gateway](/docs/tasks/traffic-management/egress-gateway/) task. The _secure way_ here means that we want to prevent malicious applications from bypassing Istio monitoring and policy enforcement.
 
-In our scenario, the organization performed the instructions in the [Before you begin]() section. It enabled traffic to _edition.cnn.com_ and configured that traffic to pass through the egress gateway. Now it is ready to configure Istio for monitoring and access policies for the traffic to _edition.cnn.com_.
+In our scenario, the organization performed the instructions in the [Before you begin](#before-you-begin) section. It enabled traffic to _edition.cnn.com_ and configured that traffic to pass through the egress gateway. Now it is ready to configure Istio for monitoring and access policies for the traffic to _edition.cnn.com_.
 
 ### Logging
 
