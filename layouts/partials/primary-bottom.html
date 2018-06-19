@@ -3,7 +3,7 @@
 
                 {{ $related := .Site.RegularPages.Related . | first 5 }}
                 {{ with $related }}
-                    <h2 id="see-also">See Also</h2>
+                    <h2 id="see-also">See also</h2>
                     <ul>
                         {{ range . }}
                             <li><a href="{{ .RelPermalink }}">{{ .Title }}</a>. {{ .Description }}</li>
