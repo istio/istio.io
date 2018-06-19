@@ -55,6 +55,7 @@ In our scenario, the organization performed the instructions in the [Before you 
             destination: request.host | "unknown"
             path: request.path | "unknown"
             source: source.labels["app"] | source.service | "unknown"
+            sourceNamespace: source.namespace | "unknown"
             user: source.user | "unknown"
             responseCode: response.code | 0
             responseSize: response.size | 0
