@@ -115,6 +115,9 @@ In our scenario, the organization performed the instructions in the [Before you 
 
     ```command
     $ kubectl exec -it $SOURCE_POD -c sleep -- bash -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
+    200
+    200
+    200
     ```
 
 3.  Let's query the Mixer log and see that the information about the requests appear in the log:
