@@ -49,54 +49,6 @@ number_of_entries: 5
 </tr>
 </tbody>
 </table>
-<h2 id="pilot-agent-debug">pilot-agent debug</h2>
-<p>Debug local envoy</p>
-<pre class="language-bash"><code>pilot-agent debug &lt;configuration-type&gt; [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<th>Flags</th>
-<th>Description</th>
-</thead>
-<tbody>
-<tr>
-<td><code>--log_as_json</code></td>
-<td>Whether to format output as JSON or in plain console-friendly format </td>
-</tr>
-<tr>
-<td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate &lt;string&gt;</code></td>
-<td>The path for the optional rotating log file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
-<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
-<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
-<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
-</tr>
-<tr>
-<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
-</tr>
-<tr>
-<td><code>--log_target &lt;stringArray&gt;</code></td>
-<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
-</tr>
-</tbody>
-</table>
 <h2 id="pilot-agent-proxy">pilot-agent proxy</h2>
 <p>Envoy proxy agent</p>
 <pre class="language-bash"><code>pilot-agent proxy [flags]
@@ -117,7 +69,7 @@ number_of_entries: 5
 </tr>
 <tr>
 <td><code>--bootstrapv2</code></td>
-<td>Use bootstrap v2 </td>
+<td>Use bootstrap v2 - DEPRECATED </td>
 </tr>
 <tr>
 <td><code>--concurrency &lt;int&gt;</code></td>
@@ -234,6 +186,54 @@ number_of_entries: 5
 <tr>
 <td><code>--zipkinAddress &lt;string&gt;</code></td>
 <td>Address of the Zipkin service (e.g. zipkin:9411)  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pilot-agent-request">pilot-agent request</h2>
+<p>Makes an HTTP request to the Envoy admin API</p>
+<pre class="language-bash"><code>pilot-agent request &lt;method&gt; &lt;path&gt; [&lt;body&gt;] [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<th>Flags</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+<td><code>--log_as_json</code></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 </tbody>
 </table>
