@@ -497,6 +497,8 @@ We guess that each organization will consider the pros and contras of the two ap
 
 ## Summary
 
+In this blog post we showed how different monitoring and policy mechanisms of Istio can be applied to HTTP egress traffic. Monitoring can be implemented by configuring a logging adapter and deploying the Istio dashboard. Access policies can be implemented by configuring `VirtualServices` or by configuring various policy check adapters. We demonstrated a simple policy that allowed certain URL paths only, and a more complex policy that extended the simple policy by making an exemption to applications from a certain namespace. Finally, we compared Istio control for HTTP with TLS origination egress traffic vs. HTTPS egress traffic.
+
 ## Cleanup
 
 1.  Perform the instructions in [Cleanup](/docs/tasks/traffic-management/egress-gateway/#cleanup) section of the [Configure an Egress Gateway](/docs/tasks/traffic-management/egress-gateway/) task.
