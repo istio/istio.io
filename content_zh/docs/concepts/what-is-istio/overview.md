@@ -45,7 +45,7 @@ Istio服务网格逻辑上分为**数据面板**和**控制面板**。
 
 ### Envoy
 
-Istio 使用 [Envoy](https://lyft.github.io/envoy/) 代理的扩展版本，Envoy 是以 C ++ 开发的高性能代理，用于调解服务网格中所有服务的所有入站和出站流量。Envoy 的许多内置功能被 istio 发扬光大，例如动态服务发现、负载均衡、TLS终止、HTTP/2 & gRPC 代理、熔断器、健康检查、基于百分比流量拆分的分段推出以及故障注入和丰富的度量指标。
+Istio 使用 [Envoy](https://www.envoyproxy.io/) 代理的扩展版本，Envoy 是以 C ++ 开发的高性能代理，用于调解服务网格中所有服务的所有入站和出站流量。Envoy 的许多内置功能被 istio 发扬光大，例如动态服务发现、负载均衡、TLS终止、HTTP/2 & gRPC 代理、熔断器、健康检查、基于百分比流量拆分的分段推出以及故障注入和丰富的度量指标。
 
 Envoy 被部署为 **sidecar**，和对应服务在同一个 Kubernetes pod 中。这允许 Istio 将大量关于流量行为的信号作为[属性](/docs/concepts/policies-and-telemetry/config/#attributes)提取出来，而这些属性又可以在 [Mixer](/docs/concepts/policies-and-telemetry/overview/) 中用于执行策略决策，并发送给监控系统，以提供整个网格行为的信息。Sidecar 代理模型还可以将 Istio 的功能添加到现有部署中，而无需重新构建或重写代码。可以阅读更多来了解为什么我们在[设计目标](/docs/concepts/what-is-istio/goals/)中选择这种方式。
 
