@@ -5,6 +5,8 @@ publishdate: 2018-02-06
 subtitle: Egress rules for TCP traffic
 attribution: Vadim Eisenberg
 weight: 92
+aliases:
+  - /docs/tasks/traffic-management/egress-tcp/
 keywords: [traffic-management,egress,tcp]
 ---
 
@@ -251,7 +253,7 @@ To enable TCP traffic to an external service by its hostname, all the IPs of the
 
 Note that all the IPs of an external service are not always known. To enable TCP traffic by IPs, as opposed to the traffic by a hostname, only the IPs that are used by the applications must be specified.
 
-Also note that the IPs of an external service are not always static, for example in the case of [CDNs](https://en.wikipedia.org/wiki/Content_delivery_network). Sometimes the IPs are static most of the time, but can be changed from time to time, for example due to infrastructure changes. In these cases, if the range of the possible IPs is known, you should specify the range by CIDR blocks (even by multiple egress rules if needed). As an example, see the approach we used in the case of `wikipedia.org`,  described in [Control Egress TCP Traffic Task](/docs/tasks/traffic-management/egress-tcp/). If the range of the possible IPs is not known, egress rules for TCP cannot be used and [the external services must be called directly](/docs/tasks/traffic-management/egress/#calling-external-services-directly), circumventing the sidecar proxies.
+Also note that the IPs of an external service are not always static, for example in the case of [CDNs](https://en.wikipedia.org/wiki/Content_delivery_network). Sometimes the IPs are static most of the time, but can be changed from time to time, for example due to infrastructure changes. In these cases, if the range of the possible IPs is known, you should specify the range by CIDR blocks (even by multiple egress rules if needed). If the range of the possible IPs is not known, egress rules for TCP cannot be used and [the external services must be called directly](/docs/tasks/traffic-management/egress/#calling-external-services-directly), circumventing the sidecar proxies.
 
 ## Relation to mesh expansion
 
@@ -315,8 +317,4 @@ In this blog post, I demonstrated how the microservices in an Istio service mesh
 
 ## What's next
 
-To read more about Istio egress traffic control:
-
-* for TCP, see [Control Egress TCP Traffic Task](/docs/tasks/traffic-management/egress-tcp/)
-
-* for HTTP/HTTPS, see [Control Egress Traffic Task](/docs/tasks/traffic-management/egress/)
+To read more about Istio egress traffic control, see [Control Egress Traffic Task](/docs/tasks/traffic-management/egress/).
