@@ -100,7 +100,13 @@ Determining the ingress IP depends on the cluster provider.
     $ export INGRESS_HOST=<public IP of one of the worker nodes>
     ```
 
-1.  _Other environments (e.g., minikube, IBM Cloud Private etc):_
+1.  _Minikube:_
+
+    ```command
+    $ export INGRESS_HOST=$(minikube ip)
+    ```
+
+1.  _Other environments (e.g., IBM Cloud Private etc):_
 
     ```command
     $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o 'jsonpath={.items[0].status.hostIP}')
@@ -314,8 +320,6 @@ If we want to only allow HTTPS traffic into our service mesh, we can remove the 
     $ curl --resolve httpbin.example.com:$INGRESS_PORT:$INGRESS_HOST -HHost:httpbin.example.com -I http://httpbin.example.com:$INGRESS_PORT/status/200
     ```
 ## Accessing Istio service mesh by a browser
-
-Currently, accessing the mesh by a browser is fully supported only for load balancer ingress gateways, and only for the standard ports (80 and 443). You must omit the port when specifying the URL of the Gateway.
 
 For `NodePort` ingress gateways, access by a browser is supported partially: only for the `*` hosts in the definition of the `VirtualService`.
 

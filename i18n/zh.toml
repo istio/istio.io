@@ -1,0 +1,62 @@
+[rocket_chat_desc]
+other = "与 Istio 社区中的成员交流"
+
+[istio_users_desc]
+other = "加入 istio-users@ 邮件列表参与讨论，获取排除故障的帮助"
+
+[twitter_desc]
+other = "关注我们的 Twitter 来获最新信息"
+
+[stackoverflow_desc]
+other = "Stack Overflow 中列举了针对实际问题以及部署、配置和使用 Istio 的各项回答"
+
+[for_users]
+other = "对于用户"
+
+[for_developers]
+other = "对于开发者"
+
+[istio_dev_desc]
+other = "加入 istio-dev@ 邮件列表讨论 Istio 项目开发时遇到的问题"
+
+[github_desc]
+other = "Isito 的代码在 GitHub 上开发"
+
+[team_drive_desc]
+other = "如果您想深入了解 Istio 的技术细节，请查看我们日益完善的设计文档"
+
+[working_group_desc]
+other = "如果您想为 Istio 项目做出贡献，请考虑加入我们的工作组"
+
+[slack_desc]
+other = "在 Slack 上与 Istio 社区交互讨论开发问题（仅限邀请）"
+
+[report_site_bugs]
+other = "报告网站Bug"
+
+[edit_on_github]
+other = "在GitHub上编辑此页"
+
+[light_theme]
+other = "亮主题"
+
+[dark_theme]
+other = "暗主题"
+
+[other_versions_of_site]
+other = "本站的其它版本"
+
+[current_release]
+other = "当前版本（%s）"
+
+[next_release]
+other = "下个版本（预发布 %s）"
+
+[archived_releases]
+other = "旧版本"
+
+[options_menu]
+other = "选项和设置"
+
+[search]
+other = "搜索istio.io"

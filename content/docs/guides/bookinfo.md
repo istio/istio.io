@@ -137,19 +137,19 @@ To start the application, follow the instructions below corresponding to your Is
 
 #### Determining the ingress IP and port
 
-1. Follow [these instructions](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports) to set the `INGRESS_HOST` and `INGRESS_PORT` variables.
+1.  Follow [these instructions](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports) to set the `INGRESS_HOST` and `INGRESS_PORT` variables.
 
-1. Set `GATEWAY_URL`:
+1.  Set `GATEWAY_URL`:
 
-   ```command
-   $ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
-   ```
+    ```command
+    $ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
+    ```
 
-1. Proceed to [What's next](#what-s-next), below.
+1.  Proceed to [What's next](#what-s-next), below.
 
 ### If you are running on Docker with Consul or Eureka
 
-1. Change directory to the root of the Istio installation directory.
+1.  Change directory to the root of the Istio installation directory.
 
 1.  Bring up the application containers.
 
@@ -157,14 +157,14 @@ To start the application, follow the instructions below corresponding to your Is
 
     ```command
     $ docker-compose -f @samples/bookinfo/consul/bookinfo.yaml@ up -d
-    $ docker-compose -f @samples/bookinfo/consul/bookinfo.sidecars.yaml@ up -d
+    $ docker-compose -f samples/bookinfo/consul/bookinfo.sidecars.yaml up -d
     ```
 
     To test with Eureka, run the following commands:
 
     ```command
     $ docker-compose -f @samples/bookinfo/eureka/bookinfo.yaml@ up -d
-    $ docker-compose -f @samples/bookinfo/eureka/bookinfo.sidecars.yaml@ up -d
+    $ docker-compose -f samples/bookinfo/eureka/bookinfo.sidecars.yaml up -d
     ```
 
 1.  Confirm that all docker containers are running:

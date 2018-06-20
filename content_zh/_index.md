@@ -18,7 +18,7 @@ title: Istio
                 {{< inline_image "landing/routing-and-load-balancing.svg" >}}
             </div>
             <div class="col-12 col-md-5 landing-text">
-                <h2>智能路由与负载均衡</h2>
+                <h2>智能路由和负载均衡</h2>
                 <p>
                     通过动态路由配置控制服务之间的流量，进行A/B测试、金丝雀发布，使用红/黑部署逐步升级版本。
                     <a href="/docs/concepts/traffic-management/overview/">了解更多...</a>
