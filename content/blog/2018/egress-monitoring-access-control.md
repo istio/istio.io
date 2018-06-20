@@ -195,6 +195,8 @@ After enabling logging of access to _edition.cnn.com_, let's enable automatic ac
 
     The request to [edition.cnn.com/politics](https://edition.cnn.com/politics) returned _404 Not Found_, while requests to [edition.cnn.com/sport](https://edition.cnn.com/sport) and  [edition.cnn.com/health](https://edition.cnn.com/health) returned _200 OK_, as expected.
 
+    > Note that we may need to wait several seconds for the update of the `VirtualService` to propagate to the egress gateway.
+
 3.  Let's query the Mixer log and see that the information about the requests appear again in the log:
 
     ```command
