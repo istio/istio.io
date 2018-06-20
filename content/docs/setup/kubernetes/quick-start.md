@@ -9,20 +9,17 @@ Quick start instructions to install and configure Istio in a Kubernetes cluster.
 
 ## Prerequisites
 
-The following instructions recommend you have access to a Kubernetes **1.9 or newer** cluster
-with [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/admin/authorization/rbac/) enabled. You will also need `kubectl` **1.9 or newer** installed.
-
-If you wish to enable [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection) or server-side configuration validation, you must use Kubernetes version 1.9 or greater.
+The following instructions require that you have access to a
+Kubernetes **1.9 or newer** cluster with [RBAC (Role-Based Access
+Control)](https://kubernetes.io/docs/admin/authorization/rbac/)
+enabled. You will also need
+[`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+**1.9 or newer** installed. Version 1.10 is recommended.
 
   > If you installed Istio 0.2.x,
   > [uninstall](https://archive.istio.io/v0.2/docs/setup/kubernetes/quick-start#uninstalling)
   > it completely before installing the newer version (including the Istio sidecar
   > for all Istio enabled application pods).
-
-* Install or upgrade the Kubernetes CLI
-[kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) to
-match the version supported by your cluster (version 1.9 or later for CRD
-support).
 
 ### Minikube
 
@@ -55,7 +52,7 @@ Create a new cluster.
 
 ```command
 $ gcloud container clusters create <cluster-name> \
-    --cluster-version=1.9.7-gke.1 \
+    --cluster-version=1.10.4-gke.0 \
     --zone <zone> \
     --project <project-name>
 ```
@@ -228,8 +225,8 @@ You should see `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` flags
 
 ## Download and prepare for the installation
 
-Starting with the 0.2 release, Istio is installed in its own `istio-system`
-namespace, and can manage services from all other namespaces.
+Istio is installed in its own `istio-system` namespace and can manage
+services from all other namespaces.
 
 1.  Go to the [Istio release](https://github.com/istio/istio/releases) page to download the
 installation file corresponding to your OS. If you are using a MacOS or Linux system, you can also
@@ -289,39 +286,49 @@ OR
 ## Verifying the installation
 
 1.  Ensure the following Kubernetes services are deployed: `istio-pilot`, `istio-ingressgateway`,
-`istio-policy`, `istio-telemetry`, `prometheus` and, optionally, `istio-sidecar-injector`.
+`istio-policy`, `istio-telemetry`, `prometheus`, `istio-galley` and, optionally, `istio-sidecar-injector`.
 
     ```command
     $ kubectl get svc -n istio-system
-    NAME                       TYPE           CLUSTER-IP   EXTERNAL-IP     PORT(S)                                                               AGE
-    istio-citadel              ClusterIP      30.0.0.119   <none>          8060/TCP,9093/TCP                                                     7h
-    istio-egressgateway        ClusterIP      30.0.0.11    <none>          80/TCP,443/TCP                                                        7h
-    istio-ingressgateway       LoadBalancer   30.0.0.39    9.111.255.245   80:31380/TCP,443:31390/TCP,31400:31400/TCP                            7h
-    istio-pilot                ClusterIP      30.0.0.136   <none>          15003/TCP,15005/TCP,15007/TCP,15010/TCP,15011/TCP,8080/TCP,9093/TCP   7h
-    istio-policy               ClusterIP      30.0.0.242   <none>          9091/TCP,15004/TCP,9093/TCP                                           7h
-    istio-statsd-prom-bridge   ClusterIP      30.0.0.111   <none>          9102/TCP,9125/UDP                                                     7h
-    istio-telemetry            ClusterIP      30.0.0.246   <none>          9091/TCP,15004/TCP,9093/TCP,42422/TCP                                 7h
-    prometheus                 ClusterIP      30.0.0.253   <none>          9090/TCP                                                              7h
+    NAME                       TYPE           CLUSTER-IP      EXTERNAL-IP       PORT(S)                                                               AGE
+    istio-citadel              ClusterIP      10.47.247.12    <none>            8060/TCP,9093/TCP                                                     7m
+    istio-egressgateway        ClusterIP      10.47.243.117   <none>            80/TCP,443/TCP                                                        7m
+    istio-galley               ClusterIP      10.47.254.90    <none>            443/TCP                                                               7m
+    istio-ingress              LoadBalancer   10.47.244.111   35.194.55.10      80:32000/TCP,443:30814/TCP                                            7m
+    istio-ingressgateway       LoadBalancer   10.47.241.20    130.211.167.230   80:31380/TCP,443:31390/TCP,31400:31400/TCP                            7m
+    istio-pilot                ClusterIP      10.47.250.56    <none>            15003/TCP,15005/TCP,15007/TCP,15010/TCP,15011/TCP,8080/TCP,9093/TCP   7m
+    istio-policy               ClusterIP      10.47.245.228   <none>            9091/TCP,15004/TCP,9093/TCP                                           7m
+    istio-sidecar-injector     ClusterIP      10.47.245.22    <none>            443/TCP                                                               7m
+    istio-statsd-prom-bridge   ClusterIP      10.47.252.184   <none>            9102/TCP,9125/UDP                                                     7m
+    istio-telemetry            ClusterIP      10.47.250.107   <none>            9091/TCP,15004/TCP,9093/TCP,42422/TCP                                 7m
+    prometheus                 ClusterIP      10.47.253.148   <none>            9090/TCP                                                              7m
     ```
 
-    > If your cluster is running in an environment that does not support an external load balancer
-    (e.g., minikube), the `EXTERNAL-IP` of `istio-ingressgateway` will say `<pending>`. You will need to access
-    it using the service NodePort, or use port-forwarding instead.
+    > If your cluster is running in an environment that does not
+    > support an external load balancer (e.g., minikube), the
+    > `EXTERNAL-IP` of `istio-ingress` and `istio-ingressgateway` will
+    > say `<pending>`. You will need to access it using the service
+    > NodePort, or use port-forwarding instead.
 
-1.  Ensure the corresponding Kubernetes pods are deployed and all containers are up and running:
-`istio-pilot-*`, `istio-ingressgateway-*`, `istio-egressgateway-*`, `istio-policy-*`, `istio-telemtry-*`, `istio-citadel-*`, `prometheus-*` and, optionally, `istio-sidecar-injector-*`.
+1.  Ensure the corresponding Kubernetes pods are deployed and all
+containers are up and running: `istio-pilot-*`,
+`istio-ingressgateway-*`, `istio-egressgateway-*`, `istio-policy-*`,
+`istio-telemtry-*`, `istio-citadel-*`, `prometheus-*`,
+`istio-galley-*` and, optionally, `istio-sidecar-injector-*`.
 
     ```command
     $ kubectl get pods -n istio-system
-    NAME                                       READY     STATUS      RESTARTS   AGE
-    istio-citadel-dcb7955f6-vdcjk              1/1       Running     0          11h
-    istio-egressgateway-56b7758b44-l5fm5       1/1       Running     0          11h
-    istio-ingressgateway-56cfddbd5b-xbdcx      1/1       Running     0          11h
-    istio-pilot-cbd6bfd97-wgw9b                2/2       Running     0          11h
-    istio-policy-699fbb45cf-bc44r              2/2       Running     0          11h
-    istio-statsd-prom-bridge-949999c4c-nws5j   1/1       Running     0          11h
-    istio-telemetry-55b675d8c-kfvvj            2/2       Running     0          11h
-    prometheus-86cb6dd77c-5j48h                1/1       Running     0          11h
+    NAME                                       READY     STATUS        RESTARTS   AGE
+    istio-citadel-75c88f897f-zfw8b             1/1       Running       0          1m
+    istio-egressgateway-7d8479c7-khjvk         1/1       Running       0          1m
+    istio-galley-6c749ff56d-k97n2              1/1       Running       0          1m
+    istio-ingress-7f5898d74d-t8wrr             1/1       Running       0          1m
+    istio-ingressgateway-7754ff47dc-qkrch      1/1       Running       0          1m
+    istio-policy-74df458f5b-jrz9q              2/2       Running       0          1m
+    istio-sidecar-injector-645c89bc64-v5n4l    1/1       Running       0          1m
+    istio-statsd-prom-bridge-949999c4c-xjz25   1/1       Running       0          1m
+    istio-telemetry-676f9b55b-k9nkl            2/2       Running       0          1m
+    prometheus-86cb6dd77c-hwvqd                1/1       Running       0          1m
     ```
 
 ## Deploy your application
@@ -331,7 +338,7 @@ installation like [Bookinfo](/docs/guides/bookinfo/).
 Note: the application must use HTTP/1.1 or HTTP/2.0 protocol for all its HTTP traffic because HTTP/1.0 is not supported.
 
 If you started the [Istio-sidecar-injector](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection),
-as shown above, you can deploy the application directly using `kubectl create`.
+as shown above, you can deploy the application directly using `kubectl apply`.
 
 The Istio-Sidecar-injector will automatically inject Envoy containers into your application pods assuming running in namespaces labeled with `istio-injection=enabled`
 
@@ -345,7 +352,7 @@ use [istioctl kube-inject](/docs/reference/commands/istioctl/#istioctl-kube-inje
 manually inject Envoy containers in your application pods before deploying them:
 
 ```command
-$ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
+$ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
 ```
 
 ## Uninstalling
