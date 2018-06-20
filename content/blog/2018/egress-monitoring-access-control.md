@@ -331,9 +331,9 @@ In this step let's use a Mixer [Listcheker adapter](https://istio.io/docs/refere
 
 ### Access control by Mixer policy checks, part 2
 
-After the organization in our use case managed to configure logging and access policy control, it decided to extend its access policy by allowing the applications in the `politics` namespace to access any topic of _cnn.com_, without being monitored. Let's show how this requirement can be configured in Istio.
+After the organization in our use case managed to configure logging and access policy control, it decided to extend its access policy by allowing the applications in the _politics_ namespace to access any topic of _cnn.com_, without being monitored. Let's show how this requirement can be configured in Istio.
 
-1.  Let's create the `politics` namespace:
+1.  Let's create the _politics_ namespace:
 
     ```command
     $ kubectl create namespace politics
@@ -341,7 +341,7 @@ After the organization in our use case managed to configure logging and access p
     ```
 
 1.  Start the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/samples/sleep) sample
-        in the `politics` namespace.
+        in the _politics_ namespace.
 
     If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), do
 
