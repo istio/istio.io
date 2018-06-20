@@ -448,7 +448,40 @@ After the organization in our use case managed to configure logging and access p
     $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') mixer | grep egress-access | grep cnn
     ```
 
-## Dashboard
+### Dashboard
+
+As an additional security measure, let our organization's operation people visually monitor egress traffic.
+
+1.  Follow the steps 1-3 of the [Visualizing Metrics with Grafana](/docs/tasks/telemetry/using-istio-dashboard/#viewing-the-istio-dashboard) task.
+
+1.  Send requests to _cnn.com_ from `$SOURCE_POD`:
+
+    ```command
+    $ kubectl exec -it $SOURCE_POD -c sleep -- bash -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
+    404
+    200
+    200
+    ```
+
+    Since `$SOURCE_POD` is in the `default` namespace, access to  [edition.cnn.com/politics](https://edition.cnn.com/politics) is forbidden, as previously.
+
+1.  Send requests to _cnn.com_ from `$SOURCE_POD_IN_POLITICS`:
+
+    ```command
+    $ kubectl exec -it $SOURCE_POD_IN_POLITICS -n politics -c sleep -- bash -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
+    200
+    200
+    200
+    ```
+
+1.  Scroll the dashboard to _HTTP services_, _istio-egressgateway.istio-system.svc.cluster.local_ section. You should see a graph similar to the following:
+
+    {{< image width="100%" ratio="24.18%"
+    link="../img/grafana_egress_gateway.png"
+    caption="Dashboard section of istio-egressgateway"
+    >}}
+
+    We can see the _404_ error code received by the _sleep_ application from the _default_ namespace, _unknown_ version, in the _Requests by Source, Version and Response Code_ section on the left. This information can give the operation people a visual clue regarding which application tries to perform forbidden access. We can also see the _200_ code received by _sleep_ applications from the _default_ and _politics_ namespaces, so we can know which applications performed valid access to external services.
 
 ## Comparison with HTTPS egress traffic control
 
@@ -475,3 +508,5 @@ After the organization in our use case managed to configure logging and access p
     ```command
     $ kubectl delete namespace politics
     ```
+
+1.  Perform the instructions in [Cleanup](/docs/tasks/telemetry/using-istio-dashboard/#cleanup) section of the [Visualizing Metrics with Grafana](/docs/tasks/telemetry/using-istio-dashboard/) task.
