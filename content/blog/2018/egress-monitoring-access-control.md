@@ -458,7 +458,7 @@ After the organization in our use case managed to configure logging and access p
 
 1.  Perform the instructions in [Cleanup](/docs/tasks/traffic-management/egress-gateway/#cleanup) section of the [Configure an Egress Gateway](/docs/tasks/traffic-management/egress-gateway/) task.
 
-2.  Delete the logging configuration:
+1.  Delete the logging and policy checks configuration:
 
     ```command
     $ kubectl delete logentry egress-access -n istio-system
@@ -466,16 +466,11 @@ After the organization in our use case managed to configure logging and access p
     $ kubectl delete stdio egress-access-handler -n istio-system
     $ kubectl delete rule handle-politics -n istio-system
     $ kubectl delete rule handle-cnn-access -n istio-system
-    ```
-
-3.  Delete the mixer check's configuration
-
-    ```command
     $ kubectl delete -n istio-system listchecker path-checker
     $ kubectl delete -n istio-system listentry request-path
     ```
 
-4.  Delete the _politics_ namespace:
+1.  Delete the _politics_ namespace:
 
     ```command
     $ kubectl delete namespace politics
