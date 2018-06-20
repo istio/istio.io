@@ -487,6 +487,14 @@ As an additional security measure, let our organization's operation people visua
 
 ## Comparison with HTTPS egress traffic control
 
+In this use case the applications used HTTP and Istio Egress Gateway performed TLS origination for them. Compare this approach with HTTPS originated by the applications, by issuing HTTPS requests to _edition.cnn.com_.
+
+In the HTTP approach, the requests are sent unencrypted on the local host, intercepted by the Istio sidecar proxy and forwarded to the egress gateway. If Istio is deployed with mutual TLS, the traffic between the sidecar proxy and the egress gateway is encrypted. The egress gateway decrypts the traffic, inspects the URL path, the HTTP method and headers, reports telemetry and policy checks. If the request is not blocked by some policy check, the egress gateway performs TLS origination to the external destination (_cnn.com_ in our case), so the request is encrypted again and sent encrypted to to the external destination. The drawback of this approach is that the requests are sent unencrypted on the localhost, which may be against security policies in some organizations. Also some SDKs have external service URLs hard-coded, including the protocol, so sending HTTP requests could be impossible. The advantage of this approach is the ability to inspect HTTP methods, headers and URL paths, and to apply policies based on them.
+
+In the HTTPS approach, the requests are encrypted end-to-end, from the application until the external destination. It is considered a better approach from the security point of view. However, since the traffic is encrypted, the Istio proxies and the egress gateway can only see the source and destination IPs and the [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) of the destination. In case of Istio with mutual TLS, the [identity of the source](/docs/concepts/security/mutual-tls/#identity) is also known. The Istio proxy are not able to inspect the URL path, HTTP method and headers of the requests, so no monitoring and policies based on the HTTP information can be possible. In our use case, the organization would be able to allow access to _edition.cnn.com_, and in case of Istio with mutual TLS, to specify which applications are allowed to access _edition.cnn.com_, however it will not be able to allow or block access to specific URL paths of _edition.cnn.com_. Neither blocking access to  [edition.cnn.com/politics](https://edition.cnn.com/politics) nor monitoring such access is not possible with the HTTPS approach.
+
+We guess that each organization will consider the pros and contras of the two approaches and choose the one most appropriate to its needs.
+
 ## Summary
 
 ## Cleanup
