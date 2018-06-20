@@ -124,7 +124,7 @@ Execute the following command to install the Pilot, Citadel, IngressGateway and 
 
 ```command
 $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
-  --set ingress.enabled=false,egressgateway.enabled=false,galley.enabled=false \
+  --set ingress.enabled=false,gateways.istio-egressgateway.enabled=false,galley.enabled=false \
   --set mixer.enabled=false,prometheus.enabled=false,global.proxy.envoyStatsd.enabled=false
 ```
 
