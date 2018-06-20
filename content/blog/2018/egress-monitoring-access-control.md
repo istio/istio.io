@@ -456,7 +456,7 @@ After the organization in our use case managed to configure logging and access p
 
 ## Cleanup
 
-1.  Perform the [Cleanup](/docs/tasks/traffic-management/egress-gateway/#cleanup) section of the [Configure an Egress Gateway](/docs/tasks/traffic-management/egress-gateway/) task.
+1.  Perform the instructions in [Cleanup](/docs/tasks/traffic-management/egress-gateway/#cleanup) section of the [Configure an Egress Gateway](/docs/tasks/traffic-management/egress-gateway/) task.
 
 2.  Delete the logging configuration:
 
