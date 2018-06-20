@@ -126,7 +126,7 @@ NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)    
 istio-ingressgateway   LoadBalancer   10.59.251.109   35.194.26.85   80:31380/TCP,443:31390/TCP,31400:31400/TCP   6m
 ```
 
-Note down the IP and Port assigned to Bookinfo product page. (in the example above, its ```35.202.120.89:80```.
+Note down the IP address (EXTERNAL-IP) and port assigned to the Bookinfo product page. (in the example above, it's ```35.194.26.85:80```.
 
 You can also view the installation using the ***Kubernetes Engine -> Workloads** section on the [Cloud Console](https://console.cloud.google.com/kubernetes/workload):
 
