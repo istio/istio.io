@@ -249,9 +249,9 @@ $ kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..met
 200
 ```
 
-## Enable mTLS incrementally
+## Enable mutual TLS incrementally
 
-Sometimes it's difficult to enable mTLS for a service without breaking any clients. For example, a service can have clients without Envoy sidecar. Those clients
+Sometimes it is difficult to enable mutual TLS for a service without breaking any clients. For example, a service can have clients without Envoy sidecar. Those clients
 can only send plain text traffic.
 
 To address this, Authentication Policy mTLS has two modes:
@@ -265,16 +265,17 @@ apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
   name: "example-httpbin-permissive"
+  namespace: foo
 spec:
   targets:
   - name: httpbin
-    namespace: foo
-    peers:
-    - mtls:
-        mode: PERMISSIVE
+  peers:
+  - mtls:
+      mode: PERMISSIVE
+EOF
 ```
 
-Create DestinationRule to make Istio managed service send mTLS traffic,
+Create DestinationRule to make Istio services send mutual TLS traffic,
 
 ```bash
 cat <<EOF | istioctl create -n foo -f -
@@ -290,9 +291,9 @@ spec:
 EOF
 ```
 
-Send traffic from both Istio managed service and legacy workloads:
+Send traffic from both Istio services and legacy services:
 ```command
-$ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n legacy -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
+$ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
 200
 $ kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metadata.name}) -c sleep -n legacy -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
 200
@@ -302,7 +303,9 @@ You should see both requests succeed.
 
 By default, when configured with `PERMISSIVE` mode, no authentication or authorization checks will be performed for the plain text traffic by default.
 We recommend to either:
-* Migrate all clients to Istio managed service, so you can change to `STRICT` mode after migration is done.
+* Migrate all clients to Istio managed service, so you can change to `STRICT` mode after migration is done. You can use
+[Grafana to monitor](https://istio.io/docs/tasks/telemetry/using-istio-dashboard/)
+the migration progress.
 * Use [RBAC](https://istio.io/docs/tasks/security/role-based-access-control/) to configure different paths with different authorization policies.
 
 ## Setup end-user authentication
