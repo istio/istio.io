@@ -45,7 +45,7 @@ Let's configure Istio to log access to _*.cnn.com_. We create a `logentry` and t
     caption="Instances, rules and adapters for egress monitoring"
     >}}
 
-    1. Let's create the `logentry`, `rules` and `handlers`:
+1.  Let's create the `logentry`, `rules` and `handlers`:
     ```bash
         cat <<EOF | istioctl create -f -
         # Log entry for egress access
@@ -115,7 +115,7 @@ Let's configure Istio to log access to _*.cnn.com_. We create a `logentry` and t
             instances:
               - egress-access.logentry
         EOF
-```
+    ```
 
 1.  Let's send three HTTP requests to _cnn.com_, to [edition.cnn.com/politics](https://edition.cnn.com/politics), [edition.cnn.com/sport](https://edition.cnn.com/sport) and [edition.cnn.com/health](https://edition.cnn.com/health). All three should return _200 OK_.
 
