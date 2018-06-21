@@ -517,7 +517,7 @@ caption="HTTPS egress traffic through an egress gateway"
 
 The end-to-end HTTPS is considered a better approach from the security point of view. However, since the traffic is encrypted the Istio proxies and the egress gateway can only see the source and destination IPs and the [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) of the destination. In case of Istio with mutual TLS, the [identity of the source](/docs/concepts/security/mutual-tls/#identity) is also known. The gateway is unable to inspect the URL path, the HTTP method and the headers of the requests, so no monitoring and policies based on the HTTP information can be possible. In our use case, the organization would be able to allow access to _edition.cnn.com_. For Istio with mutual TLS, the organization will be able to specify which applications are allowed to access _edition.cnn.com_. However, it will not be possible to allow or block access to specific URL paths of _edition.cnn.com_. Neither blocking access to  [edition.cnn.com/politics](https://edition.cnn.com/politics) nor monitoring such access is not possible with the HTTPS approach.
 
-We guess that each organization will consider the pros and contras of the two approaches and choose the one most appropriate to its needs.
+We guess that each organization will consider the pros and cons of the two approaches and choose the one most appropriate to its needs.
 
 ## Summary
 
