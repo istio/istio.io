@@ -42,7 +42,7 @@ Let's configure Istio to log access to _*.cnn.com_. We create a `logentry` and t
 
 {{< image width="80%" ratio="68.27%"
     link="../img/egress-adapters1.svg"
-    caption="Instances, rules and adapters for egress monitoring"
+    caption="Instances, rules and handlers for egress monitoring"
     >}}
 
 1.  Let's create the `logentry`, `rules` and `handlers`:
