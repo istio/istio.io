@@ -251,14 +251,14 @@ $ kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..met
 
 ## Enable mTLS incrementally
 
-Sometimes it's difficult to enable mTLS for a serivce without breaking any clients. For example, a service can have clients without Envoy sidecar. Those clients
+Sometimes it's difficult to enable mTLS for a service without breaking any clients. For example, a service can have clients without Envoy sidecar. Those clients
 can only send plain text traffic.
 
-To address this, Authenticaiton Policy mTLS has two modes:
+To address this, Authentication Policy mTLS has two modes:
 1. `STRICT` mode. A service in this mode only accepts TLS traffic. This is the default mode.
-1. `PERMISSIVE` mode. A service in this mode aceepts both TLS and plain text request on the same port.
+1. `PERMISSIVE` mode. A service in this mode accepts both TLS and plain text request on the same port.
 
-Create the `PERMISSIVE` authnetication policy for httpbin,
+Create the `PERMISSIVE` Authentication policy for httpbin,
 ```bash
 cat <<EOF | istioctl create -n foo -f -
 apiVersion: "authentication.istio.io/v1alpha1"
@@ -303,7 +303,7 @@ You should see both requests succeed.
 By default, when configured with `PERMISSIVE` mode, no authentication or authorization checks will be performed for the plain text traffic by default.
 We recommend to either:
 * Migrate all clients to Istio managed service, so you can change to `STRICT` mode after migration is done.
-* Use [RBAC](https://istio.io/docs/tasks/security/role-based-access-control/) to confiugre different paths with different authorization policies.
+* Use [RBAC](https://istio.io/docs/tasks/security/role-based-access-control/) to configure different paths with different authorization policies.
 
 ## Setup end-user authentication
 
