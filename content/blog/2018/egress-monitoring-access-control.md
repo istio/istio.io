@@ -276,7 +276,7 @@ Let's cancel the access control by routing we used in this section and implement
 
 ### Access control by Mixer policy checks
 
-In this step let's use a Mixer [Listchecker adapter](https://istio.io/docs/reference/config/policy-and-telemetry/adapters/list/), its whitelist variant. We define a `listentry` with the URL path of the request and a `listchecker` to check the `listentry` using a static list of allowed URL paths, specified by the `overrides` field. For an external [Identity and Access Management](https://en.wikipedia.org/wiki/Identity_management) system, use the `providerurl` field instead. The updated diagram of the instances, rules and handlers appears below. Note that we reuse the same policy rule, `handle-cnn-access` for both logging and access policy check.
+In this step let's use a Mixer [Listchecker adapter](https://istio.io/docs/reference/config/policy-and-telemetry/adapters/list/), its whitelist variety. We define a `listentry` with the URL path of the request and a `listchecker` to check the `listentry` using a static list of allowed URL paths, specified by the `overrides` field. For an external [Identity and Access Management](https://en.wikipedia.org/wiki/Identity_management) system, use the `providerurl` field instead. The updated diagram of the instances, rules and handlers appears below. Note that we reuse the same policy rule, `handle-cnn-access` both for logging and for access policy checks.
 
 {{< image width="80%" ratio="65.45%"
     link="../img/egress-adapters2.svg"
