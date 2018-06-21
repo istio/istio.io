@@ -294,18 +294,44 @@ This will be rendered as:
 $ istioctl create -f @samples/bookinfo/kube/route-rule-reviews-v3.yaml@
 ```
 
+## Displaying file snippets
+
+It is often useful to display portions of a larger file. You can annotate a text file to create named snippets within the file by
+using the `$snippet` and `$endsnippet` annotations. For example, you could have a text file that looks like this:
+
+{{< file_content file="examples/snippet_example.txt" lang="plain" >}}
+
+and in your markdown file, you can then reference a particular snippet with:
+
+```markdown
+{{</* file_content file="examples/snippet_example.txt" lang="plain" snippet="SNIP1" */>}}
+```
+
+where `file` specifies the relative path of the text file within the documentation repo, `lang` specifies
+the language to use for syntax coloring (use `plain` for generic text), and `snippet` specifies the name of the
+snippet. If you omit the `snippet` attribute, then the whole file is inserted verbatim.
+
+The above snippet produces this output:
+
+{{< file_content file="examples/snippet_example.txt" lang="plain" snippet="SNIP1" >}}
+
+A common thing to is to copy an example script or yaml file from GitHub into the documentation
+repo and then use snippets within the file to produce examples in the documentation. To pull
+in annotated files from GitHub, add the needed entries at the end of the
+script `scripts/grab_reference_docs.sh` in the documentation repo.
+
 ## Displaying file content
 
 You can pull in an external file and display its content as a preformatted block. This is handy to display a
 config file or a test file. To do so, you use a statement such as:
 
 ```markdown
-{{</* file_content url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml" lang="yaml" */>}}
+{{</* fetch_content url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml" lang="yaml" */>}}
 ```
 
 which produces the following result:
 
-{{< file_content url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml" lang="yaml" >}}
+{{< fetch_content url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml" lang="yaml" >}}
 
 If the file is from a different origin site, CORS should be enabled on that site. Note that the
 GitHub raw content site (raw.githubusercontent.com) is may be used here.
