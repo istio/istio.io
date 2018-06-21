@@ -126,7 +126,7 @@ Let's configure Istio to log access to _*.cnn.com_. We create a `logentry` and t
     200
     ```
 
-3.  Let's query the Mixer log and see that the information about the requests appear in the log:
+1.  Let's query the Mixer log and see that the information about the requests appear in the log:
     ```command
     $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') mixer | grep egress-access | grep cnn | tail -4
     ```
@@ -203,7 +203,7 @@ After enabling logging of access to _edition.cnn.com_, let's enable automatic ac
 
     > Note that we may need to wait several seconds for the update of the `VirtualService` to propagate to the egress gateway.
 
-3.  Let's query the Mixer log and see that the information about the requests appear again in the log:
+1.  Let's query the Mixer log and see that the information about the requests appear again in the log:
 
     ```command
     $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') mixer | grep egress-access | grep cnn | tail -4
@@ -397,7 +397,7 @@ After the organization in our use case managed to configure logging and access p
     {"level":"info","time":"2018-06-19T17:37:14.767923Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/health","responseCode":200,"responseSize":334027,"source":"sleep","sourceNamespace":"politics","user":"unknown"}
     ```
 
-2.  Let's redefine `handle-cnn-access` and `handle-politics` policy rules, to make the applications in the _politics_ namespace exempt from monitoring and policy enforcement.
+1.  Let's redefine `handle-cnn-access` and `handle-politics` policy rules, to make the applications in the _politics_ namespace exempt from monitoring and policy enforcement.
 
     ```bash
         cat <<EOF | istioctl replace -f -
