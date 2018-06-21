@@ -341,7 +341,7 @@ In this step let's use a Mixer [Listchecker adapter](https://istio.io/docs/refer
 
 ### Access control by Mixer policy checks, part 2
 
-After the organization in our use case managed to configure logging and access policy control, it decided to extend its access policy by allowing the applications in the _politics_ namespace to access any topic of _cnn.com_, without being monitored. Let's show how this requirement can be configured in Istio.
+After the organization in our use case managed to configure logging and access control, it decided to extend its access policy by allowing the applications in the _politics_ namespace to access any topic of _cnn.com_, without being monitored. Let's show how this requirement can be configured in Istio.
 
 1.  Let's create the _politics_ namespace:
 
