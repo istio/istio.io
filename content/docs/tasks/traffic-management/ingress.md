@@ -322,9 +322,9 @@ If we want to only allow HTTPS traffic into our service mesh, we can remove the 
 
 ## Accessing ingress services using a browser
 
-As you may have guessed, entering the httpbin service URL in a browser won't work because we don't have a way to tell the browser to pretend to be accessing "httpbin.example.com", like we did with _curl_. In a real world situation this wouldn't be a problem because the requested host would be properly configured and DNS resolvable, so we would simply be using it's domain name in the URL (e.g., "https://httpbin.example.com/status/200").
+As you may have guessed, entering the httpbin service URL in a browser won't work because we don't have a way to tell the browser to pretend to be accessing "httpbin.example.com", like we did with _curl_. In a real world situation this wouldn't be a problem because the requested host would be properly configured and DNS resolvable, so we would simply be using its domain name in the URL (e.g., "https://httpbin.example.com/status/200").
 
-To work around this problem for simple tests and demos, we can use a wildcard `*` value for the host in the `Gateway` and `VirutualService` configurations. For example, if we change our `Gateway` configuration to the following:
+To work around this problem for simple tests and demos, we can use a wildcard `*` value for the host in the `Gateway` and `VirutualService` configurations. For example, if we change our ingress configuration to the following:
 
 ```command
 cat <<EOF | istioctl replace -f -
@@ -364,8 +364,7 @@ spec:
 EOF
 ```
 
-We can then use `$INGRESS_HOST:$INGRESS_PORT` in the URL that we enter in a browser,
-for example `http://192.168.99.100:31380/headers` should display the request headers sent by our browser.
+We can then use `$INGRESS_HOST:$INGRESS_PORT` (e.g., `192.168.99.100:31380`) in the URL that we enter in a browser. For example, `http://192.168.99.100:31380/headers` should display the request headers sent by our browser.
 
 ## Understanding what happened
 
