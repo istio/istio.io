@@ -327,8 +327,6 @@ In this step let's use a Mixer [Listchecker adapter](https://istio.io/docs/refer
         EOF
     ```
 
-
-
 1.  Let's perform our usual test by sending HTTP requests to
  [edition.cnn.com/politics](https://edition.cnn.com/politics), [edition.cnn.com/sport](https://edition.cnn.com/sport) and [edition.cnn.com/health](https://edition.cnn.com/health). As expected, the request to [edition.cnn.com/politics](https://edition.cnn.com/politics) returns _404_.
 
