@@ -489,7 +489,7 @@ As an additional security measure, let our organization's operation people visua
 1.  Scroll the dashboard to _HTTP services_, _istio-egressgateway.istio-system.svc.cluster.local_ section. You should see a graph similar to the following:
 
     {{< image width="100%" ratio="19.47%"
-    link="../img/grafana_egress_gateway.png"
+    link="../img/grafana-egress-gateway.png"
     caption="Dashboard section of istio-egressgateway"
     >}}
 
