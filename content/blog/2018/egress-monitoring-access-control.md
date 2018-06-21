@@ -188,7 +188,7 @@ After enabling logging of access to _edition.cnn.com_, let's enable automatic ac
 
     Note that we added a `match` by `uri` condition that checks that the URL path is
     either _/health_ or _/sport_. Also note that this condition is added to the `istio-egressgateway`
-    section of the `VirtualService`, since the egress gateway is a secure component (see [egress gateway security considerations](/docs/tasks/traffic-management/egress-gateway/#additional-security-considerations)). We don't want any tampering with our policies.
+    section of the `VirtualService`, since the egress gateway is a hardened component in terms of security (see [egress gateway security considerations](/docs/tasks/traffic-management/egress-gateway/#additional-security-considerations)). We don't want any tampering with our policies.
 
 1.  Let's send the previous three HTTP requests to _cnn.com_:
 
