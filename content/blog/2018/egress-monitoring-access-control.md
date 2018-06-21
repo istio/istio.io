@@ -140,7 +140,7 @@ Let's configure Istio to log access to _*.cnn.com_. We create a `logentry` and t
     {"level":"info","time":"2018-06-18T13:22:59.354943Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/health","responseCode":200,"responseSize":332218,"source":"sleep","user":"unknown"}
     ```
 
-    We see four log entries related to our three requests. Three _info_ entries about the access to _edition.cnn.com_ and one _error_ entry about the access to _edition.cnn.com/politics_. The service mesh operators can see all the accesses, and can also `grep` the log for _error_ log entries that reflect forbidden access. This is the first security measure the organization can apply before blocking the forbidden access automatically, namely logging all the forbidden access as errors. In some settings this can be a sufficient security measure.
+    We see four log entries related to our three requests. Three _info_ entries about the access to _edition.cnn.com_ and one _error_ entry about the access to _edition.cnn.com/politics_. The service mesh operators can see all the access instances, and can also `grep` the log for _error_ log entries that represent forbidden access. This is the first security measure the organization can apply before blocking the forbidden access automatically, namely logging all the forbidden access instances as errors. In some settings this can be a sufficient security measure.
 
 ### Access control by routing
 
