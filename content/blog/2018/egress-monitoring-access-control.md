@@ -41,7 +41,7 @@ In our scenario, the organization performed the instructions in the [Before you 
 Let's configure Istio to log access to _*.cnn.com_. We create a `logentry` and two [stdio](/docs/reference/config/policy-and-telemetry/adapters/stdio/) `handlers`, one for logging forbidden access (_error_ log level) and another one for logging all access to _*.cnn.com_ (_info_ log level). Then we create `rules` to direct our `logentry` instances to our handlers. One rule directs access to _*.cnn.com/politics_ to the handler for logging forbidden access, another rule directs log entries to the handler that outputs each access to _*.cnn.com_ as an _info_ log entry. To understand the Istio `logentries`, `rules`, and `handlers`, see [Istio Adapter Model](/blog/2017/adapter-model/). A diagram with the involved entities and dependencies between them appears below:
 
 {{< image width="80%" ratio="68.27%"
-    link="../img/egress-adapters1.svg"
+    link="../img/egress-adapters-monitoring.svg"
     caption="Instances, rules and handlers for egress monitoring"
     >}}
 
