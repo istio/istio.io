@@ -276,10 +276,14 @@ Let's cancel the access control by routing we used in this section and implement
 
 ### Access control by Mixer policy checks
 
-In this step let's use a Mixer [Listcheker adapter](https://istio.io/docs/reference/config/policy-and-telemetry/adapters/list/), in its whitelist variant.
+In this step let's use a Mixer [Listcheker adapter](https://istio.io/docs/reference/config/policy-and-telemetry/adapters/list/), in its whitelist variant. We define a `listentry` with the URL path of the request and the `listchecker` to check the `listentry` using a static list of allowed URL paths, specified by the `overrides` field. For an external [Identity and Access Management](https://en.wikipedia.org/wiki/Identity_management) system, use the `providerurl` field instead. The updated diagram of the `listentries`, `rules` and `handlers` appears below. Note that we reuse the same policy rule, `handle-cnn-access` for both logging and access policy check.
 
-1.  Define a `listentry` with the URL path of the request and the `listchecker` to check the `listentry` using a static list of allowed URL paths, specified by the `overrides` field. For an external [Identity and Access Management](https://en.wikipedia.org/wiki/Identity_management) system, use the `providerurl` field instead.
+{{< image width="80%" ratio="65.45%"
+    link="../img/egress-adapters2.svg"
+    caption="Log entries, rules and handlers for egress monitoring and access policies"
+    >}}
 
+1.  Define `path-checker` and `request-path`:
     ```bash
         cat <<EOF | istioctl create -f -
         apiVersion: "config.istio.io/v1alpha2"
@@ -323,7 +327,7 @@ In this step let's use a Mixer [Listcheker adapter](https://istio.io/docs/refere
         EOF
     ```
 
-    Note that we reuse the same policy rule for both logging and access policy check.
+
 
 1.  Let's perform our usual test by sending HTTP requests to
  [edition.cnn.com/politics](https://edition.cnn.com/politics), [edition.cnn.com/sport](https://edition.cnn.com/sport) and [edition.cnn.com/health](https://edition.cnn.com/health). As expected, the request to [edition.cnn.com/politics](https://edition.cnn.com/politics) returns _404_.
