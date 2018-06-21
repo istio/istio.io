@@ -305,7 +305,7 @@ In this step let's use a Mixer [Listchecker adapter](https://istio.io/docs/refer
         EOF
     ```
 
-1.  Modify the `handle-cnn-access` policy rule to send `request-path` log entries to the `path-checker`:
+1.  Modify the `handle-cnn-access` policy rule to send `request-path` instances to the `path-checker`:
 
     ```bash
         cat <<EOF | istioctl replace -f -
