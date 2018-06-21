@@ -1,0 +1,11 @@
+BEFORE
+
+# $snippet SNIP1
+This is snippet 1
+# $endsnippet
+
+# $snippet SNIP2
+This is snippet 2
+# $endsnippet
+
+AFTER
