@@ -508,7 +508,7 @@ caption="HTTP egress traffic through an egress gateway"
 
 The drawback of this approach is that the requests are sent unencrypted on the localhost, which may be against security policies in some organizations. Also some SDKs have external service URLs hard-coded, including the protocol, so sending HTTP requests could be impossible. The advantage of this approach is the ability to inspect HTTP methods, headers and URL paths, and to apply policies based on them.
 
-In the HTTPS approach, the requests are encrypted end-to-end, from the application until the external destination. The diagram below demonstrates the network flow of this approach. The HTTPS protocol inside the gateway designates the protocol as seen by the gateway
+In the HTTPS approach, the requests are encrypted end-to-end, from the application to the external destination. The diagram below demonstrates the network flow of this approach. The HTTPS protocol inside the gateway designates the protocol as seen by the gateway
 
 {{< image width="80%" ratio="73.96%"
 link="../img/https-to-gateway.svg"
