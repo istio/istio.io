@@ -38,8 +38,14 @@ In our scenario, the organization performed the instructions in the [Before you 
 
 ### Logging
 
-1.  Let's configure Istio to log access to _*.cnn.com_. We create a `logentry` and two `stdio` handlers, one for logging forbidden access (_error_ log level) and another one for logging all access to _*.cnn.com_ (_info_ log level). Then we create `rules` to direct our `logentries` to our handlers. One rule directs access to _*.cnn.com/politics_ to the handler for logging forbidden access, another rule directs log entries to the handler that outputs each access to _*.cnn.com_ as an _info_ log entry.
+Let's configure Istio to log access to _*.cnn.com_. We create a `logentry` and two [stdio](/docs/reference/config/policy-and-telemetry/adapters/stdio/) `handlers`, one for logging forbidden access (_error_ log level) and another one for logging all access to _*.cnn.com_ (_info_ log level). Then we create `rules` to direct our `logentries` to our handlers. One rule directs access to _*.cnn.com/politics_ to the handler for logging forbidden access, another rule directs log entries to the handler that outputs each access to _*.cnn.com_ as an _info_ log entry. To understand the Istio `logentries`, `rules`, and `handlers`, see [Istio Adapter Model](/blog/2017/adapter-model/). A diagram with the involved entities and dependencies between them appears below:
 
+{{< image width="80%" ratio="65.16%"
+    link="../img/egress-adapters1.svg"
+    caption="Log entries, rules and adapters for egress monitoring"
+    >}}
+
+    1. Let's create the `logentry`, `rules` and `handlers`:
     ```bash
         cat <<EOF | istioctl create -f -
         # Log entry for egress access
