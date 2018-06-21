@@ -325,7 +325,7 @@
      showgrid="false"
      inkscape:zoom="1.4142136"
      inkscape:cx="195.23866"
-     inkscape:cy="183.62145"
+     inkscape:cy="184.32856"
      inkscape:window-x="80"
      inkscape:window-y="23"
      inkscape:window-maximized="0"
@@ -417,22 +417,22 @@
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:26.66666603px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
      x="239.24629"
-     y="32.931339"
+     y="32.905949"
      id="text5457"><tspan
        sodipodi:role="line"
        id="tspan5455"
        x="239.24629"
-       y="32.931339">Rules</tspan></text>
+       y="32.905949">Rules</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:26.66666603px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
      x="428.39093"
-     y="32.931339"
+     y="32.905949"
      id="text5457-4"><tspan
        sodipodi:role="line"
        id="tspan5455-9"
        x="428.39093"
-       y="32.931339">Handlers</tspan></text>
+       y="32.905949">Handlers</tspan></text>
   <path
      style="fill:#d9ead3;fill-rule:evenodd;stroke-width:1"
      inkscape:connector-curvature="0"
@@ -446,13 +446,13 @@
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:26.66666603px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
-     x="15.78061"
-     y="32.008163"
+     x="28.508532"
+     y="32.469749"
      id="text5457-9"><tspan
        sodipodi:role="line"
        id="tspan5455-2"
-       x="15.78061"
-       y="32.008163">Log entries</tspan></text>
+       x="28.508532"
+       y="32.469749">Instances</tspan></text>
   <path
      style="fill:#d9ead3;fill-rule:evenodd;stroke-width:1"
      inkscape:connector-curvature="0"

@@ -38,11 +38,11 @@ In our scenario, the organization performed the instructions in the [Before you 
 
 ### Logging
 
-Let's configure Istio to log access to _*.cnn.com_. We create a `logentry` and two [stdio](/docs/reference/config/policy-and-telemetry/adapters/stdio/) `handlers`, one for logging forbidden access (_error_ log level) and another one for logging all access to _*.cnn.com_ (_info_ log level). Then we create `rules` to direct our `logentries` to our handlers. One rule directs access to _*.cnn.com/politics_ to the handler for logging forbidden access, another rule directs log entries to the handler that outputs each access to _*.cnn.com_ as an _info_ log entry. To understand the Istio `logentries`, `rules`, and `handlers`, see [Istio Adapter Model](/blog/2017/adapter-model/). A diagram with the involved entities and dependencies between them appears below:
+Let's configure Istio to log access to _*.cnn.com_. We create a `logentry` and two [stdio](/docs/reference/config/policy-and-telemetry/adapters/stdio/) `handlers`, one for logging forbidden access (_error_ log level) and another one for logging all access to _*.cnn.com_ (_info_ log level). Then we create `rules` to direct our `logentry` instances to our handlers. One rule directs access to _*.cnn.com/politics_ to the handler for logging forbidden access, another rule directs log entries to the handler that outputs each access to _*.cnn.com_ as an _info_ log entry. To understand the Istio `logentries`, `rules`, and `handlers`, see [Istio Adapter Model](/blog/2017/adapter-model/). A diagram with the involved entities and dependencies between them appears below:
 
 {{< image width="80%" ratio="68.27%"
     link="../img/egress-adapters1.svg"
-    caption="Log entries, rules and adapters for egress monitoring"
+    caption="Instances, rules and adapters for egress monitoring"
     >}}
 
     1. Let's create the `logentry`, `rules` and `handlers`:
@@ -276,11 +276,11 @@ Let's cancel the access control by routing we used in this section and implement
 
 ### Access control by Mixer policy checks
 
-In this step let's use a Mixer [Listcheker adapter](https://istio.io/docs/reference/config/policy-and-telemetry/adapters/list/), in its whitelist variant. We define a `listentry` with the URL path of the request and the `listchecker` to check the `listentry` using a static list of allowed URL paths, specified by the `overrides` field. For an external [Identity and Access Management](https://en.wikipedia.org/wiki/Identity_management) system, use the `providerurl` field instead. The updated diagram of the `listentries`, `rules` and `handlers` appears below. Note that we reuse the same policy rule, `handle-cnn-access` for both logging and access policy check.
+In this step let's use a Mixer [Listcheker adapter](https://istio.io/docs/reference/config/policy-and-telemetry/adapters/list/), in its whitelist variant. We define a `listentry` with the URL path of the request and a `listchecker` to check the `listentry` using a static list of allowed URL paths, specified by the `overrides` field. For an external [Identity and Access Management](https://en.wikipedia.org/wiki/Identity_management) system, use the `providerurl` field instead. The updated diagram of the instances, rules and handlers appears below. Note that we reuse the same policy rule, `handle-cnn-access` for both logging and access policy check.
 
 {{< image width="80%" ratio="65.45%"
     link="../img/egress-adapters2.svg"
-    caption="Log entries, rules and handlers for egress monitoring and access policies"
+    caption="Instances, rules and handlers for egress monitoring and access policies"
     >}}
 
 1.  Define `path-checker` and `request-path`:
