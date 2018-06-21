@@ -71,7 +71,7 @@ Let's configure Istio to log access to _*.cnn.com_. We create a `logentry` and t
         apiVersion: "config.istio.io/v1alpha2"
         kind: stdio
         metadata:
-          name: egress-error-handler
+          name: egress-error-logger
           namespace: istio-system
         spec:
          severity_levels:
@@ -87,7 +87,7 @@ Let's configure Istio to log access to _*.cnn.com_. We create a `logentry` and t
         spec:
           match: request.host.endsWith("cnn.com") && request.path.startsWith("/politics")
           actions:
-          - handler: egress-error-handler.stdio
+          - handler: egress-error-logger.stdio
             instances:
             - egress-access.logentry
         ---
@@ -95,7 +95,7 @@ Let's configure Istio to log access to _*.cnn.com_. We create a `logentry` and t
         apiVersion: "config.istio.io/v1alpha2"
         kind: stdio
         metadata:
-          name: egress-access-handler
+          name: egress-access-logger
           namespace: istio-system
         spec:
           severity_levels:
@@ -111,7 +111,7 @@ Let's configure Istio to log access to _*.cnn.com_. We create a `logentry` and t
         spec:
           match: request.host.endsWith(".cnn.com")
           actions:
-          - handler: egress-access-handler.stdio
+          - handler: egress-access-logger.stdio
             instances:
               - egress-access.logentry
         EOF
@@ -314,7 +314,7 @@ In this step let's use a Mixer [Listcheker adapter](https://istio.io/docs/refere
         spec:
           match: request.host.endsWith(".cnn.com")
           actions:
-          - handler: egress-access-handler.stdio
+          - handler: egress-access-logger.stdio
             instances:
               - egress-access.logentry
           - handler: path-checker.listchecker
@@ -406,7 +406,7 @@ After the organization in our use case managed to configure logging and access p
         spec:
           match: request.host.endsWith("cnn.com") && request.path.startsWith("/politics") && source.namespace != "politics"
           actions:
-          - handler: egress-error-handler.stdio
+          - handler: egress-error-logger.stdio
             instances:
             - egress-access.logentry
         ---
@@ -419,7 +419,7 @@ After the organization in our use case managed to configure logging and access p
         spec:
           match: request.host.endsWith(".cnn.com") && source.namespace != "politics"
           actions:
-          - handler: egress-access-handler.stdio
+          - handler: egress-access-logger.stdio
             instances:
               - egress-access.logentry
           - handler: path-checker.listchecker
@@ -513,8 +513,8 @@ In this blog post we showed how different monitoring and policy mechanisms of Is
 
     ```command
     $ kubectl delete logentry egress-access -n istio-system
-    $ kubectl delete stdio egress-error-handler -n istio-system
-    $ kubectl delete stdio egress-access-handler -n istio-system
+    $ kubectl delete stdio egress-error-logger -n istio-system
+    $ kubectl delete stdio egress-access-logger -n istio-system
     $ kubectl delete rule handle-politics -n istio-system
     $ kubectl delete rule handle-cnn-access -n istio-system
     $ kubectl delete -n istio-system listchecker path-checker
