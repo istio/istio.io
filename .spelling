@@ -275,6 +275,7 @@ dm_zipkin.png
 docker.io
 e.g.
 eBPF
+egressgateway
 enablement
 endUser-to-Service
 env
