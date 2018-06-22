@@ -562,7 +562,7 @@ see a graph similar to the following:
     >}}
 
     You can see the _404_ error code received by the _sleep_ application from the _default_ namespace, _unknown_ version,
-     in the _Requests by Source, Version and Response Code_ section on the left. This information can give the operation
+     in the _Requests by Source, Version and Response Code_ section on the left. This information can give the operations
       people a visual clue regarding which application tries to perform forbidden access. You can also see the _200_ code
        received by _sleep_ applications from the _default_ and _politics_ namespaces, so you can know which applications
        performed valid access to external services.
