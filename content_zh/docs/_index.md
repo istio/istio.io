@@ -1,7 +1,7 @@
 ---
 title: 欢迎
 linktitle: 文档
-description: 了解如何部署、使用和运维Istio。
+description: 了解如何部署、使用和运维 Istio。
 weight: 1
 sidebar_multicard: true
 ---
@@ -21,3 +21,4 @@ sidebar_multicard: true
   [release notes](/about/notes/{{< istio_version >}}/).
 - 怀念以前的版本？我们保存了[以前版本的文档](https://archive.istio.io/)。
 - 我们一直在寻求帮助以改进我们的文档，所以如果您遇到问题，请不要犹豫[提issue](https://github.com/istio/istio.github.io/issues/new)。或者更好的是，提交你自己的[贡献](/about/contribute/editing/)，以帮助我们的文档做的更好。
+
