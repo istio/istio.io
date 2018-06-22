@@ -607,8 +607,8 @@ the URL path, the HTTP method and the headers of the requests, so no monitoring 
 information can be possible. In our use case, the organization would be able to allow access to _edition.cnn.com_. For
 Istio with mutual TLS, the organization will be able to specify which applications are allowed to access
 _edition.cnn.com_. However, it will not be possible to allow or block access to specific URL paths of _edition.cnn.com_.
- Neither blocking access to  [edition.cnn.com/politics](https://edition.cnn.com/politics) nor monitoring such access is
- not possible with the HTTPS approach.
+ Neither blocking access to [edition.cnn.com/politics](https://edition.cnn.com/politics) nor monitoring such access are
+ possible with the HTTPS approach.
 
 We guess that each organization will consider the pros and cons of the two approaches and choose the one most
 appropriate to its needs.
