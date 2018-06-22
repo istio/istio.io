@@ -7,7 +7,7 @@ keywords: [security,health-check]
 
 This task shows how to use [Kubernetes liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/) for health checking on Istio services.
 
-There are three options for liveness and readiness probes in Kubernetes: 1) command; 2) http request; 3) tcp request. In this task, we provide examples for the first two options with Istio mutual TLS enabeld and disabled, respecitively.
+There are three options for liveness and readiness probes in Kubernetes: 1) command; 2) http request; 3) tcp request. In this task, we provide examples for the first two options with Istio mutual TLS enabled and disabled, respectively.
 
 ## Before you begin
 
@@ -126,5 +126,6 @@ Wait for a minute and check the pod status to make sure the liveness probes work
 $ kubectl get pod
 NAME                             READY     STATUS    RESTARTS   AGE
 liveness-http-67d5db65f5-765bb   2/2       Running   0          1m
+```
 
-Note that the image in [liveness-http](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/health-check/liveness-http.yaml) exposes two ports: 8001 and 8002 ([source code](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/health-check/server.go)). In this deployment, port 8001 serves the regular traffic while port 8002 is used for liveness probes. Since Istio proxy only intercepts ports that are explicitly declared at 'containerPort' fields, traffic to 8002 port will bypass Istio proxy no matter Istio mutual TLS is enabled or not. However, if we use port 8001 for both regualr traffic and liveness probes, health check will fail when mutual TLS is enabled since the http request is sent from Kubelet, which does not send client certificate to the liveness-http service.
+Note that the image in [liveness-http](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/health-check/liveness-http.yaml) exposes two ports: 8001 and 8002 ([source code](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/health-check/server.go)). In this deployment, port 8001 serves the regular traffic while port 8002 is used for liveness probes. Since Istio proxy only intercepts ports that are explicitly declared at "containerPort" field, traffic to 8002 port will bypass Istio proxy no matter Istio mutual TLS is enabled or not. However, if we use port 8001 for both regular traffic and liveness probes, health check will fail when mutual TLS is enabled since the http request is sent from Kubelet, which does not send client certificate to the liveness-http service.
