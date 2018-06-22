@@ -183,7 +183,7 @@ All three should return _200 OK_.
 ### Access control by routing
 
 After enabling logging of access to _edition.cnn.com_, let's automatically enforce an access policy, namely let's allow
-accessing _/health_ and _/sport_ URL paths only. Such a simple policy control can be implemented by Istio routing.
+accessing _/health_ and _/sport_ URL paths only. Such a simple policy control can be implemented with Istio routing.
 
 1.  Let's redefine our `VirtualService` for _edition.cnn.com_:
 
