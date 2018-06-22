@@ -74,7 +74,7 @@ The diagram below represents the different pods/containers of the application in
 
 The following table shows the transactions that are driven by the Jmeter script and the approximate distribution of each type of request:
 
-{{< image width="25%" ratio="100%"
+{{< image width="50%" ratio="80%"
     link="https://ibmcloud-perf.istio.io/regpatrol/istio_regpatrol_readme_files/image006.png"
     caption="Acmeair Transactions Table"
     >}}
