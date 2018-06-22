@@ -66,7 +66,7 @@ The microservices that compose Acmeair are:
 The diagram below represents the different pods/containers of the application in the Kubernetes/Istio environment:
 
 {{< image width="100%" ratio="100%"
-    link="https://ibmcloud-perf.istio.io/regpatrol/istio_regpatrol_readme_files/image004.png
+    link="https://ibmcloud-perf.istio.io/regpatrol/istio_regpatrol_readme_files/image004.png"
     >}}
 
 
