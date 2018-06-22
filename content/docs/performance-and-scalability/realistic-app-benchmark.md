@@ -36,7 +36,6 @@ The diagram below illustrates the regression patrol environment:
 
 {{< image width="100%" ratio="100%"
     link="https://ibmcloud-perf.istio.io/regpatrol/istio_regpatrol_readme_files/image002.png"
-    caption="Istio Regression Patrol Setup"
     >}}
 
 
@@ -67,16 +66,14 @@ The microservices that compose Acmeair are:
 The diagram below represents the different pods/containers of the application in the Kubernetes/Istio environment:
 
 {{< image width="100%" ratio="100%"
-    link="https://ibmcloud-perf.istio.io/regpatrol/istio_regpatrol_readme_files/image004.png"
-    caption="Acmeair Microservices and Istio"
+    link="https://ibmcloud-perf.istio.io/regpatrol/istio_regpatrol_readme_files/image004.png
     >}}
 
 
 The following table shows the transactions that are driven by the Jmeter script and the approximate distribution of each type of request:
 
-{{< image width="50%" ratio="80%"
+{{< image width="100%" ratio="50%"
     link="https://ibmcloud-perf.istio.io/regpatrol/istio_regpatrol_readme_files/image006.png"
-    caption="Acmeair Transactions Table"
     >}}
 
 The results for each build are published automatically on the [Istio Regression Patrol](https://ibmcloud-perf.istio.io/regpatrol/) site.
