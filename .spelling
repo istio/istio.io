@@ -76,6 +76,7 @@ GlueCon
 Gmail
 Grafana
 Graphviz
+HTTP-with-TLS-origination
 Hystrix
 ILBs
 IPs
@@ -268,6 +269,7 @@ docker.io
 e.g.
 eBPF
 egressgateway
+egress
 enablement
 endUser-to-Service
 env
@@ -363,6 +365,7 @@ learnings
 lifecycle
 listchecker
 liveness
+localhost
 mTLS
 machine.svg
 machineSetup
@@ -481,6 +484,7 @@ runtimes
 sa
 sayin
 schemas
+SDKs
 secretName
 selinux
 serviceaccount
