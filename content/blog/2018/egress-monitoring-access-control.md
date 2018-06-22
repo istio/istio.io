@@ -176,8 +176,8 @@ All three should return _200 OK_.
 
     You see four log entries related to our three requests. Three _info_ entries about the access to _edition.cnn.com_
     and one _error_ entry about the access to _edition.cnn.com/politics_. The service mesh operators can see all the
-    access instances, and can also search the log for _error_ log entries that represent forbidden access. This is the
-    first security measure the organization can apply before blocking the forbidden access automatically, namely logging
+    access instances, and can also search the log for _error_ log entries that represent forbidden accesses. This is the
+    first security measure the organization can apply before blocking the forbidden accesses automatically, namely logging
      all the forbidden access instances as errors. In some settings this can be a sufficient security measure.
 
 ### Access control by routing
