@@ -186,9 +186,7 @@ In the following subsections we configure a `Gateway` on port 80 for unencrypted
 
 ### Verifying the gateway for HTTP
 
-1.  Access the _httpbin_ service using _curl_. Note that we use the `-H` flag to set the _Host_ HTTP Header to
-    "httpbin.example.com". This is needed because our ingress `Gateway` is configured to handle "httpbin.example.com",
-    but in our test environment we have no DNS binding for that host and are simply sending our request to the ingress IP. 
+1.  Access the _httpbin_ service using _curl_.
 
     ```command
     $ curl -I -HHost:httpbin.example.com http://$INGRESS_HOST:$INGRESS_PORT/status/200
@@ -201,6 +199,10 @@ In the following subsections we configure a `Gateway` on port 80 for unencrypted
     content-length: 0
     x-envoy-upstream-service-time: 48
     ```
+ 
+    Note that we use the `-H` flag to set the _Host_ HTTP Header to
+    "httpbin.example.com". This is needed because our ingress `Gateway` is configured to handle "httpbin.example.com",
+    but in our test environment we have no DNS binding for that host and are simply sending our request to the ingress IP.
 
 1.  Access any other URL that has not been explicitly exposed. You should see an HTTP 404 error:
 
@@ -269,7 +271,7 @@ In this subsection we add to our gateway the port 443 to handle the HTTPS traffi
 
 1. Verify that our gateway still works for the port 80 and accepts unencrypted HTTP traffic as before. We do it by accessing the _httpbin_ service, port 80, as described in the [Verifying the gateway for HTTP](#verifying-the-gateway-for-http) subsection.
 
-1. Access the _httpbin_ service with HTTPS by sending an https request using _curl_ to `SECURE_INGRESS_PORT`. Note the `--resolve` flag that we use this time. Unlike HTTP requests, the `Host` header that we pass will be encrypted this time, so the ingress gateway will not be able to use it to match the request to our configuration. The `--resolve` flag instructs _curl_ to supply the [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) value "httpbin.example.com" when accessing the gateway IP over TLS. Here we also use _curl_'s `-k` option to instruct _curl_ not to check our certificate (since it is a fake certificate we created for testing the Gateway only, so _curl_ is not aware of it).
+1. Access the _httpbin_ service with HTTPS by sending an https request using _curl_ to `SECURE_INGRESS_PORT`.
 
     ```command
     $ curl -I -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST -k https://httpbin.example.com:$SECURE_INGRESS_PORT/status/200
@@ -282,6 +284,7 @@ In this subsection we add to our gateway the port 443 to handle the HTTPS traffi
     content-length: 0
     x-envoy-upstream-service-time: 6
     ```
+    Note the `--resolve` flag that we use this time. Unlike HTTP requests, the `Host` header that we pass will be encrypted this time, so the ingress gateway will not be able to use it to match the request to our configuration. The `--resolve` flag instructs _curl_ to supply the [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) value "httpbin.example.com" when accessing the gateway IP over TLS. Here we also use _curl_'s `-k` option to instruct _curl_ not to check our certificate (since it is a fake certificate we created for testing the Gateway only, so _curl_ is not aware of it).
 
     > Note that it may take time for the new gateway definition to propagate and you may get the following error: `Failed to connect to httpbin.example.com port <your secure port>: Connection refused`. Wait for a minute and retry the `curl` call again.
 
