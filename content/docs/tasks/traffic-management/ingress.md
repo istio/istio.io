@@ -286,7 +286,7 @@ In this subsection we add to our gateway the port 443 to handle the HTTPS traffi
     ```
     Note the `--resolve` flag that we use this time. Unlike HTTP requests, the `Host` header that we pass will be encrypted this time, so the ingress gateway will not be able to use it to match the request to our configuration. The `--resolve` flag instructs _curl_ to supply the [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) value "httpbin.example.com" when accessing the gateway IP over TLS. Here we also use _curl_'s `-k` option to instruct _curl_ not to check our certificate (since it is a fake certificate we created for testing the Gateway only, so _curl_ is not aware of it).
 
-    > Note that it may take time for the new gateway definition to propagate and you may get the following error: `Failed to connect to httpbin.example.com port <your secure port>: Connection refused`. Wait for a minute and retry the `curl` call again.
+    > It may take time for the new gateway definition to propagate and you may get the following error: `Failed to connect to httpbin.example.com port <your secure port>: Connection refused`. Wait for a minute and retry the `curl` call again.
 
 ### Disable the HTTP port
 
@@ -325,7 +325,7 @@ If we want to only allow HTTPS traffic into our service mesh, we can remove the 
 
 ## Accessing ingress services using a browser
 
-As you may have guessed, entering the httpbin service URL in a browser won't work because we don't have a way to tell the browser to pretend to be accessing "httpbin.example.com", like we did with _curl_. In a real world situation this wouldn't be a problem because the requested host would be properly configured and DNS resolvable, so we would simply be using its domain name in the URL (e.g., "https://httpbin.example.com/status/200").
+As you may have guessed, entering the httpbin service URL in a browser won't work because we don't have a way to tell the browser to pretend to be accessing "httpbin.example.com", like we did with _curl_. In a real world situation this wouldn't be a problem because the requested host would be properly configured and DNS resolvable, so we would simply be using its domain name in the URL (e.g., `https://httpbin.example.com/status/200`).
 
 To work around this problem for simple tests and demos, we can use a wildcard `*` value for the host in the `Gateway` and `VirutualService` configurations. For example, if we change our ingress configuration to the following:
 
