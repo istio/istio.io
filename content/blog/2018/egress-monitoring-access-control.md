@@ -245,7 +245,7 @@ accessing _/health_ and _/sport_ URL paths only. Such a simple policy control ca
      to [edition.cnn.com/sport](https://edition.cnn.com/sport) and
      [edition.cnn.com/health](https://edition.cnn.com/health) returned _200 OK_, as expected.
 
-    > Note that you may need to wait several seconds for the update of the `VirtualService` to propagate to the egress
+    > You may need to wait several seconds for the update of the `VirtualService` to propagate to the egress
     gateway.
 
 1.  Query the Mixer log and see that the information about the requests appears again in the log:
@@ -328,7 +328,7 @@ previously:
     200
     200
     ```
-> Note that you may need to wait several seconds for the update of the `VirtualService` to propagate to the egress
+> You may need to wait several seconds for the update of the `VirtualService` to propagate to the egress
 gateway.
 
 ### Access control by Mixer policy checks
