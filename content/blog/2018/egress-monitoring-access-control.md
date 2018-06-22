@@ -8,9 +8,9 @@ weight: 86
 keywords: [egress, traffic-management, access-control, monitoring]
 ---
 
-While Istio's main focus is management of traffic between microservices inside a service mesh, Istio can also  manage ingress
-(from outside into the mesh) and egress (from the mesh outwards) traffic. Istio can uniformly enforce access policies
-and aggregate telemetry data for mesh-internal, ingress and egress traffic.
+While Istio's main focus is management of traffic between microservices inside a service mesh, Istio can also  manage
+ingress (from outside into the mesh) and egress (from the mesh outwards) traffic. Istio can uniformly enforce access
+policies and aggregate telemetry data for mesh-internal, ingress and egress traffic.
 
 In this blog post we show how Istio monitoring and access policies are applied to HTTP egress traffic. The instructions
 in this blog post are valid for Istio [0.8.0](https://github.com/istio/istio/releases/tag/0.8.0) or later.
