@@ -8,7 +8,7 @@ weight: 86
 keywords: [egress, traffic-management, access-control, monitoring]
 ---
 
-While Istio's main focus is management of traffic between microservices inside a service mesh, Istio can also  manage
+While Istio's main focus is management of traffic between microservices inside a service mesh, Istio can also manage
 ingress (from outside into the mesh) and egress (from the mesh outwards) traffic. Istio can uniformly enforce access
 policies and aggregate telemetry data for mesh-internal, ingress and egress traffic.
 
