@@ -258,7 +258,7 @@ accessing _/health_ and _/sport_ URL paths only. Such a simple policy control ca
     {"level":"info","time":"2018-06-19T12:39:48.063812Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/sport","responseCode":200,"responseSize":355267,"source":"sleep","sourceNamespace":"default","user":"unknown"}
     ```
 
-    You still get info and error messages regarding access to
+    You still get info and error messages regarding accesses to
     [edition.cnn.com/politics](https://edition.cnn.com/politics), however this time the `responseCode` is `404`, as
     expected.
 
