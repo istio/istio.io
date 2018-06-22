@@ -495,7 +495,7 @@ As an additional security measure, let our organization's operation people visua
 
 ## Comparison with HTTPS egress traffic control
 
-In this use case the applications used HTTP and Istio Egress Gateway performed TLS origination for them. Compare this approach with HTTPS originated by the applications, by issuing HTTPS requests to _edition.cnn.com_.
+In this use case the applications used HTTP and Istio Egress Gateway performed TLS origination for them. Alternatively, the applications could originate TLS themselves by issuing HTTPS requests to _edition.cnn.com_. In this section we describe both approaches and their pros and cons.
 
 In the HTTP approach, the requests are sent unencrypted on the local host, intercepted by the Istio sidecar proxy and forwarded to the egress gateway. If Istio is deployed with mutual TLS, the traffic between the sidecar proxy and the egress gateway is encrypted. The egress gateway decrypts the traffic, inspects the URL path, the HTTP method and headers, reports telemetry and performs policy checks. If the request is not blocked by some policy check, the egress gateway performs TLS origination to the external destination (_cnn.com_ in our case), so the request is encrypted again and sent encrypted to the external destination. The diagram below demonstrates the network flow of this approach. The HTTP protocol inside the gateway designates the protocol as seen by the gateway after decryption.
 
