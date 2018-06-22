@@ -498,7 +498,7 @@ namespace exempt from monitoring and policy enforcement.
         EOF
     ```
 
-1.  Perform the same test from `$SOURCE_POD`:
+1.  Perform your usual test from `$SOURCE_POD`:
 
     ```command
     $ kubectl exec -it $SOURCE_POD -c sleep -- bash -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
@@ -509,7 +509,7 @@ namespace exempt from monitoring and policy enforcement.
 
     Since `$SOURCE_POD` is in the `default` namespace, access to  [edition.cnn.com/politics](https://edition.cnn.com/politics) is forbidden, as previously.
 
-1.  Perform your usual test from `$SOURCE_POD_IN_POLITICS`:
+1.  Perform the previous test from `$SOURCE_POD_IN_POLITICS`:
 
     ```command
     $ kubectl exec -it $SOURCE_POD_IN_POLITICS -n politics -c sleep -- bash -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
