@@ -26,7 +26,7 @@ only. The organization will grant permissions to individual applications, to app
 to particular users to access [edition.cnn.com/politics](https://edition.cnn.com/politics), on a case-by-case basis.
 
 To achieve that goal, the organization's operations people will monitor access to the external services and will
-analyze the Istio logs to verify that no unauthorized request was sent to
+analyze Istio logs to verify that no unauthorized request was sent to
 [edition.cnn.com/politics](https://edition.cnn.com/politics). They will also configure Istio to prevent access to [edition.cnn.com/politics](https://edition.cnn.com/politics) automatically.
 
 The organization is resolved to prevent any tampering with the new policy. It decided to put mechanisms in place that
