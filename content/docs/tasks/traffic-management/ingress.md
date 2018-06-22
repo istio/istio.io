@@ -42,7 +42,7 @@ This task describes how to configure Istio to expose a service outside of the se
     ```command
     $ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /tmp/tls.key -out /tmp/tls.crt -subj "/CN=httpbin.example.com"
     ```
-*   Determine the ingress IP and ports, see the next subsection.
+*   Determine the ingress IP and ports as described in the following subsection.
 
 ### Determining the ingress IP and ports
 
@@ -58,7 +58,7 @@ If the `EXTERNAL-IP` value is set, your environment has an external load balance
 If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not provide an external load balancer for the ingress gateway.
 In this case, you can access the gateway using the service's [node port](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport).
 
-#### Determining the ingress IP and ports for a load balancer ingress gateway
+#### Determining the ingress IP and ports when using an external load balancer
 
 ```command
 $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
@@ -66,7 +66,7 @@ $ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway
 $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
 ```
 
-#### Determining the ingress IP and ports for a `NodePort` ingress gateway
+#### Determining the ingress IP and ports when using a node port
 
 Determine the ports:
 ```command
@@ -186,10 +186,10 @@ In the following subsections we configure a `Gateway` on port 80 for unencrypted
 
 ### Verifying the gateway for HTTP
 
-1.  Access the _httpbin_ service using _curl_. Note the `--resolve` flag of _curl_ that allows to access an IP address by using an arbitrary domain name. In our case we access our ingress Gateway by "httpbin.example.com", which we specified as a host handled by our `Gateway`. Also note `--HHost:httpbin.example.com` flag that sets the _Host_ HTTP Header to "httpbin.example.com".
+1.  Access the _httpbin_ service using _curl_.
 
     ```command
-    $ curl --resolve httpbin.example.com:$INGRESS_PORT:$INGRESS_HOST -HHost:httpbin.example.com -I http://httpbin.example.com:$INGRESS_PORT/status/200
+    $ curl -I -HHost:httpbin.example.com http://$INGRESS_HOST:$INGRESS_PORT/status/200
     HTTP/1.1 200 OK
     server: envoy
     date: Mon, 29 Jan 2018 04:45:49 GMT
@@ -200,10 +200,14 @@ In the following subsections we configure a `Gateway` on port 80 for unencrypted
     x-envoy-upstream-service-time: 48
     ```
 
+    Note that we use the `-H` flag to set the _Host_ HTTP Header to
+    "httpbin.example.com". This is needed because our ingress `Gateway` is configured to handle "httpbin.example.com",
+    but in our test environment we have no DNS binding for that host and are simply sending our request to the ingress IP.
+
 1.  Access any other URL that has not been explicitly exposed. You should see an HTTP 404 error:
 
     ```command
-    $ curl --resolve httpbin.example.com:$INGRESS_PORT:$INGRESS_HOST -HHost:httpbin.example.com -I http://httpbin.example.com:$INGRESS_PORT/headers
+    $ curl -I -HHost:httpbin.example.com http://$INGRESS_HOST:$INGRESS_PORT/headers
     HTTP/1.1 404 Not Found
     date: Mon, 29 Jan 2018 04:45:49 GMT
     server: envoy
@@ -267,12 +271,10 @@ In this subsection we add to our gateway the port 443 to handle the HTTPS traffi
 
 1. Verify that our gateway still works for the port 80 and accepts unencrypted HTTP traffic as before. We do it by accessing the _httpbin_ service, port 80, as described in the [Verifying the gateway for HTTP](#verifying-the-gateway-for-http) subsection.
 
-1. Access the _httpbin_ service by HTTPS, sending an HTTPS request by _curl_ to `SECURE_INGRESS_PORT`.
-Here we use _curl_'s `-k` option to instruct _curl_ not to check our certificate
-(since it is a fake certificate we created for testing the Gateway only, _curl_ is not aware of it).
+1. Access the _httpbin_ service with HTTPS by sending an https request using _curl_ to `SECURE_INGRESS_PORT`.
 
     ```command
-    $ curl --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST -HHost:httpbin.example.com -I -k https://httpbin.example.com:$SECURE_INGRESS_PORT/status/200
+    $ curl -I -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST -k https://httpbin.example.com:$SECURE_INGRESS_PORT/status/200
     HTTP/2 200
     server: envoy
     date: Mon, 14 May 2018 13:54:53 GMT
@@ -282,8 +284,9 @@ Here we use _curl_'s `-k` option to instruct _curl_ not to check our certificate
     content-length: 0
     x-envoy-upstream-service-time: 6
     ```
+    Note the `--resolve` flag that we use this time. Unlike HTTP requests, the `Host` header that we pass will be encrypted this time, so the ingress gateway will not be able to use it to match the request to our configuration. The `--resolve` flag instructs _curl_ to supply the [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) value "httpbin.example.com" when accessing the gateway IP over TLS. Here we also use _curl_'s `-k` option to instruct _curl_ not to check our certificate (since it is a fake certificate we created for testing the Gateway only, so _curl_ is not aware of it).
 
-    > Note that it may take time for the new gateway definition to propagate and you may get the following error: `Failed to connect to httpbin.example.com port <your secure port>: Connection refused`. Wait for a minute and retry the `curl` call again.
+    > It may take time for the new gateway definition to propagate and you may get the following error: `Failed to connect to httpbin.example.com port <your secure port>: Connection refused`. Wait for a minute and retry the `curl` call again.
 
 ### Disable the HTTP port
 
@@ -317,11 +320,54 @@ If we want to only allow HTTPS traffic into our service mesh, we can remove the 
 1.  Access the HTTP port and verify that it is not accessible (an error is returned):
 
     ```command
-    $ curl --resolve httpbin.example.com:$INGRESS_PORT:$INGRESS_HOST -HHost:httpbin.example.com -I http://httpbin.example.com:$INGRESS_PORT/status/200
+    $ curl -I -HHost:httpbin.example.com http://$INGRESS_HOST:$INGRESS_PORT/status/200
     ```
-## Accessing Istio service mesh by a browser
 
-For `NodePort` ingress gateways, access by a browser is supported partially: only for the `*` hosts in the definition of the `VirtualService`.
+## Accessing ingress services using a browser
+
+As you may have guessed, entering the httpbin service URL in a browser won't work because we don't have a way to tell the browser to pretend to be accessing "httpbin.example.com", like we did with _curl_. In a real world situation this wouldn't be a problem because the requested host would be properly configured and DNS resolvable, so we would simply be using its domain name in the URL (e.g., `https://httpbin.example.com/status/200`).
+
+To work around this problem for simple tests and demos, we can use a wildcard `*` value for the host in the `Gateway` and `VirutualService` configurations. For example, if we change our ingress configuration to the following:
+
+```command
+cat <<EOF | istioctl replace -f -
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: httpbin-gateway
+spec:
+  selector:
+    istio: ingressgateway # use Istio default gateway implementation
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: httpbin
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - httpbin-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /headers
+    route:
+    - destination:
+        port:
+          number: 8000
+        host: httpbin
+EOF
+```
+
+We can then use `$INGRESS_HOST:$INGRESS_PORT` (e.g., `192.168.99.100:31380`) in the URL that we enter in a browser. For example, `http://192.168.99.100:31380/headers` should display the request headers sent by our browser.
 
 ## Understanding what happened
 
