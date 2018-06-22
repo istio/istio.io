@@ -315,13 +315,22 @@ scrape Mixer.
 1. Visit [http://localhost:9090/config](http://localhost:9090/config) and confirm that an entry exists that looks like:
 
     ```yaml
-        - job_name: 'istio-mesh'
-          # Override the global default and scrape targets from this job every 5 seconds.
-          scrape_interval: 5s
-          # metrics_path defaults to '/metrics'
-          # scheme defaults to 'http'.
-          static_configs:
-          - targets: ['istio-mixer.istio-system:42422']
+        - job_name: istio-mesh
+        scrape_interval: 5s
+        scrape_timeout: 5s
+        metrics_path: /metrics
+        scheme: http
+        kubernetes_sd_configs:
+        - api_server: null
+            role: endpoints
+            namespaces:
+            names: []
+        relabel_configs:
+        - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
+            separator: ;
+            regex: istio-system;istio-telemetry;prometheus
+            replacement: $1
+            action: keep
     ```
 
 ## How can I debug issues with the service mesh?
