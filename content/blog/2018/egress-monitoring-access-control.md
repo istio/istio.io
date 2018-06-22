@@ -166,13 +166,8 @@ All three should return _200 OK_.
     ```
 
 1.  Let's query the Mixer log and see that the information about the requests appear in the log:
-    ```command
+    ```command-output-as-json
     $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') mixer | grep egress-access | grep cnn | tail -4
-    ```
-
-    The output should be similar to the following:
-
-    ```plain
     {"level":"info","time":"2018-06-18T13:22:58.317448Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","responseCode":200,"responseSize":150448,"source":"sleep","user":"unknown"}
     {"level":"error","time":"2018-06-18T13:22:58.317448Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","responseCode":200,"responseSize":150448,"source":"sleep","user":"unknown"}
     {"level":"info","time":"2018-06-18T13:22:59.234426Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/sport","responseCode":200,"responseSize":358651,"source":"sleep","user":"unknown"}
@@ -255,13 +250,8 @@ accessing _/health_ and _/sport_ URL paths only. Such a simple policy control ca
 
 1.  Let's query the Mixer log and see that the information about the requests appear again in the log:
 
-    ```command
+    ```command-output-as-json
     $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') mixer | grep egress-access | grep cnn | tail -4
-    ```
-
-    This time output should be similar to the following:
-
-    ```plain
     {"level":"info","time":"2018-06-19T12:39:48.050666Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","responseCode":404,"responseSize":0,"source":"sleep","sourceNamespace":"default","user":"unknown"}
     {"level":"error","time":"2018-06-19T12:39:48.050666Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","responseCode":404,"responseSize":0,"source":"sleep","sourceNamespace":"default","user":"unknown"}
     {"level":"info","time":"2018-06-19T12:39:48.091268Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/health","responseCode":200,"responseSize":334027,"source":"sleep","sourceNamespace":"default","user":"unknown"}
@@ -462,18 +452,15 @@ external services.
 1.  Let's query the Mixer log and see that the information about the requests from the _politics_ namespace appear in
 the log:
 
-    ```command
+    ```command-output-as-json
     $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') mixer | grep egress-access | grep cnn | tail -4
-    ```
-
-    The output should be similar to the following, `sourceNamespace` equals `politics`.
-
-    ```plain
     {"level":"info","time":"2018-06-19T17:37:14.639102Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","responseCode":404,"responseSize":76,"source":"sleep","sourceNamespace":"politics","user":"unknown"}
     {"level":"error","time":"2018-06-19T17:37:14.639102Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","responseCode":404,"responseSize":76,"source":"sleep","sourceNamespace":"politics","user":"unknown"}
     {"level":"info","time":"2018-06-19T17:37:14.653225Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/sport","responseCode":200,"responseSize":356349,"source":"sleep","sourceNamespace":"politics","user":"unknown"}
     {"level":"info","time":"2018-06-19T17:37:14.767923Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/health","responseCode":200,"responseSize":334027,"source":"sleep","sourceNamespace":"politics","user":"unknown"}
     ```
+
+    Note that `sourceNamespace` equals `politics` in the output above.
 
 1.  Let's redefine `handle-cnn-access` and `handle-politics` policy rules, to make the applications in the _politics_
 namespace exempt from monitoring and policy enforcement.
