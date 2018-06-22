@@ -262,7 +262,7 @@ accessing _/health_ and _/sport_ URL paths only. Such a simple policy control ca
     [edition.cnn.com/politics](https://edition.cnn.com/politics), however this time the `responseCode` is `404`, as
     expected.
 
-While implementing access control by Istio routing worked for us in this simple case, it would not suffice for more
+While implementing access control using Istio routing worked for us in this simple case, it would not suffice for more
 complex cases. For example, the organization may want to allow access to
 [edition.cnn.com/politics](https://edition.cnn.com/politics) under certain conditions, so more complex policy logic than
  just filtering by URL paths will be required. You may want to apply [Istio Mixer Adapters](/blog/2017/adapter-model/),
