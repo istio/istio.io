@@ -165,7 +165,7 @@ All three should return _200 OK_.
     200
     ```
 
-1.  Query the Mixer log and see that the information about the requests appear in the log:
+1.  Query the Mixer log and see that the information about the requests appears in the log:
     ```command-output-as-json
     $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') mixer | grep egress-access | grep cnn | tail -4
     {"level":"info","time":"2018-06-18T13:22:58.317448Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","responseCode":200,"responseSize":150448,"source":"sleep","user":"unknown"}
@@ -449,7 +449,7 @@ external services.
     200
     ```
 
-1.  Query the Mixer log and see that the information about the requests from the _politics_ namespace appear in
+1.  Query the Mixer log and see that the information about the requests from the _politics_ namespace appears in
 the log:
 
     ```command-output-as-json
