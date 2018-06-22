@@ -273,7 +273,7 @@ complex cases. For example, the organization may want to allow access to
   logical operators. The rules can be reused for both logging and policy checks. More advanced users may want to apply
   [Istio Role-Based Access Control](/docs/concepts/security/rbac/).
 
-Additional aspect is integration with remote access policy systems. If the organization in our use case operates some
+An additional aspect is integration with remote access policy systems. If the organization in our use case operates some
 [Identity and Access Management](https://en.wikipedia.org/wiki/Identity_management) system, you may want to configure
 Istio to use access policy information from such a system. You implement this integration by applying
 [Istio Mixer Adapters](/blog/2017/adapter-model/).
