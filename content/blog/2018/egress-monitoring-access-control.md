@@ -58,7 +58,7 @@ name.
 
 ## Configure monitoring and access policies
 
-Note that since you want to accomplish our tasks in a _secure way_, you must direct egress traffic through
+Note that since you want to accomplish your tasks in a _secure way_, you must direct egress traffic through
 _egress gateway_, as described in the [Configure an Egress Gateway](/docs/tasks/traffic-management/egress-gateway/)
 task. The _secure way_ here means that you want to prevent malicious applications from bypassing Istio monitoring and
 policy enforcement.
@@ -69,10 +69,10 @@ configure Istio for monitoring and access policies for the traffic to _edition.c
 
 ### Logging
 
-Let's configure Istio to log access to _*.cnn.com_. You create a `logentry` and two
+Configure Istio to log access to _*.cnn.com_. You create a `logentry` and two
 [stdio](/docs/reference/config/policy-and-telemetry/adapters/stdio/) `handlers`, one for logging forbidden access
 (_error_ log level) and another one for logging all access to _*.cnn.com_ (_info_ log level). Then you create `rules` to
-direct our `logentry` instances to our `handlers`. One rule directs access to _*.cnn.com/politics_ to the handler for
+direct your `logentry` instances to your `handlers`. One rule directs access to _*.cnn.com/politics_ to the handler for
 logging forbidden access, another rule directs log entries to the handler that outputs each access to _*.cnn.com_ as an
 _info_ log entry. To understand the Istio `logentries`, `rules`, and `handlers`, see
 [Istio Adapter Model](/blog/2017/adapter-model/). A diagram with the involved entities and dependencies between them
@@ -83,7 +83,7 @@ appears below:
     caption="Instances, rules and handlers for egress monitoring"
     >}}
 
-1.  Let's create the `logentry`, `rules` and `handlers`:
+1.  Create the `logentry`, `rules` and `handlers`:
     ```bash
         cat <<EOF | istioctl create -f -
         # Log entry for egress access
@@ -155,7 +155,7 @@ appears below:
         EOF
     ```
 
-1.  Let's send three HTTP requests to _cnn.com_, to [edition.cnn.com/politics](https://edition.cnn.com/politics), [edition.cnn.com/sport](https://edition.cnn.com/sport) and [edition.cnn.com/health](https://edition.cnn.com/health).
+1.  Send three HTTP requests to _cnn.com_, to [edition.cnn.com/politics](https://edition.cnn.com/politics), [edition.cnn.com/sport](https://edition.cnn.com/sport) and [edition.cnn.com/health](https://edition.cnn.com/health).
 All three should return _200 OK_.
 
     ```command
@@ -165,7 +165,7 @@ All three should return _200 OK_.
     200
     ```
 
-1.  Let's query the Mixer log and see that the information about the requests appear in the log:
+1.  Query the Mixer log and see that the information about the requests appear in the log:
     ```command-output-as-json
     $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') mixer | grep egress-access | grep cnn | tail -4
     {"level":"info","time":"2018-06-18T13:22:58.317448Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","responseCode":200,"responseSize":150448,"source":"sleep","user":"unknown"}
@@ -174,7 +174,7 @@ All three should return _200 OK_.
     {"level":"info","time":"2018-06-18T13:22:59.354943Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/health","responseCode":200,"responseSize":332218,"source":"sleep","user":"unknown"}
     ```
 
-    You see four log entries related to our three requests. Three _info_ entries about the access to _edition.cnn.com_
+    You see four log entries related to your three requests. Three _info_ entries about the access to _edition.cnn.com_
     and one _error_ entry about the access to _edition.cnn.com/politics_. The service mesh operators can see all the
     access instances, and can also search the log for _error_ log entries that represent forbidden accesses. This is the
     first security measure the organization can apply before blocking the forbidden accesses automatically, namely logging
@@ -182,10 +182,10 @@ All three should return _200 OK_.
 
 ### Access control by routing
 
-After enabling logging of access to _edition.cnn.com_, let's automatically enforce an access policy, namely let's allow
+After enabling logging of access to _edition.cnn.com_, automatically enforce an access policy, namely allow
 accessing _/health_ and _/sport_ URL paths only. Such a simple policy control can be implemented with Istio routing.
 
-1.  Let's redefine our `VirtualService` for _edition.cnn.com_:
+1.  Redefine your `VirtualService` for _edition.cnn.com_:
 
     ```bash
         cat <<EOF | istioctl replace -f -
@@ -230,9 +230,9 @@ accessing _/health_ and _/sport_ URL paths only. Such a simple policy control ca
     section of the `VirtualService`, since the egress gateway is a hardened component in terms of security (see
     [egress gateway security considerations]
     (/docs/tasks/traffic-management/egress-gateway/#additional-security-considerations)). You don't want any tampering
-    with our policies.
+    with your policies.
 
-1.  Let's send the previous three HTTP requests to _cnn.com_:
+1.  Send the previous three HTTP requests to _cnn.com_:
 
     ```command
     $ kubectl exec -it $SOURCE_POD -c sleep -- bash -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
@@ -248,7 +248,7 @@ accessing _/health_ and _/sport_ URL paths only. Such a simple policy control ca
     > Note that you may need to wait several seconds for the update of the `VirtualService` to propagate to the egress
     gateway.
 
-1.  Let's query the Mixer log and see that the information about the requests appear again in the log:
+1.  Query the Mixer log and see that the information about the requests appear again in the log:
 
     ```command-output-as-json
     $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') mixer | grep egress-access | grep cnn | tail -4
@@ -278,10 +278,10 @@ Additional aspect is integration with remote access policy systems. If the organ
 Istio to use access policy information from such a system. You implement this integration by applying
 [Istio Mixer Adapters](/blog/2017/adapter-model/).
 
-Let's cancel the access control by routing you used in this section and implement access control by Mixer policy checks
+Cancel the access control by routing you used in this section and implement access control by Mixer policy checks
 in the next section.
 
-1.  Replace the `VirtualService` for _edition.cnn.com_ with our previous version from the [Configure an Egress Gateway](/docs/tasks/traffic-management/egress-gateway/#perform-tls-origination-with-the-egress-gateway) task:
+1.  Replace the `VirtualService` for _edition.cnn.com_ with your previous version from the [Configure an Egress Gateway](/docs/tasks/traffic-management/egress-gateway/#perform-tls-origination-with-the-egress-gateway) task:
 
     ```bash
         cat <<EOF | istioctl replace -f -
@@ -319,7 +319,7 @@ in the next section.
         EOF
     ```
 
-1.  Let's send the previous three HTTP requests to _cnn.com_, this time you should get three _200 OK_ responses as
+1.  Send the previous three HTTP requests to _cnn.com_, this time you should get three _200 OK_ responses as
 previously:
 
     ```command
@@ -333,7 +333,7 @@ gateway.
 
 ### Access control by Mixer policy checks
 
-In this step let's use a Mixer
+In this step you use a Mixer
 [Listchecker adapter](https://istio.io/docs/reference/config/policy-and-telemetry/adapters/list/), its whitelist
 variety. You define a `listentry` with the URL path of the request and a `listchecker` to check the `listentry` using a
 static list of allowed URL paths, specified by the `overrides` field. For an external [Identity and Access Management](https://en.wikipedia.org/wiki/Identity_management) system, use the `providerurl` field instead. The updated
@@ -389,7 +389,7 @@ diagram of the instances, rules and handlers appears below. Note that you reuse 
         EOF
     ```
 
-1.  Let's perform our usual test by sending HTTP requests to
+1.  Perform your usual test by sending HTTP requests to
  [edition.cnn.com/politics](https://edition.cnn.com/politics), [edition.cnn.com/sport](https://edition.cnn.com/sport)
  and [edition.cnn.com/health](https://edition.cnn.com/health). As expected, the request to
  [edition.cnn.com/politics](https://edition.cnn.com/politics) returns _404_.
@@ -405,9 +405,9 @@ diagram of the instances, rules and handlers appears below. Note that you reuse 
 
 After the organization in our use case managed to configure logging and access control, it decided to extend its access
 policy by allowing the applications in the _politics_ namespace to access any topic of _cnn.com_, without being
-monitored. Let's show how this requirement can be configured in Istio.
+monitored. You'll see how this requirement can be configured in Istio.
 
-1.  Let's create the _politics_ namespace:
+1.  Create the _politics_ namespace:
 
     ```command
     $ kubectl create namespace politics
@@ -438,7 +438,7 @@ external services.
     $ export SOURCE_POD_IN_POLITICS=$(kubectl get pod -n politics -l app=sleep -o jsonpath={.items..metadata.name})
     ```
 
-1.  Let's perform our usual test of sending three HTTP requests this time from `$SOURCE_POD_IN_POLITICS`.
+1.  Perform your usual test of sending three HTTP requests this time from `$SOURCE_POD_IN_POLITICS`.
   The request to [edition.cnn.com/politics](https://edition.cnn.com/politics) returns _404_, since you did not configure
   the exception for the _politics_ namespace.
 
@@ -449,7 +449,7 @@ external services.
     200
     ```
 
-1.  Let's query the Mixer log and see that the information about the requests from the _politics_ namespace appear in
+1.  Query the Mixer log and see that the information about the requests from the _politics_ namespace appear in
 the log:
 
     ```command-output-as-json
@@ -462,7 +462,7 @@ the log:
 
     Note that `sourceNamespace` equals `politics` in the output above.
 
-1.  Let's redefine `handle-cnn-access` and `handle-politics` policy rules, to make the applications in the _politics_
+1.  Redefine `handle-cnn-access` and `handle-politics` policy rules, to make the applications in the _politics_
 namespace exempt from monitoring and policy enforcement.
 
     ```bash
@@ -498,7 +498,7 @@ namespace exempt from monitoring and policy enforcement.
         EOF
     ```
 
-1.  Let's perform the same test from `$SOURCE_POD`:
+1.  Perform the same test from `$SOURCE_POD`:
 
     ```command
     $ kubectl exec -it $SOURCE_POD -c sleep -- bash -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
@@ -509,7 +509,7 @@ namespace exempt from monitoring and policy enforcement.
 
     Since `$SOURCE_POD` is in the `default` namespace, access to  [edition.cnn.com/politics](https://edition.cnn.com/politics) is forbidden, as previously.
 
-1.  Let's perform our usual test from `$SOURCE_POD_IN_POLITICS`:
+1.  Perform your usual test from `$SOURCE_POD_IN_POLITICS`:
 
     ```command
     $ kubectl exec -it $SOURCE_POD_IN_POLITICS -n politics -c sleep -- bash -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
@@ -520,7 +520,7 @@ namespace exempt from monitoring and policy enforcement.
 
     Access to all the topics of _edition.cnn.com_ is allowed.
 
-1.  Let's examine the Mixer log and see that no more requests with `sourceNamespace` equal `"politics"` appear in the
+1.  Examine the Mixer log and see that no more requests with `sourceNamespace` equal `"politics"` appear in the
 log.
 
     ```command
