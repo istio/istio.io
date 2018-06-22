@@ -199,7 +199,7 @@ In the following subsections we configure a `Gateway` on port 80 for unencrypted
     content-length: 0
     x-envoy-upstream-service-time: 48
     ```
- 
+
     Note that we use the `-H` flag to set the _Host_ HTTP Header to
     "httpbin.example.com". This is needed because our ingress `Gateway` is configured to handle "httpbin.example.com",
     but in our test environment we have no DNS binding for that host and are simply sending our request to the ingress IP.
