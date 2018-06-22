@@ -25,7 +25,7 @@ point in time the organization decides to banish politics. Practically, it means
 only. The organization will grant permissions to individual applications, to applications in particular namespaces and
 to particular users to access [edition.cnn.com/politics](https://edition.cnn.com/politics), on a case-by-case basis.
 
-To achieve that goal, the organization's operations people will monitor the access to the external services and will
+To achieve that goal, the organization's operations people will monitor access to the external services and will
 analyze the Istio logs to verify that no unauthorized request was sent to
 [edition.cnn.com/politics](https://edition.cnn.com/politics). They will also configure Istio to prevent access to [edition.cnn.com/politics](https://edition.cnn.com/politics) automatically.
 
