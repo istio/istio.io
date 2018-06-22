@@ -248,7 +248,7 @@ accessing _/health_ and _/sport_ URL paths only. Such a simple policy control ca
     > Note that you may need to wait several seconds for the update of the `VirtualService` to propagate to the egress
     gateway.
 
-1.  Query the Mixer log and see that the information about the requests appear again in the log:
+1.  Query the Mixer log and see that the information about the requests appears again in the log:
 
     ```command-output-as-json
     $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') mixer | grep egress-access | grep cnn | tail -4
