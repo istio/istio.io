@@ -37,7 +37,7 @@ will prevent any possibility for a malicious application to access the forbidden
 The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task demonstrates how external (outside the
   Kubernetes cluster) HTTP and HTTPS services can be accessed from applications inside the mesh. The
   [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress-tls-origination/) task demonstrates how to
-  allow the applications to send HTTP requests to external servers that require HTTPS. The [Configure an Egress Gateway](/docs/tasks/traffic-management/egress-gateway/) task describes how to configure Istio to direct egress
+  allow applications to send HTTP requests to external servers that require HTTPS. The [Configure an Egress Gateway](/docs/tasks/traffic-management/egress-gateway/) task describes how to configure Istio to direct egress
   traffic through a dedicated gateway service called _egress gateway_.
 
 The [Collecting Metrics and Logs](/docs/tasks/telemetry/metrics-logs/) task describes how to configure metrics and logs
