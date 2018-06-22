@@ -58,9 +58,9 @@ name.
 
 ## Configure monitoring and access policies
 
-Note that since we want to accomplish our tasks in a _secure way_, we must direct egress traffic through
+Note that since you want to accomplish our tasks in a _secure way_, you must direct egress traffic through
 _egress gateway_, as described in the [Configure an Egress Gateway](/docs/tasks/traffic-management/egress-gateway/)
-task. The _secure way_ here means that we want to prevent malicious applications from bypassing Istio monitoring and
+task. The _secure way_ here means that you want to prevent malicious applications from bypassing Istio monitoring and
 policy enforcement.
 
 In our scenario, the organization performed the instructions in the [Before you begin](#before-you-begin) section. It
@@ -69,9 +69,9 @@ configure Istio for monitoring and access policies for the traffic to _edition.c
 
 ### Logging
 
-Let's configure Istio to log access to _*.cnn.com_. We create a `logentry` and two
+Let's configure Istio to log access to _*.cnn.com_. You create a `logentry` and two
 [stdio](/docs/reference/config/policy-and-telemetry/adapters/stdio/) `handlers`, one for logging forbidden access
-(_error_ log level) and another one for logging all access to _*.cnn.com_ (_info_ log level). Then we create `rules` to
+(_error_ log level) and another one for logging all access to _*.cnn.com_ (_info_ log level). Then you create `rules` to
 direct our `logentry` instances to our `handlers`. One rule directs access to _*.cnn.com/politics_ to the handler for
 logging forbidden access, another rule directs log entries to the handler that outputs each access to _*.cnn.com_ as an
 _info_ log entry. To understand the Istio `logentries`, `rules`, and `handlers`, see
@@ -179,7 +179,7 @@ All three should return _200 OK_.
     {"level":"info","time":"2018-06-18T13:22:59.354943Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/health","responseCode":200,"responseSize":332218,"source":"sleep","user":"unknown"}
     ```
 
-    We see four log entries related to our three requests. Three _info_ entries about the access to _edition.cnn.com_
+    You see four log entries related to our three requests. Three _info_ entries about the access to _edition.cnn.com_
     and one _error_ entry about the access to _edition.cnn.com/politics_. The service mesh operators can see all the
     access instances, and can also `grep` the log for _error_ log entries that represent forbidden access. This is the
     first security measure the organization can apply before blocking the forbidden access automatically, namely logging
@@ -230,11 +230,11 @@ accessing _/health_ and _/sport_ URL paths only. Such a simple policy control ca
         EOF
     ```
 
-    Note that we added a `match` by `uri` condition that checks that the URL path is
+    Note that you added a `match` by `uri` condition that checks that the URL path is
     either _/health_ or _/sport_. Also note that this condition is added to the `istio-egressgateway`
     section of the `VirtualService`, since the egress gateway is a hardened component in terms of security (see
     [egress gateway security considerations]
-    (/docs/tasks/traffic-management/egress-gateway/#additional-security-considerations)). We don't want any tampering
+    (/docs/tasks/traffic-management/egress-gateway/#additional-security-considerations)). You don't want any tampering
     with our policies.
 
 1.  Let's send the previous three HTTP requests to _cnn.com_:
@@ -250,7 +250,7 @@ accessing _/health_ and _/sport_ URL paths only. Such a simple policy control ca
      to [edition.cnn.com/sport](https://edition.cnn.com/sport) and
      [edition.cnn.com/health](https://edition.cnn.com/health) returned _200 OK_, as expected.
 
-    > Note that we may need to wait several seconds for the update of the `VirtualService` to propagate to the egress
+    > Note that you may need to wait several seconds for the update of the `VirtualService` to propagate to the egress
     gateway.
 
 1.  Let's query the Mixer log and see that the information about the requests appear again in the log:
@@ -268,14 +268,14 @@ accessing _/health_ and _/sport_ URL paths only. Such a simple policy control ca
     {"level":"info","time":"2018-06-19T12:39:48.063812Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/sport","responseCode":200,"responseSize":355267,"source":"sleep","sourceNamespace":"default","user":"unknown"}
     ```
 
-    We still get info and error messages regarding access to
+    You still get info and error messages regarding access to
     [edition.cnn.com/politics](https://edition.cnn.com/politics), however this time the `responseCode` is `404`, as
     expected.
 
 While implementing access control by Istio routing worked for us in this simple case, it would not suffice for more
 complex cases. For example, the organization may want to allow access to
 [edition.cnn.com/politics](https://edition.cnn.com/politics) under certain conditions, so more complex policy logic than
- just filtering by URL paths will be required. We may want to apply [Istio Mixer Adapters](/blog/2017/adapter-model/),
+ just filtering by URL paths will be required. You may want to apply [Istio Mixer Adapters](/blog/2017/adapter-model/),
  for example [white lists](/docs/tasks/security/basic-access-control/#access-control-using-whitelists) or [black lists](/docs/tasks/security/basic-access-control/#access-control-using-denials) of allowed/forbidden URL paths,
  respectively. [Policy Rules](/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/) allow specifying
  complex conditions, specified in a
@@ -284,11 +284,11 @@ complex cases. For example, the organization may want to allow access to
   [Istio Role-Based Access Control](/docs/concepts/security/rbac/).
 
 Additional aspect is integration with remote access policy systems. If the organization in our use case operates some
-[Identity and Access Management](https://en.wikipedia.org/wiki/Identity_management) system, we may want to configure
-Istio to use access policy information from such a system. We implement this integration by applying
+[Identity and Access Management](https://en.wikipedia.org/wiki/Identity_management) system, you may want to configure
+Istio to use access policy information from such a system. You implement this integration by applying
 [Istio Mixer Adapters](/blog/2017/adapter-model/).
 
-Let's cancel the access control by routing we used in this section and implement access control by Mixer policy checks
+Let's cancel the access control by routing you used in this section and implement access control by Mixer policy checks
 in the next section.
 
 1.  Replace the `VirtualService` for _edition.cnn.com_ with our previous version from the [Configure an Egress Gateway](/docs/tasks/traffic-management/egress-gateway/#perform-tls-origination-with-the-egress-gateway) task:
@@ -329,7 +329,7 @@ in the next section.
         EOF
     ```
 
-1.  Let's send the previous three HTTP requests to _cnn.com_, this time we should get three _200 OK_ responses as
+1.  Let's send the previous three HTTP requests to _cnn.com_, this time you should get three _200 OK_ responses as
 previously:
 
     ```command
@@ -338,16 +338,16 @@ previously:
     200
     200
     ```
-> Note that we may need to wait several seconds for the update of the `VirtualService` to propagate to the egress
+> Note that you may need to wait several seconds for the update of the `VirtualService` to propagate to the egress
 gateway.
 
 ### Access control by Mixer policy checks
 
 In this step let's use a Mixer
 [Listchecker adapter](https://istio.io/docs/reference/config/policy-and-telemetry/adapters/list/), its whitelist
-variety. We define a `listentry` with the URL path of the request and a `listchecker` to check the `listentry` using a
+variety. You define a `listentry` with the URL path of the request and a `listchecker` to check the `listentry` using a
 static list of allowed URL paths, specified by the `overrides` field. For an external [Identity and Access Management](https://en.wikipedia.org/wiki/Identity_management) system, use the `providerurl` field instead. The updated
-diagram of the instances, rules and handlers appears below. Note that we reuse the same policy rule, `handle-cnn-access`
+diagram of the instances, rules and handlers appears below. Note that you reuse the same policy rule, `handle-cnn-access`
  both for logging and for access policy checks.
 
 {{< image width="80%" ratio="65.45%"
@@ -442,14 +442,14 @@ monitored. Let's show how this requirement can be configured in Istio.
 
 1.  Define a shell variable to hold the name of the source pod in the _politics_ namespace for sending requests to
 external services.
-    If we used the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/samples/sleep) sample, we run:
+    If you used the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/samples/sleep) sample, you run:
 
     ```command
     $ export SOURCE_POD_IN_POLITICS=$(kubectl get pod -n politics -l app=sleep -o jsonpath={.items..metadata.name})
     ```
 
 1.  Let's perform our usual test of sending three HTTP requests this time from `$SOURCE_POD_IN_POLITICS`.
-  The request to [edition.cnn.com/politics](https://edition.cnn.com/politics) returns _404_, since we did not configure
+  The request to [edition.cnn.com/politics](https://edition.cnn.com/politics) returns _404_, since you did not configure
   the exception for the _politics_ namespace.
 
     ```command
@@ -574,10 +574,10 @@ see a graph similar to the following:
     caption="Dashboard section of istio-egressgateway"
     >}}
 
-    We can see the _404_ error code received by the _sleep_ application from the _default_ namespace, _unknown_ version,
+    You can see the _404_ error code received by the _sleep_ application from the _default_ namespace, _unknown_ version,
      in the _Requests by Source, Version and Response Code_ section on the left. This information can give the operation
-      people a visual clue regarding which application tries to perform forbidden access. We can also see the _200_ code
-       received by _sleep_ applications from the _default_ and _politics_ namespaces, so we can know which applications
+      people a visual clue regarding which application tries to perform forbidden access. You can also see the _200_ code
+       received by _sleep_ applications from the _default_ and _politics_ namespaces, so you can know which applications
        performed valid access to external services.
 
 ## Comparison with HTTPS egress traffic control
