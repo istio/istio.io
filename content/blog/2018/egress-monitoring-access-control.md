@@ -29,7 +29,7 @@ To achieve that goal, the organization's operations people will monitor access t
 analyze Istio logs to verify that no unauthorized request was sent to
 [edition.cnn.com/politics](https://edition.cnn.com/politics). They will also configure Istio to prevent access to [edition.cnn.com/politics](https://edition.cnn.com/politics) automatically.
 
-The organization is resolved to prevent any tampering with the new policy. It decided to put mechanisms in place that
+The organization is resolved to prevent any tampering with the new policy. It decides to put mechanisms in place that
 will prevent any possibility for a malicious application to access the forbidden topic.
 
 ## Related tasks
