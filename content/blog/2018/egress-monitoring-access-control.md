@@ -144,7 +144,7 @@ Let's configure Istio to log access to _*.cnn.com_. We create a `logentry` and t
 
 ### Access control by routing
 
-After enabling logging of access to _edition.cnn.com_, let's enable automatic access policy, namely let's allow accessing _/health_ and _/sport_ URL paths only. Such a simple policy control can be implemented by Istio routing.
+After enabling logging of access to _edition.cnn.com_, let's automatically enforce an access policy, namely let's allow accessing _/health_ and _/sport_ URL paths only. Such a simple policy control can be implemented by Istio routing.
 
 1.  Let's redefine our `VirtualService` for _edition.cnn.com_:
 
