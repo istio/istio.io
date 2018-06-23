@@ -2,34 +2,61 @@
 
 FAILED=0
 
-mdspell --en-us --ignore-acronyms --ignore-numbers --no-suggestions --report content/*.md content/*/*.md content/*/*/*.md content/*/*/*/*.md content/*/*/*/*/*.md content/*/*/*/*/*/*.md content/*/*/*/*/*/*/*.md
+# This performs spell checking and style checking over markdown files in a content
+# directory. It transforms the shortcode sequences we use to annotate code blocks
+# blocks into classic markdown ``` code blocks, so that the linters aren't confused
+# by the code blocks
+check_content() {
+    DIR=$1
+    LANG=$2
+    TMP=$(mktemp -d)
+    OUT=$(mktemp)
+
+    # make the tmp dir
+    mkdir -p ${TMP}
+
+    # create a throwaway copy of the content
+    cp -R ${DIR} ${TMP}
+
+    # replace the {{< text >}} shortcodes with ```plain
+    find ${TMP} -type f -name \*.md -exec sed -E -i "s/\\{\\{< text .*>\}\}/\`\`\`plain/g" {} ";"
+
+    # replace the {{< /text >}} shortcodes with ```
+    find ${TMP} -type f -name \*.md -exec sed -E -i "s/\\{\\{< \/text .*>\}\}/\`\`\`/g" {} ";"
+
+    mdspell ${LANG} --ignore-acronyms --ignore-numbers --no-suggestions --report ${TMP}/*.md ${TMP}/*/*.md ${TMP}/*/*/*.md ${TMP}/*/*/*/*.md ${TMP}/*/*/*/*/*.md ${TMP}/*/*/*/*/*/*.md ${TMP}/*/*/*/*/*/*/*.md >${OUT}
+    if [ "$?" != "0" ]
+    then
+        # remove the tmp dir prefix from error messages
+        sed s!${TMP}/!! ${OUT}
+        echo "To learn how to address spelling errors, please see https://github.com/istio/istio.github.io#linting"
+        FAILED=1
+    fi
+
+    mdl --ignore-front-matter --style mdl_style.rb ${TMP} >${OUT}
+    if [ "$?" != "0" ]
+    then
+        # remove the tmp dir prefix from error messages
+        sed s!${TMP}/!! ${OUT}
+        echo "To learn about markdown linting rules, please see https://github.com/markdownlint/markdownlint/blob/master/docs/RULES.md"
+        FAILED=1
+    fi
+
+    # cleanup
+    rm -fr ${TMP}
+    rm -fr ${OUT}
+}
+
+check_content content --en-us
+check_content content_zh --zh-cn
+
+#htmlproofer ./public --check-html --assume-extension --timeframe 2d --storage-dir .htmlproofer --url-ignore "/localhost/,/github.com/istio/istio.github.io/edit/master/,/github.com/istio/istio/issues/new/choose/"
 if [ "$?" != "0" ]
 then
-    echo "To learn how to address spelling errors, please see https://github.com/istio/istio.github.io#linting"
     FAILED=1
 fi
 
-mdspell --zh-cn --ignore-acronyms --ignore-numbers --no-suggestions --report content_zh/*.md content_zh/*/*.md content_zh/*/*/*.md content_zh/*/*/*/*.md content_zh/*/*/*/*/*.md content_zh/*/*/*/*/*/*.md content_zh/*/*/*/*/*/*/*.md
-if [ "$?" != "0" ]
-then
-    echo "To learn how to address spelling errors, please see https://github.com/istio/istio.github.io#linting"
-    FAILED=1
-fi
-
-mdl --ignore-front-matter --style mdl_style.rb .
-if [ "$?" != "0" ]
-then
-    echo "To learn about markdown linting rules, please see https://github.com/markdownlint/markdownlint/blob/master/docs/RULES.md"
-    FAILED=1
-fi
-
-htmlproofer ./public --check-html --assume-extension --timeframe 2d --storage-dir .htmlproofer --url-ignore "/localhost/,/github.com/istio/istio.github.io/edit/master/,/github.com/istio/istio/issues/new/choose/"
-if [ "$?" != "0" ]
-then
-    FAILED=1
-fi
-
-if [ $FAILED -eq 1 ]
+if [ ${FAILED} -eq 1 ]
 then
     echo "LINTING FAILED"
     exit 1
