@@ -34,7 +34,7 @@ One of the premises of the regression patrol is that it verifies the Istio perfo
 
 The diagram below illustrates the regression patrol environment:
 
-{{< image width="100%" ratio="100%"
+{{< image width="100%" ratio="80%"
     link="https://ibmcloud-perf.istio.io/regpatrol/istio_regpatrol_readme_files/image002.png"
     >}}
 
@@ -72,7 +72,7 @@ The diagram below represents the different pods/containers of the application in
 
 The following table shows the transactions that are driven by the Jmeter script and the approximate distribution of each type of request:
 
-{{< image width="100%" ratio="30%"
+{{< image width="100%" ratio="20%"
     link="https://ibmcloud-perf.istio.io/regpatrol/istio_regpatrol_readme_files/image006.png"
     >}}
 
