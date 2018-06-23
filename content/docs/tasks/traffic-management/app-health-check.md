@@ -66,7 +66,7 @@ And repeat the same steps as in above section to verify that the liveness probes
 
 This section shows how to configure health checking with the HTTP request option.
 
-### Mutual TLS disabled
+### Mutual TLS is disabled
 
 Run this command to remove the mutual TLS policy.
 
@@ -97,7 +97,7 @@ NAME                             READY     STATUS    RESTARTS   AGE
 liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
 ```
 
-### Mutual TLS enabled
+### Mutual TLS is enabled
 
 Run this command to enable mutual TLS for services in the default namespace.
 
