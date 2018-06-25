@@ -188,6 +188,12 @@ to capture the Pilot, Policy, and Statsd Pod IP endpoints.
 variables to each node before using Helm to connect the remote
 cluster to the Istio control plane.
 
+> As decumented in [tracked here](https://github.com/istio/istio/issues/4822),
+if any one of the endpoints in below restarts, then connection from remote
+clusters to that endpoint will be broken. See [Stable access to istio control
+plane services](#stable-access-to-istio-control-plane-services] for details on
+how to avoid it.
+
 ```command
 $ export PILOT_POD_IP=$(kubectl -n istio-system get pod -l istio=pilot -o jsonpath='{.items[0].status.podIP}')
 $ export POLICY_POD_IP=$(kubectl -n istio-system get pod -l istio=mixer -o jsonpath='{.items[0].status.podIP}')
@@ -247,7 +253,7 @@ service.
 The `isito-remote` Helm chart requires the three specific variables to be configured as defined in the following table:
 
 | Helm Variable | Accepted Values | Default | Purpose of Value |
-| --- | --- | --- | --- |
+| --- | --- | --- | --- |https://istio.io/docs/setup/kubernetes/multicluster-install/
 | `global.pilotEndpoint` | A valid IP address | istio-pilot.istio-system | Specifies the Istio control plane's pilot Pod IP address |
 | `global.policyEndpoint` | A valid IP address | istio-policy.istio-system | Specifies the Istio control plane's policy Pod IP address |
 | `global.statsdEndpoint` | A valid IP address | istio-statsd-prom-bridge.istio-system | Specifies the Istio control plane's statsd Pod IP address |
@@ -267,3 +273,91 @@ $ kubectl delete -f $HOME/istio-remote.yaml
 ```command
 $ helm delete --purge istio-remote
 ```
+
+## Stable access to istio control plane services
+
+In the above procedure, endpoint IPs of istio services are gathered and used to
+invoke helm that will create istio services on the remote clusters. As a result,
+kube-dns in the remote clusters can be used to resolve the istio service names.
+Since Kubernetes pods don't have stable IPs, restart of any istio service pod in
+the control plane cluster will cause its endpoint to be changed. Therefore, any
+connection made from remote clusters to that endpoint will be broken. One way to
+fix it is to rerun the helm install and have the istio services on the remote
+clusters to be updated with the new endpoints. Thus, kube-dns will be updated as
+well. However, it requires manual intervention and may still causes service
+disruption.
+
+In addition, some deployments may choose to deploy multiple instances of an
+istio service such as pilot. In that case, accessing an istio service with only
+one of its endpoints doesn't even make sense any more.
+
+In this guide, we'll describe how to use load balancer service type to stable
+access to the istio control plane services.
+
+### Use load balancer service type
+
+In Kubernetes, you can declare a service with a service type to be [load
+balancer](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types).
+A simple solution to the pod restart issue is to use load balancers for the
+istio services. You can then use the load balancer IPs as the istio services's
+endpoint IPs to configure the remote clusters. You may need balancer IPs for
+these istio services: `istio-pilot, istio-telemetry, istio-policy,
+istio-statsd-prom-bridge, zipkin`
+
+Currenly, istio installation doesn't provide an option to specify service types
+for the istio services. But you can modify the istio helm charts or manifests
+yourself as described in below.
+
+#### Modify the istio helm charts or istio manifests
+
+The helm charts are located at ./install/kubernetes/helm/istio/charts/. To
+use load balancer for pilot, for example, modify
+./install/kubernetes/helm/istio/charts/pilot/templates/service.yaml as in
+below:
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: istio-pilot
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: istio-pilot
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  ports:
+  - port: 15003
+    name: http-old-discovery # mTLS or non-mTLS depending on auth setting
+  - port: 15005
+    name: https-discovery # always mTLS
+  - port: 15007
+    name: http-discovery # always plain-text
+  - port: 15010
+    name: grpc-xds # direct
+  - port: 15011
+    name: https-xds # mTLS
+  - port: 8080
+    name: http-legacy-discovery # direct
+  - port: 9093
+    name: http-monitoring
+  selector:
+    istio: pilot
+  type: LoadBalancer
+```
+
+Noticed that `type: LoadBalancer` at the end of the file.
+
+Similarly, you can modify istio-telemetry, istio-policy,
+istio-statsd-prom-bridge, zipkin to use load balancer.
+
+You can then follow the [helm installation
+process](/docs/setup/kubernetes/helm-install) to install istio.
+
+You can also manually change istio manifests to achieve the same. When following
+the [istio installation
+steps](/docs/setup/kubernetes/quick-start/#installation-steps), before applying
+the istio manifest, locate service definitions for the istio services in
+istio-demo.yaml (or istio-demo-auth.yaml), and add `type: LoadBalancer` for the
+istio services.
