@@ -25,35 +25,10 @@ service.
   $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
   ```
 
-  Save the following YAML snippet as `route-rule-reviews-jason-v2-v3.yaml`:
-
-  ```yaml
-  apiVersion: networking.istio.io/v1alpha3
-  kind: VirtualService
-  metadata:
-    name: reviews
-  spec:
-    hosts:
-      - reviews
-    http:
-    - match:
-      - headers:
-          cookie:
-            regex: "^(.*?;)?(user=jason)(;.*)?$"
-      route:
-      - destination:
-          host: reviews
-          subset: v2
-    - route:
-      - destination:
-          host: reviews
-          subset: v3
-  ```
-
   and then run the following command:
 
   ```command
-  $ istioctl replace -f route-rule-reviews-jason-v2-v3.yaml
+  $ istioctl replace -f @samples/bookinfo/routing/route-rule-reviews-jason-v2-v3.yaml.yaml@
   ```
 
 > If you have a conflicting rule that you set in previous tasks,
