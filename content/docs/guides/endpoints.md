@@ -87,7 +87,7 @@ Adding `"--http_port=8081"` in the ESP deployment arguments and expose the HTTP 
 1. After this, you will find access to `EXTERNAL_IP` no longer works because istio proxy only accept secure mesh connections.
 Accessing through Ingress works because Ingress does HTTP terminations.
 
-1. To secure the access at Ingress, following the [instructions](/docs/tasks/traffic-management/ingress/#add-a-secure-port-https-to-our-gateway).
+1. To secure the access at Ingress, follow the [instructions](/docs/tasks/traffic-management/secure-ingress/).
 
 1.  You can verify accessing the Endpoints service through secure Ingress:
 
