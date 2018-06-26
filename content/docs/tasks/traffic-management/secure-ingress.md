@@ -44,8 +44,8 @@ from the https://github.com/nicholasjackson/mtls-go-example repository.
 
 ## Configure a TLS ingress gateway
 
-In this subsection we configure an ingress gateway with the port 443 to handle HTTPS traffic. We create a secret
-with a certificate and a private key. Then we create a `Gateway` definition that contains a `server` on the port 443.
+In this subsection you configure an ingress gateway with the port 443 to handle HTTPS traffic. You create a secret
+with a certificate and a private key. Then you create a `Gateway` definition that contains a `server` on the port 443.
 
 1. Create a Kubernetes `Secret` to hold the server's certificate and private key. Use `kubectl` to create the secret
 `istio-ingressgateway-certs` in namespace `istio-system` . The Istio gateway will load the secret automatically.
@@ -235,7 +235,7 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
         `"""`
     ```
 
-    This time the server performed client authentication successfully and we received the pretty teapot drawing again.
+    This time the server performed client authentication successfully and you received the pretty teapot drawing again.
 
 ## Troubleshooting
 
