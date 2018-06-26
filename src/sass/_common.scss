@@ -7,11 +7,11 @@
 @import "modules/sidebar";
 @import "modules/toc";
 @import "modules/figure";
-@import "modules/faq";
-@import "modules/glossary";
-@import "modules/section-index";
 @import "modules/buttons";
 
+@import "layouts/faqlanding";
+@import "layouts/glossary";
+@import "layouts/section-index";
 @import "layouts/notfound";
 @import "layouts/blog";
 @import "layouts/community";
