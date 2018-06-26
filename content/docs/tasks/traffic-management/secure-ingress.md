@@ -235,7 +235,7 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
         `"""`
     ```
 
-    This time we get the pretty teapot drawing again.
+    This time the server performed client authentication successfully and we received the pretty teapot drawing again.
 
 ## Troubleshooting
 
