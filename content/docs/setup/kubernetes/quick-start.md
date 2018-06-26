@@ -24,26 +24,21 @@ enabled. You will also need
 ### Minikube
 
 To install Istio locally, install the latest version of
-[Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) (version 0.25.0 or later).
+[Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) (version 0.28.0 or later).
+
+Select a [VM driver](https://kubernetes.io/docs/tasks/tools/install-minikube/#install-a-hypervisor)
+and substitute the below `your_vm_driver_choice` with the installed VM driver.
 
 For kubernetes 1.9
 
 ```command
-$ minikube start \
-    --extra-config=controller-manager.ClusterSigningCertFile="/var/lib/localkube/certs/ca.crt" \
-    --extra-config=controller-manager.ClusterSigningKeyFile="/var/lib/localkube/certs/ca.key" \
-    --extra-config=apiserver.Admission.PluginNames=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota \
-    --kubernetes-version=v1.9.0
+$ minikube start --memory=4096 --kubernetes-version=v1.9.4 --vm-driver=`your_vm_driver_choice`
 ```
 
 For kubernetes 1.10
 
 ```command
-$ minikube start \
-    --extra-config=controller-manager.cluster-signing-cert-file="/var/lib/localkube/certs/ca.crt" \
-    --extra-config=controller-manager.cluster-signing-key-file="/var/lib/localkube/certs/ca.key" \
-    --extra-config=apiserver.admission-control="NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota" \
-    --kubernetes-version=v1.10.0
+$ minikube start --memory=4096 --kubernetes-version=v1.10.0 --vm-driver=`your_vm_driver_choice`
 ```
 
 ### Google Kubernetes Engine
