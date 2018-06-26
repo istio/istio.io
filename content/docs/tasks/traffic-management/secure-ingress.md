@@ -64,7 +64,7 @@ with a certificate and a private key. Then we create a `Gateway` definition that
     [Role-Based Access Control (RBAC)](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) rules to protect
     it.
 
-1.  Define a `Gateway` with a server section for the port 443.
+1.  Define a `Gateway` with a `server` section for the port 443.
 
     > The location of the certificate and the private key MUST be `/etc/istio/ingressgateway-certs`, or the gateway will fail to load them.
 
