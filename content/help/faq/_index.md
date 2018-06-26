@@ -6,6 +6,7 @@ type: faqlanding
 aliases:
   - /faq
   - /docs/welcome/faq.html
+  - /docs/reference/faq.html
 ---
 
 You've got questions? We've got answers!
