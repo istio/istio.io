@@ -14,7 +14,7 @@ Mutual TLS ingress traffic.
 ## Before you begin
 
 Perform the steps in the [Before you begin](/docs/tasks/traffic-management/ingress.md#before-you-begin) and [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports) sections of the
-[Control Ingress Traffic](/docs/tasks/traffic-management/ingress.md) task. After performing those steps you should have Istio and _httbin_ service deployed, and the environment variables `INGRESS_HOST`, `INGRESS_PORT` and `SECURE_INGRESS_PORT` set.
+[Control Ingress Traffic](/docs/tasks/traffic-management/ingress.md) task. After performing those steps you should have Istio and _httbin_ service deployed, and the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT` set.
 
 ## Generate client and server certificates and keys
 
@@ -236,7 +236,7 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
 
 ## Troubleshooting
 
-1.  Inspect the values of the `INGRESS_HOST`, `INGRESS_PORT` and `SECURE_INGRESS_PORT` environment variables. Make sure
+1.  Inspect the values of the `INGRESS_HOST` and `SECURE_INGRESS_PORT` environment variables. Make sure
 they have valid values, according to the output of the following command:
 
     ```command
