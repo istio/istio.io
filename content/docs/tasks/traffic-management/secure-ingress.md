@@ -7,13 +7,13 @@ keywords: [traffic-management,ingress]
 
 > Note: This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.7/docs/tasks/traffic-management/).
 
-The [Control Ingress Traffic](/docs/tasks/traffic-management/ingress.md) task describes how to configure an ingress
+The [Control Ingress Traffic](/docs/tasks/traffic-management/ingress) task describes how to configure an ingress
 gateway to enable TLS (non-mutual) traffic from outside the mesh into the mesh. This task extends that task to enable
 Mutual TLS ingress traffic.
 
 ## Before you begin
 
-Perform the steps in the [Before you begin](/docs/tasks/traffic-management/ingress.md#before-you-begin) and [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports) sections of the
+Perform the steps in the [Before you begin](/docs/tasks/traffic-management/ingress#before-you-begin) and [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress#determining-the-ingress-ip-and-ports) sections of the
 [Control Ingress Traffic](/docs/tasks/traffic-management/ingress.md) task. After performing those steps you should have Istio and _httpbin_ service deployed, and the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT` set.
 
 ## Generate client and server certificates and keys
