@@ -163,7 +163,8 @@ If you need to support [mutual TLS](https://en.wikipedia.org/wiki/Mutual_authent
 In this section you extend your gateway's definition from the previous section to support
 [mutual TLS](https://en.wikipedia.org/wiki/Mutual_authentication) between external clients and the gateway.
 
-1. Create a Kubernetes `Secret` to hold the [CA](https://en.wikipedia.org/wiki/Certificate_authority) certificate to verify the clients:
+1. Create a Kubernetes `Secret` to hold the [CA](https://en.wikipedia.org/wiki/Certificate_authority) certificate that
+the server will use to verify its clients:
 
     Create the secret `istio-ingressgateway-ca-certs` in namespace `istio-system` using `kubectl`. The Istio gateway
     will automatically load the secret.
