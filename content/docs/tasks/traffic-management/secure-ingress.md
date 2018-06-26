@@ -21,7 +21,6 @@ Perform the steps in the [Before you begin](/docs/tasks/traffic-management/ingre
 For this task you can use your favorite tool to generate certificates and keys. We used [a script](https://github.com/nicholasjackson/mtls-go-example/blob/master/generate.sh)
 from the https://github.com/nicholasjackson/mtls-go-example repository.
 
-
 1.  Clone the https://github.com/nicholasjackson/mtls-go-example repository:
 
     ```command
