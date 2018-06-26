@@ -117,11 +117,16 @@ with a certificate and a private key. Then you create a `Gateway` definition tha
         EOF
     ```
 
-1.  Access the _httpbin_ service by HTTPS, sending an HTTPS request by _curl_ to `SECURE_INGRESS_PORT`.
-Use `--resolve` flag to instruct `curl` to supply the [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) value
-"httpbin.example.com" when accessing the gateway IP over TLS. Use _curl_'s `--cacert` option to instruct `curl` to use your generated certificate to verify the server. Send the request
-to the _/status/418_ URL path, to get a nice visual clue that your _httpbin_ service was indeed accessed. The _httpbin_
-service will return the [418 I'm a Teapot](https://tools.ietf.org/html/rfc7168#section-2.3.3) code.
+1.  Access the _httpbin_ service with HTTPS by sending an `https` request using _curl_ to `SECURE_INGRESS_PORT`.
+
+    The `--resolve` flag is used to instruct _curl_ to supply the
+    [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) value "httpbin.example.com" when accessing the gateway IP
+      over TLS. The `--cacert` option instructs _curl_ to use your generated certificate to verify the server.
+
+    By sending the request to the `/status/418` URL path, you get a nice visual clue that your _httpbin_ service was
+    indeed accessed. The _httpbin_ service will return the
+    [418 I'm a Teapot](https://tools.ietf.org/html/rfc7168#section-2.3.3) code.
+
 
     ```command
     $ curl -v --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert 2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
