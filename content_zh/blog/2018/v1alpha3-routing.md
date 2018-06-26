@@ -8,7 +8,7 @@ weight: 88
 keywords: [traffic-management]
 ---
 
-到目前为止，Istio 提供了一个简单的API来进行流量管理，该API包括了四种资源：`RouteRule`，`DestinationPolicy`，`EgressRule` 和 （Kubernets 的）`Ingress`。借助此 API，用户可以轻松管理 Istio 服务网格中的流量。该 API 允许用户将请求路由到特定版本的服务，为弹性测试注入延迟和失败，添加超时和断路器等等，所有这些功能都不必更改应用程序本身的代码。
+到目前为止，Istio 提供了一个简单的API来进行流量管理，该API包括了四种资源：`RouteRule`，`DestinationPolicy`，`EgressRule` 和 （Kubernetes 的）`Ingress`。借助此 API，用户可以轻松管理 Istio 服务网格中的流量。该 API 允许用户将请求路由到特定版本的服务，为弹性测试注入延迟和失败，添加超时和断路器等等，所有这些功能都不必更改应用程序本身的代码。
 
 虽然目前 API 的功能已被证明是 Istio 非常引人注目的一部分，但用户的反馈也表明，这个 API 确实有一些缺点，尤其是在使用它来管理包含数千个服务的非常大的应用程序，以及使用 HTTP 以外的协议时。 此外，使用 Kubernetes Ingress 资源来配置外部流量的方式已被证明不能满足需求。
 
@@ -17,6 +17,7 @@ keywords: [traffic-management]
 为了证明该非兼容升级的必要性，v1alpha3 API 经历了漫长而艰苦的社区评估过程，以希望新的API能够大幅改进，并经得起时间考验。 在本文中，我们将介绍新的配置模型，并试图解释影响这次变化的一些动机和设计原则。
 
 ## 设计原则
+
 路由模型的重构过程中遵循了一些关键的设计原则：
 
 * 除支持声明式（意图）配置外，也支持显式指定模型依赖的基础设施。例如，除了配置入口网关（的功能特性）之外，负责实现 入口网关功能的组件（Controller）也可以在模型指定。
@@ -50,13 +51,14 @@ keywords: [traffic-management]
     >}}
 
 ### Gateway
+
 [Gateway](/docs/reference/config/istio.networking.v1alpha3/#Gateway) 用于为 HTTP / TCP 流量配置负载均衡器，并不管该负载均衡器将在哪里运行。 网格中可以存在任意数量的 Gateway，并且多个不同的 Gateway 实现可以共存。 实际上，通过在配置中指定一组工作负载（Pod）标签，可以将 Gateway 配置绑定到特定的工作负载，从而允许用户通过编写简单的 Gateway Controller 来重用现成的网络设备。
 
 对于入口流量管理，您可能会问： 为什么不直接使用 Kubernetes Ingress API ？ 原因是 Ingress API 无法表达 Istio 的路由需求。 Ingress 试图在不同的 HTTP 代理之间取一个公共的交集，因此只能支持最基本的 HTTP 路由，最终导致需要将代理的其他高级功能放入到注解（annotation）中，而注解的方式在多个代理之间是不兼容的，无法移植。
 
 Istio `Gateway` 通过将L4-L6配置与L7配置分离的方式克服了 `Ingress` 的这些缺点。 `Gateway` 只用于配置L4-L6功能（例如，对外公开的端口，TLS 配置），所有主流的L7代理均以统一的方式实现了这些功能。 然后，通过在 `Gateway` 上绑定 `VirtualService` 的方式，可以使用标准的 Istio 规则来控制进入 `Gateway` 的 HTTP 和 TCP 流量。
 
-例如，下面这个简单的 `Gateway` 配置了一个 Load Balancer，以允许访问 host bookinfo.com 的 https 外部流量进入网格中：
+例如，下面这个简单的 `Gateway` 配置了一个 Load Balancer，以允许访问 host `bookinfo.com` 的 https 外部流量进入网格中：
 
 ```yaml
 apiVersion: networking.istio.io/v1alpha3
@@ -98,11 +100,12 @@ spec:
 Gateway 可以用于建模边缘代理或纯粹的内部代理，如第一张图所示。 无论在哪个位置，所有网关都可以用相同的方式进行配置和控制。
 
 ### VirtualService
+
 用一种叫做 “Virtual services” 的东西代替路由规则可能看起来有点奇怪，但对于它配置的内容而言，这事实上是一个更好的名称，特别是在重新设计 API 以解决先前模型的可扩展性问题之后。
 
 实际上，发生的变化是：在之前的模型中，需要用一组相互独立的配置规则来为特定的目的服务设置路由规则，并通过 precedence 字段来控制这些规则的顺序；在新的 API 中，则直接对（虚拟）服务进行配置，该虚拟服务的所有规则以一个有序列表的方式配置在对应的 [VirtualService](/docs/reference/config/istio.networking.v1alpha3/#VirtualService) 资源中。
 
-例如，之前在 [Bookinfo](/docs/guides/bookinfo/) 应用程序的 reviews 服务中有两个 RouteRule 资源，如下所示：
+例如，之前在 [Bookinfo](/docs/guides/bookinfo/) 应用程序的 reviews 服务中有两个 `RouteRule` 资源，如下所示：
 
 ```yaml
 apiVersion: config.istio.io/v1alpha2
@@ -164,8 +167,8 @@ spec:
 首先，请注意 `VirtualService` 的目标服务是使用 `hosts` 字段（实际上是重复字段）指定的，然后再在每个路由的 `destination` 字段中指定。 这是与以前模型的重要区别。
 
 `VirtualService` 描述了一个或多个用户可寻址目标到网格内实际工作负载之间的映射。在上面的示例中，这两个地址是相同的，但实际上用户可寻址目标可以是任何用于定位服务的，具有可选通配符前缀或 CIDR 前缀的 DNS 名称。
-这对于应用从单体架构到微服务架构的迁移过程特别有用，单体应用被拆分为多个独立的微服务后，采用 VirtaulService 可以继续把多个微服务对外暴露为同一个目标地址，而不需要服务消费者进行修改以适应该变化。 
- 
+这对于应用从单体架构到微服务架构的迁移过程特别有用，单体应用被拆分为多个独立的微服务后，采用 VirtualService 可以继续把多个微服务对外暴露为同一个目标地址，而不需要服务消费者进行修改以适应该变化。
+
 例如，以下规则允许服务消费者访问 Bookinfo 应用程序的 reviews 和 ratings 服务，就好像它们是 `http://bookinfo.com/`（虚拟）服务的一部分：
 
 ```yaml
@@ -199,7 +202,7 @@ spec:
 
 1. 每个服务版本都有一个名称（称为服务子集）。 属于某个子集的一组 Pod/VM 在 `DestinationRule` 定义，具体定义参见下节。
 
-1. 通过使用带通配符前缀的 DNS 来指定 `VirtualService` 的 host，可以创建单个规则以作用于所有匹配的服务。 例如，在 Kubernetes 中，在 'VirtualService' 中使用 *.foo.svc.cluster.local 作为 host ,可以对 `foo` 命名空间中的所有服务应用相同的重写规则。
+1. 通过使用带通配符前缀的 DNS 来指定 `VirtualService` 的 host，可以创建单个规则以作用于所有匹配的服务。 例如，在 Kubernetes 中，在 'VirtualService' 中使用 `*.foo.svc.cluster.local` 作为 host ,可以对 `foo` 命名空间中的所有服务应用相同的重写规则。
 
 ### DestinationRule
 
@@ -280,6 +283,7 @@ spec:
 1. 此外，我们正在努力解决另一个难题：目前需要通过纯文本端口访问安全的外部服务（例如 `http://google.com:443`）。该问题将会在未来几周内得到解决，届时将允许从应用程序直接访问 `https://google.com`。请继续关注解决此限制的 Istio 补丁版本（0.8.x）。
 
 ## 创建和删除 v1alpha3 路由规则
+
 由于一个特定目的地的所有路由规则现在都存储在单个 `VirtualService` 资源的一个有序列表中，因此为该目的地添加新的规则不需要再创建新的 `RouteRule`，而是通过更新该目的地的 `VirtualService` 资源来实现。
 
 旧的路由规则：
@@ -293,12 +297,14 @@ $ istioctl replace -f my-updated-rules-for-destination-abc.yaml
 
 删除路由规则也使用 istioctl replace 完成，当然删除最后一个路由规则除外（删除最后一个路由规则需要删除 `VirtualService`）。
 
-在添加或删除引用服务版本的路由时，需要在该服务相应的 `DestinationRule` 更新 subsets 。 正如你可能猜到的，这也是使用` istioctl replace` 完成的。
+在添加或删除引用服务版本的路由时，需要在该服务相应的 `DestinationRule` 更新 subsets 。 正如你可能猜到的，这也是使用 `istioctl replace` 完成的。
 
 ## 总结
+
 Istio `v1alpha3` 路由 API 具有比其前身更多的功能，但不幸的是新的 API 并不向后兼容，旧的模型升级需要一次手动转换。 Istio 0.9以后将不再支持 `RouteRule`，`DesintationPolicy` 和 `EgressRule` 这些以前的配置资源 。Kubernetes 用户可以继续使用 `Ingress` 配置边缘负载均衡器来实现基本的路由。 但是，高级路由功能（例如，跨两个版本的流量分割）则需要使 `用Gateway` ，这是一种功能更强大，Istio 推荐的 `Ingress` 替代品。
 
 ## 致谢
+
 感谢以下人员为新版本的路由模型重构和实现工作做出的贡献（按字母顺序）
 
 * Frank Budinsky (IBM)
