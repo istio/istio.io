@@ -178,7 +178,8 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
 1.  Redefine your previous `Gateway` while changing the `tls` `mode` to `MUTUAL` and specifying `caCertificates`:
 
     > The location of the certificate MUST be `/etc/istio/ingressgateway-ca-certs`, or the gateway
-    will fail to load them.
+    will fail to load them. The file name of the certificate must be identical to the filename you create the secret
+    from, in this case `ca-chain.cert.pem`.
 
     ```bash
         cat <<EOF | istioctl replace -f -
