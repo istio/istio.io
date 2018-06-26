@@ -24,6 +24,10 @@ recommended.
 
 1. [Install the Helm client](https://docs.helm.sh/using_helm/#installing-helm).
 
+1. Istio by default uses LoadBalancer service object types.  Some platforms do not support LoadBalancer
+   service objects.  For platforms lacking LoadBalancer support, install Istio with NodePort support
+   instead with the flags `--set ingress.service.type=NodePort ingressgateway.service.type=NodePort egressgateway.service.type=NodePort` appended to the end of the helm operation.
+
 ## Option 1: Install with Helm via `helm template`
 
 1. Render Istio's core components to a Kubernetes manifest called `istio.yaml`:

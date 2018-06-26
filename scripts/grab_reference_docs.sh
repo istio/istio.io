@@ -11,6 +11,10 @@
 
 #set -e
 
+ISTIO_BRANCH=master
+
+#####################
+
 ISTIO_BASE=$(cd "$(dirname "$0")" ; pwd -P)/..
 export GOPATH=$(mktemp -d)
 WORK_DIR=${GOPATH}/src/istio.io
@@ -20,7 +24,13 @@ COMMAND_DIR=$ISTIO_BASE/content/docs/reference/commands
 mkdir -p ${WORK_DIR}
 pushd $WORK_DIR
 git clone https://github.com/istio/api.git
+cd api
+git checkout $ISTIO_BRANCH
+cd ..
 git clone https://github.com/istio/istio.git
+cd istio
+git checkout $ISTIO_BRANCH
+cd ..
 popd
 
 # Given the name of a .pb.html file, extracts the $location marker and then proceeds to
@@ -73,7 +83,6 @@ do
     locate_file $f
 done
 
-# get_command_doc $WORK_DIR/istio/broker/cmd/brks brks
 get_command_doc $WORK_DIR/istio/mixer/cmd/mixc mixc
 get_command_doc $WORK_DIR/istio/mixer/cmd/mixs mixs
 get_command_doc $WORK_DIR/istio/istioctl/cmd/istioctl istioctl
@@ -83,5 +92,8 @@ get_command_doc $WORK_DIR/istio/pilot/cmd/sidecar-injector sidecar-injector
 get_command_doc $WORK_DIR/istio/security/cmd/istio_ca istio_ca
 get_command_doc $WORK_DIR/istio/security/cmd/node_agent node_agent
 get_command_doc $WORK_DIR/istio/galley/cmd/gals gals
+
+# Copy all the example files over into the examples directory
+# cp $WORK_DIR/istio/Makefile examples/Makefile
 
 rm -fr $WORK_DIR

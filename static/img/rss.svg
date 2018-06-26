@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg"
-     viewBox="0 0 8 8" width="256" height="256">
-
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 8">
   <style type="text/css">
     .button {stroke: none; fill: #466BB0;}
     .symbol {stroke: none; fill: white;}

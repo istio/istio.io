@@ -27,6 +27,7 @@ ACLs
 ANDed
 API
 APIs
+alt
 Ansible
 AppOptics
 args.yaml
@@ -102,6 +103,7 @@ Kubernetes
 L3-4
 L4-L6
 LabelDescription
+LoadBalancer
 LoadBalancers
 LoadBalancing.svg
 Lyft
