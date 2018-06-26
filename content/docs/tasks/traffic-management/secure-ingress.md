@@ -91,7 +91,7 @@ with a certificate and a private key. Then we create a `Gateway` definition that
         EOF
     ```
 
-1.  Configure routes for traffic entering via the `Gateway`. Define a `VirtualService` to route the traffic entering via `Gateway` (it is the `VirtualService` as in the [Control Ingress Traffic](/docs/tasks/traffic-management/ingress/#configuring-ingress-using-an-istio-gateway) task:
+1.  Configure routes for traffic entering via the `Gateway`. Define the same `VirtualService` as in the [Control Ingress Traffic](/docs/tasks/traffic-management/ingress/#configuring-ingress-using-an-istio-gateway) task:
 
     ```bash
         cat <<EOF | istioctl create -f -
