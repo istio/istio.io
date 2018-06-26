@@ -147,8 +147,8 @@ service will return the [418 I'm a Teapot](https://tools.ietf.org/html/rfc7168#s
     ```
 
     > It may take time for the gateway definition to propagate and you may get the following error:
-    `Failed to connect to httpbin.example.com port <your secure port>: Connection refused`. Wait for a minute and retry
-    the `curl` call again.
+    > `Failed to connect to httpbin.example.com port <your secure port>: Connection refused`. Wait for a minute and
+    > retry the `curl` call again.
 
     Look for the _Server certificate_ section in the output of `curl`, note the line about matching the _common name_:
     `common name: httpbin.example.com (matched)`. According to the line `SSL certificate verify ok` in the output of
