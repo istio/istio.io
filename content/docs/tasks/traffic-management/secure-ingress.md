@@ -59,10 +59,10 @@ with a certificate and a private key. Then we create a `Gateway` definition that
     secret "istio-ingressgateway-certs" created
     ```
 
-    Note that by default all service accounts in the `istio-system` namespace can access this ingress key/cert,
-    which risks leaking the key/cert. You can change the
+    Note that by default all the service accounts in the `istio-system` namespace can access this secret, so the private
+    key can be leaked. You can change the
     [Role-Based Access Control (RBAC)](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) rules to protect
-    them.
+    it.
 
 1.  Define a `Gateway` with a server section for the port 443.
 
