@@ -43,7 +43,7 @@ from the https://github.com/nicholasjackson/mtls-go-example repository.
     The command will generate four directories: `1_root`, `2_intermediate`, `3_application` and `4_client` with client
     and server certificates you will use.
 
-### Configure a TLS ingress gateway
+## Configure a TLS ingress gateway
 
 In this subsection we configure an ingress gateway with the port 443 to handle the HTTPS traffic. We create a secret
 with a certificate and a private key. Then we create a `Gateway` definition that contains a server on the port 443.
@@ -58,6 +58,7 @@ with a certificate and a private key. Then we create a `Gateway` definition that
 
     ```command
     $ kubectl create -n istio-system secret tls istio-ingressgateway-certs --key 3_application/private/httpbin.example.com.key.pem --cert 3_application/certs/httpbin.example.com.cert.pem
+    secret "istio-ingressgateway-certs" created
     ```
 
     Note that by default all service accounts in the `istio-system` namespace can access this ingress key/cert,
@@ -163,21 +164,132 @@ service will return the [418 I'm a Teapot](https://tools.ietf.org/html/rfc7168#s
     `curl`, you can be sure that the server's certificate was verified successfully. Note the returned status of 418 and
     a nice drawing of a teapot.
 
+If you need to support [mutual TLS](https://en.wikipedia.org/wiki/Mutual_authentication) proceed to the next section.
 
-### Cleanup the TLS gateway
+## Configure a mutual TLS ingress gateway
 
-Delete the `Gateway` configuration, the `VirtualService` and the secret:
+In this section you extend your gateway's definition from the previous section to support
+[mutual TLS](https://en.wikipedia.org/wiki/Mutual_authentication) between external clients and the gateway.
 
-```command
-$ istioctl delete gateway httpbin-gateway
-$ istioctl delete virtualservice httpbin
-$ kubectl delete --ignore-not-found=true -n istio-system secret istio-ingressgateway-certs
-```
+1. Create a Kubernetes `Secret` to hold the [CA](https://en.wikipedia.org/wiki/Certificate_authority) certificate to verify the clients:
 
+    Create the secret `istio-ingressgateway-ca-certs` in namespace `istio-system` using `kubectl`. The Istio gateway
+    will automatically load the secret.
+
+    > The secret MUST be called `istio-ingressgateway-ca-certs` in the `istio-system` namespace, or it will not
+    > be mounted and available to the Istio gateway.
+
+    ```command
+    $ kubectl create -n istio-system secret generic istio-ingressgateway-ca-certs --from-file=2_intermediate/certs/ca-chain.cert.pem
+    secret "istio-ingressgateway-ca-certs" created
+    ```
+
+1.  Redefine your previous `Gateway` while changing the `tls` `mode` to `MUTUAL` and specifying `caCertificates`:
+
+    > The location of the certificate and the private key MUST be `/etc/istio/ingressgateway-ca-certs`, or the gateway
+    will fail to load them.
+
+    ```bash
+        cat <<EOF | istioctl replace -f -
+        apiVersion: networking.istio.io/v1alpha3
+        kind: Gateway
+        metadata:
+          name: httpbin-gateway
+        spec:
+          selector:
+            istio: ingressgateway # use istio default ingress gateway
+          servers:
+          - port:
+              number: 80
+              name: http
+              protocol: HTTP
+            hosts:
+            - "httpbin.example.com"
+          - port:
+              number: 443
+              name: https
+              protocol: HTTPS
+            tls:
+              mode: MUTUAL
+              serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+              privateKey: /etc/istio/ingressgateway-certs/tls.key
+              caCertificates: /etc/istio/ingressgateway-ca-certs/ca-chain.cert.pem
+            hosts:
+            - "httpbin.example.com"
+        EOF
+    ```
+
+1.  Access the _httpbin_ service by HTTPS as in the previous section:
+
+    ```command
+    $ curl --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST  --cacert 2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+    curl: (35) error:14094410:SSL routines:SSL3_READ_BYTES:sslv3 alert handshake failure
+    ```
+
+    This time you get an error since the server refuses to accept unauthenticated requests. You have to send a client
+    certificate and pass `curl` your private key for signing the request.
+
+1.  Resend the previous request by `curl`, this time passing as parameters your client certificate (the `--cert` option)
+ and your private key (the `--key` option):
+
+    ```command
+    $ curl --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST  --cacert 2_intermediate/certs/ca-chain.cert.pem --cert 4_client/certs/httpbin.example.com.cert.pem --key 4_client/private/httpbin.example.com.key.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+
+    -=[ teapot ]=-
+
+       _...._
+     .'  _ _ `.
+    | ."` ^ `". _,
+    \_;`"---"`|//
+      |       ;/
+      \_     _/
+        `"""`
+    ```
+
+    This time we get the pretty teapot drawing again.
+
+## Troubleshooting
+
+1.  Inspect the values of the `INGRESS_HOST`, `INGRESS_PORT` and `SECURE_INGRESS_PORT` environment variables. Make sure
+they have valid values, according to the output of the following command:
+
+    ```command
+    $ kubectl get svc -n istio-system
+    ```
+
+2.  Verify that the key and the certificate are successfully loaded in the `istio-ingressgateway` pod:
+
+    ```command
+    $ kubectl exec -it -n istio-system $(kubectl -n istio-system get pods -l istio=ingressgateway -o jsonpath='{.items[0].metadata.name}') -- ls -al /etc/istio/ingressgateway-certs
+    ```
+
+    `tls.crt` and `tls.key` should exist in the directory contents.
+
+3.  Check the log of `istio-ingressgateway` for error messages:
+
+    ```command
+    $ kubectl logs -n istio-system -l istio=ingressgateway
+    ```
+
+4.  For mutual TLS, verify that the CA certificate is loaded in the `istio-ingressgateway` pod:
+
+    ```command
+    $ kubectl exec -it -n istio-system $(kubectl -n istio-system get pods -l istio=ingressgateway -o jsonpath='{.items[0].metadata.name}') -- ls -al /etc/istio/ingressgateway-ca-certs
+    ```
+
+    `ca-chain.cert.pem` should exist in the directory contents.
 ## Cleanup
 
-Shutdown the [httpbin](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/httpbin) service:
+1.  Delete the `Gateway` configuration, the `VirtualService` and the secrets:
 
-```command
-$ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
-```
+    ```command
+    $ istioctl delete gateway httpbin-gateway
+    $ istioctl delete virtualservice httpbin
+    $ kubectl delete --ignore-not-found=true -n istio-system secret istio-ingressgateway-certs istio-ingressgateway-ca-certs
+    ```
+
+2.  Shutdown the [httpbin](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/httpbin) service:
+
+    ```command
+    $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
+    ```
