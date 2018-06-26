@@ -28,7 +28,6 @@ recommended.
    service objects.  For platforms lacking LoadBalancer support, install Istio with NodePort support
    instead with the flags `--set ingress.service.type=NodePort ingressgateway.service.type=NodePort egressgateway.service.type=NodePort` appended to the end of the helm operation.
 
-
 ## Option 1: Install with Helm via `helm template`
 
 1. Render Istio's core components to a Kubernetes manifest called `istio.yaml`:
