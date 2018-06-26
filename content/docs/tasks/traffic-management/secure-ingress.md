@@ -267,6 +267,7 @@ they have valid values, according to the output of the following commands:
     ```
 
     `ca-chain.cert.pem` should exist in the directory contents.
+
 ## Cleanup
 
 1.  Delete the `Gateway` configuration, the `VirtualService` and the secrets:
