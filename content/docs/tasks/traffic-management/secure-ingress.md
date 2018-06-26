@@ -212,6 +212,9 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
     curl: (35) error:14094410:SSL routines:SSL3_READ_BYTES:sslv3 alert handshake failure
     ```
 
+    > It may take time for the gateway definition to propagate and you may still get _418_. Wait for a minute and retry
+    the `curl` call again.
+
     This time you get an error since the server refuses to accept unauthenticated requests. You have to send a client
     certificate and pass `curl` your private key for signing the request.
 
