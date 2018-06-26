@@ -147,7 +147,7 @@ service will return the [418 I'm a Teapot](https://tools.ietf.org/html/rfc7168#s
         `"""`
     ```
 
-    > Note that it may take time for the new gateway definition to propagate and you may get the following error:
+    > It may take time for the gateway definition to propagate and you may get the following error:
     `Failed to connect to httpbin.example.com port <your secure port>: Connection refused`. Wait for a minute and retry
     the `curl` call again.
 
