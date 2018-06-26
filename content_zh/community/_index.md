@@ -12,7 +12,7 @@ Istio是一个开源项目，拥有支持其使用和持续开发的活跃社区
   <tbody>
 
     <tr>
-      <td class="logo"><img src="/img/mailing-list.svg" alt="Mailing Lists"/></td>
+      <td class="logo">{{< inline_image "community/mailing-list.svg" >}}</td>
       <td class="desc">
         加入 <a href="https://groups.google.com/forum/#!forum/istio-users">istio-users@</a> 邮件列表参与讨论，获取排除故障的帮助。
         加入 <a href="https://groups.google.com/forum/#!forum/istio-announce">istio-announce@</a> 了解最新发布、活动和其他事情。
@@ -21,21 +21,21 @@ Istio是一个开源项目，拥有支持其使用和持续开发的活跃社区
     </tr>
 
     <tr>
-      <td class="logo"><img src="/img/twitter.svg" alt="Twitter"/></td>
+      <td class="logo">{{< inline_image "community/twitter.svg" >}}</td>
       <td class="desc">
         关注我们的<a href="https://twitter.com/IstioMesh">Twitter</a>来获最新信息。
       </td>
     </tr>
 
     <tr>
-      <td class="logo"><img src="/img/stackoverflow.svg" alt="Stack Overflow"/></td>
+      <td class="logo">{{< inline_image "community/stackoverflow.svg" >}}</td>
       <td class="desc">
         <a href="https://stackoverflow.com/questions/tagged/istio">Stack Overflow</a>中列举了针对实际问题以及部署、配置和使用Istio的各项回答。
       </td>
     </tr>
 
     <tr>
-      <td class="logo"><img src="/img/rocket-chat.svg" alt="Rocket Chat"/></td>
+      <td class="logo">{{< inline_image "community/rocket-chat.svg" >}}</td>
       <td class="desc">
         在<a href="https://istio.rocket.chat">Rocket Chat</a>中与社区中的成员交流。
       </td>
@@ -49,7 +49,7 @@ Istio是一个开源项目，拥有支持其使用和持续开发的活跃社区
     </tr>
 
     <tr>
-      <td class="logo"><img src="/img/drive.png" alt="Team Drive"/></td>
+      <td class="logo">{{< inline_image "community/drive.svg" >}}</td>
       <td class="desc">
         如果您想深入了解Istio的细节，请查看我们日益增加完善的设计文档。要访问这些文档，值需要加入
         <a href="https://groups.google.com/forum/#!forum/istio-team-drive-access">istio-team-drive-access@</a>邮件列表。
@@ -59,7 +59,7 @@ Istio是一个开源项目，拥有支持其使用和持续开发的活跃社区
     </tr>
 
     <tr>
-      <td class="logo"><img src="/img/group.svg" alt="Working Groups"/></td>
+      <td class="logo">{{< inline_image "community/group.svg" >}}</td>
       <td class="desc">
         如果您想为Istio项目做出贡献，请考虑加入我们的
         <a href="https://github.com/istio/community/blob/master/WORKING-GROUPS.md">工作组</a>。

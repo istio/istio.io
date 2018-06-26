@@ -13,7 +13,7 @@ There are quite a few ways to get plugged in with the Istio community:
   <tbody>
 
     <tr>
-      <td class="logo"><img src="/img/mailing-list.svg" alt="Mailing Lists"/></td>
+      <td class="logo">{{< inline_image "community/mailing-list.svg" >}}</td>
       <td class="desc">
         Join the <a href="https://groups.google.com/forum/#!forum/istio-users">istio-users@</a> mailing list to participate in
          discussions
@@ -26,14 +26,14 @@ There are quite a few ways to get plugged in with the Istio community:
     </tr>
 
     <tr>
-      <td class="logo"><img src="/img/twitter.svg" alt="Twitter"/></td>
+      <td class="logo">{{< inline_image "community/twitter.svg" >}}</td>
       <td class="desc">
         Follow us on <a href="https://twitter.com/IstioMesh">Twitter</a> to get the latest news.
       </td>
     </tr>
 
     <tr>
-      <td class="logo"><img src="/img/stackoverflow.svg" alt="Stack Overflow"/></td>
+      <td class="logo">{{< inline_image "community/stackoverflow.svg" >}}</td>
       <td class="desc">
         <a href="https://stackoverflow.com/questions/tagged/istio">Stack Overflow</a> is for practical questions and curated answers
         on deploying, configuring, and using Istio.
@@ -41,7 +41,7 @@ There are quite a few ways to get plugged in with the Istio community:
     </tr>
 
     <tr>
-      <td class="logo"><img src="/img/rocket-chat.svg" alt="Rocket Chat"/></td>
+      <td class="logo">{{< inline_image "community/rocket-chat.svg" >}}</td>
       <td class="desc">
         Chat with members of the Istio community on <a href="https://istio.rocket.chat">Rocket Chat</a>.
       </td>
@@ -55,7 +55,7 @@ There are quite a few ways to get plugged in with the Istio community:
     </tr>
 
     <tr>
-      <td class="logo"><img src="/img/drive.png" alt="Team Drive"/></td>
+      <td class="logo">{{< inline_image "community/drive.svg" >}}</td>
       <td class="desc">
         If you want to get into the nuts and bolts of Istio, check out our growing collection
         of design documents. To access these, simply join the
@@ -66,7 +66,7 @@ There are quite a few ways to get plugged in with the Istio community:
     </tr>
 
     <tr>
-      <td class="logo"><img src="/img/group.svg" alt="Working Groups"/></td>
+      <td class="logo">{{< inline_image "community/group.svg" >}}</td>
       <td class="desc">
         If you'd like to contribute to the Istio project, consider participating in our
         <a href="https://github.com/istio/community/blob/master/WORKING-GROUPS.md">working groups</a>.
