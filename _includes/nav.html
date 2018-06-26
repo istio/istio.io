@@ -48,18 +48,21 @@
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                          {% for rel in site.data.releases %}
-                              <li><a href="{{rel.url}}/">
-                                  {% if site.data.istio.version == rel.name %}
-                                      <i class='fa fa-check'></i>
-                                  {% else %}
-                                      <i style="visibility: hidden;" class='fa fa-check'></i>
-                                  {% endif %}
+                        <h6 class="dropdown-header">Other versions of this site</h6>
 
-                                  {{rel.name}}
-                              </a></li>
-                          {% endfor %}
-                      </ul>
+                        {% assign next = site.data.releases[0] %}
+                        {% assign current = site.data.releases[1] %}
+
+                        <li>
+                            <a href="https://istio.io">Current Release ({{current.name}})</a>
+                        </li>
+                        <li>
+                            <a href="https://preliminary.istio.io">Next Release (Preliminary {{next.name}})</a>
+                        </li>
+                        <li>
+                            <a href="https://archive.istio.io">Older Releases</a>
+                        </li>
+                    </ul>
                   </li>
               {% endif %}
 
