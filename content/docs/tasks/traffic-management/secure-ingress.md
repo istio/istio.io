@@ -246,7 +246,7 @@ they have valid values, according to the output of the following commands:
     $ echo INGRESS_HOST=$INGRESS_HOST, SECURE_INGRESS_PORT=$SECURE_INGRESS_PORT
     ```
 
-2.  Verify that the key and the certificate are successfully loaded in the `istio-ingressgateway` pod:
+1.  Verify that the key and the certificate are successfully loaded in the `istio-ingressgateway` pod:
 
     ```command
     $ kubectl exec -it -n istio-system $(kubectl -n istio-system get pods -l istio=ingressgateway -o jsonpath='{.items[0].metadata.name}') -- ls -al /etc/istio/ingressgateway-certs
@@ -254,13 +254,13 @@ they have valid values, according to the output of the following commands:
 
     `tls.crt` and `tls.key` should exist in the directory contents.
 
-3.  Check the log of `istio-ingressgateway` for error messages:
+1.  Check the log of `istio-ingressgateway` for error messages:
 
     ```command
     $ kubectl logs -n istio-system -l istio=ingressgateway
     ```
 
-4.  For mutual TLS, verify that the CA certificate is loaded in the `istio-ingressgateway` pod:
+1.  For mutual TLS, verify that the CA certificate is loaded in the `istio-ingressgateway` pod:
 
     ```command
     $ kubectl exec -it -n istio-system $(kubectl -n istio-system get pods -l istio=ingressgateway -o jsonpath='{.items[0].metadata.name}') -- ls -al /etc/istio/ingressgateway-ca-certs
@@ -277,7 +277,7 @@ they have valid values, according to the output of the following commands:
     $ kubectl delete --ignore-not-found=true -n istio-system secret istio-ingressgateway-certs istio-ingressgateway-ca-certs
     ```
 
-2.  Shutdown the [httpbin](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/httpbin) service:
+1.  Shutdown the [httpbin](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/httpbin) service:
 
     ```command
     $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
