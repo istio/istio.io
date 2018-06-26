@@ -36,7 +36,7 @@ from the https://github.com/nicholasjackson/mtls-go-example repository.
 1.  Generate the certificates (use any password):
 
     ```command
-    generate.sh httpbin.example.com <password>
+    $ generate.sh httpbin.example.com <password>
     ```
 
     The command will generate four directories: `1_root`, `2_intermediate`, `3_application` and `4_client` with client
