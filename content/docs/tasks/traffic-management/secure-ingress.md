@@ -46,7 +46,7 @@ from the https://github.com/nicholasjackson/mtls-go-example repository.
 ## Configure a TLS ingress gateway
 
 In this subsection we configure an ingress gateway with the port 443 to handle HTTPS traffic. We create a secret
-with a certificate and a private key. Then we create a `Gateway` definition that contains a server on the port 443.
+with a certificate and a private key. Then we create a `Gateway` definition that contains a `server` on the port 443.
 
 1. Create a Kubernetes `Secret` to hold the key/cert
 
