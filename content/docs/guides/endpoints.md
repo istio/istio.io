@@ -55,7 +55,7 @@ Otherwise, ESP won't be able to access Google cloud service control.
 You can verify accessing the Endpoints service through Ingress:
 
     ```command
-    $ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${INGRESS_HOST}:80/echo?key=${ENDPOINTS_KEY}"i
+    $ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${INGRESS_HOST}:${INGRESS_PORT}/echo?key=${ENDPOINTS_KEY}"i
     ```
 
 ## HTTPS Endpoints service using secured Ingress
