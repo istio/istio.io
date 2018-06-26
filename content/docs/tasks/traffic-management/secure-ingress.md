@@ -79,12 +79,6 @@ with a certificate and a private key. Then we create a `Gateway` definition that
             istio: ingressgateway # use istio default ingress gateway
           servers:
           - port:
-              number: 80
-              name: http
-              protocol: HTTP
-            hosts:
-            - "httpbin.example.com"
-          - port:
               number: 443
               name: https
               protocol: HTTPS
@@ -197,12 +191,6 @@ In this section you extend your gateway's definition from the previous section t
           selector:
             istio: ingressgateway # use istio default ingress gateway
           servers:
-          - port:
-              number: 80
-              name: http
-              protocol: HTTP
-            hosts:
-            - "httpbin.example.com"
           - port:
               number: 443
               name: https
