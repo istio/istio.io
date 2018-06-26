@@ -177,7 +177,7 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
 
 1.  Redefine your previous `Gateway` while changing the `tls` `mode` to `MUTUAL` and specifying `caCertificates`:
 
-    > The location of the certificate and the private key MUST be `/etc/istio/ingressgateway-ca-certs`, or the gateway
+    > The location of the certificate MUST be `/etc/istio/ingressgateway-ca-certs`, or the gateway
     will fail to load them.
 
     ```bash
