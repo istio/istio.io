@@ -77,11 +77,10 @@ Let's set up a scenario to demonstrate the circuit-breaking capabilities of Isti
           tcp:
             maxConnections: 1
         outlierDetection:
-          http:
-            baseEjectionTime: 180.000s
-            consecutiveErrors: 1
-            interval: 1.000s
-            maxEjectionPercent: 100
+          baseEjectionTime: 180.000s
+          consecutiveErrors: 1
+          interval: 1.000s
+          maxEjectionPercent: 100
     ```
 
 ### Setting up our client
@@ -219,10 +218,10 @@ Only 63.3% of the requests made it through and the rest were trapped by circuit 
 
 ```command
 $ kubectl exec -it $FORTIO_POD  -c istio-proxy  -- sh -c 'curl localhost:15000/stats' | grep httpbin | grep pending
-cluster.out.httpbin.springistio.svc.cluster.local|http|version=v1.upstream_rq_pending_active: 0
-cluster.out.httpbin.springistio.svc.cluster.local|http|version=v1.upstream_rq_pending_failure_eject: 0
-cluster.out.httpbin.springistio.svc.cluster.local|http|version=v1.upstream_rq_pending_overflow: 12
-cluster.out.httpbin.springistio.svc.cluster.local|http|version=v1.upstream_rq_pending_total: 39
+cluster.outbound|80||httpbin.springistio.svc.cluster.local.upstream_rq_pending_active: 0
+cluster.outbound|80||httpbin.springistio.svc.cluster.local.upstream_rq_pending_failure_eject: 0
+cluster.outbound|80||httpbin.springistio.svc.cluster.local.upstream_rq_pending_overflow: 12
+cluster.outbound|80||httpbin.springistio.svc.cluster.local.upstream_rq_pending_total: 39
 ```
 
 We see `12` for the `upstream_rq_pending_overflow` value which means `12` calls so far have been flagged for circuit breaking.
