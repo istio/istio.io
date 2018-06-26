@@ -237,10 +237,11 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
 ## Troubleshooting
 
 1.  Inspect the values of the `INGRESS_HOST` and `SECURE_INGRESS_PORT` environment variables. Make sure
-they have valid values, according to the output of the following command:
+they have valid values, according to the output of the following commands:
 
     ```command
     $ kubectl get svc -n istio-system
+    $ echo INGRESS_HOST=$INGRESS_HOST, SECURE_INGRESS_PORT=$SECURE_INGRESS_PORT
     ```
 
 2.  Verify that the key and the certificate are successfully loaded in the `istio-ingressgateway` pod:
