@@ -152,7 +152,7 @@ service will return the [418 I'm a Teapot](https://tools.ietf.org/html/rfc7168#s
     the `curl` call again.
 
     Look for the _Server certificate_ section in the output of `curl`, note the line about matching the _common name_:
-    `common name: httpbin.example.com (matched)`. According to the line _SSL certificate verify ok_ in the output of
+    `common name: httpbin.example.com (matched)`. According to the line `SSL certificate verify ok` in the output of
     `curl`, you can be sure that the server's certificate was verified successfully. Note the returned status of 418 and
     a nice drawing of a teapot.
 
