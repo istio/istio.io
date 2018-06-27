@@ -16,7 +16,7 @@ This task shows you how to configure dynamic request routing based on weights an
 * Setup Istio by following the instructions in the
 [Installation guide](/docs/setup/).
 
-* Deploy the [Bookinfo](/docs/guides/bookinfo/) sample application.
+* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
 ## Content-based routing
 
@@ -117,7 +117,7 @@ you'll need to use `replace` rather than `create` in the following command.
     to propagate to all pods before attempting to access the application.
 
 1.  Open the Bookinfo URL (`http://$GATEWAY_URL/productpage`) in your browser. Recall that `GATEWAY_URL`
-    should have been set using [these instructions](/docs/guides/bookinfo/#determining-the-ingress-ip-and-port)
+    should have been set using [these instructions](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)
     when the Bookinfo sample was deployed.
 
     You should see the Bookinfo application productpage displayed.
@@ -193,7 +193,7 @@ all users to v2, optionally in a gradual fashion. We'll explore this in a separa
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions
+  [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.
 
 ## What's next

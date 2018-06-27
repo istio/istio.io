@@ -16,7 +16,7 @@ This task shows how to inject delays and test the resiliency of your application
 * Setup Istio by following the instructions in the
   [Installation guide](/docs/setup/).
 
-* Deploy the [Bookinfo](/docs/guides/bookinfo/) sample application.
+* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
 *   Initialize the application version routing by either first doing the
     [request routing](/docs/tasks/traffic-management/request-routing/) task or by running following
@@ -166,5 +166,5 @@ message.
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions
+  [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.

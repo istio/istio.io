@@ -1,11 +1,13 @@
 ---
 title: Intelligent Routing
-description: This guide demonstrates how to use various traffic management capabilities of an Istio service mesh.
+description: Demonstrates how to use various traffic management capabilities of an Istio service mesh.
 weight: 20
 keywords: [traffic-management,routing]
+aliases:
+    - /docs/guides/intelligent-routing/index.html
 ---
 
-This guide demonstrates how to use various traffic management capabilities
+This example demonstrates how to use various traffic management capabilities
 of an Istio service mesh.
 
 ## Overview
@@ -15,7 +17,7 @@ to externally control service monitoring and tracing, request (version) routing,
 security and policy enforcement, etc., in a consistent way across the services,
 for the application as a whole.
 
-In this guide, we will use the [Bookinfo sample application](/docs/guides/bookinfo/)
+In this example, we will use the [Bookinfo sample application](/docs/examples/bookinfo/)
 to show how operators can dynamically configure request routing and fault injection
 for a running application.
 
@@ -25,7 +27,7 @@ for a running application.
   corresponding to your platform [installation guide](/docs/setup/).
 
 * Run the Bookinfo sample application by following the applicable
-  [application deployment instructions](/docs/guides/bookinfo/#deploying-the-application).
+  [application deployment instructions](/docs/examples/bookinfo/#deploying-the-application).
 
 ## Tasks
 
@@ -48,5 +50,5 @@ for a running application.
 
 When you're finished experimenting with the Bookinfo sample, you can
 uninstall it by following the
-[Bookinfo cleanup instructions](/docs/guides/bookinfo/#cleanup)
+[Bookinfo cleanup instructions](/docs/examples/bookinfo/#cleanup)
 corresponding to your environment.

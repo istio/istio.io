@@ -35,10 +35,10 @@ is the best fit for your content:
   </tr>
 
   <tr>
-    <td>Guides</td>
-    <td>A guide page describes a fully working stand-alone example highlighting a particular set of features. Guides
+    <td>Examples</td>
+    <td>An example page describes a fully working stand-alone example highlighting a particular set of features. Examples
     must have easy to follow setup and usage instructions so users can quickly run the sample
-    themselves and experiment with changing the sample to explore the system.
+    themselves and experiment with changing the example to explore the system.
     </td>
   </tr>
 
