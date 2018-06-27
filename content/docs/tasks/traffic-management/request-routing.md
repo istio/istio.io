@@ -173,6 +173,22 @@ on a header (i.e., a user cookie) in a request.
 Once the v2 version has been tested to our satisfaction, we could use Istio to send traffic from
 all users to v2, optionally in a gradual fashion. We'll explore this in a separate task.
 
+The `productpage` service is querying for the `reviews` service using a regular HTTP call (i.e.
+`http://reviews/`). That call is intercepted by the istio sidecar container, which applies
+corresponding rules.
+
+Note that the rules are only applied on the http ports of the services:
+
+```yaml
+kind: Service
+apiVersion: v1
+...
+spec:
+  ports:
+  - name: http
+    port: 8080
+```
+
 ## Cleanup
 
 *   Remove the application routing rules.
