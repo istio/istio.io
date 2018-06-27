@@ -226,23 +226,6 @@ http://localhost:8088/dotviz
 
 For more details, see [About the ServiceGraph Add-on](/docs/tasks/telemetry/servicegraph/#about-the-servicegraph-add-on).
 
-## Tracing
-
-Set up a tunnel to the tracing dashboard:
-
-```command
-$ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 16686:16686 &
-```
-
-You should see the trace statistics sent earlier on [http://localhost:16686](http://localhost:16686)
-
-{{< image width="100%" ratio="42.35%"
-    link="../img/dm-tracing.png"
-    caption="Tracing Dashboard"
-    >}}
-
-For more details on tracing see [Understanding what happened](/docs/tasks/telemetry/distributed-tracing/#understanding-what-happened).
-
 ## What's next
 
 You can further explore the Bookinfo app and Istio functionality by following any of the tutorials in the
