@@ -45,8 +45,10 @@
 
                 {{ if $needTOC }}
                     <nav class="toc-inlined d-xl-none d-print-none" {{ if .Params.force_inline_toc }}style="display:block!important" {{ end }}>
+                        <hr/>
                         <div class="directory" role="directory">
                             {{ replace $toc "TableOfContents" "InlinedTableOfContents" | safeHTML }}
                         </div>
+                        <hr/>
                     </nav>
                 {{ end }}
