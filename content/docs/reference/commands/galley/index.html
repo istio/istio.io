@@ -1,8 +1,8 @@
 ---
-title: gals
+title: galley
 description: Galley provides configuration management services for Istio.
 generator: pkg-collateral-docs
-number_of_entries: 7
+number_of_entries: 6
 ---
 <p>Galley provides configuration management services for Istio.</p>
 <table class="command-flags">
@@ -21,11 +21,11 @@ number_of_entries: 7
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, attributes, default, grpcAdapter]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, attributes, default, grpcAdapter, mcp, runtime]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter, mcp, runtime] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -45,11 +45,23 @@ number_of_entries: 7
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter, mcp, runtime] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--logcaller</code></td>
+<td>Logs filename and line number of callers to log </td>
+</tr>
+<tr>
+<td><code>--loglevel &lt;Level&gt;</code></td>
+<td>loglevel, one of [Debug Verbose Info Warning Error Critical Fatal]  (default `Info`)</td>
+</tr>
+<tr>
+<td><code>--logprefix &lt;string&gt;</code></td>
+<td>Prefix to log lines before logged messages  (default `> `)</td>
 </tr>
 <tr>
 <td><code>--resyncPeriod &lt;duration&gt;</code></td>
@@ -57,9 +69,9 @@ number_of_entries: 7
 </tr>
 </tbody>
 </table>
-<h2 id="gals-probe">gals probe</h2>
+<h2 id="galley-probe">galley probe</h2>
 <p>Check the liveness or readiness of a locally-running server</p>
-<pre class="language-bash"><code>gals probe [flags]
+<pre class="language-bash"><code>galley probe [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -81,11 +93,11 @@ number_of_entries: 7
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, attributes, default, grpcAdapter]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, attributes, default, grpcAdapter, mcp, runtime]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter, mcp, runtime] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -105,11 +117,23 @@ number_of_entries: 7
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter, mcp, runtime] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--logcaller</code></td>
+<td>Logs filename and line number of callers to log </td>
+</tr>
+<tr>
+<td><code>--loglevel &lt;Level&gt;</code></td>
+<td>loglevel, one of [Debug Verbose Info Warning Error Critical Fatal]  (default `Info`)</td>
+</tr>
+<tr>
+<td><code>--logprefix &lt;string&gt;</code></td>
+<td>Prefix to log lines before logged messages  (default `> `)</td>
 </tr>
 <tr>
 <td><code>--probe-path &lt;string&gt;</code></td>
@@ -121,65 +145,9 @@ number_of_entries: 7
 </tr>
 </tbody>
 </table>
-<h2 id="gals-purge">gals purge</h2>
-<p>Delete the internal configuration CRDs and resources.</p>
-<pre class="language-bash"><code>gals purge [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<th>Flags</th>
-<th>Description</th>
-</thead>
-<tbody>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td>Use a Kubernetes configuration file instead of in-cluster configuration  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_as_json</code></td>
-<td>Whether to format output as JSON or in plain console-friendly format </td>
-</tr>
-<tr>
-<td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, attributes, default, grpcAdapter]  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate &lt;string&gt;</code></td>
-<td>The path for the optional rotating log file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
-<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
-<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
-<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
-</tr>
-<tr>
-<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
-</tr>
-<tr>
-<td><code>--log_target &lt;stringArray&gt;</code></td>
-<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
-</tr>
-<tr>
-<td><code>--resyncPeriod &lt;duration&gt;</code></td>
-<td>Resync period for rescanning Kubernetes resources  (default `0s`)</td>
-</tr>
-</tbody>
-</table>
-<h2 id="gals-server">gals server</h2>
+<h2 id="galley-server">galley server</h2>
 <p>Starts Galley as a server</p>
-<pre class="language-bash"><code>gals server [flags]
+<pre class="language-bash"><code>galley server [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -188,8 +156,32 @@ number_of_entries: 7
 </thead>
 <tbody>
 <tr>
+<td><code>--address &lt;string&gt;</code></td>
+<td>Address to use for Galley&#39;s gRPC API, e.g. tcp://127.0.0.1:9092 or unix:///path/to/file  (default `tcp://127.0.0.1:9901`)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_address &lt;string&gt;</code></td>
+<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `127.0.0.1`)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_port &lt;uint16&gt;</code></td>
+<td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
+</tr>
+<tr>
+<td><code>--kubeConfig &lt;string&gt;</code></td>
+<td>Path to the Kube config file  (default ``)</td>
+</tr>
+<tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td>Use a Kubernetes configuration file instead of in-cluster configuration  (default ``)</td>
+</tr>
+<tr>
+<td><code>--livenessProbeInterval &lt;duration&gt;</code></td>
+<td>Interval of updating file for the liveness probe.  (default `0s`)</td>
+</tr>
+<tr>
+<td><code>--livenessProbePath &lt;string&gt;</code></td>
+<td>Path to the file for the liveness probe.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -197,11 +189,11 @@ number_of_entries: 7
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, attributes, default, grpcAdapter]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, attributes, default, grpcAdapter, mcp, runtime]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter, mcp, runtime] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -221,11 +213,39 @@ number_of_entries: 7
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter, mcp, runtime] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--logcaller</code></td>
+<td>Logs filename and line number of callers to log </td>
+</tr>
+<tr>
+<td><code>--loglevel &lt;Level&gt;</code></td>
+<td>loglevel, one of [Debug Verbose Info Warning Error Critical Fatal]  (default `Info`)</td>
+</tr>
+<tr>
+<td><code>--logprefix &lt;string&gt;</code></td>
+<td>Prefix to log lines before logged messages  (default `> `)</td>
+</tr>
+<tr>
+<td><code>--maxConcurrentStreams &lt;uint&gt;</code></td>
+<td>Maximum number of outstanding RPCs per connection  (default `1024`)</td>
+</tr>
+<tr>
+<td><code>--maxReceivedMessageSize &lt;uint&gt;</code></td>
+<td>Maximum size of individual gRPC messages  (default `1048576`)</td>
+</tr>
+<tr>
+<td><code>--readinessProbeInterval &lt;duration&gt;</code></td>
+<td>Interval of updating file for the readiness probe.  (default `0s`)</td>
+</tr>
+<tr>
+<td><code>--readinessProbePath &lt;string&gt;</code></td>
+<td>Path to the file for the readiness probe.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--resyncPeriod &lt;duration&gt;</code></td>
@@ -233,9 +253,9 @@ number_of_entries: 7
 </tr>
 </tbody>
 </table>
-<h2 id="gals-validator">gals validator</h2>
+<h2 id="galley-validator">galley validator</h2>
 <p>Runs an https server for Istio configuration validation. Uses k8s validating webhooks to validate Pilot and Mixer configuration.</p>
-<pre class="language-bash"><code>gals validator [flags]
+<pre class="language-bash"><code>galley validator [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -265,11 +285,11 @@ number_of_entries: 7
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, attributes, default, grpcAdapter]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, attributes, default, grpcAdapter, mcp, runtime]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter, mcp, runtime] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -289,11 +309,23 @@ number_of_entries: 7
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter, mcp, runtime] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--logcaller</code></td>
+<td>Logs filename and line number of callers to log </td>
+</tr>
+<tr>
+<td><code>--loglevel &lt;Level&gt;</code></td>
+<td>loglevel, one of [Debug Verbose Info Warning Error Critical Fatal]  (default `Info`)</td>
+</tr>
+<tr>
+<td><code>--logprefix &lt;string&gt;</code></td>
+<td>Prefix to log lines before logged messages  (default `> `)</td>
 </tr>
 <tr>
 <td><code>--mixer-webhook-name &lt;string&gt;</code></td>
@@ -325,9 +357,9 @@ number_of_entries: 7
 </tr>
 </tbody>
 </table>
-<h2 id="gals-version">gals version</h2>
+<h2 id="galley-version">galley version</h2>
 <p>Prints out build version information</p>
-<pre class="language-bash"><code>gals version [flags]
+<pre class="language-bash"><code>galley version [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -349,12 +381,12 @@ number_of_entries: 7
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, attributes, default, grpcAdapter]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, attributes, default, grpcAdapter, mcp, runtime]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter, mcp, runtime] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -379,12 +411,27 @@ number_of_entries: 7
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter, mcp, runtime] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
 <td></td>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--logcaller</code></td>
+<td></td>
+<td>Logs filename and line number of callers to log </td>
+</tr>
+<tr>
+<td><code>--loglevel &lt;Level&gt;</code></td>
+<td></td>
+<td>loglevel, one of [Debug Verbose Info Warning Error Critical Fatal]  (default `Info`)</td>
+</tr>
+<tr>
+<td><code>--logprefix &lt;string&gt;</code></td>
+<td></td>
+<td>Prefix to log lines before logged messages  (default `> `)</td>
 </tr>
 <tr>
 <td><code>--resyncPeriod &lt;duration&gt;</code></td>
