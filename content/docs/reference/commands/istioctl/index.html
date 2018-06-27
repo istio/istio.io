@@ -2,7 +2,7 @@
 title: istioctl
 description: Istio control interface
 generator: pkg-collateral-docs
-number_of_entries: 22
+number_of_entries: 26
 ---
 <p>
 Istio configuration command line utility.</p>
@@ -1491,16 +1491,98 @@ istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml --injectConf
 
 </code></pre>
 <h2 id="istioctl-proxy-config">istioctl proxy-config</h2>
-<p>
-Retrieves proxy configuration for the specified pod from the endpoint proxy or Pilot when running in Kubernetes.
-It is also able to retrieve the state of the entire mesh by using mesh instead of &lt;pod-name&gt;. This is only available when querying Pilot.</p>
-<p>Available configuration types:</p>
-<p>	Endpoint:
-	[clusters listeners routes bootstrap]</p>
-<p>	Pilot:
-	[ads eds]</p>
-<p></p>
-<pre class="language-bash"><code>istioctl proxy-config &lt;endpoint|pilot&gt; &lt;pod-name|mesh&gt; [&lt;configuration-type&gt;] [flags]
+<p>A group of commands used to retrieve information about proxy configuration from the Envoy config dump</p>
+<table class="command-flags">
+<thead>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format: one of json|short  (default `short`)</td>
+</tr>
+<tr>
+<td><code>--platform &lt;string&gt;</code></td>
+<td><code>-p</code></td>
+<td>Istio host platform  (default `kube`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-proxy-config Examples">Examples</h3>
+<pre class="language-bash"><code>  # Retrieve information about proxy configuration from an Envoy instance.
+  istioctl proxy-config &lt;clusters|listeners|routes|bootstap&gt; &lt;pod-name&gt;
+</code></pre>
+<h2 id="istioctl-proxy-config-bootstrap">istioctl proxy-config bootstrap</h2>
+<p>Retrieve information about bootstrap configuration for the Envoy instance in the specified pod.</p>
+<pre class="language-bash"><code>istioctl proxy-config bootstrap &lt;pod-name&gt; [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -1575,24 +1657,358 @@ It is also able to retrieve the state of the entire mesh by using mesh instead o
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format: one of json|short  (default `short`)</td>
+</tr>
+<tr>
 <td><code>--platform &lt;string&gt;</code></td>
 <td><code>-p</code></td>
 <td>Istio host platform  (default `kube`)</td>
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-proxy-config Examples">Examples</h3>
-<pre class="language-bash"><code># Retrieve all config for productpage-v1-bb8d5cbc7-k7qbm pod from the endpoint proxy
-istioctl proxy-config endpoint productpage-v1-bb8d5cbc7-k7qbm
+<h3 id="istioctl-proxy-config-bootstrap Examples">Examples</h3>
+<pre class="language-bash"><code>  # Retrieve full bootstrap configuration for a given pod from Envoy.
+  istioctl proxy-config bootstrap &lt;pod-name&gt;
 
-# Retrieve eds config for productpage-v1-bb8d5cbc7-k7qbm pod from Pilot
-istioctl proxy-config pilot productpage-v1-bb8d5cbc7-k7qbm eds
+</code></pre>
+<h2 id="istioctl-proxy-config-cluster">istioctl proxy-config cluster</h2>
+<p>Retrieve information about cluster configuration for the Envoy instance in the specified pod.</p>
+<pre class="language-bash"><code>istioctl proxy-config cluster &lt;pod-name&gt; [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--direction &lt;string&gt;</code></td>
+<td></td>
+<td>Filter clusters by Direction field  (default ``)</td>
+</tr>
+<tr>
+<td><code>--fqdn &lt;string&gt;</code></td>
+<td></td>
+<td>Filter clusters by substring of Service FQDN field  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format: one of json|short  (default `short`)</td>
+</tr>
+<tr>
+<td><code>--platform &lt;string&gt;</code></td>
+<td><code>-p</code></td>
+<td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--port &lt;int&gt;</code></td>
+<td></td>
+<td>Filter clusters by Port field  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--subset &lt;string&gt;</code></td>
+<td></td>
+<td>Filter clusters by subtring of Subset field  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-proxy-config-cluster Examples">Examples</h3>
+<pre class="language-bash"><code>  # Retrieve summary about cluster configuration for a given pod from Envoy.
+  istioctl proxy-config clusters &lt;pod-name&gt;
 
-# Retrieve ads config for the mesh from Pilot
-istioctl proxy-config pilot mesh ads
+  # Retrieve cluster summary for clusters with port 9080.
+  istioctl proxy-config clusters &lt;pod-name&gt; --port 9080
 
-# Retrieve bootstrap config for productpage-v1-bb8d5cbc7-k7qbm pod in the application namespace from the endpoint proxy
-istioctl proxy-config endpoint -n application productpage-v1-bb8d5cbc7-k7qbm bootstrap
+  # Retrieve full cluster dump for clusters that are inbound with a FQDN of details.default.svc.cluster.local.
+  istioctl proxy-config clusters &lt;pod-name&gt; --fqdn details.default.svc.cluster.local --direction inbound -o json
+
+</code></pre>
+<h2 id="istioctl-proxy-config-listener">istioctl proxy-config listener</h2>
+<p>Retrieve information about listener configuration for the Envoy instance in the specified pod.</p>
+<pre class="language-bash"><code>istioctl proxy-config listener &lt;pod-name&gt; [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+<td><code>--address &lt;string&gt;</code></td>
+<td></td>
+<td>Filter listeners by address field  (default ``)</td>
+</tr>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format: one of json|short  (default `short`)</td>
+</tr>
+<tr>
+<td><code>--platform &lt;string&gt;</code></td>
+<td><code>-p</code></td>
+<td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--port &lt;int&gt;</code></td>
+<td></td>
+<td>Filter listeners by Port field  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--type &lt;string&gt;</code></td>
+<td></td>
+<td>Filter listeners by type field  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-proxy-config-listener Examples">Examples</h3>
+<pre class="language-bash"><code>  # Retrieve summary about listener configuration for a given pod from Envoy.
+  istioctl proxy-config listeners &lt;pod-name&gt;
+
+  # Retrieve listener summary for listeners with port 9080.
+  istioctl proxy-config listeners &lt;pod-name&gt; --port 9080
+
+  # Retrieve full listener dump for HTTP listeners with a wildcard address (0.0.0.0).
+  istioctl proxy-config listeners &lt;pod-name&gt; --type HTTP --address 0.0.0.0 -o json
+
+</code></pre>
+<h2 id="istioctl-proxy-config-route">istioctl proxy-config route</h2>
+<p>Retrieve information about route configuration for the Envoy instance in the specified pod.</p>
+<pre class="language-bash"><code>istioctl proxy-config route &lt;pod-name&gt; [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--name &lt;string&gt;</code></td>
+<td></td>
+<td>Filter listeners by route name field  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format: one of json|short  (default `short`)</td>
+</tr>
+<tr>
+<td><code>--platform &lt;string&gt;</code></td>
+<td><code>-p</code></td>
+<td>Istio host platform  (default `kube`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-proxy-config-route Examples">Examples</h3>
+<pre class="language-bash"><code>  # Retrieve summary about route configuration for a given pod from Envoy.
+  istioctl proxy-config routes &lt;pod-name&gt;
+
+  # Retrieve route summary for route 9080.
+  istioctl proxy-config route &lt;pod-name&gt; --name 9080
+
+  # Retrieve full route dump for route 9080
+  istioctl proxy-config route &lt;pod-name&gt; --name 9080 -o json
+
 </code></pre>
 <h2 id="istioctl-proxy-status">istioctl proxy-status</h2>
 <p>
