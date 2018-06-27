@@ -63,10 +63,6 @@ is the best fit for your content:
   </tr>
 </table>
 
-Each page type has a template file located in the corresponding directory which shows
-you the basic structure expected for topics of that type. Please start new documents by
-copying the template.
-
 ## Naming a topic
 
 Choose a title for your topic that has the keywords you want search engines to find.
@@ -106,36 +102,15 @@ The available front matter fields are:
 |`toc`          | Set this to false to prevent the page from having a table of contents generated for it
 |`force_inline_toc` | Set this to true to force the generated table of contents from being inserted inline in the text instead of in a sidebar
 
-## Choosing a directory
-
-Depending on your page type, put your new file in a subdirectory of one of these:
-
-- _blog/
-- _docs/concepts/
-- _docs/guides/
-- _docs/reference/
-- _docs/setup/
-- _docs/tasks/
-
-You can put your file in an existing subdirectory, or you can create a new
-subdirectory. For blog posts, put the file into a subdirectory for the current
-year (2017, 2018, etc)
-
 ## Adding images
 
-Put image files in an `img` subdirectory of where you put your markdown file. The preferred image format is SVG.
-
-If you must use a PNG or JPEG file instead, and the file
-was generated from an original SVG file, please include the
-SVG file in the repository even if it isn't used in the web
-site itself. This is so we can update the imagery over time
-if needed.
+Put image files in the same directory as your markdown file. The preferred image format is SVG.
 
 Within markdown, use the following sequence to add the image:
 
 ```html
 {{</* image width="75%" ratio="69.52%"
-    link="./img/myfile.svg"
+    link="./myfile.svg"
     alt="Alternate text to display when the image is not available"
     title="A tooltip displayed when hovering over the image"
     caption="A caption displayed under the image"
@@ -147,7 +122,7 @@ supplied, it'll default to the same as `caption`. If the `alt` value is not supp
 default to `title` or if that's not defined, to `caption`.
 
 `width` represents the percentage of space used by the image
-relative to the surrounding text. `ratio` (image height / image width) * 100.
+relative to the surrounding text. `ratio` must be manually calculated using (image height / image width) * 100.
 
 ## Adding icons & emojis
 
