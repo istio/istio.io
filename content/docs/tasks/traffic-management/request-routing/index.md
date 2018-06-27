@@ -170,6 +170,11 @@ In this task, you used Istio to send 100% of the traffic to the v1 version of ea
 services. You then set a rule to selectively send traffic to version v2 of the reviews service based
 on a header (i.e., a user cookie) in a request.
 
+Note that Kubernetes services, like the Bookinfo ones used in this task, must adhere to certain
+restrictions in order to take advantage of Istio's L7 routing features. Refer to the
+[sidecar injection documentation](/docs/setup/kubernetes/sidecar-injection/#pod-spec-requirements)
+for details.
+
 Once the v2 version has been tested to our satisfaction, we could use Istio to send traffic from
 all users to v2, optionally in a gradual fashion. We'll explore this in a separate task.
 
