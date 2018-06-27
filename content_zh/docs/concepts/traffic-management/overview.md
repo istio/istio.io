@@ -17,9 +17,9 @@ Istio 流量管理的核心组件是 [Pilot](/docs/concepts/traffic-management/p
 
 使用 Istio 的流量管理模型，本质上是将流量与基础设施扩容解耦，让运维人员可以通过 Pilot 指定流量遵循什么规则，而不是执行哪些 pod/VM 应该接收流量——Pilot 和智能 Envoy 代理会帮我们搞定。因此，例如，您可以通过 Pilot 指定特定服务的 5％ 流量可以转到金丝雀版本，而不必考虑金丝雀部署的大小，或根据请求的内容将流量发送到特定版本。
 
-{{< image width="85%" ratio="69.52%"
+{{</* image width="85%" ratio="69.52%"
     link="../img/pilot/TrafficManagementOverview.svg"
     caption="Istio 中的流量管理"
-    >}}
+    */>}}
 
 将流量从基础设施扩展中解耦，这样就可以让 Istio 提供各种流量管理功能，这些功能在应用程序代码之外。除了 A/B 测试的动态[请求路由](/docs/concepts/traffic-management/request-routing/)，逐步推出和金丝雀发布之外，它还使用超时、重试和熔断器处理[故障恢复](/docs/concepts/traffic-management/handling-failures/)，最后还可以通过[故障注入](/docs/concepts/traffic-management/fault-injection/)来测试服务之间故障恢复策略的兼容性。这些功能都是通过在服务网格中部署的 Envoy sidecar/代理来实现的。
