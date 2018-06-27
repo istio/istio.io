@@ -58,6 +58,7 @@ First let's direct HTTP traffic without TLS origination
 
     ```bash
         cat <<EOF | istioctl create -f -
+        apiVersion: networking.istio.io/v1alpha3
         kind: Gateway
         metadata:
           name: istio-egressgateway
@@ -83,6 +84,7 @@ First let's direct HTTP traffic without TLS origination
 
     ```bash
         cat <<EOF | istioctl create -f -
+        apiVersion: networking.istio.io/v1alpha3
         kind: Gateway
         metadata:
           name: istio-egressgateway
@@ -206,6 +208,7 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
 
     ```bash
         cat <<EOF | istioctl create -f -
+        apiVersion: networking.istio.io/v1alpha3
         kind: Gateway
         metadata:
           name: istio-egressgateway
@@ -231,6 +234,7 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
 
     ```bash
         cat <<EOF | istioctl create -f -
+        apiVersion: networking.istio.io/v1alpha3
         kind: Gateway
         metadata:
           name: istio-egressgateway
