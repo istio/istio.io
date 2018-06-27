@@ -11,7 +11,7 @@ keywords: [traffic-management,routing]
 
 如 [Pilot](/docs/concepts/traffic-management/pilot/) 所述，特定网格中服务的规范表示由 Pilot 维护。服务的 Istio 模型和在底层平台（Kubernetes、Mesos 以及 Cloud Foundry 等）中的表达无关。特定平台的适配器负责从各自平台中获取元数据的各种字段，然后对服务模型进行填充。
 
-Istio 引入了服务版本的概念，可以通过版本（`v1`，`v2`）或环境（`staging`，`prod`）对服务进行进一步的细分。这些版本不一定是不同的 API 版本：它们可能是部署在不同环境（prod、staging 或者 dev 等）中的同一服务的不同迭代。使用这种方式的常见场景包括 A/B 测试或金丝雀部署。Istio 的[流量路由规则](/docs/concepts/traffic-management/rules-configuration/)可以根据服务版本来对服务之间流量进行附加控制。
+Istio 引入了服务版本的概念，可以通过版本（`v1`、`v2`）或环境（`staging`、`prod`）对服务进行进一步的细分。这些版本不一定是不同的 API 版本：它们可能是部署在不同环境（prod、staging 或者 dev 等）中的同一服务的不同迭代。使用这种方式的常见场景包括 A/B 测试或金丝雀部署。Istio 的[流量路由规则](/docs/concepts/traffic-management/rules-configuration/)可以根据服务版本来对服务之间流量进行附加控制。
 
 ## 服务之间的通讯
 
