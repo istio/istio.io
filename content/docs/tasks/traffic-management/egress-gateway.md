@@ -426,7 +426,7 @@ Also note that Istio itself *cannot securely enforce* that all the egress traffi
     ```command
     $ istioctl delete gateway istio-egressgateway
     $ istioctl delete serviceentry cnn
-    $ istioctl delete virtualservice rewrite-port-for-edition-cnn-com
+    $ istioctl delete virtualservice direct-through-egress-gateway
     $ istioctl delete destinationrule originate-tls-for-edition-cnn-com
     ```
 
