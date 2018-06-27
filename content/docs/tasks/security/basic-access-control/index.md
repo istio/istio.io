@@ -14,7 +14,7 @@ This task shows how to control access to a service using the Kubernetes labels.
 * Set up Istio on Kubernetes by following the instructions in the
   [Installation guide](/docs/setup/kubernetes/).
 
-* Deploy the [Bookinfo](/docs/guides/bookinfo/) sample application.
+* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
 * Initialize the application version routing to direct `reviews` service requests from
   test user "jason" to version v2 and requests from any other user to v3.
@@ -40,7 +40,7 @@ This task shows how to control access to a service using the Kubernetes labels.
 Using Istio you can control access to a service based on any attributes that are available within Mixer.
 This simple form of access control is based on conditionally denying requests using Mixer selectors.
 
-Consider the [Bookinfo](/docs/guides/bookinfo/) sample application where the `ratings` service is accessed by multiple versions
+Consider the [Bookinfo](/docs/examples/bookinfo/) sample application where the `ratings` service is accessed by multiple versions
 of the `reviews` service. We would like to cut off access to version `v3` of the `reviews` service.
 
 1.  Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage).
@@ -178,7 +178,7 @@ Verify that after logging in as "jason" you see black stars.
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions
+  [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.
 
 ## What's next

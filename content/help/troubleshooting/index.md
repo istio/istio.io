@@ -12,7 +12,7 @@ Oh no! You're having trouble? Below is a list of solutions to common problems.
 
 ## Route rules have no effect on my application
 
-If route rules are working perfectly for the [Bookinfo](/docs/guides/bookinfo/) sample,
+If route rules are working perfectly for the [Bookinfo](/docs/examples/bookinfo/) sample,
 but similar version routing rules have no effect on your own application, it may be that
 your Kubernetes services need to be changed slightly.
 

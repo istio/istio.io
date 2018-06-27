@@ -72,7 +72,7 @@ The following steps enable plugging in the certificates and key into Citadel:
 In this section, we verify that the new workload certificates and root certificates are propagated.
 This requires you have `openssl` installed on your machine.
 
-1. Deploy the bookinfo application following the [instructions](/docs/guides/bookinfo/).
+1. Deploy the bookinfo application following the [instructions](/docs/examples/bookinfo/).
 
 1.  Retrieve the mounted certificates.
     In the following, we take the ratings pod as an example, and verify the certificates mounted on the pod.
