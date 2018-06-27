@@ -88,7 +88,7 @@ be used by all Istio control planes as well as resources that are replicated per
 plane. Although it is a simple matter to deploy multiple control planes by replacing the
 *istio-system* namespace references as described above, a better approach is to split the
 manifests into a common part that is deployed once for all tenants and a tenant
-specific part. For the [Custom Resource Definitions](https://kubernetes.io/docs/concepts/api-extension/custom-resources/#customresourcedefinitions), the roles and the role
+specific part. For the [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions), the roles and the role
 bindings should be separated out from the provided Istio manifests.  Additionally, the
 roles and role bindings in the provided Istio manifests are probably unsuitable for a
 multi-tenant environment and should be modified or augmented as described in the next

@@ -7,7 +7,7 @@ aliases:
 
 ## General
 
-- **Updated Config Model**. Istio now uses the Kubernetes [Custom Resource](https://kubernetes.io/docs/concepts/api-extension/custom-resources/)
+- **Updated Config Model**. Istio now uses the Kubernetes [Custom Resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
 model to describe and store its configuration. When running in Kubernetes, configuration can now be optionally managed using the `kubectl`
 command.
 
