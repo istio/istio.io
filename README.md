@@ -135,7 +135,7 @@ entry (0.8) should point to preliminary.istio.io. The second entry (0.7) should 
 and subsequent entries should point to archive.istio.io.
 
 1. In the **master** branch, add a placeholder markdown file for the next release's release notes as
-`content/about/notes/&lt;major&gt;.&lt;minor&gt;`.
+`content/about/notes/&lt;major&gt;.&lt;minor&gt;/index.md`.
 
 1. Commit the previous three edits to GitHub.
 
@@ -171,13 +171,6 @@ name of the branch.
 release-0.6) to the `TOBUILD` variable.
 
 1. Commit the previous edit to GitHub.
-
-1. Run the `build.sh` script.
-
-1. Once the script completes, run `firebase deploy`. This will update archive.istio.io to contain the
-right set of archives, based on the above steps.
-
-1. Once deployment is done, browse archive.istio.io and make sure everything looks good.
 
 #### Updating istio.io
 
