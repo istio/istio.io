@@ -51,7 +51,35 @@ If we used the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/sam
 
 First let's direct HTTP traffic without TLS origination
 
-1.  Create an egress `Gateway` for _edition.cnn.com_, port 80:
+1.  Create an egress `Gateway` for _edition.cnn.com_, port 80.
+
+    If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio, you must create the
+    `Gateway` in the following way:
+
+    ```bash
+        cat <<EOF | istioctl create -f -
+        kind: Gateway
+        metadata:
+          name: istio-egressgateway
+        spec:
+          selector:
+            istio: egressgateway
+          servers:
+          - port:
+              number: 80
+              name: http
+              protocol: HTTP
+            hosts:
+            - "*"
+            tls:
+              mode: MUTUAL
+              serverCertificate: /etc/certs/cert-chain.pem
+              privateKey: /etc/certs/key.pem
+              caCertificates: /etc/certs/root-cert.pem
+    EOF
+    ```
+
+    otherwise:
 
     ```bash
         cat <<EOF | istioctl create -f -
@@ -126,6 +154,28 @@ the traffic through the egress gateway:
         EOF
     ```
 
+    In addition, if you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio, you must
+    create a destination rule to enable mutual TLS between the sidecar proxies and the egress gateway:
+
+    ```bash
+        cat <<EOF | istioctl create -f -
+        apiVersion: networking.istio.io/v1alpha3
+        kind: DestinationRule
+        metadata:
+          name: mutual-tls-for-egressgateway
+        spec:
+          host: istio-egressgateway.istio-system.svc.cluster.local
+          trafficPolicy:
+            loadBalancer:
+              simple: ROUND_ROBIN
+            portLevelSettings:
+            - port:
+                number: 80
+              tls:
+                mode: ISTIO_MUTUAL
+        EOF
+    ```
+
 1.  Send an HTTP request to http://edition.cnn.com/politics.
 
     ```command
@@ -160,19 +210,53 @@ the traffic through the egress gateway:
 
 ### Let's clean up
 
-Let's remove the previous definitions before proceeding to the next step:
+1.  Let's remove the previous definitions before proceeding to the next step:
 
-```command
-$ istioctl delete gateway istio-egressgateway
-$ istioctl delete serviceentry cnn
-$ istioctl delete virtualservice direct-through-egress-gateway
-```
+    ```command
+    $ istioctl delete gateway istio-egressgateway
+    $ istioctl delete serviceentry cnn
+    $ istioctl delete virtualservice direct-through-egress-gateway
+    ```
+
+1.  If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio, remove the following
+    destination rule:
+
+    ```command
+    $ istioctl delete destinationrule mutual-tls-for-egressgateway
+    ```
 
 ## Perform TLS origination with the egress `Gateway`
 
 Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress-tls-origination/) task.  Note that in this case the TLS origination will be done by the egress Gateway server, as opposed to by the sidecar in the previous task.
 
-1.  Create an egress `Gateway` for _edition.cnn.com_, port 443:
+1.  Create an egress `Gateway` for _edition.cnn.com_, port 443.
+
+    If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio:
+
+    ```bash
+        cat <<EOF | istioctl create -f -
+        kind: Gateway
+        metadata:
+          name: istio-egressgateway
+        spec:
+          selector:
+            istio: egressgateway
+          servers:
+          - port:
+              number: 443
+              name: http-port-for-tls-origination
+              protocol: HTTP
+            hosts:
+            - "*"
+            tls:
+              mode: MUTUAL
+              serverCertificate: /etc/certs/cert-chain.pem
+              privateKey: /etc/certs/key.pem
+              caCertificates: /etc/certs/root-cert.pem
+    EOF
+    ```
+
+    otherwise:
 
     ```bash
         cat <<EOF | istioctl create -f -
@@ -262,6 +346,28 @@ the traffic through the egress gateway:
         EOF
     ```
 
+    In addition, if you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio, you must
+    create a destination rule to enable mutual TLS between the sidecar proxies and the egress gateway:
+
+    ```bash
+        cat <<EOF | istioctl create -f -
+        apiVersion: networking.istio.io/v1alpha3
+        kind: DestinationRule
+        metadata:
+          name: mutual-tls-for-egressgateway
+        spec:
+          host: istio-egressgateway.istio-system.svc.cluster.local
+          trafficPolicy:
+            loadBalancer:
+              simple: ROUND_ROBIN
+            portLevelSettings:
+            - port:
+                number: 443
+              tls:
+                mode: ISTIO_MUTUAL
+        EOF
+    ```
+
 1.  Send an HTTP request to http://edition.cnn.com/politics.
 
     ```command
@@ -301,6 +407,13 @@ Also note that Istio itself *cannot securely enforce* that all the egress traffi
     $ istioctl delete serviceentry cnn
     $ istioctl delete virtualservice rewrite-port-for-edition-cnn-com
     $ istioctl delete destinationrule originate-tls-for-edition-cnn-com
+    ```
+
+1.  If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio, remove the following
+    destination rule:
+
+    ```command
+    $ istioctl delete destinationrule mutual-tls-for-egressgateway
     ```
 
 1.  Shutdown the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/samples/sleep) service:
