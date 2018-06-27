@@ -103,7 +103,7 @@ policy based on service identity rather than network controls. Starting from rel
 
 - Learn about Istio's [design goals](/docs/concepts/what-is-istio/goals/).
 
-- Explore our [Guides](/docs/guides/).
+- Explore our [Guides](/docs/examples/).
 
 - Read about Istio components in detail in our other [Concepts](/docs/concepts/) guides.
 

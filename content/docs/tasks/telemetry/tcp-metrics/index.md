@@ -9,7 +9,7 @@ This task shows how to configure Istio to automatically gather telemetry for TCP
 services in a mesh. At the end of this task, a new metric will be enabled for
 calls to a TCP service within your mesh.
 
-The [Bookinfo](/docs/guides/bookinfo/) sample application is used
+The [Bookinfo](/docs/examples/bookinfo/) sample application is used
 as the example application throughout this task.
 
 ## Before you begin
@@ -227,7 +227,7 @@ protocols within policies.
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions
+  [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.
 
 ## What's next
@@ -238,7 +238,7 @@ and [Mixer Config](/docs/concepts/policies-and-telemetry/config/).
 * Discover the full [Attribute
 Vocabulary](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/).
 
-* Refer to the [In-Depth Telemetry](/docs/guides/telemetry/) guide.
+* Refer to the [In-Depth Telemetry](/docs/examples/telemetry/) example.
 
 * Learn more about [Querying Istio
 Metrics](/docs/tasks/telemetry/querying-metrics/).
