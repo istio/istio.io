@@ -274,6 +274,16 @@ they have valid values, according to the output of the following commands:
 
     `ca-chain.cert.pem` should exist in the directory contents.
 
+1.  For macOS users, verify that you use curl compiled with the [LibreSSL](http://www.libressl.org) library:
+
+    ```command
+    $ curl --version | grep LibreSSL
+    curl 7.54.0 (x86_64-apple-darwin17.0) libcurl/7.54.0 LibreSSL/2.0.20 zlib/1.2.11 nghttp2/1.24.0
+    ```
+
+    If a version of _LibreSSL_ is printed as in the output above, your _curl_ should work correctly with the
+    instructions in this task. Otherwise, try some other installation of _curl_, for example on a Linux machine.
+
 ## Cleanup
 
 1.  Delete the `Gateway` configuration, the `VirtualService` and the secrets:
