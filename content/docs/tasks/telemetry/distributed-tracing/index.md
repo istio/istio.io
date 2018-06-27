@@ -42,7 +42,7 @@ With the Bookinfo application up and running, generate trace information by acce
 If you now look at the dashboard, you should see something similar to the following:
 
 {{< image width="100%" ratio="42.35%"
-    link="../img/istio-tracing-list.png"
+    link="./istio-tracing-list.png"
     caption="Tracing Dashboard"
     >}}
 
@@ -51,7 +51,7 @@ latest refresh of the `/productpage`.
 The page should look something like this:
 
 {{< image width="100%" ratio="42.35%"
-    link="../img/istio-tracing-details.png"
+    link="./istio-tracing-details.png"
     caption="Detailed Trace View"
     >}}
 

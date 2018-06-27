@@ -67,7 +67,7 @@ the example application throughout this task.
     The results will look similar to:
 
     {{< image width="75%" ratio="107.7%"
-    link="../img/servicegraph-example.png"
+    link="./servicegraph-example.png"
     caption="Example Servicegraph"
     >}}
 
