@@ -186,7 +186,7 @@ the traffic through the egress gateway:
 
     Note that we redirected only the traffic from the port 80 to the egress gateway, the HTTPS traffic to the port 443 went directly to _edition.cnn.com_.
 
-### Let's clean up
+### Cleanup
 
 Let's remove the previous definitions before proceeding to the next step:
 
@@ -341,6 +341,16 @@ the traffic through the egress gateway:
     "[2018-06-14T13:49:36.340Z] "GET /politics HTTP/1.1" 200 - 0 148528 5096 90 "172.30.146.87" "curl/7.35.0" "c6bfdfc3-07ec-9c30-8957-6904230fd037" "edition.cnn.com" "151.101.65.67:443"
     ```
 
+### Cleanup
+Remove the Istio configuration items we created:
+
+```command
+$ istioctl delete gateway istio-egressgateway
+$ istioctl delete serviceentry cnn
+$ istioctl delete virtualservice direct-through-egress-gateway
+$ istioctl delete destinationrule originate-tls-for-edition-cnn-com
+```
+
 ## Additional security considerations
 
 Note that defining an egress `Gateway` in Istio does not in itself provides any special treatment for the nodes on which the egress gateway service runs. It is up to the cluster administrator or the cloud provider to deploy the egress gateways on dedicated nodes and to introduce additional security measures to make these nodes more secure than the rest of the mesh.
@@ -370,20 +380,11 @@ Also note that Istio itself *cannot securely enforce* that all the egress traffi
 
 ## Cleanup
 
-1.  Remove the Istio configuration items we created:
+Shutdown the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/samples/sleep) service:
 
-    ```command
-    $ istioctl delete gateway istio-egressgateway
-    $ istioctl delete serviceentry cnn
-    $ istioctl delete virtualservice direct-through-egress-gateway
-    $ istioctl delete destinationrule originate-tls-for-edition-cnn-com
-    ```
-
-1.  Shutdown the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/samples/sleep) service:
-
-    ```command
-    $ kubectl delete -f @samples/sleep/sleep.yaml@
-    ```
+```command
+$ kubectl delete -f @samples/sleep/sleep.yaml@
+```
 
 ## What's next
 
