@@ -26,7 +26,7 @@ recommended.
 
 1. Istio by default uses LoadBalancer service object types.  Some platforms do not support LoadBalancer
    service objects.  For platforms lacking LoadBalancer support, install Istio with NodePort support
-   instead with the flags `--set ingress.service.type=NodePort ingressgateway.service.type=NodePort egressgateway.service.type=NodePort` appended to the end of the helm operation.
+   instead with the flags `--set ingress.service.type=NodePort --set ingressgateway.service.type=NodePort --set egressgateway.service.type=NodePort` appended to the end of the helm operation.
 
 ## Option 1: Install with Helm via `helm template`
 
