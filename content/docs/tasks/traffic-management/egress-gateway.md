@@ -351,6 +351,131 @@ $ istioctl delete virtualservice direct-through-egress-gateway
 $ istioctl delete destinationrule originate-tls-for-edition-cnn-com
 ```
 
+## Direct HTTPS traffic through an egress gateway
+
+In this section you direct HTTPS traffic (TLS originated by the application) through an egress gateway.
+You specify the port 443, protocol `TLS` in the corresponding `ServiceEntry`, egress `Gateway` and `VirtualService`.
+
+1.  Define a `ServiceEntry` for `edition.cnn.com`:
+
+    ```bash
+        cat <<EOF | istioctl create -f -
+        apiVersion: networking.istio.io/v1alpha3
+        kind: ServiceEntry
+        metadata:
+          name: cnn
+        spec:
+          hosts:
+          - edition.cnn.com
+          ports:
+          - number: 443
+            name: tls
+            protocol: TLS
+          resolution: DNS
+    EOF
+    ```
+
+1.  Verify that your `ServiceEntry` was applied correctly. Send an HTTPS request to https://edition.cnn.com/politics. The output should be the same as in the previous section.
+
+    ```command
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
+    HTTP/1.1 200 OK
+    Content-Type: text/html; charset=utf-8
+    ...
+    Content-Length: 151654
+    ...
+    ```
+
+1.  Create an egress `Gateway` for _edition.cnn.com_, port 443, protocol TLS:
+
+    ```bash
+        cat <<EOF | istioctl create -f -
+        apiVersion: networking.istio.io/v1alpha3
+        kind: Gateway
+        metadata:
+          name: istio-egressgateway
+        spec:
+          selector:
+            istio: egressgateway
+          servers:
+          - port:
+              number: 443
+              name: tls
+              protocol: TLS
+            hosts:
+            - edition.cnn.com
+            tls:
+              mode: PASSTHROUGH
+    EOF
+    ```
+
+1.  Define a `VirtualService` to direct the traffic through the egress gateway:
+
+    ```bash
+        cat <<EOF | istioctl create -f -
+        apiVersion: networking.istio.io/v1alpha3
+        kind: VirtualService
+        metadata:
+          name: direct-through-egress-gateway
+        spec:
+          hosts:
+          - edition.cnn.com
+          gateways:
+          - istio-egressgateway.istio-system.svc.cluster.local
+          - mesh
+          tls:
+          - match:
+            - gateways:
+              - mesh
+              port: 443
+              sni_hosts:
+              - edition.cnn.com
+            route:
+            - destination:
+                host: istio-egressgateway.istio-system.svc.cluster.local
+                port:
+                  number: 443
+              weight: 100
+          - match:
+            - gateways:
+              - istio-egressgateway.istio-system.svc.cluster.local
+              port: 443
+              sni_hosts:
+              - edition.cnn.com
+            route:
+            - destination:
+                host: edition.cnn.com
+                port:
+                  number: 443
+              weight: 100
+    EOF
+    ```
+
+1.  Send an HTTPS request to https://edition.cnn.com/politics. The output should be the same as previously.
+
+    ```command
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
+    HTTP/1.1 200 OK
+    Content-Type: text/html; charset=utf-8
+    ...
+    Content-Length: 151654
+    ...
+    ```
+
+1.  Check the log of the _istio-egressgateway_ pod and see a line corresponding to our request. If Istio is deployed in the `istio-system` namespace, the command to print the log is:
+
+    ```command
+    $ kubectl logs $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') egressgateway -n istio-system | tail
+    ```
+
+### Cleanup
+
+```command
+$ istioctl delete serviceentry cnn
+$ istioctl delete gateway istio-egressgateway
+$ istioctl delete virtualservice direct-through-egress-gateway
+```
+
 ## Additional security considerations
 
 Note that defining an egress `Gateway` in Istio does not in itself provides any special treatment for the nodes on which the egress gateway service runs. It is up to the cluster administrator or the cloud provider to deploy the egress gateways on dedicated nodes and to introduce additional security measures to make these nodes more secure than the rest of the mesh.
