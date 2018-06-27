@@ -252,7 +252,7 @@ or [manual](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection) 
         In Kubernetes environments, retrieve the Mixer logs via:
 
         ```command
-        $ kubectl -n istio-system logs <mixer pod> mixer
+        $ kubectl -n istio-system logs <mixer pod> -c mixer
         ```
 
         Look for errors related to your configuration or your service in the
@@ -292,7 +292,7 @@ More on viewing Mixer configuration can be found [here](/help/faq/mixer/#mixer-s
     In Kubernetes environment, check the Mixer logs via:
 
     ```command
-    $ kubectl -n istio-system logs <mixer pod> mixer
+    $ kubectl -n istio-system logs <mixer pod> -c mixer
     ```
 
     Filter for lines including something like `Report 0 returned with: INTERNAL
