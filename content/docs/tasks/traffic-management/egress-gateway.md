@@ -95,7 +95,7 @@ First let's direct HTTP traffic without TLS origination
               name: http
               protocol: HTTP
             hosts:
-            - "edition.cnn.com"
+            - "*"
     EOF
     ```
 
@@ -272,7 +272,7 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
               name: http-port-for-tls-origination
               protocol: HTTP
             hosts:
-            - "edition.cnn.com"
+            - "*"
     EOF
     ```
 
