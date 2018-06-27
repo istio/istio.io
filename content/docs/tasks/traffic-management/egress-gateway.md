@@ -158,9 +158,7 @@ the traffic through the egress gateway:
 
     Note that we redirected only the traffic from the port 80 to the egress gateway, the HTTPS traffic to the port 443 went directly to _edition.cnn.com_.
 
-### Let's clean up
-
-Let's remove the previous definitions before proceeding to the next step:
+### Cleanup
 
 ```command
 $ istioctl delete gateway istio-egressgateway
@@ -168,7 +166,7 @@ $ istioctl delete serviceentry cnn
 $ istioctl delete virtualservice direct-through-egress-gateway
 ```
 
-## Perform TLS origination with the egress `Gateway`
+## Perform TLS origination with the egress gateway
 
 Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress-tls-origination/) task.  Note that in this case the TLS origination will be done by the egress Gateway server, as opposed to by the sidecar in the previous task.
 
@@ -286,6 +284,133 @@ the traffic through the egress gateway:
     "[2018-06-14T13:49:36.340Z] "GET /politics HTTP/1.1" 200 - 0 148528 5096 90 "172.30.146.87" "curl/7.35.0" "c6bfdfc3-07ec-9c30-8957-6904230fd037" "edition.cnn.com" "151.101.65.67:443"
     ```
 
+### Cleanup
+
+```command
+$ istioctl delete gateway istio-egressgateway
+$ istioctl delete serviceentry cnn
+$ istioctl delete virtualservice direct-through-egress-gateway
+$ istioctl delete destinationrule originate-tls-for-edition-cnn-com
+```
+
+## Direct HTTPS traffic through an egress gateway
+
+In this section you direct HTTPS traffic (TLS originated by the application) through an egress gateway.
+You specify the port 443, protocol `TLS` in the corresponding `ServiceEntry`, egress `Gateway` and `VirtualService`.
+
+1.  Define a `ServiceEntry` for `edition.cnn.com`:
+
+    ```bash
+        cat <<EOF | istioctl create -f -
+        apiVersion: networking.istio.io/v1alpha3
+        kind: ServiceEntry
+        metadata:
+          name: cnn
+        spec:
+          hosts:
+          - edition.cnn.com
+          ports:
+          - number: 443
+            name: tls
+            protocol: TLS
+          resolution: DNS
+    EOF
+    ```
+
+1.  Verify that your `ServiceEntry` was applied correctly. Send an HTTPS request to https://edition.cnn.com/politics. The output should be the same as in the previous section.
+
+    ```command
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
+    HTTP/1.1 200 OK
+    Content-Type: text/html; charset=utf-8
+    ...
+    Content-Length: 151654
+    ...
+    ```
+
+1.  Create an egress `Gateway` for _edition.cnn.com_, port 443, protocol TLS:
+
+    ```bash
+        cat <<EOF | istioctl create -f -
+        kind: Gateway
+        metadata:
+          name: istio-egressgateway
+        spec:
+          selector:
+            istio: egressgateway
+          servers:
+          - port:
+              number: 443
+              name: tls
+              protocol: TLS
+            hosts:
+            - "edition.cnn.com"
+    EOF
+    ```
+
+1.  Define a `VirtualService` to direct the traffic through the egress gateway:
+
+    ```bash
+        cat <<EOF | istioctl create -f -
+        apiVersion: networking.istio.io/v1alpha3
+        kind: VirtualService
+        metadata:
+          name: direct-through-egress-gateway
+        spec:
+          hosts:
+          - edition.cnn.com
+          gateways:
+          - istio-egressgateway
+          - mesh
+          tls:
+          - match:
+            - gateways:
+              - mesh
+              port: 443
+            route:
+            - destination:
+                host: istio-egressgateway.istio-system.svc.cluster.local
+                port:
+                  number: 443
+              weight: 100
+          - match:
+            - gateways:
+              - istio-egressgateway
+              port: 443
+            route:
+            - destination:
+                host: edition.cnn.com
+                port:
+                  number: 443
+              weight: 100
+    EOF
+    ```
+
+1.  Send an HTTPS request to https://edition.cnn.com/politics. The output should be the same as previously.
+
+    ```command
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
+    HTTP/1.1 200 OK
+    Content-Type: text/html; charset=utf-8
+    ...
+    Content-Length: 151654
+    ...
+    ```
+
+1.  Check the log of the _istio-egressgateway_ pod and see a line corresponding to our request. If Istio is deployed in the `istio-system` namespace, the command to print the log is:
+
+    ```command
+    $ kubectl logs $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') egressgateway -n istio-system | tail
+    ```
+
+### Cleanup
+
+```command
+$ istioctl delete serviceentry cnn
+$ istioctl delete gateway istio-egressgateway
+$ istioctl delete virtualservice direct-through-egress-gateway
+```
+
 ## Additional security considerations
 
 Note that defining an egress `Gateway` in Istio does not in itself provides any special treatment for the nodes on which the egress gateway service runs. It is up to the cluster administrator or the cloud provider to deploy the egress gateways on dedicated nodes and to introduce additional security measures to make these nodes more secure than the rest of the mesh.
@@ -293,15 +418,6 @@ Note that defining an egress `Gateway` in Istio does not in itself provides any 
 Also note that Istio itself *cannot securely enforce* that all the egress traffic will actually flow through the egress gateways, Istio only *enables* such flow by its sidecar proxies. If a malicious application would attack the sidecar proxy attached to the application's pod, it could bypass the sidecar proxy. Having bypassed the sidecar proxy, the malicious application could try to exit the service mesh bypassing the egress gateway, to escape the control and monitoring by Istio. It is up to the cluster administrator or the cloud provider to enforce that no traffic leaves the mesh bypassing the egress gateway. Such enforcement must be performed by mechanisms external to Istio. For example, a firewall can deny all the traffic whose source is not the egress gateway. [Kubernetes network policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) can also forbid all the egress traffic that does not originate in the egress gateway. Another possible security measure involves configuring the network in such a way that the application nodes are unable to access the Internet without directing the egress traffic through the gateway where it will be monitored and controlled. One example of such network configuration is allocating public IPs exclusively to the gateways.
 
 ## Cleanup
-
-1.  Remove the Istio configuration items we created:
-
-    ```command
-    $ istioctl delete gateway istio-egressgateway
-    $ istioctl delete serviceentry cnn
-    $ istioctl delete virtualservice rewrite-port-for-edition-cnn-com
-    $ istioctl delete destinationrule originate-tls-for-edition-cnn-com
-    ```
 
 1.  Shutdown the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/samples/sleep) service:
 
