@@ -26,7 +26,7 @@ The Bookinfo configuration files reside in the `samples/bookinfo/kube` directory
 Here is a copy of the end-to-end architecture of the application from the original [Bookinfo Guide](/docs/guides/bookinfo/).
 
 {{< image width="80%" ratio="59.08%"
-    link="/docs/guides/img/bookinfo/withistio.svg"
+    link="/docs/guides/bookinfo/withistio.svg"
     caption="The Original Bookinfo Application"
     >}}
 

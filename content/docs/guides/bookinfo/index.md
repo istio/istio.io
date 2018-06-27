@@ -38,7 +38,7 @@ There are 3 versions of the reviews microservice:
 The end-to-end architecture of the application is shown below.
 
 {{< image width="80%" ratio="68.52%"
-    link="../img/bookinfo/noistio.svg"
+    link="./noistio.svg"
     caption="Bookinfo Application without Istio"
     >}}
 
@@ -61,7 +61,7 @@ The needed commands and configuration vary depending on the runtime environment
 although in all cases the resulting deployment will look like this:
 
 {{< image width="80%" ratio="59.08%"
-    link="../img/bookinfo/withistio.svg"
+    link="./withistio.svg"
     caption="Bookinfo Application"
     >}}
 

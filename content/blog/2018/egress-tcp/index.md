@@ -127,7 +127,7 @@ The example commands in this blog post work with Istio 0.3+, with or without [Mu
 As a reminder, here is the end-to-end architecture of the application from the [Bookinfo Guide](/docs/guides/bookinfo/).
 
 {{< image width="80%" ratio="59.08%"
-    link="/docs/guides/img/bookinfo/withistio.svg"
+    link="/docs/guides/bookinfo/withistio.svg"
     caption="The original Bookinfo application"
     >}}
 

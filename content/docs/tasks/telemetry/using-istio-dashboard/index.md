@@ -51,7 +51,7 @@ the example application throughout this task.
     The Istio Dashboard will look similar to:
 
     {{< image width="100%" ratio="56.57%"
-        link="../img/grafana-istio-dashboard.png"
+        link="./grafana-istio-dashboard.png"
         caption="Istio Dashboard"
         >}}
 
@@ -71,7 +71,7 @@ the example application throughout this task.
     generated. It will look similar to:
 
     {{< image width="100%" ratio="56.57%"
-    link="../img/dashboard-with-traffic.png"
+    link="./dashboard-with-traffic.png"
     caption="Istio Dashboard With Traffic"
     >}}
 
