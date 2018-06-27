@@ -16,7 +16,7 @@ Istio 引入了服务版本的概念，可以通过版本（`v1`、`v2`）或环
 ## 服务之间的通讯
 
 {{< image width="60%" ratio="100.42%"
-    link="/docs/concepts/traffic-management/img/pilot/ServiceModel_Versions.svg"
+    link="/docs/concepts/traffic-management/request-routing/ServiceModel_Versions.svg"
     alt="服务版本的处理。"
     caption="服务版本"
     >}}
@@ -34,7 +34,7 @@ Istio 不提供 DNS。应用程序可以尝试使用底层平台（kube-dns，me
 Istio 假定进入和离开服务网络的所有流量都会通过 Envoy 代理进行传输。通过将 Envoy 代理部署在服务之前，运维人员可以针对面向用户的服务进行 A/B 测试，部署金丝雀服务等。类似地，通过使用 Envoy 将流量路由到外部 Web 服务（例如，访问 Maps API 或视频服务 API）的方式，运维人员可以为这些服务添加超时控制、重试、断路器等功能，同时还能从服务连接中获取各种细节指标。
 
 {{< image width="60%" ratio="28.88%"
-    link="/docs/concepts/traffic-management/img/pilot/ServiceModel_RequestFlow.svg"
+    link="/docs/concepts/traffic-management/request-routing/ServiceModel_RequestFlow.svg"
     alt="通过 Envoy 的 Ingress 和 Egress。"
     caption="请求流"
     >}}
