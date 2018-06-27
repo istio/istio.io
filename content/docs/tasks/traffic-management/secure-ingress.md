@@ -154,11 +154,11 @@ with a certificate and a private key. Then you create a `Gateway` definition tha
 
     > It may take time for the gateway definition to propagate and you may get the following error:
     > `Failed to connect to httpbin.example.com port <your secure port>: Connection refused`. Wait for a minute and
-    > retry the `curl` call again.
+    > retry the _curl_ call again.
 
-    Look for the _Server certificate_ section in the output of `curl`, note the line about matching the _common name_:
+    Look for the _Server certificate_ section in the output of _curl_, note the line about matching the _common name_:
     `common name: httpbin.example.com (matched)`. According to the line `SSL certificate verify ok` in the output of
-    `curl`, you can be sure that the server's certificate was verified successfully. Note the returned status of 418 and
+    _curl_, you can be sure that the server's certificate was verified successfully. Note the returned status of 418 and
     a nice drawing of a teapot.
 
 If you need to support [mutual TLS](https://en.wikipedia.org/wiki/Mutual_authentication) proceed to the next section.
@@ -218,12 +218,12 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
     ```
 
     > It may take time for the gateway definition to propagate and you may still get _418_. Wait for a minute and retry
-    the `curl` call again.
+    the _curl_ call again.
 
     This time you get an error since the server refuses to accept unauthenticated requests. You have to send a client
-    certificate and pass `curl` your private key for signing the request.
+    certificate and pass _curl_ your private key for signing the request.
 
-1.  Resend the previous request by `curl`, this time passing as parameters your client certificate (the `--cert` option)
+1.  Resend the previous request by _curl_, this time passing as parameters your client certificate (the `--cert` option)
  and your private key (the `--key` option):
 
     ```command
