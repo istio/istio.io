@@ -21,7 +21,7 @@ this feature and has some limitations (such as requiring a flat network across c
 including Consul and Eureka.
 
 - **Automatic injection of sidecars**. Istio sidecar can automatically be injected into a Pod upon deployment using the
-[Initializers](https://kubernetes.io/docs/admin/extensible-admission-controllers/) alpha feature in Kubernetes.
+[Initializers](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/) alpha feature in Kubernetes.
 
 ## Performance and quality
 

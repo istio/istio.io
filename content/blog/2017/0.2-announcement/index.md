@@ -23,7 +23,7 @@ Today we are happy to announce the 0.2 release which improves stability and perf
 * _Policy and security for TCP services_: In addition to HTTP, we have added transparent mutual TLS authentication and policy enforcement for TCP services as well. This will allow you to secure more of your
 Kubernetes deployment, and get Istio features like telemetry, policy and security.
 
-* _Automated sidecar injection_: By leveraging the alpha [initializer](https://kubernetes.io/docs/admin/extensible-admission-controllers/) feature provided by Kubernetes 1.7, envoy sidecars can now be automatically injected into application deployments when your cluster has the initializer enabled.  This enables you to deploy microservices using `kubectl`, the exact same command that you normally use for deploying the microservices without Istio.
+* _Automated sidecar injection_: By leveraging the alpha [initializer](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/) feature provided by Kubernetes 1.7, envoy sidecars can now be automatically injected into application deployments when your cluster has the initializer enabled.  This enables you to deploy microservices using `kubectl`, the exact same command that you normally use for deploying the microservices without Istio.
 
 * _Extending Istio_: An improved Mixer design that lets vendors write Mixer adapters to implement support for their own systems, such as application
 management or policy enforcement. The
