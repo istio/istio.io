@@ -28,6 +28,7 @@ the Istio config store.
     >}}
 
 The Istio RBAC engine does two things:
+
 * **Fetch RBAC policy.** Istio RBAC engine watches for changes on RBAC policy. It fetches the updated RBAC policy if it sees any changes.
 * **Authorize Requests.** At runtime, when a request comes, the request context is passed to Istio RBAC engine. RBAC engine evaluates the
 request context against the RBAC policies, and returns the authorization result (ALLOW or DENY).
@@ -77,6 +78,7 @@ Istio RBAC introduces `ServiceRole` and `ServiceRoleBinding`, both of which are 
 ### `ServiceRole`
 
 A `ServiceRole` specification includes a list of rules. Each rule has the following standard fields:
+
 * **services**: A list of service names, which are matched against the `action.service` field of the "requestcontext".
 * **methods**: A list of method names which are matched against the `action.method` field of the "requestcontext". In the above "requestcontext",
 this is the HTTP or gRPC method. Note that gRPC methods are formatted in the form of "packageName.serviceName/methodName" (case sensitive).
@@ -114,8 +116,8 @@ spec:
     methods: ["GET", "HEAD"]
 ```
 
-In addition, we support **prefix matching** and **suffix matching** for all the fields in a rule. For example, you can define a "tester" role that
-has the following permissions in "default" namespace:
+In addition, we support **prefix matching** and **suffix matching** for all the fields in a rule. For example, you can define a "tester" role that has the following permissions in "default" namespace:
+
 * Full access to all services with prefix "test-" (e.g, "test-bookstore", "test-performance", "test-api.default.svc.cluster.local").
 * Read ("GET") access to all paths with "/reviews" suffix (e.g, "/books/reviews", "/events/booksale/reviews", "/reviews")
 in service "bookstore.default.svc.cluster.local".
@@ -161,6 +163,7 @@ spec:
 ### `ServiceRoleBinding`
 
 A `ServiceRoleBinding` specification includes two parts:
+
 * **roleRef** refers to a `ServiceRole` resource **in the same namespace**.
 * A list of **subjects** that are assigned the role.
 
@@ -169,6 +172,7 @@ in "properties") must match one of fields ("user" or "groups" or an entry in "pr
 instance.
 
 Here is an example of `ServiceRoleBinding` resource "test-binding-products", which binds two subjects to ServiceRole "product-viewer":
+
 * user "alice@yahoo.com".
 * "reviews.abc.svc.cluster.local" service in "abc" namespace.
 
@@ -208,8 +212,8 @@ spec:
 
 ## Enabling Istio RBAC
 
-Istio RBAC can be enabled by adding the following Mixer adapter rule. The rule has two parts. The first part defines a RBAC handler.
-It has two parameters, `"config_store_url"` and `"cache_duration"`.
+Istio RBAC can be enabled by adding the following Mixer adapter rule. The rule has two parts. The first part defines a RBAC handler. It has two parameters, `"config_store_url"` and `"cache_duration"`.
+
 * The `"config_store_url"` parameter specifies where RBAC engine fetches RBAC policies. The default value for `"config_store_url"` is
 `"k8s://"`, which means Kubernetes API server. Alternatively, if you are testing RBAC policy locally, you may set it to a local directory
 such as `"fs:///tmp/testdata/configroot"`.
