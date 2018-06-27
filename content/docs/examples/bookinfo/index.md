@@ -1,23 +1,24 @@
 ---
 title: Bookinfo Sample Application
-description: This guide deploys a sample application composed of four separate microservices which will be used to demonstrate various features of the Istio service mesh.
+description: Deploys a sample application composed of four separate microservices used to demonstrate various Istio features.
 weight: 10
 aliases:
     - /docs/samples/bookinfo.html
+    - /docs/guides/bookinfo/index.html
 ---
 
-> Note: This guide assumes you will be using the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/).
+> Note: This example assumes you will be using the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/).
 The old API has been deprecated and will be removed in the next Istio release.
 If you need to use the old version, you can follow the old instructions [here](https://archive.istio.io/v0.6/docs/guides/bookinfo.html),
 but note that on Kubernetes you will need to run an additional command (`kubectl apply -f samples/bookinfo/kube/bookinfo-gateway.yaml`)
 to define the Ingress, which previously was included in `bookinfo.yaml`.
 
-This guide deploys a sample application composed of four separate microservices which will be used
-to demonstrate various features of the Istio service mesh.
+This example deploys a sample application composed of four separate microservices used
+to demonstrate various Istio features.
 
 ## Overview
 
-In this guide we will deploy a simple application that displays information about a
+In this example we will deploy a simple application that displays information about a
 book, similar to a single catalog entry of an online book store. Displayed
 on the page is a description of the book, book details (ISBN, number of
 pages, and so on), and a few book reviews.
@@ -199,7 +200,7 @@ version routing.
 You can now use this sample to experiment with Istio's features for
 traffic routing, fault injection, rate limiting, etc..
 To proceed, refer to one or more of the [Istio Guides](/docs/guides),
-depending on your interest. [Intelligent Routing](/docs/guides/intelligent-routing/)
+depending on your interest. [Intelligent Routing](/docs/examples/intelligent-routing/)
 is a good place to start for beginners.
 
 ## Cleanup

@@ -7,8 +7,8 @@ keywords: [kubernetes,gke]
 
 Quick Start instructions to install and run Istio in [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) (GKE) using [Google Cloud Deployment Manager](https://cloud.google.com/deployment-manager/).
 
-This Quick Start creates a new GKE [zonal cluster](https://cloud.google.com/kubernetes-engine/versioning-and-upgrades#versions_available_for_new_cluster_masters), installs the current release version of Istio and then deploys the [Bookinfo](/docs/guides/bookinfo/) sample
-application.  It uses Deployment Manager to automate the steps detailed in the [Istio on Kubernetes setup guide](/docs/setup/kubernetes/quick-start/) for Kubernetes Engine
+This Quick Start creates a new GKE [zonal cluster](https://cloud.google.com/kubernetes-engine/versioning-and-upgrades#versions_available_for_new_cluster_masters), installs the current release version of Istio and then deploys the [Bookinfo](/docs/examples/bookinfo/) sample
+application.  It uses Deployment Manager to automate the steps detailed in the [Istio on Kubernetes setup instructions](/docs/setup/kubernetes/quick-start/) for Kubernetes Engine
 
 ## Prerequisites
 
@@ -47,7 +47,7 @@ caption="GKE-IAM Role"
 
     We recommend that you leave the default settings as the rest of this tutorial shows how to access the installed features. By default the tool creates a
     GKE alpha cluster with the specified settings, then installs the Istio [control plane](/docs/concepts/what-is-istio/overview/#architecture), the
-    [Bookinfo](/docs/guides/bookinfo/) sample app,
+    [Bookinfo](/docs/examples/bookinfo/) sample app,
     [Grafana](/docs/tasks/telemetry/using-istio-dashboard/) with
     [Prometheus](/docs/tasks/telemetry/querying-metrics/),
     [ServiceGraph](/docs/tasks/telemetry/servicegraph/),
@@ -246,7 +246,7 @@ For more details on tracing see [Understanding what happened](/docs/tasks/teleme
 ## What's next
 
 You can further explore the Bookinfo app and Istio functionality by following any of the tutorials in the
-[Guides](/docs/guides/) section. However, to do this you need to install `istioctl` to interact
+[Guides](/docs/examples/) section. However, to do this you need to install `istioctl` to interact
 with Istio. You can either [install](/docs/setup/kubernetes/quick-start/#installation-steps) it directly
 on our workstation or within Cloud Shell.
 

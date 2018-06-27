@@ -20,7 +20,7 @@ For the format of the service account in Istio, please refer to the
   Note that authentication should be enabled at step 5 in the
   [installation steps](/docs/setup/kubernetes/quick-start/#installation-steps).
 
-* Deploy the [Bookinfo](/docs/guides/bookinfo/) sample application.
+* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
 *   Run the following command to create service account `bookinfo-productpage`,
     and redeploy the service `productpage` with the service account.
@@ -39,7 +39,7 @@ use `$ istioctl -n namespace ...` to specify the namespace.
 
 ## Access control using _denials_
 
-In the [Bookinfo](/docs/guides/bookinfo/) sample application, the `productpage` service is accessing
+In the [Bookinfo](/docs/examples/bookinfo/) sample application, the `productpage` service is accessing
 both the `reviews` service and the `details` service. We would like the `details` service to deny the requests from
 the `productpage` service.
 
@@ -88,7 +88,7 @@ the `productpage` service.
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions
+  [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.
 
 ## What's next

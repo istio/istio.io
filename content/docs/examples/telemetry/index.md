@@ -1,11 +1,13 @@
 ---
 title: In-Depth Telemetry
-description: This sample demonstrates how to obtain uniform metrics, logs, traces across different services using Istio Mixer and Istio sidecar.
+description: Demonstrates how to obtain uniform metrics, logs, traces across different services using Istio Mixer and Istio sidecar.
 weight: 30
-keywords: [telemetry]
+keywords: [telemetry,metrics,logging,tracing]
+aliases:
+    - /docs/guides/telemetry/index.html
 ---
 
-This sample demonstrates how to obtain uniform metrics, logs, traces across different services using Istio Mixer and Istio sidecar.
+This example demonstrates how to obtain uniform metrics, logs, traces across different services using Istio Mixer and Istio sidecar.
 
 ## Overview
 
@@ -14,7 +16,7 @@ to externally control service monitoring and tracing, request (version) routing,
 security and policy enforcement, etc., in a consistent way across the services,
 for the application as a whole.
 
-In this guide, we will use the [Bookinfo sample application](/docs/guides/bookinfo/)
+In this example, we will use the [Bookinfo sample application](/docs/examples/bookinfo/)
 to show how operators can obtain uniform metrics and traces from running
 applications involving diverse language frameworks without relying on
 developers to manually instrument their applications.
@@ -25,7 +27,7 @@ developers to manually instrument their applications.
   corresponding to your platform [installation guide](/docs/setup/).
 
 * Run the Bookinfo sample application by following the applicable
-  [application deployment instructions](/docs/guides/bookinfo/#deploying-the-application).
+  [application deployment instructions](/docs/examples/bookinfo/#deploying-the-application).
 
 ## Tasks
 
@@ -53,5 +55,5 @@ developers to manually instrument their applications.
 
 When you're finished experimenting with the Bookinfo sample, you can
 uninstall it by following the
-[Bookinfo cleanup instructions](/docs/guides/bookinfo/#cleanup)
+[Bookinfo cleanup instructions](/docs/examples/bookinfo/#cleanup)
 corresponding to your environment.
