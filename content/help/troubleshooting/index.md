@@ -2,10 +2,8 @@
 title: Troubleshooting Guide
 description: Practical advice on practical problems with Istio
 weight: 40
-aliases:
-    - /troubleshooting.html
-    - /troubleshooting/index.html
 force_inline_toc: true
+draft: true
 ---
 
 Oh no! You're having trouble? Below is a list of solutions to common problems.
