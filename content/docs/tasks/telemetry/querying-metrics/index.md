@@ -58,7 +58,7 @@ application.
 The results will be similar to:
 
 {{< image width="100%" ratio="39.36%"
-    link="../img/prometheus_query_result.png"
+    link="./prometheus_query_result.png"
     caption="Prometheus Query Result"
     >}}
 
