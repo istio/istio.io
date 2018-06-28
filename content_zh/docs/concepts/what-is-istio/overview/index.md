@@ -64,6 +64,6 @@ Envoy 被部署为 **sidecar**，和对应服务在同一个 Kubernetes pod 中�
 ## 下一步
 
 - 了解 Istio 的[设计目标](/docs/concepts/what-is-istio/goals/)。
-- 探索我们的[指南](/docs/guides/)。
+- 探索我们的[指南](/docs/examples/)。
 - 在我们其他的[概念](/docs/concepts/)指南中详细了解 Istio 组件。
 - 使用我们的[任务](/docs/tasks/)指南，了解如何将自己的服务部署到 Istio。

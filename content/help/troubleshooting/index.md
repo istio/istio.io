@@ -2,17 +2,15 @@
 title: Troubleshooting Guide
 description: Practical advice on practical problems with Istio
 weight: 40
-aliases:
-    - /troubleshooting.html
-    - /troubleshooting/index.html
 force_inline_toc: true
+draft: true
 ---
 
 Oh no! You're having trouble? Below is a list of solutions to common problems.
 
 ## Route rules have no effect on my application
 
-If route rules are working perfectly for the [Bookinfo](/docs/guides/bookinfo/) sample,
+If route rules are working perfectly for the [Bookinfo](/docs/examples/bookinfo/) sample,
 but similar version routing rules have no effect on your own application, it may be that
 your Kubernetes services need to be changed slightly.
 
@@ -252,7 +250,7 @@ or [manual](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection) 
         In Kubernetes environments, retrieve the Mixer logs via:
 
         ```command
-        $ kubectl -n istio-system logs <mixer pod> mixer
+        $ kubectl -n istio-system logs <mixer pod> -c mixer
         ```
 
         Look for errors related to your configuration or your service in the
@@ -292,7 +290,7 @@ More on viewing Mixer configuration can be found [here](/help/faq/mixer/#mixer-s
     In Kubernetes environment, check the Mixer logs via:
 
     ```command
-    $ kubectl -n istio-system logs <mixer pod> mixer
+    $ kubectl -n istio-system logs <mixer pod> -c mixer
     ```
 
     Filter for lines including something like `Report 0 returned with: INTERNAL

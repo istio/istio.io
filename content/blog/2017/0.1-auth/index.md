@@ -52,7 +52,7 @@ The above diagram illustrates three key security features:
 
 Istio Auth uses [Kubernetes service accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) to identify who the service runs as. The identity is used to establish trust and define service level access policies. The identity is assigned at service deployment time and encoded in the SAN (Subject Alternative Name) field of an X.509 certificate. Using a service account as the identity has the following advantages:
 
-* Administrators can configure who has access to a Service Account by using the [RBAC](https://kubernetes.io/docs/admin/authorization/rbac/) feature introduced in Kubernetes 1.6
+* Administrators can configure who has access to a Service Account by using the [RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) feature introduced in Kubernetes 1.6
 
 * Flexibility to identify a human user, a service, or a group of services
 

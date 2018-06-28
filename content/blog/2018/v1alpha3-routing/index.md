@@ -161,7 +161,7 @@ In effect, what has changed is that instead of configuring routing using a set o
 now configure the (virtual) destination itself, with all of its rules in an ordered list within a corresponding
 [VirtualService](/docs/reference/config/istio.networking.v1alpha3/#VirtualService) resource.
 For example, where previously we had two `RouteRule` resources for the
-[Bookinfo](/docs/guides/bookinfo/) application’s `reviews` service, like this:
+[Bookinfo](/docs/examples/bookinfo/) application’s `reviews` service, like this:
 
 ```yaml
 apiVersion: config.istio.io/v1alpha2

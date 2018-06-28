@@ -9,7 +9,7 @@ keywords: [kubernetes]
 
 ## 前置条件
 
-下面的操作说明需要您可以访问 kubernetes **1.9 或更高版本** 的集群，并且启用了 [RBAC (基于角色的访问控制)](https://kubernetes.io/docs/admin/authorization/rbac/)。您需要安装了 **1.9  或更高版本** 的 `kubectl` 命令。
+下面的操作说明需要您可以访问 kubernetes **1.9 或更高版本** 的集群，并且启用了 [RBAC (基于角色的访问控制)](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)。您需要安装了 **1.9  或更高版本** 的 `kubectl` 命令。
 
 如果您希望启用[自动注入 sidecar](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)，您必须使用 kubernetes 1.9或更高版本。
 
@@ -19,7 +19,7 @@ keywords: [kubernetes]
 
 ### Minikube
 
-要在本地安装 Istio，请安装最新版本的 [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/)（0.25.0 或更高版本）。
+要在本地安装 Istio，请安装最新版本的 [Minikube](https://kubernetes.io/docs/setup/minikube/)（0.25.0 或更高版本）。
 
 Kubernetes 1.9
 
@@ -222,7 +222,7 @@ $ kubectl describe pod --namespace kube-system $(kubectl get pods --namespace ku
 
 从 0.2 版本开始，Istio 安装到 `istio-system` namespace 下，即可以管理所有其它 namespace 下的微服务。
 
-1. 到 [Istio release](https://github.com/istio/istio/releases) 页面上，根据您的操作系统下载对应的发行版。如果您使用的是 MacOS 或者 Linux 系统，可以使用下面的额命令自动下载和解压最新的发行版：
+1. 到 [Istio release](https://github.com/istio/istio/releases) 页面上，根据您的操作系统下载对应的发行版。如果您使用的是 macOS 或者 Linux 系统，可以使用下面的额命令自动下载和解压最新的发行版：
 
     ```command
     $ curl -L https://git.io/getLatestIstio | sh -
@@ -242,7 +242,7 @@ $ kubectl describe pod --namespace kube-system $(kubectl get pods --namespace ku
     ```
 
 1. 将 `istioctl` 客户端二进制文件加到 PATH 中。
-  例如，在 MacOS 或 Linux 系统上执行下面的命令：
+  例如，在 macOS 或 Linux 系统上执行下面的命令：
 
     ```command
     $ export PATH=$PWD/bin:$PATH
@@ -310,7 +310,7 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
 
 ## 部署应用
 
-您可以部署自己的应用或者示例应用程序如 [BookInfo](/docs/guides/bookinfo/)。
+您可以部署自己的应用或者示例应用程序如 [BookInfo](/docs/examples/bookinfo/)。
 注意：应用程序必须使用 HTTP/1.1 或 HTTP/2.0 协议来传递 HTTP 流量，因为 HTTP/1.0 已经不再支持。
 
 如果您启动了 [Istio-Initializer](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)，如上所示，您可以使用 `kubectl create` 直接部署应用。Istio-Initializer 会向应用程序的 Pod 中自动注入 Envoy 容器，如果运行 Pod 的 namespace 被标记为 `istio-injection=enabled` 的话：
@@ -342,6 +342,6 @@ $ kubectl delete -f install/kubernetes/istio-demo.yaml
 
 ## 下一步
 
-* 查看 [Bookinfo](/docs/guides/bookinfo/) 应用程序示例
+* 查看 [Bookinfo](/docs/examples/bookinfo/) 应用程序示例
 
 * 查看如何[验证 Istio 双向 TLS 认证](/docs/tasks/security/mutual-tls/)

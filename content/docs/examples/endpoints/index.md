@@ -2,6 +2,8 @@
 title: Install Istio for Google Cloud Endpoints Services
 description: Explains how to manually integrate Google Cloud Endpoints services with Istio.
 weight: 42
+aliases:
+    - /docs/guides/endpoints/index.html
 ---
 
 This document shows how to manually integrate Istio with existing
@@ -51,11 +53,11 @@ Otherwise, ESP won't be able to access Google cloud service control.
         EOF
     ```
 
-1.  Get the Ingress IP through [instructions](/docs/tasks/traffic-management/ingress/#verifying-the-gateway-for-http).
+1.  Get the Ingress IP and port by following the [instructions](/docs/tasks/traffic-management/ingress#determining-the-ingress-ip-and-ports).
 You can verify accessing the Endpoints service through Ingress:
 
     ```command
-    $ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${INGRESS_HOST}:80/echo?key=${ENDPOINTS_KEY}"i
+    $ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${INGRESS_HOST}:${INGRESS_PORT}/echo?key=${ENDPOINTS_KEY}"i
     ```
 
 ## HTTPS Endpoints service using secured Ingress
@@ -87,7 +89,7 @@ Adding `"--http_port=8081"` in the ESP deployment arguments and expose the HTTP 
 1. After this, you will find access to `EXTERNAL_IP` no longer works because istio proxy only accept secure mesh connections.
 Accessing through Ingress works because Ingress does HTTP terminations.
 
-1. To secure the access at Ingress, following the [instructions](/docs/tasks/traffic-management/ingress/#add-a-secure-port-https-to-our-gateway).
+1. To secure the access at Ingress, follow the [instructions](/docs/tasks/traffic-management/secure-ingress/).
 
 1.  You can verify accessing the Endpoints service through secure Ingress:
 
