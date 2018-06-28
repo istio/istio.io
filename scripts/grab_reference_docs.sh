@@ -48,7 +48,7 @@ locate_file() {
     FNP=${LOCATION:31}
     FN=$(echo $FNP | rev | cut -d'/' -f1 | rev)
     FN=${FN%.html}
-    PP=$(echo $FNP | rev | cut -d'/' -f2- | rev)
+    PP=$(echo ${FNP} | rev | cut -d'/' -f2- | rev)
     mkdir -p content/docs${PP}/${FN}
     sed -e 's/href="https:\/\/istio.io/href="/g' ${FILENAME} >content/docs${PP}/${FN}/index.html
 }
@@ -63,12 +63,12 @@ get_command_doc() {
     COMMAND_PATH=$1
     COMMAND=$2
 
-    pushd $COMMAND_PATH
+    pushd ${COMMAND_PATH}
     go build
-    mkdir -p $COMMAND_DIR/$COMMAND
-    ./$COMMAND collateral -o $COMMAND_DIR/$COMMAND --jekyll_html
-    mv $COMMAND_DIR/$COMMAND/$COMMAND.html $COMMAND_DIR/$COMMAND/index.html
-    rm $COMMAND 2>/dev/null
+    mkdir -p ${COMMAND_DIR}/${COMMAND}
+    ./${COMMAND} collateral -o ${COMMAND_DIR}/${COMMAND} --jekyll_html
+    mv ${COMMAND_DIR}/${COMMAND}/${COMMAND}.html ${COMMAND_DIR}/${COMMAND}/index.html
+    rm ${COMMAND} 2>/dev/null
     popd
 }
 
@@ -78,26 +78,26 @@ find content/docs/reference -name '*.html' -type f|xargs rm 2>/dev/null
 for f in `find $WORK_DIR/istio -type f -name '*.pb.html'`
 do
     echo "processing $f"
-    locate_file $f
+    locate_file ${f}
 done
 
 for f in `find $WORK_DIR/api -type f -name '*.pb.html'`
 do
     echo "processing $f"
-    locate_file $f
+    locate_file ${f}
 done
 
-get_command_doc $WORK_DIR/istio/mixer/cmd/mixc mixc
-get_command_doc $WORK_DIR/istio/mixer/cmd/mixs mixs
-get_command_doc $WORK_DIR/istio/istioctl/cmd/istioctl istioctl
-get_command_doc $WORK_DIR/istio/pilot/cmd/pilot-agent pilot-agent
-get_command_doc $WORK_DIR/istio/pilot/cmd/pilot-discovery pilot-discovery
-get_command_doc $WORK_DIR/istio/pilot/cmd/sidecar-injector sidecar-injector
-get_command_doc $WORK_DIR/istio/security/cmd/istio_ca istio_ca
-get_command_doc $WORK_DIR/istio/security/cmd/node_agent node_agent
-get_command_doc $WORK_DIR/istio/galley/cmd/galley galley
+get_command_doc ${WORK_DIR}/istio/mixer/cmd/mixc mixc
+get_command_doc ${WORK_DIR}/istio/mixer/cmd/mixs mixs
+get_command_doc ${WORK_DIR}/istio/istioctl/cmd/istioctl istioctl
+get_command_doc ${WORK_DIR}/istio/pilot/cmd/pilot-agent pilot-agent
+get_command_doc ${WORK_DIR}/istio/pilot/cmd/pilot-discovery pilot-discovery
+get_command_doc ${WORK_DIR}/istio/pilot/cmd/sidecar-injector sidecar-injector
+get_command_doc ${WORK_DIR}/istio/security/cmd/istio_ca istio_ca
+get_command_doc ${WORK_DIR}/istio/security/cmd/node_agent node_agent
+get_command_doc ${WORK_DIR}/istio/galley/cmd/galley galley
 
 # Copy all the example files over into the examples directory
 # cp $WORK_DIR/istio/Makefile examples/Makefile
 
-rm -fr $WORK_DIR
+rm -fr ${WORK_DIR}
