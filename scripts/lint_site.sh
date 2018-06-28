@@ -50,7 +50,7 @@ check_content() {
 check_content content --en-us
 check_content content_zh --zh-cn
 
-#htmlproofer ./public --check-html --assume-extension --timeframe 2d --storage-dir .htmlproofer --url-ignore "/localhost/,/github.com/istio/istio.github.io/edit/master/,/github.com/istio/istio/issues/new/choose/"
+htmlproofer ./public --check-html --assume-extension --timeframe 2d --storage-dir .htmlproofer --url-ignore "/localhost/,/github.com/istio/istio.github.io/edit/master/,/github.com/istio/istio/issues/new/choose/"
 if [ "$?" != "0" ]
 then
     FAILED=1
