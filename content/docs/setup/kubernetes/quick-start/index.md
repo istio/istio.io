@@ -24,7 +24,7 @@ enabled. You will also need
 ### Minikube
 
 To install Istio locally, install the latest version of
-[Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) (version 0.28.0 or later).
+[Minikube](https://kubernetes.io/docs/setup/minikube/) (version 0.28.0 or later).
 
 Select a [VM driver](https://kubernetes.io/docs/tasks/tools/install-minikube/#install-a-hypervisor)
 and substitute the below `your_vm_driver_choice` with the installed VM driver.

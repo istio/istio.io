@@ -19,7 +19,7 @@ keywords: [kubernetes]
 
 ### Minikube
 
-要在本地安装 Istio，请安装最新版本的 [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/)（0.25.0 或更高版本）。
+要在本地安装 Istio，请安装最新版本的 [Minikube](https://kubernetes.io/docs/setup/minikube/)（0.25.0 或更高版本）。
 
 Kubernetes 1.9
 
