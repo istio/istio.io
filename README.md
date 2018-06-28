@@ -46,6 +46,7 @@ You can run these linters locally using:
 
 ```bash
 $ make build
+$ make gen
 $ make lint
 ```
 

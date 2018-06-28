@@ -88,7 +88,7 @@ be used by all Istio control planes as well as resources that are replicated per
 plane. Although it is a simple matter to deploy multiple control planes by replacing the
 *istio-system* namespace references as described above, a better approach is to split the
 manifests into a common part that is deployed once for all tenants and a tenant
-specific part. For the [Custom Resource Definitions](https://kubernetes.io/docs/concepts/api-extension/custom-resources/#customresourcedefinitions), the roles and the role
+specific part. For the [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions), the roles and the role
 bindings should be separated out from the provided Istio manifests.  Additionally, the
 roles and role bindings in the provided Istio manifests are probably unsuitable for a
 multi-tenant environment and should be modified or augmented as described in the next
@@ -346,7 +346,7 @@ Istio functionality required to support those use cases.
 
 * Video on Kubernetes multi-tenancy support, [Multi-Tenancy Support & Security Modeling with RBAC and Namespaces](https://www.youtube.com/watch?v=ahwCkJGItkU), and the [supporting slide deck](https://schd.ws/hosted_files/kccncna17/21/Multi-tenancy%20Support%20%26%20Security%20Modeling%20with%20RBAC%20and%20Namespaces.pdf).
 * Kubecon talk on security that discusses Kubernetes support for "Cooperative soft multi-tenancy", [Building for Trust: How to Secure Your Kubernetes](https://www.youtube.com/watch?v=YRR-kZub0cA).
-* Kubernetes documentation on [RBAC](https://kubernetes.io/docs/admin/authorization/rbac/) and [namespaces](https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/).
+* Kubernetes documentation on [RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) and [namespaces](https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/).
 * Kubecon slide deck on [Multi-tenancy Deep Dive](https://schd.ws/hosted_files/kccncna17/a9/kubecon-multitenancy.pdf).
 * Google document on [Multi-tenancy models for Kubernetes](https://docs.google.com/document/d/15w1_fesSUZHv-vwjiYa9vN_uyc--PySRoLKTuDhimjc/edit#heading=h.3dawx97e3hz6). (Requires permission)
 * Cloud Foundry WIP document, [Multi-cloud and Multi-tenancy](https://docs.google.com/document/d/14Hb07gSrfVt5KX9qNi7FzzGwB_6WBpAnDpPG6QEEd9Q)

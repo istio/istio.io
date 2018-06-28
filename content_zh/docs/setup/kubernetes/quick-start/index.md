@@ -9,7 +9,7 @@ keywords: [kubernetes]
 
 ## 前置条件
 
-下面的操作说明需要您可以访问 kubernetes **1.9 或更高版本** 的集群，并且启用了 [RBAC (基于角色的访问控制)](https://kubernetes.io/docs/admin/authorization/rbac/)。您需要安装了 **1.9  或更高版本** 的 `kubectl` 命令。
+下面的操作说明需要您可以访问 kubernetes **1.9 或更高版本** 的集群，并且启用了 [RBAC (基于角色的访问控制)](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)。您需要安装了 **1.9  或更高版本** 的 `kubectl` 命令。
 
 如果您希望启用[自动注入 sidecar](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)，您必须使用 kubernetes 1.9或更高版本。
 
@@ -19,7 +19,7 @@ keywords: [kubernetes]
 
 ### Minikube
 
-要在本地安装 Istio，请安装最新版本的 [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/)（0.25.0 或更高版本）。
+要在本地安装 Istio，请安装最新版本的 [Minikube](https://kubernetes.io/docs/setup/minikube/)（0.25.0 或更高版本）。
 
 Kubernetes 1.9
 
@@ -222,7 +222,7 @@ $ kubectl describe pod --namespace kube-system $(kubectl get pods --namespace ku
 
 从 0.2 版本开始，Istio 安装到 `istio-system` namespace 下，即可以管理所有其它 namespace 下的微服务。
 
-1. 到 [Istio release](https://github.com/istio/istio/releases) 页面上，根据您的操作系统下载对应的发行版。如果您使用的是 MacOS 或者 Linux 系统，可以使用下面的额命令自动下载和解压最新的发行版：
+1. 到 [Istio release](https://github.com/istio/istio/releases) 页面上，根据您的操作系统下载对应的发行版。如果您使用的是 macOS 或者 Linux 系统，可以使用下面的额命令自动下载和解压最新的发行版：
 
     ```command
     $ curl -L https://git.io/getLatestIstio | sh -
@@ -242,7 +242,7 @@ $ kubectl describe pod --namespace kube-system $(kubectl get pods --namespace ku
     ```
 
 1. 将 `istioctl` 客户端二进制文件加到 PATH 中。
-  例如，在 MacOS 或 Linux 系统上执行下面的命令：
+  例如，在 macOS 或 Linux 系统上执行下面的命令：
 
     ```command
     $ export PATH=$PWD/bin:$PATH
