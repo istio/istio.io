@@ -49,7 +49,7 @@ title: Istio
             <span id="SCROLLME"></span>
         </div>
     </div>
-    
+
     <div class="container-fluid traffic color1">
         <div class="row align-items-center justify-content-center">
             <div class="col-12 col-md-5">
