@@ -12,7 +12,7 @@ After completing this task, you should understand all of the assumptions about y
 application and how to have it participate in tracing, regardless of what
 language/framework/platform you use to build your application.
 
-The [Bookinfo](/docs/guides/bookinfo/) sample is used as the
+The [Bookinfo](/docs/examples/bookinfo/) sample is used as the
 example application for this task.
 
 ## Before you begin
@@ -22,7 +22,7 @@ example application for this task.
     Either use the `istio-demo.yaml` (or `istio-demo-auth.yaml`) template, which includes tracing support, or
     use the helm chart with tracing enabled using the `--set tracing.enabled=true` option.
 
-* Deploy the [Bookinfo](/docs/guides/bookinfo/) sample application.
+* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
 ## Accessing the dashboard
 
@@ -136,7 +136,7 @@ When you make downstream calls in your applications, make sure to include these 
 ## Cleanup
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions
+  [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.
 
 ## What's next

@@ -9,7 +9,7 @@ This task shows you how to setup and use the Istio Dashboard to monitor mesh
 traffic. As part of this task, you will install the Grafana Istio addon and use
 the web-based interface for viewing service mesh traffic data.
 
-The [Bookinfo](/docs/guides/bookinfo/) sample application is used as
+The [Bookinfo](/docs/examples/bookinfo/) sample application is used as
 the example application throughout this task.
 
 ## Before you begin
@@ -75,7 +75,7 @@ the example application throughout this task.
     caption="Istio Dashboard With Traffic"
     >}}
 
-> `$GATEWAY_URL` is the value set in the [Bookinfo](/docs/guides/bookinfo/) guide.
+> `$GATEWAY_URL` is the value set in the [Bookinfo](/docs/examples/bookinfo/) example.
 
 ### About the Grafana add-on
 
@@ -114,5 +114,5 @@ add-on:
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-[Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions
+[Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
 to shutdown the application.

@@ -310,7 +310,7 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
 
 ## 部署应用
 
-您可以部署自己的应用或者示例应用程序如 [BookInfo](/docs/guides/bookinfo/)。
+您可以部署自己的应用或者示例应用程序如 [BookInfo](/docs/examples/bookinfo/)。
 注意：应用程序必须使用 HTTP/1.1 或 HTTP/2.0 协议来传递 HTTP 流量，因为 HTTP/1.0 已经不再支持。
 
 如果您启动了 [Istio-Initializer](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)，如上所示，您可以使用 `kubectl create` 直接部署应用。Istio-Initializer 会向应用程序的 Pod 中自动注入 Envoy 容器，如果运行 Pod 的 namespace 被标记为 `istio-injection=enabled` 的话：
@@ -342,6 +342,6 @@ $ kubectl delete -f install/kubernetes/istio-demo.yaml
 
 ## 下一步
 
-* 查看 [Bookinfo](/docs/guides/bookinfo/) 应用程序示例
+* 查看 [Bookinfo](/docs/examples/bookinfo/) 应用程序示例
 
 * 查看如何[验证 Istio 双向 TLS 认证](/docs/tasks/security/mutual-tls/)

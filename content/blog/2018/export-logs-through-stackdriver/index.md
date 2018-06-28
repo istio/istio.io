@@ -13,7 +13,7 @@ and export those logs to various configured sinks such as such as
 or [Cloud Pub/Sub](https://cloud.google.com/pubsub/). At the end of this post you can perform
 analytics on Istio data from your favorite places such as BigQuery, GCS or Cloud Pub/Sub.
 
-The [Bookinfo](/docs/guides/bookinfo/) sample application is used as the example
+The [Bookinfo](/docs/examples/bookinfo/) sample application is used as the example
 application throughout this task.
 
 ## Before you begin
@@ -253,7 +253,7 @@ exported. In detail as follows:
     ```
 
 *   If you are not planning to explore any follow-on tasks, refer to the
-    [Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions to shutdown
+    [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions to shutdown
     the application.
 
 ## Availability of logs in export sinks

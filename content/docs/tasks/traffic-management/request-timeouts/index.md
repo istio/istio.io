@@ -16,7 +16,7 @@ This task shows you how to setup request timeouts in Envoy using Istio.
 * Setup Istio by following the instructions in the
   [Installation guide](/docs/setup/).
 
-* Deploy the [Bookinfo](/docs/guides/bookinfo/) sample application.
+* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
 *   Initialize the application version routing by running the following command:
 
@@ -138,7 +138,7 @@ the timeout is specified in millisecond (instead of second) units.
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions
+  [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.
 
 ## What's next

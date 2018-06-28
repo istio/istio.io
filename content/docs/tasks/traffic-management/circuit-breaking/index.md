@@ -50,11 +50,10 @@ Let's set up a scenario to demonstrate the circuit-breaking capabilities of Isti
             http1MaxPendingRequests: 1
             maxRequestsPerConnection: 1
         outlierDetection:
-          http:
-            consecutiveErrors: 1
-            interval: 1s
-            baseEjectionTime: 3m
-            maxEjectionPercent: 100
+          consecutiveErrors: 1
+          interval: 1s
+          baseEjectionTime: 3m
+          maxEjectionPercent: 100
     EOF
     ```
 

@@ -3,7 +3,7 @@ title: How do I get started using Istio?
 weight: 30
 ---
 
-We recommend starting with the [Guides](/docs/guides/), which walks
+We recommend starting with the [Guides](/docs/examples/), which walks
 through different core Istio concepts in a tutorial style. The guides show
 case intelligent routing, policy enforcement, security, telemetry, etc.
 

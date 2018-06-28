@@ -20,7 +20,7 @@ two steps: 50%, 100%.
 * Setup Istio by following the instructions in the
   [Installation guide](/docs/setup/).
 
-* Deploy the [Bookinfo](/docs/guides/bookinfo/) sample application.
+* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
 ## Weight-based version routing
 
@@ -98,7 +98,7 @@ For more about version routing with autoscaling, check out [Canary Deployments u
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions
+  [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.
 
 ## What's next
