@@ -32,7 +32,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `destination.ip`                | ip_address | Server IP address. | 10.0.0.104 |
 | `destination.port`              | int64 | The recipient port on the server IP address. | 8080 |
 | `destination.labels`            | map[string, string] | A map of key-value pairs attached to the server instance. | version => v2 |
-| `destination.name`              | string | Destination workload instance name. | istio-telemetry-2359333 |
+| `destination.name`              | string | Destination workload instance name. | `istio-telemetry-2359333` |
 | `destination.namespace`         | string | Destination workload instance namespace. | istio-system |
 | `destination.principal`         | string | The user running the destination application. | service-account |
 | `destination.owner`             | string | Reference to the workload controlling the destination workload instance.| `kubernetes://apis/extensions/v1beta1/namespaces/istio-system/deployments/istio-telemetry` |
