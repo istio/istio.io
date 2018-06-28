@@ -288,11 +288,13 @@ function handleDOMLoaded() {
                         var html = "<div class='command'>" + cmd + "</div>";
 
                         var output = "";
-                        for (var j = bottomStart; j < lines.length; j++) {
-                            if (output !== "") {
-                                output += "\n";
+                        if (bottomStart > 0) {
+                            for (var j = bottomStart; j < lines.length; j++) {
+                                if (output !== "") {
+                                    output += "\n";
+                                }
+                                output += lines[j];
                             }
-                            output += lines[j];
                         }
 
                         if (output !== "") {

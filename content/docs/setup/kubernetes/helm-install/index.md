@@ -26,7 +26,7 @@ recommended.
 
 1. Istio by default uses LoadBalancer service object types.  Some platforms do not support LoadBalancer
    service objects.  For platforms lacking LoadBalancer support, install Istio with NodePort support
-   instead with the flags `--set ingress.service.type=NodePort ingressgateway.service.type=NodePort egressgateway.service.type=NodePort` appended to the end of the helm operation.
+   instead with the flags `--set ingress.service.type=NodePort --set ingressgateway.service.type=NodePort --set egressgateway.service.type=NodePort` appended to the end of the helm operation.
 
 ## Option 1: Install with Helm via `helm template`
 
@@ -144,13 +144,13 @@ istio-pilot-58c65f74bc-2f5xn             2/2       Running   0          1m
 istio-sidecar-injector-86cc99578-4t58m   1/1       Running   0          1m
 ```
 
-With this minimal set you can proceed to installing the sample [Bookinfo](/docs/guides/bookinfo/) application or install your own application and [configure request routing](/docs/tasks/traffic-management/request-routing/) for instance.
+With this minimal set you can proceed to installing the sample [Bookinfo](/docs/examples/bookinfo/) application or install your own application and [configure request routing](/docs/tasks/traffic-management/request-routing/) for instance.
 
 Of course that if no ingress is expected and sidecar is to be [injected manually](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection) then you can reduce this minimal set even further and only have Pilot and Citadel. However, Pilot depends on Citadel therefore you can't install it without the other.
 
 ## What's next
 
-See the sample [Bookinfo](/docs/guides/bookinfo/) application.
+See the sample [Bookinfo](/docs/examples/bookinfo/) application.
 
 ## Uninstall
 

@@ -15,7 +15,7 @@ service.
 * Setup Istio in a Kubernetes cluster by following the quick start instructions
   in the [Installation guide](/docs/setup/kubernetes/quick-start/).
 
-* Deploy the [Bookinfo](/docs/guides/bookinfo/) sample application.
+* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
 * Initialize the application version routing to direct `reviews` service
   requests from test user "jason" to version v2 and requests from any other
@@ -263,7 +263,7 @@ with the given namespace.
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions
+  [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.
 
 ## What's next
