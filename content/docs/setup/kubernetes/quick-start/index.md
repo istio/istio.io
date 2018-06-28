@@ -224,7 +224,7 @@ Istio is installed in its own `istio-system` namespace and can manage
 services from all other namespaces.
 
 1.  Go to the [Istio release](https://github.com/istio/istio/releases) page to download the
-installation file corresponding to your OS. If you are using a MacOS or Linux system, you can also
+installation file corresponding to your OS. If you are using a macOS or Linux system, you can also
 run the following command to download and extract the latest release automatically:
 
     ```command
@@ -246,7 +246,7 @@ installation directory contains:
     ```
 
 1.  Add the `istioctl` client to your PATH.
-For example, run the following command on a MacOS or Linux system:
+For example, run the following command on a macOS or Linux system:
 
     ```command
     $ export PATH=$PWD/bin:$PATH
