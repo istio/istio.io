@@ -1,5 +1,5 @@
 ---
-title: Secure Ingress Traffic
+title: Securing Gateways with HTTPS
 description: Describes how to configure Istio to expose a service outside of the service mesh, over TLS or Mutual TLS.
 weight: 31
 keywords: [traffic-management,ingress]
@@ -8,8 +8,7 @@ keywords: [traffic-management,ingress]
 > Note: This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.7/docs/tasks/traffic-management/).
 
 The [Control Ingress Traffic](/docs/tasks/traffic-management/ingress) task describes how to configure an ingress
-gateway to enable TLS (non-mutual) traffic from outside the mesh into the mesh. This task extends that task to enable
-Mutual TLS ingress traffic.
+gateway to expose an HTTP endpoint of a service to external traffic. This task extends that task to enable HTTPS access to the service using either simple or mutual TLS.
 
 ## Before you begin
 
