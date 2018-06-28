@@ -1,0 +1,38 @@
+{{/*
+Purpose:
+Inserts a preformatted code block into the HTML. You specify the syntax to use for
+highlighting, which can be one of `plain`, `markdown`, `yaml`, `json`, `java`, `javascript`,
+`c`, `cpp`, `csharp`, `go`, `html`, `protobuf`, `perl`, `docker`, and `bash`.
+
+When the syntax is bash, the first line of the block is expected to start with a $.
+An additional output syntax can be specified which uses different syntax coloring
+for the output portion of the block. Otherwise, the output is colored using the
+`plain` syntax.block
+
+*/}}
+{{ if .Get 0 }}
+    {{ .Scratch.Set "syntax" (.Get 0) }}
+    {{ .Scratch.Set "text" (trim .Inner "\n ") }}
+    {{ .Scratch.Set "output" (.Get 1) }}
+{{ else }}
+    {{ .Scratch.Set "syntax" "plain" }}
+    {{ .Scratch.Set "text" "ERROR: markdown content did not indicate syntax" }}
+{{ end }}
+
+{{ if eq (.Scratch.Get "syntax") "bash" }}
+    {{ if not (hasPrefix (trim (.Scratch.Get "text") " ") "$") }}
+        {{ .Scratch.Set "syntax" "plain" }}
+        {{ .Scratch.Set "text" "ERROR: markdown specified a bash syntax, but first line didn't start with $" }}
+    {{ end }}
+
+    {{ if hasPrefix (trim (.Scratch.Get "text") " ") "$ cat <<EOF |" }}
+        {{ .Scratch.Set "text" (replace (.Scratch.Get "text") "$ cat" "cat") }}
+    {{ else }}
+        {{ .Scratch.Set "syntax" "command" }}
+        {{ if (.Scratch.Get "output") }}
+            {{ .Scratch.Set "syntax" (printf "command-output-as-%s" (.Scratch.Get "output")) }}
+        {{ end }}
+    {{ end }}
+{{ end }}
+
+<pre><code class='language-{{ .Scratch.Get "syntax" }}'>{{ .Scratch.Get "text" }}</code></pre>
