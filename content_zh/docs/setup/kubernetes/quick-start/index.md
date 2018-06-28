@@ -222,7 +222,7 @@ $ kubectl describe pod --namespace kube-system $(kubectl get pods --namespace ku
 
 从 0.2 版本开始，Istio 安装到 `istio-system` namespace 下，即可以管理所有其它 namespace 下的微服务。
 
-1. 到 [Istio release](https://github.com/istio/istio/releases) 页面上，根据您的操作系统下载对应的发行版。如果您使用的是 MacOS 或者 Linux 系统，可以使用下面的额命令自动下载和解压最新的发行版：
+1. 到 [Istio release](https://github.com/istio/istio/releases) 页面上，根据您的操作系统下载对应的发行版。如果您使用的是 macOS 或者 Linux 系统，可以使用下面的额命令自动下载和解压最新的发行版：
 
     ```command
     $ curl -L https://git.io/getLatestIstio | sh -
@@ -242,7 +242,7 @@ $ kubectl describe pod --namespace kube-system $(kubectl get pods --namespace ku
     ```
 
 1. 将 `istioctl` 客户端二进制文件加到 PATH 中。
-  例如，在 MacOS 或 Linux 系统上执行下面的命令：
+  例如，在 macOS 或 Linux 系统上执行下面的命令：
 
     ```command
     $ export PATH=$PWD/bin:$PATH
