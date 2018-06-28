@@ -478,9 +478,9 @@ You specify the port 443, protocol `TLS` in the corresponding `ServiceEntry`, eg
 ### Cleanup
 
 ```command
-$ istioctl delete serviceentry cnn
-$ istioctl delete gateway istio-egressgateway
-$ istioctl delete virtualservice direct-through-egress-gateway
+$ istioctl delete serviceentry cnn -n istio-system
+$ istioctl delete gateway istio-egressgateway -n istio-system
+$ istioctl delete virtualservice direct-through-egress-gateway -n istio-system
 ```
 
 ## Additional security considerations
