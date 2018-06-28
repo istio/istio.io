@@ -1,5 +1,5 @@
 ---
-title: Secure Ingress Traffic
+title: Securing Gateways with HTTPS
 description: Describes how to configure Istio to expose a service outside of the service mesh, over TLS or Mutual TLS.
 weight: 31
 keywords: [traffic-management,ingress]
