@@ -4,7 +4,7 @@ weight: 10
 ---
 
 Configuration for *instances*, *handlers*, and *rules* is stored as Kubernetes
-[Custom Resources](https://kubernetes.io/docs/concepts/api-extension/custom-resources/).
+[Custom Resources](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/).
 Configuration may be accessed by using `kubectl` to query the Kubernetes
 API server for the resources.
 
@@ -30,7 +30,7 @@ $ kubectl -n <namespace> get rules <name> -o yaml
 ## Handlers
 
 Handlers are defined based on Kubernetes [Custom Resource
-Definitions](https://kubernetes.io/docs/concepts/api-extension/custom-resources/#customresourcedefinitions)
+Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
 for adapters.
 
 First, identify the list of adapter kinds:
@@ -71,7 +71,7 @@ $ kubectl -n <namespace> get <adapter kind name> <name> -o yaml
 ## Instances
 
 Instances are defined according to Kubernetes [Custom Resource
-Definitions](https://kubernetes.io/docs/concepts/api-extension/custom-resources/#customresourcedefinitions)
+Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
 for instances.
 
 First, identify the list of instance kinds:
