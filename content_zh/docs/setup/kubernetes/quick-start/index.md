@@ -9,7 +9,7 @@ keywords: [kubernetes]
 
 ## 前置条件
 
-下面的操作说明需要您可以访问 kubernetes **1.9 或更高版本** 的集群，并且启用了 [RBAC (基于角色的访问控制)](https://kubernetes.io/docs/admin/authorization/rbac/)。您需要安装了 **1.9  或更高版本** 的 `kubectl` 命令。
+下面的操作说明需要您可以访问 kubernetes **1.9 或更高版本** 的集群，并且启用了 [RBAC (基于角色的访问控制)](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)。您需要安装了 **1.9  或更高版本** 的 `kubectl` 命令。
 
 如果您希望启用[自动注入 sidecar](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)，您必须使用 kubernetes 1.9或更高版本。
 
@@ -19,7 +19,7 @@ keywords: [kubernetes]
 
 ### Minikube
 
-要在本地安装 Istio，请安装最新版本的 [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/)（0.25.0 或更高版本）。
+要在本地安装 Istio，请安装最新版本的 [Minikube](https://kubernetes.io/docs/setup/minikube/)（0.25.0 或更高版本）。
 
 Kubernetes 1.9
 

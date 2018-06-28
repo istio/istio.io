@@ -11,7 +11,7 @@ Quick start instructions to install and configure Istio in a Kubernetes cluster.
 
 The following instructions require that you have access to a
 Kubernetes **1.9 or newer** cluster with [RBAC (Role-Based Access
-Control)](https://kubernetes.io/docs/admin/authorization/rbac/)
+Control)](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)
 enabled. You will also need
 [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 **1.9 or newer** installed. Version 1.10 is recommended.
@@ -24,7 +24,7 @@ enabled. You will also need
 ### Minikube
 
 To install Istio locally, install the latest version of
-[Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) (version 0.28.0 or later).
+[Minikube](https://kubernetes.io/docs/setup/minikube/) (version 0.28.0 or later).
 
 Select a [VM driver](https://kubernetes.io/docs/tasks/tools/install-minikube/#install-a-hypervisor)
 and substitute the below `your_vm_driver_choice` with the installed VM driver.
