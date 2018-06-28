@@ -257,7 +257,7 @@ Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list p
 ```
 
 The tenant administrator can deploy applications in the application namespace configured for
-that tenant. As an example, updating the [Bookinfo](/docs/guides/bookinfo/)
+that tenant. As an example, updating the [Bookinfo](/docs/examples/bookinfo/)
 manifests and then deploying under the tenant's application namespace of *ns-0*, listing the
 pods in use by this tenant's namespace is permitted:
 

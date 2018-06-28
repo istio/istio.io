@@ -144,13 +144,13 @@ istio-pilot-58c65f74bc-2f5xn             2/2       Running   0          1m
 istio-sidecar-injector-86cc99578-4t58m   1/1       Running   0          1m
 ```
 
-With this minimal set you can proceed to installing the sample [Bookinfo](/docs/guides/bookinfo/) application or install your own application and [configure request routing](/docs/tasks/traffic-management/request-routing/) for instance.
+With this minimal set you can proceed to installing the sample [Bookinfo](/docs/examples/bookinfo/) application or install your own application and [configure request routing](/docs/tasks/traffic-management/request-routing/) for instance.
 
 Of course that if no ingress is expected and sidecar is to be [injected manually](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection) then you can reduce this minimal set even further and only have Pilot and Citadel. However, Pilot depends on Citadel therefore you can't install it without the other.
 
 ## What's next
 
-See the sample [Bookinfo](/docs/guides/bookinfo/) application.
+See the sample [Bookinfo](/docs/examples/bookinfo/) application.
 
 ## Uninstall
 

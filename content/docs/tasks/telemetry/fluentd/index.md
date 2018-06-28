@@ -15,7 +15,7 @@ architecture. One popular logging backend is
 end of this task, a new log stream will be enabled sending logs to an
 example Fluentd / Elasticsearch / Kibana stack.
 
-The [Bookinfo](/docs/guides/bookinfo/) sample application is used
+The [Bookinfo](/docs/examples/bookinfo/) sample application is used
 as the example application throughout this task.
 
 ## Before you begin
@@ -357,7 +357,7 @@ example stack.
 1.  Send traffic to the sample application.
 
     For the
-    [Bookinfo](/docs/guides/bookinfo/#determining-the-ingress-ip-and-port)
+    [Bookinfo](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)
     sample, visit `http://$GATEWAY_URL/productpage` in your web browser
     or issue the following command:
 
@@ -397,7 +397,7 @@ example stack.
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions
+  [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.
 
 ## What's next

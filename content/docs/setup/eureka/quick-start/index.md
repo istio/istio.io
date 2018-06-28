@@ -15,7 +15,7 @@ Quick Start instructions to install and configure Istio in a Docker Compose setu
 ## Installation steps
 
 1.  Go to the [Istio release](https://github.com/istio/istio/releases) page to download the
-installation file corresponding to your OS. If you are using a MacOS or Linux system, you can also
+installation file corresponding to your OS. If you are using a macOS or Linux system, you can also
 run the following command to download and extract the latest release automatically:
 
     ```command
@@ -30,7 +30,7 @@ installation directory contains:
     * The `istio.VERSION` configuration file
 
 1.  Add the `istioctl` client to your PATH.
-For example, run the following command on a MacOS or Linux system:
+For example, run the following command on a macOS or Linux system:
 
     ```command
     $ export PATH=$PWD/bin:$PATH
@@ -61,7 +61,7 @@ For example, run the following command on a MacOS or Linux system:
 ## Deploy your application
 
 You can now deploy your own application or one of the sample applications provided with the
-installation like [Bookinfo](/docs/guides/bookinfo/).
+installation like [Bookinfo](/docs/examples/bookinfo/).
 
 > Since there is no concept of pods in a Docker setup, the Istio
 > sidecar runs in the same container as the application.  We will
@@ -85,4 +85,4 @@ $ docker-compose -f @install/eureka/istio.yaml@ down
 
 ## What's next
 
-* See the sample [Bookinfo](/docs/guides/bookinfo/) application.
+* See the sample [Bookinfo](/docs/examples/bookinfo/) application.

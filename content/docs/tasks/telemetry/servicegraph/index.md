@@ -9,7 +9,7 @@ This task shows you how to generate a graph of services within an Istio mesh.
 As part of this task, you will install the Servicegraph addon and use
 the web-based interface for viewing service graph of the service mesh.
 
-The [Bookinfo](/docs/guides/bookinfo/) sample application is used as
+The [Bookinfo](/docs/examples/bookinfo/) sample application is used as
 the example application throughout this task.
 
 ## Before you begin
@@ -50,7 +50,7 @@ the example application throughout this task.
     Refresh the page a few times (or send the command a few times) to generate a
     small amount of traffic.
 
-    > `$GATEWAY_URL` is the value set in the [Bookinfo](/docs/guides/bookinfo/) guide.
+    > `$GATEWAY_URL` is the value set in the [Bookinfo](/docs/examples/bookinfo/) example.
 
 1.  Open the Servicegraph UI.
 
@@ -122,5 +122,5 @@ Servicegraph add-on:
     ```
 
 * If you are not planning to explore any follow-on tasks, refer to the
-[Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions
+[Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
 to shutdown the application.

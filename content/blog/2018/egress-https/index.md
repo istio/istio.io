@@ -10,23 +10,23 @@ keywords: [traffic-management,egress,https]
 
 In many cases, not all the parts of a microservices-based application reside in a _service mesh_. Sometimes, the microservices-based applications use functionality provided by legacy systems that reside outside the mesh. We may want to migrate these systems to the service mesh gradually. Until these systems are migrated, they must be accessed by the applications inside the mesh. In other cases, the applications use web services provided by external organizations, often over the World Wide Web.
 
-In this blog post, I modify the [Istio Bookinfo Sample Application](/docs/guides/bookinfo/) to fetch book details from an external web service ([Google Books APIs](https://developers.google.com/books/docs/v1/getting_started)). I show how to enable external HTTPS traffic in Istio by using an _egress rule_. Finally, I explain the current issues related to the egress traffic control in Istio.
+In this blog post, I modify the [Istio Bookinfo Sample Application](/docs/examples/bookinfo/) to fetch book details from an external web service ([Google Books APIs](https://developers.google.com/books/docs/v1/getting_started)). I show how to enable external HTTPS traffic in Istio by using an _egress rule_. Finally, I explain the current issues related to the egress traffic control in Istio.
 
 ## Bookinfo sample application with external details web service
 
 ### Initial setting
 
-To demonstrate the scenario of consuming an external web service, I start with a Kubernetes cluster with [Istio installed](/docs/setup/kubernetes/quick-start/#installation-steps). Then I deploy [Istio Bookinfo Sample Application](/docs/guides/bookinfo/). This application uses the _details_ microservice to fetch book details, such as the number of pages and the publisher. The original _details_ microservice provides the book details without consulting any external service.
+To demonstrate the scenario of consuming an external web service, I start with a Kubernetes cluster with [Istio installed](/docs/setup/kubernetes/quick-start/#installation-steps). Then I deploy [Istio Bookinfo Sample Application](/docs/examples/bookinfo/). This application uses the _details_ microservice to fetch book details, such as the number of pages and the publisher. The original _details_ microservice provides the book details without consulting any external service.
 
 The example commands in this blog post work with Istio 0.2+, with or without [Mutual TLS](/docs/concepts/security/mutual-tls/) enabled.
 
 The Bookinfo configuration files required for the scenario of this post appear starting from [Istio release version 0.5](https://github.com/istio/istio/releases/tag/0.5.0).
 The Bookinfo configuration files reside in the `samples/bookinfo/kube` directory of the Istio release archive.
 
-Here is a copy of the end-to-end architecture of the application from the original [Bookinfo Guide](/docs/guides/bookinfo/).
+Here is a copy of the end-to-end architecture of the application from the original [Bookinfo sample application](/docs/examples/bookinfo/).
 
 {{< image width="80%" ratio="59.08%"
-    link="/docs/guides/bookinfo/withistio.svg"
+    link="/docs/examples/bookinfo/withistio.svg"
     caption="The Original Bookinfo Application"
     >}}
 
@@ -65,7 +65,7 @@ spec:
 EOF
 ```
 
-Let's access the web page of the application, after [determining the ingress IP and port](/docs/guides/bookinfo/#determining-the-ingress-ip-and-port).
+Let's access the web page of the application, after [determining the ingress IP and port](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port).
 
 Oops... Instead of the book details we have the _Error fetching product details_ message displayed:
 

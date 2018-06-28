@@ -224,7 +224,7 @@ Istio is installed in its own `istio-system` namespace and can manage
 services from all other namespaces.
 
 1.  Go to the [Istio release](https://github.com/istio/istio/releases) page to download the
-installation file corresponding to your OS. If you are using a MacOS or Linux system, you can also
+installation file corresponding to your OS. If you are using a macOS or Linux system, you can also
 run the following command to download and extract the latest release automatically:
 
     ```command
@@ -246,7 +246,7 @@ installation directory contains:
     ```
 
 1.  Add the `istioctl` client to your PATH.
-For example, run the following command on a MacOS or Linux system:
+For example, run the following command on a macOS or Linux system:
 
     ```command
     $ export PATH=$PWD/bin:$PATH
@@ -329,7 +329,7 @@ containers are up and running: `istio-pilot-*`,
 ## Deploy your application
 
 You can now deploy your own application or one of the sample applications provided with the
-installation like [Bookinfo](/docs/guides/bookinfo/).
+installation like [Bookinfo](/docs/examples/bookinfo/).
 Note: the application must use HTTP/1.1 or HTTP/2.0 protocol for all its HTTP traffic because HTTP/1.0 is not supported.
 
 If you started the [Istio-sidecar-injector](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection),
@@ -366,6 +366,6 @@ otherwise [uninstall Istio with Helm](/docs/setup/kubernetes/helm-install/#unins
 
 ## What's next
 
-* See the sample [Bookinfo](/docs/guides/bookinfo/) application.
+* See the sample [Bookinfo](/docs/examples/bookinfo/) application.
 
 * See how to [test mutual TLS authentication](/docs/tasks/security/mutual-tls/).
