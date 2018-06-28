@@ -368,6 +368,7 @@ You specify the port 443, protocol `TLS` in the corresponding `ServiceEntry`, eg
         kind: ServiceEntry
         metadata:
           name: cnn
+          namespace: istio-system
         spec:
           hosts:
           - edition.cnn.com
@@ -398,6 +399,7 @@ You specify the port 443, protocol `TLS` in the corresponding `ServiceEntry`, eg
         kind: Gateway
         metadata:
           name: istio-egressgateway
+          namespace: istio-system
         spec:
           selector:
             istio: egressgateway
@@ -421,6 +423,7 @@ You specify the port 443, protocol `TLS` in the corresponding `ServiceEntry`, eg
         kind: VirtualService
         metadata:
           name: direct-through-egress-gateway
+          namespace: istio-system
         spec:
           hosts:
           - edition.cnn.com
