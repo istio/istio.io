@@ -137,7 +137,6 @@ with a certificate and a private key. Then you create a `Gateway` definition tha
     indeed accessed. The _httpbin_ service will return the
     [418 I'm a Teapot](https://tools.ietf.org/html/rfc7168#section-2.3.3) code.
 
-
     ```command
     $ curl -v --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert 2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
     ...
