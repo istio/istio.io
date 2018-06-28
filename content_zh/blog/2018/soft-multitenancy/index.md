@@ -226,7 +226,7 @@ Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list p
 
 ## 结语
 
-上面的一些尝试表明 Istio 有足够的能力和安全性，符合少量多租户的用例需求。另外也很明显的，Istio 和 Kubernetes **无法** 提供足够的能力和安全性来满足其他的用例，尤其是在租户之间要求完全的安全性和隔离的要求的用例。只有等容器技术（例如 Kubernetes ）能够提供更好的安全模型以及隔离能力，我们才能进一步的增强这方面的支持，Istio 的支持并不是很重要。
+上面的一些尝试表明 Istio 有足够的能力和安全性，符合少量多租户的用例需求。另外也很明显的，Istio 和 Kubernetes **无法**提供足够的能力和安全性来满足其他的用例，尤其是在租户之间要求完全的安全性和隔离的要求的用例。只有等容器技术（例如 Kubernetes ）能够提供更好的安全模型以及隔离能力，我们才能进一步的增强这方面的支持，Istio 的支持并不是很重要。
 
 ## 问题
 
@@ -252,7 +252,7 @@ Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list p
 
 ## 未来
 
-很明显，单一 Istio 控制面控制多个网格可能是下一个功能。还有可能就是在同一个网格中支持多个租户，并提供某种程度的隔离和安全保障。要完成这样的能力，就需要像 Kubernetes 中对命名空间的额操作那样，在一个单独的控制平面中进行分区，社区中发出了 [这篇文档](https://docs.google.com/document/d/14Hb07gSrfVt5KX9qNi7FzzGwB_6WBpAnDpPG6QEEd9Q) 来定义其他的用例，以及要支持这些用例所需要的 Istio 功能。
+很明显，单一 Istio 控制面控制多个网格可能是下一个功能。还有可能就是在同一个网格中支持多个租户，并提供某种程度的隔离和安全保障。要完成这样的能力，就需要像 Kubernetes 中对命名空间的的操作那样，在一个单独的控制平面中进行分区，社区中发出了[这篇文档](https://docs.google.com/document/d/14Hb07gSrfVt5KX9qNi7FzzGwB_6WBpAnDpPG6QEEd9Q)来定义其他的用例，以及要支持这些用例所需要的 Istio 功能。
 
 ## 参考
 
