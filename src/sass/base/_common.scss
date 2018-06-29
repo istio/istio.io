@@ -54,8 +54,8 @@ table, th, td, tr {
 }
 
 table {
-    margin-left: 1em;
-    margin-right: 1em;
+    margin-left: .5em;
+    margin-right: .5em;
 }
 
 table p:first-of-type {
@@ -158,8 +158,11 @@ pre {
 
     code {
         display: block;
-        color: $textColor;
         padding: .5em;
+        color: $textColor;
+        font-size: 80%;
+        font-weight: $textCodeWeight;
+        word-break: normal;
     }
 
     code.command-output {

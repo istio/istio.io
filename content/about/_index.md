@@ -2,6 +2,7 @@
 title: About Istio
 linktitle: About
 description: All about Istio.
+sidebar_singlecard: true
 weight: 15
 ---
 

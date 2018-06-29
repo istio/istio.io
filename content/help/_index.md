@@ -2,6 +2,7 @@
 title: Help
 description: A bunch of resources to help you deploy, configure and use Istio.
 weight: 10
+sidebar_singlecard: true
 ---
 
 Here are some resources to help you deploy, configure and use Istio.
