@@ -77,14 +77,14 @@ The front matter is a block of YAML that is between the
 triple-dashed lines at the top of each file. Here's the
 chunk of front matter you should start with:
 
-```yaml
+{{< text yaml >}}
 ---
 title: <title>
 description: <description>
 weight: <weight>
 keywords: [keyword1,keyword2,...]
 ---
-```
+{{< /text >}}
 
 Copy the above at the start of your new markdown file and update the information fields.
 The available front matter fields are:
@@ -108,14 +108,14 @@ Put image files in the same directory as your markdown file. The preferred image
 
 Within markdown, use the following sequence to add the image:
 
-```html
+{{< text html >}}
 {{</* image width="75%" ratio="69.52%"
     link="./myfile.svg"
     alt="Alternate text to display when the image is not available"
     title="A tooltip displayed when hovering over the image"
     caption="A caption displayed under the image"
     */>}}
-```
+{{< /text >}}
 
 The `width`, `ratio`, `link` and `caption` values are required. If the `title` value isn't
 supplied, it'll default to the same as `caption`. If the `alt` value is not supplied, it'll
@@ -128,10 +128,10 @@ relative to the surrounding text. `ratio` must be manually calculated using (ima
 
 You can embed some common icons in your content using:
 
-```markdown
+{{< text markdown >}}
 {{</* warning_icon */>}}
 {{</* idea_icon */>}}
-```
+{{< /text >}}
 
 which look like {{< warning_icon >}} and {{< idea_icon >}}
 
@@ -146,167 +146,206 @@ way to indicate the link target:
 1. **Internet Link**. You use classic URL syntax, preferably with the HTTPS protocol, to reference
 files on the Internet:
 
-    ```markdown
+    {{< text markdown >}}
     [see here](https://mysite/myfile.html)
-    ```
+    {{< /text >}}
 
 1. **Relative Link**. You use relative links that start with a period to
 reference any content that is at the same level as the current file, or below within
 the hierarchy of the site:
 
-    ```markdown
+    {{< text markdown >}}
     [see here](./adir/anotherfile.html)
-    ```
+    {{< /text >}}
 
 1. **Absolute Link**. You use absolute links that start with a `/` to reference content outside of the
 current hierarchy:
 
-    ```markdown
+    {{< text markdown >}}
     [see here](/docs/adir/afile/)
-    ```
+    {{< /text >}}
 
 ## Embedding preformatted blocks
 
-You can embed blocks of preformatted content using the normal markdown technique:
+You can embed blocks of preformatted content using the `text` sequence:
 
-<pre class="language-markdown"><code>```plain
+{{< text markdown >}}
+{{</* text plain */>}}
 func HelloWorld() {
   fmt.Println("Hello World")
 }
-```
-</code></pre>
+{{</* /text */>}}
+{{< /text >}}
 
 The above produces this kind of output:
 
-```plain
+{{< text plain >}}
 func HelloWorld() {
   fmt.Println("Hello World")
 }
-```
+{{< /text >}}
 
-You must indicate the nature of the content in the preformatted block by appending a name after the initial set of tick
-marks:
+You must indicate the syntax of the content in the preformatted block. Above, the block was marked as
+being `plain` indicating that no syntax coloring should be applied to the block. Consider the same
+block, but now annotated with the Go language syntax:
 
-<pre class="language-markdown"><code>```go
+{{< text markdown >}}
+{{</* text go */>}}
 func HelloWorld() {
   fmt.Println("Hello World")
 }
-```
-</code></pre>
+{{</* /text */>}}
+{{< /text >}}
 
-The above indicates the content is Go source code, which will lead to appropriate syntax coloring as shown here:
+which renders as:
 
-```go
+{{< text go >}}
 func HelloWorld() {
   fmt.Println("Hello World")
 }
-```
+{{< /text >}}
 
-You can use `markdown`, `yaml`, `json`, `java`, `javascript`, `c`, `cpp`, `csharp`, `go`, `html`, `protobuf`,
-`perl`, `docker`, and `bash`, along with `command` and its variants described below.
+You can use `plain`, `markdown`, `yaml`, `json`, `java`, `javascript`, `c`, `cpp`, `csharp`, `go`, `html`, `protobuf`,
+`perl`, `docker`, and `bash`.
 
 ### Showing commands and command output
 
-If you want to show one or more bash command-lines with some output, you use the `command` indicator:
+When showing one or more bash command-lines, you start each command-line with a $:
 
-<pre class="language-markdown"><code>```command
+{{< text markdown >}}
+{{</* text bash */>}}
 $ echo "Hello"
-Hello
-```
-</code></pre>
+{{</* /text */>}}
+{{< /text >}}
 
 which produces:
 
-```command
+{{< text bash >}}
 $ echo "Hello"
-Hello
-```
+{{< /text >}}
 
 You can have as many command-lines as you want, but only one chunk of output is recognized.
 
-<pre class="language-markdown"><code>```command
+{{< text markdown >}}
+{{</* text bash */>}}
 $ echo "Hello" >file.txt
 $ cat file.txt
 Hello
-```
-</code></pre>
+{{</* /text */>}}
+{{< /text >}}
 
 which yields:
 
-```command
+{{< text bash >}}
 $ echo "Hello" >file.txt
 $ cat file.txt
 Hello
-```
+{{< /text >}}
 
 You can also use line continuation in your command-lines:
 
-```command
+{{< text markdown >}}
+{{</* text bash */>}}
 $ echo "Hello" \
     >file.txt
 $ echo "There" >>file.txt
 $ cat file.txt
 Hello
 There
-```
+{{</* /text */>}}
+{{< /text >}}
 
-If the output is the command is JSON or YAML, you can use `command-output-as-json` and `command-output-as-yaml`
-instead of merely `command` in order to apply syntax coloring to the command's output.
+which looks like:
+
+{{< text bash >}}
+$ echo "Hello" \
+    >file.txt
+$ echo "There" >>file.txt
+$ cat file.txt
+Hello
+There
+{{< /text >}}
+
+By default, the output section is handled using the `plain` syntax. If the output uses a well-known
+syntax, you can specify it and get proper coloring for it. This is particularly common for YAML or JSON output:
+
+{{< text markdown >}}
+{{</* text bash json */>}}
+$ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') mixer | grep \"instance\":\"newlog.logentry.istio-system\"
+{"level":"warn","ts":"2017-09-21T04:33:31.249Z","instance":"newlog.logentry.istio-system","destination":"details","latency":"6.848ms","responseCode":200,"responseSize":178,"source":"productpage","user":"unknown"}
+{"level":"warn","ts":"2017-09-21T04:33:31.291Z","instance":"newlog.logentry.istio-system","destination":"ratings","latency":"6.753ms","responseCode":200,"responseSize":48,"source":"reviews","user":"unknown"}
+{"level":"warn","ts":"2017-09-21T04:33:31.263Z","instance":"newlog.logentry.istio-system","destination":"reviews","latency":"39.848ms","responseCode":200,"responseSize":379,"source":"productpage","user":"unknown"}
+{"level":"warn","ts":"2017-09-21T04:33:31.239Z","instance":"newlog.logentry.istio-system","destination":"productpage","latency":"67.675ms","responseCode":200,"responseSize":5599,"source":"ingress.istio-system.svc.cluster.local","user":"unknown"}
+{"level":"warn","ts":"2017-09-21T04:33:31.233Z","instance":"newlog.logentry.istio-system","destination":"ingress.istio-system.svc.cluster.local","latency":"74.47ms","responseCode":200,"responseSize":5599,"source":"unknown","user":"unknown"}
+{{</* /text */>}}
+{{< /text >}}
+
+which gives:
+
+{{< text bash json >}}
+$ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') mixer | grep \"instance\":\"newlog.logentry.istio-system\"
+{"level":"warn","ts":"2017-09-21T04:33:31.249Z","instance":"newlog.logentry.istio-system","destination":"details","latency":"6.848ms","responseCode":200,"responseSize":178,"source":"productpage","user":"unknown"}
+{"level":"warn","ts":"2017-09-21T04:33:31.291Z","instance":"newlog.logentry.istio-system","destination":"ratings","latency":"6.753ms","responseCode":200,"responseSize":48,"source":"reviews","user":"unknown"}
+{"level":"warn","ts":"2017-09-21T04:33:31.263Z","instance":"newlog.logentry.istio-system","destination":"reviews","latency":"39.848ms","responseCode":200,"responseSize":379,"source":"productpage","user":"unknown"}
+{"level":"warn","ts":"2017-09-21T04:33:31.239Z","instance":"newlog.logentry.istio-system","destination":"productpage","latency":"67.675ms","responseCode":200,"responseSize":5599,"source":"ingress.istio-system.svc.cluster.local","user":"unknown"}
+{"level":"warn","ts":"2017-09-21T04:33:31.233Z","instance":"newlog.logentry.istio-system","destination":"ingress.istio-system.svc.cluster.local","latency":"74.47ms","responseCode":200,"responseSize":5599,"source":"unknown","user":"unknown"}
+{{< /text >}}
 
 ### Showing references to Istio GitHub files
 
 If your code block references a file from Istio's GitHub repo, you can surround the relative path name of the file with a pair
 of @ symbols. These indicate the path should be rendered as a link to the file from the current branch. For example:
 
-<pre class="language-markdown"><code>```command
+{{< text markdown >}}
+{{</* text bash */>}}
 $ istioctl create -f @samples/bookinfo/kube/route-rule-reviews-v3.yaml@
-```
-</code></pre>
+{{</* /text */>}}
+{{< /text >}}
 
 This will be rendered as:
 
-```command
+{{< text bash >}}
 $ istioctl create -f @samples/bookinfo/kube/route-rule-reviews-v3.yaml@
-```
+{{< /text >}}
 
 ## Displaying file snippets
 
 It is often useful to display portions of a larger file. You can annotate a text file to create named snippets within the file by
 using the `$snippet` and `$endsnippet` annotations. For example, you could have a text file that looks like this:
 
-{{< file_content file="examples/snippet_example.txt" lang="plain" >}}
+{{< text_file file="examples/snippet_example.txt" syntax="plain" >}}
 
 and in your markdown file, you can then reference a particular snippet with:
 
-```markdown
-{{</* file_content file="examples/snippet_example.txt" lang="plain" snippet="SNIP1" */>}}
-```
+{{< text markdown >}}
+{{</* text_file file="examples/snippet_example.txt" syntax="plain" snippet="SNIP1" */>}}
+{{< /text >}}
 
-where `file` specifies the relative path of the text file within the documentation repo, `lang` specifies
-the language to use for syntax coloring (use `plain` for generic text), and `snippet` specifies the name of the
+where `file` specifies the relative path of the text file within the documentation repo, `syntax` specifies
+the syntax to use for syntax coloring (use `plain` for generic text), and `snippet` specifies the name of the
 snippet. If you omit the `snippet` attribute, then the whole file is inserted verbatim.
 
 The above snippet produces this output:
 
-{{< file_content file="examples/snippet_example.txt" lang="plain" snippet="SNIP1" >}}
+{{< text_file file="examples/snippet_example.txt" syntax="plain" snippet="SNIP1" >}}
 
 A common thing to is to copy an example script or yaml file from GitHub into the documentation
 repo and then use snippets within the file to produce examples in the documentation. To pull
 in annotated files from GitHub, add the needed entries at the end of the
 script `scripts/grab_reference_docs.sh` in the documentation repo.
 
-## Displaying file content
+## Displaying dynamic content
 
 You can pull in an external file and display its content as a preformatted block. This is handy to display a
 config file or a test file. To do so, you use a statement such as:
 
-```markdown
-{{</* fetch_content url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml" lang="yaml" */>}}
-```
+{{< text markdown >}}
+{{</* text_dynamic url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" */>}}
+{{< /text >}}
 
 which produces the following result:
 
-{{< fetch_content url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml" lang="yaml" >}}
+{{< text_dynamic url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" >}}
 
 If the file is from a different origin site, CORS should be enabled on that site. Note that the
 GitHub raw content site (raw.githubusercontent.com) is may be used here.
@@ -316,9 +355,9 @@ GitHub raw content site (raw.githubusercontent.com) is may be used here.
 When referencing files from Istio's GitHub repo, it is best to reference a specific branch in the repo. To reference the specific
 branch that the documentation site is currently targeting, you use the annotation {{</* branch_name */>}}. For example:
 
-```maerdown
+{{< text markdown >}}
 See this [source file](https://github.com/istio/istio/blob/{{</* branch_name */>}}/mixer/cmd/mixs/cmd/server.go)/
-```
+{{< /text >}}
 
 ## Renaming or moving pages
 
@@ -328,14 +367,14 @@ redirects to the site very easily.
 In the page that is the target of the redirect (where you'd like users to land), you simply add the
 following to the front-matter:
 
-```plain
+{{< text plain >}}
 aliases:
     - <url>
-```
+{{< /text >}}
 
 For example
 
-```plain
+{{< text plain >}}
 ---
 title: Frequently Asked Questions
 description: Questions Asked Frequently
@@ -343,15 +382,14 @@ weight: 12
 aliases:
     - /faq
 ---
+{{< /text >}}
 
-```
-
-With the above in a page saved as _help/faq.md, the user will be able to access the page by going
+With the above in a page saved as `_help/faq.md`, the user will be able to access the page by going
 to `istio.io/help/faq/` as normal, as well as `istio.io/faq/`.
 
 You can also add many redirects like so:
 
-```plain
+{{< text plain >}}
 ---
 title: Frequently Asked Questions
 description: Questions Asked Frequently
@@ -361,72 +399,12 @@ aliases:
     - /faq2
     - /faq3
 ---
-
-```
+{{< /text >}}
 
 ## Things to watch for
 
 There are unfortunately a few complications around writing content for istio.io. You need to know about these in order for your
 content to be handled correctly by the site infrastructure:
-
-- Many example blocks in Istio start out with a `cat` command. When using `cat`, do not annotate the block as
-
-    <pre><code>```command
-    $ cat &lt;&lt;EOF | istioctl create -f -
-    apiVersion: networking.istio.io/v1alpha3
-    kind: ServiceEntry
-    metadata:
-      name: wikipedia-ext
-    spec:
-    </code></pre>
-
-    Instead use:
-
-    <pre><code>```bash
-    cat &lt;&lt;EOF | istioctl create -f -
-    apiVersion: networking.istio.io/v1alpha3
-    kind: ServiceEntry
-    metadata:
-      name: wikipedia-ext
-    spec:
-    </code></pre>
-
-    This is because the parser that handles `command` blocks will treat the multi-line input to
-    the `cat` command as command output, yielding incorrect formatting.
-
-- Example blocks that are indented within a list, contain yaml, and one of the lines of yaml starts with a `-` will confuse the markdown
-parser horribly, producing garbage output. To solve this, indent the content by another four characters, relative to the <code>```</code> annotation:
-
-    <pre class="language-markdown"><code>    - This is a bullet item
-
-            ```yaml
-                apiVersion: "config.istio.io/v1alpha2"
-                kind: stackdriver
-                metadata:
-                  name: handler
-                  namespace: istio-system
-                spec:
-                  project_id: "<project_id>"
-                  logInfo:
-                    accesslog.logentry.istio-system:
-                      payloadTemplate: '{{or (.sourceIp) "-"}} - {{or (.sourceUser) "-"}} [{{or (.timestamp.Format "02/Jan/2006:15:04:05 -0700") "-"}}] "{{or (.method) "-"}} {{or (.url) "-"}} {{or (.protocol) "-"}}" {{or (.responseCode) "-"}} {{or (.responseSize) "-"}}'
-                      httpMapping:
-                        url: url
-                        status: responseCode
-                        requestSize: requestSize
-                        responseSize: responseSize
-                        latency: latency
-                        localIp: sourceIp
-                        remoteIp: destinationIp
-                        method: method
-                        userAgent: userAgent
-                        referer: referer
-                      labelNames:
-                      - sourceIp
-                      - destinationIp
-                      - sourceService
-            ```
-    </code></pre>
 
 - Make sure code blocks are always indented by a multiple of 4 spaces. Otherwise, the
 indent of the code block in the rendered page will be off, and there will be spaces inserted
