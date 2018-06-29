@@ -77,7 +77,6 @@ spec:
 
 You also have a `VirtualService` which routes traffic for the helloworld service to a particular subset:
 
-
 ```yaml
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
