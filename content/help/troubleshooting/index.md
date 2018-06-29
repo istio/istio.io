@@ -8,6 +8,133 @@ draft: true
 
 Oh no! You're having trouble? Below is a list of solutions to common problems.
 
+## 503 errors while reconfiguring service routes
+
+When setting route rules to direct traffic to specific versions (subsets) of a service, care must be taken to ensure
+that the subsets are available before they are used in the routes. Otherwise, calls to the service may return
+503 errors during a reconfiguration period.
+
+Creating both the `VirtualServices` and `DestinationRules` that define the corresponding subsets using a single `istioctl`
+call (e.g., `istioctl create -f myVirtualServiceAndDestinationRule.yaml` is not good enough because the
+propagation of resources from Pilot to the Envoys is asynchronous, so there is no guarantee that the
+subsets will be available before they are needed, possibly resulting in a small window of time where 503 errors can occur.
+
+To make sure services will have zero down-time when configuring routes, configure rules as follows:
+
+* Update `DestinationRules` to add a new subset first, before updating any `VirtualServices` that use it.
+
+   1.
+   ```
+   $ istioctl create -f destinationRuleWithSubsetAbc.yaml
+   ```
+
+   1. Wait for the `DestinationRule` configuration to propagate to the Envoys
+
+   1.
+   ```
+   istioctl create -f virtualServiceUsingSubsetAbc.yaml
+   ```
+
+* Update `VirtualServices` to remove any references to a subset, before removing the subset from a `DestinationRule`.
+
+   1.
+   ```
+   istioctl replace -f virtualServicePreviouslyUsingSubsetAbc.yaml
+   ```
+
+   1. Wait for the `VirtualService` configuration to propagate to the Envoys
+
+   1.
+   ```
+   $ istioctl replace -f destinationRuleWithRemovedSubsetAbc.yaml
+   ```
+
+## Route rules have no effect on ingress gateway requests
+
+Let's assume you are using an ingress `Gateway` and corresponding `VirtualSerive` to access an internal service.
+For example, your `VirtualService` looks something like this:
+
+```yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: myapp
+spec:
+  hosts:
+  - "myapp.com" # or maybe "*" if you are testing without DNS using the ingress-gateway IP (e.g., http://1.2.3.4/hello)
+  gateways:
+  - myapp-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /hello
+    route:
+    - destination:
+        host: helloworld.default.svc.cluster.local
+  - match:
+    ...
+```
+
+You also have a `VirtualService` which routes traffic for the helloworld service to a particular subset:
+
+
+```yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: helloworld
+spec:
+  hosts:
+  - helloworld.default.svc.cluster.local
+  http:
+  - route:
+    - destination:
+        host: helloworld.default.svc.cluster.local
+        subset: v1
+```
+
+In this situation you will notice that requests to the helloworld service via the ingress gateway will
+not be directed to subset v1 but instead will continue to use default round-robin routing.
+
+The reason this happens is because the ingress requests are using the gateway host (e.g., `myapp.com`)
+which will activate the rules in the myapp `VirtualService` and it simply routes to the helloworld destination.
+Only internal requests to the helloworld service host `http://helloworld.default.svc.cluster.local` will use the
+helloworld `VirtualService` which directs traffic exclusively to subset v1.
+
+To control the traffic from the gateway, you need to include the subset rule in the myapp `VirtualService`:
+
+```yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: myapp
+spec:
+  hosts:
+  - "myapp.com" # or maybe "*" if you are testing without DNS using the ingress-gateway IP (e.g., http://1.2.3.4/hello)
+  gateways:
+  - myapp-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /hello
+    route:
+    - destination:
+        host: helloworld.default.svc.cluster.local
+        subset: v1
+  - match:
+    ...
+```
+
+The general issue is that if a service is being accessed through a gateway host like `myapp.com` and also internally
+by its internal host `helloworld.default.svc.cluster.local`, and you want to configure rules that apply for both
+internal and external requests, then you need to put the same route rule in two different places (`VirtualServices`).
+
+There is some discussion under way in the Istio community about how Istio might support `VirtualService` chaining,
+for example, you put a match rule in one `VirtualService` with the destination being another `VirtualService`
+that defines the service's version routing rules.
+Alternatively, higher level tooling may be used to avoid the problem.
+For now, however, you have no choice but to replicate the rules.
+
 ## Route rules have no effect on my application
 
 If route rules are working perfectly for the [Bookinfo](/docs/examples/bookinfo/) sample,
