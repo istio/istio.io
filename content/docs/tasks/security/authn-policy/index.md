@@ -157,22 +157,22 @@ sleep.bar to httpbin.legacy: 200
 sleep.legacy to httpbin.legacy: 200
 ```
 
-> This approach can be used to configure client to talk to API server (and similar) when mututal TLS is enable unselectively. For example:
+> This approach can also be used to configure Kubernetes' API server, when mutual TLS is enabled globally. Following is an example configuration.
 
-    ```bash
-    cat <<EOF | istioctl create -f -
-    apiVersion: "networking.istio.io/v1alpha3"
-    kind: "DestinationRule"
-    metadata:
-      name: "api-server"
-      namespace: "default"
-    spec:
-      host: "kubernetes.default.svc.cluster.local"
-      trafficPolicy:
-        tls:
-          mode: DISABLE
-    EOF
-    ```
+```bash
+cat <<EOF | istioctl create -f -
+apiVersion: "networking.istio.io/v1alpha3"
+kind: "DestinationRule"
+metadata:
+  name: "api-server"
+  namespace: "default"
+spec:
+  host: "kubernetes.default.svc.cluster.local"
+  trafficPolicy:
+    tls:
+      mode: DISABLE
+EOF
+```
 
 For the second issue, connection from client-without-sidecar to server-with-sidecar (in mutual TLS mode), the only option is to drop mutual TLS to `PERMISSIVE` mode, which allows server to accept traffic in either HTTP or (mutual) TLS. This, obviously, will reduce security level, and is recommended to use during migration only. To do so, you can change the *mesh policy* (adding `mode: PERMISSIVE` under `mtls` block). A more conservative (and recommended) way is creating new policy only for the specific service(s) needed. The example below illustrates the latter:
 
@@ -208,11 +208,11 @@ kubectl delete meshpolicy.authentication.istio.io default
 kubectl delete policy.authentication.istio.io -n foo --all
 kubectl delete destinationrules.networking.istio.io default
 kubectl delete destinationrules.networking.istio.io -n legacy --all
-
+```
 
 ## Enable mutual TLS for all services in a namespace
 
-Instead of enable mutual TLS globally, you can do it per namespace. The process is similar, except the policy is in namespace-scope (kind `Policy`)
+Instead of enabling mutual TLS globally, you can do it per namespace. The process is similar, except the policy is in namespace-scope (kind `Policy`)
 
 ```bash
 cat <<EOF | istioctl create -f -
