@@ -18,7 +18,8 @@ First, I set up a MySQL database instance to hold book ratings data, outside my 
 
 ### Setting up the database for ratings data
 
-For this task I set up an instance of [MySQL](https://www.mysql.com). You can use any MySQL instance; I use [Compose for MySQL](https://www.ibm.com/cloud/compose/mysql). I use `mysqlsh` ([MySQL Shell](https://dev.mysql.com/doc/refman/5.7/en/mysqlsh.html)) as a MySQL client to feed the ratings data.
+For this task I set up an instance of [MySQL](https://www.mysql.com). You can use any MySQL instance; I use [Compose for MySQL](https://www.ibm.com/cloud/compose/mysql).
+I use `mysqlsh` ([MySQL Shell](https://dev.mysql.com/doc/refman/5.7/en/mysql-shell-userguide.html)) as a MySQL client to feed the ratings data.
 
 1.  To initialize the database, I run the following command entering the password when prompted. The command is performed with the credentials of the  `admin` user, created by default by [Compose for MySQL](https://www.ibm.com/cloud/compose/mysql).
 
