@@ -85,7 +85,7 @@ not be directed to subset v1 but instead will continue to use default round-robi
 
 The reason this happens is because the ingress requests are using the gateway host (e.g., `myapp.com`)
 which will activate the rules in the myapp `VirtualService` and it simply routes to the helloworld destination.
-Only internal requests to the helloworld service host `http://helloworld.default.svc.cluster.local` will use the
+Only internal requests to the helloworld service host `helloworld.default.svc.cluster.local` will use the
 helloworld `VirtualService` which directs traffic exclusively to subset v1.
 
 To control the traffic from the gateway, you need to include the subset rule in the myapp `VirtualService`:
@@ -119,7 +119,7 @@ internal and external requests, then you need to put the same route rule in two 
 There is some discussion under way in the Istio community about how Istio might support `VirtualService` chaining,
 for example, you put a match rule in one `VirtualService` with the destination being another `VirtualService`
 that defines the service's version routing rules.
-Alternatively, higher level tooling may be used to avoid the problem.
+Alternatively, higher level tooling may be used to solve the problem.
 For now, however, you have no choice but to replicate the rules.
 
 ## Route rules have no effect on my application
