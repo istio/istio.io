@@ -1,7 +1,7 @@
 ---
 title: Exporting Logs to BigQuery, GCS, Pub/Sub through Stackdriver
 description: How to export Istio Access Logs to different sinks like BigQuery, GCS, Pub/Sub through Stackdriver.
-publishdate: 2018-06-18
+publishdate: 2018-07-09
 subtitle:
 attribution: Nupur Garg and Douglas Reid
 weight: 87
@@ -43,6 +43,7 @@ Common setup for all sinks:
 
 1. Enable [StackDriver Monitoring API](https://cloud.google.com/monitoring/api/enable-api) for the project.
 1. Make sure `principalEmail` that would be setting up the sink has write access to the project and Logging Admin role permissions.
+1. Make sure the `GOOGLE_APPLICATION_CREDENTIALS` environment variable is set. Please follow instructions [here](https://cloud.google.com/docs/authentication/getting-started) to set it up.
 
 #### BigQuery
 
@@ -50,6 +51,7 @@ Common setup for all sinks:
 1.  Record the ID of the dataset. It will be needed to configure the Stackdriver handler.
     It would be of the form `bigquery.googleapis.com/projects/[PROJECT_ID]/datasets/[DATASET_ID]`
 1.  Give [sink’s writer identity](https://cloud.google.com/logging/docs/api/tasks/exporting-logs#writing_to_the_destination): `cloud-logs@system.gserviceaccount.com` BigQuery Data Editor role in IAM.
+1.  If using [Google Kubernetes Engine](/docs/setup/kubernetes/quick-start/#google-kubernetes-engine), make sure `bigquery` [Scope](https://cloud.google.com/sdk/gcloud/reference/container/clusters/create) is enabled on the cluster.
 
 #### Google Cloud Storage (GCS)
 
@@ -64,6 +66,7 @@ Common setup for all sinks:
 1.  Recode the ID of the topic. It will be needed to configure Stackdriver.
     It would be of the form `pubsub.googleapis.com/projects/[PROJECT_ID]/topics/[TOPIC_ID]`
 1.  Give [sink’s writer identity](https://cloud.google.com/logging/docs/api/tasks/exporting-logs#writing_to_the_destination): `cloud-logs@system.gserviceaccount.com` Pub/Sub Publisher role in IAM.
+1.  If using [Google Kubernetes Engine](/docs/setup/kubernetes/quick-start/#google-kubernetes-engine), make sure `pubsub` [Scope](https://cloud.google.com/sdk/gcloud/reference/container/clusters/create) is enabled on the cluster.
 
 ### Setting up Stackdriver
 
