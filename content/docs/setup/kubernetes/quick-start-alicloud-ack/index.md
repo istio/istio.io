@@ -7,31 +7,31 @@ keywords: [kubernetes,alicloud]
 
 Quick Start instructions to install and run Istio in [AliCloud Kubernetes Container Service](https://cs.console.aliyun.com/) using Application Catalog.
 
-This Quick Start installs the current release version (0.8.0) of Istio and then deploys the [Bookinfo](/docs/guides/bookinfo/) sample
+This Quick Start installs the current release version of Istio and then deploys the [Bookinfo](/docs/examples/bookinfo/) sample
 application.  It uses Application Catalog to automate the steps detailed in the [Istio on Kubernetes setup guide](/docs/setup/kubernetes/quick-start/) for Kubernetes Engine.
 
 ## Prerequisites
 
-- This sample assumes that you already have one avaiable AliCloud Kubernetes cluster. Otherwise, you can create a Kubernetes cluster quickly and easily in the Container Service console.
+- This sample assumes that you already have an avaiable AliCloud Kubernetes cluster. Otherwise, you can create a Kubernetes cluster quickly and easily in the Container Service console.
 
 - Make sure that `kubectl` can work fine for your Kubernetes cluster.
 
 - Create new namespace to deploy istio components, e.g. `istio-system`:
 
-```console
-kubectl create namespace istio-system
+```command
+$ kubectl create namespace istio-system
 ```
 
 - If a service account has not already been installed for Tiller, install one:
 
-```console
-kubectl create -f install/kubernetes/helm/helm-service-account.yaml
+```command
+$ kubectl create -f install/kubernetes/helm/helm-service-account.yaml
 ```
 
 - Install Tiller on your cluster with the service account:
 
-```console
-helm init --service-account tiller
+```command
+$ helm init --service-account tiller
 ```
 
 ## Setup
