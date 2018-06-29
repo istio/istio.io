@@ -106,11 +106,11 @@ spec:
 EOF
 ```
 
-> * Mesh-wide authentication policy name must be `default`; any policy with other name will be rejected and ignored. Also note that the CRD kind is `MeshPolicy`, which is different than the namespace-wide or service-specific policy kind (`Policy`)
-> * On the other hand, the destination rule can have any name, and in any namespace. For consistency, we use also name it `default` and keep in `default` namespace in this demo.
-> * Host value `*.local` in destination rule matches only services in the mesh, which have `local` suffix.
-> * With `ISTIO_MUTUAL` TLS mode, Istio will set the path for key and certificates (e.g `clientCertificate`, `privateKey` and `caCertificates`) according to its internal implementation.
-> * If you want to define a destination rule for a specific service, the TLS settings must be copied over to the new rule.
+* Mesh-wide authentication policy name must be `default`; any policy with other name will be rejected and ignored. Also note that the CRD kind is `MeshPolicy`, which is different than the namespace-wide or service-specific policy kind (`Policy`)
+* On the other hand, the destination rule can have any name, and in any namespace. For consistency, we use also name it `default` and keep in `default` namespace in this demo.
+* Host value `*.local` in destination rule matches only services in the mesh, which have `local` suffix.
+* With `ISTIO_MUTUAL` TLS mode, Istio will set the path for key and certificates (e.g `clientCertificate`, `privateKey` and `caCertificates`) according to its internal implementation.
+* If you want to define a destination rule for a specific service, the TLS settings must be copied over to the new rule.
 
 These authentication policy and destination rule effectively configures sidecars of all services to receive and send request in mutual TLS mode, respectively. However, it cannot be applied on services that don't have sidecar, i.e `httpbin.legacy` and `sleep.legacy` in this setup. If you run the same testing command as above, you should see requests from `sleep.legacy` to `httpbin.foo` and `httpbin.bar` start to fail, as the result of enabling mutual TLS on server, but `sleep.legacy` doesn't have a sidecar to support it. Similarly, requests from `sleep.foo` (or `sleep.bar`) to `httpbin.legacy` also fail.
 
@@ -227,7 +227,7 @@ spec:
 EOF
 ```
 
->  Similar to *mesh-wide policy*, namespace-wide policy must be named `default`, and doesn't restrict any specific service (no `targets` section)
+> Similar to *mesh-wide policy*, namespace-wide policy must be named `default`, and doesn't restrict any specific service (no `targets` section)
 
 Add corresponding destination rule:
 
@@ -299,7 +299,7 @@ EOF
 ```
 
 > In this example, we do **not** specify namespace in metadata but put it in the command line (`-n bar`). They should work the same.
->  There is no restriction on the authentication policy and destination rule name. The example use the name of the service itself for simplicity.
+> There is no restriction on the authentication policy and destination rule name. The example use the name of the service itself for simplicity.
 
 Again, run the probing command. As expected, request from `sleep.legacy` to `httpbin.bar` starts failing with the same reasons.
 ```plain
