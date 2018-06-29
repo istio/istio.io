@@ -53,7 +53,7 @@ Below is our list of existing features and their current phases. This informatio
 | Feature           | Phase
 |-------------------|-------------------
 | [Prometheus Integration](/docs/tasks/telemetry/querying-metrics/) | Beta
-| [Local Logging (STDIO)](/docs/guides/telemetry/) | Stable
+| [Local Logging (STDIO)](/docs/examples/telemetry/) | Stable
 | [Statsd Integration](/docs/reference/config/policy-and-telemetry/adapters/statsd/) | Stable
 | [Service Dashboard in Grafana](/docs/tasks/telemetry/using-istio-dashboard/) | Beta
 | [Stackdriver Integration](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) | Alpha
@@ -87,7 +87,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Pilot Integration into Kubernetes Service Discovery](/docs/setup/kubernetes/)         | Stable
 | [Attribute Expression Language](/docs/reference/config/policy-and-telemetry/expression-language/)        | Stable
 | [Mixer Adapter Authoring Model](/blog/2017/adapter-model/)        | Stable
-| [VM: Envoy Installation, Traffic Interception and Service Registration](/docs/guides/integrating-vms/)    | Alpha
+| [VM: Envoy Installation, Traffic Interception and Service Registration](/docs/examples/integrating-vms/)    | Alpha
 | [VM: Istio Control Plane Installation and Upgrade (Galley, Mixer, Pilot, CA)](https://github.com/istio/istio/issues/2083)  | Alpha
 | VM: Ansible Envoy Installation, Interception and Registration  | Alpha
 | [Pilot Integration into Consul](/docs/setup/consul/quick-start/) | Alpha

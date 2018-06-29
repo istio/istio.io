@@ -16,7 +16,7 @@ function:
 Mixer logs can be accessed via a `kubectl logs` command, as follows:
 
 ```command
-$ kubectl -n istio-system logs $(kubectl -n istio-system get pods -listio=mixer -o jsonpath='{.items[0].metadata.name}') mixer
+$ kubectl -n istio-system logs $(kubectl -n istio-system get pods -listio=mixer -o jsonpath='{.items[0].metadata.name}') -c mixer
 ```
 Mixer trace generation is controlled by the command-line flag `traceOutput`. If
 the flag value is set to `STDOUT` or `STDERR` trace data will be written

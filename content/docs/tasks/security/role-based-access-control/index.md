@@ -15,7 +15,7 @@ RBAC from [Istio RBAC concept page](/docs/concepts/security/rbac/).
   Note that authentication should be enabled at step 5 in the
   [installation steps](/docs/setup/kubernetes/quick-start/#installation-steps).
 
-* Deploy the [Bookinfo](/docs/guides/bookinfo/) sample application.
+* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
 > The current Istio release may not have the up-to-date Istio RBAC samples. So before you continue, you
 need to copy these [configuration files](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/bookinfo/kube) to
