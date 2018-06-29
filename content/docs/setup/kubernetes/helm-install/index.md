@@ -36,13 +36,13 @@ recommended.
       (requires Kubernetes >=1.9.0):
 
         ```command
-        $ helm template @install/kubernetes/helm/istio@ --name istio --namespace istio-system > $HOME/istio.yaml
+        $ helm template @install/kubernetes/helm/istio:https://github.com/istio/istio/tree@ --name istio --namespace istio-system > $HOME/istio.yaml
         ```
 
     * Without the sidecar injection webhook:
 
         ```command
-        $ helm template @install/kubernetes/helm/istio@ --name istio --namespace istio-system --set sidecarInjectorWebhook.enabled=false > $HOME/istio.yaml
+        $ helm template @install/kubernetes/helm/istio:https://github.com/istio/istio/tree@ --name istio --namespace istio-system --set sidecarInjectorWebhook.enabled=false > $HOME/istio.yaml
         ```
 
 1. Install the components via the manifest:
