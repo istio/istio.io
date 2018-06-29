@@ -104,7 +104,7 @@ For more on how to create, configure, and edit dashboards, please see the
 add-on:
 
     ```command
-    $ kubectl delete -f @install/kubernetes/addons/grafana.yaml@
+    $ kubectl delete -f install/kubernetes/addons/grafana.yaml
     ```
 
 *   Remove any `kubectl port-forward` processes that may be running:
