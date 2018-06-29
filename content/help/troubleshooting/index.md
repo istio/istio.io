@@ -23,31 +23,19 @@ To make sure services will have zero down-time when configuring routes, configur
 
 * Update `DestinationRules` to add a new subset first, before updating any `VirtualServices` that use it.
 
-   1.
-   ```
-   $ istioctl create -f destinationRuleWithSubsetAbc.yaml
-   ```
+    1. `istioctl create -f destinationRuleWithSubsetAbc.yaml`
 
-   1. Wait for the `DestinationRule` configuration to propagate to the Envoys
+    1. Wait for the `DestinationRule` configuration to propagate to the Envoys
 
-   1.
-   ```
-   istioctl create -f virtualServiceUsingSubsetAbc.yaml
-   ```
+    1. `istioctl create -f virtualServiceUsingSubsetAbc.yaml`
 
 * Update `VirtualServices` to remove any references to a subset, before removing the subset from a `DestinationRule`.
 
-   1.
-   ```
-   istioctl replace -f virtualServicePreviouslyUsingSubsetAbc.yaml
-   ```
+    1. `istioctl replace -f virtualServicePreviouslyUsingSubsetAbc.yaml`
 
-   1. Wait for the `VirtualService` configuration to propagate to the Envoys
+    1. Wait for the `VirtualService` configuration to propagate to the Envoys
 
-   1.
-   ```
-   $ istioctl replace -f destinationRuleWithRemovedSubsetAbc.yaml
-   ```
+    1. `istioctl replace -f destinationRuleWithRemovedSubsetAbc.yaml`
 
 ## Route rules have no effect on ingress gateway requests
 
