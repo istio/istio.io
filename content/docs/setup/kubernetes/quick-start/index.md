@@ -218,12 +218,6 @@ You should see `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` flags
       --admission-control=...,MutatingAdmissionWebhook,...,ValidatingAdmissionWebhook,...
 ```
 
-### AliCloud Kubernetes Service
-
-Create a new Kubernetes cluster following [the instructions](https://www.alibabacloud.com/help/doc-detail/53752.htm). 
-
-You can click `Manage` at the right column to view the basic and connection information of this cluster. Then configure `kubectl` CLI based on steps [here](https://www.alibabacloud.com/help/doc-detail/53752.htm) for how to access the AliCloud Kubernetes Cluster.
-
 ## Download and prepare for the installation
 
 Istio is installed in its own `istio-system` namespace and can manage
