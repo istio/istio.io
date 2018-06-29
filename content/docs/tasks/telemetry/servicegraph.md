@@ -18,16 +18,8 @@ the example application throughout this task.
 
 ## Generating a Service Graph
 
-1.  To view a graphical representation of your service mesh, install the
-    Servicegraph add-on.
-
-    In Kubernetes environments, execute the following command:
-
-    ```command
-    $ kubectl apply -f @install/kubernetes/addons/servicegraph.yaml@
-    ```
-
-1.  Verify that the service is running in your cluster.
+1.  To view a graphical representation of your service mesh, use the Servicegraph add-on
+    which is installed with Istio. Verify that the service is running in your cluster.
 
     In Kubernetes environments, execute the following command:
 
