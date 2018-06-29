@@ -32,6 +32,8 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `destination.ip`                | ip_address | Server IP address. | 10.0.0.104 |
 | `destination.port`              | int64 | The recipient port on the server IP address. | 8080 |
 | `destination.labels`            | map[string, string] | A map of key-value pairs attached to the server instance. | version => v2 |
+| `destination.name`              | string | Destination workload instance name. | `istio-telemetry-2359333` |
+| `destination.namespace`         | string | Destination workload instance namespace. | istio-system |
 | `destination.principal`         | string | The user running the destination application. | service-account |
 | `destination.owner`             | string | Reference to the workload controlling the destination workload instance.| `kubernetes://apis/extensions/v1beta1/namespaces/istio-system/deployments/istio-telemetry` |
 | `destination.workload.uid`      | string | Unique identifier of the destination workload. | istio://istio-system/workloads/istio-telemetry |
@@ -98,10 +100,10 @@ The following attributes have been renamed. We strongly encourage to use the rep
 |`source.user`          |`source.principal`|
 |`destination.user`     |`destination.principal`|
 |`destination.service`  |`destination.service.host`|
-|`destination.name`     |`destination.service.name`|
-|`destination.namespace`|`destination.service.namespace`|
 
-Attribute `source.name` has been re-purposed to refer to the source workload instance name instead of the source service name.
+Attributes `source.name` and `destination.name` have been re-purposed to refer
+to the corresponding source and destination workload instance names instead of
+the service names.
 
 The following attributes have been deprecated and will be removed in subsequent releases:
 
