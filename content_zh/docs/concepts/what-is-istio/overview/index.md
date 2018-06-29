@@ -37,11 +37,11 @@ Istio服务网格逻辑上分为**数据面板**和**控制面板**。
 
 下图显示了构成每个面板的不同组件：
 
-{{</* image width="80%" ratio="56.25%"
-    link="../img/overview/arch.svg"
+{{< image width="80%" ratio="56.25%"
+    link="/docs/concepts/what-is-istio/overview/arch.svg"
     alt="基于 Istio 的应用程序架构概览"
     caption="Istio 架构"
-    */>}}
+    >}}
 
 ### Envoy
 
