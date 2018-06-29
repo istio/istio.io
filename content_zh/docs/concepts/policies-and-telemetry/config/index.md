@@ -33,8 +33,6 @@ Mixer 是实现策略和遥测功能的 Istio 组件。Mixer 本质上是一个�
     caption="属性机"
     >}}
 
-### Attribute vocabulary
-
 ### 属性词汇表
 
 给定的 Istio 部署具有固定的它可以理解的属性词汇表。具体词汇表由部署中使用的一组属性生成器确定。 Istio 中的主要属性生成器是 Envoy，但特定的 Mixer Adapter 也可以生成属性。
