@@ -61,7 +61,7 @@ Let’s walk through a few examples of what you might want to do with Kubernetes
 
 Our application ingress controller is the main entry-point to our application from the outside world.  A quick peek at istio.yaml (used to install Istio) defines the Istio ingress like this:
 
-```yaml
+{{< text yaml >}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -77,11 +77,11 @@ spec:
     name: https
   selector:
     istio: ingress
-```
+{{< /text >}}
 
 The istio-ingress exposes ports 80 and 443.  Let’s limit incoming traffic to just these two ports.  Envoy has a [built-in administrative interface](https://www.envoyproxy.io/docs/envoy/latest/operations/admin.html#operations-admin-interface), and we don’t want a misconfigured istio-ingress image to accidentally expose our admin interface to the outside world.  This is an example of defense in depth: a properly configured image should not expose the interface, and a properly configured Network Policy will prevent anyone from connecting to it.  Either can fail or be misconfigured and we are still protected.
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -97,7 +97,7 @@ spec:
       port: 80
     - protocol: TCP
       port: 443
-```
+{{< /text >}}
 
 ### Enforce fine-grained isolation within the application
 
@@ -110,7 +110,7 @@ Here is the service graph for the Bookinfo application.
 
 This graph shows every connection that a correctly functioning application should be allowed to make.  All other connections, say from the Istio Ingress directly to the Rating service, are not part of the application.  Let’s lock out those extraneous connections so they cannot be used by an attacker.  Imagine, for example, that the Ingress pod is compromised by an exploit that allows an attacker to run arbitrary code.  If we only allow connections to the Product Page pods using Network Policy, the attacker has gained no more access to my application backends _even though they have compromised a member of the service mesh_.
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -128,7 +128,7 @@ spec:
     - podSelector:
         matchLabels:
           istio: ingress
-```
+{{< /text >}}
 
 You can and should write a similar policy for each service to enforce which other pods are allowed to access each.
 

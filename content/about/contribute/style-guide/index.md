@@ -25,9 +25,9 @@ represents.
 
 1.  Display information about a pod:
 
-    ```command
+    {{< text bash >}}
     $ kubectl describe pod <pod-name>
-    ```
+    {{< /text >}}
 
     where `<pod-name>` is the name of one of your pods.
 

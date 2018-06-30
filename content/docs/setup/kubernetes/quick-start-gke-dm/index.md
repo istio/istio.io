@@ -20,8 +20,8 @@ application.  It uses Deployment Manager to automate the steps detailed in the [
 
 - {{< warning_icon >}} You must set your default compute service account to include:
 
-    - ```roles/container.admin```  (Kubernetes Engine Admin)
-    - ```Editor```  (on by default)
+    - `roles/container.admin`  (Kubernetes Engine Admin)
+    - `Editor`  (on by default)
 
 To set this up, navigate to the **IAM** section of the [Cloud Console](https://console.cloud.google.com/iam-admin/iam/project) as shown below and find your default GCE/GKE service account in the following form: `projectNumber-compute@developer.gserviceaccount.com`: by default it should just have the **Editor** role. Then in the **Roles** drop-down list for that account, find the **Kubernetes Engine** group and select the role **Kubernetes Engine Admin**. The **Roles** listing for your account will change to **Multiple**.
 
@@ -52,7 +52,7 @@ caption="GKE-IAM Role"
     [Prometheus](/docs/tasks/telemetry/querying-metrics/),
     [ServiceGraph](/docs/tasks/telemetry/servicegraph/),
     and [Tracing](/docs/tasks/telemetry/distributed-tracing/).
-    You'll find out more about how to access all of these below.  This script will enable Istio auto-injection on the ```default``` namespace only.
+    You'll find out more about how to access all of these below.  This script will enable Istio auto-injection on the `default` namespace only.
 
 1.  Click **Deploy**:
 
@@ -70,25 +70,25 @@ Once deployment is complete, do the following on the workstation where you've in
 1.  Bootstrap `kubectl` for the cluster you just created and confirm the cluster is
 running and Istio is enabled
 
-    ```command
+    {{< text bash >}}
     $ gcloud container clusters list
     NAME           LOCATION       MASTER_VERSION  MASTER_IP      MACHINE_TYPE   NODE_VERSION  NUM_NODES  STATUS
     istio-cluster  us-central1-a  1.9.7-gke.1     35.232.222.60  n1-standard-2  1.9.7-gke.1   4          RUNNING
-    ```
+    {{< /text >}}
 
-    In this case, the cluster name is ```istio-cluster```
+    In this case, the cluster name is `istio-cluster`.
 
 1.  Now acquire the credentials for this cluster
 
-    ```command
+    {{< text bash >}}
     $ gcloud container clusters get-credentials istio-cluster --zone=us-central1-a
-    ```
+    {{< /text >}}
 
 ## Verify installation
 
 Verify Istio is installed in its own namespace
 
-```command
+{{< text bash >}}
 $ kubectl get deployments,ing -n istio-system
 NAME                              DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 deploy/grafana                    1         1         1            1           4m
@@ -103,11 +103,11 @@ deploy/istio-statsd-prom-bridge   1         1         1            1           4
 deploy/istio-telemetry            1         1         1            1           4m
 deploy/prometheus                 1         1         1            1           4m
 deploy/servicegraph               1         1         1            1           4m
-```
+{{< /text >}}
 
 Now confirm that the Bookinfo sample application is also installed:
 
-```command
+{{< text bash >}}
 $ kubectl get deployments,ing
 NAME                    DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 deploy/details-v1       1         1         1            1           7m
@@ -116,17 +116,18 @@ deploy/ratings-v1       1         1         1            1           7m
 deploy/reviews-v1       1         1         1            1           7m
 deploy/reviews-v2       1         1         1            1           7m
 deploy/reviews-v3       1         1         1            1           7m
-```
+{{< /text >}}
 
-Now get the ```istio-ingress``` IP:
+Now get the `istio-ingress` IP:
 
-```command
+{{< text bash >}}
 $ kubectl get svc istio-ingress -n istio-system
 NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)                                      AGE
 istio-ingressgateway   LoadBalancer   10.59.251.109   35.194.26.85   80:31380/TCP,443:31390/TCP,31400:31400/TCP   6m
-```
+{{< /text >}}
 
-Note down the IP address (EXTERNAL-IP) and port assigned to the Bookinfo product page. (in the example above, it's ```35.194.26.85:80```.
+Note down the IP address (EXTERNAL-IP) and port assigned to the Bookinfo product page
+(in the example above, it's `35.194.26.85:80`).
 
 You can also view the installation using the ***Kubernetes Engine -> Workloads** section on the [Cloud Console](https://console.cloud.google.com/kubernetes/workload):
 
@@ -139,13 +140,12 @@ You can also view the installation using the ***Kubernetes Engine -> Workloads**
 
 1.  Set up an environment variable for Bookinfo's external IP address:
 
-    ```command
+    {{< text bash >}}
     $ export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-
     $ echo $GATEWAY_URL
-    ```
+    {{< /text >}}
 
-1.  Verify you can access the Bookinfo ```http://${GATEWAY_URL}/productpage```:
+1.  Verify you can access the Bookinfo `http://${GATEWAY_URL}/productpage`:
 
     {{< image width="100%" ratio="45.04%"
     link="./dm_bookinfo.png"
@@ -154,9 +154,9 @@ You can also view the installation using the ***Kubernetes Engine -> Workloads**
 
 1.  Now send some traffic to it:
 
-    ```command
+    {{< text bash >}}
     $ for i in {1..100}; do curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage; done
-    ```
+    {{< /text >}}
 
 ## Verify installed Istio plugins
 
@@ -168,13 +168,16 @@ If you are using Cloud Shell rather than the installed `gcloud` client, you can 
 
 Set up a tunnel to Grafana:
 
-```command
+{{< text bash >}}
 $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
-```
+{{< /text >}}
+
 then
-```plain
+
+{{< text plain >}}
 http://localhost:3000/dashboard/db/istio-dashboard
-```
+{{< /text >}}
+
 You should see some statistics for the requests you sent earlier.
 
 {{< image width="100%" ratio="48.49%"
@@ -188,15 +191,15 @@ For more details about using Grafana, see [About the Grafana Add-on](/docs/tasks
 
 Prometheus is installed with Grafana. You can view Istio and application metrics using the console as follows:
 
-```command
+{{< text bash >}}
 $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
-```
+{{< /text >}}
 
 View the console at:
 
-```plain
+{{< text plain >}}
 http://localhost:9090/graph
-```
+{{< /text >}}
 
 {{< image width="100%" ratio="43.88%"
     link="./dm_prometheus.png"
@@ -209,15 +212,15 @@ For more details, see [About the Prometheus Add-on](/docs/tasks/telemetry/queryi
 
 Set up a tunnel to ServiceGraph:
 
-```command
+{{< text bash >}}
 $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
-```
+{{< /text >}}
 
 You should see the Bookinfo service topology at
 
-```plain
+{{< text plain >}}
 http://localhost:8088/dotviz
-```
+{{< /text >}}
 
 {{< image width="100%" ratio="53.33%"
     link="./dm_servicegraph.png"
@@ -230,9 +233,9 @@ For more details, see [About the ServiceGraph Add-on](/docs/tasks/telemetry/serv
 
 Set up a tunnel to the tracing dashboard:
 
-```command
+{{< text bash >}}
 $ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 16686:16686 &
-```
+{{< /text >}}
 
 You should see the trace statistics sent earlier on [http://localhost:16686](http://localhost:16686)
 

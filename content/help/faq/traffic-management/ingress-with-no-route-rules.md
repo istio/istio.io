@@ -11,8 +11,8 @@ not have any `.` characters.
 For example, the following ingress resource matches requests for the
 example.com host, with /helloworld as the URL.
 
-```bash
-cat <<EOF | kubectl create -f -
+{{< text bash >}}
+$ cat <<EOF | kubectl create -f -
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -29,13 +29,13 @@ rules:
         serviceName: myservice
         servicePort: grpc
 EOF
-```
+{{< /text >}}
 
-However, the following rules will not work because it uses regular
-expressions in the path and uses `ingress.kubernetes.io` annotations:
+However, the following rules will not work because they use regular
+expressions in the path and `ingress.kubernetes.io` annotations:
 
-```bash
-cat <<EOF | kubectl create -f -
+{{< text bash >}}
+$ cat <<EOF | kubectl create -f -
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -54,4 +54,6 @@ rules:
         serviceName: myservice
         servicePort: grpc
 EOF
-```
+{{< /text >}}
+
+<i class="a hack needed to prevent Hugo from inserting a spurious paragraph around the previous code block"></i>

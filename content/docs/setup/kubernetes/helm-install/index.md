@@ -35,22 +35,22 @@ recommended.
     * With [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)
       (requires Kubernetes >=1.9.0):
 
-        ```command
+        {{< text bash >}}
         $ helm template @install/kubernetes/helm/istio@ --name istio --namespace istio-system > $HOME/istio.yaml
-        ```
+        {{< /text >}}
 
     * Without the sidecar injection webhook:
 
-        ```command
+        {{< text bash >}}
         $ helm template @install/kubernetes/helm/istio@ --name istio --namespace istio-system --set sidecarInjectorWebhook.enabled=false > $HOME/istio.yaml
-        ```
+        {{< /text >}}
 
 1. Install the components via the manifest:
 
-    ```command
+    {{< text bash >}}
     $ kubectl create namespace istio-system
     $ kubectl create -f $HOME/istio.yaml
-    ```
+    {{< /text >}}
 
 ## Option 2: Install with Helm and Tiller via `helm install`
 
@@ -62,29 +62,29 @@ to manage the lifecycle of Istio.
 
 1. If a service account has not already been installed for Tiller, install one:
 
-    ```command
+    {{< text bash >}}
     $ kubectl create -f @install/kubernetes/helm/helm-service-account.yaml@
-    ```
+    {{< /text >}}
 
 1. Install Tiller on your cluster with the service account:
 
-    ```command
+    {{< text bash >}}
     $ helm init --service-account tiller
-    ```
+    {{< /text >}}
 
 1. Install Istio:
 
     * With [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection) (requires Kubernetes >=1.9.0):
 
-        ```command
+        {{< text bash >}}
         $ helm install @install/kubernetes/helm/istio@ --name istio --namespace istio-system
-        ```
+        {{< /text >}}
 
     * Without the sidecar injection webhook:
 
-        ```command
+        {{< text bash >}}
         $ helm install @install/kubernetes/helm/istio@ --name istio --namespace istio-system --set sidecarInjectorWebhook.enabled=false
-        ```
+        {{< /text >}}
 
 ## Customization with Helm
 
@@ -126,23 +126,23 @@ In this example we will install Istio with only a minimal set of components nece
 
 Execute the following command to install the Pilot, Citadel, IngressGateway and Sidecar-Injector:
 
-```command
+{{< text bash >}}
 $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
   --set ingress.enabled=false,gateways.istio-egressgateway.enabled=false,galley.enabled=false \
   --set mixer.enabled=false,prometheus.enabled=false,global.proxy.envoyStatsd.enabled=false
-```
+{{< /text >}}
 
 Ensure the following Kubernetes pods are deployed and their containers are up and running: `istio-pilot-*`, `istio-ingressgateway-*`,
 `istio-citadel-*` and `istio-sidecar-injector-*`.
 
-```command
+{{< text bash >}}
 $ kubectl get pods -n istio-system
 NAME                                     READY     STATUS    RESTARTS   AGE
 istio-citadel-b48446f79-wd4tk            1/1       Running   0          1m
 istio-ingressgateway-7b77d995f7-t6ssx    1/1       Running   0          1m
 istio-pilot-58c65f74bc-2f5xn             2/2       Running   0          1m
 istio-sidecar-injector-86cc99578-4t58m   1/1       Running   0          1m
-```
+{{< /text >}}
 
 With this minimal set you can proceed to installing the sample [Bookinfo](/docs/examples/bookinfo/) application or install your own application and [configure request routing](/docs/tasks/traffic-management/request-routing/) for instance.
 
@@ -156,17 +156,18 @@ See the sample [Bookinfo](/docs/examples/bookinfo/) application.
 
 * For option 1, uninstall using kubectl:
 
-    ```command
+    {{< text bash >}}
     $ kubectl delete -f $HOME/istio.yaml
-    ```
+    {{< /text >}}
 
 * For option 2, uninstall using Helm:
 
-    ```command
+    {{< text bash >}}
     $ helm delete --purge istio
-    ```
-If your helm version is less than 2.9.0, then you need to manually cleanup extra job resource before redeploy new version of Istio chart:
+    {{< /text >}}
 
-    ```command
+    If your helm version is less than 2.9.0, then you need to manually cleanup extra job resource before redeploy new version of Istio chart:
+
+    {{< text bash >}}
     $ kubectl -n istio-system delete job --all
-    ```
+    {{< /text >}}

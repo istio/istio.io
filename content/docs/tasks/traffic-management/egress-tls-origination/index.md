@@ -26,22 +26,24 @@ In this task we show how to configure Istio to open HTTPS connections to externa
 
     If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), do
 
-    ```command
+    {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@
-    ```
+    {{< /text >}}
+
     otherwise, you have to manually inject the sidecar before deploying the `sleep` application:
 
-    ```command
+    {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
-    ```
+    {{< /text >}}
 
     Note that any pod that you can `exec` and `curl` from would do.
 
 *   Create a shell variable to hold the name of the source pod for sending requests to external services.
 If we used the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/samples/sleep) sample, we run:
-    ```command
+
+    {{< text bash >}}
     $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
-    ```
+    {{< /text >}}
 
 ## Configuring HTTP and HTTPS external services
 
@@ -50,28 +52,28 @@ Note that we use a wildcard `*` in our `hosts` definition: `*.cnn.com`. Using th
 
 1.  Create a `ServiceEntry` to allow access to an external HTTP and HTTPS services:
 
-    ```bash
-        cat <<EOF | istioctl create -f -
-        apiVersion: networking.istio.io/v1alpha3
-        kind: ServiceEntry
-        metadata:
-          name: cnn
-        spec:
-          hosts:
-          - "*.cnn.com"
-          ports:
-          - number: 80
-            name: http-port
-            protocol: HTTP
-          - number: 443
-            name: https-port
-            protocol: HTTPS
-        EOF
-    ```
+    {{< text bash >}}
+    $ cat <<EOF | istioctl create -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: cnn
+    spec:
+      hosts:
+      - "*.cnn.com"
+      ports:
+      - number: 80
+        name: http-port
+        protocol: HTTP
+      - number: 443
+        name: https-port
+        protocol: HTTPS
+    EOF
+    {{< /text >}}
 
 1.  Make a request to the external HTTP service:
 
-    ```command
+    {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
     HTTP/1.1 301 Moved Permanently
     ...
@@ -83,7 +85,7 @@ Note that we use a wildcard `*` in our `hosts` definition: `*.cnn.com`. Using th
     ...
     Content-Length: 151654
     ...
-    ```
+    {{< /text >}}
 
     The output should be similar to the above (unimportant details replaced by ellipsis):
 
@@ -94,9 +96,9 @@ While for the user of `curl` this redirection happens transparently, there are t
 
 In the next section we configure Istio to perform TLS origination to resolve the two issues above. Let's clean our configuration before proceeding to the next section:
 
-```command
+{{< text bash >}}
 $ istioctl delete serviceentry cnn
-```
+{{< /text >}}
 
 ## TLS origination for Egress traffic
 
@@ -109,71 +111,71 @@ to DNS to correctly configure Envoy in this case.
     Finally, note that the VirtualService uses a specific host _edition.cnn.com_ (no wildcard) because the Envoy
 proxy needs to know exactly which host to access using HTTPS.
 
-    ```bash
-        cat <<EOF | istioctl create -f -
-        apiVersion: networking.istio.io/v1alpha3
-        kind: ServiceEntry
-        metadata:
-          name: cnn
-        spec:
-          hosts:
-          - edition.cnn.com
-          ports:
-          - number: 80
-            name: http-port
-            protocol: HTTP
-          - number: 443
-            name: http-port-for-tls-origination
-            protocol: HTTP
-          resolution: DNS
-        ---
-        apiVersion: networking.istio.io/v1alpha3
-        kind: VirtualService
-        metadata:
-          name: rewrite-port-for-edition-cnn-com
-        spec:
-          hosts:
-          - edition.cnn.com
-          http:
-          - match:
-              - port: 80
-            route:
-            - destination:
-                host: edition.cnn.com
-                port:
-                  number: 443
-        ---
-        apiVersion: networking.istio.io/v1alpha3
-        kind: DestinationRule
-        metadata:
-          name: originate-tls-for-edition-cnn-com
-        spec:
-          host: edition.cnn.com
-          trafficPolicy:
-            loadBalancer:
-              simple: ROUND_ROBIN
-            portLevelSettings:
-            - port:
-                number: 443
-              tls:
-                mode: SIMPLE # initiates HTTPS when accessing edition.cnn.com
-        EOF
-    ```
+    {{< text bash >}}
+    $ cat <<EOF | istioctl create -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: cnn
+    spec:
+      hosts:
+      - edition.cnn.com
+      ports:
+      - number: 80
+        name: http-port
+        protocol: HTTP
+      - number: 443
+        name: http-port-for-tls-origination
+        protocol: HTTP
+      resolution: DNS
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: rewrite-port-for-edition-cnn-com
+    spec:
+      hosts:
+      - edition.cnn.com
+      http:
+      - match:
+          - port: 80
+        route:
+        - destination:
+            host: edition.cnn.com
+            port:
+              number: 443
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: originate-tls-for-edition-cnn-com
+    spec:
+      host: edition.cnn.com
+      trafficPolicy:
+        loadBalancer:
+          simple: ROUND_ROBIN
+        portLevelSettings:
+        - port:
+            number: 443
+          tls:
+            mode: SIMPLE # initiates HTTPS when accessing edition.cnn.com
+    EOF
+    {{< /text >}}
 
 1. Send an HTTP request to http://edition.cnn.com/politics, as in the previous section.
 
-    ```command
+    {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
     HTTP/1.1 200 OK
     Content-Type: text/html; charset=utf-8
     ...
     Content-Length: 151654
     ...
-    ```
+    {{< /text >}}
 
-  This time we receive _200 OK_ as the first and the only response. Istio performed TLS origination for `curl` so the original HTTP request was forwarded to _cnn.com_ as HTTPS. The server of _cnn.com_ returned the content directly, without the need for redirection. We spared the double round trip between the client and the server, and the request left the mesh encrypted, without disclosing the fact that our application fetched the _politics_ section of _cnn.com_.
+    This time we receive _200 OK_ as the first and the only response. Istio performed TLS origination for `curl` so the original HTTP request was forwarded to _cnn.com_ as HTTPS. The server of _cnn.com_ returned the content directly, without the need for redirection. We spared the double round trip between the client and the server, and the request left the mesh encrypted, without disclosing the fact that our application fetched the _politics_ section of _cnn.com_.
 
-  Note that we used the same command as in the previous section. For applications that access external services programmatically, the code will not be changed. We get the benefits of TLS origination by configuring Istio, without changing a line of code, transparently for the application.
+    Note that we used the same command as in the previous section. For applications that access external services programmatically, the code will not be changed. We get the benefits of TLS origination by configuring Istio, without changing a line of code, transparently for the application.
 
 ## Additional security considerations
 
@@ -185,17 +187,17 @@ Also note that even for HTTPS originated by the application, the attackers could
 
 1.  Remove the Istio configuration items we created:
 
-    ```command
+    {{< text bash >}}
     $ istioctl delete serviceentry cnn
     $ istioctl delete virtualservice rewrite-port-for-edition-cnn-com
     $ istioctl delete destinationrule originate-tls-for-edition-cnn-com
-    ```
+    {{< /text >}}
 
 1.  Shutdown the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/samples/sleep) service:
 
-    ```command
+    {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@
-    ```
+    {{< /text >}}
 
 ## What's next
 

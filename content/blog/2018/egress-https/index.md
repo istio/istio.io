@@ -34,9 +34,9 @@ Here is a copy of the end-to-end architecture of the application from the origin
 
 Let's add a new version of the _details_ microservice, _v2_, that fetches the book details from [Google Books APIs](https://developers.google.com/books/docs/v1/getting_started).
 
-```command
+{{< text bash >}}
 $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/kube/bookinfo-details-v2.yaml@)
-```
+{{< /text >}}
 
 The updated architecture of the application now looks as follows:
 
@@ -49,8 +49,8 @@ Note that the Google Books web service is outside the Istio service mesh, the bo
 
 Now let's direct all the traffic destined to the _details_ microservice, to _details version v2_, using the following _route rule_:
 
-```bash
-cat <<EOF | istioctl create -f -
+{{< text bash >}}
+$ cat <<EOF | istioctl create -f -
 apiVersion: config.istio.io/v1alpha2
 kind: RouteRule
 metadata:
@@ -63,7 +63,7 @@ spec:
   - labels:
       version: v2
 EOF
-```
+{{< /text >}}
 
 Let's access the web page of the application, after [determining the ingress IP and port](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port).
 
@@ -82,8 +82,8 @@ So what might have gone wrong? Ah... The answer is that I forgot to enable traff
 
 No worries, let's define an **egress rule** and fix our application:
 
-```bash
-cat <<EOF | istioctl create -f -
+{{< text bash >}}
+$ cat <<EOF | istioctl create -f -
 apiVersion: config.istio.io/v1alpha2
 kind: EgressRule
 metadata:
@@ -96,7 +96,7 @@ spec:
       - port: 443
         protocol: https
 EOF
-```
+{{< /text >}}
 
 Now accessing the web page of the application displays the book details without error:
 
@@ -108,18 +108,19 @@ Now accessing the web page of the application displays the book details without 
 Note that our egress rule allows traffic to any domain matching _*.googleapis.com_, on port 443, using the HTTPS protocol. Let's assume for the sake of the example that the applications in our Istio service mesh must access multiple subdomains of _googleapis.com_, for example _www.googleapis.com_ and also _fcm.googleapis.com_. Our rule allows traffic to both _www.googleapis.com_ and _fcm.googleapis.com_, since they both match  _*.googleapis.com_. This **wildcard** feature allows us to enable traffic to multiple domains using a single egress rule.
 
 We can query our egress rules:
-```command
+
+{{< text bash >}}
 $ istioctl get egressrules
 NAME        KIND                                NAMESPACE
 googleapis  EgressRule.v1alpha2.config.istio.io default
-```
+{{< /text >}}
 
 We can delete our egress rule:
 
-```command
+{{< text bash >}}
 $ istioctl delete egressrule googleapis -n default
 Deleted config: egressrule googleapis
-```
+{{< /text >}}
 
 and see in the output that the egress rule is deleted.
 
@@ -143,14 +144,14 @@ sends regular HTTPS requests, encrypted end-to-end. On the bottom, the same micr
 
 Here is how we code this behavior in the [Bookinfo details microservice code](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/bookinfo/src/details/details.rb), using the Ruby [net/http module](https://docs.ruby-lang.org/en/2.0.0/Net/HTTP.html):
 
-```ruby
+{{< text ruby >}}
 uri = URI.parse('https://www.googleapis.com/books/v1/volumes?q=isbn:' + isbn)
 http = Net::HTTP.new(uri.host, uri.port)
 ...
 unless ENV['WITH_ISTIO'] === 'true' then
      http.use_ssl = true
 end
-```
+{{< /text >}}
 
 Note that the port is derived by the `URI.parse` from the URI's schema (https://) to be `443`, the default HTTPS port. The microservice, when running inside an Istio service mesh, must issue HTTP requests to the port `443`, which is the port the external service listens to.
 
@@ -160,11 +161,11 @@ We set the `WITH_ISTIO` environment variable to _"true"_ in the
 [Kubernetes deployment spec of details v2](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/bookinfo/kube/bookinfo-details-v2.yaml),
 the `container` section:
 
-```yaml
+{{< text yaml >}}
 env:
 - name: WITH_ISTIO
   value: "true"
-```
+{{< /text >}}
 
 #### Relation to Istio mutual TLS
 
