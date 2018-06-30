@@ -820,16 +820,16 @@ istioctl delete virtualservice bookinfo
 <p>
 Prints the metrics for the specified service(s) when running in Kubernetes.</p>
 <p>This command finds a Prometheus pod running in the specified istio system 
-namespace. It then executes a series of queries per requested service to
-find the following top-level service metrics: total requests per second,
+namespace. It then executes a series of queries per requested workload to
+find the following top-level workload metrics: total requests per second,
 error rate, and request latency at p50, p90, and p99 percentiles. The 
-query results are printed to the console, organized by service name.</p>
+query results are printed to the console, organized by workload name.</p>
 <p>All metrics returned are from server-side reports. This means that latencies
 and error rates are from the perspective of the service itself and not of an
 individual client (or aggregate set of clients). Rates and latencies are
 calculated over a time interval of 1 minute.
 </p>
-<pre class="language-bash"><code>istioctl experimental metrics &lt;service name&gt;...
+<pre class="language-bash"><code>istioctl experimental metrics &lt;workload name&gt;...
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -912,11 +912,11 @@ calculated over a time interval of 1 minute.
 </table>
 <h3 id="istioctl-experimental-metrics Examples">Examples</h3>
 <pre class="language-bash"><code>
-# Retrieve service metrics for productpage service
-istioctl experimental metrics productpage
+# Retrieve workload metrics for productpage-v1 workload
+istioctl experimental metrics productpage-v1
 
-# Retrieve service metrics for various services in the different namespaces
-istioctl experimental metrics productpage.foo reviews.bar ratings.baz
+# Retrieve workload metrics for various services in the different namespaces
+istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 
 </code></pre>
 <h2 id="istioctl-experimental-rbac">istioctl experimental rbac</h2>
