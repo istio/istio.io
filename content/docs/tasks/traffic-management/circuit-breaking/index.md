@@ -19,14 +19,15 @@ This task demonstrates the circuit-breaking capability for resilient application
 
     If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), do
 
-    ```command
+    {{< text bash >}}
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@
-    ```
+    {{< /text >}}
+
     otherwise, you have to manually inject the sidecar before deploying the `httpbin` application:
 
-    ```command
+    {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@)
-    ```
+    {{< /text >}}
 
 ## Circuit breaker
 
@@ -34,8 +35,8 @@ Let's set up a scenario to demonstrate the circuit-breaking capabilities of Isti
 
 1.  Create a [destination rule](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule) to specify our circuit breaking settings when calling the `httpbin` service:
 
-    ```bash
-    cat <<EOF | istioctl create -f -
+    {{< text bash >}}
+    $ cat <<EOF | istioctl create -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
     metadata:
@@ -55,11 +56,11 @@ Let's set up a scenario to demonstrate the circuit-breaking capabilities of Isti
           baseEjectionTime: 3m
           maxEjectionPercent: 100
     EOF
-    ```
+    {{< /text >}}
 
 1.  Verify our destination rule was created correctly:
 
-    ```command-output-as-yaml
+    {{< text bash yaml >}}
     $ istioctl get destinationrule httpbin -o yaml
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
@@ -80,19 +81,19 @@ Let's set up a scenario to demonstrate the circuit-breaking capabilities of Isti
           consecutiveErrors: 1
           interval: 1.000s
           maxEjectionPercent: 100
-    ```
+    {{< /text >}}
 
 ### Setting up our client
 
 Now that we've set up rules for calling the `httpbin` service, let's create a client we can use to send traffic to our service and see whether we can trip the circuit breaking policies. We're going to use a simple load-testing client called [fortio](https://github.com/istio/fortio). With this client we can control the number of connections, concurrency, and delays of outgoing HTTP calls. In this step, we'll set up a client that is injected with the istio sidecar proxy so our network interactions are governed by Istio:
 
-```command
+{{< text bash >}}
 $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/sample-client/fortio-deploy.yaml@)
-```
+{{< /text >}}
 
 Now we should be able to log into that client pod and use the simple fortio tool to call `httpbin`. We'll pass in `-curl` to indicate we just want to make one call:
 
-```command
+{{< text bash >}}
 $ FORTIO_POD=$(kubectl get pod | grep fortio | awk '{ print $1 }')
 $ kubectl exec -it $FORTIO_POD  -c fortio /usr/local/bin/fortio -- load -curl  http://httpbin:8000/get
 HTTP/1.1 200 OK
@@ -119,7 +120,7 @@ x-envoy-upstream-service-time: 36
   "origin": "127.0.0.1",
   "url": "http://httpbin:8000/get"
 }
-```
+{{< /text >}}
 
 You can see the request succeeded! Now, let's break something.
 
@@ -127,7 +128,7 @@ You can see the request succeeded! Now, let's break something.
 
 In the circuit-breaking settings, we specified `maxConnections: 1` and `http1MaxPendingRequests: 1`. This should mean that if we exceed more than one connection and request concurrently, we should see the istio-proxy open the circuit for further requests/connections. Let's try with two concurrent connections (`-c 2`) and send 20 requests (`-n 20`)
 
-```command
+{{< text bash >}}
 $ kubectl exec -it $FORTIO_POD  -c fortio /usr/local/bin/fortio -- load -c 2 -qps 0 -n 20 -loglevel Warning http://httpbin:8000/get
 Fortio 0.6.2 running at 0 queries per second, 2->2 procs, for 5s: http://httpbin:8000/get
 Starting at max qps with 2 thread(s) [gomax 2] for exactly 20 calls (10 per thread + 0)
@@ -154,18 +155,18 @@ Code 503 : 1 (5.0 %)
 Response Header Sizes : count 20 avg 218.85 +/- 50.21 min 0 max 231 sum 4377
 Response Body/Total Sizes : count 20 avg 652.45 +/- 99.9 min 217 max 676 sum 13049
 All done 20 calls (plus 0 warmup) 10.215 ms avg, 187.8 qps
-```
+{{< /text >}}
 
 We see almost all requests made it through!
 
-```plain
+{{< text plain >}}
 Code 200 : 19 (95.0 %)
 Code 503 : 1 (5.0 %)
-```
+{{< /text >}}
 
 The istio-proxy does allow for some leeway. Let's bring the number of concurrent connections up to 3:
 
-```command
+{{< text bash >}}
 $ kubectl exec -it $FORTIO_POD  -c fortio /usr/local/bin/fortio -- load -c 3 -qps 0 -n 20 -loglevel Warning http://httpbin:8000/get
 Fortio 0.6.2 running at 0 queries per second, 2->2 procs, for 5s: http://httpbin:8000/get
 Starting at max qps with 3 thread(s) [gomax 2] for exactly 30 calls (10 per thread + 0)
@@ -204,24 +205,24 @@ Code 503 : 11 (36.7 %)
 Response Header Sizes : count 30 avg 145.73333 +/- 110.9 min 0 max 231 sum 4372
 Response Body/Total Sizes : count 30 avg 507.13333 +/- 220.8 min 217 max 676 sum 15214
 All done 30 calls (plus 0 warmup) 5.336 ms avg, 422.2 qps
-```
+{{< /text >}}
 
 Now we start to see the circuit breaking behavior we expect.
 
-```plain
+{{< text plain >}}
 Code 200 : 19 (63.3 %)
 Code 503 : 11 (36.7 %)
-```
+{{< /text >}}
 
 Only 63.3% of the requests made it through and the rest were trapped by circuit breaking. We can query the istio-proxy stats to see more:
 
-```command
+{{< text bash >}}
 $ kubectl exec -it $FORTIO_POD  -c istio-proxy  -- sh -c 'curl localhost:15000/stats' | grep httpbin | grep pending
 cluster.outbound|80||httpbin.springistio.svc.cluster.local.upstream_rq_pending_active: 0
 cluster.outbound|80||httpbin.springistio.svc.cluster.local.upstream_rq_pending_failure_eject: 0
 cluster.outbound|80||httpbin.springistio.svc.cluster.local.upstream_rq_pending_overflow: 12
 cluster.outbound|80||httpbin.springistio.svc.cluster.local.upstream_rq_pending_total: 39
-```
+{{< /text >}}
 
 We see `12` for the `upstream_rq_pending_overflow` value which means `12` calls so far have been flagged for circuit breaking.
 
@@ -229,16 +230,16 @@ We see `12` for the `upstream_rq_pending_overflow` value which means `12` calls 
 
 1.  Remove the rules.
 
-    ```command
+    {{< text bash >}}
     $ istioctl delete destinationrule httpbin
-    ```
+    {{< /text >}}
 
 1.  Shutdown the [httpbin](https://github.com/istio/istio/tree/{{<branch_name>}}/samples/httpbin) service and client.
 
-    ```command
+    {{< text bash >}}
     $ kubectl delete deploy httpbin fortio-deploy
     $ kubectl delete svc httpbin
-    ```
+    {{< /text >}}
 
 ## What's next
 

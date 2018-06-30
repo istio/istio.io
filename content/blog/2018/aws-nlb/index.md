@@ -38,7 +38,7 @@ You need to apply policy on the master role in order to be able to provision net
 
 1. Copy/paste text below:
 
-    ```json
+    {{< text json >}}
     {
         "Version": "2012-10-17",
         "Statement": [
@@ -75,7 +75,7 @@ You need to apply policy on the master role in order to be able to provision net
             }
         ]
     }
-    ```
+    {{< /text >}}
 
 1. Click review policy, fill all fields and click create policy:
 
@@ -97,7 +97,7 @@ You need to apply policy on the master role in order to be able to provision net
 
 You need to rewrite ingress service with the following:
 
-```yaml
+{{< text yaml >}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -121,7 +121,7 @@ spec:
   selector:
     istio: ingress
   type: LoadBalancer
-  ```
+{{< /text >}}
 
 ## What's next
 

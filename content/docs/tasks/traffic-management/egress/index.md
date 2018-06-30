@@ -28,14 +28,15 @@ or alternatively, to simply bypass the Istio proxy for a specific range of IPs.
 
     If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), do
 
-    ```command
+    {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@
-    ```
+    {{< /text >}}
+
     otherwise, you have to manually inject the sidecar before deploying the `sleep` application:
 
-    ```command
+    {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
-    ```
+    {{< /text >}}
 
     Note that any pod that you can `exec` and `curl` from would do.
 
@@ -49,61 +50,61 @@ from within your Istio cluster. In this task we will use
 
 1.  Create an `ServiceEntry` to allow access to an external HTTP service:
 
-    ```bash
-        cat <<EOF | istioctl create -f -
-        apiVersion: networking.istio.io/v1alpha3
-        kind: ServiceEntry
-        metadata:
-          name: httpbin-ext
-        spec:
-          hosts:
-          - httpbin.org
-          ports:
-          - number: 80
-            name: http
-            protocol: HTTP
-        EOF
-    ```
+    {{< text bash >}}
+    $ cat <<EOF | istioctl create -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: httpbin-ext
+    spec:
+      hosts:
+      - httpbin.org
+      ports:
+      - number: 80
+        name: http
+        protocol: HTTP
+    EOF
+    {{< /text >}}
 
 1.  Create an `ServiceEntry` to allow access to an external HTTPS service:
 
-    ```bash
-        cat <<EOF | istioctl create -f -
-        apiVersion: networking.istio.io/v1alpha3
-        kind: ServiceEntry
-        metadata:
-          name: google-ext
-        spec:
-          hosts:
-          - www.google.com
-          ports:
-          - number: 443
-            name: https
-            protocol: HTTPS
-        EOF
-    ```
+    {{< text bash >}}
+    $ cat <<EOF | istioctl create -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: google-ext
+    spec:
+      hosts:
+      - www.google.com
+      ports:
+      - number: 443
+        name: https
+        protocol: HTTPS
+    EOF
+    {{< /text >}}
 
 ### Make requests to the external services
 
 1.  Exec into the pod being used as the test source. For example,
     if you are using the sleep service, run the following commands:
 
-    ```command
+    {{< text bash >}}
     $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
     $ kubectl exec -it $SOURCE_POD -c sleep bash
-    ```
+    {{< /text >}}
 
 1.  Make a request to the external HTTP service:
 
-    ```command
+    {{< text bash >}}
     $ curl http://httpbin.org/headers
-    ```
+    {{< /text >}}
 
 1.  Make a request to the external HTTPS service:
 
-    ```command
+    {{< text bash >}}
     $ curl https://www.google.com
-    ```
+    {{< /text >}}
 
 ### Setting route rules on an external service
 
@@ -115,7 +116,7 @@ to set a timeout rule on calls to the httpbin.org service.
 
 1.  From inside the pod being used as the test source, invoke the `/delay` endpoint of the httpbin.org external service:
 
-    ```command
+    {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep bash
     $ time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
     200
@@ -123,33 +124,33 @@ to set a timeout rule on calls to the httpbin.org service.
     real    0m5.024s
     user    0m0.003s
     sys     0m0.003s
-    ```
+    {{< /text >}}
 
     The request should return 200 (OK) in approximately 5 seconds.
 
 1.  Exit the source pod and use `istioctl` to set a 3s timeout on calls to the httpbin.org external service:
 
-    ```bash
-        cat <<EOF | istioctl create -f -
-        apiVersion: networking.istio.io/v1alpha3
-        kind: VirtualService
-        metadata:
-          name: httpbin-ext
-        spec:
-          hosts:
-            - httpbin.org
-          http:
-          - timeout: 3s
-            route:
-              - destination:
-                  host: httpbin.org
-                weight: 100
-        EOF
-    ```
+    {{< text bash >}}
+    $ cat <<EOF | istioctl create -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: httpbin-ext
+    spec:
+      hosts:
+        - httpbin.org
+      http:
+      - timeout: 3s
+        route:
+          - destination:
+              host: httpbin.org
+            weight: 100
+    EOF
+    {{< /text >}}
 
 1.  Wait a few seconds, then issue the _curl_ request again:
 
-    ```command
+    {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep bash
     $ time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
     504
@@ -157,7 +158,7 @@ to set a timeout rule on calls to the httpbin.org service.
     real    0m3.149s
     user    0m0.004s
     sys     0m0.004s
-    ```
+    {{< /text >}}
 
     This time a 504 (Gateway Timeout) appears after 3 seconds.
     Although httpbin.org was waiting 5 seconds, Istio cut off the request at 3 seconds.
@@ -176,9 +177,9 @@ to the sidecar proxy.
 The values used for internal IP range(s), however, depends on where your cluster is running.
 For example, with Minikube the range is 10.0.0.1&#47;24, so you would update your `ConfigMap` _istio-sidecar-injector_ like this:
 
-```command
+{{< text bash >}}
 $ helm template @install/kubernetes/helm/istio@ <the flags you used to install Istio> --set global.proxy.includeIPRanges="10.0.0.1/24" -x @templates/sidecar-injector-configmap.yaml@ | kubectl apply -f -
-```
+{{< /text >}}
 
 Note that you should use the same Helm command you used [to install Istio](/docs/setup/kubernetes/helm-install),
 in particular, the same value of the `--namespace` flag. In addition to the flags you used to install Istio, add `--set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml`.
@@ -193,15 +194,15 @@ Set the value of `global.proxy.includeIPRanges` according to your cluster provid
 
 1.  Get your `service_cluster_ip_range` from IBM Cloud Private configuration file under `cluster/config.yaml`.
 
-    ```command
+    {{< text bash >}}
     $ cat cluster/config.yaml | grep service_cluster_ip_range
-    ```
+    {{< /text >}}
 
     A sample output is as following:
 
-    ```plain
+    {{< text plain >}}
     service_cluster_ip_range: 10.0.0.1/24
-    ```
+    {{< /text >}}
 
 1.  Use `--set global.proxy.includeIPRanges="10.0.0.1/24"`
 
@@ -213,11 +214,11 @@ Use `--set global.proxy.includeIPRanges="172.30.0.0/16\,172.20.0.0/16\,10.10.10.
 
 The ranges are not fixed, so you will need to run the `gcloud container clusters describe` command to determine the ranges to use. For example:
 
-```command
+{{< text bash >}}
 $ gcloud container clusters describe XXXXXXX --zone=XXXXXX | grep -e clusterIpv4Cidr -e servicesIpv4Cidr
 clusterIpv4Cidr: 10.4.0.0/14
 servicesIpv4Cidr: 10.7.240.0/20
-```
+{{< /text >}}
 
 Use `--set global.proxy.includeIPRanges="10.4.0.0/14\,10.7.240.0/20"`
 
@@ -236,10 +237,10 @@ the Istio sidecar will only intercept and manage internal requests
 within the cluster. Any external request will simply bypass the sidecar and go straight to its intended
 destination.
 
-```command
+{{< text bash >}}
 $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
 $ kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
-```
+{{< /text >}}
 
 ## Understanding what happened
 
@@ -261,22 +262,23 @@ cloud provider specific knowledge and configuration.
 
 1.  Remove the rules.
 
-    ```command
+    {{< text bash >}}
     $ istioctl delete serviceentry httpbin-ext google-ext
     $ istioctl delete virtualservice httpbin-ext
-    ```
+    {{< /text >}}
 
 1.  Shutdown the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/samples/sleep) service.
 
-    ```command
+    {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@
-    ```
+    {{< /text >}}
 
 1.  Update the `ConfigMap` _istio-sidecar-injector_ to redirect all outbound traffic to the sidecar proxies:
 
-    ```command
+    {{< text bash >}}
     $ helm template @install/kubernetes/helm/istio@ <the flags you used to install Istio> -x @templates/sidecar-injector-configmap.yaml@ | kubectl apply -f -
-    ```
+    {{< /text >}}
+
 ## What's next
 
 * Learn more about [service entries](/docs/concepts/traffic-management/rules-configuration/#service-entries).

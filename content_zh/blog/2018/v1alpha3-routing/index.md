@@ -60,7 +60,7 @@ Istio `Gateway` 通过将L4-L6配置与L7配置分离的方式克服了 `Ingress
 
 例如，下面这个简单的 `Gateway` 配置了一个 Load Balancer，以允许访问 host `bookinfo.com` 的 https 外部流量进入网格中：
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -77,10 +77,11 @@ spec:
       mode: SIMPLE
       serverCertificate: /tmp/tls.crt
       privateKey: /tmp/tls.key
-```
+{{< /text >}}
 
 要为进入上面的 Gateway 的流量配置相应的路由，必须为同一个 host 定义一个 `VirtualService`（在下一节中描述），并使用配置中的 `gateways` 字段绑定到前面定义的 `Gateway` 上：
-```yaml
+
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -96,7 +97,8 @@ spec:
         prefix: /reviews
     route:
     ...
-```
+{{< /text >}}
+
 Gateway 可以用于建模边缘代理或纯粹的内部代理，如第一张图所示。 无论在哪个位置，所有网关都可以用相同的方式进行配置和控制。
 
 ### VirtualService
@@ -107,7 +109,7 @@ Gateway 可以用于建模边缘代理或纯粹的内部代理，如第一张图
 
 例如，之前在 [Bookinfo](/docs/guides/bookinfo/) 应用程序的 reviews 服务中有两个 `RouteRule` 资源，如下所示：
 
-```yaml
+{{< text yaml >}}
 apiVersion: config.istio.io/v1alpha2
 kind: RouteRule
 metadata:
@@ -136,11 +138,11 @@ spec:
   route:
   - labels:
       version: v2
-```
+{{< /text >}}
 
 在 `v1alph3`，可以在单个 `VirtualService` 资源中提供相同的配置：
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -161,7 +163,8 @@ spec:
     - destination:
         host: reviews
         subset: v1
-```
+{{< /text >}}
+
 正如你所看到的， 和 reviews 服务相关的两个规则集中写在了一个地方。这个改变乍一看可能觉得并没有什么特别的优势， 然而，如果仔细观察这个新模型，会发现它和之前的 API 之间存在着根本的差异，这使得 v1alpha3 功能更加强大。
 
 首先，请注意 `VirtualService` 的目标服务是使用 `hosts` 字段（实际上是重复字段）指定的，然后再在每个路由的 `destination` 字段中指定。 这是与以前模型的重要区别。
@@ -171,7 +174,7 @@ spec:
 
 例如，以下规则允许服务消费者访问 Bookinfo 应用程序的 reviews 和 ratings 服务，就好像它们是 `http://bookinfo.com/`（虚拟）服务的一部分：
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -193,7 +196,8 @@ spec:
     - destination:
         host: ratings
   ...
-```
+{{< /text >}}
+
 实际上在 ｀VirtualService｀ 中 hosts 部分设置只是虚拟的目的地,因此不一定是已在网格中注册的服务。这允许用户为在网格内没有可路由条目的虚拟主机的流量进行建模。 通过将 `VirtualService` 绑定到同一 Host 的 `Gateway` 配置（如前一节所述 ），可向网格外部暴露这些 Host。
 
 除了这个重大的重构之外， `VirtualService` 还包括其他一些重要的改变：
@@ -213,7 +217,7 @@ spec:
 1. `DestinationRule` 定义了目的 host 的子集 `subsets` （例如：命名版本）。 这些 subset 用于 ｀VirtualService｀ 的路由规则设置中，可以将流量导向服务的某些特定版本。 通过这种方式为版本命名后，可以在不同的 virtual service 中明确地引用这些命名版本的 subset，简化 Istio 代理发出的统计数据，并可以将 subset 编码到 SNI 头中。
 为 reviews 服务配置策略和 subsets 的 `DestinationRule` 可能如下所示：
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -236,7 +240,7 @@ spec:
   - name: v3
     labels:
       version: v3
-```
+{{< /text >}}
 
 注意，与 `DestinationPolicy` 不同的是，可在单个 `DestinationRule` 中指定多个策略（例如上面实例中的缺省策略和 v2 版本特定的策略）。
 
@@ -246,7 +250,8 @@ spec:
 它最常用于对访问网格外部依赖的流量进行建模，例如访问 Web 上的 API 或遗留基础设施中的服务。
 
 所有以前使用 `EgressRule` 进行配置的内容都可以通过 `ServiceEntry` 轻松完成。 例如，可以使用类似这样的配置来允许从网格内部访问一个简单的外部服务：
-```yaml
+
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
@@ -258,11 +263,13 @@ spec:
   - number: 80
     name: http
     protocol: HTTP
-```
+{{< /text >}}
+
 也就是说，`ServiceEntry` 比它的前身具有更多的功能。首先，`ServiceEntry` 不限于外部服务配置，它可以有两种类型：网格内部或网格外部。网格内部条目只是用于向网格显式添加服务，添加的服务与其他内部服务一样。采用网格内部条目，可以把原本未被网格管理的基础设施也纳入到网格中（例如，把虚机中的服务添加到基于 Kubernetes 的服务网格中）。网格外部条目则代表了网格外部的服务。对于这些外部服务来说，mTLS 身份验证是禁用的，并且策略是在客户端执行的，而不是在像内部服务请求一样在服务器端执行策略。
 
 由于 `ServiceEntry` 配置只是将服务添加到网格内部的服务注册表中，因此它可以像注册表中的任何其他服务一样,与 `VirtualService` 和/或 `DestinationRule` 一起使用。例如，以下 `DestinationRule` 可用于启动外部服务的 mTLS 连接：
-```yaml
+
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -275,7 +282,8 @@ spec:
       clientCertificate: /etc/certs/myclientcert.pem
       privateKey: /etc/certs/client_private_key.pem
       caCertificates: /etc/certs/rootcacerts.pem
-```
+{{< /text >}}
+
 除了扩展通用性以外，`ServiceEntry` 还提供了其他一些有关 `EgressRule` 改进，其中包括：
 
 1. 一个 `ServiceEntry` 可以配置多个服务端点，这在之前需要采用多个 `EgressRules` 来实现。
@@ -287,13 +295,16 @@ spec:
 由于一个特定目的地的所有路由规则现在都存储在单个 `VirtualService` 资源的一个有序列表中，因此为该目的地添加新的规则不需要再创建新的 `RouteRule`，而是通过更新该目的地的 `VirtualService` 资源来实现。
 
 旧的路由规则：
-```command
+
+{{< text bash >}}
 $ istioctl create -f my-second-rule-for-destination-abc.yaml
-```
+{{< /text >}}
+
 `v1alpha3` 路由规则：
-```command
+
+{{< text bash >}}
 $ istioctl replace -f my-updated-rules-for-destination-abc.yaml
-```
+{{< /text >}}
 
 删除路由规则也使用 istioctl replace 完成，当然删除最后一个路由规则除外（删除最后一个路由规则需要删除 `VirtualService`）。
 

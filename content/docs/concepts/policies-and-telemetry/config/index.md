@@ -27,13 +27,13 @@ type indicating it has a 64 bit integer value.
 
 Here are some example attributes with their associated values:
 
-```plain
+{{< text plain >}}
 request.path: xyz/abc
 request.size: 234
 request.time: 12:34:56.789 04/17/2017
 source.ip: 192.168.0.1
 destination.service: example
-```
+{{< /text >}}
 
 Mixer is the Istio component that implements policy and telemetry functionality.
 Mixer is in essence an attribute processing machine. The Envoy sidecar invokes Mixer for
@@ -91,7 +91,7 @@ the IP address and port of the log sink.
 Here is an example showing how to configure an adapter of kind = `listchecker`. The listchecker adapter checks an input value against a list.
 If the adapter is configured for a whitelist, it returns success if the input value is found in the list.
 
-```yaml
+{{< text yaml >}}
 apiVersion: config.istio.io/v1alpha2
 kind: listchecker
 metadata:
@@ -100,7 +100,7 @@ metadata:
 spec:
   providerUrl: http://white_list_registry/
   blacklist: false
-```
+{{< /text >}}
 
 `{metadata.name}.{kind}.{metadata.namespace}` is the fully qualified name of a handler. The fully qualified name of the above handler is
 `staticversion.listchecker.istio-system` and it must be unique.
@@ -109,7 +109,7 @@ The schema of the data in the `spec` stanza depends on the specific adapter bein
 Some adapters implement functionality that goes beyond connecting Mixer to a backend.
 For example, the `prometheus` adapter consumes metrics and aggregates them as distributions or counters in a configurable way.
 
-```yaml
+{{< text yaml >}}
 apiVersion: config.istio.io/v1alpha2
 kind: prometheus
 metadata:
@@ -134,7 +134,7 @@ spec:
     buckets:
       explicit_buckets:
         bounds: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10]
-```
+{{< /text >}}
 
 Each adapter defines its own particular format of configuration data. The exhaustive set of
 adapters and their specific configuration formats can be found [here](/docs/reference/config/policy-and-telemetry/adapters/).
@@ -144,7 +144,7 @@ adapters and their specific configuration formats can be found [here](/docs/refe
 Instance configuration specifies the request mapping from attributes to adapter inputs.
 The following is an example of a metric instance configuration that produces the `requestduration` metric.
 
-```yaml
+{{< text yaml >}}
 apiVersion: config.istio.io/v1alpha2
 kind: metric
 metadata:
@@ -157,7 +157,8 @@ spec:
     destination_version: destination.labels["version"] | "unknown"
     response_code: response.code | 200
   monitored_resource_type: '"UNSPECIFIED"'
-```
+{{< /text >}}
+
 Note that all the dimensions expected in the handler configuration are specified in the mapping.
 Templates define the specific required content of individual instances. The exhaustive set of
 templates and their specific configuration formats can be found [here](/docs/reference/config/policy-and-telemetry/templates/).
@@ -168,7 +169,7 @@ Rules specify when a particular handler is invoked with a specific instance.
 Consider an example where you want to deliver the `requestduration` metric to the prometheus handler if
 the destination service is `service1` and the `x-user` request header has a specific value.
 
-```yaml
+{{< text yaml >}}
 apiVersion: config.istio.io/v1alpha2
 kind: rule
 metadata:
@@ -180,7 +181,8 @@ spec:
   - handler: handler.prometheus
     instances:
     - requestduration.metric.istio-system
-```
+{{< /text >}}
+
 A rule contains a `match` predicate expression and a list of actions to perform if the predicate is true.
 An action specifies the list of instances to be delivered to a handler.
 A rule must use the fully qualified names of handlers and instances.
@@ -191,19 +193,20 @@ If the rule, handlers, and instances are all in the same namespace, the namespac
 Attribute expressions are used when configuring instances.
 You have already seen a few simple attribute expressions in the previous examples:
 
-```yaml
+{{< text yaml >}}
 destination_service: destination.service
 response_code: response.code
 destination_version: destination.labels["version"] | "unknown"
-```
+{{< /text >}}
+
 The sequences on the right-hand side of the colons are the simplest forms of attribute expressions.
 The first two only consist of attribute names. The `response_code` label is assigned the value from the `request.code` attribute.
 
 Here's an example of a conditional expression:
 
-```yaml
+{{< text yaml >}}
 destination_version: destination.labels["version"] | "unknown"
-```
+{{< /text >}}
 
 With the above, the `destination_version` label is assigned the value of `destination.labels["version"]`. However if that attribute
 is not present, the literal `"unknown"` is used.
