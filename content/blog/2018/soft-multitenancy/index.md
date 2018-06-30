@@ -46,21 +46,22 @@ level Istio control planes are required; the first can use the istio.yaml defaul
 a different namespace. As an example, the following command creates a yaml file with
 the Istio namespace of *istio-system1*.
 
-```command
+{{< text bash >}}
 $ cat istio.yaml | sed s/istio-system/istio-system1/g > istio-system1.yaml
-```
+{{< /text >}}
 
 The istio yaml file contains the details of the Istio control plane deployment, including the
 pods that make up the control plane (mixer, pilot, ingress, CA). Deploying the two Istio
 control plane yaml files:
 
-```command
+{{< text bash >}}
 $ kubectl apply -f @install/kubernetes/istio.yaml@
 $ kubectl apply -f @install/kubernetes/istio-system1.yaml@
-```
+{{< /text >}}
+
 Results in two Istio control planes running in two namespaces.
 
-```command
+{{< text bash >}}
 $ kubectl get pods --all-namespaces
 NAMESPACE       NAME                                       READY     STATUS    RESTARTS   AGE
 istio-system    istio-ca-ffbb75c6f-98w6x                   1/1       Running   0          15d
@@ -71,7 +72,8 @@ istio-system1   istio-ca-5f496fdbcd-lqhlk                  1/1       Running   0
 istio-system1   istio-ingress-68d65fc5c6-2vldg             1/1       Running   0          15d
 istio-system1   istio-mixer-7d4f7b9968-66z44               3/3       Running   0          15d
 istio-system1   istio-pilot-5bb6b7669c-779vb               2/2       Running   0          15d
-```
+{{< /text >}}
+
 The Istio [sidecar](/docs/setup/kubernetes/sidecar-injection/) and
 [addons](/docs/tasks/telemetry/), if required, manifests must also
 be deployed to match the configured `namespace` in use by the tenant's Istio control plane.
@@ -102,7 +104,7 @@ similar to the one below. In this example, a tenant administrator named *sales-a
 is limited to the namespace *istio-system1*. A completed manifest would contain many
 more `apiGroups` under the `Role` providing resource access to the tenant administrator.
 
-```yaml
+{{< text yaml >}}
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
@@ -126,7 +128,7 @@ roleRef:
   kind: Role
   name: ns-access-for-sales-admin-istio-system1
   apiGroup: rbac.authorization.k8s.io
-```
+{{< /text >}}
 
 ### Watching specific namespaces for service discovery
 
@@ -137,7 +139,7 @@ component with the additional command line arguments `--appNamespace, ns-1`.  Wh
 is the namespace that the tenant’s application will be deployed in. An example snippet from
 the istio-system1.yaml file is included below.
 
-```yaml
+{{< text yaml >}}
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -161,7 +163,7 @@ spec:
         ports:
         - containerPort: 8080
         - containerPort: 443
-```
+{{< /text >}}
 
 ### Deploying the tenant application in a namespace
 
@@ -170,15 +172,17 @@ Pilot's service discovery has been configured to watch for a specific applicatio
 namespace (ex. *ns-1*), create the application manifests to deploy in that tenant's specific
 namespace. For example:
 
-```yaml
+{{< text yaml >}}
 apiVersion: v1
 kind: Namespace
 metadata:
   name: ns-1
-```
+{{< /text >}}
+
 And add the namespace reference to each resource type included in the application's manifest
 file.  For example:
-```yaml
+
+{{< text yaml >}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -186,7 +190,8 @@ metadata:
   labels:
     app: details
   namespace: ns-1
-```
+{{< /text >}}
+
 Although not shown, the application namespaces will also have RBAC settings limiting access
 to certain resources. These RBAC settings could be set by the cluster administrator and/or
 the tenant administrator.
@@ -206,18 +211,21 @@ the .yaml file for the resource scopes it properly instead.
 
 For example, the following command would be required to add a route rule to the *istio-system1*
 namespace:
-```command
+
+{{< text bash >}}
 $ istioctl –i istio-system1 create -n ns-1 -f route_rule_v2.yaml
-```
+{{< /text >}}
+
 And can be displayed using the command:
-```command
+
+{{< text bash >}}
 $ istioctl -i istio-system1 -n ns-1 get routerule
 NAME                  KIND                                  NAMESPACE
 details-Default       RouteRule.v1alpha2.config.istio.io    ns-1
 productpage-default   RouteRule.v1alpha2.config.istio.io    ns-1
 ratings-default       RouteRule.v1alpha2.config.istio.io    ns-1
 reviews-default       RouteRule.v1alpha2.config.istio.io    ns-1
-```
+{{< /text >}}
 
 See the [Multiple Istio control planes](/blog/2018/soft-multitenancy/#multiple-istio-control-planes) section of this document for more details on `namespace` requirements in a
 multi-tenant environment.
@@ -230,7 +238,7 @@ via RBAC and namespaces, what a tenant administrator can deploy.
 After deployment, accessing the Istio control plane pods assigned to a specific tenant
 administrator is permitted:
 
-```command
+{{< text bash >}}
 $ kubectl get pods -n istio-system
 NAME                                      READY     STATUS    RESTARTS   AGE
 grafana-78d649479f-8pqk9                  1/1       Running   0          1d
@@ -241,27 +249,28 @@ istio-pilot-678fc976c8-b8tv6              2/2       Running   0          1d
 istio-sidecar-injector-7587bd559d-5tgk6   1/1       Running   0          1d
 prometheus-cf8456855-hdcq7                1/1       Running   0          1d
 servicegraph-75ff8f7c95-wcjs7             1/1       Running   0          1d
-```
+{{< /text >}}
+
 However, accessing all the cluster's pods is not permitted:
 
-```command
+{{< text bash >}}
 $ kubectl get pods --all-namespaces
 Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list pods at the cluster scope
-```
+{{< /text >}}
 
 And neither is accessing another tenant's namespace:
 
-```command
+{{< text bash >}}
 $ kubectl get pods -n istio-system1
 Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list pods in the namespace "istio-system1"
-```
+{{< /text >}}
 
 The tenant administrator can deploy applications in the application namespace configured for
 that tenant. As an example, updating the [Bookinfo](/docs/examples/bookinfo/)
 manifests and then deploying under the tenant's application namespace of *ns-0*, listing the
 pods in use by this tenant's namespace is permitted:
 
-```command
+{{< text bash >}}
 $ kubectl get pods -n ns-0
 NAME                              READY     STATUS    RESTARTS   AGE
 details-v1-64b86cd49-b7rkr        2/2       Running   0          1d
@@ -270,14 +279,14 @@ ratings-v1-5f46655b57-5b4c5       2/2       Running   0          1d
 reviews-v1-ff6bdb95b-pm5lb        2/2       Running   0          1d
 reviews-v2-5799558d68-b989t       2/2       Running   0          1d
 reviews-v3-58ff7d665b-lw5j9       2/2       Running   0          1d
-```
+{{< /text >}}
 
 But accessing another tenant's application namespace is not:
 
-```command
+{{< text bash >}}
 $ kubectl get pods -n ns-1
 Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list pods in the namespace "ns-1"
-```
+{{< /text >}}
 
 If the [addon tools](/docs/tasks/telemetry/), example
 [prometheus](/docs/tasks/telemetry//querying-metrics/), are deployed

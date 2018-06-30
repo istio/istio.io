@@ -31,7 +31,7 @@ be found
 For _proof of concept_ purposes, it is possible to install
 a simple single container API server using the following Docker Compose file:
 
-```yaml
+{{< text yaml >}}
 version: '2'
 services:
   etcd:
@@ -70,7 +70,7 @@ services:
                "-v", "2",
                "--insecure-bind-address", "0.0.0.0"
              ]
-```
+{{< /text >}}
 
 ### Other Istio components
 

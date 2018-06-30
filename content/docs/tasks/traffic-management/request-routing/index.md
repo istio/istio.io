@@ -32,15 +32,15 @@ you'll need to use `replace` rather than `create` in the following command.
 
 1.  Set the default version for all microservices to v1.
 
-    ```command
+    {{< text bash >}}
     $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
-    ```
+    {{< /text >}}
 
     If you enabled `mTLS`, please run the following instead
 
-    ```command
+    {{< text bash >}}
     $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1-mtls.yaml@
-    ```
+    {{< /text >}}
 
     > In a Kubernetes deployment of Istio, you can replace `istioctl`
     > with `kubectl` in the above, and for all other CLI commands.
@@ -48,68 +48,68 @@ you'll need to use `replace` rather than `create` in the following command.
 
     You can display the routes that are defined with the following command:
 
-    ```command-output-as-yaml
-        $ istioctl get virtualservices -o yaml
-        apiVersion: networking.istio.io/v1alpha3
-        kind: VirtualService
-        metadata:
-          name: details
-          ...
-        spec:
-          hosts:
-          - details
-          http:
-          - route:
-            - destination:
-                host: details
-                subset: v1
-        ---
-        apiVersion: networking.istio.io/v1alpha3
-        kind: VirtualService
-        metadata:
-          name: productpage
-          ...
-        spec:
-          gateways:
-          - bookinfo-gateway
-          - mesh
-          hosts:
-          - productpage
-          http:
-          - route:
-            - destination:
-                host: productpage
-                subset: v1
-        ---
-        apiVersion: networking.istio.io/v1alpha3
-        kind: VirtualService
-        metadata:
-          name: ratings
-          ...
-        spec:
-          hosts:
-          - ratings
-          http:
-          - route:
-            - destination:
-                host: ratings
-                subset: v1
-        ---
-        apiVersion: networking.istio.io/v1alpha3
-        kind: VirtualService
-        metadata:
-          name: reviews
-          ...
-        spec:
-          hosts:
-          - reviews
-          http:
-          - route:
-            - destination:
-                host: reviews
-                subset: v1
-        ---
-    ```
+    {{< text bash yaml >}}
+    $ istioctl get virtualservices -o yaml
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: details
+      ...
+    spec:
+      hosts:
+      - details
+      http:
+      - route:
+        - destination:
+            host: details
+            subset: v1
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: productpage
+      ...
+    spec:
+      gateways:
+      - bookinfo-gateway
+      - mesh
+      hosts:
+      - productpage
+      http:
+      - route:
+        - destination:
+            host: productpage
+            subset: v1
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: ratings
+      ...
+    spec:
+      hosts:
+      - ratings
+      http:
+      - route:
+        - destination:
+            host: ratings
+            subset: v1
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: reviews
+      ...
+    spec:
+      hosts:
+      - reviews
+      http:
+      - route:
+        - destination:
+            host: reviews
+            subset: v1
+    ---
+    {{< /text >}}
 
     > The corresponding `subset` definitions can be displayed using `istioctl get destinationrules -o yaml`.
 
@@ -128,36 +128,36 @@ you'll need to use `replace` rather than `create` in the following command.
     Lets enable the ratings service for test user "jason" by routing productpage traffic to
     `reviews:v2` instances.
 
-    ```command
+    {{< text bash >}}
     $ istioctl replace -f @samples/bookinfo/routing/route-rule-reviews-test-v2.yaml@
-    ```
+    {{< /text >}}
 
     Confirm the rule is created:
 
-    ```command-output-as-yaml
-        $ istioctl get virtualservice reviews -o yaml
-        apiVersion: networking.istio.io/v1alpha3
-        kind: VirtualService
-        metadata:
-          name: reviews
-          ...
-        spec:
-          hosts:
-          - reviews
-          http:
-          - match:
-            - headers:
-                cookie:
-                  regex: ^(.*?;)?(user=jason)(;.*)?$
-            route:
-            - destination:
-                host: reviews
-                subset: v2
-          - route:
-            - destination:
-                host: reviews
-                subset: v1
-    ```
+    {{< text bash yaml >}}
+    $ istioctl get virtualservice reviews -o yaml
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: reviews
+      ...
+    spec:
+      hosts:
+      - reviews
+      http:
+      - match:
+        - headers:
+            cookie:
+              regex: ^(.*?;)?(user=jason)(;.*)?$
+        route:
+        - destination:
+            host: reviews
+            subset: v2
+      - route:
+        - destination:
+            host: reviews
+            subset: v1
+    {{< /text >}}
 
 1.  Log in as user "jason" at the `productpage` web page.
 
@@ -182,15 +182,15 @@ all users to v2, optionally in a gradual fashion. We'll explore this in a separa
 
 *   Remove the application routing rules.
 
-    ```command
+    {{< text bash >}}
     $ istioctl delete -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
-    ```
+    {{< /text >}}
 
     If you enabled `mTLS`, please run the following instead
 
-    ```command
+    {{< text bash >}}
     $ istioctl delete -f @samples/bookinfo/routing/route-rule-all-v1-mtls.yaml@
-    ```
+    {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, refer to the
   [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions

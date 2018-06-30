@@ -23,20 +23,20 @@ application.
 
     In Kubernetes environments, execute the following command:
 
-    ```command
+    {{< text bash >}}
     $ kubectl -n istio-system get svc prometheus
     NAME         CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
     prometheus   10.59.241.54   <none>        9090/TCP   2m
-    ```
+    {{< /text >}}
 
 1.  Send traffic to the mesh.
 
     For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
     browser or issue the following command:
 
-    ```command
+    {{< text bash >}}
     $ curl http://$GATEWAY_URL/productpage
-    ```
+    {{< /text >}}
 
     > `$GATEWAY_URL` is the value set in the [Bookinfo](/docs/examples/bookinfo/) example.
 
@@ -44,9 +44,9 @@ application.
 
     In Kubernetes environments, execute the following command:
 
-    ```command
+    {{< text bash >}}
     $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
-    ```
+    {{< /text >}}
 
     Visit [http://localhost:9090/graph](http://localhost:9090/graph) in your web browser.
 
@@ -66,23 +66,23 @@ Other queries to try:
 
 -   Total count of all requests to `productpage` service:
 
-    ```
+    {{< text plain >}}
     istio_request_count{destination_service="productpage.default.svc.cluster.local"}
-    ```
+    {{< /text >}}
 
 - Total count of all requests to `v3` of the `reviews` service:
 
-    ```
+    {{< text plain >}}
     istio_request_count{destination_service="reviews.default.svc.cluster.local", destination_version="v3"}
-    ```
+    {{< /text >}}
 
     This query returns the current total count of all requests to the v3 of the reviews service.
 
 -   Rate of requests over the past 5 minutes to all `productpage` services:
 
-    ```
+    {{< text plain >}}
     rate(istio_request_count{destination_service=~"productpage.*", response_code="200"}[5m])
-    ```
+    {{< /text >}}
 
 ### About the Prometheus add-on
 
@@ -93,6 +93,7 @@ the exposed metrics. It provides a mechanism for persistent storage and querying
 of Istio metrics.
 
 The configured Prometheus add-on scrapes three endpoints:
+
 1. *istio-mesh* (`istio-mixer.istio-system:42422`): all Mixer-generated mesh
    metrics.
 1. *mixer* (`istio-mixer.istio-system:9093`): all Mixer-specific metrics. Used
@@ -107,9 +108,9 @@ docs](https://prometheus.io/docs/querying/basics/).
 
 -   Remove any `kubectl port-forward` processes that may still be running:
 
-    ```command
+    {{< text bash >}}
     $ killall kubectl
-    ```
+    {{< /text >}}
 
 -   If you are not planning to explore any follow-on tasks, refer to the
     [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions

@@ -45,7 +45,8 @@ or any additional properties about the subject such as namespace, service name.
 and any additional properties about the action.
 
 Below we show an example "requestcontext".
-```yaml
+
+{{< text yaml >}}
 apiVersion: "config.istio.io/v1alpha2"
 kind: authorization
 metadata:
@@ -65,7 +66,7 @@ spec:
     path: request.path | ""
     properties:
       version: request.headers["version"] | ""
-```
+{{< /text >}}
 
 ## Istio RBAC policy
 
@@ -87,7 +88,7 @@ fields in a rule. "paths" is optional. If not specified or set to "*", it applie
 
 Here is an example of a simple role "service-admin", which has full access to all services in "default" namespace.
 
-```yaml
+{{< text yaml >}}
 apiVersion: "config.istio.io/v1alpha2"
 kind: ServiceRole
 metadata:
@@ -97,12 +98,12 @@ spec:
   rules:
   - services: ["*"]
     methods: ["*"]
-```
+{{< /text >}}
 
 Here is another role "products-viewer", which has read ("GET" and "HEAD") access to service "products.default.svc.cluster.local"
 in "default" namespace.
 
-```yaml
+{{< text yaml >}}
 apiVersion: "config.istio.io/v1alpha2"
 kind: ServiceRole
 metadata:
@@ -112,7 +113,7 @@ spec:
   rules:
   - services: ["products.default.svc.cluster.local"]
     methods: ["GET", "HEAD"]
-```
+{{< /text >}}
 
 In addition, we support **prefix matching** and **suffix matching** for all the fields in a rule. For example, you can define a "tester" role that
 has the following permissions in "default" namespace:
@@ -120,7 +121,7 @@ has the following permissions in "default" namespace:
 * Read ("GET") access to all paths with "/reviews" suffix (e.g, "/books/reviews", "/events/booksale/reviews", "/reviews")
 in service "bookstore.default.svc.cluster.local".
 
-```yaml
+{{< text yaml >}}
 apiVersion: "config.istio.io/v1alpha2"
 kind: ServiceRole
 metadata:
@@ -133,7 +134,7 @@ spec:
   - services: ["bookstore.default.svc.cluster.local"]
     paths: ["*/reviews"]
     methods: ["GET"]
-```
+{{< /text >}}
 
 In `ServiceRole`, the combination of "namespace"+"services"+"paths"+"methods" defines "how a service (services) is allowed to be accessed".
 In some situations, you may need to specify additional constraints that a rule applies to. For example, a rule may only applies to a
@@ -143,7 +144,7 @@ custom fields.
 For example, the following `ServiceRole` definition extends the previous "products-viewer" role by adding a constraint on service "version"
 being "v1" or "v2". Note that the "version" property is provided by `"action.properties.version"` in "requestcontext".
 
-```yaml
+{{< text yaml >}}
 apiVersion: "config.istio.io/v1alpha2"
 kind: ServiceRole
 metadata:
@@ -156,7 +157,7 @@ spec:
     constraints:
     - key: "version"
       values: ["v1", "v2"]
-```
+{{< /text >}}
 
 ### `ServiceRoleBinding`
 
@@ -172,7 +173,7 @@ Here is an example of `ServiceRoleBinding` resource "test-binding-products", whi
 * user "alice@yahoo.com".
 * "reviews.abc.svc.cluster.local" service in "abc" namespace.
 
-```yaml
+{{< text yaml >}}
 apiVersion: "config.istio.io/v1alpha2"
 kind: ServiceRoleBinding
 metadata:
@@ -187,12 +188,12 @@ spec:
   roleRef:
     kind: ServiceRole
     name: "products-viewer"
-```
+{{< /text >}}
 
 In the case that you want to make a service(s) publicly accessible, you can use set the subject to `user: "*"`. This will assign a `ServiceRole`
 to all users/services.
 
-```yaml
+{{< text yaml >}}
 apiVersion: "config.istio.io/v1alpha2"
 kind: ServiceRoleBinding
 metadata:
@@ -204,7 +205,7 @@ spec:
   roleRef:
     kind: ServiceRole
     name: "products-viewer"
-```
+{{< /text >}}
 
 ## Enabling Istio RBAC
 
@@ -221,7 +222,7 @@ earlier in the document](#request-context).
 
 In the following example, Istio RBAC is enabled for "default" namespace. And the cache duration is set to 30 seconds.
 
-```yaml
+{{< text yaml >}}
 apiVersion: "config.istio.io/v1alpha2"
 kind: rbac
 metadata:
@@ -243,7 +244,7 @@ spec:
   - handler: handler.rbac
     instances:
     - requestcontext.authorization
-```
+{{< /text >}}
 
 ## What's next
 

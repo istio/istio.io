@@ -26,9 +26,9 @@ two steps: 50%, 100%.
 
 1.  Set the default version for all microservices to v1.
 
-    ```command
+    {{< text bash >}}
     $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
-    ```
+    {{< /text >}}
 
 1.  Confirm v1 is the active version of the `reviews` service by opening http://$GATEWAY_URL/productpage in your browser.
 
@@ -37,34 +37,34 @@ two steps: 50%, 100%.
 
 1.  First, transfer 50% of the traffic from `reviews:v1` to `reviews:v3` with the following command:
 
-    ```command
+    {{< text bash >}}
     $ istioctl replace -f @samples/bookinfo/routing/route-rule-reviews-50-v3.yaml@
-    ```
+    {{< /text >}}
 
     Confirm the rule was replaced:
 
-    ```command-output-as-yaml
-        $ istioctl get virtualservice reviews -o yaml
-        apiVersion: networking.istio.io/v1alpha3
-        kind: VirtualService
-        metadata:
-          name: reviews
-          ...
-        spec:
-          hosts:
-          - reviews
-          http:
-          - route:
-            - destination:
-                host: reviews
-                subset: v1
-              weight: 50
-          - route:
-            - destination:
-                host: reviews
-                subset: v3
-              weight: 50
-    ```
+    {{< text bash yaml >}}
+    $ istioctl get virtualservice reviews -o yaml
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: reviews
+      ...
+    spec:
+      hosts:
+      - reviews
+      http:
+      - route:
+        - destination:
+            host: reviews
+            subset: v1
+          weight: 50
+      - route:
+        - destination:
+            host: reviews
+            subset: v3
+          weight: 50
+    {{< /text >}}
 
 1.  Refresh the `productpage` in your browser and you should now see *red* colored star ratings approximately 50% of the time.
 
@@ -73,9 +73,9 @@ two steps: 50%, 100%.
 
 1.  When version v3 of the `reviews` microservice is considered stable, we can route 100% of the traffic to `reviews:v3`:
 
-    ```command
+    {{< text bash >}}
     $ istioctl replace -f @samples/bookinfo/routing/route-rule-reviews-v3.yaml@
-    ```
+    {{< /text >}}
 
     You can now log into the `productpage` as any user and you should always see book reviews
     with *red* colored star ratings for each review.
@@ -93,9 +93,9 @@ For more about version routing with autoscaling, check out [Canary Deployments u
 
 *   Remove the application routing rules.
 
-    ```command
+    {{< text bash >}}
     $ istioctl delete -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
-    ```
+    {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, refer to the
   [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions

@@ -28,9 +28,9 @@ example application for this task.
 
 Setup access to the tracing dashboard URL using port-forwarding:
 
-```command
+{{< text bash >}}
 $ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 16686:16686 &
-```
+{{< /text >}}
 
 Then open your browser at [http://localhost:16686](http://localhost:16686)
 
@@ -85,7 +85,7 @@ To do this, an application needs to collect and propagate the following headers 
 
 If you look in the sample services, you can see that the productpage application (Python) extracts the required headers from an HTTP request:
 
-```python
+{{< text python >}}
 def getForwardHeaders(request):
     headers = {}
 
@@ -109,11 +109,11 @@ def getForwardHeaders(request):
             #print "incoming: "+ihdr+":"+val
 
     return headers
-```
+{{< /text >}}
 
 The reviews application (Java) does something similar:
 
-```java
+{{< text jzvz >}}
 @GET
 @Path("/reviews")
 public Response bookReviews(@CookieParam("user") Cookie user,
@@ -129,7 +129,7 @@ public Response bookReviews(@CookieParam("user") Cookie user,
 
   if(ratings_enabled){
     JsonObject ratings = getRatings(user, xreq, xtraceid, xspanid, xparentspanid, xsampled, xflags, xotspan);
-```
+{{< /text >}}
 
 When you make downstream calls in your applications, make sure to include these headers.
 

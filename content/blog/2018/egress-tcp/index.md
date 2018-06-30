@@ -22,35 +22,35 @@ For this task I set up an instance of [MySQL](https://www.mysql.com). You can us
 
 1.  To initialize the database, I run the following command entering the password when prompted. The command is performed with the credentials of the  `admin` user, created by default by [Compose for MySQL](https://www.ibm.com/cloud/compose/mysql).
 
-    ```command
+    {{< text bash >}}
     $ curl -s https://raw.githubusercontent.com/istio/istio/{{<branch_name>}}/samples/bookinfo/src/mysql/mysqldb-init.sql | \
     mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host <the database host> --port <the database port>
-    ```
+    {{< /text >}}
 
     _**OR**_
 
     When using the `mysql` client and a local MySQL database, I would run:
 
-    ```command
+    {{< text bash >}}
     $ curl -s https://raw.githubusercontent.com/istio/istio/{{<branch_name>}}/samples/bookinfo/src/mysql/mysqldb-init.sql | \
     mysql -u root -p
-    ```
+    {{< /text >}}
 
 1.  I then create a user with the name _bookinfo_ and grant it _SELECT_ privilege on the `test.ratings` table:
 
-    ```command
+    {{< text bash >}}
     $ mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host <the database host> --port <the database port>  \
     -e "CREATE USER 'bookinfo' IDENTIFIED BY '<password you choose>'; GRANT SELECT ON test.ratings to 'bookinfo';"
-    ```
+    {{< /text >}}
 
     _**OR**_
 
     For `mysql` and the local database, the command would be:
 
-    ```command
+    {{< text bash >}}
     $ mysql -u root -p -e \
     "CREATE USER 'bookinfo' IDENTIFIED BY '<password you choose>'; GRANT SELECT ON test.ratings to 'bookinfo';"
-    ```
+    {{< /text >}}
 
     Here I apply the [principle of least privilege](https://en.wikipedia.org/wiki/Principle_of_least_privilege). This means that I do not use my _admin_ user in the Bookinfo application. Instead, I create a special user for the Bookinfo application , _bookinfo_, with minimal privileges. In this case, the _bookinfo_ user only has the `SELECT` privilege on a single table.
 
@@ -58,7 +58,7 @@ For this task I set up an instance of [MySQL](https://www.mysql.com). You can us
 
 1.  I inspect the created ratings to see that everything worked as expected:
 
-    ```command
+    {{< text bash >}}
     $ mysqlsh --sql --ssl-mode=REQUIRED -u bookinfo -p --host <the database host> --port <the database port> \
     -e "select * from test.ratings;"
     Enter password:
@@ -68,13 +68,13 @@ For this task I set up an instance of [MySQL](https://www.mysql.com). You can us
     |        1 |      5 |
     |        2 |      4 |
     +----------+--------+
-    ```
+    {{< /text >}}
 
     _**OR**_
 
     For `mysql` and the local database:
 
-    ```command
+    {{< text bash >}}
     $ mysql -u bookinfo -p -e "select * from test.ratings;"
     Enter password:
     +----------+--------+
@@ -83,11 +83,11 @@ For this task I set up an instance of [MySQL](https://www.mysql.com). You can us
     |        1 |      5 |
     |        2 |      4 |
     +----------+--------+
-    ```
+    {{< /text >}}
 
 1.  I set the ratings temporarily to 1 to provide a visual clue when our database is used by the Bookinfo _ratings_ service:
 
-    ```command
+    {{< text bash >}}
     $ mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host <the database host> --port <the database port>  \
     -e "update test.ratings set rating=1; select * from test.ratings;"
     Enter password:
@@ -97,13 +97,13 @@ For this task I set up an instance of [MySQL](https://www.mysql.com). You can us
     |        1 |      1 |
     |        2 |      1 |
     +----------+--------+
-    ```
+    {{< /text >}}
 
     _**OR**_
 
     For `mysql` and the local database:
 
-    ```command
+    {{< text bash >}}
     $ mysql -u root -p -e "update test.ratings set rating=1; select * from  test.ratings;"
     Enter password:
     +----------+--------+
@@ -112,7 +112,7 @@ For this task I set up an instance of [MySQL](https://www.mysql.com). You can us
     |        1 |      1 |
     |        2 |      1 |
     +----------+--------+
-    ```
+    {{< /text >}}
 
     I used the _admin_ user (and _root_ for the local database) in the last command since the _bookinfo_ user does not have the _UPDATE_ privilege on the `test.ratings` table.
 
@@ -135,34 +135,34 @@ As a reminder, here is the end-to-end architecture of the application from the [
 
 1.  I modify the deployment spec of a version of the _ratings_ microservice that uses a MySQL database, to use my database instance. The spec is in `samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml` of an Istio release archive. I edit the following lines:
 
-    ```yaml
-        - name: MYSQL_DB_HOST
-          value: mysqldb
-        - name: MYSQL_DB_PORT
-          value: "3306"
-        - name: MYSQL_DB_USER
-          value: root
-        - name: MYSQL_DB_PASSWORD
-          value: password
-    ```
+    {{< text yaml >}}
+    - name: MYSQL_DB_HOST
+      value: mysqldb
+    - name: MYSQL_DB_PORT
+      value: "3306"
+    - name: MYSQL_DB_USER
+      value: root
+    - name: MYSQL_DB_PASSWORD
+      value: password
+    {{< /text >}}
 
     I replace the values in the snippet above, specifying the database host, port, user, and password. Note that the correct way to work with passwords in container's environment variables in Kubernetes is [to use secrets](https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables). For this example task only, I write the password directly in the deployment spec. **Do not do it** in a real environment! I also assume everyone realizes that `"password"` should not be used as a password...
 
 1.  I apply the modified spec to deploy the version of the _ratings_ microservice, _v2-mysql_, that will use my database.
 
-    ```command
+    {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml@)
     deployment "ratings-v2-mysql" created
-    ```
+    {{< /text >}}
 
 1.  I route all the traffic destined to the _reviews_ service to its _v3_ version. I do this to ensure that the _reviews_ service always calls the _ratings_
 service. In addition, I route all the traffic destined to the _ratings_ service to _ratings v2-mysql_ that uses my database. I add routing for both services above by adding two [route rules](/docs/reference/config/istio.routing.v1alpha1/). These rules are specified in `samples/bookinfo/kube/route-rule-ratings-mysql.yaml` of an Istio release archive.
 
-    ```command
+    {{< text bash >}}
     $ istioctl create -f @samples/bookinfo/kube/route-rule-ratings-mysql.yaml@
     Created config route-rule/default/ratings-test-v2-mysql at revision 1918799
     Created config route-rule/default/reviews-test-ratings-v2 at revision 1918800
-    ```
+    {{< /text >}}
 
 The updated architecture appears below. Note that the blue arrows inside the mesh mark the traffic configured according to the route rules we added. According to the route rules, the traffic is sent to _reviews v3_ and _ratings v2-mysql_.
 
@@ -192,7 +192,7 @@ We have the same problem as in [Consuming External Web Services](/blog/2018/egre
 
 TCP egress rules come to our rescue. I copy the following YAML spec to a text file (let's call it `egress-rule-mysql.yaml`) and edit it to specify the IP of my database instance and its port.
 
-```yaml
+{{< text yaml >}}
 apiVersion: config.istio.io/v1alpha2
 kind: EgressRule
 metadata:
@@ -204,14 +204,15 @@ spec:
   ports:
       - port: <MySQL instance port>
         protocol: tcp
-```
+{{< /text >}}
 
 Then I run `istioctl` to add the egress rule to the service mesh:
 
-```command
+{{< text bash >}}
 $ istioctl create -f egress-rule-mysql.yaml
 Created config egress-rule/default/mysql at revision 1954425
-```
+{{< /text >}}
+
 Note that for a TCP egress rule, we specify `tcp` as the protocol of a port of the rule. Also note that we use an IP of the external service instead of its domain name. I will talk more about TCP egress rules [below](#egress-rules-for-tcp-traffic). For now, let's verify that the egress rule we added fixed the problem. Let's access the webpage and see if the stars are back.
 
 It worked! Accessing the web page of the application displays the ratings without error:
@@ -272,40 +273,40 @@ with Istio. The Istio control plane does not have to be accessible from the mach
 
 1.  Drop the _test_ database and the _bookinfo_ user:
 
-    ```command
+    {{< text bash >}}
     $ mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host <the database host> --port <the database port> \
     -e "drop database test; drop user bookinfo;"
-    ```
+    {{< /text >}}
 
     _**OR**_
 
     For `mysql` and the local database:
 
-    ```command
+    {{< text bash >}}
     $ mysql -u root -p -e "drop database test; drop user bookinfo;"
-    ```
+    {{< /text >}}
 
 1.  Remove the route rules:
 
-    ```command
+    {{< text bash >}}
     $ istioctl delete -f @samples/bookinfo/kube/route-rule-ratings-mysql.yaml@
     Deleted config: route-rule/default/ratings-test-v2-mysql
     Deleted config: route-rule/default/reviews-test-ratings-v2
-    ```
+    {{< /text >}}
 
 1.  Undeploy _ratings v2-mysql_:
 
-    ```command
+    {{< text bash >}}
     $ kubectl delete -f <(istioctl kube-inject -f @samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml@)
     deployment "ratings-v2-mysql" deleted
-    ```
+    {{< /text >}}
 
 1.  Delete the egress rule:
 
-    ```command
+    {{< text bash >}}
     $ istioctl delete egressrule mysql -n default
     Deleted config: egressrule mysql
-    ```
+    {{< /text >}}
 
 ## Future work
 
