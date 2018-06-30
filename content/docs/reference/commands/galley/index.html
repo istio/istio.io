@@ -21,11 +21,11 @@ number_of_entries: 6
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, attributes, default, grpcAdapter, mcp, runtime]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, attributes, default, grpcAdapter, mcp, runtime, snapshot]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter, mcp, runtime] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter, mcp, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -45,23 +45,11 @@ number_of_entries: 6
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter, mcp, runtime] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter, mcp, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
-</tr>
-<tr>
-<td><code>--logcaller</code></td>
-<td>Logs filename and line number of callers to log </td>
-</tr>
-<tr>
-<td><code>--loglevel &lt;Level&gt;</code></td>
-<td>loglevel, one of [Debug Verbose Info Warning Error Critical Fatal]  (default `Info`)</td>
-</tr>
-<tr>
-<td><code>--logprefix &lt;string&gt;</code></td>
-<td>Prefix to log lines before logged messages  (default `> `)</td>
 </tr>
 <tr>
 <td><code>--resyncPeriod &lt;duration&gt;</code></td>
@@ -93,11 +81,11 @@ number_of_entries: 6
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, attributes, default, grpcAdapter, mcp, runtime]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, attributes, default, grpcAdapter, mcp, runtime, snapshot]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter, mcp, runtime] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter, mcp, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -117,23 +105,11 @@ number_of_entries: 6
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter, mcp, runtime] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter, mcp, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
-</tr>
-<tr>
-<td><code>--logcaller</code></td>
-<td>Logs filename and line number of callers to log </td>
-</tr>
-<tr>
-<td><code>--loglevel &lt;Level&gt;</code></td>
-<td>loglevel, one of [Debug Verbose Info Warning Error Critical Fatal]  (default `Info`)</td>
-</tr>
-<tr>
-<td><code>--logprefix &lt;string&gt;</code></td>
-<td>Prefix to log lines before logged messages  (default `> `)</td>
 </tr>
 <tr>
 <td><code>--probe-path &lt;string&gt;</code></td>
@@ -189,11 +165,11 @@ number_of_entries: 6
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, attributes, default, grpcAdapter, mcp, runtime]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, attributes, default, grpcAdapter, mcp, runtime, snapshot]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter, mcp, runtime] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter, mcp, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -213,23 +189,11 @@ number_of_entries: 6
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter, mcp, runtime] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter, mcp, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
-</tr>
-<tr>
-<td><code>--logcaller</code></td>
-<td>Logs filename and line number of callers to log </td>
-</tr>
-<tr>
-<td><code>--loglevel &lt;Level&gt;</code></td>
-<td>loglevel, one of [Debug Verbose Info Warning Error Critical Fatal]  (default `Info`)</td>
-</tr>
-<tr>
-<td><code>--logprefix &lt;string&gt;</code></td>
-<td>Prefix to log lines before logged messages  (default `> `)</td>
 </tr>
 <tr>
 <td><code>--maxConcurrentStreams &lt;uint&gt;</code></td>
@@ -285,11 +249,11 @@ number_of_entries: 6
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, attributes, default, grpcAdapter, mcp, runtime]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, attributes, default, grpcAdapter, mcp, runtime, snapshot]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter, mcp, runtime] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter, mcp, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -309,23 +273,11 @@ number_of_entries: 6
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter, mcp, runtime] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter, mcp, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
-</tr>
-<tr>
-<td><code>--logcaller</code></td>
-<td>Logs filename and line number of callers to log </td>
-</tr>
-<tr>
-<td><code>--loglevel &lt;Level&gt;</code></td>
-<td>loglevel, one of [Debug Verbose Info Warning Error Critical Fatal]  (default `Info`)</td>
-</tr>
-<tr>
-<td><code>--logprefix &lt;string&gt;</code></td>
-<td>Prefix to log lines before logged messages  (default `> `)</td>
 </tr>
 <tr>
 <td><code>--mixer-webhook-name &lt;string&gt;</code></td>
@@ -381,12 +333,12 @@ number_of_entries: 6
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, attributes, default, grpcAdapter, mcp, runtime]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, attributes, default, grpcAdapter, mcp, runtime, snapshot]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter, mcp, runtime] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter, mcp, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -411,27 +363,12 @@ number_of_entries: 6
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter, mcp, runtime] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter, mcp, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
 <td></td>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
-</tr>
-<tr>
-<td><code>--logcaller</code></td>
-<td></td>
-<td>Logs filename and line number of callers to log </td>
-</tr>
-<tr>
-<td><code>--loglevel &lt;Level&gt;</code></td>
-<td></td>
-<td>loglevel, one of [Debug Verbose Info Warning Error Critical Fatal]  (default `Info`)</td>
-</tr>
-<tr>
-<td><code>--logprefix &lt;string&gt;</code></td>
-<td></td>
-<td>Prefix to log lines before logged messages  (default `> `)</td>
 </tr>
 <tr>
 <td><code>--resyncPeriod &lt;duration&gt;</code></td>
