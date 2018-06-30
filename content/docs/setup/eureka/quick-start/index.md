@@ -82,3 +82,7 @@ Uninstall Istio core components by removing the docker containers:
 {{< text bash >}}
 $ docker-compose -f @install/eureka/istio.yaml@ down
 {{< /text >}}
+
+## What's next
+
+* See the sample [Bookinfo](/docs/examples/bookinfo/) application.

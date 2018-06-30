@@ -492,3 +492,7 @@ Remove all resources.
 {{< text bash >}}
 $ kubectl delete ns foo bar legacy
 {{< /text >}}
+
+## What's next
+
+* Learn more about verifying mutual TLS setup [testing Istio mutual TLS authentication](/docs/tasks/security/mutual-tls/)

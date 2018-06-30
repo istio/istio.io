@@ -109,7 +109,7 @@ from within your Istio cluster. In this task we will use
 ### Setting route rules on an external service
 
 Similar to inter-cluster requests, Istio
-[routing rules](/docs/concepts/traffic-management/#rule-configuration)
+[routing rules](/docs/concepts/traffic-management/rules-configuration/)
 can also be set for external services that are accessed using `ServiceEntry` configurations.
 To illustrate we will use [istioctl](/docs/reference/commands/istioctl/)
 to set a timeout rule on calls to the httpbin.org service.
@@ -167,7 +167,7 @@ to set a timeout rule on calls to the httpbin.org service.
 
 If you want to completely bypass Istio for a specific IP range,
 you can configure the Envoy sidecars to prevent them from
-[intercepting](/docs/concepts/traffic-management/#communication-between-services)
+[intercepting](/docs/concepts/traffic-management/request-routing/#communication-between-services)
 the external requests. This can be done by setting the `global.proxy.includeIPRanges` variable of
 [Helm](/docs/setup/kubernetes/helm-install/#customization-with-helm) and updating the `ConfigMap` _istio-sidecar-injector_ by `kubectl apply`. After _istio-sidecar-injector_ is updated, the value of `global.proxy.includeIPRanges` will affect all the future deployments of the application pods.
 
@@ -278,3 +278,12 @@ cloud provider specific knowledge and configuration.
     {{< text bash >}}
     $ helm template @install/kubernetes/helm/istio@ <the flags you used to install Istio> -x @templates/sidecar-injector-configmap.yaml@ | kubectl apply -f -
     {{< /text >}}
+
+## What's next
+
+* Learn more about [service entries](/docs/concepts/traffic-management/rules-configuration/#service-entries).
+
+* Learn how to setup
+  [timeouts](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute-timeout),
+  [retries](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute-retries),
+  and [circuit breakers](/docs/reference/config/istio.networking.v1alpha3/#OutlierDetection) for egress traffic.
