@@ -1,6 +1,6 @@
 ---
 title: Reporting Bugs
-description: What to do about bugs
+description: What to do when you find a bug
 weight: 35
 aliases:
     - /bugs.html
