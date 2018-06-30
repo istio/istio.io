@@ -37,7 +37,7 @@ fine grain traffic percentages (e.g., route 1% of traffic without requiring 100 
 
 We begin by defining the **helloworld** Service, just like any other Kubernetes service, something like this:
 
-```yaml
+{{< text yaml >}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -48,11 +48,11 @@ spec:
   selector:
     app: helloworld
   ...
-```
+{{< /text >}}
 
 We then add 2 Deployments, one for each version (**v1** and **v2**), both of which include the service selector’s `app: helloworld` label:
 
-```yaml
+{{< text yaml >}}
 kind: Deployment
 metadata:
   name: helloworld-v1
@@ -83,7 +83,7 @@ spec:
       containers:
       - image: helloworld-v2
         ...
-```
+{{< /text >}}
 
 Note that this is exactly the same way we would do a [canary deployment](https://kubernetes.io/docs/concepts/cluster-administration/manage-deployment/#canary-deployments) using plain Kubernetes, but in that case we would need to adjust the number of replicas of each Deployment to control the distribution of traffic. For example, to send 10% of the traffic to the canary version (**v2**), the replicas for **v1** and **v2** could be set to 9 and 1, respectively.
 
@@ -91,8 +91,8 @@ However, since we are going to deploy the service in an [Istio enabled](/docs/se
 rule to control the traffic distribution. For example if we want to send 10% of the traffic to the canary, we could use the
 [istioctl](/docs/reference/commands/istioctl/) command to set a routing rule something like this:
 
-```bash
-cat <<EOF | istioctl create -f -
+{{< text bash >}}
+$ cat <<EOF | istioctl create -f -
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -111,7 +111,7 @@ spec:
         subset: v2
       weight: 10
 EOF
-```
+{{< /text >}}
 
 After setting this rule, Istio will ensure that only one tenth of the requests will be sent to the canary version, regardless of how many replicas of each version are running.
 
@@ -119,24 +119,26 @@ After setting this rule, Istio will ensure that only one tenth of the requests w
 
 Because we don’t need to maintain replica ratios anymore, we can safely add Kubernetes [horizontal pod autoscalers](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) to manage the replicas for both version Deployments:
 
-```command
+{{< text bash >}}
 $ kubectl autoscale deployment helloworld-v1 --cpu-percent=50 --min=1 --max=10
 deployment "helloworld-v1" autoscaled
-```
-```command
+{{< /text >}}
+
+{{< text bash >}}
 $ kubectl autoscale deployment helloworld-v2 --cpu-percent=50 --min=1 --max=10
 deployment "helloworld-v2" autoscaled
-```
-```command
+{{< /text >}}
+
+{{< text bash >}}
 $ kubectl get hpa
 NAME           REFERENCE                 TARGET  CURRENT  MINPODS  MAXPODS  AGE
 Helloworld-v1  Deployment/helloworld-v1  50%     47%      1        10       17s
 Helloworld-v2  Deployment/helloworld-v2  50%     40%      1        10       15s
-```
+{{< /text >}}
 
 If we now generate some load on the **helloworld** service, we would notice that when scaling begins, the **v1** autoscaler will scale up its replicas significantly higher than the **v2** autoscaler will for its replicas because **v1** pods are handling 90% of the load.
 
-```command
+{{< text bash >}}
 $ kubectl get pods | grep helloworld
 helloworld-v1-3523621687-3q5wh   0/2       Pending   0          15m
 helloworld-v1-3523621687-73642   2/2       Running   0          11m
@@ -148,11 +150,11 @@ helloworld-v1-3523621687-l8rjn   2/2       Running   0          19m
 helloworld-v1-3523621687-wwddw   2/2       Running   0          15m
 helloworld-v1-3523621687-xlt26   0/2       Pending   0          19m
 helloworld-v2-4095161145-963wt   2/2       Running   0          50m
-```
+{{< /text >}}
 
 If we then change the routing rule to send 50% of the traffic to **v2**, we should, after a short delay, notice that the **v1** autoscaler will scale down the replicas of **v1** while the **v2** autoscaler will perform a corresponding scale up.
 
-```command
+{{< text bash >}}
 $ kubectl get pods | grep helloworld
 helloworld-v1-3523621687-73642   2/2       Running   0          35m
 helloworld-v1-3523621687-7hs31   2/2       Running   0          43m
@@ -165,23 +167,23 @@ helloworld-v2-4095161145-963wt   2/2       Running   0          1h
 helloworld-v2-4095161145-c3dpj   0/2       Pending   0          21m
 helloworld-v2-4095161145-t2ccm   0/2       Pending   0          17m
 helloworld-v2-4095161145-v3v9n   0/2       Pending   0          13m
-```
+{{< /text >}}
 
 The end result is very similar to the simple Kubernetes Deployment rollout, only now the whole process is not being orchestrated and managed in one place. Instead, we’re seeing several components doing their jobs independently, albeit in a cause and effect manner.
 What's different, however, is that if we now stop generating load, the replicas of both versions will eventually scale down to their minimum (1), regardless of what routing rule we set.
 
-```command
+{{< text bash >}}
 $ kubectl get pods | grep helloworld
 helloworld-v1-3523621687-dt7n7   2/2       Running   0          1h
 helloworld-v2-4095161145-963wt   2/2       Running   0          1h
-```
+{{< /text >}}
 
 ## Focused canary testing
 
 As mentioned above, the Istio routing rules can be used to route traffic based on specific criteria, allowing more sophisticated canary deployment scenarios. Say, for example, instead of exposing the canary to an arbitrary percentage of users, we want to try it out on internal users, maybe even just a percentage of them. The following command could be used to send 50% of traffic from users at *some-company-name.com* to the canary version, leaving all other users unaffected:
 
-```bash
-cat <<EOF | istioctl create -f -
+{{< text bash >}}
+$ cat <<EOF | istioctl create -f -
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -208,7 +210,7 @@ spec:
         host: helloworld
         subset: v1
 EOF
-```
+{{< /text >}}
 
 As before, the autoscalers bound to the 2 version Deployments will automatically scale the replicas accordingly, but that will have no affect on the traffic distribution.
 

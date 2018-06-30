@@ -84,9 +84,9 @@ To start the application, follow the instructions below corresponding to your Is
     *   If you are using [manual sidecar injection](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection),
         use the following command
 
-        ```command
+        {{< text bash >}}
         $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/kube/bookinfo.yaml@)
-        ```
+        {{< /text >}}
 
         The `istioctl kube-inject` command is used to manually modify the `bookinfo.yaml`
         file before creating the deployments as documented [here](/docs/reference/commands/istioctl/#istioctl-kube-inject).
@@ -95,9 +95,9 @@ To start the application, follow the instructions below corresponding to your Is
         [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)
         enabled, simply deploy the services using `kubectl`
 
-        ```command
+        {{< text bash >}}
         $ kubectl apply -f @samples/bookinfo/kube/bookinfo.yaml@
-        ```
+        {{< /text >}}
 
     Either of the above commands launches all four microservices as illustrated in the above diagram.
     All 3 versions of the reviews service, v1, v2, and v3, are started.
@@ -107,13 +107,13 @@ To start the application, follow the instructions below corresponding to your Is
 
 1.  Define the ingress gateway for the application:
 
-    ```command
+    {{< text bash >}}
     $ istioctl create -f @samples/bookinfo/routing/bookinfo-gateway.yaml@
-    ```
+    {{< /text >}}
 
 1.  Confirm all services and pods are correctly defined and running:
 
-    ```command
+    {{< text bash >}}
     $ kubectl get services
     NAME                       CLUSTER-IP   EXTERNAL-IP   PORT(S)              AGE
     details                    10.0.0.31    <none>        9080/TCP             6m
@@ -121,11 +121,11 @@ To start the application, follow the instructions below corresponding to your Is
     productpage                10.0.0.120   <none>        9080/TCP             6m
     ratings                    10.0.0.15    <none>        9080/TCP             6m
     reviews                    10.0.0.170   <none>        9080/TCP             6m
-    ```
+    {{< /text >}}
 
     and
 
-    ```command
+    {{< text bash >}}
     $ kubectl get pods
     NAME                                        READY     STATUS    RESTARTS   AGE
     details-v1-1520924117-48z17                 2/2       Running   0          6m
@@ -134,7 +134,7 @@ To start the application, follow the instructions below corresponding to your Is
     reviews-v1-874083890-f0qf0                  2/2       Running   0          6m
     reviews-v2-1343845940-b34q5                 2/2       Running   0          6m
     reviews-v3-1813607990-8ch52                 2/2       Running   0          6m
-    ```
+    {{< /text >}}
 
 #### Determining the ingress IP and port
 
@@ -142,9 +142,9 @@ To start the application, follow the instructions below corresponding to your Is
 
 1.  Set `GATEWAY_URL`:
 
-    ```command
+    {{< text bash >}}
     $ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
-    ```
+    {{< /text >}}
 
 1.  Proceed to [What's next](#what-s-next), below.
 
@@ -156,40 +156,40 @@ To start the application, follow the instructions below corresponding to your Is
 
     To test with Consul, run the following commands:
 
-    ```command
+    {{< text bash >}}
     $ docker-compose -f @samples/bookinfo/consul/bookinfo.yaml@ up -d
     $ docker-compose -f samples/bookinfo/consul/bookinfo.sidecars.yaml up -d
-    ```
+    {{< /text >}}
 
     To test with Eureka, run the following commands:
 
-    ```command
+    {{< text bash >}}
     $ docker-compose -f @samples/bookinfo/eureka/bookinfo.yaml@ up -d
     $ docker-compose -f samples/bookinfo/eureka/bookinfo.sidecars.yaml up -d
-    ```
+    {{< /text >}}
 
 1.  Confirm that all docker containers are running:
 
-    ```command
+    {{< text bash >}}
     $ docker ps -a
-    ```
+    {{< /text >}}
 
     > If the Istio Pilot container terminates, re-run the command from the previous step.
 
 1.  Set GATEWAY_URL:
 
-    ```command
+    {{< text bash >}}
     $ export GATEWAY_URL=localhost:9081
-    ```
+    {{< /text >}}
 
 ## What's next
 
 To confirm that the Bookinfo application is running, run the following `curl` command:
 
-```command
+{{< text bash >}}
 $ curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage
 200
-```
+{{< /text >}}
 
 You can also point your browser to `http://$GATEWAY_URL/productpage`
 to view the Bookinfo web page. If you refresh the page several times, you should
@@ -212,17 +212,17 @@ uninstall and clean it up using the following instructions.
 
 1.  Delete the routing rules and terminate the application pods
 
-    ```command
+    {{< text bash >}}
     $ @samples/bookinfo/kube/cleanup.sh@
-    ```
+    {{< /text >}}
 
 1.  Confirm shutdown
 
-    ```command
+    {{< text bash >}}
     $ istioctl get gateway           #-- there should be no more gateway
     $ istioctl get virtualservices   #-- there should be no more virtual services
     $ kubectl get pods               #-- the Bookinfo pods should be deleted
-    ```
+    {{< /text >}}
 
 ### Uninstall from Docker environment
 
@@ -230,19 +230,19 @@ uninstall and clean it up using the following instructions.
 
     In a Consul setup, run the following command:
 
-    ```command
+    {{< text bash >}}
     $ @samples/bookinfo/consul/cleanup.sh@
-    ```
+    {{< /text >}}
 
     In a Eureka setup, run the following command:
 
-    ```command
+    {{< text bash >}}
     $ @samples/bookinfo/eureka/cleanup.sh@
-    ```
+    {{< /text >}}
 
 1.  Confirm cleanup
 
-    ```command
+    {{< text bash >}}
     $ istioctl get virtualservices   #-- there should be no more routing rules
     $ docker ps -a                   #-- the Bookinfo containers should be deleted
-    ```
+    {{< /text >}}

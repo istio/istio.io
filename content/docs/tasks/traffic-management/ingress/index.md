@@ -28,14 +28,15 @@ This task describes how to configure Istio to expose a service outside of the se
 
     If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), do
 
-    ```command
+    {{< text bash >}}
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@
-    ```
+    {{< /text >}}
+
     otherwise, you have to manually inject the sidecar before deploying the `httpbin` application:
 
-    ```command
+    {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@)
-    ```
+    {{< /text >}}
 
 *   Determine the ingress IP and ports as described in the following subsection.
 
@@ -43,11 +44,11 @@ This task describes how to configure Istio to expose a service outside of the se
 
 Execute the following command to determine if your Kubernetes cluster is running in an environment that supports external load balancers.
 
-```command
+{{< text bash >}}
 $ kubectl get svc istio-ingressgateway -n istio-system
 NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)                                      AGE
 istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/TCP,443:31390/TCP,31400:31400/TCP   17h
-```
+{{< /text >}}
 
 If the `EXTERNAL-IP` value is set, your environment has an external load balancer that you can use for the ingress gateway.
 If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not provide an external load balancer for the ingress gateway.
@@ -55,57 +56,55 @@ In this case, you can access the gateway using the service's [node port](https:/
 
 #### Determining the ingress IP and ports when using an external load balancer
 
-```command
+{{< text bash >}}
 $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 $ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http")].port}')
 $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
-```
+{{< /text >}}
 
 #### Determining the ingress IP and ports when using a node port
 
 Determine the ports:
-```command
+
+{{< text bash >}}
 $ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http")].nodePort}')
 $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
-```
+{{< /text >}}
 
 Determining the ingress IP depends on the cluster provider.
 
 1.  _GKE:_
 
-    ```command
+    {{< text bash >}}
     $ export INGRESS_HOST=<workerNodeAddress>
-    ```
+    {{< /text >}}
 
     You need to create firewall rules to allow the TCP traffic to the _ingressgateway_ service's ports.
     Run the following commands to allow the traffic for the HTTP port, the secure port (HTTPS) or both.
 
-    ```command
+    {{< text bash >}}
     $ gcloud compute firewall-rules create allow-gateway-http --allow tcp:$INGRESS_PORT
-    ```
-
-    ```command
     $ gcloud compute firewall-rules create allow-gateway-https --allow tcp:$SECURE_INGRESS_PORT
-    ```
+    {{< /text >}}
 
 1.  _IBM Cloud Kubernetes Service Free Tier:_
 
-    ```command
+    {{< text bash >}}
     $ bx cs workers <cluster-name or id>
     $ export INGRESS_HOST=<public IP of one of the worker nodes>
-    ```
+    {{< /text >}}
 
 1.  _Minikube:_
 
-    ```command
+    {{< text bash >}}
     $ export INGRESS_HOST=$(minikube ip)
-    ```
+    {{< /text >}}
 
 1.  _Other environments (e.g., IBM Cloud Private etc):_
 
-    ```command
+    {{< text bash >}}
     $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o 'jsonpath={.items[0].status.hostIP}')
-    ```
+    {{< /text >}}
 
 ## Configuring ingress using an Istio Gateway
 
@@ -119,51 +118,51 @@ Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
 
 1.  Create an Istio `Gateway`
 
-    ```bash
-        cat <<EOF | istioctl create -f -
-        apiVersion: networking.istio.io/v1alpha3
-        kind: Gateway
-        metadata:
-          name: httpbin-gateway
-        spec:
-          selector:
-            istio: ingressgateway # use Istio default gateway implementation
-          servers:
-          - port:
-              number: 80
-              name: http
-              protocol: HTTP
-            hosts:
-            - "httpbin.example.com"
-        EOF
-    ```
+    {{< text bash >}}
+    $ cat <<EOF | istioctl create -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: httpbin-gateway
+    spec:
+      selector:
+        istio: ingressgateway # use Istio default gateway implementation
+      servers:
+      - port:
+          number: 80
+          name: http
+          protocol: HTTP
+        hosts:
+        - "httpbin.example.com"
+    EOF
+    {{< /text >}}
 
 1.  Configure routes for traffic entering via the `Gateway`
 
-    ```bash
-        cat <<EOF | istioctl create -f -
-        apiVersion: networking.istio.io/v1alpha3
-        kind: VirtualService
-        metadata:
-          name: httpbin
-        spec:
-          hosts:
-          - "httpbin.example.com"
-          gateways:
-          - httpbin-gateway
-          http:
-          - match:
-            - uri:
-                prefix: /status
-            - uri:
-                prefix: /delay
-            route:
-            - destination:
-                port:
-                  number: 8000
-                host: httpbin
-        EOF
-    ```
+    {{< text bash >}}
+    $ cat <<EOF | istioctl create -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: httpbin
+    spec:
+      hosts:
+      - "httpbin.example.com"
+      gateways:
+      - httpbin-gateway
+      http:
+      - match:
+        - uri:
+            prefix: /status
+        - uri:
+            prefix: /delay
+        route:
+        - destination:
+            port:
+              number: 8000
+            host: httpbin
+    EOF
+    {{< /text >}}
 
     Here we've created a [virtual service](/docs/reference/config/istio.networking.v1alpha3/#VirtualService)
     configuration for the `httpbin` service, containing two route rules that allow traffic for paths `/status` and
@@ -179,7 +178,7 @@ Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
 
 1.  Access the _httpbin_ service using _curl_.
 
-    ```command
+    {{< text bash >}}
     $ curl -I -HHost:httpbin.example.com http://$INGRESS_HOST:$INGRESS_PORT/status/200
     HTTP/1.1 200 OK
     server: envoy
@@ -189,7 +188,7 @@ Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
     access-control-allow-credentials: true
     content-length: 0
     x-envoy-upstream-service-time: 48
-    ```
+    {{< /text >}}
 
     Note that we use the `-H` flag to set the _Host_ HTTP Header to
     "httpbin.example.com". This is needed because our ingress `Gateway` is configured to handle "httpbin.example.com",
@@ -197,13 +196,13 @@ Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
 
 1.  Access any other URL that has not been explicitly exposed. You should see an HTTP 404 error:
 
-    ```command
+    {{< text bash >}}
     $ curl -I -HHost:httpbin.example.com http://$INGRESS_HOST:$INGRESS_PORT/headers
     HTTP/1.1 404 Not Found
     date: Mon, 29 Jan 2018 04:45:49 GMT
     server: envoy
     content-length: 0
-    ```
+    {{< /text >}}
 
 ## Accessing ingress services using a browser
 
@@ -211,8 +210,8 @@ As you may have guessed, entering the httpbin service URL in a browser won't wor
 
 To work around this problem for simple tests and demos, we can use a wildcard `*` value for the host in the `Gateway` and `VirutualService` configurations. For example, if we change our ingress configuration to the following:
 
-```command
-cat <<EOF | istioctl replace -f -
+{{< text bash >}}
+$ cat <<EOF | istioctl replace -f -
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -247,7 +246,7 @@ spec:
           number: 8000
         host: httpbin
 EOF
-```
+{{< /text >}}
 
 We can then use `$INGRESS_HOST:$INGRESS_PORT` (e.g., `192.168.99.100:31380`) in the URL that we enter in a browser. For example, `http://192.168.99.100:31380/headers` should display the request headers sent by our browser.
 
@@ -265,11 +264,11 @@ external traffic.
 
 Delete the `Gateway` configuration, the `VirtualService` and the secret, and shutdown the [httpbin](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/httpbin) service:
 
-```command
+{{< text bash >}}
 $ istioctl delete gateway httpbin-gateway
 $ istioctl delete virtualservice httpbin
 $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
-```
+{{< /text >}}
 
 ## What's next
 

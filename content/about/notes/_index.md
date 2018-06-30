@@ -22,15 +22,15 @@ aliases:
 The latest Istio snapshot release is {{< istio_version >}} ([release notes](/about/notes/{{< istio_version >}}/)). You can
 [download {{< istio_version >}}](https://github.com/istio/istio/releases) with:
 
-```command
+{{< text bash >}}
 $ curl -L https://git.io/getLatestIstio | sh -
-```
+{{< /text >}}
 
 The most recent stable release is 0.8. You can download 0.8 with:
 
-```command
+{{< text bash >}}
 $ curl -L https://git.io/getIstio | sh -
-```
+{{< /text >}}
 
 > As we don't control the `git.io` domain, please examine the output of the `curl` command before piping it to a shell if running in any
 sensitive or non-sandboxed environment.
