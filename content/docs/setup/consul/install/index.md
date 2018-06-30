@@ -32,7 +32,7 @@ as a persistent store. See the
 For _proof of concept_ purposes, it is possible to install
 a simple single container API server using the following Docker-compose file:
 
-```yaml
+{{< text yaml >}}
 version: '2'
 services:
   etcd:
@@ -72,7 +72,7 @@ services:
                "-v", "2",
                "--insecure-bind-address", "0.0.0.0"
              ]
-```
+{{< /text >}}
 
 ### Other Istio Components
 

@@ -17,7 +17,7 @@ For example, a simple rule to send 100% of incoming traffic for a *reviews*
 service to version "v1" can be described using a configuration as
 follows:
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -30,7 +30,7 @@ spec:
     - destination:
         host: reviews
         subset: v1
-```
+{{< /text >}}
 
 This configuration says that traffic sent to the *reviews* service
 (specified in the `hosts` field) should be routed to the v1 subset
@@ -38,7 +38,7 @@ of the underlying *reviews* service instances.
 The route `subset` specifies the name of a defined subset in
 a corresponding destination rule configuration:
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -52,7 +52,7 @@ spec:
   - name: v2
     labels:
       version: v2
-```
+{{< /text >}}
 
 A subset specifies one or more labels that identify version-specific instances.
 For example, in a Kubernetes deployment of Istio, "version: v1" indicates that
@@ -89,11 +89,11 @@ For example, to define routing rules for requests to the *reviews* service using
 mesh name `reviews` or via host `bookinfo.com`, a `VirtualService` could have a `hosts` field
 something like this:
 
-```yaml
+{{< text yaml >}}
 hosts:
   - reviews
   - bookinfo.com
-```
+{{< /text >}}
 
 The `hosts` field specifies, implicitly or explicitly, one or more fully qualified
 domain names (FQDN). The short name `reviews`, above, would implicitly
@@ -110,7 +110,7 @@ _1. Restrict to a specific caller_.  For example, a rule
 can indicate that it only applies to calls from workloads (pods) implementing
 the *reviews* service.
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -123,7 +123,7 @@ spec:
       sourceLabels:
         app: reviews
     ...
-```
+{{< /text >}}
 
 The value of `sourceLabels` depends on the implementation of the service.
 In Kubernetes, for example, it would probably be the same labels that are used
@@ -133,7 +133,7 @@ _2. Restrict to specific versions of the caller_. For example, the following
 rule refines the previous example to only apply to calls from version "v2"
 of the *reviews* service.
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -147,13 +147,13 @@ spec:
         app: reviews
         version: v2
     ...
-```
+{{< /text >}}
 
 _3. Select rule based on HTTP headers_. For example, the following rule will
 only apply to an incoming request if it includes a "cookie" header that
 contains the substring "user=jason".
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -167,7 +167,7 @@ spec:
         cookie:
           regex: "^(.*?;)?(user=jason)(;.*)?$"
     ...
-```
+{{< /text >}}
 
 If more than one header is provided, then all of the
 corresponding headers must match for the rule to apply.
@@ -179,7 +179,7 @@ are ANDed. For example, the following rule only applies if the source of the
 request is "reviews:v2" AND the "cookie" header containing "user=jason" is
 present.
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -196,12 +196,12 @@ spec:
         cookie:
           regex: "^(.*?;)?(user=jason)(;.*)?$"
     ...
-```
+{{< /text >}}
 
 If instead, the criteria appear in separate match clauses, then only one
 of the conditions must apply (OR semantics):
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -218,7 +218,7 @@ spec:
         cookie:
           regex: "^(.*?;)?(user=jason)(;.*)?$"
     ...
-```
+{{< /text >}}
 
 ### Split traffic between service versions
 
@@ -232,7 +232,7 @@ or round-robin by default.
 For example, the following rule will route 25% of traffic for the *reviews* service to instances with
 the "v2" label and the remaining traffic (i.e., 75%) to "v1".
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -250,14 +250,14 @@ spec:
         host: reviews
         subset: v2
       weight: 25
-```
+{{< /text >}}
 
 ### Timeouts and retries
 
 By default, the timeout for http requests is 15 seconds,
 but this can be overridden in a route rule as follows:
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -271,13 +271,13 @@ spec:
         host: ratings
         subset: v1
     timeout: 10s
-```
+{{< /text >}}
 
 The number of retries for a given http request can also be specified in a route rule.
 The maximum number of attempts, or as many as possible within the default or overridden timeout period,
 can be set as follows:
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -293,7 +293,7 @@ spec:
     retries:
       attempts: 3
       perTryTimeout: 2s
-```
+{{< /text >}}
 
 Note that request timeouts and retries can also be
 [overridden on a per-request basis](/docs/concepts/traffic-management/handling-failures#fine-tuning).
@@ -308,7 +308,7 @@ The faults can be either delays or aborts.
 
 The following example will introduce a 5 second delay in 10% of the requests to the "v1" version of the *ratings* microservice.
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -325,7 +325,7 @@ spec:
     - destination:
         host: ratings
         subset: v1
-```
+{{< /text >}}
 
 The other kind of fault, abort, can be used to prematurely terminate a request,
 for example, to simulate a failure.
@@ -333,7 +333,7 @@ for example, to simulate a failure.
 The following example will return an HTTP 400 error code for 10%
 of the requests to the *ratings* service "v1".
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -350,13 +350,13 @@ spec:
     - destination:
         host: ratings
         subset: v1
-```
+{{< /text >}}
 
 Sometimes delays and abort faults are used together. For example, the following rule will delay
 by 5 seconds all requests from the *reviews* service "v2" to the *ratings* service "v1" and
 then abort 10 percent of them:
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -379,7 +379,7 @@ spec:
     - destination:
         host: ratings
         subset: v1
-```
+{{< /text >}}
 
 To see fault injection in action, see the [fault injection task](/docs/tasks/traffic-management/fault-injection/).
 
@@ -409,7 +409,7 @@ specify that all requests for the *reviews* service that includes a header
 named "Foo" with the value "bar" will be sent to the "v2" instances.
 All remaining requests will be sent to "v1".
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -430,7 +430,7 @@ spec:
     - destination:
         host: reviews
         subset: v1
-```
+{{< /text >}}
 
 Notice that the header-based rule has the higher priority. If
 it was lower, these rules wouldn't work as expected since the weight-based
@@ -452,7 +452,7 @@ These subsets are used in `VirtualService` route specifications when sending tra
 
 The following `DestinationRule` configures policies and subsets for the reviews service:
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -475,7 +475,7 @@ spec:
   - name: v3
     labels:
       version: v3
-```
+{{< /text >}}
 
 Notice that multiple policies (e.g., default and v2-specific) can be
 specified in a single `DestinationRule` configuration.
@@ -487,7 +487,7 @@ A simple circuit breaker can be set based on a number of criteria such as connec
 For example, the following `DestinationRule`
 sets a limit of 100 connections to *reviews* service version "v1" backends.
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -502,7 +502,7 @@ spec:
       connectionPool:
         tcp:
           maxConnections: 100
-```
+{{< /text >}}
 
 See the [circuit-breaking task](/docs/tasks/traffic-management/circuit-breaking/) for a demonstration of circuit breaker control.
 
@@ -525,7 +525,7 @@ the corresponding subset is explicitly routed to. For example,
 consider the following configuration, as the one and only rule defined for the
 *reviews* service (i.e., there are no route rules in a corresponding `VirtualService`.
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -540,7 +540,7 @@ spec:
       connectionPool:
         tcp:
           maxConnections: 100
-```
+{{< /text >}}
 
 Since there is no specific route rule defined for the *reviews*
 service, default round-robin routing behavior will apply, which will
@@ -553,7 +553,7 @@ unable to match the subset policy to the request.
 You can fix the above example in one of two ways. You can either move the
 traffic policy up a level to make it apply to any version:
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -568,12 +568,12 @@ spec:
   - name: v1
     labels:
       version: v1
-```
+{{< /text >}}
 
 or, better yet, define proper route rules for the service.
 For example, you can add a simple route rule for "reviews:v1".
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -586,7 +586,7 @@ spec:
     - destination:
         host: reviews
         subset: v1
-```
+{{< /text >}}
 
 Although the default Istio behavior conveniently sends traffic from any
 source to all versions of a destination service
@@ -603,7 +603,7 @@ It is most commonly used to enable requests to services outside of an Istio serv
 For example, the following `ServiceEntry` can be used to allow external calls to services hosted
 under the `*.foo.com` domain.
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
@@ -618,7 +618,7 @@ spec:
   - number: 443
     name: https
     protocol: HTTPS
-```
+{{< /text >}}
 
 The destination of a `ServiceEntry` is specified using the `hosts` field, which
 can be either a fully qualified or wildcard domain name.
@@ -640,7 +640,7 @@ and destination rules as long as they refer to the services using matching
 the above `ServiceEntry` rule to set a 10s timeout for calls to
 the external service at `bar.foo.com`.
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -653,7 +653,7 @@ spec:
     - destination:
         host: bar.foo.com
     timeout: 10s
-```
+{{< /text >}}
 
 Rules to redirect and forward traffic, to define retry,
 timeout and fault injection policies are all supported for external destinations.
@@ -677,7 +677,7 @@ to control HTTP requests as well as TCP traffic entering a `Gateway` by binding 
 For example, the following simple `Gateway` configures a load balancer
 to allow external https traffic for host `bookinfo.com` into the mesh:
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -694,13 +694,13 @@ spec:
       mode: SIMPLE
       serverCertificate: /tmp/tls.crt
       privateKey: /tmp/tls.key
-```
+{{< /text >}}
 
 To configure the corresponding routes, a `VirtualService`
 must be defined for the same host and bound to the `Gateway` using
 the `gateways` field in the configuration:
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -716,7 +716,7 @@ spec:
         prefix: /reviews
     route:
     ...
-```
+{{< /text >}}
 
 See the [ingress task](/docs/tasks/traffic-management/ingress/) for a
 complete ingress gateway example.

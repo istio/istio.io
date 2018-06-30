@@ -41,35 +41,35 @@ each cloud provider, so you may need to edit annotations. You can use an ILB bas
 the cloud provider or private cloud (for example IBM Cloud Private) doesn't have load balancer service
 support out of box.
 
-    ```command
+    {{< text bash >}}
     $ kubectl apply -f @install/kubernetes/mesh-expansion.yaml@
-    ```
+    {{< /text >}}
 
 *   Generate the Istio `cluster.env` configuration to be deployed in the VMs. This file contains
 the cluster IP address ranges to intercept.
 
-    ```command
+    {{< text bash >}}
     $ export GCP_OPTS="--zone MY_ZONE --project MY_PROJECT"
     $ @install/tools/setupMeshEx.sh@ generateClusterEnv MY_CLUSTER_NAME
-    ```
+    {{< /text >}}
 
     Here's an example generated file
 
-    ```command
+    {{< text bash >}}
     $ cat cluster.env
     ISTIO_SERVICE_CIDR=10.63.240.0/20
-    ```
+    {{< /text >}}
 
 *   Generate DNS configuration file to be used in the VMs. This will allow apps on the VM to resolve
 cluster service names, which will be intercepted by the sidecar and forwarded.
 
-    ```command
+    {{< text bash >}}
     $ @install/tools/setupMeshEx.sh@ generateDnsmasq
-    ```
+    {{< /text >}}
 
     Here's an example generated file
 
-    ```command
+    {{< text bash >}}
     $ cat kubedns
     server=/svc.cluster.local/10.150.0.7
     address=/istio-mixer/10.150.0.8
@@ -78,29 +78,29 @@ cluster service names, which will be intercepted by the sidecar and forwarded.
     address=/istio-mixer.istio-system/10.150.0.8
     address=/istio-pilot.istio-system/10.150.0.6
     address=/istio-citadel.istio-system/10.150.0.9
-    ```
+    {{< /text >}}
 
 ### Setting up the machines
 
 As an example, you can use the following "all inclusive" script to copy
 and install the setup:
 
-```command
+{{< text bash >}}
 $ export GCP_OPTS="--zone MY_ZONE --project MY_PROJECT"
 $ export SERVICE_NAMESPACE=vm
-```
+{{< /text >}}
 
 If you are running on a GCE VM, run
 
-```command
+{{< text bash >}}
 $ @install/tools/setupMeshEx.sh@ gceMachineSetup VM_NAME
-```
+{{< /text >}}
 
 Otherwise, run
 
-```command
+{{< text bash >}}
 $ @install/tools/setupMeshEx.sh@ machineSetup VM_NAME
-```
+{{< /text >}}
 
 GCE provides better user experience since node agent can always relies on
 GCE metadata instance document to authenticate to Citadel. For everything
@@ -121,47 +121,44 @@ names and connect to pilot, for example:
 
     On the VM/external host:
 
-    ```command
+    {{< text bash >}}
     $ host istio-pilot.istio-system
-    ```
+    {{< /text >}}
 
     Example generated message:
 
-    ```plain
+    {{< text plain >}}
     $ istio-pilot.istio-system has address 10.150.0.6
-    ```
+    {{< /text >}}
 
     Check that you can resolve cluster IPs. The actual address will depend on your deployment.
 
-    ```command
+    {{< text bash >}}
     $ host istio-pilot.istio-system.svc.cluster.local.
-    ```
+    {{< /text >}}
 
     Example generated message:
 
-    ```plain
+    {{< text plain >}}
     istio-pilot.istio-system.svc.cluster.local has address 10.63.247.248
-    ```
+    {{< /text >}}
 
     Check istio-ingress similarly:
 
-    ```command
+    {{< text bash >}}
     $ host istio-ingress.istio-system.svc.cluster.local.
-    ```
+    {{< /text >}}
 
     Example generated message:
 
-    ```plain
+    {{< text plain >}}
     istio-ingress.istio-system.svc.cluster.local has address 10.63.243.30
-    ```
+    {{< /text >}}
 
 *   Verify connectivity by checking whether the VM can connect to Pilot and to an endpoint.
 
-    ```command
+    {{< text bash json >}}
     $ curl 'http://istio-pilot.istio-system:8080/v1/registration/istio-pilot.istio-system.svc.cluster.local|http-discovery'
-    ```
-
-    ```json
     {
       "hosts": [
        {
@@ -170,13 +167,13 @@ names and connect to pilot, for example:
        }
       ]
     }
-    ```
+    {{< /text >}}
 
     On the VM, use the address above. It will directly connect to the pod running istio-pilot.
 
-    ```command
+    {{< text bash >}}
     $ curl 'http://10.60.1.4:8080/v1/registration/istio-pilot.istio-system.svc.cluster.local|http-discovery'
-    ```
+    {{< /text >}}
 
 *   Extract the initial Istio authentication secrets and copy them to the machine. The default
 installation of Istio includes Citadel and will generate Istio secrets even if
@@ -191,48 +188,46 @@ that will have mTLS enabled by default.
     (this step is done by machineSetup)
     On a Mac either `brew install base64` or `set BASE64_DECODE="/usr/bin/base64 -D"`
 
-    ```command
+    {{< text bash >}}
     $ @install/tools/setupMeshEx.sh@ machineCerts ACCOUNT NAMESPACE
-    ```
+    {{< /text >}}
 
     The generated files (`key.pem`, `root-cert.pem`, `cert-chain.pem`) must be copied to /etc/certs on each machine, readable by istio-proxy.
 
 *   Install Istio Debian files and start 'istio' and 'istio-auth-node-agent' services.
 Get the debian packages from [GitHub releases](https://github.com/istio/istio/releases) or:
 
-    ```command
+    {{< text bash >}}
     $ source istio.VERSION # defines version and URLs env var
     $ curl -L ${PILOT_DEBIAN_URL}/istio-sidecar.deb > istio-sidecar.deb
     $ dpkg -i istio-sidecar.deb
     $ systemctl start istio
     $ systemctl start istio-auth-node-agent
-    ```
+    {{< /text >}}
 
 ------ Manual setup steps end ------
 
 After setup, the machine should be able to access services running in the Kubernetes cluster
 or other mesh expansion machines.
 
-```command
+{{< text bash >}}
 $ curl productpage.bookinfo.svc.cluster.local:9080
-```
-```plain
 ... html content ...
-```
+{{< /text >}}
 
 Check that the processes are running:
 
-```command
+{{< text bash >}}
 $ ps aux |grep istio
 root      6941  0.0  0.2  75392 16820 ?        Ssl  21:32   0:00 /usr/local/istio/bin/node_agent --logtostderr
 root      6955  0.0  0.0  49344  3048 ?        Ss   21:32   0:00 su -s /bin/bash -c INSTANCE_IP=10.150.0.5 POD_NAME=demo-vm-1 POD_NAMESPACE=default exec /usr/local/bin/pilot-agent proxy > /var/log/istio/istio.log istio-proxy
 istio-p+  7016  0.0  0.1 215172 12096 ?        Ssl  21:32   0:00 /usr/local/bin/pilot-agent proxy
 istio-p+  7094  4.0  0.3  69540 24800 ?        Sl   21:32   0:37 /usr/local/bin/envoy -c /etc/istio/proxy/envoy-rev1.json --restart-epoch 1 --drain-time-s 2 --parent-shutdown-time-s 3 --service-cluster istio-proxy --service-node sidecar~10.150.0.5~demo-vm-1.default~default.svc.cluster.local
-```
+{{< /text >}}
 
 Istio auth node agent is healthy:
 
-```command
+{{< text bash >}}
 $ sudo systemctl status istio-auth-node-agent
 ● istio-auth-node-agent.service - istio-auth-node-agent: The Istio auth node agent
    Loaded: loaded (/lib/systemd/system/istio-auth-node-agent.service; disabled; vendor preset: enabled)
@@ -250,7 +245,7 @@ Oct 13 21:32:29 demo-vm-1 node_agent[6941]: I1013 21:32:29.469314    6941 main.g
 Oct 13 21:32:29 demo-vm-1 node_agent[6941]: I1013 21:32:29.469365    6941 nodeagent.go:96] Node Agent starts successfully.
 Oct 13 21:32:29 demo-vm-1 node_agent[6941]: I1013 21:32:29.483324    6941 nodeagent.go:112] Sending CSR (retrial #0) ...
 Oct 13 21:32:29 demo-vm-1 node_agent[6941]: I1013 21:32:29.862575    6941 nodeagent.go:128] CSR is approved successfully. Will renew cert in 29m59.137732603s
-```
+{{< /text >}}
 
 ## Running services on a mesh expansion machine
 
@@ -259,20 +254,20 @@ using the ISTIO_INBOUND_PORTS environment variable.
 
     Example (on the VM running the service):
 
-    ```command
+    {{< text bash >}}
     $ echo "ISTIO_INBOUND_PORTS=3306,8080" > /var/lib/istio/envoy/sidecar.env
     $ systemctl restart istio
-   ```
+    {{< /text >}}
 
 *   Manually configure a selector-less service and endpoints. The `selector-less` service is used for
 services that are not backed by Kubernetes pods.
 
     Example, on a machine with permissions to modify Kubernetes services:
 
-    ```command
+    {{< text bash >}}
     $ istioctl -n onprem register mysql 1.2.3.4 3306
     $ istioctl -n onprem register svc1 1.2.3.4 http:7000
-    ```
+    {{< /text >}}
 
 After the setup, Kubernetes pods and other mesh expansions should be able to access the
 services running on the machine.

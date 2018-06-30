@@ -25,14 +25,14 @@ For the format of the service account in Istio, please refer to the
 *   Run the following command to create service account `bookinfo-productpage`,
     and redeploy the service `productpage` with the service account.
 
-    ```command
+    {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/kube/bookinfo-add-serviceaccount.yaml@)
     serviceaccount "bookinfo-productpage" created
     deployment.extensions "productpage-v1" configured
     serviceaccount "bookinfo-reviews" created
     deployment.extensions "reviews-v2" configured
     deployment.extensions "reviews-v3" configured
-    ```
+    {{< /text >}}
 
 > If you are using a namespace other than `default`,
 use `$ istioctl -n namespace ...` to specify the namespace.
@@ -51,16 +51,20 @@ the `productpage` service.
 1.  Explicitly deny the requests from `productpage` to `details`.
 
     Run the following command to set up the deny rule along with a handler and an instance.
-    ```command
+
+    {{< text bash >}}
     $ istioctl create -f @samples/bookinfo/routing/mixer-rule-deny-serviceaccount.yaml@
     Created config denier/default/denyproductpagehandler at revision 2877836
     Created config checknothing/default/denyproductpagerequest at revision 2877837
     Created config rule/default/denyproductpage at revision 2877838
-    ```
+    {{< /text >}}
+
     Notice the following in the `denyproductpage` rule:
-    ```plain
+
+    {{< text plain >}}
     match: destination.labels["app"] == "details" && source.user == "cluster.local/ns/default/sa/bookinfo-productpage"
-    ```
+    {{< /text >}}
+
     It matches requests coming from the service account
     "_cluster.local/ns/default/sa/bookinfo-productpage_" on the `details` service.
 
@@ -83,9 +87,9 @@ the `productpage` service.
 
 *   Remove the mixer configuration:
 
-    ```command
+    {{< text bash >}}
     $ istioctl delete -f @samples/bookinfo/routing/mixer-rule-deny-serviceaccount.yaml@
-    ```
+    {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, refer to the
   [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions

@@ -24,28 +24,28 @@ the example application throughout this task.
 
     In Kubernetes environments, execute the following command:
 
-    ```command
+    {{< text bash >}}
     $ kubectl apply -f @install/kubernetes/addons/servicegraph.yaml@
-    ```
+    {{< /text >}}
 
 1.  Verify that the service is running in your cluster.
 
     In Kubernetes environments, execute the following command:
 
-    ```command
+    {{< text bash >}}
     $ kubectl -n istio-system get svc servicegraph
     NAME           CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
     servicegraph   10.59.253.165   <none>        8088/TCP   30s
-    ```
+    {{< /text >}}
 
 1.  Send traffic to the mesh.
 
     For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
     browser or issue the following command:
 
-    ```command
+    {{< text bash >}}
     $ curl http://$GATEWAY_URL/productpage
-    ```
+    {{< /text >}}
 
     Refresh the page a few times (or send the command a few times) to generate a
     small amount of traffic.
@@ -56,9 +56,9 @@ the example application throughout this task.
 
     In Kubernetes environments, execute the following command:
 
-    ```command
+    {{< text bash >}}
     $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
-    ```
+    {{< /text >}}
 
     Visit [http://localhost:8088/force/forcegraph.html](http://localhost:8088/force/forcegraph.html)
     in your web browser. Try clicking on a service to see details on
@@ -117,9 +117,9 @@ depends on the standard Istio metric configuration.
 *   In Kubernetes environments, execute the following command to remove the
 Servicegraph add-on:
 
-    ```command
+    {{< text bash >}}
     $ kubectl delete -f @install/kubernetes/addons/servicegraph.yaml@
-    ```
+    {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, refer to the
 [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions

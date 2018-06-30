@@ -105,7 +105,7 @@ requests as well as TCP traffic entering a `Gateway` by binding a
 For example, the following simple `Gateway` configures a load balancer
 to allow external https traffic for host `bookinfo.com` into the mesh:
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -122,13 +122,13 @@ spec:
       mode: SIMPLE
       serverCertificate: /tmp/tls.crt
       privateKey: /tmp/tls.key
-```
+{{< /text >}}
 
 To configure the corresponding routes, a `VirtualService` (described in the [following section](#virtualservice))
 must be defined for the same host and bound to the `Gateway` using
 the `gateways` field in the configuration:
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -144,7 +144,7 @@ spec:
         prefix: /reviews
     route:
     ...
-```
+{{< /text >}}
 
 The `Gateway` can be used to model an edge-proxy or a purely internal proxy
 as shown in the first figure. Irrespective of the location, all gateways
@@ -163,7 +163,7 @@ now configure the (virtual) destination itself, with all of its rules in an orde
 For example, where previously we had two `RouteRule` resources for the
 [Bookinfo](/docs/examples/bookinfo/) application’s `reviews` service, like this:
 
-```yaml
+{{< text yaml >}}
 apiVersion: config.istio.io/v1alpha2
 kind: RouteRule
 metadata:
@@ -192,11 +192,11 @@ spec:
   route:
   - labels:
       version: v2
-```
+{{< /text >}}
 
 In `v1alph3`, we provide the same configuration in a single `VirtualService` resource:
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -217,7 +217,7 @@ spec:
     - destination:
         host: reviews
         subset: v1
-```
+{{< /text >}}
 
 As you can see, both of the rules for the `reviews` service are consolidated in one place, which at first may or may not
 seem preferable. However, if you look closer at this new model, you’ll see there are fundamental differences that make
@@ -234,7 +234,7 @@ consumers of the service to adapt to the transition.
 For example, the following rule allows users to address both the `reviews` and `ratings` services of the Bookinfo application
 as if they are parts of a bigger (virtual) service at `http://bookinfo.com/`:
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -256,7 +256,7 @@ spec:
     - destination:
         host: ratings
   ...
-```
+{{< /text >}}
 
 The hosts of a `VirtualService` do not actually have to be part of the service registry, they are simply virtual
 destinations. This allows users to model traffic for virtual hosts that do not have routable entries inside the mesh.
@@ -291,7 +291,7 @@ intended to be authored by service owners, describing the circuit breakers, load
 
 A `DestinationRule` that configures policies and subsets for the reviews service might look something like this:
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -314,7 +314,7 @@ spec:
   - name: v3
     labels:
       version: v3
-```
+{{< /text >}}
 
 Notice that, unlike `DestinationPolicy`, multiple policies (e.g., default and v2-specific) are specified in a single
 `DestinationRule` configuration.
@@ -330,7 +330,7 @@ Everything you could previously configure using an `EgressRule` can just as easi
 For example, access to a simple external service from inside the mesh can be enabled using a configuration
 something like this:
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
@@ -342,7 +342,7 @@ spec:
   - number: 80
     name: http
     protocol: HTTP
-```
+{{< /text >}}
 
 That said, `ServiceEntry` has significantly more functionality than its predecessor.
 First of all, a `ServiceEntry` is not limited to external service configuration,
@@ -358,7 +358,7 @@ Because a `ServiceEntry` configuration simply adds a destination to the internal
 used in conjunction with a `VirtualService` and/or `DestinationRule`, just like any other service in the registry.
 The following `DestinationRule`, for example, can be used to initiate mTLS connections for an external service:
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -371,7 +371,7 @@ spec:
       clientCertificate: /etc/certs/myclientcert.pem
       privateKey: /etc/certs/client_private_key.pem
       caCertificates: /etc/certs/rootcacerts.pem
-```
+{{< /text >}}
 
 In addition to its expanded generality, `ServiceEntry` provides several other improvements over `EgressRule`
 including the following:
@@ -391,13 +391,16 @@ is no longer done by creating a new (`RouteRule`) resource, but instead by updat
 resource for the destination.
 
 old routing rules:
-```command
+
+{{< text bash >}}
 $ istioctl create -f my-second-rule-for-destination-abc.yaml
-```
+{{< /text >}}
+
 `v1alpha3` routing rules:
-```command
+
+{{< text bash >}}
 $ istioctl replace -f my-updated-rules-for-destination-abc.yaml
-```
+{{< /text >}}
 
 Deleting route rules other than the last one for a particular destination is also done using `istioctl replace`.
 

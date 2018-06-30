@@ -2,6 +2,12 @@
 
 FAILED=0
 
+echo -ne "mdspell "
+mdspell --version
+echo -ne "mdl "
+mdl --version
+htmlproofer --version
+
 # This performs spell checking and style checking over markdown files in a content
 # directory. It transforms the shortcode sequences we use to annotate code blocks
 # blocks into classic markdown ``` code blocks, so that the linters aren't confused

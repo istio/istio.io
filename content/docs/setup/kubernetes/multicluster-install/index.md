@@ -55,39 +55,39 @@ The following procedure should be performed on each remote cluster to be
 added to the service mesh.  The procedure requires cluster-admin user access
 to the remote cluster.
 
-1. Create a `ClusterRole` named `istio-reader` for the Istio control plane access:
+1. Create a `ClusterRole` named `istio-reader` for Istio control plane access:
 
-     ```command
-      cat <<EOF | kubectl  create -f -
-      kind: ClusterRole
-      apiVersion: rbac.authorization.k8s.io/v1
-      metadata:
-        name: istio-reader
-      rules:
-         - apiGroups: ['']
-           resources: ['nodes', 'pods', 'services', 'endpoints']
-           verbs: ['get', 'watch', 'list']
+    {{< text bash >}}
+    $ cat <<EOF | kubectl create -f -
+    kind: ClusterRole
+    apiVersion: rbac.authorization.k8s.io/v1
+    metadata:
+      name: istio-reader
+    rules:
+       - apiGroups: ['']
+         resources: ['nodes', 'pods', 'services', 'endpoints']
+         verbs: ['get', 'watch', 'list']
     EOF
-    ```
+    {{< /text >}}
 
 1.  Create a `ServiceAccount` named `istio-multi` for the Istio control plane:
 
-    ```command
+    {{< text bash >}}
     $ export SERVICE_ACCOUNT=istio-multi
     $ export NAMESPACE=istio-system
     $ kubectl create ns ${NAMESPACE}
     $ kubectl create sa ${SERVICE_ACCOUNT} -n ${NAMESPACE}
-    ```
+    {{< /text >}}
 
 1.  Bind the `ServiceAccount` named `istio-multi` to the `ClusterRole` named `istio-reader`:
 
-    ```command
+    {{< text bash >}}
     $ kubectl create clusterrolebinding istio-multi --clusterrole=istio-reader --serviceaccount=${NAMESPACE}:${SERVICE_ACCOUNT}
-    ```
+    {{< /text >}}
 
 1.  Prepare environment variables for building the `kubeconfig` file for `ServiceAccount` `istio-multi`:
 
-    ```command
+    {{< text bash >}}
     $ export WORK_DIR=$(pwd)
     $ CLUSTER_NAME=$(kubectl config view --minify=true -o "jsonpath={.clusters[].name}")
     $ export KUBECFG_FILE=${WORK_DIR}/${CLUSTER_NAME}
@@ -95,34 +95,34 @@ to the remote cluster.
     $ SECRET_NAME=$(kubectl get sa ${SERVICE_ACCOUNT} -n ${NAMESPACE} -o jsonpath='{.secrets[].name}')
     $ CA_DATA=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o "jsonpath={.data['ca\.crt']}")
     $ TOKEN=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o "jsonpath={.data['token']}" | base64 --decode)
-    ```
+    {{< /text >}}
 
     __NOTE__: An alternative to `base64 --decode` is `openssl enc -d -base64 -A` on many systems.
 
 1. Create a `kubeconfig` file in the working directory for the `ServiceAccount` `istio-multi`:
 
-     ```command
-      cat <<EOF > ${KUBECFG_FILE}
-      apiVersion: v1
-      clusters:
-         - cluster:
-             certificate-authority-data: ${CA_DATA}
-             server: ${SERVER}
-           name: ${CLUSTER_NAME}
-      contexts:
-         - context:
-             cluster: ${CLUSTER_NAME}
-             user: ${CLUSTER_NAME}
-           name: ${CLUSTER_NAME}
-      current-context: ${CLUSTER_NAME}
-      kind: Config
-      preferences: {}
-      users:
-         - name: ${CLUSTER_NAME}
-           user:
-             token: ${TOKEN}
+    {{< text bash >}}
+    $ cat <<EOF > ${KUBECFG_FILE}
+    apiVersion: v1
+    clusters:
+       - cluster:
+           certificate-authority-data: ${CA_DATA}
+           server: ${SERVER}
+         name: ${CLUSTER_NAME}
+    contexts:
+       - context:
+           cluster: ${CLUSTER_NAME}
+           user: ${CLUSTER_NAME}
+         name: ${CLUSTER_NAME}
+    current-context: ${CLUSTER_NAME}
+    kind: Config
+    preferences: {}
+    users:
+       - name: ${CLUSTER_NAME}
+         user:
+           token: ${TOKEN}
     EOF
-    ```
+    {{< /text >}}
 
 At this point, the remote clusters' `kubeconfig` files have been created in the current directory.
 The filename for a cluster is the same as the original `kubeconfig` cluster name.
@@ -137,9 +137,9 @@ istio-system.
 
 Create a namespace for instantiating the secrets:
 
-```command
+{{< text bash >}}
 $ kubectl create ns istio-system
-```
+{{< /text >}}
 
 > You can create the secrets either before or after deploying the Istio control
 plane. Creating secrets will register the secrets with Istio properly.
@@ -151,11 +151,11 @@ the remote nodes' credentials.
 
 Create a secret and label it properly for each remote cluster:
 
-```command
+{{< text bash >}}
 $ cd $WORK_DIR
 $ kubectl create secret generic ${CLUSTER_NAME} --from-file ${CLUSTER_NAME} -n istio-system
 $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n istio-system
-```
+{{< /text >}}
 
 {{< warning_icon >}}
 The secret name and the corresponding file name need to be the same.  Kubernetes secret
@@ -188,54 +188,54 @@ to capture the Pilot, Policy, and Statsd Pod IP endpoints.
 variables to each node before using Helm to connect the remote
 cluster to the Istio control plane.
 
-```command
+{{< text bash >}}
 $ export PILOT_POD_IP=$(kubectl -n istio-system get pod -l istio=pilot -o jsonpath='{.items[0].status.podIP}')
 $ export POLICY_POD_IP=$(kubectl -n istio-system get pod -l istio=mixer -o jsonpath='{.items[0].status.podIP}')
 $ export STATSD_POD_IP=$(kubectl -n istio-system get pod -l istio=statsd-prom-bridge -o jsonpath='{.items[0].status.podIP}')
 $ export TELEMETRY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=telemetry -o jsonpath='{.items[0].status.podIP}')
 $ export ZIPKIN_POD_IP=$(kubectl -n istio-system get pod -l app=jaeger -o jsonpath='{.items[0].status.podIP}')
-```
+{{< /text >}}
 
 ### Use kubectl with Helm to connect the remote cluster to the local
 
 1.  Use the helm template command on a remote to specify the Istio control plane service endpoints:
 
-    ```command
+    {{< text bash >}}
     $ helm template install/kubernetes/helm/istio-remote --namespace istio-system --name istio-remote --set global.pilotEndpoint=${PILOT_POD_IP} --set global.policyEndpoint=${POLICY_POD_IP} --set global.statsdEndpoint=${STATSD_POD_IP} --set global.telemetryEndpoint=${TELEMETRY_POD_IP} --set global.zipkinEndpoint=${ZIPKIN_POD_IP} > $HOME/istio-remote.yaml
-    ```
+    {{< /text >}}
 
 1.  Create a namespace for remote Istio.
 
-    ```command
+    {{< text bash >}}
     $ kubectl create ns istio-system
-    ```
+    {{< /text >}}
 
 1.  Instantiate the remote cluster's connection to the Istio control plane:
 
-    ```command
+    {{< text bash >}}
     $ kubectl create -f $HOME/istio-remote.yaml
-    ```
+    {{< /text >}}
 
 ### Alternatively use Helm and Tiller to connect the remote cluster to the local
 
 1.  If a service account has not already been installed for Helm, please
 install one:
 
-    ```command
+    {{< text bash >}}
     $ kubectl create -f @install/kubernetes/helm/helm-service-account.yaml@
-    ```
+    {{< /text >}}
 
 1.  Initialize Helm:
 
-    ```command
+    {{< text bash >}}
     $ helm init --service-account tiller
-    ```
+    {{< /text >}}
 
 1.  Install the Helm chart:
 
-    ```command
+    {{< text bash >}}
     $ helm install install/kubernetes/helm/istio-remote --name istio-remote --set global.pilotEndpoint=${PILOT_POD_IP} --set global.policyEndpoint=${POLICY_POD_IP} --set global.statsdEndpoint=${STATSD_POD_IP} --namespace istio-system
-    ```
+    {{< /text >}}
 
 ### Helm configuration parameters
 
@@ -258,12 +258,12 @@ The `isito-remote` Helm chart requires the three specific variables to be config
 
 ### Use kubectl to uninstall istio-remote
 
-```command
+{{< text bash >}}
 $ kubectl delete -f $HOME/istio-remote.yaml
-```
+{{< /text >}}
 
 ### Alternatively use Helm and Tiller to uninstall istio-remote
 
-```command
+{{< text bash >}}
 $ helm delete --purge istio-remote
-```
+{{< /text >}}

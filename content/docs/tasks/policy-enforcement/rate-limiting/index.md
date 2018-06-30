@@ -21,15 +21,15 @@ service.
   requests from test user "jason" to version v2 and requests from any other
   user to v3.
 
-  ```command
+  {{< text bash >}}
   $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
-  ```
+  {{< /text >}}
 
   and then run the following command:
 
-  ```command
+  {{< text bash >}}
   $ istioctl replace -f @samples/bookinfo/routing/route-rule-reviews-jason-v2-v3.yaml.yaml@
-  ```
+  {{< /text >}}
 
 > If you have a conflicting rule that you set in previous tasks,
 use `istioctl replace` instead of `istioctl create`.
@@ -55,36 +55,36 @@ Consider `ratings` as an external paid service like Rotten Tomatoes® with
 1. Configure `memquota`, `quota`, `rule`, `QuotaSpec`, `QuotaSpecBinding` to
    enable rate limiting.
 
-    ```command
+    {{< text bash >}}
     $ istioctl create -f @samples/bookinfo/routing/mixer-rule-ratings-ratelimit.yaml@
-    ```
+    {{< /text >}}
 
 1. Confirm the `memquota` was created:
 
-    ```command-output-as-yaml
-        $ kubectl -n istio-system get memquota handler -o yaml
-        apiVersion: config.istio.io/v1alpha2
-        kind: memquota
-        metadata:
-          name: handler
-          namespace: istio-system
-        spec:
-          quotas:
-          - name: requestcount.quota.istio-system
-            maxAmount: 5000
-            validDuration: 1s
-            overrides:
-            - dimensions:
-                destination: ratings
-                source: reviews
-                sourceVersion: v3
-              maxAmount: 1
-              validDuration: 5s
-            - dimensions:
-                destination: ratings
-              maxAmount: 5
-              validDuration: 10s
-    ```
+    {{< text bash yaml >}}
+    $ kubectl -n istio-system get memquota handler -o yaml
+    apiVersion: config.istio.io/v1alpha2
+    kind: memquota
+    metadata:
+      name: handler
+      namespace: istio-system
+    spec:
+      quotas:
+      - name: requestcount.quota.istio-system
+        maxAmount: 5000
+        validDuration: 1s
+        overrides:
+        - dimensions:
+            destination: ratings
+            source: reviews
+            sourceVersion: v3
+          maxAmount: 1
+          validDuration: 5s
+        - dimensions:
+            destination: ratings
+          maxAmount: 5
+          validDuration: 10s
+    {{< /text >}}
 
   The `memquota` defines 3 different rate limit schemes. The default, if no
   overrides match, is `5000` requests per `1s`. Two overrides are also
@@ -95,20 +95,20 @@ Consider `ratings` as an external paid service like Rotten Tomatoes® with
 
 1. Confirm the `quota` was created:
 
-    ```command-output-as-yaml
-        $ kubectl -n istio-system get quotas requestcount -o yaml
-        apiVersion: config.istio.io/v1alpha2
-        kind: quota
-        metadata:
-          name: requestcount
-          namespace: istio-system
-        spec:
-          dimensions:
-            source: source.labels["app"] | source.service | "unknown"
-            sourceVersion: source.labels["version"] | "unknown"
-            destination: destination.labels["app"] | destination.service | "unknown"
-            destinationVersion: destination.labels["version"] | "unknown"
-    ```
+    {{< text bash yaml >}}
+    $ kubectl -n istio-system get quotas requestcount -o yaml
+    apiVersion: config.istio.io/v1alpha2
+    kind: quota
+    metadata:
+      name: requestcount
+      namespace: istio-system
+    spec:
+      dimensions:
+        source: source.labels["app"] | source.service | "unknown"
+        sourceVersion: source.labels["version"] | "unknown"
+        destination: destination.labels["app"] | destination.service | "unknown"
+        destinationVersion: destination.labels["version"] | "unknown"
+    {{< /text >}}
 
     The `quota` template defines 4 `dimensions` that are used by `memquota` to
     set overrides on request that match certain attributes. `destination` will
@@ -119,19 +119,19 @@ Consider `ratings` as an external paid service like Rotten Tomatoes® with
 
 1. Confirm the `rule` was created:
 
-    ```command-output-as-yaml
-        $ kubectl -n istio-system get rules quota -o yaml
-        apiVersion: config.istio.io/v1alpha2
-        kind: rule
-        metadata:
-          name: quota
-          namespace: istio-system
-        spec:
-          actions:
-          - handler: handler.memquota
-            instances:
-            - requestcount.quota
-    ```
+    {{< text bash yaml >}}
+    $ kubectl -n istio-system get rules quota -o yaml
+    apiVersion: config.istio.io/v1alpha2
+    kind: rule
+    metadata:
+      name: quota
+      namespace: istio-system
+    spec:
+      actions:
+      - handler: handler.memquota
+        instances:
+        - requestcount.quota
+    {{< /text >}}
 
     The `rule` tells mixer to invoke `handler.memquota` handler (created
     above) and pass it the object constructed using the instance
@@ -140,45 +140,45 @@ Consider `ratings` as an external paid service like Rotten Tomatoes® with
 
 1. Confirm the `QuotaSpec` was created:
 
-    ```command-output-as-yaml
-        $ kubectl -n istio-system get QuotaSpec request-count -o yaml
-        apiVersion: config.istio.io/v1alpha2
-        kind: QuotaSpec
-        metadata:
-          name: request-count
-          namespace: istio-system
-        spec:
-          rules:
-          - quotas:
-            - charge: "1"
-              quota: requestcount
-    ```
+    {{< text bash yaml >}}
+    $ kubectl -n istio-system get QuotaSpec request-count -o yaml
+    apiVersion: config.istio.io/v1alpha2
+    kind: QuotaSpec
+    metadata:
+      name: request-count
+      namespace: istio-system
+    spec:
+      rules:
+      - quotas:
+        - charge: "1"
+          quota: requestcount
+    {{< /text >}}
 
     This `QuotaSpec` defines the requestcount `quota` we created above with a
     charge of `1`.
 
 1. Confirm the `QuotaSpecBinding` was created:
 
-    ```command-output-as-yaml
-        $ kubectl -n istio-system get QuotaSpecBinding request-count -o yaml
-        kind: QuotaSpecBinding
-        metadata:
-          name: request-count
-          namespace: istio-system
-        spec:
-          quotaSpecs:
-          - name: request-count
-            namespace: istio-system
-          services:
-          - name: ratings
-            namespace: default
-          - name: reviews
-            namespace: default
-          - name: details
-            namespace: default
-          - name: productpage
-            namespace: default
-    ```
+    {{< text bash yaml >}}
+    $ kubectl -n istio-system get QuotaSpecBinding request-count -o yaml
+    kind: QuotaSpecBinding
+    metadata:
+      name: request-count
+      namespace: istio-system
+    spec:
+      quotaSpecs:
+      - name: request-count
+        namespace: istio-system
+      services:
+      - name: ratings
+        namespace: default
+      - name: reviews
+        namespace: default
+      - name: details
+        namespace: default
+      - name: productpage
+        namespace: default
+    {{< /text >}}
 
     This `QuotaSpecBinding` binds the `QuotaSpec` we created above to the
     services we want to apply it to. Note we have to define the namespace for
@@ -206,7 +206,7 @@ the quota rule.
 
 For example, consider the following configuration:
 
-```yaml
+{{< text yaml >}}
 apiVersion: config.istio.io/v1alpha2
 kind: rule
 metadata:
@@ -218,7 +218,7 @@ spec:
   - handler: handler.memquota
     instances:
     - requestcount.quota
-```
+{{< /text >}}
 
 This configuration applies the quota rule to requests whose source and
 destination namespaces are different.
@@ -252,15 +252,15 @@ with the given namespace.
 
 * Remove the rate limit configuration:
 
-    ```command
+    {{< text bash >}}
     $ istioctl delete -f @samples/bookinfo/routing/mixer-rule-ratings-ratelimit.yaml@
-    ```
+    {{< /text >}}
 
 * Remove the application routing rules:
 
-    ```command
+    {{< text bash >}}
     $ istioctl delete -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
-    ```
+    {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, refer to the
   [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions

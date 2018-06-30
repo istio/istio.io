@@ -17,10 +17,12 @@ This task assumes you have a Kubernetes cluster:
 
 * Installed Istio with global mutual TLS enabled:
 
-    ```command
+    {{< text bash >}}
     $ kubectl apply -f @install/kubernetes/istio-demo-auth.yaml@
-    ```
+    {{< /text >}}
+
     _**OR**_
+
     Using [Helm](/docs/setup/kubernetes/helm-install/) with `global.mtls.enabled` to `true`.
 
 > Starting with Istio 0.7, you can use [authentication policy](/docs/concepts/security/authn-policy/) to configure mutual TLS for all/selected services in a namespace
@@ -30,17 +32,17 @@ This task assumes you have a Kubernetes cluster:
 
     If you are using [manual sidecar injection](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection), use the following command
 
-    ```command
+    {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@)
     $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
-    ```
+    {{< /text >}}
 
     If you are using a cluster with [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection) enabled, simply deploy the services using `kubectl`
 
-    ```command
+    {{< text bash >}}
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@
     $ kubectl apply -f @samples/sleep/sleep.yaml@
-    ```
+    {{< /text >}}
 
 ## Verifying Istio's mutual TLS authentication setup
 
@@ -48,11 +50,11 @@ This task assumes you have a Kubernetes cluster:
 
 Verify the cluster-level Citadel is running:
 
-```command
+{{< text bash >}}
 $ kubectl get deploy -l istio=citadel -n istio-system
 NAME            DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 istio-citadel   1         1         1            1           1m
-```
+{{< /text >}}
 
 Citadel is up if the "AVAILABLE" column is 1.
 
@@ -60,21 +62,21 @@ Citadel is up if the "AVAILABLE" column is 1.
 
 * Check installation mode. If mutual TLS is enabled by default (e.g `istio-demo-auth.yaml` was used when installing Istio), you can expect to see uncommented `authPolicy: MUTUAL_TLS` in the configmap.
 
-    ```command
+    {{< text bash >}}
     $ kubectl get configmap istio -o yaml -n istio-system | grep authPolicy | head -1
-    ```
+    {{< /text >}}
 
 * Check authentication policies. Mutual TLS can also be enabled (or disabled) per service(s) by authentication policy. A policy, if exist, will overwrite the configmap setting for the targeted services. Unfortunately, there is no quick way to get relevant policies for a service, other than examining all policies in the applicable namespace:
 
-    ```command
+    {{< text bash >}}
     $ kubectl get policies.authentication.istio.io -n default -o yaml
-    ```
+    {{< /text >}}
 
 * Check destination rule. Starting with Istio 0.8, destination rule's [traffic policy](/docs/reference/config/istio.networking.v1alpha3/#TrafficPolicy) is used to configure client side to use (or not use) mutual TLS. For backward compatibility, the _default_ traffic policy is inferred from configmap flag (i.e, if `authPolicy: MUTUAL_TLS`, _default_ traffic policy also be `MUTUAL_TLS`). If there is authentication policy overrules this setting for some services, it should accompany with the appropriate destination rule(s). Similar to authentication policy, the only way to verify the settings is to manually check all rules:
 
-    ```command
+    {{< text bash >}}
     $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml
-    ```
+    {{< /text >}}
 
     > Note that the destination rules scoping model is not limited to namespaces. Thus, it's necessary to examine rules in all namespaces.
 
@@ -82,12 +84,12 @@ Citadel is up if the "AVAILABLE" column is 1.
 
 Istio automatically installs necessary keys and certificates for mutual TLS authentication in all sidecar containers.
 
-```command
+{{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.name}) -c istio-proxy -- ls /etc/certs
 cert-chain.pem
 key.pem
 root-cert.pem
-```
+{{< /text >}}
 
 > `cert-chain.pem` is Envoy's cert that needs to be presented to the other side. `key.pem` is Envoy's private key
 paired with Envoy's cert in `cert-chain.pem`. `root-cert.pem` is the root cert to verify the peer's cert.
@@ -95,20 +97,20 @@ In this example, we only have one Citadel in a cluster, so all Envoys have the s
 
 Use the `oppenssl` tool to check if certificate is valid (current time should be in between `Not Before` and `Not After`)
 
-```command
+{{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.name}) -c istio-proxy -- cat /etc/certs/cert-chain.pem | openssl x509 -text -noout  | grep Validity -A 2
 Validity
         Not Before: May 17 23:02:11 2018 GMT
         Not After : Aug 15 23:02:11 2018 GMT
-```
+{{< /text >}}
 
 You can also check the _identity_ of the client certificate:
 
-```command
+{{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.name}) -c istio-proxy -- cat /etc/certs/cert-chain.pem | openssl x509 -text -noout  | grep 'Subject Alternative Name' -A 1
         X509v3 Subject Alternative Name:
             URI:spiffe://cluster.local/ns/default/sa/default
-```
+{{< /text >}}
 
 Please check [secure naming](/docs/concepts/security/mutual-tls/#workflow) for more information about  _service identity_ in Istio.
 
@@ -118,52 +120,53 @@ Assuming mutual TLS authentication is properly turned on, it should not affect c
 
 1. Request from `sleep` app container to `httpbin` service should succeed (return `200`)
 
-    ```command
+    {{< text bash >}}
     $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl httpbin:8000/headers -o /dev/null -s -w '%{http_code}\n'
     200
-    ```
+    {{< /text >}}
 
 1. Request from `sleep` _proxy_ container to `httpbin` service on the other hand fails, as request does not use TLS nor provide a client certificate
 
-    ```command
+    {{< text bash >}}
     $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl httpbin:8000/headers -o /dev/null -s -w '%{http_code}\n'
     000
     command terminated with exit code 56
-    ```
-    ```command
+    {{< /text >}}
+
+    {{< text bash >}}
     $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl https://httpbin:8000/headers -o /dev/null -s -w '%{http_code}\n'
     000
     command terminated with exit code 77
-    ```
+    {{< /text >}}
 
 1. However, request will success if client certificate is provided
 
-    ```command
+    {{< text bash >}}
     $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl https://httpbin:8000/headers -o /dev/null -s -w '%{http_code}\n' --key /etc/certs/key.pem --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem -k
     200
-    ```
+    {{< /text >}}
 
     > Istio uses [Kubernetes service accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) as service identity, which offers stronger security than service name (refer [here](/docs/concepts/security/mutual-tls/#identity) for more information). Thus the certificates used in Istio do not have service names, which is the information that `curl` needs to verify server identity. As a result, we use `curl` option `-k` to prevent the `curl` client from aborting when failing to find and verify the server name (i.e., httpbin.ns.svc.cluster.local) in the certificate provided by the server.
 
 1. Request from pod without sidecar. For this demo, let's install another `sleep` service without sidecar. To avoid name conflicts, we put it in different namespace.
 
-    ```command
+    {{< text bash >}}
     $ kubectl create ns legacy
     $ kubectl apply -f @samples/sleep/sleep.yaml@ -n legacy
-    ```
+    {{< /text >}}
 
 1. Wait after the pod status changes to `Running`, issue the familiar `curl` command. The request should fail as the pod doesn't have a sidecar to help initiate TLS communication.
 
-    ```command
+    {{< text bash >}}
     $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name} -n legacy) -c sleep -n legacy -- curl httpbin.default:8000/headers -o /dev/null -s -w '%{http_code}\n'
     000
     command terminated with exit code 56
-    ```
+    {{< /text >}}
 
 ## Cleanup
 
-```command
+{{< text bash >}}
 $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
 $ kubectl delete --ignore-not-found=true -f @samples/sleep/sleep.yaml@
 $ kubectl delete --ignore-not-found=true ns legacy
-```
+{{< /text >}}
