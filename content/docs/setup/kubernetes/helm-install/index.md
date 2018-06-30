@@ -36,13 +36,13 @@ recommended.
       (requires Kubernetes >=1.9.0):
 
         ```command
-        $ helm template @install/kubernetes/helm/istio@ --name istio --namespace istio-system > $HOME/istio.yaml
+        $ helm template @install/kubernetes/helm/istio@ --name istio --namespace istio-system --set global.tag=0.8.0 > $HOME/istio.yaml
         ```
 
     * Without the sidecar injection webhook:
 
         ```command
-        $ helm template @install/kubernetes/helm/istio@ --name istio --namespace istio-system --set sidecarInjectorWebhook.enabled=false > $HOME/istio.yaml
+        $ helm template @install/kubernetes/helm/istio@ --name istio --namespace istio-system --set global.tag=0.8.0 --set sidecarInjectorWebhook.enabled=false > $HOME/istio.yaml
         ```
 
 1. Install the components via the manifest:
@@ -77,13 +77,13 @@ to manage the lifecycle of Istio.
     * With [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection) (requires Kubernetes >=1.9.0):
 
         ```command
-        $ helm install @install/kubernetes/helm/istio@ --name istio --namespace istio-system
+        $ helm install @install/kubernetes/helm/istio@ --name istio --namespace istio-system --set global.tag=0.8.0
         ```
 
     * Without the sidecar injection webhook:
 
         ```command
-        $ helm install @install/kubernetes/helm/istio@ --name istio --namespace istio-system --set sidecarInjectorWebhook.enabled=false
+        $ helm install @install/kubernetes/helm/istio@ --name istio --namespace istio-system --set global.tag=0.8.0 --set sidecarInjectorWebhook.enabled=false
         ```
 
 ## Customization with Helm
