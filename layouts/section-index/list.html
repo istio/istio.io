@@ -5,8 +5,25 @@
 <p>{{ .Description }}</p>
 
 <div class="section-index">
-    {{ $pages := (where .Site.Pages "Section" .Section).ByWeight }}
-    {{ partial "section-index-level.html" (dict "pages" $pages "parent" . ) }}
+    <div class="row">
+        <div class="card-deck">
+            {{ $pages := (where .Site.Pages "Section" .Section).ByWeight }}
+            {{ $parent := .Page }}
+
+            {{ range $pages }}
+                {{ if eq .Parent $parent }}
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title"><a href="{{ .URL }}">{{ .Title }}</a></h5>
+                                <p class="card-text">{{ .Description }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {{ end }}
+            {{ end }}
+        </div>
+    </div>
 </div>
 
 {{ .Content }}

@@ -1,35 +1,17 @@
 .section-index {
+    .card-title {
+        margin-bottom: 0;
 
-    li.directory {
-        margin: 0;
-        padding: 0;
-        margin-top: 15px;
-        margin-left: 0;
-    }
-
-    li.file {
-        margin: 0;
-        padding: 0;
-        margin-top: 10px;
-    }
-
-    a {
-        font-weight: $sectionIndexLinkWeight;
-    }
-
-    ul {
-        list-style: disc;
-
-        >li>ul {
-            list-style: circle;
-
-            >li>ul {
-                list-style: square;
-
-                >li>ul {
-                    list-style: disc;
-                }
-            }
+        a {
+            font-weight: 700;
         }
+    }
+
+    .card-text {
+        margin-top: 0;
+    }
+
+    .card {
+        border: none;
     }
 }
