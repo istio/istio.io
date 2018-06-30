@@ -23,18 +23,19 @@ This task assumes you have a Kubernetes cluster:
     _**OR**_
     Using [Helm](/docs/setup/kubernetes/helm-install/) with `global.mtls.enabled` to `true`.
 
-> Starting with Istio 0.7, you can use [authentication policy](/docs/concepts/security/authn-policy/) to configure mutual TLS for all/selected services in a namespace (repeated for all namespaces to get global setting). See [authentication policy task](/docs/tasks/security/authn-policy/)
+> Starting with Istio 0.7, you can use [authentication policy](/docs/concepts/security/authn-policy/) to configure mutual TLS for all/selected services in a namespace
+(repeated for all namespaces to get global setting). See the [authentication policy task](/docs/tasks/security/authn-policy/)
 
 * For demo, deploy [httpbin](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/httpbin) and [sleep](https://github.com/istio/istio/tree/master/samples/sleep) with Envoy sidecar. For simplicity, the demo is setup in the `default` namespace. If you wish to use a different namespace,  please add `-n yournamespace` appropriately to the example commands in the next section.
 
-If you are using [manual sidecar injection](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection), use the following command
+    If you are using [manual sidecar injection](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection), use the following command
 
     ```command
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@)
     $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
     ```
 
-If you are using a cluster with [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection) enabled, simply deploy the services using `kubectl`
+    If you are using a cluster with [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection) enabled, simply deploy the services using `kubectl`
 
     ```command
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@
@@ -154,7 +155,7 @@ Assuming mutual TLS authentication is properly turned on, it should not affect c
 1. Wait after the pod status changes to `Running`, issue the familiar `curl` command. The request should fail as the pod doesn't have a sidecar to help initiate TLS communication.
 
     ```command
-    kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name} -n legacy) -c sleep -n legacy -- curl httpbin.default:8000/headers -o /dev/null -s -w '%{http_code}\n'
+    $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name} -n legacy) -c sleep -n legacy -- curl httpbin.default:8000/headers -o /dev/null -s -w '%{http_code}\n'
     000
     command terminated with exit code 56
     ```
@@ -166,8 +167,3 @@ $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
 $ kubectl delete --ignore-not-found=true -f @samples/sleep/sleep.yaml@
 $ kubectl delete --ignore-not-found=true ns legacy
 ```
-
-## What's next
-
-* Learn more about the design principles behind Istio's automatic mutual TLS authentication
-  between all services in this [blog](/blog/2017/0.1-auth/).

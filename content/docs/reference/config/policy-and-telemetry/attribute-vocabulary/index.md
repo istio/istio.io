@@ -73,10 +73,10 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `connection.sent.bytes_total` | int64 | Total number of bytes sent by a destination service during the lifetime of a connection. | |
 | `connection.duration` | duration | The total amount of time a connection has been open. | |
 | `connection.mtls` | boolean | Indicates whether a request is received over a mTLS enabled downstream connection. | |
-| `context.protocol` | string | Protocol of the request or connection being proxied. | tcp |
-| `context.time` | timestamp | The timestamp of Mixer operation. | |
-| `context.reporter.local` | boolean | Indicates whether the attribute reporter is co-located with the service instance (e.g. `true` for the server sidecar, `false` for the client sidecar). | |
-| `context.reporter.uid` | string | Platform-specific identifier of the attribute reporter. |  kubernetes://my-svc-234443-5sffe.my-namespace |
+| `context.protocol`      | string | Protocol of the request or connection being proxied. | tcp |
+| `context.time`          | timestamp | The timestamp of Mixer operation. | |
+| `context.reporter.type` | string | Contextualizes the reported attribute set. Set to `inbound` for the server-side calls from sidecars and `outbound` for the client-side calls from sidecars and gateways | `inbound` |
+| `context.reporter.uid`  | string | Platform-specific identifier of the attribute reporter. |  kubernetes://my-svc-234443-5sffe.my-namespace |
 | `api.service` | string | The public service name. This is different than the in-mesh service identity and reflects the name of the service exposed to the client. | my-svc.com |
 | `api.version` | string | The API version. | v1alpha1 |
 | `api.operation` | string | Unique string used to identify the operation. The id is unique among all operations described in a specific &lt;service, version&gt;. | getPetsById |

@@ -86,7 +86,7 @@ number_of_entries: 5
 <tr>
 <td><code>--clusterRegistriesNamespace &lt;string&gt;</code></td>
 <td></td>
-<td>Namespace for ConfigMap which stores clusters configs  (default `istio-system`)</td>
+<td>Namespace for ConfigMap which stores clusters configs  (default ``)</td>
 </tr>
 <tr>
 <td><code>--configDir &lt;string&gt;</code></td>
@@ -207,6 +207,11 @@ number_of_entries: 5
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Select a namespace where the controller resides. If not set, uses ${POD_NAMESPACE} environment variable  (default ``)</td>
+</tr>
+<tr>
+<td><code>--plugins &lt;stringSlice&gt;</code></td>
+<td></td>
+<td>comma separated list of networking plugins to enable  (default `[authn,authz,envoyfilter,health,mixer]`)</td>
 </tr>
 <tr>
 <td><code>--profile</code></td>
