@@ -34,7 +34,7 @@ aliases:
     $ istioctl replace -f @samples/bookinfo/routing/route-rule-reviews-50-v3.yaml@
     ```
 
-    确认规则已被替换：
+    确认规则已被替换:
 
     ```command-output-as-yaml
         $ istioctl get virtualservice reviews -o yaml
