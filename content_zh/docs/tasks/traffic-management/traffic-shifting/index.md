@@ -21,22 +21,22 @@ aliases:
 
 1.  将所有微服务的默认版本设置为v1。
 
-    ```command
+    {{< text bash >}}
     $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
-    ```
+    {{< /text >}}
 
 1.  在浏览器中打开http://$GATEWAY_URL/productpage,  确认 `reviews` 服务目前的活动版本是v1。
     您应该看到Bookinfo应用程序产品页面。 请注意， productpage显示时没有评分星级，因为 `reviews:v1` 不访问评分服务。
 
 1.  首先，使用下面的命令把50%的流量从 `reviews:v1` 转移到 `reviews:v3`:
 
-    ```command
+    {{< text bash >}}
     $ istioctl replace -f @samples/bookinfo/routing/route-rule-reviews-50-v3.yaml@
-    ```
+    {{< /text >}}
 
     确认规则已被替换:
 
-    ```command-output-as-yaml
+    {{< text yaml >}}
         $ istioctl get virtualservice reviews -o yaml
         apiVersion: networking.istio.io/v1alpha3
         kind: VirtualService
@@ -57,7 +57,7 @@ aliases:
                 host: reviews
                 subset: v3
               weight: 50
-    ```
+    {{< /text >}}
 
 1.  刷新浏览器中的 `productpage` 页面，大约有50%的几率会看到页面中出带红色星级的评价内容。
 
@@ -66,9 +66,9 @@ aliases:
 
 1.   当v3版本的 `reviews` 微服务被认为已经稳定后，我们可以将100%的流量路由到 `reviews:v3`：
 
-    ```command
+    {{< text bash >}}
     $ istioctl replace -f @samples/bookinfo/routing/route-rule-reviews-v3.yaml@
-    ```
+    {{< /text >}}
 
     您现在可以以任何用户身份登录到 `productpage` 页面，始终都可以看到带红色星级评分的书评。
 
@@ -82,9 +82,9 @@ aliases:
 
 * 删除应用程序路由规则。
 
-    ```command
+    {{< text bash >}}
     $ istioctl delete -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
-    ```
+    {{< /text >}}
 
 * 如果您不打算探索任何后续任务，请参阅 [Bookinfo 清理](/docs/examples/bookinfo/#cleanup) 的说明关闭应用程序。
 
