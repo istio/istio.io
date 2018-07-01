@@ -195,7 +195,3 @@ all users to v2, optionally in a gradual fashion. We'll explore this in a separa
 * If you are not planning to explore any follow-on tasks, refer to the
   [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.
-
-## What's next
-
-* Learn more about [request routing](/docs/concepts/traffic-management/request-routing/).

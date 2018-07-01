@@ -265,11 +265,3 @@ with the given namespace.
 * If you are not planning to explore any follow-on tasks, refer to the
   [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.
-
-## What's next
-
-* Learn more about [Mixer](/docs/concepts/policies-and-telemetry/overview/) and
-  [Mixer Config](/docs/concepts/policies-and-telemetry/config/).
-
-* Discover the full
-  [Attribute Vocabulary](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/).

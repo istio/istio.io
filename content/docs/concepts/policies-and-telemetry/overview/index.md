@@ -92,7 +92,3 @@ even when a backend has become unresponsive.
 
 Finally, Mixer's caching and buffering helps reduce the frequency of calls to backends, and can sometimes reduce the amount of data
 sent to backends (through local aggregation). Both of these can reduce operational expense in certain cases.
-
-## What's next
-
-* Read the [Mixer adapter model](/blog/2017/adapter-model/) blog post.

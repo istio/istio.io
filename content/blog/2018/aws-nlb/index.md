@@ -16,7 +16,7 @@ Network load balancer (NLB) could be used instead of classical load balancer. Yo
 
 The following instructions require a Kubernetes **1.9.0 or newer** cluster.
 
-{{< warning_icon >}} Usage of AWS `nlb` on kubernetes is an alpha feature and not recommended for production clusters.
+{{< warning_icon >}} Usage of AWS `nlb` on Kubernetes is an Alpha feature and not recommended for production clusters.
 
 ## IAM Policy
 
@@ -122,7 +122,3 @@ spec:
     istio: ingress
   type: LoadBalancer
 {{< /text >}}
-
-## What's next
-
-Kubernetes [service networking](https://kubernetes.io/docs/concepts/services-networking/service/) should be consulted if further information is needed.

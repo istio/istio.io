@@ -6,7 +6,7 @@ keywords: [telemetry,visualization]
 ---
 
 This task shows you how to generate a graph of services within an Istio mesh.
-As part of this task, you will install the Servicegraph addon and use
+As part of this task, you will install the Servicegraph add-on and use
 the web-based interface for viewing service graph of the service mesh.
 
 The [Bookinfo](/docs/examples/bookinfo/) sample application is used as

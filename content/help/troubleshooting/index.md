@@ -41,7 +41,7 @@ Verifying connectivity to Pilot is a useful troubleshooting step. Every proxy co
     $ curl -k --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem --key /etc/certs/key.pem https://istio-pilot:15003/v1/registration
     {{< /text >}}
 
-    If mTLS is disabled:
+    If mutual TLS is disabled:
 
     {{< text bash >}}
     $ curl http://istio-pilot:15003/v1/registration
@@ -390,9 +390,9 @@ This causes the disconnection of TCP streams or long-running connections between
 
 You should build resilience into your application for this type of
 disconnect, but if you still want to prevent the disconnects from
-happening, you will need to disable mTLS and the `istio-citadel` deployment.
+happening, you will need to disable mutual TLS and the `istio-citadel` deployment.
 
-First, edit your istio config to disable mTLS
+First, edit your `istio` config to disable mutual TLS
 
 {{< text bash >}}
 $ kubectl edit configmap -n istio-system istio
@@ -457,7 +457,7 @@ W0227 21:51:03.156818       1 admission.go:257] Failed calling webhook, failing 
 
 Make sure both pod and service CIDRs are not proxied according to *_proxy variables.  Check the kube-apiserver files and logs to verify the configuration and whether any requests are being proxied.
 
-A workaround is to remove the proxy settings from the kube-apiserver manifest and restart the server or use a later version of kubernetes.
+A workaround is to remove the proxy settings from the kube-apiserver manifest and restart the server or use a later version of Kubernetes.
 
-An issue was filed in kubernetes related to this and has since been closed.   [https://github.com/kubernetes/kubeadm/issues/666](https://github.com/kubernetes/kubeadm/issues/666)
+An issue was filed with Kubernetes related to this and has since been closed.   [https://github.com/kubernetes/kubeadm/issues/666](https://github.com/kubernetes/kubeadm/issues/666)
 [https://github.com/kubernetes/kubernetes/pull/58698#discussion_r163879443](https://github.com/kubernetes/kubernetes/pull/58698#discussion_r163879443)

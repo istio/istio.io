@@ -246,7 +246,3 @@ Let's set up a scenario to demonstrate the traffic-mirroring capabilities of Ist
     $ kubectl delete deploy httpbin-v1 httpbin-v2 sleep
     $ kubectl delete svc httpbin
     {{< /text >}}
-
-## What's next
-
-Check out the [Mirroring configuration](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute-mirror) reference documentation.

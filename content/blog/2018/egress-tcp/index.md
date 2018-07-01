@@ -315,7 +315,3 @@ In my next blog posts, I will show examples of combining route rules and egress 
 ## Conclusion
 
 In this blog post, I demonstrated how the microservices in an Istio service mesh can consume external services via TCP. By default, Istio blocks all the traffic, TCP and HTTP, to the hosts outside the cluster. To enable such traffic for TCP, TCP egress rules must be created for the service mesh.
-
-## What's next
-
-To read more about Istio egress traffic control, see [Control Egress Traffic Task](/docs/tasks/traffic-management/egress/).

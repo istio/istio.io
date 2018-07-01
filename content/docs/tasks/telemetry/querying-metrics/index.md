@@ -115,7 +115,3 @@ docs](https://prometheus.io/docs/querying/basics/).
 -   If you are not planning to explore any follow-on tasks, refer to the
     [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
     to shutdown the application.
-
-## What's next
-
--   Refer to the [In-Depth Telemetry](/docs/examples/telemetry/) example.
