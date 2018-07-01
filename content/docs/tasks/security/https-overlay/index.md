@@ -41,7 +41,7 @@ $ kubectl create configmap nginxconfigmap --from-file=samples/https/default.conf
 configmap "nginxconfigmap" created
 {{< /text >}}
 
-## Deploy an HTTPS service without Istio sidecar
+## Deploy an HTTPS service without the Istio sidecar
 
 This section creates a NGINX-based HTTPS service.
 

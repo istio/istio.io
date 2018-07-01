@@ -246,13 +246,6 @@ You should see the trace statistics sent earlier on [http://localhost:16686](htt
 
 For more details on tracing see [Understanding what happened](/docs/tasks/telemetry/distributed-tracing/#understanding-what-happened).
 
-## What's next
-
-You can further explore the Bookinfo app and Istio functionality by following any of the tutorials in the
-[Guides](/docs/examples/) section. However, to do this you need to install `istioctl` to interact
-with Istio. You can either [install](/docs/setup/kubernetes/quick-start/#installation-steps) it directly
-on our workstation or within Cloud Shell.
-
 ## Uninstalling
 
 1. Navigate to the Deployments section of the Cloud Console at [https://console.cloud.google.com/deployments](https://console.cloud.google.com/deployments)

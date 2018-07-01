@@ -98,13 +98,3 @@ interface for traffic management.
 credential management. It can be used to upgrade unencrypted traffic in the service mesh, and provides operators the ability to enforce
 policy based on service identity rather than network controls. Starting from release 0.5, Istio supports
 [role-based access control](/docs/concepts/security/rbac/) to control who can access your services.
-
-## What's next
-
-- Learn about Istio's [design goals](/docs/concepts/what-is-istio/goals/).
-
-- Explore our [Guides](/docs/examples/).
-
-- Read about Istio components in detail in our other [Concepts](/docs/concepts/) guides.
-
-- Learn how to deploy Istio with your own services using our [Tasks](/docs/tasks/) guides.

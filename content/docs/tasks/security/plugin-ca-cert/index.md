@@ -141,8 +141,3 @@ This requires you have `openssl` installed on your machine.
     {{< text bash >}}
     $ kubectl delete -f @install/kubernetes/istio-auth.yaml@
     {{< /text >}}
-
-## What's next
-
-* Read more about [Citadel (codename is istio\_ca) arguments](/docs/reference/commands/istio_ca/).
-* Read [how the sample certificates and keys are generated](https://github.com/istio/istio/blob/{{<branch_name>}}/security/samples/plugin_ca_certs).

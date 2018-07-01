@@ -212,13 +212,3 @@ With the above, the `destination_version` label is assigned the value of `destin
 is not present, the literal `"unknown"` is used.
 
 Refer to the [attribute expression reference](/docs/reference/config/policy-and-telemetry/expression-language/) for details.
-
-## What's next
-
-- Learn how to [configure telemetry collection](/docs/tasks/telemetry/).
-
-- Learn how to [configure policy enforcement](/docs/tasks/policy-enforcement/).
-
-- Learn about the set of [supported adapters](/docs/reference/config/policy-and-telemetry/adapters/).
-
-- See the blog post describing [Mixer's adapter model](/blog/2017/adapter-model/).

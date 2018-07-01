@@ -269,7 +269,3 @@ $ istioctl delete gateway httpbin-gateway
 $ istioctl delete virtualservice httpbin
 $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
 {{< /text >}}
-
-## What's next
-
-* Learn more about [Traffic Routing](/docs/reference/config/istio.networking.v1alpha3/).

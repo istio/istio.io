@@ -271,7 +271,3 @@ services that are not backed by Kubernetes pods.
 
 After the setup, Kubernetes pods and other mesh expansions should be able to access the
 services running on the machine.
-
-## What's next
-
-* See the [Bookinfo Mesh Expansion](/docs/examples/integrating-vms/) guide.

@@ -1,5 +1,5 @@
 ---
-title: How can I enable/disable mTLS encryption after I installed Istio?
+title: How can I enable/disable mutual TLS encryption after I installed Istio?
 weight: 10
 ---
 

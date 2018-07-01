@@ -100,7 +100,7 @@ In the next section we configure Istio to perform TLS origination to resolve the
 $ istioctl delete serviceentry cnn
 {{< /text >}}
 
-## TLS origination for Egress traffic
+## TLS origination for egress traffic
 
 1.  Define a `ServiceEntry` to allow traffic to _edition.cnn.com_, a `VirtualService` to perform request port rewriting, and a `DestinationRule` for TLS origination.
 
@@ -198,7 +198,3 @@ Also note that even for HTTPS originated by the application, the attackers could
     {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@
     {{< /text >}}
-
-## What's next
-
-* Learn more about [service entries](/docs/concepts/traffic-management/rules-configuration/#service-entries), [virtual services](/docs/concepts/traffic-management/rules-configuration/#virtual-services) and [destination rules](/docs/concepts/traffic-management/rules-configuration/#destination-rules).

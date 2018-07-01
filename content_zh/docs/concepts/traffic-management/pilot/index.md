@@ -3,8 +3,6 @@ title: Pilot
 description: 介绍 Pilot，该组件负责部署在 Istio 服务网格中的 Envoy 实例的生命周期管理。
 weight: 10
 keywords: [traffic-management,pilot]
-aliases:
-    - /docs/concepts/traffic-management/manager.html
 ---
 
 Pilot 负责部署在 Istio 服务网格中的 Envoy 实例的生命周期管理。
