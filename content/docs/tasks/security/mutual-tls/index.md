@@ -46,7 +46,7 @@ This task assumes you have a Kubernetes cluster:
 
 ## Verifying Istio's mutual TLS authentication setup
 
-### Verifying Citadel
+### Verifying Citadel is running
 
 Verify the cluster-level Citadel is running:
 

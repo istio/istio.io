@@ -278,12 +278,3 @@ cloud provider specific knowledge and configuration.
     {{< text bash >}}
     $ helm template @install/kubernetes/helm/istio@ <the flags you used to install Istio> -x @templates/sidecar-injector-configmap.yaml@ | kubectl apply -f -
     {{< /text >}}
-
-## What's next
-
-* Learn more about [service entries](/docs/concepts/traffic-management/rules-configuration/#service-entries).
-
-* Learn how to setup
-  [timeouts](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute-timeout),
-  [retries](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute-retries),
-  and [circuit breakers](/docs/reference/config/istio.networking.v1alpha3/#OutlierDetection) for egress traffic.

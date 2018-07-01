@@ -350,7 +350,3 @@ spec:
     {{< text bash >}}
     $ istioctl delete -f @samples/bookinfo/kube/istio-rbac-enable.yaml@
     {{< /text >}}
-
-## What's next
-
-* Learn more about [Istio RBAC](/docs/concepts/security/rbac/).

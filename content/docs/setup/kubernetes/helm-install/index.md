@@ -110,7 +110,7 @@ following table:
 | `global.arch.amd64` | Specifies the scheduling policy for `amd64` architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | `2` |
 | `global.arch.s390x` | Specifies the scheduling policy for `s390x` architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | `2` |
 | `global.arch.ppc64le` | Specifies the scheduling policy for `ppc64le` architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | `2` |
-| `galley.enabled` | Specifies whether Galley should be installed for server-side config validation. Requires k8s >= 1.9 | true/false | `true` |
+| `galley.enabled` | Specifies whether Galley should be installed for server-side config validation. Requires Kubernetes 1.9 or greater | true/false | `true` |
 
 The Helm chart also offers significant customization options per individual
 service. Customize these per-service options at your own risk. The per-service options are exposed via
@@ -147,10 +147,6 @@ istio-sidecar-injector-86cc99578-4t58m   1/1       Running   0          1m
 With this minimal set you can proceed to installing the sample [Bookinfo](/docs/examples/bookinfo/) application or install your own application and [configure request routing](/docs/tasks/traffic-management/request-routing/) for instance.
 
 Of course that if no ingress is expected and sidecar is to be [injected manually](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection) then you can reduce this minimal set even further and only have Pilot and Citadel. However, Pilot depends on Citadel therefore you can't install it without the other.
-
-## What's next
-
-See the sample [Bookinfo](/docs/examples/bookinfo/) application.
 
 ## Uninstall
 

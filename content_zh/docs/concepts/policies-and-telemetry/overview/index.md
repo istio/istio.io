@@ -3,8 +3,6 @@ title: 概览
 description: 描述策略设计和遥测机制。
 weight: 5
 keywords: [policies,telemetry,control]
-aliases:
-    - /docs/concepts/policy-and-control/mixer.html
 ---
 
 Istio 提供灵活的模型来执行授权策略，并为网格中的服务收集遥测数据。

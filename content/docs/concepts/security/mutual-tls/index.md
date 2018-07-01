@@ -116,7 +116,7 @@ which defines what service account(s) can run a certain service, and passes it t
 
 1. The client side Envoy starts a mutual TLS handshake with the server side Envoy. During the handshake, it also does a secure naming check to verify that the service account presented in the server certificate can run the server service.
 
-1. The traffic is forwarded to the server side Envoy after mTLS connection is established, which is then forwarded to the server service through local TCP connections.
+1. The traffic is forwarded to the server side Envoy after a mutual TLS connection is established, which is then forwarded to the server service through local TCP connections.
 
 ## Best practices
 

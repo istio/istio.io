@@ -100,30 +100,18 @@ Related Terms:
 - Proxy agent  - This is a minor infrastructural component and should only show up in low-level detail documentation.
 It is not a proper noun.
 
-### Mixer
+### Miscellaneous
 
-Mixer is a proper noun and should be used as such:
-
-- “You configure Mixer by ….”
-- “Mixer provides a standard vehicle for implementing organizational wide policy”
-
-### Attributes
-
-Not a proper noun but we should attempt to consistently use the term to describe inputs to Mixer and NOT use the term when talking about other
-forms of configuration.
-
-### Load balancing
-
-No dash, it's *load balancing* not *load-balancing*.
-
-### Service mesh
-
-Not a proper noun. Use in place of service fabric.
-
-### Service version
-
-Use in the context of routing and multiple finer-grained versions of a service. Avoid using “service tags” or “service labels”
-which are the mechanism to identify the service versions, not the thing itself.
+|Do              | Don't
+|----------------|------
+| load balancing | load-balancing
+| multicluster   | multi-cluster
+| add-on         | add-on
+| service mesh   | Service Mesh
+| sidecar        | side-car, Sidecar
+| Kubernetes     | kubernetes, k8s
+| Bookinfo       | BookInfo, bookinfo
+| Mixer          | mixer
 
 ## Best practices
 
@@ -198,16 +186,10 @@ information.
 
 ### Avoid statements that will soon be out of date
 
-Avoid words like "currently" and "new." A feature that is new today might not be
+Avoid words like "currently" and "new". A feature that is new today might not be
 considered new in a few months.
 
 |Do                                  | Don't
 |------------------------------------|------
 |In version 1.4, ...                 | In the current version, ...
 |The Federation feature provides ... | The new Federation feature provides ...
-
-## What's next
-
-- Learn about [creating a new documentation topic](/about/contribute/writing-a-new-topic/).
-
-- Learn about [creating a documentation pull request](/about/contribute/creating-a-pull-request/).

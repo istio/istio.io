@@ -1,6 +1,6 @@
 ---
 title: Installation
-description: Instructions for installing the Istio control plane in a Consul based environment, with or without Nomad.
+description: Instructions for installing the Istio control plane in a Consul-based environment, with or without Nomad.
 weight: 30
 keywords: [consul]
 ---
@@ -13,7 +13,7 @@ Using Istio in a non-Kubernetes environment involves a few key tasks:
 1. Adding the Istio sidecar to every instance of a service
 1. Ensuring requests are routed through the sidecars
 
-## Setting up the Control Plane
+## Setting up the control plane
 
 Istio control plane consists of four main services: Pilot, Mixer, Citadel, and
 the API server.
@@ -27,7 +27,7 @@ server requires an
 as a persistent store. See the
 [instructions for setting up the API server](https://kubernetes.io/docs/getting-started-guides/scratch/#apiserver-controller-manager-and-scheduler).
 
-#### Local Install
+#### Local install
 
 For _proof of concept_ purposes, it is possible to install
 a simple single container API server using the following Docker-compose file:
@@ -74,7 +74,7 @@ services:
              ]
 {{< /text >}}
 
-### Other Istio Components
+### Other Istio components
 
 Debian packages for Istio Pilot, Mixer, and Citadel are available through the
 Istio release. Alternatively, these components can be run as Docker
@@ -88,7 +88,7 @@ Nomad, where the
 [service stanza](https://www.nomadproject.io/docs/job-specification/service.html)
 can be used to describe the desired properties of the control plane services.
 
-## Adding Sidecars to Service Instances
+## Adding sidecars to service instances
 
 Each instance of a service in an application must be accompanied by the
 Istio sidecar. Depending on the unit of your installation (Docker
@@ -109,7 +109,7 @@ sidecar. When support for non-transparent proxying (application explicitly
 talks to the sidecar) is available in Istio, this restriction will no
 longer apply.
 
-## Routing traffic through Istio Sidecar
+## Routing traffic through Istio sidecars
 
 Part of the sidecar installation should involve setting up appropriate IP
 Table rules to transparently route application's network traffic through
