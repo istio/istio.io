@@ -8,7 +8,7 @@ keywords: [telemetry,logging]
 此任务将展示如何配置 Istio 创建自定义日志条目并且发送给 [Fluentd](https://www.fluentd.org/) 守护进程。
 Fluentd 是一个开源的日志收集器，支持多种[数据输出](https://www.fluentd.org/dataoutputs)并且有一个可插拔架构。
 [Elasticsearch](https://www.elastic.co/products/elasticsearch)是一个流行的后端日志记录程序，
-[Kibana](https://www.elastic.co/products/kibana) 用于查看。在任务结束后，一个新的日志流将被加载发送日志到示例 Fluentd/Elasticsearch/Kibana 栈。
+[Kibana](https://www.elastic.co/products/kibana) 用于查看。在任务结束后，一个新的日志流将被加载发送日志到示例 Fluentd/Elasticsearch/Kibana 软件栈。
 
 在任务中，将使用 [BookInfo](/docs/examples/bookinfo/) 示例应用程序作为示例应用程序。
 
@@ -24,23 +24,23 @@ Fluentd 是一个开源的日志收集器，支持多种[数据输出](https://w
 
 监听转发日志的 Fluentd 配置是:
 
-```xml
+`{{< text xml >}}
 <source>
   type forward
 </source>
-```
+{{< /text >}}
 
 将 Mixer 连接到所有可能 Fluentd 配置的完整细节超出了此任务的范围。
 
-### Fluentd/Elasticsearch/Kibana 栈
+### Fluentd/Elasticsearch/Kibana 软件栈
 
-为了这个任务的准备，您可以部署提供的示例栈。
+为了这个任务的准备，您可以部署提供的示例软件栈。
 
 该栈包括 Fluentd，Elasticsearch 和 Kibana 在一个非生产集合 [Services](https://kubernetes.io/docs/concepts/services-networking/service/) 和 [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) 在一个新的叫做`logging`的  [Namespace](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/) 中。
 
 将下面的内容保存为 `logging-stack.yaml`.
 
-```yaml
+{{< text yaml >}}
 # Logging Namespace. All below are a part of this namespace.
 apiVersion: v1
 kind: Namespace
@@ -244,17 +244,17 @@ spec:
           name: ui
           protocol: TCP
 ---
-```
+{{< /text >}}
 
 创建资源:
 
-```bash
+{{< text bash >}}
 kubectl apply -f logging-stack.yaml
-```
+{{< /text >}}
 
 你应该看到以下内容:
 
-```bash
+{{< text bash >}}
 namespace "logging" created
 service "elasticsearch" created
 deployment "elasticsearch" created
@@ -263,7 +263,7 @@ deployment "fluentd-es" created
 configmap "fluentd-es-config" created
 service "kibana" created
 deployment "kibana" created
-```
+{{< /text >}}
 
 ## 配置 Istio
 
@@ -273,7 +273,7 @@ deployment "kibana" created
 
 将下面的内容保存为 `fluentd-istio.yaml`:
 
-```yaml
+{{< text yaml >}}
 # Configuration for logentry instances
 apiVersion: "config.istio.io/v1alpha2"
 kind: logentry
@@ -314,18 +314,18 @@ spec:
      instances:
      - newlog.logentry
 ---
-```
+{{< /text >}}
 
 创建资源:
 
-```command
+{{< text bash >}}
 $ istioctl create -f fluentd-istio.yaml
 Created config logentry/istio-system/newlog at revision 22374
 Created config fluentd/istio-system/handler at revision 22375
 Created config rule/istio-system/newlogtofluentd at revision 22376
-```
+{{< /text >}}
 
-请注意在处理程序配置中 `address: "fluentd-es.logging:24224"` 行指向我们设置的Fluentd守护进程示例栈。
+请注意在处理程序配置中 `address: "fluentd-es.logging:24224"` 行指向我们设置的 Fluentd 守护进程示例软件栈。
 
 ## 查看新的日志
 
@@ -335,15 +335,15 @@ Created config rule/istio-system/newlogtofluentd at revision 22376
    示例, 在浏览器中访问 `http://$GATEWAY_URL/productpage`
    或发送以下命令:
 
-   ```bash
+   {{< text bash >}}
    curl http://$GATEWAY_URL/productpage
-   ```
+   {{< /text >}}
 
 1. 在 Kubernetes 环境中, 通过以下命令为 Kibana 建立端口转发:
 
-   ```bash
+   {{< text bash >}}
    kubectl -n logging port-forward $(kubectl -n logging get pod -l app=kibana -o jsonpath='{.items[0].metadata.name}') 5601:5601
-   ```
+   {{< /text >}}
 
     退出运行命令。完成访问 Kibana UI 时输入 Ctrl-C 退出。
 
@@ -359,15 +359,15 @@ Created config rule/istio-system/newlogtofluentd at revision 22376
 
 * 删除新的遥测配置:
 
-  ```bash
+  {{< text bash >}}
   istioctl delete -f fluentd-istio.yaml
-  ```
+  {{< /text >}}
 
-* 删除 Fluentd, Elasticsearch, Kibana 示例栈:
+* 删除 Fluentd, Elasticsearch, Kibana 示例软件栈:
 
-  ```bash
+  {{< text bash >}}
   kubectl delete -f logging-stack.yaml
-  ```
+  {{< /text >}}
 
 * 如果您不打算探索任何后续任务，可以参考 [Bookinfo 清理](/docs/examples/bookinfo/#cleanup) 步骤去关闭程序。
 
