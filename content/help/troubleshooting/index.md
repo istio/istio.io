@@ -430,15 +430,9 @@ Make sure to tune these values for your specific deployment.
 While the larger refresh interval will reduce CPU usage, updates caused by routing rules may cause a period
 of HTTP 404s (up to 2x the refresh interval) until the Envoy sidecars get all relevant configuration.
 
-## Kubernetes webhook setup script files are missing from 0.5 release package
-
-> The 0.5.0 and 0.5.1 releases are missing scripts to provision webhook certificates. Download the missing files
-from [here](https://raw.githubusercontent.com/istio/istio/release-0.7/install/kubernetes/webhook-create-signed-cert.sh) and [here](https://raw.githubusercontent.com/istio/istio/release-0.7/install/kubernetes/webhook-patch-ca-bundle.sh). Subsequent releases (> 0.5.1) include these files.
-
 ## Automatic sidecar injection will fail if the kube-apiserver has proxy settings
 
-This was tested on 0.5.0 with the additional files required as referenced in the above issue. When the Kube-apiserver included
-proxy settings such as:
+When the Kube-apiserver included proxy settings such as:
 
 {{< text yaml >}}
 env:
