@@ -12,7 +12,7 @@ Trying to enumerate all the possible combinations of test cases for testing serv
 
 Istio can help here. With the release of [Istio 0.5.0](/about/notes/0.5/), Istio can mirror traffic to help test your services. You can write route rules similar to the following to enable traffic mirroring:
 
-```yaml
+{{< text yaml >}}
 apiVersion: config.istio.io/v1alpha2
 kind: RouteRule
 metadata:
@@ -32,7 +32,7 @@ spec:
     name: httpbin
     labels:
       version: v2
-```
+{{< /text >}}
 
 A few things to note here:
 

@@ -7,5 +7,3 @@ weight: 0
 ## Before you begin
 
 ## Cleaning up
-
-## What's next

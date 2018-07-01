@@ -25,9 +25,9 @@ The following prerequisites must be met if using OpenShift.
 This playbook will download and install Istio locally on your machine. To deploy the default settings of
 Istio on OpenShift, the following command may be used:
 
-```command
+{{< text bash >}}
 $ ansible-playbook main.yml
-```
+{{< /text >}}
 
 ## Customization with Ansible
 
@@ -51,9 +51,9 @@ The currently exposed options are:
 
 Operator installs Istio using all defaults on OpenShift:
 
-```command
+{{< text bash >}}
 $ ansible-playbook main.yml
-```
+{{< /text >}}
 
 ## Operational overrides
 
@@ -63,33 +63,33 @@ The following commands describe how an operator could use overrides with this An
 
 Operator installs Istio on Kubernetes:
 
-```command
+{{< text bash >}}
 $ ansible-playbook main.yml -e '{"cluster_flavour": "k8s"}'
-```
+{{< /text >}}
 
 Operator installs Istio on Kubernetes and the path to `kubectl` is explicitly set:
 
-```command
+{{< text bash >}}
 $ ansible-playbook main.yml -e '{"cluster_flavour": "k8s", "cmd_path": "~/kubectl"}'
-```
+{{< /text >}}
 
 Operator installs Istio on OpenShift with settings other than the default:
 
-```command
+{{< text bash >}}
 $ ansible-playbook main.yml -e '{"istio": {"auth": true, "delete_resources": true}}'
-```
+{{< /text >}}
 
 Operator installs Istio on OpenShift with customized addons:
 
-```command
+{{< text bash >}}
 $ ansible-playbook main.yml -e '{"istio": {"delete_resources": true, "addon": ["kiali"]}}'
-```
+{{< /text >}}
 
 Operator installs Istio on OpenShift and additionally wants to deploy some of the samples:
 
-```command
+{{< text bash >}}
 $ ansible-playbook main.yml -e '{"istio": {"samples": ["helloworld", "bookinfo"]}}'
-```
+{{< /text >}}
 
 ## Uninstalling
 
