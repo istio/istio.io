@@ -78,7 +78,7 @@ The good news is that our application did not crash. With a good microservice de
 
 So what might have gone wrong? Ah... The answer is that I forgot to enable traffic from inside the mesh to an external service, in this case to the Google Books web service. By default, the Istio sidecar proxies ([Envoy proxies](https://www.envoyproxy.io)) **block all the traffic to destinations outside the cluster**. To enable such traffic, we must define an [egress rule](/docs/reference/config/istio.routing.v1alpha1/#EgressRule).
 
-### Egress rule for Google Books web service
+### Egress rule for the Google Books web service
 
 No worries, let's define an **egress rule** and fix our application:
 

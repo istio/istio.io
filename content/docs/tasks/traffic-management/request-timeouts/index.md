@@ -140,9 +140,3 @@ the timeout is specified in millisecond (instead of second) units.
 * If you are not planning to explore any follow-on tasks, refer to the
   [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.
-
-## What's next
-
-* Learn more about [failure handling](/docs/concepts/traffic-management/handling-failures/).
-
-* Learn more about [routing rules](/docs/concepts/traffic-management/rules-configuration/).

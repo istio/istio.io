@@ -100,7 +100,3 @@ For more about version routing with autoscaling, check out [Canary Deployments u
 * If you are not planning to explore any follow-on tasks, refer to the
   [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.
-
-## What's next
-
-* Learn more about [request routing](/docs/concepts/traffic-management/request-routing/).

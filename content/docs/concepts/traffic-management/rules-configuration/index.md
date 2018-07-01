@@ -631,7 +631,7 @@ Mesh-internal entries are like all other internal services but are used to expli
 to the mesh. They can be used to add services as part of expanding the service mesh to include unmanaged infrastructure
 (e.g., VMs added to a Kubernetes-based service mesh).
 Mesh-external entries represent services external to the mesh.
-For them, mTLS authentication is disabled and policy enforcement is performed on the client-side,
+For them, mutual TLS authentication is disabled and policy enforcement is performed on the client-side,
 instead of on the usual server-side for internal service requests.
 
 Service entries work well in conjunction with virtual services

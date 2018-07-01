@@ -240,7 +240,3 @@ We see `12` for the `upstream_rq_pending_overflow` value which means `12` calls 
     $ kubectl delete deploy httpbin fortio-deploy
     $ kubectl delete svc httpbin
     {{< /text >}}
-
-## What's next
-
-Check out the [destination rule](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule) reference section for more circuit breaker settings.

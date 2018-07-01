@@ -138,7 +138,3 @@ When you make downstream calls in your applications, make sure to include these 
 * If you are not planning to explore any follow-on tasks, refer to the
   [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.
-
-## What's next
-
-* Learn more about [Metrics and Logs](/docs/tasks/telemetry/metrics-logs/)

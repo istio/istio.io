@@ -143,7 +143,3 @@ continuously failed health checks.
     $ kubectl delete -f @install/kubernetes/istio-citadel-with-health-check.yaml@
     $ kubectl delete svc istio-citadel -n istio-system
     {{< /text >}}
-
-## What's next
-
-* Read more about [Citadel (codename is istio\_ca) arguments](/docs/reference/commands/istio_ca/).

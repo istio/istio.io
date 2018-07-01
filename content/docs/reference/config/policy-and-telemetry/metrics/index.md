@@ -80,8 +80,8 @@ We will describe metrics first and then the labels for each metric.
     {{< /text >}}
 
 *   **Connection mTLS**: This identifies the service authentication policy of
-    the request. It is set to true, when istio is used to make secure
-    communications.
+    the request. It is set to `true`, when Istio is used to make
+    communication secure.
 
     {{< text yaml >}}
     connection_mtls: connection.mtls | false
