@@ -16,5 +16,5 @@ In addition, you might find these links interesting:
 
 - We're always looking for help improving our documentation, so please don't hesitate to
 [file an issue](https://github.com/istio/istio.github.io/issues/new) if you see some problem.
-Or better yet, submit your own [contributions](/about/contribute/editing/) to help
+Or better yet, submit your own [contributions](/about/contribute/github/) to help
 make our docs better.
