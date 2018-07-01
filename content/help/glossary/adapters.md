@@ -8,4 +8,4 @@ monitoring, quotas, ACL checking, and more.
 The exact set of adapters used at runtime is determined through configuration and can easily be
 extended to target new or custom infrastructure backends.
 
-[Learn more about adapters](/docs/concepts/policies-and-telemetry/overview/#adapters).
+[Learn more about adapters](/docs/concepts/policies-and-telemetry/#adapters).
