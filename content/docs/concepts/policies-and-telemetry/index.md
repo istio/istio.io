@@ -1,101 +1,17 @@
 ---
-title: Policies and Telemetry
-description: Describes the policy enforcement and telemetry mechanisms.
-weight: 40
+title: Configuration
+description: An overview of the key concepts used to configure Istio's policy enforcement and telemetry collection features.
+weight: 30
 keywords: [policies,telemetry,control,config]
 aliases:
-    - /docs/concepts/policy-and-control/mixer.html
     - /docs/concepts/policy-and-control/mixer-config.html
     - /docs/concepts/policy-and-control/attributes.html
 ---
 
-Istio provides a flexible model to enforce authorization policies and collect telemetry for the
-services in a mesh.
-
-Infrastructure backends are designed to provide support functionality
-used to build services. They include such things as access control systems,
-telemetry capturing systems, quota enforcement systems, billing systems, and so
-forth. Services traditionally directly integrate with these backend systems,
-creating a hard coupling and baking-in specific semantics and usage options.
-
-Istio provides a uniform abstraction that makes it possible for Istio to interface with
-an open-ended set of infrastructure backends. This is done in such a way to provide rich
-and deep controls to the operator, while imposing no burden on service developers.
-Istio is designed to change the boundaries between layers in order to reduce
-systemic complexity, eliminate policy logic from service code and give
-control to operators.
-
-Mixer is the Istio component responsible for providing policy controls and telemetry collection:
-
-{{< image width="55%" ratio="49.26%"
-    link="./topology-without-cache.svg"
-    caption="Mixer Topology"
-    >}}
-
-The Envoy sidecar logically calls Mixer before each request to perform precondition checks, and after each request to report telemetry.
-The sidecar has local caching such that a large percentage of precondition checks can be performed from cache. Additionally, the
-sidecar buffers outgoing telemetry such that it only calls Mixer infrequently.
-
-At a high level, Mixer provides:
-
-* **Backend Abstraction**. Mixer insulates the rest of Istio from the implementation details of individual infrastructure backends.
-
-* **Intermediation**. Mixer allows operators to have fine-grained control over all interactions between the mesh and infrastructure backends.
-
-Beyond these purely functional aspects, Mixer also has [reliability and scalability](#reliability-and-latency) benefits as outlined below.
-
-Policy enforcement and telemetry collection are entirely driven from configuration.
-It's possible to completely disable these features and avoid the need to run a
-Mixer component in an Istio deployment.
-
-## Adapters
-
-Mixer is a highly modular and extensible component. One of its key functions is
-to abstract away the details of different policy and telemetry backend systems,
-allowing the rest of Istio to be agnostic of those backends.
-
-Mixer's flexibility in dealing with different infrastructure backends comes
-from its general-purpose plug-in model. Individual plug-ins are
-known as *adapters* and they allow Mixer to interface to different
-infrastructure backends that deliver core functionality, such as logging,
-monitoring, quotas, ACL checking, and more. The exact set of
-adapters used at runtime is determined through configuration and can easily be
-extended to target new or custom infrastructure backends.
-
-{{< image width="20%" ratio="138%"
-    link="./adapters.svg"
-    alt="Showing Mixer with adapters."
-    caption="Mixer and its Adapters"
-    >}}
-
-Learn more about the [set of supported adapters](/docs/reference/config/policy-and-telemetry/adapters/).
-
-## Reliability and latency
-
-Mixer is a highly available component whose design helps increase overall availability and reduce average latency
-of services in the mesh. Key aspects of its design deliver these benefits:
-
-* **Statelessness**. Mixer is stateless in that it doesn’t manage any persistent storage of its own.
-
-* **Hardening**. Mixer proper is designed to be a highly reliable component. The design intent is to achieve > 99.999% uptime for any individual Mixer instance.
-
-* **Caching and Buffering**. Mixer is designed to accumulate a large amount of transient ephemeral state.
-
-The sidecar proxies that sit next to each service instance in the mesh must necessarily be frugal in terms of memory consumption, which constrains the possible amount of local
-caching and buffering. Mixer, however, lives independently and can use considerably larger caches and output buffers. Mixer thus acts as a highly-scaled and highly-available second-level
-cache for the sidecars.
-
-{{< image width="65%" ratio="65.89%"
-    link="./topology-with-cache.svg"
-    caption="Mixer Topology"
-    >}}
-
-Since Mixer’s expected availability is considerably higher than most infrastructure backends (those often have availability of perhaps 99.9%). Mixer's local
-caches and buffers not only contribute to reduce latency, they also help mask infrastructure backend failures by being able to continue operating
-even when a backend has become unresponsive.
-
-Finally, Mixer's caching and buffering helps reduce the frequency of calls to backends, and can sometimes reduce the amount of data
-sent to backends (through local aggregation). Both of these can reduce operational expense in certain cases.
+Istio's policy and telemetry features are configured through a common model designed to
+put operators in control of every aspect of authorization policy and telemetry collection.
+Specific focus was given to keeping the model as simple and possible, while being powerful
+enough to control Istio's many features at scale.
 
 ## Attributes
 
@@ -119,6 +35,7 @@ source.ip: 192.168.0.1
 destination.service: example
 {{< /text >}}
 
+Mixer is the Istio component that implements policy and telemetry functionality.
 Mixer is in essence an attribute processing machine. The Envoy sidecar invokes Mixer for
 every request, giving Mixer a set of attributes that describe the request and the environment
 around the request. Based on its configuration and the specific set of attributes it was
@@ -136,70 +53,40 @@ The specific vocabulary is determined by the set of attribute producers being us
 in the deployment. The primary attribute producer in Istio is Envoy, although
 specialized Mixer adapters can also generate attributes.
 
-Learn more about the [common baseline set of attributes available in most Istio deployments](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/).
-
-### Attribute expressions
-
-Attribute expressions are used when configuring [instances](#instances).
-Here's an example use of expressions:
-
-{{< text yaml >}}
-destination_service: destination.service
-response_code: response.code
-destination_version: destination.labels["version"] | "unknown"
-{{< /text >}}
-
-The sequences on the right-hand side of the colons are the simplest forms of attribute expressions.
-The first two only consist of attribute names. The `response_code` label is assigned the value from the `request.code` attribute.
-
-Here's an example of a conditional expression:
-
-{{< text yaml >}}
-destination_version: destination.labels["version"] | "unknown"
-{{< /text >}}
-
-With the above, the `destination_version` label is assigned the value of `destination.labels["version"]`. However if that attribute
-is not present, the literal `"unknown"` is used.
-
-Refer to the [attribute expression reference](/docs/reference/config/policy-and-telemetry/expression-language/) for details.
+The common baseline set of attributes available in most Istio deployments is defined
+[here](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/).
 
 ## Configuration model
 
-Istio's policy and telemetry features are configured through a common model designed to
-put operators in control of every aspect of authorization policy and telemetry collection.
-Specific focus was given to keeping the model simple, while being powerful
-enough to control Istio's many features at scale.
-
 Controlling the policy and telemetry features involves configuring three types of resources:
 
-* Configuring a set of *handlers*, which determine the set of adapters that
+- Configuring a set of *handlers*, which determine the set of adapters that
 are being used and how they operate. Providing a `statsd` adapter with the IP
 address for a statsd backend is an example of handler configuration.
 
-* Configuring a set of *instances*, which describe how to map request attributes into adapter inputs.
+- Configuring a set of *instances*, which describe how to map request attributes into adapter inputs.
 Instances represent a chunk of data that one or more adapters will operate
 on. For example, an operator may decide to generate `requestcount`
 metric instances from attributes such as `destination.service` and
 `response.code`.
 
-* Configuring a set of *rules*, which describe when a particular adapter is called and which instances
+- Configuring a set of *rules*, which describe when a particular adapter is called and which instances
 it is given. Rules consist of a *match* expression and *actions*. The match expression controls
-when to invoke an adapter, while the actions determine the set of instances to give the adapter.
+when to invoke an adapter, while the actions determine the set of instances to give to the adapter.
 For example, a rule might send generated `requestcount` metric instances to a `statsd` adapter.
 
 Configuration is based on *adapters* and *templates*:
 
-* **Adapters** encapsulate the logic necessary to interface Mixer with a specific infrastructure backend.
-
-* **Templates** define the schema for specifying request mapping from attributes to adapter inputs.
+- **Adapters** encapsulate the logic necessary to interface Mixer with a specific infrastructure backend.
+- **Templates** define the schema for specifying request mapping from attributes to adapter inputs.
 A given adapter may support any number of templates.
 
-### Handlers
+## Handlers
 
 Adapters encapsulate the logic necessary to interface Mixer with specific external infrastructure
 backends such as [Prometheus](https://prometheus.io) or [Stackdriver](https://cloud.google.com/logging).
 Individual adapters generally need operational parameters in order to do their work. For example, a logging adapter may require
-the IP address and port of the log collection backend.
+the IP address and port of the log sink.
 
 Here is an example showing how to configure an adapter of kind = `listchecker`. The listchecker adapter checks an input value against a list.
 If the adapter is configured for a whitelist, it returns success if the input value is found in the list.
@@ -215,6 +102,8 @@ spec:
   blacklist: false
 {{< /text >}}
 
+`{metadata.name}.{kind}.{metadata.namespace}` is the fully qualified name of a handler. The fully qualified name of the above handler is
+`staticversion.listchecker.istio-system` and it must be unique.
 The schema of the data in the `spec` stanza depends on the specific adapter being configured.
 
 Some adapters implement functionality that goes beyond connecting Mixer to a backend.
@@ -247,10 +136,10 @@ spec:
         bounds: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10]
 {{< /text >}}
 
-Each adapter defines its own particular format of configuration data. Learn more about [the full set of
-adapters and their specific configuration formats](/docs/reference/config/policy-and-telemetry/adapters/).
+Each adapter defines its own particular format of configuration data. The exhaustive set of
+adapters and their specific configuration formats can be found [here](/docs/reference/config/policy-and-telemetry/adapters/).
 
-### Instances
+## Instances
 
 Instance configuration specifies the request mapping from attributes to adapter inputs.
 The following is an example of a metric instance configuration that produces the `requestduration` metric.
@@ -271,10 +160,10 @@ spec:
 {{< /text >}}
 
 Note that all the dimensions expected in the handler configuration are specified in the mapping.
-Templates define the specific required content of individual instances. Learn more about the [set of
-templates and their specific configuration formats](/docs/reference/config/policy-and-telemetry/templates/).
+Templates define the specific required content of individual instances. The exhaustive set of
+templates and their specific configuration formats can be found [here](/docs/reference/config/policy-and-telemetry/templates/).
 
-### Rules
+## Rules
 
 Rules specify when a particular handler is invoked with a specific instance.
 Consider an example where you want to deliver the `requestduration` metric to the prometheus handler if
@@ -297,5 +186,39 @@ spec:
 A rule contains a `match` predicate expression and a list of actions to perform if the predicate is true.
 An action specifies the list of instances to be delivered to a handler.
 A rule must use the fully qualified names of handlers and instances.
-If the rule, handlers, and instances are all in the same namespace, the namespace suffix can be elided from
-the fully qualified name as seen in `handler.prometheus`.
+If the rule, handlers, and instances are all in the same namespace, the namespace suffix can be elided from the fully qualified name as seen in `handler.prometheus`.
+
+## Attribute expressions
+
+Attribute expressions are used when configuring instances.
+You have already seen a few simple attribute expressions in the previous examples:
+
+{{< text yaml >}}
+destination_service: destination.service
+response_code: response.code
+destination_version: destination.labels["version"] | "unknown"
+{{< /text >}}
+
+The sequences on the right-hand side of the colons are the simplest forms of attribute expressions.
+The first two only consist of attribute names. The `response_code` label is assigned the value from the `request.code` attribute.
+
+Here's an example of a conditional expression:
+
+{{< text yaml >}}
+destination_version: destination.labels["version"] | "unknown"
+{{< /text >}}
+
+With the above, the `destination_version` label is assigned the value of `destination.labels["version"]`. However if that attribute
+is not present, the literal `"unknown"` is used.
+
+Refer to the [attribute expression reference](/docs/reference/config/policy-and-telemetry/expression-language/) for details.
+
+## What's next
+
+- Learn how to [configure telemetry collection](/docs/tasks/telemetry/).
+
+- Learn how to [configure policy enforcement](/docs/tasks/policy-enforcement/).
+
+- Learn about the set of [supported adapters](/docs/reference/config/policy-and-telemetry/adapters/).
+
+- See the blog post describing [Mixer's adapter model](/blog/2017/adapter-model/).

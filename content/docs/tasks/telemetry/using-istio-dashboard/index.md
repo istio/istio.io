@@ -6,7 +6,7 @@ keywords: [telemetry,visualization]
 ---
 
 This task shows you how to setup and use the Istio Dashboard to monitor mesh
-traffic. As part of this task, you will install the Grafana Istio add-on and use
+traffic. As part of this task, you will install the Grafana Istio addon and use
 the web-based interface for viewing service mesh traffic data.
 
 The [Bookinfo](/docs/examples/bookinfo/) sample application is used as
@@ -104,7 +104,7 @@ For more on how to create, configure, and edit dashboards, please see the
 add-on:
 
     {{< text bash >}}
-    $ kubectl delete -f @install/kubernetes/addons/grafana.yaml@
+    $ kubectl delete -f install/kubernetes/addons/grafana.yaml
     {{< /text >}}
 
 *   Remove any `kubectl port-forward` processes that may be running:
