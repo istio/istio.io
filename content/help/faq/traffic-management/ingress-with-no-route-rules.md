@@ -34,7 +34,6 @@ EOF
 However, the following rules will not work because they use regular
 expressions in the path and `ingress.kubernetes.io` annotations:
 
-<div class="Workaround_for_hugo_bug">
 {{< text bash >}}
 $ cat <<EOF | kubectl create -f -
 apiVersion: extensions/v1beta1
@@ -56,4 +55,5 @@ rules:
         servicePort: grpc
 EOF
 {{< /text >}}
-</div>
+
+<i class="a hack needed to prevent Hugo from inserting a spurious paragraph around the previous code block"></i>
