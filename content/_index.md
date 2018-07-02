@@ -58,7 +58,7 @@ title: Istio
                 <p>
                     Control traffic between services with dynamic route configuration,
                     conduct A/B tests, release canaries, and gradually upgrade versions using red/black deployments.
-                    <a href="/docs/concepts/traffic-management/overview/">Learn more...</a>
+                    <a href="/docs/concepts/traffic-management/">Learn more...</a>
                 </p>
             </div>
         </div>
@@ -73,7 +73,7 @@ title: Istio
                 <h2>Resilience Across Languages and Platforms</h2>
                 <p>
                     Increase reliability by shielding applications from flaky networks and cascading failures in adverse conditions.
-                    <a href="/docs/concepts/traffic-management/handling-failures/">Learn more...</a>
+                    <a href="/docs/concepts/traffic-management/#handling-failures">Learn more...</a>
                 </p>
             </div>
         </div>
@@ -89,7 +89,7 @@ title: Istio
                 <p>
                     Apply organizational policies to the interaction between services, ensure access policies are enforced and resources are fairly distributed
                     among consumers.
-                    <a href="/docs/concepts/policies-and-telemetry/overview/">Learn more...</a>
+                    <a href="/docs/concepts/policies-and-telemetry/">Learn more...</a>
                 </p>
             </div>
         </div>
@@ -104,7 +104,7 @@ title: Istio
                 <h2>In-Depth Telemetry</h2>
                 <p>
                     Understand the dependencies between services, the nature and flow of traffic between them, and quickly identify issues with distributed tracing.
-                    <a href="/docs/concepts/what-is-istio/overview/">Learn more...</a>
+                    <a href="/docs/concepts/what-is-istio/">Learn more...</a>
                 </p>
             </div>
         </div>
