@@ -18,21 +18,21 @@ application.  It uses Application Catalog to automate the steps detailed in the 
 
 - Create new namespace to deploy istio components, e.g. `istio-system`:
 
-```command
+{{< text bash >}}
     $ kubectl create namespace istio-system
-```
+{{< /text >}}
 
 - If a service account has not already been installed for Tiller, install one:
 
-```command
+{{< text bash >}}
     $ kubectl create -f install/kubernetes/helm/helm-service-account.yaml
-```
+{{< /text >}}
 
 - Install Tiller on your cluster with the service account:
 
-```command
+{{< text bash >}}
     $ helm init --service-account tiller
-```
+{{< /text >}}
 
 ## Setup
 
