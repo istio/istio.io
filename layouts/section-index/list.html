@@ -1,0 +1,26 @@
+{{ define "main" }}
+
+{{ partial "primary-top.html" . }}
+
+<p>{{ .Description }}</p>
+
+<div class="section-index">
+    <div class="row">
+        {{ $pages := (where .Site.Pages "Section" .Section).ByWeight }}
+        {{ $parent := .Page }}
+
+        {{ range $pages }}
+            {{ if eq .Parent $parent }}
+                <div class="col-xs-12 col-sm-6 col-lg-4 entry">
+                    <h5><a href="{{ .URL }}">{{ .Title }}</a></h5>
+                    <p>{{ .Description }}</p>
+                </div>
+            {{ end }}
+        {{ end }}
+    </div>
+</div>
+
+{{ .Content }}
+
+{{ partial "primary-bottom.html" . }}
+{{ end }}

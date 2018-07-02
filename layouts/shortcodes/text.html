@@ -1,0 +1,52 @@
+{{/*
+Purpose:
+Inserts a preformatted code block into the HTML. You specify the syntax to use for
+highlighting, which can be one of `plain`, `markdown`, `yaml`, `json`, `java`, `javascript`,
+`c`, `cpp`, `csharp`, `go`, `html`, `protobuf`, `perl`, `docker`, and `bash`.
+
+When the syntax is bash, the first line of the block is expected to start with a $.
+An additional output syntax can be specified which uses different syntax coloring
+for the output portion of the block. Otherwise, the output is colored using the
+`plain` syntax.
+
+NOTE: The stuff below cannot be indented. If it is, it can cause the markdown
+parser to insert spurious paragraphs around the PRE blocks, which turns out to
+be invalid HTML
+*/}}
+{{ $scratch := .Scratch }}
+{{ if .Get 0 }}
+{{ $lines := split (trim .Inner "\n") "\n" }}
+{{ $line0 := index $lines 0 }}
+{{ if hasPrefix $line0 "                "}}{{ $scratch.Set "indent" 16 }}
+{{ else if hasPrefix $line0 "            "}}{{ $scratch.Set "indent" 12 }}
+{{ else if hasPrefix $line0 "        "}}{{ $scratch.Set "indent" 8 }}
+{{ else if hasPrefix $line0 "    "}}{{ $scratch.Set "indent" 4 }}
+{{ else }}{{ $scratch.Set "indent" 0 }}
+{{ end }}
+{{ $scratch.Set "text" "" }}
+{{ range $line := $lines }}
+{{ if gt (len $line) ($scratch.Get "indent") }}
+{{ $l := substr $line ($scratch.Get "indent") }}
+{{ $scratch.Set "text" (printf "%s\n%s" ($scratch.Get "text") $l )}}
+{{ else }}
+{{ $scratch.Set "text" (printf "%s\n%s" ($scratch.Get "text") $line )}}
+{{ end }}
+{{ end }}
+{{ $scratch.Set "text" (trim ($scratch.Get "text") "\n") }}
+{{ $scratch.Set "syntax" (.Get 0) }}
+{{ $scratch.Set "output" (.Get 1) }}
+{{ else }}
+{{ $scratch.Set "syntax" "plain" }}
+{{ $scratch.Set "text" "ERROR: markdown content did not indicate syntax" }}
+{{ end }}
+{{ if eq ($scratch.Get "syntax") "bash" }}
+{{ if not (hasPrefix ($scratch.Get "text") "$") }}
+{{ $scratch.Set "syntax" "plain" }}
+{{ $scratch.Set "text" "ERROR: markdown specified a bash syntax, but first line didn't start with $" }}
+{{ end }}
+{{ if hasPrefix (trim ($scratch.Get "text") " ") "$ cat <<EOF |" }}{{ $scratch.Set "text" (replace ($scratch.Get "text") "$ cat" "cat") }}
+{{ else }}{{ $scratch.Set "syntax" "command" }}
+{{ if ($scratch.Get "output") }}{{ $scratch.Set "syntax" (printf "command-output-as-%s" ($scratch.Get "output")) }}{{ end }}
+{{ end }}
+{{ end }}
+<pre><code class='language-{{ $scratch.Get "syntax" }}'>{{ $scratch.Get "text" }}</code></pre>
