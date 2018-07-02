@@ -199,7 +199,7 @@ version routing.
 
 You can now use this sample to experiment with Istio's features for
 traffic routing, fault injection, rate limiting, etc..
-To proceed, refer to one or more of the [Istio Guides](/docs/guides),
+To proceed, refer to one or more of the [Istio Examples](/docs/examples),
 depending on your interest. [Intelligent Routing](/docs/examples/intelligent-routing/)
 is a good place to start for beginners.
 

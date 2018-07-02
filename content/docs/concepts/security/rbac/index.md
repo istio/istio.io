@@ -34,7 +34,7 @@ request context against the RBAC policies, and returns the authorization result 
 
 ### Request context
 
-In the current release, the Istio RBAC engine is implemented as a [Mixer adapter](/docs/concepts/policies-and-telemetry/overview/#adapters).
+In the current release, the Istio RBAC engine is implemented as a [Mixer adapter](/docs/concepts/policies-and-telemetry/#adapters).
 The request context is provided as an instance of the
 [authorization template](/docs/reference/config/policy-and-telemetry/templates/authorization/). The request context
  contains all the information about the request and the environment that an authorization module needs to know. In particular, it has two parts:
