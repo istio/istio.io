@@ -11,7 +11,7 @@ aliases:
     - /blog/mixer-spof-myth.html
 ---
 
-As [Mixer](/docs/concepts/policies-and-telemetry/overview/) is in the request path, it is natural to question how it impacts
+As [Mixer](/docs/concepts/policies-and-telemetry/) is in the request path, it is natural to question how it impacts
 overall system availability and latency. A common refrain we hear when people first glance at Istio architecture diagrams is
 "Isn't this just introducing a single point of failure?"
 

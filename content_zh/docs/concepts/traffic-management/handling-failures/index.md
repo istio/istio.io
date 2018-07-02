@@ -13,7 +13,7 @@ Envoy 提供了一套开箱即用，**可选的**的故障恢复功能，对应�
 1. 对负载均衡池中的每个成员进行主动（定期）运行健康检查
 1. 细粒度熔断器（被动健康检查）- 适用于负载均衡池中的每个实例
 
-这些功能可以使用 [Istio 的流量管理规则](/docs/concepts/traffic-management/rules-configuration/)在运行时进行动态配置。
+这些功能可以使用 [Istio 的流量管理规则](/docs/concepts/traffic-management/#rule-configuration)在运行时进行动态配置。
 
 对超载的上游服务来说，重试之间的抖动极大的降低了重试造成的影响，而超时预算确保调用方服务在可预测的时间范围内获得响应（成功/失败）。
 
