@@ -51,7 +51,10 @@ If we used the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/sam
 
 First let's direct HTTP traffic without TLS origination
 
-1.  Create an egress `Gateway` for _edition.cnn.com_, port 80:
+1.  Create an egress `Gateway` for _edition.cnn.com_, port 80.
+
+    If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio, you must create the
+    `Gateway` in the following way:
 
     ```bash
         cat <<EOF | istioctl create -f -
@@ -67,7 +70,32 @@ First let's direct HTTP traffic without TLS origination
               name: http
               protocol: HTTP
             hosts:
-            - "edition.cnn.com"
+            - "*"
+            tls:
+              mode: MUTUAL
+              serverCertificate: /etc/certs/cert-chain.pem
+              privateKey: /etc/certs/key.pem
+              caCertificates: /etc/certs/root-cert.pem
+    EOF
+    ```
+
+    otherwise:
+
+    ```bash
+        cat <<EOF | istioctl create -f -
+        kind: Gateway
+        metadata:
+          name: istio-egressgateway
+        spec:
+          selector:
+            istio: egressgateway
+          servers:
+          - port:
+              number: 80
+              name: http
+              protocol: HTTP
+            hosts:
+            - "*"
     EOF
     ```
 
@@ -172,7 +200,9 @@ $ istioctl delete virtualservice direct-through-egress-gateway
 
 Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress-tls-origination/) task.  Note that in this case the TLS origination will be done by the egress Gateway server, as opposed to by the sidecar in the previous task.
 
-1.  Create an egress `Gateway` for _edition.cnn.com_, port 443:
+1.  Create an egress `Gateway` for _edition.cnn.com_, port 443.
+
+    If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio:
 
     ```bash
         cat <<EOF | istioctl create -f -
@@ -188,7 +218,32 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
               name: http-port-for-tls-origination
               protocol: HTTP
             hosts:
-            - "edition.cnn.com"
+            - "*"
+            tls:
+              mode: MUTUAL
+              serverCertificate: /etc/certs/cert-chain.pem
+              privateKey: /etc/certs/key.pem
+              caCertificates: /etc/certs/root-cert.pem
+    EOF
+    ```
+
+    otherwise:
+
+    ```bash
+        cat <<EOF | istioctl create -f -
+        kind: Gateway
+        metadata:
+          name: istio-egressgateway
+        spec:
+          selector:
+            istio: egressgateway
+          servers:
+          - port:
+              number: 443
+              name: http-port-for-tls-origination
+              protocol: HTTP
+            hosts:
+            - "*"
     EOF
     ```
 
@@ -292,6 +347,27 @@ Note that defining an egress `Gateway` in Istio does not in itself provides any 
 
 Also note that Istio itself *cannot securely enforce* that all the egress traffic will actually flow through the egress gateways, Istio only *enables* such flow by its sidecar proxies. If a malicious application would attack the sidecar proxy attached to the application's pod, it could bypass the sidecar proxy. Having bypassed the sidecar proxy, the malicious application could try to exit the service mesh bypassing the egress gateway, to escape the control and monitoring by Istio. It is up to the cluster administrator or the cloud provider to enforce that no traffic leaves the mesh bypassing the egress gateway. Such enforcement must be performed by mechanisms external to Istio. For example, a firewall can deny all the traffic whose source is not the egress gateway. [Kubernetes network policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) can also forbid all the egress traffic that does not originate in the egress gateway. Another possible security measure involves configuring the network in such a way that the application nodes are unable to access the Internet without directing the egress traffic through the gateway where it will be monitored and controlled. One example of such network configuration is allocating public IPs exclusively to the gateways.
 
+## Troubleshooting
+
+1.  Check if you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio:
+
+    ```command
+    $ kubectl get configmap istio -o yaml -n istio-system | grep authPolicy | head -1
+    authPolicy: MUTUAL_TLS
+    ```
+
+    If the output is an uncommented line as above, the mutual TLS is enabled. Make sure you create the configuration
+    items accordingly (note the remarks _If you have mutual TLS Authentication enabled in Istio, you must create..._).
+
+1.  If [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) is enabled, verify the correct certificate of the
+    egress gateway:
+
+    ```command
+    $ kubectl exec -i -n istio-system $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')  -- cat /etc/certs/cert-chain.pem | openssl x509 -text -noout  | grep 'Subject Alternative Name' -A 1
+            X509v3 Subject Alternative Name:
+                URI:spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
+    ```
+
 ## Cleanup
 
 1.  Remove the Istio configuration items we created:
@@ -299,7 +375,7 @@ Also note that Istio itself *cannot securely enforce* that all the egress traffi
     ```command
     $ istioctl delete gateway istio-egressgateway
     $ istioctl delete serviceentry cnn
-    $ istioctl delete virtualservice rewrite-port-for-edition-cnn-com
+    $ istioctl delete virtualservice direct-through-egress-gateway
     $ istioctl delete destinationrule originate-tls-for-edition-cnn-com
     ```
 
