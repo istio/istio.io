@@ -16,7 +16,7 @@ application.  It uses Application Catalog to automate the steps detailed in the 
 
 - Make sure that `kubectl` can work fine for your Kubernetes cluster.
 
-- Create new namespace to deploy istio components, e.g. `istio-system`:
+- Create a namespace to deploy Istio components, e.g. `istio-system`:
 
 {{< text bash >}}
     $ kubectl create namespace istio-system
