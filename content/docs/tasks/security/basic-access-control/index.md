@@ -14,20 +14,20 @@ This task shows how to control access to a service using the Kubernetes labels.
 * Set up Istio on Kubernetes by following the instructions in the
   [Installation guide](/docs/setup/kubernetes/).
 
-* Deploy the [Bookinfo](/docs/guides/bookinfo/) sample application.
+* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
 * Initialize the application version routing to direct `reviews` service requests from
   test user "jason" to version v2 and requests from any other user to v3.
 
-    ```command
+    {{< text bash >}}
     $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
-    ```
+    {{< /text >}}
 
     and then run the following command:
 
-    ```command
+    {{< text bash >}}
     $ istioctl replace -f @samples/bookinfo/routing/route-rule-reviews-jason-v2-v3.yaml.yaml@
-    ```
+    {{< /text >}}
 
     > If you have conflicting rules that you set in previous tasks,
     > use `istioctl replace` instead of `istioctl create`.
@@ -40,7 +40,7 @@ This task shows how to control access to a service using the Kubernetes labels.
 Using Istio you can control access to a service based on any attributes that are available within Mixer.
 This simple form of access control is based on conditionally denying requests using Mixer selectors.
 
-Consider the [Bookinfo](/docs/guides/bookinfo/) sample application where the `ratings` service is accessed by multiple versions
+Consider the [Bookinfo](/docs/examples/bookinfo/) sample application where the `ratings` service is accessed by multiple versions
 of the `reviews` service. We would like to cut off access to version `v3` of the `reviews` service.
 
 1.  Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage).
@@ -55,18 +55,18 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
 
     Run the following command to set up the deny rule along with a handler and an instance.
 
-    ```command
+    {{< text bash >}}
     $ istioctl create -f @samples/bookinfo/kube/mixer-rule-deny-label.yaml@
     Created config denier/default/denyreviewsv3handler at revision 2882105
     Created config checknothing/default/denyreviewsv3request at revision 2882106
     Created config rule/default/denyreviewsv3 at revision 2882107
-    ```
+    {{< /text >}}
 
     Notice the following in the `denyreviewsv3` rule:
 
-    ```plain
+    {{< text plain >}}
     match: destination.labels["app"] == "ratings" && source.labels["app"]=="reviews" && source.labels["version"] == "v3"
-    ```
+    {{< /text >}}
 
     It matches requests coming from the service `reviews` with label `v3` to the service `ratings`.
 
@@ -89,9 +89,9 @@ Istio also supports attribute-based whitelists and blacklists. The following whi
 
 1.  Remove the denier configuration that you added in the previous section.
 
-    ```command
+    {{< text bash >}}
     $ istioctl delete -f @samples/bookinfo/kube/mixer-rule-deny-label.yaml@
-    ```
+    {{< /text >}}
 
 1. Verify that when you access the Bookinfo `productpage` (http://$GATEWAY_URL/productpage) without logging in, you see red stars.
    After performing the following steps you will no longer be able to see stars unless you are logged in as "jason".
@@ -100,7 +100,7 @@ Istio also supports attribute-based whitelists and blacklists. The following whi
     adapter that lists versions `v1, v2`.
     Save the following YAML snippet as `whitelist-handler.yaml`:
 
-    ```yaml
+    {{< text yaml >}}
     apiVersion: config.istio.io/v1alpha2
     kind: listchecker
     metadata:
@@ -110,53 +110,53 @@ Istio also supports attribute-based whitelists and blacklists. The following whi
       # externally and fetched asynchronously using the providerUrl.
       overrides: ["v1", "v2"]  # overrides provide a static list
       blacklist: false
-    ```
+    {{< /text >}}
 
     and then run the following command:
 
-    ```command
+    {{< text bash >}}
     $ istioctl create -f whitelist-handler.yaml
-    ```
+    {{< /text >}}
 
 1.  Extract the version label by creating an instance of the [`listentry`](/docs/reference/config/policy-and-telemetry/templates/listentry/) template.
 Save the following YAML snippet as `appversion-instance.yaml`:
 
-    ```yaml
+    {{< text yaml >}}
     apiVersion: config.istio.io/v1alpha2
     kind: listentry
     metadata:
       name: appversion
     spec:
       value: source.labels["version"]
-    ```
+    {{< /text >}}
 
     and then run the following command:
 
-    ```command
+    {{< text bash >}}
     $ istioctl create -f appversion-instance.yaml
-    ```
+    {{< /text >}}
 
 1.  Enable `whitelist` checking for the ratings service.
 Save the following YAML snippet as `checkversion-rule.yaml`:
 
-    ```yaml
-        apiVersion: config.istio.io/v1alpha2
-        kind: rule
-        metadata:
-          name: checkversion
-        spec:
-          match: destination.labels["app"] == "ratings"
-          actions:
-          - handler: whitelist.listchecker
-            instances:
-            - appversion.listentry
-    ```
+    {{< text yaml >}}
+    apiVersion: config.istio.io/v1alpha2
+    kind: rule
+    metadata:
+      name: checkversion
+    spec:
+      match: destination.labels["app"] == "ratings"
+      actions:
+      - handler: whitelist.listchecker
+        instances:
+        - appversion.listentry
+    {{< /text >}}
 
     and then run the following command:
 
-    ```command
+    {{< text bash >}}
     $ istioctl create -f checkversion-rule.yaml
-    ```
+    {{< /text >}}
 
 1. Verify that when you access the Bookinfo `productpage` (http://$GATEWAY_URL/productpage) without logging in, you see **no** stars.
 Verify that after logging in as "jason" you see black stars.
@@ -165,30 +165,18 @@ Verify that after logging in as "jason" you see black stars.
 
 *   Remove the mixer configuration:
 
-    ```command
+    {{< text bash >}}
     $ istioctl delete -f checkversion-rule.yaml
     $ istioctl delete -f appversion-instance.yaml
     $ istioctl delete -f whitelist-handler.yaml
-    ```
+    {{< /text >}}
 
 *   Remove the application routing rules:
 
-    ```command
+    {{< text bash >}}
     $ istioctl delete -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
-    ```
+    {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions
+  [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.
-
-## What's next
-
-* Learn how to securely control access based on the service account [here](/docs/tasks/security/secure-access-control/).
-
-* Learn more about [Mixer](/docs/concepts/policies-and-telemetry/overview/) and [Mixer Config](/docs/concepts/policies-and-telemetry/config/).
-
-* Discover the full [Attribute Vocabulary](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/).
-
-* Understand the differences between Kubernetes network policies and Istio
-access control policies from this
-[blog](/blog/2017/0.1-using-network-policy/).

@@ -16,13 +16,13 @@ This task shows you how to setup request timeouts in Envoy using Istio.
 * Setup Istio by following the instructions in the
   [Installation guide](/docs/setup/).
 
-* Deploy the [Bookinfo](/docs/guides/bookinfo/) sample application.
+* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
 *   Initialize the application version routing by running the following command:
 
-    ```command
+    {{< text bash >}}
     $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
-    ```
+    {{< /text >}}
 
 ## Request timeouts
 
@@ -34,45 +34,45 @@ to the `ratings` service.
 
 1.  Route requests to v2 of the `reviews` service, i.e., a version that calls the `ratings` service
 
-    ```bash
-        cat <<EOF | istioctl replace -f -
-        apiVersion: networking.istio.io/v1alpha3
-        kind: VirtualService
-        metadata:
-          name: reviews
-        spec:
-          hosts:
-            - reviews
-          http:
-          - route:
-            - destination:
-                host: reviews
-                subset: v2
-        EOF
-    ```
+    {{< text bash >}}
+    $ cat <<EOF | istioctl replace -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: reviews
+    spec:
+      hosts:
+        - reviews
+      http:
+      - route:
+        - destination:
+            host: reviews
+            subset: v2
+    EOF
+    {{< /text >}}
 
 1.  Add a 2 second delay to calls to the `ratings` service:
 
-    ```bash
-        cat <<EOF | istioctl replace -f -
-        apiVersion: networking.istio.io/v1alpha3
-        kind: VirtualService
-        metadata:
-          name: ratings
-        spec:
-          hosts:
-          - ratings
-          http:
-          - fault:
-              delay:
-                percent: 100
-                fixedDelay: 2s
-            route:
-            - destination:
-                host: ratings
-                subset: v1
-        EOF
-    ```
+    {{< text bash >}}
+    $ cat <<EOF | istioctl replace -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: ratings
+    spec:
+      hosts:
+      - ratings
+      http:
+      - fault:
+          delay:
+            percent: 100
+            fixedDelay: 2s
+        route:
+        - destination:
+            host: ratings
+            subset: v1
+    EOF
+    {{< /text >}}
 
 1.  Open the Bookinfo URL (http://$GATEWAY_URL/productpage) in your browser
 
@@ -81,23 +81,23 @@ to the `ratings` service.
 
 1.  Now add a 1 second request timeout for calls to the `reviews` service
 
-    ```bash
-        cat <<EOF | istioctl replace -f -
-        apiVersion: networking.istio.io/v1alpha3
-        kind: VirtualService
-        metadata:
-          name: reviews
-        spec:
-          hosts:
-          - reviews
-          http:
-          - route:
-            - destination:
-                host: reviews
-                subset: v2
-            timeout: 1s
-        EOF
-    ```
+    {{< text bash >}}
+    $ cat <<EOF | istioctl replace -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: reviews
+    spec:
+      hosts:
+      - reviews
+      http:
+      - route:
+        - destination:
+            host: reviews
+            subset: v2
+        timeout: 1s
+    EOF
+    {{< /text >}}
 
 1.  Refresh the Bookinfo web page
 
@@ -122,7 +122,7 @@ microservice also has its own application-level timeout (3 seconds) for calls to
 Notice that in this task we used an Istio route rule to set the timeout to 1 second.
 Had you instead set the timeout to something greater than 3 seconds (e.g., 4 seconds) the timeout
 would have had no effect since the more restrictive of the two will take precedence.
-More details can be found [here](/docs/concepts/traffic-management/handling-failures/#faq).
+More details can be found [here](/docs/concepts/traffic-management/#failure-handling-faq).
 
 One more thing to note about timeouts in Istio is that in addition to overriding them in route rules,
 as you did in this task, they can also be overridden on a per-request basis if the application adds
@@ -133,16 +133,10 @@ the timeout is specified in millisecond (instead of second) units.
 
 *   Remove the application routing rules.
 
-    ```command
+    {{< text bash >}}
     $ istioctl delete -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
-    ```
+    {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions
+  [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.
-
-## What's next
-
-* Learn more about [failure handling](/docs/concepts/traffic-management/handling-failures/).
-
-* Learn more about [routing rules](/docs/concepts/traffic-management/rules-configuration/).

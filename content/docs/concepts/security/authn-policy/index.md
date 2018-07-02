@@ -13,7 +13,7 @@ Istio authentication policy enables operators to specify authentication requirem
 
 * Origin: verifies the party, the original client, that makes the request (e.g end-users, devices etc). JWT is the only supported mechanism for origin authentication at the moment.
 
-Istio configures the server side to perform authentication, however, it does not enforce the policy on the client side. For mutual TLS authentication, users can use [destination rules](/docs/concepts/traffic-management/rules-configuration/#destination-rules) to configure client side to follow the expected protocol. For other cases, the application is responsible to acquire and attach the credential (e.g JWT) to the request.
+Istio configures the server side to perform authentication, however, it does not enforce the policy on the client side. For mutual TLS authentication, users can use [destination rules](/docs/concepts/traffic-management/#destination-rules) to configure client side to follow the expected protocol. For other cases, the application is responsible to acquire and attach the credential (e.g JWT) to the request.
 
 Identities from both authentication parts, if applicable, are output to the next layer (e.g authorization, Mixer). To simplify the authorization rules, the policy can also specify which identity (peer or origin) should be used as 'the principal'. By default, it is set to the peer's identity.
 
@@ -50,13 +50,13 @@ Operators are responsible for avoiding conflicts, e.g create more than one servi
 
 Example: rule to select product-page service (on any port), and reviews:9000.
 
-```yalm
- targets:
- - name: product-page
- - name: reviews
-   ports:
-   - number: 9000
-```
+{{< text yaml >}}
+targets:
+- name: product-page
+- name: reviews
+  ports:
+  - number: 9000
+{{< /text >}}
 
 ### Peer authentication
 
@@ -64,10 +64,10 @@ Defines authentication methods (and associated parameters) that are supported fo
 
 Example of peer authentication using mutual TLS:
 
-```yaml
-  peers:
-  - mtls:
-```
+{{< text yaml >}}
+peers:
+- mtls:
+{{< /text >}}
 
 > Starting with Istio 0.7, the `mtls` settings doesn't require any parameters (hence `-mtls: {}`, `- mtls:` or `- mtls: null` declaration is sufficient). In future, it may carry arguments to provide different mutual TLS implementations.
 
@@ -75,17 +75,13 @@ Example of peer authentication using mutual TLS:
 
 Defines authentication methods (and associated parameters) that are supported for origin authentication. Only JWT is supported for this, however, the policy can list multiple JWTs by different issuers. Similar to peer authentication, only one of the listed methods needs to be satisfied for the authentication to pass.
 
-```yaml
+{{< text yaml >}}
 origins:
 - jwt:
     issuer: "https://accounts.google.com"
     jwksUri: "https://www.googleapis.com/oauth2/v3/certs"
-```
+{{< /text >}}
 
 ### Principal binding
 
 Defines what is the principal from the authentication. By default, this will be the peer's principal (and if peer authentication is not applied, it will be left unset). Policy writers can choose to overwrite it with USE_ORIGIN. In future, we will also support *conditional-binding* (e.g USE_PEER when peer is X, otherwise USE_ORIGIN)
-
-## What's next
-
-Try out the [Basic Istio authentication policy](/docs/tasks/security/authn-policy/) tutorial.

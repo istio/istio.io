@@ -28,31 +28,27 @@ This task describes how to configure Istio to expose a service outside of the se
 
     If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), do
 
-    ```command
+    {{< text bash >}}
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@
-    ```
+    {{< /text >}}
+
     otherwise, you have to manually inject the sidecar before deploying the `httpbin` application:
 
-    ```command
+    {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@)
-    ```
+    {{< /text >}}
 
-*   A private key and certificate can be created for testing using [OpenSSL](https://www.openssl.org/).
-
-    ```command
-    $ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /tmp/tls.key -out /tmp/tls.crt -subj "/CN=httpbin.example.com"
-    ```
 *   Determine the ingress IP and ports as described in the following subsection.
 
 ### Determining the ingress IP and ports
 
 Execute the following command to determine if your Kubernetes cluster is running in an environment that supports external load balancers.
 
-```command
+{{< text bash >}}
 $ kubectl get svc istio-ingressgateway -n istio-system
 NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)                                      AGE
 istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/TCP,443:31390/TCP,31400:31400/TCP   17h
-```
+{{< /text >}}
 
 If the `EXTERNAL-IP` value is set, your environment has an external load balancer that you can use for the ingress gateway.
 If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not provide an external load balancer for the ingress gateway.
@@ -60,57 +56,55 @@ In this case, you can access the gateway using the service's [node port](https:/
 
 #### Determining the ingress IP and ports when using an external load balancer
 
-```command
+{{< text bash >}}
 $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 $ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http")].port}')
 $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
-```
+{{< /text >}}
 
 #### Determining the ingress IP and ports when using a node port
 
 Determine the ports:
-```command
+
+{{< text bash >}}
 $ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http")].nodePort}')
 $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
-```
+{{< /text >}}
 
 Determining the ingress IP depends on the cluster provider.
 
 1.  _GKE:_
 
-    ```command
+    {{< text bash >}}
     $ export INGRESS_HOST=<workerNodeAddress>
-    ```
+    {{< /text >}}
 
     You need to create firewall rules to allow the TCP traffic to the _ingressgateway_ service's ports.
     Run the following commands to allow the traffic for the HTTP port, the secure port (HTTPS) or both.
 
-    ```command
+    {{< text bash >}}
     $ gcloud compute firewall-rules create allow-gateway-http --allow tcp:$INGRESS_PORT
-    ```
-
-    ```command
     $ gcloud compute firewall-rules create allow-gateway-https --allow tcp:$SECURE_INGRESS_PORT
-    ```
+    {{< /text >}}
 
 1.  _IBM Cloud Kubernetes Service Free Tier:_
 
-    ```command
+    {{< text bash >}}
     $ bx cs workers <cluster-name or id>
     $ export INGRESS_HOST=<public IP of one of the worker nodes>
-    ```
+    {{< /text >}}
 
 1.  _Minikube:_
 
-    ```command
+    {{< text bash >}}
     $ export INGRESS_HOST=$(minikube ip)
-    ```
+    {{< /text >}}
 
 1.  _Other environments (e.g., IBM Cloud Private etc):_
 
-    ```command
+    {{< text bash >}}
     $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o 'jsonpath={.items[0].status.hostIP}')
-    ```
+    {{< /text >}}
 
 ## Configuring ingress using an Istio Gateway
 
@@ -120,57 +114,55 @@ but, unlike [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/s
 does not include any traffic routing configuration. Traffic routing for ingress traffic is instead configured
 using Istio routing rules, exactly in the same was as for internal service requests.
 
-In the following subsections we configure a `Gateway` on port 80 for unencrypted HTTP traffic first. Then we add a secure port 443 for HTTPS traffic.
-
-### Configuring a gateway for HTTP
+Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
 
 1.  Create an Istio `Gateway`
 
-    ```bash
-        cat <<EOF | istioctl create -f -
-        apiVersion: networking.istio.io/v1alpha3
-        kind: Gateway
-        metadata:
-          name: httpbin-gateway
-        spec:
-          selector:
-            istio: ingressgateway # use Istio default gateway implementation
-          servers:
-          - port:
-              number: 80
-              name: http
-              protocol: HTTP
-            hosts:
-            - "httpbin.example.com"
-        EOF
-    ```
+    {{< text bash >}}
+    $ cat <<EOF | istioctl create -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: httpbin-gateway
+    spec:
+      selector:
+        istio: ingressgateway # use Istio default gateway implementation
+      servers:
+      - port:
+          number: 80
+          name: http
+          protocol: HTTP
+        hosts:
+        - "httpbin.example.com"
+    EOF
+    {{< /text >}}
 
 1.  Configure routes for traffic entering via the `Gateway`
 
-    ```bash
-        cat <<EOF | istioctl create -f -
-        apiVersion: networking.istio.io/v1alpha3
-        kind: VirtualService
-        metadata:
-          name: httpbin
-        spec:
-          hosts:
-          - "httpbin.example.com"
-          gateways:
-          - httpbin-gateway
-          http:
-          - match:
-            - uri:
-                prefix: /status
-            - uri:
-                prefix: /delay
-            route:
-            - destination:
-                port:
-                  number: 8000
-                host: httpbin
-        EOF
-    ```
+    {{< text bash >}}
+    $ cat <<EOF | istioctl create -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: httpbin
+    spec:
+      hosts:
+      - "httpbin.example.com"
+      gateways:
+      - httpbin-gateway
+      http:
+      - match:
+        - uri:
+            prefix: /status
+        - uri:
+            prefix: /delay
+        route:
+        - destination:
+            port:
+              number: 8000
+            host: httpbin
+    EOF
+    {{< /text >}}
 
     Here we've created a [virtual service](/docs/reference/config/istio.networking.v1alpha3/#VirtualService)
     configuration for the `httpbin` service, containing two route rules that allow traffic for paths `/status` and
@@ -184,11 +176,9 @@ In the following subsections we configure a `Gateway` on port 80 for unencrypted
     but instead will simply default to round-robin routing. To apply these (or other rules) to internal calls,
     we could add the special value `mesh` to the list of `gateways`.
 
-### Verifying the gateway for HTTP
-
 1.  Access the _httpbin_ service using _curl_.
 
-    ```command
+    {{< text bash >}}
     $ curl -I -HHost:httpbin.example.com http://$INGRESS_HOST:$INGRESS_PORT/status/200
     HTTP/1.1 200 OK
     server: envoy
@@ -198,7 +188,7 @@ In the following subsections we configure a `Gateway` on port 80 for unencrypted
     access-control-allow-credentials: true
     content-length: 0
     x-envoy-upstream-service-time: 48
-    ```
+    {{< /text >}}
 
     Note that we use the `-H` flag to set the _Host_ HTTP Header to
     "httpbin.example.com". This is needed because our ingress `Gateway` is configured to handle "httpbin.example.com",
@@ -206,122 +196,13 @@ In the following subsections we configure a `Gateway` on port 80 for unencrypted
 
 1.  Access any other URL that has not been explicitly exposed. You should see an HTTP 404 error:
 
-    ```command
+    {{< text bash >}}
     $ curl -I -HHost:httpbin.example.com http://$INGRESS_HOST:$INGRESS_PORT/headers
     HTTP/1.1 404 Not Found
     date: Mon, 29 Jan 2018 04:45:49 GMT
     server: envoy
     content-length: 0
-    ```
-
-### Add a secure port (HTTPS) to our gateway
-
-In this subsection we add to our gateway the port 443 to handle the HTTPS traffic. We create a secret with a certificate and a private key. Then we replace the previous `Gateway` definition with a definition that contains a server on the port 443, in addition to the previously defined server on the port 80.
-
-1. Create a Kubernetes `Secret` to hold the key/cert
-
-    Create the secret `istio-ingressgateway-certs` in namespace `istio-system` using `kubectl`. The Istio gateway
-    will automatically load the secret.
-
-    > The secret MUST be called `istio-ingressgateway-certs` in the `istio-system` namespace, or it will not
-    > be mounted and available to the Istio gateway.
-
-    ```command
-    $ kubectl create -n istio-system secret tls istio-ingressgateway-certs --key /tmp/tls.key --cert /tmp/tls.crt
-    ```
-
-    Note that by default all service accounts in the `istio-system` namespace can access this ingress key/cert,
-    which risks leaking the key/cert. You can change the Role-Based Access Control (RBAC) rules to protect them.
-    See (Link TBD) for details.
-
-1. Add to the previous `Gateway` definition a server section for the port 443.
-
-    > The location of the certificate and the private key MUST be `/etc/istio/ingressgateway-certs`, or the gateway will fail to load them.
-
-    ```bash
-        cat <<EOF | istioctl replace -f -
-        apiVersion: networking.istio.io/v1alpha3
-        kind: Gateway
-        metadata:
-          name: httpbin-gateway
-        spec:
-          selector:
-            istio: ingressgateway # use istio default ingress gateway
-          servers:
-          - port:
-              number: 80
-              name: http
-              protocol: HTTP
-            hosts:
-            - "httpbin.example.com"
-          - port:
-              number: 443
-              name: https
-              protocol: HTTPS
-            tls:
-              mode: SIMPLE
-              serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
-              privateKey: /etc/istio/ingressgateway-certs/tls.key
-            hosts:
-            - "httpbin.example.com"
-        EOF
-    ```
-
-### Verifying the gateway for HTTPS
-
-1. Verify that our gateway still works for the port 80 and accepts unencrypted HTTP traffic as before. We do it by accessing the _httpbin_ service, port 80, as described in the [Verifying the gateway for HTTP](#verifying-the-gateway-for-http) subsection.
-
-1. Access the _httpbin_ service with HTTPS by sending an https request using _curl_ to `SECURE_INGRESS_PORT`.
-
-    ```command
-    $ curl -I -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST -k https://httpbin.example.com:$SECURE_INGRESS_PORT/status/200
-    HTTP/2 200
-    server: envoy
-    date: Mon, 14 May 2018 13:54:53 GMT
-    content-type: text/html; charset=utf-8
-    access-control-allow-origin: *
-    access-control-allow-credentials: true
-    content-length: 0
-    x-envoy-upstream-service-time: 6
-    ```
-    Note the `--resolve` flag that we use this time. Unlike HTTP requests, the `Host` header that we pass will be encrypted this time, so the ingress gateway will not be able to use it to match the request to our configuration. The `--resolve` flag instructs _curl_ to supply the [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) value "httpbin.example.com" when accessing the gateway IP over TLS. Here we also use _curl_'s `-k` option to instruct _curl_ not to check our certificate (since it is a fake certificate we created for testing the Gateway only, so _curl_ is not aware of it).
-
-    > It may take time for the new gateway definition to propagate and you may get the following error: `Failed to connect to httpbin.example.com port <your secure port>: Connection refused`. Wait for a minute and retry the `curl` call again.
-
-### Disable the HTTP port
-
-If we want to only allow HTTPS traffic into our service mesh, we can remove the HTTP port from our gateway.
-
-1.  Redefine the `Gateway` without the HTTP port:
-
-    ```bash
-        cat <<EOF | istioctl replace -f -
-        apiVersion: networking.istio.io/v1alpha3
-        kind: Gateway
-        metadata:
-          name: httpbin-gateway
-        spec:
-          selector:
-            istio: ingressgateway # use istio default ingress gateway
-          servers:
-          - port:
-              number: 443
-              name: https
-              protocol: HTTPS
-            tls:
-              mode: SIMPLE
-              serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
-              privateKey: /etc/istio/ingressgateway-certs/tls.key
-            hosts:
-            - "httpbin.example.com"
-        EOF
-    ```
-
-1.  Access the HTTP port and verify that it is not accessible (an error is returned):
-
-    ```command
-    $ curl -I -HHost:httpbin.example.com http://$INGRESS_HOST:$INGRESS_PORT/status/200
-    ```
+    {{< /text >}}
 
 ## Accessing ingress services using a browser
 
@@ -329,8 +210,8 @@ As you may have guessed, entering the httpbin service URL in a browser won't wor
 
 To work around this problem for simple tests and demos, we can use a wildcard `*` value for the host in the `Gateway` and `VirutualService` configurations. For example, if we change our ingress configuration to the following:
 
-```command
-cat <<EOF | istioctl replace -f -
+{{< text bash >}}
+$ cat <<EOF | istioctl replace -f -
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -365,7 +246,7 @@ spec:
           number: 8000
         host: httpbin
 EOF
-```
+{{< /text >}}
 
 We can then use `$INGRESS_HOST:$INGRESS_PORT` (e.g., `192.168.99.100:31380`) in the URL that we enter in a browser. For example, `http://192.168.99.100:31380/headers` should display the request headers sent by our browser.
 
@@ -376,20 +257,15 @@ Istio service mesh and make the traffic management and policy features of Istio
 available for edge services.
 
 In the preceding steps we created a service inside the Istio service mesh
-and showed how to expose both HTTP and HTTPS endpoints of the service to
+and showed how to expose an HTTP endpoint of the service to
 external traffic.
 
 ## Cleanup
 
 Delete the `Gateway` configuration, the `VirtualService` and the secret, and shutdown the [httpbin](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/httpbin) service:
 
-```command
+{{< text bash >}}
 $ istioctl delete gateway httpbin-gateway
 $ istioctl delete virtualservice httpbin
-$ kubectl delete --ignore-not-found=true -n istio-system secret istio-ingressgateway-certs
 $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
-```
-
-## What's next
-
-* Learn more about [Traffic Routing](/docs/reference/config/istio.networking.v1alpha3/).
+{{< /text >}}

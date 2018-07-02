@@ -16,7 +16,7 @@ This task shows you how to configure dynamic request routing based on weights an
 * Setup Istio by following the instructions in the
 [Installation guide](/docs/setup/).
 
-* Deploy the [Bookinfo](/docs/guides/bookinfo/) sample application.
+* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
 ## Content-based routing
 
@@ -32,15 +32,15 @@ you'll need to use `replace` rather than `create` in the following command.
 
 1.  Set the default version for all microservices to v1.
 
-    ```command
+    {{< text bash >}}
     $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
-    ```
+    {{< /text >}}
 
     If you enabled `mTLS`, please run the following instead
 
-    ```command
+    {{< text bash >}}
     $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1-mtls.yaml@
-    ```
+    {{< /text >}}
 
     > In a Kubernetes deployment of Istio, you can replace `istioctl`
     > with `kubectl` in the above, and for all other CLI commands.
@@ -48,68 +48,68 @@ you'll need to use `replace` rather than `create` in the following command.
 
     You can display the routes that are defined with the following command:
 
-    ```command-output-as-yaml
-        $ istioctl get virtualservices -o yaml
-        apiVersion: networking.istio.io/v1alpha3
-        kind: VirtualService
-        metadata:
-          name: details
-          ...
-        spec:
-          hosts:
-          - details
-          http:
-          - route:
-            - destination:
-                host: details
-                subset: v1
-        ---
-        apiVersion: networking.istio.io/v1alpha3
-        kind: VirtualService
-        metadata:
-          name: productpage
-          ...
-        spec:
-          gateways:
-          - bookinfo-gateway
-          - mesh
-          hosts:
-          - productpage
-          http:
-          - route:
-            - destination:
-                host: productpage
-                subset: v1
-        ---
-        apiVersion: networking.istio.io/v1alpha3
-        kind: VirtualService
-        metadata:
-          name: ratings
-          ...
-        spec:
-          hosts:
-          - ratings
-          http:
-          - route:
-            - destination:
-                host: ratings
-                subset: v1
-        ---
-        apiVersion: networking.istio.io/v1alpha3
-        kind: VirtualService
-        metadata:
-          name: reviews
-          ...
-        spec:
-          hosts:
-          - reviews
-          http:
-          - route:
-            - destination:
-                host: reviews
-                subset: v1
-        ---
-    ```
+    {{< text bash yaml >}}
+    $ istioctl get virtualservices -o yaml
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: details
+      ...
+    spec:
+      hosts:
+      - details
+      http:
+      - route:
+        - destination:
+            host: details
+            subset: v1
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: productpage
+      ...
+    spec:
+      gateways:
+      - bookinfo-gateway
+      - mesh
+      hosts:
+      - productpage
+      http:
+      - route:
+        - destination:
+            host: productpage
+            subset: v1
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: ratings
+      ...
+    spec:
+      hosts:
+      - ratings
+      http:
+      - route:
+        - destination:
+            host: ratings
+            subset: v1
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: reviews
+      ...
+    spec:
+      hosts:
+      - reviews
+      http:
+      - route:
+        - destination:
+            host: reviews
+            subset: v1
+    ---
+    {{< /text >}}
 
     > The corresponding `subset` definitions can be displayed using `istioctl get destinationrules -o yaml`.
 
@@ -117,7 +117,7 @@ you'll need to use `replace` rather than `create` in the following command.
     to propagate to all pods before attempting to access the application.
 
 1.  Open the Bookinfo URL (`http://$GATEWAY_URL/productpage`) in your browser. Recall that `GATEWAY_URL`
-    should have been set using [these instructions](/docs/guides/bookinfo/#determining-the-ingress-ip-and-port)
+    should have been set using [these instructions](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)
     when the Bookinfo sample was deployed.
 
     You should see the Bookinfo application productpage displayed.
@@ -128,36 +128,36 @@ you'll need to use `replace` rather than `create` in the following command.
     Lets enable the ratings service for test user "jason" by routing productpage traffic to
     `reviews:v2` instances.
 
-    ```command
+    {{< text bash >}}
     $ istioctl replace -f @samples/bookinfo/routing/route-rule-reviews-test-v2.yaml@
-    ```
+    {{< /text >}}
 
     Confirm the rule is created:
 
-    ```command-output-as-yaml
-        $ istioctl get virtualservice reviews -o yaml
-        apiVersion: networking.istio.io/v1alpha3
-        kind: VirtualService
-        metadata:
-          name: reviews
-          ...
-        spec:
-          hosts:
-          - reviews
-          http:
-          - match:
-            - headers:
-                cookie:
-                  regex: ^(.*?;)?(user=jason)(;.*)?$
-            route:
-            - destination:
-                host: reviews
-                subset: v2
-          - route:
-            - destination:
-                host: reviews
-                subset: v1
-    ```
+    {{< text bash yaml >}}
+    $ istioctl get virtualservice reviews -o yaml
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: reviews
+      ...
+    spec:
+      hosts:
+      - reviews
+      http:
+      - match:
+        - headers:
+            cookie:
+              regex: ^(.*?;)?(user=jason)(;.*)?$
+        route:
+        - destination:
+            host: reviews
+            subset: v2
+      - route:
+        - destination:
+            host: reviews
+            subset: v1
+    {{< /text >}}
 
 1.  Log in as user "jason" at the `productpage` web page.
 
@@ -170,6 +170,11 @@ In this task, you used Istio to send 100% of the traffic to the v1 version of ea
 services. You then set a rule to selectively send traffic to version v2 of the reviews service based
 on a header (i.e., a user cookie) in a request.
 
+Note that Kubernetes services, like the Bookinfo ones used in this task, must adhere to certain
+restrictions in order to take advantage of Istio's L7 routing features. Refer to the
+[sidecar injection documentation](/docs/setup/kubernetes/sidecar-injection/#pod-spec-requirements)
+for details.
+
 Once the v2 version has been tested to our satisfaction, we could use Istio to send traffic from
 all users to v2, optionally in a gradual fashion. We'll explore this in a separate task.
 
@@ -177,20 +182,16 @@ all users to v2, optionally in a gradual fashion. We'll explore this in a separa
 
 *   Remove the application routing rules.
 
-    ```command
+    {{< text bash >}}
     $ istioctl delete -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
-    ```
+    {{< /text >}}
 
     If you enabled `mTLS`, please run the following instead
 
-    ```command
+    {{< text bash >}}
     $ istioctl delete -f @samples/bookinfo/routing/route-rule-all-v1-mtls.yaml@
-    ```
+    {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions
+  [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.
-
-## What's next
-
-* Learn more about [request routing](/docs/concepts/traffic-management/request-routing/).

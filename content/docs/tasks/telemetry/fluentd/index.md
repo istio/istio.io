@@ -15,7 +15,7 @@ architecture. One popular logging backend is
 end of this task, a new log stream will be enabled sending logs to an
 example Fluentd / Elasticsearch / Kibana stack.
 
-The [Bookinfo](/docs/guides/bookinfo/) sample application is used
+The [Bookinfo](/docs/examples/bookinfo/) sample application is used
 as the example application throughout this task.
 
 ## Before you begin
@@ -44,11 +44,11 @@ connect to a running Fluentd daemon, you may need to add a
 for Fluentd. The Fluentd configuration to listen for forwarded logs
 is:
 
-```xml
+{{< text xml >}}
 <source>
   type forward
 </source>
-```
+{{< /text >}}
 
 The full details of connecting Mixer to all possible Fluentd
 configurations is beyond the scope of this task.
@@ -67,7 +67,7 @@ called `logging`.
 
 Save the following as `logging-stack.yaml`.
 
-```yaml
+{{< text yaml >}}
 # Logging Namespace. All below are a part of this namespace.
 apiVersion: v1
 kind: Namespace
@@ -271,11 +271,12 @@ spec:
           name: ui
           protocol: TCP
 ---
-```
+{{< /text >}}
 
 Create the resources:
 
-```command
+<div class="workaround_for_hugo_bug">
+{{< text bash >}}
 $ kubectl apply -f logging-stack.yaml
 namespace "logging" created
 service "elasticsearch" created
@@ -285,7 +286,8 @@ deployment "fluentd-es" created
 configmap "fluentd-es-config" created
 service "kibana" created
 deployment "kibana" created
-```
+{{< /text >}}
+</div>
 
 ## Configure Istio
 
@@ -296,7 +298,7 @@ Istio will generate and collect automatically.
 
 Save the following as `fluentd-istio.yaml`:
 
-```yaml
+{{< text yaml >}}
 # Configuration for logentry instances
 apiVersion: "config.istio.io/v1alpha2"
 kind: logentry
@@ -337,16 +339,16 @@ spec:
      instances:
      - newlog.logentry
 ---
-```
+{{< /text >}}
 
 Create the resources:
 
-```command
+{{< text bash >}}
 $ istioctl create -f fluentd-istio.yaml
 Created config logentry/istio-system/newlog at revision 22374
 Created config fluentd/istio-system/handler at revision 22375
 Created config rule/istio-system/newlogtofluentd at revision 22376
-```
+{{< /text >}}
 
 Notice that the `address: "fluentd-es.logging:24224"` line in the
 handler config is pointing to the Fluentd daemon we setup in the
@@ -357,20 +359,20 @@ example stack.
 1.  Send traffic to the sample application.
 
     For the
-    [Bookinfo](/docs/guides/bookinfo/#determining-the-ingress-ip-and-port)
+    [Bookinfo](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)
     sample, visit `http://$GATEWAY_URL/productpage` in your web browser
     or issue the following command:
 
-    ```command
+    {{< text bash >}}
     $ curl http://$GATEWAY_URL/productpage
-    ```
+    {{< /text >}}
 
 1.  In a Kubernetes environment, setup port-forwarding for Kibana by
     executing the following command:
 
-    ```command
+    {{< text bash >}}
     $ kubectl -n logging port-forward $(kubectl -n logging get pod -l app=kibana -o jsonpath='{.items[0].metadata.name}') 5601:5601
-    ```
+    {{< /text >}}
 
     Leave the command running. Press Ctrl-C to exit when done accessing the Kibana UI.
 
@@ -386,26 +388,16 @@ example stack.
 
 *   Remove the new telemetry configuration:
 
-    ```command
+    {{< text bash >}}
     $ istioctl delete -f fluentd-istio.yaml
-    ```
+    {{< /text >}}
 
 *   Remove the example Fluentd, Elasticsearch, Kibana stack:
 
-    ```command
+    {{< text bash >}}
     $ kubectl delete -f logging-stack.yaml
-    ```
+    {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions
+  [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.
-
-## What's next
-
-* [Collecting Metrics and Logs](/docs/tasks/telemetry/metrics-logs/) for a detailed
-  explanation of the log configurations.
-
-* Learn more about [Mixer](/docs/concepts/policies-and-telemetry/overview/)
-  and [Mixer Config](/docs/concepts/policies-and-telemetry/config/).
-
-* Discover the full [Attribute Vocabulary](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/).

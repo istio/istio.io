@@ -1,10 +1,10 @@
 ---
 title: Exporting Logs to BigQuery, GCS, Pub/Sub through Stackdriver
 description: How to export Istio Access Logs to different sinks like BigQuery, GCS, Pub/Sub through Stackdriver.
-publishdate: 2018-06-18
+publishdate: 2018-07-09
 subtitle:
 attribution: Nupur Garg and Douglas Reid
-weight: 94
+weight: 87
 ---
 
 This post shows how to direct Istio logs to [Stackdriver](https://cloud.google.com/stackdriver/)
@@ -13,7 +13,7 @@ and export those logs to various configured sinks such as such as
 or [Cloud Pub/Sub](https://cloud.google.com/pubsub/). At the end of this post you can perform
 analytics on Istio data from your favorite places such as BigQuery, GCS or Cloud Pub/Sub.
 
-The [Bookinfo](/docs/guides/bookinfo/) sample application is used as the example
+The [Bookinfo](/docs/examples/bookinfo/) sample application is used as the example
 application throughout this task.
 
 ## Before you begin
@@ -43,6 +43,7 @@ Common setup for all sinks:
 
 1. Enable [StackDriver Monitoring API](https://cloud.google.com/monitoring/api/enable-api) for the project.
 1. Make sure `principalEmail` that would be setting up the sink has write access to the project and Logging Admin role permissions.
+1. Make sure the `GOOGLE_APPLICATION_CREDENTIALS` environment variable is set. Please follow instructions [here](https://cloud.google.com/docs/authentication/getting-started) to set it up.
 
 #### BigQuery
 
@@ -50,6 +51,7 @@ Common setup for all sinks:
 1.  Record the ID of the dataset. It will be needed to configure the Stackdriver handler.
     It would be of the form `bigquery.googleapis.com/projects/[PROJECT_ID]/datasets/[DATASET_ID]`
 1.  Give [sink’s writer identity](https://cloud.google.com/logging/docs/api/tasks/exporting-logs#writing_to_the_destination): `cloud-logs@system.gserviceaccount.com` BigQuery Data Editor role in IAM.
+1.  If using [Google Kubernetes Engine](/docs/setup/kubernetes/quick-start/#google-kubernetes-engine), make sure `bigquery` [Scope](https://cloud.google.com/sdk/gcloud/reference/container/clusters/create) is enabled on the cluster.
 
 #### Google Cloud Storage (GCS)
 
@@ -64,6 +66,7 @@ Common setup for all sinks:
 1.  Recode the ID of the topic. It will be needed to configure Stackdriver.
     It would be of the form `pubsub.googleapis.com/projects/[PROJECT_ID]/topics/[TOPIC_ID]`
 1.  Give [sink’s writer identity](https://cloud.google.com/logging/docs/api/tasks/exporting-logs#writing_to_the_destination): `cloud-logs@system.gserviceaccount.com` Pub/Sub Publisher role in IAM.
+1.  If using [Google Kubernetes Engine](/docs/setup/kubernetes/quick-start/#google-kubernetes-engine), make sure `pubsub` [Scope](https://cloud.google.com/sdk/gcloud/reference/container/clusters/create) is enabled on the cluster.
 
 ### Setting up Stackdriver
 
@@ -76,85 +79,85 @@ Handler is configured based on this proto.
 1.  Save the following yaml file as `stackdriver.yaml`. Replace `<project_id>,
     <sink_id>, <sink_destination>, <log_filter>` with their specific values.
 
-    ```yaml
-        apiVersion: "config.istio.io/v1alpha2"
-        kind: stackdriver
-        metadata:
-          name: handler
-          namespace: istio-system
-        spec:
-          # We'll use the default value from the adapter, once per minute, so we don't need to supply a value.
-          # pushInterval: 1m
-          # Must be supplied for the Stackdriver adapter to work
-          project_id: "<project_id>"
-          # One of the following must be set; the preferred method is `appCredentials`, which corresponds to
-          # Google Application Default Credentials. See:
-          #    https://developers.google.com/identity/protocols/application-default-credentials
-          # If none is provided we default to app credentials.
-          # appCredentials:
-          # apiKey:
-          # serviceAccountPath:
-          # Describes how to map Istio logs into Stackdriver.
-          logInfo:
-            accesslog.logentry.istio-system:
-              payloadTemplate: '{{or (.sourceIp) "-"}} - {{or (.sourceUser) "-"}} [{{or (.timestamp.Format "02/Jan/2006:15:04:05 -0700") "-"}}] "{{or (.method) "-"}} {{or (.url) "-"}} {{or (.protocol) "-"}}" {{or (.responseCode) "-"}} {{or (.responseSize) "-"}}'
-              httpMapping:
-                url: url
-                status: responseCode
-                requestSize: requestSize
-                responseSize: responseSize
-                latency: latency
-                localIp: sourceIp
-                remoteIp: destinationIp
-                method: method
-                userAgent: userAgent
-                referer: referer
-              labelNames:
-              - sourceIp
-              - destinationIp
-              - sourceService
-              - sourceUser
-              - sourceNamespace
-              - destinationIp
-              - destinationService
-              - destinationNamespace
-              - apiClaims
-              - apiKey
-              - protocol
-              - method
-              - url
-              - responseCode
-              - responseSize
-              - requestSize
-              - latency
-              - connectionMtls
-              - userAgent
-              - responseTimestamp
-              - receivedBytes
-              - sentBytes
-              - referer
-              sinkInfo:
-                id: '<sink_id>'
-                destination: '<sink_destination>'
-                filter: '<log_filter>'
-        ---
-        apiVersion: "config.istio.io/v1alpha2"
-        kind: rule
-        metadata:
-          name: stackdriver
-          namespace: istio-system
-        spec:
-          match: "true" # If omitted match is true.
-          actions:
-          - handler: handler.stackdriver
-            instances:
-            - accesslog.logentry
-        ---
-    ```
+    {{< text yaml >}}
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: stackdriver
+    metadata:
+      name: handler
+      namespace: istio-system
+    spec:
+      # We'll use the default value from the adapter, once per minute, so we don't need to supply a value.
+      # pushInterval: 1m
+      # Must be supplied for the Stackdriver adapter to work
+      project_id: "<project_id>"
+      # One of the following must be set; the preferred method is `appCredentials`, which corresponds to
+      # Google Application Default Credentials. See:
+      #    https://developers.google.com/identity/protocols/application-default-credentials
+      # If none is provided we default to app credentials.
+      # appCredentials:
+      # apiKey:
+      # serviceAccountPath:
+      # Describes how to map Istio logs into Stackdriver.
+      logInfo:
+        accesslog.logentry.istio-system:
+          payloadTemplate: '{{or (.sourceIp) "-"}} - {{or (.sourceUser) "-"}} [{{or (.timestamp.Format "02/Jan/2006:15:04:05 -0700") "-"}}] "{{or (.method) "-"}} {{or (.url) "-"}} {{or (.protocol) "-"}}" {{or (.responseCode) "-"}} {{or (.responseSize) "-"}}'
+          httpMapping:
+            url: url
+            status: responseCode
+            requestSize: requestSize
+            responseSize: responseSize
+            latency: latency
+            localIp: sourceIp
+            remoteIp: destinationIp
+            method: method
+            userAgent: userAgent
+            referer: referer
+          labelNames:
+          - sourceIp
+          - destinationIp
+          - sourceService
+          - sourceUser
+          - sourceNamespace
+          - destinationIp
+          - destinationService
+          - destinationNamespace
+          - apiClaims
+          - apiKey
+          - protocol
+          - method
+          - url
+          - responseCode
+          - responseSize
+          - requestSize
+          - latency
+          - connectionMtls
+          - userAgent
+          - responseTimestamp
+          - receivedBytes
+          - sentBytes
+          - referer
+          sinkInfo:
+            id: '<sink_id>'
+            destination: '<sink_destination>'
+            filter: '<log_filter>'
+    ---
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: rule
+    metadata:
+      name: stackdriver
+      namespace: istio-system
+    spec:
+      match: "true" # If omitted match is true.
+      actions:
+      - handler: handler.stackdriver
+        instances:
+        - accesslog.logentry
+    ---
+    {{< /text >}}
 
 1.  Push the configuration
 
-    ```command
+    {{< text bash >}}
     $ kubectl apply -f stackdriver.yaml
     stackdriver "handler" created
     rule "stackdriver" created
@@ -163,16 +166,16 @@ Handler is configured based on this proto.
     metric "stackdriverrequestduration" created
     metric "stackdriverrequestsize" created
     metric "stackdriverresponsesize" created
-    ```
+    {{< /text >}}
 
 1.  Send traffic to the sample application.
 
     For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
     browser or issue the following command:
 
-    ```command
+    {{< text bash >}}
     $ curl http://$GATEWAY_URL/productpage
-    ```
+    {{< /text >}}
 
 1.  Verify that logs are flowing through Stackdriver to the configured sink.
 
@@ -201,29 +204,29 @@ exported. In detail as follows:
 
 1.  Added a handler of kind stackdriver
 
-    ```yaml
-        apiVersion: "config.istio.io/v1alpha2"
-        kind: stackdriver
-        metadata:
-          name: handler
-          namespace: <your defined namespace>
-    ```
+    {{< text yaml >}}
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: stackdriver
+    metadata:
+      name: handler
+      namespace: <your defined namespace>
+    {{< /text >}}
 
 1.  Added logInfo in spec
 
-    ```yaml
-        spec:
-          logInfo: accesslog.logentry.istio-system:
-            labelNames:
-            - sourceIp
-            - destinationIp
-            ...
-            ...
-            sinkInfo:
-              id: '<sink_id>'
-              destination: '<sink_destination>'
-              filter: '<log_filter>'
-    ```
+    {{< text yaml >}}
+    spec:
+      logInfo: accesslog.logentry.istio-system:
+        labelNames:
+        - sourceIp
+        - destinationIp
+        ...
+        ...
+        sinkInfo:
+          id: '<sink_id>'
+          destination: '<sink_destination>'
+          filter: '<log_filter>'
+    {{< /text >}}
 
     In the above configuration sinkInfo contains information about the sink where you want
     the logs to get exported to. For more information on how this gets filled for different sinks please refer
@@ -231,29 +234,29 @@ exported. In detail as follows:
 
 1.  Added a rule for Stackdriver
 
-    ```yaml
-        apiVersion: "config.istio.io/v1alpha2"
-        kind: rule
-        metadata:
-          name: stackdriver
-          namespace: istio-system spec:
-          match: "true" # If omitted match is true
-        actions:
-        - handler: handler.stackdriver
-          instances:
-          - accesslog.logentry
-     ```
+    {{< text yaml >}}
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: rule
+    metadata:
+      name: stackdriver
+      namespace: istio-system spec:
+      match: "true" # If omitted match is true
+    actions:
+    - handler: handler.stackdriver
+      instances:
+      - accesslog.logentry
+     {{< /text >}}
 
 ## Cleanup
 
 *   Remove the new Stackdriver configuration:
 
-    ```command
+    {{< text bash >}}
     $ kubectl delete -f stackdriver.yaml
-    ```
+    {{< /text >}}
 
 *   If you are not planning to explore any follow-on tasks, refer to the
-    [Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions to shutdown
+    [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions to shutdown
     the application.
 
 ## Availability of logs in export sinks

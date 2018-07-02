@@ -12,7 +12,7 @@ After completing this task, you should understand all of the assumptions about y
 application and how to have it participate in tracing, regardless of what
 language/framework/platform you use to build your application.
 
-The [Bookinfo](/docs/guides/bookinfo/) sample is used as the
+The [Bookinfo](/docs/examples/bookinfo/) sample is used as the
 example application for this task.
 
 ## Before you begin
@@ -22,15 +22,15 @@ example application for this task.
     Either use the `istio-demo.yaml` (or `istio-demo-auth.yaml`) template, which includes tracing support, or
     use the helm chart with tracing enabled using the `--set tracing.enabled=true` option.
 
-* Deploy the [Bookinfo](/docs/guides/bookinfo/) sample application.
+* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
 ## Accessing the dashboard
 
 Setup access to the tracing dashboard URL using port-forwarding:
 
-```command
+{{< text bash >}}
 $ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 16686:16686 &
-```
+{{< /text >}}
 
 Then open your browser at [http://localhost:16686](http://localhost:16686)
 
@@ -85,7 +85,7 @@ To do this, an application needs to collect and propagate the following headers 
 
 If you look in the sample services, you can see that the productpage application (Python) extracts the required headers from an HTTP request:
 
-```python
+{{< text python >}}
 def getForwardHeaders(request):
     headers = {}
 
@@ -109,11 +109,11 @@ def getForwardHeaders(request):
             #print "incoming: "+ihdr+":"+val
 
     return headers
-```
+{{< /text >}}
 
 The reviews application (Java) does something similar:
 
-```java
+{{< text jzvz >}}
 @GET
 @Path("/reviews")
 public Response bookReviews(@CookieParam("user") Cookie user,
@@ -129,16 +129,12 @@ public Response bookReviews(@CookieParam("user") Cookie user,
 
   if(ratings_enabled){
     JsonObject ratings = getRatings(user, xreq, xtraceid, xspanid, xparentspanid, xsampled, xflags, xotspan);
-```
+{{< /text >}}
 
 When you make downstream calls in your applications, make sure to include these headers.
 
 ## Cleanup
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions
+  [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.
-
-## What's next
-
-* Learn more about [Metrics and Logs](/docs/tasks/telemetry/metrics-logs/)

@@ -6,10 +6,10 @@ keywords: [telemetry,visualization]
 ---
 
 This task shows you how to setup and use the Istio Dashboard to monitor mesh
-traffic. As part of this task, you will install the Grafana Istio addon and use
+traffic. As part of this task, you will install the Grafana Istio add-on and use
 the web-based interface for viewing service mesh traffic data.
 
-The [Bookinfo](/docs/guides/bookinfo/) sample application is used as
+The [Bookinfo](/docs/examples/bookinfo/) sample application is used as
 the example application throughout this task.
 
 ## Before you begin
@@ -24,27 +24,27 @@ the example application throughout this task.
 
     In Kubernetes environments, execute the following command:
 
-    ```command
+    {{< text bash >}}
     $ kubectl apply -f @install/kubernetes/addons/grafana.yaml@
-    ```
+    {{< /text >}}
 
 1.  Verify that the service is running in your cluster.
 
     In Kubernetes environments, execute the following command:
 
-    ```command
+    {{< text bash >}}
     $ kubectl -n istio-system get svc grafana
     NAME      CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
     grafana   10.59.247.103   <none>        3000/TCP   2m
-    ```
+    {{< /text >}}
 
 1.  Open the Istio Dashboard via the Grafana UI.
 
     In Kubernetes environments, execute the following command:
 
-    ```command
+    {{< text bash >}}
     $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
-    ```
+    {{< /text >}}
 
     Visit [http://localhost:3000/dashboard/db/istio-dashboard](http://localhost:3000/dashboard/db/istio-dashboard) in your web browser.
 
@@ -60,9 +60,9 @@ the example application throughout this task.
     For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
     browser or issue the following command:
 
-    ```command
+    {{< text bash >}}
     $ curl http://$GATEWAY_URL/productpage
-    ```
+    {{< /text >}}
 
     Refresh the page a few times (or send the command a few times) to generate a
     small amount of traffic.
@@ -75,7 +75,7 @@ the example application throughout this task.
     caption="Istio Dashboard With Traffic"
     >}}
 
-> `$GATEWAY_URL` is the value set in the [Bookinfo](/docs/guides/bookinfo/) guide.
+> `$GATEWAY_URL` is the value set in the [Bookinfo](/docs/examples/bookinfo/) example.
 
 ### About the Grafana add-on
 
@@ -103,16 +103,16 @@ For more on how to create, configure, and edit dashboards, please see the
 *   In Kubernetes environments, execute the following command to remove the Grafana
 add-on:
 
-    ```command
+    {{< text bash >}}
     $ kubectl delete -f @install/kubernetes/addons/grafana.yaml@
-    ```
+    {{< /text >}}
 
 *   Remove any `kubectl port-forward` processes that may be running:
 
-    ```command
+    {{< text bash >}}
     $ killall kubectl
-    ```
+    {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, refer to the
-[Bookinfo cleanup](/docs/guides/bookinfo/#cleanup) instructions
+[Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
 to shutdown the application.
