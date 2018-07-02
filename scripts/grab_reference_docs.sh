@@ -66,7 +66,7 @@ get_command_doc() {
     pushd ${COMMAND_PATH}
     go build
     mkdir -p ${COMMAND_DIR}/${COMMAND}
-    ./${COMMAND} collateral -o ${COMMAND_DIR}/${COMMAND} --jekyll_html
+    ./${COMMAND} collateral -o ${COMMAND_DIR}/${COMMAND} --html_fragment_with_front_matter
     mv ${COMMAND_DIR}/${COMMAND}/${COMMAND}.html ${COMMAND_DIR}/${COMMAND}/index.html
     rm ${COMMAND} 2>/dev/null
     popd

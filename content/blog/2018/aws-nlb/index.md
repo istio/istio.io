@@ -16,7 +16,7 @@ Network load balancer (NLB) could be used instead of classical load balancer. Yo
 
 The following instructions require a Kubernetes **1.9.0 or newer** cluster.
 
-{{< warning_icon >}} Usage of AWS `nlb` on kubernetes is an alpha feature and not recommended for production clusters.
+{{< warning_icon >}} Usage of AWS `nlb` on Kubernetes is an Alpha feature and not recommended for production clusters.
 
 ## IAM Policy
 
@@ -38,7 +38,7 @@ You need to apply policy on the master role in order to be able to provision net
 
 1. Copy/paste text below:
 
-    ```json
+    {{< text json >}}
     {
         "Version": "2012-10-17",
         "Statement": [
@@ -75,7 +75,7 @@ You need to apply policy on the master role in order to be able to provision net
             }
         ]
     }
-    ```
+    {{< /text >}}
 
 1. Click review policy, fill all fields and click create policy:
 
@@ -97,7 +97,7 @@ You need to apply policy on the master role in order to be able to provision net
 
 You need to rewrite ingress service with the following:
 
-```yaml
+{{< text yaml >}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -121,8 +121,4 @@ spec:
   selector:
     istio: ingress
   type: LoadBalancer
-  ```
-
-## What's next
-
-Kubernetes [service networking](https://kubernetes.io/docs/concepts/services-networking/service/) should be consulted if further information is needed.
+{{< /text >}}

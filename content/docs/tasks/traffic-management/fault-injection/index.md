@@ -22,10 +22,10 @@ This task shows how to inject delays and test the resiliency of your application
     [request routing](/docs/tasks/traffic-management/request-routing/) task or by running following
     commands:
 
-    ```command
+    {{< text bash >}}
     $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
     $ istioctl replace -f @samples/bookinfo/routing/route-rule-reviews-test-v2.yaml@
-    ```
+    {{< /text >}}
 
 ## Fault injection using HTTP delay
 
@@ -36,40 +36,40 @@ continue without any errors.
 
 1.  Create a fault injection rule to delay traffic coming from user "jason" (our test user)
 
-    ```command
+    {{< text bash >}}
     $ istioctl replace -f @samples/bookinfo/routing/route-rule-ratings-test-delay.yaml@
-    ```
+    {{< /text >}}
 
     Confirm the rule is created:
 
-    ```command-output-as-yaml
-        $ istioctl get virtualservice ratings -o yaml
-        apiVersion: networking.istio.io/v1alpha3
-        kind: VirtualService
-        metadata:
-          name: ratings
-          ...
-        spec:
-          hosts:
-          - ratings
-          http:
-          - fault:
-              delay:
-                fixedDelay: 7s
-                percent: 100
-            match:
-            - headers:
-                cookie:
-                  regex: ^(.*?;)?(user=jason)(;.*)?$
-            route:
-            - destination:
-                host: ratings
-                subset: v1
-          - route:
-            - destination:
-                host: ratings
-                subset: v1
-    ```
+    {{< text bash yaml >}}
+    $ istioctl get virtualservice ratings -o yaml
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: ratings
+      ...
+    spec:
+      hosts:
+      - ratings
+      http:
+      - fault:
+          delay:
+            fixedDelay: 7s
+            percent: 100
+        match:
+        - headers:
+            cookie:
+              regex: ^(.*?;)?(user=jason)(;.*)?$
+        route:
+        - destination:
+            host: ratings
+            subset: v1
+      - route:
+        - destination:
+            host: ratings
+            subset: v1
+    {{< /text >}}
 
     Allow several seconds to account for rule propagation delay to all pods.
 
@@ -116,40 +116,40 @@ message.
 
 1.  Create a fault injection rule to send an HTTP abort for user "jason"
 
-    ```command
+    {{< text bash >}}
     $ istioctl replace -f @samples/bookinfo/routing/route-rule-ratings-test-abort.yaml@
-    ```
+    {{< /text >}}
 
     Confirm the rule is created
 
-    ```command-output-as-yaml
-        $ istioctl get virtualservice ratings -o yaml
-        apiVersion: networking.istio.io/v1alpha3
-        kind: VirtualService
-        metadata:
-          name: ratings
-          ...
-        spec:
-          hosts:
-          - ratings
-          http:
-          - fault:
-              abort:
-                httpStatus: 500
-                percent: 100
-            match:
-            - headers:
-                cookie:
-                  regex: ^(.*?;)?(user=jason)(;.*)?$
-            route:
-            - destination:
-                host: ratings
-                subset: v1
-          - route:
-            - destination:
-                host: ratings
-                subset: v1
-    ```
+    {{< text bash yaml >}}
+    $ istioctl get virtualservice ratings -o yaml
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: ratings
+      ...
+    spec:
+      hosts:
+      - ratings
+      http:
+      - fault:
+          abort:
+            httpStatus: 500
+            percent: 100
+        match:
+        - headers:
+            cookie:
+              regex: ^(.*?;)?(user=jason)(;.*)?$
+        route:
+        - destination:
+            host: ratings
+            subset: v1
+      - route:
+        - destination:
+            host: ratings
+            subset: v1
+    {{< /text >}}
 
 1.  Observe application behavior
 
@@ -161,9 +161,9 @@ message.
 
 *   Remove the application routing rules:
 
-    ```command
+    {{< text bash >}}
     $ istioctl delete -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
-    ```
+    {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, refer to the
   [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions

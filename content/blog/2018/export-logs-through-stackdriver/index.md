@@ -79,85 +79,85 @@ Handler is configured based on this proto.
 1.  Save the following yaml file as `stackdriver.yaml`. Replace `<project_id>,
     <sink_id>, <sink_destination>, <log_filter>` with their specific values.
 
-    ```yaml
-        apiVersion: "config.istio.io/v1alpha2"
-        kind: stackdriver
-        metadata:
-          name: handler
-          namespace: istio-system
-        spec:
-          # We'll use the default value from the adapter, once per minute, so we don't need to supply a value.
-          # pushInterval: 1m
-          # Must be supplied for the Stackdriver adapter to work
-          project_id: "<project_id>"
-          # One of the following must be set; the preferred method is `appCredentials`, which corresponds to
-          # Google Application Default Credentials. See:
-          #    https://developers.google.com/identity/protocols/application-default-credentials
-          # If none is provided we default to app credentials.
-          # appCredentials:
-          # apiKey:
-          # serviceAccountPath:
-          # Describes how to map Istio logs into Stackdriver.
-          logInfo:
-            accesslog.logentry.istio-system:
-              payloadTemplate: '{{or (.sourceIp) "-"}} - {{or (.sourceUser) "-"}} [{{or (.timestamp.Format "02/Jan/2006:15:04:05 -0700") "-"}}] "{{or (.method) "-"}} {{or (.url) "-"}} {{or (.protocol) "-"}}" {{or (.responseCode) "-"}} {{or (.responseSize) "-"}}'
-              httpMapping:
-                url: url
-                status: responseCode
-                requestSize: requestSize
-                responseSize: responseSize
-                latency: latency
-                localIp: sourceIp
-                remoteIp: destinationIp
-                method: method
-                userAgent: userAgent
-                referer: referer
-              labelNames:
-              - sourceIp
-              - destinationIp
-              - sourceService
-              - sourceUser
-              - sourceNamespace
-              - destinationIp
-              - destinationService
-              - destinationNamespace
-              - apiClaims
-              - apiKey
-              - protocol
-              - method
-              - url
-              - responseCode
-              - responseSize
-              - requestSize
-              - latency
-              - connectionMtls
-              - userAgent
-              - responseTimestamp
-              - receivedBytes
-              - sentBytes
-              - referer
-              sinkInfo:
-                id: '<sink_id>'
-                destination: '<sink_destination>'
-                filter: '<log_filter>'
-        ---
-        apiVersion: "config.istio.io/v1alpha2"
-        kind: rule
-        metadata:
-          name: stackdriver
-          namespace: istio-system
-        spec:
-          match: "true" # If omitted match is true.
-          actions:
-          - handler: handler.stackdriver
-            instances:
-            - accesslog.logentry
-        ---
-    ```
+    {{< text yaml >}}
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: stackdriver
+    metadata:
+      name: handler
+      namespace: istio-system
+    spec:
+      # We'll use the default value from the adapter, once per minute, so we don't need to supply a value.
+      # pushInterval: 1m
+      # Must be supplied for the Stackdriver adapter to work
+      project_id: "<project_id>"
+      # One of the following must be set; the preferred method is `appCredentials`, which corresponds to
+      # Google Application Default Credentials. See:
+      #    https://developers.google.com/identity/protocols/application-default-credentials
+      # If none is provided we default to app credentials.
+      # appCredentials:
+      # apiKey:
+      # serviceAccountPath:
+      # Describes how to map Istio logs into Stackdriver.
+      logInfo:
+        accesslog.logentry.istio-system:
+          payloadTemplate: '{{or (.sourceIp) "-"}} - {{or (.sourceUser) "-"}} [{{or (.timestamp.Format "02/Jan/2006:15:04:05 -0700") "-"}}] "{{or (.method) "-"}} {{or (.url) "-"}} {{or (.protocol) "-"}}" {{or (.responseCode) "-"}} {{or (.responseSize) "-"}}'
+          httpMapping:
+            url: url
+            status: responseCode
+            requestSize: requestSize
+            responseSize: responseSize
+            latency: latency
+            localIp: sourceIp
+            remoteIp: destinationIp
+            method: method
+            userAgent: userAgent
+            referer: referer
+          labelNames:
+          - sourceIp
+          - destinationIp
+          - sourceService
+          - sourceUser
+          - sourceNamespace
+          - destinationIp
+          - destinationService
+          - destinationNamespace
+          - apiClaims
+          - apiKey
+          - protocol
+          - method
+          - url
+          - responseCode
+          - responseSize
+          - requestSize
+          - latency
+          - connectionMtls
+          - userAgent
+          - responseTimestamp
+          - receivedBytes
+          - sentBytes
+          - referer
+          sinkInfo:
+            id: '<sink_id>'
+            destination: '<sink_destination>'
+            filter: '<log_filter>'
+    ---
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: rule
+    metadata:
+      name: stackdriver
+      namespace: istio-system
+    spec:
+      match: "true" # If omitted match is true.
+      actions:
+      - handler: handler.stackdriver
+        instances:
+        - accesslog.logentry
+    ---
+    {{< /text >}}
 
 1.  Push the configuration
 
-    ```command
+    {{< text bash >}}
     $ kubectl apply -f stackdriver.yaml
     stackdriver "handler" created
     rule "stackdriver" created
@@ -166,16 +166,16 @@ Handler is configured based on this proto.
     metric "stackdriverrequestduration" created
     metric "stackdriverrequestsize" created
     metric "stackdriverresponsesize" created
-    ```
+    {{< /text >}}
 
 1.  Send traffic to the sample application.
 
     For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
     browser or issue the following command:
 
-    ```command
+    {{< text bash >}}
     $ curl http://$GATEWAY_URL/productpage
-    ```
+    {{< /text >}}
 
 1.  Verify that logs are flowing through Stackdriver to the configured sink.
 
@@ -204,29 +204,29 @@ exported. In detail as follows:
 
 1.  Added a handler of kind stackdriver
 
-    ```yaml
-        apiVersion: "config.istio.io/v1alpha2"
-        kind: stackdriver
-        metadata:
-          name: handler
-          namespace: <your defined namespace>
-    ```
+    {{< text yaml >}}
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: stackdriver
+    metadata:
+      name: handler
+      namespace: <your defined namespace>
+    {{< /text >}}
 
 1.  Added logInfo in spec
 
-    ```yaml
-        spec:
-          logInfo: accesslog.logentry.istio-system:
-            labelNames:
-            - sourceIp
-            - destinationIp
-            ...
-            ...
-            sinkInfo:
-              id: '<sink_id>'
-              destination: '<sink_destination>'
-              filter: '<log_filter>'
-    ```
+    {{< text yaml >}}
+    spec:
+      logInfo: accesslog.logentry.istio-system:
+        labelNames:
+        - sourceIp
+        - destinationIp
+        ...
+        ...
+        sinkInfo:
+          id: '<sink_id>'
+          destination: '<sink_destination>'
+          filter: '<log_filter>'
+    {{< /text >}}
 
     In the above configuration sinkInfo contains information about the sink where you want
     the logs to get exported to. For more information on how this gets filled for different sinks please refer
@@ -234,26 +234,26 @@ exported. In detail as follows:
 
 1.  Added a rule for Stackdriver
 
-    ```yaml
-        apiVersion: "config.istio.io/v1alpha2"
-        kind: rule
-        metadata:
-          name: stackdriver
-          namespace: istio-system spec:
-          match: "true" # If omitted match is true
-        actions:
-        - handler: handler.stackdriver
-          instances:
-          - accesslog.logentry
-     ```
+    {{< text yaml >}}
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: rule
+    metadata:
+      name: stackdriver
+      namespace: istio-system spec:
+      match: "true" # If omitted match is true
+    actions:
+    - handler: handler.stackdriver
+      instances:
+      - accesslog.logentry
+     {{< /text >}}
 
 ## Cleanup
 
 *   Remove the new Stackdriver configuration:
 
-    ```command
+    {{< text bash >}}
     $ kubectl delete -f stackdriver.yaml
-    ```
+    {{< /text >}}
 
 *   If you are not planning to explore any follow-on tasks, refer to the
     [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions to shutdown

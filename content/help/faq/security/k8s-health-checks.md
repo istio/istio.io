@@ -10,7 +10,7 @@ within the pod. The Istio team is actively working on a solution.
 
 An example of readinessProbe:
 
-```yaml
+{{< text yaml >}}
 livenessProbe:
 exec:
   command:
@@ -19,4 +19,4 @@ exec:
   - http://localhost:8080/healthz # Replace port and URI by your actual health check
 initialDelaySeconds: 10
 periodSeconds: 5
-```
+{{< /text >}}

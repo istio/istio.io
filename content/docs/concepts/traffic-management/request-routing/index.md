@@ -51,7 +51,7 @@ source/destination, and/or by weights assigned to each version.
 
 Istio also provides load balancing for traffic to multiple instances of
 the same service version. You can find out more about this in [Discovery
-and Load-Balancing](/docs/concepts/traffic-management/load-balancing/).
+and Load Balancing](/docs/concepts/traffic-management/load-balancing/).
 
 Istio does not provide a DNS. Applications can try to resolve the
 FQDN using the DNS service present in the underlying platform (kube-dns,

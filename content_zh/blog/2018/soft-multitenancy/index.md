@@ -26,20 +26,20 @@ keywords: [tenancy]
 
 要部署多个 Istio 控制面，首先要在 Istio 清单文件中对所有的 `namespace` 引用进行替换。以 `istio.yaml` （0.8 中应该是 `istio-demo.yaml`） 为例：如果需要两个租户级的 Istio 控制面，那么第一个租户可以使用 `istio.yaml` 中的缺省命名空间也就是 `istio-system`；而第二个租户就要生成一个新的 Yaml 文件，并在其中使用不同的命名空间。例如使用下面的命令创建一个使用 `istio-system1` 命名空间的 Yaml 文件：
 
-```command
-cat istio.yaml | sed s/istio-system/istio-system1/g > istio-system1.yaml
-```
+{{< text bash >}}
+$ cat istio.yaml | sed s/istio-system/istio-system1/g > istio-system1.yaml
+{{< /text >}}
 
 Istio Yaml 文件包含了 Istio 控制面的部署细节，包含组成控制面的 Pod（Mixer、Pilot、Ingress 以及 CA）。部署这两个控制面 Yaml 文件：
 
-```command
-kubectl apply -f @install/kubernetes/istio.yaml@
-kubectl apply -f @install/kubernetes/istio-system1.yaml@
-```
+{{< text bash >}}
+$ kubectl apply -f @install/kubernetes/istio.yaml@
+$ kubectl apply -f @install/kubernetes/istio-system1.yaml@
+{{< /text >}}
 
 会在两个命名空间生成两个 Istio 控制面
 
-```command
+{{< text bash >}}
 $ kubectl get pods --all-namespaces
 NAMESPACE       NAME                                       READY     STATUS    RESTARTS   AGE
 istio-system    istio-ca-ffbb75c6f-98w6x                   1/1       Running   0          15d
@@ -50,7 +50,7 @@ istio-system1   istio-ca-5f496fdbcd-lqhlk                  1/1       Running   0
 istio-system1   istio-ingress-68d65fc5c6-2vldg             1/1       Running   0          15d
 istio-system1   istio-mixer-7d4f7b9968-66z44               3/3       Running   0          15d
 istio-system1   istio-pilot-5bb6b7669c-779vb               2/2       Running   0          15d
-```
+{{< /text >}}
 
 如果需要 Istio [Sidecar 注入组件](/docs/setup/kubernetes/sidecar-injection/)以及[遥测组件](/docs/tasks/telemetry/)，也需要根据租户的命名空间定义，修改所需的 Yaml 文件。
 
@@ -64,7 +64,7 @@ Istio 仓库中的清单文件中会创建两种资源，一种是能够被所�
 
 租户管理员应该被限制在单独的 Istio 命名空间中，要完成这个限制，集群管理员需要创建一个清单，其中至少要包含一个 `Role` 和 `RoleBinding` 的定义，类似下面的文件所示。例子中定义了一个租户管理员，命名为 `sales-admin`，他被限制在命名空间 `istio-system` 之中。完整的清单中可能要在 `Role` 中包含更多的 `apiGroups` 条目，来定义租户管理员的资源访问能力。
 
-```yaml
+{{< text yaml >}}
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
@@ -88,13 +88,13 @@ roleRef:
   kind: Role
   name: ns-access-for-sales-admin-istio-system1
   apiGroup: rbac.authorization.k8s.io
-```
+{{< /text >}}
 
 ### 关注特定命名空间进行服务发现
 
 除了创建 RBAC 规则来限制租户管理员只能访问指定 Istio 控制平面之外，Istio 清单还需要为 Istio Pilot 指定一个用于应用程序的命名空间，以便生成 xDS 缓存。Pilot 组件提供了命令行参数 `--appNamespace, ns-1` 可以完成这一任务。`ns-1` 就是租户用来部署自己应用的命名空间。`istio-system1.yaml` 中包含的相关代码大致如下：
 
-```yaml
+{{< text yaml >}}
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -118,22 +118,22 @@ spec:
         ports:
         - containerPort: 8080
         - containerPort: 443
-```
+{{< /text >}}
 
 ### 在特定命名空间中部署租户应用
 
 现在集群管理员已经给租户创建了命名空间（`istio-system1`），并且对 Istio Pilot 的服务发现进行了配置，要求它关注应用的命名空间（`ns-1`），创建应用的 Yaml 文件，将其部署到租户的专属命名空间中：
 
-```yaml
+{{< text yaml >}}
 apiVersion: v1
 kind: Namespace
 metadata:
   name: ns-1
-```
+{{< /text >}}
 
 然后把每个资源的命名空间都指定到 `ns-1`，例如：
 
-```yaml
+{{< text yaml >}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -141,7 +141,7 @@ metadata:
   labels:
     app: details
   namespace: ns-1
-```
+{{< /text >}}
 
 虽然没有展示出来，但是应用的命名空间也应该有 RBAC 设置，用来对特定资源进行访问控制。集群管理员和租户管理员都有权完成这种 RBAC 限制。
 
@@ -151,20 +151,20 @@ metadata:
 
 例如下面的命令会创建到 `istio-system1` 命名空间的路由规则：
 
-```command
-istioctl –i istio-system1 create -n ns-1 -f route_rule_v2.yaml
-```
+{{< text bash >}}
+$ istioctl –i istio-system1 create -n ns-1 -f route_rule_v2.yaml
+{{< /text >}}
 
 用下面的命令可以查看：
 
-```command
+{{< text bash >}}
 $ istioctl -i istio-system1 -n ns-1 get routerule
 NAME                  KIND                                  NAMESPACE
 details-Default       RouteRule.v1alpha2.config.istio.io    ns-1
 productpage-default   RouteRule.v1alpha2.config.istio.io    ns-1
 ratings-default       RouteRule.v1alpha2.config.istio.io    ns-1
 reviews-default       RouteRule.v1alpha2.config.istio.io    ns-1
-```
+{{< /text >}}
 
 [Multiple Istio control planes](/blog/2018/soft-multitenancy/#multiple-istio-control-planes) 中讲述了更多多租户环境下命名空间的相关问题。
 
@@ -174,7 +174,7 @@ reviews-default       RouteRule.v1alpha2.config.istio.io    ns-1
 
 完成部署后，租户管理员就可以访问指定的 Istio 控制平面的 Pod 了。
 
-```command
+{{< text bash >}}
 $ kubectl get pods -n istio-system
 NAME                                      READY     STATUS    RESTARTS   AGE
 grafana-78d649479f-8pqk9                  1/1       Running   0          1d
@@ -185,25 +185,25 @@ istio-pilot-678fc976c8-b8tv6              2/2       Running   0          1d
 istio-sidecar-injector-7587bd559d-5tgk6   1/1       Running   0          1d
 prometheus-cf8456855-hdcq7                1/1       Running   0          1d
 servicegraph-75ff8f7c95-wcjs7             1/1       Running   0          1d
-```
+{{< /text >}}
 
 然而无法访问全部命名空间的 Pod：
 
-```command
+{{< text bash >}}
 $ kubectl get pods --all-namespaces
 Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list pods at the cluster scope
-```
+{{< /text >}}
 
 访问其他租户的命名空间也是不可以的：
 
-```command
+{{< text bash >}}
 $ kubectl get pods -n istio-system1
 Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list pods in the namespace "istio-system1"
-```
+{{< /text >}}
 
 租户管理员能够在租户指定的应用命名空间中进行应用部署。例如可以修改一下 [Bookinfo](/docs/guides/bookinfo/) 的 Yaml 然后部署到租户的命名空间 `ns-0` 中，然后租户管理员就可以在这一命名空间中列出 Pod 了：
 
-```command
+{{< text bash >}}
 $ kubectl get pods -n ns-0
 NAME                              READY     STATUS    RESTARTS   AGE
 details-v1-64b86cd49-b7rkr        2/2       Running   0          1d
@@ -212,14 +212,14 @@ ratings-v1-5f46655b57-5b4c5       2/2       Running   0          1d
 reviews-v1-ff6bdb95b-pm5lb        2/2       Running   0          1d
 reviews-v2-5799558d68-b989t       2/2       Running   0          1d
 reviews-v3-58ff7d665b-lw5j9       2/2       Running   0          1d
-```
+{{< /text >}}
 
 同样也是不能访问其他租户的应用程序命名空间：
 
-```command
+{{< text bash >}}
 $ kubectl get pods -n ns-1
 Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list pods in the namespace "ns-1"
-```
+{{< /text >}}
 
 如果部署了[遥测组件](/docs/tasks/telemetry/), 例如
 [prometheus](/docs/tasks/telemetry/querying-metrics/)（限制在 Istio 的 `namespace`），其中获得的统计结果展示的也只是租户应用命名空间的私有数据。
