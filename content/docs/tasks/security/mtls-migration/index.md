@@ -5,7 +5,7 @@ weight: 10
 keywords: [security,authentication,migration]
 ---
 
-This task shows how to migrate your existing Istio services' traffic from plain text to mutual TLS.
+This task shows how to migrate your existing Istio services' traffic from plain text to mutual TLS without breaking live traffic.
 
 In practice, a mesh consists of both Istio services (with Envoy sidecar) and services without Envoy sidecar(call it "legacy" below for simplicity).
 A legacy service can't use Istio issued key/certificate to send mutual TLS traffic. We want to enable mutual TLS incrementally, safely.
@@ -95,12 +95,15 @@ spec:
 EOF
 ```
 
-`sleep.foo` and `sleep.bar` should start sending mutual TLS traffic to `httpbin.foo`.
+`sleep.foo` and `sleep.bar` should start sending mutual TLS traffic to `httpbin.foo`. And `sleep.legacy` still sends plain text
+traffic to `httpbin.foo` since it does not have sidecar thus `DestinationRule` does not apply.
 
 Now we confirm all requests to `httpbin.foo` still succeed.
 
 ```command
-$ kubectl exec $(kubectl get pod -l app=sleep -n bar -o jsonpath={.items..metadata.name}) -c sleep -n bar -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
+$ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.foo: %{http_code}\n"; done
+200
+200
 200
 ```
 
@@ -132,8 +135,10 @@ EOF
 Now you should see the request from `sleep.legacy` fails.
 
 ```command
-$ kubectl exec $(kubectl get pod -l app=sleep -n bar -o jsonpath={.items..metadata.name}) -c sleep -n bar -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
+$ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.foo: %{http_code}\n"; done
 200
+200
+503
 ```
 
 If you can't migrate all your services to Istio (injecting Envoy sidecar), you have to stay at `PERMISSIVE` mode.
