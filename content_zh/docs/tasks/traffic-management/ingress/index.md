@@ -15,11 +15,11 @@ aliases:
 
 ## 前提条件
 
-* 按照[安装指南中](https://github.com/istio/istio.github.io/blob/master/docs/setup)的说明设置 Istio 。
+* 按照[安装指南中](/docs/setup/)的说明设置 Istio 。
 
 * 确保您当前的目录是`istio`目录。
 
-* 启动 [httpbin](https://github.com/istio/istio/blob/%7B%7B%3Cbranch_name%3E%7D%7D/samples/httpbin) 样本，该样本将用作要在外部公开的目标服务。
+* 启动 [httpbin](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/httpbin) 样本，该样本将用作要在外部公开的目标服务。
 
   如果您已启用[自动注入 sidecar](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)，请执行
 
