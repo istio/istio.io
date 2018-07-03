@@ -1,6 +1,6 @@
 ---
 title: 配置请求路由
-description: 此任务向您展示如何根据权重和 HTTP 头配置动态请求路由。
+description: 此任务向您展示如何根据权重和 HTTP header配置动态请求路由。
 weight: 10
 aliases:
     - /docs/tasks/request-routing.html
@@ -9,7 +9,7 @@ keywords: [traffic-management,routing]
 
 > 该任务使用新的 [v1alpha3 流量管理 API](/blog/2018/v1alpha3-routing/)。旧版本的API已被弃用，并将在下一个 Istio 版本中删除。 如果您需要使用旧版本，请点击[此处](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)的文档。
 
-此任务向您展示如何根据权重和 HTTP 头配置动态请求路由。
+此任务向您展示如何根据权重和 HTTP header配置动态请求路由。
 
 ## 开始之前
 
@@ -152,7 +152,7 @@ keywords: [traffic-management,routing]
 
     您现在应该在每次评论旁边看到评分（1-5颗星）。 请注意，如果您以任何其他用户身份登录，您将会继续看到 `reviews:v1` 版本服务，即不包含星级评价的页面。
 
-## 了解发生了什么
+## 理解原理
 
 在此任务中，您首先使用 Istio 将100%的请求流量都路由到了 BookInfo 服务的v1版本。 然后再设置了一条路由规则，该路由规则基于请求的 header（例如一个用户 cookie）选择性地将特定的流量路由到了 reviews 服务的v2版本。
 
@@ -161,7 +161,7 @@ keywords: [traffic-management,routing]
 
 一旦v2版本测试达到我们的满意度，我们就可以使用 Istio 将所有用户的流量发送到v2，可选择逐步进行。 我们将在另一个单独的任务中对此进行尝试。
 
-## 清理
+## 清除
 
 * 删除应用程序路由规则。
 
