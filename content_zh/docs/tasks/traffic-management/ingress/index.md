@@ -7,9 +7,9 @@ aliases:
     - /docs/tasks/ingress.html
 ---
 
-> 注意：此任务使用新的 [v1alpha3 流量管理 API](https://github.com/istio/istio.github.io/blob/master/blog/2018/v1alpha3-routing)。旧的 API 已被弃用，将在下一个 Istio 版本中删除。如果您需要使用旧版本，请按照[此处](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)的文档操作。
+> 注意：此任务使用新的 [v1alpha3 流量管理 API](/blog/2018/v1alpha3-routing/)。旧的 API 已被弃用，将在下一个 Istio 版本中删除。如果您需要使用旧版本，请按照[此处](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)的文档操作。
 
-在 Kubernetes 环境中，[Kubernetes Ingress 资源](https://kubernetes.io/docs/concepts/services-networking/ingress/) 用于指定应在群集外部公开的服务。在 Istio 服务网格中，更好的方法（也适用于 Kubernetes 和其他环境）是使用不同的配置模型，即 [Istio Gateway](https://github.com/istio/istio.github.io/blob/master/docs/reference/config/istio.networking.v1alpha3/#Gateway) 。 `Gateway` 允许将 Istio功能（例如，监控和路由规则）应用于进入群集的流量。
+在 Kubernetes 环境中，[Kubernetes Ingress 资源](https://kubernetes.io/docs/concepts/services-networking/ingress/) 用于指定应在群集外部公开的服务。在 Istio 服务网格中，更好的方法（也适用于 Kubernetes 和其他环境）是使用不同的配置模型，即 [Istio Gateway](/docs/reference/config/istio.networking.v1alpha3/#Gateway) 。 `Gateway` 允许将 Istio功能（例如，监控和路由规则）应用于进入群集的流量。
 
 此任务描述如何配置 Istio 以使用 Istio 在服务网格外部公开服务`Gateway`。
 
@@ -21,7 +21,7 @@ aliases:
 
 * 启动 [httpbin](https://github.com/istio/istio/blob/%7B%7B%3Cbranch_name%3E%7D%7D/samples/httpbin) 样本，该样本将用作要在外部公开的目标服务。
 
-  如果您已启用[自动注入 sidecar](https://github.com/istio/istio.github.io/blob/master/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)，请执行
+  如果您已启用[自动注入 sidecar](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)，请执行
 
     {{< text bash >}}
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@
@@ -100,7 +100,7 @@ $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingress
 
 ## 使用 Istio 网关配置 Ingress
 
-Ingress [网关](https://github.com/istio/istio.github.io/blob/master/docs/reference/config/istio.networking.v1alpha3/#Gateway)描述了在网格边缘操作的负载平衡器，用于接收传入的 HTTP/TCP 连接。它配置暴露的端口，协议等，但与 [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/services-networking/ingress/) 不同，它不包括任何流量路由配置。流入流量的流量路由使用 Istio 路由规则进行配置，与内部服务请求完全相同。
+Ingress [网关](/docs/reference/config/istio.networking.v1alpha3/#Gateway)描述了在网格边缘操作的负载平衡器，用于接收传入的 HTTP/TCP 连接。它配置暴露的端口，协议等，但与 [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/services-networking/ingress/) 不同，它不包括任何流量路由配置。流入流量的流量路由使用 Istio 路由规则进行配置，与内部服务请求完全相同。
 
 让我们看看如何为 `Gateway` 在 HTTP 80端口上配置流量。
 
@@ -151,9 +151,9 @@ Ingress [网关](https://github.com/istio/istio.github.io/blob/master/docs/refer
     EOF
     {{< /text >}}
 
-    在这里，我们 为服务创建了一个[虚拟服务](https://github.com/istio/istio.github.io/blob/master/docs/reference/config/istio.networking.v1alpha3/#VirtualService)配置`httpbin`，其中包含两条路由规则，允许路径`/status`和 路径的流量`/delay`。
+    在这里，我们 为服务创建了一个[虚拟服务](/docs/reference/config/istio.networking.v1alpha3/#VirtualService)配置`httpbin`，其中包含两条路由规则，允许路径`/status`和 路径的流量`/delay`。
 
-    该[网关](https://github.com/istio/istio.github.io/blob/master/docs/reference/config/istio.networking.v1alpha3/#VirtualService-gateways)列表指定，只有通过我们的要求`httpbin-gateway`是允许的。所有其他外部请求将被拒绝，并返回404响应。
+    该[网关](/docs/reference/config/istio.networking.v1alpha3/#VirtualService-gateways)列表指定，只有通过我们的要求`httpbin-gateway`是允许的。所有其他外部请求将被拒绝，并返回404响应。
 
     请注意，在此配置中，来自网格中其他服务的内部请求不受这些规则约束，而是简单地默认为循环路由。要将这些（或其他规则）应用于内部调用，我们可以将特殊值`mesh`添加到`gateways` 的列表中。
 
