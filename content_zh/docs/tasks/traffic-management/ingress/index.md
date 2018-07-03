@@ -23,15 +23,15 @@ aliases:
 
   如果您已启用[自动注入 sidecar](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)，请执行
 
-    {{< text bash >}}
-    $ kubectl apply -f @samples/httpbin/httpbin.yaml@
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl apply -f @samples/httpbin/httpbin.yaml@
+{{< /text >}}
 
   否则，您必须在部署 `httpbin` 应用程序之前手动注入边车：
 
-    {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@)
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@)
+{{< /text >}}
 
 * 按照以下小节中的说明确定 Ingress IP 和端口。
 
