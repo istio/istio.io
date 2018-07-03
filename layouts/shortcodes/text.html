@@ -15,7 +15,7 @@ be invalid HTML
 */}}
 {{ $scratch := .Scratch }}
 {{ if .Get 0 }}
-{{ $lines := split (trim .Inner "\n") "\n" }}
+{{ $lines := split (strings.TrimRight " " (trim .Inner "\n")) "\n" }}
 {{ $line0 := index $lines 0 }}
 {{ if hasPrefix $line0 "                "}}{{ $scratch.Set "indent" 16 }}
 {{ else if hasPrefix $line0 "            "}}{{ $scratch.Set "indent" 12 }}
