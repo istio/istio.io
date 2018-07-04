@@ -4,6 +4,7 @@ description: Explains the mechanics of creating new documentation pages.
 weight: 30
 aliases:
     - /docs/welcome/contribute/writing-a-new-topic.html
+keywords: [contribute]
 ---
 
 This page shows how to create a new Istio documentation topic.
@@ -165,6 +166,35 @@ current hierarchy:
     [see here](/docs/adir/afile/)
     {{< /text >}}
 
+### GitHub
+
+There are a few ways to reference files from GitHub:
+
+- **{{</* github_file */>}}** is how you reference individual files in GitHub such as yaml files. This
+produces a link to `https://raw.githubusercontent.com/istio/istio/...`
+
+    {{< text markdown >}}
+    [liveness]({{</* github_file */>}}/samples/health-check/liveness-command.yaml)
+    {{< /text >}}
+
+- **{{</* github_tree */>}}** is how you reference a directory tree in GitHub. This produces a link to
+`https://github.com/istio/istio/tree/...`
+
+    {{< text markdown >}}
+    [httpbin]({{</* github_tree */>}}/samples/httpbin)
+    {{< /text >}}
+
+- **{{</* github_blob */>}}** is how you reference a file tree in GitHub sources. This produces a link to
+`https://github.com/istio/istio/blob/...`
+
+    {{< text markdown >}}
+    [RawVM MySQL]({{</* github_blob */>}}/samples/rawvm/README.md)
+    {{< /text >}}
+
+The above linking methods automatically link to the appropriate branch in GitHub, relative to branch that that
+documentation set is currently targeting. If you need to manually construct a URL, you can use the sequence **{{</* branch_name */>}}**
+to get the name of the currently targeted branch.
+
 ## Embedding preformatted blocks
 
 You can embed blocks of preformatted content using the `text` sequence:
@@ -208,7 +238,7 @@ func HelloWorld() {
 You can use `plain`, `markdown`, `yaml`, `json`, `java`, `javascript`, `c`, `cpp`, `csharp`, `go`, `html`, `protobuf`,
 `perl`, `docker`, and `bash`.
 
-### Showing commands and command output
+### Commands and command output
 
 When showing one or more bash command-lines, you start each command-line with a $:
 
@@ -291,7 +321,7 @@ $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer
 {"level":"warn","ts":"2017-09-21T04:33:31.233Z","instance":"newlog.logentry.istio-system","destination":"ingress.istio-system.svc.cluster.local","latency":"74.47ms","responseCode":200,"responseSize":5599,"source":"unknown","user":"unknown"}
 {{< /text >}}
 
-### Showing references to Istio GitHub files
+### Links to GitHub files
 
 If your code block references a file from Istio's GitHub repo, you can surround the relative path name of the file with a pair
 of @ symbols. These indicate the path should be rendered as a link to the file from the current branch. For example:
@@ -308,7 +338,7 @@ This will be rendered as:
 $ istioctl create -f @samples/bookinfo/kube/route-rule-reviews-v3.yaml@
 {{< /text >}}
 
-## Displaying file snippets
+### File snippets
 
 It is often useful to display portions of a larger file. You can annotate a text file to create named snippets within the file by
 using the `$snippet` and `$endsnippet` annotations. For example, you could have a text file that looks like this:
@@ -334,7 +364,7 @@ repo and then use snippets within the file to produce examples in the documentat
 in annotated files from GitHub, add the needed entries at the end of the
 script `scripts/grab_reference_docs.sh` in the documentation repo.
 
-## Displaying dynamic content
+### Dynamic content
 
 You can pull in an external file and display its content as a preformatted block. This is handy to display a
 config file or a test file. To do so, you use a statement such as:
@@ -348,16 +378,7 @@ which produces the following result:
 {{< text_dynamic url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" >}}
 
 If the file is from a different origin site, CORS should be enabled on that site. Note that the
-GitHub raw content site (raw.githubusercontent.com) is may be used here.
-
-## Referencing GitHub files
-
-When referencing files from Istio's GitHub repo, it is best to reference a specific branch in the repo. To reference the specific
-branch that the documentation site is currently targeting, you use the annotation {{</* branch_name */>}}. For example:
-
-{{< text markdown >}}
-See this [source file](https://github.com/istio/istio/blob/{{</* branch_name */>}}/mixer/cmd/mixs/cmd/server.go)/
-{{< /text >}}
+GitHub raw content site (raw.githubusercontent.com) may be used here.
 
 ## Renaming or moving pages
 

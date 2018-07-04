@@ -89,7 +89,7 @@ the example application throughout this task.
 
 ### About the Servicegraph add-on
 
-The [Servicegraph](https://github.com/istio/istio/tree/{{<branch_name>}}/addons/servicegraph)
+The [Servicegraph]({{< github_tree >}}/addons/servicegraph)
 service provides endpoints for generating and visualizing a graph of
 services within a mesh. It exposes the following endpoints:
 

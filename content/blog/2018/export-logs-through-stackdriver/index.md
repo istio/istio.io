@@ -23,7 +23,7 @@ application throughout this task.
 ## Configuring Istio to export logs
 
 Istio exports logs using the `logentry` [template](/docs/reference/config/policy-and-telemetry/templates/logentry) configured for Mixer as [accesslog
-entry](https://github.com/istio/istio/blob/{{<branch_name>}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml#L134:9).
+entry]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml#L134:9).
 This specifies all the variables that are available for analysis. It
 contains information like source service, destination service, auth
 metrics (coming..) among others. Following is a diagram of the pipeline:
@@ -73,7 +73,7 @@ Common setup for all sinks:
 A Stackdriver handler must be created to export data to Stackdriver. The configuration schema
 for a Stackdriver handler can be found [here](https://github.com/istio/api/blob/{{<branch_name>}}/policy/v1beta1/cfg.proto#L243:9).
 Config proto for Stackdriver can be found
-[here](https://github.com/istio/istio/blob/{{<branch_name>}}/mixer/adapter/stackdriver/config/config.proto).
+[here]({{< github_file >}}/mixer/adapter/stackdriver/config/config.proto).
 Handler is configured based on this proto.
 
 1.  Save the following yaml file as `stackdriver.yaml`. Replace `<project_id>,

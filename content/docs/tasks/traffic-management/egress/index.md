@@ -23,7 +23,7 @@ or alternatively, to simply bypass the Istio proxy for a specific range of IPs.
 * Setup Istio by following the instructions in the
   [Installation guide](/docs/setup/).
 
-*   Start the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/samples/sleep) sample
+*   Start the [sleep]({{< github_tree >}}/samples/sleep) sample
     which will be used as a test source for external calls.
 
     If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), do
@@ -267,7 +267,7 @@ cloud provider specific knowledge and configuration.
     $ istioctl delete virtualservice httpbin-ext
     {{< /text >}}
 
-1.  Shutdown the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/samples/sleep) service.
+1.  Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service.
 
     {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@
