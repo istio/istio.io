@@ -44,7 +44,7 @@ Istio是一个开源项目，拥有支持其使用和持续开发的活跃社区
     <tr>
       <td class="logo"><img src="/img/github.png" alt="GitHub"/></td>
       <td class="desc">
-        Isito的代码在<a href="https://github.com/istio/community">GitHub</a>上开发。
+        Istio的代码在<a href="https://github.com/istio/community">GitHub</a>上开发。
       </td>
     </tr>
 
