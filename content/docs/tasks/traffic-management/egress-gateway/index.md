@@ -363,15 +363,11 @@ Also note that Istio itself *cannot securely enforce* that all the egress traffi
 
 ## Troubleshooting
 
-1.  Check if you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio:
-
-    {{< text bash >}}
-    $ kubectl get configmap istio -o yaml -n istio-system | grep authPolicy | head -1
-    authPolicy: MUTUAL_TLS
-    {{< /text >}}
-
-    If the output is an uncommented line as above, the mutual TLS is enabled. Make sure you create the configuration
-    items accordingly (note the remarks _If you have mutual TLS Authentication enabled in Istio, you must create..._).
+1.  Check if you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio, following the
+steps in
+[Verifying Istio’s mutual TLS authentication setup](/docs/tasks/security/mutual-tls/#verifying-istio-s-mutual-tls-authentication-setup).
+If mutual TLS is enabled, make sure you create the configuration
+items accordingly (note the remarks _If you have mutual TLS Authentication enabled in Istio, you must create..._).
 
 1.  If [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) is enabled, verify the correct certificate of the
     egress gateway:
