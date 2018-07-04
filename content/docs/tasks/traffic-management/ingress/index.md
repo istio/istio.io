@@ -49,7 +49,6 @@ If your environment does not provide an external load balancer for the ingress g
  you to follow the steps in the next subsection (to use the ingress gateway service's
 [node port](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport)).
 
-
 {{< text bash >}}
 $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 $ if [[ -n $INGRESS_HOST ]]; then
