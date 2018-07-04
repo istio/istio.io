@@ -5,7 +5,6 @@ weight: 40
 keywords: [kubernetes,ansible]
 ---
 
-
 使用 Ansible 安装和配置 Istio 的说明。
 
 ## 先决条件
@@ -19,7 +18,6 @@ keywords: [kubernetes,ansible]
 * 用户已登录到集群
 * 用户在 OpenShift 上具有 `cluster-admin` 角色
 
-
 ## 使用 Ansible 进行部署
 
 **重要**：Ansible playbook 的所有执行都必须在 Istio 的 `install/ansible` 路径中进行。
@@ -29,7 +27,6 @@ keywords: [kubernetes,ansible]
 {{< text bash >}}
 $ ansible-playbook main.yml
 {{< /text >}}
-
 
 ## 使用 Ansible 进行自定义安装
 
@@ -49,7 +46,6 @@ Ansible playbook 附带了合理的默认值。
 | `istio.delete_resources` | 删除 Istio namespace 下安装的资源 | `true` 或 `false` | false |
 | `istio.samples` | 包含应该安装的示例的名称的数组 | `bookinfo`, `helloworld`, `httpbin`, `sleep` | none |
 
-
 ## 默认安装
 
 运维人员使用所有默认选项在 OpenShift 上安装 Istio：
@@ -57,7 +53,6 @@ Ansible playbook 附带了合理的默认值。
 {{< text bash >}}
 $ ansible-playbook main.yml
 {{< /text >}}
-
 
 在某些情况下，默认值可能需要被覆盖。
 
@@ -69,13 +64,11 @@ $ ansible-playbook main.yml
 $ ansible-playbook main.yml -e '{"cluster_flavour": "k8s"}'
 {{< /text >}}
 
-
 运维人员在 Kubernetes 上安装 Istio 并显式指定 `kubectl` 的路径：
 
 {{< text bash >}}
 $ ansible-playbook main.yml -e '{"cluster_flavour": "k8s", "cmd_path": "~/kubectl"}'
 {{< /text >}}
-
 
 运维人员在 Kubernetes 上安装 Istio，使用非默认配置：
 
@@ -83,20 +76,17 @@ $ ansible-playbook main.yml -e '{"cluster_flavour": "k8s", "cmd_path": "~/kubect
 $ ansible-playbook main.yml -e '{"istio": {"auth": true, "delete_resources": true}}'
 {{< /text >}}
 
-
 运维人员在 Kubernetes 上安装 Istio，使用自定义插件：
 
 {{< text bash >}}
 $ ansible-playbook main.yml -e '{"istio": {"delete_resources": true, "addon": ["kiali"]}}'
 {{< /text >}}
 
-
 运维人员在 Kubernetes 上安装 Istio 并额外部署了期望的示例：
 
 {{< text bash >}}
 $ ansible-playbook main.yml -e '{"istio": {"samples": ["helloworld", "bookinfo"]}}'
 {{< /text >}}
-
 
 ## 卸载
 
@@ -106,4 +96,3 @@ $ ansible-playbook main.yml -e '{"istio": {"samples": ["helloworld", "bookinfo"]
 将 `istio.delete_resources` 设置为 true 会从集群中删除 Istio 控制平面。
 
 > 为了避免任何不一致，该标志只能在集群上重新安装相同版本的 Istio 时使用。
-
