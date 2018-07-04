@@ -20,7 +20,7 @@ other = "对于开发者"
 other = "加入 istio-dev@ 邮件列表讨论 Istio 项目开发时遇到的问题"
 
 [github_desc]
-other = "Isito 的代码在 GitHub 上开发"
+other = "Istio 的代码在 GitHub 上开发"
 
 [team_drive_desc]
 other = "如果您想深入了解 Istio 的技术细节，请查看我们日益完善的设计文档"
