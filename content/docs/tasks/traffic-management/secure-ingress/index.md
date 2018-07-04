@@ -12,7 +12,7 @@ gateway to expose an HTTP endpoint of a service to external traffic. This task e
 
 ## Before you begin
 
-1.  Perform the steps in the [Before you begin](/docs/tasks/traffic-management/ingress#before-you-begin) and [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress#determining-the-ingress-ip-and-ports) sections of the
+1.  Perform the steps in the [Before you begin](/docs/tasks/traffic-management/ingress#before-you-begin) and [Setting the ingress IP and ports](/docs/tasks/traffic-management/ingress#setting-the-ingress-ip-and-ports) sections of the
 [Control Ingress Traffic](/docs/tasks/traffic-management/ingress) task. After performing those steps you should have Istio and _httpbin_ service deployed, and the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT` set.
 
 1.  For macOS users, verify that you use _curl_ compiled with the [LibreSSL](http://www.libressl.org) library:
