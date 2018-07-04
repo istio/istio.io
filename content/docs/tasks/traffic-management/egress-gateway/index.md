@@ -70,8 +70,8 @@ First let's direct HTTP traffic without TLS origination
         servers:
         - port:
             number: 80
-            name: http
-            protocol: HTTP
+            name: https
+            protocol: HTTPS
           hosts:
           - "*"
           tls:
@@ -218,8 +218,8 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
       servers:
       - port:
           number: 443
-          name: http-port-for-tls-origination
-          protocol: HTTP
+          name: https
+          protocol: HTTPS
         hosts:
         - "*"
         tls:
