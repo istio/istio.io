@@ -114,7 +114,7 @@ title: Istio
         <div class="row no-gutters">
             <div class="col-12 col-md-6">
                 <h2>Want to learn more?</h2>
-                <p>Get started by learning Istio concepts and running through our BookInfo sample.</p>
+                <p>Get started by learning Istio concepts and running through our Bookinfo sample.</p>
                 <a class="btn btn-istio" href="/docs/">GET STARTED</a>
             </div>
 
