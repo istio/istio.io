@@ -38,6 +38,11 @@
                 {{ $page.Scratch.Set "level" $level }}
             {{ end }}
 
+            {{ $delta := sub ($page.Scratch.Get "level") 50 }}
+            {{ range $index, $num := (seq $delta) }}
+                </ul>
+            {{ end }}
+
             {{ with $related }}
                 <li><a href="#see-also">See also</a></li>
             {{ end }}
