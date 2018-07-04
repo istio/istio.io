@@ -295,7 +295,7 @@ they have valid values, according to the output of the following commands:
     $ kubectl delete --ignore-not-found=true -n istio-system secret istio-ingressgateway-certs istio-ingressgateway-ca-certs
     {{< /text >}}
 
-1.  Shutdown the [httpbin](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/httpbin) service:
+1.  Shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service:
 
     {{< text bash >}}
     $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@

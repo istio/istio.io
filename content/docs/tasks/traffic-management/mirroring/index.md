@@ -240,7 +240,7 @@ Let's set up a scenario to demonstrate the traffic-mirroring capabilities of Ist
     $ istioctl delete destinationrule httpbin
     {{< /text >}}
 
-1.  Shutdown the [httpbin](https://github.com/istio/istio/tree/{{<branch_name>}}/samples/httpbin) service and client.
+1.  Shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service and client.
 
     {{< text bash >}}
     $ kubectl delete deploy httpbin-v1 httpbin-v2 sleep
