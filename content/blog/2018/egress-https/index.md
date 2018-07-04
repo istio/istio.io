@@ -142,7 +142,7 @@ sends regular HTTPS requests, encrypted end-to-end. On the bottom, the same micr
     caption="HTTPS traffic to external services, from outside vs. from inside an Istio service mesh"
     >}}
 
-Here is how we code this behavior in the [Bookinfo details microservice code](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/bookinfo/src/details/details.rb), using the Ruby [net/http module](https://docs.ruby-lang.org/en/2.0.0/Net/HTTP.html):
+Here is how we code this behavior in the [Bookinfo details microservice code]({{< github_file >}}/samples/bookinfo/src/details/details.rb), using the Ruby [net/http module](https://docs.ruby-lang.org/en/2.0.0/Net/HTTP.html):
 
 {{< text ruby >}}
 uri = URI.parse('https://www.googleapis.com/books/v1/volumes?q=isbn:' + isbn)
@@ -158,7 +158,7 @@ Note that the port is derived by the `URI.parse` from the URI's schema (https://
 When the `WITH_ISTIO` environment variable is defined, the request is performed without SSL (plain HTTP).
 
 We set the `WITH_ISTIO` environment variable to _"true"_ in the
-[Kubernetes deployment spec of details v2](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/bookinfo/kube/bookinfo-details-v2.yaml),
+[Kubernetes deployment spec of details v2]({{< github_file >}}/samples/bookinfo/kube/bookinfo-details-v2.yaml),
 the `container` section:
 
 {{< text yaml >}}

@@ -5,6 +5,7 @@ weight: 70
 aliases:
     - /docs/welcome/contribute/style-guide.html
     - /docs/reference/contribute/style-guide.html
+keywords: [contribute]
 ---
 
 This page provides content guidelines for the Istio documentation.
