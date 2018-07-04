@@ -1,7 +1,7 @@
 {{ $toc := partial "toc.html" (dict "page" .) }}
 {{ $needTOC := .Scratch.Get "needTOC" }}
 
-                {{ $related := .Site.RegularPages.Related . | first 5 }}
+                {{ $related := .Site.RegularPages.Related . | first 6 }}
                 {{ with $related }}
                     <h2 id="see-also">See also</h2>
 
