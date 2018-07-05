@@ -102,4 +102,4 @@ Below is our list of existing features and their current phases. This informatio
 | [Multicluster Mesh](/docs/setup/kubernetes/multicluster-install/) | Alpha
 
 > {{< idea_icon >}}
-Please get in touch by joining our [community](/community/) if there are features you'd like to see in our future releases!
+Please get in touch by joining our [community](/about/community/) if there are features you'd like to see in our future releases!

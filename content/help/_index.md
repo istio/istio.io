@@ -6,5 +6,5 @@ sidebar_singlecard: true
 type: section-index
 ---
 
-And don't forget our vibrant [community](/community/) that's always ready to lend a hand
+And don't forget our vibrant [community](/about/community/) that's always ready to lend a hand
 with thorny problems.
