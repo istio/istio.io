@@ -32,18 +32,18 @@ we will increase the product's version number only for LTS releases.
 
 Our naming scheme for LTS releases is:
 
-```plain
+{{< text plain >}}
 <major>.<minor>.<LTS patch level>
-```
+{{< /text >}}
 
 where `<minor>` is increased for every LTS release, and `<LTS patch level>` counts the number of patches for the
 current LTS release. A patch is usually a small change relative to the LTS.
 
 For snapshot releases, our naming scheme is:
 
-```plain
+{{< text plain >}}
 <major>.<minor>.0-snapshot.<snapshot count>
-```
+{{< /text >}}
 
 where `<major>.<minor>.0` represent the next LTS, and
 `<snapshot count>` starts at 0 and increases for every snapshot leading up to the
@@ -51,6 +51,6 @@ next LTS.
 
 In the unlikely event we need to issue a patch to a snapshot, it is numbered as:
 
-```plain
+{{< text plain >}}
 <major>.<minor>.0-snapshot.<snapshot count>.<snapshot patch level>
-```
+{{< /text >}}

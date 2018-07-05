@@ -1,9 +1,304 @@
 ---
-title: Rules Configuration
-description: Provides a high-level overview of the configuration model used by Istio to configure traffic management rules in the service mesh.
-weight: 50
-keywords: [traffic-management,rules]
+title: Traffic Management
+description: Describes the various Istio features focused on traffic routing and control.
+weight: 20
+keywords: [traffic-management]
+aliases:
+    - /docs/concepts/traffic-management/overview
+    - /docs/concepts/traffic-management/pilot
+    - /docs/concepts/traffic-management/rules-configuration
+    - /docs/concepts/traffic-management/fault-injection
+    - /docs/concepts/traffic-management/handling-failures
+    - /docs/concepts/traffic-management/load-balancing
+    - /docs/concepts/traffic-management/request-routing
 ---
+
+This page provides an overview of how traffic management works
+in Istio, including the benefits of its traffic management
+principles. It assumes that you've already read [What is Istio?](/docs/concepts/what-is-istio/)
+and are familiar with Istio's high-level architecture.
+
+Using Istio's traffic management model essentially decouples traffic flow
+and infrastructure scaling, letting operators specify via Pilot what
+rules they want traffic to follow rather than which specific pods/VMs should
+receive traffic - Pilot and intelligent Envoy proxies look after the
+rest. So, for example, you can specify via Pilot that you want 5%
+of traffic for a particular service to go to a canary version irrespective
+of the size of the canary deployment, or send traffic to a particular version
+depending on the content of the request.
+
+{{< image width="85%" ratio="69.52%"
+    link="./TrafficManagementOverview.svg"
+    caption="Traffic Management with Istio"
+    >}}
+
+Decoupling traffic flow from infrastructure scaling like this allows Istio
+to provide a variety of traffic management features that live outside the
+application code. As well as dynamic [request routing](#request-routing)
+for A/B testing, gradual rollouts, and canary releases, it also handles
+[failure recovery](#handling-failures) using timeouts, retries, and
+circuit breakers, and finally [fault injection](#fault-injection) to
+test the compatibility of failure recovery policies across services. These
+capabilities are all realized through the Envoy sidecars/proxies deployed
+across the service mesh.
+
+## Pilot and Envoy
+
+The core component used for traffic management in Istio is **Pilot**, which
+manages and configures all the Envoy
+proxy instances deployed in a particular Istio service mesh. It lets you
+specify what rules you want to use to route traffic between Envoy proxies
+and configure failure recovery features such as timeouts, retries, and
+circuit breakers. It also maintains a canonical model of all the services
+in the mesh and uses this to let Envoys know about the other instances in
+the mesh via its discovery service.
+
+Each Envoy instance maintains [load balancing information](#discovery-and-load-balancing)
+based on the information it gets from Pilot and periodic health-checks
+of other instances in its load-balancing pool, allowing it to intelligently
+distribute traffic between destination instances while following its specified
+routing rules.
+
+Pilot is responsible for the lifecycle of Envoy instances deployed
+across the Istio service mesh.
+
+{{< image width="60%" ratio="72.17%"
+    link="./PilotAdapters.svg"
+    caption="Pilot Architecture"
+    >}}
+
+As illustrated in the figure above, Pilot maintains a canonical
+representation of services in the mesh that is independent of the underlying
+platform. Platform-specific adapters in Pilot are responsible for
+populating this canonical model appropriately. For example, the Kubernetes
+adapter in Pilot implements the necessary controllers to watch the
+Kubernetes API server for changes to the pod registration information, ingress
+resources, and third party resources that store traffic management rules.
+This data is translated into the canonical representation. Envoy-specific
+configuration is generated based on the canonical representation.
+
+Pilot enables [service discovery](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/sds),
+dynamic updates to [load balancing pools](https://www.envoyproxy.io/docs/envoy/latest/configuration/cluster_manager/cds)
+and [routing tables](https://www.envoyproxy.io/docs/envoy/latest/configuration/http_conn_man/rds).
+
+Operators can specify high-level traffic management rules through
+[Pilot's Rule configuration](/docs/reference/config/istio.networking.v1alpha3/). These rules are translated into low-level
+configurations and distributed to Envoy instances.
+
+## Request routing
+
+As described above, the canonical representation
+of services in a particular mesh is maintained by Pilot. The Istio
+model of a service is independent of how it is represented in the underlying
+platform (Kubernetes, Mesos, Cloud Foundry,
+etc.). Platform-specific adapters are responsible for populating the
+internal model representation with various fields from the metadata found
+in the platform.
+
+Istio introduces the concept of a service version, which is a finer-grained
+way to subdivide service instances by versions (`v1`, `v2`) or environment
+(`staging`, `prod`). These variants are not necessarily different API
+versions: they could be iterative changes to the same service, deployed in
+different environments (prod, staging, dev, etc.). Common scenarios where
+this is used include A/B testing or canary rollouts. Istio's [traffic
+routing rules](#rule-configuration) can refer to service versions to provide
+additional control over traffic between services.
+
+### Communication between services
+
+{{< image width="60%" ratio="100.42%"
+    link="./ServiceModel_Versions.svg"
+    alt="Showing how service versions are handled."
+    caption="Service Versions"
+    >}}
+
+As illustrated in the figure above, clients of a service have no knowledge
+of different versions of the service. They can continue to access the
+services using the hostname/IP address of the service. The Envoy sidecar/proxy
+intercepts and forwards all requests/responses between the client and the
+service.
+
+Envoy determines its actual choice of service version dynamically
+based on the routing rules specified by the operator using Pilot. This
+model enables the application code to decouple itself from the evolution of its dependent
+services, while providing other benefits as well (see
+[Mixer](/docs/concepts/policies-and-telemetry/)). Routing
+rules allow Envoy to select a version based
+on criteria such as headers, tags associated with
+source/destination, and/or by weights assigned to each version.
+
+Istio also provides load balancing for traffic to multiple instances of
+the same service version. You can find out more about this in [Discovery
+and Load Balancing](/docs/concepts/traffic-management/#discovery-and-load-balancing).
+
+Istio does not provide a DNS. Applications can try to resolve the
+FQDN using the DNS service present in the underlying platform (kube-dns,
+mesos-dns, etc.).
+
+### Ingress and egress
+
+Istio assumes that all traffic entering and leaving the service mesh
+transits through Envoy proxies. By deploying the Envoy proxy in front of
+services, operators can conduct A/B testing, deploy canary services,
+etc. for user-facing services. Similarly, by routing traffic to external
+web services (for instance, accessing the Maps API, or a video service API)
+via the sidecar Envoy, operators can add failure recovery features such as
+timeouts, retries, circuit breakers, etc., and obtain detailed metrics on
+the connections to these services.
+
+{{< image width="60%" ratio="28.88%"
+    link="./ServiceModel_RequestFlow.svg"
+    alt="Ingress and Egress through Envoy."
+    caption="Request Flow"
+    >}}
+
+## Discovery and load balancing
+
+Istio load balances traffic across instances of a service in a service mesh.
+
+Istio assumes the presence of a service registry
+to keep track of the pods/VMs of a service in the application. It also
+assumes that new instances of a service are automatically registered with
+the service registry and unhealthy instances are automatically removed.
+Platforms such as Kubernetes, Mesos already provide such functionality for
+container-based applications. A plethora of solutions exist for VM-based
+applications.
+
+Pilot consumes information from the service
+registry and provides a platform-agnostic service discovery
+interface. Envoy instances in the mesh perform service discovery and
+dynamically update their load balancing pools accordingly.
+
+{{< image width="55%" ratio="74.79%"
+    link="./LoadBalancing.svg"
+    caption="Discovery and Load Balancing"
+    >}}
+
+As illustrated in the figure above, services in the mesh access each other
+using their DNS names. All HTTP traffic bound to a service is automatically
+re-routed through Envoy. Envoy distributes the traffic across instances in
+the load balancing pool. While Envoy supports several
+[sophisticated load balancing algorithms](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing),
+Istio currently allows three load balancing modes:
+round robin, random, and weighted least request.
+
+In addition to load balancing, Envoy periodically checks the health of each
+instance in the pool. Envoy follows a circuit breaker style pattern to
+classify instances as unhealthy or healthy based on their failure rates for
+the health check API call. In other words, when the number of health
+check failures for a given instance exceeds a pre-specified threshold, it
+will be ejected from the load balancing pool. Similarly, when the number of
+health checks that pass exceed a pre-specified threshold, the instance will
+be added back into the load balancing pool. You can find out more about Envoy's
+failure-handling features in [Handling Failures](#handling-failures).
+
+Services can actively shed load by responding with a HTTP 503 to a health
+check. In such an event, the service instance will be immediately removed
+from the caller's load balancing pool.
+
+## Handling failures
+
+Envoy provides a set of out-of-the-box _opt-in_ failure recovery features
+that can be taken advantage of by the services in an application. Features
+include:
+
+1. Timeouts
+
+1. Bounded retries with timeout budgets and variable jitter between retries
+
+1. Limits on number of concurrent connections and requests to upstream services
+
+1. Active (periodic) health checks on each member of the load balancing pool
+
+1. Fine-grained circuit breakers (passive health checks) -- applied per
+instance in the load balancing pool
+
+These features can be dynamically configured at runtime through
+[Istio's traffic management rules](#rule-configuration).
+
+The jitter between retries minimizes the impact of retries on an overloaded
+upstream service, while timeout budgets ensure that the calling service
+gets a response (success/failure) within a predictable time frame.
+
+A combination of active and passive health checks (4 and 5 above)
+minimizes the chances of accessing an unhealthy instance in the load
+balancing pool. When combined with platform-level health checks (such as
+those supported by Kubernetes or Mesos), applications can ensure that
+unhealthy pods/containers/VMs can be quickly weeded out of the service
+mesh, minimizing the request failures and impact on latency.
+
+Together, these features enable the service mesh to tolerate failing nodes
+and prevent localized failures from cascading instability to other nodes.
+
+### Fine tuning
+
+Istio's traffic management rules allow
+operators to set global defaults for failure recovery per
+service/version. However, consumers of a service can also override
+[timeout](/docs/reference/config/istio.routing.v1alpha1/#HTTPTimeout)
+and
+[retry](/docs/reference/config/istio.routing.v1alpha1/#HTTPRetry)
+defaults by providing request-level overrides through special HTTP headers.
+With the Envoy proxy implementation, the headers are `x-envoy-upstream-rq-timeout-ms` and
+`x-envoy-max-retries`, respectively.
+
+### Failure handling FAQ
+
+Q: *Do applications still handle failures when running in Istio?*
+
+Yes. Istio improves the reliability and availability of services in the
+mesh. However, **applications need to handle the failure (errors)
+and take appropriate fallback actions**. For example, when all instances in
+a load balancing pool have failed, Envoy will return HTTP 503. It is the
+responsibility of the application to implement any fallback logic that is
+needed to handle the HTTP 503 error code from an upstream service.
+
+Q: *Will Envoy's failure recovery features break applications that already
+use fault tolerance libraries (e.g. [Hystrix](https://github.com/Netflix/Hystrix))?*
+
+No. Envoy is completely transparent to the application. A failure response
+returned by Envoy would not be distinguishable from a failure response
+returned by the upstream service to which the call was made.
+
+Q: *How will failures be handled when using application-level libraries and
+Envoy at the same time?*
+
+Given two failure recovery policies for the same destination service (e.g.,
+two timeouts -- one set in Envoy and another in application's library), **the
+more restrictive of the two will be triggered when failures occur**. For
+example, if the application sets a 5 second timeout for an API call to a
+service, while the operator has configured a 10 second timeout, the
+application's timeout will kick in first. Similarly, if Envoy's circuit
+breaker triggers before the application's circuit breaker, API calls to the
+service will get a 503 from Envoy.
+
+## Fault injection
+
+While Envoy sidecar/proxy provides a host of
+[failure recovery mechanisms](#handling-failures) to services running
+on Istio, it is still
+imperative to test the end-to-end failure recovery capability of the
+application as a whole. Misconfigured failure recovery policies (e.g.,
+incompatible/restrictive timeouts across service calls) could result in
+continued unavailability of critical services in the application, resulting
+in poor user experience.
+
+Istio enables protocol-specific fault injection into the network, instead
+of killing pods, delaying or corrupting packets at TCP layer. Our rationale
+is that the failures observed by the application layer are the same
+regardless of network level failures, and that more meaningful failures can
+be injected at the application layer (e.g., HTTP error codes) to exercise
+the resilience of an application.
+
+Operators can configure faults to be injected into requests that match
+specific criteria. Operators can further restrict the percentage of
+requests that should be subjected to faults. Two types of faults can be
+injected: delays and aborts. Delays are timing failures, mimicking
+increased network latency, or an overloaded upstream service. Aborts are
+crash failures that mimic failures in upstream services. Aborts usually
+manifest in the form of HTTP error codes, or TCP connection failures.
+
+## Rule configuration
 
 Istio provides a simple configuration model to
 control how API calls and layer-4 traffic flow across various
@@ -17,7 +312,7 @@ For example, a simple rule to send 100% of incoming traffic for a *reviews*
 service to version "v1" can be described using a configuration as
 follows:
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -30,7 +325,7 @@ spec:
     - destination:
         host: reviews
         subset: v1
-```
+{{< /text >}}
 
 This configuration says that traffic sent to the *reviews* service
 (specified in the `hosts` field) should be routed to the v1 subset
@@ -38,7 +333,7 @@ of the underlying *reviews* service instances.
 The route `subset` specifies the name of a defined subset in
 a corresponding destination rule configuration:
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -52,7 +347,7 @@ spec:
   - name: v2
     labels:
       version: v2
-```
+{{< /text >}}
 
 A subset specifies one or more labels that identify version-specific instances.
 For example, in a Kubernetes deployment of Istio, "version: v1" indicates that
@@ -71,7 +366,7 @@ A few important aspects of these resources are described below.
 See [networking reference](/docs/reference/config/istio.networking.v1alpha3/)
 for detailed information.
 
-## Virtual Services
+### Virtual Services
 
 A [VirtualService](/docs/reference/config/istio.networking.v1alpha3/#VirtualService)
 defines the rules that control how requests for a service are routed within an Istio service mesh.
@@ -80,7 +375,7 @@ to a completely different service than was requested.
 Requests can be routed based on the request source and destination, HTTP paths and
 header fields, and weights associated with individual service versions.
 
-### Rule destinations
+#### Rule destinations
 
 Routing rules correspond to one or more request destination hosts that are specified in
 a `VirtualService` configuration. These hosts may or may not be the same as the actual
@@ -89,11 +384,11 @@ For example, to define routing rules for requests to the *reviews* service using
 mesh name `reviews` or via host `bookinfo.com`, a `VirtualService` could have a `hosts` field
 something like this:
 
-```yaml
+{{< text yaml >}}
 hosts:
   - reviews
   - bookinfo.com
-```
+{{< /text >}}
 
 The `hosts` field specifies, implicitly or explicitly, one or more fully qualified
 domain names (FQDN). The short name `reviews`, above, would implicitly
@@ -101,7 +396,7 @@ expand to an implementation specific FQDN. For example, in a Kubernetes environm
 the full name is derived from the cluster and namespace of the `VirtualSevice`
 (e.g., `reviews.default.svc.cluster.local`).
 
-### Qualify rules by source/headers
+#### Qualify rules by source/headers
 
 Rules can optionally be qualified to only apply to requests that match some
 specific criteria such as the following:
@@ -110,7 +405,7 @@ _1. Restrict to a specific caller_.  For example, a rule
 can indicate that it only applies to calls from workloads (pods) implementing
 the *reviews* service.
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -123,7 +418,7 @@ spec:
       sourceLabels:
         app: reviews
     ...
-```
+{{< /text >}}
 
 The value of `sourceLabels` depends on the implementation of the service.
 In Kubernetes, for example, it would probably be the same labels that are used
@@ -133,7 +428,7 @@ _2. Restrict to specific versions of the caller_. For example, the following
 rule refines the previous example to only apply to calls from version "v2"
 of the *reviews* service.
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -147,13 +442,13 @@ spec:
         app: reviews
         version: v2
     ...
-```
+{{< /text >}}
 
 _3. Select rule based on HTTP headers_. For example, the following rule will
 only apply to an incoming request if it includes a "cookie" header that
 contains the substring "user=jason".
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -167,7 +462,7 @@ spec:
         cookie:
           regex: "^(.*?;)?(user=jason)(;.*)?$"
     ...
-```
+{{< /text >}}
 
 If more than one header is provided, then all of the
 corresponding headers must match for the rule to apply.
@@ -179,7 +474,7 @@ are ANDed. For example, the following rule only applies if the source of the
 request is "reviews:v2" AND the "cookie" header containing "user=jason" is
 present.
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -196,12 +491,12 @@ spec:
         cookie:
           regex: "^(.*?;)?(user=jason)(;.*)?$"
     ...
-```
+{{< /text >}}
 
 If instead, the criteria appear in separate match clauses, then only one
 of the conditions must apply (OR semantics):
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -218,9 +513,9 @@ spec:
         cookie:
           regex: "^(.*?;)?(user=jason)(;.*)?$"
     ...
-```
+{{< /text >}}
 
-### Split traffic between service versions
+#### Splitting traffic between versions
 
 Each route rule identifies one or more weighted backends to call when the rule is activated.
 Each backend corresponds to a specific version of the destination service,
@@ -232,7 +527,7 @@ or round-robin by default.
 For example, the following rule will route 25% of traffic for the *reviews* service to instances with
 the "v2" label and the remaining traffic (i.e., 75%) to "v1".
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -250,14 +545,14 @@ spec:
         host: reviews
         subset: v2
       weight: 25
-```
+{{< /text >}}
 
-### Timeouts and retries
+#### Timeouts and retries
 
 By default, the timeout for http requests is 15 seconds,
 but this can be overridden in a route rule as follows:
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -271,13 +566,13 @@ spec:
         host: ratings
         subset: v1
     timeout: 10s
-```
+{{< /text >}}
 
 The number of retries for a given http request can also be specified in a route rule.
 The maximum number of attempts, or as many as possible within the default or overridden timeout period,
 can be set as follows:
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -293,14 +588,14 @@ spec:
     retries:
       attempts: 3
       perTryTimeout: 2s
-```
+{{< /text >}}
 
 Note that request timeouts and retries can also be
-[overridden on a per-request basis](/docs/concepts/traffic-management/handling-failures#fine-tuning).
+[overridden on a per-request basis](#fine-tuning).
 
-See the [request timeouts task](/docs/tasks/traffic-management/request-timeouts/) for a demonstration of timeout control.
+See the [request timeouts task](/docs/tasks/traffic-management/request-timeouts) for a demonstration of timeout control.
 
-### Injecting faults in the request path
+#### Injecting faults
 
 A route rule can specify one or more faults to inject
 while forwarding http requests to the rule's corresponding request destination.
@@ -308,7 +603,7 @@ The faults can be either delays or aborts.
 
 The following example will introduce a 5 second delay in 10% of the requests to the "v1" version of the *ratings* microservice.
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -325,7 +620,7 @@ spec:
     - destination:
         host: ratings
         subset: v1
-```
+{{< /text >}}
 
 The other kind of fault, abort, can be used to prematurely terminate a request,
 for example, to simulate a failure.
@@ -333,7 +628,7 @@ for example, to simulate a failure.
 The following example will return an HTTP 400 error code for 10%
 of the requests to the *ratings* service "v1".
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -350,13 +645,13 @@ spec:
     - destination:
         host: ratings
         subset: v1
-```
+{{< /text >}}
 
 Sometimes delays and abort faults are used together. For example, the following rule will delay
 by 5 seconds all requests from the *reviews* service "v2" to the *ratings* service "v1" and
 then abort 10 percent of them:
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -379,11 +674,11 @@ spec:
     - destination:
         host: ratings
         subset: v1
-```
+{{< /text >}}
 
 To see fault injection in action, see the [fault injection task](/docs/tasks/traffic-management/fault-injection/).
 
-### HTTP route rules have precedence
+#### Precedence
 
 When there are multiple rules for a given destination,
 they are evaluated in the order they appear
@@ -409,7 +704,7 @@ specify that all requests for the *reviews* service that includes a header
 named "Foo" with the value "bar" will be sent to the "v2" instances.
 All remaining requests will be sent to "v1".
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -430,7 +725,7 @@ spec:
     - destination:
         host: reviews
         subset: v1
-```
+{{< /text >}}
 
 Notice that the header-based rule has the higher priority. If
 it was lower, these rules wouldn't work as expected since the weight-based
@@ -441,7 +736,7 @@ request, it will be executed and the rule-evaluation process will
 terminate. That's why it's very important to carefully consider the
 priorities of each rule when there is more than one.
 
-## Destination Rules
+### Destination rules
 
 A [DestinationRule](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule)
 configures the set of policies to be applied to a request after `VirtualService` routing has occurred. They are
@@ -452,7 +747,7 @@ These subsets are used in `VirtualService` route specifications when sending tra
 
 The following `DestinationRule` configures policies and subsets for the reviews service:
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -475,19 +770,19 @@ spec:
   - name: v3
     labels:
       version: v3
-```
+{{< /text >}}
 
 Notice that multiple policies (e.g., default and v2-specific) can be
 specified in a single `DestinationRule` configuration.
 
-### Circuit breakers
+#### Circuit breakers
 
 A simple circuit breaker can be set based on a number of criteria such as connection and request limits.
 
 For example, the following `DestinationRule`
 sets a limit of 100 connections to *reviews* service version "v1" backends.
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -502,11 +797,11 @@ spec:
       connectionPool:
         tcp:
           maxConnections: 100
-```
+{{< /text >}}
 
 See the [circuit-breaking task](/docs/tasks/traffic-management/circuit-breaking/) for a demonstration of circuit breaker control.
 
-### DestinationRule evaluation
+#### Rule evaluation
 
 Similar to route rules, policies are associated with a
 particular *host* however if they are subset specific,
@@ -525,7 +820,7 @@ the corresponding subset is explicitly routed to. For example,
 consider the following configuration, as the one and only rule defined for the
 *reviews* service (i.e., there are no route rules in a corresponding `VirtualService`.
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -540,7 +835,7 @@ spec:
       connectionPool:
         tcp:
           maxConnections: 100
-```
+{{< /text >}}
 
 Since there is no specific route rule defined for the *reviews*
 service, default round-robin routing behavior will apply, which will
@@ -553,7 +848,7 @@ unable to match the subset policy to the request.
 You can fix the above example in one of two ways. You can either move the
 traffic policy up a level to make it apply to any version:
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -568,12 +863,12 @@ spec:
   - name: v1
     labels:
       version: v1
-```
+{{< /text >}}
 
 or, better yet, define proper route rules for the service.
 For example, you can add a simple route rule for "reviews:v1".
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -586,7 +881,7 @@ spec:
     - destination:
         host: reviews
         subset: v1
-```
+{{< /text >}}
 
 Although the default Istio behavior conveniently sends traffic from any
 source to all versions of a destination service
@@ -595,7 +890,7 @@ rules are going to be needed.
 Therefore, setting a default rule for every service, right from the
 start, is generally considered a best practice in Istio.
 
-## Service Entries
+### Service entries
 
 A [ServiceEntry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry)
 is used to add additional entries into the service registry that Istio maintains internally.
@@ -603,7 +898,7 @@ It is most commonly used to enable requests to services outside of an Istio serv
 For example, the following `ServiceEntry` can be used to allow external calls to services hosted
 under the `*.foo.com` domain.
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
@@ -618,7 +913,7 @@ spec:
   - number: 443
     name: https
     protocol: HTTPS
-```
+{{< /text >}}
 
 The destination of a `ServiceEntry` is specified using the `hosts` field, which
 can be either a fully qualified or wildcard domain name.
@@ -631,7 +926,7 @@ Mesh-internal entries are like all other internal services but are used to expli
 to the mesh. They can be used to add services as part of expanding the service mesh to include unmanaged infrastructure
 (e.g., VMs added to a Kubernetes-based service mesh).
 Mesh-external entries represent services external to the mesh.
-For them, mTLS authentication is disabled and policy enforcement is performed on the client-side,
+For them, mutual TLS authentication is disabled and policy enforcement is performed on the client-side,
 instead of on the usual server-side for internal service requests.
 
 Service entries work well in conjunction with virtual services
@@ -640,7 +935,7 @@ and destination rules as long as they refer to the services using matching
 the above `ServiceEntry` rule to set a 10s timeout for calls to
 the external service at `bar.foo.com`.
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -653,7 +948,7 @@ spec:
     - destination:
         host: bar.foo.com
     timeout: 10s
-```
+{{< /text >}}
 
 Rules to redirect and forward traffic, to define retry,
 timeout and fault injection policies are all supported for external destinations.
@@ -663,7 +958,7 @@ of multiple versions of an external service.
 See the [egress task](/docs/tasks/traffic-management/egress/) for a more
 about accessing external services.
 
-## Gateways
+### Gateways
 
 A [Gateway](/docs/reference/config/istio.networking.v1alpha3/#Gateway)
 configures a load balancer for HTTP/TCP traffic, most commonly operating at the edge of the
@@ -677,7 +972,7 @@ to control HTTP requests as well as TCP traffic entering a `Gateway` by binding 
 For example, the following simple `Gateway` configures a load balancer
 to allow external https traffic for host `bookinfo.com` into the mesh:
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -694,13 +989,13 @@ spec:
       mode: SIMPLE
       serverCertificate: /tmp/tls.crt
       privateKey: /tmp/tls.key
-```
+{{< /text >}}
 
 To configure the corresponding routes, a `VirtualService`
 must be defined for the same host and bound to the `Gateway` using
 the `gateways` field in the configuration:
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -716,7 +1011,7 @@ spec:
         prefix: /reviews
     route:
     ...
-```
+{{< /text >}}
 
 See the [ingress task](/docs/tasks/traffic-management/ingress/) for a
 complete ingress gateway example.
