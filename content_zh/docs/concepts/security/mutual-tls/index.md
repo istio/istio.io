@@ -123,7 +123,7 @@ Istio 安全工作流由部署和运行两阶段组成。Kubernetes 和虚拟机
 
 我们设想一个三层的应用程序，其中有三个服务：照片前端，照片后端和数据存储。照片前端和照片后端服务由照片 SRE 团队管理，而数据存储服务由数据存储 SRE 团队管理。照片前端可以访问照片后端，照片后端可以访问数据存储。但是，照片前端无法访问数据存储。
 
-在这种情况下，集群管理员创建 3 个命名空间：istio-citadel-ns、photo-ns 以及 datastore-ns。管理员可以访问所有命名空间，每个团队只能访问自己的命名空间。照片 SRE 团队创建了两个 Service account，在命名空间 photo-ns 中运行照片前端和照片后端。数据存储 SRE 团队创建一个 Service account 以在命名空间 datastore-ns 中运行数据存储服务。此外，我们需要在 [Istio Mixer](/docs/concepts/policies-and-telemetry/overview/) 中强制执行服务访问控制，以使照片前端无法访问数据存储。
+在这种情况下，集群管理员创建 3 个命名空间：istio-citadel-ns、photo-ns 以及 datastore-ns。管理员可以访问所有命名空间，每个团队只能访问自己的命名空间。照片 SRE 团队创建了两个 Service account，在命名空间 photo-ns 中运行照片前端和照片后端。数据存储 SRE 团队创建一个 Service account 以在命名空间 datastore-ns 中运行数据存储服务。此外，我们需要在 [Istio Mixer](/docs/concepts/policies-and-telemetry/) 中强制执行服务访问控制，以使照片前端无法访问数据存储。
 
 在此设置中，Citadel 能够为所有命名空间提供密钥和证书管理，并隔离彼此的微服务部署。
 
