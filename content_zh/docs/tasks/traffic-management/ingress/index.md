@@ -19,7 +19,7 @@ aliases:
 
 * 确保您当前的目录是`istio`目录。
 
-* 启动 [httpbin](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/httpbin) 样本，该样本将用作要在外部公开的目标服务。
+* 启动 [httpbin]({{< github_tree >}}/samples/httpbin) 样本，该样本将用作要在外部公开的目标服务。
 
   如果您已启用[自动注入 sidecar](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)，请执行
 
@@ -237,7 +237,7 @@ EOF
 
 ## 清理
 
-删除`Gateway`配置，`VirtualService`密码并关闭 [httpbin](https://github.com/istio/istio/blob/%7B%7B%3Cbranch_name%3E%7D%7D/samples/httpbin) 服务：
+删除`Gateway`配置，`VirtualService`密码并关闭 [httpbin]({{< github_tree >}}/samples/httpbin) 服务：
 
 {{< text bash >}}
 $ istioctl delete gateway httpbin-gateway
