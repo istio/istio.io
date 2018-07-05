@@ -13,7 +13,7 @@ aliases:
 
 ## 前提条件
 
-* 按照[安装指南中](/docs/setup/)的说明设置 Istio 。
+* 按照[安装指南](/docs/setup/)中的说明设置 Istio 。
 
 * 部署示例应用程序 [Bookinfo](/docs/examples/bookinfo/) 。
 
