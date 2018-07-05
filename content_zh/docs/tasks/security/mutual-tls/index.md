@@ -35,7 +35,7 @@ keywords: [security,mutual-tls]
     $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
     {{< /text >}}
 
-    如果集群设置了[自动注入 Sidecar](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)，就只需要简单的使用 `kubectl` 命令完成部署了。
+    如果集群设置了[自动注入 Sidecar](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)，就只需要简单的使用 `kubectl` 就可以完成部署了。
 
     {{< text bash >}}
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@
@@ -58,7 +58,7 @@ istio-citadel   1         1         1            1           1m
 
 ### 检查服务配置
 
-* 检查安装模式。如果缺省启用了双向 TLS（也就是在安装 Istio 的时候使用了 `istio-demo-auth.yaml`）,会在 Configmap 中看到未被注释的 `authPolicy: MUTUAL_TLS` 一行：
+* 检查安装模式。如果缺省启用了双向 TLS（也就是在安装 Istio 的时候使用了 `istio-demo-auth.yaml`），会在 Configmap 中看到未被注释的 `authPolicy: MUTUAL_TLS` 一行：
 
     {{< text bash >}}
     $ kubectl get configmap istio -o yaml -n istio-system | grep authPolicy | head -1
