@@ -90,9 +90,9 @@ spec:
 In this situation you will notice that requests to the helloworld service via the ingress gateway will
 not be directed to subset v1 but instead will continue to use default round-robin routing.
 
-The reason this happens is because the ingress requests are using the gateway host (e.g., `myapp.com`)
-which will activate the rules in the myapp `VirtualService` and it simply routes to the helloworld destination.
-Only internal requests to the helloworld service host `helloworld.default.svc.cluster.local` will use the
+The ingress requests are using the gateway host (e.g., `myapp.com`)
+which will activate the rules in the myapp.com `VirtualService` that routes to any endpoint in the helloworld service.
+On the other hand, internal requests with host `helloworld.default.svc.cluster.local` will use the
 helloworld `VirtualService` which directs traffic exclusively to subset v1.
 
 To control the traffic from the gateway, you need to include the subset rule in the myapp `VirtualService`:
@@ -119,15 +119,38 @@ spec:
     ...
 {{</text>}}
 
-The general issue is that if a service is being accessed through a gateway host like `myapp.com` and also internally
-by its internal host `helloworld.default.svc.cluster.local`, and you want to configure rules that apply for both
-internal and external requests, then you need to put the same route rule in two different places (`VirtualServices`).
+Alternatively, you can combine both `VirtualServices` into one unit if possible:
 
-There is some discussion under way in the Istio community about how Istio might support `VirtualService` chaining,
-for example, you put a match rule in one `VirtualService` with the destination being another `VirtualService`
-that defines the service's version routing rules.
-Alternatively, higher level tooling may be used to solve the problem.
-For now, however, you have no choice but to replicate the rules.
+{{<text yaml>}}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: myapp
+spec:
+  hosts:
+  - "myapp.com" # cannot use "*" here since this is being combined with the mesh services
+  - helloworld.default.svc.cluster.local  
+  gateways:
+  - mesh #applies internally as well as externally  
+  - myapp-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /hello
+      gateways:
+      - myapp-gateway #restricts this rule to apply only to ingress gateway
+    route:
+    - destination:
+        host: helloworld.default.svc.cluster.local
+        subset: v1
+  - match:
+    - gateways:
+      - mesh # applies to all services inside the mesh
+    route:
+    - destination:
+        host: helloworld.default.svc.cluster.local
+        subset: v1 
+{{</text>}}
 
 ## Route rules have no effect on my application
 
