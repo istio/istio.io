@@ -7,7 +7,7 @@ keywords: [traffic-management,egress]
 
 > 这一任务使用的是新的 [v1alpha3 流量管理 API](/blog/2018/v1alpha3-routing/)。旧版本的 API 已经过时，会在 Istio 的下一个版本中弃用。如果需要使用旧版本，请阅读[旧版文档](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)。
 
-缺省情况下，Istio 服务网格内的 Pod，由于其 iptables 将所有外发流量都透明的转发给了 Sidecar，所以这些集群内的服务无法访问集群之外 URL，而只能处理集群内部的目标。
+缺省情况下，Istio 服务网格内的 Pod，由于其 iptables 将所有外发流量都透明的转发给了 Sidecar，所以这些集群内的服务无法访问集群之外的 URL，而只能处理集群内部的目标。
 
 本文的任务描述了如何将外部服务暴露给 Istio 集群中的客户端。你将会学到如何通过定义 [ServiceEntry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) 来调用外部服务；或者简单的对 Istio 进行配置，要求其直接放行对特定 IP 范围的访问。
 
@@ -54,7 +54,7 @@ keywords: [traffic-management,egress]
     EOF
     {{< /text >}}
 
-1. 另外创建一个  `ServiceEntry` 对象，允许访问对一个外部 HTTPS 服务的访问：
+1. 另外创建一个 `ServiceEntry` 对象，允许访问对一个外部 HTTPS 服务的访问：
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
@@ -173,7 +173,7 @@ $ helm template @install/kubernetes/helm/istio@ <安装 Istio 时所使用的参
     $ cat cluster/config.yaml | grep service_cluster_ip_range
     {{< /text >}}
 
-    A sample output is as following:
+    会输出类似内容：
 
     {{< text plain >}}
     service_cluster_ip_range: 10.0.0.1/24
