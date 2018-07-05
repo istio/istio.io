@@ -43,10 +43,10 @@ caption="GKE-IAM Role"
 
 1.  Once you have an account and project enabled, click the following link to open the Deployment Manager.
 
-    [Istio GKE Deployment Manager](https://accounts.google.com/signin/v2/identifier?service=cloudconsole&continue=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/{{<branch_name>}}/install/gcp/deployment_manager/istio-cluster.jinja&followup=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/master/install/gcp/deployment_manager/istio-cluster.jinja&flowName=GlifWebSignIn&flowEntry=ServiceLogin)
+    [Istio GKE Deployment Manager](https://accounts.google.com/signin/v2/identifier?service=cloudconsole&continue=https://console.cloud.google.com/launcher/config?templateurl={{< github_file >}}/install/gcp/deployment_manager/istio-cluster.jinja&followup=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/master/install/gcp/deployment_manager/istio-cluster.jinja&flowName=GlifWebSignIn&flowEntry=ServiceLogin)
 
     We recommend that you leave the default settings as the rest of this tutorial shows how to access the installed features. By default the tool creates a
-    GKE alpha cluster with the specified settings, then installs the Istio [control plane](/docs/concepts/what-is-istio/overview/#architecture), the
+    GKE alpha cluster with the specified settings, then installs the Istio [control plane](/docs/concepts/what-is-istio/#architecture), the
     [Bookinfo](/docs/examples/bookinfo/) sample app,
     [Grafana](/docs/tasks/telemetry/using-istio-dashboard/) with
     [Prometheus](/docs/tasks/telemetry/querying-metrics/),
@@ -245,13 +245,6 @@ You should see the trace statistics sent earlier on [http://localhost:16686](htt
     >}}
 
 For more details on tracing see [Understanding what happened](/docs/tasks/telemetry/distributed-tracing/#understanding-what-happened).
-
-## What's next
-
-You can further explore the Bookinfo app and Istio functionality by following any of the tutorials in the
-[Guides](/docs/examples/) section. However, to do this you need to install `istioctl` to interact
-with Istio. You can either [install](/docs/setup/kubernetes/quick-start/#installation-steps) it directly
-on our workstation or within Cloud Shell.
 
 ## Uninstalling
 

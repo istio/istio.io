@@ -288,7 +288,7 @@ $ kubectl get pods -n ns-1
 Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list pods in the namespace "ns-1"
 {{< /text >}}
 
-If the [addon tools](/docs/tasks/telemetry/), example
+If the [add-on tools](/docs/tasks/telemetry/), example
 [prometheus](/docs/tasks/telemetry//querying-metrics/), are deployed
 (also limited by an Istio `namespace`) the statistical results returned would represent only
 that traffic seen from that tenant's application namespace.

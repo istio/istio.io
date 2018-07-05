@@ -275,6 +275,7 @@ spec:
 
 Create the resources:
 
+<div class="workaround_for_hugo_bug">
 {{< text bash >}}
 $ kubectl apply -f logging-stack.yaml
 namespace "logging" created
@@ -286,6 +287,7 @@ configmap "fluentd-es-config" created
 service "kibana" created
 deployment "kibana" created
 {{< /text >}}
+</div>
 
 ## Configure Istio
 
@@ -399,13 +401,3 @@ example stack.
 * If you are not planning to explore any follow-on tasks, refer to the
   [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.
-
-## What's next
-
-* [Collecting Metrics and Logs](/docs/tasks/telemetry/metrics-logs/) for a detailed
-  explanation of the log configurations.
-
-* Learn more about [Mixer](/docs/concepts/policies-and-telemetry/overview/)
-  and [Mixer Config](/docs/concepts/policies-and-telemetry/config/).
-
-* Discover the full [Attribute Vocabulary](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/).

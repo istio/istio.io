@@ -180,15 +180,3 @@ Verify that after logging in as "jason" you see black stars.
 * If you are not planning to explore any follow-on tasks, refer to the
   [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.
-
-## What's next
-
-* Learn how to securely control access based on the service account [here](/docs/tasks/security/secure-access-control/).
-
-* Learn more about [Mixer](/docs/concepts/policies-and-telemetry/overview/) and [Mixer Config](/docs/concepts/policies-and-telemetry/config/).
-
-* Discover the full [Attribute Vocabulary](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/).
-
-* Understand the differences between Kubernetes network policies and Istio
-access control policies from this
-[blog](/blog/2017/0.1-using-network-policy/).

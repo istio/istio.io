@@ -23,7 +23,7 @@ For this task I set up an instance of [MySQL](https://www.mysql.com). You can us
 1.  To initialize the database, I run the following command entering the password when prompted. The command is performed with the credentials of the  `admin` user, created by default by [Compose for MySQL](https://www.ibm.com/cloud/compose/mysql).
 
     {{< text bash >}}
-    $ curl -s https://raw.githubusercontent.com/istio/istio/{{<branch_name>}}/samples/bookinfo/src/mysql/mysqldb-init.sql | \
+    $ curl -s {{< github_file >}}/samples/bookinfo/src/mysql/mysqldb-init.sql | \
     mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host <the database host> --port <the database port>
     {{< /text >}}
 
@@ -32,7 +32,7 @@ For this task I set up an instance of [MySQL](https://www.mysql.com). You can us
     When using the `mysql` client and a local MySQL database, I would run:
 
     {{< text bash >}}
-    $ curl -s https://raw.githubusercontent.com/istio/istio/{{<branch_name>}}/samples/bookinfo/src/mysql/mysqldb-init.sql | \
+    $ curl -s {{< github_file >}}/samples/bookinfo/src/mysql/mysqldb-init.sql | \
     mysql -u root -p
     {{< /text >}}
 
@@ -315,7 +315,3 @@ In my next blog posts, I will show examples of combining route rules and egress 
 ## Conclusion
 
 In this blog post, I demonstrated how the microservices in an Istio service mesh can consume external services via TCP. By default, Istio blocks all the traffic, TCP and HTTP, to the hosts outside the cluster. To enable such traffic for TCP, TCP egress rules must be created for the service mesh.
-
-## What's next
-
-To read more about Istio egress traffic control, see [Control Egress Traffic Task](/docs/tasks/traffic-management/egress/).

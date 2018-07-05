@@ -118,7 +118,3 @@ This solution uses Istio proxy for TCP bypassing. The traffic is secured through
     {{< text bash >}}
     $ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "https://${EXTERNAL_IP}/echo?key=${ENDPOINTS_KEY}" -k
     {{< /text >}}
-
-## What's next
-
-Learn more about [GCP Endpoints](https://cloud.google.com/endpoints/docs/).

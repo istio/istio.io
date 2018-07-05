@@ -29,13 +29,13 @@ To install Istio locally, install the latest version of
 Select a [VM driver](https://kubernetes.io/docs/tasks/tools/install-minikube/#install-a-hypervisor)
 and substitute the below `your_vm_driver_choice` with the installed VM driver.
 
-For kubernetes 1.9
+For Kubernetes 1.9
 
 {{< text bash >}}
 $ minikube start --memory=4096 --kubernetes-version=v1.9.4 --vm-driver=`your_vm_driver_choice`
 {{< /text >}}
 
-For kubernetes 1.10
+For Kubernetes 1.10
 
 {{< text bash >}}
 $ minikube start --memory=4096 --kubernetes-version=v1.10.0 --vm-driver=`your_vm_driver_choice`
@@ -364,9 +364,3 @@ $ kubectl delete -f install/kubernetes/istio-demo.yaml
 {{< /text >}}
 
 otherwise [uninstall Istio with Helm](/docs/setup/kubernetes/helm-install/#uninstall).
-
-## What's next
-
-* See the sample [Bookinfo](/docs/examples/bookinfo/) application.
-
-* See how to [test mutual TLS authentication](/docs/tasks/security/mutual-tls/).

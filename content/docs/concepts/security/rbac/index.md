@@ -2,7 +2,7 @@
 title: Istio Role-Based Access Control (RBAC)
 description: Describes Istio RBAC which provides access control for services in Istio Mesh.
 weight: 20
-keywords: [security,rbac,authorization]
+keywords: [security,rbac,authorization,access-control]
 ---
 
 ## Overview
@@ -34,7 +34,7 @@ request context against the RBAC policies, and returns the authorization result 
 
 ### Request context
 
-In the current release, the Istio RBAC engine is implemented as a [Mixer adapter](/docs/concepts/policies-and-telemetry/overview/#adapters).
+In the current release, the Istio RBAC engine is implemented as a [Mixer adapter](/docs/concepts/policies-and-telemetry/#adapters).
 The request context is provided as an instance of the
 [authorization template](/docs/reference/config/policy-and-telemetry/templates/authorization/). The request context
  contains all the information about the request and the environment that an authorization module needs to know. In particular, it has two parts:
@@ -245,7 +245,3 @@ spec:
     instances:
     - requestcontext.authorization
 {{< /text >}}
-
-## What's next
-
-Try out the [Istio RBAC with Bookinfo](/docs/tasks/security/role-based-access-control/) sample.
