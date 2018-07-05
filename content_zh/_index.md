@@ -21,7 +21,7 @@ title: Istio
                 <h2>智能路由和负载均衡</h2>
                 <p>
                     通过动态路由配置控制服务之间的流量，进行A/B测试、金丝雀发布，使用红/黑部署逐步升级版本。
-                    <a href="/docs/concepts/traffic-management/overview/">了解更多...</a>
+                    <a href="/docs/concepts/traffic-management/">了解更多...</a>
                 </p>
             </div>
         </div>
@@ -36,7 +36,7 @@ title: Istio
                 <h2>跨语言和跨平台的弹性</h2>
                 <p>
                     通过屏蔽来自片状网络的应用和恶劣条件下的级联故障来提高可靠性。
-                    <a href="/docs/concepts/traffic-management/handling-failures/">了解更多...</a>
+                    <a href="/docs/concepts/traffic-management/#handling-failures">了解更多...</a>
                 </p>
             </div>
         </div>
@@ -51,7 +51,7 @@ title: Istio
                 <h2>舰队范围的策略执行</h2>
                 <p>
                     在服务交互间应用编制的策略，确保访问策略得到执行且资源在消费者之间公平分配。
-                    <a href="/docs/concepts/policies-and-telemetry/overview/">了解更多...</a>
+                    <a href="/docs/concepts/policies-and-telemetry/">了解更多...</a>
                 </p>
             </div>
         </div>
@@ -66,7 +66,7 @@ title: Istio
                 <h2>深度遥测</h2>
                 <p>
                     了解服务之间的依赖关系、服务间流量的性质及流向，使用分布式跟踪快速识别问题。
-                    <a href="/docs/concepts/what-is-istio/overview/">了解更多...</a>
+                    <a href="/docs/concepts/what-is-istio/">了解更多...</a>
                 </p>
             </div>
         </div>

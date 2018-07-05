@@ -8,7 +8,7 @@ weight: 30
 
 ## 开始之前
 
-首先要 Fork Istio 的文档仓库，这一过程在 [Creating a Doc Pull Request](/about/contribute/creating-a-pull-request/) 中有具体讲解。
+首先要 Fork Istio 的文档仓库，这一过程在 [Working with GitHub](/about/contribute/github/) 中有具体讲解。
 
 ## 选择页面类型
 

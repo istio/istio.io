@@ -19,7 +19,7 @@ Through this task, you will learn how to:
 
 * Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (e.g use `install/kubernetes/istio-demo.yaml` as described in [installation steps](/docs/setup/kubernetes/quick-start/#installation-steps), or set `global.mtls.enabled` to false using [Helm](/docs/setup/kubernetes/helm-install/)).
 
-* For demo, create two namespaces `foo` and `bar`, and deploy [httpbin](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/httpbin) and [sleep](https://github.com/istio/istio/tree/master/samples/sleep) with sidecar on both of them. Also, run another httpbin and sleep app without sidecar (to keep it separate, run them in `legacy` namespace). In a regular system, a service can be both *server* (receiving traffic) for some services, and *client* for some others. For simplicity, in this demo, we only use `sleep` apps as clients, and `httpbin` as servers.
+* For demo, create two namespaces `foo` and `bar`, and deploy [httpbin]({{< github_tree >}}/samples/httpbin) and [sleep]({{< github_tree >}}/samples/sleep) with sidecar on both of them. Also, run another httpbin and sleep app without sidecar (to keep it separate, run them in `legacy` namespace). In a regular system, a service can be both *server* (receiving traffic) for some services, and *client* for some others. For simplicity, in this demo, we only use `sleep` apps as clients, and `httpbin` as servers.
 
     {{< text bash >}}
     $ kubectl create ns foo
@@ -405,7 +405,7 @@ $ kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..met
 
 ## Setup end-user authentication
 
-You will need a valid JWT (corresponding to the JWKS endpoint you want to use for the demo). Please follow the instructions [here](https://github.com/istio/istio/blob/{{<branch_name>}}/security/tools/jwt) to create one. You can also use your own JWT/JWKS endpoint for the demo. Once you have that, export to some environment variables.
+You will need a valid JWT (corresponding to the JWKS endpoint you want to use for the demo). Please follow the instructions [here]({{< github_tree >}}/security/tools/jwt) to create one. You can also use your own JWT/JWKS endpoint for the demo. Once you have that, export to some environment variables.
 
 {{< text bash >}}
 $ export SVC_ACCOUNT="example@my-project.iam.gserviceaccount.com"
