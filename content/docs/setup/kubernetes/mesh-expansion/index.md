@@ -28,9 +28,9 @@ separate documents will cover these advanced configurations.
 Setup consists of preparing the mesh for expansion and installing and configuring each VM.
 
 An example script to help with Kubernetes setup is available as part of the release bundle and in
-[install/tools/setupMeshEx.sh](https://raw.githubusercontent.com/istio/istio/{{<branch_name>}}/install/tools/setupMeshEx.sh). Check the script content and environment variables supported (like GCP_OPTS).
+[install/tools/setupMeshEx.sh]({{< github_file >}}/install/tools/setupMeshEx.sh). Check the script content and environment variables supported (like GCP_OPTS).
 
-An example script to help configure a machine is available as part of the release bundle and in [install/tools/setupIstioVM.sh](https://raw.githubusercontent.com/istio/istio/{{<branch_name>}}/install/tools/setupIstioVM.sh).
+An example script to help configure a machine is available as part of the release bundle and in [install/tools/setupIstioVM.sh]({{< github_file >}}/install/tools/setupIstioVM.sh).
 You should customize it based on your provisioning tools and DNS requirements.
 
 ### Preparing the Kubernetes cluster for expansion

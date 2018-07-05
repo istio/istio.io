@@ -9,6 +9,7 @@ aliases:
     - /about/contribute/creating-a-pull-request
     - /about/contribute/editing
     - /about/contribute/staging-your-changes
+keywords: [contribute]
 ---
 
 We're excited that you're interested in contributing to improving and expanding our docs!

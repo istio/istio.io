@@ -23,7 +23,7 @@ This task describes how to configure Istio to expose a service outside of the se
 
 *   Make sure your current directory is the `istio` directory.
 
-*   Start the [httpbin](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/httpbin) sample,
+*   Start the [httpbin]({{< github_tree >}}/samples/httpbin) sample,
     which will be used as the destination service to be exposed externally.
 
     If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), do
@@ -256,13 +256,13 @@ The `Gateway` configuration resources allow external traffic to enter the
 Istio service mesh and make the traffic management and policy features of Istio
 available for edge services.
 
-In the preceding steps we created a service inside the Istio service mesh
+In the preceding steps we created a service inside the service mesh
 and showed how to expose an HTTP endpoint of the service to
 external traffic.
 
 ## Cleanup
 
-Delete the `Gateway` configuration, the `VirtualService` and the secret, and shutdown the [httpbin](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/httpbin) service:
+Delete the `Gateway` configuration, the `VirtualService` and the secret, and shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service:
 
 {{< text bash >}}
 $ istioctl delete gateway httpbin-gateway
