@@ -42,7 +42,7 @@ To make sure services will have zero down-time when configuring routes, configur
 Let's assume you are using an ingress `Gateway` and corresponding `VirtualSerive` to access an internal service.
 For example, your `VirtualService` looks something like this:
 
-```yaml
+{{<text yaml>}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -61,11 +61,11 @@ spec:
         host: helloworld.default.svc.cluster.local
   - match:
     ...
-```
+{{</text>}}
 
 You also have a `VirtualService` which routes traffic for the helloworld service to a particular subset:
 
-```yaml
+{{<text yaml>}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -78,7 +78,7 @@ spec:
     - destination:
         host: helloworld.default.svc.cluster.local
         subset: v1
-```
+{{</text>}}
 
 In this situation you will notice that requests to the helloworld service via the ingress gateway will
 not be directed to subset v1 but instead will continue to use default round-robin routing.
@@ -90,7 +90,7 @@ helloworld `VirtualService` which directs traffic exclusively to subset v1.
 
 To control the traffic from the gateway, you need to include the subset rule in the myapp `VirtualService`:
 
-```yaml
+{{<text yaml>}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -110,7 +110,7 @@ spec:
         subset: v1
   - match:
     ...
-```
+{{</text>}}
 
 The general issue is that if a service is being accessed through a gateway host like `myapp.com` and also internally
 by its internal host `helloworld.default.svc.cluster.local`, and you want to configure rules that apply for both
@@ -139,27 +139,27 @@ Verifying connectivity to Pilot is a useful troubleshooting step. Every proxy co
 
 1.  Get the name of the Istio Ingress pod:
 
-    ```command
+    {{<text bash>}}
     $ INGRESS_POD_NAME=$(kubectl get po -n istio-system | grep ingressgateway\- | awk '{print$1}'); echo ${INGRESS_POD_NAME};
-    ```
+    {{</text>}}
 
 1.  Exec into the Istio Ingress pod:
 
-    ```command
+    {{<text bash>}}
     $ kubectl exec -it $INGRESS_POD_NAME -n istio-system /bin/bash
-    ```
+    {{</text>}}
 
 1.  Test connectivity to Pilot using cURL. The following example cURL's the v1 registration API using default Pilot configuration parameters and mTLS enabled:
 
-    ```command
+    {{<text bash>}}
     $ curl -k --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem --key /etc/certs/key.pem https://istio-pilot:15003/v1/registration
-    ```
+    {{</text>}}
 
     If mTLS is disabled:
 
-    ```command
+    {{<text bash>}}
     $ curl http://istio-pilot:15003/v1/registration
-    ```
+    {{</text>}}
 
 You should receive a response listing the "service-key" and "hosts" for each service in the mesh.
 
@@ -174,15 +174,15 @@ when you select a very long date range in Zipkin you will see the traces appeari
 
 You can also confirm this problem by comparing the date inside a docker container to outside:
 
-```command
+{{<text bash>}}
 $ docker run --entrypoint date gcr.io/istio-testing/ubuntu-16-04-slave:latest
 Sun Jun 11 11:44:18 UTC 2017
-```
+{{</text>}}
 
-```command
+{{<text bash>}}
 $ date -u
 Thu Jun 15 02:25:42 UTC 2017
-```
+{{</text>}}
 
 To fix the problem, you'll need to shutdown and then restart Docker before reinstalling Istio.
 
@@ -193,7 +193,7 @@ will need to set the [proxy_http_version](https://nginx.org/en/docs/http/ngx_htt
 
 Example config:
 
-```plain
+{{<text plain>}}
 upstream http_backend {
     server 127.0.0.1:8080;
 
@@ -210,7 +210,7 @@ server {
         ...
     }
 }
-```
+{{</text>}}
 
 ## No Grafana output when connecting from a local web client to Istio remotely hosted
 
@@ -254,9 +254,9 @@ Check these metrics.
 
     In Kubernetes environments, execute the following command:
 
-    ```command
+    {{<text bash>}}
     $ kubectl -n istio-system port-forward <mixer pod> 9093 &
-    ```
+    {{</text>}}
 
 1.  Verify successful report calls.
 
@@ -265,9 +265,9 @@ Check these metrics.
 
     You should see something like:
 
-    ```plain
+    {{<text plain>}}
     grpc_server_handled_total{grpc_code="OK",grpc_method="Report",grpc_service="istio.mixer.v1.Mixer",grpc_type="unary"} 68
-    ```
+    {{</text>}}
 
 If you do not see any data for `grpc_server_handled_total` with a
 `grpc_method="Report"`, then Mixer is not being called by Envoy to report
@@ -282,13 +282,13 @@ or [manual](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection) 
 
     In Kubernetes environments, issue the following command:
 
-    ```command
+    {{<text bash>}}
     $ kubectl get rules --all-namespaces
     NAMESPACE      NAME        KIND
     istio-system   promhttp    rule.v1alpha2.config.istio.io
     istio-system   promtcp     rule.v1alpha2.config.istio.io
     istio-system   stdio       rule.v1alpha2.config.istio.io
-    ```
+    {{</text>}}
 
     If you do not see anything named `promhttp` or `promtcp`, then there is
     no Mixer configuration for sending metric instances to a Prometheus adapter.
@@ -300,11 +300,11 @@ or [manual](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection) 
 
     In Kubernetes environments, issue the following command:
 
-    ```command
+    {{<text bash>}}
     $ kubectl get prometheuses.config.istio.io --all-namespaces
     NAMESPACE      NAME           KIND
     istio-system   handler        prometheus.v1alpha2.config.istio.io
-    ```
+    {{</text>}}
 
     If there are no prometheus handlers configured, you will need to reconfigure
     Mixer with the appropriate handler configuration.
@@ -314,7 +314,7 @@ or [manual](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection) 
 
     In Kubernetes environments, issue the following command:
 
-    ```command
+    {{<text bash>}}
     $ kubectl get metrics.config.istio.io --all-namespaces
     NAMESPACE      NAME                         KIND
     istio-system   requestcount                 metric.v1alpha2.config.istio.io
@@ -327,7 +327,7 @@ or [manual](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection) 
     istio-system   stackdriverresponsesize      metric.v1alpha2.config.istio.io
     istio-system   tcpbytereceived              metric.v1alpha2.config.istio.io
     istio-system   tcpbytesent                  metric.v1alpha2.config.istio.io
-    ```
+    {{</text>}}
 
     If there are no metric instances configured, you will need to reconfigure
     Mixer with the appropriate instance configuration.
@@ -345,14 +345,14 @@ or [manual](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection) 
 
         You should find something like:
 
-        ```plain
+        {{<text plain>}}
         mixer_config_resolve_count{error="false",target="details.default.svc.cluster.local"} 56
         mixer_config_resolve_count{error="false",target="ingress.istio-system.svc.cluster.local"} 67
         mixer_config_resolve_count{error="false",target="mongodb.default.svc.cluster.local"} 18
         mixer_config_resolve_count{error="false",target="productpage.default.svc.cluster.local"} 59
         mixer_config_resolve_count{error="false",target="ratings.default.svc.cluster.local"} 26
         mixer_config_resolve_count{error="false",target="reviews.default.svc.cluster.local"} 54
-        ```
+        {{</text>}}
 
     1.  Validate that there are values for `mixer_config_resolve_count` where
         `target="<your service>"` and `error="false"`.
@@ -363,9 +363,9 @@ or [manual](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection) 
 
         In Kubernetes environments, retrieve the Mixer logs via:
 
-        ```command
+        {{<text bash>}}
         $ kubectl -n istio-system logs <mixer pod> -c mixer
-        ```
+        {{</text>}}
 
         Look for errors related to your configuration or your service in the
         returned logs.
@@ -384,11 +384,11 @@ More on viewing Mixer configuration can be found [here](/help/faq/mixer/#mixer-s
 
     You should find something like:
 
-    ```plain
+    {{<text plain>}}
     mixer_adapter_dispatch_count{adapter="prometheus",error="false",handler="handler.prometheus.istio-system",meshFunction="metric",response_code="OK"} 114
     mixer_adapter_dispatch_count{adapter="prometheus",error="true",handler="handler.prometheus.default",meshFunction="metric",response_code="INTERNAL"} 4
     mixer_adapter_dispatch_count{adapter="stdio",error="false",handler="handler.stdio.istio-system",meshFunction="logentry",response_code="OK"} 104
-    ```
+    {{</text>}}
 
 1.  Validate that there are values for `mixer_adapter_dispatch_count` where
     `adapter="prometheus"` and `error="false"`.
@@ -403,9 +403,9 @@ More on viewing Mixer configuration can be found [here](/help/faq/mixer/#mixer-s
 
     In Kubernetes environment, check the Mixer logs via:
 
-    ```command
+    {{<text bash>}}
     $ kubectl -n istio-system logs <mixer pod> -c mixer
-    ```
+    {{</text>}}
 
     Filter for lines including something like `Report 0 returned with: INTERNAL
     (1 error occurred:` (with some surrounding context) to find more information
@@ -418,15 +418,15 @@ scrape Mixer.
 
     In Kubernetes environments, setup port-forwarding as follows:
 
-    ```command
+    {{<text bash>}}
     $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
-    ```
+    {{</text>}}
 
 1. Visit [http://localhost:9090/targets](http://localhost:9090/targets) and confirm that the target `istio-mesh` has a status of **UP**.
 
 1. Visit [http://localhost:9090/config](http://localhost:9090/config) and confirm that an entry exists that looks like:
 
-    ```yaml
+    {{<text yaml>}}
         - job_name: istio-mesh
         scrape_interval: 5s
         scrape_timeout: 5s
@@ -443,7 +443,7 @@ scrape Mixer.
             regex: istio-system;istio-telemetry;prometheus
             replacement: $1
             action: keep
-    ```
+    {{</text>}}
 
 ## How can I debug issues with the service mesh?
 
