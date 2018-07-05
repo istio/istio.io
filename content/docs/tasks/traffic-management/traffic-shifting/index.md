@@ -59,7 +59,6 @@ two steps: 50%, 100%.
             host: reviews
             subset: v1
           weight: 50
-      - route:
         - destination:
             host: reviews
             subset: v3
