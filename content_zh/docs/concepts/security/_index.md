@@ -17,7 +17,7 @@ Istio基于角色的访问控制（RBAC）为Istio网格中的服务提供名称
 下面的图表显示了Istio RBAC体系结构。操作者指定Istio RBAC策略。策略保存在Istio配置存储中。
 
 {{< image width="80%" ratio="56.25%"
-    link="./IstioRBAC.svg"
+    link="https://github.com/istio/istio.github.io/tree/master/content/docs/concepts/security/rbac/IstioRBAC.svg"
     alt="Istio RBAC"
     caption="Istio RBAC Architecture"
     >}}
@@ -28,7 +28,7 @@ Istio的RBAC引擎做了下面两件事：
 
 ### 请求上下文
 
-在当前版本中，Istio RBAC引擎被实现为一个[混合适配器](https://github.com/istio/istio.github.io/blob/master/docs/concepts/policies-and-telemetry/#adapters)。请求上下文是作为[授权模板](https://github.com/istio/istio.github.io/blob/master/docs/reference/config/policy-and-telemetry/templates/authorization)的一个实例提供的。请求上下文包含关于请求和授权模块需要知道的环境的所有信息。特别是，它有两个部分：
+在当前版本中，Istio RBAC引擎被实现为一个[混合适配器](https://github.com/istio/istio.github.io/tree/master/content_zh/docs/concepts/policies-and-telemetry#adapters)。请求上下文是作为[授权模板](https://github.com/istio/istio.github.io/blob/master/docs/reference/config/policy-and-telemetry/templates/authorization)的一个实例提供的。请求上下文包含关于请求和授权模块需要知道的环境的所有信息。特别是，它有两个部分：
 * 主题 包含识别调用者标识的属性列表，包括`"user"` name/ID，主题属于`“group”`，或者关于主题的任何附加属性，比如名称空间、服务名称。
 
 * 动作 指定“如何访问服务”。它包括`“名称空间”`、`“服务”`、`“路径”`、`“方法”`，以及该操作的任何附加属性。
