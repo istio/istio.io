@@ -201,7 +201,7 @@ $ kubectl get pods -n istio-system1
 Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list pods in the namespace "istio-system1"
 {{< /text >}}
 
-租户管理员能够在租户指定的应用命名空间中进行应用部署。例如可以修改一下 [Bookinfo](/docs/guides/bookinfo/) 的 Yaml 然后部署到租户的命名空间 `ns-0` 中，然后租户管理员就可以在这一命名空间中列出 Pod 了：
+租户管理员能够在租户指定的应用命名空间中进行应用部署。例如可以修改一下 [Bookinfo](/docs/examples/bookinfo/) 的 Yaml 然后部署到租户的命名空间 `ns-0` 中，然后租户管理员就可以在这一命名空间中列出 Pod 了：
 
 {{< text bash >}}
 $ kubectl get pods -n ns-0
