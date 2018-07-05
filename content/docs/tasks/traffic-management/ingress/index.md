@@ -77,7 +77,8 @@ No load balancer is provided in your environment. $INGRESS_PORT=31380, $SECURE_I
 
 #### Determining the ingress IP when using a node port
 
-Determining the ingress IP depends on the cluster provider.
+Follow the instructions in this subsection only if the commands in the previous section did not manage to detect the
+ingress IP. Determining the ingress IP depends on the cluster provider.
 
 1.  _GKE:_
 
