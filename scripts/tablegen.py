@@ -42,11 +42,7 @@ def endOfTheList(context, lineNum, lastLineNum, totalNum):
             if whitespaces >= (len(nextLine) - len(nextLine.lstrip())) / 2:
                 if flag == 0:
                     valueList.append(currentLine.split(':', 1)[1].strip())
-                    return True, valueList
-                else:
-                    return True, valueList
-            else:
-                return False, valueList
+                return True, valueList
         elif len(nextLine.lstrip()) != 0 and '#' !=  nextLine.lstrip()[0] and ':' not in nextLine and len(nextLine.strip()) != 0:
             value = nextLine.replace(' ', '')
             valueList.append(value.lstrip('-').strip())
@@ -57,8 +53,6 @@ def endOfTheList(context, lineNum, lastLineNum, totalNum):
         valueList.append(currentLine.split(':', 1)[1].strip())
 
     return True, valueList
-
-
 
 def decode_helm_yaml(s):
     level = 0
