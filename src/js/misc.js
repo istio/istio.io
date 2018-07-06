@@ -223,8 +223,29 @@ function handleDOMLoaded() {
                     var div = e.currentTarget.parentElement;
                     var codes = div.getElementsByTagName("CODE");
                     if ((codes !== null) && (codes.length > 0)) {
+                        var code = codes[0];
                         var text = getToolbarDivText(div);
-                        saveFile(codes[0].getAttribute("data-downloadas"), text);
+                        var downloadas = code.getAttribute("data-downloadas");
+                        if (downloadas === null || downloadas === "") {
+                            downloadas = "foo.txt";
+
+                            var lang = "";
+                            for (var j = 0; j < code.classList.length; j++) {
+                                if (code.classList.item(j).startsWith("language-")) {
+                                    lang = code.classList.item(j).substr(9);
+                                    break;
+                                }
+                            }
+
+                            if (lang.startsWith("command")) {
+                                lang = "bash";
+                            } else if (lang === "") {
+                                lang = "txt";
+                            }
+
+                            downloadas = docTitle + "." + lang;
+                        }
+                        saveFile(downloadas, text);
                     }
                     return true;
                 };
