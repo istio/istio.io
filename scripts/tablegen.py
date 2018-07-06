@@ -104,7 +104,7 @@ def decode_helm_yaml(s):
 
                 ValueStr = (' ').join(ValueList)
 
-                print ("| %s | %s | %s | %s |" % (newkey, ValueStr, desc, possible))
+                print ("| `%s` | `%s` | %s | `%s` |" % (newkey, ValueStr, desc, possible))
                 desc = ''
                 possible = ''
 
