@@ -236,7 +236,7 @@ spec:
       perTryTimeout: 2s
 ~~~
 
-注意请求的重试和超时还可以[针对每个请求分别设置](/docs/concepts/traffic-management/handling-failures#fine-tuning)。
+注意请求的重试和超时还可以[针对每个请求分别设置](/docs/concepts/traffic-management/#fine-tuning)。
 
 [请求超时任务](/docs/tasks/traffic-management/request-timeouts/)中展示了超时控制的相关示例。
 

@@ -23,7 +23,7 @@ or alternatively, to simply bypass the Istio proxy for a specific range of IPs.
 * Setup Istio by following the instructions in the
   [Installation guide](/docs/setup/).
 
-*   Start the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/samples/sleep) sample
+*   Start the [sleep]({{< github_tree >}}/samples/sleep) sample
     which will be used as a test source for external calls.
 
     If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), do
@@ -109,7 +109,7 @@ from within your Istio cluster. In this task we will use
 ### Setting route rules on an external service
 
 Similar to inter-cluster requests, Istio
-[routing rules](/docs/concepts/traffic-management/rules-configuration/)
+[routing rules](/docs/concepts/traffic-management/#rule-configuration)
 can also be set for external services that are accessed using `ServiceEntry` configurations.
 To illustrate we will use [istioctl](/docs/reference/commands/istioctl/)
 to set a timeout rule on calls to the httpbin.org service.
@@ -167,7 +167,7 @@ to set a timeout rule on calls to the httpbin.org service.
 
 If you want to completely bypass Istio for a specific IP range,
 you can configure the Envoy sidecars to prevent them from
-[intercepting](/docs/concepts/traffic-management/request-routing/#communication-between-services)
+[intercepting](/docs/concepts/traffic-management/#communication-between-services)
 the external requests. This can be done by setting the `global.proxy.includeIPRanges` variable of
 [Helm](/docs/setup/kubernetes/helm-install/#customization-with-helm) and updating the `ConfigMap` _istio-sidecar-injector_ by `kubectl apply`. After _istio-sidecar-injector_ is updated, the value of `global.proxy.includeIPRanges` will affect all the future deployments of the application pods.
 
@@ -267,7 +267,7 @@ cloud provider specific knowledge and configuration.
     $ istioctl delete virtualservice httpbin-ext
     {{< /text >}}
 
-1.  Shutdown the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/samples/sleep) service.
+1.  Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service.
 
     {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@

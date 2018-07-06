@@ -14,7 +14,7 @@ Istio 提供统一抽象，使得 Istio 可以与一组开放式基础设施后�
 Mixer 是负责提供策略控制和遥测收集的 Istio 组件：
 
 {{< image width="75%" ratio="49.26%"
-    link="/docs/concepts/policies-and-telemetry/overview/topology-without-cache.svg"
+    link="/docs/concepts/policies-and-telemetry/topology-without-cache.svg"
     caption="Mixer 拓扑"
     >}}
 
@@ -38,7 +38,7 @@ Mixer 是高度模块化和可扩展的组件。他的一个关键功能就是�
 Mixer 处理不同基础设施后端的灵活性是通过使用通用插件模型实现的。每个插件都被称为 **Adapter**，Mixer通过它们与不同的基础设施后端连接，这些后端可提供核心功能，例如日志、监控、配额、ACL 检查等。通过配置能够决定在运行时使用的确切的适配器套件，并且可以轻松扩展到新的或定制的基础设施后端。
 
 {{< image width="35%" ratio="138%"
-    link="/docs/concepts/policies-and-telemetry/overview/adapters.svg"
+    link="/docs/concepts/policies-and-telemetry/adapters.svg"
     alt="显示 Mixer 及其适配器"
     caption="Mixer 及其适配器"
     >}}
@@ -54,7 +54,7 @@ Mixer 是一种高度可用的组件，其设计有助于提高整体可用性�
 位于网格中每个服务实例旁边的sidecar代理必须在内存消耗方面节约，这限制了本地缓存和缓冲的可能数量。然而，Mixer独立运行，可以使用相当大的缓存和输出缓冲区。因此，Mixer可用作Sidecar的高度扩展且高度可用的二级缓存。
 
 {{< image width="75%" ratio="65.89%"
-    link="/docs/concepts/policies-and-telemetry/overview/topology-with-cache.svg"
+    link="/docs/concepts/policies-and-telemetry/topology-with-cache.svg"
     caption="Mixer 拓扑"
     >}}
 

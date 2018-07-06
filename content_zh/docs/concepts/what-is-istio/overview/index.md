@@ -38,7 +38,7 @@ Istio服务网格逻辑上分为**数据面板**和**控制面板**。
 下图显示了构成每个面板的不同组件：
 
 {{< image width="80%" ratio="56.25%"
-    link="/docs/concepts/what-is-istio/overview/arch.svg"
+    link="/docs/concepts/what-is-istio/arch.svg"
     alt="基于 Istio 的应用程序架构概览"
     caption="Istio 架构"
     >}}
@@ -47,15 +47,15 @@ Istio服务网格逻辑上分为**数据面板**和**控制面板**。
 
 Istio 使用 [Envoy](https://www.envoyproxy.io/) 代理的扩展版本，Envoy 是以 C ++ 开发的高性能代理，用于调解服务网格中所有服务的所有入站和出站流量。Envoy 的许多内置功能被 istio 发扬光大，例如动态服务发现、负载均衡、TLS终止、HTTP/2 & gRPC 代理、熔断器、健康检查、基于百分比流量拆分的分段推出以及故障注入和丰富的度量指标。
 
-Envoy 被部署为 **sidecar**，和对应服务在同一个 Kubernetes pod 中。这允许 Istio 将大量关于流量行为的信号作为[属性](/docs/concepts/policies-and-telemetry/config/#attributes)提取出来，而这些属性又可以在 [Mixer](/docs/concepts/policies-and-telemetry/overview/) 中用于执行策略决策，并发送给监控系统，以提供整个网格行为的信息。Sidecar 代理模型还可以将 Istio 的功能添加到现有部署中，而无需重新构建或重写代码。可以阅读更多来了解为什么我们在[设计目标](/docs/concepts/what-is-istio/goals/)中选择这种方式。
+Envoy 被部署为 **sidecar**，和对应服务在同一个 Kubernetes pod 中。这允许 Istio 将大量关于流量行为的信号作为[属性](/docs/concepts/policies-and-telemetry/#attributes)提取出来，而这些属性又可以在 [Mixer](/docs/concepts/policies-and-telemetry/) 中用于执行策略决策，并发送给监控系统，以提供整个网格行为的信息。Sidecar 代理模型还可以将 Istio 的功能添加到现有部署中，而无需重新构建或重写代码。可以阅读更多来了解为什么我们在[设计目标](/docs/concepts/what-is-istio/#design-goals)中选择这种方式。
 
 ### Mixer
 
-[Mixer](/docs/concepts/policies-and-telemetry/overview) 是一个独立于平台的组件，负责在服务网格上执行访问控制和使用策略，并从 Envoy 代理和其他服务收集遥测数据。代理提取请求级[属性](/docs/concepts/policies-and-telemetry/config/#attributes)，发送到 Mixer 进行评估。有关属性提取和策略评估的更多信息，请参见 [Mixer 配置](/docs/concepts/policies-and-telemetry/config)。Mixer 包括一个灵活的插件模型，使其能够接入到各种主机环境和基础设施后端，从这些细节中抽象出 Envoy 代理和 Istio管理的服务。
+[Mixer](/docs/concepts/policies-and-telemetry/) 是一个独立于平台的组件，负责在服务网格上执行访问控制和使用策略，并从 Envoy 代理和其他服务收集遥测数据。代理提取请求级[属性](/docs/concepts/policies-and-telemetry/#attributes)，发送到 Mixer 进行评估。有关属性提取和策略评估的更多信息，请参见 [Mixer 配置](/docs/concepts/policies-and-telemetry/#configuration-model)。Mixer 包括一个灵活的插件模型，使其能够接入到各种主机环境和基础设施后端，从这些细节中抽象出 Envoy 代理和 Istio管理的服务。
 
 ### Pilot
 
-[Pilot](/docs/concepts/traffic-management/pilot/) 为 Envoy sidecar 提供服务发现功能，为智能路由（例如 A/B 测试、金丝雀部署等）和弹性（超时、重试、断路器等）提供流量管理功能。它将控制流量行为的高级路由规则转换为特定于 Envoy 的配置，并在运行时将它们传播到 sidecar。Pilot 将平台特定的服务发现机制抽象化并将其合成为符合 [Envoy 数据平面 API](https://github.com/envoyproxy/data-plane-api) 的任何 sidecar 都可以使用的标准格式。这种松散耦合使得 Istio 能够在多种环境下运行（例如，Kubernetes、Consul/Nomad），同时保持用于流量管理的相同操作界面。
+[Pilot](/docs/concepts/traffic-management/#pilot-and-envoy) 为 Envoy sidecar 提供服务发现功能，为智能路由（例如 A/B 测试、金丝雀部署等）和弹性（超时、重试、断路器等）提供流量管理功能。它将控制流量行为的高级路由规则转换为特定于 Envoy 的配置，并在运行时将它们传播到 sidecar。Pilot 将平台特定的服务发现机制抽象化并将其合成为符合 [Envoy 数据平面 API](https://github.com/envoyproxy/data-plane-api) 的任何 sidecar 都可以使用的标准格式。这种松散耦合使得 Istio 能够在多种环境下运行（例如，Kubernetes、Consul/Nomad），同时保持用于流量管理的相同操作界面。
 
 ### Citadel
 
@@ -63,7 +63,7 @@ Envoy 被部署为 **sidecar**，和对应服务在同一个 Kubernetes pod 中�
 
 ## 下一步
 
-- 了解 Istio 的[设计目标](/docs/concepts/what-is-istio/goals/)。
+- 了解 Istio 的[设计目标](/docs/concepts/what-is-istio/#design-goals)。
 - 探索我们的[指南](/docs/examples/)。
 - 在我们其他的[概念](/docs/concepts/)指南中详细了解 Istio 组件。
 - 使用我们的[任务](/docs/tasks/)指南，了解如何将自己的服务部署到 Istio。

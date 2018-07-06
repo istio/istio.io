@@ -57,6 +57,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Statsd Integration](/docs/reference/config/policy-and-telemetry/adapters/statsd/) | Stable
 | [Service Dashboard in Grafana](/docs/tasks/telemetry/using-istio-dashboard/) | Beta
 | [Stackdriver Integration](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) | Alpha
+| [SolarWinds Integration](/docs/reference/config/policy-and-telemetry/adapters/solarwinds/) | Alpha
 | [Service Graph](/docs/tasks/telemetry/servicegraph/) | Alpha
 | [Distributed Tracing to Zipkin / Jaeger](/docs/tasks/telemetry/distributed-tracing/) | Alpha
 | [Istio Component Dashboard in Grafana](/docs/tasks/telemetry/using-istio-dashboard/) | Beta
@@ -74,7 +75,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Service-to-service mutual TLS](/docs/concepts/security/mutual-tls/)         | Stable
 | [Authentication policy](/docs/concepts/security/authn-policy/)  | Alpha
 | [VM: Service Credential Distribution](/docs/concepts/security/mutual-tls/)         | Beta
-| [OPA Checker](https://github.com/istio/istio/blob/{{<branch_name>}}/mixer/adapter/opa/README.md)    | Alpha
+| [OPA Checker]({{< github_file >}}/mixer/adapter/opa/README.md)    | Alpha
 | [RBAC Mixer Adapter](/docs/concepts/security/rbac/)   | Alpha
 
 ### Core
@@ -101,4 +102,4 @@ Below is our list of existing features and their current phases. This informatio
 | [Multicluster Mesh](/docs/setup/kubernetes/multicluster-install/) | Alpha
 
 > {{< idea_icon >}}
-Please get in touch by joining our [community](/community/) if there are features you'd like to see in our future releases!
+Please get in touch by joining our [community](/about/community/) if there are features you'd like to see in our future releases!
