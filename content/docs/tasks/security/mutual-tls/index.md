@@ -54,7 +54,7 @@ Citadel is up if the "AVAILABLE" column is 1.
 
 ### Verifying service configuration
 
-* Check installation mode. If mutual TLS is enabled by default (e.g `istio-demo-auth.yaml` was used when installing Istio), you can expect to see uncommented `authPolicy: MUTUAL_TLS` in the configmap.
+* Check installation mode. If mutual TLS is enabled by default (e.g `istio-auth.yaml` was used when installing Istio), you can expect to see uncommented `authPolicy: MUTUAL_TLS` in the configmap.
 
     {{< text bash >}}
     $ kubectl get configmap istio -o yaml -n istio-system | grep authPolicy | head -1

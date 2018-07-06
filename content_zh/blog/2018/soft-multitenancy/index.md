@@ -24,7 +24,7 @@ keywords: [tenancy]
 
 ### 多个 Istio 控制面
 
-要部署多个 Istio 控制面，首先要在 Istio 清单文件中对所有的 `namespace` 引用进行替换。以 `istio.yaml` （0.8 中应该是 `istio-demo.yaml`） 为例：如果需要两个租户级的 Istio 控制面，那么第一个租户可以使用 `istio.yaml` 中的缺省命名空间也就是 `istio-system`；而第二个租户就要生成一个新的 Yaml 文件，并在其中使用不同的命名空间。例如使用下面的命令创建一个使用 `istio-system1` 命名空间的 Yaml 文件：
+要部署多个 Istio 控制面，首先要在 Istio 清单文件中对所有的 `namespace` 引用进行替换。以 `istio.yaml` （0.8 中应该是 `istio.yaml`） 为例：如果需要两个租户级的 Istio 控制面，那么第一个租户可以使用 `istio.yaml` 中的缺省命名空间也就是 `istio-system`；而第二个租户就要生成一个新的 Yaml 文件，并在其中使用不同的命名空间。例如使用下面的命令创建一个使用 `istio-system1` 命名空间的 Yaml 文件：
 
 {{< text bash >}}
 $ cat istio.yaml | sed s/istio-system/istio-system1/g > istio-system1.yaml
