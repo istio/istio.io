@@ -390,7 +390,34 @@ You specify the port 443, protocol `TLS` in the corresponding `ServiceEntry`, eg
     ...
     {{< /text >}}
 
-1.  Create an egress `Gateway` for _edition.cnn.com_, port 443, protocol TLS:
+1.  Create an egress `Gateway` for _edition.cnn.com_, port 443, protocol TLS.
+
+    If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio:
+
+    {{< text bash >}}
+    $ cat <<EOF | istioctl create -f -
+    kind: Gateway
+    metadata:
+      name: istio-egressgateway
+    spec:
+      selector:
+        istio: egressgateway
+      servers:
+      - port:
+          number: 443
+          name: tls
+          protocol: TLS
+        hosts:
+        - edition.cnn.com
+        tls:
+          mode: MUTUAL
+          serverCertificate: /etc/certs/cert-chain.pem
+          privateKey: /etc/certs/key.pem
+          caCertificates: /etc/certs/root-cert.pem
+    EOF
+    {{< /text >}}
+
+    otherwise:
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
