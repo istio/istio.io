@@ -390,7 +390,34 @@ You specify the port 443, protocol `TLS` in the corresponding `ServiceEntry`, eg
     ...
     {{< /text >}}
 
-1.  Create an egress `Gateway` for _edition.cnn.com_, port 443, protocol TLS:
+1.  Create an egress `Gateway` for _edition.cnn.com_, port 443, protocol TLS.
+
+    If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio:
+
+    {{< text bash >}}
+    $ cat <<EOF | istioctl create -f -
+    kind: Gateway
+    metadata:
+      name: istio-egressgateway
+    spec:
+      selector:
+        istio: egressgateway
+      servers:
+      - port:
+          number: 443
+          name: tls
+          protocol: TLS
+        hosts:
+        - "*"
+        tls:
+          mode: MUTUAL
+          serverCertificate: /etc/certs/cert-chain.pem
+          privateKey: /etc/certs/key.pem
+          caCertificates: /etc/certs/root-cert.pem
+    EOF
+    {{< /text >}}
+
+    otherwise:
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
@@ -413,15 +440,15 @@ You specify the port 443, protocol `TLS` in the corresponding `ServiceEntry`, eg
     EOF
     {{< /text >}}
 
-1.  If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio
-disable mTLS to the egress gateway, since the original traffic is already encrypted (HTTPS):
+1.  If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio,
+specify mTLS to the egress gateway, setting SNI to `edition.cnn.com`.
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
     metadata:
-      name: disable-tls-for-egress-gateway
+      name: set-sni-for-egress-gateway
     spec:
       host: istio-egressgateway.istio-system.svc.cluster.local
       trafficPolicy:
@@ -431,7 +458,11 @@ disable mTLS to the egress gateway, since the original traffic is already encryp
         - port:
             number: 443
           tls:
-            mode: DISABLE # disable mTLS to port 443 of istio-egressgateway
+            mode: MUTUAL
+            clientCertificate: /etc/certs/cert-chain.pem
+            privateKey: /etc/certs/key.pem
+            caCertificates: /etc/certs/root-cert.pem
+            sni: edition.cnn.com
     EOF
     {{< /text >}}
 
@@ -500,7 +531,7 @@ disable mTLS to the egress gateway, since the original traffic is already encryp
 $ istioctl delete serviceentry cnn
 $ istioctl delete gateway istio-egressgateway
 $ istioctl delete virtualservice direct-through-egress-gateway
-$ istioctl delete destinationrule disable-tls-for-egress-gateway
+$ istioctl delete destinationrule set-sni-for-egress-gateway
 {{< /text >}}
 
 ## Additional security considerations
