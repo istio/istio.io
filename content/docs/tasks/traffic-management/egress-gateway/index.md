@@ -394,7 +394,7 @@ You specify the port 443, protocol `TLS` in the corresponding `ServiceEntry`, eg
 
     If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio, use the following
     command. Note that in addition to creating a `Gateway`, it creates a `DestinationRule` to specify mTLS to the egress
-    gateway, setting SNI to `edition.cnn.com`
+    gateway, setting SNI to `edition.cnn.com`.
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
