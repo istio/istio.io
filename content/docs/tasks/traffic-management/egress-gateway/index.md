@@ -390,34 +390,7 @@ You specify the port 443, protocol `TLS` in the corresponding `ServiceEntry`, eg
     ...
     {{< /text >}}
 
-1.  Create an egress `Gateway` for _edition.cnn.com_, port 443, protocol TLS.
-
-    If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio:
-
-    {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
-    kind: Gateway
-    metadata:
-      name: istio-egressgateway
-    spec:
-      selector:
-        istio: egressgateway
-      servers:
-      - port:
-          number: 443
-          name: tls
-          protocol: TLS
-        hosts:
-        - edition.cnn.com
-        tls:
-          mode: MUTUAL
-          serverCertificate: /etc/certs/cert-chain.pem
-          privateKey: /etc/certs/key.pem
-          caCertificates: /etc/certs/root-cert.pem
-    EOF
-    {{< /text >}}
-
-    otherwise:
+1.  Create an egress `Gateway` for _edition.cnn.com_, port 443, protocol TLS:
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
@@ -437,6 +410,28 @@ You specify the port 443, protocol `TLS` in the corresponding `ServiceEntry`, eg
         - edition.cnn.com
         tls:
           mode: PASSTHROUGH
+    EOF
+    {{< /text >}}
+
+1.  If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio
+disable mTLS to the egress gateway, since the traffic is already encrypted:
+
+    {{< text bash >}}
+    $ cat <<EOF | istioctl create -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: disable-tls-for-egress-gateway
+    spec:
+      host: istio-egressgateway.istio-system.svc.cluster.local
+      trafficPolicy:
+        loadBalancer:
+          simple: ROUND_ROBIN
+        portLevelSettings:
+        - port:
+            number: 443
+          tls:
+            mode: DISABLE # disable mTLS to port 443 of istio-egressgateway
     EOF
     {{< /text >}}
 
@@ -505,6 +500,7 @@ You specify the port 443, protocol `TLS` in the corresponding `ServiceEntry`, eg
 $ istioctl delete serviceentry cnn
 $ istioctl delete gateway istio-egressgateway
 $ istioctl delete virtualservice direct-through-egress-gateway
+$ istioctl delete destinationrule disable-tls-for-egress-gateway
 {{< /text >}}
 
 ## Additional security considerations
