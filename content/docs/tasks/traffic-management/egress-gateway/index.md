@@ -226,7 +226,7 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
           mode: MUTUAL
           serverCertificate: /etc/certs/cert-chain.pem
           privateKey: /etc/certs/key.pem
-          caCertificates: /etc/certs/root-cert.pem  
+          caCertificates: /etc/certs/root-cert.pem
     EOF
     {{< /text >}}
 
@@ -246,7 +246,7 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
           name: http-port-for-tls-origination
           protocol: HTTP
         hosts:
-        - "*"    
+        - "*"
     EOF
     {{< /text >}}
 
@@ -379,6 +379,7 @@ items accordingly (note the remarks _If you have mutual TLS Authentication enabl
     {{< /text >}}
 
 ## Cleanup
+
 Shutdown the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/samples/sleep) service:
 
 {{< text bash >}}
