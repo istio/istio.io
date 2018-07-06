@@ -54,6 +54,48 @@ If we used the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/sam
 
 First direct HTTP traffic without TLS origination
 
+1.  Define a `ServiceEntry` for `edition.cnn.com`:
+
+    {{< text bash >}}
+    $ cat <<EOF | istioctl create -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: cnn
+    spec:
+      hosts:
+      - edition.cnn.com
+      ports:
+      - number: 80
+        name: http-port
+        protocol: HTTP
+      - number: 443
+        name: https
+        protocol: HTTPS
+      resolution: DNS
+    EOF
+    {{< /text >}}
+
+1.  Verify that your `ServiceEntry` was applied correctly. Send an HTTPS request to http://edition.cnn.com/politics.
+
+    {{< text bash >}}
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
+    HTTP/1.1 301 Moved Permanently
+    ...
+    location: https://edition.cnn.com/politics
+    ...
+
+    HTTP/1.1 200 OK
+    Content-Type: text/html; charset=utf-8
+    ...
+    Content-Length: 151654
+    ...
+    {{< /text >}}
+
+    The output should be the same as in the
+    [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress-tls-origination/) task, without TLS
+    origination.
+
 1.  Create an egress `Gateway` for _edition.cnn.com_, port 80.
 
     If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio, use the following
@@ -124,27 +166,10 @@ First direct HTTP traffic without TLS origination
     EOF
     {{< /text >}}
 
-1.  Define a `ServiceEntry` for `edition.cnn.com` and a `VirtualService` to direct
-the traffic through the egress gateway:
+1.  Define a `VirtualService` to direct the traffic through the egress gateway:
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
-    apiVersion: networking.istio.io/v1alpha3
-    kind: ServiceEntry
-    metadata:
-      name: cnn
-    spec:
-      hosts:
-      - edition.cnn.com
-      ports:
-      - number: 80
-        name: http-port
-        protocol: HTTP
-      - number: 443
-        name: https
-        protocol: HTTPS
-      resolution: DNS
-    ---
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -179,7 +204,7 @@ the traffic through the egress gateway:
     EOF
     {{< /text >}}
 
-1.  Send an HTTP request to http://edition.cnn.com/politics.
+1.  Resend the HTTP request to http://edition.cnn.com/politics.
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
@@ -195,7 +220,7 @@ the traffic through the egress gateway:
     ...
     {{< /text >}}
 
-    The output should be the same as in the [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress-tls-origination/) task, without TLS origination.
+    The output should be the same as in the step 2.
 
 1.  Check the log of the _istio-egressgateway_ pod and see a line corresponding to our request. If Istio is deployed in the `istio-system` namespace, the command to print the log is:
 
@@ -225,6 +250,44 @@ $ istioctl delete destinationrule set-sni-for-egress-gateway
 ## Perform TLS origination with the egress `Gateway`
 
 Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress-tls-origination/) task.  Note that in this case the TLS origination will be done by the egress Gateway server, as opposed to by the sidecar in the previous task.
+
+1.  Define a `ServiceEntry` for `edition.cnn.com`:
+
+    {{< text bash >}}
+    $ cat <<EOF | istioctl create -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: cnn
+    spec:
+      hosts:
+      - edition.cnn.com
+      ports:
+      - number: 80
+        name: http-port
+        protocol: HTTP
+      - number: 443
+        name: http-port-for-tls-origination
+        protocol: HTTP
+      resolution: DNS
+    EOF
+    {{< /text >}}
+
+1.  Verify that your `ServiceEntry` was applied correctly. Send an HTTPS request to http://edition.cnn.com/politics.
+
+    {{< text bash >}}
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
+    HTTP/1.1 301 Moved Permanently
+    ...
+    location: https://edition.cnn.com/politics
+    ...
+
+    command terminated with exit code 35
+    {{< /text >}}
+
+    The output should be contain _301 Moved Permanently_, if you see it, your `ServiceEntry` was configured correctly.
+    The exit code _35_ is due to the fact that Istio did not perform TLS origination. The egress gateway will perform
+    TLS origination, proceed to the following steps to configure it.
 
 1.  Create an egress `Gateway` for _edition.cnn.com_, port 443.
 
@@ -296,8 +359,7 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
     EOF
     {{< /text >}}
 
-1.  Define a `ServiceEntry` for `edition.cnn.com` and a `VirtualService` to direct
-the traffic through the egress gateway:
+1.  Define a `VirtualService` to direct the traffic through the egress gateway:
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
