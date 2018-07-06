@@ -414,7 +414,7 @@ You specify the port 443, protocol `TLS` in the corresponding `ServiceEntry`, eg
     {{< /text >}}
 
 1.  If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio
-disable mTLS to the egress gateway, since the traffic is already encrypted:
+disable mTLS to the egress gateway, since the original traffic is already encrypted (HTTPS):
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
