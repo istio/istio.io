@@ -2,7 +2,7 @@
 
 $(function ($) {
     // Show the navbar links, hide the search box
-    function showLinks() {
+    function showNavBarLinks() {
         var $form = $('#search_form');
         var $textbox = $('#search_textbox');
         var $links = $('#navbar-links');
@@ -28,7 +28,7 @@ $(function ($) {
     // Hide the search box when the user hits the ESC key
     $('body').on('keyup', function(event) {
         if (event.which === 27) {
-            showLinks();
+            showNavBarLinks();
         }
     });
 
@@ -41,7 +41,7 @@ $(function ($) {
     // Hide the search box
     $('#search_close').on('click', function(event) {
         event.preventDefault();
-        showLinks();
+        showNavBarLinks();
     });
 
     // When the user submits the search form, initiate a search
@@ -50,7 +50,7 @@ $(function ($) {
         var $textbox = $('#search_textbox');
         var $search_page_url = $('#search_page_url');
         var url = $search_page_url.val() + '?q=' + $textbox.val();
-        showLinks();
+        showNavBarLinks();
         window.location.assign(url);
     });
 
@@ -68,28 +68,60 @@ $(function ($) {
             $(this).parent().children('ul.tree').toggle(200);
         });
 
-        // toggle copy button
+        // toggle toolbar buttons
         $(document).on('mouseenter', 'pre', function () {
-            $(this).next().toggleClass("copy-show", true);
-            $(this).next().toggleClass("copy-hide", false)
+            $(this).next().toggleClass("toolbar-show", true);
+            $(this).next().toggleClass("toolbar-hide", false);
+            $(this).next().next().toggleClass("toolbar-show", true);
+            $(this).next().next().toggleClass("toolbar-hide", false);
+            $(this).next().next().next().toggleClass("toolbar-show", true);
+            $(this).next().next().next().toggleClass("toolbar-hide", false);
         });
 
-        // toggle copy button
+        // toggle toolbar buttons
         $(document).on('mouseleave', 'pre', function () {
-            $(this).next().toggleClass("copy-show", false);
-            $(this).next().toggleClass("copy-hide", true)
+            $(this).next().toggleClass("toolbar-show", false);
+            $(this).next().toggleClass("toolbar-hide", true);
+            $(this).next().next().toggleClass("toolbar-show", false);
+            $(this).next().next().toggleClass("toolbar-hide", true);
+            $(this).next().next().next().toggleClass("toolbar-show", false);
+            $(this).next().next().next().toggleClass("toolbar-hide", true);
         });
 
         // toggle copy button
         $(document).on('mouseenter', 'button.copy', function () {
-            $(this).toggleClass("copy-show", true);
-            $(this).toggleClass("copy-hide", false)
+            $(this).toggleClass("toolbar-show", true);
+            $(this).toggleClass("toolbar-hide", false);
         });
 
         // toggle copy button
         $(document).on('mouseleave', 'button.copy', function () {
-            $(this).toggleClass("copy-show", false);
-            $(this).toggleClass("copy-hide", true)
+            $(this).toggleClass("toolbar-show", false);
+            $(this).toggleClass("toolbar-hide", true);
+        });
+
+        // toggle download button
+        $(document).on('mouseenter', 'button.download', function () {
+            $(this).toggleClass("toolbar-show", true);
+            $(this).toggleClass("toolbar-hide", false);
+        });
+
+        // toggle download button
+        $(document).on('mouseleave', 'button.download', function () {
+            $(this).toggleClass("toolbar-show", false);
+            $(this).toggleClass("toolbar-hide", true);
+        });
+
+        // toggle print button
+        $(document).on('mouseenter', 'button.print', function () {
+            $(this).toggleClass("toolbar-show", true);
+            $(this).toggleClass("toolbar-hide", false);
+        });
+
+        // toggle print button
+        $(document).on('mouseleave', 'button.print', function () {
+            $(this).toggleClass("toolbar-show", false);
+            $(this).toggleClass("toolbar-hide", true);
         });
     });
 }(jQuery));
@@ -172,74 +204,88 @@ function handleDOMLoaded() {
             }
         }
 
-        // Add a Copy button to all PRE blocks
-        function attachCopyButtons() {
+        // Add a toolbar to all PRE blocks
+        function attachToolbarToPreBlocks() {
             var pre = document.getElementsByTagName('PRE');
             for (var i = 0; i < pre.length; i++) {
-                var button = document.createElement("BUTTON");
-                button.title = "Copy to clipboard";
-                button.className = "copy copy-hide";
-                button.innerText = "Copy";
-                button.setAttribute("aria-label", "Copy to clipboard");
+                var copyButton = document.createElement("BUTTON");
+                copyButton.title = "Copy to clipboard";
+                copyButton.className = "copy toolbar-hide";
+                copyButton.innerHTML = "<i class='fa fa-copy'></i>";
+                copyButton.setAttribute("aria-label", "Copy to clipboard");
+
+                var downloadButton = document.createElement("BUTTON");
+                downloadButton.title = "Download";
+                downloadButton.className = "download toolbar-hide";
+                downloadButton.innerHTML = "<i class='fa fa-download'></i>";
+                downloadButton.setAttribute("aria-label", downloadButton.title);
+                downloadButton.onclick = function(e) {
+                    var div = e.currentTarget.parentElement;
+                    var codes = div.getElementsByTagName("CODE");
+                    if ((codes !== null) && (codes.length > 0)) {
+                        var text = getToolbarDivText(div);
+                        saveFile(codes[0].getAttribute("data-downloadas"), text);
+                    }
+                    return true;
+                };
+
+                var printButton = document.createElement("BUTTON");
+                printButton.title = "Print";
+                printButton.className = "print toolbar-hide";
+                printButton.innerHTML = "<i class='fa fa-print'></i>";
+                printButton.setAttribute("aria-label", printButton.title);
+                printButton.onclick = function(e) {
+                    var div = e.currentTarget.parentElement;
+                    var text = getToolbarDivText(div);
+                    printText(text);
+                    return true;
+                };
 
                 // wrap the PRE block in a DIV so we have a place to attach the copy button
                 var div = document.createElement("DIV");
-                div.className = "copy";
+                div.className = "toolbar";
                 pre[i].parentElement.insertBefore(div, pre[i]);
                 div.appendChild(pre[i]);
-                div.appendChild(button);
+                div.appendChild(printButton);
+                div.appendChild(downloadButton);
+                div.appendChild(copyButton);
             }
 
             var copyCode = new Clipboard('button.copy', {
                 text: function (trigger) {
-                    var commands = trigger.previousElementSibling.getElementsByClassName("command");
-                    if ((commands !== null) && (commands.length > 0)) {
-                        var lines = commands[0].innerText.split("\n");
-                        var cmd = "";
-                        for (var i = 0; i < lines.length; i++) {
-                            if (lines[i].startsWith("$ ")) {
-                                lines[i] = lines[i].substring(2);
-                            }
-
-                            if (cmd !== "") {
-                                cmd = cmd + "\n";
-                            }
-
-                            cmd += lines[i];
-                        }
-
-                        return cmd;
-                    }
-
-                    return trigger.previousElementSibling.innerText;
+                    return getToolbarDivText(trigger.parentElement);
                 }
             });
 
-            // On success:
-            // - Change the "Copy" text to "Done".
-            // - Swap it to "Copy" in 2s.
-
-            copyCode.on('success', function (event) {
-                event.clearSelection();
-                event.trigger.textContent = 'Done';
-                window.setTimeout(function () {
-                    event.trigger.textContent = 'Copy';
-                }, 2000);
-            });
-
-            // On error (Safari):
-            // - Change to "Not supported"
-            // - Swap it to "Copy" in 2s.
-
             copyCode.on('error', function (event) {
-                event.trigger.textContent = 'Not supported';
-                window.setTimeout(function () {
-                    event.trigger.textContent = 'Copy';
-                }, 5000);
+                alert("Sorry, but copying is not supported by your browser");
             });
         }
 
-        function applySyntaxColoring() {
+        function getToolbarDivText(div) {
+            var commands = div.getElementsByClassName("command");
+            if ((commands !== null) && (commands.length > 0)) {
+                var lines = commands[0].innerText.split("\n");
+                var cmd = "";
+                for (var i = 0; i < lines.length; i++) {
+                    if (lines[i].startsWith("$ ")) {
+                        lines[i] = lines[i].substring(2);
+                    }
+
+                    if (cmd !== "") {
+                        cmd = cmd + "\n";
+                    }
+
+                    cmd += lines[i];
+                }
+
+                return cmd;
+            }
+
+            return div.innerText;
+        }
+
+        function applySyntaxColoringToPreBlocks() {
             var pre = document.getElementsByTagName('PRE');
             for (var i = 0; i < pre.length; i++) {
                 var code = pre[i].firstChild;
@@ -340,7 +386,7 @@ function handleDOMLoaded() {
         // Add a link icon next to each header so people can easily get bookmarks to headers
         function attachLinksToHeaders() {
             for (var level = 2; level <= 6; level++) {
-                var headers = document.getElementsByTagName("h" + level);
+                var headers = document.getElementsByTagName("h" + level.toString());
                 for (var i = 0; i < headers.length; i++) {
                     var header = headers[i];
                     if (header.id !== "") {
@@ -437,8 +483,8 @@ function handleDOMLoaded() {
         }
 
         compensateForHugoBug();
-        attachCopyButtons();
-        applySyntaxColoring();
+        attachToolbarToPreBlocks();
+        applySyntaxColoringToPreBlocks();
         attachLinksToHeaders();
         attachLinksToDefinedTerms();
         makeOutsideLinksOpenInTabs();
@@ -527,6 +573,25 @@ function handlePageScroll() {
     controlScrollToTopButton();
     controlTOCActivation();
 }
+
+function saveFile(filename, text) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/text;charset=utf-8,' + encodeURI(text));
+    element.setAttribute('download', filename);
+    element.click();
+}
+
+function printText(text) {
+    var html="<html><body><pre><code>" + text + "</code></pre></html>";
+
+    var printWin = window.open('','','left=0,top=0,width=100,height=100,toolbar=0,scrollbars=0,status=0,location=0,menubar=0', false);
+    printWin.document.write(html);
+    printWin.document.close();
+    printWin.focus();
+    printWin.print();
+    printWin.close();
+}
+
 
 document.addEventListener("DOMContentLoaded", handleDOMLoaded);
 window.addEventListener("scroll", handlePageScroll);

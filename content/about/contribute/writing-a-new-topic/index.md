@@ -321,6 +321,20 @@ $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer
 {"level":"warn","ts":"2017-09-21T04:33:31.233Z","instance":"newlog.logentry.istio-system","destination":"ingress.istio-system.svc.cluster.local","latency":"74.47ms","responseCode":200,"responseSize":5599,"source":"unknown","user":"unknown"}
 {{< /text >}}
 
+You can specify an optional third value which controls the name that the browser
+will use when the user chooses to download the file. For example:
+
+{{< text markdown >}}
+{{</* text go plain "hello.go" */>}}
+func HelloWorld() {
+  fmt.Println("Hello World")
+}
+{{</* /text */>}}
+{{< /text >}}
+
+If you don't specify a third value, then the download name is derived automatically based on the
+name of the current page.
+
 ### Links to GitHub files
 
 If your code block references a file from Istio's GitHub repo, you can surround the relative path name of the file with a pair
@@ -338,9 +352,9 @@ This will be rendered as:
 $ istioctl create -f @samples/bookinfo/kube/route-rule-reviews-v3.yaml@
 {{< /text >}}
 
-### File snippets
+### Files and snippets
 
-It is often useful to display portions of a larger file. You can annotate a text file to create named snippets within the file by
+It is often useful to display files or portions of a file. You can annotate a text file to create named snippets within the file by
 using the `$snippet` and `$endsnippet` annotations. For example, you could have a text file that looks like this:
 
 {{< text_file file="examples/snippet_example.txt" syntax="plain" >}}
@@ -358,6 +372,18 @@ snippet. If you omit the `snippet` attribute, then the whole file is inserted ve
 The above snippet produces this output:
 
 {{< text_file file="examples/snippet_example.txt" syntax="plain" snippet="SNIP1" >}}
+
+If you don't specify a snippet name, then the whole file will be inserted instead.
+
+You can specify an optional `downloadas` attribute, which specifies the name that the browser
+will use when the user chooses to download the file. For example:
+
+{{< text markdown >}}
+{{</* text_file file="examples/snippet_example.txt" syntax="plain" downloadas="foo.txt" */>}}
+{{< /text >}}
+
+If you don't specify the `downloadas` attribute, then the download name is taken from the `file`
+attribute instead.
 
 A common thing to is to copy an example script or yaml file from GitHub into the documentation
 repo and then use snippets within the file to produce examples in the documentation. To pull
@@ -379,6 +405,16 @@ which produces the following result:
 
 If the file is from a different origin site, CORS should be enabled on that site. Note that the
 GitHub raw content site (raw.githubusercontent.com) may be used here.
+
+You can specify an optional `downloadas` attribute, which specifies the name that the browser
+will use when the user chooses to download the file. For example:
+
+{{< text markdown >}}
+{{</* text_dynamic url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" downloadas="foo.yaml" */>}}
+{{< /text >}}
+
+If you don't specify the `downloadas` attribute, then the download name is taken from the `url`
+attribute instead.
 
 ## Renaming or moving pages
 
@@ -433,7 +469,3 @@ in the code block itself, making cut & paste not work right.
 
 - Make sure all images have valid width and aspect ratios. Otherwise, they will render
 in odd ways, depending on screen size.
-
-- The special syntax to insert links in code blocks using `@@` annotations produces links
-which are unchecked. So you can put bad links in there and tooling won't stop you. So be
-careful.

@@ -1,19 +1,15 @@
-{{/*
-Purpose:
-Inserts a preformatted code block into the HTML. You specify the syntax to use for
-highlighting, which can be one of `plain`, `markdown`, `yaml`, `json`, `java`, `javascript`,
-`c`, `cpp`, `csharp`, `go`, `html`, `protobuf`, `perl`, `docker`, and `bash`.
-
-When the syntax is bash, the first line of the block is expected to start with a $.
-An additional output syntax can be specified which uses different syntax coloring
-for the output portion of the block. Otherwise, the output is colored using the
-`plain` syntax.
+{{/* Inserts a text block into the HTML. See https://preliminary.istio.io/about/contribute/writing-a-new-topic/#embedding-preformatted-blocks for details
 
 NOTE: The stuff below cannot be indented. If it is, it can cause the markdown
 parser to insert spurious paragraphs around the PRE blocks, which turns out to
 be invalid HTML
 */}}
-{{ $scratch := .Scratch }}
+{{ $scratch := .Page.Scratch }}
+{{ $scratch.Add "text_counter" 1 }}
+{{ $scratch.Set "downloadas" (printf "%s-%v.%s" .Page.File.BaseFileName ($scratch.Get "text_counter") (.Get 0)) }}
+{{ if .Get 2 }}
+{{ $scratch.Set "downloadas" (.Get 2) }}
+{{ end }}
 {{ if .Get 0 }}
 {{ $lines := split (strings.TrimRight " " (trim .Inner "\n")) "\n" }}
 {{ $line0 := index $lines 0 }}
@@ -49,4 +45,4 @@ be invalid HTML
 {{ if ($scratch.Get "output") }}{{ $scratch.Set "syntax" (printf "command-output-as-%s" ($scratch.Get "output")) }}{{ end }}
 {{ end }}
 {{ end }}
-<pre><code class='language-{{ $scratch.Get "syntax" }}'>{{ $scratch.Get "text" }}</code></pre>
+<pre><code class='language-{{ $scratch.Get "syntax" }}' data-downloadas='{{ $scratch.Get "downloadas" }}'>{{ $scratch.Get "text" }}</code></pre>
