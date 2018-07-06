@@ -1,1 +1,7 @@
-<pre data-src='{{ .Get "url" }}'><code class='language-{{ .Get "syntax" }}'></code></pre>
+{{ $scratch := .Page.Scratch }}
+{{ $name := split (.Get "url") "/" | last 1 }}
+{{ $scratch.Set "downloadas" (index $name 0) }}
+{{ if .Get "downloadas" }}
+{{ $scratch.Set "downloadas" (.Get "downloadas") }}
+{{ end }}
+<pre data-src='{{ .Get "url" }}'><code class='language-{{ .Get "syntax" }}' data-downloadas='{{ $scratch.Get "downloadas" }}'></code></pre>
