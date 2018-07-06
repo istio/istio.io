@@ -63,7 +63,7 @@ to manage the lifecycle of Istio.
 1. If a service account has not already been installed for Tiller, install one:
 
     {{< text bash >}}
-    $ kubectl create -f @install/kubernetes/helm/helm-service-account.yaml@
+    $ kubectl create -f install/kubernetes/helm/helm-service-account.yaml
     {{< /text >}}
 
 1. Install Tiller on your cluster with the service account:
