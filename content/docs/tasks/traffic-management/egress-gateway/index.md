@@ -52,7 +52,7 @@ If we used the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/sam
 
 ## Define an egress `Gateway` and direct HTTP traffic through it
 
-First let's direct HTTP traffic without TLS origination
+First direct HTTP traffic without TLS origination
 
 1.  Create an egress `Gateway` for _edition.cnn.com_, port 80.
 
@@ -191,7 +191,7 @@ the traffic through the egress gateway:
 
 ### Cleanup
 
-Let's remove the previous definitions before proceeding to the next step:
+Remove the previous definitions before proceeding to the next step:
 
 {{< text bash >}}
 $ istioctl delete gateway istio-egressgateway
