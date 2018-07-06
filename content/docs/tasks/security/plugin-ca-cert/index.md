@@ -55,7 +55,7 @@ The following steps enable plugging in the certificates and key into Citadel:
 1.  Redeploy Citadel, which reads the certificates and key from the secret-mount files:
 
     {{< text bash >}}
-    $ kubectl apply -f @install/kubernetes/istio-citadel-plugin-certs.yaml@
+    $ kubectl apply -f install/kubernetes/istio-citadel-plugin-certs.yaml
     {{< /text >}}
 
     > Note: if you are using different certificate/key file or secret names,
@@ -139,5 +139,5 @@ This requires you have `openssl` installed on your machine.
 *   To remove the Istio components:
 
     {{< text bash >}}
-    $ kubectl delete -f @install/kubernetes/istio-auth.yaml@
+    $ kubectl delete -f install/kubernetes/istio-auth.yaml
     {{< /text >}}
