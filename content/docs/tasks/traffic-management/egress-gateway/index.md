@@ -392,7 +392,9 @@ You specify the port 443, protocol `TLS` in the corresponding `ServiceEntry`, eg
 
 1.  Create an egress `Gateway` for _edition.cnn.com_, port 443, protocol TLS.
 
-    If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio:
+    If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio, use the following
+    command. Note that in addition to creating a `Gateway`, it creates a `DestinationRule` to specify mTLS to the egress
+    gateway, setting SNI to `edition.cnn.com`
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
@@ -414,6 +416,27 @@ You specify the port 443, protocol `TLS` in the corresponding `ServiceEntry`, eg
           serverCertificate: /etc/certs/cert-chain.pem
           privateKey: /etc/certs/key.pem
           caCertificates: /etc/certs/root-cert.pem
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: set-sni-for-egress-gateway
+    spec:
+      host: istio-egressgateway.istio-system.svc.cluster.local
+      trafficPolicy:
+        loadBalancer:
+          simple: ROUND_ROBIN
+        portLevelSettings:
+        - port:
+            number: 443
+          tls:
+            mode: MUTUAL
+            clientCertificate: /etc/certs/cert-chain.pem
+            privateKey: /etc/certs/key.pem
+            caCertificates: /etc/certs/root-cert.pem
+            subjectAltNames:
+            - spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
+            sni: edition.cnn.com
     EOF
     {{< /text >}}
 
@@ -437,34 +460,6 @@ You specify the port 443, protocol `TLS` in the corresponding `ServiceEntry`, eg
         - edition.cnn.com
         tls:
           mode: PASSTHROUGH
-    EOF
-    {{< /text >}}
-
-1.  If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio,
-specify mTLS to the egress gateway, setting SNI to `edition.cnn.com`.
-
-    {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
-      name: set-sni-for-egress-gateway
-    spec:
-      host: istio-egressgateway.istio-system.svc.cluster.local
-      trafficPolicy:
-        loadBalancer:
-          simple: ROUND_ROBIN
-        portLevelSettings:
-        - port:
-            number: 443
-          tls:
-            mode: MUTUAL
-            clientCertificate: /etc/certs/cert-chain.pem
-            privateKey: /etc/certs/key.pem
-            caCertificates: /etc/certs/root-cert.pem
-            subjectAltNames:
-            - spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
-            sni: edition.cnn.com
     EOF
     {{< /text >}}
 
