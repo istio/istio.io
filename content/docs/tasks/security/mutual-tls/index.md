@@ -15,15 +15,9 @@ Through this task, you will learn how to:
 
 This task assumes you have a Kubernetes cluster:
 
-* Installed Istio with global mutual TLS enabled:
+* Installed Istio with global mutual TLS enabled using Helm:
 
-    {{< text bash >}}
-    $ kubectl apply -f @install/kubernetes/istio-demo-auth.yaml@
-    {{< /text >}}
-
-    _**OR**_
-
-    Using [Helm](/docs/setup/kubernetes/helm-install/) with `global.mtls.enabled` to `true`.
+    Use [Helm](/docs/setup/kubernetes/helm-install/) with `global.mtls.enabled` to `true`.
 
 > Starting with Istio 0.7, you can use [authentication policy](/docs/concepts/security/authn-policy/) to configure mutual TLS for all/selected services in a namespace
 (repeated for all namespaces to get global setting). See the [authentication policy task](/docs/tasks/security/authn-policy/)
