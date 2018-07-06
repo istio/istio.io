@@ -19,7 +19,7 @@ example application for this task.
 
 *   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
 
-    Either use the `istio-demo.yaml` (or `istio-demo-auth.yaml`) template, which includes tracing support, or
+    Either use the `istio.yaml` (or `istio-auth.yaml`) template, which includes tracing support, or
     use the helm chart with tracing enabled using the `--set tracing.enabled=true` option.
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.

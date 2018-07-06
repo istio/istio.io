@@ -142,7 +142,7 @@ You need to deploy Istio control plane with mutual TLS enabled. If you have isti
 control plane with mutual TLS disabled installed, please delete it:
 
 {{< text bash >}}
-$ kubectl delete -f install/kubernetes/istio-demo.yaml
+$ kubectl delete -f install/kubernetes/istio.yaml
 {{< /text >}}
 
 And wait for everything is down, i.e., there is no pod in control plane namespace (istio-system).
@@ -155,7 +155,7 @@ No resources found.
 Then deploy the Istio control plane with mutual TLS enabled:
 
 {{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
+$ kubectl apply -f install/kubernetes/istio-auth.yaml
 {{< /text >}}
 
 Make sure everything is up and running:

@@ -255,7 +255,7 @@ $ kubectl describe pod --namespace kube-system $(kubectl get pods --namespace ku
 *  安装 Istio 而不启用 sidecar 之间的[双向TLS验证](/docs/concepts/security/mutual-tls/)。对于现有应用程序的集群，使用 Istio sidecar 的服务需要能够与其他非 Istio Kubernetes 服务以及使用[存活和就绪探针](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)、headless 服务或 StatefulSets 的应用程序通信的应用程序选择此选项。
 
 {{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio-demo.yaml
+$ kubectl apply -f install/kubernetes/istio.yaml
 {{< /text >}}
 
 或者
@@ -263,7 +263,7 @@ $ kubectl apply -f install/kubernetes/istio-demo.yaml
 *  默认情况下安装 Istio，并强制在 sidecar 之间进行双向 TLS 身份验证。仅在保证新部署的工作负载安装了 Istio sidecar 的新建的 kubernetes 集群上使用此选项。
 
 {{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
+$ kubectl apply -f install/kubernetes/istio-auth.yaml
 {{< /text >}}
 
 或者
@@ -332,10 +332,10 @@ $ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 
   不必理会在层级删除过程中的各种报错，因为这些资源可能已经被删除的。
 
-如果您使用 `istio-demo.yaml` 安装的 Istio：
+如果您使用 `istio.yaml` 安装的 Istio：
 
 {{< text bash >}}
-$ kubectl delete -f install/kubernetes/istio-demo.yaml
+$ kubectl delete -f install/kubernetes/istio.yaml
 {{< /text >}}
 
 否则使用 [Helm 卸载 Istio](/docs/setup/kubernetes/helm-install/#uninstall)。
