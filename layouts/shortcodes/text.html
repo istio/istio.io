@@ -46,3 +46,10 @@ be invalid HTML
 {{ end }}
 {{ end }}
 <pre><code class='language-{{ $scratch.Get "syntax" }}' data-downloadas='{{ $scratch.Get "downloadas" }}'>{{ $scratch.Get "text" }}</code></pre>
+{{/* include a link to the special embedded @@ references so the links are statically checked as we build the site */}}
+{{ $branch := .Site.Data.args.branch_name }}
+{{ $links := findRE "@(.*?)@" ($scratch.Get "text") }}
+{{ range $link := $links }}
+{{ $href := printf "https://raw.githubusercontent.com/istio/istio/%s/%s" $branch (trim $link "@") }}
+<a hidden style="display:none" href="{{ $href }}"></a>
+{{ end }}
