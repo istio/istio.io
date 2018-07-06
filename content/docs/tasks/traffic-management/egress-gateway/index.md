@@ -219,6 +219,7 @@ Remove the previous definitions before proceeding to the next step:
 $ istioctl delete gateway istio-egressgateway
 $ istioctl delete serviceentry cnn
 $ istioctl delete virtualservice direct-through-egress-gateway
+$ istioctl delete destinationrule set-sni-for-egress-gateway
 {{< /text >}}
 
 ## Perform TLS origination with the egress `Gateway`
@@ -398,6 +399,7 @@ $ istioctl delete gateway istio-egressgateway
 $ istioctl delete serviceentry cnn
 $ istioctl delete virtualservice direct-through-egress-gateway
 $ istioctl delete destinationrule originate-tls-for-edition-cnn-com
+$ istioctl delete destinationrule set-sni-for-egress-gateway
 {{< /text >}}
 
 ## Direct HTTPS traffic through an egress gateway
