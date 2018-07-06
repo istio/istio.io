@@ -190,35 +190,44 @@ pre {
     }
 }
 
-// this is necessary in order for proper positioning of the Copy button
-div.copy {
+div.toolbar {
     position: relative;
-}
 
-button.copy {
-    font-size: .8em;
-    padding: 0 .5em;
-    border-radius: .3em;
-    background-color: $secondBrandColor;
-    cursor: pointer;
-    color: $textBrandColor;
-    text-decoration: none;
-    border: 0;
+    button {
+        font-size: .8em;
+        padding: 0 .5em;
+        border-radius: .3em;
+        background-color: $secondBrandColor;
+        cursor: pointer;
+        color: $textBrandColor;
+        text-decoration: none;
+        border: 0;
+        position: absolute;
+        top: 3px;
+        z-index: 5;
+    }
 
-    position: absolute;
-    top: 3px;
-    right: 1.3em;
-    z-index: 5;
-}
+    button.toolbar-hide {
+        transition: opacity .4s ease-in-out;
+        opacity: 0;
+    }
 
-button.copy-hide {
-    transition: opacity .4s ease-in-out;
-    opacity: 0;
-}
+    button.toolbar-show {
+        transition: opacity 1.1s ease-in-out;
+        opacity: 1;
+    }
 
-button.copy-show {
-    transition: opacity 1.2s ease-in-out;
-    opacity: 1;
+    button.copy {
+        right: 1.3em;
+    }
+
+    button.download {
+        right: 3.3em;
+    }
+
+    button.print {
+        right: 5.5em;
+    }
 }
 
 p {
