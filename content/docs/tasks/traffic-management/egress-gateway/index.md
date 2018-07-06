@@ -368,7 +368,6 @@ You specify the port 443, protocol `TLS` in the corresponding `ServiceEntry`, eg
     kind: ServiceEntry
     metadata:
       name: cnn
-      namespace: istio-system
     spec:
       hosts:
       - edition.cnn.com
@@ -399,7 +398,6 @@ You specify the port 443, protocol `TLS` in the corresponding `ServiceEntry`, eg
     kind: Gateway
     metadata:
       name: istio-egressgateway
-      namespace: istio-system
     spec:
       selector:
         istio: egressgateway
@@ -423,12 +421,11 @@ You specify the port 443, protocol `TLS` in the corresponding `ServiceEntry`, eg
     kind: VirtualService
     metadata:
       name: direct-through-egress-gateway
-      namespace: istio-system
     spec:
       hosts:
       - edition.cnn.com
       gateways:
-      - istio-egressgateway.istio-system.svc.cluster.local
+      - istio-egressgateway
       - mesh
       tls:
       - match:
@@ -445,7 +442,7 @@ You specify the port 443, protocol `TLS` in the corresponding `ServiceEntry`, eg
           weight: 100
       - match:
         - gateways:
-          - istio-egressgateway.istio-system.svc.cluster.local
+          - istio-egressgateway
           port: 443
           sni_hosts:
           - edition.cnn.com
@@ -478,9 +475,9 @@ You specify the port 443, protocol `TLS` in the corresponding `ServiceEntry`, eg
 ### Cleanup of the egress gateway for HTTPS traffic
 
 {{< text bash >}}
-$ istioctl delete serviceentry cnn -n istio-system
-$ istioctl delete gateway istio-egressgateway -n istio-system
-$ istioctl delete virtualservice direct-through-egress-gateway -n istio-system
+$ istioctl delete serviceentry cnn
+$ istioctl delete gateway istio-egressgateway
+$ istioctl delete virtualservice direct-through-egress-gateway
 {{< /text >}}
 
 ## Additional security considerations
