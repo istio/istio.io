@@ -33,8 +33,8 @@ $ cat istio.yaml | sed s/istio-system/istio-system1/g > istio-system1.yaml
 Istio Yaml 文件包含了 Istio 控制面的部署细节，包含组成控制面的 Pod（Mixer、Pilot、Ingress 以及 CA）。部署这两个控制面 Yaml 文件：
 
 {{< text bash >}}
-$ kubectl apply -f @install/kubernetes/istio.yaml@
-$ kubectl apply -f @install/kubernetes/istio-system1.yaml@
+$ kubectl apply -f install/kubernetes/istio.yaml
+$ kubectl apply -f install/kubernetes/istio-system1.yaml
 {{< /text >}}
 
 会在两个命名空间生成两个 Istio 控制面

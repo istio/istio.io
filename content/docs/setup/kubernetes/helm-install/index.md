@@ -36,7 +36,7 @@ recommended.
       (requires Kubernetes >=1.9.0):
 
         {{< text bash >}}
-        $ helm template @install/kubernetes/helm/istio@ --name istio --namespace istio-system > $HOME/istio.yaml
+        $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system > $HOME/istio.yaml
         {{< /text >}}
 
     * Without the sidecar injection webhook:
