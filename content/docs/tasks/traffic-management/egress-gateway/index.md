@@ -407,7 +407,7 @@ You specify the port 443, protocol `TLS` in the corresponding `ServiceEntry`, eg
           name: tls
           protocol: TLS
         hosts:
-        - edition.cnn.com
+        - "*"
         tls:
           mode: PASSTHROUGH
     EOF
