@@ -30,7 +30,7 @@ this feature is not needed if the production setup is not using the
   [quick start](/docs/setup/kubernetes/quick-start/) with global mutual TLS enabled:
 
     {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
+    $ kubectl apply -f install/kubernetes/istio-auth.yaml
     {{< /text >}}
 
     _**OR**_
