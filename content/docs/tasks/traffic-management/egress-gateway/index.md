@@ -56,8 +56,9 @@ First direct HTTP traffic without TLS origination
 
 1.  Create an egress `Gateway` for _edition.cnn.com_, port 80.
 
-    If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio, you must create the
-    `Gateway` in the following way:
+    If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio, use the following
+    command. Note that in addition to creating a `Gateway`, it creates a `DestinationRule` to specify mTLS to the egress
+    gateway, setting SNI to `edition.cnn.com`.
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
@@ -73,12 +74,33 @@ First direct HTTP traffic without TLS origination
             name: https
             protocol: HTTPS
           hosts:
-          - "*"
+          - edition.cnn.com
           tls:
             mode: MUTUAL
             serverCertificate: /etc/certs/cert-chain.pem
             privateKey: /etc/certs/key.pem
             caCertificates: /etc/certs/root-cert.pem
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: set-sni-for-egress-gateway
+    spec:
+      host: istio-egressgateway.istio-system.svc.cluster.local
+      trafficPolicy:
+        loadBalancer:
+          simple: ROUND_ROBIN
+        portLevelSettings:
+        - port:
+            number: 443
+          tls:
+            mode: MUTUAL
+            clientCertificate: /etc/certs/cert-chain.pem
+            privateKey: /etc/certs/key.pem
+            caCertificates: /etc/certs/root-cert.pem
+            subjectAltNames:
+            - spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
+            sni: edition.cnn.com
     EOF
     {{< /text >}}
 
@@ -98,7 +120,7 @@ First direct HTTP traffic without TLS origination
             name: http
             protocol: HTTP
           hosts:
-          - "*"
+          - edition.cnn.com
     EOF
     {{< /text >}}
 
@@ -205,7 +227,9 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
 
 1.  Create an egress `Gateway` for _edition.cnn.com_, port 443.
 
-    If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio:
+    If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio, use the following
+    command. Note that in addition to creating a `Gateway`, it creates a `DestinationRule` to specify mTLS to the egress
+    gateway, setting SNI to `edition.cnn.com`.
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
@@ -221,12 +245,33 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
           name: https
           protocol: HTTPS
         hosts:
-        - "*"
+        - edition.cnn.com
         tls:
           mode: MUTUAL
           serverCertificate: /etc/certs/cert-chain.pem
           privateKey: /etc/certs/key.pem
           caCertificates: /etc/certs/root-cert.pem
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: set-sni-for-egress-gateway
+    spec:
+      host: istio-egressgateway.istio-system.svc.cluster.local
+      trafficPolicy:
+        loadBalancer:
+          simple: ROUND_ROBIN
+        portLevelSettings:
+        - port:
+            number: 443
+          tls:
+            mode: MUTUAL
+            clientCertificate: /etc/certs/cert-chain.pem
+            privateKey: /etc/certs/key.pem
+            caCertificates: /etc/certs/root-cert.pem
+            subjectAltNames:
+            - spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
+            sni: edition.cnn.com
     EOF
     {{< /text >}}
 
@@ -246,7 +291,7 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
           name: http-port-for-tls-origination
           protocol: HTTP
         hosts:
-        - "*"
+        - edition.cnn.com
     EOF
     {{< /text >}}
 
