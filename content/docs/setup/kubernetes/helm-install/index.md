@@ -36,7 +36,7 @@ recommended.
       (requires Kubernetes >=1.9.0):
 
         {{< text bash >}}
-        $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system > $HOME/istio.yaml
+        $ helm template @install/kubernetes/helm/istio@ --name istio --namespace istio-system > $HOME/istio.yaml
         {{< /text >}}
 
     * Without the sidecar injection webhook:
@@ -95,22 +95,237 @@ may be used in the same Helm operation.
 Helm charts expose configuration options which are currently in alpha.  The currently exposed options are explained in the
 following table:
 
-| Parameter | Description | Values | Default |
+<!-- AUTO-GENERATED-START -->
+| Parameter | Default | Description | Values |
 | --- | --- | --- | --- |
-| `global.hub` | Specifies the HUB for most images used by Istio | registry/namespace | `docker.io/istio` |
-| `global.tag` | Specifies the TAG for most images used by Istio | valid image tag | `0.8.0` |
-| `global.proxy.image` | Specifies the proxy image name | valid proxy name | `proxyv2` |
-| `global.proxy.includeIPRanges` | Specifies the IP ranges for which outbound traffic is redirected to Envoy | List of IP ranges in CIDR notation separated by the escaped comma `\,` . Use `*` to redirect all outbound traffic to Envoy | `*` |
-| `global.proxy.envoyStatsd` | Specifies the Statsd server that Envoy should send its stats to | host/IP and port | `istio-statsd-prom-bridge:9125` |
-| `global.imagePullPolicy` | Specifies the image pull policy | valid image pull policy | `IfNotPresent` |
-| `global.controlPlaneSecurityEnabled` | Specifies whether control plane mTLS is enabled | true/false | `false` |
-| `global.mtls.enabled` | Specifies whether mTLS is enabled by default between services | true/false | `false` |
-| `global.rbacEnabled` | Specifies whether to create Istio RBAC rules or not | true/false | `true` |
-| `global.refreshInterval` | Specifies the mesh discovery refresh interval | integer followed by s | `10s` |
-| `global.arch.amd64` | Specifies the scheduling policy for `amd64` architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | `2` |
-| `global.arch.s390x` | Specifies the scheduling policy for `s390x` architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | `2` |
-| `global.arch.ppc64le` | Specifies the scheduling policy for `ppc64le` architectures | 0 = never, 1 = least preferred, 2 = no preference, 3 = most preferred | `2` |
-| `galley.enabled` | Specifies whether Galley should be installed for server-side config validation. Requires Kubernetes 1.9 or greater | true/false | `true` |
+| `global` | `` |  | `` |
+| `global.hub` | `docker.io/istio` | Repository for Istio images | `any valid container hub` |
+| `global.tag` | `0.8.latest` | tag for Istio images | `any valid container tag` |
+| `global.proxy` | `` |  | `` |
+| `global.proxy.image` | `proxyv2` | image used for the proxy sidecar | `proxy or proxyv2` |
+| `global.proxy.resources` | `` |  | `` |
+| `global.proxy.resources.requests` | `` |  | `` |
+| `global.proxy.resources.requests.cpu` | `100m` | CPU required for sidecar | `A valid cpu allocation` |
+| `global.proxy.resources.requests.memory` | `128Mi` | Memory required for sidecar | `A valid memory allocation` |
+| `global.proxy.enableCoreDump` | `false` | Whether core dump generation is enabled | `true or false` |
+| `global.proxy.serviceAccountName` | `default` | Service account to use if RBAC is disabled | `a valid service account` |
+| `global.proxy.replicaCount` | `1` | Replica Count | `1 or more` |
+| `global.proxy.includeIPRanges` | `"*"` |  | `` |
+| `global.proxy.excludeIPRanges` | `""` |  | `` |
+| `global.proxy.includeInboundPorts` | `"*"` |  | `` |
+| `global.proxy.excludeInboundPorts` | `""` |  | `` |
+| `global.proxy.policy` | `enabled` |  | `` |
+| `global.proxy.envoyStatsd` | `` |  | `` |
+| `global.proxy.envoyStatsd.enabled` | `true` |  | `` |
+| `global.proxy.envoyStatsd.host` | `istio-statsd-prom-bridge` |  | `` |
+| `global.proxy.envoyStatsd.port` | `9125` |  | `` |
+| `global.proxy_init` | `` |  | `` |
+| `global.proxy_init.image` | `proxy_init` |  | `` |
+| `global.imagePullPolicy` | `IfNotPresent` |  | `` |
+| `global.hyperkube` | `` |  | `` |
+| `global.hyperkube.repository` | `quay.io/coreos/hyperkube` |  | `` |
+| `global.hyperkube.tag` | `v1.7.6_coreos.0` |  | `` |
+| `global.controlPlaneSecurityEnabled` | `false` |  | `` |
+| `global.mtls` | `` |  | `` |
+| `global.mtls.enabled` | `false` |  | `` |
+| `global.rbacEnabled` | `true` |  | `` |
+| `global.imagePullSecrets` | `` |  | `` |
+| `global.refreshInterval` | `10s` |  | `` |
+| `global.arch` | `` |  | `` |
+| `global.arch.amd64` | `2` |  | `` |
+| `global.arch.s390x` | `2` |  | `` |
+| `global.arch.ppc64le` | `2` |  | `` |
+| `global.oneNamespace` | `false` |  | `` |
+| `istiotesting` | `` |  | `` |
+| `istiotesting.oneNameSpace` | `false` |  | `` |
+| `ingress` | `` |  | `` |
+| `ingress.enabled` | `true` |  | `` |
+| `ingress.serviceAccountName` | `default` |  | `` |
+| `ingress.replicaCount` | `1` |  | `` |
+| `ingress.autoscaleMin` | `1` |  | `` |
+| `ingress.autoscaleMax` | `1` |  | `` |
+| `ingress.resources` | `{}` |  | `` |
+| `ingress.service` | `` |  | `` |
+| `ingress.service.loadBalancerIP` | `""` |  | `` |
+| `ingress.service.type` | `LoadBalancer #change to NodePort, ClusterIP or LoadBalancer if need be` |  | `` |
+| `ingress.service.annotations` | `{}` |  | `` |
+| `ingress.service.ports` | `` |  | `` |
+| `ingress.service.ports.name` | `http` |  | `` |
+| `ingress.service.ports.nodePort` | `32000` |  | `` |
+| `ingress.service.ports.name` | `https` |  | `` |
+| `ingress.service.selector` | `` |  | `` |
+| `ingress.service.selector.istio` | `ingress` |  | `` |
+| `ingressgateway` | `` |  | `` |
+| `ingressgateway.enabled` | `true` |  | `` |
+| `ingressgateway.serviceAccountName` | `istio-ingressgateway-service-account` |  | `` |
+| `ingressgateway.replicaCount` | `1` |  | `` |
+| `ingressgateway.autoscaleMin` | `1` |  | `` |
+| `ingressgateway.autoscaleMax` | `1` |  | `` |
+| `ingressgateway.resources` | `{}` |  | `` |
+| `ingressgateway.service` | `` |  | `` |
+| `ingressgateway.service.name` | `istio-ingressgateway #DNS addressible` |  | `` |
+| `ingressgateway.service.labels` | `` |  | `` |
+| `ingressgateway.service.labels.istio` | `ingressgateway` |  | `` |
+| `ingressgateway.service.annotations` | `{}` |  | `` |
+| `ingressgateway.service.loadBalancerIP` | `""` |  | `` |
+| `ingressgateway.service.type` | `LoadBalancer #change to NodePort, ClusterIP or LoadBalancer if need be` |  | `` |
+| `ingressgateway.service.ports` | `` |  | `` |
+| `ingressgateway.service.ports.name` | `http` |  | `` |
+| `ingressgateway.service.ports.nodePort` | `31380` |  | `` |
+| `ingressgateway.service.ports.name` | `https` |  | `` |
+| `ingressgateway.service.ports.nodePort` | `31390` |  | `` |
+| `ingressgateway.service.ports.name` | `tcp` |  | `` |
+| `ingressgateway.service.ports.nodePort` | `31400` |  | `` |
+| `ingressgateway.deployment` | `` |  | `` |
+| `ingressgateway.deployment.labels` | `` |  | `` |
+| `ingressgateway.deployment.labels.istio` | `ingressgateway #will be added to pods and service` |  | `` |
+| `ingressgateway.deployment.ports` | `` |  | `` |
+| `ingressgateway.deployment.secretVolumes` | `` |  | `` |
+| `ingressgateway.deployment.secretVolumes.secretName` | `istio-ingressgateway-certs` |  | `` |
+| `ingressgateway.deployment.secretVolumes.mountPath` | `/etc/istio/ingressgateway-certs` |  | `` |
+| `ingressgateway.deployment.secretVolumes.secretName` | `istio-ingressgateway-ca-certs` |  | `` |
+| `ingressgateway.deployment.secretVolumes.mountPath` | `/etc/istio/ingressgateway-ca-certs` |  | `` |
+| `egressgateway` | `` |  | `` |
+| `egressgateway.enabled` | `true` |  | `` |
+| `egressgateway.serviceAccountName` | `istio-egressgateway-service-account` |  | `` |
+| `egressgateway.replicaCount` | `1` |  | `` |
+| `egressgateway.autoscaleMin` | `1` |  | `` |
+| `egressgateway.autoscaleMax` | `1` |  | `` |
+| `egressgateway.resources` | `{}` |  | `` |
+| `egressgateway.service` | `` |  | `` |
+| `egressgateway.service.name` | `istio-egressgateway #DNS addressible` |  | `` |
+| `egressgateway.service.labels` | `` |  | `` |
+| `egressgateway.service.labels.istio` | `egressgateway` |  | `` |
+| `egressgateway.service.type` | `ClusterIP #change to NodePort or LoadBalancer if need be` |  | `` |
+| `egressgateway.service.ports` | `` |  | `` |
+| `egressgateway.service.ports.name` | `http` |  | `` |
+| `egressgateway.service.ports.name` | `https` |  | `` |
+| `egressgateway.deployment` | `` |  | `` |
+| `egressgateway.deployment.labels` | `` |  | `` |
+| `egressgateway.deployment.labels.istio` | `egressgateway #will be added to pods and service` |  | `` |
+| `egressgateway.deployment.ports` | `` |  | `` |
+| `egressgateway.deployment.secretVolumes` | `` |  | `` |
+| `egressgateway.deployment.secretVolumes.secretName` | `istio-egressgateway-certs` |  | `` |
+| `egressgateway.deployment.secretVolumes.mountPath` | `/etc/istio/egressgateway-certs` |  | `` |
+| `egressgateway.deployment.secretVolumes.secretName` | `istio-egressgateway-ca-certs` |  | `` |
+| `egressgateway.deployment.secretVolumes.mountPath` | `/etc/istio/egressgateway-ca-certs` |  | `` |
+| `sidecarInjectorWebhook` | `` |  | `` |
+| `sidecarInjectorWebhook.enabled` | `true` |  | `` |
+| `sidecarInjectorWebhook.replicaCount` | `1` |  | `` |
+| `sidecarInjectorWebhook.image` | `sidecar_injector` |  | `` |
+| `sidecarInjectorWebhook.resources` | `{}` |  | `` |
+| `galley` | `` |  | `` |
+| `galley.enabled` | `true` |  | `` |
+| `galley.serviceAccountName` | `default` |  | `` |
+| `galley.replicaCount` | `1` |  | `` |
+| `galley.image` | `galley` |  | `` |
+| `galley.resources` | `{}` |  | `` |
+| `mixer` | `` |  | `` |
+| `mixer.enabled` | `true` |  | `` |
+| `mixer.serviceAccountName` | `default # used only if RBAC is not enabled` |  | `` |
+| `mixer.replicaCount` | `1` |  | `` |
+| `mixer.image` | `mixer` |  | `` |
+| `mixer.resources` | `{}` |  | `` |
+| `mixer.prometheusStatsdExporter` | `` |  | `` |
+| `mixer.prometheusStatsdExporter.repository` | `prom/statsd-exporter` |  | `` |
+| `mixer.prometheusStatsdExporter.tag` | `latest` |  | `` |
+| `mixer.prometheusStatsdExporter.resources` | `{}` |  | `` |
+| `pilot` | `` |  | `` |
+| `pilot.enabled` | `true` |  | `` |
+| `pilot.serviceAccountName` | `default # used only if RBAC is not enabled` |  | `` |
+| `pilot.replicaCount` | `1` |  | `` |
+| `pilot.image` | `pilot` |  | `` |
+| `pilot.resources` | `{}` |  | `` |
+| `security` | `` |  | `` |
+| `security.serviceAccountName` | `default # used only if RBAC is not enabled` |  | `` |
+| `security.replicaCount` | `1` |  | `` |
+| `security.image` | `citadel` |  | `` |
+| `security.resources` | `{}` |  | `` |
+| `security.selfSigned` | `true # indicate if self-signed CA is used.` |  | `` |
+| `security.cleanUpOldCA` | `true` |  | `` |
+| `grafana` | `grafana.local` |  | `` |
+| `grafana.enabled` | `false` |  | `` |
+| `grafana.replicaCount` | `1` |  | `` |
+| `grafana.image` | `grafana` |  | `` |
+| `grafana.service` | `` |  | `` |
+| `grafana.service.name` | `http` |  | `` |
+| `grafana.service.type` | `ClusterIP` |  | `` |
+| `grafana.service.externalPort` | `3000` |  | `` |
+| `grafana.service.internalPort` | `3000` |  | `` |
+| `grafana.ingress` | `grafana.local` |  | `` |
+| `grafana.ingress.enabled` | `false` |  | `` |
+| `grafana.ingress.hosts` | `grafana.local` |  | `` |
+| `grafana.ingress.annotations` | `` |  | `` |
+| `grafana.ingress.tls` | `` |  | `` |
+| `grafana.resources` | `{}` |  | `` |
+| `prometheus` | `` |  | `` |
+| `prometheus.enabled` | `true` |  | `` |
+| `prometheus.replicaCount` | `1` |  | `` |
+| `prometheus.image` | `` |  | `` |
+| `prometheus.image.repository` | `docker.io/prom/prometheus` |  | `` |
+| `prometheus.image.tag` | `latest` |  | `` |
+| `prometheus.ingress` | `` |  | `` |
+| `prometheus.ingress.enabled` | `false` |  | `` |
+| `prometheus.ingress.annotations` | `` |  | `` |
+| `prometheus.ingress.tls` | `` |  | `` |
+| `prometheus.resources` | `{}` |  | `` |
+| `prometheus.service` | `` |  | `` |
+| `prometheus.service.nodePort` | `` |  | `` |
+| `prometheus.service.nodePort.enabled` | `false` |  | `` |
+| `prometheus.service.nodePort.port` | `32090` |  | `` |
+| `servicegraph` | `servicegraph.local` |  | `` |
+| `servicegraph.enabled` | `false` |  | `` |
+| `servicegraph.replicaCount` | `1` |  | `` |
+| `servicegraph.image` | `servicegraph` |  | `` |
+| `servicegraph.service` | `` |  | `` |
+| `servicegraph.service.name` | `http` |  | `` |
+| `servicegraph.service.type` | `ClusterIP` |  | `` |
+| `servicegraph.service.externalPort` | `8088` |  | `` |
+| `servicegraph.service.internalPort` | `8088` |  | `` |
+| `servicegraph.ingress` | `servicegraph.local` |  | `` |
+| `servicegraph.ingress.enabled` | `false` |  | `` |
+| `servicegraph.ingress.hosts` | `servicegraph.local` |  | `` |
+| `servicegraph.ingress.annotations` | `` |  | `` |
+| `servicegraph.ingress.tls` | `` |  | `` |
+| `servicegraph.resources` | `{}` |  | `` |
+| `servicegraph.prometheusAddr` | `http://prometheus:9090` |  | `` |
+| `tracing` | `zipkin.local` |  | `` |
+| `tracing.enabled` | `false` |  | `` |
+| `tracing.jaeger` | `` |  | `` |
+| `tracing.jaeger.enabled` | `false` |  | `` |
+| `tracing.jaeger.memory` | `` |  | `` |
+| `tracing.jaeger.memory.max_traces` | `50000` |  | `` |
+| `tracing.replicaCount` | `1` |  | `` |
+| `tracing.image` | `` |  | `` |
+| `tracing.image.repository` | `jaegertracing/all-in-one` |  | `` |
+| `tracing.image.tag` | `1.5` |  | `` |
+| `tracing.service` | `` |  | `` |
+| `tracing.service.name` | `http` |  | `` |
+| `tracing.service.type` | `ClusterIP` |  | `` |
+| `tracing.service.externalPort` | `9411` |  | `` |
+| `tracing.service.internalPort` | `9411` |  | `` |
+| `tracing.service.uiPort` | `16686` |  | `` |
+| `tracing.ingress` | `zipkin.local` |  | `` |
+| `tracing.ingress.enabled` | `false` |  | `` |
+| `tracing.ingress.hosts` | `zipkin.local` |  | `` |
+| `tracing.ingress.annotations` | `` |  | `` |
+| `tracing.ingress.tls` | `` |  | `` |
+| `tracing.resources` | `{}` |  | `` |
+| `kiali` | `` |  | `` |
+| `kiali.enabled` | `false` |  | `` |
+| `kiali.replicaCount` | `1` |  | `` |
+| `kiali.image` | `` |  | `` |
+| `kiali.image.repository` | `kiali/kiali` |  | `` |
+| `kiali.image.tag` | `0.3.1.Alpha` |  | `` |
+| `kiali.ingress` | `` |  | `` |
+| `kiali.ingress.enabled` | `false` |  | `` |
+| `kiali.ingress.annotations` | `` |  | `` |
+| `kiali.ingress.tls` | `` |  | `` |
+| `kiali.resources` | `{}` |  | `` |
+| `kiali.dashboard` | `` |  | `` |
+| `kiali.dashboard.username` | `admin` |  | `` |
+| `kiali.dashboard.password` | `admin` |  | `` |
+<!-- AUTO-GENERATED-END -->
 
 The Helm chart also offers significant customization options per individual
 service. Customize these per-service options at your own risk. The per-service options are exposed via
@@ -167,3 +382,4 @@ Of course that if no ingress is expected and sidecar is to be [injected manually
     {{< text bash >}}
     $ kubectl -n istio-system delete job --all
     {{< /text >}}
+
