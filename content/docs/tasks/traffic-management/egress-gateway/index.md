@@ -189,7 +189,7 @@ the traffic through the egress gateway:
 
     Note that we redirected only the traffic from the port 80 to the egress gateway, the HTTPS traffic to the port 443 went directly to _edition.cnn.com_.
 
-### Cleanup
+### Cleanup of the egress gateway for HTTP traffic
 
 Remove the previous definitions before proceeding to the next step:
 
@@ -344,7 +344,7 @@ the traffic through the egress gateway:
     "[2018-06-14T13:49:36.340Z] "GET /politics HTTP/1.1" 200 - 0 148528 5096 90 "172.30.146.87" "curl/7.35.0" "c6bfdfc3-07ec-9c30-8957-6904230fd037" "edition.cnn.com" "151.101.65.67:443"
     {{< /text >}}
 
-### Cleanup
+### Cleanup of the egress gateway for TLS origination
 
 Remove the Istio configuration items we created:
 
