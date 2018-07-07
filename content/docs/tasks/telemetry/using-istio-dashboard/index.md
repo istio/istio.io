@@ -25,7 +25,7 @@ the example application throughout this task.
     In Kubernetes environments, execute the following command:
 
     {{< text bash >}}
-    $ kubectl apply -f @install/kubernetes/addons/grafana.yaml@
+    $ kubectl apply -f install/kubernetes/addons/grafana.yaml
     {{< /text >}}
 
 1.  Verify that the service is running in your cluster.
