@@ -1,6 +1,6 @@
 ---
-title: Customization the Helm Installation
-description: Customize the Istio installation with the included Helm chart.
+title: Customise the Helm Installation
+description: Customise the Istio installation with the included Helm chart.
 weight: 30
 keywords: [kubernetes,helm]
 aliases:
@@ -254,7 +254,7 @@ the [`values.yaml`]({{< github_file >}}/install/kubernetes/helm/istio/values.yam
 
 Istio is equipped with a rich and powerful set of features and some users may need only subset of those. For instance, users might be interested only
 in installing the minimal set required to Istio's traffic management.
-[Helm customization](#customization-with-helm) provides the option to install a subset by enabling those features of interest and disabling the ones that aren't required.
+Helm customization provides the option to install a subset by enabling those features of interest and disabling the ones that aren't required.
 
 In this example we will install Istio with only a minimal set of components necessary to conduct [traffic management](/docs/tasks/traffic-management/).
 

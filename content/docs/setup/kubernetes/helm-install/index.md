@@ -86,7 +86,6 @@ to manage the lifecycle of Istio.
         $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set sidecarInjectorWebhook.enabled=false
         {{< /text >}}
 
-
 See the Helm
 [customization options](/docs/reference/config/helm-customization/) for details about how to customize the default Istio installation.
 
