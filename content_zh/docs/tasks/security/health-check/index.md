@@ -113,13 +113,13 @@ livenessProbe:
 * 在 Citadel 上禁用健康检查：
 
     {{< text bash >}}
-    $ kubectl apply -f @install/kubernetes/istio-auth.yaml@
+    $ kubectl apply -f install/kubernetes/istio-auth.yaml
     $ kubectl delete svc istio-citadel -n istio-system
     {{< /text >}}
 
 * 移除 Citadel：
 
     {{< text bash >}}
-    $ kubectl delete -f @install/kubernetes/istio-citadel-with-health-check.yaml@
+    $ kubectl delete -f install/kubernetes/istio-citadel-with-health-check.yaml
     $ kubectl delete svc istio-citadel -n istio-system
     {{< /text >}}
