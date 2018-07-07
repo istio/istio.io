@@ -4,9 +4,7 @@ NOTE: The stuff below cannot be indented. If it is, it can cause the markdown
 parser to insert spurious paragraphs around the PRE blocks, which turns out to
 be invalid HTML
 */}}
-{{ $scratch := .Page.Scratch }}
-{{ $scratch.Add "text_counter" 1 }}
-{{ $scratch.Set "downloadas" (printf "%s-%v.%s" .Page.File.BaseFileName ($scratch.Get "text_counter") (.Get 0)) }}
+{{ $scratch := .Scratch }}
 {{ if .Get 2 }}
 {{ $scratch.Set "downloadas" (.Get 2) }}
 {{ end }}
@@ -45,7 +43,11 @@ be invalid HTML
 {{ if ($scratch.Get "output") }}{{ $scratch.Set "syntax" (printf "command-output-as-%s" ($scratch.Get "output")) }}{{ end }}
 {{ end }}
 {{ end }}
+{{ if $scratch.Get "downloadas"}}
 <pre><code class='language-{{ $scratch.Get "syntax" }}' data-downloadas='{{ $scratch.Get "downloadas" }}'>{{ $scratch.Get "text" }}</code></pre>
+{{ else }}
+<pre><code class='language-{{ $scratch.Get "syntax" }}'>{{ $scratch.Get "text" }}</code></pre>
+{{ end }}
 {{/* include a link to the special embedded @@ references so the links are statically checked as we build the site */}}
 {{ $branch := .Site.Data.args.branch_name }}
 {{ $links := findRE "@(.*?)@" ($scratch.Get "text") }}
