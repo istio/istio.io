@@ -87,7 +87,7 @@ to manage the lifecycle of Istio.
         {{< /text >}}
 
 See the Helm
-[customization options](/docs/reference/config/helm-customization/) for details about how to customize the default Istio installation.
+[Installation Options](/docs/reference/config/installation-options/) for details about how to customize the default Istio installation.
 
 ## Uninstall
 
