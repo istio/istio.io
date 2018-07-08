@@ -33,12 +33,12 @@ reviews-v2-686bbb668-99j76.default                     SYNCED     SYNCED     SYN
 reviews-v3-7b9b5fdfd6-4r52s.default                    SYNCED     SYNCED     SYNCED (100%)     SYNCED       istio-pilot-75bdf98789-n2kqh
 {{< /text >}}
 
+If a proxy is missing from this list it means that it is not currently connected to a Pilot instance so will not be receiving any configuration.
+
 * `SYNCED` means that Envoy has acknowledged the last configuration Pilot has sent to it.
 * `SYNCED (100%)` means that Envoy has successfully synced all of the endpoints in the cluster.
-* `NOT SENT` means that Pilot hasn't sent anthing to Envoy. This usually is because Pilot has nothing to send.
+* `NOT SENT` means that Pilot hasn't sent anything to Envoy. This usually is because Pilot has nothing to send.
 * `STALE` means that Pilot has sent an update to Envoy but has not received an acknowledgement. This usually indicates a networking issue between Envoy and Pilot or a bug with Istio itself.
-
-**If a proxy is missing from this list it means that it is not currently connected to a Pilot instance so will not be receiving any configuration.**
 
 ## Retrieve diffs between Envoy and Pilot
 
@@ -90,7 +90,7 @@ Listeners Match
 Routes Match
 {{< /text >}}
 
-Here we can see that the listeners and routes match but the clusters are out of sync. This specific diff is a bug with Pilot where it sends multiple kube-dns clusters to Envoy which automatically de-dups them, thus producing a diff in what is sent vs what Envoy loads in.
+Here we can see that the listeners and routes match but the clusters are out of sync.
 
 ## Deep dive into Envoy configuration
 
@@ -107,7 +107,6 @@ istio-egressgateway.istio-system.svc.cluster.local                              
 ...
 {{< /text >}}
 
-
 In order to debug Envoy you need to understand Envoy clusters/listeners/routes/endpoints and how they all interact. We will use the `proxy-config` command with the `-o json` and filtering flags to follow Envoy as it determines where to send an incoming request for `/productpage` in the ingressgateway.
 
 1. The `0.0.0.0_80` Envoy listener receives any request into the pod at port 80. It looks up the route configuration in its configured RDS. In this case it will be looking up route `http.80` in RDS configured by Pilot (via ADS).
@@ -121,7 +120,7 @@ $ istioctl proxy-config listeners -n istio-system istio-ingressgateway-7d6874b48
 }
 {{< /text >}}
 
-2. The `http.80` route configuration only has a single virtual host with a wildcard domain. This means it will match all requests that get sent to this route configuration. Once matched on domain Envoy goes through each of the Virtual Hosts's routes for a match to decide which cluster it should send the request to. In this case we are making a request to `/productpage` so it will match this route and get sent to the `outbound|9080||productpage.default.svc.cluster.local` cluster.
+1. The `http.80` route configuration only has a single virtual host with a wildcard domain. This means it will match all requests that get sent to this route configuration. Once matched on domain Envoy goes through each of the Virtual Hosts's routes for a match to decide which cluster it should send the request to. In this case we are making a request to `/productpage` so it will match this route and get sent to the `outbound|9080||productpage.default.svc.cluster.local` cluster.
 {{< text bash >}}
 $ istioctl proxy-config routes -n istio-system istio-ingressgateway-7d6874b48f-qxhn5 --name http.80 -o json
 [
@@ -145,8 +144,7 @@ $ istioctl proxy-config routes -n istio-system istio-ingressgateway-7d6874b48f-q
                         },
 ...
 {{< /text >}}
-
-3. This cluster is configured to retrieve the associated endpoints from Pilot (via ADS). So Envoy will then use the `serviceName` field as a key to look up the list of Endpoints and proxy the request to one of them.
+1. This cluster is configured to retrieve the associated endpoints from Pilot (via ADS). So Envoy will then use the `serviceName` field as a key to look up the list of Endpoints and proxy the request to one of them.
 {{< text bash >}}
 $ istioctl proxy-config clusters -n istio-system istio-ingressgateway-7d6874b48f-qxhn5 --fqdn productpage.default.svc.cluster.local  -o json
 [
