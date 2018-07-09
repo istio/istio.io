@@ -375,7 +375,7 @@ The above snippet produces this output:
 
 If you don't specify a snippet name, then the whole file will be inserted instead.
 
-You can specify an optional `downloadas` attribute, which specifies the name that the browser
+You can specify an optional `downloadas` attribute to control the name that the browser
 will use when the user chooses to download the file. For example:
 
 {{< text markdown >}}
@@ -385,14 +385,14 @@ will use when the user chooses to download the file. For example:
 If you don't specify the `downloadas` attribute, then the download name is taken from the `file`
 attribute instead.
 
-A common thing to is to copy an example script or yaml file from GitHub into the documentation
+A common thing to do is to copy an example script or yaml file from GitHub into the documentation
 repo and then use snippets within the file to produce examples in the documentation. To pull
 in annotated files from GitHub, add the needed entries at the end of the
 script `scripts/grab_reference_docs.sh` in the documentation repo.
 
 ### Dynamic content
 
-You can pull in an external file and display its content as a preformatted block. This is handy to display a
+You can dynamically pull in an external file and display its content as a preformatted block. This is handy to display a
 config file or a test file. To do so, you use a statement such as:
 
 {{< text markdown >}}
@@ -406,7 +406,7 @@ which produces the following result:
 If the file is from a different origin site, CORS should be enabled on that site. Note that the
 GitHub raw content site (raw.githubusercontent.com) may be used here.
 
-You can specify an optional `downloadas` attribute, which specifies the name that the browser
+You can specify an optional `downloadas` attribute to control the name that the browser
 will use when the user chooses to download the file. For example:
 
 {{< text markdown >}}
