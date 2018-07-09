@@ -119,7 +119,7 @@ sleep-847544bbfc-d27jg            2/2       Running   0          18h
 And run
 
 {{< text bash >}}
-$ kubectl exec sleep-847544bbfc-d27jg -c sleep -- curl https://my-nginx -k
+$ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl https://my-nginx -k
 ...
 <h1>Welcome to nginx!</h1>
 ...
