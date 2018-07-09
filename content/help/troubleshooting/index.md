@@ -121,7 +121,7 @@ metadata:
 spec:
   hosts:
   - myapp.com # cannot use "*" here since this is being combined with the mesh services
-  - helloworld.default.svc.cluster.local  
+  - helloworld.default.svc.cluster.local
   gateways:
   - mesh # applies internally as well as externally
   - myapp-gateway
@@ -141,7 +141,7 @@ spec:
     route:
     - destination:
         host: helloworld.default.svc.cluster.local
-        subset: v1 
+        subset: v1
 {{</text>}}
 
 ## Route rules have no effect on my application
