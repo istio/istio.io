@@ -502,7 +502,7 @@ The output should be the same as in the previous section.
       servers:
       - port:
           number: 443
-          name: tls
+          name: tls-cnn
           protocol: TLS
         hosts:
         - edition.cnn.com
