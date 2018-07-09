@@ -18,7 +18,7 @@ A legacy service can't use Istio issued key/certificate to send mutual TLS traff
 
 * For demo, create three namespaces `foo`, `bar`, `legacy`, and deploy [httpbin](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/httpbin) and [sleep](https://github.com/istio/istio/tree/master/samples/sleep) with sidecar on both of them. Also, run another sleep app without sidecar (to keep it separate, run it in `legacy` namespace)
 
-    ```command
+    {{< text bash >}}
     $ kubectl create ns foo
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n foo
     $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n foo
@@ -27,32 +27,32 @@ A legacy service can't use Istio issued key/certificate to send mutual TLS traff
     $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n bar
     $ kubectl create ns legacy
     $ kubectl apply -f @samples/sleep/sleep.yaml@ -n legacy
-    ```
+    {{< /text >}}
 
 * Verify setup by sending an http request (using curl command) from any sleep pod (among those in namespace `foo`, `bar` or `legacy`) to `httpbin.foo`.  All requests should success with HTTP code 200.
 
-    ```command
+    {{< text bash >}}
     $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.foo: %{http_code}\n"; done
     sleep.foo to httpbin.foo: 200
     sleep.bar to httpbin.foo: 200
     sleep.legacy to httpbin.foo: 200
-    ```
+    {{< /text >}}
 
 * Also verify that there are no authentication policy or destination rule in the system
 
-    ```command
+    {{< text bash >}}
     $ kubectl get policies.authentication.istio.io --all-namespaces
     No resources found.
     $ kubectl get destionationrule --all-namespaces
     No resources found.
-    ```
+    {{< /text >}}
 
 ## Configure the server to accept both mTLS and plain text traffic
 
 In Authentication Policy, we have a `PERMISSIVE` mode which makes the server accept both mutual TLS and plain text traffic.
 We need to configure the server to this mode.
 
-```bash
+{{< text bash >}}
 cat <<EOF | istioctl create -n foo -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
@@ -66,22 +66,22 @@ spec:
   - mtls:
       mode: PERMISSIVE
 EOF
-```
+{{< /text >}}
 
 Now send traffic to `httpbin.foo` again to ensure all requests can still succeed.
 
-```command
+{{< text bash >}}
 $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.foo: %{http_code}\n"; done
 200
 200
 200
-```
+{{< /text >}}
 
 ## Configure clients to send mutual TLS traffic
 
 Configure Istio services to send mutual TLS traffic by setting `DestinationRule`.
 
-```bash
+{{< text bash >}}
 cat <<EOF | istioctl create -n foo -f -
 apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
@@ -93,19 +93,19 @@ spec:
     tls:
       mode: ISTIO_MUTUAL
 EOF
-```
+{{< /text >}}
 
 `sleep.foo` and `sleep.bar` should start sending mutual TLS traffic to `httpbin.foo`. And `sleep.legacy` still sends plain text
 traffic to `httpbin.foo` since it does not have sidecar thus `DestinationRule` does not apply.
 
 Now we confirm all requests to `httpbin.foo` still succeed.
 
-```command
+{{< text bash >}}
 $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.foo: %{http_code}\n"; done
 200
 200
 200
-```
+{{< /text >}}
 
 You can also specify a subset of the clients' request to use `ISTIO_MUTUAL` mutual TLS in
 [DestinationRule](https://istio.io/docs/reference/config/istio.networking.v1alpha3/#DestinationRule).
@@ -116,7 +116,7 @@ then increase the rollout scope and finally apply to all Istio client services.
 
 After migrating all clients to Istio services, injecting Envoy sidecar, we can lock down the `httpbin.foo` to only accept mutual TLS traffic.
 
-```bash
+{{< text bash >}}
 cat <<EOF | istioctl create -n foo -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
@@ -130,16 +130,16 @@ spec:
   - mtls:
       mode: STRICT
 EOF
-```
+{{< /text >}}
 
 Now you should see the request from `sleep.legacy` fails.
 
-```command
+{{< text bash >}}
 $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.foo: %{http_code}\n"; done
 200
 200
 503
-```
+{{< /text >}}
 
 If you can't migrate all your services to Istio (injecting Envoy sidecar), you have to stay at `PERMISSIVE` mode.
 However, when configured with `PERMISSIVE` mode, no authentication or authorization checks will be performed for the plain text traffic by default.
@@ -149,7 +149,7 @@ We recommend to use [RBAC](https://istio.io/docs/tasks/security/role-based-acces
 
 Remove all resources.
 
-```command
+{{< text bash >}}
 $ kubectl delete ns foo bar legacy
 Namespaces foo bar legacy deleted.
-```
+{{< /text >}}

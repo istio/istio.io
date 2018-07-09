@@ -491,10 +491,4 @@ Remove all resources.
 
 {{< text bash >}}
 $ kubectl delete ns foo bar legacy
-```
-
-## What's next
-
-* Learn more about verifying mutual TLS setup [testing Istio mutual TLS authentication](/docs/tasks/security/mutual-tls/).
-* Besides plain text and mutual TLS, AuthPolicy provides a permissive mode, accepting both traffic, which is important for service migration,
-Refer [enable mutual TLS incrementally](https://istio.io/docs/tasks/telemetry/using-istio-dashboard/)) task for details.
+{{< /text >}}
