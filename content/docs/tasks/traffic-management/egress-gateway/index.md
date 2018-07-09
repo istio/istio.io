@@ -359,7 +359,8 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
     EOF
     {{< /text >}}
 
-1.  Define a `VirtualService` to direct the traffic through the egress gateway:
+1.  Define a `VirtualService` to direct the traffic through the egress gateway, and a `DestinationRule` to perform TLS
+    origination:
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
