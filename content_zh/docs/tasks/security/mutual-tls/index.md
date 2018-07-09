@@ -17,7 +17,7 @@ keywords: [security,mutual-tls]
 * 安装启用全局双向 TLS 认证功能的 Istio：
 
     {{< text bash >}}
-    $ kubectl apply -f @install/kubernetes/istio-demo-auth.yaml@
+    $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
     {{< /text >}}
 
     _**或者**_
