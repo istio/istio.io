@@ -20,6 +20,31 @@ This task shows you how to configure dynamic request routing based on weights an
 
 ## Content-based routing
 
+The Bookinfo sample deploys multiple versions of each microservice, so we will start by creating DestinationRules
+that define the service subsets corresponding to each version, and the load balancing policy for each subset.
+
+1.
+
+    ```command
+    $ istioctl create -f @samples/bookinfo/routing/destination-rule-all.yaml@
+    ```
+
+    If you enabled `mTLS`, please run the following instead
+
+    ```command
+    $ istioctl create -f @samples/bookinfo/routing/destination-rule-all.yaml@
+    ```
+
+    > In a Kubernetes deployment of Istio, you can replace `istioctl`
+    > with `kubectl` in the above, and for all other CLI commands.
+    > Note, however, that `kubectl` currently does not provide input validation.
+
+    You can display the DestinationRules that are defined with the following command:
+
+    ```command-output-as-yaml
+        $ istioctl get destinationrules -o yaml
+
+1.
 Because the Bookinfo sample deploys 3 versions of the reviews microservice,
 we need to set a default route.
 Otherwise if you access the application several times, you'll notice that sometimes the output contains
@@ -27,19 +52,13 @@ star ratings.
 This is because without an explicit default version set, Istio will
 route requests to all available versions of a service in a random fashion.
 
-> This task assumes you don't have any routes set yet. If you've already created conflicting route rules for the sample,
+> This task assumes you don't have any VirtualServices set yet. If you've already created conflicting VirtualServices for the sample,
 you'll need to use `replace` rather than `create` in the following command.
 
 1.  Set the default version for all microservices to v1.
 
     {{< text bash >}}
     $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
-    {{< /text >}}
-
-    If you enabled `mTLS`, please run the following instead
-
-    {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1-mtls.yaml@
     {{< /text >}}
 
     > In a Kubernetes deployment of Istio, you can replace `istioctl`
@@ -113,7 +132,7 @@ you'll need to use `replace` rather than `create` in the following command.
 
     > The corresponding `subset` definitions can be displayed using `istioctl get destinationrules -o yaml`.
 
-    Since rule propagation to the proxies is asynchronous, you should wait a few seconds for the rules
+    Since rule propagation to the proxies is asynchronous, you should wait a few seconds for the VirtualServices
     to propagate to all pods before attempting to access the application.
 
 1.  Open the Bookinfo URL (`http://$GATEWAY_URL/productpage`) in your browser. Recall that `GATEWAY_URL`
@@ -180,16 +199,22 @@ all users to v2, optionally in a gradual fashion. We'll explore this in a separa
 
 ## Cleanup
 
-*   Remove the application routing rules.
+*   Remove the application VirtualServices.
 
     {{< text bash >}}
     $ istioctl delete -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
     {{< /text >}}
 
+*   Remove the application DestinationRules.
+
+    {{< text bash >}}
+    $ istioctl delete -f @samples/bookinfo/routing/destination-rule-all.yaml@
+    {{< /text >}}
+
     If you enabled `mTLS`, please run the following instead
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/routing/route-rule-all-v1-mtls.yaml@
+    $ istioctl delete -f @samples/bookinfo/routing/destination-rule-all-mtls.yaml@
     {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, refer to the
