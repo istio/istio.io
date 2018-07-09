@@ -134,7 +134,7 @@ First direct HTTP traffic without TLS origination
           simple: ROUND_ROBIN
         portLevelSettings:
         - port:
-            number: 443
+            number: 80
           tls:
             mode: MUTUAL
             clientCertificate: /etc/certs/cert-chain.pem
