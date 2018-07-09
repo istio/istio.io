@@ -69,6 +69,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `connection.event` | string | Status of a TCP connection, its value is one of "open", "continue" and "close". | |
 | `connection.received.bytes` | int64 | Number of bytes received by a destination service on a connection since the last Report() for a connection. | |
 | `connection.received.bytes_total` | int64 | Total number of bytes received by a destination service during the lifetime of a connection. | |
+| `connection.received.requested_server_name` | string | The requested server name (SNI) received over a TLS downstream connection. | |
 | `connection.sent.bytes` | int64 | Number of bytes sent by a destination service on a connection since the last Report() for a connection. | |
 | `connection.sent.bytes_total` | int64 | Total number of bytes sent by a destination service during the lifetime of a connection. | |
 | `connection.duration` | duration | The total amount of time a connection has been open. | |
