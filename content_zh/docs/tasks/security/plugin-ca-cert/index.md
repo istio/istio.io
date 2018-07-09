@@ -44,7 +44,7 @@ keywords: [security,certificates]
 1. 重新部署 Citadel，它会从加载的 secret 中读取证书和密钥。
 
     {{< text bash >}}
-    $ kubectl apply -f @install/kubernetes/istio-citadel-plugin-certs.yaml@
+    $ kubectl apply -f install/kubernetes/istio-citadel-plugin-certs.yaml
     {{< /text >}}
 
     > 注意：如果使用不同的证书/密钥文件，或者不同的 secret 名称，需要根据实际情况变更 `istio-citadel-plugin-certs.yaml`
@@ -125,5 +125,5 @@ keywords: [security,certificates]
 * 移除 Istio 组件:
 
     {{< text bash >}}
-    $ kubectl delete -f @install/kubernetes/istio-auth.yaml@
+    $ kubectl delete -f install/kubernetes/istio-auth.yaml
     {{< /text >}}

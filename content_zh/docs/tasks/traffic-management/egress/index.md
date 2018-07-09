@@ -154,7 +154,7 @@ keywords: [traffic-management,egress]
 内部服务的 IP 范围取决于集群的部署情况。例如 Minikube 中这一范围是 `10.0.0.1/24`，这个配置中，就应该这样更新 `istio-sidecar-injector`：
 
 {{< text bash >}}
-$ helm template @install/kubernetes/helm/istio@ <安装 Istio 时所使用的参数> --set global.proxy.includeIPRanges="10.0.0.1/24" -x @templates/sidecar-injector-configmap.yaml@ | kubectl apply -f -
+$ helm template install/kubernetes/helm/istio <安装 Istio 时所使用的参数> --set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml | kubectl apply -f -
 {{< /text >}}
 
 注意这里应该使用和之前部署 Istio 的时候同样的 [Helm 命令](/docs/setup/kubernetes/helm-install)，尤其是 `--namespace` 参数。在安装 Istio 原有命令的基础之上，加入 `--set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml` 即可。
@@ -244,5 +244,5 @@ $ kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
 1. 更新 `ConfigMap` `istio-sidecar-injector`，要求 Sidecar 转发所有外发流量：
 
     {{< text bash >}}
-    $ helm template @install/kubernetes/helm/istio@ <安装 Istio 时所使用的参数> -x @templates/sidecar-injector-configmap.yaml@ | kubectl apply -f -
+    $ helm template install/kubernetes/helm/istio <安装 Istio 时所使用的参数> -x templates/sidecar-injector-configmap.yaml | kubectl apply -f -
     {{< /text >}}
