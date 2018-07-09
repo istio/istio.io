@@ -119,7 +119,6 @@ With this minimal set you can install your own application and [configure reques
 
 [Installation Options](/docs/reference/config/installation-options/) has the full list of options allowing you to tailor the Istio installation to your needs.
 
-
 ## Uninstall
 
 * For option 1, uninstall using kubectl:
