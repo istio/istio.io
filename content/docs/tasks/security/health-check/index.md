@@ -30,7 +30,7 @@ this feature is not needed if the production setup is not using the
   [quick start](/docs/setup/kubernetes/quick-start/) with global mutual TLS enabled:
 
     {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
+    $ kubectl apply -f install/kubernetes/istio-auth.yaml
     {{< /text >}}
 
     _**OR**_
@@ -44,7 +44,7 @@ this feature is not needed if the production setup is not using the
 Deploy Citadel with health checking enabled.
 
 {{< text bash >}}
-$ kubectl apply -f @install/kubernetes/istio-citadel-with-health-check.yaml@
+$ kubectl apply -f install/kubernetes/istio-citadel-with-health-check.yaml
 {{< /text >}}
 
 Deploy the `istio-citadel` service so that the CSR service can be found by the health checker.
@@ -133,13 +133,13 @@ continuously failed health checks.
 *   To disable health checking on Citadel:
 
     {{< text bash >}}
-    $ kubectl apply -f @install/kubernetes/istio-auth.yaml@
+    $ kubectl apply -f install/kubernetes/istio-auth.yaml
     $ kubectl delete svc istio-citadel -n istio-system
     {{< /text >}}
 
 *   To remove Citadel:
 
     {{< text bash >}}
-    $ kubectl delete -f @install/kubernetes/istio-citadel-with-health-check.yaml@
+    $ kubectl delete -f install/kubernetes/istio-citadel-with-health-check.yaml
     $ kubectl delete svc istio-citadel -n istio-system
     {{< /text >}}
