@@ -75,7 +75,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `connection.mtls` | boolean | Indicates whether a request is received over a mTLS enabled downstream connection. | |
 | `context.protocol`      | string | Protocol of the request or connection being proxied. | tcp |
 | `context.time`          | timestamp | The timestamp of Mixer operation. | |
-| `context.reporter.type` | string | Contextualizes the reported attribute set. Set to `inbound` for the server-side calls from sidecars and `outbound` for the client-side calls from sidecars and gateways | `inbound` |
+| `context.reporter.kind` | string | Contextualizes the reported attribute set. Set to `inbound` for the server-side calls from sidecars and `outbound` for the client-side calls from sidecars and gateways | `inbound` |
 | `context.reporter.uid`  | string | Platform-specific identifier of the attribute reporter. |  kubernetes://my-svc-234443-5sffe.my-namespace |
 | `api.service` | string | The public service name. This is different than the in-mesh service identity and reflects the name of the service exposed to the client. | my-svc.com |
 | `api.version` | string | The API version. | v1alpha1 |
