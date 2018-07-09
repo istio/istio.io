@@ -136,7 +136,7 @@ To start the application, follow the instructions below corresponding to your Is
     reviews-v3-1813607990-8ch52                 2/2       Running   0          6m
     {{< /text >}}
 
-#### Determining the ingress gateway IP and port
+#### Determining the ingress IP and port
 
 1.  Follow [these instructions](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports) to set the `INGRESS_HOST` and `INGRESS_PORT` variables.
 

@@ -268,14 +268,14 @@ $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer
 
 {{< text markdown >}}
 {{</* text bash */>}}
-$ istioctl create -f @samples/bookinfo/kube/route-rule-reviews-v3.yaml@
+$ istioctl create -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 {{</* /text */>}}
 {{< /text >}}
 
 上面代码的渲染结果：
 
 {{< text bash >}}
-$ istioctl create -f @samples/bookinfo/kube/route-rule-reviews-v3.yaml@
+$ istioctl create -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 {{< /text >}}
 
 ## 展示文件片段

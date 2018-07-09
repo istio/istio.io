@@ -20,33 +20,30 @@ This task shows you how to configure dynamic request routing based on weights an
 
 ## Content-based routing
 
-The Bookinfo sample deploys multiple versions of each microservice, so we will start by creating DestinationRules
+The Bookinfo sample deploys multiple versions of each microservice, so you will start by creating DestinationRules
 that define the service subsets corresponding to each version, and the load balancing policy for each subset.
 
 1.
 
-    ```command
+    {{< text bash yaml >}}
     $ istioctl create -f @samples/bookinfo/routing/destination-rule-all.yaml@
-    ```
+    {{< /text >}}
 
     If you enabled `mTLS`, please run the following instead
 
-    ```command
+    {{< text bash yaml >}}
     $ istioctl create -f @samples/bookinfo/routing/destination-rule-all.yaml@
-    ```
-
-    > In a Kubernetes deployment of Istio, you can replace `istioctl`
-    > with `kubectl` in the above, and for all other CLI commands.
-    > Note, however, that `kubectl` currently does not provide input validation.
+    {{< /text >}}
 
     You can display the DestinationRules that are defined with the following command:
 
-    ```command-output-as-yaml
-        $ istioctl get destinationrules -o yaml
+    {{< text bash yaml >}}
+    $ istioctl get destinationrules -o yaml
+    {{< /text >}}
 
 1.
 Because the Bookinfo sample deploys 3 versions of the reviews microservice,
-we need to set a default route.
+you need to set a default route.
 Otherwise if you access the application several times, you'll notice that sometimes the output contains
 star ratings.
 This is because without an explicit default version set, Istio will
@@ -58,7 +55,7 @@ you'll need to use `replace` rather than `create` in the following command.
 1.  Set the default version for all microservices to v1.
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
+    $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
     > In a Kubernetes deployment of Istio, you can replace `istioctl`
@@ -132,7 +129,7 @@ you'll need to use `replace` rather than `create` in the following command.
 
     > The corresponding `subset` definitions can be displayed using `istioctl get destinationrules -o yaml`.
 
-    Since rule propagation to the proxies is asynchronous, you should wait a few seconds for the VirtualServices
+    Since rule propagation to the proxies is asynchronous, you must wait a few seconds for the VirtualServices
     to propagate to all pods before attempting to access the application.
 
 1.  Open the Bookinfo URL (`http://$GATEWAY_URL/productpage`) in your browser. Recall that `GATEWAY_URL`
@@ -148,7 +145,7 @@ you'll need to use `replace` rather than `create` in the following command.
     `reviews:v2` instances.
 
     {{< text bash >}}
-    $ istioctl replace -f @samples/bookinfo/routing/route-rule-reviews-test-v2.yaml@
+    $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-test-v2.yaml@
     {{< /text >}}
 
     Confirm the rule is created:
@@ -194,18 +191,18 @@ restrictions in order to take advantage of Istio's L7 routing features. Refer to
 [sidecar injection documentation](/docs/setup/kubernetes/sidecar-injection/#pod-spec-requirements)
 for details.
 
-Once the v2 version has been tested to our satisfaction, we could use Istio to send traffic from
-all users to v2, optionally in a gradual fashion. We'll explore this in a separate task.
+Once the v2 version has been tested to our satisfaction, you could use Istio to send traffic from
+all users to v2, optionally in a gradual fashion. You'll explore this in a separate task.
 
 ## Cleanup
 
-*   Remove the application VirtualServices.
+1.   Remove the application VirtualServices.
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
+    $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
-*   Remove the application DestinationRules.
+1.   Remove the application DestinationRules.
 
     {{< text bash >}}
     $ istioctl delete -f @samples/bookinfo/routing/destination-rule-all.yaml@
@@ -217,6 +214,6 @@ all users to v2, optionally in a gradual fashion. We'll explore this in a separa
     $ istioctl delete -f @samples/bookinfo/routing/destination-rule-all-mtls.yaml@
     {{< /text >}}
 
-* If you are not planning to explore any follow-on tasks, refer to the
+1. If you are not planning to explore any follow-on tasks, refer to the
   [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.
