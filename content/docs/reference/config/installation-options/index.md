@@ -162,31 +162,3 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `kiali.dashboard.username` | `admin` |  |
 | `kiali.dashboard.password` | `admin` |  |
 <!-- AUTO-GENERATED-END -->
-
-Expert users wishing to further customize Istio install can find additional options in the [`values.yaml`]({{< github_file >}}/install/kubernetes/helm/istio/values.yaml) file.
-
-## Example: traffic management minimal set
-
-Istio has a rich feature set, but you may only want to use a subset of these. For instance, you might be only interested in installing the minimum necessary to support traffic management functionality.
-
-This example shows how to install the minimal set of components necessary to use [traffic management](/docs/tasks/traffic-management/) features.
-
-Execute the following command to install the Pilot and Citadel:
-
-{{< text bash >}}
-$ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
-  --set ingress.enabled=false,gateways.istio-egressgateway.enabled=false,galley.enabled=false \
-  --set gateways.istio-ingressgateway.enabled=false,sidecarInjectorWebhook.enabled=false \
-  --set mixer.enabled=false,prometheus.enabled=false,global.proxy.envoyStatsd.enabled=false
-{{< /text >}}
-
-Ensure the `istio-pilot-*` and `istio-citadel-*` Kubernetes pods are deployed and their containers are up and running:
-
-{{< text bash >}}
-$ kubectl get pods -n istio-system
-NAME                                     READY     STATUS    RESTARTS   AGE
-istio-citadel-b48446f79-wd4tk            1/1       Running   0          1m
-istio-pilot-58c65f74bc-2f5xn             2/2       Running   0          1m
-{{< /text >}}
-
-With this minimal set you can proceed to installing the sample [Bookinfo](/docs/examples/bookinfo/) application or install your own application and [configure request routing](/docs/tasks/traffic-management/request-routing/) for instance. You will need to [manually inject the sidecar](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection).
