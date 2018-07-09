@@ -37,26 +37,26 @@ aliases:
     确认规则已被替换:
 
     {{< text yaml >}}
-        $ istioctl get virtualservice reviews -o yaml
-        apiVersion: networking.istio.io/v1alpha3
-        kind: VirtualService
-        metadata:
-          name: reviews
-          ...
-        spec:
-          hosts:
-          - reviews
-          http:
-          - route:
-            - destination:
-                host: reviews
-                subset: v1
-              weight: 50
-          - route:
-            - destination:
-                host: reviews
-                subset: v3
-              weight: 50
+    $ istioctl get virtualservice reviews -o yaml
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: reviews
+      ...
+    spec:
+      hosts:
+      - reviews
+      http:
+      - route:
+        - destination:
+            host: reviews
+            subset: v1
+          weight: 50
+      - route:
+        - destination:
+            host: reviews
+            subset: v3
+          weight: 50
     {{< /text >}}
 
 1.  刷新浏览器中的 `productpage` 页面，大约有50%的几率会看到页面中出带红色星级的评价内容。
