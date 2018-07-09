@@ -25,21 +25,24 @@ that define the service subsets corresponding to each version, and the load bala
 
 1.
 
-    {{< text bash yaml >}}
+    {{< text bash >}}
     $ istioctl create -f @samples/bookinfo/routing/destination-rule-all.yaml@
     {{< /text >}}
 
-    If you enabled `mTLS`, please run the following instead
+    If you enabled mutual TLS, please run the following instead
 
-    {{< text bash yaml >}}
+    {{< text bash >}}
     $ istioctl create -f @samples/bookinfo/routing/destination-rule-all-mtls.yaml@
     {{< /text >}}
 
     You can display the DestinationRules that are defined with the following command:
 
-    {{< text bash yaml >}}
+    {{< text bash >}}
     $ istioctl get destinationrules -o yaml
     {{< /text >}}
+
+    Since config propagation to the proxies is asynchronous, to avoid traffic loss you must wait a few seconds for the DestinationRules
+    to reach all proxies before proceeding to the next step.
 
 1.
 Because the Bookinfo sample deploys 3 versions of the reviews microservice,
@@ -129,8 +132,8 @@ you'll need to use `replace` rather than `create` in the following command.
 
     > The corresponding `subset` definitions can be displayed using `istioctl get destinationrules -o yaml`.
 
-    Since rule propagation to the proxies is asynchronous, you must wait a few seconds for the VirtualServices
-    to propagate to all pods before attempting to access the application.
+    Since config propagation to the proxies is asynchronous, you must wait a few seconds for the VirtualServices
+    to propagate to all pods to notice the application of the routing rules.
 
 1.  Open the Bookinfo URL (`http://$GATEWAY_URL/productpage`) in your browser. Recall that `GATEWAY_URL`
     should have been set using [these instructions](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)
@@ -208,7 +211,7 @@ all users to v2, optionally in a gradual fashion. You'll explore this in a separ
     $ istioctl delete -f @samples/bookinfo/routing/destination-rule-all.yaml@
     {{< /text >}}
 
-    If you enabled `mTLS`, please run the following instead
+    If you enabled mutual TLS, please run the following instead
 
     {{< text bash >}}
     $ istioctl delete -f @samples/bookinfo/routing/destination-rule-all-mtls.yaml@
