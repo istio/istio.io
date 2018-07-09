@@ -5,11 +5,14 @@ weight: 66
 keywords: [debug,proxy,status,config]
 ---
 
-This task demonstrates how to use the [proxy-status](/docs/reference/commands/istioctl/#istioctl-proxy-status) and [proxy-config](/docs/reference/commands/istioctl/#istioctl-proxy-config) commands.
+This task demonstrates how to use the [proxy-status](/docs/reference/commands/istioctl/#istioctl-proxy-status)
+and [proxy-config](/docs/reference/commands/istioctl/#istioctl-proxy-config) commands.
 
 ## Before you begin
 
-* Have a Kubernetes cluster with Istio and Bookinfo installed (e.g use istio.yaml as described in [installation steps](/docs/setup/kubernetes/quick-start/#installation-steps) and [bookinfo installation steps](https://preliminary.istio.io/docs/examples/bookinfo/#if-you-are-running-on-kubernetes)).
+* Have a Kubernetes cluster with Istio and Bookinfo installed (e.g use istio.yaml as described in
+[installation steps](/docs/setup/kubernetes/quick-start/#installation-steps) and
+[bookinfo installation steps](https://preliminary.istio.io/docs/examples/bookinfo/#if-you-are-running-on-kubernetes)).
 
 OR
 
@@ -17,7 +20,8 @@ OR
 
 ## Get an overview of your mesh
 
-The `proxy-status` command allows you to get an overview of your mesh. If you suspect one of your sidecars isn't receiving config or is out of sync then `proxy-status` will tell you this.
+The `proxy-status` command allows you to get an overview of your mesh. If you suspect one of your sidecars isn't
+receiving config or is out of sync then `proxy-status` will tell you this.
 
 {{< text bash >}}
 $ istioctl proxy-status
@@ -33,18 +37,22 @@ reviews-v2-686bbb668-99j76.default                     SYNCED     SYNCED     SYN
 reviews-v3-7b9b5fdfd6-4r52s.default                    SYNCED     SYNCED     SYNCED (100%)     SYNCED       istio-pilot-75bdf98789-n2kqh
 {{< /text >}}
 
-If a proxy is missing from this list it means that it is not currently connected to a Pilot instance so will not be receiving any configuration.
+If a proxy is missing from this list it means that it is not currently connected to a Pilot instance so will not be
+receiving any configuration.
 
 * `SYNCED` means that Envoy has acknowledged the last configuration Pilot has sent to it.
 * `SYNCED (100%)` means that Envoy has successfully synced all of the endpoints in the cluster.
 * `NOT SENT` means that Pilot hasn't sent anything to Envoy. This usually is because Pilot has nothing to send.
-* `STALE` means that Pilot has sent an update to Envoy but has not received an acknowledgement. This usually indicates a networking issue between Envoy and Pilot or a bug with Istio itself.
+* `STALE` means that Pilot has sent an update to Envoy but has not received an acknowledgement. This usually indicates
+a networking issue between Envoy and Pilot or a bug with Istio itself.
 
 ## Retrieve diffs between Envoy and Istio Pilot
 
-The `proxy-status` command can also be used to retrieve a diff between the configuration Envoy has loaded and the configuration Pilot would send, by providing a proxy ID. This can help you determine exactly what is out of sync and where the issue may lie.
+The `proxy-status` command can also be used to retrieve a diff between the configuration Envoy has loaded and the
+configuration Pilot would send, by providing a proxy ID. This can help you determine exactly what is out of sync and
+where the issue may lie.
 
-{{< text bash >}}
+{{< text bash json >}}
 $ istioctl proxy-status details-v1-6dcc6fbb9d-wsjz4.default
 --- Pilot Clusters
 +++ Envoy Clusters
@@ -94,7 +102,10 @@ Here we can see that the listeners and routes match but the clusters are out of 
 
 ## Deep dive into Envoy configuration
 
-The `proxy-config` command can be used to see how a given Envoy instance is configured. This can then be used to pinpoint any issues you are unable to detect by just looking through your Istio configuration and custom resources. To get a basic summary of clusters, listeners or routes for a given pod use the command as follows (changing clusters for listeners or routes when required):
+The `proxy-config` command can be used to see how a given Envoy instance is configured. This can then be used to
+pinpoint any issues you are unable to detect by just looking through your Istio configuration and custom resources.
+To get a basic summary of clusters, listeners or routes for a given pod use the command as follows (changing clusters
+for listeners or routes when required):
 {{< text bash >}}
 $ istioctl proxy-config clusters -n istio-system istio-ingressgateway-7d6874b48f-qxhn5
 SERVICE FQDN                                                                     PORT      SUBSET     DIRECTION     TYPE
@@ -107,10 +118,13 @@ istio-egressgateway.istio-system.svc.cluster.local                              
 ...
 {{< /text >}}
 
-In order to debug Envoy you need to understand Envoy clusters/listeners/routes/endpoints and how they all interact. We will use the `proxy-config` command with the `-o json` and filtering flags to follow Envoy as it determines where to send an request from the productpage pod to the reviews pod at `reviews:9080`.
+In order to debug Envoy you need to understand Envoy clusters/listeners/routes/endpoints and how they all interact.
+We will use the `proxy-config` command with the `-o json` and filtering flags to follow Envoy as it determines where
+to send an request from the productpage pod to the reviews pod at `reviews:9080`.
 
 1. If you query the listener summary on a pod you will notice Istio generates the following listeners:
-    * A listener on `0.0.0.0:15001` that receives all traffic into and out of the pod, then hands the request over to a virtual listener.
+    * A listener on `0.0.0.0:15001` that receives all traffic into and out of the pod, then hands the request over to
+    a virtual listener.
     * A virtual listener per service IP, per each non-HTTP for outbound TCP/HTTPS traffic.
     * A virtual listener on the pod IP for each exposed port for inbound traffic.
     * A virtual listener on `0.0.0.0` per each HTTP port for outbound HTTP traffic.
@@ -148,9 +162,12 @@ ADDRESS            PORT      TYPE
 172.30.164.190     9080      HTTP   // Receives all inbound traffic on 9080 from listener `0.0.0.0_15001`
 {{< /text >}}
 
-1. From the above summary you can see that every sidecar has a listener bound to `0.0.0.0:15001` which is where IP tables routes all inbound and outbound pod traffic to. This listener has `useOriginalDst` set to true which means it hands the request over to the listener that best matches the original destination of the request. If it can't find any matching virtual listeners it sends the request to the `BlackHoleCluster` which returns a 404.
+1. From the above summary you can see that every sidecar has a listener bound to `0.0.0.0:15001` which is where
+IP tables routes all inbound and outbound pod traffic to. This listener has `useOriginalDst` set to true which means
+it hands the request over to the listener that best matches the original destination of the request.
+If it can't find any matching virtual listeners it sends the request to the `BlackHoleCluster` which returns a 404.
 
-{{< text bash >}}
+{{< text bash json >}}
 $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs --port 15001 -o json
 {
     "name": "virtual",
@@ -177,8 +194,10 @@ $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs --port 15001 -
 }
 {{< /text >}}
 
-1. Our request is an outbound HTTP request to port `9080` this means it gets handed off to the `0.0.0.0:9080` virtual listener. This listener then looks up the route configuration in its configures RDS. In this case it will be looking up route `9080` in RDS configured by Pilot (via ADS).
-{{< text bash >}}
+1. Our request is an outbound HTTP request to port `9080` this means it gets handed off to the `0.0.0.0:9080` virtual
+listener. This listener then looks up the route configuration in its configures RDS. In this case it will be looking
+up route `9080` in RDS configured by Pilot (via ADS).
+{{< text bash json >}}
 $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs -o json --address 0.0.0.0 --port 9080
 ...
 "rds": {
@@ -190,8 +209,12 @@ $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs -o json --addr
 ...
 {{< /text >}}
 
-1. The `9080` route configuration only has a virtual host for each service. Our request is heading to the reviews service so Envoy will select the virtual host to which our request matches a domain. Once matched on domain Envoy looks for the first route that matches the request. In this case we don't have any advanced routing so there is only one route that matches on everything. This route tells Envoy to send the request to the `outbound|9080||reviews.default.svc.cluster.local` cluster.
-{{< text bash >}}
+1. The `9080` route configuration only has a virtual host for each service. Our request is heading to the reviews
+service so Envoy will select the virtual host to which our request matches a domain. Once matched on domain Envoy
+looks for the first route that matches the request. In this case we don't have any advanced routing so there is only
+one route that matches on everything. This route tells Envoy to send the request to the
+`outbound|9080||reviews.default.svc.cluster.local` cluster.
+{{< text bash json >}}
 $ istioctl proxy-config routes productpage-v1-6c886ff494-7vxhs --name 9080 -o json
 {
         "name": "9080",
@@ -223,8 +246,9 @@ $ istioctl proxy-config routes productpage-v1-6c886ff494-7vxhs --name 9080 -o js
                         },
 ...
 {{< /text >}}
-1. This cluster is configured to retrieve the associated endpoints from Pilot (via ADS). So Envoy will then use the `serviceName` field as a key to look up the list of Endpoints and proxy the request to one of them.
-{{< text bash >}}
+1. This cluster is configured to retrieve the associated endpoints from Pilot (via ADS). So Envoy will then use the
+`serviceName` field as a key to look up the list of Endpoints and proxy the request to one of them.
+{{< text bash json >}}
 $ istioctl proxy-config clusters --fqdn reviews.default.svc.cluster.local -o json
 [
     {
@@ -248,8 +272,9 @@ $ istioctl proxy-config clusters --fqdn reviews.default.svc.cluster.local -o jso
 
 ## Inspecting Bootstrap config
 
-So far we have looked at config retrieved (mostly) from Pilot, however Envoy requires some bootstrap config that includes information like where Pilot can be found. To view this use the following command:
-{{< text bash >}}
+So far we have looked at config retrieved (mostly) from Pilot, however Envoy requires some bootstrap config that
+includes information like where Pilot can be found. To view this use the following command:
+{{< text bash json >}}
 $ istioctl proxy-config bootstrap -n istio-system istio-ingressgateway-7d6874b48f-qxhn5
 {
     "bootstrap": {
