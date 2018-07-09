@@ -105,7 +105,7 @@ The default behavior is to enable automatic sidecar injection on the remote clus
     $ kubectl create -f $HOME/istio-remote.yaml
     {{< /text >}}
 
-1.  Label the remote cluster's `default` namespace for auto-sidecar injection.
+1.  Label all the remote cluster's namespaces requiring auto-sidecar injection.  The following example labels the `default` namespace.
 
     {{< text bash >}}
     $ kubectl label namespace default istio-injection=enabled
@@ -119,7 +119,7 @@ The default behavior is to enable automatic sidecar injection on the remote clus
 install one:
 
     {{< text bash >}}
-    $ kubectl create -f @install/kubernetes/helm/helm-service-account.yaml@
+    $ kubectl create -f install/kubernetes/helm/helm-service-account.yaml
     {{< /text >}}
 
 1.  Initialize Helm:
@@ -138,7 +138,7 @@ install one:
 
 > The `pilot`, `policy`, `telemetry`, `statsd`, and tracing application endpoints need to be configured in the `istio-remote` helm chart.
 
-The `istio-remote` Helm chart requires the endpoint specific variables to be configured as defined in the following table.  Optionally, the automatic sidecar injection in the remote cluster can be disabled.
+The `istio-remote` Helm chart requires the endpoint specific variables to be configured as defined in the following table.  Optionally, automatic sidecar injection in the remote cluster can be disabled.
 
 | Helm Variable | Accepted Values | Default | Purpose of Value |
 | --- | --- | --- | --- |
@@ -262,7 +262,7 @@ command to generate any application manifests for the remote cluster.
 
 The following procedure is to be performed against the remote cluster.
 
-__NOTE__: The endpoint IP environment variables need to be set as in the [above section](#set-environment-variables-for-pod-ips-from-istio-control-plane-needed-by-remote)
+> The endpoint IP environment variables need to be set as in the [above section](#set-environment-variables-for-pod-ips-from-istio-control-plane-needed-by-remote)
 
 1.  Use the helm template command on a remote to specify the Istio control plane service endpoints:
 
