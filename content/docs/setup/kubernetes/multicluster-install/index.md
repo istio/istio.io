@@ -45,7 +45,7 @@ clusters.
 
 This guide describes how to install a multicluster Istio topology using the 
 manifests and helm charts provided within the Istio repository. In some scenarios
-it maybe desirable to customize a deployment based on constraints of the
+it may be desirable to customize a deployment based on the constraints of the
 environment.  See [Stable access to istio control plane services](#stable-access-to-istio-control-plane-services]
 to see some of those options.  
 
@@ -190,7 +190,7 @@ before proceeding to steps in this section.
 > These operations must be run on the Istio control plane cluster
 to capture the Pilot, Policy, and Statsd Pod IP endpoints.
 
-> As decumented in [tracked here](https://github.com/istio/istio/issues/4822),
+> As decumented in [istio/istio#4822](https://github.com/istio/istio/issues/4822),
 if any one of the endpoints listed restarts, then the connection from remote
 clusters to that endpoint will be broken. See [Stable access to istio control
 plane services](#stable-access-to-istio-control-plane-services] for details on
@@ -283,13 +283,14 @@ $ helm delete --purge istio-remote
 
 ## Stable access to Istio control plane services
 In the above procedure, endpoint IPs of Istio services are gathered and used to
-invoke Helm that will create Istio services on the remote clusters. This updates
-kube-dns in the remote clusters so it can be used to resolve the Istio service names.
+invoke Helm that will create Istio services on the remote clusters. As part of  
+creating those services and endpoints in the remote cluster Kubernetes will 
+add dns entries into kube-dns.  This allows kube-dns in the remote clusters to  
+resolve the Istio service names for all envoy side cars in those remote clusters.
 Since Kubernetes pods don't have stable IPs, restart of any Istio service pod in
 the control plane cluster will cause its endpoint to be changed. Therefore, any
 connection made from remote clusters to that endpoint will be broken. This is 
-documented in [Pod restart issue](https://github.com/istio/istio/issues/4822)
-
+documented in [istio/istio#4822](https://github.com/istio/istio/issues/4822)
 
 There are a number of ways to either avoid or resolve this scenario. This section 
 provides a high level overview of these options.   
@@ -303,7 +304,8 @@ provides a high level overview of these options.
 Upon any failure or pod restart kube-dns on the remote clusters can be
 updated with the correct endpoint mappings for the Istio services.  There 
 are a number of ways this can be done the most obvious is to rerun the Helm 
-install after the Istio services on the control plane cluster have restarted. 
+install in remote cluster after the Istio services on the control plane cluster 
+have restarted. 
 
 ### Use load balancer service type
 
