@@ -32,7 +32,7 @@ that define the service subsets corresponding to each version, and the load bala
     If you enabled `mTLS`, please run the following instead
 
     {{< text bash yaml >}}
-    $ istioctl create -f @samples/bookinfo/routing/destination-rule-all.yaml@
+    $ istioctl create -f @samples/bookinfo/routing/destination-rule-all-mtls.yaml@
     {{< /text >}}
 
     You can display the DestinationRules that are defined with the following command:
