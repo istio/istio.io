@@ -118,7 +118,7 @@ $ kubectl create ns istio-system
 > 可以在部署 Istio 控制面之前或者之后创建这些 secret。创建 Secret 的过程中要使用 Istio 属性进行标记。
 > 运行 Istio 控制面的集群不需要保存和标记自己的 Secret。这是因为本地的 Node 始终会知道本集群的凭据，但却无法知晓远程节点的凭据。
 
-为每个远程集群创建一个 Serect，并使用标签进行标记：
+为每个远程集群创建一个 Secret，并使用标签进行标记：
 
 {{< text bash >}}
 $ cd $WORK_DIR
@@ -127,7 +127,7 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n istio-system
 {{< /text >}}
 
 {{< warning_icon >}}
-这个 Secret 的命名和文件名一致。Kubernetes 的 Secret 键需符合 `DNS-1123 subdomain` [格式](https://tools.ietf.org/html/rfc1123#page-13) 的要求，例如文件名中不能包含下划线。如果不符合这一要求，就需要修改文件和 Serect 的名称。
+这个 Secret 的命名和文件名一致。Kubernetes 的 Secret 键需符合 `DNS-1123 subdomain` [格式](https://tools.ietf.org/html/rfc1123#page-13) 的要求，例如文件名中不能包含下划线。如果不符合这一要求，就需要修改文件和 Secret 的名称。
 
 ## 在本地部署 Istio 的控制平面
 
