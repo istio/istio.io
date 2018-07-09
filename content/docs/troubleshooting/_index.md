@@ -1,9 +1,10 @@
 ---
-title: Troubleshooting Guide
+title: Troubleshooting
 description: Advice on tackling common problems with Istio
-weight: 40
-force_inline_toc: true
-draft: true
+weight: 70
+type: section-index
+aliases:
+        - /help/troubleshooting
 ---
 
 Below is a list of solutions to common problems.
