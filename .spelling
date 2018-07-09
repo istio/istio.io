@@ -398,6 +398,7 @@ mutatingwebhookconfiguration
 mutual-tls
 my-svc
 my-svc-234443-5sffe
+myapp
 mysql
 mysqldb
 namespace
