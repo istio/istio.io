@@ -364,22 +364,6 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
     apiVersion: networking.istio.io/v1alpha3
-    kind: ServiceEntry
-    metadata:
-      name: cnn
-    spec:
-      hosts:
-      - edition.cnn.com
-      ports:
-      - number: 80
-        name: http-port
-        protocol: HTTP
-      - number: 443
-        name: http-port-for-tls-origination
-        protocol: HTTP
-      resolution: DNS
-    ---
-    apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
       name: direct-through-egress-gateway
