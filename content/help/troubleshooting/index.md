@@ -177,7 +177,6 @@ Verifying connectivity to Pilot is a useful troubleshooting step. Every proxy co
     $ curl -k --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem --key /etc/certs/key.pem https://istio-pilot:15003/v1/registration
     {{</text>}}
 
-
     If mutual TLS is disabled:
 
     {{<text bash>}}
