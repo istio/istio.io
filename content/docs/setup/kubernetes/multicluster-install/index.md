@@ -44,10 +44,7 @@ Istio control plane and form a mesh network across multiple Kubernetes
 clusters.
 
 This guide describes how to install a multicluster Istio topology using the 
-manifests and helm charts provided within the Istio repository. In some scenarios
-it may be desirable to customize a deployment based on the constraints of the
-environment.  See [Stable access to istio control plane services](#stable-access-to-istio-control-plane-services]
-to see some of those options.  
+manifests and helm charts provided within the Istio repository.  
 
 ## Create service account in remote clusters and generate `kubeconfigs`
 
@@ -281,9 +278,11 @@ $ kubectl delete -f $HOME/istio-remote.yaml
 $ helm delete --purge istio-remote
 {{< /text >}}
 
-## Stable access to Istio control plane services
-In the above procedure, endpoint IPs of Istio services are gathered and used to
-invoke Helm that will create Istio services on the remote clusters. As part of  
+## Deployment considerations
+The above procedure provides a simple and step by step guide to deploy a multicluster
+environment.  A production environment might require additional steps or more complex
+deployment options.  The procedure gathers the endpoint IPs of Istio services and uses
+them to invoke Helm. This create Istio services on the remote clusters. As part of  
 creating those services and endpoints in the remote cluster Kubernetes will 
 add DNS entries into kube-dns.  This allows kube-dns in the remote clusters to  
 resolve the Istio service names for all envoy sidecars in those remote clusters.
@@ -307,10 +306,10 @@ are a number of ways this can be done. The most obvious is to rerun the Helm
 install in the remote cluster after the Istio services on the control plane 
 cluster have restarted. 
 
-### Use load balancer service type
+### Use 'LoadBalance' service type
 
 In Kubernetes, you can declare a service with a service type to be 
-[`LoadBalancer`](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types).
+[LoadBalancer](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types).
 A simple solution to the pod restart issue is to use load balancers for the
 Istio services. You can then use the load balancer IPs as the Istio services's
 endpoint IPs to configure the remote clusters. You may need balancer IPs for
