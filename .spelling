@@ -28,6 +28,7 @@ ANDed
 API
 APIs
 alt
+Acmeair
 Ansible
 AppOptics
 args.yaml
@@ -35,6 +36,7 @@ AuthPolicy
 Autoscalers
 BigQuery
 Bookinfo
+BluePerf
 Budinsky
 CAP_NET_ADMIN
 CAs
@@ -84,6 +86,7 @@ IPs
 IPv4
 ISTIO_INBOUND_PORTS
 Incrementality
+InfluxDB
 Initializers
 Istio
 IstioMesh
@@ -92,6 +95,7 @@ Istiofied
 JSON-formatted
 JWT
 JWTs
+Jmeter
 Keepalived
 Kibana
 Kops
@@ -168,6 +172,7 @@ ValueType
 VirtualService
 WeaveWorks
 WebSocket
+WebSphere
 Webhooks
 X.509
 X.509.
