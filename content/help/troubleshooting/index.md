@@ -41,7 +41,7 @@ To make sure services will have zero down-time when configuring routes with subs
 Let's assume you are using an ingress `Gateway` and corresponding `VirtualSerive` to access an internal service.
 For example, your `VirtualService` looks something like this:
 
-{{<text yaml>}}
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -60,11 +60,11 @@ spec:
         host: helloworld.default.svc.cluster.local
   - match:
     ...
-{{</text>}}
+{{< /text >}}
 
 You also have a `VirtualService` which routes traffic for the helloworld service to a particular subset:
 
-{{<text yaml>}}
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -77,7 +77,7 @@ spec:
     - destination:
         host: helloworld.default.svc.cluster.local
         subset: v1
-{{</text>}}
+{{< /text >}}
 
 In this situation you will notice that requests to the helloworld service via the ingress gateway will
 not be directed to subset v1 but instead will continue to use default round-robin routing.
@@ -89,7 +89,7 @@ helloworld `VirtualService` which directs traffic exclusively to subset v1.
 
 To control the traffic from the gateway, you need to include the subset rule in the myapp `VirtualService`:
 
-{{<text yaml>}}
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -109,11 +109,11 @@ spec:
         subset: v1
   - match:
     ...
-{{</text>}}
+{{< /text >}}
 
 Alternatively, you can combine both `VirtualServices` into one unit if possible:
 
-{{<text yaml>}}
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -142,7 +142,7 @@ spec:
     - destination:
         host: helloworld.default.svc.cluster.local
         subset: v1
-{{</text>}}
+{{< /text >}}
 
 ## Route rules have no effect on my application
 
@@ -161,27 +161,27 @@ Verifying connectivity to Pilot is a useful troubleshooting step. Every proxy co
 
 1.  Get the name of the Istio Ingress pod:
 
-    {{<text bash>}}
+    {{< text bash >}}
     $ INGRESS_POD_NAME=$(kubectl get po -n istio-system | grep ingressgateway\- | awk '{print$1}'); echo ${INGRESS_POD_NAME};
-    {{</text>}}
+    {{< /text >}}
 
 1.  Exec into the Istio Ingress pod:
 
-    {{<text bash>}}
+    {{< text bash >}}
     $ kubectl exec -it $INGRESS_POD_NAME -n istio-system /bin/bash
-    {{</text>}}
+    {{< /text >}}
 
 1.  Test connectivity to Pilot using cURL. The following example cURL's the v1 registration API using default Pilot configuration parameters and mTLS enabled:
 
-    {{<text bash>}}
+    {{< text bash >}}
     $ curl -k --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem --key /etc/certs/key.pem https://istio-pilot:15003/v1/registration
-    {{</text>}}
+    {{< /text >}}
 
     If mutual TLS is disabled:
 
-    {{<text bash>}}
+    {{< text bash >}}
     $ curl http://istio-pilot:15003/v1/registration
-    {{</text>}}
+    {{< /text >}}
 
 You should receive a response listing the "service-key" and "hosts" for each service in the mesh.
 
