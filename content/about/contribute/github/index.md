@@ -48,7 +48,7 @@ code</a>
 
 Once your changes are merged, they show up immediately on
 [preliminary.istio.io](https://preliminary.istio.io). However, the changes only
-show up on [istio.io](https://istio.io) until the next time we produce a new
+show up on [istio.io](https://istio.io) when the next time we produce a new
 release, which happens around once a month.
 
 ## Previewing your work
