@@ -92,7 +92,6 @@ Below is our list of existing features and their current phases. This informatio
 | [VM: Istio Control Plane Installation and Upgrade (Galley, Mixer, Pilot, CA)](https://github.com/istio/istio/issues/2083)  | Alpha
 | VM: Ansible Envoy Installation, Interception and Registration  | Alpha
 | [Pilot Integration into Consul](/docs/setup/consul/quick-start/) | Alpha
-| [Pilot Integration into Eureka](/docs/setup/consul/quick-start/) | Alpha
 | [Pilot Integration into Cloud Foundry Service Discovery](/docs/setup/consul/quick-start/)    | Alpha
 | [Basic Config Resource Validation](https://github.com/istio/istio/issues/1894) | Alpha
 | Mixer Telemetry Collection (Tracing, Logging, Monitoring) | Alpha
