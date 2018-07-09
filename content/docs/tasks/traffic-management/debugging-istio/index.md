@@ -13,7 +13,7 @@ This task demonstrates how to use the [proxy-status](/docs/reference/commands/is
 
 OR
 
-* Follow along using similar commands against your own application running in a Kubernetes cluster.
+* Use similar commands against your own application running in a Kubernetes cluster.
 
 ## Get an overview of your mesh
 
@@ -149,6 +149,7 @@ ADDRESS            PORT      TYPE
 {{< /text >}}
 
 1. From the above summary you can see that every sidecar has a listener bound to `0.0.0.0:15001` which is where IP tables routes all inbound and outbound pod traffic to. This listener has `useOriginalDst` set to true which means it hands the request over to the listener that best matches the original destination of the request. If it can't find any matching virtual listeners it sends the request to the `BlackHoleCluster` which returns a 404.
+
 {{< text bash >}}
 $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs --port 15001 -o json
 {
