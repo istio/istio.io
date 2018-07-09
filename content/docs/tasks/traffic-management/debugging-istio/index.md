@@ -124,7 +124,7 @@ ADDRESS            PORT      TYPE
 172.21.157.6       443       TCP    |
 172.21.117.222     443       TCP    |
 172.21.0.10        53        TCP    |
-172.21.126.131     443       TCP    |   Receives outbound non-HTTP traffic for relevant IP:PORT pair listener `0.0.0.0_15001`
+172.21.126.131     443       TCP    |   Receives outbound non-HTTP traffic for relevant IP:PORT pair from listener `0.0.0.0_15001`
 172.21.160.5       31400     TCP    |
 172.21.81.159      9102      TCP    |
 172.21.0.1         443       TCP    |
