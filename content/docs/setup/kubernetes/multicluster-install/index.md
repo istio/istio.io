@@ -285,8 +285,8 @@ $ helm delete --purge istio-remote
 In the above procedure, endpoint IPs of Istio services are gathered and used to
 invoke Helm that will create Istio services on the remote clusters. As part of  
 creating those services and endpoints in the remote cluster Kubernetes will 
-add dns entries into kube-dns.  This allows kube-dns in the remote clusters to  
-resolve the Istio service names for all envoy side cars in those remote clusters.
+add DNS entries into kube-dns.  This allows kube-dns in the remote clusters to  
+resolve the Istio service names for all envoy sidecars in those remote clusters.
 Since Kubernetes pods don't have stable IPs, restart of any Istio service pod in
 the control plane cluster will cause its endpoint to be changed. Therefore, any
 connection made from remote clusters to that endpoint will be broken. This is 
@@ -295,22 +295,22 @@ documented in [istio/istio#4822](https://github.com/istio/istio/issues/4822)
 There are a number of ways to either avoid or resolve this scenario. This section 
 provides a high level overview of these options.   
 
-* Update the dns entries 
+* Update the DNS entries 
 * Use a load balancer service type 
 * Expose the Istio services via a gateway
 
-### Update the dns entries
+### Update the DNS entries
 
 Upon any failure or pod restart kube-dns on the remote clusters can be
 updated with the correct endpoint mappings for the Istio services.  There 
-are a number of ways this can be done the most obvious is to rerun the Helm 
-install in remote cluster after the Istio services on the control plane cluster 
-have restarted. 
+are a number of ways this can be done. The most obvious is to rerun the Helm 
+install in the remote cluster after the Istio services on the control plane 
+cluster have restarted. 
 
 ### Use load balancer service type
 
-In Kubernetes, you can declare a service with a service type to be [load
-balancer](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types).
+In Kubernetes, you can declare a service with a service type to be 
+[`LoadBalancer`](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types).
 A simple solution to the pod restart issue is to use load balancers for the
 Istio services. You can then use the load balancer IPs as the Istio services's
 endpoint IPs to configure the remote clusters. You may need balancer IPs for
