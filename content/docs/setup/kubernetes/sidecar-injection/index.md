@@ -100,7 +100,6 @@ Sidecars can be automatically added to applicable Kubernetes pods using a
 
 {{< text bash >}}
 $ kubectl api-versions | grep admissionregistration
-admissionregistration.k8s.io/v1alpha1
 admissionregistration.k8s.io/v1beta1
 {{< /text >}}
 
