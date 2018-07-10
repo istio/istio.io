@@ -6,6 +6,7 @@ type: glossary
 aliases:
   - /glossary
   - /docs/welcome/glossary.html
+  - /docs/reference/glossary.html
 ---
 
 Common Istio words and phrases. Please [let us know](https://github.com/istio/istio.github.io/issues/new?title=Missing%20Glossary%20Entry) if you

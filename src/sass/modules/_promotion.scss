@@ -1,0 +1,19 @@
+.promotion {
+    position: absolute;
+    display: block;
+    top: 22px;
+    left: -80px;
+    width: 260px;
+    overflow: hidden;
+    height: 46px;
+    z-index: 9011;
+    color: white;
+    background: forestgreen;
+    transform: rotate(-45deg);
+    text-align: center;
+
+    &:hover {
+        text-decoration: none;
+        color: lightgreen;
+    }
+}

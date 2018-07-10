@@ -1,14 +1,24 @@
 {{ $toc := partial "toc.html" (dict "page" .) }}
 {{ $needTOC := .Scratch.Get "needTOC" }}
 
-                {{ $related := .Site.RegularPages.Related . | first 5 }}
-                {{ with $related }}
-                    <h2 id="see-also">See also</h2>
-                    <ul>
-                        {{ range . }}
-                            <li><a href="{{ .RelPermalink }}">{{ .Title }}</a>. {{ .Description }}</li>
-                        {{ end }}
-                    </ul>
+                {{ if .Scratch.Get "seeAlso" }}
+                    {{ $related := .Site.RegularPages.Related . | first 6 }}
+                    {{ with $related }}
+                        <h2 id="see-also">See also</h2>
+
+                        <div class="see-also">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    {{ range . }}
+                                        <div class="col-xs-12 col-sm-6 col-lg-4">
+                                            <p class="link"><a href="{{ .RelPermalink }}">{{ .Title }}</a></p>
+                                            <p class="desc">{{ .Description }}</p>
+                                        </div>
+                                    {{ end }}
+                                </div>
+                            </div>
+                        </div>
+                    {{ end }}
                 {{ end }}
             </main>
 

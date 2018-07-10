@@ -27,6 +27,7 @@ ACLs
 ANDed
 API
 APIs
+alt
 Ansible
 AppOptics
 args.yaml
@@ -102,10 +103,12 @@ Kubernetes
 L3-4
 L4-L6
 LabelDescription
+LibreSSL
+LoadBalancer
 LoadBalancers
 LoadBalancing.svg
 Lyft
-MacOS
+macOS
 Manolache
 Memquota
 Mesos
@@ -395,6 +398,7 @@ mutatingwebhookconfiguration
 mutual-tls
 my-svc
 my-svc-234443-5sffe
+myapp
 mysql
 mysqldb
 namespace
