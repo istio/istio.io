@@ -5,7 +5,7 @@ weight: 80
 keywords: [security,mutual-tls,https]
 ---
 
-This task shows how Istio Mutual TLS works with HTTPS services. It includes:
+This task shows how mutual TLS works with HTTPS services. It includes:
 
 * Deploying an HTTPS service without Istio sidecar
 
