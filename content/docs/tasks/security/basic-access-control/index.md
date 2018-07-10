@@ -26,7 +26,7 @@ This task shows how to control access to a service using the Kubernetes labels.
     and then run the following command:
 
     {{< text bash >}}
-    $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-jason-v2-v3.yaml.yaml@
+    $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-jason-v2-v3.yaml@
     {{< /text >}}
 
     > If you have conflicting rules that you set in previous tasks,

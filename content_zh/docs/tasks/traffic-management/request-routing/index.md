@@ -165,14 +165,20 @@ keywords: [traffic-management,routing]
 
 * 删除应用程序路由规则。
 
+
     {{< text bash >}}
     $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
+    {{< text bash >}}
+    $ istioctl delete -f @samples/bookinfo/networking/destination-rule-all.yaml@
+    {{< /text >}}
+
+
     如果您启用了 `mTLS` ，请运行以下代码
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1-mtls.yaml@
+    $ istioctl delete -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
     {{< /text >}}
 
 * 如果您不打算探索任何后续任务，请参阅 [Bookinfo 清理](/docs/examples/bookinfo/#cleanup) 的说明关闭应用程序。
