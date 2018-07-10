@@ -148,7 +148,7 @@ To start the application, follow the instructions below corresponding to your Is
 
 1.  Proceed to [What's next](#what-s-next), below.
 
-### If you are running on Docker with Consul or Eureka
+### If you are running on Docker with Consul
 
 1.  Change directory to the root of the Istio installation directory.
 
@@ -159,13 +159,6 @@ To start the application, follow the instructions below corresponding to your Is
     {{< text bash >}}
     $ docker-compose -f @samples/bookinfo/consul/bookinfo.yaml@ up -d
     $ docker-compose -f samples/bookinfo/consul/bookinfo.sidecars.yaml up -d
-    {{< /text >}}
-
-    To test with Eureka, run the following commands:
-
-    {{< text bash >}}
-    $ docker-compose -f @samples/bookinfo/eureka/bookinfo.yaml@ up -d
-    $ docker-compose -f samples/bookinfo/eureka/bookinfo.sidecars.yaml up -d
     {{< /text >}}
 
 1.  Confirm that all docker containers are running:
@@ -232,12 +225,6 @@ uninstall and clean it up using the following instructions.
 
     {{< text bash >}}
     $ @samples/bookinfo/consul/cleanup.sh@
-    {{< /text >}}
-
-    In a Eureka setup, run the following command:
-
-    {{< text bash >}}
-    $ @samples/bookinfo/eureka/cleanup.sh@
     {{< /text >}}
 
 1.  Confirm cleanup
