@@ -49,7 +49,7 @@ Create a new cluster.
 $ gcloud container clusters create <cluster-name> \
     --cluster-version=1.10.4-gke.0 \
     --zone <zone> \
-    --project <project-name>
+    --project <project-id>
 {{< /text >}}
 
 Retrieve your credentials for `kubectl`.
@@ -57,7 +57,7 @@ Retrieve your credentials for `kubectl`.
 {{< text bash >}}
 $ gcloud container clusters get-credentials <cluster-name> \
     --zone <zone> \
-    --project <project-name>
+    --project <project-id>
 {{< /text >}}
 
 Grant cluster admin permissions to the current user (admin permissions are required to create the necessary RBAC rules for Istio).
