@@ -32,7 +32,7 @@ Citadel 包含了一个检测器模块，它会周期性的检查 Citadel 的状
 下面的命令用来部署启用健康检查的 Citadel：
 
 {{< text bash >}}
-$ kubectl apply -f @install/kubernetes/istio-citadel-with-health-check.yaml@
+$ kubectl apply -f install/kubernetes/istio-citadel-with-health-check.yaml
 {{< /text >}}
 
 部署 `istio-citadel` 服务，这样健康检查器才能找到 CSR 服务.
