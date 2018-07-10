@@ -1,13 +1,13 @@
 ---
 title: Mutual TLS Migration
-description: Shows you how to migrate your Istio services to mutual TLS incrementally.
+description: Shows you how to incrementally migrate your Istio services to mutual TLS.
 weight: 80
 keywords: [security,authentication,migration]
 ---
 
 This task shows how to migrate your existing Istio services' traffic from plain text to mutual TLS without breaking live traffic.
 
-In practice, a mesh consists of both Istio services (with Envoy sidecar) and services without Envoy sidecar(call it "legacy" below for simplicity).
+In practice, a mesh consists of both Istio services (with Envoy sidecars) and services without Envoy sidecar(called "legacy" below for simplicity).
 A legacy service can't use Istio issued key/certificate to send mutual TLS traffic. We want to enable mutual TLS incrementally, safely.
 
 ## Before you begin
@@ -49,7 +49,7 @@ A legacy service can't use Istio issued key/certificate to send mutual TLS traff
 
 ## Configure the server to accept both mTLS and plain text traffic
 
-In Authentication Policy, we have a `PERMISSIVE` mode which makes the server accept both mutual TLS and plain text traffic.
+In authentication policy, we have a `PERMISSIVE` mode which makes the server accept both mutual TLS and plain text traffic.
 We need to configure the server to this mode.
 
 {{< text bash >}}
