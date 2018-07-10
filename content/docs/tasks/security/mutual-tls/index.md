@@ -15,20 +15,14 @@ Through this task, you will learn how to:
 
 This task assumes you have a Kubernetes cluster:
 
-* Installed Istio with global mutual TLS enabled:
+* Installed Istio with global mutual TLS enabled using Helm:
 
-    {{< text bash >}}
-    $ kubectl apply -f @install/kubernetes/istio-demo-auth.yaml@
-    {{< /text >}}
-
-    _**OR**_
-
-    Using [Helm](/docs/setup/kubernetes/helm-install/) with `global.mtls.enabled` to `true`.
+    Use [Helm](/docs/setup/kubernetes/helm-install/) with `global.mtls.enabled` to `true`.
 
 > Starting with Istio 0.7, you can use [authentication policy](/docs/concepts/security/authn-policy/) to configure mutual TLS for all/selected services in a namespace
 (repeated for all namespaces to get global setting). See the [authentication policy task](/docs/tasks/security/authn-policy/)
 
-* For demo, deploy [httpbin](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/httpbin) and [sleep](https://github.com/istio/istio/tree/master/samples/sleep) with Envoy sidecar. For simplicity, the demo is setup in the `default` namespace. If you wish to use a different namespace,  please add `-n yournamespace` appropriately to the example commands in the next section.
+* For demo, deploy [httpbin]({{< github_tree >}}/samples/httpbin) and [sleep]({{< github_tree >}}/samples/sleep) with Envoy sidecar. For simplicity, the demo is setup in the `default` namespace. If you wish to use a different namespace,  please add `-n yournamespace` appropriately to the example commands in the next section.
 
     If you are using [manual sidecar injection](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection), use the following command
 
@@ -60,7 +54,7 @@ Citadel is up if the "AVAILABLE" column is 1.
 
 ### Verifying service configuration
 
-* Check installation mode. If mutual TLS is enabled by default (e.g `istio-demo-auth.yaml` was used when installing Istio), you can expect to see uncommented `authPolicy: MUTUAL_TLS` in the configmap.
+* Check installation mode. If mutual TLS is enabled by default (e.g `istio-auth.yaml` was used when installing Istio), you can expect to see uncommented `authPolicy: MUTUAL_TLS` in the configmap.
 
     {{< text bash >}}
     $ kubectl get configmap istio -o yaml -n istio-system | grep authPolicy | head -1

@@ -23,19 +23,19 @@ or alternatively, to simply bypass the Istio proxy for a specific range of IPs.
 * Setup Istio by following the instructions in the
   [Installation guide](/docs/setup/).
 
-*   Start the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/samples/sleep) sample
+*   Start the [sleep]({{< github_tree >}}/samples/sleep) sample
     which will be used as a test source for external calls.
 
     If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), do
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    $ kubectl apply -f samples/sleep/sleep.yaml
     {{< /text >}}
 
     otherwise, you have to manually inject the sidecar before deploying the `sleep` application:
 
     {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
+    $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
     {{< /text >}}
 
     Note that any pod that you can `exec` and `curl` from would do.
@@ -178,7 +178,7 @@ The values used for internal IP range(s), however, depends on where your cluster
 For example, with Minikube the range is 10.0.0.1&#47;24, so you would update your `ConfigMap` _istio-sidecar-injector_ like this:
 
 {{< text bash >}}
-$ helm template @install/kubernetes/helm/istio@ <the flags you used to install Istio> --set global.proxy.includeIPRanges="10.0.0.1/24" -x @templates/sidecar-injector-configmap.yaml@ | kubectl apply -f -
+$ helm template install/kubernetes/helm/istio <the flags you used to install Istio> --set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml | kubectl apply -f -
 {{< /text >}}
 
 Note that you should use the same Helm command you used [to install Istio](/docs/setup/kubernetes/helm-install),
@@ -267,14 +267,14 @@ cloud provider specific knowledge and configuration.
     $ istioctl delete virtualservice httpbin-ext
     {{< /text >}}
 
-1.  Shutdown the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/samples/sleep) service.
+1.  Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service.
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/sleep/sleep.yaml@
+    $ kubectl delete -f samples/sleep/sleep.yaml
     {{< /text >}}
 
 1.  Update the `ConfigMap` _istio-sidecar-injector_ to redirect all outbound traffic to the sidecar proxies:
 
     {{< text bash >}}
-    $ helm template @install/kubernetes/helm/istio@ <the flags you used to install Istio> -x @templates/sidecar-injector-configmap.yaml@ | kubectl apply -f -
+    $ helm template install/kubernetes/helm/istio <the flags you used to install Istio> -x templates/sidecar-injector-configmap.yaml | kubectl apply -f -
     {{< /text >}}
