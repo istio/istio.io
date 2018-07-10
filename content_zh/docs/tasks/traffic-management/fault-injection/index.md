@@ -100,40 +100,40 @@ Istio 的故障注入规则可帮助您识别此类异常，而不会影响最�
 
 1. 为用户 “jason” 创建故障注入规则发送 HTTP 中止
 
-   {{< text bash >}}
-   $ istioctl replace -f @samples/bookinfo/routing/route-rule-ratings-test-abort.yaml@
-   {{< /text >}}
+    {{< text bash >}}
+    $ istioctl replace -f @samples/bookinfo/routing/route-rule-ratings-test-abort.yaml@
+    {{< /text >}}
 
-   确认已创建规则
+    确认已创建规则
 
-   {{< text bash yaml >}}
-   $ istioctl get virtualservice ratings -o yaml
-   apiVersion: networking.istio.io/v1alpha3
-   kind: VirtualService
-   metadata:
-     name: ratings
-     ...
-   spec:
-     hosts:
-     - ratings
-       http:
-     - fault:
-         abort:
-           httpStatus: 500
-           percent: 100
-       match:
-       - headers:
-           cookie:
-             regex: ^(.*?;)?(user=jason)(;.*)?$
-       route:
-       - destination:
-           host: ratings
-           subset: v1
-     - route:
-       - destination:
-           host: ratings
-           subset: v1
-   {{< /text >}}
+    {{< text bash yaml >}}
+    $ istioctl get virtualservice ratings -o yaml
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: ratings
+      ...
+    spec:
+      hosts:
+      - ratings
+        http:
+      - fault:
+          abort:
+            httpStatus: 500
+            percent: 100
+        match:
+        - headers:
+            cookie:
+              regex: ^(.*?;)?(user=jason)(;.*)?$
+        route:
+        - destination:
+            host: ratings
+            subset: v1
+      - route:
+        - destination:
+            host: ratings
+            subset: v1
+    {{< /text >}}
 
 1.  观察应用程序行为
 
