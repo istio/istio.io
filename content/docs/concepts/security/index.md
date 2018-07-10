@@ -33,7 +33,7 @@ As illustrated in the diagram, Istio leverages secret volume mount to deliver ke
 VM/bare-metal machines, we introduce a node agent, which is a process running on each VM/bare-metal machine. It generates the private key and CSR (certificate
 signing request) locally, sends CSR to Citadel for signing, and delivers the generated certificate together with the private key to Envoy.
 
-## Authentication
+## Mutual TLS Authentication
 
 ### Identity
 
@@ -70,7 +70,7 @@ Service-to-service communication is tunneled through the client side [Envoy](htt
 
 ### Key management
 
-Istio 0.2 supports services running on both Kubernetes pods and VM/bare-metal machines. We use different key provisioning mechanisms for each scenario.
+Istio supports services running on both Kubernetes pods and VM/bare-metal machines. We use different key provisioning mechanisms for each scenario.
 
 For services running on Kubernetes pods, the per-cluster Citadel (acting as Certificate Authority) automates the key & certificate management process. It mainly performs four critical operations:
 
@@ -86,7 +86,7 @@ For services running on VM/bare-metal machines, the above four operations are pe
 
 ### Workflow
 
-The Istio Security workflow consists of two phases, deployment and runtime. For the deployment phase, we discuss the two
+The Istio security workflow consists of two phases, deployment and runtime. For the deployment phase, we discuss the two
 scenarios (i.e., in Kubernetes and VM/bare-metal machines) separately since they are different. Once the key and
 certificate are deployed, the runtime phase is the same for the two scenarios. We briefly cover the workflow in this
 section.
@@ -144,11 +144,11 @@ in [Istio Mixer](/docs/concepts/policies-and-telemetry/) such that photo-fronten
 In this setup, Citadel is able to provide keys and certificates management for all namespaces, and isolate
 microservice deployments from each other.
 
-## Authorization
+## Authentication Policy
 
 Istio authentication policy enables operators to specify authentication requirements for a service (or services). Istio authentication policy is composed of two parts:
 
-* Peer: verifies the party, the direct client, that makes the connection. The common authentication mechanism for this is [mutual TLS](/docs/concepts/security/#authentication).
+* Peer: verifies the party, the direct client, that makes the connection. The common authentication mechanism for this is [mutual TLS](/docs/concepts/security/#mutual-tls-authentication).
 
 * Origin: verifies the party, the original client, that makes the request (e.g end-users, devices etc). JWT is the only supported mechanism for origin authentication at the moment.
 
