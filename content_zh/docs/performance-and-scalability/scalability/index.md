@@ -6,7 +6,7 @@ weight: 60
 
 * 为控制平面组件设置多个副本。
 
-* 设置 [Horizo​​ntal Pod Autoscaling](https://kubernetes.io/docs/tasks/run-application/horizo​​ntal-pod-autoscale/)
+* 设置 [Horizontal Pod Autoscaling](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
 
 * 拆分 mixer 中检查和报告的 pod。
 
