@@ -1,7 +1,7 @@
 ---
 title: Mutual TLS Migration
 description: Shows you how to migrate your Istio services to mutual TLS incrementally.
-weight: 10
+weight: 80
 keywords: [security,authentication,migration]
 ---
 
@@ -16,7 +16,7 @@ A legacy service can't use Istio issued key/certificate to send mutual TLS traff
 
 * Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (e.g use `install/kubernetes/istio-demo.yaml` as described in [installation steps](/docs/setup/kubernetes/quick-start/#installation-steps), or set `global.mtls.enabled` to false using [Helm](/docs/setup/kubernetes/helm-install/)).
 
-* For demo, create three namespaces `foo`, `bar`, `legacy`, and deploy [httpbin](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/httpbin) and [sleep](https://github.com/istio/istio/tree/master/samples/sleep) with sidecar on both of them. Also, run another sleep app without sidecar (to keep it separate, run it in `legacy` namespace)
+* For demo, create three namespaces `foo`, `bar`, `legacy`, and deploy [httpbin]({{< github_tree >}}/samples/httpbin) and [sleep]({{< github_tree >}}/samples/sleep) with sidecar on both of them. Also, run another sleep app without sidecar (to keep it separate, run it in `legacy` namespace)
 
     {{< text bash >}}
     $ kubectl create ns foo
@@ -53,7 +53,7 @@ In Authentication Policy, we have a `PERMISSIVE` mode which makes the server acc
 We need to configure the server to this mode.
 
 {{< text bash >}}
-cat <<EOF | istioctl create -n foo -f -
+$ cat <<EOF | istioctl create -n foo -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
@@ -82,7 +82,7 @@ $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sle
 Configure Istio services to send mutual TLS traffic by setting `DestinationRule`.
 
 {{< text bash >}}
-cat <<EOF | istioctl create -n foo -f -
+$ cat <<EOF | istioctl create -n foo -f -
 apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:
@@ -108,8 +108,8 @@ $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sle
 {{< /text >}}
 
 You can also specify a subset of the clients' request to use `ISTIO_MUTUAL` mutual TLS in
-[DestinationRule](https://istio.io/docs/reference/config/istio.networking.v1alpha3/#DestinationRule).
-After verifying it works by checking [Grafana to monitor](https://istio.io/docs/tasks/telemetry/using-istio-dashboard/),
+[DestinationRule](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule).
+After verifying it works by checking [Grafana to monitor](/docs/tasks/telemetry/using-istio-dashboard/),
 then increase the rollout scope and finally apply to all Istio client services.
 
 ## Lock down to mutual TLS (optional)
@@ -117,7 +117,7 @@ then increase the rollout scope and finally apply to all Istio client services.
 After migrating all clients to Istio services, injecting Envoy sidecar, we can lock down the `httpbin.foo` to only accept mutual TLS traffic.
 
 {{< text bash >}}
-cat <<EOF | istioctl create -n foo -f -
+$ cat <<EOF | istioctl create -n foo -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
@@ -143,7 +143,7 @@ $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sle
 
 If you can't migrate all your services to Istio (injecting Envoy sidecar), you have to stay at `PERMISSIVE` mode.
 However, when configured with `PERMISSIVE` mode, no authentication or authorization checks will be performed for the plain text traffic by default.
-We recommend to use [RBAC](https://istio.io/docs/tasks/security/role-based-access-control/) to configure different paths with different authorization policies.
+We recommend to use [RBAC](/docs/tasks/security/role-based-access-control/) to configure different paths with different authorization policies.
 
 ## Cleanup
 
