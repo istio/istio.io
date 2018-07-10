@@ -244,7 +244,7 @@ The simplest approach to enabling resolution for these variables is to specify t
 the various services.  One problem with this is Pod IP's change during the lifetime of the
 service.
 
-The `isito-remote` Helm chart requires the three specific variables to be configured as defined in the following table:
+The `istio-remote` Helm chart requires the three specific variables to be configured as defined in the following table:
 
 | Helm Variable | Accepted Values | Default | Purpose of Value |
 | --- | --- | --- | --- |

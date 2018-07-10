@@ -14,7 +14,7 @@ This task demonstrates the circuit-breaking capability for resilient application
 * Setup Istio by following the instructions in the
   [Installation guide](/docs/setup/).
 
-*   Start the [httpbin](https://github.com/istio/istio/tree/{{<branch_name>}}/samples/httpbin) sample
+*   Start the [httpbin]({{< github_tree >}}/samples/httpbin) sample
     which will be used as the backend service for our task.
 
     If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), do
@@ -234,7 +234,7 @@ We see `12` for the `upstream_rq_pending_overflow` value which means `12` calls 
     $ istioctl delete destinationrule httpbin
     {{< /text >}}
 
-1.  Shutdown the [httpbin](https://github.com/istio/istio/tree/{{<branch_name>}}/samples/httpbin) service and client.
+1.  Shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service and client.
 
     {{< text bash >}}
     $ kubectl delete deploy httpbin fortio-deploy
