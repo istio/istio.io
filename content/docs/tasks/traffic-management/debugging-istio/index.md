@@ -12,7 +12,7 @@ and [proxy-config](/docs/reference/commands/istioctl/#istioctl-proxy-config) com
 
 * Have a Kubernetes cluster with Istio and Bookinfo installed (e.g use istio.yaml as described in
 [installation steps](/docs/setup/kubernetes/quick-start/#installation-steps) and
-[bookinfo installation steps](https://preliminary.istio.io/docs/examples/bookinfo/#if-you-are-running-on-kubernetes)).
+[bookinfo installation steps](/docs/examples/bookinfo/#if-you-are-running-on-kubernetes)).
 
 OR
 
