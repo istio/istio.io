@@ -138,7 +138,7 @@ To start the application, follow the instructions below corresponding to your Is
 
 #### Determining the ingress IP and port
 
-1.  Follow [these instructions](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports) to set the `INGRESS_HOST` and `INGRESS_PORT` variables.
+1.  Follow [these instructions](/docs/tasks/traffic-management/ingress/#setting-the-ingress-ip-and-ports) to set the `INGRESS_HOST` and `INGRESS_PORT` variables.
 
 1.  Set `GATEWAY_URL`:
 

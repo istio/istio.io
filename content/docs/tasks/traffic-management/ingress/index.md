@@ -40,38 +40,45 @@ This task describes how to configure Istio to expose a service outside of the se
 
 *   Determine the ingress IP and ports as described in the following subsection.
 
-### Determining the ingress IP and ports
+### Setting the ingress IP and ports
 
-Execute the following command to determine if your Kubernetes cluster is running in an environment that supports external load balancers.
+Execute the commands below to set the ingress IP and ports. The commands will determine if your Kubernetes cluster is
+running in an environment that provides external load balancers, and will set the IP and the ports accordingly.
 
-{{< text bash >}}
-$ kubectl get svc istio-ingressgateway -n istio-system
-NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)                                      AGE
-istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/TCP,443:31390/TCP,31400:31400/TCP   17h
-{{< /text >}}
-
-If the `EXTERNAL-IP` value is set, your environment has an external load balancer that you can use for the ingress gateway.
-If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not provide an external load balancer for the ingress gateway.
-In this case, you can access the gateway using the service's [node port](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport).
-
-#### Determining the ingress IP and ports when using an external load balancer
+If your environment does not provide an external load balancer for the ingress gateway, the commands below will instruct
+ you to follow the steps in the next subsection (to use the ingress gateway service's
+[node port](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport)).
 
 {{< text bash >}}
 $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+$ if [[ -n $INGRESS_HOST ]]; then
 $ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http")].port}')
 $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
-{{< /text >}}
-
-#### Determining the ingress IP and ports when using a node port
-
-Determine the ports:
-
-{{< text bash >}}
+$ echo "The ingress gateway's IP and ports have been set successfully: \$INGRESS_HOST=${INGRESS_HOST}, \$INGRESS_PORT=${INGRESS_PORT}, \$SECURE_INGRESS_PORT=${SECURE_INGRESS_PORT}."
+$ else
 $ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http")].nodePort}')
 $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
+$ echo "No load balancer is provided in your environment. \$INGRESS_PORT=${INGRESS_PORT}, \$SECURE_INGRESS_PORT=${SECURE_INGRESS_PORT}. Follow the steps in https://istio.io/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-when-using-a-node-port to set \$INGRESS_HOST."
+$ fi
 {{< /text >}}
 
-Determining the ingress IP depends on the cluster provider.
+If the output is similar to the following:
+
+{{< text plain >}}
+The ingress gateway's IP and ports have been set successfully: $INGRESS_HOST=<some IP>, $INGRESS_PORT=80, $SECURE_INGRESS_PORT=443.
+{{< /text >}}
+
+Then you have determined the ingress gateway's IP and ports successfully, no need to configure anything else. However,
+if the output is similar to the following line, proceed to the next subsection to set `$INGRESS_HOST`.
+
+{{< text plain >}}
+No load balancer is provided in your environment. $INGRESS_PORT=31380, $SECURE_INGRESS_PORT=31390. Follow the steps in https://istio.io/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-when-using-a-node-port to set $INGRESS_HOST.
+{{< /text >}}
+
+#### Determining the ingress IP when using a node port
+
+Follow the instructions in this subsection only if the commands in the previous section did not manage to detect the
+ingress IP. Determining the ingress IP depends on the cluster provider.
 
 1.  _GKE:_
 

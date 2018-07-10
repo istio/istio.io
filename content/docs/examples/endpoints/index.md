@@ -53,7 +53,7 @@ Otherwise, ESP won't be able to access Google cloud service control.
     EOF
     {{< /text >}}
 
-1.  Get the Ingress IP and port by following the [instructions](/docs/tasks/traffic-management/ingress#determining-the-ingress-ip-and-ports).
+1.  Get the Ingress IP and port by following the [instructions](/docs/tasks/traffic-management/ingress#setting-the-ingress-ip-and-ports).
 You can verify accessing the Endpoints service through Ingress:
 
     {{< text bash >}}
