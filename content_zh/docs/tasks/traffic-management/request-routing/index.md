@@ -27,13 +27,17 @@ keywords: [traffic-management,routing]
 1.  将所有微服务的默认版本设置为 v1。
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
+    $ istioctl create -f @samples/bookinfo/networking/destination-rule-all.yaml@
     {{< /text >}}
 
     如果您启用了 `mTLS` ，请运行以下代码
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1-mtls.yaml@
+    $ istioctl create -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
+    {{< /text >}}
+
+    {{< text bash >}}
+    $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
     > 在kubernetes中部署 Istio 时，您可以在上面及其它所有命令行中用 `kubectl` 代替 `istioctl`。 但请注意，目前 `kubectl` 不提供输入验证。
