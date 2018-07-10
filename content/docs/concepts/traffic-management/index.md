@@ -396,125 +396,6 @@ expand to an implementation specific FQDN. For example, in a Kubernetes environm
 the full name is derived from the cluster and namespace of the `VirtualSevice`
 (e.g., `reviews.default.svc.cluster.local`).
 
-#### Qualify rules by source/headers
-
-Rules can optionally be qualified to only apply to requests that match some
-specific criteria such as the following:
-
-_1. Restrict to a specific caller_.  For example, a rule
-can indicate that it only applies to calls from workloads (pods) implementing
-the *reviews* service.
-
-{{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: ratings
-spec:
-  hosts:
-  - ratings
-  http:
-  - match:
-      sourceLabels:
-        app: reviews
-    ...
-{{< /text >}}
-
-The value of `sourceLabels` depends on the implementation of the service.
-In Kubernetes, for example, it would probably be the same labels that are used
-in the pod selector of the corresponding Kubernetes service.
-
-_2. Restrict to specific versions of the caller_. For example, the following
-rule refines the previous example to only apply to calls from version "v2"
-of the *reviews* service.
-
-{{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: ratings
-spec:
-  hosts:
-  - ratings
-  http:
-  - match:
-    - sourceLabels:
-        app: reviews
-        version: v2
-    ...
-{{< /text >}}
-
-_3. Select rule based on HTTP headers_. For example, the following rule will
-only apply to an incoming request if it includes a "cookie" header that
-contains the substring "user=jason".
-
-{{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: reviews
-spec:
-  hosts:
-    - reviews
-  http:
-  - match:
-    - headers:
-        cookie:
-          regex: "^(.*?;)?(user=jason)(;.*)?$"
-    ...
-{{< /text >}}
-
-If more than one header is provided, then all of the
-corresponding headers must match for the rule to apply.
-
-Multiple criteria can be set simultaneously. In such a case, AND or OR
-semantics apply, depending on the nesting.
-If multiple criteria are nested in a single match clause, then the conditions
-are ANDed. For example, the following rule only applies if the source of the
-request is "reviews:v2" AND the "cookie" header containing "user=jason" is
-present.
-
-{{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: ratings
-spec:
-  hosts:
-  - ratings
-  http:
-  - match:
-    - sourceLabels:
-        app: reviews
-        version: v2
-      headers:
-        cookie:
-          regex: "^(.*?;)?(user=jason)(;.*)?$"
-    ...
-{{< /text >}}
-
-If instead, the criteria appear in separate match clauses, then only one
-of the conditions must apply (OR semantics):
-
-{{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: ratings
-spec:
-  hosts:
-  - ratings
-  http:
-  - match:
-    - sourceLabels:
-        app: reviews
-        version: v2
-    - headers:
-        cookie:
-          regex: "^(.*?;)?(user=jason)(;.*)?$"
-    ...
-{{< /text >}}
-
 #### Splitting traffic between versions
 
 Each route rule identifies one or more weighted backends to call when the rule is activated.
@@ -678,6 +559,148 @@ spec:
 
 To see fault injection in action, see the [fault injection task](/docs/tasks/traffic-management/fault-injection/).
 
+#### Conditional rules
+
+Rules can optionally be qualified to only apply to requests that match some
+specific criteria such as the following:
+
+_1. Restrict to specific client workloads using workload labels_.  For example, a rule
+can indicate that it only applies to calls from workloads (pods) implementing
+the *reviews* service.
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+spec:
+  hosts:
+  - ratings
+  http:
+  - match:
+      sourceLabels:
+        app: reviews
+    ...
+{{< /text >}}
+
+The value of `sourceLabels` depends on the implementation of the service.
+In Kubernetes, for example, it would probably be the same labels that are used
+in the pod selector of the corresponding Kubernetes service.
+
+The above example can also be further refined to only apply to calls from version "v2"
+of the *reviews* service.
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+spec:
+  hosts:
+  - ratings
+  http:
+  - match:
+    - sourceLabels:
+        app: reviews
+        version: v2
+    ...
+{{< /text >}}
+
+_2. Select rule based on HTTP headers_. For example, the following rule will
+only apply to an incoming request if it includes a "cookie" header that
+contains the substring "user=jason".
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: reviews
+spec:
+  hosts:
+    - reviews
+  http:
+  - match:
+    - headers:
+        cookie:
+          regex: "^(.*?;)?(user=jason)(;.*)?$"
+    ...
+{{< /text >}}
+
+If more than one header is provided, then all of the
+corresponding headers must match for the rule to apply.
+
+_3. Select rule based on request URI_. For example, the following rule will
+only apply to a request if the URI path starts with `/api/v1`.
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: productpage
+spec:
+  hosts:
+    - productpage
+  http:
+  - match:
+    - uri:
+        prefix: /api/v1
+    ...
+{{< /text >}}
+
+#### Multiple match conditions
+
+Multiple match criteria can be set simultaneously. In such a case, AND or OR
+semantics apply, depending on the nesting.
+
+If multiple criteria are nested in a single match clause, then the conditions
+are ANDed. For example, the following rule only applies if the
+client workload is “reviews:v2” AND the "cookie" header containing
+"user=jason" is present in the request.
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+spec:
+  hosts:
+  - ratings
+  http:
+  - match:
+    - sourceLabels:
+        app: reviews
+        version: v2
+      headers:
+        cookie:
+          regex: "^(.*?;)?(user=jason)(;.*)?$"
+    ...
+{{< /text >}}
+
+If instead, the criteria appear in separate match clauses, then only one
+of the conditions will apply (OR semantics).
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+spec:
+  hosts:
+  - ratings
+  http:
+  - match:
+    - sourceLabels:
+        app: reviews
+        version: v2
+    - headers:
+        cookie:
+          regex: "^(.*?;)?(user=jason)(;.*)?$"
+    ...
+{{< /text >}}
+
+This rule applies if either the client workload is “reviews:v2” OR
+the "cookie" header containing "user=jason" is present in the request.
+
 #### Precedence
 
 When there are multiple rules for a given destination,
@@ -694,7 +717,7 @@ rule priority must be carefully considered to make sure that the rules are
 evaluated in the right order.
 
 A common pattern for generalized route specification is to provide one or
-more higher priority rules that qualify rules by source/headers,
+more higher priority rules that match various conditions,
 and then provide a single weight-based rule with no match
 criteria last to provide the weighted distribution of
 traffic for all other cases.
