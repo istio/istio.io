@@ -11,7 +11,7 @@ using the service accounts provided by Istio authentication.
 When Istio mutual TLS authentication is enabled, the server authenticates the client according to its certificate, and obtains the client's
 service account from the certificate. The service account is in the `source.user` attribute.
 For the format of the service account in Istio, please refer to the
-[Istio auth identity](/docs/concepts/security/mutual-tls/#identity).
+[Istio auth identity](/docs/concepts/security/#identity).
 
 ## Before you begin
 
@@ -53,7 +53,7 @@ the `productpage` service.
     Run the following command to set up the deny rule along with a handler and an instance.
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/routing/mixer-rule-deny-serviceaccount.yaml@
+    $ istioctl create -f @samples/bookinfo/policy/mixer-rule-deny-serviceaccount.yaml@
     Created config denier/default/denyproductpagehandler at revision 2877836
     Created config checknothing/default/denyproductpagerequest at revision 2877837
     Created config rule/default/denyproductpage at revision 2877838
@@ -88,7 +88,7 @@ the `productpage` service.
 *   Remove the mixer configuration:
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/routing/mixer-rule-deny-serviceaccount.yaml@
+    $ istioctl delete -f @samples/bookinfo/policy/mixer-rule-deny-serviceaccount.yaml@
     {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, refer to the

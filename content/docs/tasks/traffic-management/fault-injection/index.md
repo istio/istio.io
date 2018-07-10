@@ -23,8 +23,8 @@ This task shows how to inject delays and test the resiliency of your application
     commands:
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
-    $ istioctl replace -f @samples/bookinfo/routing/route-rule-reviews-test-v2.yaml@
+    $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
+    $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-test-v2.yaml@
     {{< /text >}}
 
 ## Fault injection using HTTP delay
@@ -37,7 +37,7 @@ continue without any errors.
 1.  Create a fault injection rule to delay traffic coming from user "jason" (our test user)
 
     {{< text bash >}}
-    $ istioctl replace -f @samples/bookinfo/routing/route-rule-ratings-test-delay.yaml@
+    $ istioctl replace -f @samples/bookinfo/networking/virtual-service-ratings-test-delay.yaml@
     {{< /text >}}
 
     Confirm the rule is created:
@@ -117,7 +117,7 @@ message.
 1.  Create a fault injection rule to send an HTTP abort for user "jason"
 
     {{< text bash >}}
-    $ istioctl replace -f @samples/bookinfo/routing/route-rule-ratings-test-abort.yaml@
+    $ istioctl replace -f @samples/bookinfo/networking/virtual-service-ratings-test-abort.yaml@
     {{< /text >}}
 
     Confirm the rule is created
@@ -162,7 +162,7 @@ message.
 *   Remove the application routing rules:
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
+    $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, refer to the

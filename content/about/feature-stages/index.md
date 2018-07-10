@@ -70,13 +70,13 @@ Below is our list of existing features and their current phases. This informatio
 |-------------------|-------------------
 | [Deny Checker](/docs/reference/config/policy-and-telemetry/adapters/denier/)         | Stable
 | [List Checker](/docs/reference/config/policy-and-telemetry/adapters/list/)        | Stable
-| [Kubernetes: Service Credential Distribution](/docs/concepts/security/mutual-tls/)   | Stable
+| [Kubernetes: Service Credential Distribution](/docs/concepts/security/#mutual-tls-authentication)   | Stable
 | [Pluggable Key/Cert Support for Istio CA](/docs/tasks/security/plugin-ca-cert/)        | Stable
-| [Service-to-service mutual TLS](/docs/concepts/security/mutual-tls/)         | Stable
-| [Authentication policy](/docs/concepts/security/authn-policy/)  | Alpha
-| [VM: Service Credential Distribution](/docs/concepts/security/mutual-tls/)         | Beta
+| [Service-to-service mutual TLS](/docs/concepts/security/#mutual-tls-authentication)         | Stable
+| [Authentication policy](/docs/concepts/security/#authentication-policy)  | Alpha
+| [VM: Service Credential Distribution](/docs/concepts/security/#key-management)         | Beta
 | [OPA Checker]({{< github_file >}}/mixer/adapter/opa/README.md)    | Alpha
-| [RBAC Mixer Adapter](/docs/concepts/security/rbac/)   | Alpha
+| [RBAC Mixer Adapter](/docs/concepts/security/#role-based-access-control-rbac)   | Alpha
 
 ### Core
 
