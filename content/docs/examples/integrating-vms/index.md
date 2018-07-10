@@ -119,7 +119,7 @@ $ istioctl kube-inject -n bookinfo -f @samples/bookinfo/kube/bookinfo-ratings-v2
 Create route rules that will force bookinfo to use the ratings back end:
 
 {{< text bash >}}
-$ istioctl create -n bookinfo -f @samples/bookinfo/kube/route-rule-ratings-mysql-vm.yaml@
+$ istioctl create -n bookinfo -f @samples/bookinfo/networking/virtual-service-ratings-mysql-vm.yaml@
 {{< /text >}}
 
 You can verify the output of the Bookinfo application is showing 1 star from Reviewer1 and 4 stars from Reviewer2 or change the ratings on your VM and see the

@@ -27,7 +27,7 @@ two steps: 50%, 100%.
 1.  Set the default version for all microservices to v1.
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
+    $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
 1.  Confirm v1 is the active version of the `reviews` service by opening http://$GATEWAY_URL/productpage in your browser.
@@ -38,7 +38,7 @@ two steps: 50%, 100%.
 1.  First, transfer 50% of the traffic from `reviews:v1` to `reviews:v3` with the following command:
 
     {{< text bash >}}
-    $ istioctl replace -f @samples/bookinfo/routing/route-rule-reviews-50-v3.yaml@
+    $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-50-v3.yaml@
     {{< /text >}}
 
     Confirm the rule was replaced:
@@ -73,7 +73,7 @@ two steps: 50%, 100%.
 1.  When version v3 of the `reviews` microservice is considered stable, we can route 100% of the traffic to `reviews:v3`:
 
     {{< text bash >}}
-    $ istioctl replace -f @samples/bookinfo/routing/route-rule-reviews-v3.yaml@
+    $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
     {{< /text >}}
 
     You can now log into the `productpage` as any user and you should always see book reviews
@@ -93,7 +93,7 @@ For more about version routing with autoscaling, check out [Canary Deployments u
 *   Remove the application routing rules.
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
+    $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, refer to the

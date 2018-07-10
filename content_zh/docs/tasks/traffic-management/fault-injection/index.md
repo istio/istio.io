@@ -20,8 +20,8 @@ aliases:
 *   通过首先执行[请求路由](/docs/tasks/traffic-management/request-routing/)任务或运行以下命令来初始化应用程序版本路由：
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
-    $ istioctl replace -f @samples/bookinfo/routing/route-rule-reviews-test-v2.yaml@
+    $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
+    $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-test-v2.yaml@
     {{< /text >}}
 
 ## 使用 HTTP 延迟进行故障注入
@@ -32,7 +32,7 @@ aliases:
 1.  创建故障注入规则以延迟来自用户 “jason”（我们的测试用户）的流量
 
     {{< text bash >}}
-    $ istioctl replace -f @samples/bookinfo/routing/route-rule-ratings-test-delay.yaml@
+    $ istioctl replace -f @samples/bookinfo/networking/virtual-service-ratings-test-delay.yaml@
     {{< /text >}}
 
     确认已创建规则：
@@ -100,40 +100,40 @@ Istio 的故障注入规则可帮助您识别此类异常，而不会影响最�
 
 1. 为用户 “jason” 创建故障注入规则发送 HTTP 中止
 
-    {{< text bash >}}
-    $ istioctl replace -f @samples/bookinfo/routing/route-rule-ratings-test-abort.yaml@
-    {{< /text >}}
+   {{< text bash >}}
+   $ istioctl replace -f @samples/bookinfo/networking/virtual-service-ratings-test-abort.yaml@
+   {{< /text >}}
 
-    确认已创建规则
+   确认已创建规则
 
-    {{< text bash yaml >}}
-    $ istioctl get virtualservice ratings -o yaml
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: ratings
-      ...
-    spec:
-      hosts:
-      - ratings
-        http:
-      - fault:
-          abort:
-            httpStatus: 500
-            percent: 100
-        match:
-        - headers:
-            cookie:
-              regex: ^(.*?;)?(user=jason)(;.*)?$
-        route:
-        - destination:
-            host: ratings
-            subset: v1
-      - route:
-        - destination:
-            host: ratings
-            subset: v1
-    {{< /text >}}
+   {{< text bash yaml >}}
+   $ istioctl get virtualservice ratings -o yaml
+   apiVersion: networking.istio.io/v1alpha3
+   kind: VirtualService
+   metadata:
+     name: ratings
+     ...
+   spec:
+     hosts:
+     - ratings
+       http:
+     - fault:
+         abort:
+           httpStatus: 500
+           percent: 100
+       match:
+       - headers:
+           cookie:
+             regex: ^(.*?;)?(user=jason)(;.*)?$
+       route:
+       - destination:
+           host: ratings
+           subset: v1
+     - route:
+       - destination:
+           host: ratings
+           subset: v1
+   {{< /text >}}
 
 1.  观察应用程序行为
 
@@ -144,7 +144,7 @@ Istio 的故障注入规则可帮助您识别此类异常，而不会影响最�
 *   删除应用程序路由规则：
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
+    $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
 * 如果您不打算探索任何后续任务，请参阅 [Bookinfo 清理](/docs/examples/bookinfo/#cleanup)说明以关闭应用程序。

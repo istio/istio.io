@@ -3,4 +3,4 @@ preliminary: true
 archive: false
 archive_date: YYYY-MM-DD
 search_engine_id: "013699703217164175118:veyyqmfmpj4"
-branch_name: master
+branch_name: release-1.0

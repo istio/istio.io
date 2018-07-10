@@ -20,13 +20,13 @@ This task shows how to control access to a service using the Kubernetes labels.
   test user "jason" to version v2 and requests from any other user to v3.
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
+    $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
     and then run the following command:
 
     {{< text bash >}}
-    $ istioctl replace -f @samples/bookinfo/routing/route-rule-reviews-jason-v2-v3.yaml.yaml@
+    $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-jason-v2-v3.yaml@
     {{< /text >}}
 
     > If you have conflicting rules that you set in previous tasks,
@@ -174,7 +174,7 @@ Verify that after logging in as "jason" you see black stars.
 *   Remove the application routing rules:
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
+    $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, refer to the
