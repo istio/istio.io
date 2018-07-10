@@ -5,11 +5,34 @@ weight: 15
 aliases:
     - /docs/concepts/what-is-istio/overview
     - /docs/concepts/what-is-istio/goals
+    - /about/intro
 ---
 
-This document introduces Istio: an open platform to connect, manage, and secure microservices. Istio provides an easy way to create a network of deployed services with load balancing, service-to-service authentication, monitoring, and more, without requiring any changes in service code. You add Istio support to services by deploying a special sidecar proxy throughout your environment that intercepts all network communication between microservices, configured and managed using Istio's control plane functionality.
+This document introduces Istio: an open platform to connect, manage, and secure microservices.
+Istio provides an easy way to create a network of deployed services with load balancing, service-to-service authentication,
+monitoring, and more, without requiring any changes in service code. You add Istio support to services by deploying a
+special sidecar proxy throughout your environment that intercepts all network communication between microservices, configured
+and managed using Istio's control plane functionality.
 
-Istio currently supports service deployment on Kubernetes, as well as services registered with Consul or Eureka and services running on individual VMs.
+- Automatic load balancing for HTTP, gRPC, WebSocket, and TCP traffic.
+
+- Fine-grained control of traffic behavior with rich routing rules,
+retries, failovers, and fault injection.
+
+- A pluggable policy layer and configuration API supporting access controls,
+rate limits and quotas.
+
+- Automatic metrics, logs, and traces for all traffic within a cluster,
+including cluster ingress and egress.
+
+- Secure service-to-service communication in a cluster with strong
+identity-based authentication and authorization.
+
+Istio can be deployed on [Kubernetes](https://kubernetes.io),
+[Nomad](https://nomadproject.io) with [Consul](https://www.consul.io/). We
+plan to add support for additional platforms such as
+[Cloud Foundry](https://www.cloudfoundry.org/),
+and [Apache Mesos](https://mesos.apache.org/) in the near future.
 
 ## Why use Istio?
 
@@ -98,7 +121,7 @@ interface for traffic management.
 [Citadel](/docs/concepts/security/) provides strong service-to-service and end-user authentication, with built-in identity and
 credential management. It can be used to upgrade unencrypted traffic in the service mesh, and provides operators the ability to enforce
 policy based on service identity rather than network controls. Starting from release 0.5, Istio supports
-[role-based access control](/docs/concepts/security/rbac/) to control who can access your services.
+[role-based access control](/docs/concepts/security/#role-based-access-control-rbac) to control who can access your services.
 
 ## Design Goals
 

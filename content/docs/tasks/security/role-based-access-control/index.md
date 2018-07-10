@@ -6,7 +6,7 @@ keywords: [security,access-control,rbac]
 ---
 
 This task shows how to set up role-based access control (RBAC) for services in Istio mesh. You can read more about Istio
-RBAC from [Istio RBAC concept page](/docs/concepts/security/rbac/).
+RBAC from [Istio RBAC concept page](/docs/concepts/security/#role-based-access-control-rbac).
 
 ## Before you begin
 
