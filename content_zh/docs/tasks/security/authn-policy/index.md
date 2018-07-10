@@ -15,11 +15,11 @@ aliases:
 
 ## 开始之前
 
-* 理解 Istio [认证策略](/docs/concepts/security/authn-policy/) 和相关的 [双向 TLS 认证](/docs/concepts/security/mutual-tls/) 概念。
+* 理解 Istio [认证策略](/docs/concepts/security/authn-policy/)和相关的[双向 TLS 认证](/docs/concepts/security/mutual-tls/)概念。
 
-* 拥有一个安装好 Istio 的 Kubernetes 集群，并且全局双向 TLS 处于禁用状态 (可使用 [安装步骤](/docs/setup/kubernetes/quick-start/#installation-steps) 中提供的示例配置 `install/kubernetes/istio.yaml` ， 或者使用 [Helm](/docs/setup/kubernetes/helm-install/) 设置 `global.mtls.enabled` 为 false)。
+* 拥有一个安装好 Istio 的 Kubernetes 集群，并且全局双向 TLS 处于禁用状态(可使用[安装步骤](/docs/setup/kubernetes/quick-start/#installation-steps)中提供的示例配置 `install/kubernetes/istio.yaml`，或者使用 [Helm](/docs/setup/kubernetes/helm-install/) 设置 `global.mtls.enabled` 为 false)。
 
-* 为了演示，需要创建两个命名空间 `foo` 和 `bar`，并且在两个空间中都部署带有 sidecar 的 [httpbin]({{< github_tree >}}/samples/httpbin) 应用 和带 sidecar 的 [sleep]({{< github_tree >}}/samples/sleep) 应用。 同时, 运行另外一份不带有 sidecar 的 httpbin 和 sleep 应用 (为了保证独立性，在 `legacy` 命名空间中运行它们)。在一个常规系统中，一个服务可以是其它服务的 *服务端* (接收流量)，同时也可以是另外一些服务的 *客户端* 。为了简单起见，在这个演示中，我们只使用 `sleep` 作为客户端，使用 `httpbin` 作为服务端。
+* 为了演示，需要创建两个命名空间 `foo` 和 `bar`，并且在两个空间中都部署带有 sidecar 的 [httpbin]({{< github_tree >}}/samples/httpbin) 应用和带 sidecar 的 [sleep]({{< github_tree >}}/samples/sleep) 应用。同时，运行另外一份不带有 sidecar 的 httpbin 和 sleep 应用(为了保证独立性，在 `legacy` 命名空间中运行它们)。在一个常规系统中，一个服务可以是其它服务的 *服务端* (接收流量)，同时也可以是另外一些服务的 *客户端* 。为了简单起见，在这个演示中，我们只使用 `sleep` 作为客户端，使用 `httpbin` 作为服务端。
 
     {{< text bash >}}
     $ kubectl create ns foo
@@ -33,7 +33,7 @@ aliases:
     $ kubectl apply -f @samples/sleep/sleep.yaml@ -n legacy
     {{< /text >}}
 
-* 通过从任意客户端 (例如 `sleep.foo`, `sleep.bar` 和 `sleep.legacy`) 向任意服务端 (`httpbin.foo`, `httpbin.bar` 或 `httpbin.legacy`) 发送 HTTP 请求(可以使用 curl 命令)来验证以上设置。所有请求都应该成功进行并且返回的 HTTP 状态码为 200。
+* 通过从任意客户端(例如 `sleep.foo`、`sleep.bar` 和 `sleep.legacy`) 向任意服务端 (`httpbin.foo`、 `httpbin.bar` 或 `httpbin.legacy`) 发送 HTTP 请求(可以使用 curl 命令)来验证以上设置。所有请求都应该成功进行并且返回的 HTTP 状态码为 200。
 
     以下是一个检查从 `sleep.bar` 到 `httpbin.foo` 可达性的命令示例：
 
@@ -80,7 +80,7 @@ aliases:
     $ kubectl get destinationrules.networking.istio.io --all-namespaces
     {{< /text >}}
 
-    > 你可能看到一些策略和/或由Istio安装时自动添加的目的地规则，具体取决于所选的安装模式。但是在 `foo` 、`bar` 和 `legacy` 命名空间中不应该有任何的策略或规则。
+    > 你可能看到一些策略和/或由 Istio 安装时自动添加的目的地规则，具体取决于所选的安装模式。但是在 `foo` 、`bar` 和 `legacy` 命名空间中不应该有任何的策略或规则。
 
 ## 为网格中的所有服务启用双向 TLS 认证
 
@@ -112,10 +112,10 @@ spec:
 EOF
 {{< /text >}}
 
-* 网格范围内的认证策略名称必须是 `default`； 所有其它名字的策略都会被拒绝和忽视。另外注意 CRD 类型是 `MeshPolicy`， 它不同于命名空间范围内或服务范围内的策略类型 (`Policy`)。
+* 网格范围内的认证策略名称必须是 `default`；所有其它名字的策略都会被拒绝和忽视。另外注意 CRD 类型是 `MeshPolicy`，它不同于命名空间范围内或服务范围内的策略类型 (`Policy`)。
 * 另一方面，目的地规则可以是任意名字，也可以存在于任意命名空间。为了保持一致性，我们在本示例中也将其命名为 `default` 并且使其仅存在于 `default` 命名空间中。
 * 目的地规则中形如 `*.local` 的宿主名称只匹配网格中以 `local` 结尾的服务。
-* 当处于 `ISTIO_MUTUAL` TLS 模式， Istio 会依据内部实现机制设置密钥和证书的路径 (例如 `clientCertificate` 、 `privateKey` 和 `caCertificates`)。
+* 当处于 `ISTIO_MUTUAL` TLS 模式， Istio 会依据内部实现机制设置密钥和证书的路径(例如 `clientCertificate` 、 `privateKey` 和 `caCertificates`)。
 * 如果你想要为某一特定服务定义目的地规则，那么 TLS 相关的设置也必须被复制到新规则中。
 
 这些认证策略和目的地规则有效地配置了所有服务的 sidecars，使服务在双向 TLS 模式下分别进行接收和发送请求。但是这对于没有 sidecar 的服务并不适用，例如上文中创建的 `httpbin.legacy` 和 `sleep.legacy` 服务。如果你运行上文中提供的测试命令，你会发现从 `sleep.legacy` 到 `httpbin.foo` 和 `httpbin.bar` 的请求开始出现失败现象，这是由于虽然在服务端启用了双向 TLS 认证，但 `sleep.legacy` 并没有 sidecar 来支持认证。类似的，从 `sleep.foo` (或 `sleep.bar`) 到 `httpbin.legacy` 的请求也会失败。
@@ -154,7 +154,7 @@ spec:
 EOF
 {{< /text >}}
 
-重新尝试发送请求到 `httpbin.legacy`， 一切都应该正常工作了。
+重新尝试发送请求到 `httpbin.legacy`，一切都应该正常工作了。
 
 {{< text bash >}}
 $ for from in "foo" "bar" "legacy"; do for to in "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
@@ -180,7 +180,7 @@ spec:
 EOF
 {{< /text >}}
 
-对于第二个问题，从不带 sidecar 的客户端到带有 sidecar 的服务端 (工作在双向 TLS 模式) 的连接，唯一的选择是从双向 TLS 模式切换到 `PERMISSIVE` 模式，该模式允许服务端接收 HTTP 或（双向）TLS流量。显然，这种模式会降低安全等级，推荐只在迁移过程中使用。为了这样做，你可以更改 *网格策略* (在 `mtls` 块下增加 `mode: PERMISSIVE`)。一个更保守的（也是推荐的）方法是为那些必须的独特的服务创建新的策略。下面的例子演示了后一种保守的方法：
+对于第二个问题，从不带 sidecar 的客户端到带有 sidecar 的服务端(工作在双向 TLS 模式)的连接，唯一的选择是从双向 TLS 模式切换到 `PERMISSIVE` 模式，该模式允许服务端接收 HTTP 或（双向） TLS 流量。显然，这种模式会降低安全等级，推荐只在迁移过程中使用。为了这样做，你可以更改 *网格策略* (在 `mtls` 域下增加 `mode: PERMISSIVE`)。推荐一种更保守的方法：仅在必要的情况下才为个别服务创建专属策略。下面的例子演示了这种保守的方法：
 
 {{< text bash >}}
 $ cat <<EOF | istioctl create -f -
@@ -318,7 +318,7 @@ sleep.legacy to httpbin.bar: 000
 command terminated with exit code 56
 {{< /text >}}
 
-如果在命名空间 `bar` 中还有其它服务，我们应该看到到这些服务的流量不会受到影响。作为通过增加更多服务验证这一结论的替代，我们对上述策略稍加改动并将其应用到某个端口上来验证该结论：
+如果在命名空间 `bar` 中还存在其他服务，我们会发现目标为这些服务的流量不会受到影响。验证这一行为有两种方法：一种是加入更多服务；另一种是把这一策略限制到某个端口。这里我们展示第二种方法：
 
 {{< text bash >}}
 $ cat <<EOF | istioctl replace -n bar -f -
@@ -357,7 +357,7 @@ spec:
 EOF
 {{< /text >}}
 
-这项新的策略只在端口 `1234` 上作用于 `httpbin` 服务。结果是，双向 TLS 在端口 `8000` 上（又）被禁用并且从 `sleep.legacy` 发出的请求会恢复工作。
+这项新的策略只作用于 `httpbin` 服务的 `1234` 端口上。结果是，双向 TLS 在端口 `8000` 上（又）被禁用并且从 `sleep.legacy` 发出的请求会恢复工作。
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metadata.name}) -c sleep -n legacy -- curl http://httpbin.bar:8000/ip -s -o /dev/null -w "%{http_code}\n"
@@ -405,7 +405,7 @@ $ kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..met
 
 ## 设置终端用户认证
 
-你需要一个有效的 JWT （与在本例中你想使用的 JWKS endpoint 相一致）。请按照[这里]({{< github_tree >}}/security/tools/jwt)的说明进行操作来创建一个 JWT 。你也可以在示例中使用自己的 JWT/JWKS endpoint。 创建之后，在环境变量中输出相关信息。
+你需要一个有效的 JWT （与在本例中你想使用的 JWKS endpoint 相一致）。请按照[这里]({{< github_tree >}}/security/tools/jwt)的说明进行操作来创建一个 JWT 。你也可以在示例中使用自己的 JWT/JWKS endpoint。创建之后，在环境变量中设置相关信息。
 
 {{< text bash >}}
 $ export SVC_ACCOUNT="example@my-project.iam.gserviceaccount.com"
@@ -469,7 +469,7 @@ spec:
 EOF
 {{< /text >}}
 
-使用上面小节中同样的 curl 命令进行测试时会返回 401 错误状态码，这是因为服务端需要 JWT 进行认证但请求并没有提供：
+使用上面小节中同样的 curl 命令进行测试时会返回 401 错误状态码，这是因为服务端需要 JWT 进行认证但请求端并没有提供：
 
 {{< text bash >}}
 $ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
