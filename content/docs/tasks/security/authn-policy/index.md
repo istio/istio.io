@@ -325,7 +325,7 @@ $ cat <<EOF | istioctl replace -n bar -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
-  name: "example-2"
+  name: "httpbin"
 spec:
   targets:
   - name: httpbin
@@ -343,7 +343,7 @@ $ cat <<EOF | istioctl replace -n bar -f -
 apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:
-  name: "example-2"
+  name: "httpbin"
 spec:
   host: httpbin.bar.svc.cluster.local
   trafficPolicy:

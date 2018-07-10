@@ -1,5 +1,7 @@
 {{ define "main" }}
 
+{{ .Scratch.Set "skipSeeAlso" true }}
+
 {{ partial "primary-top.html" . }}
 
 <p>{{ .Description }}</p>

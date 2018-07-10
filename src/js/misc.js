@@ -10,7 +10,6 @@ $(function ($) {
         $form.removeClass('active');
         $links.addClass('active');
         $textbox.val('');
-        $textbox.removeClass("grow");
     }
 
     // Show the navbar search box, hide the links
@@ -21,7 +20,6 @@ $(function ($) {
 
         $form.addClass('active');
         $links.removeClass('active');
-        $textbox.addClass("grow");
         $textbox.focus();
     }
 
@@ -70,79 +68,49 @@ $(function ($) {
 
         // toggle toolbar buttons
         $(document).on('mouseenter', 'pre', function () {
-            $(this).next().toggleClass("toolbar-show", true);
-            $(this).next().toggleClass("toolbar-hide", false);
-            $(this).next().next().toggleClass("toolbar-show", true);
-            $(this).next().next().toggleClass("toolbar-hide", false);
-            $(this).next().next().next().toggleClass("toolbar-show", true);
-            $(this).next().next().next().toggleClass("toolbar-hide", false);
+            $(this).next().addClass("toolbar-show");
+            $(this).next().next().addClass("toolbar-show");
+            $(this).next().next().next().addClass("toolbar-show");
         });
 
         // toggle toolbar buttons
         $(document).on('mouseleave', 'pre', function () {
-            $(this).next().toggleClass("toolbar-show", false);
-            $(this).next().toggleClass("toolbar-hide", true);
-            $(this).next().next().toggleClass("toolbar-show", false);
-            $(this).next().next().toggleClass("toolbar-hide", true);
-            $(this).next().next().next().toggleClass("toolbar-show", false);
-            $(this).next().next().next().toggleClass("toolbar-hide", true);
+            $(this).next().removeClass("toolbar-show");
+            $(this).next().next().removeClass("toolbar-show");
+            $(this).next().next().next().removeClass("toolbar-show");
         });
 
         // toggle copy button
         $(document).on('mouseenter', 'button.copy', function () {
-            $(this).toggleClass("toolbar-show", true);
-            $(this).toggleClass("toolbar-hide", false);
+            $(this).addClass("toolbar-show");
         });
 
         // toggle copy button
         $(document).on('mouseleave', 'button.copy', function () {
-            $(this).toggleClass("toolbar-show", false);
-            $(this).toggleClass("toolbar-hide", true);
+            $(this).removeClass("toolbar-show");
         });
 
         // toggle download button
         $(document).on('mouseenter', 'button.download', function () {
-            $(this).toggleClass("toolbar-show", true);
-            $(this).toggleClass("toolbar-hide", false);
+            $(this).addClass("toolbar-show");
         });
 
         // toggle download button
         $(document).on('mouseleave', 'button.download', function () {
-            $(this).toggleClass("toolbar-show", false);
-            $(this).toggleClass("toolbar-hide", true);
+            $(this).removeClass("toolbar-show");
         });
 
         // toggle print button
         $(document).on('mouseenter', 'button.print', function () {
-            $(this).toggleClass("toolbar-show", true);
-            $(this).toggleClass("toolbar-hide", false);
+            $(this).addClass("toolbar-show");
         });
 
         // toggle print button
         $(document).on('mouseleave', 'button.print', function () {
-            $(this).toggleClass("toolbar-show", false);
-            $(this).toggleClass("toolbar-hide", true);
+            $(this).removeClass("toolbar-show");
         });
     });
 }(jQuery));
-
-// Scroll the document to the top
-function scrollToTop() {
-    document.body.scrollTop = 0; // For Safari
-    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-}
-
-String.prototype.escapeHTML = function() {
-    var tagsToReplace = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;'
-    };
-
-    return this.replace(/[&<>]/g, function(tag) {
-        return tagsToReplace[tag] || tag;
-    });
-};
 
 // initialized after the DOM has been loaded by getDOMTopology
 var scrollToTopButton;
@@ -158,65 +126,19 @@ function handleDOMLoaded() {
     // way.
     function patchDOM() {
 
-         var escapeChars = {
-            '¢' : 'cent',
-            '£' : 'pound',
-            '¥' : 'yen',
-            '€': 'euro',
-            '©' :'copy',
-            '®' : 'reg',
-            '<' : 'lt',
-            '>' : 'gt',
-            '"' : 'quot',
-            '&' : 'amp',
-            '\'' : '#39'
-        };
-
-        var regexString = '[';
-        for(var key in escapeChars) {
-            regexString += key;
-        }
-        regexString += ']';
-
-        var regex = new RegExp(regexString, 'g');
-
-        function escapeHTML(str) {
-            return str.replace(regex, function(m) {
-                return '&' + escapeChars[m] + ';';
-            });
-        }
-
-        // To compensate for https://github.com/gohugoio/hugo/issues/4785, certain code blocks are
-        // indented in markdown by four spaces. This removes these four spaces so that the visuals
-        // are correct.
-        function compensateForHugoBug() {
-            var code = document.getElementsByTagName('CODE');
-            for (var i = 0; i < code.length; i++) {
-                var lines = code[i].innerText.split("\n");
-                if ((lines.length > 0) && lines[0].startsWith("    ")) {
-                    for (var j = 0; j < lines.length; j++) {
-                        if (lines[j].startsWith("    ")) {
-                            lines[j] = lines[j].substr(4);
-                        }
-                    }
-                    code[i].innerHTML = escapeHTML(lines.join('\n'));
-                }
-            }
-        }
-
         // Add a toolbar to all PRE blocks
         function attachToolbarToPreBlocks() {
             var pre = document.getElementsByTagName('PRE');
             for (var i = 0; i < pre.length; i++) {
                 var copyButton = document.createElement("BUTTON");
                 copyButton.title = "Copy to clipboard";
-                copyButton.className = "copy toolbar-hide";
+                copyButton.className = "copy";
                 copyButton.innerHTML = "<i class='fa fa-copy'></i>";
                 copyButton.setAttribute("aria-label", "Copy to clipboard");
 
                 var downloadButton = document.createElement("BUTTON");
                 downloadButton.title = "Download";
-                downloadButton.className = "download toolbar-hide";
+                downloadButton.className = "download";
                 downloadButton.innerHTML = "<i class='fa fa-download'></i>";
                 downloadButton.setAttribute("aria-label", downloadButton.title);
                 downloadButton.onclick = function(e) {
@@ -252,7 +174,7 @@ function handleDOMLoaded() {
 
                 var printButton = document.createElement("BUTTON");
                 printButton.title = "Print";
-                printButton.className = "print toolbar-hide";
+                printButton.className = "print";
                 printButton.innerHTML = "<i class='fa fa-print'></i>";
                 printButton.setAttribute("aria-label", printButton.title);
                 printButton.onclick = function(e) {
@@ -371,7 +293,7 @@ function handleDOMLoaded() {
                                 var lang = cl.substr(prefix.length);
                                 output = Prism.highlight(output, Prism.languages[lang], lang);
                             } else {
-                                output = output.escapeHTML();
+                                output = escapeHTML(output);
                             }
 
                             html += "<div class='output'>" + output + "</div>";
@@ -503,7 +425,6 @@ function handleDOMLoaded() {
             }
         }
 
-        compensateForHugoBug();
         attachToolbarToPreBlocks();
         applySyntaxColoringToPreBlocks();
         attachLinksToHeaders();
@@ -594,25 +515,6 @@ function handlePageScroll() {
     controlScrollToTopButton();
     controlTOCActivation();
 }
-
-function saveFile(filename, text) {
-    var element = document.createElement('a');
-    element.setAttribute('href', 'data:text/text;charset=utf-8,' + encodeURI(text));
-    element.setAttribute('download', filename);
-    element.click();
-}
-
-function printText(text) {
-    var html="<html><body><pre><code>" + text + "</code></pre></html>";
-
-    var printWin = window.open('','','left=0,top=0,width=100,height=100,toolbar=0,scrollbars=0,status=0,location=0,menubar=0', false);
-    printWin.document.write(html);
-    printWin.document.close();
-    printWin.focus();
-    printWin.print();
-    printWin.close();
-}
-
 
 document.addEventListener("DOMContentLoaded", handleDOMLoaded);
 window.addEventListener("scroll", handlePageScroll);
