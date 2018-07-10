@@ -564,7 +564,7 @@ To see fault injection in action, see the [fault injection task](/docs/tasks/tra
 Rules can optionally be qualified to only apply to requests that match some
 specific criteria such as the following:
 
-_1. Restrict to a specific caller_.  For example, a rule
+_1. Restrict to specific client workloads using workload labels_.  For example, a rule
 can indicate that it only applies to calls from workloads (pods) implementing
 the *reviews* service.
 
@@ -587,8 +587,7 @@ The value of `sourceLabels` depends on the implementation of the service.
 In Kubernetes, for example, it would probably be the same labels that are used
 in the pod selector of the corresponding Kubernetes service.
 
-_2. Restrict to specific versions of the caller_. For example, the following
-rule refines the previous example to only apply to calls from version "v2"
+The above example can also be further refined to only apply to calls from version "v2"
 of the *reviews* service.
 
 {{< text yaml >}}
@@ -607,7 +606,7 @@ spec:
     ...
 {{< /text >}}
 
-_3. Select rule based on HTTP headers_. For example, the following rule will
+_2. Select rule based on HTTP headers_. For example, the following rule will
 only apply to an incoming request if it includes a "cookie" header that
 contains the substring "user=jason".
 
@@ -630,7 +629,7 @@ spec:
 If more than one header is provided, then all of the
 corresponding headers must match for the rule to apply.
 
-_4. Select rule based on request URI_. For example, the following rule will
+_3. Select rule based on request URI_. For example, the following rule will
 only apply to a request if the URI path starts with `/api/v1`.
 
 {{< text yaml >}}
@@ -654,9 +653,9 @@ Multiple match criteria can be set simultaneously. In such a case, AND or OR
 semantics apply, depending on the nesting.
 
 If multiple criteria are nested in a single match clause, then the conditions
-are ANDed. For example, the following rule only applies if the source of the
-request is "reviews:v2" AND the "cookie" header containing "user=jason" is
-present.
+are ANDed. For example, the following rule only applies if the
+client workload is “reviews:v2” AND the "cookie" header containing
+"user=jason" is present in the request.
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -678,7 +677,7 @@ spec:
 {{< /text >}}
 
 If instead, the criteria appear in separate match clauses, then only one
-of the conditions must apply (OR semantics):
+of the conditions will apply (OR semantics).
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -699,6 +698,9 @@ spec:
     ...
 {{< /text >}}
 
+This rule applies if either the client workload is “reviews:v2” OR
+the "cookie" header containing "user=jason" is present in the request.
+
 #### Precedence
 
 When there are multiple rules for a given destination,
@@ -715,7 +717,7 @@ rule priority must be carefully considered to make sure that the rules are
 evaluated in the right order.
 
 A common pattern for generalized route specification is to provide one or
-more higher priority rules that qualify rules by source/headers,
+more higher priority rules that match various conditions,
 and then provide a single weight-based rule with no match
 criteria last to provide the weighted distribution of
 traffic for all other cases.
