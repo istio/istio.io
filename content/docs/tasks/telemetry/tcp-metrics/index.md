@@ -146,7 +146,7 @@ will generate and collect automatically.
     1.  Add routing rules to send traffic to `v2` of the `ratings` service:
 
         {{< text bash >}}
-        $ istioctl create -f @samples/bookinfo/kube/route-rule-ratings-db.yaml@
+        $ istioctl create -f @samples/bookinfo/networking/virtual-service-ratings-db.yaml@
         Created config route-rule//ratings-test-v2 at revision 7216403
         Created config route-rule//reviews-test-ratings-v2 at revision 7216404
         {{< /text >}}
