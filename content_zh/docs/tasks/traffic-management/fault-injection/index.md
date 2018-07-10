@@ -100,7 +100,6 @@ Istio 的故障注入规则可帮助您识别此类异常，而不会影响最�
 
 1. 为用户 “jason” 创建故障注入规则发送 HTTP 中止
 
-
    {{< text bash >}}
    $ istioctl replace -f @samples/bookinfo/networking/virtual-service-ratings-test-abort.yaml@
    {{< /text >}}
