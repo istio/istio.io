@@ -106,6 +106,7 @@ The `proxy-config` command can be used to see how a given Envoy instance is conf
 pinpoint any issues you are unable to detect by just looking through your Istio configuration and custom resources.
 To get a basic summary of clusters, listeners or routes for a given pod use the command as follows (changing clusters
 for listeners or routes when required):
+
 {{< text bash >}}
 $ istioctl proxy-config clusters -n istio-system istio-ingressgateway-7d6874b48f-qxhn5
 SERVICE FQDN                                                                     PORT      SUBSET     DIRECTION     TYPE
@@ -128,152 +129,158 @@ to send an request from the productpage pod to the reviews pod at `reviews:9080`
     * A virtual listener per service IP, per each non-HTTP for outbound TCP/HTTPS traffic.
     * A virtual listener on the pod IP for each exposed port for inbound traffic.
     * A virtual listener on `0.0.0.0` per each HTTP port for outbound HTTP traffic.
-{{< text bash >}}
-$ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs
-ADDRESS            PORT      TYPE
-172.21.252.250     15005     TCP <--+
-172.21.252.250     15011     TCP    |
-172.21.79.56       42422     TCP    |
-172.21.160.5       443       TCP    |
-172.21.157.6       443       TCP    |
-172.21.117.222     443       TCP    |
-172.21.0.10        53        TCP    |
-172.21.126.131     443       TCP    |   Receives outbound non-HTTP traffic for relevant IP:PORT pair from listener `0.0.0.0_15001`
-172.21.160.5       31400     TCP    |
-172.21.81.159      9102      TCP    |
-172.21.0.1         443       TCP    |
-172.21.126.131     80        TCP    |
-172.21.119.8       443       TCP    |
-172.21.112.64      80        TCP    |
-172.21.179.54      443       TCP    |
-172.21.165.197     443       TCP <--+
-0.0.0.0            9090      HTTP <-+
-0.0.0.0            8060      HTTP   |
-0.0.0.0            15010     HTTP   |
-0.0.0.0            15003     HTTP   |
-0.0.0.0            15004     HTTP   |
-0.0.0.0            9093      HTTP   |   Receives outbound HTTP traffic for relevant port from listener `0.0.0.0_15001`
-0.0.0.0            15007     HTTP   |
-0.0.0.0            8080      HTTP   |
-0.0.0.0            9091      HTTP   |
-0.0.0.0            9080      HTTP   |
-0.0.0.0            80        HTTP <-+
-0.0.0.0            15001     TCP    // Receives all inbound and outbound traffic to the pod from IP tables and hands over to virtual listener
-172.30.164.190     9080      HTTP   // Receives all inbound traffic on 9080 from listener `0.0.0.0_15001`
-{{< /text >}}
+
+    {{< text bash >}}
+    $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs
+    ADDRESS            PORT      TYPE
+    172.21.252.250     15005     TCP <--+
+    172.21.252.250     15011     TCP    |
+    172.21.79.56       42422     TCP    |
+    172.21.160.5       443       TCP    |
+    172.21.157.6       443       TCP    |
+    172.21.117.222     443       TCP    |
+    172.21.0.10        53        TCP    |
+    172.21.126.131     443       TCP    |   Receives outbound non-HTTP traffic for relevant IP:PORT pair from listener `0.0.0.0_15001`
+    172.21.160.5       31400     TCP    |
+    172.21.81.159      9102      TCP    |
+    172.21.0.1         443       TCP    |
+    172.21.126.131     80        TCP    |
+    172.21.119.8       443       TCP    |
+    172.21.112.64      80        TCP    |
+    172.21.179.54      443       TCP    |
+    172.21.165.197     443       TCP <--+
+    0.0.0.0            9090      HTTP <-+
+    0.0.0.0            8060      HTTP   |
+    0.0.0.0            15010     HTTP   |
+    0.0.0.0            15003     HTTP   |
+    0.0.0.0            15004     HTTP   |
+    0.0.0.0            9093      HTTP   |   Receives outbound HTTP traffic for relevant port from listener `0.0.0.0_15001`
+    0.0.0.0            15007     HTTP   |
+    0.0.0.0            8080      HTTP   |
+    0.0.0.0            9091      HTTP   |
+    0.0.0.0            9080      HTTP   |
+    0.0.0.0            80        HTTP <-+
+    0.0.0.0            15001     TCP    // Receives all inbound and outbound traffic to the pod from IP tables and hands over to virtual listener
+    172.30.164.190     9080      HTTP   // Receives all inbound traffic on 9080 from listener `0.0.0.0_15001`
+    {{< /text >}}
 
 1. From the above summary you can see that every sidecar has a listener bound to `0.0.0.0:15001` which is where
 IP tables routes all inbound and outbound pod traffic to. This listener has `useOriginalDst` set to true which means
 it hands the request over to the listener that best matches the original destination of the request.
 If it can't find any matching virtual listeners it sends the request to the `BlackHoleCluster` which returns a 404.
 
-{{< text bash json >}}
-$ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs --port 15001 -o json
-{
-    "name": "virtual",
-    "address": {
-        "socketAddress": {
-            "address": "0.0.0.0",
-            "portValue": 15001
-        }
-    },
-    "filterChains": [
-        {
-            "filters": [
-                {
-                    "name": "envoy.tcp_proxy",
-                    "config": {
-                        "cluster": "BlackHoleCluster",
-                        "stat_prefix": "BlackHoleCluster"
+    {{< text bash json >}}
+    $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs --port 15001 -o json
+    {
+        "name": "virtual",
+        "address": {
+            "socketAddress": {
+                "address": "0.0.0.0",
+                "portValue": 15001
+            }
+        },
+        "filterChains": [
+            {
+                "filters": [
+                    {
+                        "name": "envoy.tcp_proxy",
+                        "config": {
+                            "cluster": "BlackHoleCluster",
+                            "stat_prefix": "BlackHoleCluster"
+                        }
                     }
-                }
-            ]
-        }
-    ],
-    "useOriginalDst": true
-}
-{{< /text >}}
+                ]
+            }
+        ],
+        "useOriginalDst": true
+    }
+    {{< /text >}}
 
 1. Our request is an outbound HTTP request to port `9080` this means it gets handed off to the `0.0.0.0:9080` virtual
 listener. This listener then looks up the route configuration in its configures RDS. In this case it will be looking
 up route `9080` in RDS configured by Pilot (via ADS).
-{{< text bash json >}}
-$ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs -o json --address 0.0.0.0 --port 9080
-...
-"rds": {
-    "config_source": {
-        "ads": {}
-    },
-    "route_config_name": "9080"
-}
-...
-{{< /text >}}
+
+    {{< text bash json >}}
+    $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs -o json --address 0.0.0.0 --port 9080
+    ...
+    "rds": {
+        "config_source": {
+            "ads": {}
+        },
+        "route_config_name": "9080"
+    }
+    ...
+    {{< /text >}}
 
 1. The `9080` route configuration only has a virtual host for each service. Our request is heading to the reviews
 service so Envoy will select the virtual host to which our request matches a domain. Once matched on domain Envoy
 looks for the first route that matches the request. In this case we don't have any advanced routing so there is only
 one route that matches on everything. This route tells Envoy to send the request to the
 `outbound|9080||reviews.default.svc.cluster.local` cluster.
-{{< text bash json >}}
-$ istioctl proxy-config routes productpage-v1-6c886ff494-7vxhs --name 9080 -o json
-{
-        "name": "9080",
-        "virtualHosts": [
-            {
-                "name": "reviews.default.svc.cluster.local:9080",
-                "domains": [
-                    "reviews.default.svc.cluster.local",
-                    "reviews.default.svc.cluster.local:9080",
-                    "reviews",
-                    "reviews:9080",
-                    "reviews.default.svc.cluster",
-                    "reviews.default.svc.cluster:9080",
-                    "reviews.default.svc",
-                    "reviews.default.svc:9080",
-                    "reviews.default",
-                    "reviews.default:9080",
-                    "172.21.152.34",
-                    "172.21.152.34:9080"
-                ],
-                "routes": [
-                    {
-                        "match": {
-                            "prefix": "/"
-                        },
-                        "route": {
-                            "cluster": "outbound|9080||reviews.default.svc.cluster.local",
-                            "timeout": "0.000s"
-                        },
-...
-{{< /text >}}
+
+    {{< text bash json >}}
+    $ istioctl proxy-config routes productpage-v1-6c886ff494-7vxhs --name 9080 -o json
+    {
+            "name": "9080",
+            "virtualHosts": [
+                {
+                    "name": "reviews.default.svc.cluster.local:9080",
+                    "domains": [
+                        "reviews.default.svc.cluster.local",
+                        "reviews.default.svc.cluster.local:9080",
+                        "reviews",
+                        "reviews:9080",
+                        "reviews.default.svc.cluster",
+                        "reviews.default.svc.cluster:9080",
+                        "reviews.default.svc",
+                        "reviews.default.svc:9080",
+                        "reviews.default",
+                        "reviews.default:9080",
+                        "172.21.152.34",
+                        "172.21.152.34:9080"
+                    ],
+                    "routes": [
+                        {
+                            "match": {
+                                "prefix": "/"
+                            },
+                            "route": {
+                                "cluster": "outbound|9080||reviews.default.svc.cluster.local",
+                                "timeout": "0.000s"
+                            },
+    ...
+    {{< /text >}}
+
 1. This cluster is configured to retrieve the associated endpoints from Pilot (via ADS). So Envoy will then use the
 `serviceName` field as a key to look up the list of Endpoints and proxy the request to one of them.
-{{< text bash json >}}
-$ istioctl proxy-config clusters --fqdn reviews.default.svc.cluster.local -o json
-[
-    {
-        "name": "outbound|9080||reviews.default.svc.cluster.local",
-        "type": "EDS",
-        "edsClusterConfig": {
-            "edsConfig": {
-                "ads": {}
+
+    {{< text bash json >}}
+    $ istioctl proxy-config clusters --fqdn reviews.default.svc.cluster.local -o json
+    [
+        {
+            "name": "outbound|9080||reviews.default.svc.cluster.local",
+            "type": "EDS",
+            "edsClusterConfig": {
+                "edsConfig": {
+                    "ads": {}
+                },
+                "serviceName": "outbound|9080||reviews.default.svc.cluster.local"
             },
-            "serviceName": "outbound|9080||reviews.default.svc.cluster.local"
-        },
-        "connectTimeout": "1.000s",
-        "circuitBreakers": {
-            "thresholds": [
-                {}
-            ]
+            "connectTimeout": "1.000s",
+            "circuitBreakers": {
+                "thresholds": [
+                    {}
+                ]
+            }
         }
-    }
-]
-{{< /text >}}
+    ]
+    {{< /text >}}
 
 ## Inspecting Bootstrap config
 
 So far we have looked at config retrieved (mostly) from Pilot, however Envoy requires some bootstrap config that
 includes information like where Pilot can be found. To view this use the following command:
+
 {{< text bash json >}}
 $ istioctl proxy-config bootstrap -n istio-system istio-ingressgateway-7d6874b48f-qxhn5
 {
