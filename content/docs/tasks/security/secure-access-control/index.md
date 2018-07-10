@@ -11,7 +11,7 @@ using the service accounts provided by Istio authentication.
 When Istio mutual TLS authentication is enabled, the server authenticates the client according to its certificate, and obtains the client's
 service account from the certificate. The service account is in the `source.user` attribute.
 For the format of the service account in Istio, please refer to the
-[Istio auth identity](/docs/concepts/security/mutual-tls/#identity).
+[Istio auth identity](/docs/concepts/security/#identity).
 
 ## Before you begin
 
