@@ -53,7 +53,7 @@ the `productpage` service.
     Run the following command to set up the deny rule along with a handler and an instance.
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/routing/mixer-rule-deny-serviceaccount.yaml@
+    $ istioctl create -f @samples/bookinfo/policy/mixer-rule-deny-serviceaccount.yaml@
     Created config denier/default/denyproductpagehandler at revision 2877836
     Created config checknothing/default/denyproductpagerequest at revision 2877837
     Created config rule/default/denyproductpage at revision 2877838
@@ -88,7 +88,7 @@ the `productpage` service.
 *   Remove the mixer configuration:
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/routing/mixer-rule-deny-serviceaccount.yaml@
+    $ istioctl delete -f @samples/bookinfo/policy/mixer-rule-deny-serviceaccount.yaml@
     {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, refer to the

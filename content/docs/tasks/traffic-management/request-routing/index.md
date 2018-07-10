@@ -20,29 +20,29 @@ This task shows you how to configure dynamic request routing based on weights an
 
 ## Content-based routing
 
-The Bookinfo sample deploys multiple versions of each microservice, so you will start by creating DestinationRules
+The Bookinfo sample deploys multiple versions of each microservice, so you will start by creating destination rules
 that define the service subsets corresponding to each version, and the load balancing policy for each subset.
 
 1.
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/routing/destination-rule-all.yaml@
+    $ istioctl create -f @samples/bookinfo/networking/destination-rule-all.yaml@
     {{< /text >}}
 
     If you enabled mutual TLS, please run the following instead
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/routing/destination-rule-all-mtls.yaml@
+    $ istioctl create -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
     {{< /text >}}
 
-    You can display the DestinationRules that are defined with the following command:
+    You can display the destination rules with the following command:
 
     {{< text bash >}}
     $ istioctl get destinationrules -o yaml
     {{< /text >}}
 
-    Since config propagation to the proxies is asynchronous, to avoid traffic loss you must wait a few seconds for the DestinationRules
-    to reach all proxies before proceeding to the next step.
+    Since the subset references in virtual services rely on the destination rules,
+    wait a few seconds for destination rules to propagate before adding virtual services that refer to these subsets.
 
 1.
 Because the Bookinfo sample deploys 3 versions of the reviews microservice,
@@ -52,7 +52,7 @@ star ratings.
 This is because without an explicit default version set, Istio will
 route requests to all available versions of a service in a random fashion.
 
-> This task assumes you don't have any VirtualServices set yet. If you've already created conflicting VirtualServices for the sample,
+> This task assumes you don't have any existing virtual services. If you've already created conflicting virtual services for the sample,
 you'll need to use `replace` rather than `create` in the following command.
 
 1.  Set the default version for all microservices to v1.
@@ -132,8 +132,7 @@ you'll need to use `replace` rather than `create` in the following command.
 
     > The corresponding `subset` definitions can be displayed using `istioctl get destinationrules -o yaml`.
 
-    Since config propagation to the proxies is asynchronous, you must wait a few seconds for the VirtualServices
-    to propagate to all pods to notice the application of the routing rules.
+    Since config propagation is eventually consistent, wait a few seconds for the virtual services to take effect.
 
 1.  Open the Bookinfo URL (`http://$GATEWAY_URL/productpage`) in your browser. Recall that `GATEWAY_URL`
     should have been set using [these instructions](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)
@@ -199,22 +198,22 @@ all users to v2, optionally in a gradual fashion. You'll explore this in a separ
 
 ## Cleanup
 
-1.   Remove the application VirtualServices.
+1.   Remove the application virtual services.
 
     {{< text bash >}}
     $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
-1.   Remove the application DestinationRules.
+1.   Remove the application destination rules.
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/routing/destination-rule-all.yaml@
+    $ istioctl delete -f @samples/bookinfo/networking/destination-rule-all.yaml@
     {{< /text >}}
 
     If you enabled mutual TLS, please run the following instead
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/routing/destination-rule-all-mtls.yaml@
+    $ istioctl delete -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
     {{< /text >}}
 
 1. If you are not planning to explore any follow-on tasks, refer to the

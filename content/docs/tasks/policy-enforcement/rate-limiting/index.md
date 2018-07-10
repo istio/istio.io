@@ -56,7 +56,7 @@ Consider `ratings` as an external paid service like Rotten Tomatoes® with
    enable rate limiting.
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/routing/mixer-rule-ratings-ratelimit.yaml@
+    $ istioctl create -f @samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml@
     {{< /text >}}
 
 1. Confirm the `memquota` was created:
@@ -253,7 +253,7 @@ with the given namespace.
 * Remove the rate limit configuration:
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/routing/mixer-rule-ratings-ratelimit.yaml@
+    $ istioctl delete -f @samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml@
     {{< /text >}}
 
 * Remove the application routing rules:
