@@ -21,15 +21,15 @@ service.
   requests from test user "jason" to version v2 and requests from any other
   user to v3.
 
-  {{< text bash >}}
-  $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
-  {{< /text >}}
+    {{< text bash >}}
+    $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
+    {{< /text >}}
 
-  and then run the following command:
+    and then run the following command:
 
-  {{< text bash >}}
-  $ istioctl replace -f @samples/bookinfo/routing/route-rule-reviews-jason-v2-v3.yaml.yaml@
-  {{< /text >}}
+    {{< text bash >}}
+    $ istioctl replace -f @samples/bookinfo/routing/route-rule-reviews-jason-v2-v3.yaml.yaml@
+    {{< /text >}}
 
 > If you have a conflicting rule that you set in previous tasks,
 use `istioctl replace` instead of `istioctl create`.
