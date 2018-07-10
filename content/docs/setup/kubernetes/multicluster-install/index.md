@@ -9,7 +9,7 @@ Instructions for the installation of Istio multicluster.
 
 ## Prerequisites
 
-* Two or more Kubernetes clusters with **1.7.3 or newer**.
+* Two or more Kubernetes clusters with **1.9 or newer**.
 
 * The ability to deploy the [Istio control plane](/docs/setup/kubernetes/quick-start/)
 on **one** Kubernetes cluster.
@@ -28,8 +28,7 @@ across the multicluster environment and may not overlap.
 
 ## Caveats and known problems
 
-{{< warning_icon >}}
-All known caveats and known problems with multicluster for the 0.8 release are [tracked here](https://github.com/istio/istio/issues/4822).
+All known caveats and known problems with multicluster for the 1.0 release are [tracked here](https://github.com/istio/istio/issues/4822).
 
 ## Overview
 
@@ -82,8 +81,7 @@ Proceed to one of the options for connecting the remote cluster to the local clu
 
 * [via helm plus tiller](#alternatively-use-helm-and-tiller-to-connect-the-remote-cluster-to-the-local)
 
-{{< idea_icon >}}
-The default behavior is to enable automatic sidecar injection on the remote clusters.  For manual sidecar injection refer to the [manual sidecar example](#remote-cluster-manual-sidecar-injection-example)
+**Sidecar Injection.**  The default behavior is to enable automatic sidecar injection on the remote clusters.  For manual sidecar injection refer to the [manual sidecar example](#remote-cluster-manual-sidecar-injection-example)
 
 ### Use kubectl with Helm to connect the remote cluster to the local
 
@@ -136,9 +134,11 @@ install one:
 
 ### Helm configuration parameters
 
-> The `pilot`, `policy`, `telemetry`, `statsd`, and tracing application endpoints need to be configured in the `istio-remote` helm chart.
-
-The `istio-remote` Helm chart requires the endpoint specific variables to be configured as defined in the following table.  Optionally, automatic sidecar injection in the remote cluster can be disabled.
+In order for the remote cluster's sidecars interaction with the Istio control plane, the `pilot`,
+`policy`, `telemetry`, `statsd`, and tracing service endpoints need to be configured in
+the `istio-remote` helm chart.  The chart enables automatic sidecar injection in the remote
+cluster by default but it can be disabled via a chart variable.  The following table describes
+the `istio-remote` helm chart's configuration values.
 
 | Helm Variable | Accepted Values | Default | Purpose of Value |
 | --- | --- | --- | --- |
