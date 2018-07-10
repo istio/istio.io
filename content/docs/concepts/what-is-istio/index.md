@@ -40,7 +40,7 @@ and [Apache Mesos](https://mesos.apache.org/) in the near future.
 Istio currently supports:
 
 * Service deployment on Kubernetes
-* Services registered with Consul or Eureka
+* Services registered with Consul
 * Services running on individual virtual machines.
 
 ## Why use Istio?
@@ -103,8 +103,8 @@ more portable as a result.
 An Istio service mesh is logically split into a **data plane** and a **control
 plane**.
 
-* The **data plane** is composed of a set of intelligent proxies(
-  [Envoy](https://www.envoyproxy.io/)) deployed as sidecars. These proxies
+* The **data plane** is composed of a set of intelligent proxies
+  ([Envoy](https://www.envoyproxy.io/)) deployed as sidecars. These proxies
   mediate and control all network communication between microservices along
   with [Mixer](/docs/concepts/policies-and-telemetry/), a general-purpose
   policy and telemetry hub.
