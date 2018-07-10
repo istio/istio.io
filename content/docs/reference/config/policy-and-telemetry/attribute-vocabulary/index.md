@@ -23,7 +23,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `source.labels`             | map[string, string] | A map of key-value pairs attached to the source instance. | version => v1 |
 | `source.name`               | string | Source workload instance name. | redis-master-2353460263-1ecey |
 | `source.namespace`          | string | Source workload instance namespace. | my-namespace |
-| `source.principal`          | string | The identity of the immediate sender of the request, authenticated by mTLS. | service-account-foo |
+| `source.principal`          | string | The identity of the source workload. | service-account-foo |
 | `source.owner`              | string | Reference to the workload controlling the source workload instance. | `kubernetes://apis/extensions/v1beta1/namespaces/istio-system/deployments/istio-policy` |
 | `source.workload.uid`       | string | Unique identifier of the source workload. | istio://istio-system/workloads/istio-policy |
 | `source.workload.name`      | string | Source workload name. | istio-policy |
@@ -34,7 +34,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `destination.labels`            | map[string, string] | A map of key-value pairs attached to the server instance. | version => v2 |
 | `destination.name`              | string | Destination workload instance name. | `istio-telemetry-2359333` |
 | `destination.namespace`         | string | Destination workload instance namespace. | istio-system |
-| `destination.principal`         | string | The user running the destination application. | service-account |
+| `destination.principal`         | string | The identity of the destination workload. | service-account |
 | `destination.owner`             | string | Reference to the workload controlling the destination workload instance.| `kubernetes://apis/extensions/v1beta1/namespaces/istio-system/deployments/istio-telemetry` |
 | `destination.workload.uid`      | string | Unique identifier of the destination workload. | istio://istio-system/workloads/istio-telemetry |
 | `destination.workload.name`     | string | Destination workload name. | istio-telemetry |
