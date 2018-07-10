@@ -1,21 +1,15 @@
-{{/*
-Purpose:
-Inserts a preformatted code block into the HTML. You specify the syntax to use for
-highlighting, which can be one of `plain`, `markdown`, `yaml`, `json`, `java`, `javascript`,
-`c`, `cpp`, `csharp`, `go`, `html`, `protobuf`, `perl`, `docker`, and `bash`.
-
-When the syntax is bash, the first line of the block is expected to start with a $.
-An additional output syntax can be specified which uses different syntax coloring
-for the output portion of the block. Otherwise, the output is colored using the
-`plain` syntax.
+{{/* Inserts a text block into the HTML. See https://preliminary.istio.io/about/contribute/writing-a-new-topic/#embedding-preformatted-blocks for details
 
 NOTE: The stuff below cannot be indented. If it is, it can cause the markdown
 parser to insert spurious paragraphs around the PRE blocks, which turns out to
 be invalid HTML
 */}}
 {{ $scratch := .Scratch }}
+{{ if .Get 2 }}
+{{ $scratch.Set "downloadas" (.Get 2) }}
+{{ end }}
 {{ if .Get 0 }}
-{{ $lines := split (trim .Inner "\n") "\n" }}
+{{ $lines := split (strings.TrimRight " " (trim .Inner "\n")) "\n" }}
 {{ $line0 := index $lines 0 }}
 {{ if hasPrefix $line0 "                "}}{{ $scratch.Set "indent" 16 }}
 {{ else if hasPrefix $line0 "            "}}{{ $scratch.Set "indent" 12 }}
@@ -49,4 +43,15 @@ be invalid HTML
 {{ if ($scratch.Get "output") }}{{ $scratch.Set "syntax" (printf "command-output-as-%s" ($scratch.Get "output")) }}{{ end }}
 {{ end }}
 {{ end }}
+{{ if $scratch.Get "downloadas"}}
+<pre><code class='language-{{ $scratch.Get "syntax" }}' data-downloadas='{{ $scratch.Get "downloadas" }}'>{{ $scratch.Get "text" }}</code></pre>
+{{ else }}
 <pre><code class='language-{{ $scratch.Get "syntax" }}'>{{ $scratch.Get "text" }}</code></pre>
+{{ end }}
+{{/* include a link to the special embedded @@ references so the links are statically checked as we build the site */}}
+{{ $branch := .Site.Data.args.branch_name }}
+{{ $links := findRE "@(.*?)@" ($scratch.Get "text") }}
+{{ range $link := $links }}
+{{ $href := printf "https://raw.githubusercontent.com/istio/istio/%s/%s" $branch (trim $link "@") }}
+<a hidden style="display:none" href="{{ $href }}"></a>
+{{ end }}

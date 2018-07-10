@@ -7,7 +7,7 @@ aliases:
 ---
 
 Attributes are a central concept used throughout Istio. You can find a description of what attributes are
-and what they are used for [here](/docs/concepts/policies-and-telemetry/config/#attributes).
+and what they are used for [here](/docs/concepts/policies-and-telemetry/#attributes).
 
 A given Istio deployment has a fixed vocabulary of attributes that it understands. The specific vocabulary is
 determined by the set of attribute producers being used in the deployment. The primary attribute producer in Istio
@@ -23,7 +23,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `source.labels`             | map[string, string] | A map of key-value pairs attached to the source instance. | version => v1 |
 | `source.name`               | string | Source workload instance name. | redis-master-2353460263-1ecey |
 | `source.namespace`          | string | Source workload instance namespace. | my-namespace |
-| `source.principal`          | string | The identity of the immediate sender of the request, authenticated by mTLS. | service-account-foo |
+| `source.principal`          | string | The identity of the source workload. | service-account-foo |
 | `source.owner`              | string | Reference to the workload controlling the source workload instance. | `kubernetes://apis/extensions/v1beta1/namespaces/istio-system/deployments/istio-policy` |
 | `source.workload.uid`       | string | Unique identifier of the source workload. | istio://istio-system/workloads/istio-policy |
 | `source.workload.name`      | string | Source workload name. | istio-policy |
@@ -34,7 +34,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `destination.labels`            | map[string, string] | A map of key-value pairs attached to the server instance. | version => v2 |
 | `destination.name`              | string | Destination workload instance name. | `istio-telemetry-2359333` |
 | `destination.namespace`         | string | Destination workload instance namespace. | istio-system |
-| `destination.principal`         | string | The user running the destination application. | service-account |
+| `destination.principal`         | string | The identity of the destination workload. | service-account |
 | `destination.owner`             | string | Reference to the workload controlling the destination workload instance.| `kubernetes://apis/extensions/v1beta1/namespaces/istio-system/deployments/istio-telemetry` |
 | `destination.workload.uid`      | string | Unique identifier of the destination workload. | istio://istio-system/workloads/istio-telemetry |
 | `destination.workload.name`     | string | Destination workload name. | istio-telemetry |
@@ -75,7 +75,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `connection.mtls` | boolean | Indicates whether a request is received over a mTLS enabled downstream connection. | |
 | `context.protocol`      | string | Protocol of the request or connection being proxied. | tcp |
 | `context.time`          | timestamp | The timestamp of Mixer operation. | |
-| `context.reporter.type` | string | Contextualizes the reported attribute set. Set to `inbound` for the server-side calls from sidecars and `outbound` for the client-side calls from sidecars and gateways | `inbound` |
+| `context.reporter.kind` | string | Contextualizes the reported attribute set. Set to `inbound` for the server-side calls from sidecars and `outbound` for the client-side calls from sidecars and gateways | `inbound` |
 | `context.reporter.uid`  | string | Platform-specific identifier of the attribute reporter. |  kubernetes://my-svc-234443-5sffe.my-namespace |
 | `api.service` | string | The public service name. This is different than the in-mesh service identity and reflects the name of the service exposed to the client. | my-svc.com |
 | `api.version` | string | The API version. | v1alpha1 |

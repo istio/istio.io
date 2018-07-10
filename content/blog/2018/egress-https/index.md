@@ -132,7 +132,7 @@ Accessing the web page after deleting the egress rule produces the same error th
 
 There is a caveat to this story. In HTTPS, all the HTTP details (hostname, path, headers etc.) are encrypted, so Istio cannot know the destination domain of the encrypted requests. Well, Istio could know the destination domain by the  [SNI](https://tools.ietf.org/html/rfc3546#section-3.1) (_Server Name Indication_) field. This feature, however, is not yet implemented in Istio. Therefore, currently Istio cannot perform filtering of HTTPS requests based on the destination domains.
 
-To allow Istio to perform filtering of egress requests based on domains, the microservices must issue HTTP requests. Istio then opens an HTTPS connection to the destination (performs TLS origination). The code of the microservices must be written differently or configured differently, according to whether the microservice runs inside or outside an Istio service mesh. This contradicts the Istio design goal of [maximizing transparency](/docs/concepts/what-is-istio/goals/). Sometimes we need to compromise...
+To allow Istio to perform filtering of egress requests based on domains, the microservices must issue HTTP requests. Istio then opens an HTTPS connection to the destination (performs TLS origination). The code of the microservices must be written differently or configured differently, according to whether the microservice runs inside or outside an Istio service mesh. This contradicts the Istio design goal of [maximizing transparency](/docs/concepts/what-is-istio/#design-goals). Sometimes we need to compromise...
 
 The diagram below shows how the HTTPS traffic to external services is performed. On the top, a microservice outside an Istio service mesh
 sends regular HTTPS requests, encrypted end-to-end. On the bottom, the same microservice inside an Istio service mesh must send unencrypted HTTP requests inside a pod, which are intercepted by the sidecar Envoy proxy. The sidecar proxy performs TLS origination, so the traffic between the pod and the external service is encrypted.
@@ -142,7 +142,7 @@ sends regular HTTPS requests, encrypted end-to-end. On the bottom, the same micr
     caption="HTTPS traffic to external services, from outside vs. from inside an Istio service mesh"
     >}}
 
-Here is how we code this behavior in the [Bookinfo details microservice code](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/bookinfo/src/details/details.rb), using the Ruby [net/http module](https://docs.ruby-lang.org/en/2.0.0/Net/HTTP.html):
+Here is how we code this behavior in the [Bookinfo details microservice code]({{< github_file >}}/samples/bookinfo/src/details/details.rb), using the Ruby [net/http module](https://docs.ruby-lang.org/en/2.0.0/Net/HTTP.html):
 
 {{< text ruby >}}
 uri = URI.parse('https://www.googleapis.com/books/v1/volumes?q=isbn:' + isbn)
@@ -158,7 +158,7 @@ Note that the port is derived by the `URI.parse` from the URI's schema (https://
 When the `WITH_ISTIO` environment variable is defined, the request is performed without SSL (plain HTTP).
 
 We set the `WITH_ISTIO` environment variable to _"true"_ in the
-[Kubernetes deployment spec of details v2](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/bookinfo/kube/bookinfo-details-v2.yaml),
+[Kubernetes deployment spec of details v2]({{< github_file >}}/samples/bookinfo/kube/bookinfo-details-v2.yaml),
 the `container` section:
 
 {{< text yaml >}}

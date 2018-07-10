@@ -18,7 +18,7 @@ RBAC from [Istio RBAC concept page](/docs/concepts/security/rbac/).
 * Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
 > The current Istio release may not have the up-to-date Istio RBAC samples. So before you continue, you
-need to copy these [configuration files](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/bookinfo/kube) to
+need to copy these [configuration files]({{< github_tree >}}/samples/bookinfo/kube) to
 `samples/bookinfo/kube` directory under where you installed Istio, and replace the original ones. The files include
 `bookinfo-add-serviceaccount.yaml`, `istio-rbac-enable.yaml`, `istio-rbac-namespace.yaml`, `istio-rbac-productpage.yaml`,
 `istio-rbac-details-reviews.yaml`, `istio-rbac-ratings.yaml`.

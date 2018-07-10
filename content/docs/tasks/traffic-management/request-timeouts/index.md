@@ -122,7 +122,7 @@ microservice also has its own application-level timeout (3 seconds) for calls to
 Notice that in this task we used an Istio route rule to set the timeout to 1 second.
 Had you instead set the timeout to something greater than 3 seconds (e.g., 4 seconds) the timeout
 would have had no effect since the more restrictive of the two will take precedence.
-More details can be found [here](/docs/concepts/traffic-management/handling-failures/#faq).
+More details can be found [here](/docs/concepts/traffic-management/#failure-handling-faq).
 
 One more thing to note about timeouts in Istio is that in addition to overriding them in route rules,
 as you did in this task, they can also be overridden on a per-request basis if the application adds

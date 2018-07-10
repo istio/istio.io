@@ -11,6 +11,6 @@ weight: 25
     >}}
 
 The synthetic benchmark scenarios and the source code of the tests are described
-on [GitHub](https://github.com/istio/istio/blob/{{<branch_name>}}/tools#istio-load-testing-user-guide)
+on [GitHub]({{< github_blob >}}/tools#istio-load-testing-user-guide)
 
 <!-- add blueperf and more details -->
