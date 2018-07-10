@@ -28,7 +28,7 @@ service.
   and then run the following command:
 
   {{< text bash >}}
-  $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-jason-v2-v3.yaml.yaml@
+  $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-jason-v2-v3.yaml@
   {{< /text >}}
 
 > If you have a conflicting rule that you set in previous tasks,
