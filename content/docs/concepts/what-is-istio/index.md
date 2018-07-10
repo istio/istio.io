@@ -10,10 +10,12 @@ aliases:
 
 Istio is an open platform to connect, manage, and secure microservices.
 
-Istio provides an easy way to create a network of deployed services with load balancing, service-to-service authentication,
-monitoring, and more, without requiring any changes in service code. You add Istio support to services by deploying a
-special sidecar proxy throughout your environment that intercepts all network communication between microservices, configured
-and managed using Istio's control plane functionality.
+Istio provides an easy way to create a network of deployed services with load
+balancing, service-to-service authentication, monitoring, and more, without
+requiring any changes in service code. You add Istio support to services by
+deploying a special sidecar proxy throughout your environment that intercepts
+all network communication between microservices, configured and managed using
+Istio's control plane functionality.
 
 * Automatic load balancing for HTTP, gRPC, WebSocket, and TCP traffic.
 
@@ -34,6 +36,12 @@ Istio can be deployed on [Kubernetes](https://kubernetes.io),
 plan to add support for additional platforms such as
 [Cloud Foundry](https://www.cloudfoundry.org/),
 and [Apache Mesos](https://mesos.apache.org/) in the near future.
+
+Istio currently supports:
+
+* Service deployment on Kubernetes
+* Services registered with Consul or Eureka
+* Services running on individual virtual machines.
 
 ## Why use Istio?
 
