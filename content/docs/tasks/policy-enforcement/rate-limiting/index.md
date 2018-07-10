@@ -21,15 +21,15 @@ service.
   requests from test user "jason" to version v2 and requests from any other
   user to v3.
 
-    {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
-    {{< /text >}}
+  {{< text bash >}}
+  $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
+  {{< /text >}}
 
-    and then run the following command:
+   and then run the following command:
 
-    {{< text bash >}}
-    $ istioctl replace -f @samples/bookinfo/routing/route-rule-reviews-jason-v2-v3.yaml.yaml@
-    {{< /text >}}
+  {{< text bash >}}
+  $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-jason-v2-v3.yaml@
+  {{< /text >}}
 
 > If you have a conflicting rule that you set in previous tasks,
 use `istioctl replace` instead of `istioctl create`.
@@ -56,7 +56,7 @@ Consider `ratings` as an external paid service like Rotten Tomatoes® with
    enable rate limiting.
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/routing/mixer-rule-ratings-ratelimit.yaml@
+    $ istioctl create -f @samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml@
     {{< /text >}}
 
 1. Confirm the `memquota` was created:
@@ -253,13 +253,13 @@ with the given namespace.
 * Remove the rate limit configuration:
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/routing/mixer-rule-ratings-ratelimit.yaml@
+    $ istioctl delete -f @samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml@
     {{< /text >}}
 
 * Remove the application routing rules:
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
+    $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, refer to the
