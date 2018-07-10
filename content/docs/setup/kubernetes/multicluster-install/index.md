@@ -43,8 +43,8 @@ Istio control plane, Envoy can then communicate with the **single**
 Istio control plane and form a mesh network across multiple Kubernetes
 clusters.
 
-This guide describes how to install a multicluster Istio topology using the 
-manifests and Helm charts provided within the Istio repository.  
+This guide describes how to install a multicluster Istio topology using the
+manifests and Helm charts provided within the Istio repository.
 
 ## Create service account in remote clusters and generate `kubeconfigs`
 
@@ -283,7 +283,7 @@ resolve the Istio service names for all envoy sidecars in those remote clusters.
 Since Kubernetes pods don't have stable IPs, restart of any Istio service pod in
 the control plane cluster will cause its endpoint to be changed. Therefore, any
 connection made from remote clusters to that endpoint will be broken. This is
-documented in [Istio issue#4822](https://github.com/istio/istio/issues/4822)
+documented in [Istio issue #4822](https://github.com/istio/istio/issues/4822)
 
 There are a number of ways to either avoid or resolve this scenario. This section
 provides a high level overview of these options.
@@ -324,4 +324,4 @@ rules to reach the proper Istio service in the main cluster.
 
 Within this option there are 2 sub-options.  One is to re-use the default Istio ingress gateway
 installed with the provided manifests or helm charts.  The other option is to create another
-Istio ingress gateway specifically for multicluster. 
+Istio ingress gateway specifically for multicluster.
