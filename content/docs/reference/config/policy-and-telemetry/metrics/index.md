@@ -25,7 +25,7 @@ We will describe metrics first and then the labels for each metric.
 *   **Response Size**: This is a `DISTRIBUTION` which measures the size of
     the HTTP response body size.
 
-*   **Tcp Byte Sent**: This is a `COUNTER` which measures the size of total 
+*   **Tcp Byte Sent**: This is a `COUNTER` which measures the size of total
     bytes sent during response in case of a TCP connection.
 
 *   **Tcp Byte Received**: This is a `COUNTER` which measures the size of total
@@ -103,7 +103,7 @@ We will describe metrics first and then the labels for each metric.
     {{< /text >}}
 
 *   **Destination Principal**: This identifies the peer principal of the traffic destination.
-    It is set when peer authentication is used. 
+    It is set when peer authentication is used.
 
     {{< text yaml >}}
     destination_principal: destination.principal | "unknown"
@@ -128,15 +128,15 @@ We will describe metrics first and then the labels for each metric.
     {{< text yaml >}}
     destination_service: destination.service.host | "unknown"
     {{< /text >}}
-    
+
 *   **Destination Service Name**: This identifies the destination service name.
     Ex: "details".
 
     {{< text yaml >}}
     destination_service_name: destination.service.name | "unknown"
     {{< /text >}}
-    
-*   **Destination Service Namespace**: This identifies the namespace of 
+
+*   **Destination Service Namespace**: This identifies the namespace of
     destination service.
 
     {{< text yaml >}}
