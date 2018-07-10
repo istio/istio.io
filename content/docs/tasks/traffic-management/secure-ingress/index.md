@@ -13,7 +13,7 @@ gateway to expose an HTTP endpoint of a service to external traffic. This task e
 ## Before you begin
 
 1.  Perform the steps in the [Before you begin](/docs/tasks/traffic-management/ingress#before-you-begin) and [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress#determining-the-ingress-ip-and-ports) sections of the
-[Control Ingress Traffic](/docs/tasks/traffic-management/ingress) task. After performing those steps you should have Istio and [httpbin]({{< github_tree >}}/samples/httpbin) service deployed, and the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT` set.
+[Control Ingress Traffic](/docs/tasks/traffic-management/ingress) task. After performing those steps you should have Istio and the [httpbin]({{< github_tree >}}/samples/httpbin) service deployed, and the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT` set.
 
 1.  For macOS users, verify that you use _curl_ compiled with the [LibreSSL](http://www.libressl.org) library:
 
@@ -53,7 +53,7 @@ from the https://github.com/nicholasjackson/mtls-go-example repository.
 
 ## Configure a TLS ingress gateway
 
-In this subsection you configure an ingress gateway with the port 443 to handle HTTPS traffic. You first create a secret
+In this subsection you configure an ingress gateway with port 443 to handle HTTPS traffic. You first create a secret
 with a certificate and a private key. Then you create a `Gateway` definition that contains a `server` on port 443.
 
 1. Create a Kubernetes `Secret` to hold the server's certificate and private key. Use `kubectl` to create the secret
