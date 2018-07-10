@@ -25,7 +25,7 @@ service.
   $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
   {{< /text >}}
 
-  and then run the following command:
+   and then run the following command:
 
   {{< text bash >}}
   $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-jason-v2-v3.yaml.yaml@
