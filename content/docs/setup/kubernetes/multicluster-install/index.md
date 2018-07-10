@@ -44,7 +44,7 @@ Istio control plane and form a mesh network across multiple Kubernetes
 clusters.
 
 This guide describes how to install a multicluster Istio topology using the 
-manifests and helm charts provided within the Istio repository.  
+manifests and Helm charts provided within the Istio repository.  
 
 ## Create service account in remote clusters and generate `kubeconfigs`
 
@@ -187,13 +187,6 @@ before proceeding to steps in this section.
 > These operations must be run on the Istio control plane cluster
 to capture the Pilot, Policy, and Statsd Pod IP endpoints.
 
-> As decumented in [istio/istio#4822](https://github.com/istio/istio/issues/4822),
-if any one of the endpoints listed restarts, then the connection from remote
-clusters to that endpoint will be broken. See [Stable access to istio control
-plane services](#stable-access-to-istio-control-plane-services] for details on
-how to avoid this scenario.
-
-
 > If Helm is used with Tiller on each remote, copy the environment
 variables to each node before using Helm to connect the remote
 cluster to the Istio control plane.
@@ -306,7 +299,7 @@ are a number of ways this can be done. The most obvious is to rerun the Helm
 install in the remote cluster after the Istio services on the control plane 
 cluster have restarted. 
 
-### Use 'LoadBalance' service type
+### Use load balance service type
 
 In Kubernetes, you can declare a service with a service type to be 
 [LoadBalancer](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types).
