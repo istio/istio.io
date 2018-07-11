@@ -22,7 +22,7 @@ service.
     * Version v1 doesn’t call the `ratings` service.
     * Version v2 calls the `ratings` service, and displays each rating as 1 to 5 black stars.
     * Version v3 calls the `ratings` service, and displays each rating as 1 to 5 red stars.
-  
+
     You need to set a default route to one of the versions. Otherwise, when you send requests to the `reviews` service, Istio routes requests to all available versions randomly, and sometimes the output contains star ratings and sometimes it doesn't.
 
 1. Set the default version for all services to v1. If you’ve already created route rules for the sample, use `replace` rather than `create` in the following command.
@@ -260,12 +260,12 @@ with the given namespace.
     $ istioctl delete -f @samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml@
     {{< /text >}}
 
-2. Remove the application routing rules:
+1. Remove the application routing rules:
 
     {{< text bash >}}
     $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
-3. If you are not planning to explore any follow-on tasks, refer to the
+1. If you are not planning to explore any follow-on tasks, refer to the
   [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.
