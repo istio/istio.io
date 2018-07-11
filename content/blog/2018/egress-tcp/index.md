@@ -133,7 +133,7 @@ As a reminder, here is the end-to-end architecture of the application from the [
 
 ### Use the database for ratings data in Bookinfo application
 
-1.  I modify the deployment spec of a version of the _ratings_ microservice that uses a MySQL database, to use my database instance. The spec is in `samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml` of an Istio release archive. I edit the following lines:
+1.  I modify the deployment spec of a version of the _ratings_ microservice that uses a MySQL database, to use my database instance. The spec is in `samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml` of an Istio release archive. I edit the following lines:
 
     {{< text yaml >}}
     - name: MYSQL_DB_HOST
@@ -151,7 +151,7 @@ As a reminder, here is the end-to-end architecture of the application from the [
 1.  I apply the modified spec to deploy the version of the _ratings_ microservice, _v2-mysql_, that will use my database.
 
     {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml@)
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml@)
     deployment "ratings-v2-mysql" created
     {{< /text >}}
 
@@ -299,7 +299,7 @@ with Istio. The Istio control plane does not have to be accessible from the mach
 1.  Undeploy _ratings v2-mysql_:
 
     {{< text bash >}}
-    $ kubectl delete -f <(istioctl kube-inject -f @samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml@)
+    $ kubectl delete -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml@)
     deployment "ratings-v2-mysql" deleted
     {{< /text >}}
 
