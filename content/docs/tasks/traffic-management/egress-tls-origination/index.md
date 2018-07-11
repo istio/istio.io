@@ -90,7 +90,7 @@ Note that you use a wildcard `*` in your `hosts` definition: `*.cnn.com`. Using 
     The output should be similar to the above (some details replaced by ellipsis).
 
 Note the `-L` flag of _curl_ which instructs _curl_ to follow redirects. In this case,
-the server returned a redirect response ([301 Moved Permanently](https://tools.ietf.org/html/rfc2616#section-10.3.2)) to an HTTP request to http://edition.cnn.com/politics. The redirect response instructs the client to send an additional request, this time by HTTPS, to https://edition.cnn.com/politics. For the second request, the server returns the requested content and _200 OK_ status code.
+the server returned a redirect response ([301 Moved Permanently](https://tools.ietf.org/html/rfc2616#section-10.3.2)) to an HTTP request to `http://edition.cnn.com/politics`. The redirect response instructs the client to send an additional request, this time by HTTPS, to `https://edition.cnn.com/politics`. For the second request, the server returns the requested content and _200 OK_ status code.
 
 While for the _curl_ command this redirection happens transparently, there are two issues here. The first issue is the redundant first request, which doubles the latency of fetching the content of http://edition.cnn.com/politics. The second issue is that the path of the URL, _politics_ in this case, is sent in clear text. If there is an attacker who sniffs the communication between your application and _cnn.com_, the attacker would know which specific topics and articles of _cnn.com_ your application fetched. For privacy reasons, you might want to prevent such disclosure from the attacker.
 
@@ -104,11 +104,11 @@ $ istioctl delete serviceentry cnn
 
 1.  Define a `ServiceEntry` to allow traffic to _edition.cnn.com_, a `VirtualService` to perform request port rewriting, and a `DestinationRule` for TLS origination.
 
-    Unlike the ServiceEntry in the previous section, here you use HTTP for the protocol on port 433 because clients
+    Unlike the `ServiceEntry` in the previous section, here you use HTTP for the protocol on port 433 because clients
 will send HTTP requests and Istio will perform TLS origination for them. Also, in this example the resolution must be set
 to DNS to correctly configure Envoy.
 
-    Finally, note that the VirtualService uses a specific host _edition.cnn.com_ (no wildcard) because the Envoy
+    Finally, note that the `VirtualService` uses a specific host _edition.cnn.com_ (no wildcard) because the Envoy
 proxy needs to know exactly which host to access using HTTPS:
 
     {{< text bash >}}
