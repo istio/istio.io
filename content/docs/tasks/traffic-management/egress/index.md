@@ -186,7 +186,7 @@ in particular, the same value of the `--namespace` flag. In addition to the flag
 
 Redeploy the `sleep` application as described in the [Before you begin](/docs/tasks/traffic-management/egress/#before-you-begin) section.
 
-### Set the value of global.proxy.includeIPRanges
+### Set the value of `global.proxy.includeIPRanges`
 
 Set the value of `global.proxy.includeIPRanges` according to your cluster provider.
 
