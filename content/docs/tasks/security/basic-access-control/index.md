@@ -16,6 +16,28 @@ This task shows how to control access to a service using the Kubernetes labels.
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
+* The Bookinfo sample deploys multiple versions of each microservice, so you will start by creating destination rules
+that define the service subsets corresponding to each version.
+
+    {{< text bash >}}
+    $ istioctl create -f @samples/bookinfo/networking/destination-rule-all.yaml@
+    {{< /text >}}
+
+    If you enabled mutual TLS, please run the following instead
+
+    {{< text bash >}}
+    $ istioctl create -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
+    {{< /text >}}
+
+    You can display the destination rules with the following command:
+
+    {{< text bash >}}
+    $ istioctl get destinationrules -o yaml
+    {{< /text >}}
+
+    Since the subset references in virtual services rely on the destination rules,
+    wait a few seconds for destination rules to propagate before adding virtual services that refer to these subsets.
+
 * Initialize the application version routing to direct `reviews` service requests from
   test user "jason" to version v2 and requests from any other user to v3.
 
@@ -175,6 +197,18 @@ Verify that after logging in as "jason" you see black stars.
 
     {{< text bash >}}
     $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
+    {{< /text >}}
+
+*   Remove the application destination rules:
+
+    {{< text bash >}}
+    $ istioctl delete -f @samples/bookinfo/networking/destination-rule-all.yaml@
+    {{< /text >}}
+
+    If you enabled mutual TLS, please run the following instead
+
+    {{< text bash >}}
+    $ istioctl delete -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
     {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, refer to the
