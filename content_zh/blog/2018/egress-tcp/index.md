@@ -1,196 +1,311 @@
 ---
-title: 使用外部 Web 服务
+title: 使用外部 TCP 服务
 description: 描述基于 Istio Bookinfo 示例的简单场景
-publishdate: 2018-01-31
-subtitle: HTTPS 流量的出口规则
+publishdate: 2018-02-06
+subtitle: Egress rules for TCP traffic
 attribution: Vadim Eisenberg
-weight: 93
-keywords: [traffic-management,egress,https]
+weight: 92
+aliases:
+  - /docs/tasks/traffic-management/egress-tcp/
+keywords: [traffic-management,egress,tcp]
 ---
 
-在许多情况下，在 _service mesh_ 中的微服务序并不是应用程序的全部， 有时，网格内部的微服务需要使用在服务网格外部的遗留系统提供的功能， 虽然我们希望逐步将这些系统迁移到服务网格中。 但是在迁移这些系统之前，必须让服务网格内的应用程序能访问它们。 还有其他情况，应用程序使用外部组织提供的 Web 服务，通常是通过万维网提供的服务。
+在我之前的博客文章[Consuming External Web Services]（/ blog / 2018 / egress-https /）中，我描述了如何通过HTTPS在网状Istio应用程序中使用外部服务。, 在这篇文章中，我演示了通过TCP消费外部服务。, 我使用[Istio Bookinfo示例应用程序]（/ docs / examples / bookinfo /），这是将书籍评级数据保存在MySQL数据库中的版本。, 我在集群外部署此数据库并配置_ratings_ microservice以使用它。, 我定义了[出口规则]（/ docs / reference / config / istio.routing.v1alpha1 / #EdressRule）以允许网内应用程序访问外部数据库。
 
-在这篇博客文章中，我修改了[Istio Bookinfo 示例应用程序](/docs/examples/bookinfo/)让它可以从外部 Web 服务（[Google Books APIs](https://developers.google.com/books/docs/v1/getting_started) ）获取图书详细信息。 我将展示如何使用 _egress rule_ 在 Istio 中启用外部 HTTPS 流量。 最后，我解释了当前与 Istio 出口流量控制相关的问题。
+## Bookinfo示例应用程序与外部评级数据库
 
-## Bookinfo 示例应用程序使用外部的 Web 服务扩展详细信息
+首先，我在Kubernetes集群之外设置了一个MySQL数据库实例来保存图书评级数据。, 然后我修改[Bookinfo示例应用程序]（/ docs / examples / bookinfo /）以使用我的数据库。
 
-### 初始设定
+### 为评级数据设置数据库
 
-为了演示使用外部 Web 服务的场景，我首先使用安装了 [Istio](/docs/setup/kubernetes/quick-start/#installation-steps) 的 Kubernetes 集群, 然后我部署[Istio Bookinfo 示例应用程序](/docs/examples/bookinfo/), 此应用程序使用 _details_ 微服务来获取书籍详细信息，例如页数和发布者, 原始 _details_ 微服务提供书籍详细信息，无需咨询任何外部服务。
+为此，我设置了[MySQL]（https://www.mysql.com）的实例。, 你可以使用任何MySQL实例;, 我使用[Compose for MySQL]（https://www.ibm.com/cloud/compose/mysql）。, 我使用`mysqlsh`（[MySQL Shell]（https://dev.mysql.com/doc/mysql-shell/en/））作为MySQL客户端来提供评级数据。
 
-此博客文章中的示例命令与 Istio 0.2+ 一起使用，启用或不启用 [Mutual TLS](/docs/concepts/security/mutual-tls/)。
+1.要初始化数据库，我会在出现提示时运行以下命令输入密码。, 该命令使用`admin`用户的凭据执行，默认情况下由[Compose for MySQL]（https://www.ibm.com/cloud/compose/mysql）创建。
 
-此帖子的场景所需的 Bookinfo 配置文件显示自 [Istio版本0.5](https://github.com/istio/istio/releases/tag/0.5.0)。
+    {{< text bash >}}
+    $ curl -s {{< github_file >}}/samples/bookinfo/src/mysql/mysqldb-init.sql | \
+    mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host <the database host> --port <the database port>
+    {{< /text >}}
 
-Bookinfo 配置文件位于 Istio 发行存档的 `samples/bookinfo/kube` 目录中。
+    _**或**_
 
-以下是原始[Bookinfo示例应用程序](/docs/examples/bookinfo/)中应用程序端到端体系结构的副本。
+    使用`mysql`客户端和本地MySQL数据库时，我会运行：
+
+    {{< text bash >}}
+    $ curl -s {{< github_file >}}/samples/bookinfo/src/mysql/mysqldb-init.sql | \
+    mysql -u root -p
+    {{< /text >}}
+
+1.然后我创建一个名为_bookinfo_的用户，并在`test.ratings`表上授予它_SELECT_权限：
+
+    {{< text bash >}}
+    $ mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host <the database host> --port <the database port>  \
+    -e "CREATE USER 'bookinfo' IDENTIFIED BY '<password you choose>'; GRANT SELECT ON test.ratings to 'bookinfo';"
+    {{< /text >}}
+
+    _**OR**_
+
+    对于`mysql`和本地数据库，命令将是：
+
+    {{< text bash >}}
+    $ mysql -u root -p -e \
+    "CREATE USER 'bookinfo' IDENTIFIED BY '<password you choose>'; GRANT SELECT ON test.ratings to 'bookinfo';"
+    {{< /text >}}
+    
+    在这里，我应用[最小特权原则]（https://en.wikipedia.org/wiki/Principle_of_least_privilege）。, 这意味着我不在Bookinfo应用程序中使用我的_admin_用户。, 相反，我使用最小权限为Bookinfo应用程序_bookinfo_创建了一个特殊用户。, 在这种情况下，_bookinfo_用户只对单个表具有“SELECT”特权。
+    
+    在运行命令创建用户之后，我将通过检查最后一个命令的编号并运行`history -d <创建用户的命令编号>来清理我的bash历史记录。, 我不希望新用户的密码存储在bash历史记录中。, 如果我使用`mysql`，我也会删除`〜/ .mysql_history`文件中的最后一个命令。, 在[MySQL文档]（https://dev.mysql.com/doc/refman/5.5/en/create-user.html）中阅读有关新创建用户的密码保护的更多信息。
+
+1.  我检查创建的评级，看看一切都按预期工作：
+
+    {{< text bash >}}
+    $ mysqlsh --sql --ssl-mode=REQUIRED -u bookinfo -p --host <the database host> --port <the database port> \
+    -e "select * from test.ratings;"
+    Enter password:
+    +----------+--------+
+    | ReviewID | Rating |
+    +----------+--------+
+    |        1 |      5 |
+    |        2 |      4 |
+    +----------+--------+
+    {{< /text >}}
+
+    _**或**_
+
+    对于`mysql`和本地数据库：
+
+    {{< text bash >}}
+    $ mysql -u bookinfo -p -e "select * from test.ratings;"
+    Enter password:
+    +----------+--------+
+    | ReviewID | Rating |
+    +----------+--------+
+    |        1 |      5 |
+    |        2 |      4 |
+    +----------+--------+
+    {{< /text >}}
+
+1.  我暂时将评级设置为1，以便在Bookinfo _ratings_服务使用我们的数据库时提供可视线索：
+
+    {{< text bash >}}
+    $ mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host <the database host> --port <the database port>  \
+    -e "update test.ratings set rating=1; select * from test.ratings;"
+    Enter password:
+    +----------+--------+
+    | ReviewID | Rating |
+    +----------+--------+
+    |        1 |      1 |
+    |        2 |      1 |
+    +----------+--------+
+    {{< /text >}}
+
+    _**或**_
+
+    对于`mysql`和本地数据库：
+
+    {{< text bash >}}
+    $ mysql -u root -p -e "update test.ratings set rating=1; select * from  test.ratings;"
+    Enter password:
+    +----------+--------+
+    | ReviewID | Rating |
+    +----------+--------+
+    |        1 |      1 |
+    |        2 |      1 |
+    +----------+--------+
+    {{< /text >}}
+    
+    我在最后一个命令中使用了_admin_用户（和_root_用于本地数据库），因为_bookinfo_用户在`test.ratings`表上没有_UPDATE_权限。
+
+现在我准备部署将使用我的数据库的Bookinfo应用程序版本。
+
+### Bookinfo应用程序的初始设置
+
+为了演示使用外部数据库的场景，我首先使用安装了[Istio]的Kubernetes集群（/ docs / setup / kubernetes / quick-start /＃installation-steps）。, 然后我部署[Istio Bookinfo示例应用程序]（/ docs / examples / bookinfo /）。, 此应用程序使用_ratings_微服务来获取书籍评级，数字在1到5之间。评级显示为每个评论的星号。, 有几个版本的_ratings_ microservice。, 有些人使用[MongoDB]（https://www.mongodb.com），其他人使用[MySQL]（https://www.mysql.com）作为他们的数据库。
+
+此博客文章中的示例命令与Istio 0.3+一起使用，启用或不启用[Mutual TLS]（/ docs / concepts / security / mutual-tls /）。
+
+提醒一下，这是[Bookinfo示例应用程序]（/ docs / examples / bookinfo /）中应用程序的端到端架构。
 
 {{< image width="80%" ratio="59.08%"
     link="/docs/examples/bookinfo/withistio.svg"
-    caption="The Original Bookinfo Application"
+    caption="The original Bookinfo application"
     >}}
 
-### Bookinfo 详细信息版本 2
+### 将数据库用于Bookinfo应用程序中的评级数据
 
-让我们添加一个新版本的 _details_ microservice，_v2_ ，从[Google Books APIs](https://developers.google.com/books/docs/v1/getting_started)中获取图书详细信息。
+1.  我修改了使用MySQL数据库的_ratings_微服务版本的部署规范，以使用我的数据库实例。, 该规范位于Istio发行档案的`samples / bookinfo / kube / bookinfo-ratings-v2-mysql.yaml`中。, 我编辑以下几行：
 
-{{< text bash >}}
-$ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/kube/bookinfo-details-v2.yaml@)
-{{< /text >}}
+    {{< text yaml >}}
+    - name: MYSQL_DB_HOST
+      value: mysqldb
+    - name: MYSQL_DB_PORT
+      value: "3306"
+    - name: MYSQL_DB_USER
+      value: root
+    - name: MYSQL_DB_PASSWORD
+      value: password
+    {{< /text >}}
 
-现在，应用程序的更新架构如下所示：
+    我替换上面代码段中的值，指定数据库主机，端口，用户和密码。, 请注意，在Kubernetes中使用容器环境变量中密码的正确方法是[使用机密]（https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables）。, 仅对于此示例任务，我直接在部署规范中编写密码。 , **不要在真实环境中这样做**！, 我还假设每个人都意识到“密码”不应该用作密码......
 
-{{< image width="80%" ratio="65.16%"
-    link="./bookinfo-details-v2.svg"
-    caption="The Bookinfo Application with details V2"
+1.  我应用修改后的规范来部署将使用我的数据库的_ratings_ microservice，_v2-mysql_的版本。
+
+    {{< text bash >}}
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml@)
+    deployment "ratings-v2-mysql" created
+    {{< /text >}}
+
+1.  我将发往_reviews_服务的所有流量路由到其_v3_版本。, 我这样做是为了确保_reviews_服务始终调用_ratings_
+服务。, 此外，我将发往_ratings_服务的所有流量路由到使用我的数据库的_ratings v2-mysql_。, 我通过添加两个[路由规则]（/ docs / reference / config / istio.routing.v1alpha1 /）为上述两种服务添加路由。, 这些规则在Istio发行档案的`samples / bookinfo / kube / route-rule-ratings-mysql.yaml`中指定。
+
+    {{< text bash >}}
+    $ istioctl create -f @samples/bookinfo/kube/route-rule-ratings-mysql.yaml@
+    Created config route-rule/default/ratings-test-v2-mysql at revision 1918799
+    Created config route-rule/default/reviews-test-ratings-v2 at revision 1918800
+    {{< /text >}}
+
+更新的架构如下所示。, 请注意，网格内的蓝色箭头标记根据我们添加的路径规则配置的流量。, 根据路由规则，流量将发送到_reviews v3_和_ratings v2-mysql_。
+
+{{< image width="80%" ratio="59.31%"
+    link="./bookinfo-ratings-v2-mysql-external.svg"
+    caption="The Bookinfo application with ratings v2-mysql and an external MySQL database"
     >}}
 
-请注意，Google Book 博客服务位于 Istio 服务网格之外，其边界由虚线标记。
+请注意，MySQL数据库位于Istio服务网格之外，或者更准确地说是在Kubernetes集群之外。, 服务网格的边界由虚线标记。
 
-现在让我们使用以下 _route rule_ 将指向 _details_ 微服务的所有流量定向到 _details version v2_：
+### 访问网页
 
-{{< text bash >}}
-$ cat <<EOF | istioctl create -f -
-apiVersion: config.istio.io/v1alpha2
-kind: RouteRule
-metadata:
-  name: details-v2
-  namespace: default
-spec:
-  destination:
-    name: details
-  route:
-  - labels:
-      version: v2
-EOF
-{{< /text >}}
+在[确定入口IP和端口]（/ docs / examples / bookinfo / #infinition-the-ingress-ip-and-port）之后，让我们访问应用程序的网页。
 
-在[确定入口IP和端口](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)之后，让我们访问应用程序的网页。
+我们遇到了问题...在每次审核下方都会显示消息_“评级服务当前不可用”_而不是评级星标。
 
-糟糕...我们显示了 _错误获取产品详细信息_，而不是书籍详细信息：
-
-{{< image width="80%" ratio="36.01%"
-    link="./errorFetchingBookDetails.png"
-    caption="The Error Fetching Product Details Message"
+{{< image width="80%" ratio="36.19%"
+    link="./errorFetchingBookRating.png"
+    caption="The Ratings service error messages"
     >}}
 
-好消息是我们的应用程序没有崩溃, 通过良好的微服务设计，我们没有**传播失败**。 在我们的例子中，失败的 _details_  微服务不会导致 _productpage_ 微服务失败, 尽管 _details_ 微服务失败，仍然提供了应用程序的大多数功能, 我们有**优雅的服务降级**：正如您所看到的，评论和评级正确显示，应用程序仍然有用。
+与[使用外部Web服务]（/ blog / 2018 / egress-https /）一样，我们体验**优雅的服务降级**，这很好。, 由于_ratings_ microservice中的错误，应用程序没有崩溃。, 应用程序的网页正确显示了书籍信息，详细信息和评论，只是没有评级星。
 
-那可能出了什么问题？ 啊......答案是我忘了启用从网格内部到外部服务的流量，在本例中是 Google Book Web服务。 默认情况下，Istio sidecar代理（[Envoy proxies](https://www.envoyproxy.io)）**阻止到集群外目的地的所有流量**, 要启用此类流量，我们必须定义[出口规则](/ docs / reference / config / istio.routing.v1alpha1 / #EgressRule)。
+我们遇到的问题与[使用外部Web服务]（/ blog / 2018 / egress-https /）中的问题相同，即Kubernetes集群外的所有流量（TCP和HTTP）都被边车代理默认阻止。, 要为TCP启用此类流量，必须定义TCP的出口规则。
 
-### Google Book 网络服务的出口规则
+### 外部MySQL实例的出口规则
 
-不用担心，让我们定义**出口规则**并修复我们的应用程序：
+TCP出口规则来救我们。, 我将以下YAML规范复制到一个文本文件（让我们称之为`egress-rule-mysql.yaml`）并编辑它以指定我的数据库实例的IP及其端口。
 
-{{< text bash >}}
-$ cat <<EOF | istioctl create -f -
+{{< text yaml >}}
 apiVersion: config.istio.io/v1alpha2
 kind: EgressRule
 metadata:
-  name: googleapis
+  name: mysql
   namespace: default
 spec:
   destination:
-      service: "*.googleapis.com"
+      service: <MySQL instance IP>
   ports:
-      - port: 443
-        protocol: https
-EOF
+      - port: <MySQL instance port>
+        protocol: tcp
 {{< /text >}}
 
-现在访问应用程序的网页会显示书籍详细信息而不会出现错误：
-
-{{< image width="80%" ratio="34.82%"
-    link="./externalBookDetails.png"
-    caption="Book Details Displayed Correctly"
-    >}}
-
-请注意，我们的出口规则允许使用 HTTPS 协议在端口 443 上与任何与 _*.googleapis.com_ 匹配的域进行流量传输, 让我们假设为了示例，我们的 Istio 服务网格中的应用程序必须访问 _googleapis.com_ 的多个子域，例如 _www.googleapis.com_ 以及 _fcm.googleapis.com_ , 我们的规则允许流量到 _www.googleapis.com_ 和 _fcm.googleapis.com_，因为它们都匹配  _*.googleapis.com_ , 此**通配符**功能允许我们使用单个出口规则启用到多个域的流量。
-
-我们可以查询我们的出口规则：
+然后我运行`istioctl`将出口规则添加到服务网格：
 
 {{< text bash >}}
-$ istioctl get egressrules
-NAME        KIND                                NAMESPACE
-googleapis  EgressRule.v1alpha2.config.istio.io default
+$ istioctl create -f egress-rule-mysql.yaml
+Created config egress-rule/default/mysql at revision 1954425
 {{< /text >}}
 
-我们可以删除我们的出口规则：
+请注意，对于TCP出口规则，我们将`tcp`指定为规则端口的协议。, 另请注意，我们使用外部服务的IP而不是其域名。, 我将详细讨论TCP出口规则[下面]（＃egress-rules-for-tcp-traffic）。, 现在，让我们验证我们添加的出口规则是否解决了问题。, 让我们访问网页，看看明星是否回来了。
 
-{{< text bash >}}
-$ istioctl delete egressrule googleapis -n default
-Deleted config: egressrule googleapis
-{{< /text >}}
+有效！, 访问应用程序的网页会显示评级而不会出现错误：
 
-并在输出中看到删除出口规则。
-
-删除出口规则后访问网页会产生我们之前遇到的相同错误，即_获取产品详细信息错误_, 正如我们所看到的，出口规则是**动态定义**，与许多其他 Istio 配置工件一样 , Istio 运算符可以动态决定它们允许微服务访问哪些域, 他们可以动态启用和禁用外部域的流量，而无需重新部署微服务。
-
-## Istio出口流量控制的问题
-
-### 由 Istio 发起的 TLS
-
-这个故事有一个警告, 在 HTTPS 中，所有 HTTP 详细信息（主机名，路径，标头等）都已加密，因此 Istio 无法知道加密请求的目标域, 那么，Istio 可以通过 [SNI](https://tools.ietf.org/html/rfc3546#section-3.1)（_Server Name Indication_）字段来了解目标域, 但是，此功能尚未在 Istio 中实现, 因此，目前Istio无法基于目标域执行 HTTPS 请求的过滤。
-
-为了允许 Istio 基于域执行出口请求的过滤，微服务必须发出 HTTP 请求, 然后，Istio 打开到目标的 HTTPS 连接（执行 TLS 发起）, 根据微服务是在 Istio 服务网格内部还是外部运行，微服务的代码必须以不同方式编写或以不同方式配置, 这与[最大化透明度](/ docs / concepts / what-is-istio / #design-goals)的 Istio 设计目标相矛盾, 有时我们需要妥协......
-
-下图显示了如何执行外部服务的 HTTPS 流量, 在顶部，Istio 服务网格外部的微服务
-
-发送常规 HTTPS 请求，端到端加密, 在底部，Istio 服务网格内的相同微服务必须在 pod 内发送未加密的HTTP请求，这些请求被 sidecar Envoy 代理拦截 , sidecar 代理执行 TLS 发起，因此 pod 和外部服务之间的流量被加密。
-
-{{< image width="80%" ratio="65.16%"
-    link="./https_from_the_app.svg"
-    caption="HTTPS traffic to external services, from outside vs. from inside an Istio service mesh"
+{{< image width="80%" ratio="36.69%"
+    link="./externalMySQLRatings.png"
+    caption="Book Ratings Displayed Correctly"
     >}}
 
-以下是我们如何在[Bookinfo details microservice code]({{< github_file >}}/samples/bookinfo/src/details/details.rb)中使用Ruby [net / http模块](https://docs.ruby-lang.org/en/2.0.0/Net/HTTP.html)：
+请注意，正如预期的那样，我们会看到两个显示评论的一星评级。, 我将评级更改为一颗星，为我们提供了一个视觉线索，确实使用了我们的外部数据库。
 
-{{< text ruby >}}
-uri = URI.parse('https://www.googleapis.com/books/v1/volumes?q=isbn:' + isbn)
-http = Net::HTTP.new(uri.host, uri.port)
-...
-unless ENV['WITH_ISTIO'] === 'true' then
-     http.use_ssl = true
-end
-{{< /text >}}
+与HTTP / HTTPS的出口规则一样，我们可以动态地使用`istioctl`删除和创建TCP的出口规则。
 
-请注意，端口是由URI的架构（https://）中的 `URI.parse` 派生为 '443`，即默认的 HTTPS 端口, 当在 Istio 服务网格内运行时，微服务必须向端口 “443” 发出 HTTP 请求，该端口是外部服务侦听的端口。
+## 出口TCP流量控制的动机
 
-当定义 `WITH_ISTIO` 环境变量时，请求在没有 SSL（普通HTTP）的情况下执行。
+一些网内Islation应用程序必须访问外部服务，例如遗留系统。, 在许多情况下，不通过HTTP或HTTPS协议执行访问。, 使用其他TCP协议，例如[MongoDB有线协议]（https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/）和[MySQL客户端/服务器协议]（https）等特定于数据库的协议, ：//dev.mysql.com/doc/internals/en/client-server-protocol.html）与外部数据库通信。
 
-我们将 `WITH_ISTIO` 环境变量设置为 _“true”_ [Kubernetes deployment spec of details v2]({{< github_file >}}/samples/bookinfo/kube/bookinfo-details-v2.yaml),
+请注意，如果访问外部HTTPS服务，如[控制出口TCP流量]（/ docs / tasks / traffic-management / egress /）任务中所述，应用程序必须向外部服务发出HTTP请求。, 附加到pod或VM的Envoy边车代理将拦截请求并打开与外部服务的HTTPS连接。, 流量将在pod或VM内部未加密，但会使pod或VM加密。
 
-the `container` section:
+但是，由于以下原因，有时这种方法无法工作：
 
-{{< text yaml >}}
-env:
-- name: WITH_ISTIO
-  value: "true"
-{{< /text >}}
+* 应用程序的代码配置为使用HTTPS URL，无法更改
 
-####  Istio mutual TLS 与 TLS 的关系
+* 应用程序的代码使用一些库来访问外部服务，该库仅使用HTTPS
 
-请注意，在这种情况下，TLS 的源与 Istio 应用的 [mutual TLS](/docs/concepts/security/mutual-tls/) 无关, 无论 Istio mutual TLS 是否启用，外部服务的 TLS 源都将起作用 ,   保证服务网**内**的服务到服务通信，并为每个服务提供强大的身份认证, 在 **外部服务**的情况下，我们有**单向** TLS，这是用于保护 Web 浏览器和 Web 服务器之间通信的相同机制 , TLS 应用于与外部服务的通信，以验证外部服务器的身份并加密流量。
+* 即使流量仅在Pod或VM内部未加密，也存在不允许未加密流量的合规性要求
 
-### 恶意微服务威胁
+在这种情况下，HTTPS可以被Istio视为_opaque TCP_，并且可以像处理其他TCP非HTTP协议一样处理。
 
-另一个问题是出口规则目前**不是安全功能**; 他们只**允许**流量到外部服务, 对于基于 HTTP 的协议，规则基于域 , Istio不会检查请求的目标 IP 是否与_Host_ 标头匹配, 这意味着服务网格内的恶意微服务可能会欺骗 Istio 允许流量到恶意IP, 攻击是将某个现有 Egress 规则允许的域之一设置为恶意请求的 _Host_ 头。
+接下来让我们看看我们如何定义TCP流量的出口规则。
 
-Istio 目前不支持保护出口流量，只能其他地方执行，例如通过防火墙或 Istio 外部的其他代理, 现在，我们正在努力在出口流量上启用混合器安全策略的应用，并防止上述攻击。
+## TCP流量的出口规则
 
-### 没有跟踪，遥测和没有混音器检查
+启用到特定端口的TCP流量的出口规则必须指定“TCP”作为端口的协议。, 此外，对于[MongoDB有线协议]（https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/），协议可以指定为“MONGO”，而不是“TCP”。
 
-请注意，目前不能为出口流量收集跟踪和遥测信, 无法应用 Mixer, 我们正在努力在未来的 Istio 版本中解决这个问题。
+对于规则的`destination.service`字段，必须使用[CIDR]（https://tools.ietf.org/html/rfc2317）表示法中的IP或IP块。
+
+要通过其主机名启用到外部服务的TCP流量，必须指定主机名的所有IP。, 每个IP必须由CIDR块指定或作为单个IP指定，每个块或IP在单独的出口规则中。
+
+请注意，外部服务的所有IP并不总是已知。, 要通过IP启用TCP流量，而不是通过主机名启用流量，只需指定应用程序使用的IP。
+
+另请注意，外部服务的IP并不总是静态的，例如在[CDNs]（https://en.wikipedia.org/wiki/Content_delivery_network）的情况下。, 有时IP在大多数情况下是静态的，但可以不时地更改，例如由于基础设施的变化。, 在这些情况下，如果已知可能IP的范围，则应通过CIDR块指定范围（如果需要，甚至可以通过多个出口规则）。, 如果不知道可能的IP的范围，则不能使用TCP的出口规则，并且[必须直接调用外部服务]（/ docs / tasks / traffic-management / egress /＃calling-external-services-direct），, 绕过边车代理人。
+
+## 与网格扩展的关系
+
+请注意，本文中描述的场景与[集成虚拟机]（/ docs / examples / integrate-vms /）示例中描述的网格扩展场景不同。, 在这种情况下，MySQL实例在与Istio服务网格集成的外部（集群外）机器（裸机或VM）上运行。 , MySQL服务成为网格的一流公民，具有Istio的所有有益功能。, 除此之外，服务可以通过本地集群域名寻址，例如通过`mysqldb.vm.svc.cluster.local`，并且可以通过[相互TLS身份验证]保护与它的通信（/ docs / concepts /, 安全/互-TLS /）。, 无需创建出口规则来访问此服务;, 但是，该服务必须在Istio注册。, 要启用此类集成，必须在计算机上安装Istio组件（_Envoy proxy_，_node-agent_，_istio-agent_），并且必须可以从中访问Istio控制平面（_Pilot_，_Mixer _，_ CA_）。, 有关详细信息，请参阅[Istio Mesh Expansion]（/ docs / setup / kubernetes / mesh-expansion /）说明。
+
+在我们的示例中，MySQL实例可以在任何计算机上运行，​​也可以由云提供商作为服务进行配置。, 无需集成机器
+与Istio。, 无需从机器访问Istio控制平面。, 在MySQL作为服务的情况下，MySQL运行的机器可能无法访问并在其上安装所需的组件可能是不可能的。, 在我们的例子中，MySQL实例可以通过其全局域名进行寻址，如果消费应用程序希望使用该域名，这可能是有益的。, 当在消费应用程序的部署配置中无法更改预期的域名时，这尤其重要。
+
+## 清理
+
+1.  删除_test_数据库和_bookinfo_用户：
+
+    {{< text bash >}}
+    $ mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host <the database host> --port <the database port> \
+    -e "drop database test; drop user bookinfo;"
+    {{< /text >}}
+
+    _**OR**_
+
+    对于`mysql`和本地数据库：
+
+    {{< text bash >}}
+    $ mysql -u root -p -e "drop database test; drop user bookinfo;"
+    {{< /text >}}
+
+1.  删除路由规则：
+
+    {{< text bash >}}
+    $ istioctl delete -f @samples/bookinfo/kube/route-rule-ratings-mysql.yaml@
+    Deleted config: route-rule/default/ratings-test-v2-mysql
+    Deleted config: route-rule/default/reviews-test-ratings-v2
+    {{< /text >}}
+
+1.  取消部署_ratings v2-mysql_：
+
+    {{< text bash >}}
+    $ kubectl delete -f <(istioctl kube-inject -f @samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml@)
+    deployment "ratings-v2-mysql" deleted
+    {{< /text >}}
+
+1.  删除出口规则：
+
+    {{< text bash >}}
+    $ istioctl delete egressrule mysql -n default
+    Deleted config: egressrule mysql
+    {{< /text >}}
 
 ## 未来的工作
 
-在我的下一篇博客文章中，我将演示 TCP 流量的 Istio 出口规则，并将显示组合路由规则和出口规则的示例。
-
-在 Istio，我们正在努力使 Istio 出口流量更加安全，特别是在启用出口流量的跟踪，遥测和 Mixer 检查时。
+在我的下一篇博客文章中，我将展示组合路由规则和出口规则的示例，以及通过Kubernetes _ExternalName_ services访问外部服务的示例。
 
 ## 结论
 
-在这篇博文中，我演示了 Istio 服务网格中的微服务如何通过 HTTPS 使用外部 Web 服务, 默认情况下，Istio 会阻止群集外主机的所有流量, 要启用此类流量，必须为服务网格创建出口规则, 可以通过 HTTPS 访问外部站点，但是微服务必须发出 HTTP 请求，而 Istio 将执行 TLS 发起, 目前，没有为出口流量启用跟踪，遥测和混合器检查, 出口规则目前不是安全功能，因此需要额外的机制来保护出口流量, 我们正在努力为将来版本中的出口流量启用日志记录/遥测和安全策略。
-
-要了解有关 Istio 出口流量控制的更多信息，请参阅[控制出口流量任务](/docs/tasks/traffic-management/egress/)。
+在这篇博文中，我演示了Istio服务网格中的微服务如何通过TCP使用外部服务。, 默认情况下，Istio会阻止所有流量（TCP和HTTP）到群集外的主机。, 要为TCP启用此类流量，必须为服务网格创建TCP出口规则。
