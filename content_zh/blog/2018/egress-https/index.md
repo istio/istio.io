@@ -22,7 +22,7 @@ keywords: [traffic-management,egress,https]
 
 此帖子的场景所需的 Bookinfo 配置文件显示自 [Istio版本0.5](https://github.com/istio/istio/releases/tag/0.5.0)。
 
-Bookinfo 配置文件位于 Istio 发行存档的 `samples/bookinfo/kube` 目录中。
+Bookinfo 配置文件位于 Istio 发行存档的 `samples/bookinfo/platform/kube` 目录中。
 
 以下是原始[Bookinfo示例应用程序](/docs/examples/bookinfo/)中应用程序端到端体系结构的副本。
 
@@ -159,7 +159,7 @@ end
 
 当定义 `WITH_ISTIO` 环境变量时，请求在没有 SSL（普通HTTP）的情况下执行。
 
-我们将 `WITH_ISTIO` 环境变量设置为 _“true”_ [Kubernetes deployment spec of details v2]({{< github_file >}}/samples/bookinfo/kube/bookinfo-details-v2.yaml),
+我们将 `WITH_ISTIO` 环境变量设置为 _"true"_ [Kubernetes deployment spec of details v2]({{< github_file >}}/samples/bookinfo/platform/kube/bookinfo-details-v2.yaml),
 
 `container`部分：
 
