@@ -26,7 +26,7 @@ For the format of the service account in Istio, please refer to the
     and redeploy the service `productpage` with the service account.
 
     {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/kube/bookinfo-add-serviceaccount.yaml@)
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-add-serviceaccount.yaml@)
     serviceaccount "bookinfo-productpage" created
     deployment.extensions "productpage-v1" configured
     serviceaccount "bookinfo-reviews" created
