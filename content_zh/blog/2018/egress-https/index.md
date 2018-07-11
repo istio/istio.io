@@ -144,7 +144,7 @@ Deleted config: egressrule googleapis
     caption="HTTPS traffic to external services, from outside vs. from inside an Istio service mesh"
     >}}
 
-以下是我们如何在[Bookinfo details microservice code]({{< github_file >}}/samples/bookinfo/src/details/details.rb)中使用Ruby [net / http模块](https://docs.ruby-lang.org/en/2.0.0/Net/HTTP.html)：
+以下是我们如何在[Bookinfo details microservice code]({{< github_file >}}/samples/bookinfo/src/details/details.rb)中使用Ruby [net/http模块](https://docs.ruby-lang.org/en/2.0.0/Net/HTTP.html)：
 
 {{< text ruby >}}
 uri = URI.parse('https://www.googleapis.com/books/v1/volumes?q=isbn:' + isbn)
@@ -157,7 +157,7 @@ end
 
 请注意，端口是由 URI 的架构 (https://) 中的 `URI.parse` 派生为 `443`，即默认的 HTTPS 端口, 当在 Istio 服务网格内运行时，微服务必须向端口 “443” 发出 HTTP 请求，该端口是外部服务侦听的端口。
 
-当定义 `WITH_ISTIO` 环境变量时，请求在没有 SSL（普通HTTP）的情况下执行。
+当定义 `WITH_ISTIO` 环境变量时，请求在没有 SSL（普通 HTTP ）的情况下执行。
 
 我们将 `WITH_ISTIO` 环境变量设置为 _"true"_ [Kubernetes deployment spec of details v2]({{< github_file >}}/samples/bookinfo/platform/kube/bookinfo-details-v2.yaml),
 
