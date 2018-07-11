@@ -35,11 +35,7 @@ this feature is not needed if the production setup is not using the
 
 ## Deploying Citadel with health checking
 
-Deploy Citadel with health checking enabled.
-
-{{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio-citadel-with-health-check.yaml
-{{< /text >}}
+Deploy Citadel with health checking enabled by setting the Helm argument `security.healthCheckEnabled` as `true`.
 
 Deploy the `istio-citadel` service so that the CSR service can be found by the health checker.
 
