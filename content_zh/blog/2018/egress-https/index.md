@@ -18,7 +18,7 @@ keywords: [traffic-management,egress,https]
 
 为了演示使用外部 Web 服务的场景，我首先使用安装了 [Istio](/docs/setup/kubernetes/quick-start/#installation-steps) 的 Kubernetes 集群, 然后我部署[Istio Bookinfo 示例应用程序](/docs/examples/bookinfo/), 此应用程序使用 _details_ 微服务来获取书籍详细信息，例如页数和发布者, 原始 _details_ 微服务提供书籍详细信息，无需咨询任何外部服务。
 
-此博客文章中的示例命令与 Istio 0.2+ 一起使用，启用或不启用 [Mutual TLS](/docs/concepts/security/mutual-tls/)。
+此博客文章中的示例命令与 Istio 0.2+ 一起使用，无论启用或不启用 [Mutual TLS](/docs/concepts/security/mutual-tls/)。
 
 此帖子的场景所需的 Bookinfo 配置文件显示自 [Istio版本0.5](https://github.com/istio/istio/releases/tag/0.5.0)。
 
@@ -75,7 +75,7 @@ EOF
     caption="The Error Fetching Product Details Message"
     >}}
 
-好消息是我们的应用程序没有崩溃, 通过良好的微服务设计，我们没有**传播失败**。 在我们的例子中，失败的 _details_  微服务不会导致 _productpage_ 微服务失败, 尽管 _details_ 微服务失败，仍然提供了应用程序的大多数功能, 我们有**优雅的服务降级**：正如您所看到的，评论和评级正确显示，应用程序仍然有用。
+好消息是我们的应用程序没有崩溃, 通过良好的微服务设计，我们没有让**故障扩散**。 在我们的例子中，失败的 _details_  微服务不会导致 _productpage_ 微服务失败, 尽管 _details_ 微服务失败，仍然提供了应用程序的大多数功能, 我们有**优雅的服务降级**：正如您所看到的，评论和评级正确显示，应用程序仍然有用。
 
 那可能出了什么问题？ 啊......答案是我忘了启用从网格内部到外部服务的流量，在本例中是 Google Book Web服务。 默认情况下，Istio sidecar代理（[Envoy proxies](https://www.envoyproxy.io)）**阻止到集群外目的地的所有流量**, 要启用此类流量，我们必须定义[出口规则](/docs/reference/config/istio.routing.v1alpha1/#EgressRule)。
 
@@ -155,7 +155,7 @@ unless ENV['WITH_ISTIO'] === 'true' then
 end
 {{< /text >}}
 
-请注意，端口是由 URI 的架构 (https://) 中的 `URI.parse` 派生为 `443`，即默认的 HTTPS 端口, 当在 Istio 服务网格内运行时，微服务必须向端口 “443” 发出 HTTP 请求，该端口是外部服务侦听的端口。
+请注意，默认的 HTTPS 端口 443 的取值是 URI.parse 通过对 URI (https://) 的解析得来的, 当在 Istio 服务网格内运行时，微服务必须向端口 “443” 发出 HTTP 请求，该端口是外部服务侦听的端口。
 
 当定义 `WITH_ISTIO` 环境变量时，请求在没有 SSL（普通 HTTP ）的情况下执行。
 
@@ -175,7 +175,7 @@ env:
 
 ### 恶意微服务威胁
 
-另一个问题是出口规则目前**不是安全功能**; 他们只**允许**流量到外部服务, 对于基于 HTTP 的协议，规则基于域 , Istio不会检查请求的目标 IP 是否与 _Host_ 标头匹配, 这意味着服务网格内的恶意微服务可能会欺骗 Istio 允许流量到恶意IP, 攻击是将某个现有 Egress 规则允许的域之一设置为恶意请求的 _Host_ 头。
+另一个问题是，出口规则不是一个安全方面的功能，它只是开放了到外部服务的通信功能。对基于 HTTP 的协议来说，这些规则是建立在域的基础之上的。Istio 不会检查请求的目标 IP 是否与 Host Header 相匹配。这意味着服务网格内的恶意微服务有能力对 Istio 进行欺骗，使之放行目标为恶意 IP 的流量。攻击方式就是在恶意请求中，将 Host Header 的值设置为 Egress 规则允许的域。
 
 Istio 目前不支持保护出口流量，只能其他地方执行，例如通过防火墙或 Istio 外部的其他代理, 现在，我们正在努力在出口流量上启用混合器安全策略的应用，并防止上述攻击。
 
