@@ -7,9 +7,6 @@ keywords: [security,access-control]
 
 Istio 认证功能可以借用 Service account 来对服务的访问进行安全的访问控制。本文任务将演示这一特性。
 
-This task shows how to securely control access to a service,
-using the service accounts provided by Istio authentication.
-
 启用 Istio 的双向 TLS 认证之后，服务器会根据客户端的证书对其进行认证，并且会从证书中提取他的 Service account。Service account 会保存在 `source.user` 属性之中。
 
 可以参考 [Istio auth identity](/docs/concepts/security/#identity) 一节，了解 Service account 在 Istio 中的表达格式。
@@ -60,7 +57,7 @@ using the service accounts provided by Istio authentication.
     match: destination.labels["app"] == "details" && source.user == "cluster.local/ns/default/sa/bookinfo-productpage"
     {{< /text >}}
 
-    上面的一段表达式会匹配来自 `details` 服务并且 Service account 是`cluster.local/ns/default/sa/bookinfo-productpage` 的请求。
+    上面的一段表达式会匹配来自 `details` 服务并且 Service account 是 `cluster.local/ns/default/sa/bookinfo-productpage` 的请求。
 
     > 如果使用的不是 `default` 命名空间，那么就需要将 `source.user` 中的 `default` 替换为实际使用的命名空间名称。
 
