@@ -159,7 +159,7 @@ end
 
 当定义 `WITH_ISTIO` 环境变量时，请求在没有 SSL（普通 HTTP ）的情况下执行。
 
-我们将 `WITH_ISTIO` 环境变量设置为 _"true"_ [Kubernetes deployment spec of details v2]({{< github_file >}}/samples/bookinfo/platform/kube/bookinfo-details-v2.yaml),
+我们将 `WITH_ISTIO` 环境变量设置为 _"true"_ [details 的部署配置文件]({{< github_file >}}/samples/bookinfo/platform/kube/bookinfo-details-v2.yaml),
 
 `container`部分：
 
