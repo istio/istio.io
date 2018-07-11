@@ -68,7 +68,7 @@ EOF
 
 在[确定入口IP和端口](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)之后，让我们访问应用程序的网页。
 
-糟糕...我们显示了 _错误获取产品详细信息_，而不是书籍详细信息：
+糟糕...我们显示了 _Error fetching product details_，而不是书籍详细信息：
 
 {{< image width="80%" ratio="36.01%"
     link="/blog/2018/egress-https/errorFetchingBookDetails.png"
@@ -125,7 +125,7 @@ Deleted config: egressrule googleapis
 
 并在输出中看到删除出口规则。
 
-删除出口规则后访问网页会产生我们之前遇到的相同错误，即_获取产品详细信息错误_, 正如我们所看到的，出口规则是**动态定义**，与许多其他 Istio 配置工件一样 , Istio 运算符可以动态决定它们允许微服务访问哪些域, 他们可以动态启用和禁用外部域的流量，而无需重新部署微服务。
+删除出口规则后访问网页会产生我们之前遇到的相同错误，即_Error fetching product details_, 正如我们所看到的，出口规则是**动态定义**，与许多其他 Istio 配置工件一样 , Istio 运算符可以动态决定它们允许微服务访问哪些域, 他们可以动态启用和禁用外部域的流量，而无需重新部署微服务。
 
 ## Istio出口流量控制的问题
 
@@ -161,7 +161,7 @@ end
 
 我们将 `WITH_ISTIO` 环境变量设置为 _“true”_ [Kubernetes deployment spec of details v2]({{< github_file >}}/samples/bookinfo/kube/bookinfo-details-v2.yaml),
 
-the `container` section:
+`container`部分：
 
 {{< text yaml >}}
 env:
@@ -169,13 +169,13 @@ env:
   value: "true"
 {{< /text >}}
 
-####  Istio mutual TLS 与 TLS 的关系
+####  Istio 双向 TLS 的关系
 
-请注意，在这种情况下，TLS 的源与 Istio 应用的 [mutual TLS](/docs/concepts/security/mutual-tls/) 无关, 无论 Istio mutual TLS 是否启用，外部服务的 TLS 源都将起作用 ,   保证服务网**内**的服务到服务通信，并为每个服务提供强大的身份认证, 在 **外部服务**的情况下，我们有**单向** TLS，这是用于保护 Web 浏览器和 Web 服务器之间通信的相同机制 , TLS 应用于与外部服务的通信，以验证外部服务器的身份并加密流量。
+请注意，在这种情况下，TLS 的源与 Istio 应用的 [双向 TLS](/docs/concepts/security/mutual-tls/) 无关, 无论 Istio mutual TLS 是否启用，外部服务的 TLS 源都将起作用 ,   保证服务网**内**的服务到服务通信，并为每个服务提供强大的身份认证, 在 **外部服务**的情况下，我们有**单向** TLS，这是用于保护 Web 浏览器和 Web 服务器之间通信的相同机制 , TLS 应用于与外部服务的通信，以验证外部服务器的身份并加密流量。
 
 ### 恶意微服务威胁
 
-另一个问题是出口规则目前**不是安全功能**; 他们只**允许**流量到外部服务, 对于基于 HTTP 的协议，规则基于域 , Istio不会检查请求的目标 IP 是否与_Host_ 标头匹配, 这意味着服务网格内的恶意微服务可能会欺骗 Istio 允许流量到恶意IP, 攻击是将某个现有 Egress 规则允许的域之一设置为恶意请求的 _Host_ 头。
+另一个问题是出口规则目前**不是安全功能**; 他们只**允许**流量到外部服务, 对于基于 HTTP 的协议，规则基于域 , Istio不会检查请求的目标 IP 是否与 _Host_ 标头匹配, 这意味着服务网格内的恶意微服务可能会欺骗 Istio 允许流量到恶意IP, 攻击是将某个现有 Egress 规则允许的域之一设置为恶意请求的 _Host_ 头。
 
 Istio 目前不支持保护出口流量，只能其他地方执行，例如通过防火墙或 Istio 外部的其他代理, 现在，我们正在努力在出口流量上启用混合器安全策略的应用，并防止上述攻击。
 
