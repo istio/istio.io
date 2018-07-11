@@ -56,7 +56,7 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
     Run the following command to set up the deny rule along with a handler and an instance.
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/kube/mixer-rule-deny-label.yaml@
+    $ istioctl create -f @samples/bookinfo/policy/mixer-rule-deny-label.yaml@
     Created config denier/default/denyreviewsv3handler at revision 2882105
     Created config checknothing/default/denyreviewsv3request at revision 2882106
     Created config rule/default/denyreviewsv3 at revision 2882107
@@ -90,7 +90,7 @@ Istio also supports attribute-based whitelists and blacklists. The following whi
 1.  Remove the denier configuration that you added in the previous section.
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/kube/mixer-rule-deny-label.yaml@
+    $ istioctl delete -f @samples/bookinfo/policy/mixer-rule-deny-label.yaml@
     {{< /text >}}
 
 1. Verify that when you access the Bookinfo `productpage` (http://$GATEWAY_URL/productpage) without logging in, you see red stars.
