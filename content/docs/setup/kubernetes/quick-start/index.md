@@ -101,8 +101,7 @@ The following instructions require:
 
 ### IBM Cloud Private
 
-[Configure the `kubectl`
-CLI](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0/manage_cluster/cfc_cli.html)
+[Configure the `kubectl` CLI](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0/manage_cluster/cfc_cli.html)
 to access the IBM Cloud Private Cluster.
 
 ### OpenShift Origin
@@ -145,9 +144,8 @@ constraints as part of sidecar injection.
   $ oc adm policy add-scc-to-user privileged -z default -n <target-namespace>
 {{< /text >}}
 
-> Check for `SELINUX` in this
-> [discussion](https://github.com/istio/issues/issues/34) with respect to
-> Istio in case you see issues bringing up the Envoy.
+> Check for `SELINUX` in this [discussion](https://github.com/istio/issues/issues/34)
+> with respect to Istio in case you see issues bringing up the Envoy.
 
 ### AWS with Kops
 
@@ -219,8 +217,7 @@ Nevertheless, you must update the list of admission controllers.
 
 You must use `ACS-Engine` to deploy your cluster.
 
-1. Follow [the instructions to get and install the `acs-engine`
-   binary](https://github.com/Azure/acs-engine/blob/master/docs/acsengine.md#install),
+1. Follow [the instructions to get and install the `acs-engine` binary](https://github.com/Azure/acs-engine/blob/master/docs/acsengine.md#install),
 
 1. Download Istio's `api model definition`:
 
@@ -302,14 +299,14 @@ services from all other namespaces.
       $ cd istio-{{< istio_version >}}.0
     {{< /text >}}
 
-  > The installation directory contains:
-  >
-  >   * Installation `.yaml` files for Kubernetes in `install/`
-  >   * Sample applications in `samples/`
-  >   * The `istioctl` client binary in the `bin/` directory. `istioctl` is
-  >     used when manually injecting Envoy as a sidecar proxy and for creating
-  >     routing rules and policies.
-  >   * The `istio.VERSION` configuration file
+    The installation directory contains:
+
+    * Installation `.yaml` files for Kubernetes in `install/`
+    * Sample applications in `samples/`
+    * The `istioctl` client binary in the `bin/` directory. `istioctl` is
+      used when manually injecting Envoy as a sidecar proxy and for creating
+      routing rules and policies.
+    * The `istio.VERSION` configuration file
 
 1.  Add the `istioctl` client to your PATH environment variable, on a macOS or
     Linux system:
