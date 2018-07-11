@@ -46,7 +46,7 @@ $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/boo
     caption="The Bookinfo Application with details V2"
     >}}
 
-请注意，Google Book 博客服务位于 Istio 服务网格之外，其边界由虚线标记。
+请注意，Google Book 服务位于 Istio 服务网格之外，其边界由虚线标记。
 
 现在让我们使用以下 _route rule_ 将指向 _details_ 微服务的所有流量定向到 _details version v2_：
 
@@ -68,7 +68,7 @@ EOF
 
 在[确定入口IP和端口](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)之后，让我们访问应用程序的网页。
 
-糟糕...我们显示了 _Error fetching product details_，而不是书籍详细信息：
+糟糕...页面显示 _Error fetching product details_，而不是书籍详细信息：
 
 {{< image width="80%" ratio="36.01%"
     link="/blog/2018/egress-https/errorFetchingBookDetails.png"
