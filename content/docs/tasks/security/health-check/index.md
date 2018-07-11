@@ -81,17 +81,14 @@ Observe that the health checking interval is about 15 seconds, which is the defa
 
 ## (Optional) Configuring the health checking
 
-Optionally, adjust the health checking configuration to meet your own needs. Open the file
-`install/kubernetes/istio-citadel-with-health-check.yaml`, and locate the following lines.
+Optionally, adjust the health checking configuration to meet your own needs. Open the 
+`istio.yaml` generated via [helm template](/docs/setup/kubernetes/helm-install/#option-1-install-with-helm-via-helm-template), and locate the following lines.
 
 {{< text plain >}}
 ...
   - --liveness-probe-path=/tmp/ca.liveness # path to the liveness health checking status file
   - --liveness-probe-interval=60s # interval for health checking file update
   - --probe-check-interval=15s    # interval for health status check
-  - --logtostderr
-  - --stderrthreshold
-  - INFO
 livenessProbe:
   exec:
     command:
@@ -120,16 +117,12 @@ continuously failed health checks.
 
 ## Cleanup
 
-*   To disable health checking on Citadel:
+*   To disable health checking on Citadel, deploy Citadel with health checking disabled by setting the Helm argument 
+`security.healthCheckEnabled` as `false`.
+
+*   To remove Citadel deployment and service:
 
     {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
-    $ kubectl delete svc istio-citadel -n istio-system
-    {{< /text >}}
-
-*   To remove Citadel:
-
-    {{< text bash >}}
-    $ kubectl delete -f install/kubernetes/istio-citadel-with-health-check.yaml
+    $ kubectl delete deploy istio-citadel -n istio-system
     $ kubectl delete svc istio-citadel -n istio-system
     {{< /text >}}
