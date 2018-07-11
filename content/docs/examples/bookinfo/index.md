@@ -10,7 +10,7 @@ aliases:
 > Note: This example assumes you will be using the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/).
 The old API has been deprecated and will be removed in the next Istio release.
 If you need to use the old version, you can follow the old instructions [here](https://archive.istio.io/v0.6/docs/guides/bookinfo.html),
-but note that on Kubernetes you will need to run an additional command (`kubectl apply -f samples/bookinfo/kube/bookinfo-gateway.yaml`)
+but note that on Kubernetes you will need to run an additional command (`kubectl apply -f samples/bookinfo/platform/kube/bookinfo-gateway.yaml`)
 to define the Ingress, which previously was included in `bookinfo.yaml`.
 
 This example deploys a sample application composed of four separate microservices used
@@ -85,7 +85,7 @@ To start the application, follow the instructions below corresponding to your Is
         use the following command
 
         {{< text bash >}}
-        $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/kube/bookinfo.yaml@)
+        $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo.yaml@)
         {{< /text >}}
 
         The `istioctl kube-inject` command is used to manually modify the `bookinfo.yaml`
@@ -96,7 +96,7 @@ To start the application, follow the instructions below corresponding to your Is
         enabled, simply deploy the services using `kubectl`
 
         {{< text bash >}}
-        $ kubectl apply -f @samples/bookinfo/kube/bookinfo.yaml@
+        $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
         {{< /text >}}
 
     Either of the above commands launches all four microservices as illustrated in the above diagram.
@@ -157,8 +157,8 @@ To start the application, follow the instructions below corresponding to your Is
     To test with Consul, run the following commands:
 
     {{< text bash >}}
-    $ docker-compose -f @samples/bookinfo/consul/bookinfo.yaml@ up -d
-    $ docker-compose -f samples/bookinfo/consul/bookinfo.sidecars.yaml up -d
+    $ docker-compose -f @samples/bookinfo/platform/consul/bookinfo.yaml@ up -d
+    $ docker-compose -f samples/bookinfo/platform/consul/bookinfo.sidecars.yaml up -d
     {{< /text >}}
 
 1.  Confirm that all docker containers are running:
@@ -206,7 +206,7 @@ uninstall and clean it up using the following instructions.
 1.  Delete the routing rules and terminate the application pods
 
     {{< text bash >}}
-    $ @samples/bookinfo/kube/cleanup.sh@
+    $ @samples/bookinfo/platform/kube/cleanup.sh@
     {{< /text >}}
 
 1.  Confirm shutdown
@@ -224,7 +224,7 @@ uninstall and clean it up using the following instructions.
     In a Consul setup, run the following command:
 
     {{< text bash >}}
-    $ @samples/bookinfo/consul/cleanup.sh@
+    $ @samples/bookinfo/platform/consul/cleanup.sh@
     {{< /text >}}
 
 1.  Confirm cleanup
