@@ -116,13 +116,13 @@ will generate and collect automatically.
         simply deploy the services using `kubectl`:
 
         {{< text bash >}}
-        $ kubectl apply -f @samples/bookinfo/kube/bookinfo-ratings-v2.yaml@
+        $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@
         {{< /text >}}
 
         If you are using manual sidecar injection, use the following command instead:
 
         {{< text bash >}}
-        $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/kube/bookinfo-ratings-v2.yaml@)
+        $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@)
         deployment "ratings-v2" configured
         {{< /text >}}
 
@@ -132,13 +132,13 @@ will generate and collect automatically.
         simply deploy the services using `kubectl`:
 
         {{< text bash >}}
-        $ kubectl apply -f @samples/bookinfo/kube/bookinfo-db.yaml@
+        $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-db.yaml@
         {{< /text >}}
 
         If you are using manual sidecar injection, use the following command instead:
 
         {{< text bash >}}
-        $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/kube/bookinfo-db.yaml@)
+        $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-db.yaml@)
         service "mongodb" configured
         deployment "mongodb-v1" configured
         {{< /text >}}
