@@ -155,7 +155,7 @@ unless ENV['WITH_ISTIO'] === 'true' then
 end
 {{< /text >}}
 
-请注意，端口是由URI的架构（https://）中的 `URI.parse` 派生为 '443`，即默认的 HTTPS 端口, 当在 Istio 服务网格内运行时，微服务必须向端口 “443” 发出 HTTP 请求，该端口是外部服务侦听的端口。
+请注意，端口是由 URI 的架构 (https://) 中的 `URI.parse` 派生为 `443`，即默认的 HTTPS 端口, 当在 Istio 服务网格内运行时，微服务必须向端口 “443” 发出 HTTP 请求，该端口是外部服务侦听的端口。
 
 当定义 `WITH_ISTIO` 环境变量时，请求在没有 SSL（普通HTTP）的情况下执行。
 
