@@ -37,67 +37,67 @@ The following instructions require:
   On Kubernetes **1.9**:
 
   {{< text bash >}}
-  $ minikube start --memory=4096 --kubernetes-version=v1.9.4 \
-    --vm-driver=`your_vm_driver_choice`
+    $ minikube start --memory=4096 --kubernetes-version=v1.9.4 \
+      --vm-driver=`your_vm_driver_choice`
   {{< /text >}}
 
   On Kubernetes **1.10**:
 
   {{< text bash >}}
-  $ minikube start --memory=4096 --kubernetes-version=v1.10.0 \
-    --vm-driver=`your_vm_driver_choice`
+    $ minikube start --memory=4096 --kubernetes-version=v1.10.0 \
+      --vm-driver=`your_vm_driver_choice`
   {{< /text >}}
 
 ### Google Kubernetes Engine
 
 1. Create a new cluster.
 
-  {{< text bash >}}
-    $ gcloud container clusters create <cluster-name> \
+    {{< text bash >}}
+      $ gcloud container clusters create <cluster-name> \
     --cluster-version=1.10.5-gke.0 \
-      --zone <zone> \
-      --project <project-id>
-  {{< /text >}}
+        --zone <zone> \
+        --project <project-id>
+    {{< /text >}}
 
 1. Retrieve your credentials for `kubectl`.
 
-  {{< text bash >}}
-  $ gcloud container clusters get-credentials <cluster-name> \
-      --zone <zone> \
-      --project <project-id>
-  {{< /text >}}
+    {{< text bash >}}
+    $ gcloud container clusters get-credentials <cluster-name> \
+        --zone <zone> \
+        --project <project-id>
+    {{< /text >}}
 
 1. Grant cluster administrator (admin) permissions to the current user. To
    create the necessary RBAC rules for Istio, the current user requires admin
    permissions.
 
-  {{< text bash >}}
-  $ kubectl create clusterrolebinding cluster-admin-binding \
-      --clusterrole=cluster-admin \
-      --user=$(gcloud config get-value core/account)
-  {{< /text >}}
+    {{< text bash >}}
+    $ kubectl create clusterrolebinding cluster-admin-binding \
+        --clusterrole=cluster-admin \
+        --user=$(gcloud config get-value core/account)
+    {{< /text >}}
 
 ### IBM Cloud Kubernetes Service (IKS)
 
 1. Create a new lite cluster.
 
-  {{< text bash >}}
-    $ bx cs cluster-create --name <cluster-name> --kube-version 1.9.7
-  {{< /text >}}
+    {{< text bash >}}
+      $ bx cs cluster-create --name <cluster-name> --kube-version 1.9.7
+    {{< /text >}}
 
-  Alternatively, you can create a new paid cluster:
+    Alternatively, you can create a new paid cluster:
 
-  {{< text bash >}}
-    $ bx cs cluster-create --location location --machine-type u2c.2x4 \
-      --name <cluster-name> --kube-version 1.9.7
-  {{< /text >}}
+    {{< text bash >}}
+      $ bx cs cluster-create --location location --machine-type u2c.2x4 \
+        --name <cluster-name> --kube-version 1.9.7
+    {{< /text >}}
 
 1. Retrieve your credentials for `kubectl`. Replace `<cluster-name>` with the
    name of the cluster you want to use:
 
-  {{< text bash >}}
-    $(bx cs cluster-config <cluster-name>|grep "export KUBECONFIG")
-  {{< /text >}}
+    {{< text bash >}}
+      $(bx cs cluster-config <cluster-name>|grep "export KUBECONFIG")
+    {{< /text >}}
 
 ### IBM Cloud Private
 
@@ -156,127 +156,127 @@ Nevertheless, you must update the list of admission controllers.
 
 1. Open the configuration file:
 
-  {{< text bash >}}
-    $ kops edit cluster $YOURCLUSTER
-  {{< /text >}}
+    {{< text bash >}}
+      $ kops edit cluster $YOURCLUSTER
+    {{< /text >}}
 
 1. Add the following in the configuration file:
 
-  {{< text yaml >}}
-    kubeAPIServer:
-        admissionControl:
-        - NamespaceLifecycle
-        - LimitRanger
-        - ServiceAccount
-        - PersistentVolumeLabel
-        - DefaultStorageClass
-        - DefaultTolerationSeconds
-        - MutatingAdmissionWebhook
-        - ValidatingAdmissionWebhook
-        - ResourceQuota
-        - NodeRestriction
-        - Priority
-  {{< /text >}}
+    {{< text yaml >}}
+      kubeAPIServer:
+          admissionControl:
+          + NamespaceLifecycle
+          + LimitRanger
+          + ServiceAccount
+          + PersistentVolumeLabel
+          + DefaultStorageClass
+          + DefaultTolerationSeconds
+          + MutatingAdmissionWebhook
+          + ValidatingAdmissionWebhook
+          + ResourceQuota
+          + NodeRestriction
+          + Priority
+    {{< /text >}}
 
 1. Perform the update:
 
-  {{< text bash >}}
-    $ kops update cluster
-    $ kops update cluster --yes
-  {{< /text >}}
+    {{< text bash >}}
+      $ kops update cluster
+      $ kops update cluster --yes
+    {{< /text >}}
 
 1. Launch the rolling update:
 
-  {{< text bash >}}
-    $ kops rolling-update cluster
-    $ kops rolling-update cluster --yes
-  {{< /text >}}
+    {{< text bash >}}
+      $ kops rolling-update cluster
+      $ kops rolling-update cluster --yes
+    {{< /text >}}
 
 1. Validate the update with the `kubectl` client on the `kube-api` pod, you
    should see new admission controller:
 
-  {{< text bash >}}
-    $ for i in `kubectl \
-      get pods -nkube-system | grep api | awk '{print $1}'` ; \
-      do  kubectl describe pods -nkube-system \
-      $i | grep "/usr/local/bin/kube-apiserver"  ; done
-  {{< /text >}}
+    {{< text bash >}}
+      $ for i in `kubectl \
+        get pods -nkube-system | grep api | awk '{print $1}'` ; \
+        do  kubectl describe pods -nkube-system \
+        $i | grep "/usr/local/bin/kube-apiserver"  ; done
+    {{< /text >}}
 
 1. Review the output:
 
-  {{< text plain >}}
-    [...]
-    --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,
-    PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,
-    MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota,
-    NodeRestriction,Priority
-    [...]
-  {{< /text >}}
+    {{< text plain >}}
+      [...]
+      --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,
+      PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,
+      MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota,
+      NodeRestriction,Priority
+      [...]
+    {{< /text >}}
 
 ### Azure
 
 You must use `ACS-Engine` to deploy your cluster.
 
-1. Follow [the instructions to get and install the `acs-engine` binary](https://github.com/Azure/acs-engine/blob/master/docs/acsengine.md#install),
+1. Follow the instructions to get and [install the `acs-engine` binary](https://github.com/Azure/acs-engine/blob/master/docs/acsengine.md#install),
 
 1. Download Istio's `api model definition`:
 
-  {{< text bash >}}
-    $ wget https://raw.githubusercontent.com/Azure/acs-engine/master/examples/service-mesh/istio.json
-  {{< /text >}}
+    {{< text bash >}}
+      $ wget https://raw.githubusercontent.com/Azure/acs-engine/master/examples/service-mesh/istio.json
+    {{< /text >}}
 
 1. Deploy your cluster using the `istio.json` template. You can find references
    to the parameters in the [official
    docs](https://github.com/Azure/acs-engine/blob/master/docs/kubernetes/deploy.md#step-3-edit-your-cluster-definition).
 
-  | Parameter                             | Expected value             |
-  |---------------------------------------|----------------------------|
-  | `subscription_id`                     | Azure Subscription Id      |
-  | `dns_prefix`                          | Cluster DNS Prefix         |
-  | `location`                            | Cluster Location           |
+    | Parameter                             | Expected value             |
+    |---------------------------------------|----------------------------|
+    | `subscription_id`                     | Azure Subscription Id      |
+    | `dns_prefix`                          | Cluster DNS Prefix         |
+    | `location`                            | Cluster Location           |
 
-  {{< text bash >}}
-    $ acs-engine deploy --subscription-id <subscription_id> \
-      --dns-prefix <dns_prefix> --location <location> --auto-suffix \
-      --api-model istio.json
-  {{< /text >}}
+    {{< text bash >}}
+      $ acs-engine deploy --subscription-id <subscription_id> \
+        --dns-prefix <dns_prefix> --location <location> --auto-suffix \
+        --api-model istio.json
+    {{< /text >}}
 
-  > After a few minutes, you can find your cluster on your Azure subscription
-  > in a resource group called `<dns_prefix>-<id>`. Assuming `dns_prefix` has
-  > the value `myclustername`, a valid resource group with a unique cluster ID
-  > is `mycluster-5adfba82`. The `acs-engine` generates your `kubeconfig` file
-  > in the `_output` folder.
+    > After a few minutes, you can find your cluster on your Azure subscription
+    > in a resource group called `<dns_prefix>-<id>`. Assuming `dns_prefix` has
+    > the value `myclustername`, a valid resource group with a unique cluster
+    > ID is `mycluster-5adfba82`. The `acs-engine` generates your `kubeconfig`
+    > file in the `_output` folder.
 
 1. Use the `<dns_prefix>-<id>` cluster ID, to copy your `kubeconfig` to your
    machine from the `_output` folder:
 
-  {{< text bash >}}
-  $ cp _output/<dns_prefix>-<id>/kubeconfig/kubeconfig.<location>.json \
-      ~/.kube/config
-  {{< /text >}}
+    {{< text bash >}}
+    $ cp _output/<dns_prefix>-<id>/kubeconfig/kubeconfig.<location>.json \
+        ~/.kube/config
+    {{< /text >}}
 
-  For example:
+    For example:
 
-  {{< text bash >}}
-    $ cp _output/mycluster-5adfba82/kubeconfig/kubeconfig.westus2.json \
-      ~/.kube/config
-  {{< /text >}}
+    {{< text bash >}}
+      $ cp _output/mycluster-5adfba82/kubeconfig/kubeconfig.westus2.json \
+        ~/.kube/config
+    {{< /text >}}
 
 1. Check if the right Istio flags were deployed:
 
-  {{< text bash >}}
-    $ kubectl describe pod --namespace kube-system
-    $(kubectl get pods --namespace kube-system | grep api | cut -d ' ' -f 1) \
-      | grep admission-control
-  {{< /text >}}
+    {{< text bash >}}
+      $ kubectl describe pod --namespace kube-system
+      $(kubectl get pods --namespace kube-system | grep api | cut -d ' ' -f 1) \
+        | grep admission-control
+    {{< /text >}}
 
 1. Confirm the `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook`
    flags are present:
 
-  {{< text plain >}}
-    --admission-control=...,MutatingAdmissionWebhook,...,
-    ValidatingAdmissionWebhook,...
-  {{< /text >}}
+    {{< text plain >}}
+      --admission-control=...,MutatingAdmissionWebhook,...,
+      ValidatingAdmissionWebhook,...
+    {{< /text >}}
 
 ## Download and prepare for the installation
 
@@ -374,27 +374,27 @@ deployment](/docs/setup/kubernetes/helm-install/#option-2-install-with-helm-and-
     `istio-ingressgateway`, `istio-policy`, `istio-telemetry`, `prometheus`,
     `istio-galley`, and, optionally, `istio-sidecar-injector`.
 
-    {{< text bash >}}
-      $ kubectl get svc -n istio-system
-      NAME                       TYPE           CLUSTER-IP      EXTERNAL-IP       PORT(S)                                                               AGE
-      istio-citadel              ClusterIP      10.47.247.12    <none>            8060/TCP,9093/TCP                                                     7m
-      istio-egressgateway        ClusterIP      10.47.243.117   <none>            80/TCP,443/TCP                                                        7m
-      istio-galley               ClusterIP      10.47.254.90    <none>            443/TCP                                                               7m
-      istio-ingress              LoadBalancer   10.47.244.111   35.194.55.10      80:32000/TCP,443:30814/TCP                                            7m
-      istio-ingressgateway       LoadBalancer   10.47.241.20    130.211.167.230   80:31380/TCP,443:31390/TCP,31400:31400/TCP                            7m
-      istio-pilot                ClusterIP      10.47.250.56    <none>            15003/TCP,15005/TCP,15007/TCP,15010/TCP,15011/TCP,8080/TCP,9093/TCP   7m
-      istio-policy               ClusterIP      10.47.245.228   <none>            9091/TCP,15004/TCP,9093/TCP                                           7m
-      istio-sidecar-injector     ClusterIP      10.47.245.22    <none>            443/TCP                                                               7m
-      istio-statsd-prom-bridge   ClusterIP      10.47.252.184   <none>            9102/TCP,9125/UDP                                                     7m
-      istio-telemetry            ClusterIP      10.47.250.107   <none>            9091/TCP,15004/TCP,9093/TCP,42422/TCP                                 7m
-      prometheus                 ClusterIP      10.47.253.148   <none>            9090/TCP                                                              7m
-    {{< /text >}}
+      {{< text bash >}}
+        $ kubectl get svc -n istio-system
+        NAME                       TYPE           CLUSTER-IP      EXTERNAL-IP       PORT(S)                                                               AGE
+        istio-citadel              ClusterIP      10.47.247.12    <none>            8060/TCP,9093/TCP                                                     7m
+        istio-egressgateway        ClusterIP      10.47.243.117   <none>            80/TCP,443/TCP                                                        7m
+        istio-galley               ClusterIP      10.47.254.90    <none>            443/TCP                                                               7m
+        istio-ingress              LoadBalancer   10.47.244.111   35.194.55.10      80:32000/TCP,443:30814/TCP                                            7m
+        istio-ingressgateway       LoadBalancer   10.47.241.20    130.211.167.230   80:31380/TCP,443:31390/TCP,31400:31400/TCP                            7m
+        istio-pilot                ClusterIP      10.47.250.56    <none>            15003/TCP,15005/TCP,15007/TCP,15010/TCP,15011/TCP,8080/TCP,9093/TCP   7m
+        istio-policy               ClusterIP      10.47.245.228   <none>            9091/TCP,15004/TCP,9093/TCP                                           7m
+        istio-sidecar-injector     ClusterIP      10.47.245.22    <none>            443/TCP                                                               7m
+        istio-statsd-prom-bridge   ClusterIP      10.47.252.184   <none>            9102/TCP,9125/UDP                                                     7m
+        istio-telemetry            ClusterIP      10.47.250.107   <none>            9091/TCP,15004/TCP,9093/TCP,42422/TCP                                 7m
+        prometheus                 ClusterIP      10.47.253.148   <none>            9090/TCP                                                              7m
+      {{< /text >}}
 
-  > If your cluster is running in an environment that does not
-  > support an external load balancer (e.g., minikube), the
-  > `EXTERNAL-IP` of `istio-ingress` and `istio-ingressgateway` will
-  > say `<pending>`. You will need to access it using the service
-  > NodePort, or use port-forwarding instead.
+    > If your cluster is running in an environment that does not
+    > support an external load balancer (e.g., minikube), the
+    > `EXTERNAL-IP` of `istio-ingress` and `istio-ingressgateway` will
+    > say `<pending>`. You will need to access it using the service
+    > NodePort, or use port-forwarding instead.
 
 1.  Ensure the corresponding Kubernetes pods are deployed and all containers
     are up and running: `istio-pilot-*`, `istio-ingressgateway-*`,
@@ -402,20 +402,20 @@ deployment](/docs/setup/kubernetes/helm-install/#option-2-install-with-helm-and-
     `istio-citadel-*`, `prometheus-*`, `istio-galley-*`, and, optionally,
     `istio-sidecar-injector-*`.
 
-    {{< text bash >}}
-      $ kubectl get pods -n istio-system
-      NAME                                       READY     STATUS        RESTARTS   AGE
-      istio-citadel-75c88f897f-zfw8b             1/1       Running       0          1m
-      istio-egressgateway-7d8479c7-khjvk         1/1       Running       0          1m
-      istio-galley-6c749ff56d-k97n2              1/1       Running       0          1m
-      istio-ingress-7f5898d74d-t8wrr             1/1       Running       0          1m
-      istio-ingressgateway-7754ff47dc-qkrch      1/1       Running       0          1m
-      istio-policy-74df458f5b-jrz9q              2/2       Running       0          1m
-      istio-sidecar-injector-645c89bc64-v5n4l    1/1       Running       0          1m
-      istio-statsd-prom-bridge-949999c4c-xjz25   1/1       Running       0          1m
-      istio-telemetry-676f9b55b-k9nkl            2/2       Running       0          1m
-      prometheus-86cb6dd77c-hwvqd                1/1       Running       0          1m
-    {{< /text >}}
+      {{< text bash >}}
+        $ kubectl get pods -n istio-system
+        NAME                                       READY     STATUS        RESTARTS   AGE
+        istio-citadel-75c88f897f-zfw8b             1/1       Running       0          1m
+        istio-egressgateway-7d8479c7-khjvk         1/1       Running       0          1m
+        istio-galley-6c749ff56d-k97n2              1/1       Running       0          1m
+        istio-ingress-7f5898d74d-t8wrr             1/1       Running       0          1m
+        istio-ingressgateway-7754ff47dc-qkrch      1/1       Running       0          1m
+        istio-policy-74df458f5b-jrz9q              2/2       Running       0          1m
+        istio-sidecar-injector-645c89bc64-v5n4l    1/1       Running       0          1m
+        istio-statsd-prom-bridge-949999c4c-xjz25   1/1       Running       0          1m
+        istio-telemetry-676f9b55b-k9nkl            2/2       Running       0          1m
+        prometheus-86cb6dd77c-hwvqd                1/1       Running       0          1m
+      {{< /text >}}
 
 ## Deploy your application
 
