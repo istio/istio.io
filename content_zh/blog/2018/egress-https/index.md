@@ -36,7 +36,7 @@ Bookinfo 配置文件位于 Istio 发行存档的 `samples/bookinfo/kube` 目录
 让我们添加一个新版本的 _details_ microservice，_v2_ ，从[Google Books APIs](https://developers.google.com/books/docs/v1/getting_started)中获取图书详细信息。
 
 {{< text bash >}}
-$ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/kube/bookinfo-details-v2.yaml@)
+$ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@)
 {{< /text >}}
 
 现在，应用程序的更新架构如下所示：
