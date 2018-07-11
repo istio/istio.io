@@ -9,7 +9,7 @@ Istio 认证功能可以借用 Service account 来对服务的访问进行安全
 
 启用 Istio 的双向 TLS 认证之后，服务器会根据客户端的证书对其进行认证，并且会从证书中提取他的 Service account。Service account 会保存在 `source.user` 属性之中。
 
-可以参考 [Istio auth identity](/docs/concepts/security/#identity) 一节，了解 Service account 在 Istio 中的表达格式。
+可以参考 [Istio 身份认证](/docs/concepts/security/#identity) 一节，了解 Service account 在 Istio 中的表达格式。
 
 ## 开始之前
 
