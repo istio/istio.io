@@ -52,6 +52,9 @@ be invalid HTML
 {{ $branch := .Site.Data.args.branch_name }}
 {{ $links := findRE "@(.*?)@" ($scratch.Get "text") }}
 {{ range $link := $links }}
-{{ $href := printf "https://raw.githubusercontent.com/istio/istio/%s/%s" $branch (trim $link "@") }}
+{{ $target := trim $link "@" }}
+{{ if gt (len $target) 0 }}
+{{ $href := printf "https://raw.githubusercontent.com/istio/istio/%s/%s" $branch $target }}
 <a hidden style="display:none" href="{{ $href }}"></a>
+{{ end }}
 {{ end }}

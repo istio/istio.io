@@ -43,6 +43,9 @@ Istio control plane, Envoy can then communicate with the **single**
 Istio control plane and form a mesh network across multiple Kubernetes
 clusters.
 
+This guide describes how to install a multicluster Istio topology using the
+manifests and Helm charts provided within the Istio repository.
+
 ## Create service account in remote clusters and generate `kubeconfigs`
 
 The Istio control plane requires access to all clusters in the mesh to
@@ -267,3 +270,58 @@ $ kubectl delete -f $HOME/istio-remote.yaml
 {{< text bash >}}
 $ helm delete --purge istio-remote
 {{< /text >}}
+
+## Deployment considerations
+
+The above procedure provides a simple and step by step guide to deploy a multicluster
+environment.  A production environment might require additional steps or more complex
+deployment options.  The procedure gathers the endpoint IPs of Istio services and uses
+them to invoke Helm. This create Istio services on the remote clusters. As part of
+creating those services and endpoints in the remote cluster Kubernetes will
+add DNS entries into kube-dns.  This allows kube-dns in the remote clusters to
+resolve the Istio service names for all envoy sidecars in those remote clusters.
+Since Kubernetes pods don't have stable IPs, restart of any Istio service pod in
+the control plane cluster will cause its endpoint to be changed. Therefore, any
+connection made from remote clusters to that endpoint will be broken. This is
+documented in [Istio issue #4822](https://github.com/istio/istio/issues/4822)
+
+There are a number of ways to either avoid or resolve this scenario. This section
+provides a high level overview of these options.
+
+* Update the DNS entries
+* Use a load balancer service type
+* Expose the Istio services via a gateway
+
+### Update the DNS entries
+
+Upon any failure or pod restart kube-dns on the remote clusters can be
+updated with the correct endpoint mappings for the Istio services.  There
+are a number of ways this can be done. The most obvious is to rerun the Helm
+install in the remote cluster after the Istio services on the control plane
+cluster have restarted.
+
+### Use load balance service type
+
+In Kubernetes, you can declare a service with a service type to be
+[LoadBalancer](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types).
+A simple solution to the pod restart issue is to use load balancers for the
+Istio services. You can then use the load balancer IPs as the Istio services's
+endpoint IPs to configure the remote clusters. You may need balancer IPs for
+these Istio services: `istio-pilot, istio-telemetry, istio-policy,
+istio-statsd-prom-bridge, zipkin`
+
+Currently, Istio installation doesn't provide an option to specify service types
+for the Istio services. But you can modify the Istio Helm charts or the Istio
+manifests yourself.
+
+### Expose the Istio services via a gateway
+
+This uses the Istio Ingress gateway functionality.  The remote clusters have the
+`istio-pilot, istio-telemetry, istio-policy, istio-statsd-prom-bridge, zipkin`
+services pointing to the load balanced IP of the Istio ingress.  All the services
+can point to the same IP.  The ingress gateway is then provided with destination
+rules to reach the proper Istio service in the main cluster.
+
+Within this option there are 2 sub-options.  One is to re-use the default Istio ingress gateway
+installed with the provided manifests or helm charts.  The other option is to create another
+Istio ingress gateway specifically for multicluster.

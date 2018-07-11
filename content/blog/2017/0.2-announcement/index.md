@@ -38,7 +38,7 @@ you easily integrate your solution with Istio.
 
 * _Mesh expansion_: Istio mesh can now span services running outside of Kubernetes - like those running in virtual machines while enjoying benefits such as automatic mutual TLS authentication, traffic management, telemetry, and policy enforcement across the mesh.
 
-* _Running outside Kubernetes_: We know many customers use other service registry and orchestration solutions like [Consul/Nomad](/docs/setup/consul/quick-start/) and [Eureka](/docs/setup/eureka/quick-start/). Istio Pilot can now run standalone outside Kubernetes, consuming information from these systems, and manage the Envoy fleet in VMs or containers.
+* _Running outside Kubernetes_: We know many customers use other service registry and orchestration solutions like [Consul/Nomad](/docs/setup/consul/quick-start/) and Eureka. Istio Pilot can now run standalone outside Kubernetes, consuming information from these systems, and manage the Envoy fleet in VMs or containers.
 
 ## Get involved in shaping the future of Istio
 

@@ -73,6 +73,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `connection.sent.bytes_total` | int64 | Total number of bytes sent by a destination service during the lifetime of a connection. | |
 | `connection.duration` | duration | The total amount of time a connection has been open. | |
 | `connection.mtls` | boolean | Indicates whether a request is received over a mTLS enabled downstream connection. | |
+| `connection.requested_server_name` | string | The requested server name (SNI) of the connection | |
 | `context.protocol`      | string | Protocol of the request or connection being proxied. | tcp |
 | `context.time`          | timestamp | The timestamp of Mixer operation. | |
 | `context.reporter.kind` | string | Contextualizes the reported attribute set. Set to `inbound` for the server-side calls from sidecars and `outbound` for the client-side calls from sidecars and gateways | `inbound` |

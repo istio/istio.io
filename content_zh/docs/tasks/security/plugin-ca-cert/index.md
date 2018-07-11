@@ -21,7 +21,7 @@ keywords: [security,certificates]
 
     使用 [Helm](/docs/setup/kubernetes/helm-install/) 并设置 `global.mtls.enabled` 为 `true`.
 
-> 从 Istio 0.7 开始，可以使用[认证策略](/docs/concepts/security/authn-policy/)来给命名空间中全部/部分服务配置双向 TLS 功能。（在所有命名空间中重复此操作，就相当于全局配置了）。这部分内容可参考[认证策略任务](/docs/tasks/security/authn-policy/)
+> 从 Istio 0.7 开始，可以使用[认证策略](/docs/concepts/security/#authentication-policy)来给命名空间中全部/部分服务配置双向 TLS 功能。（在所有命名空间中重复此操作，就相当于全局配置了）。这部分内容可参考[认证策略任务](/docs/tasks/security/authn-policy/)
 
 ## 插入现有密钥和证书
 
