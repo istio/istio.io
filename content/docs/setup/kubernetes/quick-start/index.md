@@ -34,14 +34,14 @@ The following instructions require:
    and substitute `your_vm_driver_choice` below with the installed virtual
    machine (VM) driver.
 
-  On Kubernetes **1.9**:
+    On Kubernetes **1.9**:
 
     {{< text bash >}}
     $ minikube start --memory=4096 --kubernetes-version=v1.9.4 \
     --vm-driver=`your_vm_driver_choice`
     {{< /text >}}
 
-  On Kubernetes **1.10**:
+    On Kubernetes **1.10**:
 
     {{< text bash >}}
     $ minikube start --memory=4096 --kubernetes-version=v1.10.0 \
