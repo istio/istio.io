@@ -21,7 +21,7 @@ To demonstrate the scenario of consuming an external web service, I start with a
 The example commands in this blog post work with Istio 0.2+, with or without [mutual TLS](/docs/concepts/security/#mutual-tls-authentication) enabled.
 
 The Bookinfo configuration files required for the scenario of this post appear starting from [Istio 0.5](https://github.com/istio/istio/releases/tag/0.5.0).
-The Bookinfo configuration files reside in the `samples/bookinfo/platform/kube` directory of the Istio release archive.
+The Bookinfo configuration files reside in the `samples/bookinfo` directory of the Istio release archive.
 
 Here is a copy of the end-to-end architecture of the application from the original [Bookinfo sample application](/docs/examples/bookinfo/).
 

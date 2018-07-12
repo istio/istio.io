@@ -31,7 +31,7 @@ including cluster ingress and egress.
 * Secure service-to-service communication in a cluster with strong
 identity-based authentication and authorization.
 
-Istio can be deployed on [Kubernetes](https://kubernetes.io),
+You can deploy Istio on [Kubernetes](https://kubernetes.io) or on
 [Nomad](https://nomadproject.io) with [Consul](https://www.consul.io/). We
 plan to add support for additional platforms such as
 [Cloud Foundry](https://www.cloudfoundry.org/),

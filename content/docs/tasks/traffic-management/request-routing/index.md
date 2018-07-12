@@ -20,10 +20,8 @@ This task shows you how to configure dynamic request routing based on weights an
 
 ## Content-based routing
 
-The Bookinfo sample deploys multiple versions of each microservice, so you will start by creating destination rules
+1.  The Bookinfo sample deploys multiple versions of each microservice, so you will start by creating destination rules
 that define the service subsets corresponding to each version, and the load balancing policy for each subset.
-
-1.
 
     {{< text bash >}}
     $ istioctl create -f @samples/bookinfo/networking/destination-rule-all.yaml@
@@ -44,26 +42,23 @@ that define the service subsets corresponding to each version, and the load bala
     Since the subset references in virtual services rely on the destination rules,
     wait a few seconds for destination rules to propagate before adding virtual services that refer to these subsets.
 
-1.
-Because the Bookinfo sample deploys 3 versions of the reviews microservice,
-you need to set a default route.
+1.  Because the Bookinfo sample deploys 3 versions of the reviews microservice, you need to set a default route.
 Otherwise if you access the application several times, you'll notice that sometimes the output contains
-star ratings.
-This is because without an explicit default version set, Istio will
-route requests to all available versions of a service in a random fashion.
+star ratings. This is because without an explicit default version set, Istio will route requests to all available
+versions of a service in a random fashion.
 
-> This task assumes you don't have any existing virtual services. If you've already created conflicting virtual services for the sample,
+    > This task assumes you don't have any existing virtual services. If you've already created conflicting virtual services for the sample,
 you'll need to use `replace` rather than `create` in the following command.
 
-1.  Set the default version for all microservices to v1.
+    Set the default version for all microservices to v1.
 
     {{< text bash >}}
     $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
     > In a Kubernetes deployment of Istio, you can replace `istioctl`
-    > with `kubectl` in the above, and for all other CLI commands.
-    > Note, however, that `kubectl` currently does not provide input validation.
+    with `kubectl` in the above, and for all other CLI commands.
+    Note, however, that `kubectl` currently does not provide input validation.
 
     You can display the routes that are defined with the following command:
 
