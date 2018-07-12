@@ -284,7 +284,8 @@ they have valid values, according to the output of the following commands:
 1.  For macOS users, verify that you use _curl_ compiled with the [LibreSSL](http://www.libressl.org) library, as
     described in the [Before you begin](#before-you-begin) section.
 
-#### Troubleshooting for mutual TLS
+### Troubleshooting for mutual TLS
+
 In addition to the steps in the previous section, perform the following:
 
 1.  Verify that the CA certificate is loaded in the `istio-ingressgateway` pod:
