@@ -88,4 +88,4 @@ Handlers provide configuration data for individual adapters, templates determine
 
 You can learn more about Mixer's overall architecture [here](/docs/concepts/policies-and-telemetry/), and learn the specifics of templates, handlers,
 and rules [here](/docs/reference/config/policy-and-telemetry). You can find many examples of Mixer configuration resources in the Bookinfo sample
-[here]({{< github_tree >}}/samples/bookinfo/kube).
+[here]({{< github_tree >}}/samples/bookinfo).

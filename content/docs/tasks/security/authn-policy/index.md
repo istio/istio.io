@@ -15,7 +15,7 @@ Through this task, you will learn how to:
 
 ## Before you begin
 
-* Understand Istio [authentication policy](/docs/concepts/security/authn-policy/) and related [mutual TLS authentication](/docs/concepts/security/mutual-tls/) concepts.
+* Understand Istio [authentication policy](/docs/concepts/security/#authentication-policy) and related [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) concepts.
 
 * Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (e.g use `install/kubernetes/istio.yaml` as described in [installation steps](/docs/setup/kubernetes/quick-start/#installation-steps), or set `global.mtls.enabled` to false using [Helm](/docs/setup/kubernetes/helm-install/)).
 
@@ -325,7 +325,7 @@ $ cat <<EOF | istioctl replace -n bar -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
-  name: "example-2"
+  name: "httpbin"
 spec:
   targets:
   - name: httpbin
@@ -343,7 +343,7 @@ $ cat <<EOF | istioctl replace -n bar -f -
 apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:
-  name: "example-2"
+  name: "httpbin"
 spec:
   host: httpbin.bar.svc.cluster.local
   trafficPolicy:

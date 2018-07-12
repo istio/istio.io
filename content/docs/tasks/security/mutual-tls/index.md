@@ -19,7 +19,7 @@ This task assumes you have a Kubernetes cluster:
 
     Use [Helm](/docs/setup/kubernetes/helm-install/) with `global.mtls.enabled` to `true`.
 
-> Starting with Istio 0.7, you can use [authentication policy](/docs/concepts/security/authn-policy/) to configure mutual TLS for all/selected services in a namespace
+> Starting with Istio 0.7, you can use [authentication policy](/docs/concepts/security/#authentication-policy) to configure mutual TLS for all/selected services in a namespace
 (repeated for all namespaces to get global setting). See the [authentication policy task](/docs/tasks/security/authn-policy/)
 
 * For demo, deploy [httpbin]({{< github_tree >}}/samples/httpbin) and [sleep]({{< github_tree >}}/samples/sleep) with Envoy sidecar. For simplicity, the demo is setup in the `default` namespace. If you wish to use a different namespace,  please add `-n yournamespace` appropriately to the example commands in the next section.
@@ -106,7 +106,7 @@ $ kubectl exec $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.na
             URI:spiffe://cluster.local/ns/default/sa/default
 {{< /text >}}
 
-Please check [secure naming](/docs/concepts/security/mutual-tls/#workflow) for more information about  _service identity_ in Istio.
+Please check [secure naming](/docs/concepts/security/#workflow) for more information about  _service identity_ in Istio.
 
 ## Testing the authentication setup
 
@@ -140,7 +140,7 @@ Assuming mutual TLS authentication is properly turned on, it should not affect c
     200
     {{< /text >}}
 
-    > Istio uses [Kubernetes service accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) as service identity, which offers stronger security than service name (refer [here](/docs/concepts/security/mutual-tls/#identity) for more information). Thus the certificates used in Istio do not have service names, which is the information that `curl` needs to verify server identity. As a result, we use `curl` option `-k` to prevent the `curl` client from aborting when failing to find and verify the server name (i.e., httpbin.ns.svc.cluster.local) in the certificate provided by the server.
+    > Istio uses [Kubernetes service accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) as service identity, which offers stronger security than service name (refer [here](/docs/concepts/security/#identity) for more information). Thus the certificates used in Istio do not have service names, which is the information that `curl` needs to verify server identity. As a result, we use `curl` option `-k` to prevent the `curl` client from aborting when failing to find and verify the server name (i.e., httpbin.ns.svc.cluster.local) in the certificate provided by the server.
 
 1. Request from pod without sidecar. For this demo, let's install another `sleep` service without sidecar. To avoid name conflicts, we put it in different namespace.
 

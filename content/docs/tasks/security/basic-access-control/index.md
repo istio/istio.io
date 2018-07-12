@@ -16,17 +16,39 @@ This task shows how to control access to a service using the Kubernetes labels.
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
+* The Bookinfo sample deploys multiple versions of each microservice, so you will start by creating destination rules
+that define the service subsets corresponding to each version.
+
+    {{< text bash >}}
+    $ istioctl create -f @samples/bookinfo/networking/destination-rule-all.yaml@
+    {{< /text >}}
+
+    If you enabled mutual TLS, please run the following instead
+
+    {{< text bash >}}
+    $ istioctl create -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
+    {{< /text >}}
+
+    You can display the destination rules with the following command:
+
+    {{< text bash >}}
+    $ istioctl get destinationrules -o yaml
+    {{< /text >}}
+
+    Since the subset references in virtual services rely on the destination rules,
+    wait a few seconds for destination rules to propagate before adding virtual services that refer to these subsets.
+
 * Initialize the application version routing to direct `reviews` service requests from
   test user "jason" to version v2 and requests from any other user to v3.
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
+    $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
     and then run the following command:
 
     {{< text bash >}}
-    $ istioctl replace -f @samples/bookinfo/routing/route-rule-reviews-jason-v2-v3.yaml.yaml@
+    $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-jason-v2-v3.yaml@
     {{< /text >}}
 
     > If you have conflicting rules that you set in previous tasks,
@@ -56,7 +78,7 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
     Run the following command to set up the deny rule along with a handler and an instance.
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/kube/mixer-rule-deny-label.yaml@
+    $ istioctl create -f @samples/bookinfo/policy/mixer-rule-deny-label.yaml@
     Created config denier/default/denyreviewsv3handler at revision 2882105
     Created config checknothing/default/denyreviewsv3request at revision 2882106
     Created config rule/default/denyreviewsv3 at revision 2882107
@@ -90,7 +112,7 @@ Istio also supports attribute-based whitelists and blacklists. The following whi
 1.  Remove the denier configuration that you added in the previous section.
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/kube/mixer-rule-deny-label.yaml@
+    $ istioctl delete -f @samples/bookinfo/policy/mixer-rule-deny-label.yaml@
     {{< /text >}}
 
 1. Verify that when you access the Bookinfo `productpage` (http://$GATEWAY_URL/productpage) without logging in, you see red stars.
@@ -174,7 +196,19 @@ Verify that after logging in as "jason" you see black stars.
 *   Remove the application routing rules:
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
+    $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
+    {{< /text >}}
+
+*   Remove the application destination rules:
+
+    {{< text bash >}}
+    $ istioctl delete -f @samples/bookinfo/networking/destination-rule-all.yaml@
+    {{< /text >}}
+
+    If you enabled mutual TLS, please run the following instead
+
+    {{< text bash >}}
+    $ istioctl delete -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
     {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, refer to the

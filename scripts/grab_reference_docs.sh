@@ -31,6 +31,7 @@ git clone https://github.com/istio/istio.git
 cd istio
 git checkout $ISTIO_BRANCH
 cd ..
+git clone https://github.com/apigee/istio-mixer-adapter.git
 popd
 
 # Given the name of a .pb.html file, extracts the $location marker and then proceeds to
@@ -82,6 +83,12 @@ do
 done
 
 for f in `find $WORK_DIR/api -type f -name '*.pb.html'`
+do
+    echo "processing $f"
+    locate_file ${f}
+done
+
+for f in `find $WORK_DIR/istio-mixer-adapter -type f -name '*.pb.html'`
 do
     echo "processing $f"
     locate_file ${f}
