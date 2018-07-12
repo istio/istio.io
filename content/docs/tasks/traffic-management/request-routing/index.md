@@ -1,6 +1,6 @@
 ---
 title: Configuring Request Routing
-description: This task shows you how to configure dynamic request routing based on weights and HTTP headers.
+description: This task shows you how to configure dynamic request routing to multiple versions of a microservice.
 weight: 10
 aliases:
     - /docs/tasks/request-routing.html
@@ -9,7 +9,8 @@ keywords: [traffic-management,routing]
 
 > This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.7/docs/tasks/traffic-management/).
 
-This task shows you how to configure dynamic request routing based on weights and HTTP headers.
+This task shows you how to route requests dynamically to multiple versions of a
+microservice.
 
 ## Before you begin
 
@@ -18,49 +19,68 @@ This task shows you how to configure dynamic request routing based on weights an
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
-## Content-based routing
+* Review the [Traffic Management](/docs/concepts/traffic-management) concepts doc. Before attempting this task, you should be familiar with important terms such as *destination rule*, *virtual service*, and *subset*.
 
-1.  The Bookinfo sample deploys multiple versions of each microservice, so you will start by creating destination rules
-that define the service subsets corresponding to each version, and the load balancing policy for each subset.
+## About this task
+
+The Istio [Bookinfo](/docs/examples/bookinfo/) sample consists of four separate microservices, each with multiple versions. The initial goal of this task is to
+apply a rule that routes all traffic to `v1` (version 1) of the ratings service. Later, you
+will apply a rule to route traffic based on the value of an HTTP request header.
+
+To illustrate the problem this task solves, access the Bookinfo app's `/productpage` in a browser and refresh several times. You’ll notice that sometimes the book review output contains star ratings and other times it does not. This is because without an explicit default service version to route to, Istio routes requests to all available versions
+in a round robin fashion.
+
+## Apply a default destination rule
+
+To route to one version only, you start by applying destination rules. Destination rules define traffic policies that Istio applies to requests. Destination rules also let you define which versions of the destination host are addressable. These addressable versions are called *subsets*.
+
+1.  Run the following command to apply a default destination rule:
+
+    If you did **not** enable mutual TLS, execute this command:
 
     {{< text bash >}}
     $ istioctl create -f @samples/bookinfo/networking/destination-rule-all.yaml@
     {{< /text >}}
 
-    If you enabled mutual TLS, please run the following instead
+    If you **did** enable mutual TLS, execute this command:
 
     {{< text bash >}}
     $ istioctl create -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
     {{< /text >}}
 
-    You can display the destination rules with the following command:
+    Wait a few seconds for the destination rules to propagate.
+
+1. Display the destination rules with the following command:
 
     {{< text bash >}}
     $ istioctl get destinationrules -o yaml
     {{< /text >}}
 
-    Since the subset references in virtual services rely on the destination rules,
-    wait a few seconds for destination rules to propagate before adding virtual services that refer to these subsets.
+    In the next step, you will add virtual services that refer to the subsets
+    defined in the rules.
 
-1.  Because the Bookinfo sample deploys 3 versions of the reviews microservice, you need to set a default route.
-Otherwise if you access the application several times, you'll notice that sometimes the output contains
-star ratings. This is because without an explicit default version set, Istio will route requests to all available
-versions of a service in a random fashion.
+## Apply a virtual service
 
-    > This task assumes you don't have any existing virtual services. If you've already created conflicting virtual services for the sample,
-you'll need to use `replace` rather than `create` in the following command.
+Next, apply a virtual service to set the default version for all of the microservices.
+In this case, the virtual service routes all traffic to `v1` of each microservice.
 
-    Set the default version for all microservices to v1.
+ > Before continuing, be sure you don't have any existing virtual services applied
+to the Bookinfo app. If you already created conflicting virtual services for Bookinfo, you must use `replace` rather than `create` in the following command.
+
+1.  Run the following command to apply the virtual service:
 
     {{< text bash >}}
     $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
-    > In a Kubernetes deployment of Istio, you can replace `istioctl`
-    with `kubectl` in the above, and for all other CLI commands.
-    Note, however, that `kubectl` currently does not provide input validation.
+    In a Kubernetes deployment of Istio, you can replace `istioctl` with `kubectl` in
+    the above, and for all other CLI commands. Note, however, that `kubectl` currently
+    does not provide input validation.
 
-    You can display the routes that are defined with the following command:
+    Because configuration propagation is eventually consistent, wait a few seconds
+    for the virtual services to take effect.
+
+1. Display the defined routes with the following command:
 
     {{< text bash yaml >}}
     $ istioctl get virtualservices -o yaml
@@ -125,27 +145,46 @@ you'll need to use `replace` rather than `create` in the following command.
     ---
     {{< /text >}}
 
-    > The corresponding `subset` definitions can be displayed using `istioctl get destinationrules -o yaml`.
+1. Display the corresponding `subset` definitions:
 
-    Since config propagation is eventually consistent, wait a few seconds for the virtual services to take effect.
+    {{< text bash >}}
+    $ istioctl get destinationrules -o yaml
+    {{< /text >}}
 
-1.  Open the Bookinfo URL (`http://$GATEWAY_URL/productpage`) in your browser. Recall that `GATEWAY_URL`
-    should have been set using [these instructions](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)
-    when the Bookinfo sample was deployed.
+You have configured Istio to route to the `v1` version of the Bookinfo microservices,
+including the `ratings` service.
 
-    You should see the Bookinfo application productpage displayed.
-    Notice that the `productpage` is displayed with no rating stars since `reviews:v1` does not access the ratings service.
+## Test the new routing configuration
 
-1.  Route a specific user to `reviews:v2`
+You can easily test the new configuration by once again refreshing the `/productpage`
+of the Bookinfo app.
 
-    Lets enable the ratings service for test user "jason" by routing productpage traffic to
-    `reviews:v2` instances.
+1.  Open the Bookinfo site in your browser. The URL is `http://$GATEWAY_URL/productpage`, where `$GATEWAY_URL` is the External IP address of the ingress, as explained in
+the [Bookinfo](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port) doc.
+
+    Notice that the reviews part of the page displays with no rating stars, no
+    matter how many times you refresh. This is because you configured Istio to route
+    all traffic for the reviews service to the version `reviews:v1` and this
+    version of the service does not access the star ratings service.
+
+You have successfully accomplished the first part of this task: route traffic to one
+version of a service.
+
+## Route based on user identity
+
+Next, you will change the route config so that all traffic from a specific user
+is routed to a specific service version. In this case, all traffic from a user
+named Jason will be routed to the service `reviews:v2`.
+
+Remember, `reviews:v2` is the version that includes the star ratings feature.
+
+1. Run the following command to enable the user-based routing:
 
     {{< text bash >}}
     $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-test-v2.yaml@
     {{< /text >}}
 
-    Confirm the rule is created:
+1. Confirm the rule is created:
 
     {{< text bash yaml >}}
     $ istioctl get virtualservice reviews -o yaml
@@ -172,24 +211,32 @@ you'll need to use `replace` rather than `create` in the following command.
             subset: v1
     {{< /text >}}
 
-1.  Log in as user "jason" at the `productpage` web page.
+1.  On the `/productpage` of the Bookinfo app, log in as user `jason`.
 
-    You should now see ratings (1-5 stars) next to each review. Notice that if you log in as
-    any other user, you will continue to see `reviews:v1`.
+    Refresh the browser. What do you see? The star ratings appear next to each
+    review.
+
+1. Log in as another user (pick any name you wish).
+
+    Refresh the browser. Now the stars are gone. This is because traffic is routed
+    to `reviews:v1` for all users except Jason.
+
+You have successfully configured Istio to route traffic based on user identity.
 
 ## Understanding what happened
 
-In this task, you used Istio to send 100% of the traffic to the v1 version of each of the Bookinfo
-services. You then set a rule to selectively send traffic to version v2 of the reviews service based
-on a header (i.e., a user cookie) in a request.
+In this task, you used Istio to send 100% of the traffic to the `v1` version
+of each of the Bookinfo services. You then set a rule to selectively send traffic
+to version `v2` of the reviews service based on a header (a user cookie) present in
+the request.
 
-Note that Kubernetes services, like the Bookinfo ones used in this task, must adhere to certain
-restrictions in order to take advantage of Istio's L7 routing features. Refer to the
-[sidecar injection documentation](/docs/setup/kubernetes/sidecar-injection/#pod-spec-requirements)
-for details.
+Note that Kubernetes services, like the Bookinfo ones used in this task, must
+adhere to certain restrictions to take advantage of Istio's L7 routing features.
+Refer to the [sidecar injection documentation](/docs/setup/kubernetes/sidecar-injection/#pod-spec-requirements) for details.
 
-Once the v2 version has been tested to our satisfaction, you could use Istio to send traffic from
-all users to v2, optionally in a gradual fashion. You'll explore this in a separate task.
+In the [traffic shifting](/docs/tasks/traffic-management/traffic-shifting) task, you
+will follow the same basic pattern you learned here to configure route rules to
+gradually send traffic from one version of a service to another.
 
 ## Cleanup
 
