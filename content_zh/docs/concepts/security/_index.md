@@ -17,7 +17,7 @@ Istio 基于角色的访问控制（RBAC）为 Istio 网格中的服务提供名
 下面的图表显示了 Istio RBAC 体系结构。操作者可以指定 Istio RBAC 策略。策略则保存在 Istio 配置存储中。
 
 {{< image width="80%" ratio="56.25%"
-    link="https://github.com/istio/istio.github.io/tree/master/content/docs/concepts/security/rbac/IstioRBAC.svg"
+    link="https://github.com/istio/istio.github.io/tree/master/content/docs/concepts/security/IstioRBAC.svg"
     alt="Istio RBAC"
     caption="Istio RBAC Architecture"
     >}}
@@ -28,7 +28,7 @@ Istio 的 RBAC 引擎做了下面两件事：
 
 ### 请求上下文
 
-在当前版本中，Istio RBAC 引擎被实现为一个[Mixer 适配器](/docs/concepts/policies-and-telemetry#adapters)。请求上下文则作为[授权模板](/content/docs/reference/config/policy-and-telemetry/templates/authorization)的实例。请求上下文包含请求和授权模块需要环境的所有信息。特别是两个部分：
+在当前版本中，Istio RBAC 引擎被实现为一个[Mixer 适配器](/docs/concepts/policies-and-telemetry#adapters)。请求上下文则作为[授权模板](/content/docs/reference/config/policy-and-telemetry/templates/authorization/)的实例。请求上下文包含请求和授权模块需要环境的所有信息。特别是两个部分：
 * 主题 包含调用者标识的属性列表，包括`"user"` name/ID，主题属于`“group”`，或者关于主题的任意附加属性，比如名称空间、服务名称。
 
 * 动作 指定“如何访问服务”。它包括`“名称空间”`、`“服务”`、`“路径”`、`“方法”`，以及该操作的任何附加属性。
@@ -190,7 +190,7 @@ spec:
 * `"config_store_url"` 参数指定 RBAC 引擎在何处获取 RBAC 策略。`"config_store_url"` 默认是 `“k8s://”`，这意味着 Kubernetes 的 API 服务器。或者，如果您在本地测试 RBAC 策略，您可以将它设置为一个本地目录，例如`"fs:///tmp/testdata/configroot"`。
 * `"cache_duration"` 参数指定在混合器客户端上缓存授权结果的持续时间（例如，Istio  代理)。默认值 `“cache_duration”` 是1分钟。
 
-第二部分定义了一条规则，该规则指定 RBAC 处理程序应该用[之前的文档](/content/docs/concepts/security/rbac/index.md#request-context)定义的 “requestcontext” 实例来调用。
+第二部分定义了一条规则，该规则指定 RBAC 处理程序应该用[之前的文档](/content/docs/concepts/security/index.md#request-context)定义的 “requestcontext” 实例来调用。
 
 在下面的例子中，Istio RBAC 启用了 “default” 名称空间。缓存的持续时间设置为30秒。
 
