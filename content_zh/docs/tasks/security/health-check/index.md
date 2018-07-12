@@ -18,7 +18,7 @@ Citadel 包含了一个检测器模块，它会周期性的检查 Citadel 的状
 * 根据[快速开始](/docs/setup/kubernetes/quick-start/)的指引部署 Istio 并启用全局双向 TLS 支持。
 
     {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
+    $ kubectl apply -f install/kubernetes/istio-auth.yaml
     {{< /text >}}
 
     _**或者**_
