@@ -13,7 +13,7 @@ gateway to expose an HTTP endpoint of a service to external traffic. This task e
 ## Before you begin
 
 1.  Perform the steps in the [Before you begin](/docs/tasks/traffic-management/ingress#before-you-begin) and [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress#determining-the-ingress-ip-and-ports) sections of the
-[Control Ingress Traffic](/docs/tasks/traffic-management/ingress) task. After performing those steps you should have Istio and _httpbin_ service deployed, and the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT` set.
+[Control Ingress Traffic](/docs/tasks/traffic-management/ingress) task. After performing those steps you should have Istio and the [httpbin]({{< github_tree >}}/samples/httpbin) service deployed, and the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT` set.
 
 1.  For macOS users, verify that you use _curl_ compiled with the [LibreSSL](http://www.libressl.org) library:
 
@@ -23,11 +23,11 @@ gateway to expose an HTTP endpoint of a service to external traffic. This task e
     {{< /text >}}
 
     If a version of _LibreSSL_ is printed as in the output above, your _curl_ should work correctly with the
-    instructions in this task. Otherwise, try some other installation of _curl_, for example on a Linux machine.
+    instructions in this task. Otherwise, try another installation of _curl_, for example on a Linux machine.
 
 ## Generate client and server certificates and keys
 
-For this task you can use your favorite tool to generate certificates and keys. We used [a script](https://github.com/nicholasjackson/mtls-go-example/blob/master/generate.sh)
+For this task you can use your favorite tool to generate certificates and keys. This example uses [a script](https://github.com/nicholasjackson/mtls-go-example/blob/master/generate.sh)
 from the https://github.com/nicholasjackson/mtls-go-example repository.
 
 1.  Clone the https://github.com/nicholasjackson/mtls-go-example repository:
@@ -48,18 +48,18 @@ from the https://github.com/nicholasjackson/mtls-go-example repository.
     $ generate.sh httpbin.example.com <password>
     {{< /text >}}
 
-    The command will generate four directories: `1_root`, `2_intermediate`, `3_application` and `4_client` with client
-    and server certificates you will use.
+    The command will generate four directories: `1_root`, `2_intermediate`, `3_application`, and `4_client` containing the client
+    and server certificates you use in the procedures below.
 
 ## Configure a TLS ingress gateway
 
-In this subsection you configure an ingress gateway with the port 443 to handle HTTPS traffic. You create a secret
-with a certificate and a private key. Then you create a `Gateway` definition that contains a `server` on the port 443.
+In this subsection you configure an ingress gateway with port 443 to handle HTTPS traffic. You first create a secret
+with a certificate and a private key. Then you create a `Gateway` definition that contains a `server` on port 443.
 
 1. Create a Kubernetes `Secret` to hold the server's certificate and private key. Use `kubectl` to create the secret
 `istio-ingressgateway-certs` in namespace `istio-system` . The Istio gateway will load the secret automatically.
 
-    > The secret MUST be called `istio-ingressgateway-certs` in the `istio-system` namespace, or it will not
+    > The secret **must** be called `istio-ingressgateway-certs` in the `istio-system` namespace, or it will not
     > be mounted and available to the Istio gateway.
 
     {{< text bash >}}
@@ -72,9 +72,9 @@ with a certificate and a private key. Then you create a `Gateway` definition tha
     [Role-Based Access Control (RBAC)](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) rules to protect
     it.
 
-1.  Define a `Gateway` with a `server` section for the port 443.
+1.  Define a `Gateway` with a `server` section for port 443.
 
-    > The location of the certificate and the private key MUST be `/etc/istio/ingressgateway-certs`, or the gateway will fail to load them.
+    > The location of the certificate and the private key **must** be `/etc/istio/ingressgateway-certs`, or the gateway will fail to load them.
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
@@ -126,14 +126,14 @@ with a certificate and a private key. Then you create a `Gateway` definition tha
     EOF
     {{< /text >}}
 
-1.  Access the _httpbin_ service with HTTPS by sending an `https` request using _curl_ to `SECURE_INGRESS_PORT`.
+1.  Access the `httpbin` service with HTTPS by sending an `https` request using _curl_ to `SECURE_INGRESS_PORT`.
 
-    The `--resolve` flag is used to instruct _curl_ to supply the
+    The `--resolve` flag instructs _curl_ to supply the
     [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) value "httpbin.example.com" when accessing the gateway IP
       over TLS. The `--cacert` option instructs _curl_ to use your generated certificate to verify the server.
 
-    By sending the request to the `/status/418` URL path, you get a nice visual clue that your _httpbin_ service was
-    indeed accessed. The _httpbin_ service will return the
+    By sending the request to the `/status/418` URL path, you get a nice visual clue that your `httpbin` service was
+    indeed accessed. The `httpbin` service will return the
     [418 I'm a Teapot](https://tools.ietf.org/html/rfc7168#section-2.3.3) code.
 
     {{< text bash >}}
@@ -160,11 +160,11 @@ with a certificate and a private key. Then you create a `Gateway` definition tha
         `"""`
     {{< /text >}}
 
-    > It may take time for the gateway definition to propagate and you may get the following error:
+    > It might take time for the gateway definition to propagate so you might get the following error:
     > `Failed to connect to httpbin.example.com port <your secure port>: Connection refused`. Wait for a minute and
-    > retry the _curl_ call again.
+    > retry the _curl_ call.
 
-    Look for the _Server certificate_ section in the output of _curl_, note the line about matching the _common name_:
+    Look for the _Server certificate_ section in the _curl_ output and note the line about matching the _common name_:
     `common name: httpbin.example.com (matched)`. According to the line `SSL certificate verify ok` in the output of
     _curl_, you can be sure that the server's certificate was verified successfully. Note the returned status of 418 and
     a nice drawing of a teapot.
@@ -180,7 +180,7 @@ In this section you extend your gateway's definition from the previous section t
 the server will use to verify its clients. Create the secret `istio-ingressgateway-ca-certs` in namespace `istio-system`
  using `kubectl`. The Istio gateway will automatically load the secret.
 
-    > The secret MUST be called `istio-ingressgateway-ca-certs` in the `istio-system` namespace, or it will not
+    > The secret **must** be called `istio-ingressgateway-ca-certs` in the `istio-system` namespace, or it will not
     > be mounted and available to the Istio gateway.
 
     {{< text bash >}}
@@ -188,9 +188,9 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
     secret "istio-ingressgateway-ca-certs" created
     {{< /text >}}
 
-1.  Redefine your previous `Gateway` while changing the `tls` `mode` to `MUTUAL` and specifying `caCertificates`:
+1.  Redefine your previous `Gateway` to change the `tls` `mode` to `MUTUAL` and specifying `caCertificates`:
 
-    > The location of the certificate MUST be `/etc/istio/ingressgateway-ca-certs`, or the gateway
+    > The location of the certificate **must** be `/etc/istio/ingressgateway-ca-certs`, or the gateway
     will fail to load them. The file name of the certificate must be identical to the filename you create the secret
     from, in this case `ca-chain.cert.pem`.
 
@@ -218,15 +218,15 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
     EOF
     {{< /text >}}
 
-1.  Access the _httpbin_ service by HTTPS as in the previous section:
+1.  Access the `httpbin` service by HTTPS as in the previous section:
 
     {{< text bash >}}
     $ curl --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST  --cacert 2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
     curl: (35) error:14094410:SSL routines:SSL3_READ_BYTES:sslv3 alert handshake failure
     {{< /text >}}
 
-    > It may take time for the gateway definition to propagate and you may still get _418_. Wait for a minute and retry
-    the _curl_ call again.
+    > It might take time for the gateway definition to propagate so you might still get _418_. Wait for a minute and retry
+    the _curl_ call.
 
     This time you get an error since the server refuses to accept unauthenticated requests. You have to send a client
     certificate and pass _curl_ your private key for signing the request.
@@ -287,7 +287,7 @@ they have valid values, according to the output of the following commands:
 
 ## Cleanup
 
-1.  Delete the `Gateway` configuration, the `VirtualService` and the secrets:
+1.  Delete the `Gateway` configuration, the `VirtualService`, and the secrets:
 
     {{< text bash >}}
     $ istioctl delete gateway httpbin-gateway

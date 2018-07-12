@@ -13,63 +13,141 @@ We will describe metrics first and then the labels for each metric.
 
 ## Metrics
 
-*   **Request Count**: This is a `COUNTER`
-    `[metric]({{< github_file >}}/install/kubernetes/templates/istio-mixer.yaml.tmpl#L786:9)`
-    incremented for every request handled by an Istio proxy.
+*   **Request Count**: This is a `COUNTER` incremented for every
+    request handled by an Istio proxy.
 
-*   **Request Duration**: This is a `DISTRIBUTION`
-    `[metric]({{< github_file >}}/install/kubernetes/templates/istio-mixer.yaml.tmpl#L802:9)`
-    which measures the duration of the request (as observed by the server-side
-    proxy).
+*   **Request Duration**: This is a `DISTRIBUTION` which measures the
+    duration of the request.
 
-*   **Request Size**: This is a `DISTRIBUTION`
-    `[metric]({{< github_file >}}/install/kubernetes/templates/istio-mixer.yaml.tmpl#L818:9)`
-    which measures the size of the HTTP request’s body size.
+*   **Request Size**: This is a `DISTRIBUTION` which measures the size
+    of the HTTP request’s body size.
 
-*   **Response Size**: This is a `DISTRIBUTION`
-    `[metric]({{< github_file >}}/install/kubernetes/templates/istio-mixer.yaml.tmpl#L834:9)`
-    which measures the size of the HTTP response body size.
+*   **Response Size**: This is a `DISTRIBUTION` which measures the size of
+    the HTTP response body size.
 
-*   **Tcp Byte Sent**: This is a `COUNTER`
-    `[metric]({{< github_file >}}/install/kubernetes/templates/istio-mixer.yaml.tmpl#L850:9)`
-    which measures the size of total bytes sent during response in case of a TCP
-    connection as measured by the server-side proxy.
+*   **Tcp Byte Sent**: This is a `COUNTER` which measures the size of total
+    bytes sent during response in case of a TCP connection.
 
-*   **Tcp Byte Received**: This is a `COUNTER`
-    `[metric]({{< github_file >}}/install/kubernetes/templates/istio-mixer.yaml.tmpl#L867:9)`
-    which measures the size of total bytes received during request in case of a
-    TCP connection as measured by the server-side proxy.
+*   **Tcp Byte Received**: This is a `COUNTER` which measures the size of total
+    bytes received during request in case of a TCP connection.
 
 ## Labels
 
-*   **Source Service**: This identifies the source service responsible for an
-    incoming request. This is also the FQDN for a source service. Ex:
-    "reviews.default.svc.cluster.local".
+*   **Reporter**: This identifies the reporter of the request. It is set to `server`
+    if report is from a server Istio proxy and `client` if report is from a client
+    Istio proxy.
 
     {{< text yaml >}}
-    source_service: source.service | "unknown"
+    reporter: conditional((context.reporter.kind | "inbound") == "outbound", "client", "server")
     {{< /text >}}
 
-*   **Source Version**: This identifies the version of the source service of the
-    request.
+*   **Source Namespace**: This identifies the namespace of the source workload
+    instance where the traffic originates.
+
+    {{< text yaml >}}
+    source_namespace: source.namespace | "unknown"
+    {{< /text >}}
+
+*   **Source Workload**: This identifies the name of source workload which
+    controls the source.
+
+    {{< text yaml >}}
+    source_workload: source.workload.name | "unknown"
+    {{< /text >}}
+
+*   **Source Workload Namespace**: This identifies the namespace of the source
+    workload.
+
+    {{< text yaml >}}
+    source_workload_namespace: source.workload.namespace | "unknown"
+    {{< /text >}}
+
+*   **Source Principal**: This identifies the peer principal of the traffic source.
+    It is set when peer authentication is used.
+
+    {{< text yaml >}}
+    source_principal: source.principal | "unknown"
+    {{< /text >}}
+
+*   **Source App**: This identifies the source app based on `app` label of the
+    source workload.
+
+    {{< text yaml >}}
+    source_app: source.labels["app"] | "unknown"
+    {{< /text >}}
+
+*   **Source Version**: This identifies the version of the source workload.
 
     {{< text yaml >}}
     source_version: source.labels["version"] | "unknown"
     {{< /text >}}
 
-*   **Destination Service**: This identifies the destination service responsible
-    for an incoming request. This is also the FQDN for a source service. Ex:
-    "details.default.svc.cluster.local".
+*   **Destination Namespace**: This identifies the namespace of the destination workload
+    instance where the traffic is headed.
 
     {{< text yaml >}}
-    destination_service: destination.service | "unknown"
+    destination_namespace: destination.namespace | "unknown"
     {{< /text >}}
 
-*   **Destination Version**: This identifies the version of the source service
-    of the request.
+*   **Destination Workload**: This identifies the name of destination workload.
+
+    {{< text yaml >}}
+    destination_workload: destination.workload.name | "unknown"
+    {{< /text >}}
+
+*   **Destination Workload Namespace**: This identifies the namespace of the destination
+    workload.
+
+    {{< text yaml >}}
+    destination_workload_namespace: destination.workload.namespace | "unknown"
+    {{< /text >}}
+
+*   **Destination Principal**: This identifies the peer principal of the traffic destination.
+    It is set when peer authentication is used.
+
+    {{< text yaml >}}
+    destination_principal: destination.principal | "unknown"
+    {{< /text >}}
+
+*   **Destination App**: This identifies the destination app based on `app` label of the
+    destination workload.
+
+    {{< text yaml >}}
+    destination_app: destination.labels["app"] | "unknown"
+    {{< /text >}}
+
+*   **Destination Version**: This identifies the version of the destination workload.
 
     {{< text yaml >}}
     destination_version: destination.labels["version"] | "unknown"
+    {{< /text >}}
+
+*   **Destination Service**: This identifies destination service host responsible
+    for an incoming request. Ex: "details.default.svc.cluster.local".
+
+    {{< text yaml >}}
+    destination_service: destination.service.host | "unknown"
+    {{< /text >}}
+
+*   **Destination Service Name**: This identifies the destination service name.
+    Ex: "details".
+
+    {{< text yaml >}}
+    destination_service_name: destination.service.name | "unknown"
+    {{< /text >}}
+
+*   **Destination Service Namespace**: This identifies the namespace of
+    destination service.
+
+    {{< text yaml >}}
+    destination_service_namespace: destination.service.namespace | "unknown"
+    {{< /text >}}
+
+*   **Request Protocol**: This identifies the protocol of the request. It is set
+    to API protocol if provided, otherwise request or connection protocol.
+
+    {{< text yaml >}}
+    request_protocol: api.protocol | context.protocol | "unknown"
     {{< /text >}}
 
 *   **Response Code**: This identifies the response code of the request. This

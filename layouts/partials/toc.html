@@ -2,9 +2,13 @@
 {{ $page.Scratch.Set "needTOC" false }}
 {{ $page.Scratch.Set "seeAlso" false }}
 
-{{ $related := $page.Site.RegularPages.Related $page | first 5 }}
+{{ $related := $page.Site.RegularPages.Related $page | first 6 }}
 {{ with $related }}
     {{ $page.Scratch.Set "seeAlso" true }}
+{{ end }}
+
+{{ if $page.Scratch.Get "skipSeeAlso" }}
+    {{ $page.Scratch.Set "seeAlso" false }}
 {{ end }}
 
 {{ $headers := findRE "<h[23456].*?id=\".*?\".*?>.*?</h[23456]>" $page.Content }}
@@ -43,8 +47,10 @@
                 </ul>
             {{ end }}
 
-            {{ with $related }}
-                <li><a href="#see-also">See also</a></li>
+            {{ if $page.Scratch.Get "seeAlso" }}
+                {{ with $related }}
+                    <li><a href="#see-also">See also</a></li>
+                {{ end }}
             {{ end }}
         </ul>
     </nav>
