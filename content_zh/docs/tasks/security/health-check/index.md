@@ -54,7 +54,7 @@ spec:
 EOF
 {{< /text >}}
 
-## Verifying the health checker is working
+## 确认健康检查器的是否工作
 
 Citadel 会记录健康检查的结果，运行下面的命令行：
 
