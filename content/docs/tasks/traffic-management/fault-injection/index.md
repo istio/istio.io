@@ -1,6 +1,6 @@
 ---
 title: Fault Injection
-description: This task shows how to inject delays and test the resiliency of your application.
+description: This task shows you how to inject faults to test the resiliency of your application.
 weight: 20
 keywords: [traffic-management,fault-injection]
 aliases:
@@ -9,38 +9,45 @@ aliases:
 
 > This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.7/docs/tasks/traffic-management/).
 
-This task shows how to inject delays and test the resiliency of your application.
+This task shows you how to inject faults to test the resiliency of your application.
 
 ## Before you begin
 
-* Setup Istio by following the instructions in the
+* Set up Istio by following the instructions in the
   [Installation guide](/docs/setup/).
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
-*   Initialize the application version routing by either first doing the
-    [request routing](/docs/tasks/traffic-management/request-routing/) task or by running following
-    commands:
+* Review the fault injection discussion in the
+[Traffic Management](/docs/concepts/traffic-management) concepts doc.
+
+* Apply application version routing by either performing the
+  [request routing](/docs/tasks/traffic-management/request-routing/) task or by
+  running the following commands:
 
     {{< text bash >}}
     $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-test-v2.yaml@
     {{< /text >}}
 
-## Fault injection using HTTP delay
+## Injecting an HTTP delay fault
 
-To test our Bookinfo application microservices for resiliency, we will _inject a 7s delay_
-between the reviews:v2 and ratings microservices, for user "jason". Since the _reviews:v2_ service has a
-10s hard-coded connection timeout for its calls to the ratings service, we expect the end-to-end flow to
-continue without any errors.
+To test the Bookinfo application microservices for resiliency, inject a 7s delay
+between the `reviews:v2` and `ratings` microservices for user `jason`. This test
+will uncover a bug that was intentionally introduced into the Bookinfo app.
 
-1.  Create a fault injection rule to delay traffic coming from user "jason" (our test user)
+Note that the `reviews:v2` service has a 10s hard-coded connection timeout for
+calls to the ratings service. Even with the 7s delay that you introduced, you
+still expect the end-to-end flow to continue without any errors.
+
+1.  Create a fault injection rule to delay traffic coming from the test user
+`jason`.
 
     {{< text bash >}}
     $ istioctl replace -f @samples/bookinfo/networking/virtual-service-ratings-test-delay.yaml@
     {{< /text >}}
 
-    Confirm the rule is created:
+1. Confirm the rule is created:
 
     {{< text bash yaml >}}
     $ istioctl get virtualservice ratings -o yaml
@@ -71,56 +78,79 @@ continue without any errors.
             subset: v1
     {{< /text >}}
 
-    Allow several seconds to account for rule propagation delay to all pods.
+    Allow several seconds to for the new rule to propagate to all pods.
 
-1.  Observe application behavior
+## Testing the delay configuration
 
-    Log in as user "jason". If the application's front page was set to correctly handle delays, we expect it
-    to load within approximately 7 seconds. To see the web page response times, open the
-    *Developer Tools* menu in IE, Chrome or Firefox (typically, key combination _Ctrl+Shift+I_
-    or _Alt+Cmd+I_), tab Network, and reload the `productpage` web page.
+1. Open the [Bookinfo](/docs/examples/bookinfo) web application in your browser.
 
-    You will see that the webpage loads in about 6 seconds. The reviews section will show
-    *Sorry, product reviews are currently unavailable for this book*.
+1. On the `/productpage`, log in as user `jason`.
+
+    You expect the Bookinfo home page to load without errors in approximately
+    7 seconds. However, there is a problem: the Reviews section displays an error
+    message:
+
+     {{< text code >}}
+     Error fetching product reviews!
+     Sorry, product reviews are currently unavailable for this book.
+     {{< /text >}}
+
+1. View the web page response times:
+    1. Open the *Developer Tools* menu in IE, Chrome or Firefox (typically, key combination _Ctrl+Shift+I_ or _Alt+Cmd+I_).
+    1. Open the Network tab
+    1. Reload the `productpage` web page. You will see that the webpage actually
+    loads in about 6 seconds.
 
 ## Understanding what happened
 
-The reason that the entire reviews service has failed is because our Bookinfo application
-has a bug. The timeout between the productpage and reviews service is less (3s + 1 retry = 6s total)
-than the timeout between the reviews and ratings service (hard-coded connection timeout is 10s). These
-kinds of bugs can occur in typical enterprise applications where different teams develop different
-microservices independently. Istio's fault injection rules help you identify such anomalies without
-impacting end users.
+You've found a bug. There are hard-coded timeouts the microservices that have
+caused the `reviews` service to fail.
 
-> Notice that we are restricting the failure impact to user "jason" only. If you login
-> as any other user, you would not experience any delays.
+The timeout between the
+`productpage` and the `reviews` service is 6 seconds - coded as 3s + 1 retry
+for 6s total. The timeout between the `reviews` and `ratings`
+service is hard-coded at 10 seconds. Because of the delay we introduced, the `/productpage` times out prematurely and throws the error.
 
-**Fixing the bug:** At this point we would normally fix the problem by either increasing the
-productpage timeout or decreasing the reviews to ratings service timeout,
-terminate and restart the fixed microservice, and then confirm that the `productpage`
-returns its response without any errors.
+Bugs like this can occur in typical enterprise applications where different teams
+develop different microservices independently. Istio's fault injection rules help you identify such anomalies without impacting end users.
 
-However, we already have this fix running in v3 of the reviews service, so we can simply
-fix the problem by migrating all
-traffic to `reviews:v3` as described in the
-[traffic shifting](/docs/tasks/traffic-management/traffic-shifting/) task.
+> Notice that the fault injection test is restricted to when the logged in user is
+`jason`. If you login as any other user, you will not experience any delays.
 
-(Left as an exercise for the reader - change the delay rule to
-use a 2.8 second delay and then run it against the v3 version of reviews.)
+## Fixing the bug
 
-## Fault injection using HTTP Abort
+You would normally fix the problem by:
 
-As another test of resiliency, we will introduce an HTTP abort to the ratings microservices for the user "jason".
-We expect the page to load immediately unlike the delay example and display the "product ratings not available"
-message.
+1. Either increasing the
+`/productpage` timeout or decreasing the `reviews` to `ratings` service timeout
+1. Stopping and restarting the fixed microservice
+1. Confirming that the `/productpage` returns its response without any errors.
 
-1.  Create a fault injection rule to send an HTTP abort for user "jason"
+However, you already have this fix running in v3 of the reviews service, so you
+can simply fix the problem by migrating all traffic to `reviews:v3` as described
+in the [traffic shifting](/docs/tasks/traffic-management/traffic-shifting/) task.
+
+## Exercise
+
+Change the delay rule to use a 2.8 second delay and then run it against the v3
+version of reviews.
+
+## Injecting an HTTP abort fault
+
+Another way to test microservice resiliency is to introduce an HTTP abort fault.
+In this task, you will introduce an HTTP abort to the `ratings` microservices for
+the test user `jason`.
+
+In this case, you expect the page to load immediately and display the `product
+ratings not available` message.
+
+1.  Create a fault injection rule to send an HTTP abort for user `jason`:
 
     {{< text bash >}}
     $ istioctl replace -f @samples/bookinfo/networking/virtual-service-ratings-test-abort.yaml@
     {{< /text >}}
 
-    Confirm the rule is created
+1. Confirm the rule is created:
 
     {{< text bash yaml >}}
     $ istioctl get virtualservice ratings -o yaml
@@ -151,20 +181,26 @@ message.
             subset: v1
     {{< /text >}}
 
-1.  Observe application behavior
+## Testing the abort configuration
 
-    Login as user "jason". If the rule propagated successfully to all pods, you should see the page load
-    immediately with the "product ratings not available" message. Logout from user "jason" and you should
-    see reviews with rating stars show up successfully on the productpage web page.
+1. Open the [Bookinfo](/docs/examples/bookinfo) web application in your browser.
+
+1. On the `/productpage`, log in as user `jason`.
+
+    If the rule propagated successfully to all pods, the page loads
+    immediately and the `product ratings not available` message appears.
+
+1. Log out from user `jason` and the rating stars show up successfully on the
+application's `/productpage`.
 
 ## Cleanup
 
-*   Remove the application routing rules:
+1. Remove the application routing rules:
 
     {{< text bash >}}
     $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
-* If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
-  to shutdown the application.
+1. If you are not planning to explore any follow-on tasks, refer to the
+[Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
+to shutdown the application.
