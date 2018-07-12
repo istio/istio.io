@@ -29,13 +29,13 @@ or alternatively, to bypass the Istio proxy for a specific range of IPs.
     If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), deploy the `sleep` application:
 
     {{< text bash >}}
-    $ kubectl apply -f samples/sleep/sleep.yaml
+    $ kubectl apply -f @samples/sleep/sleep.yaml@
     {{< /text >}}
 
     Otherwise, you have to manually inject the sidecar before deploying the `sleep` application:
 
     {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
     {{< /text >}}
 
     Note that any pod that you can `exec` and `curl` from will do for the procedures below.
@@ -269,7 +269,7 @@ cluster provider specific knowledge and configuration.
 1.  Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
 
     {{< text bash >}}
-    $ kubectl delete -f samples/sleep/sleep.yaml
+    $ kubectl delete -f @samples/sleep/sleep.yaml@
     {{< /text >}}
 
 1.  Update the `ConfigMap` _istio-sidecar-injector_ to redirect all outbound traffic to the sidecar proxies:
