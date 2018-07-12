@@ -26,24 +26,16 @@ recommended.
 
 1. Istio by default uses LoadBalancer service object types.  Some platforms do not support LoadBalancer
    service objects.  For platforms lacking LoadBalancer support, install Istio with NodePort support
-   instead with the flags `--set ingress.service.type=NodePort --set ingressgateway.service.type=NodePort --set egressgateway.service.type=NodePort` appended to the end of the helm operation.
+   instead with the flags `--set ingressgateway.service.type=NodePort --set egressgateway.service.type=NodePort`
+   appended to the end of the helm operation.
 
 ## Option 1: Install with Helm via `helm template`
 
 1. Render Istio's core components to a Kubernetes manifest called `istio.yaml`:
 
-    * With [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)
-      (requires Kubernetes >=1.9.0):
-
-        {{< text bash >}}
-        $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system > $HOME/istio.yaml
-        {{< /text >}}
-
-    * Without the sidecar injection webhook:
-
-        {{< text bash >}}
-        $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set sidecarInjectorWebhook.enabled=false > $HOME/istio.yaml
-        {{< /text >}}
+    {{< text bash >}}
+    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system > $HOME/istio.yaml
+    {{< /text >}}
 
 1. Install the components via the manifest:
 
@@ -74,17 +66,9 @@ to manage the lifecycle of Istio.
 
 1. Install Istio:
 
-    * With [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection) (requires Kubernetes >=1.9.0):
-
-        {{< text bash >}}
-        $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
-        {{< /text >}}
-
-    * Without the sidecar injection webhook:
-
-        {{< text bash >}}
-        $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set sidecarInjectorWebhook.enabled=false
-        {{< /text >}}
+    {{< text bash >}}
+    $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
+    {{< /text >}}
 
 ## Customization with Helm
 
