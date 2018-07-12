@@ -22,8 +22,6 @@ version to a new version.
 
 * Review the [Traffic Management](/docs/concepts/traffic-management) concepts doc.
 
-* (Optional) Do the [Configuring request routing](/docs/tasks/traffic-management/request-routing) task.
-
 ## About this task
 
 A common use case is to migrate traffic gradually from one version of a microservice
@@ -59,12 +57,9 @@ the [Bookinfo](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port) doc
 
 1. Confirm the rule was replaced:
 
-    {{< text bash >}}
+    {{< text bash yaml >}}
     $ istioctl get virtualservice reviews -o yaml
-    {{< /text >}}
-
-    {{< text yaml >}}
-
+    
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
