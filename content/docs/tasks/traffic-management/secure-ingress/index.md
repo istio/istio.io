@@ -303,9 +303,6 @@ In addition to the steps in the previous section, perform the following:
     Subject: C=US, ST=Denial, L=Springfield, O=Dis, CN=httpbin.example.com
     {{< /text >}}
 
-
-
-
 ## Cleanup
 
 1.  Delete the `Gateway` configuration, the `VirtualService`, and the secrets:
