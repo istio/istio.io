@@ -38,14 +38,14 @@ The following instructions require:
 
     {{< text bash >}}
     $ minikube start --memory=4096 --kubernetes-version=v1.9.4 \
-      --vm-driver=`your_vm_driver_choice`
+    --vm-driver=`your_vm_driver_choice`
     {{< /text >}}
 
   On Kubernetes **1.10**:
 
     {{< text bash >}}
     $ minikube start --memory=4096 --kubernetes-version=v1.10.0 \
-      --vm-driver=`your_vm_driver_choice`
+    --vm-driver=`your_vm_driver_choice`
     {{< /text >}}
 
 ### Google Kubernetes Engine
@@ -217,8 +217,8 @@ Nevertheless, you must update the list of admission controllers.
 
 You must use `ACS-Engine` to deploy your cluster.
 
-1. Follow the instructions to get and
-   [install the acs-engine binary](https://github.com/Azure/acs-engine/blob/master/docs/acsengine.md#install),
+1. Follow the instructions to get and install the `acs-engine` binary with
+   [their instructions](https://github.com/Azure/acs-engine/blob/master/docs/acsengine.md#install).
 
 1. Download Istio's `api model definition`:
 
