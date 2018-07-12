@@ -82,11 +82,8 @@ to the Bookinfo app. If you already created conflicting virtual services for Boo
 
 1. Display the defined routes with the following command:
 
-    {{< text bash >}}
+    {{< text bash yaml >}}
     $ istioctl get virtualservices -o yaml
-    {{< /text >}}
-
-    {{< text yaml >}}
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -189,10 +186,8 @@ Remember, `reviews:v2` is the version that includes the star ratings feature.
 
 1. Confirm the rule is created:
 
-    {{< text bash >}}
+    {{< text bash yaml >}}
     $ istioctl get virtualservice reviews -o yaml
-    {{< /text >}}
-    {{< text yaml >}}
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
