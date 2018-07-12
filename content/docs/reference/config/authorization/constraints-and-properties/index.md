@@ -1,10 +1,12 @@
 ---
-title: Constraints & Properties
-description: Describes the supported Constraints and Properties
+title: Constraints and Properties
+description: Describes the supported constraints and properties.
 weight: 10
 ---
 
-This page lists the supported keys that could be used in `Constraints` and `Properties`. For more information, please refer to the RBAC page.
+This page lists the supported keys that could be used in `Constraints` and `Properties`.
+`Constraints` are used to specify additional custom conditions in a `ServiceRole`, `Properties` are used to specify
+additional custom conditions in a `ServiceRoleBinding`. For more information, please refer to [RBAC](/docs/concepts/security/#role-based-access-control-rbac).
 
 ## Constraints
 The following table lists the currently supported keys in Constraints:
