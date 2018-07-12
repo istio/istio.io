@@ -59,7 +59,6 @@ the [Bookinfo](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port) doc
 
     {{< text bash yaml >}}
     $ istioctl get virtualservice reviews -o yaml
-    
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
