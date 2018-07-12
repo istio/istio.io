@@ -309,7 +309,7 @@ OR
 1.  Ensure the corresponding Kubernetes pods are deployed and all
 containers are up and running: `istio-pilot-*`,
 `istio-ingressgateway-*`, `istio-egressgateway-*`, `istio-policy-*`,
-`istio-telemtry-*`, `istio-citadel-*`, `prometheus-*`,
+`istio-telemetry-*`, `istio-citadel-*`, `prometheus-*`,
 `istio-galley-*` and, optionally, `istio-sidecar-injector-*`.
 
     {{< text bash >}}
