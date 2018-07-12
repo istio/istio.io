@@ -190,7 +190,7 @@ spec:
 * `"config_store_url"` 参数指定 RBAC 引擎在何处获取 RBAC 策略。`"config_store_url"` 默认是 `“k8s://”`，这意味着 Kubernetes 的 API 服务器。或者，如果您在本地测试 RBAC 策略，您可以将它设置为一个本地目录，例如`"fs:///tmp/testdata/configroot"`。
 * `"cache_duration"` 参数指定在混合器客户端上缓存授权结果的持续时间（例如，Istio  代理)。默认值 `“cache_duration”` 是1分钟。
 
-第二部分定义了一条规则，该规则指定 RBAC 处理程序应该用[之前的文档](/content/docs/concepts/security/index.md#request-context)定义的 “requestcontext” 实例来调用。
+第二部分定义了一条规则，该规则指定 RBAC 处理程序应该用[之前的文档](https://github.com/istio/istio.github.io/tree/master/content/docs/concepts/security/index.md#request-context)定义的 “requestcontext” 实例来调用。
 
 在下面的例子中，Istio RBAC 启用了 “default” 名称空间。缓存的持续时间设置为30秒。
 
