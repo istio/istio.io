@@ -14,7 +14,7 @@ keywords: [kubernetes,multicluster]
 * RFC 1918、VPN 或者其他更高级的网络技术，需完成下列要求：
   * 各集群的 Pod CIDR 范围和 Service CIDR 范围必须是唯一的，不允许相互重叠。
   * 每个集群中的所有的 Pod CIDR 需要能够互相路由。
-  * 所有的 Kubernetes 控制面 API Server 互相可路由。
+  * 所有的 Kubernetes 控制平面 API Server 互相可路由。
 * Helm **2.7.2 或者更新的版本**。Tiller 可选。
 * 目前只有[手工注入 Sidecar 方式](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection)经过了多集群验证。
 
@@ -25,11 +25,11 @@ keywords: [kubernetes,multicluster]
 
 ## 概要
 
-在 Kubernetes 控制面上运行远程配置，连接到 **同一个** Istio 控制面。（主控）Istio 在连接了一个或多个 Kubernetes 集群之后，Envoy 就能和这个 Istio 控制面进行通信，并生成一个跨越多个 Kubernetes 集群的网格网络。
+在 Kubernetes 控制平面上运行远程配置，连接到 **同一个** Istio 控制平面。（主控）Istio 在连接了一个或多个 Kubernetes 集群之后，Envoy 就能和这个 Istio 控制平面进行通信，并生成一个跨越多个 Kubernetes 集群的网格网络。
 
 ## 在远程集群上创建 Service account，并生成 `kubeconfig` 文件
 
-Istio 控制面需要访问网格中的所有集群，来完成服务发现的目的。下面的描述了如何在远程集群中创建一个 Service account，并赋予它必要的 RBAC 权限；后面还会使用这个 Service account 的凭据为远程集群生成一个 `kubeconfig` 文件，这样就可以访问远程集群了。
+Istio 控制平面需要访问网格中的所有集群，来完成服务发现的目的。下面描述了如何在远程集群中创建一个 Service account，并赋予它必要的 RBAC 权限；后面还会使用这个 Service account 的凭据为远程集群生成一个 `kubeconfig` 文件，这样就可以访问远程集群了。
 
 下面的过程应该在每一个要加入到服务网格中的集群上执行。这个过程需要对应集群的管理员用户来完成。
 
@@ -102,7 +102,7 @@ Istio 控制面需要访问网格中的所有集群，来完成服务发现的�
     EOF
     {{< /text >}}
 
-完成这些步骤之后，就在当前目录中创建了远端集群的 `kubeconfig` 文件。集群的文件名和原始的 `kubeconfig` 集群名称一致。
+完成这些步骤之后，就在当前目录中创建了远程集群的 `kubeconfig` 文件。集群的文件名和原始的 `kubeconfig` 集群名称一致。
 
 ## 为每个集群设置凭据
 
@@ -115,8 +115,8 @@ Istio 控制面需要访问网格中的所有集群，来完成服务发现的�
 $ kubectl create ns istio-system
 {{< /text >}}
 
-> 可以在部署 Istio 控制面之前或者之后创建这些 secret。创建 Secret 的过程中要使用 Istio 属性进行标记。
-> 运行 Istio 控制面的集群不需要保存和标记自己的 Secret。这是因为本地的 Node 始终会知道本集群的凭据，但却无法知晓远程节点的凭据。
+> 可以在部署 Istio 控制平面之前或者之后创建这些 secret。创建 Secret 的过程中要使用 Istio 属性进行标记。
+> 运行 Istio 控制平面的集群不需要保存和标记自己的 Secret。这是因为本地的 Node 始终会知道本集群的凭据，但却无法知晓远程节点的凭据。
 
 为每个远程集群创建一个 Secret，并使用标签进行标记：
 
@@ -133,15 +133,15 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n istio-system
 
 在 **一个** Kubernetes 集群上[安装 Istio 控制平面](/docs/setup/kubernetes/quick-start/#installation-steps)
 
-## 在每个远程集群上安装 Istio 远端组件
+## 在每个远程集群上安装 Istio 远程组件
 
 Istio-remote 组件必须在每个远程集群上分别部署。有两种安装方式：使用 Helm 结合 Tiller，或者用 Helm 配合 kubectl。
 
-### 从 Istio 控制面设置 Istio 远端组件所需的 Pod IP 环境变量
+### 从 Istio 控制平面设置 Istio 远程组件所需的 Pod IP 环境变量
 
 > 在进行本节操作之前，请等待 Istio 控制平面完成初始化。
 > 这个操作必须在 Istio 控制平面所在集群上运行，以便于完成对 Pilot、Policy 以及 Pod IP 端点的抓取工作。
-> 如果在每个远端集群上都使用了 Helm + Tiller 的组合，在使用 Helm 把远端机群和 Istio 控制面连接起来之前，首先要把环境变量拷贝到各个 Node 上。
+> 如果在每个远程集群上都使用了 Helm + Tiller 的组合，在使用 Helm 把远程机群和 Istio 控制平面连接起来之前，首先要把环境变量拷贝到各个 Node 上。
 
 {{< text bash >}}
 $ export PILOT_POD_IP=$(kubectl -n istio-system get pod -l istio=pilot -o jsonpath='{.items[0].status.podIP}')
@@ -151,9 +151,9 @@ $ export TELEMETRY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=
 $ export ZIPKIN_POD_IP=$(kubectl -n istio-system get pod -l app=jaeger -o jsonpath='{.items[0].status.podIP}')
 {{< /text >}}
 
-### 使用 Helm + kubectl 把远端集群连接到本地
+### 使用 Helm + kubectl 把远程集群连接到本地
 
-1. 在远端集群上用 Helm template 命令来指定 Istio 控制平面的服务端点：
+1. 在远程集群上用 Helm template 命令来指定 Istio 控制平面的服务端点：
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio-remote --namespace istio-system --name istio-remote --set global.pilotEndpoint=${PILOT_POD_IP} --set global.policyEndpoint=${POLICY_POD_IP} --set global.statsdEndpoint=${STATSD_POD_IP} --set global.telemetryEndpoint=${TELEMETRY_POD_IP} --set global.zipkinEndpoint=${ZIPKIN_POD_IP} > $HOME/istio-remote.yaml
@@ -165,13 +165,13 @@ $ export ZIPKIN_POD_IP=$(kubectl -n istio-system get pod -l app=jaeger -o jsonpa
     $ kubectl create ns istio-system
     {{< /text >}}
 
-1. 完成远端集群到 Istio 控制面的连接：
+1. 完成远程集群到 Istio 控制平面的连接：
 
     {{< text bash >}}
     $ kubectl create -f $HOME/istio-remote.yaml
     {{< /text >}}
 
-### 使用 Helm + Tiller 进行远端集群的连接
+### 使用 Helm + Tiller 进行远程集群的连接
 
 1. 如果还没有给 Helm 设置 Service account，请执行：
 
@@ -199,9 +199,9 @@ $ export ZIPKIN_POD_IP=$(kubectl -n istio-system get pod -l app=jaeger -o jsonpa
 
 | Helm 变量 | 可接受取值 | 缺省值 | 作用 |
 | --- | --- | --- | --- |
-| `global.pilotEndpoint` | 一个有效的 IP 地址 | istio-pilot.istio-system | 指定 Istio 控制面中的 Pilot 的 Pod IP 地址 |
-| `global.policyEndpoint` | 一个有效的 IP 地址 | istio-policy.istio-system | 指定 Istio 控制面中的 策略组件的 Pod IP 地址 |
-| `global.statsdEndpoint` | 一个有效的 IP 地址 | istio-statsd-prom-bridge.istio-system | 指定 Istio 控制面中的 stats 的 Pod IP 地址 |
+| `global.pilotEndpoint` | 一个有效的 IP 地址 | istio-pilot.istio-system | 指定 Istio 控制平面中的 Pilot 的 Pod IP 地址 |
+| `global.policyEndpoint` | 一个有效的 IP 地址 | istio-policy.istio-system | 指定 Istio 控制平面中的 策略组件的 Pod IP 地址 |
+| `global.statsdEndpoint` | 一个有效的 IP 地址 | istio-statsd-prom-bridge.istio-system | 指定 Istio 控制平面中的 stats 的 Pod IP 地址 |
 
 ## 删除
 
