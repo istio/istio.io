@@ -103,7 +103,7 @@ still expect the end-to-end flow to continue without any errors.
 
 ## Understanding what happened
 
-You've found a bug. There are hard-coded timeouts the microservices that have
+You've found a bug. There are hard-coded timeouts in the microservices that have
 caused the `reviews` service to fail.
 
 The timeout between the
