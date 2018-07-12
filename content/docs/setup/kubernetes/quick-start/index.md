@@ -101,7 +101,7 @@ The following instructions require:
 
 ### IBM Cloud Private
 
-[Configure the `kubectl` CLI](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0/manage_cluster/cfc_cli.html)
+[Configure the kubectl CLI](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0/manage_cluster/cfc_cli.html)
 to access the IBM Cloud Private Cluster.
 
 ### OpenShift Origin
@@ -217,7 +217,7 @@ Nevertheless, you must update the list of admission controllers.
 
 You must use `ACS-Engine` to deploy your cluster.
 
-1. Follow the instructions to get and [install the `acs-engine` binary](https://github.com/Azure/acs-engine/blob/master/docs/acsengine.md#install),
+1. Follow the instructions to get and [install the acs-engine binary](https://github.com/Azure/acs-engine/blob/master/docs/acsengine.md#install),
 
 1. Download Istio's `api model definition`:
 
