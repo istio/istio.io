@@ -260,7 +260,7 @@ Install Istio's core components. Choose one of the four _**mutually exclusive**_
 *  Install Istio without enabling [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) between sidecars. Choose this option for clusters with existing applications, applications where services with an Istio sidecar need to be able to communicate with other non-Istio Kubernetes services, and applications that use [liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/), headless services, or StatefulSets.
 
 {{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio.yaml
+$ kubectl apply -f install/kubernetes/istio-demo.yaml
 {{< /text >}}
 
 OR
@@ -268,7 +268,7 @@ OR
 *  Install Istio and enforce mutual TLS authentication between sidecars by default. Use this option only on a fresh kubernetes cluster where newly deployed workloads are guaranteed to have Istio sidecars installed.
 
 {{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio-auth.yaml
+$ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
 {{< /text >}}
 
 OR
@@ -357,10 +357,10 @@ $ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
 deletes the RBAC permissions, the `istio-system` namespace, and hierarchically all resources under it.
 It is safe to ignore errors for non-existent resources because they may have been deleted hierarchically.
 
-If you installed Istio with `istio.yaml`:
+If you installed Istio with `istio-demo.yaml`:
 
 {{< text bash >}}
-$ kubectl delete -f install/kubernetes/istio.yaml
+$ kubectl delete -f install/kubernetes/istio-demo.yaml
 {{< /text >}}
 
 otherwise [uninstall Istio with Helm](/docs/setup/kubernetes/helm-install/#uninstall).
