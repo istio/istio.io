@@ -7,7 +7,7 @@ type: section-index
 
 ## 综述
 
-Istio 基于角色的访问控制（RBAC）为 Istio 网格中的服务提供名称空间级、服务级、方法级访问控制。它的特点:
+Istio 基于角色的访问控制（RBAC）为 Istio 网格中的服务提供命名空间级、服务级、方法级访问控制。它的特点:
 * 基于角色的语义，它简单易用。
 * 服务到服务以及用户端到服务的授权。
 * 在角色和角色绑定中可以通过自定义属性保证灵活性。
@@ -29,9 +29,9 @@ Istio 的 RBAC 引擎做了下面两件事：
 ### 请求上下文
 
 在当前版本中，Istio RBAC 引擎被实现为一个[Mixer 适配器](https://github.com/istio/istio.github.io/tree/master/content_zh/docs/concepts/policies-and-telemetry#adapters)。请求上下文则作为[授权模板](https://github.com/istio/istio.github.io/tree/master/content/docs/reference/config/policy-and-telemetry/templates/authorization/)的实例。请求上下文包含请求和授权模块需要环境的所有信息。特别是两个部分：
-* 主题 包含调用者标识的属性列表，包括`"user"` name/ID，主题属于`“group”`，或者关于主题的任意附加属性，比如名称空间、服务名称。
+* 主题 包含调用者标识的属性列表，包括`"user"` name/ID，主题属于`“group”`，或者关于主题的任意附加属性，比如命名空间、服务名称。
 
-* 动作 指定“如何访问服务”。它包括`“名称空间”`、`“服务”`、`“路径”`、`“方法”`，以及该操作的任何附加属性。
+* 动作 指定“如何访问服务”。它包括`“命名空间”`、`“服务”`、`“路径”`、`“方法”`，以及该操作的任何附加属性。
 
 下面我们展示一个例子“请求内容”。
 
@@ -72,7 +72,7 @@ Istio RBAC 介绍 `ServiceRole` 和 `ServiceRoleBinding`，两者都被定义为
 
 一个 `ServiceRole` 规范只适用于**命名空间**指定在 `"metadata"` 选项。“服务”和“方法”在规则中是必需的字段。“路径”是可选项。如果没有指定为“*”，会被用于任意实体。
 
-这里有一个简单的角色“服务管理员”的例子，它可以在“默认”名称空间中完全访问所有服务。
+这里有一个简单的角色“服务管理员”的例子，它可以在“默认”命名空间中完全访问所有服务。
 
 {{< text yaml >}}
 apiVersion: "config.istio.io/v1alpha2"
@@ -86,7 +86,7 @@ spec:
     methods: ["*"]
 {{< /text >}}
 
-这里是另一个角色 “products-viewer”，它已经读取（“GET”和“HEAD”）授权访问服务 “products.default.svc.cluster.local” 在 “default” 名称空间中。
+这里是另一个角色 “products-viewer”，它已经读取（“GET”和“HEAD”）授权访问服务 “products.default.svc.cluster.local” 在 “default” 命名空间中。
 
 {{< text yaml >}}
 apiVersion: "config.istio.io/v1alpha2"
@@ -100,7 +100,7 @@ spec:
     methods: ["GET", "HEAD"]
 {{< /text >}}
 
-此外，我们支持规则中所有字段的**前缀匹配**和**后缀匹配**。例如，您可以定义一个“测试人员”角色，该角色在 “default” 名称空间中具有下列权限：
+此外，我们支持规则中所有字段的**前缀匹配**和**后缀匹配**。例如，您可以定义一个“测试人员”角色，该角色在 “default” 命名空间中具有下列权限：
 * 对所有带有前缀 “test-”的服务的完全访问，例如（“test-书店”，“test-performance”，“test-api.default.svc.cluster.local”）
 * 读取（“GET”）对所有路径的访问，使用 “/reviews” 后缀，在 “bookstore.default.svc.cluster.local” 的服务中，例如（"/books/reviews", "/events/booksale/reviews", "/reviews"）。
 
@@ -119,7 +119,7 @@ spec:
     methods: ["GET"]
 {{< /text >}}
 
-在 `ServiceRole` “名称空间”+“服务”+“路径”+“方法”的组合定义了“如何允许访问服务（服务们）”。在某些情况下，您可能需要指定规则所应用的附加约束。例如，一条规则可能只适用于某一服务的某个“版本”，或者只适用于标记为“foo”的服务。您可以使用定制字段轻松地指定这些约束。
+在 `ServiceRole` “命名空间”+“服务”+“路径”+“方法”的组合定义了“如何允许访问服务（服务们）”。在某些情况下，您可能需要指定规则所应用的附加约束。例如，一条规则可能只适用于某一服务的某个“版本”，或者只适用于标记为“foo”的服务。您可以使用定制字段轻松地指定这些约束。
 
 例如，下面的 `ServiceRole` 定义扩展了先前的 “products-viewer” 角色，在服务“版本”中添加了一个约束，即 “v1” 或 “v2”。注意，“版本”属性是由 “action.属性”提供的在 “requestcontext”。
 
@@ -141,7 +141,7 @@ spec:
 ### `ServiceRoleBinding`
 
 一个 `ServiceRoleBinding` 规范包括两个部分:
-* **roleRef** 指**同一名称空间**中的 `ServiceRole` 资源。
+* **roleRef** 指**同一命名空间**中的 `ServiceRole` 资源。
 * 被分配角色的**主题**列表.
 
 一个主题可以是“用户”，也可以是“组”，也可以用一组“属性”表示。每一个条目（“用户”或“组”或“属性”中的条目）必须在 “requestcontext” 实例的 “subject” 部分中匹配一个字段（“用户”或“组”或“属性”中的条目）。
@@ -192,7 +192,7 @@ spec:
 
 第二部分定义了一条规则，该规则指定 RBAC 处理程序应该用[之前的文档](https://github.com/istio/istio.github.io/tree/master/content/docs/concepts/security/index.md#request-context)定义的 “requestcontext” 实例来调用。
 
-在下面的例子中，Istio RBAC 启用了 “default” 名称空间。缓存的持续时间设置为30秒。
+在下面的例子中，Istio RBAC 启用了 “default” 命名空间。缓存的持续时间设置为30秒。
 
 {{< text yaml >}}
 apiVersion: "config.istio.io/v1alpha2"
