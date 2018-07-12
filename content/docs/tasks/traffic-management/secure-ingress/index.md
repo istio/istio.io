@@ -296,7 +296,7 @@ In addition to the steps in the previous section, perform the following:
 
     `ca-chain.cert.pem` should exist in the directory contents.
 
-1.  Verify the _Subject_ is correct in the CA certificate of the ingress gateway:
+1.  Verify that the _Subject_ is correct in the CA certificate of the ingress gateway:
 
     {{< text bash >}}
     $ kubectl exec -i -n istio-system $(kubectl get pod -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')  -- cat /etc/istio/ingressgateway-ca-certs/ca-chain.cert.pem | openssl x509 -text -noout | grep 'Subject:'
