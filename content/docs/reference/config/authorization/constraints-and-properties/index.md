@@ -9,6 +9,7 @@ This page lists the supported keys that could be used in `Constraints` and `Prop
 additional custom conditions in a `ServiceRoleBinding`. For more information, please refer to [RBAC](/docs/concepts/security/#role-based-access-control-rbac).
 
 ## Constraints
+
 The following table lists the currently supported keys in Constraints:
 
 | Name | Description | Key Example | Values Example |
@@ -22,8 +23,8 @@ The following table lists the currently supported keys in Constraints:
 | `request.auth.presenter` | The authorized presenter of the credential | request.auth.presenter | ["123456789012.my-svc.com"] |
 | `request.auth.claims` | Claims from the origin JWT. The actual claim name should be surrounded by brackets | request.auth.claims[iss] | ["*@foo.com"] |
 
-
 ## Properties
+
 The following table lists the currently supported keys in Properties:
 
 | Name | Description | Key Example | Value Example |
