@@ -59,7 +59,7 @@ from local files.
 Inject the sidecar into the deployment using the in-cluster configuration.
 
 {{< text bash >}}
-$ istioctl kube-inject -f samples/sleep/sleep.yaml | kubectl apply -f -
+$ istioctl kube-inject -f @samples/sleep/sleep.yaml@ | kubectl apply -f -
 {{< /text >}}
 
 Alternatively, inject using local copies of the configuration.
@@ -81,7 +81,7 @@ Run `kube-inject` over the input file and deploy.
 $ istioctl kube-inject \
     --injectConfigFile inject-config.yaml \
     --meshConfigFile mesh-config.yaml \
-    --filename samples/sleep/sleep.yaml \
+    --filename @samples/sleep/sleep.yaml@ \
     --output sleep-injected.yaml | kubectl apply -f -
 {{< /text >}}
 
@@ -128,7 +128,7 @@ service in `values.yaml`. You can override the default values to customize the i
 Deploy sleep app. Verify both deployment and pod have a single container.
 
 {{< text bash >}}
-$ kubectl apply -f samples/sleep/sleep.yaml
+$ kubectl apply -f @samples/sleep/sleep.yaml@
 $ kubectl get deployment -o wide
 NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE       CONTAINERS   IMAGES       SELECTOR
 sleep     1         1         1            1           12m       sleep        tutum/curl   app=sleep
@@ -291,7 +291,7 @@ containers:
   - sleep
 {{< /text >}}
 
-when applied over a pod defined by the pod template spec in `samples/sleep/sleep.yaml`
+when applied over a pod defined by the pod template spec in [`samples/sleep/sleep.yaml`]({{< github_tree >}}/samples/sleep/sleep.yaml)
 
 #### Uninstalling the automatic sidecar injector
 
