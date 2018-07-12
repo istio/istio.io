@@ -129,7 +129,6 @@ sleep-776b7bcdcd-bhn9m   2/2       Running       0          7s
 
 查看被注入的 Pod 的细节。不难发现多出了一个 `istio-proxy` 容器及其对应的存储卷。注意用正确的 Pod 名称来执行下面的命令：
 
-
 {{< text bash >}}
 $ kubectl describe pod sleep-776b7bcdcd-bhn9m
 {{< /text >}}
