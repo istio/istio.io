@@ -5,7 +5,7 @@ weight: 80
 keywords: [security,mutual-tls,https]
 ---
 
-This task shows how Istio Mutual TLS works with HTTPS services. It includes:
+This task shows how mutual TLS works with HTTPS services. It includes:
 
 * Deploying an HTTPS service without Istio sidecar
 
@@ -46,7 +46,7 @@ configmap "nginxconfigmap" created
 This section creates a NGINX-based HTTPS service.
 
 {{< text bash >}}
-$ kubectl apply -f @samples/https/nginx-app.yaml@
+$ kubectl apply -f samples/https/nginx-app.yaml
 service "my-nginx" created
 replicationcontroller "my-nginx" created
 {{< /text >}}
@@ -54,7 +54,7 @@ replicationcontroller "my-nginx" created
 Then, create another pod to call this service.
 
 {{< text bash >}}
-$ kubectl apply -f <(bin/istioctl kube-inject -f @samples/sleep/sleep.yaml@)
+$ kubectl apply -f <(bin/istioctl kube-inject -f samples/sleep/sleep.yaml)
 {{< /text >}}
 
 Get the pods
@@ -98,13 +98,13 @@ disabled. So you only need to redeploy the NGINX HTTPS service with sidecar.
 Delete the HTTPS service.
 
 {{< text bash >}}
-$ kubectl delete -f @samples/https/nginx-app.yaml@
+$ kubectl delete -f samples/https/nginx-app.yaml
 {{< /text >}}
 
 Deploy it with a sidecar
 
 {{< text bash >}}
-$ kubectl apply -f <(bin/istioctl kube-inject -f @samples/https/nginx-app.yaml@)
+$ kubectl apply -f <(bin/istioctl kube-inject -f samples/https/nginx-app.yaml)
 {{< /text >}}
 
 Make sure the pod is up and running
@@ -119,7 +119,7 @@ sleep-847544bbfc-d27jg            2/2       Running   0          18h
 And run
 
 {{< text bash >}}
-$ kubectl exec sleep-847544bbfc-d27jg -c sleep -- curl https://my-nginx -k
+$ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl https://my-nginx -k
 ...
 <h1>Welcome to nginx!</h1>
 ...
@@ -142,7 +142,7 @@ You need to deploy Istio control plane with mutual TLS enabled. If you have isti
 control plane with mutual TLS disabled installed, please delete it:
 
 {{< text bash >}}
-$ kubectl delete -f @install/kubernetes/istio.yaml@
+$ kubectl delete -f install/kubernetes/istio.yaml
 {{< /text >}}
 
 And wait for everything is down, i.e., there is no pod in control plane namespace (istio-system).
@@ -155,7 +155,7 @@ No resources found.
 Then deploy the Istio control plane with mutual TLS enabled:
 
 {{< text bash >}}
-$ kubectl apply -f @install/kubernetes/istio-demo-auth.yaml@
+$ kubectl apply -f install/kubernetes/istio-auth.yaml
 {{< /text >}}
 
 Make sure everything is up and running:
@@ -182,10 +182,10 @@ servicegraph-5849b7d696-jrk8h              1/1       Running     0          23h
 Then redeploy the HTTPS service and sleep service
 
 {{< text bash >}}
-$ kubectl delete -f <(bin/istioctl kube-inject -f @samples/sleep/sleep.yaml@)
-$ kubectl apply -f <(bin/istioctl kube-inject -f @samples/sleep/sleep.yaml@)
-$ kubectl delete -f <(bin/istioctl kube-inject -f @samples/https/nginx-app.yaml@)
-$ kubectl apply -f <(bin/istioctl kube-inject -f @samples/https/nginx-app.yaml@)
+$ kubectl delete -f <(bin/istioctl kube-inject -f samples/sleep/sleep.yaml)
+$ kubectl apply -f <(bin/istioctl kube-inject -f samples/sleep/sleep.yaml)
+$ kubectl delete -f <(bin/istioctl kube-inject -f samples/https/nginx-app.yaml)
+$ kubectl apply -f <(bin/istioctl kube-inject -f samples/https/nginx-app.yaml)
 {{< /text >}}
 
 Make sure the pod is up and running
@@ -227,8 +227,8 @@ since the traffic will be downgraded to http from nginx-proxy to nginx.
 ## Cleanup
 
 {{< text bash >}}
-$ kubectl delete -f @samples/sleep/sleep.yaml@
-$ kubectl delete -f @samples/https/nginx-app.yaml@
+$ kubectl delete -f samples/sleep/sleep.yaml
+$ kubectl delete -f samples/https/nginx-app.yaml
 $ kubectl delete configmap nginxconfigmap
 $ kubectl delete secret nginxsecret
 {{< /text >}}

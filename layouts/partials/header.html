@@ -40,11 +40,6 @@
                         <a class="nav-link {{ if eq $section "help" }}active{{ end }}" title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
                     </li>
                 {{ end }}
-                {{ with (.Site.GetPage "section" "community") }}
-                    <li class="nav-item">
-                        <a class="nav-link {{ if eq $section "community" }}active{{ end }}" title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
-                    </li>
-                {{ end }}
                 {{ with (.Site.GetPage "section" "about") }}
                     <li class="nav-item">
                         <a class="nav-link {{ if eq $section "about" }}active{{ end }}" title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>

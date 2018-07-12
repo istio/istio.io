@@ -1,22 +1,29 @@
 {{ $toc := partial "toc.html" (dict "page" .) }}
 {{ $needTOC := .Scratch.Get "needTOC" }}
 
-                {{ $related := .Site.RegularPages.Related . | first 5 }}
-                {{ with $related }}
-                    <h2 id="see-also">See also</h2>
+                {{ if .Scratch.Get "seeAlso" }}
+                    {{ $related := .Site.RegularPages.Related . | first 6 }}
+                    {{ with $related }}
+                        <h2 id="see-also">See also</h2>
 
-                    <div class="see-also">
-                        <div class="container-fluid">
-                            <div class="row">
-                                {{ range . }}
-                                    <div class="col-xs-12 col-sm-6 col-lg-4">
-                                        <p class="link"><a href="{{ .RelPermalink }}">{{ .Title }}</a></p>
-                                        <p class="desc">{{ .Description }}</p>
-                                    </div>
-                                {{ end }}
+                        <div class="see-also">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    {{ range . }}
+                                        <div class="col-xs-12 col-sm-6 col-xl-4">
+                                            <div style="padding:0rem 1rem;float:right">
+                                                <span>
+                                                    <a href="{{ .RelPermalink }}"><i class="fa fa-long-arrow-alt-right"></i></a>
+                                                </span>
+                                            </div>
+                                            <p class="link"><a href="{{ .RelPermalink }}">{{ .Title }}</a></p>
+                                            <p class="desc">{{ .Description }}</p>
+                                        </div>
+                                    {{ end }}
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    {{ end }}
                 {{ end }}
             </main>
 
@@ -27,12 +34,12 @@
                     <div class="row">
                         <div class="col-6">
                             {{ if .NextInSection }}
-                                <a title="{{ .NextInSection.Description }}" href="{{ .NextInSection.URL }}"><i class="fa fa-arrow-left"></i> {{ .NextInSection.Title }}</a>
+                                <a title="{{ .NextInSection.Description }}" href="{{ .NextInSection.URL }}"><i class="fa fa-long-arrow-alt-left"></i> {{ .NextInSection.Title }}</a>
                             {{ end }}
                         </div>
                         <div class="col-6" style="text-align: right">
                             {{ if .PrevInSection }}
-                                <a title="{{ .PrevInSection.Description }}" href="{{ .PrevInSection.URL }}">{{ .PrevInSection.Title }} <i class="fa fa-arrow-right"></i></a>
+                                <a title="{{ .PrevInSection.Description }}" href="{{ .PrevInSection.URL }}">{{ .PrevInSection.Title }} <i class="fa fa-long-arrow-alt-right"></i></a>
                             {{ end }}
                         </div>
                     </div>

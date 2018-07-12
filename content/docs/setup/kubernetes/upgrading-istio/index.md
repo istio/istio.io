@@ -22,16 +22,16 @@ First, generate the desired Istio control plane yaml file, e.g.
 
 {{< text bash >}}
 $ helm template --namespace istio-system --set global.proxy.image=proxy \
-  --values @install/kubernetes/helm/istio/values-istio.yaml@ \
-  @install/kubernetes/helm/istio@ >> install/kubernetes/istio.yaml
+  --values install/kubernetes/helm/istio/values-istio.yaml \
+  install/kubernetes/helm/istio >> install/kubernetes/istio.yaml
 {{< /text >}}
 
 or
 
 {{< text bash >}}
 $ helm template --namespace istio-system --set global.proxy.image=proxy \
-  --values @install/kubernetes/helm/istio/values-istio-auth.yaml@ \
-  @install/kubernetes/helm/istio@ >> install/kubernetes/istio-auth.yaml
+  --values install/kubernetes/helm/istio/values-istio-auth.yaml \
+  install/kubernetes/helm/istio >> install/kubernetes/istio-auth.yaml
 {{< /text >}}
 
 If using Kubernetes versions prior to 1.9, you should add `--set sidecarInjectorWebhook.enabled=false`.
@@ -39,13 +39,13 @@ If using Kubernetes versions prior to 1.9, you should add `--set sidecarInjector
 Second, simply apply the new version of the desired Istio control plane yaml file directly, e.g.
 
 {{< text bash >}}
-$ kubectl apply -f @install/kubernetes/istio.yaml@
+$ kubectl apply -f install/kubernetes/istio.yaml
 {{< /text >}}
 
 or
 
 {{< text bash >}}
-$ kubectl apply -f @install/kubernetes/istio-auth.yaml@
+$ kubectl apply -f install/kubernetes/istio-auth.yaml
 {{< /text >}}
 
 The rolling update process will upgrade all deployments and configmaps to the new version. After this process finishes,
@@ -142,7 +142,7 @@ sidecars injected in the future.
 
 ## Migrating per-service mutual TLS enablement via annotations to authentication policy
 
-If you use service annotations to override global mutual TLS enablement for a service, you need to replace it with [authentication policy](/docs/concepts/security/authn-policy/) and [destination rules](/docs/concepts/traffic-management/#destination-rules).
+If you use service annotations to override global mutual TLS enablement for a service, you need to replace it with [authentication policy](/docs/concepts/security/#authentication-policy) and [destination rules](/docs/concepts/traffic-management/#destination-rules).
 
 For example, if you install Istio with mutual TLS enabled, and disable it for service `foo` using a service annotation like below:
 

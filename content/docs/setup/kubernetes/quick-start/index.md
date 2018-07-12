@@ -49,7 +49,7 @@ Create a new cluster.
 $ gcloud container clusters create <cluster-name> \
     --cluster-version=1.10.4-gke.0 \
     --zone <zone> \
-    --project <project-name>
+    --project <project-id>
 {{< /text >}}
 
 Retrieve your credentials for `kubectl`.
@@ -57,7 +57,7 @@ Retrieve your credentials for `kubectl`.
 {{< text bash >}}
 $ gcloud container clusters get-credentials <cluster-name> \
     --zone <zone> \
-    --project <project-name>
+    --project <project-id>
 {{< /text >}}
 
 Grant cluster admin permissions to the current user (admin permissions are required to create the necessary RBAC rules for Istio).
@@ -257,10 +257,10 @@ For example, run the following command on a macOS or Linux system:
 
 Install Istio's core components. Choose one of the four _**mutually exclusive**_ options below for quick installation.  However, we recommend you to install with the [Helm Chart](/docs/setup/kubernetes/helm-install/) for production installations of Istio to leverage all the options to configure and customize Istio to your needs.
 
-*  Install Istio without enabling [mutual TLS authentication](/docs/concepts/security/mutual-tls/) between sidecars. Choose this option for clusters with existing applications, applications where services with an Istio sidecar need to be able to communicate with other non-Istio Kubernetes services, and applications that use [liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/), headless services, or StatefulSets.
+*  Install Istio without enabling [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) between sidecars. Choose this option for clusters with existing applications, applications where services with an Istio sidecar need to be able to communicate with other non-Istio Kubernetes services, and applications that use [liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/), headless services, or StatefulSets.
 
 {{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio-demo.yaml
+$ kubectl apply -f install/kubernetes/istio.yaml
 {{< /text >}}
 
 OR
@@ -268,7 +268,7 @@ OR
 *  Install Istio and enforce mutual TLS authentication between sidecars by default. Use this option only on a fresh kubernetes cluster where newly deployed workloads are guaranteed to have Istio sidecars installed.
 
 {{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
+$ kubectl apply -f install/kubernetes/istio-auth.yaml
 {{< /text >}}
 
 OR
@@ -357,10 +357,10 @@ $ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
 deletes the RBAC permissions, the `istio-system` namespace, and hierarchically all resources under it.
 It is safe to ignore errors for non-existent resources because they may have been deleted hierarchically.
 
-If you installed Istio with `istio-demo.yaml`:
+If you installed Istio with `istio.yaml`:
 
 {{< text bash >}}
-$ kubectl delete -f install/kubernetes/istio-demo.yaml
+$ kubectl delete -f install/kubernetes/istio.yaml
 {{< /text >}}
 
 otherwise [uninstall Istio with Helm](/docs/setup/kubernetes/helm-install/#uninstall).

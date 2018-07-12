@@ -55,8 +55,8 @@ pods that make up the control plane (mixer, pilot, ingress, CA). Deploying the t
 control plane yaml files:
 
 {{< text bash >}}
-$ kubectl apply -f @install/kubernetes/istio.yaml@
-$ kubectl apply -f @install/kubernetes/istio-system1.yaml@
+$ kubectl apply -f install/kubernetes/istio.yaml
+$ kubectl apply -f install/kubernetes/istio-system1.yaml
 {{< /text >}}
 
 Results in two Istio control planes running in two namespaces.

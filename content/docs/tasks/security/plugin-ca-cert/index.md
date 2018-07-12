@@ -17,14 +17,14 @@ operator-specified root certificate. This task demonstrates an example to plug c
   [quick start](/docs/setup/kubernetes/quick-start/) with global mutual TLS enabled:
 
     {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
+    $ kubectl apply -f install/kubernetes/istio-auth.yaml
     {{< /text >}}
 
     _**OR**_
 
     Using [Helm](/docs/setup/kubernetes/helm-install/) with `global.mtls.enabled` to `true`.
 
-> From Istio 0.7, you can use [authentication policy](/docs/concepts/security/authn-policy/) to configure mutual TLS for all/selected services in a namespace (repeated for all namespaces to get global setting). See [authentication policy task](/docs/tasks/security/authn-policy/)
+> Starting with Istio 0.7, you can use [authentication policy](/docs/concepts/security/#authentication-policy) to configure mutual TLS for all/selected services in a namespace (repeated for all namespaces to get global setting). See [authentication policy task](/docs/tasks/security/authn-policy/)
 
 ## Plugging in the existing certificate and key
 
@@ -55,7 +55,7 @@ The following steps enable plugging in the certificates and key into Citadel:
 1.  Redeploy Citadel, which reads the certificates and key from the secret-mount files:
 
     {{< text bash >}}
-    $ kubectl apply -f @install/kubernetes/istio-citadel-plugin-certs.yaml@
+    $ kubectl apply -f install/kubernetes/istio-citadel-plugin-certs.yaml
     {{< /text >}}
 
     > Note: if you are using different certificate/key file or secret names,
@@ -139,5 +139,5 @@ This requires you have `openssl` installed on your machine.
 *   To remove the Istio components:
 
     {{< text bash >}}
-    $ kubectl delete -f @install/kubernetes/istio-auth.yaml@
+    $ kubectl delete -f install/kubernetes/istio-auth.yaml
     {{< /text >}}

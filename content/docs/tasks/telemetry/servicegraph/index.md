@@ -25,7 +25,7 @@ the example application throughout this task.
     In Kubernetes environments, execute the following command:
 
     {{< text bash >}}
-    $ kubectl apply -f @install/kubernetes/addons/servicegraph.yaml@
+    $ kubectl apply -f install/kubernetes/addons/servicegraph.yaml
     {{< /text >}}
 
 1.  Verify that the service is running in your cluster.
@@ -118,7 +118,7 @@ depends on the standard Istio metric configuration.
 Servicegraph add-on:
 
     {{< text bash >}}
-    $ kubectl delete -f @install/kubernetes/addons/servicegraph.yaml@
+    $ kubectl delete -f install/kubernetes/addons/servicegraph.yaml
     {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, refer to the

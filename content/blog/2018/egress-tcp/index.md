@@ -122,7 +122,7 @@ Now I am ready to deploy a version of the Bookinfo application that will use my 
 
 To demonstrate the scenario of using an external database, I start with a Kubernetes cluster with [Istio installed](/docs/setup/kubernetes/quick-start/#installation-steps). Then I deploy the [Istio Bookinfo sample application](/docs/examples/bookinfo/). This application uses the _ratings_ microservice to fetch book ratings, a number between 1 and 5. The ratings are displayed as stars for each review. There are several versions of the _ratings_ microservice. Some use [MongoDB](https://www.mongodb.com), others use [MySQL](https://www.mysql.com) as their database.
 
-The example commands in this blog post work with Istio 0.3+, with or without [Mutual TLS](/docs/concepts/security/mutual-tls/) enabled.
+The example commands in this blog post work with Istio 0.3+, with or without [mutual TLS](/docs/concepts/security/#mutual-tls-authentication) enabled.
 
 As a reminder, here is the end-to-end architecture of the application from the [Bookinfo sample application](/docs/examples/bookinfo/).
 
@@ -133,7 +133,7 @@ As a reminder, here is the end-to-end architecture of the application from the [
 
 ### Use the database for ratings data in Bookinfo application
 
-1.  I modify the deployment spec of a version of the _ratings_ microservice that uses a MySQL database, to use my database instance. The spec is in `samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml` of an Istio release archive. I edit the following lines:
+1.  I modify the deployment spec of a version of the _ratings_ microservice that uses a MySQL database, to use my database instance. The spec is in `samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml` of an Istio release archive. I edit the following lines:
 
     {{< text yaml >}}
     - name: MYSQL_DB_HOST
@@ -151,15 +151,17 @@ As a reminder, here is the end-to-end architecture of the application from the [
 1.  I apply the modified spec to deploy the version of the _ratings_ microservice, _v2-mysql_, that will use my database.
 
     {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml@)
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml@)
     deployment "ratings-v2-mysql" created
     {{< /text >}}
 
 1.  I route all the traffic destined to the _reviews_ service to its _v3_ version. I do this to ensure that the _reviews_ service always calls the _ratings_
-service. In addition, I route all the traffic destined to the _ratings_ service to _ratings v2-mysql_ that uses my database. I add routing for both services above by adding two [route rules](/docs/reference/config/istio.routing.v1alpha1/). These rules are specified in `samples/bookinfo/kube/route-rule-ratings-mysql.yaml` of an Istio release archive.
+service. In addition, I route all the traffic destined to the _ratings_ service to _ratings v2-mysql_ that uses my database.
+I add routing for both services above by adding two [route rules](/docs/reference/config/istio.routing.v1alpha1/).
+These rules are specified in `samples/bookinfo/networking/virtual-service-ratings-mysql.yaml` of an Istio release archive.
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/kube/route-rule-ratings-mysql.yaml@
+    $ istioctl create -f @samples/bookinfo/networking/virtual-service-ratings-mysql.yaml@
     Created config route-rule/default/ratings-test-v2-mysql at revision 1918799
     Created config route-rule/default/reviews-test-ratings-v2 at revision 1918800
     {{< /text >}}
@@ -261,7 +263,7 @@ Also note that the IPs of an external service are not always static, for example
 Note that the scenario described in this post is different from the mesh expansion scenario, described in the
 [Integrating Virtual Machines](/docs/examples/integrating-vms/) example. In that scenario, a MySQL instance runs on an external
 (outside the cluster) machine (a bare metal or a VM), integrated with the Istio service mesh. The MySQL service becomes a first-class citizen of the mesh with all the beneficial features of Istio applicable. Among other things, the service becomes addressable by a local cluster domain name, for example by `mysqldb.vm.svc.cluster.local`, and the communication to it can be secured by
-[mutual TLS authentication](/docs/concepts/security/mutual-tls/). There is no need to create an egress rule to access this service; however, the
+[mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication). There is no need to create an egress rule to access this service; however, the
 service must be registered with Istio. To enable such integration, Istio components (_Envoy proxy_, _node-agent_, _istio-agent_) must be
 installed on the machine and the Istio control plane (_Pilot_, _Mixer_, _CA_) must be accessible from it. See the
 [Istio Mesh Expansion](/docs/setup/kubernetes/mesh-expansion/) instructions for more details.
@@ -289,7 +291,7 @@ with Istio. The Istio control plane does not have to be accessible from the mach
 1.  Remove the route rules:
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/kube/route-rule-ratings-mysql.yaml@
+    $ istioctl delete -f @samples/bookinfo/networking/virtual-service-ratings-mysql.yaml@
     Deleted config: route-rule/default/ratings-test-v2-mysql
     Deleted config: route-rule/default/reviews-test-ratings-v2
     {{< /text >}}
@@ -297,7 +299,7 @@ with Istio. The Istio control plane does not have to be accessible from the mach
 1.  Undeploy _ratings v2-mysql_:
 
     {{< text bash >}}
-    $ kubectl delete -f <(istioctl kube-inject -f @samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml@)
+    $ kubectl delete -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml@)
     deployment "ratings-v2-mysql" deleted
     {{< /text >}}
 
