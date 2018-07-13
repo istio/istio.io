@@ -30,8 +30,8 @@ or
 
 {{< text bash >}}
 $ helm template --namespace istio-system --set global.proxy.image=proxy \
-  --values install/kubernetes/helm/istio/values-istio-auth.yaml \
-  install/kubernetes/helm/istio >> install/kubernetes/istio-auth.yaml
+  --values install/kubernetes/helm/istio/values-istio-demo-auth.yaml \
+  install/kubernetes/helm/istio >> install/kubernetes/istio-demo-auth.yaml
 {{< /text >}}
 
 If using Kubernetes versions prior to 1.9, you should add `--set sidecarInjectorWebhook.enabled=false`.
@@ -45,7 +45,7 @@ $ kubectl apply -f install/kubernetes/istio.yaml
 or
 
 {{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio-auth.yaml
+$ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
 {{< /text >}}
 
 The rolling update process will upgrade all deployments and configmaps to the new version. After this process finishes,

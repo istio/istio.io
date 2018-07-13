@@ -263,7 +263,7 @@ $ kubectl apply -f install/kubernetes/istio.yaml
 *  默认情况下安装 Istio，并强制在 sidecar 之间进行双向 TLS 身份验证。仅在保证新部署的工作负载安装了 Istio sidecar 的新建的 kubernetes 集群上使用此选项。
 
 {{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio-auth.yaml
+$ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
 {{< /text >}}
 
 或者
