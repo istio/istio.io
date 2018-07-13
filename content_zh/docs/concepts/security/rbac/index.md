@@ -1,6 +1,6 @@
 ---
-title: 安全
-description: 描述 Istio 的授权与认证功能。
+title: 基于角色的访问控制
+description: Istio 基于角色的访问控制（RBAC）为 Istio 网格中的服务提供命名空间级、服务级、方法级访问控制。
 keywords: [security,rbac]
 weight: 10
 ---
