@@ -1,5 +1,5 @@
 ---
-title: Authorization Policy
+title: Istio Authorization
 description: Shows how to set up role-based access control for services in Istio mesh.
 weight: 40
 keywords: [security,access-control,rbac,authorization]
@@ -7,7 +7,8 @@ keywords: [security,access-control,rbac,authorization]
 
 This guide covers the main tasks you might need to perform to set up Istio authorization, also known
 as Istio Role Based Access Control (RBAC), for services in an Istio mesh. You can read more in
-[Istio authorization](/docs/concepts/security/#role-based-access-control-rbac).
+[Istio authorization](/docs/concepts/security/#role-based-access-control-rbac) and get started with
+a basic tutorial in Istio Security Basics.
 
 ## Before you begin
 
@@ -16,7 +17,8 @@ The tasks in this guide assume that you:
 * Understand [Istio authorization](/docs/concepts/security/#role-based-access-control-rbac) concepts.
 
 * Have set up Istio on Kubernetes **with authentication enabled** by following the instructions in the
-  [quick start](/docs/setup/kubernetes/quick-start/).
+  [quick start](/docs/setup/kubernetes/quick-start/), Istio Authentication requires mutual TLS to work.
+  Authentication should be enabled in the [installation steps](/docs/setup/kubernetes/quick-start/#installation-steps).
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
@@ -36,7 +38,8 @@ microservices running under them.
 > If you are using a namespace other than `default`, use `istioctl -n namespace ...` to specify the namespace.
 
 * There is a major update to RBAC in Istio 1.0. Please make sure to remove any existing RBAC config before continuing.
-    Run the following commands to disable the old RBAC functionality, these are no longer needed for Istio 1.0:
+
+    * Run the following commands to disable the old RBAC functionality, these are no longer needed in Istio 1.0:
 
     {{< text bash >}}
     $ kubectl delete authorization requestcontext -n istio-system
@@ -44,11 +47,11 @@ microservices running under them.
     $ kubectl delete rule rbaccheck -n istio-system
     {{< /text >}}
 
-    Run the following commands to remove any existing RBAC policies:
+    * Run the following commands to remove any existing RBAC policies:
 
-    > You could keep existing policies but you will need to make some changes to the `constraints` and `properties` field used
-in the policy, see [constraints and properties](/docs/reference/config/authorization/constraints-and-properties/) for the list of supported
-keys in `constraints` and `properties`.
+      > You could keep existing policies but you will need to make some changes to the `constraints` and `properties` field
+in the policy, see [constraints and properties](/docs/reference/config/authorization/constraints-and-properties/)
+for the list of supported keys in `constraints` and `properties`.
 
     {{< text bash >}}
     $ kubectl delete servicerole --all
@@ -65,7 +68,7 @@ keys in `constraints` and `properties`.
 
 ## Enabling Istio RBAC
 
-Run the following command to enable Istio RBAC for "default" namespace.
+Run the following command to enable Istio RBAC for "default" namespace:
 
 {{< text bash >}}
 $ istioctl create -f @samples/bookinfo/platform/kube/rbac/rbac-config-ON.yaml@
@@ -74,7 +77,7 @@ $ istioctl create -f @samples/bookinfo/platform/kube/rbac/rbac-config-ON.yaml@
 > If you have conflicting rules that you set in previous tasks, use `istioctl replace` instead of `istioctl create`.
 
 Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). Now you should see
-`"RBAC: access denied"` This is because Istio RBAC is "deny by default", which means that you need to
+`"RBAC: access denied"`. This is because Istio RBAC is "deny by default", which means that you need to
 explicitly define access control policy to grant access to any service.
 
 > There may be delay due to caching on browser and policy delayed delivered to Istio proxy.
@@ -89,7 +92,7 @@ The Istio components like "istio-ingressgateway" service are deployed in "istio-
 any service in "default" namespace that has "app" label set to one of the values in ["productpage", "details", "reviews", "ratings"]
 is accessible by services in the same namespace (i.e., "default" namespace) and services in "istio-system" namespace.
 
-Run the following command to create a namespace-level access control policy.
+Run the following command to create a namespace-level access control policy:
 
 {{< text bash >}}
 $ istioctl create -f @samples/bookinfo/platform/kube/rbac/namespace-policy.yaml@
