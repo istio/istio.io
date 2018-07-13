@@ -71,9 +71,8 @@ $ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=
 def getForwardHeaders(request):
     headers = {}
 
-    user_cookie = request.cookies.get("user")
-    if user_cookie:
-        headers['Cookie'] = 'user=' + user_cookie
+    if 'user' in session:
+        headers['end-user'] = session['user']
 
     incoming_headers = [ 'x-request-id',
                          'x-b3-traceid',
@@ -97,8 +96,9 @@ def getForwardHeaders(request):
 
 {{< text jzvz >}}
 @GET
-@Path("/reviews")
-public Response bookReviews(@CookieParam("user") Cookie user,
+@Path("/reviews/{productId}")
+public Response bookReviewsById(@PathParam("productId") int productId,
+                            @HeaderParam("end-user") String user,
                             @HeaderParam("x-request-id") String xreq,
                             @HeaderParam("x-b3-traceid") String xtraceid,
                             @HeaderParam("x-b3-spanid") String xspanid,
@@ -106,11 +106,11 @@ public Response bookReviews(@CookieParam("user") Cookie user,
                             @HeaderParam("x-b3-sampled") String xsampled,
                             @HeaderParam("x-b3-flags") String xflags,
                             @HeaderParam("x-ot-span-context") String xotspan) {
-  String r1 = "";
-  String r2 = "";
+  int starsReviewer1 = -1;
+  int starsReviewer2 = -1;
 
-  if(ratings_enabled){
-    JsonObject ratings = getRatings(user, xreq, xtraceid, xspanid, xparentspanid, xsampled, xflags, xotspan);
+  if (ratings_enabled) {
+    JsonObject ratingsResponse = getRatings(Integer.toString(productId), user, xreq, xtraceid, xspanid, xparentspanid, xsampled, xflags, xotspan);
 {{< /text >}}
 
 在对下游服务进行调用的时候，就应该在请求中包含上面代码中获取到的 HTTP Header。
