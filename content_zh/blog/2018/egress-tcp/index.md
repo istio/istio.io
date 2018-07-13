@@ -244,7 +244,7 @@ Created config egress-rule/default/mysql at revision 1954425
 
 接下来让我们看看我们如何定义 TCP 流量的出口规则。
 
-## TCP 流量的出口规则 
+## TCP 流量的出口规则
 
 启用到特定端口的 TCP 流量的出口规则必须指定 “TCP” 作为端口的协议。, 此外，对于[MongoDB有线协议](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/)，协议可以指定为“MONGO”，而不是“TCP”。
 
