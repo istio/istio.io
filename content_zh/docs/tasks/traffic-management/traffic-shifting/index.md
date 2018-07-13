@@ -28,7 +28,7 @@ aliases:
 1.  首先，运行此命令将所有流量路由到 `v1` 版本的各个微服务。
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
+    $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
 1.  在浏览器中打开 Bookinfo 站点。 URL为 `http：// $ GATEWAY_URL / productpage`，其中 `$GATEWAY_URL`是 ingress 的外部IP地址，
@@ -40,14 +40,14 @@ aliases:
 1.  使用下面的命令把50%的流量从 `reviews:v1` 转移到 `reviews:v3`:
 
     {{< text bash >}}
-    $ istioctl replace -f @samples/bookinfo/routing/route-rule-reviews-50-v3.yaml@
+    $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-50-v3.yaml@
     {{< /text >}}
 
     等待几秒钟以让新的规则传播到代理中生效。
 
 1.  确认规则已被替换:
 
-    {{< text yaml >}}
+    {{< text bash yaml >}}
     $ istioctl get virtualservice reviews -o yaml
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
@@ -63,7 +63,6 @@ aliases:
             host: reviews
             subset: v1
           weight: 50
-      - route:
         - destination:
             host: reviews
             subset: v3
@@ -77,7 +76,7 @@ aliases:
 1. 如果您认为 `reviews：v3` 微服务已经稳定，你可以通过应用此 virtual service 将100％的流量路由到 `reviews：v3`：
 
     {{< text bash >}}
-    $ istioctl replace -f @samples/bookinfo/routing/route-rule-reviews-v3.yaml@
+    $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
     {{< /text >}}
 
     现在，当您刷新 `/productpage` 时，您将始终看到带有红色星级评分的书评。
@@ -95,7 +94,7 @@ aliases:
 1. 删除应用程序路由规则。
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
+    $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
 1. 如果您不打算探索任何后续任务，请参阅 [Bookinfo 清理](/docs/examples/bookinfo/#cleanup) 的说明关闭应用程序。
