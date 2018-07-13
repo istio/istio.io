@@ -18,7 +18,7 @@ Istio 希望在不变更服务代码的情况下增强微服务自身及其通�
 下图展示 Istio 安全相关的架构，其中包括三个主要组件：认证、密钥管理和通信安全。服务 `frontend` 使用的 Service account 是 frontend-team；而 `backend` 服务的 Service account 是 backend-team，Istio 在这两个服务之间的通信过程中进行了加密。不论服务是运行在 Kubernetes 的容器之中，还是运行在虚拟机/裸机上，都能获得 Istio 的支持。
 
 {{< image width="80%" ratio="56.25%"
-    link="/docs/concepts/security/mutual-tls/auth.svg"
+    link="/docs/concepts/security/auth.svg"
     alt="构成 Istio 认证模型的组件"
     caption="Istio 安全架构"
     >}}

@@ -364,6 +364,7 @@ kube-inject
 kube-proxy
 kube-public
 kube-system
+kubeconfig
 kubectl
 kubelet
 kubernetes

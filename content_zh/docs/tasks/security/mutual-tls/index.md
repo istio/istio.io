@@ -24,7 +24,7 @@ keywords: [security,mutual-tls]
 
     使用 [Helm](/docs/setup/kubernetes/helm-install/) 进行安装，设置 `global.mtls.enabled` 为 `true`.
 
-> 从 Istio 0.7 开始，可以使用[认证策略](/docs/concepts/security/authn-policy/)来给命名空间中全部/部分服务配置双向 TLS 功能。（在所有命名空间中重复此操作，就相当于全局配置了）。这部分内容可参考[认证策略任务](/docs/tasks/security/authn-policy/)
+> 从 Istio 0.7 开始，可以使用[认证策略](/docs/concepts/security/#authentication-policy)来给命名空间中全部/部分服务配置双向 TLS 功能。（在所有命名空间中重复此操作，就相当于全局配置了）。这部分内容可参考[认证策略任务](/docs/tasks/security/authn-policy/)
 
 * 接下来进行演示应用的部署，首先是注入 Envoy sidecar 的 [httpbin](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/httpbin) 以及 [sleep](https://github.com/istio/istio/tree/master/samples/sleep)。为简单起见，我们将演示应用安装到 `default` 命名空间。如果想要部署到其他命名空间，可以在下一节的示例命令中加入 `-n yournamespace`。
 
@@ -108,7 +108,7 @@ $ kubectl exec $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.na
             URI:spiffe://cluster.local/ns/default/sa/default
 {{< /text >}}
 
-请参阅 [secure naming](/docs/concepts/security/mutual-tls/#workflow) 一节，可以了解更多**服务认证**方面的内容。
+请参阅 [secure naming](/docs/concepts/security/#workflow) 一节，可以了解更多**服务认证**方面的内容。
 
 ## 测试认证配置
 
@@ -142,7 +142,7 @@ $ kubectl exec $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.na
     200
     {{< /text >}}
 
-    > Istio 使用 [Kubernetes service accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) 作为服务的认证基础，Service account 提供了比服务名称更强的安全性（参考 [Identity](/docs/concepts/security/mutual-tls/#identity) 获取更多信息）。Istio 中使用的证书不包含服务名，而 `curl` 需要用这个信息来检查服务认证。因此就需要给 `curl` 命令加上 `-k` 参数，在对服务器所出示的证书校验的时候，停止对服务器名称（例如 httpbin.ns.svc.cluster.local ）的验证。
+    > Istio 使用 [Kubernetes service accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) 作为服务的认证基础，Service account 提供了比服务名称更强的安全性（参考 [Identity](/docs/concepts/security/#identity) 获取更多信息）。Istio 中使用的证书不包含服务名，而 `curl` 需要用这个信息来检查服务认证。因此就需要给 `curl` 命令加上 `-k` 参数，在对服务器所出示的证书校验的时候，停止对服务器名称（例如 httpbin.ns.svc.cluster.local ）的验证。
 
 1. 来自没有 Sidecar 的 Pod。可以重新部署另外一个 `sleep` 应用
 
