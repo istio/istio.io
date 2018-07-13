@@ -228,7 +228,7 @@ origins:
 
 Defines what is the principal from the authentication. By default, this will be the peer's principal (and if peer authentication is not applied, it will be left unset). Policy writers can choose to overwrite it with USE_ORIGIN. In future, we will also support *conditional-binding* (e.g USE_PEER when peer is X, otherwise USE_ORIGIN)
 
-## Istio Authorization
+## Authorization
 
 Istio’s authorization feature - also known as Role-based Access Control (RBAC) - provides namespace-level,
 service-level, and method-level access control for services in an Istio Mesh. It features:
@@ -249,16 +249,16 @@ service-level, and method-level access control for services in an Istio Mesh. It
 The above diagram shows the basic Istio authorization architecture. Operators specify Istio authorization policies using yaml files.
 Once deployed, the policies are saved in Istio Config Store.
 
-Pilot watches for changes to Istio authorization policies. It fetches the updated authorization policies if it sees any changes.
-Pilot distributes Istio authorization policies to Envoy proxies that are co-located with service instances.
+Pilot watches for changes to authorization policies. It fetches the updated authorization policies if it sees any changes.
+Pilot distributes authorization policies to Envoy proxies that are co-located with service instances.
 
 Each Envoy proxy runs an authorization engine that authorizes requests at runtime. When a request comes to the proxy,
 the authorization engine evaluates the request context against the current authorization policies, and returns the authorization
 result (ALLOW or DENY).
 
-### Enabling Istio authorization
+### Enabling authorization
 
-You enable Istio authorization using a `RbacConfig` object. The `RbacConfig` object is a mesh global singleton with a fixed name
+You enable authorization using a `RbacConfig` object. The `RbacConfig` object is a mesh global singleton with a fixed name
 “default”, at most one `RbacConfig` instance is allowed to be used in the mesh. Like other Istio configuration objects it is defined
 as a [Kubernetes CustomResourceDefinition (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) object.
 
@@ -269,7 +269,7 @@ In `RbacConfig` object, the operator can specify “mode”, which can be one of
 * **`ON_WITH_INCLUSION`**: Istio authorization is enabled only for services and namespaces specified in “inclusion” field.
 * **`ON_WITH_EXCLUSION`**: Istio authorization is enabled for all services in the mesh except the services and namespaces specified in “exclusion” field.
 
-In the following example, Istio authorization is enabled for the “default” namespace.
+In the following example, authorization is enabled for the “default” namespace.
 
 {{< text yaml >}}
 apiVersion: “config.istio.io/v1alpha2”
