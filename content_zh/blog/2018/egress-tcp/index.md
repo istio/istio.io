@@ -12,7 +12,7 @@ keywords: [traffic-management,egress,tcp]
 
 在我之前的博客文章[Consuming External Web Services](/blog/2018/egress-https/)中，我描述了如何通过 HTTPS 在网状 Istio 应用程序中使用外部服务, 在这篇文章中，我演示了通过 TCP 消费外部服务, 我使用[Istio Bookinfo示例应用程序](/docs/examples/bookinfo/)，这是将书籍评级数据保存在 MySQL 数据库中的版本, 我在集群外部署此数据库并配置 _ratings_ 服务以使用它, 我定义了[出口规则](/docs/reference/config/istio.routing.v1alpha1/#EdressRule)以允许网内应用程序访问外部数据库。
 
-## Bookinfo示例应用程序与外部评级数据库
+## Bookinfo 示例应用程序与外部评级数据库
 
 首先，我在 Kubernetes 集群之外设置了一个 MySQL 数据库实例来保存图书评级数据, 然后我修改[Bookinfo示例应用程序](/docs/examples/bookinfo/)以使用我的数据库。
 
@@ -20,40 +20,40 @@ keywords: [traffic-management,egress,tcp]
 
 为此，我设置了 [MySQL](https://www.mysql.com) 的实例, 你可以使用任何 MySQL 实例; 我使用[Compose for MySQL](https://www.ibm.com/cloud/compose/mysql), 我使用`mysqlsh`（[MySQL Shell](https://dev.mysql.com/doc/mysql-shell/en/)）作为 MySQL 客户端来提供评级数据。
 
-1.要初始化数据库，我会在出现提示时运行以下命令输入密码, 该命令使用 `admin` 用户的凭据执行，默认情况下由[Compose for MySQL](https://www.ibm.com/cloud/compose/mysql)创建。
+1. 要初始化数据库，我会在出现提示时运行以下命令输入密码, 该命令使用 `admin` 用户的凭据执行，默认情况下由[Compose for MySQL](https://www.ibm.com/cloud/compose/mysql)创建。
 
     {{< text bash >}}
     $ curl -s {{< github_file >}}/samples/bookinfo/src/mysql/mysqldb-init.sql | \
     mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host <the database host> --port <the database port>
     {{< /text >}}
-    
+
     _**或者**_
-    
+
     使用`mysql`客户端和本地MySQL数据库时，我会运行：
-    
+
     {{< text bash >}}
     $ curl -s {{< github_file >}}/samples/bookinfo/src/mysql/mysqldb-init.sql | \
     mysql -u root -p
     {{< /text >}}
 
-1.然后我创建一个名为 _bookinfo_ 的用户，并在`test.ratings` 表上授予它 _SELECT_ 权限：
+1. 然后我创建一个名为 _bookinfo_ 的用户，并在`test.ratings` 表上授予它 _SELECT_ 权限：
 
     {{< text bash >}}
     $ mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host <the database host> --port <the database port>  \
     -e "CREATE USER 'bookinfo' IDENTIFIED BY '<password you choose>'; GRANT SELECT ON test.ratings to 'bookinfo';"
     {{< /text >}}
-    
+
     _**OR**_
-    
+
     对于`mysql`和本地数据库，命令将是：
-    
+
     {{< text bash >}}
     $ mysql -u root -p -e \
     "CREATE USER 'bookinfo' IDENTIFIED BY '<password you choose>'; GRANT SELECT ON test.ratings to 'bookinfo';"
     {{< /text >}}
-    
+
     在这里，我应用[最小特权原则](https://en.wikipedia.org/wiki/Principle_of_least_privilege)。, 这意味着我不在Bookinfo应用程序中使用我的_admin_用户。, 相反，我使用最小权限为Bookinfo应用程序_bookinfo_创建了一个特殊用户。, 在这种情况下，_bookinfo_用户只对单个表具有“SELECT”特权。
-    
+
     在运行命令创建用户之后，我将通过检查最后一个命令的编号并运行`history -d <创建用户的命令编号>来清理我的bash历史记录。, 我不希望新用户的密码存储在bash历史记录中。, 如果我使用`mysql`，我也会删除`〜/ .mysql_history`文件中的最后一个命令。, 在[MySQL文档](https://dev.mysql.com/doc/refman/5.5/en/create-user.html）中阅读有关新创建用户的密码保护的更多信息。
 
 1. 我检查创建的评级，看看一切都按预期工作：
@@ -120,7 +120,7 @@ keywords: [traffic-management,egress,tcp]
 
 ### Bookinfo 应用程序的初始设置
 
-为了演示使用外部数据库的场景，我首先使用安装了 [Istio](/docs/setup/kubernetes/quick-start /＃installation-steps) 的 Kubernetes 集群, 然后我部署 [Istio Bookinfo示例应用程序](/docs/examples/bookinfo/), 此应用程序使用 _ratings_ 服务来获取书籍评级，数字在1到5之间。评级显示为每个评论的星号, 有几个版本的 _ratings_ 微服务, 有些人使用 [MongoDB](https://www.mongodb.com)，其他人使用 [MySQL](https://www.mysql.com) 作为他们的数据库。
+为了演示使用外部数据库的场景，我首先使用安装了 [Istio](/docs/setup/kubernetes/quick-start/#installation-steps) 的 Kubernetes 集群, 然后我部署 [Istio Bookinfo示例应用程序](/docs/examples/bookinfo/), 此应用程序使用 _ratings_ 服务来获取书籍评级，数字在1到5之间。评级显示为每个评论的星号, 有几个版本的 _ratings_ 微服务, 有些人使用 [MongoDB](https://www.mongodb.com)，其他人使用 [MySQL](https://www.mysql.com) 作为他们的数据库。
 
 此博客文章中的示例命令与  Istio 0.3+ 一起使用，无论启用或不启用 [双向 TLS](/docs/concepts/security/mutual-tls/)。
 
@@ -213,7 +213,7 @@ $ istioctl create -f egress-rule-mysql.yaml
 Created config egress-rule/default/mysql at revision 1954425
 {{< /text >}}
 
-请注意，对于 TCP 出口规则，我们将`tcp`指定为规则端口的协议, 另请注意，我们使用外部服务的 IP 而不是其域名, 下面我将详细讨论 TCP [出口规则](＃egress-rules-for-tcp-traffic), 现在，让我们验证我们添加的出口规则是否解决了问题, 让我们访问网页，看看明星是否回来了。
+请注意，对于 TCP 出口规则，我们将 `tcp` 指定为规则端口的协议, 另请注意，我们使用外部服务的 IP 而不是其域名, 下面我将详细讨论 TCP [出口规则](#egress-rules-for-tcp-traffic), 现在，让我们验证我们添加的出口规则是否解决了问题, 让我们访问网页，看看明星是否回来了。
 
 有效！ 访问应用程序的网页会显示评级而不会出现错误：
 
@@ -226,7 +226,7 @@ Created config egress-rule/default/mysql at revision 1954425
 
 与 HTTP/HTTPS 的出口规则一样，我们可以动态地使用 `istioctl` 删除和创建 TCP 的出口规则。
 
-## 出口TCP流量控制的动机
+## 出口 TCP 流量控制的动机
 
 一些网内 Islation 应用程序必须访问外部服务，例如遗留系统, 在许多情况下，不通过 HTTP 或 HTTPS 协议执行访问, 使用其他 TCP 协议，例如[MongoDB有线协议](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/)和[MySQL客户端/服务器协议](https://dev.mysql.com/doc/internals/en/client-server-protocol.html)等特定于数据库的协议, 与外部数据库通信。
 
@@ -244,9 +244,9 @@ Created config egress-rule/default/mysql at revision 1954425
 
 接下来让我们看看我们如何定义 TCP 流量的出口规则。
 
-## TCP流量的出口规则
+## TCP 流量的出口规则
 
-启用到特定端口的 TCP 流量的出口规则必须指定“TCP”作为端口的协议。, 此外，对于[MongoDB有线协议](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/)，协议可以指定为“MONGO”，而不是“TCP”。
+启用到特定端口的 TCP 流量的出口规则必须指定 “TCP” 作为端口的协议。, 此外，对于[MongoDB有线协议](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/)，协议可以指定为“MONGO”，而不是“TCP”。
 
 对于规则的`destination.service`字段，必须使用[CIDR](https://tools.ietf.org/html/rfc2317)表示法中的 IP 或 IP 块。
 
@@ -254,7 +254,7 @@ Created config egress-rule/default/mysql at revision 1954425
 
 请注意，外部服务的所有 IP 并不总是已知。, 要通过 IP 启用 TCP 流量，而不是通过主机名启用流量，只需指定应用程序使用的 IP。
 
-另请注意，外部服务的 IP 并不总是静态的，例如在 [CDNs](https://en.wikipedia.org/wiki/Content_delivery_network) 的情况下, 有时 IP 在大多数情况下是静态的，但可以不时地更改，例如由于基础设施的变化, 在这些情况下，如果已知可能 IP 的范围，则应通过 CIDR 块指定范围（如果需要，甚至可以通过多个出口规则）, 如果不知道可能的IP的范围，则不能使用 TCP 的出口规则，并且[必须直接调用外部服务](/docs/tasks/traffic-management/egres /#calling-external-services-direct), 绕过 sidecar 代理。
+另请注意，外部服务的 IP 并不总是静态的，例如在 [CDNs](https://en.wikipedia.org/wiki/Content_delivery_network) 的情况下, 有时 IP 在大多数情况下是静态的，但可以不时地更改，例如由于基础设施的变化, 在这些情况下，如果已知可能 IP 的范围，则应通过 CIDR 块指定范围（如果需要，甚至可以通过多个出口规则）, 如果不知道可能的IP的范围，则不能使用 TCP 的出口规则，并且[必须直接调用外部服务](/docs/tasks/traffic-management/egress/#calling-external-services-direct), 绕过 sidecar 代理。
 
 ## 与网格扩展的关系
 
@@ -265,7 +265,7 @@ Created config egress-rule/default/mysql at revision 1954425
 
 ## 清理
 
-1. 删除_test_数据库和_bookinfo_用户：
+1. 删除 _test_ 数据库和 _bookinfo_ 用户：
 
     {{< text bash >}}
     $ mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host <the database host> --port <the database port> \
@@ -283,15 +283,15 @@ Created config egress-rule/default/mysql at revision 1954425
 1. 删除路由规则：
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/kube/route-rule-ratings-mysql.yaml@
+    $ istioctl delete -f @samples/bookinfo/platform/kube/route-rule-ratings-mysql.yaml@
     Deleted config: route-rule/default/ratings-test-v2-mysql
     Deleted config: route-rule/default/reviews-test-ratings-v2
     {{< /text >}}
 
-1. 取消部署_ratings v2-mysql_：
+1. 取消部署 _ratings v2-mysql_：
 
     {{< text bash >}}
-    $ kubectl delete -f <(istioctl kube-inject -f @samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml@)
+    $ kubectl delete -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml@)
     deployment "ratings-v2-mysql" deleted
     {{< /text >}}
 
@@ -308,4 +308,4 @@ Created config egress-rule/default/mysql at revision 1954425
 
 ## 结论
 
-在这篇博文中，我演示了 Istio 服务网格中的微服务如何通过 TCP 使用外部服务, 默认情况下，Istio 会阻止所有流量（TCP和HTTP）到群集外的主机， 要为 TCP 启用此类流量，必须为服务网格创建 TCP 出口规则。
+在这篇博文中，我演示了 Istio 服务网格中的微服务如何通过 TCP 使用外部服务, 默认情况下，Istio 会阻止所有流量（TCP 和 HTTP）到群集外的主机， 要为 TCP 启用此类流量，必须为服务网格创建 TCP 出口规则。
