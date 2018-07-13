@@ -66,9 +66,9 @@ for the list of supported keys in `constraints` and `properties`.
     If you refresh the page several times, you should see different versions of reviews shown in productpage,
     presented in a round robin style (red stars, black stars, no stars)
 
-## Enabling Istio RBAC
+## Enabling Istio authorization
 
-Run the following command to enable Istio RBAC for "default" namespace:
+Run the following command to enable Istio authorization for "default" namespace:
 
 {{< text bash >}}
 $ istioctl create -f @samples/bookinfo/platform/kube/rbac/rbac-config-ON.yaml@
@@ -77,14 +77,14 @@ $ istioctl create -f @samples/bookinfo/platform/kube/rbac/rbac-config-ON.yaml@
 > If you have conflicting rules that you set in previous tasks, use `istioctl replace` instead of `istioctl create`.
 
 Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). Now you should see
-`"RBAC: access denied"`. This is because Istio RBAC is "deny by default", which means that you need to
+`"RBAC: access denied"`. This is because Istio authorization is "deny by default", which means that you need to
 explicitly define access control policy to grant access to any service.
 
 > There may be delay due to caching on browser and policy delayed delivered to Istio proxy.
 
 ## Namespace-level access control
 
-Using Istio RBAC, you can easily setup namespace-level access control by specifying all (or a collection of) services
+Using Istio authorization, you can easily setup namespace-level access control by specifying all (or a collection of) services
 in a namespace are accessible by services from another namespace.
 
 In our Bookinfo sample, the "productpage", "reviews", "details", "ratings" services are deployed in "default" namespace.
@@ -160,10 +160,10 @@ $ istioctl delete -f @samples/bookinfo/platform/kube/rbac/namespace-policy.yaml@
 
 ## Service-level access control
 
-This task shows you how to set up service-level access control using Istio RBAC. Before you start, please make sure that:
+This task shows you how to set up service-level access control using Istio authorization. Before you start, please make sure that:
 
-* You have [enabled Istio RBAC](#enabling-istio-rbac).
-* You have [removed namespace-level Istio RBAC policy](#cleanup-namespace-level-access-control).
+* You have [enabled Istio authorization](#enabling-istio-authorization).
+* You have [removed namespace-level Istio authorization policy](#cleanup-namespace-level-access-control).
 
 Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). You should see `"RBAC: access denied"`.
 We will incrementally add access permission to the services in Bookinfo sample.
@@ -322,7 +322,7 @@ the "black" and "red" ratings in "Book Reviews" section.
 
 ## Cleanup
 
-*   Remove Istio RBAC policy configuration:
+*   Remove Istio authorization policy configuration:
 
     {{< text bash >}}
     $ istioctl delete -f @samples/bookinfo/platform/kube/rbac/ratings-policy.yaml@
@@ -337,7 +337,7 @@ the "black" and "red" ratings in "Book Reviews" section.
     $ kubectl delete servicerolebinding --all
     {{< /text >}}
 
-*   Disable Istio RBAC:
+*   Disable Istio authorization:
 
     {{< text bash >}}
     $ istioctl delete -f @samples/bookinfo/platform/kube/rbac/rbac-config-ON.yaml@
