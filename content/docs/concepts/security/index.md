@@ -367,7 +367,7 @@ version of a service, or only apply to services that are labeled “foo”. You 
 
 For example, the following `ServiceRole` definition extends the previous “products-viewer” role by adding a constraint that
 `request.headers[version]` is either “v1” or “v2”. Note that the supported “key” of a constraint are listed in the
-[“constraints and properties”](/docs/reference/config/authorization/constraints-and-properties/) page.
+[constraints and properties](/docs/reference/config/authorization/constraints-and-properties/) page.
 In the case that the attribute is a “map” (e.g., `request.headers`), the “key” is an entry in the map (e.g., `request.headers[version]`).
 
 {{< text yaml >}}
@@ -395,7 +395,7 @@ A `ServiceRoleBinding` specification includes two parts:
 A subject can be either an explicitly specified “user”, or represented by a set of “properties”.  A “property” in a `ServiceRoleBinding`
 “subject” is similar to “constraints” in a `ServiceRole`, in that it lets you use conditions to specify a set of accounts that should
 be assigned to this role. It contains “key” and allowed “values”, where supported “key” are listed in the
-[“constraints and properties”](/docs/reference/config/authorization/constraints-and-properties/) page.
+[constraints and properties](/docs/reference/config/authorization/constraints-and-properties/) page.
 
 Here is an example of `ServiceRoleBinding` “test-binding-products”, which binds two subjects to the `ServiceRole` “product-viewer”:
 
