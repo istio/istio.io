@@ -232,9 +232,9 @@ and prevent localized failures from cascading instability to other nodes.
 
 Istio's traffic management rules allow you to set global defaults for failure recovery per
 service/version. However, consumers of a service can also override
-[timeout](/docs/reference/config/istio.routing.v1alpha1/#HTTPTimeout)
+[timeout](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute-timeout)
 and
-[retry](/docs/reference/config/istio.routing.v1alpha1/#HTTPRetry)
+[retry](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute-retries)
 defaults by providing request-level overrides through special HTTP headers.
 With the Envoy proxy implementation, the headers are `x-envoy-upstream-rq-timeout-ms` and
 `x-envoy-max-retries`, respectively.

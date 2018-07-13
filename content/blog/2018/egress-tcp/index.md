@@ -10,7 +10,7 @@ aliases:
 keywords: [traffic-management,egress,tcp]
 ---
 
-In my previous blog post, [Consuming External Web Services](/blog/2018/egress-https/), I described how external services can be consumed by in-mesh Istio applications via HTTPS. In this post, I demonstrate consuming external services over TCP. I use the [Istio Bookinfo sample application](/docs/examples/bookinfo/), the version in which the book ratings data is persisted in a MySQL database. I deploy this database outside the cluster and configure the _ratings_ microservice to use it. I define an [egress rule](/docs/reference/config/istio.routing.v1alpha1/#EgressRule) to allow the in-mesh applications to access the external database.
+In my previous blog post, [Consuming External Web Services](/blog/2018/egress-https/), I described how external services can be consumed by in-mesh Istio applications via HTTPS. In this post, I demonstrate consuming external services over TCP. I use the [Istio Bookinfo sample application](/docs/examples/bookinfo/), the version in which the book ratings data is persisted in a MySQL database. I deploy this database outside the cluster and configure the _ratings_ microservice to use it. I define an [egress rule](https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/#EgressRule) to allow the in-mesh applications to access the external database.
 
 ## Bookinfo sample application with external ratings database
 
@@ -157,7 +157,7 @@ As a reminder, here is the end-to-end architecture of the application from the [
 
 1.  I route all the traffic destined to the _reviews_ service to its _v3_ version. I do this to ensure that the _reviews_ service always calls the _ratings_
 service. In addition, I route all the traffic destined to the _ratings_ service to _ratings v2-mysql_ that uses my database.
-I add routing for both services above by adding two [route rules](/docs/reference/config/istio.routing.v1alpha1/).
+I add routing for both services above by adding two [route rules](https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/).
 These rules are specified in `samples/bookinfo/networking/virtual-service-ratings-mysql.yaml` of an Istio release archive.
 
     {{< text bash >}}
