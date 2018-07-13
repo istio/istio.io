@@ -217,7 +217,7 @@ Nevertheless, you must update the list of admission controllers.
 
 ### Azure
 
-A Kubernetes cluster can be deployed to Azure via `ACS-Engine` or `AKS` which fully supports Istio as long as Kubernetes 1.9.6 or later is specified.
+You can deploy a Kubernetes cluster to Azure via `ACS-Engine` or `AKS` which fully supports Istio as long as Kubernetes 1.9.6 or later is specified.
 
 AKS is a managed Kubernetes service where the master nodes are paid for and managed by Microsoft, no matter the size or number of agent nodes created.  
 
@@ -225,9 +225,9 @@ ACS-Engine provides extensive customization of the Kubernetes cluster being prov
 
 Instructions for AKS:
 
-An AKS cluster can be created via [the `az` cli](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough) or [via the Azure portal](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough-portal).  It is only important Kubernetes 1.9.6 or later is specified.  Not all Kubernetes versions are available in all Azure regions.
+You can create an AKS cluster via [the `az` cli](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough) or [the Azure portal](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough-portal).  It is only important Kubernetes 1.9.6 or later is specified.  Not all Kubernetes versions are available in all Azure regions.
 
-    For the `az` cli option, once `az login` authentication has completed OR by using cloud shell, simply run the following commands:
+For the `az` cli option, complete `az login` authentication OR use cloud shell, then run the following commands below.
 
 1. Determine the `Name` for the desired datacenter location
 
