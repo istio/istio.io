@@ -17,12 +17,6 @@ RBAC from [Istio RBAC concept page](/docs/concepts/security/#role-based-access-c
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
-> The current Istio release may not have the up-to-date Istio RBAC samples. So before you continue, you
-need to copy these [configuration files]({{< github_tree >}}/samples/bookinfo/platform/kube) to
-`samples/bookinfo/platform/kube` directory under where you installed Istio, and replace the original ones. The files include
-`bookinfo-add-serviceaccount.yaml`, `istio-rbac-enable.yaml`, `istio-rbac-namespace.yaml`, `istio-rbac-productpage.yaml`,
-`istio-rbac-details-reviews.yaml`, `istio-rbac-ratings.yaml`.
-
 *   In this task, we will enable access control based on Service Accounts, which are cryptographically authenticated in the Istio mesh.
 In order to give different microservices different access privileges, we will create some service accounts and redeploy Bookinfo
 microservices running under them.
