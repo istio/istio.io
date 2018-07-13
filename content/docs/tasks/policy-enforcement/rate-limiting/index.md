@@ -121,17 +121,17 @@ so the configuration to enable rate limiting on both adapters is the same.
       namespace: istio-system
     spec:
       dimensions:
-        source: source.labels["app"] | source.service | "unknown"
+        source: source.labels["app"] | "unknown"
         sourceVersion: source.labels["version"] | "unknown"
-        destination: destination.labels["app"] | destination.service | "unknown"
+        destination: destination.labels["app"] | destination.service.host | "unknown"
         destinationVersion: destination.labels["version"] | "unknown"
     {{< /text >}}
 
     The `quota` template defines four dimensions that are used by `memquota`
     to set overrides on requests that match certain attributes. The
     `destination` will be set to the first non-empty value in
-    `destination.labels["app"]`, `destination.service`, or `"unknown"`. For more
-    information on expressions, see [Expression
+    `destination.labels["app"]`, `destination.service.host`, or `"unknown"`. For
+     more information on expressions, see [Expression
     Language](/docs/reference/config/policy-and-telemetry/expression-language/).
 
 1. Confirm the `rule` was created:
@@ -204,15 +204,15 @@ so the configuration to enable rate limiting on both adapters is the same.
 
 1. Refresh the `productpage` in your browser.
 
-    If you are logged out, `reviews-v3` service is rate limited to 1 request
-    every 5 seconds. If you keep refreshing the page the stars should only
+    * If you are logged out, `reviews-v3` service is rate limited to 1 request
+    every 5 seconds. If you keep refreshing the page, the stars should only
     load around once every 5 seconds.
 
-    If you log in as user "jason", `reviews-v2` service is rate limited to 5
-    requests every 10 seconds. If you keep refreshing the page the stars
+    * If you log in as user "jason", `reviews-v2` service is rate limited to 5
+    requests every 10 seconds. If you keep refreshing the page, the stars
     should only load 5 times every 10 seconds.
 
-    For all other services, the default 5000 qps rate limit will apply.
+    * For all other services, the default 5000 qps rate limit will apply.
 
 ## Conditional rate limits
 
@@ -248,22 +248,22 @@ that match certain conditions.
 Every named quota instance like `requestcount` represents a set of counters.
 The set is defined by a Cartesian product of all quota dimensions. If the
 number of requests in the last `expiration` duration exceed `maxAmount`,
-Mixer returns a `RESOURCE_EXHAUSTED` message to the proxy. The proxy in turn
+Mixer returns a `RESOURCE_EXHAUSTED` message to the Envoy proxy, and Envoy
 returns status `HTTP 429` to the caller.
 
-The `memquota` adapter uses a sliding window of sub second resolution to
+The `memquota` adapter uses a sliding window of sub-second resolution to
 enforce rate limits.
 
 The `maxAmount` in the adapter configuration sets the default limit for all
-counters associated with a quota instance. This default limit applies if a
-quota override does not match the request. Memquota selects the first
+counters associated with a quota instance. This default limit applies if a quota
+override does not match the request. The `memquota` adapter selects the first
 override that matches a request. An override need not specify all quota
-dimensions. In the example, the 0.2 qps override is selected by matching
-only three out of four quota dimensions.
+dimensions. In the example, the 0.2 qps override is selected by matching only
+three out of four quota dimensions.
 
-If you would like the above policies enforced for a given namespace instead
-of the entire Istio mesh, you can replace all occurrences of istio-system
-with the given namespace.
+If you want the policies enforced for a given namespace instead of the entire
+Istio mesh, you can replace all occurrences of istio-system with the given
+namespace.
 
 ## Cleanup
 
