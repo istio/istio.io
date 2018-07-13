@@ -13,10 +13,6 @@ This is the recommended install method for installing Istio to your
 production environment as it offers rich customization to the Istio control
 plane and the sidecars for the Istio data plane.
 
-{{< warning_icon >}}
-Installation of Istio prior to version 0.8.0 with Helm is unstable and not
-recommended.
-
 ## Prerequisites
 
 1. [Download](/docs/setup/kubernetes/quick-start/#download-and-prepare-for-the-installation)
@@ -49,8 +45,6 @@ recommended.
 This option allows Helm and
 [Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components)
 to manage the lifecycle of Istio.
-
-{{< warning_icon >}} Upgrading Istio using Helm has not been fully tested.
 
 1. If a service account has not already been installed for Tiller, install one:
 
