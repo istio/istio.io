@@ -15,6 +15,8 @@ plane and the sidecars for the Istio data plane.
 
 ## Prerequisites
 
+1. [Setup Istio in Kubernetes](/docs/setup/kubernetes/quick-start/#).
+
 1. [Download](/docs/setup/kubernetes/quick-start/#download-and-prepare-for-the-installation)
    the latest Istio release.
 
