@@ -70,13 +70,13 @@ Below is our list of existing features and their current phases. This informatio
 |-------------------|-------------------
 | [Deny Checker](/docs/reference/config/policy-and-telemetry/adapters/denier/)         | Stable
 | [List Checker](/docs/reference/config/policy-and-telemetry/adapters/list/)        | Stable
-| [Kubernetes: Service Credential Distribution](/docs/concepts/security/mutual-tls/)   | Stable
+| [Kubernetes: Service Credential Distribution](/docs/concepts/security/#mutual-tls-authentication)   | Stable
 | [Pluggable Key/Cert Support for Istio CA](/docs/tasks/security/plugin-ca-cert/)        | Stable
-| [Service-to-service mutual TLS](/docs/concepts/security/mutual-tls/)         | Stable
-| [Authentication policy](/docs/concepts/security/authn-policy/)  | Alpha
-| [VM: Service Credential Distribution](/docs/concepts/security/mutual-tls/)         | Beta
+| [Service-to-service mutual TLS](/docs/concepts/security/#mutual-tls-authentication)         | Stable
+| [Authentication policy](/docs/concepts/security/#authentication-policy)  | Alpha
+| [VM: Service Credential Distribution](/docs/concepts/security/#key-management)         | Beta
 | [OPA Checker]({{< github_file >}}/mixer/adapter/opa/README.md)    | Alpha
-| [RBAC Mixer Adapter](/docs/concepts/security/rbac/)   | Alpha
+| [RBAC Mixer Adapter](/docs/concepts/security/#role-based-access-control-rbac)   | Alpha
 
 ### Core
 
@@ -92,7 +92,6 @@ Below is our list of existing features and their current phases. This informatio
 | [VM: Istio Control Plane Installation and Upgrade (Galley, Mixer, Pilot, CA)](https://github.com/istio/istio/issues/2083)  | Alpha
 | VM: Ansible Envoy Installation, Interception and Registration  | Alpha
 | [Pilot Integration into Consul](/docs/setup/consul/quick-start/) | Alpha
-| [Pilot Integration into Eureka](/docs/setup/consul/quick-start/) | Alpha
 | [Pilot Integration into Cloud Foundry Service Discovery](/docs/setup/consul/quick-start/)    | Alpha
 | [Basic Config Resource Validation](https://github.com/istio/istio/issues/1894) | Alpha
 | Mixer Telemetry Collection (Tracing, Logging, Monitoring) | Alpha
@@ -102,4 +101,4 @@ Below is our list of existing features and their current phases. This informatio
 | [Multicluster Mesh](/docs/setup/kubernetes/multicluster-install/) | Alpha
 
 > {{< idea_icon >}}
-Please get in touch by joining our [community](/community/) if there are features you'd like to see in our future releases!
+Please get in touch by joining our [community](/about/community/) if there are features you'd like to see in our future releases!

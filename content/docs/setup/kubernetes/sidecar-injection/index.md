@@ -115,7 +115,7 @@ use [Helm](/docs/setup/kubernetes/helm-install/) to generate an updated istio.ya
 with the option `sidecarInjectorWebhook.enabled` set to `false`. E.g.
 
 {{< text bash >}}
-$ helm template --namespace=istio-system --set sidecarInjectorWebhook.enabled=false @install/kubernetes/helm/istio@ > istio.yaml
+$ helm template --namespace=istio-system --set sidecarInjectorWebhook.enabled=false install/kubernetes/helm/istio > istio.yaml
 $ kubectl create ns istio-system
 $ kubectl apply -n istio-system -f istio.yaml
 {{< /text >}}
@@ -291,7 +291,7 @@ containers:
   - sleep
 {{< /text >}}
 
-when applied over a pod defined by the pod template spec in `@samples/sleep/sleep.yaml@`
+when applied over a pod defined by the pod template spec in [`samples/sleep/sleep.yaml`]({{< github_tree >}}/samples/sleep/sleep.yaml)
 
 #### Uninstalling the automatic sidecar injector
 

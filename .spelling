@@ -364,6 +364,7 @@ kube-inject
 kube-proxy
 kube-public
 kube-system
+kubeconfig
 kubectl
 kubelet
 kubernetes
@@ -398,6 +399,7 @@ mutatingwebhookconfiguration
 mutual-tls
 my-svc
 my-svc-234443-5sffe
+myapp
 mysql
 mysqldb
 namespace

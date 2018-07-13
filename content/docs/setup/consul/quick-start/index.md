@@ -47,7 +47,7 @@ For example, run the following command on a macOS or Linux system:
 1.  Bring up the Istio control plane containers:
 
     {{< text bash >}}
-    $ docker-compose -f @install/consul/istio.yaml@ up -d
+    $ docker-compose -f install/consul/istio.yaml up -d
     {{< /text >}}
 
 1.  Confirm that all docker containers are running:
@@ -86,5 +86,5 @@ $ docker-compose -f <your-app-spec>.yaml up -d
 Uninstall Istio core components by removing the docker containers:
 
 {{< text bash >}}
-$ docker-compose -f @install/consul/istio.yaml@ down
+$ docker-compose -f install/consul/istio.yaml down
 {{< /text >}}
