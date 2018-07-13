@@ -124,16 +124,6 @@ number_of_entries: 5
 <td>DNS domain suffix  (default `cluster.local`)</td>
 </tr>
 <tr>
-<td><code>--eurekaserverInterval &lt;duration&gt;</code></td>
-<td></td>
-<td>Interval (in seconds) for polling the Eureka service registry  (default `2s`)</td>
-</tr>
-<tr>
-<td><code>--eurekaserverURL &lt;string&gt;</code></td>
-<td></td>
-<td>URL for the Eureka server  (default ``)</td>
-</tr>
-<tr>
 <td><code>--grpcAddr &lt;string&gt;</code></td>
 <td></td>
 <td>Discovery service grpc address  (default `:15010`)</td>
@@ -211,7 +201,7 @@ number_of_entries: 5
 <tr>
 <td><code>--plugins &lt;stringSlice&gt;</code></td>
 <td></td>
-<td>comma separated list of networking plugins to enable  (default `[authn,authz,envoyfilter,health,mixer]`)</td>
+<td>comma separated list of networking plugins to enable  (default `[authn,authz,health,mixer,envoyfilter]`)</td>
 </tr>
 <tr>
 <td><code>--profile</code></td>
@@ -221,7 +211,7 @@ number_of_entries: 5
 <tr>
 <td><code>--registries &lt;stringSlice&gt;</code></td>
 <td></td>
-<td>Comma separated list of platform service registries to read from (choose one or more from {Kubernetes, Consul, Eureka, CloudFoundry, Mock, Config})  (default `[Kubernetes]`)</td>
+<td>Comma separated list of platform service registries to read from (choose one or more from {Kubernetes, Consul, CloudFoundry, Mock, Config})  (default `[Kubernetes]`)</td>
 </tr>
 <tr>
 <td><code>--resync &lt;duration&gt;</code></td>

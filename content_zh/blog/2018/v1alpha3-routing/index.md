@@ -12,7 +12,7 @@ keywords: [traffic-management]
 
 虽然目前 API 的功能已被证明是 Istio 非常引人注目的一部分，但用户的反馈也表明，这个 API 确实有一些缺点，尤其是在使用它来管理包含数千个服务的非常大的应用程序，以及使用 HTTP 以外的协议时。 此外，使用 Kubernetes Ingress 资源来配置外部流量的方式已被证明不能满足需求。
 
-为了解决上述缺陷和其他的一些问题，Istio 引入了新的流量管理 API v1alpha3，新版本的 API 将完全取代之前的 API。 尽管 v1alpha3 和之前的模型在本质上是基本相同的，但它并不向后兼容的，基于旧API的模型需要进行手动转换。 Istio 接下来的几个版本中提供一个[转换工具](/docs/reference/commands/istioctl/#istioctl-experimental-convert-networking-config)来协助新旧模型的升级。
+为了解决上述缺陷和其他的一些问题，Istio 引入了新的流量管理 API v1alpha3，新版本的 API 将完全取代之前的 API。 尽管 v1alpha3 和之前的模型在本质上是基本相同的，但它并不向后兼容的，基于旧API的模型需要进行手动转换。
 
 为了证明该非兼容升级的必要性，v1alpha3 API 经历了漫长而艰苦的社区评估过程，以希望新的API能够大幅改进，并经得起时间考验。 在本文中，我们将介绍新的配置模型，并试图解释影响这次变化的一些动机和设计原则。
 
