@@ -9,7 +9,7 @@ weight: 10
 
 Istio 基于角色的访问控制（RBAC）为 Istio 网格中的服务提供命名空间级、服务级、方法级访问控制。它的特点:
 
-* 基于角色的语义，它简单易用。
+* 基于角色的语义，简单易用。
 * 服务到服务以及用户端到服务的授权。
 * 在角色和角色绑定中可以通过自定义属性保证灵活性。
 
@@ -20,7 +20,7 @@ Istio 基于角色的访问控制（RBAC）为 Istio 网格中的服务提供命
 {{< image width="80%" ratio="56.25%"
     link="/docs/concepts/security/IstioRBAC.svg"
     alt="Istio RBAC"
-    caption="Istio RBAC Architecture"
+    caption="Istio 的 RBAC 架构"
     >}}
 
 Istio 的 RBAC 引擎做了下面两件事：
