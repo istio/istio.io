@@ -13,6 +13,12 @@ This task shows you how to gradually migrate traffic from one version of a
 microservice to another. For example, you might migrate traffic from an older
 version to a new version.
 
+A common use case is to migrate traffic gradually from one version of a microservice
+to another. In Istio, you accomplish this goal by configuring a sequence of rules
+that route a percentage of traffic to one service or another. In this task, you will send
+%50 of traffic to `reviews:v1` and %50 to `reviews:v3`. Then, you will
+complete the migration by sending %100 of traffic to `reviews:v3`.
+
 ## Before you begin
 
 * Setup Istio by following the instructions in the
@@ -21,14 +27,6 @@ version to a new version.
 * Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
 * Review the [Traffic Management](/docs/concepts/traffic-management) concepts doc.
-
-## About this task
-
-A common use case is to migrate traffic gradually from one version of a microservice
-to another. In Istio, you accomplish this goal by configuring a sequence of rules
-that route a percentage of traffic to one service or another. In this task, you will send
-%50 of traffic to `reviews:v1` and %50 to `reviews:v3`. Then, you will
-complete the migration by sending %100 of traffic to `reviews:v3`.
 
 ## Apply weight-based routing
 
