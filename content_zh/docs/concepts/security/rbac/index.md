@@ -1,6 +1,6 @@
 ---
-title: 安全
-description: 描述 Istio 的授权与认证功能。
+title: 基于角色的访问控制
+description: Istio 基于角色的访问控制（RBAC）为 Istio 网格中的服务提供命名空间级、服务级、方法级访问控制。
 keywords: [security,rbac]
 weight: 10
 ---
@@ -9,7 +9,7 @@ weight: 10
 
 Istio 基于角色的访问控制（RBAC）为 Istio 网格中的服务提供命名空间级、服务级、方法级访问控制。它的特点:
 
-* 基于角色的语义，它简单易用。
+* 基于角色的语义，简单易用。
 * 服务到服务以及用户端到服务的授权。
 * 在角色和角色绑定中可以通过自定义属性保证灵活性。
 
@@ -20,7 +20,7 @@ Istio 基于角色的访问控制（RBAC）为 Istio 网格中的服务提供命
 {{< image width="80%" ratio="56.25%"
     link="/docs/concepts/security/IstioRBAC.svg"
     alt="Istio RBAC"
-    caption="Istio RBAC Architecture"
+    caption="Istio 的 RBAC 架构"
     >}}
 
 Istio 的 RBAC 引擎做了下面两件事：
@@ -30,7 +30,7 @@ Istio 的 RBAC 引擎做了下面两件事：
 
 ### 请求上下文
 
-在当前版本中，Istio RBAC 引擎被实现为一个[Mixer 适配器](/docs/concepts/policies-and-telemetry/#适配器)。请求上下文则作为[授权模板](https://github.com/istio/istio/blob/master/mixer/template/authorization/template.proto)的实例。请求上下文包含请求和授权模块需要环境的所有信息。特别是两个部分：
+在当前版本中，Istio RBAC 引擎被实现为一个 [Mixer 适配器](/docs/concepts/policies-and-telemetry/#adapter)。请求上下文则作为[授权模板](https://github.com/istio/istio/blob/master/mixer/template/authorization/template.proto)的实例。请求上下文包含请求和授权模块需要环境的所有信息。特别是两个部分：
 
 * 主题 包含调用者标识的属性列表，包括`"user"` name/ID，主题属于`“group”`，或者关于主题的任意附加属性，比如命名空间、服务名称。
 
