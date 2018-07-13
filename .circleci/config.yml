@@ -15,7 +15,7 @@ jobs:
 
       - restore_cache:
           keys:
-          - htmlproofer-cache-v4
+          - htmlproofer-cache-v5
 
       - run:
           name: Running Linters
@@ -23,6 +23,6 @@ jobs:
 
       # save the external URLs cache
       - save_cache:
-          key: htmlproofer-cache-v4
+          key: htmlproofer-cache-v5
           paths:
             - .htmlproofer
