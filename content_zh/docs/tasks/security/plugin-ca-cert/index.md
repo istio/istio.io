@@ -125,5 +125,5 @@ keywords: [security,certificates]
 * 移除 Istio 组件:
 
     {{< text bash >}}
-    $ kubectl delete -f install/kubernetes/istio-auth.yaml
+    $ kubectl delete -f install/kubernetes/istio-demo-auth.yaml
     {{< /text >}}
