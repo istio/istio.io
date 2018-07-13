@@ -30,7 +30,7 @@ Istio 的 RBAC 引擎做了下面两件事：
 
 ### 请求上下文
 
-在当前版本中，Istio RBAC 引擎被实现为一个 [Mixer 适配器](/docs/concepts/policies-and-telemetry/#adapter)。请求上下文则作为[授权模板](https://github.com/istio/istio/blob/master/mixer/template/authorization/template.proto)的实例。请求上下文包含请求和授权模块需要环境的所有信息。特别是两个部分：
+在当前版本中，Istio RBAC 引擎被实现为一个 [Mixer 适配器](/docs/concepts/policies-and-telemetry/#adapters)。请求上下文则作为[授权模板](https://github.com/istio/istio/blob/master/mixer/template/authorization/template.proto)的实例。请求上下文包含请求和授权模块需要环境的所有信息。特别是两个部分：
 
 * 主题 包含调用者标识的属性列表，包括`"user"` name/ID，主题属于`“group”`，或者关于主题的任意附加属性，比如命名空间、服务名称。
 
