@@ -42,7 +42,7 @@ service.
 
 In this task, you configure Istio to rate limit traffic to the `ratings`
 service. Consider `ratings` as an external paid service like Rotten Tomatoes®
-with 1 qps free quota. Using Istio, you can ensure that 1 qps is not breached.
+with 1 qps free quota. Using Istio, you can ensure that 1 qps is not exceeded.
 
 For convenience, you configure the
 [memory quota](/docs/reference/config/policy-and-telemetry/adapters/memquota/)
@@ -127,7 +127,7 @@ so the configuration to enable rate limiting on both adapters is the same.
         destinationVersion: destination.labels["version"] | "unknown"
     {{< /text >}}
 
-    The `quota` template defines four `dimensions` that are used by `memquota`
+    The `quota` template defines four dimensions that are used by `memquota`
     to set overrides on requests that match certain attributes. The
     `destination` will be set to the first non-empty value in
     `destination.labels["app"]`, `destination.service`, or `"unknown"`. For more
