@@ -416,12 +416,12 @@ will use when the user chooses to download the file. For example:
 If you don't specify the `downloadas` attribute, then the download name is taken from the `url`
 attribute instead.
 
-## Renaming or moving pages
+## Renaming, moving, or deleting pages
 
-If you move pages around and would like to ensure existing links continue to work, you can add
-redirects to the site very easily.
+If you move pages around or delete them completely, you should make sure existing links users may have to those pages continue to work.
+You do this by adding aliases which will cause the user to be redirected automatically from the old URL to a new URL.
 
-In the page that is the target of the redirect (where you'd like users to land), you simply add the
+In the page that is the *target* of the redirect (where you'd like users to land), you simply add the
 following to the front-matter:
 
 {{< text plain >}}
