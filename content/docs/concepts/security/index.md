@@ -256,9 +256,9 @@ Each Envoy proxy runs an authorization engine that authorizes requests at runtim
 the authorization engine evaluates the request context against the current authorization policies, and returns the authorization
 result (ALLOW or DENY).
 
-### Enabling Istio Authorization
+### Enabling Istio authorization
 
-You enable Istio Authorization using a `RbacConfig` object. The `RbacConfig` object is a mesh global singleton with a fixed name
+You enable Istio authorization using a `RbacConfig` object. The `RbacConfig` object is a mesh global singleton with a fixed name
 “default”, at most one `RbacConfig` instance is allowed to be used in the mesh. Like other Istio configuration objects it is defined
 as a [Kubernetes CustomResourceDefinition (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) object.
 
@@ -281,7 +281,7 @@ spec:
   mode: ON_WITH_INCLUSION
   inclusion:
     namespaces: [“default”]
-{{< text yaml >}}
+{{< /text >}}
 
 ### Policy
 
@@ -340,8 +340,8 @@ spec:
     methods: ["GET", "HEAD"]
 {{< /text >}}
 
-In addition, we support prefix matching and suffix matching for all the fields in a rule. For example, you can define a “tester” role
-that has the following permissions in “default” namespace:
+In addition, you can use prefix and suffix matching for all fields in a rule. For example, you can define a “tester” role
+that has the following permissions in the “default” namespace:
 Full access to all services with prefix “test-” (e.g, “test-bookstore”, “test-performance”, “test-api.default.svc.cluster.local”).
 Read (“GET”) access to all paths with “/reviews” suffix (e.g, “/books/reviews”, “/events/booksale/reviews”, “/reviews”) in service
 “bookstore.default.svc.cluster.local”.
@@ -361,14 +361,14 @@ spec:
     methods: ["GET"]
 {{< /text >}}
 
-In a `ServiceRole`, the combination of “namespace”+“services”+“paths”+“methods” defines “how a service or services can be accessed”.
+In a `ServiceRole`, the combination of `namespace`+`services`+`paths`+`methods` defines “how a service or services can be accessed”.
 In some situations, you may need to specify additional conditions for your rules. For example, a rule may only apply to a certain
 version of a service, or only apply to services that are labeled “foo”. You can easily specify these conditions using constraints.
 
 For example, the following `ServiceRole` definition extends the previous “products-viewer” role by adding a constraint that
 `request.headers[version]` is either “v1” or “v2”. Note that the supported “key” of a constraint are listed in the
 [“constraints and properties”](/docs/reference/config/authorization/constraints-and-properties/) page.
-In the case that the attribute is a “map” (e.g., request.headers), the “key” is an entry in the map (e.g., request.headers[“version”]).
+In the case that the attribute is a “map” (e.g., `request.headers`), the “key” is an entry in the map (e.g., `request.headers[version]`).
 
 {{< text yaml >}}
 apiVersion: "config.istio.io/v1alpha2"
