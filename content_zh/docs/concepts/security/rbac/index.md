@@ -1,8 +1,8 @@
 ---
 title: 安全
 description: 描述 Istio 的授权与认证功能。
-weight: 30
-type: section-index
+keywords: [security,rbac]
+weight: 10
 ---
 
 ## 综述
@@ -30,7 +30,7 @@ Istio 的 RBAC 引擎做了下面两件事：
 
 ### 请求上下文
 
-在当前版本中，Istio RBAC 引擎被实现为一个[Mixer 适配器](/docs/concepts/policies-and-telemetry#adapters)。请求上下文则作为[授权模板](https://github.com/istio/istio/blob/master/mixer/template/authorization/template.proto)的实例。请求上下文包含请求和授权模块需要环境的所有信息。特别是两个部分：
+在当前版本中，Istio RBAC 引擎被实现为一个[Mixer 适配器](/docs/concepts/policies-and-telemetry/#适配器)。请求上下文则作为[授权模板](https://github.com/istio/istio/blob/master/mixer/template/authorization/template.proto)的实例。请求上下文包含请求和授权模块需要环境的所有信息。特别是两个部分：
 
 * 主题 包含调用者标识的属性列表，包括`"user"` name/ID，主题属于`“group”`，或者关于主题的任意附加属性，比如命名空间、服务名称。
 
@@ -155,8 +155,8 @@ spec:
 
 这里有一个 `ServiceRoleBinding` 资源 “test-binding-products” 的例子，它将两个主题绑定到 ServiceRole “product-viewer”：
 
-* 用户 "alice@yahoo.com".
-* "reviews.abc.svc.cluster.local" 服务在 "abc" 命名空间.
+* user "alice@yahoo.com".
+* "reviews.abc.svc.cluster.local" service in "abc" namespace.
 
 {{< text yaml >}}
 apiVersion: "config.istio.io/v1alpha2"
@@ -198,7 +198,7 @@ spec:
 * `"config_store_url"` 参数指定 RBAC 引擎在何处获取 RBAC 策略。`"config_store_url"` 默认是 `“k8s://”`，这意味着 Kubernetes 的 API 服务器。或者，如果您在本地测试 RBAC 策略，您可以将它设置为一个本地目录，例如`"fs:///tmp/testdata/configroot"`。
 * `"cache_duration"` 参数指定在混合器客户端上缓存授权结果的持续时间（例如，Istio  代理)。默认值 `“cache_duration”` 是1分钟。
 
-第二部分定义了一条规则，该规则指定 RBAC 处理程序应该用[前面的文档](/docs/concepts/security/index.md#request-context)定义的 “requestcontext” 实例来调用。
+第二部分定义了一条规则，该规则指定 RBAC 处理程序应该用[之前的文档](#请求上下文)定义的 “requestcontext” 实例来调用。
 
 在下面的例子中，Istio RBAC 启用了 “default” 命名空间。缓存的持续时间设置为30秒。
 
