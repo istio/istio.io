@@ -33,7 +33,7 @@ As illustrated in the diagram, Istio leverages secret volume mount to deliver ke
 VM/bare-metal machines, we introduce a node agent, which is a process running on each VM/bare-metal machine. It generates the private key and CSR (certificate
 signing request) locally, sends CSR to Citadel for signing, and delivers the generated certificate together with the private key to Envoy.
 
-## Mutual TLS Authentication
+## Mutual TLS authentication
 
 ### Identity
 
@@ -144,7 +144,7 @@ in [Istio Mixer](/docs/concepts/policies-and-telemetry/) such that photo-fronten
 In this setup, Citadel is able to provide keys and certificates management for all namespaces, and isolate
 microservice deployments from each other.
 
-## Authentication Policy
+## Authentication policy
 
 Istio authentication policy enables operators to specify authentication requirements for a service (or services). Istio authentication policy is composed of two parts:
 
