@@ -1,7 +1,7 @@
 ---
 title: Join Our Community
 description: Information on the various ways to participate and interact with the Istio community.
-weight: 2
+weight: 90
 keywords: [community]
 type: community
 aliases:
