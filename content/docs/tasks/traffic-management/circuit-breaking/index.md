@@ -233,8 +233,8 @@ one connection and request concurrently, you should see some failures when the
     requests succeeded and the rest were trapped by circuit breaking:
 
     {{< text plain >}}
-      Code 200 : 19 (63.3 %)
-      Code 503 : 11 (36.7 %)
+    Code 200 : 19 (63.3 %)
+    Code 503 : 11 (36.7 %)
     {{< /text >}}
 
 1. Query the `istio-proxy` stats to see more:
