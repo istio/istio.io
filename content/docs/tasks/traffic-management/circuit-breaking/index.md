@@ -10,6 +10,12 @@ keywords: [traffic-management,circuit-breaking]
 This task shows you how to configure circuit breaking for connections, requests,
 and outlier detection.
 
+Circuit breaking is an important pattern for creating resilient microservice
+applications. Circuit breaking allows you to write applications that limit the impact of failures, latency spikes, and other undesirable effects of network peculiarities.
+
+In this task, you will configure circuit breaking rules and then test the
+configuration by intentionally "tripping" the circuit breaker.
+
 ## Before you begin
 
 * Setup Istio by following the instructions in the
@@ -31,18 +37,7 @@ and outlier detection.
 
     The `httpbin` application serves as the backend service for this task.
 
-## About this task
-
-Circuit breaking is an important pattern for creating resilient microservice
-applications. Circuit breaking allows you to write applications that limit the impact of failures, latency spikes, and other undesirable effects of network peculiarities.
-
-In this task, you will configure circuit breaking rules and then test the
-configuration by intentionally "tripping" the circuit breaker.
-
 ## Configuring the circuit breaker
-
-Before continuing, be sure the `httpbin` service is running in your mesh, as
-explained previously.
 
 1.  Create a [destination rule](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule) to apply circuit breaking settings
 when calling the `httpbin` service:
@@ -103,7 +98,7 @@ Fortio lets you control the number of connections, concurrency, and
 delays for outgoing HTTP calls. You will use this client to "trip" the circuit breaker
 policies you set in the `DestinationRule`. 
 
-1. Inject the client with the istio sidecar proxy so network interactions are
+1. Inject the client with the Istio sidecar proxy so network interactions are
 governed by Istio:
 
     {{< text bash >}}
