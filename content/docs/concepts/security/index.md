@@ -241,7 +241,7 @@ service-level, and method-level access control for services in an Istio Mesh. It
 ### Architecture
 
 {{< image width="80%" ratio="56.25%"
-    link="./IstioAuthorization.svg"
+    link="./authz.svg"
     alt="Istio Authorization"
     caption="Istio Authorization Architecture"
     >}}
@@ -258,17 +258,18 @@ result (ALLOW or DENY).
 
 ### Enabling Istio Authorization
 
-You enable Istio Authorization using a “RbacConfig” object. The “RbacConfig” object is a mesh global singleton with a fixed name
-“default”, at most one “RbacConfig” instance is allowed to be used in the mesh. Like other Istio configuration objects it is defined
-as a Kubernetes CustomResourceDefinition (CRD) object.
+You enable Istio Authorization using a `RbacConfig` object. The `RbacConfig` object is a mesh global singleton with a fixed name
+“default”, at most one `RbacConfig` instance is allowed to be used in the mesh. Like other Istio configuration objects it is defined
+as a [Kubernetes CustomResourceDefinition (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) object.
 
-In “RbacConfig” object, the operator can specify “mode”, which can be one of the following:
-* **OFF**: Istio authorization is disabled.
-* **ON**: Istio authorization is enabled for all services in the mesh.
-* **ON_WITH_INCLUSION**: Istio authorization is enabled only for services and namespaces specified in “inclusion” field.
-* **ON_WITH_EXCLUSION**: Istio authorization is enabled for all services in the mesh except the services and namespaces specified in “exclusion” field.
+In `RbacConfig` object, the operator can specify “mode”, which can be one of the following:
 
-In the following example, Istio authorization is enabled for “default” namespace.
+* **`OFF`**: Istio authorization is disabled.
+* **`ON`**: Istio authorization is enabled for all services in the mesh.
+* **`ON_WITH_INCLUSION`**: Istio authorization is enabled only for services and namespaces specified in “inclusion” field.
+* **`ON_WITH_EXCLUSION`**: Istio authorization is enabled for all services in the mesh except the services and namespaces specified in “exclusion” field.
+
+In the following example, Istio authorization is enabled for the “default” namespace.
 
 {{< text yaml >}}
 apiVersion: “config.istio.io/v1alpha2”
@@ -284,30 +285,30 @@ spec:
 
 ### Policy
 
-To configure an Istio authorization policy, you specify a ServiceRole and ServiceRoleBinding. Again, like other Istio
+To configure an Istio authorization policy, you specify a `ServiceRole` and `ServiceRoleBinding`. Like other Istio
 configuration objects they are defined as
 [Kubernetes CustomResourceDefinition (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) objects.
 
-* **ServiceRole** defines a group of permissions to access services.
-* **ServiceRoleBinding** grants a ServiceRole to particular subjects, such as  a user, a group, or a service.
+* **`ServiceRole`** defines a group of permissions to access services.
+* **`ServiceRoleBinding`** grants a `ServiceRole` to particular subjects, such as  a user, a group, or a service.
 
-The combination of ServiceRole and ServiceRoleBinding specifies “**who** is allowed to do **what** under **which** conditions”. Specifically,
+The combination of `ServiceRole` and `ServiceRoleBinding` specifies “**who** is allowed to do **what** under **which** conditions”. Specifically,
 
-* "who" refers to “subjects” in ServiceRoleBinding.
-* "what” refers to “permissions” in ServiceRole.
-* “conditions” can be specified with [Istio attributes](https://istio.io/docs/reference/config/policy-and-telemetry/attribute-vocabulary/)
-in either ServiceRole or ServiceRoleBinding.
+* "who" refers to “subjects” in `ServiceRoleBinding`.
+* "what” refers to “permissions” in `ServiceRole`.
+* “conditions” can be specified with [Istio attributes](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/)
+in either `ServiceRole` or `ServiceRoleBinding`.
 
-#### ServiceRole
+#### `ServiceRole`
 
-A ServiceRole specification includes a list of rules (i.e., permissions). Each rule has the following standard fields:
+A `ServiceRole` specification includes a list of rules (i.e., permissions). Each rule has the following standard fields:
 
 * **services**: A list of service names. Can be set to “*” to include all services in the specified namespace.
 * **methods**: A list of HTTP method names. For permissions on gRPC requests, the HTTP verb is always “POST”. Can be set to “*” to include
 all HTTP methods.
 * **paths**: HTTP paths or gRPC methods. The gRPC methods should be in the form of “packageName.serviceName/methodName” (case sensitive).
 
-A ServiceRole specification only applies to the namespace specified in the "metadata" section. The “services” and “methods” are required
+A `ServiceRole` specification only applies to the namespace specified in the "metadata" section. The “services” and “methods” are required
 fields in a rule. “paths” is optional. If not specified or set to “*“, it applies to “any” instance.
 
 Here is an example of a simple role “service-admin”, which has full access to all services in the “default” namespace.
@@ -360,13 +361,13 @@ spec:
     methods: ["GET"]
 {{< /text >}}
 
-In a ServiceRole, the combination of “namespace”+“services”+“paths”+“methods” defines “how a service or services can be accessed”.
+In a `ServiceRole`, the combination of “namespace”+“services”+“paths”+“methods” defines “how a service or services can be accessed”.
 In some situations, you may need to specify additional conditions for your rules. For example, a rule may only apply to a certain
 version of a service, or only apply to services that are labeled “foo”. You can easily specify these conditions using constraints.
 
-For example, the following ServiceRole definition extends the previous “products-viewer” role by adding a constraint that
-`request.headers[“version”]` is either “v1” or “v2”. Note that the supported “key” of a constraint are listed in the
-[“constraints and properties”](https://preliminary.istio.io/docs/reference/config/authorization/constraints-and-properties/) page.
+For example, the following `ServiceRole` definition extends the previous “products-viewer” role by adding a constraint that
+`request.headers[version]` is either “v1” or “v2”. Note that the supported “key” of a constraint are listed in the
+[“constraints and properties”](/docs/reference/config/authorization/constraints-and-properties/) page.
 In the case that the attribute is a “map” (e.g., request.headers), the “key” is an entry in the map (e.g., request.headers[“version”]).
 
 {{< text yaml >}}
@@ -380,22 +381,24 @@ spec:
   - services: ["products.default.svc.cluster.local"]
     methods: ["GET", "HEAD"]
     constraints:
-    - key: request.headers[“version”]
+    - key: request.headers[version]
       values: ["v1", "v2"]
 {{< /text >}}
 
-#### ServiceRoleBinding
+#### `ServiceRoleBinding`
 
-A ServiceRoleBinding specification includes two parts:
-* **roleRef** refers to a ServiceRole resource in the same namespace.
+A `ServiceRoleBinding` specification includes two parts:
+
+* **roleRef** refers to a `ServiceRole` resource in the same namespace.
 * A list of **subjects** that are assigned to the role.
 
-A subject can be either an explicitly specified “user”, or represented by a set of “properties”.  A “property” in a ServiceRoleBinding
-“subject” is similar to “constraints” in a ServiceRole, in that it lets you use conditions to specify a set of accounts that should
+A subject can be either an explicitly specified “user”, or represented by a set of “properties”.  A “property” in a `ServiceRoleBinding`
+“subject” is similar to “constraints” in a `ServiceRole`, in that it lets you use conditions to specify a set of accounts that should
 be assigned to this role. It contains “key” and allowed “values”, where supported “key” are listed in the
-[“constraints and properties”](https://preliminary.istio.io/docs/reference/config/authorization/constraints-and-properties/) page.
+[“constraints and properties”](/docs/reference/config/authorization/constraints-and-properties/) page.
 
-Here is an example of ServiceRoleBinding “test-binding-products”, which binds two subjects to the ServiceRole “product-viewer”:
+Here is an example of `ServiceRoleBinding` “test-binding-products”, which binds two subjects to the `ServiceRole` “product-viewer”:
+
 * A service account representing service “a” (“service-account-a”).
 * A service account representing the Ingress service (“istio-ingress-service-account”) **and** where the JWT “email” claim is “a@foo.com”.
 
@@ -410,13 +413,13 @@ spec:
   - user: "service-account-a"
   - user: “istio-ingress-service-account”
     properties:
-    - request.auth.claims[“email”]: “a@foo.com”
+    - request.auth.claims[email]: “a@foo.com”
   roleRef:
     kind: ServiceRole
     name: "products-viewer"
 {{< /text >}}
 
-In the case that you want to make a service(s) publicly accessible, you set the subject to user: "*". This assigns the ServiceRole
+In the case that you want to make a service(s) publicly accessible, you set the subject to user: "*". This assigns the `ServiceRole`
 to all users and services.
 
 {{< text yaml >}}
