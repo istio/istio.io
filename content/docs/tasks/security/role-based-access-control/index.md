@@ -17,8 +17,8 @@ The tasks in this guide assume that you:
 * Understand [Istio authorization](/docs/concepts/security/#role-based-access-control-rbac) concepts.
 
 * Have set up Istio on Kubernetes **with authentication enabled** by following the instructions in the
-  [quick start](/docs/setup/kubernetes/quick-start/), Istio Authentication requires mutual TLS to work.
-  Authentication should be enabled in the [installation steps](/docs/setup/kubernetes/quick-start/#installation-steps).
+  [quick start](/docs/setup/kubernetes/quick-start/), this tutorial requires mutual TLS to work. Mutual TLS
+  authentication should be enabled in the [installation steps](/docs/setup/kubernetes/quick-start/#installation-steps).
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
