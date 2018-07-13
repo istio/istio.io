@@ -10,7 +10,7 @@ aliases:
 keywords: [traffic-management,egress,tcp]
 ---
 
-在我之前的博客文章[Consuming External Web Services](/blog/2018/egress-https/)中，我描述了如何通过 HTTPS 在网状 Istio 应用程序中使用外部服务, 在这篇文章中，我演示了通过 TCP 消费外部服务, 我使用[Istio Bookinfo示例应用程序](/docs/examples/bookinfo/)，这是将书籍评级数据保存在 MySQL 数据库中的版本, 我在集群外部署此数据库并配置 _ratings_ 服务以使用它, 我定义了[出口规则](/docs/reference/config/istio.routing.v1alpha1/#EdressRule)以允许网内应用程序访问外部数据库。
+在我之前的博客文章[Consuming External Web Services](/blog/2018/egress-https/)中，我描述了如何通过 HTTPS 在网状 Istio 应用程序中使用外部服务, 在这篇文章中，我演示了通过 TCP 消费外部服务, 我使用[Istio Bookinfo示例应用程序](/docs/examples/bookinfo/)，这是将书籍评级数据保存在 MySQL 数据库中的版本, 我在集群外部署此数据库并配置 _ratings_ 服务以使用它, 我定义了[出口规则](/docs/reference/config/istio.routing.v1alpha1/#EgressRule)以允许网内应用程序访问外部数据库。
 
 ## Bookinfo 示例应用程序与外部评级数据库
 
@@ -54,7 +54,7 @@ keywords: [traffic-management,egress,tcp]
 
     在这里，我应用[最小特权原则](https://en.wikipedia.org/wiki/Principle_of_least_privilege)。, 这意味着我不在Bookinfo应用程序中使用我的_admin_用户。, 相反，我使用最小权限为Bookinfo应用程序_bookinfo_创建了一个特殊用户。, 在这种情况下，_bookinfo_用户只对单个表具有“SELECT”特权。
 
-    在运行命令创建用户之后，我将通过检查最后一个命令的编号并运行`history -d <创建用户的命令编号>来清理我的bash历史记录。, 我不希望新用户的密码存储在bash历史记录中。, 如果我使用`mysql`，我也会删除`〜/ .mysql_history`文件中的最后一个命令。, 在[MySQL文档](https://dev.mysql.com/doc/refman/5.5/en/create-user.html）中阅读有关新创建用户的密码保护的更多信息。
+    在运行命令创建用户之后，我将通过检查最后一个命令的编号并运行`history -d <创建用户的命令编号>来清理我的bash历史记录。, 我不希望新用户的密码存储在bash历史记录中。, 如果我使用`mysql`，我也会删除`〜/ .mysql_history`文件中的最后一个命令。, 在[MySQL文档](https://dev.mysql.com/doc/refman/5.5/en/create-user.html)中阅读有关新创建用户的密码保护的更多信息。
 
 1. 我检查创建的评级，看看一切都按预期工作：
 
@@ -175,7 +175,7 @@ keywords: [traffic-management,egress,tcp]
 
 ### 访问网页
 
-在[确定入口IP和端口](/docs/examples/bookinfo/#infinition-the-ingress-ip-and-port)之后，让我们访问应用程序的网页。
+在[确定入口IP和端口](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)之后，让我们访问应用程序的网页。
 
 我们遇到了问题...在每次审核下方都会显示消息 _“Ratings service is currently unavailable”_  而不是评级星标。
 
@@ -213,7 +213,7 @@ $ istioctl create -f egress-rule-mysql.yaml
 Created config egress-rule/default/mysql at revision 1954425
 {{< /text >}}
 
-请注意，对于 TCP 出口规则，我们将 `tcp` 指定为规则端口的协议, 另请注意，我们使用外部服务的 IP 而不是其域名, 下面我将详细讨论 TCP [出口规则](#egress-rules-for-tcp-traffic), 现在，让我们验证我们添加的出口规则是否解决了问题, 让我们访问网页，看看明星是否回来了。
+请注意，对于 TCP 出口规则，我们将 `tcp` 指定为规则端口的协议, 另请注意，我们使用外部服务的 IP 而不是其域名, 下面我将详细讨论 TCP 出口规则, 现在，让我们验证我们添加的出口规则是否解决了问题, 让我们访问网页，看看明星是否回来了。
 
 有效！ 访问应用程序的网页会显示评级而不会出现错误：
 
@@ -244,7 +244,7 @@ Created config egress-rule/default/mysql at revision 1954425
 
 接下来让我们看看我们如何定义 TCP 流量的出口规则。
 
-## TCP 流量的出口规则
+## TCP 流量的出口规则 
 
 启用到特定端口的 TCP 流量的出口规则必须指定 “TCP” 作为端口的协议。, 此外，对于[MongoDB有线协议](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/)，协议可以指定为“MONGO”，而不是“TCP”。
 
@@ -254,11 +254,11 @@ Created config egress-rule/default/mysql at revision 1954425
 
 请注意，外部服务的所有 IP 并不总是已知。, 要通过 IP 启用 TCP 流量，而不是通过主机名启用流量，只需指定应用程序使用的 IP。
 
-另请注意，外部服务的 IP 并不总是静态的，例如在 [CDNs](https://en.wikipedia.org/wiki/Content_delivery_network) 的情况下, 有时 IP 在大多数情况下是静态的，但可以不时地更改，例如由于基础设施的变化, 在这些情况下，如果已知可能 IP 的范围，则应通过 CIDR 块指定范围（如果需要，甚至可以通过多个出口规则）, 如果不知道可能的IP的范围，则不能使用 TCP 的出口规则，并且[必须直接调用外部服务](/docs/tasks/traffic-management/egress/#calling-external-services-direct), 绕过 sidecar 代理。
+另请注意，外部服务的 IP 并不总是静态的，例如在 [CDNs](https://en.wikipedia.org/wiki/Content_delivery_network) 的情况下, 有时 IP 在大多数情况下是静态的，但可以不时地更改，例如由于基础设施的变化, 在这些情况下，如果已知可能 IP 的范围，则应通过 CIDR 块指定范围（如果需要，甚至可以通过多个出口规则）, 如果不知道可能的IP的范围，则不能使用 TCP 的出口规则，并且[必须直接调用外部服务](/docs/tasks/traffic-management/egress/#calling-external-services-directly), 绕过 sidecar 代理。
 
 ## 与网格扩展的关系
 
-请注意，本文中描述的场景与[集成虚拟机](/docs/examples/integrate-vms/)示例中描述的网格扩展场景不同, 在这种情况下，MySQL 实例在与 Istio 服务网格集成的外部（集群外）机器（裸机或VM）上运行 , MySQL 服务成为网格的一流公民，具有 Istio 的所有有益功能, 除此之外，服务可以通过本地集群域名寻址，例如通过`mysqldb.vm.svc.cluster.local`，并且可以通过[双向 TLS 身份验证](/docs/concepts/security/#mutual-tls-authentication)保护与它的通信, 无需创建出口规则来访问此服务; 但是，该服务必须在 Istio 注侧, 要启用此类集成，必须在计算机上安装 Istio 组件（_Envoy proxy_，_node-agent_，_istio-agent_），并且必须可以从中访问 Istio 控制平面（_Pilot_，_Mixer_，_CA_）, 有关详细信息，请参阅[Istio Mesh Expansion](/docs/setup/kubernetes/mesh-expansion/)说明。
+请注意，本文中描述的场景与[集成虚拟机](/docs/examples/integrating-vms/)示例中描述的网格扩展场景不同, 在这种情况下，MySQL 实例在与 Istio 服务网格集成的外部（集群外）机器（裸机或VM）上运行 , MySQL 服务成为网格的一流公民，具有 Istio 的所有有益功能, 除此之外，服务可以通过本地集群域名寻址，例如通过`mysqldb.vm.svc.cluster.local`，并且可以通过[双向 TLS 身份验证](/docs/concepts/security/#mutual-tls-authentication)保护与它的通信, 无需创建出口规则来访问此服务; 但是，该服务必须在 Istio 注侧, 要启用此类集成，必须在计算机上安装 Istio 组件（_Envoy proxy_，_node-agent_，_istio-agent_），并且必须可以从中访问 Istio 控制平面（_Pilot_，_Mixer_，_CA_）, 有关详细信息，请参阅[Istio Mesh Expansion](/docs/setup/kubernetes/mesh-expansion/)说明。
 
 在我们的示例中，MySQL 实例可以在任何计算机上运行，也可以由云提供商作为服务进行配置, 无需集成机器
 与 Istio , 无需从机器访问 Istio 控制平面, 在 MySQL 作为服务的情况下，MySQL 运行的机器可能无法访问并在其上安装所需的组件可能是不可能的, 在我们的例子中，MySQL 实例可以通过其全局域名进行寻址，如果消费应用程序希望使用该域名，这可能是有益的, 当在消费应用程序的部署配置中无法更改预期的域名时，这尤其重要。
@@ -283,7 +283,7 @@ Created config egress-rule/default/mysql at revision 1954425
 1. 删除路由规则：
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/platform/kube/route-rule-ratings-mysql.yaml@
+    $ istioctl delete -f @samples/bookinfo/networking/virtual-service-ratings-mysql.yaml@
     Deleted config: route-rule/default/ratings-test-v2-mysql
     Deleted config: route-rule/default/reviews-test-ratings-v2
     {{< /text >}}
