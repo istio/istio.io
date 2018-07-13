@@ -21,9 +21,7 @@ traffic has proven to be woefully insufficient for our needs.
 
 To address these, and other concerns, a new traffic management API, a.k.a. `v1alpha3`, is being introduced, which will
 completely replace the previous API going forward. Although the `v1alpha3` model is fundamentally the same, it is not
-backward compatible and will require manual conversion from the old API. A
-[conversion tool](/docs/reference/commands/istioctl/#istioctl-experimental-convert-networking-config)
-is included in the next few releases of Istio to help with the transition.
+backward compatible and will require manual conversion from the old API.
 
 To justify this disruption, the `v1alpha3` API has gone through a long and painstaking community
 review process that has hopefully resulted in a greatly improved API that will stand the test of time. In this article,
