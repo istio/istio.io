@@ -23,6 +23,10 @@ The following instructions require:
   > it completely before installing the newer version. Remember to uninstall
   > the Istio sidecar for all Istio enabled application pods too.
 
+## Platform setup
+
+This section describes the setup in different platforms.
+
 ### Setup Minikube
 
 1. To install Istio locally, install the latest version of
