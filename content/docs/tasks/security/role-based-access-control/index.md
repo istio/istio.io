@@ -38,6 +38,7 @@ microservices running under them.
 > If you are using a namespace other than `default`, use `istioctl -n namespace ...` to specify the namespace.
 
 Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage). You should see:
+
 * "Book Details" section in the lower left part of the page, including type, pages, publisher, etc.
 * "Book Reviews" section in the lower right part of the page.
 
@@ -144,6 +145,7 @@ $ istioctl delete -f @samples/bookinfo/platform/kube/istio-rbac-namespace.yaml@
 ## Service-level access control
 
 This task shows you how to set up service-level access control using Istio RBAC. Before you start, please make sure that:
+
 * You have [enabled Istio RBAC](#enabling-istio-rbac).
 * You have [removed namespace-level Istio RBAC policy](#cleanup-namespace-level-access-control).
 
