@@ -25,7 +25,7 @@ keywords: [security,authentication,authorization,rbac,access-control]
 
 ### 身份
 
-Istio 使用 [Kubernetes service accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) 来识别谁在运行服务：
+Istio 使用 [Kubernetes service account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) 来识别谁在运行服务：
 
 * Istio 中的 Service account 格式为 `spiffe://<domain>/ns/<namespace>/sa/<serviceaccount>`
   * _domain_ 目前是 _cluster.local_ ，我们将很快支持域的定制化。
@@ -69,13 +69,13 @@ Istio 从 0.2 版本开始支持运行于 Kubernetes、虚拟机以及物理机�
 
 ### 工作流
 
-这里主要讨论这安全工作流，Istio 安全工作流由部署和运行两阶段组成。Kubernetes 和虚拟机/裸机两种情况下的部署阶段是不一致的，因此我们需要分别讨论；然而一旦证书和密钥部署完成，运行阶段就是一致的了。
+这里主要讨论安全工作流，Istio 安全工作流由部署和运行两阶段组成。Kubernetes 和虚拟机/裸机两种情况下的部署阶段是不一致的，因此我们需要分别讨论；然而一旦证书和密钥部署完成，运行阶段就是一致的了。
 
 #### Kubernetes 的部署阶段
 
 1. Citadel 观察 Kubernetes API Server，为每个现有和新的 Service account 创建一个 [SPIFFE](https://spiffe.github.io/docs/svid) 密钥和证书对，并将其发送到 API Server。
 
-1. 当创建 Pod 时，API Server 会根据 Service account 使用 [Kubernetes secrets](https://kubernetes.io/docs/concepts/configuration/secret/) 来挂载密钥和证书对。
+1. 当创建 Pod 时，API Server 会根据 Service account 使用 [Kubernetes secret](https://kubernetes.io/docs/concepts/configuration/secret/) 来挂载密钥和证书对。
 
 1. [Pilot](/docs/concepts/traffic-management/pilot/) 使用适当的密钥和证书以及安全命名信息生成配置，该信息定义各个 Service account 的可运行服务，并将其传递给 Envoy。
 
@@ -141,7 +141,7 @@ Istio 对服务端进行配置，从而完成认证过程，然而他并不会�
 
 * **source.principal**: 认证方式。如果使用的不是点对点认证，这一属性为空。
 * **request.auth.principal**: 绑定的认证方式，可选的取值范围包括 USE_PEER 以及 USE_ORIGIN。
-* **request.auth.audiences**: JWT 中的受众（`aud`）声明 (使用 JWT 进行源认证)。
+* **request.auth.audiences**: JWT 中的受众（`aud`）声明（使用 JWT 进行源认证）。
 * **request.auth.presenter**: 和上一则类似，指的是 JWT 中的授权者（`azp`）。
 * **request.auth.claims**: 原 JWT 中的所有原始报文。
 
@@ -211,16 +211,16 @@ Istio 基于角色的访问控制（RBAC）为 Istio 网格中的服务提供命
 
 Istio 的 RBAC 引擎做了下面两件事：
 
-* **获取 RBAC 策略：** Istio RBAC 引擎关注 RBAC 策略的变化。如果它看到任何更改，将会获取更新后的 RBAC 策略。
-* **授权请求：** 在运行时，当一个请求到来时，请求上下文会被传递给 Istio RBAC 引擎。RBAC 引擎根据传递的内容对环境进行评估，并返回授权结果（允许或拒绝）。
+* **获取 RBAC 策略**：Istio RBAC 引擎关注 RBAC 策略的变化。如果它看到任何更改，将会获取更新后的 RBAC 策略。
+* **授权请求**：在运行时，当一个请求到来时，请求上下文会被传递给 Istio RBAC 引擎。RBAC 引擎根据传递的内容对环境进行评估，并返回授权结果（允许或拒绝）。
 
 ### 请求上下文
 
 在当前版本中，Istio RBAC 引擎被实现为一个 [Mixer 适配器](/docs/concepts/policies-and-telemetry/#adapters)。请求上下文则作为[授权模板](/docs/reference/config/policy-and-telemetry/templates/authorization/)的实例。请求上下文中包含了认证模块所需的请求和环境的所有信息。特别是其中的两个部分：
 
-* **subject：**包含调用者标识的属性列表，包括`"user"`（名称/ID），`“group”`（主体所属的组），或者关于主体的任意附加属性，比如命名空间、服务名称。
+* **subject**：包含调用者标识的属性列表，包括`"user"`（名称/ID），`“group”`（主体所属的组），或者关于主体的任意附加属性，比如命名空间、服务名称。
 
-* **action：**指定访问服务的方法。它包括`“命名空间”`、`“服务”`、`“路径”`、`“方法”`，以及该操作的任何附加属性。
+* **action**：指定访问服务的方法。它包括`“命名空间”`、`“服务”`、`“路径”`、`“方法”`，以及该操作的任何附加属性。
 
 下面我们展示一个请求上下文的例子。
 
@@ -294,7 +294,7 @@ spec:
 此外，规则中所有字段都支持**前缀匹配**和**后缀匹配**。例如可以定义一个 `tester` 角色，该角色在 `default` 命名空间中具有下列权限：
 
 * 对所有前缀为 `test-` 的服务的完全访问（例如：`test-bookstore`、`test-performance`、以及`test-api.default.svc.cluster.local`）。
-* 对所有 `/reviews` 后缀的所有路径的读取（"GET"）访问（例如服务 `bookstore.default.svc.cluster.local` 中的：`/books/reviews`, `/events/booksale/reviews`, `/reviews`）。
+* 对所有 `/reviews` 后缀的所有路径的读取（"GET"）访问（例如服务 `bookstore.default.svc.cluster.local` 中的：`/books/reviews`、`/events/booksale/reviews` 以及 `/reviews`）。
 
 {{< text yaml >}}
 apiVersion: "config.istio.io/v1alpha2"
