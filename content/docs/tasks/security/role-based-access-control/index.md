@@ -6,7 +6,7 @@ keywords: [security,access-control,rbac]
 ---
 
 This task shows how to set up role-based access control (RBAC) for services in Istio mesh. You can read more about Istio
-RBAC from [Istio RBAC concept page](/docs/concepts/security/rbac/).
+RBAC from [Istio RBAC concept page](/docs/concepts/security/#role-based-access-control-rbac).
 
 ## Before you begin
 
@@ -16,12 +16,6 @@ RBAC from [Istio RBAC concept page](/docs/concepts/security/rbac/).
   [installation steps](/docs/setup/kubernetes/quick-start/#installation-steps).
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
-
-> The current Istio release may not have the up-to-date Istio RBAC samples. So before you continue, you
-need to copy these [configuration files]({{< github_tree >}}/samples/bookinfo/kube) to
-`samples/bookinfo/kube` directory under where you installed Istio, and replace the original ones. The files include
-`bookinfo-add-serviceaccount.yaml`, `istio-rbac-enable.yaml`, `istio-rbac-namespace.yaml`, `istio-rbac-productpage.yaml`,
-`istio-rbac-details-reviews.yaml`, `istio-rbac-ratings.yaml`.
 
 *   In this task, we will enable access control based on Service Accounts, which are cryptographically authenticated in the Istio mesh.
 In order to give different microservices different access privileges, we will create some service accounts and redeploy Bookinfo
@@ -33,7 +27,7 @@ microservices running under them.
     with the service account.
 
     {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/kube/bookinfo-add-serviceaccount.yaml@)
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-add-serviceaccount.yaml@)
     serviceaccount "bookinfo-productpage" created
     deployment "productpage-v1" configured
     serviceaccount "bookinfo-reviews" created
@@ -44,6 +38,7 @@ microservices running under them.
 > If you are using a namespace other than `default`, use `istioctl -n namespace ...` to specify the namespace.
 
 Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage). You should see:
+
 * "Book Details" section in the lower left part of the page, including type, pages, publisher, etc.
 * "Book Reviews" section in the lower right part of the page.
 
@@ -51,12 +46,12 @@ Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpag
 
 Run the following command to enable Istio RBAC for "default" namespace.
 
-> If you are using a namespace other than `default`, edit the file `samples/bookinfo/kube/istio-rbac-enable.yaml`,
+> If you are using a namespace other than `default`, edit the file `samples/bookinfo/platform/kube/istio-rbac-enable.yaml`,
 and specify the namespace, say `"your-namespace"`, in the `match` statement in `rule` spec
 `"match: destination.namespace == "your-namespace"`.
 
 {{< text bash >}}
-$ istioctl create -f @samples/bookinfo/kube/istio-rbac-enable.yaml@
+$ istioctl create -f @samples/bookinfo/platform/kube/istio-rbac-enable.yaml@
 {{< /text >}}
 
 > If you have conflicting rules that you set in previous tasks, use `istioctl replace` instead of `istioctl create`.
@@ -84,7 +79,7 @@ is accessible by services in the same namespace (i.e., "default" namespace) and 
 Run the following command to create a namespace-level access control policy.
 
 {{< text bash >}}
-$ istioctl create -f @samples/bookinfo/kube/istio-rbac-namespace.yaml@
+$ istioctl create -f @samples/bookinfo/platform/kube/istio-rbac-namespace.yaml@
 {{< /text >}}
 
 The policy does the following:
@@ -144,12 +139,13 @@ with "Book Details" section in the lower left part and "Book Reviews" section in
 Remove the following configuration before you proceed to the next task:
 
 {{< text bash >}}
-$ istioctl delete -f @samples/bookinfo/kube/istio-rbac-namespace.yaml@
+$ istioctl delete -f @samples/bookinfo/platform/kube/istio-rbac-namespace.yaml@
 {{< /text >}}
 
 ## Service-level access control
 
 This task shows you how to set up service-level access control using Istio RBAC. Before you start, please make sure that:
+
 * You have [enabled Istio RBAC](#enabling-istio-rbac).
 * You have [removed namespace-level Istio RBAC policy](#cleanup-namespace-level-access-control).
 
@@ -164,7 +160,7 @@ In this step, we will create a policy that allows external requests to view `pro
 Run the following command:
 
 {{< text bash >}}
-$ istioctl create -f @samples/bookinfo/kube/istio-rbac-productpage.yaml@
+$ istioctl create -f @samples/bookinfo/platform/kube/istio-rbac-productpage.yaml@
 {{< /text >}}
 
 The policy does the following:
@@ -215,7 +211,7 @@ We will create a policy to allow "productpage" service to read "details" and "re
 Run the following command:
 
 {{< text bash >}}
-$ istioctl create -f @samples/bookinfo/kube/istio-rbac-details-reviews.yaml@
+$ istioctl create -f @samples/bookinfo/platform/kube/istio-rbac-details-reviews.yaml@
 {{< /text >}}
 
 The policy does the following:
@@ -268,7 +264,7 @@ We will create a policy to allow "reviews" service to read "ratings" service. No
 Run the following command to create a policy that allows "reviews" service to read "ratings" service.
 
 {{< text bash >}}
-$ istioctl create -f @samples/bookinfo/kube/istio-rbac-ratings.yaml@
+$ istioctl create -f @samples/bookinfo/platform/kube/istio-rbac-ratings.yaml@
 {{< /text >}}
 
 The policy does the following:
@@ -333,9 +329,9 @@ spec:
 *   Remove Istio RBAC policy configuration:
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/kube/istio-rbac-ratings.yaml@
-    $ istioctl delete -f @samples/bookinfo/kube/istio-rbac-details-reviews.yaml@
-    $ istioctl delete -f @samples/bookinfo/kube/istio-rbac-productpage.yaml@
+    $ istioctl delete -f @samples/bookinfo/platform/kube/istio-rbac-ratings.yaml@
+    $ istioctl delete -f @samples/bookinfo/platform/kube/istio-rbac-details-reviews.yaml@
+    $ istioctl delete -f @samples/bookinfo/platform/kube/istio-rbac-productpage.yaml@
     {{< /text >}}
 
     Alternatively, you can delete all `ServiceRole` and `ServiceRoleBinding` resources by running the following commands:
@@ -348,5 +344,5 @@ spec:
 *   Disable Istio RBAC:
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/kube/istio-rbac-enable.yaml@
+    $ istioctl delete -f @samples/bookinfo/platform/kube/istio-rbac-enable.yaml@
     {{< /text >}}

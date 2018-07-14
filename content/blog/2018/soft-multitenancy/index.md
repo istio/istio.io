@@ -198,8 +198,8 @@ the tenant administrator.
 
 ### Using `istioctl` in a multi-tenant environment
 
-When defining [route rules](/docs/reference/config/istio.routing.v1alpha1/#RouteRule)
-or [destination policies](/docs/reference/config/istio.routing.v1alpha1/#DestinationPolicy),
+When defining [route rules](https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/#RouteRule)
+or [destination policies](https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/#DestinationPolicy),
 it is necessary to ensure that the `istioctl` command is scoped to
 the namespace the Istio control plane is running in to ensure the resource is created
 in the proper namespace. Additionally, the rule itself must be scoped to the tenant's namespace

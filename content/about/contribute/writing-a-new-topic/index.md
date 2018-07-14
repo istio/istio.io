@@ -342,14 +342,14 @@ of @ symbols. These indicate the path should be rendered as a link to the file f
 
 {{< text markdown >}}
 {{</* text bash */>}}
-$ istioctl create -f @samples/bookinfo/kube/route-rule-reviews-v3.yaml@
+$ istioctl create -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 {{</* /text */>}}
 {{< /text >}}
 
 This will be rendered as:
 
 {{< text bash >}}
-$ istioctl create -f @samples/bookinfo/kube/route-rule-reviews-v3.yaml@
+$ istioctl create -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 {{< /text >}}
 
 ### Files and snippets
@@ -396,12 +396,12 @@ You can dynamically pull in an external file and display its content as a prefor
 config file or a test file. To do so, you use a statement such as:
 
 {{< text markdown >}}
-{{</* text_dynamic url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" */>}}
+{{</* text_dynamic url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" */>}}
 {{< /text >}}
 
 which produces the following result:
 
-{{< text_dynamic url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" >}}
+{{< text_dynamic url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" >}}
 
 If the file is from a different origin site, CORS should be enabled on that site. Note that the
 GitHub raw content site (raw.githubusercontent.com) may be used here.
@@ -410,18 +410,18 @@ You can specify an optional `downloadas` attribute to control the name that the 
 will use when the user chooses to download the file. For example:
 
 {{< text markdown >}}
-{{</* text_dynamic url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" downloadas="foo.yaml" */>}}
+{{</* text_dynamic url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" downloadas="foo.yaml" */>}}
 {{< /text >}}
 
 If you don't specify the `downloadas` attribute, then the download name is taken from the `url`
 attribute instead.
 
-## Renaming or moving pages
+## Renaming, moving, or deleting pages
 
-If you move pages around and would like to ensure existing links continue to work, you can add
-redirects to the site very easily.
+If you move pages around or delete them completely, you should make sure existing links users may have to those pages continue to work.
+You do this by adding aliases which will cause the user to be redirected automatically from the old URL to a new URL.
 
-In the page that is the target of the redirect (where you'd like users to land), you simply add the
+In the page that is the *target* of the redirect (where you'd like users to land), you simply add the
 following to the front-matter:
 
 {{< text plain >}}

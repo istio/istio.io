@@ -2,7 +2,7 @@
 title: istioctl
 description: Istio control interface
 generator: pkg-collateral-docs
-number_of_entries: 26
+number_of_entries: 25
 ---
 <p>
 Istio configuration command line utility.</p>
@@ -10,8 +10,6 @@ Istio configuration command line utility.</p>
 system.</p>
 <p>Available routing and traffic management configuration types:</p>
 <p>	[virtualservice gateway destinationrule serviceentry httpapispec httpapispecbinding quotaspec quotaspecbinding servicerole servicerolebinding policy]</p>
-<p>Legacy routing and traffic management configuration types:</p>
-<p>	[routerule egressrule destinationpolicy]</p>
 <p>See https://istio.io/docs/reference/ for an overview of Istio routing.</p>
 <p></p>
 <table class="command-flags">
@@ -720,102 +718,6 @@ istioctl delete virtualservice bookinfo
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-experimental-convert-networking-config">istioctl experimental convert-networking-config</h2>
-<p>Converts sets of v1alpha1 configs to v1alpha3 equivalents on a best effort basis. The output should be considered a starting point for your v1alpha3 configs and probably require some minor modification. Warnings will (hopefully) be generated where configs cannot be converted perfectly, or in certain edge cases. The input must be the set of configs that would be in place in an environment at a given time. This allows the command to attempt to create and merge output configs intelligently.Output configs are given the namespace and domain of the first input config so it is recommended that input configs be part of the same namespace and domain.</p>
-<pre class="language-bash"><code>istioctl experimental convert-networking-config [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--filenames &lt;stringSlice&gt;</code></td>
-<td><code>-f</code></td>
-<td>Input filenames  (default `[]`)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_as_json</code></td>
-<td></td>
-<td>Whether to format output as JSON or in plain console-friendly format </td>
-</tr>
-<tr>
-<td><code>--log_caller &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, rbac]  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, rbac] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate &lt;string&gt;</code></td>
-<td></td>
-<td>The path for the optional rotating log file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
-<td></td>
-<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
-<td></td>
-<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
-<td></td>
-<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
-</tr>
-<tr>
-<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, rbac] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
-</tr>
-<tr>
-<td><code>--log_target &lt;stringArray&gt;</code></td>
-<td></td>
-<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--output &lt;string&gt;</code></td>
-<td><code>-o</code></td>
-<td>Output filename  (default `-`)</td>
-</tr>
-<tr>
-<td><code>--platform &lt;string&gt;</code></td>
-<td><code>-p</code></td>
-<td>Istio host platform  (default `kube`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-experimental-convert-networking-config Examples">Examples</h3>
-<pre class="language-bash"><code>istioctl experimental convert-networking-config -f v1alpha1/default-route.yaml -f v1alpha1/header-delay.yaml
-</code></pre>
 <h2 id="istioctl-experimental-metrics">istioctl experimental metrics</h2>
 <p>
 Prints the metrics for the specified service(s) when running in Kubernetes.</p>
@@ -1350,7 +1252,7 @@ run kube-inject over a single file that contains multiple Service,
 ConfigMap, Deployment, etc. definitions for a complex application. Its
 best to do this when the resource is initially created.</p>
 <p>k8s.io/docs/concepts/workloads/pods/pod-overview/#pod-templates is
-updated for Job, DaemonSet, ReplicaSet, and Deployment YAML resource
+updated for Job, DaemonSet, ReplicaSet, Pod and Deployment YAML resource
 documents. Support for additional pod-based resource types can be
 added as necessary.</p>
 <p>The Istio project is continually evolving so the Istio sidecar
@@ -1777,7 +1679,7 @@ istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml --injectConf
 <tr>
 <td><code>--subset &lt;string&gt;</code></td>
 <td></td>
-<td>Filter clusters by substring of Subset field  (default ``)</td>
+<td>Filter clusters by subtring of Subset field  (default ``)</td>
 </tr>
 </tbody>
 </table>

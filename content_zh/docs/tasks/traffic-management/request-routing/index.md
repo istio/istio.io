@@ -27,13 +27,17 @@ keywords: [traffic-management,routing]
 1.  将所有微服务的默认版本设置为 v1。
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
+    $ istioctl create -f @samples/bookinfo/networking/destination-rule-all.yaml@
     {{< /text >}}
 
     如果您启用了 `mTLS` ，请运行以下代码
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/routing/route-rule-all-v1-mtls.yaml@
+    $ istioctl create -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
+    {{< /text >}}
+
+    {{< text bash >}}
+    $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
     > 在kubernetes中部署 Istio 时，您可以在上面及其它所有命令行中用 `kubectl` 代替 `istioctl`。 但请注意，目前 `kubectl` 不提供输入验证。
@@ -118,7 +122,7 @@ keywords: [traffic-management,routing]
     通过将来自 productpage 的流量路由到 `reviews:v2` 实例，为测试用户 “jason” 启用 ratings 服务。
 
     {{< text bash >}}
-    $ istioctl replace -f @samples/bookinfo/routing/route-rule-reviews-test-v2.yaml@
+    $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-test-v2.yaml@
     {{< /text >}}
 
     确认规则已创建：
@@ -166,13 +170,17 @@ keywords: [traffic-management,routing]
 * 删除应用程序路由规则。
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/routing/route-rule-all-v1.yaml@
+    $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
+    {{< /text >}}
+
+    {{< text bash >}}
+    $ istioctl delete -f @samples/bookinfo/networking/destination-rule-all.yaml@
     {{< /text >}}
 
     如果您启用了 `mTLS` ，请运行以下代码
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/routing/route-rule-all-v1-mtls.yaml@
+    $ istioctl delete -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
     {{< /text >}}
 
 * 如果您不打算探索任何后续任务，请参阅 [Bookinfo 清理](/docs/examples/bookinfo/#cleanup) 的说明关闭应用程序。
