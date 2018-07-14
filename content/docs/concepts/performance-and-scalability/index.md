@@ -92,7 +92,7 @@ The diagram below represents the different pods/containers of the application in
     link="https://ibmcloud-perf.istio.io/regpatrol/istio_regpatrol_readme_files/image004.png" alt="Acmeair microservices overview"
     >}}
 
-The following table shows the transactions that are driven by the Jmeter script during the regression test and the approximate distribution of the requests:
+The following table shows the transactions that are driven by the script during the regression test and the approximate distribution of the requests:
 
 {{< image width="100%" ratio="20%"
     link="https://ibmcloud-perf.istio.io/regpatrol/istio_regpatrol_readme_files/image006.png" alt="Acmeair request types and distribution"
