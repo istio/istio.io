@@ -78,7 +78,7 @@ still expect the end-to-end flow to continue without any errors.
             subset: v1
     {{< /text >}}
 
-    Allow several seconds to for the new rule to propagate to all pods.
+    Allow several seconds for the new rule to propagate to all pods.
 
 ## Testing the delay configuration
 
@@ -90,7 +90,7 @@ still expect the end-to-end flow to continue without any errors.
     7 seconds. However, there is a problem: the Reviews section displays an error
     message:
 
-     {{< text code >}}
+     {{< text plain >}}
      Error fetching product reviews!
      Sorry, product reviews are currently unavailable for this book.
      {{< /text >}}

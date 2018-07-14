@@ -143,12 +143,22 @@ will generate and collect automatically.
         deployment "mongodb-v1" configured
         {{< /text >}}
 
-    1.  Add routing rules to send traffic to `v2` of the `ratings` service:
+    1.  Create `ratings` and `reviews` virtual services:
 
         {{< text bash >}}
         $ istioctl create -f @samples/bookinfo/networking/virtual-service-ratings-db.yaml@
-        Created config route-rule//ratings-test-v2 at revision 7216403
-        Created config route-rule//reviews-test-ratings-v2 at revision 7216404
+        Created config virtual-service/default/reviews at revision 3003
+        Created config virtual-service/default/ratings at revision 3004
+        {{< /text >}}
+
+    1.  Add routing rules to send traffic to `v2` of the `ratings` service:
+
+        {{< text bash >}}
+        $ istioctl create -f @samples/bookinfo/networking/destination-rule-all.yaml@
+        destinationrule.networking.istio.io/productpage created
+        destinationrule.networking.istio.io/reviews created
+        destinationrule.networking.istio.io/ratings created
+        destinationrule.networking.istio.io/details created
         {{< /text >}}
 
 1.  Send traffic to the sample application.

@@ -147,7 +147,7 @@ metadata:
 
 ### 在多租户环境中使用 `istioctl`
 
-定义[路由规则](/docs/reference/config/istio.routing.v1alpha1/#RouteRule)或者[目标策略](/docs/reference/config/istio.routing.v1alpha1/#DestinationPolicy)时，要确认 `istioctl` 命令是针对专有的 Istio 控制面所在的命名空间运行的。另外规则自身的定义也要限制在租户的命名空间里，这样才能保证规则在租户自己的网格中生效。`-i` 选项用来在 Istio 控制面所属的命名空间中创建（get 和 describe 也一样）规则。`-n` 参数会限制规则的所在范围是租户的网格，取值就是租户应用所在的命名空间。如果 Yaml 文件中的资源已经指定了范围，`-n` 参数会被跳过。
+定义[路由规则](https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/#RouteRule)或者[目标策略](https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/#DestinationPolicy)时，要确认 `istioctl` 命令是针对专有的 Istio 控制面所在的命名空间运行的。另外规则自身的定义也要限制在租户的命名空间里，这样才能保证规则在租户自己的网格中生效。`-i` 选项用来在 Istio 控制面所属的命名空间中创建（get 和 describe 也一样）规则。`-n` 参数会限制规则的所在范围是租户的网格，取值就是租户应用所在的命名空间。如果 Yaml 文件中的资源已经指定了范围，`-n` 参数会被跳过。
 
 例如下面的命令会创建到 `istio-system1` 命名空间的路由规则：
 

@@ -23,7 +23,7 @@ Envoy 提供了一套开箱即用，**可选的**的故障恢复功能，对应�
 
 ## 微调
 
-Istio 的流量管理规则允许运维人员为每个服务/版本设置故障恢复的全局默认值。然而，服务的消费者也可以通过特殊的 HTTP 头提供的请求级别值覆盖[超时](/docs/reference/config/istio.routing.v1alpha1/#HTTPTimeout)和[重试](/docs/reference/config/istio.routing.v1alpha1/#HTTPRetry)的默认值。在 Envoy 代理的实现中，对应的 Header 分别是 `x-envoy-upstream-rq-timeout-ms` 和 `x-envoy-max-retries`。
+Istio 的流量管理规则允许运维人员为每个服务/版本设置故障恢复的全局默认值。然而，服务的消费者也可以通过特殊的 HTTP 头提供的请求级别值覆盖[超时](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute-timeout)和[重试](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute-retries)的默认值。在 Envoy 代理的实现中，对应的 Header 分别是 `x-envoy-upstream-rq-timeout-ms` 和 `x-envoy-max-retries`。
 
 ## FAQ
 

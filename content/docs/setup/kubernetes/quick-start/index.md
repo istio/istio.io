@@ -23,6 +23,10 @@ The following instructions require:
   > it completely before installing the newer version. Remember to uninstall
   > the Istio sidecar for all Istio enabled application pods too.
 
+## Platform setup
+
+This section describes the setup in different platforms.
+
 ### Setup Minikube
 
 1. To install Istio locally, install the latest version of
@@ -30,7 +34,7 @@ The following instructions require:
    later**.
 
 1. Select a
-   [VM driver](https://kubernetes.io/docs/tasks/tools/install-minikube/#install-a-hypervisor)
+   [VM driver](https://kubernetes.io/docs/setup/minikube/#quickstart)
    and substitute `your_vm_driver_choice` below with the installed virtual
    machine (VM) driver.
 
