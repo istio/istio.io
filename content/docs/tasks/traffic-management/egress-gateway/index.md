@@ -611,11 +611,17 @@ The output should be the same as in the previous section.
     ...
     {{< /text >}}
 
-1.  Check the log of the _istio-egressgateway_ pod and see a line corresponding to our request. If Istio is deployed in the `istio-system` namespace, the command to print the log is:
+1.  Check the statistics of the egress gateway's proxy and see a counter that corresponds to our
+    requests to _edition.cnn.com_. If Istio is deployed in the `istio-system` namespace, the command to print the
+    counter is:
 
     {{< text bash >}}
-    $ kubectl logs $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') egressgateway -n istio-system | tail
+    $ kubectl exec -it $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -c egressgateway -n istio-system -- curl -s localhost:15000/stats | grep edition.cnn.com.upstream_cx_total
+    cluster.outbound|443||edition.cnn.com.upstream_cx_total: 1
     {{< /text >}}
+
+    You may want to perform a couple of additional requests and verify that the counter above grows by 1 with each
+    request.
 
 ### Cleanup of the egress gateway for HTTPS traffic
 
