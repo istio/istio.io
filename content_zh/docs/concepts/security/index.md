@@ -28,12 +28,12 @@ keywords: [security,authentication,authorization,rbac,access-control]
 Istio 使用 [Kubernetes service account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) 来识别谁在运行服务：
 
 * Istio 中的 Service account 格式为 `spiffe://<domain>/ns/<namespace>/sa/<serviceaccount>`
-  * _domain_ 目前是 _cluster.local_ ，我们将很快支持域的定制化。
-  * _namespace_ 是 Kubernetes service account 所在的命名空间。
-  * _serviceaccount_ 是 Kubernetes service account 的名称。
+    * _domain_ 目前是 _cluster.local_ ，我们将很快支持域的定制化。
+    * _namespace_ 是 Kubernetes service account 所在的命名空间。
+    * _serviceaccount_ 是 Kubernetes service account 的名称。
 
 * Service account 是**工作负载运行的身份（或角色）**，表示该工作负载的权限。对于需要强大安全性的系统，工作负载的权限不应由随机字符串（如服务名称，标签等）或部署的二进制文件来标识。
-  * 例如，假设有一个从多租户数据库中提取数据的工作负载。Alice 和 Bob 都能运行这个工作负载，从中获取数据，但是两个用户最终得到的数据是不同的。
+    * 例如，假设有一个从多租户数据库中提取数据的工作负载。Alice 和 Bob 都能运行这个工作负载，从中获取数据，但是两个用户最终得到的数据是不同的。
 
 * Service account 能够灵活的识别机器、用户、工作负载或一组工作负载（不同的工作负载可以使用同一 Service account 运行），从而实现强大的安全策略。
 
@@ -139,13 +139,13 @@ Istio 对服务端进行配置，从而完成认证过程，然而他并不会�
 
 认证功能是使用 Istio sidecar 实现的。例如在使用 Envoy sidecar 的情况下，就会落地为一组 SSL 设置和 HTTP filter。如果验证失败，请求就会被拒绝（可能是 SSL 握手失败的错误码、或者 http 401，依赖具体实现机制）。如果验证成功，会生成下列的认证相关属性：
 
-* **source.principal**: 认证方式。如果使用的不是点对点认证，这一属性为空。
-* **request.auth.principal**: 绑定的认证方式，可选的取值范围包括 USE_PEER 以及 USE_ORIGIN。
-* **request.auth.audiences**: JWT 中的受众（`aud`）声明（使用 JWT 进行源认证）。
-* **request.auth.presenter**: 和上一则类似，指的是 JWT 中的授权者（`azp`）。
-* **request.auth.claims**: 原 JWT 中的所有原始报文。
+* `source.principal`: 认证方式。如果使用的不是点对点认证，这一属性为空。
+* `request.auth.principal`: 绑定的认证方式，可选的取值范围包括 `USE_PEER` 以及 `USE_ORIGIN`。
+* `request.auth.audiences`: JWT 中的受众（`aud`）声明（使用 JWT 进行源认证）。
+* `request.auth.presenter`: 和上一则类似，指的是 JWT 中的授权者（`azp`）。
+* `request.auth.claims`: 原 JWT 中的所有原始报文。
 
-来自认证源的 Principle 不会显式的输出。通常可以通过把 `iss` 和 `sub` 使用 `/` 进行拼接而来（例如 `iss` 和 `sub` 分别是 "*googleapis.com*" 和 "*123456*"，那么源 Principal 就是 "*googleapis.com/123456*"）。另外如果 Principal 设置为 USE_ORIGIN，**request.auth.principal** 的值是和源 Principal 一致的。
+来自认证源的 Principle 不会显式的输出。通常可以通过把 `iss` 和 `sub` 使用 `/` 进行拼接而来（例如 `iss` 和 `sub` 分别是 "*googleapis.com*" 和 "*123456*"，那么源 Principal 就是 "*googleapis.com/123456*"）。另外如果 Principal 设置为 USE_ORIGIN，`request.auth.principal` 的值是和源 Principal 一致的。
 
 ### 策略剖析
 

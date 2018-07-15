@@ -15,7 +15,7 @@ which only handles intra-cluster destinations.
 
 This task describes how to configure Istio to expose external services to Istio-enabled clients.
 You'll learn how to enable access to external services by defining
-[ServiceEntry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) configurations,
+[`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) configurations,
 or alternatively, to bypass the Istio proxy for a specific range of IPs.
 
 ## Before you begin

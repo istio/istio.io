@@ -75,9 +75,9 @@ resources.
     caption="Relationship between different v1alpha3 elements"
     >}}
 
-### Gateway
+### `Gateway`
 
-A [Gateway](/docs/reference/config/istio.networking.v1alpha3/#Gateway)
+A [`Gateway`](/docs/reference/config/istio.networking.v1alpha3/#Gateway)
 configures a load balancer for HTTP/TCP traffic, regardless of
 where it will be running.  Any number of gateways can exist within the mesh
 and multiple different gateway implementations can co-exist. In fact, a
@@ -148,7 +148,7 @@ The `Gateway` can be used to model an edge-proxy or a purely internal proxy
 as shown in the first figure. Irrespective of the location, all gateways
 can be configured and controlled in the same way.
 
-### VirtualService
+### `VirtualService`
 
 Replacing route rules with something called “virtual services” might seem peculiar at first, but in reality it’s
 fundamentally a much better name for what is being configured, especially after redesigning the API to address the
@@ -157,7 +157,7 @@ scalability issues with the previous model.
 In effect, what has changed is that instead of configuring routing using a set of individual configuration resources
 (rules) for a particular destination service, each containing a precedence field to control the order of evaluation, we
 now configure the (virtual) destination itself, with all of its rules in an ordered list within a corresponding
-[VirtualService](/docs/reference/config/istio.networking.v1alpha3/#VirtualService) resource.
+[`VirtualService`](/docs/reference/config/istio.networking.v1alpha3/#VirtualService) resource.
 For example, where previously we had two `RouteRule` resources for the
 [Bookinfo](/docs/examples/bookinfo/) application’s `reviews` service, like this:
 
@@ -273,9 +273,9 @@ In addition to this fundamental restructuring, `VirtualService` includes several
    For example, in Kubernetes, to apply the same rewrite rule for all services in the `foo` namespace, the `VirtualService`
    would use `*.foo.svc.cluster.local` as the host.
 
-### DestinationRule
+### `DestinationRule`
 
-A [DestinationRule](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule)
+A [`DestinationRule`](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule)
 configures the set of policies to be applied while forwarding traffic to a service. They are
 intended to be authored by service owners, describing the circuit breakers, load balancer settings, TLS settings, etc..
 `DestinationRule` is more or less the same as its predecessor, `DestinationPolicy`, with the following exceptions:
@@ -317,9 +317,9 @@ spec:
 Notice that, unlike `DestinationPolicy`, multiple policies (e.g., default and v2-specific) are specified in a single
 `DestinationRule` configuration.
 
-### ServiceEntry
+### `ServiceEntry`
 
-[ServiceEntry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry)
+[`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry)
 is used to add additional entries into the service registry that Istio maintains internally.
 It is most commonly used to allow one to model traffic to external dependencies of the mesh
 such as APIs consumed from the web or traffic to services in legacy infrastructure.

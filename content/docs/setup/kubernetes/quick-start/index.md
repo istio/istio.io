@@ -344,7 +344,7 @@ Choose this option for:
 * Applications that use
   [liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/),
 * Headless services, or
-* StatefulSets.
+* `StatefulSets`
 
 To install Istio without mutual TLS authentication between sidecars:
 

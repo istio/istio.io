@@ -9,7 +9,7 @@ Quick Start instructions to install and configure Istio in a Docker Compose setu
 
 ## Prerequisites
 
-* [Docker](https://docs.docker.com/engine/installation/#cloud)
+* [Docker](https://docs.docker.com/engine/installation/)
 * [Docker Compose](https://docs.docker.com/compose/install/)
 
 ## Installation steps
