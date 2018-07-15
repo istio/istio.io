@@ -215,10 +215,9 @@ metadata:
 spec:
   match: destination.service == "service1.ns.svc.cluster.local" && request.headers["x-user"] == "user1"
   actions:
-
 - handler: handler.prometheus
   instances:
   - requestduration.metric.istio-system
-    {{< /text >}}
+{{< /text >}}
 
 规则中包含有一个 `match` 元素，用于前置检查，如果检查通过则会执行动作列表。动作中包含了一个实例列表，这个列表将会分发给 Handler。规则必须使用 Handler 和实例的完全限定名。如果规则、Handler 以及实例全都在同一个命名空间，命名空间后缀就可以在 FQDN 中省略，例如 `handler.prometheus`。

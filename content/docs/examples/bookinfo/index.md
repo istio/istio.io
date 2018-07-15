@@ -1,5 +1,5 @@
 ---
-title: Bookinfo Sample Application
+title: Bookinfo Application
 description: Deploys a sample application composed of four separate microservices used to demonstrate various Istio features.
 weight: 10
 aliases:
@@ -7,18 +7,8 @@ aliases:
     - /docs/guides/bookinfo/index.html
 ---
 
-> Note: This example assumes you will be using the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/).
-The old API has been deprecated and will be removed in the next Istio release.
-If you need to use the old version, you can follow the old instructions [here](https://archive.istio.io/v0.6/docs/guides/bookinfo.html),
-but note that on Kubernetes you will need to run an additional command (`kubectl apply -f samples/bookinfo/platform/kube/bookinfo-gateway.yaml`)
-to define the Ingress, which previously was included in `bookinfo.yaml`.
-
 This example deploys a sample application composed of four separate microservices used
-to demonstrate various Istio features.
-
-## Overview
-
-In this example we will deploy a simple application that displays information about a
+to demonstrate various Istio features. The application displays information about a
 book, similar to a single catalog entry of an online book store. Displayed
 on the page is a description of the book, book details (ISBN, number of
 pages, and so on), and a few book reviews.
@@ -169,7 +159,7 @@ To start the application, follow the instructions below corresponding to your Is
 
     > If the Istio Pilot container terminates, re-run the command from the previous step.
 
-1.  Set GATEWAY_URL:
+1.  Set `GATEWAY_URL`:
 
     {{< text bash >}}
     $ export GATEWAY_URL=localhost:9081
@@ -191,7 +181,7 @@ stars, black stars, no stars), since we haven't yet used Istio to control the
 version routing.
 
 You can now use this sample to experiment with Istio's features for
-traffic routing, fault injection, rate limiting, etc..
+traffic routing, fault injection, rate limiting, etc.
 To proceed, refer to one or more of the [Istio Examples](/docs/examples),
 depending on your interest. [Intelligent Routing](/docs/examples/intelligent-routing/)
 is a good place to start for beginners.

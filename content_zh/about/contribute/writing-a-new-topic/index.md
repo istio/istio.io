@@ -310,7 +310,7 @@ Markdown 文件中可以这样对片段进行引用：
 
 {{< text_dynamic url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" >}}
 
-如果文件来自不同的原始站点，则应在该站点上启用 CORS。 请注意 GitHub（raw.githubusercontent.com）原始内容网站是可以使用的。
+如果文件来自不同的原始站点，则应在该站点上启用 CORS。 请注意 GitHub（`raw.githubusercontent.com`）原始内容网站是可以使用的。
 
 ## 引用 GitHub 文件
 
