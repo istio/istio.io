@@ -62,7 +62,7 @@ the Istio sidecar (Envoy proxy) which wraps the call to the actual service,
 the label of the destination (to the right) identifies the service for which the time is represented by each line.
 
 The first line represents the external call to the `productpage` service. The label `192.168.64.3:32000` is the host
-value used for the external request (i.e., $GATEWAY_URL). As you can see in the trace,
+value used for the external request (i.e., `$GATEWAY_URL`). As you can see in the trace,
 the request took a total of roughly 290ms to complete. During its execution, the `productpage` called the `details` service,
 which took about 24ms, and then called the `reviews` service.
 The `reviews` service took about 243ms to execute, including a 15ms call to `ratings`.

@@ -165,15 +165,20 @@ Authentication policies are saved in Istio config store (in 0.7, the storage imp
 
 Policy is scoped to namespaces, with (optional) target selector rules to narrow down the set of services (within the same namespace as the policy) on which the policy should be applied. This aligns with the ACL model based on Kubernetes RBAC. More specifically, only the admin of the namespace can set policies for services in that namespace.
 
-Authentication is implemented by the Istio sidecars. For example, with an Envoy sidecar, it is a combination of SSL setting and HTTP filters. If authentication fails, requests will be rejected (either with SSL handshake error code, or http 401, depending on the type of authentication mechanism). If authentication succeeds, the following authenticated attributes will be generated:
+Authentication is implemented by the Istio sidecars. For example, with an Envoy sidecar, it is a combination of SSL setting and HTTP filters. If authentication
+fails, requests will be rejected (either with SSL handshake error code, or http 401, depending on the type of authentication mechanism). If authentication succeeds,
+the following authenticated attributes will be generated:
 
-* **source.principal**: peer principal. If peer authentication is not used, the attribute is not set.
-* **request.auth.principal**: depends on the policy principal binding, this could be peer principal (if USE_PEER) or origin principal (if USE_ORIGIN).
-* **request.auth.audiences**: reflect the audience (`aud`) claim within the origin JWT (JWT that is used for origin authentication)
-* **request.auth.presenter**: similarly, reflect the authorized presenter (`azp`) claim of the origin JWT.
-* **request.auth.claims**: all raw string claims from origin-JWT.
+* `source.principal`: peer principal. If peer authentication is not used, the attribute is not set.
+* `request.auth.principal`: depends on the policy principal binding, this could be peer principal (if `USE_PEER`) or origin principal (if `USE_ORIGIN`).
+* `request.auth.audiences`: reflect the audience (`aud`) claim within the origin JWT (JWT that is used for origin authentication)
+* `request.auth.presenter`: similarly, reflect the authorized presenter (`azp`) claim of the origin JWT.
+* `request.auth.claims`: all raw string claims from origin-JWT.
 
-Origin principal (principal from origin authentication) is not explicitly output. In general, it can always be reconstructed by joining (`iss`) and subject (`sub`) claims with a "/" separator (for example, if `iss` and `sub` claims are "*googleapis.com*" and "*123456*" respectively, then origin principal is "*googleapis.com/123456*"). On the other hand, if principal binding is USE_ORIGIN, **request.auth.principal** carries the same value as origin principal.
+Origin principal (principal from origin authentication) is not explicitly output. In general, it can always be reconstructed by joining (`iss`)
+and subject (`sub`) claims with a "/" separator (for example, if `iss` and `sub` claims are "*googleapis.com*" and "*123456*" respectively, then
+the origin principal is "*googleapis.com/123456*"). On the other hand, if principal binding is `USE_ORIGIN`, `request.auth.principal` carries the
+same value as origin principal.
 
 ### Anatomy of a policy
 
@@ -286,7 +291,7 @@ spec:
 
 ### Istio RBAC policy
 
-Istio RBAC introduces `ServiceRole` and `ServiceRoleBinding`, both of which are defined as Kubernetes CustomResourceDefinition (CRD) objects.
+Istio RBAC introduces `ServiceRole` and `ServiceRoleBinding`:
 
 * **`ServiceRole`** defines a role for access to services in the mesh.
 * **`ServiceRoleBinding`** grants a role to subjects (e.g., a user, a group, a service).
@@ -385,7 +390,7 @@ A subject can either be a "user", or a "group", or is represented with a set of 
 in "properties") must match one of fields ("user" or "groups" or an entry in "properties") in the "subject" part of the "requestcontext"
 instance.
 
-Here is an example of `ServiceRoleBinding` resource "test-binding-products", which binds two subjects to ServiceRole "product-viewer":
+Here is an example of `ServiceRoleBinding` resource "test-binding-products", which binds two subjects to the "product-viewer" `ServiceRole`:
 * user "alice@yahoo.com".
 * "reviews.abc.svc.cluster.local" service in "abc" namespace.
 

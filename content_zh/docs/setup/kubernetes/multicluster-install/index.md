@@ -12,9 +12,9 @@ keywords: [kubernetes,multicluster]
 * 两个或更多的 **1.7.3 以上版本** 的 Kubernetes 集群。
 * 在 **一个** Kubernetes 上部署 [Istio 控制平面](/docs/setup/kubernetes/quick-start/) 的能力。
 * RFC 1918、VPN 或者其他更高级的网络技术，需完成下列要求：
-  * 各集群的 Pod CIDR 范围和 Service CIDR 范围必须是唯一的，不允许相互重叠。
-  * 每个集群中的所有的 Pod CIDR 需要能够互相路由。
-  * 所有的 Kubernetes 控制平面 API Server 互相可路由。
+    * 各集群的 Pod CIDR 范围和 Service CIDR 范围必须是唯一的，不允许相互重叠。
+    * 每个集群中的所有的 Pod CIDR 需要能够互相路由。
+    * 所有的 Kubernetes 控制平面 API Server 互相可路由。
 * Helm **2.7.2 或者更新的版本**。Tiller 可选。
 * 目前只有[手工注入 Sidecar 方式](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection)经过了多集群验证。
 

@@ -28,9 +28,9 @@ gateway to expose an HTTP endpoint of a service to external traffic. This task e
 ## Generate client and server certificates and keys
 
 For this task you can use your favorite tool to generate certificates and keys. This example uses [a script](https://github.com/nicholasjackson/mtls-go-example/blob/master/generate.sh)
-from the https://github.com/nicholasjackson/mtls-go-example repository.
+from the <https://github.com/nicholasjackson/mtls-go-example> repository.
 
-1.  Clone the https://github.com/nicholasjackson/mtls-go-example repository:
+1.  Clone the <https://github.com/nicholasjackson/mtls-go-example> repository:
 
     {{< text bash >}}
     $ git clone https://github.com/nicholasjackson/mtls-go-example

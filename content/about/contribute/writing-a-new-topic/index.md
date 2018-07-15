@@ -404,7 +404,7 @@ which produces the following result:
 {{< text_dynamic url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" >}}
 
 If the file is from a different origin site, CORS should be enabled on that site. Note that the
-GitHub raw content site (raw.githubusercontent.com) may be used here.
+GitHub raw content site (`raw.githubusercontent.com`) may be used here.
 
 You can specify an optional `downloadas` attribute to control the name that the browser
 will use when the user chooses to download the file. For example:

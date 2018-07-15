@@ -6,7 +6,9 @@ weight: 42
 
 > This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.7/docs/tasks/traffic-management/).
 
-The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task demonstrates how external, meaning outside of the Kubernetes cluster, HTTP and HTTPS services can be accessed from applications inside the mesh. As described in that topic, by default Istio-enabled applications are unable to access URLs outside the cluster. To enable external access, a [ServiceEntry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) for the external service must be defined, or alternatively, [direct access to external services](/docs/tasks/traffic-management/egress/#calling-external-services-directly) must be configured.
+The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task demonstrates how external, meaning outside of the
+Kubernetes cluster, HTTP and HTTPS services can be accessed from applications inside the mesh. As described in that topic, by
+default Istio-enabled applications are unable to access URLs outside the cluster. To enable external access, a [`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) for the external service must be defined, or alternatively, [direct access to external services](/docs/tasks/traffic-management/egress/#calling-external-services-directly) must be configured.
 
 This task describes how to configure Istio to perform [TLS origination](/help/glossary/#tls-origination) for egress traffic.
 
@@ -92,7 +94,8 @@ Note that you use a wildcard `*` in your `hosts` definition: `*.cnn.com`. Using 
 Note the `-L` flag of _curl_ which instructs _curl_ to follow redirects. In this case,
 the server returned a redirect response ([301 Moved Permanently](https://tools.ietf.org/html/rfc2616#section-10.3.2)) to an HTTP request to `http://edition.cnn.com/politics`. The redirect response instructs the client to send an additional request, this time by HTTPS, to `https://edition.cnn.com/politics`. For the second request, the server returns the requested content and _200 OK_ status code.
 
-While for the _curl_ command this redirection happens transparently, there are two issues here. The first issue is the redundant first request, which doubles the latency of fetching the content of http://edition.cnn.com/politics. The second issue is that the path of the URL, _politics_ in this case, is sent in clear text. If there is an attacker who sniffs the communication between your application and _cnn.com_, the attacker would know which specific topics and articles of _cnn.com_ your application fetched. For privacy reasons, you might want to prevent such disclosure from the attacker.
+While for the _curl_ command this redirection happens transparently, there are two issues here. The first issue is the redundant first request, which doubles
+the latency of fetching the content of `http://edition.cnn.com/politics`. The second issue is that the path of the URL, _politics_ in this case, is sent in clear text. If there is an attacker who sniffs the communication between your application and _cnn.com_, the attacker would know which specific topics and articles of _cnn.com_ your application fetched. For privacy reasons, you might want to prevent such disclosure from the attacker.
 
 In the next section, you configure Istio to perform TLS origination to resolve these two issues. Clean your configuration before proceeding to the next section:
 
@@ -162,7 +165,7 @@ proxy needs to know exactly which host to access using HTTPS:
     EOF
     {{< /text >}}
 
-1. Send an HTTP request to http://edition.cnn.com/politics, as in the previous section:
+1. Send an HTTP request to `http://edition.cnn.com/politics`, as in the previous section:
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
