@@ -304,17 +304,17 @@ canary rollouts, A/B testing, staged rollouts with %-based traffic splits,
 etc.
 
 There are four traffic management configuration resources in Istio:
-**VirtualService**, **DestinationRule**, **ServiceEntry**, and **Gateway**:
+`VirtualService`, `DestinationRule`, `ServiceEntry`, and `Gateway`:
 
-* A [VirtualService](/docs/reference/config/istio.networking.v1alpha3/#VirtualService)
+* A [`VirtualService`](/docs/reference/config/istio.networking.v1alpha3/#VirtualService)
 defines the rules that control how requests for a service are routed within an Istio service mesh.
 
-* A [DestinationRule](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule)
+* A [`DestinationRule`](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule)
 configures the set of policies to be applied to a request after `VirtualService` routing has occurred.
 
-* A [ServiceEntry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) is commonly used to enable requests to services outside of an Istio service mesh.
+* A [`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) is commonly used to enable requests to services outside of an Istio service mesh.
 
-* A [Gateway](/docs/reference/config/istio.networking.v1alpha3/#Gateway)
+* A [`Gateway`](/docs/reference/config/istio.networking.v1alpha3/#Gateway)
 configures a load balancer for HTTP/TCP traffic, most commonly operating at the edge of the mesh to enable ingress traffic for an application.
 
 The following sections describe these resources. See [networking reference](/docs/reference/config/istio.networking.v1alpha3/)
@@ -375,7 +375,7 @@ for examples.
 
 ### Virtual Services
 
-A [VirtualService](/docs/reference/config/istio.networking.v1alpha3/#VirtualService)
+A [`VirtualService`](/docs/reference/config/istio.networking.v1alpha3/#VirtualService)
 defines the rules that control how requests for a service are routed within an Istio service mesh.
 For example, a virtual service could route requests to different versions of a service or to a completely different service than was requested.
 Requests can be routed based on the request source and destination, HTTP paths and
@@ -758,7 +758,7 @@ priorities of each rule when there is more than one.
 
 ### Destination rules
 
-A [DestinationRule](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule)
+A [`DestinationRule`](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule)
 configures the set of policies to be applied to a request after `VirtualService` routing has occurred. They are
 intended to be authored by service owners, describing the circuit breakers, load balancer settings, TLS settings, an other settings.
 
@@ -911,7 +911,7 @@ start, is generally considered a best practice in Istio.
 
 ### Service entries
 
-A [ServiceEntry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry)
+A [`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry)
 is used to add additional entries into the service registry that Istio maintains internally.
 It is most commonly used to enable requests to services outside of an Istio service mesh.
 For example, the following `ServiceEntry` can be used to allow external calls to services hosted

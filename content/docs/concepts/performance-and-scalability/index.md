@@ -33,7 +33,7 @@ Developers can also utilize a golden-files approach to capture the state of thei
 
 Due to the nature of this testing type, there is a high-variance in latency numbers across machines. It is recommended that micro-benchmark numbers captured in this way are compared only against the previous runs on the same machine.
 
-The [perfcheck.sh script]({{< github_file >}}/bin/perfcheck.sh) can be used to quickly run benchmarks in a sub-folder and compare its results against the co-located baseline files.
+The [`perfcheck.sh` script]({{< github_file >}}/bin/perfcheck.sh) can be used to quickly run benchmarks in a sub-folder and compare its results against the co-located baseline files.
 
 ## Testing scenarios
 

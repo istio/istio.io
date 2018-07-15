@@ -50,9 +50,9 @@ keywords: [traffic-management]
     caption="不同v1alpha3元素之间的关系"
     >}}
 
-### Gateway
+### `Gateway`
 
-[Gateway](/docs/reference/config/istio.networking.v1alpha3/#Gateway) 用于为 HTTP / TCP 流量配置负载均衡器，并不管该负载均衡器将在哪里运行。 网格中可以存在任意数量的 Gateway，并且多个不同的 Gateway 实现可以共存。 实际上，通过在配置中指定一组工作负载（Pod）标签，可以将 Gateway 配置绑定到特定的工作负载，从而允许用户通过编写简单的 Gateway Controller 来重用现成的网络设备。
+[`Gateway`](/docs/reference/config/istio.networking.v1alpha3/#Gateway) 用于为 HTTP / TCP 流量配置负载均衡器，并不管该负载均衡器将在哪里运行。 网格中可以存在任意数量的 Gateway，并且多个不同的 Gateway 实现可以共存。 实际上，通过在配置中指定一组工作负载（Pod）标签，可以将 Gateway 配置绑定到特定的工作负载，从而允许用户通过编写简单的 Gateway Controller 来重用现成的网络设备。
 
 对于入口流量管理，您可能会问： 为什么不直接使用 Kubernetes Ingress API ？ 原因是 Ingress API 无法表达 Istio 的路由需求。 Ingress 试图在不同的 HTTP 代理之间取一个公共的交集，因此只能支持最基本的 HTTP 路由，最终导致需要将代理的其他高级功能放入到注解（annotation）中，而注解的方式在多个代理之间是不兼容的，无法移植。
 
@@ -101,11 +101,11 @@ spec:
 
 Gateway 可以用于建模边缘代理或纯粹的内部代理，如第一张图所示。 无论在哪个位置，所有网关都可以用相同的方式进行配置和控制。
 
-### VirtualService
+### `VirtualService`
 
 用一种叫做 “Virtual services” 的东西代替路由规则可能看起来有点奇怪，但对于它配置的内容而言，这事实上是一个更好的名称，特别是在重新设计 API 以解决先前模型的可扩展性问题之后。
 
-实际上，发生的变化是：在之前的模型中，需要用一组相互独立的配置规则来为特定的目的服务设置路由规则，并通过 precedence 字段来控制这些规则的顺序；在新的 API 中，则直接对（虚拟）服务进行配置，该虚拟服务的所有规则以一个有序列表的方式配置在对应的 [VirtualService](/docs/reference/config/istio.networking.v1alpha3/#VirtualService) 资源中。
+实际上，发生的变化是：在之前的模型中，需要用一组相互独立的配置规则来为特定的目的服务设置路由规则，并通过 precedence 字段来控制这些规则的顺序；在新的 API 中，则直接对（虚拟）服务进行配置，该虚拟服务的所有规则以一个有序列表的方式配置在对应的 [`VirtualService`](/docs/reference/config/istio.networking.v1alpha3/#VirtualService) 资源中。
 
 例如，之前在 [Bookinfo](/docs/examples/bookinfo/) 应用程序的 reviews 服务中有两个 `RouteRule` 资源，如下所示：
 
@@ -170,7 +170,7 @@ spec:
 首先，请注意 `VirtualService` 的目标服务是使用 `hosts` 字段（实际上是重复字段）指定的，然后再在每个路由的 `destination` 字段中指定。 这是与以前模型的重要区别。
 
 `VirtualService` 描述了一个或多个用户可寻址目标到网格内实际工作负载之间的映射。在上面的示例中，这两个地址是相同的，但实际上用户可寻址目标可以是任何用于定位服务的，具有可选通配符前缀或 CIDR 前缀的 DNS 名称。
-这对于应用从单体架构到微服务架构的迁移过程特别有用，单体应用被拆分为多个独立的微服务后，采用 VirtualService 可以继续把多个微服务对外暴露为同一个目标地址，而不需要服务消费者进行修改以适应该变化。
+这对于应用从单体架构到微服务架构的迁移过程特别有用，单体应用被拆分为多个独立的微服务后，采用 `VirtualService` 可以继续把多个微服务对外暴露为同一个目标地址，而不需要服务消费者进行修改以适应该变化。
 
 例如，以下规则允许服务消费者访问 Bookinfo 应用程序的 reviews 和 ratings 服务，就好像它们是 `http://bookinfo.com/`（虚拟）服务的一部分：
 
@@ -198,7 +198,7 @@ spec:
   ...
 {{< /text >}}
 
-实际上在 ｀VirtualService｀ 中 hosts 部分设置只是虚拟的目的地,因此不一定是已在网格中注册的服务。这允许用户为在网格内没有可路由条目的虚拟主机的流量进行建模。 通过将 `VirtualService` 绑定到同一 Host 的 `Gateway` 配置（如前一节所述 ），可向网格外部暴露这些 Host。
+实际上在 `VirtualService` 中 hosts 部分设置只是虚拟的目的地,因此不一定是已在网格中注册的服务。这允许用户为在网格内没有可路由条目的虚拟主机的流量进行建模。 通过将 `VirtualService` 绑定到同一 Host 的 `Gateway` 配置（如前一节所述 ），可向网格外部暴露这些 Host。
 
 除了这个重大的重构之外， `VirtualService` 还包括其他一些重要的改变：
 
@@ -206,15 +206,15 @@ spec:
 
 1. 每个服务版本都有一个名称（称为服务子集）。 属于某个子集的一组 Pod/VM 在 `DestinationRule` 定义，具体定义参见下节。
 
-1. 通过使用带通配符前缀的 DNS 来指定 `VirtualService` 的 host，可以创建单个规则以作用于所有匹配的服务。 例如，在 Kubernetes 中，在 'VirtualService' 中使用 `*.foo.svc.cluster.local` 作为 host ,可以对 `foo` 命名空间中的所有服务应用相同的重写规则。
+1. 通过使用带通配符前缀的 DNS 来指定 `VirtualService` 的 host，可以创建单个规则以作用于所有匹配的服务。 例如，在 Kubernetes 中，在 `VirtualService` 中使用 `*.foo.svc.cluster.local` 作为 host ,可以对 `foo` 命名空间中的所有服务应用相同的重写规则。
 
-### DestinationRule
+### `DestinationRule`
 
-[DestinationRule](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule) 配置将流量转发到服务时应用的策略集。 这些策略应由服务提供者撰写，用于描述断路器，负载均衡设置，TLS 设置等。
+[`DestinationRule`](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule) 配置将流量转发到服务时应用的策略集。 这些策略应由服务提供者撰写，用于描述断路器，负载均衡设置，TLS 设置等。
 除了下述改变外，`DestinationRule` 与其前身 `DestinationPolicy` 大致相同。
 
 1. `DestinationRule` 的 `host` 可以包含通配符前缀，以允许单个规则应用于多个服务。
-1. `DestinationRule` 定义了目的 host 的子集 `subsets` （例如：命名版本）。 这些 subset 用于 ｀VirtualService｀ 的路由规则设置中，可以将流量导向服务的某些特定版本。 通过这种方式为版本命名后，可以在不同的 virtual service 中明确地引用这些命名版本的 subset，简化 Istio 代理发出的统计数据，并可以将 subset 编码到 SNI 头中。
+1. `DestinationRule` 定义了目的 host 的子集 `subsets` （例如：命名版本）。 这些 subset 用于 `VirtualService` 的路由规则设置中，可以将流量导向服务的某些特定版本。 通过这种方式为版本命名后，可以在不同的 virtual service 中明确地引用这些命名版本的 subset，简化 Istio 代理发出的统计数据，并可以将 subset 编码到 SNI 头中。
 为 reviews 服务配置策略和 subsets 的 `DestinationRule` 可能如下所示：
 
 {{< text yaml >}}
@@ -244,9 +244,9 @@ spec:
 
 注意，与 `DestinationPolicy` 不同的是，可在单个 `DestinationRule` 中指定多个策略（例如上面实例中的缺省策略和 v2 版本特定的策略）。
 
-### ServiceEntry
+### `ServiceEntry`
 
-[ServiceEntry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) 用于将附加条目添加到 Istio 内部维护的服务注册表中。
+[`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) 用于将附加条目添加到 Istio 内部维护的服务注册表中。
 它最常用于对访问网格外部依赖的流量进行建模，例如访问 Web 上的 API 或遗留基础设施中的服务。
 
 所有以前使用 `EgressRule` 进行配置的内容都可以通过 `ServiceEntry` 轻松完成。 例如，可以使用类似这样的配置来允许从网格内部访问一个简单的外部服务：

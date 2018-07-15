@@ -252,7 +252,7 @@ $ kubectl describe pod --namespace kube-system $(kubectl get pods --namespace ku
 
 安装 Istio 的核心部分。从以下四种_**非手动**_部署方式中选择一种方式安装。然而，我们推荐您在生产环境时使用 [Helm Chart](/docs/setup/kubernetes/helm-install/) 来安装 Istio，这样可以按需定制配置选项。
 
-*  安装 Istio 而不启用 sidecar 之间的[双向TLS验证](/docs/concepts/security/#mutual-tls-authentication)。对于现有应用程序的集群，使用 Istio sidecar 的服务需要能够与其他非 Istio Kubernetes 服务以及使用[存活和就绪探针](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)、headless 服务或 StatefulSets 的应用程序通信的应用程序选择此选项。
+*  安装 Istio 而不启用 sidecar 之间的[双向TLS验证](/docs/concepts/security/#mutual-tls-authentication)。对于现有应用程序的集群，使用 Istio sidecar 的服务需要能够与其他非 Istio Kubernetes 服务以及使用[存活和就绪探针](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)、headless 服务或 `StatefulSets` 的应用程序通信的应用程序选择此选项。
 
 {{< text bash >}}
 $ kubectl apply -f install/kubernetes/istio.yaml

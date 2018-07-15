@@ -34,7 +34,7 @@ aliases:
 
 [Bookinfo](/docs/examples/bookinfo/) 应用中，`ratings` 服务会被多个版本的 `reviews` 服务所访问。下面我们尝试切断来自 `reviews:v3` 的请求。
 
-1. 使用浏览器打开 Bookinfo 的 `productpage` (http://$GATEWAY_URL/productpage) 页面。
+1. 使用浏览器打开 Bookinfo 的 `productpage` (`http://$GATEWAY_URL/productpage`) 页面。
 
     如果使用 "jason" 的身份登录，你会看到每个 Review 都带有黑色的星形符号，这说明 `ratings` 服务正被 `v2` 版本的 `reviews` 服务调用。
 
@@ -77,7 +77,7 @@ Istio 还支持基于属性的白名单以及黑名单。下面的白名单配�
     $ istioctl delete -f @samples/bookinfo/policy/mixer-rule-deny-label.yaml@
     {{< /text >}}
 
-1. 在没有登录的情况下，访问 Bookinfo 的 `productpage`(http://$GATEWAY_URL/productpage) 页面，看是否能看到红色的星级图标。
+1. 在没有登录的情况下，访问 Bookinfo 的 `productpage`(`http://$GATEWAY_URL/productpage`) 页面，看是否能看到红色的星级图标。
 
     在完成后面的步骤之后，除非使用 "jason" 的身份登录，否则应该无法再看到评级图标。
 
@@ -142,7 +142,7 @@ Istio 还支持基于属性的白名单以及黑名单。下面的白名单配�
     $ istioctl create -f checkversion-rule.yaml
     {{< /text >}}
 
-1. 在没有登录的情况下访问 Bookinfo 的 `productpage` 页面 (http://$GATEWAY_URL/productpage)，应该看不到评级图标。用 "jason" 登录之后，又会看到黑色的星级图标。
+1. 在没有登录的情况下访问 Bookinfo 的 `productpage` 页面 (`http://$GATEWAY_URL/productpage`)，应该看不到评级图标。用 "jason" 登录之后，又会看到黑色的星级图标。
 
 ## 清理
 

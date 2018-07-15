@@ -124,6 +124,7 @@ Ingress [网关](/docs/reference/config/istio.networking.v1alpha3/#Gateway)描�
         - "httpbin.example.com"
     EOF
     {{< /text >}}
+
 1.  为通过 `Gateway` 进入的流量配置路由
 
     {{< text bash >}}

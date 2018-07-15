@@ -36,7 +36,7 @@ Istio 认证功能可以借用 Service account 来对服务的访问进行安全
 
 在 [Bookinfo](/docs/examples/bookinfo/) 示例应用中，`productpage` 服务会访问 `reviews` 以及 `details` 两个服务。我们想要 `details` 服务拒绝来自 `productpage` 服务的请求。
 
-1. 用浏览器打开 Bookinfo 的 `productpage`(http://$GATEWAY_URL/productpage) 页面。
+1. 用浏览器打开 Bookinfo 的 `productpage`(`http://$GATEWAY_URL/productpage`) 页面。
 
     应该会看到页面左下角的 "Book Details" 内容，其中包含了类型、页数、出版商等相关内容。`productpage` 服务需要从 `details` 服务中获取这些信息。
 
