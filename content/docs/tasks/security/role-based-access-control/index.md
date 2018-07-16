@@ -5,14 +5,14 @@ weight: 40
 keywords: [security,access-control,rbac,authorization]
 ---
 
-This guide covers the main tasks you might need to perform to set up Istio authorization, also known
+This task covers the activities you might need to perform to set up Istio authorization, also known
 as Istio Role Based Access Control (RBAC), for services in an Istio mesh. You can read more in
 [Istio authorization](/docs/concepts/security/#role-based-access-control-rbac) and get started with
 a basic tutorial in Istio Security Basics.
 
 ## Before you begin
 
-The tasks in this guide assume that you:
+The activities in this task assume that you:
 
 * Understand [Istio authorization](/docs/concepts/security/#role-based-access-control-rbac) concepts.
 
@@ -22,7 +22,7 @@ The tasks in this guide assume that you:
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
-* In this task, we will enable access control based on Service Accounts, which are cryptographically authenticated in the Istio mesh.
+* In this task, we will enable access control based on Service Accounts, which are cryptographically authenticated in the mesh.
 In order to give different microservices different access privileges, we will create some service accounts and redeploy Bookinfo
 microservices running under them.
 
@@ -80,7 +80,7 @@ Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpa
 `"RBAC: access denied"`. This is because Istio authorization is "deny by default", which means that you need to
 explicitly define access control policy to grant access to any service.
 
-> There may be delay due to caching on browser and policy delayed delivered to Istio proxy.
+> There may be some delays due to caching and other propagation overhead.
 
 ## Namespace-level access control
 
@@ -148,7 +148,7 @@ servicerolebinding "bind-service-viewer" created
 Now if you point your browser at Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). You should see "Bookinfo Sample" page,
 with "Book Details" section in the lower left part and "Book Reviews" section in the lower right part.
 
-> There may be delay due to caching on browser and policy delayed delivered to Istio proxy.
+> There may be some delays due to caching and other propagation overhead.
 
 ### Cleanup namespace-level access control
 
@@ -215,9 +215,9 @@ page. But there are errors `"Error fetching product details"` and `"Error fetchi
 are expected because we have not granted "productpage" service to access "details" and "reviews" services. We will fix the errors
 in the following steps.
 
-> There may be delay due to caching on browser and policy delayed delivered to Istio proxy.
+> There may be some delays due to caching and other propagation overhead.
 
-### Step 2. allowing "productpage" service to access "details" and "reviews" services
+### Step 2. allowing access "details" and "reviews" services
 
 We will create a policy to allow "productpage" service to read "details" and "reviews" services. Note that in the
 [setup step](#before-you-begin), we created a service account "bookinfo-productpage" for "productpage" service. This
@@ -268,9 +268,9 @@ there is an error `"Ratings service currently unavailable"`. This is because "re
 "ratings" service. To fix this issue, you need to grant "reviews" service read access to "ratings" service.
 We will show how to do that in the next step.
 
-> There may be delay due to caching on browser and policy delayed delivered to Istio proxy.
+> There may be some delays due to caching and other propagation overhead.
 
-### Step 3. allowing "reviews" service to access "ratings" service
+### Step 3. allowing access "ratings" service
 
 We will create a policy to allow "reviews" service to read "ratings" service. Note that in the
 [setup step](#before-you-begin), we created a service account "bookinfo-reviews" for "reviews" service. This
@@ -318,7 +318,7 @@ account "cluster.local/ns/default/sa/bookinfo-reviews", which represents the "re
 Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). Now you should see
 the "black" and "red" ratings in "Book Reviews" section.
 
-> There may be delay due to caching on browser and policy delayed delivered to Istio proxy.
+> There may be some delays due to caching and other propagation overhead.
 
 ## Cleanup
 
