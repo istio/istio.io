@@ -1,5 +1,5 @@
 ---
-title: Istio Authorization
+title: Authorization
 description: Shows how to set up role-based access control for services in Istio mesh.
 weight: 40
 keywords: [security,access-control,rbac,authorization]
@@ -7,14 +7,14 @@ keywords: [security,access-control,rbac,authorization]
 
 This task covers the activities you might need to perform to set up Istio authorization, also known
 as Istio Role Based Access Control (RBAC), for services in an Istio mesh. You can read more in
-[Istio authorization](/docs/concepts/security/#role-based-access-control-rbac) and get started with
+[authorization](/docs/concepts/security/#authorization) and get started with
 a basic tutorial in Istio Security Basics.
 
 ## Before you begin
 
 The activities in this task assume that you:
 
-* Understand [Istio authorization](/docs/concepts/security/#role-based-access-control-rbac) concepts.
+* Understand [authorization](/docs/concepts/security/#authorization) concepts.
 
 * Have set up Istio on Kubernetes **with authentication enabled** by following the instructions in the
   [quick start](/docs/setup/kubernetes/quick-start/), this tutorial requires mutual TLS to work. Mutual TLS
@@ -163,7 +163,7 @@ $ istioctl delete -f @samples/bookinfo/platform/kube/rbac/namespace-policy.yaml@
 This task shows you how to set up service-level access control using Istio authorization. Before you start, please make sure that:
 
 * You have [enabled Istio authorization](#enabling-istio-authorization).
-* You have [removed namespace-level Istio authorization policy](#cleanup-namespace-level-access-control).
+* You have [removed namespace-level authorization policy](#cleanup-namespace-level-access-control).
 
 Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). You should see `"RBAC: access denied"`.
 We will incrementally add access permission to the services in Bookinfo sample.
