@@ -217,7 +217,7 @@ in the following steps.
 
 > There may be some delays due to caching and other propagation overhead.
 
-### Step 2. allowing access "details" and "reviews" services
+### Step 2. allowing access to "details" and "reviews" services
 
 We will create a policy to allow "productpage" service to read "details" and "reviews" services. Note that in the
 [setup step](#before-you-begin), we created a service account "bookinfo-productpage" for "productpage" service. This
@@ -270,7 +270,7 @@ We will show how to do that in the next step.
 
 > There may be some delays due to caching and other propagation overhead.
 
-### Step 3. allowing access "ratings" service
+### Step 3. allowing access to "ratings" service
 
 We will create a policy to allow "reviews" service to read "ratings" service. Note that in the
 [setup step](#before-you-begin), we created a service account "bookinfo-reviews" for "reviews" service. This
