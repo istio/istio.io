@@ -46,11 +46,11 @@ spec:
 
 规则可以使用 [istioctl 客户端工具](/docs/reference/commands/istioctl/) 进行配置，如果是 Kubernetes 部署，还可以使用 `kubectl` 命令完成同样任务，但是只有 `istioctl` 会在这个过程中对模型进行检查，所以我们推荐使用 `istioctl`。在[配置请求路由任务](/docs/tasks/traffic-management/request-routing/)中包含有配置示例。
 
-Istio 中包含有四种流量管理配置资源，分别是 **VirtualService**、**DestinationRule**、**ServiceEntry**、以及 **Gateway**。下面会讲一下这几个资源的一些重点。在[网络参考](/docs/reference/config/istio.networking.v1alpha3/)中可以获得更多这方面的信息。
+Istio 中包含有四种流量管理配置资源，分别是 `VirtualService`、`DestinationRule`、`ServiceEntry`、以及 `Gateway`。下面会讲一下这几个资源的一些重点。在[网络参考](/docs/reference/config/istio.networking.v1alpha3/)中可以获得更多这方面的信息。
 
 ## Virtual Services
 
-是在 Istio 服务网格内对服务的请求如何进行路由控制？[VirtualService](/docs/reference/config/istio.networking.v1alpha3/#VirtualService) 中就包含了这方面的定义。例如一个 Virtual Service 可以把请求路由到不同版本，甚至是可以路由到一个完全不同于请求要求的服务上去。路由可以用很多条件进行判断，例如请求的源和目的、HTTP 路径和 Header 以及各个服务版本的权重等。
+是在 Istio 服务网格内对服务的请求如何进行路由控制？[`VirtualService`](/docs/reference/config/istio.networking.v1alpha3/#VirtualService) 中就包含了这方面的定义。例如一个 Virtual Service 可以把请求路由到不同版本，甚至是可以路由到一个完全不同于请求要求的服务上去。路由可以用很多条件进行判断，例如请求的源和目的、HTTP 路径和 Header 以及各个服务版本的权重等。
 
 ### 规则的目标描述
 
@@ -346,7 +346,7 @@ spec:
 
 ## 目标规则
 
-在请求被 `VirtualService` 路由之后，[DestinationRule](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule) 配置的一系列策略就生效了。这些策略由服务属主编写，包含断路器、负载均衡以及 TLS 等的配置内容。
+在请求被 `VirtualService` 路由之后，[`DestinationRule`](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule) 配置的一系列策略就生效了。这些策略由服务属主编写，包含断路器、负载均衡以及 TLS 等的配置内容。
 
 `DestinationRule` 还定义了对应目标主机的可路由 `subset`（例如有命名的版本）。`VirtualService` 在向特定服务版本发送请求时会用到这些子集。
 
@@ -402,7 +402,7 @@ spec:
           maxConnections: 100
 ~~~
 
-### DestinationRule 的评估
+### `DestinationRule` 的评估
 
 和路由规则类似，这些策略也是和特定的 `host` 相关联的，如果指定了 `subset`，那么具体生效的 `subset` 的决策是由路由规则来决定的。
 
@@ -469,7 +469,7 @@ spec:
 
 ## Service Entries
 
-Istio 内部会维护一个服务注册表，可以用 [ServiceEntry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) 向其中加入额外的条目。通常这个对象用来启用对 Istio 服务网格之外的服务发出请求。例如下面的 `ServiceEntry` 可以用来允许外部对 `*.foo.com` 域名上的服务主机的调用。
+Istio 内部会维护一个服务注册表，可以用 [`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) 向其中加入额外的条目。通常这个对象用来启用对 Istio 服务网格之外的服务发出请求。例如下面的 `ServiceEntry` 可以用来允许外部对 `*.foo.com` 域名上的服务主机的调用。
 
 ~~~yaml
 apiVersion: networking.istio.io/v1alpha3

@@ -1,22 +1,30 @@
 ---
 title: Mirroring
-description: This task demonstrates the traffic shadowing/mirroring capabilities of Istio
+description: This task demonstrates the traffic mirroring/shadowing capabilities of Istio.
 weight: 60
 keywords: [traffic-management,mirroring]
 ---
 
 > This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.7/docs/tasks/traffic-management/).
 
-This task demonstrates the traffic shadowing/mirroring capabilities of Istio. Traffic mirroring is a powerful concept that allows feature teams to bring changes to production with as little risk as possible. Mirroring brings a copy of live traffic to a mirrored service and happens out of band of the critical request path for the primary service.
+This task demonstrates the traffic mirroring capabilities of Istio.
+
+Traffic mirroring, also called shadowing, is a powerful concept that allows
+feature teams to bring changes to production with as little risk as possible.
+Mirroring sends a copy of live traffic to a mirrored service. The mirrored
+traffic happens out of band of the critical request path for the primary service.
+
+In this task, you will first force all traffic to `v1` of a test service. Then,
+you will apply a rule to mirror a portion of traffic to `v2`.
 
 ## Before you begin
 
-* Setup Istio by following the instructions in the
+* Set up Istio by following the instructions in the
   [Installation guide](/docs/setup/).
 
-*   Start two versions of the `httpbin` service that have access logging enabled
+*   Start by deploying two versions of the [httpbin](https://github.com/istio/istio/tree/release-1.0/samples/httpbin) service that have access logging enabled:
 
-    httpbin-v1:
+    **httpbin-v1:**
 
     {{< text bash >}}
     $ cat <<EOF | istioctl kube-inject -f - | kubectl create -f -
@@ -42,7 +50,7 @@ This task demonstrates the traffic shadowing/mirroring capabilities of Istio. Tr
     EOF
     {{< /text >}}
 
-    httpbin-v2:
+    **httpbin-v2:**
 
     {{< text bash >}}
     $ cat <<EOF | istioctl kube-inject -f - | kubectl create -f -
@@ -68,7 +76,7 @@ This task demonstrates the traffic shadowing/mirroring capabilities of Istio. Tr
     EOF
     {{< /text >}}
 
-    httpbin Kubernetes service:
+    **httpbin Kubernetes service:**
 
     {{< text bash >}}
     $ cat <<EOF | kubectl create -f -
@@ -87,9 +95,9 @@ This task demonstrates the traffic shadowing/mirroring capabilities of Istio. Tr
     EOF
     {{< /text >}}
 
-*   Start the `sleep` service so we can use `curl` to provide load
+*   Start the `sleep` service so you can use `curl` to provide load:
 
-    sleep service:
+    **sleep service:**
 
     {{< text bash >}}
     $ cat <<EOF | istioctl kube-inject -f - | kubectl create -f -
@@ -112,13 +120,12 @@ This task demonstrates the traffic shadowing/mirroring capabilities of Istio. Tr
     EOF
     {{< /text >}}
 
-## Mirroring
+## Creating a default routing policy
 
-Let's set up a scenario to demonstrate the traffic-mirroring capabilities of Istio. We have two versions of our `httpbin` service. By default Kubernetes will load balance across both versions of the service. We'll use Istio to force all traffic to v1 of the `httpbin` service.
+By default Kubernetes load balances across both versions of the `httpbin` service.
+In this step, you will change that behavior so that all traffic goes to `v1`.
 
-### Creating default routing policy
-
-1.  Create a default route rule to route all traffic to `v1` of our `httpbin` service:
+1.  Create a default route rule to route all traffic to `v1` of the service:
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
@@ -152,9 +159,11 @@ Let's set up a scenario to demonstrate the traffic-mirroring capabilities of Ist
     EOF
     {{< /text >}}
 
-    > NOTE: If you installed/configured istio with mTLS Authentication enabled, you must add the [TLSSettings.TLSmode]( /docs/reference/config/istio.networking.v1alpha3/#TLSSettings-TLSmode), `mode: ISTIO_MUTUAL` as noted in the [TLSSettings](/docs/reference/config/istio.networking.v1alpha3/#TLSSettings) reference.
+    > NOTE: If you installed/configured Istio with mutual TLS Authentication enabled, you must add the [TLSSettings.TLSmode]( /docs/reference/config/istio.networking.v1alpha3/#TLSSettings-TLSmode), `mode: ISTIO_MUTUAL` as noted in the [TLSSettings](/docs/reference/config/istio.networking.v1alpha3/#TLSSettings) reference.
 
-    Now all traffic should go to `httpbin v1` service. Let's try sending in some traffic:
+    Now all traffic goes to the `httpbin v1` service.
+
+1. Send some traffic to the service:
 
     {{< text bash json >}}
     $ export SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
@@ -173,7 +182,8 @@ Let's set up a scenario to demonstrate the traffic-mirroring capabilities of Ist
     }
     {{< /text >}}
 
-    If we check the logs for `v1` and `v2` of our `httpbin` pods, we should see access log entries for only `v1`:
+1. Check the logs for `v1` and `v2` of the `httpbin` pods. You should see access
+log entries for `v1` and none for `v2`:
 
     {{< text bash >}}
     $ export V1_POD=$(kubectl get pod -l app=httpbin,version=v1 -o jsonpath={.items..metadata.name})
@@ -187,7 +197,9 @@ Let's set up a scenario to demonstrate the traffic-mirroring capabilities of Ist
     <none>
     {{< /text >}}
 
-1.  Change the route rule to mirror traffic to v2
+## Mirroring traffic to v2
+
+1.  Change the route rule to mirror traffic to v2:
 
     {{< text bash >}}
     $ cat <<EOF | istioctl replace -f -
@@ -210,15 +222,22 @@ Let's set up a scenario to demonstrate the traffic-mirroring capabilities of Ist
     EOF
     {{< /text >}}
 
-    This route rule specifies we route 100% of the traffic to v1. The last stanza specifies we want to mirror to the `httpbin v2` service. When traffic gets mirrored, the requests are sent to the mirrored service with its Host/Authority header appended with *-shadow*. For example, *cluster-1* becomes *cluster-1-shadow*. Also important to realize is that these requests are mirrored as "fire and forget", i.e., the responses are discarded.
+    This route rule sends 100% of the traffic to `v1`. The last stanza specifies
+    that you want to mirror to the `httpbin v2` service. When traffic gets mirrored,
+    the requests are sent to the mirrored service with their Host/Authority headers
+    appended with `-shadow`. For example, `cluster-1` becomes `cluster-1-shadow`.
 
-    Now if we send in traffic:
+    Also, it is important to note that these requests are mirrored as "fire and
+    forget", which means that the responses are discarded.
+
+1. Send in traffic:
 
     {{< text bash >}}
     $ kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8080/headers' | python -m json.tool
     {{< /text >}}
 
-    We should see access logging for both `v1` and `v2`. The access logs created in `v2` is the mirrored requests that are actually going to `v1`.
+    Now, you should see access logging for both `v1` and `v2`. The access logs
+    created in `v2` are the mirrored requests that are actually going to `v1`.
 
     {{< text bash >}}
     $ kubectl logs -f $V1_POD -c httpbin
@@ -233,16 +252,20 @@ Let's set up a scenario to demonstrate the traffic-mirroring capabilities of Ist
 
 ## Cleaning up
 
-1.  Remove the rules.
+1.  Remove the rules:
 
     {{< text bash >}}
     $ istioctl delete virtualservice httpbin
     $ istioctl delete destinationrule httpbin
     {{< /text >}}
 
-1.  Shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service and client.
+1.  Shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service and client:
 
     {{< text bash >}}
     $ kubectl delete deploy httpbin-v1 httpbin-v2 sleep
     $ kubectl delete svc httpbin
     {{< /text >}}
+
+1. If you are not planning to explore any follow-on tasks, refer to the
+  [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
+  to shutdown the application.

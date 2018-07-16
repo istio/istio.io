@@ -17,7 +17,7 @@ operator-specified root certificate. This task demonstrates an example to plug c
   [quick start](/docs/setup/kubernetes/quick-start/) with global mutual TLS enabled:
 
     {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/istio-auth.yaml
+    $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
     {{< /text >}}
 
     _**OR**_
@@ -139,5 +139,5 @@ This requires you have `openssl` installed on your machine.
 *   To remove the Istio components:
 
     {{< text bash >}}
-    $ kubectl delete -f install/kubernetes/istio-auth.yaml
+    $ kubectl delete -f install/kubernetes/istio-demo-auth.yaml
     {{< /text >}}

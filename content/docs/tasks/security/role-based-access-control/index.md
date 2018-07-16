@@ -17,12 +17,6 @@ RBAC from [Istio RBAC concept page](/docs/concepts/security/#role-based-access-c
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
-> The current Istio release may not have the up-to-date Istio RBAC samples. So before you continue, you
-need to copy these [configuration files]({{< github_tree >}}/samples/bookinfo/platform/kube) to
-`samples/bookinfo/platform/kube` directory under where you installed Istio, and replace the original ones. The files include
-`bookinfo-add-serviceaccount.yaml`, `istio-rbac-enable.yaml`, `istio-rbac-namespace.yaml`, `istio-rbac-productpage.yaml`,
-`istio-rbac-details-reviews.yaml`, `istio-rbac-ratings.yaml`.
-
 *   In this task, we will enable access control based on Service Accounts, which are cryptographically authenticated in the Istio mesh.
 In order to give different microservices different access privileges, we will create some service accounts and redeploy Bookinfo
 microservices running under them.
@@ -43,7 +37,8 @@ microservices running under them.
 
 > If you are using a namespace other than `default`, use `istioctl -n namespace ...` to specify the namespace.
 
-Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage). You should see:
+Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). You should see:
+
 * "Book Details" section in the lower left part of the page, including type, pages, publisher, etc.
 * "Book Reviews" section in the lower right part of the page.
 
@@ -65,7 +60,7 @@ It also defines "requestcontext", which is an instance of the
 [authorization template](/docs/reference/config/policy-and-telemetry/templates/authorization/).
 "requestcontext" defines the input to the RBAC engine at runtime.
 
-Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage). Now you should see
+Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). Now you should see
 `"PERMISSION_DENIED:handler.rbac.istio-system:RBAC: permission denied."` This is because Istio RBAC is "deny by default",
 which means that you need to explicitly define access control policy to grant access to any service.
 
@@ -134,7 +129,7 @@ servicerole "service-viewer" created
 servicerolebinding "bind-service-viewer" created
 {{< /text >}}
 
-Now if you point your browser at Bookinfo `productpage` (http://$GATEWAY_URL/productpage). You should see "Bookinfo Sample" page,
+Now if you point your browser at Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). You should see "Bookinfo Sample" page,
 with "Book Details" section in the lower left part and "Book Reviews" section in the lower right part.
 
   > There may be delay due to caching on browser and Istio proxy.
@@ -150,10 +145,11 @@ $ istioctl delete -f @samples/bookinfo/platform/kube/istio-rbac-namespace.yaml@
 ## Service-level access control
 
 This task shows you how to set up service-level access control using Istio RBAC. Before you start, please make sure that:
+
 * You have [enabled Istio RBAC](#enabling-istio-rbac).
 * You have [removed namespace-level Istio RBAC policy](#cleanup-namespace-level-access-control).
 
-Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage). You should see
+Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). You should see
 `"PERMISSION_DENIED:handler.rbac.istio-system:RBAC: permission denied."` We will incrementally add
 access to the services in Bookinfo sample.
 
@@ -199,7 +195,7 @@ The policy does the following:
         name: "productpage-viewer"
     {{< /text >}}
 
-Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage). Now you should see "Bookinfo Sample"
+Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). Now you should see "Bookinfo Sample"
 page. But there are errors `"Error fetching product details"` and `"Error fetching product reviews"` on the page. These errors
 are expected because we have not granted "productpage" service to access "details" and "reviews" services. We will fix the errors
 in the following steps.
@@ -251,7 +247,7 @@ account "cluster.local/ns/default/sa/bookinfo-productpage" (representing the "pr
         name: "details-reviews-viewer"
     {{< /text >}}
 
-Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage). Now you should see "Bookinfo Sample"
+Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). Now you should see "Bookinfo Sample"
 page with "Book Details" on the lower left part, and "Book Reviews" on the lower right part. However, in "Book Reviews" section,
 there is an error `"Ratings service currently unavailable"`. This is because "reviews" service does not have permission to access
 "ratings" service. To fix this issue, you need to grant "reviews" service read access to "ratings" service.
@@ -304,7 +300,7 @@ account "cluster.local/ns/default/sa/bookinfo-reviews", which represents the "re
         name: "ratings-viewer"
     {{< /text >}}
 
-Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage). Now you should see
+Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). Now you should see
 the "black" and "red" ratings in "Book Reviews" section.
 
 > There may be delay due to caching on browser and Istio proxy.

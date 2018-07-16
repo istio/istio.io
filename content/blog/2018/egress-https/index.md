@@ -76,7 +76,7 @@ Oops... Instead of the book details we have the _Error fetching product details_
 
 The good news is that our application did not crash. With a good microservice design, we do not have **failure propagation**. In our case, the failing _details_ microservice does not cause the _productpage_ microservice to fail. Most of the functionality of the application is still provided, despite the failure in the _details_ microservice. We have **graceful service degradation**: as you can see, the reviews and the ratings are displayed correctly, and the application is still useful.
 
-So what might have gone wrong? Ah... The answer is that I forgot to enable traffic from inside the mesh to an external service, in this case to the Google Books web service. By default, the Istio sidecar proxies ([Envoy proxies](https://www.envoyproxy.io)) **block all the traffic to destinations outside the cluster**. To enable such traffic, we must define an [egress rule](/docs/reference/config/istio.routing.v1alpha1/#EgressRule).
+So what might have gone wrong? Ah... The answer is that I forgot to enable traffic from inside the mesh to an external service, in this case to the Google Books web service. By default, the Istio sidecar proxies ([Envoy proxies](https://www.envoyproxy.io)) **block all the traffic to destinations outside the cluster**. To enable such traffic, we must define an [egress rule](https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/#EgressRule).
 
 ### Egress rule for the Google Books web service
 
@@ -153,7 +153,8 @@ unless ENV['WITH_ISTIO'] === 'true' then
 end
 {{< /text >}}
 
-Note that the port is derived by the `URI.parse` from the URI's schema (https://) to be `443`, the default HTTPS port. The microservice, when running inside an Istio service mesh, must issue HTTP requests to the port `443`, which is the port the external service listens to.
+Note that the port is derived by the `URI.parse` from the URI's schema (`https://`) to be `443`, the default HTTPS port. The
+microservice, when running inside a mesh, must issue HTTP requests to the port `443`, which is the port the external service listens to.
 
 When the `WITH_ISTIO` environment variable is defined, the request is performed without SSL (plain HTTP).
 
