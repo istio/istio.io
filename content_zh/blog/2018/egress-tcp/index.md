@@ -219,7 +219,7 @@ Created config egress-rule/default/mysql at revision 1954425
 
 {{< image width="80%" ratio="36.69%"
     link="/blog/2018/egress-tcp/externalMySQLRatings.png"
-    caption="Book Ratings Displayed Correctly"
+    caption="Book Ratings 显示正常"
     >}}
 
 请注意，正如预期的那样，我们会看到两个显示评论的一星评级, 我将评级更改为一颗星，为我们提供了一个视觉线索，确实使用了我们的外部数据库。
