@@ -27,8 +27,7 @@ keywords: [telemetry,metrics]
 
 1.  将流量发送到服务网格。
 
-    For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
-    browser or issue the following command:
+    对于 Bookinfo 示例，请在 Web 浏览器中访问 `http://$GATEWAY_URL/productpage` 或发出以下命令：
 
     {{< text bash >}}
     $ curl http://$GATEWAY_URL/productpage
