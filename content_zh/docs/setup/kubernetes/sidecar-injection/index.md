@@ -254,7 +254,7 @@ $ kubectl delete clusterrolebinding istio-sidecar-injector-admin-role-binding-is
 
 上面的命令不会从 Pod 中移除已经注入的 Sidecar。可以用一次滚动更新，或者简单的删除原有 Pod 迫使 Deployment 重新创建都可以移除 Sidecar。
 
-除此以外，还可以删除我们在本任务中做出的其他更改：
+除此以外，还可以删除我们在本任务中做出的其它更改：
 
 {{< text bash >}}
 $ kubectl label namespace default istio-injection-
