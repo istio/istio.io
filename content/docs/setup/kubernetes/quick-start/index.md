@@ -1,5 +1,5 @@
 ---
-title: Istio Setup in Kubernetes
+title: Quick Start with Kubernetes
 description: Instructions to setup the Istio service mesh in a Kubernetes cluster.
 weight: 10
 keywords: [kubernetes]
@@ -10,9 +10,9 @@ cluster.
 
 ## Prerequisites
 
-1. [Setup the Kubernetes cluster](/docs/setup/kubernetes/quick-start/#platform-setup).
+1. [Setup the Kubernetes cluster](/docs/setup/kubernetes/quick-start/platform-setup/#prerequisites).
 
-1. [Download the release](/docs/setup/kubernetes/quick-start/#download-release).
+1. [Download the release](/docs/setup/kubernetes/quick-start/download-release/).
 
 ## Installation steps
 
