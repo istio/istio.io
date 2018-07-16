@@ -7,17 +7,17 @@ aliases:
     - /docs/setup/kubernetes/automatic-sidecar-inject.html
 ---
 
-## 对 Pod 的规格要求
+## 对 Pod Spec 的要求
 
 要成为服务网格的一部分，Kubernetes 集群中的每个 Pod 都必须满足如下要求：
 
-1. **具备关联服务：**Pod 必须属于**单一的** [Kubernetes 服务](https://kubernetes.io/docs/concepts/services-networking/service/)，Istio 目前还不支持一个 Pod 对应多个服务的情况。
+1. **具备关联服务**：Pod 必须属于**单一的** [Kubernetes 服务](https://kubernetes.io/docs/concepts/services-networking/service/)，Istio 目前还不支持一个 Pod 对应多个服务的情况。
 
-1. **需要给端口正确命名：**服务端口必须进行命名。端口名称只允许是`<协议>[-<后缀>-]`模式，其中`<协议>`部分可选择范围包括 `http`、`http2`、`grpc`、`mongo` 以及 `redis`，Istio 可以通过对这些协议的支持来提供路由能力。例如 `name: http2-foo` 和 `name: http` 都是有效的端口名，但 `name: http2foo` 就是无效的。如果没有给端口进行命名，或者命名没有使用指定前缀，那么这一端口的流量就会被视为普通 TCP 流量（除非显式的用 `Protocol: UDP` 声明该端口是 UDP 端口）。
+1. **需要给端口正确命名**：服务端口必须进行命名。端口名称只允许是`<协议>[-<后缀>-]`模式，其中`<协议>`部分可选择范围包括 `http`、`http2`、`grpc`、`mongo` 以及 `redis`，Istio 可以通过对这些协议的支持来提供路由能力。例如 `name: http2-foo` 和 `name: http` 都是有效的端口名，但 `name: http2foo` 就是无效的。如果没有给端口进行命名，或者命名没有使用指定前缀，那么这一端口的流量就会被视为普通 TCP 流量（除非显式的用 `Protocol: UDP` 声明该端口是 UDP 端口）。
 
-1. **Deployment 应带有 `app` 标签：**在使用 Kubernetes `Deployment` 进行 Pod 部署的时候，建议显式的为 Deployment 加上 `app` 标签。每个 Deployment 都应该有一个有意义的 `app` 标签。`app` 标签在分布式跟踪的过程中会被用来加入上下文信息。
+1. **Deployment 应带有 `app` 标签**：在使用 Kubernetes `Deployment` 进行 Pod 部署的时候，建议显式的为 Deployment 加上 `app` 标签。每个 Deployment 都应该有一个有意义的 `app` 标签。`app` 标签在分布式跟踪的过程中会被用来加入上下文信息。
 
-1. **网格中的每个 Pod 都应该带有 Sidecar：**最后，网格中的每个 Pod 都必须运行有一个 Istio 兼容的 Sidecar。后续内容中将会描述两种将 Sidecar 注入 Pod 中的方式：使用 `istioctl` 客户端工具手工注入；或者使用 Istio sidecar 注入器进行自动注入。注意，同一 Pod 内不同容器之间的通信是不受 Sidecar 支持的。
+1. **网格中的每个 Pod 都应该带有 Sidecar**：最后，网格中的每个 Pod 都必须运行有一个 Istio 兼容的 Sidecar。后续内容中将会描述两种将 Sidecar 注入 Pod 中的方式：使用 `istioctl` 客户端工具手工注入；或者使用 Istio sidecar 注入器进行自动注入。注意，同一 Pod 内不同容器之间的通信是不受 Sidecar 支持的。
 
 ## 注入
 
