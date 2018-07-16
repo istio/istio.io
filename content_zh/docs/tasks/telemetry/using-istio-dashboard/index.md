@@ -11,7 +11,7 @@ keywords: [telemetry,visualization]
 
 ## 前提条件
 
-* 在群集中[安装 Istio ](/docs/setup/) 并部署应用程序。
+* 在群集中[安装 Istio](/docs/setup/) 并部署应用程序。
 * [安装Prometheus附加组件](/docs/tasks/telemetry/querying-metrics/)。
 
 ## 查看 Istio 仪表板
@@ -90,6 +90,7 @@ Istio 仪表板由三个主要部分组成：
     {{< /text >}}
 
 *   删除可能正在运行的任何 `kubectl port-forward` 进程：
+
     {{< text bash >}}
     $ killall kubectl
     {{< /text >}}
