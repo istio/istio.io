@@ -10,7 +10,7 @@ aliases:
 keywords: [traffic-management,egress,tcp]
 ---
 
-在我之前的博客文章[使用外部Web服务](/blog/2018/egress-https/)中，我描述了如何通过 HTTPS 在网格 Istio 应用程序中使用外部服务, 在这篇文章中，我演示了通过 TCP 使用外部服务, 我使用[Istio Bookinfo示例应用程序](/docs/examples/bookinfo/)，这是将书籍评级数据保存在 MySQL 数据库中的版本, 我在集群外部署此数据库并配置 _ratings_ 服务以使用它, 我定义了[出口规则](/docs/reference/config/istio.routing.v1alpha1/#EgressRule)以允许网内应用程序访问外部数据库。
+在我之前的博客文章[使用外部Web服务](/blog/2018/egress-https/)中，我描述了如何通过 HTTPS 在网格 Istio 应用程序中使用外部服务, 在这篇文章中，我演示了通过 TCP 使用外部服务, 我使用[Istio Bookinfo示例应用程序](/docs/examples/bookinfo/)，这是将书籍评级数据保存在 MySQL 数据库中的版本, 我在集群外部署此数据库并配置 _ratings_ 服务以使用它, 我定义了[出口规则](https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/#EgressRule)以允许网内应用程序访问外部数据库。
 
 ## Bookinfo 示例应用程序与外部评级数据库
 
@@ -133,7 +133,7 @@ keywords: [traffic-management,egress,tcp]
 
 ### 将数据库用于 Bookinfo 应用程序中的评级数据
 
-1. 我修改了使用 MySQL 数据库的 _ratings_ 服务版本的 deployment spec，以使用我的数据库实例, 该 spec 位于 Istio 发行档案的`samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml`中, 我编辑以下几行：
+1. 我修改了使用 MySQL 数据库的 _ratings_ 服务版本的 `deployment spec`，以使用我的数据库实例, 该 `spec` 位于 Istio 发行档案的`samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml`中, 我编辑以下几行：
 
     {{< text yaml >}}
     - name: MYSQL_DB_HOST
@@ -148,7 +148,7 @@ keywords: [traffic-management,egress,tcp]
 
     我替换上面代码段中的值，指定数据库主机，端口，用户和密码, 请注意，在 Kubernetes 中使用容器环境变量中密码的正确方法是[使用 secret](https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables), 仅对于此示例任务，我直接在 deployment spec 中编写密码 , **切记！ 不要在真实环境中这样做**！, 我还假设每个人都知道到“密码”不应该明文配置在配置文件中
 
-1. 我应用修改后的 spec 来部署使用外部数据库的 _ratings_ 服务，_v2-mysql_ 的版本。
+1. 我应用修改后的 `spec` 来部署使用外部数据库的 _ratings_ 服务，_v2-mysql_ 的版本。
 
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml@)
@@ -190,7 +190,7 @@ keywords: [traffic-management,egress,tcp]
 
 ### 外部 MySQL 实例的出口规则
 
-TCP 出口规则来救我们, 我将以下 YAML spec 复制到一个文本文件（让我们称之为`egress-rule-mysql.yaml`）并编辑它以指定我的数据库实例的 IP 及其端口。
+TCP 出口规则来救我们, 我将以下 YAML `spec` 复制到一个文本文件（让我们称之为`egress-rule-mysql.yaml`）并编辑它以指定我的数据库实例的 IP 及其端口。
 
 {{< text yaml >}}
 apiVersion: config.istio.io/v1alpha2
@@ -228,7 +228,7 @@ Created config egress-rule/default/mysql at revision 1954425
 
 ## 出口 TCP 流量控制的动机
 
-一些网内 Islation 应用程序必须访问外部服务，例如遗留系统, 在许多情况下，不通过 HTTP 或 HTTPS 协议执行访问, 使用其他 TCP 协议，例如[MongoDB wire 协议](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/)和[MySQL客户端/服务器协议](https://dev.mysql.com/doc/internals/en/client-server-protocol.html)等特定于数据库的协议, 与外部数据库通信。
+一些网内 Istio 应用程序必须访问外部服务，例如遗留系统, 在许多情况下，不通过 HTTP 或 HTTPS 协议执行访问, 使用其他 TCP 协议，例如[MongoDB wire 协议](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/)和[MySQL客户端/服务器协议](https://dev.mysql.com/doc/internals/en/client-server-protocol.html)等特定于数据库的协议, 与外部数据库通信。
 
 请注意，如果访问外部 HTTPS 服务，如[控制出口TCP流量](/docs/tasks/traffic-management/egress/)任务中所述，应用程序必须向外部服务发出 HTTP 请求, 附加到 pod 或 VM 的 Envoy sidecar 代理将拦截请求并打开与外部服务的 HTTPS 连接, 流量将在 pod 或 VM 内部未加密，但会使 pod 或 VM 加密。
 
