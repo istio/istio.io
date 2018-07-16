@@ -9,13 +9,13 @@ keywords: [security,mutual-tls,https]
 
 * 在没有 Istio sidecar 的情况下部署 HTTPS 服务
 * 关闭 Istio 双向 TLS 认证情况下部署 HTTPS 服务
-* 启用了心慌想 TLS 的 HTTPS 服务。对于每个部署，请连接到此服务并验证其是否有效。
+* 部署一个启动双向 TLS 的 HTTPS 服务。对于每个部署，请连接到此服务并验证其是否有效。
 
 当 Istio sidecar 使用 HTTPS 服务部署时，代理将自动从 L7 降至 L4（无论是否启用了双向 TLS），这就意味着它不会终止原来的 HTTPS 通信。这就是为什么 Istio 可以在 HTTPS 服务上工作。
 
 ## 开始之前
 
-按照下面的[快速开始](/zh/docs/setup/kubernetes/quick-start/)设置 Istio。注意，在[安装步骤](/zh/docs/setup/kubernetes/quick-start/#安装步骤)第5步中，身份验证应该被**禁用**。
+按照下面的[快速开始](/docs/setup/kubernetes/quick-start/)设置 Istio。注意，在[安装步骤](/docs/setup/kubernetes/quick-start/#安装步骤)第5步中，身份验证应该被**禁用**。
 
 ### 生成证书和 configmap
 
