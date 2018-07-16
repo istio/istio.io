@@ -47,7 +47,7 @@ still expect the end-to-end flow to continue without any errors.
     $ istioctl replace -f @samples/bookinfo/networking/virtual-service-ratings-test-delay.yaml@
     {{< /text >}}
 
-1. Confirm the rule is created:
+1. Confirm the rule was created:
 
     {{< text bash yaml >}}
     $ istioctl get virtualservice ratings -o yaml
@@ -150,7 +150,7 @@ ratings not available` message.
     $ istioctl replace -f @samples/bookinfo/networking/virtual-service-ratings-test-abort.yaml@
     {{< /text >}}
 
-1. Confirm the rule is created:
+1. Confirm the rule was created:
 
     {{< text bash yaml >}}
     $ istioctl get virtualservice ratings -o yaml
