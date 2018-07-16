@@ -98,7 +98,7 @@ To start the application, follow the instructions below corresponding to your Is
 1.  Define the ingress gateway for the application:
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
     {{< /text >}}
 
 1.  Confirm all services and pods are correctly defined and running:
