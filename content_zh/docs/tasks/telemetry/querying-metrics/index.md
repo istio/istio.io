@@ -15,7 +15,7 @@ keywords: [telemetry,metrics]
 
 ## 查询 Istio 度量标准
 
-1.  验证 prometheus 服务是否在您的群集中运行（从 0.8 开始， 默认情况下 prometheus 设置包含在 istio.yaml 和 istio-demo-auth.yaml 中）
+1.  验证 prometheus 服务是否在您的群集中运行（从 0.8 开始， 默认情况下 prometheus 设置包含在 `istio.yaml` 和 `istio-demo-auth.yaml` 中）
 
     在 Kubernetes 环境中，执行以下命令：
 
@@ -98,4 +98,4 @@ Mixer 附带内置的 [Prometheus](https://prometheus.io) 适配器，可以公�
     $ killall kubectl
     {{< /text >}}
 
--   如果您不打算探索任何后续任务，请参阅[Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) 说明以关闭应用程序。
+-   如果您不打算探索任何后续任务，请参阅[Bookinfo 清理](/docs/examples/bookinfo/#cleanup) 说明以关闭应用程序。
