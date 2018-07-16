@@ -43,7 +43,7 @@ keywords: [traffic-management,egress,tcp]
     -e "CREATE USER 'bookinfo' IDENTIFIED BY '<password you choose>'; GRANT SELECT ON test.ratings to 'bookinfo';"
     {{< /text >}}
 
-    _**OR**_
+    _**或者**_
 
     对于`mysql`和本地数据库，命令将是：
 
@@ -54,7 +54,7 @@ keywords: [traffic-management,egress,tcp]
 
     在这里，我应用[最小特权原则](https://en.wikipedia.org/wiki/Principle_of_least_privilege), 这意味着我不在 Bookinfo 应用程序中使用我的 _admin_ 用户, 相反，我为应用程序 Bookinfo 创建了一个最小权限的特殊用户 _bookinfo_ , 在这种情况下，_bookinfo_ 用户只对单个表具有“SELECT”特权。
 
-    在运行命令创建用户之后，我将通过检查最后一个命令的编号并运行`history -d <创建用户的命令编号>` 来清理我的bash历史记录, 我不希望新用户的密码存储在bash历史记录中, 如果我使用`mysql`，我也会删除`〜/ .mysql_history`文件中的最后一个命令, 在[MySQL文档](https://dev.mysql.com/doc/refman/5.5/en/create-user.html)中阅读有关新创建用户的密码保护的更多信息。
+    在运行命令创建用户之后，我将通过检查最后一个命令的编号并运行`history -d <创建用户的命令编号>` 来清理我的bash历史记录, 我不希望新用户的密码存储在bash历史记录中, 如果我使用`mysql`，我也会删除`~/.mysql_history`文件中的最后一个命令, 在[MySQL文档](https://dev.mysql.com/doc/refman/5.5/en/create-user.html)中阅读有关新创建用户的密码保护的更多信息。
 
 1. 我检查创建的评级，看看一切都按预期工作：
 
@@ -128,7 +128,7 @@ keywords: [traffic-management,egress,tcp]
 
 {{< image width="80%" ratio="59.08%"
     link="/docs/examples/bookinfo/withistio.svg"
-    caption="The original Bookinfo application"
+    caption="原始的 Bookinfo 应用程序"
     >}}
 
 ### 将数据库用于 Bookinfo 应用程序中的评级数据
@@ -258,7 +258,7 @@ Created config egress-rule/default/mysql at revision 1954425
 
 ## 与网格扩展的关系
 
-请注意，本文中描述的场景与[集成虚拟机](/docs/examples/integrating-vms/)示例中描述的网格扩展场景不同, 在这种情况下，MySQL 实例在与 Istio 服务网格集成的外部（集群外）机器（裸机或VM）上运行 , MySQL 服务成为网格的一流公民，具有 Istio 的所有有益功能, 除此之外，服务可以通过本地集群域名寻址，例如通过`mysqldb.vm.svc.cluster.local`，并且可以通过[双向 TLS 身份验证](/docs/concepts/security/#mutual-tls-authentication)保护与它的通信, 无需创建出口规则来访问此服务; 但是，该服务必须在 Istio 注侧, 要启用此类集成，必须在计算机上安装 Istio 组件（_Envoy proxy_ ，_node-agent_ ，_istio-agent_），并且必须可以从中访问 Istio 控制平面（_Pilot_ ，_Mixer_ ，_CA_）, 有关详细信息，请参阅[Istio Mesh Expansion](/docs/setup/kubernetes/mesh-expansion/)说明。
+请注意，本文中描述的场景与[集成虚拟机](/docs/examples/integrating-vms/)示例中描述的网格扩展场景不同, 在这种情况下，MySQL 实例在与 Istio 服务网格集成的外部（集群外）机器（裸机或VM）上运行 , MySQL 服务成为网格的一流公民，具有 Istio 的所有有益功能, 除此之外，服务可以通过本地集群域名寻址，例如通过`mysqldb.vm.svc.cluster.local`，并且可以通过[双向 TLS 身份验证](/docs/concepts/security/#mutual-tls-authentication)保护与它的通信, 无需创建出口规则来访问此服务; 但是，该服务必须在 Istio 注侧, 要启用此类集成，必须在计算机上安装 Istio 组件（_Envoy proxy_ ，_node-agent_ ，_istio-agent_），并且必须可以从中访问 Istio 控制平面（_Pilot_ ，_Mixer_ ，_CA_ ）, 有关详细信息，请参阅[Istio Mesh Expansion](/docs/setup/kubernetes/mesh-expansion/)说明。
 
 在我们的示例中，MySQL 实例可以在任何计算机上运行，也可以由云提供商作为服务进行配置, 无需集成机器
 与 Istio , 无需从机器访问 Istio 控制平面, 在 MySQL 作为服务的情况下，MySQL 运行的机器可能无法访问并在其上安装所需的组件可能是不可能的, 在我们的例子中，MySQL 实例可以通过其全局域名进行寻址，如果消费应用程序希望使用该域名，这可能是有益的, 当在消费应用程序的部署配置中无法更改预期的域名时，这尤其重要。
@@ -288,7 +288,7 @@ Created config egress-rule/default/mysql at revision 1954425
     Deleted config: route-rule/default/reviews-test-ratings-v2
     {{< /text >}}
 
-1. 取消部署 _ratings v2-mysql_：
+1. 取消部署 _ratings v2-mysql_ ：
 
     {{< text bash >}}
     $ kubectl delete -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml@)
