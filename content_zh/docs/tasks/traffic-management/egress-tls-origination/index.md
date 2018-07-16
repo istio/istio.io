@@ -74,7 +74,7 @@ weight: 42
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
     HTTP/1.1 301 Moved Permanently
     ...
-    location: https://edition.cnn.com/politics
+    location: https://edition.cnn.com/politics 
     ...
 
     HTTP/1.1 200 OK
