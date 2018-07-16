@@ -1,56 +1,53 @@
 ---
-title: TLS Origination for Egress Traffic
-description: Describes how to configure Istio to perform TLS origination for traffic to external services
+title: 出口流量的 TLS
+description: 此任务描述 Istio 如何配置出口流量的 TLS
 weight: 42
 ---
 
-> This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.7/docs/tasks/traffic-management/).
+> 注意：此任务使用新的 [v1alpha3 流量管理 API](/blog/2018/v1alpha3-routing/)。旧的 API 已被弃用，将在下一个 Istio 版本中删除。如果您需要使用旧版本，请按照[此处](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)的文档操作。
 
-The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task demonstrates how external, meaning outside of the Kubernetes cluster, HTTP and HTTPS services can be accessed from applications inside the mesh. As described in that topic, by default Istio-enabled applications are unable to access URLs outside the cluster. To enable external access, a [ServiceEntry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) for the external service must be defined, or alternatively, [direct access to external services](/docs/tasks/traffic-management/egress/#calling-external-services-directly) must be configured.
+[控制出口流量](/docs/tasks/traffic-management/egress/)任务演示了如何从网格内部的应用程序访问 Kubernetes 集群外部的 HTTP 和 HTTPS 服务, 如该主题中所述，默认情况下，启用了 Istio 的应用程序无法访问群集外的 URL, 要启用外部访问，必须定义外部服务的[ServiceEntry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry)，或者[直接访问外部服务](/docs/tasks/traffic-management/egress/#calling-external-services-directly)。
 
-This task describes how to configure Istio to perform TLS origination for egress traffic.
+此任务描述 Istio 如何配置出口流量的 TLS。
 
-## Use case
+## 用例
 
-Consider a legacy application that performs HTTP calls to external sites. Suppose the organization that operates the application receives a new requirement which states that all the external traffic must be encrypted. With Istio, such a requirement can be achieved just by configuration, without changing the code of the application.
+考虑一个对外部站点执行 HTTP 调用的遗留应用程序, 假设运行应用程序的组织收到一个新要求，该要求规定必须加密所有外部流量, 使用 Istio，只需通过配置就可以实现这样的要求，而无需更改应用程序的代码。
 
-In this task, you configure Istio to open HTTPS connections to external services in cases the original traffic was HTTP. The application will send unencrypted HTTP requests as previously and Istio will encrypt the requests for the application.
+在此任务中，如果原始流量为 HTTP，则将 Istio 配置为打开与外部服务的 HTTPS 连接, 应用程序将像以前一样发送未加密的 HTTP 请求，Istio 将加密应用程序的请求。
 
-## Before you begin
+## 前提条件
 
-* Setup Istio by following the instructions in the
-  [Installation guide](/docs/setup/).
+* 按照[安装指南](/docs/setup/)中的说明设置 Istio 。
 
-*   Start the [sleep]({{< github_tree >}}/samples/sleep) sample
-    which will be used as a test source for external calls.
+*   启动 [sleep]({{< github_tree >}}/samples/sleep) 示例，它将作为外部调用的测试源。
 
-    If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), deploy the `sleep` application:
+    如果您已启用[自动注入 sidecar](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), 请按如下命令部署 `sleep` 应用程序:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@
     {{< /text >}}
 
-    Otherwise, you have to manually inject the sidecar before deploying the `sleep` application:
+    否则，您必须在部署 `sleep` 应用程序之前手动注入 sidecar：
 
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
     {{< /text >}}
 
-    Note that any pod that you can `exec` and `curl` from will do for the procedures below.
+    请注意，任何可以 `exec` 和 `curl` 的 pod 都可以执行以下步骤。
 
-*   Create a shell variable to hold the name of the source pod for sending requests to external services.
-If you used the [sleep]({{< github_tree >}}/samples/sleep) sample, run:
+*   创建一个 shell 变量来保存源 pod 的名称，以便将请求发送到外部服务, 如果您使用 [sleep]({{< github_tree >}}/samples/sleep) 示例，请按如下命令运行:
 
     {{< text bash >}}
     $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
-## Configuring HTTP and HTTPS external services
+## 配置 HTTP 和 HTTPS 外部服务
 
-First, configure access to _cnn.com_ in the same way as in the [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task.
-Note that you use a wildcard `*` in your `hosts` definition: `*.cnn.com`. Using the wildcard allows access to  _www.cnn.com_ as well as to _edition.cnn.com_.
+首先，与[控制出口流量](/docs/tasks/traffic-management/egress/)任务相同的方式配置对 _cnn.com_ 的访问。
+请注意，在 `hosts` 中定义中使用 `*` 通配符：`*.cnn.com` , 使用通配符可以访问 _www.cnn.com_ 以及 _edition.cnn.com_ 。
 
-1.  Create a `ServiceEntry` to allow access to an external HTTP and HTTPS services:
+1.  创建一个 `ServiceEntry` 以允许访问外部 HTTP 和 HTTPS 服务：
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
@@ -61,7 +58,7 @@ Note that you use a wildcard `*` in your `hosts` definition: `*.cnn.com`. Using 
     spec:
       hosts:
       - "*.cnn.com"
-      ports:
+        ports:
       - number: 80
         name: http-port
         protocol: HTTP
@@ -71,7 +68,7 @@ Note that you use a wildcard `*` in your `hosts` definition: `*.cnn.com`. Using 
     EOF
     {{< /text >}}
 
-1.  Make a request to the external HTTP service:
+1.  向外部 HTTP 服务发出请求：
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
@@ -87,29 +84,26 @@ Note that you use a wildcard `*` in your `hosts` definition: `*.cnn.com`. Using 
     ...
     {{< /text >}}
 
-    The output should be similar to the above (some details replaced by ellipsis).
+    输出应该与上面的类似（一些细节用省略号代替）。
 
-Note the `-L` flag of _curl_ which instructs _curl_ to follow redirects. In this case,
-the server returned a redirect response ([301 Moved Permanently](https://tools.ietf.org/html/rfc2616#section-10.3.2)) to an HTTP request to `http://edition.cnn.com/politics`. The redirect response instructs the client to send an additional request, this time by HTTPS, to `https://edition.cnn.com/politics`. For the second request, the server returns the requested content and _200 OK_ status code.
+注意 _curl_ 的 `-L` 标志，它指示 _curl_ 遵循重定向, 在这种情况下，
+服务器返回一个重定向响应（[301 Moved Permanently](https://tools.ietf.org/html/rfc2616#section-10.3.2)）到 `http://edition.cnn.com/politics` 的 HTTP 请求, 重定向响应指示客户端通过 HTTPS 向 `https://edition.cnn.com/politics` 发送附加请求, 对于第二个请求，服务器返回所请求的内容和 _200 OK_ 状态代码。
 
-While for the _curl_ command this redirection happens transparently, there are two issues here. The first issue is the redundant first request, which doubles the latency of fetching the content of http://edition.cnn.com/politics. The second issue is that the path of the URL, _politics_ in this case, is sent in clear text. If there is an attacker who sniffs the communication between your application and _cnn.com_, the attacker would know which specific topics and articles of _cnn.com_ your application fetched. For privacy reasons, you might want to prevent such disclosure from the attacker.
+而对于 _curl_ 命令，这种重定向是透明的，这里有两个问题, 第一个问题是冗余的第一个请求，它使获取 http://edition.cnn.com/politics 内容的延迟加倍, 第二个问题是 URL 的路径，在这种情况下是 _politics_ ，以明文形式发送, 如果有攻击者嗅探您的应用程序与 _cnn.com_ 之间的通信，则攻击者会知道您的应用程序获取的 _cnn.com_ 的哪些特定主题和文章, 出于隐私原因，您可能希望阻止攻击者披露此类信息。
 
-In the next section, you configure Istio to perform TLS origination to resolve these two issues. Clean your configuration before proceeding to the next section:
+在下一节中，您将配置 Istio 以执行 TLS 以解决这两个问题, 在继续下一部分之前清理配置：
 
 {{< text bash >}}
 $ istioctl delete serviceentry cnn
 {{< /text >}}
 
-## TLS origination for egress traffic
+## 出口流量的 TLS
 
-1.  Define a `ServiceEntry` to allow traffic to _edition.cnn.com_, a `VirtualService` to perform request port rewriting, and a `DestinationRule` for TLS origination.
+1.  定义一个 `ServiceEntry` 以允许流量到 _edition.cnn.com_ ，一个 `VirtualService` 来执行请求端口重写，一个 `DestinationRule` 用于 TLS 发起。
 
-    Unlike the `ServiceEntry` in the previous section, here you use HTTP for the protocol on port 433 because clients
-will send HTTP requests and Istio will perform TLS origination for them. Also, in this example the resolution must be set
-to DNS to correctly configure Envoy.
+    与上一节中的 `ServiceEntry` 不同，这里使用 HTTP 作为端口 433 上的协议，因为客户端将发送 HTTP 请求，而 Istio 将为它们执行 TLS 发起, 此外，在此示例中，必须将分辨率设置为 DNS 才能正确配置 Envoy。
 
-    Finally, note that the `VirtualService` uses a specific host _edition.cnn.com_ (no wildcard) because the Envoy
-proxy needs to know exactly which host to access using HTTPS:
+    最后，请注意 `VirtualService` 使用特定的主机 _edition.cnn.com_ （没有通配符），因为 Envoy 代理需要确切地知道使用 HTTPS 访问哪个主机：
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
@@ -120,14 +114,14 @@ proxy needs to know exactly which host to access using HTTPS:
     spec:
       hosts:
       - edition.cnn.com
-      ports:
+        ports:
       - number: 80
         name: http-port
         protocol: HTTP
       - number: 443
         name: http-port-for-tls-origination
         protocol: HTTP
-      resolution: DNS
+        resolution: DNS
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
@@ -136,7 +130,7 @@ proxy needs to know exactly which host to access using HTTPS:
     spec:
       hosts:
       - edition.cnn.com
-      http:
+        http:
       - match:
           - port: 80
         route:
@@ -162,7 +156,7 @@ proxy needs to know exactly which host to access using HTTPS:
     EOF
     {{< /text >}}
 
-1. 发送HTTP请求到 http://edition.cnn.com/politics ，如上一节所述：
+1. 发送 HTTP 请求到 http://edition.cnn.com/politics ，如上一节所述：
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
@@ -173,15 +167,15 @@ proxy needs to know exactly which host to access using HTTPS:
     ...
     {{< /text >}}
 
-    This time you receive _200 OK_ as the first and the only response. Istio performed TLS origination for _curl_ so the original HTTP request was forwarded to _cnn.com_ as HTTPS. The _cnn.com_ server returned the content directly, without the need for redirection. You eliminated the double round trip between the client and the server, and the request left the mesh encrypted, without disclosing the fact that your application fetched the _politics_ section of _cnn.com_.
+    这次你收到 _200 OK_ , Istio 为 _curl_ 执行了 TLS 发起，因此原始 HTTP 请求作为 HTTPS 转发到 _cnn.com_ , _cnn.com_ 服务器直接返回内容，无需重定向, 您消除了客户端和服务器之间的双重往返，并且请求使网格加密，而没有透露应用程序获取 _cnn.com_ 的 _politics_ 部分这一事实。
 
-    Note that you used the same command as in the previous section. For applications that access external services programmatically, the code will not be changed. Therefore, you get the benefits of TLS origination by configuring Istio, without changing a line of code.
+    请注意，您使用的命令与上一节中的命令相同, 对于以编程方式访问外部服务的应用程序，代码不会更改, 因此，您可以通过配置 Istio 来获得 TLS 的好处，而无需更改代码行。
 
-## 其他安全考虑因素
+## 其他安全因素
 
-Note that the traffic between the application pod and the sidecar proxy on the local host is still unencrypted. It means that if an attacker was able to penetrate the node of your application, they would still be able to see the unencrypted communication on the local network of the node. In some environments a strict security requirement might exist that would state that all the traffic must be encrypted, even on the local network of the nodes. With such a strict requirement the applications should use HTTPS (TLS) only, the TLS origination described in this task will not be sufficient.
+请注意，应用程序 pid 与本地主机上的 sidecar 之间的流量仍未加密, 这意味着如果攻击者能够穿透应用程序的节点，他们仍然可以在节点的本地网络上看到未加密的通信, 在某些环境中，可能存在严格的安全要求，即必须加密所有流量，即使在节点的本地网络上也是如此, 如果有这么严格的要求，应用程序应该只使用 HTTPS（TLS），此任务中描述的 TLS 是不够的。
 
-Also note that even for HTTPS originated by the application, the attacker could know that the requests to _cnn.com_ are being sent, by inspecting [Server Name Indication (SNI)](https://en.wikipedia.org/wiki/Server_Name_Indication). The _SNI_ field is sent unencrypted during the TLS handshake. Using HTTPS prevents the attackers from knowing specific topics and articles, it does not prevent the attackers from learning that _cnn.com_ is accessed.
+另请注意，即使对于应用程序发起的 HTTPS ，攻击者也可以通过检查[服务器名称指示（SNI）](https://en.wikipedia.org/wiki/Server_Name_Indication)来了解对 _cnn.com_ 的请求, ）, 在 TLS 握手期间，未加密地发送 _SNI_ 字段, 使用 HTTPS 可防止攻击者了解特定主题和文章，但这并不能阻止攻击者了解 _cnn.com_ 被访问。
 
 ## 清理
 
