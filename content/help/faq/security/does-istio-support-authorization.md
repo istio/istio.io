@@ -1,7 +1,7 @@
 ---
-title: Does Istio Auth support authorization?
+title: Does Istio support authorization?
 weight: 110
 ---
 
-Yes. Starting from Istio 0.5 release, we provide Istio authorization for services in Istio mesh.
+Yes. Istio provides authorization features for services in the mesh.
 [Learn more](/docs/concepts/security/#authorization).
