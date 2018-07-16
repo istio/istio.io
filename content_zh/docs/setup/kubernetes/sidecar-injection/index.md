@@ -7,7 +7,7 @@ aliases:
     - /docs/setup/kubernetes/automatic-sidecar-inject.html
 ---
 
-## 对 Pod Spec 的要求
+## 对 Pod 的要求
 
 要成为服务网格的一部分，Kubernetes 集群中的每个 Pod 都必须满足如下要求：
 
