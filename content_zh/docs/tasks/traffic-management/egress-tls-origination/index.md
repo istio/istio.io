@@ -6,7 +6,7 @@ weight: 42
 
 > 注意：此任务使用新的 [v1alpha3 流量管理 API](/blog/2018/v1alpha3-routing/)。旧的 API 已被弃用，将在下一个 Istio 版本中删除。如果您需要使用旧版本，请按照[此处](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)的文档操作。
 
-[控制出口流量](/docs/tasks/traffic-management/egress/)任务演示了如何从网格内部的应用程序访问 Kubernetes 集群外部的 HTTP 和 HTTPS 服务, 如该主题中所述，默认情况下，启用了 Istio 的应用程序无法访问群集外的 URL, 要启用外部访问，必须定义外部服务的[ServiceEntry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry)，或者[直接访问外部服务](/docs/tasks/traffic-management/egress/#calling-external-services-directly)。
+[控制出口流量](/docs/tasks/traffic-management/egress/)任务演示了如何从网格内部的应用程序访问 Kubernetes 集群外部的 HTTP 和 HTTPS 服务, 如该主题中所述，默认情况下，启用了 Istio 的应用程序无法访问群集外的 URL, 要启用外部访问，必须定义外部服务的[`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry)，或者[直接访问外部服务](/docs/tasks/traffic-management/egress/#calling-external-services-directly)。
 
 此任务描述 Istio 如何配置出口流量的 TLS。
 
@@ -89,7 +89,7 @@ weight: 42
 注意 _curl_ 的 `-L` 标志，它指示 _curl_ 遵循重定向, 在这种情况下，
 服务器返回一个重定向响应（[301 Moved Permanently](https://tools.ietf.org/html/rfc2616#section-10.3.2)）到 `http://edition.cnn.com/politics` 的 HTTP 请求, 重定向响应指示客户端通过 HTTPS 向 `https://edition.cnn.com/politics` 发送附加请求, 对于第二个请求，服务器返回所请求的内容和 _200 OK_ 状态代码。
 
-而对于 _curl_ 命令，这种重定向是透明的，这里有两个问题, 第一个问题是冗余的第一个请求，它使获取 http://edition.cnn.com/politics 内容的延迟加倍, 第二个问题是 URL 的路径，在这种情况下是 _politics_ ，以明文形式发送, 如果有攻击者嗅探您的应用程序与 _cnn.com_ 之间的通信，则攻击者会知道您的应用程序获取的 _cnn.com_ 的哪些特定主题和文章, 出于隐私原因，您可能希望阻止攻击者披露此类信息。
+而对于 _curl_ 命令，这种重定向是透明的，这里有两个问题, 第一个问题是冗余的第一个请求，它使获取 `http://edition.cnn.com/politics` 内容的延迟加倍, 第二个问题是 URL 的路径，在这种情况下是 _politics_ ，以明文形式发送, 如果有攻击者嗅探您的应用程序与 _cnn.com_ 之间的通信，则攻击者会知道您的应用程序获取的 _cnn.com_ 的哪些特定主题和文章, 出于隐私原因，您可能希望阻止攻击者披露此类信息。
 
 在下一节中，您将配置 Istio 以执行 TLS 以解决这两个问题, 在继续下一部分之前清理配置：
 
@@ -156,7 +156,7 @@ $ istioctl delete serviceentry cnn
     EOF
     {{< /text >}}
 
-1. 发送 HTTP 请求到 http://edition.cnn.com/politics ，如上一节所述：
+1. 发送 HTTP 请求到 `http://edition.cnn.com/politics` ，如上一节所述：
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
