@@ -197,7 +197,7 @@ $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name
 ...
 {{< /text >}}
 
-因为工作流“sleep --> sleep-代理 --> nginx-代理 --> nginx”，整个过程是7层流量，在 sleep-代理和 nginx-代理之间有一个 L4 双向 TLS 加密。在这种情况下，一切都很好。
+因为工作流“sleep --> sleep-proxy --> nginx-proxy --> nginx”，整个过程是7层流量，在 sleep-proxy 和 nginx-proxy 之间有一个 L4 双向 TLS 加密。在这种情况下，一切都很好。
 
 但是，如果您从 istio-proxy 容器运行这个命令，它将无法工作。
 
@@ -207,7 +207,7 @@ curl: (35) gnutls_handshake() failed: Handshake failed
 command terminated with exit code 35
 {{< /text >}}
 
-原因是对于工作流“sleep-代理 --> nginx-代理 --> nginx”，nginx-代理 可以从 sleep-代理中获得双向的 TLS 流量。在上面的命令中，sleep-代理不提供客户端证书，因此它不会起作用。此外，即使是 sleep-代理可以在上面的命令中提供客户端证书，它也不会工作，因为流量会从 nginx-代理 降级到 nginx。
+原因是对于工作流“sleep-proxy --> nginx-proxy --> nginx”，nginx-proxy 可以从 sleep-proxy 中获得双向的 TLS 流量。在上面的命令中，sleep-proxy 不提供客户端证书，因此它不会起作用。此外，即使是 sleep-proxy 可以在上面的命令中提供客户端证书，它也不会工作，因为流量会从 nginx-proxy 降级到 nginx。
 
 ## 清除
 
