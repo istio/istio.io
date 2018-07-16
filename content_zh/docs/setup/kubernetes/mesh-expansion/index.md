@@ -17,9 +17,9 @@ keywords: [kubernetes,vms]
 
 安装过程包含服务网格的扩展准备、扩展安装以及虚拟机的配置过程。
 
-在发布包中有一个示例脚本：[install/tools/setupMeshEx.sh]({{< github_file >}}/install/tools/setupMeshEx.sh)，这个脚本用来协助 Kubernetes 中的设置，请查阅这个脚本，注意脚本的内容以及所需的环境变量（例如 `GCP_OPTS`）。
+在发布包中有一个示例脚本：[`install/tools/setupMeshEx.sh`]({{< github_file >}}/install/tools/setupMeshEx.sh)，这个脚本用来协助 Kubernetes 中的设置，请查阅这个脚本，注意脚本的内容以及所需的环境变量（例如 `GCP_OPTS`）。
 
-还有一个示例脚本是用来协助进行虚拟机配置的，这个脚本同样包含在发布包中：[install/tools/setupIstioVM.sh]({{< github_file >}}/install/tools/setupIstioVM.sh)。可以根据本地环境和 DNS 需求对这个脚本进行定制。
+还有一个示例脚本是用来协助进行虚拟机配置的，这个脚本同样包含在发布包中：[`install/tools/setupIstioVM.sh`]({{< github_file >}}/install/tools/setupIstioVM.sh)。可以根据本地环境和 DNS 需求对这个脚本进行定制。
 
 ### 扩展准备工作：设置 Kubernetes
 

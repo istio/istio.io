@@ -147,7 +147,7 @@ metadata:
 
 ### 在多租户环境中使用 `istioctl`
 
-定义[路由规则](/docs/reference/config/istio.routing.v1alpha1/#RouteRule)或者[目标策略](/docs/reference/config/istio.routing.v1alpha1/#DestinationPolicy)时，要确认 `istioctl` 命令是针对专有的 Istio 控制面所在的命名空间运行的。另外规则自身的定义也要限制在租户的命名空间里，这样才能保证规则在租户自己的网格中生效。`-i` 选项用来在 Istio 控制面所属的命名空间中创建（get 和 describe 也一样）规则。`-n` 参数会限制规则的所在范围是租户的网格，取值就是租户应用所在的命名空间。如果 Yaml 文件中的资源已经指定了范围，`-n` 参数会被跳过。
+定义[路由规则](https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/#RouteRule)或者[目标策略](https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/#DestinationPolicy)时，要确认 `istioctl` 命令是针对专有的 Istio 控制面所在的命名空间运行的。另外规则自身的定义也要限制在租户的命名空间里，这样才能保证规则在租户自己的网格中生效。`-i` 选项用来在 Istio 控制面所属的命名空间中创建（get 和 describe 也一样）规则。`-n` 参数会限制规则的所在范围是租户的网格，取值就是租户应用所在的命名空间。如果 Yaml 文件中的资源已经指定了范围，`-n` 参数会被跳过。
 
 例如下面的命令会创建到 `istio-system1` 命名空间的路由规则：
 
@@ -260,6 +260,6 @@ Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list p
 * Kubecon 讨论，关于对”协同软性多租户“的支持 [Building for Trust: How to Secure Your Kubernetes](https://www.youtube.com/watch?v=YRR-kZub0cA).
 * Kubernetes [RBAC 文档](https://kubernetes.io/docs/admin/authorization/rbac/) 以及 [命名空间文档](https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/).
 * Kubecon 幻灯片 [Multi-tenancy Deep Dive](https://schd.ws/hosted_files/kccncna17/a9/kubecon-multitenancy.pdf).
-* Google 文档 [Multi-tenancy models for Kubernetes](https://docs.google.com/document/d/15w1_fesSUZHv-vwjiYa9vN_uyc--PySRoLKTuDhimjc/edit#heading=h.3dawx97e3hz6). (需要授权)
+* Google 文档 [Multi-tenancy models for Kubernetes](https://docs.google.com/document/d/15w1_fesSUZHv-vwjiYa9vN_uyc--PySRoLKTuDhimjc). (需要授权)
 * Cloud Foundry 提出的文档：[Multi-cloud and Multi-tenancy](https://docs.google.com/document/d/14Hb07gSrfVt5KX9qNi7FzzGwB_6WBpAnDpPG6QEEd9Q)
-* [Istio Auto Multi-Tenancy 101](https://docs.google.com/document/d/12F183NIRAwj2hprx-a-51ByLeNqbJxK16X06vwH5OWE/edit#heading=h.x0f9qplja3q)
+* [Istio Auto Multi-Tenancy 101](https://docs.google.com/document/d/12F183NIRAwj2hprx-a-51ByLeNqbJxK16X06vwH5OWE)

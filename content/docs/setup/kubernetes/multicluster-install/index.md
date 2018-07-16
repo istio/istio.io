@@ -56,14 +56,14 @@ kubectl.
 
 ### Set environment variables for Pod IPs from Istio control plane needed by remote
 
-> Please wait for the Istio control plane to finish initializing
+Please wait for the Istio control plane to finish initializing
 before proceeding to steps in this section.
 
-> These operations must be run on the Istio control plane cluster
+These operations must be run on the Istio control plane cluster
 to capture the Istio control-plane service endpoints--e.g. Pilot, Policy,
 and Statsd Pod IP endpoints.
 
-> If Helm is used with Tiller on each remote, copy the environment
+If Helm is used with Tiller on each remote, copy the environment
 variables to each node before using Helm to connect the remote
 cluster to the Istio control plane.
 
@@ -212,13 +212,13 @@ The filename for a cluster is the same as the original `kubeconfig` cluster name
 
 ## Instantiate the credentials for each remote cluster
 
-> Execute this work on the cluster running the Istio control
+Execute this work on the cluster running the Istio control
 plane.
 
-> Istio can be installed in a different namespace other than
+Istio can be installed in a different namespace other than
 istio-system.
 
-> The local cluster running the Istio control plane does not need
+The local cluster running the Istio control plane does not need
 it's secrets stored and labeled. The local node is always aware of
 its Kubernetes credentials, but the local node is not aware of
 the remote nodes' credentials.

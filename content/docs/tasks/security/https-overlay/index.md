@@ -155,7 +155,7 @@ No resources found.
 Then deploy the Istio control plane with mutual TLS enabled:
 
 {{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio-auth.yaml
+$ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
 {{< /text >}}
 
 Make sure everything is up and running:
