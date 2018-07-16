@@ -376,7 +376,7 @@ The steps to enable control plane security are as follows:
 
 ### mTLS between application pods
 
-The steps to mTLS enable for all application pods are as follows:
+The steps to enable mTLS for all application pods are as follows:
 
 1.  Istio control plane cluster deployed with
     1.  Global mTLS enabled
@@ -389,12 +389,12 @@ The steps to mTLS enable for all application pods are as follows:
     1.  a secret named `cacerts` in the Istio control plane namespace with the [CA certificates](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)
         1.  The CA certificate for the remote clusters needs to be signed by the same CA or root CA as the main cluster.
 
-**NOTE:**  The CA certificate steps are identical for both control plane security and application pod security steps.
+> The CA certificate steps are identical for both control plane security and application pod security steps.
 
 ### Example deployment
 
-The following is an example procedure to install Istio enabled for both control plane and application pod
-mTLS.  The example sets up a remote cluster with a selector-less service and endpoint for `istio-pilot` to
+The following is an example procedure to install Istio with both control plane mTLS and application pod
+mTLS enabled.  The example sets up a remote cluster with a selector-less service and endpoint for `istio-pilot` to
 allow the remote sidecars to resolve `istio-pilot.istio-system` hostname via its local kubernetes DNS.
 
 1.  *Primary Cluster.*  Deployment of the Istio control plane cluster
@@ -427,7 +427,7 @@ allow the remote sidecars to resolve `istio-pilot.istio-system` hostname via its
         $ kubectl create secret generic cacerts -n istio-system --from-file=samples/certs/ca-cert.pem --from-file=samples/certs/ca-key.pem --from-file=samples/certs/root-cert.pem --from-file=samples/certs/cert-chain.pem
         {{< /text >}}
 
-    1.  Set endpoint IP environment variables as in the [above section](#set-environment-variables-for-pod-ips-from-istio-control-plane-needed-by-remote)
+    1.  Set endpoint IP environment variables as in the [setting environment variables](#set-environment-variables-for-pod-ips-from-istio-control-plane-needed-by-remote) section
 
     1.  Deploy the remote cluster's components with control plane and application pod security enabled.  Also, enable creation of the `istio-pilot` selector-less service and endpoint to get a DNS entry in the remote cluster.
 
