@@ -73,7 +73,7 @@ In this case, the `EXTERNAL-IP` value in the output from the command in the prev
 but rather a host name, and the above command will have failed to set the `INGRESS_HOST` environment variable. In this case, use the following command to correct the `INGRESS_HOST` value:
 
 {{< text bash >}}
-export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+$ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
 {{< /text >}}
 
 #### Determining the ingress IP and ports when using a node port
