@@ -260,7 +260,7 @@ result (ALLOW or DENY).
 
 You enable authorization using a `RbacConfig` object. The `RbacConfig` object is a mesh global singleton with a fixed name
 “default”, at most one `RbacConfig` instance is allowed to be used in the mesh. Like other Istio configuration objects it is defined
-as a [Kubernetes CustomResourceDefinition (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) object.
+as a [Kubernetes `CustomResourceDefinition` (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) object.
 
 In `RbacConfig` object, the operator can specify “mode”, which can be one of the following:
 
@@ -287,7 +287,7 @@ spec:
 
 To configure an Istio authorization policy, you specify a `ServiceRole` and `ServiceRoleBinding`. Like other Istio
 configuration objects they are defined as
-[Kubernetes CustomResourceDefinition (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) objects.
+[Kubernetes `CustomResourceDefinition` (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) objects.
 
 * **`ServiceRole`** defines a group of permissions to access services.
 * **`ServiceRoleBinding`** grants a `ServiceRole` to particular subjects, such as  a user, a group, or a service.

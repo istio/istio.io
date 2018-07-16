@@ -193,9 +193,6 @@ apiVersion
 archive.istio.io
 archive.istio.io.
 attach_policies.png
-auth.svg
-authn.svg
-authz.svg
 autoscaler
 autoscalers
 autoscaling
