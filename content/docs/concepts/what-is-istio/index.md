@@ -189,9 +189,9 @@ management.
 end-user authentication with built-in identity and credential management. You
 can use Citadel to upgrade unencrypted traffic in the service mesh. Using
 Citadel, operators can enforce policies based on service identity rather than
-on network controls. Starting from release 0.5, Istio supports [role-based
-access control](/docs/concepts/security/rbac/) to control who can access your
-services.
+on network controls. Starting from release 0.5, you can use
+[Istio's authorization feature](/docs/concepts/security/#authorization) to control
+who can access your services.
 
 ## Design Goals
 
