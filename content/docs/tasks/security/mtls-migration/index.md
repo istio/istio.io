@@ -108,7 +108,7 @@ $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sle
 {{< /text >}}
 
 You can also specify a subset of the clients' request to use `ISTIO_MUTUAL` mutual TLS in
-[DestinationRule](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule).
+[`DestinationRule`](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule).
 After verifying it works by checking [Grafana to monitor](/docs/tasks/telemetry/using-istio-dashboard/),
 then increase the rollout scope and finally apply to all Istio client services.
 

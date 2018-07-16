@@ -40,19 +40,27 @@ service.
 
 ## Rate limits
 
-Istio allows you to rate limit traffic to a service.
+In this task, you configure Istio to rate limit traffic to the `ratings`
+service. Consider `ratings` as an external paid service like Rotten Tomatoes®
+with 1 qps free quota. Using Istio, you can ensure that 1 qps is not exceeded.
 
-Consider `ratings` as an external paid service like Rotten Tomatoes® with
-`1 qps` free quota. Using Istio, you can ensure that `1 qps` is not breached.
+For convenience, you configure the
+[memory quota](/docs/reference/config/policy-and-telemetry/adapters/memquota/)
+(`memquota`) adapter to enable rate limiting. On a production system, however,
+you need [Redis](https://redis.io/), and you configure the [Redis
+quota](/docs/reference/config/policy-and-telemetry/adapters/redisquota/)
+(`redisquota`) adapter. Both the `memquota` and `redisquota` adapters support
+the [quota template](/docs/reference/config/policy-and-telemetry/templates/quota/),
+so the configuration to enable rate limiting on both adapters is the same.
 
 1. Point your browser at the Bookinfo `productpage`
    (`http://$GATEWAY_URL/productpage`).
 
-    If you log in as user "jason", you should see black ratings stars with
+    * If you log in as user "jason", you should see black ratings stars with
     each review, indicating that the `ratings` service is being called by the
     "v2" version of the `reviews` service.
 
-    If you log in as any other user, you should see red ratings
+    * If you log in as any other user, you should see red ratings
     stars with each review, indicating that the `ratings` service is being
     called by the "v3" version of the `reviews` service.
 
@@ -63,7 +71,7 @@ Consider `ratings` as an external paid service like Rotten Tomatoes® with
     $ istioctl create -f @samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml@
     {{< /text >}}
 
-1. Confirm the `memquota` was created:
+1. Confirm the `memquota` handler was created:
 
     {{< text bash yaml >}}
     $ kubectl -n istio-system get memquota handler -o yaml
@@ -90,12 +98,17 @@ Consider `ratings` as an external paid service like Rotten Tomatoes® with
           validDuration: 10s
     {{< /text >}}
 
-  The `memquota` defines 3 different rate limit schemes. The default, if no
-  overrides match, is `5000` requests per `1s`. Two overrides are also
-  defined. The first is `1` request every `5s` if the `destination` is
-  `ratings`, the source is `reviews`, and the `sourceVersion` is `v3`. The
-  second is `5` request every `10s` if the `destination` is `ratings`. The
-  first matching override is picked (reading from top to bottom).
+    The `memquota` handler defines 3 different rate limit schemes. The default,
+    if no overrides match, is `5000` requests per one second (`1s`). Two
+    overrides are also defined:
+
+    * The first is `1` request (the `maxAmount` field) every `5s` (the
+    `validDuration` field), if the `destination` is `ratings`, the `source` is
+     `reviews`, and the `sourceVersion` is `v3`.
+    * The second is `5` requests every `10s`, if the `destination` is `ratings`.
+
+    When a request is sent to the `ratings` service, the first matching override
+    is picked (reading from top to bottom).
 
 1. Confirm the `quota` was created:
 
@@ -108,18 +121,18 @@ Consider `ratings` as an external paid service like Rotten Tomatoes® with
       namespace: istio-system
     spec:
       dimensions:
-        source: source.labels["app"] | source.service | "unknown"
+        source: source.labels["app"] | "unknown"
         sourceVersion: source.labels["version"] | "unknown"
-        destination: destination.labels["app"] | destination.service | "unknown"
+        destination: destination.labels["app"] | destination.service.host | "unknown"
         destinationVersion: destination.labels["version"] | "unknown"
     {{< /text >}}
 
-    The `quota` template defines 4 `dimensions` that are used by `memquota` to
-    set overrides on request that match certain attributes. `destination` will
-    be set to the first non-empty value in `destination.labels["app"]`,
-    `destination.service`, or `"unknown"`. More info on expressions can be
-    found
-    [here](/docs/reference/config/policy-and-telemetry/expression-language/).
+    The `quota` template defines four dimensions that are used by `memquota`
+    to set overrides on requests that match certain attributes. The
+    `destination` will be set to the first non-empty value in
+    `destination.labels["app"]`, `destination.service.host`, or `"unknown"`. For
+     more information on expressions, see [Expression
+    Language](/docs/reference/config/policy-and-telemetry/expression-language/).
 
 1. Confirm the `rule` was created:
 
@@ -137,9 +150,9 @@ Consider `ratings` as an external paid service like Rotten Tomatoes® with
         - requestcount.quota
     {{< /text >}}
 
-    The `rule` tells mixer to invoke `handler.memquota` handler (created
+    The `rule` tells Mixer to invoke the `handler.memquota` handler (created
     above) and pass it the object constructed using the instance
-    `requestcount.quota` (also created above). This effectively maps the
+    `requestcount.quota` (also created above). This maps the
     dimensions from the `quota` template to `memquota` handler.
 
 1. Confirm the `QuotaSpec` was created:
@@ -158,7 +171,7 @@ Consider `ratings` as an external paid service like Rotten Tomatoes® with
           quota: requestcount
     {{< /text >}}
 
-    This `QuotaSpec` defines the requestcount `quota` you created above with a
+    This `QuotaSpec` defines the `requestcount quota` you created above with a
     charge of `1`.
 
 1. Confirm the `QuotaSpecBinding` was created:
@@ -191,15 +204,15 @@ Consider `ratings` as an external paid service like Rotten Tomatoes® with
 
 1. Refresh the `productpage` in your browser.
 
-    If you are logged out, `reviews-v3` service is rate limited to 1 request
-    every 5 seconds. If you keep refreshing the page the stars should only
+    * If you are logged out, `reviews-v3` service is rate limited to 1 request
+    every 5 seconds. If you keep refreshing the page, the stars should only
     load around once every 5 seconds.
 
-    If you log in as user "jason", `reviews-v2` service is rate limited to 5
-    requests every 10 seconds. If you keep refreshing the page the stars
+    * If you log in as user "jason", `reviews-v2` service is rate limited to 5
+    requests every 10 seconds. If you keep refreshing the page, the stars
     should only load 5 times every 10 seconds.
 
-    For all other services, the default 5000 qps rate limit will apply.
+    * For all other services, the default 5000 qps rate limit will apply.
 
 ## Conditional rate limits
 
@@ -235,22 +248,22 @@ that match certain conditions.
 Every named quota instance like `requestcount` represents a set of counters.
 The set is defined by a Cartesian product of all quota dimensions. If the
 number of requests in the last `expiration` duration exceed `maxAmount`,
-Mixer returns a `RESOURCE_EXHAUSTED` message to the proxy. The proxy in turn
+Mixer returns a `RESOURCE_EXHAUSTED` message to the Envoy proxy, and Envoy
 returns status `HTTP 429` to the caller.
 
-The `memquota` adapter uses a sliding window of sub second resolution to
+The `memquota` adapter uses a sliding window of sub-second resolution to
 enforce rate limits.
 
 The `maxAmount` in the adapter configuration sets the default limit for all
-counters associated with a quota instance. This default limit applies if a
-quota override does not match the request. Memquota selects the first
+counters associated with a quota instance. This default limit applies if a quota
+override does not match the request. The `memquota` adapter selects the first
 override that matches a request. An override need not specify all quota
-dimensions. In the example, the `0.2 qps` override is selected by matching
-only three out of four quota dimensions.
+dimensions. In the example, the 0.2 qps override is selected by matching only
+three out of four quota dimensions.
 
-If you would like the above policies enforced for a given namespace instead
-of the entire Istio mesh, you can replace all occurrences of istio-system
-with the given namespace.
+If you want the policies enforced for a given namespace instead of the entire
+Istio mesh, you can replace all occurrences of istio-system with the given
+namespace.
 
 ## Cleanup
 

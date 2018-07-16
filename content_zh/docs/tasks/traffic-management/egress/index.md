@@ -9,7 +9,7 @@ keywords: [traffic-management,egress]
 
 缺省情况下，Istio 服务网格内的 Pod，由于其 iptables 将所有外发流量都透明的转发给了 Sidecar，所以这些集群内的服务无法访问集群之外的 URL，而只能处理集群内部的目标。
 
-本文的任务描述了如何将外部服务暴露给 Istio 集群中的客户端。你将会学到如何通过定义 [ServiceEntry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) 来调用外部服务；或者简单的对 Istio 进行配置，要求其直接放行对特定 IP 范围的访问。
+本文的任务描述了如何将外部服务暴露给 Istio 集群中的客户端。你将会学到如何通过定义 [`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) 来调用外部服务；或者简单的对 Istio 进行配置，要求其直接放行对特定 IP 范围的访问。
 
 ## 开始之前
 

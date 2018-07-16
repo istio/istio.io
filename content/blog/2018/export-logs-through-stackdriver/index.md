@@ -22,8 +22,7 @@ application throughout this task.
 
 ## Configuring Istio to export logs
 
-Istio exports logs using the `logentry` [template](/docs/reference/config/policy-and-telemetry/templates/logentry) configured for Mixer as [accesslog
-entry]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml#L134:9).
+Istio exports logs using the `logentry` [template](/docs/reference/config/policy-and-telemetry/templates/logentry).
 This specifies all the variables that are available for analysis. It
 contains information like source service, destination service, auth
 metrics (coming..) among others. Following is a diagram of the pipeline:
@@ -32,7 +31,7 @@ metrics (coming..) among others. Following is a diagram of the pipeline:
 link="./istio-analytics-using-stackdriver.png"
 caption="Diagram of exporting logs from Istio to StackDriver for analysis" >}}
 
-Istio supports exporting logs to Stackdriver which can be configured to export
+Istio supports exporting logs to Stackdriver which can in turn be configured to export
 logs to your favorite sink like BigQuery, Pub/Sub or GCS. Please follow the steps
 below to setup your favorite sink for exporting logs first and then Stackdriver
 in Istio.
@@ -70,11 +69,8 @@ Common setup for all sinks:
 
 ### Setting up Stackdriver
 
-A Stackdriver handler must be created to export data to Stackdriver. The configuration schema
-for a Stackdriver handler can be found [here](https://github.com/istio/api/blob/{{<branch_name>}}/policy/v1beta1/cfg.proto#L243:9).
-Config proto for Stackdriver can be found
-[here]({{< github_file >}}/mixer/adapter/stackdriver/config/config.proto).
-Handler is configured based on this proto.
+A Stackdriver handler must be created to export data to Stackdriver. The configuration for
+a Stackdriver handler is described [here](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/).
 
 1.  Save the following yaml file as `stackdriver.yaml`. Replace `<project_id>,
     <sink_id>, <sink_destination>, <log_filter>` with their specific values.
@@ -91,8 +87,7 @@ Handler is configured based on this proto.
       # Must be supplied for the Stackdriver adapter to work
       project_id: "<project_id>"
       # One of the following must be set; the preferred method is `appCredentials`, which corresponds to
-      # Google Application Default Credentials. See:
-      #    https://developers.google.com/identity/protocols/application-default-credentials
+      # Google Application Default Credentials.
       # If none is provided we default to app credentials.
       # appCredentials:
       # apiKey:
