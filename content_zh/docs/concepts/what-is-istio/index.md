@@ -90,7 +90,7 @@ Pilot 将平台特定的服务发现机制抽象化并将其合成为符合 [Env
 
 ### Citadel
 
-[Citadel](/docs/concepts/security/) 通过内置身份和凭证管理可以提供强大的服务间和最终用户身份验证。可用于升级服务网格中未加密的流量，并为运维人员提供基于服务标识而不是网络控制的强制执行策略的能力。从 0.5 版本开始，Istio 支持[基于角色的访问控制](/docs/concepts/security/#role-based-access-control-rbac)，以控制谁可以访问您的服务。
+[Citadel](/docs/concepts/security/) 通过内置身份和凭证管理可以提供强大的服务间和最终用户身份验证。可用于升级服务网格中未加密的流量，并为运维人员提供基于服务标识而不是网络控制的强制执行策略的能力。从 0.5 版本开始，Istio 支持[基于角色的访问控制](/docs/concepts/security/#authorization)，以控制谁可以访问您的服务。
 
 ## 设计目标
 

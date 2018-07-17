@@ -76,7 +76,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Authentication policy](/docs/concepts/security/#authentication-policy)  | Alpha
 | [VM: Service Credential Distribution](/docs/concepts/security/#key-management)         | Beta
 | [OPA Checker]({{< github_file >}}/mixer/adapter/opa/README.md)    | Alpha
-| [RBAC Mixer Adapter](/docs/concepts/security/#role-based-access-control-rbac)   | Alpha
+| [RBAC Mixer Adapter](/docs/concepts/security/#authorization)   | Alpha
 
 ### Core
 
