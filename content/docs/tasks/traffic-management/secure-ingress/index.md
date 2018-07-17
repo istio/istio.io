@@ -276,6 +276,16 @@ they have valid values, according to the output of the following commands:
         Subject: C=US, ST=Denial, L=Springfield, O=Dis, CN=httpbin.example.com
     {{< /text >}}
 
+1.  Verify that the proxy of the ingress gateway is aware of the certificates:
+
+    {{< text bash >}}
+    $ kubectl exec -ti $(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath={.items[0]..metadata.name}) -n istio-system -- curl  127.0.0.1:15000/certs
+    {
+      "ca_cert": "",
+      "cert_chain": "Certificate Path: /etc/istio/ingressgateway-certs/tls.crt, Serial Number: 100212, Days until Expiration: 370"
+    }
+    {{< /text >}}
+
 1.  Check the log of `istio-ingressgateway` for error messages:
 
     {{< text bash >}}
