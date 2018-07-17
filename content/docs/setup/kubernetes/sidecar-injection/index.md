@@ -181,7 +181,7 @@ sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
 
 #### Understanding what happened
 
-[admissionregistration.k8s.io/v1beta1#MutatingWebhookConfiguration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/##mutatingwebhookconfiguration-v1beta1-admissionregistration-k8s-io)
+[admissionregistration.k8s.io/v1beta1#MutatingWebhookConfiguration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#mutatingwebhookconfiguration-v1beta1-admissionregistration-k8s-io)
 configures when the webhook is invoked by Kubernetes. The default
 supplied with Istio selects pods in namespaces with label
 `istio-injection=enabled`.  The set of namespaces in which injection
