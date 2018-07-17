@@ -10,9 +10,9 @@ cluster.
 
 ## Prerequisites
 
-1. [Setup the Kubernetes cluster](/docs/setup/kubernetes/quick-start/platform-setup/).
+1. [Setup the Kubernetes cluster](/docs/setup/kubernetes/platform-setup/).
 
-1. [Download the release](/docs/setup/kubernetes/quick-start/download-release/).
+1. [Download the release](/docs/setup/kubernetes/download-release/).
 
 ## Installation steps
 
