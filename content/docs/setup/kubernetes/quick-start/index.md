@@ -14,7 +14,6 @@ cluster.
 
 1. [Kubernetes platform setup](/docs/setup/kubernetes/platform-setup/).
 
-
 ## Installation steps
 
 To install Istio's core components you can choose one of the following four

@@ -6,6 +6,7 @@ keywords: [kubernetes]
 ---
 
 Follow these instructions to setup the Kubernetes cluster for Istio.
+
 ## Prerequisites
 
 The following instructions require:
