@@ -10,7 +10,7 @@ aliases:
 keywords: [traffic-management,egress,tcp]
 ---
 
-In my previous blog post, [Consuming External Web Services](/blog/2018/egress-https/), I described how external services can be consumed by in-mesh Istio applications via HTTPS. In this post, I demonstrate consuming external services over TCP. I use the [Istio Bookinfo sample application](/docs/examples/bookinfo/), the version in which the book ratings data is persisted in a MySQL database. I deploy this database outside the cluster and configure the _ratings_ microservice to use it. I define an [egress rule](/docs/reference/config/istio.routing.v1alpha1/#EgressRule) to allow the in-mesh applications to access the external database.
+In my previous blog post, [Consuming External Web Services](/blog/2018/egress-https/), I described how external services can be consumed by in-mesh Istio applications via HTTPS. In this post, I demonstrate consuming external services over TCP. I use the [Istio Bookinfo sample application](/docs/examples/bookinfo/), the version in which the book ratings data is persisted in a MySQL database. I deploy this database outside the cluster and configure the _ratings_ microservice to use it. I define an [egress rule](https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/#EgressRule) to allow the in-mesh applications to access the external database.
 
 ## Bookinfo sample application with external ratings database
 
@@ -133,7 +133,7 @@ As a reminder, here is the end-to-end architecture of the application from the [
 
 ### Use the database for ratings data in Bookinfo application
 
-1.  I modify the deployment spec of a version of the _ratings_ microservice that uses a MySQL database, to use my database instance. The spec is in `samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml` of an Istio release archive. I edit the following lines:
+1.  I modify the deployment spec of a version of the _ratings_ microservice that uses a MySQL database, to use my database instance. The spec is in `samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml` of an Istio release archive. I edit the following lines:
 
     {{< text yaml >}}
     - name: MYSQL_DB_HOST
@@ -151,13 +151,13 @@ As a reminder, here is the end-to-end architecture of the application from the [
 1.  I apply the modified spec to deploy the version of the _ratings_ microservice, _v2-mysql_, that will use my database.
 
     {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml@)
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml@)
     deployment "ratings-v2-mysql" created
     {{< /text >}}
 
 1.  I route all the traffic destined to the _reviews_ service to its _v3_ version. I do this to ensure that the _reviews_ service always calls the _ratings_
 service. In addition, I route all the traffic destined to the _ratings_ service to _ratings v2-mysql_ that uses my database.
-I add routing for both services above by adding two [route rules](/docs/reference/config/istio.routing.v1alpha1/).
+I add routing for both services above by adding two [route rules](https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/).
 These rules are specified in `samples/bookinfo/networking/virtual-service-ratings-mysql.yaml` of an Istio release archive.
 
     {{< text bash >}}
@@ -299,7 +299,7 @@ with Istio. The Istio control plane does not have to be accessible from the mach
 1.  Undeploy _ratings v2-mysql_:
 
     {{< text bash >}}
-    $ kubectl delete -f <(istioctl kube-inject -f @samples/bookinfo/kube/bookinfo-ratings-v2-mysql.yaml@)
+    $ kubectl delete -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml@)
     deployment "ratings-v2-mysql" deleted
     {{< /text >}}
 

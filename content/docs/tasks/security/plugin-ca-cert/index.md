@@ -126,5 +126,5 @@ This requires you have `openssl` installed on your machine.
 *   To remove the Istio components:
 
     {{< text bash >}}
-    $ kubectl delete -f install/kubernetes/istio-auth.yaml
+    $ kubectl delete -f install/kubernetes/istio-demo-auth.yaml
     {{< /text >}}

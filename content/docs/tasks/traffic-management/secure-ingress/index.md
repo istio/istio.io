@@ -28,9 +28,9 @@ gateway to expose an HTTP endpoint of a service to external traffic. This task e
 ## Generate client and server certificates and keys
 
 For this task you can use your favorite tool to generate certificates and keys. This example uses [a script](https://github.com/nicholasjackson/mtls-go-example/blob/master/generate.sh)
-from the https://github.com/nicholasjackson/mtls-go-example repository.
+from the <https://github.com/nicholasjackson/mtls-go-example> repository.
 
-1.  Clone the https://github.com/nicholasjackson/mtls-go-example repository:
+1.  Clone the <https://github.com/nicholasjackson/mtls-go-example> repository:
 
     {{< text bash >}}
     $ git clone https://github.com/nicholasjackson/mtls-go-example
@@ -45,11 +45,12 @@ from the https://github.com/nicholasjackson/mtls-go-example repository.
 1.  Generate the certificates (use any password):
 
     {{< text bash >}}
-    $ generate.sh httpbin.example.com <password>
+    $ ./generate.sh httpbin.example.com <password>
     {{< /text >}}
 
-    The command will generate four directories: `1_root`, `2_intermediate`, `3_application`, and `4_client` containing the client
-    and server certificates you use in the procedures below.
+     When prompted, select `y` for all the questions. The command will generate four directories: `1_root`,
+     `2_intermediate`, `3_application`, and `4_client` containing the client and server certificates you use in the
+     procedures below.
 
 ## Configure a TLS ingress gateway
 
@@ -268,13 +269,37 @@ they have valid values, according to the output of the following commands:
 
     `tls.crt` and `tls.key` should exist in the directory contents.
 
+1.  Verify that the _Subject_ is correct in the certificate of the ingress gateway:
+
+    {{< text bash >}}
+    $ kubectl exec -i -n istio-system $(kubectl get pod -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')  -- cat /etc/istio/ingressgateway-certs/tls.crt | openssl x509 -text -noout | grep 'Subject:'
+        Subject: C=US, ST=Denial, L=Springfield, O=Dis, CN=httpbin.example.com
+    {{< /text >}}
+
+1.  Verify that the proxy of the ingress gateway is aware of the certificates:
+
+    {{< text bash >}}
+    $ kubectl exec -ti $(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath={.items[0]..metadata.name}) -n istio-system -- curl  127.0.0.1:15000/certs
+    {
+      "ca_cert": "",
+      "cert_chain": "Certificate Path: /etc/istio/ingressgateway-certs/tls.crt, Serial Number: 100212, Days until Expiration: 370"
+    }
+    {{< /text >}}
+
 1.  Check the log of `istio-ingressgateway` for error messages:
 
     {{< text bash >}}
     $ kubectl logs -n istio-system -l istio=ingressgateway
     {{< /text >}}
 
-1.  For mutual TLS, verify that the CA certificate is loaded in the `istio-ingressgateway` pod:
+1.  For macOS users, verify that you use _curl_ compiled with the [LibreSSL](http://www.libressl.org) library, as
+    described in the [Before you begin](#before-you-begin) section.
+
+### Troubleshooting for mutual TLS
+
+In addition to the steps in the previous section, perform the following:
+
+1.  Verify that the CA certificate is loaded in the `istio-ingressgateway` pod:
 
     {{< text bash >}}
     $ kubectl exec -it -n istio-system $(kubectl -n istio-system get pods -l istio=ingressgateway -o jsonpath='{.items[0].metadata.name}') -- ls -al /etc/istio/ingressgateway-ca-certs
@@ -282,8 +307,12 @@ they have valid values, according to the output of the following commands:
 
     `ca-chain.cert.pem` should exist in the directory contents.
 
-1.  For macOS users, verify that you use _curl_ compiled with the [LibreSSL](http://www.libressl.org) library, as
-    described in the [Before you begin](#before-you-begin) section.
+1.  Verify that the _Subject_ is correct in the CA certificate of the ingress gateway:
+
+    {{< text bash >}}
+    $ kubectl exec -i -n istio-system $(kubectl get pod -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')  -- cat /etc/istio/ingressgateway-ca-certs/ca-chain.cert.pem | openssl x509 -text -noout | grep 'Subject:'
+    Subject: C=US, ST=Denial, L=Springfield, O=Dis, CN=httpbin.example.com
+    {{< /text >}}
 
 ## Cleanup
 

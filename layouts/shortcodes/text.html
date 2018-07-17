@@ -38,7 +38,7 @@ be invalid HTML
 {{ $scratch.Set "syntax" "plain" }}
 {{ $scratch.Set "text" "ERROR: markdown specified a bash syntax, but first line didn't start with $" }}
 {{ end }}
-{{ if hasPrefix (trim ($scratch.Get "text") " ") "$ cat <<EOF |" }}{{ $scratch.Set "text" (replace ($scratch.Get "text") "$ cat" "cat") }}
+{{ if hasPrefix (trim ($scratch.Get "text") " ") "$ cat <<EOF " }}{{ $scratch.Set "text" (replace ($scratch.Get "text") "$ cat" "cat") }}
 {{ else }}{{ $scratch.Set "syntax" "command" }}
 {{ if ($scratch.Get "output") }}{{ $scratch.Set "syntax" (printf "command-output-as-%s" ($scratch.Get "output")) }}{{ end }}
 {{ end }}

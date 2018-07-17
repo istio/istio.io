@@ -34,7 +34,7 @@ Istio telemetry pipeline, just like services in the mesh.
 - **A la Carte Istio**. Istio has a rich set of features, however you don't need to install or consume them all together. By using
 Helm or `istioctl gen-deploy`, users can install only the features they want. For example, users can install Pilot only and enjoy traffic
 management functionality without dealing with Mixer or Citadel.
-Learn more about [customization through Helm](/docs/setup/kubernetes/helm-install/#customization-with-helm)
+Learn more about [customization through Helm](/docs/reference/config/installation-options/)
 and about [`istioctl gen-deploy`](/docs/reference/commands/istioctl/#istioctl-gen-deploy).
 
 ## Mixer adapters

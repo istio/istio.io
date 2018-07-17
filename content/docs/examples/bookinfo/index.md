@@ -1,5 +1,5 @@
 ---
-title: Bookinfo Sample Application
+title: Bookinfo Application
 description: Deploys a sample application composed of four separate microservices used to demonstrate various Istio features.
 weight: 10
 aliases:
@@ -7,18 +7,8 @@ aliases:
     - /docs/guides/bookinfo/index.html
 ---
 
-> Note: This example assumes you will be using the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/).
-The old API has been deprecated and will be removed in the next Istio release.
-If you need to use the old version, you can follow the old instructions [here](https://archive.istio.io/v0.6/docs/guides/bookinfo.html),
-but note that on Kubernetes you will need to run an additional command (`kubectl apply -f samples/bookinfo/kube/bookinfo-gateway.yaml`)
-to define the Ingress, which previously was included in `bookinfo.yaml`.
-
 This example deploys a sample application composed of four separate microservices used
-to demonstrate various Istio features.
-
-## Overview
-
-In this example we will deploy a simple application that displays information about a
+to demonstrate various Istio features. The application displays information about a
 book, similar to a single catalog entry of an online book store. Displayed
 on the page is a description of the book, book details (ISBN, number of
 pages, and so on), and a few book reviews.
@@ -85,7 +75,7 @@ To start the application, follow the instructions below corresponding to your Is
         use the following command
 
         {{< text bash >}}
-        $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/kube/bookinfo.yaml@)
+        $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo.yaml@)
         {{< /text >}}
 
         The `istioctl kube-inject` command is used to manually modify the `bookinfo.yaml`
@@ -96,7 +86,7 @@ To start the application, follow the instructions below corresponding to your Is
         enabled, simply deploy the services using `kubectl`
 
         {{< text bash >}}
-        $ kubectl apply -f @samples/bookinfo/kube/bookinfo.yaml@
+        $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
         {{< /text >}}
 
     Either of the above commands launches all four microservices as illustrated in the above diagram.
@@ -108,7 +98,7 @@ To start the application, follow the instructions below corresponding to your Is
 1.  Define the ingress gateway for the application:
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
     {{< /text >}}
 
 1.  Confirm all services and pods are correctly defined and running:
@@ -157,8 +147,8 @@ To start the application, follow the instructions below corresponding to your Is
     To test with Consul, run the following commands:
 
     {{< text bash >}}
-    $ docker-compose -f @samples/bookinfo/consul/bookinfo.yaml@ up -d
-    $ docker-compose -f samples/bookinfo/consul/bookinfo.sidecars.yaml up -d
+    $ docker-compose -f @samples/bookinfo/platform/consul/bookinfo.yaml@ up -d
+    $ docker-compose -f samples/bookinfo/platform/consul/bookinfo.sidecars.yaml up -d
     {{< /text >}}
 
 1.  Confirm that all docker containers are running:
@@ -169,7 +159,7 @@ To start the application, follow the instructions below corresponding to your Is
 
     > If the Istio Pilot container terminates, re-run the command from the previous step.
 
-1.  Set GATEWAY_URL:
+1.  Set `GATEWAY_URL`:
 
     {{< text bash >}}
     $ export GATEWAY_URL=localhost:9081
@@ -191,7 +181,7 @@ stars, black stars, no stars), since we haven't yet used Istio to control the
 version routing.
 
 You can now use this sample to experiment with Istio's features for
-traffic routing, fault injection, rate limiting, etc..
+traffic routing, fault injection, rate limiting, etc.
 To proceed, refer to one or more of the [Istio Examples](/docs/examples),
 depending on your interest. [Intelligent Routing](/docs/examples/intelligent-routing/)
 is a good place to start for beginners.
@@ -206,7 +196,7 @@ uninstall and clean it up using the following instructions.
 1.  Delete the routing rules and terminate the application pods
 
     {{< text bash >}}
-    $ @samples/bookinfo/kube/cleanup.sh@
+    $ @samples/bookinfo/platform/kube/cleanup.sh@
     {{< /text >}}
 
 1.  Confirm shutdown
@@ -224,7 +214,7 @@ uninstall and clean it up using the following instructions.
     In a Consul setup, run the following command:
 
     {{< text bash >}}
-    $ @samples/bookinfo/consul/cleanup.sh@
+    $ @samples/bookinfo/platform/consul/cleanup.sh@
     {{< /text >}}
 
 1.  Confirm cleanup

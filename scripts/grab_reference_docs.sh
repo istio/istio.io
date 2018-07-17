@@ -20,6 +20,8 @@ export GOPATH=$(mktemp -d)
 WORK_DIR=${GOPATH}/src/istio.io
 COMMAND_DIR=$ISTIO_BASE/content/docs/reference/commands
 
+echo $WORK_DIR
+
 # Get the source code
 mkdir -p ${WORK_DIR}
 pushd $WORK_DIR
@@ -56,10 +58,6 @@ locate_file() {
 
 # Given the path and name to an Istio command, builds the command and then
 # runs it to extract its command-line docs
-#
-# TODO: Even though this CDs into the source tree we've extracted, it's not actually
-# using that as input sources since imports are resolved through $GOPATH and such.
-# I'm not clear what voodoo is needed so I'm leaving this as-is for the time being
 get_command_doc() {
     COMMAND_PATH=$1
     COMMAND=$2
@@ -73,8 +71,21 @@ get_command_doc() {
     popd
 }
 
-# # First delete all the current generated files so that any stale files are removed
+# delete all the current generated files so that any stale files are removed
 find content/docs/reference -name '*.html' -type f|xargs rm 2>/dev/null
+
+get_command_doc ${WORK_DIR}/istio/mixer/cmd/mixc mixc
+get_command_doc ${WORK_DIR}/istio/mixer/cmd/mixs mixs
+get_command_doc ${WORK_DIR}/istio/istioctl/cmd/istioctl istioctl
+get_command_doc ${WORK_DIR}/istio/pilot/cmd/pilot-agent pilot-agent
+get_command_doc ${WORK_DIR}/istio/pilot/cmd/pilot-discovery pilot-discovery
+get_command_doc ${WORK_DIR}/istio/pilot/cmd/sidecar-injector sidecar-injector
+get_command_doc ${WORK_DIR}/istio/security/cmd/istio_ca istio_ca
+get_command_doc ${WORK_DIR}/istio/security/cmd/node_agent node_agent
+get_command_doc ${WORK_DIR}/istio/galley/cmd/galley galley
+
+# delete the vendor dir so we don't get .pb.html out of there
+rm -fr $WORK_DIR/istio/vendor
 
 for f in `find $WORK_DIR/istio -type f -name '*.pb.html'`
 do
@@ -93,16 +104,6 @@ do
     echo "processing $f"
     locate_file ${f}
 done
-
-get_command_doc ${WORK_DIR}/istio/mixer/cmd/mixc mixc
-get_command_doc ${WORK_DIR}/istio/mixer/cmd/mixs mixs
-get_command_doc ${WORK_DIR}/istio/istioctl/cmd/istioctl istioctl
-get_command_doc ${WORK_DIR}/istio/pilot/cmd/pilot-agent pilot-agent
-get_command_doc ${WORK_DIR}/istio/pilot/cmd/pilot-discovery pilot-discovery
-get_command_doc ${WORK_DIR}/istio/pilot/cmd/sidecar-injector sidecar-injector
-get_command_doc ${WORK_DIR}/istio/security/cmd/istio_ca istio_ca
-get_command_doc ${WORK_DIR}/istio/security/cmd/node_agent node_agent
-get_command_doc ${WORK_DIR}/istio/galley/cmd/galley galley
 
 # Copy all the example files over into the examples directory
 # cp $WORK_DIR/istio/Makefile examples/Makefile

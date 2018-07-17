@@ -15,4 +15,4 @@ Pilot 负责部署在 Istio 服务网格中的 Envoy 实例的生命周期管理
 
 Pilot 公开了用于[服务发现](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/sds) 、[负载均衡池](https://www.envoyproxy.io/docs/envoy/latest/configuration/cluster_manager/cds)和[路由表](https://www.envoyproxy.io/docs/envoy/latest/configuration/http_conn_man/rds)的动态更新的 API。这些 API 将 Envoy 从平台特有的细微差别中解脱出来，简化了设计并提升了跨平台的可移植性。
 
-运维人员可以通过 [Pilot 的 Rules API](/docs/reference/config/istio.routing.v1alpha1/)指定高级流量管理规则。这些规则被翻译成低级配置，并通过 discovery API 分发到 Envoy 实例。
+运维人员可以通过 [Pilot 的 Rules API](/docs/reference/config/istio.networking.v1alpha3/)指定高级流量管理规则。这些规则被翻译成低级配置，并通过 discovery API 分发到 Envoy 实例。

@@ -25,10 +25,10 @@ CEXL supports the following functions.
 |------------------|-----------|--------|------------|
 |`==` |Equals |`request.size == 200`
 |`!=` |Not Equals |`request.auth.principal != "admin"`
-|<code>&#124;&#124;</code> |Logical OR | <code>(request.size == 200) &#124;&#124; (request.auth.principal == "admin")</code>
+|<code>&#124;&#124;</code> |Logical OR | `(request.size == 200)` <code>&#124;&#124;</code> `(request.auth.principal == "admin")`
 |`&&` |Logical AND | `(request.size == 200) && (request.auth.principal == "admin")`
 |`[ ]` |Map Access | `request.headers["x-id"]`
-|<code>&#124;</code> |First non empty | <code>source.labels["app"] &#124; source.labels["svc"] &#124; "unknown"</code>
+|<code>&#124;</code> |First non empty | `source.labels["app"]` <code>&#124;</code> `source.labels["svc"]` <code>&#124;</code> `"unknown"`
 |`match` | Glob match |`match(destination.service, "*.ns1.svc.cluster.local")` | Matches prefix or suffix based on the location of `*`
 |`email` | Convert a textual e-mail into the `EMAIL_ADDRESS` type | `email("awesome@istio.io")` | Use the `email` function to create an `EMAIL_ADDRESS` literal.
 |`dnsName` | Convert a textual DNS name into the `DNS_NAME` type | `dnsName("www.istio.io")` | Use the `dnsName` function to create a `DNS_NAME` literal.
@@ -58,8 +58,8 @@ For example, the expression `request.auth.principal == "user1"` fails evaluation
 
 |Expression |Return Type |Description|
 |-----------|------------|-----------|
-|<code>request.size &#124; 200</code> |  **int** | `request.size` if available, otherwise 200.
+|`request.size` <code>&#124; 200</code> |  **int** | `request.size` if available, otherwise 200.
 |`request.headers["X-FORWARDED-HOST"] == "myhost"`| **boolean**
-|`(request.headers["x-user-group"] == "admin") \|\| (request.auth.principal == "admin")`| **boolean**| True if the user is admin or in the admin group.
-|<code>(request.auth.principal &#124; "nobody" ) == "user1"</code> | **boolean** | True if `request.auth.principal` is "user1", The expression will not error out if `request.auth.principal` is missing.
+|`(request.headers["x-user-group"] == "admin") <code>&#124;&#124;</code> (request.auth.principal == "admin")`| **boolean**| True if the user is admin or in the admin group.
+|`(request.auth.principal` <code>&#124;</code> `"nobody" ) == "user1"` | **boolean** | True if `request.auth.principal` is "user1", The expression will not error out if `request.auth.principal` is missing.
 |`source.labels["app"]=="reviews" && source.labels["version"]=="v3"`| **boolean** | True if app label is reviews and version label is v3, false otherwise.

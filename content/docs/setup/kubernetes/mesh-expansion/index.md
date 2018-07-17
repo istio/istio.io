@@ -27,10 +27,10 @@ separate documents will cover these advanced configurations.
 
 Setup consists of preparing the mesh for expansion and installing and configuring each VM.
 
-An example script to help with Kubernetes setup is available as part of the release bundle and in
-[install/tools/setupMeshEx.sh]({{< github_file >}}/install/tools/setupMeshEx.sh). Check the script content and environment variables supported (like GCP_OPTS).
+An example script to help with Kubernetes setup is available as part of the release bundle called
+[`install/tools/setupMeshEx.sh`]({{< github_file >}}/install/tools/setupMeshEx.sh). Check the script content and environment variables supported (like GCP_OPTS).
 
-An example script to help configure a machine is available as part of the release bundle and in [install/tools/setupIstioVM.sh]({{< github_file >}}/install/tools/setupIstioVM.sh).
+An example script to help configure a machine is available as part of the release bundle called [`install/tools/setupIstioVM.sh`]({{< github_file >}}/install/tools/setupIstioVM.sh).
 You should customize it based on your provisioning tools and DNS requirements.
 
 ### Preparing the Kubernetes cluster for expansion
@@ -250,7 +250,7 @@ Oct 13 21:32:29 demo-vm-1 node_agent[6941]: I1013 21:32:29.862575    6941 nodeag
 ## Running services on a mesh expansion machine
 
 *   Configure the sidecar to intercept the port. This is configured in `/var/lib/istio/envoy/sidecar.env`,
-using the ISTIO_INBOUND_PORTS environment variable.
+using the `ISTIO_INBOUND_PORTS` environment variable.
 
     Example (on the VM running the service):
 

@@ -27,7 +27,7 @@ as the example application throughout this task.
 
 ## Setup Fluentd
 
-In your cluster, you may already have a Fluentd DaemonSet running,
+In your cluster, you may already have a Fluentd daemon set running,
 such the add-on described
 [here](https://kubernetes.io/docs/tasks/debug-application-cluster/logging-elasticsearch-kibana/)
 and
@@ -276,6 +276,7 @@ spec:
 Create the resources:
 
 <div class="workaround_for_hugo_bug">
+
 {{< text bash >}}
 $ kubectl apply -f logging-stack.yaml
 namespace "logging" created
@@ -287,6 +288,7 @@ configmap "fluentd-es-config" created
 service "kibana" created
 deployment "kibana" created
 {{< /text >}}
+
 </div>
 
 ## Configure Istio

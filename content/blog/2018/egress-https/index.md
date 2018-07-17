@@ -21,7 +21,7 @@ To demonstrate the scenario of consuming an external web service, I start with a
 The example commands in this blog post work with Istio 0.2+, with or without [mutual TLS](/docs/concepts/security/#mutual-tls-authentication) enabled.
 
 The Bookinfo configuration files required for the scenario of this post appear starting from [Istio 0.5](https://github.com/istio/istio/releases/tag/0.5.0).
-The Bookinfo configuration files reside in the `samples/bookinfo/kube` directory of the Istio release archive.
+The Bookinfo configuration files reside in the `samples/bookinfo` directory of the Istio release archive.
 
 Here is a copy of the end-to-end architecture of the application from the original [Bookinfo sample application](/docs/examples/bookinfo/).
 
@@ -35,7 +35,7 @@ Here is a copy of the end-to-end architecture of the application from the origin
 Let's add a new version of the _details_ microservice, _v2_, that fetches the book details from [Google Books APIs](https://developers.google.com/books/docs/v1/getting_started).
 
 {{< text bash >}}
-$ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/kube/bookinfo-details-v2.yaml@)
+$ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@)
 {{< /text >}}
 
 The updated architecture of the application now looks as follows:
@@ -76,7 +76,7 @@ Oops... Instead of the book details we have the _Error fetching product details_
 
 The good news is that our application did not crash. With a good microservice design, we do not have **failure propagation**. In our case, the failing _details_ microservice does not cause the _productpage_ microservice to fail. Most of the functionality of the application is still provided, despite the failure in the _details_ microservice. We have **graceful service degradation**: as you can see, the reviews and the ratings are displayed correctly, and the application is still useful.
 
-So what might have gone wrong? Ah... The answer is that I forgot to enable traffic from inside the mesh to an external service, in this case to the Google Books web service. By default, the Istio sidecar proxies ([Envoy proxies](https://www.envoyproxy.io)) **block all the traffic to destinations outside the cluster**. To enable such traffic, we must define an [egress rule](/docs/reference/config/istio.routing.v1alpha1/#EgressRule).
+So what might have gone wrong? Ah... The answer is that I forgot to enable traffic from inside the mesh to an external service, in this case to the Google Books web service. By default, the Istio sidecar proxies ([Envoy proxies](https://www.envoyproxy.io)) **block all the traffic to destinations outside the cluster**. To enable such traffic, we must define an [egress rule](https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/#EgressRule).
 
 ### Egress rule for the Google Books web service
 
@@ -153,12 +153,13 @@ unless ENV['WITH_ISTIO'] === 'true' then
 end
 {{< /text >}}
 
-Note that the port is derived by the `URI.parse` from the URI's schema (https://) to be `443`, the default HTTPS port. The microservice, when running inside an Istio service mesh, must issue HTTP requests to the port `443`, which is the port the external service listens to.
+Note that the port is derived by the `URI.parse` from the URI's schema (`https://`) to be `443`, the default HTTPS port. The
+microservice, when running inside a mesh, must issue HTTP requests to the port `443`, which is the port the external service listens to.
 
 When the `WITH_ISTIO` environment variable is defined, the request is performed without SSL (plain HTTP).
 
 We set the `WITH_ISTIO` environment variable to _"true"_ in the
-[Kubernetes deployment spec of details v2]({{< github_file >}}/samples/bookinfo/kube/bookinfo-details-v2.yaml),
+[Kubernetes deployment spec of details v2]({{< github_file >}}/samples/bookinfo/platform/kube/bookinfo-details-v2.yaml),
 the `container` section:
 
 {{< text yaml >}}

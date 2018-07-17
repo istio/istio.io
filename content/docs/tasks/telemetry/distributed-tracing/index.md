@@ -19,27 +19,28 @@ example application for this task.
 
 *   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
 
-    Either use the `istio.yaml` (or `istio-auth.yaml`) template, which includes tracing support, or
-    use the helm chart with tracing enabled using the `--set tracing.enabled=true` option.
+    Either use the `istio-demo.yaml` or `istio-demo-auth.yaml` template, which includes tracing support, or
+    use the helm chart with tracing enabled by setting the `--set tracing.enabled=true` option.
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
 ## Accessing the dashboard
 
-Setup access to the tracing dashboard URL using port-forwarding:
+Setup access to the Jaeger dashboard by using port-forwarding:
 
 {{< text bash >}}
 $ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 16686:16686 &
 {{< /text >}}
 
-Then open your browser at [http://localhost:16686](http://localhost:16686)
+Access the Jaeger dashboard by opening your browser to [http://localhost:16686](http://localhost:16686).
 
 ## Generating traces using the Bookinfo sample
 
 With the Bookinfo application up and running, generate trace information by accessing
 `http://$GATEWAY_URL/productpage` one or more times.
 
-If you now look at the dashboard, you should see something similar to the following:
+From the left-hand pane of the Jaeger dashboard, select productpage from the Service drop-down list and click
+Find Traces. You should see something similar to the following:
 
 {{< image width="100%" ratio="42.35%"
     link="./istio-tracing-list.png"
@@ -62,7 +63,7 @@ the Istio sidecar (Envoy proxy) which wraps the call to the actual service,
 the label of the destination (to the right) identifies the service for which the time is represented by each line.
 
 The first line represents the external call to the `productpage` service. The label `192.168.64.3:32000` is the host
-value used for the external request (i.e., $GATEWAY_URL). As you can see in the trace,
+value used for the external request (i.e., `$GATEWAY_URL`). As you can see in the trace,
 the request took a total of roughly 290ms to complete. During its execution, the `productpage` called the `details` service,
 which took about 24ms, and then called the `reviews` service.
 The `reviews` service took about 243ms to execute, including a 15ms call to `ratings`.
