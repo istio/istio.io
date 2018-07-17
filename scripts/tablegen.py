@@ -103,8 +103,8 @@ def decode_helm_yaml(s):
                 newkey = newkey.lstrip('.')
 
                 ValueStr = (' ').join(ValueList)
-
-                print ("| `%s` | `%s` | %s | `%s` |" % (newkey, ValueStr, desc, possible))
+                if ValueStr:
+                    print ("| `%s` | `%s` | %s |" % (newkey, ValueStr, desc))
                 desc = ''
                 possible = ''
 
@@ -122,8 +122,8 @@ with open('helm-install.md', 'r') as f:
     for d in data:
         print d
         if "<!-- AUTO-GENERATED-START -->" in d:
-            print '| Parameter | Default | Description | Values |'
-            print '| --- | --- | --- | --- |'
+            print '| Key | Default Value | Description |'
+            print '| --- | --- | --- |'
             break
 
     with open('values.yaml', 'r') as f_v:
