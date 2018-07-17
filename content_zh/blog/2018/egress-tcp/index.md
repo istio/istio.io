@@ -206,7 +206,7 @@ spec:
         protocol: tcp
 {{< /text >}}
 
-然后我运行`istioctl`将出口规则添加到服务网格：
+然后我运行 `istioctl` 将出口规则添加到服务网格：
 
 {{< text bash >}}
 $ istioctl create -f egress-rule-mysql.yaml
@@ -258,7 +258,7 @@ Created config egress-rule/default/mysql at revision 1954425
 
 ## 与网格扩展的关系
 
-请注意，本文中描述的场景与[集成虚拟机](/docs/examples/integrating-vms/)示例中描述的网格扩展场景不同, 在这种情况下，MySQL 实例在与 Istio 服务网格集成的外部（集群外）机器（裸机或VM）上运行 , MySQL 服务成为网格的一流公民，具有 Istio 的所有有益功能, 除此之外，服务可以通过本地集群域名寻址，例如通过`mysqldb.vm.svc.cluster.local`，并且可以通过[双向 TLS 身份验证](/docs/concepts/security/#mutual-tls-authentication)保护与它的通信, 无需创建出口规则来访问此服务; 但是，该服务必须在 Istio 注侧, 要启用此类集成，必须在计算机上安装 Istio 组件（_Envoy proxy_ ，_node-agent_ ，_istio-agent_），并且必须可以从中访问 Istio 控制平面（_Pilot_ ，_Mixer_ ，_CA_ ）, 有关详细信息，请参阅[Istio Mesh Expansion](/docs/setup/kubernetes/mesh-expansion/)说明。
+请注意，本文中描述的场景与[集成虚拟机](/docs/examples/integrating-vms/)示例中描述的网格扩展场景不同, 在这种情况下，MySQL 实例在与 Istio 服务网格集成的外部（集群外）机器（裸机或VM）上运行 , MySQL 服务成为网格的一流公民，具有 Istio 的所有有益功能, 除此之外，服务可以通过本地集群域名寻址，例如通过`mysqldb.vm.svc.cluster.local`，并且可以通过[双向 TLS 身份验证](/docs/concepts/security/#mutual-tls-authentication)保护与它的通信, 无需创建出口规则来访问此服务; 但是，该服务必须在 Istio 注侧, 要启用此类集成，必须在计算机上安装 Istio 组件（ _Envoy proxy_ ，_node-agent_ ，_istio-agent_ ），并且必须可以从中访问 Istio 控制平面（_Pilot_ ，_Mixer_ ，_CA_ ）, 有关详细信息，请参阅[Istio Mesh Expansion](/docs/setup/kubernetes/mesh-expansion/)说明。
 
 在我们的示例中，MySQL 实例可以在任何计算机上运行，也可以由云提供商作为服务进行配置, 无需集成机器
 与 Istio , 无需从机器访问 Istio 控制平面, 在 MySQL 作为服务的情况下，MySQL 运行的机器可能无法访问并在其上安装所需的组件可能是不可能的, 在我们的例子中，MySQL 实例可以通过其全局域名进行寻址，如果消费应用程序希望使用该域名，这可能是有益的, 当在消费应用程序的部署配置中无法更改预期的域名时，这尤其重要。
