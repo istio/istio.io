@@ -86,6 +86,7 @@ To start the application, follow the instructions below corresponding to your Is
         enabled, label the `default` namespace with `istio-injection=enabled`
 
 <div class="workaround_for_hugo_bug">
+
         {{< text bash >}}
         $ kubectl label namespace default istio-injection=enabled
         $ kubectl get namespace -L istio-injection
@@ -95,6 +96,7 @@ To start the application, follow the instructions below corresponding to your Is
         kube-public    Active    1h
         kube-system    Active    1h
         {{< /text >}}
+
 </div>
 
         Then simply deploy the services using `kubectl`
