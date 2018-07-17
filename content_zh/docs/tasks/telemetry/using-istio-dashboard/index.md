@@ -1,11 +1,11 @@
 ---
-title: 使用 Grafana 可视化度量标准
+title: 使用 Grafana 进行指标可视化
 description: 此任务说明如何设置和使用 Istio 仪表板来监视网格流量。
 weight: 40
 keywords: [telemetry,visualization]
 ---
 
-此任务说明如何设置和使用 Istio 仪表板来监视网格流量, 作为此任务的一部分，您将需要安装 Grafana Istio 附加组件，并使用基于 Web 界面的流量数据查看。
+此任务说明如何设置和使用 Istio 仪表板来监视网格流量, 作为此任务的一部分，您将需要安装 Grafana Istio 附加组件，并使用基于 Web 的界面查看服务网格中的流量数据。
 
 [Bookinfo](/docs/examples/bookinfo/) 示例应用程序在整个任务中用作示例应用程序。
 
