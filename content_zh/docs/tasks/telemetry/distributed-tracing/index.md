@@ -53,7 +53,7 @@ $ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=
 
 ## 发生了什么？
 
-虽然 Istio 代理能够自动发送 Span 信息，但是他还需要一些辅助手段来把整个跟踪过程统一起来。应用程序应该自行传播跟踪相关的 HTTP Header，这样在代理发送 Span 信息的时候，才能正确的把同一个跟踪过程统一起来。
+虽然 Istio 代理能够自动发送 Span 信息，但还是需要一些辅助手段来把整个跟踪过程统一起来。应用程序应该自行传播跟踪相关的 HTTP Header，这样在代理发送 Span 信息的时候，才能正确的把同一个跟踪过程统一起来。
 
 为了完成跟踪的传播过程，应用应该从请求源头中收集下列的 HTTP Header，并传播给外发请求：
 
