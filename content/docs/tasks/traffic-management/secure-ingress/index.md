@@ -48,8 +48,9 @@ from the <https://github.com/nicholasjackson/mtls-go-example> repository.
     $ ./generate.sh httpbin.example.com <password>
     {{< /text >}}
 
-    The command will generate four directories: `1_root`, `2_intermediate`, `3_application`, and `4_client` containing the client
-    and server certificates you use in the procedures below.
+     When prompted, select `y` for all the questions. The command will generate four directories: `1_root`,
+     `2_intermediate`, `3_application`, and `4_client` containing the client and server certificates you use in the
+     procedures below.
 
 ## Configure a TLS ingress gateway
 
