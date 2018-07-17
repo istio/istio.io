@@ -13,7 +13,6 @@ us. Please feel free to borrow these:
 
 <table>
   <tbody>
-
     <tr>
       <td class="logo"><img src="/img/istio-logo-blue-background.svg" alt="White logo with 'Istio Blue' background"></td>
       <td class="logo"><img style="background-color: lightgrey" src="/img/istio-logo.svg" alt="White logo with no background"></td>
@@ -21,7 +20,6 @@ us. Please feel free to borrow these:
           White logo in minimal container, with and without <i>Istio Blue</i> background
       </td>
     </tr>
-
     <tr>
       <td class="logo"><img src="/img/istio-logo-social-blue-background.svg" alt="White logo with 'Istio Blue' background, square container"></td>
       <td class="logo"><img style="background-color: lightgrey" src="/img/istio-logo-social.svg" alt="White logo with no background, square container"></td>
@@ -29,7 +27,6 @@ us. Please feel free to borrow these:
           White logo in square container, with and without <i>Istio Blue</i> background
       </td>
     </tr>
-
     <tr>
       <td class="logo"><img src="/img/istio-blue-logo-white-background.svg" alt="'Istio Blue` logo with white background"></td>
       <td class="logo"><img style="background-color: lightgrey" src="/img/istio-blue-logo.svg" alt="`Istio Blue` logo with no background"></td>
@@ -37,7 +34,6 @@ us. Please feel free to borrow these:
           <i>Istio Blue</i> logo in minimal container, with and without white background
       </td>
     </tr>
-
     <tr>
       <td class="logo"><img src="/img/istio-blue-logo-social-white-background.svg" alt="'Istio Blue` logo with white background, square container"></td>
       <td class="logo"><img style="background-color: lightgrey" src="/img/istio-blue-logo-social.svg" alt="'Istio Blue` logo with no background, square container"></td>
@@ -45,7 +41,6 @@ us. Please feel free to borrow these:
           <i>Istio Blue</i> logo in square container, with and without white background
       </td>
     </tr>
-
   </tbody>
 </table>
 
@@ -84,12 +79,11 @@ Here's some advice about using these images:
                     <li><i class="dont fa fa-times"></i> Use the Istio logo for your application’s icon</li>
                     <li><i class="dont fa fa-times"></i> Create a modified version of the Istio logo</li>
                     <li><i class="dont fa fa-times"></i> Integrate the Istio logo into your logo</li>
-                    <li><i class="dont fa fa-times"></i> Change the colors or aspect ratio</li>
+                    <li><i class="dont fa fa-times"></i> Change the Istio logo's colors or aspect ratio</li>
                 </ul>
             </div>
         </div>
     </div>
 </div>
-
 </div>
 </div>
