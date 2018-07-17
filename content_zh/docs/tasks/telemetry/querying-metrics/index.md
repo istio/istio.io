@@ -5,7 +5,7 @@ weight: 30
 keywords: [telemetry,metrics]
 ---
 
-此任务说明如何使用 Prometheus 查询 Istio 指标, 作为此任务的一部分，您将使用基于Web的界面查询度量标准值。
+此任务说明如何使用 Prometheus 查询 Istio 指标, 作为此任务的一部分，使用基于 Web 的界面进行指标查询。
 
 [Bookinfo](/docs/examples/bookinfo/) 示例应用程序在整个任务中用作示例应用程序。
 
@@ -64,13 +64,13 @@ keywords: [telemetry,metrics]
     istio_request_count{destination_service="productpage.default.svc.cluster.local"}
     {{< /text >}}
 
--   对 `review` 服务的 `v3` 的所有请求的总数：
+-   对 `reviews` 服务的 `v3` 的所有请求的总数：
 
     {{< text plain >}}
     istio_request_count{destination_service="reviews.default.svc.cluster.local", destination_version="v3"}
     {{< /text >}}
 
-    此查询返回评论服务 v3 的所有请求的当前总计数。
+    此查询返回 `reviews` 服务 v3 的所有请求的当前总计数。
 
 -   过去 5 分钟内对所有 `productpage` 服务的请求率：
 
@@ -80,9 +80,9 @@ keywords: [telemetry,metrics]
 
 ### 关于 Prometheus 的附加组件
 
-Mixer 附带内置的 [Prometheus](https://prometheus.io) 适配器，可以公开服务生成的度量值的端点, Prometheus附加组件是Prometheus服务器，它预先配置为刮取Mixer端点以收集公开的指标, 它提供了持久存储和查询Istio指标的机制。
+Mixer 中内置了 Prometheus 适配器，这一适配器将生成的指标值以端点的形式公开出来；Prometheus 插件则是一个预配置的 Prometheus 服务器，他一方面从上述 Mixer 端点抓取 Istio 指标，另一方面还为 Istio 指标提供了持久化存储和查询的服务。
 
-配置好的 Prometheus 插件会刮掉三个端点：
+配置好的 Prometheus 插件会抓取以下三个端点：
 
 1. *istio-mesh* (`istio-mixer.istio-system:42422`): 所有 Mixer 生成的网格指标。
 1. *mixer* (`istio-mixer.istio-system:9093`):  所有特定于 Mixer 的指标, 用于监控 Mixer 本身。
