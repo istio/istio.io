@@ -87,15 +87,10 @@ To start the application, follow the instructions below corresponding to your Is
 
         {{< text bash >}}
         $ kubectl label namespace default istio-injection=enabled
-        $ kubectl get namespace -L istio-injection
-        NAME           STATUS    AGE       ISTIO-INJECTION
-        default        Active    1h        enabled
-        istio-system   Active    1h
-        kube-public    Active    1h
-        kube-system    Active    1h
         {{< /text >}}
 
         Then simply deploy the services using `kubectl`
+
         {{< text bash >}}
         $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
         {{< /text >}}
