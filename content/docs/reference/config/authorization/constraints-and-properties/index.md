@@ -6,7 +6,7 @@ weight: 10
 
 This page lists the supported keys that could be used in `Constraints` and `Properties`.
 `Constraints` are used to specify additional custom conditions in a `ServiceRole`, `Properties` are used to specify
-additional custom conditions in a `ServiceRoleBinding`. For more information, please refer to [RBAC](/docs/concepts/security/#role-based-access-control-rbac).
+additional custom conditions in a `ServiceRoleBinding`. For more information, please refer to [authorization concept page](/docs/concepts/security/#authorization).
 
 ## Constraints
 

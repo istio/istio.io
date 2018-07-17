@@ -33,7 +33,7 @@ As illustrated in the diagram, Istio leverages secret volume mount to deliver ke
 VM/bare-metal machines, we introduce a node agent, which is a process running on each VM/bare-metal machine. It generates the private key and CSR (certificate
 signing request) locally, sends CSR to Citadel for signing, and delivers the generated certificate together with the private key to Envoy.
 
-## Mutual TLS Authentication
+## Mutual TLS authentication
 
 ### Identity
 
@@ -144,7 +144,7 @@ in [Istio Mixer](/docs/concepts/policies-and-telemetry/) such that photo-fronten
 In this setup, Citadel is able to provide keys and certificates management for all namespaces, and isolate
 microservice deployments from each other.
 
-## Authentication Policy
+## Authentication policy
 
 Istio authentication policy enables operators to specify authentication requirements for a service (or services). Istio authentication policy is composed of two parts:
 
@@ -228,86 +228,90 @@ origins:
 
 Defines what is the principal from the authentication. By default, this will be the peer's principal (and if peer authentication is not applied, it will be left unset). Policy writers can choose to overwrite it with USE_ORIGIN. In future, we will also support *conditional-binding* (e.g USE_PEER when peer is X, otherwise USE_ORIGIN)
 
-## Role-Based Access Control (RBAC)
+## Authorization
 
-Istio Role-Based Access Control (RBAC) provides namespace-level, service-level, method-level access control for services in the Istio Mesh.
-It features:
+Istio’s authorization feature - also known as Role-based Access Control (RBAC) - provides namespace-level,
+service-level, and method-level access control for services in an Istio Mesh. It features:
 
-* Role-Based semantics, which is simple and easy to use.
-
+* Role-Based semantics, which are simple and easy to use.
 * Service-to-service and endUser-to-Service authorization.
+* Flexibility through custom properties support (i.e., conditions) in roles and role-bindings.
+* High performance, as Istio authorization is enforced natively on Envoy.
 
-* Flexibility through custom properties support in roles and role-bindings.
-
-The diagram below shows the Istio RBAC architecture. Operators specify Istio RBAC policies. The policies are saved in
-the Istio config store.
+### Architecture
 
 {{< image width="80%" ratio="56.25%"
-    link="./IstioRBAC.svg"
-    alt="Istio RBAC"
-    caption="Istio RBAC Architecture"
+    link="./authz.svg"
+    alt="Istio Authorization"
+    caption="Istio Authorization Architecture"
     >}}
 
-The Istio RBAC engine does two things:
-* **Fetch RBAC policy.** Istio RBAC engine watches for changes on RBAC policy. It fetches the updated RBAC policy if it sees any changes.
-* **Authorize Requests.** At runtime, when a request comes, the request context is passed to Istio RBAC engine. RBAC engine evaluates the
-request context against the RBAC policies, and returns the authorization result (ALLOW or DENY).
+The above diagram shows the basic Istio authorization architecture. Operators specify Istio authorization policies using yaml files.
+Once deployed, the policies are saved in Istio Config Store.
 
-### Request context
+Pilot watches for changes to authorization policies. It fetches the updated authorization policies if it sees any changes.
+Pilot distributes authorization policies to Envoy proxies that are co-located with service instances.
 
-In the current release, the Istio RBAC engine is implemented as a [Mixer adapter](/docs/concepts/policies-and-telemetry/#adapters).
-The request context is provided as an instance of the
-[authorization template](/docs/reference/config/policy-and-telemetry/templates/authorization/). The request context
- contains all the information about the request and the environment that an authorization module needs to know. In particular, it has two parts:
+Each Envoy proxy runs an authorization engine that authorizes requests at runtime. When a request comes to the proxy,
+the authorization engine evaluates the request context against the current authorization policies, and returns the authorization
+result (ALLOW or DENY).
 
-* **subject** contains a list of properties that identify the caller identity, including `"user"` name/ID, `"groups"` the subject belongs to,
-or any additional properties about the subject such as namespace, service name.
-* **action** specifies "how a service is accessed". It includes `"namespace"`, `"service"`, `"path"`, `"method"` that the action is being taken on,
-and any additional properties about the action.
+### Enabling authorization
 
-Below we show an example "requestcontext".
+You enable authorization using a `RbacConfig` object. The `RbacConfig` object is a mesh global singleton with a fixed name
+“default”, at most one `RbacConfig` instance is allowed to be used in the mesh. Like other Istio configuration objects it is defined
+as a [Kubernetes `CustomResourceDefinition` (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) object.
+
+In `RbacConfig` object, the operator can specify “mode”, which can be one of the following:
+
+* **`OFF`**: Istio authorization is disabled.
+* **`ON`**: Istio authorization is enabled for all services in the mesh.
+* **`ON_WITH_INCLUSION`**: Istio authorization is enabled only for services and namespaces specified in “inclusion” field.
+* **`ON_WITH_EXCLUSION`**: Istio authorization is enabled for all services in the mesh except the services and namespaces specified in “exclusion” field.
+
+In the following example, authorization is enabled for the “default” namespace.
 
 {{< text yaml >}}
-apiVersion: "config.istio.io/v1alpha2"
-kind: authorization
+apiVersion: “config.istio.io/v1alpha2”
+kind: RbacConfig
 metadata:
-  name: requestcontext
+  name: default
   namespace: istio-system
 spec:
-  subject:
-    user: source.user | ""
-    groups: ""
-    properties:
-      service: source.service | ""
-      namespace: source.namespace | ""
-  action:
-    namespace: destination.namespace | ""
-    service: destination.service | ""
-    method: request.method | ""
-    path: request.path | ""
-    properties:
-      version: request.headers["version"] | ""
+  mode: ON_WITH_INCLUSION
+  inclusion:
+    namespaces: [“default”]
 {{< /text >}}
 
-### Istio RBAC policy
+### Policy
 
-Istio RBAC introduces `ServiceRole` and `ServiceRoleBinding`:
+To configure an Istio authorization policy, you specify a `ServiceRole` and `ServiceRoleBinding`. Like other Istio
+configuration objects they are defined as
+[Kubernetes `CustomResourceDefinition` (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) objects.
 
-* **`ServiceRole`** defines a role for access to services in the mesh.
-* **`ServiceRoleBinding`** grants a role to subjects (e.g., a user, a group, a service).
+* **`ServiceRole`** defines a group of permissions to access services.
+* **`ServiceRoleBinding`** grants a `ServiceRole` to particular subjects, such as  a user, a group, or a service.
+
+The combination of `ServiceRole` and `ServiceRoleBinding` specifies “**who** is allowed to do **what** under **which** conditions”. Specifically,
+
+* "who" refers to “subjects” in `ServiceRoleBinding`.
+* "what” refers to “permissions” in `ServiceRole`.
+* “conditions” can be specified with [Istio attributes](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/)
+in either `ServiceRole` or `ServiceRoleBinding`.
 
 #### `ServiceRole`
 
-A `ServiceRole` specification includes a list of rules. Each rule has the following standard fields:
-* **services**: A list of service names, which are matched against the `action.service` field of the "requestcontext".
-* **methods**: A list of method names which are matched against the `action.method` field of the "requestcontext". In the above "requestcontext",
-this is the HTTP or gRPC method. Note that gRPC methods are formatted in the form of "packageName.serviceName/methodName" (case sensitive).
-* **paths**: A list of HTTP paths which are matched against the `action.path` field of the "requestcontext". It is ignored in gRPC case.
+A `ServiceRole` specification includes a list of rules (i.e., permissions). Each rule has the following standard fields:
 
-A `ServiceRole` specification only applies to the **namespace** specified in `"metadata"` section. The "services" and "methods" are required
-fields in a rule. "paths" is optional. If not specified or set to "*", it applies to "any" instance.
+* **services**: A list of service names. Can be set to “*” to include all services in the specified namespace.
+* **methods**: A list of HTTP method names. For permissions on gRPC requests, the HTTP verb is always “POST”. Can be set to “*” to include
+all HTTP methods.
+* **paths**: HTTP paths or gRPC methods. The gRPC methods should be in the form of “packageName.serviceName/methodName” (case sensitive).
 
-Here is an example of a simple role "service-admin", which has full access to all services in "default" namespace.
+A `ServiceRole` specification only applies to the namespace specified in the "metadata" section. The “services” and “methods” are required
+fields in a rule. “paths” is optional. If not specified or set to “*“, it applies to “any” instance.
+
+Here is an example of a simple role “service-admin”, which has full access to all services in the “default” namespace.
 
 {{< text yaml >}}
 apiVersion: "config.istio.io/v1alpha2"
@@ -321,8 +325,8 @@ spec:
     methods: ["*"]
 {{< /text >}}
 
-Here is another role "products-viewer", which has read ("GET" and "HEAD") access to service "products.default.svc.cluster.local"
-in "default" namespace.
+Here is another role “products-viewer”, which has read (“GET” and “HEAD”) access to the service “products.default.svc.cluster.local” in the
+“default” namespace.
 
 {{< text yaml >}}
 apiVersion: "config.istio.io/v1alpha2"
@@ -336,11 +340,11 @@ spec:
     methods: ["GET", "HEAD"]
 {{< /text >}}
 
-In addition, we support **prefix matching** and **suffix matching** for all the fields in a rule. For example, you can define a "tester" role that
-has the following permissions in "default" namespace:
-* Full access to all services with prefix "test-" (e.g, "test-bookstore", "test-performance", "test-api.default.svc.cluster.local").
-* Read ("GET") access to all paths with "/reviews" suffix (e.g, "/books/reviews", "/events/booksale/reviews", "/reviews")
-in service "bookstore.default.svc.cluster.local".
+In addition, you can use prefix and suffix matching for all fields in a rule. For example, you can define a “tester” role
+that has the following permissions in the “default” namespace:
+Full access to all services with prefix “test-” (e.g, “test-bookstore”, “test-performance”, “test-api.default.svc.cluster.local”).
+Read (“GET”) access to all paths with “/reviews” suffix (e.g, “/books/reviews”, “/events/booksale/reviews”, “/reviews”) in service
+“bookstore.default.svc.cluster.local”.
 
 {{< text yaml >}}
 apiVersion: "config.istio.io/v1alpha2"
@@ -357,13 +361,14 @@ spec:
     methods: ["GET"]
 {{< /text >}}
 
-In `ServiceRole`, the combination of "namespace"+"services"+"paths"+"methods" defines "how a service (services) is allowed to be accessed".
-In some situations, you may need to specify additional constraints that a rule applies to. For example, a rule may only applies to a
-certain "version" of a service, or only applies to services that are labeled "foo". You can easily specify these constraints using
-custom fields.
+In a `ServiceRole`, the combination of `namespace`+`services`+`paths`+`methods` defines “how a service or services can be accessed”.
+In some situations, you may need to specify additional conditions for your rules. For example, a rule may only apply to a certain
+version of a service, or only apply to services that are labeled “foo”. You can easily specify these conditions using constraints.
 
-For example, the following `ServiceRole` definition extends the previous "products-viewer" role by adding a constraint on service "version"
-being "v1" or "v2". Note that the "version" property is provided by `"action.properties.version"` in "requestcontext".
+For example, the following `ServiceRole` definition extends the previous “products-viewer” role by adding a constraint that
+`request.headers[version]` is either “v1” or “v2”. Note that the supported “key” of a constraint are listed in the
+[constraints and properties](/docs/reference/config/authorization/constraints-and-properties/) page.
+In the case that the attribute is a “map” (e.g., `request.headers`), the “key” is an entry in the map (e.g., `request.headers[version]`).
 
 {{< text yaml >}}
 apiVersion: "config.istio.io/v1alpha2"
@@ -376,23 +381,26 @@ spec:
   - services: ["products.default.svc.cluster.local"]
     methods: ["GET", "HEAD"]
     constraints:
-    - key: "version"
+    - key: request.headers[version]
       values: ["v1", "v2"]
 {{< /text >}}
 
 #### `ServiceRoleBinding`
 
 A `ServiceRoleBinding` specification includes two parts:
-* **roleRef** refers to a `ServiceRole` resource **in the same namespace**.
-* A list of **subjects** that are assigned the role.
 
-A subject can either be a "user", or a "group", or is represented with a set of "properties". Each entry ("user" or "group" or an entry
-in "properties") must match one of fields ("user" or "groups" or an entry in "properties") in the "subject" part of the "requestcontext"
-instance.
+* **roleRef** refers to a `ServiceRole` resource in the same namespace.
+* A list of **subjects** that are assigned to the role.
 
-Here is an example of `ServiceRoleBinding` resource "test-binding-products", which binds two subjects to the "product-viewer" `ServiceRole`:
-* user "alice@yahoo.com".
-* "reviews.abc.svc.cluster.local" service in "abc" namespace.
+A subject can be either an explicitly specified “user”, or represented by a set of “properties”.  A “property” in a `ServiceRoleBinding`
+“subject” is similar to “constraints” in a `ServiceRole`, in that it lets you use conditions to specify a set of accounts that should
+be assigned to this role. It contains “key” and allowed “values”, where supported “key” are listed in the
+[constraints and properties](/docs/reference/config/authorization/constraints-and-properties/) page.
+
+Here is an example of `ServiceRoleBinding` “test-binding-products”, which binds two subjects to the `ServiceRole` “product-viewer”:
+
+* A service account representing service “a” (“service-account-a”).
+* A service account representing the Ingress service (“istio-ingress-service-account”) **and** where the JWT “email” claim is “a@foo.com”.
 
 {{< text yaml >}}
 apiVersion: "config.istio.io/v1alpha2"
@@ -402,17 +410,17 @@ metadata:
   namespace: default
 spec:
   subjects:
-  - user: "alice@yahoo.com"
-  - properties:
-      service: "reviews.abc.svc.cluster.local"
-      namespace: "abc"
+  - user: "service-account-a"
+  - user: “istio-ingress-service-account”
+    properties:
+    - request.auth.claims[email]: “a@foo.com”
   roleRef:
     kind: ServiceRole
     name: "products-viewer"
 {{< /text >}}
 
-In the case that you want to make a service(s) publicly accessible, you can use set the subject to `user: "*"`. This will assign a `ServiceRole`
-to all users/services.
+In the case that you want to make a service(s) publicly accessible, you set the subject to user: "*". This assigns the `ServiceRole`
+to all users and services.
 
 {{< text yaml >}}
 apiVersion: "config.istio.io/v1alpha2"
@@ -426,43 +434,4 @@ spec:
   roleRef:
     kind: ServiceRole
     name: "products-viewer"
-{{< /text >}}
-
-### Enabling RBAC
-
-Istio RBAC can be enabled by adding the following Mixer adapter rule. The rule has two parts. The first part defines a RBAC handler.
-It has two parameters, `"config_store_url"` and `"cache_duration"`.
-* The `"config_store_url"` parameter specifies where RBAC engine fetches RBAC policies. The default value for `"config_store_url"` is
-`"k8s://"`, which means Kubernetes API server. Alternatively, if you are testing RBAC policy locally, you may set it to a local directory
-such as `"fs:///tmp/testdata/configroot"`.
-* The `"cache_duration"` parameter specifies the duration for which the authorization results may be cached on Mixer client (i.e., Istio proxy).
-The default value for `"cache_duration"` is 1 minute.
-
-The second part defines a rule, which specifies that the RBAC handler should be invoked with the "requestcontext" instance [defined
-earlier in the document](#request-context).
-
-In the following example, Istio RBAC is enabled for "default" namespace. And the cache duration is set to 30 seconds.
-
-{{< text yaml >}}
-apiVersion: "config.istio.io/v1alpha2"
-kind: rbac
-metadata:
-  name: handler
-  namespace: istio-system
-spec:
-  config_store_url: "k8s://"
-  cache_duration: "30s"
----
-apiVersion: "config.istio.io/v1alpha2"
-kind: rule
-metadata:
-  name: rbaccheck
-  namespace: istio-system
-spec:
-  match: destination.namespace == "default"
-  actions:
-  # handler and instance names default to the rule's namespace.
-  - handler: handler.rbac
-    instances:
-    - requestcontext.authorization
 {{< /text >}}

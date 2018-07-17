@@ -169,7 +169,7 @@ If you want to completely bypass Istio for a specific IP range,
 you can configure the Envoy sidecars to prevent them from
 [intercepting](/docs/concepts/traffic-management/#communication-between-services)
 the external requests. This can be done by setting the `global.proxy.includeIPRanges` variable of
-[Helm](/docs/setup/kubernetes/helm-install/#customization-with-helm) and updating the `ConfigMap` _istio-sidecar-injector_ by using `kubectl apply`. After _istio-sidecar-injector_ is updated, the value of `global.proxy.includeIPRanges` will affect all the future deployments of the application pods.
+[Helm](/docs/reference/config/installation-options/) and updating the `ConfigMap` _istio-sidecar-injector_ by using `kubectl apply`. After _istio-sidecar-injector_ is updated, the value of `global.proxy.includeIPRanges` will affect all the future deployments of the application pods.
 
 The simplest way to use the `global.proxy.includeIPRanges` variable is to pass it the IP range(s)
 used for internal cluster services, thereby excluding external IPs from being redirected
