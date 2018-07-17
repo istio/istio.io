@@ -15,9 +15,9 @@ plane and the sidecars for the Istio data plane.
 
 ## Prerequisites
 
-1. [Setup the Kubernetes cluster](/docs/setup/kubernetes/platform-setup/).
+1. [Download the Istio release](/docs/setup/kubernetes/download-release/).
 
-1. [Download the release](/docs/setup/kubernetes/download-release/).
+1. [Kubernetes platform setup](/docs/setup/kubernetes/platform-setup/).
 
 1. [Install the Helm client](https://docs.helm.sh/using_helm/#installing-helm).
 

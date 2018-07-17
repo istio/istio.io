@@ -1,5 +1,5 @@
 ---
-title: Download Istio Release Prerequisites
+title: Download the Istio release
 description: Instructions to download the Istio release.
 weight: 10
 keywords: [kubernetes]

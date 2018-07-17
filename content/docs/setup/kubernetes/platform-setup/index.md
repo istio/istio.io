@@ -1,5 +1,5 @@
 ---
-title: Kubernetes Platform Setup Prerequisites
+title: Kubernetes platform setup
 description: Instructions to setup the Kubernetes cluster for Istio.
 weight: 10
 keywords: [kubernetes]
