@@ -43,7 +43,7 @@ The currently exposed options are:
 | `istio.dest` | The directory of the target machine where Istio will be installed | Any directory with read+write permissions | `~/.istio` |
 | `istio.auth` | Install with mutual TLS | `true` or `false` | `false` |
 | `istio.namespace` | Kubernetes namespace where Istio will be installed | any namespace may be specified | `istio-system` |
-| `istio.addon` | Istio addons to install | array containing any of `kiali` | Istio already installs `grafana`, `prometheus`, `jaeger` bye default |
+| `istio.addon` | Istio addons to install | array containing any of `kiali` | Istio already installs `grafana`, `prometheus`, `jaeger` by default |
 | `istio.delete_resources` | Delete resources created under Istio namespace | `true` or `false` | false |
 | `istio.samples` | Array containing the names of the samples that should be installed | `bookinfo`, `helloworld`, `httpbin`, `sleep` | none |
 
