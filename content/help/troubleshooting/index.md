@@ -600,5 +600,5 @@ To find out the envoy version, you can follow below steps:
 
 1. `kubectl exec -it PODNAME -c istio-proxy -n NAMESPACE /bin/bash`
 
-2. curl localhost:15000/server_info 
+2. `curl localhost:15000/server_info`
 
