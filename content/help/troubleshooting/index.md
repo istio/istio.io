@@ -593,3 +593,12 @@ A workaround is to remove the proxy settings from the kube-apiserver manifest an
 
 An issue was filed with Kubernetes related to this and has since been closed.   [https://github.com/kubernetes/kubeadm/issues/666](https://github.com/kubernetes/kubeadm/issues/666)
 [https://github.com/kubernetes/kubernetes/pull/58698#discussion_r163879443](https://github.com/kubernetes/kubernetes/pull/58698#discussion_r163879443)
+
+## What Envoy version is istio using?
+
+To find out the envoy version, you can follow below steps:
+
+1. `kubectl exec -it PODNAME -c istio-proxy -n NAMESPACE /bin/bash`
+
+1. `curl localhost:15000/server_info`
+
