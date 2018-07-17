@@ -15,7 +15,7 @@ aliases:
 
 * 遵循[安装指南](/docs/setup/)部署 Istio。
 
-    `istio-demo.yaml` 或者 `istio-demo-auth.yaml` 模板中都包含了跟踪支持，或者还可以使用 Heml chart 的方式进行部署，需要设置 `--set tracing.enabled=true` 选项。
+    `istio-demo.yaml` 或者 `istio-demo-auth.yaml` 模板中都包含了跟踪支持，或者还可以使用 Helm chart 的方式进行部署，需要设置 `--set tracing.enabled=true` 选项。
 
 * 部署 [Bookinfo](/docs/examples/bookinfo/) 样例应用。
 
@@ -33,7 +33,7 @@ $ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=
 
 在 Bookinfo 应用启动运行之后，访问 `http://$GATEWAY_URL/productpage` 一次或者多次之后，会生成跟踪数据。
 
-在 Jeager dashboard 左侧版面中，从 Service 下拉列表中选择 `productpage`，点击 `Find Traces` 按钮，就会看到类似下图的内容：
+在 Jaeger dashboard 左侧版面中，从 Service 下拉列表中选择 `productpage`，点击 `Find Traces` 按钮，就会看到类似下图的内容：
 
 {{< image width="100%" ratio="42.35%"
     link="/docs/tasks/telemetry/distributed-tracing/istio-tracing-list.png"
