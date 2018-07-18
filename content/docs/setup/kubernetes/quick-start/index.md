@@ -31,7 +31,7 @@ cluster.
    [Minikube](https://kubernetes.io/docs/setup/minikube/), version **0.28.0 or
    later**.
 
-2. Select a
+1. Select a
    [VM driver](https://kubernetes.io/docs/tasks/tools/install-minikube/#install-a-hypervisor)
    and substitute `your_vm_driver_choice` below with the installed virtual
    machine (VM) driver.
