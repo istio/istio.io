@@ -1,5 +1,5 @@
 ---
-title: 控制入口流量
+title: 控制 Ingress 流量
 description: 介绍在服务网格 Istio 中如何配置外部公开服务
 weight: 30
 keywords: [traffic-management,ingress]
