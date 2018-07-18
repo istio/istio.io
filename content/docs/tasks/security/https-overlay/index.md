@@ -21,10 +21,16 @@ original HTTPS traffic. And this is the reason Istio can work on HTTPS services.
 
 Set up Istio by following the instructions in the
 [quick start](/docs/setup/kubernetes/quick-start/).
-Note that authentication should be **disabled** at step 5 in the
-[installation steps](/docs/setup/kubernetes/quick-start/#installation-steps).
+Note that default mutual TLS authentication should be **disabled** when installing Istio; e.g. option 1 in the
+[quick start](/docs/setup/kubernetes/quick-start/#installation-steps).
+
+The demo is also assumed to be running in a namespace where automatic sidecar injection is
+disabled, and Istio sidecars are instead manually injected with `istioctl`.
 
 ### Generate certificates and configmap
+
+The following examples consider an NGINX service pod which can encrypt traffic using HTTPS.
+Before beginning, generate the TLS certificate and key that this service will use.
 
 You need to have openssl installed to run these commands:
 
@@ -139,10 +145,11 @@ $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name
 ### Create an HTTPS service with Istio sidecar with mutual TLS enabled
 
 You need to deploy Istio control plane with mutual TLS enabled. If you have istio
-control plane with mutual TLS disabled installed, please delete it:
+control plane with mutual TLS disabled installed, please delete it. For example, if 
+you followed the quick start:
 
 {{< text bash >}}
-$ kubectl delete -f install/kubernetes/istio.yaml
+$ kubectl delete -f install/kubernetes/istio-demo.yaml
 {{< /text >}}
 
 And wait for everything is down, i.e., there is no pod in control plane namespace (istio-system).
