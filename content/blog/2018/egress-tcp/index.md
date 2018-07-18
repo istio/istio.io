@@ -23,8 +23,7 @@ For this task I set up an instance of [MySQL](https://www.mysql.com). You can us
 1.  To initialize the database, I run the following command entering the password when prompted. The command is performed with the credentials of the  `admin` user, created by default by [Compose for MySQL](https://www.ibm.com/cloud/compose/mysql).
 
     {{< text bash >}}
-    $ curl -s {{< github_file >}}/samples/bookinfo/src/mysql/mysqldb-init.sql | \
-    mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host <the database host> --port <the database port>
+    $ curl -s {{< github_file >}}/samples/bookinfo/src/mysql/mysqldb-init.sql | mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host <the database host> --port <the database port>
     {{< /text >}}
 
     _**OR**_
@@ -32,15 +31,13 @@ For this task I set up an instance of [MySQL](https://www.mysql.com). You can us
     When using the `mysql` client and a local MySQL database, I would run:
 
     {{< text bash >}}
-    $ curl -s {{< github_file >}}/samples/bookinfo/src/mysql/mysqldb-init.sql | \
-    mysql -u root -p
+    $ curl -s {{< github_file >}}/samples/bookinfo/src/mysql/mysqldb-init.sql | mysql -u root -p
     {{< /text >}}
 
 1.  I then create a user with the name _bookinfo_ and grant it _SELECT_ privilege on the `test.ratings` table:
 
     {{< text bash >}}
-    $ mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host <the database host> --port <the database port>  \
-    -e "CREATE USER 'bookinfo' IDENTIFIED BY '<password you choose>'; GRANT SELECT ON test.ratings to 'bookinfo';"
+    $ mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host <the database host> --port <the database port> -e "CREATE USER 'bookinfo' IDENTIFIED BY '<password you choose>'; GRANT SELECT ON test.ratings to 'bookinfo';"
     {{< /text >}}
 
     _**OR**_
@@ -48,8 +45,7 @@ For this task I set up an instance of [MySQL](https://www.mysql.com). You can us
     For `mysql` and the local database, the command would be:
 
     {{< text bash >}}
-    $ mysql -u root -p -e \
-    "CREATE USER 'bookinfo' IDENTIFIED BY '<password you choose>'; GRANT SELECT ON test.ratings to 'bookinfo';"
+    $ mysql -u root -p -e "CREATE USER 'bookinfo' IDENTIFIED BY '<password you choose>'; GRANT SELECT ON test.ratings to 'bookinfo';"
     {{< /text >}}
 
     Here I apply the [principle of least privilege](https://en.wikipedia.org/wiki/Principle_of_least_privilege). This means that I do not use my _admin_ user in the Bookinfo application. Instead, I create a special user for the Bookinfo application , _bookinfo_, with minimal privileges. In this case, the _bookinfo_ user only has the `SELECT` privilege on a single table.
@@ -59,8 +55,7 @@ For this task I set up an instance of [MySQL](https://www.mysql.com). You can us
 1.  I inspect the created ratings to see that everything worked as expected:
 
     {{< text bash >}}
-    $ mysqlsh --sql --ssl-mode=REQUIRED -u bookinfo -p --host <the database host> --port <the database port> \
-    -e "select * from test.ratings;"
+    $ mysqlsh --sql --ssl-mode=REQUIRED -u bookinfo -p --host <the database host> --port <the database port> -e "select * from test.ratings;"
     Enter password:
     +----------+--------+
     | ReviewID | Rating |
@@ -88,8 +83,7 @@ For this task I set up an instance of [MySQL](https://www.mysql.com). You can us
 1.  I set the ratings temporarily to 1 to provide a visual clue when our database is used by the Bookinfo _ratings_ service:
 
     {{< text bash >}}
-    $ mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host <the database host> --port <the database port>  \
-    -e "update test.ratings set rating=1; select * from test.ratings;"
+    $ mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host <the database host> --port <the database port> -e "update test.ratings set rating=1; select * from test.ratings;"
     Enter password:
     +----------+--------+
     | ReviewID | Rating |
@@ -104,7 +98,7 @@ For this task I set up an instance of [MySQL](https://www.mysql.com). You can us
     For `mysql` and the local database:
 
     {{< text bash >}}
-    $ mysql -u root -p -e "update test.ratings set rating=1; select * from  test.ratings;"
+    $ mysql -u root -p -e "update test.ratings set rating=1; select * from test.ratings;"
     Enter password:
     +----------+--------+
     | ReviewID | Rating |
