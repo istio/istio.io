@@ -272,7 +272,7 @@ In `RbacConfig` object, the operator can specify “mode”, which can be one of
 In the following example, authorization is enabled for the “default” namespace.
 
 {{< text yaml >}}
-apiVersion: “config.istio.io/v1alpha2”
+apiVersion: “rbac.istio.io/v1alpha1”
 kind: RbacConfig
 metadata:
   name: default
@@ -314,7 +314,7 @@ fields in a rule. “paths” is optional. If not specified or set to “*“, i
 Here is an example of a simple role “service-admin”, which has full access to all services in the “default” namespace.
 
 {{< text yaml >}}
-apiVersion: "config.istio.io/v1alpha2"
+apiVersion: "rbac.istio.io/v1alpha1"
 kind: ServiceRole
 metadata:
   name: service-admin
@@ -329,7 +329,7 @@ Here is another role “products-viewer”, which has read (“GET” and “HEA
 “default” namespace.
 
 {{< text yaml >}}
-apiVersion: "config.istio.io/v1alpha2"
+apiVersion: "rbac.istio.io/v1alpha1"
 kind: ServiceRole
 metadata:
   name: products-viewer
@@ -347,7 +347,7 @@ Read (“GET”) access to all paths with “/reviews” suffix (e.g, “/books/
 “bookstore.default.svc.cluster.local”.
 
 {{< text yaml >}}
-apiVersion: "config.istio.io/v1alpha2"
+apiVersion: "rbac.istio.io/v1alpha1"
 kind: ServiceRole
 metadata:
   name: tester
@@ -371,7 +371,7 @@ For example, the following `ServiceRole` definition extends the previous “prod
 In the case that the attribute is a “map” (e.g., `request.headers`), the “key” is an entry in the map (e.g., `request.headers[version]`).
 
 {{< text yaml >}}
-apiVersion: "config.istio.io/v1alpha2"
+apiVersion: "rbac.istio.io/v1alpha1"
 kind: ServiceRole
 metadata:
   name: products-viewer-version
@@ -403,7 +403,7 @@ Here is an example of `ServiceRoleBinding` “test-binding-products”, which bi
 * A service account representing the Ingress service (“istio-ingress-service-account”) **and** where the JWT “email” claim is “a@foo.com”.
 
 {{< text yaml >}}
-apiVersion: "config.istio.io/v1alpha2"
+apiVersion: "rbac.istio.io/v1alpha1"
 kind: ServiceRoleBinding
 metadata:
   name: test-binding-products
@@ -423,7 +423,7 @@ In the case that you want to make a service(s) publicly accessible, you set the 
 to all users and services.
 
 {{< text yaml >}}
-apiVersion: "config.istio.io/v1alpha2"
+apiVersion: "rbac.istio.io/v1alpha1"
 kind: ServiceRoleBinding
 metadata:
   name: binding-products-allusers
