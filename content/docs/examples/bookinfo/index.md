@@ -83,7 +83,13 @@ To start the application, follow the instructions below corresponding to your Is
 
     *   If you are using a cluster with
         [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)
-        enabled, simply deploy the services using `kubectl`
+        enabled, label the `default` namespace with `istio-injection=enabled`
+
+        {{< text bash >}}
+        $ kubectl label namespace default istio-injection=enabled
+        {{< /text >}}
+
+        Then simply deploy the services using `kubectl`
 
         {{< text bash >}}
         $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
@@ -98,7 +104,7 @@ To start the application, follow the instructions below corresponding to your Is
 1.  Define the ingress gateway for the application:
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
     {{< /text >}}
 
 1.  Confirm all services and pods are correctly defined and running:

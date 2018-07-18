@@ -48,8 +48,9 @@ from the <https://github.com/nicholasjackson/mtls-go-example> repository.
     $ ./generate.sh httpbin.example.com <password>
     {{< /text >}}
 
-    The command will generate four directories: `1_root`, `2_intermediate`, `3_application`, and `4_client` containing the client
-    and server certificates you use in the procedures below.
+     When prompted, select `y` for all the questions. The command will generate four directories: `1_root`,
+     `2_intermediate`, `3_application`, and `4_client` containing the client and server certificates you use in the
+     procedures below.
 
 ## Configure a TLS ingress gateway
 
@@ -273,6 +274,16 @@ they have valid values, according to the output of the following commands:
     {{< text bash >}}
     $ kubectl exec -i -n istio-system $(kubectl get pod -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')  -- cat /etc/istio/ingressgateway-certs/tls.crt | openssl x509 -text -noout | grep 'Subject:'
         Subject: C=US, ST=Denial, L=Springfield, O=Dis, CN=httpbin.example.com
+    {{< /text >}}
+
+1.  Verify that the proxy of the ingress gateway is aware of the certificates:
+
+    {{< text bash >}}
+    $ kubectl exec -ti $(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath={.items[0]..metadata.name}) -n istio-system -- curl  127.0.0.1:15000/certs
+    {
+      "ca_cert": "",
+      "cert_chain": "Certificate Path: /etc/istio/ingressgateway-certs/tls.crt, Serial Number: 100212, Days until Expiration: 370"
+    }
     {{< /text >}}
 
 1.  Check the log of `istio-ingressgateway` for error messages:
