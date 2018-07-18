@@ -50,7 +50,7 @@ Common setup for all sinks:
 1.  Record the ID of the dataset. It will be needed to configure the Stackdriver handler.
     It would be of the form `bigquery.googleapis.com/projects/[PROJECT_ID]/datasets/[DATASET_ID]`
 1.  Give [sink’s writer identity](https://cloud.google.com/logging/docs/api/tasks/exporting-logs#writing_to_the_destination): `cloud-logs@system.gserviceaccount.com` BigQuery Data Editor role in IAM.
-1.  If using [Google Kubernetes Engine](/docs/setup/kubernetes/quick-start/#google-kubernetes-engine), make sure `bigquery` [Scope](https://cloud.google.com/sdk/gcloud/reference/container/clusters/create) is enabled on the cluster.
+1.  If using [Google Kubernetes Engine](/docs/setup/kubernetes/platform-setup/#google-kubernetes-engine), make sure `bigquery` [Scope](https://cloud.google.com/sdk/gcloud/reference/container/clusters/create) is enabled on the cluster.
 
 #### Google Cloud Storage (GCS)
 
@@ -65,7 +65,7 @@ Common setup for all sinks:
 1.  Recode the ID of the topic. It will be needed to configure Stackdriver.
     It would be of the form `pubsub.googleapis.com/projects/[PROJECT_ID]/topics/[TOPIC_ID]`
 1.  Give [sink’s writer identity](https://cloud.google.com/logging/docs/api/tasks/exporting-logs#writing_to_the_destination): `cloud-logs@system.gserviceaccount.com` Pub/Sub Publisher role in IAM.
-1.  If using [Google Kubernetes Engine](/docs/setup/kubernetes/quick-start/#google-kubernetes-engine), make sure `pubsub` [Scope](https://cloud.google.com/sdk/gcloud/reference/container/clusters/create) is enabled on the cluster.
+1.  If using [Google Kubernetes Engine](/docs/setup/kubernetes/platform-setup/#google-kubernetes-engine), make sure `pubsub` [Scope](https://cloud.google.com/sdk/gcloud/reference/container/clusters/create) is enabled on the cluster.
 
 ### Setting up Stackdriver
 
