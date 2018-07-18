@@ -143,7 +143,7 @@ We will describe metrics first and then the labels for each metric.
     response_code: response.code | 200
     {{< /text >}}
 
-*   **Connection Security Poicy**: This identifies the service authentication policy of
+*   **Connection Security Policy**: This identifies the service authentication policy of
     the request. It is set to `mutual_tls` when Istio is used to make communication
     secure and report is from destination. It is set to `unknown` when report is from
     source since security policy cannot be properly populated.
