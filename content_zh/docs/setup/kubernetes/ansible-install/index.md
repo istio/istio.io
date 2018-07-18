@@ -1,6 +1,6 @@
 ---
 title: 使用 Ansible 安装
-description: 使用内置的 Ansible playbook 安装 Istio
+description: 使用内置的 Ansible playbook 安装 Istio。
 weight: 40
 keywords: [kubernetes,ansible]
 ---
@@ -20,9 +20,9 @@ keywords: [kubernetes,ansible]
 
 ## 使用 Ansible 进行部署
 
-**重要**：Ansible playbook 的所有执行都必须在 Istio 的 `install/ansible` 路径中进行。
+**重要**：`Ansible playbook` 的所有执行都必须在 Istio 的 `install/ansible` 路径中进行。
 
-此 playbook 将在您的机器上下载并本地安装 Istio。需要在 OpenShift 上部署默认配置的 Istio，可以使用以下命令：
+此 `playbook` 将在您的机器上下载并本地安装 Istio。需要在 OpenShift 上部署默认配置的 Istio，可以使用以下命令：
 
 {{< text bash >}}
 $ ansible-playbook main.yml
@@ -30,14 +30,14 @@ $ ansible-playbook main.yml
 
 ## 使用 Ansible 进行自定义安装
 
-Ansible playbook 附带了合理的默认值。
+`Ansible playbook` 附带了合理的默认值。
 
 目前公开的选项有：
 
 | 参数 | 描述 | 值 | 默认值 |
 | --- | --- | --- | --- |
 | `cluster_flavour` | 定义目标集群类型 | `k8s` 或 `ocp` | `ocp` |
-| `github_api_token` | 用于 Github 身份认证的有效 Github API 身份认证令牌 | 空 |
+| `github_api_token` | 用于 GitHub 身份认证的有效 GitHub API 身份认证令牌 | 空 |
 | `cmd_path` | 自定义 `kubectl` 或 `oc` 路径 | 到 `kubectl` 或 `oc` 二进制文件的有效路径 | `$PATH/oc` |
 | `istio.dest` | Istio 将要被安装到的目标机器的目录 | 任何具有读写权限的目录 | `~/.istio` |
 | `istio.auth` | 使用双向 TLS 进行安装 | `true` 或 `false` | `false` |
@@ -54,9 +54,11 @@ Ansible playbook 附带了合理的默认值。
 $ ansible-playbook main.yml
 {{< /text >}}
 
+## 可选覆盖
+
 在某些情况下，默认值可能需要被覆盖。
 
-以下命令描述了运维人员如何覆盖 Ansible playbook 的默认值：
+以下命令描述了运维人员如何覆盖 `Ansible playbook` 的默认值：
 
 运维人员在 Kubernetes 上安装 Istio：
 
@@ -82,7 +84,7 @@ $ ansible-playbook main.yml -e '{"istio": {"auth": true, "delete_resources": tru
 $ ansible-playbook main.yml -e '{"istio": {"delete_resources": true, "addon": ["kiali"]}}'
 {{< /text >}}
 
-运维人员在 Kubernetes 上安装 Istio 并额外部署了期望的示例：
+运维人员在 Kubernetes 上安装 Istio 并额外部署了一些示例：
 
 {{< text bash >}}
 $ ansible-playbook main.yml -e '{"istio": {"samples": ["helloworld", "bookinfo"]}}'
@@ -90,7 +92,7 @@ $ ansible-playbook main.yml -e '{"istio": {"samples": ["helloworld", "bookinfo"]
 
 ## 卸载
 
-如果需要不同版本的 Istio，请在执行 playbook 之前删除 `istio-system` namespace。
+如果需要不同版本的 Istio，请在执行 `playbook` 之前删除 `istio-system` namespace。
 这种情况下，不需要设置 `istio.delete_resources` 参数。
 
 将 `istio.delete_resources` 设置为 true 会从集群中删除 Istio 控制平面。
