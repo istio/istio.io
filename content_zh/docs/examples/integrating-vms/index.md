@@ -22,7 +22,7 @@ aliases:
 
 ## 开始之前
 
-* 跟随[安装指南](/docs/setup/kubernetes/quick-start/)部署 Istio。
+* 依照[安装指南](/docs/setup/kubernetes/quick-start/)部署 Istio。
 
 * 部署 [Bookinfo](/docs/examples/bookinfo/) 示例应用（在 `bookinfo` 命名空间）。
 
