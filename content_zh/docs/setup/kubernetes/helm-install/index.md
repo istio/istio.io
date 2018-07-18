@@ -13,13 +13,14 @@ aliases:
 
 ## 先决条件
 
-1. [在 Kubernetes 中安装 Istio](/docs/setup/kubernetes/quick-start/#platform-setup)
+1. [下载 Istio 的发布版本](/docs/setup/kubernetes/download-release/)。
+1. [在 Kubernetes 中安装 Istio](/docs/setup/kubernetes/platform-setup/)
 
-1. [下载](/docs/setup/kubernetes/quick-start/#download-and-prepare-for-the-installation) 最新的 Istio 发布版本。
+## 安装步骤
 
-1. [安装 Helm 客户端](https://docs.helm.sh/using_helm/#installing-helm)。
+要安装 Istio 的核心组件，您可以选择以下四个互斥选项之一。
 
-1. Istio 默认使用 LoadBalancer service 对象类型。某些平台可能不支持该类型。对于不支持 LoadBalancer 的平台，请通过在 helm 操作的末尾添加 `--set ingress.service.type=NodePort --set ingressgateway.service.type=NodePort --set egressgateway.service.type=NodePort` 参数使用 NodePort 作为替代来安装 Istio。
+但是，我们建议您在生产环境使用 [Helm Chart](/docs/setup/kubernetes/helm-install/) 安装 Istio。通过此安装，您可以利用所有选项来根据需要配置和自定义 Istio。
 
 ## 选项1：通过 `helm template` 安装 Helm
 

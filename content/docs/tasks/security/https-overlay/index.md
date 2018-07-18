@@ -145,7 +145,7 @@ $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name
 ### Create an HTTPS service with Istio sidecar with mutual TLS enabled
 
 You need to deploy Istio control plane with mutual TLS enabled. If you have istio
-control plane with mutual TLS disabled installed, please delete it. For example, if 
+control plane with mutual TLS disabled installed, please delete it. For example, if
 you followed the quick start:
 
 {{< text bash >}}
