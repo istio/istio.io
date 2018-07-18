@@ -48,7 +48,7 @@ liveness-6857c8775f-zdv9r        2/2       Running   0           1m
 运行此命令以在默认 namespace 中启用 service 的双向 TLS。
 
 {{< text bash >}}
-cat <<EOF | istioctl create -f -
+$ cat <<EOF | istioctl create -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
@@ -73,12 +73,12 @@ $ kubectl apply -f <(istioctl kube-inject -f @samples/health-check/liveness-comm
 
 本节介绍了如何使用 HTTP 请求选项配置健康检查。
 
-### 禁用双向 TLS
+### 禁用双向 TLS 策略
 
 运行此命令删除双向 TLS 策略。
 
 {{< text bash >}}
-cat <<EOF | istioctl delete -f -
+$ cat <<EOF | istioctl delete -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
@@ -104,12 +104,12 @@ NAME                             READY     STATUS    RESTARTS   AGE
 liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
 {{< /text >}}
 
-### 启用双向 TLS
+### 启用双向 TLS 策略
 
 运行此命令以在默认 namespace 中启用 service 的双向 TLS。
 
 {{< text bash >}}
-cat <<EOF | istioctl create -f -
+$ cat <<EOF | istioctl create -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
