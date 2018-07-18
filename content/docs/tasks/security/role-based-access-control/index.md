@@ -105,7 +105,7 @@ set to one of the values in ["productpage", "details", "reviews", "ratings"]. No
 the services must have one of the listed "app" labels.
 
     {{< text yaml >}}
-    apiVersion: "config.istio.io/v1alpha2"
+    apiVersion: "rbac.istio.io/v1alpha1"
     kind: ServiceRole
     metadata:
       name: service-viewer
@@ -122,7 +122,7 @@ the services must have one of the listed "app" labels.
 *   Creates a `ServiceRoleBinding` that assign the "service-viewer" role to all services in "istio-system" and "default" namespaces.
 
     {{< text yaml >}}
-    apiVersion: "config.istio.io/v1alpha2"
+    apiVersion: "rbac.istio.io/v1alpha1"
     kind: ServiceRoleBinding
     metadata:
       name: bind-service-viewer
@@ -183,7 +183,7 @@ The policy does the following:
 *   Creates a `ServiceRole` "productpage-viewer" which allows read access to "productpage" service.
 
     {{< text yaml >}}
-    apiVersion: "config.istio.io/v1alpha2"
+    apiVersion: "rbac.istio.io/v1alpha1"
     kind: ServiceRole
     metadata:
       name: productpage-viewer
@@ -197,7 +197,7 @@ The policy does the following:
 *   Creates a `ServiceRoleBinding` "bind-productpager-viewer" which assigns "productpage-viewer" role to all users/services.
 
     {{< text yaml >}}
-    apiVersion: "config.istio.io/v1alpha2"
+    apiVersion: "rbac.istio.io/v1alpha1"
     kind: ServiceRoleBinding
     metadata:
       name: bind-productpager-viewer
@@ -234,7 +234,7 @@ The policy does the following:
 *   Creates a `ServiceRole` "details-reviews-viewer" which allows read access to "details" and "reviews" services.
 
     {{< text yaml >}}
-    apiVersion: "config.istio.io/v1alpha2"
+    apiVersion: "rbac.istio.io/v1alpha1"
     kind: ServiceRole
     metadata:
       name: details-reviews-viewer
@@ -249,7 +249,7 @@ The policy does the following:
 account "cluster.local/ns/default/sa/bookinfo-productpage" (representing the "productpage" service).
 
     {{< text yaml >}}
-    apiVersion: "config.istio.io/v1alpha2"
+    apiVersion: "rbac.istio.io/v1alpha1"
     kind: ServiceRoleBinding
     metadata:
       name: bind-details-reviews
@@ -287,7 +287,7 @@ The policy does the following:
 *   Creates a `ServiceRole` "ratings-viewer" which allows read access to "ratings" service.
 
     {{< text yaml >}}
-    apiVersion: "config.istio.io/v1alpha2"
+    apiVersion: "rbac.istio.io/v1alpha1"
     kind: ServiceRole
     metadata:
       name: ratings-viewer
@@ -302,7 +302,7 @@ The policy does the following:
 account "cluster.local/ns/default/sa/bookinfo-reviews", which represents the "reviews" services.
 
     {{< text yaml >}}
-    apiVersion: "config.istio.io/v1alpha2"
+    apiVersion: "rbac.istio.io/v1alpha1"
     kind: ServiceRoleBinding
     metadata:
       name: bind-ratings
