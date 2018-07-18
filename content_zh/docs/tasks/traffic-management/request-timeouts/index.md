@@ -17,7 +17,7 @@ keywords: [traffic-management,timeouts]
 
 * 部署示例应用程序 [Bookinfo](/docs/examples/bookinfo/) 。
 
-* 是用下面的命令初始化应用的版本路由：
+* 使用下面的命令初始化应用的版本路由：
 
     {{< text bash >}}
     $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
