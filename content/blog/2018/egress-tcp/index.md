@@ -15,7 +15,7 @@ In my previous blog post, [Consuming External Web Services](/blog/2018/egress-ht
  TCP. You will use the [Istio Bookinfo sample application](/docs/examples/bookinfo/), the version in which the book ratings
  data is persisted in a MySQL database. You deploy this database outside the cluster and configure the _ratings_
  microservice to use it. You define a
- [ServiceEntry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) to allow the
+ [Service Entry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) to allow the
  in-mesh applications to access the external database.
 
 ## Bookinfo sample application with external ratings database
