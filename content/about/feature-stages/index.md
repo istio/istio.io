@@ -100,7 +100,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Custom Mixer Build Model](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) | Alpha
 | [Out of Process Mixer Adapters](https://github.com/istio/istio/wiki/Out-Of-Process-gRPC-Adapter-Dev-Guide) | Alpha
 | Enable API attributes using an IDL | Alpha
-| [Helm](/docs/setup/kubernetes/helm-install/) | Beta
+| [Helm](/docs/setup/kubernetes/helm-install/) | Stable
 | [Multicluster Mesh](/docs/setup/kubernetes/multicluster-install/) | Alpha
 
 > {{< idea_icon >}}
