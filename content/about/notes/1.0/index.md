@@ -25,5 +25,5 @@ to usual pile of bug fixes and performance improvements.
 
 - In a [multicluster deployment](/docs/setup/kubernetes/multicluster-install) the mixer-telemetry
   and mixer-policy components do not connect to the Kubernetes API endpoints of any of the remote
-  clusters.  This results in a loss of telemetry fidelity as the some of the metadata associated
+  clusters.  This results in a loss of telemetry fidelity as some of the metadata associated
   with workloads on remote clusters is incomplete.
