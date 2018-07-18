@@ -18,7 +18,7 @@ aliases:
     caption="网格扩展环境下的 Bookinfo 应用"
     >}}
 
-<!-- source of the drawing https://docs.google.com/drawings/d/1gQp1OTusiccd-JUOHktQ9RFZaqREoQbwl2Vb-P3XlRQ/edit -->
+<!-- 原图 https://docs.google.com/drawings/d/1gQp1OTusiccd-JUOHktQ9RFZaqREoQbwl2Vb-P3XlRQ/edit -->
 
 ## 开始之前
 
