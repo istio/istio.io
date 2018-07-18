@@ -142,13 +142,14 @@ the `istio-remote` helm chart's configuration values.
 
 | Helm Variable | Accepted Values | Default | Purpose of Value |
 | --- | --- | --- | --- |
-| `global.remotePilotAddress` | A valid IP address | None | Specifies the Istio control plane's pilot Pod IP address |
-| `global.remotePolicyAddress` | A valid IP address | None | Specifies the Istio control plane's policy Pod IP address |
-| `global.remoteTelemetryAddress` | A valid IP address | None | Specifies the Istio control plane's telemetry Pod IP address |
+| `global.remotePilotAddress` | A valid IP address or hostname | None | Specifies the Istio control plane's pilot Pod IP address or remote cluster DNS resolvable hostname |
+| `global.remotePolicyAddress` | A valid IP address or hostname | None | Specifies the Istio control plane's policy Pod IP address or remote cluster DNS resolvable hostname |
+| `global.remoteTelemetryAddress` | A valid IP address or hostname | None | Specifies the Istio control plane's telemetry Pod IP address or remote cluster DNS resolvable hostname |
 | `global.proxy.envoyStatsd.enabled` | true, false | false | Specifies whether the Istio control plane has statsd enabled |
-| `global.proxy.envoyStatsd.host` | A valid IP address | None | Specifies the Istio control plane's statsd-prom-bridge Pod IP address.  Ignored if `global.proxy.envoyStatsd.enabled=false`. |
-| `global.remoteZipkinAddress` | A valid IP address | None | Specifies the Istio control plane's tracing application Pod IP address--e.g. `zipkin` or `jaeger`. |
+| `global.proxy.envoyStatsd.host` | A valid IP address or hostname | None | Specifies the Istio control plane's statsd-prom-bridge Pod IP address or remote cluster DNS resolvable hostname.  Ignored if `global.proxy.envoyStatsd.enabled=false`. |
+| `global.remoteZipkinAddress` | A valid IP address or hostname | None | Specifies the Istio control plane's tracing application Pod IP address or remote cluster DNS resolvable hostname--e.g. `zipkin` or `jaeger`. |
 | `sidecarInjectorWebhook.enabled` | true, false | true | Specifies whether to enable automatic sidecar injection on the remote cluster |
+| `global.remotePilotCreateSvcEndpoint` | true, false | false | If set, a selector-less service and endpoint for `istio-pilot` are created with the `remotePilotAddress` IP, which ensures the `istio-pilot.<namespace>` is DNS resolvable in the remote cluster. |
 
 ## Generate `kubeconfigs` for remote clusters
 
@@ -349,3 +350,106 @@ rules to reach the proper Istio service in the main cluster.
 Within this option there are 2 sub-options.  One is to re-use the default Istio ingress gateway
 installed with the provided manifests or helm charts.  The other option is to create another
 Istio ingress gateway specifically for multicluster.
+
+## Security
+
+Istio supports deployment of mTLS between the control plane components as well as between
+sidecar injected application pods.
+
+### Control plane security
+
+The steps to enable control plane security are as follows:
+
+1.  Istio control plane cluster deployed with
+    1.  control plane security enabled
+    1.  `citadel` certificate self signing disabled
+    1.  a secret named `cacerts` in the Istio control plane namespace with the [CA certificates](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)
+
+1.  Istio remote clusters deployed with
+    1.  control plane security enabled
+    1.  `citadel` certificate self signing disabled
+    1.  a secret named `cacerts` in the Istio control plane namespace with the [CA certificates](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)
+        1.  The CA certificate for the remote clusters needs to be signed by the same CA or root CA as the main cluster.
+    1.  Istio pilot service hostname resolvable via DNS
+        1.  Required because Istio configures the sidecar to verify the certificate subject names using the `istio-pilot.<namespace>` subject name format.
+    1.  Control plane IPs or resolvable host names set
+
+### mTLS between application pods
+
+The steps to enable mTLS for all application pods are as follows:
+
+1.  Istio control plane cluster deployed with
+    1.  Global mTLS enabled
+    1.  `citadel` certificate self signing disabled
+    1.  a secret named `cacerts` in the Istio control plane namespace with the [CA certificates](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)
+
+1.  Istio remote clusters deployed with
+    1.  Global mTLS enabled
+    1.  `citadel` certificate self signing disabled
+    1.  a secret named `cacerts` in the Istio control plane namespace with the [CA certificates](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)
+        1.  The CA certificate for the remote clusters needs to be signed by the same CA or root CA as the main cluster.
+
+> The CA certificate steps are identical for both control plane security and application pod security steps.
+
+### Example deployment
+
+The following is an example procedure to install Istio with both control plane mTLS and application pod
+mTLS enabled.  The example sets up a remote cluster with a selector-less service and endpoint for `istio-pilot` to
+allow the remote sidecars to resolve `istio-pilot.istio-system` hostname via its local kubernetes DNS.
+
+1.  *Primary Cluster.*  Deployment of the Istio control plane cluster
+
+    1.  Create the `cacerts` secret from the Istio samples certificate in the `istio-system` namespace:
+
+        {{< text bash >}}
+        $ kubectl create ns istio-system
+        $ kubectl create secret generic cacerts -n istio-system --from-file=samples/certs/ca-cert.pem --from-file=samples/certs/ca-key.pem --from-file=samples/certs/root-cert.pem --from-file=samples/certs/cert-chain.pem
+        {{< /text >}}
+
+    1.  Deploy the Istio control plane with control plane and application pod security enabled
+
+        {{< text bash >}}
+        $ helm template --namespace=istio-system \
+          --values install/kubernetes/helm/istio/values.yaml \
+          --set global.mtls.enabled=true \
+          --set security.selfSigned=false \
+          --set global.controlPlaneSecurityEnabled=true \
+          install/kubernetes/helm/istio > ${HOME}/istio-auth.yaml
+        $ kubectl create -f ${HOME}/istio-auth.yaml
+        {{< /text >}}
+
+1.  *Remote Cluster.*  Deployment of remote cluster's istio components
+
+    1.  Create the `cacerts` secret from the Istio samples certificate in the `istio-system` namespace:
+
+        {{< text bash >}}
+        $ kubectl create ns istio-system
+        $ kubectl create secret generic cacerts -n istio-system --from-file=samples/certs/ca-cert.pem --from-file=samples/certs/ca-key.pem --from-file=samples/certs/root-cert.pem --from-file=samples/certs/cert-chain.pem
+        {{< /text >}}
+
+    1.  Set endpoint IP environment variables as in the [setting environment variables](#set-environment-variables-for-pod-ips-from-istio-control-plane-needed-by-remote) section
+
+    1.  Deploy the remote cluster's components with control plane and application pod security enabled.  Also, enable creation of the `istio-pilot` selector-less service and endpoint to get a DNS entry in the remote cluster.
+
+        {{< text bash >}}
+        $ helm template install/kubernetes/helm/istio-remote \
+          --name istio-remote \
+          --namespace=istio-system \
+          --set global.mtls.enabled=true \
+          --set security.selfSigned=false \
+          --set global.controlPlaneSecurityEnabled=true \
+          --set --set global.remotePilotCreateSvcEndpoint=true \
+          --set global.remotePilotAddress=${PILOT_POD_IP} \
+          --set global.remotePolicyAddress=${POLICY_POD_IP} \
+          --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} \
+          --set global.proxy.envoyStatsd.enabled=true \
+          --set global.proxy.envoyStatsd.host=${STATSD_POD_IP} > ${HOME}/istio-remote-auth.yaml
+        $ kubectl create -f ${HOME}/istio-remote-auth.yaml
+        {{< /text >}}
+
+    1.  [Generate kubeconfig for remote cluster](#generate-kubeconfigs-for-remote-clusters)
+
+1.  *Primary Cluster.*  [Instantiate the credentials for each remote cluster](#instantiate-the-credentials-for-each-remote-cluster)
+
+At this point all of the Istio components in both clusters are configured for mTLS between application
+sidecars and the control plane components as well as between the other application sidecars.
