@@ -21,7 +21,7 @@ You may test the service using the following command:
 $ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${EXTERNAL_IP}:80/echo?key=${ENDPOINTS_KEY}"
 {{< /text >}}
 
-You need to install Istio with [instructions](/docs/setup/kubernetes/quick-start/#google-kubernetes-engine).
+You need to install Istio with [instructions](/docs/setup/kubernetes/platform-setup/#google-kubernetes-engine).
 
 ## HTTP Endpoints service
 

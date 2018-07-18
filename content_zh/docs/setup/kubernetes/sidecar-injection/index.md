@@ -64,7 +64,7 @@ sleep     1         1         1            1           2h        sleep,istio-pro
 
 ### Sidecar 的自动注入
 
-使用 Kubernetes 的 [mutating webhook admission controller](https://kubernetes.io/docs/admin/admission-controllers)，可以进行 Sidecar 的自动注入。Kubernetes 1.9 以后的版本才具备这一能力。使用这一功能之前首先要检查 kube-apiserver 的进程，是否具备 `admission-control` 参数，并且这个参数的值中需要包含 `MutatingAdmissionWebhook` 以及 `ValidatingAdmissionWebhook` 两项，并且按照正确的顺序加载，这样才能启用 `admissionregistration` API：
+使用 Kubernetes 的 [mutating webhook admission controller](https://kubernetes.io/docs/admin/admission-controllers/)，可以进行 Sidecar 的自动注入。Kubernetes 1.9 以后的版本才具备这一能力。使用这一功能之前首先要检查 kube-apiserver 的进程，是否具备 `admission-control` 参数，并且这个参数的值中需要包含 `MutatingAdmissionWebhook` 以及 `ValidatingAdmissionWebhook` 两项，并且按照正确的顺序加载，这样才能启用 `admissionregistration` API：
 
 {{< text bash >}}
 $ kubectl api-versions | grep admissionregistration
