@@ -22,3 +22,8 @@ to usual pile of bug fixes and performance improvements.
   EKS by using [manual injection](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection) for
   sidecars and turning off galley using the [Helm parameter](/docs/setup/kubernetes/helm-install)
   `--set galley.enabled=false`.
+
+- In a [multicluster deployment](/docs/setup/kubernetes/multicluster-install) the mixer-telemetry
+  and mixer-policy components do not connect to the Kubernetes API endpoints of any of the remote
+  clusters.  This results in a loss of telemetry fidelity as some of the metadata associated
+  with workloads on remote clusters is incomplete.
