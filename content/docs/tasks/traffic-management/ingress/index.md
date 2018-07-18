@@ -54,9 +54,13 @@ If the `EXTERNAL-IP` value is set, your environment has an external load balance
 If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not provide an external load balancer for the ingress gateway.
 In this case, you can access the gateway using the service's [node port](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport).
 
+Depending on your environment, follow the instructions in one of the following **mutually exclusive** subsections.
+
 #### Determining the ingress IP and ports when using an external load balancer
 
-Determine the ingress IP and ports:
+Follow these instructions if you have determined that your environment **does have** an external load balancer.
+
+Set the ingress IP and ports:
 
 {{< text bash >}}
 $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
@@ -64,16 +68,26 @@ $ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway
 $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
 {{< /text >}}
 
+Note that in certain environments, the load balancer may be exposed using a host name, instead of an IP address.
+In this case, the `EXTERNAL-IP` value in the output from the command in the previous section will not be an IP address,
+but rather a host name, and the above command will have failed to set the `INGRESS_HOST` environment variable. In this case, use the following command to correct the `INGRESS_HOST` value:
+
+{{< text bash >}}
+$ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+{{< /text >}}
+
 #### Determining the ingress IP and ports when using a node port
 
-Determine the ports:
+Follow these instructions if you have determined that your environment **does not have** an external load balancer.
+
+Set the ingress ports:
 
 {{< text bash >}}
 $ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
 $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
 {{< /text >}}
 
-Determining the ingress IP depends on the cluster provider:
+Setting the ingress IP depends on the cluster provider:
 
 1.  _GKE:_
 
