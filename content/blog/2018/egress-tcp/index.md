@@ -144,7 +144,7 @@ To demonstrate the scenario of using an external database, I start with a Kubern
  of the _ratings_ microservice. Some use [MongoDB](https://www.mongodb.com), others use [MySQL](https://www.mysql.com)
  as their database.
 
-The example commands in this blog post work with Istio 0.3+, with or without
+The example commands in this blog post work with Istio 0.8+, with or without
 [mutual TLS](/docs/concepts/security/#mutual-tls-authentication) enabled.
 
 As a reminder, here is the end-to-end architecture of the application from the
