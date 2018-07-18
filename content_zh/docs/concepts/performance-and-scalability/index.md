@@ -71,9 +71,9 @@ Fortio 也是 100％ 开源的，除了 go 和 gRPC 之外没有外部依赖，�
 
 ## 现实应用程序基准测试
 
-Acmeair（又称 BluePerf）是一个用 Java 实现的客户系统微服务应用程序。此应用程序在WebSphere Liberty 上运行，并模拟虚拟航空公司的运营。
+Acmeair（又称 BluePerf）是一个用 Java 实现的客户系统微服务应用程序。此应用程序在 WebSphere Liberty 上运行，并模拟虚拟航空公司的运营。
 
-Acmeair由以下微服务组成：
+Acmeair 由以下微服务组成：
 
 * **飞行服务** 检索航线数据。预订服务会调用它来检查奖励操作的里程（Acmeair 客户忠诚度计划）。
 
