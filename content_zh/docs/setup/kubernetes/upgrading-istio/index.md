@@ -8,22 +8,26 @@ keywords: [kubernetes,upgrading]
 本页介绍如何将现有的 Istio 部署（包括控制平面和 sidecar 代理）升级到新版本。
 升级过程可能涉及新的二进制文件以及配置和 API schemas 等其他更改。升级过程可能导致一些服务停机。为了最大限度地减少停机时间，请使用多副本以保证 Istio 控制平面组件和应用程序具有高可用性。
 
+在下面的步骤中，我们假设 Istio 组件在  `istio-system` namespace 中安装和升级。
+
 ## 控制平面升级
 
 Istio 控制平面组件包括：Citadel、Ingress 网关、Egress 网关、Pilot、Policy、Telemetry 和 Sidecar 注入器。我们可以使用 Kubernetes 的滚动更新机制来升级控制平面组件。
 
+首先，生成需要的 Istio 控制平面 yaml 文件，例如：
+
 {{< text bash >}}
 $ helm template --namespace istio-system --set global.proxy.image=proxy \
-  --values @install/kubernetes/helm/istio/values-istio.yaml@ \
-  @install/kubernetes/helm/istio@ >> install/kubernetes/istio.yaml
+  --values install/kubernetes/helm/istio/values-istio.yaml \
+  install/kubernetes/helm/istio >> install/kubernetes/istio.yaml
 {{< /text >}}
 
 或者
 
 {{< text bash >}}
 $ helm template --namespace istio-system --set global.proxy.image=proxy \
-  --values @install/kubernetes/helm/istio/values-istio-auth.yaml@ \
-  @install/kubernetes/helm/istio@ >> install/kubernetes/istio-auth.yaml
+  --values install/kubernetes/helm/istio/values-istio-demo-auth.yaml \
+  install/kubernetes/helm/istio >> install/kubernetes/istio-demo-auth.yaml
 {{< /text >}}
 
 如果使用 1.9 之前的 Kubernetes 版本，则应添加 `--set sidecarInjectorWebhook.enabled=false`。
@@ -31,13 +35,13 @@ $ helm template --namespace istio-system --set global.proxy.image=proxy \
 接下来，只需直接应用所需的 Istio 控制平面 yaml 文件的新版本，例如，
 
 {{< text bash >}}
-$ kubectl apply -f @install/kubernetes/istio.yaml@
+$ kubectl apply -f install/kubernetes/istio.yaml
 {{< /text >}}
 
 或者
 
 {{< text bash >}}
-$ kubectl apply -f @install/kubernetes/istio-auth.yaml@
+$ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
 {{< /text >}}
 
 滚动更新过程会将所有 deployment 和 configmap 升级到新版本。完成此过程后，您的 Istio 控制面应该会更新为新版本。使用 Envoy v1 和 v1alpha1 路由规则（route rule）的现有应用程序应该可以继续正常工作而无需任何修改。如果新控制平面存在任何关键问题，您都可以通过应用旧版本的 yaml 文件来回滚更改。
@@ -77,13 +81,13 @@ $ kubectl replace -f <(istioctl kube-inject \
           annotations:
             sidecar.istio.io/proxyImage: docker.io/istio/proxyv2:0.8.0
     {{< /text >}}
-	
-	然后将您的 deployment 替换为更新的应用 yaml 文件：
-	
+
+    然后将您的 deployment 替换为更新的应用 yaml 文件：
+
     {{< text bash >}}
     $ kubectl replace -f $UPDATED_DEPLOYMENT_YAML
     {{< /text >}}
-	
+
 或者
 
 - 使用将 `docker.io/istio/proxyv2:0.8.0` 作为代理镜像的 `injectConfigFile`。如果没有 `injectConfigFile`，您可以 [生成一个](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection)。如果需要在多个 deployment 定义中添加 `sidecar.istio.io/proxyImage` annotation，推荐使用 `injectConfigFile`。
