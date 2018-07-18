@@ -22,7 +22,7 @@ Mixer 服务作为Istio 和一套开放式基础设施之间的抽象层。Istio
 
 考虑到每个基础服务都有不同的接口和操作模型，Mixer 需要用户通过代码来解决这些差异，我们可以称这些用户自己封装的代码为[*适配器*](https://github.com/istio/istio/wiki/Mixer-Adapter-Dev-Guide)。
 
-适配器已Go 包的形式直接链接到Mixer 二进制中。如果默认的适配器不能满足特定的使用需求，自定义适配器也是很简单的。
+适配器以Go 包的形式直接链接到Mixer 二进制中。如果默认的适配器不能满足特定的使用需求，自定义适配器也是很简单的。
 
 ## 设计哲学
 
@@ -61,7 +61,7 @@ Mixer 使用的每个适配器都需要一些配置才能运行。一般来说�
 
 最后一个问题就是告诉Mixer 哪个instance 在什么时候发送给哪个 handler。这个通过创建[*rules*](/docs/concepts/policies-and-telemetry/#rules) 实现。每个规则都会指定一个特定的处理程序和要发送给该处理程序的示例。当Mixer 处理一个调用时，它会调用指定的处理程序，并给他一组特定的处理实例。
 
-Rules 包含匹配语法。这种语法是一种返回true/false 的属性表达式。一个Rule 仅对返回结果为true 的表达式生效。否则，就像这条规则不存在并且处理程序不被调用。
+Rule 中包含有匹配断言，这个断言是一个返回布尔值的属性表达式。只有属性表达式断言成功的 Rule 才会生效，否则这条规则就形同虚设，当然其中的 Handler 也不会被调用。
 
 ## 未来的工作
 
@@ -73,6 +73,6 @@ Rules 包含匹配语法。这种语法是一种返回true/false 的属性表达
 
 新的Mixer 适配器模型的设计是为了提供一个灵活的框架用来支持一个开放基础设施。
 
-Handlers 为适配器、模板运行时才能决定不同的适配器需要的配置数据，配置数据通过Instance，被Rules发送给一个或多个Handler。
+Handler 为各个适配器提供了配置数据；Template 用于在运行时确定不同的适配器所需的数据类型；Instance 让运维人员准备这些数据；Rule 将这些数据提交给一个或多个 Handler 进行处理。
 
 更多信息可以关注[这里](/docs/concepts/policies-and-telemetry/)。更多关于templates, handlers,and rules 的内容可以关注[这里](/docs/reference/config/policy-and-telemetry/)。你也可以在[这里]({{< github_tree >}}/samples/bookinfo)找到对应的示例。
