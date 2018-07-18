@@ -204,7 +204,7 @@ Istio 基于角色的访问控制（RBAC）为 Istio 网格中的服务提供命
 下面的图表显示了 Istio RBAC 体系结构。操作者可以指定 Istio RBAC 策略。策略则保存在 Istio 配置存储中。
 
 {{< image width="80%" ratio="56.25%"
-    link="/docs/concepts/security/IstioRBAC.svg"
+    link="/docs/concepts/security/authz.svg"
     alt="Istio RBAC"
     caption="Istio RBAC 架构"
     >}}

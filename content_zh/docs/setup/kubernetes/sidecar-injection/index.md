@@ -64,7 +64,7 @@ sleep     1         1         1            1           2h        sleep,istio-pro
 
 ### Sidecar 的自动注入
 
-使用 Kubernetes 的 [mutating webhook admission controller](https://kubernetes.io/docs/admin/admission-controllers/#validatingadmissionwebhook-alpha-in-18-beta-in-19)，可以进行 Sidecar 的自动注入。Kubernetes 1.9 以后的版本才具备这一能力。使用这一功能之前首先要检查 kube-apiserver 的进程，是否具备 `admission-control` 参数，并且这个参数的值中需要包含 `MutatingAdmissionWebhook` 以及 `ValidatingAdmissionWebhook` 两项，并且按照正确的顺序加载，这样才能启用 `admissionregistration` API：
+使用 Kubernetes 的 [mutating webhook admission controller](https://kubernetes.io/docs/admin/admission-controllers)，可以进行 Sidecar 的自动注入。Kubernetes 1.9 以后的版本才具备这一能力。使用这一功能之前首先要检查 kube-apiserver 的进程，是否具备 `admission-control` 参数，并且这个参数的值中需要包含 `MutatingAdmissionWebhook` 以及 `ValidatingAdmissionWebhook` 两项，并且按照正确的顺序加载，这样才能启用 `admissionregistration` API：
 
 {{< text bash >}}
 $ kubectl api-versions | grep admissionregistration
@@ -146,7 +146,7 @@ sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
 
 #### 了解发生了什么
 
-被 Kubernetes 调用时，[admissionregistration.k8s.io/v1beta1#MutatingWebhookConfiguration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#mutatingwebhookconfiguration-v1beta1-admissionregistration) 会进行配置。Istio 提供的缺省配置，会在带有 `istio-injection=enabled` 标签的命名空间中选择 Pod。使用 `kubectl edit mutatingwebhookconfiguration istio-sidecar-injector` 命令可以编辑目标命名空间的范围。
+被 Kubernetes 调用时，[admissionregistration.k8s.io/v1beta1#MutatingWebhookConfiguration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10) 会进行配置。Istio 提供的缺省配置，会在带有 `istio-injection=enabled` 标签的命名空间中选择 Pod。使用 `kubectl edit mutatingwebhookconfiguration istio-sidecar-injector` 命令可以编辑目标命名空间的范围。
 
 > {{< warning_icon >}} 修改 mutatingwebhookconfiguration 之后，应该重新启动已经被注入 Sidecar 的 Pod。
 
