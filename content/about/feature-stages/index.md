@@ -78,7 +78,7 @@ Below is our list of existing features and their current phases. This informatio
 | [VM: Service Credential Distribution](/docs/concepts/security/#key-management)         | Beta
 | [Incremental mTLS](/docs/tasks/security/mtls-migration)    | Beta
 | [OPA Checker]({{< github_file >}}/mixer/adapter/opa/README.md)    | Alpha
-| [RBAC Mixer Adapter](/docs/concepts/security/#authorization)   | Alpha
+| [Authorization (RBAC)](/docs/concepts/security/#authorization)   | Alpha
 
 ### Core
 
