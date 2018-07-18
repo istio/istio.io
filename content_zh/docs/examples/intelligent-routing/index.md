@@ -17,7 +17,7 @@ aliases:
 
 ## 开始之前
 
-* 跟随[安装指南](/docs/setup/)的步骤，部署 Istio 的控制平面。
+* 依照[安装指南](/docs/setup/)的步骤，部署 Istio 的控制平面。
 
 * 依照[应用部署指南](/docs/examples/bookinfo/#deploying-the-application)运行 Bookinfo 示例应用。
 
