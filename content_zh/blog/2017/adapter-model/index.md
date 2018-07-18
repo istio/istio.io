@@ -1,12 +1,12 @@
 ---
 title: Mixer 适配器模型
-description: Provides an overview of the Mixer plug-in architecture
+description: 概要说明Mixer 的插件架构
 publishdate: 2017-11-03
 subtitle: 将Istio与后端基础设施整合
 attribution: Martin Taillefer
 weight: 95
 keywords: [adapters,mixer,policies,telemetry]
-aliases: 
+aliases:
     - /blog/mixer-adapter-model.html
 ---
 
@@ -26,7 +26,7 @@ Mixer 服务作为Istio 和一套开放式基础设施之间的抽象层。Istio
 
 ## 设计哲学
 
-Mixer 本质上就是一个处理属性和路由的机器。代理将[属性](/zh/docs/concepts/policies-and-telemetry/#attributes)作为预检和遥测报告的一部分发送出来，并且转换为一系列对适配器的调用。运维人员提供了用于描述如何将传入的属性映射为适配器的配置。
+Mixer 本质上就是一个处理属性和路由的机器。代理将[属性](/docs/concepts/policies-and-telemetry/#attributes)作为预检和遥测报告的一部分发送出来，并且转换为一系列对适配器的调用。运维人员提供了用于描述如何将传入的属性映射为适配器的配置。
 
 {{< image width="60%" ratio="42.60%"
     link="/docs/concepts/policies-and-telemetry/machine.svg"
@@ -37,35 +37,35 @@ Mixer 本质上就是一个处理属性和路由的机器。代理将[属性](/z
 
 ## Handlers: 适配器的配置
 
-Mixer 使用的每个适配器都需要一些配置才能运行。一般来说，适配器需要一些信息，例如，到后端的URL、证书、缓存选项等等。每个通过声明[protobuf](https://developers.google.com/protocol-buffers/) 信息来定义所需要的配置数据。
+Mixer 使用的每个适配器都需要一些配置才能运行。一般来说，适配器需要一些信息，例如，到后端的URL、证书、缓存选项等等。每个适配器使用一个[protobuf](https://developers.google.com/protocol-buffers/) 消息来定义所需要的配置数据。
 
-你可以通过创建[*handlers*](/zh/docs/concepts/policies-and-telemetry/#handlers) 为适配器提供配置。Handler 就是一套能让一个适配器就绪的完整配置。对同一个适配器可以有任意数量的 Handler，这样就可以在不同的场景下复用了。
+你可以通过创建[*handlers*](/docs/concepts/policies-and-telemetry/#handlers) 为适配器提供配置。Handler 就是一套能让一个适配器就绪的完整配置。对同一个适配器可以有任意数量的 Handler，这样就可以在不同的场景下复用了。
 
 ## Templates: 适配器输入结构
 
-通常对于进入到Mesh 服务中的请求，Mixer 会发生两次调用，一次是预检，一次是遥测报告。每一次调用，Mixer 都会调用一个或更多的适配器。不同的适配器需要不同的数据作为输入来处理。例如，日志适配器需要日志输入，metric 适配器需要metric 数据作为输入，认证的适配器需要证书等等。Mixer [*templates*](/zh/docs/reference/config/policy-and-telemetry/templates/) 用来描述每次请求适配器消费的数据。
+通常对于进入到Mesh 服务中的请求，Mixer 会发生两次调用，一次是预检，一次是遥测报告。每一次调用，Mixer 都会调用一个或更多的适配器。不同的适配器需要不同的数据作为输入来处理。例如，日志适配器需要日志输入，metric 适配器需要metric 数据作为输入，认证的适配器需要证书等等。Mixer [*templates*](/docs/reference/config/policy-and-telemetry/templates/) 用来描述每次请求适配器消费的数据。
 
 每个Template 被指定为[protobuf](https://developers.google.com/protocol-buffers/) 消息。一个模板描述了一组数据，这些数据在运行时被传递给一个或多个适配器。一个适配器可以支持任意数量的模板，开发者还可以设计支持特定模板的是适配器。
 
-[`metric`](/zh/docs/reference/config/policy-and-telemetry/templates/metric/) 和[`logentry`](/zh/docs/reference/config/policy-and-telemetry/templates/logentry/) 是两个最重要的模板，分别表示负载的单一指标，和到适当后端的单一日志条目。
+[`metric`](/docs/reference/config/policy-and-telemetry/templates/metric/) 和[`logentry`](/docs/reference/config/policy-and-telemetry/templates/logentry/) 是两个最重要的模板，分别表示负载的单一指标，和到适当后端的单一日志条目。
 
 ## Instances: 属性映射
 
-你可以通过创[*instances*](/zh/docs/concepts/policies-and-telemetry/#instances) 来决定哪些数据被传递给特定的适配器。Instances 决定了Mixer 如何通过[attributes](/zh/docs/concepts/policies-and-telemetry/#attributes) 把来自代理的属性拆分为各种数据然后分发给不同的适配器。
+你可以通过创建[*instances*](/docs/concepts/policies-and-telemetry/#instances) 来决定哪些数据被传递给特定的适配器。Instances 决定了Mixer 如何通过[attributes](/docs/concepts/policies-and-telemetry/#attributes) 把来自代理的属性拆分为各种数据然后分发给不同的适配器。
 
-创建实例通常需要使用[attribute expressions](/zh/docs/concepts/policies-and-telemetry/#attribute-expressions)。这些表达式的功能是使用属性和常量来生成结果数据，用于给instance字段进行赋值。
+创建实例通常需要使用[attribute expressions](/docs/concepts/policies-and-telemetry/#attribute-expressions)。这些表达式的功能是使用属性和常量来生成结果数据，用于给instance字段进行赋值。
 
 在模板中定义的每个instance 字段、每个属性、每个表达式都有一个[type](https://github.com/istio/api/blob/master/policy/v1beta1/value_type.proto)，只有兼容的数据类型才能进行赋值。例如不能把整型的表达式赋值给字符串类型。强类型设计的目的就是为了降低配置出错引发的风险。
 
 ## Rules: 将数据交付给适配器
 
-最后一个问题就是告诉Mixer 哪个instances 在什么时候发送给哪个 handler。这个通过创建[*rules*](/zh/docs/concepts/policies-and-telemetry/#rules) 实现。每个规则都会指定一个特定的处理程序和要发送给该处理程序的示例。当Mixer 处理一个调用时，它会调用指定的处理程序，并给他一组特定的处理实例。
+最后一个问题就是告诉Mixer 哪个instance 在什么时候发送给哪个 handler。这个通过创建[*rules*](/docs/concepts/policies-and-telemetry/#rules) 实现。每个规则都会指定一个特定的处理程序和要发送给该处理程序的示例。当Mixer 处理一个调用时，它会调用指定的处理程序，并给他一组特定的处理实例。
 
-Rules 包涵匹配语法。这种语法是一种返回true/false 的属性表达式。一个Rule 仅对返回结果为true 的表达式生效。否则，就像这条规则不存在并且处理程序不被调用。
+Rules 包含匹配语法。这种语法是一种返回true/false 的属性表达式。一个Rule 仅对返回结果为true 的表达式生效。否则，就像这条规则不存在并且处理程序不被调用。
 
 ## 未来的工作
 
-我们正在努力改进和提升适配器的使用及开发。例如，计划中包涵很多新特性使用户更加方便地使用Templates。另外，表达式语言也正在不断的发展和成熟。
+我们正在努力改进和提升适配器的使用及开发。例如，计划中包含很多新特性使用户更加方便地使用Templates。另外，表达式语言也正在不断的发展和成熟。
 
 长远来看，我们正在寻找不直接将适配器直接连接到Mixer 二进制的方法。这将简化部署和开发使用。
 
@@ -75,4 +75,4 @@ Rules 包涵匹配语法。这种语法是一种返回true/false 的属性表达
 
 Handlers 为适配器、模板运行时才能决定不同的适配器需要的配置数据，配置数据通过Instance，被Rules发送给一个或多个Handler。
 
-更多信息可以关注[这里](/zh/docs/concepts/policies-and-telemetry/)。更多关于templates, handlers,and rules 的内容可以关注[这里](/zh/docs/reference/config/policy-and-telemetry/)。你也可以在[这里]({{< github_tree >}}/samples/bookinfo)找到对应的示例。
+更多信息可以关注[这里](/docs/concepts/policies-and-telemetry/)。更多关于templates, handlers,and rules 的内容可以关注[这里](/docs/reference/config/policy-and-telemetry/)。你也可以在[这里]({{< github_tree >}}/samples/bookinfo)找到对应的示例。
