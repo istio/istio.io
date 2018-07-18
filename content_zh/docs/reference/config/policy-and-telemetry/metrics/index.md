@@ -22,7 +22,7 @@ weight: 50
 
 *   **Tcp 接收字节数（Tcp Byte Received）**：这是一个 `COUNTER`，它测量在 TCP 连接场景下请求期间接收的总字节数，由服务端代理测量。
 
-## 标签（Labels）
+## 标签（Label）
 
 *   **报告者（Reporter）**：这是请求报告者的标识符。报告从服务端 Istio 代理而来时设置为 `server`，从客户端 Istio 代理而来时设置为 `client`。
 
@@ -132,7 +132,7 @@ weight: 50
     response_code: response.code | 200
     {{< /text >}}
 
-*   **连接 mTLS（Connection mTLS）**: 标识请求使用的 service 认证策略。当 Istio 使用身份认证保证通信安全时设置为 `true。
+*   **连接 mTLS（Connection mTLS）**: 标识请求使用的 service 认证策略。当 Istio 使用身份认证保证通信安全时设置为 `true`。
 
     {{< text yaml >}}
     connection_mtls: connection.mtls | false
