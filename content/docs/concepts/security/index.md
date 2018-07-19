@@ -171,9 +171,9 @@ authentication requirement takes effect immediately on that pod.
 
 Client services (i.e those that send requests) are responsible for following the necessary authentication mechanism.
 For origin authentication (JWT), the application is responsible for acquiring and attaching the JWT credential to the request.
-For mutual TLS, Istio provides a destination rule that the operator can use to instruct client proxies to make initial
-connections using TLS with the certificates expected on the server side. You can find out more about how mTLS works in
-Istio in the mTLS section below.
+For mutual TLS, Istio provides a [destination rule](/docs/concepts/traffic-management/#destination-rules) that the operator can use to instruct client proxies to make initial
+connections using TLS with the certificates expected on the server side. You can find out more about how mutual TLS works in
+Istio in "PKI and identity" section.
 
 {{< image width="80%" ratio="75%"
     link="./authn.svg"
@@ -183,8 +183,6 @@ Istio in the mTLS section below.
 Identities from both types of authentication, as well as other claims in the credential if applicable, are output to the
 next layer (e.g., [authorization](/docs/concepts/security/#authorization)). Operators can also specify which identity
 (either from transport or origin authentication) should be used as ‘the principal’.
-
-Read more about how mutual TLS works in "PKI and identity" section.
 
 ### Anatomy of an authentication policy
 
@@ -225,7 +223,7 @@ metadata:
   name: "default"
 spec:
   peers:
-  - mtls:
+  - mtls: {}
 {{< /text >}}
 
 Here is an example of a namespace-scope policy for namespace `ns1`
@@ -238,12 +236,12 @@ metadata:
   namespace: "ns1"
 spec:
   peers:
-  - mtls:
+  - mtls: {}
 {{< /text >}}
 
 Policy in namespace-scope storage can only affect services in the same namespace. Policy in mesh-scope can affect all services in the mesh.
-To prevent conflict and misuse, only one policy can be defined in mesh-scope storage. That policy must also have an empty
-[targets](/docs/concepts/security/#target-selectors).
+To prevent conflict and misuse, only one policy can be defined in mesh-scope storage. That policy must be named `default` and have an
+empty [targets](/docs/concepts/security/#target-selectors).
 
 > With the current [`CustomResourceDefinitions`-based](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
 implementation for Istio config, these correspond to namespace-scope and cluster-scope `CRDs`, and automatically
@@ -266,7 +264,7 @@ If no targets: rule is provided, the policy is matched to all services in the st
 
 * Mesh-wide policy: a policy defined in mesh-scope storage with no target selector rules. There is at most one mesh-wide policy in the mesh.
 
-* Namespace-wide policy:  a policy defined in namespace-scope storage, with no target selector rules. There is at most one namespace-wide
+* Namespace-wide policy:  a policy defined in namespace-scope storage with name `default` and no target selector rules. There is at most one namespace-wide
 policy per namespace.
 
 * Service-specific policy: a policy defined in namespace-scope storage, with non-empty target selector rules. A namespace can have zero,
@@ -293,7 +291,7 @@ Here is an example of transport authentication using mutual TLS.
   - mtls: {}
 {{< /text >}}
 
-> Currently mutual TLS setting doesn’t require any parameters (hence `-mtls: {}`, `- mtls:` or `- mtls: null` declaration is sufficient).
+> Currently mutual TLS setting doesn’t require any parameters (hence `-mtls: {}`, `- mtls:` or `- mtls: null` declaration is treated the same).
 In future, it may carry arguments to provide different mutual TLS implementations.
 
 #### Origin authentication (also known as origins)
