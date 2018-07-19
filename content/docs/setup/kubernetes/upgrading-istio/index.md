@@ -18,13 +18,15 @@ The Istio control plane components include: Citadel, Ingress gateway, Egress gat
 Sidecar injector.
 
 ### Helm upgrade
-If you installed your existing Istio with [Helm install](/docs/setup/kubernetes/helm-install/#option-2-install-with-helm-and-tiller-via-helm-install) the prefferred upgrade option is to let Helm take care of it:
+
+If you installed your existing Istio with [Helm install](/docs/setup/kubernetes/helm-install/#option-2-install-with-helm-and-tiller-via-helm-install) the preferred upgrade option is to let Helm take care of the upgrade:
 
 {{< text bash >}}
 $ helm upgrade istio install/kubernetes/helm/istio --namespace istio-system
 {{< /text >}}
 
 ### Kubernetes rolling update
+
 You can also use Kubernetes’ rolling update mechanism to upgrade the control plane components. This is suitable for cases when Istio hasn't been installed using Helm.
 
 First, generate the desired Istio control plane yaml file, e.g.
