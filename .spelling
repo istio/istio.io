@@ -24,6 +24,8 @@
 7Mb
 7s
 ACLs
+ACS-Engine
+AKS
 ANDed
 API
 APIs
@@ -34,6 +36,7 @@ AppOptics
 args.yaml
 AuthPolicy
 Autoscalers
+az
 BigQuery
 BluePerf
 Bookinfo
@@ -43,6 +46,7 @@ CAs
 CDNs
 CIDRs
 CIOs
+cli
 Costin
 CSRs
 Chrony
