@@ -79,7 +79,7 @@ to the `ratings` service.
     You should see the Bookinfo application working normally (with ratings stars displayed),
     but there is a 2 second delay whenever you refresh the page.
 
-1.  Now add a 1 second request timeout for calls to the `reviews` service:
+1.  Now add a half second request timeout for calls to the `reviews` service:
 
     {{< text bash >}}
     $ cat <<EOF | istioctl replace -f -
@@ -95,13 +95,17 @@ to the `ratings` service.
         - destination:
             host: reviews
             subset: v2
-        timeout: 1s
+        timeout: 0.5s
     EOF
     {{< /text >}}
 
 1.  Refresh the Bookinfo web page.
 
-    You should now see that it returns in 1 second, instead of 2, but the reviews are unavailable.
+    You should now see that it returns in about 1 second, instead of 2, and the reviews are unavailable.
+
+    > The reason that the response takes 1 second, even though the timeout is configured at half a second, is
+    because there is a hard-coded retry in the `productpage` service, so it calls the timing out `reviews` service
+    twice before returning.
 
 ## Understanding what happened
 
