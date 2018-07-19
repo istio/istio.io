@@ -37,7 +37,7 @@ Mixer 本质上就是一个处理属性和路由的机器。代理将[属性](/d
 
 ## Handlers: 适配器的配置
 
-Mixer 使用的每个适配器都需要一些配置才能运行。一般来说，适配器需要一些信息，例如，到后端的URL、证书、缓存选项等等。每个适配器使用一个[protobuf](https://developers.google.com/protocol-buffers/) 消息来定义所需要的配置数据。
+Mixer 使用的每个适配器都需要一些配置才能运行。一般来说，适配器需要一些信息。例如，到后端的URL、证书、缓存选项等等。每个适配器使用一个[protobuf](https://developers.google.com/protocol-buffers/) 消息来定义所需要的配置数据。
 
 你可以通过创建[*handlers*](/docs/concepts/policies-and-telemetry/#handlers) 为适配器提供配置。Handler 就是一套能让一个适配器就绪的完整配置。对同一个适配器可以有任意数量的 Handler，这样就可以在不同的场景下复用了。
 
