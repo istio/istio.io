@@ -20,7 +20,7 @@ The following prerequisites must be met if using OpenShift.
 
 ## Deploy with Ansible
 
-**Important**: All execution of the Ansible playbooks must take place in the `install/ansible` path of Istio.
+{{< warning_icon >}} All execution of the Ansible playbooks must take place in the `install/kubernetes/ansible` path of Istio.
 
 This playbook will download and install Istio locally on your machine. To deploy the default settings of
 Istio on OpenShift, the following command may be used:
