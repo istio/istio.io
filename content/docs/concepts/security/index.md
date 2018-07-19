@@ -147,23 +147,21 @@ microservice deployments from each other.
 ## Authentication
 
 Istio provides two types of authentication:
-* Transport authentication (aka service-to-service authentication): verifies the direct client that makes the connection. Istio offers
+*   Transport authentication (also known as service-to-service authentication): verifies the direct client that makes the connection. Istio offers
 mutual TLS (mTLS) as a full stack solution for transport authentication. Customer can easily turn on this feature without requiring
 service code changes. The solution includes:
 
-  * Providing each service with a strong identity that represents its role to enable interoperability across clusters and clouds
+    * Providing each service with a strong identity that represents its role to enable interoperability across clusters and clouds
+    * Securing service to service communication and end-user to service communication
+    * Providing a key management system to automate key and certificate generation, distribution, rotation, and revocation
 
-  * Securing service to service communication and end-user to service communication
-
-  * Providing a key management system to automate key and certificate generation, distribution, rotation, and revocation
-
-* Origin authentication: verifies the original client that makes the request, such as an end-user or device. Istio 1.0 supports
+*   Origin authentication (also known as end-user authentication): verifies the original client that makes the request, such as an end-user or device. Istio 1.0 supports
 authentication with JSON Web Token (JWT) validation.
 
 ### Authentication architecture
 
 Authentication requirements for services receiving requests in an Istio mesh are specified using authentication policies.
-Policies are specified by the mesh operator using .yaml files and saved in the Istio config store onced deployed.
+Policies are specified by the mesh operator using yaml files and saved in the Istio config store once deployed.
 The Istio controller (Pilot) watches the config store. Upon any policy changes, it translates the new policy to appropriate
 configuration that tells the Envoy sidecar proxy how to perform the required authentication mechanisms. It may also fetch
 the public key and attach to the configuration for JWT validation, or provides the path to the keys and certificates that
@@ -214,9 +212,9 @@ spec:
 
 Authentication policies can be stored in namespace-scope or mesh-scope storage.
 
-* Mesh-scope policy is  specified with kind “MeshPolicy”, and the name “default”.
+* Mesh-scope policy is specified with `kind` `MeshPolicy`, and the name “default”.
 
-* Namespace-scope policy is specified with kind: “Policy” and a specified namespace (or the default namespace if unspecified).
+* Namespace-scope policy is specified with `kind` `Policy` and a specified namespace (or the default namespace if unspecified).
 
 Here is an example of a mesh-scope policy.
 
@@ -230,7 +228,7 @@ spec:
   - mtls:
 {{< /text >}}
 
-Here is an example of a namespace-scope policy for namespace "ns1".
+Here is an example of a namespace-scope policy for namespace `ns1`
 
 {{< text yaml >}}
 apiVersion: "authentication.istio.io/v1alpha1"
@@ -243,13 +241,12 @@ spec:
   - mtls:
 {{< /text >}}
 
-
 Policy in namespace-scope storage can only affect services in the same namespace. Policy in mesh-scope can affect all services in the mesh.
 To prevent conflict and misuse, only one policy can be defined in mesh-scope storage. That policy must also have an empty
 [targets](/docs/concepts/security/#target-selectors).
 
-> With the current [CustomResourceDefinitions-based](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
-implementation for Istio config, these correspond to namespace-scope and cluster-scope CRDs, and automatically
+> With the current [`CustomResourceDefinitions`-based](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
+implementation for Istio config, these correspond to namespace-scope and cluster-scope `CRDs`, and automatically
 inherit access protection via Kubernetes RBAC.
 
 #### Target selectors
@@ -296,7 +293,7 @@ Here is an example of transport authentication using mutual TLS.
   - mtls: {}
 {{< /text >}}
 
-> Starting with Istio 0.7, the mtls settings doesn’t require any parameters (hence -mtls: {}, - mtls: or - mtls: null declaration is sufficient).
+> Currently mutual TLS setting doesn’t require any parameters (hence `-mtls: {}`, `- mtls:` or `- mtls: null` declaration is sufficient).
 In future, it may carry arguments to provide different mutual TLS implementations.
 
 #### Origin authentication (also known as origins)
@@ -327,12 +324,13 @@ principalBinding: USE_ORIGIN
 {{< /text >}}
 
 ### Updating authentication policies
+
 An authentication policy can be changed at any time and is pushed to endpoints almost in real time. However, Istio cannot
 guarantee that all endpoints will receive a new policy at the same time. Here's how to avoid disruption when updating
 your authentication policies:
 
 * Enable (or disable) mutual TLS: a temporary policy with `PERMISSIVE` mode should be used. This configures receiving services
-to accept both types of traffic (plaintext and TLS) so no requests are dropped. Once all clients switch to the expected
+to accept both types of traffic (plain text and TLS), so no request is dropped. Once all clients switch to the expected
 protocol (e.g TLS for the enabling case), operators can replace the `PERMISSIVE` policy with the final policy. For more
 information, visit [“Mutual TLS Migration” tutorial](/docs/tasks/security/mtls-migration).
 
