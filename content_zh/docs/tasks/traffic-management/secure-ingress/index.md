@@ -157,7 +157,7 @@ keywords: [traffic-management,ingress]
 这一节中会再次对 Gateway 定义进行扩展，从而在从外部客户端到 Gateway 的访问中添加对 [双向 TLS](https://en.wikipedia.org/wiki/Mutual_authentication) 的支持。
 
 1. 创建一个 Kubernetes secret，用于存储 [CA](https://en.wikipedia.org/wiki/Certificate_authority) 证书，服务器会使用这一证书来对客户端进行校验。用 `kubectl` 在 `istio-system` 命名空间中创建 Secret `istio-ingressgateway-ca-certs`。Istio gateway 会自动载入这个 Secret。
-  
+
     > 这个 secret **必须** 以 `istio-ingressgateway-ca-certs` 为名并保存在命名空间 `istio-system` 之中，否则 Istio gateway 无法正确完成加载过程。
 
     {{< text bash >}}
