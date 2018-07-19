@@ -79,7 +79,7 @@ to the `ratings` service.
     You should see the Bookinfo application working normally (with ratings stars displayed),
     but there is a 2 second delay whenever you refresh the page.
 
-1.  Now add a 1 second request timeout for calls to the `reviews` service:
+1.  Now add a half second request timeout for calls to the `reviews` service:
 
     {{< text bash >}}
     $ cat <<EOF | istioctl replace -f -
@@ -95,21 +95,25 @@ to the `ratings` service.
         - destination:
             host: reviews
             subset: v2
-        timeout: 1s
+        timeout: 0.5s
     EOF
     {{< /text >}}
 
 1.  Refresh the Bookinfo web page.
 
-    You should now see that it returns in 1 second, instead of 2, but the reviews are unavailable.
+    You should now see that it returns in about 1 second, instead of 2, and the reviews are unavailable.
+
+    > The reason that the response takes 1 second, even though the timeout is configured at half a second, is
+    because there is a hard-coded retry in the `productpage` service, so it calls the timing out `reviews` service
+    twice before returning.
 
 ## Understanding what happened
 
 In this task, you used Istio to set the request timeout for calls to the `reviews`
-microservice to 1 second instead of the default of 15 seconds.
+microservice to half a second instead of the default of 15 seconds.
 Since the `reviews` service subsequently calls the `ratings` service when handling requests,
 you used Istio to inject a 2 second delay in calls to `ratings` to cause the
-`reviews` service to take longer than 1 second to complete and consequently you could see the timeout in action.
+`reviews` service to take longer than half a second to complete and consequently you could see the timeout in action.
 
 You observed that instead of displaying reviews, the Bookinfo productpage (which calls the `reviews` service to populate the page) displayed
 the message: Sorry, product reviews are currently unavailable for this book.
@@ -117,7 +121,7 @@ This was the result of it receiving the timeout error from the `reviews` service
 
 If you examine the [fault injection task](/docs/tasks/traffic-management/fault-injection/), you'll find out that the `productpage`
 microservice also has its own application-level timeout (3 seconds) for calls to the `reviews` microservice.
-Notice that in this task we used an Istio route rule to set the timeout to 1 second.
+Notice that in this task you used an Istio route rule to set the timeout to half a second.
 Had you instead set the timeout to something greater than 3 seconds (such as 4 seconds) the timeout
 would have had no effect since the more restrictive of the two takes precedence.
 More details can be found [here](/docs/concepts/traffic-management/#failure-handling-faq).
