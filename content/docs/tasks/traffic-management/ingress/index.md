@@ -52,7 +52,7 @@ istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/
 
 If the `EXTERNAL-IP` value is set, your environment has an external load balancer that you can use for the ingress gateway.
 If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not provide an external load balancer for the ingress gateway.
-In this case, you can access the gateway using the service's [node port](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport).
+In this case, you can access the gateway using the service's [node port](https://kubernetes.io/docs/concepts/services-networking/service/#nodeport).
 
 Depending on your environment, follow the instructions in one of the following **mutually exclusive** subsections.
 
