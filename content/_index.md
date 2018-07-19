@@ -38,8 +38,6 @@ title: Istio
 </script>
 
 <main class="landing">
-    <a class="promotion" href="https://conferences.oreilly.com/oscon/oscon-or/public/schedule/full/istio-day">Istio Day @<br>OSCON July 17</a>
-
     <div class="hero">
         <div class="container">
             <h1 class="hero-label">Istio{{< site_suffix >}} {{< istio_version >}}</h1>
