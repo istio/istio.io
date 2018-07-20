@@ -50,7 +50,7 @@ On the other hand, Istio authorization is not a traditional RBAC system. It also
 [combination of Istio attributes](/docs/reference/config/authorization/constraints-and-properties/). This gives Istio
 authorization plenty of flexibility to express complex access control policies. In fact, **the “RBAC + conditions” model
 that Istio authorization adopts, has all the benefits an RBAC system has, and supports the level of flexibility that
-normally an ABAC system provides.** We will show some examples in the Examples section.
+normally an ABAC system provides.** We will show some examples in the [Examples section](#examples).
 
 ### High Performance
 
@@ -139,9 +139,10 @@ spec:
 
 #### Using authenticated client identities
 
-Suppose you want to grant this `book-reader` role to your `bookstore-frontend` service. If you have enabled mutual TLS
-for your mesh, you can use a service account to identify your `bookstore-frontend` service. Granting the `book-reader`
-role to `bookstore-frontend` service can be done by creating a `ServiceRoleBinding` as shown below.
+Suppose you want to grant this `book-reader` role to your `bookstore-frontend` service. If you have enabled
+[mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) for your mesh, you can use a
+service account to identify your `bookstore-frontend` service. Granting the `book-reader` role to `bookstore-frontend`
+service can be done by creating a `ServiceRoleBinding` as shown below.
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
