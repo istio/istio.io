@@ -4,8 +4,6 @@ description: Describes how to configure Istio to perform TLS origination for tra
 weight: 42
 ---
 
-> This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.7/docs/tasks/traffic-management/).
-
 The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task demonstrates how external, meaning outside of the
 Kubernetes cluster, HTTP and HTTPS services can be accessed from applications inside the mesh. As described in that topic, by
 default Istio-enabled applications are unable to access URLs outside the cluster. To enable external access, a [`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) for the external service must be defined, or alternatively, [direct access to external services](/docs/tasks/traffic-management/egress/#calling-external-services-directly) must be configured.

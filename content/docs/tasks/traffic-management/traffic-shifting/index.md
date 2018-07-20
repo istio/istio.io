@@ -7,8 +7,6 @@ aliases:
     - /docs/tasks/traffic-management/version-migration.html
 ---
 
-> This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.7/docs/tasks/traffic-management/).
-
 This task shows you how to gradually migrate traffic from one version of a
 microservice to another. For example, you might migrate traffic from an older
 version to a new version.
