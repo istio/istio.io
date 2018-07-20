@@ -19,7 +19,7 @@ Sidecar injector.
 
 ### Helm upgrade
 
-If you installed your existing Istio with [Helm install](/docs/setup/kubernetes/helm-install/#option-2-install-with-helm-and-tiller-via-helm-install) the preferred upgrade option is to let Helm take care of the upgrade:
+If you installed Istio with [Helm](/docs/setup/kubernetes/helm-install/#option-2-install-with-helm-and-tiller-via-helm-install) the preferred upgrade option is to let Helm take care of the upgrade:
 
 {{< text bash >}}
 $ helm upgrade istio install/kubernetes/helm/istio --namespace istio-system
