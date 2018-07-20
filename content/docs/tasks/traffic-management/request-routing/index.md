@@ -42,10 +42,6 @@ to the Bookinfo app. If you already created conflicting virtual services for Boo
     $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
-    In a Kubernetes deployment of Istio, you can replace `istioctl` with `kubectl` in
-    the above, and for all other CLI commands. Note, however, that `kubectl` currently
-    does not provide input validation.
-
     Because configuration propagation is eventually consistent, wait a few seconds
     for the virtual services to take effect.
 
