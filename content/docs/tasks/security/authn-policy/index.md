@@ -61,12 +61,14 @@ You should also verify that there are no existing authentication policies in the
 $ kubectl get policies.authentication.istio.io --all-namespaces
 No resources found.
 {{< /text >}}
+
 {{< text bash >}}
 $ kubectl get meshpolicies.authentication.istio.io
 No resources found.
 {{< /text >}}
 
 Last but not least, verify that there are no destination rules that apply on our example services. It can be done by checking the `host:` value of existing destination rules and make sure they do not match. For example:
+
 {{< text bash >}}
 $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml | grep "host:"
     host: istio-policy.istio-system.svc.cluster.local
@@ -93,7 +95,7 @@ EOF
 
 This policy specifies that all servers in the mesh will only accept encrypted requests using TLS. As you can see, this authentication policy has the kind: `MeshPolicy`. The name of the policy must be `default`, and it contains no `targets` specification (as it is intended to apply on all services in the mesh).
 
-At this point, only the receiving side is configured to use mutual TLS. If you run the curl command between *Istio services* (i.e those with Envoy sidecar), all will fail with 503 error code as the client side still using plaintext.
+At this point, only the receiving side is configured to use mutual TLS. If you run the curl command between *Istio services* (i.e those with Envoy sidecar), all will fail with 503 error code as the client side still using plain-text.
 
 {{< text bash >}}
 $ for from in "foo" "bar"; do for to in "foo" "bar"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
@@ -120,7 +122,8 @@ spec:
 EOF
 {{< /text >}}
 
-> * Host value `*.local` to limit matches only to services in cluster, as opposed to external services. Also note, there is no restriction on the name or namespace for destination rule.
+>
+* Host value `*.local` to limit matches only to services in cluster, as opposed to external services. Also note, there is no restriction on the name or namespace for destination rule.
 * With ISTIO_MUTUAL TLS mode, Istio will set the path for key and certificates (e.g clientCertificate, privateKey and caCertificates) according to its internal implementation.
 
 Don’t forget that destination rules are also used for non-auth reasons such as setting up canarying, but the same order of precedence applies. So if a service requires a specific destination rule for any reason - for example, for a configuration load balancer -  the rule must contain a similar TLS block with ISTIO_MUTUAL mode, as otherwise it will override the mesh- or namespace-wide TLS settings and disable TLS.
@@ -149,7 +152,7 @@ command terminated with exit code 56
 sleep.legacy to httpbin.legacy: 200
 {{< /text >}}
 
-> Due to the way Envoy rejects plaintext requests, you will see `curl` exit code 56 (failure with receiving network data) in this case.
+> Due to the way Envoy rejects plain-text requests, you will see `curl` exit code 56 (failure with receiving network data) in this case.
 
 This works as intended, and unfortunately, there is no solution for this without reducing authentication requirement for these services.
 
@@ -315,7 +318,8 @@ spec:
 EOF
 {{< /text >}}
 
-> * In this example, we do **not** specify namespace in metadata but put it in the command line (`-n bar`). They should work the same.
+>
+* In this example, we do **not** specify namespace in metadata but put it in the command line (`-n bar`). They should work the same.
 * There is no restriction on the authentication policy and destination rule name. The example use the name of the service itself for simplicity.
 
 Again, run the probing command. As expected, request from `sleep.legacy` to `httpbin.bar` starts failing with the same reasons.
@@ -474,7 +478,7 @@ $ cat <<EOF | istioctl replace -n foo -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
-  name: "example-3"
+  name: "jwt-example"
 spec:
   targets:
   - name: httpbin
@@ -504,9 +508,15 @@ $ curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/headers -s -o /dev/
 
 You may want to try to modify token or policy (e.g change issuer, audiences, expiry date etc) to observe other aspects of JWT validation.
 
-## Cleanup
+### Cleanup
 
-Remove all resources.
+Remove authentication policy:
+
+{{< text bash >}}
+$ kubectl delete policy jwt-example
+{{< /text >}}
+
+If you are not planning to explore any follow-on tasks, you can remove all resources simply by deleting test namespaces.
 
 {{< text bash >}}
 $ kubectl delete ns foo bar legacy
