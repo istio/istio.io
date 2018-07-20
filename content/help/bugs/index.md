@@ -25,15 +25,15 @@ all of the needed state from your Kubernetes cluster:
 
 * Run via `curl`:
 
-  ```sh
-  curl https://raw.githubusercontent.com/istio/istio/release-1.0/tools/dump_kubernetes.sh | sh -s -- -z
-  ```
+    {{< text bash >}}
+    $ curl https://raw.githubusercontent.com/istio/istio/release-1.0/tools/dump_kubernetes.sh | sh -s -- -z
+    {{< /text >}}
 
 * Run locally, from the release directory's root:
 
-  ```sh
-  tools/dump_kubernetes.sh -z
-  ```
+    {{< text bash >}}
+    $ @tools/dump_kubernetes.sh@ -z
+    {{< /text >}}
 
 Then attach the produced `istio-dump.tar.gz` with your reported problem.
 
