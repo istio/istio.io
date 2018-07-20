@@ -19,15 +19,6 @@ the example application throughout this task.
 
 ## Generating a Service Graph
 
-1.  To view a graphical representation of your service mesh, install the
-    Servicegraph add-on.
-
-    In Kubernetes environments, execute the following command:
-
-    {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/addons/servicegraph.yaml
-    {{< /text >}}
-
 1.  Verify that the service is running in your cluster.
 
     In Kubernetes environments, execute the following command:
@@ -66,7 +57,7 @@ the example application throughout this task.
 
     The results will look similar to:
 
-    {{< image width="75%" ratio="107.7%"
+    {{< image width="75%" ratio="156.57%"
     link="./servicegraph-example.png"
     caption="Example Servicegraph"
     >}}
@@ -113,13 +104,6 @@ The Servicegraph example is built on top of Prometheus queries and
 depends on the standard Istio metric configuration.
 
 ## Cleanup
-
-*   In Kubernetes environments, execute the following command to remove the
-Servicegraph add-on:
-
-    {{< text bash >}}
-    $ kubectl delete -f install/kubernetes/addons/servicegraph.yaml
-    {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, refer to the
 [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions

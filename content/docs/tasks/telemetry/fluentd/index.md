@@ -311,9 +311,9 @@ spec:
   severity: '"info"'
   timestamp: request.time
   variables:
-    source: source.labels["app"] | source.service | "unknown"
+    source: source.labels["app"] | source.workload.name | "unknown"
     user: source.user | "unknown"
-    destination: destination.labels["app"] | destination.service | "unknown"
+    destination: destination.labels["app"] | destination.workload.name | "unknown"
     responseCode: response.code | 0
     responseSize: response.size | 0
     latency: response.duration | "0ms"
@@ -373,7 +373,7 @@ example stack.
     executing the following command:
 
     {{< text bash >}}
-    $ kubectl -n logging port-forward $(kubectl -n logging get pod -l app=kibana -o jsonpath='{.items[0].metadata.name}') 5601:5601
+    $ kubectl -n logging port-forward $(kubectl -n logging get pod -l app=kibana -o jsonpath='{.items[0].metadata.name}') 5601:5601 &
     {{< /text >}}
 
     Leave the command running. Press Ctrl-C to exit when done accessing the Kibana UI.

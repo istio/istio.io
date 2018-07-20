@@ -38,8 +38,9 @@ as the example application throughout this task.
     spec:
       value: "2" # count each request twice
       dimensions:
-        source: source.service | "unknown"
-        destination: destination.service | "unknown"
+        reporter: conditional((context.reporter.kind | "inbound") == "outbound", "client", "server")
+        source: source.workload.name | "unknown"
+        destination: destination.workload.name | "unknown"
         message: '"twice the fun!"'
       monitored_resource_type: '"UNSPECIFIED"'
     ---
@@ -55,6 +56,7 @@ as the example application throughout this task.
         instance_name: doublerequestcount.metric.istio-system # Mixer instance name (fully-qualified)
         kind: COUNTER
         label_names:
+        - reporter
         - source
         - destination
         - message
@@ -81,9 +83,9 @@ as the example application throughout this task.
       severity: '"warning"'
       timestamp: request.time
       variables:
-        source: source.labels["app"] | source.service | "unknown"
+        source: source.labels["app"] | source.workload.name | "unknown"
         user: source.user | "unknown"
-        destination: destination.labels["app"] | destination.service | "unknown"
+        destination: destination.labels["app"] | destination.workload.name | "unknown"
         responseCode: response.code | 0
         responseSize: response.size | 0
         latency: response.duration | "0ms"
@@ -152,10 +154,10 @@ as the example application throughout this task.
     **Console** tab includes entries similar to:
 
     {{< text plain >}}
-    istio_double_request_count{destination="details.default.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="productpage.default.svc.cluster.local"} 2
-    istio_double_request_count{destination="ingress.istio-system.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="unknown"} 2
-    istio_double_request_count{destination="productpage.default.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="ingress.istio-system.svc.cluster.local"} 2
-    istio_double_request_count{destination="reviews.default.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="productpage.default.svc.cluster.local"} 2
+    istio_double_request_count{destination="details-v1",instance="172.17.0.12:42422",job="istio-mesh",message="twice the fun!",reporter="client",source="productpage-v1"}   8
+    istio_double_request_count{destination="details-v1",instance="172.17.0.12:42422",job="istio-mesh",message="twice the fun!",reporter="server",source="productpage-v1"}   8
+    istio_double_request_count{destination="istio-policy",instance="172.17.0.12:42422",job="istio-mesh",message="twice the fun!",reporter="server",source="details-v1"}   4
+    istio_double_request_count{destination="istio-policy",instance="172.17.0.12:42422",job="istio-mesh",message="twice the fun!",reporter="server",source="istio-ingressgateway"}   4
     {{< /text >}}
 
     For more on querying Prometheus for metric values, see the
@@ -169,11 +171,10 @@ as the example application throughout this task.
 
     {{< text bash json >}}
     $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') -c mixer | grep \"instance\":\"newlog.logentry.istio-system\"
-    {"level":"warn","ts":"2017-09-21T04:33:31.249Z","instance":"newlog.logentry.istio-system","destination":"details","latency":"6.848ms","responseCode":200,"responseSize":178,"source":"productpage","user":"unknown"}
-    {"level":"warn","ts":"2017-09-21T04:33:31.291Z","instance":"newlog.logentry.istio-system","destination":"ratings","latency":"6.753ms","responseCode":200,"responseSize":48,"source":"reviews","user":"unknown"}
-    {"level":"warn","ts":"2017-09-21T04:33:31.263Z","instance":"newlog.logentry.istio-system","destination":"reviews","latency":"39.848ms","responseCode":200,"responseSize":379,"source":"productpage","user":"unknown"}
-    {"level":"warn","ts":"2017-09-21T04:33:31.239Z","instance":"newlog.logentry.istio-system","destination":"productpage","latency":"67.675ms","responseCode":200,"responseSize":5599,"source":"ingress.istio-system.svc.cluster.local","user":"unknown"}
-    {"level":"warn","ts":"2017-09-21T04:33:31.233Z","instance":"newlog.logentry.istio-system","destination":"ingress.istio-system.svc.cluster.local","latency":"74.47ms","responseCode":200,"responseSize":5599,"source":"unknown","user":"unknown"}
+    {"level":"warn","time":"2018-07-11T00:09:55.530274Z","instance":"newlog.logentry.istio-system","destination":"productpage","latency":"27.769937ms","responseCode":200,"responseSize":4415,"source":"istio-ingressgateway","user":"unknown"}
+    {"level":"warn","time":"2018-07-11T00:09:56.450852Z","instance":"newlog.logentry.istio-system","destination":"policy","latency":"566.375µs","responseCode":200,"responseSize":82,"source":"istio-ingressgateway","user":"unknown"}
+    {"level":"warn","time":"2018-07-11T00:09:56.458926Z","instance":"newlog.logentry.istio-system","destination":"reviews","latency":"4.940979ms","responseCode":200,"responseSize":295,"source":"productpage","user":"unknown"}
+    {"level":"warn","time":"2018-07-11T00:09:57.348865Z","instance":"newlog.logentry.istio-system","destination":"details","latency":"2.112762ms","responseCode":200,"responseSize":178,"source":"productpage","user":"unknown"}
     {{< /text >}}
 
 ## Understanding the telemetry configuration
@@ -217,7 +218,7 @@ troubleshooting application behavior.
 The configuration instructs Mixer to populate values for these dimensions based
 on attribute values and literal values. For instance, for the `source`
 dimension, the new config requests that the value be taken from the
-`source.service` attribute. If that attribute value is not populated, the rule
+`source.workload.name` attribute. If that attribute value is not populated, the rule
 instructs Mixer to use a default value of `"unknown"`. For the `message`
 dimension, a literal value of `"twice the fun!"` will be used for all instances.
 
