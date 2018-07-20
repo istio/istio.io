@@ -133,6 +133,8 @@ $ oc adm policy add-scc-to-user anyuid -z istio-pilot-service-account \
   -n istio-system
 $ oc adm policy add-scc-to-user anyuid \
   -z istio-sidecar-injector-service-account -n istio-system
+$ oc adm policy add-scc-to-user anyuid -z istio-galley-service-account \
+  -n istio-system
 {{< /text >}}
 
 The list above accounts for the default Istio service accounts. If you enabled
