@@ -400,6 +400,12 @@ example stack.
     $ kubectl delete -f logging-stack.yaml
     {{< /text >}}
 
+*   Remove any `kubectl port-forward` processes that may still be running:
+
+    {{< text bash >}}
+    $ killall kubectl
+    {{< /text >}}
+
 * If you are not planning to explore any follow-on tasks, refer to the
   [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.

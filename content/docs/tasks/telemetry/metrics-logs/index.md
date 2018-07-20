@@ -294,6 +294,12 @@ here to illustrate how to use `match` expressions to control rule execution.
     $ istioctl delete -f new_telemetry.yaml
     {{< /text >}}
 
+*   Remove any `kubectl port-forward` processes that may still be running:
+
+    {{< text bash >}}
+    $ killall kubectl
+    {{< /text >}}
+
 * If you are not planning to explore any follow-on tasks, refer to the
   [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.
