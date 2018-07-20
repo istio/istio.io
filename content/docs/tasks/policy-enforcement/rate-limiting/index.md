@@ -38,6 +38,12 @@ service.
     $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-jason-v2-v3.yaml@
     {{< /text >}}
 
+1. Add routing rules to define `v1` and `v2` subsets of virtual services:
+
+    {{< text bash >}}
+    $ istioctl create -f @samples/bookinfo/networking/destination-rule-all.yaml@
+    {{< /text >}}
+
 ## Rate limits
 
 In this task, you configure Istio to rate limit traffic to the `ratings`
