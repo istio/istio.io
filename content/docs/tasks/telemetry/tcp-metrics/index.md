@@ -39,7 +39,7 @@ will generate and collect automatically.
     spec:
       value: connection.sent.bytes | 0 # uses a TCP-specific attribute
       dimensions:
-        source_service: source.service | "unknown"
+        source_service: source.workload.name | "unknown"
         source_version: source.labels["version"] | "unknown"
         destination_version: destination.labels["version"] | "unknown"
       monitoredResourceType: '"UNSPECIFIED"'
@@ -54,7 +54,7 @@ will generate and collect automatically.
     spec:
       value: connection.received.bytes | 0 # uses a TCP-specific attribute
       dimensions:
-        source_service: source.service | "unknown"
+        source_service: source.workload.name | "unknown"
         source_version: source.labels["version"] | "unknown"
         destination_version: destination.labels["version"] | "unknown"
       monitoredResourceType: '"UNSPECIFIED"'
@@ -143,22 +143,34 @@ will generate and collect automatically.
         deployment "mongodb-v1" configured
         {{< /text >}}
 
+    1.  The Bookinfo sample deploys multiple versions of each microservice, so you will start by creating destination rules
+        that define the service subsets corresponding to each version, and the load balancing policy for each subset.
+
+        {{< text bash >}}
+        $ istioctl create -f @samples/bookinfo/networking/destination-rule-all.yaml@
+        {{< /text >}}
+
+        If you enabled mutual TLS, please run the following instead
+
+        {{< text bash >}}
+        $ istioctl create -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
+        {{< /text >}}
+
+        You can display the destination rules with the following command:
+
+        {{< text bash >}}
+        $ istioctl get destinationrules -o yaml
+        {{< /text >}}
+
+        Since the subset references in virtual services rely on the destination rules,
+        wait a few seconds for destination rules to propagate before adding virtual services that refer to these subsets.
+
     1.  Create `ratings` and `reviews` virtual services:
 
         {{< text bash >}}
         $ istioctl create -f @samples/bookinfo/networking/virtual-service-ratings-db.yaml@
         Created config virtual-service/default/reviews at revision 3003
         Created config virtual-service/default/ratings at revision 3004
-        {{< /text >}}
-
-    1.  Add routing rules to send traffic to `v2` of the `ratings` service:
-
-        {{< text bash >}}
-        $ istioctl create -f @samples/bookinfo/networking/destination-rule-all.yaml@
-        destinationrule.networking.istio.io/productpage created
-        destinationrule.networking.istio.io/reviews created
-        destinationrule.networking.istio.io/ratings created
-        destinationrule.networking.istio.io/details created
         {{< /text >}}
 
 1.  Send traffic to the sample application.
@@ -186,14 +198,14 @@ will generate and collect automatically.
     **Console** tab includes entries similar to:
 
     {{< text plain >}}
-    istio_mongo_received_bytes{destination_version="v1",instance="istio-mixer.istio-system:42422",job="istio-mesh",source_service="ratings.default.svc.cluster.local",source_version="v2"} 2317
+    istio_mongo_received_bytes{destination_version="v1",instance="172.17.0.18:42422",job="istio-mesh",source_service="ratings-v2",source_version="v2"} 2317
     {{< /text >}}
 
     > Istio also collects protocol-specific statistics for MongoDB. For
     > example, the value of total OP_QUERY messages sent from the `ratings` service
     > is collected in the following metric:
-    > `envoy_mongo_mongo_collection_ratings_query_total` (click
-    > (click [here](http://localhost:9090/graph#%5B%7B%22range_input%22%3A%221h%22%2C%22expr%22%3A%22envoy_mongo_mongo_collection_ratings_query_total%22%2C%22tab%22%3A1%7D%5D)
+    > `envoy_mongo_outbound_27017__mongodb_default_svc_cluster_local_collection_ratings_query_total`
+    > (click [here](http://localhost:9090/graph#%5B%7B%22range_input%22%3A%221h%22%2C%22expr%22%3A%22envoy_mongo_outbound_27017__mongodb_default_svc_cluster_local_collection_ratings_query_total%22%2C%22tab%22%3A1%7D%5D)
     > to execute the query).
 
 ## Understanding TCP telemetry collection
