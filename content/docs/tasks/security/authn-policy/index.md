@@ -7,11 +7,7 @@ aliases:
     - /docs/tasks/security/istio-auth.html
 ---
 
-This guide covers the main tasks you might need to perform when enabling, configuring, and using Istio authentication policies. You can find out more about how Istio authentication works in the Authentication overview, and get started with a basic tutorial in Istio Security Basics.
-
-## Before you begin
-
-The tasks in this guide assume that you:
+This guide covers the main tasks you might need to perform when enabling, configuring, and using Istio authentication policies. You can find out more about how Istio authentication works in the [Authentication overview](/docs/concepts/security/#authentication).
 
 ## Before you begin
 
@@ -70,14 +66,14 @@ $ kubectl get meshpolicies.authentication.istio.io
 No resources found.
 {{< /text >}}
 
-Last but not least, verify that there are no destination rules that apply on our example services. It can be done by checking the `host:` value of existing destination rules and make sure they are not match. For example:
+Last but not least, verify that there are no destination rules that apply on our example services. It can be done by checking the `host:` value of existing destination rules and make sure they do not match. For example:
 {{< text bash >}}
 $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml | grep "host:"
     host: istio-policy.istio-system.svc.cluster.local
     host: istio-telemetry.istio-system.svc.cluster.local
 {{< /text >}}
 
-> Depends on Istio version, you may see destination rules for hosts other than these. However, there should be none with host in `foo`, `bar`, `legacy` namespace, nor is the match-all wildcard `*`
+> Depending on Istio version, you may see destination rules for hosts other than these. However, there should be none with host in `foo`, `bar`, `legacy` namespace, nor is the match-all wildcard `*`
 
 ## Enabling mutual TLS globally
 
@@ -153,7 +149,7 @@ command terminated with exit code 56
 sleep.legacy to httpbin.legacy: 200
 {{< /text >}}
 
-> Due to the way Envoy reject plaintext requests, you will see `curl` exit code 56 (failure with receiving network data) in this case.
+> Due to the way Envoy rejects plaintext requests, you will see `curl` exit code 56 (failure with receiving network data) in this case.
 
 This works as intended, and unfortunately, there is no solution for this without reducing authentication requirement for these services.
 
