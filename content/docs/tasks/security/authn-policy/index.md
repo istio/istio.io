@@ -217,7 +217,7 @@ $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metada
 200
 {{< /text >}}
 
-### Clean up
+### Cleanup
 
 Remove global authentication policy and destination rules added in the session:
 
