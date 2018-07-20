@@ -33,7 +33,7 @@ all of the needed state from your Kubernetes cluster:
   tools/dump_kubernetes.sh -z
   ```
 
-Then attach the produced "istio-dump.tar.gz" with your reported problem.
+Then attach the produced `istio-dump.tar.gz` with your reported problem.
 
 If you are unable to use the dump script, please attach your own archive
 containing:
