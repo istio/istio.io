@@ -207,10 +207,11 @@ Run the following command to create default destination rules for the bookinfo s
 
 Wait a few seconds for the destination rules to propagate.
 
-> You can display the destination rules with the following command:
-    {{< text bash >}}
-    $ istioctl get destinationrules -o yaml
-    {{< /text >}}
+You can display the destination rules with the following command:
+
+{{< text bash >}}
+$ istioctl get destinationrules -o yaml
+{{< /text >}}
 
 ## What's next
 
