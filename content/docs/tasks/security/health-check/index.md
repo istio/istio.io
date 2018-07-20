@@ -30,7 +30,7 @@ this feature is not needed if the production setup is not using the
   [quick start](/docs/setup/kubernetes/quick-start/) with global mutual TLS enabled.
   It is recommended to install using [Helm](/docs/setup/kubernetes/helm-install/) with the Helm arguments `global.mtls.enabled` and `security.healthCheckEnabled` set as `true`.
 
-> Starting with Istio 0.7, you can use [authentication policy](/docs/concepts/security/#authentication-policy) to configure mutual TLS for all/selected services in a namespace (repeated for all namespaces to get global setting). See [authentication policy task](/docs/tasks/security/authn-policy/)
+> Starting with Istio 0.7, you can use [authentication policy](/docs/concepts/security/#anatomy-of-an-authentication-policy) to configure mutual TLS for all/selected services in a namespace (repeated for all namespaces to get global setting). See [authentication policy task](/docs/tasks/security/authn-policy/)
 
 ## Deploying Citadel with health checking
 
