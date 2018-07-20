@@ -101,12 +101,6 @@ To start the application, follow the instructions below corresponding to your Is
     > In a realistic deployment, new versions of a microservice are deployed
     over time instead of deploying all versions simultaneously.
 
-1.  Define the ingress gateway for the application:
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
-    {{< /text >}}
-
 1.  Confirm all services and pods are correctly defined and running:
 
     {{< text bash >}}
@@ -134,7 +128,27 @@ To start the application, follow the instructions below corresponding to your Is
 
 #### Determining the ingress IP and port
 
-1.  Follow [these instructions](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports) to set the `INGRESS_HOST` and `INGRESS_PORT` variables.
+Now that the Bookinfo services are up and running, you need to make the application accessible from outside of your
+Kubernetes cluster, e.g., from a browser. An [Istio Gateway](/docs/concepts/traffic-management/#gateways)
+is used for this purpose.
+
+> Note that the `istioctl` (the Istio CLI) is used in the following commands, instead of `kubectl`. This is because the Kubernetes application is now deployed and the following commands are managing Istio-specific configuration. In a Kubernetes environment, you can replace `istioctl` with `kubectl` if you prefer to stick to one CLI, however, `istioctl` does provide significantly better output and is recommended.
+
+1.  Define the ingress gateway for the application:
+
+    {{< text bash >}}
+    $ istioctl create -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
+    {{< /text >}}
+
+1.  Confirm the gateway has been created:
+
+    {{< text bash >}}
+    $ istioctl get gateway
+    GATEWAY NAME       HOSTS     NAMESPACE   AGE
+    bookinfo-gateway   *         default     2d
+    {{< /text >}}
+
+1.  Follow [these instructions](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports) to set the `INGRESS_HOST` and `INGRESS_PORT` variables for accessing the gateway. Return here, when they are set.
 
 1.  Set `GATEWAY_URL`:
 
@@ -237,8 +251,9 @@ uninstall and clean it up using the following instructions.
 1.  Confirm shutdown
 
     {{< text bash >}}
-    $ istioctl get gateway           #-- there should be no more gateway
-    $ istioctl get virtualservices   #-- there should be no more virtual services
+    $ istioctl get virtualservices   #-- there should be no virtual services
+    $ istioctl get destinationrules  #-- there should be no destination rules
+    $ istioctl get gateway           #-- there should be no gateway
     $ kubectl get pods               #-- the Bookinfo pods should be deleted
     {{< /text >}}
 
