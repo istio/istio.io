@@ -9,7 +9,7 @@
 
 ## 开始之前
 
-- 遵循[安装指南](../../setup)设置Istio。
+- 遵循[安装指南](../../../setup)设置Istio。
 - 启动两个版本的`httpbin`服务，并确保对其日志的访问能力。
 
 httpbin-v1：
@@ -215,4 +215,4 @@ EOF
 
 ## 下一步
 
-阅读[镜像配置参考](../../reference/config/istio.routing.v1alpha1.html)，可以获得更多流量复制配置方面的信息。
+阅读[镜像配置参考](../../../reference/config/istio.routing.v1alpha1.html)，可以获得更多流量复制配置方面的信息。
