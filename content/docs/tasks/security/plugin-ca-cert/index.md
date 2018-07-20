@@ -17,7 +17,7 @@ operator-specified root certificate. This task demonstrates an example to plug c
   [quick start](/docs/setup/kubernetes/quick-start/) with global mutual TLS enabled by using [Helm](/docs/setup/kubernetes/helm-install/)
   with `global.mtls.enabled` set to `true`.
 
-> Starting with Istio 0.7, you can use [authentication policy](/docs/concepts/security/#authentication-policy) to configure mutual TLS for all/selected services in a namespace (repeated for all namespaces to get global setting). See [authentication policy task](/docs/tasks/security/authn-policy/)
+> Starting with Istio 0.7, you can use [authentication policy](/docs/concepts/security/#anatomy-of-an-authentication-policy) to configure mutual TLS for all/selected services in a namespace (repeated for all namespaces to get global setting). See [authentication policy task](/docs/tasks/security/authn-policy/)
 
 ## Plugging in the existing certificate and key
 
