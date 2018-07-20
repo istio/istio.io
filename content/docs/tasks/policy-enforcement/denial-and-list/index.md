@@ -1,15 +1,15 @@
 ---
-title: White or Black Listing
-description: Shows how to control access to a service using white or black listing.
+title: Denials and White/Black Listing
+description: Shows how to control access to a service using simple denials or white/black listing.
 weight: 20
-keywords: [policies, white list, black list]
+keywords: [policies, denial, whitelist, blacklist]
 aliases:
     - /docs/tasks/basic-access-control.html
     - /docs/tasks/security/basic-access-control/index.html
     - /docs/tasks/security/secure-access-control/index.html
 ---
 
-This task shows how to control access to a service white or black listing.
+This task shows how to control access to a service using simple denials or white/black listing.
 
 ## Before you begin
 
@@ -59,7 +59,7 @@ that define the service subsets corresponding to each version.
     > If you are using a namespace other than `default`,
     > use `istioctl -n namespace ...` to specify the namespace.
 
-## Access control using _denials_
+## Simple _denials_
 
 Using Istio you can control access to a service based on any attributes that are available within Mixer.
 This simple form of access control is based on conditionally denying requests using Mixer selectors.
@@ -67,7 +67,7 @@ This simple form of access control is based on conditionally denying requests us
 Consider the [Bookinfo](/docs/examples/bookinfo/) sample application where the `ratings` service is accessed by multiple versions
 of the `reviews` service. We would like to cut off access to version `v3` of the `reviews` service.
 
-1.  Point your browser at the Bookinfo `productpage` (http://$GATEWAY_URL/productpage).
+1.  Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`).
 
     If you log in as user "jason", you should see black rating stars with each review,
     indicating that the `ratings` service is being called by the "v2" version of the `reviews` service.
@@ -106,7 +106,7 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
     In contrast, if you log in as user "jason" (the `reviews:v2` user) you continue to see
     the black ratings stars.
 
-## Access control using _whitelists_
+## _whitelists_ or _blacklists_
 
 Istio also supports attribute-based whitelists and blacklists. The following whitelist configuration is equivalent to the
 `denier` configuration in the previous section. The rule effectively rejects requests from version `v3` of the `reviews` service.
@@ -117,7 +117,7 @@ Istio also supports attribute-based whitelists and blacklists. The following whi
     $ istioctl delete -f @samples/bookinfo/policy/mixer-rule-deny-label.yaml@
     {{< /text >}}
 
-1. Verify that when you access the Bookinfo `productpage` (http://$GATEWAY_URL/productpage) without logging in, you see red stars.
+1. Verify that when you access the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`) without logging in, you see red stars.
    After performing the following steps you will no longer be able to see stars unless you are logged in as "jason".
 
 1.  Create configuration for the [`list`](/docs/reference/config/policy-and-telemetry/adapters/list/)
@@ -182,7 +182,7 @@ Save the following YAML snippet as `checkversion-rule.yaml`:
     $ istioctl create -f checkversion-rule.yaml
     {{< /text >}}
 
-1. Verify that when you access the Bookinfo `productpage` (http://$GATEWAY_URL/productpage) without logging in, you see **no** stars.
+1. Verify that when you access the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`) without logging in, you see **no** stars.
 Verify that after logging in as "jason" you see black stars.
 
 ## Cleanup
