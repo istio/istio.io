@@ -215,4 +215,4 @@ EOF
 
 ## 下一步
 
-阅读[镜像配置参考](../../../reference/config/istio.routing.v1alpha1.html)，可以获得更多流量复制配置方面的信息。
+阅读[镜像配置参考](/content/docs/reference/config/istio.routing.v1alpha1/index.html)，可以获得更多流量复制配置方面的信息。
