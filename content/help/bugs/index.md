@@ -46,11 +46,11 @@ containing:
   `kubectl --namespace istio-system get cm -o yaml`
 * Current and previous logs from all istio components and sidecar
 * Mixer logs:
-  * `kubectl logs -n istio-system -l istio=mixer -c mixer`
-  * `kubectl logs -n istio-system -l istio=policy -c mixer`
-  * `kubectl logs -n istio-system -l istio=telemetry -c mixer`
+    * `kubectl logs -n istio-system -l istio=mixer -c mixer`
+    * `kubectl logs -n istio-system -l istio=policy -c mixer`
+    * `kubectl logs -n istio-system -l istio=telemetry -c mixer`
 * Pilot logs:
-  * `kubectl logs -n istio-system -l istio=pilot -c discovery`
-  * `kubectl logs -n istio-system -l istio=pilot -c istio-proxy`
+    * `kubectl logs -n istio-system -l istio=pilot -c discovery`
+    * `kubectl logs -n istio-system -l istio=pilot -c istio-proxy`
 * All Istio configuration artifacts.
-  * `kubectl get $(kubectl get crd  --no-headers | awk '{printf "%s,",$1}END{printf "attributemanifests.config.istio.io\n"}') --all-namespaces`
+    * `kubectl get $(kubectl get crd  --no-headers | awk '{printf "%s,",$1}END{printf "attributemanifests.config.istio.io\n"}') --all-namespaces`
