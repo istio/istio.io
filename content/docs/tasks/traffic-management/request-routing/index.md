@@ -30,44 +30,15 @@ will apply a rule to route traffic based on the value of an HTTP request header.
 To illustrate the problem this task solves, access the Bookinfo app's `/productpage` in a browser and refresh several times. You’ll notice that sometimes the book review output contains star ratings and other times it does not. This is because without an explicit default service version to route to, Istio routes requests to all available versions
 in a round robin fashion.
 
-## Apply a default destination rule
-
-To route to one version only, you start by applying destination rules. Destination rules define traffic policies that Istio applies to requests. Destination rules also let you define which versions of the destination host are addressable. These addressable versions are called *subsets*.
-
-1.  Run the following command to apply a default destination rule:
-
-    If you did **not** enable mutual TLS, execute this command:
-
-    {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/networking/destination-rule-all.yaml@
-    {{< /text >}}
-
-    If you **did** enable mutual TLS, execute this command:
-
-    {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
-    {{< /text >}}
-
-    Wait a few seconds for the destination rules to propagate.
-
-1. Display the destination rules with the following command:
-
-    {{< text bash >}}
-    $ istioctl get destinationrules -o yaml
-    {{< /text >}}
-
-    In the next step, you will add virtual services that refer to the subsets
-    defined in the rules.
-
 ## Apply a virtual service
 
-Next, apply a virtual service to set the default version for all of the microservices.
-In this case, the virtual service routes all traffic to `v1` of each microservice.
+To route to one version only, you apply virtual services that set the default version for the microservices.
+In this case, the virtual services will route all traffic to `v1` of each microservice.
 
  > Before continuing, be sure you don't have any existing virtual services applied
 to the Bookinfo app. If you already created conflicting virtual services for Bookinfo, you must use `replace` rather than `create` in the following command.
 
-1.  Run the following command to apply the virtual service:
+1.  Run the following command to apply the virtual services:
 
     {{< text bash >}}
     $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
@@ -240,22 +211,10 @@ gradually send traffic from one version of a service to another.
 
 ## Cleanup
 
-1.   Remove the application virtual services.
+1. Remove the application virtual services.
 
     {{< text bash >}}
     $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
-    {{< /text >}}
-
-1.   Remove the application destination rules.
-
-    {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/networking/destination-rule-all.yaml@
-    {{< /text >}}
-
-    If you enabled mutual TLS, please run the following instead
-
-    {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
     {{< /text >}}
 
 1. If you are not planning to explore any follow-on tasks, refer to the
