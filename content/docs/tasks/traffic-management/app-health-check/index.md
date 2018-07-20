@@ -18,7 +18,7 @@ This task provides examples for the first two options with Istio mutual TLS enab
 ## Before you begin
 
 * Understand [Kubernetes liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/), Istio
-[authentication policy](/docs/concepts/security/#authentication-policy) and [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) concepts.
+[authentication policy](/docs/concepts/security/#anatomy-of-an-authentication-policy) and [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) concepts.
 
 * Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (meaning use `istio.yaml` as described in [installation steps](/docs/setup/kubernetes/quick-start/#installation-steps), or set `global.mtls.enabled` to false using [Helm](/docs/setup/kubernetes/helm-install/)).
 
