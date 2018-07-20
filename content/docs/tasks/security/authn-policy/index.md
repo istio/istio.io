@@ -124,7 +124,7 @@ EOF
 
 >
 * Host value `*.local` to limit matches only to services in cluster, as opposed to external services. Also note, there is no restriction on the name or namespace for destination rule.
-* With ISTIO_MUTUAL TLS mode, Istio will set the path for key and certificates (e.g clientCertificate, privateKey and caCertificates) according to its internal implementation.
+* With ISTIO_MUTUAL TLS mode, Istio will set the path for key and certificates (e.g client certificate, private key and CA certificates) according to its internal implementation.
 
 Don’t forget that destination rules are also used for non-auth reasons such as setting up canarying, but the same order of precedence applies. So if a service requires a specific destination rule for any reason - for example, for a configuration load balancer -  the rule must contain a similar TLS block with ISTIO_MUTUAL mode, as otherwise it will override the mesh- or namespace-wide TLS settings and disable TLS.
 

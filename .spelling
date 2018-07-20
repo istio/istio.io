@@ -209,13 +209,11 @@ booksale
 bookstore.default.svc.cluster.local
 boolean
 bt
-caCertificate
 camelCase
 canaried
 canarying
 check.error_code
 check.error_message
-clientCertificate
 cluster.local
 colocated
 concepts.yaml
@@ -373,7 +371,6 @@ preformatted
 preliminary.istio.io
 preliminary.istio.io.
 prepends
-privateKey
 prober
 productpage
 productpage.ns.svc.cluster.local
