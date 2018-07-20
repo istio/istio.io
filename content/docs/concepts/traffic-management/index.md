@@ -317,9 +317,6 @@ configures the set of policies to be applied to a request after `VirtualService`
 * A [`Gateway`](/docs/reference/config/istio.networking.v1alpha3/#Gateway)
 configures a load balancer for HTTP/TCP traffic, most commonly operating at the edge of the mesh to enable ingress traffic for an application.
 
-The following sections describe these resources. See [networking reference](/docs/reference/config/istio.networking.v1alpha3/)
-for detailed reference information.
-
 For example, you can implement a simple rule to send 100% of incoming traffic for a *reviews* service to version "v1" by using a `VirtualService` configuration as follows:
 
 {{< text yaml >}}
@@ -368,10 +365,14 @@ spec:
 
 Rules can be configured using the
 [istioctl CLI](/docs/reference/commands/istioctl/), or in a Kubernetes
-deployment using the `kubectl` command instead, although only `istioctl` will
-perform model validation and is recommended. See the
+deployment using the `kubectl` command instead, although `istioctl` provides
+better output and is recommended. See the
 [configuring request routing task](/docs/tasks/traffic-management/request-routing/)
 for examples.
+
+The following sections provide a basic overview of the traffic management configuration resources.
+See [networking reference](/docs/reference/config/istio.networking.v1alpha3/)
+for detailed information.
 
 ### Virtual Services
 
