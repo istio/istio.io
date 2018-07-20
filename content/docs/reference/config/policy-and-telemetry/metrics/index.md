@@ -33,19 +33,12 @@ We will describe metrics first and then the labels for each metric.
 
 ## Labels
 
-*   **Reporter**: This identifies the reporter of the request. It is set to `server`
-    if report is from a server Istio proxy and `client` if report is from a client
+*   **Reporter**: This identifies the reporter of the request. It is set to `destination`
+    if report is from a server Istio proxy and `source` if report is from a client
     Istio proxy.
 
     {{< text yaml >}}
-    reporter: conditional((context.reporter.kind | "inbound") == "outbound", "client", "server")
-    {{< /text >}}
-
-*   **Source Namespace**: This identifies the namespace of the source workload
-    instance where the traffic originates.
-
-    {{< text yaml >}}
-    source_namespace: source.namespace | "unknown"
+    reporter: conditional((context.reporter.kind | "inbound") == "outbound", "source", "destination")
     {{< /text >}}
 
 *   **Source Workload**: This identifies the name of source workload which
@@ -80,13 +73,6 @@ We will describe metrics first and then the labels for each metric.
 
     {{< text yaml >}}
     source_version: source.labels["version"] | "unknown"
-    {{< /text >}}
-
-*   **Destination Namespace**: This identifies the namespace of the destination workload
-    instance where the traffic is headed.
-
-    {{< text yaml >}}
-    destination_namespace: destination.namespace | "unknown"
     {{< /text >}}
 
 *   **Destination Workload**: This identifies the name of destination workload.
@@ -157,10 +143,11 @@ We will describe metrics first and then the labels for each metric.
     response_code: response.code | 200
     {{< /text >}}
 
-*   **Connection mTLS**: This identifies the service authentication policy of
-    the request. It is set to `true`, when Istio is used to make
-    communication secure.
+*   **Connection Security Policy**: This identifies the service authentication policy of
+    the request. It is set to `mutual_tls` when Istio is used to make communication
+    secure and report is from destination. It is set to `unknown` when report is from
+    source since security policy cannot be properly populated.
 
     {{< text yaml >}}
-    connection_mtls: connection.mtls | false
+    connection_security_policy: conditional((context.reporter.kind | "inbound") == "outbound", "unknown", conditional(connection.mtls | false, "mutual_tls", "none"))
     {{< /text >}}
