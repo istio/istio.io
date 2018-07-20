@@ -142,7 +142,7 @@ To start the application, follow the instructions below corresponding to your Is
     $ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
     {{< /text >}}
 
-1.  Proceed to [What's next](#what-s-next), below.
+1.  Proceed to [Confirm the app is running](#confirm-the-app-is-running), below.
 
 ### If you are running on Docker with Consul
 
@@ -171,7 +171,7 @@ To start the application, follow the instructions below corresponding to your Is
     $ export GATEWAY_URL=localhost:9081
     {{< /text >}}
 
-## What's next
+## Confirm the app is running
 
 To confirm that the Bookinfo application is running, run the following `curl` command:
 
@@ -185,6 +185,35 @@ to view the Bookinfo web page. If you refresh the page several times, you should
 see different versions of reviews shown in productpage, presented in a round robin style (red
 stars, black stars, no stars), since we haven't yet used Istio to control the
 version routing.
+
+## Apply default destination rules
+
+Before you can use Istio to control the bookinfo version routing, you need to define the available
+versions, called *subsets*, in destination rules.
+
+Run the following command to create default destination rules for the bookinfo services:
+
+* If you did **not** enable mutual TLS, execute this command:
+
+    {{< text bash >}}
+    $ istioctl create -f @samples/bookinfo/networking/destination-rule-all.yaml@
+    {{< /text >}}
+
+* If you **did** enable mutual TLS, execute this command:
+
+    {{< text bash >}}
+    $ istioctl create -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
+    {{< /text >}}
+
+Wait a few seconds for the destination rules to propagate.
+
+You can display the destination rules with the following command:
+
+{{< text bash >}}
+$ istioctl get destinationrules -o yaml
+{{< /text >}}
+
+## What's next
 
 You can now use this sample to experiment with Istio's features for
 traffic routing, fault injection, rate limiting, etc.
