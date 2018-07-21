@@ -25,12 +25,12 @@ authorization policy in different use cases.
 
 ### RPC Level Authorization
 
-Istio authorization feature provides RPC level authorization. Specifically, it controls “who can access my `bookstore` service”,
+Istio authorization provides RPC level authorization. Specifically, it controls “who can access my `bookstore` service”,
 or “who can access method `getBook` in my `bookstore` service”. It is not designed to control access to application-specific
 resource instances, like access to “storage bucket X” or access to “3rd book on 2nd shelf”. Today this kind of application
 specific access control logic needs to be handled by the application itself.
 
-### Role Based Access Control + Conditions
+### Role Based Access Control with Conditions
 
 Istio authorization is Role-Based Access Control (RBAC) system. Compared to Attribute-Based Access Control (ABAC),
 RBAC has the following advantages:
@@ -67,10 +67,11 @@ In addition to the primary identity, you can also specify any conditions that de
 you can specify the client identity as “user Alice calling from Bookstore frontend service”, in which case,
 you have a combined identity of the calling service (`Bookstore frontend`) and the end user (`Alice`).
 
-However, strongly authenticated identity is not required for using Istio authorization. Istio authorization work with or
-without identities. If you are working with a legacy system, you may not have mutual TLS or JWT authentication setup for
-your mesh. In this case, the only way to identify the client is, say, through IP. You can still use Istio authorization
-to control which IP addresses or IP ranges are allowed to access your service.
+To achieve best security, we strongly recommend users to enable [Istio authentication features](/docs/concepts/security/#authentication),
+and use authenticated identities in Istio authorization policies. However, strongly authenticated identity is not required
+for using Istio authorization. Istio authorization works with or without identities. If you are working with a legacy system,
+you may not have mutual TLS or JWT authentication setup for your mesh. In this case, the only way to identify the client is, say,
+through IP. You can still use Istio authorization to control which IP addresses or IP ranges are allowed to access your service.
 
 ## Examples
 
