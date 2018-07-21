@@ -278,26 +278,8 @@ As with egress rules for HTTP/HTTPS, you can delete and create egress rules for 
 ## Motivation for egress TCP traffic control
 
 Some in-mesh Istio applications must access external services, for example legacy systems. In many cases, the access is
-not performed over HTTP or HTTPS protocols. Other TCP protocols are used, such as database-specific protocols like
+not performed over HTTP or TLS protocols. Other TCP protocols are used, such as database-specific protocols like
 [MongoDB Wire Protocol](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/) and [MySQL Client/Server Protocol](https://dev.mysql.com/doc/internals/en/client-server-protocol.html) to communicate with external databases.
-
-Note that in case of access to external HTTPS services, as described in the
-[Control Egress TCP Traffic](/docs/tasks/traffic-management/egress/) task, an application must issue HTTP requests to
-the external service. The Envoy sidecar proxy attached to the pod or the VM, will intercept the requests and open an
-HTTPS connection to the external service. The traffic will be unencrypted inside the pod or the VM, but it will leave
-the pod or the VM encrypted.
-
-However, sometimes this approach cannot work due to the following reasons:
-
-* The code of the application is configured to use an HTTPS URL and cannot be changed
-
-* The code of the application uses some library to access the external service and that library uses HTTPS only
-
-* There are compliance requirements that do not allow unencrypted traffic, even if the traffic is unencrypted only
-inside the pod or the VM
-
-In this case, HTTPS can be treated by Istio as _opaque TCP_ and can be handled in the same way as other TCP non-HTTP
-protocols.
 
 Next let's see how we define egress rules for TCP traffic.
 
