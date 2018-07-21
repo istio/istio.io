@@ -217,7 +217,7 @@ $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metada
 200
 {{< /text >}}
 
-### Cleanup
+### Cleanup part 1
 
 Remove global authentication policy and destination rules added in the session:
 
@@ -415,7 +415,7 @@ $ kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..met
 200
 {{< /text >}}
 
-### Cleanup
+### Cleanup part 2
 
 Remove policies and destination rules created in this session:
 
@@ -428,40 +428,58 @@ $ kubectl delete destinationrules httpbin -n bar
 
 ## End-user authentication
 
-You will need a valid JWT (corresponding to the JWKS endpoint you want to use for the demo). Please follow the instructions [here]({{< github_tree >}}/security/tools/jwt) to create one. You can also use your own JWT/JWKS endpoint for the demo. Once you have that, export to some environment variables.
+You will need a valid JWT (corresponding to the JWKS endpoint you want to use for the demo). In this tutorial, we will use a test JWT signed by Google service account, but of course, you can also use your own JWT/JWKS endpoint for the demo.
+
+You can create a test JWT for your Google service account (assume it's stored in the environment variable `$SVC_ACCOUNT`) by following the instructions [here]({{< github_tree >}}/security/tools/jwt). Keep it in `$TOKEN`. Also set `$JWKS` corresponding to the service account `$SVC_ACCOUNT` as below:
 
 {{< text bash >}}
-$ export SVC_ACCOUNT="example@my-project.iam.gserviceaccount.com"
-$ export JWKS=https://www.googleapis.com/service_accounts/v1/jwk/${SVC_ACCOUNT}
-$ export TOKEN=<YOUR-TOKEN>
+$ JWKS=https://www.googleapis.com/service_accounts/v1/jwk/${SVC_ACCOUNT}
 {{< /text >}}
 
-Also, for convenience, expose `httpbin.foo` via ingress (for more details, see [ingress task](/docs/tasks/traffic-management/ingress/)).
+Also, for convenience, expose `httpbin.foo` via ingressgateway (for more details, see [ingress task](/docs/tasks/traffic-management/ingress/)).
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
-apiVersion: extensions/v1beta1
-kind: Ingress
+$ cat <<EOF | istioctl create -f -
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
 metadata:
-  name: httpbin-ingress
+  name: httpbin-gateway
   namespace: foo
-  annotations:
-    kubernetes.io/ingress.class: istio
 spec:
-  rules:
-  - http:
-      paths:
-      - path: /headers
-        backend:
-          serviceName: httpbin
-          servicePort: 8000
+  selector:
+    istio: ingressgateway # use Istio default gateway implementation
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+EOF
+$ cat <<EOF | istioctl create -f -
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: httpbin
+  namespace: foo
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - httpbin-gateway
+  http:
+  - route:
+    - destination:
+        port:
+          number: 8000
+        host: httpbin.foo.svc.cluster.local
 EOF
 {{< /text >}}
 
 Get ingress IP
 
 {{< text bash >}}
-$ export INGRESS_HOST=$(kubectl get ing -n foo -o=jsonpath='{.items[0].status.loadBalancer.ingress[0].ip}')
+$ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 {{< /text >}}
 
 And run a test query
@@ -471,10 +489,10 @@ $ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 200
 {{< /text >}}
 
-Now, let's add a policy that requires end-user JWT for `httpbin.foo`. The next command assumes policy with name "httpbin" already exists (which should be if you follow previous sections). You can run `kubectl get policies.authentication.istio.io -n foo` to confirm, and use `istio create` (instead of `istio replace`) if resource is not found. Also note in this policy, peer authentication (mutual TLS) is also set, though it can be removed without affecting origin authentication settings.
+Now, let's add a policy that requires end-user JWT for `httpbin.foo`. The next command assumes there is no service-specific policy for `httpbin.foo` (which should be if you run [cleanup](#cleanup-part-2) as instructed). You can run `kubectl get policies.authentication.istio.io -n foo` to confirm.
 
 {{< text bash >}}
-$ cat <<EOF | istioctl replace -n foo -f -
+$ cat <<EOF | istioctl create -n foo -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
@@ -482,8 +500,6 @@ metadata:
 spec:
   targets:
   - name: httpbin
-  peers:
-  - mtls:
   origins:
   - jwt:
       issuer: $SVC_ACCOUNT
@@ -508,7 +524,7 @@ $ curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/headers -s -o /dev/
 
 You may want to try to modify token or policy (e.g change issuer, audiences, expiry date etc) to observe other aspects of JWT validation.
 
-### Cleanup
+### Cleanup part 3
 
 Remove authentication policy:
 
