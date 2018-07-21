@@ -25,16 +25,16 @@ In my previous blog post, [Consuming External Web Services](/blog/2018/egress-ht
 
 ## Bookinfo sample application with external ratings database
 
-First, I set up a MySQL database instance to hold book ratings data, outside my Kubernetes cluster. Then I modify the
-[Bookinfo sample application](/docs/examples/bookinfo/) to use my database.
+First, you set up a MySQL database instance to hold book ratings data, outside of your Kubernetes cluster. Then you modify the
+[Bookinfo sample application](/docs/examples/bookinfo/) to use your database.
 
 ### Setting up the database for ratings data
 
-For this task I set up an instance of [MySQL](https://www.mysql.com). You can use any MySQL instance; I use
-[Compose for MySQL](https://www.ibm.com/cloud/compose/mysql). I use `mysqlsh`
+For this task you set up an instance of [MySQL](https://www.mysql.com). You can use any MySQL instance; I used
+[Compose for MySQL](https://www.ibm.com/cloud/compose/mysql). I used `mysqlsh`
 ([MySQL Shell](https://dev.mysql.com/doc/mysql-shell/en/)) as a MySQL client to feed the ratings data.
 
-1.  To initialize the database, I run the following command entering the password when prompted. The command is
+1.  To initialize the database, run the following command entering the password when prompted. The command is
 performed with the credentials of the  `admin` user, created by default by
 [Compose for MySQL](https://www.ibm.com/cloud/compose/mysql).
 
@@ -44,13 +44,13 @@ performed with the credentials of the  `admin` user, created by default by
 
     _**OR**_
 
-    When using the `mysql` client and a local MySQL database, I would run:
+    When using the `mysql` client and a local MySQL database, run:
 
     {{< text bash >}}
     $ curl -s {{< github_file >}}/samples/bookinfo/src/mysql/mysqldb-init.sql | mysql -u root -p
     {{< /text >}}
 
-1.  I then create a user with the name _bookinfo_ and grant it _SELECT_ privilege on the `test.ratings` table:
+1.  Create a user with the name _bookinfo_ and grant it _SELECT_ privilege on the `test.ratings` table:
 
     {{< text bash >}}
     $ mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host <the database host> --port <the database port> -e "CREATE USER 'bookinfo' IDENTIFIED BY '<password you choose>'; GRANT SELECT ON test.ratings to 'bookinfo';"
@@ -58,23 +58,23 @@ performed with the credentials of the  `admin` user, created by default by
 
     _**OR**_
 
-    For `mysql` and the local database, the command would be:
+    For `mysql` and the local database, the command is:
 
     {{< text bash >}}
     $ mysql -u root -p -e "CREATE USER 'bookinfo' IDENTIFIED BY '<password you choose>'; GRANT SELECT ON test.ratings to 'bookinfo';"
     {{< /text >}}
 
-    Here I apply the [principle of least privilege](https://en.wikipedia.org/wiki/Principle_of_least_privilege). This
-    means that I do not use my _admin_ user in the Bookinfo application. Instead, I create a special user for the
+    Here you apply the [principle of least privilege](https://en.wikipedia.org/wiki/Principle_of_least_privilege). This
+    means that you do not use your _admin_ user in the Bookinfo application. Instead, you create a special user for the
     Bookinfo application , _bookinfo_, with minimal privileges. In this case, the _bookinfo_ user only has the `SELECT`
     privilege on a single table.
 
-    After running the command to create the user, I will clean my bash history by checking the number of the last
-    command and running `history -d <the number of the command that created the user>`. I don't want the password of the
-     new user to be stored in the bash history. If I'm using `mysql`, I'll remove the last command from
+    After running the command to create the user, you may want to clean your bash history by checking the number of the last
+    command and running `history -d <the number of the command that created the user>`. You don't want the password of the
+     new user to be stored in the bash history. If you're using `mysql`, remove the last command from
      `~/.mysql_history` file as well. Read more about password protection of the newly created user in [MySQL documentation](https://dev.mysql.com/doc/refman/5.5/en/create-user.html).
 
-1.  I inspect the created ratings to see that everything worked as expected:
+1.  Inspect the created ratings to see that everything worked as expected:
 
     {{< text bash >}}
     $ mysqlsh --sql --ssl-mode=REQUIRED -u bookinfo -p --host <the database host> --port <the database port> -e "select * from test.ratings;"
@@ -102,7 +102,7 @@ performed with the credentials of the  `admin` user, created by default by
     +----------+--------+
     {{< /text >}}
 
-1.  I set the ratings temporarily to 1 to provide a visual clue when our database is used by the Bookinfo _ratings_
+1.  Set the ratings temporarily to 1 to provide a visual clue when our database is used by the Bookinfo _ratings_
 service:
 
     {{< text bash >}}
@@ -131,14 +131,14 @@ service:
     +----------+--------+
     {{< /text >}}
 
-    I used the _admin_ user (and _root_ for the local database) in the last command since the _bookinfo_ user does not
+    You used the _admin_ user (and _root_ for the local database) in the last command since the _bookinfo_ user does not
     have the _UPDATE_ privilege on the `test.ratings` table.
 
-Now I am ready to deploy a version of the Bookinfo application that will use my database.
+Now you are ready to deploy a version of the Bookinfo application that will use your database.
 
 ### Initial setting of Bookinfo application
 
-To demonstrate the scenario of using an external database, I start with a Kubernetes cluster with [Istio installed](/docs/setup/kubernetes/quick-start/#installation-steps). Then I deploy the
+To demonstrate the scenario of using an external database, you start with a Kubernetes cluster with [Istio installed](/docs/setup/kubernetes/quick-start/#installation-steps). Then you deploy the
 [Istio Bookinfo sample application](/docs/examples/bookinfo/). This application uses the _ratings_ microservice to fetch
  book ratings, a number between 1 and 5. The ratings are displayed as stars for each review. There are several versions
  of the _ratings_ microservice. Some use [MongoDB](https://www.mongodb.com), others use [MySQL](https://www.mysql.com)
@@ -157,9 +157,9 @@ As a reminder, here is the end-to-end architecture of the application from the
 
 ### Use the database for ratings data in Bookinfo application
 
-1.  I modify the deployment spec of a version of the _ratings_ microservice that uses a MySQL database, to use my
-database instance. The spec is in `samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml` of an Istio release
-archive. I edit the following lines:
+1.  Modify the deployment spec of a version of the _ratings_ microservice that uses a MySQL database, to use your
+database instance. The spec is in [samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml](https://github.com/istio/istio/blob/release-1.0/samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml)
+of an Istio releasearchive. Edit the following lines:
 
     {{< text yaml >}}
     - name: MYSQL_DB_HOST
@@ -172,24 +172,24 @@ archive. I edit the following lines:
       value: password
     {{< /text >}}
 
-    I replace the values in the snippet above, specifying the database host, port, user, and password. Note that the
+    Replace the values in the snippet above, specifying the database host, port, user, and password. Note that the
     correct way to work with passwords in container's environment variables in Kubernetes is [to use secrets](https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables). For this
-     example task only, I write the password directly in the deployment spec. **Do not do it** in a real environment! I
-     also assume everyone realizes that `"password"` should not be used as a password...
+     example task only, you may want to write the password directly in the deployment spec.  **Do not do it** in a real
+     environment! I also assume everyone realizes that `"password"` should not be used as a password...
 
-1.  I apply the modified spec to deploy the version of the _ratings_ microservice, _v2-mysql_, that will use my
-database.
+1.  Apply the modified spec to deploy the version of the _ratings_ microservice, _v2-mysql_, that will use your
+    database.
 
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml@)
     deployment "ratings-v2-mysql" created
     {{< /text >}}
 
-1.  I route all the traffic destined to the _reviews_ service to its _v3_ version. I do this to ensure that the
-_reviews_ service always calls the _ratings_
-service. In addition, I route all the traffic destined to the _ratings_ service to _ratings v2-mysql_ that uses my
-database.
-I add routing for both services above by adding two
+1.  Route all the traffic destined to the _reviews_ service to its _v3_ version. You do this to ensure that the
+_reviews_ service always calls the _ratings_ service. In addition, route all the traffic destined to the _ratings_
+service to _ratings v2-mysql_ that uses your database.
+
+Add routing for both services above by adding two
 [route rules](https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/).
 These rules are specified in `samples/bookinfo/networking/virtual-service-ratings-mysql.yaml` of an Istio release
 archive.
@@ -213,10 +213,10 @@ Note that the MySQL database is outside the Istio service mesh, or more precisel
 
 ### Access the webpage
 
-Let's access the webpage of the application, after
+Access the webpage of the application, after
 [determining the ingress IP and port](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port).
 
-We have a problem... Instead of the rating stars, the message _"Ratings service is currently unavailable"_ is currently
+You have a problem... Instead of the rating stars, the message _"Ratings service is currently unavailable"_ is currently
  displayed below each review:
 
 {{< image width="80%" ratio="36.19%"
@@ -224,18 +224,18 @@ We have a problem... Instead of the rating stars, the message _"Ratings service 
     caption="The Ratings service error messages"
     >}}
 
-As in [Consuming External Web Services](/blog/2018/egress-https/), we experience **graceful service degradation**, which
- is good. The application did not crash due to the error in the _ratings_ microservice. The webpage of the application
-  correctly displayed the book information, the details, and the reviews, just without the rating stars.
+As in [Consuming External Web Services](/blog/2018/egress-https/), you experience **graceful service degradation**,
+which is good. The application did not crash due to the error in the _ratings_ microservice. The webpage of the
+application correctly displayed the book information, the details, and the reviews, just without the rating stars.
 
-We have the same problem as in [Consuming External Web Services](/blog/2018/egress-https/), namely all the traffic
+You have the same problem as in [Consuming External Web Services](/blog/2018/egress-https/), namely all the traffic
 outside the Kubernetes cluster, both TCP and HTTP, is blocked by default by the sidecar proxies. To enable such traffic
  for TCP, an egress rule for TCP must be defined.
 
 ### Egress rule for an external MySQL instance
 
-TCP egress rules come to our rescue. I copy the following YAML spec to a text file (let's call it
-`egress-rule-mysql.yaml`) and edit it to specify the IP of my database instance and its port.
+TCP egress rules come to our rescue. Copy the following YAML spec to a text file (let's call it
+`egress-rule-mysql.yaml`) and edit it to specify the IP of your database instance and its port.
 
 {{< text yaml >}}
 apiVersion: config.istio.io/v1alpha2
@@ -251,17 +251,17 @@ spec:
         protocol: tcp
 {{< /text >}}
 
-Then I run `istioctl` to add the egress rule to the service mesh:
+Run `istioctl` to add the egress rule to the service mesh:
 
 {{< text bash >}}
 $ istioctl create -f egress-rule-mysql.yaml
 Created config egress-rule/default/mysql at revision 1954425
 {{< /text >}}
 
-Note that for a TCP egress rule, we specify `tcp` as the protocol of a port of the rule. Also note that we use an IP of
-the external service instead of its domain name. I will talk more about TCP egress rules
-[below](#egress-rules-for-tcp-traffic). For now, let's verify that the egress rule we added fixed the problem. Let's
-access the webpage and see if the stars are back.
+Note that for a TCP egress rule, you specify `tcp` as the protocol of a port of the rule. Also note that you use an IP
+of the external service instead of its domain name. I will talk more about TCP egress rules
+[below](#egress-rules-for-tcp-traffic). For now, verify that the egress rule we added fixed the problem. Access the
+webpage and see if the stars are back.
 
 It worked! Accessing the web page of the application displays the ratings without error:
 
@@ -270,10 +270,10 @@ It worked! Accessing the web page of the application displays the ratings withou
     caption="Book Ratings Displayed Correctly"
     >}}
 
-Note that we see a one-star rating for both displayed reviews, as expected. I changed the ratings to be one star to
+Note that you see a one-star rating for both displayed reviews, as expected. You changed the ratings to be one star to
 provide us with a visual clue that our external database is indeed being used.
 
-As with egress rules for HTTP/HTTPS, we can delete and create egress rules for TCP using `istioctl`, dynamically.
+As with egress rules for HTTP/HTTPS, you can delete and create egress rules for TCP using `istioctl`, dynamically.
 
 ## Motivation for egress TCP traffic control
 
