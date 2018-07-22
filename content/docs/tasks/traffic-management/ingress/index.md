@@ -7,8 +7,6 @@ aliases:
     - /docs/tasks/ingress.html
 ---
 
-> Note: This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.7/docs/tasks/traffic-management/).
-
 In a Kubernetes environment, the [Kubernetes Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/)
 is used to specify services that should be exposed outside the cluster.
 In an Istio service mesh, a better approach (which also works in both Kubernetes and other environments) is to use a
@@ -52,7 +50,7 @@ istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/
 
 If the `EXTERNAL-IP` value is set, your environment has an external load balancer that you can use for the ingress gateway.
 If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not provide an external load balancer for the ingress gateway.
-In this case, you can access the gateway using the service's [node port](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport).
+In this case, you can access the gateway using the service's [node port](https://kubernetes.io/docs/concepts/services-networking/service/#nodeport).
 
 Depending on your environment, follow the instructions in one of the following **mutually exclusive** subsections.
 

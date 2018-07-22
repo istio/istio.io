@@ -18,8 +18,7 @@ application.
 
 ## Querying Istio Metrics
 
-1.  Verify that the prometheus service is running in your cluster (since 0.8 the
-    prometheus setup is included in istio.yaml and istio-demo-auth.yaml by default)
+1.  Verify that the prometheus service is running in your cluster.
 
     In Kubernetes environments, execute the following command:
 
@@ -53,11 +52,11 @@ application.
 1.  Execute a Prometheus query.
 
     In the "Expression" input box at the top of the web page, enter the text:
-    `istio_request_count`. Then, click the **Execute** button.
+    `istio_requests_total`. Then, click the **Execute** button.
 
 The results will be similar to:
 
-{{< image width="100%" ratio="39.36%"
+{{< image width="100%" ratio="42.63%"
     link="./prometheus_query_result.png"
     caption="Prometheus Query Result"
     >}}
@@ -67,13 +66,13 @@ Other queries to try:
 -   Total count of all requests to `productpage` service:
 
     {{< text plain >}}
-    istio_request_count{destination_service="productpage.default.svc.cluster.local"}
+    istio_requests_total{destination_service="productpage.default.svc.cluster.local"}
     {{< /text >}}
 
 - Total count of all requests to `v3` of the `reviews` service:
 
     {{< text plain >}}
-    istio_request_count{destination_service="reviews.default.svc.cluster.local", destination_version="v3"}
+    istio_requests_total{destination_service="reviews.default.svc.cluster.local", destination_version="v3"}
     {{< /text >}}
 
     This query returns the current total count of all requests to the v3 of the reviews service.
@@ -81,7 +80,7 @@ Other queries to try:
 -   Rate of requests over the past 5 minutes to all `productpage` services:
 
     {{< text plain >}}
-    rate(istio_request_count{destination_service=~"productpage.*", response_code="200"}[5m])
+    rate(istio_requests_total{destination_service=~"productpage.*", response_code="200"}[5m])
     {{< /text >}}
 
 ### About the Prometheus add-on
