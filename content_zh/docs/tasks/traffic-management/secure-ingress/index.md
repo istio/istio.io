@@ -46,7 +46,7 @@ keywords: [traffic-management,ingress]
 
     所有提示问题都选择 `y`。这一命令会生成四个目录： `1_root`、`2_intermediate`、`3_application` 以及 `4_client`，其中包含了后续步骤所需的客户端和服务器的证书。
 
-## 配置 TLS ingress gateway。
+## 配置 TLS ingress gateway
 
 接下来就要为 Ingress gateway 开放一个 443 端口，用于提供 HTTPS 服务。首先使用密钥和证书作为输入，创建一个 Secret 。然后定义 Gateway 对象，其中包含了一个使用 `443` 端口的 `server`。
 
