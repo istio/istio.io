@@ -184,7 +184,7 @@ function handleDOMLoaded() {
                     return true;
                 };
 
-                // wrap the PRE block in a DIV so we have a place to attach the copy button
+                // wrap the PRE block in a DIV so we have a place to attach the toolbar buttons
                 var div = document.createElement("DIV");
                 div.className = "toolbar";
                 pre[i].parentElement.insertBefore(div, pre[i]);
@@ -242,7 +242,7 @@ function handleDOMLoaded() {
                 }
 
                 if (cl !== "") {
-                    var bottomStart = 0;
+                    var outputStart = 0;
                     var lines = code.innerText.split("\n");
                     var cmd = "";
                     var escape = false;
@@ -260,7 +260,7 @@ function handleDOMLoaded() {
                             // continuation
                             tmp += "\n" + line;
                         } else {
-                            bottomStart = j;
+                            outputStart = j;
                             break;
                         }
 
@@ -277,8 +277,8 @@ function handleDOMLoaded() {
                         var html = "<div class='command'>" + cmd + "</div>";
 
                         var output = "";
-                        if (bottomStart > 0) {
-                            for (var j = bottomStart; j < lines.length; j++) {
+                        if (outputStart > 0) {
+                            for (var j = outputStart; j < lines.length; j++) {
                                 if (output !== "") {
                                     output += "\n";
                                 }
