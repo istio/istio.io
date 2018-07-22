@@ -117,6 +117,8 @@ service:
     {{< text bash >}}
     $ mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT -e "update test.ratings set rating=1; select * from test.ratings;"
     Enter password:
+
+    Rows matched: 2  Changed: 2  Warnings: 0
     +----------+--------+
     | ReviewID | Rating |
     +----------+--------+
