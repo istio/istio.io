@@ -7,7 +7,7 @@ aliases:
     - /docs/tasks/security/istio-auth.html
 ---
 
-This guide covers the main tasks you might need to perform when enabling, configuring, and using Istio authentication policies. You can find out more about how Istio authentication works in the [Authentication overview](/docs/concepts/security/#authentication).
+This guide covers the point activities you might need to perform when enabling, configuring, and using Istio authentication policies. Find out more about the underlying concepts in the [authentication overview](/docs/concepts/security/#authentication).
 
 ## Before you begin
 
@@ -17,7 +17,7 @@ This guide covers the main tasks you might need to perform when enabling, config
 
 ### Setup
 
-Our examples use two namespaces `foo` and `bar`, with two services, `httpbin` and `sleep`, both running with an Envoy sidecar proxy. We also use another instances of `httpbin` and `sleep` running without the sidecar  in the `legacy` namespace. If you’d like to use the same examples when trying the tasks, run the following:
+Our examples use two namespaces `foo` and `bar`, with two services, `httpbin` and `sleep`, both running with an Envoy sidecar proxy. We also use second instances of `httpbin` and `sleep` running without the sidecar  in the `legacy` namespace. If you’d like to use the same examples when trying the tasks, run the following:
 
 {{< text bash >}}
 $ kubectl create ns foo
@@ -31,7 +31,7 @@ $ kubectl apply -f @samples/httpbin/httpbin.yaml@ -n legacy
 $ kubectl apply -f @samples/sleep/sleep.yaml@ -n legacy
 {{< /text >}}
 
-You can verify setup by sending an HTTP request with curl from any `sleep` pod in the namespace `foo`, `bar` or `legacy` to either `httpbin.foo`, `httpbin.bar` or `httpbin.legacy`. All requests should succeed with HTTP code 200.
+You can verify setup by sending an HTTP request with `curl` from any `sleep` pod in the namespace `foo`, `bar` or `legacy` to either `httpbin.foo`, `httpbin.bar` or `httpbin.legacy`. All requests should succeed with HTTP code 200.
 
 For example, here is a command to check `sleep.bar` to `httpbin.foo` reachability:
 
@@ -67,7 +67,7 @@ $ kubectl get meshpolicies.authentication.istio.io
 No resources found.
 {{< /text >}}
 
-Last but not least, verify that there are no destination rules that apply on our example services. It can be done by checking the `host:` value of existing destination rules and make sure they do not match. For example:
+Last but not least, verify that there are no destination rules that apply on our example services. This can be done by checking the `host:` value of existing destination rules and make sure they do not match. For example:
 
 {{< text bash >}}
 $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml | grep "host:"
@@ -75,9 +75,9 @@ $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml | gr
     host: istio-telemetry.istio-system.svc.cluster.local
 {{< /text >}}
 
-> Depending on Istio version, you may see destination rules for hosts other than these. However, there should be none with host in `foo`, `bar`, `legacy` namespace, nor is the match-all wildcard `*`
+> Depending on the version of Istio, you may see destination rules for hosts other then those shown. However, there should be none with hosts in `foo`, `bar`, `legacy` namespace, nor is the match-all wildcard `*`
 
-## Enabling mutual TLS globally
+## Globally enabling mutual TLS
 
 To set a mesh-wide authentication policy that enables mutual TLS, submit *mesh authentication policy* like below:
 
@@ -93,9 +93,9 @@ spec:
 EOF
 {{< /text >}}
 
-This policy specifies that all servers in the mesh will only accept encrypted requests using TLS. As you can see, this authentication policy has the kind: `MeshPolicy`. The name of the policy must be `default`, and it contains no `targets` specification (as it is intended to apply on all services in the mesh).
+This policy specifies that all workloads in the mesh will only accept encrypted requests using TLS. As you can see, this authentication policy has the kind: `MeshPolicy`. The name of the policy must be `default`, and it contains no `targets` specification (as it is intended to apply on all services in the mesh).
 
-At this point, only the receiving side is configured to use mutual TLS. If you run the curl command between *Istio services* (i.e those with Envoy sidecar), all will fail with 503 error code as the client side still using plain-text.
+At this point, only the receiving side is configured to use mutual TLS. If you run the `curl` command between *Istio services* (i.e those with sidecars), all requests will fail with 503 error code as the client side still using plain-text.
 
 {{< text bash >}}
 $ for from in "foo" "bar"; do for to in "foo" "bar"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
@@ -105,7 +105,7 @@ sleep.bar to httpbin.foo: 503
 sleep.bar to httpbin.bar: 503
 {{< /text >}}
 
-To configure client side, you need to set [destination rules](/docs/concepts/traffic-management/#rule-destinations) to use mutual TLS. It's possible to use multiple destination rules, one for each applicable service (or namespace). However, it's more convenient to use a rule with wildcard `*` to match all services so that it is on par with the mesh-wide authentication policy.
+To configure the client side, you need to set [destination rules](/docs/concepts/traffic-management/#rule-destinations) to use mutual TLS. It's possible to use multiple destination rules, one for each applicable service (or namespace). However, it's more convenient to use a rule with wildcard `*` to match all services so that it is on par with the mesh-wide authentication policy.
 
 {{< text bash >}}
 $ cat <<EOF | istioctl create -f -
@@ -124,9 +124,9 @@ EOF
 
 >
 * Host value `*.local` to limit matches only to services in cluster, as opposed to external services. Also note, there is no restriction on the name or namespace for destination rule.
-* With ISTIO_MUTUAL TLS mode, Istio will set the path for key and certificates (e.g client certificate, private key and CA certificates) according to its internal implementation.
+* With `ISTIO_MUTUAL` TLS mode, Istio will set the path for key and certificates (e.g client certificate, private key and CA certificates) according to its internal implementation.
 
-Don’t forget that destination rules are also used for non-auth reasons such as setting up canarying, but the same order of precedence applies. So if a service requires a specific destination rule for any reason - for example, for a configuration load balancer -  the rule must contain a similar TLS block with ISTIO_MUTUAL mode, as otherwise it will override the mesh- or namespace-wide TLS settings and disable TLS.
+Don’t forget that destination rules are also used for non-auth reasons such as setting up canarying, but the same order of precedence applies. So if a service requires a specific destination rule for any reason - for example, for a configuration load balancer -  the rule must contain a similar TLS block with `ISTIO_MUTUAL` mode, as otherwise it will override the mesh- or namespace-wide TLS settings and disable TLS.
 
 Re-run the testing command as above, you will see all requests between Istio-services are now completed successfully:
 
