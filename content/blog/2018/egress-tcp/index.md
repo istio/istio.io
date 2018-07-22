@@ -111,7 +111,7 @@ performed with the credentials of the  `admin` user, created by default by
     +----------+--------+
     {{< /text >}}
 
-1.  Set the ratings temporarily to 1 to provide a visual clue when our database is used by the Bookinfo _ratings_
+1.  Set the ratings temporarily to `1` to provide a visual clue when our database is used by the Bookinfo _ratings_
 service:
 
     {{< text bash >}}
