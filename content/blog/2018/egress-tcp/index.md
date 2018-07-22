@@ -16,17 +16,17 @@ the next Istio release. If you need to use the old version, follow the docs
 [here](https://archive.istio.io/v0.7/blog/2018/egress-tcp.html).
 
 In my previous blog post, [Consuming External Web Services](/blog/2018/egress-https/), I described how external services
- can be consumed by in-mesh Istio applications via HTTPS. In this post, I demonstrate you consuming external services over
- TCP. You will use the [Istio Bookinfo sample application](/docs/examples/bookinfo/), the version in which the book ratings
- data is persisted in a MySQL database. You deploy this database outside the cluster and configure the _ratings_
- microservice to use it. You define a
- [Service Entry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) to allow the
- in-mesh applications to access the external database.
+ can be consumed by in-mesh Istio applications via HTTPS. In this post, I demonstrate you consuming external services
+ over TCP. You will use the [Istio Bookinfo sample application](/docs/examples/bookinfo/), the version in which the book
+  ratings data is persisted in a MySQL database. You deploy this database outside the cluster and configure the
+  _ratings_ microservice to use it. You define a
+ [Service Entry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) to allow the in-mesh applications to
+ access the external database.
 
 ## Bookinfo sample application with external ratings database
 
-First, you set up a MySQL database instance to hold book ratings data, outside of your Kubernetes cluster. Then you modify the
-[Bookinfo sample application](/docs/examples/bookinfo/) to use your database.
+First, you set up a MySQL database instance to hold book ratings data, outside of your Kubernetes cluster. Then you
+modify the [Bookinfo sample application](/docs/examples/bookinfo/) to use your database.
 
 ### Setting up the database for ratings data
 
@@ -189,10 +189,10 @@ of an Istio releasearchive. Edit the following lines:
 _reviews_ service always calls the _ratings_ service. In addition, route all the traffic destined to the _ratings_
 service to _ratings v2-mysql_ that uses your database.
 
-Add routing for both services above by adding two
-[route rules](https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/).
-These rules are specified in `samples/bookinfo/networking/virtual-service-ratings-mysql.yaml` of an Istio release
-archive.
+Specify the routing for both services above by adding two
+[virtual services](/docs/reference/config/istio.networking.v1alpha3/#VirtualService).
+These virtual services are specified in `samples/bookinfo/networking/virtual-service-ratings-mysql.yaml` of an Istio
+release archive.
 
     {{< text bash >}}
     $ istioctl create -f @samples/bookinfo/networking/virtual-service-ratings-mysql.yaml@
@@ -201,7 +201,8 @@ archive.
     {{< /text >}}
 
 The updated architecture appears below. Note that the blue arrows inside the mesh mark the traffic configured according
- to the route rules we added. According to the route rules, the traffic is sent to _reviews v3_ and _ratings v2-mysql_.
+ to the virtual services we added. According to the virtual services, the traffic is sent to _reviews v3_ and
+ _ratings v2-mysql_.
 
 {{< image width="80%" ratio="59.31%"
     link="./bookinfo-ratings-v2-mysql-external.svg"
@@ -230,37 +231,40 @@ application correctly displayed the book information, the details, and the revie
 
 You have the same problem as in [Consuming External Web Services](/blog/2018/egress-https/), namely all the traffic
 outside the Kubernetes cluster, both TCP and HTTP, is blocked by default by the sidecar proxies. To enable such traffic
- for TCP, an egress rule for TCP must be defined.
+ for TCP, a mesh-external service entry for TCP must be defined.
 
-### Egress rule for an external MySQL instance
+### Mesh-external service entry for an external MySQL instance
 
-TCP egress rules come to our rescue. Copy the following YAML spec to a text file (let's call it
-`egress-rule-mysql.yaml`) and edit it to specify the IP of your database instance and its port.
+TCP mesh-external service entries come to our rescue. Copy the following YAML spec to a text file (let's call it
+`service-entry-mysql.yaml`) and edit it to specify the IP of your database instance and its port.
 
 {{< text yaml >}}
-apiVersion: config.istio.io/v1alpha2
-kind: EgressRule
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
 metadata:
-  name: mysql
-  namespace: default
+  name: mysql-external
 spec:
-  destination:
-      service: <MySQL instance IP>
+  hosts:
+  - <MySQL instance hostname> # is ignored for mesh-external TCP traffic
+  addresses:
+  - <MySQL instance IP>
   ports:
-      - port: <MySQL instance port>
-        protocol: tcp
+  - name: tcp
+    number: <MySQL instance port>
+    protocol: tcp
+  location: MESH_EXTERNAL
 {{< /text >}}
 
-Run `istioctl` to add the egress rule to the service mesh:
+Run `istioctl` to add the service entry to the service mesh:
 
 {{< text bash >}}
 $ istioctl create -f egress-rule-mysql.yaml
 Created config egress-rule/default/mysql at revision 1954425
 {{< /text >}}
 
-Note that for a TCP egress rule, you specify `tcp` as the protocol of a port of the rule. Also note that you use an IP
-of the external service instead of its domain name. I will talk more about TCP egress rules
-[below](#egress-rules-for-tcp-traffic). For now, verify that the egress rule we added fixed the problem. Access the
+Note that for a TCP service entry, you specify `tcp` as the protocol of a port of the entry. Also note that you have to
+specify the IP of the external service in the list of addresses. I will talk more about TCP service entries
+[below](#service-entries-for-tcp-traffic). For now, verify that the service entry we added fixed the problem. Access the
 webpage and see if the stars are back.
 
 It worked! Accessing the web page of the application displays the ratings without error:
@@ -273,7 +277,7 @@ It worked! Accessing the web page of the application displays the ratings withou
 Note that you see a one-star rating for both displayed reviews, as expected. You changed the ratings to be one star to
 provide us with a visual clue that our external database is indeed being used.
 
-As with egress rules for HTTP/HTTPS, you can delete and create egress rules for TCP using `istioctl`, dynamically.
+As with service entries for HTTP/HTTPS, you can delete and create service entries for TCP using `istioctl`, dynamically.
 
 ## Motivation for egress TCP traffic control
 
@@ -281,29 +285,30 @@ Some in-mesh Istio applications must access external services, for example legac
 not performed over HTTP or TLS protocols. Other TCP protocols are used, such as database-specific protocols like
 [MongoDB Wire Protocol](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/) and [MySQL Client/Server Protocol](https://dev.mysql.com/doc/internals/en/client-server-protocol.html) to communicate with external databases.
 
-Next let's see how we define egress rules for TCP traffic.
+Next let me provide more details about the service entries for TCP traffic.
 
-## Egress rules for TCP traffic
+## Service entries for TCP traffic
 
-The egress rules for enabling TCP traffic to a specific port must specify `TCP` as the protocol of the port.
+The service entries for enabling TCP traffic to a specific port must specify `TCP` as the protocol of the port.
 Additionally, for the [MongoDB Wire Protocol](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/), the
 protocol can be specified as `MONGO`, instead of `TCP`.
 
-For the `destination.service` field of the rule, an IP or a block of IPs in [CIDR](https://tools.ietf.org/html/rfc2317)
-notation must be used.
+For the `addresses` field of the entry, an IP or a block of IPs in [CIDR](https://tools.ietf.org/html/rfc2317)
+notation must be used. Note that the `hosts` field is ignored for TCP service entries.
 
 To enable TCP traffic to an external service by its hostname, all the IPs of the hostname must be specified. Each IP
-must be specified by a CIDR block or as a single IP, with each block or IP in a separate egress rule.
+must be specified by a CIDR block or as a single IP.
 
-Note that all the IPs of an external service are not always known. To enable TCP traffic by IPs, as opposed to the
-traffic by a hostname, only the IPs that are used by the applications must be specified.
+Note that all the IPs of an external service are not always known. To enable egress TCP traffic, only the IPs that are
+used by the applications must be specified.
 
 Also note that the IPs of an external service are not always static, for example in the case of
 [CDNs](https://en.wikipedia.org/wiki/Content_delivery_network). Sometimes the IPs are static most of the time, but can
 be changed from time to time, for example due to infrastructure changes. In these cases, if the range of the possible
-IPs is known, you should specify the range by CIDR blocks (even by multiple egress rules if needed). If the range of the
- possible IPs is not known, egress rules for TCP cannot be used and [the external services must be called directly](/docs/tasks/traffic-management/egress/#calling-external-services-directly), circumventing the sidecar
- proxies.
+IPs is known, you should specify the range by CIDR blocks. If the range of the possible IPs is not known, service
+entries for TCP cannot be used and
+[the external services must be called directly](/docs/tasks/traffic-management/egress/#calling-external-services-directly),
+bypassing the sidecar proxies.
 
 ## Relation to mesh expansion
 
@@ -344,7 +349,7 @@ which could be beneficial if the consuming applications expect to use that domai
     $ mysql -u root -p -e "drop database test; drop user bookinfo;"
     {{< /text >}}
 
-1.  Remove the route rules:
+1.  Remove the virtual services:
 
     {{< text bash >}}
     $ istioctl delete -f @samples/bookinfo/networking/virtual-service-ratings-mysql.yaml@
@@ -359,20 +364,20 @@ which could be beneficial if the consuming applications expect to use that domai
     deployment "ratings-v2-mysql" deleted
     {{< /text >}}
 
-1.  Delete the egress rule:
+1.  Delete the service entry:
 
     {{< text bash >}}
-    $ istioctl delete egressrule mysql -n default
-    Deleted config: egressrule mysql
+    $ istioctl delete serviceentry mysql-external -n default
+    Deleted config: serviceentry mysql-external
     {{< /text >}}
 
 ## Future work
 
-In my next blog posts, I will show examples of combining route rules and egress rules, and also examples of accessing
-external services via Kubernetes _ExternalName_ services.
+In my next blog posts, I will show examples of combining virtual services and mesh-external service entries, and also
+examples of accessing external services via Kubernetes _ExternalName_ services.
 
 ## Conclusion
 
 In this blog post, I demonstrated how the microservices in an Istio service mesh can consume external services via TCP.
 By default, Istio blocks all the traffic, TCP and HTTP, to the hosts outside the cluster. To enable such traffic for
-TCP, TCP egress rules must be created for the service mesh.
+TCP, TCP mesh-external service entries must be created for the service mesh.
