@@ -34,12 +34,21 @@ For this task you set up an instance of [MySQL](https://www.mysql.com). You can 
 [Compose for MySQL](https://www.ibm.com/cloud/compose/mysql). I used `mysqlsh`
 ([MySQL Shell](https://dev.mysql.com/doc/mysql-shell/en/)) as a MySQL client to feed the ratings data.
 
+1.  Set the `MYSQL_DB_HOST` and `MYSQL_DB_PORT` environment variables:
+
+    {{< text bash >}}
+    $ export MYSQL_DB_HOST=<your MySQL database host>
+    $ export MYSQL_DB_PORT=<your MySQL database port>
+    {{< /text >}}
+
+    In case of a local MySQL database with the default port, the values are `localhost` and `3306` respectively.
+
 1.  To initialize the database, run the following command entering the password when prompted. The command is
 performed with the credentials of the  `admin` user, created by default by
 [Compose for MySQL](https://www.ibm.com/cloud/compose/mysql).
 
     {{< text bash >}}
-    $ curl -s {{< github_file >}}/samples/bookinfo/src/mysql/mysqldb-init.sql | mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host <the database host> --port <the database port>
+    $ curl -s {{< github_file >}}/samples/bookinfo/src/mysql/mysqldb-init.sql | mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT
     {{< /text >}}
 
     _**OR**_
@@ -47,13 +56,13 @@ performed with the credentials of the  `admin` user, created by default by
     When using the `mysql` client and a local MySQL database, run:
 
     {{< text bash >}}
-    $ curl -s {{< github_file >}}/samples/bookinfo/src/mysql/mysqldb-init.sql | mysql -u root -p
+    $ curl -s {{< github_file >}}/samples/bookinfo/src/mysql/mysqldb-init.sql | mysql -u root -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT
     {{< /text >}}
 
 1.  Create a user with the name _bookinfo_ and grant it _SELECT_ privilege on the `test.ratings` table:
 
     {{< text bash >}}
-    $ mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host <the database host> --port <the database port> -e "CREATE USER 'bookinfo' IDENTIFIED BY '<password you choose>'; GRANT SELECT ON test.ratings to 'bookinfo';"
+    $ mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT -e "CREATE USER 'bookinfo' IDENTIFIED BY '<password you choose>'; GRANT SELECT ON test.ratings to 'bookinfo';"
     {{< /text >}}
 
     _**OR**_
@@ -61,7 +70,7 @@ performed with the credentials of the  `admin` user, created by default by
     For `mysql` and the local database, the command is:
 
     {{< text bash >}}
-    $ mysql -u root -p -e "CREATE USER 'bookinfo' IDENTIFIED BY '<password you choose>'; GRANT SELECT ON test.ratings to 'bookinfo';"
+    $ mysql -u root -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT -e "CREATE USER 'bookinfo' IDENTIFIED BY '<password you choose>'; GRANT SELECT ON test.ratings to 'bookinfo';"
     {{< /text >}}
 
     Here you apply the [principle of least privilege](https://en.wikipedia.org/wiki/Principle_of_least_privilege). This
@@ -77,7 +86,7 @@ performed with the credentials of the  `admin` user, created by default by
 1.  Inspect the created ratings to see that everything worked as expected:
 
     {{< text bash >}}
-    $ mysqlsh --sql --ssl-mode=REQUIRED -u bookinfo -p --host <the database host> --port <the database port> -e "select * from test.ratings;"
+    $ mysqlsh --sql --ssl-mode=REQUIRED -u bookinfo -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT -e "select * from test.ratings;"
     Enter password:
     +----------+--------+
     | ReviewID | Rating |
@@ -92,7 +101,7 @@ performed with the credentials of the  `admin` user, created by default by
     For `mysql` and the local database:
 
     {{< text bash >}}
-    $ mysql -u bookinfo -p -e "select * from test.ratings;"
+    $ mysql -u bookinfo -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT -e "select * from test.ratings;"
     Enter password:
     +----------+--------+
     | ReviewID | Rating |
@@ -106,7 +115,7 @@ performed with the credentials of the  `admin` user, created by default by
 service:
 
     {{< text bash >}}
-    $ mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host <the database host> --port <the database port> -e "update test.ratings set rating=1; select * from test.ratings;"
+    $ mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT -e "update test.ratings set rating=1; select * from test.ratings;"
     Enter password:
     +----------+--------+
     | ReviewID | Rating |
@@ -121,7 +130,7 @@ service:
     For `mysql` and the local database:
 
     {{< text bash >}}
-    $ mysql -u root -p -e "update test.ratings set rating=1; select * from test.ratings;"
+    $ mysql -u root -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT -e "update test.ratings set rating=1; select * from test.ratings;"
     Enter password:
     +----------+--------+
     | ReviewID | Rating |
@@ -337,8 +346,7 @@ which could be beneficial if the consuming applications expect to use that domai
 1.  Drop the _test_ database and the _bookinfo_ user:
 
     {{< text bash >}}
-    $ mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host <the database host> --port <the database port> \
-    -e "drop database test; drop user bookinfo;"
+    $ mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT -e "drop database test; drop user bookinfo;"
     {{< /text >}}
 
     _**OR**_
@@ -346,7 +354,7 @@ which could be beneficial if the consuming applications expect to use that domai
     For `mysql` and the local database:
 
     {{< text bash >}}
-    $ mysql -u root -p -e "drop database test; drop user bookinfo;"
+    $ mysql -u root -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT -e "drop database test; drop user bookinfo;"
     {{< /text >}}
 
 1.  Remove the virtual services:
