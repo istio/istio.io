@@ -257,12 +257,12 @@ spec:
     ...
 ~~~
 
-多个 Header 之间是“与”关系。
+多个 Header 之间是"与”关系。
 
 可以同时设置多个标准，在这个例子中，还包含了 AND 或 OR 的语义，这要根据具体嵌套情况进行判断。如果多个标准嵌套在同一个 match 中，这些条件就是 AND 关系。例如下面的规则的限制条件要求的是同时符合下面两个条件：
 
 - 来源于 `reviews:v2` 服务
-- "cookie" 头中包含 “user=jason”
+- "cookie" 头中包含 "user=jason”
 
 ~~~yaml
 apiVersion: networking.istio.io/v1alpha3

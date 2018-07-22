@@ -119,7 +119,7 @@ keywords: [traffic-management,routing]
 
 1.  将来自特定用户的请求路由到 `reviews:v2`。
 
-    通过将来自 productpage 的流量路由到 `reviews:v2` 实例，为测试用户 “jason” 启用 ratings 服务。
+    通过将来自 productpage 的流量路由到 `reviews:v2` 实例，为测试用户 "jason” 启用 ratings 服务。
 
     {{< text bash >}}
     $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-test-v2.yaml@
@@ -152,7 +152,7 @@ keywords: [traffic-management,routing]
             subset: v1
     {{< /text >}}
 
-1.  在 `productpage` 网页上以用户 “jason” 身份登录。
+1.  在 `productpage` 网页上以用户 "jason” 身份登录。
 
     您现在应该在每次评论旁边看到评分（1-5颗星）。 请注意，如果您以任何其他用户身份登录，您将会继续看到 `reviews:v1` 版本服务，即不包含星级评价的页面。
 
