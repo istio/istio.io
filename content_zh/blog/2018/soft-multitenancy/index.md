@@ -8,11 +8,11 @@ weight: 90
 keywords: [tenancy]
 ---
 
-多租户是一个在各种环境和各种应用中都得到了广泛应用的概念，但是不同环境中，为每租户提供的具体实现和功能性都是有差异的。[Kubernetes 多租户工作组](https://github.com/kubernetes/community/blob/master/wg-multitenancy/README.md)致力于在 Kubernetes 中定义多租户用例和功能。然而根据他们的工作进展来看，恶意容器和负载对于其他租户的 Pod 和内核资源的访问无法做到完全控制，因此只有“软性多租户”支持是可行的。
+多租户是一个在各种环境和各种应用中都得到了广泛应用的概念，但是不同环境中，为每租户提供的具体实现和功能性都是有差异的。[Kubernetes 多租户工作组](https://github.com/kubernetes/community/blob/master/wg-multitenancy/README.md)致力于在 Kubernetes 中定义多租户用例和功能。然而根据他们的工作进展来看，恶意容器和负载对于其他租户的 Pod 和内核资源的访问无法做到完全控制，因此只有"软性多租户”支持是可行的。
 
 ## 软性多租户
 
-文中提到的“软性多租户”的定义指的是单一 Kubernetes 控制平面和多个 Istio 控制平面以及多个服务网格相结合；每个租户都有自己的一个控制平面和一个服务网格。集群管理员对所有 Istio 控制面都有控制和监控的能力，而租户管理员仅能得到指定 Istio 的控制权。使用 Kubernetes 的命名空间和 RBAC 来完成不同租户的隔离。
+文中提到的"软性多租户”的定义指的是单一 Kubernetes 控制平面和多个 Istio 控制平面以及多个服务网格相结合；每个租户都有自己的一个控制平面和一个服务网格。集群管理员对所有 Istio 控制面都有控制和监控的能力，而租户管理员仅能得到指定 Istio 的控制权。使用 Kubernetes 的命名空间和 RBAC 来完成不同租户的隔离。
 
 这种模式的一个用例就是企业内部共享的基础设施中，虽然预计不会发生恶意行为，但租户之间的清晰隔离仍然是很有必要的。
 
@@ -257,7 +257,7 @@ Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list p
 ## 参考
 
 * 视频：[用 RBAC 和命名空间支持的多租户功能及安全模型](https://www.youtube.com/watch?v=ahwCkJGItkU), [幻灯片](https://schd.ws/hosted_files/kccncna17/21/Multi-tenancy%20Support%20%26%20Security%20Modeling%20with%20RBAC%20and%20Namespaces.pdf).
-* Kubecon 讨论，关于对”协同软性多租户“的支持 [Building for Trust: How to Secure Your Kubernetes](https://www.youtube.com/watch?v=YRR-kZub0cA).
+* Kubecon 讨论，关于对”协同软性多租户"的支持 [Building for Trust: How to Secure Your Kubernetes](https://www.youtube.com/watch?v=YRR-kZub0cA).
 * Kubernetes [RBAC 文档](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) 以及 [命名空间文档](https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/).
 * Kubecon 幻灯片 [Multi-tenancy Deep Dive](https://schd.ws/hosted_files/kccncna17/a9/kubecon-multitenancy.pdf).
 * Google 文档 [Multi-tenancy models for Kubernetes](https://docs.google.com/document/d/15w1_fesSUZHv-vwjiYa9vN_uyc--PySRoLKTuDhimjc). (需要授权)
