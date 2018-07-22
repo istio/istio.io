@@ -260,6 +260,8 @@ TCP mesh-external service entries come to our rescue.
     $ export MYSQL_DB_IP=$(host $MYSQL_DB_HOST | grep " has address " | cut -d" " -f4)
     {{< /text >}}
 
+    For a local database, set `MYSQL_DB_IP` to contain the IP of your machine, accessible from your cluster.
+
 1.  Define a TCP mesh-external service entry:
 
     {{< text bash >}}
