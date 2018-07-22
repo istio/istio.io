@@ -391,7 +391,7 @@ which could be beneficial if the consuming applications expect to use that domai
 1.  Undeploy _ratings v2-mysql_:
 
     {{< text bash >}}
-    $ kubectl delete -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml@)
+    $ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml@
     deployment "ratings-v2-mysql" deleted
     {{< /text >}}
 
