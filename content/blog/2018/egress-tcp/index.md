@@ -211,9 +211,9 @@ service to _ratings v2-mysql_ that uses your database.
      following command.
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/networking/virtual-service-ratings-mysql.yaml@
-    Created config route-rule/default/ratings-test-v2-mysql at revision 1918799
-    Created config route-rule/default/reviews-test-ratings-v2 at revision 1918800
+    $ istioctl replace -f @samples/bookinfo/networking/virtual-service-ratings-mysql.yaml@
+    Updated config virtual-service/default/reviews to revision 23048537
+    Updated config virtual-service/default/ratings to revision 23048538
     {{< /text >}}
 
 The updated architecture appears below. Note that the blue arrows inside the mesh mark the traffic configured according
