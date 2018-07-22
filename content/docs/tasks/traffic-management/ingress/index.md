@@ -7,8 +7,6 @@ aliases:
     - /docs/tasks/ingress.html
 ---
 
-> Note: This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.7/docs/tasks/traffic-management/).
-
 In a Kubernetes environment, the [Kubernetes Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/)
 is used to specify services that should be exposed outside the cluster.
 In an Istio service mesh, a better approach (which also works in both Kubernetes and other environments) is to use a
