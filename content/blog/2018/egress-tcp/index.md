@@ -203,10 +203,12 @@ of an Istio releasearchive. Edit the following lines:
 _reviews_ service always calls the _ratings_ service. In addition, route all the traffic destined to the _ratings_
 service to _ratings v2-mysql_ that uses your database.
 
-Specify the routing for both services above by adding two
-[virtual services](/docs/reference/config/istio.networking.v1alpha3/#VirtualService).
-These virtual services are specified in `samples/bookinfo/networking/virtual-service-ratings-mysql.yaml` of an Istio
-release archive.
+    Specify the routing for both services above by adding two
+    [virtual services](/docs/reference/config/istio.networking.v1alpha3/#VirtualService). These virtual services are
+    specified in `samples/bookinfo/networking/virtual-service-ratings-mysql.yaml` of an Istio release archive.
+    ***Important:*** make sure you
+    [applied the default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules) before running the
+     following command.
 
     {{< text bash >}}
     $ istioctl create -f @samples/bookinfo/networking/virtual-service-ratings-mysql.yaml@
