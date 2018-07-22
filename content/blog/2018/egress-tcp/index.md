@@ -195,7 +195,7 @@ of an Istio releasearchive. Edit the following lines:
     database.
 
     {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml@)
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml@
     deployment "ratings-v2-mysql" created
     {{< /text >}}
 
