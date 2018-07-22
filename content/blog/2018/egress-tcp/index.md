@@ -251,32 +251,45 @@ outside the Kubernetes cluster, both TCP and HTTP, is blocked by default by the 
 
 ### Mesh-external service entry for an external MySQL instance
 
-TCP mesh-external service entries come to our rescue. Copy the following YAML spec to a text file (let's call it
-`service-entry-mysql.yaml`) and edit it to specify the IP of your database instance and its port.
+TCP mesh-external service entries come to our rescue.
 
-{{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
-kind: ServiceEntry
-metadata:
-  name: mysql-external
-spec:
-  hosts:
-  - <MySQL instance hostname> # is ignored for mesh-external TCP traffic
-  addresses:
-  - <MySQL instance IP>
-  ports:
-  - name: tcp
-    number: <MySQL instance port>
-    protocol: tcp
-  location: MESH_EXTERNAL
-{{< /text >}}
+1.  Get the IP address of your MySQL database instance. As an option, you can use the
+    [host](https://linux.die.net/man/1/host) command:
 
-Run `istioctl` to add the service entry to the service mesh:
+    {{< text bash >}}
+    $ export MYSQL_DB_IP=$(host $MYSQL_DB_HOST | grep " has address " | cut -d" " -f4)
+    {{< /text >}}
 
-{{< text bash >}}
-$ istioctl create -f egress-rule-mysql.yaml
-Created config egress-rule/default/mysql at revision 1954425
-{{< /text >}}
+1.  Define a TCP mesh-external service entry:
+
+    {{< text bash >}}
+    $ cat <<EOF | istioctl create -f -
+    apiVersion: networking.istio.io/v1alpha3 $MYSQL_DB_PORT
+    kind: ServiceEntry
+    metadata:
+      name: mysql-external
+    spec:
+      hosts:
+      - $MYSQL_DB_HOST
+      addresses:
+      - $MYSQL_DB_IP/32
+      ports:
+      - name: tcp
+        number: $MYSQL_DB_PORT
+        protocol: tcp
+      location: MESH_EXTERNAL
+    EOF
+    {{< /text >}}
+
+1.  Review the service entry you just created and check that it contains the correct values:
+
+    {{< text bash >}}
+    $ istioctl get serviceentry mysql-external -o yaml
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+    ...
+    {{< /text >}}
 
 Note that for a TCP service entry, you specify `tcp` as the protocol of a port of the entry. Also note that you have to
 specify the IP of the external service in the list of addresses. I will talk more about TCP service entries
