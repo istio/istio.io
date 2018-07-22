@@ -292,7 +292,10 @@ TCP mesh-external service entries come to our rescue.
     {{< /text >}}
 
 Note that for a TCP service entry, you specify `tcp` as the protocol of a port of the entry. Also note that you have to
-specify the IP of the external service in the list of addresses. I will talk more about TCP service entries
+specify the IP of the external service in the list of addresses, as a [CIDR](https://tools.ietf.org/html/rfc2317) block
+with suffix `32`.
+
+I will talk more about TCP service entries
 [below](#service-entries-for-tcp-traffic). For now, verify that the service entry we added fixed the problem. Access the
 webpage and see if the stars are back.
 
@@ -322,11 +325,11 @@ The service entries for enabling TCP traffic to a specific port must specify `TC
 Additionally, for the [MongoDB Wire Protocol](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/), the
 protocol can be specified as `MONGO`, instead of `TCP`.
 
-For the `addresses` field of the entry, an IP or a block of IPs in [CIDR](https://tools.ietf.org/html/rfc2317)
+For the `addresses` field of the entry, a block of IPs in [CIDR](https://tools.ietf.org/html/rfc2317)
 notation must be used. Note that the `hosts` field is ignored for TCP service entries.
 
 To enable TCP traffic to an external service by its hostname, all the IPs of the hostname must be specified. Each IP
-must be specified by a CIDR block or as a single IP.
+must be specified by a CIDR block.
 
 Note that all the IPs of an external service are not always known. To enable egress TCP traffic, only the IPs that are
 used by the applications must be specified.
