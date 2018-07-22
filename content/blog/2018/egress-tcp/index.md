@@ -384,8 +384,8 @@ which could be beneficial if the consuming applications expect to use that domai
 
     {{< text bash >}}
     $ istioctl delete -f @samples/bookinfo/networking/virtual-service-ratings-mysql.yaml@
-    Deleted config: route-rule/default/ratings-test-v2-mysql
-    Deleted config: route-rule/default/reviews-test-ratings-v2
+    Deleted config: virtual-service/default/reviews
+    Deleted config: virtual-service/default/ratings
     {{< /text >}}
 
 1.  Undeploy _ratings v2-mysql_:
