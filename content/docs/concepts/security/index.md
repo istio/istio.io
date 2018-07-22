@@ -166,7 +166,7 @@ Policies are specified by the mesh operator using yaml files and saved in the Is
 The Istio controller (Pilot) watches the config store. Upon any policy changes, it translates the new policy to appropriate
 configuration that tells the Envoy sidecar proxy how to perform the required authentication mechanisms. It may also fetch
 the public key and attach to the configuration for JWT validation, or provides the path to the keys and certificates that
-are managed and installed to the application pod by Istio system for mutual TLS (see more in “PKI and identity” section).
+are managed and installed to the application pod by Istio system for mutual TLS (see more in "PKI and identity” section).
 Configurations are sent to the targeted endpoints asynchronously. Once the proxy receives the configuration, the new
 authentication requirement takes effect immediately on that pod.
 
@@ -211,7 +211,7 @@ spec:
 
 Authentication policies can be stored in namespace-scope or mesh-scope storage.
 
-* Mesh-scope policy is specified with `kind` `MeshPolicy`, and the name “default”.
+* Mesh-scope policy is specified with `kind` `MeshPolicy`, and the name "default”.
 
 * Namespace-scope policy is specified with `kind` `Policy` and a specified namespace (or the default namespace if unspecified).
 
@@ -276,7 +276,7 @@ service-specific policy matches a service, one of them will be selected at rando
 when configuring their policies.
 
 > Istio enforces uniqueness for mesh-wide and namespace-wide policies by accepting only one authentication policy per mesh/namespace and
-requiring it to have a specific name “default”.
+requiring it to have a specific name "default”.
 
 #### Transport authentication (also known as peers)
 
@@ -331,7 +331,7 @@ your authentication policies:
 * Enable (or disable) mutual TLS: a temporary policy with `PERMISSIVE` mode should be used. This configures receiving services
 to accept both types of traffic (plain text and TLS), so no request is dropped. Once all clients switch to the expected
 protocol (e.g TLS for the enabling case), operators can replace the `PERMISSIVE` policy with the final policy. For more
-information, visit [“Mutual TLS Migration” tutorial](/docs/tasks/security/mtls-migration).
+information, visit ["Mutual TLS Migration” tutorial](/docs/tasks/security/mtls-migration).
 
 {{< text yaml >}}
 peers:
@@ -373,20 +373,20 @@ result (ALLOW or DENY).
 ### Enabling authorization
 
 You enable authorization using a `RbacConfig` object. The `RbacConfig` object is a mesh global singleton with a fixed name
-“default”, at most one `RbacConfig` instance is allowed to be used in the mesh. Like other Istio configuration objects it is defined
+"default”, at most one `RbacConfig` instance is allowed to be used in the mesh. Like other Istio configuration objects it is defined
 as a [Kubernetes `CustomResourceDefinition` (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) object.
 
-In `RbacConfig` object, the operator can specify “mode”, which can be one of the following:
+In `RbacConfig` object, the operator can specify "mode”, which can be one of the following:
 
 * **`OFF`**: Istio authorization is disabled.
 * **`ON`**: Istio authorization is enabled for all services in the mesh.
-* **`ON_WITH_INCLUSION`**: Istio authorization is enabled only for services and namespaces specified in “inclusion” field.
-* **`ON_WITH_EXCLUSION`**: Istio authorization is enabled for all services in the mesh except the services and namespaces specified in “exclusion” field.
+* **`ON_WITH_INCLUSION`**: Istio authorization is enabled only for services and namespaces specified in "inclusion” field.
+* **`ON_WITH_EXCLUSION`**: Istio authorization is enabled for all services in the mesh except the services and namespaces specified in "exclusion” field.
 
-In the following example, authorization is enabled for the “default” namespace.
+In the following example, authorization is enabled for the "default” namespace.
 
 {{< text yaml >}}
-apiVersion: “rbac.istio.io/v1alpha1”
+apiVersion: "rbac.istio.io/v1alpha1”
 kind: RbacConfig
 metadata:
   name: default
@@ -394,7 +394,7 @@ metadata:
 spec:
   mode: ON_WITH_INCLUSION
   inclusion:
-    namespaces: [“default”]
+    namespaces: ["default”]
 {{< /text >}}
 
 ### Authorization policy
@@ -406,26 +406,26 @@ configuration objects they are defined as
 * **`ServiceRole`** defines a group of permissions to access services.
 * **`ServiceRoleBinding`** grants a `ServiceRole` to particular subjects, such as  a user, a group, or a service.
 
-The combination of `ServiceRole` and `ServiceRoleBinding` specifies “**who** is allowed to do **what** under **which** conditions”. Specifically,
+The combination of `ServiceRole` and `ServiceRoleBinding` specifies "**who** is allowed to do **what** under **which** conditions”. Specifically,
 
-* "who" refers to “subjects” in `ServiceRoleBinding`.
-* "what” refers to “permissions” in `ServiceRole`.
-* “conditions” can be specified with [Istio attributes](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/)
+* "who" refers to "subjects” in `ServiceRoleBinding`.
+* "what” refers to "permissions” in `ServiceRole`.
+* "conditions” can be specified with [Istio attributes](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/)
 in either `ServiceRole` or `ServiceRoleBinding`.
 
 #### `ServiceRole`
 
 A `ServiceRole` specification includes a list of rules (i.e., permissions). Each rule has the following standard fields:
 
-* **services**: A list of service names. Can be set to “*” to include all services in the specified namespace.
-* **methods**: A list of HTTP method names. For permissions on gRPC requests, the HTTP verb is always “POST”. Can be set to “*” to include
+* **services**: A list of service names. Can be set to "*” to include all services in the specified namespace.
+* **methods**: A list of HTTP method names. For permissions on gRPC requests, the HTTP verb is always "POST”. Can be set to "*” to include
 all HTTP methods.
-* **paths**: HTTP paths or gRPC methods. The gRPC methods should be in the form of “packageName.serviceName/methodName” (case sensitive).
+* **paths**: HTTP paths or gRPC methods. The gRPC methods should be in the form of "packageName.serviceName/methodName” (case sensitive).
 
-A `ServiceRole` specification only applies to the namespace specified in the "metadata" section. The “services” and “methods” are required
-fields in a rule. “paths” is optional. If not specified or set to “*“, it applies to “any” instance.
+A `ServiceRole` specification only applies to the namespace specified in the "metadata" section. The "services” and "methods” are required
+fields in a rule. "paths” is optional. If not specified or set to "*", it applies to "any” instance.
 
-Here is an example of a simple role “service-admin”, which has full access to all services in the “default” namespace.
+Here is an example of a simple role "service-admin”, which has full access to all services in the "default” namespace.
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -439,8 +439,8 @@ spec:
     methods: ["*"]
 {{< /text >}}
 
-Here is another role “products-viewer”, which has read (“GET” and “HEAD”) access to the service “products.default.svc.cluster.local” in the
-“default” namespace.
+Here is another role "products-viewer”, which has read ("GET” and "HEAD”) access to the service "products.default.svc.cluster.local” in the
+"default” namespace.
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -454,11 +454,11 @@ spec:
     methods: ["GET", "HEAD"]
 {{< /text >}}
 
-In addition, you can use prefix and suffix matching for all fields in a rule. For example, you can define a “tester” role
-that has the following permissions in the “default” namespace:
-Full access to all services with prefix “test-” (e.g, “test-bookstore”, “test-performance”, “test-api.default.svc.cluster.local”).
-Read (“GET”) access to all paths with “/reviews” suffix (e.g, “/books/reviews”, “/events/booksale/reviews”, “/reviews”) in service
-“bookstore.default.svc.cluster.local”.
+In addition, you can use prefix and suffix matching for all fields in a rule. For example, you can define a "tester” role
+that has the following permissions in the "default” namespace:
+Full access to all services with prefix "test-” (e.g, "test-bookstore”, "test-performance”, "test-api.default.svc.cluster.local”).
+Read ("GET”) access to all paths with "/reviews” suffix (e.g, "/books/reviews”, "/events/booksale/reviews”, "/reviews”) in service
+"bookstore.default.svc.cluster.local”.
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -475,14 +475,14 @@ spec:
     methods: ["GET"]
 {{< /text >}}
 
-In a `ServiceRole`, the combination of `namespace`+`services`+`paths`+`methods` defines “how a service or services can be accessed”.
+In a `ServiceRole`, the combination of `namespace`+`services`+`paths`+`methods` defines "how a service or services can be accessed”.
 In some situations, you may need to specify additional conditions for your rules. For example, a rule may only apply to a certain
-version of a service, or only apply to services that are labeled “foo”. You can easily specify these conditions using constraints.
+version of a service, or only apply to services that are labeled "foo”. You can easily specify these conditions using constraints.
 
-For example, the following `ServiceRole` definition extends the previous “products-viewer” role by adding a constraint that
-`request.headers[version]` is either “v1” or “v2”. Note that the supported “key” of a constraint are listed in the
+For example, the following `ServiceRole` definition extends the previous "products-viewer” role by adding a constraint that
+`request.headers[version]` is either "v1” or "v2”. Note that the supported "key” of a constraint are listed in the
 [constraints and properties](/docs/reference/config/authorization/constraints-and-properties/) page.
-In the case that the attribute is a “map” (e.g., `request.headers`), the “key” is an entry in the map (e.g., `request.headers[version]`).
+In the case that the attribute is a "map” (e.g., `request.headers`), the "key” is an entry in the map (e.g., `request.headers[version]`).
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -506,15 +506,15 @@ A `ServiceRoleBinding` specification includes two parts:
 * **roleRef** refers to a `ServiceRole` resource in the same namespace.
 * A list of **subjects** that are assigned to the role.
 
-A subject can be either an explicitly specified “user”, or represented by a set of “properties”.  A “property” in a `ServiceRoleBinding`
-“subject” is similar to “constraints” in a `ServiceRole`, in that it lets you use conditions to specify a set of accounts that should
-be assigned to this role. It contains “key” and allowed “values”, where supported “key” are listed in the
+A subject can be either an explicitly specified "user”, or represented by a set of "properties”.  A "property” in a `ServiceRoleBinding`
+"subject” is similar to "constraints” in a `ServiceRole`, in that it lets you use conditions to specify a set of accounts that should
+be assigned to this role. It contains "key” and allowed "values”, where supported "key” are listed in the
 [constraints and properties](/docs/reference/config/authorization/constraints-and-properties/) page.
 
-Here is an example of `ServiceRoleBinding` “test-binding-products”, which binds two subjects to the `ServiceRole` “product-viewer”:
+Here is an example of `ServiceRoleBinding` "test-binding-products”, which binds two subjects to the `ServiceRole` "product-viewer”:
 
-* A service account representing service “a” (“service-account-a”).
-* A service account representing the Ingress service (“istio-ingress-service-account”) **and** where the JWT “email” claim is “a@foo.com”.
+* A service account representing service "a” ("service-account-a”).
+* A service account representing the Ingress service ("istio-ingress-service-account”) **and** where the JWT "email” claim is "a@foo.com”.
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
