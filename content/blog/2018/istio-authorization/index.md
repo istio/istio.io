@@ -5,60 +5,60 @@ publishdate: 2018-07-20
 subtitle:
 attribution: Limin Wang
 weight: 87
+keywords: [authorization, Role Based Access Control, security]
 ---
 
 [Istio's authorization feature](/docs/concepts/security/#authorization), also known as Istio Role Based Access Control,
-provides access control for services in an Istio mesh. Istio authorization is Istio’s native authorization support.
-It can be used on any platform that Istio supports. It features:
+provides access control for services in an Istio mesh. It features:
 
 * Authorization at different levels of granularity, including namespace level, service level, and method level.
 * Service-to-service and end-user-to-service authorization.
 * High performance, as it is enforced natively on Envoy.
 * Role-based semantics, which makes it easy to use.
 * High flexibility as it allows users to define conditions using
-[combination of Istio attributes](/docs/reference/config/authorization/constraints-and-properties/).
+[combinations of attributes](/docs/reference/config/authorization/constraints-and-properties/).
 
-In this blog post, we first elaborate Istio authorization characteristics, next we show how you could use Istio
-authorization policy in different use cases.
+In this blog post, you'll learn about the main authorization features and how to use them in different situations.
 
-## Istio Authorization Characteristics
+## Characteristics
 
-### RPC Level Authorization
+### RPC level authorization
 
-Istio authorization provides RPC level authorization. Specifically, it controls “who can access my `bookstore` service”,
+Authorization is performed at the level of individual RPCs. Specifically, it controls “who can access my `bookstore` service”,
 or “who can access method `getBook` in my `bookstore` service”. It is not designed to control access to application-specific
 resource instances, like access to “storage bucket X” or access to “3rd book on 2nd shelf”. Today this kind of application
 specific access control logic needs to be handled by the application itself.
 
-### Role Based Access Control with Conditions
+### Role-based access control with conditions
 
-Istio authorization is Role-Based Access Control (RBAC) system. Compared to Attribute-Based Access Control (ABAC),
-RBAC has the following advantages:
+Authorization is a [role-based access control (RBAC)](https://en.wikipedia.org/wiki/Role-based_access_control) system,
+contrast this to an [attribute-based access control (ABAC)](https://en.wikipedia.org/wiki/Attribute-based_access_control)
+system. Compared to ABAC, RBAC has the following advantages:
 
 * **Roles allow grouping of attributes.** Roles are groups of permissions, which specifies the actions you are allowed
 to perform on a system. Users are grouped based on the roles within an organization. You can define the roles and reuse
 them for different cases.
 
-* **It is easier to understand and reason about who has access.** The RBAC concepts maps naturally to the business concepts.
+* **It is easier to understand and reason about who has access.** The RBAC concepts map naturally to business concepts.
 For example, a DB admin may have all access to DB backend services, while a web client may only be able to view the
 frontend service.
 
-* **It reduces unintentional errors.** RBAC policies make the originally complicated security changes easy. You won't have
+* **It reduces unintentional errors.** RBAC policies make otherwise complex security changes easier. You won't have
 duplicate configurations in multiple places and later forget to update some of them when you need to make changes.
 
-On the other hand, Istio authorization is not a traditional RBAC system. It also allows users to define **conditions** using
-[combination of Istio attributes](/docs/reference/config/authorization/constraints-and-properties/). This gives Istio
-authorization plenty of flexibility to express complex access control policies. In fact, **the “RBAC + conditions” model
+On the other hand, Istio's authorization system is not a traditional RBAC system. It also allows users to define **conditions** using
+[combinations of attributes](/docs/reference/config/authorization/constraints-and-properties/). This gives Istio
+flexibility to express complex access control policies. In fact, **the “RBAC + conditions” model
 that Istio authorization adopts, has all the benefits an RBAC system has, and supports the level of flexibility that
-normally an ABAC system provides.** We will show some examples in the [Examples section](#examples).
+normally an ABAC system provides.** You'll see some [examples](#examples) below.
 
-### High Performance
+### High performance
 
 Because of its simple semantics, Istio authorization is enforced on Envoy as a native authorization support. At runtime, the
 authorization decision is completely done locally inside an Envoy filter, without dependency to any external module.
 This allows Istio authorization to achieve high performance and availability.
 
-### Work With/Without Primary Identities
+### Work with/without primary identities
 
 Like any other RBAC system, Istio authorization is identity aware. In Istio authorization policy, there is a primary
 identity called `user`, which represents the principal of the client.
@@ -67,20 +67,20 @@ In addition to the primary identity, you can also specify any conditions that de
 you can specify the client identity as “user Alice calling from Bookstore frontend service”, in which case,
 you have a combined identity of the calling service (`Bookstore frontend`) and the end user (`Alice`).
 
-To achieve best security, we strongly recommend users to enable [Istio authentication features](/docs/concepts/security/#authentication),
-and use authenticated identities in Istio authorization policies. However, strongly authenticated identity is not required
-for using Istio authorization. Istio authorization works with or without identities. If you are working with a legacy system,
+To achieve best security, it is strongly recommended that users enable [authentication features](/docs/concepts/security/#authentication),
+and use authenticated identities in authorization policies. However, strongly authenticated identity is not required
+for using authorization. Istio authorization works with or without identities. If you are working with a legacy system,
 you may not have mutual TLS or JWT authentication setup for your mesh. In this case, the only way to identify the client is, say,
 through IP. You can still use Istio authorization to control which IP addresses or IP ranges are allowed to access your service.
 
 ## Examples
 
-In [Istio authorization task page](/docs/tasks/security/role-based-access-control/), we show how you can use Istio
-authorization feature to control namespace level and service level access using [BookInfo application](/docs/examples/bookinfo/).
-In this section, we will walk through a few additional examples to show how you can achieve micro-segmentation with
-Istio authorization.
+In [authorization task page](/docs/tasks/security/role-based-access-control/), you have already learned how to
+use Istio's authorization feature to control namespace level and service level access using the example of
+[BookInfo application](/docs/examples/bookinfo/). In this section, you'll see more examples on how to achieve
+micro-segmentation with Istio authorization.
 
-### Namespace Level Segmentation via RBAC + Conditions
+### Namespace level segmentation via RBAC + conditions
 
 Suppose you have services in `frontend` namespace and `backend` namespace. You would like to allow all your services
 in `frontend` namespace to access all services that are marked `external` in `backend` namespace.
@@ -120,10 +120,10 @@ The `ServiceRole` and `ServiceRoleBinding` above expressed “*who* is allowed t
 * **“what”** is to call services in `backend` namespace.
 * **“conditions”** is `visibility` label of the destination service is `external`.
 
-### Service/Method Level Isolation With/Without Primary Identities
+### Service/method level isolation with/without primary identities
 
-Let’s look at another example where we show finer grained access control at service/method level. We first define a
-`book-reader` `ServiceRole` that allows READ access to `/books/*` resource in `bookstore` service.
+Let’s look at another example that demonstrates finer grained access control at service/method level. The first step
+ is to define a `book-reader` `ServiceRole` that allows READ access to `/books/*` resource in `bookstore` service.
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
