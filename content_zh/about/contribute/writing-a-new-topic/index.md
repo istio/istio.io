@@ -76,7 +76,7 @@ keywords: [keyword1,keyword2,...]
 |`title`        | 页面的简称
 |`description`  | 关于该主题内容的单行描述
 |`weight`       | 一个整数，用于确定此页面相对于同一目录中其他页面的排列顺序
-|`keywords`     | 描述页面的一系列关键字，用于创建“请参阅”链接
+|`keywords`     | 描述页面的一系列关键字，用于创建"请参阅”链接
 |`draft`        | 如果为 true，页面不会出现在任何导航区域中
 |`publishdate`  | 博客的发布日期
 |`subtitle`     | 可选，博客的副标题，会显示在标题的下方

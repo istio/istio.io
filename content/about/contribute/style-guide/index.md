@@ -85,16 +85,16 @@ Some standard terms we want to use consistently within the documentation for cla
 
 ### Envoy
 
-We prefer to use “Envoy” as it’s a more concrete term than "proxy" and will resonate if used
+We prefer to use "Envoy” as it’s a more concrete term than "proxy" and will resonate if used
 consistently throughout the docs.
 
 Synonyms:
 
-- “Envoy sidecar” - ok
-- “Envoy proxy” - ok
-- “The Istio proxy” -- best to avoid unless you’re talking about advanced scenarios where another proxy might be used.
-- “Sidecar”  -- mostly restricted to conceptual docs
-- “Proxy -- only if context is obvious
+- "Envoy sidecar” - ok
+- "Envoy proxy” - ok
+- "The Istio proxy” -- best to avoid unless you’re talking about advanced scenarios where another proxy might be used.
+- "Sidecar”  -- mostly restricted to conceptual docs
+- "Proxy" -- only if context is obvious
 
 Related Terms:
 
@@ -157,7 +157,7 @@ There are good hyperlinks, and bad hyperlinks. The common practice of calling li
 bad hyperlinks. Check out this excellent article explaining what makes a good hyperlink and try to keep these guidelines in
 mind when creating or reviewing site content.
 
-[Why “click here” is a terrible link, and what to write instead](http://stephanieleary.com/2015/05/why-click-here-is-a-terrible-link-and-what-to-write-instead/).
+[Why "click here” is a terrible link, and what to write instead](http://stephanieleary.com/2015/05/why-click-here-is-a-terrible-link-and-what-to-write-instead/).
 
 ### Avoid using "we"
 

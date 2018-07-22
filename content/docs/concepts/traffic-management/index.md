@@ -654,7 +654,7 @@ semantics apply, depending on the nesting.
 
 If multiple conditions are nested in a single match clause, then the conditions
 are ANDed. For example, the following rule only applies if the
-client workload is “reviews:v2” AND the "cookie" header containing
+client workload is "reviews:v2” AND the "cookie" header containing
 "user=jason" is present in the request:
 
 {{< text yaml >}}
@@ -698,7 +698,7 @@ spec:
     ...
 {{< /text >}}
 
-This rule applies if either the client workload is “reviews:v2” OR
+This rule applies if either the client workload is "reviews:v2” OR
 the "cookie" header containing "user=jason" is present in the request.
 
 #### Precedence
