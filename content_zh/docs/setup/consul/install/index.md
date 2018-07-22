@@ -15,7 +15,7 @@ keywords: [consul]
 
 ## 创建控制平面
 
-Istio 控制平面有四个主要的服务：Pilot，Mixer，Citadel 和 API server 。
+Istio 控制平面有四个主要的服务：Pilot、Mixer、Citadel 和 API server 。
 
 ### API Server
 

@@ -67,7 +67,7 @@ keywords: [consul]
 > 由于在 Docker 中没有 pods 的概念，因此 Istio sidecar 需要和应用运行在同一个容器中。
 > 我们会使用 [Registrator](https://gliderlabs.github.io/registrator/latest/) 将示例自动注册到 Consul 中。
 >
-> 应用必须使用 HTTP/1.1 或者 HTTP/2.0协议进行 HTTP 请求，因为H TTP/1.0 不被支持。
+> 应用必须使用 HTTP 1.1 或者 HTTP 2.0协议进行 HTTP 请求，因为 HTTP 1.0 不被支持。
 
 {{< text bash >}}
 $ docker-compose -f <your-app-spec>.yaml up -d
