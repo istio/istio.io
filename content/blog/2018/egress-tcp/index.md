@@ -316,7 +316,7 @@ As with service entries for HTTP/HTTPS, you can delete and create service entrie
 ## Motivation for egress TCP traffic control
 
 Some in-mesh Istio applications must access external services, for example legacy systems. In many cases, the access is
-not performed over HTTP or TLS protocols. Other TCP protocols are used, such as database-specific protocols like
+not performed over HTTP or HTTPS protocols. Other TCP protocols are used, such as database-specific protocols like
 [MongoDB Wire Protocol](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/) and [MySQL Client/Server Protocol](https://dev.mysql.com/doc/internals/en/client-server-protocol.html) to communicate with external databases.
 
 Next let me provide more details about the service entries for TCP traffic.
