@@ -7,7 +7,7 @@ keywords: [traffic-management,egress]
 
 > This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.7/docs/tasks/traffic-management/). Note that this task introduces a new concept, namely Egress Gateway, that was not present in previous Istio versions.
 
-The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task demonstrates how external (outside the Kubernetes cluster) HTTP and HTTPS services can be accessed from applications inside the mesh. A quick reminder: by default, Istio-enabled applications are unable to access URLs outside the cluster. To enable such access, a [ServiceEntry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) for the external service must be defined, or, alternatively, [direct access to external services](/docs/tasks/traffic-management/egress/#calling-external-services-directly) must be configured.
+The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task demonstrates how external (outside the Kubernetes cluster) HTTP and HTTPS services can be accessed from applications inside the mesh. A quick reminder: by default, Istio-enabled applications are unable to access URLs outside the cluster. To enable such access, a [service entry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) for the external service must be defined, or, alternatively, [direct access to external services](/docs/tasks/traffic-management/egress/#calling-external-services-directly) must be configured.
 
 The [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress-tls-origination/) task demonstrates how to allow the applications to send HTTP requests to external servers that require HTTPS.
 
@@ -76,7 +76,7 @@ First direct HTTP traffic without TLS origination
     EOF
     {{< /text >}}
 
-1.  Verify that your `ServiceEntry` was applied correctly. Send an HTTPS request to http://edition.cnn.com/politics.
+1.  Verify that your `ServiceEntry` was applied correctly. Send an HTTPS request to [http://edition.cnn.com/politics](http://edition.cnn.com/politics).
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
@@ -204,7 +204,7 @@ First direct HTTP traffic without TLS origination
     EOF
     {{< /text >}}
 
-1.  Resend the HTTP request to http://edition.cnn.com/politics.
+1.  Resend the HTTP request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics).
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
@@ -273,7 +273,7 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
     EOF
     {{< /text >}}
 
-1.  Verify that your `ServiceEntry` was applied correctly. Send an HTTPS request to http://edition.cnn.com/politics.
+1.  Verify that your `ServiceEntry` was applied correctly. Send an HTTPS request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics).
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
@@ -413,7 +413,7 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
     EOF
     {{< /text >}}
 
-1.  Send an HTTP request to http://edition.cnn.com/politics.
+1.  Send an HTTP request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics).
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
@@ -473,7 +473,7 @@ You specify the port 443, protocol `TLS` in the corresponding `ServiceEntry`, eg
     EOF
     {{< /text >}}
 
-1.  Verify that your `ServiceEntry` was applied correctly. Send an HTTPS request to https://edition.cnn.com/politics.
+1.  Verify that your `ServiceEntry` was applied correctly. Send an HTTPS request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics).
 The output should be the same as in the previous section.
 
     {{< text bash >}}
@@ -600,7 +600,7 @@ The output should be the same as in the previous section.
     EOF
     {{< /text >}}
 
-1.  Send an HTTPS request to https://edition.cnn.com/politics. The output should be the same as previously.
+1.  Send an HTTPS request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics). The output should be the same as previously.
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
