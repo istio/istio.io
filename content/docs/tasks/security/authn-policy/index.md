@@ -7,7 +7,7 @@ aliases:
     - /docs/tasks/security/istio-auth.html
 ---
 
-This guide covers the primary activities you might need to perform when enabling, configuring, and using Istio authentication policies. Find out more about
+This task covers the primary activities you might need to perform when enabling, configuring, and using Istio authentication policies. Find out more about
 the underlying concepts in the [authentication overview](/docs/concepts/security/#authentication).
 
 ## Before you begin
