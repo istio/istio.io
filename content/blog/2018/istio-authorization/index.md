@@ -26,9 +26,9 @@ In this blog post, you'll learn about the main authorization features and how to
 
 ### RPC level authorization
 
-Authorization is performed at the level of individual RPCs. Specifically, it controls “who can access my `bookstore` service”,
-or “who can access method `getBook` in my `bookstore` service”. It is not designed to control access to application-specific
-resource instances, like access to “storage bucket X” or access to “3rd book on 2nd shelf”. Today this kind of application
+Authorization is performed at the level of individual RPCs. Specifically, it controls "who can access my `bookstore` service”,
+or "who can access method `getBook` in my `bookstore` service”. It is not designed to control access to application-specific
+resource instances, like access to "storage bucket X” or access to "3rd book on 2nd shelf”. Today this kind of application
 specific access control logic needs to be handled by the application itself.
 
 ### Role-based access control with conditions
@@ -50,7 +50,7 @@ duplicate configurations in multiple places and later forget to update some of t
 
 On the other hand, Istio's authorization system is not a traditional RBAC system. It also allows users to define **conditions** using
 [combinations of attributes](/docs/reference/config/authorization/constraints-and-properties/). This gives Istio
-flexibility to express complex access control policies. In fact, **the “RBAC + conditions” model
+flexibility to express complex access control policies. In fact, **the "RBAC + conditions” model
 that Istio authorization adopts, has all the benefits an RBAC system has, and supports the level of flexibility that
 normally an ABAC system provides.** You'll see some [examples](#examples) below.
 
@@ -66,7 +66,7 @@ Like any other RBAC system, Istio authorization is identity aware. In Istio auth
 identity called `user`, which represents the principal of the client.
 
 In addition to the primary identity, you can also specify any conditions that define the identities. For example,
-you can specify the client identity as “user Alice calling from Bookstore frontend service”, in which case,
+you can specify the client identity as "user Alice calling from Bookstore frontend service”, in which case,
 you have a combined identity of the calling service (`Bookstore frontend`) and the end user (`Alice`).
 
 To improve security, you should enable [authentication features](/docs/concepts/security/#authentication),
@@ -98,7 +98,7 @@ spec:
   - services: ["*"]
     methods: ["*”]
     constraints:
-    - key: “destination.labels[visibility]”
+    - key: "destination.labels[visibility]”
       values: ["external"]
 ---
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -109,18 +109,18 @@ metadata:
 spec:
   subjects:
   - properties:
-      source.namespace: “frontend”
+      source.namespace: "frontend”
   roleRef:
     kind: ServiceRole
     name: "external-api-caller"
 {{< /text >}}
 
-The `ServiceRole` and `ServiceRoleBinding` above expressed “*who* is allowed to do *what* under *which conditions*”
+The `ServiceRole` and `ServiceRoleBinding` above expressed "*who* is allowed to do *what* under *which conditions*”
 (RBAC + conditions). Specifically:
 
-* **“who”** are the services in the `frontend` namespace.
-* **“what”** is to call services in `backend` namespace.
-* **“conditions”** is the `visibility` label of the destination service having the value `external`.
+* **"who”** are the services in the `frontend` namespace.
+* **"what”** is to call services in `backend` namespace.
+* **"conditions”** is the `visibility` label of the destination service having the value `external`.
 
 ### Service/method level isolation with/without primary identities
 
@@ -136,7 +136,7 @@ metadata:
 spec:
   rules:
   - services: ["bookstore.default.svc.cluster.local"]
-    paths: [“/books/*”]
+    paths: ["/books/*”]
     methods: ["GET”]
 {{< /text >}}
 
@@ -155,13 +155,13 @@ metadata:
   namespace: default
 spec:
   subjects:
-  - user: “spiffe://cluster.local/ns/default/sa/bookstore-frontend”
+  - user: "spiffe://cluster.local/ns/default/sa/bookstore-frontend”
   roleRef:
     kind: ServiceRole
     name: "book-reader"
 {{< /text >}}
 
-You may want to restrict this further by adding a condition that “only users who belong to the `qualified-reviewer` group are
+You may want to restrict this further by adding a condition that "only users who belong to the `qualified-reviewer` group are
 allowed to read books”. The `qualified-reviewer` group is the end user identity that is authenticated by
 [JWT authentication](/docs/concepts/security/#authentication). In this case, the combination of the client service identity
 (`bookstore-frontend`) and the end user identity (`qualified-reviewer`) is used in the authorization policy.
@@ -174,9 +174,9 @@ metadata:
   namespace: default
 spec:
   subjects:
-  - user: “spiffe://cluster.local/ns/default/sa/bookstore-frontend”
+  - user: "spiffe://cluster.local/ns/default/sa/bookstore-frontend”
     properties:
-      request.auth.claims[group]: “qualified-reviewer”
+      request.auth.claims[group]: "qualified-reviewer”
   roleRef:
     kind: ServiceRole
     name: "book-reader"
@@ -207,7 +207,7 @@ spec:
 ## Summary
 
 Istio’s authorization feature provides authorization at namespace-level, service-level, and method-level granularity.
-It adopts “RBAC + conditions” model, which makes it easy to use and understand as an RBAC system, while providing the level of
+It adopts "RBAC + conditions” model, which makes it easy to use and understand as an RBAC system, while providing the level of
 flexibility that an ABAC system normally provides. Istio authorization achieves high performance as it is enforced
 natively on Envoy. While it provides the best security by working together with
 [Istio authentication features](/docs/concepts/security/#authentication), Istio authorization can also be used to
