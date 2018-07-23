@@ -16,7 +16,7 @@ the next Istio release. If you need to use the old version, follow the docs
 [here](https://archive.istio.io/v0.7/blog/2018/egress-tcp.html).
 
 In my previous blog post, [Consuming External Web Services](/blog/2018/egress-https/), I described how external services
- can be consumed by in-mesh Istio applications via HTTPS. In this post, I demonstrate you consuming external services
+ can be consumed by in-mesh Istio applications via HTTPS. In this post, I demonstrate consuming external services
  over TCP. You will use the [Istio Bookinfo sample application](/docs/examples/bookinfo/), the version in which the book
   ratings data is persisted in a MySQL database. You deploy this database outside the cluster and configure the
   _ratings_ microservice to use it. You define a
