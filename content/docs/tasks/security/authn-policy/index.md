@@ -209,7 +209,7 @@ spec:
 EOF
 {{< /text >}}
 
-> If you install Istio [with default mutual TLS](docs/setup/kubernetes/quick-start/#option-2-install-istio-with-default-mutual-tls-authentication), this rule, together with the global authentication policy and destination rule above are injected to the system during installation process.
+> If you install Istio with [default mutual TLS option](/docs/setup/kubernetes/quick-start/#option-2-install-istio-with-default-mutual-tls-authentication), this rule, together with the global authentication policy and destination rule above will be injected to the system during installation process.
 
 Re-run the testing command above to confirm that it returns 200 after the rule is added:
 
