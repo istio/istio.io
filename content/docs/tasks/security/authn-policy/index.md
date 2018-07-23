@@ -95,7 +95,7 @@ EOF
 
 This policy specifies that all workloads in the mesh will only accept encrypted requests using TLS. As you can see, this authentication policy has the kind: `MeshPolicy`. The name of the policy must be `default`, and it contains no `targets` specification (as it is intended to apply to all services in the mesh).
 
-At this point, only the receiving side is configured to use mutual TLS. If you run the `curl` command between *Istio services* (i.e those with sidecars), all requests will fail with a 503 error code as the client side still be using plain-text.
+At this point, only the receiving side is configured to use mutual TLS. If you run the `curl` command between *Istio services* (i.e those with sidecars), all requests will fail with a 503 error code as the client side is still using plain-text.
 
 {{< text bash >}}
 $ for from in "foo" "bar"; do for to in "foo" "bar"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
@@ -128,7 +128,7 @@ EOF
 
 Don’t forget that destination rules are also used for non-auth reasons such as setting up canarying, but the same order of precedence applies. So if a service requires a specific destination rule for any reason - for example, for a configuration load balancer -  the rule must contain a similar TLS block with `ISTIO_MUTUAL` mode, as otherwise it will override the mesh- or namespace-wide TLS settings and disable TLS.
 
-Re-run the testing command as above, you will see all requests between Istio-services are now completed successfully:
+Re-running the testing command as above, you will see all requests between Istio-services are now completed successfully:
 
 {{< text bash >}}
 $ for from in "foo" "bar"; do for to in "foo" "bar"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
@@ -141,7 +141,7 @@ sleep.bar to httpbin.bar: 200
 
 ### Request from non-Istio services to Istio services
 
-Non-Istio service, e.g `sleep.legacy` doesn't have a sidecar, so it cannot initiate the required TLS connection to Istio services. As a result, requests from `sleep.legacy` to `httpbin.foo` or `httpbin.bar` will fail:
+The non-Istio service, e.g `sleep.legacy` doesn't have a sidecar, so it cannot initiate the required TLS connection to Istio services. As a result, requests from `sleep.legacy` to `httpbin.foo` or `httpbin.bar` will fail:
 
 {{< text bash >}}
 $ for from in "legacy"; do for to in "foo" "bar"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
