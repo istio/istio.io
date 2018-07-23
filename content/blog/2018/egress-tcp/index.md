@@ -24,7 +24,7 @@ In my previous blog post, [Consuming External Web Services](/blog/2018/egress-ht
 
 ## Bookinfo sample application with external ratings database
 
-First, you set up a MySQL database instance to hold book ratings data, outside of your Kubernetes cluster. Then you
+First, you set up a MySQL database instance to hold book ratings data outside of your Kubernetes cluster. Then you
 modify the [Bookinfo sample application](/docs/examples/bookinfo/) to use your database.
 
 ### Setting up the database for ratings data
