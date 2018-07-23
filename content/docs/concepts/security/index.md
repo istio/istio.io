@@ -41,7 +41,7 @@ in the other guides in this section.
 To find out how to get started using Istio security with deployed services, see the [Mutual TLS Migration](docs/tasks/security/mtls-migration/).
 For more detailed howto on security tasks, see our [Security Tasks](docs/tasks/security/).
 
-## High-Level Architecture and Features
+## High-level architecture and features
 
 Istio security involves multiple components, including Citadel for key and certificate management,
 Envoy and perimeter proxies for implementing secure communication between clients and servers,
@@ -76,7 +76,7 @@ before it becomes effective.
 
 For more details,  please read [authentication policy](docs/concepts/security/#authentication-policy).
 
-### Authorization & Audit
+### Authorization & audit
 
 Istio provides fine-grained access control to enable application-level control and auditing on who accesses your service, API, or resource,
 using a variety of access control mechanisms.
@@ -111,7 +111,7 @@ You can find out how to use and configure [Mixer plugins](/docs/concepts/policie
 
 * Binary authorization integration to ensure the service is running with the trusted binary
 
-## Istio Identity
+## Istio identity
 
 Identity is a fundamental concept of any security infrastructure. At the beginning of a service-to-service communication,
 the two parties need to exchange credentials consisting of their identity information, for mutual authentication purposes.
@@ -136,7 +136,7 @@ Service identity on different platforms:
 * **On-Prem (non-Kubernetes)**: user account (custom service account), service name, istio service account, or GCP service account.
   Custom service account refers to the existing service account alike identities managed by customer’s Identity Directory.
 
-### Istio Security vs SPIFFE
+### Istio security vs SPIFFE
 
 The SPIFFE standard provides a specification for a framework capable of bootstrapping and issuing identity to services
 across heterogeneous environments.
@@ -149,7 +149,7 @@ Moreover, Istio provides a comprehensive security solution, including authentica
 
 ## PKI
 
-### Istio Citadel and Kubernetes Secret
+### Istio Citadel and Kubernetes secret
 
 Istio supports services running on both Kubernetes pods and on-prem machines.
 Currently we use different key provisioning mechanisms for each scenario, which will be unified in a post-1.0 release.
@@ -158,7 +158,7 @@ The identity provisioning workflow consists of two phases, deployment and runtim
 For the deployment phase, we discuss the two scenarios (i.e., in Kubernetes and on-prem machines) separately since they are different.
 Once the key and certificate are deployed, the runtime phase is the same for the two scenarios. We briefly cover the workflow in this section.
 
-### Deployment phase (Kubernetes Scenario)
+### Deployment phase (Kubernetes scenario)
 
 1. Citadel watches the Kubernetes API Server, creates a SPIFFE key and certificate pair for each of the existing and new service accounts,
    and sends them to the API Server.
@@ -168,7 +168,7 @@ Once the key and certificate are deployed, the runtime phase is the same for the
 1. Pilot generates the secure naming information,
    which defines what service account(s) can run a certain service, and passes it to Envoy.
 
-### Deployment phase (on-prem Machines Scenario)
+### Deployment phase (on-prem machines scenario)
 
 1. Citadel creates a gRPC service to take CSR request.
 
