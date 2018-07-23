@@ -403,11 +403,6 @@ which could be beneficial if the consuming applications expect to use that domai
     Deleted config: serviceentry mysql-external
     {{< /text >}}
 
-## Future work
-
-In my next blog posts, I will show examples of combining virtual services and mesh-external service entries, and also
-examples of accessing external services via Kubernetes _ExternalName_ services.
-
 ## Conclusion
 
 In this blog post, I demonstrated how the microservices in an Istio service mesh can consume external services via TCP.
