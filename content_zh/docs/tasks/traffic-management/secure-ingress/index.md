@@ -7,7 +7,7 @@ keywords: [traffic-management,ingress]
 
 > 本文任务使用了新的 [v1alpha3 流量控制 API](/blog/2018/v1alpha3-routing/)。旧版本 API 已经过时，会在下一个 Istio 版本中移除。如果需要使用旧版本 API，请阅读[旧版本文档](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)
 
-[控制入口流量](/docs/tasks/traffic-management/ingress)任务描述了如何对 Ingress gateway 进行配置，从而对外以 HTTP 端点的形式暴露服务。本文中将会对这一任务进行扩展，为服务启用普通或双向 TLS 保护，以 HTTPS 的形式对网格外提供服务。
+[控制 Ingress 流量](/docs/tasks/traffic-management/ingress)任务描述了如何对 Ingress gateway 进行配置，从而对外以 HTTP 端点的形式暴露服务。本文中将会对这一任务进行扩展，为服务启用普通或双向 TLS 保护，以 HTTPS 的形式对网格外提供服务。
 
 ## 开始之前
 
