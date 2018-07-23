@@ -32,11 +32,14 @@ with AAA (authentication/authorization/audit). Istio security’s aims are:
 
 * **Secure by default**: no changes needed to application code and infrastructure
 
-* **Defence in depth**: integrates with existing security systems to provide multiple layers of defense
+* **Defense in depth**: integrate with existing security systems to provide multiple layers of defense
 
 * **Zero-trust network**: build security solutions on untrusted networks
 
-This guide provides a high-level overview of Istio security; you can find more information about specific Istio security concepts in the other guides in this section. To find out how to get started using Istio security with deployed services, see the Istio Security Basics tutorial. For more detailed howtos on security tasks, see our Security Tasks.
+This guide provides a high-level overview of Istio security; you can find more information about specific Istio security concepts
+in the other guides in this section.
+To find out how to get started using Istio security with deployed services, see the [Mutual TLS Migration](docs/tasks/security/mtls-migration/).
+For more detailed howto on security tasks, see our [Security Tasks](docs/tasks/security/).
 
 ## High-Level Architecture and Features
 
@@ -53,7 +56,9 @@ to the proxies, and Mixer for managing auditing.
 
 ### PKI (Public Key Infrastructure)
 
-Istio PKI, built on top of Istio Citadel, is responsible for securely provisioning a strong workload identity in the form of X.509 certificate in SPIFFE format to every workload, and automating key & certificate rotation and revocation at scale. 
+Istio PKI, built on top of Istio Citadel,
+is responsible for securely provisioning a strong workload identity in the form of X.509 certificate in SPIFFE format to every workload,
+and automating key & certificate rotation and revocation at scale.
 
 ### Authentication
 
@@ -62,7 +67,7 @@ Istio provides two different types of authentication:
 * **Service-to-service Authentication** enables data-in-transit encryption and strong channel-level authentication using mutual TLS.
 
 * **User Authentication** enables request-level authentication with JSON Web Token (JWT) validation
-  and a streamlined developer experience for Auth0, Firebase Auth, Google Auth, and custom Auth.
+  and a streamlined developer experience for Auth0, Firebase Auth, Google Auth, and custom auth.
 
 In both cases the authentication policies are stored in the Istio config store via a custom Kubernetes API,
 and are kept up to date (along with keys where appropriate) for each proxy by Pilot.
@@ -210,20 +215,6 @@ As shown in the figure below. Note that the deployment flow for on-prem machines
 
 The runtime phase remains the same as the previous section.
 
-## Mutual TLS authentication
-
-### Communication security
-
-Service-to-service communication is tunneled through the client side
-[Envoy](https://envoyproxy.github.io/envoy/) and the server side Envoy. End-to-end communication is secured by:
-
-* Local TCP connections between the service and Envoy
-
-* Mutual TLS connections between proxies
-
-* Secure Naming: during the handshake process, the client side Envoy checks that
-  the service account provided by the server side certificate is allowed to run the target service
-
 ### Best practices
 
 In this section, we provide a few deployment guidelines and then discuss a real-world scenario.
@@ -241,173 +232,92 @@ In this section, we provide a few deployment guidelines and then discuss a real-
 
 #### Example
 
-Let's consider a 3-tier application with three services: photo-frontend, photo-backend, and datastore. Photo-frontend and photo-backend services are managed by the photo SRE team while the datastore service is managed by the datastore SRE team. Photo-frontend can access photo-backend, and photo-backend can access datastore. However, photo-frontend cannot access datastore.
+Let's consider a 3-tier application with three services: photo-frontend, photo-backend, and datastore.
+Photo-frontend and photo-backend services are managed by the photo SRE team while the datastore service is managed by the datastore SRE team.
+Photo-frontend can access photo-backend, and photo-backend can access datastore. However, photo-frontend cannot access datastore.
 
-In this scenario, a cluster admin creates 3 namespaces: istio-citadel-ns, photo-ns, and datastore-ns. Admin has access to all namespaces, and each team only has
-access to its own namespace. The photo SRE team creates 2 service accounts to run photo-frontend and photo-backend respectively in namespace photo-ns. The
-datastore SRE team creates 1 service account to run the datastore service in namespace datastore-ns. Moreover, we need to enforce the service access control
-in [Istio Mixer](/docs/concepts/policies-and-telemetry/) such that photo-frontend cannot access datastore.
+In this scenario, a cluster admin creates 3 namespaces: istio-citadel-ns, photo-ns, and datastore-ns.
+Admin has access to all namespaces, and each team only has access to its own namespace.
+The photo SRE team creates 2 service accounts to run photo-frontend and photo-backend respectively in namespace photo-ns.
+The datastore SRE team creates 1 service account to run the datastore service in namespace datastore-ns.
+Moreover, we need to enforce the service access control in [Istio Mixer](/docs/concepts/policies-and-telemetry/)
+such that photo-frontend cannot access datastore.
 
 In this setup, Citadel is able to provide keys and certificates management for all namespaces, and isolate
 microservice deployments from each other.
 
-## Authentication
+## Authentication policy
 
-Istio provides two types of authentication:
-*   Transport authentication (also known as service-to-service authentication): verifies the direct client that makes the connection. Istio offers
-mutual TLS (mTLS) as a full stack solution for transport authentication. Customer can easily turn on this feature without requiring
-service code changes. The solution includes:
+Istio authentication policy enables operators to specify authentication requirements for a service (or services). Istio authentication policy is composed of two parts:
 
-    * Providing each service with a strong identity that represents its role to enable interoperability across clusters and clouds
-    * Securing service to service communication and end-user to service communication
-    * Providing a key management system to automate key and certificate generation, distribution, rotation, and revocation
+* Peer: verifies the party, the direct client, that makes the connection. The common authentication mechanism for this is [mutual TLS](/docs/concepts/security/#mutual-tls-authentication).
 
-*   Origin authentication (also known as end-user authentication): verifies the original client that makes the request, such as an end-user or device. Istio 1.0 supports
-authentication with JSON Web Token (JWT) validation.
+* Origin: verifies the party, the original client, that makes the request (e.g end-users, devices etc). JWT is the only supported mechanism for origin authentication at the moment.
 
-### Authentication architecture
+Istio configures the server side to perform authentication, however, it does not enforce the policy on the client side. For mutual TLS authentication, users can use [destination rules](/docs/concepts/traffic-management/#destination-rules) to configure client side to follow the expected protocol. For other cases, the application is responsible to acquire and attach the credential (e.g JWT) to the request.
 
-Authentication requirements for services receiving requests in an Istio mesh are specified using authentication policies.
-Policies are specified by the mesh operator using yaml files and saved in the Istio config store once deployed.
-The Istio controller (Pilot) watches the config store. Upon any policy changes, it translates the new policy to appropriate
-configuration that tells the Envoy sidecar proxy how to perform the required authentication mechanisms. It may also fetch
-the public key and attach to the configuration for JWT validation, or provides the path to the keys and certificates that
-are managed and installed to the application pod by Istio system for mutual TLS (see more in “PKI and identity” section).
-Configurations are sent to the targeted endpoints asynchronously. Once the proxy receives the configuration, the new
-authentication requirement takes effect immediately on that pod.
+Identities from both authentication parts, if applicable, are output to the next layer (e.g authorization, Mixer). To simplify the authorization rules, the policy can also specify which identity (peer or origin) should be used as 'the principal'. By default, it is set to the peer's identity.
 
-Client services (i.e those that send requests) are responsible for following the necessary authentication mechanism.
-For origin authentication (JWT), the application is responsible for acquiring and attaching the JWT credential to the request.
-For mutual TLS, Istio provides a [destination rule](/docs/concepts/traffic-management/#destination-rules) that the operator can use to instruct client proxies to make initial
-connections using TLS with the certificates expected on the server side. You can find out more about how mutual TLS works in
-Istio in "PKI and identity" section.
+Authentication policies are saved in Istio config store (in 0.7, the storage implementation uses Kubernetes CRD), and distributed by control plane. Depending on the size of the mesh, config propagation may take a few seconds to a few minutes. During the transition, you can expect traffic lost or inconsistent authentication results.
 
 {{< image width="80%" ratio="75%"
     link="./authn.svg"
-    caption="Authentication Architecture"
+    caption="Authentication Policy Architecture"
     >}}
 
-Identities from both types of authentication, as well as other claims in the credential if applicable, are output to the
-next layer (e.g., [authorization](/docs/concepts/security/#authorization)). Operators can also specify which identity
-(either from transport or origin authentication) should be used as ‘the principal’.
+Policy is scoped to namespaces, with (optional) target selector rules to narrow down the set of services (within the same namespace as the policy) on which the policy should be applied. This aligns with the ACL model based on Kubernetes RBAC. More specifically, only the admin of the namespace can set policies for services in that namespace.
 
-### Anatomy of an authentication policy
+Authentication is implemented by the Istio sidecars. For example, with an Envoy sidecar, it is a combination of SSL setting and HTTP filters. If authentication
+fails, requests will be rejected (either with SSL handshake error code, or http 401, depending on the type of authentication mechanism). If authentication succeeds,
+the following authenticated attributes will be generated:
 
-This section provides more details about how Istio authentication policies work. As you’ll remember from the [Architecture
-section](/docs/concepts/security/#authentication-architecture), authentication policies apply to requests that a service **receives**. For specifying client-side authentication
-rules in mutual TLS, you need to specify
-[`TLSSettings` in `DestinationRule`](/docs/reference/config/istio.networking.v1alpha3/#TLSSettings).
-Authentication policies are specified in yaml files like other Istio configuration, and deployed using istioctl.
+* `source.principal`: peer principal. If peer authentication is not used, the attribute is not set.
+* `request.auth.principal`: depends on the policy principal binding, this could be peer principal (if `USE_PEER`) or origin principal (if `USE_ORIGIN`).
+* `request.auth.audiences`: reflect the audience (`aud`) claim within the origin JWT (JWT that is used for origin authentication)
+* `request.auth.presenter`: similarly, reflect the authorized presenter (`azp`) claim of the origin JWT.
+* `request.auth.claims`: all raw string claims from origin-JWT.
 
-Here is a simple authentication policy that specifies that transport authentication for "reviews" service must use mutual TLS.
+Origin principal (principal from origin authentication) is not explicitly output. In general, it can always be reconstructed by joining (`iss`)
+and subject (`sub`) claims with a "/" separator (for example, if `iss` and `sub` claims are "*googleapis.com*" and "*123456*" respectively, then
+the origin principal is "*googleapis.com/123456*"). On the other hand, if principal binding is `USE_ORIGIN`, `request.auth.principal` carries the
+same value as origin principal.
 
-{{< text yaml >}}
-apiVersion: "authentication.istio.io/v1alpha1"
-kind: "Policy"
-metadata:
-  name: "reviews"
-spec:
-  targets:
-  - name: reviews
-  peers:
-  - mtls: {}
-{{< /text >}}
-
-#### Policy storage scope
-
-Authentication policies can be stored in namespace-scope or mesh-scope storage.
-
-* Mesh-scope policy is specified with `kind` `MeshPolicy`, and the name “default”.
-
-* Namespace-scope policy is specified with `kind` `Policy` and a specified namespace (or the default namespace if unspecified).
-
-Here is an example of a mesh-scope policy.
-
-{{< text yaml >}}
-apiVersion: "authentication.istio.io/v1alpha1"
-kind: "MeshPolicy"
-metadata:
-  name: "default"
-spec:
-  peers:
-  - mtls: {}
-{{< /text >}}
-
-Here is an example of a namespace-scope policy for namespace `ns1`
-
-{{< text yaml >}}
-apiVersion: "authentication.istio.io/v1alpha1"
-kind: "Policy"
-metadata:
-  name: "default"
-  namespace: "ns1"
-spec:
-  peers:
-  - mtls: {}
-{{< /text >}}
-
-Policy in namespace-scope storage can only affect services in the same namespace. Policy in mesh-scope can affect all services in the mesh.
-To prevent conflict and misuse, only one policy can be defined in mesh-scope storage. That policy must be named `default` and have an
-empty [targets](/docs/concepts/security/#target-selectors).
-
-> With the current [`CustomResourceDefinitions`-based](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
-implementation for Istio config, these correspond to namespace-scope and cluster-scope `CRDs`, and automatically
-inherit access protection via Kubernetes RBAC.
+### Anatomy of a policy
 
 #### Target selectors
 
-An authentication policy’s targets: section specifies the service(s) to which this policy should be applied. The following example shows
-a rule that specifies this policy applies to the product-page service on any port, and the reviews service on port 9000.
+Defines rules to find service(s) on which policy should be applied. If no rule is provided, the policy is matched to all services in the same namespace of the policy, so-called namespace-level policy (as opposed to service-level policies which have non-empty selector rules). Istio uses the service-level policy if available, otherwise it falls back to namespace-level policy. If neither is defined, it uses the default policy based on service mesh config and/or service annotation, which can only set mutual TLS setting (these are mechanisms before Istio 0.7 to configure mutual TLS for Istio service mesh). See [testing Istio mutual TLS](/docs/tasks/security/mutual-tls/).
+
+> Starting with 0.8, authentication policy is the recommended way to enable/disable mutual TLS per service. The option to use service annotation will be removed in a future release.
+
+Operators are responsible for avoiding conflicts, e.g create more than one service-level policy that matches to the same service(s) (or more than one namespace-level policy on the same namespace).
+
+Example: rule to select product-page service (on any port), and reviews:9000.
 
 {{< text yaml >}}
 targets:
- - name: product-page
- - name: reviews
-   ports:
-   - number: 9000
+- name: product-page
+- name: reviews
+  ports:
+  - number: 9000
 {{< /text >}}
 
-If no targets: rule is provided, the policy is matched to all services in the storage scope of the policy:
+#### Peer authentication
 
-* Mesh-wide policy: a policy defined in mesh-scope storage with no target selector rules. There is at most one mesh-wide policy in the mesh.
+Defines authentication methods (and associated parameters) that are supported for peer authentication. It can list more than one method; only one of them needs to be satisfied for the authentication to pass. However, starting with the 0.7 release, only mutual TLS is supported. Omit this if peer authentication is not needed.
 
-* Namespace-wide policy:  a policy defined in namespace-scope storage with name `default` and no target selector rules. There is at most one namespace-wide
-policy per namespace.
-
-* Service-specific policy: a policy defined in namespace-scope storage, with non-empty target selector rules. A namespace can have zero,
-one or many service-specific policies.
-
-For each service, Istio will apply the narrowest matching policy, where service-specific > namespace-wide > mesh-wide. If more than one
-service-specific policy matches a service, one of them will be selected at random. Operators are responsible for avoiding such conflicts
-when configuring their policies.
-
-> Istio enforces uniqueness for mesh-wide and namespace-wide policies by accepting only one authentication policy per mesh/namespace and
-requiring it to have a specific name “default”.
-
-#### Transport authentication (also known as peers)
-
-The `peers:` section defines the authentication methods (and associated parameters) that are supported for transport authentication in
-this policy. It can list more than one method; only one of them needs to be satisfied for the authentication to pass. However, as of
-Istio 0.7 release, only mutual TLS is currently supported as a transport authentication method. Omit this section entirely if transport
-authentication is not needed.
-
-Here is an example of transport authentication using mutual TLS.
+Example of peer authentication using mutual TLS:
 
 {{< text yaml >}}
- peers:
-  - mtls: {}
+peers:
+- mtls:
 {{< /text >}}
 
-> Currently mutual TLS setting doesn’t require any parameters (hence `-mtls: {}`, `- mtls:` or `- mtls: null` declaration is treated the same).
-In future, it may carry arguments to provide different mutual TLS implementations.
+> Starting with Istio 0.7, the `mtls` settings doesn't require any parameters (hence `-mtls: {}`, `- mtls:` or `- mtls: null` declaration is sufficient). In future, it may carry arguments to provide different mutual TLS implementations.
 
-#### Origin authentication (also known as origins)
+#### Origin authentication
 
-The `origins:` section defines authentication methods (and associated parameters) that are supported for origin authentication. Only JWT is
-supported for this, however, the policy can list multiple JWTs by different issuers. Similar to peer authentication, only one of the listed
-methods needs to be satisfied for the authentication to pass.
-
-Here is an example policy that specifies origin authentication accepts JWTs issued by Google.
+Defines authentication methods (and associated parameters) that are supported for origin authentication. Only JWT is supported for this, however, the policy can list multiple JWTs by different issuers. Similar to peer authentication, only one of the listed methods needs to be satisfied for the authentication to pass.
 
 {{< text yaml >}}
 origins:
@@ -416,37 +326,9 @@ origins:
     jwksUri: "https://www.googleapis.com/oauth2/v3/certs"
 {{< /text >}}
 
-#### Principal binding
+### Principal binding
 
-Defines what should be used as the principal (the entity to be authenticated) for this policy. By default, this will be the peer’s principal.
-If peer authentication is not applied, it will be left unset. Policy writers can choose to overwrite it with `USE_ORIGIN`, whereupon the origin
-will be used as the principal instead. In future, we will also support conditional binding (e.g `USE_PEER` when peer is X, otherwise `USE_ORIGIN`).
-
-Here is an example of setting principal binding to `USE_ORIGIN`.
-
-{{< text yaml >}}
-principalBinding: USE_ORIGIN
-{{< /text >}}
-
-### Updating authentication policies
-
-An authentication policy can be changed at any time and is pushed to endpoints almost in real time. However, Istio cannot
-guarantee that all endpoints will receive a new policy at the same time. Here's how to avoid disruption when updating
-your authentication policies:
-
-* Enable (or disable) mutual TLS: a temporary policy with `PERMISSIVE` mode should be used. This configures receiving services
-to accept both types of traffic (plain text and TLS), so no request is dropped. Once all clients switch to the expected
-protocol (e.g TLS for the enabling case), operators can replace the `PERMISSIVE` policy with the final policy. For more
-information, visit [“Mutual TLS Migration” tutorial](/docs/tasks/security/mtls-migration).
-
-{{< text yaml >}}
-peers:
-- mTLS:
-    mode: PERMISSIVE
-{{< /text >}}
-
-* For JWT authentication migration: requests should contain new JWT before changing policy. Once the server side has completely
-switched to the new policy, the old JWT (if any) can be removed. Client applications need to be changed for these.
+Defines what is the principal from the authentication. By default, this will be the peer's principal (and if peer authentication is not applied, it will be left unset). Policy writers can choose to overwrite it with USE_ORIGIN. In future, we will also support *conditional-binding* (e.g USE_PEER when peer is X, otherwise USE_ORIGIN)
 
 ## Authorization
 
@@ -458,7 +340,7 @@ service-level, and method-level access control for services in an Istio Mesh. It
 * Flexibility through custom properties support (i.e., conditions) in roles and role-bindings.
 * High performance, as Istio authorization is enforced natively on Envoy.
 
-### Authorization architecture
+### Architecture
 
 {{< image width="80%" ratio="56.25%"
     link="./authz.svg"
@@ -503,7 +385,7 @@ spec:
     namespaces: [“default”]
 {{< /text >}}
 
-### Authorization policy
+### Policy
 
 To configure an Istio authorization policy, you specify a `ServiceRole` and `ServiceRoleBinding`. Like other Istio
 configuration objects they are defined as

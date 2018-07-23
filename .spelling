@@ -31,6 +31,7 @@ alt
 Acmeair
 Ansible
 AppOptics
+Auth0
 args.yaml
 AuthPolicy
 Autoscalers
@@ -39,6 +40,8 @@ BigQuery
 BluePerf
 Bookinfo
 Budinsky
+bring-your-own-CA
+bring-your-own-identity
 CAP_NET_ADMIN
 CAs
 CDNs
@@ -65,7 +68,7 @@ ExecAction
 Exfiltrating
 ExternalName
 Fluentd
-httpbin.example.com
+Firebase
 FQDNs
 GCP-IAM
 GCP_OPTS
@@ -78,6 +81,7 @@ Gmail
 Grafana
 Graphviz
 Hystrix
+httpbin.example.com
 ILBs
 IPs
 IPv4
