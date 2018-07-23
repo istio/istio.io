@@ -10,9 +10,8 @@ aliases:
 keywords: [traffic-management,egress,tcp]
 ---
 
-> Note: This blog post was updated on July 23, 2018 to use the new
-[v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in
-the next Istio release. If you need to use the old version, follow the docs
+> This blog post was updated on July 23, 2018 to use the new
+[v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). If you need to use the old version, follow the docs
 [here](https://archive.istio.io/v0.7/blog/2018/egress-tcp.html).
 
 In my previous blog post, [Consuming External Web Services](/blog/2018/egress-https/), I described how external services
