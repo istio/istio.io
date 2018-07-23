@@ -36,7 +36,7 @@ bare-metal machines.
     caption="Istio Security Architecture"
     >}}
 
-As illustrated in the diagram, Istio leverages secret volume mount to deliver
+As illustrated in the diagram, Istio leverages secret volume mounts to deliver
 keys and certificates from Citadel to Kubernetes containers. For services
 running on VMs or bare-metal machines, we introduce a node agent, which is a
 process running on each VM or bare-metal machine. The node agent generates the
@@ -191,7 +191,7 @@ real-world scenario.
   that both teams can't access each other's services.
 
 * If Citadel is compromised, all its managed keys and certificates in the
-  cluster may be exposed. We **strongly** recommend running Citadel on a
+  cluster may be exposed. We **strongly** recommend running Citadel in a
   dedicated namespace, for example `istio-citadel-ns`, to restrict access to
   the cluster to only administrators.
 
@@ -214,7 +214,7 @@ team creates one service account to run the `datastore` service in the
 control in [Istio Mixer](/docs/concepts/policies-and-telemetry/) such that
 `photo-frontend` cannot access datastore.
 
-In this setup, Citadel can provide keys and certificates management for
+In this setup, Citadel can provide key- and certificate-management for
 all namespaces and isolate microservice deployments from each other.
 
 ## Authentication
@@ -520,12 +520,13 @@ objects, `RbacConfig` is defined as a
 In the `RbacConfig` object, the operator can specify a `mode` value, which can
 be:
 
-* **OFF**: Istio authorization is disabled.
-* **ON**: Istio authorization is enabled for all services in the mesh.
-* **ON_WITH_INCLUSION**: Istio authorization is enabled only for services and
+* **`OFF`**: Istio authorization is disabled.
+* **`ON`**: Istio authorization is enabled for all services in the mesh.
+* **`ON_WITH_INCLUSION`**: Istio authorization is enabled only for services and
   namespaces specified in the `inclusion` field.
-* **ON_WITH_EXCLUSION**: Istio authorization is enabled for all services in the
-  mesh except the services and namespaces specified in the `exclusion` field.
+* **`ON_WITH_EXCLUSION`**: Istio authorization is enabled for all services in
+  the mesh except the services and namespaces specified in the `exclusion`
+  field.
 
 In the following example, Istio authorization is enabled for the `default`
 namespace.
@@ -547,17 +548,17 @@ spec:
 To configure an Istio authorization policy, you specify a `ServiceRole` and
 `ServiceRoleBinding`. Like other Istio configuration objects, they are
 defined as
-[Kubernetes CustomResourceDefinition (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) objects.
+Kubernetes `CustomResourceDefinition` [(CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) objects.
 
 * **`ServiceRole`** defines a group of permissions to access services.
-* **`ServiceRoleBinding`** grants a ServiceRole to particular subjects, such as
-  a user, a group, or a service.
+* **`ServiceRoleBinding`** grants a `ServiceRole` to particular subjects, such
+  as a user, a group, or a service.
 
 The combination of `ServiceRole` and `ServiceRoleBinding` specifies: **who** is
 allowed to do **what** under **which conditions**. Specifically:
 
 * **who** refers to the `subjects:` section in `ServiceRoleBinding`.
-* **what** refers to the `permissions:` section in ServiceRole.
+* **what** refers to the `permissions:` section in `ServiceRole`.
 * **which conditions** refers to the `conditions:` section you can specify with
   the [Istio attributes](https://istio.io/docs/reference/config/policy-and-telemetry/attribute-vocabulary/)
   in either `ServiceRole` or `ServiceRoleBinding`.
@@ -638,14 +639,14 @@ spec:
     methods: ["GET"]
 {{< /text >}}
 
-In a ServiceRole, the combination of `namespace:` + `services:` + `paths:` +
+In a `ServiceRole`, the combination of `namespace:` + `services:` + `paths:` +
 `methods:` defines **how a service or services are accessed**. In some
 situations, you may need to specify additional conditions for your rules. For
 example, a rule may only apply to a certain **version** of a service, or only
 apply to services with a specific **label**, like `"foo"`. You can easily
 specify these conditions using `constraints:`.
 
-For example, the following ServiceRole definition adds a constraint that
+For example, the following `ServiceRole` definition adds a constraint that
 `request.headers["version"]` is either `"v1"` or `"v2"` extending the previous
 `products-viewer` role. The supported `key:` values of a constraint are listed
 in the [constraints and properties page](/docs/reference/config/authorization/constraints-and-properties/).
