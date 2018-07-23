@@ -76,7 +76,7 @@ First direct HTTP traffic without TLS origination
     EOF
     {{< /text >}}
 
-1.  Verify that your `ServiceEntry` was applied correctly. Send an HTTPS request to http://edition.cnn.com/politics.
+1.  Verify that your `ServiceEntry` was applied correctly. Send an HTTPS request to [http://edition.cnn.com/politics](http://edition.cnn.com/politics).
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
@@ -204,7 +204,7 @@ First direct HTTP traffic without TLS origination
     EOF
     {{< /text >}}
 
-1.  Resend the HTTP request to http://edition.cnn.com/politics.
+1.  Resend the HTTP request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics).
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
@@ -273,7 +273,7 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
     EOF
     {{< /text >}}
 
-1.  Verify that your `ServiceEntry` was applied correctly. Send an HTTPS request to http://edition.cnn.com/politics.
+1.  Verify that your `ServiceEntry` was applied correctly. Send an HTTPS request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics).
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
@@ -413,7 +413,7 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
     EOF
     {{< /text >}}
 
-1.  Send an HTTP request to http://edition.cnn.com/politics.
+1.  Send an HTTP request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics).
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
@@ -473,7 +473,7 @@ You specify the port 443, protocol `TLS` in the corresponding `ServiceEntry`, eg
     EOF
     {{< /text >}}
 
-1.  Verify that your `ServiceEntry` was applied correctly. Send an HTTPS request to https://edition.cnn.com/politics.
+1.  Verify that your `ServiceEntry` was applied correctly. Send an HTTPS request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics).
 The output should be the same as in the previous section.
 
     {{< text bash >}}
@@ -600,7 +600,7 @@ The output should be the same as in the previous section.
     EOF
     {{< /text >}}
 
-1.  Send an HTTPS request to https://edition.cnn.com/politics. The output should be the same as previously.
+1.  Send an HTTPS request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics). The output should be the same as previously.
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
