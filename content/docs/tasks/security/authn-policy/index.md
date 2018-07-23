@@ -77,7 +77,7 @@ $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml | gr
 
 > Depending on the version of Istio, you may see destination rules for hosts other then those shown. However, there should be none with hosts in the `foo`, `bar` and `legacy` namespace, nor is the match-all wildcard `*`
 
-## Globally enabling mutual TLS
+## Globally enabling Istio mutual TLS
 
 To set a mesh-wide authentication policy that enables mutual TLS, submit *mesh authentication policy* like below:
 
