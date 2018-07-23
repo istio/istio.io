@@ -5,7 +5,7 @@ publishdate: 2018-07-20
 subtitle:
 attribution: Limin Wang
 weight: 87
-keywords: [authorization, Role Based Access Control, security]
+keywords: [authorization,Role Based Access Control,security]
 ---
 
 Micro-segmentation is a security technique that creates secure zones in cloud deployments and allows organizations to
