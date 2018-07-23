@@ -41,7 +41,7 @@ For this task you set up an instance of [MySQL](https://www.mysql.com). You can 
     $ export MYSQL_DB_PORT=<your MySQL database port>
     {{< /text >}}
 
-    In case of a local MySQL database with the default port, the values are `localhost` and `3306` respectively.
+    In case of a local MySQL database with the default port, the values are `localhost` and `3306`, respectively.
 
 1.  To initialize the database, run the following command entering the password when prompted. The command is
 performed with the credentials of the  `admin` user, created by default by
