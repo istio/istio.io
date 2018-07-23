@@ -7,7 +7,7 @@ aliases:
     - /docs/tasks/security/istio-auth.html
 ---
 
-This guide covers the point activities you might need to perform when enabling, configuring, and using Istio authentication policies. Find out more about the underlying concepts in the [authentication overview](/docs/concepts/security/#authentication).
+This guide covers the primary activities you might need to perform when enabling, configuring, and using Istio authentication policies. Find out more about the underlying concepts in the [authentication overview](/docs/concepts/security/#authentication).
 
 ## Before you begin
 
@@ -67,7 +67,7 @@ $ kubectl get meshpolicies.authentication.istio.io
 No resources found.
 {{< /text >}}
 
-Last but not least, verify that there are no destination rules that apply on our example services. This can be done by checking the `host:` value of existing destination rules and make sure they do not match. For example:
+Last but not least, verify that there are no destination rules that apply on the example services. You can do this by checking the `host:` value of existing destination rules and make sure they do not match. For example:
 
 {{< text bash >}}
 $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml | grep "host:"
@@ -75,7 +75,7 @@ $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml | gr
     host: istio-telemetry.istio-system.svc.cluster.local
 {{< /text >}}
 
-> Depending on the version of Istio, you may see destination rules for hosts other then those shown. However, there should be none with hosts in `foo`, `bar`, `legacy` namespace, nor is the match-all wildcard `*`
+> Depending on the version of Istio, you may see destination rules for hosts other then those shown. However, there should be none with hosts in the `foo`, `bar` and `legacy` namespace, nor is the match-all wildcard `*`
 
 ## Globally enabling mutual TLS
 
@@ -93,9 +93,9 @@ spec:
 EOF
 {{< /text >}}
 
-This policy specifies that all workloads in the mesh will only accept encrypted requests using TLS. As you can see, this authentication policy has the kind: `MeshPolicy`. The name of the policy must be `default`, and it contains no `targets` specification (as it is intended to apply on all services in the mesh).
+This policy specifies that all workloads in the mesh will only accept encrypted requests using TLS. As you can see, this authentication policy has the kind: `MeshPolicy`. The name of the policy must be `default`, and it contains no `targets` specification (as it is intended to apply to all services in the mesh).
 
-At this point, only the receiving side is configured to use mutual TLS. If you run the `curl` command between *Istio services* (i.e those with sidecars), all requests will fail with 503 error code as the client side still using plain-text.
+At this point, only the receiving side is configured to use mutual TLS. If you run the `curl` command between *Istio services* (i.e those with sidecars), all requests will fail with a 503 error code as the client side still be using plain-text.
 
 {{< text bash >}}
 $ for from in "foo" "bar"; do for to in "foo" "bar"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
@@ -105,7 +105,7 @@ sleep.bar to httpbin.foo: 503
 sleep.bar to httpbin.bar: 503
 {{< /text >}}
 
-To configure the client side, you need to set [destination rules](/docs/concepts/traffic-management/#rule-destinations) to use mutual TLS. It's possible to use multiple destination rules, one for each applicable service (or namespace). However, it's more convenient to use a rule with wildcard `*` to match all services so that it is on par with the mesh-wide authentication policy.
+To configure the client side, you need to set [destination rules](/docs/concepts/traffic-management/#rule-destinations) to use mutual TLS. It's possible to use multiple destination rules, one for each applicable service (or namespace). However, it's more convenient to use a rule with the `*` wildcard to match all services so that it is on par with the mesh-wide authentication policy.
 
 {{< text bash >}}
 $ cat <<EOF | istioctl create -f -
@@ -139,9 +139,9 @@ sleep.bar to httpbin.foo: 200
 sleep.bar to httpbin.bar: 200
 {{< /text >}}
 
-### Request from non-Istio service to Istio service
+### Request from non-Istio services to Istio services
 
-Non-Istio service, e.g `sleep.legacy` doesn't have sidecar, so it cannot initiate the required TLS connection to Istio service. As a result, request from `sleep.legacy` to `httpbin.foo` or `httpbin.bar` will fail:
+Non-Istio service, e.g `sleep.legacy` doesn't have a sidecar, so it cannot initiate the required TLS connection to Istio services. As a result, requests from `sleep.legacy` to `httpbin.foo` or `httpbin.bar` will fail:
 
 {{< text bash >}}
 $ for from in "legacy"; do for to in "foo" "bar"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
@@ -154,11 +154,11 @@ sleep.legacy to httpbin.legacy: 200
 
 > Due to the way Envoy rejects plain-text requests, you will see `curl` exit code 56 (failure with receiving network data) in this case.
 
-This works as intended, and unfortunately, there is no solution for this without reducing authentication requirement for these services.
+This works as intended, and unfortunately, there is no solution for this without reducing authentication requirements for these services.
 
-### Request from Istio service to non-Istio service
+### Request from Istio services to non-Istio services
 
-Try to send request to `httpbin.legacy` from `sleep.foo` (or `sleep.bar`). You will see requests fail as Istio configures clients as instructed in our destination rule to use mutual TLS, but `httpbin.legacy` does not have sidecar so it's unable to handle it.
+Try to send requests to `httpbin.legacy` from `sleep.foo` (or `sleep.bar`). You will see requests fail as Istio configures clients as instructed in our destination rule to use mutual TLS, but `httpbin.legacy` does not have a sidecar so it's unable to handle it.
 
 {{< text bash >}}
 $ for from in "foo" "bar"; do for to in "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
@@ -166,7 +166,7 @@ sleep.foo to httpbin.legacy: 503
 sleep.bar to httpbin.legacy: 503
 {{< /text >}}
 
-To fix this issue, we can add a destination rule to overwrite TLS setting for `httpbin.legacy`. For example:
+To fix this issue, we can add a destination rule to overwrite the TLS setting for `httpbin.legacy`. For example:
 
 {{< text bash >}}
 $ cat <<EOF | istioctl create -f -
@@ -182,9 +182,9 @@ spec:
 EOF
 {{< /text >}}
 
-### Request from Istio service to Kubernetes API server
+### Request from Istio services to Kubernetes API server
 
-The Kubernetes API server doesn't have sidecar neither, thus request from, say `sleep.foo` will fail for the similar reason.
+The Kubernetes API server doesn't have a sidecar, thus request from Istio services such as `sleep.foo` will fail due to the same problem as when sending requests to any non-Istio service.
 
 {{< text bash >}}
 $ TOKEN=$(kubectl describe secret $(kubectl get secrets | grep default | cut -f1 -d ' ') | grep -E '^token' | cut -f2 -d':' | tr -d '\t')
@@ -193,7 +193,7 @@ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata
 command terminated with exit code 35
 {{< /text >}}
 
-Again, we can correct this by overwrite the destination rule for the API server (`kubernetes.default`)
+Again, we can correct this by overriding the destination rule for the API server (`kubernetes.default`)
 
 {{< text bash >}}
 $ cat <<EOF | istioctl create -f -
@@ -209,7 +209,9 @@ spec:
 EOF
 {{< /text >}}
 
-Re-run the testing command above to confirm that it returns 200 after the rule is added.
+> If you install Istio [with default mutual TLS](docs/setup/kubernetes/quick-start/#option-2-install-istio-with-default-mutual-tls-authentication), this rule, together with the global authentication policy and destination rule above are injected to the system during installation process.
+
+Re-run the testing command above to confirm that it returns 200 after the rule is added:
 
 {{< text bash >}}
 $ TOKEN=$(kubectl describe secret $(kubectl get secrets | grep default | cut -f1 -d ' ') | grep -E '^token' | cut -f2 -d':' | tr -d '\t')
@@ -226,9 +228,9 @@ $ kubectl delete meshpolicy default
 $ kubectl delete destinationrules default httpbin-legacy api-server
 {{< /text >}}
 
-## Enable mutual TLS per namespace or services
+## Enable mutual TLS per namespace or service
 
-In addition to specifying an authentication policy for your entire mesh, Istio also lets you specify policies for particular namespaces or services. A namespace-wide policy takes precedence over the mesh-wide policy, while a service-specific policy has higher precedence again.
+In addition to specifying an authentication policy for your entire mesh, Istio also lets you specify policies for particular namespaces or services. A namespace-wide policy takes precedence over the mesh-wide policy, while a service-specific policy has higher precedence still.
 
 ### Namespace-wide policy
 
@@ -319,8 +321,8 @@ EOF
 {{< /text >}}
 
 >
-* In this example, we do **not** specify namespace in metadata but put it in the command line (`-n bar`). They should work the same.
-* There is no restriction on the authentication policy and destination rule name. The example use the name of the service itself for simplicity.
+* In this example, we do **not** specify namespace in metadata but put it in the command line (`-n bar`), which has an identical effect.
+* There is no restriction on the authentication policy and destination rule name. This example uses the name of the service itself for simplicity.
 
 Again, run the probing command. As expected, request from `sleep.legacy` to `httpbin.bar` starts failing with the same reasons.
 
@@ -378,7 +380,7 @@ $ kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..met
 
 ### Policy precedence
 
-To illustrate a service-specific policy will be chosen over namespace-wide policy, let's add a policy to disable mutual TLS for `httpbin.foo` as below. Note that we already of namespace-wide policy that enables mutual TLS for all services in namespace `foo` and observe that request from `sleep.legacy` to `httpbin.foo` are failing (see above).
+To illustrate how a service-specific policy takes precedence over namespace-wide policy, you can add a policy to disable mutual TLS for `httpbin.foo` as below. Note that you've already created a namespace-wide policy that enables mutual TLS for all services in namespace `foo` and observe that requests from `sleep.legacy` to `httpbin.foo` are failing (see above).
 
 {{< text bash >}}
 $ cat <<EOF | istioctl create -n foo -f -
@@ -408,7 +410,7 @@ spec:
 EOF
 {{< /text >}}
 
-Re-run the request from `sleep.legacy`, we should see a success return code again (200), confirming service-specific policy overrules the namespace-wide policy.
+Re-running the request from `sleep.legacy`, you should see a success return code again (200), confirming service-specific policy overrides the namespace-wide policy.
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metadata.name}) -c sleep -n legacy -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
@@ -417,7 +419,7 @@ $ kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..met
 
 ### Cleanup part 2
 
-Remove policies and destination rules created in this session:
+Remove policies and destination rules created in the above steps:
 
 {{< text bash >}}
 $ kubectl delete policy default overwrite-example -n foo
@@ -428,7 +430,7 @@ $ kubectl delete destinationrules httpbin -n bar
 
 ## End-user authentication
 
-You will need a valid JWT (corresponding to the JWKS endpoint you want to use for the demo). In this tutorial, we will use a test JWT signed by Google service account, but of course, you can also use your own JWT/JWKS endpoint for the demo.
+To experiment with this feature, you will need a valid JWT (corresponding to the JWKS endpoint you want to use for the demo). In this tutorial, we will use a test JWT signed by Google service account, but of course, you can also use your own JWT/JWKS endpoint for the demo.
 
 You can create a test JWT for your Google service account (assume it's stored in the environment variable `$SVC_ACCOUNT`) by following the instructions [here]({{< github_tree >}}/security/tools/jwt). Keep it in `$TOKEN`. Also set `$JWKS` corresponding to the service account `$SVC_ACCOUNT` as below:
 
@@ -436,7 +438,7 @@ You can create a test JWT for your Google service account (assume it's stored in
 $ JWKS=https://www.googleapis.com/service_accounts/v1/jwk/${SVC_ACCOUNT}
 {{< /text >}}
 
-Also, for convenience, expose `httpbin.foo` via ingressgateway (for more details, see [ingress task](/docs/tasks/traffic-management/ingress/)).
+Also, for convenience, expose `httpbin.foo` via ingressgateway (for more details, see the [ingress task](/docs/tasks/traffic-management/ingress/)).
 
 {{< text bash >}}
 $ cat <<EOF | istioctl create -f -
@@ -456,6 +458,9 @@ spec:
     hosts:
     - "*"
 EOF
+{{< /text >}}
+
+{{< text bash >}}
 $ cat <<EOF | istioctl create -f -
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -489,7 +494,7 @@ $ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 200
 {{< /text >}}
 
-Now, let's add a policy that requires end-user JWT for `httpbin.foo`. The next command assumes there is no service-specific policy for `httpbin.foo` (which should be if you run [cleanup](#cleanup-part-2) as instructed). You can run `kubectl get policies.authentication.istio.io -n foo` to confirm.
+Now, add a policy that requires end-user JWT for `httpbin.foo`. The next command assumes there is no service-specific policy for `httpbin.foo` (which should be the case if you run [cleanup](#cleanup-part-2) as described). You can run `kubectl get policies.authentication.istio.io -n foo` to confirm.
 
 {{< text bash >}}
 $ cat <<EOF | istioctl create -n foo -f -
