@@ -21,4 +21,13 @@ configuration items for all the _wikipedia_ sites, without the need to specify t
 
 ## Before you begin
 
+Follow the steps in the [Before you begin](/docs/tasks/traffic-management/egress-gateway/#before-you-begin) section of
+the [Configure an Egress Gateway](/docs/tasks/traffic-management/egress-gateway) task.
+
 ## Cleanup
+
+Shutdown the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/samples/sleep) service:
+
+{{< text bash >}}
+$ kubectl delete -f @samples/sleep/sleep.yaml@
+{{< /text >}}
