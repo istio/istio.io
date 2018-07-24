@@ -15,9 +15,9 @@ example to `*.wikipedia.org`, without the need to specify each and every host.
 ## Background
 
 Suppose we want to enable secure egress traffic control in Istio for the `wikipedia.org` sites in all the languages.
-Each version of `wikipedia.org` in a particular language has its own hostnames, e.g. `en.wikipedia.org` and
-`de.wikipedia.org` in the English and the German languages, respectively.
-
+Each version of `wikipedia.org` in a particular language has its own hostname, e.g. `en.wikipedia.org` and
+`de.wikipedia.org` in the English and the German languages, respectively. We want to enable the egress traffic by common
+configuration items for all the _wikipedia_ sites, without the need to specify the sites in all the languages.
 
 ## Before you begin
 
