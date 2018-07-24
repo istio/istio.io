@@ -27,14 +27,25 @@ this feature is not needed if the production setup is not using the
 ## Before you begin
 
 * Set up Istio by following the instructions in the
-  [quick start](/docs/setup/kubernetes/quick-start/) with global mutual TLS enabled.
-  It is recommended to install using [Helm](/docs/setup/kubernetes/helm-install/) with the Helm arguments `global.mtls.enabled` and `security.healthCheckEnabled` set as `true`.
+  [quick start](/docs/setup/kubernetes/quick-start/) with global mutual TLS enabled:
+
+    {{< text bash >}}
+    $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
+    {{< /text >}}
+
+    _**OR**_
+
+    Using [Helm](/docs/setup/kubernetes/helm-install/) with `global.mtls.enabled` to `true`.
 
 > Starting with Istio 0.7, you can use [authentication policy](/docs/concepts/security/#anatomy-of-an-authentication-policy) to configure mutual TLS for all/selected services in a namespace (repeated for all namespaces to get global setting). See [authentication policy task](/docs/tasks/security/authn-policy/)
 
 ## Deploying Citadel with health checking
 
-Deploy Citadel with health checking enabled by setting the Helm argument `security.healthCheckEnabled` as `true`.
+Deploy Citadel with health checking enabled.
+
+{{< text bash >}}
+$ kubectl apply -f install/kubernetes/istio-citadel-with-health-check.yaml
+{{< /text >}}
 
 Deploy the `istio-citadel` service so that the CSR service can be found by the health checker.
 
@@ -80,7 +91,8 @@ Observe that the health checking interval is about 15 seconds, which is the defa
 
 ## (Optional) Configuring the health checking
 
-Optionally, adjust the health checking configuration to meet your own needs. Open the `istio.yaml` generated via [helm template](/docs/setup/kubernetes/helm-install/#option-1-install-with-helm-via-helm-template), and locate the following lines.
+Optionally, adjust the health checking configuration to meet your own needs. Open the file
+`install/kubernetes/istio-citadel-with-health-check.yaml`, and locate the following lines.
 
 {{< text plain >}}
 ...
@@ -115,11 +127,14 @@ continuously failed health checks.
 
 ## Cleanup
 
-*   To disable health checking on Citadel, deploy Citadel with health checking disabled by setting the Helm argument `security.healthCheckEnabled` as `false`.
-
-*   To remove Citadel deployment and service:
+*   To disable health checking on Citadel:
 
     {{< text bash >}}
-    $ kubectl delete deploy istio-citadel -n istio-system
-    $ kubectl delete svc istio-citadel -n istio-system
+    $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
+    {{< /text >}}
+
+*   To remove Citadel:
+
+    {{< text bash >}}
+    $ kubectl delete -f install/kubernetes/istio-citadel-with-health-check.yaml
     {{< /text >}}
