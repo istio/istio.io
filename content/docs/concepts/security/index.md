@@ -576,7 +576,7 @@ Each rule has the following standard fields:
   HTTP methods.
 
 - **`paths:`** HTTP paths or gRPC methods. The gRPC methods must be in the
-   form of `packageName.serviceName/methodName` and are case sensitive.
+   form of `/packageName.serviceName/methodName` and are case sensitive.
 
 A `ServiceRole` specification only applies to the namespace specified in the
 `metadata` section. The `services:` and `methods:` fields are required in a
