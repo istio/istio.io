@@ -26,10 +26,6 @@ across the multicluster environment and may not overlap.
 
 * Helm **2.7.2 or newer**.  The use of Tiller is optional.
 
-## Caveats and known problems
-
-All known caveats and known problems with multicluster for the 1.0 release are [tracked here](https://github.com/istio/istio/issues/4822).
-
 ## Overview
 
 Multicluster functions by enabling Kubernetes control planes running
