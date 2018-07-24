@@ -61,7 +61,10 @@ and outgoing calls for the services, providing the hooks needed to externally co
 via the Istio control plane, routing, telemetry collection, and policy enforcement
 for the application as a whole.
 
-To start the application, follow the instructions below corresponding to your Istio runtime environment.
+To start the application, follow the instructions corresponding to your Istio runtime environment.
+
+* [If you are running on Kubernetes](#if-you-are-running-on-kubernetes)
+* [If you are running on Docker with Consul](#if-you-are-running-on-docker-with-consul)
 
 ### If you are running on Kubernetes
 
@@ -185,6 +188,12 @@ is used for this purpose.
     $ export GATEWAY_URL=localhost:9081
     {{< /text >}}
 
+1.  __Note for Consul users:__ In the following instructions, and when performing any follow-on routing tasks, the yaml files
+    in `samples/bookinfo/networking` will not work due to an issue with the current implementation of the default subdomain
+    for short service host names. For now, you need to use the corresponding yaml files in `samples/bookinfo/platform/consul`.
+    For example, replace `samples/bookinfo/networking/destination-rule-all.yaml` with
+    `samples/bookinfo/platform/consul/destination-rule-all.yaml` in the `istioctl create` command, below.
+
 ## Confirm the app is running
 
 To confirm that the Bookinfo application is running, run the following `curl` command:
@@ -237,8 +246,8 @@ is a good place to start for beginners.
 
 ## Cleanup
 
-When you're finished experimenting with the Bookinfo sample, you can
-uninstall and clean it up using the following instructions.
+When you're finished experimenting with the Bookinfo sample, uninstall and clean
+it up using the following instructions corresponding to your Istio runtime environment.
 
 ### Uninstall from Kubernetes environment
 
@@ -257,7 +266,7 @@ uninstall and clean it up using the following instructions.
     $ kubectl get pods               #-- the Bookinfo pods should be deleted
     {{< /text >}}
 
-### Uninstall from Docker environment
+### Uninstall from Docker with Consul environment
 
 1.  Delete the routing rules and application containers
 
