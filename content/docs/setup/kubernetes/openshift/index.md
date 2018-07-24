@@ -1,5 +1,5 @@
 ---
-title: Platform setup for Openshift Origin
+title: Platform setup for Openshift
 description: Instructions to setup the Openshift cluster for Istio.
 weight: 13
 keywords: [openshift]
@@ -19,7 +19,6 @@ $ oc adm policy add-scc-to-user anyuid -z istio-egressgateway-service-account -n
 $ oc adm policy add-scc-to-user anyuid -z istio-citadel-service-account -n istio-system
 $ oc adm policy add-scc-to-user anyuid -z istio-ingressgateway-service-account -n istio-system
 $ oc adm policy add-scc-to-user anyuid -z istio-cleanup-old-ca-service-account -n istio-system
-$ oc adm policy add-scc-to-user anyuid -z istio-mixer-post-install-account -n istio-system
 $ oc adm policy add-scc-to-user anyuid -z istio-mixer-service-account -n istio-system
 $ oc adm policy add-scc-to-user anyuid -z istio-pilot-service-account -n istio-system
 $ oc adm policy add-scc-to-user anyuid -z istio-sidecar-injector-service-account -n istio-system

@@ -7,6 +7,8 @@ keywords: [ibm,iks]
 
 Follow these instructions to setup the IBM Cloud Kubernetes Service (IKS) cluster for Istio.
 
+## IBM Cloud Kubernetes Service (IKS)
+
 1. Create a new lite cluster.
 
     {{< text bash >}}
@@ -27,7 +29,7 @@ Follow these instructions to setup the IBM Cloud Kubernetes Service (IKS) cluste
     $(bx cs cluster-config <cluster-name>|grep "export KUBECONFIG")
     {{< /text >}}
 
-### IBM Cloud Private
+## IBM Cloud Private
 
 [Configure the kubectl CLI](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0/manage_cluster/cfc_cli.html)
 to access the IBM Cloud Private Cluster.
