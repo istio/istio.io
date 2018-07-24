@@ -119,7 +119,7 @@ keywords: [traffic-management,routing]
 
 1.  将来自特定用户的请求路由到 `reviews:v2`。
 
-    通过将来自 productpage 的流量路由到 `reviews:v2` 实例，为测试用户 “jason” 启用 ratings 服务。
+    通过将来自 productpage 的流量路由到 `reviews:v2` 实例，为测试用户 "jason” 启用 ratings 服务。
 
     {{< text bash >}}
     $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-test-v2.yaml@
@@ -140,8 +140,8 @@ keywords: [traffic-management,routing]
       http:
       - match:
         - headers:
-            cookie:
-              regex: ^(.*?;)?(user=jason)(;.*)?$
+            end-user:
+              exact: jason
         route:
         - destination:
             host: reviews
@@ -152,35 +152,25 @@ keywords: [traffic-management,routing]
             subset: v1
     {{< /text >}}
 
-1.  在 `productpage` 网页上以用户 “jason” 身份登录。
+1.  在 `productpage` 网页上以用户 "jason” 身份登录。
 
     您现在应该在每次评论旁边看到评分（1-5颗星）。 请注意，如果您以任何其他用户身份登录，您将会继续看到 `reviews:v1` 版本服务，即不包含星级评价的页面。
 
 ## 理解原理
 
-在此任务中，您首先使用 Istio 将100%的请求流量都路由到了 BookInfo 服务的v1版本。 然后再设置了一条路由规则，该路由规则基于请求的 header（例如一个用户 cookie）选择性地将特定的流量路由到了 reviews 服务的v2版本。
+在此任务中，您首先使用 Istio 将 100% 的请求流量都路由到了 BookInfo 服务的 v1 版本。 然后再设置了一条路由规则，该路由规则在 productpage 服务中添加基于请求的 "end-user" 自定义 header 选择性地将特定的流量路由到了 reviews 服务的 v2 版本。
 
-请注意，为了利用 Istio 的L7路由功能，Kubernetes 中的服务（如本任务中使用的 Bookinfo 服务）必须遵守某些特定限制。
-参考[sidecar injection documentation](/docs/setup/kubernetes/sidecar-injection/#pod-spec-requirements)了解详情。
+请注意，为了利用 Istio 的 L7 路由功能，Kubernetes 中的服务（如本任务中使用的 Bookinfo 服务）必须遵守某些特定限制。
+参考 [sidecar 注入文档](/docs/setup/kubernetes/sidecar-injection/#pod-spec-requirements)了解详情。
 
-一旦v2版本测试达到我们的满意度，我们就可以使用 Istio 将所有用户的流量发送到v2，可选择逐步进行。 我们将在另一个单独的任务中对此进行尝试。
+在[流量转移](/docs/tasks/traffic-management/traffic-shifting)任务中，您将按照在此处学习的相同基本模式来配置路由规则，以逐步将流量从服务的一个版本发送到另一个版本。
 
 ## 清除
 
-* 删除应用程序路由规则。
+1. 删除应用程序 virtual service。
 
     {{< text bash >}}
     $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
-    {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/networking/destination-rule-all.yaml@
-    {{< /text >}}
-
-    如果您启用了 `mTLS` ，请运行以下代码
-
-    {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
-    {{< /text >}}
-
-* 如果您不打算探索任何后续任务，请参阅 [Bookinfo 清理](/docs/examples/bookinfo/#cleanup) 的说明关闭应用程序。
+1. 如果您不打算探索任何后续任务，请参阅 [Bookinfo 清理](/docs/examples/bookinfo/#cleanup) 的说明关闭应用程序。

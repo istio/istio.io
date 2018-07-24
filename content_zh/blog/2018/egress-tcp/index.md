@@ -52,7 +52,7 @@ keywords: [traffic-management,egress,tcp]
     "CREATE USER 'bookinfo' IDENTIFIED BY '<password you choose>'; GRANT SELECT ON test.ratings to 'bookinfo';"
     {{< /text >}}
 
-    在这里，我应用[最小特权原则](https://en.wikipedia.org/wiki/Principle_of_least_privilege), 这意味着我不在 Bookinfo 应用程序中使用我的 _admin_ 用户, 相反，我为应用程序 Bookinfo 创建了一个最小权限的特殊用户 _bookinfo_ , 在这种情况下，_bookinfo_ 用户只对单个表具有“SELECT”特权。
+    在这里，我应用[最小特权原则](https://en.wikipedia.org/wiki/Principle_of_least_privilege), 这意味着我不在 Bookinfo 应用程序中使用我的 _admin_ 用户, 相反，我为应用程序 Bookinfo 创建了一个最小权限的特殊用户 _bookinfo_ , 在这种情况下，_bookinfo_ 用户只对单个表具有"SELECT”特权。
 
     在运行命令创建用户之后，我将通过检查最后一个命令的编号并运行`history -d <创建用户的命令编号>` 来清理我的bash历史记录, 我不希望新用户的密码存储在bash历史记录中, 如果我使用`mysql`，我也会删除`~/.mysql_history`文件中的最后一个命令, 在[MySQL文档](https://dev.mysql.com/doc/refman/5.5/en/create-user.html)中阅读有关新创建用户的密码保护的更多信息。
 
@@ -146,7 +146,7 @@ keywords: [traffic-management,egress,tcp]
       value: password
     {{< /text >}}
 
-    我替换上面代码段中的值，指定数据库主机，端口，用户和密码, 请注意，在 Kubernetes 中使用容器环境变量中密码的正确方法是[使用 secret](https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables), 仅对于此示例任务，我直接在 deployment spec 中编写密码 , **切记！ 不要在真实环境中这样做**！, 我还假设每个人都知道到“密码”不应该明文配置在配置文件中
+    我替换上面代码段中的值，指定数据库主机，端口，用户和密码, 请注意，在 Kubernetes 中使用容器环境变量中密码的正确方法是[使用 secret](https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables), 仅对于此示例任务，我直接在 deployment spec 中编写密码 , **切记！ 不要在真实环境中这样做**！, 我还假设每个人都知道到"密码”不应该明文配置在配置文件中
 
 1. 我应用修改后的 `spec` 来部署使用外部数据库的 _ratings_ 服务，_v2-mysql_ 的版本。
 
@@ -177,7 +177,7 @@ keywords: [traffic-management,egress,tcp]
 
 在[确定入口IP和端口](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)之后，让我们访问应用程序的网页。
 
-我们遇到了问题...在每次审核下方都会显示消息 _“Ratings service is currently unavailable”_  而不是评级星标。
+我们遇到了问题...在每次审核下方都会显示消息 _"Ratings service is currently unavailable”_  而不是评级星标。
 
 {{< image width="80%" ratio="36.19%"
     link="/blog/2018/egress-tcp/errorFetchingBookRating.png"
@@ -246,7 +246,7 @@ Created config egress-rule/default/mysql at revision 1954425
 
 ## TCP 流量的出口规则
 
-启用到特定端口的 TCP 流量的出口规则必须指定 “TCP” 作为端口的协议, 此外，对于[MongoDB wire协议](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/)，协议可以指定为“MONGO”，而不是“TCP”。
+启用到特定端口的 TCP 流量的出口规则必须指定 "TCP” 作为端口的协议, 此外，对于[MongoDB wire协议](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/)，协议可以指定为"MONGO”，而不是"TCP”。
 
 对于规则的`destination.service`字段，必须使用[CIDR](https://tools.ietf.org/html/rfc2317)表示法中的 IP 或 IP 块。
 

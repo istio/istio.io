@@ -111,6 +111,7 @@ Lyft
 macOS
 Manolache
 Memquota
+MeshPolicy
 Mesos
 Minikube
 MongoDB
@@ -235,6 +236,7 @@ dev
 docker.io
 e.g.
 eBPF
+egressgateway
 enablement
 endUser-to-Service
 env
@@ -408,6 +410,8 @@ rollouts
 routable
 runtime
 runtimes
+RPC
+RPCs
 sa
 sayin
 schemas
