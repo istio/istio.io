@@ -24,7 +24,7 @@ keywords: [security,mutual-tls]
 
     使用 [Helm](/docs/setup/kubernetes/helm-install/) 进行安装，设置 `global.mtls.enabled` 为 `true`.
 
-> 从 Istio 0.7 开始，可以使用[认证策略](/docs/concepts/security/#anatomy-of-an-authentication-policy)来给命名空间中全部/部分服务配置双向 TLS 功能。（在所有命名空间中重复此操作，就相当于全局配置了）。这部分内容可参考[认证策略任务](/docs/tasks/security/authn-policy/)
+> 从 Istio 0.7 开始，可以使用[认证策略](/docs/concepts/security/#authentication-policies)来给命名空间中全部/部分服务配置双向 TLS 功能。（在所有命名空间中重复此操作，就相当于全局配置了）。这部分内容可参考[认证策略任务](/docs/tasks/security/authn-policy/)
 
 * 接下来进行演示应用的部署，首先是注入 Envoy sidecar 的 [httpbin](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/httpbin) 以及 [sleep](https://github.com/istio/istio/tree/master/samples/sleep)。为简单起见，我们将演示应用安装到 `default` 命名空间。如果想要部署到其他命名空间，可以在下一节的示例命令中加入 `-n yournamespace`。
 
