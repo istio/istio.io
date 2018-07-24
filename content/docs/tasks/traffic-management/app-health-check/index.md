@@ -46,36 +46,38 @@ The number '0' in the 'RESTARTS' column means liveness probes worked fine. Readi
 
 ### Mutual TLS enabled
 
-Run these commands to enable mutual TLS for services in the default namespace. Note that you need both authentication policy and
-destination rule to complete the configuration:
+To enable mutual TLS for services in the default namespace, you must configure an authentication policy and a destination rule.
+Follow these steps to complete the configuration:
 
-{{< text bash >}}
-$ cat <<EOF | istioctl create -f -
-apiVersion: "authentication.istio.io/v1alpha1"
-kind: "Policy"
-metadata:
-  name: "default"
-  namespace: "default"
-spec:
-  peers:
-  - mtls: {}
-EOF
-{{< /text >}}
+1. To configure the authentication policy, run:
+    {{< text bash >}}
+    $ cat <<EOF | istioctl create -f -
+    apiVersion: "authentication.istio.io/v1alpha1"
+    kind: "Policy"
+    metadata:
+      name: "default"
+      namespace: "default"
+    spec:
+      peers:
+      - mtls: {}
+    EOF
+    {{< /text >}}
 
-{{< text bash >}}
-$ cat <<EOF | istioctl create -f -
-apiVersion: "networking.istio.io/v1alpha3"
-kind: "DestinationRule"
-metadata:
-  name: "default"
-  namespace: "default"
-spec:
-  host: "*.default.svc.cluster.local"
-  trafficPolicy:
-    tls:
-      mode: ISTIO_MUTUAL
-EOF
-{{< /text >}}
+1. To configure the destination rule, run:
+    {{< text bash >}}
+    $ cat <<EOF | istioctl create -f -
+    apiVersion: "networking.istio.io/v1alpha3"
+    kind: "DestinationRule"
+    metadata:
+      name: "default"
+      namespace: "default"
+    spec:
+      host: "*.default.svc.cluster.local"
+      trafficPolicy:
+        tls:
+          mode: ISTIO_MUTUAL
+    EOF
+    {{< /text >}}
 
 Run this command to re-deploy the service:
 
@@ -84,20 +86,34 @@ $ kubectl delete -f <(istioctl kube-inject -f @samples/health-check/liveness-com
 $ kubectl apply -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
 {{< /text >}}
 
-Repeat the commands in the previous section to verify that the liveness probes work.
+Repeat the check status command to verify that the liveness probes work:
+
+{{< text bash >}}
+$ kubectl get pod
+NAME                             READY     STATUS    RESTARTS   AGE
+liveness-6857c8775f-zdv9r        2/2       Running   0           4m
+{{< /text >}}
+
+### Cleanup
+
+Remove the mutual TLS policy and corresponding destination rule added in the steps above:
+
+1. To remove the mutual TLS policy, run:
+    {{< text bash >}}
+    $ kubectl delete policies default
+    {{< /text >}}
+
+1. To remove the corresponding destination rule, run:
+    {{< text bash >}}
+    $ kubectl delete destinationrules default
+    {{< /text >}}
+
 
 ## Liveness and readiness probes with HTTP request option
 
 This section shows how to configure health checking with the HTTP request option.
 
 ### Mutual TLS is disabled
-
-Run this command to remove the mutual TLS policy and corresponding destination rule:
-
-{{< text bash >}}
-$ kubectl delete policies default
-$ kubectl delete destinationrules default
-{{< /text >}}
 
 Run this command to deploy [liveness-http]({{< github_file >}}/samples/health-check/liveness-http.yaml) in the default namespace:
 
@@ -115,35 +131,37 @@ liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
 
 ### Mutual TLS is enabled
 
-Run these commands to enable mutual TLS for services in the default namespace:
+Again, enable mutual TLS for services in the default namespace by adding namespace-wide authentication policy and a destination rule:
 
-{{< text bash >}}
-$ cat <<EOF | istioctl create -f -
-apiVersion: "authentication.istio.io/v1alpha1"
-kind: "Policy"
-metadata:
-  name: "default"
-  namespace: "default"
-spec:
-  peers:
-  - mtls: {}
-EOF
-{{< /text >}}
+1. To configure the authentication policy, run:
+    {{< text bash >}}
+    $ cat <<EOF | istioctl create -f -
+    apiVersion: "authentication.istio.io/v1alpha1"
+    kind: "Policy"
+    metadata:
+      name: "default"
+      namespace: "default"
+    spec:
+      peers:
+      - mtls: {}
+    EOF
+    {{< /text >}}
 
-{{< text bash >}}
-$ cat <<EOF | istioctl create -f -
-apiVersion: "networking.istio.io/v1alpha3"
-kind: "DestinationRule"
-metadata:
-  name: "default"
-  namespace: "default"
-spec:
-  host: "*.default.svc.cluster.local"
-  trafficPolicy:
-    tls:
-      mode: ISTIO_MUTUAL
-EOF
-{{< /text >}}
+1. To configure the destination rule, run:
+    {{< text bash >}}
+    $ cat <<EOF | istioctl create -f -
+    apiVersion: "networking.istio.io/v1alpha3"
+    kind: "DestinationRule"
+    metadata:
+      name: "default"
+      namespace: "default"
+    spec:
+      host: "*.default.svc.cluster.local"
+      trafficPolicy:
+        tls:
+          mode: ISTIO_MUTUAL
+    EOF
+    {{< /text >}}
 
 Run these commands to re-deploy the service:
 
