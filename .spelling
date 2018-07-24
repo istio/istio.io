@@ -42,8 +42,6 @@ Budinsky
 CAP_NET_ADMIN
 CAs
 CDNs
-CDR
-CDRs
 CIDRs
 CIOs
 cli
@@ -56,6 +54,8 @@ cnn.com
 Cmd
 Config
 ConfigMap
+CRD
+CRDs
 Ctrl
 D3.js
 Datadog

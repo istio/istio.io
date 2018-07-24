@@ -13,13 +13,13 @@ aliases:
 Istio aims to enhance the security of microservices and their communication
 without requiring service code changes. It is responsible for:
 
-* Providing each service with a strong identity that represents its role to
+- Providing each service with a strong identity that represents its role to
   enable interoperability across clusters and clouds
 
-* Securing service to service communication and end-user to service
+- Securing service to service communication and end-user to service
   communication
 
-* Providing a key management system to automate key and certificate generation,
+- Providing a key management system to automate key and certificate generation,
   distribution, rotation, and revocation
 
 The following diagram shows Istio's security architecture, which includes three
@@ -36,7 +36,7 @@ bare-metal machines.
     caption="Istio Security Architecture"
     >}}
 
-As illustrated in the diagram, Istio leverages secret volume mounts to deliver
+As illustrated in the diagram, Istio uses secret volume mounts to deliver
 keys and certificates from Citadel to Kubernetes containers. For services
 running on VMs or bare-metal machines, we introduce a node agent, which is a
 process running on each VM or bare-metal machine. The node agent generates the
@@ -51,7 +51,7 @@ private key to Envoy.
 Istio uses [Kubernetes service accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/)
 to identify who runs the service:
 
-* A service account in Istio has the format:
+- A service account in Istio has the format:
   `spiffe://\<_domain_\>/ns/\<_namespace_>/sa/\<_serviceaccount_\>`.
 
     * Replace `_domain_` with `_cluster.local_`. We will support customization
@@ -60,7 +60,7 @@ to identify who runs the service:
       account.
     * Replace `_serviceaccount_` with the Kubernetes service account name.
 
-* A service account is **the identity or role a workload runs as**. The service
+- A service account is **the identity or role a workload runs as**. The service
   account represents that workload's privileges. For systems requiring strong
   security, neither a random string, such as a service name, label, etc., nor
   the deployed binary should identify the amount of privilege for a workload.
@@ -68,14 +68,14 @@ to identify who runs the service:
   database. If Alice runs this workload, she pulls a different set of data than
   if Bob runs this workload.
 
-* To enable strong security policies, service accounts offer the flexibility
+- To enable strong security policies, service accounts offer the flexibility
   to identify a machine, a user, a workload, or a group of workloads. Different
   workloads can even run as the same service account.
 
-* The service account a workload runs as won't change during the lifetime of
+- The service account a workload runs as won't change during the lifetime of
   the workload.
 
-* With domain name constraint, you can ensure service account uniqueness.
+- With domain name constraint, you can ensure service account uniqueness.
 
 ### Communication security
 
@@ -83,11 +83,11 @@ Istio tunnels service-to-service communication through the client side
 [Envoy](https://envoyproxy.github.io/envoy/) and the server side Envoy.
 Istio secures end-to-end communication via:
 
-* **Local TCP** connections between the service and Envoy.
+- **Local TCP** connections between the service and Envoy.
 
-* **Mutual TLS** connections between proxies.
+- **Mutual TLS** connections between proxies.
 
-* **Secure Naming**: during the handshake process, the client side Envoy checks
+- **Secure Naming**: during the handshake process, the client side Envoy checks
   that the service account the server side certificate provided is allowed
   to run the target service.
 
@@ -101,15 +101,15 @@ For services running on Kubernetes pods, the per-cluster Citadel, acting as
 *Certificate Authority*, automates the key and certificate management process.
 Citadel mainly performs four critical operations:
 
-* **Generate** a [SPIFFE](https://spiffe.github.io/docs/svid) key and
+- **Generate** a [SPIFFE](https://spiffe.github.io/docs/svid) key and
   certificate pair for each service account
 
-* **Distribute** a key and certificate pair to each pod according to the
+- **Distribute** a key and certificate pair to each pod according to the
   service account
 
-* **Rotate** keys and certificates periodically
+- **Rotate** keys and certificates periodically
 
-* **Revoke** a specific key and certificate pair when necessary
+- **Revoke** a specific key and certificate pair when necessary
 
 For services running on VMs or bare-metal machines, Citadel performs the above
 four operations together with node agents.
@@ -181,19 +181,21 @@ real-world scenario.
 
 #### Deployment guidelines
 
-* If there are multiple service operators, a.k.a.
-  [SREs](https://en.wikipedia.org/wiki/Site_reliability_engineering)),
-  deploying different services in a medium- or large-size cluster, we recommend
-  creating a separate
-  [namespace](https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/)
-  for each SRE team to isolate their access. For example, you can create a
-  `team1-ns` namespace for `team1`, and `team2-ns` namespace for `team2`, such
-  that both teams can't access each other's services.
+If there are multiple service operators, a.k.a.
+[SREs](https://en.wikipedia.org/wiki/Site_reliability_engineering)),
+deploying different services in a medium- or large-size cluster, we recommend
+creating a separate
+[namespace](https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/)
+for each SRE team to isolate their access. For example, you can create a
+`team1-ns` namespace for `team1`, and `team2-ns` namespace for `team2`, such
+that both teams can't access each other's services.
 
-* If Citadel is compromised, all its managed keys and certificates in the
-  cluster may be exposed. We **strongly** recommend running Citadel in a
-  dedicated namespace, for example `istio-citadel-ns`, to restrict access to
-  the cluster to only administrators.
+{{< warning_icon >}}
+
+If Citadel is compromised, all its managed keys and certificates in the
+cluster may be exposed. We **strongly** recommend running Citadel in a
+dedicated namespace, for example `istio-citadel-ns`, to restrict access to
+the cluster to only administrators.
 
 #### Example
 
@@ -214,15 +216,15 @@ team creates one service account to run the `datastore` service in the
 control in [Istio Mixer](/docs/concepts/policies-and-telemetry/) such that
 `photo-frontend` cannot access datastore.
 
-In this setup, Citadel can provide key- and certificate-management for
-all namespaces and isolate microservice deployments from each other.
+In this setup, Citadel can provide both key  management and certificate
+management for all namespaces and isolate microservice deployments from each
+other.
 
 ## Authentication
 
 Istio provides two types of authentication:
 
-
-* Transport authentication, also known as service-to-service authentication:
+- Transport authentication, also known as service-to-service authentication:
   verifies the direct client making the connection. Istio offers mutual TLS
   (mTLS) as a full stack solution for transport authentication. You can
   easily turn on this feature without requiring service code changes. This
@@ -235,7 +237,7 @@ Istio provides two types of authentication:
     * Provides a key management system to automate key and certificate
       generation, distribution, rotation, and revocation.
 
-* Origin authentication, also known as end-user authentication: verifies the
+- Origin authentication, also known as end-user authentication: verifies the
   original client making the request as an end-user or device. Istio
   1.0 supports authentication with JSON Web Token (JWT) validation.
 
@@ -307,7 +309,7 @@ spec:
 Istio can store authentication policies in namespace-scope or mesh-scope
 storage:
 
-* Mesh-scope policy is specified with a value of `"MeshPolicy"` for the `kind`
+- Mesh-scope policy is specified with a value of `"MeshPolicy"` for the `kind`
   field and the name `“default”`. For example:
 
     {{< text yaml >}}
@@ -320,8 +322,7 @@ storage:
       * mtls: {}
     {{< /text >}}
 
-
-* Namespace-scope policy is specified with a value of `"Policy"` for the `kind`
+- Namespace-scope policy is specified with a value of `"Policy"` for the `kind`
   field and a specified namespace. If unspecified, the default namespace is
   used. For example for namespace `ns1`:
 
@@ -355,8 +356,8 @@ An authentication policy’s targets specify the service or services to which th
 policy applies. The following example shows a `targets:` section specifying
 that the policy applies to:
 
-* The `product-page` service on any port.
-* The reviews service on port `9000`.
+- The `product-page` service on any port.
+- The reviews service on port `9000`.
 
 {{< text yaml >}}
 targets:
@@ -370,15 +371,15 @@ If you don't provide a `targets:` section, Istio matches the policy to all
 services in the storage scope of the policy. Thus, the `targets:` section can
 help you specify the scope of the policies:
 
-* Mesh-wide policy: A policy defined in the mesh-scope storage with no target
+- Mesh-wide policy: A policy defined in the mesh-scope storage with no target
   selector section. There can be at most **one** mesh-wide policy **in the
   mesh**.
 
-* Namespace-wide policy: A policy defined in the namespace-scope storage with
+- Namespace-wide policy: A policy defined in the namespace-scope storage with
   name `default` and no target selector section. There can be at most **one**
   namespace-wide policy **per namespace**.
 
-* Service-specific policy: a policy defined in the namespace-scope storage,
+- Service-specific policy: a policy defined in the namespace-scope storage,
   with non-empty target selector section. A namespace can have **zero, one, or
   many** service-specific policies.
 
@@ -457,7 +458,7 @@ to the endpoints almost in real time. However, Istio can't guarantee that all
 endpoints receive a new policy at the same time. The following are
 recommendations to avoid disruption when updating your authentication policies:
 
-* To enable or disable mutual TLS: Use a temporary policy with a `mode:` key
+- To enable or disable mutual TLS: Use a temporary policy with a `mode:` key
   and a `PERMISSIVE` value. This configures receiving services to accept both
   types of traffic: plain text and TLS. Thus, no request is dropped. Once all
   clients switch to the expected protocol, with or without mTLS, you can
@@ -470,7 +471,7 @@ peers:
     mode: PERMISSIVE
 {{< /text >}}
 
-* For JWT authentication migration: requests should contain new JWT before
+- For JWT authentication migration: requests should contain new JWT before
   changing policy. Once the server side has completely switched to the new
   policy, the old JWT, if there is any, can be removed. Client applications
   need to be changed for these changes to work.
@@ -481,11 +482,11 @@ Istio's authorization feature - also known as Role-based Access Control (RBAC)
 - provides namespace-level, service-level, and method-level access control for
 services in an Istio Mesh. It features:
 
-* **Role-Based semantics**, which are simple and easy to use.
-* **Service-to-service and end-user-to-service authorization**.
-* **Flexibility through custom properties support**, for example conditions,
+- **Role-Based semantics**, which are simple and easy to use.
+- **Service-to-service and end-user-to-service authorization**.
+- **Flexibility through custom properties support**, for example conditions,
   in roles and role-bindings.
-* **High performance**, as Istio authorization is enforced natively on Envoy.
+- **High performance**, as Istio authorization is enforced natively on Envoy.
 
 ### Authorization architecture
 
@@ -520,11 +521,11 @@ objects, `RbacConfig` is defined as a
 In the `RbacConfig` object, the operator can specify a `mode` value, which can
 be:
 
-* **`OFF`**: Istio authorization is disabled.
-* **`ON`**: Istio authorization is enabled for all services in the mesh.
-* **`ON_WITH_INCLUSION`**: Istio authorization is enabled only for services and
+- **`OFF`**: Istio authorization is disabled.
+- **`ON`**: Istio authorization is enabled for all services in the mesh.
+- **`ON_WITH_INCLUSION`**: Istio authorization is enabled only for services and
   namespaces specified in the `inclusion` field.
-* **`ON_WITH_EXCLUSION`**: Istio authorization is enabled for all services in
+- **`ON_WITH_EXCLUSION`**: Istio authorization is enabled for all services in
   the mesh except the services and namespaces specified in the `exclusion`
   field.
 
@@ -550,16 +551,16 @@ To configure an Istio authorization policy, you specify a `ServiceRole` and
 defined as
 Kubernetes `CustomResourceDefinition` [(CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) objects.
 
-* **`ServiceRole`** defines a group of permissions to access services.
-* **`ServiceRoleBinding`** grants a `ServiceRole` to particular subjects, such
+- **`ServiceRole`** defines a group of permissions to access services.
+- **`ServiceRoleBinding`** grants a `ServiceRole` to particular subjects, such
   as a user, a group, or a service.
 
 The combination of `ServiceRole` and `ServiceRoleBinding` specifies: **who** is
 allowed to do **what** under **which conditions**. Specifically:
 
-* **who** refers to the `subjects:` section in `ServiceRoleBinding`.
-* **what** refers to the `permissions:` section in `ServiceRole`.
-* **which conditions** refers to the `conditions:` section you can specify with
+- **who** refers to the `subjects:` section in `ServiceRoleBinding`.
+- **what** refers to the `permissions:` section in `ServiceRole`.
+- **which conditions** refers to the `conditions:` section you can specify with
   the [Istio attributes](https://istio.io/docs/reference/config/policy-and-telemetry/attribute-vocabulary/)
   in either `ServiceRole` or `ServiceRoleBinding`.
 
@@ -568,14 +569,14 @@ allowed to do **what** under **which conditions**. Specifically:
 A `ServiceRole` specification includes a list of `rules:`, AKA permissions.
 Each rule has the following standard fields:
 
-* **`services:`** A list of service names. You can set the value to `*` to
+- **`services:`** A list of service names. You can set the value to `*` to
   include all services in the specified namespace.
 
-* **`methods:`** A list of HTTP method names, for permissions on gRPC requests,
+- **`methods:`** A list of HTTP method names, for permissions on gRPC requests,
   the HTTP verb is always `POST`. You can set the value to `*` to include all
   HTTP methods.
 
-* **`paths:`** HTTP paths or gRPC methods. The gRPC methods must be in the
+- **`paths:`** HTTP paths or gRPC methods. The gRPC methods must be in the
    form of `packageName.serviceName/methodName` and are case sensitive.
 
 A `ServiceRole` specification only applies to the namespace specified in the
@@ -618,9 +619,9 @@ In addition, we support prefix matching and suffix matching for all the fields
 in a rule. For example, you can define a `tester` role with the following
 permissions in the `default` namespace:
 
-* Full access to all services with prefix `"test-*"`, for example:
+- Full access to all services with prefix `"test-*"`, for example:
    `test-bookstore`, `test-performance`, `test-api.default.svc.cluster.local`.
-* Read (`"GET"`) access to all paths with `"*/reviews"` suffix, for example:
+- Read (`"GET"`) access to all paths with `"*/reviews"` suffix, for example:
    `/books/reviews`, `/events/booksale/reviews`, `/reviews` in service
    `bookstore.default.svc.cluster.local`.
 
@@ -670,11 +671,10 @@ spec:
 
 #### `ServiceRoleBinding`
 
-
 A `ServiceRoleBinding` specification includes two parts:
 
-*  **`roleRef`** refers to a `ServiceRole` resource in the same namespace.
-*  A list of **`subjects:`** that are assigned to the role.
+-  **`roleRef`** refers to a `ServiceRole` resource in the same namespace.
+-  A list of **`subjects:`** that are assigned to the role.
 
 You can either explicitly specify a *subject* with a `user:` or with a set of
 `properties:`.  A *property* in a `ServiceRoleBinding` *subject* is similar to
@@ -688,8 +688,8 @@ The following example shows a `ServiceRoleBinding` named
 `test-binding-products`, which binds two subjects to the `ServiceRole` named
 `"product-viewer"` and has the following `subjects:`
 
-* A service account representing service **a**, `"service-account-a"`.
-* A service account representing the Ingress service
+- A service account representing service **a**, `"service-account-a"`.
+- A service account representing the Ingress service
   `"istio-ingress-service-account"` **and** where the JWT `"email"` claim is
   `"a@foo.com"`.
 
