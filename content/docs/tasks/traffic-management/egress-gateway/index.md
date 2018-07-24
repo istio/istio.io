@@ -126,23 +126,25 @@ First direct HTTP traffic without TLS origination
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
     metadata:
-      name: set-sni-for-egress-gateway
+      name: egressgateway-for-cnn
     spec:
       host: istio-egressgateway.istio-system.svc.cluster.local
-      trafficPolicy:
-        loadBalancer:
-          simple: ROUND_ROBIN
-        portLevelSettings:
-        - port:
-            number: 80
-          tls:
-            mode: MUTUAL
-            clientCertificate: /etc/certs/cert-chain.pem
-            privateKey: /etc/certs/key.pem
-            caCertificates: /etc/certs/root-cert.pem
-            subjectAltNames:
-            - spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
-            sni: edition.cnn.com
+      subsets:
+      - name: cnn
+        trafficPolicy:
+          loadBalancer:
+            simple: ROUND_ROBIN
+          portLevelSettings:
+          - port:
+              number: 80
+            tls:
+              mode: MUTUAL
+              clientCertificate: /etc/certs/cert-chain.pem
+              privateKey: /etc/certs/key.pem
+              caCertificates: /etc/certs/root-cert.pem
+              subjectAltNames:
+              - spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
+              sni: edition.cnn.com
     EOF
     {{< /text >}}
 
@@ -163,6 +165,15 @@ First direct HTTP traffic without TLS origination
             protocol: HTTP
           hosts:
           - edition.cnn.com
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: egressgateway-for-cnn
+    spec:
+      host: istio-egressgateway.istio-system.svc.cluster.local
+      subsets:
+      - name: cnn    
     EOF
     {{< /text >}}
 
@@ -173,7 +184,7 @@ First direct HTTP traffic without TLS origination
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
-      name: direct-through-egress-gateway
+      name: direct-cnn-through-egress-gateway
     spec:
       hosts:
       - edition.cnn.com
@@ -188,6 +199,7 @@ First direct HTTP traffic without TLS origination
         route:
         - destination:
             host: istio-egressgateway.istio-system.svc.cluster.local
+            subset: cnn
             port:
               number: 80
           weight: 100
@@ -243,8 +255,8 @@ Remove the previous definitions before proceeding to the next step:
 {{< text bash >}}
 $ istioctl delete gateway istio-egressgateway
 $ istioctl delete serviceentry cnn
-$ istioctl delete virtualservice direct-through-egress-gateway
-$ istioctl delete destinationrule set-sni-for-egress-gateway
+$ istioctl delete virtualservice direct-cnn-through-egress-gateway
+$ istioctl delete destinationrule egressgateway-for-cnn
 {{< /text >}}
 
 ## Perform TLS origination with the egress `Gateway`
@@ -319,23 +331,25 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
     metadata:
-      name: set-sni-for-egress-gateway
+      name: egressgateway-for-cnn
     spec:
       host: istio-egressgateway.istio-system.svc.cluster.local
-      trafficPolicy:
-        loadBalancer:
-          simple: ROUND_ROBIN
-        portLevelSettings:
-        - port:
-            number: 443
-          tls:
-            mode: MUTUAL
-            clientCertificate: /etc/certs/cert-chain.pem
-            privateKey: /etc/certs/key.pem
-            caCertificates: /etc/certs/root-cert.pem
-            subjectAltNames:
-            - spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
-            sni: edition.cnn.com
+      subsets:
+      - name: cnn
+        trafficPolicy:
+          loadBalancer:
+            simple: ROUND_ROBIN
+          portLevelSettings:
+          - port:
+              number: 443
+            tls:
+              mode: MUTUAL
+              clientCertificate: /etc/certs/cert-chain.pem
+              privateKey: /etc/certs/key.pem
+              caCertificates: /etc/certs/root-cert.pem
+              subjectAltNames:
+              - spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
+              sni: edition.cnn.com
     EOF
     {{< /text >}}
 
@@ -356,6 +370,15 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
           protocol: HTTP
         hosts:
         - edition.cnn.com
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: egressgateway-for-cnn
+    spec:
+      host: istio-egressgateway.istio-system.svc.cluster.local
+      subsets:
+      - name: cnn
     EOF
     {{< /text >}}
 
@@ -367,7 +390,7 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
-      name: direct-through-egress-gateway
+      name: direct-cnn-through-egress-gateway
     spec:
       hosts:
       - edition.cnn.com
@@ -382,6 +405,7 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
         route:
         - destination:
             host: istio-egressgateway.istio-system.svc.cluster.local
+            subset: cnn
             port:
               number: 443
           weight: 100
@@ -444,9 +468,9 @@ Remove the Istio configuration items we created:
 {{< text bash >}}
 $ istioctl delete gateway istio-egressgateway
 $ istioctl delete serviceentry cnn
-$ istioctl delete virtualservice direct-through-egress-gateway
+$ istioctl delete virtualservice direct-cnn-through-egress-gateway
 $ istioctl delete destinationrule originate-tls-for-edition-cnn-com
-$ istioctl delete destinationrule set-sni-for-egress-gateway
+$ istioctl delete destinationrule egressgateway-for-cnn
 {{< /text >}}
 
 ## Direct HTTPS traffic through an egress gateway
@@ -515,23 +539,25 @@ The output should be the same as in the previous section.
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
     metadata:
-      name: set-sni-for-egress-gateway
+      name: egressgateway-for-cnn
     spec:
       host: istio-egressgateway.istio-system.svc.cluster.local
-      trafficPolicy:
-        loadBalancer:
-          simple: ROUND_ROBIN
-        portLevelSettings:
-        - port:
-            number: 443
-          tls:
-            mode: MUTUAL
-            clientCertificate: /etc/certs/cert-chain.pem
-            privateKey: /etc/certs/key.pem
-            caCertificates: /etc/certs/root-cert.pem
-            subjectAltNames:
-            - spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
-            sni: edition.cnn.com
+      subsets:
+      - name: cnn
+        trafficPolicy:
+          loadBalancer:
+            simple: ROUND_ROBIN
+          portLevelSettings:
+          - port:
+              number: 443
+            tls:
+              mode: MUTUAL
+              clientCertificate: /etc/certs/cert-chain.pem
+              privateKey: /etc/certs/key.pem
+              caCertificates: /etc/certs/root-cert.pem
+              subjectAltNames:
+              - spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
+              sni: edition.cnn.com
     EOF
     {{< /text >}}
 
@@ -555,6 +581,15 @@ The output should be the same as in the previous section.
         - edition.cnn.com
         tls:
           mode: PASSTHROUGH
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: egressgateway-for-cnn
+    spec:
+      host: istio-egressgateway.istio-system.svc.cluster.local
+      subsets:
+      - name: cnn
     EOF
     {{< /text >}}
 
@@ -565,7 +600,7 @@ The output should be the same as in the previous section.
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
-      name: direct-through-egress-gateway
+      name: direct-cnn-through-egress-gateway
     spec:
       hosts:
       - edition.cnn.com
@@ -582,6 +617,7 @@ The output should be the same as in the previous section.
         route:
         - destination:
             host: istio-egressgateway.istio-system.svc.cluster.local
+            subset: cnn
             port:
               number: 443
           weight: 100
@@ -628,8 +664,8 @@ The output should be the same as in the previous section.
 {{< text bash >}}
 $ istioctl delete serviceentry cnn
 $ istioctl delete gateway istio-egressgateway
-$ istioctl delete virtualservice direct-through-egress-gateway
-$ istioctl delete destinationrule set-sni-for-egress-gateway
+$ istioctl delete virtualservice direct-cnn-through-egress-gateway
+$ istioctl delete destinationrule egressgateway-for-cnn
 {{< /text >}}
 
 ## Additional security considerations
