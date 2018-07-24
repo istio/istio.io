@@ -99,9 +99,6 @@ Optionally, adjust the health checking configuration to meet your own needs. Ope
   - --liveness-probe-path=/tmp/ca.liveness # path to the liveness health checking status file
   - --liveness-probe-interval=60s # interval for health checking file update
   - --probe-check-interval=15s    # interval for health status check
-  - --logtostderr
-  - --stderrthreshold
-  - INFO
 livenessProbe:
   exec:
     command:
@@ -134,12 +131,10 @@ continuously failed health checks.
 
     {{< text bash >}}
     $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
-    $ kubectl delete svc istio-citadel -n istio-system
     {{< /text >}}
 
 *   To remove Citadel:
 
     {{< text bash >}}
     $ kubectl delete -f install/kubernetes/istio-citadel-with-health-check.yaml
-    $ kubectl delete svc istio-citadel -n istio-system
     {{< /text >}}
