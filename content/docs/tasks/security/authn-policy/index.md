@@ -457,7 +457,7 @@ $ kubectl delete destinationrules httpbin -n bar
 
 ## End-user authentication
 
-To experiment with this feature, you will need a valid JWT (corresponding to the JWKS endpoint you want to use for the demo). In this tutorial, we will use a test [JWT]({{< github_file >}}/security/tools/jwt/samples/demo.jwt) and [JWKS endpoint]({{< github_file >}}/master/security/tools/jwt/samples/jwks.json) from Istio code base.
+To experiment with this feature, you will need a valid JWT (corresponding to the JWKS endpoint you want to use for the demo). In this tutorial, we will use a test [JWT]({{< github_file >}}/security/tools/jwt/samples/demo.jwt) and [JWKS endpoint]({{< github_file >}}/security/tools/jwt/samples/jwks.json) from Istio code base.
 
 Also, for convenience, expose `httpbin.foo` via ingressgateway (for more details, see the [ingress task](/docs/tasks/traffic-management/ingress/)).
 
