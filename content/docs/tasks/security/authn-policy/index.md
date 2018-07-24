@@ -457,7 +457,9 @@ $ kubectl delete destinationrules httpbin -n bar
 
 ## End-user authentication
 
-To experiment with this feature, you will need a valid JWT (corresponding to the JWKS endpoint you want to use for the demo). In this tutorial, we will use a test [JWT]({{< github_file >}}/security/tools/jwt/samples/demo.jwt) and [JWKS endpoint]({{< github_file >}}/security/tools/jwt/samples/jwks.json) from Istio code base.
+To experiment with this feature, you need a valid JWT. The JWT must correspond to the JWKS endpoint you want to use for the demo. In
+this tutorial, we use this [JWT test]({{< github_file >}}/security/tools/jwt/samples/demo.jwt) and this
+[JWKS endpoint]({{< github_file >}}/security/tools/jwt/samples/jwks.json) from the Istio code base.
 
 Also, for convenience, expose `httpbin.foo` via ingressgateway (for more details, see the [ingress task](/docs/tasks/traffic-management/ingress/)).
 
@@ -550,7 +552,9 @@ $ curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/headers -s -o /dev/
 200
 {{< /text >}}
 
-You may want to use the script [`gen-jwt.py`]({{< github_tree >}}/security/tools/jwt/samples) to generate new tokens for testing with different issuer, audiences, expiry date etc to observe other aspects of JWT validation. For example, the command below creates a token that will expire in 5 seconds. As you will see, requests using that token will be authenticated successfully at first, but then be rejected after 5 seconds:
+To observe other aspects of JWT validation, use the script [gen-jwt.py]({{< github_tree >}}/security/tools/jwt/samples/gen-jwt.py) to
+generate new tokens to test with different issuer, audiences, expiry date, etc. For example, the command below creates a token that
+expires in 5 seconds. As you see, Istio authenticates requests using that token successfully at first but rejects them after 5 seconds:
 
 {{< text bash >}}
 $ TOKEN=$(@security/tools/jwt/samples/gen-jwt.py@ @security/tools/jwt/samples/key.pem@ --expire 5)
