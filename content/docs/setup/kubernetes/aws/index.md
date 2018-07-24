@@ -5,7 +5,7 @@ weight: 14
 keywords: [aws]
 ---
 
-Follow these instructions to setup the AWS with Kops cluster for Istio.
+To setup the AWS with Kops cluster for Istio, follow these instructions:
 
 When you install a new cluster with Kubernetes version 1.9, the prerequisite to
 enable `admissionregistration.k8s.io/v1beta1` is covered.

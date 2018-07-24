@@ -5,7 +5,7 @@ weight: 12
 keywords: [ibm,iks]
 ---
 
-Follow these instructions to setup the IBM Cloud Kubernetes Service (IKS) cluster for Istio.
+To setup the IBM Cloud Kubernetes Service (IKS) cluster for Istio, follow these instructions:
 
 ## IBM Cloud Kubernetes Service (IKS)
 

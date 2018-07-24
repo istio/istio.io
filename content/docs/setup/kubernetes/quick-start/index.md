@@ -5,8 +5,8 @@ weight: 1
 keywords: [kubernetes]
 ---
 
-Follow these instructions to install and configure Istio in a Kubernetes
-cluster.
+To install and configure Istio in a Kubernetes
+cluster, follow these instructions:
 
 ## Prerequisites
 

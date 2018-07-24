@@ -5,7 +5,7 @@ weight: 15
 keywords: [azure]
 ---
 
-Follow these instructions to setup the Azure cluster for Istio.
+To setup the Azure cluster for Istio, follow these instructions:
 
 You can deploy a Kubernetes cluster to Azure via [AKS](https://azure.microsoft.com/en-us/services/kubernetes-service/) or [ACS-Engine](https://github.com/azure/acs-engine) which fully supports Istio.
 

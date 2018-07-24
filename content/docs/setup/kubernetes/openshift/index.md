@@ -5,7 +5,7 @@ weight: 13
 keywords: [openshift]
 ---
 
-Follow these instructions to setup the Openshift cluster for Istio.
+To setup the Openshift cluster for Istio, follow these instructions:
 
 By default, OpenShift doesn't allow containers running with user ID 0.
 
