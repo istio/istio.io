@@ -42,7 +42,7 @@ reviews-v3-7b9b5fdfd6-4r52s.default                    SYNCED     SYNCED     SYN
 
 ## 检索 Envoy 和 Istio Pilot 之间的差异
 
-`proxy-status` 命令还可用于通过提供代理 ID 来检索 Envoy 已加载的配置与 Pilot 将发送的配置之间的差异。这可以帮助您准确定位不同步的内容及其问题所在。
+`proxy-status` 命令还可用于通过提供代理 ID 来检索 Envoy 已加载的配置与 Pilot 要发送的配置之间的差异。这可以帮助您准确定位不同步的内容及其问题所在。
 
 {{< text bash json >}}
 $ istioctl proxy-status details-v1-6dcc6fbb9d-wsjz4.default
