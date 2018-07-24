@@ -46,18 +46,34 @@ The number '0' in the 'RESTARTS' column means liveness probes worked fine. Readi
 
 ### Mutual TLS enabled
 
-Run this command to enable mutual TLS for services in the default namespace:
+Run these commands to enable mutual TLS for services in the default namespace. Note that you need both authentication policy and
+destination rule to complete the configuration:
 
 {{< text bash >}}
 $ cat <<EOF | istioctl create -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
-  name: "example-1"
+  name: "default"
   namespace: "default"
 spec:
   peers:
-  - mtls:
+  - mtls: {}
+EOF
+{{< /text >}}
+
+{{< text bash >}}
+$ cat <<EOF | istioctl create -f -
+apiVersion: "networking.istio.io/v1alpha3"
+kind: "DestinationRule"
+metadata:
+  name: "default"
+  namespace: "default"
+spec:
+  host: "*.default.svc.cluster.local"
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
 EOF
 {{< /text >}}
 
@@ -76,19 +92,11 @@ This section shows how to configure health checking with the HTTP request option
 
 ### Mutual TLS is disabled
 
-Run this command to remove the mutual TLS policy:
+Run this command to remove the mutual TLS policy and corresponding destination rule:
 
 {{< text bash >}}
-$ cat <<EOF | istioctl delete -f -
-apiVersion: "authentication.istio.io/v1alpha1"
-kind: "Policy"
-metadata:
-  name: "example-1"
-  namespace: "default"
-spec:
-  peers:
-  - mtls:
-EOF
+$ kubectl delete policies default
+$ kubectl delete destinationrules default
 {{< /text >}}
 
 Run this command to deploy [liveness-http]({{< github_file >}}/samples/health-check/liveness-http.yaml) in the default namespace:
@@ -107,17 +115,33 @@ liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
 
 ### Mutual TLS is enabled
 
-Run this command to enable mutual TLS for services in the default namespace:
+Run these commands to enable mutual TLS for services in the default namespace:
 
 {{< text bash >}}
 $ cat <<EOF | istioctl create -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
-  name: "example-1"
+  name: "default"
   namespace: "default"
 spec:
   peers:
+  - mtls: {}
+EOF
+{{< /text >}}
+
+{{< text bash >}}
+$ cat <<EOF | istioctl create -f -
+apiVersion: "networking.istio.io/v1alpha3"
+kind: "DestinationRule"
+metadata:
+  name: "default"
+  namespace: "default"
+spec:
+  host: "*.default.svc.cluster.local"
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
 EOF
 {{< /text >}}
 
