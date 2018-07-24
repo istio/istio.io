@@ -1,7 +1,7 @@
 ---
 title: Installation with Helm
 description: Install Istio with the included Helm chart.
-weight: 30
+weight: 3
 keywords: [kubernetes,helm]
 aliases:
     - /docs/setup/kubernetes/helm.html
@@ -17,7 +17,13 @@ plane and the sidecars for the Istio data plane.
 
 1. [Download the Istio release](/docs/setup/kubernetes/download-release/).
 
-1. [Kubernetes platform setup](/docs/setup/kubernetes/platform-setup/).
+1. Kubernetes platform setup
+  * [Minikube](/docs/setup/kubernetes/minikube/)
+  * [Google Container Engine (GKE)](/docs/setup/kubernetes/gke/)
+  * [IBM Cloud Kubernetes Service (IKS)](/docs/setup/kubernetes/ibm/)
+  * [Openshift Origin](/docs/setup/kubernetes/openshift/)
+  * [Amazon Web Services (AWS) with Kops](/docs/setup/kubernetes/aws/)
+  * [Azure](/docs/setup/kubernetes/azure/)
 
 1. [Install the Helm client](https://docs.helm.sh/using_helm/#installing-helm).
 
