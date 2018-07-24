@@ -54,11 +54,11 @@ to identify who runs the service:
 - A service account in Istio has the format:
   `spiffe://\<_domain_\>/ns/\<_namespace_>/sa/\<_serviceaccount_\>`.
 
-    * Replace `_domain_` with `_cluster.local_`. We will support customization
+    - Replace `_domain_` with `_cluster.local_`. We will support customization
       of domain in the near future.
-    * Replace `_namespace_` with the namespace of the Kubernetes service
+    - Replace `_namespace_` with the namespace of the Kubernetes service
       account.
-    * Replace `_serviceaccount_` with the Kubernetes service account name.
+    - Replace `_serviceaccount_` with the Kubernetes service account name.
 
 - A service account is **the identity or role a workload runs as**. The service
   account represents that workload's privileges. For systems requiring strong
@@ -230,11 +230,11 @@ Istio provides two types of authentication:
   easily turn on this feature without requiring service code changes. This
   solution:
 
-    * Provides each service with a strong identity representing its role to
+    - Provides each service with a strong identity representing its role to
       enable interoperability across clusters and clouds.
-    * Secures service-to-service communication and end-user-to-service
+    - Secures service-to-service communication and end-user-to-service
       communication.
-    * Provides a key management system to automate key and certificate
+    - Provides a key management system to automate key and certificate
       generation, distribution, rotation, and revocation.
 
 - Origin authentication, also known as end-user authentication: verifies the
@@ -310,7 +310,7 @@ Istio can store authentication policies in namespace-scope or mesh-scope
 storage:
 
 - Mesh-scope policy is specified with a value of `"MeshPolicy"` for the `kind`
-  field and the name `“default”`. For example:
+  field and the name `"default"`. For example:
 
     {{< text yaml >}}
     apiVersion: "authentication.istio.io/v1alpha1"
