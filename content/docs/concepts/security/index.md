@@ -516,7 +516,8 @@ You enable Istio Authorization using a `RbacConfig` object. The `RbacConfig`
 object is a mesh-wide singleton with a fixed name value of `default`. You can
 only use one `RbacConfig` instance in the mesh. Like other Istio configuration
 objects, `RbacConfig` is defined as a
-[Kubernetes CustomResourceDefinition (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) object.
+Kubernetes `CustomResourceDefinition`
+[(CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) object.
 
 In the `RbacConfig` object, the operator can specify a `mode` value, which can
 be:
