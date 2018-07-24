@@ -54,8 +54,8 @@ aliases:
             percent: 100
         match:
         - headers:
-            cookie:
-              regex: ^(.*?;)?(user=jason)(;.*)?$
+            end-user:
+              exact: jason
         route:
         - destination:
             host: ratings
@@ -123,8 +123,8 @@ Istio 的故障注入规则可帮助您识别此类异常，而不会影响最�
             percent: 100
         match:
         - headers:
-            cookie:
-              regex: ^(.*?;)?(user=jason)(;.*)?$
+            end-user:
+              exact: jason
         route:
         - destination:
             host: ratings

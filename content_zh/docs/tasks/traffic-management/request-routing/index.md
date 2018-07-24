@@ -140,8 +140,8 @@ keywords: [traffic-management,routing]
       http:
       - match:
         - headers:
-            cookie:
-              regex: ^(.*?;)?(user=jason)(;.*)?$
+            end-user:
+              exact: jason
         route:
         - destination:
             host: reviews
@@ -158,7 +158,7 @@ keywords: [traffic-management,routing]
 
 ## 理解原理
 
-在此任务中，您首先使用 Istio 将100%的请求流量都路由到了 BookInfo 服务的v1版本。 然后再设置了一条路由规则，该路由规则基于请求的 header（例如一个用户 cookie）选择性地将特定的流量路由到了 reviews 服务的v2版本。
+在此任务中，您首先使用 Istio 将100%的请求流量都路由到了 BookInfo 服务的v1版本。 然后再设置了一条路由规则，该路由规则基于请求的 选择性地将特定的流量路由到了 reviews 服务的v2版本。
 
 请注意，为了利用 Istio 的L7路由功能，Kubernetes 中的服务（如本任务中使用的 Bookinfo 服务）必须遵守某些特定限制。
 参考[sidecar injection documentation](/docs/setup/kubernetes/sidecar-injection/#pod-spec-requirements)了解详情。
