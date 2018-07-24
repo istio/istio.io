@@ -54,7 +54,7 @@ keywords: [traffic-management,routing]
     spec:
       hosts:
       - details
-        http:
+      http:
       - route:
         - destination:
             host: details
@@ -69,9 +69,9 @@ keywords: [traffic-management,routing]
       gateways:
       - bookinfo-gateway
       - mesh
-        hosts:
+      hosts:
       - productpage
-        http:
+      http:
       - route:
         - destination:
             host: productpage
@@ -85,7 +85,7 @@ keywords: [traffic-management,routing]
     spec:
       hosts:
       - ratings
-        http:
+      http:
       - route:
         - destination:
             host: ratings
@@ -99,7 +99,7 @@ keywords: [traffic-management,routing]
     spec:
       hosts:
       - reviews
-        http:
+      http:
       - route:
         - destination:
             host: reviews
@@ -137,7 +137,7 @@ keywords: [traffic-management,routing]
     spec:
       hosts:
       - reviews
-        http:
+      http:
       - match:
         - headers:
             end-user:
