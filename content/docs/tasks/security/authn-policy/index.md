@@ -457,7 +457,7 @@ $ kubectl delete destinationrules httpbin -n bar
 
 ## End-user authentication
 
-To experiment with this feature, you will need a valid JWT (corresponding to the JWKS endpoint you want to use for the demo). In this tutorial, we will use a test [JWT](https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/demo.jwt) and [JWKS endpoint](https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json) from Istio code base.
+To experiment with this feature, you will need a valid JWT (corresponding to the JWKS endpoint you want to use for the demo). In this tutorial, we will use a test [JWT]({{< github_file >}}/security/tools/jwt/samples/demo.jwt) and [JWKS endpoint]({{< github_file >}}/master/security/tools/jwt/samples/jwks.json) from Istio code base.
 
 Also, for convenience, expose `httpbin.foo` via ingressgateway (for more details, see the [ingress task](/docs/tasks/traffic-management/ingress/)).
 
@@ -530,7 +530,7 @@ spec:
   origins:
   - jwt:
       issuer: "testing@secure.istio.io"
-      jwksUri: "https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json"
+      jwksUri: "{{< github_file >}}/security/tools/jwt/samples/jwks.json"
   principalBinding: USE_ORIGIN
 EOF
 {{< /text >}}
@@ -545,7 +545,7 @@ $ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 Attaching the valid token generated above returns success:
 
 {{< text bash>}}
-$ TOKEN=$(curl https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/demo.jwt -s)
+$ TOKEN=$(curl {{< github_file >}}/security/tools/jwt/samples/demo.jwt -s)
 $ curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 200
 {{< /text >}}
