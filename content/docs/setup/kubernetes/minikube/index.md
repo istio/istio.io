@@ -19,13 +19,11 @@ Follow these instructions to setup the Kubernetes cluster for Istio with Minikub
     On Kubernetes **1.9**:
 
     {{< text bash >}}
-    $ minikube start --memory=4096 --kubernetes-version=v1.9.4 \
-    --vm-driver=`your_vm_driver_choice`
+    $ minikube start --memory=4096 --kubernetes-version=v1.9.4 --vm-driver=`your_vm_driver_choice`
     {{< /text >}}
 
     On Kubernetes **1.10**:
 
     {{< text bash >}}
-    $ minikube start --memory=4096 --kubernetes-version=v1.10.0 \
-    --vm-driver=`your_vm_driver_choice`
+    $ minikube start --memory=4096 --kubernetes-version=v1.10.0 --vm-driver=`your_vm_driver_choice`
     {{< /text >}}
