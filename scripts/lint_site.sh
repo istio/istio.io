@@ -30,6 +30,12 @@ check_content() {
     # replace the {{< /text >}} shortcodes with ```
     find ${TMP} -type f -name \*.md -exec sed -E -i "s/\\{\\{< \/text .*>\}\}/\`\`\`/g" {} ";"
 
+    # elide url="*"
+    find ${TMP} -type f -name \*.md -exec sed -E -i "s/url=\".*\"/URL/g" {} ";"
+
+    # elide link="*"
+    find ${TMP} -type f -name \*.md -exec sed -E -i "s/link=\".*\"/LINK/g" {} ";"
+
     mdspell ${LANG} --ignore-acronyms --ignore-numbers --no-suggestions --report ${TMP}/*.md ${TMP}/*/*.md ${TMP}/*/*/*.md ${TMP}/*/*/*/*.md ${TMP}/*/*/*/*/*.md ${TMP}/*/*/*/*/*/*.md ${TMP}/*/*/*/*/*/*/*.md >${OUT}
     if [ "$?" != "0" ]
     then
@@ -44,7 +50,6 @@ check_content() {
     then
         # remove the tmp dir prefix from error messages
         sed s!${TMP}/!! ${OUT}
-        echo "To learn about markdown linting rules, please see https://github.com/markdownlint/markdownlint/blob/master/docs/RULES.md"
         FAILED=1
     fi
 
@@ -56,7 +61,21 @@ check_content() {
 check_content content --en-us
 check_content content_zh --zh-cn
 
-htmlproofer ./public --check-html --assume-extension --timeframe 2d --storage-dir .htmlproofer --url-ignore "/localhost/,/github.com/istio/istio.github.io/edit/master/,/github.com/istio/istio/issues/new/choose/"
+grep -nr -e "ERROR: markdown" ./public
+if [ "$?" == "0" ]
+then
+    echo "Ensure text blocks are either not indented, or indented by a multiple of 4 spaces"
+    FAILED=1
+fi
+
+grep -nr -e "“" ./content
+if [ "$?" == "0" ]
+then
+    echo "Ensure markdown content only uses standard quotation marks and not “"
+    FAILED=1
+fi
+
+htmlproofer ./public --check-html --assume-extension --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/localhost/,/github.com/istio/istio.github.io/edit/master/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/"
 if [ "$?" != "0" ]
 then
     FAILED=1

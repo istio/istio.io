@@ -45,8 +45,8 @@ At a high level, Mixer provides:
 Beyond these purely functional aspects, Mixer also has [reliability and scalability](#reliability-and-latency) benefits as outlined below.
 
 Policy enforcement and telemetry collection are entirely driven from configuration.
-It's possible to completely disable these features and avoid the need to run a
-Mixer component in an Istio deployment.
+It's possible to [completely disable these features](/docs/setup/kubernetes/helm-install/#customization-example-traffic-management-minimal-set)
+and avoid the need to run the Mixer component in an Istio deployment.
 
 ## Adapters
 
@@ -150,7 +150,7 @@ destination_version: destination.labels["version"] | "unknown"
 {{< /text >}}
 
 The sequences on the right-hand side of the colons are the simplest forms of attribute expressions.
-The first two only consist of attribute names. The `response_code` label is assigned the value from the `request.code` attribute.
+The first two only consist of attribute names. The `response_code` label is assigned the value from the `response.code` attribute.
 
 Here's an example of a conditional expression:
 
@@ -161,7 +161,7 @@ destination_version: destination.labels["version"] | "unknown"
 With the above, the `destination_version` label is assigned the value of `destination.labels["version"]`. However if that attribute
 is not present, the literal `"unknown"` is used.
 
-Refer to the [attribute expression reference](/docs/reference/config/policy-and-telemetry/expression-language/) for details.
+Refer to the [attribute expression](/docs/reference/config/policy-and-telemetry/expression-language/) page for details.
 
 ## Configuration model
 

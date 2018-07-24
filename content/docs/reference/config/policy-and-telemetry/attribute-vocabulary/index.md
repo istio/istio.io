@@ -23,7 +23,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `source.labels`             | map[string, string] | A map of key-value pairs attached to the source instance. | version => v1 |
 | `source.name`               | string | Source workload instance name. | redis-master-2353460263-1ecey |
 | `source.namespace`          | string | Source workload instance namespace. | my-namespace |
-| `source.principal`          | string | The identity of the immediate sender of the request, authenticated by mTLS. | service-account-foo |
+| `source.principal`          | string | The identity of the source workload. | service-account-foo |
 | `source.owner`              | string | Reference to the workload controlling the source workload instance. | `kubernetes://apis/extensions/v1beta1/namespaces/istio-system/deployments/istio-policy` |
 | `source.workload.uid`       | string | Unique identifier of the source workload. | istio://istio-system/workloads/istio-policy |
 | `source.workload.name`      | string | Source workload name. | istio-policy |
@@ -34,7 +34,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `destination.labels`            | map[string, string] | A map of key-value pairs attached to the server instance. | version => v2 |
 | `destination.name`              | string | Destination workload instance name. | `istio-telemetry-2359333` |
 | `destination.namespace`         | string | Destination workload instance namespace. | istio-system |
-| `destination.principal`         | string | The user running the destination application. | service-account |
+| `destination.principal`         | string | The identity of the destination workload. | service-account |
 | `destination.owner`             | string | Reference to the workload controlling the destination workload instance.| `kubernetes://apis/extensions/v1beta1/namespaces/istio-system/deployments/istio-telemetry` |
 | `destination.workload.uid`      | string | Unique identifier of the destination workload. | istio://istio-system/workloads/istio-telemetry |
 | `destination.workload.name`     | string | Destination workload name. | istio-telemetry |
@@ -73,6 +73,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `connection.sent.bytes_total` | int64 | Total number of bytes sent by a destination service during the lifetime of a connection. | |
 | `connection.duration` | duration | The total amount of time a connection has been open. | |
 | `connection.mtls` | boolean | Indicates whether a request is received over a mTLS enabled downstream connection. | |
+| `connection.requested_server_name` | string | The requested server name (SNI) of the connection | |
 | `context.protocol`      | string | Protocol of the request or connection being proxied. | tcp |
 | `context.time`          | timestamp | The timestamp of Mixer operation. | |
 | `context.reporter.kind` | string | Contextualizes the reported attribute set. Set to `inbound` for the server-side calls from sidecars and `outbound` for the client-side calls from sidecars and gateways | `inbound` |
@@ -80,8 +81,8 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `api.service` | string | The public service name. This is different than the in-mesh service identity and reflects the name of the service exposed to the client. | my-svc.com |
 | `api.version` | string | The API version. | v1alpha1 |
 | `api.operation` | string | Unique string used to identify the operation. The id is unique among all operations described in a specific &lt;service, version&gt;. | getPetsById |
-| `api.protocol` | string | The protocol type of the API call. Mainly for monitoring/analytics. Note that this is the frontend protocol exposed to the client, not the protocol implemented by the backend service. | "http", “https”, or "grpc" |
-| `request.auth.principal` | string | The authenticated principal of the request. This is a string of the issuer (`iss`) and subject (`sub`) claims within a JWT concatenated with “/” with a percent-encoded subject value. This attribute may come from the peer or the origin in the Istio authentication policy, depending on the binding rule defined in the Istio authentication policy. | accounts.my-svc.com/104958560606 |
+| `api.protocol` | string | The protocol type of the API call. Mainly for monitoring/analytics. Note that this is the frontend protocol exposed to the client, not the protocol implemented by the backend service. | "http", "https”, or "grpc" |
+| `request.auth.principal` | string | The authenticated principal of the request. This is a string of the issuer (`iss`) and subject (`sub`) claims within a JWT concatenated with "/” with a percent-encoded subject value. This attribute may come from the peer or the origin in the Istio authentication policy, depending on the binding rule defined in the Istio authentication policy. | accounts.my-svc.com/104958560606 |
 | `request.auth.audiences` | string | The intended audience(s) for this authentication information. This should reflect the audience (`aud`) claim within a JWT. | ['my-svc.com', 'scopes/read'] |
 | `request.auth.presenter` | string | The authorized presenter of the credential. This value should reflect the optional Authorized Presenter (`azp`) claim within a JWT or the OAuth2 client id. | 123456789012.my-svc.com |
 | `request.auth.claims` | map[string, string] | all raw string claims from the `origin` JWT | `iss`: `issuer@foo.com`, `sub`: `sub@foo.com`, `aud`: `aud1` |

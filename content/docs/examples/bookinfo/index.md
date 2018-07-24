@@ -1,5 +1,5 @@
 ---
-title: Bookinfo Sample Application
+title: Bookinfo Application
 description: Deploys a sample application composed of four separate microservices used to demonstrate various Istio features.
 weight: 10
 aliases:
@@ -7,18 +7,8 @@ aliases:
     - /docs/guides/bookinfo/index.html
 ---
 
-> Note: This example assumes you will be using the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/).
-The old API has been deprecated and will be removed in the next Istio release.
-If you need to use the old version, you can follow the old instructions [here](https://archive.istio.io/v0.6/docs/guides/bookinfo.html),
-but note that on Kubernetes you will need to run an additional command (`kubectl apply -f samples/bookinfo/kube/bookinfo-gateway.yaml`)
-to define the Ingress, which previously was included in `bookinfo.yaml`.
-
 This example deploys a sample application composed of four separate microservices used
-to demonstrate various Istio features.
-
-## Overview
-
-In this example we will deploy a simple application that displays information about a
+to demonstrate various Istio features. The application displays information about a
 book, similar to a single catalog entry of an online book store. Displayed
 on the page is a description of the book, book details (ISBN, number of
 pages, and so on), and a few book reviews.
@@ -85,7 +75,7 @@ To start the application, follow the instructions below corresponding to your Is
         use the following command
 
         {{< text bash >}}
-        $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/kube/bookinfo.yaml@)
+        $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo.yaml@)
         {{< /text >}}
 
         The `istioctl kube-inject` command is used to manually modify the `bookinfo.yaml`
@@ -93,10 +83,16 @@ To start the application, follow the instructions below corresponding to your Is
 
     *   If you are using a cluster with
         [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)
-        enabled, simply deploy the services using `kubectl`
+        enabled, label the `default` namespace with `istio-injection=enabled`
 
         {{< text bash >}}
-        $ kubectl apply -f @samples/bookinfo/kube/bookinfo.yaml@
+        $ kubectl label namespace default istio-injection=enabled
+        {{< /text >}}
+
+        Then simply deploy the services using `kubectl`
+
+        {{< text bash >}}
+        $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
         {{< /text >}}
 
     Either of the above commands launches all four microservices as illustrated in the above diagram.
@@ -104,12 +100,6 @@ To start the application, follow the instructions below corresponding to your Is
 
     > In a realistic deployment, new versions of a microservice are deployed
     over time instead of deploying all versions simultaneously.
-
-1.  Define the ingress gateway for the application:
-
-    {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/routing/bookinfo-gateway.yaml@
-    {{< /text >}}
 
 1.  Confirm all services and pods are correctly defined and running:
 
@@ -138,7 +128,27 @@ To start the application, follow the instructions below corresponding to your Is
 
 #### Determining the ingress IP and port
 
-1.  Follow [these instructions](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports) to set the `INGRESS_HOST` and `INGRESS_PORT` variables.
+Now that the Bookinfo services are up and running, you need to make the application accessible from outside of your
+Kubernetes cluster, e.g., from a browser. An [Istio Gateway](/docs/concepts/traffic-management/#gateways)
+is used for this purpose.
+
+> Note that the `istioctl` (the Istio CLI) is used in the following commands, instead of `kubectl`. This is because the Kubernetes application is now deployed and the following commands are managing Istio-specific configuration. In a Kubernetes environment, you can replace `istioctl` with `kubectl` if you prefer to stick to one CLI, however, `istioctl` does provide significantly better output and is recommended.
+
+1.  Define the ingress gateway for the application:
+
+    {{< text bash >}}
+    $ istioctl create -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
+    {{< /text >}}
+
+1.  Confirm the gateway has been created:
+
+    {{< text bash >}}
+    $ istioctl get gateway
+    GATEWAY NAME       HOSTS     NAMESPACE   AGE
+    bookinfo-gateway   *         default     2d
+    {{< /text >}}
+
+1.  Follow [these instructions](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports) to set the `INGRESS_HOST` and `INGRESS_PORT` variables for accessing the gateway. Return here, when they are set.
 
 1.  Set `GATEWAY_URL`:
 
@@ -146,9 +156,9 @@ To start the application, follow the instructions below corresponding to your Is
     $ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
     {{< /text >}}
 
-1.  Proceed to [What's next](#what-s-next), below.
+1.  Proceed to [Confirm the app is running](#confirm-the-app-is-running), below.
 
-### If you are running on Docker with Consul or Eureka
+### If you are running on Docker with Consul
 
 1.  Change directory to the root of the Istio installation directory.
 
@@ -157,15 +167,8 @@ To start the application, follow the instructions below corresponding to your Is
     To test with Consul, run the following commands:
 
     {{< text bash >}}
-    $ docker-compose -f @samples/bookinfo/consul/bookinfo.yaml@ up -d
-    $ docker-compose -f samples/bookinfo/consul/bookinfo.sidecars.yaml up -d
-    {{< /text >}}
-
-    To test with Eureka, run the following commands:
-
-    {{< text bash >}}
-    $ docker-compose -f @samples/bookinfo/eureka/bookinfo.yaml@ up -d
-    $ docker-compose -f samples/bookinfo/eureka/bookinfo.sidecars.yaml up -d
+    $ docker-compose -f @samples/bookinfo/platform/consul/bookinfo.yaml@ up -d
+    $ docker-compose -f samples/bookinfo/platform/consul/bookinfo.sidecars.yaml up -d
     {{< /text >}}
 
 1.  Confirm that all docker containers are running:
@@ -176,13 +179,13 @@ To start the application, follow the instructions below corresponding to your Is
 
     > If the Istio Pilot container terminates, re-run the command from the previous step.
 
-1.  Set GATEWAY_URL:
+1.  Set `GATEWAY_URL`:
 
     {{< text bash >}}
     $ export GATEWAY_URL=localhost:9081
     {{< /text >}}
 
-## What's next
+## Confirm the app is running
 
 To confirm that the Bookinfo application is running, run the following `curl` command:
 
@@ -197,8 +200,37 @@ see different versions of reviews shown in productpage, presented in a round rob
 stars, black stars, no stars), since we haven't yet used Istio to control the
 version routing.
 
+## Apply default destination rules
+
+Before you can use Istio to control the bookinfo version routing, you need to define the available
+versions, called *subsets*, in destination rules.
+
+Run the following command to create default destination rules for the bookinfo services:
+
+* If you did **not** enable mutual TLS, execute this command:
+
+    {{< text bash >}}
+    $ istioctl create -f @samples/bookinfo/networking/destination-rule-all.yaml@
+    {{< /text >}}
+
+* If you **did** enable mutual TLS, execute this command:
+
+    {{< text bash >}}
+    $ istioctl create -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
+    {{< /text >}}
+
+Wait a few seconds for the destination rules to propagate.
+
+You can display the destination rules with the following command:
+
+{{< text bash >}}
+$ istioctl get destinationrules -o yaml
+{{< /text >}}
+
+## What's next
+
 You can now use this sample to experiment with Istio's features for
-traffic routing, fault injection, rate limiting, etc..
+traffic routing, fault injection, rate limiting, etc.
 To proceed, refer to one or more of the [Istio Examples](/docs/examples),
 depending on your interest. [Intelligent Routing](/docs/examples/intelligent-routing/)
 is a good place to start for beginners.
@@ -213,14 +245,15 @@ uninstall and clean it up using the following instructions.
 1.  Delete the routing rules and terminate the application pods
 
     {{< text bash >}}
-    $ @samples/bookinfo/kube/cleanup.sh@
+    $ @samples/bookinfo/platform/kube/cleanup.sh@
     {{< /text >}}
 
 1.  Confirm shutdown
 
     {{< text bash >}}
-    $ istioctl get gateway           #-- there should be no more gateway
-    $ istioctl get virtualservices   #-- there should be no more virtual services
+    $ istioctl get virtualservices   #-- there should be no virtual services
+    $ istioctl get destinationrules  #-- there should be no destination rules
+    $ istioctl get gateway           #-- there should be no gateway
     $ kubectl get pods               #-- the Bookinfo pods should be deleted
     {{< /text >}}
 
@@ -231,13 +264,7 @@ uninstall and clean it up using the following instructions.
     In a Consul setup, run the following command:
 
     {{< text bash >}}
-    $ @samples/bookinfo/consul/cleanup.sh@
-    {{< /text >}}
-
-    In a Eureka setup, run the following command:
-
-    {{< text bash >}}
-    $ @samples/bookinfo/eureka/cleanup.sh@
+    $ @samples/bookinfo/platform/consul/cleanup.sh@
     {{< /text >}}
 
 1.  Confirm cleanup

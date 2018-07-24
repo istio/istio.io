@@ -15,23 +15,32 @@ In the following steps, we assume that the Istio components are installed and up
 ## Control plane upgrade
 
 The Istio control plane components include: Citadel, Ingress gateway, Egress gateway, Pilot, Policy, Telemetry and
-Sidecar injector. We can use Kubernetes’ rolling update mechanism to upgrade the
-control plane components.
+Sidecar injector.
+
+### Helm upgrade
+
+If you installed Istio with [Helm](/docs/setup/kubernetes/helm-install/#option-2-install-with-helm-and-tiller-via-helm-install) the preferred upgrade option is to let Helm take care of the upgrade:
+
+{{< text bash >}}
+$ helm upgrade istio install/kubernetes/helm/istio --namespace istio-system
+{{< /text >}}
+
+### Kubernetes rolling update
+
+You can also use Kubernetes’ rolling update mechanism to upgrade the control plane components. This is suitable for cases when Istio hasn't been installed using Helm.
 
 First, generate the desired Istio control plane yaml file, e.g.
 
 {{< text bash >}}
-$ helm template --namespace istio-system --set global.proxy.image=proxy \
-  --values install/kubernetes/helm/istio/values-istio.yaml \
-  install/kubernetes/helm/istio >> install/kubernetes/istio.yaml
+$ helm template install/kubernetes/helm/istio --name istio \
+    --namespace istio-system > install/kubernetes/istio.yaml
 {{< /text >}}
 
 or
 
 {{< text bash >}}
-$ helm template --namespace istio-system --set global.proxy.image=proxy \
-  --values install/kubernetes/helm/istio/values-istio-auth.yaml \
-  install/kubernetes/helm/istio >> install/kubernetes/istio-auth.yaml
+$ helm template install/kubernetes/helm/istio --name istio \
+    --namespace istio-system --set global.mtls.enabled=true > install/kubernetes/istio-auth.yaml
 {{< /text >}}
 
 If using Kubernetes versions prior to 1.9, you should add `--set sidecarInjectorWebhook.enabled=false`.
@@ -142,7 +151,8 @@ sidecars injected in the future.
 
 ## Migrating per-service mutual TLS enablement via annotations to authentication policy
 
-If you use service annotations to override global mutual TLS enablement for a service, you need to replace it with [authentication policy](/docs/concepts/security/authn-policy/) and [destination rules](/docs/concepts/traffic-management/#destination-rules).
+If you use service annotations to override global mutual TLS enablement for a service, you need to replace it with
+[authentication policy](/docs/concepts/security/#anatomy-of-an-authentication-policy) and [destination rules](/docs/concepts/traffic-management/#destination-rules).
 
 For example, if you install Istio with mutual TLS enabled, and disable it for service `foo` using a service annotation like below:
 

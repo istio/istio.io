@@ -11,7 +11,7 @@ aliases:
 
 The use of Network Policy to secure applications running on Kubernetes is a now a widely accepted industry best practice.  Given that Istio also supports policy, we want to spend some time explaining how Istio policy and Kubernetes Network Policy interact and support each other to deliver your application securely.
 
-Let’s start with the basics: why might you want to use both Istio and Kubernetes Network Policy? The short answer is that they are good at different things. Consider the main differences between Istio and Network Policy (we will describe “typical” implementations, e.g. Calico, but implementation details can vary with different network providers):
+Let’s start with the basics: why might you want to use both Istio and Kubernetes Network Policy? The short answer is that they are good at different things. Consider the main differences between Istio and Network Policy (we will describe "typical” implementations, e.g. Calico, but implementation details can vary with different network providers):
 
 |                       | Istio Policy      | Network Policy     |
 | --------------------- | ----------------- | ------------------ |
@@ -21,7 +21,7 @@ Let’s start with the basics: why might you want to use both Istio and Kubernet
 
 ## Layer
 
-Istio policy operates at the “service” layer of your network application. This is Layer 7 (Application) from the perspective of the OSI model, but the de facto model of cloud native applications is that Layer 7 actually consists of at least two layers: a service layer and a content layer. The service layer is typically HTTP, which encapsulates the actual application data (the content layer). It is at this service layer of HTTP that the Istio’s Envoy proxy operates. In contrast, Network Policy operates at Layers 3 (Network) and 4 (Transport) in the OSI model.
+Istio policy operates at the "service” layer of your network application. This is Layer 7 (Application) from the perspective of the OSI model, but the de facto model of cloud native applications is that Layer 7 actually consists of at least two layers: a service layer and a content layer. The service layer is typically HTTP, which encapsulates the actual application data (the content layer). It is at this service layer of HTTP that the Istio’s Envoy proxy operates. In contrast, Network Policy operates at Layers 3 (Network) and 4 (Transport) in the OSI model.
 
 Operating at the service layer gives the Envoy proxy a rich set of attributes to base policy decisions on, for protocols it understands, which at present includes HTTP/1.1 & HTTP/2 (gRPC operates over HTTP/2). So, you can apply policy based on virtual host, URL, or other HTTP headers.  In the future, Istio will support a wide range of Layer 7 protocols, as well as generic TCP and UDP transport.
 

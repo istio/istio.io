@@ -76,7 +76,7 @@ keywords: [keyword1,keyword2,...]
 |`title`        | 页面的简称
 |`description`  | 关于该主题内容的单行描述
 |`weight`       | 一个整数，用于确定此页面相对于同一目录中其他页面的排列顺序
-|`keywords`     | 描述页面的一系列关键字，用于创建“请参阅”链接
+|`keywords`     | 描述页面的一系列关键字，用于创建"请参阅”链接
 |`draft`        | 如果为 true，页面不会出现在任何导航区域中
 |`publishdate`  | 博客的发布日期
 |`subtitle`     | 可选，博客的副标题，会显示在标题的下方
@@ -268,14 +268,14 @@ $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer
 
 {{< text markdown >}}
 {{</* text bash */>}}
-$ istioctl create -f @samples/bookinfo/kube/route-rule-reviews-v3.yaml@
+$ istioctl create -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 {{</* /text */>}}
 {{< /text >}}
 
 上面代码的渲染结果：
 
 {{< text bash >}}
-$ istioctl create -f @samples/bookinfo/kube/route-rule-reviews-v3.yaml@
+$ istioctl create -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 {{< /text >}}
 
 ## 展示文件片段
@@ -310,7 +310,7 @@ Markdown 文件中可以这样对片段进行引用：
 
 {{< text_dynamic url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" >}}
 
-如果文件来自不同的原始站点，则应在该站点上启用 CORS。 请注意 GitHub（raw.githubusercontent.com）原始内容网站是可以使用的。
+如果文件来自不同的原始站点，则应在该站点上启用 CORS。 请注意 GitHub（`raw.githubusercontent.com`）原始内容网站是可以使用的。
 
 ## 引用 GitHub 文件
 
