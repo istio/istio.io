@@ -184,15 +184,15 @@ produces a link to `https://raw.githubusercontent.com/istio/istio/...`
     [httpbin]({{</* github_tree */>}}/samples/httpbin)
     {{< /text >}}
 
-- **{{</* github_blob */>}}** is how you reference a file tree in GitHub sources. This produces a link to
+- **{{</* github_blob */>}}** is how you reference a file in GitHub sources. This produces a link to
 `https://github.com/istio/istio/blob/...`
 
     {{< text markdown >}}
     [RawVM MySQL]({{</* github_blob */>}}/samples/rawvm/README.md)
     {{< /text >}}
 
-The above linking methods automatically link to the appropriate branch in GitHub, relative to branch that that
-documentation set is currently targeting. If you need to manually construct a URL, you can use the sequence **{{</* branch_name */>}}**
+The above annotations yield links to the appropriate branch in GitHub, relative to the branch that the
+documentation is currently targeting. If you need to manually construct a URL, you can use the sequence **{{</* branch_name */>}}**
 to get the name of the currently targeted branch.
 
 ## Embedding preformatted blocks
