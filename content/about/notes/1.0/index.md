@@ -27,3 +27,7 @@ to usual pile of bug fixes and performance improvements.
   and mixer-policy components do not connect to the Kubernetes API endpoints of any of the remote
   clusters.  This results in a loss of telemetry fidelity as some of the metadata associated
   with workloads on remote clusters is incomplete.
+
+- There are Kubernetes manifests available for using Citadel standalone or with Citadel health checking enabled.
+  There is not a Helm implementation of these modes.  See [Issue 6922](https://github.com/istio/istio/issues/6922)
+  for more details.
