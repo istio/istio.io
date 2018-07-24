@@ -30,7 +30,7 @@ and the `backend` service running as the `backend-team` service account. Istio
 supports services running on Kubernetes containers, virtual machines, and
 bare-metal machines.
 
-{{< image width="80%" ratio="56.25%"
+{{< image width="60%" ratio="60%"
     link="./auth.svg"
     alt="Components making up the Istio security model."
     caption="Istio Security Architecture"
@@ -267,7 +267,7 @@ initial connections using TLS with the certificates expected on the server
 side. You can find out more about how mutual TLS works in Istio in
 [PKI and identity section](/docs/concepts/security/mutual-tls/).
 
-{{< image width="80%" ratio="75%"
+{{< image width="60%" ratio="60%"
     link="./authn.svg"
     caption="Authentication Architecture"
     >}}
