@@ -170,7 +170,7 @@ As a reminder, here is the end-to-end architecture of the application from the
 ### Use the database for ratings data in Bookinfo application
 
 1.  Modify the deployment spec of a version of the _ratings_ microservice that uses a MySQL database, to use your
-database instance. The spec is in [`samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml`](https://github.com/istio/istio/blob/release-1.0/samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml)
+database instance. The spec is in [`samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml`]({{<github_blob>}}/samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml)
 of an Istio release archive. Edit the following lines:
 
     {{< text yaml >}}

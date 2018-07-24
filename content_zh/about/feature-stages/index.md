@@ -72,7 +72,7 @@ aliases:
 | [Kubernetes：服务凭证分发](/docs/concepts/security/#mutual-tls-authentication)   | Stable
 | [Istio CA 的可拔插 Key/Cert 支持](/docs/tasks/security/plugin-ca-cert/)        | Stable
 | [服务间相互 TLS](/docs/concepts/security/#mutual-tls-authentication)         | Stable
-| [认证策略](/docs/concepts/security/#anatomy-of-an-authentication-policy)  | Alpha
+| [认证策略](/docs/concepts/security/#authentication-policies)  | Alpha
 | [End User（JWT）认证](/docs/concepts/security/#authentication)  | Alpha
 | [VM：服务凭证分发](/docs/concepts/security/#key-management)         | Beta
 | [增量 mTLS](/docs/tasks/security/mtls-migration)    | Beta

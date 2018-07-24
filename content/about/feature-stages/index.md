@@ -74,7 +74,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Kubernetes: Service Credential Distribution](/docs/concepts/security/#mutual-tls-authentication)   | Stable
 | [Pluggable Key/Cert Support for Istio CA](/docs/tasks/security/plugin-ca-cert/)        | Stable
 | [Service-to-service mutual TLS](/docs/concepts/security/#mutual-tls-authentication)         | Stable
-| [Authentication policy](/docs/concepts/security/#anatomy-of-an-authentication-policy)  | Alpha
+| [Authentication policy](/docs/concepts/security/#authentication-policies)  | Alpha
 | [End User (JWT) Authentication](/docs/concepts/security/#authentication)  | Alpha
 | [VM: Service Credential Distribution](/docs/concepts/security/#key-management)         | Beta
 | [Incremental mTLS](/docs/tasks/security/mtls-migration)    | Beta
