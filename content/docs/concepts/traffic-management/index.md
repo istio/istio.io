@@ -608,8 +608,8 @@ spec:
     ...
 {{< /text >}}
 
-_2. Select rule based on HTTP headers_. For example, the following rule only applies to an incoming request if it includes a "cookie" header that
-contains the substring "user=jason":
+_2. Select rule based on HTTP headers_. For example, the following rule only applies to an incoming request if it includes a custom "end-user" header that
+contains the string "jason":
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -622,8 +622,8 @@ spec:
   http:
   - match:
     - headers:
-        cookie:
-          regex: "^(.*?;)?(user=jason)(;.*)?$"
+        end-user:
+          exact: jason
     ...
 {{< /text >}}
 
@@ -654,8 +654,8 @@ semantics apply, depending on the nesting.
 
 If multiple conditions are nested in a single match clause, then the conditions
 are ANDed. For example, the following rule only applies if the
-client workload is "reviews:v2” AND the "cookie" header containing
-"user=jason" is present in the request:
+client workload is "reviews:v2" AND the custom "end-user" header containing
+"jason" is present in the request:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -671,8 +671,8 @@ spec:
         app: reviews
         version: v2
       headers:
-        cookie:
-          regex: "^(.*?;)?(user=jason)(;.*)?$"
+        end-user:
+          exact: jason
     ...
 {{< /text >}}
 
@@ -693,13 +693,13 @@ spec:
         app: reviews
         version: v2
     - headers:
-        cookie:
-          regex: "^(.*?;)?(user=jason)(;.*)?$"
+        end-user:
+          exact: jason
     ...
 {{< /text >}}
 
-This rule applies if either the client workload is "reviews:v2” OR
-the "cookie" header containing "user=jason" is present in the request.
+This rule applies if either the client workload is "reviews:v2" OR
+the custom "end-user" header containing "jason" is present in the request.
 
 #### Precedence
 
