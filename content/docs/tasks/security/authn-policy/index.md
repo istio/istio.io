@@ -457,15 +457,7 @@ $ kubectl delete destinationrules httpbin -n bar
 
 ## End-user authentication
 
-To experiment with this feature, you will need a valid JWT (corresponding to the JWKS endpoint you want to use for the demo). In this tutorial, we will use a
-test JWT signed by Google service account, but of course, you can also use your own JWT/JWKS endpoint for the demo.
-
-You can create a test JWT for your Google service account (assume it's stored in the environment variable `$SVC_ACCOUNT`) by following the instructions
-[here]({{< github_tree >}}/security/tools/jwt). Keep it in `$TOKEN`. Also set `$JWKS` corresponding to the service account `$SVC_ACCOUNT` as below:
-
-{{< text bash >}}
-$ JWKS=https://www.googleapis.com/service_accounts/v1/jwk/${SVC_ACCOUNT}
-{{< /text >}}
+To experiment with this feature, you will need a valid JWT (corresponding to the JWKS endpoint you want to use for the demo). In this tutorial, we will use a test [JWT](https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/demo.jwt) and [JWKS endpoint](https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json) from Istio codebase.
 
 Also, for convenience, expose `httpbin.foo` via ingressgateway (for more details, see the [ingress task](/docs/tasks/traffic-management/ingress/)).
 
@@ -537,8 +529,8 @@ spec:
   - name: httpbin
   origins:
   - jwt:
-      issuer: $SVC_ACCOUNT
-      jwksUri: $JWKS
+      issuer: "testing@secure.istio.io"
+      jwksUri: "https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json"
   principalBinding: USE_ORIGIN
 EOF
 {{< /text >}}
@@ -552,12 +544,28 @@ $ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 
 Attaching the valid token generated above returns success:
 
-{{< text bash >}}
+{{< text bash>}}
+$ TOKEN=$(curl https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/demo.jwt -s)
 $ curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 200
 {{< /text >}}
 
-You may want to try to modify token or policy (e.g change issuer, audiences, expiry date etc) to observe other aspects of JWT validation.
+You may want to use the script [gen-jwt.py]({{< github_tree >}}/security/tools/jwt/samples) to generate new tokens for testing with different issuer, audiences, expiry date etc to observe other aspects of JWT validation. For example, the command below creates a token that will expire in 5 seconds. As you will see, requests using that token will be authenticated succeffully at first, but then be rejected after 5 seconds:
+
+{{< text bash >}}
+$ TOKEN=$(@security/tools/jwt/samples/gen-jwt.py@ @security/tools/jwt/samples/key.pem@ --expire 5)
+$ for i in `seq 1 10`; do curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"; sleep 1; done
+200
+200
+200
+200
+200
+401
+401
+401
+401
+401
+{{< /text >}}
 
 ### Cleanup part 3
 
