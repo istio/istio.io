@@ -88,7 +88,14 @@ Proceed to one of the options for connecting the remote cluster to the local clu
 1.  Use the helm template command on a remote to specify the Istio control plane service endpoints:
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio-remote --namespace istio-system --name istio-remote --set global.remotePilotAddress=${PILOT_POD_IP} --set global.remotePolicyAddress=${POLICY_POD_IP} --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} --set global.proxy.envoyStatsd.enabled=true --set global.proxy.envoyStatsd.host=${STATSD_POD_IP} ${ZIPKIN_POD_IP:+ --set global.remoteZipkinAddress=${ZIPKIN_POD_IP}} > $HOME/istio-remote.yaml
+    $ helm template install/kubernetes/helm/istio-remote --namespace istio-system \
+    --name istio-remote \
+    --set global.remotePilotAddress=${PILOT_POD_IP} \
+    --set global.remotePolicyAddress=${POLICY_POD_IP} \
+    --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} \
+    --set global.proxy.envoyStatsd.enabled=true \
+    --set global.proxy.envoyStatsd.host=${STATSD_POD_IP} \
+    ${ZIPKIN_POD_IP:+ --set global.remoteZipkinAddress=${ZIPKIN_POD_IP}} > $HOME/istio-remote.yaml
     {{< /text >}}
 
 1.  Create a namespace for remote Istio.
