@@ -438,7 +438,7 @@ allow the remote sidecars to resolve `istio-pilot.istio-system` hostname via its
           --set global.mtls.enabled=true \
           --set security.selfSigned=false \
           --set global.controlPlaneSecurityEnabled=true \
-          --set --set global.remotePilotCreateSvcEndpoint=true \
+          --set global.remotePilotCreateSvcEndpoint=true \
           --set global.remotePilotAddress=${PILOT_POD_IP} \
           --set global.remotePolicyAddress=${POLICY_POD_IP} \
           --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} \
