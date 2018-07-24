@@ -50,6 +50,7 @@ To enable mutual TLS for services in the default namespace, you must configure a
 Follow these steps to complete the configuration:
 
 1. To configure the authentication policy, run:
+
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
     apiVersion: "authentication.istio.io/v1alpha1"
@@ -64,6 +65,7 @@ Follow these steps to complete the configuration:
     {{< /text >}}
 
 1. To configure the destination rule, run:
+
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
     apiVersion: "networking.istio.io/v1alpha3"
@@ -99,15 +101,16 @@ liveness-6857c8775f-zdv9r        2/2       Running   0           4m
 Remove the mutual TLS policy and corresponding destination rule added in the steps above:
 
 1. To remove the mutual TLS policy, run:
+
     {{< text bash >}}
     $ kubectl delete policies default
     {{< /text >}}
 
 1. To remove the corresponding destination rule, run:
+
     {{< text bash >}}
     $ kubectl delete destinationrules default
     {{< /text >}}
-
 
 ## Liveness and readiness probes with HTTP request option
 
@@ -134,6 +137,7 @@ liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
 Again, enable mutual TLS for services in the default namespace by adding namespace-wide authentication policy and a destination rule:
 
 1. To configure the authentication policy, run:
+
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
     apiVersion: "authentication.istio.io/v1alpha1"
@@ -148,6 +152,7 @@ Again, enable mutual TLS for services in the default namespace by adding namespa
     {{< /text >}}
 
 1. To configure the destination rule, run:
+
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
     apiVersion: "networking.istio.io/v1alpha3"
