@@ -188,11 +188,11 @@ is used for this purpose.
     $ export GATEWAY_URL=localhost:9081
     {{< /text >}}
 
-> __NOTE:__ In the following instructions, and when performing any follow-on routing tasks, the yaml files in
-  `samples/bookinfo/networking` will not work due to an issue with the current implementation of the default subdomain
-  for short service host names. For now, you need to use the corresponding yaml files in `samples/bookinfo/platform/consul`.
-  For example, replace @samples/bookinfo/networking/destination-rule-all.yaml@ with
-  @samples/bookinfo/platform/consul/destination-rule-all.yaml@ in the `istioctl create` command, below.
+1.  __Note for Consul users:__ In the following instructions, and when performing any follow-on routing tasks, the yaml files
+    in `samples/bookinfo/networking` will not work due to an issue with the current implementation of the default subdomain
+    for short service host names. For now, you need to use the corresponding yaml files in `samples/bookinfo/platform/consul`.
+    For example, replace `samples/bookinfo/networking/destination-rule-all.yaml` with
+    `samples/bookinfo/platform/consul/destination-rule-all.yaml` in the `istioctl create` command, below.
 
 ## Confirm the app is running
 
