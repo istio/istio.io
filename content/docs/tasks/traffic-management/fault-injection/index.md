@@ -64,8 +64,8 @@ still expect the end-to-end flow to continue without any errors.
             percent: 100
         match:
         - headers:
-            cookie:
-              regex: ^(.*?;)?(user=jason)(;.*)?$
+            end-user:
+              exact: jason
         route:
         - destination:
             host: ratings
@@ -167,8 +167,8 @@ ratings not available` message.
             percent: 100
         match:
         - headers:
-            cookie:
-              regex: ^(.*?;)?(user=jason)(;.*)?$
+            end-user:
+              exact: jason
         route:
         - destination:
             host: ratings
