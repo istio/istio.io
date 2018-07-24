@@ -152,7 +152,7 @@ sidecars injected in the future.
 ## Migrating per-service mutual TLS enablement via annotations to authentication policy
 
 If you use service annotations to override global mutual TLS enablement for a service, you need to replace it with
-[authentication policy](/docs/concepts/security/#anatomy-of-an-authentication-policy) and [destination rules](/docs/concepts/traffic-management/#destination-rules).
+[authentication policy](/docs/concepts/security/#authentication-policies) and [destination rules](/docs/concepts/traffic-management/#destination-rules).
 
 For example, if you install Istio with mutual TLS enabled, and disable it for service `foo` using a service annotation like below:
 

@@ -30,7 +30,7 @@ and the `backend` service running as the `backend-team` service account. Istio
 supports services running on Kubernetes containers, virtual machines, and
 bare-metal machines.
 
-{{< image width="60%" ratio="60%"
+{{< image width="60%" ratio="52.44%"
     link="./auth.svg"
     alt="Components making up the Istio security model."
     caption="Istio Security Architecture"
@@ -190,9 +190,7 @@ for each SRE team to isolate their access. For example, you can create a
 `team1-ns` namespace for `team1`, and `team2-ns` namespace for `team2`, such
 that both teams can't access each other's services.
 
-{{< warning_icon >}}
-
-If Citadel is compromised, all its managed keys and certificates in the
+> {{< warning_icon >}} If Citadel is compromised, all its managed keys and certificates in the
 cluster may be exposed. We **strongly** recommend running Citadel in a
 dedicated namespace, for example `istio-citadel-ns`, to restrict access to
 the cluster to only administrators.
@@ -239,7 +237,7 @@ Istio provides two types of authentication:
 
 - Origin authentication, also known as end-user authentication: verifies the
   original client making the request as an end-user or device. Istio
-  1.0 supports authentication with JSON Web Token (JWT) validation.
+  supports authentication with JSON Web Token (JWT) validation.
 
 ### Authentication architecture
 
@@ -253,7 +251,7 @@ the required authentication mechanisms. Pilot may fetch the public key and
 attach it to the configuration for JWT validation. Alternatively, Pilot
 provides the path to the keys and certificates the Istio system manages and
 installs them to the application pod for mutual TLS. You can find more info in
-the [PKI and identity section](/docs/concepts/security/mutual-tls/#identity).
+the [PKI and identity section](/docs/concepts/security/#identity).
 Istio sends configurations to the targeted endpoints asynchronously. Once the
 proxy receives the configuration, the new authentication requirement takes
 effect immediately on that pod.
@@ -267,7 +265,7 @@ initial connections using TLS with the certificates expected on the server
 side. You can find out more about how mutual TLS works in Istio in
 [PKI and identity section](/docs/concepts/security/mutual-tls/).
 
-{{< image width="60%" ratio="60%"
+{{< image width="60%" ratio="67.12%"
     link="./authn.svg"
     caption="Authentication Architecture"
     >}}
@@ -304,7 +302,7 @@ spec:
   - mtls: {}
 {{< /text >}}
 
-#### Policy storage scope: `kind:`
+#### Policy storage scope
 
 Istio can store authentication policies in namespace-scope or mesh-scope
 storage:
@@ -350,7 +348,7 @@ cluster-scope `CRDs` and automatically inherit access protection via the
 Kubernetes RBAC. You can read more on the
 [Kubernetes CRD documentation](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
 
-#### Target selectors: `targets:`
+#### Target selectors
 
 An authentication policy’s targets specify the service or services to which the
 policy applies. The following example shows a `targets:` section specifying
@@ -393,7 +391,7 @@ only one authentication policy per mesh and one authentication policy per
 namespace. Istio also requires mesh-wide and namespace-wide policies to have
 the specific name `default`.
 
-#### Transport authentication: `peers:`
+#### Transport authentication
 
 The `peers:` section defines the authentication methods and associated
 parameters supported for transport authentication in a policy. The section can
@@ -415,7 +413,7 @@ Currently, the mutual TLS setting doesn’t require any parameters. Hence,
 the future, the mutual TLS setting may carry arguments to provide different
 mutual TLS implementations.
 
-#### Origin authentication: `origins:`
+#### Origin authentication
 
 The `origins:` section defines authentication methods and associated parameters
 supported for origin authentication. Istio only supports JWT origin
@@ -433,7 +431,7 @@ origins:
     jwksUri: "https://www.googleapis.com/oauth2/v3/certs"
 {{< /text >}}
 
-#### Principal binding `principalBinding:`
+#### Principal binding
 
 The principal binding key-value pair defines the principal authentication for a
 policy. By default, Istio uses the authentication configured in the `peers:`
@@ -490,7 +488,7 @@ services in an Istio Mesh. It features:
 
 ### Authorization architecture
 
-{{< image width="80%" ratio="56.25%"
+{{< image width="90%" ratio="56.25%"
     link="./authz.svg"
     alt="Istio Authorization"
     caption="Istio Authorization Architecture"
@@ -562,7 +560,7 @@ allowed to do **what** under **which conditions**. Specifically:
 - **who** refers to the `subjects:` section in `ServiceRoleBinding`.
 - **what** refers to the `permissions:` section in `ServiceRole`.
 - **which conditions** refers to the `conditions:` section you can specify with
-  the [Istio attributes](https://istio.io/docs/reference/config/policy-and-telemetry/attribute-vocabulary/)
+  the [Istio attributes](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/)
   in either `ServiceRole` or `ServiceRoleBinding`.
 
 #### `ServiceRole`
