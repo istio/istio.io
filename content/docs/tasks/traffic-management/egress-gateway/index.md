@@ -173,7 +173,7 @@ First direct HTTP traffic without TLS origination
     spec:
       host: istio-egressgateway.istio-system.svc.cluster.local
       subsets:
-      - name: cnn    
+      - name: cnn
     EOF
     {{< /text >}}
 
