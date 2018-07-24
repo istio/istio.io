@@ -6,7 +6,7 @@ attribution: Vadim Eisenberg
 weight: 86
 ---
 
-The [Configure Egress Gateway](/docs/tasks/traffic-management/egress-gateway/) task,
+The [Configure Egress Gateway](/docs/tasks/traffic-management/egress-gateway/) task, the
 [Direct HTTPS traffic through an egress gateway](/docs/tasks/traffic-management/egress-gateway/#direct-https-traffic-through-an-egress-gateway)
 section described how to configure an Istio egress gateway for HTTPS traffic for specific hostnames, like
 `edition.cnn.com`. This blog post explains how to enable an egress gateway for HTTPS traffic to a set of domains, for
