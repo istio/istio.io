@@ -17,7 +17,7 @@ VMs cannot initiate any direct communication to Kubernetes Pods even when using 
 
 ## Overview
 
-{{< image width="80%" ratio="56%"
+{{< image width="80%" ratio="70%"
     link="./mesh-expansion.svg"
     caption="Bookinfo Application with Istio Mesh Expansion"
     >}}
