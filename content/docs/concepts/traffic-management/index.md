@@ -144,7 +144,7 @@ via the Envoy sidecar, you can add failure recovery features such as
 timeouts, retries, and circuit breakers and obtain detailed metrics on
 the connections to these services.
 
-{{< image width="60%" ratio="28.88%"
+{{< image width="85%" ratio="45%"
     link="./ServiceModel_RequestFlow.svg"
     alt="Ingress and Egress through Envoy."
     caption="Request Flow"
