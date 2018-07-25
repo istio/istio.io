@@ -7,21 +7,6 @@ keywords: [kubernetes]
 
 Follow these instructions to setup the Kubernetes cluster for Istio.
 
-## Prerequisites
-
-The following instructions require:
-
-* Access to a Kubernetes **1.9 or newer** cluster with
-  [RBAC (Role-Based Access Control)](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)
-  enabled.
-* [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl/) **1.9 or
-  newer** installed. Version **1.10** is recommended.
-
-  > If you installed Istio 0.2.x,
-  > [uninstall](https://archive.istio.io/v0.2/docs/setup/kubernetes/quick-start#uninstalling)
-  > it completely before installing the newer version. Remember to uninstall
-  > the Istio sidecar for all Istio enabled application pods too.
-
 ## Platform setup
 
 This section describes the setup in different Kubernetes providers.
@@ -218,16 +203,58 @@ Nevertheless, you must update the list of admission controllers.
 
 ### Azure
 
-You must use `ACS-Engine` to deploy your cluster.
+You can deploy a Kubernetes cluster to Azure via [AKS](https://azure.microsoft.com/en-us/services/kubernetes-service/) or [ACS-Engine](https://github.com/azure/acs-engine) which fully supports Istio.
 
-1. Follow the instructions to get and install the `acs-engine` binary with
-   [their instructions](https://github.com/Azure/acs-engine/blob/master/docs/acsengine.md#install).
+#### Instructions for AKS
 
-1. Download Istio's `api model definition`:
+You can create an AKS cluster via [the az cli](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough) or [the Azure portal](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough-portal).
+
+For the `az` cli option, complete `az login` authentication OR use cloud shell, then run the following commands below.
+
+1. Determine the desired region name which supports AKS
+
+    {{< text bash >}}
+    $ az provider list --query "[?namespace=='Microsoft.ContainerService'].resourceTypes[] | [?resourceType=='managedClusters'].locations[]" -o tsv
+    {{< /text >}}
+
+1. Verify the supported Kubernetes versions for the desired region
+
+    Replace `my location` using the desired region value from the above step, and then execute:
+
+    {{< text bash >}}
+    $ az aks get-versions --location "my location" --query "orchestrators[].orchestratorVersion"
+    {{< /text >}}
+
+    Ensure `1.10.5` is listed or choose a different value greater than or equal to `1.9.6`.
+
+1. Create the resource group and deploy the AKS cluster
+
+    Replace `myResourceGroup` and `myAKSCluster` with desired names, `my location` using the value from step 1, `1.10.5` if not supported in the region, and then execute:
+
+    {{< text bash >}}
+    $ az group create --name myResourceGroup --location "my location"
+    $ az aks create --resource-group myResourceGroup --name myAKSCluster --node-count 3 --kubernetes-version 1.10.5 --generate-ssh-keys
+    {{< /text >}}
+
+1. Get the AKS `kubeconfig` credentials
+
+    Replace `myResourceGroup` and `myAKSCluster` with the names from the previous step and execute:
+
+    {{< text bash >}}
+    $ az aks get-credentials --resource-group myResourceGroup --name myAKSCluster
+    {{< /text >}}
+
+#### Instructions for ACS-Engine
+
+1. [Follow the instructions](https://github.com/Azure/acs-engine/blob/master/docs/acsengine.md#install) to get and install the `acs-engine` binary.
+
+1. Download the `acs-engine` API model definition that supports deploying Istio:
 
     {{< text bash >}}
     $ wget https://raw.githubusercontent.com/Azure/acs-engine/master/examples/service-mesh/istio.json
     {{< /text >}}
+
+    Note: It is possible to use other api model definitions which will work with Istio.  The MutatingAdmissionWebhook and ValidatingAdmissionWebhook admission control flags and RBAC are enabled by default on 1.9 or later clusters.  See [acs-engine api model default values](https://github.com/Azure/acs-engine/blob/master/docs/clusterdefinition.md) for further information.
 
 1. Deploy your cluster using the `istio.json` template. You can find references
    to the parameters in the
@@ -264,20 +291,4 @@ You must use `ACS-Engine` to deploy your cluster.
     {{< text bash >}}
     $ cp _output/mycluster-5adfba82/kubeconfig/kubeconfig.westus2.json \
       ~/.kube/config
-    {{< /text >}}
-
-1. Check if the right Istio flags were deployed:
-
-    {{< text bash >}}
-    $ kubectl describe pod --namespace kube-system
-    $(kubectl get pods --namespace kube-system | grep api | cut -d ' ' -f 1) \
-      | grep admission-control
-    {{< /text >}}
-
-1. Confirm the `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook`
-   flags are present:
-
-    {{< text plain >}}
-    --admission-control=...,MutatingAdmissionWebhook,...,
-    ValidatingAdmissionWebhook,...
     {{< /text >}}
