@@ -21,7 +21,7 @@ plane and the sidecars for the Istio data plane.
   * [Minikube](/docs/setup/kubernetes/platform-setup/minikube/)
   * [Google Container Engine (GKE)](/docs/setup/kubernetes/platform-setup/gke/)
   * [IBM Cloud Kubernetes Service (IKS)](/docs/setup/kubernetes/platform-setup/ibm/)
-  * [Openshift Origin](/docs/setup/kubernetes/platform-setup/openshift/)
+  * [OpenShift Origin](/docs/setup/kubernetes/platform-setup/openshift/)
   * [Amazon Web Services (AWS) with Kops](/docs/setup/kubernetes/platform-setup/aws/)
   * [Azure](/docs/setup/kubernetes/platform-setup/azure/)
 

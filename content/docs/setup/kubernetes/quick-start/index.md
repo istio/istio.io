@@ -15,7 +15,7 @@ To install and configure Istio in a Kubernetes cluster, follow these instruction
   * [Minikube](/docs/setup/kubernetes/platform-setup/minikube/)
   * [Google Container Engine (GKE)](/docs/setup/kubernetes/platform-setup/gke/)
   * [IBM Cloud Kubernetes Service (IKS)](/docs/setup/kubernetes/platform-setup/ibm/)
-  * [Openshift Origin](/docs/setup/kubernetes/platform-setup/openshift/)
+  * [OpensSift Origin](/docs/setup/kubernetes/platform-setup/openshift/)
   * [Amazon Web Services (AWS) with Kops](/docs/setup/kubernetes/platform-setup/aws/)
   * [Azure](/docs/setup/kubernetes/platform-setup/azure/)
 
