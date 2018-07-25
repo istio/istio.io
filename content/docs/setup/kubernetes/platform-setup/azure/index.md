@@ -1,6 +1,6 @@
 ---
 title: Azure
-description: Instructions to setup the Azure cluster for Istio.
+description: Instructions to setup an Azure cluster for Istio.
 weight: 6
 keywords: [platform-setup,azure]
 ---

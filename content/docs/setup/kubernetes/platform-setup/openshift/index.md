@@ -1,6 +1,6 @@
 ---
 title: OpenShift
-description: Instructions to setup the Openshift cluster for Istio.
+description: Instructions to setup an OpenShift cluster for Istio.
 weight: 15
 keywords: [platform-setup,openshift]
 ---
