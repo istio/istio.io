@@ -1,7 +1,7 @@
 ---
 title: Istio Multicluster
 description: Install Istio with multicluster support.
-weight: 6
+weight: 60
 keywords: [kubernetes,multicluster]
 ---
 

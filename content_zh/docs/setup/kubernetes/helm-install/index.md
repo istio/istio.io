@@ -14,13 +14,7 @@ aliases:
 ## 先决条件
 
 1. [下载 Istio 的发布版本](/docs/setup/kubernetes/download-release/)。
-1. [在 Kubernetes 中安装 Istio]
-  * [Minikube](/docs/setup/kubernetes/minikube/)
-  * [Google Container Engine (GKE)](/docs/setup/kubernetes/gke/)
-  * [IBM Cloud Kubernetes Service (IKS)](/docs/setup/kubernetes/ibm/)
-  * [Openshift Origin](/docs/setup/kubernetes/openshift/)
-  * [Amazon Web Services (AWS) with Kops](/docs/setup/kubernetes/aws/)
-  * [Azure](/docs/setup/kubernetes/azure/)
+1. [在 Kubernetes 中安装 Istio](/docs/setup/kubernetes/platform-setup/)
 
 ## 安装步骤
 

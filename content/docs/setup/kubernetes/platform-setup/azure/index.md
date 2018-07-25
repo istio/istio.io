@@ -1,8 +1,8 @@
 ---
-title: Platform setup for Azure
-description: Instructions to setup the Azure cluster for Istio.
-weight: 15
-keywords: [azure]
+title: Azure
+description: Instructions to setup an Azure cluster for Istio.
+weight: 6
+keywords: [platform-setup,azure]
 ---
 
 To setup the Azure cluster for Istio, follow these instructions:
