@@ -114,7 +114,7 @@ keywords: [keyword1,keyword2,...]
 
 这段代码会显示 {{< warning_icon >}} 和 {{< idea_icon >}}
 
-另外还可以用这种代码在内容中加入 emoji：`:sailboat:`，这样会显示帆船 emoji。
+另外还可以用这种代码在内容中加入 `emoji` ： `:``sailboat``:` ，这样会显示帆船的 `emoji` ， 就像这样 `:sailboat:`。
 
 可用的 emoji 列表可以参看：[Cheat sheet of the supported emojis](https://www.webpagefx.com/tools/emoji-cheat-sheet/)。
 
