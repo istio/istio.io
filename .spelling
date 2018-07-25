@@ -57,6 +57,8 @@ cnn.com
 Cmd
 Config
 ConfigMap
+CRD
+CRDs
 Ctrl
 D3.js
 Datadog
@@ -430,6 +432,7 @@ stackdriver
 statsd
 stdout
 struct
+subdomain
 subdomains
 substring
 svc
