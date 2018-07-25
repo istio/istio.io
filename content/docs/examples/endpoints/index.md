@@ -80,10 +80,10 @@ Adding `"--http_port=8081"` in the ESP deployment arguments and expose the HTTP 
     $ kubectl edit cm istio -n istio-system
     {{< /text >}}
 
-    And uncomment the line:
+    And change the value of `controlPlaneAuthPolicy` to `MUTUAL_TLS`:
 
     {{< text yaml >}}
-    authPolicy: MUTUAL_TLS
+    controlPlaneAuthPolicy: MUTUAL_TLS
     {{< /text >}}
 
 1. After this, you will find access to `EXTERNAL_IP` no longer works because istio proxy only accept secure mesh connections.

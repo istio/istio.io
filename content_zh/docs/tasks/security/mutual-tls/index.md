@@ -58,10 +58,10 @@ istio-citadel   1         1         1            1           1m
 
 ### 检查服务配置
 
-* 检查安装模式。如果缺省启用了双向 TLS（也就是在安装 Istio 的时候使用了 `istio-demo-auth.yaml`），会在 Configmap 中看到未被注释的 `authPolicy: MUTUAL_TLS` 一行：
+* 检查安装模式。如果缺省启用了双向 TLS（也就是在安装 Istio 的时候使用了 `istio-demo-auth.yaml`），会在 Configmap 中看到未被注释的 `controlPlaneAuthPolicy: MUTUAL_TLS` 一行：
 
     {{< text bash >}}
-    $ kubectl get configmap istio -o yaml -n istio-system | grep authPolicy | head -1
+    $ kubectl get configmap istio -o yaml -n istio-system | grep controlPlaneAuthPolicy | head -1
     {{< /text >}}
 
 * 检查认证策略。双向 TLS 的策略还能够以服务为单位进行启用（或停用）。如果存在仅对部分服务生效的策略，那么这部分服务原有的来自 Configmap 的策略就会被覆盖。不幸的是，目前没有快速的方法能够方便的获取某个服务的对应策略，只能在命名空间内获取所有策略。
@@ -70,7 +70,7 @@ istio-citadel   1         1         1            1           1m
     $ kubectl get policies.authentication.istio.io -n default -o yaml
     {{< /text >}}
 
-* 检查目标规则。从 Istio 0.8 开始，会使用目标规则的[流量策略](/docs/reference/config/istio.networking.v1alpha3/#TrafficPolicy)来对客户端进行配置，决定是否使用双向 TLS。为了向后兼容，**缺省**流量策略来自 Configmap 中的标志（也就是说，如果设置了 `authPolicy: MUTUAL_TLS`，那么**缺省**流量策略也会是 `MUTUAL_TLS` ）。如果使用针对部分服务的认证策略覆盖了原有配置，那么就要通过目标规则来实现了。跟认证策略类似，验证这一设置的方法也是需要通过获取全部规则的方式来进行：
+* 检查目标规则。从 Istio 0.8 开始，会使用目标规则的[流量策略](/docs/reference/config/istio.networking.v1alpha3/#TrafficPolicy)来对客户端进行配置，决定是否使用双向 TLS。为了向后兼容，**缺省**流量策略来自 Configmap 中的标志（也就是说，如果设置了 `controlPlaneAuthPolicy: MUTUAL_TLS`，那么**缺省**流量策略也会是 `MUTUAL_TLS` ）。如果使用针对部分服务的认证策略覆盖了原有配置，那么就要通过目标规则来实现了。跟认证策略类似，验证这一设置的方法也是需要通过获取全部规则的方式来进行：
 
     {{< text bash >}}
     $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml
