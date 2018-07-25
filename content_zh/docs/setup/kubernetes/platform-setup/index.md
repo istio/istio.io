@@ -128,9 +128,9 @@ $ oc adm policy add-scc-to-user anyuid \
 $ oc adm policy add-scc-to-user privileged -z default -n <target-namespace>
 {{< /text >}}
 
-> 如果在 Envoy 启动过程中遇到 问题，可以参考这一[讨论](https://github.com/istio/issues/issues/34)中关于 `SELINUX` 方面的问题。
+> 如果在 Envoy 启动过程中遇到问题，可以参考这一[讨论](https://github.com/istio/issues/issues/34)中关于 `SELINUX` 方面的问题。
 
-### AWS 上的 Kops 安装
+### 在 AWS 使用 Kops 安装
 
 如果使用 Kubernetes 1.9 版本，要确认启用 `admissionregistration.k8s.io/v1beta1`。
 
