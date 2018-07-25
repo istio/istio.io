@@ -54,10 +54,10 @@ Citadel is up if the "AVAILABLE" column is 1.
 
 ### Verifying service configuration
 
-* Check installation mode. If mutual TLS is enabled by default (e.g `istio-demo-auth.yaml` was used when installing Istio), you can expect to see uncommented `authPolicy: MUTUAL_TLS` in the configmap.
+* Check installation mode. If mutual TLS is enabled by default (e.g `istio-demo-auth.yaml` was used when installing Istio), you can expect to see `controlPlaneAuthPolicy: MUTUAL_TLS` in the configmap.
 
     {{< text bash >}}
-    $ kubectl get configmap istio -o yaml -n istio-system | grep authPolicy | head -1
+    $ kubectl get configmap istio -o yaml -n istio-system | grep controlPlaneAuthPolicy | head -1
     {{< /text >}}
 
 * Check authentication policies. Mutual TLS can also be enabled (or disabled) per service(s) by authentication policy. A policy, if exist, will overwrite the configmap setting for the targeted services. Unfortunately, there is no quick way to get relevant policies for a service, other than examining all policies in the applicable namespace:
@@ -66,7 +66,7 @@ Citadel is up if the "AVAILABLE" column is 1.
     $ kubectl get policies.authentication.istio.io -n default -o yaml
     {{< /text >}}
 
-* Check destination rule. Starting with Istio 0.8, destination rule's [traffic policy](/docs/reference/config/istio.networking.v1alpha3/#TrafficPolicy) is used to configure client side to use (or not use) mutual TLS. For backward compatibility, the _default_ traffic policy is inferred from configmap flag (i.e, if `authPolicy: MUTUAL_TLS`, _default_ traffic policy also be `MUTUAL_TLS`). If there is authentication policy overrules this setting for some services, it should accompany with the appropriate destination rule(s). Similar to authentication policy, the only way to verify the settings is to manually check all rules:
+* Check destination rule. Starting with Istio 0.8, destination rule's [traffic policy](/docs/reference/config/istio.networking.v1alpha3/#TrafficPolicy) is used to configure client side to use (or not use) mutual TLS. For backward compatibility, the _default_ traffic policy is inferred from configmap flag (i.e, if `controlPlaneAuthPolicy: MUTUAL_TLS`, _default_ traffic policy also be `MUTUAL_TLS`). If there is authentication policy overrules this setting for some services, it should accompany with the appropriate destination rule(s). Similar to authentication policy, the only way to verify the settings is to manually check all rules:
 
     {{< text bash >}}
     $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml
