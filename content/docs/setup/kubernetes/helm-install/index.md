@@ -37,6 +37,7 @@ plane and the sidecars for the Istio data plane.
 1. Install Istio's [Custom Resource Definitions (CRDs)]
 (https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
 via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the kube-apiserver:
+
     {{< text bash >}}
     $ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml -n istio-system
     {{< /text >}}
