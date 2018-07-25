@@ -6,8 +6,8 @@ weight: 40
 Learn how to implement a new adapter for Mixer by consulting the
 [Adapter Developer's Guide](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide).
 
-NOTE: For Istio 1.0, Mixer has introduced initial support for out-of-process adapters. This will
+> Istio 1.0 introduces initial support for out-of-process adapters. This will
 be the recommended approach moving forward for integrating with Mixer. Initial documentation on
 how to build an out-of-process adapter is provided by the
 [Out Of Process gRPC Adapter Dev Guide](https://github.com/istio/istio/wiki/Out-Of-Process-gRPC-Adapter-Dev-Guide)
-and the [gRPC Adapter Walkthrough](https://github.com/istio/istio/wiki/gRPC-Adapter-Walkthrough).
+and the [gRPC Adapter Walk-through](https://github.com/istio/istio/wiki/gRPC-Adapter-Walkthrough).

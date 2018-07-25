@@ -16,7 +16,7 @@ application.  It uses Deployment Manager to automate the steps detailed in the [
 
 - Ensure that the [Google Kubernetes Engine API](https://console.cloud.google.com/apis/library/container.googleapis.com/) is enabled for your project (also found by navigating to "APIs &amp; Services" -> "Dashboard" in the navigation bar). If you do not see "API enabled", then you may enable the API by clicking the "Enable this API" button.
 
-- You must install and configure the [gcloud command line tool](https://cloud.google.com/sdk/docs/) and include the `kubectl` component (`gcloud components install kubectl`).  If you don't want to install the `gcloud` client on your own machine, you can use `gcloud` via [Google Cloud Shell](https://cloud.google.com/shell/docs/) to perform the same tasks.
+- You must install and configure the [`gcloud` command line tool](https://cloud.google.com/sdk/docs/) and include the `kubectl` component (`gcloud components install kubectl`).  If you don't want to install the `gcloud` client on your own machine, you can use `gcloud` via [Google Cloud Shell](https://cloud.google.com/shell/docs/) to perform the same tasks.
 
 - {{< warning_icon >}} You must set your default compute service account to include:
 
@@ -63,7 +63,7 @@ caption="GKE-IAM Role"
 
 Wait until Istio is fully deployed. Note that this can take up to five minutes.
 
-### Bootstrap gcloud
+### Bootstrap `gcloud`
 
 Once deployment is complete, do the following on the workstation where you've installed `gcloud`:
 
