@@ -4,10 +4,17 @@ weight: 92
 ---
 
 We're proud to release Istio 1.0! Istio has been in development for nearly two years, and the 1.0 release represents a substantial
-milestone for us. All of our [core features](/about/feature-stages/) are now stable and ready for production use.
+milestone for us. All of our [core features](/about/feature-stages/) are now ready for production use.
 
 These release notes describe what's different between Istio 0.8 and Istio 1.0. Istio 1.0 only has a few new features
 relative to 0.8 as most of the effort for this release went into fixing bugs and improving performance.
+
+## Networking
+
+- **Old Traffic Management Model Deprecated**. Support for the old `v1alpha1` traffic management model
+has been removed.
+
+- **IStio Ingress Deprecated**. The old Istio ingress is deprecated and removed by default.
 
 ## Policy and telemetry
 
@@ -38,15 +45,21 @@ release to add new features and improve performance.
 
 ## Security
 
-- **Authorization**. We've reimplemented our [authorization functionality](/docs/concepts/security/#authorization).
+- **Authorization**. We've reimplemented our [authorization functionality](/docs/concepts/security/#authorization). Simple attribute-based
+authorization policies can now be implemented without the need for Mixer and Mixer adapters.
 
 - **Improved TLS Authentication Control**. It's now easier to [control TLS authentication](/docs/concepts/security/#authentication) between services.
+
+- **JWT Authentication**. We now support [JWT authentication](/docs/concepts/security/#authentication) which can
+be configured using [authentication policies](/docs/concepts/security/#authentication-policies).
 
 ## Istioctl
 
 - Added the [`istioctl authn tls-check`](/docs/reference/commands/istioctl/#istioctl-authn-tls-check) command.
 
 - Added the [`istioctl proxy-status`](/docs/reference/commands/istioctl/#istioctl-proxy-status) command.
+
+- Added the `istioctl experimental convert-ingress` command.
 
 - Removed the `istioctl experimental convert-networking-config` command.
 
@@ -56,7 +69,7 @@ release to add new features and improve performance.
 
     - `istioctl get all` returns all types of networking and authentication configuration.
 
-    - Added the `--all-namespaces` flag to `istio get` to retrieve resources across all namespaces.
+    - Added the `--all-namespaces` flag to `istioctl get` to retrieve resources across all namespaces.
 
 ## Known issues with 1.0
 
