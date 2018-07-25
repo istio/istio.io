@@ -3,18 +3,60 @@ title: Istio 1.0
 weight: 92
 ---
 
-This is a major release of 1.0. This version is a hardened version of 0.8 with a few new features in addition
-to usual pile of bug fixes and performance improvements.
+We're proud to release Istio 1.0! Istio has been in development for nearly two years, and the 1.0 release represents a substantial
+milestone for us. All of our [core features](/about/feature-stages/) are now stable and ready for production use.
 
-## Networking
+These release notes describe what's different between Istio 0.8 and Istio 1.0. Istio 1.0 only has a few new features
+relative to 0.8 as most of the effort for this release went into fixing bugs and improving performance.
+
+## Policy and telemetry
+
+- **Updated Attributes**. The set of [attributes](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/) used to describe the source and
+destination of traffic have been completely revamped in order to be more
+precise and comprehensive.
+
+- **Policy Check Cache**. Mixer now features a large level 2 cache for policy checks, complementing the level 1 cache
+present in the sidecar proxy. This further reduces the average latency of externally-enforced
+policy checks.
+
+- **Telemetry Buffering**. Mixer now buffers report calls before dispatching to adapters, which gives an opportunity for
+adapters to process telemetry data in bigger chunks, reducing overall computational overhead
+in Mixer and its adapters.
+
+- **Out of Process Adapters**. Mixer now includes initial support for out-of-process adapters. This will
+be the recommended approach moving forward for integrating with Mixer. Initial documentation on
+how to build an out-of-process adapter is provided by the
+[Out Of Process gRPC Adapter Dev Guide](https://github.com/istio/istio/wiki/Out-Of-Process-gRPC-Adapter-Dev-Guide)
+and the [gRPC Adapter Walk-through](https://github.com/istio/istio/wiki/gRPC-Adapter-Walkthrough).
+
+### Adapters
+
+- **SignalFX**. There is a new [`signalfx`](/docs/reference/config/policy-and-telemetry/adapters/signalfx/) adapter.
+
+- **Stackdriver**. The [`stackdriver`](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) adapter has been substantially enhanced in this
+release to add new features and improve performance.
 
 ## Security
 
-## Telemetry
+- **Authorization**. We've reimplemented our [authorization functionality](/docs/concepts/security/#authorization).
 
-## Setup
+- **Improved TLS Authentication Control**. It's now easier to [control TLS authentication](/docs/concepts/security/#authentication) between services.
 
-## Mixer adapters
+## Istioctl
+
+- Added the [`istioctl authn tls-check`](/docs/reference/commands/istioctl/#istioctl-authn-tls-check) command.
+
+- Added the [`istioctl proxy-status`](/docs/reference/commands/istioctl/#istioctl-proxy-status) command.
+
+- Removed the `istioctl experimental convert-networking-config` command.
+
+- Enhancements and bug fixes:
+
+    - Align `kubeconfig` handling with `kubectl`
+
+    - `istioctl get all` returns all types of networking and authentication configuration.
+
+    - Added the `--all-namespaces` flag to `istio get` to retrieve resources across all namespaces.
 
 ## Known issues with 1.0
 

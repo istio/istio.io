@@ -145,6 +145,7 @@ ServiceGraph
 Servicegraph
 Sharding
 Shriram
+SignalFX
 Snell-Feikema
 SolarWinds
 TCP-level
@@ -375,6 +376,7 @@ redis
 redis-master-2353460263-1ecey
 referer
 registrator
+reimplemented
 reinject
 repo
 requestcontext
