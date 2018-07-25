@@ -11,14 +11,17 @@ relative to 0.8 as most of the effort for this release went into fixing bugs and
 
 ## Networking
 
- **SNI Routing using VirtualServices**. Newly introduced `TLS` sections in VirtualServices can be used to route TLS traffic based on SNI values. Service ports named as TLS/HTTPS can be used in conjunction with VirtualService TLS routes. TLS/HTTPS ports without an accompanying VirtualService will be treated as opaque TCP.
+- **SNI Routing using Virtual Services**. Newly introduced `TLS` sections in
+[`VirtualService`](/docs/reference/config/istio.networking.v1alpha3/#VirtualService) can beused to route TLS traffic
+based on SNI values. Service ports named as TLS/HTTPS can be used in conjunction with
+virtual service TLS routes. TLS/HTTPS ports without an accompanying virtual service will be treated as opaque TCP.
 
 - **Old (v1alpha1) networking APIs are no longer available**. Support for the old `v1alpha1` traffic management model
 has been removed.
 
 - **Istio Ingress Deprecated**. The old Istio ingress is deprecated and disabled by default. We encourage users to use [gateways](/docs/concepts/traffic-management/#gateways) instead.
 
--- **Support for streaming gRPC restored**. Istio 0.8 caused periodic termination of long running streaming gRPC connections. This has been fixed in 1.0.
+- **Support for streaming gRPC restored**. Istio 0.8 caused periodic termination of long running streaming gRPC connections. This has been fixed in 1.0.
 
 ## Policy and Telemetry
 
