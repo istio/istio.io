@@ -623,7 +623,7 @@ $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metada
 200
 {{< /text >}}
 
-However, requests from non-Istio service, which use plain-text will fail:
+However, requests from non-Istio services, which use plain-text will fail:
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metadata.name}) -c sleep -n legacy -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n" --header "Authorization: Bearer $TOKEN"
@@ -643,7 +643,6 @@ $ kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..met
     {{< text bash >}}
     $ kubectl delete policy httpbin
     {{< /text >}}
-
 
 1. If you are not planning to explore any follow-on tasks, you can remove all resources simply by deleting test namespaces.
 
