@@ -552,7 +552,7 @@ $ curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/headers -s -o /dev/
 200
 {{< /text >}}
 
-To observe other aspects of JWT validation, use the script `[gen-jwt.py]({{< github_tree >}}/security/tools/jwt/samples/gen-jwt.py)` to
+To observe other aspects of JWT validation, use the script [`gen-jwt.py`]({{< github_tree >}}/security/tools/jwt/samples/gen-jwt.py) to
 generate new tokens to test with different issuer, audiences, expiry date, etc. For example, the command below creates a token that
 expires in 5 seconds. As you see, Istio authenticates requests using that token successfully at first but rejects them after 5 seconds:
 
@@ -571,16 +571,81 @@ $ for i in `seq 1 10`; do curl --header "Authorization: Bearer $TOKEN" $INGRESS_
 401
 {{< /text >}}
 
+### End-user authentication with mutual TLS
+
+End-user authentication and mutual TLS can be used together. Modify the policy above to define both mutual TLS and end-user JWT authentication:
+
+{{< text bash >}}
+$ cat <<EOF | istioctl replace -n foo -f -
+apiVersion: "authentication.istio.io/v1alpha1"
+kind: "Policy"
+metadata:
+  name: "jwt-example"
+spec:
+  targets:
+  - name: httpbin
+  peers:
+  - mTLS: {}
+  origins:
+  - jwt:
+      issuer: "testing@secure.istio.io"
+      jwksUri: "{{< github_file >}}/security/tools/jwt/samples/jwks.json"
+  principalBinding: USE_ORIGIN
+EOF
+{{< /text >}}
+
+> Use `istio create` if the `jwt-example` policy hasn't been submitted.
+
+And add a destination rule:
+
+{{< text bash >}}
+$ cat <<EOF | istioctl create -f -
+apiVersion: "networking.istio.io/v1alpha3"
+kind: "DestinationRule"
+metadata:
+  name: "httpbin"
+  namespace: "foo"
+spec:
+  host: "httpbin.foo.svc.cluster.local"
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+EOF
+{{< /text >}}
+
+> If you already enable mutual TLS mesh-wide or namespace-wide, the host `httpbin.foo` is already covered by the other destination rule.
+Therefore, you do not need adding this destination rule. On the other hand, you still need to add the `mTLS` stanza to the authentication policy as the service-specific policy will override the mesh-wide (or namespace-wide) policy completely.
+
+After these changes, traffic from Istio services, including ingress gateway, to `httpbin.foo` will use mutual TLS. The test command above will still work. Requests from Istio services directly to `httpbin.foo` also work, given the correct token:
+
+{{< text bash >}}
+$ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n" --header "Authorization: Bearer $TOKEN"
+200
+{{< /text >}}
+
+However, requests from non-Istio services, which use plain-text will fail:
+
+{{< text bash >}}
+$ kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metadata.name}) -c sleep -n legacy -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n" --header "Authorization: Bearer $TOKEN"
+401
+{{< /text >}}
+
 ### Cleanup part 3
 
-Remove authentication policy:
+1. Remove authentication policy:
 
-{{< text bash >}}
-$ kubectl delete policy jwt-example
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete policy jwt-example
+    {{< /text >}}
 
-If you are not planning to explore any follow-on tasks, you can remove all resources simply by deleting test namespaces.
+1. Remove destination rule:
 
-{{< text bash >}}
-$ kubectl delete ns foo bar legacy
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete policy httpbin
+    {{< /text >}}
+
+1. If you are not planning to explore any follow-on tasks, you can remove all resources simply by deleting test namespaces.
+
+    {{< text bash >}}
+    $ kubectl delete ns foo bar legacy
+    {{< /text >}}
