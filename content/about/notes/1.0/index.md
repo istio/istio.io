@@ -12,7 +12,7 @@ relative to 0.8 as most of the effort for this release went into fixing bugs and
 ## Networking
 
 - **SNI Routing using Virtual Services**. Newly introduced `TLS` sections in
-[`VirtualService`](/docs/reference/config/istio.networking.v1alpha3/#VirtualService) can beused to route TLS traffic
+[`VirtualService`](/docs/reference/config/istio.networking.v1alpha3/#VirtualService) can be used to route TLS traffic
 based on SNI values. Service ports named as TLS/HTTPS can be used in conjunction with
 virtual service TLS routes. TLS/HTTPS ports without an accompanying virtual service will be treated as opaque TCP.
 
@@ -59,8 +59,8 @@ release to add new features and improve performance.
 authorization policies can now be implemented without the need for Mixer and Mixer adapters.
 
 - **Improved Mutual TLS Authentication Control**. It's now easier to [control mutual TLS authentication](/docs/concepts/security/#authentication) between services. We provide 'PERMISSIVE' mode so that you can
-incrementally turn on mutual TLS (/docs/tasks/security/mtls-migration/) for your services. 
-We removed service annotations and have a unique approach to turn on mutual TLS (/docs/tasks/security/authn-policy/).
+[incrementally turn on mutual TLS](/docs/tasks/security/mtls-migration/) for your services. 
+We removed service annotations and have a [unique approach to turn on mutual TLS](/docs/tasks/security/authn-policy/).
 
 - **JWT Authentication**. We now support [JWT authentication](/docs/concepts/security/#authentication) which can
 be configured using [authentication policies](/docs/concepts/security/#authentication-policies).
