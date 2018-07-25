@@ -552,7 +552,7 @@ $ curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/headers -s -o /dev/
 200
 {{< /text >}}
 
-To observe other aspects of JWT validation, use the script [gen-jwt.py]({{< github_tree >}}/security/tools/jwt/samples/gen-jwt.py) to
+To observe other aspects of JWT validation, use the script `[gen-jwt.py]({{< github_tree >}}/security/tools/jwt/samples/gen-jwt.py)` to
 generate new tokens to test with different issuer, audiences, expiry date, etc. For example, the command below creates a token that
 expires in 5 seconds. As you see, Istio authenticates requests using that token successfully at first but rejects them after 5 seconds:
 
