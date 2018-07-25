@@ -55,7 +55,9 @@ release to add new features and improve performance.
 - **Authorization**. We've reimplemented our [authorization functionality](/docs/concepts/security/#authorization). Simple RPC-level
 authorization policies can now be implemented without the need for Mixer and Mixer adapters.
 
-- **Improved Mutual TLS Authentication Control**. It's now easier to [control mutual TLS authentication](/docs/concepts/security/#authentication) between services.
+- **Improved Mutual TLS Authentication Control**. It's now easier to [control mutual TLS authentication](/docs/concepts/security/#authentication) between services. We provide 'PERMISSIVE' mode so that you can
+incrementally turn on mutual TLS (/docs/tasks/security/mtls-migration/) for your services. 
+We removed service annotations and have a unique approach to turn on mutual TLS (/docs/tasks/security/authn-policy/).
 
 - **JWT Authentication**. We now support [JWT authentication](/docs/concepts/security/#authentication) which can
 be configured using [authentication policies](/docs/concepts/security/#authentication-policies).
