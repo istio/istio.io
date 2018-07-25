@@ -1,5 +1,5 @@
 ---
-title: Platform setup for Minikube
+title: Minikube
 description: Instructions to setup Minikube for use with Istio
 weight: 10
 keywords: [platform-setup,kubernetes,minikube]
