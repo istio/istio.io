@@ -21,8 +21,9 @@ configuration items for all the _wikipedia_ sites, without the need to specify t
 
 ## Before you begin
 
-Follow the steps in the [Before you begin](/docs/tasks/traffic-management/egress-gateway/#before-you-begin) section of
-the [Configure an Egress Gateway](/docs/tasks/traffic-management/egress-gateway) task.
+This blog post assumes you deployed Istio with mutual [mutual TLS Authentication](/docs/tasks/security/mutual-tls/)
+enabled. Follow the steps in the [Before you begin](/docs/tasks/traffic-management/egress-gateway/#before-you-begin)
+section of the [Configure an Egress Gateway](/docs/tasks/traffic-management/egress-gateway) task.
 
 ## Configure an egress gateway for HTTPS traffic
 
@@ -56,10 +57,6 @@ Let's configure an egress gateway for traffic to `*.wikipedia.org`
     {{< /text >}}
 
 1.  Create an egress `Gateway` for _*.wikipedia.org_, port 443, protocol TLS.
-
-    If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio, use the following
-    command. Note that in addition to creating a `Gateway`, it creates a `DestinationRule` to specify mTLS to the egress
-    gateway.
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
@@ -102,29 +99,6 @@ Let's configure an egress gateway for traffic to `*.wikipedia.org`
             subjectAltNames:
             - spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
             sni: placeholder.wikipedia.org # an SNI to match egress gateway's expectation for an SNI
-    EOF
-    {{< /text >}}
-
-    otherwise:
-
-    {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
-    apiVersion: networking.istio.io/v1alpha3
-    kind: Gateway
-    metadata:
-      name: istio-egressgateway
-    spec:
-      selector:
-        istio: egressgateway
-      servers:
-      - port:
-          number: 443
-          name: tls
-          protocol: TLS
-        hosts:
-        - "*"
-        tls:
-          mode: PASSTHROUGH
     EOF
     {{< /text >}}
 
