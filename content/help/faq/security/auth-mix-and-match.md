@@ -3,7 +3,7 @@ title: Can I enable Istio Auth with some services while disable others in the sa
 weight: 30
 ---
 
-You can use [authentication policy](/docs/concepts/security/#anatomy-of-an-authentication-policy) to enable (or disable) mutual TLS per service. For example, the policy below will disable mutual TLS on port 9080 for service `details`
+You can use [authentication policy](/docs/concepts/security/#authentication-policies) to enable (or disable) mutual TLS per service. For example, the policy below will disable mutual TLS on port 9080 for service `details`
 
 {{< text bash >}}
 $ cat <<EOF | istioctl create -f -

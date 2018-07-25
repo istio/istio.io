@@ -26,10 +26,6 @@ across the multicluster environment and may not overlap.
 
 * Helm **2.7.2 or newer**.  The use of Tiller is optional.
 
-## Caveats and known problems
-
-All known caveats and known problems with multicluster for the 1.0 release are [tracked here](https://github.com/istio/istio/issues/4822).
-
 ## Overview
 
 Multicluster functions by enabling Kubernetes control planes running
@@ -72,7 +68,7 @@ $ export PILOT_POD_IP=$(kubectl -n istio-system get pod -l istio=pilot -o jsonpa
 $ export POLICY_POD_IP=$(kubectl -n istio-system get pod -l istio=mixer -o jsonpath='{.items[0].status.podIP}')
 $ export STATSD_POD_IP=$(kubectl -n istio-system get pod -l istio=statsd-prom-bridge -o jsonpath='{.items[0].status.podIP}')
 $ export TELEMETRY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=telemetry -o jsonpath='{.items[0].status.podIP}')
-$ export ZIPKIN_POD_IP=$(kubectl -n istio-system get pod -l app=jaeger -o jsonpath='{.items[0].status.podIP}')
+$ export ZIPKIN_POD_IP=$(kubectl -n istio-system get pod -l app=jaeger -o jsonpath='{range .items[*]}{.status.podIP}{end}')
 {{< /text >}}
 
 Proceed to one of the options for connecting the remote cluster to the local cluster:
@@ -88,7 +84,14 @@ Proceed to one of the options for connecting the remote cluster to the local clu
 1.  Use the helm template command on a remote to specify the Istio control plane service endpoints:
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio-remote --namespace istio-system --name istio-remote --set global.remotePilotAddress=${PILOT_POD_IP} --set global.remotePolicyAddress=${POLICY_POD_IP} --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} --set global.proxy.envoyStatsd.enabled=true --set global.proxy.envoyStatsd.host=${STATSD_POD_IP} --set global.remoteZipkinAddress=${ZIPKIN_POD_IP} > $HOME/istio-remote.yaml
+    $ helm template install/kubernetes/helm/istio-remote --namespace istio-system \
+    --name istio-remote \
+    --set global.remotePilotAddress=${PILOT_POD_IP} \
+    --set global.remotePolicyAddress=${POLICY_POD_IP} \
+    --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} \
+    --set global.proxy.envoyStatsd.enabled=true \
+    --set global.proxy.envoyStatsd.host=${STATSD_POD_IP} \
+    ${ZIPKIN_POD_IP:+ --set global.remoteZipkinAddress=${ZIPKIN_POD_IP}} > $HOME/istio-remote.yaml
     {{< /text >}}
 
 1.  Create a namespace for remote Istio.
@@ -438,7 +441,7 @@ allow the remote sidecars to resolve `istio-pilot.istio-system` hostname via its
           --set global.mtls.enabled=true \
           --set security.selfSigned=false \
           --set global.controlPlaneSecurityEnabled=true \
-          --set --set global.remotePilotCreateSvcEndpoint=true \
+          --set global.remotePilotCreateSvcEndpoint=true \
           --set global.remotePilotAddress=${PILOT_POD_IP} \
           --set global.remotePolicyAddress=${POLICY_POD_IP} \
           --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} \

@@ -26,7 +26,7 @@ all of the needed state from your Kubernetes cluster:
 * Run via `curl`:
 
     {{< text bash >}}
-    $ curl https://raw.githubusercontent.com/istio/istio/{{< branch_name >}}/tools/dump_kubernetes.sh | sh -s -- -z
+    $ curl {{< github_file >}}/tools/dump_kubernetes.sh | sh -s -- -z
     {{< /text >}}
 
 * Run locally, from the release directory's root:

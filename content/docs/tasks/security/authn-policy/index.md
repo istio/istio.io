@@ -12,7 +12,7 @@ the underlying concepts in the [authentication overview](/docs/concepts/security
 
 ## Before you begin
 
-* Understand Istio [authentication policy](/docs/concepts/security/#anatomy-of-an-authentication-policy) and related
+* Understand Istio [authentication policy](/docs/concepts/security/#authentication-policies) and related
 [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) concepts.
 
 * Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (e.g use `install/kubernetes/istio.yaml` as described in

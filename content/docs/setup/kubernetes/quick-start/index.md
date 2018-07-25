@@ -491,5 +491,11 @@ If you installed Istio with `istio-demo.yaml`:
 $ kubectl delete -f install/kubernetes/istio-demo.yaml
 {{< /text >}}
 
+If you installed Istio with `istio-demo-auth.yaml`:
+
+{{< text bash >}}
+$ kubectl delete -f install/kubernetes/istio-demo-auth.yaml
+{{< /text >}}
+
 If you didn't install Istio with `istio.yaml`, follow the [uninstall Istio with
 Helm](/docs/setup/kubernetes/helm-install/#uninstall) steps.
