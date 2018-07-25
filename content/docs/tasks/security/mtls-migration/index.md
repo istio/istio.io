@@ -5,10 +5,22 @@ weight: 80
 keywords: [security,authentication,migration]
 ---
 
-This task shows how to migrate your existing Istio services' traffic from plain text to mutual TLS without breaking live traffic.
+This task shows how to migrate your existing Istio services's traffic from plain
+text to mutual TLS without breaking live traffic.
 
-In practice, a mesh consists of both Istio services (with Envoy sidecars) and services without Envoy sidecar(called "legacy" below for simplicity).
-A legacy service can't use Istio issued key/certificate to send mutual TLS traffic. We want to enable mutual TLS incrementally, safely.
+Imagine you have many services that talking to each other and you want to
+gradually migrate them to Istio. During the migration, some services have Envoy
+sidecars while some do not. For a service with Envoy sidecar, if you enable
+mutual TLS on it, the connections from legacy clients (i.e., clients without
+Envoy) will break since they do not have Envoy sidecars and client certificates.
+As a result, Istio authentication policy provides a "PERMISSIVE" mode to solve
+this problem. Once "PERMISSIVE" mode is enabled, a service can take both HTTP
+and mutual TLS traffic. Therefore, you can config Istio services to send mutual
+TLS traffic to that service while connections from legacy services will not
+break. Moreover, you can use
+[grafana](/docs/tasks/telemetry/using-istio-dashboard/) to check which legacy services are
+still sending traffic to the service in "PERMISSIVE" mode and choose to lock
+down once the migration is done.
 
 ## Before you begin
 
