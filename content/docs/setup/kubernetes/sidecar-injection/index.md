@@ -111,7 +111,7 @@ Note that unlike manual injection, automatic injection occurs at the pod-level. 
 #### Disabling or updating the webhook
 
 The sidecar injecting webhook is enabled by default. If you wish to disable the webhook, you can
-use [Helm](/docs/setup/kubernetes/helm-install/) to generate an updated istio.yaml
+use [Helm](/docs/setup/kubernetes/helm-install/) to generate an updated `istio.yaml`
 with the option `sidecarInjectorWebhook.enabled` set to `false`. E.g.
 
 {{< text bash >}}

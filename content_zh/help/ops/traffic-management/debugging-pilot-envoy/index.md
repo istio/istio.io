@@ -9,7 +9,7 @@ keywords: [debug,proxy,status,config,pilot,envoy]
 
 ## 开始之前
 
-* 部署 Istio 和 Bookinfo 的 Kubernetes 集群（例如，如[安装步骤](/docs/setup/kubernetes/quick-start/#installation-steps)和 [bookinfo 安装步骤](/docs/examples/bookinfo/#if-you-are-running-on-kubernetes)中所述使用 istio.yaml 安装)。
+* 部署 Istio 和 Bookinfo 的 Kubernetes 集群（例如，如[安装步骤](/docs/setup/kubernetes/quick-start/#installation-steps)和 [bookinfo 安装步骤](/docs/examples/bookinfo/#if-you-are-running-on-kubernetes)中所述使用 `istio.yaml` 安装)。
 
 或者
 
