@@ -1,7 +1,7 @@
 ---
 title: Installation with Ansible
 description: Install Istio with the included Ansible playbook.
-weight: 4
+weight: 40
 keywords: [kubernetes,ansible]
 ---
 

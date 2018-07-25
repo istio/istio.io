@@ -1,7 +1,7 @@
 ---
 title: Download the Istio release
 description: Instructions to download the Istio release.
-weight: 9
+weight: 90
 keywords: [kubernetes]
 ---
 

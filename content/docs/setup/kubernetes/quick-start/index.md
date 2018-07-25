@@ -1,7 +1,7 @@
 ---
 title: Quick Start with Kubernetes
 description: Instructions to setup the Istio service mesh in a Kubernetes cluster.
-weight: 1
+weight: 5
 keywords: [kubernetes]
 ---
 
