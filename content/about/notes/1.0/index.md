@@ -18,7 +18,7 @@ has been removed.
 
 - **SNI Routing using VirtualServices**. Newly introduced `TLS` sections in VirtualServices can be used to route TLS traffic based on SNI values. Service ports named as TLS/HTTPS can be used in conjunction with VirtualService TLS routes. TLS/HTTPS ports without an accompanying VirtualService will be treated as opaque TCP.
 
-- **Support for streaming gRPC restored**. Istio 0.8 was caused periodic termination of long running streaming gRPC connections. This has been fixed in 1.0.
+- **Support for streaming gRPC restored**. Istio 0.8 caused periodic termination of long running streaming gRPC connections. This has been fixed in 1.0 (via https://github.com/istio/istio/pull/6081)
 
 ## Policy and Telemetry
 
@@ -52,7 +52,7 @@ release to add new features and improve performance.
 - **Authorization**. We've reimplemented our [authorization functionality](/docs/concepts/security/#authorization). Simple attribute-based
 authorization policies can now be implemented without the need for Mixer and Mixer adapters.
 
-- **Improved TLS Authentication Control**. It's now easier to [control TLS authentication](/docs/concepts/security/#authentication) between services.
+- **Improved mutual TLS Authentication Control**. It's now easier to [control mutual TLS authentication](/docs/concepts/security/#authentication) between services.
 
 - **JWT Authentication**. We now support [JWT authentication](/docs/concepts/security/#authentication) which can
 be configured using [authentication policies](/docs/concepts/security/#authentication-policies).
