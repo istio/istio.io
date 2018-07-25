@@ -593,7 +593,8 @@ The output should be the same as in the previous section.
     EOF
     {{< /text >}}
 
-1.  Define a `VirtualService` to direct the traffic through the egress gateway:
+1.  Define virtual services to direct the traffic through the egress gateway and from the egress gateway to the external
+    service:
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
@@ -605,7 +606,6 @@ The output should be the same as in the previous section.
       hosts:
       - edition.cnn.com
       gateways:
-      - istio-egressgateway
       - mesh
       tls:
       - match:
@@ -621,12 +621,21 @@ The output should be the same as in the previous section.
             port:
               number: 443
           weight: 100
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: cnn
+    spec:
+      hosts:
+      - edition.cnn.com
+      gateways:
+      - istio-egressgateway
+      tcp:
       - match:
         - gateways:
           - istio-egressgateway
           port: 443
-          sni_hosts:
-          - edition.cnn.com
         route:
         - destination:
             host: edition.cnn.com
@@ -664,7 +673,7 @@ The output should be the same as in the previous section.
 {{< text bash >}}
 $ istioctl delete serviceentry cnn
 $ istioctl delete gateway istio-egressgateway
-$ istioctl delete virtualservice direct-cnn-through-egress-gateway
+$ istioctl delete virtualservice direct-cnn-through-egress-gateway cnn
 $ istioctl delete destinationrule egressgateway-for-cnn
 {{< /text >}}
 
