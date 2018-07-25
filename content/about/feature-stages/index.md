@@ -76,7 +76,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Service-to-service mutual TLS](/docs/concepts/security/#mutual-tls-authentication)         | Stable
 | [Authentication policy](/docs/concepts/security/#authentication-policies)  | Alpha
 | [End User (JWT) Authentication](/docs/concepts/security/#authentication)  | Alpha
-| [VM: Service Credential Distribution](/docs/concepts/security/#key-management)         | Beta
+| [VM: Service Credential Distribution](/docs/concepts/security/#pki)         | Beta
 | [Incremental mTLS](/docs/tasks/security/mtls-migration)    | Beta
 | [OPA Checker]({{< github_file >}}/mixer/adapter/opa/README.md)    | Alpha
 | [Authorization (RBAC)](/docs/concepts/security/#authorization)   | Alpha

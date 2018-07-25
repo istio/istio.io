@@ -35,8 +35,8 @@ with AAA (authentication/authorization/audit). The goals of Istio security are:
 
 This guide provides a high-level overview of Istio security; you can find more information about specific Istio security concepts
 in other guides in this section.
-To find out how to get started using Istio security with deployed services, see the [Mutual TLS Migration](docs/tasks/security/mtls-migration/).
-For more detailed howto on security tasks, see our [Security Tasks](docs/tasks/security/).
+To find out how to get started using Istio security with deployed services, see the [Mutual TLS Migration](/docs/tasks/security/mtls-migration/).
+For more detailed howto on security tasks, see our [Security Tasks](/docs/tasks/security/).
 
 ## High-level architecture and features
 
@@ -58,7 +58,7 @@ is responsible for securely provisioning strong workload identities to to every 
 The identities are in SPIFFE format, carried by X.509 certificates.
 The PKI also automates the key & certificate rotation and revocation at scale.
 
-### Authentication
+### Authentication schemes
 
 Istio provides two different types of authentication:
 
@@ -73,7 +73,7 @@ and are kept up to date (along with keys where appropriate) for each proxy by Pi
 Istio also supports authentication in permissive mode to understand how a policy change would affect your security posture
 before it becomes effective.
 
-For more details,  please read [authentication](docs/concepts/security/#authentication).
+For more details,  please read [authentication](/docs/concepts/security/#authentication).
 
 ### Authorization & audit
 
@@ -81,7 +81,7 @@ Istio provides fine-grained access control to enable application-level control a
 using a variety of access control mechanisms.
 They include attribute and role-based access control as well as authorization hooks.
 
-Find out more about Istio authorization in the [authorization guide](docs/concepts/security/#authorization)
+Find out more about Istio authorization in the [authorization guide](/docs/concepts/security/#authorization)
 
 The guide for auditing is coming soon!
 
@@ -90,8 +90,8 @@ The guide for auditing is coming soon!
 Istio makes it simple to configure and enable security features using Istio’s rich yet easy-to-use policy creation
 and centralized policy management.
 
-Find out more about configuring security policies in the [authentication](docs/concepts/security/#authentication)
-and [authorization](docs/concepts/security/#authorization) sections.
+Find out more about configuring security policies in the [authentication](/docs/concepts/security/#authentication)
+and [authorization](/docs/concepts/security/#authorization) sections.
 
 ### Using other security mechanisms
 
@@ -152,17 +152,10 @@ Moreover, Istio provides a more comprehensive security solution, including authe
 
 ## PKI
 
-### Istio Citadel and Kubernetes secret
-
 Istio supports services running on both Kubernetes pods and on-prem machines.
 Currently we use different certificate key provisioning mechanisms for each scenario, which will be unified in a post-1.0 release.
 
-The identity provisioning workflow consists of two phases: deployment and runtime.
-The deployment phase is different for the workflow in Kubernetes and for the workflow in VMs or bare-metal machines.
-However, once the certificates/keys are deployed, the runtime phase is the same for the two scenarios.
-We briefly cover the workflow in this section.
-
-### Deployment phase (Kubernetes scenario)
+### Kubernetes scenario
 
 1. Citadel watches the Kubernetes API Server, creates a SPIFFE certificate/key pair for each of the existing and new service accounts,
    and sends them to the API Server. The certificate/key pairs are stored as
@@ -176,7 +169,7 @@ We briefly cover the workflow in this section.
 1. Pilot generates the secure naming information,
    which defines what service account(s) can run a certain service, and passes it to sidecar Envoy.
 
-### Deployment phase (on-prem machines scenario)
+### On-prem machines scenario
 
 1. Citadel creates a gRPC service to take CSR requests.
 
@@ -189,25 +182,10 @@ We briefly cover the workflow in this section.
 
 1. The above CSR process repeats periodically for rotation.
 
-### Runtime phase
+### Node Agent in Kubernetes(upcoming)
 
-1. The outbound traffic from a client is rerouted to its local sidecar Envoy.
-
-1. The client side Envoy starts a mutual TLS handshake with the server side Envoy.
-   During the handshake, it also does a secure naming check to verify that
-   the service account presented in the server certificate is authorized to run the target service.
-
-1. The client side Envoy and the server side Envoy establish a mutual TLS connection, and the traffic
-   is forwarded from the client side Envoy to the server side Envoy.
-
-1. The server side Envoy does authorization on the traffic.
-
-1. The server side Envoy forwards the traffic to the server service through local TCP connections.
-
-## Istio Citadel and Node Agent (upcoming)
-
-In the near future, Istio will use node agent for certificate/key provision, as shown in the figure below.
-Note that the deployment flow for on-prem machines is the same so we only describe K8s scenario.
+In the near future, Istio will use node agent in Kubernetes for certificate/key provision, as shown in the figure below.
+Note that the identity provision flow for on-prem machines is the same so we only describe the Kubernetes scenario.
 
 {{< image width="80%" ratio="56.25%"
     link="./node_agent.svg"
@@ -215,7 +193,7 @@ Note that the deployment flow for on-prem machines is the same so we only descri
     caption="Istio Security Architecture"
     >}}
 
-### Deployment phase
+The flow goes as the following:
 
 1. Citadel creates a gRPC service to take CSR requests.
 
@@ -230,6 +208,39 @@ Note that the deployment flow for on-prem machines is the same so we only descri
 1. The above CSR process repeats periodically for rotation.
 
 The runtime phase remains the same as the previous section.
+
+## Mutual TLS authentication
+
+Service-to-service communication is tunneled through the client side [Envoy](https://envoyproxy.github.io/envoy/) and the server side Envoy.
+For a client to call a server, the process can be described as the following:
+
+1. The outbound traffic from a client is rerouted to its local sidecar Envoy.
+
+1. The client side Envoy starts a mutual TLS handshake with the server side Envoy.
+   During the handshake, it also does a [secure naming](/docs/concepts/security/#secure-naming) check to verify that
+   the service account presented in the server certificate is authorized to run the target service.
+
+1. The client side Envoy and the server side Envoy establish a mutual TLS connection, and the traffic
+   is forwarded from the client side Envoy to the server side Envoy.
+
+1. (After authorization) the server side Envoy forwards the traffic to the server service through local TCP connections.
+
+### Secure naming
+
+The secure naming information contains (N-to-N) mappings from the server identities (encoded in certificates)
+to the service names (referred by discovery service or DNS) that they serve.
+This information is securely distributed from Pilot to the sidecar Envoys.
+The following example explains why secure naming is critical in authentication.
+
+Suppose the legitimate servers that run the service `datastore` only use the identity `infra-team`.
+A malicious user has key/certificate with identity `test-team`.
+He intends to impersonate the service so that he could inspect the data sent from the clients.
+The malicious user deploys a forged server, with the key/certificate with identity `test-team`.
+Suppose he has successfully hacked the discovery service or DNS to map the serivce name `datastore` to his forged server.
+
+When a client calls the service `datastore`, it extracts the identity `test-team` from the server's certificate,
+and checks whether `test-team` is allowed to run `datastore` with the secure naming information.
+The client detects that `test-team` is **NOT** allowed to run the service `datastore`, the client fails the authentication.
 
 ## Best practices
 
