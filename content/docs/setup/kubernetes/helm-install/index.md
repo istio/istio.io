@@ -32,40 +32,52 @@ plane and the sidecars for the Istio data plane.
    instead with the flags `--set ingressgateway.service.type=NodePort --set egressgateway.service.type=NodePort`
    appended to the end of the helm operation.
 
-## Option 1: Install with Helm via `helm template`
+## Installation steps
 
-1. Render Istio's core components to a Kubernetes manifest called `istio.yaml`:
+1. Install Istio's [Custom Resource Definitions (CRDs)]
+(https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
+via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the kube-apiserver:
+    {{< text bash >}}
+    $ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml -n istio-system
+    {{< /text >}}
+
+1. Choose one of the following two
+**mutually exclusive** options described below.
+
+### Option 1: Install with Helm via `helm template`
+
+* Render Istio's core components to a Kubernetes manifest called `istio.yaml`:
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system > $HOME/istio.yaml
     {{< /text >}}
 
-1. Install the components via the manifest:
+* Install the components via the manifest:
 
     {{< text bash >}}
     $ kubectl create namespace istio-system
     $ kubectl create -f $HOME/istio.yaml
     {{< /text >}}
 
-## Option 2: Install with Helm and Tiller via `helm install`
+### Option 2: Install with Helm and Tiller via `helm install`
 
 This option allows Helm and
 [Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components)
 to manage the lifecycle of Istio.
 
-1. If a service account has not already been installed for Tiller, install one:
+* If a service account has not already been installed for Tiller, install one:
 
     {{< text bash >}}
     $ kubectl create -f install/kubernetes/helm/helm-service-account.yaml
     {{< /text >}}
 
-1. Install Tiller on your cluster with the service account:
+* Install Tiller on your cluster with the service account:
 
     {{< text bash >}}
     $ helm init --service-account tiller
     {{< /text >}}
 
-1. Install Istio:
+* Install Istio:
 
     {{< text bash >}}
     $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
@@ -123,4 +135,11 @@ With this minimal set you can install your own application and [configure reques
     {{< text bash >}}
     $ kubectl -n istio-system delete job --all
     {{< /text >}}
+
+* If desired, delete the CRDs using kubectl:
+
+    {{< text bash >}}
+    $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml -n istio-system
+    {{< /text >}}
+
 
