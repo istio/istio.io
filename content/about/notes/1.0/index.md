@@ -11,14 +11,14 @@ relative to 0.8 as most of the effort for this release went into fixing bugs and
 
 ## Networking
 
+ **SNI Routing using VirtualServices**. Newly introduced `TLS` sections in VirtualServices can be used to route TLS traffic based on SNI values. Service ports named as TLS/HTTPS can be used in conjunction with VirtualService TLS routes. TLS/HTTPS ports without an accompanying VirtualService will be treated as opaque TCP.
+
 - **Old (v1alpha1) networking APIs are no longer available**. Support for the old `v1alpha1` traffic management model
 has been removed.
 
-- **Istio Ingress Deprecated**. The old Istio ingress is deprecated and disabled by default. We encourage users to use Istio Gateways instead.
+- **Istio Ingress Deprecated**. The old Istio ingress is deprecated and disabled by default. We encourage users to use [gateways](/docs/concepts/traffic-management/#gateways) instead.
 
-- **SNI Routing using VirtualServices**. Newly introduced `TLS` sections in VirtualServices can be used to route TLS traffic based on SNI values. Service ports named as TLS/HTTPS can be used in conjunction with VirtualService TLS routes. TLS/HTTPS ports without an accompanying VirtualService will be treated as opaque TCP.
-
-- **Support for streaming gRPC restored**. Istio 0.8 caused periodic termination of long running streaming gRPC connections. This has been fixed in 1.0 (via https://github.com/istio/istio/pull/6081)
+-- **Support for streaming gRPC restored**. Istio 0.8 caused periodic termination of long running streaming gRPC connections. This has been fixed in 1.0.
 
 ## Policy and Telemetry
 
@@ -39,6 +39,9 @@ be the recommended approach moving forward for integrating with Mixer. Initial d
 how to build an out-of-process adapter is provided by the
 [Out Of Process gRPC Adapter Dev Guide](https://github.com/istio/istio/wiki/Out-Of-Process-gRPC-Adapter-Dev-Guide)
 and the [gRPC Adapter Walk-through](https://github.com/istio/istio/wiki/gRPC-Adapter-Walkthrough).
+
+- **Client-Side Telemetry**. It's now possible to collect telemetry from the client of an interaction,
+in addition to the server-side telemetry.
 
 ### Adapters
 
