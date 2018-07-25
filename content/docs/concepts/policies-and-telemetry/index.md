@@ -62,7 +62,7 @@ monitoring, quotas, ACL checking, and more. The exact set of
 adapters used at runtime is determined through configuration and can easily be
 extended to target new or custom infrastructure backends.
 
-{{< image width="20%" ratio="138%"
+{{< image width="80%" ratio="60%"
     link="./adapters.svg"
     alt="Showing Mixer with adapters."
     caption="Mixer and its Adapters"
