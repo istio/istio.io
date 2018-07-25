@@ -1,7 +1,7 @@
 ---
 title: Azure
 description: Instructions to setup the Azure cluster for Istio.
-weight: 15
+weight: 6
 keywords: [platform-setup,azure]
 ---
 

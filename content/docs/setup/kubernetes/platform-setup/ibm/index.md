@@ -1,5 +1,5 @@
 ---
-title: Platform setup for IBM Cloud Kubernetes Service
+title: IBM Cloud Kubernetes Service
 description: Instructions to setup the IBM Cloud Kubernetes Service (IKS) cluster for Istio.
 weight: 12
 keywords: [platform-setup,ibm,iks]
