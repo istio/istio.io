@@ -198,7 +198,7 @@ $ oc adm policy add-scc-to-user privileged -z default -n <target-namespace>
 
 必须用 `ACS-Engine` 进行部署：
 
-1. 按照下面的[介绍]((https://github.com/Azure/acs-engine/blob/master/docs/acsengine.md#install).)，下载和安装 `acs-engine`。
+1. 按照下面的[介绍](https://github.com/Azure/acs-engine/blob/master/docs/acsengine.md#install)，下载和安装 `acs-engine`。
 
 1. 下载 Istio 的 API 模型定义文件：
 
