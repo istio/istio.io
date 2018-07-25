@@ -56,7 +56,8 @@ Let's configure an egress gateway for traffic to `*.wikipedia.org`
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
 
-1.  Create an egress `Gateway` for _*.wikipedia.org_, port 443, protocol TLS.
+1.  Create an egress `Gateway` for _*.wikipedia.org_, port 443, protocol TLS and virtual services to direct the traffic
+    through the egress gateway and from the egress gateway to the external service.
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
@@ -99,22 +100,15 @@ Let's configure an egress gateway for traffic to `*.wikipedia.org`
             subjectAltNames:
             - spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
             sni: placeholder.wikipedia.org # an SNI to match egress gateway's expectation for an SNI
-    EOF
-    {{< /text >}}
-
-1.  Define a `VirtualService` to direct the traffic through the egress gateway:
-
-    {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    ---
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
-      name: direct-through-egress-gateway
+      name: direct-wikipedia-through-egress-gateway
     spec:
       hosts:
       - "*.wikipedia.org"
       gateways:
-      - istio-egressgateway
       - mesh
       tls:
       - match:
@@ -126,18 +120,28 @@ Let's configure an egress gateway for traffic to `*.wikipedia.org`
         route:
         - destination:
             host: istio-egressgateway.istio-system.svc.cluster.local
+            subset: wikipedia
             port:
               number: 443
           weight: 100
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: wikipedia
+    spec:
+      hosts:
+      - "*.wikipedia.org"
+      gateways:
+      - istio-egressgateway
+      tcp:
       - match:
         - gateways:
           - istio-egressgateway
           port: 443
-          sni_hosts:
-          - "*.wikipedia.org"
         route:
         - destination:
-            host: "wikipedia.org"
+            host: www.wikipedia.org
             port:
               number: 443
           weight: 100
@@ -160,7 +164,7 @@ Let's configure an egress gateway for traffic to `*.wikipedia.org`
     {{< text bash >}}
     $ istioctl delete serviceentry wikipedia
     $ istioctl delete gateway istio-egressgateway
-    $ istioctl delete virtualservice direct-through-egress-gateway
+    $ istioctl delete virtualservice direct-wikipedia-through-egress-gateway wikipedia
     $ istioctl delete destinationrule set-sni-for-egress-gateway
     {{< /text >}}
 
