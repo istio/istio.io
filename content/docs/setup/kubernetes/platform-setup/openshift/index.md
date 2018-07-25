@@ -1,11 +1,11 @@
 ---
-title: Platform setup for Openshift
-description: Instructions to setup the Openshift cluster for Istio.
-weight: 13
-keywords: [openshift]
+title: OpenShift
+description: Instructions to setup an OpenShift cluster for Istio.
+weight: 18
+keywords: [platform-setup,openshift]
 ---
 
-To setup the Openshift cluster for Istio, follow these instructions:
+To setup an OpenShift cluster for Istio, follow these instructions:
 
 By default, OpenShift doesn't allow containers running with user ID 0.
 

@@ -1,24 +1,23 @@
 ---
 title: Quick Start with Kubernetes
 description: Instructions to setup the Istio service mesh in a Kubernetes cluster.
-weight: 1
+weight: 5
 keywords: [kubernetes]
 ---
 
-To install and configure Istio in a Kubernetes
-cluster, follow these instructions:
+To install and configure Istio in a Kubernetes cluster, follow these instructions:
 
 ## Prerequisites
 
 1. [Download the Istio release](/docs/setup/kubernetes/download-release/).
 
-1. Kubernetes platform setup
-  * [Minikube](/docs/setup/kubernetes/minikube/)
-  * [Google Container Engine (GKE)](/docs/setup/kubernetes/gke/)
-  * [IBM Cloud Kubernetes Service (IKS)](/docs/setup/kubernetes/ibm/)
-  * [Openshift Origin](/docs/setup/kubernetes/openshift/)
-  * [Amazon Web Services (AWS) with Kops](/docs/setup/kubernetes/aws/)
-  * [Azure](/docs/setup/kubernetes/azure/)
+1. [Kubernetes platform setup](/docs/setup/kubernetes/platform-setup/):
+  * [Minikube](/docs/setup/kubernetes/platform-setup/minikube/)
+  * [Google Container Engine (GKE)](/docs/setup/kubernetes/platform-setup/gke/)
+  * [IBM Cloud Kubernetes Service (IKS)](/docs/setup/kubernetes/platform-setup/ibm/)
+  * [OpenShift Origin](/docs/setup/kubernetes/platform-setup/openshift/)
+  * [Amazon Web Services (AWS) with Kops](/docs/setup/kubernetes/platform-setup/aws/)
+  * [Azure](/docs/setup/kubernetes/platform-setup/azure/)
 
 ## Installation steps
 
