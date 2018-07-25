@@ -150,7 +150,7 @@ can be configured and controlled in the same way.
 
 ### `VirtualService`
 
-Replacing route rules with something called “virtual services” might seem peculiar at first, but in reality it’s
+Replacing route rules with something called "virtual services” might seem peculiar at first, but in reality it’s
 fundamentally a much better name for what is being configured, especially after redesigning the API to address the
 scalability issues with the previous model.
 

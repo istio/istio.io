@@ -7,8 +7,6 @@ aliases:
 keywords: [traffic-management,egress]
 ---
 
-> This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.7/docs/tasks/traffic-management/).
-
 By default, Istio-enabled services are unable to access URLs outside of the cluster because the pod uses
 iptables to transparently redirect all outbound traffic to the sidecar proxy,
 which only handles intra-cluster destinations.

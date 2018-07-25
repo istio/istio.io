@@ -28,6 +28,7 @@ CEXL supports the following functions.
 |<code>&#124;&#124;</code> |Logical OR | `(request.size == 200)` <code>&#124;&#124;</code> `(request.auth.principal == "admin")`
 |`&&` |Logical AND | `(request.size == 200) && (request.auth.principal == "admin")`
 |`[ ]` |Map Access | `request.headers["x-id"]`
+|`+` |Add | `request.host + request.path`
 |<code>&#124;</code> |First non empty | `source.labels["app"]` <code>&#124;</code> `source.labels["svc"]` <code>&#124;</code> `"unknown"`
 |`match` | Glob match |`match(destination.service, "*.ns1.svc.cluster.local")` | Matches prefix or suffix based on the location of `*`
 |`email` | Convert a textual e-mail into the `EMAIL_ADDRESS` type | `email("awesome@istio.io")` | Use the `email` function to create an `EMAIL_ADDRESS` literal.

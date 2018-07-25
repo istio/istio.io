@@ -9,8 +9,7 @@ aliases:
 ---
 Istio is an open source project with an active community that supports its use and on-going development. We'd love for you
 to join us and get involved!
-
-There are quite a few ways to get plugged in with the Istio community:
+There are quite a few ways to get plugged in:
 
 <table class="community">
   <tbody>

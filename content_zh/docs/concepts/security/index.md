@@ -218,9 +218,9 @@ Istio 的 RBAC 引擎做了下面两件事：
 
 在当前版本中，Istio RBAC 引擎被实现为一个 [Mixer 适配器](/docs/concepts/policies-and-telemetry/#adapters)。请求上下文则作为[授权模板](/docs/reference/config/policy-and-telemetry/templates/authorization/)的实例。请求上下文中包含了认证模块所需的请求和环境的所有信息。特别是其中的两个部分：
 
-* **subject**：包含调用者标识的属性列表，包括`"user"`（名称/ID），`“group”`（主体所属的组），或者关于主体的任意附加属性，比如命名空间、服务名称。
+* **subject**：包含调用者标识的属性列表，包括`"user"`（名称/ID），`"group”`（主体所属的组），或者关于主体的任意附加属性，比如命名空间、服务名称。
 
-* **action**：指定访问服务的方法。它包括`“命名空间”`、`“服务”`、`“路径”`、`“方法”`，以及该操作的任何附加属性。
+* **action**：指定访问服务的方法。它包括`"命名空间”`、`"服务”`、`"路径”`、`"方法”`，以及该操作的任何附加属性。
 
 下面我们展示一个请求上下文的例子。
 
@@ -258,10 +258,10 @@ Istio RBAC 引入了 `ServiceRole` 和 `ServiceRoleBinding` 两个概念，两�
 一个 `ServiceRole` 包括一个规则列表。每个规则都有以下标准字段：
 
 * **services**：服务名称列表，与请求上下文的 `action.service` 字段匹配。
-* **methods**：方法名列表，对应请求上下文的 `action.method`。在上面的 “requestcontext” 中，是 HTTP 或 gRPC 方法。请注意，gRPC 方法是以 “packageName.serviceName/methodName”（区分大小写）的形式进行格式化的。
+* **methods**：方法名列表，对应请求上下文的 `action.method`。在上面的 "requestcontext” 中，是 HTTP 或 gRPC 方法。请注意，gRPC 方法是以 "packageName.serviceName/methodName”（区分大小写）的形式进行格式化的。
 * **paths**：与请求上下文中 `action.path` 字段相匹配的 HTTP 路径列表。它在 gRPC 的案例中被省略了。
 
-一个 `ServiceRole` 的作用范围只限于 `"metadata"` 字段中所指定的 `namespace` 之中。`services` 和 `method` 在规则中是必需的字段。`path` 是可选项。如果没有指定为 “*”，代表任意实例。
+一个 `ServiceRole` 的作用范围只限于 `"metadata"` 字段中所指定的 `namespace` 之中。`services` 和 `method` 在规则中是必需的字段。`path` 是可选项。如果没有指定为 "*”，代表任意实例。
 
 这里有一个简单的角色 `service-admin` 的例子，它可以在 `default` 命名空间中完全访问所有服务。
 
@@ -277,7 +277,7 @@ spec:
     methods: ["*"]
 {{< /text >}}
 
-这里是另一个角色 “products-viewer”，它具有对 `default` 命名空间中的服务 `products.default.svc.cluster.local` 进行读取（“GET”和“HEAD”）的权限：
+这里是另一个角色 "products-viewer”，它具有对 `default` 命名空间中的服务 `products.default.svc.cluster.local` 进行读取（"GET”和"HEAD”）的权限：
 
 {{< text yaml >}}
 apiVersion: "config.istio.io/v1alpha2"
@@ -311,9 +311,9 @@ spec:
     methods: ["GET"]
 {{< /text >}}
 
-在 `ServiceRole` 之中，“命名空间”+“服务”+“路径”+“方法”的组合解答了“允许如何访问服务”的问题。在某些情况下，可能要为规则加入附加限制。例如，一条规则可能只适用于服务的某个版本，或者只适用于带有标签 “foo” 的服务。可以使用定制字段轻松地指定这些约束。
+在 `ServiceRole` 之中，"命名空间”+"服务”+"路径”+"方法”的组合解答了"允许如何访问服务”的问题。在某些情况下，可能要为规则加入附加限制。例如，一条规则可能只适用于服务的某个版本，或者只适用于带有标签 "foo” 的服务。可以使用定制字段轻松地指定这些约束。
 
-例如，下面的 `ServiceRole` 定义扩展了先前的 “products-viewer” 角色：在服务版本中添加了一个约束，即 “v1” 或 “v2”。注意，`version` 属性是由 `requestcontext` 的 `action.properties.version` 字段所提供的。
+例如，下面的 `ServiceRole` 定义扩展了先前的 "products-viewer” 角色：在服务版本中添加了一个约束，即 "v1” 或 "v2”。注意，`version` 属性是由 `requestcontext` 的 `action.properties.version` 字段所提供的。
 
 For example, the following `ServiceRole` definition extends the previous "products-viewer" role by adding a constraint on service "version"
 being "v1" or "v2". Note that the "version" property is provided by `"action.properties.version"` in "requestcontext".

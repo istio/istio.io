@@ -150,7 +150,7 @@ destination_version: destination.labels["version"] | "unknown"
 {{< /text >}}
 
 The sequences on the right-hand side of the colons are the simplest forms of attribute expressions.
-The first two only consist of attribute names. The `response_code` label is assigned the value from the `request.code` attribute.
+The first two only consist of attribute names. The `response_code` label is assigned the value from the `response.code` attribute.
 
 Here's an example of a conditional expression:
 

@@ -5,8 +5,6 @@ weight: 60
 keywords: [traffic-management,mirroring]
 ---
 
-> This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.7/docs/tasks/traffic-management/).
-
 This task demonstrates the traffic mirroring capabilities of Istio.
 
 Traffic mirroring, also called shadowing, is a powerful concept that allows
@@ -22,7 +20,7 @@ you will apply a rule to mirror a portion of traffic to `v2`.
 * Set up Istio by following the instructions in the
   [Installation guide](/docs/setup/).
 
-*   Start by deploying two versions of the [httpbin](https://github.com/istio/istio/tree/release-1.0/samples/httpbin) service that have access logging enabled:
+*   Start by deploying two versions of the [httpbin]({{< github_tree >}}/samples/httpbin) service that have access logging enabled:
 
     **httpbin-v1:**
 

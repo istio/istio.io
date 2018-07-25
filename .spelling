@@ -9,12 +9,10 @@
 1.x
 10s
 123456789012.my
-15ms
 1qps
-243ms
-24ms
-290ms
 2x
+22.99ms
+24.13ms
 3s
 404s
 4s
@@ -24,6 +22,8 @@
 7Mb
 7s
 ACLs
+ACS-Engine
+AKS
 ANDed
 API
 APIs
@@ -34,6 +34,7 @@ AppOptics
 args.yaml
 AuthPolicy
 Autoscalers
+az
 BigQuery
 BluePerf
 Bookinfo
@@ -43,6 +44,7 @@ CAs
 CDNs
 CIDRs
 CIOs
+cli
 Costin
 CSRs
 Chrony
@@ -52,6 +54,8 @@ cnn.com
 Cmd
 Config
 ConfigMap
+CRD
+CRDs
 Ctrl
 D3.js
 Datadog
@@ -105,6 +109,7 @@ Lyft
 macOS
 Manolache
 Memquota
+MeshPolicy
 Mesos
 Minikube
 MongoDB
@@ -229,6 +234,7 @@ dev
 docker.io
 e.g.
 eBPF
+egressgateway
 enablement
 endUser-to-Service
 env
@@ -402,6 +408,8 @@ rollouts
 routable
 runtime
 runtimes
+RPC
+RPCs
 sa
 sayin
 schemas
@@ -420,6 +428,7 @@ stackdriver
 statsd
 stdout
 struct
+subdomain
 subdomains
 substring
 svc

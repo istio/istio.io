@@ -47,7 +47,7 @@ keywords: [telemetry,metrics]
 
 1.  执行 Prometheus 查询。
 
-    在网页顶部的 “Expression” 输入框中，输入文本： `istio_request_count` , 然后，单击 **Execute** 按钮。
+    在网页顶部的 "Expression” 输入框中，输入文本： `istio_request_count` , 然后，单击 **Execute** 按钮。
 
 结果将类似于：
 

@@ -5,8 +5,6 @@ weight: 50
 keywords: [traffic-management,circuit-breaking]
 ---
 
-> This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.7/docs/tasks/traffic-management/).
-
 This task shows you how to configure circuit breaking for connections, requests,
 and outlier detection.
 

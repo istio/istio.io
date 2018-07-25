@@ -1,5 +1,5 @@
 ---
-title: 控制入口流量
+title: 控制 Ingress 流量
 description: 介绍在服务网格 Istio 中如何配置外部公开服务
 weight: 30
 keywords: [traffic-management,ingress]
@@ -45,7 +45,7 @@ NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)  
 istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/TCP,443:31390/TCP,31400:31400/TCP   17h
 {{< /text >}}
 
-如果 `EXTERNAL-IP` 设置了该值，则要求您的环境具有可用于 ingress 网关的外部负载均衡器。如果 `EXTERNAL-IP` 值是 `<none>`（或一直是 `<pending>` ），则说明可能您的环境不支持为 ingress 网关提供外部负载均衡器的功能。在这种情况下，您可以使用 Service 的 [node port](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport) 方式访问网关。
+如果 `EXTERNAL-IP` 设置了该值，则要求您的环境具有可用于 ingress 网关的外部负载均衡器。如果 `EXTERNAL-IP` 值是 `<none>`（或一直是 `<pending>` ），则说明可能您的环境不支持为 ingress 网关提供外部负载均衡器的功能。在这种情况下，您可以使用 Service 的 [node port](https://kubernetes.io/docs/concepts/services-networking/service/#nodeport) 方式访问网关。
 
 #### 使用外部负载均衡器时确定 IP 和端口
 
@@ -172,7 +172,7 @@ Ingress [网关](/docs/reference/config/istio.networking.v1alpha3/#Gateway)描�
     x-envoy-upstream-service-time: 48
     {{< /text >}}
 
-    请注意，我们使用该 `-H` 标志将 _Host_  HTTP Header 设置为 “httpbin.example.com”。这是必需的，因为我们的 ingress `Gateway` 被配置为处理 “httpbin.example.com”，但在我们的测试环境中，我们没有该主机的 DNS 绑定，并且只是将我们的请求发送到 ingress IP。
+    请注意，我们使用该 `-H` 标志将 _Host_  HTTP Header 设置为 "httpbin.example.com”。这是必需的，因为我们的 ingress `Gateway` 被配置为处理 "httpbin.example.com”，但在我们的测试环境中，我们没有该主机的 DNS 绑定，并且只是将我们的请求发送到 ingress IP。
 
 1.  访问任何未明确公开的其他 URL。您应该看到一个 HTTP 404 错误：
 
@@ -186,7 +186,7 @@ Ingress [网关](/docs/reference/config/istio.networking.v1alpha3/#Gateway)描�
 
 ## 使用浏览器访问 Ingress 服务
 
-正如您可能已经猜到的那样，在浏览器中输入 httpbin 服务 URL 是行不通的，因为我们没有办法告诉浏览器假装访问 “httpbin.example.com”，就像我们使用 _curl_ 一样。在现实世界中，这不会成为问题，因为所请求的主机将被正确配置并且 DNS 可解析，因此我们只需在 URL 中使用其域名（例如，`https://httpbin.example.com/status/200`）。
+正如您可能已经猜到的那样，在浏览器中输入 httpbin 服务 URL 是行不通的，因为我们没有办法告诉浏览器假装访问 "httpbin.example.com”，就像我们使用 _curl_ 一样。在现实世界中，这不会成为问题，因为所请求的主机将被正确配置并且 DNS 可解析，因此我们只需在 URL 中使用其域名（例如，`https://httpbin.example.com/status/200`）。
 
 要解决此问题以进行简单的测试和演示，我们可以在 `Gateway` 和 `VirutualService` 配置中为主机使用通配符值 `*`。例如，如果我们将 ingress 配置更改为以下内容：
 
