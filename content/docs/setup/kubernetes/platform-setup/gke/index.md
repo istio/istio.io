@@ -2,7 +2,7 @@
 title: Platform setup for Google Kubernetes Engine
 description: Instructions to setup the Google Kubernetes Engine cluster for Istio.
 weight: 11
-keywords: [kubernetes,gke,google]
+keywords: [platform-setup,kubernetes,gke,google]
 ---
 
 To setup the Google Kubernetes Engine cluster for Istio, follow these instructions:

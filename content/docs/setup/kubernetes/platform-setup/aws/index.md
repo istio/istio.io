@@ -2,7 +2,7 @@
 title: Platform setup for Amazon Web Services
 description: Instructions to setup the AWS with Kops cluster for Istio.
 weight: 14
-keywords: [aws]
+keywords: [platform-setup,aws]
 ---
 
 To setup the AWS with Kops cluster for Istio, follow these instructions:

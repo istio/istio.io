@@ -17,13 +17,13 @@ plane and the sidecars for the Istio data plane.
 
 1. [Download the Istio release](/docs/setup/kubernetes/download-release/).
 
-1. Kubernetes platform setup
-  * [Minikube](/docs/setup/kubernetes/minikube/)
-  * [Google Container Engine (GKE)](/docs/setup/kubernetes/gke/)
-  * [IBM Cloud Kubernetes Service (IKS)](/docs/setup/kubernetes/ibm/)
-  * [Openshift Origin](/docs/setup/kubernetes/openshift/)
-  * [Amazon Web Services (AWS) with Kops](/docs/setup/kubernetes/aws/)
-  * [Azure](/docs/setup/kubernetes/azure/)
+1. [Kubernetes platform setup](/docs/setup/kubernetes/platform-setup/):
+  * [Minikube](/docs/setup/kubernetes/platform-setup/minikube/)
+  * [Google Container Engine (GKE)](/docs/setup/kubernetes/platform-setup/gke/)
+  * [IBM Cloud Kubernetes Service (IKS)](/docs/setup/kubernetes/platform-setup/ibm/)
+  * [Openshift Origin](/docs/setup/kubernetes/platform-setup/openshift/)
+  * [Amazon Web Services (AWS) with Kops](/docs/setup/kubernetes/platform-setup/aws/)
+  * [Azure](/docs/setup/kubernetes/platform-setup/azure/)
 
 1. [Install the Helm client](https://docs.helm.sh/using_helm/#installing-helm).
 

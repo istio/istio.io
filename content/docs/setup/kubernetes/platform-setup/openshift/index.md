@@ -2,7 +2,7 @@
 title: Platform setup for Openshift
 description: Instructions to setup the Openshift cluster for Istio.
 weight: 13
-keywords: [openshift]
+keywords: [platform-setup,openshift]
 ---
 
 To setup the Openshift cluster for Istio, follow these instructions:

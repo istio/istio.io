@@ -2,7 +2,7 @@
 title: Platform setup for Minikube
 description: Instructions to setup Minikube for use with Istio
 weight: 10
-keywords: [kubernetes,minikube]
+keywords: [platform-setup,kubernetes,minikube]
 ---
 
 To setup the Kubernetes cluster for Istio with Minikube, follow these instructions:
