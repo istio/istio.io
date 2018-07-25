@@ -18,7 +18,7 @@ this problem. Once "PERMISSIVE" mode is enabled, a service can take both HTTP
 and mutual TLS traffic. Therefore, you can config Istio services to send mutual
 TLS traffic to that service while connections from legacy services will not
 break. Moreover, you can use
-[grafana](/docs/tasks/telemetry/using-istio-dashboard/) to check which legacy services are
+[grafana-istio-dashboard](/docs/tasks/telemetry/using-istio-dashboard/) to check which legacy services are
 still sending traffic to the service in "PERMISSIVE" mode and choose to lock
 down once the migration is done.
 
