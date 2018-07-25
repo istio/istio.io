@@ -116,7 +116,8 @@ You can find out how to use and configure [Mixer plugins](/docs/concepts/policie
 Identity is a fundamental concept of any security infrastructure. At the beginning of a service-to-service communication,
 the two parties need to exchange credentials consisting of their identity information, for mutual authentication purposes.
 Once the they have obtained each other’s identity,
-on the client side, the server's identity is checked against the secure naming information to see if it is an authorized runner of the service.
+on the client side, the server's identity is checked against the [secure naming](/docs/concepts/security/#secure-naming)
+information to see if it is an authorized runner of the service.
 On the server side, the server can determine what information the client can access based on the authorization policies,
 audit who accessed what at what time, charge clients based on the services they used,
 and reject any clients who failed to pay their bill from accessing the services.
@@ -166,7 +167,7 @@ Currently we use different certificate key provisioning mechanisms for each scen
 
 1. Citadel watches the lifetime of each certificate, and automatically rotates the certificates in the Kubernetes secrets.
 
-1. Pilot generates the secure naming information,
+1. Pilot generates the [secure naming](/docs/concepts/security/#secure-naming) information,
    which defines what service account(s) can run a certain service, and passes it to sidecar Envoy.
 
 ### On-prem machines scenario
@@ -208,39 +209,6 @@ The flow goes as the following:
 1. The above CSR process repeats periodically for rotation.
 
 The runtime phase remains the same as the previous section.
-
-## Mutual TLS authentication
-
-Service-to-service communication is tunneled through the client side [Envoy](https://envoyproxy.github.io/envoy/) and the server side Envoy.
-For a client to call a server, the process can be described as the following:
-
-1. The outbound traffic from a client is rerouted to its local sidecar Envoy.
-
-1. The client side Envoy starts a mutual TLS handshake with the server side Envoy.
-   During the handshake, it also does a [secure naming](/docs/concepts/security/#secure-naming) check to verify that
-   the service account presented in the server certificate is authorized to run the target service.
-
-1. The client side Envoy and the server side Envoy establish a mutual TLS connection, and the traffic
-   is forwarded from the client side Envoy to the server side Envoy.
-
-1. (After authorization) the server side Envoy forwards the traffic to the server service through local TCP connections.
-
-### Secure naming
-
-The secure naming information contains (N-to-N) mappings from the server identities (encoded in certificates)
-to the service names (referred by discovery service or DNS) that they serve.
-This information is securely distributed from Pilot to the sidecar Envoys.
-The following example explains why secure naming is critical in authentication.
-
-Suppose the legitimate servers that run the service `datastore` only use the identity `infra-team`.
-A malicious user has key/certificate with identity `test-team`.
-He intends to impersonate the service so that he could inspect the data sent from the clients.
-The malicious user deploys a forged server, with the key/certificate with identity `test-team`.
-Suppose he has successfully hacked the discovery service or DNS to map the serivce name `datastore` to his forged server.
-
-When a client calls the service `datastore`, it extracts the identity `test-team` from the server's certificate,
-and checks whether `test-team` is allowed to run `datastore` with the secure naming information.
-The client detects that `test-team` is **NOT** allowed to run the service `datastore`, the client fails the authentication.
 
 ## Best practices
 
@@ -301,6 +269,39 @@ Istio provides two types of authentication:
 - Origin authentication, also known as end-user authentication: verifies the
   original client making the request as an end-user or device. Istio
   supports authentication with JSON Web Token (JWT) validation.
+
+### Mutual TLS authentication
+
+Service-to-service communication is tunneled through the client side [Envoy](https://envoyproxy.github.io/envoy/) and the server side Envoy.
+For a client to call a server, the process can be described as the following:
+
+1. The outbound traffic from a client is rerouted to its local sidecar Envoy.
+
+1. The client side Envoy starts a mutual TLS handshake with the server side Envoy.
+   During the handshake, it also does a [secure naming](/docs/concepts/security/#secure-naming) check to verify that
+   the service account presented in the server certificate is authorized to run the target service.
+
+1. The client side Envoy and the server side Envoy establish a mutual TLS connection, and the traffic
+   is forwarded from the client side Envoy to the server side Envoy.
+
+1. (After authorization) the server side Envoy forwards the traffic to the server service through local TCP connections.
+
+#### Secure naming
+
+The secure naming information contains (N-to-N) mappings from the server identities (encoded in certificates)
+to the service names (referred by discovery service or DNS) that they serve.
+This information is securely distributed from Pilot to the sidecar Envoys.
+The following example explains why secure naming is critical in authentication.
+
+Suppose the legitimate servers that run the service `datastore` only use the identity `infra-team`.
+A malicious user has key/certificate with identity `test-team`.
+He intends to impersonate the service so that he could inspect the data sent from the clients.
+The malicious user deploys a forged server, with the key/certificate with identity `test-team`.
+Suppose he has successfully hacked the discovery service or DNS to map the serivce name `datastore` to his forged server.
+
+When a client calls the service `datastore`, it extracts the identity `test-team` from the server's certificate,
+and checks whether `test-team` is allowed to run `datastore` with the secure naming information.
+The client detects that `test-team` is **NOT** allowed to run the service `datastore`, the client fails the authentication.
 
 ### Authentication architecture
 
