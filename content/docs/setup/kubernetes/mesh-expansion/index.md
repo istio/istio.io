@@ -1,7 +1,7 @@
 ---
 title: Mesh Expansion
 description: Instructions for integrating VMs and bare metal hosts into an Istio mesh deployed on Kubernetes.
-weight: 60
+weight: 5
 keywords: [kubernetes,vms]
 ---
 
