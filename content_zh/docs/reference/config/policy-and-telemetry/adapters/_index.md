@@ -1,6 +1,6 @@
 ---
 title: 适配器
-description: Mixer 适配器能够让 Istio 链接各种基础架构后端以获取 metrics 和日志。
+description: Mixer 适配器能够让 Istio 连接各种基础设施后端以完成类似指标和日志这样的功能。
 weight: 40
 type: section-index
 aliases:
