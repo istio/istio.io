@@ -99,8 +99,7 @@ First direct HTTP traffic without TLS origination
 1.  Create an egress `Gateway` for _edition.cnn.com_, port 80.
 
     If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio, use the following
-    command. Note that in addition to creating a `Gateway`, it creates a `DestinationRule` to specify mTLS to the egress
-    gateway, setting SNI to `edition.cnn.com`.
+    command.
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
@@ -304,8 +303,7 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
 1.  Create an egress `Gateway` for _edition.cnn.com_, port 443.
 
     If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio, use the following
-    command. Note that in addition to creating a `Gateway`, it creates a `DestinationRule` to specify mTLS to the egress
-    gateway, setting SNI to `edition.cnn.com`.
+    command.
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
@@ -509,11 +507,11 @@ The output should be the same as in the previous section.
     ...
     {{< /text >}}
 
-1.  Create an egress `Gateway` for _edition.cnn.com_, port 443, protocol TLS.
+1.  Create an egress `Gateway` for _edition.cnn.com_, port 443, protocol TLS and virtual services to direct the traffic
+    through the egress gateway and from the egress gateway to the external service.
 
     If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio, use the following
-    command. Note that in addition to creating a `Gateway`, it creates a `DestinationRule` to specify mTLS to the egress
-    gateway, setting SNI to `edition.cnn.com`.
+    command.
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
@@ -558,46 +556,7 @@ The output should be the same as in the previous section.
               subjectAltNames:
               - spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
               sni: edition.cnn.com
-    EOF
-    {{< /text >}}
-
-    otherwise:
-
-    {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
-    apiVersion: networking.istio.io/v1alpha3
-    kind: Gateway
-    metadata:
-      name: istio-egressgateway
-    spec:
-      selector:
-        istio: egressgateway
-      servers:
-      - port:
-          number: 443
-          name: tls
-          protocol: TLS
-        hosts:
-        - edition.cnn.com
-        tls:
-          mode: PASSTHROUGH
     ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
-      name: egressgateway-for-cnn
-    spec:
-      host: istio-egressgateway.istio-system.svc.cluster.local
-      subsets:
-      - name: cnn
-    EOF
-    {{< /text >}}
-
-1.  Define virtual services to direct the traffic through the egress gateway and from the egress gateway to the external
-    service:
-
-    {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -636,6 +595,85 @@ The output should be the same as in the previous section.
         - gateways:
           - istio-egressgateway
           port: 443
+        route:
+        - destination:
+            host: edition.cnn.com
+            port:
+              number: 443
+          weight: 100
+    EOF
+    {{< /text >}}
+
+    otherwise:
+
+    {{< text bash >}}
+    $ cat <<EOF | istioctl create -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: istio-egressgateway
+    spec:
+      selector:
+        istio: egressgateway
+      servers:
+      - port:
+          number: 443
+          name: tls
+          protocol: TLS
+        hosts:
+        - edition.cnn.com
+        tls:
+          mode: PASSTHROUGH
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: egressgateway-for-cnn
+    spec:
+      host: istio-egressgateway.istio-system.svc.cluster.local
+      subsets:
+      - name: cnn
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: direct-cnn-through-egress-gateway
+    spec:
+      hosts:
+      - edition.cnn.com
+      gateways:
+      - mesh
+      tls:
+      - match:
+        - gateways:
+          - mesh
+          port: 443
+          sni_hosts:
+          - edition.cnn.com
+        route:
+        - destination:
+            host: istio-egressgateway.istio-system.svc.cluster.local
+            subset: cnn
+            port:
+              number: 443
+          weight: 100
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: cnn
+    spec:
+      hosts:
+      - edition.cnn.com
+      gateways:
+      - istio-egressgateway
+      tls:
+      - match:
+        - gateways:
+          - istio-egressgateway
+          port: 443
+          sni_hosts:
+          - edition.cnn.com
         route:
         - destination:
             host: edition.cnn.com
