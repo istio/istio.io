@@ -1,5 +1,5 @@
 ---
-title: 授权
+title: 基于角色的访问控制
 description: 展示如何在 Istio 服务网格中进行基于角色的访问控制
 weight: 40
 keywords: [security,access-control,rbac,authorization]
@@ -143,7 +143,7 @@ $ istioctl delete -f @samples/bookinfo/platform/kube/rbac/namespace-policy.yaml@
 
 这个任务展示了使用 Istio 授权功能配置服务级访问控制的方法。开始之前，请进行下面的确认：
 
-* 已经[启用 Istio 授权](#启用 Istio 授权)
+* 已经[启用 Istio 授权](#启用-Istio-授权)
 * 已经[清除命名空间级的访问控制](清除命名空间级的访问控制：
 
 浏览器打开 Bookinfo 的 `productpage` (`http://$GATEWAY_URL/productpage`)。会看到：`RBAC: access denied`。我们会在 Bookinfo 中逐步为服务加入访问许可。
