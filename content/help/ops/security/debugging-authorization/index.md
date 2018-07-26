@@ -1,5 +1,5 @@
 ---
-title: Authorization
+title: Debugging Authorization
 description: Demonstrates how to debug authorization.
 weight: 5
 keywords: [debug,security,authorization,RBAC]
