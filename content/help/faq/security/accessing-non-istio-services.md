@@ -1,6 +1,6 @@
 ---
 title: How can services that use Istio access non-Istio services?
-weight: 60
+weight: 40
 ---
 
 When mutual TLS is globally enabled, the *global* destination rule matches all services in the cluster, whether or not these services have an Istio sidecar.
