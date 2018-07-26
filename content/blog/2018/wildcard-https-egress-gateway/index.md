@@ -86,20 +86,22 @@ Let's configure an egress gateway for traffic to `*.wikipedia.org`
       name: set-sni-for-egress-gateway
     spec:
       host: istio-egressgateway.istio-system.svc.cluster.local
-      trafficPolicy:
-        loadBalancer:
-          simple: ROUND_ROBIN
-        portLevelSettings:
-        - port:
-            number: 443
-          tls:
-            mode: MUTUAL
-            clientCertificate: /etc/certs/cert-chain.pem
-            privateKey: /etc/certs/key.pem
-            caCertificates: /etc/certs/root-cert.pem
-            subjectAltNames:
-            - spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
-            sni: placeholder.wikipedia.org # an SNI to match egress gateway's expectation for an SNI
+      subsets:
+        - name: wikipedia
+          trafficPolicy:
+            loadBalancer:
+              simple: ROUND_ROBIN
+            portLevelSettings:
+            - port:
+                number: 443
+              tls:
+                mode: MUTUAL
+                clientCertificate: /etc/certs/cert-chain.pem
+                privateKey: /etc/certs/key.pem
+                caCertificates: /etc/certs/root-cert.pem
+                subjectAltNames:
+                - spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
+                sni: placeholder.wikipedia.org # an SNI to match egress gateway's expectation for an SNI
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
