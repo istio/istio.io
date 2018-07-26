@@ -11,7 +11,7 @@ keywords: [kubernetes,gke]
 
 ## 前置条件
 
-- 本样例需要一个有效的，并且打开了账单功能的 Google Cloud Platform 项目。如果你还没有 GCP 账户，你可以注册一个300美金的 [免费试用](https://cloud.google.com/free/) 账户。
+- 本样例需要一个有效的，并且打开了账单功能的 Google Cloud Platform 项目。如果你还没有 GCP 账户，你可以注册一个300美金的[免费试用](https://cloud.google.com/free/)账户。
 
 - 确认为你的项目打开了 [Google Kubernetes Engine API](https://console.cloud.google.com/apis/library/container.googleapis.com/)（并能通过导航条中的 “APIs &amp; Services” -> “Dashboard” 找到）。如果你没有看到 “API enabled”，那么你可能需要点击 “Enable this API” 按钮来开启 API。
 
@@ -44,7 +44,13 @@ caption="GKE-IAM Role"
 
     [Istio GKE Deployment Manager](https://accounts.google.com/signin/v2/identifier?service=cloudconsole&continue=https://console.cloud.google.com/launcher/config?templateurl={{< github_file >}}/install/gcp/deployment_manager/istio-cluster.jinja&followup=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/master/install/gcp/deployment_manager/istio-cluster.jinja&flowName=GlifWebSignIn&flowEntry=ServiceLogin)
 
-就像其他教程中的“如何访问已安装的功能”一样，我们也建议保留默认设置。工具会默认创建一个特殊设置的 GKE alpha cluster，然后安装在 Istio [control plane](/docs/concepts/what-is-istio/#architecture)，[BookInfo](/docs/examples/bookinfo/) 样例应用，[Grafana](/docs/tasks/telemetry/using-istio-dashboard/) 和 [Prometheus](/docs/tasks/telemetry/querying-metrics/)，[ServiceGraph](/docs/tasks/telemetry/servicegraph/) 和 [Tracing](/docs/tasks/telemetry/distributed-tracing/)。接下来你可以了解一下怎样访问所有这些功能。脚本将只在 `default` 的命名空间中打开 istio 自动注入。
+    就像其他教程中的“如何访问已安装的功能”一样，我们也建议保留默认设置。工具会默认创建一个特殊设置的 GKE alpha cluster，然后安装 Istio [控制平面](/docs/concepts/what-is-istio/#architecture)、
+    [BookInfo](/docs/examples/bookinfo/) 样例应用、
+    [Grafana](/docs/tasks/telemetry/using-istio-dashboard/) 、
+    [Prometheus](/docs/tasks/telemetry/querying-metrics/) 、
+    [ServiceGraph](/docs/tasks/telemetry/servicegraph/) 和
+    [跟踪](/docs/tasks/telemetry/distributed-tracing/) 。
+    接下来你可以了解一下怎样访问所有这些功能。脚本只在 `default` 的命名空间中启用 Istio 自动注入。
 
 1.  点击 **Deploy**:
 
@@ -59,7 +65,7 @@ caption="GKE-IAM Role"
 
 部署完成后，在你安装好的 `gcloud` 的工作站里，完成以下事项：
 
-1.  为你刚刚创建的 cluster 引导 kubectl，并确认 cluster 在运行中，并且 istio 是打开状态。
+1.  为你刚刚创建的 cluster 引导 kubectl，并确认 cluster 在运行中，并且 Istio 是启用状态。
 
     {{< text bash >}}
     $ gcloud container clusters list
@@ -175,7 +181,7 @@ http://localhost:3000/dashboard/db/istio-dashboard
     caption="Grafana"
     >}}
 
-更多关于 Grafana 插件的细节，请点击 [About the Grafana Add-on](/docs/tasks/telemetry/using-istio-dashboard/#about-the-grafana-add-on)。
+更多关于 Grafana 插件的细节，请点击[关于 Grafana 插件](/docs/tasks/telemetry/using-istio-dashboard/#about-the-grafana-add-on)。
 
 ### Prometheus
 
@@ -196,7 +202,7 @@ http://localhost:9090/graph
     caption="Prometheus"
     >}}
 
-更多关于 Prometheus 插件的细节，请点击 [About the Prometheus Add-on](/docs/tasks/telemetry/querying-metrics/#about-the-prometheus-add-on)。
+更多关于 Prometheus 插件的细节，请点击[关于 Prometheus 插件](/docs/tasks/telemetry/querying-metrics/#about-the-prometheus-add-on)。
 
 ### ServiceGraph
 
@@ -217,7 +223,7 @@ http://localhost:8088/dotviz
     caption="ServiceGraph"
     >}}
 
-更多关于 ServiceGraph 插件的细节，请点击 [About the ServiceGraph Add-on](/docs/tasks/telemetry/servicegraph/#about-the-servicegraph-add-on)。
+更多关于 ServiceGraph 插件的细节，请点击[关于 ServiceGraph 插件](/docs/tasks/telemetry/servicegraph/#about-the-servicegraph-add-on)。
 
 ## 追踪
 
@@ -234,7 +240,7 @@ $ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=
     caption="Tracing Dashboard"
     >}}
 
-更多关于追踪的细节，请点击 [Understanding what happened](/docs/tasks/telemetry/distributed-tracing/#understanding-what-happened).
+更多关于追踪的细节，请点击[了解一下发生了什么](/docs/tasks/telemetry/distributed-tracing/#understanding-what-happened)。
 
 ## 卸载
 
@@ -242,4 +248,4 @@ $ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=
 
 1. 选择 deployment 并点击 **Delete**.
 
-1. Deployment Manager 将会删除所有已经部署的 GKE 组件 - 但是，有一些元素会被保留，比如 Ingress 和 LoadBalancers。你可以通过再次进入 cloud console 的 [**Network Services** -> **LoadBalancers**](https://console.cloud.google.com/net-services/loadbalancing/loadBalancers/list) 来删除这些组件。
+1. Deployment Manager 将会删除所有已经部署的 GKE 组件。但是，有一些元素会被保留，比如 Ingress 和 LoadBalancers。你可以通过再次进入 cloud console 的 [**Network Services** -> **LoadBalancers**](https://console.cloud.google.com/net-services/loadbalancing/loadBalancers/list) 来删除这些组件。
