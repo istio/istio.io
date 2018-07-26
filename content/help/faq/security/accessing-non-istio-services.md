@@ -1,10 +1,11 @@
 ---
-title: How to disable mutual TLS on clients to access the Kubernetes API Server (or any services that don't have Istio sidecar)?
+title: How can services that use Istio access non-Istio services?
 weight: 60
 ---
 
-When globally enable mutual TLS, the *global* destination rule matches all services in the cluster, including Kubernetes API Server. However, as the
-API server doesn't have Istio sidecar, you will need to set a destination rule to exempt API server from mutual TLS. For example:
+When mutual TLS is globally enabled, the *global* destination rule matches all services in the cluster, whether or not these services have an Istio sidecar.
+This includes the Kubernetes API server, as well as any non-Istio services in the cluster. To communicate with such services from services that have an Istio
+sidecar, you need to set a destination rule to exempt the service. For example:
 
 {{< text bash >}}
 $ cat <<EOF | istioctl create -f -
