@@ -8,7 +8,6 @@ keywords: [platform-setup,ibm,iks]
 ---
 
 Follow these instructions to prepare an IBM Cloud cluster for Istio.
-You can use a Kubernetes cluster on either IBM Cloud Kubernetes Service (IKS) or IBM Cloud Private.
 
 ## IBM Cloud Kubernetes Service (IKS)
 
@@ -25,8 +24,8 @@ Replace `<cluster-name>` with the name of the cluster you want to use in the fol
     Paid cluster:
 
     {{< text bash >}}
-    $ ibmcloud cs cluster-create --location location --machine-type u2c.2x4 \
-      --name <cluster-name> --kube-version 1.9.7
+    $ ibmcloud cs cluster-create --location <location> --machine-type u2c.2x4 \
+      --name <cluster-name>
     {{< /text >}}
 
 1. Retrieve your credentials for `kubectl`.
