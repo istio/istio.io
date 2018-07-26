@@ -12,7 +12,7 @@ already finished the [authentication policy](/docs/tasks/security/authn-policy/)
 
 1. Install Istio on Kubernetes with global mutual TLS enabled:
     * You can use [Helm](/docs/setup/kubernetes/helm-install/) with `global.mtls.enabled` set to `true`
-    * If you already have Istio installed, you can add or modify authentication policies and destination rules to enable mutual TLS as described in this [task](docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls).
+    * If you already have Istio installed, you can add or modify authentication policies and destination rules to enable mutual TLS as described in this [task](/docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls).
 
 1. For demo, deploy [httpbin]({{< github_tree >}}/samples/httpbin) and [sleep]({{< github_tree >}}/samples/sleep) with Envoy sidecar. For simplicity, the demo is setup in the `default` namespace. If you wish to use a different namespace,  please add `-n <your-namespace>` appropriately to the example commands in the next sections.
 
