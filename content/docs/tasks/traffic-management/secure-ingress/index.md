@@ -318,12 +318,6 @@ In addition to the steps in the previous section, perform the following:
     Subject: C=US, ST=Denial, L=Springfield, O=Dis, CN=httpbin.example.com
     {{< /text >}}
 
-1.  If the secret was created but the keys were not mounted, kill the ingress gateway pod and force it to reload certs:
-
-    {{< text bash >}}
-        $ kubectl delete pod -n istio-system -l istio=ingressgateway
-    {{< /text >}}
-
 ## Cleanup
 
 1.  Delete the `Gateway` configuration, the `VirtualService`, and the secrets:
