@@ -194,6 +194,7 @@ admissionregistration
 admissionregistration.k8s.io
 analytics
 api-server
+apiserver
 apiVersion
 archive.istio.io
 archive.istio.io.
