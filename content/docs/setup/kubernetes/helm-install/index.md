@@ -46,13 +46,13 @@ via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the 
 
 ### Option 1: Install with Helm via `helm template`
 
-* Render Istio's core components to a Kubernetes manifest called `istio.yaml`:
+1. Render Istio's core components to a Kubernetes manifest called `istio.yaml`:
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system > $HOME/istio.yaml
     {{< /text >}}
 
-* Install the components via the manifest:
+1. Install the components via the manifest:
 
     {{< text bash >}}
     $ kubectl create namespace istio-system
@@ -65,19 +65,19 @@ This option allows Helm and
 [Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components)
 to manage the lifecycle of Istio.
 
-* If a service account has not already been installed for Tiller, install one:
+1. If a service account has not already been installed for Tiller, install one:
 
     {{< text bash >}}
     $ kubectl create -f install/kubernetes/helm/helm-service-account.yaml
     {{< /text >}}
 
-* Install Tiller on your cluster with the service account:
+1. Install Tiller on your cluster with the service account:
 
     {{< text bash >}}
     $ helm init --service-account tiller
     {{< /text >}}
 
-* Install Istio:
+1. Install Istio:
 
     {{< text bash >}}
     $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system

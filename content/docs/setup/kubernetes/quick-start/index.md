@@ -31,8 +31,8 @@ via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the 
 1. To install Istio's core components you can choose any of the following four
 **mutually exclusive** options described below. However, for a production setup of Istio,
 we recommend installing with the
-[Helm Chart](/docs/setup/kubernetes/helm-install/), to leverage all the
-configuration options and to customize Istio to your needs.
+[Helm Chart](/docs/setup/kubernetes/helm-install/), to use all the
+configuration options. This permits customization of Istio to operator specific requirements.
 
 ### Option 1: Install Istio without mutual TLS authentication between sidecars
 
