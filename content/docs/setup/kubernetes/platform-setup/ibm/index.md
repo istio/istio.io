@@ -12,10 +12,10 @@ Follow these instructions to prepare an IBM Cloud cluster for Istio.
 ## IBM Cloud Kubernetes Service (IKS)
 
 Replace `<cluster-name>` with the name of the cluster you want to use in the following instructions.
- 
+
 1. Create a new lite or paid Kubernetes cluster.
 
-    Lite cluster: 
+    Lite cluster:
 
     {{< text bash >}}
     $ ibmcloud cs cluster-create --name <cluster-name>
