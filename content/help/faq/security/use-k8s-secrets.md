@@ -1,5 +1,5 @@
 ---
-title: Does Istio Authentication use Kubernetes secrets?
+title: Does Istio authentication use Kubernetes secrets?
 weight: 120
 ---
 
