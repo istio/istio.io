@@ -11,11 +11,6 @@
                                 <div class="row">
                                     {{ range . }}
                                         <div class="col-xs-12 col-sm-6 col-xl-4">
-                                            <div style="padding:0rem 1rem;float:right">
-                                                <span>
-                                                    <a href="{{ .RelPermalink }}"><i class="fa fa-long-arrow-alt-right"></i></a>
-                                                </span>
-                                            </div>
                                             <p class="link"><a href="{{ .RelPermalink }}">{{ .Title }}</a></p>
                                             <p class="desc">{{ .Description }}</p>
                                         </div>
@@ -29,17 +24,21 @@
 
             {{ if or .NextInSection .PrevInSection }}
                 <div class="container-fluid d-print-none">
-                    <br/><hr/><br/>
+                    <br/>
 
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-6 pagenav">
                             {{ if .NextInSection }}
-                                <a title="{{ .NextInSection.Description }}" href="{{ .NextInSection.URL }}"><i class="fa fa-long-arrow-alt-left"></i> {{ .NextInSection.Title }}</a>
+                                <p><a title="{{ .NextInSection.Description }}" href="{{ .NextInSection.URL }}">
+                                    <i class="fa fa-long-arrow-alt-left"></i> {{ .NextInSection.Title }}</a>
+                                </p>
                             {{ end }}
                         </div>
-                        <div class="col-6" style="text-align: right">
+                        <div class="col-6 pagenav" style="text-align: right">
                             {{ if .PrevInSection }}
-                                <a title="{{ .PrevInSection.Description }}" href="{{ .PrevInSection.URL }}">{{ .PrevInSection.Title }} <i class="fa fa-long-arrow-alt-right"></i></a>
+                                <p><a title="{{ .PrevInSection.Description }}" href="{{ .PrevInSection.URL }}">{{ .PrevInSection.Title }}
+                                    <i class="fa fa-long-arrow-alt-right"></i></a>
+                                </p>
                             {{ end }}
                         </div>
                     </div>
