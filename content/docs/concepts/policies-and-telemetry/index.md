@@ -27,7 +27,7 @@ control to operators.
 
 Mixer is the Istio component responsible for providing policy controls and telemetry collection:
 
-{{< image width="55%" ratio="49.26%"
+{{< image width="55%" ratio="69.79%"
     link="./topology-without-cache.svg"
     caption="Mixer Topology"
     >}}
@@ -62,7 +62,7 @@ monitoring, quotas, ACL checking, and more. The exact set of
 adapters used at runtime is determined through configuration and can easily be
 extended to target new or custom infrastructure backends.
 
-{{< image width="80%" ratio="60%"
+{{< image width="80%" ratio="69.79%"
     link="./adapters.svg"
     alt="Showing Mixer with adapters."
     caption="Mixer and its Adapters"
