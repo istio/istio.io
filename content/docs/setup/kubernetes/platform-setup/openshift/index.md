@@ -30,11 +30,12 @@ other Istio services, like _Grafana_ for example, you need to enable its
 service account with a similar command.
 
 A service account that runs application pods needs privileged security context
-constraints as part of sidecar injection.
+constraints as part of sidecar injection:
+
+<div class="Workaround_for_hugo_bug">
 
 {{< text bash >}}
 $ oc adm policy add-scc-to-user privileged -z default -n <target-namespace>
 {{< /text >}}
 
-> Check for `SELINUX` in this [discussion](https://github.com/istio/issues/issues/34)
-> with respect to Istio in case you see issues bringing up the Envoy.
+</div>
