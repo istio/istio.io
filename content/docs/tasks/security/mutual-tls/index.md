@@ -1,22 +1,22 @@
 ---
-title: Istio Mutual TLS deep dive
+title: Istio Mutual TLS Deep-Dive
 description: Shows you how to verify and test Istio's automatic mutual TLS authentication.
 weight: 10
 keywords: [security,mutual-tls]
 ---
 
 Through this task, you will have a closer look on Istio mutual TLS, and learn to verify mutual TLS settings. This task assumes you have
-already finished the [authentication policy](docs/tasks/security/authn-policy/) tutorial and are familiar with using authentication policy to enable mutual TLS.
+already finished the [authentication policy](/docs/tasks/security/authn-policy/) task and are familiar with using authentication policy to enable mutual TLS.
 
 ## Before you begin
 
 1. Install Istio on Kubernetes with global mutual TLS enabled:
-    * You can use [Helm](/docs/setup/kubernetes/helm-install/) with `global.mtls.enabled` to `true`
-    * If you already have Istio installed, you can add or modify authentication policies and destination rules to enable mutual TLS as described in this [tutorial](docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls).
+    * You can use [Helm](/docs/setup/kubernetes/helm-install/) with `global.mtls.enabled` set to `true`
+    * If you already have Istio installed, you can add or modify authentication policies and destination rules to enable mutual TLS as described in this [task](docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls).
 
 1. For demo, deploy [httpbin]({{< github_tree >}}/samples/httpbin) and [sleep]({{< github_tree >}}/samples/sleep) with Envoy sidecar. For simplicity, the demo is setup in the `default` namespace. If you wish to use a different namespace,  please add `-n <your-namespace>` appropriately to the example commands in the next sections.
 
-    * If you are using [manual sidecar injection](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection), use the following command
+    * If you are using [manual sidecar injection](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection), use the following command:
 
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@)
@@ -32,7 +32,7 @@ already finished the [authentication policy](docs/tasks/security/authn-policy/) 
 
 ## Verifying Citadel is running
 
-[Citadel](/docs/concepts/security/#key-management) is the Istio key management service. It must be up and running in order for mutual TLS to work correctly. Verify the cluster-level Citadel is running:
+[Citadel](/docs/concepts/security/#key-management) is the Istio's key management service. It must be up and running in order for mutual TLS to work correctly. Verify the cluster-level Citadel is running:
 
 {{< text bash >}}
 $ kubectl get deploy -l istio=citadel -n istio-system
@@ -78,7 +78,7 @@ Please check [secure naming](/docs/concepts/security/#workflow) for more informa
 
 ## Verifying TLS configuration
 
-Use `istioctl` tool to check the effective TLS settings. For example, the command below shows what TLS mode is used for `httpbin.default.svc.cluster.local`, and what authentication policy and destination rules are used for that configuration:
+Use the `istioctl` tool to check the effective TLS settings. For example, the command below shows what TLS mode is used for `httpbin.default.svc.cluster.local`, and what authentication policy and destination rules are used for that configuration:
 
 {{< text bash >}}
 $ istioctl authn tls-check httpbin.default.svc.cluster.local
@@ -90,15 +90,15 @@ Where:
 
 * STATUS column: shows whether the TLS settings are consistent between server (i.e `httpbin` service) and client(s), i.e all other services making call to `httpbin`.
 
-* SERVER column: shows the mode is used on server
+* SERVER column: shows the mode which is used on server
 
-* CLIENT column: shows the mode is used on client(s)
+* CLIENT column: shows the mode which is used on client(s)
 
 * AUTHN POLICY column: shows the name and namespace of the authentication policy that is used. If the policy is the mesh-wide policy, namespace is blank, e.g `default/`
 
 * DESTINATION RULE column: shows the name and namespace of the destination rule that is used.
 
-In the example output above, it shows that mutual TLS is consistently setup for `httpbin.default.svc.cluster.local` on port `8080`. The authentication policy in used is the mesh-wide policy `default`, and destination rule is `default` in `default` namespace.
+In the example output above, you can see that mutual TLS is consistently setup for `httpbin.default.svc.cluster.local` on port `8080`. The authentication policy in used is the mesh-wide policy `default`, and destination rule is `default` in `default` namespace.
 
 Now, add a service-specific destination rule for `httpbin` with incorrect TLS mode:
 
@@ -178,5 +178,4 @@ client from aborting when failing to find and verify the server name (i.e., `htt
 {{< text bash >}}
 $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
 $ kubectl delete --ignore-not-found=true -f @samples/sleep/sleep.yaml@
-$ kubectl delete --ignore-not-found=true ns legacy
 {{< /text >}}
