@@ -36,7 +36,7 @@ with AAA (authentication/authorization/audit). The goals of Istio security are:
 This guide provides a high-level overview of Istio security; you can find more information about specific Istio security concepts
 in other guides in this section.
 To find out how to get started using Istio security with deployed services, see the [Mutual TLS Migration](/docs/tasks/security/mtls-migration/).
-For more detailed howto on security tasks, see our [Security Tasks](/docs/tasks/security/).
+For more detailed how-to on security tasks, see our [Security Tasks](/docs/tasks/security/).
 
 ## High-level architecture and features
 
@@ -145,7 +145,7 @@ The SPIFFE standard provides a specification for a framework capable of bootstra
 across heterogeneous environments.
 
 Istio and SPIFFE share the same identity document, i.e., SVID (SPIFFE Verifiable Identity Document).
-For example, in Kubernetes, the X.509 certificate has URI field in the format of “spiffe://<domain>/ns/<namespace>/sa/<serviceaccount>”.
+For example, in Kubernetes, the X.509 certificate has URI field in the format of "spiffe://<domain>/ns/<namespace>/sa/<serviceaccount>".
 This enables Istio services to establish and accept connections with other SPIFFE-compliant systems.
 
 However, Istio security and SPIFFE/SPIRE have differ in the PKI implementation details.
@@ -297,7 +297,7 @@ Suppose the legitimate servers that run the service `datastore` only use the ide
 A malicious user has key/certificate with identity `test-team`.
 He intends to impersonate the service so that he could inspect the data sent from the clients.
 The malicious user deploys a forged server, with the key/certificate with identity `test-team`.
-Suppose he has successfully hacked the discovery service or DNS to map the serivce name `datastore` to his forged server.
+Suppose he has successfully hacked the discovery service or DNS to map the service name `datastore` to his forged server.
 
 When a client calls the service `datastore`, it extracts the identity `test-team` from the server's certificate,
 and checks whether `test-team` is allowed to run `datastore` with the secure naming information.
