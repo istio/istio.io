@@ -1,11 +1,11 @@
 ---
-title: Platform setup for Amazon Web Services
-description: Instructions to setup the AWS with Kops cluster for Istio.
-weight: 14
-keywords: [aws]
+title: Amazon Web Services
+description: Instructions to setup an AWS cluster with Kops cluster for Istio.
+weight: 3
+keywords: [platform-setup,aws]
 ---
 
-To setup the AWS with Kops cluster for Istio, follow these instructions:
+Follow these instructions to prepare an AWS cluster with Kops for Istio.
 
 When you install a new cluster with Kubernetes version 1.9, the prerequisite to
 enable `admissionregistration.k8s.io/v1beta1` is covered.

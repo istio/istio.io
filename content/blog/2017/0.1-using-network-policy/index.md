@@ -59,7 +59,7 @@ Let’s walk through a few examples of what you might want to do with Kubernetes
 
 ### Reduce attack surface of the application ingress
 
-Our application ingress controller is the main entry-point to our application from the outside world.  A quick peek at istio.yaml (used to install Istio) defines the Istio ingress like this:
+Our application ingress controller is the main entry-point to our application from the outside world.  A quick peek at `istio.yaml` (used to install Istio) defines the Istio ingress like this:
 
 {{< text yaml >}}
 apiVersion: v1

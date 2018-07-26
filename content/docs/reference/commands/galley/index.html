@@ -232,6 +232,14 @@ number_of_entries: 6
 <td>File containing the caBundle that signed the cert/key specified by --tlsCertFile and --tlsKeyFile.  (default `/etc/istio/certs/root-cert.pem`)</td>
 </tr>
 <tr>
+<td><code>--deployment-name &lt;string&gt;</code></td>
+<td>Name of the deployment for the validation pod  (default `istio-galley`)</td>
+</tr>
+<tr>
+<td><code>--deployment-namespace &lt;string&gt;</code></td>
+<td>Namespace of the deployment for the validation pod  (default `istio-system`)</td>
+</tr>
+<tr>
 <td><code>--healthCheckFile &lt;string&gt;</code></td>
 <td>File that should be periodically updated if health checking is enabled  (default ``)</td>
 </tr>
@@ -280,16 +288,8 @@ number_of_entries: 6
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
-<td><code>--mixer-webhook-name &lt;string&gt;</code></td>
-<td>Name of the mixer webhook entry in the webhook config.  (default `mixer.validation.istio.io`)</td>
-</tr>
-<tr>
 <td><code>--monitoringPort &lt;uint&gt;</code></td>
 <td>Port to use for the exposing self-monitoring information  (default `9093`)</td>
-</tr>
-<tr>
-<td><code>--pilot-webhook-name &lt;string&gt;</code></td>
-<td>Name of the pilot webhook entry in the webhook config.  (default `pilot.validation.istio.io`)</td>
 </tr>
 <tr>
 <td><code>--port &lt;uint&gt;</code></td>
@@ -308,8 +308,8 @@ number_of_entries: 6
 <td>File containing the x509 private key matching --tlsCertFile.  (default `/etc/istio/certs/key.pem`)</td>
 </tr>
 <tr>
-<td><code>--webhook-name &lt;string&gt;</code></td>
-<td>Name of the ValidatingWebhookConfiguration resource in Kubernetes  (default `istio-galley`)</td>
+<td><code>--webhook-config-file &lt;string&gt;</code></td>
+<td>File that contains k8s validatingwebhookconfiguration yaml. Validation is disabled if file is not specified  (default `/etc/istio/config`)</td>
 </tr>
 </tbody>
 </table>

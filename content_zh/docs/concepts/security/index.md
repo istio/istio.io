@@ -145,7 +145,7 @@ Istio 对服务端进行配置，从而完成认证过程，然而他并不会�
 * `request.auth.presenter`: 和上一则类似，指的是 JWT 中的授权者（`azp`）。
 * `request.auth.claims`: 原 JWT 中的所有原始报文。
 
-来自认证源的 Principle 不会显式的输出。通常可以通过把 `iss` 和 `sub` 使用 `/` 进行拼接而来（例如 `iss` 和 `sub` 分别是 "*googleapis.com*" 和 "*123456*"，那么源 Principal 就是 "*googleapis.com/123456*"）。另外如果 Principal 设置为 USE_ORIGIN，`request.auth.principal` 的值是和源 Principal 一致的。
+来自认证源的 Principle 不会显式的输出。通常可以通过把 `iss` 和 `sub` 使用 `/` 进行拼接而来（例如 `iss` 和 `sub` 分别是 "*googleapis.com*" 和 "*123456*"，那么源 Principal 就是 "*googleapis.com/123456*"）。另外如果 Principal 设置为 `USE_ORIGIN`，`request.auth.principal` 的值是和源 Principal 一致的。
 
 ### 策略剖析
 
