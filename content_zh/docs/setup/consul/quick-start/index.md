@@ -5,9 +5,9 @@ weight: 10
 keywords: [consul]
 ---
 
-通过安装 Docker Compose 快速安装和配置 Istio。
+通过 Docker Compose 快速安装和配置 Istio。
 
-## Prerequisites
+## 前置条件
 
 * [Docker](https://docs.docker.com/engine/installation/)
 * [Docker Compose](https://docs.docker.com/compose/install/)
@@ -38,7 +38,7 @@ keywords: [consul]
     $ export DOCKER_GATEWAY=172.28.0.1:
     {{< /text >}}
 
-1.  切换 Istio 安装目录的根目录。
+1.  切换到 Istio 的安装目录。
 
 1.  启动 Istio 控制平面的容器：
 
@@ -65,9 +65,9 @@ keywords: [consul]
 你现在可以部署自己的应用或者 [Bookinfo](/docs/examples/bookinfo/) 中提供的示例应用。
 
 > 由于在 Docker 中没有 pods 的概念，因此 Istio sidecar 需要和应用运行在同一个容器中。
-> 我们会使用 [Registrator](https://gliderlabs.github.io/registrator/latest/) 将示例自动注册到 Consul 中。
+> 我们会使用 [Registrator](https://gliderlabs.github.io/registrator/latest/) 将服务实例自动注册到 Consul 中。
 >
-> 应用必须使用 HTTP 1.1 或者 HTTP 2.0协议进行 HTTP 请求，因为 HTTP 1.0 不被支持。
+> 应用必须使用 HTTP 1.1 或者 HTTP 2.0 协议进行 HTTP 通信，因为 Istio 不支持 HTTP 1.0 。
 
 {{< text bash >}}
 $ docker-compose -f <your-app-spec>.yaml up -d
@@ -75,7 +75,7 @@ $ docker-compose -f <your-app-spec>.yaml up -d
 
 ## 卸载
 
-通过删除 docker 容器便可卸载 Istio 核心组件：
+删除 docker 容器便可卸载 Istio 核心组件：
 
 {{< text bash >}}
 $ docker-compose -f install/consul/istio.yaml down

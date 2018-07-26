@@ -201,7 +201,7 @@ backends such as [Prometheus](https://prometheus.io) or [Stackdriver](https://cl
 Individual adapters generally need operational parameters in order to do their work. For example, a logging adapter may require
 the IP address and port of the log collection backend.
 
-Here is an example showing how to configure an adapter of kind = `listchecker`. The listchecker adapter checks an input value against a list.
+Here is an example showing how to configure an adapter of kind = `listchecker`. The `listchecker` adapter checks an input value against a list.
 If the adapter is configured for a whitelist, it returns success if the input value is found in the list.
 
 {{< text yaml >}}

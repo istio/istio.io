@@ -50,7 +50,7 @@ represents.
 
 |Do                                   | Don't
 |-------------------------------------|------
-|Open the `istio.yaml` file.         | Open the istio.yaml file.
+|Open the `foo.yaml` file.         | Open the foo.yaml file.
 |Go to the `/content/docs/tasks` directory.  | Go to the /content/docs/tasks directory.
 |Open the `/data/args.yaml` file. | Open the /data/args.yaml file.
 

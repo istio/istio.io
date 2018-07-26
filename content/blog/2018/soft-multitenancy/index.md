@@ -40,8 +40,8 @@ when official multi-tenancy support is provided.
 ### Multiple Istio control planes
 
 Deploying multiple Istio control planes starts by replacing all `namespace` references
-in a manifest file with the desired namespace. Using istio.yaml as an example, if two tenant
-level Istio control planes are required; the first can use the istio.yaml default name of
+in a manifest file with the desired namespace. Using `istio.yaml` as an example, if two tenant
+level Istio control planes are required; the first can use the `istio.yaml` default name of
 *istio-system* and a second control plane can be created by generating a new yaml file with
 a different namespace. As an example, the following command creates a yaml file with
 the Istio namespace of *istio-system1*.

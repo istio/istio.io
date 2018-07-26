@@ -134,7 +134,7 @@ destination_version: destination.labels["version"] | "unknown"
 
 适配器封装了 Mixer 和特定外部基础设施后端进行交互的必要接口，例如 [Prometheus](https://prometheus.io/) 或者 [Stackdriver](https://cloud.google.com/logging)。各种适配器都需要参数配置才能工作。例如日志适配器可能需要 IP 地址和端口来进行日志的输出。
 
-这里的例子配置了一个类型为 `listchecker` 的适配器。listchecker 适配器使用一个列表来检查输入。如果配置的是白名单模式且输入值存在于列表之中，就会返回成功的结果。
+这里的例子配置了一个类型为 `listchecker` 的适配器。`listchecker` 适配器使用一个列表来检查输入。如果配置的是白名单模式且输入值存在于列表之中，就会返回成功的结果。
 
 {{< text yaml >}}
 apiVersion: config.istio.io/v1alpha2
