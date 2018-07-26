@@ -82,7 +82,7 @@ aliases:
 
     这段表达式匹配的条件是，来自服务 `reviews`，`version` 标签值为 `v3` 的，目标为 `ratings` 服务的请求。
 
-    这条规则使用 `denier` 适配器拒绝来自 `reviews:v3` 服务的请求。这个适配器会使用预定的状态码和消息拒绝请求。状态码和消息的定义可以参考 [Denier](/docs/reference/config/policy-and-telemetry/adapters/denier/) 适配器的配置文档
+    这条规则使用 `denier` 适配器拒绝来自 `reviews:v3` 服务的请求。这个适配器会使用预定的状态码和消息拒绝请求。状态码和消息的定义可以参考 [Denier](/docs/reference/config/policy-and-telemetry/adapters/denier/) 适配器的配置文档。
 
 1. 在浏览器中刷新 `productpage` 页面。
 
@@ -108,8 +108,8 @@ Istio 也支持基于属性的黑名单和白名单。下面的白名单配置�
     metadata:
       name: whitelist
     spec:
-      # providerUrl: 通常会在外部进行进行管理，然后使用这一参数进行异步的抓取
-      overrides: ["v1", "v2"]  # overrides provide a static list
+      # providerUrl: 通常会在外部管理列表内容，然后使用这一参数进行异步的抓取
+      overrides: ["v1", "v2"]  # 用 overrides 字段提供静态内容
       blacklist: false
     {{< /text >}}
 
@@ -130,7 +130,7 @@ Istio 也支持基于属性的黑名单和白名单。下面的白名单配置�
       value: source.labels["version"]
     {{< /text >}}
 
-    and then run the following command:
+    接下来运行命令：
 
     {{< text bash >}}
     $ istioctl create -f appversion-instance.yaml
@@ -151,13 +151,13 @@ Istio 也支持基于属性的黑名单和白名单。下面的白名单配置�
         - appversion.listentry
     {{< /text >}}
 
-    and then run the following command:
+    然后运行命令：
 
     {{< text bash >}}
     $ istioctl create -f checkversion-rule.yaml
     {{< /text >}}
 
-1. 校验，在没有登录的情况下访问 Bookinfo 的 `productpage`（`http://$GATEWAY_URL/productpage`），应该是看不到星形图标的；如果使用 "Jason" 用户登录，则应该看到黑星图标。
+1. 校验，在没有登录的情况下访问 Bookinfo 的 `productpage`（`http://$GATEWAY_URL/productpage`），应该是看不到星形图标的；如果使用 "jason" 用户登录，则应该看到黑星图标。
 
 ## 清理
 
