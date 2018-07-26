@@ -34,8 +34,7 @@ plane and the sidecars for the Istio data plane.
 
 ## Installation steps
 
-1. Install Istio's [Custom Resource Definitions]
-(https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
+1. Install Istio's [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
 via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the kube-apiserver:
 
     {{< text bash >}}

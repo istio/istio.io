@@ -21,8 +21,7 @@ To install and configure Istio in a Kubernetes cluster, follow these instruction
 
 ## Installation steps
 
-1. Install Istio's [Custom Resource Definitions]
-(https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
+1. Install Istio's [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
 via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the kube-apiserver:
 
     {{< text bash >}}

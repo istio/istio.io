@@ -17,8 +17,7 @@ In the following steps, we assume that the Istio components are installed and up
 1. [Download the new Istio release](/docs/setup/kubernetes/download-release/)
 and change directory to the new release directory.
 
-1. Upgrade Istio's [Custom Resource Definitions]
-(https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
+1. Upgrade Istio's [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
 via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the kube-apiserver:
 
 {{< text bash >}}
