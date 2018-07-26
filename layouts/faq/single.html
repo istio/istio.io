@@ -1,0 +1,16 @@
+{{ define "main" }}
+
+{{ partial "primary-top.html" . }}
+
+{{ .Content }}
+
+{{ $questions := .Resources.ByType "page" }}
+{{ $sorted_questions := sort $questions ".Params.weight" }}
+{{ range $q := $sorted_questions }}
+    <h4 id="{{ $q.File.BaseFileName | urlize }}">Q: {{ $q.Title }}</h4>
+    {{ $q.Content }}
+{{ end }}
+
+{{ partial "primary-bottom.html" . }}
+
+{{ end }}

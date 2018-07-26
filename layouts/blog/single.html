@@ -1,0 +1,11 @@
+{{ define "main" }}
+
+{{/* TODO: remove extra div and update CSS to not need a .blog class */}}
+
+<div class="blog">
+{{ partial "primary-top.html" . }}
+{{ .Content }}
+{{ partial "primary-bottom.html" . }}
+</div>
+
+{{ end }}

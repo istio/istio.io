@@ -1,44 +1,28 @@
-# Ruby CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-ruby/ for more details
-#
 version: 2
 jobs:
   build:
     docker:
-      # specify the version you desire here
-       - image: circleci/ruby:2.4.1-node-browsers
+       - image: gcr.io/istio-testing/website-builder:2018-07-14
 
-    working_directory: ~/repo
+    working_directory: ~/site
 
     steps:
       - checkout
 
-      # Download and cache dependencies
+      - run:
+          name: Generating Site
+          command: scripts/gen_site.sh ""
+
       - restore_cache:
           keys:
-          - v3-dependencies-{{ checksum "Gemfile.lock" }}
-          # fallback to using the latest cache if no exact match is found
-          - v3-dependencies-
+          - htmlproofer-cache-v5
 
       - run:
-          name: install dependencies
-          command: |
-            gem install bundler
-            bundle install --jobs=4 --retry=3 --path vendor/bundle
+          name: Running Linters
+          command: scripts/lint_site.sh
 
-      - save_cache:
-          paths:
-            - ./vendor/bundle
-          key: v3-dependencies-{{ checksum "Gemfile.lock" }}
-
-      - restore_cache:
-          keys:
-          - htmlproofer-cache-v3
-      # Run the test/html checker
-      - run: bundle exec rake test
       # save the external URLs cache
       - save_cache:
-          key: htmlproofer-cache-v3
+          key: htmlproofer-cache-v5
           paths:
-            - tmp/.htmlproofer
+            - .htmlproofer

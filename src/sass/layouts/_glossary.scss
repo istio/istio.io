@@ -1,0 +1,37 @@
+.glossary {
+    .trampolines {
+        font-size: $font-size--l;
+        text-align: center;
+        padding-top: .8rem;
+    }
+
+    .entries {
+        h4 {
+            font-size: $font-size--m;
+            font-weight: $glossaryHeaderWeight;
+            border-bottom: 1px solid;
+            color: $glossaryHeaderColor;
+            border-color: $glossaryHeaderColor;
+            margin-top: 2.2rem;
+            margin-bottom: .15rem;
+        }
+
+        dl {
+            margin-left: 0;
+
+            dt {
+                font-weight: $glossaryWordWeight;
+                list-style-type: none;
+                margin-bottom: 0;
+                margin-top: .9rem;
+                margin-left: 0;
+                text-transform: uppercase;
+            }
+
+            dd {
+                list-style-type: none;
+                margin-left: 1.5rem;
+            }
+        }
+    }
+}
