@@ -139,14 +139,17 @@ Redisquota
 Registrator
 Reviewer1
 Reviewer2
+SNI
 SREs
 ServiceGraph
 Servicegraph
 Sharding
 Shriram
+SignalFX
 Snell-Feikema
 SolarWinds
 TCP-level
+TLS
 TLS-secured
 Tcpdump
 Tigera
@@ -374,6 +377,7 @@ redis
 redis-master-2353460263-1ecey
 referer
 registrator
+reimplemented
 reinject
 repo
 requestcontext
