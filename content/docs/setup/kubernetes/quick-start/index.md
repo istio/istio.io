@@ -19,6 +19,8 @@ To install and configure Istio in a Kubernetes cluster, follow these instruction
   * [Amazon Web Services (AWS) with Kops](/docs/setup/kubernetes/platform-setup/aws/)
   * [Azure](/docs/setup/kubernetes/platform-setup/azure/)
 
+1. Check the [specification requirements](/docs/setup/kubernetes/spec-requirements/) on Pods and Services.
+
 ## Installation steps
 
 To install Istio's core components you can choose one of the following four
