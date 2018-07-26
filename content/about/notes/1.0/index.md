@@ -55,8 +55,8 @@ release to add new features and improve performance.
 
 ## Security
 
-- **Authorization**. We've reimplemented our [authorization functionality](/docs/concepts/security/#authorization). Simple RPC-level
-authorization policies can now be implemented without the need for Mixer and Mixer adapters.
+- **Authorization**. We've reimplemented our [authorization functionality](/docs/concepts/security/#authorization).
+RPC-level authorization policies can now be implemented without the need for Mixer and Mixer adapters.
 
 - **Improved Mutual TLS Authentication Control**. It's now easier to [control mutual TLS authentication](/docs/concepts/security/#authentication) between services. We provide 'PERMISSIVE' mode so that you can
 [incrementally turn on mutual TLS](/docs/tasks/security/mtls-migration/) for your services.
