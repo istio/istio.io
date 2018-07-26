@@ -315,7 +315,7 @@ the required authentication mechanisms. Pilot may fetch the public key and
 attach it to the configuration for JWT validation. Alternatively, Pilot
 provides the path to the keys and certificates the Istio system manages and
 installs them to the application pod for mutual TLS. You can find more info in
-the [PKI and identity section](/docs/concepts/security/#identity).
+the [PKI section](/docs/concepts/security/#pki).
 Istio sends configurations to the targeted endpoints asynchronously. Once the
 proxy receives the configuration, the new authentication requirement takes
 effect immediately on that pod.
