@@ -1,22 +1,26 @@
 ---
-title: IBM Cloud Kubernetes Service
-description: Instructions to setup a IBM Cloud Kubernetes Service (IKS) cluster for Istio.
+title: IBM Cloud
+description: Instructions to setup an IBM Cloud cluster for Istio.
 weight: 12
+skip_toc: true
+skip_seealso: true
 keywords: [platform-setup,ibm,iks]
 ---
+
+## IBM Cloud Kubernetes Service (IKS)
 
 Follow these instructions to prepare an IBM IKS cluster for Istio.
 
 1. Create a new lite cluster.
 
     {{< text bash >}}
-    $ bx cs cluster-create --name <cluster-name> --kube-version 1.9.7
+    $ ibmcloud cs cluster-create --name <cluster-name>
     {{< /text >}}
 
     Alternatively, you can create a new paid cluster:
 
     {{< text bash >}}
-    $ bx cs cluster-create --location location --machine-type u2c.2x4 \
+    $ ibmcloud cs cluster-create --location location --machine-type u2c.2x4 \
       --name <cluster-name> --kube-version 1.9.7
     {{< /text >}}
 
@@ -24,7 +28,7 @@ Follow these instructions to prepare an IBM IKS cluster for Istio.
    name of the cluster you want to use:
 
     {{< text bash >}}
-    $(bx cs cluster-config <cluster-name>|grep "export KUBECONFIG")
+    $(ibmcloud cs cluster-config <cluster-name>|grep "export KUBECONFIG")
     {{< /text >}}
 
 ## IBM Cloud Private
