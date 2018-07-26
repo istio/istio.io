@@ -645,7 +645,7 @@ Also note that Istio itself *cannot securely enforce* that all the egress traffi
 
 1.  Check if you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio, following the
 steps in
-[Verifying Istio’s mutual TLS authentication setup](/docs/tasks/security/mutual-tls/#verifying-istio-s-mutual-tls-authentication-setup).
+[Verifying Istio’s mutual TLS authentication setup](/docs/tasks/security/mutual-tls/#verifying-tls-configuration).
 If mutual TLS is enabled, make sure you create the configuration
 items accordingly (note the remarks _If you have mutual TLS Authentication enabled in Istio, you must create..._).
 
