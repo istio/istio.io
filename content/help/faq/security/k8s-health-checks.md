@@ -1,6 +1,6 @@
 ---
 title: How can I use Kubernetes liveness and readiness for service health check with Istio Auth enabled?
-weight: 40
+weight: 50
 ---
 If Istio Auth is enabled, http and tcp health check from kubelet will not
 work since they do not have Istio Auth issued certs. A workaround is to
