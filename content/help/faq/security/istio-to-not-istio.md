@@ -1,7 +1,13 @@
 ---
-title: Can Istio mutual TLS enabled services communicate with services without Istio?
+title: If mutual TLS is globally enable, can Istio services communicate with non-Istio services?
 weight: 20
 ---
-Starting with Istio 0.8, a service with Istio mutual TLS enabled can talk to a service without Istio. Mutual TLS is enabled via [authentication policy](/docs/concepts/security/#authentication-policies) and this only specifies the service behavior as a server, not client, which means a mutual TLS enabled service will still send http traffic (not mutual TLS) to others unless you explicitly specify it with [destination rule](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule).
+> Istio services are services that have Envoy sidecar.
 
-However, unless a service without Istio can present a valid certificate, which is less likely to happen, a service without Istio cannot talk to a service with Istio mutual TLS enabled and this is the expected behavior of 'mutual TLS'.
+If non-Istio services are on receiving end, you can selectively set the [destination rule](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule)
+to disable (mutual) TLS on the client side when talking to those services. See
+[authentication policy](/docs/tasks/security/authn-policy/#request-from-istio-services-to-non-istio-services) for examples.
+
+On the other hand, non-Istio services cannot talk to Istio services unless they can 
+present a valid certificate, which is less likely to happen. This is the
+expected behavior of *mutual TLS*
