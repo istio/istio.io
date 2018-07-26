@@ -6,8 +6,8 @@
         <div class="card">
             <div class="card-header" role="tab">
                 <div title="{{ $section.Description }}">
-                    {{ if .Params.page_icon }}
-                        <img src="{{ .Params.page_icon }}" alt="Icon" class="page_icon" />
+                    {{ if $section.Params.page_icon }}
+                        <img src="{{ $section.Params.page_icon }}" alt="Icon" class="page_icon" />
                     {{ end }}
                     {{ $section.Title }}
                 </div>
