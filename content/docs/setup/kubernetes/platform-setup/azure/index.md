@@ -5,11 +5,11 @@ weight: 6
 keywords: [platform-setup,azure]
 ---
 
-To setup the Azure cluster for Istio, follow these instructions:
+Follow these instructions to prepare an Azure cluster for Istio.
 
 You can deploy a Kubernetes cluster to Azure via [AKS](https://azure.microsoft.com/en-us/services/kubernetes-service/) or [ACS-Engine](https://github.com/azure/acs-engine) which fully supports Istio.
 
-## Instructions for AKS
+## AKS
 
 You can create an AKS cluster via [the az cli](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough) or [the Azure portal](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough-portal).
 
@@ -48,7 +48,7 @@ For the `az` cli option, complete `az login` authentication OR use cloud shell, 
     $ az aks get-credentials --resource-group myResourceGroup --name myAKSCluster
     {{< /text >}}
 
-## Instructions for ACS-Engine
+## ACS-Engine
 
 1. [Follow the instructions](https://github.com/Azure/acs-engine/blob/master/docs/acsengine.md#install) to get and install the `acs-engine` binary.
 
