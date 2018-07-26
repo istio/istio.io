@@ -13,12 +13,12 @@ Instructions for the installation and configuration of Istio using Ansible.
 
 1. One of these solutions:
 
-    * [Platform setup for Minikube](/docs/setup/kubernetes/minikube)
-    * [Platform setup for Google Kubernetes Engine](/docs/setup/kubernetes/gke)
-    * [Platform setup for IBM Cloud Kubernetes Service](/docs/setup/kubernetes/ibm)
-    * [Platform setup for Openshift](/docs/setup/kubernetes/openshift)
-    * [Platform setup for Amazon Web Services](/docs/setup/kubernetes/aws)
-    * [Platform setup for Azure](/docs/setup/kubernetes/azure)
+    * [Platform setup for Minikube](/docs/setup/kubernetes/platform-setup/minikube)
+    * [Platform setup for Google Kubernetes Engine](/docs/setup/kubernetes/platform-setup/gke)
+    * [Platform setup for IBM Cloud Kubernetes Service](/docs/setup/kubernetes/platform-setup/ibm)
+    * [Platform setup for OpenShift](/docs/setup/kubernetes/platform-setup/openshift)
+    * [Platform setup for Amazon Web Services](/docs/setup/kubernetes/platform-setup/aws)
+    * [Platform setup for Azure](/docs/setup/kubernetes/platform-setup/azure)
 
 1. [Ansible 2.4 Installed](https://docs.ansible.com/ansible/latest/intro_installation.html).
 
