@@ -1,9 +1,9 @@
 ---
-title: How can I use Kubernetes liveness and readiness for service health check with Istio Auth enabled?
+title: How can I use Kubernetes liveness and readiness for service health check with Istio mutual TLS enabled?
 weight: 50
 ---
-If Istio Auth is enabled, http and tcp health check from kubelet will not
-work since they do not have Istio Auth issued certs. A workaround is to
+If Istio mutual TLS is enabled, http and tcp health check from kubelet will not
+work since they do not have Istio mutual TLS issued certs. A workaround is to
 use a [liveness command](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#define-a-liveness-command)
 for health check, e.g., one can install curl in the service pod and curl itself
 within the pod. The Istio team is actively working on a solution.
