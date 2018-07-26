@@ -100,7 +100,8 @@ The available front matter fields are:
 |`publishdate`  | For blog posts, indicates the date of publication of the post
 |`subtitle`     | For blog posts, supplies an optional subtitle to be displayed below the main title
 |`attribution`  | For blog posts, supplies an optional author's name
-|`toc`          | Set this to false to prevent the page from having a table of contents generated for it
+|`skip_toc`     | Set this to true to prevent the page from having a table of contents generated for it
+|`skip_seealso`     | Set this to true to prevent the page from having a "See also" section generated for it
 |`force_inline_toc` | Set this to true to force the generated table of contents from being inserted inline in the text instead of in a sidebar
 
 ## Adding images
