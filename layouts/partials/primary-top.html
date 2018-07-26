@@ -28,7 +28,20 @@
             {{ end }}
 
             <main aria-labelledby="title">
-                <h1 id="title">{{ .Title }}</h1>
+                {{ if not .Parent.IsHome }}
+                    <div class="pagenav">
+                        <p><a href="{{.Parent.URL}}" title="{{ .Parent.Description }}">
+                            <i style="transform: scaleX(-1)" class="fa fa-level-up-alt"></i>
+                            &nbsp;{{.Parent.Title}}</a></p>
+                    </div>
+                {{ end }}
+
+                <h1 id="title">
+                    {{ if .Params.page_icon }}
+                        <img src="{{ .Params.page_icon }}" alt="Icon" class="page_icon" />
+                    {{ end }}
+                    {{ .Title }}
+                </h1>
 
                 {{ if .Params.subtitle }}
                     <p class="subtitle">{{ .Params.subtitle }}</p>
@@ -36,9 +49,7 @@
 
                 {{ if .Params.attribution }}
                     <p class="byline">
-                        {{ if .Params.attribution }}
-                            By <span class="attribution">{{ .Params.attribution }}</span> /
-                        {{ end }}
+                        By <span class="attribution">{{ .Params.attribution }}</span> /
                         <span class="publish_date">{{ .PublishDate.Format "January 2, 2006" }}</span>
                     </p>
                 {{ end }}
