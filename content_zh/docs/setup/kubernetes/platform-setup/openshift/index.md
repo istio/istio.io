@@ -1,14 +1,14 @@
 ---
 title: OpenShift
-description: Instructions to setup an OpenShift cluster for Istio.
+description: 对 OpenShift 集群进行配置以便安装运行 Istio
 weight: 18
 keywords: [platform-setup,openshift]
 ---
 
-Follow these instructions to prepare an OpenShift cluster for Istio.
+依照本指南对 OpenShift 集群进行配置以便安装运行 Istio。
 
-By default, OpenShift doesn't allow containers running with user ID 0.
-You must enable containers running with UID 0 for Istio's service accounts:
+缺省情况下，OpenShift 不允许容器使用 User ID（UID） 0 来运行。
+下面的命令让 Istio 的 Service account 可以使用 UID 0 来运行容器：
 
 {{< text bash >}}
 $ oc adm policy add-scc-to-user anyuid -z istio-ingress-service-account -n istio-system
@@ -25,12 +25,9 @@ $ oc adm policy add-scc-to-user anyuid -z istio-sidecar-injector-service-account
 $ oc adm policy add-scc-to-user anyuid -z istio-galley-service-account -n istio-system
 {{< /text >}}
 
-The list above accounts for the default Istio service accounts. If you enabled
-other Istio services, like _Grafana_ for example, you need to enable its
-service account with a similar command.
+上面列出的 Service account 会分配给 Istio。如果要启动其它的 Istio 服务，例如 _Grafana_ ，就需要使用类似命令来为其设置 Service account。
 
-A service account that runs application pods needs privileged security context
-constraints as part of sidecar injection:
+运行应用的 Service account 需要在安全上下文中具备一定特权，这也是 Sidecar 注入过程的一部分：
 
 <div class="Workaround_for_hugo_bug">
 
