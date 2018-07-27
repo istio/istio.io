@@ -57,9 +57,9 @@ istio-system   tcpkubeattrgenrulerule   13d
 
 If the output shows no rules named `promhttp` or `promtcp`, then the Mixer configuration for sending metric instances to the Prometheus adapter is missing. You must supply the configuration for rules connecting the Mixer metric instances to a Prometheus handler.
 
-For reference, please consult the [default rules for Prometheus]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml].
+For reference, please consult the [default rules for Prometheus]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml).
 
-## Verify Prometheus handler config exists
+## Verify the Prometheus handler configuration exists
 
 1. In Kubernetes environments, issue the following command:
 
@@ -69,11 +69,11 @@ For reference, please consult the [default rules for Prometheus]({{< github_file
     istio-system   handler   13d
     {{< /text >}}
 
-1. If the output shows no configured prometheus handlers, you must reconfigure Mixer with the appropriate handler configuration.
+1. If the output shows no configured Prometheus handlers, you must reconfigure Mixer with the appropriate handler configuration.
 
     For reference, please consult the [default handler configuration for Prometheus]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml).
 
-## Verify Mixer metric instances config exists
+## Verify Mixer metric instances configuration exists
 
 1. In Kubernetes environments, issue the following command:
 
@@ -94,7 +94,8 @@ For reference, please consult the [default rules for Prometheus]({{< github_file
 
 ## Verify there are no known configuration errors
 
-1. To establish a connection to the Istio-telemetry self-monitoring endpoint, setup a port-forward to the Istio-telemetry self-monitoring port as described in [Verify Mixer is receiving Report calls](#heading=h.vjf84crdt6zr).
+1. To establish a connection to the Istio-telemetry self-monitoring endpoint, setup a port-forward to the Istio-telemetry self-monitoring port as described in
+[Verify Mixer is receiving Report calls](#verify-mixer-is-receiving-report-calls).
 
 1. For each of the following metrics, verify that the most up-to-date value is 0:
 
@@ -121,11 +122,12 @@ mixer_config_rule_config_match_error_count{configID="0"} 0
 mixer_config_rule_config_match_error_count{configID="1"} 0</td>
 {{< /text >}}
 
-Confirm that the metric value with the largest config ID is 0. This will verify that Mixer has generated no errors in processing the config as supplied.
+Confirm that the metric value with the largest configuration ID is 0. This will verify that Mixer has generated no errors in processing the configuration as supplied.
 
 ## Verify Mixer is sending metric instances to the Prometheus adapter
 
-1. Establish a connection to the istio-telemetry self-monitoring endpoint. Setup a port-forward to the istio-telemetry self-monitoring port as described in [Verify Mixer is receiving Report calls](#heading=h.vjf84crdt6zr).
+1. Establish a connection to the istio-telemetry self-monitoring endpoint. Setup a port-forward to the istio-telemetry self-monitoring port as described in
+[Verify Mixer is receiving Report calls](#verify-mixer-is-receiving-report-calls).
 
 1. On the Mixer self-monitoring port, search for `mixer_runtime_dispatch_count`. The output should be similar to:
 
@@ -141,7 +143,8 @@ Confirm that the metric value with the largest config ID is 0. This will verify 
     error="false"
     {{< /text >}}
 
-    If you can’t find recorded dispatches to the Prometheus adapter, there is likely a configuration issue. Please follow the steps on [Verify Mixer metrics configuration exists](#heading=h.dxvily5z6c1p).
+    If you can’t find recorded dispatches to the Prometheus adapter, there is likely a configuration issue. Please follow the steps above
+    to ensure everything is configured properly.
 
     If the dispatches to the Prometheus adapter report errors, check the Mixer logs to determine the source of the error. The most likely cause is a configuration issue for the handler listed in mixer_runtime_dispatch_count.
 

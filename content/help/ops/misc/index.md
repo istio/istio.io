@@ -169,7 +169,7 @@ Verifying connectivity to Pilot is a useful troubleshooting step. Every proxy co
     $ kubectl exec -it $INGRESS_POD_NAME -n istio-system /bin/bash
     {{< /text >}}
 
-1.  Test connectivity to Pilot using cURL. The following example cURL's the v1 registration API using default Pilot configuration parameters and mutual TLS enabled:
+1.  Test connectivity to Pilot using `curl`. The following example invokes the v1 registration API using default Pilot configuration parameters and mutual TLS enabled:
 
     {{< text bash >}}
     $ curl -k --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem --key /etc/certs/key.pem https://istio-pilot:15003/v1/registration

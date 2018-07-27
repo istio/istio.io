@@ -5,7 +5,7 @@ weight: 25
 ---
 
 You can gain insights into what individual components are doing by inspecting their [logs](/help/ops/component-logging/)
-or peering inside via [introspection](/help/ops/controlz/]. If that's insufficient, the steps below explain
+or peering inside via [introspection](/help/ops/controlz/). If that's insufficient, the steps below explain
 how to get under the hood.
 
 ## With `istioctl`
@@ -18,7 +18,7 @@ For example, to retrieve the configured clusters in an Envoy via the admin inter
 $ istioctl proxy-config endpoint <pod-name> clusters
 {{< /text >}}
 
-To retrieve endpoints for a given pod in the application namespace from Pilot run the following command:
+To retrieve endpoints for a given pod in the application namespace from Pilot, run the following command:
 
 {{< text bash >}}
 $ istioctl proxy-config pilot -n application <pod-name> eds
@@ -44,6 +44,7 @@ To debug Istio with `gdb`, you will need to run the debug images of Envoy / Mixe
 
 ## With Tcpdump
 
-Tcpdump doesn't work in the sidecar pod - the container doesn't run as root. However any other container in the same pod will see all the packets, since the network namespace is shared. `iptables` will also see the pod-wide config.
+Tcpdump doesn't work in the sidecar pod - the container doesn't run as root. However any other container in the same pod will see all the packets, since the
+network namespace is shared. `iptables` will also see the pod-wide configuration.
 
 Communication between Envoy and the app happens on 127.0.0.1, and is not encrypted.
