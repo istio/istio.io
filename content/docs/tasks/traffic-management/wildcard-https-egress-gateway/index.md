@@ -53,8 +53,9 @@ section of the [Configure an Egress Gateway](/docs/tasks/traffic-management/egre
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
 
-1.  Create an egress `Gateway` for _*.wikipedia.org_, port 443, protocol TLS and virtual services to direct the traffic
-    through the egress gateway and from the egress gateway to the external service.
+1.  Create an egress `Gateway` for _*.wikipedia.org_, port 443, protocol TLS, a destination rule to set the
+    [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) for the gateway, and a virtual service to direct the
+    traffic destined to _*.wikipedia.org_ to the gateway.
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
@@ -98,7 +99,7 @@ section of the [Configure an Egress Gateway](/docs/tasks/traffic-management/egre
                 caCertificates: /etc/certs/root-cert.pem
                 subjectAltNames:
                 - spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
-                sni: placeholder.wikipedia.org # an SNI to match egress gateway's expectation for an SNI
+                sni: www.wikipedia.org # an SNI to match egress gateway's expectation for an SNI
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
@@ -123,6 +124,31 @@ section of the [Configure an Egress Gateway](/docs/tasks/traffic-management/egre
             port:
               number: 443
           weight: 100
+    EOF
+    {{< /text >}}
+
+1.  Route the traffic destined to _*.wikipedia.org_ from the egress gateway to _www.wikipedia.org_. We can use this
+ trick since all the _*.wikipedia.org_ sites are apparently served by each of the _wikipedia.org_ servers. It means that
+ we can route the traffic to an IP of any _*.wikipedia.org_ sites, in particular to _www.wikipedia.org_,
+ and the server at that IP will [manage to serve](https://en.wikipedia.org/wiki/Virtual_hosting) any of the Wikipedia
+ sites. For a general case, in which the all the domain names of a `ServiceEntry` are not served by all the hosting
+ servers, a more complex configuration is required. Note that we must create a `ServiceEntry` for _www.wikipedia.org_
+ with resolution `DNS` so the gateway will be able to perform the routing.
+
+    {{< text bash >}}
+    $ cat <<EOF | istioctl create -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: www-wikipedia
+    spec:
+      hosts:
+      - www.wikipedia.org
+      ports:
+      - number: 443
+        name: tls
+        protocol: TLS
+      resolution: DNS
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
@@ -161,8 +187,8 @@ section of the [Configure an Egress Gateway](/docs/tasks/traffic-management/egre
     counter is:
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -c egressgateway -n istio-system -- curl -s localhost:15000/stats | grep wikipedia.org.upstream_cx_total
-    cluster.outbound|443||wikipedia.org.upstream_cx_total: 2
+    $ kubectl exec -it $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -c egressgateway -n istio-system -- curl -s localhost:15000/stats | grep www.wikipedia.org.upstream_cx_total
+    cluster.outbound|443||www.wikipedia.org.upstream_cx_total: 2
     {{< /text >}}
 
 ## Cleanup
@@ -170,7 +196,7 @@ section of the [Configure an Egress Gateway](/docs/tasks/traffic-management/egre
 1.  Delete the configuration items you created:
 
     {{< text bash >}}
-    $ istioctl delete serviceentry wikipedia
+    $ istioctl delete serviceentry wikipedia www-wikipedia
     $ istioctl delete gateway istio-egressgateway
     $ istioctl delete virtualservice direct-wikipedia-through-egress-gateway wikipedia
     $ istioctl delete destinationrule set-sni-for-egress-gateway
