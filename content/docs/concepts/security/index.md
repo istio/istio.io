@@ -27,11 +27,11 @@ In particular, Istio security mitigates both insider and external threats agains
 Istio security provides strong identity, powerful policy, transparent TLS encryption and AAA (authentication/authorization/audit)
 to protect your services and data. The goals of Istio security are:
 
-* **Security by default**: no changes needed for application code and infrastructure
+- **Security by default**: no changes needed for application code and infrastructure
 
-* **Defense in depth**: integrate with existing security systems to provide multiple layers of defense
+- **Defense in depth**: integrate with existing security systems to provide multiple layers of defense
 
-* **Zero-trust network**: build security solutions on untrusted networks
+- **Zero-trust network**: build security solutions on untrusted networks
 
 This guide provides a high-level overview of Istio security; you can find more information about specific Istio security concepts
 in other guides in this section.
@@ -63,10 +63,10 @@ The PKI also automates the key & certificate rotation and revocation at scale.
 
 Istio provides two different types of authentication:
 
-* **Service-to-service Authentication** enables data-in-transit encryption and strong channel-level authentication using
+- **Service-to-service Authentication** enables data-in-transit encryption and strong channel-level authentication using
   [mutual TLS](https://en.wikipedia.org/wiki/Mutual_authentication).
 
-* **User Authentication** enables request-level authentication with JSON Web Token (JWT) validation
+- **User Authentication** enables request-level authentication with JSON Web Token (JWT) validation
   and a streamlined developer experience for [Auth0](https://auth0.com/), [Firebase Auth](https://firebase.google.com/docs/auth/),
   [Google Auth](https://developers.google.com/identity/protocols/OpenIDConnect), and custom auth.
 
@@ -102,16 +102,16 @@ You can find out how to use and configure plugins in [Mixer policies and telemet
 
 ### Upcoming features
 
-* Identity/CA pluggability to support bring-your-own-CA and bring-your-own-identity.
+- Identity/CA pluggability to support bring-your-own-CA and bring-your-own-identity.
   For example, Vault integration, Active Directory integration.
 
-* Perimeter security policies for Ingress/Egress proxy.
+- Perimeter security policies for Ingress/Egress proxy.
 
-* Advanced auditing to meet various compliance requirements.
+- Advanced auditing to meet various compliance requirements.
 
-* Secure developer/operator access from CORP to production services.
+- Secure developer/operator access from CORP to production services.
 
-* Binary authorization integration to ensure the service is running with the trusted binary.
+- Binary authorization integration to ensure the service is running with the trusted binary.
 
 ## Istio identity
 
@@ -131,15 +131,15 @@ Istio can use other identities that can group service instances, such as service
 
 Istio service identities on different platforms:
 
-* **Kubernetes**: Kubernetes service account
+- **Kubernetes**: Kubernetes service account
 
-* **GKE/GCE**: may use GCP service account
+- **GKE/GCE**: may use GCP service account
 
-* **GCP**: GCP service account
+- **GCP**: GCP service account
 
-* **AWS**: AWS IAM user/role account
+- **AWS**: AWS IAM user/role account
 
-* **On-prem (non-Kubernetes)**: user account (custom service account), service name, istio service account, or GCP service account.
+- **On-prem (non-Kubernetes)**: user account (custom service account), service name, istio service account, or GCP service account.
   Custom service account refers to the existing service account alike identities managed by customer's Identity Directory.
 
 ### Istio security vs SPIFFE
