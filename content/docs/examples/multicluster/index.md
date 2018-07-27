@@ -54,7 +54,7 @@ In addition to the prerequisites for installing Istio the following setup is req
       --num-nodes "4" --network "default" --enable-cloud-logging --enable-cloud-monitoring --enable-ip-alias --async
     {{< /text >}}
 
-1.  Wait for clusters to transition to `RUNNING` state:
+1.  Wait for clusters to transition to the `RUNNING` state by polling their statuses via the following command:
 
     {{< text bash >}}
     $ gcloud container clusters list
@@ -83,7 +83,7 @@ In addition to the prerequisites for installing Istio the following setup is req
         $ kubectl get pods --all-namespaces
         {{< /text >}}
 
-1.  Create a `cluster-admin` cluster role binding tied to the kubernetes credentials associated with your GCP user.
+1.  Create a `cluster-admin` cluster role binding tied to the Kubernetes credentials associated with your GCP user.
     _Note:_ replace `mygcp@gmail.com` with the email tied to your Google Cloud account:
 
     {{< text bash >}}
@@ -95,7 +95,7 @@ In addition to the prerequisites for installing Istio the following setup is req
 
 ## Create a Google Cloud firewall rule
 
-The following rule needs to be created to allow each clusters' pods to directly communicate:
+To allow the pods on each cluster to directly communicate, create the following rule:
 
 {{< text bash >}}
 $ function join_by { local IFS="$1"; shift; echo "$*"; }
@@ -124,7 +124,7 @@ $ kubectl apply -f $HOME/istio_master.yaml
 $ kubectl label namespace default istio-injection=enabled
 {{< /text >}}
 
-Wait for pods to come up:
+Wait for pods to come up by polling their statuses via the following command:
 
 {{< text bash >}}
 $ kubectl get pods -n istio-system
@@ -132,7 +132,7 @@ $ kubectl get pods -n istio-system
 
 ## Generate remote cluster manifest
 
-1.  Get control plane pod IPs:
+1.  Get the IPs of the control plane pods:
 
     {{< text bash >}}
     $ export PILOT_POD_IP=$(kubectl -n istio-system get pod -l istio=pilot -o jsonpath='{.items[0].status.podIP}')
@@ -235,13 +235,9 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
     $ kubectl delete deployment reviews-v3
     {{< /text >}}
 
-1.  Install the `reviews-v3` deployment on the remote.  _Note:_ The `ratings` service definition is added
-    to the remote cluster because `reviews-v3` is a client of `ratings` and creating the service object
-    creates a DNS entry.  The Istio sidecar in the `reviews-v3` pod will determine the proper `ratings`
-    endpoint after the DNS lookup is resolved to a service address:
+1.  Create the `reviews-v3.yaml` manifest for deployment on the remote:
 
-    {{< text bash >}}
-    $ cat <<EOF > $HOME/reviews-v3.yaml
+    {{< text yaml plain "reviews-v3.yaml" >}}
     ---
     ##################################################################################################
     # Ratings service
@@ -294,13 +290,21 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
     EOF
     {{< /text >}}
 
+    _Note:_ The `ratings` service definition is added to the remote cluster because `reviews-v3` is a
+    client of `ratings` and creating the service object creates a DNS entry.  The Istio sidecar in the
+    `reviews-v3` pod will determine the proper `ratings` endpoint after the DNS lookup is resolved to a
+    service address.  This would not be necessary if a multicluster DNS solution were additionally set up, e.g. as
+    in a federated Kubernetes environment.
+
+1.  Install the `reviews-v3` deployment on the remote.
+
     {{< text bash >}}
     $ kubectl config use-context "gke_${proj}_${zone}_cluster-2"
     $ kube apply -f $HOME/reviews-v3.yaml
     {{< /text >}}
 
-1.  Get the `istio-ingressgateway` service's external IP to access the `bookinfo` page to validate that all
-    reviews stars are seen:
+1.  Get the `istio-ingressgateway` service's external IP to access the `bookinfo` page to validate that Istio
+    is including the remote's `reviews-v3` instance in the load balancing of reviews versions:
 
     {{< text bash >}}
     $ kubectl get svc istio-ingressgateway -n istio-system
