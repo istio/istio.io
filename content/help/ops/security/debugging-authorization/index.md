@@ -5,14 +5,14 @@ weight: 5
 keywords: [debug,security,authorization,RBAC]
 ---
 
-This page demonstrates how to debug Istio Authorization. If you still cannot find solutions after following
+This page demonstrates how to debug Istio authorization. If you still cannot find solutions after following
 this page, feel free to send an email to `istio-security@googlegroups.com` for help.
 
 > {{< idea_icon >}}
 It would be very helpful to also include a cluster state archive in your email by following instructions in
 [reporting bugs](/help/bugs).
 
-## Make sure Authorization is enabled correctly
+## Make sure authorization is enabled correctly
 
 Authorization functionality is globally controlled by a default cluster level singleton custom resource
 `RbacConfig`, Run the following command to check it is created correctly:
@@ -24,20 +24,20 @@ default     default   1d
 {{< /text >}}
 
 > {{< warning_icon >}}
-You should see **at most 1** instance of `RbacConfig` with name **default**, otherwise the Authorization
+You should see **at most 1** instance of `RbacConfig` with name **default**, otherwise the authorization
 functionality will be disabled and all policies are ignored.
 
 Remove any additional `RbacConfig` instances and make sure the only 1 instance is named **default**.
 You could edit the existing one if you want to make any changes.
 
-## Make sure policies are accepted by pilot
+## Make sure policies are accepted by Pilot
 
-Pilot is responsible to convert and distribute your authorization policies to proxies. Follow the below
-steps to make sure this is finished as expected:
+Pilot is responsible for converting and distributing your authorization policies to proxies. Follow
+the below steps to make sure this is finished as expected:
 
-1. Turn on debug logging for authorization in pilot
+1. Turn on debug logging for authorization in Pilot
 
-    First export the pilot `ControlZ` page with the following command:
+    First export the Pilot `ControlZ` page with the following command:
 
     {{< text bash >}}
     $ kubectl port-forward $(kubectl -n istio-system get pods -l istio=pilot -o jsonpath='{.items[0].metadata.name}') -n istio-system 9876:9876
@@ -47,12 +47,12 @@ steps to make sure this is finished as expected:
     Then start your browser and open the `ControlZ` page at `http://127.0.0.1:9876/scopez/`. Change the
     `rbac` Output Level to `debug`. After this, use `Ctrl+C` to stop the port-forward command.
 
-1. Check the related authorization debug logging in pilot
+1. Check the related authorization debug logging in Pilot
 
     > Note: You probably need to first delete and then re-apply your authorization policies so that
 the debug output is generated for these policies.
 
-    Check pilot log with the following command:
+    Check Pilot log with the following command:
 
     {{< text bash >}}
     $ kubectl logs $(kubectl -n istio-system get pods -l istio=pilot -o jsonpath='{.items[0].metadata.name}') -c discovery -n istio-system | grep rbac
@@ -72,7 +72,7 @@ the debug output is generated for these policies.
     ... ...
     {{< /text >}}
 
-    To make sure pilot is handling the authorization policies correctly:
+    To make sure Pilot is handling the authorization policies correctly:
 
     * Carefully check if there are any errors in the log.
     * Check if there is a `built filter config for` message which means a filter config is generated
@@ -80,10 +80,10 @@ the debug output is generated for these policies.
 
     Taking the above output as an example:
 
-    * pilot generated an empty config for `sleep.foo.svc.cluster.local` as there is no authorization
-      policies matched. This also means all request to it will be denied as Istio Authorization is
-      deny by default.
-    * pilot generated an config for `productpage.default.svc.cluster.local` that allows anyone to
+    * Pilot generated an empty config for `sleep.foo.svc.cluster.local` as there is no authorization
+      policies matched. This also means all requests sent to this service will be denied as Istio
+      authorization is deny by default.
+    * Pilot generated an config for `productpage.default.svc.cluster.local` that allows anyone to
       access it with GET method.
 
 ## Make sure policies are distributed to proxy
@@ -92,7 +92,7 @@ The authorization policies are eventually distributed to and enforced in proxies
 command to get the proxy config dump for the `productpage` service.
 
 > Note: The command used in this section assumes you have deployed [bookinfo application](/docs/examples/bookinfo/).
-You could replace `"-l app=productpage"` with your actual pod name to get its config dump.
+You should replace `"-l app=productpage"` with your actual pod to get its config dump.
 
 {{< text bash >}}
 $ kubectl exec  $(kubectl get pods -l app=productpage -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -- curl localhost:15000/config_dump -s
@@ -155,10 +155,10 @@ Taking the above output as an example, the productpage's proxy enabled the `envo
 filter with rules that allows anyone to access it via GET method. The `shadow_rules` is not used and
 could be ignored safely.
 
-## Make sure the request is enforced correctly
+## Make sure policies are enforced correctly
 
-The authorization is enforced right in the proxy, it's a good idea to check the runtime log to see what's
-happening during the enforcement.
+Authorization is enforced on proxies, You can check the runtime log to see what's happening during
+the enforcement.
 
 > Note: The command used in this section assumes you have deployed [bookinfo application](/docs/examples/bookinfo/).
 You could replace `"-l app=productpage"` with your actual pod name to get its config dump.
