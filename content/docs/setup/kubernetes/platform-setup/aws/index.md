@@ -1,7 +1,7 @@
 ---
 title: Amazon Web Services
 description: Instructions to setup an AWS cluster with Kops cluster for Istio.
-weight: 3
+weight: 5
 keywords: [platform-setup,aws]
 ---
 
