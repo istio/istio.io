@@ -1,6 +1,6 @@
 ---
 title: 安全
-description: 描述 Istio 的授权与认证功能。
+description: 描述 Istio 的授权与鉴权功能。
 weight: 30
 keywords: [security,authentication,authorization,rbac,access-control]
 ---
@@ -11,7 +11,7 @@ keywords: [security,authentication,authorization,rbac,access-control]
 * 加密服务和服务之间、最终用户和服务之间的通信
 * 提供密钥管理系统，完成密钥和证书的生成、分发、轮转以及吊销操作
 
-下图展示了 Istio 安全相关的架构，其中包含了三个主要的组件：认证、密钥管理以及通信加密。图中的 `frontend` 服务以 Service account `frontend-team` 的身份运行；`backend` 服务以 Service account `backend-team` 的身份运行，Istio 会对这两个服务之间的通信进行加密。除了运行在 Kubernetes 上的服务之外，Istio 还能为虚拟机和物理机上的服务提供支持。
+下图展示了 Istio 安全相关的架构，其中包含了三个主要的组件：认证、密钥管理以及通信安全。图中的 `frontend` 服务以 Service account `frontend-team` 的身份运行；`backend` 服务以 Service account `backend-team` 的身份运行，Istio 会对这两个服务之间的通信进行加密。除了运行在 Kubernetes 上的服务之外，Istio 还能为虚拟机和物理机上的服务提供支持。
 
 {{< image width="80%" ratio="56.25%"
     link="/docs/concepts/security/auth.svg"
@@ -27,13 +27,13 @@ keywords: [security,authentication,authorization,rbac,access-control]
 
 Istio 使用 [Kubernetes service account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) 来识别谁在运行服务：
 
-* Istio 中的 Service account 格式为 `spiffe://<domain>/ns/<namespace>/sa/<serviceaccount>`
+* Istio 中的 Service account 表达格式为 `spiffe://<domain>/ns/<namespace>/sa/<serviceaccount>`
+
     * _domain_ 目前是 _cluster.local_ ，我们将很快支持域的定制化。
     * _namespace_ 是 Kubernetes service account 所在的命名空间。
     * _serviceaccount_ 是 Kubernetes service account 的名称。
 
-* Service account 是**工作负载运行的身份（或角色）**，表示该工作负载的权限。对于需要强大安全性的系统，工作负载的权限不应由随机字符串（如服务名称，标签等）或部署的二进制文件来标识。
-    * 例如，假设有一个从多租户数据库中提取数据的工作负载。Alice 和 Bob 都能运行这个工作负载，从中获取数据，但是两个用户最终得到的数据是不同的。
+* Service account 是**工作负载运行的身份（或角色）**，表示该工作负载的权限。对于需要强大安全性的系统，工作负载的权限不应由随机字符串（如服务名称，标签等）或部署的二进制文件来标识。例如，假设有一个从多租户数据库中提取数据的工作负载。Alice 和 Bob 都能运行这个工作负载，从中获取数据，但是两个用户最终得到的数据是不同的。
 
 * Service account 能够灵活的识别机器、用户、工作负载或一组工作负载（不同的工作负载可以使用同一 Service account 运行），从而实现强大的安全策略。
 
@@ -53,9 +53,9 @@ Istio 中，客户端和服务端的 [Envoy](https://envoyproxy.github.io/envoy/
 
 ### 密钥管理
 
-Istio 从 0.2 版本开始支持运行于 Kubernetes、虚拟机以及物理机之上的服务。对于每个场景，会使用不同的密钥配置机制。
+Istio 支持运行于 Kubernetes、虚拟机以及物理机之上的服务。对于每个场景，会使用不同的密钥配置机制。
 
-对于运行在 Kubernetes 集群中的服务，每个集群的 Citadel（证书颁发机构）负责自动化执行密钥和证书管理流程。它主要执行四个关键操作：
+对于运行在 Kubernetes 集群中的服务，每个集群的 Citadel 会扮演证书颁发机构的角色，负责自动化执行密钥和证书管理流程。它主要执行四个关键操作：
 
 * 为每个 Service account 生成一个 [SPIFFE](https://spiffe.github.io/docs/svid) 密钥和证书
 
@@ -65,49 +65,61 @@ Istio 从 0.2 版本开始支持运行于 Kubernetes、虚拟机以及物理机�
 
 * 必要时撤销特定的密钥和证书对
 
-对于运行在虚拟机或裸机上的服务，上述四个操作会由 Citadel 和 Node agent 协作完成。
+对于运行在虚拟机或物理机上的服务，上述四个操作会由 Citadel 和 Node agent 协作完成。
 
 ### 工作流
 
-这里主要讨论安全工作流，Istio 安全工作流由部署和运行两阶段组成。Kubernetes 和虚拟机/裸机两种情况下的部署阶段是不一致的，因此我们需要分别讨论；然而一旦证书和密钥部署完成，运行阶段就是一致的了。
+Istio 安全工作流由部署和运行两阶段组成。Kubernetes 和虚拟机/裸机两种情况下的部署阶段是不一致的，因此我们需要分别讨论；然而一旦证书和密钥部署完成，接下来的运行阶段就是一致的了。
 
 #### Kubernetes 的部署阶段
 
-1. Citadel 观察 Kubernetes API Server，为每个现有和新的 Service account 创建一个 [SPIFFE](https://spiffe.github.io/docs/svid) 密钥和证书对，并将其发送到 API Server。
+1. Citadel 观察 Kubernetes API Server
+
+1. Citadel 为每个现有和新的 Service account 创建一个 [SPIFFE](https://spiffe.github.io/docs/svid) 密钥和证书对
+
+1. Citadel 将上一步新建的内容其发送到 API Server。
 
 1. 当创建 Pod 时，API Server 会根据 Service account 使用 [Kubernetes secret](https://kubernetes.io/docs/concepts/configuration/secret/) 来挂载密钥和证书对。
 
-1. [Pilot](/docs/concepts/traffic-management/pilot/) 使用适当的密钥和证书以及安全命名信息生成配置，该信息定义各个 Service account 的可运行服务，并将其传递给 Envoy。
+1. [Pilot](/docs/concepts/traffic-management/pilot/) 使用适当的密钥和证书以及安全命名信息生成配置文件，其中定义了各个 Service account 的可运行服务，并将其传递给 Envoy。
 
-### 虚拟机/物理机的部署阶段
+#### 虚拟机/物理机的部署阶段
 
 1. Citadel 创建 gRPC 服务来处理 CSR 请求。
 
-1. Node agent 创建私钥和 CSR，发送 CSR 到 Citadel 进行签署。
+1. Node agent 创建私钥和 CSR。
 
-1. Citadel 验证 CSR 中携带的证书，并签署 CSR 以生成证书。
+1. Node agent 发送 CSR 到 Citadel 进行签署。
+
+1. Citadel 验证 CSR 中携带的证书。
+
+1. Citadel 签署 CSR 以生成证书。
 
 1. Node agent 将从 Citadel 接收到的证书和私钥发送给 Envoy。
 
 1. 上述 CSR 流程定期重复，从而完成证书的轮转过程。
 
-### 运行时阶段
+#### 运行时阶段
 
 1. 来自客户端服务的出站流量被重新路由到它本地的 Envoy。
 
 1. 客户端 Envoy 与服务器端 Envoy 开始进行双向 TLS 的握手。在握手期间，它还进行安全的命名检查，以验证服务器证书中显示的服务帐户是否可以运行这一服务。
 
-1. mTLS 连接成功以后，流量将转发到服务器端 Envoy，然后通过本地 TCP 连接转发到服务器服务。
+1. 客户端 Envoy 和服务端 Envoy 建立双向 TLS 连接。
+
+1. 客户端 Envoy 把流量转发给服务端的 Envoy。
+
+1. 服务端 Envoy 通过本地 TCP 连接把流量转发给服务进程。
 
 ### 最佳实践
 
 在本节中，我们提供一些部署指南，然后讨论一个现实世界的场景。
 
-### 部署指南
+#### 部署指南
 
-* 如果有多个服务运维人员（也称为 [SRE](https://en.wikipedia.org/wiki/Site_reliability_engineering)）在集群中部署不同的服务（通常在中型或大型集群中），我们建议为每个 SRE 团队创建一个单独的 [namespace](https://en.wikipedia.org/wiki/Site_reliability_engineering)，来进行访问隔离。例如，您可以为 team1 创建一个 "team1-ns" 命名空间，为 team2 创建 "team2-ns" 命名空间，这样两个团队就无法访问对方的服务。
+如果有多个服务运维人员（也称为 [SRE](https://en.wikipedia.org/wiki/Site_reliability_engineering)）在集群中部署不同的服务（通常在中型或大型集群中），我们建议为每个 SRE 团队创建一个单独的 [namespace](https://en.wikipedia.org/wiki/Site_reliability_engineering)，来进行访问隔离。例如，您可以为 team1 创建一个 "team1-ns" 命名空间，为 team2 创建 "team2-ns" 命名空间，这样两个团队就无法访问对方的服务。
 
-* 如果 Citadel 受到威胁，则可能会在集群中暴露它管理的所有密钥和证书。我们**强烈**建议在专门的只有集群管理员才能访问的命名空间（例如 `istio-citadel-ns`）上运行 Citadel。
+> {{< warning_icon >}} 如果 Citadel 受到威胁，则可能会在集群中暴露它管理的所有密钥和证书。我们**强烈**建议在专门的只有集群管理员才能访问的命名空间（例如 `istio-citadel-ns`）上运行 Citadel。
 
 #### 示例
 
@@ -117,23 +129,102 @@ Istio 从 0.2 版本开始支持运行于 Kubernetes、虚拟机以及物理机�
 
 在这里，Citadel 为所有的命名空间提供了密钥和证书的管理功能，并在微服务之间进行了隔离。
 
-## 认证策略
+## 认证
 
-Istio 的认证策略让运维人员有机会为一或多个服务指定认证策略。Istio 的认证策略由两部分组成：
+Istio 提供了两种认证方式：
 
-* 点对点认证：验证直接连接客户端的身份。通常使用的认证机制就是 [双向 TLS](/docs/concepts/security/mutual-tls/)。
-* 来源认证：验证发起请求的原始客户端（例如最终用户、设备等）。目前源认证仅支持 JWT 方式。
+* 传输认证，或者说服务间认证：校验发起连接的直接客户端。Istio 提供了双向 TLS（mTLS）作为传输认证的全栈解决方案。可以方便的在不变更服务代码的条件下启用这一功能，该方案：
 
-Istio 对服务端进行配置，从而完成认证过程，然而他并不会在客户端做这些工作。对于双向 TLS 认证来说，用户可以使用[目标规则](/docs/concepts/traffic-management/#destination-rules)来配置客户端使用这些协议。其他情况下，应用程序需要自行负责获取用户凭据（也就是 JWT），并将获取到的凭据附加到请求之上。
+    * 为每个服务提供强认证，认证身份和角色相结合，能够在不同的集群甚至不同云上进行互操作
+    * 加密服务和服务之间、最终用户和服务之间的通信
+    * 提供密钥管理系统，完成密钥和证书的生成、分发、轮转以及吊销操作
 
-两种认证方式下的身份，通常都会输出给下一层（也就是 Citadel、Mixer）。为了简化认证规则，可以指定生效的认证规则（点对点认证或者来源认证），缺省情况下使用的是点对点认证。
+* 最终用户认证，也称为来源认证：发起请求的客户端是一个最终用户或者设备，对其身份进行校验。Istio 支持 JSON Web Token（JWT）形式的认证。
 
-认证策略保存在 Istio 的配置存储中（0.7 中使用的是 Kubernetes CRD 来实现的），控制平面来负责认证策略的分发。传播速度跟集群规模有关，从几秒钟到几分钟都有可能。在这一过程中，通信可能会有中断，也可能出现非预期的认证结果。
+### 认证架构
+
+在 Istio 服务网格中处理请求的服务，可以使用认证策略来为其指定认证需求。网格运维人员使用 `.yaml` 文件来配置这些策略。这些策略一经上传，会被保存到 Istio 的配置存储中。作为 Istio 的控制器，Pilot 会对配置存储进行监控。任何的策略变化，Pilot 都会把新的策略翻译为对应的配置格式，并告知 Sidecar 代理如何应用所需的认证机制。另外，Pilot 提供了 Istio 管理的密钥和证书的路径，并把他们安装到应用 Pod 中以便进行双向 TLS 连接。可以在 [PKI 和认证](/docs/concepts/security/#identity)一节中找到更多相关信息。Istio 会将配置异步的发送给目标端点。Sidecar 收到配置之后，Pod 就会立即启用新的认证需求。
+
+发送请求的客户端服务，要负责完成必要的认证机制。对于 JWT 认证来说，应用应该获取 JWT 凭据，并把凭据附加到请求上进行传播。Istio 提供了[目标规则](/docs/concepts/traffic-management/#destination-rules)用于应对 mTLS 认证。运维人员可以使用目标规则来要求客户端 Sidecar 使用 TLS 证书向服务器发起连接。[PKI 和认证](/docs/concepts/security/#identity)一节中介绍了更多 mTLS 的相关内容。
 
 {{< image width="80%" ratio="75%"
     link="/docs/concepts/security/authn.svg"
     caption="认证策略架构"
     >}}
+
+这两种认证信息都会被 Istio 输出，如果有其他申明也会在凭据中一起输出到下一层[鉴权](/docs/concepts/security/#authorization)，另外运维人员还可以在 mTLS 和最终用户两个甚至中选择一个提供给 Istio 用作认证主体（`principal`）。
+
+### 认证策略
+
+本节中提供了更多 Istio 认证策略方面的细节。正如[认证架构](/docs/concepts/security/#authentication-architecture)中所说的，认证策略是对服务收到的请求生效的。要在 mTLS 中指定客户端认证策略，需要在 `DetinationRule` 中设置 `TLSSettings`。[TLS 设置参考文档](/docs/reference/config/istio.networking.v1alpha3/#TLSSettings)中有更多这方面的信息。和其他的 Istio 配置一样，可以用 `.yaml` 文件的形式来编写认证策略，然后使用 `istioctl` 进行部署。
+
+下面例子中的认证策略要求 `reviews` 服务必须使用 mTLS：
+
+{{< text yaml >}}
+apiVersion: "authentication.istio.io/v1alpha1"
+kind: "Policy"
+metadata:
+  name: "reviews"
+spec:
+  targets:
+  - name: reviews
+  peers:
+  - mtls: {}
+{{< /text >}}
+
+#### 策略的存储范围
+
+Istio 可以在命名空间范围或者服务网格范围内保存认证策略：
+
+* 要制定网格范围的策略，要把 `kind` 字段设置为 `MeshPolicy`，`name` 字段设置为 `default`：
+
+    {{< text yaml >}}
+    apiVersion: "authentication.istio.io/v1alpha1"
+    kind: "MeshPolicy"
+    metadata:
+      name: "default"
+    spec:
+      peers:
+      * mtls: {}
+    {{< /text >}}
+
+* 命名空间范围的策略，`kind` 取值为 `Policy`，并且需要指定命名空间。如果没有指定，会使用缺省命名空间，例如下面的策略应用到 `ns1` 命名空间：
+
+    {{< text yaml >}}
+    apiVersion: "authentication.istio.io/v1alpha1"
+    kind: "Policy"
+    metadata:
+      name: "default"
+      namespace: "ns1"
+    spec:
+      peers:
+      + mtls: {}
+    {{< /text >}}
+
+命名空间范围的策略的影响范围仅限于同一命名空间。网格范围的策略会作用在网格中所有服务上。为了杜绝冲突和误用，网格范围的策略智能定义一条，名字必须是 `default`，`targets:` 必须为空。[目标选择器](/docs/concepts/security/#target-selectors) 一节讲述了 `targets` 的相关内容。
+
+目前在 Kubernetes 中使用了 CRD 来实现 Istio 配置。这些 CRD 自然也是受到 Kubernetes RBAC 制约的。可以阅读 [Kubernetes 文档](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) 来了解 Kubernetes 的 RBAC 机制。
+
+#### 目标选择器
+
+认证策略的目标指定了策略影响的服务范围。下面的例子展示的是 `targets:` 如何指定如下的生效范围：
+
+* `product-page` 服务的任何端口。
+* `reviews` 服务的 `9000` 端口。
+
+{{< text yaml >}}
+targets:
+ - name: product-page
+ - name: reviews
+   ports:
+   - number: 9000
+{{< /text >}}
+
+如果没有 `targets:` 一节，Istio 认为这一策略匹配生效范围内的所有服务。`targets:` 一节能用于指定策略的生效范围：
+
+* 网格范围的策略：网格范围内的策略无需目标选择器，网格之内最多只能有一个网格范围的策略。
+
+* 命名空间范围的策略：
 
 策略的的生效范围是在命名空间一级的，还可以在这一命名空间内，用目标选择器来进一步选择服务来确定策略的应用范围。这一行为是和 Kubernetes RBAC 的访问控制模型相一致的。特别需要提出的是，只有命名空间的管理员才能在为该命名空间内的服务设置策略。
 
