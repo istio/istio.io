@@ -209,9 +209,7 @@ service to _ratings v2-mysql_ that uses your database.
      following command.
 
     {{< text bash >}}
-    $ istioctl replace -f @samples/bookinfo/networking/virtual-service-ratings-mysql.yaml@
-    Updated config virtual-service/default/reviews to revision 23048537
-    Updated config virtual-service/default/ratings to revision 23048538
+    $ kubectl apply -f @samples/bookinfo/networking/virtual-service-ratings-mysql.yaml@
     {{< /text >}}
 
 The updated architecture appears below. Note that the blue arrows inside the mesh mark the traffic configured according
@@ -263,7 +261,7 @@ TCP mesh-external service entries come to our rescue.
 1.  Define a TCP mesh-external service entry:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3 $MYSQL_DB_PORT
     kind: ServiceEntry
     metadata:
@@ -284,7 +282,7 @@ TCP mesh-external service entries come to our rescue.
 1.  Review the service entry you just created and check that it contains the correct values:
 
     {{< text bash >}}
-    $ istioctl get serviceentry mysql-external -o yaml
+    $ kubectl get serviceentry mysql-external -o yaml
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -309,7 +307,7 @@ It worked! Accessing the web page of the application displays the ratings withou
 Note that you see a one-star rating for both displayed reviews, as expected. You changed the ratings to be one star to
 provide us with a visual clue that our external database is indeed being used.
 
-As with service entries for HTTP/HTTPS, you can delete and create service entries for TCP using `istioctl`, dynamically.
+As with service entries for HTTP/HTTPS, you can delete and create service entries for TCP using `kubectl`, dynamically.
 
 ## Motivation for egress TCP traffic control
 
@@ -383,7 +381,7 @@ which could be beneficial if the consuming applications expect to use that domai
 1.  Remove the virtual services:
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/networking/virtual-service-ratings-mysql.yaml@
+    $ kubectl delete -f @samples/bookinfo/networking/virtual-service-ratings-mysql.yaml@
     Deleted config: virtual-service/default/reviews
     Deleted config: virtual-service/default/ratings
     {{< /text >}}
@@ -398,7 +396,7 @@ which could be beneficial if the consuming applications expect to use that domai
 1.  Delete the service entry:
 
     {{< text bash >}}
-    $ istioctl delete serviceentry mysql-external -n default
+    $ kubectl delete serviceentry mysql-external -n default
     Deleted config: serviceentry mysql-external
     {{< /text >}}
 

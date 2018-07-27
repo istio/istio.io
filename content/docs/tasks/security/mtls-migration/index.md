@@ -67,7 +67,7 @@ In authentication policy, we have a `PERMISSIVE` mode which makes the server acc
 We need to configure the server to this mode.
 
 {{< text bash >}}
-$ cat <<EOF | istioctl create -n foo -f -
+$ cat <<EOF | kubectl apply -n foo -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
@@ -96,7 +96,7 @@ $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sle
 Configure Istio services to send mutual TLS traffic by setting `DestinationRule`.
 
 {{< text bash >}}
-$ cat <<EOF | istioctl create -n foo -f -
+$ cat <<EOF | kubectl apply -n foo -f -
 apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:
@@ -131,7 +131,7 @@ then increase the rollout scope and finally apply to all Istio client services.
 After migrating all clients to Istio services, injecting Envoy sidecar, we can lock down the `httpbin.foo` to only accept mutual TLS traffic.
 
 {{< text bash >}}
-$ cat <<EOF | istioctl create -n foo -f -
+$ cat <<EOF | kubectl apply -n foo -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:

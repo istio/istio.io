@@ -126,7 +126,7 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
 1.  Create a default route rule to route all traffic to `v1` of the service:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -200,7 +200,7 @@ log entries for `v1` and none for `v2`:
 1.  Change the route rule to mirror traffic to v2:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl replace -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -253,8 +253,8 @@ log entries for `v1` and none for `v2`:
 1.  Remove the rules:
 
     {{< text bash >}}
-    $ istioctl delete virtualservice httpbin
-    $ istioctl delete destinationrule httpbin
+    $ kubectl delete virtualservice httpbin
+    $ kubectl delete destinationrule httpbin
     {{< /text >}}
 
 1.  Shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service and client:

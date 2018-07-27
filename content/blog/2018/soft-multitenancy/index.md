@@ -196,11 +196,11 @@ Although not shown, the application namespaces will also have RBAC settings limi
 to certain resources. These RBAC settings could be set by the cluster administrator and/or
 the tenant administrator.
 
-### Using `istioctl` in a multi-tenant environment
+### Using `kubectl` in a multi-tenant environment
 
 When defining [route rules](https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/#RouteRule)
 or [destination policies](https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/#DestinationPolicy),
-it is necessary to ensure that the `istioctl` command is scoped to
+it is necessary to ensure that the `kubectl` command is scoped to
 the namespace the Istio control plane is running in to ensure the resource is created
 in the proper namespace. Additionally, the rule itself must be scoped to the tenant's namespace
 so that it will be applied properly to that tenant's mesh.  The *-i* option is used to create
@@ -213,13 +213,13 @@ For example, the following command would be required to add a route rule to the 
 namespace:
 
 {{< text bash >}}
-$ istioctl –i istio-system1 create -n ns-1 -f route_rule_v2.yaml
+$ kubectl –i istio-system1 apply -n ns-1 -f route_rule_v2.yaml
 {{< /text >}}
 
 And can be displayed using the command:
 
 {{< text bash >}}
-$ istioctl -i istio-system1 -n ns-1 get routerule
+$ kubectl -i istio-system1 -n ns-1 get routerule
 NAME                  KIND                                  NAMESPACE
 details-Default       RouteRule.v1alpha2.config.istio.io    ns-1
 productpage-default   RouteRule.v1alpha2.config.istio.io    ns-1
