@@ -41,18 +41,42 @@ If you are unable to use the dump script, please attach your own archive
 containing:
 
 * Pods, services, deployments, and endpoints across all namespaces:
-  `kubectl get pods,services,deployments,endpoints --all-namespaces -o yaml > k8s_resources.yaml`
+
+    {{< text bash >}}
+    $ kubectl get pods,services,deployments,endpoints --all-namespaces -o yaml > k8s_resources.yaml
+    {{< /text >}}
+
 * Secret names in `istio-system`:
-  `kubectl --namespace istio-system get secrets`
+
+    {{< text bash >}}
+    $ kubectl --namespace istio-system get secrets
+    {{< /text >}}
+
 * Config maps in `istio-system`:
-  `kubectl --namespace istio-system get cm -o yaml`
+
+    {{< text bash >}}
+    $ kubectl --namespace istio-system get cm -o yaml
+    {{< /text >}}
+
 * Current and previous logs from all istio components and sidecar
+
 * Mixer logs:
-    * `kubectl logs -n istio-system -l istio=mixer -c mixer`
-    * `kubectl logs -n istio-system -l istio=policy -c mixer`
-    * `kubectl logs -n istio-system -l istio=telemetry -c mixer`
+
+    {{< text bash >}}
+    $ kubectl logs -n istio-system -l istio=mixer -c mixer
+    $ kubectl logs -n istio-system -l istio=policy -c mixer
+    $ kubectl logs -n istio-system -l istio=telemetry -c mixer
+    {{< /text >}}
+
 * Pilot logs:
-    * `kubectl logs -n istio-system -l istio=pilot -c discovery`
-    * `kubectl logs -n istio-system -l istio=pilot -c istio-proxy`
-* All Istio configuration artifacts.
-    * `kubectl get $(kubectl get crd  --no-headers | awk '{printf "%s,",$1}END{printf "attributemanifests.config.istio.io\n"}') --all-namespaces`
+
+    {{< text bash >}}
+    $ kubectl logs -n istio-system -l istio=pilot -c discovery
+    $ kubectl logs -n istio-system -l istio=pilot -c istio-proxy
+    {{< /text >}}
+
+* All Istio configuration artifacts:
+
+    {{< text bash >}}
+    $ kubectl get $(kubectl get crd  --no-headers | awk '{printf "%s,",$1}END{printf "attributemanifests.config.istio.io\n"}') --all-namespaces
+    {{< /text >}}
