@@ -11,7 +11,7 @@
                                 <div class="row">
                                     {{ range . }}
                                         <div class="col-xs-12 col-sm-6 col-xl-4">
-                                            <p class="link"><a href="{{ .RelPermalink }}">{{ .Title }}</a></p>
+                                            <p class="link"><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></p>
                                             <p class="desc">{{ .Description }}</p>
                                         </div>
                                     {{ end }}
@@ -30,13 +30,13 @@
                         <div class="col-6 pagenav">
                             {{ if .NextInSection }}
                                 <p><a title="{{ .NextInSection.Description }}" href="{{ .NextInSection.URL }}">
-                                    <i class="fa fa-long-arrow-alt-left"></i> {{ .NextInSection.Title }}</a>
+                                    <i class="fa fa-long-arrow-alt-left"></i> {{ .NextInSection.LinkTitle }}</a>
                                 </p>
                             {{ end }}
                         </div>
                         <div class="col-6 pagenav" style="text-align: right">
                             {{ if .PrevInSection }}
-                                <p><a title="{{ .PrevInSection.Description }}" href="{{ .PrevInSection.URL }}">{{ .PrevInSection.Title }}
+                                <p><a title="{{ .PrevInSection.Description }}" href="{{ .PrevInSection.URL }}">{{ .PrevInSection.LinkTitle }}
                                     <i class="fa fa-long-arrow-alt-right"></i></a>
                                 </p>
                             {{ end }}
