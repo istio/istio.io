@@ -1,12 +1,9 @@
 ---
-title: Troubleshooting Guide
-description: Advice on tackling common problems with Istio
-weight: 40
+title: Miscellaneous
+description: Advice on tackling common problems with Istio.
+weight: 90
 force_inline_toc: true
-draft: true
 ---
-
-Below is a list of solutions to common problems.
 
 ## 503 errors while reconfiguring service routes
 
