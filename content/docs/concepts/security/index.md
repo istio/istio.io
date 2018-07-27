@@ -317,7 +317,7 @@ storage:
       name: "default"
     spec:
       peers:
-      * mtls: {}
+      - mtls: {}
     {{< /text >}}
 
 - Namespace-scope policy is specified with a value of `"Policy"` for the `kind`
@@ -332,7 +332,7 @@ storage:
       namespace: "ns1"
     spec:
       peers:
-      + mtls: {}
+      - mtls: {}
     {{< /text >}}
 
 Policies in the namespace-scope storage can only affect services in the same
