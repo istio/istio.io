@@ -431,7 +431,13 @@ spec:
   hosts:
   - ratings
   http:
-  - fault:
+  - match:
+    - sourceLabels:
+        app: reviews
+        version: v2
+    fault:
+      delay:
+        fixedDelay: 5s
       abort:
         percent: 10
         httpStatus: 400
