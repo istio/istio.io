@@ -7,6 +7,7 @@ aliases:
   - /release-notes
   - /docs/welcome/notes/index.html
   - /docs/references/notes
+page_icon: /img/notes.svg
 ---
 
 - [Istio 1.0](./1.0)
