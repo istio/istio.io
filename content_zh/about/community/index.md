@@ -62,5 +62,12 @@ Istio 是一个开源项目，拥有一个支持其使用和持续开发的活�
         <a href="https://github.com/istio/community/blob/master/WORKING-GROUPS.md">工作组 </a>。
       </td>
     </tr>
+    <tr>
+      <td class="logo">{{< inline_image "community/servicemesher.svg" >}}</td>
+      <td class="desc">
+        中文内容由
+        <a href="http://www.servicemesher.com">ServiceMesher 社区</a> 维护，加入我们并参与进来吧！
+      </td>
+    </tr>
   </tbody>
 </table>

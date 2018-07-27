@@ -6,4 +6,5 @@ type: section-index
 aliases:
     - /docs/samples/index.html
     - /docs/guides/index.html
+page_icon: /img/examples.svg
 ---

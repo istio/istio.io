@@ -10,6 +10,13 @@
           visibility: hidden;
     }
 
+    h2[id]:before {
+        width: 2.5rem;
+        border-bottom: 4px solid $mainBrandColor;
+        margin-bottom: .8rem;
+        visibility: visible;
+    }
+
     html {
         overflow-y: scroll;
         position: relative;
@@ -19,7 +26,7 @@
     body {
         padding-top: $headerHeight;
         margin-bottom: calc(#{$footerHeight} + 3rem);
-        font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-family: "work Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
         color: $textColor;
         background-color: $backgroundColor;
     }
@@ -29,6 +36,7 @@ a {
     color: $linkColor;
     text-decoration: none;
     font-weight: $linkWeight;
+    font-family: "Chivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 a:hover, a:focus {
@@ -215,15 +223,16 @@ div.toolbar {
     }
 
     button.copy {
-        right: 1.3em;
+        right: 2.2rem;
+        width: 3rem;
     }
 
     button.download {
-        right: 3.3em;
+        right: 5.5rem;
     }
 
     button.print {
-        right: 5.4em;
+        right: 7.4rem;
     }
 }
 
@@ -269,17 +278,14 @@ h1 {
     font-size: $font-size--xxl;
     color: $h1Color;
     font-weight: $h1Weight;
-    margin: 30px 0;
 }
 
 h2 {
     font-size: $font-size--xl;
     color: $h2Color;
     font-weight: $h2Weight;
-    margin-bottom: 20px;
-    margin-top: 30px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid $h2UnderlineColor;
+    margin-top: 3rem;
+    margin-bottom: 1.8rem;
 }
 
 h3 {
@@ -438,4 +444,10 @@ blockquote {
     pre, blockquote, img {
         page-break-inside: avoid;
     }
+}
+
+img.page_icon {
+    width: 1em;
+    height: 1em;
+    display:inline;
 }
