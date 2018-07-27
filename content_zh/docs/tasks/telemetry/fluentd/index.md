@@ -1,48 +1,26 @@
 ---
-title: Logging with Fluentd
-description: This task shows you how to configure Istio to log to a Fluentd daemon
+title: 使用 Fluentd 记录日志
+description: 此任务将展示如何配置 Istio 将日志记录到 Fluentd 守护进程。
 weight: 60
 keywords: [telemetry,logging]
 ---
 
-This task shows how to configure Istio to create custom log entries
-and send them to a [Fluentd](https://www.fluentd.org/) daemon. Fluentd
-is an open source log collector that supports many [data
-outputs](https://www.fluentd.org/dataoutputs) and has a pluggable
-architecture. One popular logging backend is
-[Elasticsearch](https://www.elastic.co/products/elasticsearch), and
-[Kibana](https://www.elastic.co/products/kibana) as a viewer. At the
-end of this task, a new log stream will be enabled sending logs to an
-example Fluentd / Elasticsearch / Kibana stack.
+此任务将展示如何配置 Istio 创建自定义日志条目并且发送给 [Fluentd](https://www.fluentd.org/) 守护进程。
+Fluentd 是一个开源的日志收集器，支持多种[数据输出](https://www.fluentd.org/dataoutputs)并且有一个可插拔架构。
+[Elasticsearch](https://www.elastic.co/products/elasticsearch)是一个流行的后端日志记录程序，
+[Kibana](https://www.elastic.co/products/kibana) 用于查看。在任务结束后，一个新的日志流将被加载发送日志到示例 Fluentd/Elasticsearch/Kibana 软件栈。
 
-The [Bookinfo](/docs/examples/bookinfo/) sample application is used
-as the example application throughout this task.
+在任务中，将使用 [BookInfo](/docs/examples/bookinfo/) 示例应用程序作为示例应用程序。
 
-## Before you begin
+## 在开始之前
 
-* [Install Istio](/docs/setup/) in your cluster and deploy an
-  application. This task assumes that Mixer is setup in a default configuration
-  (`--configDefaultNamespace=istio-system`). If you use a different
-  value, update the configuration and commands in this task to match the value.
+* [安装 Istio](/docs/setup/) 到您的集群并且部署一个应用程序。这个任务假定 Mixer 是以默认配置设置的(`--configDefaultNamespace=istio-system`)。如果您使用不同的值，则更新此任务中的配置和命令以匹配对应的值。
 
-## Setup Fluentd
+## 安装 Fluentd
 
-In your cluster, you may already have a Fluentd daemon set running,
-such the add-on described
-[here](https://kubernetes.io/docs/tasks/debug-application-cluster/logging-elasticsearch-kibana/)
-and
-[here](https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/fluentd-elasticsearch),
-or something specific to your cluster provider. This is likely
-configured to send logs to an Elasticsearch system or logging
-provider.
+在您的集群中，您可能已经有一个 Fluentd daemon set 运行，就像 add-on 中[这里](https://kubernetes.io/docs/tasks/debug-application-cluster/logging-elasticsearch-kibana/) 和[这里](https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/fluentd-elasticsearch) 的描述，或者特定于您的集群提供方的东西。这可能配置为将日志发送到 Elasticsearch 系统或其它日志记录提供程序。
 
-You may use these Fluentd daemons, or any other Fluentd daemon you
-have set up, as long as they are listening for forwarded logs, and
-Istio's Mixer is able to connect to them. In order for Mixer to
-connect to a running Fluentd daemon, you may need to add a
-[service](https://kubernetes.io/docs/concepts/services-networking/service/)
-for Fluentd. The Fluentd configuration to listen for forwarded logs
-is:
+您可以使用这些 Fluentd 守护进程或您已经设置的任何其他 Fluentd 守护进程，只要 Fluentd 守护进程正在监听转发的日志，并且 Istio 的 Mixer 可以连接 Fluentd 守护进程。为了让 Mixer 连接到正在运行的 Fluentd 守护进程, 您可能需要为 Fluentd 添加 [service](https://kubernetes.io/docs/concepts/services-networking/service/)。监听转发日志的 Fluentd 配置是:
 
 {{< text xml >}}
 <source>
@@ -50,25 +28,18 @@ is:
 </source>
 {{< /text >}}
 
-The full details of connecting Mixer to all possible Fluentd
-configurations is beyond the scope of this task.
+将 Mixer 连接到所有可能 Fluentd 配置的完整细节超出了此任务的范围。
 
-### Example Fluentd, Elasticsearch, Kibana Stack
+### Fluentd/Elasticsearch/Kibana 软件栈
 
-For the purposes of this task, you may deploy the example stack
-provided. This stack includes Fluentd, Elasticsearch, and Kibana in a
-non production-ready set of
-[Services](https://kubernetes.io/docs/concepts/services-networking/service/)
-and
-[Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
-all in a new
-[Namespace](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/)
-called `logging`.
+为了这个任务的准备，您可以部署提供的示例软件栈。
 
-Save the following as `logging-stack.yaml`.
+该栈包括 Fluentd，Elasticsearch 和 Kibana 在一个非生产集合 [Services](https://kubernetes.io/docs/concepts/services-networking/service/) 和 [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) 在一个新的叫做`logging`的  [Namespace](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/) 中。
+
+将下面的内容保存为 `logging-stack.yaml`.
 
 {{< text yaml >}}
-# Logging Namespace. All below are a part of this namespace.
+# Logging 命名空间。下面的资源都是这个命名空间的一部分。
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -190,7 +161,7 @@ spec:
         configMap:
           name: fluentd-es-config
 ---
-# Fluentd ConfigMap, contains config files.
+# Fluentd ConfigMap, 包含了配置文件。
 kind: ConfigMap
 apiVersion: v1
 data:
@@ -273,7 +244,9 @@ spec:
 ---
 {{< /text >}}
 
-Create the resources:
+创建资源:
+
+<div class="workaround_for_hugo_bug">
 
 {{< text bash >}}
 $ kubectl apply -f logging-stack.yaml
@@ -287,17 +260,18 @@ service "kibana" created
 deployment "kibana" created
 {{< /text >}}
 
-## Configure Istio
+</div>
 
-Now that there is a running Fluentd daemon, configure Istio with a new
-log type, and send those logs to the listening daemon. Create a new
-YAML file to hold configuration for the log stream that
-Istio will generate and collect automatically.
+## 配置 Istio
 
-Save the following as `fluentd-istio.yaml`:
+现在有一个正在运行的 Fluentd 守护进程，请使用新的日志类型配置 Istio，并将这些日志发送到监听守护进程。
+
+创建一个新的 YAML 文件来保存日志流的配置，Istio 将自动生成并收集。
+
+将下面的内容保存为 `fluentd-istio.yaml`:
 
 {{< text yaml >}}
-# Configuration for logentry instances
+# logentry 实例的配置
 apiVersion: "config.istio.io/v1alpha2"
 kind: logentry
 metadata:
@@ -307,15 +281,15 @@ spec:
   severity: '"info"'
   timestamp: request.time
   variables:
-    source: source.labels["app"] | source.workload.name | "unknown"
+    source: source.labels["app"] | source.service | "unknown"
     user: source.user | "unknown"
-    destination: destination.labels["app"] | destination.workload.name | "unknown"
+    destination: destination.labels["app"] | destination.service | "unknown"
     responseCode: response.code | 0
     responseSize: response.size | 0
     latency: response.duration | "0ms"
   monitored_resource_type: '"UNSPECIFIED"'
 ---
-# Configuration for a fluentd handler
+# fluentd handler 的配置
 apiVersion: "config.istio.io/v1alpha2"
 kind: fluentd
 metadata:
@@ -324,7 +298,7 @@ metadata:
 spec:
   address: "fluentd-es.logging:24224"
 ---
-# Rule to send logentry instances to the fluentd handler
+# 发送 logentry 实例到 fluentd handler 的规则
 apiVersion: "config.istio.io/v1alpha2"
 kind: rule
 metadata:
@@ -339,7 +313,7 @@ spec:
 ---
 {{< /text >}}
 
-Create the resources:
+创建资源:
 
 {{< text bash >}}
 $ istioctl create -f fluentd-istio.yaml
@@ -348,60 +322,47 @@ Created config fluentd/istio-system/handler at revision 22375
 Created config rule/istio-system/newlogtofluentd at revision 22376
 {{< /text >}}
 
-Notice that the `address: "fluentd-es.logging:24224"` line in the
-handler config is pointing to the Fluentd daemon we setup in the
-example stack.
+请注意在处理程序配置中 `address: "fluentd-es.logging:24224"` 行指向我们设置的 Fluentd 守护进程示例软件栈。
 
-## View the new logs
+## 查看新的日志
 
-1.  Send traffic to the sample application.
+1. 将流量发送到示例应用程序。
 
-    For the
-    [Bookinfo](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)
-    sample, visit `http://$GATEWAY_URL/productpage` in your web browser
-    or issue the following command:
+   对于 [BookInfo](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)
+   示例, 在浏览器中访问 `http://$GATEWAY_URL/productpage` 或发送以下命令:
 
     {{< text bash >}}
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
 
-1.  In a Kubernetes environment, setup port-forwarding for Kibana by
-    executing the following command:
+1. 在 Kubernetes 环境中, 通过以下命令为 Kibana 建立端口转发:
 
     {{< text bash >}}
-    $ kubectl -n logging port-forward $(kubectl -n logging get pod -l app=kibana -o jsonpath='{.items[0].metadata.name}') 5601:5601 &
+    $ kubectl -n logging port-forward $(kubectl -n logging get pod -l app=kibana -o jsonpath='{.items[0].metadata.name}') 5601:5601
     {{< /text >}}
 
-    Leave the command running. Press Ctrl-C to exit when done accessing the Kibana UI.
+    让命令继续运行。完成访问 Kibana UI 时按下 Ctrl-C 退出。
 
-1. Navigate to the [Kibana UI](http://localhost:5601/) and click the "Set up index patterns" in the top right.
+1. 导航到 [Kibana UI](http://localhost:5601/) 并点击 右上角的 "Set up index patterns"。
 
-1. Use `*` as the index pattern, and click "Next step.".
+1. 使用 `*` 作为索引模式, 并单击 "Next step."。
 
-1. Select `@timestamp` as the Time Filter field name, and click "Create index pattern."
+1. 选择 `@timestamp` 作为时间筛选字段名称，然后单击 "Create index pattern"。
 
-1. Now click "Discover" on the left menu, and start exploring the logs generated
+1. 现在在左侧的菜单上点击 "Discover"，并开始检索生成的日志。
 
-## Cleanup
+## 清理
 
-*   Remove the new telemetry configuration:
+* 删除新的遥测配置:
 
     {{< text bash >}}
     $ istioctl delete -f fluentd-istio.yaml
     {{< /text >}}
 
-*   Remove the example Fluentd, Elasticsearch, Kibana stack:
+* 删除 Fluentd, Elasticsearch, Kibana 示例软件栈:
 
     {{< text bash >}}
     $ kubectl delete -f logging-stack.yaml
     {{< /text >}}
 
-*   Remove any `kubectl port-forward` processes that may still be running:
-
-    {{< text bash >}}
-    $ killall kubectl
-    {{< /text >}}
-
-* If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
-  to shutdown the application.
+* 如果您不打算探索任何后续任务，可以参考 [Bookinfo 清理](/docs/examples/bookinfo/#cleanup) 步骤去关闭程序。

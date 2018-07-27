@@ -11,47 +11,53 @@
     {{ $page.Scratch.Set "seeAlso" false }}
 {{ end }}
 
-{{ $headers := findRE "<h[23456].*?id=\".*?\".*?>.*?</h[23456]>" $page.Content }}
-{{ $len := len $headers }}
+{{ if $page.Params.skip_seealso }}
+    {{ $page.Scratch.Set "seeAlso" false }}
+{{ end }}
 
-{{ if or (gt $len 0) ($page.Scratch.Get "seeAlso") }}
-    {{ $page.Scratch.Set "needTOC" true }}
-    <nav id="TableOfContents">
-        <ul>
-            {{ $page.Scratch.Set "level" 50 }}
-            {{ range $h := $headers }}
-                {{ $level := index (index (findRE "<h[23456].*?" $h) 0) 2 | int }}
-                {{ $id := replaceRE "<h[23456].*?id=\"(.*?)\".*?>.*?</h[23456]>" "$1" $h }}
-                {{ $title := replaceRE "<h[23456].*?>(.*?)</h[23456]>" "$1" $h }}
-                {{ $current := $page.Scratch.Get "level" | int }}
+{{ if not $page.Params.skip_toc }}
+    {{ $headers := findRE "<h[23456].*?id=\".*?\".*?>.*?</h[23456]>" $page.Content }}
+    {{ $len := len $headers }}
 
-                {{ if gt $level $current }}
-                    {{ $delta := sub $level $current }}
-                    {{ range $index, $num := (seq $delta) }}
-                        <ul>
+    {{ if or (gt $len 0) ($page.Scratch.Get "seeAlso") }}
+        {{ $page.Scratch.Set "needTOC" true }}
+        <nav id="TableOfContents">
+            <ul>
+                {{ $page.Scratch.Set "level" 50 }}
+                {{ range $h := $headers }}
+                    {{ $level := index (index (findRE "<h[23456].*?" $h) 0) 2 | int }}
+                    {{ $id := replaceRE "<h[23456].*?id=\"(.*?)\".*?>.*?</h[23456]>" "$1" $h }}
+                    {{ $title := replaceRE "<h[23456].*?>(.*?)</h[23456]>" "$1" $h }}
+                    {{ $current := $page.Scratch.Get "level" | int }}
+
+                    {{ if gt $level $current }}
+                        {{ $delta := sub $level $current }}
+                        {{ range $index, $num := (seq $delta) }}
+                            <ul>
+                        {{ end }}
+                    {{ else if lt $level $current }}
+                        {{ $delta := sub $current $level }}
+                        {{ range $index, $num := (seq $delta) }}
+                            </ul>
+                        {{ end }}
                     {{ end }}
-                {{ else if lt $level $current }}
-                    {{ $delta := sub $current $level }}
-                    {{ range $index, $num := (seq $delta) }}
-                        </ul>
-                    {{ end }}
+
+                    <li><a href="#{{ $id }}">{{ $title | safeHTML }}</a></li>
+
+                    {{ $page.Scratch.Set "level" $level }}
                 {{ end }}
 
-                <li><a href="#{{ $id }}">{{ $title | safeHTML }}</a></li>
-
-                {{ $page.Scratch.Set "level" $level }}
-            {{ end }}
-
-            {{ $delta := sub ($page.Scratch.Get "level") 50 }}
-            {{ range $index, $num := (seq $delta) }}
-                </ul>
-            {{ end }}
-
-            {{ if $page.Scratch.Get "seeAlso" }}
-                {{ with $related }}
-                    <li><a href="#see-also">See also</a></li>
+                {{ $delta := sub ($page.Scratch.Get "level") 50 }}
+                {{ range $index, $num := (seq $delta) }}
+                    </ul>
                 {{ end }}
-            {{ end }}
-        </ul>
-    </nav>
+
+                {{ if $page.Scratch.Get "seeAlso" }}
+                    {{ with $related }}
+                        <li><a href="#see-also">See also</a></li>
+                    {{ end }}
+                {{ end }}
+            </ul>
+        </nav>
+    {{ end }}
 {{ end }}

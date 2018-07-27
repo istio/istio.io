@@ -2,6 +2,8 @@
 title: Minikube
 description: Instructions to setup Minikube for use with Istio.
 weight: 15
+skip_toc: true
+skip_seealso: true
 keywords: [platform-setup,kubernetes,minikube]
 ---
 
