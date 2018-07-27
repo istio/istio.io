@@ -48,10 +48,8 @@ weight: 92
 
 - 增强和 bug 修复：
 
-    - `kubeconfig` 处理向 `kubectl` 看齐
-
+    - `istioctl` 和 `kubectl` 对 `kubeconfig` 的使用相同。
     - `istioctl get all`  返回网络和身份验证配置的所有类型。
-
     - 在 `istioctl get` 命令中添加 `--all-namespaces` 标志，可用于检索所有 namespace 中的资源。
 
 ## 1.0 的已知问题
