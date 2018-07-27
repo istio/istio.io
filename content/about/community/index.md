@@ -71,7 +71,7 @@ There are quite a few ways to get plugged in:
     <tr>
       <td class="logo">{{< inline_image "community/servicemesher.svg" >}}</td>
       <td class="desc">
-        Chinese content is maintained by the
+        Our Chinese-language documentation is maintained by the
         <a href="http://www.servicemesher.com">ServiceMesher community</a>, join us and get involved!
       </td>
     </tr>
