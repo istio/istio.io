@@ -33,9 +33,6 @@ in a round robin fashion.
 To route to one version only, you apply virtual services that set the default version for the microservices.
 In this case, the virtual services will route all traffic to `v1` of each microservice.
 
- > Before continuing, be sure you don't have any existing virtual services applied
-to the Bookinfo app. If you already created conflicting virtual services for Bookinfo, you must use `replace` rather than `create` in the following command.
-
 1.  Run the following command to apply the virtual services:
 
     {{< text bash >}}
