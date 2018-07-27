@@ -258,8 +258,8 @@ deployment "fluentd-es" created
 configmap "fluentd-es-config" created
 service "kibana" created
 deployment "kibana" created
-
 {{< /text >}}
+
 </div>
 
 ## 配置 Istio
