@@ -50,7 +50,7 @@ Note that the Google Books web service is outside the Istio service mesh, the bo
 Now let's direct all the traffic destined to the _details_ microservice, to _details version v2_, using the following _route rule_:
 
 {{< text bash >}}
-$ cat <<EOF | istioctl create -f -
+$ cat <<EOF | kubectl apply -f -
 apiVersion: config.istio.io/v1alpha2
 kind: RouteRule
 metadata:
@@ -83,7 +83,7 @@ So what might have gone wrong? Ah... The answer is that I forgot to enable traff
 No worries, let's define an **egress rule** and fix our application:
 
 {{< text bash >}}
-$ cat <<EOF | istioctl create -f -
+$ cat <<EOF | kubectl apply -f -
 apiVersion: config.istio.io/v1alpha2
 kind: EgressRule
 metadata:
@@ -110,7 +110,7 @@ Note that our egress rule allows traffic to any domain matching _*.googleapis.co
 We can query our egress rules:
 
 {{< text bash >}}
-$ istioctl get egressrules
+$ kubectl get egressrules
 NAME        KIND                                NAMESPACE
 googleapis  EgressRule.v1alpha2.config.istio.io default
 {{< /text >}}
@@ -118,7 +118,7 @@ googleapis  EgressRule.v1alpha2.config.istio.io default
 We can delete our egress rule:
 
 {{< text bash >}}
-$ istioctl delete egressrule googleapis -n default
+$ kubectl delete egressrule googleapis -n default
 Deleted config: egressrule googleapis
 {{< /text >}}
 

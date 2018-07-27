@@ -95,7 +95,7 @@ keywords: [traffic-management,egress]
 
 ### 为外部服务设置路由规则
 
-通过 `ServiceEntry` 访问外部服务的流量，和网格内流量类似，都可以进行 Istio [路由规则](/docs/concepts/traffic-management/#rule-configuration) 的配置。下面我们使用 [istioctl](/docs/reference/commands/istioctl/) 为 httpbin.org 服务设置一个超时规则。
+通过 `ServiceEntry` 访问外部服务的流量，和网格内流量类似，都可以进行 Istio [路由规则](/docs/concepts/traffic-management/#rule-configuration) 的配置。下面我们使用 [`istioctl`](/docs/reference/commands/istioctl/) 为 httpbin.org 服务设置一个超时规则。
 
 1. 在测试 Pod 内部，调用 httpbin.org 这一外部服务的 `/delay` 端点：
 

@@ -391,20 +391,20 @@ resource for the destination.
 old routing rules:
 
 {{< text bash >}}
-$ istioctl create -f my-second-rule-for-destination-abc.yaml
+$ kubectl apply -f my-second-rule-for-destination-abc.yaml
 {{< /text >}}
 
 `v1alpha3` routing rules:
 
 {{< text bash >}}
-$ istioctl replace -f my-updated-rules-for-destination-abc.yaml
+$ kubectl apply -f my-updated-rules-for-destination-abc.yaml
 {{< /text >}}
 
-Deleting route rules other than the last one for a particular destination is also done using `istioctl replace`.
+Deleting route rules other than the last one for a particular destination is also done using `kubectl apply`.
 
 When adding or removing routes that refer to service versions, the `subsets` will need to be updated in
 the service's corresponding `DestinationRule`.
-As you might have guessed, this is also done using `istioctl replace`.
+As you might have guessed, this is also done using `kubectl apply`.
 
 ## Summary
 

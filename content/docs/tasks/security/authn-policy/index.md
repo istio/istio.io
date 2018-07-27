@@ -91,7 +91,7 @@ $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml | gr
 To set a mesh-wide authentication policy that enables mutual TLS, submit *mesh authentication policy* like below:
 
 {{< text bash >}}
-$ cat <<EOF | istioctl create -f -
+$ cat <<EOF | kubectl apply -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "MeshPolicy"
 metadata:
@@ -121,7 +121,7 @@ multiple destination rules, one for each applicable service (or namespace). Howe
 services so that it is on par with the mesh-wide authentication policy.
 
 {{< text bash >}}
-$ cat <<EOF | istioctl create -f -
+$ cat <<EOF | kubectl apply -f -
 apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:
@@ -188,7 +188,7 @@ sleep.bar to httpbin.legacy: 503
 To fix this issue, we can add a destination rule to overwrite the TLS setting for `httpbin.legacy`. For example:
 
 {{< text bash >}}
-$ cat <<EOF | istioctl create -f -
+$ cat <<EOF | kubectl apply -f -
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -216,7 +216,7 @@ command terminated with exit code 35
 Again, we can correct this by overriding the destination rule for the API server (`kubernetes.default`)
 
 {{< text bash >}}
-$ cat <<EOF | istioctl create -f -
+$ cat <<EOF | kubectl apply -f -
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -260,7 +260,7 @@ The example below shows the policy to enable mutual TLS for all services in name
 and specifies a namespace, in this case, `foo`. If you don’t specify a namespace value the policy will apply to the default namespace.
 
 {{< text bash >}}
-$ cat <<EOF | istioctl create -f -
+$ cat <<EOF | kubectl apply -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
@@ -277,7 +277,7 @@ EOF
 Add corresponding destination rule:
 
 {{< text bash >}}
-$ cat <<EOF | istioctl create -f -
+$ cat <<EOF | kubectl apply -f -
 apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:
@@ -314,7 +314,7 @@ sleep.legacy to httpbin.legacy: 200
 You can also set authentication policy and destination rule for a specific service. Run this command to set another policy only for `httpbin.bar` service.
 
 {{< text bash >}}
-$ cat <<EOF | istioctl create -n bar -f -
+$ cat <<EOF | kubectl apply -n bar -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
@@ -330,7 +330,7 @@ EOF
 And a destination rule:
 
 {{< text bash >}}
-$ cat <<EOF | istioctl create -n bar -f -
+$ cat <<EOF | kubectl apply -n bar -f -
 apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:
@@ -359,7 +359,7 @@ If we have more services in namespace `bar`, we should see traffic to them won't
 we edit the policy slightly to apply on a specific port:
 
 {{< text bash >}}
-$ cat <<EOF | istioctl replace -n bar -f -
+$ cat <<EOF | kubectl apply -n bar -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
@@ -377,7 +377,7 @@ EOF
 And a corresponding change to the destination rule:
 
 {{< text bash >}}
-$ cat <<EOF | istioctl replace -n bar -f -
+$ cat <<EOF | kubectl apply -n bar -f -
 apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:
@@ -410,7 +410,7 @@ Note that you've already created a namespace-wide policy that enables mutual TLS
 `sleep.legacy` to `httpbin.foo` are failing (see above).
 
 {{< text bash >}}
-$ cat <<EOF | istioctl create -n foo -f -
+$ cat <<EOF | kubectl apply -n foo -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
@@ -424,7 +424,7 @@ EOF
 and destination rule:
 
 {{< text bash >}}
-$ cat <<EOF | istioctl create -n foo -f -
+$ cat <<EOF | kubectl apply -n foo -f -
 apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:
@@ -464,7 +464,7 @@ this tutorial, we use this [JWT test]({{< github_file >}}/security/tools/jwt/sam
 Also, for convenience, expose `httpbin.foo` via ingressgateway (for more details, see the [ingress task](/docs/tasks/traffic-management/ingress/)).
 
 {{< text bash >}}
-$ cat <<EOF | istioctl create -f -
+$ cat <<EOF | kubectl apply -f -
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -484,7 +484,7 @@ EOF
 {{< /text >}}
 
 {{< text bash >}}
-$ cat <<EOF | istioctl create -f -
+$ cat <<EOF | kubectl apply -f -
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -521,7 +521,7 @@ Now, add a policy that requires end-user JWT for `httpbin.foo`. The next command
 be the case if you run [cleanup](#cleanup-part-2) as described). You can run `kubectl get policies.authentication.istio.io -n foo` to confirm.
 
 {{< text bash >}}
-$ cat <<EOF | istioctl create -n foo -f -
+$ cat <<EOF | kubectl apply -n foo -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
@@ -576,7 +576,7 @@ $ for i in `seq 1 10`; do curl --header "Authorization: Bearer $TOKEN" $INGRESS_
 End-user authentication and mutual TLS can be used together. Modify the policy above to define both mutual TLS and end-user JWT authentication:
 
 {{< text bash >}}
-$ cat <<EOF | istioctl replace -n foo -f -
+$ cat <<EOF | kubectl apply -n foo -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
@@ -599,7 +599,7 @@ EOF
 And add a destination rule:
 
 {{< text bash >}}
-$ cat <<EOF | istioctl create -f -
+$ cat <<EOF | kubectl apply -f -
 apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:

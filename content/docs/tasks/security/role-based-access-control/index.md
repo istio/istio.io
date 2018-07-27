@@ -35,7 +35,7 @@ microservices running under them.
     $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-add-serviceaccount.yaml@)
     {{< /text >}}
 
-> If you are using a namespace other than `default`, use `istioctl -n namespace ...` to specify the namespace.
+> If you are using a namespace other than `default`, use `kubectl -n namespace ...` to specify the namespace.
 
 * There is a major update to RBAC in Istio 1.0. Please make sure to remove any existing RBAC config before continuing.
 
@@ -71,10 +71,8 @@ for the list of supported keys in `constraints` and `properties`.
 Run the following command to enable Istio authorization for "default" namespace:
 
 {{< text bash >}}
-$ istioctl create -f @samples/bookinfo/platform/kube/rbac/rbac-config-ON.yaml@
+$ kubectl apply -f @samples/bookinfo/platform/kube/rbac/rbac-config-ON.yaml@
 {{< /text >}}
-
-> If you have conflicting rules that you set in previous tasks, use `istioctl replace` instead of `istioctl create`.
 
 Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). Now you should see
 `"RBAC: access denied"`. This is because Istio authorization is "deny by default", which means that you need to
@@ -95,7 +93,7 @@ is accessible by services in the same namespace (i.e., "default" namespace) and 
 Run the following command to create a namespace-level access control policy:
 
 {{< text bash >}}
-$ istioctl create -f @samples/bookinfo/platform/kube/rbac/namespace-policy.yaml@
+$ kubectl apply -f @samples/bookinfo/platform/kube/rbac/namespace-policy.yaml@
 {{< /text >}}
 
 The policy does the following:
@@ -155,7 +153,7 @@ with "Book Details" section in the lower left part and "Book Reviews" section in
 Remove the following configuration before you proceed to the next task:
 
 {{< text bash >}}
-$ istioctl delete -f @samples/bookinfo/platform/kube/rbac/namespace-policy.yaml@
+$ kubectl delete -f @samples/bookinfo/platform/kube/rbac/namespace-policy.yaml@
 {{< /text >}}
 
 ## Service-level access control
@@ -175,7 +173,7 @@ In this step, we will create a policy that allows external requests to view `pro
 Run the following command:
 
 {{< text bash >}}
-$ istioctl create -f @samples/bookinfo/platform/kube/rbac/productpage-policy.yaml@
+$ kubectl apply -f @samples/bookinfo/platform/kube/rbac/productpage-policy.yaml@
 {{< /text >}}
 
 The policy does the following:
@@ -226,7 +224,7 @@ We will create a policy to allow "productpage" service to read "details" and "re
 Run the following command:
 
 {{< text bash >}}
-$ istioctl create -f @samples/bookinfo/platform/kube/rbac/details-reviews-policy.yaml@
+$ kubectl apply -f @samples/bookinfo/platform/kube/rbac/details-reviews-policy.yaml@
 {{< /text >}}
 
 The policy does the following:
@@ -279,7 +277,7 @@ We will create a policy to allow "reviews" service to read "ratings" service. No
 Run the following command to create a policy that allows "reviews" service to read "ratings" service.
 
 {{< text bash >}}
-$ istioctl create -f @samples/bookinfo/platform/kube/rbac/ratings-policy.yaml@
+$ kubectl apply -f @samples/bookinfo/platform/kube/rbac/ratings-policy.yaml@
 {{< /text >}}
 
 The policy does the following:
@@ -325,9 +323,9 @@ the "black" and "red" ratings in "Book Reviews" section.
 *   Remove Istio authorization policy configuration:
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/platform/kube/rbac/ratings-policy.yaml@
-    $ istioctl delete -f @samples/bookinfo/platform/kube/rbac/details-reviews-policy.yaml@
-    $ istioctl delete -f @samples/bookinfo/platform/kube/rbac/productpage-policy.yaml@
+    $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/ratings-policy.yaml@
+    $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/details-reviews-policy.yaml@
+    $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/productpage-policy.yaml@
     {{< /text >}}
 
     Alternatively, you can delete all `ServiceRole` and `ServiceRoleBinding` resources by running the following commands:
@@ -340,5 +338,5 @@ the "black" and "red" ratings in "Book Reviews" section.
 *   Disable Istio authorization:
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/platform/kube/rbac/rbac-config-ON.yaml@
+    $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/rbac-config-ON.yaml@
     {{< /text >}}

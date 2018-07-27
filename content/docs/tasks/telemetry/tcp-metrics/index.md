@@ -101,7 +101,7 @@ will generate and collect automatically.
 1.  Push the new configuration.
 
     {{< text bash >}}
-    $ istioctl create -f tcp_telemetry.yaml
+    $ kubectl apply -f tcp_telemetry.yaml
     Created config metric/default/mongosentbytes at revision 3852843
     Created config metric/default/mongoreceivedbytes at revision 3852844
     Created config prometheus/default/mongohandler at revision 3852845
@@ -147,19 +147,19 @@ will generate and collect automatically.
         that define the service subsets corresponding to each version, and the load balancing policy for each subset.
 
         {{< text bash >}}
-        $ istioctl create -f @samples/bookinfo/networking/destination-rule-all.yaml@
+        $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all.yaml@
         {{< /text >}}
 
         If you enabled mutual TLS, please run the following instead
 
         {{< text bash >}}
-        $ istioctl create -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
+        $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
         {{< /text >}}
 
         You can display the destination rules with the following command:
 
         {{< text bash >}}
-        $ istioctl get destinationrules -o yaml
+        $ kubectl get destinationrules -o yaml
         {{< /text >}}
 
         Since the subset references in virtual services rely on the destination rules,
@@ -168,7 +168,7 @@ will generate and collect automatically.
     1.  Create `ratings` and `reviews` virtual services:
 
         {{< text bash >}}
-        $ istioctl create -f @samples/bookinfo/networking/virtual-service-ratings-db.yaml@
+        $ kubectl apply -f @samples/bookinfo/networking/virtual-service-ratings-db.yaml@
         Created config virtual-service/default/reviews at revision 3003
         Created config virtual-service/default/ratings at revision 3004
         {{< /text >}}
@@ -239,7 +239,7 @@ protocols within policies.
 *   Remove the new telemetry configuration:
 
     {{< text bash >}}
-    $ istioctl delete -f tcp_telemetry.yaml
+    $ kubectl delete -f tcp_telemetry.yaml
     {{< /text >}}
 
 *   Remove the `port-forward` process:
