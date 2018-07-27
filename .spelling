@@ -480,6 +480,11 @@ tunneling
 veth-pair
 virtualization
 Virtualization
+subresources
+re-patch
+re-applied
+CustomResourceDefinitions
+CRD
 
  - search.md
 searchresults
