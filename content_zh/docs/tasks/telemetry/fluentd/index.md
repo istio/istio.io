@@ -22,7 +22,7 @@ Fluentd 是一个开源的日志收集器，支持多种[数据输出](https://w
 
 您可以使用这些 Fluentd 守护进程或您已经设置的任何其他 Fluentd 守护进程，只要 Fluentd 守护进程正在监听转发的日志，并且 Istio 的 Mixer 可以连接 Fluentd 守护进程。为了让 Mixer 连接到正在运行的 Fluentd 守护进程, 您可能需要为 Fluentd 添加 [service](https://kubernetes.io/docs/concepts/services-networking/service/)。监听转发日志的 Fluentd 配置是:
 
-`{{< text xml >}}
+{{< text xml >}}
 <source>
   type forward
 </source>
