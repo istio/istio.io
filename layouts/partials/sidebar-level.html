@@ -16,7 +16,7 @@
                         {{ else }}
                             <i class='fa fa-lg fa-caret-down'></i>
                         {{ end }}
-                        <a {{ if eq $current.URL .URL }}class="current"{{ end }} title="{{ .Description }}" href="{{ .URL }}">{{ .Title}} </a>
+                        <a {{ if eq $current.URL .URL }}class="current"{{ end }} title="{{ .Description }}" href="{{ .URL }}">{{ .LinkTitle}} </a>
                     </label>
 
                     {{ partial "sidebar-level.html" (dict "pages" $pages "parent" . "current" $current "collapse" $collapse) }}
@@ -24,9 +24,9 @@
             {{ else }}
                 <li>
                     {{ if eq $current.URL .URL }}
-                        <span class="current" title="{{ .Description }}">{{ .Title }}</span>
+                        <span class="current" title="{{ .Description }}">{{ .LinkTitle }}</span>
                     {{ else }}
-                        <a title="{{ .Description }}" href="{{ .URL }}">{{ .Title }}</a>
+                        <a title="{{ .Description }}" href="{{ .URL }}">{{ .LinkTitle }}</a>
                     {{ end }}
                 </li>
              {{ end }}
