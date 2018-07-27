@@ -1,6 +1,6 @@
 ---
 title: 使用 Fluentd 记录日志
-description: This task shows you how to configure Istio to log to a Fluentd daemon
+description: 此任务将展示如何配置 Istio 将日志记录到 Fluentd 守护进程。
 weight: 60
 keywords: [telemetry,logging]
 ---
@@ -18,11 +18,9 @@ Fluentd 是一个开源的日志收集器，支持多种[数据输出](https://w
 
 ## 安装 Fluentd
 
-在您的集群中，您可能已经有一个 Fluentd DaemonSet 运行，就像 add-on 中[这里](https://kubernetes.io/docs/tasks/debug-application-cluster/logging-elasticsearch-kibana/) 和[这里](https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/fluentd-elasticsearch) 的描述，或者特定于您的集群提供方的东西。这可能配置为将日志发送到 Elasticsearch 系统或其它日志记录提供程序。
+在您的集群中，您可能已经有一个 Fluentd daemon set 运行，就像 add-on 中[这里](https://kubernetes.io/docs/tasks/debug-application-cluster/logging-elasticsearch-kibana/) 和[这里](https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/fluentd-elasticsearch) 的描述，或者特定于您的集群提供方的东西。这可能配置为将日志发送到 Elasticsearch 系统或其它日志记录提供程序。
 
-您可以使用这些 Fluentd 守护进程或您已经设置的任何其他 Fluentd 守护进程，只要 Fluentd 守护进程正在监听转发的日志，并且 Istio 的 Mixer 可以连接 Fluentd 守护进程。为了让 Mixer 连接到正在运行的 Fluentd 守护进程, 您可能需要为 Fluentd 添加 [service](https://kubernetes.io/docs/concepts/services-networking/service/)。
-
-监听转发日志的 Fluentd 配置是:
+您可以使用这些 Fluentd 守护进程或您已经设置的任何其他 Fluentd 守护进程，只要 Fluentd 守护进程正在监听转发的日志，并且 Istio 的 Mixer 可以连接 Fluentd 守护进程。为了让 Mixer 连接到正在运行的 Fluentd 守护进程, 您可能需要为 Fluentd 添加 [service](https://kubernetes.io/docs/concepts/services-networking/service/)。监听转发日志的 Fluentd 配置是:
 
 `{{< text xml >}}
 <source>
@@ -41,7 +39,7 @@ Fluentd 是一个开源的日志收集器，支持多种[数据输出](https://w
 将下面的内容保存为 `logging-stack.yaml`.
 
 {{< text yaml >}}
-# Logging Namespace. All below are a part of this namespace.
+# Logging 命名空间。下面的资源都是这个命名空间的一部分。
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -163,7 +161,7 @@ spec:
         configMap:
           name: fluentd-es-config
 ---
-# Fluentd ConfigMap, contains config files.
+# Fluentd ConfigMap, 包含了配置文件。
 kind: ConfigMap
 apiVersion: v1
 data:
@@ -271,7 +269,7 @@ deployment "kibana" created
 将下面的内容保存为 `fluentd-istio.yaml`:
 
 {{< text yaml >}}
-# Configuration for logentry instances
+# logentry 实例的配置
 apiVersion: "config.istio.io/v1alpha2"
 kind: logentry
 metadata:
@@ -289,7 +287,7 @@ spec:
     latency: response.duration | "0ms"
   monitored_resource_type: '"UNSPECIFIED"'
 ---
-# Configuration for a fluentd handler
+# fluentd handler 的配置
 apiVersion: "config.istio.io/v1alpha2"
 kind: fluentd
 metadata:
@@ -298,7 +296,7 @@ metadata:
 spec:
   address: "fluentd-es.logging:24224"
 ---
-# Rule to send logentry instances to the fluentd handler
+# 发送 logentry 实例到 fluentd handler 的规则
 apiVersion: "config.istio.io/v1alpha2"
 kind: rule
 metadata:
