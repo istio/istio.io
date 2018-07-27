@@ -24,9 +24,7 @@ This task assumes you deployed Istio with mutual [mutual TLS Authentication](/do
 enabled. Follow the steps in the [Before you begin](/docs/tasks/traffic-management/egress-gateway/#before-you-begin)
 section of the [Configure an Egress Gateway](/docs/tasks/traffic-management/egress-gateway) task.
 
-## Configure an egress gateway for HTTPS traffic
-
-Let's configure an egress gateway for traffic to `*.wikipedia.org`
+## Configure HTTPS traffic to _*.wikipedia.org_
 
 1.  Define a `ServiceEntry` for `*.wikipedia.org`:
 
