@@ -242,3 +242,24 @@ spec:
     tls:
       mode: DISABLE
 {{< /text >}}
+
+## Control plane downgrade
+
+When downgrading from 1.0 to 0.8 additional action is required. The following steps can be skipped if configuration validation is disabled. Validation is enabled by default.
+
+1. Disable validation.  
+    {{< text bash >}}
+    kubectl -n istio-system patch configmap istio-galley-configuration \
+           -p '{"data": { "validatingwebhookconfiguration.yaml": "apiVersion: admissionregistration.k8s.io/v1beta1\nkind: ValidatingWebhookConfiguration\nmetadata:\n  name: istio-galley" }}'
+    {{< /text >}}
+    
+1. Downgrade using reverse upgrade process described above
+
+1. Finally remove the validatingwebhookconfiguration
+
+    {{< text bash >}}
+    kubectl delete validatingwebhookconfiguration istio-galley --ignore-not-found
+    {{< /text >}}
+```
+
+
