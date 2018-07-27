@@ -30,7 +30,7 @@ The following is a guide for troubleshooting the end user JWT authentication.
 
 1. If the JWT token is placed in the Authorization header in http requests, make sure the JWT token is valid (not expired, etc). The fields in a JWT token can be decoded by using online JWT parsing tools, e.g., [jwt.io](https://jwt.io/).
 
-1. Get the Istio proxy (i.e., Envoy) logs to verify the configuration which Pilot distributes is correct. 
+1. Get the Istio proxy (i.e., Envoy) logs to verify the configuration which Pilot distributes is correct.
 
     For example, if the authentication policy is enforced on the `httpbin` service in the namespace `foo`, use the command below to get logs from the Istio proxy, make sure `local_jwks` is set and the http response code is in the Istio proxy logs.
 
