@@ -247,6 +247,7 @@ spec:
 创建资源:
 
 <div class="workaround_for_hugo_bug">
+
 {{< text bash >}}
 $ kubectl apply -f logging-stack.yaml
 namespace "logging" created
@@ -258,6 +259,7 @@ configmap "fluentd-es-config" created
 service "kibana" created
 deployment "kibana" created
 {{< /text >}}
+
 </div>
 
 ## 配置 Istio
@@ -329,9 +331,9 @@ Created config rule/istio-system/newlogtofluentd at revision 22376
    对于 [BookInfo](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)
    示例, 在浏览器中访问 `http://$GATEWAY_URL/productpage` 或发送以下命令:
 
-   {{< text bash >}}
-   curl http://$GATEWAY_URL/productpage
-   {{< /text >}}
+    {{< text bash >}}
+    $ curl http://$GATEWAY_URL/productpage
+    {{< /text >}}
 
 1. 在 Kubernetes 环境中, 通过以下命令为 Kibana 建立端口转发:
 
@@ -353,14 +355,14 @@ Created config rule/istio-system/newlogtofluentd at revision 22376
 
 * 删除新的遥测配置:
 
-  {{< text bash >}}
-  istioctl delete -f fluentd-istio.yaml
-  {{< /text >}}
+    {{< text bash >}}
+    $ istioctl delete -f fluentd-istio.yaml
+    {{< /text >}}
 
 * 删除 Fluentd, Elasticsearch, Kibana 示例软件栈:
 
-  {{< text bash >}}
-  kubectl delete -f logging-stack.yaml
-  {{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete -f logging-stack.yaml
+    {{< /text >}}
 
 * 如果您不打算探索任何后续任务，可以参考 [Bookinfo 清理](/docs/examples/bookinfo/#cleanup) 步骤去关闭程序。
