@@ -2,10 +2,12 @@
 title: Minikube
 description: Instructions to setup Minikube for use with Istio.
 weight: 15
+skip_toc: true
+skip_seealso: true
 keywords: [platform-setup,kubernetes,minikube]
 ---
 
-To setup the Kubernetes cluster for Istio with Minikube, follow these instructions:
+Follow these instructions to prepare Minikube for Istio.
 
 1. To run Istio locally, install the latest version of
    [Minikube](https://kubernetes.io/docs/setup/minikube/), version **0.28.0 or
