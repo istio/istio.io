@@ -98,6 +98,7 @@ Kops
 Kuat
 Kube
 Kubecon
+kubectl
 Kubelet
 Kubernetes
 L3-4
@@ -283,7 +284,6 @@ istio-apiserver
 istio-system1
 istio.io
 istio.io.
-istioctl
 jason
 json
 jwt.io
@@ -297,7 +297,6 @@ kube-proxy
 kube-public
 kube-system
 kubeconfig
-kubectl
 kubelet
 kubernetes
 kubernetes.default

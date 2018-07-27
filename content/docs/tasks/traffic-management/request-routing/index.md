@@ -33,13 +33,10 @@ in a round robin fashion.
 To route to one version only, you apply virtual services that set the default version for the microservices.
 In this case, the virtual services will route all traffic to `v1` of each microservice.
 
- > Before continuing, be sure you don't have any existing virtual services applied
-to the Bookinfo app. If you already created conflicting virtual services for Bookinfo, you must use `replace` rather than `create` in the following command.
-
 1.  Run the following command to apply the virtual services:
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
     Because configuration propagation is eventually consistent, wait a few seconds
@@ -48,7 +45,7 @@ to the Bookinfo app. If you already created conflicting virtual services for Boo
 1. Display the defined routes with the following command:
 
     {{< text bash yaml >}}
-    $ istioctl get virtualservices -o yaml
+    $ kubectl get virtualservices -o yaml
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -113,7 +110,7 @@ to the Bookinfo app. If you already created conflicting virtual services for Boo
 1. Display the corresponding `subset` definitions:
 
     {{< text bash >}}
-    $ istioctl get destinationrules -o yaml
+    $ kubectl get destinationrules -o yaml
     {{< /text >}}
 
 You have configured Istio to route to the `v1` version of the Bookinfo microservices,
@@ -151,13 +148,13 @@ Remember, `reviews:v2` is the version that includes the star ratings feature.
 1. Run the following command to enable the user-based routing:
 
     {{< text bash >}}
-    $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-test-v2.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-test-v2.yaml@
     {{< /text >}}
 
 1. Confirm the rule is created:
 
     {{< text bash yaml >}}
-    $ istioctl get virtualservice reviews -o yaml
+    $ kubectl get virtualservice reviews -o yaml
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -213,7 +210,7 @@ gradually send traffic from one version of a service to another.
 1. Remove the application virtual services.
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
+    $ kubectl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
 1. If you are not planning to explore any follow-on tasks, refer to the

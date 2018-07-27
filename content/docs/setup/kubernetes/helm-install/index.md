@@ -118,7 +118,7 @@ With this minimal set you can install your own application and [configure reques
 
 ## Uninstall
 
-* For option 1, uninstall using kubectl:
+* For option 1, uninstall using `kubectl`:
 
     {{< text bash >}}
     $ kubectl delete -f $HOME/istio.yaml
@@ -141,5 +141,3 @@ With this minimal set you can install your own application and [configure reques
     {{< text bash >}}
     $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml -n istio-system
     {{< /text >}}
-
-
