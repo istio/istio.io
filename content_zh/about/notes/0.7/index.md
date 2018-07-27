@@ -13,5 +13,5 @@ weight: 94
 已知问题:
 
 我们的 [helm chart](/docs/setup/kubernetes/helm-install/)
-目前需要一些变通的方式才能正确工作，这里 [4701](https://github.com/istio/istio/issues/4701) 有相关细节。
+目前需要一些变通的方式才能正确工作，这里 [Issue 4701](https://github.com/istio/istio/issues/4701) 有相关细节。
 
