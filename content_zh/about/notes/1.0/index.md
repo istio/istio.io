@@ -36,7 +36,7 @@ weight: 92
   be configured using [authentication policies](/docs/concepts/security/#authentication-policies).
 - **JWT 认证**。我们现在支持可以使用[身份验证策略](/docs/concepts/security/#authentication-policies)配置的 [JWT身份验证](/docs/concepts/security/#authentication)。
 
-## Istioctl
+## `istioctl`
 
 - 添加了 [`istioctl authn tls-check`](/docs/reference/commands/istioctl/#istioctl-authn-tls-check) 命令。
 

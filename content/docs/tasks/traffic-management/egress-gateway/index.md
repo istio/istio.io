@@ -57,7 +57,7 @@ First direct HTTP traffic without TLS origination
 1.  Define a `ServiceEntry` for `edition.cnn.com`:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -103,7 +103,7 @@ First direct HTTP traffic without TLS origination
     gateway, setting SNI to `edition.cnn.com`.
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
       kind: Gateway
       metadata:
         name: istio-egressgateway
@@ -149,7 +149,7 @@ First direct HTTP traffic without TLS origination
     otherwise:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
       kind: Gateway
       metadata:
         name: istio-egressgateway
@@ -169,7 +169,7 @@ First direct HTTP traffic without TLS origination
 1.  Define a `VirtualService` to direct the traffic through the egress gateway:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -241,10 +241,10 @@ First direct HTTP traffic without TLS origination
 Remove the previous definitions before proceeding to the next step:
 
 {{< text bash >}}
-$ istioctl delete gateway istio-egressgateway
-$ istioctl delete serviceentry cnn
-$ istioctl delete virtualservice direct-through-egress-gateway
-$ istioctl delete destinationrule set-sni-for-egress-gateway
+$ kubectl delete gateway istio-egressgateway
+$ kubectl delete serviceentry cnn
+$ kubectl delete virtualservice direct-through-egress-gateway
+$ kubectl delete destinationrule set-sni-for-egress-gateway
 {{< /text >}}
 
 ## Perform TLS origination with the egress `Gateway`
@@ -254,7 +254,7 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
 1.  Define a `ServiceEntry` for `edition.cnn.com`:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -296,7 +296,7 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
     gateway, setting SNI to `edition.cnn.com`.
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     kind: Gateway
     metadata:
       name: istio-egressgateway
@@ -342,7 +342,7 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
     otherwise:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     kind: Gateway
     metadata:
       name: istio-egressgateway
@@ -363,7 +363,7 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
     origination:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -442,11 +442,11 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
 Remove the Istio configuration items we created:
 
 {{< text bash >}}
-$ istioctl delete gateway istio-egressgateway
-$ istioctl delete serviceentry cnn
-$ istioctl delete virtualservice direct-through-egress-gateway
-$ istioctl delete destinationrule originate-tls-for-edition-cnn-com
-$ istioctl delete destinationrule set-sni-for-egress-gateway
+$ kubectl delete gateway istio-egressgateway
+$ kubectl delete serviceentry cnn
+$ kubectl delete virtualservice direct-through-egress-gateway
+$ kubectl delete destinationrule originate-tls-for-edition-cnn-com
+$ kubectl delete destinationrule set-sni-for-egress-gateway
 {{< /text >}}
 
 ## Direct HTTPS traffic through an egress gateway
@@ -457,7 +457,7 @@ You specify the port 443, protocol `TLS` in the corresponding `ServiceEntry`, eg
 1.  Define a `ServiceEntry` for `edition.cnn.com`:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -492,7 +492,7 @@ The output should be the same as in the previous section.
     gateway, setting SNI to `edition.cnn.com`.
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     kind: Gateway
     metadata:
       name: istio-egressgateway
@@ -538,7 +538,7 @@ The output should be the same as in the previous section.
     otherwise:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -561,7 +561,7 @@ The output should be the same as in the previous section.
 1.  Define a `VirtualService` to direct the traffic through the egress gateway:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -626,10 +626,10 @@ The output should be the same as in the previous section.
 ### Cleanup of the egress gateway for HTTPS traffic
 
 {{< text bash >}}
-$ istioctl delete serviceentry cnn
-$ istioctl delete gateway istio-egressgateway
-$ istioctl delete virtualservice direct-through-egress-gateway
-$ istioctl delete destinationrule set-sni-for-egress-gateway
+$ kubectl delete serviceentry cnn
+$ kubectl delete gateway istio-egressgateway
+$ kubectl delete virtualservice direct-through-egress-gateway
+$ kubectl delete destinationrule set-sni-for-egress-gateway
 {{< /text >}}
 
 ## Additional security considerations

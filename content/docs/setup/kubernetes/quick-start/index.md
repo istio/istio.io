@@ -63,10 +63,10 @@ default:
 $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
 {{< /text >}}
 
-### Option 3: Render Kubernetes manifest with Helm and deploy with kubectl
+### Option 3: Render Kubernetes manifest with Helm and deploy with `kubectl`
 
 Follow our setup instructions to
-[render the Kubernetes manifest with Helm and deploy with kubectl](/docs/setup/kubernetes/helm-install/#option-1-install-with-helm-via-helm-template).
+[render the Kubernetes manifest with Helm and deploy with `kubectl`](/docs/setup/kubernetes/helm-install/#option-1-install-with-helm-via-helm-template).
 
 ### Option 4: Use Helm and Tiller to manage the Istio deployment
 
@@ -144,7 +144,7 @@ $ kubectl create -n <namespace> -f <your-app-spec>.yaml
 {{< /text >}}
 
 If you don't have the Istio-sidecar-injector installed, you must use
-[istioctl kube-inject](/docs/reference/commands/istioctl/#istioctl-kube-inject)
+[`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject)
 to manually inject Envoy containers in your application pods before deploying
 them:
 
