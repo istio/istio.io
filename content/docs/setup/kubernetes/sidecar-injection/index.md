@@ -82,7 +82,8 @@ $ istioctl kube-inject \
     --injectConfigFile inject-config.yaml \
     --meshConfigFile mesh-config.yaml \
     --filename @samples/sleep/sleep.yaml@ \
-    --output sleep-injected.yaml | kubectl apply -f -
+    --output sleep-injected.yaml
+$ kubectl apply -f sleep-injected.yaml
 {{< /text >}}
 
 Verify that the sidecar has been injected into the deployment.

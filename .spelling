@@ -57,6 +57,7 @@ cnn.com
 Cmd
 Config
 ConfigMap
+ControlZ
 CRD
 CRDs
 Ctrl
@@ -290,6 +291,7 @@ istio.io.
 istioctl
 jason
 json
+jwt.io
 k8s
 key.pem
 kube-api
