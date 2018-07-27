@@ -17,7 +17,27 @@ istio.my-sa             istio.io/key-and-cert               3      24d
 
 Where `my-ns` and `my-sa` are the namespace and service account your pod is running as.
 
-Then make sure the certificate is valid with:
+If you want to check the keys and certificates of other service accounts, you can run the following
+command to list all secrets for which Citadel has generated a key and certificate:
+
+{{< text bash >}}
+$ kubectl get secret --all-namespaces | grep istio.io/key-and-cert
+NAMESPACE      NAME                                                 TYPE                                  DATA      AGE
+.....
+istio-system   istio.istio-citadel-service-account                  istio.io/key-and-cert                 3         14d
+istio-system   istio.istio-cleanup-old-ca-service-account           istio.io/key-and-cert                 3         14d
+istio-system   istio.istio-egressgateway-service-account            istio.io/key-and-cert                 3         14d
+istio-system   istio.istio-ingressgateway-service-account           istio.io/key-and-cert                 3         14d
+istio-system   istio.istio-mixer-post-install-account               istio.io/key-and-cert                 3         14d
+istio-system   istio.istio-mixer-service-account                    istio.io/key-and-cert                 3         14d
+istio-system   istio.istio-pilot-service-account                    istio.io/key-and-cert                 3         14d
+istio-system   istio.istio-sidecar-injector-service-account         istio.io/key-and-cert                 3         14d
+istio-system   istio.prometheus                                     istio.io/key-and-cert                 3         14d
+kube-public    istio.default                                        istio.io/key-and-cert                 3         14d
+.....
+{{< /text >}}
+
+Then check that the certificate is valid with:
 
 {{< text bash >}}
 $ kubectl get secret -o json istio.my-sa -n my-ns | jq -r '.data["cert-chain.pem"]' | base64 --decode | openssl x509 -noout -text

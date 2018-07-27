@@ -129,7 +129,7 @@ istio-ingressgateway   LoadBalancer   10.59.251.109   35.194.26.85   80:31380/TC
 Note down the IP address (EXTERNAL-IP) and port assigned to the Bookinfo product page
 (in the example above, it's `35.194.26.85:80`).
 
-You can also view the installation using the ***Kubernetes Engine -> Workloads** section on the [Cloud Console](https://console.cloud.google.com/kubernetes/workload):
+You can also view the installation using the **Kubernetes Engine -> Workloads** section on the [Cloud Console](https://console.cloud.google.com/kubernetes/workload):
 
 {{< image width="70%" ratio="80.37%"
     link="./dm_kubernetes_workloads.png"
