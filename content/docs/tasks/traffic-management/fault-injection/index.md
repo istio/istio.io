@@ -24,7 +24,7 @@ This task shows you how to inject faults to test the resiliency of your applicat
   running the following commands:
 
     {{< text bash >}}
-    $ kubectl appsetly -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-test-v2.yaml@
     {{< /text >}}
 
