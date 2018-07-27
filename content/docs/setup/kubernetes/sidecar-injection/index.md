@@ -12,7 +12,7 @@ aliases:
 Each pod in the mesh must be running an Istio compatible sidecar.
 
 The following sections describe two
-ways of injecting the Istio sidecar into a pod: manually using `istioctl`
+ways of injecting the Istio sidecar into a pod: manually using the `istioctl`
 CLI tool or automatically using the Istio sidecar injector.
 
 Manual injection modifies the controller configuration, e.g. deployment. It

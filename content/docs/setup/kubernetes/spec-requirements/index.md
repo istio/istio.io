@@ -5,7 +5,7 @@ weight: 80
 keywords: [kubernetes,sidecar,sidecar-injection]
 ---
 
-To be a part of the service mesh, pods and services in the Kubernetes
+To be a part of the service mesh, pods and services in a Kubernetes
 cluster must satisfy the following requirements:
 
 * _**Named ports**:_ Service ports must be named. The port names must be of
