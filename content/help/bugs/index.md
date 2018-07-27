@@ -5,6 +5,7 @@ weight: 35
 aliases:
     - /bugs.html
     - /bugs/index.html
+page_icon: /img/bugs.svg
 ---
 
 Oh no! You found a bug?
