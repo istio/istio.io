@@ -17,12 +17,6 @@ istio.my-sa             istio.io/key-and-cert               3      24d
 
 Where `my-ns` and `my-sa` are the namespace and service account your pod is running as.
 
-The pods can be listed by the command:
-
-{{< text bash >}}
-$ kubectl get pod --all-namespaces
-{{< /text >}}
-
 If you want to check the keys and certificates of other service accounts, you can run the following
 command to list all secrets for which Citadel has generated a key and certificate.
 
