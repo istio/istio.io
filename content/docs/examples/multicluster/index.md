@@ -1,25 +1,25 @@
 ---
-title: Install Istio Multicluster on Google Kubernetes Engine clusters
+title: Enabling Multicluster on Google Kubernetes Engine
 description: Example multicluster GKE install of Istio.
 weight: 65
 keywords: [kubernetes,multicluster]
 ---
 
-This is an example deployment of multicluster Istio on 2
-[Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) clusters.  It is an example
-using the [Istio kubernetes multicluster install instructions](/docs/setup/kubernetes/multicluster-install/).
+This example demonstrates how to use Istio' multicluster feature to join 2
+[Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) clusters together,
+using the [kubernetes multicluster installation instructions](/docs/setup/kubernetes/multicluster-install/).
 
 ## Before you begin
 
 In addition to the prerequisites for installing Istio the following setup is required for this example:
 
-*  This sample requires a valid Google Cloud Platform project with billing enabled. If you are
-   not an existing GCP user, you may be able to enroll for a $300 US [Free Trial](https://cloud.google.com/free/) credit.
+* This sample requires a valid Google Cloud Platform project with billing enabled. If you are
+  not an existing GCP user, you may be able to enroll for a $300 US [Free Trial](https://cloud.google.com/free/) credit.
 
-   *  [Create a Google Cloud Project](https://cloud.google.com/resource-manager/docs/creating-managing-projects) to
+    * [Create a Google Cloud Project](https://cloud.google.com/resource-manager/docs/creating-managing-projects) to
       host your GKE clusters.
 
-*  Install and initialize the [Google Cloud SDK](https://cloud.google.com/sdk/install)
+* Install and initialize the [Google Cloud SDK](https://cloud.google.com/sdk/install)
 
 ## Create the GKE Clusters
 
@@ -60,15 +60,14 @@ In addition to the prerequisites for installing Istio the following setup is req
     $ gcloud container clusters list
     {{< /text >}}
 
-1.  Get the clusters' credentials (by default stored in `~/.kube/config` or in the file the KUBECONFIG environment
-    variable is set to).
+1.  Get the clusters' credentials ([command details](https://cloud.google.com/sdk/gcloud/reference/container/clusters/get-credentials)):
 
     {{< text bash >}}
     $ gcloud container clusters get-credentials cluster-1 --zone $zone
     $ gcloud container clusters get-credentials cluster-2 --zone $zone
     {{< /text >}}
 
-1.  Validate `kubectl` access to each cluster
+1.  Validate `kubectl` access to each cluster:
 
     1.  Check cluster-1
 
@@ -77,7 +76,7 @@ In addition to the prerequisites for installing Istio the following setup is req
         $ kubectl get pods --all-namespaces
         {{< /text >}}
 
-    1.  Check cluster-2
+    1.  Check cluster-2:
 
         {{< text bash >}}
         $ kubectl config use-context "gke_${proj}_${zone}_cluster-2"
@@ -85,7 +84,7 @@ In addition to the prerequisites for installing Istio the following setup is req
         {{< /text >}}
 
 1.  Create a `cluster-admin` cluster role binding tied to the kubernetes credentials associated with your GCP user.
-    _NOTE:_ replace `mygcp@gmail.com` with the email tied to your Google Cloud account.
+    _Note:_ replace `mygcp@gmail.com` with the email tied to your Google Cloud account:
 
     {{< text bash >}}
     $ KUBE_USER="mygcp@gmail.com"
@@ -96,7 +95,7 @@ In addition to the prerequisites for installing Istio the following setup is req
 
 ## Create a Google Cloud firewall rule
 
-The following rule needs to be created to allow each clusters' pods to directly communicate.
+The following rule needs to be created to allow each clusters' pods to directly communicate:
 
 {{< text bash >}}
 $ function join_by { local IFS="$1"; shift; echo "$*"; }
@@ -114,18 +113,18 @@ $ gcloud compute firewall-rules create istio-multicluster-test-pods \
 
 ## Install the Istio control plane
 
-The following generates an Istio installation manifest, installs it, and enables automatic sidecar injection on
-the namespace `default`.
+The following generates an Istio installation manifest, installs it, and enables automatic sidecar injection in
+the `default` namespace:
 
 {{< text bash >}}
 $ kubectl config use-context "gke_${proj}_${zone}_cluster-1"
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system > ~/tmp/istio_master.yaml
+$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system > $HOME/istio_master.yaml
 $ kubectl create ns istio-system
-$ kubectl apply -f ~/tmp/istio_master.yaml
+$ kubectl apply -f $HOME/istio_master.yaml
 $ kubectl label namespace default istio-injection=enabled
 {{< /text >}}
 
-Wait for pods to come up
+Wait for pods to come up:
 
 {{< text bash >}}
 $ kubectl get pods -n istio-system
@@ -133,7 +132,7 @@ $ kubectl get pods -n istio-system
 
 ## Generate remote cluster manifest
 
-1.  Get control plane pod IPs
+1.  Get control plane pod IPs:
 
     {{< text bash >}}
     $ export PILOT_POD_IP=$(kubectl -n istio-system get pod -l istio=pilot -o jsonpath='{.items[0].status.podIP}')
@@ -142,7 +141,7 @@ $ kubectl get pods -n istio-system
     $ export TELEMETRY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=telemetry -o jsonpath='{.items[0].status.podIP}')
     {{< /text >}}
 
-1.  Generate remote cluster manifest
+1.  Generate remote cluster manifest:
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio-remote --namespace istio-system \
@@ -151,18 +150,18 @@ $ kubectl get pods -n istio-system
       --set global.remotePolicyAddress=${POLICY_POD_IP} \
       --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} \
       --set global.proxy.envoyStatsd.enabled=true \
-      --set global.proxy.envoyStatsd.host=${STATSD_POD_IP} > ~/tmp/istio-remote.yaml
+      --set global.proxy.envoyStatsd.host=${STATSD_POD_IP} > $HOME/istio-remote.yaml
     {{< /text >}}
 
 ## Install remote cluster manifest
 
 The following installs the minimal Istio components and enables automatic sidecar injection on
-the namespace `default` in the remote cluster.
+the namespace `default` in the remote cluster:
 
 {{< text bash >}}
 $ kubectl config use-context "gke_${proj}_${zone}_cluster-2"
 $ kubectl create ns istio-system
-$ kubectl apply -f ~/tmp/istio-remote.yaml
+$ kubectl apply -f $HOME/istio-remote.yaml
 $ kubectl label namespace default istio-injection=enabled
 {{< /text >}}
 
@@ -171,7 +170,7 @@ $ kubectl label namespace default istio-injection=enabled
 The `istio-remote` helm chart creates a service account with minimal access for use by Istio Pilot
 discovery.
 
-1.  Prepare environment variables for building the `kubeconfig` file for `ServiceAccount` `istio-multi`:
+1.  Prepare environment variables for building the `kubeconfig` file for the service account `istio-multi`:
 
     {{< text bash >}}
     $ export WORK_DIR=$(pwd)
@@ -188,7 +187,7 @@ discovery.
 
     __NOTE__: An alternative to `base64 --decode` is `openssl enc -d -base64 -A` on many systems.
 
-1.  Create a `kubeconfig` file in the working directory for the `ServiceAccount` `istio-multi`:
+1.  Create a `kubeconfig` file in the working directory for the service account `istio-multi`:
 
     {{< text bash >}}
     $ cat <<EOF > ${KUBECFG_FILE}
@@ -213,7 +212,7 @@ discovery.
     EOF
     {{< /text >}}
 
-At this point, the remote clusters' `kubeconfig` files have been created in the current directory.
+At this point, the remote clusters' `kubeconfig` files have been created in the `${WORK_DIR}` directory.
 The filename for a cluster is the same as the original `kubeconfig` cluster name.
 
 ## Configure Istio control plane to discover the remote cluster
@@ -221,13 +220,13 @@ The filename for a cluster is the same as the original `kubeconfig` cluster name
 Create a secret and label it properly for each remote cluster:
 
 {{< text bash >}}
-$ kubectl create secret generic ${CLUSTER_NAME} --from-file ${WORK_DIR}/${CLUSTER_NAME} -n ${NAMESPACE}
+$ kubectl create secret generic ${CLUSTER_NAME} --from-file ${KUBECFG_FILE} -n ${NAMESPACE}
 $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
 {{< /text >}}
 
 ## Deploy Bookinfo Example Across Clusters
 
-1.  Install bookinfo on the first cluster.  Remove the `reviews-v3` deployment to deploy on remote.
+1.  Install bookinfo on the first cluster.  Remove the `reviews-v3` deployment to deploy on remote:
 
     {{< text bash >}}
     $ kubectl config use-context "gke_${proj}_${zone}_cluster-1"
@@ -236,13 +235,13 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
     $ kubectl delete deployment reviews-v3
     {{< /text >}}
 
-1.  Install the reviews-v3 deployment on the remote.  _Note:_ The `ratings` service definition is added
+1.  Install the `reviews-v3` deployment on the remote.  _Note:_ The `ratings` service definition is added
     to the remote cluster because `reviews-v3` is a client of `ratings` and creating the service object
     creates a DNS entry.  The Istio sidecar in the `reviews-v3` pod will determine the proper `ratings`
-    endpoint after the DNS lookup is resolved to a service address.
+    endpoint after the DNS lookup is resolved to a service address:
 
     {{< text bash >}}
-    $ cat <<EOF > ~/tmp/reviews-v3.yaml
+    $ cat <<EOF > $HOME/reviews-v3.yaml
     ---
     ##################################################################################################
     # Ratings service
@@ -297,16 +296,17 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
 
     {{< text bash >}}
     $ kubectl config use-context "gke_${proj}_${zone}_cluster-2"
-    $ kube apply -f ~/tmp/reviews-v3.yaml
+    $ kube apply -f $HOME/reviews-v3.yaml
     {{< /text >}}
 
 1.  Get the `istio-ingressgateway` service's external IP to access the `bookinfo` page to validate that all
-    reviews stars are seen.
+    reviews stars are seen:
 
     {{< text bash >}}
     $ kubectl get svc istio-ingressgateway -n istio-system
     {{< /text >}}
 
     Access `http://<GATEWAY_IP>/productpage` repeatedly and each version of reviews should be equally loadbalanced,
-    including `reviews-v3` in the remote cluster (red stars).
+    including `reviews-v3` in the remote cluster (red stars).  It may take several accesses (dozens) to demonstrate
+    the equal loadbalancing between `reviews` versions.
 
