@@ -29,10 +29,6 @@ $ oc adm policy add-scc-to-user anyuid -z istio-galley-service-account -n istio-
 
 运行应用的 Service account 需要在安全上下文中具备一定特权，这也是 Sidecar 注入过程的一部分：
 
-<div class="Workaround_for_hugo_bug">
-
 {{< text bash >}}
 $ oc adm policy add-scc-to-user privileged -z default -n <target-namespace>
 {{< /text >}}
-
-</div>
