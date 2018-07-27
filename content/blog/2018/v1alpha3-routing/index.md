@@ -2,7 +2,6 @@
 title: Introducing the Istio v1alpha3 routing API
 description: Introduction, motivation and design principles for the Istio v1alpha3 routing API.
 publishdate: 2018-04-25
-lastmod: 2018-07-26
 subtitle:
 attribution: Frank Budinsky (IBM) and Shriram Rajagopalan (VMware)
 weight: 88

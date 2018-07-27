@@ -23,7 +23,7 @@ To make sure services will have zero down-time when configuring routes with subs
 
 * When adding new subsets:
 
-    1. Update `DestinationRules` to add a new subset first, before updating any `VirtualServices` that use it. Apply the rule using kubectl or any platform-specific tooling.
+    1. Update `DestinationRules` to add a new subset first, before updating any `VirtualServices` that use it. Apply the rule using `kubectl` or any platform-specific tooling.
 
     1. Wait a few seconds for the `DestinationRule` configuration to propagate to the Envoys
 
@@ -470,9 +470,9 @@ scrape Mixer.
 
 ## How can I debug issues with the service mesh?
 
-### With istioctl
+### With `istioctl`
 
-Istioctl allows you to inspect the current xDS of a given Envoy from its admin interface (locally) or from Pilot using the `proxy-config` or `pc` command.
+`istioctl` allows you to inspect the current xDS of a given Envoy from its admin interface (locally) or from Pilot using the `proxy-config` or `pc` command.
 
 For example, to retrieve the configured clusters in an Envoy via the admin interface run the following command:
 

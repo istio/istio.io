@@ -2,7 +2,6 @@
 title: Canary Deployments using Istio
 description: Using Istio to create autoscaled canary deployments
 publishdate: 2017-06-14
-lastmod: 2018-07-26
 attribution: Frank Budinsky
 weight: 98
 keywords: [traffic-management,canary]
@@ -89,7 +88,7 @@ spec:
 Note that this is exactly the same way we would do a [canary deployment](https://kubernetes.io/docs/concepts/cluster-administration/manage-deployment/#canary-deployments) using plain Kubernetes, but in that case we would need to adjust the number of replicas of each Deployment to control the distribution of traffic. For example, to send 10% of the traffic to the canary version (**v2**), the replicas for **v1** and **v2** could be set to 9 and 1, respectively.
 
 However, since we are going to deploy the service in an [Istio enabled](/docs/setup/) cluster, all we need to do is set a routing
-rule to control the traffic distribution. For example if we want to send 10% of the traffic to the canary, we could use kubectl
+rule to control the traffic distribution. For example if we want to send 10% of the traffic to the canary, we could use `kubectl`
 to set a routing rule something like this:
 
 {{< text bash >}}

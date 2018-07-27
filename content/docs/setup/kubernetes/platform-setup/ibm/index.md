@@ -36,5 +36,5 @@ Replace `<cluster-name>` with the name of the cluster you want to use in the fol
 
 ## IBM Cloud Private
 
-[Configure the kubectl CLI](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0/manage_cluster/cfc_cli.html)
+[Configure `kubectl`](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0/manage_cluster/cfc_cli.html)
 to access the IBM Cloud Private Cluster.

@@ -48,7 +48,7 @@ on **one** Kubernetes cluster.
 The istio-remote component must be deployed to each remote Kubernetes
 cluster.  There are two approaches to installing the remote.  The remote
 can be installed and managed entirely by Helm and Tiller, or via Helm and
-kubectl.
+`kubectl`.
 
 ### Set environment variables for Pod IPs from Istio control plane needed by remote
 
@@ -79,7 +79,7 @@ Proceed to one of the options for connecting the remote cluster to the local clu
 
 **Sidecar Injection.**  The default behavior is to enable automatic sidecar injection on the remote clusters.  For manual sidecar injection refer to the [manual sidecar example](#remote-cluster-manual-sidecar-injection-example)
 
-### Use kubectl with Helm to connect the remote cluster to the local
+### Use `kubectl` with Helm to connect the remote cluster to the local
 
 1.  Use the helm template command on a remote to specify the Istio control plane service endpoints:
 
@@ -245,7 +245,7 @@ to conform to the format.
 
 > The uninstall method must match the installation method (`Helm and kubectl` or `Helm and Tiller` based).
 
-### Use kubectl to uninstall istio-remote
+### Use `kubectl` to uninstall istio-remote
 
 {{< text bash >}}
 $ kubectl delete -f $HOME/istio-remote.yaml

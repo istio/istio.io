@@ -36,9 +36,9 @@ For example, run the following command on a macOS or Linux system:
     $ export PATH=$PWD/bin:$PATH
     {{< /text >}}
 
-1. Install `kubectl` using the instructions [here](https://kubernetes.io/docs/tasks/tools/install-kubectl).
+1. Install `kubectl` using [these instructions](https://kubernetes.io/docs/tasks/tools/install-kubectl).
 
-   * `kubectl` is used to create, read, modify, and delete Istio API resources.
+`kubectl` is used to create, read, modify, and delete Istio API resources.
 
 1.  For Linux users, configure the `DOCKER_GATEWAY` environment variable
 

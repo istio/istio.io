@@ -320,7 +320,7 @@ $ kubectl label namespace <namespace> istio-injection=enabled
 $ kubectl create -n <namespace> -f <your-app-spec>.yaml
 {{< /text >}}
 
-如果您没有安装 Istio-initializer-injector 的话，您必须使用 [istioctl kube-inject](/docs/reference/commands/istioctl/#istioctl-kube-inject) 命令在部署应用之前向应用程序的 Pod 中手动注入 Envoy 容器：
+如果您没有安装 Istio-initializer-injector 的话，您必须使用 [`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject) 命令在部署应用之前向应用程序的 Pod 中手动注入 Envoy 容器：
 
 {{< text bash >}}
 $ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)

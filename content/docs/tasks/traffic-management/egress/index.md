@@ -109,7 +109,7 @@ from within your Istio cluster. In this task you access
 Similar to inter-cluster requests, Istio
 [routing rules](/docs/concepts/traffic-management/#rule-configuration)
 can also be set for external services that are accessed using `ServiceEntry` configurations.
-In this example, you use [istioctl](/docs/reference/commands/istioctl/)
+In this example, you use [`istioctl`](/docs/reference/commands/istioctl/)
 to set a timeout rule on calls to the httpbin.org service.
 
 1.  From inside the pod being used as the test source, make a _curl_ request to the `/delay` endpoint of the httpbin.org external service:

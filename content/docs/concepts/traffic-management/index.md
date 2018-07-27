@@ -363,7 +363,7 @@ spec:
       version: v2
 {{< /text >}}
 
-Rules can be configured using `kubectl` command instead. See the
+Rules can be configured using the `kubectl` command. See the
 [configuring request routing
 task](/docs/tasks/traffic-management/request-routing/) for examples.
 
