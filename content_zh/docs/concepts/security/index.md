@@ -19,7 +19,7 @@ keywords: [security,authentication,authorization,rbac,access-control]
     caption="Istio 安全架构"
     >}}
 
-如图所示，Istio 的 Citadel 用加载 Secret 卷的方式在 Kubernetes 容器中完成证书和密钥的分发。如果服务运行在虚拟机或物理机上，则会使用运行在本地的 Node agent，它负责在本地生成私钥和 CSR(证书签发申请)，把 CSR 发送给 Citadel 进行签署，并把生成的证书和私钥分发给 Envoy。
+如图所示，Istio 的 Citadel 用加载 Secret 卷的方式在 Kubernetes 容器中完成证书和密钥的分发。如果服务运行在虚拟机或物理机上，则会使用运行在本地的 Node agent，它负责在本地生成私钥和 CSR（证书签发申请），把 CSR 发送给 Citadel 进行签署，并把生成的证书和私钥分发给 Envoy。
 
 ## 双向 TLS 认证
 
@@ -73,9 +73,9 @@ Istio 安全工作流由部署和运行两阶段组成。Kubernetes 和虚拟机
 
 #### Kubernetes 的部署阶段
 
-1. Citadel 观察 Kubernetes API Server
+1. Citadel 观察 Kubernetes API Server。
 
-1. Citadel 为每个现有和新的 Service account 创建一个 [SPIFFE](https://spiffe.github.io/docs/svid) 密钥和证书对
+1. Citadel 为每个现有和新的 Service account 创建一个 [SPIFFE](https://spiffe.github.io/docs/svid) 密钥和证书对。
 
 1. Citadel 将上一步新建的内容其发送到 API Server。
 
@@ -152,7 +152,7 @@ Istio 提供了两种认证方式：
     caption="认证策略架构"
     >}}
 
-这两种认证信息都会被 Istio 输出，如果有其他申明也会在凭据中一起输出到下一层[鉴权](/docs/concepts/security/#authorization)，另外运维人员还可以在 mTLS 和最终用户两个甚至中选择一个提供给 Istio 用作认证主体（`principal`）。
+这两种认证信息都会被 Istio 输出，如果有其他申明也会在凭据中一起输出到下一层：[鉴权](/docs/concepts/security/#authorization)，另外运维人员还可以在 mTLS 和最终用户两个甚至中选择一个提供给 Istio 用作认证主体（`principal`）。
 
 ### 认证策略
 
@@ -185,7 +185,7 @@ Istio 可以在命名空间范围或者服务网格范围内保存认证策略�
       name: "default"
     spec:
       peers:
-      * mtls: {}
+      - mtls: {}
     {{< /text >}}
 
 * 命名空间范围的策略，`kind` 取值为 `Policy`，并且需要指定命名空间。如果没有指定，会使用缺省命名空间，例如下面的策略应用到 `ns1` 命名空间：
@@ -198,7 +198,7 @@ Istio 可以在命名空间范围或者服务网格范围内保存认证策略�
       namespace: "ns1"
     spec:
       peers:
-      + mtls: {}
+      - mtls: {}
     {{< /text >}}
 
 命名空间范围的策略的影响范围仅限于同一命名空间。网格范围的策略会作用在网格中所有服务上。为了杜绝冲突和误用，网格范围的策略智能定义一条，名字必须是 `default`，`targets` 必须为空。[目标选择器](/docs/concepts/security/#target-selectors) 一节讲述了 `targets` 的相关内容。
