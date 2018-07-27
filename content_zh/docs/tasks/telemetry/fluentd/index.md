@@ -247,6 +247,7 @@ spec:
 创建资源:
 
 <div class="workaround_for_hugo_bug">
+
 {{< text bash >}}
 $ kubectl apply -f logging-stack.yaml
 namespace "logging" created
@@ -258,6 +259,7 @@ configmap "fluentd-es-config" created
 service "kibana" created
 deployment "kibana" created
 {{< /text >}}
+
 </div>
 
 ## 配置 Istio
