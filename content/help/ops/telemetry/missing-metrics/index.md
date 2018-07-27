@@ -21,27 +21,6 @@ The Mixer default installations include a Prometheus adapter and the configurati
 
 If the Istio Dashboard or the Prometheus queries don’t show the expected metrics, any step of the flow above may present an issue. The following sections provide instructions to troubleshoot each step.
 
-## Verify the Mixer post-install job completed successfully
-
-A job running after the initial Istio installation completes supplies the default configuration for Mixer. If it fails to complete, Mixer doesn’t receive any configuration. Thus, Mixer produces no telemetry including logs, metrics, and traces among others, for any report calls. To verify the job is running as intended, run the following command:
-
-{{< text bash >}}
-$ kubectl -n istio-system get job
-istio-cleanup-secrets          1         1            7d
-istio-grafana-post-install     1         1            7d
-istio-mixer-post-install-1.0   1         1            7d
-istio-security-post-install    1         1            7d
-{{< /text >}}
-
-If the `istio-mixer-post-install-1.0` job doesn’t complete successfully, please delete the `istio-mixer-post-install-1.0` job with the following
-command:
-
-{{< text bash >}}
-$ kubectl -n istio-system delete job istio-mixer-post-install-1.0
-{{< /text >}}
-
-Once the job is deleted, retry installing Istio.
-
 ## Verify Mixer is receiving Report calls
 
 Mixer generates metrics to monitor its own behavior. The first step is to check these metrics:
@@ -78,7 +57,7 @@ istio-system   tcpkubeattrgenrulerule   13d
 
 If the output shows no rules named `promhttp` or `promtcp`, then the Mixer configuration for sending metric instances to the Prometheus adapter is missing. You must supply the configuration for rules connecting the Mixer metric instances to a Prometheus handler.
 
-For reference, please consult the [default rules for Prometheus]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml#L592-L619).
+For reference, please consult the [default rules for Prometheus]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml].
 
 ## Verify Prometheus handler config exists
 
@@ -92,7 +71,7 @@ For reference, please consult the [default rules for Prometheus]({{< github_file
 
 1. If the output shows no configured prometheus handlers, you must reconfigure Mixer with the appropriate handler configuration.
 
-    For reference, please consult the [default handler configuration for Prometheus]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml#L449-L591).
+    For reference, please consult the [default handler configuration for Prometheus]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml).
 
 ## Verify Mixer metric instances config exists
 
@@ -111,7 +90,7 @@ For reference, please consult the [default rules for Prometheus]({{< github_file
 
 1. If the output shows no configured metric instances, you must reconfigure Mixer with the appropriate instance configuration.
 
-    For reference, please consult the [default instances configuration for metrics]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml#L291-L448).
+    For reference, please consult the [default instances configuration for metrics]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml).
 
 ## Verify there are no known configuration errors
 
