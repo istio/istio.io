@@ -1,0 +1,10 @@
+.faq {
+    .question {
+    font-weight: $faqQuestionWeight;
+        text-transform: uppercase;
+    }
+
+    .answer {
+        margin-left: 2.5em;
+    }
+}
