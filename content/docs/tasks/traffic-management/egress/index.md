@@ -49,7 +49,7 @@ from within your Istio cluster. In this task you access
 1.  Create a `ServiceEntry` to allow access to an external HTTP service:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -67,7 +67,7 @@ from within your Istio cluster. In this task you access
 1.  Create a `ServiceEntry` to allow access to an external HTTPS service:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -129,7 +129,7 @@ to set a timeout rule on calls to the httpbin.org service.
 1.  Exit the source pod and use `istioctl` to set a 3s timeout on calls to the httpbin.org external service:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -260,8 +260,8 @@ cluster provider specific knowledge and configuration.
 1.  Remove the rules:
 
     {{< text bash >}}
-    $ istioctl delete serviceentry httpbin-ext google-ext
-    $ istioctl delete virtualservice httpbin-ext
+    $ kubectl delete serviceentry httpbin-ext google-ext
+    $ kubectl delete virtualservice httpbin-ext
     {{< /text >}}
 
 1.  Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:

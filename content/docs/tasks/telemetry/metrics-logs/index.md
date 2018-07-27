@@ -120,7 +120,7 @@ as the example application throughout this task.
 1.  Push the new configuration.
 
     {{< text bash >}}
-    $ istioctl create -f new_telemetry.yaml
+    $ kubectl apply -f new_telemetry.yaml
     Created config metric/istio-system/doublerequestcount at revision 1973035
     Created config prometheus/istio-system/doublehandler at revision 1973036
     Created config rule/istio-system/doubleprom at revision 1973037
@@ -291,7 +291,7 @@ here to illustrate how to use `match` expressions to control rule execution.
 *   Remove the new telemetry configuration:
 
     {{< text bash >}}
-    $ istioctl delete -f new_telemetry.yaml
+    $ kubectl delete -f new_telemetry.yaml
     {{< /text >}}
 
 *   Remove any `kubectl port-forward` processes that may still be running:
