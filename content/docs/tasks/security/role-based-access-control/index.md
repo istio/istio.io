@@ -256,7 +256,7 @@ account "cluster.local/ns/default/sa/bookinfo-productpage" (representing the "pr
       namespace: default
     spec:
       subjects:
-      - user: "spiffe://cluster.local/ns/default/sa/bookinfo-productpage"
+      - user: "cluster.local/ns/default/sa/bookinfo-productpage"
       roleRef:
         kind: ServiceRole
         name: "details-reviews-viewer"
@@ -309,7 +309,7 @@ account "cluster.local/ns/default/sa/bookinfo-reviews", which represents the "re
       namespace: default
     spec:
       subjects:
-      - user: "spiffe://cluster.local/ns/default/sa/bookinfo-reviews"
+      - user: "cluster.local/ns/default/sa/bookinfo-reviews"
       roleRef:
         kind: ServiceRole
         name: "ratings-viewer"

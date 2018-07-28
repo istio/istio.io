@@ -703,7 +703,7 @@ spec:
   - user: "service-account-a"
   - user: "istio-ingress-service-account"
     properties:
-    - request.auth.claims[email]: "a@foo.com"
+      request.auth.claims[email]: "a@foo.com"
   roleRef:
     kind: ServiceRole
     name: "products-viewer"
