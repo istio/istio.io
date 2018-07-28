@@ -110,8 +110,8 @@ This solution uses Istio proxy for TCP bypassing. The traffic is secured through
       name: tcp
     {{< /text >}}
 
-1.  Update the mesh service deployment. See further readings on port naming rules
-[here](/docs/setup/kubernetes/sidecar-injection/#pod-spec-requirements).
+1.  Update the mesh service deployment. See further readings on port naming rules in
+[Requirements for Pods and Services](/docs/setup/kubernetes/spec-requirements).
 
 1.  You can verify access to the Endpoints service through secure Ingress:
 

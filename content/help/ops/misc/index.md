@@ -150,7 +150,7 @@ your Kubernetes services need to be changed slightly.
 
 Kubernetes services must adhere to certain restrictions in order to take advantage of
 Istio's L7 routing features.
-Refer to the [sidecar injection documentation](/docs/setup/kubernetes/sidecar-injection/#pod-spec-requirements)
+Refer to the [Requirements for Pods and Services](/docs/setup/kubernetes/spec-requirements)
 for details.
 
 ## Verifying connectivity to Istio Pilot
