@@ -6,18 +6,30 @@ keywords: [kubernetes,upgrading]
 ---
 
 This page describes how to upgrade an existing Istio deployment (including both control plane and sidecar proxy) to a new release of Istio.
-The upgrade process could involve new binaries as well as other changes like configuration and API schemas. The upgrade process may involve
-some service downtime. To minimize downtime, please ensure your Istio control plane components and your applications are highly available
-with multiple replicas.
+The upgrade process may install new binaries and may change configuration and API schemas. The upgrade process
+may result in service downtime. To minimize downtime, please ensure your Istio control plane components and your applications
+are highly available with multiple replicas.
 
 In the following steps, we assume that the Istio components are installed and upgraded in the `istio-system` namespace.
 
-## Control plane upgrade
+## Upgrade steps
+
+1. [Download the new Istio release](/docs/setup/kubernetes/download-release/)
+and change directory to the new release directory.
+
+1. Upgrade Istio's [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
+via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the kube-apiserver:
+
+{{< text bash >}}
+$ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml -n istio-system
+{{< /text >}}
+
+### Control plane upgrade
 
 The Istio control plane components include: Citadel, Ingress gateway, Egress gateway, Pilot, Policy, Telemetry and
 Sidecar injector.
 
-### Helm upgrade
+#### Helm upgrade
 
 If you installed Istio with [Helm](/docs/setup/kubernetes/helm-install/#option-2-install-with-helm-and-tiller-via-helm-install) the preferred upgrade option is to let Helm take care of the upgrade:
 
@@ -25,7 +37,7 @@ If you installed Istio with [Helm](/docs/setup/kubernetes/helm-install/#option-2
 $ helm upgrade istio install/kubernetes/helm/istio --namespace istio-system
 {{< /text >}}
 
-### Kubernetes rolling update
+#### Kubernetes rolling update
 
 You can also use Kubernetes’ rolling update mechanism to upgrade the control plane components. This is suitable for cases when Istio hasn't been installed using Helm.
 
@@ -62,7 +74,7 @@ your Istio control plane should be updated to the new version. Your existing app
 any change, using the Envoy v1 proxy and the v1alpha1 route rules. If there is any critical issue with the new control plane,
 you can rollback the changes by applying the yaml files from the old version.
 
-## Sidecar upgrade
+### Sidecar upgrade
 
 After the control plane upgrade, the applications already running Istio will still be using an older sidecar. To upgrade the sidecar,
 you will need to re-inject it.
