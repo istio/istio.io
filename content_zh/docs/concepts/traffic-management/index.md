@@ -178,7 +178,7 @@ spec:
 
 子集中会指定一或多个标签，用这些标签来区分不同版本的实例。假设在 Kubernetes 上的 Istio 服务网格之中有一个服务，`version: v1` 代表只有标签中包含 "version:v1" 的 Pod 才会收到流量。
 
-规则可以使用 [istioctl 客户端工具](/docs/reference/commands/istioctl/) 进行配置，如果是 Kubernetes 部署，还可以使用 `kubectl` 命令完成同样任务，但是只有 `istioctl` 会在这个过程中对模型进行检查，所以我们推荐使用 `istioctl`。在[配置请求路由任务](/docs/tasks/traffic-management/request-routing/)中包含有配置示例。
+规则可以使用 [`istioctl` 客户端工具](/docs/reference/commands/istioctl/) 进行配置，如果是 Kubernetes 部署，还可以使用 `kubectl` 命令完成同样任务，但是只有 `istioctl` 会在这个过程中对模型进行检查，所以我们推荐使用 `istioctl`。在[配置请求路由任务](/docs/tasks/traffic-management/request-routing/)中包含有配置示例。
 
 Istio 中包含有四种流量管理配置资源，分别是 `VirtualService`、`DestinationRule`、`ServiceEntry`、以及 `Gateway`。下面会讲一下这几个资源的一些重点。在[网络参考](/docs/reference/config/istio.networking.v1alpha3/)中可以获得更多这方面的信息。
 
@@ -697,5 +697,3 @@ spec:
 在 [Ingress 任务](/docs/tasks/traffic-management/ingress/) 中有完整的 Ingress Gateway 例子。
 
 虽然主要用于管理 Ingress 流量，`Gateway` 还可以用在纯粹的内部服务之间或者 egress 场景下使用。不管处于什么位置，所有的网关都可以以同样的方式进行配置和控制。[Gateway 参考](/docs/reference/config/istio.networking.v1alpha3/#Gateway) 中包含更多细节描述。
-
-

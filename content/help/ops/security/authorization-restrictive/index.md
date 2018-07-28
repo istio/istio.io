@@ -7,7 +7,7 @@ weight: 60
 When you first enable authorization for a service, all requests are denied by default. After you add one or more authorization policies, then
 matching requests should flow through. If all requests continue to be denied, you can try the following:
 
-1. Make sure there is no typo in your policy yaml file. Use `istioctl` instead of `kubectl`,  because `istioctl` enforces an additional validation check to prevent errors caused by typos.
+1. Make sure there is no typo in your policy yaml file.
 
 1. Avoid enabling authorization for Istio Control Planes Components, including Mixer, Pilot, Ingress. Istio authorization policy is designed for authorizing access to services in Istio Mesh. Enabling it for Istio Control Planes Components may cause unexpected behavior.
 

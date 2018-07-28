@@ -6,6 +6,7 @@ keywords: [kubernetes,helm]
 aliases:
     - /docs/setup/kubernetes/helm.html
     - /docs/tasks/integrating-services-into-istio.html
+page_icon: /img/helm.svg
 ---
 
 Quick start instructions for the setup and configuration of Istio using Helm.
@@ -24,6 +25,8 @@ plane and the sidecars for the Istio data plane.
   * [OpenShift Origin](/docs/setup/kubernetes/platform-setup/openshift/)
   * [Amazon Web Services (AWS) with Kops](/docs/setup/kubernetes/platform-setup/aws/)
   * [Azure](/docs/setup/kubernetes/platform-setup/azure/)
+
+1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/spec-requirements/) on Pods and Services.
 
 1. [Install the Helm client](https://docs.helm.sh/using_helm/#installing-helm).
 
@@ -106,7 +109,7 @@ With this minimal set you can install your own application and [configure reques
 
 ## Uninstall
 
-* For option 1, uninstall using kubectl:
+* For option 1, uninstall using `kubectl`:
 
     {{< text bash >}}
     $ kubectl delete -f $HOME/istio.yaml
@@ -123,4 +126,3 @@ With this minimal set you can install your own application and [configure reques
     {{< text bash >}}
     $ kubectl -n istio-system delete job --all
     {{< /text >}}
-

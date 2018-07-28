@@ -3,6 +3,7 @@ title: Istio 0.4
 weight: 97
 aliases:
     - /docs/welcome/notes/0.4.html
+page_icon: /img/notes.svg
 ---
 
 This release has only got a few weeks' worth of changes, as we stabilize our monthly release process.

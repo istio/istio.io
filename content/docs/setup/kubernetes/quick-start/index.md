@@ -19,6 +19,8 @@ To install and configure Istio in a Kubernetes cluster, follow these instruction
   * [Amazon Web Services (AWS) with Kops](/docs/setup/kubernetes/platform-setup/aws/)
   * [Azure](/docs/setup/kubernetes/platform-setup/azure/)
 
+1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/spec-requirements/).
+
 ## Installation steps
 
 To install Istio's core components you can choose one of the following four
@@ -63,10 +65,10 @@ default:
 $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
 {{< /text >}}
 
-### Option 3: Render Kubernetes manifest with Helm and deploy with kubectl
+### Option 3: Render Kubernetes manifest with Helm and deploy with `kubectl`
 
 Follow our setup instructions to
-[render the Kubernetes manifest with Helm and deploy with kubectl](/docs/setup/kubernetes/helm-install/#option-1-install-with-helm-via-helm-template).
+[render the Kubernetes manifest with Helm and deploy with `kubectl`](/docs/setup/kubernetes/helm-install/#option-1-install-with-helm-via-helm-template).
 
 ### Option 4: Use Helm and Tiller to manage the Istio deployment
 
@@ -144,7 +146,7 @@ $ kubectl create -n <namespace> -f <your-app-spec>.yaml
 {{< /text >}}
 
 If you don't have the Istio-sidecar-injector installed, you must use
-[istioctl kube-inject](/docs/reference/commands/istioctl/#istioctl-kube-inject)
+[`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject)
 to manually inject Envoy containers in your application pods before deploying
 them:
 
