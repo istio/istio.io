@@ -1,80 +1,38 @@
 .landing {
-    .hero {
-        background: $mainBrandColor linear-gradient(to right, $mainBrandColor, $secondBrandColor) no-repeat center/cover;
-        position: relative;
+    .hero-label {
+        margin: 0 0 0 0;
+        padding: 30px 0 0 0;
+        font-size: 4rem;
+        font-family: "Verdana", serif;
         text-align: center;
+    }
 
-        .hero-label {
-            color: $textBrandColor;
-            margin: 0 0 0 0;
-            padding: 30px 0 0 0;
-            font-size: 62px;
-            font-family: "Verdana";
+    .hero-lead {
+        display: block;
+        font-size: 1rem;
+        font-weight: $heroLeadWeight;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+    }
+
+    .hero-logo {
+        width: 0;
+        fill: $heroLogoColor;
+    }
+
+    @media (min-width: $bp-sm) {
+        .hero-logo {
+            width: 7rem;
         }
 
-        .hero-logo {
-            height: 170px;
-            padding: 0;
-            margin: 28px 0 0 0;
+        .hero-label {
+            text-align: left;
         }
 
         .hero-lead {
-            color: $textBrandColor;
-            display: block;
-            font-size: 18px;
-            font-weight: $heroLeadWeight;
-            margin: 32px 0 0 0;
-            padding: 0;
+            text-align: left;
         }
-
-        .hero-down-arrow {
-            color: $textBrandColor;
-            display: inline-block;
-            margin: 20px 0 20px 0;
-            padding: 5px;
-            cursor: pointer;
-        }
-
-        @media (min-width: $bp-sm) {
-            .hero-label {
-                padding: 80px;
-            }
-
-            .hero-logo {
-                margin: 78px 0 0 0;
-            }
-
-            .hero-lead {
-                margin: 82px 0 0 0;
-            }
-
-            .hero-down-arrow {
-                margin: 60px 0 20px 0;
-            }
-        }
-    }
-
-    h2 {
-        border: 0;
-    }
-
-    .landing-image {
-        max-height: 300px;
-        text-align: center;
-    }
-
-    .landing-text {
-        text-align: center;
-    }
-
-    .color1 {
-        background-color: $landingBackgroundColor1;
-        stroke: $landingBackgroundColor1;
-    }
-
-    .color2 {
-        background-color: $landingBackgroundColor2;
-        stroke: $landingBackgroundColor2;
     }
 
     .container-fluid {
@@ -83,30 +41,55 @@
     }
 
     @media (min-width: $bp-md) {
-        .landing-text {
-            text-align: left;
-
-            .alt {
-                text-align: right;
-            }
-        }
-
-        .landing-image {
-            text-align: right;
-
-            .alt {
-                text-align: left;
-            }
-        }
-
         .container-fluid {
             padding-top: 30px;
             padding-bottom: 30px;
         }
     }
 
-    .call {
-        height: auto;
+    .landing-image {
+        width: 12rem;
+        height: 12rem;
+    }
+
+    .card {
+        color: $landingCardTextColor;
+        opacity: 0.1;
+        transition: opacity .25s linear;
+        background-color: $landingCardBackgroundColor;
+        border-color: $landingCardBorderColor;
+        width: 18rem;
+        margin: 1rem;
+        box-shadow: 3px 3px 8px $landingCardShadowColor;
+    }
+
+    .card-title {
         text-align: center;
+    }
+
+    .card-line {
+        margin-left: 1.6rem;
+        margin-right: 1.6rem;
+        background-color: $landingCardTextColor;
+    }
+
+    .card-img-top {
+        text-align: center;
+        padding: 0;
+    }
+
+    .card-body {
+        padding-top: 0;
+    }
+
+    .buttons {
+        opacity: 0;
+        transition: opacity .25s ease-in;
+    }
+
+    .btn {
+        box-shadow: 3px 3px 8px #a7a7a7;
+        margin: 1rem 5rem;
+        width: 18rem;
     }
 }
