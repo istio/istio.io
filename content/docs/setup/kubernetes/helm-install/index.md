@@ -25,7 +25,7 @@ plane and the sidecars for the Istio data plane.
   * [Amazon Web Services (AWS) with Kops](/docs/setup/kubernetes/platform-setup/aws/)
   * [Azure](/docs/setup/kubernetes/platform-setup/azure/)
 
-1. Check the [specification requirements](/docs/setup/kubernetes/spec-requirements/) on Pods and Services.
+1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/spec-requirements/) on Pods and Services.
 
 1. [Install the Helm client](https://docs.helm.sh/using_helm/#installing-helm).
 
