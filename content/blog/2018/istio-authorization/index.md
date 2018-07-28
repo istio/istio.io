@@ -155,7 +155,7 @@ metadata:
   namespace: default
 spec:
   subjects:
-  - user: "spiffe://cluster.local/ns/default/sa/bookstore-frontend”
+  - user: "cluster.local/ns/default/sa/bookstore-frontend”
   roleRef:
     kind: ServiceRole
     name: "book-reader"
@@ -174,7 +174,7 @@ metadata:
   namespace: default
 spec:
   subjects:
-  - user: "spiffe://cluster.local/ns/default/sa/bookstore-frontend”
+  - user: "cluster.local/ns/default/sa/bookstore-frontend”
     properties:
       request.auth.claims[group]: "qualified-reviewer”
   roleRef:
