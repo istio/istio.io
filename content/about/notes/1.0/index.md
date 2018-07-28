@@ -1,6 +1,7 @@
 ---
 title: Istio 1.0
 weight: 92
+page_icon: /img/notes.svg
 ---
 
 We're proud to release Istio 1.0! Istio has been in development for nearly two years, and the 1.0 release represents a substantial
@@ -66,7 +67,7 @@ coupled with client-side [destination rules](/docs/concepts/traffic-management/#
 - **JWT Authentication**. We now support [JWT authentication](/docs/concepts/security/#authentication) which can
 be configured using [authentication policies](/docs/concepts/security/#authentication-policies).
 
-## Istioctl
+## `istioctl`
 
 - Added the [`istioctl authn tls-check`](/docs/reference/commands/istioctl/#istioctl-authn-tls-check) command.
 

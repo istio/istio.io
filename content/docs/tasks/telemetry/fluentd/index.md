@@ -342,7 +342,7 @@ spec:
 Create the resources:
 
 {{< text bash >}}
-$ istioctl create -f fluentd-istio.yaml
+$ kubectl apply -f fluentd-istio.yaml
 Created config logentry/istio-system/newlog at revision 22374
 Created config fluentd/istio-system/handler at revision 22375
 Created config rule/istio-system/newlogtofluentd at revision 22376
@@ -387,7 +387,7 @@ example stack.
 *   Remove the new telemetry configuration:
 
     {{< text bash >}}
-    $ istioctl delete -f fluentd-istio.yaml
+    $ kubectl delete -f fluentd-istio.yaml
     {{< /text >}}
 
 *   Remove the example Fluentd, Elasticsearch, Kibana stack:

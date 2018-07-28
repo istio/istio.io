@@ -22,19 +22,19 @@ This task shows how to control access to a service using simple denials or white
 that define the service subsets corresponding to each version.
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/networking/destination-rule-all.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all.yaml@
     {{< /text >}}
 
     If you enabled mutual TLS, please run the following instead
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
     {{< /text >}}
 
     You can display the destination rules with the following command:
 
     {{< text bash >}}
-    $ istioctl get destinationrules -o yaml
+    $ kubectl get destinationrules -o yaml
     {{< /text >}}
 
     Since the subset references in virtual services rely on the destination rules,
@@ -44,20 +44,17 @@ that define the service subsets corresponding to each version.
   test user "jason" to version v2 and requests from any other user to v3.
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
     and then run the following command:
 
     {{< text bash >}}
-    $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-jason-v2-v3.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-jason-v2-v3.yaml@
     {{< /text >}}
 
-    > If you have conflicting rules that you set in previous tasks,
-    > use `istioctl replace` instead of `istioctl create`.
-    >
     > If you are using a namespace other than `default`,
-    > use `istioctl -n namespace ...` to specify the namespace.
+    > use `kubectl -n namespace ...` to specify the namespace.
 
 ## Simple _denials_
 
@@ -80,7 +77,7 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
     Run the following command to set up the deny rule along with a handler and an instance.
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/policy/mixer-rule-deny-label.yaml@
+    $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-deny-label.yaml@
     Created config denier/default/denyreviewsv3handler at revision 2882105
     Created config checknothing/default/denyreviewsv3request at revision 2882106
     Created config rule/default/denyreviewsv3 at revision 2882107
@@ -114,7 +111,7 @@ Istio also supports attribute-based whitelists and blacklists. The following whi
 1.  Remove the denier configuration that you added in the previous section.
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/policy/mixer-rule-deny-label.yaml@
+    $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-deny-label.yaml@
     {{< /text >}}
 
 1. Verify that when you access the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`) without logging in, you see red stars.
@@ -139,7 +136,7 @@ Istio also supports attribute-based whitelists and blacklists. The following whi
     and then run the following command:
 
     {{< text bash >}}
-    $ istioctl create -f whitelist-handler.yaml
+    $ kubectl apply -f whitelist-handler.yaml
     {{< /text >}}
 
 1.  Extract the version label by creating an instance of the [`listentry`](/docs/reference/config/policy-and-telemetry/templates/listentry/) template.
@@ -157,7 +154,7 @@ Save the following YAML snippet as `appversion-instance.yaml`:
     and then run the following command:
 
     {{< text bash >}}
-    $ istioctl create -f appversion-instance.yaml
+    $ kubectl apply -f appversion-instance.yaml
     {{< /text >}}
 
 1.  Enable `whitelist` checking for the ratings service.
@@ -179,7 +176,7 @@ Save the following YAML snippet as `checkversion-rule.yaml`:
     and then run the following command:
 
     {{< text bash >}}
-    $ istioctl create -f checkversion-rule.yaml
+    $ kubectl apply -f checkversion-rule.yaml
     {{< /text >}}
 
 1. Verify that when you access the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`) without logging in, you see **no** stars.
@@ -190,27 +187,27 @@ Verify that after logging in as "jason" you see black stars.
 *   Remove the mixer configuration:
 
     {{< text bash >}}
-    $ istioctl delete -f checkversion-rule.yaml
-    $ istioctl delete -f appversion-instance.yaml
-    $ istioctl delete -f whitelist-handler.yaml
+    $ kubectl delete -f checkversion-rule.yaml
+    $ kubectl delete -f appversion-instance.yaml
+    $ kubectl delete -f whitelist-handler.yaml
     {{< /text >}}
 
 *   Remove the application routing rules:
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
+    $ kubectl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
 *   Remove the application destination rules:
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/networking/destination-rule-all.yaml@
+    $ kubectl delete -f @samples/bookinfo/networking/destination-rule-all.yaml@
     {{< /text >}}
 
     If you enabled mutual TLS, please run the following instead
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
+    $ kubectl delete -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
     {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, refer to the

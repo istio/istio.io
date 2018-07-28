@@ -7,4 +7,5 @@ type: section-index
 aliases:
     - /docs/tasks/installing-istio.html
     - /docs/setup/install-kubernetes.html
+page_icon: /img/kubernetes.svg
 ---

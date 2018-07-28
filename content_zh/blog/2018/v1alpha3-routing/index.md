@@ -306,7 +306,7 @@ $ istioctl create -f my-second-rule-for-destination-abc.yaml
 $ istioctl replace -f my-updated-rules-for-destination-abc.yaml
 {{< /text >}}
 
-删除路由规则也使用 istioctl replace 完成，当然删除最后一个路由规则除外（删除最后一个路由规则需要删除 `VirtualService`）。
+删除路由规则也使用 `istioctl` replace 完成，当然删除最后一个路由规则除外（删除最后一个路由规则需要删除 `VirtualService`）。
 
 在添加或删除引用服务版本的路由时，需要在该服务相应的 `DestinationRule` 更新 subsets 。 正如你可能猜到的，这也是使用 `istioctl replace` 完成的。
 
