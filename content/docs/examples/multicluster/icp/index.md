@@ -1,20 +1,20 @@
 ---
-title: Enabling Multicluster on IBM Cloud Private
+title: IBM Cloud Private
 description: Example multicluster IBM Cloud Private install of Istio.
 weight: 70
-keywords: [kubernetes,multicluster]
+keywords: [Kubernetes,multicluster]
 ---
 
-This example demonstrates how to use Istio' multicluster feature to join two
+This example demonstrates how to use Istio's multicluster feature to join two
 [IBM Cloud Private](https://www.ibm.com/cloud/private) clusters together,
-using the [kubernetes multicluster installation instructions](/docs/setup/kubernetes/multicluster-install/).
+using the [Kubernetes multicluster installation instructions](/docs/setup/kubernetes/multicluster-install/).
 
 ## Create the IBM Cloud Private Clusters
 
-1.  You can follow steps [here](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_2.1.0.3/installing/installing.html)
-    to install two IBM Cloud Private clusters.
-    __NOTE__: Make sure individual cluster Pod CIDR ranges and service CIDR ranges must be unique across the multicluster
-    environment and may not overlap. This can be configured by `network_cidr` and `service_cluster_ip_range` in `cluster/config.yaml`.
+1.  [Install two IBM Cloud Private servers](//www.ibm.com/support/knowledgecenter/en/SSBS6K_2.1.0.3/installing/installing.html).
+    __NOTE__: Make sure individual cluster Pod CIDR ranges and service CIDR ranges are unique and do not overlap
+    across the multicluster environment and may not overlap. This can be configured by `network_cidr` and
+    `service_cluster_ip_range` in `cluster/config.yaml`.
     
     {{< text bash >}}
     ## Network in IPv4 CIDR format
@@ -24,32 +24,37 @@ using the [kubernetes multicluster installation instructions](/docs/setup/kubern
     service_cluster_ip_range: 10.0.0.1/24
     {{< /text >}}
 
-1.  After IBM Cloud Private cluster install finsihed, validate `kubectl` access to each cluster. Suppose we have
-    two clusters: cluster-1 and cluster-2.
+1.  After IBM Cloud Private cluster install finsihes, validate `kubectl` access to each cluster. In this example, consider
+    two clusters `cluster-1` and `cluster-2`.
 
-    1.  Follow steps [here](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0.3/manage_cluster/cfc_cli.html)
-        to config `kubectl` for cluster-1, and run following command to check cluster status.
+    [Configure cluster-1 with kubectl](//www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0.3/manage_cluster/cfc_cli.html).
+
+    1.  Check the cluster status:
 
         {{< text bash >}}
         $ kubectl get nodes
         $ kubectl get pods --all-namespaces
         {{< /text >}}
 
-    1.  Use same steps as cluster-1 above to check cluster-2.
-    
-## Config Pod Communication Cross IBM Cloud Private Clusters
+    1.  Repeat above steps to validate `cluster-2`.
 
-IBM Cloud Private is using Calico Node-to-Node Mesh by default to manage container networks. The BGP Client
+## Config Pod Communication Across IBM Cloud Private Clusters
+
+IBM Cloud Private uses Calico Node-to-Node Mesh by default to manage container networks. The BGP Client
 on each node distributes the IP router information to all nodes.
 
-In order to make sure pods can communicate across different clusters, you need to configure IP routers on
-all nodes in the cluster. You need to add IP routers in cluster-2 to cluster-1, and add IP routers in
-cluster-1 to cluster-2.
+To ensure pods can communicate across different clusters, you need to configure IP routers on all nodes
+in the cluster. You need two steps:
 
-You can check how to add IP routers from cluster-1 to cluster-2. With Node-to-Node Mesh mode, each node will
-have IP routers connecting to peer nodes in the cluster. In this example, both cluster has three nodes.
+1.  Add IP routers from `cluster-1` to `cluster-2`.
 
-For cluster-1, the `hosts` file is as follows:
+1.  Add IP routers from `cluster-2` to `cluster-1`.
+
+You can check how to add IP routers from `cluster-1` to `cluster-2`. With Node-to-Node Mesh mode, each
+node will have IP routers connecting to peer nodes in the cluster. In this example, both cluster has
+three nodes.
+
+The `hosts` file for `cluster-1`:
 
 {{< text bash >}}
 9.111.255.21 gyliu-icp-1
@@ -57,7 +62,7 @@ For cluster-1, the `hosts` file is as follows:
 9.111.255.29 gyliu-icp-3
 {{< /text >}}
 
-For cluster-2, the `hosts` file is as follows:
+The `hosts` file for `cluster-2`:
 
 {{< text bash >}}
 9.111.255.152 gyliu-ubuntu-3
@@ -65,8 +70,7 @@ For cluster-2, the `hosts` file is as follows:
 9.111.255.77 gyliu-ubuntu-1
 {{< /text >}}
 
-1.  Get all of the `ip route` on nodes in cluster-1 with command `ip route | grep bird`. See the following
-    example. In this example, both cluster has three nodes.
+1.  Obtain routing information on all nodes in `cluster-1` with the command `ip route | grep bird`.
 
     {{< text bash >}}
     root@gyliu-icp-1:~# ip route | grep bird
@@ -74,11 +78,13 @@ For cluster-2, the `hosts` file is as follows:
     10.1.158.192/26 via 9.111.255.129 dev tunl0 proto bird onlink
     blackhole 10.1.198.128/26 proto bird
     {{< /text >}}
+
     {{< text bash >}}
     root@gyliu-icp-2:~# ip route | grep bird
     10.1.43.0/26 via 9.111.255.29 dev tunl0  proto bird onlink
     blackhole 10.1.158.192/26  proto bird
     {{< /text >}}
+
     {{< text bash >}}
     10.1.198.128/26 via 9.111.255.21 dev tunl0  proto bird onlink
     root@gyliu-icp-3:~# ip route | grep bird
@@ -87,7 +93,7 @@ For cluster-2, the `hosts` file is as follows:
     10.1.198.128/26 via 9.111.255.21 dev tunl0  proto bird onlink
     {{< /text >}}
 
-1.  You can see there are three IP routers total for those three nodes in cluster-1.
+1.  There are three IP routers total for those three nodes in `cluster-1`.
 
     {{< text bash >}}
     10.1.158.192/26 via 9.111.255.129 dev tunl0  proto bird onlink
@@ -95,7 +101,7 @@ For cluster-2, the `hosts` file is as follows:
     10.1.43.0/26 via 9.111.255.29 dev tunl0  proto bird onlink
     {{< /text >}}
 
-1.  Add those three IP routers to all nodes in cluster-2 by the command as follows.
+1.  Add those three IP routers to all nodes in `cluster-2` by the command to follows:
 
     {{< text bash >}}
     $ ip route add 10.1.158.192/26 via 9.111.255.129 
@@ -103,18 +109,18 @@ For cluster-2, the `hosts` file is as follows:
     $ ip route add 10.1.43.0/26 via 9.111.255.29
     {{< /text >}}
 
-1.  You can use same steps to add all IP routers from cluster-2 tocluster-1, as well. After the configuration
-    finished, you will see that the pods in those two different clusters can communication with each other.
+1.  You can use same steps to add all IP routers from `cluster-2` to `cluster-1`, as well. After configuration
+    is complete, all the pods in those two different clusters can communication with each other.
 
-1.  You can verify it by pinging pod IP in cluster-2 from cluster-1. The following is a pod from cluster-2 with
-    pod IP as 20.1.47.150.
+1.  Verify cross pod communication by pinging pod IP in `cluster-2` from `cluster-1`. The following is a pod
+     from `cluster-2` with pod IP as `20.1.47.150`.
 
     {{< text bash >}}
     root@gyliu-ubuntu-1:~/cluster# kubectl get pods -owide  -n kube-system | grep platform-ui
     platform-ui-lqccp                                             1/1       Running     0          3d        20.1.47.150     9.111.255.77
     {{< /text >}}
 
-1.  In one of cluster-1 node, ping this pod IP, it should succeed.
+1.  From a node in `cluster-1` ping the pod IP which should succeed.
 
     {{< text bash >}}
     [root@gyliu-icp-1 mc]# ping 20.1.47.150
@@ -122,21 +128,21 @@ For cluster-2, the `hosts` file is as follows:
     64 bytes from 20.1.47.150: icmp_seq=1 ttl=63 time=0.759 ms
     {{< /text >}}
 
-The above configuration actually configured full IP route mesh across all nodes in the two IBM Cloud Private Clusters,
-which enabled Pod communication cross clusters.
+The above configuration completely configured full IP route mesh across all nodes in the two IBM Cloud Private Clusters,
+which enables Pod communication cross clusters.
 
 ## Install the Istio for multi cluster
 
-You can follow steps [here](/docs/setup/kubernetes/multicluster-install/) to install and config local Istio control plane
-and Istio remote on cluster-1 and cluster-2.
+[Follow the multicluster installation steps](/docs/setup/kubernetes/multicluster-install/) to install and config
+local Istio control plane and Istio remote on `cluster-1` and `cluster-2`.
 
-In this example, I was using cluster-1 as local Istio control plane and cluster-2 as Istio remote.
+This example uses `cluster-1` as local Istio control plane and `cluster-2` as Istio remote.
 
 ## Deploy Bookinfo Example Across Clusters
 
-__NOTE__: The following example is enabling [sidecar automatic injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection).
+__NOTE__: The following example enables [sidecar automatic injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection).
 
-1.  Install bookinfo on the cluster-1. Remove the `reviews-v3` deployment to deploy on remote:
+1.  Install bookinfo on the `cluster-1`. Remove the `reviews-v3` deployment to deploy on remote:
 
     {{< text bash >}}
     $ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
@@ -205,7 +211,7 @@ __NOTE__: The following example is enabling [sidecar automatic injection](/docs/
     service address.  This would not be necessary if a multicluster DNS solution were additionally set up, e.g. as
     in a federated Kubernetes environment.
 
-1.  Install the `reviews-v3` deployment on the remote cluster-2.
+1.  Install the `reviews-v3` deployment on the remote `cluster-2`.
 
     {{< text bash >}}
     $ kube apply -f $HOME/reviews-v3.yaml
@@ -216,4 +222,4 @@ __NOTE__: The following example is enabling [sidecar automatic injection](/docs/
 
     Access `http://<INGRESS_HOST>:<INGRESS_PORT>/productpage` repeatedly and each version of reviews should be equally
     loadbalanced, including `reviews-v3` in the remote cluster (red stars). It may take several accesses (dozens) to
-    demonstrate the equal loadbalancing between `reviews` versions.
+    demonstrate equal loadbalancing between `reviews` versions.
