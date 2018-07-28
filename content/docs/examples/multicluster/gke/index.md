@@ -1,5 +1,5 @@
 ---
-title: Enabling Multicluster on Google Kubernetes Engine
+title: Google Kubernetes Engine
 description: Example multicluster GKE install of Istio.
 weight: 65
 keywords: [kubernetes,multicluster]
