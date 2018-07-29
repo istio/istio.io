@@ -191,6 +191,26 @@ section of the [Configure an Egress Gateway](/docs/tasks/traffic-management/egre
     cluster.outbound|443||www.wikipedia.org.upstream_cx_total: 2
     {{< /text >}}
 
+## Enable HTTPS traffic to arbitrary wildcarded domains
+
+The configuration in the previous section works thanks to the fact that all the _*.wikipedia.org_ sites are apparently
+served by each of the _wikipedia.org_ servers. This could not always be the case. In many cases we may want to configure
+egress control for HTTPS access to _*.com_ or _*.org_ domains, or even to _*_ (all the domains). Configuring traffic to
+arbitrary wildcarded domains introduces a challenge for Istio gateways. In the previous section you directed the traffic
+to _www.wikipedia.org_, and this host was known to your gateway during the configuration. The gateway, however, cannot
+know an IP of an arbitrary host it receives a request for. Would we want to control access to _*.com_, and send
+requests to _www.cnn.com_ and _www.abc.com_, the Istio gateway would not know which IP to forward the requests.
+This limitation is due to the limitation of Envoy, the proxy Istio is based on. Envoy route traffic either to a
+predefined host, or a predefined IP, or to the original destination IP of the request. In the case of the gateway the
+original destination IP of the request is lost (since the request was routed to the egress gateway and its destination
+IP is the IP of the gateway).
+In short, the Istio gateway based on Envoy, cannot route traffic to an arbitrary host, and AS-IS, is unable to perform
+traffic control to arbitrary wildcarded domains. To enable such traffic control for HTTPS (and for any TLS), we need to
+deploy an SNI forward proxy in addition to Envoy. Envoy will route the requests to a wildcarded domain to the SNI
+forward proxy, which, in turn, will forward the request to the destination by the value of SNI. Let's reconfigure our
+access to _*.wikipedia.org_ to support HTTPS traffic to arbitrary wildcarded domains.
+
+
 ## Cleanup
 
 1.  Delete the configuration items you created:
