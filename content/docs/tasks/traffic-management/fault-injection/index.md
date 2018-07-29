@@ -94,7 +94,7 @@ still expect the end-to-end flow to continue without any errors.
      {{< /text >}}
 
 1. View the web page response times:
-    1. Open the *Developer Tools* menu in IE, Chrome or Firefox (typically, key combination _Ctrl+Shift+I_ or _Alt+Cmd+I_).
+    1. Open the *Developer Tools* menu in you web browser.
     1. Open the Network tab
     1. Reload the `productpage` web page. You will see that the webpage actually
     loads in about 6 seconds.

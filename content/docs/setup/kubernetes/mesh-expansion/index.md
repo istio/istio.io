@@ -177,11 +177,11 @@ names and connect to pilot, for example:
 
 *   Extract the initial Istio authentication secrets and copy them to the machine. The default
 installation of Istio includes Citadel and will generate Istio secrets even if
-the automatic 'mTLS'
-setting is disabled (it creates secret for each service account, and the secret
+the automatic `mTLS`
+setting is disabled (it creates a secret for each service account, and the secret
 is named as `istio.<serviceaccount>`). It is recommended that you perform this
-step to make it easy to enable mTLS in the future and to upgrade to a future version
-that will have mTLS enabled by default.
+step to make it easy to enable mutual TLS in the future and to upgrade to a future version
+that will have mutual TLS enabled by default.
 
     `ACCOUNT` defaults to 'default', or `SERVICE_ACCOUNT` environment variable
     `NAMESPACE` defaults to current namespace, or `SERVICE_NAMESPACE` environment variable

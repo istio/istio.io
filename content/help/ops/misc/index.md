@@ -169,7 +169,7 @@ Verifying connectivity to Pilot is a useful troubleshooting step. Every proxy co
     $ kubectl exec -it $INGRESS_POD_NAME -n istio-system /bin/bash
     {{< /text >}}
 
-1.  Test connectivity to Pilot using cURL. The following example cURL's the v1 registration API using default Pilot configuration parameters and mTLS enabled:
+1.  Test connectivity to Pilot using cURL. The following example cURL's the v1 registration API using default Pilot configuration parameters and mutual TLS enabled:
 
     {{< text bash >}}
     $ curl -k --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem --key /etc/certs/key.pem https://istio-pilot:15003/v1/registration
@@ -209,9 +209,9 @@ To fix the problem, you'll need to shutdown and then restart Docker before reins
 ## Envoy won't connect to my HTTP/1.0 service
 
 Envoy requires HTTP/1.1 or HTTP/2 traffic for upstream services. For example, when using [NGINX](https://www.nginx.com/) for serving traffic behind Envoy, you
-will need to set the [proxy_http_version](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_http_version) directive in your NGINX config to be "1.1", since the NGINX default is 1.0
+will need to set the [proxy_http_version](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_http_version) directive in your NGINX configuration to be "1.1", since the NGINX default is 1.0
 
-Example config:
+Example configuration:
 
 {{< text plain >}}
 upstream http_backend {
@@ -316,7 +316,7 @@ or [manual](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection) 
     instances to a Prometheus handler.
 <!-- todo replace ([example](https://github.com/istio/istio/blob/master/install/kubernetes/istio.yaml#L892)). -->
 
-1.  Verify Prometheus handler config exists.
+1.  Verify the Prometheus handler configuration exists.
 
     In Kubernetes environments, issue the following command:
 
@@ -330,7 +330,7 @@ or [manual](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection) 
     Mixer with the appropriate handler configuration.
 <!-- todo replace ([example](https://github.com/istio/istio/blob/master/install/kubernetes/istio.yaml#L819)) -->
 
-1.  Verify Mixer metric instances config exists.
+1.  Verify the Mixer metric instance configuration exists.
 
     In Kubernetes environments, issue the following command:
 
@@ -503,7 +503,7 @@ To debug Istio with `gdb`, you will need to run the debug images of Envoy / Mixe
 
 ### With Tcpdump
 
-Tcpdump doesn't work in the sidecar pod - the container doesn't run as root. However any other container in the same pod will see all the packets, since the network namespace is shared. `iptables` will also see the pod-wide config.
+Tcpdump doesn't work in the sidecar pod - the container doesn't run as root. However any other container in the same pod will see all the packets, since the network namespace is shared. `iptables` will also see the pod-wide configuration.
 
 Communication between Envoy and the app happens on 127.0.0.1, and is not encrypted.
 
@@ -526,14 +526,14 @@ You should build resilience into your application for this type of
 disconnect, but if you still want to prevent the disconnects from
 happening, you will need to disable mutual TLS and the `istio-citadel` deployment.
 
-First, edit your `istio` config to disable mutual TLS
+First, edit your `istio` configuration to disable mutual TLS:
 
 {{< text bash >}}
 $ kubectl edit configmap -n istio-system istio
 $ kubectl delete pods -n istio-system -l istio=pilot
 {{< /text >}}
 
-Next, scale down the `istio-citadel` deployment to disable Envoy restarts.
+Next, scale down the `istio-citadel` deployment to disable Envoy restarts:
 
 {{< text bash >}}
 $ kubectl scale --replicas=0 deploy/istio-citadel -n istio-system
@@ -541,7 +541,7 @@ $ kubectl scale --replicas=0 deploy/istio-citadel -n istio-system
 
 This should stop Istio from restarting Envoy and disconnecting TCP connections.
 
-## Envoy Process High CPU Usage
+## Envoy process has high CPU usage
 
 For larger clusters, the default configuration that comes with Istio
 refreshes the Envoy configuration every 1 second. This can cause high

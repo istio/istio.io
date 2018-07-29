@@ -92,8 +92,8 @@ sidecar by executing:
 $ kubectl replace -f <(istioctl kube-inject -f $ORIGINAL_DEPLOYMENT_YAML)
 {{< /text >}}
 
-If the sidecar was previously injected with some customized inject config
-files, you will need to change the version tag in the config files to the new
+If the sidecar was previously injected with some customized inject configuration
+files, you will need to change the version tag in the configuration files to the new
 version and re-inject the sidecar as follows:
 
 {{< text bash >}}
@@ -140,18 +140,18 @@ Next, use `istioctl experimental convert-networking-config` to convert your exis
 1. If your yaml file contains more than the ingress definition such as deployment or service definition, move the ingress definition out to a separate yaml file for the `
 istioctl experimental convert-networking-config` tool to process.
 
-1. Execute the following to generate the new network config file, where replacing FILE*.yaml with your ingress file or deprecated route rule files.
+1. Execute the following to generate the new network configuration file, where replacing FILE*.yaml with your ingress file or deprecated route rule files.
 *Tip: Make sure to feed all the files using `-f` for one or more deployments.*
 
     {{< text bash >}}
-    $ istioctl experimental convert-networking-config -f FILE1.yaml -f FILE2.yaml -f FILE3.yaml > UPDATED_NETWORK_CONFIG.yaml
+    $ istioctl experimental convert-networking-configuration-f FILE1.yaml -f FILE2.yaml -f FILE3.yaml > UPDATED_NETWORK_CONFIG.yaml
     {{< /text >}}
 
 1. Edit `UPDATED_NETWORK_CONFIG.yaml` to update all namespace references to your desired namespace.
 There is a known issue with the `convert-networking-config` tool where the `istio-system` namespace
 is used incorrectly. Further, ensure the `hosts` value is correct.
 
-1. Deploy the updated network config file.
+1. Deploy the updated network configuration file:
 
     {{< text bash >}}
     $ kubectl replace -f UPDATED_NETWORK_CONFIG.yaml
@@ -238,9 +238,10 @@ trafficPolicy:
     mode: DISABLE
 {{< /text >}}
 
-## Migrating `mtls_excluded_services` config to destination rules
+## Migrating the `mtls_excluded_services` configuration to destination rules
 
-If you installed Istio with mutual TLS enabled, and used mesh config `mtls_excluded_services` to disable mutual TLS when connecting to these services (e.g kubernetes API server), you need to replace this by adding a destination rule. For example:
+If you installed Istio with mutual TLS enabled, and used the mesh configuration option `mtls_excluded_services` to
+disable mutual TLS when connecting to these services (e.g Kubernetes API server), you need to replace this by adding a destination rule. For example:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3

@@ -252,5 +252,5 @@ For more details on tracing see [Understanding what happened](/docs/tasks/teleme
 
 1. Select the deployment and click **Delete**.
 
-1. Deployment Manager will remove all the deployed GKE artifacts - however, items such as Ingress and LoadBalancers will remain. You can delete those artifacts
-by again going to the cloud console under [**Network Services** -> **LoadBalancers**](https://console.cloud.google.com/net-services/loadbalancing/loadBalancers/list)
+1. Deployment Manager will remove all the deployed GKE artifacts - however, items such as `Ingress` and `LoadBalancers` will remain. You can delete those artifacts
+by again going to the cloud console under [**Network Services** -> **Load balancing**](https://console.cloud.google.com/net-services/loadbalancing/loadBalancers/list)

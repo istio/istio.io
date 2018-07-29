@@ -461,7 +461,7 @@ To experiment with this feature, you need a valid JWT. The JWT must correspond t
 this tutorial, we use this [JWT test]({{< github_file >}}/security/tools/jwt/samples/demo.jwt) and this
 [JWKS endpoint]({{< github_file >}}/security/tools/jwt/samples/jwks.json) from the Istio code base.
 
-Also, for convenience, expose `httpbin.foo` via ingressgateway (for more details, see the [ingress task](/docs/tasks/traffic-management/ingress/)).
+Also, for convenience, expose `httpbin.foo` via `ingressgateway` (for more details, see the [ingress task](/docs/tasks/traffic-management/ingress/)).
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -

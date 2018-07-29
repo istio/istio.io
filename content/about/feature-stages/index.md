@@ -78,7 +78,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Authentication policy](/docs/concepts/security/#authentication-policies)  | Alpha
 | [End User (JWT) Authentication](/docs/concepts/security/#authentication)  | Alpha
 | [VM: Service Credential Distribution](/docs/concepts/security/#key-management)         | Beta
-| [Incremental mTLS](/docs/tasks/security/mtls-migration)    | Beta
+| [Mutual TLS Migration](/docs/tasks/security/mtls-migration)    | Beta
 | [OPA Checker](/docs/reference/config/policy-and-telemetry/adapters/opa/)    | Alpha
 | [Authorization (RBAC)](/docs/concepts/security/#authorization)   | Alpha
 
@@ -97,7 +97,7 @@ Below is our list of existing features and their current phases. This informatio
 | VM: Ansible Envoy Installation, Interception and Registration  | Alpha
 | [Pilot Integration into Consul](/docs/setup/consul/quick-start/) | Alpha
 | [Pilot Integration into Cloud Foundry Service Discovery](/docs/setup/consul/quick-start/)    | Alpha
-| [Basic Config Resource Validation](https://github.com/istio/istio/issues/1894) | Alpha
+| [Basic Configuration Resource Validation](https://github.com/istio/istio/issues/1894) | Alpha
 | [Mixer Telemetry Collection (Tracing, Logging, Monitoring)](/help/faq/mixer/#mixer-self-monitoring) | Alpha
 | [Custom Mixer Build Model](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) | Alpha
 | [Out of Process Mixer Adapters](https://github.com/istio/istio/wiki/Out-Of-Process-gRPC-Adapter-Dev-Guide) | Alpha
