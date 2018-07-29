@@ -10,10 +10,13 @@ aliases:
     - /docs/concepts/security/rbac/
 ---
 
-Istio offers strong security to the microservices and their communication.
-For example, traffic encryption to defend against the man-in-the-middle attack,
-mutual TLS and fine-grained access policies to provide flexible service access control
-and auditing to detect who did what at what time.
+Taking a monolithic application and breaking it down into atomic services offers various benefits:
+microservices have better agility, better scalability, and better ability to reuse services.
+However, microservices also have particular security needs.
+For example, to defend against the man-in-the-middle attack, they need traffic encryption;
+to provide flexible service access control, they need mutual TLS and fine-grained access policies;
+to audit who did what at what time, they need auditing tools.
+Istio Security tries to provide a comprehensive security solution to solve all these issues.
 
 This page gives an overview on how you can use Istio security features to secure your services, wherever you run them.
 In particular, Istio security mitigates both insider and external threats against your data, endpoints, communication and platform.
@@ -36,7 +39,7 @@ and audit (AAA) tools to protect your services and data. The goals of Istio secu
 Visit our [Mutual TLS Migration docs](/docs/tasks/security/mtls-migration/) to start using Istio security features with your deployed services.
 Visit our [Security Tasks](/docs/tasks/security/) for detailed instructions to use the security features.
 
-## High-level architecture and features
+## High-level architecture
 
 Security in Istio involves multiple components:
 
@@ -55,65 +58,7 @@ Security in Istio involves multiple components:
     caption="Istio Security Architecture"
     >}}
 
-### Identity provision
-
-The Istio PKI is built on top of Istio Citadel and securely provisions strong workload identities to every workload.
-Istio uses X.509 certificates to carry the identities in [SPIFFE](https://spiffe.io/) format.
-The PKI also automates the key & certificate rotation and revocation at scale.
-
-### Service and user authentication
-
-Istio provides two different types of authentication:
-
-- **Service-to-service Authentication** enables data-in-transit encryption and strong channel-level authentication using
-  [mutual TLS](https://en.wikipedia.org/wiki/Mutual_authentication).
-
-- **User Authentication** enables request-level authentication with JSON Web Token (JWT) validation
-  and a streamlined developer experience for [Auth0](https://auth0.com/), [Firebase Auth](https://firebase.google.com/docs/auth/),
-  [Google Auth](https://developers.google.com/identity/protocols/OpenIDConnect), and custom auth.
-
-In both cases the authentication policies are stored in the Istio config store via a custom Kubernetes API,
-and are kept up to date (along with keys where appropriate) for each proxy by Pilot.
-Istio also supports authentication in permissive mode to understand how a policy change would affect your security posture
-before it becomes effective.
-
-For more details, read the [authentication](/docs/concepts/security/#authentication) section.
-
-### Authorization & audit
-
-Istio provides fine-grained access control to enable application-level control and auditing on who accesses your service, API, or resource,
-using a variety of access control mechanisms.
-They include attribute and role-based access control as well as authorization hooks.
-
-Find out more about Istio authorization in the [authorization guide](/docs/concepts/security/#authorization).
-The guide for auditing is coming soon!
-
-### Security configuration
-
-Istio makes it simple to configure and enable security features using Istio's rich yet easy-to-use policy creation
-and centralized policy management.
-
-Find out more about configuring security policies in the [authentication](/docs/concepts/security/#authentication)
-and [authorization](/docs/concepts/security/#authorization) sections.
-
-### Using other security mechanisms
-
-While we strongly recommend using Istio security mechanisms,
-Istio is flexible enough to allow you to plug in your own authentication and authorization mechanisms via the Mixer component.
-To use and configure plugins in Mixer, visit our [policies and telemetry adapters docs](/docs/concepts/policies-and-telemetry/#adapters).
-
-### Upcoming features
-
-- Identity or CA pluggability to support bring-your-own-CA and bring-your-own-identity.
-  For example, Vault integration, Active Directory integration.
-
-- Perimeter security policies for Ingress and Egress proxies.
-
-- Advanced auditing to meet various compliance requirements.
-
-- Secure developer and operator access from CORP to production services.
-
-- Binary authorization integration to ensure the service is running with the trusted binary.
+In the following sections, we will introduce Istio security features in details.
 
 ## Istio identity
 
@@ -158,6 +103,10 @@ However, Istio security and SPIFFE/SPIRE differ in the PKI implementation detail
 Istio provides a more comprehensive security solution, including authentication, authorization, and auditing.
 
 ## PKI
+
+The Istio PKI is built on top of Istio Citadel and securely provisions strong workload identities to every workload.
+Istio uses X.509 certificates to carry the identities in [SPIFFE](https://spiffe.io/) format.
+The PKI also automates the key & certificate rotation and revocation at scale.
 
 Istio supports services running on both Kubernetes pods and on-prem machines.
 Currently we use different certificate key provisioning mechanisms for each scenario, which will be unified in a post-1.0 release.
@@ -257,8 +206,8 @@ isolate the microservice deployments and enforce different access control rules 
 Istio provides two types of authentication:
 
 - Transport authentication, also known as service-to-service authentication:
-  verifies the direct client making the connection. Istio offers mutual TLS
-  (mTLS) as a full stack solution for transport authentication. You can
+  verifies the direct client making the connection. Istio offers [mutual TLS](https://en.wikipedia.org/wiki/Mutual_authentication)
+  as a full stack solution for transport authentication. You can
   easily turn on this feature without requiring service code changes. This
   solution:
 
@@ -270,8 +219,15 @@ Istio provides two types of authentication:
       generation, distribution, rotation, and revocation.
 
 - Origin authentication, also known as end-user authentication: verifies the
-  original client making the request as an end-user or device. Istio
-  supports authentication with JSON Web Token (JWT) validation.
+  original client making the request as an end-user or device.
+  Istio enables request-level authentication with JSON Web Token (JWT) validation
+  and a streamlined developer experience for [Auth0](https://auth0.com/), [Firebase Auth](https://firebase.google.com/docs/auth/),
+  [Google Auth](https://developers.google.com/identity/protocols/OpenIDConnect), and custom auth.
+
+In both cases the authentication policies are stored in the Istio config store via a custom Kubernetes API,
+and are kept up to date (along with keys where appropriate) for each proxy by Pilot.
+Istio also supports authentication in permissive mode to understand how a policy change would affect your security posture
+before it becomes effective.
 
 ### Mutual TLS authentication
 
@@ -795,3 +751,22 @@ spec:
     kind: ServiceRole
     name: "products-viewer"
 {{< /text >}}
+
+### Using other authorization mechanisms
+
+While we strongly recommend using Istio authorization mechanisms,
+Istio is flexible enough to allow you to plug in your own authentication and authorization mechanisms via the Mixer component.
+To use and configure plugins in Mixer, visit our [policies and telemetry adapters docs](/docs/concepts/policies-and-telemetry/#adapters).
+
+## Upcoming features
+
+- Identity or CA pluggability to support bring-your-own-CA and bring-your-own-identity.
+  For example, Vault integration, Active Directory integration.
+
+- Perimeter security policies for Ingress and Egress proxies.
+
+- Advanced auditing to meet various compliance requirements.
+
+- Secure developer and operator access from CORP to production services.
+
+- Binary authorization integration to ensure the service is running with the trusted binary.
