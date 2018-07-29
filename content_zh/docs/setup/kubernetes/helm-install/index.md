@@ -109,7 +109,7 @@ istio-pilot-58c65f74bc-2f5xn             2/2       Running   0          1m
     $ helm delete --purge istio
     {{< /text >}}
 
-    如果您的 helm 版本低于 2.9.0，那么在重新部署新版 Istio chart 之前，您需要手动清理额外的 job 资源：
+    如果您的 Helm 版本低于 2.9.0，那么在重新部署新版 Istio chart 之前，您需要手动清理额外的 job 资源：
 
     {{< text bash >}}
     $ kubectl -n istio-system delete job --all

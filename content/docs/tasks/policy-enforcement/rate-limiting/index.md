@@ -202,7 +202,7 @@ so the configuration to enable rate limiting on both adapters is the same.
     each service since it is not in the same namespace this `QuotaSpecBinding`
     resource was deployed into.
 
-1. Refresh the `productpage` in your browser.
+1. Refresh the product page in your browser.
 
     * If you are logged out, `reviews-v3` service is rate limited to 1 request
     every 5 seconds. If you keep refreshing the page, the stars should only

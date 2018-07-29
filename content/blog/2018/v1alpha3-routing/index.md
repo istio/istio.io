@@ -349,12 +349,12 @@ Mesh-internal entries are like all other internal services but are used to expli
 to the mesh. They can be used to add services as part of expanding the service mesh to include unmanaged infrastructure
 (e.g., VMs added to a Kubernetes-based service mesh).
 Mesh-external entries represent services external to the mesh.
-For them, mTLS authentication is disabled and policy enforcement is performed on the client-side,
+For them, mutual TLS authentication is disabled and policy enforcement is performed on the client-side,
 instead of on the usual server-side for internal service requests.
 
 Because a `ServiceEntry` configuration simply adds a destination to the internal service registry, it can be
 used in conjunction with a `VirtualService` and/or `DestinationRule`, just like any other service in the registry.
-The following `DestinationRule`, for example, can be used to initiate mTLS connections for an external service:
+The following `DestinationRule`, for example, can be used to initiate mutual TLS connections for an external service:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3

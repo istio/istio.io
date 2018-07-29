@@ -45,7 +45,7 @@ caption="GKE-IAM Role"
     [Istio GKE Deployment Manager](https://accounts.google.com/signin/v2/identifier?service=cloudconsole&continue=https://console.cloud.google.com/launcher/config?templateurl={{< github_file >}}/install/gcp/deployment_manager/istio-cluster.jinja&followup=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/master/install/gcp/deployment_manager/istio-cluster.jinja&flowName=GlifWebSignIn&flowEntry=ServiceLogin)
 
     就像其他教程中的“如何访问已安装的功能”一样，我们也建议保留默认设置。工具会默认创建一个特殊设置的 GKE alpha cluster，然后安装 Istio [控制平面](/docs/concepts/what-is-istio/#architecture)、
-    [BookInfo](/docs/examples/bookinfo/) 样例应用、
+    [Bookinfo](/docs/examples/bookinfo/) 样例应用、
     [Grafana](/docs/tasks/telemetry/using-istio-dashboard/) 、
     [Prometheus](/docs/tasks/telemetry/querying-metrics/) 、
     [ServiceGraph](/docs/tasks/telemetry/servicegraph/) 和
@@ -102,7 +102,7 @@ deploy/prometheus                 1         1         1            1           4
 deploy/servicegraph               1         1         1            1           4m
 {{< /text >}}
 
-现在确认 BookInfo 样例应用也已经安装好：
+现在确认 Bookinfo 样例应用也已经安装好：
 
 {{< text bash >}}
 $ kubectl get deployments,ing
@@ -123,7 +123,7 @@ NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)    
 istio-ingressgateway   LoadBalancer   10.59.251.109   35.194.26.85   80:31380/TCP,443:31390/TCP,31400:31400/TCP   6m
 {{< /text >}}
 
-记录下已经给 BookInfo product page 指定好的 IP 和端口。（例子中是 `35.194.26.85:80`）
+记录下已经给 Bookinfo product page 指定好的 IP 和端口。（例子中是 `35.194.26.85:80`）
 
 你也可以在 [Cloud Console](https://console.cloud.google.com/kubernetes/workload) 中的 **Kubernetes Engine -> Workloads** 章节找到这些：
 
@@ -132,9 +132,9 @@ istio-ingressgateway   LoadBalancer   10.59.251.109   35.194.26.85   80:31380/TC
     caption="GKE-Workloads"
     >}}
 
-### 访问 BookInfo 样例
+### 访问 Bookinfo 样例
 
-1.  为 BookInfo 的外网 IP 创建一个环境变量：
+1.  为 Bookinfo 的外网 IP 创建一个环境变量：
 
     {{< text bash >}}
     $ export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
@@ -248,4 +248,4 @@ $ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=
 
 1. 选择 deployment 并点击 **Delete**.
 
-1. Deployment Manager 将会删除所有已经部署的 GKE 组件。但是，有一些元素会被保留，比如 Ingress 和 LoadBalancers。你可以通过再次进入 cloud console 的 [**Network Services** -> **LoadBalancers**](https://console.cloud.google.com/net-services/loadbalancing/loadBalancers/list) 来删除这些组件。
+1. Deployment Manager 将会删除所有已经部署的 GKE 组件。但是，有一些元素会被保留，比如 `Ingress` 和 `LoadBalancers`。你可以通过再次进入 cloud console 的 [**Network Services** -> **LoadBalancers**](https://console.cloud.google.com/net-services/loadbalancing/loadBalancers/list) 来删除这些组件。

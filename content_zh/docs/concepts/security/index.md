@@ -29,7 +29,7 @@ Istio 使用 [Kubernetes service account](https://kubernetes.io/docs/tasks/confi
 
 * Istio 中的 Service account 表达格式为 `spiffe://<domain>/ns/<namespace>/sa/<serviceaccount>`
 
-    * _domain_ 目前是 _cluster.local_ ，我们将很快支持域的定制化。
+    * _domain_ 目前是 `cluster.local` ，我们将很快支持域的定制化。
     * _namespace_ 是 Kubernetes service account 所在的命名空间。
     * _serviceaccount_ 是 Kubernetes service account 的名称。
 

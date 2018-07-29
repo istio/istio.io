@@ -30,10 +30,10 @@ plane and the sidecars for the Istio data plane.
 
 1. [Install the Helm client](https://docs.helm.sh/using_helm/#installing-helm).
 
-1. Istio by default uses LoadBalancer service object types.  Some platforms do not support LoadBalancer
-   service objects.  For platforms lacking LoadBalancer support, install Istio with NodePort support
+1. Istio by default uses `LoadBalancer` service object types.  Some platforms do not support `LoadBalancer`
+   service objects.  For platforms lacking `LoadBalancer` support, install Istio with `NodePort` support
    instead with the flags `--set gateways.istio-ingressgateway.type=NodePort --set gateways.istio-egressgateway.type=NodePort`
-   appended to the end of the helm operation.
+   appended to the end of the Helm operation.
 
 ## Installation steps
 
@@ -133,13 +133,13 @@ With this minimal set you can install your own application and [configure reques
     $ helm delete --purge istio
     {{< /text >}}
 
-    If your helm version is less than 2.9.0, then you need to manually cleanup extra job resource before redeploy new version of Istio chart:
+    If your Helm version is less than 2.9.0, then you need to manually cleanup extra job resource before redeploy new version of Istio chart:
 
     {{< text bash >}}
     $ kubectl -n istio-system delete job --all
     {{< /text >}}
 
-* If desired, delete the CRDs using kubectl:
+* If desired, delete the CRDs:
 
     {{< text bash >}}
     $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml -n istio-system
