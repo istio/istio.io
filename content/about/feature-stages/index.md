@@ -31,23 +31,22 @@ Below is our list of existing features and their current phases. This informatio
 
 | Feature           | Phase
 |-------------------|-------------------
-| [Protocols: HTTP 1.1](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/http_connection_management.html#http-protocols)  | Beta
-| [Protocols: HTTP 2.0](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/http_connection_management.html#http-protocols)  | Alpha
-| [Protocols: gRPC](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/grpc)   | Alpha
+| [Protocols: HTTP 1.1](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/http_connection_management.html#http-protocols)  | Stable
+| [Protocols: HTTP 2.0](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/http_connection_management.html#http-protocols)  | Beta
+| [Protocols: TCP](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/tcp_proxy)   | Beta
+| [Protocols: gRPC](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/grpc)   | Beta
+| [Protocols: Websocket](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/websocket)   | Beta
 | [Protocols: MongoDB](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/mongo)      | Alpha
-| [Request Routing](/docs/tasks/traffic-management/request-routing/)      | Alpha
-| [Fault Injection](/docs/tasks/traffic-management/fault-injection/)      | Alpha
-| [Traffic Shifting](/docs/tasks/traffic-management/traffic-shifting/)      | Alpha
-| [Circuit Break](/docs/tasks/traffic-management/circuit-breaking/)      | Alpha
-| [Mirroring](/docs/tasks/traffic-management/mirroring/)      | Alpha
-| [Ingress Traffic](/docs/tasks/traffic-management/ingress/)      | Alpha
+| [Request Routing](/docs/tasks/traffic-management/request-routing/)      | Beta
+| [Fault Injection](/docs/tasks/traffic-management/fault-injection/)      | Beta
+| [Traffic Shifting](/docs/tasks/traffic-management/traffic-shifting/)      | Beta
+| [Circuit Break](/docs/tasks/traffic-management/circuit-breaking/)      | Beta
+| [Mirroring](/docs/tasks/traffic-management/mirroring/)      | Beta
+| [Ingress Traffic](/docs/tasks/traffic-management/ingress/)      | Beta
 | [Egress Traffic](/docs/tasks/traffic-management/egress/)      | Alpha
-| [Egress TCP Traffic](/blog/2018/egress-tcp/)      | Alpha
-| [Improved Routing Rules: Composite Service](/docs/reference/config/istio.networking.v1alpha3/) | Alpha
+| [Improved Routing Rules: Composite Service](/docs/reference/config/istio.networking.v1alpha3/) | Beta
 | [Quota / Redis Rate Limiting (Adapter and Server)](/docs/tasks/policy-enforcement/rate-limiting/) | Alpha
 | [Memquota Implementation and Integration](/docs/tasks/telemetry/metrics-logs/) | Stable
-| [Ingress TLS](/docs/tasks/traffic-management/ingress/) | Alpha
-| Egress Policy and Telemetry | Alpha
 
 ### Observability
 
@@ -86,24 +85,22 @@ Below is our list of existing features and their current phases. This informatio
 
 | Feature           | Phase
 |-------------------|-------------------
-| [Kubernetes: Envoy Installation and Traffic Interception](/docs/setup/kubernetes/)        | Beta
-| [Kubernetes: Istio Control Plane Installation](/docs/setup/kubernetes/) | Beta
+| [Kubernetes: Envoy Installation and Traffic Interception](/docs/setup/kubernetes/)        | Stable
+| [Kubernetes: Istio Control Plane Installation](/docs/setup/kubernetes/) | Stable
 | [Kubernetes: Istio Control Plane Upgrade](/docs/setup/kubernetes/) | Beta
 | [Pilot Integration into Kubernetes Service Discovery](/docs/setup/kubernetes/)         | Stable
-| [Attribute Expression Language](/docs/reference/config/policy-and-telemetry/expression-language/)        | Stable
-| [Mixer Adapter Authoring Model](/blog/2017/adapter-model/)        | Stable
-| [VM: Envoy Installation, Traffic Interception and Service Registration](/docs/examples/integrating-vms/)    | Alpha
-| [VM: Istio Control Plane Installation and Upgrade (Galley, Mixer, Pilot, CA)](https://github.com/istio/istio/issues/2083)  | Alpha
-| VM: Ansible Envoy Installation, Interception and Registration  | Alpha
 | [Pilot Integration into Consul](/docs/setup/consul/quick-start/) | Alpha
 | [Pilot Integration into Cloud Foundry Service Discovery](/docs/setup/consul/quick-start/)    | Alpha
+| [Attribute Expression Language](/docs/reference/config/policy-and-telemetry/expression-language/)        | Stable
+| [Mixer Adapter Authoring Model](/blog/2017/adapter-model/)        | Stable
+| [VM: Envoy Installation, Traffic Interception and Service Registration](/docs/examples/integrating-vms/)    | Beta
+| VM: Ansible Envoy Installation, Interception and Registration  | Alpha
 | [Basic Config Resource Validation](https://github.com/istio/istio/issues/1894) | Alpha
-| [Mixer Telemetry Collection (Tracing, Logging, Monitoring)](/help/faq/mixer/#mixer-self-monitoring) | Alpha
+| [Mixer Self Monitoring](/help/faq/mixer/#mixer-self-monitoring) | Beta
 | [Custom Mixer Build Model](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) | Alpha
-| [Out of Process Mixer Adapters](https://github.com/istio/istio/wiki/Out-Of-Process-gRPC-Adapter-Dev-Guide) | Alpha
-| Enable API attributes using an IDL | Alpha
+| [Out of Process Mixer Adapters (GRPC Adapters)](https://github.com/istio/istio/wiki/Out-Of-Process-gRPC-Adapter-Dev-Guide) | Alpha
 | [Helm](/docs/setup/kubernetes/helm-install/) | Beta
-| [Multicluster Mesh](/docs/setup/kubernetes/multicluster-install/) | Alpha
+| [Multicluster Mesh](/docs/setup/kubernetes/multicluster-install/) | Beta
 
 > {{< idea_icon >}}
 Please get in touch by joining our [community](/about/community/) if there are features you'd like to see in our future releases!
