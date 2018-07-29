@@ -16,7 +16,7 @@ possible for Pilot to discover CF services and service instances.
 
 - **Pilot Metrics**. Pilot now collects metrics for diagnostics.
 
-- **Helm Charts**. We now provide helm charts to install Istio.
+- **Helm Charts**. We now provide Helm charts to install Istio.
 
 - **Enhanced Attribute Expressions**. Mixer's expression language gained a few new functions
 to make it easier to write policy rules. [Learn more](/docs/reference/config/policy-and-telemetry/expression-language/)

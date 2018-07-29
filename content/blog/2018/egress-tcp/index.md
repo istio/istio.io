@@ -58,7 +58,7 @@ performed with the credentials of the  `admin` user, created by default by
     $ curl -s {{< github_file >}}/samples/bookinfo/src/mysql/mysqldb-init.sql | mysql -u root -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT
     {{< /text >}}
 
-1.  Create a user with the name _bookinfo_ and grant it _SELECT_ privilege on the `test.ratings` table:
+1.  Create a user with the name `bookinfo` and grant it _SELECT_ privilege on the `test.ratings` table:
 
     {{< text bash >}}
     $ mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT -e "CREATE USER 'bookinfo' IDENTIFIED BY '<password you choose>'; GRANT SELECT ON test.ratings to 'bookinfo';"
@@ -73,8 +73,8 @@ performed with the credentials of the  `admin` user, created by default by
     {{< /text >}}
 
     Here you apply the [principle of least privilege](https://en.wikipedia.org/wiki/Principle_of_least_privilege). This
-    means that you do not use your _admin_ user in the Bookinfo application. Instead, you create a special user for the
-    Bookinfo application , _bookinfo_, with minimal privileges. In this case, the _bookinfo_ user only has the `SELECT`
+    means that you do not use your `admin` user in the Bookinfo application. Instead, you create a special user for the
+    Bookinfo application , `bookinfo`, with minimal privileges. In this case, the _bookinfo_ user only has the `SELECT`
     privilege on a single table.
 
     After running the command to create the user, you may want to clean your bash history by checking the number of the last
@@ -141,8 +141,8 @@ service:
     +----------+--------+
     {{< /text >}}
 
-    You used the _admin_ user (and _root_ for the local database) in the last command since the _bookinfo_ user does not
-    have the _UPDATE_ privilege on the `test.ratings` table.
+    You used the `admin` user (and `root` for the local database) in the last command since the `bookinfo` user does not
+    have the `UPDATE` privilege on the `test.ratings` table.
 
 Now you are ready to deploy a version of the Bookinfo application that will use your database.
 
@@ -151,9 +151,9 @@ Now you are ready to deploy a version of the Bookinfo application that will use 
 To demonstrate the scenario of using an external database, you start with a Kubernetes cluster with [Istio installed](/docs/setup/kubernetes/quick-start/#installation-steps). Then you deploy the
 [Istio Bookinfo sample application](/docs/examples/bookinfo/) and [apply the default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules).
 
-This application uses the _ratings_ microservice to fetch
+This application uses the `ratings` microservice to fetch
  book ratings, a number between 1 and 5. The ratings are displayed as stars for each review. There are several versions
- of the _ratings_ microservice. Some use [MongoDB](https://www.mongodb.com), others use [MySQL](https://www.mysql.com)
+ of the `ratings` microservice. Some use [MongoDB](https://www.mongodb.com), others use [MySQL](https://www.mysql.com)
  as their database.
 
 The example commands in this blog post work with Istio 0.8+, with or without
@@ -364,7 +364,7 @@ which could be beneficial if the consuming applications expect to use that domai
 
 ## Cleanup
 
-1.  Drop the _test_ database and the _bookinfo_ user:
+1.  Drop the `test` database and the `bookinfo` user:
 
     {{< text bash >}}
     $ mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT -e "drop database test; drop user bookinfo;"

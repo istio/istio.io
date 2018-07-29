@@ -53,13 +53,13 @@ containing:
     $ kubectl --namespace istio-system get secrets
     {{< /text >}}
 
-* Config maps in `istio-system`:
+* configmaps in the `istio-system` namespace:
 
     {{< text bash >}}
     $ kubectl --namespace istio-system get cm -o yaml
     {{< /text >}}
 
-* Current and previous logs from all istio components and sidecar
+* Current and previous logs from all Istio components and sidecar
 
 * Mixer logs:
 

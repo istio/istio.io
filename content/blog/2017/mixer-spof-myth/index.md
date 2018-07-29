@@ -88,11 +88,15 @@ While it’s busy cutting down latency, Mixer is also inherently cutting down th
 
 We have opportunities ahead to continue improving the system in many ways.
 
-### Config canaries
+### Configuration canaries
 
-Mixer is highly scaled so it is generally resistant to individual instance failures. However, Mixer is still susceptible to cascading failures in the case when a poison configuration is deployed which causes all Mixer instances to crash basically at the same time (yeah, that would be a bad day). To prevent this from happening, config changes can be canaried to a small set of Mixer instances, and then more broadly rolled out.
+Mixer is highly scaled so it is generally resistant to individual instance failures. However, Mixer is still susceptible to cascading
+failures in the case when a poison configuration is deployed which causes all Mixer instances to crash basically at the same time
+(yeah, that would be a bad day). To prevent this from happening, configuration changes can be canaried to a small set of Mixer instances,
+and then more broadly rolled out.
 
-Mixer doesn’t yet do canarying of config changes, but we expect this to come online as part of Istio’s ongoing work on reliable config distribution.
+Mixer doesn’t yet do canarying of configuration changes, but we expect this to come online as part of Istio’s ongoing work on reliable
+configuration distribution.
 
 ### Cache tuning
 

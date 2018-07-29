@@ -73,15 +73,15 @@ $ export ZIPKIN_POD_IP=$(kubectl -n istio-system get pod -l app=jaeger -o jsonpa
 
 Proceed to one of the options for connecting the remote cluster to the local cluster:
 
-* [via kubectl with helm](#use-kubectl-with-helm-to-connect-the-remote-cluster-to-the-local)
+* Via [`kubectl` with Helm](#use-kubectl-with-helm-to-connect-the-remote-cluster-to-the-local)
 
-* [via helm plus tiller](#alternatively-use-helm-and-tiller-to-connect-the-remote-cluster-to-the-local)
+* Via [Helm plus Tiller](#alternatively-use-helm-and-tiller-to-connect-the-remote-cluster-to-the-local)
 
-**Sidecar Injection.**  The default behavior is to enable automatic sidecar injection on the remote clusters.  For manual sidecar injection refer to the [manual sidecar example](#remote-cluster-manual-sidecar-injection-example)
+* Using *sidecar Injection.*  The default behavior is to enable automatic sidecar injection on the remote clusters.  For manual sidecar injection refer to the [manual sidecar example](#remote-cluster-manual-sidecar-injection-example)
 
 ### Use `kubectl` with Helm to connect the remote cluster to the local
 
-1.  Use the helm template command on a remote to specify the Istio control plane service endpoints:
+1.  Use the `helm template` command on a remote to specify the Istio control plane service endpoints:
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio-remote --namespace istio-system \
@@ -139,17 +139,17 @@ install one:
 
 In order for the remote cluster's sidecars interaction with the Istio control plane, the `pilot`,
 `policy`, `telemetry`, `statsd`, and tracing service endpoints need to be configured in
-the `istio-remote` helm chart.  The chart enables automatic sidecar injection in the remote
+the `istio-remote` Helm chart.  The chart enables automatic sidecar injection in the remote
 cluster by default but it can be disabled via a chart variable.  The following table describes
-the `istio-remote` helm chart's configuration values.
+the `istio-remote` Helm chart's configuration values.
 
 | Helm Variable | Accepted Values | Default | Purpose of Value |
 | --- | --- | --- | --- |
 | `global.remotePilotAddress` | A valid IP address or hostname | None | Specifies the Istio control plane's pilot Pod IP address or remote cluster DNS resolvable hostname |
 | `global.remotePolicyAddress` | A valid IP address or hostname | None | Specifies the Istio control plane's policy Pod IP address or remote cluster DNS resolvable hostname |
 | `global.remoteTelemetryAddress` | A valid IP address or hostname | None | Specifies the Istio control plane's telemetry Pod IP address or remote cluster DNS resolvable hostname |
-| `global.proxy.envoyStatsd.enabled` | true, false | false | Specifies whether the Istio control plane has statsd enabled |
-| `global.proxy.envoyStatsd.host` | A valid IP address or hostname | None | Specifies the Istio control plane's statsd-prom-bridge Pod IP address or remote cluster DNS resolvable hostname.  Ignored if `global.proxy.envoyStatsd.enabled=false`. |
+| `global.proxy.envoyStatsd.enabled` | true, false | false | Specifies whether the Istio control plane has Statsd enabled |
+| `global.proxy.envoyStatsd.host` | A valid IP address or hostname | None | Specifies the Istio control plane's `statsd-prom-bridge` Pod IP address or remote cluster DNS resolvable hostname.  Ignored if `global.proxy.envoyStatsd.enabled=false`. |
 | `global.remoteZipkinAddress` | A valid IP address or hostname | None | Specifies the Istio control plane's tracing application Pod IP address or remote cluster DNS resolvable hostname--e.g. `zipkin` or `jaeger`. |
 | `sidecarInjectorWebhook.enabled` | true, false | true | Specifies whether to enable automatic sidecar injection on the remote cluster |
 | `global.remotePilotCreateSvcEndpoint` | true, false | false | If set, a selector-less service and endpoint for `istio-pilot` are created with the `remotePilotAddress` IP, which ensures the `istio-pilot.<namespace>` is DNS resolvable in the remote cluster. |
@@ -161,10 +161,10 @@ discover services, endpoints, and pod attributes.  The following
 describes how to generate a `kubeconfig` file for a remote cluster to be used by
 the Istio control plane.
 
-The `istio-remote` helm chart creates a Kubernetes service account named `istio-multi`
+The `istio-remote` Helm chart creates a Kubernetes service account named `istio-multi`
 in the remote cluster with the minimal RBAC access required.  The following procedure
 generates a `kubeconfig` file for the remote cluster using the credentials of the
-`istio-multi` service account created by the `istio-remote` helm chart.
+`istio-multi` service account created by the `istio-remote` Helm chart.
 
 The following procedure should be performed on each remote cluster to be
 added to the service mesh.  The procedure requires cluster-admin user access
@@ -268,7 +268,7 @@ The following procedure is to be performed against the remote cluster.
 
 > The endpoint IP environment variables need to be set as in the [above section](#set-environment-variables-for-pod-ips-from-istio-control-plane-needed-by-remote)
 
-1.  Use the helm template command on a remote to specify the Istio control plane service endpoints:
+1.  Use the `helm template` command on a remote to specify the Istio control plane service endpoints:
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio-remote --namespace istio-system --name istio-remote --set global.remotePilotAddress=${PILOT_POD_IP} --set global.remotePolicyAddress=${POLICY_POD_IP} --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} --set global.proxy.envoyStatsd.enabled=true --set global.proxy.envoyStatsd.host=${STATSD_POD_IP} --set global.remoteZipkinAddress=${ZIPKIN_POD_IP} --set sidecarInjectorWebhook.enabled=false > $HOME/istio-remote_noautoinj.yaml
@@ -331,7 +331,7 @@ cluster have restarted.
 ### Use load balance service type
 
 In Kubernetes, you can declare a service with a service type to be
-[LoadBalancer](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types).
+[`LoadBalancer`](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types).
 A simple solution to the pod restart issue is to use load balancers for the
 Istio services. You can then use the load balancer IPs as the Istio services's
 endpoint IPs to configure the remote clusters. You may need balancer IPs for
@@ -351,12 +351,12 @@ can point to the same IP.  The ingress gateway is then provided with destination
 rules to reach the proper Istio service in the main cluster.
 
 Within this option there are 2 sub-options.  One is to re-use the default Istio ingress gateway
-installed with the provided manifests or helm charts.  The other option is to create another
+installed with the provided manifests or Helm charts.  The other option is to create another
 Istio ingress gateway specifically for multicluster.
 
 ## Security
 
-Istio supports deployment of mTLS between the control plane components as well as between
+Istio supports deployment of mutual TLS between the control plane components as well as between
 sidecar injected application pods.
 
 ### Control plane security
@@ -377,17 +377,17 @@ The steps to enable control plane security are as follows:
         1.  Required because Istio configures the sidecar to verify the certificate subject names using the `istio-pilot.<namespace>` subject name format.
     1.  Control plane IPs or resolvable host names set
 
-### mTLS between application pods
+### Mutual TLS between application pods
 
-The steps to enable mTLS for all application pods are as follows:
+The steps to enable mutual TLS for all application pods are as follows:
 
 1.  Istio control plane cluster deployed with
-    1.  Global mTLS enabled
+    1.  Global mutual TLS enabled
     1.  `citadel` certificate self signing disabled
     1.  a secret named `cacerts` in the Istio control plane namespace with the [CA certificates](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)
 
 1.  Istio remote clusters deployed with
-    1.  Global mTLS enabled
+    1.  Global mutual TLS enabled
     1.  `citadel` certificate self signing disabled
     1.  a secret named `cacerts` in the Istio control plane namespace with the [CA certificates](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)
         1.  The CA certificate for the remote clusters needs to be signed by the same CA or root CA as the main cluster.
@@ -396,9 +396,9 @@ The steps to enable mTLS for all application pods are as follows:
 
 ### Example deployment
 
-The following is an example procedure to install Istio with both control plane mTLS and application pod
-mTLS enabled.  The example sets up a remote cluster with a selector-less service and endpoint for `istio-pilot` to
-allow the remote sidecars to resolve `istio-pilot.istio-system` hostname via its local kubernetes DNS.
+The following is an example procedure to install Istio with both control plane mutual TLS and application pod
+mutual TLS enabled.  The example sets up a remote cluster with a selector-less service and endpoint for `istio-pilot` to
+allow the remote sidecars to resolve the `istio-pilot.istio-system` hostname via its local Kubernetes DNS.
 
 1.  *Primary Cluster.*  Deployment of the Istio control plane cluster
 
@@ -454,5 +454,5 @@ allow the remote sidecars to resolve `istio-pilot.istio-system` hostname via its
 
 1.  *Primary Cluster.*  [Instantiate the credentials for each remote cluster](#instantiate-the-credentials-for-each-remote-cluster)
 
-At this point all of the Istio components in both clusters are configured for mTLS between application
+At this point all of the Istio components in both clusters are configured for mutual TLS between application
 sidecars and the control plane components as well as between the other application sidecars.

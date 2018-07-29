@@ -9,7 +9,7 @@ updated features detailed below.
 
 ## Networking
 
-- **Custom Envoy Config**. Pilot now supports ferrying custom Envoy config to the
+- **Custom Envoy Configuration**. Pilot now supports ferrying custom Envoy configuration to the
 proxy. [Learn more](https://github.com/mandarjog/istioluawebhook)
 
 ## Mixer adapters
@@ -17,7 +17,7 @@ proxy. [Learn more](https://github.com/mandarjog/istioluawebhook)
 - **SolarWinds**. Mixer can now interface to AppOptics and Papertrail.
 [Learn more](/docs/reference/config/policy-and-telemetry/adapters/solarwinds/)
 
-- **Redisquota**. Mixer now supports a Redis-based adapter for rate limit tracking.
+- **Redis Quota**. Mixer now supports a Redis-based adapter for rate limit tracking.
 [Learn more](/docs/reference/config/policy-and-telemetry/adapters/redisquota/)
 
 - **Datadog**. Mixer now provides an adapter to deliver metric data to a Datadog agent.

@@ -37,7 +37,7 @@ microservices running under them.
 
 > If you are using a namespace other than `default`, use `kubectl -n namespace ...` to specify the namespace.
 
-* There is a major update to RBAC in Istio 1.0. Please make sure to remove any existing RBAC config before continuing.
+* There is a major update to RBAC in Istio 1.0. Please make sure to remove any existing RBAC configuration before continuing.
 
     * Run the following commands to disable the old RBAC functionality, these are no longer needed in Istio 1.0:
 
@@ -60,15 +60,15 @@ for the list of supported keys in `constraints` and `properties`.
 
 * Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). You should see:
 
-    * "Book Details" section in the lower left part of the page, including type, pages, publisher, etc.
-    * "Book Reviews" section in the lower right part of the page.
+    * The "Book Details" section in the lower left part of the page, including type, pages, publisher, etc.
+    * The "Book Reviews" section in the lower right part of the page.
 
-    If you refresh the page several times, you should see different versions of reviews shown in productpage,
+    If you refresh the page several times, you should see different versions of reviews shown in the product page,
     presented in a round robin style (red stars, black stars, no stars)
 
 ## Enabling Istio authorization
 
-Run the following command to enable Istio authorization for "default" namespace:
+Run the following command to enable Istio authorization for the `default` namespace:
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/rbac-config-ON.yaml@
@@ -85,10 +85,11 @@ explicitly define access control policy to grant access to any service.
 Using Istio authorization, you can easily setup namespace-level access control by specifying all (or a collection of) services
 in a namespace are accessible by services from another namespace.
 
-In our Bookinfo sample, the "productpage", "reviews", "details", "ratings" services are deployed in "default" namespace.
-The Istio components like "istio-ingressgateway" service are deployed in "istio-system" namespace. We can define a policy that
-any service in "default" namespace that has "app" label set to one of the values in ["productpage", "details", "reviews", "ratings"]
-is accessible by services in the same namespace (i.e., "default" namespace) and services in "istio-system" namespace.
+In our Bookinfo sample, the `productpage`, `reviews`, `details`, `ratings` services are deployed in the `default` namespace.
+The Istio components like `istio-ingressgateway` service are deployed in the `istio-system` namespace. We can define a policy that
+any service in the `default` namespace that has the `app` label set to one of the values of
+`productpage`, `details`, `reviews`, or `ratings`
+is accessible by services in the same namespace (i.e., `default`) and services in the `istio-system` namespace.
 
 Run the following command to create a namespace-level access control policy:
 
@@ -98,9 +99,11 @@ $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/namespace-policy.yaml@
 
 The policy does the following:
 
-*   Creates a `ServiceRole` "service-viewer" which allows read access to any service in "default" namespace that has "app" label
-set to one of the values in ["productpage", "details", "reviews", "ratings"]. Note that there is a "constraint" specifying that
-the services must have one of the listed "app" labels.
+*   Creates a `ServiceRole` `service-viewer` which allows read access to any service in the `default` namespace that has
+the `app` label
+set to one of the values `productpage`, `details`, `reviews`, or `ratings`. Note that there is a
+constraint\ specifying that
+the services must have one of the listed `app` labels.
 
     {{< text yaml >}}
     apiVersion: "rbac.istio.io/v1alpha1"
@@ -117,7 +120,7 @@ the services must have one of the listed "app" labels.
           values: ["productpage", "details", "reviews", "ratings"]
     {{< /text >}}
 
-*   Creates a `ServiceRoleBinding` that assign the "service-viewer" role to all services in "istio-system" and "default" namespaces.
+*   Creates a `ServiceRoleBinding` that assign the `service-viewer` role to all services in the `istio-system` and `default` namespaces.
 
     {{< text yaml >}}
     apiVersion: "rbac.istio.io/v1alpha1"
@@ -143,8 +146,8 @@ servicerole "service-viewer" created
 servicerolebinding "bind-service-viewer" created
 {{< /text >}}
 
-Now if you point your browser at Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). You should see "Bookinfo Sample" page,
-with "Book Details" section in the lower left part and "Book Reviews" section in the lower right part.
+Now if you point your browser at Bookinfo's `productpage` (`http://$GATEWAY_URL/productpage`). You should see the "Bookinfo Sample" page,
+with the "Book Details" section in the lower left part and the "Book Reviews" section in the lower right part.
 
 > There may be some delays due to caching and other propagation overhead.
 
@@ -164,11 +167,11 @@ This task shows you how to set up service-level access control using Istio autho
 * You have [removed namespace-level authorization policy](#cleanup-namespace-level-access-control).
 
 Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). You should see `"RBAC: access denied"`.
-We will incrementally add access permission to the services in Bookinfo sample.
+We will incrementally add access permission to the services in the Bookinfo sample.
 
-### Step 1. allowing access to "productpage" service
+### Step 1. allowing access to the `productpage` service
 
-In this step, we will create a policy that allows external requests to view `productpage` service via Ingress.
+In this step, we will create a policy that allows external requests to access the `productpage` service via Ingress.
 
 Run the following command:
 
@@ -178,7 +181,7 @@ $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/productpage-policy.yaml@
 
 The policy does the following:
 
-*   Creates a `ServiceRole` "productpage-viewer" which allows read access to "productpage" service.
+*   Creates a `ServiceRole` `productpage-viewer` which allows read access to the `productpage` service.
 
     {{< text yaml >}}
     apiVersion: "rbac.istio.io/v1alpha1"
@@ -192,7 +195,8 @@ The policy does the following:
         methods: ["GET"]
     {{< /text >}}
 
-*   Creates a `ServiceRoleBinding` "bind-productpager-viewer" which assigns "productpage-viewer" role to all users/services.
+*   Creates a `ServiceRoleBinding` `bind-productpager-viewer` which assigns the `productpage-viewer` role to all
+users and services.
 
     {{< text yaml >}}
     apiVersion: "rbac.istio.io/v1alpha1"
@@ -208,18 +212,18 @@ The policy does the following:
         name: "productpage-viewer"
     {{< /text >}}
 
-Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). Now you should see "Bookinfo Sample"
-page. But there are errors `"Error fetching product details"` and `"Error fetching product reviews"` on the page. These errors
-are expected because we have not granted "productpage" service to access "details" and "reviews" services. We will fix the errors
+Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). Now you should see the "Bookinfo Sample"
+page. But there are errors `Error fetching product details` and `Error fetching product reviews` on the page. These errors
+are expected because we have not granted the `productpage` service access to the `details` and `reviews` services. We will fix the errors
 in the following steps.
 
 > There may be some delays due to caching and other propagation overhead.
 
-### Step 2. allowing access to "details" and "reviews" services
+### Step 2. allowing access to the `details` and `reviews` services
 
-We will create a policy to allow "productpage" service to read "details" and "reviews" services. Note that in the
-[setup step](#before-you-begin), we created a service account "bookinfo-productpage" for "productpage" service. This
-"bookinfo-productpage" service account is the authenticated identify for "productpage" service.
+We will create a policy to allow the `productpage` service to access the `details` and `reviews` services. Note that in the
+[setup step](#before-you-begin), we created the `bookinfo-productpage` service account for the `productpage` service. This
+`bookinfo-productpage` service account is the authenticated identify for the `productpage` service.
 
 Run the following command:
 
@@ -229,7 +233,7 @@ $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/details-reviews-policy.y
 
 The policy does the following:
 
-*   Creates a `ServiceRole` "details-reviews-viewer" which allows read access to "details" and "reviews" services.
+*   Creates a `ServiceRole` `details-reviews-viewer` which allows access to the `details` and `reviews` services.
 
     {{< text yaml >}}
     apiVersion: "rbac.istio.io/v1alpha1"
@@ -243,8 +247,8 @@ The policy does the following:
         methods: ["GET"]
     {{< /text >}}
 
-*   Creates a `ServiceRoleBinding` "bind-details-reviews" which assigns "details-reviews-viewer" role to service
-account "cluster.local/ns/default/sa/bookinfo-productpage" (representing the "productpage" service).
+*   Creates a `ServiceRoleBinding` `bind-details-reviews` which assigns the `details-reviews-viewer` role to the
+`cluster.local/ns/default/sa/bookinfo-productpage` service account (representing the `productpage` service).
 
     {{< text yaml >}}
     apiVersion: "rbac.istio.io/v1alpha1"
@@ -260,21 +264,21 @@ account "cluster.local/ns/default/sa/bookinfo-productpage" (representing the "pr
         name: "details-reviews-viewer"
     {{< /text >}}
 
-Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). Now you should see "Bookinfo Sample"
-page with "Book Details" on the lower left part, and "Book Reviews" on the lower right part. However, in "Book Reviews" section,
-there is an error `"Ratings service currently unavailable"`. This is because "reviews" service does not have permission to access
-"ratings" service. To fix this issue, you need to grant "reviews" service read access to "ratings" service.
+Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). Now you should see the "Bookinfo Sample"
+page with "Book Details" on the lower left part, and "Book Reviews" on the lower right part. However, in the "Book Reviews" section,
+there is an error `Ratings service currently unavailable`. This is because "reviews" service does not have permission to access
+"ratings" service. To fix this issue, you need to grant the `reviews` service access to the `ratings` service.
 We will show how to do that in the next step.
 
 > There may be some delays due to caching and other propagation overhead.
 
-### Step 3. allowing access to "ratings" service
+### Step 3. allowing access to the `ratings` service
 
-We will create a policy to allow "reviews" service to read "ratings" service. Note that in the
-[setup step](#before-you-begin), we created a service account "bookinfo-reviews" for "reviews" service. This
-"bookinfo-reviews" service account is the authenticated identify for "reviews" service.
+We will create a policy to allow the `reviews` service to access the `ratings` service. Note that in the
+[setup step](#before-you-begin), we created a `bookinfo-reviews` service account for the `reviews` service. This
+service account is the authenticated identify for the `reviews` service.
 
-Run the following command to create a policy that allows "reviews" service to read "ratings" service.
+Run the following command to create a policy that allows the `reviews` service to access the `ratings` service.
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/ratings-policy.yaml@
@@ -282,7 +286,7 @@ $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/ratings-policy.yaml@
 
 The policy does the following:
 
-*   Creates a `ServiceRole` "ratings-viewer" which allows read access to "ratings" service.
+*   Creates a `ServiceRole` `ratings-viewer\` which allows access to the `ratings` service.
 
     {{< text yaml >}}
     apiVersion: "rbac.istio.io/v1alpha1"
@@ -296,8 +300,8 @@ The policy does the following:
         methods: ["GET"]
     {{< /text >}}
 
-*   Creates a `ServiceRoleBinding` "bind-ratings" which assigns "ratings-viewer" role to service
-account "cluster.local/ns/default/sa/bookinfo-reviews", which represents the "reviews" services.
+*   Creates a `ServiceRoleBinding` `bind-ratings` which assigns `ratings-viewer` role to the
+`cluster.local/ns/default/sa/bookinfo-reviews` service account, which represents the `reviews` service.
 
     {{< text yaml >}}
     apiVersion: "rbac.istio.io/v1alpha1"
@@ -314,7 +318,7 @@ account "cluster.local/ns/default/sa/bookinfo-reviews", which represents the "re
     {{< /text >}}
 
 Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). Now you should see
-the "black" and "red" ratings in "Book Reviews" section.
+the "black" and "red" ratings in the "Book Reviews" section.
 
 > There may be some delays due to caching and other propagation overhead.
 

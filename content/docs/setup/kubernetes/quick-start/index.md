@@ -60,7 +60,7 @@ $ kubectl apply -f install/kubernetes/istio-demo.yaml
 
 ### Option 2: Install Istio with default mutual TLS authentication
 
-Use this option only on a fresh kubernetes cluster where newly deployed
+Use this option only on a fresh Kubernetes cluster where newly deployed
 workloads are guaranteed to have Istio sidecars installed.
 
 To Install Istio and enforce mutual TLS authentication between sidecars by
@@ -177,10 +177,9 @@ non-existent resources because they may have been deleted hierarchically.
     $ kubectl delete -f install/kubernetes/istio-demo-auth.yaml
     {{< /text >}}
 
-* If you installed Istio with Helm, follow the [uninstall Istio with
-Helm](/docs/setup/kubernetes/helm-install/#uninstall) steps.
+* If you installed Istio with Helm, follow the [uninstall Istio with Helm](/docs/setup/kubernetes/helm-install/#uninstall) steps.
 
-* If desired, delete the CRDs using kubectl:
+* If desired, delete the CRDs:
 
     {{< text bash >}}
     $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml -n istio-system

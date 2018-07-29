@@ -61,7 +61,7 @@ down once the migration is done.
     No resources found.
     {{< /text >}}
 
-## Configure the server to accept both mTLS and plain text traffic
+## Configure the server to accept both mutual TLS and plain text traffic
 
 In authentication policy, we have a `PERMISSIVE` mode which makes the server accept both mutual TLS and plain text traffic.
 We need to configure the server to this mode.
