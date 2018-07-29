@@ -74,7 +74,7 @@ Adding `"--http_port=8081"` in the ESP deployment arguments and expose the HTTP 
       name: http
     {{< /text >}}
 
-1.  Turn on mTLS in Istio by using the following command:
+1.  Turn on mutual TLS in Istio by using the following command:
 
     {{< text bash >}}
     $ kubectl edit cm istio -n istio-system

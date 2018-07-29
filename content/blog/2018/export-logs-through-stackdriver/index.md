@@ -29,7 +29,7 @@ metrics (coming..) among others. Following is a diagram of the pipeline:
 
 {{< image width="75%" ratio="75%"
 link="./istio-analytics-using-stackdriver.png"
-caption="Diagram of exporting logs from Istio to StackDriver for analysis" >}}
+caption="Diagram of exporting logs from Istio to Stackdriver for analysis" >}}
 
 Istio supports exporting logs to Stackdriver which can in turn be configured to export
 logs to your favorite sink like BigQuery, Pub/Sub or GCS. Please follow the steps
@@ -40,7 +40,7 @@ in Istio.
 
 Common setup for all sinks:
 
-1. Enable [StackDriver Monitoring API](https://cloud.google.com/monitoring/api/enable-api) for the project.
+1. Enable [Stackdriver Monitoring API](https://cloud.google.com/monitoring/api/enable-api) for the project.
 1. Make sure `principalEmail` that would be setting up the sink has write access to the project and Logging Admin role permissions.
 1. Make sure the `GOOGLE_APPLICATION_CREDENTIALS` environment variable is set. Please follow instructions [here](https://cloud.google.com/docs/authentication/getting-started) to set it up.
 
@@ -194,10 +194,10 @@ a Stackdriver handler is described [here](/docs/reference/config/policy-and-tele
 ## Understanding what happened
 
 `Stackdriver.yaml` file above configured Istio to send accesslogs to
-StackDriver and then added a sink configuration where these logs could be
+Stackdriver and then added a sink configuration where these logs could be
 exported. In detail as follows:
 
-1.  Added a handler of kind stackdriver
+1.  Added a handler of kind `stackdriver`
 
     {{< text yaml >}}
     apiVersion: "config.istio.io/v1alpha2"

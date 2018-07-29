@@ -5,8 +5,8 @@ weight: 5
 keywords: [debug,proxy,status,config,pilot,envoy]
 ---
 
-This task demonstrates how to use the [proxy-status](/docs/reference/commands/istioctl/#istioctl-proxy-status)
-and [proxy-config](/docs/reference/commands/istioctl/#istioctl-proxy-config) commands. The `proxy-status` command
+This task demonstrates how to use the [`proxy-status`](/docs/reference/commands/istioctl/#istioctl-proxy-status)
+and [`proxy-config`](/docs/reference/commands/istioctl/#istioctl-proxy-config) commands. The `proxy-status` command
 allows you to get an overview of your mesh and identify the proxy causing the problem. Then `proxy-config` can be used
 to inspect Envoy configuration and diagnose the issue.
 
@@ -14,7 +14,7 @@ to inspect Envoy configuration and diagnose the issue.
 
 * Have a Kubernetes cluster with Istio and Bookinfo installed (e.g use `istio.yaml` as described in
 [installation steps](/docs/setup/kubernetes/quick-start/#installation-steps) and
-[bookinfo installation steps](/docs/examples/bookinfo/#if-you-are-running-on-kubernetes)).
+[Bookinfo installation steps](/docs/examples/bookinfo/#if-you-are-running-on-kubernetes)).
 
 OR
 
@@ -23,7 +23,7 @@ OR
 ## Get an overview of your mesh
 
 The `proxy-status` command allows you to get an overview of your mesh. If you suspect one of your sidecars isn't
-receiving config or is out of sync then `proxy-status` will tell you this.
+receiving configuration or is out of sync then `proxy-status` will tell you this.
 
 {{< text bash >}}
 $ istioctl proxy-status
@@ -123,7 +123,7 @@ istio-egressgateway.istio-system.svc.cluster.local                              
 
 In order to debug Envoy you need to understand Envoy clusters/listeners/routes/endpoints and how they all interact.
 We will use the `proxy-config` command with the `-o json` and filtering flags to follow Envoy as it determines where
-to send an request from the productpage pod to the reviews pod at `reviews:9080`.
+to send a request from the `productpage` pod to the `reviews` pod at `reviews:9080`.
 
 1. If you query the listener summary on a pod you will notice Istio generates the following listeners:
     * A listener on `0.0.0.0:15001` that receives all traffic into and out of the pod, then hands the request over to
@@ -279,9 +279,9 @@ one route that matches on everything. This route tells Envoy to send the request
     ]
     {{< /text >}}
 
-## Inspecting Bootstrap config
+## Inspecting Bootstrap configuration
 
-So far we have looked at config retrieved (mostly) from Pilot, however Envoy requires some bootstrap config that
+So far we have looked at configuration retrieved (mostly) from Pilot, however Envoy requires some bootstrap configuration that
 includes information like where Pilot can be found. To view this use the following command:
 
 {{< text bash json >}}

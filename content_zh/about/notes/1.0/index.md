@@ -26,7 +26,7 @@ weight: 92
 
 - **SignalFX**。这是新的 [`signalfx`](/docs/reference/config/policy-and-telemetry/adapters/signalfx/) 适配器。
 
-- **Stackdriver**。此版本中的 [stackdriver](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) 适配器已得到充分增强，以添加新功能并提高性能。
+- **Stackdriver**。此版本中的 [`stackdriver`](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) 适配器已得到充分增强，以添加新功能并提高性能。
 
 ## 安全
 

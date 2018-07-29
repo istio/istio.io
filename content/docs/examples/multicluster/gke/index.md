@@ -7,7 +7,7 @@ keywords: [kubernetes,multicluster]
 
 This example demonstrates how to use Istio' multicluster feature to join 2
 [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) clusters together,
-using the [kubernetes multicluster installation instructions](/docs/setup/kubernetes/multicluster-install/).
+using the [Kubernetes multicluster installation instructions](/docs/setup/kubernetes/multicluster-install/).
 
 ## Before you begin
 
@@ -167,7 +167,7 @@ $ kubectl label namespace default istio-injection=enabled
 
 ## Create remote cluster's kubeconfig for Istio Pilot
 
-The `istio-remote` helm chart creates a service account with minimal access for use by Istio Pilot
+The `istio-remote` Helm chart creates a service account with minimal access for use by Istio Pilot
 discovery.
 
 1.  Prepare environment variables for building the `kubeconfig` file for the service account `istio-multi`:
@@ -226,7 +226,7 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
 
 ## Deploy Bookinfo Example Across Clusters
 
-1.  Install bookinfo on the first cluster.  Remove the `reviews-v3` deployment to deploy on remote:
+1.  Install Bookinfo on the first cluster.  Remove the `reviews-v3` deployment to deploy on remote:
 
     {{< text bash >}}
     $ kubectl config use-context "gke_${proj}_${zone}_cluster-1"
