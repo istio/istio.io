@@ -15,7 +15,7 @@ For example, traffic encryption to defend against the man-in-the-middle attack,
 mutual TLS and fine-grained access policies to provide flexible service access control
 and auditing to detect who did what at what time.
 
-This page gives an overview of how Istio security can be leveraged to secure your services, wherever you run them.
+This page gives an overview on how you can use Istio security features to secure your services, wherever you run them.
 In particular, Istio security mitigates both insider and external threats against your data, endpoints, communication and platform.
 
 {{< image width="80%" ratio="56.25%"
@@ -24,8 +24,8 @@ In particular, Istio security mitigates both insider and external threats agains
     caption="Istio Security Architecture"
     >}}
 
-Istio security provides strong identity, powerful policy, transparent TLS encryption and AAA (authentication/authorization/audit)
-to protect your services and data. The goals of Istio security are:
+The Istio security features provide strong identity, powerful policy, transparent TLS encryption, and authentication, authorization
+and audit (AAA) tools to protect your services and data. The goals of Istio security are:
 
 - **Security by default**: no changes needed for application code and infrastructure
 
@@ -33,18 +33,21 @@ to protect your services and data. The goals of Istio security are:
 
 - **Zero-trust network**: build security solutions on untrusted networks
 
-This guide provides a high-level overview of Istio security; you can find more information about specific Istio security concepts
-in other guides in this section.
-To find out how to get started using Istio security with deployed services, see the [Mutual TLS Migration](/docs/tasks/security/mtls-migration/).
-For more detailed how-to on using security features, see our [Security Tasks](/docs/tasks/security/).
+Visit our [Mutual TLS Migration docs](/docs/tasks/security/mtls-migration/) to start using Istio security features with your deployed services.
+Visit our [Security Tasks](/docs/tasks/security/) for detailed instructions to use the security features.
 
 ## High-level architecture and features
 
-Istio security involves multiple components, including Citadel for key and certificate management,
-Sidecar and perimeter proxies for implementing secure communication between clients and servers,
-Pilot for distributing [authentication policies](/docs/concepts/security/#authentication-policies)
-and [secure naming information](/docs/concepts/security/#secure-naming) to the proxies,
-and Mixer for managing authorization and auditing.
+Security in Istio involves multiple components:
+
+- **Citadel** for key and certificate management
+
+- **Sidecar and perimeter proxies** to implement secure communication between clients and servers
+
+- **Pilot** to distribute [authentication policies](/docs/concepts/security/#authentication-policies)
+  and [secure naming information](/docs/concepts/security/#secure-naming) to the proxies
+
+- **Mixer** to manage authorization and auditing
 
 {{< image width="80%" ratio="56.25%"
     link="./architecture.svg"
@@ -54,9 +57,8 @@ and Mixer for managing authorization and auditing.
 
 ### Identity provision
 
-Istio PKI, built on top of Istio Citadel,
-is responsible for securely provisioning strong workload identities to to every workload.
-The identities are in SPIFFE format, carried by X.509 certificates.
+The Istio PKI is built on top of Istio Citadel and securely provisions strong workload identities to every workload.
+Istio uses X.509 certificates to carry the identities in [SPIFFE](https://spiffe.io/) format.
 The PKI also automates the key & certificate rotation and revocation at scale.
 
 ### Service and user authentication
@@ -75,7 +77,7 @@ and are kept up to date (along with keys where appropriate) for each proxy by Pi
 Istio also supports authentication in permissive mode to understand how a policy change would affect your security posture
 before it becomes effective.
 
-For more details,  please read the [authentication](/docs/concepts/security/#authentication) section.
+For more details, read the [authentication](/docs/concepts/security/#authentication) section.
 
 ### Authorization & audit
 
@@ -96,27 +98,27 @@ and [authorization](/docs/concepts/security/#authorization) sections.
 
 ### Using other security mechanisms
 
-While we strongly recommend using Istio security,
+While we strongly recommend using Istio security mechanisms,
 Istio is flexible enough to allow you to plug in your own authentication and authorization mechanisms via the Mixer component.
-You can find out how to use and configure plugins in [Mixer policies and telemetry](/docs/concepts/policies-and-telemetry/#adapters).
+To use and configure plugins in Mixer, visit our [policies and telemetry adapters docs](/docs/concepts/policies-and-telemetry/#adapters).
 
 ### Upcoming features
 
-- Identity/CA pluggability to support bring-your-own-CA and bring-your-own-identity.
+- Identity or CA pluggability to support bring-your-own-CA and bring-your-own-identity.
   For example, Vault integration, Active Directory integration.
 
-- Perimeter security policies for Ingress/Egress proxy.
+- Perimeter security policies for Ingress and Egress proxies.
 
 - Advanced auditing to meet various compliance requirements.
 
-- Secure developer/operator access from CORP to production services.
+- Secure developer and operator access from CORP to production services.
 
 - Binary authorization integration to ensure the service is running with the trusted binary.
 
 ## Istio identity
 
 Identity is a fundamental concept of any security infrastructure. At the beginning of a service-to-service communication,
-the two parties need to exchange credentials consisting of their identity information, for mutual authentication purposes.
+the two parties must exchange credentials with their identity information for mutual authentication purposes.
 On the client side, the server's identity is checked against the [secure naming](/docs/concepts/security/#secure-naming)
 information to see if it is an authorized runner of the service.
 On the server side, the server can determine what information the client can access based on the
@@ -273,19 +275,19 @@ Istio provides two types of authentication:
 
 ### Mutual TLS authentication
 
-Service-to-service communication is tunneled through the client side [Envoy](https://envoyproxy.github.io/envoy/) and the server side Envoy.
-For a client to call a server, the process can be described as the following:
+Istio tunnels service-to-service communication through the client side and server side [Envoy proxies](https://envoyproxy.github.io/envoy/).
+For a client to call a server, the steps followed are:
 
-1. The outbound traffic from a client is rerouted to its local sidecar Envoy.
+1. Istio re-routes the outbound traffic from a client to the client's local sidecar Envoy.
 
 1. The client side Envoy starts a mutual TLS handshake with the server side Envoy.
-   During the handshake, it also does a [secure naming](/docs/concepts/security/#secure-naming) check to verify that
+   During the handshake, the client side Envoy also does a [secure naming](/docs/concepts/security/#secure-naming) check to verify that
    the service account presented in the server certificate is authorized to run the target service.
 
-1. The client side Envoy and the server side Envoy establish a mutual TLS connection, and the traffic
-   is forwarded from the client side Envoy to the server side Envoy.
+1. The client side Envoy and the server side Envoy establish a mutual TLS connection,
+   and Istio forwards the traffic from the client side Envoy to the server side Envoy.
 
-1. (After authorization) the server side Envoy forwards the traffic to the server service through local TCP connections.
+1. After authorization, the server side Envoy forwards the traffic to the server service through local TCP connections.
 
 #### Secure naming
 
