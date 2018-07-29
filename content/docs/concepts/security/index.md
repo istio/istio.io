@@ -354,7 +354,7 @@ specify client-side authentication rules in mutual TLS, you need to specify the
 `TLSSettings` in the `DestinationRule`. You can find more information in our
 [TLS settings reference docs](/docs/reference/config/istio.networking.v1alpha3/#TLSSettings).
 Like other Istio configuration, you can specify authentication policies in
-`.yaml` files. You deploy policies using `istioctl`.
+`.yaml` files. You deploy policies using `kubectl`.
 
 The following example authentication policy specifies that transport
 authentication for the `reviews` service must use mutual TLS:
@@ -386,7 +386,7 @@ storage:
       name: "default"
     spec:
       peers:
-      * mtls: {}
+      - mtls: {}
     {{< /text >}}
 
 - Namespace-scope policy is specified with a value of `"Policy"` for the `kind`
@@ -401,7 +401,7 @@ storage:
       namespace: "ns1"
     spec:
       peers:
-      + mtls: {}
+      - mtls: {}
     {{< /text >}}
 
 Policies in the namespace-scope storage can only affect services in the same
@@ -772,7 +772,7 @@ spec:
   - user: "service-account-a"
   - user: "istio-ingress-service-account"
     properties:
-    - request.auth.claims[email]: "a@foo.com"
+      request.auth.claims[email]: "a@foo.com"
   roleRef:
     kind: ServiceRole
     name: "products-viewer"

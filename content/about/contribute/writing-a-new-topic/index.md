@@ -343,14 +343,14 @@ of @ symbols. These indicate the path should be rendered as a link to the file f
 
 {{< text markdown >}}
 {{</* text bash */>}}
-$ istioctl create -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
+$ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 {{</* /text */>}}
 {{< /text >}}
 
 This will be rendered as:
 
 {{< text bash >}}
-$ istioctl create -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
+$ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 {{< /text >}}
 
 ### Files and snippets

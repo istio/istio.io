@@ -35,7 +35,7 @@ Otherwise, ESP won't be able to access Google cloud service control.
 1.  If you want to access the service through Ingress, create the following Ingress definition:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: extensions/v1beta1
     kind: Ingress
     metadata:
@@ -110,8 +110,8 @@ This solution uses Istio proxy for TCP bypassing. The traffic is secured through
       name: tcp
     {{< /text >}}
 
-1.  Update the mesh service deployment. See further readings on port naming rules
-[here](/docs/setup/kubernetes/sidecar-injection/#pod-spec-requirements).
+1.  Update the mesh service deployment. See further readings on port naming rules in
+[Requirements for Pods and Services](/docs/setup/kubernetes/spec-requirements).
 
 1.  You can verify access to the Endpoints service through secure Ingress:
 

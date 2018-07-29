@@ -19,7 +19,7 @@ This task shows you how to setup request timeouts in Envoy using Istio.
 *   Initialize the application version routing by running the following command:
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
 ## Request timeouts
@@ -33,7 +33,7 @@ to the `ratings` service.
 1.  Route requests to v2 of the `reviews` service, i.e., a version that calls the `ratings` service:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl replace -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -52,7 +52,7 @@ to the `ratings` service.
 1.  Add a 2 second delay to calls to the `ratings` service:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl replace -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -80,7 +80,7 @@ to the `ratings` service.
 1.  Now add a half second request timeout for calls to the `reviews` service:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl replace -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -134,7 +134,7 @@ the timeout is specified in milliseconds instead of seconds.
 *   Remove the application routing rules:
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
+    $ kubectl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, see the

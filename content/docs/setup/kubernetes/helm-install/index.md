@@ -6,6 +6,7 @@ keywords: [kubernetes,helm]
 aliases:
     - /docs/setup/kubernetes/helm.html
     - /docs/tasks/integrating-services-into-istio.html
+page_icon: /img/helm.svg
 ---
 
 Quick start instructions for the setup and configuration of Istio using Helm.
@@ -25,6 +26,8 @@ plane and the sidecars for the Istio data plane.
   * [Amazon Web Services (AWS) with Kops](/docs/setup/kubernetes/platform-setup/aws/)
   * [Azure](/docs/setup/kubernetes/platform-setup/azure/)
 
+1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/spec-requirements/) on Pods and Services.
+
 1. [Install the Helm client](https://docs.helm.sh/using_helm/#installing-helm).
 
 1. Istio by default uses LoadBalancer service object types.  Some platforms do not support LoadBalancer
@@ -32,7 +35,19 @@ plane and the sidecars for the Istio data plane.
    instead with the flags `--set gateways.istio-ingressgateway.type=NodePort --set gateways.istio-egressgateway.type=NodePort`
    appended to the end of the helm operation.
 
-## Option 1: Install with Helm via `helm template`
+## Installation steps
+
+1. Install Istio's [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
+via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the kube-apiserver:
+
+    {{< text bash >}}
+    $ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml -n istio-system
+    {{< /text >}}
+
+1. Choose one of the following two
+**mutually exclusive** options described below.
+
+### Option 1: Install with Helm via `helm template`
 
 1. Render Istio's core components to a Kubernetes manifest called `istio.yaml`:
 
@@ -47,7 +62,7 @@ plane and the sidecars for the Istio data plane.
     $ kubectl create -f $HOME/istio.yaml
     {{< /text >}}
 
-## Option 2: Install with Helm and Tiller via `helm install`
+### Option 2: Install with Helm and Tiller via `helm install`
 
 This option allows Helm and
 [Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components)
@@ -106,7 +121,7 @@ With this minimal set you can install your own application and [configure reques
 
 ## Uninstall
 
-* For option 1, uninstall using kubectl:
+* For option 1, uninstall using `kubectl`:
 
     {{< text bash >}}
     $ kubectl delete -f $HOME/istio.yaml
@@ -124,3 +139,8 @@ With this minimal set you can install your own application and [configure reques
     $ kubectl -n istio-system delete job --all
     {{< /text >}}
 
+* If desired, delete the CRDs using kubectl:
+
+    {{< text bash >}}
+    $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml -n istio-system
+    {{< /text >}}

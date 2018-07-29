@@ -41,7 +41,7 @@ configuration by intentionally "tripping" the circuit breaker.
 when calling the `httpbin` service:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
     metadata:
@@ -66,7 +66,7 @@ when calling the `httpbin` service:
 1.  Verify the destination rule was created correctly:
 
     {{< text bash yaml >}}
-    $ istioctl get destinationrule httpbin -o yaml
+    $ kubectl get destinationrule httpbin -o yaml
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
     metadata:
@@ -253,7 +253,7 @@ one connection and request concurrently, you should see some failures when the
 1.  Remove the rules:
 
     {{< text bash >}}
-    $ istioctl delete destinationrule httpbin
+    $ kubectl delete destinationrule httpbin
     {{< /text >}}
 
 1.  Shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service and client:

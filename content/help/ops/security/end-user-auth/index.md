@@ -1,12 +1,15 @@
 ---
-title: End-User Authentication
+title: End User Authentication
 description: What to do if end-user authentication doesn't work.
 weight: 80
 ---
 
-1. Check the policy, `principalBinding` should be set as `USE_ORIGIN`.
+With Istio, you can enable authenticating end user. Currently, the end user credential supported by the Istio authentication policy is JWT.
+The following is a guide for troubleshooting the end user JWT authentication.
 
-1. If `jwksUri` isn’t set, make sure issuer is Url format and `url + /.well-known/openid-configuration` can be opened in browser; for example, if issuer is `https://accounts.google.com`, make sure `https://accounts.google.com/.well-known/openid-configuration` is a valid url and can be opened in browser.
+1. Check your Istio authentication policy, `principalBinding` should be set as `USE_ORIGIN` to authenticate the end user.
+
+1. If `jwksUri` isn’t set, make sure the JWT issuer is of url format and `url + /.well-known/openid-configuration` can be opened in browser; for example, if the JWT issuer is `https://accounts.google.com`, make sure `https://accounts.google.com/.well-known/openid-configuration` is a valid url and can be opened in a browser.
 
     {{< text yaml >}}
     apiVersion: "authentication.istio.io/v1alpha1"
@@ -25,12 +28,11 @@ weight: 80
       principalBinding: USE_ORIGIN
     {{< /text >}}
 
-1. If pass JWT token as Authorization header in the request, make sure the JWT token is valid (not expired, etc), those information could be got by decoding JWT token from [jwt.io](https://jwt.io/)
+1. If the JWT token is placed in the Authorization header in http requests, make sure the JWT token is valid (not expired, etc). The fields in a JWT token can be decoded by using online JWT parsing tools, e.g., [jwt.io](https://jwt.io/).
 
-1. Get the logs to verify config that pilot distributed to envoy is in correct format
+1. Get the Istio proxy (i.e., Envoy) logs to verify the configuration which Pilot distributes is correct.
 
-    For example, if the policy is enforced on `httpbin` service in namespace `foo`, using below command to get logs from proxy, make sure `local_jwks` is set; also
-    response code could got from proxy logs.
+    For example, if the authentication policy is enforced on the `httpbin` service in the namespace `foo`, use the command below to get logs from the Istio proxy, make sure `local_jwks` is set and the http response code is in the Istio proxy logs.
 
     {{< text bash >}}
     $ kubectl logs httpbin-68fbcdcfc7-hrnzm -c istio-proxy -n foo

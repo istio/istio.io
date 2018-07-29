@@ -363,12 +363,9 @@ spec:
       version: v2
 {{< /text >}}
 
-Rules can be configured using the
-[istioctl CLI](/docs/reference/commands/istioctl/), or in a Kubernetes
-deployment using the `kubectl` command instead, although `istioctl` provides
-better output and is recommended. See the
-[configuring request routing task](/docs/tasks/traffic-management/request-routing/)
-for examples.
+Rules can be configured using the `kubectl` command. See the
+[configuring request routing
+task](/docs/tasks/traffic-management/request-routing/) for examples.
 
 The following sections provide a basic overview of the traffic management configuration resources.
 See [networking reference](/docs/reference/config/istio.networking.v1alpha3/)
