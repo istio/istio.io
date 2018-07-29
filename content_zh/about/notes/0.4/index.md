@@ -12,7 +12,7 @@ page_icon: /img/notes.svg
 
 - **Circonus**：Mixer 中加入了 [Circonus](https://www.circonus.com) 监控和分析平台的适配器。
 
-- **Pilot 指标**：现在开始收集 Pilot 的 指标用于诊断.
+- **Pilot 指标**：现在开始收集 Pilot 的指标用于诊断.
 
 - **Helm Charts**.：提供了用于安装 Istio 的 Helm chart。
 
