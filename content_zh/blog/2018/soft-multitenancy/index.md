@@ -222,7 +222,7 @@ Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list p
 {{< /text >}}
 
 如果部署了[遥测组件](/docs/tasks/telemetry/), 例如
-[prometheus](/docs/tasks/telemetry/querying-metrics/)（限制在 Istio 的 `namespace`），其中获得的统计结果展示的也只是租户应用命名空间的私有数据。
+[Prometheus](/docs/tasks/telemetry/querying-metrics/)（限制在 Istio 的 `namespace`），其中获得的统计结果展示的也只是租户应用命名空间的私有数据。
 
 ## 结语
 

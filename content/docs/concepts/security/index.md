@@ -224,7 +224,7 @@ Istio provides two types of authentication:
 
 - Transport authentication, also known as service-to-service authentication:
   verifies the direct client making the connection. Istio offers mutual TLS
-  (mTLS) as a full stack solution for transport authentication. You can
+  as a full stack solution for transport authentication. You can
   easily turn on this feature without requiring service code changes. This
   solution:
 
@@ -459,7 +459,7 @@ recommendations to avoid disruption when updating your authentication policies:
 - To enable or disable mutual TLS: Use a temporary policy with a `mode:` key
   and a `PERMISSIVE` value. This configures receiving services to accept both
   types of traffic: plain text and TLS. Thus, no request is dropped. Once all
-  clients switch to the expected protocol, with or without mTLS, you can
+  clients switch to the expected protocol, with or without mutual TLS, you can
   replace the `PERMISSIVE` policy with the final policy. For more information,
   visit the [Mutual TLS Migration tutorial](/docs/tasks/security/mtls-migration).
 

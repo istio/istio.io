@@ -14,7 +14,7 @@ keywords: [traffic-management,egress,tcp]
 
 ## Bookinfo 示例应用程序与外部评级数据库
 
-首先，我在 Kubernetes 集群之外设置了一个 MySQL 数据库实例来保存 bookinfo 评级数据, 然后我修改[Bookinfo示例应用程序](/docs/examples/bookinfo/)以使用我的数据库。
+首先，我在 Kubernetes 集群之外设置了一个 MySQL 数据库实例来保存 Bookinfo 评级数据, 然后我修改[Bookinfo示例应用程序](/docs/examples/bookinfo/)以使用我的数据库。
 
 ### 为评级数据设置数据库
 
@@ -36,7 +36,7 @@ keywords: [traffic-management,egress,tcp]
     mysql -u root -p
     {{< /text >}}
 
-1. 然后我创建一个名为 _bookinfo_ 的用户，并在`test.ratings` 表上授予它 _SELECT_ 权限：
+1. 然后我创建一个名为 `bookinfo` 的用户，并在`test.ratings` 表上授予它 _SELECT_ 权限：
 
     {{< text bash >}}
     $ mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host <the database host> --port <the database port>  \
@@ -52,7 +52,7 @@ keywords: [traffic-management,egress,tcp]
     "CREATE USER 'bookinfo' IDENTIFIED BY '<password you choose>'; GRANT SELECT ON test.ratings to 'bookinfo';"
     {{< /text >}}
 
-    在这里，我应用[最小特权原则](https://en.wikipedia.org/wiki/Principle_of_least_privilege), 这意味着我不在 Bookinfo 应用程序中使用我的 _admin_ 用户, 相反，我为应用程序 Bookinfo 创建了一个最小权限的特殊用户 _bookinfo_ , 在这种情况下，_bookinfo_ 用户只对单个表具有"SELECT”特权。
+    在这里，我应用[最小特权原则](https://en.wikipedia.org/wiki/Principle_of_least_privilege), 这意味着我不在 Bookinfo 应用程序中使用我的 _admin_ 用户, 相反，我为应用程序 Bookinfo 创建了一个最小权限的特殊用户 `bookinfo` , 在这种情况下，_bookinfo_ 用户只对单个表具有"SELECT”特权。
 
     在运行命令创建用户之后，我将通过检查最后一个命令的编号并运行`history -d <创建用户的命令编号>` 来清理我的bash历史记录, 我不希望新用户的密码存储在bash历史记录中, 如果我使用`mysql`，我也会删除`~/.mysql_history`文件中的最后一个命令, 在[MySQL文档](https://dev.mysql.com/doc/refman/5.5/en/create-user.html)中阅读有关新创建用户的密码保护的更多信息。
 
@@ -114,7 +114,7 @@ keywords: [traffic-management,egress,tcp]
     +----------+--------+
     {{< /text >}}
 
-    我在最后一个命令中使用了 _admin_ 用户（和 _root_ 用于本地数据库），因为 _bookinfo_ 用户在 `test.ratings` 表上没有 _UPDATE_ 权限。
+    我在最后一个命令中使用了 `admin` 用户（和 `root` 用于本地数据库），因为 `bookinfo` 用户在 `test.ratings` 表上没有 `UPDATE` 权限。
 
 现在我准备部署使用外部数据库的 Bookinfo 应用程序版本。
 
@@ -265,7 +265,7 @@ Created config egress-rule/default/mysql at revision 1954425
 
 ## 清理
 
-1. 删除 _test_ 数据库和 _bookinfo_ 用户：
+1. 删除 `test` 数据库和 `bookinfo` 用户：
 
     {{< text bash >}}
     $ mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host <the database host> --port <the database port> \

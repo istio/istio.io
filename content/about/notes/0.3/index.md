@@ -35,7 +35,7 @@ significant drop in average latency for authorization checks.
 - **Improved list Adapter**. The Mixer 'list' adapter now supports regular expression matching. See the adapter's
 [configuration options](/docs/reference/config/policy-and-telemetry/adapters/list/) for details.
 
-- **Config Validation**. Mixer does more extensive validation of configuration state in order to catch problems earlier.
+- **Configuration Validation**. Mixer does more extensive validation of configuration state in order to catch problems earlier.
 We expect to invest more in this area in coming releases.
 
 If you're into the nitty-gritty details, you can see our more detailed low-level

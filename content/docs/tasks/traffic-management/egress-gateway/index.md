@@ -99,7 +99,7 @@ First direct HTTP traffic without TLS origination
 1.  Create an egress `Gateway` for _edition.cnn.com_, port 80.
 
     If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio, use the following
-    command. Note that in addition to creating a `Gateway`, it creates a `DestinationRule` to specify mTLS to the egress
+    command. Note that in addition to creating a `Gateway`, it creates a `DestinationRule` to specify mutual TLS to the egress
     gateway, setting SNI to `edition.cnn.com`.
 
     {{< text bash >}}
@@ -222,7 +222,7 @@ First direct HTTP traffic without TLS origination
 
     The output should be the same as in the step 2.
 
-1.  Check the log of the _istio-egressgateway_ pod and see a line corresponding to our request. If Istio is deployed in the `istio-system` namespace, the command to print the log is:
+1.  Check the log of the `istio-egressgateway` pod and see a line corresponding to our request. If Istio is deployed in the `istio-system` namespace, the command to print the log is:
 
     {{< text bash >}}
     $ kubectl logs $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') egressgateway -n istio-system | tail
@@ -292,7 +292,7 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
 1.  Create an egress `Gateway` for _edition.cnn.com_, port 443.
 
     If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio, use the following
-    command. Note that in addition to creating a `Gateway`, it creates a `DestinationRule` to specify mTLS to the egress
+    command. Note that in addition to creating a `Gateway`, it creates a `DestinationRule` to specify mutual TLS to the egress
     gateway, setting SNI to `edition.cnn.com`.
 
     {{< text bash >}}
@@ -425,7 +425,7 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
 
     The output should be the same as in the [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress-tls-origination/) task, with TLS origination: without the _301 Moved Permanently_ message.
 
-1.  Check the log of _istio-egressgateway_ pod and see a line corresponding to our request. If Istio is deployed in the `istio-system` namespace, the command to print the log is:
+1.  Check the log of the `istio-egressgateway` pod and see a line corresponding to our request. If Istio is deployed in the `istio-system` namespace, the command to print the log is:
 
     {{< text bash >}}
     $ kubectl logs $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') egressgateway -n istio-system | tail
@@ -488,7 +488,7 @@ The output should be the same as in the previous section.
 1.  Create an egress `Gateway` for _edition.cnn.com_, port 443, protocol TLS.
 
     If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio, use the following
-    command. Note that in addition to creating a `Gateway`, it creates a `DestinationRule` to specify mTLS to the egress
+    command. Note that in addition to creating a `Gateway`, it creates a `DestinationRule` to specify mutual TLS to the egress
     gateway, setting SNI to `edition.cnn.com`.
 
     {{< text bash >}}

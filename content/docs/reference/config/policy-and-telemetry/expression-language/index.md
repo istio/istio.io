@@ -1,12 +1,12 @@
 ---
 title: Expression Language
-description: Mixer config expression language reference.
+description: Mixer configuration expression language reference.
 weight: 20
 aliases:
     - /docs/reference/config/mixer/expression-language.html
 ---
 
-This page describes how to use the Mixer config expression language (CEXL).
+This page describes how to use the Mixer configuration expression language (CEXL).
 
 ## Background
 
@@ -46,8 +46,8 @@ CEXL supports the following functions.
 
 CEXL variables are attributes from the typed [attribute vocabulary](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/), constants are implicitly typed and, functions are explicitly typed.
 
-Mixer validates a CEXL expression and resolves it to a type during config validation.
-Selectors must resolve to a boolean value and mapping expressions must resolve to the type they are mapping into. Config validation fails if a selector fails to resolve to a boolean or if a mapping expression resolves to an incorrect type.
+Mixer validates a CEXL expression and resolves it to a type during configuration validation.
+Selectors must resolve to a boolean value and mapping expressions must resolve to the type they are mapping into. Configuration validation fails if a selector fails to resolve to a boolean or if a mapping expression resolves to an incorrect type.
 
 For example, if an operator specifies a *string* label as `request.size | 200`, validation fails because the expression resolves to an integer.
 
