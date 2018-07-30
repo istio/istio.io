@@ -25,7 +25,7 @@ service.
 
     You need to set a default route to one of the versions. Otherwise, when you send requests to the `reviews` service, Istio routes requests to all available versions randomly, and sometimes the output contains star ratings and sometimes it doesn't.
 
-1. Set the default version for all services to v1. If you’ve already created route rules for the sample, use `replace` rather than `create` in the following command.
+1. Set the default version for all services to v1.
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
