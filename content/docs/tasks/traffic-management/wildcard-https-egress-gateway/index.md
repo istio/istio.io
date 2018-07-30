@@ -285,7 +285,7 @@ access to _*.wikipedia.org_ to support HTTPS traffic to arbitrary wildcarded dom
 to hold the configuration of the Nginx SNI proxy:
 
     {{< text bash >}}
-    $ kubectl create configmap egress-sni-proxy-configmap --from-file=$HOME/nginx-sni-proxy.conf
+    $ kubectl create configmap egress-sni-proxy-configmap -n istio-system --from-file=nginx.conf=$HOME/nginx-sni-proxy.conf
     {{< /text >}}
 
 1.  Deploy the new egress gateway:
@@ -475,7 +475,7 @@ to hold the configuration of the Nginx SNI proxy:
     $ istioctl delete virtualservice direct-wikipedia-through-egress-gateway wikipedia
     $ istioctl delete destinationrule set-sni-for-egress-gateway
     $ kubectl delete -f $HOME/istio-egressgateway-with-sni-proxy.yaml
-    $ kubectl delete configmap egress-sni-proxy-configmap
+    $ kubectl delete configmap egress-sni-proxy-configmap -n istio-system
     {{< /text >}}
 
 1. Remove the configuration files you created
