@@ -68,10 +68,17 @@ represents.
 |Set the value of the `ports` field in the configuration file. | Set the value of the "ports" field in the configuration file.
 |The value of the `rule` field is a `Rule` object.           | The value of the "rule" field is a `Rule` object.
 
+## Use title capitalization for `title:` front-matter
+
+The text for the `title:` front-matter should use full title capitalization
+(first letter of every word). This is unlike headings within the document,
+as described below.
+
 ### Only capitalize the first letter of headings
 
 For any headings, only apply an uppercase letter to the first word of the heading,
-except if a word is a proper noun or an acronym.
+except if a word is a proper noun or an acronym. Note that the `title:` annotation
+in markdown uses full capitalization.
 
 |Do                      | Don't
 |------------------------|-----
