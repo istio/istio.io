@@ -28,14 +28,14 @@ keywords: [contribute]
 
     这里的 `<pod-name>` 就是 Pod 的名称。
 
-### 使用 `**黑体**` 表达用户界面元素
+### 使用 `**加粗显示**` 表达用户界面元素
 
 |建议               |不建议
 |-----------------|------
 |点击**Fork**。  |点击 "Fork"。
 |选择**Other**。|选择 'Other'。
 
-### 使用 `**黑体**` 定义或引入新词汇
+### 使用 `**加粗显示**` 定义或引入新词汇
 
 |建议                                         |不建议
 |-------------------------------------------|---
@@ -108,13 +108,13 @@ keywords: [contribute]
 
 ## 最佳实践
 
-### 使用现代时
+### 使用现在时
 
 |建议              |不建议
 |-----------------------------|------
 |This command starts a proxy. | This command will start a proxy.
 
-例外：在必要的时候还是要使用将来时或过去时的
+例外：在必要的时候还是要使用将来时或过去时的。
 
 ### 使用主动语态
 
@@ -123,7 +123,7 @@ keywords: [contribute]
 |You can explore the API using a browser.   | The API can be explored using a browser.
 |The YAML file specifies the replica count. | The replica count is specified in the YAML file.
 
-Exception: Use passive voice if active voice leads to an awkward construction.
+例外: 在主动语态可能引起误会时，还是应该使用被动语态。
 
 ### 简单直接的表达方式
 
