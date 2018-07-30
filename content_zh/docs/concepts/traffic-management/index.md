@@ -143,7 +143,7 @@ Istio 提供了一个简单的配置模型，用来控制 API 调用以及应用
 
 例如，将 `reviews` 服务 100％ 的传入流量发送到 `v1` 版本，这一需求可以用下面的规则来实现：
 
-~~~yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -156,11 +156,11 @@ spec:
     - destination:
         host: reviews
         subset: v1
-~~~
+{{< /text >}}
 
 这个配置的用意是，发送到 `reviews` 服务（在 `host` 字段中标识）的流量应该被路由到 `reviews` 服务实例的 `v1` 子集中。路由中的 `subset` 制定了一个预定义的子集名称，子集的定义来自于目标规则配置：
 
-~~~yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -174,7 +174,7 @@ spec:
   - name: v2
     labels:
       version: v2
-~~~
+{{< /text >}}
 
 子集中会指定一或多个标签，用这些标签来区分不同版本的实例。假设在 Kubernetes 上的 Istio 服务网格之中有一个服务，`version: v1` 代表只有标签中包含 "version:v1" 的 Pod 才会收到流量。
 
@@ -190,11 +190,11 @@ Istio 中包含有四种流量管理配置资源，分别是 `VirtualService`、
 
 路由规则对应着一或多个用 `VirtualService` 配置指定的请求目的主机。这些主机可以是、也可以不是实际的目标负载，甚至可以不是一个网格内可路由的服务。例如要给到 `reviews` 服务的请求定义路由规则，可以使用内部的名称 `reviews`，也可以用域名 `bookinfo.com`，`VirtualService` 可以这样使用 `host` 字段：
 
-~~~yaml
+{{< text yaml >}}
 hosts:
   - reviews
   - bookinfo.com
-~~~
+{{< /text >}}
 
 `host` 字段用显示或者隐式的方式定义了一或多个完全限定名（FQDN）。上面的 `reviews`，会隐式的扩展成为特定的 FQDN，例如在 Kubernetes 环境中，全名会从 `VirtualService` 所在的集群和命名空间中继承而来（比如说 `reviews.default.svc.cluster.local`）。
 
@@ -204,7 +204,7 @@ hosts:
 
 **1. 根据特定用户进行限定。**例如，可以制定一个规则，只对来自 `reviews` 服务的 Pod 生效：
 
-~~~yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -217,13 +217,13 @@ spec:
       sourceLabels:
         app: reviews
     ...
-~~~
+{{< /text >}}
 
 `sourceLabels` 的值依赖于服务的实现。比如说在 Kubernetes 中，跟服务的 Pod 选择标签一致。
 
 **2. 根据调用方的特定版本进行限定。**例如下面的规则对前一个例子进行修改，`reviews` 服务的 `v2` 版本发出的请求才会生效：
 
-~~~yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -237,11 +237,11 @@ spec:
         app: reviews
         version: v2
     ...
-~~~
+{{< /text >}}
 
 **3. 根据 HTTP Header 选择规则。**下面的规则只会对包含了 `end-user` 头，且值为 `jason` 的请求生效：
 
-~~~yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -255,7 +255,7 @@ spec:
         end-user:
           exact: jason
     ...
-~~~
+{{< /text >}}
 
 多个 Header 之间是"与”关系。
 
@@ -264,7 +264,7 @@ spec:
 - 来源于 `reviews:v2` 服务
 - "end-user" 头中包含 “jason”
 
-~~~yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -281,11 +281,11 @@ spec:
         end-user:
           exact: jason
     ...
-~~~
+{{< /text >}}
 
 但如果这些标准存在于不同的 `match` 子句中，就会变成 OR 逻辑：
 
-~~~yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -302,7 +302,7 @@ spec:
         end-user:
           exact: jason
     ...
-~~~
+{{< /text >}}
 
 ### 在服务之间分拆流量
 
@@ -310,7 +310,7 @@ spec:
 
 例如下面的规则会把 25% 的 `reviews` 服务流量分配给 `v2` 标签；其余的 75% 流量分配给 `v1`：
 
-~~~yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -328,13 +328,13 @@ spec:
         host: reviews
         subset: v2
       weight: 25
-~~~
+{{< /text >}}
 
 ### 超时和重试
 
 缺省情况下，HTTP 请求的超时设置为 15 秒，可以使用路由规则来覆盖这个限制：
 
-~~~yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -348,11 +348,11 @@ spec:
         host: ratings
         subset: v1
     timeout: 10s
-~~~
+{{< /text >}}
 
 还可以用路由规则来指定某些 http 请求的重试次数。下面的代码可以用来设置最大重试次数，或者在规定时间内一直重试，时间长度同样可以进行覆盖：
 
-~~~yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -368,7 +368,7 @@ spec:
     retries:
       attempts: 3
       perTryTimeout: 2s
-~~~
+{{< /text >}}
 
 注意请求的重试和超时还可以[针对每个请求分别设置](/docs/concepts/traffic-management/#fine-tuning)。
 
@@ -380,7 +380,7 @@ spec:
 
 下面的例子在目标为 `ratings:v1` 服务的流量中，对其中的 10% 注入 5 秒钟的延迟。
 
-~~~yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -397,11 +397,11 @@ spec:
     - destination:
         host: ratings
         subset: v1
-~~~
+{{< /text >}}
 
 接下来，在目标为 `ratings:v1` 服务的流量中，对其中的 10% 注入 HTTP 400 错误。
 
-~~~yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -418,11 +418,11 @@ spec:
     - destination:
         host: ratings
         subset: v1
-~~~
+{{< /text >}}
 
 有时会把延迟和退出同时使用。例如下面的规则对从 `reviews:v2` 到 `ratings:v1` 的流量生效，会让所有的请求延迟 5 秒钟，接下来把其中的 10% 退出：
 
-~~~yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -431,15 +431,14 @@ spec:
   hosts:
   - ratings
   http:
-  - fault:
-      abort:
-        percent: 10
-        httpStatus: 400
-    route:
-    - destination:
-        host: ratings
-        subset: v1
-~~~
+  - match:
+    - sourceLabels:
+        app: reviews
+        version: v2
+    fault:
+      delay:
+        fixedDelay: 5s
+{{< /text >}}
 
 可以参考[错误注入任务](/docs/tasks/traffic-management/fault-injection/)，进行这方面的实际体验。
 
@@ -453,7 +452,7 @@ spec:
 
 例如下面的 `VirtualService` 包含了两个规则，所有对 `reviews` 服务发起的请求，如果 Header 包含 `Foo=bar`，就会被路由到 `v2` 实例，而其他请求则会发送给 `v1` ：
 
-~~~yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -474,7 +473,7 @@ spec:
     - destination:
         host: reviews
         subset: v1
-~~~
+{{< /text >}}
 
 注意，基于 Header 的规则具有更高优先级。如果降低它的优先级，那么这一规则就无法生效了，这是因为那些没有限制的权重规则会首先被执行，也就是说所有请求及时包含了符合条件的 `Foo` 头，也都会被路由到 `v1`。流量特征被判断为符合一条规则的条件的时候，就会结束规则的选择过程，这就是在存在多条规则时，需要慎重考虑优先级问题的原因。
 
@@ -486,7 +485,7 @@ spec:
 
 下面是 `reviews` 服务的 `DestinationRule` 配置策略以及子集：
 
-~~~yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -509,7 +508,7 @@ spec:
   - name: v3
     labels:
       version: v3
-~~~
+{{< /text >}}
 
 注意在单个 `DestinationRule` 配置中可以包含多条策略（比如 default 和 v2）。
 
@@ -519,7 +518,7 @@ spec:
 
 例如下面的 `DestinationRule` 给 `reviews` 服务的 `v1` 版本设置了 100 连接的限制：
 
-~~~yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -534,7 +533,7 @@ spec:
       connectionPool:
         tcp:
           maxConnections: 100
-~~~
+{{< /text >}}
 
 ### `DestinationRule` 的评估
 
@@ -544,7 +543,7 @@ spec:
 
 **注意：**这一算法需要留心是，为特定 `subset` 定义的策略，只有在该 `subset` 被显式的路由时候才能生效。例如下面的配置，只为 `review` 服务定义了规则（没有对应的 `VirtualService` 路由规则）。
 
-~~~yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -559,13 +558,13 @@ spec:
       connectionPool:
         tcp:
           maxConnections: 100
-~~~
+{{< /text >}}
 
 既然没有为 `reviews` 服务定义路由规则，那么就会使用缺省的 `round-robin` 策略，偶尔会请求到 `v1` 实例，如果只有一个 `v1` 实例，那么所有请求都会发送给它。然而上面的策略是永远不会生效的，这是因为，缺省路由是在更底层完成的任务，策略引擎无法获知最终目的，也无法为请求选择匹配的 `subset` 策略。
 
 有两种方法来解决这个问题。可以把路由策略提高一级，要求他对所有版本生效：
 
-~~~yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -580,11 +579,11 @@ spec:
   - name: v1
     labels:
       version: v1
-~~~
+{{< /text >}}
 
 还有一个更好的方法，就是为服务定义路由规则，例如给 `reviews:v1` 加入一个简单的路由规则：
 
-~~~yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -597,7 +596,7 @@ spec:
     - destination:
         host: reviews
         subset: v1
-~~~
+{{< /text >}}
 
 虽然 Istio 在没有定义任何规则的情况下，能将所有来源的流量发送给所有版本的目标服务。然而一旦需要对版本有所区别，就需要制定规则了。从一开始就给每个服务设置缺省规则，是 Istio 世界里推荐的最佳实践。
 
@@ -605,7 +604,7 @@ spec:
 
 Istio 内部会维护一个服务注册表，可以用 [`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) 向其中加入额外的条目。通常这个对象用来启用对 Istio 服务网格之外的服务发出请求。例如下面的 `ServiceEntry` 可以用来允许外部对 `*.foo.com` 域名上的服务主机的调用。
 
-~~~yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
@@ -620,7 +619,7 @@ spec:
   - number: 443
     name: https
     protocol: HTTPS
-~~~
+{{< /text >}}
 
 `ServiceEntry` 中使用 `hosts` 字段来指定目标，字段值可以是一个完全限定名，也可以是个通配符域名。其中包含的白名单，包含一或多个允许网格中服务访问的服务。
 
@@ -628,7 +627,7 @@ spec:
 
 只要 `ServiceEntry` 涉及到了匹配 `host` 的服务，就可以和 `VirtualService` 以及 `DestinationRule` 配合工作。例如下面的规则可以和上面的 `ServiceEntry` 同时使用，在访问 `bar.foo.com` 的外部服务时，设置一个 10 秒钟的超时。
 
-~~~yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -641,7 +640,7 @@ spec:
     - destination:
         host: bar.foo.com
     timeout: 10s
-~~~
+{{< /text >}}
 
 流量的重定向和转发、定义重试和超时以及错误注入策略都支持外部目标。然而由于外部服务没有多版本的概念，因此权重（基于版本）路由就无法实现了。
 
@@ -655,7 +654,7 @@ spec:
 
 例如下面提供一个简单的 `Gateway` 代码，配合一个负载均衡，允许外部针对主机 `bookinfo.com` 的 https 流量：
 
-~~~yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -672,11 +671,11 @@ spec:
       mode: SIMPLE
       serverCertificate: /tmp/tls.crt
       privateKey: /tmp/tls.key
-~~~
+{{< /text >}}
 
 要为 `Gateway` 配置对应的路由，必须为定义一个同样 `host` 定义的 `VirtualService`，其中用 `gateways` 字段来绑定到定义好的 `Gateway` 上：
 
-~~~yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -692,7 +691,7 @@ spec:
         prefix: /reviews
     route:
     ...
-~~~
+{{< /text >}}
 
 在 [Ingress 任务](/docs/tasks/traffic-management/ingress/) 中有完整的 Ingress Gateway 例子。
 
