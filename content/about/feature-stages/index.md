@@ -27,29 +27,18 @@ within the project, not to the project as a whole. Here is a high level descript
 
 Below is our list of existing features and their current phases. This information will be updated after every monthly release.
 
-### Traffic management
+### Networking
 
 | Feature           | Phase
 |-------------------|-------------------
-| [Protocols: HTTP 1.1](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/http_connection_management.html#http-protocols)  | Beta
-| [Protocols: HTTP 2.0](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/http_connection_management.html#http-protocols)  | Alpha
-| [Protocols: gRPC](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/grpc)   | Alpha
-| [Protocols: MongoDB](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/mongo)      | Alpha
-| [Request Routing](/docs/tasks/traffic-management/request-routing/)      | Alpha
-| [Fault Injection](/docs/tasks/traffic-management/fault-injection/)      | Alpha
-| [Traffic Shifting](/docs/tasks/traffic-management/traffic-shifting/)      | Alpha
-| [Circuit Break](/docs/tasks/traffic-management/circuit-breaking/)      | Alpha
-| [Mirroring](/docs/tasks/traffic-management/mirroring/)      | Alpha
-| [Ingress Traffic](/docs/tasks/traffic-management/ingress/)      | Alpha
-| [Egress Traffic](/docs/tasks/traffic-management/egress/)      | Alpha
-| [Egress TCP Traffic](/blog/2018/egress-tcp/)      | Alpha
-| [Improved Routing Rules: Composite Service](/docs/reference/config/istio.networking.v1alpha3/) | Alpha
-| [Quota / Redis Rate Limiting (Adapter and Server)](/docs/tasks/policy-enforcement/rate-limiting/) | Alpha
-| [Memquota Implementation and Integration](/docs/tasks/telemetry/metrics-logs/) | Stable
-| [Ingress TLS](/docs/tasks/traffic-management/ingress/) | Alpha
-| Egress Policy and Telemetry | Alpha
+| Protocols: HTTP1.1 / HTTP2 / gRPC / Websockets / MongoDB  | Beta
+| Traffic Control: label/content based routing, traffic shifting | Beta
+| Resilience features: timeouts, retries, connection pools, outlier detection | Beta
+| Gateway: Ingress, Egress for all protocols | Beta
+| TLS termination and SNI Support in Gateways | Beta
+| Enabling custom filters in Envoy | Alpha
 
-### Observability
+### Telemetry
 
 | Feature           | Phase
 |-------------------|-------------------
@@ -66,7 +55,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Logging with Fluentd](/docs/tasks/telemetry/fluentd/) | Alpha
 | [Client and Server Telemetry Reporting](/docs/concepts/policies-and-telemetry/) | Stable
 
-### Security
+### Security and Policy Enforcement
 
 | Feature           | Phase
 |-------------------|-------------------
@@ -89,14 +78,13 @@ Below is our list of existing features and their current phases. This informatio
 | [Kubernetes: Envoy Installation and Traffic Interception](/docs/setup/kubernetes/)        | Beta
 | [Kubernetes: Istio Control Plane Installation](/docs/setup/kubernetes/) | Beta
 | [Kubernetes: Istio Control Plane Upgrade](/docs/setup/kubernetes/) | Beta
-| [Pilot Integration into Kubernetes Service Discovery](/docs/setup/kubernetes/)         | Stable
+| [Consul Integration](/docs/setup/consul/quick-start/) | Alpha
+| [Cloud Foundry Integration](/docs/setup/consul/quick-start/)    | Alpha
 | [Attribute Expression Language](/docs/reference/config/policy-and-telemetry/expression-language/)        | Stable
 | [Mixer Adapter Authoring Model](/blog/2017/adapter-model/)        | Stable
 | [VM: Envoy Installation, Traffic Interception and Service Registration](/docs/examples/integrating-vms/)    | Alpha
 | [VM: Istio Control Plane Installation and Upgrade (Galley, Mixer, Pilot, CA)](https://github.com/istio/istio/issues/2083)  | Alpha
 | VM: Ansible Envoy Installation, Interception and Registration  | Alpha
-| [Pilot Integration into Consul](/docs/setup/consul/quick-start/) | Alpha
-| [Pilot Integration into Cloud Foundry Service Discovery](/docs/setup/consul/quick-start/)    | Alpha
 | [Basic Configuration Resource Validation](https://github.com/istio/istio/issues/1894) | Alpha
 | [Mixer Telemetry Collection (Tracing, Logging, Monitoring)](/help/faq/mixer/#mixer-self-monitoring) | Alpha
 | [Custom Mixer Build Model](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) | Alpha
