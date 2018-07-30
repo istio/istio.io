@@ -31,18 +31,11 @@ service.
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
-1. Initialize application version routing on the `reviews` service to
-   direct requests from the test user "jason" to version v2 and requests from any other user to v3.
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-jason-v2-v3.yaml@
-    {{< /text >}}
-
 ## Rate limits
 
-In this task, you configure Istio to rate limit traffic to the `ratings`
-service. Consider `ratings` as an external paid service like Rotten Tomatoes®
-with 1 qps free quota. Using Istio, you can ensure that 1 qps is not exceeded.
+In this task, you configure Istio to rate limit traffic to `productpage` based on the IP address
+of the originating client. You will use `X-Forwarded-For` request header as the client
+IP address. You will also use a conditional rate limit that exempts logged in users.
 
 For convenience, you configure the
 [memory quota](/docs/reference/config/policy-and-telemetry/adapters/memquota/)
@@ -53,22 +46,19 @@ quota](/docs/reference/config/policy-and-telemetry/adapters/redisquota/)
 the [quota template](/docs/reference/config/policy-and-telemetry/templates/quota/),
 so the configuration to enable rate limiting on both adapters is the same.
 
-1. Point your browser at the Bookinfo `productpage`
-   (`http://$GATEWAY_URL/productpage`).
+1. Rate limit configuration is split into 2 parts.
+    * Client Side
+        * `QuotaSpec` defines quota name and amount that the client should request.
+        * `QuotaSpecBinding` conditionally associates `QuotaSpec` with one or more services.
+    * Mixer Side
+        * `quota instance` defines how quota is dimensioned by Mixer.
+        * `memquota adapter` defines memquota adapter configuration.
+        * `quota rule` defines when quota instance is dispatched to the memquota adapter.
 
-    * If you log in as user "jason", you should see black ratings stars with
-    each review, indicating that the `ratings` service is being called by the
-    "v2" version of the `reviews` service.
-
-    * If you log in as any other user, you should see red ratings
-    stars with each review, indicating that the `ratings` service is being
-    called by the "v3" version of the `reviews` service.
-
-1. Configure `memquota`, `quota`, `rule`, `QuotaSpec`, `QuotaSpecBinding` to
-   enable rate limiting.
+    Run the following command to enable rate limits.
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml@
+    $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-productpage-ratelimit.yaml@
     {{< /text >}}
 
 1. Confirm the `memquota` handler was created:
@@ -83,34 +73,29 @@ so the configuration to enable rate limiting on both adapters is the same.
     spec:
       quotas:
       - name: requestcount.quota.istio-system
-        maxAmount: 5000
+        maxAmount: 500
         validDuration: 1s
-        overrides:
         - dimensions:
-            destination: ratings
-            source: reviews
-            sourceVersion: v3
+            destination: reviews
           maxAmount: 1
           validDuration: 5s
         - dimensions:
-            destination: ratings
-          maxAmount: 5
-          validDuration: 10s
+            destination: productpage
+          maxAmount: 2
+          validDuration: 5s
     {{< /text >}}
 
     The `memquota` handler defines 3 different rate limit schemes. The default,
-    if no overrides match, is `5000` requests per one second (`1s`). Two
+    if no overrides match, is `500` requests per one second (`1s`). Two
     overrides are also defined:
 
     * The first is `1` request (the `maxAmount` field) every `5s` (the
-    `validDuration` field), if the `destination` is `ratings`, the `source` is
-     `reviews`, and the `sourceVersion` is `v3`.
-    * The second is `5` requests every `10s`, if the `destination` is `ratings`.
+    `validDuration` field), if the `destination` is `reviews`.
+    * The second is `2` requests every `5s`, if the `destination` is `productpage`.
 
-    When a request is sent to the `ratings` service, the first matching override
-    is picked (reading from top to bottom).
+    When a request is sent to the first matching override is picked (reading from top to bottom).
 
-1. Confirm the `quota` was created:
+1. Confirm the `quota instance` was created:
 
     {{< text bash yaml >}}
     $ kubectl -n istio-system get quotas requestcount -o yaml
@@ -121,20 +106,19 @@ so the configuration to enable rate limiting on both adapters is the same.
       namespace: istio-system
     spec:
       dimensions:
-        source: source.labels["app"] | "unknown"
-        sourceVersion: source.labels["version"] | "unknown"
+        source: request.headers["x-forwarded-for"] | "unknown"
         destination: destination.labels["app"] | destination.service.host | "unknown"
         destinationVersion: destination.labels["version"] | "unknown"
     {{< /text >}}
 
-    The `quota` template defines four dimensions that are used by `memquota`
+    The `quota` template defines three dimensions that are used by `memquota`
     to set overrides on requests that match certain attributes. The
     `destination` will be set to the first non-empty value in
     `destination.labels["app"]`, `destination.service.host`, or `"unknown"`. For
      more information on expressions, see [Expression
     Language](/docs/reference/config/policy-and-telemetry/expression-language/).
 
-1. Confirm the `rule` was created:
+1. Confirm the `quota rule` was created:
 
     {{< text bash yaml >}}
     $ kubectl -n istio-system get rules quota -o yaml
@@ -187,58 +171,59 @@ so the configuration to enable rate limiting on both adapters is the same.
       - name: request-count
         namespace: istio-system
       services:
-      - name: ratings
-        namespace: default
-      - name: reviews
-        namespace: default
-      - name: details
-        namespace: default
       - name: productpage
         namespace: default
+      # - service: '*'
     {{< /text >}}
 
     This `QuotaSpecBinding` binds the `QuotaSpec` you created above to the
-    services you want to apply it to. You have to define the namespace for
-    each service since it is not in the same namespace this `QuotaSpecBinding`
-    resource was deployed into.
+    services you want to apply it to. `productpage` is explicitly bound to `request-count`, note
+    that you must define the namespace since it differs from the namespace of the `QuotaSpecBinding`.
+    If the last line is uncommented, `service: '*'` binds all services to the `QuotaSpec`
+    making the first entry redundant.
 
 1. Refresh the product page in your browser.
 
-    * If you are logged out, `reviews-v3` service is rate limited to 1 request
-    every 5 seconds. If you keep refreshing the page, the stars should only
-    load around once every 5 seconds.
-
-    * If you log in as user "jason", `reviews-v2` service is rate limited to 5
-    requests every 10 seconds. If you keep refreshing the page, the stars
-    should only load 5 times every 10 seconds.
-
-    * For all other services, the default 5000 qps rate limit will apply.
+    `request-count` quota applies to `productpage` and it permits 2 requests
+    every 5 seconds. If you keep refreshing the page you should see
+    `RESOURCE_EXHAUSTED:Quota is exhausted for: requestcount`.
 
 ## Conditional rate limits
 
-In the previous example you applied a rate limit to the `ratings` service
-without regard to non-dimension attributes. It is possible to conditionally
-apply rate limits based on arbitrary attributes using a match condition in
-the quota rule.
+In the above example we have effectively rate limited `productpage` at `2 rps` per client IP.
+Consider a scenario where you would like to exempt clients from this rate limit if a user is logged in.
+In the `bookinfo` example, we use cookie `user=<username>` to denote a logged in user.
+In a realistic scenario you may use a `jwt` token for this purpose.
 
-For example, consider the following configuration:
+You can update the `quota rule` by adding a match condition based on the `cookie`.
 
 {{< text yaml >}}
+$ kubectl -n istio-system edit rules quota
+
 apiVersion: config.istio.io/v1alpha2
 kind: rule
 metadata:
   name: quota
   namespace: istio-system
 spec:
-  match: source.namespace != destination.namespace
+  match: match(request.headers["cookie"], "user=*") == false
   actions:
   - handler: handler.memquota
     instances:
     - requestcount.quota
 {{< /text >}}
 
-This configuration applies the quota rule to requests whose source and
-destination namespaces are different.
+`memquota` adapter is now dispatched only if `user=<username>` cookie is absent from the request.
+This ensures that a logged in user is not subject to this quota.
+
+1.  Verify that rate limit does not apply to a logged in user.
+
+    Log in as `jason` and repeatedly refresh the `productpage`. Now you should be able to do this without a problem.
+
+1.  Verify that rate limit *does* apply when not logged in.
+
+    Logout as `jason` and repeatedly refresh the `productpage`.
+    You should again see `RESOURCE_EXHAUSTED:Quota is exhausted for: requestcount`.
 
 ## Understanding rate limits
 
