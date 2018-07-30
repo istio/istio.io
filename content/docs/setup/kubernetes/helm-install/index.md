@@ -50,8 +50,6 @@ __NOTE__: If you are enabling `certmanager`, you also need to install its CRDs a
     $ kubectl apply -f install/kubernetes/helm/istio/charts/certmanager/templates/crds.yaml
     {{< /text >}}
 
-This limitation should be removed when Istio upgrade Helm to version 2.10 and above.
-
 1. Choose one of the following two
 **mutually exclusive** options described below.
 
