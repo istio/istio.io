@@ -1,5 +1,5 @@
 ---
-title: 欢迎
+title: 文档
 linktitle: 文档
 description: 了解如何部署、使用和运维 Istio。
 weight: 1
