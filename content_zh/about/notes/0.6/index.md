@@ -8,15 +8,15 @@ page_icon: /img/notes.svg
 
 ## 网络
 
-- **Custom Envoy Config**：现在 Pilot 能够将自定义 Envoy 配置分发给 Sidecar。[参考资料](https://github.com/mandarjog/istioluawebhook)
+- **Custom Envoy Configuration**：现在 Pilot 能够将自定义 Envoy 配置分发给 proxy。[参考资料](https://github.com/mandarjog/istioluawebhook)
 
 ## Mixer 适配器
 
-- **SolarWinds**：Mixer 和 AppOptics 以及 Papertrail 成功对接。[参考资料](/docs/reference/config/policy-and-telemetry/adapters/solarwinds/)
+- **SolarWinds**。 Mixer 和 AppOptics 以及 Papertrail 成功对接。[参考资料](/docs/reference/config/policy-and-telemetry/adapters/solarwinds/)
 
-- **Redisquota**. Mixer 为速率限制功能提供了基于 Redis 的适配器。[参考资料](/docs/reference/config/policy-and-telemetry/adapters/redisquota/)
+- **Redis Quota**。 Mixer 为速率限制功能提供了基于 Redis 的适配器。[参考资料](/docs/reference/config/policy-and-telemetry/adapters/redisquota/)
 
-- **Datadog**. Mixer 实现了向 Datadog 代理输出指标数据的适配器。[参考资料](/docs/reference/config/policy-and-telemetry/adapters/datadog/)
+- **Datadog**。Mixer 实现了向 Datadog 代理输出指标数据的适配器。[参考资料](/docs/reference/config/policy-and-telemetry/adapters/datadog/)
 
 ## 其它
 

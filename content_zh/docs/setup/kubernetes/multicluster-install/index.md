@@ -135,7 +135,7 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n istio-system
 
 ## 在每个远程集群上安装 Istio 远程组件
 
-Istio-remote 组件必须在每个远程集群上分别部署。有两种安装方式：使用 Helm 结合 Tiller，或者用 Helm 配合 kubectl。
+Istio-remote 组件必须在每个远程集群上分别部署。有两种安装方式：使用 Helm 结合 Tiller，或者用 Helm 配合 `kubectl`。
 
 ### 从 Istio 控制平面设置 Istio 远程组件所需的 Pod IP 环境变量
 
@@ -151,7 +151,7 @@ $ export TELEMETRY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=
 $ export ZIPKIN_POD_IP=$(kubectl -n istio-system get pod -l app=jaeger -o jsonpath='{.items[0].status.podIP}')
 {{< /text >}}
 
-### 使用 Helm + kubectl 把远程集群连接到本地
+### 使用 Helm + `kubectl` 把远程集群连接到本地
 
 1. 在远程集群上用 Helm template 命令来指定 Istio 控制平面的服务端点：
 
@@ -199,15 +199,15 @@ $ export ZIPKIN_POD_IP=$(kubectl -n istio-system get pod -l app=jaeger -o jsonpa
 
 | Helm 变量 | 可接受取值 | 缺省值 | 作用 |
 | --- | --- | --- | --- |
-| `global.pilotEndpoint` | 一个有效的 IP 地址 | istio-pilot.istio-system | 指定 Istio 控制平面中的 Pilot 的 Pod IP 地址 |
-| `global.policyEndpoint` | 一个有效的 IP 地址 | istio-policy.istio-system | 指定 Istio 控制平面中的 策略组件的 Pod IP 地址 |
-| `global.statsdEndpoint` | 一个有效的 IP 地址 | istio-statsd-prom-bridge.istio-system | 指定 Istio 控制平面中的 stats 的 Pod IP 地址 |
+| `global.pilotEndpoint` | 一个有效的 IP 地址 | `istio-pilot.istio-system` | 指定 Istio 控制平面中的 Pilot 的 Pod IP 地址 |
+| `global.policyEndpoint` | 一个有效的 IP 地址 | `istio-policy.istio-system` | 指定 Istio 控制平面中的 策略组件的 Pod IP 地址 |
+| `global.statsdEndpoint` | 一个有效的 IP 地址 | `istio-statsd-prom-bridge.istio-system` | 指定 Istio 控制平面中的 `stats` 的 Pod IP 地址 |
 
 ## 删除
 
 > 删除方法必须和之前的安装方法一致（`Helm and kubectl` 或者 `Helm and Tiller`）
 
-### 使用 kubectl 删除 istio-remote
+### 使用 `kubectl` 删除 istio-remote
 
 {{< text bash >}}
 $ kubectl delete -f $HOME/istio-remote.yaml

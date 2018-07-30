@@ -9,7 +9,7 @@ keywords: [debug,proxy,status,config,pilot,envoy]
 
 ## 开始之前
 
-* 部署 Istio 和 Bookinfo 的 Kubernetes 集群（例如，如[安装步骤](/docs/setup/kubernetes/quick-start/#installation-steps)和 [bookinfo 安装步骤](/docs/examples/bookinfo/#if-you-are-running-on-kubernetes)中所述使用 `istio.yaml` 安装)。
+* 部署 Istio 和 Bookinfo 的 Kubernetes 集群（例如，如[安装步骤](/docs/setup/kubernetes/quick-start/#installation-steps)和 [Bookinfo 安装步骤](/docs/examples/bookinfo/#if-you-are-running-on-kubernetes)中所述使用 `istio.yaml` 安装)。
 
 或者
 
@@ -108,7 +108,7 @@ istio-egressgateway.istio-system.svc.cluster.local                              
 ...
 {{< /text >}}
 
-为了调试 Envoy，您需要了解 Envoy 集群/监听器/路由/端点以及它们之间如何进行交互。我们将使用带有 `-o json` 和过滤标志的 `proxy-config` 命令来跟踪 Envoy 以确定将请求从 productpage pod 发送到了 `reviews:9080` 的 reviews pod 上。
+为了调试 Envoy，您需要了解 Envoy 集群/监听器/路由/端点以及它们之间如何进行交互。我们将使用带有 `-o json` 和过滤标志的 `proxy-config` 命令来跟踪 Envoy 以确定将请求从 `productpage` pod 发送到了 `reviews:9080` 的 reviews pod 上。
 
 1. 如果您在 pod 上查询监听器摘要，您会注意到 Istio 会生成以下监听器：
     *  `0.0.0.0:15001` 上的监听器接收进出 pod 的所有流量，然后将请求移交给虚拟监听器。
