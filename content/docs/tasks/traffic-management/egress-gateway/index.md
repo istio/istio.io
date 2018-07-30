@@ -102,25 +102,25 @@ First direct HTTP traffic without TLS origination
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
-      apiVersion: networking.istio.io/v1alpha3
-      kind: Gateway
-      metadata:
-        name: istio-egressgateway
-      spec:
-        selector:
-          istio: egressgateway
-        servers:
-        - port:
-            number: 80
-            name: https
-            protocol: HTTPS
-          hosts:
-          - edition.cnn.com
-          tls:
-            mode: MUTUAL
-            serverCertificate: /etc/certs/cert-chain.pem
-            privateKey: /etc/certs/key.pem
-            caCertificates: /etc/certs/root-cert.pem
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: istio-egressgateway
+    spec:
+      selector:
+        istio: egressgateway
+      servers:
+      - port:
+          number: 80
+          name: https
+          protocol: HTTPS
+        hosts:
+        - edition.cnn.com
+        tls:
+          mode: MUTUAL
+          serverCertificate: /etc/certs/cert-chain.pem
+          privateKey: /etc/certs/key.pem
+          caCertificates: /etc/certs/root-cert.pem
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
@@ -149,20 +149,20 @@ First direct HTTP traffic without TLS origination
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
-      apiVersion: networking.istio.io/v1alpha3
-      kind: Gateway
-      metadata:
-        name: istio-egressgateway
-      spec:
-        selector:
-          istio: egressgateway
-        servers:
-        - port:
-            number: 80
-            name: http
-            protocol: HTTP
-          hosts:
-          - edition.cnn.com
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: istio-egressgateway
+    spec:
+      selector:
+        istio: egressgateway
+      servers:
+      - port:
+          number: 80
+          name: http
+          protocol: HTTP
+        hosts:
+        - edition.cnn.com
     EOF
     {{< /text >}}
 
