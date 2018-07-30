@@ -12,50 +12,61 @@ this page, feel free to send an email to `istio-security@googlegroups.com` for h
 It would be very helpful to also include a cluster state archive in your email by following instructions in
 [reporting bugs](/help/bugs).
 
-## 1. Make sure authorization is enabled correctly
+## Make sure authorization is enabled correctly
 
 Authorization functionality is globally controlled by a default cluster level singleton custom resource
-`RbacConfig`, Run the following command to check it is created correctly:
+`RbacConfig`.
 
-{{< text bash >}}
-$ kubectl get rbacconfigs.rbac.istio.io --all-namespaces
-NAMESPACE   NAME      AGE
-default     default   1d
-{{< /text >}}
+1. Run the following command to list existing `RbacConfig`:
 
-> {{< warning_icon >}}
-You should see **at most 1** instance of `RbacConfig` with name **default**, otherwise the authorization
-functionality will be disabled and all policies are ignored.
+    {{< text bash >}}
+    $ kubectl get rbacconfigs.rbac.istio.io --all-namespaces
+    {{< /text >}}
 
-Remove any additional `RbacConfig` instances and make sure the only 1 instance is named **default**.
-You could edit the existing one if you want to make any changes.
+1. Verify only 1 instance of `RbacConfig` is named **default**:
 
-## 2. Make sure policies are accepted by Pilot
+    {{< text plain >}}
+    NAMESPACE   NAME      AGE
+    default     default   1d
+    {{< /text >}}
+
+1. Remove any additional `RbacConfig` instances and make sure the only 1 instance is named **default**,
+otherwise the authorization functionality will be disabled and all policies are ignored.
+
+## Make sure policies are accepted by Pilot
 
 Pilot is responsible for converting and distributing your authorization policies to proxies. Follow
-the below steps to make sure this is finished as expected:
+the below steps to make sure this is finished as expected.
 
-1. Turn on debug logging for authorization in Pilot
-
-    First export the Pilot `ControlZ` page with the following command:
+1. Run the following command to export the Pilot `ControlZ`:
 
     {{< text bash >}}
     $ kubectl port-forward $(kubectl -n istio-system get pods -l istio=pilot -o jsonpath='{.items[0].metadata.name}') -n istio-system 9876:9876
     Forwarding from 127.0.0.1:9876 -> 9876
     {{< /text >}}
 
-    Then start your browser and open the `ControlZ` page at `http://127.0.0.1:9876/scopez/`. Change the
-    `rbac` Output Level to `debug`. After this, use `Ctrl+C` to stop the port-forward command.
+1. Start your browser and open the `ControlZ` page at `http://127.0.0.1:9876/scopez/`. Change the
+   `rbac` Output Level to `debug`. And then press `Ctrl+C` in the terminal you started in step 1 to
+   stop the port-forward command.
 
-1. Check the related authorization debug logging in Pilot
+1. Run the following command to print the log of Pilot:
 
     > Note: You probably need to first delete and then re-apply your authorization policies so that
 the debug output is generated for these policies.
 
-    Check Pilot log with the following command:
-
     {{< text bash >}}
     $ kubectl logs $(kubectl -n istio-system get pods -l istio=pilot -o jsonpath='{.items[0].metadata.name}') -c discovery -n istio-system | grep rbac
+    {{< /text >}}
+
+1. Check the log and verify:
+
+    * There are no errors in the log.
+    * There is a `"built filter config for ..."` message which means the filter has been generated
+      successfully for the target service.
+
+1. For example, you might see something similar to the following:
+
+    {{< text plain >}}
     ... ...
     2018-07-26T22:25:41.009838Z debug rbac building filter config for {sleep.foo.svc.cluster.local map[app:sleep pod-template-hash:3326367878] map[destination.name:sleep destination.namespace:foo destination.user:default]}
     2018-07-26T22:25:41.009915Z info  rbac no service role in namespace foo
@@ -72,98 +83,94 @@ the debug output is generated for these policies.
     ... ...
     {{< /text >}}
 
-    To make sure Pilot is handling the authorization policies correctly, look at the output to:
+    It means Pilot have generated:
 
-    * Carefully check if there are any errors in the log.
-    * Check if there is a `built filter config for` message which means a filter config is generated
-      for the target service.
-
-    Taking the above output as an example:
-
-    * Pilot generated an empty config for `sleep.foo.svc.cluster.local` as there is no authorization
+    * An empty config for `sleep.foo.svc.cluster.local` as there is no authorization
       policies matched. This also means all requests sent to this service will be denied as Istio
       authorization is deny by default.
-    * Pilot generated an config for `productpage.default.svc.cluster.local` that allows anyone to
-      access it with GET method.
+    * An config for `productpage.default.svc.cluster.local` that allows anyone to access it with GET method.
 
-## 3. Make sure policies are distributed to proxy
+## Make sure policies are distributed to proxy
 
-The authorization policies are eventually distributed to and enforced in proxies. Run the following
-command to get the proxy config dump for the `productpage` service.
+The authorization policies are eventually distributed to and enforced in proxies.
 
-> Note: The command used in this section assumes you have deployed [bookinfo application](/docs/examples/bookinfo/).
-You should replace `"-l app=productpage"` with your actual pod to get its config dump.
+> Note: The command used in this section assumes you have deployed [Bookinfo application](/docs/examples/bookinfo/),
+otherwise you should replace `"-l app=productpage"` with your actual pod.
 
-{{< text bash >}}
-$ kubectl exec  $(kubectl get pods -l app=productpage -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -- curl localhost:15000/config_dump -s
-...
-{
- "name": "envoy.filters.http.rbac",
- "config": {
-  "rules": {
-   "policies": {
-    "productpage-viewer": {
-     "permissions": [
-      {
-       "and_rules": {
-        "rules": [
-         {
-          "or_rules": {
-           "rules": [
-            {
-             "header": {
-              "exact_match": "GET",
-              "name": ":method"
+1. Run the following command to get the proxy configuration dump for the `productpage` service:
+
+    {{< text bash >}}
+    $ kubectl exec  $(kubectl get pods -l app=productpage -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -- curl localhost:15000/config_dump -s
+    {{< /text >}}
+
+1. Check the log and verify:
+
+    * It includes a `envoy.filters.http.rbac` filter that is used to enforce the authorization policy
+      on each incoming request.
+    * The filter gets updated accordingly after you updated your authorization policy.
+
+1. For example, you might see something similar to the following:
+
+    {{< text plain >}}
+    ... ...
+    {
+     "name": "envoy.filters.http.rbac",
+     "config": {
+      "rules": {
+       "policies": {
+        "productpage-viewer": {
+         "permissions": [
+          {
+           "and_rules": {
+            "rules": [
+             {
+              "or_rules": {
+               "rules": [
+                {
+                 "header": {
+                  "exact_match": "GET",
+                  "name": ":method"
+                 }
+                }
+               ]
+              }
              }
-            }
-           ]
+            ]
+           }
           }
-         }
-        ]
+         ],
+         "principals": [
+          {
+           "and_ids": {
+            "ids": [
+             {
+              "any": true
+             }
+            ]
+           }
+          }
+         ]
+        }
        }
+      },
+      "shadow_rules": {
+       "policies": {}
       }
-     ],
-     "principals": [
-      {
-       "and_ids": {
-        "ids": [
-         {
-          "any": true
-         }
-        ]
-       }
-      }
-     ]
-    }
-   }
-  },
-  "shadow_rules": {
-   "policies": {}
-  }
- }
-},
-...
-{{< /text >}}
+     }
+    },
+    ... ...
+    {{< /text >}}
 
-The output could be very long but you only need to care about the `envoy.filters.http.rbac` filter that
-enforces the authorization policy on each incoming request.
+    It means the proxy of productpage has enabled the `envoy.filters.http.rbac` filter with rules
+    that allows anyone to access it via GET method. The `shadow_rules` is not used and could be ignored safely.
 
-Look at the output to:
-
-* Check the config dump to see if it includes the `envoy.filters.http.rbac` filter.
-* Check the filter config to see if it's updated accordingly after you updated your authorization policy.
-
-Taking the above output as an example, the proxy of productpage enabled the `envoy.filters.http.rbac`
-filter with rules that allows anyone to access it via GET method. The `shadow_rules` is not used and
-could be ignored safely.
-
-## 4. Make sure policies are enforced correctly
+## Make sure policies are enforced correctly
 
 Authorization is enforced on proxies, You can check the runtime log to see what's happening during
 the enforcement.
 
-> Note: The command used in this section assumes you have deployed [bookinfo application](/docs/examples/bookinfo/).
-You could replace `"-l app=productpage"` with your actual pod name to get its config dump.
+> Note: The command used in this section assumes you have deployed [Bookinfo application](/docs/examples/bookinfo/).
+otherwise you should replace `"-l app=productpage"` with your actual pod.
 
 1. Turn on the authorization debug logging in proxy with the following command:
 
@@ -175,10 +182,24 @@ You could replace `"-l app=productpage"` with your actual pod name to get its co
       ... ...
     {{< /text >}}
 
-1. Issue a request to `productpage` and check proxy log with the following command:
+1. Visit the `productpage` in your browser to generate some logs.
+
+1. Print the proxy logs with the following command:
 
     {{< text bash >}}
     $ kubectl logs $(kubectl get pods -l app=productpage -o jsonpath='{.items[0].metadata.name}') -c istio-proxy
+    {{< /text >}}
+
+1. Check the output and verify:
+
+    * There should be a log output `enforced allowed` or `enforced denied` which means the request is
+      allowed or denied respectively.
+
+    * The data extracted from the request are expected by your authorization policy.
+
+1. You should see something similar to the following:
+
+    {{< text plain >}}
     ...
     [2018-07-26 20:39:18.060][152][debug][rbac] external/envoy/source/extensions/filters/http/rbac/rbac_filter.cc:79] checking request: remoteAddress: 10.60.0.139:51158, localAddress: 10.60.0.93:9080, ssl: uriSanPeerCertificate: spiffe://cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account, subjectPeerCertificate: O=, headers: ':authority', '35.238.0.62'
     ':path', '/productpage'
@@ -222,16 +243,5 @@ You could replace `"-l app=productpage"` with your actual pod name to get its co
     ...
     {{< /text >}}
 
-    Search for `rbac` in the log, the filter will print the data extracted from the request which are
-    used in the policy enforcement, look at the output to:
-
-    * Check the output `enforced allowed` or `enforced denied` which means the request is allowed or
-      denied respectively
-
-    * Check the data extracted from the request to see if it's expected by your authorization policy.
-
-    * Note the `source.principal` as well as other fields in the `filter_metadata` are compared to
-    the [source.principal property](/docs/reference/config/authorization/constraints-and-properties/#properties).
-
-    Taking the above output as an example, it means there is a `GET` request at path `/productpage` and
-    is allowed by the policy. The `shadow denied` has no effect and could be ignored safely.
+    It means there is a `GET` request at path `/productpage` and is allowed by the policy.
+    The `shadow denied` has no effect and could be ignored safely.
