@@ -28,14 +28,14 @@ service.
 1. Set the default version for all services to v1. If you’ve already created route rules for the sample, use `replace` rather than `create` in the following command.
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
 1. Initialize application version routing on the `reviews` service to
    direct requests from the test user "jason" to version v2 and requests from any other user to v3.
 
     {{< text bash >}}
-    $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-jason-v2-v3.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-jason-v2-v3.yaml@
     {{< /text >}}
 
 ## Rate limits
@@ -68,7 +68,7 @@ so the configuration to enable rate limiting on both adapters is the same.
    enable rate limiting.
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml@
+    $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml@
     {{< /text >}}
 
 1. Confirm the `memquota` handler was created:
@@ -202,7 +202,7 @@ so the configuration to enable rate limiting on both adapters is the same.
     each service since it is not in the same namespace this `QuotaSpecBinding`
     resource was deployed into.
 
-1. Refresh the `productpage` in your browser.
+1. Refresh the product page in your browser.
 
     * If you are logged out, `reviews-v3` service is rate limited to 1 request
     every 5 seconds. If you keep refreshing the page, the stars should only
@@ -270,13 +270,13 @@ namespace.
 1. Remove the rate limit configuration:
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml@
+    $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml@
     {{< /text >}}
 
 1. Remove the application routing rules:
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
+    $ kubectl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
 1. If you are not planning to explore any follow-on tasks, refer to the

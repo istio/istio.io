@@ -19,15 +19,22 @@ To install and configure Istio in a Kubernetes cluster, follow these instruction
   * [Amazon Web Services (AWS) with Kops](/docs/setup/kubernetes/platform-setup/aws/)
   * [Azure](/docs/setup/kubernetes/platform-setup/azure/)
 
+1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/spec-requirements/).
+
 ## Installation steps
 
-To install Istio's core components you can choose one of the following four
-**mutually exclusive** options.
+1. Install Istio's [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
+via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the kube-apiserver:
 
-However, we recommend you to install with the
-[Helm Chart](/docs/setup/kubernetes/helm-install/) for production
-installations of Istio. With this installation, you can leverage all the
-options to configure and customize Istio to your needs.
+    {{< text bash >}}
+    $ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml -n istio-system
+    {{< /text >}}
+
+1. To install Istio's core components you can choose any of the following four
+**mutually exclusive** options described below. However, for a production setup of Istio,
+we recommend installing with the
+[Helm Chart](/docs/setup/kubernetes/helm-install/), to use all the
+configuration options. This permits customization of Istio to operator specific requirements.
 
 ### Option 1: Install Istio without mutual TLS authentication between sidecars
 
@@ -53,7 +60,7 @@ $ kubectl apply -f install/kubernetes/istio-demo.yaml
 
 ### Option 2: Install Istio with default mutual TLS authentication
 
-Use this option only on a fresh kubernetes cluster where newly deployed
+Use this option only on a fresh Kubernetes cluster where newly deployed
 workloads are guaranteed to have Istio sidecars installed.
 
 To Install Istio and enforce mutual TLS authentication between sidecars by
@@ -63,10 +70,10 @@ default:
 $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
 {{< /text >}}
 
-### Option 3: Render Kubernetes manifest with Helm and deploy with kubectl
+### Option 3: Render Kubernetes manifest with Helm and deploy with `kubectl`
 
 Follow our setup instructions to
-[render the Kubernetes manifest with Helm and deploy with kubectl](/docs/setup/kubernetes/helm-install/#option-1-install-with-helm-via-helm-template).
+[render the Kubernetes manifest with Helm and deploy with `kubectl`](/docs/setup/kubernetes/helm-install/#option-1-install-with-helm-via-helm-template).
 
 ### Option 4: Use Helm and Tiller to manage the Istio deployment
 
@@ -144,7 +151,7 @@ $ kubectl create -n <namespace> -f <your-app-spec>.yaml
 {{< /text >}}
 
 If you don't have the Istio-sidecar-injector installed, you must use
-[istioctl kube-inject](/docs/reference/commands/istioctl/#istioctl-kube-inject)
+[`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject)
 to manually inject Envoy containers in your application pods before deploying
 them:
 
@@ -158,17 +165,22 @@ The uninstall deletes the RBAC permissions, the `istio-system` namespace, and
 all resources hierarchically under it. It is safe to ignore errors for
 non-existent resources because they may have been deleted hierarchically.
 
-If you installed Istio with `istio-demo.yaml`:
+* If you installed Istio with `istio-demo.yaml`:
 
-{{< text bash >}}
-$ kubectl delete -f install/kubernetes/istio-demo.yaml
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete -f install/kubernetes/istio-demo.yaml
+    {{< /text >}}
 
-If you installed Istio with `istio-demo-auth.yaml`:
+* If you installed Istio with `istio-demo-auth.yaml`:
 
-{{< text bash >}}
-$ kubectl delete -f install/kubernetes/istio-demo-auth.yaml
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete -f install/kubernetes/istio-demo-auth.yaml
+    {{< /text >}}
 
-If you didn't install Istio with `istio.yaml`, follow the [uninstall Istio with
-Helm](/docs/setup/kubernetes/helm-install/#uninstall) steps.
+* If you installed Istio with Helm, follow the [uninstall Istio with Helm](/docs/setup/kubernetes/helm-install/#uninstall) steps.
+
+* If desired, delete the CRDs:
+
+    {{< text bash >}}
+    $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml -n istio-system
+    {{< /text >}}

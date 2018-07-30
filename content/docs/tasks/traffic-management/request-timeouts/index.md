@@ -19,7 +19,7 @@ This task shows you how to setup request timeouts in Envoy using Istio.
 *   Initialize the application version routing by running the following command:
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
 ## Request timeouts
@@ -33,7 +33,7 @@ to the `ratings` service.
 1.  Route requests to v2 of the `reviews` service, i.e., a version that calls the `ratings` service:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl replace -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -52,7 +52,7 @@ to the `ratings` service.
 1.  Add a 2 second delay to calls to the `ratings` service:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl replace -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -80,7 +80,7 @@ to the `ratings` service.
 1.  Now add a half second request timeout for calls to the `reviews` service:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl replace -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -113,7 +113,7 @@ Since the `reviews` service subsequently calls the `ratings` service when handli
 you used Istio to inject a 2 second delay in calls to `ratings` to cause the
 `reviews` service to take longer than half a second to complete and consequently you could see the timeout in action.
 
-You observed that instead of displaying reviews, the Bookinfo productpage (which calls the `reviews` service to populate the page) displayed
+You observed that instead of displaying reviews, the Bookinfo product page (which calls the `reviews` service to populate the page) displayed
 the message: Sorry, product reviews are currently unavailable for this book.
 This was the result of it receiving the timeout error from the `reviews` service.
 
@@ -134,7 +134,7 @@ the timeout is specified in milliseconds instead of seconds.
 *   Remove the application routing rules:
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
+    $ kubectl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, see the

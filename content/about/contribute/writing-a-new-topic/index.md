@@ -343,14 +343,14 @@ of @ symbols. These indicate the path should be rendered as a link to the file f
 
 {{< text markdown >}}
 {{</* text bash */>}}
-$ istioctl create -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
+$ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 {{</* /text */>}}
 {{< /text >}}
 
 This will be rendered as:
 
 {{< text bash >}}
-$ istioctl create -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
+$ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 {{< /text >}}
 
 ### Files and snippets
@@ -394,7 +394,7 @@ script `scripts/grab_reference_docs.sh` in the documentation repo.
 ### Dynamic content
 
 You can dynamically pull in an external file and display its content as a preformatted block. This is handy to display a
-config file or a test file. To do so, you use a statement such as:
+configuration file or a test file. To do so, you use a statement such as:
 
 {{< text markdown >}}
 {{</* text_dynamic url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" */>}}

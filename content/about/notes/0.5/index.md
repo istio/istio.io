@@ -1,6 +1,7 @@
 ---
 title: Istio 0.5
 weight: 96
+page_icon: /img/notes.svg
 ---
 
 In addition to the usual pile of bug fixes and performance improvements, this release includes the new or

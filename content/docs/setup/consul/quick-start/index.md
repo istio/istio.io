@@ -26,7 +26,7 @@ Quick Start instructions to install and configure Istio in a Docker Compose setu
 installation directory contains:
 
     * Sample applications in `samples/`
-    * The `istioctl` client binary in the `bin/` directory. `istioctl` is used for creating routing rules and policies.
+    * The `istioctl` client binary in the `bin/` directory. `istioctl` is used for some debug and diagnostics tasks.
     * The `istio.VERSION` configuration file
 
 1.  Add the `istioctl` client to your PATH.
@@ -35,6 +35,10 @@ For example, run the following command on a macOS or Linux system:
     {{< text bash >}}
     $ export PATH=$PWD/bin:$PATH
     {{< /text >}}
+
+1. Install `kubectl` using [these instructions](https://kubernetes.io/docs/tasks/tools/install-kubectl).
+
+`kubectl` is used to create, read, modify, and delete Istio API resources.
 
 1.  For Linux users, configure the `DOCKER_GATEWAY` environment variable
 
@@ -56,12 +60,14 @@ For example, run the following command on a macOS or Linux system:
     $ docker ps -a
     {{< /text >}}
 
-    > If the Istio Pilot container terminates, ensure that you run the `istioctl context-create` command and re-run the command from the previous step.
+    > If the Istio Pilot container terminates, ensure that you ran the `kubectl config` commands below and re-run the command from the previous step.
 
-1.  Configure `istioctl` to use mapped local port for the Istio API server:
+1.  Configure `kubectl` to use mapped local port for the API server:
 
     {{< text bash >}}
-    $ istioctl context-create --api-server http://localhost:8080
+    $ kubectl config set-context istio --cluster=istio
+    $ kubectl config set-cluster istio --server=http://localhost:8080
+    $ kubectl config use-context istio
     {{< /text >}}
 
 ## Deploy your application

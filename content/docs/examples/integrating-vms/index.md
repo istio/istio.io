@@ -112,16 +112,16 @@ Note that the 'mysqldb' virtual machine does not need and should not have specia
 
 ## Using the mysql service
 
-The ratings service in bookinfo will use the DB on the machine. To verify that it works, create version 2 of the ratings service that uses the mysql db on the VM. Then specify route rules that force the review service to use the ratings version 2.
+The ratings service in Bookinfo will use the DB on the machine. To verify that it works, create version 2 of the ratings service that uses the mysql db on the VM. Then specify route rules that force the review service to use the ratings version 2.
 
 {{< text bash >}}
 $ istioctl kube-inject -n bookinfo -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql-vm.yaml@ | kubectl apply -n bookinfo -f -
 {{< /text >}}
 
-Create route rules that will force bookinfo to use the ratings back end:
+Create route rules that will force Bookinfo to use the ratings back end:
 
 {{< text bash >}}
-$ istioctl create -n bookinfo -f @samples/bookinfo/networking/virtual-service-ratings-mysql-vm.yaml@
+$ kubectl apply -n bookinfo -f @samples/bookinfo/networking/virtual-service-ratings-mysql-vm.yaml@
 {{< /text >}}
 
 You can verify the output of the Bookinfo application is showing 1 star from Reviewer1 and 4 stars from Reviewer2 or change the ratings on your VM and see the
