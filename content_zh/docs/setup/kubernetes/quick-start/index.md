@@ -5,17 +5,17 @@ weight: 10
 keywords: [kubernetes]
 ---
 
-本页面在kubernetes集群中快速安装Istio service mesh的说明。
+本页面在 Kubernetes 集群中快速安装 Istio service mesh 的说明。
 
 ## 前置条件
 
-下面的操作说明需要您可以访问 kubernetes **1.9 或更高版本** 的集群，并且启用了 [RBAC (基于角色的访问控制)](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)。您需要安装了 **1.9  或更高版本** 的 `kubectl` 命令。
+下面的操作说明需要您可以访问 Kubernetes **1.9 或更高版本**的集群，并且启用了。[RBAC (基于角色的访问控制)](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)。您需要安装了 **1.9  或更高版本**的 `kubectl` 命令。
 
-如果您希望启用[自动注入 sidecar](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)，您必须使用 kubernetes 1.9或更高版本。
+如果您希望启用[自动注入 sidecar](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)，您必须使用 Kubernetes 1.9 或更高版本。
 
   > 如果您安装的是 Istio 0.2.x，在安装新版本之前请将其完全[卸载](https://archive.istio.io/v0.2/docs/setup/kubernetes/quick-start#uninstalling)（包括所有启用了 Istio 的 Pod 中的sidecar）。
 
-* 安装或更新 kubernetes 命令行工具 [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) 以匹配集群的版本 （1.9 或者更高，支持 CRD 功能）
+* 安装或更新 Kubernetes 命令行工具 [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl/) 以匹配集群的版本 （1.9 或者更高，支持 CRD 功能）
 
 ### Minikube
 
@@ -230,7 +230,7 @@ $ kubectl describe pod --namespace kube-system $(kubectl get pods --namespace ku
 
 1. 解压安装文件，切换到文件所在目录。安装文件目录下包含：
 
-    * `install/` 目录下是 kubernetes 使用的 `.yaml` 安装文件
+    * `install/` 目录下是 Kubernetes 使用的 `.yaml` 安装文件
     * `samples/` 目录下是示例程序
     * `istioctl` 客户端二进制文件在 `bin` 目录下。`istioctl` 文件用户手动注入 Envoy sidecar 代理、创建路由和策略等
     * `istio.VERSION` 配置文件
@@ -252,7 +252,7 @@ $ kubectl describe pod --namespace kube-system $(kubectl get pods --namespace ku
 
 安装 Istio 的核心部分。从以下四种_**非手动**_部署方式中选择一种方式安装。然而，我们推荐您在生产环境时使用 [Helm Chart](/docs/setup/kubernetes/helm-install/) 来安装 Istio，这样可以按需定制配置选项。
 
-*  安装 Istio 而不启用 sidecar 之间的[双向TLS验证](/docs/concepts/security/#mutual-tls-authentication)。对于现有应用程序的集群，使用 Istio sidecar 的服务需要能够与其他非 Istio Kubernetes 服务以及使用[存活和就绪探针](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)、headless 服务或 `StatefulSets` 的应用程序通信的应用程序选择此选项。
+*  安装 Istio 而不启用 sidecar 之间的[双向 TLS 验证](/docs/concepts/security/#mutual-tls-authentication)。对于现有应用程序的集群，使用 Istio sidecar 的服务需要能够与其他非 Istio Kubernetes 服务以及使用[存活和就绪探针](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)、headless 服务或 `StatefulSets` 的应用程序通信的应用程序选择此选项。
 
 {{< text bash >}}
 $ kubectl apply -f install/kubernetes/istio.yaml
@@ -260,7 +260,7 @@ $ kubectl apply -f install/kubernetes/istio.yaml
 
 或者
 
-*  默认情况下安装 Istio，并强制在 sidecar 之间进行双向 TLS 身份验证。仅在保证新部署的工作负载安装了 Istio sidecar 的新建的 kubernetes 集群上使用此选项。
+*  默认情况下安装 Istio，并强制在 sidecar 之间进行双向 TLS 身份验证。仅在保证新部署的工作负载安装了 Istio sidecar 的新建的 Kubernetes 集群上使用此选项。
 
 {{< text bash >}}
 $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
@@ -268,7 +268,7 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
 
 或者
 
-*  [使用 Helm 渲染出 Kubernetes 配置清单然后使用 kubectl 部署](/docs/setup/kubernetes/helm-install/#option-1-install-with-helm-via-helm-template)
+*  [使用 Helm 渲染出 Kubernetes 配置清单然后使用 `kubectl` 部署](/docs/setup/kubernetes/helm-install/#option-1-install-with-helm-via-helm-template)
 
 或者
 
