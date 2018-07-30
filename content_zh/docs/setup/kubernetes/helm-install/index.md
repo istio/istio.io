@@ -98,7 +98,7 @@ istio-pilot-58c65f74bc-2f5xn             2/2       Running   0          1m
 
 ## 卸载
 
-* 对于选项1，使用 kubectl 进行卸载：
+* 对于选项1，使用 `kubectl` 进行卸载：
 
     {{< text bash >}}
     $ kubectl delete -f $HOME/istio.yaml
