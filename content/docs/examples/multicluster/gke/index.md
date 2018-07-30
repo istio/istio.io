@@ -316,7 +316,7 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
 
 ## Uninstalling
 
-The following should be done in addition to the uninstallation of Istio as described in the
+The following should be done in addition to the uninstall of Istio as described in the
 [Kubernetes multicluster installation instructions](/docs/setup/kubernetes/multicluster-install/):
 
 1.  Delete the Google Cloud firewall rule:
