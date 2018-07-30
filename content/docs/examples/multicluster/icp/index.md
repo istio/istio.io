@@ -201,7 +201,6 @@ __NOTE__: The following example enables [automatic sidecar injection](/docs/setu
             imagePullPolicy: IfNotPresent
             ports:
             - containerPort: 9080
-    EOF
     {{< /text >}}
 
     _Note:_ The `ratings` service definition is added to the remote cluster because `reviews-v3` is a
@@ -213,7 +212,7 @@ __NOTE__: The following example enables [automatic sidecar injection](/docs/setu
 1.  Install the `reviews-v3` deployment on the remote `cluster-2`.
 
     {{< text bash >}}
-    $ kube apply -f $HOME/reviews-v3.yaml
+    $ kubectl apply -f $HOME/reviews-v3.yaml
     {{< /text >}}
 
 1.  [Determine the ingress IP and ports](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports)
