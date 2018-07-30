@@ -6,6 +6,7 @@ keywords: [community]
 type: community
 aliases:
     - /community
+page_icon: /img/community.svg
 ---
 Istio 是一个开源项目，拥有一个支持其使用和持续开发的活跃社区。我们很乐意您加入我们并参与其中！
 
