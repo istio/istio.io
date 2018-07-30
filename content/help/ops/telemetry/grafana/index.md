@@ -11,5 +11,5 @@ The time of the web client (e.g. Chrome) affects the output from Grafana. A simp
 to this problem is to verify a time synchronization service is running correctly within the
 Kubernetes cluster and the web client machine also is correctly using a time synchronization
 service. Some common time synchronization systems are NTP and Chrony. This is especially
-problematic is engineering labs with firewalls. In these scenarios, NTP may not be configured
+problematic in engineering labs with firewalls. In these scenarios, NTP may not be configured
 properly to point at the lab-based NTP services.
