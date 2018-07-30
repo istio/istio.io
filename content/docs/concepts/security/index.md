@@ -224,7 +224,7 @@ Istio provides two types of authentication:
   and a streamlined developer experience for [Auth0](https://auth0.com/), [Firebase Auth](https://firebase.google.com/docs/auth/),
   [Google Auth](https://developers.google.com/identity/protocols/OpenIDConnect), and custom auth.
 
-In both cases the authentication policies are stored in the Istio config store via a custom Kubernetes API,
+In both cases the authentication policies are stored in the `Istio config store` via a custom Kubernetes API,
 and are kept up to date (along with keys where appropriate) for each proxy by Pilot.
 Istio also supports authentication in permissive mode to understand how a policy change would affect your security posture
 before it becomes effective.
