@@ -69,6 +69,7 @@ Note that you use a wildcard `*` in your `hosts` definition: `*.cnn.com`. Using 
       - number: 443
         name: https-port
         protocol: HTTPS
+      resolution: NONE
     EOF
     {{< /text >}}
 
