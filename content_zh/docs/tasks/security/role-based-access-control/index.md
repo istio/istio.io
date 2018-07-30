@@ -148,7 +148,7 @@ $ istioctl delete -f @samples/bookinfo/platform/kube/rbac/namespace-policy.yaml@
 
 浏览器打开 Bookinfo 的 `productpage` (`http://$GATEWAY_URL/productpage`)。会看到：`RBAC: access denied`。我们会在 Bookinfo 中逐步为服务加入访问许可。
 
-### 第一步，允许到 “productpage” 服务的访问
+### 第一步，允许到 `productpage` 服务的访问
 
 这里我们要创建一条策略，允许外部请求通过 Ingress 浏览 `productpage`。
 

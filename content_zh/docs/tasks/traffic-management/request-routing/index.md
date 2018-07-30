@@ -114,12 +114,12 @@ keywords: [traffic-management,routing]
 1.  在浏览器中打开 Bookinfo 应用程序的 URL (`http://$GATEWAY_URL/productpage`)。
     回想一下，在部署 Bookinfo 示例时，应已参照[该说明](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)设置好了 `GATEWAY_URL` 。
 
-    您应该可以看到 Bookinfo 应用程序的 productpage 页面。
+    您应该可以看到 Bookinfo 应用程序的 `productpage` 页面。
     请注意， `productpage` 页面显示的内容中没有评分星级，这是为 `reviews:v1` 服务不会访问 ratings 服务。
 
 1.  将来自特定用户的请求路由到 `reviews:v2`。
 
-    通过将来自 productpage 的流量路由到 `reviews:v2` 实例，为测试用户 "jason” 启用 ratings 服务。
+    通过将来自 `productpage` 的流量路由到 `reviews:v2` 实例，为测试用户 "jason” 启用 ratings 服务。
 
     {{< text bash >}}
     $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-test-v2.yaml@
@@ -158,7 +158,7 @@ keywords: [traffic-management,routing]
 
 ## 理解原理
 
-在此任务中，您首先使用 Istio 将 100% 的请求流量都路由到了 Bookinfo 服务的 v1 版本。 然后再设置了一条路由规则，该路由规则在 productpage 服务中添加基于请求的 "end-user" 自定义 header 选择性地将特定的流量路由到了 reviews 服务的 v2 版本。
+在此任务中，您首先使用 Istio 将 100% 的请求流量都路由到了 Bookinfo 服务的 v1 版本。 然后再设置了一条路由规则，该路由规则在 `productpage` 服务中添加基于请求的 "end-user" 自定义 header 选择性地将特定的流量路由到了 reviews 服务的 v2 版本。
 
 请注意，为了利用 Istio 的 L7 路由功能，Kubernetes 中的服务（如本任务中使用的 Bookinfo 服务）必须遵守某些特定限制。
 参考 [sidecar 注入文档](/docs/setup/kubernetes/spec-requirements)了解详情。

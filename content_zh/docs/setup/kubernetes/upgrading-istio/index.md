@@ -146,7 +146,7 @@ spec:
   - name: foo
     ports:
     - number: 8000
-  peers:
+    peers:
 ---
 apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
@@ -196,7 +196,7 @@ trafficPolicy:
 
 ## 将 `mtls_excluded_services` 配置迁移到目标规则
 
-如果您在启用双向 TLS 的情况下安装了 Istio，并且使用网格配置 `mtls_excluded_services` 来在连接这些服务（例如 kubernetes API server）时禁用双向 TLS，则需要通过添加目标规则来替换它。例如：
+如果您在启用双向 TLS 的情况下安装了 Istio，并且使用网格配置 `mtls_excluded_services` 来在连接这些服务（例如 Kubernetes API server）时禁用双向 TLS，则需要通过添加目标规则来替换它。例如：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3

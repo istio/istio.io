@@ -65,7 +65,7 @@ caption="GKE-IAM Role"
 
 部署完成后，在你安装好的 `gcloud` 的工作站里，完成以下事项：
 
-1.  为你刚刚创建的 cluster 引导 kubectl，并确认 cluster 在运行中，并且 Istio 是启用状态。
+1.  为你刚刚创建的 cluster 引导 `kubectl`，并确认 cluster 在运行中，并且 Istio 是启用状态。
 
     {{< text bash >}}
     $ gcloud container clusters list
@@ -158,7 +158,7 @@ istio-ingressgateway   LoadBalancer   10.59.251.109   35.194.26.85   80:31380/TC
 
 当你验证了 Istio 控制平面和样例应用正常工作后，尝试访问一下已经安装好的 Istio 插件。
 
-如果你使用 Cloud Shell 而不是已经安装好的 `gcloud` 客户端，你可以使用 [Web Preview](https://cloud.google.com/shell/docs/using-web-preview#previewing_the_application) 功能来进行端口转发和代理。比如，你要用 Cloud Shell 访问 Grafana，那你需要把 kubectl 的端口映射从 3000:3000 改成 8080:3000。你可以通过 Web Preview 代理的 8080 到 8084 这些端口，同时预览其他4个控制台。
+如果你使用 Cloud Shell 而不是已经安装好的 `gcloud` 客户端，你可以使用 [Web Preview](https://cloud.google.com/shell/docs/using-web-preview#previewing_the_application) 功能来进行端口转发和代理。比如，你要用 Cloud Shell 访问 Grafana，那你需要把 `kubectl` 的端口映射从 3000:3000 改成 8080:3000。你可以通过 Web Preview 代理的 8080 到 8084 这些端口，同时预览其他4个控制台。
 
 ### Grafana
 
@@ -244,8 +244,8 @@ $ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=
 
 ## 卸载
 
-1. 在 [https://console.cloud.google.com/deployments](https://console.cloud.google.com/deployments) 找到 Cloud Console 的 Deployments 章节
+1. 在 [https://console.cloud.google.com/deployments](https://console.cloud.google.com/deployments) 找到 Cloud Console 的 Deployments 章节。
 
-1. 选择 deployment 并点击 **Delete**.
+1. 选择 `deployment` 并点击 **Delete**。
 
-1. Deployment Manager 将会删除所有已经部署的 GKE 组件。但是，有一些元素会被保留，比如 `Ingress` 和 `LoadBalancers`。你可以通过再次进入 cloud console 的 [**Network Services** -> **LoadBalancers**](https://console.cloud.google.com/net-services/loadbalancing/loadBalancers/list) 来删除这些组件。
+1. Deployment Manager 将会删除所有已经部署的 GKE 组件。但是，有一些元素会被保留，比如 `Ingress` 和 `LoadBalancers`。你可以通过再次进入 cloud console 的 [**Network Services** -> **Load balancing**](https://console.cloud.google.com/net-services/loadbalancing/loadBalancers/list) 来删除这些组件。
