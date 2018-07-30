@@ -12,7 +12,7 @@ this page, feel free to send an email to `istio-security@googlegroups.com` for h
 It would be very helpful to also include a cluster state archive in your email by following instructions in
 [reporting bugs](/help/bugs).
 
-## Make sure authorization is enabled correctly
+## 1. Make sure authorization is enabled correctly
 
 Authorization functionality is globally controlled by a default cluster level singleton custom resource
 `RbacConfig`, Run the following command to check it is created correctly:
@@ -30,7 +30,7 @@ functionality will be disabled and all policies are ignored.
 Remove any additional `RbacConfig` instances and make sure the only 1 instance is named **default**.
 You could edit the existing one if you want to make any changes.
 
-## Make sure policies are accepted by Pilot
+## 2. Make sure policies are accepted by Pilot
 
 Pilot is responsible for converting and distributing your authorization policies to proxies. Follow
 the below steps to make sure this is finished as expected:
@@ -72,7 +72,7 @@ the debug output is generated for these policies.
     ... ...
     {{< /text >}}
 
-    To make sure Pilot is handling the authorization policies correctly:
+    To make sure Pilot is handling the authorization policies correctly, look at the output to:
 
     * Carefully check if there are any errors in the log.
     * Check if there is a `built filter config for` message which means a filter config is generated
@@ -86,7 +86,7 @@ the debug output is generated for these policies.
     * Pilot generated an config for `productpage.default.svc.cluster.local` that allows anyone to
       access it with GET method.
 
-## Make sure policies are distributed to proxy
+## 3. Make sure policies are distributed to proxy
 
 The authorization policies are eventually distributed to and enforced in proxies. Run the following
 command to get the proxy config dump for the `productpage` service.
@@ -145,17 +145,19 @@ $ kubectl exec  $(kubectl get pods -l app=productpage -o jsonpath='{.items[0].me
 ...
 {{< /text >}}
 
-The output could be very long but you only need to care about the `envoy.filters.http.rbac` filter.
-This is the proxy filter that enforces the authorization policy on each incoming request.
+The output could be very long but you only need to care about the `envoy.filters.http.rbac` filter that
+enforces the authorization policy on each incoming request.
+
+Look at the output to:
 
 * Check the config dump to see if it includes the `envoy.filters.http.rbac` filter.
 * Check the filter config to see if it's updated accordingly after you updated your authorization policy.
 
-Taking the above output as an example, the productpage's proxy enabled the `envoy.filters.http.rbac`
+Taking the above output as an example, the proxy of productpage enabled the `envoy.filters.http.rbac`
 filter with rules that allows anyone to access it via GET method. The `shadow_rules` is not used and
 could be ignored safely.
 
-## Make sure policies are enforced correctly
+## 4. Make sure policies are enforced correctly
 
 Authorization is enforced on proxies, You can check the runtime log to see what's happening during
 the enforcement.
@@ -221,18 +223,15 @@ You could replace `"-l app=productpage"` with your actual pod name to get its co
     {{< /text >}}
 
     Search for `rbac` in the log, the filter will print the data extracted from the request which are
-    used in the policy enforcement.
+    used in the policy enforcement, look at the output to:
 
-    * The `enforced allowed` or `enforced denied` means the request is allowed or denied by the
-      filter, check the data extracted from the request to see if it's expected by your authorization policy.
+    * Check the output `enforced allowed` or `enforced denied` which means the request is allowed or
+      denied respectively
 
-    * The `uriSanPeerCertificate` field is compared to the `user` field in [Subject](
-    /docs/reference/config/authorization/istio.rbac.v1alpha1/#Subject). Note it has a `spiffee://` prefix.
+    * Check the data extracted from the request to see if it's expected by your authorization policy.
 
-    * The `source.principal` in the filter_metadata is compared to the [source.principal property](
-    /docs/reference/config/authorization/constraints-and-properties/#properties). Note it doesn't have
-    the `spiffee://` prefix.
+    * Note the `source.principal` as well as other fields in the `filter_metadata` are compared to
+    the [source.principal property](/docs/reference/config/authorization/constraints-and-properties/#properties).
 
     Taking the above output as an example, it means there is a `GET` request at path `/productpage` and
-    is allowed by the policy. The "shadow denied" is the result for shadow policies which could be ignored
-    safely for now.
+    is allowed by the policy. The `shadow denied` has no effect and could be ignored safely.
