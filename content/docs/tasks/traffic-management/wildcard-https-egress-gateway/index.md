@@ -260,6 +260,9 @@ access to _*.wikipedia.org_ to support HTTPS traffic to arbitrary wildcarded dom
     $ cat <<EOF > $HOME/nginx-sni-proxy.conf
     user www-data;
 
+    events {
+    }
+
     stream {
       log_format log_stream '\$remote_addr [\$time_local] \$protocol [\$ssl_preread_server_name]'
       '\$status \$bytes_sent \$bytes_received \$session_time';
