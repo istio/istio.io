@@ -76,9 +76,9 @@ $ kubectl exec $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.na
 
 Please check [secure naming](/docs/concepts/security/#workflow) for more information about  _service identity_ in Istio.
 
-## Verifying TLS configuration
+## Verifying mutual TLS configuration
 
-Use the `istioctl` tool to check the effective TLS settings. For example, the command below shows what TLS mode is used for `httpbin.default.svc.cluster.local`, and what authentication policy and destination rules are used for that configuration:
+Use the `istioctl` tool to check the effective mutual TLS settings. For example, the command below shows what mode is used for `httpbin.default.svc.cluster.local`, and what authentication policy and destination rules are used for that configuration:
 
 {{< text bash >}}
 $ istioctl authn tls-check httpbin.default.svc.cluster.local
