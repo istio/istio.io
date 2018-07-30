@@ -38,12 +38,14 @@ az
 BigQuery
 BluePerf
 Bookinfo
+Brooks
 Budinsky
 CAP_NET_ADMIN
 CAs
 CDNs
 CIDRs
 CIOs
+Cilium
 cli
 Costin
 CSRs
@@ -65,6 +67,7 @@ emojis
 ExecAction
 Exfiltrating
 ExternalName
+FitStation
 Fluentd
 httpbin.example.com
 FQDNs
@@ -138,6 +141,7 @@ Reviewer1
 Reviewer2
 SNI
 SREs
+Secura
 ServiceGraph
 Servicegraph
 Sharding
@@ -145,6 +149,8 @@ Shriram
 SignalFX
 Snell-Feikema
 SolarWinds
+Steitz
+Superfeet
 TCP
 TCP-level
 TLS
@@ -214,6 +220,7 @@ dataset
 datastore
 debian
 dev
+devops
 docker.io
 e.g.
 eBPF
@@ -359,6 +366,7 @@ reimplemented
 reinject
 repo
 roadmap
+roadmaps
 roleRef
 rollout
 rollouts
