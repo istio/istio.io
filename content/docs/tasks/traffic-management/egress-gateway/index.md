@@ -102,6 +102,7 @@ First direct HTTP traffic without TLS origination
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
+      apiVersion: networking.istio.io/v1alpha3
       kind: Gateway
       metadata:
         name: istio-egressgateway
@@ -148,6 +149,7 @@ First direct HTTP traffic without TLS origination
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
+      apiVersion: networking.istio.io/v1alpha3
       kind: Gateway
       metadata:
         name: istio-egressgateway
@@ -295,6 +297,7 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
       name: istio-egressgateway
@@ -341,6 +344,7 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
       name: istio-egressgateway
@@ -491,6 +495,7 @@ The output should be the same as in the previous section.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
       name: istio-egressgateway
