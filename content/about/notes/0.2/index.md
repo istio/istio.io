@@ -8,7 +8,7 @@ page_icon: /img/notes.svg
 
 ## General
 
-- **Updated Config Model**. Istio now uses the Kubernetes [Custom Resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
+- **Updated Configuration Model**. Istio now uses the Kubernetes [Custom Resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
 model to describe and store its configuration. When running in Kubernetes, configuration can now be optionally managed using the `kubectl`
 command.
 
@@ -68,8 +68,8 @@ to write adapters.
 
 - **Improved Mixer Build Model**. It’s now easier to build a Mixer binary that includes custom adapters.
 
-- **Mixer Adapter Updates**. The built-in adapters have all been rewritten to fit into the new adapter model. The stackdriver adapter has been added for this
-release. The experimental redis quota adapter has been removed in the 0.2 release, but is expected to come back in production quality for the 0.3 release.
+- **Mixer Adapter Updates**. The built-in adapters have all been rewritten to fit into the new adapter model. The `stackdriver` adapter has been added for this
+release. The experimental `redisquota` adapter has been removed in the 0.2 release, but is expected to come back in production quality for the 0.3 release.
 
 - **Mixer Call Tracing**. Calls between Envoy and Mixer can now be traced and analyzed in the Zipkin dashboard.
 

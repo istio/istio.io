@@ -113,7 +113,7 @@ Since the `reviews` service subsequently calls the `ratings` service when handli
 you used Istio to inject a 2 second delay in calls to `ratings` to cause the
 `reviews` service to take longer than half a second to complete and consequently you could see the timeout in action.
 
-You observed that instead of displaying reviews, the Bookinfo productpage (which calls the `reviews` service to populate the page) displayed
+You observed that instead of displaying reviews, the Bookinfo product page (which calls the `reviews` service to populate the page) displayed
 the message: Sorry, product reviews are currently unavailable for this book.
 This was the result of it receiving the timeout error from the `reviews` service.
 

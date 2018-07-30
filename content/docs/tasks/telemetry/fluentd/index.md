@@ -349,7 +349,7 @@ Created config rule/istio-system/newlogtofluentd at revision 22376
 {{< /text >}}
 
 Notice that the `address: "fluentd-es.logging:24224"` line in the
-handler config is pointing to the Fluentd daemon we setup in the
+handler configuration is pointing to the Fluentd daemon we setup in the
 example stack.
 
 ## View the new logs

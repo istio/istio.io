@@ -1,6 +1,7 @@
 ---
 title: Istio 1.0
 weight: 92
+page_icon: /img/notes.svg
 ---
 
 我们很自豪地发布了 Istio 1.0！ Istio 至今已经开发了近两年，1.0 版本对我们来说是一个重要的里程碑。我们所有的[核心功能](/about/feature-stages/)现在都可以用于生产。
@@ -26,7 +27,7 @@ weight: 92
 
 - **SignalFX**。这是新的 [`signalfx`](/docs/reference/config/policy-and-telemetry/adapters/signalfx/) 适配器。
 
-- **Stackdriver**。此版本中的 [stackdriver](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) 适配器已得到充分增强，以添加新功能并提高性能。
+- **Stackdriver**。此版本中的 [`stackdriver`](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) 适配器已得到充分增强，以添加新功能并提高性能。
 
 ## 安全
 

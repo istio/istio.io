@@ -10,7 +10,7 @@ Fluentd 是一个开源的日志收集器，支持多种[数据输出](https://w
 [Elasticsearch](https://www.elastic.co/products/elasticsearch)是一个流行的后端日志记录程序，
 [Kibana](https://www.elastic.co/products/kibana) 用于查看。在任务结束后，一个新的日志流将被加载发送日志到示例 Fluentd/Elasticsearch/Kibana 软件栈。
 
-在任务中，将使用 [BookInfo](/docs/examples/bookinfo/) 示例应用程序作为示例应用程序。
+在任务中，将使用 [Bookinfo](/docs/examples/bookinfo/) 示例应用程序作为示例应用程序。
 
 ## 在开始之前
 
@@ -328,7 +328,7 @@ Created config rule/istio-system/newlogtofluentd at revision 22376
 
 1. 将流量发送到示例应用程序。
 
-   对于 [BookInfo](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)
+   对于 [Bookinfo](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)
    示例, 在浏览器中访问 `http://$GATEWAY_URL/productpage` 或发送以下命令:
 
     {{< text bash >}}

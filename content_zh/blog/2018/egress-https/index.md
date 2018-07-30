@@ -75,7 +75,7 @@ EOF
     caption="The Error Fetching Product Details Message"
     >}}
 
-好消息是我们的应用程序没有崩溃, 通过良好的微服务设计，我们没有让**故障扩散**。 在我们的例子中，失败的 _details_  微服务不会导致 _productpage_ 微服务失败, 尽管 _details_ 微服务失败，仍然提供了应用程序的大多数功能, 我们有**优雅的服务降级**：正如您所看到的，评论和评级正确显示，应用程序仍然有用。
+好消息是我们的应用程序没有崩溃, 通过良好的微服务设计，我们没有让**故障扩散**。 在我们的例子中，失败的 _details_  微服务不会导致 `productpage` 微服务失败, 尽管 _details_ 微服务失败，仍然提供了应用程序的大多数功能, 我们有**优雅的服务降级**：正如您所看到的，评论和评级正确显示，应用程序仍然有用。
 
 那可能出了什么问题？ 啊......答案是我忘了启用从网格内部到外部服务的流量，在本例中是 Google Book Web服务。 默认情况下，Istio sidecar代理（[Envoy proxies](https://www.envoyproxy.io)）**阻止到集群外目的地的所有流量**, 要启用此类流量，我们必须定义[出口规则](https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/#EgressRule)。
 
