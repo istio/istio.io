@@ -22,7 +22,7 @@ page_icon: /img/notes.svg
 
 - **多集群支持**：在多集群部署中能够支持每集群的 Citadel 部署，所有的 Citadel 共享同样的根证书，工作负载之间能够进行跨网格认证。
 
-- **认证策略**：我们为[认证策略](/docs/tasks/security/authn-policy/)提供了统一的 API，管理范围涵盖了服务间的 mTLS 认证和最终用户认证。我们推荐使用认证策略来管理认证的相关行为。
+- **认证策略**：我们为[认证策略](/docs/tasks/security/authn-policy/)提供了统一的 API，管理范围涵盖了服务间的双向 TLS 认证和最终用户认证。我们推荐使用认证策略来管理认证的相关行为。
 
 ## 遥测
 
