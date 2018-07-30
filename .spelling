@@ -79,6 +79,8 @@ GlueCon
 Gmail
 Grafana
 Graphviz
+HTTP
+HTTP2
 Hystrix
 ILBs
 IPs
@@ -148,6 +150,7 @@ Shriram
 SignalFX
 Snell-Feikema
 SolarWinds
+TCP
 TCP-level
 TLS
 TLS-secured
@@ -161,6 +164,7 @@ VMs
 ValueType
 WeaveWorks
 WebSocket
+Websockets
 WebSphere
 Webhooks
 X.509

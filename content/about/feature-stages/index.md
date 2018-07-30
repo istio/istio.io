@@ -30,7 +30,7 @@ Below is our list of existing features and their current phases. This informatio
 
 | Feature           | Phase
 |-------------------|-------------------
-| Protocols: HTTP1.1/HTTP2/gRPC/WebSockets/MongoDB  | Beta
+| Protocols: HTTP1.1/HTTP2/gRPC/Websockets/MongoDB  | Beta
 | Traffic Control: label/content based routing, traffic shifting | Beta
 | Resilience features: timeouts, retries, connection pools, outlier detection | Beta
 | Gateway: Ingress, Egress for all protocols | Beta
@@ -74,17 +74,16 @@ Below is our list of existing features and their current phases. This informatio
 
 | Feature           | Phase
 |-------------------|-------------------
-| [Kubernetes: Envoy Installation and Traffic Interception](/docs/setup/kubernetes/)        | Stable
-| [Kubernetes: Istio Control Plane Installation](/docs/setup/kubernetes/) | Stable
+| [Kubernetes: Envoy Installation and Traffic Interception](/docs/setup/kubernetes/)        | Beta
+| [Kubernetes: Istio Control Plane Installation](/docs/setup/kubernetes/) | Beta
 | [Kubernetes: Istio Control Plane Upgrade](/docs/setup/kubernetes/) | Beta
-| [Pilot Integration into Kubernetes Service Discovery](/docs/setup/kubernetes/)         | Stable
+| [Consul Integration](/docs/setup/consul/quick-start/) | Alpha
+| [Cloud Foundry Integration](/docs/setup/consul/quick-start/)    | Alpha
 | [Attribute Expression Language](/docs/reference/config/policy-and-telemetry/expression-language/)        | Stable
 | [Mixer Adapter Authoring Model](/blog/2017/adapter-model/)        | Stable
 | [VM: Envoy Installation, Traffic Interception and Service Registration](/docs/examples/integrating-vms/)    | Alpha
 | [VM: Istio Control Plane Installation and Upgrade (Galley, Mixer, Pilot, CA)](https://github.com/istio/istio/issues/2083)  | Alpha
 | VM: Ansible Envoy Installation, Interception and Registration  | Alpha
-| [Pilot Integration into Consul](/docs/setup/consul/quick-start/) | Alpha
-| [Pilot Integration into Cloud Foundry Service Discovery](/docs/setup/consul/quick-start/)    | Alpha
 | [Basic Config Resource Validation](https://github.com/istio/istio/issues/1894) | Alpha
 | [Mixer Telemetry Collection (Tracing, Logging, Monitoring)](/help/faq/mixer/#mixer-self-monitoring) | Alpha
 | [Custom Mixer Build Model](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) | Alpha
