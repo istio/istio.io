@@ -133,7 +133,7 @@ Istio 安全工作流由部署和运行两阶段组成。Kubernetes 和虚拟机
 
 Istio 提供了两种认证方式：
 
-* 传输认证，或者说服务间认证：校验发起连接的直接客户端。Istio 提供了双向 TLS（mTLS）作为传输认证的全栈解决方案。可以方便的在不变更服务代码的条件下启用这一功能，该方案：
+* 传输认证，或者说服务间认证：校验发起连接的直接客户端。Istio 提供了双向 TLS（`mTLS`）作为传输认证的全栈解决方案。可以方便的在不变更服务代码的条件下启用这一功能，该方案：
 
     * 为每个服务提供强认证，认证身份和角色相结合，能够在不同的集群甚至不同云上进行互操作
     * 加密服务和服务之间、最终用户和服务之间的通信
@@ -145,20 +145,20 @@ Istio 提供了两种认证方式：
 
 在 Istio 服务网格中处理请求的服务，可以使用认证策略来为其指定认证需求。网格运维人员使用 `.yaml` 文件来配置这些策略。这些策略一经上传，会被保存到 Istio 的配置存储中。作为 Istio 的控制器，Pilot 会对配置存储进行监控。任何的策略变化，Pilot 都会把新的策略翻译为对应的配置格式，并告知 Sidecar 代理如何应用所需的认证机制。另外，Pilot 提供了 Istio 管理的密钥和证书的路径，并把他们安装到应用 Pod 中以便进行双向 TLS 连接。可以在 [PKI 和认证](/docs/concepts/security/#identity)一节中找到更多相关信息。Istio 会将配置异步的发送给目标端点。Sidecar 收到配置之后，Pod 就会立即启用新的认证需求。
 
-发送请求的客户端服务，要负责完成必要的认证机制。对于 JWT 认证来说，应用应该获取 JWT 凭据，并把凭据附加到请求上进行传播。Istio 提供了[目标规则](/docs/concepts/traffic-management/#destination-rules)用于应对 mTLS 认证。运维人员可以使用目标规则来要求客户端 Sidecar 使用 TLS 证书向服务器发起连接。[PKI 和认证](/docs/concepts/security/#identity)一节中介绍了更多 mTLS 的相关内容。
+发送请求的客户端服务，要负责完成必要的认证机制。对于 JWT 认证来说，应用应该获取 JWT 凭据，并把凭据附加到请求上进行传播。Istio 提供了[目标规则](/docs/concepts/traffic-management/#destination-rules)用于应对双向 TLS 认证。运维人员可以使用目标规则来要求客户端 Sidecar 使用 TLS 证书向服务器发起连接。[PKI 和认证](/docs/concepts/security/#identity)一节中介绍了更多双向 TLS  的相关内容。
 
 {{< image width="80%" ratio="75%"
     link="/docs/concepts/security/authn.svg"
     caption="认证策略架构"
     >}}
 
-这两种认证信息都会被 Istio 输出，如果有其他申明也会在凭据中一起输出到下一层：[鉴权](/docs/concepts/security/#authorization)，另外运维人员还可以在 mTLS 和最终用户两个甚至中选择一个提供给 Istio 用作认证主体（`principal`）。
+这两种认证信息都会被 Istio 输出，如果有其他申明也会在凭据中一起输出到下一层：[鉴权](/docs/concepts/security/#authorization)，另外运维人员还可以在双向 TLS 和最终用户两个甚至中选择一个提供给 Istio 用作认证主体（`principal`）。
 
 ### 认证策略
 
-本节中提供了更多 Istio 认证策略方面的细节。正如[认证架构](/docs/concepts/security/#authentication-architecture)中所说的，认证策略是对服务收到的请求生效的。要在 mTLS 中指定客户端认证策略，需要在 `DetinationRule` 中设置 `TLSSettings`。[TLS 设置参考文档](/docs/reference/config/istio.networking.v1alpha3/#TLSSettings)中有更多这方面的信息。和其他的 Istio 配置一样，可以用 `.yaml` 文件的形式来编写认证策略，然后使用 `istioctl` 进行部署。
+本节中提供了更多 Istio 认证策略方面的细节。正如[认证架构](/docs/concepts/security/#authentication-architecture)中所说的，认证策略是对服务收到的请求生效的。要在双向 TLS 中指定客户端认证策略，需要在 `DetinationRule` 中设置 `TLSSettings`。[TLS 设置参考文档](/docs/reference/config/istio.networking.v1alpha3/#TLSSettings)中有更多这方面的信息。和其他的 Istio 配置一样，可以用 `.yaml` 文件的形式来编写认证策略，然后使用 `istioctl` 进行部署。
 
-下面例子中的认证策略要求 `reviews` 服务必须使用 mTLS：
+下面例子中的认证策略要求 `reviews` 服务必须使用双向 TLS：
 
 {{< text yaml >}}
 apiVersion: "authentication.istio.io/v1alpha1"
@@ -168,7 +168,7 @@ metadata:
 spec:
   targets:
   - name: reviews
-  peers:
+    peers:
   - mtls: {}
 {{< /text >}}
 
@@ -234,16 +234,16 @@ Istio 为服务选择策略的时候，按照 **服务级 > 命名空间级 > �
 
 #### 传输认证
 
-`peers` 一节为传输认证策略定义了认证方法及其相关参数。这一节中可以列出多个方法，其中的方法至少要有一个通过才能完成认证。然而在 0.7 版本中，唯一的传输认证方法就是 mTLS。如果无需传输认证，跳过这节即可。
+`peers` 一节为传输认证策略定义了认证方法及其相关参数。这一节中可以列出多个方法，其中的方法至少要有一个通过才能完成认证。然而在 0.7 版本中，唯一的传输认证方法就是双向 TLS。如果无需传输认证，跳过这节即可。
 
-下面的代码段展示了使用 `peers` 启用基于 mTLS 进行传输认证的方法：
+下面的代码段展示了使用 `peers` 启用基于双向 TLS 进行传输认证的方法：
 
 {{< text yaml >}}
  peers:
   - mtls: {}
 {{< /text >}}
 
-目前 mTLS 的设置不需要任何参数，`-mtls: {}`、`- mtls` 或者 `- mtls: null` 都是等价的。未来 mTLS 设置可能会加入参数用来提供不同的 mTLS 支持。
+目前双向 TLS  的设置不需要任何参数，`-mtls: {}`、`- mtls` 或者 `- mtls: null` 都是等价的。未来 双向 TLS 设置可能会加入参数用来提供不同的双向 TLS 支持。
 
 #### 最终用户认证
 
@@ -272,7 +272,7 @@ principalBinding: USE_ORIGIN
 
 可以再任何时间对认证策略进行修改，Istio 会用近乎实时的的效率把变更推送给端点。然而 Istio 无法保证所有端点能够同时收到新策略。下面提供一些建议，以避免更新认证策略造成的服务中断。
 
-* mTLS 的启用和禁用：使用一个临时策略，其中的 `mode` 字段设置为 `PERISSIVE`。这个配置让服务同时接受 mTLS 和明文通信。这样就不会丢失请求。一旦所有客户端都完成协议转换之后，就可以将 `PERMISSIVE` 策略切换到期望值了。[双向 TLS 的迁移](/docs/tasks/security/mtls-migration)任务中介绍了更多这一方式的细节。
+* 双向 TLS 的启用和禁用：使用一个临时策略，其中的 `mode` 字段设置为 `PERISSIVE`。这个配置让服务同时接受 双向 TLS 和明文通信。这样就不会丢失请求。一旦所有客户端都完成协议转换之后，就可以将 `PERMISSIVE` 策略切换到期望值了。[双向 TLS 的迁移](/docs/tasks/security/mtls-migration)任务中介绍了更多这一方式的细节。
 
 {{< text yaml >}}
 peers:
@@ -448,7 +448,7 @@ spec:
   - user: "istio-ingress-service-account"
     properties:
     - request.auth.claims[email]: "a@foo.com"
-  roleRef:
+    roleRef:
     kind: ServiceRole
     name: "products-viewer"
 {{< /text >}}
@@ -464,7 +464,7 @@ metadata:
 spec:
   subjects:
   - user: "*"
-  roleRef:
+    roleRef:
     kind: ServiceRole
     name: "products-viewer"
 {{< /text >}}
