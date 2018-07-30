@@ -59,7 +59,7 @@ check_content() {
 }
 
 check_content content --en-us
-check_content content_zh --zh-cn
+#check_content content_zh --zh-cn
 
 grep -nr -e "ERROR: markdown" ./public
 if [ "$?" == "0" ]
@@ -68,7 +68,14 @@ then
     FAILED=1
 fi
 
-htmlproofer ./public --check-html --assume-extension --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/localhost/,/github.com/istio/istio.github.io/edit/master/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/"
+grep -nr -e "“" ./content
+if [ "$?" == "0" ]
+then
+    echo "Ensure markdown content only uses standard quotation marks and not “"
+    FAILED=1
+fi
+
+htmlproofer ./public --assume-extension --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/localhost/,/github.com/istio/istio.github.io/edit/master/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/"
 if [ "$?" != "0" ]
 then
     FAILED=1

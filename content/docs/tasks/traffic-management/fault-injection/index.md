@@ -24,8 +24,8 @@ This task shows you how to inject faults to test the resiliency of your applicat
   running the following commands:
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
-    $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-test-v2.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-test-v2.yaml@
     {{< /text >}}
 
 ## Injecting an HTTP delay fault
@@ -42,13 +42,13 @@ still expect the end-to-end flow to continue without any errors.
 `jason`.
 
     {{< text bash >}}
-    $ istioctl replace -f @samples/bookinfo/networking/virtual-service-ratings-test-delay.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/virtual-service-ratings-test-delay.yaml@
     {{< /text >}}
 
 1. Confirm the rule was created:
 
     {{< text bash yaml >}}
-    $ istioctl get virtualservice ratings -o yaml
+    $ kubectl get virtualservice ratings -o yaml
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -64,8 +64,8 @@ still expect the end-to-end flow to continue without any errors.
             percent: 100
         match:
         - headers:
-            cookie:
-              regex: ^(.*?;)?(user=jason)(;.*)?$
+            end-user:
+              exact: jason
         route:
         - destination:
             host: ratings
@@ -94,7 +94,7 @@ still expect the end-to-end flow to continue without any errors.
      {{< /text >}}
 
 1. View the web page response times:
-    1. Open the *Developer Tools* menu in IE, Chrome or Firefox (typically, key combination _Ctrl+Shift+I_ or _Alt+Cmd+I_).
+    1. Open the *Developer Tools* menu in you web browser.
     1. Open the Network tab
     1. Reload the `productpage` web page. You will see that the webpage actually
     loads in about 6 seconds.
@@ -145,13 +145,13 @@ ratings not available` message.
 1.  Create a fault injection rule to send an HTTP abort for user `jason`:
 
     {{< text bash >}}
-    $ istioctl replace -f @samples/bookinfo/networking/virtual-service-ratings-test-abort.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/virtual-service-ratings-test-abort.yaml@
     {{< /text >}}
 
 1. Confirm the rule was created:
 
     {{< text bash yaml >}}
-    $ istioctl get virtualservice ratings -o yaml
+    $ kubectl get virtualservice ratings -o yaml
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -167,8 +167,8 @@ ratings not available` message.
             percent: 100
         match:
         - headers:
-            cookie:
-              regex: ^(.*?;)?(user=jason)(;.*)?$
+            end-user:
+              exact: jason
         route:
         - destination:
             host: ratings
@@ -196,7 +196,7 @@ application's `/productpage`.
 1. Remove the application routing rules:
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
+    $ kubectl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
 1. If you are not planning to explore any follow-on tasks, refer to the

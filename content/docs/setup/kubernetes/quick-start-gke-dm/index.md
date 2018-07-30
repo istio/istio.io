@@ -1,8 +1,8 @@
 ---
 title: Quick Start with Google Kubernetes Engine
 description: Quick Start instructions to setup the Istio service using Google Kubernetes Engine (GKE)
-weight: 11
-keywords: [kubernetes,gke]
+weight: 20
+keywords: [kubernetes,gke,google]
 ---
 
 Quick Start instructions to install and run Istio in [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) (GKE) using [Google Cloud Deployment Manager](https://cloud.google.com/deployment-manager/).
@@ -16,7 +16,7 @@ application.  It uses Deployment Manager to automate the steps detailed in the [
 
 - Ensure that the [Google Kubernetes Engine API](https://console.cloud.google.com/apis/library/container.googleapis.com/) is enabled for your project (also found by navigating to "APIs &amp; Services" -> "Dashboard" in the navigation bar). If you do not see "API enabled", then you may enable the API by clicking the "Enable this API" button.
 
-- You must install and configure the [gcloud command line tool](https://cloud.google.com/sdk/docs/) and include the `kubectl` component (`gcloud components install kubectl`).  If you don't want to install the `gcloud` client on your own machine, you can use `gcloud` via [Google Cloud Shell](https://cloud.google.com/shell/docs/) to perform the same tasks.
+- You must install and configure the [`gcloud` command line tool](https://cloud.google.com/sdk/docs/) and include the `kubectl` component (`gcloud components install kubectl`).  If you don't want to install the `gcloud` client on your own machine, you can use `gcloud` via [Google Cloud Shell](https://cloud.google.com/shell/docs/) to perform the same tasks.
 
 - {{< warning_icon >}} You must set your default compute service account to include:
 
@@ -63,7 +63,7 @@ caption="GKE-IAM Role"
 
 Wait until Istio is fully deployed. Note that this can take up to five minutes.
 
-### Bootstrap gcloud
+### Bootstrap `gcloud`
 
 Once deployment is complete, do the following on the workstation where you've installed `gcloud`:
 
@@ -129,7 +129,7 @@ istio-ingressgateway   LoadBalancer   10.59.251.109   35.194.26.85   80:31380/TC
 Note down the IP address (EXTERNAL-IP) and port assigned to the Bookinfo product page
 (in the example above, it's `35.194.26.85:80`).
 
-You can also view the installation using the ***Kubernetes Engine -> Workloads** section on the [Cloud Console](https://console.cloud.google.com/kubernetes/workload):
+You can also view the installation using the **Kubernetes Engine -> Workloads** section on the [Cloud Console](https://console.cloud.google.com/kubernetes/workload):
 
 {{< image width="70%" ratio="80.37%"
     link="./dm_kubernetes_workloads.png"
@@ -252,5 +252,5 @@ For more details on tracing see [Understanding what happened](/docs/tasks/teleme
 
 1. Select the deployment and click **Delete**.
 
-1. Deployment Manager will remove all the deployed GKE artifacts - however, items such as Ingress and LoadBalancers will remain. You can delete those artifacts
-by again going to the cloud console under [**Network Services** -> **LoadBalancers**](https://console.cloud.google.com/net-services/loadbalancing/loadBalancers/list)
+1. Deployment Manager will remove all the deployed GKE artifacts - however, items such as `Ingress` and `LoadBalancers` will remain. You can delete those artifacts
+by again going to the cloud console under [**Network Services** -> **Load balancing**](https://console.cloud.google.com/net-services/loadbalancing/loadBalancers/list)

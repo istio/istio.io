@@ -27,7 +27,7 @@ control to operators.
 
 Mixer is the Istio component responsible for providing policy controls and telemetry collection:
 
-{{< image width="55%" ratio="49.26%"
+{{< image width="55%" ratio="69.79%"
     link="./topology-without-cache.svg"
     caption="Mixer Topology"
     >}}
@@ -62,7 +62,7 @@ monitoring, quotas, ACL checking, and more. The exact set of
 adapters used at runtime is determined through configuration and can easily be
 extended to target new or custom infrastructure backends.
 
-{{< image width="20%" ratio="138%"
+{{< image width="80%" ratio="69.79%"
     link="./adapters.svg"
     alt="Showing Mixer with adapters."
     caption="Mixer and its Adapters"
@@ -150,7 +150,7 @@ destination_version: destination.labels["version"] | "unknown"
 {{< /text >}}
 
 The sequences on the right-hand side of the colons are the simplest forms of attribute expressions.
-The first two only consist of attribute names. The `response_code` label is assigned the value from the `request.code` attribute.
+The first two only consist of attribute names. The `response_code` label is assigned the value from the `response.code` attribute.
 
 Here's an example of a conditional expression:
 
@@ -174,7 +174,7 @@ Controlling the policy and telemetry features involves configuring three types o
 
 * Configuring a set of *handlers*, which determine the set of adapters that
 are being used and how they operate. Providing a `statsd` adapter with the IP
-address for a statsd backend is an example of handler configuration.
+address for a Statsd backend is an example of handler configuration.
 
 * Configuring a set of *instances*, which describe how to map request attributes into adapter inputs.
 Instances represent a chunk of data that one or more adapters will operate
@@ -201,7 +201,7 @@ backends such as [Prometheus](https://prometheus.io) or [Stackdriver](https://cl
 Individual adapters generally need operational parameters in order to do their work. For example, a logging adapter may require
 the IP address and port of the log collection backend.
 
-Here is an example showing how to configure an adapter of kind = `listchecker`. The listchecker adapter checks an input value against a list.
+Here is an example showing how to configure an adapter of kind = `listchecker`. The `listchecker` adapter checks an input value against a list.
 If the adapter is configured for a whitelist, it returns success if the input value is found in the list.
 
 {{< text yaml >}}
@@ -277,7 +277,7 @@ templates and their specific configuration formats](/docs/reference/config/polic
 ### Rules
 
 Rules specify when a particular handler is invoked with a specific instance.
-Consider an example where you want to deliver the `requestduration` metric to the prometheus handler if
+Consider an example where you want to deliver the `requestduration` metric to the `prometheus` handler if
 the destination service is `service1` and the `x-user` request header has a specific value.
 
 {{< text yaml >}}

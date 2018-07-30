@@ -19,7 +19,7 @@ This task assumes you have a Kubernetes cluster:
 
     Use [Helm](/docs/setup/kubernetes/helm-install/) with `global.mtls.enabled` to `true`.
 
-> Starting with Istio 0.7, you can use [authentication policy](/docs/concepts/security/#anatomy-of-an-authentication-policy) to configure mutual TLS for all/selected services in a namespace
+> Starting with Istio 0.7, you can use [authentication policy](/docs/concepts/security/#authentication-policies) to configure mutual TLS for all/selected services in a namespace
 (repeated for all namespaces to get global setting). See the [authentication policy task](/docs/tasks/security/authn-policy/)
 
 * For demo, deploy [httpbin]({{< github_tree >}}/samples/httpbin) and [sleep]({{< github_tree >}}/samples/sleep) with Envoy sidecar. For simplicity, the demo is setup in the `default` namespace. If you wish to use a different namespace,  please add `-n yournamespace` appropriately to the example commands in the next section.

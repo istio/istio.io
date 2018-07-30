@@ -7,7 +7,5 @@ aliases:
   - /glossary
   - /docs/welcome/glossary.html
   - /docs/reference/glossary.html
+page_icon: /img/glossary.svg
 ---
-
-Common Istio words and phrases. Please [let us know](https://github.com/istio/istio.github.io/issues/new?title=Missing%20Glossary%20Entry) if you
-came here looking for a definition and didn't find it.

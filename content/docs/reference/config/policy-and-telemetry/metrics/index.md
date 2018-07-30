@@ -6,7 +6,7 @@ weight: 50
 
 This page presents details about the metrics that Istio collects when using its initial configuration. You can add and remove metrics by changing configuration at any time, but this
 is the built-in set. They can be found [here]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml)
-under the section with “kind: metric”. It uses [metric
+under the section with "kind: metric”. It uses [metric
 template](/docs/reference/config/policy-and-telemetry/templates/metric/) to define these metrics.
 
 We will describe metrics first and then the labels for each metric.
@@ -109,7 +109,7 @@ We will describe metrics first and then the labels for each metric.
     {{< /text >}}
 
 *   **Destination Service**: This identifies destination service host responsible
-    for an incoming request. Ex: "details.default.svc.cluster.local".
+    for an incoming request. Ex: `details.default.svc.cluster.local`.
 
     {{< text yaml >}}
     destination_service: destination.service.host | "unknown"

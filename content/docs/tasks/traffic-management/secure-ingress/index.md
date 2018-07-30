@@ -76,7 +76,7 @@ with a certificate and a private key. Then you create a `Gateway` definition tha
     > The location of the certificate and the private key **must** be `/etc/istio/ingressgateway-certs`, or the gateway will fail to load them.
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -101,7 +101,7 @@ with a certificate and a private key. Then you create a `Gateway` definition tha
 1.  Configure routes for traffic entering via the `Gateway`. Define the same `VirtualService` as in the [Control Ingress Traffic](/docs/tasks/traffic-management/ingress/#configuring-ingress-using-an-istio-gateway) task:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -194,7 +194,7 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
     from, in this case `ca-chain.cert.pem`.
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl replace -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -290,6 +290,12 @@ they have valid values, according to the output of the following commands:
     $ kubectl logs -n istio-system -l istio=ingressgateway
     {{< /text >}}
 
+1.  If the secret was created but the keys were not mounted, kill the ingress gateway pod and force it to reload certs:
+
+    {{< text bash >}}
+        $ kubectl delete pod -n istio-system -l istio=ingressgateway
+    {{< /text >}}
+
 1.  For macOS users, verify that you use _curl_ compiled with the [LibreSSL](http://www.libressl.org) library, as
     described in the [Before you begin](#before-you-begin) section.
 
@@ -312,13 +318,19 @@ In addition to the steps in the previous section, perform the following:
     Subject: C=US, ST=Denial, L=Springfield, O=Dis, CN=httpbin.example.com
     {{< /text >}}
 
+1.  If the secret was created but the keys were not mounted, kill the ingress gateway pod and force it to reload certs:
+
+    {{< text bash >}}
+        $ kubectl delete pod -n istio-system -l istio=ingressgateway
+    {{< /text >}}
+
 ## Cleanup
 
 1.  Delete the `Gateway` configuration, the `VirtualService`, and the secrets:
 
     {{< text bash >}}
-    $ istioctl delete gateway httpbin-gateway
-    $ istioctl delete virtualservice httpbin
+    $ kubectl delete gateway httpbin-gateway
+    $ kubectl delete virtualservice httpbin
     $ kubectl delete --ignore-not-found=true -n istio-system secret istio-ingressgateway-certs istio-ingressgateway-ca-certs
     {{< /text >}}
 

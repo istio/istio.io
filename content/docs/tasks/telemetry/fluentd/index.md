@@ -275,8 +275,6 @@ spec:
 
 Create the resources:
 
-<div class="workaround_for_hugo_bug">
-
 {{< text bash >}}
 $ kubectl apply -f logging-stack.yaml
 namespace "logging" created
@@ -288,8 +286,6 @@ configmap "fluentd-es-config" created
 service "kibana" created
 deployment "kibana" created
 {{< /text >}}
-
-</div>
 
 ## Configure Istio
 
@@ -346,14 +342,14 @@ spec:
 Create the resources:
 
 {{< text bash >}}
-$ istioctl create -f fluentd-istio.yaml
+$ kubectl apply -f fluentd-istio.yaml
 Created config logentry/istio-system/newlog at revision 22374
 Created config fluentd/istio-system/handler at revision 22375
 Created config rule/istio-system/newlogtofluentd at revision 22376
 {{< /text >}}
 
 Notice that the `address: "fluentd-es.logging:24224"` line in the
-handler config is pointing to the Fluentd daemon we setup in the
+handler configuration is pointing to the Fluentd daemon we setup in the
 example stack.
 
 ## View the new logs
@@ -391,7 +387,7 @@ example stack.
 *   Remove the new telemetry configuration:
 
     {{< text bash >}}
-    $ istioctl delete -f fluentd-istio.yaml
+    $ kubectl delete -f fluentd-istio.yaml
     {{< /text >}}
 
 *   Remove the example Fluentd, Elasticsearch, Kibana stack:

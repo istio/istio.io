@@ -6,11 +6,11 @@ keywords: [community]
 type: community
 aliases:
     - /community
+page_icon: /img/community.svg
 ---
 Istio is an open source project with an active community that supports its use and on-going development. We'd love for you
 to join us and get involved!
-
-There are quite a few ways to get plugged in with the Istio community:
+There are quite a few ways to get plugged in:
 
 <table class="community">
   <tbody>
@@ -27,14 +27,12 @@ There are quite a few ways to get plugged in with the Istio community:
         is used to discuss development issues around the Istio project.
       </td>
     </tr>
-
     <tr>
       <td class="logo">{{< inline_image "community/twitter.svg" >}}</td>
       <td class="desc">
         Follow us on <a href="https://twitter.com/IstioMesh">Twitter</a> to get the latest news.
       </td>
     </tr>
-
     <tr>
       <td class="logo">{{< inline_image "community/stackoverflow.svg" >}}</td>
       <td class="desc">
@@ -42,21 +40,18 @@ There are quite a few ways to get plugged in with the Istio community:
         on deploying, configuring, and using Istio.
       </td>
     </tr>
-
     <tr>
       <td class="logo">{{< inline_image "community/rocket-chat.svg" >}}</td>
       <td class="desc">
         Chat with members of the Istio community on <a href="https://istio.rocket.chat">Rocket Chat</a>.
       </td>
     </tr>
-
     <tr>
       <td class="logo"><img src="/img/github.png" alt="GitHub"/></td>
       <td class="desc">
         <a href="https://github.com/istio/community">GitHub</a> is where development takes place on Istio code.
       </td>
     </tr>
-
     <tr>
       <td class="logo">{{< inline_image "community/drive.svg" >}}</td>
       <td class="desc">
@@ -67,12 +62,18 @@ There are quite a few ways to get plugged in with the Istio community:
         <a href="https://drive.google.com/corp/drive/u/0/folders/0AIS5p3eW9BCtUk9PVA">folder full of technical goodies</a>.
       </td>
     </tr>
-
     <tr>
       <td class="logo">{{< inline_image "community/group.svg" >}}</td>
       <td class="desc">
         If you'd like to contribute to the Istio project, consider participating in our
         <a href="https://github.com/istio/community/blob/master/WORKING-GROUPS.md">working groups</a>.
+      </td>
+    </tr>
+    <tr>
+      <td class="logo">{{< inline_image "community/servicemesher.svg" >}}</td>
+      <td class="desc">
+        Our Chinese-language documentation is maintained by the
+        <a href="http://www.servicemesher.com">ServiceMesher community</a>, join us and get involved!
       </td>
     </tr>
   </tbody>

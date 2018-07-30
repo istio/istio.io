@@ -33,13 +33,10 @@ in a round robin fashion.
 To route to one version only, you apply virtual services that set the default version for the microservices.
 In this case, the virtual services will route all traffic to `v1` of each microservice.
 
- > Before continuing, be sure you don't have any existing virtual services applied
-to the Bookinfo app. If you already created conflicting virtual services for Bookinfo, you must use `replace` rather than `create` in the following command.
-
 1.  Run the following command to apply the virtual services:
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
     Because configuration propagation is eventually consistent, wait a few seconds
@@ -48,7 +45,7 @@ to the Bookinfo app. If you already created conflicting virtual services for Boo
 1. Display the defined routes with the following command:
 
     {{< text bash yaml >}}
-    $ istioctl get virtualservices -o yaml
+    $ kubectl get virtualservices -o yaml
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -113,7 +110,7 @@ to the Bookinfo app. If you already created conflicting virtual services for Boo
 1. Display the corresponding `subset` definitions:
 
     {{< text bash >}}
-    $ istioctl get destinationrules -o yaml
+    $ kubectl get destinationrules -o yaml
     {{< /text >}}
 
 You have configured Istio to route to the `v1` version of the Bookinfo microservices,
@@ -137,22 +134,27 @@ version of a service.
 
 ## Route based on user identity
 
-Next, you will change the route config so that all traffic from a specific user
+Next, you will change the route configuration so that all traffic from a specific user
 is routed to a specific service version. In this case, all traffic from a user
 named Jason will be routed to the service `reviews:v2`.
 
+Note that Istio doesn't have any special, built-in understanding of user
+identity. This example is enabled by the fact that the `productpage` service
+adds a custom `end-user` header to all outbound HTTP requests to the reviews
+service.
+
 Remember, `reviews:v2` is the version that includes the star ratings feature.
 
-1. Run the following command to enable the user-based routing:
+1. Run the following command to enable user-based routing:
 
     {{< text bash >}}
-    $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-test-v2.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-test-v2.yaml@
     {{< /text >}}
 
 1. Confirm the rule is created:
 
     {{< text bash yaml >}}
-    $ istioctl get virtualservice reviews -o yaml
+    $ kubectl get virtualservice reviews -o yaml
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -164,8 +166,8 @@ Remember, `reviews:v2` is the version that includes the star ratings feature.
       http:
       - match:
         - headers:
-            cookie:
-              regex: ^(.*?;)?(user=jason)(;.*)?$
+            end-user:
+              exact: jason
         route:
         - destination:
             host: reviews
@@ -192,12 +194,12 @@ You have successfully configured Istio to route traffic based on user identity.
 
 In this task, you used Istio to send 100% of the traffic to the `v1` version
 of each of the Bookinfo services. You then set a rule to selectively send traffic
-to version `v2` of the reviews service based on a header (a user cookie) present in
-the request.
+to version `v2` of the `reviews` service based on a custom `end-user` header added
+to the request by the `productpage` service.
 
 Note that Kubernetes services, like the Bookinfo ones used in this task, must
 adhere to certain restrictions to take advantage of Istio's L7 routing features.
-Refer to the [sidecar injection documentation](/docs/setup/kubernetes/sidecar-injection/#pod-spec-requirements) for details.
+Refer to the [Requirements for Pods and Services](/docs/setup/kubernetes/spec-requirements) for details.
 
 In the [traffic shifting](/docs/tasks/traffic-management/traffic-shifting) task, you
 will follow the same basic pattern you learned here to configure route rules to
@@ -205,10 +207,10 @@ gradually send traffic from one version of a service to another.
 
 ## Cleanup
 
-1. Remove the application virtual services.
+1. Remove the application virtual services:
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
+    $ kubectl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
 1. If you are not planning to explore any follow-on tasks, refer to the
