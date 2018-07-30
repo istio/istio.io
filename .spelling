@@ -79,6 +79,7 @@ Gmail
 Grafana
 Graphviz
 HTTP
+HTTP1.1
 HTTP2
 Hystrix
 ILBs
