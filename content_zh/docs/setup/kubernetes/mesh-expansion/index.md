@@ -149,7 +149,7 @@ $ @install/tools/setupMeshEx.sh@ machineSetup VM_NAME
     $ curl 'http://10.60.1.4:8080/v1/registration/istio-pilot.istio-system.svc.cluster.local|http-discovery'
     {{< /text >}}
 
-* 解开 Istio 的 Secret 对象，并复制到服务器上。包含 Citadel 的 Istio，即使没有启用自动的 mTLS 认证，也会生成 Istio secret（每个 Service account 都会生成 Secret，命名为 `istio.<serviceaccount>`）。这里建议进行这个操作，这样以后启用 mTLS 或者未来升级到缺省启用 mTLS 的版本会更加方便。
+* 解开 Istio 的 Secret 对象，并复制到服务器上。包含 Citadel 的 Istio，即使没有启用自动的 双向 TLS 认证，也会生成 Istio secret（每个 Service account 都会生成 Secret，命名为 `istio.<serviceaccount>`）。这里建议进行这个操作，这样以后启用 双向 TLS 或者未来升级到缺省启用 双向 TLS 的版本会更加方便。
 
     `ACCOUNT` 缺省就是 `default`，或者 `SERVICE_ACCOUNT` 环境变量。
     `NAMESPACE` 缺省为当前命名空间，或者 `SERVICE_NAMESPACE` 环境变量（这一步骤通过 machineSetup 完成）在 Mac 上可使用 `brew install base64` 或者 `set BASE64_DECODE="/usr/bin/base64 -D"`。

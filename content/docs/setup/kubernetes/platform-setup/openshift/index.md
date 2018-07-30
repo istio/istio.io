@@ -2,6 +2,8 @@
 title: OpenShift
 description: Instructions to setup an OpenShift cluster for Istio.
 weight: 18
+skip_toc: true
+skip_seealso: true
 keywords: [platform-setup,openshift]
 ---
 
@@ -32,10 +34,6 @@ service account with a similar command.
 A service account that runs application pods needs privileged security context
 constraints as part of sidecar injection:
 
-<div class="Workaround_for_hugo_bug">
-
 {{< text bash >}}
 $ oc adm policy add-scc-to-user privileged -z default -n <target-namespace>
 {{< /text >}}
-
-</div>

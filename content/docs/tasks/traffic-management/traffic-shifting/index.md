@@ -32,7 +32,7 @@ complete the migration by sending %100 of traffic to `reviews:v3`.
 each microservice.
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
 1.  Open the Bookinfo site in your browser. The URL is `http://$GATEWAY_URL/productpage`, where `$GATEWAY_URL` is the External IP address of the ingress, as explained in
@@ -46,7 +46,7 @@ the [Bookinfo](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port) doc
 1.  Transfer 50% of the traffic from `reviews:v1` to `reviews:v3` with the following command:
 
     {{< text bash >}}
-    $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-50-v3.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-50-v3.yaml@
     {{< /text >}}
 
     Wait a few seconds for the new rules to propagate.
@@ -54,7 +54,7 @@ the [Bookinfo](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port) doc
 1. Confirm the rule was replaced:
 
     {{< text bash yaml >}}
-    $ istioctl get virtualservice reviews -o yaml
+    $ kubectl get virtualservice reviews -o yaml
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -87,7 +87,7 @@ more often.
 route 100% of the traffic to `reviews:v3` by applying this virtual service:
 
     {{< text bash >}}
-    $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
     {{< /text >}}
 
     Now when you refresh the `/productpage` you will always see book reviews
@@ -107,7 +107,7 @@ article [Canary Deployments using Istio](/blog/2017/0.1-canary/).
 1. Remove the application routing rules:
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
+    $ kubectl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
 1. If you are not planning to explore any follow-on tasks, refer to the

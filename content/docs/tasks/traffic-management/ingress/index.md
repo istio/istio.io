@@ -133,7 +133,7 @@ Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
 1.  Create an Istio `Gateway`:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -154,7 +154,7 @@ Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
 1.  Configure routes for traffic entering via the `Gateway`:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -225,7 +225,7 @@ As you may have guessed, entering the `httpbin` service URL in a browser won't w
 To work around this problem for simple tests and demos, use a wildcard `*` value for the host in the `Gateway` and `VirutualService` configurations. For example, if you change your ingress configuration to the following:
 
 {{< text bash >}}
-$ cat <<EOF | istioctl replace -f -
+$ cat <<EOF | kubectl apply -f -
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -278,7 +278,7 @@ and exposed an HTTP endpoint of the service to external traffic.
 Delete the `Gateway` configuration, the `VirtualService` and the secret, and shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service:
 
 {{< text bash >}}
-$ istioctl delete gateway httpbin-gateway
-$ istioctl delete virtualservice httpbin
+$ kubectl delete gateway httpbin-gateway
+$ kubectl delete virtualservice httpbin
 $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
 {{< /text >}}

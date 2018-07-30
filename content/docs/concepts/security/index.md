@@ -224,7 +224,7 @@ Istio provides two types of authentication:
 
 - Transport authentication, also known as service-to-service authentication:
   verifies the direct client making the connection. Istio offers mutual TLS
-  (mTLS) as a full stack solution for transport authentication. You can
+  as a full stack solution for transport authentication. You can
   easily turn on this feature without requiring service code changes. This
   solution:
 
@@ -285,7 +285,7 @@ specify client-side authentication rules in mutual TLS, you need to specify the
 `TLSSettings` in the `DestinationRule`. You can find more information in our
 [TLS settings reference docs](/docs/reference/config/istio.networking.v1alpha3/#TLSSettings).
 Like other Istio configuration, you can specify authentication policies in
-`.yaml` files. You deploy policies using `istioctl`.
+`.yaml` files. You deploy policies using `kubectl`.
 
 The following example authentication policy specifies that transport
 authentication for the `reviews` service must use mutual TLS:
@@ -317,7 +317,7 @@ storage:
       name: "default"
     spec:
       peers:
-      * mtls: {}
+      - mtls: {}
     {{< /text >}}
 
 - Namespace-scope policy is specified with a value of `"Policy"` for the `kind`
@@ -332,7 +332,7 @@ storage:
       namespace: "ns1"
     spec:
       peers:
-      + mtls: {}
+      - mtls: {}
     {{< /text >}}
 
 Policies in the namespace-scope storage can only affect services in the same
@@ -459,7 +459,7 @@ recommendations to avoid disruption when updating your authentication policies:
 - To enable or disable mutual TLS: Use a temporary policy with a `mode:` key
   and a `PERMISSIVE` value. This configures receiving services to accept both
   types of traffic: plain text and TLS. Thus, no request is dropped. Once all
-  clients switch to the expected protocol, with or without mTLS, you can
+  clients switch to the expected protocol, with or without mutual TLS, you can
   replace the `PERMISSIVE` policy with the final policy. For more information,
   visit the [Mutual TLS Migration tutorial](/docs/tasks/security/mtls-migration).
 
@@ -703,7 +703,7 @@ spec:
   - user: "service-account-a"
   - user: "istio-ingress-service-account"
     properties:
-    - request.auth.claims[email]: "a@foo.com"
+      request.auth.claims[email]: "a@foo.com"
   roleRef:
     kind: ServiceRole
     name: "products-viewer"

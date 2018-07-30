@@ -20,7 +20,7 @@ example application for this task.
 *   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
 
     Either use the `istio-demo.yaml` or `istio-demo-auth.yaml` template, which includes tracing support, or
-    use the helm chart with tracing enabled by setting the `--set tracing.enabled=true` option.
+    use the Helm chart with tracing enabled by setting the `--set tracing.enabled=true` option.
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
@@ -39,7 +39,7 @@ Access the Jaeger dashboard by opening your browser to [http://localhost:16686](
 With the Bookinfo application up and running, generate trace information by accessing
 `http://$GATEWAY_URL/productpage` one or more times.
 
-From the left-hand pane of the Jaeger dashboard, select productpage from the Service drop-down list and click
+From the left-hand pane of the Jaeger dashboard, select `productpage` from the Service drop-down list and click
 Find Traces. You should see something similar to the following:
 
 {{< image width="100%" ratio="52.68%"
@@ -62,14 +62,14 @@ Although every service has the same label, `istio-proxy`, because the tracing is
 the Istio sidecar (Envoy proxy) which wraps the call to the actual service,
 the label of the destination (to the right) identifies the service for which the time is represented by each line.
 
-The productpage to reviews call is represented by two spans in the trace. The first of the two spans (labeled `productpage
+The call from `productpage` to `reviews` is represented by two spans in the trace. The first of the two spans (labeled `productpage
 reviews.default.svc.cluster.local:9080/`) represents the client-side span for the call. It took 24.13ms . The second span
 (labeled `reviews reviews.default.svc.cluster.local:9080/`) is a child of the first span and represents the server-side
 span for the call. It took 22.99ms .
 
-The trace for the call to the reviews services reveals two subsequent RPC's in the trace. The first is to the istio-policy
+The trace for the call to the `reviews` services reveals two subsequent RPC's in the trace. The first is to the `istio-policy`
 service, reflecting the server-side Check call made for the service to authorize access. The second is the call out to
-the ratings service.
+the `ratings` service.
 
 ## Understanding what happened
 
@@ -87,7 +87,7 @@ To do this, an application needs to collect and propagate the following headers 
 * `x-b3-flags`
 * `x-ot-span-context`
 
-If you look in the sample services, you can see that the productpage application (Python) extracts the required headers from an HTTP request:
+If you look in the sample services, you can see that the `productpage` service (Python) extracts the required headers from an HTTP request:
 
 {{< text python >}}
 def getForwardHeaders(request):

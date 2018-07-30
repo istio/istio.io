@@ -7,6 +7,7 @@ aliases:
     - /docs/reference/feature-stages.html
     - /docs/welcome/feature-stages.html
     - /docs/home/roadmap.html
+page_icon: /img/feature-status.svg
 ---
 
 此页面列出了每个 Istio 功能的相对成熟度和支持级别。请注意，阶段（Alpha、Beta 和 Stable）适用于项目中的各个功能，而不是对于整个项目。以下是对这些标签含义的高级描述：
@@ -75,7 +76,7 @@ aliases:
 | [认证策略](/docs/concepts/security/#authentication-policies)  | Alpha
 | [End User（JWT）认证](/docs/concepts/security/#authentication)  | Alpha
 | [VM：服务凭证分发](/docs/concepts/security/#key-management)         | Beta
-| [增量 mTLS](/docs/tasks/security/mtls-migration)    | Beta
+| [增量双向 TLS](/docs/tasks/security/mtls-migration)    | Beta
 | [OPA Checker]({{< github_file >}}/mixer/adapter/opa/README.md)    | Alpha
 | [认证（RBAC）](/docs/concepts/security/#authorization)   | Alpha
 

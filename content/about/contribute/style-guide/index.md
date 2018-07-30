@@ -58,8 +58,8 @@ represents.
 
 |Do                          | Don't
 |----------------------------|------
-|The `kubectl run` command creates a `Deployment`.|The "kubectl run" command creates a `Deployment`.
-|For declarative management, use `kubectl apply`.|For declarative management, use "kubectl apply".
+|The `foo run` command creates a `Deployment`.|The "foo run" command creates a `Deployment`.
+|For declarative management, use `foo apply`.|For declarative management, use "foo apply".
 
 ### Use `code` style for object field names
 
@@ -105,14 +105,14 @@ It is not a proper noun.
 
 |Do              | Don't
 |----------------|------
-| load balancing | load-balancing
-| multicluster   | multi-cluster
-| add-on         | add-on
-| service mesh   | Service Mesh
-| sidecar        | side-car, Sidecar
-| Kubernetes     | kubernetes, k8s
-| Bookinfo       | BookInfo, bookinfo
-| Mixer          | mixer
+| load balancing | `load-balancing`
+| multicluster   | `multi-cluster`
+| add-on         | `add-on`
+| service mesh   | `Service Mesh`
+| sidecar        | `side-car`, `Sidecar`
+| Kubernetes     | `kubernetes`, `k8s`
+| Bookinfo       | `BookInfo`, `bookinfo`
+| Mixer          | `mixer`
 
 ## Best practices
 

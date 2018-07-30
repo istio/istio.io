@@ -7,6 +7,7 @@ aliases:
     - /docs/reference/feature-stages.html
     - /docs/welcome/feature-stages.html
     - /docs/home/roadmap.html
+page_icon: /img/feature-status.svg
 ---
 
 This page lists the relative maturity and support
@@ -66,7 +67,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Authentication policy](/docs/concepts/security/#authentication-policies)  | Alpha
 | [End User (JWT) Authentication](/docs/concepts/security/#authentication)  | Alpha
 | [VM: Service Credential Distribution](/docs/concepts/security/#key-management)         | Beta
-| [Incremental mTLS](/docs/tasks/security/mtls-migration)    | Beta
+| [Mutual TLS Migration](/docs/tasks/security/mtls-migration)    | Beta
 | [OPA Checker](/docs/reference/config/policy-and-telemetry/adapters/opa/)    | Alpha
 | [Authorization (RBAC)](/docs/concepts/security/#authorization)   | Alpha
 
