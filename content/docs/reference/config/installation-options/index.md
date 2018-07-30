@@ -1,7 +1,7 @@
 ---
-title: Installation Options
+title: Helm Installation Options
 description: Describes the options available when installing Istio using the included Helm chart.
-weight: 30
+weight: 10
 keywords: [kubernetes,helm]
 ---
 
