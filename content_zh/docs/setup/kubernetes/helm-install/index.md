@@ -6,6 +6,7 @@ keywords: [kubernetes,helm]
 aliases:
     - /docs/setup/kubernetes/helm.html
     - /docs/tasks/integrating-services-into-istio.html
+page_icon: /img/helm.svg
 ---
 
 使用 Helm 安装和配置 Istio 的快速入门说明。
