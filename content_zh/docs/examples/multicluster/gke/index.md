@@ -13,11 +13,11 @@ keywords: [kubernetes,multicluster]
 
 * 这个例子需要一个有效的 Google Platform 项目
 
-
 * 此示例需要启用结算的有效 Google Cloud Platform 项目。
 
     * 如果你还没有建立 GCP 用户，那么还可以申请 300 美元的[免费试用](https://cloud.google.com/free/)额度。
-    * [创建一个 Google Cloud Project ](https://cloud.google.com/resource-manager/docs/creating-managing-projects) 来运行你的 GKE 集群。
+
+    * [创建一个 Google Cloud Project](https://cloud.google.com/resource-manager/docs/creating-managing-projects) 来运行你的 GKE 集群。
 
 * 安装并初始化 [Google Cloud SDK](https://cloud.google.com/sdk/install)
 
@@ -60,7 +60,7 @@ keywords: [kubernetes,multicluster]
     $ gcloud container clusters list
     {{< /text >}}
 
-1. 获取集群凭据（[命令详情 ](https://cloud.google.com/sdk/gcloud/reference/container/clusters/get-credentials)）：
+1. 获取集群凭据（[命令详情](https://cloud.google.com/sdk/gcloud/reference/container/clusters/get-credentials)）：
 
     {{< text bash >}}
     $ gcloud container clusters get-credentials cluster-1 --zone $zone
@@ -69,14 +69,14 @@ keywords: [kubernetes,multicluster]
 
 1. 使用 `kubectl` 访问各个集群：
 
-    1. 检查 cluster-1
+    1. 检查 `cluster-1`：
 
         {{< text bash >}}
         $ kubectl config use-context "gke_${proj}_${zone}_cluster-1"
         $ kubectl get pods --all-namespaces
         {{< /text >}}
 
-    1. 检查 cluster-2:
+    1. 检查 `cluster-2`：
 
         {{< text bash >}}
         $ kubectl config use-context "gke_${proj}_${zone}_cluster-2"
@@ -302,4 +302,4 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
     $ kubectl get svc istio-ingressgateway -n istio-system
     {{< /text >}}
 
-    重复访问 `http://<GATEWAY_IP>/productpage`，每个版本的 `reviews` 服务应该会以同样几率做出响应，其中包含了远端集群的 `reviews-v3`（红色）。可能需要多次访问才能看到预期效果。 
+    重复访问 `http://<GATEWAY_IP>/productpage`，每个版本的 `reviews` 服务应该会以同样几率做出响应，其中包含了远端集群的 `reviews-v3`（红色）。可能需要多次访问才能看到预期效果。
