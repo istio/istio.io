@@ -14,7 +14,7 @@ Istio 0.1 是 Istio 的第一个 [release](https://github.com/istio/istio/releas
 - 支持超时、重试预算和断路器。
 - Istio 集成的 Kubernetes Ingress 支持（ Istio 充当 Ingress 控制器）。
 - 细粒度的流量路由控制、包括 A/B 测试、金丝雀部署、红/黑部署。
-- 灵活的内存速率限制。
+- 灵活的内存速率限制 。
 - L7 遥测和使用 Prometheus 记录 HTTP 和 gRPC。
 - Grafana 仪表板显示每服务 L7 指标。
 - 请求使用 Zipkin 通过 Envoy 进行追踪。
