@@ -4,10 +4,6 @@ description: Describes tools and techniques to observe traffic management or iss
 weight: 5
 ---
 
-* Provide operational statistics that can be used to observe the traffic management
-
-* Provide pointers to tools that should be used to ensure the networking aspects are not getting stressed or over-loaded
-
 ## Envoy is crashing under load
 
 Check your `ulimit -a`. Many systems have a 1024 open file descriptor limit by default which will cause Envoy to assert and crash with:
