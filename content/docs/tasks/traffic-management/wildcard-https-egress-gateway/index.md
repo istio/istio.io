@@ -261,8 +261,8 @@ access to _*.wikipedia.org_ to support HTTPS traffic to arbitrary wildcarded dom
     user www-data;
 
     stream {
-      log_format log_stream '$remote_addr [$time_local] $protocol [$ssl_preread_server_name]'
-      '$status $bytes_sent $bytes_received $session_time';
+      log_format log_stream '\$remote_addr [\$time_local] \$protocol [\$ssl_preread_server_name]'
+      '\$status \$bytes_sent \$bytes_received \$session_time';
 
       access_log /var/log/nginx/access.log log_stream;
       error_log  /var/log/nginx/error.log;
@@ -271,7 +271,7 @@ access to _*.wikipedia.org_ to support HTTPS traffic to arbitrary wildcarded dom
       server {
         resolver 8.8.8.8 ipv6=off;
         listen       127.0.0.1:443;
-        proxy_pass   $ssl_preread_server_name:443;
+        proxy_pass   \$ssl_preread_server_name:443;
         ssl_preread  on;
       }
     }
