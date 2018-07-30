@@ -4,17 +4,17 @@ description: Authorization is enabled, but requests make it through anyway.
 weight: 50
 ---
 If authorization checks are enabled for a service and yet requests to the service aren't being blocked, then
-it's likely that authorization was not actually enabled successfully. You can do the following to verify:
+authorization was likely not enabled successfully. To verify, follow these steps:
 
-1. Check [this page](/docs/concepts/security/#enabling-authorization) to find out how to correctly enable
+1. Check [enable authorization docs](/docs/concepts/security/#enabling-authorization) to correctly enable
 Istio authorization.
 
 1. Avoid enabling authorization for Istio Control Planes Components, including Mixer, Pilot, Ingress.
 Istio authorization is designed for authorizing access to services in Istio Mesh. Enabling it
-for Istio Control Planes Components may cause unexpected behavior.
+for the Istio Control Planes components can cause unexpected behavior.
 
-1. In Kubernetes environment, check deployments in all namespaces to make sure there is no legacy
-deployment left that could cause error in Pilot. Authorization plugin in Pilot could be disabled if
+1. In your Kubernetes environment, check deployments in all namespaces to make sure there is no legacy
+deployment left that can cause an error in Pilot. You can disable Pilot's authorization plug-in if
 there is error pushing authorization policy to Envoy.
 
-1. Follow the [Debugging Authorization](/help/ops/security/debugging-authorization/) to find out the exact cause.
+1. Follow the [Debugging Authorization docs](/help/ops/security/debugging-authorization/) to find out the exact cause.

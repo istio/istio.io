@@ -13,9 +13,9 @@ NAME                                     READY     STATUS   RESTARTS   AGE
 istio-citadel-ff5696f6f-ht4gq            1/1       Running  0          25d
 {{< /text >}}
 
-If `istio-citadel` pod does not exist, you should try to re-deploy it.
+If the `istio-citadel` pod doesn't exist, try to re-deploy the pod.
 
-If `istio-citadel` is present, but its status is not `Running`, try the commands below to get more
+If the `istio-citadel` pod is present but its status is not `Running`, run the commands below to get more
 debugging information and check if there are any errors:
 
 {{< text bash >}}
