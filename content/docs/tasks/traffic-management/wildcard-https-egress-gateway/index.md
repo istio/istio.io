@@ -253,6 +253,38 @@ access to _*.wikipedia.org_ to support HTTPS traffic to arbitrary wildcarded dom
     EOF
     {{< /text >}}
 
+1.  Create a configuration file for the Nginx SNI proxy. You may want to edit the file to specify additional Nginx
+    settings, if required.
+
+    {{< text bash >}}
+    $ cat <<EOF > $HOME/nginx-sni-proxy.conf
+    user www-data;
+
+    stream {
+      log_format log_stream '$remote_addr [$time_local] $protocol [$ssl_preread_server_name]'
+      '$status $bytes_sent $bytes_received $session_time';
+
+      access_log /var/log/nginx/access.log log_stream;
+      error_log  /var/log/nginx/error.log;
+
+      # tcp forward proxy by SNI
+      server {
+        resolver 8.8.8.8 ipv6=off;
+        listen       127.0.0.1:443;
+        proxy_pass   $ssl_preread_server_name:443;
+        ssl_preread  on;
+      }
+    }
+    EOF
+    {{< /text >}}
+
+1.  Create a Kubernetes [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/)
+to hold the configuration of the Nginx SNI proxy:
+
+    {{< text bash >}}
+    $ kubectl create configmap egress-sni-proxy-configmap --from-file=$HOME/nginx-sni-proxy.conf
+    {{< /text >}}
+
 1.  Deploy the new egress gateway:
 
     {{< text bash >}}
@@ -440,12 +472,14 @@ access to _*.wikipedia.org_ to support HTTPS traffic to arbitrary wildcarded dom
     $ istioctl delete virtualservice direct-wikipedia-through-egress-gateway wikipedia
     $ istioctl delete destinationrule set-sni-for-egress-gateway
     $ kubectl delete -f $HOME/istio-egressgateway-with-sni-proxy.yaml
+    $ kubectl delete configmap egress-sni-proxy-configmap
     {{< /text >}}
 
-1. Remove the new egress gateway configuration file:
+1. Remove the configuration files you created
 
     {{< text bash >}}
     $ rm $HOME/istio-egressgateway-with-sni-proxy.yaml
+    $ rm $HOME/nginx-sni-proxy.conf
     {{< /text >}}
 
 ## Cleanup
