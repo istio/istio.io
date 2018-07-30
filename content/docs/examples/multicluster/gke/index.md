@@ -5,7 +5,7 @@ weight: 65
 keywords: [kubernetes,multicluster]
 ---
 
-This example demonstrates how to use Istio' multicluster feature to join 2
+This example demonstrates how to use Istio's multicluster feature to join 2
 [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) clusters together,
 using the [Kubernetes multicluster installation instructions](/docs/setup/kubernetes/multicluster-install/).
 
@@ -100,9 +100,9 @@ To allow the pods on each cluster to directly communicate, create the following 
 {{< text bash >}}
 $ function join_by { local IFS="$1"; shift; echo "$*"; }
 $ ALL_CLUSTER_CIDRS=$(gcloud container clusters list --format='value(clusterIpv4Cidr)' | sort | uniq)
-$ ALL_CLUSTER_CIDRS=$(join_by , ${ALL_CLUSTER_CIDRS})
+$ ALL_CLUSTER_CIDRS=$(join_by , $(echo "${ALL_CLUSTER_CIDRS}"))
 $ ALL_CLUSTER_NETTAGS=$(gcloud compute instances list --format='value(tags.items.[0])' | sort | uniq)
-$ ALL_CLUSTER_NETTAGS=$(join_by , ${ALL_CLUSTER_NETTAGS})
+$ ALL_CLUSTER_NETTAGS=$(join_by , $(echo "${ALL_CLUSTER_NETTAGS}"))
 $ gcloud compute firewall-rules create istio-multicluster-test-pods \
   --allow=tcp,udp,icmp,esp,ah,sctp \
   --direction=INGRESS \
@@ -220,6 +220,7 @@ The filename for a cluster is the same as the original `kubeconfig` cluster name
 Create a secret and label it properly for each remote cluster:
 
 {{< text bash >}}
+$ kubectl config use-context "gke_${proj}_${zone}_cluster-1"
 $ kubectl create secret generic ${CLUSTER_NAME} --from-file ${KUBECFG_FILE} -n ${NAMESPACE}
 $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
 {{< /text >}}
@@ -287,7 +288,6 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
             imagePullPolicy: IfNotPresent
             ports:
             - containerPort: 9080
-    EOF
     {{< /text >}}
 
     _Note:_ The `ratings` service definition is added to the remote cluster because `reviews-v3` is a
@@ -300,7 +300,7 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
 
     {{< text bash >}}
     $ kubectl config use-context "gke_${proj}_${zone}_cluster-2"
-    $ kube apply -f $HOME/reviews-v3.yaml
+    $ kubectl apply -f $HOME/reviews-v3.yaml
     {{< /text >}}
 
 1.  Get the `istio-ingressgateway` service's external IP to access the `bookinfo` page to validate that Istio
@@ -314,3 +314,25 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
     including `reviews-v3` in the remote cluster (red stars).  It may take several accesses (dozens) to demonstrate
     the equal loadbalancing between `reviews` versions.
 
+## Uninstalling
+
+The following should be done in addition to the uninstall of Istio as described in the
+[Kubernetes multicluster installation instructions](/docs/setup/kubernetes/multicluster-install/):
+
+1.  Delete the Google Cloud firewall rule:
+
+    {{< text bash >}}
+    $ gcloud compute firewall-rules delete istio-multicluster-test-pods --quiet
+    {{< /text >}}
+
+1.  Delete the `cluster-admin` cluster role binding from each cluster no longer being used for Istio:
+
+    {{< text bash >}}
+    $ kubectl delete clusterrolebinding gke-cluster-admin-binding
+    {{< /text >}}
+
+1.  Delete any GKE clusters no longer in use.  The following is an example delete command for the remote cluster, `cluster-2`:
+
+    {{< text bash >}}
+    $ gcloud container clusters delete cluster-2 --zone $zone
+    {{< /text >}}
