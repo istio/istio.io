@@ -32,9 +32,7 @@ page_icon: /img/notes.svg
 ## 安全
 
 - **授权**。我们重新实现了[授权功能](/docs/concepts/security/#authorization)。现在可以在不需要 Mixer 和 Mixer 适配器的情况下实现 RPC 级授权策略。
-- **改进的相互 TLS 认证控制**。现在，在服务之间[控制相互 TLS 身份验证](/docs/concepts/security/#authentication)变得更加容易。我们提供 “PERMISSIVE” 模式，以便您可以逐步为您的服务启用相互 TLS。我们删除了服务注解，并采用了[一种独特的方法来启用相互 TLS](/docs/tasks/security/authn-policy/)，以及客户端[目标规则](/docs/concepts/traffic-management/#destination-rules)。
-- **JWT Authentication**. We now support [JWT authentication](/docs/concepts/security/#authentication) which can
-  be configured using [authentication policies](/docs/concepts/security/#authentication-policies).
+- **改进的双向 TLS 认证控制**。现在，在服务之间[控制双向 TLS 身份验证](/docs/concepts/security/#authentication)变得更加容易。我们提供 “PERMISSIVE” 模式，以便您可以逐步为您的服务启用双向 TLS。我们删除了服务注解，并采用了[一种独特的方法来启用双向 TLS](/docs/tasks/security/authn-policy/)，以及客户端[目标规则](/docs/concepts/traffic-management/#destination-rules)。
 - **JWT 认证**。我们现在支持可以使用[身份验证策略](/docs/concepts/security/#authentication-policies)配置的 [JWT身份验证](/docs/concepts/security/#authentication)。
 
 ## `istioctl`
