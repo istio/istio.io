@@ -17,7 +17,7 @@ Additionally, you can use following commands to know more about the state of the
     $ istioctl proxy-config --help
     {{< /text >}}
 
-* `istioctl get`: Gets information about different resources in mesh/routing config.
+* `kubectl get`: Gets information about different resources in mesh and routing configuration.
 
     {{< text plain >}}
     # List all virtual services
