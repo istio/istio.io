@@ -7,6 +7,7 @@ aliases:
     - /docs/reference/feature-stages.html
     - /docs/welcome/feature-stages.html
     - /docs/home/roadmap.html
+page_icon: /img/feature-status.svg
 ---
 
 此页面列出了每个 Istio 功能的相对成熟度和支持级别。请注意，阶段（Alpha、Beta 和 Stable）适用于项目中的各个功能，而不是对于整个项目。以下是对这些标签含义的高级描述：
