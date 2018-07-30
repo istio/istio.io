@@ -144,7 +144,7 @@ title: Istio
 </main>
 
 <script>
-var countDownDate = new Date("Jul 31, 2018 0:00:00 PDT").getTime();
+var countDownDate = new Date("Jul 31, 2018 9:00:00 PDT").getTime();
 
 var x = setInterval(function() {
     var now = new Date().getTime();
