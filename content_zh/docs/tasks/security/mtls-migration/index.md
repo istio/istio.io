@@ -46,7 +46,7 @@ keywords: [security,authentication,migration]
     No resources found.
     {{< /text >}}
 
-## 配置服务器使其同时能接收 mTLS 以及明文流量
+## 配置服务器使其同时能接收双向 TLS 以及明文流量
 
 在认证策略中有一个 `PERMISSIVE` 模式，这种模式让服务器能够同时接收明文和双向 TLS 流量。下面就把服务器设置为这种模式：
 
@@ -108,7 +108,7 @@ $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sle
 
 ## 锁定使用双向 TLS (可选)
 
-把所有进行过 sidecar 注入的客户端到服务器流量都迁移到 mTLS 之后，就可以设置 `httpbin.foo` 只支持双向 TLS 流量了。
+把所有进行过 sidecar 注入的客户端到服务器流量都迁移到双向 TLS 之后，就可以设置 `httpbin.foo` 只支持双向 TLS 流量了。
 
 {{< text bash >}}
 $ cat <<EOF | istioctl create -n foo -f -

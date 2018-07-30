@@ -55,7 +55,7 @@ Fortio 是一个快速、小巧、可重复使用、可嵌入的 go 库以及命
 
 Fortio 也是 100％ 开源的，除了 go 和 gRPC 之外没有外部依赖，因此您可以轻松地重现我们的所有结果并添加您自己想要探索的变量或场景。
 
-下面是一个在 `istio-0.7.1` 上绘制的，在网格（使用 mTLS，Mixer 检查和遥测）中的两个服务间以 400 每秒查询率（qps）进行测试的示例场景结果（我们为每个版本运行的 8 个场景之一）的延迟分布图：
+下面是一个在 `istio-0.7.1` 上绘制的，在网格（使用双向 TLS、Mixer 检查和遥测）中的两个服务间以 400 每秒查询率（qps）进行测试的示例场景结果（我们为每个版本运行的 8 个场景之一）的延迟分布图：
 
 <iframe src="https://fortio.istio.io/browse?url=qps_400-s1_to_s2-0.7.1-2018-04-05-22-06.json&xMax=105&yLog=true" width="100%" height="1024" scrolling="no" frameborder="0"></iframe>
 
@@ -130,7 +130,7 @@ Acmeair 基准测试应用程序可以在这里找到：[IBM's BluePerf](https:/
 
 * 截至 0.7.1 版本，service-service（涉及 2 个代理，mixer telemetry 和检查）延迟消耗/开销约为 [10 毫秒](https://fortio.istio.io/browse?url=qps_400-s1_to_s2-0.7.1-2018-04-05-22-06.json)，我们希望将其降低到个位数毫秒级别。
 
-* 在 CPU 和延迟方面，AES-NI 硬件支持的 mTLS 成本可以忽略不计。
+* 在 CPU 和延迟方面，AES-NI 硬件支持的双向 TLS 成本可以忽略不计。
 
 我们计划为采用 Istio "点菜（A la carte）” 的客户提供更详细的指导。
 
