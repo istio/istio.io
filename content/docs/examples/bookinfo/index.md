@@ -15,16 +15,16 @@ pages, and so on), and a few book reviews.
 
 The Bookinfo application is broken into four separate microservices:
 
-* *productpage*. The productpage microservice calls the *details* and *reviews* microservices to populate the page.
-* *details*. The details microservice contains book information.
-* *reviews*. The reviews microservice contains book reviews. It also calls the *ratings* microservice.
-* *ratings*. The ratings microservice contains book ranking information that accompanies a book review.
+* `productpage`. The `productpage` microservice calls the `details` and `reviews` microservices to populate the page.
+* `details`. The `details` microservice contains book information.
+* `reviews`. The `reviews` microservice contains book reviews. It also calls the `ratings` microservice.
+* `ratings`. The `ratings` microservice contains book ranking information that accompanies a book review.
 
-There are 3 versions of the reviews microservice:
+There are 3 versions of the `reviews` microservice:
 
-* Version v1 doesn't call the ratings service.
-* Version v2 calls the ratings service, and displays each rating as 1 to 5 black stars.
-* Version v3 calls the ratings service, and displays each rating as 1 to 5 red stars.
+* Version v1 doesn't call the `ratings` service.
+* Version v2 calls the `ratings` service, and displays each rating as 1 to 5 black stars.
+* Version v3 calls the `ratings` service, and displays each rating as 1 to 5 red stars.
 
 The end-to-end architecture of the application is shown below.
 
@@ -36,7 +36,7 @@ The end-to-end architecture of the application is shown below.
 This application is polyglot, i.e., the microservices are written in different languages.
 It’s worth noting that these services have no dependencies on Istio, but make an interesting
 service mesh example, particularly because of the multitude of services, languages and versions
-for the reviews service.
+for the `reviews` service.
 
 ## Before you begin
 
@@ -135,18 +135,16 @@ Now that the Bookinfo services are up and running, you need to make the applicat
 Kubernetes cluster, e.g., from a browser. An [Istio Gateway](/docs/concepts/traffic-management/#gateways)
 is used for this purpose.
 
-> Note that the `istioctl` (the Istio CLI) is used in the following commands, instead of `kubectl`. This is because the Kubernetes application is now deployed and the following commands are managing Istio-specific configuration. In a Kubernetes environment, you can replace `istioctl` with `kubectl` if you prefer to stick to one CLI, however, `istioctl` does provide significantly better output and is recommended.
-
 1.  Define the ingress gateway for the application:
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
     {{< /text >}}
 
 1.  Confirm the gateway has been created:
 
     {{< text bash >}}
-    $ istioctl get gateway
+    $ kubectl get gateway
     GATEWAY NAME       HOSTS     NAMESPACE   AGE
     bookinfo-gateway   *         default     2d
     {{< /text >}}
@@ -192,7 +190,7 @@ is used for this purpose.
     in `samples/bookinfo/networking` will not work due to an issue with the current implementation of the default subdomain
     for short service host names. For now, you need to use the corresponding yaml files in `samples/bookinfo/platform/consul`.
     For example, replace `samples/bookinfo/networking/destination-rule-all.yaml` with
-    `samples/bookinfo/platform/consul/destination-rule-all.yaml` in the `istioctl create` command, below.
+    `samples/bookinfo/platform/consul/destination-rule-all.yaml` in the `kubectl apply` command, below.
 
 ## Confirm the app is running
 
@@ -205,27 +203,27 @@ $ curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage
 
 You can also point your browser to `http://$GATEWAY_URL/productpage`
 to view the Bookinfo web page. If you refresh the page several times, you should
-see different versions of reviews shown in productpage, presented in a round robin style (red
+see different versions of reviews shown in `productpage`, presented in a round robin style (red
 stars, black stars, no stars), since we haven't yet used Istio to control the
 version routing.
 
 ## Apply default destination rules
 
-Before you can use Istio to control the bookinfo version routing, you need to define the available
+Before you can use Istio to control the Bookinfo version routing, you need to define the available
 versions, called *subsets*, in destination rules.
 
-Run the following command to create default destination rules for the bookinfo services:
+Run the following command to create default destination rules for the Bookinfo services:
 
 * If you did **not** enable mutual TLS, execute this command:
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/networking/destination-rule-all.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all.yaml@
     {{< /text >}}
 
 * If you **did** enable mutual TLS, execute this command:
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
     {{< /text >}}
 
 Wait a few seconds for the destination rules to propagate.
@@ -233,7 +231,7 @@ Wait a few seconds for the destination rules to propagate.
 You can display the destination rules with the following command:
 
 {{< text bash >}}
-$ istioctl get destinationrules -o yaml
+$ kubectl get destinationrules -o yaml
 {{< /text >}}
 
 ## What's next
@@ -260,9 +258,9 @@ it up using the following instructions corresponding to your Istio runtime envir
 1.  Confirm shutdown
 
     {{< text bash >}}
-    $ istioctl get virtualservices   #-- there should be no virtual services
-    $ istioctl get destinationrules  #-- there should be no destination rules
-    $ istioctl get gateway           #-- there should be no gateway
+    $ kubectl get virtualservices   #-- there should be no virtual services
+    $ kubectl get destinationrules  #-- there should be no destination rules
+    $ kubectl get gateway           #-- there should be no gateway
     $ kubectl get pods               #-- the Bookinfo pods should be deleted
     {{< /text >}}
 
@@ -279,6 +277,6 @@ it up using the following instructions corresponding to your Istio runtime envir
 1.  Confirm cleanup
 
     {{< text bash >}}
-    $ istioctl get virtualservices   #-- there should be no more routing rules
+    $ kubectl get virtualservices   #-- there should be no more routing rules
     $ docker ps -a                   #-- the Bookinfo containers should be deleted
     {{< /text >}}

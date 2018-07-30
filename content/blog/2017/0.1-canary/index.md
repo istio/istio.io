@@ -88,11 +88,11 @@ spec:
 Note that this is exactly the same way we would do a [canary deployment](https://kubernetes.io/docs/concepts/cluster-administration/manage-deployment/#canary-deployments) using plain Kubernetes, but in that case we would need to adjust the number of replicas of each Deployment to control the distribution of traffic. For example, to send 10% of the traffic to the canary version (**v2**), the replicas for **v1** and **v2** could be set to 9 and 1, respectively.
 
 However, since we are going to deploy the service in an [Istio enabled](/docs/setup/) cluster, all we need to do is set a routing
-rule to control the traffic distribution. For example if we want to send 10% of the traffic to the canary, we could use the
-[istioctl](/docs/reference/commands/istioctl/) command to set a routing rule something like this:
+rule to control the traffic distribution. For example if we want to send 10% of the traffic to the canary, we could use `kubectl`
+to set a routing rule something like this:
 
 {{< text bash >}}
-$ cat <<EOF | istioctl create -f -
+$ cat <<EOF | kubectl apply -f -
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -183,7 +183,7 @@ helloworld-v2-4095161145-963wt   2/2       Running   0          1h
 As mentioned above, the Istio routing rules can be used to route traffic based on specific criteria, allowing more sophisticated canary deployment scenarios. Say, for example, instead of exposing the canary to an arbitrary percentage of users, we want to try it out on internal users, maybe even just a percentage of them. The following command could be used to send 50% of traffic from users at *some-company-name.com* to the canary version, leaving all other users unaffected:
 
 {{< text bash >}}
-$ cat <<EOF | istioctl create -f -
+$ cat <<EOF | kubectl apply -f -
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:

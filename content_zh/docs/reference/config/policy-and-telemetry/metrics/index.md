@@ -102,7 +102,7 @@ weight: 50
     destination_version: destination.labels["version"] | "unknown"
     {{< /text >}}
 
-*   **目的 Service（Destination Service）**：标识了负责处理传入请求的目的 service。例如："details.default.svc.cluster.local"。
+*   **目的 Service（Destination Service）**：标识了负责处理传入请求的目的 service。例如：`details.default.svc.cluster.local`。
 
     {{< text yaml >}}
     destination_service: destination.service.host | "unknown"

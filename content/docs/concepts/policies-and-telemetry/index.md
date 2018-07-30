@@ -174,7 +174,7 @@ Controlling the policy and telemetry features involves configuring three types o
 
 * Configuring a set of *handlers*, which determine the set of adapters that
 are being used and how they operate. Providing a `statsd` adapter with the IP
-address for a statsd backend is an example of handler configuration.
+address for a Statsd backend is an example of handler configuration.
 
 * Configuring a set of *instances*, which describe how to map request attributes into adapter inputs.
 Instances represent a chunk of data that one or more adapters will operate
@@ -277,7 +277,7 @@ templates and their specific configuration formats](/docs/reference/config/polic
 ### Rules
 
 Rules specify when a particular handler is invoked with a specific instance.
-Consider an example where you want to deliver the `requestduration` metric to the prometheus handler if
+Consider an example where you want to deliver the `requestduration` metric to the `prometheus` handler if
 the destination service is `service1` and the `x-user` request header has a specific value.
 
 {{< text yaml >}}

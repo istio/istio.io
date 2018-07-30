@@ -19,7 +19,7 @@ the example application throughout this task.
 
 ## Viewing the Istio Dashboard
 
-1.  Verify that the prometheus service is running in your cluster.
+1.  Verify that the `prometheus` service is running in your cluster.
 
     In Kubernetes environments, execute the following command:
 

@@ -27,7 +27,7 @@ of traffic for a particular service to go to a canary version irrespective
 of the size of the canary deployment, or send traffic to a particular version
 depending on the content of the request.
 
-{{< image width="85%" ratio="69.52%"
+{{< image width="85%" ratio="75%"
     link="./TrafficManagementOverview.svg"
     caption="Traffic Management with Istio"
     >}}
@@ -61,7 +61,7 @@ routing rules.
 Pilot is responsible for the lifecycle of Envoy instances deployed
 across the Istio service mesh.
 
-{{< image width="60%" ratio="72.17%"
+{{< image width="60%" ratio="70%"
     link="./PilotAdapters.svg"
     caption="Pilot Architecture"
     >}}
@@ -104,7 +104,7 @@ additional control over traffic between services.
 
 ### Communication between services
 
-{{< image width="60%" ratio="100.42%"
+{{< image width="60%" ratio="100%"
     link="./ServiceModel_Versions.svg"
     alt="Showing how service versions are handled."
     caption="Service Versions"
@@ -144,7 +144,7 @@ via the Envoy sidecar, you can add failure recovery features such as
 timeouts, retries, and circuit breakers and obtain detailed metrics on
 the connections to these services.
 
-{{< image width="60%" ratio="28.88%"
+{{< image width="85%" ratio="35.51%"
     link="./ServiceModel_RequestFlow.svg"
     alt="Ingress and Egress through Envoy."
     caption="Request Flow"
@@ -167,7 +167,7 @@ registry and provides a platform-independent service discovery
 interface. Envoy instances in the mesh perform service discovery and
 dynamically update their load balancing pools accordingly.
 
-{{< image width="55%" ratio="74.79%"
+{{< image width="55%" ratio="80%"
     link="./LoadBalancing.svg"
     caption="Discovery and Load Balancing"
     >}}
@@ -363,12 +363,9 @@ spec:
       version: v2
 {{< /text >}}
 
-Rules can be configured using the
-[istioctl CLI](/docs/reference/commands/istioctl/), or in a Kubernetes
-deployment using the `kubectl` command instead, although `istioctl` provides
-better output and is recommended. See the
-[configuring request routing task](/docs/tasks/traffic-management/request-routing/)
-for examples.
+Rules can be configured using the `kubectl` command. See the
+[configuring request routing
+task](/docs/tasks/traffic-management/request-routing/) for examples.
 
 The following sections provide a basic overview of the traffic management configuration resources.
 See [networking reference](/docs/reference/config/istio.networking.v1alpha3/)

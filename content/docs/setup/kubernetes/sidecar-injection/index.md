@@ -1,5 +1,5 @@
 ---
-title: Installing the Istio sidecar
+title: Installing the sidecar
 description: Instructions for installing the Istio sidecar in application pods automatically using the sidecar injector webhook or manually using istioctl CLI.
 weight: 30
 keywords: [kubernetes,sidecar,sidecar-injection]
@@ -7,38 +7,13 @@ aliases:
     - /docs/setup/kubernetes/automatic-sidecar-inject.html
 ---
 
-## Pod spec requirements
-
-In order to be a part of the service mesh, each pod in the Kubernetes
-cluster must satisfy the following requirements:
-
-1. _**Service association**:_ The pod must belong to a _single_
-  [Kubernetes Service](https://kubernetes.io/docs/concepts/services-networking/service/)
-  (pods that belong to multiple services are not supported as of now).
-
-1. _**Named ports**:_ Service ports must be named. The port names must be of
-  the form `<protocol>[-<suffix>]` with _http_, _http2_, _grpc_, _mongo_, or _redis_
-  as the `<protocol>` in order to take advantage of Istio's routing features.
-  For example, `name: http2-foo` or `name: http` are valid port names, but
-  `name: http2foo` is not.  If the port name does not begin with a recognized
-  prefix or if the port is unnamed, traffic on the port will be treated as
-  plain TCP traffic (unless the port explicitly uses `Protocol: UDP` to
-  signify a UDP port).
-
-1. _**Deployments with app label**:_ It is recommended that Pods deployed using
-  the Kubernetes `Deployment` have an explicit `app` label in the
-  Deployment specification. Each deployment specification should have a
-  distinct `app` label with a value indicating something meaningful. The
-  `app` label is used to add contextual information in distributed
-  tracing.
-
-1. _**Sidecar in every pod in mesh**:_ Finally, each pod in the mesh must be
-  running an Istio compatible sidecar. The following sections describe two
-  ways of injecting the Istio sidecar into a pod: manually using `istioctl`
-  CLI tool or automatically using the Istio sidecar injector.  Note that the
-  sidecar is not involved in traffic between containers in the same pod.
-
 ## Injection
+
+Each pod in the mesh must be running an Istio compatible sidecar.
+
+The following sections describe two
+ways of injecting the Istio sidecar into a pod: manually using the `istioctl`
+CLI tool or automatically using the Istio sidecar injector.
 
 Manual injection modifies the controller configuration, e.g. deployment. It
 does this by modifying the pod template spec such that *all* pods for that
