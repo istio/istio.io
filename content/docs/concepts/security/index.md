@@ -557,30 +557,30 @@ Kubernetes `CustomResourceDefinition` [(CRD)](https://kubernetes.io/docs/concept
 The combination of `ServiceRole` and `ServiceRoleBinding` specifies: **who** is
 allowed to do **what** under **which conditions**. Specifically:
 
-- **who** refers to the `subjects:` section in `ServiceRoleBinding`.
-- **what** refers to the `permissions:` section in `ServiceRole`.
-- **which conditions** refers to the `conditions:` section you can specify with
+- **who** refers to the `subjects` section in `ServiceRoleBinding`.
+- **what** refers to the `permissions` section in `ServiceRole`.
+- **which conditions** refers to the `conditions` section you can specify with
   the [Istio attributes](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/)
   in either `ServiceRole` or `ServiceRoleBinding`.
 
 #### `ServiceRole`
 
-A `ServiceRole` specification includes a list of `rules:`, AKA permissions.
+A `ServiceRole` specification includes a list of `rules`, AKA permissions.
 Each rule has the following standard fields:
 
-- **`services:`** A list of service names. You can set the value to `*` to
+- **`services`**: A list of service names. You can set the value to `*` to
   include all services in the specified namespace.
 
-- **`methods:`** A list of HTTP method names, for permissions on gRPC requests,
+- **`methods`**: A list of HTTP method names, for permissions on gRPC requests,
   the HTTP verb is always `POST`. You can set the value to `*` to include all
   HTTP methods.
 
-- **`paths:`** HTTP paths or gRPC methods. The gRPC methods must be in the
+- **`paths`**: HTTP paths or gRPC methods. The gRPC methods must be in the
    form of `/packageName.serviceName/methodName` and are case sensitive.
 
 A `ServiceRole` specification only applies to the namespace specified in the
-`metadata` section. The `services:` and `methods:` fields are required in a
-rule. `paths:` is optional. If a rule is not specified or if it is set to `*`,
+`metadata` section. The `services` and `methods` fields are required in a
+rule. `paths` is optional. If a rule is not specified or if it is set to `*`,
 it applies to any instance.
 
 The example below shows a simple role: `service-admin`, which has full access
@@ -639,19 +639,19 @@ spec:
     methods: ["GET"]
 {{< /text >}}
 
-In a `ServiceRole`, the combination of `namespace:` + `services:` + `paths:` +
-`methods:` defines **how a service or services are accessed**. In some
+In a `ServiceRole`, the combination of `namespace` + `services` + `paths` +
+`methods` defines **how a service or services are accessed**. In some
 situations, you may need to specify additional conditions for your rules. For
 example, a rule may only apply to a certain **version** of a service, or only
 apply to services with a specific **label**, like `"foo"`. You can easily
-specify these conditions using `constraints:`.
+specify these conditions using `constraints`.
 
 For example, the following `ServiceRole` definition adds a constraint that
-`request.headers["version"]` is either `"v1"` or `"v2"` extending the previous
-`products-viewer` role. The supported `key:` values of a constraint are listed
+`request.headers[version]` is either `"v1"` or `"v2"` extending the previous
+`products-viewer` role. The supported `key` values of a constraint are listed
 in the [constraints and properties page](/docs/reference/config/authorization/constraints-and-properties/).
 In the case that the attribute is a `map`, for example `request.headers`, the
-`key` is an entry in the map, for example `request.headers["version"]`.
+`key` is an entry in the map, for example `request.headers[version]`.
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -673,23 +673,23 @@ spec:
 A `ServiceRoleBinding` specification includes two parts:
 
 -  **`roleRef`** refers to a `ServiceRole` resource in the same namespace.
--  A list of **`subjects:`** that are assigned to the role.
+-  A list of **`subjects`** that are assigned to the role.
 
-You can either explicitly specify a *subject* with a `user:` or with a set of
-`properties:`.  A *property* in a `ServiceRoleBinding` *subject* is similar to
+You can either explicitly specify a *subject* with a `user` or with a set of
+`properties`.  A *property* in a `ServiceRoleBinding` *subject* is similar to
 a *constraint* in a `ServiceRole` specification. A *property* also lets you use
 conditions to specify a set of accounts assigned to this role. It contains a
-`key:` and its allowed *values*. The supported `key:` values of a constraint
+`key` and its allowed *values*. The supported `key` values of a constraint
 are listed in the
 [constraints and properties page](/docs/reference/config/authorization/constraints-and-properties/).
 
 The following example shows a `ServiceRoleBinding` named
 `test-binding-products`, which binds two subjects to the `ServiceRole` named
-`"product-viewer"` and has the following `subjects:`
+`"product-viewer"` and has the following `subjects`
 
 - A service account representing service **a**, `"service-account-a"`.
 - A service account representing the Ingress service
-  `"istio-ingress-service-account"` **and** where the JWT `"email"` claim is
+  `"istio-ingress-service-account"` **and** where the JWT `email` claim is
   `"a@foo.com"`.
 
 {{< text yaml >}}
@@ -709,9 +709,9 @@ spec:
     name: "products-viewer"
 {{< /text >}}
 
-In case you want to make a services publicly accessible, you can set the
-`subject` to `user: "*"`. This value assigns the `ServiceRole` to **all** users
-and services, for example:
+In case you want to make a service publicly accessible, you can set the
+`subject` to `user: "*"`. This value assigns the `ServiceRole` to **all (both authenticated and
+unauthenticated)** users and services, for example:
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -722,6 +722,24 @@ metadata:
 spec:
   subjects:
   - user: "*"
+  roleRef:
+    kind: ServiceRole
+    name: "products-viewer"
+{{< /text >}}
+
+To assign the `ServiceRole` to only **authenticated** users and services, use `source.principal: "*"`
+instead, for example:
+
+{{< text yaml >}}
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRoleBinding
+metadata:
+  name: binding-products-all-authenticated-users
+  namespace: default
+spec:
+  subjects:
+  - properties:
+      source.principal: "*"
   roleRef:
     kind: ServiceRole
     name: "products-viewer"
