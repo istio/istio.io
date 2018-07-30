@@ -10,7 +10,7 @@ aliases:
 
 ## 开始之前
 
-如果你没有一个端点服务，但是想尝试他，你可以按照这个[指令](https://cloud.google.com/endpoints/docs/openapi/get-started-kubernetes-engine)在 GKE 中创建一个 Endpoints 服务。你可以用下面的命令测试服务。
+如果你没有一个端点服务，但是想尝试它，你可以按照这个[指令](https://cloud.google.com/endpoints/docs/openapi/get-started-kubernetes-engine)在 GKE 中创建一个 Endpoints 服务。你可以用下面的命令测试服务。
 
 {{< text bash >}}
 $ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${EXTERNAL_IP}:80/echo?key=${ENDPOINTS_KEY}"
@@ -45,7 +45,7 @@ $ curl --request POST --header "content-type:application/json" --data '{"message
     EOF
     {{< /text >}}
 
-1.  通过[指令]获取 Ingress IP 和端口。你可以通过 Ingress 验证 Endpoints 服务:
+1.  通过[指令](/docs/tasks/traffic-management/ingress#determining-the-ingress-ip-and-ports)获取 Ingress IP 和端口。你可以通过 Ingress 验证 Endpoints 服务:
 
     {{< text bash >}}
     $ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${INGRESS_HOST}:${INGRESS_PORT}/echo?key=${ENDPOINTS_KEY}"i
