@@ -66,7 +66,7 @@ from within your Istio cluster. In this task you access
     {{< /text >}}
 
 1.  Create a `ServiceEntry` and a `VirtualService` to allow access to an external HTTPS service. Note that for TLS
-    protocols, including HTTPS, a TLS `VirtualService` is required in addition to the `ServiceEntry`.
+    protocols, including HTTPS, the TLS `VirtualService` is required in addition to the `ServiceEntry`.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
