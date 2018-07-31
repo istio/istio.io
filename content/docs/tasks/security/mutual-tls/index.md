@@ -6,6 +6,7 @@ keywords: [security,mutual-tls]
 ---
 
 Through this task, you can have closer look at mutual TLS and learn its settings. This task assumes:
+
 * You have completed the [authentication policy](/docs/tasks/security/authn-policy/) task.
 * You are familiar with using authentication policy to enable mutual TLS.
 * Istio runs on Kubernetes with global mutual TLS enabled. You can find
@@ -33,7 +34,7 @@ Citadel is up if the "AVAILABLE" column is 1.
 
 ## Verify keys and certificates installation
 
-Istio automatically installs necessary keys and certificates for mutual TLS authentication in all sidecar containers.
+Istio automatically installs necessary keys and certificates for mutual TLS authentication in all sidecar containers. Run command below to confirm key and certificate files exist under `/etc/certs`:
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.name}) -c istio-proxy -- ls /etc/certs
@@ -67,7 +68,8 @@ Please check [secure naming](/docs/concepts/security/#workflow) for more informa
 
 ## Verify mutual TLS configuration
 
-You can use the `istioctl` tool to check the effective mutual TLS settings. To identify the authentication policy and destination rules used for the `httpbin.default.svc.cluster.local` configuration and the mode employed, use the following command:
+You can use the `istioctl` tool to check the effective mutual TLS settings. To identify the authentication policy and destination rules used for the
+`httpbin.default.svc.cluster.local` configuration and the mode employed, use the following command:
 
 {{< text bash >}}
 $ istioctl authn tls-check httpbin.default.svc.cluster.local
@@ -79,7 +81,7 @@ In the following example output you can see that:
 * Istio uses the mesh-wide `default` authentication policy.
 * Istio has the `default` destination rule in the `default` namespace.
 
-{{< text bash >}}
+{{< text plain >}}
 HOST:PORT                                  STATUS     SERVER     CLIENT     AUTHN POLICY        DESTINATION RULE
 httpbin.default.svc.cluster.local:8080     OK         mTLS       mTLS       default/            default/default
 {{< /text >}}
@@ -112,7 +114,7 @@ spec:
 EOF
 {{< /text >}}
 
-Run the same command as above, you will see the status is `CONFLICT`, as client is in `HTTP` mode while server is in `mTLS`.
+Run the same `istioctl` command as above, you now see the status is `CONFLICT`, as client is in `HTTP` mode while server is in `mTLS`.
 
 {{< text bash >}}
 $ istioctl authn tls-check httpbin.default.svc.cluster.local
@@ -162,7 +164,7 @@ To perform this task, you want to by-pass client proxy. A simplest way to do so 
     command terminated with exit code 35
     {{< /text >}}
 
-    > This time, exit code is 35 which correspondind to a problem occurred somewhere in the SSL/TLS handshake.
+    > This time, exit code is 35, which corresponds to a problem occurred somewhere in the SSL/TLS handshake.
 
 1. Confirm TLS request with client certificate succeed:
 
