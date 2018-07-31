@@ -12,12 +12,14 @@ deployed on Kubernetes.
 
 * Setup Istio on Kubernetes by following the instructions in the [Installation guide](/docs/setup/kubernetes/quick-start/).
 
-* The machine must have IP connectivity to the endpoints (pod IPs) in the mesh. This
+* The machine must have IP connectivity to the endpoints in the mesh. This
 typically requires a VPC or a VPN, as well as a container network that
 provides direct (without NAT or firewall deny) routing to the endpoints. The machine
 is not required to have access to the cluster IP addresses assigned by Kubernetes.
 
-* The VM must have access to a DNS server that resolves names to Cluster IP addresses. Options include exposing the Kubernetes DNS server trough an internal load balancer, using a Core DNS server, or configuring the IPs in any other DNS server accessible from the VMs.
+* The VM must have access to a DNS server that resolves names to cluster IP addresses. Options
+include exposing the Kubernetes DNS server through an internal load balancer, using a Core DNS 
+server, or configuring the IPs in any other DNS server accessible from the VM.
 
 ## Installation steps
 
@@ -25,6 +27,8 @@ Setup consists of preparing the mesh for expansion and installing and configurin
 We'll use /etc/hosts as an example in this guide, it is the easiest way to get things working.
 
 ### Preparing the Kubernetes cluster for expansion
+
+The following commands must be run on a machine with admin privileges to the cluster.
 
 *  If `--set global.meshExpansion=true` was not specified at install, re-apply the
    template or 'helm upgrade' with the option enabled.
@@ -158,6 +162,7 @@ Example using `/etc/hosts`:
 
     {{< text bash >}}
 
+    $ # On the kubeadm machine
     $ kubectl -n bookinfo get svc productpage -o jsonpath='{.spec.clusterIP}'
     10.55.246.247
 
@@ -165,6 +170,7 @@ Example using `/etc/hosts`:
 
     {{< text bash >}}
 
+    $ # On the VM 
     $ sudo echo "10.55.246.247 productpage.bookinfo.svc.cluster.local" >> /etc/hosts
     $ curl productpage.bookinfo.svc.cluster.local:9080
     ... html content ...
@@ -173,8 +179,8 @@ Example using `/etc/hosts`:
 
 ## Running services on a mesh expansion machine
 
-* Configure a ServiceEntry. The ServiceEntry will contain the IP addresses, ports and labels of all
-VMs exposing a service.
+VMs are added to the mesh by configuring a ServiceEntry. The ServiceEntry will contain the IP 
+addresses, ports and labels of all VMs exposing a service.
 
     {{< text bash yaml>}}
 
@@ -204,10 +210,12 @@ VMs exposing a service.
 
 ## Troubleshooting
 
-* When making requests from VM to the cluster, make sure you are not running as root or istio-proxy. Both
- users are excluded from interception.
+The following steps provide basic trouble shooting for common mesh expansion issues.
 
-* Verify the machine can directly reach pod IPs in the cluster. For example:
+1. When making requests from VM to the cluster, ensure you don't run the requests as `root` or 
+ `istio-proxy` user. By default, Istio excludes both users from interception.
+
+1. Verify the machine can reach the IP of the all workloads running in the cluster. For example:
 
     {{< text bash >}}
 
@@ -223,7 +231,7 @@ VMs exposing a service.
 
     {{< /text >}}
 
-* Check the status of the node agent and sidecar:
+1. Check the status of the node agent and sidecar:
 
     {{< text bash >}}
 
@@ -232,7 +240,7 @@ VMs exposing a service.
 
     {{< /text >}}
 
-* Check that the processes are running:
+1. Check that the processes are running:
 
     {{< text bash >}}
 
@@ -244,7 +252,7 @@ VMs exposing a service.
 
     {{< /text >}}
 
-* Check the envoy access and error logs:
+1. Check the Envoy access and error logs:
 
     {{< text bash >}}
 
