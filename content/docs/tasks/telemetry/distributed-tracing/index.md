@@ -137,6 +137,29 @@ public Response bookReviewsById(@PathParam("productId") int productId,
 
 When you make downstream calls in your applications, make sure to include these headers.
 
+## Trace Sampling
+
+Istio is configured by default to capture all traces. For every time
+you access `/productpage` you should see a corresponding trace in the
+Jaeger dashboard. This is suitable for a test or low traffic mesh. For
+a high traffic mesh you may wish to lower the trace sampling
+percentage. This can be set in two ways:
+
+* On mesh setup, you may use the Helm option `pilot.traceSampling` to
+  set the percentage of trace sampling you want. See the [Helm
+  Install](/docs/setup/kubernetes/helm-install/) documentation for
+  details on setting options.
+* In a running mesh, you may edit the `istio-pilot` deployment and
+  change the environment variable by doing the below.
+  
+  0. Run `kubectl -n istio-system edit deploy istio-pilot`. This will
+     open your text editor.
+  
+  0. Find the `PILOT_TRACE_SAMPLING` environment variable, and change
+     the `value:` to your desired percentage.
+
+In both cases, valid values are from 0.0 to 100.0 with a precision of 0.01.
+
 ## Cleanup
 
 *   Remove any `kubectl port-forward` processes that may still be running:
