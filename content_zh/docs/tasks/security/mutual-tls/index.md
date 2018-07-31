@@ -108,7 +108,7 @@ $ kubectl exec $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.na
             URI:spiffe://cluster.local/ns/default/sa/default
 {{< /text >}}
 
-请参阅 [secure naming](/docs/concepts/security/#workflow) 一节，可以了解更多**服务认证**方面的内容。
+请参阅 [Istio identity](/docs/concepts/security/#istio-identity) 一节，可以了解更多**服务认证**方面的内容。
 
 ## 测试认证配置
 
@@ -142,7 +142,7 @@ $ kubectl exec $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.na
     200
     {{< /text >}}
 
-    > Istio 使用 [Kubernetes service accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) 作为服务的认证基础，Service account 提供了比服务名称更强的安全性（参考 [Identity](/docs/concepts/security/#identity) 获取更多信息）。Istio 中使用的证书不包含服务名，而 `curl` 需要用这个信息来检查服务认证。因此就需要给 `curl` 命令加上 `-k` 参数，在对服务器所出示的证书校验的时候，停止对服务器名称（例如 httpbin.ns.svc.cluster.local ）的验证。
+    > Istio 使用 [Kubernetes service accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) 作为服务的认证基础，Service account 提供了比服务名称更强的安全性（参考 [Identity](/docs/concepts/security/#istio-identity) 获取更多信息）。Istio 中使用的证书不包含服务名，而 `curl` 需要用这个信息来检查服务认证。因此就需要给 `curl` 命令加上 `-k` 参数，在对服务器所出示的证书校验的时候，停止对服务器名称（例如 httpbin.ns.svc.cluster.local ）的验证。
 
 1. 来自没有 Sidecar 的 Pod。可以重新部署另外一个 `sleep` 应用
 

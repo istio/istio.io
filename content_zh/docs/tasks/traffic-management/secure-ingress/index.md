@@ -117,7 +117,7 @@ keywords: [traffic-management,ingress]
 
 1. 用 `curl` 发送 `https` 请求到 `SECURE_INGRESS_PORT`，也就是通过 HTTPS 协议访问 `httpbin` 服务。
 
-    `--resolve` 选项要求 `curl` 通过域名 "httpbin.example.com" 使用 TLS 访问 Gateway 地址，这样也就符合了证书的 [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) 要求。`--cacert` 参数则让 `curl` 命令使用刚刚生成的证书来对服务器进行校验。
+    `--resolve` 选项要求 `curl` 通过域名 `httpbin.example.com` 使用 TLS 访问 Gateway 地址，这样也就符合了证书的 [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) 要求。`--cacert` 参数则让 `curl` 命令使用刚刚生成的证书来对服务器进行校验。
 
     发送请求到 `/status/418`，会看到漂亮的返回内容，这说明我们成功访问了 `httpbin`。`httpbin` 服务会返回 [418 I'm a Teapot](https://tools.ietf.org/html/rfc7168#section-2.3.3)。
 
