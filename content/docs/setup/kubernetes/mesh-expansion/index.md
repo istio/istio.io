@@ -30,9 +30,9 @@ We'll use /etc/hosts as an example in this guide, it is the easiest way to get t
    template or 'helm upgrade' with the option enabled.
 
     {{< text bash >}}
-    kubeadm$ cd install/kubernetes/helm/istio
-    kubeadm$ helm upgrade --set global.meshExpansion=true --values myvalues.yaml istio-system .
-    kubeadm$ cd -
+    $ cd install/kubernetes/helm/istio
+    $ helm upgrade --set global.meshExpansion=true --values myvalues.yaml istio-system .
+    $ cd -
     {{< /text >}}
 
 * Find the IP address of the Istio gateway. Advanced users can expose services on a dedicated gateway,
@@ -50,14 +50,14 @@ the k8s cluster IP address ranges to intercept. The CIDR range is specified at k
 install time as `servicesIpv4Cidr`. Example commands to obtain the CIDR after install:
 
     {{< text bash >}}
-    kubeadm$ ISTIO_SERVICE_CIDR=$(gcloud container clusters describe $K8S_CLUSTER --zone $MY_ZONE --project $MY_PROJECT --format "value(servicesIpv4Cidr)")
-    kubeadm$ echo -e "ISTIO_CP_AUTH=MUTUAL_TLS\nISTIO_SERVICE_CIDR=$ISTIO_SERVICE_CIDR\n" > cluster.env
+    $ ISTIO_SERVICE_CIDR=$(gcloud container clusters describe $K8S_CLUSTER --zone $MY_ZONE --project $MY_PROJECT --format "value(servicesIpv4Cidr)")
+    $ echo -e "ISTIO_CP_AUTH=MUTUAL_TLS\nISTIO_SERVICE_CIDR=$ISTIO_SERVICE_CIDR\n" > cluster.env
     {{< /text >}}
 
     Here's an example config file
 
     {{< text bash >}}
-    kubeadm$ cat cluster.env
+    $ cat cluster.env
     ISTIO_CP_AUTH=MUTUAL_TLS
     ISTIO_SERVICE_CIDR=10.55.240.0/20
     {{< /text >}}
@@ -66,18 +66,18 @@ install time as `servicesIpv4Cidr`. Example commands to obtain the CIDR after in
 is not required if the VM only calls services in the mesh.
 
     {{< text bash >}}
-    kubeadm$ echo "ISTIO_INBOUND_PORTS=3306,8080" >> cluster.env
+    $ echo "ISTIO_INBOUND_PORTS=3306,8080" >> cluster.env
     {{< /text >}}
 
 * Extract the initial keys for the service account to use on the VMs.
 
     {{<text bash>}}
 
-    kubeadm$ kubectl -n $SERVICE_NAMESPACE get secret istio.default  \
+    $ kubectl -n $SERVICE_NAMESPACE get secret istio.default  \
         -o jsonpath='{.data.root-cert\.pem}' |base64 --decode > root-cert.pem
-    kubeadm$ kubectl -n $SERVICE_NAMESPACE get secret istio.default  \
+    $ kubectl -n $SERVICE_NAMESPACE get secret istio.default  \
         -o jsonpath='{.data.key\.pem}' |base64 --decode > key.pem
-    kubeadm$ kubectl -n $SERVICE_NAMESPACE get secret istio.default  \
+    $ kubectl -n $SERVICE_NAMESPACE get secret istio.default  \
           -o jsonpath='{.data.cert-chain\.pem}' |base64 --decode > cert-chain.pem
 
     {{< /text >}}
@@ -88,8 +88,8 @@ is not required if the VM only calls services in the mesh.
 
     {{< text bash >}}
 
-    vm$ curl -L https://storage.googleapis.com/istio-release/releases/1.0.0/deb/istio-sidecar.deb > istio-sidecar.deb
-    vm$ dpkg -i istio-sidecar.deb
+    $ curl -L https://storage.googleapis.com/istio-release/releases/1.0.0/deb/istio-sidecar.deb > istio-sidecar.deb
+    $ dpkg -i istio-sidecar.deb
 
     {{< /text >}}
 
@@ -107,9 +107,9 @@ is not required if the VM only calls services in the mesh.
 
     {{< text bash >}}
 
-    vm$ sudo mkdir /etc/certs
-    vm$ sudo cp {root-cert.pem,cert-chain.pem,key.pem} /etc/certs
-    vm$ sudo chown -R istio-proxy /etc/certs
+    $ sudo mkdir /etc/certs
+    $ sudo cp {root-cert.pem,cert-chain.pem,key.pem} /etc/certs
+    $ sudo chown -R istio-proxy /etc/certs
 
     {{< /text >}}
 
@@ -117,8 +117,8 @@ is not required if the VM only calls services in the mesh.
 
     {{< text bash >}}
 
-    vm$ sudo cp cluster.env /var/lib/istio/envoy
-    vm$ sudo chown -R istio-proxy /var/lib/istio/envoy
+    $ sudo cp cluster.env /var/lib/istio/envoy
+    $ sudo chown -R istio-proxy /var/lib/istio/envoy
 
     {{< /text >}}
 
@@ -126,7 +126,7 @@ is not required if the VM only calls services in the mesh.
 
     {{< text bash >}}
 
-    vm$ sudo node_agent
+    $ sudo node_agent
     ....
     CSR is approved successfully. Will renew cert in 1079h59m59.84568493s
 
@@ -136,8 +136,8 @@ is not required if the VM only calls services in the mesh.
 
     {{< text bash >}}
 
-    vm$ sudo systemctl start istio-auth-node-agent
-    vm$ sudo systemctl start istio
+    $ sudo systemctl start istio-auth-node-agent
+    $ sudo systemctl start istio
 
     {{< /text >}}
 
@@ -148,7 +148,7 @@ Example using /etc/hosts:
 
     {{< text bash >}}
 
-    kubeadm$ kubectl -n bookinfo get svc productpage -o jsonpath='{.spec.clusterIP}'
+    $ kubectl -n bookinfo get svc productpage -o jsonpath='{.spec.clusterIP}'
 10.55.246.247
 
     {{< /text >}}
@@ -168,7 +168,7 @@ VMs exposing a service.
 
     {{< text bash yaml>}}
 
-    kubeadm$ kubectl -n test apply -f - << EOF
+    $ kubectl -n test apply -f - << EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -208,7 +208,7 @@ VMs exposing a service.
 
     {{< text bash >}}
 
-    vm$ curl 10.52.39.13:9080
+    $ curl 10.52.39.13:9080
     html output
 
     {{< /text >}}
@@ -226,7 +226,7 @@ VMs exposing a service.
 
     {{< text bash >}}
 
-    vm$ ps aux |grep istio
+    $ ps aux |grep istio
     root      6941  0.0  0.2  75392 16820 ?        Ssl  21:32   0:00 /usr/local/istio/bin/node_agent --logtostderr
     root      6955  0.0  0.0  49344  3048 ?        Ss   21:32   0:00 su -s /bin/bash -c INSTANCE_IP=10.150.0.5 POD_NAME=demo-vm-1 POD_NAMESPACE=default exec /usr/local/bin/pilot-agent proxy > /var/log/istio/istio.log istio-proxy
     istio-p+  7016  0.0  0.1 215172 12096 ?        Ssl  21:32   0:00 /usr/local/bin/pilot-agent proxy
@@ -238,7 +238,7 @@ VMs exposing a service.
 
     {{< text bash >}}
 
-    vm$ tail /var/log/istio/istio.log
-    vm$ tail /var/log/istio/istio.err.log
+    $ tail /var/log/istio/istio.log
+    $ tail /var/log/istio/istio.err.log
 
     {{< /text >}}
