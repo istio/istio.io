@@ -21,7 +21,7 @@ Through this task, you can have closer look at mutual TLS and learn its settings
 
 ## Verify Citadel run properly
 
-[Citadel](/docs/concepts/security/#key-management) is Istio's key management service. Citadel must run properly for mutual TLS to work correctly. Verify the
+[Citadel](/docs/concepts/security/#pki) is Istio's key management service. Citadel must run properly for mutual TLS to work correctly. Verify the
 cluster-level Citadel runs properly with the following command:
 
 {{< text bash >}}
@@ -64,7 +64,7 @@ $ kubectl exec $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.na
             URI:spiffe://cluster.local/ns/default/sa/default
 {{< /text >}}
 
-Please check [secure naming](/docs/concepts/security/#workflow) for more information about  _service identity_ in Istio.
+Please check [Istio identity](/docs/concepts/security/#istio-identity) for more information about  _service identity_ in Istio.
 
 ## Verify mutual TLS configuration
 
@@ -174,7 +174,7 @@ To perform this task, you want to by-pass client proxy. A simplest way to do so 
     {{< /text >}}
 
 > Istio uses [Kubernetes service accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) as service identity, which
-offers stronger security than service name (for more details, see [this](/docs/concepts/security/#identity)). Thus, the certificates Istio uses do
+offers stronger security than service name (for more details, see [this](/docs/concepts/security/#istio-identity)). Thus, the certificates Istio uses do
 not have service names, which is the information that `curl` needs to verify server identity. To prevent the `curl` client from aborting, we use `curl`
 with the `-k` option. The option prevents the client from verifying and looking for the server name, for example, `httpbin.default.svc.cluster.local` in the
 certificate provided by the server.
