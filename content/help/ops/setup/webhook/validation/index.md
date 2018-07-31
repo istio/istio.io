@@ -4,12 +4,10 @@ description: Describes Istio's use of Kubernetes webhooks for server-side config
 weight: 10
 ---
 
-## Overview
-
 Galley’s configuration validation ensures user authored Istio
 configuration is syntactically and semantically valid. It uses a
-Kubernetes `ValidatingWebhook`. The *istio-galley*
-ValidationWebhookConfiguration has two webhooks.
+Kubernetes `ValidatingWebhook`. The `istio-galley`
+`ValidationWebhookConfiguration` has two webhooks.
 
 * `pilot.validation.istio.io` - Served on path `/admitpilot` and is
 responsible for validating configuration consumed by Pilot
@@ -19,7 +17,7 @@ responsible for validating configuration consumed by Pilot
 responsible for validating configuration consumed by Mixer.
 
 Both webhooks are implemented by the `istio-galley` service on
-port 443. nEach webhook has its own `clientConfig`, `namespaceSelector`,
+port 443. Each webhook has its own `clientConfig`, `namespaceSelector`,
 and `rules` section. Both webhooks are scoped to all namespaces. The
 `namespaceSelector` should be empty. Both rules apply to Istio Custom
 Resource Definitions (CRDs).
@@ -28,8 +26,7 @@ Resource Definitions (CRDs).
 
 1. Verify the webhook configuration exists and is correct.
 
-    {{< text bash >}}
-
+    {{< text bash yaml >}}
     $ kubectl get validatingwebhookconfiguration istio-galley -o yaml
     apiVersion: admissionregistration.k8s.io/v1beta1
     kind: ValidatingWebhookConfiguration
@@ -152,7 +149,6 @@ Resource Definitions (CRDs).
         - reportnothings
         - servicecontrolreports
         - tracespans
-
     {{< /text >}}
 
     If the validatingwebhookconfiguration doesn’t exist,verify the
@@ -160,8 +156,7 @@ Resource Definitions (CRDs).
       uses the data from this configmap to create and update the
       validatingwebhookconfiguration.
 
-    {{< text bash >}}
-
+    {{< text bash yaml >}}
     $ kubectl -n istio-system get configmap istio-galley-configuration -o jsonpath='{.data}' | head -20
     map[validatingwebhookconfiguration.yaml:apiVersion: admissionregistration.k8s.io/v1beta1
     kind: ValidatingWebhookConfiguration
@@ -184,7 +179,6 @@ Resource Definitions (CRDs).
         rules:
           - operations:
           (... snip ...)
-
       {{< /text >}}
 
     * If the webhook array in `istio-galley-configuration` is empty
@@ -195,7 +189,7 @@ Resource Definitions (CRDs).
 
     The istio-galley validation configuration is fail closed. If
     configuration exists and is scoped properly, the webhook will be
-    invoked. A missing caBundle, bad cert, or network connectivity
+    invoked. A missing `caBundle`, bad cert, or network connectivity
     problem will produce an error message when the resource is
     created/updated. If you don’t see any error message and the
     webhook wasn’t invoked and the webhook configuration is valid,
@@ -204,42 +198,36 @@ Resource Definitions (CRDs).
 1. Verify the istio-galley pods(s) are running
 
     {{< text bash >}}
-
     $  kubectl -n istio-system get pod -listio=galley
     NAME                            READY     STATUS    RESTARTS   AGE
     istio-galley-5dbbbdb746-d676g   1/1       Running   0          2d
-
     {{< /text >}}
 
 1. Verify you’re using Istio version >= 1.0.0. Older version of galley
-   did not properly re-patch the caBundle. This typically happened
-   when the istio.yaml was re-applied, overwriting a previously
-   patched caBundle.
+   did not properly re-patch the `caBundle`. This typically happened
+   when the `istio.yaml` was re-applied, overwriting a previously
+   patched `caBundle`.
 
     {{< text bash >}}
-
     $ for pod in $(kubectl -n istio-system get pod -listio=galley -o jsonpath='{.items[*].metadata.name}'); do \
       kubectl -n istio-system exec ${pod} -it /usr/local/bin/galley version| grep ^Version; \
     done
     Version: 1.0.0
+    {{< /text >}}
 
-    {{< /text>}}
-
-1. Check the galley pod logs for errors. Failing to patch the caBundle should print an error.
+1. Check the galley pod logs for errors. Failing to patch the `caBundle`
+   should print an error.
 
     {{< text bash >}}
-
     $ for pod in $(kubectl -n istio-system get pod -listio=galley -o jsonpath='{.items[*].metadata.name}'); do \
-      kubectl -n istio-system logs ${pod} \
+        kubectl -n istio-system logs ${pod} \
     done
-
     {{< /text >}}
 
 1. If the patching failed, verify the RBAC configuration for the
    galley.
 
-    {{< text bash >}}
-
+    {{< text bash yaml>}}
     $ kubectl get clusterrole istio-galley-istio-system -o yaml
       apiVersion: rbac.authorization.k8s.io/v1
       kind: ClusterRole
@@ -270,7 +258,6 @@ Resource Definitions (CRDs).
         - deployments
         verbs:
         - get
-
     {{< /text >}}
 
     `istio-galley` needs `validatingwebhookconfigurations` write access to create and update
@@ -283,7 +270,7 @@ Resource Definitions (CRDs).
     A) x509 certificate related errors
 
     `x509: certificate signed by unknown authority` related errors are
-    typically caused by an empty caBundle in the webhook
+    typically caused by an empty `caBundle` in the webhook
     configuration. Verify that it is non-empty (see "verify webhook
     configuration" above). The `istio-galley` deployment consciously
     reconciles webhook configuration used the
@@ -301,39 +288,30 @@ Resource Definitions (CRDs).
     * Kubernetes 1.9
 
     ```
-
     Internal error occurred: failed calling admission webhook "istio-galley.istio.io": \
         Post https://istio-galley.istio-system.svc:443/inject: dial tcp: lookup \
         istio-galley.istio-system.svc on 169.254.169.254:53: no such host
-
     ```
 
     * Kubernetes 1.10
 
     ```
-
     Internal error occurred: failed calling admission webhook "istio-galley.istio.io": \
         Post https://istio-galley.istio-system.svc:443/adminPilot?timeout=30s: \
         no endpoints available for service "istio-galley"
-
     ```
 
     * Verify one or more webhook pods and endpoints exist
 
         {{< text bash >}}
-
         $ kubectl -n istio-system get endpoints istio-galley
         NAME           ENDPOINTS                          AGE
         istio-galley   10.48.6.108:9093,10.48.6.108:443   3d
-
         {{< /text >}}
 
     * Verify the pods are healthy
 
         {{< text bash >}}
-
-        $ kubectl -n istio-system get pod -listio=galley
         NAME                            READY     STATUS    RESTARTS   AGE
         istio-galley-5dbbbdb746-d676g   1/1       Running   0          2d
-
         {{< /text >}}

@@ -485,6 +485,15 @@ re-patch
 re-applied
 CustomResourceDefinitions
 CRD
+injector
+configmap
+x509
+VirtualService
+sha256
+deployment
+webhook
+configuration
+
 
  - search.md
 searchresults

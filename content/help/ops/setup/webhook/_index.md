@@ -4,8 +4,6 @@ description: Describes Istio's use of Kubernetes webhooks and the related issues
 weight: 10
 ---
 
-## Webhook configuration overview
-
 This page assumes you're familiar with the [Kubernetes mutating and
 validating webhook
 mechanisms](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/). Consult
@@ -15,7 +13,8 @@ and
 [validating](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.11/#validatingwebhookconfiguration-v1beta1-admissionregistration-kubernetes-io)
 webhook configuration.
 
-Operators may need to modify and/or verify the following specific fields in the webhook configuration.
+You may need to modify and/or verify the following specific fields in
+the webhook configuration:
 
 **`namespaceSelector`** - decides whether to run the webhook on an
 object based on whether the namespace for that object matches the
@@ -38,7 +37,7 @@ endpoint are handled - allowed values are Ignore or Fail.
 
 **rules** - describes what operations on what resources / subresources
 the webhook cares about. The webhook cares about an operation if it
-matches any Rule.
+matches any rule.
 
 * Configuration validation rules match creation and editing of Istio
   CustomResourceDefinitions (CRD).
@@ -54,11 +53,10 @@ webhook configurations in the release `istio.yaml` include empty
 
 ## Prerequisites
 
-See
-[https://istio.io/docs/setup/kubernetes/quick-start/#prerequisites](https://istio.io/docs/setup/kubernetes/quick-start/#prerequisites)
+See the [quick start prerequisites](https://istio.io/docs/setup/kubernetes/quick-start/#prerequisites)
 for Kubernetes provider specific setup instructions. Webhooks will not
-function properly if the cluster is misconfigured. The following
-steps should be run after the cluster is configured if dynamic
+function properly if the cluster is misconfigured. You can follow
+these steps once the cluster has been configured and dynamic
 webhooks and dependent features are not functioning properly.
 
 1. Verify you’re using the
