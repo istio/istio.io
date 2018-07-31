@@ -5,34 +5,23 @@ weight: 10
 keywords: [security,mutual-tls]
 ---
 
-Through this task, you will have a closer look mutual TLS, and learn to its settings. This task assumes you have
-already finished the [authentication policy](/docs/tasks/security/authn-policy/) task and are familiar with using authentication policy to enable mutual TLS.
-
-## Before you begin
-
-1. Install Istio on Kubernetes with global mutual TLS enabled:
-    * You can use [Helm](/docs/setup/kubernetes/helm-install/) with `global.mtls.enabled` set to `true`
-    * If you already have Istio installed, you can add or modify authentication policies and destination rules to enable mutual TLS as described in this [task](/docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls).
-
-1. For demo, deploy [httpbin]({{< github_tree >}}/samples/httpbin) and [sleep]({{< github_tree >}}/samples/sleep) with Envoy sidecar. For simplicity, the demo is setup in the `default` namespace. If you wish to use a different namespace,  please add `-n <your-namespace>` appropriately to the example commands in the next sections.
-
-    * If you are using [manual sidecar injection](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection), use the following command:
+Through this task, you can have closer look at mutual TLS and learn its settings. This task assumes:
+* You have completed the [authentication policy](/docs/tasks/security/authn-policy/) task.
+* You are familiar with using authentication policy to enable mutual TLS.
+* Istio runs on Kubernetes with global mutual TLS enabled. You can find
+  instruction to install Istio [here](/docs/setup/kubernetes/). If you already
+  have Istio installed, you can add or modify authentication policies and destination rules to enable mutual TLS as described in this [task](/docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls).
+* You have deployed the [httpbin]({{< github_tree >}}/samples/httpbin) and [sleep]({{< github_tree >}}/samples/sleep) with Envoy sidecar in the `default` namespace. For example, below is the command to deploy those services with [manual sidecar injection](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection):
 
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@)
     $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
     {{< /text >}}
 
-    * If you are using a cluster with [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection) enabled, simply deploy the services using `kubectl`
+## Verify Citadel run properly
 
-    {{< text bash >}}
-    $ kubectl apply -f @samples/httpbin/httpbin.yaml@
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
-    {{< /text >}}
-
-## Verifying Citadel is running
-
-[Citadel](/docs/concepts/security/#key-management) is the Istio's key management service. It must be up and running in order for mutual TLS to work correctly. Verify the cluster-level Citadel is running:
+[Citadel](/docs/concepts/security/#key-management) is Istio's key management service. Citadel must run properly for mutual TLS to work correctly. Verify the
+cluster-level Citadel runs properly with the following command:
 
 {{< text bash >}}
 $ kubectl get deploy -l istio=citadel -n istio-system
@@ -42,7 +31,7 @@ istio-citadel   1         1         1            1           1m
 
 Citadel is up if the "AVAILABLE" column is 1.
 
-## Verifying keys and certificates installation
+## Verify keys and certificates installation
 
 Istio automatically installs necessary keys and certificates for mutual TLS authentication in all sidecar containers.
 
@@ -76,31 +65,38 @@ $ kubectl exec $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.na
 
 Please check [secure naming](/docs/concepts/security/#workflow) for more information about  _service identity_ in Istio.
 
-## Verifying mutual TLS configuration
+## Verify mutual TLS configuration
 
-Use the `istioctl` tool to check the effective mutual TLS settings. For example, the command below shows what mode is used for `httpbin.default.svc.cluster.local`, and what authentication policy and destination rules are used for that configuration:
+You can use the `istioctl` tool to check the effective mutual TLS settings. To identify the authentication policy and destination rules used for the `httpbin.default.svc.cluster.local` configuration and the mode employed, use the following command:
 
 {{< text bash >}}
 $ istioctl authn tls-check httpbin.default.svc.cluster.local
+{{< /text >}}
+
+In the following example output you can see that:
+
+* Mutual TLS is consistently setup for `httpbin.default.svc.cluster.local` on port 8080.
+* Istio uses the mesh-wide `default` authentication policy.
+* Istio has the `default` destination rule in the `default` namespace.
+
+{{< text bash >}}
 HOST:PORT                                  STATUS     SERVER     CLIENT     AUTHN POLICY        DESTINATION RULE
 httpbin.default.svc.cluster.local:8080     OK         mTLS       mTLS       default/            default/default
 {{< /text >}}
 
-Where:
+The output shows:
 
-* STATUS column: shows whether the TLS settings are consistent between server (i.e `httpbin` service) and client(s), i.e all other services making call to `httpbin`.
+* `STATUS`: whether the TLS settings are consistent between the server, the `httpbin` service in this case, and the client or clients making calls to `httpbin`.
 
-* SERVER column: shows the mode which is used on server
+* `SERVER`: the mode used on the server.
 
-* CLIENT column: shows the mode which is used on client(s)
+* `CLIENT`: the mode used on the client or clients.
 
-* AUTHN POLICY column: shows the name and namespace of the authentication policy that is used. If the policy is the mesh-wide policy, namespace is blank, e.g `default/`
+* `AUTHN POLICY`: the name and namespace of the authentication policy. If the policy is the mesh-wide policy, namespace is blank, as in this case: `default/`
 
-* DESTINATION RULE column: shows the name and namespace of the destination rule that is used.
+* `DESTINATION RULE`: the name and namespace of the destination rule used.
 
-In the example output above, you can see that mutual TLS is consistently setup for `httpbin.default.svc.cluster.local` on port `8080`. The authentication policy in used is the mesh-wide policy `default`, and destination rule is `default` in `default` namespace.
-
-Now, add a service-specific destination rule for `httpbin` with incorrect TLS mode:
+To illustrate the case when there are conflicts, add a service-specific destination rule for `httpbin` with incorrect TLS mode:
 
 {{< text bash >}}
 $ cat <<EOF | istioctl create -n bar -f -
@@ -116,7 +112,7 @@ spec:
 EOF
 {{< /text >}}
 
-Re-running the `istioctl authn tls-check` command, you will see the status is `CONFLICT`, as client is in `HTTP` mode while server is in `mTLS`.
+Run the same command as above, you will see the status is `CONFLICT`, as client is in `HTTP` mode while server is in `mTLS`.
 
 {{< text bash >}}
 $ istioctl authn tls-check httpbin.default.svc.cluster.local
@@ -124,7 +120,7 @@ HOST:PORT                                  STATUS       SERVER     CLIENT     AU
 httpbin.default.svc.cluster.local:8080     CONFLICT     mTLS       HTTP       default/            bad-rule/default
 {{< /text >}}
 
-As expected, requests from `sleep` to `httpbin` are now failed:
+You can also confirm that requests from `sleep` to `httpbin` are now failed:
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl httpbin:8000/headers -o /dev/null -s -w '%{http_code}\n'
@@ -132,20 +128,23 @@ $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name
 command terminated with exit code 56
 {{< /text >}}
 
-Before moving on the next tasks, remove this bad destination rule to make mutual TLS work again:
+Before you continue, remove the bad destination rule to make mutual TLS work again with the following command:
 
 {{< text bash >}}
 $ kubectl delete --ignore-not-found=true bad-rule
 {{< /text >}}
 
-## Verifying requests
+## Verify requests
 
-This task illustrates different kind of responses for the requests in plain-text, TLS without client certificate and TLS with client certificate. All requests
-are sent from a client sidecar, so that they can access the keys and certificates in the same way that proxy sidecars do.
+This task shows how a server with mutual TLS enabled responses to requests that are:
 
-> In Istio 1.0, `curl` is included in proxy image, however it might be removed in future releases. In that case, you will need to install `curl` manually.
+* In plain-text
+* With TLS but without client certificate
+* With TLS with a client certificate
 
-1. Plain-text requests fail as TLS is required to talk to `httpbin`. Note the exit code is 56 (failure with receiving network data).
+To perform this task, you want to by-pass client proxy. A simplest way to do so is to issue request from `istio-proxy` container.
+
+1. Confirm that plain-text requests fail as TLS is required to talk to `httpbin` with the following command:
 
     {{< text bash >}}
     $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl http://httpbin:8000/headers -o /dev/null -s -w '%{http_code}\n'
@@ -153,7 +152,9 @@ are sent from a client sidecar, so that they can access the keys and certificate
     command terminated with exit code 56
     {{< /text >}}
 
-1. TLS requests without client certificate also fail, but with exit code 35 (a problem occurred somewhere in the SSL/TLS handshake).
+    > Note that the exit code is 56. The code translates to a failure to receive network data.
+
+1. Confirm TLS requests without client certificate also fail:
 
     {{< text bash >}}
     $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl https://httpbin:8000/headers -o /dev/null -s -w '%{http_code}\n' -k
@@ -161,7 +162,9 @@ are sent from a client sidecar, so that they can access the keys and certificate
     command terminated with exit code 35
     {{< /text >}}
 
-1. TLS request with client certificate succeed as expected:
+    > This time, exit code is 35 which correspondind to a problem occurred somewhere in the SSL/TLS handshake.
+
+1. Confirm TLS request with client certificate succeed:
 
     {{< text bash >}}
     $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl https://httpbin:8000/headers -o /dev/null -s -w '%{http_code}\n' --key /etc/certs/key.pem --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem -k
@@ -169,9 +172,10 @@ are sent from a client sidecar, so that they can access the keys and certificate
     {{< /text >}}
 
 > Istio uses [Kubernetes service accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) as service identity, which
-offers stronger security than service name (refer [here](/docs/concepts/security/#identity) for more information). Thus the certificates used in Istio do
-not have service names, which is the information that `curl` needs to verify server identity. As a result, we use `curl` option `-k` to prevent the `curl`
-client from aborting when failing to find and verify the server name (i.e., `httpbin.default.svc.cluster.local`) in the certificate provided by the server.
+offers stronger security than service name (for more details, see [this](/docs/concepts/security/#identity)). Thus, the certificates Istio uses do
+not have service names, which is the information that `curl` needs to verify server identity. To prevent the `curl` client from aborting, we use `curl`
+with the `-k` option. The option prevents the client from verifying and looking for the server name, for example, `httpbin.default.svc.cluster.local` in the
+certificate provided by the server.
 
 ## Cleanup
 
