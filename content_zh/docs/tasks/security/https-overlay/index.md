@@ -126,7 +126,7 @@ $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name
 ...
 {{< /text >}}
 
-> 这个例子是从 [kubernetes 的例子](https://github.com/kubernetes/examples/blob/master/staging/https-nginx/README.md)中引用的。
+> 这个例子是从 [Kubernetes 的例子](https://github.com/kubernetes/examples/blob/master/staging/https-nginx/README.md)中引用的。
 
 ### 用 Istio sidecar 创建一个 HTTPS 服务，并使用双向 TLS
 

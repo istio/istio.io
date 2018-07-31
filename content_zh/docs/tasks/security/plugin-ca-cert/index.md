@@ -21,7 +21,7 @@ keywords: [security,certificates]
 
     使用 [Helm](/docs/setup/kubernetes/helm-install/) 并设置 `global.mtls.enabled` 为 `true`.
 
-> 从 Istio 0.7 开始，可以使用[认证策略](/docs/concepts/security/#anatomy-of-an-authentication-policy)来给命名空间中全部/部分服务配置双向 TLS 功能。（在所有命名空间中重复此操作，就相当于全局配置了）。这部分内容可参考[认证策略任务](/docs/tasks/security/authn-policy/)
+> 从 Istio 0.7 开始，可以使用[认证策略](/docs/concepts/security/#authentication-policies)来给命名空间中全部/部分服务配置双向 TLS 功能。（在所有命名空间中重复此操作，就相当于全局配置了）。这部分内容可参考[认证策略任务](/docs/tasks/security/authn-policy/)
 
 ## 插入现有密钥和证书
 
@@ -59,7 +59,7 @@ keywords: [security,certificates]
 
 本节中，我们要校验新的工作负载证书以及根证书是否正确传播。需要在本机安装 `openssl`。
 
-1. 根据[部署文档](/docs/examples/bookinfo/)安装 bookinfo 应用。
+1. 根据[部署文档](/docs/examples/bookinfo/)安装 Bookinfo 应用。
 
 1. 获取已加载的证书。
 

@@ -6,6 +6,7 @@ keywords: [kubernetes,helm]
 aliases:
     - /docs/setup/kubernetes/helm.html
     - /docs/tasks/integrating-services-into-istio.html
+page_icon: /img/helm.svg
 ---
 
 使用 Helm 安装和配置 Istio 的快速入门说明。
@@ -97,7 +98,7 @@ istio-pilot-58c65f74bc-2f5xn             2/2       Running   0          1m
 
 ## 卸载
 
-* 对于选项1，使用 kubectl 进行卸载：
+* 对于选项1，使用 `kubectl` 进行卸载：
 
     {{< text bash >}}
     $ kubectl delete -f $HOME/istio.yaml
@@ -109,7 +110,7 @@ istio-pilot-58c65f74bc-2f5xn             2/2       Running   0          1m
     $ helm delete --purge istio
     {{< /text >}}
 
-    如果您的 helm 版本低于 2.9.0，那么在重新部署新版 Istio chart 之前，您需要手动清理额外的 job 资源：
+    如果您的 Helm 版本低于 2.9.0，那么在重新部署新版 Istio chart 之前，您需要手动清理额外的 job 资源：
 
     {{< text bash >}}
     $ kubectl -n istio-system delete job --all

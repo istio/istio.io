@@ -50,7 +50,7 @@ represents.
 
 |Do                                   | Don't
 |-------------------------------------|------
-|Open the `istio.yaml` file.         | Open the istio.yaml file.
+|Open the `foo.yaml` file.         | Open the foo.yaml file.
 |Go to the `/content/docs/tasks` directory.  | Go to the /content/docs/tasks directory.
 |Open the `/data/args.yaml` file. | Open the /data/args.yaml file.
 
@@ -58,8 +58,8 @@ represents.
 
 |Do                          | Don't
 |----------------------------|------
-|The `kubectl run` command creates a `Deployment`.|The "kubectl run" command creates a `Deployment`.
-|For declarative management, use `kubectl apply`.|For declarative management, use "kubectl apply".
+|The `foo run` command creates a `Deployment`.|The "foo run" command creates a `Deployment`.
+|For declarative management, use `foo apply`.|For declarative management, use "foo apply".
 
 ### Use `code` style for object field names
 
@@ -68,10 +68,17 @@ represents.
 |Set the value of the `ports` field in the configuration file. | Set the value of the "ports" field in the configuration file.
 |The value of the `rule` field is a `Rule` object.           | The value of the "rule" field is a `Rule` object.
 
+## Use title capitalization for `title:` front-matter
+
+The text for the `title:` front-matter should use full title capitalization
+(first letter of every word). This is unlike headings within the document,
+as described below.
+
 ### Only capitalize the first letter of headings
 
 For any headings, only apply an uppercase letter to the first word of the heading,
-except if a word is a proper noun or an acronym.
+except if a word is a proper noun or an acronym. Note that the `title:` annotation
+in markdown uses full capitalization.
 
 |Do                      | Don't
 |------------------------|-----
@@ -105,14 +112,14 @@ It is not a proper noun.
 
 |Do              | Don't
 |----------------|------
-| load balancing | load-balancing
-| multicluster   | multi-cluster
-| add-on         | add-on
-| service mesh   | Service Mesh
-| sidecar        | side-car, Sidecar
-| Kubernetes     | kubernetes, k8s
-| Bookinfo       | BookInfo, bookinfo
-| Mixer          | mixer
+| load balancing | `load-balancing`
+| multicluster   | `multi-cluster`
+| add-on         | `add-on`
+| service mesh   | `Service Mesh`
+| sidecar        | `side-car`, `Sidecar`
+| Kubernetes     | `kubernetes`, `k8s`
+| Bookinfo       | `BookInfo`, `bookinfo`
+| Mixer          | `mixer`
 
 ## Best practices
 

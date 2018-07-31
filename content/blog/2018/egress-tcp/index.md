@@ -58,7 +58,7 @@ performed with the credentials of the  `admin` user, created by default by
     $ curl -s {{< github_file >}}/samples/bookinfo/src/mysql/mysqldb-init.sql | mysql -u root -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT
     {{< /text >}}
 
-1.  Create a user with the name _bookinfo_ and grant it _SELECT_ privilege on the `test.ratings` table:
+1.  Create a user with the name `bookinfo` and grant it _SELECT_ privilege on the `test.ratings` table:
 
     {{< text bash >}}
     $ mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT -e "CREATE USER 'bookinfo' IDENTIFIED BY '<password you choose>'; GRANT SELECT ON test.ratings to 'bookinfo';"
@@ -73,8 +73,8 @@ performed with the credentials of the  `admin` user, created by default by
     {{< /text >}}
 
     Here you apply the [principle of least privilege](https://en.wikipedia.org/wiki/Principle_of_least_privilege). This
-    means that you do not use your _admin_ user in the Bookinfo application. Instead, you create a special user for the
-    Bookinfo application , _bookinfo_, with minimal privileges. In this case, the _bookinfo_ user only has the `SELECT`
+    means that you do not use your `admin` user in the Bookinfo application. Instead, you create a special user for the
+    Bookinfo application , `bookinfo`, with minimal privileges. In this case, the _bookinfo_ user only has the `SELECT`
     privilege on a single table.
 
     After running the command to create the user, you may want to clean your bash history by checking the number of the last
@@ -141,8 +141,8 @@ service:
     +----------+--------+
     {{< /text >}}
 
-    You used the _admin_ user (and _root_ for the local database) in the last command since the _bookinfo_ user does not
-    have the _UPDATE_ privilege on the `test.ratings` table.
+    You used the `admin` user (and `root` for the local database) in the last command since the `bookinfo` user does not
+    have the `UPDATE` privilege on the `test.ratings` table.
 
 Now you are ready to deploy a version of the Bookinfo application that will use your database.
 
@@ -151,9 +151,9 @@ Now you are ready to deploy a version of the Bookinfo application that will use 
 To demonstrate the scenario of using an external database, you start with a Kubernetes cluster with [Istio installed](/docs/setup/kubernetes/quick-start/#installation-steps). Then you deploy the
 [Istio Bookinfo sample application](/docs/examples/bookinfo/) and [apply the default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules).
 
-This application uses the _ratings_ microservice to fetch
+This application uses the `ratings` microservice to fetch
  book ratings, a number between 1 and 5. The ratings are displayed as stars for each review. There are several versions
- of the _ratings_ microservice. Some use [MongoDB](https://www.mongodb.com), others use [MySQL](https://www.mysql.com)
+ of the `ratings` microservice. Some use [MongoDB](https://www.mongodb.com), others use [MySQL](https://www.mysql.com)
  as their database.
 
 The example commands in this blog post work with Istio 0.8+, with or without
@@ -170,7 +170,7 @@ As a reminder, here is the end-to-end architecture of the application from the
 ### Use the database for ratings data in Bookinfo application
 
 1.  Modify the deployment spec of a version of the _ratings_ microservice that uses a MySQL database, to use your
-database instance. The spec is in [`samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml`](https://github.com/istio/istio/blob/release-1.0/samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml)
+database instance. The spec is in [`samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml`]({{<github_blob>}}/samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml)
 of an Istio release archive. Edit the following lines:
 
     {{< text yaml >}}
@@ -209,9 +209,7 @@ service to _ratings v2-mysql_ that uses your database.
      following command.
 
     {{< text bash >}}
-    $ istioctl replace -f @samples/bookinfo/networking/virtual-service-ratings-mysql.yaml@
-    Updated config virtual-service/default/reviews to revision 23048537
-    Updated config virtual-service/default/ratings to revision 23048538
+    $ kubectl apply -f @samples/bookinfo/networking/virtual-service-ratings-mysql.yaml@
     {{< /text >}}
 
 The updated architecture appears below. Note that the blue arrows inside the mesh mark the traffic configured according
@@ -263,7 +261,7 @@ TCP mesh-external service entries come to our rescue.
 1.  Define a TCP mesh-external service entry:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3 $MYSQL_DB_PORT
     kind: ServiceEntry
     metadata:
@@ -284,7 +282,7 @@ TCP mesh-external service entries come to our rescue.
 1.  Review the service entry you just created and check that it contains the correct values:
 
     {{< text bash >}}
-    $ istioctl get serviceentry mysql-external -o yaml
+    $ kubectl get serviceentry mysql-external -o yaml
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -309,7 +307,7 @@ It worked! Accessing the web page of the application displays the ratings withou
 Note that you see a one-star rating for both displayed reviews, as expected. You changed the ratings to be one star to
 provide us with a visual clue that our external database is indeed being used.
 
-As with service entries for HTTP/HTTPS, you can delete and create service entries for TCP using `istioctl`, dynamically.
+As with service entries for HTTP/HTTPS, you can delete and create service entries for TCP using `kubectl`, dynamically.
 
 ## Motivation for egress TCP traffic control
 
@@ -366,7 +364,7 @@ which could be beneficial if the consuming applications expect to use that domai
 
 ## Cleanup
 
-1.  Drop the _test_ database and the _bookinfo_ user:
+1.  Drop the `test` database and the `bookinfo` user:
 
     {{< text bash >}}
     $ mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT -e "drop database test; drop user bookinfo;"
@@ -383,7 +381,7 @@ which could be beneficial if the consuming applications expect to use that domai
 1.  Remove the virtual services:
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/networking/virtual-service-ratings-mysql.yaml@
+    $ kubectl delete -f @samples/bookinfo/networking/virtual-service-ratings-mysql.yaml@
     Deleted config: virtual-service/default/reviews
     Deleted config: virtual-service/default/ratings
     {{< /text >}}
@@ -398,7 +396,7 @@ which could be beneficial if the consuming applications expect to use that domai
 1.  Delete the service entry:
 
     {{< text bash >}}
-    $ istioctl delete serviceentry mysql-external -n default
+    $ kubectl delete serviceentry mysql-external -n default
     Deleted config: serviceentry mysql-external
     {{< /text >}}
 

@@ -56,7 +56,7 @@ Fortio is a fast, small, reusable, embeddable go library as well as a command li
 
 Fortio is also 100% open-source and with no external dependencies beside go and gRPC so you can reproduce all our results easily and add your own variants or scenarios you are interested in exploring.
 
-Here is an example of scenario (one out of the 8 scenarios we run for every build) result graphing the latency distribution for istio-0.7.1 at 400 Query-Per-Second (qps) between 2 services inside the mesh (with mTLS, Mixer Checks and Telemetry):
+Here is an example of scenario (one out of the 8 scenarios we run for every build) result graphing the latency distribution for istio-0.7.1 at 400 Query-Per-Second (qps) between 2 services inside the mesh (with mutual TLS, Mixer policy checks and telemetry collection):
 
 <iframe src="https://fortio.istio.io/browse?url=qps_400-s1_to_s2-0.7.1-2018-04-05-22-06.json&xMax=105&yLog=true" width="100%" height="1024" scrolling="no" frameborder="0"></iframe>
 
@@ -132,7 +132,7 @@ Current recommendations (when using all Istio features):
 
 * Latency cost/overhead is approximately [10 millisecond](https://fortio.istio.io/browse?url=qps_400-s1_to_s2-0.7.1-2018-04-05-22-06.json) for service-to-service (2 proxies involved, mixer telemetry and checks) as of 0.7.1, we expect to bring this down to a low single digit ms.
 
-* mTLS costs are negligible on AES-NI capable hardware in terms of both CPU and latency.
+* Mutual TLS costs are negligible on AES-NI capable hardware in terms of both CPU and latency.
 
 We plan on providing more granular guidance for customers adopting Istio "A la carte".
 

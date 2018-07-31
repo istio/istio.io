@@ -133,7 +133,7 @@ Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
 1.  Create an Istio `Gateway`:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -154,7 +154,7 @@ Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
 1.  Configure routes for traffic entering via the `Gateway`:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -220,12 +220,12 @@ Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
 
 ## Accessing ingress services using a browser
 
-As you may have guessed, entering the `httpbin` service URL in a browser won't work because you don't have a way to tell the browser to pretend to be accessing "httpbin.example.com", like you did with _curl_. In a real world situation this wouldn't be a problem because the requested host would be properly configured and DNS resolvable, so you would be using its domain name in the URL (for example, `https://httpbin.example.com/status/200`).
+Entering the `httpbin` service URL in a browser won't work because you can't tell the browser to pretend to be accessing `httpbin.example.com` like with `curl`. In a real world situation, this is not a problem because because you configure the requested host properly and DNS resolvable. Thus, you use the host's domain name in the URL, for example, `https://httpbin.example.com/status/200`.
 
 To work around this problem for simple tests and demos, use a wildcard `*` value for the host in the `Gateway` and `VirutualService` configurations. For example, if you change your ingress configuration to the following:
 
 {{< text bash >}}
-$ cat <<EOF | istioctl replace -f -
+$ cat <<EOF | kubectl apply -f -
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -278,7 +278,7 @@ and exposed an HTTP endpoint of the service to external traffic.
 Delete the `Gateway` configuration, the `VirtualService` and the secret, and shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service:
 
 {{< text bash >}}
-$ istioctl delete gateway httpbin-gateway
-$ istioctl delete virtualservice httpbin
+$ kubectl delete gateway httpbin-gateway
+$ kubectl delete virtualservice httpbin
 $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
 {{< /text >}}

@@ -121,7 +121,7 @@ destination_version: destination.labels["version"] | "unknown"
 
 控制策略和遥测功能涉及配置三种类型的资源：
 
-- 配置一组处理程序，用于确定正在使用的适配器组及其操作方式。处理程序配置的一个例子：为 statsd 后端提供带有 IP 地址的 `statsd` 适配器。
+- 配置一组处理程序，用于确定正在使用的适配器组及其操作方式。处理程序配置的一个例子：为 Statsd 后端提供带有 IP 地址的 `statsd` 适配器。
 - 配置一组*实例* ，描述如何将请求属性映射到适配器输入。实例表示一个或多个适配器将操作的大量数据。例如，运维人员可能决定从诸如 `destination.service` 和 `response.code` 之类的属性中生成 `requestcount` metric 实例。
 - 配置一组规则，这些规则描述了何时调用特定适配器及哪些实例。规则包含 *match* 表达式和 *action* 。匹配表达式控制何时调用适配器，而动作决定了要提供给适配器的一组实例。例如，规则可能会将生成的 `requestcount`  metric 实例发送到 `statsd` 适配器。
 
@@ -134,7 +134,7 @@ destination_version: destination.labels["version"] | "unknown"
 
 适配器封装了 Mixer 和特定外部基础设施后端进行交互的必要接口，例如 [Prometheus](https://prometheus.io/) 或者 [Stackdriver](https://cloud.google.com/logging)。各种适配器都需要参数配置才能工作。例如日志适配器可能需要 IP 地址和端口来进行日志的输出。
 
-这里的例子配置了一个类型为 `listchecker` 的适配器。listchecker 适配器使用一个列表来检查输入。如果配置的是白名单模式且输入值存在于列表之中，就会返回成功的结果。
+这里的例子配置了一个类型为 `listchecker` 的适配器。`listchecker` 适配器使用一个列表来检查输入。如果配置的是白名单模式且输入值存在于列表之中，就会返回成功的结果。
 
 {{< text yaml >}}
 apiVersion: config.istio.io/v1alpha2

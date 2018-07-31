@@ -15,7 +15,7 @@ keywords: [telemetry,metrics]
 
 ## 查询 Istio 度量标准
 
-1.  验证 prometheus 服务是否在您的群集中运行（从 0.8 开始， 默认情况下 prometheus 设置包含在 `istio.yaml` 和 `istio-demo-auth.yaml` 中）
+1.  验证 `prometheus` 服务是否在您的群集中运行（从 0.8 开始， 默认情况下 `prometheus` 设置包含在 `istio.yaml` 和 `istio-demo-auth.yaml` 中）
 
     在 Kubernetes 环境中，执行以下命令：
 
@@ -86,7 +86,7 @@ Mixer 中内置了 Prometheus 适配器，这一适配器将生成的指标值�
 
 1. *istio-mesh* (`istio-mixer.istio-system:42422`): 所有 Mixer 生成的网格指标。
 1. *mixer* (`istio-mixer.istio-system:9093`):  所有特定于 Mixer 的指标, 用于监控 Mixer 本身。
-1. *envoy* (`istio-mixer.istio-system:9102`):  envoy 生成的原始统计数据（并从 statsd 转换为 prometheus ）。
+1. *envoy* (`istio-mixer.istio-system:9102`):  envoy 生成的原始统计数据（并从 `statsd` 转换为 `prometheus` ）。
 
 有关查询 Prometheus 的更多信息，请阅读他们的[查询文档](https://prometheus.io/docs/querying/basics/)。
 

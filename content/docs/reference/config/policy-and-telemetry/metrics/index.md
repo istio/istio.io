@@ -109,7 +109,7 @@ We will describe metrics first and then the labels for each metric.
     {{< /text >}}
 
 *   **Destination Service**: This identifies destination service host responsible
-    for an incoming request. Ex: "details.default.svc.cluster.local".
+    for an incoming request. Ex: `details.default.svc.cluster.local`.
 
     {{< text yaml >}}
     destination_service: destination.service.host | "unknown"
