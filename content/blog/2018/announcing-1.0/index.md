@@ -50,6 +50,3 @@ to go deeper and [contribute to the project](/about/community) come to one of ou
 ## Finally
 
 The Istio team would like to give huge thanks to everyone who has made a contribution to the project. It wouldn’t be where it is today without your help. The last year has been pretty amazing and we look forward to the next one with excitement about what we can achieve together as a community.
-
--- The Istio Team
-
