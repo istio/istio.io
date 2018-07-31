@@ -64,7 +64,7 @@ title: Istio
             {{< inline_image "landing/istio-logo.svg" >}}
             <div style="width: 20rem; margin-left: 3rem">
                 <h1 class="hero-label">Istio</h1>
-                <h1 class="hero-lead">An open platform to streamline service development and operation through sophisticated traffic management, end-to-end security, and automated telemetry collection.</h1>
+                <h1 class="hero-lead">Connect, secure, control, and observe microservices.
             </div>
         </div>
     </div>
@@ -77,10 +77,10 @@ title: Istio
                  </div>
                 <div class="card-body">
                     <hr class="card-line">
-                    <h5 class="card-title text-center">Connectivity</h5>
+                    <h5 class="card-title text-center">Connect</h5>
                     <hr class="card-line">
                     <p class="card-text">
-                        Control the flow of traffic and API calls between services, conduct a range of tests, and upgrade gradually with
+                        Intelligent control the flow of traffic and API calls between services, conduct a range of tests, and upgrade gradually with
                         red/black deployments.
                     </p>
                 </div>
@@ -92,10 +92,11 @@ title: Istio
                 </div>
                 <div class="card-body">
                     <hr class="card-line">
-                    <h5 class="card-title text-center">Security</h5>
+                    <h5 class="card-title text-center">Secure</h5>
                     <hr class="card-line">
                     <p class="card-text">
-                        Istio provides the underlying secure channel to scalably manage authentication, authorization, and encryption of communication between microservices.
+                        Automatically secure your services through managed authentication, authorization, and encryption of communication between
+                        microservices.
                     </p>
                 </div>
             </div>
@@ -106,7 +107,7 @@ title: Istio
                 </div>
                 <div class="card-body">
                     <hr class="card-line">
-                    <h5 class="card-title text-center">Policy Enforcement</h5>
+                    <h5 class="card-title text-center">Control</h5>
                     <hr class="card-line">
                     <p class="card-text">
                         Apply policies and ensure that they’re enforced, and that resources are fairly distributed among consumers.
@@ -120,11 +121,10 @@ title: Istio
                 </div>
                 <div class="card-body">
                     <hr class="card-line">
-                    <h5 class="card-title text-center">Monitoring</h5>
+                    <h5 class="card-title text-center">Observe</h5>
                     <hr class="card-line">
                     <p class="card-text">
-                        Tracing, monitoring, and logging features let you see how your services are performing, how they affect other processes,
-                        and detect and solve issues quickly. Improve reliability by shielding applications from flaky networks and cascading failures in adverse conditions.
+                        See what's happening with rich automatic tracing, monitoring, and logging of all your microservices.
                    </p>
                 </div>
             </div>
