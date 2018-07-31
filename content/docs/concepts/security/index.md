@@ -75,7 +75,7 @@ On the server side, the server can determine what information the client can acc
 audit who accessed what at what time, charge clients based on the services they used,
 and reject any clients who failed to pay their bill from accessing the services.
 
-In the Istio identity model, Istio uses the first-class service identity to be the identity of a service.
+In the Istio identity model, Istio uses the first-class service identity to determine the identity of a service.
 This gives great flexibility and granularity to represent a human user, an individual service, or a group of services.
 On platforms that do not have such identity available,
 Istio can use other identities that can group service instances, such as service names.
@@ -90,8 +90,8 @@ Istio service identities on different platforms:
 
 - **AWS**: AWS IAM user/role account
 
-- **On-premises (non-Kubernetes)**: user account (custom service account), service name, istio service account, or GCP service account.
-  Custom service account refers to the existing service account alike identities managed by customer's Identity Directory.
+- **On-premises (non-Kubernetes)**: user account, custom service account, service name, istio service account, or GCP service account.
+  The custom service account refers to the existing service account just like the identities that the customer's Identity Directory manages.
 
 ### Istio security vs SPIFFE
 
