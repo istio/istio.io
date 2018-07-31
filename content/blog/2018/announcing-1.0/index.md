@@ -7,15 +7,20 @@ attribution: The Istio Team
 weight: 84
 ---
 
-Today, we’re excited to announce [Istio 1.0](/about/notes/1.0). It’s been a little over a year since our initial 0.1 release. Since then, Istio has evolved significantly with the help of a thriving and growing community of contributors and users. We’ve now reached the point where many companies have successfully adopted Istio in production and have gotten real value from the insight and control it provides over their deployments. We’ve helped large enterprises and fast-moving startups like [eBay](https://www.ebay.com/), [Auto Trader UK](https://www.autotrader.co.uk/), [Descartes Labs](http://www.descarteslabs.com/), [HP Fitstation](https://www.fitstation.com/), [Namely](https://www.namely.com/), [PubNub](https://www.pubnub.com/) & [Trulia](https://www.trulia.com/) use Istio to connect, manage and secure their services from the ground up. Shipping this release as 1.0 is recognition that we’ve built a core set of functionality that our users can rely on for production use.
+Today, we’re excited to announce [Istio 1.0](/about/notes/1.0). It’s been a little over a year since our initial 0.1 release. Since then, Istio has evolved significantly with the help of a thriving and growing community of contributors and users. We’ve now reached the point where many companies have successfully adopted Istio in production and have gotten real value from the insight and control it provides over their deployments. We’ve helped large enterprises and fast-moving startups like [eBay](https://www.ebay.com/), [Auto Trader UK](https://www.autotrader.co.uk/), [Descartes Labs](http://www.descarteslabs.com/), [HP FitStation](https://www.fitstation.com/), [Namely](https://www.namely.com/), [PubNub](https://www.pubnub.com/) & [Trulia](https://www.trulia.com/) use Istio to connect, manage and secure their services from the ground up. Shipping this release as 1.0 is recognition that we’ve built a core set of functionality that our users can rely on for production use.
 
 ## Ecosystem
 
-In the last lear we’ve seen substantial growth in the ecosystem around Istio. [Envoy](https://www.envoyproxy.io/) continues its impressive growth and added numerous features that are crucial for a production quality service-mesh. Observability providers like [Datadog](https://www.datadoghq.com/), [Solarwinds](https://www.solarwinds.com/), [Sysdig](https://sysdig.com/blog/monitor-istio/), [Google Stackdriver](https://cloud.google.com/stackdriver/) & [Amazon CloudWatch](https://aws.amazon.com/cloudwatch/) have written plugins to integrate Istio with their products. [Tigera](https://www.tigera.io/resources/using-network-policy-concert-istio-2/), [Aporeto](https://www.aporeto.com/), [Cilium](https://cilium.io/) & [Styra](https://styra.com/) built extensions to our policy enforcement and networking capabilities. [Red Hat ](https://www.redhat.com/en)built [Kiali](https://www.kiali.io) to wrap a nice user-experience around mesh management and observability. [CloudFoundry](https://www.cloudfoundry.org/) is building on  Istio for it’s next generation traffic routing stack, the recently announced [Knative](https://github.com/knative/docs) serverless project is doing the same and [Apigee](https://apigee.com/) announced that they plan to use it in their API management solution. These are just some of the integrations the community has added in the last year.
+We’ve seen substantial growth in Istio's ecosystem in the last year. [Envoy](https://www.envoyproxy.io/) continues its impressive growth and added numerous
+features that are crucial for a production quality service mesh. Observability providers like [Datadog](https://www.datadoghq.com/),
+[SolarWinds](https://www.solarwinds.com/), [Sysdig](https://sysdig.com/blog/monitor-istio/), [Google Stackdriver](https://cloud.google.com/stackdriver/) and
+[Amazon CloudWatch](https://aws.amazon.com/cloudwatch/) have written plugins to integrate Istio with their products.
+[Tigera](https://www.tigera.io/resources/using-network-policy-concert-istio-2/), [Aporeto](https://www.aporeto.com/), [Cilium](https://cilium.io/)
+and [Styra](https://styra.com/) built extensions to our policy enforcement and networking capabilities. [Red Hat](https://www.redhat.com/en)built [Kiali](https://www.kiali.io) to wrap a nice user-experience around mesh management and observability. [Cloud Foundry](https://www.cloudfoundry.org/) is building on  Istio for it’s next generation traffic routing stack, the recently announced [Knative](https://github.com/knative/docs) serverless project is doing the same and [Apigee](https://apigee.com/) announced that they plan to use it in their API management solution. These are just some of the integrations the community has added in the last year.
 
 ## Features
 
-Since the 0.8 release we’ve added some important new features and more importantly marked many of our existing features as Beta signalling that they’re ready for production use. This is captured in more detail in the [release notes](/about/notes/1.0/)  but it’s worth calling out some highlights
+Since the 0.8 release we’ve added some important new features and more importantly marked many of our existing features as Beta signaling that they’re ready for production use. This is captured in more detail in the [release notes](/about/notes/1.0/)  but it’s worth calling out some highlights
 
 * Multiple Kubernetes clusters can now be [added to a single mesh](/docs/setup/kubernetes/multicluster-install) and enabling cross-cluster communication and consistent policy enforcement. Multi-cluster support is now Beta.
 
@@ -25,7 +30,8 @@ Since the 0.8 release we’ve added some important new features and more importa
 
 * Mixer now has support for [developing out-of-process adapters](https://github.com/istio/istio/wiki/Out-Of-Process-gRPC-Adapter-Dev-Guide). This will become the default way to extend Mixer over the coming releases and makes building adapters much simpler.
 
-* [Authorization policies](/docs/concepts/security/#authorization) which control access to services are now entirely evaluated locally in Envoy making them more performant and reliable.
+* [Authorization policies](/docs/concepts/security/#authorization) which control access to services are now entirely evaluated locally in Envoy increasing
+their performance and reliability.
 
 * [Helm chart installation](/docs/setup/kubernetes/helm-install/) is now the recommended install method offering rich customization options to adopt Istio on your terms.
 
