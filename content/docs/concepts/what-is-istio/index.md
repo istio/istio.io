@@ -8,7 +8,7 @@ aliases:
     - /about/intro
 ---
 
-Istio is an open platform to connect, manage, and secure microservices.
+Istio is an open platform to streamline service development and operation through sophisticated traffic management, end-to-end security, and automated telemetry collection.
 
 Istio provides an easy way to create a network of deployed services with load
 balancing, service-to-service authentication, monitoring, and more, without

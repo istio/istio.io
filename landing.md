@@ -33,7 +33,7 @@ title: Istio
       "image": [
           "https://istio.io/img/logo.png"
        ],
-      "description": "Istio is an open platform to connect, manage, and secure microservices."
+      "description": "Istio is an open platform to streamline service development and operation through sophisticated traffic management, end-to-end security, and automated telemetry collection."
     }
 </script>
 

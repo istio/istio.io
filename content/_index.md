@@ -33,7 +33,7 @@ title: Istio
       "image": [
           "https://istio.io/img/logo.png"
        ],
-      "description": "Istio is an open platform to connect, manage, and secure microservices."
+      "description": "Istio is an open platform to streamline service development and operation through sophisticated traffic management, end-to-end security, and automated telemetry collection."
     }
 </script>
 <script>
@@ -64,7 +64,7 @@ title: Istio
             {{< inline_image "landing/istio-logo.svg" >}}
             <div style="width: 20rem; margin-left: 3rem">
                 <h1 class="hero-label">Istio</h1>
-                <h1 class="hero-lead">An open platform to connect, manage, and secure microservices</h1>
+                <h1 class="hero-lead">An open platform to streamline service development and operation through sophisticated traffic management, end-to-end security, and automated telemetry collection.</h1>
             </div>
         </div>
     </div>
