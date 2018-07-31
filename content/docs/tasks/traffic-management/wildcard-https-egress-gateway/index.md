@@ -59,6 +59,7 @@ section of the [Configure an Egress Gateway](/docs/tasks/traffic-management/egre
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
       name: istio-egressgateway
@@ -354,6 +355,7 @@ to hold the configuration of the Nginx SNI proxy:
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
       name: istio-egressgateway-with-sni-proxy
