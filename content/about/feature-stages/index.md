@@ -27,11 +27,12 @@ within the project, not to the project as a whole. Here is a high level descript
 
 Below is our list of existing features and their current phases. This information will be updated after every monthly release.
 
-### Networking
+### Traffic Management
 
 | Feature           | Phase
 |-------------------|-------------------
-| Protocols: HTTP1.1 / HTTP2 / gRPC / Websockets / MongoDB  | Beta
+| Protocols: HTTP1.1 / HTTP2 / gRPC / TCP | Stable
+| Protocols: Websockets / MongoDB  | Beta
 | Traffic Control: label/content based routing, traffic shifting | Beta
 | Resilience features: timeouts, retries, connection pools, outlier detection | Beta
 | Gateway: Ingress, Egress for all protocols | Beta
@@ -45,15 +46,16 @@ Below is our list of existing features and their current phases. This informatio
 | [Prometheus Integration](/docs/tasks/telemetry/querying-metrics/) | Stable
 | [Local Logging (STDIO)](/docs/examples/telemetry/) | Stable
 | [Statsd Integration](/docs/reference/config/policy-and-telemetry/adapters/statsd/) | Stable
+| [Client and Server Telemetry Reporting](/docs/concepts/policies-and-telemetry/) | Stable
 | [Service Dashboard in Grafana](/docs/tasks/telemetry/using-istio-dashboard/) | Beta
+| [Istio Component Dashboard in Grafana](/docs/tasks/telemetry/using-istio-dashboard/) | Beta
 | [Stackdriver Integration](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) | Alpha
 | [SolarWinds Integration](/docs/reference/config/policy-and-telemetry/adapters/solarwinds/) | Alpha
 | [Service Graph](/docs/tasks/telemetry/servicegraph/) | Alpha
 | [Distributed Tracing to Zipkin / Jaeger](/docs/tasks/telemetry/distributed-tracing/) | Alpha
-| [Istio Component Dashboard in Grafana](/docs/tasks/telemetry/using-istio-dashboard/) | Beta
 | [Service Tracing](/docs/tasks/telemetry/distributed-tracing/) | Alpha
 | [Logging with Fluentd](/docs/tasks/telemetry/fluentd/) | Alpha
-| [Client and Server Telemetry Reporting](/docs/concepts/policies-and-telemetry/) | Stable
+| Trace Sampling | Alpha
 
 ### Security and Policy Enforcement
 
@@ -61,13 +63,13 @@ Below is our list of existing features and their current phases. This informatio
 |-------------------|-------------------
 | [Deny Checker](/docs/reference/config/policy-and-telemetry/adapters/denier/)         | Stable
 | [List Checker](/docs/reference/config/policy-and-telemetry/adapters/list/)        | Stable
-| [Kubernetes: Service Credential Distribution](/docs/concepts/security/#mutual-tls-authentication)   | Stable
 | [Pluggable Key/Cert Support for Istio CA](/docs/tasks/security/plugin-ca-cert/)        | Stable
 | [Service-to-service mutual TLS](/docs/concepts/security/#mutual-tls-authentication)         | Stable
-| [Authentication policy](/docs/concepts/security/#authentication-policies)  | Alpha
-| [End User (JWT) Authentication](/docs/concepts/security/#authentication)  | Alpha
+| [Kubernetes: Service Credential Distribution](/docs/concepts/security/#mutual-tls-authentication)   | Stable
 | [VM: Service Credential Distribution](/docs/concepts/security/#key-management)         | Beta
 | [Mutual TLS Migration](/docs/tasks/security/mtls-migration)    | Beta
+| [Authentication policy](/docs/concepts/security/#authentication-policies)  | Alpha
+| [End User (JWT) Authentication](/docs/concepts/security/#authentication)  | Alpha
 | [OPA Checker](/docs/reference/config/policy-and-telemetry/adapters/opa/)    | Alpha
 | [Authorization (RBAC)](/docs/concepts/security/#authorization)   | Alpha
 
@@ -75,23 +77,22 @@ Below is our list of existing features and their current phases. This informatio
 
 | Feature           | Phase
 |-------------------|-------------------
-| [Kubernetes: Envoy Installation and Traffic Interception](/docs/setup/kubernetes/)        | Beta
-| [Kubernetes: Istio Control Plane Installation](/docs/setup/kubernetes/) | Beta
-| [Kubernetes: Istio Control Plane Upgrade](/docs/setup/kubernetes/) | Beta
-| [Consul Integration](/docs/setup/consul/quick-start/) | Alpha
-| [Cloud Foundry Integration](/docs/setup/consul/quick-start/)    | Alpha
+| [Kubernetes: Envoy Installation and Traffic Interception](/docs/setup/kubernetes/)        | Stable
+| [Kubernetes: Istio Control Plane Installation](/docs/setup/kubernetes/) | Stable
 | [Attribute Expression Language](/docs/reference/config/policy-and-telemetry/expression-language/)        | Stable
 | [Mixer Adapter Authoring Model](/blog/2017/adapter-model/)        | Stable
-| [VM: Envoy Installation, Traffic Interception and Service Registration](/docs/examples/integrating-vms/)    | Alpha
+| [Helm](/docs/setup/kubernetes/helm-install/) | Beta
+| [Multicluster Mesh](/docs/setup/kubernetes/multicluster-install/) | Beta
+| [Kubernetes: Istio Control Plane Upgrade](/docs/setup/kubernetes/) | Beta
+| [VM: Envoy Installation, Traffic Interception and Service Registration](/docs/examples/integrating-vms/)    | Beta
 | [VM: Istio Control Plane Installation and Upgrade (Galley, Mixer, Pilot, CA)](https://github.com/istio/istio/issues/2083)  | Alpha
 | VM: Ansible Envoy Installation, Interception and Registration  | Alpha
+| [Consul Integration](/docs/setup/consul/quick-start/) | Alpha
+| [Cloud Foundry Integration](/docs/setup/consul/quick-start/)    | Alpha
 | [Basic Configuration Resource Validation](https://github.com/istio/istio/issues/1894) | Alpha
-| [Mixer Telemetry Collection (Tracing, Logging, Monitoring)](/help/faq/mixer/#mixer-self-monitoring) | Alpha
+| [Mixer Self Monitoring](/help/faq/mixer/#mixer-self-monitoring) | Alpha
 | [Custom Mixer Build Model](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) | Alpha
-| [Out of Process Mixer Adapters](https://github.com/istio/istio/wiki/Out-Of-Process-gRPC-Adapter-Dev-Guide) | Alpha
-| Enable API attributes using an IDL | Alpha
-| [Helm](/docs/setup/kubernetes/helm-install/) | Beta
-| [Multicluster Mesh](/docs/setup/kubernetes/multicluster-install/) | Alpha
+| [Out of Process Mixer Adapters (GRPC Adapters)](https://github.com/istio/istio/wiki/Out-Of-Process-gRPC-Adapter-Dev-Guide) | Alpha
 
 > {{< idea_icon >}}
 Please get in touch by joining our [community](/about/community/) if there are features you'd like to see in our future releases!
