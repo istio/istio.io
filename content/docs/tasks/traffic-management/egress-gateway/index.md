@@ -238,7 +238,7 @@ First direct HTTP traffic without TLS origination
     We should see a line related to our request, similar to the following:
 
     {{< text plain >}}
-    [2018-06-14T11:46:23.596Z] "GET /politics HTTP/1.1" 301 - 0 0 3 1 "172.30.146.87" "curl/7.35.0" "ab7be694-e367-94c5-83d1-086eca996dae" "edition.cnn.com" "151.101.193.67:80"
+    [2018-06-14T11:46:23.596Z] "GET /politics HTTP/2" 301 - 0 0 3 1 "172.30.146.87" "curl/7.35.0" "ab7be694-e367-94c5-83d1-086eca996dae" "edition.cnn.com" "151.101.193.67:80"
     {{< /text >}}
 
     Note that we redirected only the traffic from the port 80 to the egress gateway, the HTTPS traffic to the port 443 went directly to _edition.cnn.com_.
