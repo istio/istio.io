@@ -10,14 +10,8 @@ aliases:
     - /docs/concepts/security/rbac/
 ---
 
-Breaking down a monolithic application into atomic services offers various benefits. Microservices have:
-
-- Better agility
-
-- Better scalability
-
-- Better ability to reuse services
-
+Breaking down a monolithic application into atomic services offers various benefits, including better agility, better scalability
+and better ability to reuse services.
 However, microservices also have particular security needs:
 
 - To defend against the man-in-the-middle attack, they need traffic encryption.
