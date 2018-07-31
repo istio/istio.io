@@ -11,4 +11,4 @@ HOST:PORT                                  STATUS     SERVER     CLIENT     AUTH
 httpbin.default.svc.cluster.local:8080     OK         mTLS       mTLS       default/            default/default
 {{< /text >}}
 
-Refer to [Verifying TLS configuration](/docs/tasks/security/mutual-tls/#verifying-tls-configuration) for more information.
+Refer to [Verify mutual TLS configuration](/docs/tasks/security/mutual-tls/#verify-mutual-tls-configuration) for more information.
