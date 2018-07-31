@@ -1,6 +1,6 @@
 ---
-title: Configuration validation
-description: Describes Istio's use of Kubernetes webhooks for server-side configuration validation
+title: Configuration Validation
+description: Describes Istio's use of Kubernetes webhooks for server-side configuration validation.
 weight: 10
 ---
 
@@ -24,7 +24,7 @@ Resource Definitions (CRDs).
 
 ## Troubleshooting guide
 
-1. Verify the webhook configuration exists and is correct.
+1. Verify the webhook configuration exists and is correct:
 
     {{< text bash yaml >}}
     $ kubectl get validatingwebhookconfiguration istio-galley -o yaml
@@ -195,7 +195,7 @@ Resource Definitions (CRDs).
     webhook wasn’t invoked and the webhook configuration is valid,
     your cluster is mis-configured.
 
-1. Verify the istio-galley pods(s) are running
+1. Verify the istio-galley pods(s) are running:
 
     {{< text bash >}}
     $  kubectl -n istio-system get pod -listio=galley
@@ -227,7 +227,7 @@ Resource Definitions (CRDs).
 1. If the patching failed, verify the RBAC configuration for the
    galley.
 
-    {{< text bash yaml>}}
+    {{< text bash yaml >}}
     $ kubectl get clusterrole istio-galley-istio-system -o yaml
       apiVersion: rbac.authorization.k8s.io/v1
       kind: ClusterRole
@@ -287,21 +287,21 @@ Resource Definitions (CRDs).
 
     * Kubernetes 1.9
 
-    ```
-    Internal error occurred: failed calling admission webhook "istio-galley.istio.io": \
-        Post https://istio-galley.istio-system.svc:443/inject: dial tcp: lookup \
-        istio-galley.istio-system.svc on 169.254.169.254:53: no such host
-    ```
+        ```
+        Internal error occurred: failed calling admission webhook "istio-galley.istio.io": \
+            Post https://istio-galley.istio-system.svc:443/inject: dial tcp: lookup \
+            istio-galley.istio-system.svc on 169.254.169.254:53: no such host
+        ```
 
     * Kubernetes 1.10
 
-    ```
-    Internal error occurred: failed calling admission webhook "istio-galley.istio.io": \
-        Post https://istio-galley.istio-system.svc:443/adminPilot?timeout=30s: \
-        no endpoints available for service "istio-galley"
-    ```
+        ```
+        Internal error occurred: failed calling admission webhook "istio-galley.istio.io": \
+            Post https://istio-galley.istio-system.svc:443/adminPilot?timeout=30s: \
+            no endpoints available for service "istio-galley"
+        ```
 
-    * Verify one or more webhook pods and endpoints exist
+    * Verify one or more webhook pods and endpoints exist:
 
         {{< text bash >}}
         $ kubectl -n istio-system get endpoints istio-galley
@@ -309,9 +309,10 @@ Resource Definitions (CRDs).
         istio-galley   10.48.6.108:9093,10.48.6.108:443   3d
         {{< /text >}}
 
-    * Verify the pods are healthy
+    * Verify the pods are healthy:
 
         {{< text bash >}}
+        $ kubectl -n istio-system get pod -listio=istio-galley
         NAME                            READY     STATUS    RESTARTS   AGE
         istio-galley-5dbbbdb746-d676g   1/1       Running   0          2d
         {{< /text >}}
