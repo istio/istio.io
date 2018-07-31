@@ -41,8 +41,11 @@ $headerDarkShadowColor: rgba(0, 0, 0, .28);
 $figureBackgroundColor: #a3a3a3;
 $figureCaptionColor: $white;
 
-$landingBackgroundColor1: lighten($dark-gray, 10%);
-$landingBackgroundColor2: $dark-gray;
+$heroLogoColor: $textColor;
+$landingCardBackgroundColor: $dark-gray;
+$landingCardBorderColor: #777777;
+$landingCardTextColor: $textColor;
+$landingCardShadowColor: #777777;
 
 $floatingButtonColor: rgba(0, 0, 0, .4);
 
