@@ -139,24 +139,30 @@ When you make downstream calls in your applications, make sure to include these 
 
 ## Trace Sampling
 
-Istio is configured by default to capture all traces. For every time
-you access `/productpage` you should see a corresponding trace in the
-Jaeger dashboard. This is suitable for a test or low traffic mesh. For
-a high traffic mesh you may wish to lower the trace sampling
-percentage. This can be set in two ways:
+Istio captures a trace for all requests by default. Every time you
+access `/productpage` you see a corresponding trace in the Jaeger
+dashboard. This sampling rate is suitable for a test or low traffic
+mesh. For a high traffic mesh you can lower the trace sampling
+percentage in one of two ways:
 
-* On mesh setup, you may use the Helm option `pilot.traceSampling` to
-  set the percentage of trace sampling you want. See the
+* During the mesh setup, use the Helm option `pilot.traceSampling` to
+  set the percentage of trace sampling. See the
   [Helm Install](/docs/setup/kubernetes/helm-install/) documentation for
   details on setting options.
-* In a running mesh, you may edit the `istio-pilot` deployment and
-  change the environment variable by doing the below.
+* In a running mesh, edit the `istio-pilot` deployment and
+  change the environment variable with the following steps.
 
-  1. Run `kubectl -n istio-system edit deploy istio-pilot`. This will
-     open your text editor.
+  1. Run the below command. It will open your text editor with the deployment configuration
+     loaded.
+
+     {{< text bash >}}
+    $ kubectl -n istio-system edit deploy istio-pilot
+     {{< /text >}}
 
   1. Find the `PILOT_TRACE_SAMPLING` environment variable, and change
      the `value:` to your desired percentage.
+
+  1. Save and exit your text editor.
 
 In both cases, valid values are from 0.0 to 100.0 with a precision of 0.01.
 
