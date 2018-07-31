@@ -547,6 +547,41 @@ The output should be the same as in the previous section.
             tls:
               mode: ISTIO_MUTUAL
               sni: edition.cnn.com
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: direct-cnn-through-egress-gateway
+    spec:
+      hosts:
+      - edition.cnn.com
+      gateways:
+      - mesh
+      - istio-egressgateway
+      tls:
+      - match:
+        - gateways:
+          - mesh
+          port: 443
+          sni_hosts:
+          - edition.cnn.com
+        route:
+        - destination:
+            host: istio-egressgateway.istio-system.svc.cluster.local
+            subset: cnn
+            port:
+              number: 443
+      tcp:
+      - match:
+        - gateways:
+          - istio-egressgateway
+          port: 443
+        route:
+        - destination:
+            host: edition.cnn.com
+            port:
+              number: 443
+          weight: 100
     EOF
     {{< /text >}}
 
@@ -579,13 +614,7 @@ The output should be the same as in the previous section.
       host: istio-egressgateway.istio-system.svc.cluster.local
       subsets:
       - name: cnn
-    EOF
-    {{< /text >}}
-
-1.  Define a `VirtualService` to direct the traffic through the egress gateway:
-
-    {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    ---
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -609,11 +638,12 @@ The output should be the same as in the previous section.
             subset: cnn
             port:
               number: 443
-      tcp:
       - match:
         - gateways:
           - istio-egressgateway
           port: 443
+          sni_hosts:
+          - edition.cnn.com
         route:
         - destination:
             host: edition.cnn.com
