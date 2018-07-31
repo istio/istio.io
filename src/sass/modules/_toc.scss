@@ -9,7 +9,6 @@
     }
 
     .directory {
-        border-left: 1px solid $dividerBarColor;
         padding-left: .5em;
 
         @supports ((position:-webkit-sticky) or (position:sticky)) {
