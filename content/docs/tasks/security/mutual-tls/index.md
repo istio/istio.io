@@ -140,7 +140,12 @@ Assuming mutual TLS authentication is properly turned on, it should not affect c
     200
     {{< /text >}}
 
-    > Istio uses [Kubernetes service accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) as service identity, which offers stronger security than service name (refer [here](/docs/concepts/security/#istio-identity) for more information). Thus the certificates used in Istio do not have service names, which is the information that `curl` needs to verify server identity. As a result, we use `curl` option `-k` to prevent the `curl` client from aborting when failing to find and verify the server name (i.e., httpbin.ns.svc.cluster.local) in the certificate provided by the server.
+    > Istio uses [Kubernetes service accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/)
+for service identity, which offers stronger security than service name.
+Refer to the [Istio identity docs](/docs/concepts/security/#istio-identity) for more information.
+Thus the certificates used in Istio do not have service names, which is the information that `curl` needs to verify server identity.
+As a result, we use `curl` option `-k` to prevent the `curl` client from aborting when failing to find
+and verify the server name in the certificate the server provides, for example, `httpbin.ns.svc.cluster.local`.
 
 1. Request from pod without sidecar. For this demo, let's install another `sleep` service without sidecar. To avoid name conflicts, we put it in different namespace.
 
