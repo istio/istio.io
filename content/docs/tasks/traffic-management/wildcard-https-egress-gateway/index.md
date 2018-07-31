@@ -101,40 +101,18 @@ section of the [Configure an Egress Gateway](/docs/tasks/traffic-management/egre
                 subjectAltNames:
                 - spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
                 sni: www.wikipedia.org # an SNI to match egress gateway's expectation for an SNI
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: direct-wikipedia-through-egress-gateway
-    spec:
-      hosts:
-      - "*.wikipedia.org"
-      gateways:
-      - mesh
-      tls:
-      - match:
-        - gateways:
-          - mesh
-          port: 443
-          sni_hosts:
-          - "*.wikipedia.org"
-        route:
-        - destination:
-            host: istio-egressgateway.istio-system.svc.cluster.local
-            subset: wikipedia
-            port:
-              number: 443
-          weight: 100
     EOF
     {{< /text >}}
 
-1.  Route the traffic destined to _*.wikipedia.org_ from the egress gateway to _www.wikipedia.org_. We can use this
- trick since all the _*.wikipedia.org_ sites are apparently served by each of the _wikipedia.org_ servers. It means that
- we can route the traffic to an IP of any _*.wikipedia.org_ sites, in particular to _www.wikipedia.org_,
- and the server at that IP will [manage to serve](https://en.wikipedia.org/wiki/Virtual_hosting) any of the Wikipedia
- sites. For a general case, in which the all the domain names of a `ServiceEntry` are not served by all the hosting
- servers, a more complex configuration is required. Note that we must create a `ServiceEntry` for _www.wikipedia.org_
- with resolution `DNS` so the gateway will be able to perform the routing.
+1.  Route the traffic destined to _*.wikipedia.org_ to the egress gateway and from the egress gateway to
+  _www.wikipedia.org_.
+   We can use this trick since all the _*.wikipedia.org_ sites are apparently served by each of the
+   _wikipedia.org_ servers. It means that we can route the traffic to an IP of any _*.wikipedia.org_ sites, in
+   particular to _www.wikipedia.org_, and the server at that IP will
+   [manage to serve](https://en.wikipedia.org/wiki/Virtual_hosting) any of the Wikipedia sites.
+   For a general case, in which the all the domain names of a `ServiceEntry` are not served by all the hosting
+   servers, a more complex configuration is required. Note that we must create a `ServiceEntry` for _www.wikipedia.org_
+   with resolution `DNS` so the gateway will be able to perform the routing.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -154,12 +132,27 @@ section of the [Configure an Egress Gateway](/docs/tasks/traffic-management/egre
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
-      name: wikipedia
+      name: direct-wikipedia-through-egress-gateway
     spec:
       hosts:
       - "*.wikipedia.org"
       gateways:
+      - mesh
       - istio-egressgateway
+      tls:
+      - match:
+        - gateways:
+          - mesh
+          port: 443
+          sni_hosts:
+          - "*.wikipedia.org"
+        route:
+        - destination:
+            host: istio-egressgateway.istio-system.svc.cluster.local
+            subset: wikipedia
+            port:
+              number: 443
+          weight: 100
       tcp:
       - match:
         - gateways:
@@ -197,7 +190,7 @@ section of the [Configure an Egress Gateway](/docs/tasks/traffic-management/egre
 {{< text bash >}}
 $ kubectl delete serviceentry wikipedia www-wikipedia
 $ kubectl delete gateway istio-egressgateway
-$ kubectl delete virtualservice direct-wikipedia-through-egress-gateway wikipedia
+$ kubectl delete virtualservice direct-wikipedia-through-egress-gateway
 $ kubectl delete destinationrule set-sni-for-egress-gateway
 {{< /text >}}
 
@@ -397,30 +390,6 @@ to hold the configuration of the Nginx SNI proxy:
                 subjectAltNames:
                 - spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-with-sni-proxy-service-account
                 sni: placeholder.wikipedia.org # an SNI to match egress gateway's expectation for an SNI
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: direct-wikipedia-through-egress-gateway
-    spec:
-      hosts:
-      - "*.wikipedia.org"
-      gateways:
-      - mesh
-      tls:
-      - match:
-        - gateways:
-          - mesh
-          port: 443
-          sni_hosts:
-          - "*.wikipedia.org"
-        route:
-        - destination:
-            host: istio-egressgateway-with-sni-proxy.istio-system.svc.cluster.local
-            subset: wikipedia
-            port:
-              number: 443
-          weight: 100
     EOF
     {{< /text >}}
 
@@ -446,12 +415,27 @@ to hold the configuration of the Nginx SNI proxy:
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
-      name: wikipedia
+      name: direct-wikipedia-through-egress-gateway
     spec:
       hosts:
       - "*.wikipedia.org"
       gateways:
+      - mesh
       - istio-egressgateway-with-sni-proxy
+      tls:
+      - match:
+        - gateways:
+          - mesh
+          port: 443
+          sni_hosts:
+          - "*.wikipedia.org"
+        route:
+        - destination:
+            host: istio-egressgateway-with-sni-proxy.istio-system.svc.cluster.local
+            subset: wikipedia
+            port:
+              number: 443
+          weight: 100
       tcp:
       - match:
         - gateways:
@@ -491,7 +475,7 @@ to hold the configuration of the Nginx SNI proxy:
     {{< text bash >}}
     $ kubectl delete serviceentry wikipedia sni-proxy
     $ kubectl delete gateway istio-egressgateway-with-sni-proxy
-    $ kubectl delete virtualservice direct-wikipedia-through-egress-gateway wikipedia
+    $ kubectl delete virtualservice direct-wikipedia-through-egress-gateway
     $ kubectl delete destinationrule set-sni-for-egress-gateway
     $ kubectl delete -f $HOME/istio-egressgateway-with-sni-proxy.yaml
     $ kubectl delete configmap egress-sni-proxy-configmap -n istio-system
