@@ -77,11 +77,11 @@ title: Istio
                  </div>
                 <div class="card-body">
                     <hr class="card-line">
-                    <h5 class="card-title text-center">Intelligent Routing and Load Balancing</h5>
+                    <h5 class="card-title text-center">Connectivity</h5>
                     <hr class="card-line">
                     <p class="card-text">
-                        Control traffic between services with dynamic route configuration,
-                        conduct A/B tests, release canaries, and gradually upgrade versions using red/black deployments.
+                        Control the flow of traffic and API calls between services, conduct a range of tests, and upgrade gradually with
+                        red/black deployments.
                     </p>
                 </div>
             </div>
@@ -92,10 +92,10 @@ title: Istio
                 </div>
                 <div class="card-body">
                     <hr class="card-line">
-                    <h5 class="card-title text-center">Resilience Across Languages and Platforms</h5>
+                    <h5 class="card-title text-center">Security</h5>
                     <hr class="card-line">
                     <p class="card-text">
-                        Increase reliability by shielding applications from flaky networks and cascading failures in adverse conditions.
+                        Istio provides the underlying secure channel to scalably manage authentication, authorization, and encryption of communication between microservices.
                     </p>
                 </div>
             </div>
@@ -106,11 +106,10 @@ title: Istio
                 </div>
                 <div class="card-body">
                     <hr class="card-line">
-                    <h5 class="card-title text-center">Fleet-Wide Policy Enforcement</h5>
+                    <h5 class="card-title text-center">Policy Enforcement</h5>
                     <hr class="card-line">
                     <p class="card-text">
-                        Apply organizational policies to the interaction between services, ensure access policies are enforced and resources are fairly distributed
-                        among consumers.
+                        Apply policies and ensure that they’re enforced, and that resources are fairly distributed among consumers.
                     </p>
                 </div>
             </div>
@@ -121,11 +120,12 @@ title: Istio
                 </div>
                 <div class="card-body">
                     <hr class="card-line">
-                    <h5 class="card-title text-center">In-Depth Telemetry</h5>
+                    <h5 class="card-title text-center">Monitoring</h5>
                     <hr class="card-line">
                     <p class="card-text">
-                        Understand the dependencies between services, the nature and flow of traffic between them, and quickly identify issues with distributed tracing.
-                    </p>
+                        Tracing, monitoring, and logging features let you see how your services are performing, how they affect other processes,
+                        and detect and solve issues quickly. Improve reliability by shielding applications from flaky networks and cascading failures in adverse conditions.
+                   </p>
                 </div>
             </div>
         </div>
