@@ -10,197 +10,186 @@ aliases:
     - /docs/concepts/security/rbac/
 ---
 
-Istio aims to enhance the security of microservices and their communication
-without requiring service code changes. It is responsible for:
+Breaking down a monolithic application into atomic services offers various benefits, including better agility, better scalability
+and better ability to reuse services.
+However, microservices also have particular security needs:
 
-- Providing each service with a strong identity that represents its role to
-  enable interoperability across clusters and clouds
+- To defend against the man-in-the-middle attack, they need traffic encryption.
 
-- Securing service to service communication and end-user to service
-  communication
+- To provide flexible service access control, they need mutual TLS and fine-grained access policies.
 
-- Providing a key management system to automate key and certificate generation,
-  distribution, rotation, and revocation
+- To audit who did what at what time, they need auditing tools.
 
-The following diagram shows Istio's security architecture, which includes three
-primary components: identity, key management, and communication security. The
-diagram shows how to use Istio to secure the service-to-service communication
-between the `frontend` service running as the `frontend-team` service account
-and the `backend` service running as the `backend-team` service account. Istio
-supports services running on Kubernetes containers, virtual machines, and
-bare-metal machines.
+Istio Security tries to provide a comprehensive security solution to solve all these issues.
 
-{{< image width="60%" ratio="52.44%"
-    link="./auth.svg"
-    alt="Components making up the Istio security model."
+This page gives an overview on how you can use Istio security features to secure your services, wherever you run them.
+In particular, Istio security mitigates both insider and external threats against your data, endpoints, communication and platform.
+
+{{< image width="80%" ratio="56.25%"
+    link="./overview.svg"
+    alt="Istio security overview."
     caption="Istio Security Architecture"
     >}}
 
-As illustrated in the diagram, Istio uses secret volume mounts to deliver
-keys and certificates from Citadel to Kubernetes containers. For services
-running on VMs or bare-metal machines, we introduce a node agent, which is a
-process running on each VM or bare-metal machine. The node agent generates the
-private key and the CSR (Certificate Signing Request) locally, sends the CSR to
-Citadel for signing, and delivers the generated certificate together with the
-private key to Envoy.
+The Istio security features provide strong identity, powerful policy, transparent TLS encryption, and authentication, authorization
+and audit (AAA) tools to protect your services and data. The goals of Istio security are:
 
-## Mutual TLS authentication
+- **Security by default**: no changes needed for application code and infrastructure
 
-### Identity
+- **Defense in depth**: integrate with existing security systems to provide multiple layers of defense
 
-Istio uses [Kubernetes service accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/)
-to identify who runs the service:
+- **Zero-trust network**: build security solutions on untrusted networks
 
-- A service account in Istio has the format:
-  `spiffe://\<_domain_\>/ns/\<_namespace_>/sa/\<_serviceaccount_\>`.
+Visit our [Mutual TLS Migration docs](/docs/tasks/security/mtls-migration/) to start using Istio security features with your deployed services.
+Visit our [Security Tasks](/docs/tasks/security/) for detailed instructions to use the security features.
 
-    - Replace `_domain_` with `_cluster.local_`. We will support customization
-      of domain in the near future.
-    - Replace `_namespace_` with the namespace of the Kubernetes service
-      account.
-    - Replace `_serviceaccount_` with the Kubernetes service account name.
+## High-level architecture
 
-- A service account is **the identity or role a workload runs as**. The service
-  account represents that workload's privileges. For systems requiring strong
-  security, neither a random string, such as a service name, label, etc., nor
-  the deployed binary should identify the amount of privilege for a workload.
-  For example, let's say we have a workload pulling data from a multi-tenant
-  database. If Alice runs this workload, she pulls a different set of data than
-  if Bob runs this workload.
+Security in Istio involves multiple components:
 
-- To enable strong security policies, service accounts offer the flexibility
-  to identify a machine, a user, a workload, or a group of workloads. Different
-  workloads can even run as the same service account.
+- **Citadel** for key and certificate management
 
-- The service account a workload runs as won't change during the lifetime of
-  the workload.
+- **Sidecar and perimeter proxies** to implement secure communication between clients and servers
 
-- With domain name constraint, you can ensure service account uniqueness.
+- **Pilot** to distribute [authentication policies](/docs/concepts/security/#authentication-policies)
+  and [secure naming information](/docs/concepts/security/#secure-naming) to the proxies
 
-### Communication security
+- **Mixer** to manage authorization and auditing
 
-Istio tunnels service-to-service communication through the client side
-[Envoy](https://envoyproxy.github.io/envoy/) and the server side Envoy.
-Istio secures end-to-end communication via:
+{{< image width="80%" ratio="56.25%"
+    link="./architecture.svg"
+    alt="Istio architecture."
+    caption="Istio Security Architecture"
+    >}}
 
-- **Local TCP** connections between the service and Envoy.
+In the following sections, we introduce the Istio security features in detail.
 
-- **Mutual TLS** connections between proxies.
+## Istio identity
 
-- **Secure Naming**: during the handshake process, the client side Envoy checks
-  that the service account the server side certificate provided is allowed
-  to run the target service.
+Identity is a fundamental concept of any security infrastructure. At the beginning of a service-to-service communication,
+the two parties must exchange credentials with their identity information for mutual authentication purposes.
+On the client side, the server's identity is checked against the [secure naming](/docs/concepts/security/#secure-naming)
+information to see if it is an authorized runner of the service.
+On the server side, the server can determine what information the client can access based on the
+[authorization policies](/docs/concepts/security/#authorization-policy),
+audit who accessed what at what time, charge clients based on the services they used,
+and reject any clients who failed to pay their bill from accessing the services.
 
-### Key management
+In the Istio identity model, Istio uses the first-class service identity to determine the identity of a service.
+This gives great flexibility and granularity to represent a human user, an individual service, or a group of services.
+On platforms that do not have such identity available,
+Istio can use other identities that can group service instances, such as service names.
 
-Istio supports services running on Kubernetes pods, virtual machines, and
-bare-metal machines. We use different key provisioning mechanisms for each
-scenario.
+Istio service identities on different platforms:
 
-For services running on Kubernetes pods, the per-cluster Citadel, acting as
-*Certificate Authority*, automates the key and certificate management process.
-Citadel mainly performs four critical operations:
+- **Kubernetes**: Kubernetes service account
 
-- **Generate** a [SPIFFE](https://spiffe.github.io/docs/svid) key and
-  certificate pair for each service account
+- **GKE/GCE**: may use GCP service account
 
-- **Distribute** a key and certificate pair to each pod according to the
-  service account
+- **GCP**: GCP service account
 
-- **Rotate** keys and certificates periodically
+- **AWS**: AWS IAM user/role account
 
-- **Revoke** a specific key and certificate pair when necessary
+- **On-premises (non-Kubernetes)**: user account, custom service account, service name, istio service account, or GCP service account.
+  The custom service account refers to the existing service account just like the identities that the customer's Identity Directory manages.
 
-For services running on VMs or bare-metal machines, Citadel performs the above
-four operations together with node agents.
+### Istio security vs SPIFFE
 
-### Workflow
+The [SPIFFE](https://spiffe.io/) standard provides a specification for a framework capable of bootstrapping and issuing identities to services
+across heterogeneous environments.
 
-The Istio security workflow consists of two phases: deployment and runtime. The
-deployment phase is different for the workflow in Kubernetes and for the
-workflow in VMs or bare-metal machines. However, once the key and certificate
-are deployed, the runtime phase is the same. The following sections briefly
-cover the workflow.
+Istio and SPIFFE share the same identity document: [SVID](https://spiffe.io/docs/svid/) (SPIFFE Verifiable Identity Document).
+For example, in Kubernetes, the X.509 certificate has the URI field in the format of
+"spiffe://\<domain\>/ns/\<namespace\>/sa/\<serviceaccount\>".
+This enables Istio services to establish and accept connections with other SPIFFE-compliant systems.
 
-#### Deployment phase in Kubernetes
+However, Istio security and SPIFFE/SPIRE differ in the PKI implementation details.
+Istio provides a more comprehensive security solution, including authentication, authorization, and auditing.
 
-1. Citadel watches the Kubernetes API Server.
+## PKI
 
-1. Citadel creates a [SPIFFE](https://spiffe.github.io/docs/svid) key and
-   certificate pair for each of the existing and new service accounts.
+The Istio PKI is built on top of Istio Citadel and securely provisions strong workload identities to every workload.
+Istio uses X.509 certificates to carry the identities in [SPIFFE](https://spiffe.io/) format.
+The PKI also automates the key & certificate rotation and revocation at scale.
 
-1. Citadel sends them to the API Server.
+Istio supports services running on both Kubernetes pods and on-premises machines.
+Currently we use different certificate key provisioning mechanisms for each scenario.
 
-1. When a pod is created, the API Server mounts the key and certificate pair
-   according to the service account using
+### Kubernetes scenario
+
+1. Citadel watches the Kubernetes `apiserver`, creates a SPIFFE certificate and key pair for each of the existing and new service accounts,
+   and sends them to the `apiserver`. Citadel stores the certificate and key pairs as
    [Kubernetes secrets](https://kubernetes.io/docs/concepts/configuration/secret/).
 
-1. [Pilot](/docs/concepts/traffic-management/#pilot-and-envoy) generates the
-   configuration file with the proper key, certificate, and secure naming
-   information, which defines what service account(s) can run a certain
-   service, and passes the configuration on to Envoy.
+1. When you create a pod, Kubernetes mounts the certificate and key pair to the pod according to its service account via
+   [Kubernetes secret volume](https://kubernetes.io/docs/concepts/storage/volumes/#secret).
 
-#### Deployment phase in VMs or bare-metal Machines
+1. Citadel watches the lifetime of each certificate, and automatically rotates the certificates by rewriting the Kubernetes secrets.
 
-1. Citadel creates a gRPC service to take the CSR.
+1. Pilot generates the [secure naming](/docs/concepts/security/#secure-naming) information,
+   which defines what service account or accounts can run a certain service.
+   Pilot then passes the secure naming information to the sidecar Envoy.
 
-1. The node agent creates the private key and CSR
+### on-premises machines scenario
 
-1. The node agent sends the CSR to Citadel for signing.
+1. Citadel creates a gRPC service to take CSR requests.
 
-1. Citadel validates the credentials carried in the CSR
+1. Node agent generates a private key and CSR, and sends the CSR with its credentials to Citadel for signing.
 
-1. Citadel signs the CSR to generate the certificate.
+1. Citadel validates the credentials carried with the CSR, and signs the CSR to generate the certificate.
 
 1. The node agent sends both, the certificate received from Citadel and the
    private key, to Envoy.
 
 1. The above CSR process repeats periodically for rotation.
 
-#### Runtime phase
+### Node Agent in Kubernetes (in development)
 
-1. The outbound traffic from a client service is rerouted to its local Envoy.
+In the near future, Istio will use node agent in Kubernetes for certificate and key provision, as shown in the figure below.
+Note that the identity provision flow for on-premises machines is the same so we only describe the Kubernetes scenario.
 
-1. The client side Envoy starts a mutual TLS handshake with the server side
-   Envoy. During the handshake, it also does a secure naming check to verify
-   that the service account presented in the server certificate can run the
-   server service.
+{{< image width="80%" ratio="56.25%"
+    link="./node_agent.svg"
+    alt="PKI with node agents in Kubernetes."
+    caption="Istio Security Architecture"
+    >}}
 
-1. The client side Envoy and the server side Envoy establish a mutual TLS
-   connection.
+The flow goes as follows:
 
-1. The client side Envoy forwards the traffic to the server side Envoy
+1. Citadel creates a gRPC service to take CSR requests.
 
-1. The server side Envoy forwards the traffic to the server service
-   through local TCP connections.
+1. Envoy sends a certificate and key request via Envoy secret discovery service (SDS) API.
 
-### Best practices
+1. Upon receiving the SDS request, node agent creates the private key and CSR, and sends the CSR with its credentials to Citadel for signing.
 
-In this section, we provide a few deployment guidelines and discuss a
-real-world scenario.
+1. Citadel validates the credentials carried in the CSR, and signs the CSR to generate the certificate.
 
-#### Deployment guidelines
+1. The node agent sends the certificate received from Citadel and the private key to Envoy, via the Envoy SDS API.
 
-If there are multiple service operators, a.k.a.
-[SREs](https://en.wikipedia.org/wiki/Site_reliability_engineering)),
-deploying different services in a medium- or large-size cluster, we recommend
-creating a separate
-[namespace](https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/)
-for each SRE team to isolate their access. For example, you can create a
-`team1-ns` namespace for `team1`, and `team2-ns` namespace for `team2`, such
-that both teams can't access each other's services.
+1. The above CSR process repeats periodically for rotation.
 
-> {{< warning_icon >}} If Citadel is compromised, all its managed keys and certificates in the
-cluster may be exposed. We **strongly** recommend running Citadel in a
-dedicated namespace, for example `istio-citadel-ns`, to restrict access to
+## Best practices
+
+In this section, we provide a few deployment guidelines and discuss a real-world scenario.
+
+### Deployment guidelines
+
+If there are multiple service operators (a.k.a. [SREs](https://en.wikipedia.org/wiki/Site_reliability_engineering))
+deploying different services in a medium- or large-size cluster, we recommend creating a separate
+[namespace](https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/) for each SRE team to isolate their access.
+ For example, you can create a `team1-ns` namespace for `team1`, and `team2-ns` namespace for `team2`, such
+that both teams cannot access each other's services.
+
+> {{< warning_icon >}} If Citadel is compromised, all its managed keys and certificates in the cluster may be exposed.
+We **strongly** recommend running Citadel in a dedicated namespace (for example, `istio-citadel-ns`), to restrict access to
 the cluster to only administrators.
 
-#### Example
+### Example
 
 Let us consider a three-tier application with three services: `photo-frontend`,
 `photo-backend`, and `datastore`. The photo SRE team manages the
 `photo-frontend` and `photo-backend` services while the datastore SRE team
-manages the `datastore` service. The `photo-frontend` can access
+manages the `datastore` service. The `photo-frontend` service can access
 `photo-backend`, and the `photo-backend` service can access `datastore`.
 However, the `photo-frontend` service cannot access `datastore`.
 
@@ -214,16 +203,15 @@ team creates one service account to run the `datastore` service in the
 control in [Istio Mixer](/docs/concepts/policies-and-telemetry/) such that
 `photo-frontend` cannot access datastore.
 
-In this setup, Citadel can provide both key  management and certificate
-management for all namespaces and isolate microservice deployments from each
-other.
+In this setup, Citadel can provide certificate and key management for all namespaces,
+isolate the microservice deployments and enforce different access control rules to the services.
 
 ## Authentication
 
 Istio provides two types of authentication:
 
 - Transport authentication, also known as service-to-service authentication:
-  verifies the direct client making the connection. Istio offers mutual TLS
+  verifies the direct client making the connection. Istio offers [mutual TLS](https://en.wikipedia.org/wiki/Mutual_authentication)
   as a full stack solution for transport authentication. You can
   easily turn on this feature without requiring service code changes. This
   solution:
@@ -236,8 +224,49 @@ Istio provides two types of authentication:
       generation, distribution, rotation, and revocation.
 
 - Origin authentication, also known as end-user authentication: verifies the
-  original client making the request as an end-user or device. Istio
-  supports authentication with JSON Web Token (JWT) validation.
+  original client making the request as an end-user or device.
+  Istio enables request-level authentication with JSON Web Token (JWT) validation
+  and a streamlined developer experience for [Auth0](https://auth0.com/), [Firebase Auth](https://firebase.google.com/docs/auth/),
+  [Google Auth](https://developers.google.com/identity/protocols/OpenIDConnect), and custom auth.
+
+In both cases, Istio stores the authentication policies in the `Istio config store` via a custom Kubernetes API.
+Pilot keeps them up-to-date for each proxy, along with the keys where appropriate.
+Additionally, Istio supports authentication in permissive mode to help you understand how a policy change can affect your security posture
+before it becomes effective.
+
+### Mutual TLS authentication
+
+Istio tunnels service-to-service communication through the client side and server side [Envoy proxies](https://envoyproxy.github.io/envoy/).
+For a client to call a server, the steps followed are:
+
+1. Istio re-routes the outbound traffic from a client to the client's local sidecar Envoy.
+
+1. The client side Envoy starts a mutual TLS handshake with the server side Envoy.
+   During the handshake, the client side Envoy also does a [secure naming](/docs/concepts/security/#secure-naming) check to verify that
+   the service account presented in the server certificate is authorized to run the target service.
+
+1. The client side Envoy and the server side Envoy establish a mutual TLS connection,
+   and Istio forwards the traffic from the client side Envoy to the server side Envoy.
+
+1. After authorization, the server side Envoy forwards the traffic to the server service through local TCP connections.
+
+#### Secure naming
+
+The secure naming information contains *N-to-N* mappings from the server identities, which are encoded in certificates,
+to the service names that are referred by discovery service or DNS.
+A mapping from identity `A` to service name `B` means "`A` is allowed and authorized to run service `B`".
+Pilot watches the Kubernetes `apiserver`, generates the secure naming information, and distributes it securely to the sidecar Envoys.
+The following example explains why secure naming is critical in authentication.
+
+Suppose the legitimate servers that run the service `datastore` only use the `infra-team` identity.
+A malicious user has certificate and key for the `test-team` identity.
+The malicious user intends to impersonate the service to inspect the data sent from the clients.
+The malicious user deploys a forged server with the certificate and key for the `test-team` identity.
+Suppose the malicious user successfully hacked the discovery service or DNS to map the `datastore` service name to the forged server.
+
+When a client calls the `datastore` service, it extracts the `test-team` identity from the server's certificate,
+and checks whether `test-team` is allowed to run `datastore` with the secure naming information.
+The client detects that `test-team` is **not** allowed to run the `datastore` service and the authentication fails.
 
 ### Authentication architecture
 
@@ -251,7 +280,7 @@ the required authentication mechanisms. Pilot may fetch the public key and
 attach it to the configuration for JWT validation. Alternatively, Pilot
 provides the path to the keys and certificates the Istio system manages and
 installs them to the application pod for mutual TLS. You can find more info in
-the [PKI and identity section](/docs/concepts/security/#identity).
+the [PKI section](/docs/concepts/security/#pki).
 Istio sends configurations to the targeted endpoints asynchronously. Once the
 proxy receives the configuration, the new authentication requirement takes
 effect immediately on that pod.
@@ -274,12 +303,12 @@ Istio outputs identities with both types of authentication, as well as other
 claims in the credential if applicable, to the next layer:
 [authorization](/docs/concepts/security/#authorization). Additionally,
 operators can specify which identity, either from transport or origin
-authentication, should Istio use as ‘the principal’.
+authentication, should Istio use as ‘the principal'.
 
 ### Authentication policies
 
 This section provides more details about how Istio authentication policies
-work. As you’ll remember from the [Architecture section](/docs/concepts/security/#authentication-architecture),
+work. As you'll remember from the [Architecture section](/docs/concepts/security/#authentication-architecture),
 authentication policies apply to requests that a service **receives**. To
 specify client-side authentication rules in mutual TLS, you need to specify the
 `TLSSettings` in the `DestinationRule`. You can find more information in our
@@ -350,7 +379,7 @@ Kubernetes RBAC. You can read more on the
 
 #### Target selectors
 
-An authentication policy’s targets specify the service or services to which the
+An authentication policy's targets specify the service or services to which the
 policy applies. The following example shows a `targets:` section specifying
 that the policy applies to:
 
@@ -397,7 +426,7 @@ The `peers:` section defines the authentication methods and associated
 parameters supported for transport authentication in a policy. The section can
 list more than one method and only one method must be satisfied for the
 authentication to pass. However, as of the Istio 0.7 release, the only
-transport authentication method currently supported is mutual TLS. If you don't
+transport authentication method currently supported is mutual TLS. If you do not
 need transport authentication, skip this section entirely.
 
 The following example shows the `peers:` section enabling transport
@@ -408,7 +437,7 @@ authentication using mutual TLS.
   - mtls: {}
 {{< /text >}}
 
-Currently, the mutual TLS setting doesn’t require any parameters. Hence,
+Currently, the mutual TLS setting doesn't require any parameters. Hence,
 `-mtls: {}`, `- mtls:` or `- mtls: null` declarations are treated the same. In
 the future, the mutual TLS setting may carry arguments to provide different
 mutual TLS implementations.
@@ -452,7 +481,7 @@ principalBinding: USE_ORIGIN
 ### Updating authentication policies
 
 You can change an authentication policy at any time and Istio pushes the change
-to the endpoints almost in real time. However, Istio can't guarantee that all
+to the endpoints almost in real time. However, Istio cannot guarantee that all
 endpoints receive a new policy at the same time. The following are
 recommendations to avoid disruption when updating your authentication policies:
 
@@ -744,3 +773,9 @@ spec:
     kind: ServiceRole
     name: "products-viewer"
 {{< /text >}}
+
+### Using other authorization mechanisms
+
+While we strongly recommend using the Istio authorization mechanisms,
+Istio is flexible enough to allow you to plug in your own authentication and authorization mechanisms via the Mixer component.
+To use and configure plugins in Mixer, visit our [policies and telemetry adapters docs](/docs/concepts/policies-and-telemetry/#adapters).
