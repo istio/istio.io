@@ -31,6 +31,7 @@ alt
 Acmeair
 Ansible
 AppOptics
+Auth0
 args.yaml
 AuthPolicy
 Autoscalers
@@ -40,6 +41,8 @@ BluePerf
 Bookinfo
 Brooks
 Budinsky
+bring-your-own-CA
+bring-your-own-identity
 CAP_NET_ADMIN
 CAs
 CDNs
@@ -67,9 +70,9 @@ emojis
 ExecAction
 Exfiltrating
 ExternalName
+Firebase
 FitStation
 Fluentd
-httpbin.example.com
 FQDNs
 GCP-IAM
 GCP_OPTS
@@ -334,6 +337,7 @@ packageName.serviceName
 parenthesization
 pem
 platform-specific
+pluggability
 pluggable
 png
 pprof

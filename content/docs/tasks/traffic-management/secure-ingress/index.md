@@ -128,7 +128,7 @@ with a certificate and a private key. Then you create a `Gateway` definition tha
 1.  Access the `httpbin` service with HTTPS by sending an `https` request using _curl_ to `SECURE_INGRESS_PORT`.
 
     The `--resolve` flag instructs _curl_ to supply the
-    [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) value "httpbin.example.com" when accessing the gateway IP
+    [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) value `httpbin.example.com` when accessing the gateway IP
       over TLS. The `--cacert` option instructs _curl_ to use your generated certificate to verify the server.
 
     By sending the request to the `/status/418` URL path, you get a nice visual clue that your `httpbin` service was

@@ -143,9 +143,9 @@ Istio 提供了两种认证方式：
 
 ### 认证架构
 
-在 Istio 服务网格中处理请求的服务，可以使用认证策略来为其指定认证需求。网格运维人员使用 `.yaml` 文件来配置这些策略。这些策略一经上传，会被保存到 Istio 的配置存储中。作为 Istio 的控制器，Pilot 会对配置存储进行监控。任何的策略变化，Pilot 都会把新的策略翻译为对应的配置格式，并告知 Sidecar 代理如何应用所需的认证机制。另外，Pilot 提供了 Istio 管理的密钥和证书的路径，并把他们安装到应用 Pod 中以便进行双向 TLS 连接。可以在 [PKI 和认证](/docs/concepts/security/#identity)一节中找到更多相关信息。Istio 会将配置异步的发送给目标端点。Sidecar 收到配置之后，Pod 就会立即启用新的认证需求。
+在 Istio 服务网格中处理请求的服务，可以使用认证策略来为其指定认证需求。网格运维人员使用 `.yaml` 文件来配置这些策略。这些策略一经上传，会被保存到 Istio 的配置存储中。作为 Istio 的控制器，Pilot 会对配置存储进行监控。任何的策略变化，Pilot 都会把新的策略翻译为对应的配置格式，并告知 Sidecar 代理如何应用所需的认证机制。另外，Pilot 提供了 Istio 管理的密钥和证书的路径，并把他们安装到应用 Pod 中以便进行双向 TLS 连接。可以在 [PKI 和认证](/docs/concepts/security/#istio-identity)一节中找到更多相关信息。Istio 会将配置异步的发送给目标端点。Sidecar 收到配置之后，Pod 就会立即启用新的认证需求。
 
-发送请求的客户端服务，要负责完成必要的认证机制。对于 JWT 认证来说，应用应该获取 JWT 凭据，并把凭据附加到请求上进行传播。Istio 提供了[目标规则](/docs/concepts/traffic-management/#destination-rules)用于应对双向 TLS 认证。运维人员可以使用目标规则来要求客户端 Sidecar 使用 TLS 证书向服务器发起连接。[PKI 和认证](/docs/concepts/security/#identity)一节中介绍了更多双向 TLS  的相关内容。
+发送请求的客户端服务，要负责完成必要的认证机制。对于 JWT 认证来说，应用应该获取 JWT 凭据，并把凭据附加到请求上进行传播。Istio 提供了[目标规则](/docs/concepts/traffic-management/#destination-rules)用于应对双向 TLS 认证。运维人员可以使用目标规则来要求客户端 Sidecar 使用 TLS 证书向服务器发起连接。[PKI 和认证](/docs/concepts/security/#istio-identity)一节中介绍了更多双向 TLS  的相关内容。
 
 {{< image width="80%" ratio="75%"
     link="/docs/concepts/security/authn.svg"
