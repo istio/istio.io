@@ -22,7 +22,7 @@ The `rbacConfig` default cluster level singleton custom resource controls the au
     $ kubectl get rbacconfigs.rbac.istio.io --all-namespaces
     {{< /text >}}
 
-1. Verify there is only **one** instance of `RbacConfig` with name **default**. Otherwise, Istio disables the
+1. Verify there is only **one** instance of `RbacConfig` with name `default`. Otherwise, Istio disables the
 authorization functionality and ignores all policies.
 
     {{< text plain >}}
@@ -31,7 +31,7 @@ authorization functionality and ignores all policies.
     {{< /text >}}
 
 1. If there is more than one `RbacConfig` instance, remove any additional `RbacConfig` instances and
-ensure **only one** instance is named **default**.
+ensure **only one** instance is named `default`.
 
 ## Ensure Pilot Accepts the Policies
 
@@ -91,7 +91,7 @@ the debug output is generated for these policies.
     It means Pilot have generated:
 
     * An empty config for `sleep.foo.svc.cluster.local` as there is no authorization policies matched
-      and Istio will deny all requests sent to this service by default.
+      and Istio denies all requests sent to this service by default.
 
     * An config for `productpage.default.svc.cluster.local` and Istio will allow anyone to access it
       with GET method.
@@ -112,9 +112,9 @@ otherwise you should replace `"-l app=productpage"` with your actual pod.
 
 1. Check the log and verify:
 
-    * It includes a `envoy.filters.http.rbac` filter that is used to enforce the authorization policy
+    * The log includes an `envoy.filters.http.rbac` filter to enforce the authorization policy
       on each incoming request.
-    * The filter gets updated accordingly after you updated your authorization policy.
+    * Istio updates the filter accordingly after you update your authorization policy.
 
 1. For example, you might see something similar to the following:
 
@@ -167,7 +167,8 @@ otherwise you should replace `"-l app=productpage"` with your actual pod.
     {{< /text >}}
 
     It means the proxy of productpage has enabled the `envoy.filters.http.rbac` filter with rules
-    that allows anyone to access it via GET method. The `shadow_rules` is not used and could be ignored safely.
+    that allows anyone to access it via `GET` method. The `shadow_rules` are not used and you can
+    ignored them safely.
 
 ## Ensure Proxies Enforce Policies Correctly
 
@@ -202,10 +203,10 @@ otherwise you should replace `"-l app=productpage"` with your actual pod.
 
 1. Check the output and verify:
 
-    * There should be a log output `enforced allowed` or `enforced denied` which means the request is
-      allowed or denied respectively.
+    * The output log shows either `enforced allowed` or `enforced denied` depending on whether the request
+      was allowed or denied respectively.
 
-    * The data extracted from the request are expected by your authorization policy.
+    * Your authorization policy expects the data extracted from the request.
 
 1. You should see something similar to the following:
 
@@ -253,5 +254,5 @@ otherwise you should replace `"-l app=productpage"` with your actual pod.
     ...
     {{< /text >}}
 
-    It means there is a `GET` request at path `/productpage` and is allowed by the policy.
-    The `shadow denied` has no effect and could be ignored safely.
+    This output means there is a `GET` request at path `/productpage` and the policy allows the request.
+    The `shadow denied` has no effect and you can ignore it safely.
