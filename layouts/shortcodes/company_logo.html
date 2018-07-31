@@ -1,0 +1,7 @@
+{{ $link := .Get "link" }}
+{{ $alt := .Get "alt" }}
+{{ $logo := .Get "logo" }}
+
+<div class="company-logo">
+    <a href="{{ $link }}"><img src="{{ $logo }}" alt="{{ $alt }}" /></a>
+</div>
