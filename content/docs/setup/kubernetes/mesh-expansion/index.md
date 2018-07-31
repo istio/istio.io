@@ -5,6 +5,9 @@ weight: 50
 keywords: [kubernetes,vms]
 ---
 
+{{< warning_icon >}} Mesh expansion is broken in the initial release of Istio 1.0. We expect to have a patch available that
+fixes this problem very soon. We apologize for the inconvenience.
+
 Instructions for integrating VMs and bare metal hosts into an Istio mesh
 deployed on Kubernetes.
 
