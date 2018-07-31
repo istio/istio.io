@@ -137,12 +137,7 @@ First direct HTTP traffic without TLS origination
           - port:
               number: 80
             tls:
-              mode: MUTUAL
-              clientCertificate: /etc/certs/cert-chain.pem
-              privateKey: /etc/certs/key.pem
-              caCertificates: /etc/certs/root-cert.pem
-              subjectAltNames:
-              - spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
+              mode: ISTIO_MUTUAL
               sni: edition.cnn.com
     EOF
     {{< /text >}}
@@ -344,12 +339,7 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
           - port:
               number: 443
             tls:
-              mode: MUTUAL
-              clientCertificate: /etc/certs/cert-chain.pem
-              privateKey: /etc/certs/key.pem
-              caCertificates: /etc/certs/root-cert.pem
-              subjectAltNames:
-              - spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
+              mode: ISTIO_MUTUAL
               sni: edition.cnn.com
     EOF
     {{< /text >}}
@@ -555,12 +545,7 @@ The output should be the same as in the previous section.
           - port:
               number: 443
             tls:
-              mode: MUTUAL
-              clientCertificate: /etc/certs/cert-chain.pem
-              privateKey: /etc/certs/key.pem
-              caCertificates: /etc/certs/root-cert.pem
-              subjectAltNames:
-              - spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
+              mode: ISTIO_MUTUAL
               sni: edition.cnn.com
     ---
     apiVersion: networking.istio.io/v1alpha3
