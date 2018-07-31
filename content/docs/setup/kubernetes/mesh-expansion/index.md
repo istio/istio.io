@@ -26,8 +26,8 @@ We'll use /etc/hosts as an example in this guide, it is the easiest way to get t
 
 ### Preparing the Kubernetes cluster for expansion
 
-*  If '--set global.meshExpansion=true' was not specified at install, re-apply the 
-   template or 'helm upgrade' with the option enabled. 
+*  If `--set global.meshExpansion=true` was not specified at install, re-apply the
+   template or 'helm upgrade' with the option enabled.
 
     {{< text bash >}}
     kubeadm$ cd install/kubernetes/helm/istio
@@ -36,8 +36,8 @@ We'll use /etc/hosts as an example in this guide, it is the easiest way to get t
     {{< /text >}}
 
 * Find the IP address of the Istio gateway. Advanced users can expose services on a dedicated gateway,
-or use an internal load balancer by using a custom values.yaml and creating Gateway and VirtualService
-entries to expose istio-pilot and istio-citadel. 
+or use an internal load balancer by using a custom `values.yaml` and creating `Gateway` and `VirtualService`
+entries to expose istio-pilot and istio-citadel.
 
     {{< text bash >}}
     $ GWIP=$(kubectl get -n istio-system service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
@@ -46,8 +46,8 @@ entries to expose istio-pilot and istio-citadel.
     {{< /text >}}
 
 *   Generate a `cluster.env` configuration to be deployed in the VMs. This file contains
-the k8s cluster IP address ranges to intercept. The CIDR range is specified at k8s 
-install time as "servicesIpv4Cidr". Example commands to obtain the CIDR after install:
+the k8s cluster IP address ranges to intercept. The CIDR range is specified at k8s
+install time as `servicesIpv4Cidr`. Example commands to obtain the CIDR after install:
 
     {{< text bash >}}
     kubeadm$ ISTIO_SERVICE_CIDR=$(gcloud container clusters describe $K8S_CLUSTER --zone $MY_ZONE --project $MY_PROJECT --format "value(servicesIpv4Cidr)")
@@ -62,31 +62,35 @@ install time as "servicesIpv4Cidr". Example commands to obtain the CIDR after in
     ISTIO_SERVICE_CIDR=10.55.240.0/20
     {{< /text >}}
 
-* Add the ports that will be exposed by the VM to the cluster env. This can be changed later, and 
+* Add the ports that will be exposed by the VM to the cluster env. This can be changed later, and
 is not required if the VM only calls services in the mesh.
 
     {{< text bash >}}
     kubeadm$ echo "ISTIO_INBOUND_PORTS=3306,8080" >> cluster.env
     {{< /text >}}
-    
-* Extract the initial keys for the service account to use on the VMs. 
-  
-  {{<text bash>}}
-  kubeadm$ kubectl -n $SERVICE_NAMESPACE get secret istio.default  \
-    -o jsonpath='{.data.root-cert\.pem}' |base64 --decode > root-cert.pem
-  kubeadm$ kubectl -n $SERVICE_NAMESPACE get secret istio.default  \
-    -o jsonpath='{.data.key\.pem}' |base64 --decode > key.pem
-  kubeadm$ kubectl -n $SERVICE_NAMESPACE get secret istio.default  \
-      -o jsonpath='{.data.cert-chain\.pem}' |base64 --decode > cert-chain.pem
-  {{< /text >}}
+
+* Extract the initial keys for the service account to use on the VMs.
+
+    {{<text bash>}}
+
+    kubeadm$ kubectl -n $SERVICE_NAMESPACE get secret istio.default  \
+        -o jsonpath='{.data.root-cert\.pem}' |base64 --decode > root-cert.pem
+    kubeadm$ kubectl -n $SERVICE_NAMESPACE get secret istio.default  \
+        -o jsonpath='{.data.key\.pem}' |base64 --decode > key.pem
+    kubeadm$ kubectl -n $SERVICE_NAMESPACE get secret istio.default  \
+          -o jsonpath='{.data.cert-chain\.pem}' |base64 --decode > cert-chain.pem
+
+    {{< /text >}}
 
 ### Setting up the machines
 
 * Install the debian package:
 
     {{< text bash >}}
+
     vm$ curl -L https://storage.googleapis.com/istio-release/releases/1.0.0/deb/istio-sidecar.deb > istio-sidecar.deb
     vm$ dpkg -i istio-sidecar.deb
+
     {{< /text >}}
 
 * Copy the cluster.env and the *.pem files to the VM.
@@ -94,84 +98,99 @@ is not required if the VM only calls services in the mesh.
 * Add the IP address of istio gateway to /etc/hosts or to the DNS server. Example for /etc/hosts:
 
     {{< text >}}
+
     35.232.112.158 istio-citadel istio-pilot istio-pilot.istio-system
+
     {{< /text >}}
 
-* Install root-cert.pem, key.pem and cert-chain.pem under /etc/certs, owned by istio-proxy. 
+* Install root-cert.pem, key.pem and cert-chain.pem under /etc/certs, owned by istio-proxy.
 
     {{< text bash >}}
+
     vm$ sudo mkdir /etc/certs
     vm$ sudo cp {root-cert.pem,cert-chain.pem,key.pem} /etc/certs
     vm$ sudo chown -R istio-proxy /etc/certs
+
     {{< /text >}}
 
-* Install cluster.env under /var/lib/istio/envoy, owned by istio-proxy 
+* Install cluster.env under /var/lib/istio/envoy, owned by istio-proxy.
 
     {{< text bash >}}
+
     vm$ sudo cp cluster.env /var/lib/istio/envoy
     vm$ sudo chown -R istio-proxy /var/lib/istio/envoy
+
     {{< /text >}}
 
 * Verify the node agent works:
 
     {{< text bash >}}
+
     vm$ sudo node_agent
     ....
     CSR is approved successfully. Will renew cert in 1079h59m59.84568493s
+
     {{< /text >}}
 
-*  Start istio using systemctl.
+* Start istio using systemctl.
 
     {{< text bash >}}
+
     vm$ sudo systemctl start istio-auth-node-agent
     vm$ sudo systemctl start istio
+
     {{< /text >}}
 
 After setup, the machine should be able to access services running in the Kubernetes cluster
 or other mesh expansion machines.
 
-Example using /etc/hosts: 
+Example using /etc/hosts:
 
-{{< text bash >}}
-kubeadm$ kubectl -n bookinfo get svc productpage -o jsonpath='{.spec.clusterIP}'
+    {{< text bash >}}
+
+    kubeadm$ kubectl -n bookinfo get svc productpage -o jsonpath='{.spec.clusterIP}'
 10.55.246.247
-{{< /text >}}
 
-{{< text bash >}}
-vm $ sudo echo "10.55.246.247 productpage.bookinfo.svc.cluster.local" >> /etc/hosts
-vm $ curl productpage.bookinfo.svc.cluster.local:9080
-... html content ...
-{{< /text >}}
+    {{< /text >}}
+
+    {{< text bash >}}
+
+    vm $ sudo echo "10.55.246.247 productpage.bookinfo.svc.cluster.local" >> /etc/hosts
+    vm $ curl productpage.bookinfo.svc.cluster.local:9080
+    ... html content ...
+
+    {{< /text >}}
 
 ## Running services on a mesh expansion machine
 
-*   Configure a ServiceEntry. The ServiceEntry will contain the IP addresses, ports and labels of all
+* Configure a ServiceEntry. The ServiceEntry will contain the IP addresses, ports and labels of all
 VMs exposing a service.
 
     {{< text bash yaml>}}
-    kubeadm$ kubectl -n test apply -f - << EOF
-apiVersion: networking.istio.io/v1alpha3
-kind: ServiceEntry
-metadata:
-  name: vm1
-spec:
-   hosts:
-   - vm1.test.svc.cluster.local
-   ports:
-   - number: 80
-     name: http
-     protocol: HTTP
-   resolution: STATIC
-   endpoints:
-    - address: 10.128.0.17
-      ports:
-        http: 8080
-      labels:
-        app: vm1
-        version: 1
-    EOF
-    {{< /text >}}
 
+    kubeadm$ kubectl -n test apply -f - << EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: vm1
+    spec:
+       hosts:
+       - vm1.test.svc.cluster.local
+       ports:
+       - number: 80
+         name: http
+         protocol: HTTP
+       resolution: STATIC
+       endpoints:
+        - address: 10.128.0.17
+          ports:
+            http: 8080
+          labels:
+            app: vm1
+            version: 1
+    EOF
+
+    {{< /text >}}
 
 ## Troubleshooting
 
@@ -181,35 +200,45 @@ spec:
 * Verify the machine can directly reach pod IPs in the cluster. For example:
 
     {{< text bash >}}
+
     kubeadmin$ kubectl get endpoints -n bookinfo productpage -o jsonpath='{.subsets[0].addresses[0].ip}'
     10.52.39.13
+
     {{< /text >}}
 
     {{< text bash >}}
+
     vm$ curl 10.52.39.13:9080
     html output
+
     {{< /text >}}
 
 * Check the status of the node agent and sidecar:
 
-  {{< text bash >}}
-  $ sudo systemctl status istio-auth-node-agent
-  $ sudo systemctl status istio
-  {{< /text >}}
+    {{< text bash >}}
+
+    $ sudo systemctl status istio-auth-node-agent
+    $ sudo systemctl status istio
+
+    {{< /text >}}
 
 * Check that the processes are running:
-  
-  {{< text bash >}}
-  vm$ ps aux |grep istio
-  root      6941  0.0  0.2  75392 16820 ?        Ssl  21:32   0:00 /usr/local/istio/bin/node_agent --logtostderr
-  root      6955  0.0  0.0  49344  3048 ?        Ss   21:32   0:00 su -s /bin/bash -c INSTANCE_IP=10.150.0.5 POD_NAME=demo-vm-1 POD_NAMESPACE=default exec /usr/local/bin/pilot-agent proxy > /var/log/istio/istio.log istio-proxy
-  istio-p+  7016  0.0  0.1 215172 12096 ?        Ssl  21:32   0:00 /usr/local/bin/pilot-agent proxy
-  istio-p+  7094  4.0  0.3  69540 24800 ?        Sl   21:32   0:37 /usr/local/bin/envoy -c /etc/istio/proxy/envoy-rev1.json --restart-epoch 1 --drain-time-s 2 --parent-shutdown-time-s 3 --service-cluster istio-proxy --service-node sidecar~10.150.0.5~demo-vm-1.default~default.svc.cluster.local
-  {{< /text >}}
+
+    {{< text bash >}}
+
+    vm$ ps aux |grep istio
+    root      6941  0.0  0.2  75392 16820 ?        Ssl  21:32   0:00 /usr/local/istio/bin/node_agent --logtostderr
+    root      6955  0.0  0.0  49344  3048 ?        Ss   21:32   0:00 su -s /bin/bash -c INSTANCE_IP=10.150.0.5 POD_NAME=demo-vm-1 POD_NAMESPACE=default exec /usr/local/bin/pilot-agent proxy > /var/log/istio/istio.log istio-proxy
+    istio-p+  7016  0.0  0.1 215172 12096 ?        Ssl  21:32   0:00 /usr/local/bin/pilot-agent proxy
+    istio-p+  7094  4.0  0.3  69540 24800 ?        Sl   21:32   0:37 /usr/local/bin/envoy -c /etc/istio/proxy/envoy-rev1.json --restart-epoch 1 --drain-time-s 2 --parent-shutdown-time-s 3 --service-cluster istio-proxy --service-node sidecar~10.150.0.5~demo-vm-1.default~default.svc.cluster.local
+
+    {{< /text >}}
 
 * Check the envoy access and error logs:
 
-  {{< text bash >}}
-  vm$ tail /var/log/istio/istio.log
-  vm$ tail /var/log/istio/istio.err.log
-  {{< /text >}}
+    {{< text bash >}}
+
+    vm$ tail /var/log/istio/istio.log
+    vm$ tail /var/log/istio/istio.err.log
+
+    {{< /text >}}
