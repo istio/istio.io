@@ -16,7 +16,9 @@ Follow these instructions to prepare Minikube for Istio.
 1. Select a
    [VM driver](https://kubernetes.io/docs/setup/minikube/#quickstart)
    and substitute `your_vm_driver_choice` below with the installed virtual
-   machine (VM) driver.
+   machine (VM) driver. To install Istio control plane components and add-ons,
+   as well as other applications,
+   we recommend starting minikube with 8192 MB of memory and 4 CPUs: 
 
     On Kubernetes **1.9**:
 
