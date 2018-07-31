@@ -65,14 +65,15 @@ from within your Istio cluster. In this task you access
     EOF
     {{< /text >}}
 
-1.  Create a `ServiceEntry` to allow access to an external HTTPS service:
+1.  Create a `ServiceEntry` and a `VirtualService` to allow access to an external HTTPS service. Note that for TLS
+    protocols, including HTTPS, the TLS `VirtualService` is required in addition to the `ServiceEntry`.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
-      name: google-ext
+      name: google
     spec:
       hosts:
       - www.google.com
@@ -81,6 +82,29 @@ from within your Istio cluster. In this task you access
         name: https
         protocol: HTTPS
       resolution: DNS
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: google
+    spec:
+      hosts:
+      - www.google.com
+      gateways:
+      - mesh
+      tls:
+      - match:
+        - gateways:
+          - mesh
+          port: 443
+          sni_hosts:
+          - www.google.com
+        route:
+        - destination:
+            host: www.google.com
+            port:
+              number: 443
+          weight: 100
     EOF
     {{< /text >}}
 
@@ -262,8 +286,8 @@ cluster provider specific knowledge and configuration.
 1.  Remove the rules:
 
     {{< text bash >}}
-    $ kubectl delete serviceentry httpbin-ext google-ext
-    $ kubectl delete virtualservice httpbin-ext
+    $ kubectl delete serviceentry httpbin-ext google
+    $ kubectl delete virtualservice httpbin-ext google
     {{< /text >}}
 
 1.  Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
