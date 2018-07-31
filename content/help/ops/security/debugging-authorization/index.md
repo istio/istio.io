@@ -88,7 +88,7 @@ the debug output is generated for these policies.
     2018-07-26T22:25:41.184407Z info  rbac built filter config for productpage.default.svc.cluster.local
     {{< /text >}}
 
-    It means Pilot have generated:
+    It means Pilot generated:
 
     * An empty config for `sleep.foo.svc.cluster.local` as there is no authorization policies matched
       and Istio denies all requests sent to this service by default.
@@ -116,7 +116,8 @@ otherwise you should replace `"-l app=productpage"` with your actual pod.
       on each incoming request.
     * Istio updates the filter accordingly after you update your authorization policy.
 
-1. For example, you might see something similar to the following:
+1. The following output means the proxy of `productpage` has enabled the `envoy.filters.http.rbac` filter
+with rules that allows anyone to access it via `GET` method. The `shadow_rules` are not used and you can ignored them safely.
 
     {{< text plain >}}
     {
@@ -166,10 +167,6 @@ otherwise you should replace `"-l app=productpage"` with your actual pod.
     },
     {{< /text >}}
 
-    It means the proxy of productpage has enabled the `envoy.filters.http.rbac` filter with rules
-    that allows anyone to access it via `GET` method. The `shadow_rules` are not used and you can
-    ignored them safely.
-
 ## Ensure Proxies Enforce Policies Correctly
 
 Proxies eventually enforce the authorization policies. The following steps help you ensure the proxy
@@ -208,7 +205,8 @@ otherwise you should replace `"-l app=productpage"` with your actual pod.
 
     * Your authorization policy expects the data extracted from the request.
 
-1. You should see something similar to the following:
+1. The following output means there is a `GET` request at path `/productpage` and the policy allows the request.
+The `shadow denied` has no effect and you can ignore it safely.
 
     {{< text plain >}}
     ...
@@ -254,5 +252,3 @@ otherwise you should replace `"-l app=productpage"` with your actual pod.
     ...
     {{< /text >}}
 
-    This output means there is a `GET` request at path `/productpage` and the policy allows the request.
-    The `shadow denied` has no effect and you can ignore it safely.
