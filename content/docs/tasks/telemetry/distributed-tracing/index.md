@@ -150,10 +150,10 @@ percentage in one of two ways:
   [Helm Install](/docs/setup/kubernetes/helm-install/) documentation for
   details on setting options.
 * In a running mesh, edit the `istio-pilot` deployment and
-  change the environment variable with the following steps.
+  change the environment variable with the following steps:
 
-  1. Run the below command. It will open your text editor with the deployment configuration
-     loaded.
+  1. To open your text editor with the deployment configuration file
+     loaded, run the following command:
 
      {{< text bash >}}
     $ kubectl -n istio-system edit deploy istio-pilot
