@@ -29,7 +29,7 @@ section of the [Configure an Egress Gateway](/docs/tasks/traffic-management/egre
 1.  Define a `ServiceEntry` for `*.wikipedia.org`:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -58,7 +58,7 @@ section of the [Configure an Egress Gateway](/docs/tasks/traffic-management/egre
     traffic destined to _*.wikipedia.org_ to the gateway.
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     kind: Gateway
     metadata:
       name: istio-egressgateway
@@ -136,7 +136,7 @@ section of the [Configure an Egress Gateway](/docs/tasks/traffic-management/egre
  with resolution `DNS` so the gateway will be able to perform the routing.
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -194,10 +194,10 @@ section of the [Configure an Egress Gateway](/docs/tasks/traffic-management/egre
 ### Cleanup of HTTPS traffic configuration to _*.wikipedia.org_
 
 {{< text bash >}}
-$ istioctl delete serviceentry wikipedia www-wikipedia
-$ istioctl delete gateway istio-egressgateway
-$ istioctl delete virtualservice direct-wikipedia-through-egress-gateway wikipedia
-$ istioctl delete destinationrule set-sni-for-egress-gateway
+$ kubectl delete serviceentry wikipedia www-wikipedia
+$ kubectl delete gateway istio-egressgateway
+$ kubectl delete virtualservice direct-wikipedia-through-egress-gateway wikipedia
+$ kubectl delete destinationrule set-sni-for-egress-gateway
 {{< /text >}}
 
 ## Enable HTTPS traffic to arbitrary wildcarded domains
@@ -324,7 +324,7 @@ to hold the configuration of the Nginx SNI proxy:
 1.  Define a `ServiceEntry` for `*.wikipedia.org`:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl create -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -353,7 +353,7 @@ to hold the configuration of the Nginx SNI proxy:
     traffic destined to _*.wikipedia.org_ to the gateway.
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     kind: Gateway
     metadata:
       name: istio-egressgateway-with-sni-proxy
@@ -425,7 +425,7 @@ to hold the configuration of the Nginx SNI proxy:
 1.  Create an external name Kubernetes service:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl create -f -
+    $ cat <<EOF | kubectl apply -f -
     kind: Service
     apiVersion: v1
     metadata:
@@ -440,7 +440,7 @@ to hold the configuration of the Nginx SNI proxy:
 1.  Route the traffic destined to _*.wikipedia.org_ from the egress gateway to the SNI proxy.
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -487,10 +487,10 @@ to hold the configuration of the Nginx SNI proxy:
 1.  Delete the configuration items you created:
 
     {{< text bash >}}
-    $ istioctl delete serviceentry wikipedia sni-proxy
-    $ istioctl delete gateway istio-egressgateway-with-sni-proxy
-    $ istioctl delete virtualservice direct-wikipedia-through-egress-gateway wikipedia
-    $ istioctl delete destinationrule set-sni-for-egress-gateway
+    $ kubectl delete serviceentry wikipedia sni-proxy
+    $ kubectl delete gateway istio-egressgateway-with-sni-proxy
+    $ kubectl delete virtualservice direct-wikipedia-through-egress-gateway wikipedia
+    $ kubectl delete destinationrule set-sni-for-egress-gateway
     $ kubectl delete -f $HOME/istio-egressgateway-with-sni-proxy.yaml
     $ kubectl delete configmap egress-sni-proxy-configmap -n istio-system
     $ kubectl delete service sni-proxy
