@@ -547,51 +547,6 @@ The output should be the same as in the previous section.
             tls:
               mode: ISTIO_MUTUAL
               sni: edition.cnn.com
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: direct-cnn-through-egress-gateway
-    spec:
-      hosts:
-      - edition.cnn.com
-      gateways:
-      - mesh
-      tls:
-      - match:
-        - gateways:
-          - mesh
-          port: 443
-          sni_hosts:
-          - edition.cnn.com
-        route:
-        - destination:
-            host: istio-egressgateway.istio-system.svc.cluster.local
-            subset: cnn
-            port:
-              number: 443
-          weight: 100
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: cnn
-    spec:
-      hosts:
-      - edition.cnn.com
-      gateways:
-      - istio-egressgateway
-      tcp:
-      - match:
-        - gateways:
-          - istio-egressgateway
-          port: 443
-        route:
-        - destination:
-            host: edition.cnn.com
-            port:
-              number: 443
-          weight: 100
     EOF
     {{< /text >}}
 
@@ -640,6 +595,7 @@ The output should be the same as in the previous section.
       - edition.cnn.com
       gateways:
       - mesh
+      - istio-egressgateway
       tls:
       - match:
         - gateways:
@@ -653,24 +609,11 @@ The output should be the same as in the previous section.
             subset: cnn
             port:
               number: 443
-          weight: 100
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: cnn
-    spec:
-      hosts:
-      - edition.cnn.com
-      gateways:
-      - istio-egressgateway
-      tls:
+      tcp:
       - match:
         - gateways:
           - istio-egressgateway
           port: 443
-          sni_hosts:
-          - edition.cnn.com
         route:
         - destination:
             host: edition.cnn.com
@@ -708,7 +651,7 @@ The output should be the same as in the previous section.
 {{< text bash >}}
 $ kubectl delete serviceentry cnn
 $ kubectl delete gateway istio-egressgateway
-$ kubectl delete virtualservice direct-cnn-through-egress-gateway cnn
+$ kubectl delete virtualservice direct-cnn-through-egress-gateway
 $ kubectl delete destinationrule egressgateway-for-cnn
 {{< /text >}}
 
