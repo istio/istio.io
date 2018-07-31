@@ -211,13 +211,30 @@ to the remote cluster.
     EOF
     {{< /text >}}
 
+1. _(Optional)_  Create file with environment variables for creating the remote cluster secret:
+
+    {{< text bash >}}
+    $ cat <<EOF > remote_cluster_env_vars
+    export CLUSTER_NAME=${CLUSTER_NAME}
+    export KUBECFG_FILE=${KUBECFG_FILE}
+    export NAMESPACE=${NAMESPACE}
+    EOF
+    {{< /text >}}
+
 At this point, the remote clusters' `kubeconfig` files have been created in the current directory.
 The filename for a cluster is the same as the original `kubeconfig` cluster name.
 
 ## Instantiate the credentials for each remote cluster
 
 Execute this work on the cluster running the Istio control
-plane.
+plane using the `WORK_DIR`, `CLUSTER_NAME`, and `NAMESPACE` environment values set during the
+[Generate kubeconfig for remote clusters](#generate-kubeconfigs-for-remote-clusters) steps.
+
+* _(Optional)_  Source the environment variables file created for the remote cluster secret:
+
+    {{< text bash >}}
+    $ source remote_cluster_env_vars
+    {{< /text >}}
 
 Istio can be installed in a different namespace other than
 istio-system.
@@ -230,8 +247,7 @@ the remote nodes' credentials.
 Create a secret and label it properly for each remote cluster:
 
 {{< text bash >}}
-$ cd $WORK_DIR
-$ kubectl create secret generic ${CLUSTER_NAME} --from-file ${CLUSTER_NAME} -n ${NAMESPACE}
+$ kubectl create secret generic ${CLUSTER_NAME} --from-file ${KUBECFG_FILE} -n ${NAMESPACE}
 $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
 {{< /text >}}
 

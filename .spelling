@@ -31,6 +31,7 @@ alt
 Acmeair
 Ansible
 AppOptics
+Auth0
 args.yaml
 AuthPolicy
 Autoscalers
@@ -38,12 +39,16 @@ az
 BigQuery
 BluePerf
 Bookinfo
+Brooks
 Budinsky
+bring-your-own-CA
+bring-your-own-identity
 CAP_NET_ADMIN
 CAs
 CDNs
 CIDRs
 CIOs
+Cilium
 cli
 Costin
 CSRs
@@ -65,8 +70,9 @@ emojis
 ExecAction
 Exfiltrating
 ExternalName
+Firebase
+FitStation
 Fluentd
-httpbin.example.com
 FQDNs
 GCP-IAM
 GCP_OPTS
@@ -138,6 +144,7 @@ Reviewer1
 Reviewer2
 SNI
 SREs
+Secura
 ServiceGraph
 Servicegraph
 Sharding
@@ -145,6 +152,8 @@ Shriram
 SignalFX
 Snell-Feikema
 SolarWinds
+Steitz
+Superfeet
 TCP
 TCP-level
 TLS
@@ -214,6 +223,7 @@ dataset
 datastore
 debian
 dev
+devops
 docker.io
 e.g.
 eBPF
@@ -327,6 +337,7 @@ packageName.serviceName
 parenthesization
 pem
 platform-specific
+pluggability
 pluggable
 png
 pprof
@@ -359,6 +370,7 @@ reimplemented
 reinject
 repo
 roadmap
+roadmaps
 roleRef
 rollout
 rollouts
@@ -480,6 +492,17 @@ tunneling
 veth-pair
 virtualization
 Virtualization
+HP
+PubNub
+Trulia
+Sysdig
+Aporeto
+Styra
+Kiali
+Knative
+Apigee
+SLOs
+serverless
 subresources
 re-patch
 re-applied
@@ -493,7 +516,6 @@ sha256
 deployment
 webhook
 configuration
-
 
  - search.md
 searchresults

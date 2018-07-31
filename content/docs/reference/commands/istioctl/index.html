@@ -2,7 +2,7 @@
 title: istioctl
 description: Istio control interface
 generator: pkg-collateral-docs
-number_of_entries: 25
+number_of_entries: 26
 ---
 <p>
 Istio configuration command line utility.</p>
@@ -718,6 +718,102 @@ istioctl delete virtualservice bookinfo
 </tr>
 </tbody>
 </table>
+<h2 id="istioctl-experimental-convert-ingress">istioctl experimental convert-ingress</h2>
+<p>Converts Ingresses into VirtualService configuration on a best effort basis. The output should be considered a starting point for your Istio configuration and probably require some minor modification. Warnings will be generated where configs cannot be converted perfectly. The input must be a Kubernetes Ingress. The conversion of v1alpha1 Istio rules has been removed from istioctl.</p>
+<pre class="language-bash"><code>istioctl experimental convert-ingress [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--filenames &lt;stringSlice&gt;</code></td>
+<td><code>-f</code></td>
+<td>Input filenames  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, model, rbac]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output filename  (default `-`)</td>
+</tr>
+<tr>
+<td><code>--platform &lt;string&gt;</code></td>
+<td><code>-p</code></td>
+<td>Istio host platform  (default `kube`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-convert-ingress Examples">Examples</h3>
+<pre class="language-bash"><code>istioctl experimental convert-ingress -f samples/bookinfo/platform/kube/bookinfo-ingress.yaml
+</code></pre>
 <h2 id="istioctl-experimental-metrics">istioctl experimental metrics</h2>
 <p>
 Prints the metrics for the specified service(s) when running in Kubernetes.</p>
@@ -1480,7 +1576,7 @@ istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml --injectConf
 </table>
 <h3 id="istioctl-proxy-config Examples">Examples</h3>
 <pre class="language-bash"><code>  # Retrieve information about proxy configuration from an Envoy instance.
-  istioctl proxy-config &lt;clusters|listeners|routes|bootstrap&gt; &lt;pod-name&gt;
+  istioctl proxy-config &lt;clusters|listeners|routes|bootstap&gt; &lt;pod-name&gt;
 </code></pre>
 <h2 id="istioctl-proxy-config-bootstrap">istioctl proxy-config bootstrap</h2>
 <p>Retrieve information about bootstrap configuration for the Envoy instance in the specified pod.</p>

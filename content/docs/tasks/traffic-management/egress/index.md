@@ -61,6 +61,7 @@ from within your Istio cluster. In this task you access
       - number: 80
         name: http
         protocol: HTTP
+      resolution: DNS
     EOF
     {{< /text >}}
 
@@ -79,6 +80,7 @@ from within your Istio cluster. In this task you access
       - number: 443
         name: https
         protocol: HTTPS
+      resolution: DNS
     EOF
     {{< /text >}}
 

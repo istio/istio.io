@@ -5,8 +5,6 @@ weight: 43
 keywords: [traffic-management,egress]
 ---
 
-> This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.7/docs/tasks/traffic-management/). Note that this task introduces a new concept, namely Egress Gateway, that was not present in previous Istio versions.
-
 The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task demonstrates how external (outside the Kubernetes cluster) HTTP and HTTPS services can be accessed from applications inside the mesh. A quick reminder: by default, Istio-enabled applications are unable to access URLs outside the cluster. To enable such access, a [service entry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) for the external service must be defined, or, alternatively, [direct access to external services](/docs/tasks/traffic-management/egress/#calling-external-services-directly) must be configured.
 
 The [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress-tls-origination/) task demonstrates how to allow the applications to send HTTP requests to external servers that require HTTPS.
@@ -104,24 +102,25 @@ First direct HTTP traffic without TLS origination
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
-      kind: Gateway
-      metadata:
-        name: istio-egressgateway
-      spec:
-        selector:
-          istio: egressgateway
-        servers:
-        - port:
-            number: 80
-            name: https
-            protocol: HTTPS
-          hosts:
-          - edition.cnn.com
-          tls:
-            mode: MUTUAL
-            serverCertificate: /etc/certs/cert-chain.pem
-            privateKey: /etc/certs/key.pem
-            caCertificates: /etc/certs/root-cert.pem
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: istio-egressgateway
+    spec:
+      selector:
+        istio: egressgateway
+      servers:
+      - port:
+          number: 80
+          name: https
+          protocol: HTTPS
+        hosts:
+        - edition.cnn.com
+        tls:
+          mode: MUTUAL
+          serverCertificate: /etc/certs/cert-chain.pem
+          privateKey: /etc/certs/key.pem
+          caCertificates: /etc/certs/root-cert.pem
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
@@ -150,19 +149,20 @@ First direct HTTP traffic without TLS origination
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
-      kind: Gateway
-      metadata:
-        name: istio-egressgateway
-      spec:
-        selector:
-          istio: egressgateway
-        servers:
-        - port:
-            number: 80
-            name: http
-            protocol: HTTP
-          hosts:
-          - edition.cnn.com
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: istio-egressgateway
+    spec:
+      selector:
+        istio: egressgateway
+      servers:
+      - port:
+          number: 80
+          name: http
+          protocol: HTTP
+        hosts:
+        - edition.cnn.com
     EOF
     {{< /text >}}
 
@@ -297,6 +297,7 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
       name: istio-egressgateway
@@ -343,6 +344,7 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
       name: istio-egressgateway
@@ -493,6 +495,7 @@ The output should be the same as in the previous section.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
       name: istio-egressgateway

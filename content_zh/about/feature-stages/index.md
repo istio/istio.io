@@ -75,7 +75,7 @@ page_icon: /img/feature-status.svg
 | [服务间相互 TLS](/docs/concepts/security/#mutual-tls-authentication)         | Stable
 | [认证策略](/docs/concepts/security/#authentication-policies)  | Alpha
 | [End User（JWT）认证](/docs/concepts/security/#authentication)  | Alpha
-| [VM：服务凭证分发](/docs/concepts/security/#key-management)         | Beta
+| [VM：服务凭证分发](/docs/concepts/security/#pki)         | Beta
 | [增量双向 TLS](/docs/tasks/security/mtls-migration)    | Beta
 | [OPA Checker]({{< github_file >}}/mixer/adapter/opa/README.md)    | Alpha
 | [认证（RBAC）](/docs/concepts/security/#authorization)   | Alpha
