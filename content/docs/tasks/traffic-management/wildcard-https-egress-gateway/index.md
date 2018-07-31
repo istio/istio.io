@@ -94,12 +94,7 @@ section of the [Configure an Egress Gateway](/docs/tasks/traffic-management/egre
             - port:
                 number: 443
               tls:
-                mode: MUTUAL
-                clientCertificate: /etc/certs/cert-chain.pem
-                privateKey: /etc/certs/key.pem
-                caCertificates: /etc/certs/root-cert.pem
-                subjectAltNames:
-                - spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
+                mode: ISTIO_MUTUAL
                 sni: www.wikipedia.org # an SNI to match egress gateway's expectation for an SNI
     EOF
     {{< /text >}}
@@ -383,12 +378,7 @@ to hold the configuration of the Nginx SNI proxy:
             - port:
                 number: 443
               tls:
-                mode: MUTUAL
-                clientCertificate: /etc/certs/cert-chain.pem
-                privateKey: /etc/certs/key.pem
-                caCertificates: /etc/certs/root-cert.pem
-                subjectAltNames:
-                - spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-with-sni-proxy-service-account
+                mode: ISTIO_MUTUAL
                 sni: placeholder.wikipedia.org # an SNI to match egress gateway's expectation for an SNI
     EOF
     {{< /text >}}
