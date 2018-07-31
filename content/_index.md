@@ -80,7 +80,7 @@ title: Istio
                     <h5 class="card-title text-center">Connect</h5>
                     <hr class="card-line">
                     <p class="card-text">
-                        Intelligent control the flow of traffic and API calls between services, conduct a range of tests, and upgrade gradually with
+                        Intelligently control the flow of traffic and API calls between services, conduct a range of tests, and upgrade gradually with
                         red/black deployments.
                     </p>
                 </div>

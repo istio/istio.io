@@ -29,7 +29,7 @@ Since the 0.8 release we’ve added some important new features and more importa
 
 * We’ve put a lot of effort into performance including continuous regression testing, large scale environment simulation and targeted fixes. We’re very happy with the results and will share more on this in detail in the coming weeks.
 
-### What'ss next?
+### What's next?
 
 While this is a significant milestone for the project there’s lots more to do. In working with adopters we’ve gotten a lot of great feedback about what to focus next. We’ve heard consistent themes around support for hybrid-cloud, install modularity, richer networking features and scalability for massive deployments. We’ve already taken some of this feedback into account in the 1.0 release and we’ll continue to aggressively tackle this work in the coming months.
 
