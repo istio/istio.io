@@ -58,7 +58,7 @@ so the configuration to enable rate limiting on both adapters is the same.
     Run the following command to enable rate limits.
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-productpage-ratelimit.yaml@
+    $ kubectl apply -f examples/bookinfo/policy/mixer-rule-productpage-ratelimit.yaml@
     {{< /text >}}
 
 1. Confirm the `memquota` handler was created:
