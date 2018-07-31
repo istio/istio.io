@@ -251,19 +251,19 @@ the file contents are logged along with the policy and template.
 
     * Kubernetes 1.9
 
-    ```
-    Internal error occurred: failed calling admission webhook "sidecar-injector.istio.io": \
-        Post https://istio-sidecar-injector.istio-system.svc:443/inject: dial tcp: lookup \
-        istio-sidecar-injector.istio-system.svc on 169.254.169.254:53: no such host
-    ```
+        ```
+        Internal error occurred: failed calling admission webhook "sidecar-injector.istio.io": \
+            Post https://istio-sidecar-injector.istio-system.svc:443/inject: dial tcp: lookup \
+            istio-sidecar-injector.istio-system.svc on 169.254.169.254:53: no such host
+        ```
 
     * Kubernetes 1.10
 
-    ```
-    Internal error occurred: failed calling admission webhook "sidecar-injector.istio.io": \
-        Post https://istio-sidecar-injector.istio-system.svc:443/inject?timeout=30s: \
-        no endpoints available for service "istio-sidecar-injector"
-    ```
+        ```
+        Internal error occurred: failed calling admission webhook "sidecar-injector.istio.io": \
+            Post https://istio-sidecar-injector.istio-system.svc:443/inject?timeout=30s: \
+            no endpoints available for service "istio-sidecar-injector"
+        ```
 
     * Verify one or more webhook pods and endpoints exist
 
@@ -288,17 +288,17 @@ the file contents are logged along with the policy and template.
     * Verify the namespace is labeled correctly per the webhook
       configuration’s `namespaceSelector`.
 
-    {{< text bash >}}
-    $ kubectl get namespace -L istio-injection
-    NAME           STATUS    AGE       ISTIO-INJECTION
-    default        Active    18d       enabled
-    istio-system   Active    3d        disabled
-    kube-public    Active    18d
-    kube-system    Active    18d
-    {{< /text >}}
+        {{< text bash >}}
+        $ kubectl get namespace -L istio-injection
+        NAME           STATUS    AGE       ISTIO-INJECTION
+        default        Active    18d       enabled
+        istio-system   Active    3d        disabled
+        kube-public    Active    18d
+        kube-system    Active    18d
+        {{< /text >}}
 
     * Verify the pod doesn’t have the `sidecar.istio.io/inject` annotation with value of `false`.
 
-    {{< text bash >}}
-    $ kubectl get pod <pod-name> -o jsonpath='{.metadata.annotations.sidecar\.istio\.io\/inject}'
-    {{< /text >}}
+        {{< text bash >}}
+        $ kubectl get pod <pod-name> -o jsonpath='{.metadata.annotations.sidecar\.istio\.io\/inject}'
+        {{< /text >}}
