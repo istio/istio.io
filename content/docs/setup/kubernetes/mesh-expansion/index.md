@@ -30,9 +30,11 @@ We'll use /etc/hosts as an example in this guide, it is the easiest way to get t
    template or 'helm upgrade' with the option enabled.
 
     {{< text bash >}}
+
     $ cd install/kubernetes/helm/istio
     $ helm upgrade --set global.meshExpansion=true --values myvalues.yaml istio-system .
     $ cd -
+
     {{< /text >}}
 
 * Find the IP address of the Istio gateway. Advanced users can expose services on a dedicated gateway,
@@ -40,9 +42,11 @@ or use an internal load balancer by using a custom `values.yaml` and creating `G
 entries to expose istio-pilot and istio-citadel.
 
     {{< text bash >}}
+
     $ GWIP=$(kubectl get -n istio-system service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
     $ echo $GWIP
     35.232.112.158
+
     {{< /text >}}
 
 *   Generate a `cluster.env` configuration to be deployed in the VMs. This file contains
@@ -50,23 +54,29 @@ the k8s cluster IP address ranges to intercept. The CIDR range is specified at k
 install time as `servicesIpv4Cidr`. Example commands to obtain the CIDR after install:
 
     {{< text bash >}}
+
     $ ISTIO_SERVICE_CIDR=$(gcloud container clusters describe $K8S_CLUSTER --zone $MY_ZONE --project $MY_PROJECT --format "value(servicesIpv4Cidr)")
     $ echo -e "ISTIO_CP_AUTH=MUTUAL_TLS\nISTIO_SERVICE_CIDR=$ISTIO_SERVICE_CIDR\n" > cluster.env
+
     {{< /text >}}
 
     Here's an example config file
 
     {{< text bash >}}
+
     $ cat cluster.env
     ISTIO_CP_AUTH=MUTUAL_TLS
     ISTIO_SERVICE_CIDR=10.55.240.0/20
+
     {{< /text >}}
 
 * Add the ports that will be exposed by the VM to the cluster env. This can be changed later, and
 is not required if the VM only calls services in the mesh.
 
     {{< text bash >}}
+
     $ echo "ISTIO_INBOUND_PORTS=3306,8080" >> cluster.env
+
     {{< /text >}}
 
 * Extract the initial keys for the service account to use on the VMs.
@@ -97,9 +107,9 @@ is not required if the VM only calls services in the mesh.
 
 * Add the IP address of istio gateway to /etc/hosts or to the DNS server. Example for /etc/hosts:
 
-    {{< text >}}
+    {{< text bash>}}
 
-    35.232.112.158 istio-citadel istio-pilot istio-pilot.istio-system
+    $ echo "35.232.112.158 istio-citadel istio-pilot istio-pilot.istio-system" >> /etc/hosts
 
     {{< /text >}}
 
@@ -144,19 +154,19 @@ is not required if the VM only calls services in the mesh.
 After setup, the machine should be able to access services running in the Kubernetes cluster
 or other mesh expansion machines.
 
-Example using /etc/hosts:
+Example using `/etc/hosts`:
 
     {{< text bash >}}
 
     $ kubectl -n bookinfo get svc productpage -o jsonpath='{.spec.clusterIP}'
-10.55.246.247
+    10.55.246.247
 
     {{< /text >}}
 
     {{< text bash >}}
 
-    vm $ sudo echo "10.55.246.247 productpage.bookinfo.svc.cluster.local" >> /etc/hosts
-    vm $ curl productpage.bookinfo.svc.cluster.local:9080
+    $ sudo echo "10.55.246.247 productpage.bookinfo.svc.cluster.local" >> /etc/hosts
+    $ curl productpage.bookinfo.svc.cluster.local:9080
     ... html content ...
 
     {{< /text >}}
@@ -201,7 +211,7 @@ VMs exposing a service.
 
     {{< text bash >}}
 
-    kubeadmin$ kubectl get endpoints -n bookinfo productpage -o jsonpath='{.subsets[0].addresses[0].ip}'
+    $ kubectl get endpoints -n bookinfo productpage -o jsonpath='{.subsets[0].addresses[0].ip}'
     10.52.39.13
 
     {{< /text >}}
