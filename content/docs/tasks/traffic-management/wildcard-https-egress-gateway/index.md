@@ -394,7 +394,7 @@ to hold the configuration of the Nginx SNI proxy:
                 caCertificates: /etc/certs/root-cert.pem
                 subjectAltNames:
                 - spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-with-sni-proxy-service-account
-                sni: www.wikipedia.org # an SNI to match egress gateway's expectation for an SNI
+                sni: placeholder.wikipedia.org # an SNI to match egress gateway's expectation for an SNI
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
@@ -422,29 +422,25 @@ to hold the configuration of the Nginx SNI proxy:
     EOF
     {{< /text >}}
 
-1.  Route the traffic destined to _*.wikipedia.org_ from the egress gateway to _www.wikipedia.org_. We can use this
- trick since all the _*.wikipedia.org_ sites are apparently served by each of the _wikipedia.org_ servers. It means that
- we can route the traffic to an IP of any _*.wikipedia.org_ sites, in particular to _www.wikipedia.org_,
- and the server at that IP will [manage to serve](https://en.wikipedia.org/wiki/Virtual_hosting) any of the Wikipedia
- sites. For a general case, in which the all the domain names of a `ServiceEntry` are not served by all the hosting
- servers, a more complex configuration is required. Note that we must create a `ServiceEntry` for _www.wikipedia.org_
- with resolution `DNS` so the gateway will be able to perform the routing.
+1.  Create an external name Kubernetes service:
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl create -f -
+    kind: Service
+    apiVersion: v1
+    metadata:
+      name: sni-proxy
+      namespace: istio-system
+    spec:
+      type: ExternalName
+      externalName: 127.0.0.1
+    EOF
+    {{< /text >}}
+
+1.  Route the traffic destined to _*.wikipedia.org_ from the egress gateway to the SNI proxy.
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
-    apiVersion: networking.istio.io/v1alpha3
-    kind: ServiceEntry
-    metadata:
-      name: www-wikipedia
-    spec:
-      hosts:
-      - www.wikipedia.org
-      ports:
-      - number: 443
-        name: tls
-        protocol: TLS
-      resolution: DNS
-    ---
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -461,7 +457,7 @@ to hold the configuration of the Nginx SNI proxy:
           port: 443
         route:
         - destination:
-            host: www.wikipedia.org
+            host: sni-proxy
             port:
               number: 443
           weight: 100
@@ -491,12 +487,13 @@ to hold the configuration of the Nginx SNI proxy:
 1.  Delete the configuration items you created:
 
     {{< text bash >}}
-    $ istioctl delete serviceentry wikipedia www-wikipedia
+    $ istioctl delete serviceentry wikipedia sni-proxy
     $ istioctl delete gateway istio-egressgateway-with-sni-proxy
     $ istioctl delete virtualservice direct-wikipedia-through-egress-gateway wikipedia
     $ istioctl delete destinationrule set-sni-for-egress-gateway
     $ kubectl delete -f $HOME/istio-egressgateway-with-sni-proxy.yaml
     $ kubectl delete configmap egress-sni-proxy-configmap -n istio-system
+    $ kubectl delete service sni-proxy
     {{< /text >}}
 
 1. Remove the configuration files you created
