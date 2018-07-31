@@ -96,7 +96,7 @@ title: Istio
                     <hr class="card-line">
                     <p class="card-text">
                         Automatically secure your services through managed authentication, authorization, and encryption of communication between
-                        Wservices.
+                        services.
                     </p>
                 </div>
             </div>
@@ -124,7 +124,7 @@ title: Istio
                     <h5 class="card-title text-center">Observe</h5>
                     <hr class="card-line">
                     <p class="card-text">
-                        See what's happening with rich automatic tracing, monitoring, and logging of all your microservices.
+                        See what's happening with rich automatic tracing, monitoring, and logging of all your services.
                    </p>
                 </div>
             </div>
