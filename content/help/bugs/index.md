@@ -17,7 +17,7 @@ issue](https://github.com/istio/istio/issues/new/choose) and let us know
 what's going on.
 
 If you think it is a security vulnerability, report it following the procedure
-detailed in our [security vulnerabilities reporting](https://istio.io/about/security-vulnerabilities/).
+detailed in our [security vulnerabilities reporting](/about/security-vulnerabilities/).
 
 If you're running on Kubernetes, consider including a [cluster state
 archive](#generating-a-cluster-state-archive) in your bug report.
