@@ -5,16 +5,16 @@ weight: 50
 keywords: [traffic-management,circuit-breaking]
 ---
 
-> 本文任务使用了新的 [v1alpha3 流量控制 API](/blog/2018/v1alpha3-routing/)。旧版本 API 已经过时，会在下一个 Istio 版本中移除。如果需要使用旧版本 API，请阅读[旧版本文档](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)
+> 本文任务使用了新的 [v1alpha3 流量控制 API](/zh/blog/2018/v1alpha3-routing/)。旧版本 API 已经过时，会在下一个 Istio 版本中移除。如果需要使用旧版本 API，请阅读[旧版本文档](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)
 
 本任务演示了弹性应用所需的熔断能力。网络方面可能会发生一些大家不愿发生的问题，例如故障、延迟高峰等等，熔断功能能够帮助开发人员限制这些负面因素的影响范围。下面的内容会展示如何根据连接、请求以及外部检测的情况对断路器进行设置。
 
 ## 开始之前
 
-* 跟随 [安装指南](/docs/setup) 设置 Istio。
-* 启动 [httpbin]({{< github_tree >}}/samples/httpbin) 示例应用，这个应用将会作为本任务的后端服务。
+* 跟随 [安装指南](/zh/docs/setup) 设置 Istio。
+* 启动 [httpbin](/zh{{< github_tree >}}/samples/httpbin) 示例应用，这个应用将会作为本任务的后端服务。
 
-    如果启用了 [Sidecar 的自动注入](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)，只需运行：
+    如果启用了 [Sidecar 的自动注入](/zh/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)，只需运行：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@
@@ -30,7 +30,7 @@ keywords: [traffic-management,circuit-breaking]
 
 接下来设置一个场景来演示 Istio 的熔断功能。在上一步骤中，我们已经启动了 `httpbin` 服务。
 
-1. 创建一个 [目标规则](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule)，针对 `httpbin` 服务设置断路器：
+1. 创建一个 [目标规则](/zh/docs/reference/config/istio.networking.v1alpha3/#DestinationRule)，针对 `httpbin` 服务设置断路器：
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
@@ -231,7 +231,7 @@ cluster.outbound|80||httpbin.springistio.svc.cluster.local.upstream_rq_pending_t
     $ istioctl delete destinationrule httpbin
     {{< /text >}}
 
-1. 关闭 [httpbin]({{< github_tree >}}/samples/httpbin) 服务和客户端
+1. 关闭 [httpbin](/zh{{< github_tree >}}/samples/httpbin) 服务和客户端
 
     {{< text bash >}}
     $ kubectl delete deploy httpbin fortio-deploy

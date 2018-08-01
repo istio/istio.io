@@ -13,8 +13,8 @@ aliases:
 
 ## 开始之前
 
-* 按照[安装指南](/docs/setup/kubernetes/)在 Kubernetes 集群上部署 Istio。
-* 部署 [Bookinfo](/docs/examples/bookinfo/) 示例应用。
+* 按照[安装指南](/zh/docs/setup/kubernetes/)在 Kubernetes 集群上部署 Istio。
+* 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用。
 * Bookinfo 示例中的每个微服务都包含了多个版本，所以首先要创建目标规则，为每个版本创建一个对应的服务子集。
 
     如果没有启用双向 TLS，运行如下命令：
@@ -55,7 +55,7 @@ aliases:
 
 在 Istio 环境里，可以使用 Mixer 中的任何属性来对服务进行访问控制。这是一种简易的访问控制，使用 Mixer 选择器来有条件的拒绝请求。
 
-比如 [Bookinfo](/docs/examples/bookinfo/) 示例应用中 `ratings` 服务会被多个版本的 `reviews` 服务访问。我们尝试切断来自 `reviews:v3` 的访问。
+比如 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用中 `ratings` 服务会被多个版本的 `reviews` 服务访问。我们尝试切断来自 `reviews:v3` 的访问。
 
 1. 用浏览器打开 Bookinfo 的 `productpage`（`http://$GATEWAY_URL/productpage`）。
 
@@ -82,7 +82,7 @@ aliases:
 
     这段表达式匹配的条件是，来自服务 `reviews`，`version` 标签值为 `v3` 的，目标为 `ratings` 服务的请求。
 
-    这条规则使用 `denier` 适配器拒绝来自 `reviews:v3` 服务的请求。这个适配器会使用预定的状态码和消息拒绝请求。状态码和消息的定义可以参考 [Denier](/docs/reference/config/policy-and-telemetry/adapters/denier/) 适配器的配置文档。
+    这条规则使用 `denier` 适配器拒绝来自 `reviews:v3` 服务的请求。这个适配器会使用预定的状态码和消息拒绝请求。状态码和消息的定义可以参考 [Denier](/zh/docs/reference/config/policy-and-telemetry/adapters/denier/) 适配器的配置文档。
 
 1. 在浏览器中刷新 `productpage` 页面。
 
@@ -100,7 +100,7 @@ Istio 也支持基于属性的黑名单和白名单。下面的白名单配置�
 
 1. 在登出状态下浏览 Bookinfo 的 `productpage`（`http://$GATEWAY_URL/productpage`），应该看到红星图标。在完成后续步骤之后，只有在使用 "jason" 的身份进行登录之后才能看到星形图标。
 
-1. 给 [`list`](/docs/reference/config/policy-and-telemetry/adapters/list/) 适配器创建配置，其中包含 `v1, v2` 两个版本。保存下面的 YAML 代码为 `whitelist-handler.yaml`：
+1. 给 [`list`](/zh/docs/reference/config/policy-and-telemetry/adapters/list/) 适配器创建配置，其中包含 `v1, v2` 两个版本。保存下面的 YAML 代码为 `whitelist-handler.yaml`：
 
     {{< text yaml >}}
     apiVersion: config.istio.io/v1alpha2
@@ -119,7 +119,7 @@ Istio 也支持基于属性的黑名单和白名单。下面的白名单配置�
     $ istioctl create -f whitelist-handler.yaml
     {{< /text >}}
 
-1. 创建一个 [`listentry`](/docs/reference/config/policy-and-telemetry/templates/listentry/) 适配器的模板，用于解析版本标签，将下面的 YAML 代码段保存为 `appversion-instance.yaml`：
+1. 创建一个 [`listentry`](/zh/docs/reference/config/policy-and-telemetry/templates/listentry/) 适配器的模板，用于解析版本标签，将下面的 YAML 代码段保存为 `appversion-instance.yaml`：
 
     {{< text yaml >}}
     apiVersion: config.istio.io/v1alpha2
@@ -189,4 +189,4 @@ Istio 也支持基于属性的黑名单和白名单。下面的白名单配置�
     $ istioctl delete -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
     {{< /text >}}
 
-* 如果没有计划尝试后续任务，参考 [Bookinfo 清理](/docs/examples/bookinfo/#cleanup)部分的介绍，关停示例应用。
+* 如果没有计划尝试后续任务，参考 [Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup)部分的介绍，关停示例应用。

@@ -33,7 +33,7 @@ Bookinfo 是一个异构应用，几个微服务是由不同的语言编写的�
 
 ## 开始之前
 
-如果还没开始，首先要遵循[安装指南](/docs/setup/)的指导，根据所在平台完成 Istio 的部署工作。
+如果还没开始，首先要遵循[安装指南](/zh/docs/setup/)的指导，根据所在平台完成 Istio 的部署工作。
 
 ## 部署应用
 
@@ -56,15 +56,15 @@ Bookinfo 是一个异构应用，几个微服务是由不同的语言编写的�
 
 1. 启动应用容器：
 
-    * 如果集群用的是[手工 Sidecar 注入](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection)，使用如下命令：
+    * 如果集群用的是[手工 Sidecar 注入](/zh/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection)，使用如下命令：
 
         {{< text bash >}}
         $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo.yaml@)
         {{< /text >}}
 
-        [`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject) 命令用于在在部署应用之前修改 `bookinfo.yaml`，
+        [`istioctl kube-inject`](/zh/docs/reference/commands/istioctl/#istioctl-kube-inject) 命令用于在在部署应用之前修改 `bookinfo.yaml`，
 
-    * 如果集群使用的是[自动 Sidecar 注入](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)，只需简单的 `kubectl` 就能完成服务的部署。
+    * 如果集群使用的是[自动 Sidecar 注入](/zh/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)，只需简单的 `kubectl` 就能完成服务的部署。
 
         {{< text bash >}}
         $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
@@ -107,7 +107,7 @@ Bookinfo 是一个异构应用，几个微服务是由不同的语言编写的�
 
 #### 确定 Ingress 的 IP 和端口
 
-1. 根据[文档](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports)设置 `INGRESS_HOST` 和 `INGRESS_PORT` 变量。
+1. 根据[文档](/zh/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports)设置 `INGRESS_HOST` 和 `INGRESS_PORT` 变量。
 
 1. 设置 `GATEWAY_URL`：
 
@@ -115,7 +115,7 @@ Bookinfo 是一个异构应用，几个微服务是由不同的语言编写的�
     $ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
     {{< /text >}}
 
-1. 进入[下一步](#下一步)。
+1. 进入[下一步](/zh#下一步)。
 
 ### 如果在 Docker 和 Consul 环境中运行
 
@@ -155,7 +155,7 @@ $ curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage
 
 还可以用浏览器打开网址 `http://$GATEWAY_URL/productpage`，来浏览应用的 Web 页面。如果刷新几次应用的页面，就会看到页面中会随机展示 `reviews` 服务的不同版本的效果（红色、黑色的星形或者没有显示）。`reviews` 服务出现这种情况是因为我们还没有使用 Istio 来控制版本的路由。
 
-现在就可以使用这一应用来体验 Istio 的特性了，其中包括了流量的路由、错误注入、速率限制等。接下来可以个人爱好去阅读和演练 [Istio 实例](/docs/examples)。这里为新手推荐[智能路由](/docs/examples/intelligent-routing/)功能作为起步课程。
+现在就可以使用这一应用来体验 Istio 的特性了，其中包括了流量的路由、错误注入、速率限制等。接下来可以个人爱好去阅读和演练 [Istio 实例](/zh/docs/examples)。这里为新手推荐[智能路由](/zh/docs/examples/intelligent-routing/)功能作为起步课程。
 
 ## 清理
 

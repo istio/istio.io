@@ -8,7 +8,7 @@ page_icon: /img/notes.svg
 
 ## 通用
 
-0.3 开始，Istio 进入以月为单位的发布节奏。希望这一举措能够增强团队按时交付的能力。[Feature stages](/about/feature-stages/) 中会提供关于各个功能实现情况的相关信息。
+0.3 开始，Istio 进入以月为单位的发布节奏。希望这一举措能够增强团队按时交付的能力。[Feature stages](/zh/about/feature-stages/) 中会提供关于各个功能实现情况的相关信息。
 
 这一阶段里，团队致力于内部的基础设施建设以及工作效率的提高，因此这一版本在功能上面乏善可陈。解决了为数众多的 Bug 和问题，改善了总体性能表现。
 
@@ -26,7 +26,7 @@ page_icon: /img/notes.svg
 
 - **增强缓存**：Envoy 和 Mixer 之间的缓存大幅改善，鉴权检查过程造成的延迟显著降低。
 
-- **List 适配器改良**：Mixer 的 `list` 适配器提供了正则表达式的匹配支持。参考 [List 配置选项](/docs/reference/config/policy-and-telemetry/adapters/list/)可以获得更多信息。
+- **List 适配器改良**：Mixer 的 `list` 适配器提供了正则表达式的匹配支持。参考 [List 配置选项](/zh/docs/reference/config/policy-and-telemetry/adapters/list/)可以获得更多信息。
 
 - **配置校验**：Mixer 会对配置状态进行更多检查，以期尽早发现问题。我们希望未来版本中会进行更多这方面的改善。
 

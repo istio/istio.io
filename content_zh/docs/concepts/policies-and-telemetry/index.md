@@ -93,7 +93,7 @@ Mixer 是 Istio 中用于实现策略和遥测功能的组件。Mixer 本质上�
 
 给定的 Istio 部署中具有其可理解的一组固定的属性词汇表。具体词汇表由部署中使用的一组属性生成器确定。Istio 中的主要属性生产者是 Envoy，但专用的 Mixer 适配器也可以生成属性。
 
-[这里](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/)定义了大多数 Istio 部署中可用的通用基准属性集。
+[这里](/zh/docs/reference/config/policy-and-telemetry/attribute-vocabulary/)定义了大多数 Istio 部署中可用的通用基准属性集。
 
 ### 属性表达式
 
@@ -115,7 +115,7 @@ destination_version: destination.labels["version"] | "unknown"
 
 上面的表达式里，`destination_version` 标签被赋值为 `destination.labels["version"]`，如果 `destination.labels["version"]` 为空，则使用 `"unknown"` 代替。
 
-有关详细信息，请参阅[属性表达式引用](/docs/reference/config/policy-and-telemetry/expression-language/)。
+有关详细信息，请参阅[属性表达式引用](/zh/docs/reference/config/policy-and-telemetry/expression-language/)。
 
 ## 配置模型
 
@@ -179,7 +179,7 @@ spec:
       bounds: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10]
     {{< /text >}}
 
-每个适配器都定义了自己格式的配置数据。适配器及其配置的详尽列表可以在[这里](/docs/reference/config/policy-and-telemetry/adapters/)找到。
+每个适配器都定义了自己格式的配置数据。适配器及其配置的详尽列表可以在[这里](/zh/docs/reference/config/policy-and-telemetry/adapters/)找到。
 
 ## 实例（Instance）
 
@@ -200,7 +200,7 @@ spec:
   monitored_resource_type: '"UNSPECIFIED"'
 {{< /text >}}
 
-注意 Handler 配置中需要的所有维度都定义在这一映射之中。每个模板都有自己格式的配置数据。完整的模板及其特定配置格式可以在[这里](/docs/reference/config/policy-and-telemetry/templates/)查阅。
+注意 Handler 配置中需要的所有维度都定义在这一映射之中。每个模板都有自己格式的配置数据。完整的模板及其特定配置格式可以在[这里](/zh/docs/reference/config/policy-and-telemetry/templates/)查阅。
 
 ## 规则（Rule）
 

@@ -8,7 +8,7 @@ weight: 30
 
 ## 开始之前
 
-首先要 Fork Istio 的文档仓库，这一过程在 [Working with GitHub](/about/contribute/github/) 中有具体讲解。
+首先要 Fork Istio 的文档仓库，这一过程在 [Working with GitHub](/zh/about/contribute/github/) 中有具体讲解。
 
 ## 选择页面类型
 
@@ -131,13 +131,13 @@ keywords: [keyword1,keyword2,...]
 1. **相对链接：**在网站的层次结构内，用以句号开头的相对链接引用与当前文件相同或以下级别的任何内容：
 
     {{< text markdown >}}
-    [see here](./adir/anotherfile.html)
+    [see here](/zh./adir/anotherfile.html)
     {{< /text >}}
 
 1. **绝对链接：**用以 `/` 开头的绝对链接来引用当前层次之外的内容：
 
     {{< text markdown >}}
-    [see here](/docs/adir/afile/)
+    [see here](/zh/docs/adir/afile/)
     {{< /text >}}
 
 ## 预格式化文本块

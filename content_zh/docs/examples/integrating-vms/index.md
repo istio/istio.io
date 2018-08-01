@@ -22,11 +22,11 @@ aliases:
 
 ## 开始之前
 
-* 依照[安装指南](/docs/setup/kubernetes/quick-start/)部署 Istio。
+* 依照[安装指南](/zh/docs/setup/kubernetes/quick-start/)部署 Istio。
 
-* 部署 [Bookinfo](/docs/examples/bookinfo/) 示例应用（在 `bookinfo` 命名空间）。
+* 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用（在 `bookinfo` 命名空间）。
 
-* 创建一个虚拟机，命名为 `vm1`，和 Istio 集群处于同一项目之中，并且将其[加入集群](/docs/setup/kubernetes/mesh-expansion/)。
+* 创建一个虚拟机，命名为 `vm1`，和 Istio 集群处于同一项目之中，并且将其[加入集群](/zh/docs/setup/kubernetes/mesh-expansion/)。
 
 ## 在虚拟机上运行 MySQL
 
@@ -118,4 +118,4 @@ $ istioctl create -n bookinfo -f @samples/bookinfo/networking/virtual-service-ra
 
 可以检查一下 Bookinfo 应用的输出，会看到 Reviewer1 给出了 1 星，而 Reviewer2 给出了 4 星，或者还可以修改虚拟机上的数据来查看变更的结果。
 
-另外可以在 [RawVM MySQL]({{< github_blob >}}/samples/rawvm/README.md) 文档中找到除错等方面的详细信息。
+另外可以在 [RawVM MySQL](/zh{{< github_blob >}}/samples/rawvm/README.md) 文档中找到除错等方面的详细信息。

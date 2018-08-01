@@ -5,11 +5,11 @@ weight: 5
 keywords: [debug,proxy,status,config,pilot,envoy]
 ---
 
-此任务演示如何使用 [`proxy-status`](/docs/reference/commands/istioctl/#istioctl-proxy-status) 和 [`proxy-config`](/docs/reference/commands/istioctl/#istioctl-proxy-config) 命令。`proxy-status` 命令允许您获取网格的概述并识别导致问题的代理。然后，`proxy-config` 可用于检查 Envoy 配置并用于问题排查。
+此任务演示如何使用 [`proxy-status`](/zh/docs/reference/commands/istioctl/#istioctl-proxy-status) 和 [`proxy-config`](/zh/docs/reference/commands/istioctl/#istioctl-proxy-config) 命令。`proxy-status` 命令允许您获取网格的概述并识别导致问题的代理。然后，`proxy-config` 可用于检查 Envoy 配置并用于问题排查。
 
 ## 开始之前
 
-* 部署 Istio 和 Bookinfo 的 Kubernetes 集群（例如，如[安装步骤](/docs/setup/kubernetes/quick-start/#installation-steps)和 [Bookinfo 安装步骤](/docs/examples/bookinfo/#if-you-are-running-on-kubernetes)中所述使用 `istio.yaml` 安装)。
+* 部署 Istio 和 Bookinfo 的 Kubernetes 集群（例如，如[安装步骤](/zh/docs/setup/kubernetes/quick-start/#installation-steps)和 [Bookinfo 安装步骤](/zh/docs/examples/bookinfo/#if-you-are-running-on-kubernetes)中所述使用 `istio.yaml` 安装)。
 
 或者
 

@@ -9,7 +9,7 @@ keywords: [kubernetes,vms]
 
 ## 先决条件
 
-* 根据[安装指南](/docs/setup/kubernetes/quick-start/)的步骤在 Kubernetes 上部署 Istio。
+* 根据[安装指南](/zh/docs/setup/kubernetes/quick-start/)的步骤在 Kubernetes 上部署 Istio。
 * 待接入服务器必须能够通过 IP 接入网格中的服务端点。通常这需要 VPN 或者 VPC 的支持，或者容器网络为服务端点提供直接路由（非 NAT 或者防火墙屏蔽）。该服务器无需访问 Kubernetes 指派的集群 IP 地址。
 * Istio 控制平面服务（Pilot、Mixer、Citadel）以及 Kubernetes 的 DNS 服务器必须能够从虚拟机进行访问，通常会使用[内部负载均衡器](https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer)（也可以使用 NodePort）来满足这一要求，在虚拟机上运行 Istio 组件，或者使用自定义网络配置，相关的高级配置另有文档描述。
 
@@ -17,9 +17,9 @@ keywords: [kubernetes,vms]
 
 安装过程包含服务网格的扩展准备、扩展安装以及虚拟机的配置过程。
 
-在发布包中有一个示例脚本：[`install/tools/setupMeshEx.sh`]({{< github_file >}}/install/tools/setupMeshEx.sh)，这个脚本用来协助 Kubernetes 中的设置，请查阅这个脚本，注意脚本的内容以及所需的环境变量（例如 `GCP_OPTS`）。
+在发布包中有一个示例脚本：[`install/tools/setupMeshEx.sh`](/zh{{< github_file >}}/install/tools/setupMeshEx.sh)，这个脚本用来协助 Kubernetes 中的设置，请查阅这个脚本，注意脚本的内容以及所需的环境变量（例如 `GCP_OPTS`）。
 
-还有一个示例脚本是用来协助进行虚拟机配置的，这个脚本同样包含在发布包中：[`install/tools/setupIstioVM.sh`]({{< github_file >}}/install/tools/setupIstioVM.sh)。可以根据本地环境和 DNS 需求对这个脚本进行定制。
+还有一个示例脚本是用来协助进行虚拟机配置的，这个脚本同样包含在发布包中：[`install/tools/setupIstioVM.sh`](/zh{{< github_file >}}/install/tools/setupIstioVM.sh)。可以根据本地环境和 DNS 需求对这个脚本进行定制。
 
 ### 扩展准备工作：设置 Kubernetes
 

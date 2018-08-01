@@ -12,11 +12,11 @@ page_icon: /img/notes.svg
 
 ## Mixer 适配器
 
-- **SolarWinds**。 Mixer 和 AppOptics 以及 Papertrail 成功对接。[参考资料](/docs/reference/config/policy-and-telemetry/adapters/solarwinds/)
+- **SolarWinds**。 Mixer 和 AppOptics 以及 Papertrail 成功对接。[参考资料](/zh/docs/reference/config/policy-and-telemetry/adapters/solarwinds/)
 
-- **Redis Quota**。 Mixer 为速率限制功能提供了基于 Redis 的适配器。[参考资料](/docs/reference/config/policy-and-telemetry/adapters/redisquota/)
+- **Redis Quota**。 Mixer 为速率限制功能提供了基于 Redis 的适配器。[参考资料](/zh/docs/reference/config/policy-and-telemetry/adapters/redisquota/)
 
-- **Datadog**。Mixer 实现了向 Datadog 代理输出指标数据的适配器。[参考资料](/docs/reference/config/policy-and-telemetry/adapters/datadog/)
+- **Datadog**。Mixer 实现了向 Datadog 代理输出指标数据的适配器。[参考资料](/zh/docs/reference/config/policy-and-telemetry/adapters/datadog/)
 
 ## 其它
 
@@ -24,8 +24,8 @@ page_icon: /img/notes.svg
 
 - **监控仪表盘**：在 Grafana 中提供了初步的 Mixer 和 Pilot 监控仪表盘。
 
-- **Servicegraph**：Servicegraph 升级了新的可视效果。[参考资料](/docs/tasks/telemetry/servicegraph/)
+- **Servicegraph**：Servicegraph 升级了新的可视效果。[参考资料](/zh/docs/tasks/telemetry/servicegraph/)
 
-- **存活和就绪检测**：Istio 组件提供了正式的存活以及就绪检测功能，用于确定服务网格基础设施的健康情况。[参考资料](/docs/tasks/security/health-check/)
+- **存活和就绪检测**：Istio 组件提供了正式的存活以及就绪检测功能，用于确定服务网格基础设施的健康情况。[参考资料](/zh/docs/tasks/security/health-check/)
 
 - **Egress 策略和遥测**：Mixer 现在可以监控同 `EgressRule` 所定义的外部服务进行通信的流量，并且可以在这些流量中使用 Mixer 策略。
