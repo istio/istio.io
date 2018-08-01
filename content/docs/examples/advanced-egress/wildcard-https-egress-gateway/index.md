@@ -246,10 +246,10 @@ access to _*.wikipedia.org_ to support HTTPS traffic to arbitrary wildcarded dom
  proxy, to the `Deployment` of `istio-egressgateway-with-sni-proxy`. The definition is as follows:
 
     {{< text yaml >}}
-    - name: nginx-sni-proxy
+    - name: sni-proxy
       image: nginx
       volumeMounts:
-      - name: nginx-config
+      - name: sni-proxy-config
         mountPath: /etc/nginx
         readOnly: true
     {{< /text >}}
@@ -258,7 +258,7 @@ access to _*.wikipedia.org_ to support HTTPS traffic to arbitrary wildcarded dom
     `istio-egressgateway-with-sni-proxy`:
 
     {{< text yaml >}}
-    - name: nginx-config
+    - name: sni-proxy-config
       configMap:
         name: egress-sni-proxy-configmap
     {{< /text >}}
@@ -267,7 +267,7 @@ access to _*.wikipedia.org_ to support HTTPS traffic to arbitrary wildcarded dom
     settings, if required.
 
     {{< text bash >}}
-    $ cat <<EOF > $HOME/nginx-sni-proxy.conf
+    $ cat <<EOF > $HOME/sni-proxy.conf
     user www-data;
 
     events {
@@ -295,7 +295,7 @@ access to _*.wikipedia.org_ to support HTTPS traffic to arbitrary wildcarded dom
 to hold the configuration of the Nginx SNI proxy:
 
     {{< text bash >}}
-    $ kubectl create configmap egress-sni-proxy-configmap -n istio-system --from-file=nginx.conf=$HOME/nginx-sni-proxy.conf
+    $ kubectl create configmap egress-sni-proxy-configmap -n istio-system --from-file=nginx.conf=$HOME/sni-proxy.conf
     {{< /text >}}
 
 1.  Deploy the new egress gateway:
