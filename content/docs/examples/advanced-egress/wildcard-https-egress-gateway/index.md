@@ -344,7 +344,7 @@ to hold the configuration of the Nginx SNI proxy:
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
-      name: sni-local
+      name: sni-proxy
     spec:
       hosts:
       - sni-proxy.local
