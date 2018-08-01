@@ -8,7 +8,7 @@ We are very grateful to the security researchers and users that report
 back Istio security vulnerabilities. We investigate every report thoroughly.
 
 To make a report, send an email to the private
-[istio-security-vulnerabilities@google.com](mailto:istio-security-vulnerabilities@google.com)
+[`istio-security-vulnerabilities@google.com`](mailto:istio-security-vulnerabilities@google.com)
 mailing list with the vulnerability details. For normal product bugs
 unrelated to latent security vulnerabilities, please head to
 our [Reporting Bugs](/help/bugs/) page to learn what to do.
@@ -40,7 +40,7 @@ within the Istio project. We don't disseminate the information to other
 projects. We only share the information as needed to fix the issue.
 
 We keep the reporter updated as the status of the security issue moves
-from *triaged*, to *identified fix*, to *release planning*.
+from `triaged`, to `identified fix`, to `release planning`.
 
 ## Public disclosure timing
 
