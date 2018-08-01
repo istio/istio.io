@@ -8,7 +8,7 @@ aliases:
 ---
 ## How to report a security vulnerability?
 
-We’re very grateful for security researchers and users that report Istio security vulnerabilities to us. We will thoroughly investigated every report. 
+We’re very grateful for security researchers and users that report Istio security vulnerabilities to us. We will thoroughly investigated every report.
 
 To make a report, please email the private [istio-security-vulnerabilities@google.com](mailto:istio-security-vulnerabilities@google.com) list with the vulnerability details and the details expected for [Istio bug reports](https://istio.io/help/bugs/).
 
@@ -26,7 +26,7 @@ To make a report, please email the private [istio-security-vulnerabilities@googl
 
 ## Security vulnerability response
 
-Each report is acknowledged and analyzed by Istio security team members within 3 working days. 
+Each report is acknowledged and analyzed by Istio security team members within 3 working days.
 
 Any vulnerability information shared with Istio security team stays within Istio project and will not be disseminated to other projects unless it is necessary to get the issue fixed.
 
