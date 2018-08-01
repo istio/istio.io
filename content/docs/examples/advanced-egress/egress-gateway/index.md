@@ -7,9 +7,9 @@ keywords: [traffic-management,egress]
 
 The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task demonstrates how external (outside the Kubernetes cluster) HTTP and HTTPS services can be accessed from applications inside the mesh. A quick reminder: by default, Istio-enabled applications are unable to access URLs outside the cluster. To enable such access, a [service entry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) for the external service must be defined, or, alternatively, [direct access to external services](/docs/tasks/traffic-management/egress/#calling-external-services-directly) must be configured.
 
-The [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress-tls-origination/) task demonstrates how to allow the applications to send HTTP requests to external servers that require HTTPS.
+The [TLS Origination for Egress Traffic](/docs/examples/advanced-egress/egress-tls-origination/) example demonstrates how to allow the applications to send HTTP requests to external servers that require HTTPS.
 
-This task describes how to configure Istio to direct the egress traffic through a dedicated service called _Egress Gateway_. We achieve the same functionality as described in the [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress-tls-origination/) task, only this time we accomplish it with the addition of an egress gateway.
+This example describes how to configure Istio to direct the egress traffic through a dedicated service called _Egress Gateway_. We achieve the same functionality as described in the [TLS Origination for Egress Traffic](/docs/examples/advanced-egress/egress-tls-origination/) example, only this time we accomplish it with the addition of an egress gateway.
 
 ## Use case
 
@@ -91,14 +91,14 @@ First direct HTTP traffic without TLS origination
     {{< /text >}}
 
     The output should be the same as in the
-    [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress-tls-origination/) task, without TLS
+    [TLS Origination for Egress Traffic](/docs/examples/advanced-egress/egress-tls-origination/) example, without TLS
     origination.
 
-1.  Create an egress `Gateway` for _edition.cnn.com_, port 80.
+1.  Create an egress `Gateway` for _edition.cnn.com_, port 80, and destination rules and virtual services to
+    direct the traffic through the egress gateway and from the egress gateway to the external service.
 
     If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio, use the following
-    command. Note that in addition to creating a `Gateway`, it creates a `DestinationRule` to specify mutual TLS to the egress
-    gateway, setting SNI to `edition.cnn.com`.
+    command.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -125,23 +125,20 @@ First direct HTTP traffic without TLS origination
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
     metadata:
-      name: set-sni-for-egress-gateway
+      name: egressgateway-for-cnn
     spec:
       host: istio-egressgateway.istio-system.svc.cluster.local
-      trafficPolicy:
-        loadBalancer:
-          simple: ROUND_ROBIN
-        portLevelSettings:
-        - port:
-            number: 80
-          tls:
-            mode: MUTUAL
-            clientCertificate: /etc/certs/cert-chain.pem
-            privateKey: /etc/certs/key.pem
-            caCertificates: /etc/certs/root-cert.pem
-            subjectAltNames:
-            - spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
-            sni: edition.cnn.com
+      subsets:
+      - name: cnn
+        trafficPolicy:
+          loadBalancer:
+            simple: ROUND_ROBIN
+          portLevelSettings:
+          - port:
+              number: 80
+            tls:
+              mode: ISTIO_MUTUAL
+              sni: edition.cnn.com
     EOF
     {{< /text >}}
 
@@ -163,6 +160,15 @@ First direct HTTP traffic without TLS origination
           protocol: HTTP
         hosts:
         - edition.cnn.com
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: egressgateway-for-cnn
+    spec:
+      host: istio-egressgateway.istio-system.svc.cluster.local
+      subsets:
+      - name: cnn
     EOF
     {{< /text >}}
 
@@ -173,7 +179,7 @@ First direct HTTP traffic without TLS origination
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
-      name: direct-through-egress-gateway
+      name: direct-cnn-through-egress-gateway
     spec:
       hosts:
       - edition.cnn.com
@@ -188,6 +194,7 @@ First direct HTTP traffic without TLS origination
         route:
         - destination:
             host: istio-egressgateway.istio-system.svc.cluster.local
+            subset: cnn
             port:
               number: 80
           weight: 100
@@ -231,7 +238,7 @@ First direct HTTP traffic without TLS origination
     We should see a line related to our request, similar to the following:
 
     {{< text plain >}}
-    [2018-06-14T11:46:23.596Z] "GET /politics HTTP/1.1" 301 - 0 0 3 1 "172.30.146.87" "curl/7.35.0" "ab7be694-e367-94c5-83d1-086eca996dae" "edition.cnn.com" "151.101.193.67:80"
+    [2018-06-14T11:46:23.596Z] "GET /politics HTTP/2" 301 - 0 0 3 1 "172.30.146.87" "curl/7.35.0" "ab7be694-e367-94c5-83d1-086eca996dae" "edition.cnn.com" "151.101.193.67:80"
     {{< /text >}}
 
     Note that we redirected only the traffic from the port 80 to the egress gateway, the HTTPS traffic to the port 443 went directly to _edition.cnn.com_.
@@ -243,13 +250,14 @@ Remove the previous definitions before proceeding to the next step:
 {{< text bash >}}
 $ kubectl delete gateway istio-egressgateway
 $ kubectl delete serviceentry cnn
-$ kubectl delete virtualservice direct-through-egress-gateway
-$ kubectl delete destinationrule set-sni-for-egress-gateway
+$ kubectl delete virtualservice direct-cnn-through-egress-gateway
+$ kubectl delete destinationrule egressgateway-for-cnn
 {{< /text >}}
 
 ## Perform TLS origination with the egress `Gateway`
 
-Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress-tls-origination/) task.  Note that in this case the TLS origination will be done by the egress Gateway server, as opposed to by the sidecar in the previous task.
+Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Origination for Egress Traffic](/docs/examples/advanced-egress/egress-tls-origination/) example.  Note that in this case the TLS origination will
+be done by the egress Gateway server, as opposed to by the sidecar in the previous example.
 
 1.  Define a `ServiceEntry` for `edition.cnn.com`:
 
@@ -289,11 +297,11 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
     The exit code _35_ is due to the fact that Istio did not perform TLS origination. The egress gateway will perform
     TLS origination, proceed to the following steps to configure it.
 
-1.  Create an egress `Gateway` for _edition.cnn.com_, port 443.
+1.  Create an egress `Gateway` for _edition.cnn.com_, port 443, and destination rules and virtual services to
+    direct the traffic through the egress gateway and from the egress gateway to the external service.
 
     If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio, use the following
-    command. Note that in addition to creating a `Gateway`, it creates a `DestinationRule` to specify mutual TLS to the egress
-    gateway, setting SNI to `edition.cnn.com`.
+    command.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -320,23 +328,20 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
     metadata:
-      name: set-sni-for-egress-gateway
+      name: egressgateway-for-cnn
     spec:
       host: istio-egressgateway.istio-system.svc.cluster.local
-      trafficPolicy:
-        loadBalancer:
-          simple: ROUND_ROBIN
-        portLevelSettings:
-        - port:
-            number: 443
-          tls:
-            mode: MUTUAL
-            clientCertificate: /etc/certs/cert-chain.pem
-            privateKey: /etc/certs/key.pem
-            caCertificates: /etc/certs/root-cert.pem
-            subjectAltNames:
-            - spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
-            sni: edition.cnn.com
+      subsets:
+      - name: cnn
+        trafficPolicy:
+          loadBalancer:
+            simple: ROUND_ROBIN
+          portLevelSettings:
+          - port:
+              number: 443
+            tls:
+              mode: ISTIO_MUTUAL
+              sni: edition.cnn.com
     EOF
     {{< /text >}}
 
@@ -358,6 +363,15 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
           protocol: HTTP
         hosts:
         - edition.cnn.com
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: egressgateway-for-cnn
+    spec:
+      host: istio-egressgateway.istio-system.svc.cluster.local
+      subsets:
+      - name: cnn
     EOF
     {{< /text >}}
 
@@ -369,7 +383,7 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
-      name: direct-through-egress-gateway
+      name: direct-cnn-through-egress-gateway
     spec:
       hosts:
       - edition.cnn.com
@@ -384,6 +398,7 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
         route:
         - destination:
             host: istio-egressgateway.istio-system.svc.cluster.local
+            subset: cnn
             port:
               number: 443
           weight: 100
@@ -425,7 +440,7 @@ Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Ori
     ...
     {{< /text >}}
 
-    The output should be the same as in the [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress-tls-origination/) task, with TLS origination: without the _301 Moved Permanently_ message.
+    The output should be the same as in the [TLS Origination for Egress Traffic](/docs/examples/advanced-egress/egress-tls-origination/) example, with TLS origination: without the _301 Moved Permanently_ message.
 
 1.  Check the log of the `istio-egressgateway` pod and see a line corresponding to our request. If Istio is deployed in the `istio-system` namespace, the command to print the log is:
 
@@ -446,9 +461,9 @@ Remove the Istio configuration items we created:
 {{< text bash >}}
 $ kubectl delete gateway istio-egressgateway
 $ kubectl delete serviceentry cnn
-$ kubectl delete virtualservice direct-through-egress-gateway
+$ kubectl delete virtualservice direct-cnn-through-egress-gateway
 $ kubectl delete destinationrule originate-tls-for-edition-cnn-com
-$ kubectl delete destinationrule set-sni-for-egress-gateway
+$ kubectl delete destinationrule egressgateway-for-cnn
 {{< /text >}}
 
 ## Direct HTTPS traffic through an egress gateway
@@ -487,11 +502,11 @@ The output should be the same as in the previous section.
     ...
     {{< /text >}}
 
-1.  Create an egress `Gateway` for _edition.cnn.com_, port 443, protocol TLS.
+1.  Create an egress `Gateway` for _edition.cnn.com_, port 443, protocol TLS, and destination rules and virtual services
+    to direct the traffic through the egress gateway and from the egress gateway to the external service.
 
     If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio, use the following
-    command. Note that in addition to creating a `Gateway`, it creates a `DestinationRule` to specify mutual TLS to the egress
-    gateway, setting SNI to `edition.cnn.com`.
+    command.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -518,23 +533,55 @@ The output should be the same as in the previous section.
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
     metadata:
-      name: set-sni-for-egress-gateway
+      name: egressgateway-for-cnn
     spec:
       host: istio-egressgateway.istio-system.svc.cluster.local
-      trafficPolicy:
-        loadBalancer:
-          simple: ROUND_ROBIN
-        portLevelSettings:
-        - port:
-            number: 443
-          tls:
-            mode: MUTUAL
-            clientCertificate: /etc/certs/cert-chain.pem
-            privateKey: /etc/certs/key.pem
-            caCertificates: /etc/certs/root-cert.pem
-            subjectAltNames:
-            - spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
-            sni: edition.cnn.com
+      subsets:
+      - name: cnn
+        trafficPolicy:
+          loadBalancer:
+            simple: ROUND_ROBIN
+          portLevelSettings:
+          - port:
+              number: 443
+            tls:
+              mode: ISTIO_MUTUAL
+              sni: edition.cnn.com
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: direct-cnn-through-egress-gateway
+    spec:
+      hosts:
+      - edition.cnn.com
+      gateways:
+      - mesh
+      - istio-egressgateway
+      tls:
+      - match:
+        - gateways:
+          - mesh
+          port: 443
+          sni_hosts:
+          - edition.cnn.com
+        route:
+        - destination:
+            host: istio-egressgateway.istio-system.svc.cluster.local
+            subset: cnn
+            port:
+              number: 443
+      tcp:
+      - match:
+        - gateways:
+          - istio-egressgateway
+          port: 443
+        route:
+        - destination:
+            host: edition.cnn.com
+            port:
+              number: 443
+          weight: 100
     EOF
     {{< /text >}}
 
@@ -558,23 +605,26 @@ The output should be the same as in the previous section.
         - edition.cnn.com
         tls:
           mode: PASSTHROUGH
-    EOF
-    {{< /text >}}
-
-1.  Define a `VirtualService` to direct the traffic through the egress gateway:
-
-    {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: egressgateway-for-cnn
+    spec:
+      host: istio-egressgateway.istio-system.svc.cluster.local
+      subsets:
+      - name: cnn
+    ---
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
-      name: direct-through-egress-gateway
+      name: direct-cnn-through-egress-gateway
     spec:
       hosts:
       - edition.cnn.com
       gateways:
-      - istio-egressgateway
       - mesh
+      - istio-egressgateway
       tls:
       - match:
         - gateways:
@@ -585,9 +635,9 @@ The output should be the same as in the previous section.
         route:
         - destination:
             host: istio-egressgateway.istio-system.svc.cluster.local
+            subset: cnn
             port:
               number: 443
-          weight: 100
       - match:
         - gateways:
           - istio-egressgateway
@@ -631,8 +681,8 @@ The output should be the same as in the previous section.
 {{< text bash >}}
 $ kubectl delete serviceentry cnn
 $ kubectl delete gateway istio-egressgateway
-$ kubectl delete virtualservice direct-through-egress-gateway
-$ kubectl delete destinationrule set-sni-for-egress-gateway
+$ kubectl delete virtualservice direct-cnn-through-egress-gateway
+$ kubectl delete destinationrule egressgateway-for-cnn
 {{< /text >}}
 
 ## Additional security considerations
@@ -645,7 +695,7 @@ Also note that Istio itself *cannot securely enforce* that all the egress traffi
 
 1.  Check if you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio, following the
 steps in
-[Verifying Istio’s mutual TLS authentication setup](/docs/tasks/security/mutual-tls/#verifying-istio-s-mutual-tls-authentication-setup).
+[Verify mutual TLS configuration](/docs/tasks/security/mutual-tls/#verify-mutual-tls-configuration).
 If mutual TLS is enabled, make sure you create the configuration
 items accordingly (note the remarks _If you have mutual TLS Authentication enabled in Istio, you must create..._).
 

@@ -120,34 +120,54 @@ current release branch (named release-XXX such as release-0.7).
 Here are the steps necessary to create a new documentation version. Let's assume the current
 version of Istio is 0.6 and you wish to introduce 0.7 which has been under development.
 
-#### Updating branches
+#### Creating the release branch
 
 1. Switch to the istio/istio.github.io repo and make sure everything is up to date.
 
 1. Create a new release branch off of master, named as release-*major*.*minor*, which in this case would be
 release-0.7. There is one such branch for every release.
 
-1. In the **master** branch, edit the file `data/args.yml` and update the `version` field to have the version
-of the next release of Istio. In this case, you would set the field to 0.8.
+1. Push the new release branch to GitHub.
+
+#### Updating preliminary.istio.io
+
+1. Switch to the istio/istio.github.io repo and make sure everything is up to date.
 
 1. In the **master** branch, edit the file `data/releases.yml` and add a new entry at the top of the file
 for version 0.8. You'll need to make sure the URLs are updated for the first few entries. The top
 entry (0.8) should point to preliminary.istio.io. The second entry (0.7) should point to istio.io. The third
 and subsequent entries should point to archive.istio.io.
 
-1. In the **master** branch, add a placeholder markdown file for the next release's release notes as
-`content/about/notes/&lt;major&gt;.&lt;minor&gt;/index.md`.
+1. In the **master** branch, edit the file `data/args.yml` and update the `version` field to have the version
+of the next release of Istio. In this case, you would set the field to 0.8.
 
-1. Commit the previous three edits to GitHub.
+1. In the **master** branch, add 2 placeholder markdown files for the next release's release notes as
+`content/about/notes/&lt;major&gt;.&lt;minor&gt;/index.md` and `content_zh/about/notes/&lt;major&gt;.&lt;minor&gt;/index.md`
 
-1. In the **release** branch you created, edit the file `data/args.yml`. Set the `preliminary` field to `false`.
+1. Commit the previous edits to your local git repo and push the **master** branch to GitHub.
 
-1. In the **release** branch, edit the file `data/releases.yml` and add a new entry at the top of the file
-for version 0.8. You'll need to make sure the URLs are updated for the first few entries. The top
-entry (0.8) should point to preliminary.istio.io. The second entry (0.7) should point to istio.io. The third
-and subsequent entries should point to archive.istio.io.
+1. Wait a while (~2 minutes) and browse preliminary.istio.io to make sure everything looks good.
 
-1. Commit the previous two edits to GitHub.
+#### Updating istio.io
+
+1. Switch to the istio/istio.github.io repo and make sure everything is up to date.
+
+1. In the **release** branch you created, edit the file `data/args.yml`. Set the `preliminary` field to `false`
+and the `branch_name` field to the name of the branch, in this case release-0.7.
+
+1. Commit the previous edit to your local git repo and push your **release** branch to GitHub.
+
+1. Go to the istio.io project on [Netlify](https://netlify.com)
+
+1. Change the branch that is built from the previous release's branch to the new release branch, in this case release-0.7
+
+1. Select the option to trigger an immediate rebuild and redeployment.
+
+1. Once deployment is done, browse istio.io and make sure everything looks good.
+
+#### Updating archive.istio.io
+
+1. Switch to the istio/istio.github.io repo and make sure everything is up to date.
 
 1. Go to the [Google Custom Search Engine](https://cse.google.com) and create a new search engine that searches the archive.istio.io/V&lt;major&gt;.&lt;minor&gt;
 directory. This search engine will be used to perform version-specific searches on archive.istio.io.
@@ -156,29 +176,16 @@ directory. This search engine will be used to perform version-specific searches 
 edited CSE context file back to the web site.
 
 1. In the **previous release's** branch (in this case release-0.6), edit the file `data/args.yml`. Set the
-`archive` field to true, the `archive_date` field to the current date, the `search_engine_id` field
-to the ID of the search engine you created in the prior step, and the `branch_name` field to the
-name of the branch.
+`archive` field to true, the `archive_date` field to the current date, and the `search_engine_id` field
+to the ID of the search engine you created in the prior step.
 
-1. Commit the previous edit to GitHub.
-
-#### Updating archive.istio.io
+1. Commit the previous edit to your local git repo and push the **previous release's* branch to GitHub.
 
 1. Switch to the istio/admin-sites repo.
 
-1. Navigate to the archive.istio.io directory.
-
-1. Edit the `build.sh` script to add the newest archive version (in this case
+1. Edit the `archive.istio.io/build.sh` script to add the newest archive version (in this case
 release-0.6) to the `TOBUILD` variable.
 
-1. Commit the previous edit to GitHub.
+1. Commit the previous edit to your local git repo and push the change to GitHub.
 
-#### Updating istio.io
-
-1. Go to the istio.io project on [Netlify](https://netlify.com)
-
-1. Change the branch that is built from the old release branch to the new release branch
-
-1. Select the option to trigger an immediate rebuild and redeployment.
-
-1. Once deployment is done, browse istio.io and make sure everything looks good.
+1. Wait a while (~10 minutes) and browser archive.istio and make sure everything looks good.

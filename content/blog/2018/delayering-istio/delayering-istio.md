@@ -32,7 +32,7 @@ Not unlike the container runtime, AppSwitch consists of a client and a daemon th
 
 It is important to note that no data is forwarded between AppSwitch client and daemon.  They are designed to exchange file descriptors (FDs) over a Unix domain socket to avoid having to copy data.  Note also that client is not a separate process.  Rather it directly runs in the context of the application itself.  There is no data copy between the application and AppSwitch client either.
 
-## Delaying the stack
+## Delayering the stack
 
 Now that we have an idea about what AppSwitch does, let’s look at the layers that it optimizes away from a standard service mesh.
 

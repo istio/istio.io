@@ -75,16 +75,14 @@ def decode_helm_yaml(s):
             pass
         elif '#' in context[lineNum] and '#' == context[lineNum].lstrip()[0]:
             if "Description: " in context[lineNum]:
-                desc = context[lineNum].split(':', 1)[1].strip()
-            elif "Possible Values: " in context[lineNum]:
-                possible = context[lineNum].split(':', 1)[1].strip()
+                desc = context[lineNum].strip()
         elif ':' in context[lineNum] and '#' != context[lineNum].lstrip()[0]:
             lastLineNum = lineNum
             if flag == 1:
                 whitespaces = (len(context[lineNum]) - len(context[lineNum].lstrip())) / 2
                 periods = key.count('.')
                 while (whitespaces <= periods):
-                    key = key.rstrip(string.ascii_letters[::-1] + string.digits + '_' + '-').rstrip('.')
+                    key = key.rstrip(string.ascii_letters[::-1] + string.digits + '_' + '-' + '/').rstrip('.')
                     whitespaces += 1
                 flag = 0
 
@@ -104,9 +102,9 @@ def decode_helm_yaml(s):
 
                 ValueStr = (' ').join(ValueList)
                 if ValueStr:
+                    desc = ''
                     print ("| `%s` | `%s` | %s |" % (newkey, ValueStr, desc))
                 desc = ''
-                possible = ''
 
                 key = newkey
                 newkey = ''
@@ -115,7 +113,7 @@ def decode_helm_yaml(s):
 
     return ret_val
 
-with open('helm-install.md', 'r') as f:
+with open('index.md', 'r') as f:
     endReached = False
 
     data = f.read().split('\n')
