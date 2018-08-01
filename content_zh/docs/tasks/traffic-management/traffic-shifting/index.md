@@ -31,8 +31,8 @@ aliases:
     $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
-1.  在浏览器中打开 Bookinfo 站点。 URL为 `http：// $ GATEWAY_URL / productpage`，其中 `$GATEWAY_URL`是 ingress 的外部IP地址，
-其描述参见 [Bookinfo](/zh/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)。
+1.  在浏览器中打开 Bookinfo 站点。 URL为 `http://$GATEWAY_URL/productpage`，其中 `$GATEWAY_URL`是 ingress 的外部IP地址，
+其描述参见 [Bookinfo](/zh/docs/examples/bookinfo/#确定-ingress-的-ip-和端口)。
 
      请注意，不管刷新多少次，页面的评论部分都不会显示评级星号。这是因为 Istio 被配置为将 reviews 服务的的所有流量都路由到了 `reviews：v1` 版本，
      而该版本的服务不会访问带星级的 ratings 服务。
@@ -87,7 +87,7 @@ aliases:
 
 使用Istio，两个版本的 `reviews` 服务可以独立地进行扩容和缩容，并不会影响这两个版本服务之间的流量分发。
 
-如果想了解支持自动伸缩的版本路由的更多信息，请查看[使用 Istio 的 Canary Deployments](/zh/blog/2017/0.1-canary/) 。
+如果想了解支持自动伸缩的版本路由的更多信息，请查看[使用 Istio 的 Canary Deployments](/blog/2017/0.1-canary/) 。
 
 ## 清理
 
@@ -97,4 +97,4 @@ aliases:
     $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
-1. 如果您不打算探索任何后续任务，请参阅 [Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup) 的说明关闭应用程序。
+1. 如果您不打算探索任何后续任务，请参阅 [Bookinfo 清理](/zh/docs/examples/bookinfo/#清理) 的说明关闭应用程序。

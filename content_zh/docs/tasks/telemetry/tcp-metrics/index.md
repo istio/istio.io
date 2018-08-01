@@ -208,4 +208,4 @@ TCP 相关的属性是 Istio 中 TCP 策略和控制的基础。这些属性是�
     $ killall kubectl
     {{< /text >}}
 
-* 如果不准备进一步探索其他任务，请参照 [Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup)，关闭示例应用。
+* 如果不准备进一步探索其他任务，请参照 [Bookinfo 清理](/zh/docs/examples/bookinfo/#清理)，关闭示例应用。

@@ -9,15 +9,15 @@ aliases:
   - /docs/references/notes
 ---
 
-- [Istio 1.0](/zh./1.0)
-- [Istio 0.8](/zh./0.8)
-- [Istio 0.7](/zh./0.7)
-- [Istio 0.6](/zh./0.6)
-- [Istio 0.5](/zh./0.5)
-- [Istio 0.4](/zh./0.4)
-- [Istio 0.3](/zh./0.3)
-- [Istio 0.2](/zh./0.2)
-- [Istio 0.1](/zh./0.1)
+- [Istio 1.0](./1.0)
+- [Istio 0.8](./0.8)
+- [Istio 0.7](./0.7)
+- [Istio 0.6](./0.6)
+- [Istio 0.5](./0.5)
+- [Istio 0.4](./0.4)
+- [Istio 0.3](./0.3)
+- [Istio 0.2](./0.2)
+- [Istio 0.1](./0.1)
 
 最新的 Istio snapshot 版本是 {{< istio_version >}} （[发行说明](/zh/about/notes/{{< istio_version >}}/)）。您可以使用下面的命令[下载 {{< istio_version >}}](https://github.com/istio/istio/releases)：
 

@@ -19,7 +19,7 @@ aliases:
 
 * 依照[安装指南](/zh/docs/setup/)的步骤，部署 Istio 的控制平面。
 
-* 依照[应用部署指南](/zh/docs/examples/bookinfo/#deploying-the-application)运行 Bookinfo 示例应用。
+* 依照[应用部署指南](/zh/docs/examples/bookinfo/#部署应用)运行 Bookinfo 示例应用。
 
 ## 任务
 
@@ -31,4 +31,4 @@ aliases:
 
 ## 清理
 
-使用 Bookinfo 示例应用完成这些体验之后，可以根据 [Bookinfo 清理任务](/zh/docs/examples/bookinfo/#cleanup)关停应用。
+使用 Bookinfo 示例应用完成这些体验之后，可以根据 [Bookinfo 清理任务](/zh/docs/examples/bookinfo/#清理)关停应用。

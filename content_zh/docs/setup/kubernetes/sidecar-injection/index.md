@@ -224,7 +224,7 @@ containers:
   {{ end -}}
 {{< /text >}}
 
-会在部署 [Sleep 应用](/zh{{< github_tree >}}/samples/sleep/sleep.yaml)时应用到 Pod 上，并扩展为：
+会在部署 [Sleep 应用]({{< github_tree >}}/samples/sleep/sleep.yaml)时应用到 Pod 上，并扩展为：
 
 {{< text yaml >}}
 containers:

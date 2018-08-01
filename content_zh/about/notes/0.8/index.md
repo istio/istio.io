@@ -12,7 +12,7 @@ page_icon: /img/notes.svg
 
 - **Envoy 配置传播**：新版本中，Pilot 缺省使用 Envoy 的 [ADS API](https://github.com/envoyproxy/data-plane-api/blob/master/XDS_PROTOCOL.md) 进行配置传播。这种新方法提高了稳定性、降低了生效延迟，应该也解决了之前的方法造成的 404 错误。
 
-- **Ingress/Egress Gateway**：路由规则不再提供对 Kubernetes Ingress 规范的支持，这种支持曾经导致了大量的 Bug 和可靠性问题。Istio 现在为 Ingress 和 Egress 代理提供了平台独立的 [Gateway](/zh/docs/concepts/traffic-management/#gateways) 模型。新模型能够很好的和 Kubernetes 以及 Cloud Foundry 协作，并可以无缝应用路由能力。Gateway 支持基于 [服务器命名认证（SNI）](https://en.wikipedia.org/wiki/Server_Name_Indication) 的路由功能，并且能够根据客户端要求的服务器名称提供证书。
+- **Ingress/Egress Gateway**：路由规则不再提供对 Kubernetes Ingress 规范的支持，这种支持曾经导致了大量的 Bug 和可靠性问题。Istio 现在为 Ingress 和 Egress 代理提供了平台独立的 [Gateway](/zh/docs/concepts/traffic-management/#gateway) 模型。新模型能够很好的和 Kubernetes 以及 Cloud Foundry 协作，并可以无缝应用路由能力。Gateway 支持基于 [服务器命名认证（SNI）](https://en.wikipedia.org/wiki/Server_Name_Indication) 的路由功能，并且能够根据客户端要求的服务器名称提供证书。
 
 - **有约束的入站端口**：目前会根据 Pod 中运行的应用定义，对入站端口进行限制。
 
@@ -30,11 +30,11 @@ page_icon: /img/notes.svg
 
 ## 设置
 
-- **Istio 的按需安装**：Istio 具有丰富的功能，可能有用户并不需要使用所有功能，可以使用 Helm 或者 `istioctl gen-deploy` 工具，来满足按需安装的需要。例如用户可以只安装 Pilot 来对流量进行管理，而不去触及 Mixer 和 Citadel 方面的功能。[使用 Helm 进行定制](/zh/docs/reference/config/installation-options/)以及 [`istioctl gen-deploy`](/zh/docs/reference/commands/istioctl/#istioctl-gen-deploy) 两篇文档分别对这两种方式进行了解说。
+- **Istio 的按需安装**：Istio 具有丰富的功能，可能有用户并不需要使用所有功能，可以使用 Helm 或者 `istioctl gen-deploy` 工具，来满足按需安装的需要。例如用户可以只安装 Pilot 来对流量进行管理，而不去触及 Mixer 和 Citadel 方面的功能。[使用 Helm 进行定制](/docs/reference/config/installation-options/)以及 [`istioctl gen-deploy`](/docs/reference/commands/istioctl/#istioctl-gen-deploy) 两篇文档分别对这两种方式进行了解说。
 
 ## Mixer 适配器
 
-- **CloudWatch**：Mixer 目前可以把指标报告给 AWS CloudWatch。[参考资料](/zh/docs/reference/config/policy-and-telemetry/adapters/cloudwatch/)
+- **CloudWatch**：Mixer 目前可以把指标报告给 AWS CloudWatch。[参考资料](/docs/reference/config/policy-and-telemetry/adapters/cloudwatch/)
 
 ## 0.8 版本的已知问题
 

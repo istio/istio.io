@@ -9,14 +9,14 @@ keywords: [traffic-management,egress]
 
 缺省情况下，Istio 服务网格内的 Pod，由于其 iptables 将所有外发流量都透明的转发给了 Sidecar，所以这些集群内的服务无法访问集群之外的 URL，而只能处理集群内部的目标。
 
-本文的任务描述了如何将外部服务暴露给 Istio 集群中的客户端。你将会学到如何通过定义 [`ServiceEntry`](/zh/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) 来调用外部服务；或者简单的对 Istio 进行配置，要求其直接放行对特定 IP 范围的访问。
+本文的任务描述了如何将外部服务暴露给 Istio 集群中的客户端。你将会学到如何通过定义 [`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) 来调用外部服务；或者简单的对 Istio 进行配置，要求其直接放行对特定 IP 范围的访问。
 
 ## 开始之前
 
 * 根据[安装指南](/zh/docs/setup)的内容，部署 Istio。
 
-* 启动  [sleep](/zh{{< github_tree >}}/samples/sleep) 示例应用，我们将会使用这一应用来完成对外部服务的调用过程。
-    如果启用了 [Sidecar 的自动注入功能](/zh/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)，运行：
+* 启动  [sleep]({{< github_tree >}}/samples/sleep) 示例应用，我们将会使用这一应用来完成对外部服务的调用过程。
+    如果启用了 [Sidecar 的自动注入功能](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)，运行：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@
@@ -95,7 +95,7 @@ keywords: [traffic-management,egress]
 
 ### 为外部服务设置路由规则
 
-通过 `ServiceEntry` 访问外部服务的流量，和网格内流量类似，都可以进行 Istio [路由规则](/zh/docs/concepts/traffic-management/#rule-configuration) 的配置。下面我们使用 [`istioctl`](/zh/docs/reference/commands/istioctl/) 为 httpbin.org 服务设置一个超时规则。
+通过 `ServiceEntry` 访问外部服务的流量，和网格内流量类似，都可以进行 Istio [路由规则](/zh/docs/concepts/traffic-management/#规则配置) 的配置。下面我们使用 [`istioctl`](/docs/reference/commands/istioctl/) 为 httpbin.org 服务设置一个超时规则。
 
 1. 在测试 Pod 内部，调用 httpbin.org 这一外部服务的 `/delay` 端点：
 
@@ -147,7 +147,7 @@ keywords: [traffic-management,egress]
 
 ## 直接调用外部服务
 
-如果想要跳过 Istio，直接访问某个 IP 范围内的外部服务，就需要对 Envoy sidecar 进行配置，阻止 Envoy 对外部请求的[劫持](/zh/docs/concepts/traffic-management/#communication-between-services)。可以在 [Helm](/zh/docs/reference/config/installation-options/) 中设置 `global.proxy.includeIPRanges` 变量，然后使用 `kubectl apply` 命令来更新名为 `istio-sidecar-injector` 的 `Configmap`。在 `istio-sidecar-injector` 更新之后，`global.proxy.includeIPRanges` 会在所有未来部署的 Pod 中生效。
+如果想要跳过 Istio，直接访问某个 IP 范围内的外部服务，就需要对 Envoy sidecar 进行配置，阻止 Envoy 对外部请求的[劫持](/zh/docs/concepts/traffic-management/#服务之间的通讯)。可以在 [Helm](/docs/reference/config/installation-options/) 中设置 `global.proxy.includeIPRanges` 变量，然后使用 `kubectl apply` 命令来更新名为 `istio-sidecar-injector` 的 `Configmap`。在 `istio-sidecar-injector` 更新之后，`global.proxy.includeIPRanges` 会在所有未来部署的 Pod 中生效。
 
 使用 `global.proxy.includeIPRanges` 变量的最简单方式就是把内部服务的 IP 地址范围传递给它，这样就在 Sidecar proxy 的重定向列表中排除掉了外部服务的地址了。
 
@@ -159,7 +159,7 @@ $ helm template install/kubernetes/helm/istio <安装 Istio 时所使用的参�
 
 注意这里应该使用和之前部署 Istio 的时候同样的 [Helm 命令](/zh/docs/setup/kubernetes/helm-install)，尤其是 `--namespace` 参数。在安装 Istio 原有命令的基础之上，加入 `--set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml` 即可。
 
-[和前面一样](/zh/docs/tasks/traffic-management/egress/#before-you-begin)，重新部署 `sleep` 应用。
+[和前面一样](/zh/docs/tasks/traffic-management/egress/#开始之前)，重新部署 `sleep` 应用。
 
 ### 确定 `global.proxy.includeIPRanges` 的值
 
@@ -235,7 +235,7 @@ $ kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
     $ istioctl delete virtualservice httpbin-ext
     {{< /text >}}
 
-1. 停止 [sleep](/zh{{< github_tree >}}/samples/sleep) 服务：
+1. 停止 [sleep]({{< github_tree >}}/samples/sleep) 服务：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@

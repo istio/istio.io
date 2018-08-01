@@ -26,7 +26,7 @@ page_icon: /img/notes.svg
 
 - **增强缓存**：Envoy 和 Mixer 之间的缓存大幅改善，鉴权检查过程造成的延迟显著降低。
 
-- **List 适配器改良**：Mixer 的 `list` 适配器提供了正则表达式的匹配支持。参考 [List 配置选项](/zh/docs/reference/config/policy-and-telemetry/adapters/list/)可以获得更多信息。
+- **List 适配器改良**：Mixer 的 `list` 适配器提供了正则表达式的匹配支持。参考 [List 配置选项](/docs/reference/config/policy-and-telemetry/adapters/list/)可以获得更多信息。
 
 - **配置校验**：Mixer 会对配置状态进行更多检查，以期尽早发现问题。我们希望未来版本中会进行更多这方面的改善。
 

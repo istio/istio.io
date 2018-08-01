@@ -328,8 +328,7 @@ Created config rule/istio-system/newlogtofluentd at revision 22376
 
 1. 将流量发送到示例应用程序。
 
-   对于 [Bookinfo](/zh/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)
-   示例, 在浏览器中访问 `http://$GATEWAY_URL/productpage` 或发送以下命令:
+   对于 [Bookinfo](/zh/docs/examples/bookinfo/#确定-ingress-的-ip-和端口) 示例, 在浏览器中访问 `http://$GATEWAY_URL/productpage` 或发送以下命令:
 
     {{< text bash >}}
     $ curl http://$GATEWAY_URL/productpage
@@ -365,4 +364,4 @@ Created config rule/istio-system/newlogtofluentd at revision 22376
     $ kubectl delete -f logging-stack.yaml
     {{< /text >}}
 
-* 如果您不打算探索任何后续任务，可以参考 [Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup) 步骤去关闭程序。
+* 如果您不打算探索任何后续任务，可以参考 [Bookinfo 清理](/zh/docs/examples/bookinfo/#清理) 步骤去关闭程序。

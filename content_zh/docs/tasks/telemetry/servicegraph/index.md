@@ -75,7 +75,7 @@ keywords: [telemetry,visualization]
 
 ### 关于 Servicegraph 附加组件
 
-[Servicegraph](/zh{{< github_tree >}}/addons/servicegraph) 服务提供端点，用于生成和可视化网格内的服务图, 它公开了以下端点：
+[Servicegraph]({{< github_tree >}}/addons/servicegraph) 服务提供端点，用于生成和可视化网格内的服务图, 它公开了以下端点：
 
 * `/force/forcegraph.html` 如上所述，这是一个交互式[D3.js](https://d3js.org/) 可视化。
 
@@ -99,4 +99,4 @@ Servicegraph 示例建立在 Prometheus 查询之上，取决于标准的 Istio 
     $ kubectl delete -f install/kubernetes/addons/servicegraph.yaml
     {{< /text >}}
 
-* 如果您不打算探索任何后续任务，请参阅[Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup) 说明以关闭应用程序。
+* 如果您不打算探索任何后续任务，请参阅[Bookinfo 清理](/zh/docs/examples/bookinfo/#清理) 说明以关闭应用程序。

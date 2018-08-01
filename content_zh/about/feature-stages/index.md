@@ -41,7 +41,7 @@ page_icon: /img/feature-status.svg
 | [Ingress 流量](/zh/docs/tasks/traffic-management/ingress/)      | Alpha
 | [Egress 流量](/zh/docs/tasks/traffic-management/egress/)      | Alpha
 | [Egress TCP 流量](/zh/blog/2018/egress-tcp/)      | Alpha
-| [增强路由规则：组合服务](/zh/docs/reference/config/istio.networking.v1alpha3/) | Alpha
+| [增强路由规则：组合服务](/docs/reference/config/istio.networking.v1alpha3/) | Alpha
 | [配额/Redis 速率限制（Adapter 和 Server）](/zh/docs/tasks/policy-enforcement/rate-limiting/) | Alpha
 | [Memquota 实现和集成](/zh/docs/tasks/telemetry/metrics-logs/) | Stable
 | [Ingress TLS](/zh/docs/tasks/traffic-management/ingress/) | Alpha
@@ -53,10 +53,10 @@ page_icon: /img/feature-status.svg
 |-------------------|-------------------
 | [Prometheus 集成](/zh/docs/tasks/telemetry/querying-metrics/) | Stable
 | [本地日志记录（STDIO）](/zh/docs/examples/telemetry/) | Stable
-| [Statsd 集成](/zh/docs/reference/config/policy-and-telemetry/adapters/statsd/) | Stable
+| [Statsd 集成](/docs/reference/config/policy-and-telemetry/adapters/statsd/) | Stable
 | [Grafana 中的 Service Dashboard](/zh/docs/tasks/telemetry/using-istio-dashboard/) | Beta
-| [Stackdriver 集成](/zh/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) | Alpha
-| [SolarWinds 集成](/zh/docs/reference/config/policy-and-telemetry/adapters/solarwinds/) | Alpha
+| [Stackdriver 集成](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) | Alpha
+| [SolarWinds 集成](/docs/reference/config/policy-and-telemetry/adapters/solarwinds/) | Alpha
 | [Service Graph](/zh/docs/tasks/telemetry/servicegraph/) | Alpha
 | [Zipkin/Jaeger 的分布式追踪](/zh/docs/tasks/telemetry/distributed-tracing/) | Alpha
 | [Grafana 中的 Istio 组件 Dashboard](/zh/docs/tasks/telemetry/using-istio-dashboard/) | Beta
@@ -68,17 +68,17 @@ page_icon: /img/feature-status.svg
 
 | 功能           | 阶段
 |-------------------|-------------------
-| [Deny Checker](/zh/docs/reference/config/policy-and-telemetry/adapters/denier/)         | Stable
-| [List Checker](/zh/docs/reference/config/policy-and-telemetry/adapters/list/)        | Stable
+| [Deny Checker](/docs/reference/config/policy-and-telemetry/adapters/denier/)         | Stable
+| [List Checker](/docs/reference/config/policy-and-telemetry/adapters/list/)        | Stable
 | [Kubernetes：服务凭证分发](/zh/docs/concepts/security/#双向-TLS-认证)   | Stable
 | [Istio CA 的可拔插 Key/Cert 支持](/zh/docs/tasks/security/plugin-ca-cert/)        | Stable
 | [服务间相互 TLS](/zh/docs/concepts/security/#双向-TLS-认证)         | Stable
-| [认证策略](/zh/docs/concepts/security/#authentication-policies)  | Alpha
-| [End User（JWT）认证](/zh/docs/concepts/security/#authentication)  | Alpha
-| [VM：服务凭证分发](/zh/docs/concepts/security/#pki)         | Beta
+| [认证策略](/zh/docs/concepts/security/#认证策略)  | Alpha
+| [最终用户（JWT）认证](/zh/docs/concepts/security/#认证)  | Alpha
+| [VM：服务凭证分发](/docs/concepts/security/#pki)         | Beta
 | [增量双向 TLS](/zh/docs/tasks/security/mtls-migration)    | Beta
-| [OPA Checker](/zh{{< github_file >}}/mixer/adapter/opa/README.md)    | Alpha
-| [认证（RBAC）](/zh/docs/concepts/security/#authorization)   | Alpha
+| [OPA Checker]({{< github_file >}}/mixer/adapter/opa/README.md)    | Alpha
+| [认证（RBAC）](/zh/docs/concepts/security/#授权和鉴权)   | Alpha
 
 ### Core
 
@@ -88,15 +88,15 @@ page_icon: /img/feature-status.svg
 | [Kubernetes：Istio 控制平面安装](/zh/docs/setup/kubernetes/) | Beta
 | [Kubernetes：Istio 控制平面升级](/zh/docs/setup/kubernetes/) | Beta
 | [Pilot 集成 Kubernetes 服务发现](/zh/docs/setup/kubernetes/)         | Stable
-| [属性表达语言](/zh/docs/reference/config/policy-and-telemetry/expression-language/)        | Stable
-| [Mixer Adapter Authoring Model](/zh/blog/2017/adapter-model/)        | Stable
+| [属性表达语言](/docs/reference/config/policy-and-telemetry/expression-language/)        | Stable
+| [Mixer 适配器认证模型](/zh/blog/2017/adapter-model/)        | Stable
 | [VM：Envoy 安装、流量拦截和服务注册](/zh/docs/examples/integrating-vms/)    | Alpha
 | [VM：Istio 控制平面安装和升级（Galley、 Mixer、 Pilot、CA）](https://github.com/istio/istio/issues/2083)  | Alpha
 | VM：Ansible Envoy 安装、拦截和注册 | Alpha
 | [Pilot 集成 Consul](/zh/docs/setup/consul/quick-start/) | Alpha
 | [Pilot 集成 Cloud Foundry 服务发现](/zh/docs/setup/consul/quick-start/)    | Alpha
 | [基本配置资源验证](https://github.com/istio/istio/issues/1894) | Alpha
-| [Mixer 遥测收集（追踪、日志记录、监控）](/zh/help/faq/mixer/#mixer-self-monitoring) | Alpha
+| [Mixer 遥测收集（追踪、日志记录、监控）](/help/faq/mixer/#mixer-self-monitoring) | Alpha
 | [自定义 Mixer 构建模型](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) | Alpha
 | [进程外 Mixer 适配器](https://github.com/istio/istio/wiki/Out-Of-Process-gRPC-Adapter-Dev-Guide) | Alpha
 | 使用 IDL 启用 API 属性 | Alpha

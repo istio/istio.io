@@ -6,7 +6,7 @@ weight: 42
 
 > 注意：此任务使用新的 [v1alpha3 流量管理 API](/zh/blog/2018/v1alpha3-routing/)。旧的 API 已被弃用，将在下一个 Istio 版本中删除。如果您需要使用旧版本，请按照[此处](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)的文档操作。
 
-[控制出口流量](/zh/docs/tasks/traffic-management/egress/)任务演示了如何从网格内部的应用程序访问 Kubernetes 集群外部的 HTTP 和 HTTPS 服务, 如该主题中所述，默认情况下，启用了 Istio 的应用程序无法访问群集外的 URL, 要启用外部访问，必须定义外部服务的[`ServiceEntry`](/zh/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry)，或者[直接访问外部服务](/zh/docs/tasks/traffic-management/egress/#calling-external-services-directly)。
+[控制出口流量](/zh/docs/tasks/traffic-management/egress/)任务演示了如何从网格内部的应用程序访问 Kubernetes 集群外部的 HTTP 和 HTTPS 服务, 如该主题中所述，默认情况下，启用了 Istio 的应用程序无法访问群集外的 URL, 要启用外部访问，必须定义外部服务的[`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry)，或者[直接访问外部服务](/zh/docs/tasks/traffic-management/egress/#直接调用外部服务)。
 
 此任务描述 Istio 如何配置出口流量的 TLS。
 
@@ -20,9 +20,9 @@ weight: 42
 
 * 按照[安装指南](/zh/docs/setup/)中的说明设置 Istio 。
 
-*   启动 [sleep](/zh{{< github_tree >}}/samples/sleep) 示例，它将作为外部调用的测试源。
+*   启动 [sleep]({{< github_tree >}}/samples/sleep) 示例，它将作为外部调用的测试源。
 
-    如果您已启用[自动注入 sidecar](/zh/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), 请按如下命令部署 `sleep` 应用程序:
+    如果您已启用[自动注入 sidecar](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入), 请按如下命令部署 `sleep` 应用程序:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@
@@ -36,7 +36,7 @@ weight: 42
 
     请注意，任何可以 `exec` 和 `curl` 的 pod 都可以执行以下步骤。
 
-*   创建一个 shell 变量来保存源 pod 的名称，以便将请求发送到外部服务, 如果您使用 [sleep](/zh{{< github_tree >}}/samples/sleep) 示例，请按如下命令运行:
+*   创建一个 shell 变量来保存源 pod 的名称，以便将请求发送到外部服务, 如果您使用 [sleep]({{< github_tree >}}/samples/sleep) 示例，请按如下命令运行:
 
     {{< text bash >}}
     $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
@@ -187,7 +187,7 @@ $ istioctl delete serviceentry cnn
     $ istioctl delete destinationrule originate-tls-for-edition-cnn-com
     {{< /text >}}
 
-1.  关闭 [sleep](/zh{{< github_tree >}}/samples/sleep) 服务：
+1.  关闭 [sleep]({{< github_tree >}}/samples/sleep) 服务：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@

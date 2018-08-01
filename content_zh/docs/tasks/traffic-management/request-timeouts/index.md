@@ -103,7 +103,7 @@ keywords: [traffic-management,timeouts]
 
 这样就会看到 Bookinfo 的页面（ 页面由 `reviews` 服务生成）上没有出现 `reviews` 服务的显示内容，取而代之的是错误信息：**Sorry, product reviews are currently unavailable for this book** ，出现这一信息的原因就是因为来自 `reviews` 服务的超时错误。
 
-如果测试了[故障注入任务](/zh/docs/tasks/traffic-management/fault-injection/)，会发现 `productpage` 微服务在调用 `reviews` 微服务时，还有自己的应用级超时设置（三秒钟）。注意这里我们用路由规则设置了一秒钟的超时。如果把超时设置为超过三秒钟（例如四秒钟）会毫无效果，这是因为内部的服务中设置了更为严格的超时要求。更多细节可以参见[故障处理 FAQ](/zh/docs/concepts/traffic-management/#failure-handling-faq) 的相关内容。
+如果测试了[故障注入任务](/zh/docs/tasks/traffic-management/fault-injection/)，会发现 `productpage` 微服务在调用 `reviews` 微服务时，还有自己的应用级超时设置（三秒钟）。注意这里我们用路由规则设置了一秒钟的超时。如果把超时设置为超过三秒钟（例如四秒钟）会毫无效果，这是因为内部的服务中设置了更为严格的超时要求。更多细节可以参见[故障处理 FAQ](/zh/docs/concepts/traffic-management/#faq) 的相关内容。
 
 还有一点关于 Istio 中超时控制方面的补充说明，除了像本文一样在路由规则中进行超时设置之外，还可以进行请求一级的设置，只需在应用的外发流量中加入 `x-envoy-upstream-rq-timeout-ms` Header 即可。在这个 Header 中的超时设置单位是毫秒而不是秒。
 
@@ -115,4 +115,4 @@ keywords: [traffic-management,timeouts]
     $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
-* 如果不准备继续探索后续任务，根据 [Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup)内容来关停示例应用。
+* 如果不准备继续探索后续任务，根据 [Bookinfo 清理](/zh/docs/examples/bookinfo/#清理)内容来关停示例应用。

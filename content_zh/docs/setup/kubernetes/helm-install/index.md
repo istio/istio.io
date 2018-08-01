@@ -92,9 +92,9 @@ istio-pilot-58c65f74bc-2f5xn             2/2       Running   0          1m
 {{< /text >}}
 
 在这个最小集合之下，您安装您自己的应用并为实例[配置请求路由](/zh/docs/tasks/traffic-management/request-routing/)。
-您需要[手动注入 sidecar](/zh/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection)。
+您需要[手动注入 sidecar](/zh/docs/setup/kubernetes/sidecar-injection/#手工注入-sidecar)。
 
-[安装选项](/zh/docs/reference/config/installation-options/) 中有选项的完整列表，可以让您根据自己的需要对 Istio 安装进行裁剪。
+[安装选项](/docs/reference/config/installation-options/) 中有选项的完整列表，可以让您根据自己的需要对 Istio 安装进行裁剪。
 
 ## 卸载
 

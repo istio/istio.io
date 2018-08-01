@@ -17,9 +17,9 @@ keywords: [security,health-check]
 
 ## 开始之前
 
-* 了解 [Kubernetes liveness 和 readiness 探针](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)，Istio [认证策略](/zh/docs/concepts/security/#authentication-policies)和[双向 TLS 认证](/zh/docs/concepts/security/#mutual-tls-authentication)的概念。
+* 了解 [Kubernetes liveness 和 readiness 探针](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)，Istio [认证策略](/zh/docs/concepts/security/#认证策略)和[双向 TLS 认证](/zh/docs/concepts/security/#双向-tls-认证)的概念。
 
-* 具有一个安装了 Istio 的 Kubernetes 集群，但没有启用全局双向 TLS（例如按照 [安装步骤](/zh/docs/setup/kubernetes/quick-start/#installation-steps) 中的描述使用 istio-demo.yaml，或者在使用 [Helm](/zh/docs/setup/kubernetes/helm-install/) 时将 `global.mtls.enabled` 设置为 false）。
+* 具有一个安装了 Istio 的 Kubernetes 集群，但没有启用全局双向 TLS（例如按照 [安装步骤](/zh/docs/setup/kubernetes/quick-start/#安装步骤) 中的描述使用 istio-demo.yaml，或者在使用 [Helm](/zh/docs/setup/kubernetes/helm-install/) 时将 `global.mtls.enabled` 设置为 false）。
 
 ## 使用命令选项的 liveness 和 readiness 探针
 
@@ -27,7 +27,7 @@ keywords: [security,health-check]
 
 ### 禁用双向 TLS
 
-运行此命令以在默认 namespace 中部署 [liveness](/zh{{< github_file >}}/samples/health-check/liveness-command.yaml)：
+运行此命令以在默认 namespace 中部署 [liveness]({{< github_file >}}/samples/health-check/liveness-command.yaml)：
 
 {{< text bash >}}
 $ kubectl apply -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
@@ -90,7 +90,7 @@ spec:
 EOF
 {{< /text >}}
 
-运行此命令以在默认 namespace 中部署 [liveness](/zh{{< github_file >}}/samples/health-check/liveness-http.yaml)：
+运行此命令以在默认 namespace 中部署 [liveness]({{< github_file >}}/samples/health-check/liveness-http.yaml)：
 
 {{< text bash >}}
 $ kubectl apply -f <(istioctl kube-inject -f @samples/health-check/liveness-http.yaml@)
@@ -135,4 +135,4 @@ NAME                             READY     STATUS    RESTARTS   AGE
 liveness-http-67d5db65f5-765bb   2/2       Running   0          1m
 {{< /text >}}
 
-请注意， [liveness-http](/zh{{< github_file >}}/samples/health-check/liveness-http.yaml) 中的镜像公开了两个端口：8001 和 8002 ([源代码](/zh{{< github_file >}}/samples/health-check/server.go))。在这个 deployment 中，端口 8001 提供常规通信，而端口 8002 用于 liveness 探针。由于 Istio 代理仅会拦截在 `containerPort` 字段中显式声明的端口，因此，无论 Istio 的双向 TLS 是否启用，到 8002 端口的流量都将绕过 Istio 代理。但是，如果我们将端口 8001 同时用于常规流量和 liveness 探针，在启用双向 TLS 时，由于 http 请求是从 Kubelet 发送的，所以不会将客户端证书发送到 `liveness-http` service，因此健康检查将会失效。
+请注意， [liveness-http]({{< github_file >}}/samples/health-check/liveness-http.yaml) 中的镜像公开了两个端口：8001 和 8002 ([源代码]({{< github_file >}}/samples/health-check/server.go))。在这个 deployment 中，端口 8001 提供常规通信，而端口 8002 用于 liveness 探针。由于 Istio 代理仅会拦截在 `containerPort` 字段中显式声明的端口，因此，无论 Istio 的双向 TLS 是否启用，到 8002 端口的流量都将绕过 Istio 代理。但是，如果我们将端口 8001 同时用于常规流量和 liveness 探针，在启用双向 TLS 时，由于 http 请求是从 Kubelet 发送的，所以不会将客户端证书发送到 `liveness-http` service，因此健康检查将会失效。

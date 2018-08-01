@@ -95,4 +95,4 @@ Istio 仪表板由三个主要部分组成：
     $ killall kubectl
     {{< /text >}}
 
-* 如果您不打算探索任何后续任务，请参阅 [Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup)说明以关闭应用程序。
+* 如果您不打算探索任何后续任务，请参阅 [Bookinfo 清理](/zh/docs/examples/bookinfo/#清理)说明以关闭应用程序。

@@ -81,7 +81,7 @@ Istio 安全工作流由部署和运行两阶段组成。Kubernetes 和虚拟机
 
 1. 当创建 Pod 时，API Server 会根据 Service account 使用 [Kubernetes secret](https://kubernetes.io/docs/concepts/configuration/secret/) 来挂载密钥和证书对。
 
-1. [Pilot](/zh/docs/concepts/traffic-management/pilot/) 使用适当的密钥和证书以及安全命名信息生成配置文件，其中定义了各个 Service account 的可运行服务，并将其传递给 Envoy。
+1. [Pilot](/zh/docs/concepts/traffic-management/#pilot-和-envoy) 使用适当的密钥和证书以及安全命名信息生成配置文件，其中定义了各个 Service account 的可运行服务，并将其传递给 Envoy。
 
 #### 虚拟机/物理机的部署阶段
 
@@ -143,20 +143,20 @@ Istio 提供了两种认证方式：
 
 ### 认证架构
 
-在 Istio 服务网格中处理请求的服务，可以使用认证策略来为其指定认证需求。网格运维人员使用 `.yaml` 文件来配置这些策略。这些策略一经上传，会被保存到 Istio 的配置存储中。作为 Istio 的控制器，Pilot 会对配置存储进行监控。任何的策略变化，Pilot 都会把新的策略翻译为对应的配置格式，并告知 Sidecar 代理如何应用所需的认证机制。另外，Pilot 提供了 Istio 管理的密钥和证书的路径，并把他们安装到应用 Pod 中以便进行双向 TLS 连接。可以在 [PKI 和认证](/zh/docs/concepts/security/#istio-identity)一节中找到更多相关信息。Istio 会将配置异步的发送给目标端点。Sidecar 收到配置之后，Pod 就会立即启用新的认证需求。
+在 Istio 服务网格中处理请求的服务，可以使用认证策略来为其指定认证需求。网格运维人员使用 `.yaml` 文件来配置这些策略。这些策略一经上传，会被保存到 Istio 的配置存储中。作为 Istio 的控制器，Pilot 会对配置存储进行监控。任何的策略变化，Pilot 都会把新的策略翻译为对应的配置格式，并告知 Sidecar 代理如何应用所需的认证机制。另外，Pilot 提供了 Istio 管理的密钥和证书的路径，并把他们安装到应用 Pod 中以便进行双向 TLS 连接。可以在 [PKI 和认证](/zh/docs/concepts/security/#认证)一节中找到更多相关信息。Istio 会将配置异步的发送给目标端点。Sidecar 收到配置之后，Pod 就会立即启用新的认证需求。
 
-发送请求的客户端服务，要负责完成必要的认证机制。对于 JWT 认证来说，应用应该获取 JWT 凭据，并把凭据附加到请求上进行传播。Istio 提供了[目标规则](/zh/docs/concepts/traffic-management/#destination-rules)用于应对双向 TLS 认证。运维人员可以使用目标规则来要求客户端 Sidecar 使用 TLS 证书向服务器发起连接。[PKI 和认证](/zh/docs/concepts/security/#istio-identity)一节中介绍了更多双向 TLS  的相关内容。
+发送请求的客户端服务，要负责完成必要的认证机制。对于 JWT 认证来说，应用应该获取 JWT 凭据，并把凭据附加到请求上进行传播。Istio 提供了[目标规则](/zh/docs/concepts/traffic-management/#目标规则)用于应对双向 TLS 认证。运维人员可以使用目标规则来要求客户端 Sidecar 使用 TLS 证书向服务器发起连接。[PKI 和认证](/zh/docs/concepts/security/#认证)一节中介绍了更多双向 TLS  的相关内容。
 
 {{< image width="80%" ratio="75%"
     link="/docs/concepts/security/authn.svg"
     caption="认证策略架构"
     >}}
 
-这两种认证信息都会被 Istio 输出，如果有其他申明也会在凭据中一起输出到下一层：[鉴权](/zh/docs/concepts/security/#authorization)，另外运维人员还可以在双向 TLS 和最终用户两个甚至中选择一个提供给 Istio 用作认证主体（`principal`）。
+这两种认证信息都会被 Istio 输出，如果有其他申明也会在凭据中一起输出到下一层：[鉴权](/zh/docs/concepts/security/#授权和鉴权)，另外运维人员还可以在双向 TLS 和最终用户两个甚至中选择一个提供给 Istio 用作认证主体（`principal`）。
 
 ### 认证策略
 
-本节中提供了更多 Istio 认证策略方面的细节。正如[认证架构](/zh/docs/concepts/security/#authentication-architecture)中所说的，认证策略是对服务收到的请求生效的。要在双向 TLS 中指定客户端认证策略，需要在 `DetinationRule` 中设置 `TLSSettings`。[TLS 设置参考文档](/zh/docs/reference/config/istio.networking.v1alpha3/#TLSSettings)中有更多这方面的信息。和其他的 Istio 配置一样，可以用 `.yaml` 文件的形式来编写认证策略，然后使用 `istioctl` 进行部署。
+本节中提供了更多 Istio 认证策略方面的细节。正如[认证架构](#认证架构)中所说的，认证策略是对服务收到的请求生效的。要在双向 TLS 中指定客户端认证策略，需要在 `DetinationRule` 中设置 `TLSSettings`。[TLS 设置参考文档](/docs/reference/config/istio.networking.v1alpha3/#TLSSettings)中有更多这方面的信息。和其他的 Istio 配置一样，可以用 `.yaml` 文件的形式来编写认证策略，然后使用 `istioctl` 进行部署。
 
 下面例子中的认证策略要求 `reviews` 服务必须使用双向 TLS：
 
@@ -201,7 +201,7 @@ Istio 可以在命名空间范围或者服务网格范围内保存认证策略�
       - mtls: {}
     {{< /text >}}
 
-命名空间范围的策略的影响范围仅限于同一命名空间。网格范围的策略会作用在网格中所有服务上。为了杜绝冲突和误用，网格范围的策略智能定义一条，名字必须是 `default`，`targets` 必须为空。[目标选择器](/zh/docs/concepts/security/#target-selectors) 一节讲述了 `targets` 的相关内容。
+命名空间范围的策略的影响范围仅限于同一命名空间。网格范围的策略会作用在网格中所有服务上。为了杜绝冲突和误用，网格范围的策略智能定义一条，名字必须是 `default`，`targets` 必须为空。[目标选择器](#目标选择器) 一节讲述了 `targets` 的相关内容。
 
 目前在 Kubernetes 中使用了 CRD 来实现 Istio 配置。这些 CRD 自然也是受到 Kubernetes RBAC 制约的。可以阅读 [Kubernetes 文档](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) 来了解 Kubernetes 的 RBAC 机制。
 
@@ -341,7 +341,7 @@ spec:
 
 * **谁**：对应的是 `ServiceRoleBinding` 对象中的 `subjects` 一节。
 * **做什么**：也就是 `ServiceRole` 对象中的 `permissions` 字段。
-* **什么条件下**：匹配条件，由 Istio [属性](/zh/docs/reference/config/policy-and-telemetry/attribute-vocabulary/)构成，在 `ServiceRole` 和 `ServiceRoleBinding` 中都可以使用。
+* **什么条件下**：匹配条件，由 Istio [属性](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/)构成，在 `ServiceRole` 和 `ServiceRoleBinding` 中都可以使用。
 
 #### `ServiceRole`
 
@@ -405,7 +405,7 @@ spec:
 
 在 `ServiceRole` 中，`namespace` + `services` + `paths` + `methods` 的组合定义了 **服务的访问方法**。有时可能需要为规则制定额外的条件。例如某条规则只适用于服务的某个版本，或者只适用于带有某个标签（例如 `foo`）的服务。使用 `constraints` 可以轻易地完成这些条件的设置。
 
-例如下面的 `ServiceRole` 定义，在 `products-viewer` 的基础上加入了一个约束，要求 `request.headers["version"]` 的值是 `v1` 或者 `v2`。[约束和属性](/zh/docs/reference/config/authorization/constraints-and-properties/) 中列出了约束可以选择 `key` 的范围。这个例子中的键是一个 map 类型（`request.headers["version"]`）。
+例如下面的 `ServiceRole` 定义，在 `products-viewer` 的基础上加入了一个约束，要求 `request.headers["version"]` 的值是 `v1` 或者 `v2`。[约束和属性](/docs/reference/config/authorization/constraints-and-properties/) 中列出了约束可以选择 `key` 的范围。这个例子中的键是一个 map 类型（`request.headers["version"]`）。
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -429,7 +429,7 @@ spec:
 * **`roleRef`**：引用在统一命名空间内的 `ServiceRole` 资源。
 * **`subjects`** 列表将会分配给这个角色。
 
-为 `subejct` 赋值，可以显式的赋值为一个 `user`，也可以使用一组 `property`。`ServiceRoleBinding` 中，`subject` 的 `property` 可以类比为 `ServiceRole` 中的 `constraint`。`property` 也可以用来筛选一系列的账号用来进行授权。同样的，这里的 `key` 和 `value` 也有可选范围的问题，同样可以查阅[约束和属性](/zh/docs/reference/config/authorization/constraints-and-properties/)页面。
+为 `subejct` 赋值，可以显式的赋值为一个 `user`，也可以使用一组 `property`。`ServiceRoleBinding` 中，`subject` 的 `property` 可以类比为 `ServiceRole` 中的 `constraint`。`property` 也可以用来筛选一系列的账号用来进行授权。同样的，这里的 `key` 和 `value` 也有可选范围的问题，同样可以查阅[约束和属性](/docs/reference/config/authorization/constraints-and-properties/)页面。
 
 下面的例子中有一个叫做 `test-binding-products` 的 `ServiceRoleBinding`，他会把两个主体绑定到名为 `product-viewer` 的 `ServiceRole` 上，两个主体分别是：
 

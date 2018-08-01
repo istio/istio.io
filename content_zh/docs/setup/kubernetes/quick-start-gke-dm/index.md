@@ -44,7 +44,7 @@ caption="GKE-IAM Role"
 
     [Istio GKE Deployment Manager](https://accounts.google.com/signin/v2/identifier?service=cloudconsole&continue=https://console.cloud.google.com/launcher/config?templateurl={{< github_file >}}/install/gcp/deployment_manager/istio-cluster.jinja&followup=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/master/install/gcp/deployment_manager/istio-cluster.jinja&flowName=GlifWebSignIn&flowEntry=ServiceLogin)
 
-    就像其他教程中的“如何访问已安装的功能”一样，我们也建议保留默认设置。工具会默认创建一个特殊设置的 GKE alpha cluster，然后安装 Istio [控制平面](/zh/docs/concepts/what-is-istio/#architecture)、
+    就像其他教程中的“如何访问已安装的功能”一样，我们也建议保留默认设置。工具会默认创建一个特殊设置的 GKE alpha cluster，然后安装 Istio [控制平面](/zh/docs/concepts/what-is-istio/#架构)、
     [Bookinfo](/zh/docs/examples/bookinfo/) 样例应用、
     [Grafana](/zh/docs/tasks/telemetry/using-istio-dashboard/) 、
     [Prometheus](/zh/docs/tasks/telemetry/querying-metrics/) 、
@@ -181,7 +181,7 @@ http://localhost:3000/dashboard/db/istio-dashboard
     caption="Grafana"
     >}}
 
-更多关于 Grafana 插件的细节，请点击[关于 Grafana 插件](/zh/docs/tasks/telemetry/using-istio-dashboard/#about-the-grafana-add-on)。
+更多关于 Grafana 插件的细节，请点击[关于 Grafana 插件](/zh/docs/tasks/telemetry/using-istio-dashboard/#关于-grafana-插件)。
 
 ### Prometheus
 
@@ -202,7 +202,7 @@ http://localhost:9090/graph
     caption="Prometheus"
     >}}
 
-更多关于 Prometheus 插件的细节，请点击[关于 Prometheus 插件](/zh/docs/tasks/telemetry/querying-metrics/#about-the-prometheus-add-on)。
+更多关于 Prometheus 插件的细节，请点击[关于 Prometheus 插件](/zh/docs/tasks/telemetry/querying-metrics/#关于-prometheus-的附加组件)。
 
 ### ServiceGraph
 
@@ -223,7 +223,7 @@ http://localhost:8088/dotviz
     caption="ServiceGraph"
     >}}
 
-更多关于 ServiceGraph 插件的细节，请点击[关于 ServiceGraph 插件](/zh/docs/tasks/telemetry/servicegraph/#about-the-servicegraph-add-on)。
+更多关于 ServiceGraph 插件的细节，请点击[关于 ServiceGraph 插件](/zh/docs/tasks/telemetry/servicegraph/#关于-servicegraph-附加组件)。
 
 ## 追踪
 
@@ -240,7 +240,7 @@ $ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=
     caption="Tracing Dashboard"
     >}}
 
-更多关于追踪的细节，请点击[了解一下发生了什么](/zh/docs/tasks/telemetry/distributed-tracing/#understanding-what-happened)。
+更多关于追踪的细节，请点击[了解一下发生了什么](/zh/docs/tasks/telemetry/distributed-tracing/#发生了什么)。
 
 ## 卸载
 

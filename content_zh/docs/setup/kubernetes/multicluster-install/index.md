@@ -16,7 +16,7 @@ keywords: [kubernetes,multicluster]
     * 每个集群中的所有的 Pod CIDR 需要能够互相路由。
     * 所有的 Kubernetes 控制平面 API Server 互相可路由。
 * Helm **2.7.2 或者更新的版本**。Tiller 可选。
-* 目前只有[手工注入 Sidecar 方式](/zh/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection)经过了多集群验证。
+* 目前只有[手工注入 Sidecar 方式](/zh/docs/setup/kubernetes/sidecar-injection/#手工注入-sidecar)经过了多集群验证。
 
 ## 注意事项和已知问题
 
@@ -131,7 +131,7 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n istio-system
 
 ## 在本地部署 Istio 的控制平面
 
-在 **一个** Kubernetes 集群上[安装 Istio 控制平面](/zh/docs/setup/kubernetes/quick-start/#installation-steps)
+在 **一个** Kubernetes 集群上[安装 Istio 控制平面](/zh/docs/setup/kubernetes/quick-start/#安装步骤)
 
 ## 在每个远程集群上安装 Istio 远程组件
 

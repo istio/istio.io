@@ -15,11 +15,11 @@ aliases:
 
 ## 开始之前
 
-* 理解 Istio [认证策略](/zh/docs/concepts/security/#authentication-policies)和相关的[双向 TLS 认证](/zh/docs/concepts/security/#mutual-tls-authentication)概念。
+* 理解 Istio [认证策略](/zh/docs/concepts/security/#认证策略)和相关的[双向 TLS 认证](/zh/docs/concepts/security/#双向-tls-认证)概念。
 
-* 拥有一个安装好 Istio 的 Kubernetes 集群，并且全局双向 TLS 处于禁用状态(可使用[安装步骤](/zh/docs/setup/kubernetes/quick-start/#installation-steps)中提供的示例配置 `install/kubernetes/istio.yaml`，或者使用 [Helm](/zh/docs/setup/kubernetes/helm-install/) 设置 `global.mtls.enabled` 为 false)。
+* 拥有一个安装好 Istio 的 Kubernetes 集群，并且全局双向 TLS 处于禁用状态(可使用[安装步骤](/zh/docs/setup/kubernetes/quick-start/#安装步骤)中提供的示例配置 `install/kubernetes/istio.yaml`，或者使用 [Helm](/zh/docs/setup/kubernetes/helm-install/) 设置 `global.mtls.enabled` 为 false)。
 
-* 为了演示，需要创建两个命名空间 `foo` 和 `bar`，并且在两个空间中都部署带有 sidecar 的 [httpbin](/zh{{< github_tree >}}/samples/httpbin) 应用和带 sidecar 的 [sleep](/zh{{< github_tree >}}/samples/sleep) 应用。同时，运行另外一份不带有 sidecar 的 httpbin 和 sleep 应用(为了保证独立性，在 `legacy` 命名空间中运行它们)。在一个常规系统中，一个服务可以是其它服务的 *服务端* (接收流量)，同时也可以是另外一些服务的 *客户端* 。为了简单起见，在这个演示中，我们只使用 `sleep` 作为客户端，使用 `httpbin` 作为服务端。
+* 为了演示，需要创建两个命名空间 `foo` 和 `bar`，并且在两个空间中都部署带有 sidecar 的 [httpbin]({{< github_tree >}}/samples/httpbin) 应用和带 sidecar 的 [sleep]({{< github_tree >}}/samples/sleep) 应用。同时，运行另外一份不带有 sidecar 的 httpbin 和 sleep 应用(为了保证独立性，在 `legacy` 命名空间中运行它们)。在一个常规系统中，一个服务可以是其它服务的 *服务端* (接收流量)，同时也可以是另外一些服务的 *客户端* 。为了简单起见，在这个演示中，我们只使用 `sleep` 作为客户端，使用 `httpbin` 作为服务端。
 
     {{< text bash >}}
     $ kubectl create ns foo
@@ -405,7 +405,7 @@ $ kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..met
 
 ## 设置终端用户认证
 
-你需要一个有效的 JWT （与在本例中你想使用的 JWKS endpoint 相一致）。请按照[这里](/zh{{< github_tree >}}/security/tools/jwt)的说明进行操作来创建一个 JWT 。你也可以在示例中使用自己的 JWT/JWKS endpoint。创建之后，在环境变量中设置相关信息。
+你需要一个有效的 JWT （与在本例中你想使用的 JWKS endpoint 相一致）。请按照[这里]({{< github_tree >}}/security/tools/jwt)的说明进行操作来创建一个 JWT 。你也可以在示例中使用自己的 JWT/JWKS endpoint。创建之后，在环境变量中设置相关信息。
 
 {{< text bash >}}
 $ export SVC_ACCOUNT="example@my-project.iam.gserviceaccount.com"

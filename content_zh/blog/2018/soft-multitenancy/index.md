@@ -166,7 +166,7 @@ ratings-default       RouteRule.v1alpha2.config.istio.io    ns-1
 reviews-default       RouteRule.v1alpha2.config.istio.io    ns-1
 {{< /text >}}
 
-[Multiple Istio control planes](/zh/blog/2018/soft-multitenancy/#multiple-istio-control-planes) 中讲述了更多多租户环境下命名空间的相关问题。
+[Multiple Istio control planes](/zh/blog/2018/soft-multitenancy/#多个-istio-控制面) 中讲述了更多多租户环境下命名空间的相关问题。
 
 ### 测试结果
 

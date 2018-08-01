@@ -217,4 +217,4 @@ aliases:
     $ istioctl delete -f new_telemetry.yaml
     {{< /text >}}
 
-* 如果不准备进一步的探索其他任务，可参照 [Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup) 的介绍关闭应用。
+* 如果不准备进一步的探索其他任务，可参照 [Bookinfo 清理](/zh/docs/examples/bookinfo/#清理) 的介绍关闭应用。

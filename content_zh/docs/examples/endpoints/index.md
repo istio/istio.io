@@ -20,7 +20,7 @@ $ curl --request POST --header "content-type:application/json" --data '{"message
 
 ## HTTP Endpoints 服务
 
-1.  使用 `--includeIPRanges` 将服务注入到网格中，通过该[指令](/zh/docs/tasks/traffic-management/egress/#calling-external-services-directly)允许出口直接调用外部服务。否则，ESP 将无法接受谷歌云的控制。
+1.  使用 `--includeIPRanges` 将服务注入到网格中，通过该[指令](/zh/docs/tasks/traffic-management/egress/#直接调用外部服务)允许出口直接调用外部服务。否则，ESP 将无法接受谷歌云的控制。
 
 1.  注入后，发出上面提到的测试命令确保调用 ESP 继续工作。
 
@@ -45,7 +45,7 @@ $ curl --request POST --header "content-type:application/json" --data '{"message
     EOF
     {{< /text >}}
 
-1.  通过[指令](/zh/docs/tasks/traffic-management/ingress#determining-the-ingress-ip-and-ports)获取 Ingress IP 和端口。你可以通过 Ingress 验证 Endpoints 服务:
+1.  通过[指令](/zh/docs/tasks/traffic-management/ingress/#确定入口-ip-和端口)获取 Ingress IP 和端口。你可以通过 Ingress 验证 Endpoints 服务:
 
     {{< text bash >}}
     $ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${INGRESS_HOST}:${INGRESS_PORT}/echo?key=${ENDPOINTS_KEY}"i
@@ -99,7 +99,7 @@ $ curl --request POST --header "content-type:application/json" --data '{"message
       name: tcp
     {{< /text >}}
 
-1.  更新网格服务部署。请参阅[Pods 和 Services 要求](/zh/docs/setup/kubernetes/spec-requirements)中端口命名的规则。
+1.  更新网格服务部署。请参阅 [Pods 和 Services 要求](/zh/docs/setup/kubernetes/sidecar-injection/#对-pod-的要求)中端口命名的规则。
 
 1.  你可以通过安全的 Ingress 访问 Endpoints 服务来验证：
 

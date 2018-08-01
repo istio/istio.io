@@ -117,4 +117,4 @@ public Response bookReviewsById(@PathParam("productId") int productId,
 
 ## 清理
 
-* 如果不准备继续尝试后续任务，可参照 [Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup)的介绍关停应用。
+* 如果不准备继续尝试后续任务，可参照 [Bookinfo 清理](/zh/docs/examples/bookinfo/#清理)的介绍关停应用。

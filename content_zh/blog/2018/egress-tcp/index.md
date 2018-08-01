@@ -120,9 +120,9 @@ keywords: [traffic-management,egress,tcp]
 
 ### Bookinfo 应用程序的初始设置
 
-为了演示使用外部数据库的场景，我首先使用安装了 [Istio](/zh/docs/setup/kubernetes/quick-start/#installation-steps) 的 Kubernetes 集群, 然后我部署 [Istio Bookinfo示例应用程序](/zh/docs/examples/bookinfo/), 此应用程序使用 _ratings_ 服务来获取书籍评级，评分在1到5之间。评级显示为每个评论的星号, 有几个版本的 _ratings_ 微服务, 有些人使用 [MongoDB](https://www.mongodb.com)，其他人使用 [MySQL](https://www.mysql.com) 作为他们的数据库。
+为了演示使用外部数据库的场景，我首先使用安装了 [Istio](/zh/docs/setup/kubernetes/quick-start/#安装步骤) 的 Kubernetes 集群, 然后我部署 [Istio Bookinfo示例应用程序](/zh/docs/examples/bookinfo/), 此应用程序使用 _ratings_ 服务来获取书籍评级，评分在1到5之间。评级显示为每个评论的星号, 有几个版本的 _ratings_ 微服务, 有些人使用 [MongoDB](https://www.mongodb.com)，其他人使用 [MySQL](https://www.mysql.com) 作为他们的数据库。
 
-此博客文章中的示例命令与  Istio 0.3+ 一起使用，无论启用或不启用 [双向 TLS](/zh/docs/concepts/security/mutual-tls/)。
+此博客文章中的示例命令与  Istio 0.3+ 一起使用，无论启用或不启用 [双向 TLS](/zh/docs/concepts/security/#双向-tls-认证)。
 
 提醒一下，这是 [Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)中应用程序的原始整体架构图。
 
@@ -156,7 +156,7 @@ keywords: [traffic-management,egress,tcp]
     {{< /text >}}
 
 1. 我将发往 _reviews_ 服务的所有流量路由到 _v3_ 版本, 我这样做是为了确保 _reviews_ 服务始终调用 _ratings_
-  服务, 此外，我将发往 _ratings_ 服务的所有流量路由到使用外部数据库的 _ratings v2-mysql_, 我通过添加两个[路由规则](/zh/docs/reference/config/istio.routing.v1alpha1/)为上述两种服务添加路由, 这些规则在 Istio 发行档案的`samples/bookinfo/networking/virtual-service-ratings-mysql.yaml`中指定。
+  服务, 此外，我将发往 _ratings_ 服务的所有流量路由到使用外部数据库的 _ratings v2-mysql_, 我通过添加两个[路由规则](/docs/reference/config/istio.routing.v1alpha1/)为上述两种服务添加路由, 这些规则在 Istio 发行档案的`samples/bookinfo/networking/virtual-service-ratings-mysql.yaml`中指定。
 
     {{< text bash >}}
     $ istioctl create -f @samples/bookinfo/networking/virtual-service-ratings-mysql.yaml@
@@ -175,7 +175,7 @@ keywords: [traffic-management,egress,tcp]
 
 ### 访问网页
 
-在[确定入口IP和端口](/zh/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)之后，让我们访问应用程序的网页。
+在[确定入口 IP 和端口](/zh/docs/examples/bookinfo/#确定-ingress-的-ip-和端口)之后，让我们访问应用程序的网页。
 
 我们遇到了问题...在每次审核下方都会显示消息 _"Ratings service is currently unavailable”_  而不是评级星标。
 
@@ -254,11 +254,11 @@ Created config egress-rule/default/mysql at revision 1954425
 
 请注意，外部服务的所有 IP 并不总是已知, 要通过 IP 启用 TCP 流量，而不是通过主机名启用流量，只需指定应用程序使用的 IP。
 
-另请注意，外部服务的 IP 并不总是静态的，例如在 [CDNs](https://en.wikipedia.org/wiki/Content_delivery_network) 的情况下, 有时 IP 在大多数情况下是静态的，但可以不时地更改，例如由于基础设施的变化, 在这些情况下，如果已知可能 IP 的范围，则应通过 CIDR 块指定范围（如果需要，甚至可以通过多个出口规则）, 如果不知道可能的IP的范围，则不能使用 TCP 的出口规则，并且[必须直接调用外部服务](/zh/docs/tasks/traffic-management/egress/#calling-external-services-directly), 绕过 sidecar 代理。
+另请注意，外部服务的 IP 并不总是静态的，例如在 [CDNs](https://en.wikipedia.org/wiki/Content_delivery_network) 的情况下, 有时 IP 在大多数情况下是静态的，但可以不时地更改，例如由于基础设施的变化, 在这些情况下，如果已知可能 IP 的范围，则应通过 CIDR 块指定范围（如果需要，甚至可以通过多个出口规则）, 如果不知道可能的IP的范围，则不能使用 TCP 的出口规则，并且[必须直接调用外部服务](/zh/docs/tasks/traffic-management/egress/#直接调用外部服务), 绕过 sidecar 代理。
 
 ## 与网格扩展的关系
 
-请注意，本文中描述的场景与[集成虚拟机](/zh/docs/examples/integrating-vms/)示例中描述的网格扩展场景不同, 在这种情况下，MySQL 实例在与 Istio 服务网格集成的外部（集群外）机器（裸机或VM）上运行 , MySQL 服务成为网格的一流公民，具有 Istio 的所有有益功能, 除此之外，服务可以通过本地集群域名寻址，例如通过`mysqldb.vm.svc.cluster.local`，并且可以通过[双向 TLS 身份验证](/zh/docs/concepts/security/#mutual-tls-authentication)保护与它的通信, 无需创建出口规则来访问此服务; 但是，该服务必须在 Istio 注侧, 要启用此类集成，必须在计算机上安装 Istio 组件（ _Envoy proxy_ ，_node-agent_ ，_istio-agent_ ），并且必须可以从中访问 Istio 控制平面（_Pilot_ ，_Mixer_ ，_CA_ ）, 有关详细信息，请参阅[Istio Mesh Expansion](/zh/docs/setup/kubernetes/mesh-expansion/)说明。
+请注意，本文中描述的场景与[集成虚拟机](/zh/docs/examples/integrating-vms/)示例中描述的网格扩展场景不同, 在这种情况下，MySQL 实例在与 Istio 服务网格集成的外部（集群外）机器（裸机或VM）上运行 , MySQL 服务成为网格的一流公民，具有 Istio 的所有有益功能, 除此之外，服务可以通过本地集群域名寻址，例如通过`mysqldb.vm.svc.cluster.local`，并且可以通过[双向 TLS 身份验证](/zh/docs/concepts/security/#双向-tls-认证)保护与它的通信, 无需创建出口规则来访问此服务; 但是，该服务必须在 Istio 注侧, 要启用此类集成，必须在计算机上安装 Istio 组件（ _Envoy proxy_ ，_node-agent_ ，_istio-agent_ ），并且必须可以从中访问 Istio 控制平面（_Pilot_ ，_Mixer_ ，_CA_ ）, 有关详细信息，请参阅[Istio Mesh Expansion](/zh/docs/setup/kubernetes/mesh-expansion/)说明。
 
 在我们的示例中，MySQL 实例可以在任何计算机上运行，也可以由云提供商作为服务进行配置, 无需集成机器
 与 Istio , 无需从机器访问 Istio 控制平面, 在 MySQL 作为服务的情况下，MySQL 运行的机器可能无法访问并在其上安装所需的组件可能是不可能的, 在我们的例子中，MySQL 实例可以通过其全局域名进行寻址，如果消费应用程序希望使用该域名，这可能是有益的, 当在消费应用程序的部署配置中无法更改预期的域名时，这尤其重要。

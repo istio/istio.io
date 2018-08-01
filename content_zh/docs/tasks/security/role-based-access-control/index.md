@@ -5,15 +5,15 @@ weight: 40
 keywords: [security,access-control,rbac,authorization]
 ---
 
-在服务网格中为服务进行授权控制（基于角色的访问控制）时，会涉及到本例中包含的一系列操作。在[授权](/zh/docs/concepts/security/#authorization)一节中讲述了更多这方面的内容，并且还有一个基本的 Istio 安全方面的教程。
+在服务网格中为服务进行授权控制（基于角色的访问控制）时，会涉及到本例中包含的一系列操作。在[授权](/zh/docs/concepts/security/#授权和鉴权)一节中讲述了更多这方面的内容，并且还有一个基本的 Istio 安全方面的教程。
 
 ## 开始之前
 
 本文活动开始之前，我们有如下假设：
 
-* 具有对[授权](/zh/docs/concepts/security/#authorization)概念的了解。
+* 具有对[授权](/zh/docs/concepts/security/#授权和鉴权)概念的了解。
 
-* 在 Istio 中遵循[快速入门](/zh/docs/setup/kubernetes/quick-start/)的步骤 **启用了认证功能**，这个教程对双向 TLS 有依赖，因此要在[安装步骤](/zh/docs/setup/kubernetes/quick-start/#installation-steps)中启用双向 TLS 认证。
+* 在 Istio 中遵循[快速入门](/zh/docs/setup/kubernetes/quick-start/)的步骤 **启用了认证功能**，这个教程对双向 TLS 有依赖，因此要在[安装步骤](/zh/docs/setup/kubernetes/quick-start/#安装步骤)中启用双向 TLS 认证。
 
 * 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用。
 
@@ -42,7 +42,7 @@ keywords: [security,access-control,rbac,authorization]
 
     * 用这个命令移除所有现存 RBAC 策略：
 
-      > 保存现有策略是可以的，不过需要对策略的 `constraints` 以及 `properties` 字段进行修改，参考[约束和属性](/zh/docs/reference/config/authorization/constraints-and-properties/)中的内容，了解这两个字段所支持的值。
+      > 保存现有策略是可以的，不过需要对策略的 `constraints` 以及 `properties` 字段进行修改，参考[约束和属性](/docs/reference/config/authorization/constraints-and-properties/)中的内容，了解这两个字段所支持的值。
 
     {{< text bash >}}
     $ kubectl delete servicerole --all
@@ -143,7 +143,7 @@ $ istioctl delete -f @samples/bookinfo/platform/kube/rbac/namespace-policy.yaml@
 
 这个任务展示了使用 Istio 授权功能配置服务级访问控制的方法。开始之前，请进行下面的确认：
 
-* 已经[启用 Istio 授权](/zh#启用-Istio-授权)
+* 已经[启用 Istio 授权](#启用-Istio-授权)
 * 已经[清除命名空间级的访问控制](清除命名空间级的访问控制：
 
 浏览器打开 Bookinfo 的 `productpage` (`http://$GATEWAY_URL/productpage`)。会看到：`RBAC: access denied`。我们会在 Bookinfo 中逐步为服务加入访问许可。
@@ -196,7 +196,7 @@ $ istioctl create -f @samples/bookinfo/platform/kube/rbac/productpage-policy.yam
 
 ### 第二步，允许对 `details` 和 `reviews` 服务的访问。
 
-创建一条策略，让 `productpage` 服务能够读取 `details` 和 `reviews` 服务。注意在[开始之前](/zh#开始之前)中，我们给 `productpage` 服务创建了一个命名为 `bookinfo-productpage` 的 Service account，它就是 `productpage` 服务的认证 ID。
+创建一条策略，让 `productpage` 服务能够读取 `details` 和 `reviews` 服务。注意在[开始之前](#开始之前)中，我们给 `productpage` 服务创建了一个命名为 `bookinfo-productpage` 的 Service account，它就是 `productpage` 服务的认证 ID。
 
 运行下面的命令：
 
@@ -242,7 +242,7 @@ $ istioctl create -f @samples/bookinfo/platform/kube/rbac/details-reviews-policy
 
 ### 第三步，允许对 `ratings` 服务的访问
 
-接下来新建一条策略，允许 `reviews` 服务对 `ratings` 发起读取访问。注意，我们在[开始之前](/zh#开始之前)步骤里为 `reviews` 服务创建了 Service account `bookinfo-reviews`，这个账号就是 `reviews` 服务的认证凭据。
+接下来新建一条策略，允许 `reviews` 服务对 `ratings` 发起读取访问。注意，我们在[开始之前](#开始之前)步骤里为 `reviews` 服务创建了 Service account `bookinfo-reviews`，这个账号就是 `reviews` 服务的认证凭据。
 
 下面的命令会创建一条允许 `reviews` 服务读取 `ratings` 服务的策略。
 

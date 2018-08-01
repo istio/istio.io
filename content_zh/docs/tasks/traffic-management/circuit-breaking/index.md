@@ -12,9 +12,9 @@ keywords: [traffic-management,circuit-breaking]
 ## 开始之前
 
 * 跟随 [安装指南](/zh/docs/setup) 设置 Istio。
-* 启动 [httpbin](/zh{{< github_tree >}}/samples/httpbin) 示例应用，这个应用将会作为本任务的后端服务。
+* 启动 [httpbin]({{< github_tree >}}/samples/httpbin) 示例应用，这个应用将会作为本任务的后端服务。
 
-    如果启用了 [Sidecar 的自动注入](/zh/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)，只需运行：
+    如果启用了 [Sidecar 的自动注入](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)，只需运行：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@
@@ -30,7 +30,7 @@ keywords: [traffic-management,circuit-breaking]
 
 接下来设置一个场景来演示 Istio 的熔断功能。在上一步骤中，我们已经启动了 `httpbin` 服务。
 
-1. 创建一个 [目标规则](/zh/docs/reference/config/istio.networking.v1alpha3/#DestinationRule)，针对 `httpbin` 服务设置断路器：
+1. 创建一个 [目标规则](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule)，针对 `httpbin` 服务设置断路器：
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
@@ -231,7 +231,7 @@ cluster.outbound|80||httpbin.springistio.svc.cluster.local.upstream_rq_pending_t
     $ istioctl delete destinationrule httpbin
     {{< /text >}}
 
-1. 关闭 [httpbin](/zh{{< github_tree >}}/samples/httpbin) 服务和客户端
+1. 关闭 [httpbin]({{< github_tree >}}/samples/httpbin) 服务和客户端
 
     {{< text bash >}}
     $ kubectl delete deploy httpbin fortio-deploy

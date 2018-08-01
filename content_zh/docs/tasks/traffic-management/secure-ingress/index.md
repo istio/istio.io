@@ -11,7 +11,7 @@ keywords: [traffic-management,ingress]
 
 ## 开始之前
 
-1. 执行[开始之前](/zh/docs/tasks/traffic-management/ingress#before-you-begin)的步骤，并且[确定 Ingress 地址和端口](/zh/docs/tasks/traffic-management/ingress#determining-the-ingress-ip-and-ports)。在完成这些步骤后，应该已经部署了可用的 Istio 服务网格以及 [httpbin](/zh{{< github_tree >}}/samples/httpbin) 应用了，并且 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT` 这两个变量也已经生成并赋值。
+1. 执行[开始之前](/zh/docs/tasks/traffic-management/ingress/#前提条件)的步骤，并且[确定 Ingress 地址和端口](/zh/docs/tasks/traffic-management/ingress/#确定入口-ip-和端口)。在完成这些步骤后，应该已经部署了可用的 Istio 服务网格以及 [httpbin]({{< github_tree >}}/samples/httpbin) 应用了，并且 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT` 这两个变量也已经生成并赋值。
 
 1. macOS 用户需要注意，要检查一下 `curl` 的编译是否包含了 [LibreSSL](http://www.libressl.org) 库：
 
@@ -88,7 +88,7 @@ keywords: [traffic-management,ingress]
     EOF
     {{< /text >}}
 
-1. 为通过 Gateway 进入的流量进行路由配置。配置一个和[控制 Ingress 流量任务](/zh/docs/tasks/traffic-management/ingress/#configuring-ingress-using-an-istio-gateway) 中一致的 `Virtualservice`：
+1. 为通过 Gateway 进入的流量进行路由配置。配置一个和[控制 Ingress 流量任务](/zh/docs/tasks/traffic-management/ingress/#使用-istio-网关配置-ingress) 中一致的 `Virtualservice`：
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
@@ -262,7 +262,7 @@ keywords: [traffic-management,ingress]
     $ kubectl logs -n istio-system -l istio=ingressgateway
     {{< /text >}}
 
-1. macOS 用户，检查 `curl` 是否包含 [LibreSSL](http://www.libressl.org) 库，和[开始之前](/zh#开始之前)中提到的一样。
+1. macOS 用户，检查 `curl` 是否包含 [LibreSSL](http://www.libressl.org) 库，和[开始之前](#开始之前)中提到的一样。
 
 ### 双向 TLS 常见问题
 
@@ -293,7 +293,7 @@ keywords: [traffic-management,ingress]
     $ kubectl delete --ignore-not-found=true -n istio-system secret istio-ingressgateway-certs istio-ingressgateway-ca-certs
     {{< /text >}}
 
-1. 关闭 [httpbin](/zh{{< github_tree >}}/samples/httpbin) 服务：
+1. 关闭 [httpbin]({{< github_tree >}}/samples/httpbin) 服务：
 
     {{< text bash >}}
     $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
