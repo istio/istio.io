@@ -38,8 +38,6 @@ title: Istio
 </script>
 
 <main class="landing">
-    <a id="timer" class="promotion" href="https://preliminary.istio.io"></a>
-
     <div class="hero">
         <div class="container">
             <h1 class="hero-label">Istio{{< site_suffix >}} {{< istio_version >}}</h1>
@@ -142,18 +140,3 @@ title: Istio
         }
     </style>
 </main>
-
-<script>
-var countDownDate = new Date("Jul 31, 2018 9:00:00 PDT").getTime();
-
-var x = setInterval(function() {
-    var now = new Date().getTime();
-    var distance = countDownDate - now;
-    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    document.getElementById("timer").innerHTML = "Istio 1.0 in<br>" + days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
-}, 1000);
-</script>
