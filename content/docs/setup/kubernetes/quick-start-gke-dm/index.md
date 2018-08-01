@@ -121,7 +121,7 @@ deploy/reviews-v3       1         1         1            1           7m
 Now get the `istio-ingress` IP:
 
 {{< text bash >}}
-$ kubectl get svc istio-ingress -n istio-system
+$ kubectl get svc istio-ingressgateway -n istio-system
 NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)                                      AGE
 istio-ingressgateway   LoadBalancer   10.59.251.109   35.194.26.85   80:31380/TCP,443:31390/TCP,31400:31400/TCP   6m
 {{< /text >}}
