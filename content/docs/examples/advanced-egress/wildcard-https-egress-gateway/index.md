@@ -468,12 +468,21 @@ to hold the configuration of the Nginx SNI proxy:
     {{< /text >}}
 
 1.  Check the statistics of the egress gateway's proxy and see a counter that corresponds to our
-    requests to _*.wikipedia.org_. If Istio is deployed in the `istio-system` namespace, the command to print the
-    counter is:
+    requests to _*.wikipedia.org_ (the counter for the SNI proxy). If Istio is deployed in the `istio-system` namespace,
+    the command to print the counter is:
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l istio=egressgateway-with-sni-proxy -n istio-system -o jsonpath='{.items[0].metadata.name}') -c egressgateway-with-sni-proxy -n istio-system -- curl -s localhost:15000/stats | grep www.wikipedia.org.upstream_cx_total
-    cluster.outbound|443||www.wikipedia.org.upstream_cx_total: 2
+    $ kubectl exec -it $(kubectl get pod -l istio=egressgateway-with-sni-proxy -n istio-system -o jsonpath='{.items[0].metadata.name}') -c egressgateway-with-sni-proxy -n istio-system -- curl -s localhost:15000/stats | grep sni-proxy.local.upstream_cx_total
+    cluster.outbound|8443||sni-proxy.local.upstream_cx_total: 2
+    {{< /text >}}
+
+1.  Check the logs of the SNI proxy. If Istio is deployed in the `istio-system` namespace, the command to print the
+    log is:
+
+    {{< text bash >}}
+    $ kubectl logs $(kubectl get pod -l istio=egressgateway-with-sni-proxy -n istio-system -o jsonpath='{.items[0].metadata.name}') -n istio-system -c sni-proxy
+    127.0.0.1 [01/Aug/2018:15:32:02 +0000] TCP [en.wikipedia.org]200 81513 280 0.600
+    127.0.0.1 [01/Aug/2018:15:32:03 +0000] TCP [de.wikipedia.org]200 67745 291 0.659
     {{< /text >}}
 
 ### Cleanup of HTTPS traffic configuration to arbitrary wildcarded domains
