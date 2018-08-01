@@ -445,6 +445,16 @@ to hold the configuration of the Nginx SNI proxy:
             port:
               number: 8443
           weight: 100
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: disable-mtls-for-sni-proxy
+    spec:
+      host: sni-proxy.local
+      trafficPolicy:
+        tls:
+          mode: DISABLE
     EOF
     {{< /text >}}
 
@@ -474,7 +484,7 @@ to hold the configuration of the Nginx SNI proxy:
     $ kubectl delete serviceentry wikipedia sni-proxy
     $ kubectl delete gateway istio-egressgateway-with-sni-proxy
     $ kubectl delete virtualservice direct-wikipedia-through-egress-gateway
-    $ kubectl delete destinationrule set-sni-for-egress-gateway
+    $ kubectl delete destinationrule set-sni-for-egress-gateway disable-mtls-for-sni-proxy
     $ kubectl delete -f $HOME/istio-egressgateway-with-sni-proxy.yaml
     $ kubectl delete configmap egress-sni-proxy-configmap -n istio-system
     $ kubectl delete service sni-proxy
