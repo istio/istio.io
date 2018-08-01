@@ -14,12 +14,8 @@ to enforce custom admission policies. With mutating admission
 Webhooks, you may change requests to enforce custom defaults.
 
 The webhook setup guides assuming general familiarity with Kubernetes
-Dynamic Admission Webhooks. Consult the Kubernetes API references for
-detailed documentation of the
-[mutating](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.11/#mutatingwebhookconfiguration-v1beta1-admissionregistration-kubernetes-io)
-and
-[validating](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.11/#validatingwebhookconfiguration-v1beta1-admissionregistration-kubernetes-io)
-webhook configuration.
+Dynamic Admission Webhooks. Consult the [Kubernetes API references](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.11/)) for
+detailed documentation of the mutating and validating webhook configuration.
 
 ## Prerequisites
 
