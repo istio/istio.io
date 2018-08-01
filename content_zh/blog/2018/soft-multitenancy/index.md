@@ -18,7 +18,7 @@ keywords: [tenancy]
 
 本文最后会对 Istio 未来的多租户模型进行一些描述。
 
-> 注意：这里仅就在有限多租户环境中部署 Istio 做一些概要描述。当官方多租户支持实现之后，会在[文档](/docs/)中具体阐述。
+> 注意：这里仅就在有限多租户环境中部署 Istio 做一些概要描述。当官方多租户支持实现之后，会在[文档](/zh/docs/)中具体阐述。
 
 ## 部署
 
@@ -52,7 +52,7 @@ istio-system1   istio-mixer-7d4f7b9968-66z44               3/3       Running   0
 istio-system1   istio-pilot-5bb6b7669c-779vb               2/2       Running   0          15d
 {{< /text >}}
 
-如果需要 Istio [Sidecar 注入组件](/docs/setup/kubernetes/sidecar-injection/)以及[遥测组件](/docs/tasks/telemetry/)，也需要根据租户的命名空间定义，修改所需的 Yaml 文件。
+如果需要 Istio [Sidecar 注入组件](/zh/docs/setup/kubernetes/sidecar-injection/)以及[遥测组件](/zh/docs/tasks/telemetry/)，也需要根据租户的命名空间定义，修改所需的 Yaml 文件。
 
 需要由集群管理员、而不是租户自己的管理员来加载这两组 Yaml 文件。另外，要把租户管理员的操作权限限制在各自的命名空间内，还需要额外的 RBAC 配置。
 
@@ -166,7 +166,7 @@ ratings-default       RouteRule.v1alpha2.config.istio.io    ns-1
 reviews-default       RouteRule.v1alpha2.config.istio.io    ns-1
 {{< /text >}}
 
-[Multiple Istio control planes](/blog/2018/soft-multitenancy/#multiple-istio-control-planes) 中讲述了更多多租户环境下命名空间的相关问题。
+[Multiple Istio control planes](/zh/blog/2018/soft-multitenancy/#多个-istio-控制面) 中讲述了更多多租户环境下命名空间的相关问题。
 
 ### 测试结果
 
@@ -201,7 +201,7 @@ $ kubectl get pods -n istio-system1
 Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list pods in the namespace "istio-system1"
 {{< /text >}}
 
-租户管理员能够在租户指定的应用命名空间中进行应用部署。例如可以修改一下 [Bookinfo](/docs/examples/bookinfo/) 的 Yaml 然后部署到租户的命名空间 `ns-0` 中，然后租户管理员就可以在这一命名空间中列出 Pod 了：
+租户管理员能够在租户指定的应用命名空间中进行应用部署。例如可以修改一下 [Bookinfo](/zh/docs/examples/bookinfo/) 的 Yaml 然后部署到租户的命名空间 `ns-0` 中，然后租户管理员就可以在这一命名空间中列出 Pod 了：
 
 {{< text bash >}}
 $ kubectl get pods -n ns-0
@@ -221,8 +221,8 @@ $ kubectl get pods -n ns-1
 Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list pods in the namespace "ns-1"
 {{< /text >}}
 
-如果部署了[遥测组件](/docs/tasks/telemetry/), 例如
-[Prometheus](/docs/tasks/telemetry/querying-metrics/)（限制在 Istio 的 `namespace`），其中获得的统计结果展示的也只是租户应用命名空间的私有数据。
+如果部署了[遥测组件](/zh/docs/tasks/telemetry/), 例如
+[Prometheus](/zh/docs/tasks/telemetry/querying-metrics/)（限制在 Istio 的 `namespace`），其中获得的统计结果展示的也只是租户应用命名空间的私有数据。
 
 ## 结语
 

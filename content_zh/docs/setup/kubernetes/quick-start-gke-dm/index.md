@@ -7,7 +7,7 @@ keywords: [kubernetes,gke]
 
 快速开始操作指南，使用 [Google Cloud Deployment Manager](https://cloud.google.com/deployment-manager/)，在 [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/)（GKE）上安装和运行 Istio。
 
-这个快速开始创建了一个新的 GKE [zonal cluster](https://cloud.google.com/kubernetes-engine/versioning-and-upgrades#versions_available_for_new_cluster_masters)，安装当前版本的 Istio 并部署 [Bookinfo](/docs/examples/bookinfo/) 样例应用。在 [Kubernetes 安装 Istio 指南](/docs/setup/kubernetes/quick-start/) 的基础上，使用 Deployment Manager 为 Kubernetes Engine 提供一个自动的细化步骤。
+这个快速开始创建了一个新的 GKE [zonal cluster](https://cloud.google.com/kubernetes-engine/versioning-and-upgrades#versions_available_for_new_cluster_masters)，安装当前版本的 Istio 并部署 [Bookinfo](/zh/docs/examples/bookinfo/) 样例应用。在 [Kubernetes 安装 Istio 指南](/zh/docs/setup/kubernetes/quick-start/) 的基础上，使用 Deployment Manager 为 Kubernetes Engine 提供一个自动的细化步骤。
 
 ## 前置条件
 
@@ -44,12 +44,12 @@ caption="GKE-IAM Role"
 
     [Istio GKE Deployment Manager](https://accounts.google.com/signin/v2/identifier?service=cloudconsole&continue=https://console.cloud.google.com/launcher/config?templateurl={{< github_file >}}/install/gcp/deployment_manager/istio-cluster.jinja&followup=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/master/install/gcp/deployment_manager/istio-cluster.jinja&flowName=GlifWebSignIn&flowEntry=ServiceLogin)
 
-    就像其他教程中的“如何访问已安装的功能”一样，我们也建议保留默认设置。工具会默认创建一个特殊设置的 GKE alpha cluster，然后安装 Istio [控制平面](/docs/concepts/what-is-istio/#architecture)、
-    [Bookinfo](/docs/examples/bookinfo/) 样例应用、
-    [Grafana](/docs/tasks/telemetry/using-istio-dashboard/) 、
-    [Prometheus](/docs/tasks/telemetry/querying-metrics/) 、
-    [ServiceGraph](/docs/tasks/telemetry/servicegraph/) 和
-    [跟踪](/docs/tasks/telemetry/distributed-tracing/) 。
+    就像其他教程中的“如何访问已安装的功能”一样，我们也建议保留默认设置。工具会默认创建一个特殊设置的 GKE alpha cluster，然后安装 Istio [控制平面](/zh/docs/concepts/what-is-istio/#架构)、
+    [Bookinfo](/zh/docs/examples/bookinfo/) 样例应用、
+    [Grafana](/zh/docs/tasks/telemetry/using-istio-dashboard/) 、
+    [Prometheus](/zh/docs/tasks/telemetry/querying-metrics/) 、
+    [ServiceGraph](/zh/docs/tasks/telemetry/servicegraph/) 和
+    [跟踪](/zh/docs/tasks/telemetry/distributed-tracing/) 。
     接下来你可以了解一下怎样访问所有这些功能。脚本只在 `default` 的命名空间中启用 Istio 自动注入。
 
 1.  点击 **Deploy**:
@@ -181,7 +181,7 @@ http://localhost:3000/dashboard/db/istio-dashboard
     caption="Grafana"
     >}}
 
-更多关于 Grafana 插件的细节，请点击[关于 Grafana 插件](/docs/tasks/telemetry/using-istio-dashboard/#about-the-grafana-add-on)。
+更多关于 Grafana 插件的细节，请点击[关于 Grafana 插件](/zh/docs/tasks/telemetry/using-istio-dashboard/#关于-grafana-插件)。
 
 ### Prometheus
 
@@ -202,7 +202,7 @@ http://localhost:9090/graph
     caption="Prometheus"
     >}}
 
-更多关于 Prometheus 插件的细节，请点击[关于 Prometheus 插件](/docs/tasks/telemetry/querying-metrics/#about-the-prometheus-add-on)。
+更多关于 Prometheus 插件的细节，请点击[关于 Prometheus 插件](/zh/docs/tasks/telemetry/querying-metrics/#关于-prometheus-的附加组件)。
 
 ### ServiceGraph
 
@@ -223,7 +223,7 @@ http://localhost:8088/dotviz
     caption="ServiceGraph"
     >}}
 
-更多关于 ServiceGraph 插件的细节，请点击[关于 ServiceGraph 插件](/docs/tasks/telemetry/servicegraph/#about-the-servicegraph-add-on)。
+更多关于 ServiceGraph 插件的细节，请点击[关于 ServiceGraph 插件](/zh/docs/tasks/telemetry/servicegraph/#关于-servicegraph-附加组件)。
 
 ## 追踪
 
@@ -240,7 +240,7 @@ $ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=
     caption="Tracing Dashboard"
     >}}
 
-更多关于追踪的细节，请点击[了解一下发生了什么](/docs/tasks/telemetry/distributed-tracing/#understanding-what-happened)。
+更多关于追踪的细节，请点击[了解一下发生了什么](/zh/docs/tasks/telemetry/distributed-tracing/#发生了什么)。
 
 ## 卸载
 

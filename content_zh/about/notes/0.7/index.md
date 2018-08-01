@@ -13,6 +13,6 @@ page_icon: /img/notes.svg
 
 已知问题:
 
-我们的 [Helm chart](/docs/setup/kubernetes/helm-install/)
+我们的 [Helm chart](/zh/docs/setup/kubernetes/helm-install/)
 目前需要一些变通的方式才能正确工作，这里 [Issue 4701](https://github.com/istio/istio/issues/4701) 有相关细节。
 

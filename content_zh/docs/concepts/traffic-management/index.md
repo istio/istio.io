@@ -13,13 +13,13 @@ aliases:
     - /docs/concepts/traffic-management/request-routing
 ---
 
-本页概述了 Istio 中流量管理的工作原理，包括流量管理原则的优点。本文假设你已经阅读了 [Istio 是什么？](/docs/concepts/what-is-istio/)并熟悉 Istio 的高级架构。有关单个流量管理功能的更多信息，您可以在本节其他指南中了解。
+本页概述了 Istio 中流量管理的工作原理，包括流量管理原则的优点。本文假设你已经阅读了 [Istio 是什么？](/zh/docs/concepts/what-is-istio/)并熟悉 Istio 的高级架构。有关单个流量管理功能的更多信息，您可以在本节其他指南中了解。
 
 ## Pilot 和 Envoy
 
-Istio 流量管理的核心组件是 [Pilot](/docs/concepts/traffic-management/#pilot-and-envoy)，它管理和配置部署在特定 Istio 服务网格中的所有 Envoy 代理实例。它允许您指定在 Envoy 代理之间使用什么样的路由流量规则，并配置故障恢复功能，如超时、重试和熔断器。它还维护了网格中所有服务的规范模型，并使用这个模型通过发现服务让 Envoy 了解网格中的其他实例。
+Istio 流量管理的核心组件是 [Pilot](#pilot-和-envoy)，它管理和配置部署在特定 Istio 服务网格中的所有 Envoy 代理实例。它允许您指定在 Envoy 代理之间使用什么样的路由流量规则，并配置故障恢复功能，如超时、重试和熔断器。它还维护了网格中所有服务的规范模型，并使用这个模型通过发现服务让 Envoy 了解网格中的其他实例。
 
-每个 Envoy 实例都会维护[负载均衡信息](/docs/concepts/traffic-management/#discovery-and-load-balancing)，负载均衡信息是基于从 Pilot 获得的信息，以及其负载均衡池中的其他实例的定期健康检查。从而允许其在目标实例之间智能分配流量，同时遵循其指定的路由规则。
+每个 Envoy 实例都会维护[负载均衡信息](#服务发现和负载均衡)，负载均衡信息是基于从 Pilot 获得的信息，以及其负载均衡池中的其他实例的定期健康检查。从而允许其在目标实例之间智能分配流量，同时遵循其指定的路由规则。
 
 ## 流量管理的好处
 
@@ -29,7 +29,7 @@ Istio 流量管理的核心组件是 [Pilot](/docs/concepts/traffic-management/#
     link="/docs/concepts/traffic-management/TrafficManagementOverview.svg"
     caption="Istio 中的流量管理">}}
 
-将流量从基础设施扩展中解耦，这样就可以让 Istio 提供各种流量管理功能，这些功能在应用程序代码之外。除了 A/B 测试的动态[请求路由](/docs/concepts/traffic-management/#request-routing)，逐步推出和金丝雀发布之外，它还使用超时、重试和熔断器处理[故障恢复](/docs/concepts/traffic-management/#handling-failures)，最后还可以通过[故障注入](/docs/concepts/traffic-management/#fault-injection)来测试服务之间故障恢复策略的兼容性。这些功能都是通过在服务网格中部署的 Envoy sidecar/代理来实现的。
+将流量从基础设施扩展中解耦，这样就可以让 Istio 提供各种流量管理功能，这些功能在应用程序代码之外。除了 A/B 测试的动态[请求路由](#请求路由)，逐步推出和金丝雀发布之外，它还使用超时、重试和熔断器处理[故障恢复](#故障处理)，最后还可以通过[故障注入](#故障注入)来测试服务之间故障恢复策略的兼容性。这些功能都是通过在服务网格中部署的 Envoy sidecar/代理来实现的。
 
 Pilot 负责部署在 Istio 服务网格中的 Envoy 实例的生命周期管理。
 
@@ -45,9 +45,9 @@ Pilot 公开了用于[服务发现](https://www.envoyproxy.io/docs/envoy/latest/
 
 ## 请求路由
 
-如 [Pilot](/docs/concepts/traffic-management/#pilot-and-envoy) 所述，特定网格中服务的规范表示由 Pilot 维护。服务的 Istio 模型和在底层平台（Kubernetes、Mesos 以及 Cloud Foundry 等）中的表达无关。特定平台的适配器负责从各自平台中获取元数据的各种字段，然后对服务模型进行填充。
+如 [Pilot](#pilot-和-envoy) 所述，特定网格中服务的规范表示由 Pilot 维护。服务的 Istio 模型和在底层平台（Kubernetes、Mesos 以及 Cloud Foundry 等）中的表达无关。特定平台的适配器负责从各自平台中获取元数据的各种字段，然后对服务模型进行填充。
 
-Istio 引入了服务版本的概念，可以通过版本（`v1`、`v2`）或环境（`staging`、`prod`）对服务进行进一步的细分。这些版本不一定是不同的 API 版本：它们可能是部署在不同环境（prod、staging 或者 dev 等）中的同一服务的不同迭代。使用这种方式的常见场景包括 A/B 测试或金丝雀部署。Istio 的[流量路由规则](/docs/concepts/traffic-management/#rule-configuration)可以根据服务版本来对服务之间流量进行附加控制。
+Istio 引入了服务版本的概念，可以通过版本（`v1`、`v2`）或环境（`staging`、`prod`）对服务进行进一步的细分。这些版本不一定是不同的 API 版本：它们可能是部署在不同环境（prod、staging 或者 dev 等）中的同一服务的不同迭代。使用这种方式的常见场景包括 A/B 测试或金丝雀部署。Istio 的[流量路由规则](#规则配置)可以根据服务版本来对服务之间流量进行附加控制。
 
 ### 服务之间的通讯
 
@@ -59,9 +59,9 @@ Istio 引入了服务版本的概念，可以通过版本（`v1`、`v2`）或环
 
 如上图所示，服务的客户端不知道服务不同版本间的差异。他们可以使用服务的主机名或者 IP 地址继续访问服务。Envoy sidecar/代理拦截并转发客户端和服务器之间的所有请求和响应。
 
-运维人员使用 Pilot 指定路由规则，Envoy 根据这些规则动态地确定其服务版本的实际选择。该模型使应用程序代码能够将它从其依赖服务的演进中解耦出来，同时提供其他好处（参见 [Mixer](/docs/concepts/policies-and-telemetry/)）。路由规则让 Envoy 能够根据诸如 header、与源/目的地相关联的标签和/或分配给每个版本的权重等标准来进行版本选择。
+运维人员使用 Pilot 指定路由规则，Envoy 根据这些规则动态地确定其服务版本的实际选择。该模型使应用程序代码能够将它从其依赖服务的演进中解耦出来，同时提供其他好处（参见 [Mixer](/zh/docs/concepts/policies-and-telemetry/)）。路由规则让 Envoy 能够根据诸如 header、与源/目的地相关联的标签和/或分配给每个版本的权重等标准来进行版本选择。
 
-Istio 还为同一服务版本的多个实例提供流量负载均衡。可以在[服务发现和负载均衡](/docs/concepts/traffic-management/#discovery-and-load-balancing)中找到更多信息。
+Istio 还为同一服务版本的多个实例提供流量负载均衡。可以在[服务发现和负载均衡](/zh/docs/concepts/traffic-management/#服务发现和负载均衡)中找到更多信息。
 
 Istio 不提供 DNS。应用程序可以尝试使用底层平台（kube-dns，mesos-dns 等）中存在的 DNS 服务来解析 FQDN。
 
@@ -87,11 +87,11 @@ Istio 假定进入和离开服务网络的所有流量都会通过 Envoy 代理�
 
 如上图所示，网格中的服务使用其 DNS 名称访问彼此。服务的所有 HTTP 流量都会通过 Envoy 自动重新路由。Envoy 在负载均衡池中的实例之间分发流量。虽然 Envoy 支持多种[复杂的负载均衡算法](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing)，但 Istio 目前仅允许三种负载平衡模式：轮循、随机和带权重的最少请求。
 
-除了负载均衡外，Envoy 还会定期检查池中每个实例的运行状况。Envoy 遵循熔断器风格模式，根据健康检查 API 调用的失败率将实例分类为不健康或健康。换句话说，当给定实例的健康检查失败次数超过预定阈值时，它将从负载均衡池中弹出。类似地，当通过的健康检查数超过预定阈值时，该实例将被添加回负载均衡池。您可以在[处理故障](/docs/concepts/traffic-management/#handling-failures)中了解更多有关 Envoy 的故障处理功能。
+除了负载均衡外，Envoy 还会定期检查池中每个实例的运行状况。Envoy 遵循熔断器风格模式，根据健康检查 API 调用的失败率将实例分类为不健康或健康。换句话说，当给定实例的健康检查失败次数超过预定阈值时，它将从负载均衡池中弹出。类似地，当通过的健康检查数超过预定阈值时，该实例将被添加回负载均衡池。您可以在[处理故障](#故障处理)中了解更多有关 Envoy 的故障处理功能。
 
 服务可以通过使用 HTTP 503 响应健康检查来主动减轻负担。在这种情况下，服务实例将立即从调用者的负载均衡池中删除。
 
-## 处理失败
+## 故障处理
 
 Envoy 提供了一套开箱即用，**可选的**的故障恢复功能，对应用中的服务大有裨益。这些功能包括：
 
@@ -101,7 +101,7 @@ Envoy 提供了一套开箱即用，**可选的**的故障恢复功能，对应�
 1. 对负载均衡池中的每个成员进行主动（定期）运行健康检查
 1. 细粒度熔断器（被动健康检查）- 适用于负载均衡池中的每个实例
 
-这些功能可以使用 [Istio 的流量管理规则](/docs/concepts/traffic-management/#rule-configuration)在运行时进行动态配置。
+这些功能可以使用 [Istio 的流量管理规则](#规则配置)在运行时进行动态配置。
 
 对超载的上游服务来说，重试之间的抖动极大的降低了重试造成的影响，而超时预算确保调用方服务在可预测的时间范围内获得响应（成功/失败）。
 
@@ -129,13 +129,13 @@ Q: *同时使用应用级库和 Envoy 时，怎样处理故障？*
 
 ## 故障注入
 
-虽然 Envoy sidecar/proxy 为在 Istio 上运行的服务提供了大量的[故障恢复机制](/docs/concepts/traffic-management/#handling-failures)，但测试整个应用程序端到端的故障恢复能力依然是必须的。错误配置的故障恢复策略（例如，跨服务调用的不兼容/限制性超时）可能导致应用程序中的关键服务持续不可用，从而破坏用户体验。
+虽然 Envoy sidecar/proxy 为在 Istio 上运行的服务提供了大量的[故障恢复机制](#故障处理)，但测试整个应用程序端到端的故障恢复能力依然是必须的。错误配置的故障恢复策略（例如，跨服务调用的不兼容/限制性超时）可能导致应用程序中的关键服务持续不可用，从而破坏用户体验。
 
 Istio 能在不杀死 Pod 的情况下，将协议特定的故障注入到网络中，在 TCP 层制造数据包的延迟或损坏。我们的理由是，无论网络级别的故障如何，应用层观察到的故障都是一样的，并且可以在应用层注入更有意义的故障（例如，HTTP 错误代码），以检验和改善应用的弹性。
 
 运维人员可以为符合特定条件的请求配置故障，还可以进一步限制遭受故障的请求的百分比。可以注入两种类型的故障：延迟和中断。延迟是计时故障，模拟网络延迟上升或上游服务超载的情况。中断是模拟上游服务的崩溃故障。中断通常以 HTTP 错误代码或 TCP 连接失败的形式表现。
 
-有关详细信息，请参阅 [Istio 的流量管理规则](/docs/concepts/traffic-management/#rule-configuration)。
+有关详细信息，请参阅 [Istio 的流量管理规则](#规则配置)。
 
 ## 规则配置
 
@@ -178,7 +178,7 @@ spec:
 
 子集中会指定一或多个标签，用这些标签来区分不同版本的实例。假设在 Kubernetes 上的 Istio 服务网格之中有一个服务，`version: v1` 代表只有标签中包含 "version:v1" 的 Pod 才会收到流量。
 
-规则可以使用 [`istioctl` 客户端工具](/docs/reference/commands/istioctl/) 进行配置，如果是 Kubernetes 部署，还可以使用 `kubectl` 命令完成同样任务，但是只有 `istioctl` 会在这个过程中对模型进行检查，所以我们推荐使用 `istioctl`。在[配置请求路由任务](/docs/tasks/traffic-management/request-routing/)中包含有配置示例。
+规则可以使用 [`istioctl` 客户端工具](/docs/reference/commands/istioctl/) 进行配置，如果是 Kubernetes 部署，还可以使用 `kubectl` 命令完成同样任务，但是只有 `istioctl` 会在这个过程中对模型进行检查，所以我们推荐使用 `istioctl`。在[配置请求路由任务](/zh/docs/tasks/traffic-management/request-routing/)中包含有配置示例。
 
 Istio 中包含有四种流量管理配置资源，分别是 `VirtualService`、`DestinationRule`、`ServiceEntry`、以及 `Gateway`。下面会讲一下这几个资源的一些重点。在[网络参考](/docs/reference/config/istio.networking.v1alpha3/)中可以获得更多这方面的信息。
 
@@ -370,9 +370,9 @@ spec:
       perTryTimeout: 2s
 {{< /text >}}
 
-注意请求的重试和超时还可以[针对每个请求分别设置](/docs/concepts/traffic-management/#fine-tuning)。
+注意请求的重试和超时还可以[针对每个请求分别设置](/zh/docs/concepts/traffic-management/#微调)。
 
-[请求超时任务](/docs/tasks/traffic-management/request-timeouts/)中展示了超时控制的相关示例。
+[请求超时任务](/zh/docs/tasks/traffic-management/request-timeouts/)中展示了超时控制的相关示例。
 
 ### 在请求中进行错误注入
 
@@ -440,7 +440,7 @@ spec:
         fixedDelay: 5s
 {{< /text >}}
 
-可以参考[错误注入任务](/docs/tasks/traffic-management/fault-injection/)，进行这方面的实际体验。
+可以参考[错误注入任务](/zh/docs/tasks/traffic-management/fault-injection/)，进行这方面的实际体验。
 
 ### HTTP 路由的优先级
 
@@ -693,6 +693,6 @@ spec:
     ...
 {{< /text >}}
 
-在 [Ingress 任务](/docs/tasks/traffic-management/ingress/) 中有完整的 Ingress Gateway 例子。
+在 [Ingress 任务](/zh/docs/tasks/traffic-management/ingress/) 中有完整的 Ingress Gateway 例子。
 
 虽然主要用于管理 Ingress 流量，`Gateway` 还可以用在纯粹的内部服务之间或者 egress 场景下使用。不管处于什么位置，所有的网关都可以以同样的方式进行配置和控制。[Gateway 参考](/docs/reference/config/istio.networking.v1alpha3/#Gateway) 中包含更多细节描述。
