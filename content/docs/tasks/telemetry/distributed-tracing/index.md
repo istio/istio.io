@@ -137,10 +137,11 @@ public Response bookReviewsById(@PathParam("productId") int productId,
 
 When you make downstream calls in your applications, make sure to include these headers.
 
-## Trace Sampling
+## Trace sampling
 
-Istio captures a trace for all requests by default. Every time you
-access `/productpage` you see a corresponding trace in the Jaeger
+Istio captures a trace for all requests by default. For example, when
+using the Bookinfo sample application above, every time you access
+`/productpage` you see a corresponding trace in the Jaeger
 dashboard. This sampling rate is suitable for a test or low traffic
 mesh. For a high traffic mesh you can lower the trace sampling
 percentage in one of two ways:
@@ -152,17 +153,15 @@ percentage in one of two ways:
 * In a running mesh, edit the `istio-pilot` deployment and
   change the environment variable with the following steps:
 
-  1. To open your text editor with the deployment configuration file
-     loaded, run the following command:
+    1. To open your text editor with the deployment configuration file
+       loaded, run the following command:
 
-     {{< text bash >}}
-    $ kubectl -n istio-system edit deploy istio-pilot
-     {{< /text >}}
+        {{< text bash >}}
+        $ kubectl -n istio-system edit deploy istio-pilot
+        {{< /text >}}
 
-  1. Find the `PILOT_TRACE_SAMPLING` environment variable, and change
-     the `value:` to your desired percentage.
-
-  1. Save and exit your text editor.
+    1. Find the `PILOT_TRACE_SAMPLING` environment variable, and change
+       the `value:` to your desired percentage.
 
 In both cases, valid values are from 0.0 to 100.0 with a precision of 0.01.
 
