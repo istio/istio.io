@@ -53,7 +53,7 @@ via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the 
 1. Choose one of the following two
 **mutually exclusive** options described below.
 
-### Option 1: Install with Helm via `helm template`
+### Option 1: Install with Istio via `helm template`
 
 1. Render Istio's core components to a Kubernetes manifest called `istio.yaml`:
 
@@ -68,7 +68,7 @@ via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the 
     $ kubectl create -f $HOME/istio.yaml
     {{< /text >}}
 
-### Option 2: Install with Helm and Tiller via `helm install`
+### Option 2: Install with Istio and Tiller via `helm install`
 
 This option allows Helm and
 [Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components)
