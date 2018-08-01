@@ -496,7 +496,6 @@ to hold the configuration of the Nginx SNI proxy:
     $ kubectl delete destinationrule set-sni-for-egress-gateway disable-mtls-for-sni-proxy
     $ kubectl delete -f $HOME/istio-egressgateway-with-sni-proxy.yaml
     $ kubectl delete configmap egress-sni-proxy-configmap -n istio-system
-    $ kubectl delete service sni-proxy
     {{< /text >}}
 
 1. Remove the configuration files you created
