@@ -199,7 +199,7 @@ who can access your services.
 
 Galley validates user authored Istio API configuration on behalf of
 the other Istio control plane components. Over time, Galley will take
-over responsibility as the top-level config ingestion, processing and
+over responsibility as the top-level configuration ingestion, processing and
 distribution component of Istio. It will be responsible for insulating
 the rest of the Istio components from the details of obtaining user
 configuration from the underlying platform (e.g. Kubernetes).
