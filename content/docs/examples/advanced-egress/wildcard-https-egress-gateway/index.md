@@ -337,6 +337,29 @@ to hold the configuration of the Nginx SNI proxy:
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
 
+1.  Create a service entry with a static address equal to localhost:
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: sni-local
+    spec:
+      hosts:
+      - sni-proxy.local
+      location: MESH_EXTERNAL
+      ports:
+      - number: 8443
+        name: tcp
+        protocol: TCP
+      resolution: STATIC
+      endpoints:
+      - address: 127.0.0.1
+    EOF
+    {{< /text >}}
+
+
 1.  Create an egress `Gateway` for _*.wikipedia.org_, port 443, protocol TLS, a destination rule to set the
     [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) for the gateway, and a virtual service to direct the
     traffic destined to _*.wikipedia.org_ to the gateway.
@@ -357,7 +380,6 @@ to hold the configuration of the Nginx SNI proxy:
           protocol: TLS
         hosts:
         - "*.wikipedia.org"
-        - sni-proxy.istio-system.svc.cluster.local
         tls:
           mode: MUTUAL
           serverCertificate: /etc/certs/cert-chain.pem
@@ -381,21 +403,6 @@ to hold the configuration of the Nginx SNI proxy:
               tls:
                 mode: ISTIO_MUTUAL
                 sni: placeholder.wikipedia.org # an SNI to match egress gateway's expectation for an SNI
-    EOF
-    {{< /text >}}
-
-1.  Create an external name Kubernetes service:
-
-    {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
-    kind: Service
-    apiVersion: v1
-    metadata:
-      name: sni-proxy
-      namespace: istio-system
-    spec:
-      type: ExternalName
-      externalName: 127.0.0.1
     EOF
     {{< /text >}}
 
@@ -434,7 +441,7 @@ to hold the configuration of the Nginx SNI proxy:
           port: 443
         route:
         - destination:
-            host: sni-proxy.istio-system.svc.cluster.local
+            host: sni-proxy.local
             port:
               number: 8443
           weight: 100
