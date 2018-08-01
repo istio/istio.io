@@ -422,7 +422,7 @@ to hold the configuration of the Nginx SNI proxy:
     EOF
     {{< /text >}}
 
-1.  Route the traffic destined to _*.wikipedia.org_ from the egress gateway to the SNI proxy.
+1.  Route the traffic destined to _*.wikipedia.org_ to the egress gateway and from the egress gateway to the SNI proxy.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
