@@ -11,9 +11,9 @@ keywords: [security,authentication,migration]
 
 ## 开始之前
 
-* 理解 Istio [认证策略](/docs/concepts/security/#authentication-policies)以及相关的[双向 TLS 认证](/docs/concepts/security/#mutual-tls-authentication)概念。
+* 理解 Istio [认证策略](/zh/docs/concepts/security/#认证策略)以及相关的[双向 TLS 认证](/zh/docs/concepts/security/#双向-tls-认证)概念。
 
-* 已成功在 Kubernetes 集群中部署 Istio，并且没有启用双向 TLS 支持（也就是使用[安装步骤](/docs/setup/kubernetes/quick-start/#installation-steps)中所说的 `install/kubernetes/istio-demo.yaml` 进行部署，或者在 [Helm 安装](/docs/setup/kubernetes/helm-install/)时设置 `global.mtls.enabled` 的值为 false）。
+* 已成功在 Kubernetes 集群中部署 Istio，并且没有启用双向 TLS 支持（也就是使用[安装步骤](/zh/docs/setup/kubernetes/quick-start/#安装步骤)中所说的 `install/kubernetes/istio-demo.yaml` 进行部署，或者在 [Helm 安装](/zh/docs/setup/kubernetes/helm-install/)时设置 `global.mtls.enabled` 的值为 false）。
 
 * 为了演示目的，创建三个命名空间，分别是 `foo`、`bar` 以及 `legacy`，然后在 `foo`、`bar` 中分别部署注入 Istio sidecar 的 [httpbin]({{< github_tree >}}/samples/httpbin) 以及 [sleep]({{< github_tree >}}/samples/sleep) 应用，最后在 `legacy` 命名空间中运行未经注入的 sleep 应用。
 
@@ -104,7 +104,7 @@ $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sle
 200
 {{< /text >}}
 
-还可以在 [`DestinationRule`](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule) 中指定一个客户端的子集所发出的请求来是用双向 TLS 通信，然后使用 [Grafana](/docs/tasks/telemetry/using-istio-dashboard/) 验证配置执行情况，确认通过之后，将策略的应用范围扩大到该服务的所有子集。
+还可以在 [`DestinationRule`](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule) 中指定一个客户端的子集所发出的请求来是用双向 TLS 通信，然后使用 [Grafana](/zh/docs/tasks/telemetry/using-istio-dashboard/) 验证配置执行情况，确认通过之后，将策略的应用范围扩大到该服务的所有子集。
 
 ## 锁定使用双向 TLS (可选)
 
@@ -135,7 +135,7 @@ $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sle
 503
 {{< /text >}}
 
-也就是说，如果不能把所有服务都迁移到 Istio (进行 Sidecar 注入)的话，就只能使用 `PERMISSIVE` 模式了。然而在配置为 `PERMISSIVE` 的时候，是不会对明文流量进行授权和鉴权方面的检查的。我们推荐使用 [RBAC](/docs/tasks/security/role-based-access-control/) 来给不同的路径配置不同的授权策略。
+也就是说，如果不能把所有服务都迁移到 Istio (进行 Sidecar 注入)的话，就只能使用 `PERMISSIVE` 模式了。然而在配置为 `PERMISSIVE` 的时候，是不会对明文流量进行授权和鉴权方面的检查的。我们推荐使用 [RBAC](/zh/docs/tasks/security/role-based-access-control/) 来给不同的路径配置不同的授权策略。
 
 ## 清理
 

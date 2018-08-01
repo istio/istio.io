@@ -11,9 +11,9 @@ aliases:
 
 ## 开始之前
 
-1. 按照[安装指南](/docs/setup/kubernetes/quick-start/)在 Kubernetes 集群上设置 Istio。
+1. 按照[安装指南](/zh/docs/setup/kubernetes/quick-start/)在 Kubernetes 集群上设置 Istio。
 
-1. 部署 [Bookinfo](/docs/examples/bookinfo/) 示例应用。
+1. 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用。
 
     Bookinfo 例子中需要部署三个版本的 `reviews` 服务：
 
@@ -218,4 +218,4 @@ spec:
     $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
-1. 如果不准备尝试后续任务，可参考 [Bookinfo 清理](/docs/examples/bookinfo/#cleanup) 的介绍关停应用。
+1. 如果不准备尝试后续任务，可参考 [Bookinfo 清理](/zh/docs/examples/bookinfo/#清理) 的介绍关停应用。

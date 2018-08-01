@@ -90,7 +90,7 @@ $ kubectl replace -f <(istioctl kube-inject \
 
 或者
 
-- 使用将 `docker.io/istio/proxyv2:0.8.0` 作为代理镜像的 `injectConfigFile`。如果没有 `injectConfigFile`，您可以 [生成一个](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection)。如果需要在多个 deployment 定义中添加 `sidecar.istio.io/proxyImage` annotation，推荐使用 `injectConfigFile`。
+- 使用将 `docker.io/istio/proxyv2:0.8.0` 作为代理镜像的 `injectConfigFile`。如果没有 `injectConfigFile`，您可以 [生成一个](/zh/docs/setup/kubernetes/sidecar-injection/#手工注入-sidecar)。如果需要在多个 deployment 定义中添加 `sidecar.istio.io/proxyImage` annotation，推荐使用 `injectConfigFile`。
 
     {{< text bash >}}
     $ kubectl replace -f <(istioctl kube-inject --injectConfigFile inject-config.yaml -f $ORIGINAL_DEPLOYMENT_YAML)
@@ -120,7 +120,7 @@ $ kubectl replace -f <(istioctl kube-inject \
 
 ## 通过 annotation 将身份验证策略迁移为启用 per-service 双向 TLS
 
-如果使用 service annotation 覆盖 service 的全局双向 TLS，则需要将其替换为 [认证策略](/docs/concepts/security/authn-policy/) 和 [目的规则](/docs/concepts/traffic-management/)。
+如果使用 service annotation 覆盖 service 的全局双向 TLS，则需要将其替换为 [认证策略](/zh/docs/concepts/security/#认证策略) 和 [目的规则](/zh/docs/concepts/traffic-management/)。
 
 例如，如果您在启用双向 TLS 的情况下安装 Istio，并使用如下所示的 service annotation 对 service `foo` 禁用它：
 

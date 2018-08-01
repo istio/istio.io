@@ -15,7 +15,7 @@ keywords: [security,mutual-tls,https]
 
 ## 开始之前
 
-按照下面的[快速开始](/docs/setup/kubernetes/quick-start/)设置 Istio。注意，在[安装步骤](/docs/setup/kubernetes/quick-start/#installation-steps)第5步中，身份验证应该被**禁用**。
+按照下面的[快速开始](/zh/docs/setup/kubernetes/quick-start/)设置 Istio。注意，在[安装步骤](/zh/docs/setup/kubernetes/quick-start/#安装步骤)第5步中，身份验证应该被**禁用**。
 
 ### 生成证书和 configmap
 

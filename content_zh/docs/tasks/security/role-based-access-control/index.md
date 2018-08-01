@@ -5,17 +5,17 @@ weight: 40
 keywords: [security,access-control,rbac,authorization]
 ---
 
-在服务网格中为服务进行授权控制（基于角色的访问控制）时，会涉及到本例中包含的一系列操作。在[授权](/docs/concepts/security/#authorization)一节中讲述了更多这方面的内容，并且还有一个基本的 Istio 安全方面的教程。
+在服务网格中为服务进行授权控制（基于角色的访问控制）时，会涉及到本例中包含的一系列操作。在[授权](/zh/docs/concepts/security/#授权和鉴权)一节中讲述了更多这方面的内容，并且还有一个基本的 Istio 安全方面的教程。
 
 ## 开始之前
 
 本文活动开始之前，我们有如下假设：
 
-* 具有对[授权](/docs/concepts/security/#authorization)概念的了解。
+* 具有对[授权](/zh/docs/concepts/security/#授权和鉴权)概念的了解。
 
-* 在 Istio 中遵循[快速入门](/docs/setup/kubernetes/quick-start/)的步骤 **启用了认证功能**，这个教程对双向 TLS 有依赖，因此要在[安装步骤](/docs/setup/kubernetes/quick-start/#installation-steps)中启用双向 TLS 认证。
+* 在 Istio 中遵循[快速入门](/zh/docs/setup/kubernetes/quick-start/)的步骤 **启用了认证功能**，这个教程对双向 TLS 有依赖，因此要在[安装步骤](/zh/docs/setup/kubernetes/quick-start/#安装步骤)中启用双向 TLS 认证。
 
-* 部署 [Bookinfo](/docs/examples/bookinfo/) 示例应用。
+* 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用。
 
 * 这个任务里，我们会在 Service account 的基础上启用访问控制，在网格中进行加密的认证。为了给不同的微服务以不同的访问授权，就需要建立一系列不同的 Service account，用这些账号来分别运行 Bookinfo 中的微服务。
 

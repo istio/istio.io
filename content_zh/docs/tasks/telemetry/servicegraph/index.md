@@ -8,11 +8,11 @@ keywords: [telemetry,visualization]
 此任务说明如何在Istio网格中生成服务图。
 作为此任务的一部分，您将安装 Servicegraph 附加组件,使用基于 Web 的界面查看服务网格的服务图。
 
-[Bookinfo](/docs/examples/bookinfo/) 示例应用程序在整个任务中用作示例应用程序。
+[Bookinfo](/zh/docs/examples/bookinfo/) 示例应用程序在整个任务中用作示例应用程序。
 
 ## 前提条件
 
-* 在您的群集中[安装 Istio](/docs/setup/) 并部署应用程序。
+* 在您的群集中[安装 Istio](/zh/docs/setup/) 并部署应用程序。
 
 ## 生成服务图
 
@@ -44,7 +44,7 @@ keywords: [telemetry,visualization]
 
     刷新页面几次（或发送命令几次）以产生少量流量。
 
-    > `$GATEWAY_URL` 是[Bookinfo](/docs/examples/bookinfo/) 示例中设置的值。
+    > `$GATEWAY_URL` 是[Bookinfo](/zh/docs/examples/bookinfo/) 示例中设置的值。
 
 1.  打开 Servicegraph UI。
 
@@ -99,4 +99,4 @@ Servicegraph 示例建立在 Prometheus 查询之上，取决于标准的 Istio 
     $ kubectl delete -f install/kubernetes/addons/servicegraph.yaml
     {{< /text >}}
 
-* 如果您不打算探索任何后续任务，请参阅[Bookinfo 清理](/docs/examples/bookinfo/#cleanup) 说明以关闭应用程序。
+* 如果您不打算探索任何后续任务，请参阅[Bookinfo 清理](/zh/docs/examples/bookinfo/#清理) 说明以关闭应用程序。

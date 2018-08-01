@@ -8,11 +8,11 @@ page_icon: /img/notes.svg
 
 ## 网络
 
-- **重构网络管理模型**：[新的流量管理 API](/blog/2018/v1alpha3-routing/) 业已就绪。新的模型覆盖了更多真实世界的部署[用例](/docs/tasks/traffic-management/)，更加易于理解和使用。如果要从早期部署中进行升级，这里提供了[升级指南](/docs/setup/kubernetes/upgrading-istio/)，并且在 `istioctl` 中加入了转换工具，帮助用户对旧版本配置进行升级。
+- **重构网络管理模型**：[新的流量管理 API](/zh/blog/2018/v1alpha3-routing/) 业已就绪。新的模型覆盖了更多真实世界的部署[用例](/zh/docs/tasks/traffic-management/)，更加易于理解和使用。如果要从早期部署中进行升级，这里提供了[升级指南](/zh/docs/setup/kubernetes/upgrading-istio/)，并且在 `istioctl` 中加入了转换工具，帮助用户对旧版本配置进行升级。
 
 - **Envoy 配置传播**：新版本中，Pilot 缺省使用 Envoy 的 [ADS API](https://github.com/envoyproxy/data-plane-api/blob/master/XDS_PROTOCOL.md) 进行配置传播。这种新方法提高了稳定性、降低了生效延迟，应该也解决了之前的方法造成的 404 错误。
 
-- **Ingress/Egress Gateway**：路由规则不再提供对 Kubernetes Ingress 规范的支持，这种支持曾经导致了大量的 Bug 和可靠性问题。Istio 现在为 Ingress 和 Egress 代理提供了平台独立的 [Gateway](/docs/concepts/traffic-management/#gateways) 模型。新模型能够很好的和 Kubernetes 以及 Cloud Foundry 协作，并可以无缝应用路由能力。Gateway 支持基于 [服务器命名认证（SNI）](https://en.wikipedia.org/wiki/Server_Name_Indication) 的路由功能，并且能够根据客户端要求的服务器名称提供证书。
+- **Ingress/Egress Gateway**：路由规则不再提供对 Kubernetes Ingress 规范的支持，这种支持曾经导致了大量的 Bug 和可靠性问题。Istio 现在为 Ingress 和 Egress 代理提供了平台独立的 [Gateway](/zh/docs/concepts/traffic-management/#gateway) 模型。新模型能够很好的和 Kubernetes 以及 Cloud Foundry 协作，并可以无缝应用路由能力。Gateway 支持基于 [服务器命名认证（SNI）](https://en.wikipedia.org/wiki/Server_Name_Indication) 的路由功能，并且能够根据客户端要求的服务器名称提供证书。
 
 - **有约束的入站端口**：目前会根据 Pod 中运行的应用定义，对入站端口进行限制。
 
@@ -22,7 +22,7 @@ page_icon: /img/notes.svg
 
 - **多集群支持**：在多集群部署中能够支持每集群的 Citadel 部署，所有的 Citadel 共享同样的根证书，工作负载之间能够进行跨网格认证。
 
-- **认证策略**：我们为[认证策略](/docs/tasks/security/authn-policy/)提供了统一的 API，管理范围涵盖了服务间的双向 TLS 认证和最终用户认证。我们推荐使用认证策略来管理认证的相关行为。
+- **认证策略**：我们为[认证策略](/zh/docs/tasks/security/authn-policy/)提供了统一的 API，管理范围涵盖了服务间的双向 TLS 认证和最终用户认证。我们推荐使用认证策略来管理认证的相关行为。
 
 ## 遥测
 

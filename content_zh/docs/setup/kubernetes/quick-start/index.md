@@ -11,7 +11,7 @@ keywords: [kubernetes]
 
 下面的操作说明需要您可以访问 Kubernetes **1.9 或更高版本**的集群，并且启用了。[RBAC (基于角色的访问控制)](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)。您需要安装了 **1.9  或更高版本**的 `kubectl` 命令。
 
-如果您希望启用[自动注入 sidecar](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)，您必须使用 Kubernetes 1.9 或更高版本。
+如果您希望启用[自动注入 sidecar](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)，您必须使用 Kubernetes 1.9 或更高版本。
 
   > 如果您安装的是 Istio 0.2.x，在安装新版本之前请将其完全[卸载](https://archive.istio.io/v0.2/docs/setup/kubernetes/quick-start#uninstalling)（包括所有启用了 Istio 的 Pod 中的sidecar）。
 
@@ -250,9 +250,9 @@ $ kubectl describe pod --namespace kube-system $(kubectl get pods --namespace ku
 
 ## 安装步骤
 
-安装 Istio 的核心部分。从以下四种_**非手动**_部署方式中选择一种方式安装。然而，我们推荐您在生产环境时使用 [Helm Chart](/docs/setup/kubernetes/helm-install/) 来安装 Istio，这样可以按需定制配置选项。
+安装 Istio 的核心部分。从以下四种_**非手动**_部署方式中选择一种方式安装。然而，我们推荐您在生产环境时使用 [Helm Chart](/zh/docs/setup/kubernetes/helm-install/) 来安装 Istio，这样可以按需定制配置选项。
 
-*  安装 Istio 而不启用 sidecar 之间的[双向 TLS 验证](/docs/concepts/security/#mutual-tls-authentication)。对于现有应用程序的集群，使用 Istio sidecar 的服务需要能够与其他非 Istio Kubernetes 服务以及使用[存活和就绪探针](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)、headless 服务或 `StatefulSets` 的应用程序通信的应用程序选择此选项。
+*  安装 Istio 而不启用 sidecar 之间的[双向 TLS 验证](/zh/docs/concepts/security/#双向-tls-认证)。对于现有应用程序的集群，使用 Istio sidecar 的服务需要能够与其他非 Istio Kubernetes 服务以及使用[存活和就绪探针](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)、headless 服务或 `StatefulSets` 的应用程序通信的应用程序选择此选项。
 
 {{< text bash >}}
 $ kubectl apply -f install/kubernetes/istio.yaml
@@ -268,11 +268,11 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
 
 或者
 
-*  [使用 Helm 渲染出 Kubernetes 配置清单然后使用 `kubectl` 部署](/docs/setup/kubernetes/helm-install/#option-1-install-with-helm-via-helm-template)
+*  [使用 Helm 渲染出 Kubernetes 配置清单然后使用 `kubectl` 部署](/zh/docs/setup/kubernetes/helm-install/#选项1-通过-helm-template-安装-helm)
 
 或者
 
-*  [使用 Helm 和 Tiller 管理 Istio 部署](/docs/setup/kubernetes/helm-install/#option-2-install-with-helm-and-tiller-via-helm-install)
+*  [使用 Helm 和 Tiller 管理 Istio 部署](/zh/docs/setup/kubernetes/helm-install/#选项2-通过-helm-install-安装-helm-和-tiller)
 
 ## 确认安装
 
@@ -310,10 +310,10 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
 
 ## 部署应用
 
-您可以部署自己的应用或者示例应用程序如 [Bookinfo](/docs/examples/bookinfo/)。
+您可以部署自己的应用或者示例应用程序如 [Bookinfo](/zh/docs/examples/bookinfo/)。
 注意：应用程序必须使用 HTTP/1.1 或 HTTP/2.0 协议来传递 HTTP 流量，因为 HTTP/1.0 已经不再支持。
 
-如果您启动了 [Istio-Initializer](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)，如上所示，您可以使用 `kubectl create` 直接部署应用。Istio-Initializer 会向应用程序的 Pod 中自动注入 Envoy 容器，如果运行 Pod 的 namespace 被标记为 `istio-injection=enabled` 的话：
+如果您启动了 [Istio-Initializer](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)，如上所示，您可以使用 `kubectl create` 直接部署应用。Istio-Initializer 会向应用程序的 Pod 中自动注入 Envoy 容器，如果运行 Pod 的 namespace 被标记为 `istio-injection=enabled` 的话：
 
 {{< text bash >}}
 $ kubectl label namespace <namespace> istio-injection=enabled
@@ -338,10 +338,10 @@ $ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 $ kubectl delete -f install/kubernetes/istio.yaml
 {{< /text >}}
 
-否则使用 [Helm 卸载 Istio](/docs/setup/kubernetes/helm-install/#uninstall)。
+否则使用 [Helm 卸载 Istio](/zh/docs/setup/kubernetes/helm-install/#卸载)。
 
 ## 下一步
 
-* 查看 [Bookinfo](/docs/examples/bookinfo/) 应用程序示例
+* 查看 [Bookinfo](/zh/docs/examples/bookinfo/) 应用程序示例
 
-* 查看如何[验证 Istio 双向 TLS 认证](/docs/tasks/security/mutual-tls/)
+* 查看如何[验证 Istio 双向 TLS 认证](/zh/docs/tasks/security/mutual-tls/)
