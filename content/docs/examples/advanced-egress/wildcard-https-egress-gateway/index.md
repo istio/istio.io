@@ -208,8 +208,10 @@ deploy an SNI forward proxy in addition to Envoy. Envoy will route the requests 
 forward proxy, which, in turn, will forward the request to the destination by the value of SNI. Let's reconfigure our
 access to _*.wikipedia.org_ to support HTTPS traffic to arbitrary wildcarded domains.
 
-1.  Create a new egress gateway, call it, for example, `istio-egressgateway-with-sni-proxy`. The following command will
-    generate `istio-egressgateway-with-sni-proxy.yaml`.
+
+### Prepare a new egress gateway with an SNI proxy
+
+1.  The following command will generate `istio-egressgateway-with-sni-proxy.yaml` to edit and deploy.
 
     {{< text bash >}}
     $ cat <<EOF | helm template install/kubernetes/helm/istio/ --name istio-egressgtateway-with-sni-proxy --namespace istio-system -x charts/gateways/templates/deployment.yaml -x charts/gateways/templates/service.yaml -x charts/gateways/templates/serviceaccount.yaml -x charts/gateways/templates/autoscale.yaml -x charts/gateways/templates/clusterrole.yaml -x charts/gateways/templates/clusterrolebindings.yaml --set  global.mtls.enabled=true -f - > $HOME/istio-egressgateway-with-sni-proxy.yaml
@@ -312,6 +314,41 @@ to hold the configuration of the Nginx SNI proxy:
     horizontalpodautoscaler "istio-egressgateway-with-sni-proxy" created
     {{< /text >}}
 
+1.  Create a service entry with a static address equal to localhost, and disable mTLS on the traffic directed to the new
+    service entry:
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: sni-proxy
+    spec:
+      hosts:
+      - sni-proxy.local
+      location: MESH_EXTERNAL
+      ports:
+      - number: 8443
+        name: tcp
+        protocol: TCP
+      resolution: STATIC
+      endpoints:
+      - address: 127.0.0.1
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: disable-mtls-for-sni-proxy
+    spec:
+      host: sni-proxy.local
+      trafficPolicy:
+        tls:
+          mode: DISABLE
+    EOF
+    {{< /text >}}
+
+### Configure access to _*.wikipedia.org_ using the egress gateway with SNI proxy
+
 1.  Define a `ServiceEntry` for `*.wikipedia.org`:
 
     {{< text bash >}}
@@ -338,29 +375,6 @@ to hold the configuration of the Nginx SNI proxy:
     <title>Wikipedia, the free encyclopedia</title>
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
-
-1.  Create a service entry with a static address equal to localhost:
-
-    {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
-    apiVersion: networking.istio.io/v1alpha3
-    kind: ServiceEntry
-    metadata:
-      name: sni-proxy
-    spec:
-      hosts:
-      - sni-proxy.local
-      location: MESH_EXTERNAL
-      ports:
-      - number: 8443
-        name: tcp
-        protocol: TCP
-      resolution: STATIC
-      endpoints:
-      - address: 127.0.0.1
-    EOF
-    {{< /text >}}
-
 
 1.  Create an egress `Gateway` for _*.wikipedia.org_, port 443, protocol TLS, a destination rule to set the
     [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) for the gateway, and a virtual service to direct the
@@ -447,16 +461,6 @@ to hold the configuration of the Nginx SNI proxy:
             port:
               number: 8443
           weight: 100
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
-      name: disable-mtls-for-sni-proxy
-    spec:
-      host: sni-proxy.local
-      trafficPolicy:
-        tls:
-          mode: DISABLE
     EOF
     {{< /text >}}
 
@@ -489,18 +493,25 @@ to hold the configuration of the Nginx SNI proxy:
 
 ### Cleanup of HTTPS traffic configuration to arbitrary wildcarded domains
 
-1.  Delete the configuration items you created:
+1.  Delete the configuration items for _*.wikipedia.org_:
 
     {{< text bash >}}
-    $ kubectl delete serviceentry wikipedia sni-proxy
+    $ kubectl delete serviceentry wikipedia
     $ kubectl delete gateway istio-egressgateway-with-sni-proxy
     $ kubectl delete virtualservice direct-wikipedia-through-egress-gateway
-    $ kubectl delete destinationrule set-sni-for-egress-gateway disable-mtls-for-sni-proxy
+    $ kubectl delete destinationrule set-sni-for-egress-gateway
+    {{< /text >}}
+
+1.  Delete the configuration items for the `egressgateway-with-sni-proxy` `Deployment`:
+
+    {{< text bash >}}
+    $ kubectl delete serviceentry sni-proxy
+    $ kubectl delete destinationrule disable-mtls-for-sni-proxy
     $ kubectl delete -f $HOME/istio-egressgateway-with-sni-proxy.yaml
     $ kubectl delete configmap egress-sni-proxy-configmap -n istio-system
     {{< /text >}}
 
-1. Remove the configuration files you created
+1.  Remove the configuration files you created:
 
     {{< text bash >}}
     $ rm $HOME/istio-egressgateway-with-sni-proxy.yaml
