@@ -7,7 +7,7 @@ aliases:
     - /docs/tasks/ingress.html
 ---
 
-> 注意：此任务使用新的 [v1alpha3 流量管理 API](/blog/2018/v1alpha3-routing/)。旧的 API 已被弃用，将在下一个 Istio 版本中删除。如果您需要使用旧版本，请按照[此处](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)的文档操作。
+> 注意：此任务使用新的 [v1alpha3 流量管理 API](/zh/blog/2018/v1alpha3-routing/)。旧的 API 已被弃用，将在下一个 Istio 版本中删除。如果您需要使用旧版本，请按照[此处](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)的文档操作。
 
 在 Kubernetes 环境中，[Kubernetes Ingress 资源](https://kubernetes.io/docs/concepts/services-networking/ingress/) 用于指定应在群集外部公开的服务。在 Istio 服务网格中，更好的方法（也适用于 Kubernetes 和其他环境）是使用不同的配置模型，即 [Istio Gateway](/docs/reference/config/istio.networking.v1alpha3/#Gateway) 。 `Gateway` 允许将 Istio 功能（例如，监控和路由规则）应用于进入群集的流量。
 
@@ -15,13 +15,13 @@ aliases:
 
 ## 前提条件
 
-* 按照[安装指南中](/docs/setup/)的说明设置 Istio 。
+* 按照[安装指南中](/zh/docs/setup/)的说明设置 Istio 。
 
 * 确保您当前的目录是 `istio` 目录。
 
 * 启动 [httpbin]({{< github_tree >}}/samples/httpbin) 样本，该样本将用作要在外部公开的目标服务。
 
-  如果您已启用[自动注入 sidecar](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)，请执行
+  如果您已启用[自动注入 sidecar](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)，请执行
 
 {{< text bash >}}
 $ kubectl apply -f @samples/httpbin/httpbin.yaml@

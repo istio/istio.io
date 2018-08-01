@@ -4,9 +4,9 @@ description: 此任务描述 Istio 如何配置出口流量的 TLS
 weight: 42
 ---
 
-> 注意：此任务使用新的 [v1alpha3 流量管理 API](/blog/2018/v1alpha3-routing/)。旧的 API 已被弃用，将在下一个 Istio 版本中删除。如果您需要使用旧版本，请按照[此处](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)的文档操作。
+> 注意：此任务使用新的 [v1alpha3 流量管理 API](/zh/blog/2018/v1alpha3-routing/)。旧的 API 已被弃用，将在下一个 Istio 版本中删除。如果您需要使用旧版本，请按照[此处](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)的文档操作。
 
-[控制出口流量](/docs/tasks/traffic-management/egress/)任务演示了如何从网格内部的应用程序访问 Kubernetes 集群外部的 HTTP 和 HTTPS 服务, 如该主题中所述，默认情况下，启用了 Istio 的应用程序无法访问群集外的 URL, 要启用外部访问，必须定义外部服务的[`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry)，或者[直接访问外部服务](/docs/tasks/traffic-management/egress/#calling-external-services-directly)。
+[控制出口流量](/zh/docs/tasks/traffic-management/egress/)任务演示了如何从网格内部的应用程序访问 Kubernetes 集群外部的 HTTP 和 HTTPS 服务, 如该主题中所述，默认情况下，启用了 Istio 的应用程序无法访问群集外的 URL, 要启用外部访问，必须定义外部服务的[`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry)，或者[直接访问外部服务](/zh/docs/tasks/traffic-management/egress/#直接调用外部服务)。
 
 此任务描述 Istio 如何配置出口流量的 TLS。
 
@@ -18,11 +18,11 @@ weight: 42
 
 ## 前提条件
 
-* 按照[安装指南](/docs/setup/)中的说明设置 Istio 。
+* 按照[安装指南](/zh/docs/setup/)中的说明设置 Istio 。
 
 *   启动 [sleep]({{< github_tree >}}/samples/sleep) 示例，它将作为外部调用的测试源。
 
-    如果您已启用[自动注入 sidecar](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), 请按如下命令部署 `sleep` 应用程序:
+    如果您已启用[自动注入 sidecar](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入), 请按如下命令部署 `sleep` 应用程序:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@
@@ -44,7 +44,7 @@ weight: 42
 
 ## 配置 HTTP 和 HTTPS 外部服务
 
-首先，与[控制出口流量](/docs/tasks/traffic-management/egress/)任务相同的方式配置对 _cnn.com_ 的访问。
+首先，与[控制出口流量](/zh/docs/tasks/traffic-management/egress/)任务相同的方式配置对 _cnn.com_ 的访问。
 请注意，在 `hosts` 中定义中使用 `*` 通配符：`*.cnn.com` , 使用通配符可以访问 _www.cnn.com_ 以及 _edition.cnn.com_ 。
 
 1.  创建一个 `ServiceEntry` 以允许访问外部 HTTP 和 HTTPS 服务：

@@ -16,7 +16,7 @@ page_icon: /img/cadence.svg
 |LTS 版本      | 在下一个 LTS 之后的 3 个月内提供支持 | 安全地部署在生产中。建议用户尽快升级到这些版本。
 |补丁          | 与相应的 Snapshot/LTS 版本相同 | 鼓励用户在给定版本可用时立即采用补丁版本。
 
-您可以在[发布页面](https://github.com/istio/istio/releases)上找到可用的版本，如果您是冒险类型，您可以在[每日构建 wiki](https://github.com/istio/istio/wiki/Daily-builds) 上了解我们的每日构建。您可以在[此处](/about/notes)找到每个 LTS 版本的高级发行说明。
+您可以在[发布页面](https://github.com/istio/istio/releases)上找到可用的版本，如果您是冒险类型，您可以在[每日构建 wiki](https://github.com/istio/istio/wiki/Daily-builds) 上了解我们的每日构建。您可以在[此处](/zh/about/notes)找到每个 LTS 版本的高级发行说明。
 
 ## 命名模式
 
