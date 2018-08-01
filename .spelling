@@ -462,6 +462,7 @@ AppSwitch
 bitpipe
 datapath
 decapsulated
+Delayering
 Devirtualization
 FDs
 fine-grained
