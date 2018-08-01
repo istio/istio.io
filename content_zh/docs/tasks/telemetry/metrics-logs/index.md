@@ -9,11 +9,11 @@ aliases:
 
 本任务展示了配置 Istio，对网格内服务的遥测数据进行自动收集的方法。在任务的后一部分，会创建一个新的指标以及新的日志流，并在网格内的服务被调用时触发收集过程。
 
-这里会使用 [Bookinfo](/docs/examples/bookinfo/) 作为示例应用。
+这里会使用 [Bookinfo](/zh/docs/examples/bookinfo/) 作为示例应用。
 
 ## 开始之前
 
-* 在集群之中[安装 Istio](/docs/setup)。本文中假设 Mixer 使用的是缺省配置（`--configDefaultNamespace=istio-system`）。如果使用的是不同的值，需要根据实际情况对文中提及的的配置和命令进行变更。
+* 在集群之中[安装 Istio](/zh/docs/setup)。本文中假设 Mixer 使用的是缺省配置（`--configDefaultNamespace=istio-system`）。如果使用的是不同的值，需要根据实际情况对文中提及的的配置和命令进行变更。
 
 ## 收集新的遥测数据
 
@@ -147,7 +147,7 @@ aliases:
     istio_double_request_count{destination="reviews.default.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="productpage.default.svc.cluster.local"} 2
     {{< /text >}}
 
-    要查询更多的指标数据，可以参考[查询 Istio 指标](/docs/tasks/telemetry/querying-metrics/)任务
+    要查询更多的指标数据，可以参考[查询 Istio 指标](/zh/docs/tasks/telemetry/querying-metrics/)任务
 
 1. 检查请求过程中生成和处理的日志流。
 
@@ -217,4 +217,4 @@ aliases:
     $ istioctl delete -f new_telemetry.yaml
     {{< /text >}}
 
-* 如果不准备进一步的探索其他任务，可参照 [Bookinfo 清理](/docs/examples/bookinfo/#cleanup) 的介绍关闭应用。
+* 如果不准备进一步的探索其他任务，可参照 [Bookinfo 清理](/zh/docs/examples/bookinfo/#清理) 的介绍关闭应用。

@@ -26,7 +26,7 @@ Mixer 服务作为 Istio 和一套开放式基础设施之间的抽象层。Isti
 
 ## 设计哲学
 
-Mixer 本质上就是一个处理属性和路由的机器。代理将[属性](/docs/concepts/policies-and-telemetry/#attributes)作为预检和遥测报告的一部分发送出来，并且转换为一系列对适配器的调用。运维人员提供了用于描述如何将传入的属性映射为适配器的配置。
+Mixer 本质上就是一个处理属性和路由的机器。代理将[属性](/zh/docs/concepts/policies-and-telemetry/#属性)作为预检和遥测报告的一部分发送出来，并且转换为一系列对适配器的调用。运维人员提供了用于描述如何将传入的属性映射为适配器的配置。
 
 {{< image width="60%" ratio="42.60%"
     link="/docs/concepts/policies-and-telemetry/machine.svg"
@@ -39,7 +39,7 @@ Mixer 本质上就是一个处理属性和路由的机器。代理将[属性](/d
 
 Mixer 使用的每个适配器都需要一些配置才能运行。一般来说，适配器需要一些信息。例如，到后端的 URL 、证书、缓存选项等等。每个适配器使用一个 [protobuf](https://developers.google.com/protocol-buffers/) 消息来定义所需要的配置数据。
 
-你可以通过创建 [*handlers*](/docs/concepts/policies-and-telemetry/#handlers) 为适配器提供配置。Handler 就是一套能让一个适配器就绪的完整配置。对同一个适配器可以有任意数量的 Handler，这样就可以在不同的场景下复用了。
+你可以通过创建 [*handler*](/zh/docs/concepts/policies-and-telemetry/#处理器-handler) 为适配器提供配置。Handler 就是一套能让一个适配器就绪的完整配置。对同一个适配器可以有任意数量的 Handler，这样就可以在不同的场景下复用了。
 
 ## Templates: 适配输入结构
 
@@ -51,15 +51,15 @@ Mixer 使用的每个适配器都需要一些配置才能运行。一般来说�
 
 ## Instances: 属性映射
 
-你可以通过创建 [*instances*](/docs/concepts/policies-and-telemetry/#instances) 来决定哪些数据被传递给特定的适配器。Instances 决定了 Mixer 如何通过 [attributes](/docs/concepts/policies-and-telemetry/#attributes) 把来自代理的属性拆分为各种数据然后分发给不同的适配器。
+你可以通过创建 [*instances*](/zh/docs/concepts/policies-and-telemetry/#实例-instance) 来决定哪些数据被传递给特定的适配器。Instances 决定了 Mixer 如何通过 [attributes](/zh/docs/concepts/policies-and-telemetry/#属性) 把来自代理的属性拆分为各种数据然后分发给不同的适配器。
 
-创建实例通常需要使用 [attribute expressions](/docs/concepts/policies-and-telemetry/#attribute-expressions) 。这些表达式的功能是使用属性和常量来生成结果数据，用于给instance字段进行赋值。
+创建实例通常需要使用 [attribute expressions](/zh/docs/concepts/policies-and-telemetry/#属性表达式) 。这些表达式的功能是使用属性和常量来生成结果数据，用于给instance字段进行赋值。
 
 在模板中定义的每个 instance 字段、每个属性、每个表达式都有一个 [type](https://github.com/istio/api/blob/master/policy/v1beta1/value_type.proto)，只有兼容的数据类型才能进行赋值。例如不能把整型的表达式赋值给字符串类型。强类型设计的目的就是为了降低配置出错引发的风险。
 
 ## Rules: 将数据交付给适配器
 
-最后一个问题就是告诉 Mixer 哪个 instance 在什么时候发送给哪个 handler。这个通过创建 [*rules*](/docs/concepts/policies-and-telemetry/#rules) 实现。每个规则都会指定一个特定的处理程序和要发送给该处理程序的示例。当 Mixer 处理一个调用时，它会调用指定的处理程序，并给他一组特定的处理实例。
+最后一个问题就是告诉 Mixer 哪个 instance 在什么时候发送给哪个 handler。这个通过创建 [*rules*](/zh/docs/concepts/policies-and-telemetry/#规则-rule) 实现。每个规则都会指定一个特定的处理程序和要发送给该处理程序的示例。当 Mixer 处理一个调用时，它会调用指定的处理程序，并给他一组特定的处理实例。
 
 Rule 中包含有匹配断言，这个断言是一个返回布尔值的属性表达式。只有属性表达式断言成功的 Rule 才会生效，否则这条规则就形同虚设，当然其中的 Handler 也不会被调用。
 
@@ -75,4 +75,4 @@ Rule 中包含有匹配断言，这个断言是一个返回布尔值的属性表
 
 Handler 为各个适配器提供了配置数据，Template 用于在运行时确定不同的适配器所需的数据类型，Instance 让运维人员准备这些数据，Rule 将这些数据提交给一个或多个 Handler 进行处理。
 
-更多信息可以关注[这里](/docs/concepts/policies-and-telemetry/)。更多关于 templates, handlers,和 rules 的内容可以关注[这里](/docs/reference/config/policy-and-telemetry/)。你也可以在[这里]({{< github_tree >}}/samples/bookinfo)找到对应的示例。
+更多信息可以关注[这里](/zh/docs/concepts/policies-and-telemetry/)。更多关于 templates, handlers,和 rules 的内容可以关注[这里](/docs/reference/config/policy-and-telemetry/)。你也可以在[这里]({{< github_tree >}}/samples/bookinfo)找到对应的示例。

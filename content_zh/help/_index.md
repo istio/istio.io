@@ -8,4 +8,4 @@ sidebar_singlecard: true
 page_icon: /img/help.svg
 ---
 
-不要忘记我们充满活力的[社区](/about/community/)随时准备为棘手的问题伸出援助之手。
+不要忘记我们充满活力的[社区](/zh/about/community/)随时准备为棘手的问题伸出援助之手。

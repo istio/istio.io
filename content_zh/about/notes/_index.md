@@ -19,7 +19,7 @@ aliases:
 - [Istio 0.2](./0.2)
 - [Istio 0.1](./0.1)
 
-最新的 Istio snapshot 版本是 {{< istio_version >}} （[发行说明](/about/notes/{{< istio_version >}}/)）。您可以使用下面的命令[下载 {{< istio_version >}}](https://github.com/istio/istio/releases)：
+最新的 Istio snapshot 版本是 {{< istio_version >}} （[发行说明](/zh/about/notes/{{< istio_version >}}/)）。您可以使用下面的命令[下载 {{< istio_version >}}](https://github.com/istio/istio/releases)：
 
 {{< text bash >}}
 $ curl -L https://git.io/getLatestIstio | sh -
