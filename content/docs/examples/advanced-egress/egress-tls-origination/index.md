@@ -9,13 +9,13 @@ The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task demons
 Kubernetes cluster, HTTP and HTTPS services can be accessed from applications inside the mesh. As described in that topic, by
 default Istio-enabled applications are unable to access URLs outside the cluster. To enable external access, a [`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) for the external service must be defined, or alternatively, [direct access to external services](/docs/tasks/traffic-management/egress/#calling-external-services-directly) must be configured.
 
-This task describes how to configure Istio to perform [TLS origination](/help/glossary/#tls-origination) for egress traffic.
+This example describes how to configure Istio to perform [TLS origination](/help/glossary/#tls-origination) for egress traffic.
 
 ## Use case
 
 Consider a legacy application that performs HTTP calls to external sites. Suppose the organization that operates the application receives a new requirement which states that all the external traffic must be encrypted. With Istio, such a requirement can be achieved just by configuration, without changing the code of the application.
 
-In this task, you configure Istio to open HTTPS connections to external services in cases the original traffic was HTTP. The application will send unencrypted HTTP requests as previously and Istio will encrypt the requests for the application.
+In this example, you configure Istio to open HTTPS connections to external services in cases the original traffic was HTTP. The application will send unencrypted HTTP requests as previously and Istio will encrypt the requests for the application.
 
 ## Before you begin
 
@@ -182,7 +182,7 @@ proxy needs to know exactly which host to access using HTTPS:
 
 ## Additional security considerations
 
-Note that the traffic between the application pod and the sidecar proxy on the local host is still unencrypted. It means that if an attacker was able to penetrate the node of your application, they would still be able to see the unencrypted communication on the local network of the node. In some environments a strict security requirement might exist that would state that all the traffic must be encrypted, even on the local network of the nodes. With such a strict requirement the applications should use HTTPS (TLS) only, the TLS origination described in this task will not be sufficient.
+Note that the traffic between the application pod and the sidecar proxy on the local host is still unencrypted. It means that if an attacker was able to penetrate the node of your application, they would still be able to see the unencrypted communication on the local network of the node. In some environments a strict security requirement might exist that would state that all the traffic must be encrypted, even on the local network of the nodes. With such a strict requirement the applications should use HTTPS (TLS) only, the TLS origination described in this example will not be sufficient.
 
 Also note that even for HTTPS originated by the application, the attacker could know that the requests to _cnn.com_ are being sent, by inspecting [Server Name Indication (SNI)](https://en.wikipedia.org/wiki/Server_Name_Indication). The _SNI_ field is sent unencrypted during the TLS handshake. Using HTTPS prevents the attackers from knowing specific topics and articles, it does not prevent the attackers from learning that _cnn.com_ is accessed.
 
