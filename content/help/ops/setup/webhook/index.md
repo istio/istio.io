@@ -13,11 +13,15 @@ webhook. With validating admission Webhooks, you may reject requests
 to enforce custom admission policies. With mutating admission
 Webhooks, you may change requests to enforce custom defaults.
 
+Istio uses `ValidatingAdmissionWebhooks` for validating Istio
+configuration and `MutatingAdmissionWebhooks` for automatically
+injected the sidecar proxy into user pods.
+
 The webhook setup guides assuming general familiarity with Kubernetes
 Dynamic Admission Webhooks. Consult the [Kubernetes API references](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.11/)) for
 detailed documentation of the mutating and validating webhook configuration.
 
-## Prerequisites
+## Verify Dynamic Admission Webhook Prerequisites
 
 See the [quick start prerequisites](https://istio.io/docs/setup/kubernetes/quick-start/#prerequisites)
 for Kubernetes provider specific setup instructions. Webhooks will not

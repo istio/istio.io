@@ -4,7 +4,7 @@ description: Describes Istio's use of Kubernetes webhooks for automatic sidecar 
 weight: 30
 ---
 
-Automatic sidecar injection adds the sidecar proxy into user created
+Automatic sidecar injection adds the sidecar proxy into user-created
 pods. It uses a `MutatingWebhook` to append the sidecar’s containers
 and volumes to each pod’s template spec during creation
 time. Injection can be scoped to particular sets of namespaces using
@@ -43,132 +43,132 @@ of injected sidecar when it was.
 1. Check the webhook's `namespaceSelector` to determine whether the
    webhook is scoped to opt-in or opt-out for the target namespace.
 
-The `namespaceSelector` for opt-in will look like the following:
+    The `namespaceSelector` for opt-in will look like the following:
 
-{{< text bash >}}
-$ kubectl get mutatingwebhookconfiguration istio-sidecar-injector -o yaml | grep "namespaceSelector:" -A5
-  namespaceSelector:
-    matchLabels:
-      istio-injection: enabled
-  rules:
-  - apiGroups:
-    - ""
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl get mutatingwebhookconfiguration istio-sidecar-injector -o yaml | grep "namespaceSelector:" -A5
+      namespaceSelector:
+        matchLabels:
+          istio-injection: enabled
+      rules:
+      - apiGroups:
+        - ""
+    {{< /text >}}
 
-The injection webhook will be invoked for pods created
-in namespaces with the `istio-injection=enabled` label.
+    The injection webhook will be invoked for pods created
+    in namespaces with the `istio-injection=enabled` label.
 
-{{< text bash >}}
-$ kubectl get namespace -L istio-injection
-NAME           STATUS    AGE       ISTIO-INJECTION
-default        Active    18d       enabled
-istio-system   Active    3d
-kube-public    Active    18d
-kube-system    Active    18d
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl get namespace -L istio-injection
+    NAME           STATUS    AGE       ISTIO-INJECTION
+    default        Active    18d       enabled
+    istio-system   Active    3d
+    kube-public    Active    18d
+    kube-system    Active    18d
+    {{< /text >}}
 
-The `namespaceSelector` for opt-out will look like the following:
+    The `namespaceSelector` for opt-out will look like the following:
 
-{{< text bash >}}
-$ kubectl get mutatingwebhookconfiguration istio-sidecar-injector -o yaml | grep "namespaceSelector:" -A5
-  namespaceSelector:
-    matchExpressions:
-    - key: istio-injection
-      operator: NotIn
-      values:
-      - disabled
-  rules:
-  - apiGroups:
-    - ""
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl get mutatingwebhookconfiguration istio-sidecar-injector -o yaml | grep "namespaceSelector:" -A5
+      namespaceSelector:
+        matchExpressions:
+        - key: istio-injection
+          operator: NotIn
+          values:
+          - disabled
+      rules:
+      - apiGroups:
+        - ""
+    {{< /text >}}
 
-The injection webhook will be invoked for pods created in namespaces
-without the `istio-injection=disabled` label.
+    The injection webhook will be invoked for pods created in namespaces
+    without the `istio-injection=disabled` label.
 
-{{< text bash >}}
-$ kubectl get namespace -L istio-injection
-NAME           STATUS    AGE       ISTIO-INJECTION
-default        Active    18d
-istio-system   Active    3d        disabled
-kube-public    Active    18d       disabled
-kube-system    Active    18d       disabled
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl get namespace -L istio-injection
+    NAME           STATUS    AGE       ISTIO-INJECTION
+    default        Active    18d
+    istio-system   Active    3d        disabled
+    kube-public    Active    18d       disabled
+    kube-system    Active    18d       disabled
+    {{< /text >}}
 
-Verify the application pod's namespace is labeled properly and (re) label accordingly, e.g.
+    Verify the application pod's namespace is labeled properly and (re) label accordingly, e.g.
 
-{{< text bash >}}
-$ kubectl label namespace istio-system istio-injection=disabled --overwrite
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl label namespace istio-system istio-injection=disabled --overwrite
+    {{< /text >}}
 
-(repeat for all namespaces in which the injection webhook should be invoked for new pods)
+    (repeat for all namespaces in which the injection webhook should be invoked for new pods)
 
-{{< text bash >}}
-$ kubectl label namespace default istio-injection=enabled --overwrite
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl label namespace default istio-injection=enabled --overwrite
+    {{< /text >}}
 
 1. Check default policy
 
-Check the default injection policy in the `istio-sidecar-injector` `configmap`.
+    Check the default injection policy in the `istio-sidecar-injector` `configmap`.
 
-{{< text bash >}}
-$ kubectl -n istio-system get configmap istio-sidecar-injector -o jsonpath='{.data.config}' | head
-policy: enabled
-template: |-
-  initContainers:
-  - name: istio-init
-    image: "docker.io/jasonayoung/proxy_init:d49fa0a7f7d17f25552ad749d23f8ac73596e0cc"
-    args:
-    - "-p"
-    - [[ .MeshConfig.ProxyListenPort ]]
-    - "-u"
-    - 1337
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl -n istio-system get configmap istio-sidecar-injector -o jsonpath='{.data.config}' | head
+    policy: enabled
+    template: |-
+      initContainers:
+      - name: istio-init
+        image: "docker.io/jasonayoung/proxy_init:d49fa0a7f7d17f25552ad749d23f8ac73596e0cc"
+        args:
+        - "-p"
+        - [[ .MeshConfig.ProxyListenPort ]]
+        - "-u"
+        - 1337
+    {{< /text >}}
 
-Allowed policy values are `disabled` and `enabled`. The default policy
-only applies if the webhook’s `namespaceSelector` matches the target
-namespace. Unrecognized policy values default to `disabled`.
+    Allowed policy values are `disabled` and `enabled`. The default policy
+    only applies if the webhook’s `namespaceSelector` matches the target
+    namespace. Unrecognized policy values default to `disabled`.
 
 1. Check the per-pod override annotation
 
-The default policy can be overwritten with the
-`sidecar.istio.io/inject` annotation in the _pod template spec’s
-metadata_. The deployment’s metadata is ignored. Annotation value of
-`true` forces the sidecar to be injected while a value of `false`
-forces the sidecar to _not_ be injected.
+    The default policy can be overridden with the
+    `sidecar.istio.io/inject` annotation in the _pod template spec’s metadata_.
+    The deployment’s metadata is ignored. Annotation value
+    of `true` forces the sidecar to be injected while a value of
+    `false` forces the sidecar to _not_ be injected.
 
-The following annotation overrides whatever the default `policy` was
-to force the sidecar to be injected.
+    The following annotation overrides whatever the default `policy` was
+    to force the sidecar to be injected.
 
-{{< text bash >}}
-$ kubectl get deployment sleep -o yaml | grep "sidecar.istio.io/inject:" -C3
-  template:
-    metadata:
-      annotations:
-        sidecar.istio.io/inject: "true"
-      labels:
-        app: sleep
-{{< /text >}}
+    {{< text bash yaml >}}
+    $ kubectl get deployment sleep -o yaml | grep "sidecar.istio.io/inject:" -C3
+    template:
+      metadata:
+        annotations:
+          sidecar.istio.io/inject: "true"
+        labels:
+          app: sleep
+    {{< /text >}}
 
 ## Pods cannot be created at all
 
-Run ```kubectl describe -n namespace deployment name``` on the failing
+Run `kubectl describe -n namespace deployment name` on the failing
 pod's deployment. Failure to invoke the injection webhook will
 typically will be captured in the event log.
 
-### `x509 certificate related errors`
+### x509 certificate related errors
 
-{{< text text >}}
+{{< text plain >}}
 Warning  FailedCreate  3m (x17 over 8m)  replicaset-controller  Error creating: Internal error occurred: \
     failed calling admission webhook "sidecar-injector.istio.io": Post https://istio-sidecar-injector.istio-system.svc:443/inject: \
     x509: certificate signed by unknown authority (possibly because of "crypto/rsa: verification error" while trying \
     to verify candidate authority certificate "Kubernetes.cluster.local")
 {{< /text >}}
 
-"x509: certificate signed by unknown authority" errors are typically
+`x509: certificate signed by unknown authority` errors are typically
 caused by an empty `caBundle` in the webhook configuration.
 
-1. Verify the `caBundle` in the mutatingwebhookconfiguration matches
-   the root certificate mounted in the `istio-sidecar-injector` pod.
+Verify the `caBundle` in the mutatingwebhookconfiguration matches the
+   root certificate mounted in the `istio-sidecar-injector` pod.
 
 {{< text bash >}}
 $ kubectl get mutatingwebhookconfiguration istio-sidecar-injector -o yaml -o jsonpath='{.webhooks[0].clientConfig.caBundle}' | md5sum
@@ -188,18 +188,18 @@ deployment.extensions "istio-sidecar-injector" patched
 
 In theory, the `caBundle` could be temporarily out of date with what
 the injector is used if multiple webhook replicas are in use. This
-should be a transient error state if the CA cert is rotated or install
-is re-installed.
+should be a transient error state if the CA certificate is rotated or
+install is re-installed.
 
 ### `no such hosts` or `no endpoints available` errors in deployment status
 
-Injection is fail close. If the `istio-sidecar-injector` pod is not ready, pods
+Injection is fail-close. If the `istio-sidecar-injector` pod is not ready, pods
 cannot be created. In such cases you’ll see an error about `no such
 host` (Kubernetes 1.9) or `no endpoints available` (>=1.10).
 
 Kubernetes 1.9:
 
-{{< text text >}}
+{{< text plain >}}
 Internal error occurred: failed calling admission webhook "istio-sidecar-injector.istio.io": \
     Post https://istio-sidecar-injector.istio-system.svc:443/admitPilot: dial tcp: lookup \
     istio-sidecar-injector.istio-system.svc on 169.254.169.254:53: no such host
@@ -207,7 +207,7 @@ Internal error occurred: failed calling admission webhook "istio-sidecar-injecto
 
 Kubernetes 1.10:
 
-{{< text text >}}
+{{< text plain >}}
 Internal error occurred: failed calling admission webhook "istio-sidecar-injector.istio.io": \
     Post https://istio-sidecar-injector.istio-system.svc:443/admitPilot?timeout=30s: \
     no endpoints available for service "istio-sidecar-injector"
@@ -233,9 +233,7 @@ serve traffic.
 $ for pod in $(kubectl -n istio-system get pod -listio=sidecar-injector -o jsonpath='{.items[*].metadata.name}'); do \
     kubectl -n istio-system logs ${pod} \
 done
-{{< /text >}}
 
-{{< text bash >}}
 $ for pod in $(kubectl -n istio-system get pod -listio=sidecar-injector -o name); do \
     kubectl -n istio-system describe ${pod} \
 done

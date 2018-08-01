@@ -22,7 +22,7 @@ and `rules` section. Both webhooks are scoped to all namespaces. The
 `namespaceSelector` should be empty. Both rules apply to Istio Custom
 Resource Definitions (CRDs).
 
-## Valid configuration is rejected
+## Seemingly valid configuration is rejected
 
 Manually verify your configuration is correct, cross-referencing
 [Istio API reference](https://istio.io/docs/reference/config) when
@@ -188,7 +188,7 @@ webhooks:
     rules:
       - operations:
       (... snip ...)
-  {{< /text >}}
+{{< /text >}}
 
 If the webhook array in `istio-galley-configuration` is empty and
 you're using `helm template` or `helm install`, verify `--set
@@ -196,9 +196,9 @@ galley.enabled` and `--set global.configValidation=true` options are
 set. If you're not using helm, you'll need to find a generate
 YAML that includes the populated webhook array.
 
-The istio-galley validation configuration is fail closed. If
+The `istio-galley` validation configuration is fail-close. If
 configuration exists and is scoped properly, the webhook will be
-invoked. A missing `caBundle`, bad cert, or network connectivity
+invoked. A missing `caBundle`, bad certificate, or network connectivity
 problem will produce an error message when the resource is
 created/updated. If you don’t see any error message and the webhook
 wasn’t invoked and the webhook configuration is valid, your cluster is
@@ -208,14 +208,14 @@ misconfigured.
 
 `x509: certificate signed by unknown authority` related errors are
 typically caused by an empty `caBundle` in the webhook
-configuration. Verify that it is non-empty (see "verify webhook
-configuration" above). The `istio-galley` deployment consciously
-reconciles webhook configuration used the `istio-galley-configuration`
-`configmap` and CA certificate mounted from
-`istio.istio-galley-service-account` secret in the `istio-system`
-namespace.
+configuration. Verify that it is not empty (see [verify webhook
+configuration](#invalid-configuration-is-accepted)). The
+`istio-galley` deployment consciously reconciles webhook configuration
+used the `istio-galley-configuration` `configmap` and root certificate
+mounted from `istio.istio-galley-service-account` secret in the
+`istio-system` namespace.
 
-1. Verify the istio-galley pods(s) are running:
+1. Verify the `istio-galley` pods(s) are running:
 
     {{< text bash >}}
     $  kubectl -n istio-system get pod -listio=galley
@@ -230,13 +230,13 @@ namespace.
 
     {{< text bash >}}
     $ for pod in $(kubectl -n istio-system get pod -listio=galley -o jsonpath='{.items[*].metadata.name}'); do \
-      kubectl -n istio-system exec ${pod} -it /usr/local/bin/galley version| grep ^Version; \
+        kubectl -n istio-system exec ${pod} -it /usr/local/bin/galley version| grep ^Version; \
     done
     Version: 1.0.0
     {{< /text >}}
 
-1. Check the galley pod logs for errors. Failing to patch the `caBundle`
-   should print an error.
+    1. Check the galley pod logs for errors. Failing to patch the `caBundle`
+       should print an error.
 
     {{< text bash >}}
     $ for pod in $(kubectl -n istio-system get pod -listio=galley -o jsonpath='{.items[*].metadata.name}'); do \
@@ -244,53 +244,52 @@ namespace.
     done
     {{< /text >}}
 
-1. If the patching failed, verify the RBAC configuration for the
-   galley.
+1. If the patching failed, verify the RBAC configuration for galley.
 
     {{< text bash yaml >}}
     $ kubectl get clusterrole istio-galley-istio-system -o yaml
-      apiVersion: rbac.authorization.k8s.io/v1
-      kind: ClusterRole
-      metadata:
-        labels:
-          app: istio-galley
-        name: istio-galley-istio-system
-      rules:
-      - apiGroups:
-        - admissionregistration.k8s.io
-        resources:
-        - validatingwebhookconfigurations
-        verbs:
-        - '*'
-      - apiGroups:
-        - config.istio.io
-        resources:
-        - '*'
-        verbs:
-        - get
-        - list
-        - watch
-      - apiGroups:
-        - '*'
-        resourceNames:
-        - istio-galley
-        resources:
-        - deployments
-        verbs:
-        - get
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      labels:
+        app: istio-galley
+      name: istio-galley-istio-system
+    rules:
+    - apiGroups:
+      - admissionregistration.k8s.io
+      resources:
+      - validatingwebhookconfigurations
+      verbs:
+      - '*'
+    - apiGroups:
+      - config.istio.io
+      resources:
+      - '*'
+      verbs:
+      - get
+      - list
+      - watch
+    - apiGroups:
+      - '*'
+      resourceNames:
+      - istio-galley
+      resources:
+      - deployments
+      verbs:
+      - get
     {{< /text >}}
 
-`istio-galley` needs `validatingwebhookconfigurations` write access to
-create and update the `istio-galley` `validatingwebhookconfiguration`.
+    `istio-galley` needs `validatingwebhookconfigurations` write access to
+    create and update the `istio-galley` `validatingwebhookconfiguration`.
 
-## Creating configuration fails with `no such hosts` or `no endpoints available` error
+## Creating configuration fails with `no such hosts` or `no endpoints available` errors
 
-Validation is fail close. If the `istio-galley` pod is not ready,
+Validation is fail-close. If the `istio-galley` pod is not ready,
 configuration cannot be created and updated.  In such cases you’ll see
 an error about `no such host` (Kubernetes 1.9) or `no endpoints
 available` (>=1.10).
 
-1. Verify the istio-galley pods(s) are running and endpoints are ready.
+Verify the istio-galley pods(s) are running and endpoints are ready.
 
 {{< text bash >}}
 $  kubectl -n istio-system get pod -listio=galley
