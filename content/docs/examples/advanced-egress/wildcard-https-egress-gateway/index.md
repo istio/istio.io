@@ -283,7 +283,7 @@ access to _*.wikipedia.org_ to support HTTPS traffic to arbitrary wildcarded dom
       # tcp forward proxy by SNI
       server {
         resolver 8.8.8.8 ipv6=off;
-        listen       127.0.0.1:443;
+        listen       127.0.0.1:8443;
         proxy_pass   \$ssl_preread_server_name:443;
         ssl_preread  on;
       }
