@@ -5,10 +5,10 @@ keywords: [traffic-management,egress]
 weight: 44
 ---
 
-The [Configure Egress Gateway](/docs/tasks/traffic-management/egress-gateway/) task, the
-[Direct HTTPS traffic through an egress gateway](/docs/tasks/traffic-management/egress-gateway/#direct-https-traffic-through-an-egress-gateway)
+The [Configure Egress Gateway](/docs/examples/advanced-egress/egress-gateway/) example, the
+[Direct HTTPS traffic through an egress gateway](/docs/examples/advanced-egress/egress-gateway/#direct-https-traffic-through-an-egress-gateway)
 section described how to configure an Istio egress gateway for HTTPS traffic for specific hostnames, like
-`edition.cnn.com`. This task explains how to enable an egress gateway for HTTPS traffic to a set of domains, for
+`edition.cnn.com`. This example explains how to enable an egress gateway for HTTPS traffic to a set of domains, for
 example to `*.wikipedia.org`, without the need to specify each and every host.
 
 ## Background
@@ -20,9 +20,9 @@ configuration items for all the _wikipedia_ sites, without the need to specify t
 
 ## Before you begin
 
-This task assumes you deployed Istio with mutual [mutual TLS Authentication](/docs/tasks/security/mutual-tls/)
-enabled. Follow the steps in the [Before you begin](/docs/tasks/traffic-management/egress-gateway/#before-you-begin)
-section of the [Configure an Egress Gateway](/docs/tasks/traffic-management/egress-gateway) task.
+This examples assumes you deployed Istio with mutual [mutual TLS Authentication](/docs/tasks/security/mutual-tls/)
+enabled. Follow the steps in the [Before you begin](/docs/examples/advanced-egress/egress-gateway/#before-you-begin)
+section of the [Configure an Egress Gateway](/docs/examples/advanced-egress/egress-gateway) example.
 
 ## Configure HTTPS traffic to _*.wikipedia.org_
 
