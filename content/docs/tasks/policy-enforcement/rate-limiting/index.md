@@ -55,7 +55,7 @@ so the configuration to enable rate limiting on both adapters is the same.
         * `memquota adapter` defines memquota adapter configuration.
         * `quota rule` defines when quota instance is dispatched to the memquota adapter.
 
-    Run the following command to enable rate limits using memquota.
+    Run the following command to enable rate limits using memquota:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-productpage-ratelimit.yaml@
@@ -155,7 +155,7 @@ so the configuration to enable rate limiting on both adapters is the same.
     ---
     {{< /text >}}
 
-    Run the following command to enable rate limits using redisquota.
+    Run the following command to enable rate limits using redisquota:
 
     {{< text bash >}}
     $ kubectl apply -f redisquota.yaml
@@ -193,7 +193,7 @@ so the configuration to enable rate limiting on both adapters is the same.
     `validDuration` field), if the `destination` is `reviews`.
     * The second is `2` requests every `5s`, if the `destination` is `productpage`.
 
-    When a request is sent to the first matching override is picked (reading from top to bottom).
+    When a request is processed, the first matching override is picked (reading from top to bottom).
 
     Or
 
@@ -228,8 +228,8 @@ so the configuration to enable rate limiting on both adapters is the same.
     {{< /text >}}
 
     The `redisquota` handler defines 4 different rate limit schemes. The default,
-    if no overrides match, is `500` requests per one second (`1s`). It is using ROLLING_WINDOW
-    algorithm for quota check and thus define `bucketDuration` of 500ms for ROLLING_WINDOW
+    if no overrides match, is `500` requests per one second (`1s`). It is using `ROLLING_WINDOW`
+    algorithm for quota check and thus define `bucketDuration` of 500ms for `ROLLING_WINDOW`
     algorithm. Three overrides are also defined:
 
     * The first is `1` request (the `maxAmount` field), if the `destination` is `reviews`.
@@ -237,7 +237,7 @@ so the configuration to enable rate limiting on both adapters is the same.
       is `10.28.11.20`
     * The third is `2`, if the `destination` is `productpage`.
 
-    When a request is sent to the first matching override is picked (reading from top to bottom).
+    When a request is processed, the first matching override is picked (reading from top to bottom).
 
 1. Confirm the `quota instance` was created:
 
@@ -255,7 +255,7 @@ so the configuration to enable rate limiting on both adapters is the same.
         destinationVersion: destination.labels["version"] | "unknown"
     {{< /text >}}
 
-    The `quota` template defines three dimensions that are used by `memquota\redisquota`
+    The `quota` template defines three dimensions that are used by `memquota` or `redisquota`
     to set overrides on requests that match certain attributes. The
     `destination` will be set to the first non-empty value in
     `destination.labels["app"]`, `destination.service.host`, or `"unknown"`. For
@@ -281,7 +281,7 @@ so the configuration to enable rate limiting on both adapters is the same.
     The `rule` tells Mixer to invoke the `handler.memquota\handler.redisquota` handler (created
     above) and pass it the object constructed using the instance
     `requestcount.quota` (also created above). This maps the
-    dimensions from the `quota` template to `memquota\redisquota` handler.
+    dimensions from the `quota` template to `memquota` or `redisquota` handler.
 
 1. Confirm the `QuotaSpec` was created:
 
@@ -357,7 +357,7 @@ spec:
     - requestcount.quota
 {{< /text >}}
 
-`memquota\redisquota` adapter is now dispatched only if `user=<username>` cookie is absent from the request.
+`memquota` or `redisquota` adapter is now dispatched only if `user=<username>` cookie is absent from the request.
 This ensures that a logged in user is not subject to this quota.
 
 1.  Verify that rate limit does not apply to a logged in user.
@@ -383,7 +383,7 @@ returns status `HTTP 429` to the caller.
 The `memquota` adapter uses a sliding window of sub-second resolution to
 enforce rate limits.
 
-The `redisquota` adapter can be configured to use either [ROLLING_WINDOW or FIXED_WINDOW](docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params-QuotaAlgorithm)
+The `redisquota` adapter can be configured to use either the [`ROLLING_WINDOW` or `FIXED_WINDOW`](/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params-QuotaAlgorithm)
 algorithms to enforce rate limits.
 
 The `maxAmount` in the adapter configuration sets the default limit for all
@@ -399,7 +399,7 @@ namespace.
 
 ## Cleanup
 
-1. Remove the `memquota` rate limit configuration, if using `memquota`:
+1. If using `memquota`, remove the `memquota` rate limit configuration:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml@
@@ -407,10 +407,10 @@ namespace.
 
     Or
 
-    Remove the `redisquota` rate limit configuration, if using `redisquota`:
+    If using `redisquota`, remove the `redisquota` rate limit configuration:
 
     {{< text bash >}}
-    $ kubectl delete -f @redisquota.yaml@
+    $ kubectl delete -f redisquota.yaml
     {{< /text >}}
 
 1. Remove the application routing rules:
