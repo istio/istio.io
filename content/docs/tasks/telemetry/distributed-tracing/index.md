@@ -56,16 +56,13 @@ The page should look something like this:
     caption="Detailed Trace View"
     >}}
 
-As you can see, the trace is comprised of spans,
+As you can see, the trace is comprised of a set of spans,
 where each span corresponds to a Bookinfo service invoked during the execution of a `/productpage` request.
-Although every service has the same label, `istio-proxy`, because the tracing is being done by
-the Istio sidecar (Envoy proxy) which wraps the call to the actual service,
-the label of the destination (to the right) identifies the service for which the time is represented by each line.
 
-The call from `productpage` to `reviews` is represented by two spans in the trace. The first of the two spans (labeled `productpage
-reviews.default.svc.cluster.local:9080/`) represents the client-side span for the call. It took 24.13ms . The second span
-(labeled `reviews reviews.default.svc.cluster.local:9080/`) is a child of the first span and represents the server-side
-span for the call. It took 22.99ms .
+Every RPC is represented by two spans in the trace. For example, the call from `productpage` to `reviews` starts
+with the span labeled `productpage reviews.default.svc.cluster.local:9080/`, which represents the client-side
+span for the call. It took 24.13ms. The second span (labeled `reviews reviews.default.svc.cluster.local:9080/`)
+is a child of the first span and represents the server-side span for the call. It took 22.99ms.
 
 The trace for the call to the `reviews` services reveals two subsequent RPC's in the trace. The first is to the `istio-policy`
 service, reflecting the server-side Check call made for the service to authorize access. The second is the call out to
