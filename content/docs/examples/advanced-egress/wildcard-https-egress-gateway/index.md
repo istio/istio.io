@@ -357,6 +357,7 @@ to hold the configuration of the Nginx SNI proxy:
           protocol: TLS
         hosts:
         - "*.wikipedia.org"
+        - sni-proxy.istio-system.svc.cluster.local
         tls:
           mode: MUTUAL
           serverCertificate: /etc/certs/cert-chain.pem
@@ -433,9 +434,9 @@ to hold the configuration of the Nginx SNI proxy:
           port: 443
         route:
         - destination:
-            host: sni-proxy
+            host: sni-proxy.istio-system.svc.cluster.local
             port:
-              number: 443
+              number: 8443
           weight: 100
     EOF
     {{< /text >}}
