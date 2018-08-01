@@ -242,26 +242,28 @@ access to _*.wikipedia.org_ to support HTTPS traffic to arbitrary wildcarded dom
     EOF
     {{< /text >}}
 
-1.  Edit the generated configuration file for the new egress gateway and add a definition of a container with Nginx
- proxy, to the `Deployment` of `istio-egressgateway-with-sni-proxy`. The definition is as follows:
+1.  Edit the generated configuration file `$HOME/istio-egressgateway-with-sni-proxy.yaml` for the new egress gateway.
 
-    {{< text yaml >}}
-    - name: sni-proxy
-      image: nginx
-      volumeMounts:
-      - name: sni-proxy-config
-        mountPath: /etc/nginx
-        readOnly: true
-    {{< /text >}}
+    1.  Add a definition of a container with Nginx proxy, to the `Deployment` of `istio-egressgateway-with-sni-proxy`.
+    The definition is as follows:
 
-1.  Add the `nginx-config` [volume](https://kubernetes.io/docs/concepts/storage/volumes/) to the `Deployment` of
-    `istio-egressgateway-with-sni-proxy`:
+        {{< text yaml >}}
+        - name: sni-proxy
+          image: nginx
+          volumeMounts:
+          - name: sni-proxy-config
+            mountPath: /etc/nginx
+            readOnly: true
+        {{< /text >}}
 
-    {{< text yaml >}}
-    - name: sni-proxy-config
-      configMap:
-        name: egress-sni-proxy-configmap
-    {{< /text >}}
+    1.  Add the `nginx-config` [volume](https://kubernetes.io/docs/concepts/storage/volumes/) to the `Deployment` of
+        `istio-egressgateway-with-sni-proxy`:
+
+        {{< text yaml >}}
+        - name: sni-proxy-config
+          configMap:
+            name: egress-sni-proxy-configmap
+        {{< /text >}}
 
 1.  Create a configuration file for the Nginx SNI proxy. You may want to edit the file to specify additional Nginx
     settings, if required.
