@@ -7,15 +7,15 @@ aliases:
     - /docs/tasks/traffic-management/version-migration.html
 ---
 
-> 该任务使用新的 [v1alpha3 流量管理 API](/blog/2018/v1alpha3-routing/)。旧版本的API已被弃用，并将在下一个Istio版本中删除。 如果您需要使用旧版本，请点击[此处](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)的文档。
+> 该任务使用新的 [v1alpha3 流量管理 API](/zh/blog/2018/v1alpha3-routing/)。旧版本的API已被弃用，并将在下一个Istio版本中删除。 如果您需要使用旧版本，请点击[此处](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)的文档。
 
 本任务将演示如何逐步将流量从一个版本的微服务迁移到另一个版本。 例如，您可以将流量从旧版本迁移到新版本。
 
 ## 开始之前
 
-* 按照[安装指南](/docs/setup/)中的说明安装Istio。
-* 部署 [Bookinfo](/docs/examples/bookinfo/) 示例应用程序。
-* 查看 [流量管理](/docs/concepts/traffic-management) 概念文档。
+* 按照[安装指南](/zh/docs/setup/)中的说明安装Istio。
+* 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用程序。
+* 查看 [流量管理](/zh/docs/concepts/traffic-management) 概念文档。
 
 ## 关于这个任务
 
@@ -31,8 +31,8 @@ aliases:
     $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
-1.  在浏览器中打开 Bookinfo 站点。 URL为 `http：// $ GATEWAY_URL / productpage`，其中 `$GATEWAY_URL`是 ingress 的外部IP地址，
-其描述参见 [Bookinfo](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)。
+1.  在浏览器中打开 Bookinfo 站点。 URL为 `http://$GATEWAY_URL/productpage`，其中 `$GATEWAY_URL`是 ingress 的外部IP地址，
+其描述参见 [Bookinfo](/zh/docs/examples/bookinfo/#确定-ingress-的-ip-和端口)。
 
      请注意，不管刷新多少次，页面的评论部分都不会显示评级星号。这是因为 Istio 被配置为将 reviews 服务的的所有流量都路由到了 `reviews：v1` 版本，
      而该版本的服务不会访问带星级的 ratings 服务。
@@ -97,4 +97,4 @@ aliases:
     $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
-1. 如果您不打算探索任何后续任务，请参阅 [Bookinfo 清理](/docs/examples/bookinfo/#cleanup) 的说明关闭应用程序。
+1. 如果您不打算探索任何后续任务，请参阅 [Bookinfo 清理](/zh/docs/examples/bookinfo/#清理) 的说明关闭应用程序。

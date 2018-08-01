@@ -7,14 +7,14 @@ aliases:
 keywords: [traffic-management,routing]
 ---
 
-> 该任务使用新的 [v1alpha3 流量管理 API](/blog/2018/v1alpha3-routing/)。旧版本的API已被弃用，并将在下一个 Istio 版本中删除。 如果您需要使用旧版本，请点击[此处](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)的文档。
+> 该任务使用新的 [v1alpha3 流量管理 API](/zh/blog/2018/v1alpha3-routing/)。旧版本的API已被弃用，并将在下一个 Istio 版本中删除。 如果您需要使用旧版本，请点击[此处](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)的文档。
 
 此任务向您展示如何根据权重和 HTTP header配置动态请求路由。
 
 ## 开始之前
 
-* 按照[安装指南](/docs/setup/)中的说明安装 Istio。
-* 部署 [Bookinfo](/docs/examples/bookinfo/) 示例应用程序。
+* 按照[安装指南](/zh/docs/setup/)中的说明安装 Istio。
+* 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用程序。
 
 ## 基于内容的路由
 
@@ -112,10 +112,10 @@ keywords: [traffic-management,routing]
     由于路由规则是通过异步方式分发到代理的，因此在尝试访问应用程序之前，您应该等待几秒钟，以便规则传播到所有 pod 上。
 
 1.  在浏览器中打开 Bookinfo 应用程序的 URL (`http://$GATEWAY_URL/productpage`)。
-    回想一下，在部署 Bookinfo 示例时，应已参照[该说明](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)设置好了 `GATEWAY_URL` 。
+    回想一下，在部署 Bookinfo 示例时，应已参照[该说明](/zh/docs/examples/bookinfo/#确定-ingress-的-ip-和端口)设置好 `GATEWAY_URL` 。
 
     您应该可以看到 Bookinfo 应用程序的 `productpage` 页面。
-    请注意， `productpage` 页面显示的内容中没有评分星级，这是为 `reviews:v1` 服务不会访问 ratings 服务。
+    请注意， `productpage` 页面显示的内容中没有评分星级，这是因为 `reviews:v1` 服务不会访问 ratings 服务。
 
 1.  将来自特定用户的请求路由到 `reviews:v2`。
 
@@ -161,9 +161,9 @@ keywords: [traffic-management,routing]
 在此任务中，您首先使用 Istio 将 100% 的请求流量都路由到了 Bookinfo 服务的 v1 版本。 然后再设置了一条路由规则，该路由规则在 `productpage` 服务中添加基于请求的 "end-user" 自定义 header 选择性地将特定的流量路由到了 reviews 服务的 v2 版本。
 
 请注意，为了利用 Istio 的 L7 路由功能，Kubernetes 中的服务（如本任务中使用的 Bookinfo 服务）必须遵守某些特定限制。
-参考 [sidecar 注入文档](/docs/setup/kubernetes/spec-requirements)了解详情。
+参考 [sidecar 注入文档](/zh/docs/setup/kubernetes/sidecar-injection/#对-pod-的要求)了解详情。
 
-在[流量转移](/docs/tasks/traffic-management/traffic-shifting)任务中，您将按照在此处学习的相同基本模式来配置路由规则，以逐步将流量从服务的一个版本发送到另一个版本。
+在[流量转移](/zh/docs/tasks/traffic-management/traffic-shifting)任务中，您将按照在此处学习的相同基本模式来配置路由规则，以逐步将流量从服务的一个版本发送到另一个版本。
 
 ## 清除
 
@@ -173,4 +173,4 @@ keywords: [traffic-management,routing]
     $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
-1. 如果您不打算探索任何后续任务，请参阅 [Bookinfo 清理](/docs/examples/bookinfo/#cleanup) 的说明关闭应用程序。
+1. 如果您不打算探索任何后续任务，请参阅 [Bookinfo 清理](/zh/docs/examples/bookinfo/#清理) 的说明关闭应用程序。

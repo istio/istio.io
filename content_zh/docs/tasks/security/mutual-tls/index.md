@@ -22,20 +22,20 @@ keywords: [security,mutual-tls]
 
     _**或者**_
 
-    使用 [Helm](/docs/setup/kubernetes/helm-install/) 进行安装，设置 `global.mtls.enabled` 为 `true`.
+    使用 [Helm](/zh/docs/setup/kubernetes/helm-install/) 进行安装，设置 `global.mtls.enabled` 为 `true`.
 
-> 从 Istio 0.7 开始，可以使用[认证策略](/docs/concepts/security/#authentication-policies)来给命名空间中全部/部分服务配置双向 TLS 功能。（在所有命名空间中重复此操作，就相当于全局配置了）。这部分内容可参考[认证策略任务](/docs/tasks/security/authn-policy/)
+> 从 Istio 0.7 开始，可以使用[认证策略](/zh/docs/concepts/security/#认证策略)来给命名空间中全部/部分服务配置双向 TLS 功能。（在所有命名空间中重复此操作，就相当于全局配置了）。这部分内容可参考[认证策略任务](/zh/docs/tasks/security/authn-policy/)
 
 * 接下来进行演示应用的部署，首先是注入 Envoy sidecar 的 [httpbin](https://github.com/istio/istio/blob/{{<branch_name>}}/samples/httpbin) 以及 [sleep](https://github.com/istio/istio/tree/master/samples/sleep)。为简单起见，我们将演示应用安装到 `default` 命名空间。如果想要部署到其他命名空间，可以在下一节的示例命令中加入 `-n yournamespace`。
 
-    如果使用的是[手工 Sidecar 注入](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection)，可使用如下命令：
+    如果使用的是[手工 Sidecar 注入](/zh/docs/setup/kubernetes/sidecar-injection/#手工注入-sidecar)，可使用如下命令：
 
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@)
     $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
     {{< /text >}}
 
-    如果集群设置了[自动注入 Sidecar](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)，就只需要简单的使用 `kubectl` 就可以完成部署了。
+    如果集群设置了[自动注入 Sidecar](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)，就只需要简单的使用 `kubectl` 就可以完成部署了。
 
     {{< text bash >}}
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@
@@ -108,7 +108,7 @@ $ kubectl exec $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.na
             URI:spiffe://cluster.local/ns/default/sa/default
 {{< /text >}}
 
-请参阅 [Istio identity](/docs/concepts/security/#istio-identity) 一节，可以了解更多**服务认证**方面的内容。
+请参阅 [Istio 认证](/zh/docs/concepts/security/#认证) 一节，可以了解更多**服务认证**方面的内容。
 
 ## 测试认证配置
 
@@ -142,7 +142,7 @@ $ kubectl exec $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.na
     200
     {{< /text >}}
 
-    > Istio 使用 [Kubernetes service accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) 作为服务的认证基础，Service account 提供了比服务名称更强的安全性（参考 [Identity](/docs/concepts/security/#istio-identity) 获取更多信息）。Istio 中使用的证书不包含服务名，而 `curl` 需要用这个信息来检查服务认证。因此就需要给 `curl` 命令加上 `-k` 参数，在对服务器所出示的证书校验的时候，停止对服务器名称（例如 httpbin.ns.svc.cluster.local ）的验证。
+    > Istio 使用 [Kubernetes service accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) 作为服务的认证基础，Service account 提供了比服务名称更强的安全性（参考 [Identity](/zh/docs/concepts/security/#认证) 获取更多信息）。Istio 中使用的证书不包含服务名，而 `curl` 需要用这个信息来检查服务认证。因此就需要给 `curl` 命令加上 `-k` 参数，在对服务器所出示的证书校验的时候，停止对服务器名称（例如 httpbin.ns.svc.cluster.local ）的验证。
 
 1. 来自没有 Sidecar 的 Pod。可以重新部署另外一个 `sleep` 应用
 

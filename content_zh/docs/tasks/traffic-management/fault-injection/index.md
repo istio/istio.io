@@ -7,17 +7,17 @@ aliases:
     - /docs/tasks/fault-injection.html
 ---
 
-> 注意：此任务使用新的 [v1alpha3 流量管理 API](/blog/2018/v1alpha3-routing/)。旧的 API 已被弃用，将在下一个 Istio 版本中删除。如果您需要使用旧版本，请按照[此处](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)的文档操作。
+> 注意：此任务使用新的 [v1alpha3 流量管理 API](/zh/blog/2018/v1alpha3-routing/)。旧的 API 已被弃用，将在下一个 Istio 版本中删除。如果您需要使用旧版本，请按照[此处](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)的文档操作。
 
 此任务说明如何注入延迟并测试应用程序的弹性。
 
 ## 前提条件
 
-* 按照[安装指南](/docs/setup/)中的说明设置 Istio 。
+* 按照[安装指南](/zh/docs/setup/)中的说明设置 Istio 。
 
-* 部署示例应用程序 [Bookinfo](/docs/examples/bookinfo/) 。
+* 部署示例应用程序 [Bookinfo](/zh/docs/examples/bookinfo/) 。
 
-*   通过首先执行[请求路由](/docs/tasks/traffic-management/request-routing/)任务或运行以下命令来初始化应用程序版本路由：
+*   通过首先执行[请求路由](/zh/docs/tasks/traffic-management/request-routing/)任务或运行以下命令来初始化应用程序版本路由：
 
     {{< text bash >}}
     $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
@@ -90,7 +90,7 @@ Istio 的故障注入规则可帮助您识别此类异常，而不会影响最�
 
 但是，我们已经在评论服务的第 3 版中运行此修复程序，
 因此我们可以通过将所有流量迁移到 `reviews:v3` 来解决问题，
-如[流量转移](/docs/tasks/traffic-management/traffic-shifting/)中所述任务。
+如[流量转移](/zh/docs/tasks/traffic-management/traffic-shifting/)中所述任务。
 
 （作为读者的练习 - 将延迟规则更改为使用 2.8 秒延迟，然后针对 v3 版本的评论运行它。）
 
@@ -147,4 +147,4 @@ Istio 的故障注入规则可帮助您识别此类异常，而不会影响最�
     $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
-* 如果您不打算探索任何后续任务，请参阅 [Bookinfo 清理](/docs/examples/bookinfo/#cleanup)说明以关闭应用程序。
+* 如果您不打算探索任何后续任务，请参阅 [Bookinfo 清理](/zh/docs/examples/bookinfo/#清理)说明以关闭应用程序。

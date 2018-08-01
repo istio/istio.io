@@ -62,7 +62,7 @@ keywords: [consul]
 
 ## 部署应用
 
-你现在可以部署自己的应用或者 [Bookinfo](/docs/examples/bookinfo/) 中提供的示例应用。
+你现在可以部署自己的应用或者 [Bookinfo](/zh/docs/examples/bookinfo/) 中提供的示例应用。
 
 > 由于在 Docker 中没有 pods 的概念，因此 Istio sidecar 需要和应用运行在同一个容器中。
 > 我们会使用 [Registrator](https://gliderlabs.github.io/registrator/latest/) 将服务实例自动注册到 Consul 中。

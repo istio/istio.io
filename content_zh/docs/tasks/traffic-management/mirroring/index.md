@@ -13,7 +13,7 @@ keywords: [traffic-management,mirroring]
 
 ## 开始之前
 
-* 按照[安装指南](/docs/setup/)中的说明设置 Istio 。
+* 按照[安装指南](/zh/docs/setup/)中的说明设置 Istio 。
 
 *   首先部署启用了访问日志的两个版本的 [httpbin]({{< github_tree >}}/samples/httpbin) 服务：
 
@@ -151,7 +151,7 @@ keywords: [traffic-management,mirroring]
     EOF
     {{< /text >}}
 
-    > 注意：如果您已经安装/配置 Istio 并启用 TLS 双向认证，您必须增加 [TLSSettings.TLSmode]( /docs/reference/config/istio.networking.v1alpha3/#TLSSettings-TLSmode), `mode: ISTIO_MUTUAL` 。如 [TLSSettings](/docs/reference/config/istio.networking.v1alpha3/#TLSSettings) 参考中所述。
+    > 注意：如果您已经安装/配置 Istio 并启用 TLS 双向认证，您必须增加 [TLSSettings.TLSmode](/docs/reference/config/istio.networking.v1alpha3/#TLSSettings-TLSmode), `mode: ISTIO_MUTUAL` 。如 [TLSSettings](/docs/reference/config/istio.networking.v1alpha3/#TLSSettings) 参考中所述。
 
     现在所有流量已经都转到 `httpbin v1` 服务。
 
@@ -253,4 +253,4 @@ keywords: [traffic-management,mirroring]
     {{< /text >}}
 
 1. 如果您不打算探索任何后续任务，请参阅
-  [Bookinfo 清理](/docs/examples/bookinfo/#cleanup) 的说明去关闭应用程序。
+  [Bookinfo 清理](/zh/docs/examples/bookinfo/#清理) 的说明去关闭应用程序。
