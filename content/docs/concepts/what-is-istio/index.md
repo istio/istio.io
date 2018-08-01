@@ -195,6 +195,15 @@ on network controls. Starting from release 0.5, you can use
 [Istio's authorization feature](/docs/concepts/security/#authorization) to control
 who can access your services.
 
+### Galley
+
+Galley validates user authored Istio API configuration on behalf of
+the other Istio control plane components. Over time, Galley will take
+over responsibility as the top-level config ingestion, processing and
+distribution component of Istio. It will be responsible for insulating
+the rest of the Istio components from the details of obtaining user
+configuration from the underlying platform (e.g. Kubernetes).
+
 ## Design Goals
 
 A few key design goals informed Istio’s architecture. These goals are essential
