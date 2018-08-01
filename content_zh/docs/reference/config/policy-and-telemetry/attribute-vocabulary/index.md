@@ -6,7 +6,7 @@ aliases:
     - /docs/reference/config/mixer/attribute-vocabulary.html
 ---
 
-属性是整个Istio使用的中心概念。可以在[这里](/zh/docs/concepts/policies-and-telemetry/#属性)找到属性是什么和用于何处的描述。
+属性是整个 Istio 使用的核心概念。可以在[这里](/zh/docs/concepts/policies-and-telemetry/#属性)找到属性是什么和用于何处的描述。
 
 每个给定的 Istio 部署有固定的能够理解的属性词汇。这个特定的词汇由当前部署中正在使用的属性生产者的集合来决定。Istio 中除了 Envoy 是首要的属性生产者外， Mixer 和服务也会产生属性。
 
@@ -102,7 +102,7 @@ aliases:
 
 以下属性已被弃用，将在后续版本中删除：
 
-| Name | Type | Description | Kubernetes Example |
+| 名称 | 类型 | 描述 | Kubernetes 示例 |
 |------|------|-------------|--------------------|
 | `source.service` | string | 客户端所属服务的完全限定名称。 | `redis-master.my-namespace.svc.cluster.local` |
 | `source.domain` | string | 源服务的域后缀部分，不包括名称和命名空间。 | `svc.cluster.local` |
