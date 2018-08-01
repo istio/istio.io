@@ -90,13 +90,9 @@ from within your Istio cluster. In this task you access
     spec:
       hosts:
       - www.google.com
-      gateways:
-      - mesh
       tls:
       - match:
-        - gateways:
-          - mesh
-          port: 443
+        - port: 443
           sni_hosts:
           - www.google.com
         route:
