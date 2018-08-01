@@ -6,32 +6,53 @@ keywords: [kubernetes,upgrading]
 ---
 
 This page describes how to upgrade an existing Istio deployment (including both control plane and sidecar proxy) to a new release of Istio.
-The upgrade process could involve new binaries as well as other changes like configuration and API schemas. The upgrade process may involve
-some service downtime. To minimize downtime, please ensure your Istio control plane components and your applications are highly available
-with multiple replicas.
+The upgrade process may install new binaries and may change configuration and API schemas. The upgrade process
+may result in service downtime. To minimize downtime, please ensure your Istio control plane components and your applications
+are highly available with multiple replicas.
 
 In the following steps, we assume that the Istio components are installed and upgraded in the `istio-system` namespace.
 
-## Control plane upgrade
+## Upgrade steps
+
+1. [Download the new Istio release](/docs/setup/kubernetes/download-release/)
+and change directory to the new release directory.
+
+1. Upgrade Istio's [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
+via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the kube-apiserver:
+
+{{< text bash >}}
+$ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml -n istio-system
+{{< /text >}}
+
+### Control plane upgrade
 
 The Istio control plane components include: Citadel, Ingress gateway, Egress gateway, Pilot, Policy, Telemetry and
-Sidecar injector. We can use Kubernetes’ rolling update mechanism to upgrade the
-control plane components.
+Sidecar injector.
+
+#### Helm upgrade
+
+If you installed Istio with [Helm](/docs/setup/kubernetes/helm-install/#option-2-install-with-helm-and-tiller-via-helm-install) the preferred upgrade option is to let Helm take care of the upgrade:
+
+{{< text bash >}}
+$ helm upgrade istio install/kubernetes/helm/istio --namespace istio-system
+{{< /text >}}
+
+#### Kubernetes rolling update
+
+You can also use Kubernetes’ rolling update mechanism to upgrade the control plane components. This is suitable for cases when Istio hasn't been installed using Helm.
 
 First, generate the desired Istio control plane yaml file, e.g.
 
 {{< text bash >}}
-$ helm template --namespace istio-system --set global.proxy.image=proxy \
-  --values install/kubernetes/helm/istio/values-istio.yaml \
-  install/kubernetes/helm/istio >> install/kubernetes/istio.yaml
+$ helm template install/kubernetes/helm/istio --name istio \
+    --namespace istio-system > install/kubernetes/istio.yaml
 {{< /text >}}
 
 or
 
 {{< text bash >}}
-$ helm template --namespace istio-system --set global.proxy.image=proxy \
-  --values install/kubernetes/helm/istio/values-istio-demo-auth.yaml \
-  install/kubernetes/helm/istio >> install/kubernetes/istio-demo-auth.yaml
+$ helm template install/kubernetes/helm/istio --name istio \
+    --namespace istio-system --set global.mtls.enabled=true > install/kubernetes/istio-auth.yaml
 {{< /text >}}
 
 If using Kubernetes versions prior to 1.9, you should add `--set sidecarInjectorWebhook.enabled=false`.
@@ -45,7 +66,7 @@ $ kubectl apply -f install/kubernetes/istio.yaml
 or
 
 {{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
+$ kubectl apply -f install/kubernetes/istio-auth.yaml
 {{< /text >}}
 
 The rolling update process will upgrade all deployments and configmaps to the new version. After this process finishes,
@@ -53,7 +74,7 @@ your Istio control plane should be updated to the new version. Your existing app
 any change, using the Envoy v1 proxy and the v1alpha1 route rules. If there is any critical issue with the new control plane,
 you can rollback the changes by applying the yaml files from the old version.
 
-## Sidecar upgrade
+### Sidecar upgrade
 
 After the control plane upgrade, the applications already running Istio will still be using an older sidecar. To upgrade the sidecar,
 you will need to re-inject it.
@@ -71,8 +92,8 @@ sidecar by executing:
 $ kubectl replace -f <(istioctl kube-inject -f $ORIGINAL_DEPLOYMENT_YAML)
 {{< /text >}}
 
-If the sidecar was previously injected with some customized inject config
-files, you will need to change the version tag in the config files to the new
+If the sidecar was previously injected with some customized inject configuration
+files, you will need to change the version tag in the configuration files to the new
 version and re-inject the sidecar as follows:
 
 {{< text bash >}}
@@ -119,18 +140,18 @@ Next, use `istioctl experimental convert-networking-config` to convert your exis
 1. If your yaml file contains more than the ingress definition such as deployment or service definition, move the ingress definition out to a separate yaml file for the `
 istioctl experimental convert-networking-config` tool to process.
 
-1. Execute the following to generate the new network config file, where replacing FILE*.yaml with your ingress file or deprecated route rule files.
+1. Execute the following to generate the new network configuration file, where replacing FILE*.yaml with your ingress file or deprecated route rule files.
 *Tip: Make sure to feed all the files using `-f` for one or more deployments.*
 
     {{< text bash >}}
-    $ istioctl experimental convert-networking-config -f FILE1.yaml -f FILE2.yaml -f FILE3.yaml > UPDATED_NETWORK_CONFIG.yaml
+    $ istioctl experimental convert-networking-configuration-f FILE1.yaml -f FILE2.yaml -f FILE3.yaml > UPDATED_NETWORK_CONFIG.yaml
     {{< /text >}}
 
 1. Edit `UPDATED_NETWORK_CONFIG.yaml` to update all namespace references to your desired namespace.
 There is a known issue with the `convert-networking-config` tool where the `istio-system` namespace
 is used incorrectly. Further, ensure the `hosts` value is correct.
 
-1. Deploy the updated network config file.
+1. Deploy the updated network configuration file:
 
     {{< text bash >}}
     $ kubectl replace -f UPDATED_NETWORK_CONFIG.yaml
@@ -142,7 +163,8 @@ sidecars injected in the future.
 
 ## Migrating per-service mutual TLS enablement via annotations to authentication policy
 
-If you use service annotations to override global mutual TLS enablement for a service, you need to replace it with [authentication policy](/docs/concepts/security/#authentication-policy) and [destination rules](/docs/concepts/traffic-management/#destination-rules).
+If you use service annotations to override global mutual TLS enablement for a service, you need to replace it with
+[authentication policy](/docs/concepts/security/#authentication-policies) and [destination rules](/docs/concepts/traffic-management/#destination-rules).
 
 For example, if you install Istio with mutual TLS enabled, and disable it for service `foo` using a service annotation like below:
 
@@ -216,9 +238,10 @@ trafficPolicy:
     mode: DISABLE
 {{< /text >}}
 
-## Migrating `mtls_excluded_services` config to destination rules
+## Migrating the `mtls_excluded_services` configuration to destination rules
 
-If you installed Istio with mutual TLS enabled, and used mesh config `mtls_excluded_services` to disable mutual TLS when connecting to these services (e.g kubernetes API server), you need to replace this by adding a destination rule. For example:
+If you installed Istio with mutual TLS enabled, and used the mesh configuration option `mtls_excluded_services` to
+disable mutual TLS when connecting to these services (e.g Kubernetes API server), you need to replace this by adding a destination rule. For example:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3

@@ -33,96 +33,108 @@ title: Istio
       "image": [
           "https://istio.io/img/logo.png"
        ],
-      "description": "Istio is an open platform to connect, manage, and secure microservices."
+      "description": "Istio lets you connect, secure, control, and observe services."
     }
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById('card1').style.opacity = 1;
+
+        window.setTimeout(function() {
+            document.getElementById('card2').style.opacity = 1;
+        }, 375);
+
+        window.setTimeout(function() {
+            document.getElementById('card3').style.opacity = 1;
+        }, 750);
+
+        window.setTimeout(function() {
+            document.getElementById('card4').style.opacity = 1;
+        }, 1125);
+
+        window.setTimeout(function() {
+            document.getElementById('buttons').style.opacity = 1;
+        }, 1500);
+    });
 </script>
 
 <main class="landing">
-    <div class="hero">
-        <div class="container">
-            <h1 class="hero-label">Istio{{< site_suffix >}} {{< istio_version >}}</h1>
-            <img class="hero-logo" alt="Istio Logo" src="/img/istio-logo.svg" />
-            <h1 class="hero-lead">An open platform to connect, manage, and secure microservices</h1>
-            <span onclick="getElementById('SCROLLME').scrollIntoView({block: 'start', inline: 'nearest', behavior: 'smooth'})" class="hero-down-arrow fa fa-2 fa-caret-down"></span>
-            <span id="SCROLLME"></span>
-        </div>
-    </div>
-
-    <div class="container-fluid traffic color1">
-        <div class="row align-items-center justify-content-center">
-            <div class="col-12 col-md-5">
-                {{< inline_image "landing/routing-and-load-balancing.svg" >}}
-            </div>
-            <div class="col-12 col-md-5 landing-text">
-                <h2>Intelligent Routing and Load Balancing</h2>
-                <p>
-                    Control traffic between services with dynamic route configuration,
-                    conduct A/B tests, release canaries, and gradually upgrade versions using red/black deployments.
-                    <a href="/docs/concepts/traffic-management/">Learn more...</a>
-                </p>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            {{< inline_image "landing/istio-logo.svg" >}}
+            <div style="width: 20rem; margin-left: 3rem">
+                <h1 class="hero-label">Istio</h1>
+                <h1 class="hero-lead">Connect, secure, control, and observe services.
             </div>
         </div>
     </div>
 
-    <div class="container-fluid resilience color2">
-        <div class="row align-items-center justify-content-center">
-            <div class="col-12 col-md-5">
-                {{< inline_image "landing/resiliency.svg" >}}
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div id="card1" class="card">
+                <div class="card-img-top">
+                    {{< inline_image "landing/routing-and-load-balancing.svg" >}}
+                 </div>
+                <div class="card-body">
+                    <hr class="card-line">
+                    <h5 class="card-title text-center">Connect</h5>
+                    <hr class="card-line">
+                    <p class="card-text">
+                        Intelligently control the flow of traffic and API calls between services, conduct a range of tests, and upgrade gradually with
+                        red/black deployments.
+                    </p>
+                </div>
             </div>
-            <div class="col-12 col-md-5 order-md-first landing-text">
-                <h2>Resilience Across Languages and Platforms</h2>
-                <p>
-                    Increase reliability by shielding applications from flaky networks and cascading failures in adverse conditions.
-                    <a href="/docs/concepts/traffic-management/#handling-failures">Learn more...</a>
-                </p>
+
+            <div id="card2" class="card">
+                <div class="card-img-top">
+                    {{< inline_image "landing/resiliency.svg" >}}
+                </div>
+                <div class="card-body">
+                    <hr class="card-line">
+                    <h5 class="card-title text-center">Secure</h5>
+                    <hr class="card-line">
+                    <p class="card-text">
+                        Automatically secure your services through managed authentication, authorization, and encryption of communication between
+                        services.
+                    </p>
+                </div>
+            </div>
+
+            <div id="card3" class="card">
+                <div class="card-img-top">
+                    {{< inline_image "landing/policy-enforcement.svg" >}}
+                </div>
+                <div class="card-body">
+                    <hr class="card-line">
+                    <h5 class="card-title text-center">Control</h5>
+                    <hr class="card-line">
+                    <p class="card-text">
+                        Apply policies and ensure that they’re enforced, and that resources are fairly distributed among consumers.
+                    </p>
+                </div>
+            </div>
+
+            <div id="card4" class="card">
+                <div class="card-img-top">
+                    {{< inline_image "landing/telemetry-and-reporting.svg" >}}
+                </div>
+                <div class="card-body">
+                    <hr class="card-line">
+                    <h5 class="card-title text-center">Observe</h5>
+                    <hr class="card-line">
+                    <p class="card-text">
+                        See what's happening with rich automatic tracing, monitoring, and logging of all your services.
+                   </p>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="container-fluid policy color1">
-        <div class="row align-items-center justify-content-center">
-            <div class="col-12 col-md-5">
-                {{< inline_image "landing/policy-enforcement.svg" >}}
-            </div>
-            <div class="col-12 col-md-5 landing-text">
-                <h2>Fleet-Wide Policy Enforcement</h2>
-                <p>
-                    Apply organizational policies to the interaction between services, ensure access policies are enforced and resources are fairly distributed
-                    among consumers.
-                    <a href="/docs/concepts/policies-and-telemetry/">Learn more...</a>
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <div class="container-fluid reporting color2">
-        <div class="row align-items-center justify-content-center">
-            <div class="col-12 col-md-5">
-                {{< inline_image "landing/telemetry-and-reporting.svg" >}}
-            </div>
-            <div class="col-12 col-md-5 order-md-first landing-text">
-                <h2>In-Depth Telemetry</h2>
-                <p>
-                    Understand the dependencies between services, the nature and flow of traffic between them, and quickly identify issues with distributed tracing.
-                    <a href="/docs/concepts/what-is-istio/">Learn more...</a>
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <div class="container-fluid call color1">
-        <div class="row no-gutters">
-            <div class="col-12 col-md-6">
-                <h2>Want to learn more?</h2>
-                <p>Get started by learning Istio concepts and running through our Bookinfo sample.</p>
-                <a class="btn btn-istio" href="/docs/">GET STARTED</a>
-            </div>
-
-            <div class="col-12 col-md-6">
-                <h2>Ready to get started?</h2>
-                <p>Download the latest bits.</p>
-                <a class="btn btn-istio" href="https://github.com/istio/istio/releases/">DOWNLOAD</a>
-            </div>
+    <div id="buttons" class="buttons container-fluid">
+        <div class="row justify-content-center">
+            <a class="btn btn-istio" href="/docs/concepts/what-is-istio/">LEARN MORE</a>
+            <a class="btn btn-istio" href="https://github.com/istio/istio/releases/">DOWNLOAD</a>
         </div>
     </div>
 </main>

@@ -21,7 +21,7 @@ You may test the service using the following command:
 $ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${EXTERNAL_IP}:80/echo?key=${ENDPOINTS_KEY}"
 {{< /text >}}
 
-You need to install Istio with [instructions](/docs/setup/kubernetes/quick-start/#google-kubernetes-engine).
+To install Istio for GKE, follow our [Quick Start with Google Kubernetes Engine](/docs/setup/kubernetes/platform-setup/gke).
 
 ## HTTP Endpoints service
 
@@ -35,7 +35,7 @@ Otherwise, ESP won't be able to access Google cloud service control.
 1.  If you want to access the service through Ingress, create the following Ingress definition:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: extensions/v1beta1
     kind: Ingress
     metadata:
@@ -74,7 +74,7 @@ Adding `"--http_port=8081"` in the ESP deployment arguments and expose the HTTP 
       name: http
     {{< /text >}}
 
-1.  Turn on mTLS in Istio by using the following command:
+1.  Turn on mutual TLS in Istio by using the following command:
 
     {{< text bash >}}
     $ kubectl edit cm istio -n istio-system
@@ -110,8 +110,8 @@ This solution uses Istio proxy for TCP bypassing. The traffic is secured through
       name: tcp
     {{< /text >}}
 
-1.  Update the mesh service deployment. See further readings on port naming rules
-[here](/docs/setup/kubernetes/sidecar-injection/#pod-spec-requirements).
+1.  Update the mesh service deployment. See further readings on port naming rules in
+[Requirements for Pods and Services](/docs/setup/kubernetes/spec-requirements).
 
 1.  You can verify access to the Endpoints service through secure Ingress:
 

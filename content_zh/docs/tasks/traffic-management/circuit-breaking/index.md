@@ -5,16 +5,16 @@ weight: 50
 keywords: [traffic-management,circuit-breaking]
 ---
 
-> 本文任务使用了新的 [v1alpha3 流量控制 API](/blog/2018/v1alpha3-routing/)。旧版本 API 已经过时，会在下一个 Istio 版本中移除。如果需要使用旧版本 API，请阅读[旧版本文档](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)
+> 本文任务使用了新的 [v1alpha3 流量控制 API](/zh/blog/2018/v1alpha3-routing/)。旧版本 API 已经过时，会在下一个 Istio 版本中移除。如果需要使用旧版本 API，请阅读[旧版本文档](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)
 
 本任务演示了弹性应用所需的熔断能力。网络方面可能会发生一些大家不愿发生的问题，例如故障、延迟高峰等等，熔断功能能够帮助开发人员限制这些负面因素的影响范围。下面的内容会展示如何根据连接、请求以及外部检测的情况对断路器进行设置。
 
 ## 开始之前
 
-* 跟随 [安装指南](/docs/setup) 设置 Istio。
+* 跟随 [安装指南](/zh/docs/setup) 设置 Istio。
 * 启动 [httpbin]({{< github_tree >}}/samples/httpbin) 示例应用，这个应用将会作为本任务的后端服务。
 
-    如果启用了 [Sidecar 的自动注入](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)，只需运行：
+    如果启用了 [Sidecar 的自动注入](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)，只需运行：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@

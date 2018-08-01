@@ -9,15 +9,15 @@ aliases:
 
 本文任务演示如何让 Istio 网格中的应用能够进行跟踪 Span 的收集。完成这一任务之后，读者会理解所有关于应用的先决条件，以便将应用加入跟踪过程。这一过程对实现应用的语言、架构以及平台等并无关联。
 
-本例中会使用 [Bookinfo](/docs/examples/bookinfo/) 作为示例应用。
+本例中会使用 [Bookinfo](/zh/docs/examples/bookinfo/) 作为示例应用。
 
 ## 开始之前
 
-* 遵循[安装指南](/docs/setup/)部署 Istio。
+* 遵循[安装指南](/zh/docs/setup/)部署 Istio。
 
     `istio-demo.yaml` 或者 `istio-demo-auth.yaml` 模板中都包含了跟踪支持，或者还可以使用 Helm chart 的方式进行部署，需要设置 `--set tracing.enabled=true` 选项。
 
-* 部署 [Bookinfo](/docs/examples/bookinfo/) 样例应用。
+* 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 样例应用。
 
 ## 访问 Dashboard
 
@@ -71,9 +71,8 @@ $ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=
 def getForwardHeaders(request):
     headers = {}
 
-    user_cookie = request.cookies.get("user")
-    if user_cookie:
-        headers['Cookie'] = 'user=' + user_cookie
+    if 'user' in session:
+        headers['end-user'] = session['user']
 
     incoming_headers = [ 'x-request-id',
                          'x-b3-traceid',
@@ -97,8 +96,9 @@ def getForwardHeaders(request):
 
 {{< text jzvz >}}
 @GET
-@Path("/reviews")
-public Response bookReviews(@CookieParam("user") Cookie user,
+@Path("/reviews/{productId}")
+public Response bookReviewsById(@PathParam("productId") int productId,
+                            @HeaderParam("end-user") String user,
                             @HeaderParam("x-request-id") String xreq,
                             @HeaderParam("x-b3-traceid") String xtraceid,
                             @HeaderParam("x-b3-spanid") String xspanid,
@@ -106,15 +106,15 @@ public Response bookReviews(@CookieParam("user") Cookie user,
                             @HeaderParam("x-b3-sampled") String xsampled,
                             @HeaderParam("x-b3-flags") String xflags,
                             @HeaderParam("x-ot-span-context") String xotspan) {
-  String r1 = "";
-  String r2 = "";
+  int starsReviewer1 = -1;
+  int starsReviewer2 = -1;
 
-  if(ratings_enabled){
-    JsonObject ratings = getRatings(user, xreq, xtraceid, xspanid, xparentspanid, xsampled, xflags, xotspan);
+  if (ratings_enabled) {
+    JsonObject ratingsResponse = getRatings(Integer.toString(productId), user, xreq, xtraceid, xspanid, xparentspanid, xsampled, xflags, xotspan);
 {{< /text >}}
 
 在对下游服务进行调用的时候，就应该在请求中包含上面代码中获取到的 HTTP Header。
 
 ## 清理
 
-* 如果不准备继续尝试后续任务，可参照 [Bookinfo 清理](/docs/examples/bookinfo/#cleanup)的介绍关停应用。
+* 如果不准备继续尝试后续任务，可参照 [Bookinfo 清理](/zh/docs/examples/bookinfo/#清理)的介绍关停应用。

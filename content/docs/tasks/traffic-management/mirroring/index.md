@@ -5,8 +5,6 @@ weight: 60
 keywords: [traffic-management,mirroring]
 ---
 
-> This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.7/docs/tasks/traffic-management/).
-
 This task demonstrates the traffic mirroring capabilities of Istio.
 
 Traffic mirroring, also called shadowing, is a powerful concept that allows
@@ -22,7 +20,7 @@ you will apply a rule to mirror a portion of traffic to `v2`.
 * Set up Istio by following the instructions in the
   [Installation guide](/docs/setup/).
 
-*   Start by deploying two versions of the [httpbin](https://github.com/istio/istio/tree/release-1.0/samples/httpbin) service that have access logging enabled:
+*   Start by deploying two versions of the [httpbin]({{< github_tree >}}/samples/httpbin) service that have access logging enabled:
 
     **httpbin-v1:**
 
@@ -128,7 +126,7 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
 1.  Create a default route rule to route all traffic to `v1` of the service:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -202,7 +200,7 @@ log entries for `v1` and none for `v2`:
 1.  Change the route rule to mirror traffic to v2:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl replace -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -255,8 +253,8 @@ log entries for `v1` and none for `v2`:
 1.  Remove the rules:
 
     {{< text bash >}}
-    $ istioctl delete virtualservice httpbin
-    $ istioctl delete destinationrule httpbin
+    $ kubectl delete virtualservice httpbin
+    $ kubectl delete destinationrule httpbin
     {{< /text >}}
 
 1.  Shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service and client:

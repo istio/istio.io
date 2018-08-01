@@ -5,8 +5,6 @@ weight: 31
 keywords: [traffic-management,ingress]
 ---
 
-> Note: This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.7/docs/tasks/traffic-management/).
-
 The [Control Ingress Traffic](/docs/tasks/traffic-management/ingress) task describes how to configure an ingress
 gateway to expose an HTTP endpoint of a service to external traffic. This task extends that task to enable HTTPS access to the service using either simple or mutual TLS.
 
@@ -78,7 +76,7 @@ with a certificate and a private key. Then you create a `Gateway` definition tha
     > The location of the certificate and the private key **must** be `/etc/istio/ingressgateway-certs`, or the gateway will fail to load them.
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -103,7 +101,7 @@ with a certificate and a private key. Then you create a `Gateway` definition tha
 1.  Configure routes for traffic entering via the `Gateway`. Define the same `VirtualService` as in the [Control Ingress Traffic](/docs/tasks/traffic-management/ingress/#configuring-ingress-using-an-istio-gateway) task:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -130,7 +128,7 @@ with a certificate and a private key. Then you create a `Gateway` definition tha
 1.  Access the `httpbin` service with HTTPS by sending an `https` request using _curl_ to `SECURE_INGRESS_PORT`.
 
     The `--resolve` flag instructs _curl_ to supply the
-    [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) value "httpbin.example.com" when accessing the gateway IP
+    [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) value `httpbin.example.com` when accessing the gateway IP
       over TLS. The `--cacert` option instructs _curl_ to use your generated certificate to verify the server.
 
     By sending the request to the `/status/418` URL path, you get a nice visual clue that your `httpbin` service was
@@ -196,7 +194,7 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
     from, in this case `ca-chain.cert.pem`.
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl replace -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -292,6 +290,12 @@ they have valid values, according to the output of the following commands:
     $ kubectl logs -n istio-system -l istio=ingressgateway
     {{< /text >}}
 
+1.  If the secret was created but the keys were not mounted, kill the ingress gateway pod and force it to reload certs:
+
+    {{< text bash >}}
+        $ kubectl delete pod -n istio-system -l istio=ingressgateway
+    {{< /text >}}
+
 1.  For macOS users, verify that you use _curl_ compiled with the [LibreSSL](http://www.libressl.org) library, as
     described in the [Before you begin](#before-you-begin) section.
 
@@ -314,13 +318,19 @@ In addition to the steps in the previous section, perform the following:
     Subject: C=US, ST=Denial, L=Springfield, O=Dis, CN=httpbin.example.com
     {{< /text >}}
 
+1.  If the secret was created but the keys were not mounted, kill the ingress gateway pod and force it to reload certs:
+
+    {{< text bash >}}
+        $ kubectl delete pod -n istio-system -l istio=ingressgateway
+    {{< /text >}}
+
 ## Cleanup
 
 1.  Delete the `Gateway` configuration, the `VirtualService`, and the secrets:
 
     {{< text bash >}}
-    $ istioctl delete gateway httpbin-gateway
-    $ istioctl delete virtualservice httpbin
+    $ kubectl delete gateway httpbin-gateway
+    $ kubectl delete virtualservice httpbin
     $ kubectl delete --ignore-not-found=true -n istio-system secret istio-ingressgateway-certs istio-ingressgateway-ca-certs
     {{< /text >}}
 

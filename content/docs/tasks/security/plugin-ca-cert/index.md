@@ -17,7 +17,7 @@ operator-specified root certificate. This task demonstrates an example to plug c
   [quick start](/docs/setup/kubernetes/quick-start/) with global mutual TLS enabled by using [Helm](/docs/setup/kubernetes/helm-install/)
   with `global.mtls.enabled` set to `true`.
 
-> Starting with Istio 0.7, you can use [authentication policy](/docs/concepts/security/#authentication-policy) to configure mutual TLS for all/selected services in a namespace (repeated for all namespaces to get global setting). See [authentication policy task](/docs/tasks/security/authn-policy/)
+> Starting with Istio 0.7, you can use [authentication policy](/docs/concepts/security/#authentication-policies) to configure mutual TLS for all/selected services in a namespace (repeated for all namespaces to get global setting). See [authentication policy task](/docs/tasks/security/authn-policy/)
 
 ## Plugging in the existing certificate and key
 
@@ -61,7 +61,7 @@ The following steps enable plugging in the certificates and key into Citadel:
 In this section, we verify that the new workload certificates and root certificates are propagated.
 This requires you have `openssl` installed on your machine.
 
-1. Deploy the bookinfo application following the [instructions](/docs/examples/bookinfo/).
+1. Deploy the Bookinfo application following the [instructions](/docs/examples/bookinfo/).
 
 1.  Retrieve the mounted certificates.
     In the following, we take the ratings pod as an example, and verify the certificates mounted on the pod.

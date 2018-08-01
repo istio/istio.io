@@ -2,14 +2,33 @@
 
 {{ partial "primary-top.html" . }}
 
-{{ .Content }}
-
 {{ $questions := .Resources.ByType "page" }}
 {{ $sorted_questions := sort $questions ".Params.weight" }}
-{{ range $q := $sorted_questions }}
-    <h4 id="{{ $q.File.BaseFileName | urlize }}">Q: {{ $q.Title }}</h4>
-    {{ $q.Content }}
-{{ end }}
+
+<nav class="toc-inlined d-xl-none d-print-none" style="display:block!important;">
+    <hr/>
+    <div class="directory" role="directory">
+        <nav id="InlineTableOfContents">
+            <ul>
+                {{ range $q := $sorted_questions }}
+                    <li><a href="#{{ $q.File.BaseFileName | urlize }}">{{ $q.Title }}</a></li>
+                {{ end }}
+            </ul>
+        </nav>
+    </div>
+    <hr/>
+</nav>
+
+{{ .Content }}
+
+<div class="faq">
+    {{ range $q := $sorted_questions }}
+        <h5 id="{{ $q.File.BaseFileName | urlize }}" class="question">{{ $q.Title }}</h5>
+        <div class="answer">
+            {{ $q.Content }}
+        </div>
+    {{ end }}
+</div>
 
 {{ partial "primary-bottom.html" . }}
 

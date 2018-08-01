@@ -9,7 +9,7 @@ keywords: [kubernetes,vms]
 
 ## 先决条件
 
-* 根据[安装指南](/docs/setup/kubernetes/quick-start/)的步骤在 Kubernetes 上部署 Istio。
+* 根据[安装指南](/zh/docs/setup/kubernetes/quick-start/)的步骤在 Kubernetes 上部署 Istio。
 * 待接入服务器必须能够通过 IP 接入网格中的服务端点。通常这需要 VPN 或者 VPC 的支持，或者容器网络为服务端点提供直接路由（非 NAT 或者防火墙屏蔽）。该服务器无需访问 Kubernetes 指派的集群 IP 地址。
 * Istio 控制平面服务（Pilot、Mixer、Citadel）以及 Kubernetes 的 DNS 服务器必须能够从虚拟机进行访问，通常会使用[内部负载均衡器](https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer)（也可以使用 NodePort）来满足这一要求，在虚拟机上运行 Istio 组件，或者使用自定义网络配置，相关的高级配置另有文档描述。
 
@@ -149,7 +149,7 @@ $ @install/tools/setupMeshEx.sh@ machineSetup VM_NAME
     $ curl 'http://10.60.1.4:8080/v1/registration/istio-pilot.istio-system.svc.cluster.local|http-discovery'
     {{< /text >}}
 
-* 解开 Istio 的 Secret 对象，并复制到服务器上。包含 Citadel 的 Istio，即使没有启用自动的 mTLS 认证，也会生成 Istio secret（每个 Service account 都会生成 Secret，命名为 `istio.<serviceaccount>`）。这里建议进行这个操作，这样以后启用 mTLS 或者未来升级到缺省启用 mTLS 的版本会更加方便。
+* 解开 Istio 的 Secret 对象，并复制到服务器上。包含 Citadel 的 Istio，即使没有启用自动的 双向 TLS 认证，也会生成 Istio secret（每个 Service account 都会生成 Secret，命名为 `istio.<serviceaccount>`）。这里建议进行这个操作，这样以后启用 双向 TLS 或者未来升级到缺省启用 双向 TLS 的版本会更加方便。
 
     `ACCOUNT` 缺省就是 `default`，或者 `SERVICE_ACCOUNT` 环境变量。
     `NAMESPACE` 缺省为当前命名空间，或者 `SERVICE_NAMESPACE` 环境变量（这一步骤通过 machineSetup 完成）在 Mac 上可使用 `brew install base64` 或者 `set BASE64_DECODE="/usr/bin/base64 -D"`。

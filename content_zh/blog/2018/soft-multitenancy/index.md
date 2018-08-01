@@ -8,17 +8,17 @@ weight: 90
 keywords: [tenancy]
 ---
 
-多租户是一个在各种环境和各种应用中都得到了广泛应用的概念，但是不同环境中，为每租户提供的具体实现和功能性都是有差异的。[Kubernetes 多租户工作组](https://github.com/kubernetes/community/blob/master/wg-multitenancy/README.md)致力于在 Kubernetes 中定义多租户用例和功能。然而根据他们的工作进展来看，恶意容器和负载对于其他租户的 Pod 和内核资源的访问无法做到完全控制，因此只有“软性多租户”支持是可行的。
+多租户是一个在各种环境和各种应用中都得到了广泛应用的概念，但是不同环境中，为每租户提供的具体实现和功能性都是有差异的。[Kubernetes 多租户工作组](https://github.com/kubernetes/community/blob/master/wg-multitenancy/README.md)致力于在 Kubernetes 中定义多租户用例和功能。然而根据他们的工作进展来看，恶意容器和负载对于其他租户的 Pod 和内核资源的访问无法做到完全控制，因此只有"软性多租户”支持是可行的。
 
 ## 软性多租户
 
-文中提到的“软性多租户”的定义指的是单一 Kubernetes 控制平面和多个 Istio 控制平面以及多个服务网格相结合；每个租户都有自己的一个控制平面和一个服务网格。集群管理员对所有 Istio 控制面都有控制和监控的能力，而租户管理员仅能得到指定 Istio 的控制权。使用 Kubernetes 的命名空间和 RBAC 来完成不同租户的隔离。
+文中提到的"软性多租户”的定义指的是单一 Kubernetes 控制平面和多个 Istio 控制平面以及多个服务网格相结合；每个租户都有自己的一个控制平面和一个服务网格。集群管理员对所有 Istio 控制面都有控制和监控的能力，而租户管理员仅能得到指定 Istio 的控制权。使用 Kubernetes 的命名空间和 RBAC 来完成不同租户的隔离。
 
 这种模式的一个用例就是企业内部共享的基础设施中，虽然预计不会发生恶意行为，但租户之间的清晰隔离仍然是很有必要的。
 
 本文最后会对 Istio 未来的多租户模型进行一些描述。
 
-> 注意：这里仅就在有限多租户环境中部署 Istio 做一些概要描述。当官方多租户支持实现之后，会在[文档](/docs/)中具体阐述。
+> 注意：这里仅就在有限多租户环境中部署 Istio 做一些概要描述。当官方多租户支持实现之后，会在[文档](/zh/docs/)中具体阐述。
 
 ## 部署
 
@@ -52,7 +52,7 @@ istio-system1   istio-mixer-7d4f7b9968-66z44               3/3       Running   0
 istio-system1   istio-pilot-5bb6b7669c-779vb               2/2       Running   0          15d
 {{< /text >}}
 
-如果需要 Istio [Sidecar 注入组件](/docs/setup/kubernetes/sidecar-injection/)以及[遥测组件](/docs/tasks/telemetry/)，也需要根据租户的命名空间定义，修改所需的 Yaml 文件。
+如果需要 Istio [Sidecar 注入组件](/zh/docs/setup/kubernetes/sidecar-injection/)以及[遥测组件](/zh/docs/tasks/telemetry/)，也需要根据租户的命名空间定义，修改所需的 Yaml 文件。
 
 需要由集群管理员、而不是租户自己的管理员来加载这两组 Yaml 文件。另外，要把租户管理员的操作权限限制在各自的命名空间内，还需要额外的 RBAC 配置。
 
@@ -166,7 +166,7 @@ ratings-default       RouteRule.v1alpha2.config.istio.io    ns-1
 reviews-default       RouteRule.v1alpha2.config.istio.io    ns-1
 {{< /text >}}
 
-[Multiple Istio control planes](/blog/2018/soft-multitenancy/#multiple-istio-control-planes) 中讲述了更多多租户环境下命名空间的相关问题。
+[Multiple Istio control planes](/zh/blog/2018/soft-multitenancy/#多个-istio-控制面) 中讲述了更多多租户环境下命名空间的相关问题。
 
 ### 测试结果
 
@@ -201,7 +201,7 @@ $ kubectl get pods -n istio-system1
 Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list pods in the namespace "istio-system1"
 {{< /text >}}
 
-租户管理员能够在租户指定的应用命名空间中进行应用部署。例如可以修改一下 [Bookinfo](/docs/examples/bookinfo/) 的 Yaml 然后部署到租户的命名空间 `ns-0` 中，然后租户管理员就可以在这一命名空间中列出 Pod 了：
+租户管理员能够在租户指定的应用命名空间中进行应用部署。例如可以修改一下 [Bookinfo](/zh/docs/examples/bookinfo/) 的 Yaml 然后部署到租户的命名空间 `ns-0` 中，然后租户管理员就可以在这一命名空间中列出 Pod 了：
 
 {{< text bash >}}
 $ kubectl get pods -n ns-0
@@ -221,8 +221,8 @@ $ kubectl get pods -n ns-1
 Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list pods in the namespace "ns-1"
 {{< /text >}}
 
-如果部署了[遥测组件](/docs/tasks/telemetry/), 例如
-[prometheus](/docs/tasks/telemetry/querying-metrics/)（限制在 Istio 的 `namespace`），其中获得的统计结果展示的也只是租户应用命名空间的私有数据。
+如果部署了[遥测组件](/zh/docs/tasks/telemetry/), 例如
+[Prometheus](/zh/docs/tasks/telemetry/querying-metrics/)（限制在 Istio 的 `namespace`），其中获得的统计结果展示的也只是租户应用命名空间的私有数据。
 
 ## 结语
 
@@ -257,8 +257,8 @@ Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list p
 ## 参考
 
 * 视频：[用 RBAC 和命名空间支持的多租户功能及安全模型](https://www.youtube.com/watch?v=ahwCkJGItkU), [幻灯片](https://schd.ws/hosted_files/kccncna17/21/Multi-tenancy%20Support%20%26%20Security%20Modeling%20with%20RBAC%20and%20Namespaces.pdf).
-* Kubecon 讨论，关于对”协同软性多租户“的支持 [Building for Trust: How to Secure Your Kubernetes](https://www.youtube.com/watch?v=YRR-kZub0cA).
-* Kubernetes [RBAC 文档](https://kubernetes.io/docs/admin/authorization/rbac/) 以及 [命名空间文档](https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/).
+* Kubecon 讨论，关于对”协同软性多租户"的支持 [Building for Trust: How to Secure Your Kubernetes](https://www.youtube.com/watch?v=YRR-kZub0cA).
+* Kubernetes [RBAC 文档](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) 以及 [命名空间文档](https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/).
 * Kubecon 幻灯片 [Multi-tenancy Deep Dive](https://schd.ws/hosted_files/kccncna17/a9/kubecon-multitenancy.pdf).
 * Google 文档 [Multi-tenancy models for Kubernetes](https://docs.google.com/document/d/15w1_fesSUZHv-vwjiYa9vN_uyc--PySRoLKTuDhimjc). (需要授权)
 * Cloud Foundry 提出的文档：[Multi-cloud and Multi-tenancy](https://docs.google.com/document/d/14Hb07gSrfVt5KX9qNi7FzzGwB_6WBpAnDpPG6QEEd9Q)

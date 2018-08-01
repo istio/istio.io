@@ -275,8 +275,6 @@ spec:
 
 Create the resources:
 
-<div class="workaround_for_hugo_bug">
-
 {{< text bash >}}
 $ kubectl apply -f logging-stack.yaml
 namespace "logging" created
@@ -288,8 +286,6 @@ configmap "fluentd-es-config" created
 service "kibana" created
 deployment "kibana" created
 {{< /text >}}
-
-</div>
 
 ## Configure Istio
 
@@ -311,9 +307,9 @@ spec:
   severity: '"info"'
   timestamp: request.time
   variables:
-    source: source.labels["app"] | source.service | "unknown"
+    source: source.labels["app"] | source.workload.name | "unknown"
     user: source.user | "unknown"
-    destination: destination.labels["app"] | destination.service | "unknown"
+    destination: destination.labels["app"] | destination.workload.name | "unknown"
     responseCode: response.code | 0
     responseSize: response.size | 0
     latency: response.duration | "0ms"
@@ -346,14 +342,14 @@ spec:
 Create the resources:
 
 {{< text bash >}}
-$ istioctl create -f fluentd-istio.yaml
+$ kubectl apply -f fluentd-istio.yaml
 Created config logentry/istio-system/newlog at revision 22374
 Created config fluentd/istio-system/handler at revision 22375
 Created config rule/istio-system/newlogtofluentd at revision 22376
 {{< /text >}}
 
 Notice that the `address: "fluentd-es.logging:24224"` line in the
-handler config is pointing to the Fluentd daemon we setup in the
+handler configuration is pointing to the Fluentd daemon we setup in the
 example stack.
 
 ## View the new logs
@@ -373,7 +369,7 @@ example stack.
     executing the following command:
 
     {{< text bash >}}
-    $ kubectl -n logging port-forward $(kubectl -n logging get pod -l app=kibana -o jsonpath='{.items[0].metadata.name}') 5601:5601
+    $ kubectl -n logging port-forward $(kubectl -n logging get pod -l app=kibana -o jsonpath='{.items[0].metadata.name}') 5601:5601 &
     {{< /text >}}
 
     Leave the command running. Press Ctrl-C to exit when done accessing the Kibana UI.
@@ -391,13 +387,19 @@ example stack.
 *   Remove the new telemetry configuration:
 
     {{< text bash >}}
-    $ istioctl delete -f fluentd-istio.yaml
+    $ kubectl delete -f fluentd-istio.yaml
     {{< /text >}}
 
 *   Remove the example Fluentd, Elasticsearch, Kibana stack:
 
     {{< text bash >}}
     $ kubectl delete -f logging-stack.yaml
+    {{< /text >}}
+
+*   Remove any `kubectl port-forward` processes that may still be running:
+
+    {{< text bash >}}
+    $ killall kubectl
     {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, refer to the

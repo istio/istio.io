@@ -1,10 +1,9 @@
 ---
 title: TLS Origination for Egress Traffic
 description: Describes how to configure Istio to perform TLS origination for traffic to external services
+keywords: [traffic-management,egress]
 weight: 42
 ---
-
-> This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.7/docs/tasks/traffic-management/).
 
 The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task demonstrates how external, meaning outside of the
 Kubernetes cluster, HTTP and HTTPS services can be accessed from applications inside the mesh. As described in that topic, by
@@ -55,7 +54,7 @@ Note that you use a wildcard `*` in your `hosts` definition: `*.cnn.com`. Using 
 1.  Create a `ServiceEntry` to allow access to an external HTTP and HTTPS services:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -70,6 +69,7 @@ Note that you use a wildcard `*` in your `hosts` definition: `*.cnn.com`. Using 
       - number: 443
         name: https-port
         protocol: HTTPS
+      resolution: NONE
     EOF
     {{< /text >}}
 
@@ -100,7 +100,7 @@ the latency of fetching the content of `http://edition.cnn.com/politics`. The se
 In the next section, you configure Istio to perform TLS origination to resolve these two issues. Clean your configuration before proceeding to the next section:
 
 {{< text bash >}}
-$ istioctl delete serviceentry cnn
+$ kubectl delete serviceentry cnn
 {{< /text >}}
 
 ## TLS origination for egress traffic
@@ -115,7 +115,7 @@ to DNS to correctly configure Envoy.
 proxy needs to know exactly which host to access using HTTPS:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -191,9 +191,9 @@ Also note that even for HTTPS originated by the application, the attacker could 
 1.  Remove the Istio configuration items you created:
 
     {{< text bash >}}
-    $ istioctl delete serviceentry cnn
-    $ istioctl delete virtualservice rewrite-port-for-edition-cnn-com
-    $ istioctl delete destinationrule originate-tls-for-edition-cnn-com
+    $ kubectl delete serviceentry cnn
+    $ kubectl delete virtualservice rewrite-port-for-edition-cnn-com
+    $ kubectl delete destinationrule originate-tls-for-edition-cnn-com
     {{< /text >}}
 
 1.  Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:

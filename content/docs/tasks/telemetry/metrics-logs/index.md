@@ -38,8 +38,9 @@ as the example application throughout this task.
     spec:
       value: "2" # count each request twice
       dimensions:
-        source: source.service | "unknown"
-        destination: destination.service | "unknown"
+        reporter: conditional((context.reporter.kind | "inbound") == "outbound", "client", "server")
+        source: source.workload.name | "unknown"
+        destination: destination.workload.name | "unknown"
         message: '"twice the fun!"'
       monitored_resource_type: '"UNSPECIFIED"'
     ---
@@ -55,6 +56,7 @@ as the example application throughout this task.
         instance_name: doublerequestcount.metric.istio-system # Mixer instance name (fully-qualified)
         kind: COUNTER
         label_names:
+        - reporter
         - source
         - destination
         - message
@@ -81,9 +83,9 @@ as the example application throughout this task.
       severity: '"warning"'
       timestamp: request.time
       variables:
-        source: source.labels["app"] | source.service | "unknown"
+        source: source.labels["app"] | source.workload.name | "unknown"
         user: source.user | "unknown"
-        destination: destination.labels["app"] | destination.service | "unknown"
+        destination: destination.labels["app"] | destination.workload.name | "unknown"
         responseCode: response.code | 0
         responseSize: response.size | 0
         latency: response.duration | "0ms"
@@ -118,13 +120,13 @@ as the example application throughout this task.
 1.  Push the new configuration.
 
     {{< text bash >}}
-    $ istioctl create -f new_telemetry.yaml
-    Created config metric/istio-system/doublerequestcount at revision 1973035
-    Created config prometheus/istio-system/doublehandler at revision 1973036
-    Created config rule/istio-system/doubleprom at revision 1973037
-    Created config logentry/istio-system/newlog at revision 1973038
-    Created config stdio/istio-system/newhandler at revision 1973039
-    Created config rule/istio-system/newlogstdio at revision 1973041
+    $ kubectl apply -f new_telemetry.yaml
+    Created configuration metric/istio-system/doublerequestcount at revision 1973035
+    Created configuration prometheus/istio-system/doublehandler at revision 1973036
+    Created configuration rule/istio-system/doubleprom at revision 1973037
+    Created configuration logentry/istio-system/newlog at revision 1973038
+    Created configuration stdio/istio-system/newhandler at revision 1973039
+    Created configuration rule/istio-system/newlogstdio at revision 1973041
     {{< /text >}}
 
 1.  Send traffic to the sample application.
@@ -152,10 +154,10 @@ as the example application throughout this task.
     **Console** tab includes entries similar to:
 
     {{< text plain >}}
-    istio_double_request_count{destination="details.default.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="productpage.default.svc.cluster.local"} 2
-    istio_double_request_count{destination="ingress.istio-system.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="unknown"} 2
-    istio_double_request_count{destination="productpage.default.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="ingress.istio-system.svc.cluster.local"} 2
-    istio_double_request_count{destination="reviews.default.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="productpage.default.svc.cluster.local"} 2
+    istio_double_request_count{destination="details-v1",instance="172.17.0.12:42422",job="istio-mesh",message="twice the fun!",reporter="client",source="productpage-v1"}   8
+    istio_double_request_count{destination="details-v1",instance="172.17.0.12:42422",job="istio-mesh",message="twice the fun!",reporter="server",source="productpage-v1"}   8
+    istio_double_request_count{destination="istio-policy",instance="172.17.0.12:42422",job="istio-mesh",message="twice the fun!",reporter="server",source="details-v1"}   4
+    istio_double_request_count{destination="istio-policy",instance="172.17.0.12:42422",job="istio-mesh",message="twice the fun!",reporter="server",source="istio-ingressgateway"}   4
     {{< /text >}}
 
     For more on querying Prometheus for metric values, see the
@@ -169,11 +171,10 @@ as the example application throughout this task.
 
     {{< text bash json >}}
     $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') -c mixer | grep \"instance\":\"newlog.logentry.istio-system\"
-    {"level":"warn","ts":"2017-09-21T04:33:31.249Z","instance":"newlog.logentry.istio-system","destination":"details","latency":"6.848ms","responseCode":200,"responseSize":178,"source":"productpage","user":"unknown"}
-    {"level":"warn","ts":"2017-09-21T04:33:31.291Z","instance":"newlog.logentry.istio-system","destination":"ratings","latency":"6.753ms","responseCode":200,"responseSize":48,"source":"reviews","user":"unknown"}
-    {"level":"warn","ts":"2017-09-21T04:33:31.263Z","instance":"newlog.logentry.istio-system","destination":"reviews","latency":"39.848ms","responseCode":200,"responseSize":379,"source":"productpage","user":"unknown"}
-    {"level":"warn","ts":"2017-09-21T04:33:31.239Z","instance":"newlog.logentry.istio-system","destination":"productpage","latency":"67.675ms","responseCode":200,"responseSize":5599,"source":"ingress.istio-system.svc.cluster.local","user":"unknown"}
-    {"level":"warn","ts":"2017-09-21T04:33:31.233Z","instance":"newlog.logentry.istio-system","destination":"ingress.istio-system.svc.cluster.local","latency":"74.47ms","responseCode":200,"responseSize":5599,"source":"unknown","user":"unknown"}
+    {"level":"warn","time":"2018-07-11T00:09:55.530274Z","instance":"newlog.logentry.istio-system","destination":"productpage","latency":"27.769937ms","responseCode":200,"responseSize":4415,"source":"istio-ingressgateway","user":"unknown"}
+    {"level":"warn","time":"2018-07-11T00:09:56.450852Z","instance":"newlog.logentry.istio-system","destination":"policy","latency":"566.375µs","responseCode":200,"responseSize":82,"source":"istio-ingressgateway","user":"unknown"}
+    {"level":"warn","time":"2018-07-11T00:09:56.458926Z","instance":"newlog.logentry.istio-system","destination":"reviews","latency":"4.940979ms","responseCode":200,"responseSize":295,"source":"productpage","user":"unknown"}
+    {"level":"warn","time":"2018-07-11T00:09:57.348865Z","instance":"newlog.logentry.istio-system","destination":"details","latency":"2.112762ms","responseCode":200,"responseSize":178,"source":"productpage","user":"unknown"}
     {{< /text >}}
 
 ## Understanding the telemetry configuration
@@ -198,12 +199,12 @@ The metrics configuration directs Mixer to send metric values to Prometheus. It
 uses three stanzas (or blocks) of configuration: *instance* configuration,
 *handler* configuration, and *rule* configuration.
 
-The `kind: metric` stanza of config defines a schema for generated metric values
+The `kind: metric` stanza of configuration defines a schema for generated metric values
 (or *instances*) for a new metric named `doublerequestcount`. This instance
 configuration tells Mixer _how_ to generate metric values for any given request,
 based on the attributes reported by Envoy (and generated by Mixer itself).
 
-For each instance of `doublerequestcount.metric`, the config directs Mixer to
+For each instance of `doublerequestcount.metric`, the configuration directs Mixer to
 supply a value of `2` for the instance. Because Istio generates an instance for
 each request, this means that this metric records a value equal to twice the
 total number of requests received.
@@ -216,14 +217,14 @@ troubleshooting application behavior.
 
 The configuration instructs Mixer to populate values for these dimensions based
 on attribute values and literal values. For instance, for the `source`
-dimension, the new config requests that the value be taken from the
-`source.service` attribute. If that attribute value is not populated, the rule
+dimension, the new configuration requests that the value be taken from the
+`source.workload.name` attribute. If that attribute value is not populated, the rule
 instructs Mixer to use a default value of `"unknown"`. For the `message`
 dimension, a literal value of `"twice the fun!"` will be used for all instances.
 
-The `kind: prometheus` stanza of config defines a *handler* named
+The `kind: prometheus` stanza of configuration defines a *handler* named
 `doublehandler`. The handler `spec` configures how the Prometheus adapter code
-translates received metric instances into prometheus-formatted values that can
+translates received metric instances into Prometheus-formatted values that can
 be processed by a Prometheus backend. This configuration specified a new
 Prometheus metric named `double_request_count`. The Prometheus adapter prepends
 the `istio_` namespace to all metric names, therefore this metric will show up
@@ -235,7 +236,7 @@ metrics via the `instance_name` parameter. The `instance_name` values must be
 the fully-qualified name for Mixer instances (example:
 `doublerequestcount.metric.istio-system`).
 
-The `kind: rule` stanza of config defines a new *rule* named `doubleprom`. The
+The `kind: rule` stanza of configuration defines a new *rule* named `doubleprom`. The
 rule directs Mixer to send all `doublerequestcount.metric` instances to the
 `doublehandler.prometheus` handler. Because there is no `match` clause in the
 rule, and because the rule is in the configured default configuration namespace
@@ -247,7 +248,7 @@ The logs configuration directs Mixer to send log entries to stdout. It uses
 three stanzas (or blocks) of configuration: *instance* configuration, *handler*
 configuration, and *rule* configuration.
 
-The `kind: logentry` stanza of config defines a schema for generated log entries
+The `kind: logentry` stanza of configuration defines a schema for generated log entries
 (or *instances*) named `newlog`. This instance configuration tells Mixer _how_
 to generate log entries for requests based on the attributes reported by Envoy.
 
@@ -267,7 +268,7 @@ with the value from the attribute `response.duration`. If there is no known
 value for `response.duration`, the `latency` field will be set to a duration of
 `0ms`.
 
-The `kind: stdio` stanza of config defines a *handler* named `newhandler`. The
+The `kind: stdio` stanza of configuration defines a *handler* named `newhandler`. The
 handler `spec` configures how the `stdio` adapter code processes received
 `logentry` instances. The `severity_levels` parameter controls how `logentry`
 values for the `severity` field are mapped to supported logging levels. Here,
@@ -275,7 +276,7 @@ the value of `"warning"` is mapped to the `WARNING` log level. The
 `outputAsJson` parameter directs the adapter to generate JSON-formatted log
 lines.
 
-The `kind: rule` stanza of config defines a new *rule* named `newlogstdio`. The
+The `kind: rule` stanza of configuration defines a new *rule* named `newlogstdio`. The
 rule directs Mixer to send all `newlog.logentry` instances to the
 `newhandler.stdio` handler. Because the `match` parameter is set to `true`, the
 rule is executed for all requests in the mesh.
@@ -290,7 +291,13 @@ here to illustrate how to use `match` expressions to control rule execution.
 *   Remove the new telemetry configuration:
 
     {{< text bash >}}
-    $ istioctl delete -f new_telemetry.yaml
+    $ kubectl delete -f new_telemetry.yaml
+    {{< /text >}}
+
+*   Remove any `kubectl port-forward` processes that may still be running:
+
+    {{< text bash >}}
+    $ killall kubectl
     {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, refer to the

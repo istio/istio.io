@@ -100,7 +100,8 @@ The available front matter fields are:
 |`publishdate`  | For blog posts, indicates the date of publication of the post
 |`subtitle`     | For blog posts, supplies an optional subtitle to be displayed below the main title
 |`attribution`  | For blog posts, supplies an optional author's name
-|`toc`          | Set this to false to prevent the page from having a table of contents generated for it
+|`skip_toc`     | Set this to true to prevent the page from having a table of contents generated for it
+|`skip_seealso`     | Set this to true to prevent the page from having a "See also" section generated for it
 |`force_inline_toc` | Set this to true to force the generated table of contents from being inserted inline in the text instead of in a sidebar
 
 ## Adding images
@@ -184,15 +185,15 @@ produces a link to `https://raw.githubusercontent.com/istio/istio/...`
     [httpbin]({{</* github_tree */>}}/samples/httpbin)
     {{< /text >}}
 
-- **{{</* github_blob */>}}** is how you reference a file tree in GitHub sources. This produces a link to
+- **{{</* github_blob */>}}** is how you reference a file in GitHub sources. This produces a link to
 `https://github.com/istio/istio/blob/...`
 
     {{< text markdown >}}
     [RawVM MySQL]({{</* github_blob */>}}/samples/rawvm/README.md)
     {{< /text >}}
 
-The above linking methods automatically link to the appropriate branch in GitHub, relative to branch that that
-documentation set is currently targeting. If you need to manually construct a URL, you can use the sequence **{{</* branch_name */>}}**
+The above annotations yield links to the appropriate branch in GitHub, relative to the branch that the
+documentation is currently targeting. If you need to manually construct a URL, you can use the sequence **{{</* branch_name */>}}**
 to get the name of the currently targeted branch.
 
 ## Embedding preformatted blocks
@@ -342,14 +343,14 @@ of @ symbols. These indicate the path should be rendered as a link to the file f
 
 {{< text markdown >}}
 {{</* text bash */>}}
-$ istioctl create -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
+$ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 {{</* /text */>}}
 {{< /text >}}
 
 This will be rendered as:
 
 {{< text bash >}}
-$ istioctl create -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
+$ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 {{< /text >}}
 
 ### Files and snippets
@@ -393,7 +394,7 @@ script `scripts/grab_reference_docs.sh` in the documentation repo.
 ### Dynamic content
 
 You can dynamically pull in an external file and display its content as a preformatted block. This is handy to display a
-config file or a test file. To do so, you use a statement such as:
+configuration file or a test file. To do so, you use a statement such as:
 
 {{< text markdown >}}
 {{</* text_dynamic url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" */>}}

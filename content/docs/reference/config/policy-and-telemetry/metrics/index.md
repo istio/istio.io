@@ -6,7 +6,7 @@ weight: 50
 
 This page presents details about the metrics that Istio collects when using its initial configuration. You can add and remove metrics by changing configuration at any time, but this
 is the built-in set. They can be found [here]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml)
-under the section with “kind: metric”. It uses [metric
+under the section with "kind: metric”. It uses [metric
 template](/docs/reference/config/policy-and-telemetry/templates/metric/) to define these metrics.
 
 We will describe metrics first and then the labels for each metric.
@@ -33,19 +33,12 @@ We will describe metrics first and then the labels for each metric.
 
 ## Labels
 
-*   **Reporter**: This identifies the reporter of the request. It is set to `server`
-    if report is from a server Istio proxy and `client` if report is from a client
+*   **Reporter**: This identifies the reporter of the request. It is set to `destination`
+    if report is from a server Istio proxy and `source` if report is from a client
     Istio proxy.
 
     {{< text yaml >}}
-    reporter: conditional((context.reporter.kind | "inbound") == "outbound", "client", "server")
-    {{< /text >}}
-
-*   **Source Namespace**: This identifies the namespace of the source workload
-    instance where the traffic originates.
-
-    {{< text yaml >}}
-    source_namespace: source.namespace | "unknown"
+    reporter: conditional((context.reporter.kind | "inbound") == "outbound", "source", "destination")
     {{< /text >}}
 
 *   **Source Workload**: This identifies the name of source workload which
@@ -82,13 +75,6 @@ We will describe metrics first and then the labels for each metric.
     source_version: source.labels["version"] | "unknown"
     {{< /text >}}
 
-*   **Destination Namespace**: This identifies the namespace of the destination workload
-    instance where the traffic is headed.
-
-    {{< text yaml >}}
-    destination_namespace: destination.namespace | "unknown"
-    {{< /text >}}
-
 *   **Destination Workload**: This identifies the name of destination workload.
 
     {{< text yaml >}}
@@ -123,7 +109,7 @@ We will describe metrics first and then the labels for each metric.
     {{< /text >}}
 
 *   **Destination Service**: This identifies destination service host responsible
-    for an incoming request. Ex: "details.default.svc.cluster.local".
+    for an incoming request. Ex: `details.default.svc.cluster.local`.
 
     {{< text yaml >}}
     destination_service: destination.service.host | "unknown"
@@ -157,10 +143,11 @@ We will describe metrics first and then the labels for each metric.
     response_code: response.code | 200
     {{< /text >}}
 
-*   **Connection mTLS**: This identifies the service authentication policy of
-    the request. It is set to `true`, when Istio is used to make
-    communication secure.
+*   **Connection Security Policy**: This identifies the service authentication policy of
+    the request. It is set to `mutual_tls` when Istio is used to make communication
+    secure and report is from destination. It is set to `unknown` when report is from
+    source since security policy cannot be properly populated.
 
     {{< text yaml >}}
-    connection_mtls: connection.mtls | false
+    connection_security_policy: conditional((context.reporter.kind | "inbound") == "outbound", "unknown", conditional(connection.mtls | false, "mutual_tls", "none"))
     {{< /text >}}

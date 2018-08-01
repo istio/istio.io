@@ -15,12 +15,18 @@ function:
 
 Mixer logs can be accessed via a `kubectl logs` command, as follows:
 
+- For the `istio-policy` service:
+
 {{< text bash >}}
-$ kubectl -n istio-system logs $(kubectl -n istio-system get pods -listio=mixer -o jsonpath='{.items[0].metadata.name}') -c mixer
+$ kubectl -n istio-system logs $(kubectl -n istio-system get pods -lapp=policy -o jsonpath='{.items[0].metadata.name}') -c mixer
 {{< /text >}}
 
-Mixer trace generation is controlled by the command-line flag `traceOutput`. If
-the flag value is set to `STDOUT` or `STDERR` trace data will be written
-directly to those locations. If a URL is provided, Mixer will post
-Zipkin-formatted data to that endpoint (example:
-`http://zipkin:9411/api/v1/spans`).
+- For the `istio-telemetry` service:
+
+{{< text bash >}}
+$ kubectl -n istio-system logs $(kubectl -n istio-system get pods -lapp=telemetry -o jsonpath='{.items[0].metadata.name}') -c mixer
+{{< /text >}}
+
+Mixer trace generation is controlled by command-line flags: `trace_zipkin_url`, `trace_jaeger_url`, and `trace_log_spans`. If
+any of those flag values are set, trace data will be written directly to those locations. If no tracing options are provided, Mixer
+will not generate any application-level trace information.

@@ -8,7 +8,7 @@ weight: 30
 
 ## 开始之前
 
-首先要 Fork Istio 的文档仓库，这一过程在 [Working with GitHub](/about/contribute/github/) 中有具体讲解。
+首先要 Fork Istio 的文档仓库，这一过程在 [Working with GitHub](/zh/about/contribute/github/) 中有具体讲解。
 
 ## 选择页面类型
 
@@ -76,7 +76,7 @@ keywords: [keyword1,keyword2,...]
 |`title`        | 页面的简称
 |`description`  | 关于该主题内容的单行描述
 |`weight`       | 一个整数，用于确定此页面相对于同一目录中其他页面的排列顺序
-|`keywords`     | 描述页面的一系列关键字，用于创建“请参阅”链接
+|`keywords`     | 描述页面的一系列关键字，用于创建"请参阅”链接
 |`draft`        | 如果为 true，页面不会出现在任何导航区域中
 |`publishdate`  | 博客的发布日期
 |`subtitle`     | 可选，博客的副标题，会显示在标题的下方
@@ -114,7 +114,7 @@ keywords: [keyword1,keyword2,...]
 
 这段代码会显示 {{< warning_icon >}} 和 {{< idea_icon >}}
 
-另外还可以用这种代码在内容中加入 emoji：`:sailboat:`，这样会显示帆船 emoji。
+另外还可以用这种代码在内容中加入 `emoji` ： `:``sailboat``:` ，这样会显示帆船的 `emoji` ， 就像这样 `:sailboat:`。
 
 可用的 emoji 列表可以参看：[Cheat sheet of the supported emojis](https://www.webpagefx.com/tools/emoji-cheat-sheet/)。
 
@@ -131,13 +131,13 @@ keywords: [keyword1,keyword2,...]
 1. **相对链接：**在网站的层次结构内，用以句号开头的相对链接引用与当前文件相同或以下级别的任何内容：
 
     {{< text markdown >}}
-    [see here](./adir/anotherfile.html)
+    [see here](/zh./adir/anotherfile.html)
     {{< /text >}}
 
 1. **绝对链接：**用以 `/` 开头的绝对链接来引用当前层次之外的内容：
 
     {{< text markdown >}}
-    [see here](/docs/adir/afile/)
+    [see here](/zh/docs/adir/afile/)
     {{< /text >}}
 
 ## 预格式化文本块

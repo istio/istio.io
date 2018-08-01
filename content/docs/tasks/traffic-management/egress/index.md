@@ -7,8 +7,6 @@ aliases:
 keywords: [traffic-management,egress]
 ---
 
-> This task uses the new [v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). The old API has been deprecated and will be removed in the next Istio release. If you need to use the old version, follow the docs [here](https://archive.istio.io/v0.7/docs/tasks/traffic-management/).
-
 By default, Istio-enabled services are unable to access URLs outside of the cluster because the pod uses
 iptables to transparently redirect all outbound traffic to the sidecar proxy,
 which only handles intra-cluster destinations.
@@ -51,7 +49,7 @@ from within your Istio cluster. In this task you access
 1.  Create a `ServiceEntry` to allow access to an external HTTP service:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -63,17 +61,19 @@ from within your Istio cluster. In this task you access
       - number: 80
         name: http
         protocol: HTTP
+      resolution: DNS
     EOF
     {{< /text >}}
 
-1.  Create a `ServiceEntry` to allow access to an external HTTPS service:
+1.  Create a `ServiceEntry` and a `VirtualService` to allow access to an external HTTPS service. Note that for TLS
+    protocols, including HTTPS, the TLS `VirtualService` is required in addition to the `ServiceEntry`.
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
-      name: google-ext
+      name: google
     spec:
       hosts:
       - www.google.com
@@ -81,6 +81,30 @@ from within your Istio cluster. In this task you access
       - number: 443
         name: https
         protocol: HTTPS
+      resolution: DNS
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: google
+    spec:
+      hosts:
+      - www.google.com
+      gateways:
+      - mesh
+      tls:
+      - match:
+        - gateways:
+          - mesh
+          port: 443
+          sni_hosts:
+          - www.google.com
+        route:
+        - destination:
+            host: www.google.com
+            port:
+              number: 443
+          weight: 100
     EOF
     {{< /text >}}
 
@@ -111,7 +135,7 @@ from within your Istio cluster. In this task you access
 Similar to inter-cluster requests, Istio
 [routing rules](/docs/concepts/traffic-management/#rule-configuration)
 can also be set for external services that are accessed using `ServiceEntry` configurations.
-In this example, you use [istioctl](/docs/reference/commands/istioctl/)
+In this example, you use [`istioctl`](/docs/reference/commands/istioctl/)
 to set a timeout rule on calls to the httpbin.org service.
 
 1.  From inside the pod being used as the test source, make a _curl_ request to the `/delay` endpoint of the httpbin.org external service:
@@ -131,7 +155,7 @@ to set a timeout rule on calls to the httpbin.org service.
 1.  Exit the source pod and use `istioctl` to set a 3s timeout on calls to the httpbin.org external service:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -262,8 +286,8 @@ cluster provider specific knowledge and configuration.
 1.  Remove the rules:
 
     {{< text bash >}}
-    $ istioctl delete serviceentry httpbin-ext google-ext
-    $ istioctl delete virtualservice httpbin-ext
+    $ kubectl delete serviceentry httpbin-ext google
+    $ kubectl delete virtualservice httpbin-ext google
     {{< /text >}}
 
 1.  Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:

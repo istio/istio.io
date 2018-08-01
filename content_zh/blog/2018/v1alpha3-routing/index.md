@@ -21,7 +21,7 @@ keywords: [traffic-management]
 路由模型的重构过程中遵循了一些关键的设计原则：
 
 * 除支持声明式（意图）配置外，也支持显式指定模型依赖的基础设施。例如，除了配置入口网关（的功能特性）之外，负责实现 入口网关功能的组件（Controller）也可以在模型指定。
-* 编写模型时应该“生产者导向”和“以 Host 为中心”，而不是通过组合多个规则来编写模型。 例如，所有与特定 Host 关联的规则被配置在一起，而不是单独配置。
+* 编写模型时应该"生产者导向”和"以 Host 为中心”，而不是通过组合多个规则来编写模型。 例如，所有与特定 Host 关联的规则被配置在一起，而不是单独配置。
 * 将路由与路由后行为清晰分开。
 
 ## v1alpha3 中的配置资源
@@ -91,7 +91,7 @@ spec:
     - bookinfo.com
   gateways:
   - bookinfo-gateway # <---- bind to gateway
-  http:
+    http:
   - match:
     - uri:
         prefix: /reviews
@@ -103,11 +103,11 @@ Gateway 可以用于建模边缘代理或纯粹的内部代理，如第一张图
 
 ### `VirtualService`
 
-用一种叫做 “Virtual services” 的东西代替路由规则可能看起来有点奇怪，但对于它配置的内容而言，这事实上是一个更好的名称，特别是在重新设计 API 以解决先前模型的可扩展性问题之后。
+用一种叫做 "Virtual services” 的东西代替路由规则可能看起来有点奇怪，但对于它配置的内容而言，这事实上是一个更好的名称，特别是在重新设计 API 以解决先前模型的可扩展性问题之后。
 
 实际上，发生的变化是：在之前的模型中，需要用一组相互独立的配置规则来为特定的目的服务设置路由规则，并通过 precedence 字段来控制这些规则的顺序；在新的 API 中，则直接对（虚拟）服务进行配置，该虚拟服务的所有规则以一个有序列表的方式配置在对应的 [`VirtualService`](/docs/reference/config/istio.networking.v1alpha3/#VirtualService) 资源中。
 
-例如，之前在 [Bookinfo](/docs/examples/bookinfo/) 应用程序的 reviews 服务中有两个 `RouteRule` 资源，如下所示：
+例如，之前在 [Bookinfo](/zh/docs/examples/bookinfo/) 应用程序的 reviews 服务中有两个 `RouteRule` 资源，如下所示：
 
 {{< text yaml >}}
 apiVersion: config.istio.io/v1alpha2
@@ -195,7 +195,7 @@ spec:
     route:
     - destination:
         host: ratings
-  ...
+      ...
 {{< /text >}}
 
 实际上在 `VirtualService` 中 hosts 部分设置只是虚拟的目的地,因此不一定是已在网格中注册的服务。这允许用户为在网格内没有可路由条目的虚拟主机的流量进行建模。 通过将 `VirtualService` 绑定到同一 Host 的 `Gateway` 配置（如前一节所述 ），可向网格外部暴露这些 Host。
@@ -259,15 +259,15 @@ metadata:
 spec:
   hosts:
   - foo.com
-  ports:
+    ports:
   - number: 80
     name: http
     protocol: HTTP
 {{< /text >}}
 
-也就是说，`ServiceEntry` 比它的前身具有更多的功能。首先，`ServiceEntry` 不限于外部服务配置，它可以有两种类型：网格内部或网格外部。网格内部条目只是用于向网格显式添加服务，添加的服务与其他内部服务一样。采用网格内部条目，可以把原本未被网格管理的基础设施也纳入到网格中（例如，把虚机中的服务添加到基于 Kubernetes 的服务网格中）。网格外部条目则代表了网格外部的服务。对于这些外部服务来说，mTLS 身份验证是禁用的，并且策略是在客户端执行的，而不是在像内部服务请求一样在服务器端执行策略。
+也就是说，`ServiceEntry` 比它的前身具有更多的功能。首先，`ServiceEntry` 不限于外部服务配置，它可以有两种类型：网格内部或网格外部。网格内部条目只是用于向网格显式添加服务，添加的服务与其他内部服务一样。采用网格内部条目，可以把原本未被网格管理的基础设施也纳入到网格中（例如，把虚机中的服务添加到基于 Kubernetes 的服务网格中）。网格外部条目则代表了网格外部的服务。对于这些外部服务来说，双向 TLS 身份验证是禁用的，并且策略是在客户端执行的，而不是在像内部服务请求一样在服务器端执行策略。
 
-由于 `ServiceEntry` 配置只是将服务添加到网格内部的服务注册表中，因此它可以像注册表中的任何其他服务一样,与 `VirtualService` 和/或 `DestinationRule` 一起使用。例如，以下 `DestinationRule` 可用于启动外部服务的 mTLS 连接：
+由于 `ServiceEntry` 配置只是将服务添加到网格内部的服务注册表中，因此它可以像注册表中的任何其他服务一样,与 `VirtualService` 和/或 `DestinationRule` 一起使用。例如，以下 `DestinationRule` 可用于启动外部服务的 双向 TLS 连接：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -306,7 +306,7 @@ $ istioctl create -f my-second-rule-for-destination-abc.yaml
 $ istioctl replace -f my-updated-rules-for-destination-abc.yaml
 {{< /text >}}
 
-删除路由规则也使用 istioctl replace 完成，当然删除最后一个路由规则除外（删除最后一个路由规则需要删除 `VirtualService`）。
+删除路由规则也使用 `istioctl` replace 完成，当然删除最后一个路由规则除外（删除最后一个路由规则需要删除 `VirtualService`）。
 
 在添加或删除引用服务版本的路由时，需要在该服务相应的 `DestinationRule` 更新 subsets 。 正如你可能猜到的，这也是使用 `istioctl replace` 完成的。
 
