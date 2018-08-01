@@ -16,16 +16,25 @@ Follow these instructions to prepare Minikube for Istio.
 1. Select a
    [VM driver](https://kubernetes.io/docs/setup/minikube/#quickstart)
    and substitute `your_vm_driver_choice` below with the installed virtual
-   machine (VM) driver.
+   machine (VM) driver. To install Istio control plane components and addons,
+   as well as other applications,
+   we recommend starting Minikube with 8192 `MB` of memory and 4 `CPUs`:
 
     On Kubernetes **1.9**:
 
     {{< text bash >}}
-    $ minikube start --memory=4096 --kubernetes-version=v1.9.4 --vm-driver=`your_vm_driver_choice`
+    $ minikube start --memory=8192 --cpus=4 --kubernetes-version=v1.9.4 \
+        --extra-config=controller-manager.cluster-signing-cert-file="/var/lib/localkube/certs/ca.crt" \
+        --extra-config=controller-manager.cluster-signing-key-file="/var/lib/localkube/certs/ca.key" \
+        --extra-config=apiserver.admission-control="NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota" \
+        --vm-driver=`your_vm_driver_choice`
     {{< /text >}}
 
     On Kubernetes **1.10**:
 
     {{< text bash >}}
-    $ minikube start --memory=4096 --kubernetes-version=v1.10.0 --vm-driver=`your_vm_driver_choice`
+    $ minikube start --memory=8192 --cpus=4 --kubernetes-version=v1.10.0 \
+        --extra-config=controller-manager.cluster-signing-cert-file="/var/lib/localkube/certs/ca.crt" \
+        --extra-config=controller-manager.cluster-signing-key-file="/var/lib/localkube/certs/ca.key" \
+        --vm-driver=`your_vm_driver_choice`
     {{< /text >}}
