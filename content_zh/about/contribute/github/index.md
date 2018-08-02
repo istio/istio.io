@@ -2,13 +2,6 @@
 title: 使用 GitHub
 description: 向您展示如何使用 GitHub 处理 Istio 文档。
 weight: 20
-aliases:
-    - /docs/welcome/contribute/creating-a-pull-request.html
-    - /docs/welcome/contribute/staging-your-changes.html
-    - /docs/welcome/contribute/editing.html
-    - /about/contribute/creating-a-pull-request
-    - /about/contribute/editing
-    - /about/contribute/staging-your-changes
 keywords: [contribute]
 ---
 

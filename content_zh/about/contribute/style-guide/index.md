@@ -2,9 +2,6 @@
 title: 样式指南
 description: 编写 Istio 文档时候的“要”和“不要”。
 weight: 70
-aliases:
-    - /docs/welcome/contribute/style-guide.html
-    - /docs/reference/contribute/style-guide.html
 keywords: [contribute]
 ---
 

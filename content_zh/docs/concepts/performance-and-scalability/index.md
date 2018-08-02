@@ -2,14 +2,6 @@
 title: 性能与可伸缩性
 description: 介绍 Istio 组件的性能与可伸缩性方法论、结果和最佳实践。
 weight: 50
-aliases:
-    - /docs/performance-and-scalability/overview
-    - /docs/performance-and-scalability/microbenchmarks
-    - /docs/performance-and-scalability/performance-testing-automation
-    - /docs/performance-and-scalability/realistic-app-benchmark
-    - /docs/performance-and-scalability/scalability
-    - /docs/performance-and-scalability/scenarios
-    - /docs/performance-and-scalability/synthetic-benchmarks
 keywords: [performance,scalability,scale,benchmarks]
 ---
 

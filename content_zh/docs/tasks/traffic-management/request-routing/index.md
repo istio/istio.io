@@ -2,8 +2,6 @@
 title: 配置请求路由
 description: 此任务向您展示如何根据权重和 HTTP header配置动态请求路由。
 weight: 10
-aliases:
-    - /docs/tasks/request-routing.html
 keywords: [traffic-management,routing]
 ---
 
