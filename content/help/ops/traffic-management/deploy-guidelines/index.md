@@ -14,11 +14,11 @@ has caused a TLS conflict for the service.
 
 If, for example, mutual TLS is globally configured in the cluster, the `DestinationRule` must include the following:
 
-```
+{{< text yaml >}}
   trafficPolicy:
     tls:
       mode: ISTIO_MUTUAL
-```
+{{< /text >}}
 
 Otherwise, the mode will default to `DISABLED` which will cause client proxies (sidecars) to make plain HTTP,
 instead of TLS encrypted, requests. This will conflict with the server proxy, which is expecting encrypted requests.
@@ -26,14 +26,14 @@ instead of TLS encrypted, requests. This will conflict with the server proxy, wh
 You can confirm that this has happened to a service if the `STATUS` field of the `istioctl authn tls-check` command
 is set to `CONFLICT`. For example:
 
-```
+{{< text bash >}}
 $ istioctl authn tls-check httpbin.default.svc.cluster.local
 HOST:PORT                                  STATUS       SERVER     CLIENT     AUTHN POLICY     DESTINATION RULE
 httpbin.default.svc.cluster.local:8000     CONFLICT     mTLS       HTTP       default/         httpbin/default
-```
+{{< /text >}}
 
 In this case, and whenever applying `DestinationRules`, make sure that the `trafficPolicy` TLS mode is set
-to match the global server configuration. 
+to match the global server configuration.
 
 ## 503 errors while reconfiguring service routes
 
