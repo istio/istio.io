@@ -45,7 +45,7 @@ of injected sidecar when it was.
 
     The `namespaceSelector` for opt-in will look like the following:
 
-    {{< text bash >}}
+    {{< text bash yaml >}}
     $ kubectl get mutatingwebhookconfiguration istio-sidecar-injector -o yaml | grep "namespaceSelector:" -A5
       namespaceSelector:
         matchLabels:
@@ -110,7 +110,7 @@ of injected sidecar when it was.
 
     Check the default injection policy in the `istio-sidecar-injector` `configmap`.
 
-    {{< text bash >}}
+    {{< text bash yaml >}}
     $ kubectl -n istio-system get configmap istio-sidecar-injector -o jsonpath='{.data.config}' | head
     policy: enabled
     template: |-
@@ -137,7 +137,7 @@ of injected sidecar when it was.
     `false` forces the sidecar to _not_ be injected.
 
     The following annotation overrides whatever the default `policy` was
-    to force the sidecar to be injected.
+    to force the sidecar to be injected:
 
     {{< text bash yaml >}}
     $ kubectl get deployment sleep -o yaml | grep "sidecar.istio.io/inject:" -C3
@@ -185,11 +185,6 @@ $ kubectl -n istio-system patch deployment istio-sidecar-injector \
     -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
 deployment.extensions "istio-sidecar-injector" patched
 {{< /text >}}
-
-In theory, the `caBundle` could be temporarily out of date with what
-the injector is used if multiple webhook replicas are in use. This
-should be a transient error state if the CA certificate is rotated or
-install is re-installed.
 
 ### `no such hosts` or `no endpoints available` errors in deployment status
 

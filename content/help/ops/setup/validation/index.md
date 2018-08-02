@@ -223,7 +223,7 @@ mounted from `istio.istio-galley-service-account` secret in the
     istio-galley-5dbbbdb746-d676g   1/1       Running   0          2d
     {{< /text >}}
 
-1. Verify you’re using Istio version >= 1.0.0. Older version of galley
+1. Verify you’re using Istio version >= 1.0.0. Older version of Galley
    did not properly re-patch the `caBundle`. This typically happened
    when the `istio.yaml` was re-applied, overwriting a previously
    patched `caBundle`.
@@ -235,8 +235,8 @@ mounted from `istio.istio-galley-service-account` secret in the
     Version: 1.0.0
     {{< /text >}}
 
-    1. Check the galley pod logs for errors. Failing to patch the `caBundle`
-       should print an error.
+1. Check the Galley pod logs for errors. Failing to patch the
+       `caBundle` should print an error.
 
     {{< text bash >}}
     $ for pod in $(kubectl -n istio-system get pod -listio=galley -o jsonpath='{.items[*].metadata.name}'); do \
@@ -244,7 +244,7 @@ mounted from `istio.istio-galley-service-account` secret in the
     done
     {{< /text >}}
 
-1. If the patching failed, verify the RBAC configuration for galley.
+1. If the patching failed, verify the RBAC configuration for Galley:
 
     {{< text bash yaml >}}
     $ kubectl get clusterrole istio-galley-istio-system -o yaml
@@ -289,7 +289,7 @@ configuration cannot be created and updated.  In such cases you’ll see
 an error about `no such host` (Kubernetes 1.9) or `no endpoints
 available` (>=1.10).
 
-Verify the istio-galley pods(s) are running and endpoints are ready.
+Verify the `istio-galley` pods(s) are running and endpoints are ready.
 
 {{< text bash >}}
 $  kubectl -n istio-system get pod -listio=galley
