@@ -1,6 +1,6 @@
 <footer class="d-print-none container-fluid">
     <div class="row">
-        <div class="col-4 col-lg-4" role="navigation">
+        <div class="col-5 col-lg-4" role="navigation">
             <div class="container-fluid">
                 <div class="row">
                     <div class="icon">
@@ -42,7 +42,7 @@
             </div>
         </div>
 
-        <div class="col-8 col-lg-4">
+        <div class="col-7 col-lg-4">
             <p class="text-center copyright" role="contentinfo">
                 Istio
                 {{ if .Site.Data.args.archive }}
@@ -54,7 +54,7 @@
                 {{ if .Site.Data.args.archive }}
                     Archived on {{ dateFormat "January 2, 2006" .Site.Data.args.archive_date }}
                 {{ else }}
-                    This page was last modified on {{ .Page.Lastmod.Format "January 2, 2006" }}
+                    Page last modified: {{ .Page.Lastmod.Format "January 2, 2006" }}
                 {{ end }}
             </p>
         </div>

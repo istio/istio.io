@@ -7,5 +7,4 @@ attribution: My Name
 weight: 0
 ---
 
-## What's next
 

@@ -19,29 +19,30 @@ example application for this task.
 
 *   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
 
-    Either use the `istio-demo.yaml` (or `istio-demo-auth.yaml`) template, which includes tracing support, or
-    use the helm chart with tracing enabled using the `--set tracing.enabled=true` option.
+    Either use the `istio-demo.yaml` or `istio-demo-auth.yaml` template, which includes tracing support, or
+    use the Helm chart with tracing enabled by setting the `--set tracing.enabled=true` option.
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
 ## Accessing the dashboard
 
-Setup access to the tracing dashboard URL using port-forwarding:
+Setup access to the Jaeger dashboard by using port-forwarding:
 
-```command
+{{< text bash >}}
 $ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 16686:16686 &
-```
+{{< /text >}}
 
-Then open your browser at [http://localhost:16686](http://localhost:16686)
+Access the Jaeger dashboard by opening your browser to [http://localhost:16686](http://localhost:16686).
 
 ## Generating traces using the Bookinfo sample
 
 With the Bookinfo application up and running, generate trace information by accessing
 `http://$GATEWAY_URL/productpage` one or more times.
 
-If you now look at the dashboard, you should see something similar to the following:
+From the left-hand pane of the Jaeger dashboard, select `productpage` from the Service drop-down list and click
+Find Traces. You should see something similar to the following:
 
-{{< image width="100%" ratio="42.35%"
+{{< image width="100%" ratio="52.68%"
     link="./istio-tracing-list.png"
     caption="Tracing Dashboard"
     >}}
@@ -50,7 +51,7 @@ If you click on the top (most recent) trace, you should see the details correspo
 latest refresh of the `/productpage`.
 The page should look something like this:
 
-{{< image width="100%" ratio="42.35%"
+{{< image width="100%" ratio="36.32%"
     link="./istio-tracing-details.png"
     caption="Detailed Trace View"
     >}}
@@ -61,11 +62,14 @@ Although every service has the same label, `istio-proxy`, because the tracing is
 the Istio sidecar (Envoy proxy) which wraps the call to the actual service,
 the label of the destination (to the right) identifies the service for which the time is represented by each line.
 
-The first line represents the external call to the `productpage` service. The label `192.168.64.3:32000` is the host
-value used for the external request (i.e., $GATEWAY_URL). As you can see in the trace,
-the request took a total of roughly 290ms to complete. During its execution, the `productpage` called the `details` service,
-which took about 24ms, and then called the `reviews` service.
-The `reviews` service took about 243ms to execute, including a 15ms call to `ratings`.
+The call from `productpage` to `reviews` is represented by two spans in the trace. The first of the two spans (labeled `productpage
+reviews.default.svc.cluster.local:9080/`) represents the client-side span for the call. It took 24.13ms . The second span
+(labeled `reviews reviews.default.svc.cluster.local:9080/`) is a child of the first span and represents the server-side
+span for the call. It took 22.99ms .
+
+The trace for the call to the `reviews` services reveals two subsequent RPC's in the trace. The first is to the `istio-policy`
+service, reflecting the server-side Check call made for the service to authorize access. The second is the call out to
+the `ratings` service.
 
 ## Understanding what happened
 
@@ -83,15 +87,14 @@ To do this, an application needs to collect and propagate the following headers 
 * `x-b3-flags`
 * `x-ot-span-context`
 
-If you look in the sample services, you can see that the productpage application (Python) extracts the required headers from an HTTP request:
+If you look in the sample services, you can see that the `productpage` service (Python) extracts the required headers from an HTTP request:
 
-```python
+{{< text python >}}
 def getForwardHeaders(request):
     headers = {}
 
-    user_cookie = request.cookies.get("user")
-    if user_cookie:
-        headers['Cookie'] = 'user=' + user_cookie
+    if 'user' in session:
+        headers['end-user'] = session['user']
 
     incoming_headers = [ 'x-request-id',
                          'x-b3-traceid',
@@ -109,14 +112,15 @@ def getForwardHeaders(request):
             #print "incoming: "+ihdr+":"+val
 
     return headers
-```
+{{< /text >}}
 
 The reviews application (Java) does something similar:
 
-```java
+{{< text jzvz >}}
 @GET
-@Path("/reviews")
-public Response bookReviews(@CookieParam("user") Cookie user,
+@Path("/reviews/{productId}")
+public Response bookReviewsById(@PathParam("productId") int productId,
+                            @HeaderParam("end-user") String user,
                             @HeaderParam("x-request-id") String xreq,
                             @HeaderParam("x-b3-traceid") String xtraceid,
                             @HeaderParam("x-b3-spanid") String xspanid,
@@ -124,21 +128,23 @@ public Response bookReviews(@CookieParam("user") Cookie user,
                             @HeaderParam("x-b3-sampled") String xsampled,
                             @HeaderParam("x-b3-flags") String xflags,
                             @HeaderParam("x-ot-span-context") String xotspan) {
-  String r1 = "";
-  String r2 = "";
+  int starsReviewer1 = -1;
+  int starsReviewer2 = -1;
 
-  if(ratings_enabled){
-    JsonObject ratings = getRatings(user, xreq, xtraceid, xspanid, xparentspanid, xsampled, xflags, xotspan);
-```
+  if (ratings_enabled) {
+    JsonObject ratingsResponse = getRatings(Integer.toString(productId), user, xreq, xtraceid, xspanid, xparentspanid, xsampled, xflags, xotspan);
+{{< /text >}}
 
 When you make downstream calls in your applications, make sure to include these headers.
 
 ## Cleanup
 
-* If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
-  to shutdown the application.
+*   Remove any `kubectl port-forward` processes that may still be running:
 
-## What's next
+    {{< text bash >}}
+    $ killall kubectl
+    {{< /text >}}
 
-* Learn more about [Metrics and Logs](/docs/tasks/telemetry/metrics-logs/)
+*   If you are not planning to explore any follow-on tasks, refer to the
+    [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
+    to shutdown the application.

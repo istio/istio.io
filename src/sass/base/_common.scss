@@ -10,6 +10,13 @@
           visibility: hidden;
     }
 
+    h2[id]:before {
+        width: 2.5rem;
+        border-bottom: 4px solid $mainBrandColor;
+        margin-bottom: .8rem;
+        visibility: visible;
+    }
+
     html {
         overflow-y: scroll;
         position: relative;
@@ -19,7 +26,7 @@
     body {
         padding-top: $headerHeight;
         margin-bottom: calc(#{$footerHeight} + 3rem);
-        font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-family: "work Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
         color: $textColor;
         background-color: $backgroundColor;
     }
@@ -29,6 +36,7 @@ a {
     color: $linkColor;
     text-decoration: none;
     font-weight: $linkWeight;
+    font-family: "Chivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 a:hover, a:focus {
@@ -54,8 +62,8 @@ table, th, td, tr {
 }
 
 table {
-    margin-left: 1em;
-    margin-right: 1em;
+    margin-left: .5em;
+    margin-right: .5em;
 }
 
 table p:first-of-type {
@@ -158,8 +166,11 @@ pre {
 
     code {
         display: block;
-        color: $textColor;
         padding: .5em;
+        color: $textColor;
+        font-size: 80%;
+        font-weight: $textCodeWeight;
+        word-break: normal;
     }
 
     code.command-output {
@@ -187,42 +198,49 @@ pre {
     }
 }
 
-// this is necessary in order for proper positioning of the Copy button
-div.copy {
+div.toolbar {
     position: relative;
-}
 
-button.copy {
-    font-size: .8em;
-    padding: 0 .5em;
-    border-radius: .3em;
-    background-color: $secondBrandColor;
-    cursor: pointer;
-    color: $textBrandColor;
-    text-decoration: none;
-    border: 0;
+    button {
+        font-size: .8em;
+        padding: 0 .5em;
+        border-radius: .3em;
+        background-color: $secondBrandColor;
+        cursor: pointer;
+        color: $textBrandColor;
+        text-decoration: none;
+        border: 0;
+        position: absolute;
+        top: 3px;
+        z-index: 5;
+        transition: opacity .4s ease-in-out;
+        opacity: 0;
+    }
 
-    position: absolute;
-    top: 3px;
-    right: 1.3em;
-    z-index: 5;
-}
+    button.toolbar-show {
+        transition: opacity 1.1s ease-in-out;
+        opacity: 1;
+    }
 
-button.copy-hide {
-    transition: opacity .4s ease-in-out;
-    opacity: 0;
-}
+    button.copy {
+        right: 2.2rem;
+        width: 3rem;
+    }
 
-button.copy-show {
-    transition: opacity 1.2s ease-in-out;
-    opacity: 1;
+    button.download {
+        right: 5.5rem;
+    }
+
+    button.print {
+        right: 7.4rem;
+    }
 }
 
 p {
     font-size: $font-size--xs;
     font-weight: $textWeight;
     line-height: 1.5;
-    margin: .25em 0;
+    margin: .75em 0;
 
     @media (min-width: $bp-md) {
         margin: 1.5em 0;
@@ -260,17 +278,14 @@ h1 {
     font-size: $font-size--xxl;
     color: $h1Color;
     font-weight: $h1Weight;
-    margin: 30px 0;
 }
 
 h2 {
     font-size: $font-size--xl;
     color: $h2Color;
     font-weight: $h2Weight;
-    margin-bottom: 20px;
-    margin-top: 30px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid $h2UnderlineColor;
+    margin-top: 3rem;
+    margin-bottom: 1.8rem;
 }
 
 h3 {
@@ -429,4 +444,10 @@ blockquote {
     pre, blockquote, img {
         page-break-inside: avoid;
     }
+}
+
+img.page_icon {
+    width: 1em;
+    height: 1em;
+    display:inline;
 }

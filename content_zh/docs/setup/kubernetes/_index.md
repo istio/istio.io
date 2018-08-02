@@ -4,7 +4,4 @@ description: 关于如何在 Kubernetes 集群中安装 Istio 控制平面和添
 weight: 10
 keywords: [kubernetes]
 type: section-index
-aliases:
-    - /docs/tasks/installing-istio.html
-    - /docs/setup/install-kubernetes.html
 ---

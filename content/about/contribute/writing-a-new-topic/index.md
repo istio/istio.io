@@ -4,6 +4,7 @@ description: Explains the mechanics of creating new documentation pages.
 weight: 30
 aliases:
     - /docs/welcome/contribute/writing-a-new-topic.html
+keywords: [contribute]
 ---
 
 This page shows how to create a new Istio documentation topic.
@@ -11,7 +12,7 @@ This page shows how to create a new Istio documentation topic.
 ## Before you begin
 
 You first need to create a fork of the Istio documentation repository as described in
-[Creating a Doc Pull Request](/about/contribute/creating-a-pull-request/).
+[Working with GitHub](/about/contribute/github/).
 
 ## Choosing a page type
 
@@ -99,7 +100,8 @@ The available front matter fields are:
 |`publishdate`  | For blog posts, indicates the date of publication of the post
 |`subtitle`     | For blog posts, supplies an optional subtitle to be displayed below the main title
 |`attribution`  | For blog posts, supplies an optional author's name
-|`toc`          | Set this to false to prevent the page from having a table of contents generated for it
+|`skip_toc`     | Set this to true to prevent the page from having a table of contents generated for it
+|`skip_seealso`     | Set this to true to prevent the page from having a "See also" section generated for it
 |`force_inline_toc` | Set this to true to force the generated table of contents from being inserted inline in the text instead of in a sidebar
 
 ## Adding images
@@ -165,6 +167,35 @@ current hierarchy:
     [see here](/docs/adir/afile/)
     {{< /text >}}
 
+### GitHub
+
+There are a few ways to reference files from GitHub:
+
+- **{{</* github_file */>}}** is how you reference individual files in GitHub such as yaml files. This
+produces a link to `https://raw.githubusercontent.com/istio/istio/...`
+
+    {{< text markdown >}}
+    [liveness]({{</* github_file */>}}/samples/health-check/liveness-command.yaml)
+    {{< /text >}}
+
+- **{{</* github_tree */>}}** is how you reference a directory tree in GitHub. This produces a link to
+`https://github.com/istio/istio/tree/...`
+
+    {{< text markdown >}}
+    [httpbin]({{</* github_tree */>}}/samples/httpbin)
+    {{< /text >}}
+
+- **{{</* github_blob */>}}** is how you reference a file in GitHub sources. This produces a link to
+`https://github.com/istio/istio/blob/...`
+
+    {{< text markdown >}}
+    [RawVM MySQL]({{</* github_blob */>}}/samples/rawvm/README.md)
+    {{< /text >}}
+
+The above annotations yield links to the appropriate branch in GitHub, relative to the branch that the
+documentation is currently targeting. If you need to manually construct a URL, you can use the sequence **{{</* branch_name */>}}**
+to get the name of the currently targeted branch.
+
 ## Embedding preformatted blocks
 
 You can embed blocks of preformatted content using the `text` sequence:
@@ -208,7 +239,7 @@ func HelloWorld() {
 You can use `plain`, `markdown`, `yaml`, `json`, `java`, `javascript`, `c`, `cpp`, `csharp`, `go`, `html`, `protobuf`,
 `perl`, `docker`, and `bash`.
 
-### Showing commands and command output
+### Commands and command output
 
 When showing one or more bash command-lines, you start each command-line with a $:
 
@@ -291,26 +322,40 @@ $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer
 {"level":"warn","ts":"2017-09-21T04:33:31.233Z","instance":"newlog.logentry.istio-system","destination":"ingress.istio-system.svc.cluster.local","latency":"74.47ms","responseCode":200,"responseSize":5599,"source":"unknown","user":"unknown"}
 {{< /text >}}
 
-### Showing references to Istio GitHub files
+You can specify an optional third value which controls the name that the browser
+will use when the user chooses to download the file. For example:
+
+{{< text markdown >}}
+{{</* text go plain "hello.go" */>}}
+func HelloWorld() {
+  fmt.Println("Hello World")
+}
+{{</* /text */>}}
+{{< /text >}}
+
+If you don't specify a third value, then the download name is derived automatically based on the
+name of the current page.
+
+### Links to GitHub files
 
 If your code block references a file from Istio's GitHub repo, you can surround the relative path name of the file with a pair
 of @ symbols. These indicate the path should be rendered as a link to the file from the current branch. For example:
 
 {{< text markdown >}}
 {{</* text bash */>}}
-$ istioctl create -f @samples/bookinfo/kube/route-rule-reviews-v3.yaml@
+$ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 {{</* /text */>}}
 {{< /text >}}
 
 This will be rendered as:
 
 {{< text bash >}}
-$ istioctl create -f @samples/bookinfo/kube/route-rule-reviews-v3.yaml@
+$ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 {{< /text >}}
 
-## Displaying file snippets
+### Files and snippets
 
-It is often useful to display portions of a larger file. You can annotate a text file to create named snippets within the file by
+It is often useful to display files or portions of a file. You can annotate a text file to create named snippets within the file by
 using the `$snippet` and `$endsnippet` annotations. For example, you could have a text file that looks like this:
 
 {{< text_file file="examples/snippet_example.txt" syntax="plain" >}}
@@ -329,42 +374,55 @@ The above snippet produces this output:
 
 {{< text_file file="examples/snippet_example.txt" syntax="plain" snippet="SNIP1" >}}
 
-A common thing to is to copy an example script or yaml file from GitHub into the documentation
+If you don't specify a snippet name, then the whole file will be inserted instead.
+
+You can specify an optional `downloadas` attribute to control the name that the browser
+will use when the user chooses to download the file. For example:
+
+{{< text markdown >}}
+{{</* text_file file="examples/snippet_example.txt" syntax="plain" downloadas="foo.txt" */>}}
+{{< /text >}}
+
+If you don't specify the `downloadas` attribute, then the download name is taken from the `file`
+attribute instead.
+
+A common thing to do is to copy an example script or yaml file from GitHub into the documentation
 repo and then use snippets within the file to produce examples in the documentation. To pull
 in annotated files from GitHub, add the needed entries at the end of the
 script `scripts/grab_reference_docs.sh` in the documentation repo.
 
-## Displaying dynamic content
+### Dynamic content
 
-You can pull in an external file and display its content as a preformatted block. This is handy to display a
-config file or a test file. To do so, you use a statement such as:
+You can dynamically pull in an external file and display its content as a preformatted block. This is handy to display a
+configuration file or a test file. To do so, you use a statement such as:
 
 {{< text markdown >}}
-{{</* text_dynamic url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" */>}}
+{{</* text_dynamic url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" */>}}
 {{< /text >}}
 
 which produces the following result:
 
-{{< text_dynamic url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" >}}
+{{< text_dynamic url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" >}}
 
 If the file is from a different origin site, CORS should be enabled on that site. Note that the
-GitHub raw content site (raw.githubusercontent.com) is may be used here.
+GitHub raw content site (`raw.githubusercontent.com`) may be used here.
 
-## Referencing GitHub files
-
-When referencing files from Istio's GitHub repo, it is best to reference a specific branch in the repo. To reference the specific
-branch that the documentation site is currently targeting, you use the annotation {{</* branch_name */>}}. For example:
+You can specify an optional `downloadas` attribute to control the name that the browser
+will use when the user chooses to download the file. For example:
 
 {{< text markdown >}}
-See this [source file](https://github.com/istio/istio/blob/{{</* branch_name */>}}/mixer/cmd/mixs/cmd/server.go)/
+{{</* text_dynamic url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" downloadas="foo.yaml" */>}}
 {{< /text >}}
 
-## Renaming or moving pages
+If you don't specify the `downloadas` attribute, then the download name is taken from the `url`
+attribute instead.
 
-If you move pages around and would like to ensure existing links continue to work, you can add
-redirects to the site very easily.
+## Renaming, moving, or deleting pages
 
-In the page that is the target of the redirect (where you'd like users to land), you simply add the
+If you move pages around or delete them completely, you should make sure existing links users may have to those pages continue to work.
+You do this by adding aliases which will cause the user to be redirected automatically from the old URL to a new URL.
+
+In the page that is the *target* of the redirect (where you'd like users to land), you simply add the
 following to the front-matter:
 
 {{< text plain >}}
@@ -412,7 +470,3 @@ in the code block itself, making cut & paste not work right.
 
 - Make sure all images have valid width and aspect ratios. Otherwise, they will render
 in odd ways, depending on screen size.
-
-- The special syntax to insert links in code blocks using `@@` annotations produces links
-which are unchecked. So you can put bad links in there and tooling won't stop you. So be
-careful.

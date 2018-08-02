@@ -82,7 +82,7 @@ or [istio-announce@googlegroups.com](https://groups.google.com/forum/#!forum/ist
 
 * [Stack Overflow](https://stackoverflow.com/questions/tagged/istio) for curated questions and answers
 
-* [GitHub](https://github.com/istio/issues/issues) for filing issues
+* [GitHub](https://github.com/istio/istio/issues) for filing issues
 
 * [@IstioMesh](https://twitter.com/IstioMesh) on Twitter
 

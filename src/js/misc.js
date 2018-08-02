@@ -2,7 +2,7 @@
 
 $(function ($) {
     // Show the navbar links, hide the search box
-    function showLinks() {
+    function showNavBarLinks() {
         var $form = $('#search_form');
         var $textbox = $('#search_textbox');
         var $links = $('#navbar-links');
@@ -10,7 +10,6 @@ $(function ($) {
         $form.removeClass('active');
         $links.addClass('active');
         $textbox.val('');
-        $textbox.removeClass("grow");
     }
 
     // Show the navbar search box, hide the links
@@ -21,14 +20,13 @@ $(function ($) {
 
         $form.addClass('active');
         $links.removeClass('active');
-        $textbox.addClass("grow");
         $textbox.focus();
     }
 
     // Hide the search box when the user hits the ESC key
     $('body').on('keyup', function(event) {
         if (event.which === 27) {
-            showLinks();
+            showNavBarLinks();
         }
     });
 
@@ -41,7 +39,7 @@ $(function ($) {
     // Hide the search box
     $('#search_close').on('click', function(event) {
         event.preventDefault();
-        showLinks();
+        showNavBarLinks();
     });
 
     // When the user submits the search form, initiate a search
@@ -50,7 +48,7 @@ $(function ($) {
         var $textbox = $('#search_textbox');
         var $search_page_url = $('#search_page_url');
         var url = $search_page_url.val() + '?q=' + $textbox.val();
-        showLinks();
+        showNavBarLinks();
         window.location.assign(url);
     });
 
@@ -68,49 +66,51 @@ $(function ($) {
             $(this).parent().children('ul.tree').toggle(200);
         });
 
-        // toggle copy button
+        // toggle toolbar buttons
         $(document).on('mouseenter', 'pre', function () {
-            $(this).next().toggleClass("copy-show", true);
-            $(this).next().toggleClass("copy-hide", false)
+            $(this).next().addClass("toolbar-show");
+            $(this).next().next().addClass("toolbar-show");
+            $(this).next().next().next().addClass("toolbar-show");
         });
 
-        // toggle copy button
+        // toggle toolbar buttons
         $(document).on('mouseleave', 'pre', function () {
-            $(this).next().toggleClass("copy-show", false);
-            $(this).next().toggleClass("copy-hide", true)
+            $(this).next().removeClass("toolbar-show");
+            $(this).next().next().removeClass("toolbar-show");
+            $(this).next().next().next().removeClass("toolbar-show");
         });
 
         // toggle copy button
         $(document).on('mouseenter', 'button.copy', function () {
-            $(this).toggleClass("copy-show", true);
-            $(this).toggleClass("copy-hide", false)
+            $(this).addClass("toolbar-show");
         });
 
         // toggle copy button
         $(document).on('mouseleave', 'button.copy', function () {
-            $(this).toggleClass("copy-show", false);
-            $(this).toggleClass("copy-hide", true)
+            $(this).removeClass("toolbar-show");
+        });
+
+        // toggle download button
+        $(document).on('mouseenter', 'button.download', function () {
+            $(this).addClass("toolbar-show");
+        });
+
+        // toggle download button
+        $(document).on('mouseleave', 'button.download', function () {
+            $(this).removeClass("toolbar-show");
+        });
+
+        // toggle print button
+        $(document).on('mouseenter', 'button.print', function () {
+            $(this).addClass("toolbar-show");
+        });
+
+        // toggle print button
+        $(document).on('mouseleave', 'button.print', function () {
+            $(this).removeClass("toolbar-show");
         });
     });
 }(jQuery));
-
-// Scroll the document to the top
-function scrollToTop() {
-    document.body.scrollTop = 0; // For Safari
-    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-}
-
-String.prototype.escapeHTML = function() {
-    var tagsToReplace = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;'
-    };
-
-    return this.replace(/[&<>]/g, function(tag) {
-        return tagsToReplace[tag] || tag;
-    });
-};
 
 // initialized after the DOM has been loaded by getDOMTopology
 var scrollToTopButton;
@@ -126,120 +126,109 @@ function handleDOMLoaded() {
     // way.
     function patchDOM() {
 
-         var escapeChars = {
-            '¢' : 'cent',
-            '£' : 'pound',
-            '¥' : 'yen',
-            '€': 'euro',
-            '©' :'copy',
-            '®' : 'reg',
-            '<' : 'lt',
-            '>' : 'gt',
-            '"' : 'quot',
-            '&' : 'amp',
-            '\'' : '#39'
-        };
-
-        var regexString = '[';
-        for(var key in escapeChars) {
-            regexString += key;
-        }
-        regexString += ']';
-
-        var regex = new RegExp(regexString, 'g');
-
-        function escapeHTML(str) {
-            return str.replace(regex, function(m) {
-                return '&' + escapeChars[m] + ';';
-            });
-        }
-
-        // To compensate for https://github.com/gohugoio/hugo/issues/4785, certain code blocks are
-        // indented in markdown by four spaces. This removes these four spaces so that the visuals
-        // are correct.
-        function compensateForHugoBug() {
-            var code = document.getElementsByTagName('CODE');
-            for (var i = 0; i < code.length; i++) {
-                var lines = code[i].innerText.split("\n");
-                if ((lines.length > 0) && lines[0].startsWith("    ")) {
-                    for (var j = 0; j < lines.length; j++) {
-                        if (lines[j].startsWith("    ")) {
-                            lines[j] = lines[j].substr(4);
-                        }
-                    }
-                    code[i].innerHTML = escapeHTML(lines.join('\n'));
-                }
-            }
-        }
-
-        // Add a Copy button to all PRE blocks
-        function attachCopyButtons() {
+        // Add a toolbar to all PRE blocks
+        function attachToolbarToPreBlocks() {
             var pre = document.getElementsByTagName('PRE');
             for (var i = 0; i < pre.length; i++) {
-                var button = document.createElement("BUTTON");
-                button.title = "Copy to clipboard";
-                button.className = "copy copy-hide";
-                button.innerText = "Copy";
-                button.setAttribute("aria-label", "Copy to clipboard");
+                var copyButton = document.createElement("BUTTON");
+                copyButton.title = "Copy to clipboard";
+                copyButton.className = "copy";
+                copyButton.innerHTML = "<i class='fa fa-copy'></i>";
+                copyButton.setAttribute("aria-label", "Copy to clipboard");
 
-                // wrap the PRE block in a DIV so we have a place to attach the copy button
+                var downloadButton = document.createElement("BUTTON");
+                downloadButton.title = "Download";
+                downloadButton.className = "download";
+                downloadButton.innerHTML = "<i class='fa fa-download'></i>";
+                downloadButton.setAttribute("aria-label", downloadButton.title);
+                downloadButton.onclick = function(e) {
+                    var div = e.currentTarget.parentElement;
+                    var codes = div.getElementsByTagName("CODE");
+                    if ((codes !== null) && (codes.length > 0)) {
+                        var code = codes[0];
+                        var text = getToolbarDivText(div);
+                        var downloadas = code.getAttribute("data-downloadas");
+                        if (downloadas === null || downloadas === "") {
+                            downloadas = "foo.txt";
+
+                            var lang = "";
+                            for (var j = 0; j < code.classList.length; j++) {
+                                if (code.classList.item(j).startsWith("language-")) {
+                                    lang = code.classList.item(j).substr(9);
+                                    break;
+                                }
+                            }
+
+                            if (lang.startsWith("command")) {
+                                lang = "bash";
+                            } else if (lang === "") {
+                                lang = "txt";
+                            }
+
+                            downloadas = docTitle + "." + lang;
+                        }
+                        saveFile(downloadas, text);
+                    }
+                    return true;
+                };
+
+                var printButton = document.createElement("BUTTON");
+                printButton.title = "Print";
+                printButton.className = "print";
+                printButton.innerHTML = "<i class='fa fa-print'></i>";
+                printButton.setAttribute("aria-label", printButton.title);
+                printButton.onclick = function(e) {
+                    var div = e.currentTarget.parentElement;
+                    var text = getToolbarDivText(div);
+                    printText(text);
+                    return true;
+                };
+
+                // wrap the PRE block in a DIV so we have a place to attach the toolbar buttons
                 var div = document.createElement("DIV");
-                div.className = "copy";
+                div.className = "toolbar";
                 pre[i].parentElement.insertBefore(div, pre[i]);
                 div.appendChild(pre[i]);
-                div.appendChild(button);
+                div.appendChild(printButton);
+                div.appendChild(downloadButton);
+                div.appendChild(copyButton);
             }
 
             var copyCode = new Clipboard('button.copy', {
                 text: function (trigger) {
-                    var commands = trigger.previousElementSibling.getElementsByClassName("command");
-                    if ((commands !== null) && (commands.length > 0)) {
-                        var lines = commands[0].innerText.split("\n");
-                        var cmd = "";
-                        for (var i = 0; i < lines.length; i++) {
-                            if (lines[i].startsWith("$ ")) {
-                                lines[i] = lines[i].substring(2);
-                            }
-
-                            if (cmd !== "") {
-                                cmd = cmd + "\n";
-                            }
-
-                            cmd += lines[i];
-                        }
-
-                        return cmd;
-                    }
-
-                    return trigger.previousElementSibling.innerText;
+                    return getToolbarDivText(trigger.parentElement);
                 }
             });
 
-            // On success:
-            // - Change the "Copy" text to "Done".
-            // - Swap it to "Copy" in 2s.
-
-            copyCode.on('success', function (event) {
-                event.clearSelection();
-                event.trigger.textContent = 'Done';
-                window.setTimeout(function () {
-                    event.trigger.textContent = 'Copy';
-                }, 2000);
-            });
-
-            // On error (Safari):
-            // - Change to "Not supported"
-            // - Swap it to "Copy" in 2s.
-
             copyCode.on('error', function (event) {
-                event.trigger.textContent = 'Not supported';
-                window.setTimeout(function () {
-                    event.trigger.textContent = 'Copy';
-                }, 5000);
+                alert("Sorry, but copying is not supported by your browser");
             });
         }
 
-        function applySyntaxColoring() {
+        function getToolbarDivText(div) {
+            var commands = div.getElementsByClassName("command");
+            if ((commands !== null) && (commands.length > 0)) {
+                var lines = commands[0].innerText.split("\n");
+                var cmd = "";
+                for (var i = 0; i < lines.length; i++) {
+                    if (lines[i].startsWith("$ ")) {
+                        lines[i] = lines[i].substring(2);
+                    }
+
+                    if (cmd !== "") {
+                        cmd = cmd + "\n";
+                    }
+
+                    cmd += lines[i];
+                }
+
+                return cmd;
+            }
+
+            return div.innerText;
+        }
+
+        function applySyntaxColoringToPreBlocks() {
             var pre = document.getElementsByTagName('PRE');
             for (var i = 0; i < pre.length; i++) {
                 var code = pre[i].firstChild;
@@ -253,7 +242,7 @@ function handleDOMLoaded() {
                 }
 
                 if (cl !== "") {
-                    var bottomStart = 0;
+                    var outputStart = 0;
                     var lines = code.innerText.split("\n");
                     var cmd = "";
                     var escape = false;
@@ -271,7 +260,7 @@ function handleDOMLoaded() {
                             // continuation
                             tmp += "\n" + line;
                         } else {
-                            bottomStart = j;
+                            outputStart = j;
                             break;
                         }
 
@@ -288,8 +277,8 @@ function handleDOMLoaded() {
                         var html = "<div class='command'>" + cmd + "</div>";
 
                         var output = "";
-                        if (bottomStart > 0) {
-                            for (var j = bottomStart; j < lines.length; j++) {
+                        if (outputStart > 0) {
+                            for (var j = outputStart; j < lines.length; j++) {
                                 if (output !== "") {
                                     output += "\n";
                                 }
@@ -304,7 +293,7 @@ function handleDOMLoaded() {
                                 var lang = cl.substr(prefix.length);
                                 output = Prism.highlight(output, Prism.languages[lang], lang);
                             } else {
-                                output = output.escapeHTML();
+                                output = escapeHTML(output);
                             }
 
                             html += "<div class='output'>" + output + "</div>";
@@ -340,7 +329,7 @@ function handleDOMLoaded() {
         // Add a link icon next to each header so people can easily get bookmarks to headers
         function attachLinksToHeaders() {
             for (var level = 2; level <= 6; level++) {
-                var headers = document.getElementsByTagName("h" + level);
+                var headers = document.getElementsByTagName("h" + level.toString());
                 for (var i = 0; i < headers.length; i++) {
                     var header = headers[i];
                     if (header.id !== "") {
@@ -436,9 +425,8 @@ function handleDOMLoaded() {
             }
         }
 
-        compensateForHugoBug();
-        attachCopyButtons();
-        applySyntaxColoring();
+        attachToolbarToPreBlocks();
+        applySyntaxColoringToPreBlocks();
         attachLinksToHeaders();
         attachLinksToDefinedTerms();
         makeOutsideLinksOpenInTabs();

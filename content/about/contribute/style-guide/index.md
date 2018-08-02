@@ -5,6 +5,7 @@ weight: 70
 aliases:
     - /docs/welcome/contribute/style-guide.html
     - /docs/reference/contribute/style-guide.html
+keywords: [contribute]
 ---
 
 This page provides content guidelines for the Istio documentation.
@@ -25,9 +26,9 @@ represents.
 
 1.  Display information about a pod:
 
-    ```command
+    {{< text bash >}}
     $ kubectl describe pod <pod-name>
-    ```
+    {{< /text >}}
 
     where `<pod-name>` is the name of one of your pods.
 
@@ -49,7 +50,7 @@ represents.
 
 |Do                                   | Don't
 |-------------------------------------|------
-|Open the `istio.yaml` file.         | Open the istio.yaml file.
+|Open the `foo.yaml` file.         | Open the foo.yaml file.
 |Go to the `/content/docs/tasks` directory.  | Go to the /content/docs/tasks directory.
 |Open the `/data/args.yaml` file. | Open the /data/args.yaml file.
 
@@ -57,8 +58,8 @@ represents.
 
 |Do                          | Don't
 |----------------------------|------
-|The `kubectl run` command creates a `Deployment`.|The "kubectl run" command creates a `Deployment`.
-|For declarative management, use `kubectl apply`.|For declarative management, use "kubectl apply".
+|The `foo run` command creates a `Deployment`.|The "foo run" command creates a `Deployment`.
+|For declarative management, use `foo apply`.|For declarative management, use "foo apply".
 
 ### Use `code` style for object field names
 
@@ -67,10 +68,17 @@ represents.
 |Set the value of the `ports` field in the configuration file. | Set the value of the "ports" field in the configuration file.
 |The value of the `rule` field is a `Rule` object.           | The value of the "rule" field is a `Rule` object.
 
+## Use title capitalization for `title:` front-matter
+
+The text for the `title:` front-matter should use full title capitalization
+(first letter of every word). This is unlike headings within the document,
+as described below.
+
 ### Only capitalize the first letter of headings
 
 For any headings, only apply an uppercase letter to the first word of the heading,
-except if a word is a proper noun or an acronym.
+except if a word is a proper noun or an acronym. Note that the `title:` annotation
+in markdown uses full capitalization.
 
 |Do                      | Don't
 |------------------------|-----
@@ -84,46 +92,34 @@ Some standard terms we want to use consistently within the documentation for cla
 
 ### Envoy
 
-We prefer to use “Envoy” as it’s a more concrete term than "proxy" and will resonate if used
+We prefer to use "Envoy” as it’s a more concrete term than "proxy" and will resonate if used
 consistently throughout the docs.
 
 Synonyms:
 
-- “Envoy sidecar” - ok
-- “Envoy proxy” - ok
-- “The Istio proxy” -- best to avoid unless you’re talking about advanced scenarios where another proxy might be used.
-- “Sidecar”  -- mostly restricted to conceptual docs
-- “Proxy -- only if context is obvious
+- "Envoy sidecar” - ok
+- "Envoy proxy” - ok
+- "The Istio proxy” -- best to avoid unless you’re talking about advanced scenarios where another proxy might be used.
+- "Sidecar”  -- mostly restricted to conceptual docs
+- "Proxy" -- only if context is obvious
 
 Related Terms:
 
 - Proxy agent  - This is a minor infrastructural component and should only show up in low-level detail documentation.
 It is not a proper noun.
 
-### Mixer
+### Miscellaneous
 
-Mixer is a proper noun and should be used as such:
-
-- “You configure Mixer by ….”
-- “Mixer provides a standard vehicle for implementing organizational wide policy”
-
-### Attributes
-
-Not a proper noun but we should attempt to consistently use the term to describe inputs to Mixer and NOT use the term when talking about other
-forms of configuration.
-
-### Load balancing
-
-No dash, it's *load balancing* not *load-balancing*.
-
-### Service mesh
-
-Not a proper noun. Use in place of service fabric.
-
-### Service version
-
-Use in the context of routing and multiple finer-grained versions of a service. Avoid using “service tags” or “service labels”
-which are the mechanism to identify the service versions, not the thing itself.
+|Do              | Don't
+|----------------|------
+| load balancing | `load-balancing`
+| multicluster   | `multi-cluster`
+| add-on         | `add-on`
+| service mesh   | `Service Mesh`
+| sidecar        | `side-car`, `Sidecar`
+| Kubernetes     | `kubernetes`, `k8s`
+| Bookinfo       | `BookInfo`, `bookinfo`
+| Mixer          | `mixer`
 
 ## Best practices
 
@@ -168,7 +164,7 @@ There are good hyperlinks, and bad hyperlinks. The common practice of calling li
 bad hyperlinks. Check out this excellent article explaining what makes a good hyperlink and try to keep these guidelines in
 mind when creating or reviewing site content.
 
-[Why “click here” is a terrible link, and what to write instead](http://stephanieleary.com/2015/05/why-click-here-is-a-terrible-link-and-what-to-write-instead/).
+[Why "click here” is a terrible link, and what to write instead](http://stephanieleary.com/2015/05/why-click-here-is-a-terrible-link-and-what-to-write-instead/).
 
 ### Avoid using "we"
 
@@ -198,16 +194,10 @@ information.
 
 ### Avoid statements that will soon be out of date
 
-Avoid words like "currently" and "new." A feature that is new today might not be
+Avoid words like "currently" and "new". A feature that is new today might not be
 considered new in a few months.
 
 |Do                                  | Don't
 |------------------------------------|------
 |In version 1.4, ...                 | In the current version, ...
 |The Federation feature provides ... | The new Federation feature provides ...
-
-## What's next
-
-- Learn about [creating a new documentation topic](/about/contribute/writing-a-new-topic/).
-
-- Learn about [creating a documentation pull request](/about/contribute/creating-a-pull-request/).

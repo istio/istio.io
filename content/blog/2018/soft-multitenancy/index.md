@@ -40,27 +40,28 @@ when official multi-tenancy support is provided.
 ### Multiple Istio control planes
 
 Deploying multiple Istio control planes starts by replacing all `namespace` references
-in a manifest file with the desired namespace. Using istio.yaml as an example, if two tenant
-level Istio control planes are required; the first can use the istio.yaml default name of
+in a manifest file with the desired namespace. Using `istio.yaml` as an example, if two tenant
+level Istio control planes are required; the first can use the `istio.yaml` default name of
 *istio-system* and a second control plane can be created by generating a new yaml file with
 a different namespace. As an example, the following command creates a yaml file with
 the Istio namespace of *istio-system1*.
 
-```command
+{{< text bash >}}
 $ cat istio.yaml | sed s/istio-system/istio-system1/g > istio-system1.yaml
-```
+{{< /text >}}
 
 The istio yaml file contains the details of the Istio control plane deployment, including the
 pods that make up the control plane (mixer, pilot, ingress, CA). Deploying the two Istio
 control plane yaml files:
 
-```command
-$ kubectl apply -f @install/kubernetes/istio.yaml@
-$ kubectl apply -f @install/kubernetes/istio-system1.yaml@
-```
+{{< text bash >}}
+$ kubectl apply -f install/kubernetes/istio.yaml
+$ kubectl apply -f install/kubernetes/istio-system1.yaml
+{{< /text >}}
+
 Results in two Istio control planes running in two namespaces.
 
-```command
+{{< text bash >}}
 $ kubectl get pods --all-namespaces
 NAMESPACE       NAME                                       READY     STATUS    RESTARTS   AGE
 istio-system    istio-ca-ffbb75c6f-98w6x                   1/1       Running   0          15d
@@ -71,7 +72,8 @@ istio-system1   istio-ca-5f496fdbcd-lqhlk                  1/1       Running   0
 istio-system1   istio-ingress-68d65fc5c6-2vldg             1/1       Running   0          15d
 istio-system1   istio-mixer-7d4f7b9968-66z44               3/3       Running   0          15d
 istio-system1   istio-pilot-5bb6b7669c-779vb               2/2       Running   0          15d
-```
+{{< /text >}}
+
 The Istio [sidecar](/docs/setup/kubernetes/sidecar-injection/) and
 [addons](/docs/tasks/telemetry/), if required, manifests must also
 be deployed to match the configured `namespace` in use by the tenant's Istio control plane.
@@ -102,7 +104,7 @@ similar to the one below. In this example, a tenant administrator named *sales-a
 is limited to the namespace *istio-system1*. A completed manifest would contain many
 more `apiGroups` under the `Role` providing resource access to the tenant administrator.
 
-```yaml
+{{< text yaml >}}
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
@@ -126,7 +128,7 @@ roleRef:
   kind: Role
   name: ns-access-for-sales-admin-istio-system1
   apiGroup: rbac.authorization.k8s.io
-```
+{{< /text >}}
 
 ### Watching specific namespaces for service discovery
 
@@ -137,7 +139,7 @@ component with the additional command line arguments `--appNamespace, ns-1`.  Wh
 is the namespace that the tenant’s application will be deployed in. An example snippet from
 the istio-system1.yaml file is included below.
 
-```yaml
+{{< text yaml >}}
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -161,7 +163,7 @@ spec:
         ports:
         - containerPort: 8080
         - containerPort: 443
-```
+{{< /text >}}
 
 ### Deploying the tenant application in a namespace
 
@@ -170,15 +172,17 @@ Pilot's service discovery has been configured to watch for a specific applicatio
 namespace (ex. *ns-1*), create the application manifests to deploy in that tenant's specific
 namespace. For example:
 
-```yaml
+{{< text yaml >}}
 apiVersion: v1
 kind: Namespace
 metadata:
   name: ns-1
-```
+{{< /text >}}
+
 And add the namespace reference to each resource type included in the application's manifest
 file.  For example:
-```yaml
+
+{{< text yaml >}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -186,16 +190,17 @@ metadata:
   labels:
     app: details
   namespace: ns-1
-```
+{{< /text >}}
+
 Although not shown, the application namespaces will also have RBAC settings limiting access
 to certain resources. These RBAC settings could be set by the cluster administrator and/or
 the tenant administrator.
 
-### Using `istioctl` in a multi-tenant environment
+### Using `kubectl` in a multi-tenant environment
 
-When defining [route rules](/docs/reference/config/istio.routing.v1alpha1/#RouteRule)
-or [destination policies](/docs/reference/config/istio.routing.v1alpha1/#DestinationPolicy),
-it is necessary to ensure that the `istioctl` command is scoped to
+When defining [route rules](https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/#RouteRule)
+or [destination policies](https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/#DestinationPolicy),
+it is necessary to ensure that the `kubectl` command is scoped to
 the namespace the Istio control plane is running in to ensure the resource is created
 in the proper namespace. Additionally, the rule itself must be scoped to the tenant's namespace
 so that it will be applied properly to that tenant's mesh.  The *-i* option is used to create
@@ -206,18 +211,21 @@ the .yaml file for the resource scopes it properly instead.
 
 For example, the following command would be required to add a route rule to the *istio-system1*
 namespace:
-```command
-$ istioctl –i istio-system1 create -n ns-1 -f route_rule_v2.yaml
-```
+
+{{< text bash >}}
+$ kubectl –i istio-system1 apply -n ns-1 -f route_rule_v2.yaml
+{{< /text >}}
+
 And can be displayed using the command:
-```command
-$ istioctl -i istio-system1 -n ns-1 get routerule
+
+{{< text bash >}}
+$ kubectl -i istio-system1 -n ns-1 get routerule
 NAME                  KIND                                  NAMESPACE
 details-Default       RouteRule.v1alpha2.config.istio.io    ns-1
 productpage-default   RouteRule.v1alpha2.config.istio.io    ns-1
 ratings-default       RouteRule.v1alpha2.config.istio.io    ns-1
 reviews-default       RouteRule.v1alpha2.config.istio.io    ns-1
-```
+{{< /text >}}
 
 See the [Multiple Istio control planes](/blog/2018/soft-multitenancy/#multiple-istio-control-planes) section of this document for more details on `namespace` requirements in a
 multi-tenant environment.
@@ -230,7 +238,7 @@ via RBAC and namespaces, what a tenant administrator can deploy.
 After deployment, accessing the Istio control plane pods assigned to a specific tenant
 administrator is permitted:
 
-```command
+{{< text bash >}}
 $ kubectl get pods -n istio-system
 NAME                                      READY     STATUS    RESTARTS   AGE
 grafana-78d649479f-8pqk9                  1/1       Running   0          1d
@@ -241,27 +249,28 @@ istio-pilot-678fc976c8-b8tv6              2/2       Running   0          1d
 istio-sidecar-injector-7587bd559d-5tgk6   1/1       Running   0          1d
 prometheus-cf8456855-hdcq7                1/1       Running   0          1d
 servicegraph-75ff8f7c95-wcjs7             1/1       Running   0          1d
-```
+{{< /text >}}
+
 However, accessing all the cluster's pods is not permitted:
 
-```command
+{{< text bash >}}
 $ kubectl get pods --all-namespaces
 Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list pods at the cluster scope
-```
+{{< /text >}}
 
 And neither is accessing another tenant's namespace:
 
-```command
+{{< text bash >}}
 $ kubectl get pods -n istio-system1
 Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list pods in the namespace "istio-system1"
-```
+{{< /text >}}
 
 The tenant administrator can deploy applications in the application namespace configured for
 that tenant. As an example, updating the [Bookinfo](/docs/examples/bookinfo/)
 manifests and then deploying under the tenant's application namespace of *ns-0*, listing the
 pods in use by this tenant's namespace is permitted:
 
-```command
+{{< text bash >}}
 $ kubectl get pods -n ns-0
 NAME                              READY     STATUS    RESTARTS   AGE
 details-v1-64b86cd49-b7rkr        2/2       Running   0          1d
@@ -270,17 +279,17 @@ ratings-v1-5f46655b57-5b4c5       2/2       Running   0          1d
 reviews-v1-ff6bdb95b-pm5lb        2/2       Running   0          1d
 reviews-v2-5799558d68-b989t       2/2       Running   0          1d
 reviews-v3-58ff7d665b-lw5j9       2/2       Running   0          1d
-```
+{{< /text >}}
 
 But accessing another tenant's application namespace is not:
 
-```command
+{{< text bash >}}
 $ kubectl get pods -n ns-1
 Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list pods in the namespace "ns-1"
-```
+{{< /text >}}
 
-If the [addon tools](/docs/tasks/telemetry/), example
-[prometheus](/docs/tasks/telemetry//querying-metrics/), are deployed
+If the [add-on tools](/docs/tasks/telemetry/), example
+[Prometheus](/docs/tasks/telemetry/querying-metrics/), are deployed
 (also limited by an Istio `namespace`) the statistical results returned would represent only
 that traffic seen from that tenant's application namespace.
 
@@ -348,6 +357,6 @@ Istio functionality required to support those use cases.
 * Kubecon talk on security that discusses Kubernetes support for "Cooperative soft multi-tenancy", [Building for Trust: How to Secure Your Kubernetes](https://www.youtube.com/watch?v=YRR-kZub0cA).
 * Kubernetes documentation on [RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) and [namespaces](https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/).
 * Kubecon slide deck on [Multi-tenancy Deep Dive](https://schd.ws/hosted_files/kccncna17/a9/kubecon-multitenancy.pdf).
-* Google document on [Multi-tenancy models for Kubernetes](https://docs.google.com/document/d/15w1_fesSUZHv-vwjiYa9vN_uyc--PySRoLKTuDhimjc/edit#heading=h.3dawx97e3hz6). (Requires permission)
+* Google document on [Multi-tenancy models for Kubernetes](https://docs.google.com/document/d/15w1_fesSUZHv-vwjiYa9vN_uyc--PySRoLKTuDhimjc). (Requires permission)
 * Cloud Foundry WIP document, [Multi-cloud and Multi-tenancy](https://docs.google.com/document/d/14Hb07gSrfVt5KX9qNi7FzzGwB_6WBpAnDpPG6QEEd9Q)
-* [Istio Auto Multi-Tenancy 101](https://docs.google.com/document/d/12F183NIRAwj2hprx-a-51ByLeNqbJxK16X06vwH5OWE/edit#heading=h.x0f9qplja3q)
+* [Istio Auto Multi-Tenancy 101](https://docs.google.com/document/d/12F183NIRAwj2hprx-a-51ByLeNqbJxK16X06vwH5OWE)

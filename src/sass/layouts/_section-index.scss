@@ -1,35 +1,21 @@
 .section-index {
+    h5 {
+        margin-bottom: 0;
 
-    li.directory {
-        margin: 0;
-        padding: 0;
-        margin-top: 15px;
-        margin-left: 0;
+        a {
+            font-weight: 700;
+        }
     }
 
-    li.file {
-        margin: 0;
-        padding: 0;
-        margin-top: 10px;
+    p {
+        margin-top: 0;
     }
 
-    a {
-        font-weight: $sectionIndexLinkWeight;
-    }
+    .entry {
+        padding: 1rem 1rem;
 
-    ul {
-        list-style: disc;
-
-        >li>ul {
-            list-style: circle;
-
-            >li>ul {
-                list-style: square;
-
-                >li>ul {
-                    list-style: disc;
-                }
-            }
+        @media (min-width: $bp-md) {
+            padding: 1rem 4rem;
         }
     }
 }

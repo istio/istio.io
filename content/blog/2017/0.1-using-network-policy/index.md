@@ -11,7 +11,7 @@ aliases:
 
 The use of Network Policy to secure applications running on Kubernetes is a now a widely accepted industry best practice.  Given that Istio also supports policy, we want to spend some time explaining how Istio policy and Kubernetes Network Policy interact and support each other to deliver your application securely.
 
-Let’s start with the basics: why might you want to use both Istio and Kubernetes Network Policy? The short answer is that they are good at different things. Consider the main differences between Istio and Network Policy (we will describe “typical” implementations, e.g. Calico, but implementation details can vary with different network providers):
+Let’s start with the basics: why might you want to use both Istio and Kubernetes Network Policy? The short answer is that they are good at different things. Consider the main differences between Istio and Network Policy (we will describe "typical” implementations, e.g. Calico, but implementation details can vary with different network providers):
 
 |                       | Istio Policy      | Network Policy     |
 | --------------------- | ----------------- | ------------------ |
@@ -21,7 +21,7 @@ Let’s start with the basics: why might you want to use both Istio and Kubernet
 
 ## Layer
 
-Istio policy operates at the “service” layer of your network application. This is Layer 7 (Application) from the perspective of the OSI model, but the de facto model of cloud native applications is that Layer 7 actually consists of at least two layers: a service layer and a content layer. The service layer is typically HTTP, which encapsulates the actual application data (the content layer). It is at this service layer of HTTP that the Istio’s Envoy proxy operates. In contrast, Network Policy operates at Layers 3 (Network) and 4 (Transport) in the OSI model.
+Istio policy operates at the "service” layer of your network application. This is Layer 7 (Application) from the perspective of the OSI model, but the de facto model of cloud native applications is that Layer 7 actually consists of at least two layers: a service layer and a content layer. The service layer is typically HTTP, which encapsulates the actual application data (the content layer). It is at this service layer of HTTP that the Istio’s Envoy proxy operates. In contrast, Network Policy operates at Layers 3 (Network) and 4 (Transport) in the OSI model.
 
 Operating at the service layer gives the Envoy proxy a rich set of attributes to base policy decisions on, for protocols it understands, which at present includes HTTP/1.1 & HTTP/2 (gRPC operates over HTTP/2). So, you can apply policy based on virtual host, URL, or other HTTP headers.  In the future, Istio will support a wide range of Layer 7 protocols, as well as generic TCP and UDP transport.
 
@@ -59,9 +59,9 @@ Let’s walk through a few examples of what you might want to do with Kubernetes
 
 ### Reduce attack surface of the application ingress
 
-Our application ingress controller is the main entry-point to our application from the outside world.  A quick peek at istio.yaml (used to install Istio) defines the Istio ingress like this:
+Our application ingress controller is the main entry-point to our application from the outside world.  A quick peek at `istio.yaml` (used to install Istio) defines the Istio ingress like this:
 
-```yaml
+{{< text yaml >}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -77,11 +77,11 @@ spec:
     name: https
   selector:
     istio: ingress
-```
+{{< /text >}}
 
 The istio-ingress exposes ports 80 and 443.  Let’s limit incoming traffic to just these two ports.  Envoy has a [built-in administrative interface](https://www.envoyproxy.io/docs/envoy/latest/operations/admin.html#operations-admin-interface), and we don’t want a misconfigured istio-ingress image to accidentally expose our admin interface to the outside world.  This is an example of defense in depth: a properly configured image should not expose the interface, and a properly configured Network Policy will prevent anyone from connecting to it.  Either can fail or be misconfigured and we are still protected.
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -97,7 +97,7 @@ spec:
       port: 80
     - protocol: TCP
       port: 443
-```
+{{< /text >}}
 
 ### Enforce fine-grained isolation within the application
 
@@ -110,7 +110,7 @@ Here is the service graph for the Bookinfo application.
 
 This graph shows every connection that a correctly functioning application should be allowed to make.  All other connections, say from the Istio Ingress directly to the Rating service, are not part of the application.  Let’s lock out those extraneous connections so they cannot be used by an attacker.  Imagine, for example, that the Ingress pod is compromised by an exploit that allows an attacker to run arbitrary code.  If we only allow connections to the Product Page pods using Network Policy, the attacker has gained no more access to my application backends _even though they have compromised a member of the service mesh_.
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -128,7 +128,7 @@ spec:
     - podSelector:
         matchLabels:
           istio: ingress
-```
+{{< /text >}}
 
 You can and should write a similar policy for each service to enforce which other pods are allowed to access each.
 

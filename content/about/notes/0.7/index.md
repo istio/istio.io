@@ -1,6 +1,7 @@
 ---
 title: Istio 0.7
 weight: 94
+page_icon: /img/notes.svg
 ---
 
 For this release, we focused on improving our build and test infrastructures and increasing the
@@ -15,5 +16,5 @@ change in 0.8 and beyond.
 
 Known Issues:
 
-Our [helm chart](/docs/setup/kubernetes/helm-install/)
+Our [Helm chart](/docs/setup/kubernetes/helm-install/)
 currently requires some workaround to apply the chart correctly, see [4701](https://github.com/istio/istio/issues/4701) for details.

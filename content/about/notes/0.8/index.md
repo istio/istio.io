@@ -1,17 +1,21 @@
 ---
 title: Istio 0.8
 weight: 93
+page_icon: /img/notes.svg
 ---
 
 This is a major release for Istio on the road to 1.0. There are a great many new features and architectural improvements in addition to the usual pile of bug fixes and performance improvements.
 
 ## Networking
 
-- **Revamped Traffic Management Model**. We're finally ready to take the wraps off our [new traffic management APIs](/blog/2018/v1alpha3-routing/). We believe this new model is easier to understand while covering more real world deployment [use-cases](/docs/tasks/traffic-management/). For folks upgrading from earlier releases there is a [migration guide](/docs/setup/kubernetes/upgrading-istio/) and a conversion tool built into `istioctl` to help convert your config from the old model.
+- **Revamped Traffic Management Model**. We're finally ready to take the wraps off our
+[new traffic management APIs](/blog/2018/v1alpha3-routing/). We believe this new model is easier to understand while covering more real world
+deployment [use-cases](/docs/tasks/traffic-management/). For folks upgrading from earlier releases there is a
+[migration guide](/docs/setup/kubernetes/upgrading-istio/) and a conversion tool built into `istioctl` to help convert your configuration from the old model.
 
 - **Streaming Envoy configuration**. By default Pilot now streams configuration to Envoy using its [ADS API](https://github.com/envoyproxy/data-plane-api/blob/master/XDS_PROTOCOL.md). This new approach increases effective scalability, reduces rollout delay and should eliminate spurious 404 errors.
 
-- **Gateway for Ingress/Egress**. We no longer support combining Kubernetes Ingress specs with Istio routing rules as it has led to several bugs and reliability issues. Istio now supports a platform independent [Gateway](/docs/concepts/traffic-management/rules-configuration/#gateways) model for ingress & egress proxies that works across Kubernetes and Cloud Foundry and works seamlessly with routing. The Gateway supports [Server Name Indication](https://en.wikipedia.org/wiki/Server_Name_Indication) based routing,
+- **Gateway for Ingress/Egress**. We no longer support combining Kubernetes Ingress specs with Istio routing rules as it has led to several bugs and reliability issues. Istio now supports a platform independent [Gateway](/docs/concepts/traffic-management/#gateways) model for ingress & egress proxies that works across Kubernetes and Cloud Foundry and works seamlessly with routing. The Gateway supports [Server Name Indication](https://en.wikipedia.org/wiki/Server_Name_Indication) based routing,
 as well as serving a certificate based on the server name presented by the client.
 
 - **Constrained Inbound Ports**. We now restrict the inbound ports in a pod to the ones declared by the apps running inside that pod.
@@ -34,7 +38,7 @@ Istio telemetry pipeline, just like services in the mesh.
 - **A la Carte Istio**. Istio has a rich set of features, however you don't need to install or consume them all together. By using
 Helm or `istioctl gen-deploy`, users can install only the features they want. For example, users can install Pilot only and enjoy traffic
 management functionality without dealing with Mixer or Citadel.
-Learn more about [customization through Helm](/docs/setup/kubernetes/helm-install/#customization-with-helm)
+Learn more about [customization through Helm](/docs/reference/config/installation-options/)
 and about [`istioctl gen-deploy`](/docs/reference/commands/istioctl/#istioctl-gen-deploy).
 
 ## Mixer adapters

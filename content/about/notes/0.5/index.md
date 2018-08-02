@@ -1,6 +1,7 @@
 ---
 title: Istio 0.5
 weight: 96
+page_icon: /img/notes.svg
 ---
 
 In addition to the usual pile of bug fixes and performance improvements, this release includes the new or
@@ -24,10 +25,10 @@ therefore doesn't work on older versions. The alpha initializer mechanism is no 
 ## Mixer adapters
 
 - **Open Policy Agent**. Mixer now has an authorization adapter implementing the [open policy agent](https://www.openpolicyagent.org) model,
-providing a flexible fine-grained access control mechanism. [Learn more](https://docs.google.com/document/d/1U2XFmah7tYdmC5lWkk3D43VMAAQ0xkBatKmohf90ICA/edit#heading=h.fmlgl8m03gfy)
+providing a flexible fine-grained access control mechanism. [Learn more](https://docs.google.com/document/d/1U2XFmah7tYdmC5lWkk3D43VMAAQ0xkBatKmohf90ICA)
 
 - **Istio RBAC**. Mixer now has a role-based access control adapter.
-[Learn more](/docs/concepts/security/rbac/)
+[Learn more](/docs/concepts/security/#authorization)
 
 - **Fluentd**. Mixer now has an adapter for log collection through [fluentd](https://www.fluentd.org).
 [Learn more](/docs/tasks/telemetry/fluentd/)
@@ -43,7 +44,7 @@ of controls.
 - **PKCS8**. Add support for PKCS8 keys to Istio PKI.
 
 - **Istio RBAC** Istio RBAC provides access control for services in Istio mesh.
-[Learn more](/docs/concepts/security/rbac/).
+[Learn more](/docs/concepts/security/#authorization).
 
 ## Other
 
