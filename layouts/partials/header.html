@@ -5,7 +5,7 @@
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark justify-content-between">
         {{ $home := .Site.GetPage "home" }}
 
-        <a class="navbar-brand" href="{{ $home.Permalink }}">
+        <a class="navbar-brand" href="{{ $home.URL }}">
             <span class="logo">{{ partial "icons/istio-logo-blue-background-round.svg" }}</span>
 
             {{ if .Site.Data.args.archive }}
@@ -26,23 +26,23 @@
             <ul id="navbar-links" class="navbar-nav active">
                 {{ with (.Site.GetPage "section" "docs") }}
                     <li class="nav-item">
-                        <a class="nav-link {{ if eq $section "docs" }}active{{ end }}" title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
+                        <a class="nav-link {{ if eq $section "docs" }}active{{ end }}" title="{{ .Description }}" href="{{ .URL  }}">{{ .LinkTitle }}</a>
                     </li>
                 {{ end }}
                 {{ with $latest_post }}
                     <li class="nav-item">
                         {{ $blog_home := .Site.GetPage "section" "blog" }}
-                        <a class="nav-link {{ if eq $section "blog" }}active{{ end }}" title="{{ $blog_home.Description }}" href="{{ .Permalink }}">{{ $blog_home.LinkTitle }}</a>
+                        <a class="nav-link {{ if eq $section "blog" }}active{{ end }}" title="{{ $blog_home.Description }}" href="{{ .URL }}">{{ $blog_home.LinkTitle }}</a>
                     </li>
                 {{ end }}
                 {{ with (.Site.GetPage "section" "help") }}
                     <li class="nav-item">
-                        <a class="nav-link {{ if eq $section "help" }}active{{ end }}" title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
+                        <a class="nav-link {{ if eq $section "help" }}active{{ end }}" title="{{ .Description }}" href="{{ .URL  }}">{{ .LinkTitle }}</a>
                     </li>
                 {{ end }}
                 {{ with (.Site.GetPage "section" "about") }}
                     <li class="nav-item">
-                        <a class="nav-link {{ if eq $section "about" }}active{{ end }}" title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
+                        <a class="nav-link {{ if eq $section "about" }}active{{ end }}" title="{{ .Description }}" href="{{ .URL  }}">{{ .LinkTitle }}</a>
                     </li>
                 {{ end }}
 
