@@ -2,6 +2,7 @@
 title: Reporting Security Vulnerabilities
 description: Responsible disclosure for Istio security vulnerabilities.
 weight: 35
+page_icon: /img/vulnerabilities.svg
 ---
 
 We are very grateful to the security researchers and users that report
