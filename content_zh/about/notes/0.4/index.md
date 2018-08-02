@@ -1,8 +1,6 @@
 ---
 title: Istio 0.4
 weight: 97
-aliases:
-    - /docs/welcome/notes/0.4.html
 page_icon: /img/notes.svg
 ---
 

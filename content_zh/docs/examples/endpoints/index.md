@@ -2,8 +2,6 @@
 title: 在谷歌云 Endpoints 服务中安装 Istio
 description: 说明如何在谷歌云 Endpoints 服务中手动整合 Istio。
 weight: 42
-aliases:
-    - /docs/guides/endpoints/index.html
 ---
 
 这篇文档展示了如何手动整合 Istio 和现有的谷歌云 Endpoints 服务。
