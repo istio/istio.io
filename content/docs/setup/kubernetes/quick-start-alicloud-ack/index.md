@@ -2,7 +2,7 @@
 title: Quick Start with AliCloud Kubernetes Container Service
 description: Quick Start instructions to setup the Istio service using AliCloud Kubernetes Container Service
 weight: 12
-keywords: [kubernetes,alicloud,aliyun]
+keywords: [kubernetes,alicloud]
 ---
 
 Quick Start instructions to install and run Istio in [AliCloud Kubernetes Container Service](https://cs.console.aliyun.com/) using Application Catalog.
