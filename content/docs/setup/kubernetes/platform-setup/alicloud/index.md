@@ -1,7 +1,7 @@
 ---
 title: AliCloud
 description: Instructions to setup an AliCloud Kubernetes cluster for Istio.
-weight: 1
+weight: 3
 skip_toc: true
 skip_seealso: true
 keywords: [platform-setup,alicloud,aliyun]
