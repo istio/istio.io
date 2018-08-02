@@ -6,7 +6,7 @@ weight: 5
 
 This section provides specific deployment or configuration guidelines to avoid networking or traffic management issues.
 
-## 503 errors immediately after setting `DestinationRule`
+## 503 errors after setting destination rule`
 
 If, after applying a `DestinationRule` for a service, requests to the service immediately start generating HTTP 503 errors
 and continue to do so until the `DestinationRule` is removed or reverted, it is possible that the `DesintationRule`
