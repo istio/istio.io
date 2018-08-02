@@ -41,7 +41,7 @@ title: Istio
     <div class="hero">
         <div class="container">
             <h1 class="hero-label">Istio{{< site_suffix >}} {{< istio_version >}}</h1>
-            <img class="hero-logo" alt="Istio Logo" src="{{< baseurl >}}/img/istio-logo.svg" />
+            <img class="hero-logo" alt="Istio Logo" src="/img/istio-logo.svg" />
             <h1 class="hero-lead">An open platform to connect, manage, and secure microservices</h1>
             <span onclick="getElementById('SCROLLME').scrollIntoView({block: 'start', inline: 'nearest', behavior: 'smooth'})" class="hero-down-arrow fa fa-2 fa-caret-down"></span>
             <span id="SCROLLME"></span>
