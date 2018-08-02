@@ -18,7 +18,7 @@ configuration and `MutatingAdmissionWebhooks` for automatically
 injected the sidecar proxy into user pods.
 
 The webhook setup guides assuming general familiarity with Kubernetes
-Dynamic Admission Webhooks. Consult the [Kubernetes API references](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.11/)) for
+Dynamic Admission Webhooks. Consult the [Kubernetes API references](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.11/) for
 detailed documentation of the mutating and validating webhook configuration.
 
 ## Verify Dynamic Admission Webhook Prerequisites
@@ -49,11 +49,10 @@ webhooks and dependent features are not functioning properly.
 
 1. Verify `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` plugins are
    listed in the `kube-apiserver --enable-admission-plugins`. Access
-   to this flag is provider specific (see
-   [here](https://istio.io/docs/setup/kubernetes/quick-start/#prerequisites))
+   to this flag is [provider specific](https://istio.io/docs/setup/kubernetes/quick-start/#prerequisites).
 
 1. Verify the Kubernetes api-server has network connectivity to the
    webhook pod. e.g. incorrect `http_proxy` settings can interfere
-   api-server operation (see
+   api-server operation (see related issues
    [here](https://github.com/kubernetes/kubernetes/pull/58698#discussion_r163879443)
-   and [here](https://github.com/kubernetes/kubeadm/issues/666)).
+   and [here](https://github.com/kubernetes/kubeadm/issues/666) for more information).
