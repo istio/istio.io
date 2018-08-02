@@ -41,7 +41,7 @@ title: Istio
     <div class="hero">
         <div class="container">
             <h1 class="hero-label">Istio{{< site_suffix >}} {{< istio_version >}}</h1>
-            <img class="hero-logo" alt="Istio Logo" src="/img/istio-logo.svg" />
+            <img class="hero-logo" alt="Istio Logo" src="{{< baseurl >}}/img/istio-logo.svg" />
             <h1 class="hero-lead">An open platform to connect, manage, and secure microservices</h1>
             <span onclick="getElementById('SCROLLME').scrollIntoView({block: 'start', inline: 'nearest', behavior: 'smooth'})" class="hero-down-arrow fa fa-2 fa-caret-down"></span>
             <span id="SCROLLME"></span>
@@ -58,7 +58,7 @@ title: Istio
                 <p>
                     Control traffic between services with dynamic route configuration,
                     conduct A/B tests, release canaries, and gradually upgrade versions using red/black deployments.
-                    <a href="/docs/concepts/traffic-management/overview/">Learn more...</a>
+                    <a href="{{ baseurl}docs/concepts/traffic-management/overview/">Learn more...</a>
                 </p>
             </div>
         </div>
@@ -73,7 +73,7 @@ title: Istio
                 <h2>Resilience Across Languages and Platforms</h2>
                 <p>
                     Increase reliability by shielding applications from flaky networks and cascading failures in adverse conditions.
-                    <a href="/docs/concepts/traffic-management/handling-failures/">Learn more...</a>
+                    <a href="{{ baseurl}docs/concepts/traffic-management/handling-failures/">Learn more...</a>
                 </p>
             </div>
         </div>
@@ -89,7 +89,7 @@ title: Istio
                 <p>
                     Apply organizational policies to the interaction between services, ensure access policies are enforced and resources are fairly distributed
                     among consumers.
-                    <a href="/docs/concepts/policies-and-telemetry/overview/">Learn more...</a>
+                    <a href="{{ baseurl}docs/concepts/policies-and-telemetry/overview/">Learn more...</a>
                 </p>
             </div>
         </div>
@@ -104,7 +104,7 @@ title: Istio
                 <h2>In-Depth Telemetry</h2>
                 <p>
                     Understand the dependencies between services, the nature and flow of traffic between them, and quickly identify issues with distributed tracing.
-                    <a href="/docs/concepts/what-is-istio/overview/">Learn more...</a>
+                    <a href="{{ baseurl}docs/concepts/what-is-istio/overview/">Learn more...</a>
                 </p>
             </div>
         </div>
@@ -115,7 +115,7 @@ title: Istio
             <div class="col-12 col-md-6">
                 <h2>Want to learn more?</h2>
                 <p>Get started by learning Istio concepts and running through our BookInfo sample.</p>
-                <a class="btn btn-istio" href="/docs/">GET STARTED</a>
+                <a class="btn btn-istio" href="{{ baseurl}docs/">GET STARTED</a>
             </div>
 
             <div class="col-12 col-md-6">
