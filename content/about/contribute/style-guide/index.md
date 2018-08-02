@@ -114,12 +114,14 @@ It is not a proper noun.
 |----------------|------
 | load balancing | `load-balancing`
 | multicluster   | `multi-cluster`
-| add-on         | `add-on`
+| add-on         | `addon`
 | service mesh   | `Service Mesh`
 | sidecar        | `side-car`, `Sidecar`
 | Kubernetes     | `kubernetes`, `k8s`
 | Bookinfo       | `BookInfo`, `bookinfo`
 | Mixer          | `mixer`
+| certificate    | `cert`
+| configuration  | `config`
 
 ## Best practices
 

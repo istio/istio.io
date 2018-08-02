@@ -17,9 +17,9 @@ keywords: [security,health-check]
 
 ## 开始之前
 
-* 了解 [Kubernetes liveness 和 readiness 探针](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)，Istio [认证策略](/docs/concepts/security/#authentication-policies)和[双向 TLS 认证](/docs/concepts/security/#mutual-tls-authentication)的概念。
+* 了解 [Kubernetes liveness 和 readiness 探针](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)，Istio [认证策略](/zh/docs/concepts/security/#认证策略)和[双向 TLS 认证](/zh/docs/concepts/security/#双向-tls-认证)的概念。
 
-* 具有一个安装了 Istio 的 Kubernetes 集群，但没有启用全局双向 TLS（例如按照 [安装步骤](/docs/setup/kubernetes/quick-start/#installation-steps) 中的描述使用 istio-demo.yaml，或者在使用 [Helm](/docs/setup/kubernetes/helm-install/) 时将 `global.mtls.enabled` 设置为 false）。
+* 具有一个安装了 Istio 的 Kubernetes 集群，但没有启用全局双向 TLS（例如按照 [安装步骤](/zh/docs/setup/kubernetes/quick-start/#安装步骤) 中的描述使用 istio-demo.yaml，或者在使用 [Helm](/zh/docs/setup/kubernetes/helm-install/) 时将 `global.mtls.enabled` 设置为 false）。
 
 ## 使用命令选项的 liveness 和 readiness 探针
 

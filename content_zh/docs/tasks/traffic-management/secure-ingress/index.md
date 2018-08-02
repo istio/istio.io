@@ -5,13 +5,13 @@ weight: 31
 keywords: [traffic-management,ingress]
 ---
 
-> 本文任务使用了新的 [v1alpha3 流量控制 API](/blog/2018/v1alpha3-routing/)。旧版本 API 已经过时，会在下一个 Istio 版本中移除。如果需要使用旧版本 API，请阅读[旧版本文档](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)
+> 本文任务使用了新的 [v1alpha3 流量控制 API](/zh/blog/2018/v1alpha3-routing/)。旧版本 API 已经过时，会在下一个 Istio 版本中移除。如果需要使用旧版本 API，请阅读[旧版本文档](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)
 
-[控制 Ingress 流量](/docs/tasks/traffic-management/ingress)任务描述了如何对 Ingress gateway 进行配置，从而对外以 HTTP 端点的形式暴露服务。本文中将会对这一任务进行扩展，为服务启用普通或双向 TLS 保护，以 HTTPS 的形式对网格外提供服务。
+[控制 Ingress 流量](/zh/docs/tasks/traffic-management/ingress)任务描述了如何对 Ingress gateway 进行配置，从而对外以 HTTP 端点的形式暴露服务。本文中将会对这一任务进行扩展，为服务启用普通或双向 TLS 保护，以 HTTPS 的形式对网格外提供服务。
 
 ## 开始之前
 
-1. 执行[开始之前](/docs/tasks/traffic-management/ingress#before-you-begin)的步骤，并且[确定 Ingress 地址和端口](/docs/tasks/traffic-management/ingress#determining-the-ingress-ip-and-ports)。在完成这些步骤后，应该已经部署了可用的 Istio 服务网格以及 [httpbin]({{< github_tree >}}/samples/httpbin) 应用了，并且 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT` 这两个变量也已经生成并赋值。
+1. 执行[开始之前](/zh/docs/tasks/traffic-management/ingress/#前提条件)的步骤，并且[确定 Ingress 地址和端口](/zh/docs/tasks/traffic-management/ingress/#确定入口-ip-和端口)。在完成这些步骤后，应该已经部署了可用的 Istio 服务网格以及 [httpbin]({{< github_tree >}}/samples/httpbin) 应用了，并且 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT` 这两个变量也已经生成并赋值。
 
 1. macOS 用户需要注意，要检查一下 `curl` 的编译是否包含了 [LibreSSL](http://www.libressl.org) 库：
 
@@ -88,7 +88,7 @@ keywords: [traffic-management,ingress]
     EOF
     {{< /text >}}
 
-1. 为通过 Gateway 进入的流量进行路由配置。配置一个和[控制 Ingress 流量任务](/docs/tasks/traffic-management/ingress/#configuring-ingress-using-an-istio-gateway) 中一致的 `Virtualservice`：
+1. 为通过 Gateway 进入的流量进行路由配置。配置一个和[控制 Ingress 流量任务](/zh/docs/tasks/traffic-management/ingress/#使用-istio-网关配置-ingress) 中一致的 `Virtualservice`：
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -

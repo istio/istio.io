@@ -462,6 +462,7 @@ AppSwitch
 bitpipe
 datapath
 decapsulated
+Delayering
 Devirtualization
 FDs
 fine-grained
@@ -503,7 +504,23 @@ Knative
 Apigee
 SLOs
 serverless
+subresources
+re-patch
+re-applied
+CustomResourceDefinitions
+CRD
+injector
+configmap
+x509
+VirtualService
+sha256
+deployment
+webhook
 
  - search.md
 searchresults
 gcse
+MB
+CPU
+CPUs
+add-ons

@@ -4,8 +4,6 @@ description: 有关参与 Istio 社区和与之互动的各种方式的信息。
 weight: 90
 keywords: [community]
 type: community
-aliases:
-    - /community
 page_icon: /img/community.svg
 ---
 Istio 是一个开源项目，拥有一个支持其使用和持续开发的活跃社区。我们很乐意您加入我们并参与其中！

@@ -10,21 +10,21 @@ keywords: [traffic-management,egress,https]
 
 在许多情况下，在 _service mesh_ 中的微服务序并不是应用程序的全部， 有时，网格内部的微服务需要使用在服务网格外部的遗留系统提供的功能， 虽然我们希望逐步将这些系统迁移到服务网格中。 但是在迁移这些系统之前，必须让服务网格内的应用程序能访问它们。 还有其他情况，应用程序使用外部组织提供的 Web 服务，通常是通过万维网提供的服务。
 
-在这篇博客文章中，我修改了[Istio Bookinfo 示例应用程序](/docs/examples/bookinfo/)让它可以从外部 Web 服务（[Google Books APIs](https://developers.google.com/books/docs/v1/getting_started) ）获取图书详细信息。 我将展示如何使用 _egress rule_ 在 Istio 中启用外部 HTTPS 流量。 最后，我解释了当前与 Istio 出口流量控制相关的问题。
+在这篇博客文章中，我修改了[Istio Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)让它可以从外部 Web 服务（[Google Books APIs](https://developers.google.com/books/docs/v1/getting_started) ）获取图书详细信息。 我将展示如何使用 _egress rule_ 在 Istio 中启用外部 HTTPS 流量。 最后，我解释了当前与 Istio 出口流量控制相关的问题。
 
 ## Bookinfo 示例应用程序使用外部的 Web 服务扩展详细信息
 
 ### 初始设定
 
-为了演示使用外部 Web 服务的场景，我首先使用安装了 [Istio](/docs/setup/kubernetes/quick-start/#installation-steps) 的 Kubernetes 集群, 然后我部署[Istio Bookinfo 示例应用程序](/docs/examples/bookinfo/), 此应用程序使用 _details_ 微服务来获取书籍详细信息，例如页数和发布者, 原始 _details_ 微服务提供书籍详细信息，无需咨询任何外部服务。
+为了演示使用外部 Web 服务的场景，我首先使用安装了 [Istio](/zh/docs/setup/kubernetes/quick-start/#安装步骤) 的 Kubernetes 集群, 然后我部署[Istio Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/), 此应用程序使用 _details_ 微服务来获取书籍详细信息，例如页数和发布者, 原始 _details_ 微服务提供书籍详细信息，无需咨询任何外部服务。
 
-此博客文章中的示例命令与 Istio 0.2+ 一起使用，无论启用或不启用 [Mutual TLS](/docs/concepts/security/mutual-tls/)。
+此博客文章中的示例命令与 Istio 0.2+ 一起使用，无论启用或不启用[双向 TLS](/zh/docs/concepts/security/#双向-tls-认证)。
 
 此帖子的场景所需的 Bookinfo 配置文件显示自 [Istio版本0.5](https://github.com/istio/istio/releases/tag/0.5.0)。
 
 Bookinfo 配置文件位于 Istio 发行存档的 `samples/bookinfo/platform/kube` 目录中。
 
-以下是原始[Bookinfo示例应用程序](/docs/examples/bookinfo/)中应用程序端到端体系结构的副本。
+以下是原始[Bookinfo示例应用程序](/zh/docs/examples/bookinfo/)中应用程序端到端体系结构的副本。
 
 {{< image width="80%" ratio="59.08%"
     link="/docs/examples/bookinfo/withistio.svg"
@@ -66,7 +66,7 @@ spec:
 EOF
 {{< /text >}}
 
-在[确定入口IP和端口](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)之后，让我们访问应用程序的网页。
+在[确定入口 IP 和端口](/zh/docs/examples/bookinfo/#确定-ingress-的-ip-和端口)之后，让我们访问应用程序的网页。
 
 糟糕...页面显示 _Error fetching product details_，而不是书籍详细信息：
 
@@ -133,7 +133,7 @@ Deleted config: egressrule googleapis
 
 这个故事有一个警告, 在 HTTPS 中，所有 HTTP 详细信息（主机名，路径，标头等）都已加密，因此 Istio 无法知道加密请求的目标域, 那么，Istio 可以通过 [SNI](https://tools.ietf.org/html/rfc3546#section-3.1)（_Server Name Indication_）字段来了解目标域, 但是，此功能尚未在 Istio 中实现, 因此，目前Istio无法基于目标域执行 HTTPS 请求的过滤。
 
-为了允许 Istio 基于域执行出口请求的过滤，微服务必须发出 HTTP 请求, 然后，Istio 打开到目标的 HTTPS 连接（执行 TLS 发起）, 根据微服务是在 Istio 服务网格内部还是外部运行，微服务的代码必须以不同方式编写或以不同方式配置, 这与[最大化透明度](/docs/concepts/what-is-istio/#design-goals)的 Istio 设计目标相矛盾, 有时我们需要妥协......
+为了允许 Istio 基于域执行出口请求的过滤，微服务必须发出 HTTP 请求, 然后，Istio 打开到目标的 HTTPS 连接（执行 TLS 发起）, 根据微服务是在 Istio 服务网格内部还是外部运行，微服务的代码必须以不同方式编写或以不同方式配置, 这与[最大化透明度](/zh/docs/concepts/what-is-istio/#设计目标)的 Istio 设计目标相矛盾, 有时我们需要妥协......
 
 下图显示了如何执行外部服务的 HTTPS 流量, 在顶部，Istio 服务网格外部的微服务
 
@@ -171,7 +171,7 @@ env:
 
 #### Istio 双向 TLS 的关系
 
-请注意，在这种情况下，TLS 的源与 Istio 应用的 [双向 TLS](/docs/concepts/security/mutual-tls/) 无关, 无论 Istio mutual TLS 是否启用，外部服务的 TLS 源都将起作用 ,   保证服务网**内**的服务到服务通信，并为每个服务提供强大的身份认证, 在 **外部服务**的情况下，我们有**单向** TLS，这是用于保护 Web 浏览器和 Web 服务器之间通信的相同机制 , TLS 应用于与外部服务的通信，以验证外部服务器的身份并加密流量。
+请注意，在这种情况下，TLS 的源与 Istio 应用的 [双向 TLS](/zh/docs/concepts/security/#双向-tls-认证) 无关, 无论 Istio 双向 TLS 是否启用，外部服务的 TLS 源都将起作用 ,   保证服务网**内**的服务到服务通信，并为每个服务提供强大的身份认证, 在 **外部服务**的情况下，我们有**单向** TLS，这是用于保护 Web 浏览器和 Web 服务器之间通信的相同机制 , TLS 应用于与外部服务的通信，以验证外部服务器的身份并加密流量。
 
 ### 恶意微服务威胁
 
@@ -193,4 +193,4 @@ Istio 目前不支持保护出口流量，只能其他地方执行，例如通�
 
 在这篇博文中，我演示了 Istio 服务网格中的微服务如何通过 HTTPS 使用外部 Web 服务, 默认情况下，Istio 会阻止群集外主机的所有流量, 要启用此类流量，必须为服务网格创建出口规则, 可以通过 HTTPS 访问外部站点，但是微服务必须发出 HTTP 请求，而 Istio 将执行 TLS 发起, 目前，没有为出口流量启用跟踪，遥测和混合器检查, 出口规则目前不是安全功能，因此需要额外的机制来保护出口流量, 我们正在努力为将来版本中的出口流量启用日志记录/遥测和安全策略。
 
-要了解有关 Istio 出口流量控制的更多信息，请参阅[控制出口流量任务](/docs/tasks/traffic-management/egress/)。
+要了解有关 Istio 出口流量控制的更多信息，请参阅[控制出口流量任务](/zh/docs/tasks/traffic-management/egress/)。

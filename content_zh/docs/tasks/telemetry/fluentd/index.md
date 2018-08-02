@@ -10,11 +10,11 @@ Fluentd 是一个开源的日志收集器，支持多种[数据输出](https://w
 [Elasticsearch](https://www.elastic.co/products/elasticsearch)是一个流行的后端日志记录程序，
 [Kibana](https://www.elastic.co/products/kibana) 用于查看。在任务结束后，一个新的日志流将被加载发送日志到示例 Fluentd/Elasticsearch/Kibana 软件栈。
 
-在任务中，将使用 [Bookinfo](/docs/examples/bookinfo/) 示例应用程序作为示例应用程序。
+在任务中，将使用 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用程序作为示例应用程序。
 
 ## 在开始之前
 
-* [安装 Istio](/docs/setup/) 到您的集群并且部署一个应用程序。这个任务假定 Mixer 是以默认配置设置的(`--configDefaultNamespace=istio-system`)。如果您使用不同的值，则更新此任务中的配置和命令以匹配对应的值。
+* [安装 Istio](/zh/docs/setup/) 到您的集群并且部署一个应用程序。这个任务假定 Mixer 是以默认配置设置的(`--configDefaultNamespace=istio-system`)。如果您使用不同的值，则更新此任务中的配置和命令以匹配对应的值。
 
 ## 安装 Fluentd
 
@@ -328,8 +328,7 @@ Created config rule/istio-system/newlogtofluentd at revision 22376
 
 1. 将流量发送到示例应用程序。
 
-   对于 [Bookinfo](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)
-   示例, 在浏览器中访问 `http://$GATEWAY_URL/productpage` 或发送以下命令:
+   对于 [Bookinfo](/zh/docs/examples/bookinfo/#确定-ingress-的-ip-和端口) 示例, 在浏览器中访问 `http://$GATEWAY_URL/productpage` 或发送以下命令:
 
     {{< text bash >}}
     $ curl http://$GATEWAY_URL/productpage
@@ -365,4 +364,4 @@ Created config rule/istio-system/newlogtofluentd at revision 22376
     $ kubectl delete -f logging-stack.yaml
     {{< /text >}}
 
-* 如果您不打算探索任何后续任务，可以参考 [Bookinfo 清理](/docs/examples/bookinfo/#cleanup) 步骤去关闭程序。
+* 如果您不打算探索任何后续任务，可以参考 [Bookinfo 清理](/zh/docs/examples/bookinfo/#清理) 步骤去关闭程序。

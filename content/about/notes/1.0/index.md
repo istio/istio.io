@@ -100,3 +100,6 @@ be configured using [authentication policies](/docs/concepts/security/#authentic
 - There are Kubernetes manifests available for using Citadel standalone or with Citadel health checking enabled.
   There is not a Helm implementation of these modes.  See [Issue 6922](https://github.com/istio/istio/issues/6922)
   for more details.
+
+- Mesh expansion functionality, which lets you add raw VMs to a mesh is broken in 1.0. We're expecting to produce a
+patch that fixes this problem within a few days.
