@@ -2,8 +2,6 @@
 title: 属性词汇
 description: 介绍策略和控制中会用到的一些基础属性词汇。
 weight: 10
-aliases:
-    - /docs/reference/config/mixer/attribute-vocabulary.html
 ---
 
 属性是整个 Istio 使用的核心概念。可以在[这里](/zh/docs/concepts/policies-and-telemetry/#属性)找到属性是什么和用于何处的描述。
