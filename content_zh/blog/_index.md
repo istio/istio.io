@@ -5,7 +5,5 @@ linktitle: 博客
 type: section-index
 sidebar_multicard: true
 page_icon: /img/blog.svg
-aliases:
-    - /blog/posts/index.html
 ---
 

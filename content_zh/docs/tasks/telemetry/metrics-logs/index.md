@@ -3,8 +3,6 @@ title: 收集指标和日志
 description: 这一任务讲述如何配置 Istio，进行指标和日志的收集工作。
 weight: 20
 keywords: [telemetry,metrics]
-aliases:
-    - /docs/tasks/metrics-logs.html
 ---
 
 本任务展示了配置 Istio，对网格内服务的遥测数据进行自动收集的方法。在任务的后一部分，会创建一个新的指标以及新的日志流，并在网格内的服务被调用时触发收集过程。

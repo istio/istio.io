@@ -3,10 +3,6 @@ title: Denier 适配器以及黑白名单
 description: 展示使用简单的 Denier 适配器或黑白名单对服务进行访问控制的方法
 weight: 20
 keywords: [policies, denial, whitelist, blacklist]
-aliases:
-    - /docs/tasks/basic-access-control.html
-    - /docs/tasks/security/basic-access-control/index.html
-    - /docs/tasks/security/secure-access-control/index.html
 ---
 
 本文任务展示了使用简单的 Denier 适配器或黑白名单对服务进行访问控制的方法
