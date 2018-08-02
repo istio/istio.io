@@ -6,10 +6,10 @@ weight: 5
 
 This section provides specific deployment or configuration guidelines to avoid networking or traffic management issues.
 
-## 503 errors immediately after setting DestinationRule
+## 503 errors immediately after setting `DestinationRule`
 
 If, after applying a `DestinationRule` for a service, requests to the service immediately start generating HTTP 503 errors
-and continue to do so until the DestinationRule is removed or reverted, it is possible that the `DesintationRule`
+and continue to do so until the `DestinationRule` is removed or reverted, it is possible that the `DesintationRule`
 has caused a TLS conflict for the service.
 
 If, for example, mutual TLS is globally configured in the cluster, the `DestinationRule` must include the following:
@@ -21,7 +21,7 @@ If, for example, mutual TLS is globally configured in the cluster, the `Destinat
 ```
 
 Otherwise, the mode will default to `DISABLED` which will cause client proxies (sidecars) to make plain HTTP,
-instead of mTLS encrypted, requests. This will conflict with the server proxy, which is expecting encrypted requests.
+instead of TLS encrypted, requests. This will conflict with the server proxy, which is expecting encrypted requests.
 
 You can confirm that this has happened to a service if the `STATUS` field of the `istioctl authn tls-check` command
 is set to `CONFLICT`. For example:
