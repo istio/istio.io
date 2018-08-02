@@ -208,7 +208,6 @@ deploy an SNI forward proxy in addition to Envoy. Envoy will route the requests 
 forward proxy, which, in turn, will forward the request to the destination by the value of SNI. Let's reconfigure our
 access to _*.wikipedia.org_ to support HTTPS traffic to arbitrary wildcarded domains.
 
-
 ### Prepare a new egress gateway with an SNI proxy
 
 1.  The following command will generate `istio-egressgateway-with-sni-proxy.yaml` to edit and deploy.
