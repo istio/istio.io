@@ -438,6 +438,13 @@ spec:
     fault:
       delay:
         fixedDelay: 5s
+      abort:
+        percent: 10
+        httpStatus: 400
+    route:
+    - destination:
+        host: ratings
+        subset: v1
 {{< /text >}}
 
 可以参考[错误注入任务](/zh/docs/tasks/traffic-management/fault-injection/)，进行这方面的实际体验。
