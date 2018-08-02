@@ -314,7 +314,7 @@ to hold the configuration of the Nginx SNI proxy:
     horizontalpodautoscaler "istio-egressgateway-with-sni-proxy" created
     {{< /text >}}
 
-1.  Create a service entry with a static address equal to `localhost`, and disable mTLS on the traffic directed to the new
+1.  Create a service entry with a static address equal to 127.0.0.1 (`localhost`), and disable mTLS on the traffic directed to the new
     service entry:
 
     {{< text bash >}}
