@@ -184,4 +184,3 @@ non-existent resources because they may have been deleted hierarchically.
     {{< text bash >}}
     $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml -n istio-system
     {{< /text >}}
-    
