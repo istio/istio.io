@@ -41,7 +41,7 @@ application.  It uses Application Catalog to automate the steps detailed in the 
 -  Log on to the AliCloud Container Service console, and click `Application Catalog` in the left navigation pane, then select `ack-istio` in the right panel.
 
 {{< image width="100%" ratio="67.17%"
-    link="./app-catalog-istio-1.0.0.png"
+    link="./app-catalog-istio.png"
     caption="Istio"
     >}}
 
