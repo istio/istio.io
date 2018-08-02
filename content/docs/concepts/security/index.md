@@ -27,7 +27,6 @@ In particular, Istio security mitigates both insider and external threats agains
 
 {{< image width="80%" ratio="56.25%"
     link="./overview.svg"
-    alt="Istio security overview."
     caption="Istio Security Overview"
     >}}
 
@@ -58,7 +57,6 @@ Security in Istio involves multiple components:
 
 {{< image width="80%" ratio="56.25%"
     link="./architecture.svg"
-    alt="Istio security architecture."
     caption="Istio Security Architecture"
     >}}
 
@@ -132,7 +130,7 @@ Currently we use different certificate key provisioning mechanisms for each scen
 
 ### on-premises machines scenario
 
-1. Citadel creates a gRPC service to take [CSRs](https://en.wikipedia.org/wiki/Certificate_signing_request) (Certificate Signing Requests).
+1. Citadel creates a gRPC service to take [Certificate Signing Requests](https://en.wikipedia.org/wiki/Certificate_signing_request) (CSRs).
 
 1. Node agent generates a private key and CSR, and sends the CSR with its credentials to Citadel for signing.
 
@@ -150,7 +148,6 @@ Note that the identity provision flow for on-premises machines is the same so we
 
 {{< image width="80%" ratio="56.25%"
     link="./node_agent.svg"
-    alt="PKI with node agents in Kubernetes."
     caption="PKI with node agents in Kubernetes"
     >}}
 
@@ -203,7 +200,7 @@ team creates one service account to run the `datastore` service in the
 control in [Istio Mixer](/docs/concepts/policies-and-telemetry/) such that
 `photo-frontend` cannot access datastore.
 
-In this setup, Kuberenetes can isolate the operator privileges on managing the services.
+In this setup, Kubernetes can isolate the operator privileges on managing the services.
 Istio manages certificates and keys in all namespaces
 and enforces different access control rules to the services.
 
