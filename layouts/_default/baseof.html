@@ -1,5 +1,3 @@
-{{ $home := .Site.BaseURL }}
-
 <!DOCTYPE html>
 <html lang="{{ .Site.Language }}" itemscope itemtype="https://schema.org/WebPage">
     <head>
@@ -8,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="theme-color" content="#466BB0"/>
 
-        {{ define "description" }}{{ with .Page.Description }}{{ . }}{{ else }}An open platform to connect, manage, and secure microservices.{{ end }}{{ end }}
+        {{ define "description" }}{{ with .Page.Description }}{{ . }}{{ else }}Connect, secure, control, and observe services.{{ end }}{{ end }}
 
         <meta name="title" content="{{ .Title }}">
         <meta name="description" content="{{ template "description" . }}">
@@ -60,22 +58,22 @@
         </script>
 
         <!-- RSS -->
-        <link rel="alternate" type="application/rss+xml" title="Istio Blog" href="{{ .Site.BaseURL }}/feed.xml">
+        <link rel="alternate" type="application/rss+xml" title="Istio Blog" href="/feed.xml">
 
         <!-- Favicons: generated from img/istio-logo-social.svg by http://cthedot.de/icongen -->
-        <link rel="shortcut icon" href="{{ .Site.BaseURL }}/favicons/favicon.ico" >
-        <link rel="apple-touch-icon" href="{{ .Site.BaseURL }}/favicons/apple-touch-icon-180x180.png" sizes="180x180">
-        <link rel="icon" type="image/png" href="{{ .Site.BaseURL }}/favicons/favicon-16x16.png" sizes="16x16">
-        <link rel="icon" type="image/png" href="{{ .Site.BaseURL }}/favicons/favicon-32x32.png" sizes="32x32">
-        <link rel="icon" type="image/png" href="{{ .Site.BaseURL }}/favicons/android-36x36.png" sizes="36x36">
-        <link rel="icon" type="image/png" href="{{ .Site.BaseURL }}/favicons/android-48x48.png" sizes="48x48">
-        <link rel="icon" type="image/png" href="{{ .Site.BaseURL }}/favicons/android-72x72.png" sizes="72x72">
-        <link rel="icon" type="image/png" href="{{ .Site.BaseURL }}/favicons/android-96x196.png" sizes="96x196">
-        <link rel="icon" type="image/png" href="{{ .Site.BaseURL }}/favicons/android-144x144.png" sizes="144x144">
-        <link rel="icon" type="image/png" href="{{ .Site.BaseURL }}/favicons/android-192x192.png" sizes="192x192">
+        <link rel="shortcut icon" href="/favicons/favicon.ico" >
+        <link rel="apple-touch-icon" href="/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+        <link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+        <link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+        <link rel="icon" type="image/png" href="/favicons/android-36x36.png" sizes="36x36">
+        <link rel="icon" type="image/png" href="/favicons/android-48x48.png" sizes="48x48">
+        <link rel="icon" type="image/png" href="/favicons/android-72x72.png" sizes="72x72">
+        <link rel="icon" type="image/png" href="/favicons/android-96x196.png" sizes="96x196">
+        <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
+        <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
         <!-- app manifests -->
-        <link rel="manifest" href="{{ .Site.BaseURL }}/manifest.json">
+        <link rel="manifest" href="/manifest.json">
         <meta name="apple-mobile-web-app-title" content="Istio">
         <meta name="application-name" content="Istio">
 
@@ -86,17 +84,17 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
 
         {{ if .Site.Data.args.archive }}
-            <link rel="stylesheet" href="{{ .Site.BaseURL }}/css/light_theme_archive.css" title="light">
-            <link rel="alternate stylesheet" href="{{ .Site.BaseURL }}/css/dark_theme_archive.css" title="dark">
+            <link rel="stylesheet" href="/css/light_theme_archive.css" title="light">
+            <link rel="alternate stylesheet" href="/css/dark_theme_archive.css" title="dark">
         {{ else if .Site.Data.args.preliminary }}
-            <link rel="stylesheet" href="{{ .Site.BaseURL }}/css/light_theme_preliminary.css" title="light">
-            <link rel="alternate stylesheet" href="{{ .Site.BaseURL }}/css/dark_theme_preliminary.css" title="dark">
+            <link rel="stylesheet" href="/css/light_theme_preliminary.css" title="light">
+            <link rel="alternate stylesheet" href="/css/dark_theme_preliminary.css" title="dark">
         {{ else }}
-            <link rel="stylesheet" href="{{ .Site.BaseURL }}/css/light_theme_normal.css" title="light">
-            <link rel="alternate stylesheet" href="{{ .Site.BaseURL }}/css/dark_theme_normal.css" title="dark">
+            <link rel="stylesheet" href="/css/light_theme_normal.css" title="light">
+            <link rel="alternate stylesheet" href="/css/dark_theme_normal.css" title="dark">
         {{ end }}
 
-        <script src="{{ .Site.BaseURL }}/js/styleSwitcher.min.js"></script>
+        <script src="/js/styleSwitcher.min.js"></script>
     </head>
 
     <body class="language-unknown">
@@ -115,6 +113,6 @@
         <script src="https://www.google.com/cse/brand?form=search_form"></script>
 
         <!-- our own scripts -->
-        <script src="{{ .Site.BaseURL }}/js/all.min.js" data-manual></script>
+        <script src="/js/all.min.js" data-manual></script>
     </body>
 </html>
