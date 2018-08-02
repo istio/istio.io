@@ -193,10 +193,10 @@ $ kubectl delete destinationrule set-sni-for-egress-gateway
 
 The configuration in the previous section works thanks to the fact that all the _*.wikipedia.org_ sites are apparently
 served by each of the _wikipedia.org_ servers. This could not always be the case. In many cases we may want to configure
-egress control for HTTPS access to _*.com_ or _*.org_ domains, or even to _*_ (all the domains). Configuring traffic to
+egress control for HTTPS access to `*.com` or `*.org` domains, or even to `*` (all the domains). Configuring traffic to
 arbitrary wildcarded domains introduces a challenge for Istio gateways. In the previous section you directed the traffic
 to _www.wikipedia.org_, and this host was known to your gateway during the configuration. The gateway, however, cannot
-know an IP of an arbitrary host it receives a request for. Would we want to control access to _*.com_, and send
+know an IP of an arbitrary host it receives a request for. Would we want to control access to `*.com`, and send
 requests to _www.cnn.com_ and _www.abc.com_, the Istio gateway would not know which IP to forward the requests.
 This limitation is due to the limitation of Envoy, the proxy Istio is based on. Envoy route traffic either to a
 predefined host, or a predefined IP, or to the original destination IP of the request. In the case of the gateway the
