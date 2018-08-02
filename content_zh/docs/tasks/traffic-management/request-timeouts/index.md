@@ -2,8 +2,6 @@
 title: 设置请求超时
 description: 本任务用于示范如何使用 Istio 在 Envoy 中设置请求超时。
 weight: 28
-aliases:
-    - /docs/tasks/request-timeouts.html
 keywords: [traffic-management,timeouts]
 ---
 
