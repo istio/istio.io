@@ -2,11 +2,6 @@
 title: 功能状态
 description: 功能列表和发布阶段。
 weight: 10
-aliases:
-    - /docs/reference/release-roadmap.html
-    - /docs/reference/feature-stages.html
-    - /docs/welcome/feature-stages.html
-    - /docs/home/roadmap.html
 page_icon: /img/feature-status.svg
 ---
 

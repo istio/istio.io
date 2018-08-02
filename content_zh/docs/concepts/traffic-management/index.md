@@ -3,14 +3,6 @@ title: 流量管理
 description: 介绍 Istio 中关于流量路由与控制的各项功能。
 weight: 20
 keywords: [traffic-management]
-aliases:
-    - /docs/concepts/traffic-management/overview
-    - /docs/concepts/traffic-management/pilot
-    - /docs/concepts/traffic-management/rules-configuration
-    - /docs/concepts/traffic-management/fault-injection
-    - /docs/concepts/traffic-management/handling-failures
-    - /docs/concepts/traffic-management/load-balancing
-    - /docs/concepts/traffic-management/request-routing
 ---
 
 本页概述了 Istio 中流量管理的工作原理，包括流量管理原则的优点。本文假设你已经阅读了 [Istio 是什么？](/zh/docs/concepts/what-is-istio/)并熟悉 Istio 的高级架构。有关单个流量管理功能的更多信息，您可以在本节其他指南中了解。

@@ -5,8 +5,6 @@ publishdate: 2017-06-14
 attribution: Frank Budinsky
 weight: 98
 keywords: [traffic-management,canary]
-aliases:
-    - /blog/canary-deployments-using-istio.html
 ---
 
 > 本篇博客最后更新时间 2018 年 5 月 16 号，采用了最新版本的流量管理模型。
