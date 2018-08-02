@@ -18,7 +18,7 @@ provides direct (without NAT or firewall deny) routing to the endpoints. The mac
 is not required to have access to the cluster IP addresses assigned by Kubernetes.
 
 * The VM must have access to a DNS server that resolves names to cluster IP addresses. Options
-include exposing the Kubernetes DNS server through an internal load balancer, using a Core DNS 
+include exposing the Kubernetes DNS server through an internal load balancer, using a Core DNS
 server, or configuring the IPs in any other DNS server accessible from the VM.
 
 ## Installation steps
@@ -170,7 +170,7 @@ Example using `/etc/hosts`:
 
     {{< text bash >}}
 
-    $ # On the VM 
+    $ # On the VM
     $ sudo echo "10.55.246.247 productpage.bookinfo.svc.cluster.local" >> /etc/hosts
     $ curl productpage.bookinfo.svc.cluster.local:9080
     ... html content ...
@@ -179,7 +179,7 @@ Example using `/etc/hosts`:
 
 ## Running services on a mesh expansion machine
 
-VMs are added to the mesh by configuring a ServiceEntry. The ServiceEntry will contain the IP 
+VMs are added to the mesh by configuring a ServiceEntry. The ServiceEntry will contain the IP
 addresses, ports and labels of all VMs exposing a service.
 
     {{< text bash yaml>}}
@@ -212,7 +212,7 @@ addresses, ports and labels of all VMs exposing a service.
 
 The following steps provide basic trouble shooting for common mesh expansion issues.
 
-1. When making requests from VM to the cluster, ensure you don't run the requests as `root` or 
+1. When making requests from VM to the cluster, ensure you don't run the requests as `root` or
  `istio-proxy` user. By default, Istio excludes both users from interception.
 
 1. Verify the machine can reach the IP of the all workloads running in the cluster. For example:
