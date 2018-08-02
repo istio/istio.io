@@ -128,7 +128,7 @@ IBM Cloud Private 默认使用 Calico Node-to-Node Mesh 来管理容器网络。
 
 ## 跨集群部署 Bookinfo 示例
 
-__注意__: 以下示例启用了 [自动 sidecar 注入](/zh/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection).
+__注意__: 以下示例启用了 [自动 sidecar 注入](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入).
 
 1.  安装 `bookinfo` 在第一个集群 `cluster-1` 上。移除此集群上的 `reviews-v3` deployment 以便将其部署在 `cluster-2` 上：
 
@@ -200,6 +200,6 @@ __注意__: 以下示例启用了 [自动 sidecar 注入](/zh/docs/setup/kuberne
     $ kubectl apply -f $HOME/reviews-v3.yaml
     {{< /text >}}
 
-1.  [ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports)，确定  `istio-ingressgateway` 的 `INGRESS_HOST` 和 `INGRESS_PORT` 变量以访问 gateway。
+1.  [ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/#确定入口-ip-和端口)，确定  `istio-ingressgateway` 的 `INGRESS_HOST` 和 `INGRESS_PORT` 变量以访问 gateway。
 
     重复地访问 `http://<INGRESS_HOST>:<INGRESS_PORT>/productpage` 会发现请求应该被均匀的分发到了各个版本的 `reviews` 服务上, 包括在 `cluster-2` 集群上的 `reviews-v3` 服务（红色星星）。可能需要访问许多次才能展示出请求确实是被均匀的分发到了所有版本的 `reviews` 服务上。
