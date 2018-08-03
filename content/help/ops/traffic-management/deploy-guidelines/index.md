@@ -8,11 +8,11 @@ This section provides specific deployment or configuration guidelines to avoid n
 
 ## 503 errors after setting destination rule
 
-If, after applying a `DestinationRule` for a service, requests to the service immediately start generating HTTP 503 errors
-and continue to do so until the `DestinationRule` is removed or reverted, it is possible that the `DesintationRule`
-has caused a TLS conflict for the service.
+If requests to a service immediately start generating HTTP 503 errors after you applied a `DestinationRule`
+and the errors continue until you remove or revert the `DestinationRule`, then the `DesintationRule` is probably
+causing a TLS conflict for the service.
 
-If, for example, mutual TLS is globally configured in the cluster, the `DestinationRule` must include the following:
+For example, if you configure mutual TLS in the cluster globally, the `DestinationRule` must include the following `trafficPolicy`:
 
 {{< text yaml >}}
   trafficPolicy:
@@ -20,11 +20,12 @@ If, for example, mutual TLS is globally configured in the cluster, the `Destinat
       mode: ISTIO_MUTUAL
 {{< /text >}}
 
-Otherwise, the mode will default to `DISABLED` which will cause client proxies (sidecars) to make plain HTTP,
-instead of TLS encrypted, requests. This will conflict with the server proxy, which is expecting encrypted requests.
+Otherwise, the mode defaults to `DISABLED` causing client proxy sidecars to make plain HTTP requests
+instead of TLS encrypted requests. Thus, the requests conflict with the server proxy because the server proxy expects
+encrypted requests.
 
-You can confirm that this has happened to a service if the `STATUS` field of the `istioctl authn tls-check` command
-is set to `CONFLICT`. For example:
+To confirm there is a conflict, check whether the `STATUS` field in the output of the `istioctl authn tls-check` command
+is set to `CONFLICT` for your service. For example:
 
 {{< text bash >}}
 $ istioctl authn tls-check httpbin.default.svc.cluster.local
@@ -32,8 +33,7 @@ HOST:PORT                                  STATUS       SERVER     CLIENT     AU
 httpbin.default.svc.cluster.local:8000     CONFLICT     mTLS       HTTP       default/         httpbin/default
 {{< /text >}}
 
-In this case, and whenever applying `DestinationRules`, make sure that the `trafficPolicy` TLS mode is set
-to match the global server configuration.
+Whenever you apply a `DestinationRule`, ensure the `trafficPolicy` TLS mode matches the global server configuration.
 
 ## 503 errors while reconfiguring service routes
 
