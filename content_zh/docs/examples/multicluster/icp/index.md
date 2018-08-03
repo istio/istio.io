@@ -2,7 +2,7 @@
 title: IBM Cloud Private
 description: 多 IBM Cloud Private 集群安装 Istio 示例。
 weight: 70
-keywords: [kubernetes,multicluster]
+keywords: [kubernetes,多集群]
 ---
 
 此示例演示了如何在 [Kubernetes 多集群安装指导](/zh/docs/setup/kubernetes/multicluster-install/) 的帮助下使用 Istio 的多集群功能连接两个

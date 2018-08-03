@@ -2,7 +2,7 @@
 title: 智能路由
 description: 如何在 Istio 服务网格中使用多种流量管理功能。
 weight: 20
-keywords: [traffic-management,routing]
+keywords: [流量管理,路由]
 ---
 
 本文示例演示了如何在 Istio 服务网格中使用多种流量管理功能。
