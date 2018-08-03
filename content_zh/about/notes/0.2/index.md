@@ -46,7 +46,7 @@ page_icon: /img/notes.svg
 
 - **新的Mixer API**。Envoy 用于与 Mixer 交互的 API 已经过全面重新设计，以提高稳健性，灵活性，并支持丰富的代理端缓存和批处理以提高性能。
 
-- **新的 Mixer 适配器模型**。新的适配器组合模型通过模板添加全新的适配器类，可以更轻松地扩展Mixer,这个新模型将成为未来许多功能的基础构建模块,请参阅[适配器开发人员指南](https://github.com/istio/istio/wiki/Mixer-Adapter-Dev-Guide)了解具体写适配器的方法。
+- **新的 Mixer 适配器模型**。新的适配器组合模型通过模板添加全新的适配器类，可以更轻松地扩展Mixer,这个新模型将成为未来许多功能的基础构建模块,请参阅[适配器开发人员指南](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide)了解具体写适配器的方法。
 
 - **改进的 Mixer 构建模型**。现在，构建包含自定义适配器的 Mixer 二进制文件变得更加容易。
 

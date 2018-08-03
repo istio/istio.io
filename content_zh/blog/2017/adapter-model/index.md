@@ -18,7 +18,7 @@ Mixer 服务作为 Istio 和一套开放式基础设施之间的抽象层。Isti
 
 除了作为应用层与基础设施隔离外，Mixer 提供了一种中介模型，这种模型允许注入和控制应用和后端的策略。操作人员可以控制哪些数据汇报给哪个后端，哪个后端提供授权等等。
 
-考虑到每个基础服务都有不同的接口和操作模型，Mixer 需要用户通过代码来解决这些差异，我们可以称这些用户自己封装的代码为[*适配器*](https://github.com/istio/istio/wiki/Mixer-Adapter-Dev-Guide)。
+考虑到每个基础服务都有不同的接口和操作模型，Mixer 需要用户通过代码来解决这些差异，我们可以称这些用户自己封装的代码为[*适配器*](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide)。
 
 适配器以 Go 包的形式直接链接到 Mixer 二进制中。如果默认的适配器不能满足特定的使用需求，自定义适配器也是很简单的。
 
