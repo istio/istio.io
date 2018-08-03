@@ -21,7 +21,7 @@ Mixer serves as an abstraction layer between Istio and an open-ended set of infr
 In addition to insulating application-level code from the details of infrastructure backends, Mixer provides an intermediation model that allows operators to inject and control policies between application code and backends. Operators can control which data is reported to which backend, which backend to consult for authorization, and much more.
 
 Given that individual infrastructure backends each have different interfaces and operational models, Mixer needs custom
-code to deal with each and we call these custom bundles of code [*adapters*](https://github.com/istio/istio/wiki/Mixer-Adapter-Dev-Guide).
+code to deal with each and we call these custom bundles of code [*adapters*](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide).
 
 Adapters are Go packages that are directly linked into the Mixer binary. It’s fairly simple to create custom Mixer binaries linked with specialized sets of adapters, in case the default set of adapters is not sufficient for specific use cases.
 
