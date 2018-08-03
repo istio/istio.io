@@ -9,7 +9,7 @@ aliases:
 
 ## 背景介绍
 
-Mixer 通过一种表达式语言 (CEXL) 去指定 Mixer 遥测策略配置的匹配表达式和[映射表达式](/zh/docs/concepts/policies-and-telemetry/#属性表达式)。这种 CEXL 表达式将一组类型化的的[属性](/zh/docs/concepts/policies-and-telemetry/#属性)和常量映射到类型化的[值](https://github.com/istio/api/blob/master/policy/v1beta1/value_type.proto)。
+Mixer 通过一种表达式语言 (CEXL) 去指定 Mixer 遥测策略配置的匹配表达式和[映射表达式](/zh/docs/concepts/policies-and-telemetry/#属性表达式)。这种 CEXL 表达式将一组类型化的[属性](/zh/docs/concepts/policies-and-telemetry/#属性)和常量映射到类型化的[值](https://github.com/istio/api/blob/master/policy/v1beta1/value_type.proto)。
 
 ## 语法
 
@@ -29,11 +29,11 @@ CEXL 表达式支持下列的功能：
 |`+` |加| `request.host + request.path`
 |<code>&#124;</code> |默认值| `source.labels["app"]` <code>&#124;</code> `source.labels["svc"]` <code>&#124;</code> `"unknown"`
 |`match` | 全局匹配|`match(destination.service, "*.ns1.svc.cluster.local")` | 通过指定 `*` 字符的位置，匹配以特定字符串作为前缀或后缀的值
-|`email` | 将一个email字符串转换为一个 `EMAIL_ADDRESS` 类型 | `email("awesome@istio.io")` | 使用 `email` 函数创建一个 `EMAIL_ADDRESS` 类型的字面量
+|`email` | 将一个 email 字符串转换为一个 `EMAIL_ADDRESS` 类型 | `email("awesome@istio.io")` | 使用 `email` 函数创建一个 `EMAIL_ADDRESS` 类型的字面量
 |`dnsName` | 将一个域名字符串转换为一个 `DNS_NAME` 类型 | `dnsName("www.istio.io")` | 使用 `dnsName` 函数创建一个 `DNS_NAME` 类型的字面量
-|`ip` | 将一个IPv4地址字符串转换为一个 `IP_ADDRESS` 类型 | `source.ip == ip("10.11.12.13")` | 使用 `ip` 函数创建一个 `IP_ADDRESS` 类型的字面量
+|`ip` | 将一个 IPv4 地址字符串转换为一个 `IP_ADDRESS` 类型 | `source.ip == ip("10.11.12.13")` | 使用 `ip` 函数创建一个 `IP_ADDRESS` 类型的字面量
 |`timestamp` | 将一个 RFC 3339 格式的时间字符串转换为一个 `TIMESTAMP` 类型 | `timestamp("2015-01-02T15:04:35Z")` | 使用 `timestamp` 函数创建一个 `TIMESTAMP`类型的字面量
-|`uri` | 将一个URI字符串转换为一个 `URI` 类型 | `uri("http://istio.io")` | 使用 `uri` 函数创建一个 `URI` 类型的字面量
+|`uri` | 将一个 URI 字符串转换为一个 `URI` 类型 | `uri("http://istio.io")` | 使用 `uri` 函数创建一个 `URI` 类型的字面量
 |`.matches` | 正则表达式匹配 | `"svc.*".matches(destination.service)` | 用正则表达式 `"svc.*"` 匹配 `destination.service`
 |`.startsWith` | 匹配字符串前缀 | `destination.service.startsWith("acme")` | 匹配 `destination.service` 字符串是否以 `"acme"` 开始
 |`.endsWith` | 匹配字符串后缀 | `destination.service.endsWith("acme")`  | 匹配 `destination.service` 字符串是否以 `"acme"` 结束
