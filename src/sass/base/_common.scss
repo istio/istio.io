@@ -2,7 +2,7 @@
     // This is a hack such that when we link to a fragment on a page, the page
     // scrolls correctly in relation to the fixed header. Without this hack, the
     // page scrolls with the fragment at the top of the page, below the header!
-    h2[id]:before, h3[id]:before, h4[id]:before, h5[id]:before, h6[id]:before {
+    h2[id]:before, h3[id]:before, h4[id]:before, h5[id]:before, h6[id]:before, dt[id]:before {
           display: block;
           content: ' ';
           margin-top: -1.8em;
@@ -15,6 +15,11 @@
         border-bottom: 4px solid $mainBrandColor;
         margin-bottom: .8rem;
         visibility: visible;
+    }
+
+    dt[id]:before {
+        margin-top: -2.8em;
+        height: 2.8em;
     }
 
     html {
