@@ -2,7 +2,7 @@
 title: 性能与可伸缩性
 description: 介绍 Istio 组件的性能与可伸缩性方法论、结果和最佳实践。
 weight: 50
-keywords: [performance,scalability,scale,benchmarks]
+keywords: [性能,可伸缩性,伸缩,benchmarks]
 ---
 
 我们对 Istio 性能评估、跟踪和改进采用四管齐下的方法：
@@ -19,7 +19,7 @@ keywords: [performance,scalability,scale,benchmarks]
 
 我们使用 Go 的原生工具在性能敏感区域编写有针对性的微基准测试。我们使用此方法的主要目标是提供易于使用的微基准测试，开发人员可以使用这些基准测试来对它们的更改快速执行更改前后的性能对比。
 
-查看 Mixer 的 [示例微基准测试]({{< github_file >}}/mixer/test/perf/singlecheck_test.go)，以衡量属性处理代码的性能。
+查看 Mixer 的[示例微基准测试]({{< github_file >}}/mixer/test/perf/singlecheck_test.go)，以衡量属性处理代码的性能。
 
 开发人员还可以利用黄金文件（golden-file）的方式来捕获源代码树中基准测试结果的状态，以达到保持跟踪和引用的目的。 GitHub 上有该[基线文件]({{< github_file >}}/mixer/test/perf/bench.baseline)。
 

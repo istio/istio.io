@@ -2,7 +2,7 @@
 title: 加入社区
 description: 有关参与 Istio 社区和与之互动的各种方式的信息。
 weight: 90
-keywords: [community]
+keywords: [社区]
 type: community
 page_icon: /img/community.svg
 ---

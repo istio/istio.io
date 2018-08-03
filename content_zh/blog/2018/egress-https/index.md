@@ -5,7 +5,7 @@ publishdate: 2018-01-31
 subtitle: HTTPS 流量的出口规则
 attribution: Vadim Eisenberg
 weight: 93
-keywords: [traffic-management,egress,https]
+keywords: [流量管理,egress,https]
 ---
 
 在许多情况下，在 _service mesh_ 中的微服务序并不是应用程序的全部， 有时，网格内部的微服务需要使用在服务网格外部的遗留系统提供的功能， 虽然我们希望逐步将这些系统迁移到服务网格中。 但是在迁移这些系统之前，必须让服务网格内的应用程序能访问它们。 还有其他情况，应用程序使用外部组织提供的 Web 服务，通常是通过万维网提供的服务。
