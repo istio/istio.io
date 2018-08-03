@@ -2,7 +2,7 @@
 title: 注入 Istio sidecar
 description: 介绍两种将 Istio sidecar 注入应用 Pod 的方法：使用 Sidecar 注入 Webhook 自动完成，或使用 istioctl 客户端工具手工完成。
 weight: 50
-keywords: [kubernetes,sidecar,sidecar-injection]
+keywords: [kubernetes,sidecar,注入]
 ---
 
 ## 对 Pod 的要求

@@ -2,7 +2,7 @@
 title: 启用速率限制
 description: 这一任务展示了如何使用 Istio 动态的对服务通信进行速率限制。
 weight: 10
-keywords: [policies,quotas]
+keywords: [策略,限额]
 ---
 
 这一任务展示了如何使用 Istio 动态的对服务通信进行速率限制。

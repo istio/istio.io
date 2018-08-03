@@ -2,7 +2,7 @@
 title: 网格扩展
 description: 部署在 Kubernetes 之中的 Istio 服务网格，将虚拟机和物理机集成进入到服务网格的方法。
 weight: 60
-keywords: [kubernetes,vms]
+keywords: [kubernetes,虚拟机]
 ---
 
 部署在 Kubernetes 之中的 Istio 服务网格，将虚拟机和物理机集成进入到服务网格的方法。

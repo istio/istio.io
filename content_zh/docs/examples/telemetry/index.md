@@ -2,7 +2,7 @@
 title: 深入遥测
 description: 演示如何使用 Istio Mixer 和 Istio sidecar 获取指标和日志，并在不同的服务间进行跟踪。
 weight: 30
-keywords: [telemetry,metrics,logging,tracing]
+keywords: [遥测,指标,日志,跟踪]
 ---
 
 演示如何使用 Istio Mixer 和 Istio sidecar 获取指标和日志，并在不同的服务间进行跟踪。
