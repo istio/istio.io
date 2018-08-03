@@ -80,7 +80,7 @@ from within your Istio cluster. In this task you access
       ports:
       - number: 443
         name: https
-        protocol: HTTPS
+        protocol: TLS
       resolution: DNS
     ---
     apiVersion: networking.istio.io/v1alpha3
