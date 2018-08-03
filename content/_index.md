@@ -72,60 +72,68 @@ title: Istio
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div id="card1" class="card">
-                <div class="card-img-top">
-                    {{< inline_image "landing/routing-and-load-balancing.svg" >}}
-                 </div>
-                <div class="card-body">
-                    <hr class="card-line">
-                    <h5 class="card-title text-center">Connect</h5>
-                    <hr class="card-line">
-                    <p class="card-text">
-                        Intelligently control the flow of traffic and API calls between services, conduct a range of tests, and upgrade gradually with
-                        red/black deployments.
-                    </p>
-                </div>
+                <a href="/docs/concepts/traffic-management/">
+                    <div class="card-img-top">
+                        {{< inline_image "landing/routing-and-load-balancing.svg" >}}
+                     </div>
+                    <div class="card-body">
+                        <hr class="card-line">
+                        <h5 class="card-title text-center">Connect</h5>
+                        <hr class="card-line">
+                        <p class="card-text">
+                            Intelligently control the flow of traffic and API calls between services, conduct a range of tests, and upgrade gradually with
+                            red/black deployments.
+                        </p>
+                    </div>
+                </a>
             </div>
 
             <div id="card2" class="card">
-                <div class="card-img-top">
-                    {{< inline_image "landing/resiliency.svg" >}}
-                </div>
-                <div class="card-body">
-                    <hr class="card-line">
-                    <h5 class="card-title text-center">Secure</h5>
-                    <hr class="card-line">
-                    <p class="card-text">
-                        Automatically secure your services through managed authentication, authorization, and encryption of communication between
-                        services.
-                    </p>
-                </div>
+                <a href="/docs/concepts/security/">
+                    <div class="card-img-top">
+                        {{< inline_image "landing/resiliency.svg" >}}
+                    </div>
+                    <div class="card-body">
+                        <hr class="card-line">
+                        <h5 class="card-title text-center">Secure</h5>
+                        <hr class="card-line">
+                        <p class="card-text">
+                            Automatically secure your services through managed authentication, authorization, and encryption of communication between
+                            services.
+                        </p>
+                    </div>
+                </a>
             </div>
 
             <div id="card3" class="card">
-                <div class="card-img-top">
-                    {{< inline_image "landing/policy-enforcement.svg" >}}
-                </div>
-                <div class="card-body">
-                    <hr class="card-line">
-                    <h5 class="card-title text-center">Control</h5>
-                    <hr class="card-line">
-                    <p class="card-text">
-                        Apply policies and ensure that they’re enforced, and that resources are fairly distributed among consumers.
-                    </p>
-                </div>
+                <a href="/docs/concepts/policies-and-telemetry/">
+                    <div class="card-img-top">
+                        {{< inline_image "landing/policy-enforcement.svg" >}}
+                    </div>
+                    <div class="card-body">
+                        <hr class="card-line">
+                        <h5 class="card-title text-center">Control</h5>
+                        <hr class="card-line">
+                        <p class="card-text">
+                            Apply policies and ensure that they’re enforced, and that resources are fairly distributed among consumers.
+                        </p>
+                    </div>
+                </a>
             </div>
 
             <div id="card4" class="card">
-                <div class="card-img-top">
-                    {{< inline_image "landing/telemetry-and-reporting.svg" >}}
-                </div>
-                <div class="card-body">
-                    <hr class="card-line">
-                    <h5 class="card-title text-center">Observe</h5>
-                    <hr class="card-line">
-                    <p class="card-text">
-                        See what's happening with rich automatic tracing, monitoring, and logging of all your services.
-                   </p>
+                <a href="/docs/concepts/policies-and-telemetry/">
+                    <div class="card-img-top">
+                        {{< inline_image "landing/telemetry-and-reporting.svg" >}}
+                    </div>
+                    <div class="card-body">
+                        <hr class="card-line">
+                        <h5 class="card-title text-center">Observe</h5>
+                        <hr class="card-line">
+                        <p class="card-text">
+                            See what's happening with rich automatic tracing, monitoring, and logging of all your services.
+                       </p>
+                    </div>
                 </div>
             </div>
         </div>
