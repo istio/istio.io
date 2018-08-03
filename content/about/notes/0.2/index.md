@@ -63,7 +63,7 @@ rich proxy-side caching and batching for increased performance.
 
 - **New Mixer Adapter Model**. A new adapter composition model makes it easier to extend Mixer by adding whole new classes of adapters via templates. This
 new model will serve as the foundational building block for many features in the future. See the
-[Adapter Developer's Guide](https://github.com/istio/istio/wiki/Mixer-Adapter-Dev-Guide) to learn how
+[Adapter Developer's Guide](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) to learn how
 to write adapters.
 
 - **Improved Mixer Build Model**. It’s now easier to build a Mixer binary that includes custom adapters.
