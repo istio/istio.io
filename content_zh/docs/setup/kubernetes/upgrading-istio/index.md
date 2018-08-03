@@ -2,7 +2,7 @@
 title: 升级 Istio
 description: 演示如何独立升级 Istio 控制平面和数据平面。
 weight: 70
-keywords: [kubernetes,upgrading]
+keywords: [kubernetes,升级]
 ---
 
 本页介绍如何将现有的 Istio 部署（包括控制平面和 sidecar 代理）升级到新版本。

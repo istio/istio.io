@@ -5,7 +5,7 @@ publishdate: 2017-11-03
 subtitle: 将 Istio 与后端基础设施整合
 attribution: Martin Taillefer
 weight: 95
-keywords: [adapters,mixer,policies,telemetry]
+keywords: [适配器,mixer,策略,遥测]
 ---
 
 Istio 0.2 引入了一种新的 Mixer 适配器模型，这种模型使接入后端基础设施具有更多的灵活性 。本文将解释这种模型是如何工作的。

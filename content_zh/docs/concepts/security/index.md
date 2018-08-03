@@ -2,7 +2,7 @@
 title: 安全
 description: 描述 Istio 的授权与鉴权功能。
 weight: 30
-keywords: [security,authentication,authorization,rbac,access-control]
+keywords: [安全,认证,鉴权,rbac,访问控制]
 ---
 
 在不修改代码的情况下，增强微服务自身以及微服务之间通信的安全性，是 Istio 的重要目标。它负责提供以下功能：

@@ -2,7 +2,7 @@
 title: 分布式跟踪
 description: 如何进行代理配置将跟踪请求发送给 Zipkin 或 Jaeger
 weight: 10
-keywords: [telemetry,tracing]
+keywords: [遥测,跟踪]
 ---
 
 本文任务演示如何让 Istio 网格中的应用能够进行跟踪 Span 的收集。完成这一任务之后，读者会理解所有关于应用的先决条件，以便将应用加入跟踪过程。这一过程对实现应用的语言、架构以及平台等并无关联。

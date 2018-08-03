@@ -5,7 +5,7 @@ publishdate: 2018-02-06
 subtitle: Egress rules for TCP traffic
 attribution: Vadim Eisenberg
 weight: 92
-keywords: [traffic-management,egress,tcp]
+keywords: [流量管理,egress,tcp]
 ---
 
 在我之前的博客文章[使用外部Web服务](/zh/blog/2018/egress-https/)中，我描述了如何通过 HTTPS 在网格 Istio 应用程序中使用外部服务, 在这篇文章中，我演示了通过 TCP 使用外部服务, 我使用[Istio Bookinfo示例应用程序](/zh/docs/examples/bookinfo/)，这是将书籍评级数据保存在 MySQL 数据库中的版本, 我在集群外部署此数据库并配置 _ratings_ 服务以使用它, 我定义了[出口规则](https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/#EgressRule)以允许网内应用程序访问外部数据库。

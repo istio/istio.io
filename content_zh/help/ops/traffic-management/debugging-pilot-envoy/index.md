@@ -2,7 +2,7 @@
 title: 调试 Envoy 和 Pilot
 description: 描述如何调试 Pilot 和 Envoy。
 weight: 5
-keywords: [debug,proxy,status,config,pilot,envoy]
+keywords: [调试,proxy,状态,配置,pilot,envoy]
 ---
 
 此任务演示如何使用 [`proxy-status`](/docs/reference/commands/istioctl/#istioctl-proxy-status) 和 [`proxy-config`](/docs/reference/commands/istioctl/#istioctl-proxy-config) 命令。`proxy-status` 命令允许您获取网格的概述并识别导致问题的代理。然后，`proxy-config` 可用于检查 Envoy 配置并用于问题排查。
