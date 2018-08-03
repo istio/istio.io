@@ -22,7 +22,7 @@ keywords: [翻译，贡献]
 |certificates|证书|
 |circuit-breaking|熔断|
 |community|社区|
-|config|配置|
+|configuration|配置|
 |contribute|贡献|
 |control|控制|
 |debug|调试|
@@ -58,5 +58,4 @@ keywords: [翻译，贡献]
 |understanding What happened|理解原理|
 |upgrading|升级|
 |visualization|可视化|
-|vms|虚拟机|
 |whitelist|白名单|
