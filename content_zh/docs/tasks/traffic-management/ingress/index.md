@@ -2,7 +2,7 @@
 title: 控制 Ingress 流量
 description: 介绍在服务网格 Istio 中如何配置外部公开服务
 weight: 30
-keywords: [traffic-management,ingress]
+keywords: [流量管理,ingress]
 ---
 
 > 注意：此任务使用新的 [v1alpha3 流量管理 API](/zh/blog/2018/v1alpha3-routing/)。旧的 API 已被弃用，将在下一个 Istio 版本中删除。如果您需要使用旧版本，请按照[此处](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)的文档操作。
