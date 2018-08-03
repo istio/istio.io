@@ -5,4 +5,4 @@ weight: 40
 type: section-index
 ---
 
-要实现一个新的 Mixer 适配器，请参考[适配器开发者指南](https://github.com/istio/istio/wiki/Mixer-Adapter-Dev-Guide)。
+要实现一个新的 Mixer 适配器，请参考[适配器开发者指南](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide)。

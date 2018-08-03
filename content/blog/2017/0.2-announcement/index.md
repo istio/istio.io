@@ -27,7 +27,7 @@ Kubernetes deployment, and get Istio features like telemetry, policy and securit
 
 * _Extending Istio_: An improved Mixer design that lets vendors write Mixer adapters to implement support for their own systems, such as application
 management or policy enforcement. The
-[Mixer Adapter Developer's Guide](https://github.com/istio/istio/wiki/Mixer-Adapter-Dev-Guide) can help
+[Mixer Adapter Developer's Guide](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) can help
 you easily integrate your solution with Istio.
 
 * _Bring your own CA certificates_: Allows users to provide their own key and certificate for Istio CA and persistent CA key/certificate Storage. Enables storing signing key/certificates in persistent storage to facilitate CA restarts.
